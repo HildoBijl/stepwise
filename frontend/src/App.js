@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -19,10 +19,10 @@ function App() {
   return (
     <div className='App'>
       <header className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
         <Router>
           <>
             <nav className='Navigation'>
+              <img src={logo} className='App-logo' alt='logo' />
               <ul>
                 <li>
                   <Link to={ROUTES.HOME}>Home</Link>
