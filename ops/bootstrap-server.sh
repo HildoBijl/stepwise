@@ -25,17 +25,10 @@ chmod +x /usr/bin/docker-compose
 # Install `git` and initialise repo
 #
 dnf install -y git
-mkdir /repository.git
-cd /repository.git
-git --bare init
-cd /
-git clone repository.git app
-
-# #
-# # Setup, build and start app
-# #
-# cd app/ops
-# ./build
-# cp app.service /etc/systemd/system/
-# systemctl start app
-# systemctl enable app
+git clone https://github.com/HildoBijl/stepwise.git /app
+cd /app
+./build.sh
+cd ops
+cp app.service /etc/systemd/system/
+systemctl start app
+systemctl enable app
