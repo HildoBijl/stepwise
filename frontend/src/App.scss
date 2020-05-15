@@ -1,18 +1,18 @@
 .Navigation {
-  border-bottom: 1px solid black;
+	border-bottom: 1px solid black;
 
-  ul, li {
-    display: inline-block;
-    padding-left: 0;
-  }
+	ul, li {
+		display: inline-block;
+		padding-left: 0;
+	}
 
-  li {
-    list-style-type: none;
-    margin-right: 1em;
-  }
+	li {
+		list-style-type: none;
+		margin-right: 1em;
+	}
 }
 
 .App-logo {
-  height: 1.5em;
-  pointer-events: none;
+	height: 1.5em;
+	pointer-events: none;
 }
