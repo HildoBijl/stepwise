@@ -22,11 +22,20 @@ curl -L https://github.com/docker/compose/releases/download/1.25.5/docker-compos
 chmod +x /usr/bin/docker-compose
 
 #
-# Install `git`
+# Install `git` and initialise repo
 #
 dnf install -y git
 mkdir /repository.git
 cd /repository.git
 git --bare init
+cd /
+git clone repository.git app
 
-
+# #
+# # Setup, build and start app
+# #
+# cd app/ops
+# ./build
+# cp app.service /etc/systemd/system/
+# systemctl start app
+# systemctl enable app
