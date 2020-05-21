@@ -53,11 +53,13 @@ docker images rm $(docker images ls -f "dangling=true" -q)
 echo -e '\n\033[42m   COMPLETED   \033[0m'
 echo -e 'Health checks:'
 NUMBER_CONTAINERS=$(docker ps -q | wc -l | tr -d ' ')
-[[ "$NUMBER_CONTAINERS" == "1" ]] \
+[[ "$NUMBER_CONTAINERS" == "2" ]] \
 	&& echo '- Ok: Containers are running' \
-	|| echo '- Error: Containers are not running'
+	|| echo '- Error: Container check failed'
 
 HTTP_CHECK=$(curl --write-out %{http_code} --silent --output /dev/null localhost || echo "-")
 [[ "$HTTP_CHECK" == "200" ]] \
 	&& echo '- Ok: Website is responsive' \
-	|| echo '- Error: Website is not responsive'
+	|| echo '- Error: Website check failed'
+
+echo
