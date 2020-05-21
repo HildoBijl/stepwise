@@ -39,7 +39,7 @@ git pull
 git checkout $REVISION
 
 echo -e '\033[46m [STEP 2/4] \033[0m Install dependencies and build'
-./ops/make.sh
+pushd ops && ./make.sh && popd
 
 echo -e '\033[46m [STEP 3/4] \033[0m Restart application'
 systemctl restart app
