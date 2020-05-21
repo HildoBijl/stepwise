@@ -9,6 +9,8 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v2
       - name: Build project
-        run: ./build.sh
-      - name: Run tests
-        run: ./test.sh
+        run: ./ops/make.sh
+      - name: Run frontend tests
+        run: docker run --rm -t -e CI=true frontend_build npm test
+      - name: Run api tests
+        run: docker run --rm -t api npm test
