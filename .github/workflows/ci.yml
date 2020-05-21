@@ -13,4 +13,4 @@ jobs:
       - name: Run frontend tests
         run: docker run --rm -t -e CI=true frontend_build npm test
       - name: Run api tests
-        run: docker run --rm -t api npm test
+        run: docker run --rm -t app_api npm test

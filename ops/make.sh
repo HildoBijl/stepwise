@@ -6,5 +6,5 @@ docker build \
 	--tag=frontend_build \
 	../frontend
 
-docker-compose build \
+docker-compose -p app build \
 	--no-cache
