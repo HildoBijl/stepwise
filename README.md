@@ -1,8 +1,8 @@
 # Stepwise
 
-## Server Administration
+## Operating in production
 
-Add this to your SSH config file (`.ssh/config`) in your home directory:
+All operational tasks are executed via SSH. Add the following to your SSH config file (`.ssh/config`) in your home directory:
 
 ```
 Host step-wise.com
@@ -13,3 +13,7 @@ Host step-wise.com
 ```
 
 Make sure that `IdentityFile` points to the correct SSH key and `HostName` contains the correct IP address.
+
+### Available tasks
+
+- **Release**: `ssh -t step-wise.com release`
