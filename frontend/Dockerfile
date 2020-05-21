@@ -1,5 +1,5 @@
 FROM node:12.16.3-alpine
 WORKDIR /app
 COPY . .
-RUN npm ci
+RUN npm ci --quiet
 RUN npm run build
