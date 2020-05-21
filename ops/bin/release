@@ -1,0 +1,63 @@
+#!/bin/bash
+
+clear
+
+#
+# Revision
+#
+echo -e '\033[104m          RELEASE          \033[0m'
+echo 'Specify a git commit (leave blank for latest)'
+read -p $'Revision: ' -r
+REVISION=${REPLY:-master}
+
+#
+# Confirm dialog
+#
+read -p $'Type \033[0;36myes\033[0m to confirm: ' -r
+echo
+if [[ ! "$REPLY" == "yes" ]]; then
+	echo "Aborted."
+	exit 1
+fi
+
+#
+# Release procedure
+#
+set -e
+error_message() {
+	echo -e '\n\033[41m     ERROR     \033[0m'
+	echo 'See the output above for error messages.'
+	echo 'Please ensure that the website is up and running!'
+	exit 1
+}
+trap 'error_message' ERR
+
+echo -e '\033[46m [STEP 1/4] \033[0m Get latest git revision'
+cd /app
+git clean -fxd
+git pull
+git checkout $REVISION
+
+echo -e '\033[46m [STEP 2/4] \033[0m Install dependencies and build'
+./ops/make.sh
+
+echo -e '\033[46m [STEP 3/4] \033[0m Restart application'
+systemctl restart app
+
+echo -e '\033[46m [STEP 4/4] \033[0m Cleanup'
+docker images rm $(docker images ls -f "dangling=true" -q)
+
+#
+# Health checks
+#
+echo -e '\n\033[42m   COMPLETED   \033[0m'
+echo -e 'Health checks:'
+NUMBER_CONTAINERS=$(docker ps -q | wc -l | tr -d ' ')
+[[ "$NUMBER_CONTAINERS" == "1" ]] \
+	&& echo '- Ok: Containers are running' \
+	|| echo '- Error: Containers are not running'
+
+HTTP_CHECK=$(curl --write-out %{http_code} --silent --output /dev/null localhost || echo "-")
+[[ "$HTTP_CHECK" == "200" ]] \
+	&& echo '- Ok: Website is responsive' \
+	|| echo '- Error: Website is not responsive'
