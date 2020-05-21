@@ -1,11 +1,23 @@
 version: '3'
 services:
-  nginx:
-    image: nginx:1.18.0-alpine
-    container_name: nginx
+  gateway:
+    build: gateway
     restart: on-failure
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - ../frontend/build:/www
+    depends_on: [api]
     ports:
-      - 80:80
+      - "80:80"
+    logging:
+      options:
+        max-size: "100m"
+        max-file: "10"
+  api:
+    build: ../api
+    restart: on-failure
+    environment:
+      PORT: "80"
+    expose:
+      - "8080"
+    logging:
+      options:
+        max-size: "100m"
+        max-file: "10"
