@@ -10,6 +10,12 @@ echo 'Specify a git commit (leave blank for latest)'
 read -p $'Revision: ' -r
 REVISION=${REPLY:-master}
 
+if [[ ! "$REVISION" == "master" ]]; then
+	echo 'Important reminder:'
+	echo 'Keep in mind that you can only rollback code changes,'
+	echo 'but not infrastructure changes or database migrations.'
+fi
+
 #
 # Confirm dialog
 #
@@ -26,8 +32,9 @@ fi
 set -e
 error_message() {
 	echo -e '\n\033[41m     ERROR     \033[0m'
-	echo 'See the output above for error messages.'
-	echo 'Please ensure that the website is up and running!'
+	echo '1. See the output above for error messages and fix the problems.'
+	echo '2. Ensure that the website is up and running.'
+	echo '3. Repeat the release procedure (or rollback) until it succeeds.'
 	exit 1
 }
 trap 'error_message' ERR
