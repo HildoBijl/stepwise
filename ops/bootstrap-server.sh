@@ -39,11 +39,3 @@ systemctl enable app
 #
 echo -e '\nPATH=$PATH:/app/ops/bin' >> ~/.bashrc
 exec bash
-
-#
-# Build and run the application
-#
-release <<EOF
-master
-yes
-EOF
