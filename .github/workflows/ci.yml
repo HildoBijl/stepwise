@@ -10,9 +10,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Build project
         run: |
-          cd ops
-          docker build --tag=frontend_build ../frontend
-          docker-compose -p app build
+          docker build --tag=frontend_build frontend
+          docker-compose -f ops/docker-compose.yml -p app build
       - name: Run frontend tests
         run: docker run --rm -t -e CI=true frontend_build npm test
       - name: Run api tests

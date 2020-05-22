@@ -50,9 +50,8 @@ docker build \
 	--no-cache \
 	--build-arg REACT_APP_API_ADDRESS='http://api.step-wise.com' \
 	--tag=frontend_build \
-	../frontend
-docker-compose -p app build \
-	--no-cache
+	frontend/
+docker-compose -f ops/docker-compose.yml -p app build --no-cache
 
 echo -e '\033[46m [STEP 3/4] \033[0m Restart application'
 systemctl restart app
