@@ -1,13 +1,17 @@
 {
 	"scripts": {
 		"start": "node src/index.js",
-		"test": "jest src/.*\\.test\\.js"
+		"test": "jest src/.*\\.test\\.js",
+		"test:watch": "jest --watch src/.*\\.test\\.js"
 	},
 	"dependencies": {
 		"apollo-server": "^2.13.1",
 		"apollo-server-testing": "^2.13.1",
 		"dotenv": "^8.2.0",
 		"graphql": "^15.0.0",
-		"jest": "^26.0.1"
+		"jest": "^26.0.1",
+		"pg": "^8.2.1",
+		"pg-hstore": "^2.3.3",
+		"sequelize": "^5.21.10"
 	}
 }

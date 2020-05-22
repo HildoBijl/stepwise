@@ -4,7 +4,7 @@ import Page from '../layout/Page'
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
 
-const EXERCISES = gql`{exercises}`
+const EXERCISES = gql`{exercises{name,id}}`
 
 export default function Exercises() {
 	const contents = useContents()
@@ -25,7 +25,7 @@ function useContents() {
 
 	return (
 		<ul>
-			{data.exercises.map(e => <li key={e}>{e}</li>)}
+			{data.exercises.map(e => <li key={e.id}>{e.name}</li>)}
 		</ul>
 	)
 }

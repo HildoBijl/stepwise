@@ -1,20 +1,31 @@
 const { ApolloServer, gql } = require('apollo-server')
 
 const typeDefs = gql`
+	type Exercise {
+		id: Int!
+		name: String!
+	}
+
 	type Query {
 		"Get all exercise categories"
-		exercises: [String]
+		exercises: [Exercise]
 	}
 `
 
 const resolvers = {
 	Query: {
-		exercises: () => ['Mechanics', 'Biology'],
+		exercises: async (_source, _args, { dataSources }) => dataSources.database.getAllExercises()
 	},
 }
 
-const server = new ApolloServer({ typeDefs, resolvers })
+const createServer = (database) => new ApolloServer({
+	typeDefs,
+	resolvers,
+	dataSources: () => ({
+		database
+	}),
+})
 
 module.exports = {
-	server
+	createServer
 }
