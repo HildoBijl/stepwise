@@ -57,7 +57,7 @@ echo -e '\033[46m [STEP 3/4] \033[0m Restart application'
 systemctl restart app
 
 echo -e '\033[46m [STEP 4/4] \033[0m Cleanup'
-docker images rm $(docker images ls -f "dangling=true" -q)
+docker image rm $(docker image ls -f "dangling=true" -q)
 
 #
 # Health checks
