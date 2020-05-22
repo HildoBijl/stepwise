@@ -1,0 +1,12 @@
+@import "../../params.scss";
+
+.page {
+	.innerPage {
+		@include pageWideContainer();
+
+		margin-top: $headerHeightPhone + 1rem;
+		@media #{$desktop} {
+			margin-top: $headerHeightDesktop + 1rem;
+		}
+	}
+}

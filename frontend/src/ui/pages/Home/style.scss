@@ -1,0 +1,112 @@
+@import "../../params.scss";
+
+.home {
+	@include pageWideContainer();
+
+	align-items: stretch;
+	display: flex;
+	flex-flow: column nowrap;
+	min-height: 100%;
+	position: relative;
+
+	.main {
+		flex-grow: 1;
+
+		.name {
+			font-size: 5rem;
+			margin: 3rem 0 0;
+		}
+		.motto {
+			font-size: 2rem;
+			margin: 0 0 1rem;
+		}
+
+		.mainContainer {
+			display: flex;
+			width: 100%;
+
+			flex-flow: column nowrap;
+			margin: 3rem 0 3rem;
+			@media #{$landscape} {
+				flex-flow: row nowrap;
+				margin: 6rem 0 3rem;
+			}
+
+			.logoContainer {
+				width: 100%;
+				@media #{$landscape} {
+					width: 60%;
+				}
+
+				.logo {
+					background: $mainColor;
+					border-radius: 50%;
+					height: 50vh;
+					position: relative;
+					width: 100%;
+
+					.logoContents {
+						color: #fff;
+						font-size: 2rem;
+						text-align: center;
+						@include center();
+					}
+				}
+			}
+
+			.logInContainer {
+
+				width: 100%;
+				@media #{$landscape} {
+					width: 40%;
+				}
+
+				.logInInnerContainer {
+					p {
+						font-size: 1.5rem;
+						font-weight: bold;
+						margin: 3rem 0;
+						text-align: center;
+					}
+				}
+
+				@media #{$landscape} {
+					position: relative;
+					.logInInnerContainer {
+						@include center();
+					}
+				}
+			}
+		}
+	}
+
+	.linkBar {
+		flex-grow: 0;
+
+		ul {
+			display: flex;
+			flex-flow: row wrap;
+			font-size: 1.2rem;
+			justify-content: center;
+			margin: 1em 0;
+			padding: 0;
+		}
+
+		li {
+			display: inline-block;
+			list-style-type: none;
+			margin: 0.2rem 1rem;
+			padding: 0;
+
+			a {
+				color: #666;
+				font-weight: bold;
+				text-decoration: none;
+
+				&:hover, &:active {
+					color: #000;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,67 @@
+/*
+ * Site-wide parameters.
+ */
+
+// Sizing.
+$phoneFontSize: 13px;
+$desktopFontSize: 16px;
+$maxWidth: 1600px;
+$headerHeightPhone: 4rem;
+$headerHeightDesktop: 4rem;
+$lineHeight: 1.4;
+
+// Lay-out colors.
+$mainColor: #0a6f3c;
+$supportColor: #654321;
+$backgroundColor: #f4f4f4;
+$fontColor: #000;
+$headerBackgroundColor: #d8d8d8;
+$headerFontColor: #000;
+
+// Input and feedback colors.
+$correctColor: $mainColor;
+$wrongColor: #ac1f23;
+$warningColor: #ff960a;
+$infoColor: #12489a;
+$powerColor: #117;
+
+/*
+ * Media queries.
+ */
+
+$phonePortrait: (max-width: 480px);
+$phoneLandscape: (min-width: 480.01px) and (max-width: 960px);
+$phone: (max-width: 960px);
+$desktop: (min-width: 960.01px);
+$landscape: (min-width: 480.01px);
+
+/*
+ * Macros.
+ */
+
+// Use this for page-wide containers which should adhere to the maximum width.
+@mixin pageWideContainer() {
+	margin-left: auto;
+	margin-right: auto;
+	max-width: $maxWidth;
+
+	padding: 0 1.2rem;
+	@media #{$desktop} {
+		padding: 0 1.5rem;
+	}
+}
+
+// Use this when you don't want elements to get a blue glow as if they're selected.
+@mixin notSelectable() {
+	user-select: none;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+// Use this when you want to center an element in an object. Don't forget to give the parent a relative position.
+@mixin center() {
+	left: 50%;
+	position: absolute;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	width: 100%;
+}
