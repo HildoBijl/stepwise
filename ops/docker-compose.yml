@@ -2,6 +2,7 @@ version: '3'
 services:
   gateway:
     build: gateway
+    hostname: gateway
     restart: on-failure
     depends_on: [api]
     ports:
@@ -12,11 +13,13 @@ services:
         max-file: "10"
   api:
     build: ../api
+    hostname: api
     restart: on-failure
     environment:
       PORT: "80"
+      NODE_ENV: "production"
     expose:
-      - "8080"
+      - "80"
     logging:
       options:
         max-size: "100m"
