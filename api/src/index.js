@@ -1,6 +1,7 @@
 require('dotenv').config()
-const { server } = require('./server')
 const { Sequelize } = require('sequelize')
+const { createServer } = require('./server')
+const { Database } = require('./database')
 
 const sequelize = new Sequelize(
 	process.env.POSTGRES_DB,
@@ -13,8 +14,12 @@ const sequelize = new Sequelize(
 		logging: process.env.NODE_ENV === 'development' ? console.log : false,
 })
 
-sequelize.authenticate().then(async () => {
-	server.listen({ port: process.env.PORT }).then(({ port }) => {
-		console.log(`Server listening on port ${port}`)
+sequelize.authenticate()
+	.then(() => new Database(sequelize))
+	.then(database => database.dangerouslySyncDatabaseSchema())
+	.then(database => {
+		const server = createServer(database)
+		server.listen({ port: process.env.PORT }).then(({ port }) => {
+			console.log(`Server listening on port ${port}`)
+		})
 	})
-})
