@@ -18,6 +18,7 @@ Make sure that `IdentityFile` points to the correct SSH key and `HostName` conta
 
 - **Release**: `ssh -t step-wise.com release`
 - **Change configuration**: `ssh -t step-wise.com configure`
+- **Perform health check**: `ssh -t step-wise.com health`
 
 ## Setting up a new server
 

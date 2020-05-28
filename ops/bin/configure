@@ -26,3 +26,9 @@ fi
 mv -f $CONFIG_TEMP $CONFIG_REAL
 systemctl restart app
 echo -e '\n\033[42m   COMPLETED   \033[0m'
+
+#
+# Health checks
+#
+health
+echo
