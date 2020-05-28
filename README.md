@@ -19,14 +19,17 @@ Make sure that `IdentityFile` points to the correct SSH key and `HostName` conta
 - **Release**: `ssh -t step-wise.com release`
 - **Change configuration**: `ssh -t step-wise.com configure`
 - **Perform health check**: `ssh -t step-wise.com health`
+- **Issue HTTPS certificates**: `ssh -t step-wise.com issue-certificates`
 
 ## Setting up a new server
 
 Operating system: Linux CentOS 8
 
 1. Create new machine (e.g. a DigitalOcean Droplet)
-2. Adjust your SSH config (see above)
+2. Adjust your local SSH config (see above)
 3. Run `ssh -t step-wise.com 'bash <(curl -Ls https://raw.githubusercontent.com/HildoBijl/stepwise/master/ops/bootstrap-server.sh)'`
-4. Do a release (see above)
+4. Upload configuration (see command above)
+5. Do a release (see command above)
+6. Issue new HTTPS certificates (see command above)
 
-Note: you can only run that procedure once for any given server.
+Note: you can only run that bootstrapping procedure one single time for any given server.
