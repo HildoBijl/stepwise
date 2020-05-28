@@ -13,7 +13,7 @@ const MetaTitle = ({ children }) => <Helmet><title>{children}</title></Helmet>
 const websiteTitle = 'Step-wise'
 const addendum = ` | ${websiteTitle}`
 
-function App() {
+export default function App() {
 	return (
 		<div className='app'>
 			<ThemeProvider theme={theme}>
@@ -41,5 +41,3 @@ function App() {
 		</div>
 	)
 }
-
-export default App

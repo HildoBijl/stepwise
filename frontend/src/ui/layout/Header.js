@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-function Header() {
+export default function Header() {
 	const theme = useTheme()
 	const classes = useStyles()
 
@@ -35,5 +35,3 @@ function Header() {
 		</AppBar>
 	)
 }
-
-export default Header
