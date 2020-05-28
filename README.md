@@ -17,6 +17,7 @@ Make sure that `IdentityFile` points to the correct SSH key and `HostName` conta
 ### Available tasks
 
 - **Release**: `ssh -t step-wise.com release`
+- **Change configuration**: `ssh -t step-wise.com configure`
 
 ## Setting up a new server
 
