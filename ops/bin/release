@@ -48,7 +48,7 @@ git checkout $REVISION
 echo -e '\033[46m [STEP 2/4] \033[0m Install dependencies and build'
 docker build \
 	--no-cache \
-	--build-arg REACT_APP_API_ADDRESS='http://api.step-wise.com' \
+	--build-arg REACT_APP_API_ADDRESS='https://api.step-wise.com' \
 	--tag=frontend_build \
 	frontend/
 docker-compose -f ops/docker-compose.yml -p app build --no-cache
@@ -59,19 +59,10 @@ systemctl restart app
 echo -e '\033[46m [STEP 4/4] \033[0m Cleanup'
 docker image rm $(docker image ls -f "dangling=true" -q)
 
+echo -e '\n\033[42m   COMPLETED   \033[0m'
+
 #
 # Health checks
 #
-echo -e '\n\033[42m   COMPLETED   \033[0m'
-echo -e 'Health checks:'
-NUMBER_CONTAINERS=$(docker ps -q | wc -l | tr -d ' ')
-[[ "$NUMBER_CONTAINERS" == "2" ]] \
-	&& echo '- Ok: Containers are running' \
-	|| echo '- Error: Container check failed'
-
-HTTP_CHECK=$(curl --write-out %{http_code} --silent --output /dev/null localhost || echo "-")
-[[ "$HTTP_CHECK" == "200" ]] \
-	&& echo '- Ok: Website is responsive' \
-	|| echo '- Error: Website check failed'
-
+health
 echo

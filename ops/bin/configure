@@ -1,0 +1,34 @@
+#!/bin/bash
+
+set -e
+
+CONFIG_TEMP='/config/~TEMP_api.env~'
+CONFIG_REAL='/config/api.env'
+
+cp -f $CONFIG_REAL $CONFIG_TEMP
+nano $CONFIG_TEMP
+
+clear
+echo 'Please review your changes (\033[0;31mold\033[0m/\033[0;32mnew\033[0m)'
+echo -e '\n\n\033[0;31m'
+cat $CONFIG_REAL
+echo -e '\n\n\033[0;32m'
+cat $CONFIG_TEMP
+echo -e '\033[0m'
+
+read -p $'Type \033[0;36myes\033[0m to apply changes: ' -r
+echo
+if [[ ! "$REPLY" == "yes" ]]; then
+	echo "Aborted."
+	exit 1
+fi
+
+mv -f $CONFIG_TEMP $CONFIG_REAL
+systemctl restart app
+echo -e '\n\033[42m   COMPLETED   \033[0m'
+
+#
+# Health checks
+#
+health
+echo

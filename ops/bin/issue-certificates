@@ -1,0 +1,25 @@
+#!/bin/bash
+
+clear
+set -e
+
+echo 'Create new HTTPS certificates'
+echo 'Reminder: executing this procedure might be rate-limited by “Let’s Encrypt”'
+
+read -p $'Type \033[0;36myes\033[0m to proceed: ' -r
+echo
+if [[ ! "$REPLY" == "yes" ]]; then
+	echo "Aborted."
+	exit 1
+fi
+
+~/.acme.sh/acme.sh --issue \
+	-d step-wise.com \
+	-d www.step-wise.com \
+	-d api.step-wise.com \
+	--key-file /config/certificates/key.pem  \
+	--fullchain-file /config/certificates/cert.pem \
+	--reloadcmd "systemctl restart app" \
+	--webroot /root/acme
+
+echo -e '\n\033[42m   COMPLETED   \033[0m'
