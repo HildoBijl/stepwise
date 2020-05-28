@@ -1,13 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
-import { useTheme, makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
 
 import { center } from '../theme'
-import routes from '../routes'
-
 import LinkBar from '../layout/LinkBar'
 
 const useStyles = makeStyles((theme) => ({
@@ -21,14 +19,39 @@ const useStyles = makeStyles((theme) => ({
 
 	title: {
 		flexGrow: 0,
+
+		margin: '2.4rem 0',
+		padding: '1rem',
+		[theme.breakpoints.up('sm')]: {
+			margin: '3rem 0',
+		},
+		[theme.breakpoints.up('lg')]: {
+			margin: '3.75rem 0',
+		},
 	},
 	name: {
-		fontSize: '5rem',
-		margin: '3rem 0 0',
+		fontWeight: '400',
+		margin: 0,
+
+		fontSize: '3.2rem',
+		[theme.breakpoints.up('sm')]: {
+			fontSize: '4rem',
+		},
+		[theme.breakpoints.up('lg')]: {
+			fontSize: '5rem',
+		},
 	},
 	motto: {
-		fontSize: '2rem',
-		margin: '0 0 3rem',
+		fontWeight: '400',
+		margin: 0,
+
+		fontSize: '1.6rem',
+		[theme.breakpoints.up('sm')]: {
+			fontSize: '2rem',
+		},
+		[theme.breakpoints.up('lg')]: {
+			fontSize: '2.5rem',
+		},
 	},
 
 	main: {
@@ -62,8 +85,11 @@ const useStyles = makeStyles((theme) => ({
 		'& p': {
 			fontSize: '1.5rem',
 			fontWeight: 'bold',
-			margin: '1.5rem 0',
+			margin: '0.5rem 0',
 			textAlign: 'center',
+			[theme.breakpoints.up('sm')]: {
+				margin: '1.5rem 0',
+			},
 		}
 	},
 
@@ -77,14 +103,13 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function Home() {
-	const theme = useTheme()
 	const classes = useStyles()
 
 	return (
 		<Container maxWidth='lg' className={classes.home}>
 			<div className={classes.title}>
-				<h1 className={classes.name}>Step-wise</h1>
-				<h2 className={classes.motto}>Your own private tutor</h2>
+				<Typography variant="h1" className={classes.name}>Step-wise</Typography>
+				<Typography variant="h2" className={classes.motto}>Your own private tutor</Typography>
 			</div>
 			<Grid container spacing={3} className={classes.main}>
 				<Grid item xs={12} sm={7} className={classes.logo}>

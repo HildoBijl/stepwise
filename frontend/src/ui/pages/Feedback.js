@@ -1,35 +1,11 @@
 import React from 'react'
 import Page from '../layout/Page'
+import { Typography } from '@material-ui/core'
 
 export default function Feedback() {
 	return (
 		<Page>
-			<h1>Feedback</h1>
-			<p>Some text</p>
-			<p>Some text</p>
-			<p>Some text</p>
-			<p>Some text</p>
-			<p>Some text</p>
-			<p>Some text</p>
-			<p>Some text</p>
-			<p>Some text</p>
-			<p>Some text</p>
-			<p>Some text</p>
-			<p>Some text</p>
-			<p>Some text</p>
-			<p>Some text</p>
-			<p>Some text</p>
-			<p>Some text</p>
-			<p>Some text</p>
-			<p>Some text</p>
-			<p>Some text</p>
-			<p>Some text</p>
-			<p>Some text</p>
-			<p>Some text</p>
-			<p>Some text</p>
-			<p>Some text</p>
-			<p>Some text</p>
-			<p>Some text</p>
+			<Typography variant='body1'>Some feedback page should appear here.</Typography>
 		</Page>
 	)
 }

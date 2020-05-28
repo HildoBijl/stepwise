@@ -1,29 +1,32 @@
 import React from 'react'
+import clsx from 'clsx'
 import { Link } from 'react-router-dom'
 
 import { makeStyles } from '@material-ui/core/styles'
-import Container from '@material-ui/core/Container'
-import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
 
 import routes from '../routes'
 
 const useStyles = makeStyles((theme) => ({
-	linkBar: {
-		// flexGrow: 0,
-	},
-	ul: {
+	list: {
 		display: 'flex',
 		flexFlow: 'row wrap',
-		fontSize: '1.2rem',
 		justifyContent: 'center',
-		margin: '1em 0',
-		padding: '0',
+		padding: '0.4rem 0',
+		margin: '0.6rem 0',
 
-		'& li': {
+		'& h5': {
 			display: 'inline-block',
-			listStyleType: 'none',
 			margin: '0.2rem 1rem',
 			padding: 0,
+
+			fontSize: '1rem',
+			[theme.breakpoints.up('sm')]: {
+				fontSize: '1.16rem',
+			},
+			[theme.breakpoints.up('lg')]: {
+				fontSize: '1.3456rem',
+			},
 
 			'& a': {
 				color: '#666',
@@ -40,22 +43,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LinkBar({ className }) {
 	const classes = useStyles()
-	console.log('CLA')
-	console.log(classes)
 
 	return (
-		<div className={className}>
-			<ul className={classes.ul}>
-				<li>
-					<Link to={routes.EXERCISES}>Exercises</Link>
-				</li>
-				<li>
-					<Link to={routes.FEEDBACK}>Feedback</Link>
-				</li>
-				<li>
-					<Link to={routes.ABOUT}>About</Link>
-				</li>
-			</ul>
+		<div className={clsx(className, classes.list)}>
+			<Typography variant="h5"><Link to={routes.exercises}>Exercises</Link></Typography>
+			<Typography variant="h5"><Link to={routes.feedback}>Feedback</Link></Typography>
+			<Typography variant="h5"><Link to={routes.about}>About</Link></Typography>
 		</div>
 	)
 }

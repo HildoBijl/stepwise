@@ -9,10 +9,10 @@ const client = new ApolloClient({
 })
 
 ReactDOM.render(
-	<React.StrictMode>
+	<React.Fragment> {/* Disable strict mode to prevent Material UI from bugging out. */}
 		<ApolloProvider client={client}>
 			<App />
 		</ApolloProvider>
-	</React.StrictMode>,
+	</React.Fragment>,
 	document.getElementById('root')
 )
