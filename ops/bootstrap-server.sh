@@ -26,12 +26,6 @@ curl -L https://github.com/docker/compose/releases/download/1.25.5/docker-compos
 chmod +x /usr/bin/docker-compose
 
 #
-# Setup config folder
-#
-mkdir /config
-chmod 0700 /config
-
-#
 # Install `git` and initialise repo
 #
 dnf install -y git
@@ -45,3 +39,11 @@ systemctl enable app
 #
 echo -e '\nPATH=$PATH:/app/ops/bin' >> ~/.bashrc
 exec bash
+
+#
+# Setup configuration
+#
+mkdir /config
+chmod 0700 /config
+touch /config/api.env
+dnf install -y nano
