@@ -7,6 +7,7 @@ services:
     depends_on: [api]
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - /root/acme:/acme:ro
       - /config/certificates:/certificates:ro
