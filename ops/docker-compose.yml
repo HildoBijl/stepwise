@@ -7,6 +7,9 @@ services:
     depends_on: [api]
     ports:
       - "80:80"
+    volumes:
+      - /root/acme:/acme:ro
+      - /config/certificates:/certificates:ro
     logging:
       options:
         max-size: "100m"

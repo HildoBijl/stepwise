@@ -46,4 +46,16 @@ exec bash
 mkdir /config
 chmod 0700 /config
 touch /config/api.env
+mkdir /config/certificates
 dnf install -y nano
+
+#
+# Install SSL agent (HTTPS)
+# And issue intermediate (fake) certificates, so that nginx can start up
+#
+openssl req -x509 -newkey rsa:4096 -days 365 \
+	-subj '/CN=localhost' -passin pass:00000 -passout pass:00000 \
+	-keyout /config/certificates/key.pem \
+	-out /config/certificates/cert.pem
+curl https://get.acme.sh | sh
+mkdir /root/acme
