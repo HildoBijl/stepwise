@@ -3,12 +3,12 @@
 echo -e '\nHealth checks:'
 NUMBER_CONTAINERS=$(docker ps -q | wc -l | tr -d ' ')
 [[ "$NUMBER_CONTAINERS" == "2" ]] \
-	&& echo '- Ok: Containers are running' \
-	|| echo '- Error: Container check failed'
+	&& echo '- OK: Containers are running' \
+	|| echo '- ERROR: Container check failed'
 
-HTTP_CHECK=$(curl --write-out %{http_code} --silent --output /dev/null localhost || echo "-")
+HTTP_CHECK=$(curl --write-out %{http_code} --silent --output /dev/null -k https://step-wise.com || echo "")
 [[ "$HTTP_CHECK" == "200" ]] \
-	&& echo '- Ok: Website is responsive' \
-	|| echo '- Error: Website check failed'
+	&& echo '- OK: Website is responsive' \
+	|| echo '- ERROR: Website check failed'
 
 echo
