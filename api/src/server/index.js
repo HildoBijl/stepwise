@@ -15,7 +15,7 @@ const createServer = ({ database, sessionConfig, surfConext }) => {
 		rolling: true,
 		cookie: {
 			secure: false, // TODO use SSL
-			sameSite: true,
+			sameSite: 'None', // TODO configure properly
 			httpOnly: true,
 			maxAge: sessionConfig.maxAgeMillis,
 		},
