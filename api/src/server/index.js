@@ -40,6 +40,7 @@ const createServer = ({ database, sessionConfig, surfConext }) => {
 	})
 	apollo.applyMiddleware({ app, path: '/graphql' });
 
+	app.set('trust proxy', true)
 	app.get('/auth/surfconext/start', (req, res) => {
 		req.session.initiated = new Date()
 		surfConext.authorizationUrl(req.session.id).then(url =>
@@ -63,7 +64,7 @@ const createServer = ({ database, sessionConfig, surfConext }) => {
 			res.redirect(sessionConfig.homepageUrl)
 		}).catch(error => {
 			console.log(error)
-			res.send("Error")
+			res.redirect(sessionConfig.homepageUrl)
 		})
 	})
 	return app
