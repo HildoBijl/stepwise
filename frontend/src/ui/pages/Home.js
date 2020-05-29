@@ -8,6 +8,9 @@ import Typography from '@material-ui/core/Typography'
 import { center } from '../theme'
 import LinkBar from '../layout/LinkBar'
 
+import { useQuery } from '@apollo/react-hooks'
+import { gql } from 'apollo-boost'
+
 const useStyles = makeStyles((theme) => ({
 	home: {
 		alignItems: 'stretch',
@@ -102,8 +105,15 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
+const ME = gql`{me{name,email}}`
+
 export default function Home() {
 	const classes = useStyles()
+
+	const { data } = useQuery(ME)
+	if (data) {
+		console.log(data)
+	}
 
 	return (
 		<Container maxWidth='lg' className={classes.home}>
