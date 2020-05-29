@@ -6,6 +6,7 @@ import { ApolloProvider } from '@apollo/react-hooks'
 
 const client = new ApolloClient({
 	uri: `${process.env.REACT_APP_API_ADDRESS}/graphql`,
+	credentials: 'include',
 })
 
 ReactDOM.render(

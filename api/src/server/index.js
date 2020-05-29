@@ -2,14 +2,15 @@ const express = require('express')
 const { ApolloServer } = require('apollo-server-express')
 const session = require('express-session')
 const { typeDefs, resolvers } = require('../graphql')
+const cors = require('cors')
 
-const createServer = ({ database, sessionConfig, surfConext }) => {
+const createServer = ({ config, database, surfConext }) => {
 	const app = express()
 
 	app.use(session({
 		name: 'session.id',
 		store: undefined, // TODO use proper session store, like DB/Redis
-		secret: sessionConfig.secret,
+		secret: config.sessionSecret,
 		resave: false,
 		saveUninitialized: false,
 		rolling: true,
@@ -17,10 +18,16 @@ const createServer = ({ database, sessionConfig, surfConext }) => {
 			secure: false, // TODO use SSL
 			sameSite: 'None', // TODO configure properly
 			httpOnly: true,
-			maxAge: sessionConfig.maxAgeMillis,
+			maxAge: config.sessionMaxAgeMillis,
 		},
 		principal: null,
 	}))
+
+	const corsOptions = {
+		origin: config.corsUrls,
+		credentials: true,
+	}
+	app.use(cors(corsOptions))
 
 	const apollo = new ApolloServer({
 		typeDefs,
@@ -38,9 +45,8 @@ const createServer = ({ database, sessionConfig, surfConext }) => {
 			}
 		}
 	})
-	apollo.applyMiddleware({ app, path: '/graphql' });
+	apollo.applyMiddleware({ app, cors: corsOptions, path: '/graphql' });
 
-	app.set('trust proxy', true)
 	app.get('/auth/surfconext/start', (req, res) => {
 		req.session.initiated = new Date()
 		surfConext.authorizationUrl(req.session.id).then(url =>
@@ -61,12 +67,14 @@ const createServer = ({ database, sessionConfig, surfConext }) => {
 				name: userInfo.name,
 				email: userInfo.email,
 			}
-			res.redirect(sessionConfig.homepageUrl)
+			res.redirect(config.homepageUrl)
 		}).catch(error => {
 			console.log(error)
-			res.redirect(sessionConfig.homepageUrl)
+			res.redirect(config.homepageUrl)
 		})
 	})
+
+	app.set('trust proxy', true)
 	return app
 }
 

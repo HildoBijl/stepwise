@@ -27,10 +27,11 @@ const surfConext = new SurfConext(
 	process.env.SURFCONEXT_SECRET,
 )
 
-const sessionConfig = {
-	secret: process.env.SESSION_SECRET,
-	maxAgeMillis: process.env.SESSION_MAXAGE_HOURS*60*60*1000,
-	homepageUrl: process.env.SESSION_HOMEPAGE_URL,
+const config = {
+	sessionSecret: process.env.SESSION_SECRET,
+	sessionMaxAgeMillis: process.env.SESSION_MAXAGE_HOURS*60*60*1000,
+	homepageUrl: process.env.HOMEPAGE_URL,
+	corsUrls: process.env.CORS_URLS.split(';')
 }
 
 sequelize.authenticate()
@@ -38,8 +39,8 @@ sequelize.authenticate()
 	.then(database => database.dangerouslySyncDatabaseSchema())
 	.then(database => {
 		const server = createServer({
+			config,
 			database,
-			sessionConfig,
 			surfConext,
 		})
 		server.listen(process.env.PORT, () => {
