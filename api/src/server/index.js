@@ -42,26 +42,29 @@ const createServer = ({ database, sessionConfig, surfConext }) => {
 
 	app.get('/auth/surfconext/start', (req, res) => {
 		req.session.initiated = new Date()
-		console.log(req.session.id)
 		surfConext.authorizationUrl(req.session.id).then(url =>
 			res.redirect(url)
-		)
+		).catch(error => {
+			console.log(error)
+			res.send("Error")
+		})
 	})
 	app.get('/auth/surfconext/callback', (req, res) => {
-		console.log(req.session.id)
 		surfConext.userinfo(
 			req.query.code,
 			req.query.state,
 			req.session.id,
-			).then(userInfo => {
-			console.log(userInfo)
+		).then(userInfo => {
 			// TODO look up user etc.
 			req.session.principal = {
 				name: userInfo.name,
 				email: userInfo.email,
 			}
 			res.redirect(sessionConfig.homepageUrl)
-		}).catch(console.log)
+		}).catch(error => {
+			console.log(error)
+			res.send("Error")
+		})
 	})
 	return app
 }
