@@ -55,6 +55,11 @@ const createServer = ({ config, database, surfConext }) => {
 		}
 		res.redirect(config.homepageUrl)
 	})
+	app.get('/auth/logout', (req, res) => {
+		req.session.destroy(() => {
+			res.redirect(config.homepageUrl)
+		})
+	})
 	app.get('/auth/surfconext/start', (req, res) => {
 		req.session.initiated = new Date()
 		surfConext.authorizationUrl(req.session.id).then(url =>
