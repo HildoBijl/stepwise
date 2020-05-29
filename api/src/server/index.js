@@ -47,6 +47,14 @@ const createServer = ({ config, database, surfConext }) => {
 	})
 	apollo.applyMiddleware({ app, cors: corsOptions, path: '/graphql' });
 
+	app.get('/auth/_devlogin', (req, res) => {
+		req.session.initiated = new Date()
+		req.session.principal = {
+			name: req.query.name,
+			email: req.query.email,
+		}
+		res.redirect(config.homepageUrl)
+	})
 	app.get('/auth/surfconext/start', (req, res) => {
 		req.session.initiated = new Date()
 		surfConext.authorizationUrl(req.session.id).then(url =>
