@@ -1,31 +1,20 @@
 import React from 'react'
-import Page from '../layout/Page'
+import { useRouteMatch, Switch, Route } from 'react-router-dom'
 
-import { useQuery } from '@apollo/react-hooks'
-import { gql } from 'apollo-boost'
-
-const EXERCISES = gql`{exercises{name,id}}`
+import Exercise from './Exercise'
+import ExercisesOverview from './ExercisesOverview'
 
 export default function Exercises() {
-	const contents = useContents()
+  const match = useRouteMatch()
 
 	return (
-		<Page>
-			<h1>Exercises</h1>
-			{contents}
-		</Page>
-	)
-}
-
-function useContents() {
-	const { loading, error, data } = useQuery(EXERCISES)
-
-	if (loading) return <p>Loading...</p>
-	if (error) return <p>Error</p>
-
-	return (
-		<ul>
-			{data.exercises.map(e => <li key={e.id}>{e.name}</li>)}
-		</ul>
+		<Switch>
+			<Route path={`${match.path}/:exerciseId`}>
+				<Exercise />
+			</Route>
+			<Route path={match.path}>
+				<ExercisesOverview />
+			</Route>
+		</Switch>
 	)
 }

@@ -2,10 +2,11 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { SwipeableDrawer, List, Divider, IconButton } from '@material-ui/core'
-import { Menu as MenuIcon, Home, School, Feedback, Info } from '@material-ui/icons'
+import { Menu as MenuIcon, Home, School, Feedback, Info, MenuBook, ExitToApp } from '@material-ui/icons'
 
 import MenuLink from './MenuLink'
-import routes from '../routes'
+import { usePaths } from '../routing'
+import { useUser } from '../user'
 
 const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent) // To fix the SwipeableDrawer on iOS.
 
@@ -19,6 +20,8 @@ export default function Menu({ className }) {
 	const classes = useStyles()
 	const [open, setOpen] = React.useState(false)
 	const history = useHistory()
+	const paths = usePaths()
+	const user = useUser()
 
 	const toggleDrawer = (open) => (event) => {
 		// If a tab (with/without shift) or enter was pressed, process this.
@@ -39,13 +42,14 @@ export default function Menu({ className }) {
 			<SwipeableDrawer anchor='left' open={open} onClose={toggleDrawer(false)} onOpen={toggleDrawer(true)} ModalProps={{ keepMounted: true }} disableBackdropTransition={!iOS} disableDiscovery={iOS}>
 				<nav className={classes.menu} role="presentation" onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
 					<List>
-						<MenuLink path={routes.home} text='Home' icon={Home} />
+						{user ? <MenuLink path={paths.courses()} text='Courses' icon={School} /> : <MenuLink path={paths.home()} text='Home' icon={Home} />}
 					</List>
 					<Divider />
 					<List>
-						<MenuLink path={routes.exercises} text='Exercises' icon={School} />
-						<MenuLink path={routes.feedback} text='Feedback' icon={Feedback} />
-						<MenuLink path={routes.about} text='About' icon={Info} />
+						<MenuLink path={paths.feedback()} text='Feedback' icon={Feedback} />
+						<MenuLink path={paths.about()} text='About' icon={Info} />
+						<MenuLink path={paths.history()} text='History' icon={MenuBook} />
+						{user ? <MenuLink path={paths.logOut()} text='Log out' icon={ExitToApp} /> : null}
 					</List>
 				</nav>
 			</SwipeableDrawer>

@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function Header() {
+export default function Header({ routes }) {
 	const theme = useTheme()
 	const classes = useStyles()
 

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 
-import routes from '../routes'
+import { usePaths } from '../routing'
 
 const useStyles = makeStyles((theme) => ({
 	list: {
@@ -43,12 +43,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LinkBar({ className }) {
 	const classes = useStyles()
+	const paths = usePaths()
 
 	return (
 		<div className={clsx(className, classes.list)}>
-			<Typography variant="h5"><Link to={routes.exercises}>Exercises</Link></Typography>
-			<Typography variant="h5"><Link to={routes.feedback}>Feedback</Link></Typography>
-			<Typography variant="h5"><Link to={routes.about}>About</Link></Typography>
+			{/* <Typography variant="h5"><Link to={paths.courses}>Courses</Link></Typography> */}
+			<Typography variant="h5"><Link to={paths.feedback()}>Feedback</Link></Typography>
+			<Typography variant="h5"><Link to={paths.about()}>About</Link></Typography>
+			<Typography variant="h5"><Link to={paths.history()}>History</Link></Typography>
 		</div>
 	)
 }

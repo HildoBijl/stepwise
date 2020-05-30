@@ -7,9 +7,7 @@ import Typography from '@material-ui/core/Typography'
 
 import { center } from '../theme'
 import LinkBar from '../layout/LinkBar'
-
-import { useQuery } from '@apollo/react-hooks'
-import { gql } from 'apollo-boost'
+import { apiAddress } from '../settings'
 
 const useStyles = makeStyles((theme) => ({
 	home: {
@@ -93,7 +91,15 @@ const useStyles = makeStyles((theme) => ({
 			[theme.breakpoints.up('sm')]: {
 				margin: '1.5rem 0',
 			},
-		}
+
+			'& a': {
+				color: '#666',
+				textDecoration: 'none',
+				'&:hover': {
+					color: '#000',
+				},
+			},
+		},
 	},
 
 	spacer: {
@@ -105,15 +111,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-const ME = gql`{me{name,email}}`
-
 export default function Home() {
 	const classes = useStyles()
-
-	const { data } = useQuery(ME)
-	if (data) {
-		console.log(data)
-	}
 
 	return (
 		<Container maxWidth='lg' className={classes.home}>
@@ -128,7 +127,7 @@ export default function Home() {
 					</div>
 				</Grid>
 				<Grid item xs={12} sm={5} className={classes.logIn}>
-					<p>Log in with SURFconext</p>
+					<p><a href={`${apiAddress}/auth/_devlogin?name=Peter&email=peter@example.org`}>Log in with SURFconext</a></p>
 					<p>Log in with Google</p>
 					<p>Practice without logging in</p>
 				</Grid>

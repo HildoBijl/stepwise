@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function MenuLink({ path, text, icon: Icon, exact }) {
+export default function MenuLink({ path, text, icon: Icon }) {
 	const classes = useStyles()
 
 	return (

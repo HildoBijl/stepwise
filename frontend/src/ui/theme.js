@@ -14,7 +14,7 @@ let theme = {
 			main: themeColor,
 		},
 	},
-	appWidth: 'xl', // The width that is used for the app by default.
+	appWidth: 'lg', // The width that is used for the app by default.
 }
 
 theme = createMuiTheme(theme) // Turn the theme into a MUI theme object.
