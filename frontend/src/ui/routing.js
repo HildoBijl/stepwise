@@ -1,8 +1,8 @@
 import { createContext, useContext, useMemo } from 'react'
 
-import { websiteTitle, websiteTitleAddendum } from './settings'
 import { useUser, LogOut } from './user'
 import { CoursesProvider } from './pages/Courses'
+import Course, { useCourseTitle } from './pages/Course'
 import * as pages from './pages'
 
 // Set up a route context object through which child elements can access the current route.
@@ -58,7 +58,6 @@ function getRoutes(user = null) {
 				name: 'home',
 				component: pages.Home,
 				title: 'Home',
-				tabTitle: `${websiteTitle} | ${websiteTitleAddendum}`,
 				fullPage: true,
 			},
 		})
@@ -80,15 +79,15 @@ function getRoutes(user = null) {
 			children: {
 				'course/:courseId': {
 					name: 'course',
-					title: 'ToDo: find out how to get course data here function-wise...',
-					component: pages.Course,
+					title: useCourseTitle,
+					component: Course,
 				},
 			},
 		},
 	})
 }
 
-// processRoutes takes a routes object and automatically add paths (like '/courses/:courseId/deadlines') and parent objects.
+// processRoutes takes a routes object and automatically add paths (like '/courses/:courseId/deadlines') and parent objects, and ensures all titles are react objects.
 function processRoutes(routes, initialPath = '', parent = null) {
 	// Walk through all the routes, processing them one by one.
 	Object.keys(routes).forEach(key => {

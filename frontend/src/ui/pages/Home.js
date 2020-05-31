@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Helmet } from 'react-helmet'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography'
 
 import { center } from '../theme'
 import LinkBar from '../layout/LinkBar'
-import { apiAddress } from '../settings'
+import { websiteTitle, websiteTitleAddendum, apiAddress } from '../settings'
 
 const useStyles = makeStyles((theme) => ({
 	home: {
@@ -134,6 +134,7 @@ export default function Home() {
 			</Grid>
 			<div className={classes.spacer} />
 			<LinkBar className={classes.linkBar} />
+			<Helmet><title>{websiteTitle} | {websiteTitleAddendum}</title></Helmet>
 		</Container>
 	)
 }

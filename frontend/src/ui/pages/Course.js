@@ -17,3 +17,18 @@ export default function Course() {
 
 	return <p>This course is about {course.name}.</p>
 }
+
+export function useCourseTitle() {
+	const courses = useCourses()
+	const { params } = useRouteMatch()
+	const courseId = parseInt(params.courseId)
+
+	if (!courses)
+		return 'Loading...'
+
+	const course = courses.find(course => parseInt(course.id) === courseId)
+	if (!course)
+		return 'Unknown course'
+
+	return course.name
+}
