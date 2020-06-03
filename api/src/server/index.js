@@ -3,13 +3,14 @@ const { ApolloServer } = require('apollo-server-express')
 const session = require('express-session')
 const { typeDefs, resolvers } = require('../graphql')
 const cors = require('cors')
+const RedisStore = require('connect-redis')(session)
 
-const createServer = ({ config, database, surfConext }) => {
+const createServer = ({ config, database, redis, surfConext }) => {
 	const app = express()
 
 	app.use(session({
 		name: 'session.id',
-		store: undefined, // TODO use proper session store, like DB/Redis
+		store: redis ? new RedisStore({ client: redis }) : undefined,
 		secret: config.sessionSecret,
 		resave: false,
 		saveUninitialized: false,

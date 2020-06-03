@@ -5,28 +5,43 @@ services:
     hostname: gateway
     restart: on-failure
     depends_on: [api]
-    ports:
-      - "80:80"
-      - "443:443"
+    ports: ["80:80", "443:443"]
     volumes:
       - /root/acme:/acme:ro
       - /config/certificates:/certificates:ro
     logging:
       options:
-        max-size: "100m"
+        max-size: "10m"
         max-file: "10"
   api:
     build: ../api
     hostname: api
     restart: on-failure
+    depends_on: [sessions]
     env_file:
       - /config/api.env
     environment:
       PORT: "80"
       NODE_ENV: "production"
-    expose:
-      - "80"
+    expose: ["80"]
     logging:
       options:
-        max-size: "100m"
+        max-size: "10m"
         max-file: "10"
+  sessions:
+    image: redis:6.0.4
+    hostname: sessions
+    restart: on-failure
+    expose: ["6379"]
+    volumes:
+      - ./sessions/overrides.conf:/overrides.conf
+      - sessions:/data
+    command:
+      - "--include /overrides.conf"
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "2"
+
+volumes:
+  sessions:
