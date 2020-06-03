@@ -3,6 +3,7 @@ const { Sequelize } = require('sequelize')
 const { createServer } = require('./server')
 const { Database } = require('./database')
 const { SurfConext } = require('./openid')
+const Redis = require('redis')
 
 const sequelize = new Sequelize(
 	process.env.POSTGRES_DB,
@@ -27,6 +28,11 @@ const surfConext = new SurfConext(
 	process.env.SURFCONEXT_SECRET,
 )
 
+const redis = process.env.REDIS_HOST ? Redis.createClient({
+	host: process.env.REDIS_HOST,
+	port: process.env.REDIS_PORT,
+}) : null
+
 const config = {
 	sslEnabled: process.env.NODE_ENV === 'production',
 	sessionSecret: process.env.SESSION_SECRET || '',
@@ -42,6 +48,7 @@ sequelize.authenticate()
 		const server = createServer({
 			config,
 			database,
+			redis,
 			surfConext,
 		})
 		server.listen(process.env.PORT, () => {
