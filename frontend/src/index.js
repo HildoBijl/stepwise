@@ -2,18 +2,14 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './ui/layout/App'
 import ApolloClient from 'apollo-boost'
-import { ApolloProvider } from '@apollo/react-hooks'
 
-const client = new ApolloClient({
+const apolloClient = new ApolloClient({
 	uri: `${process.env.REACT_APP_API_ADDRESS}/graphql`,
 	credentials: 'include',
 })
 
 ReactDOM.render(
-	<React.Fragment> {/* Disable strict mode to prevent Material UI from bugging out. */}
-		<ApolloProvider client={client}>
-			<App />
-		</ApolloProvider>
-	</React.Fragment>,
+	// Disable strict mode to prevent Material UI from bugging out.
+	<App apolloClient={apolloClient}/>,
 	document.getElementById('root')
 )
