@@ -29,7 +29,7 @@ services:
         max-size: "10m"
         max-file: "10"
   sessions:
-    image: redis:6.0.4
+    image: redis:6.0.4-alpine
     hostname: sessions
     restart: on-failure
     expose: ["6379"]
