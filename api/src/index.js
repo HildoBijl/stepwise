@@ -17,7 +17,7 @@ const sequelize = new Sequelize(
 				ca: process.env.POSTGRES_SSLCERT.replace(/\\n/g, '\n')
 			},
 		},
-		logging: process.env.NODE_ENV === 'development' ? console.log : false,
+		logging: process.env.NODE_ENV === 'production' ? false : console.log,
 })
 
 const surfConext = new SurfConext(
@@ -28,6 +28,7 @@ const surfConext = new SurfConext(
 )
 
 const config = {
+	sslEnabled: process.env.NODE_ENV === 'production',
 	sessionSecret: process.env.SESSION_SECRET || '',
 	sessionMaxAgeMillis: (process.env.SESSION_MAXAGE_HOURS || 1)*60*60*1000,
 	homepageUrl: process.env.HOMEPAGE_URL || '',
