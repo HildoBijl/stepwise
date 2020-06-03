@@ -1,0 +1,7 @@
+#!/bin/bash
+
+docker-compose \
+	-f /app/ops/docker-compose.yml \
+	-p app \
+	logs \
+		--follow
