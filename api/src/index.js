@@ -13,7 +13,7 @@ const sequelize = new Sequelize(
 		port: process.env.POSTGRES_PORT,
 		dialect: 'postgres',
 		dialectOptions: {
-			ssl: process.env.POSTGRES_SSLCERT === 'null' ? false : {
+			ssl: !process.env.POSTGRES_SSLCERT ? false : {
 				ca: process.env.POSTGRES_SSLCERT.replace(/\\n/g, '\n')
 			},
 		},
@@ -28,10 +28,10 @@ const surfConext = new SurfConext(
 )
 
 const config = {
-	sessionSecret: process.env.SESSION_SECRET,
-	sessionMaxAgeMillis: process.env.SESSION_MAXAGE_HOURS*60*60*1000,
-	homepageUrl: process.env.HOMEPAGE_URL,
-	corsUrls: process.env.CORS_URLS.split(';')
+	sessionSecret: process.env.SESSION_SECRET || '',
+	sessionMaxAgeMillis: (process.env.SESSION_MAXAGE_HOURS || 1)*60*60*1000,
+	homepageUrl: process.env.HOMEPAGE_URL || '',
+	corsUrls: (process.env.CORS_URLS || '').split(';'),
 }
 
 sequelize.authenticate()

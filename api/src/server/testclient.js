@@ -11,16 +11,18 @@ class MockDatabase extends DataSource {
 	}
 }
 
-const defaultSessionConfig = Object.freeze({
-	secret: 'XXX',
-	maxAgeMillis: 10 * 1000,
+const defaultConfig = Object.freeze({
+	sessionSecret: 'XXX',
+	sessionMaxAgeMillis: 1000 * 60,
+	homepageUrl: '',
+	corsUrls: '',
 })
 
 class Client {
 	constructor() {
 		this.server = request(createServer({
 			database: new MockDatabase(),
-			sessionConfig: defaultSessionConfig,
+			config: defaultConfig,
 		}))
 		this.cookies = []
 	}
@@ -38,5 +40,5 @@ class Client {
 }
 
 module.exports = {
-	Client, defaultSessionConfig
+	Client, defaultConfig
 }
