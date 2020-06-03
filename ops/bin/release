@@ -6,20 +6,12 @@ clear
 # Revision
 #
 echo -e '\033[104m          RELEASE          \033[0m'
-echo 'Specify a git commit (leave blank for latest)'
-read -p $'Revision: ' -r
-REVISION=${REPLY:-master}
-
-if [[ ! "$REVISION" == "master" ]]; then
-	echo 'Important reminder:'
-	echo 'Keep in mind that you can only rollback code changes,'
-	echo 'but not infrastructure changes or database migrations.'
-fi
+echo 'Release latest master into production'
 
 #
 # Confirm dialog
 #
-read -p $'Type \033[0;36myes\033[0m to confirm: ' -r
+read -p $'Type \033[0;36myes\033[0m to proceed: ' -r
 echo
 if [[ ! "$REPLY" == "yes" ]]; then
 	echo "Aborted."
@@ -42,8 +34,8 @@ trap 'error_message' ERR
 echo -e '\033[46m [STEP 1/4] \033[0m Get latest git revision'
 cd /app
 git clean -fxd
+git checkout master
 git pull
-git checkout $REVISION
 
 echo -e '\033[46m [STEP 2/4] \033[0m Install dependencies and build'
 docker build \
