@@ -2,7 +2,7 @@
 
 echo -e '\nHealth checks:'
 NUMBER_CONTAINERS=$(docker ps -q | wc -l | tr -d ' ')
-[[ "$NUMBER_CONTAINERS" == "2" ]] \
+[[ "$NUMBER_CONTAINERS" == "3" ]] \
 	&& echo '- OK: Containers are running' \
 	|| echo '- ERROR: Container check failed'
 
