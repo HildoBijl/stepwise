@@ -9,6 +9,9 @@ import { center } from '../theme'
 import LinkBar from '../layout/LinkBar'
 import { websiteTitle, websiteTitleAddendum, apiAddress } from '../settings'
 
+import skills from 'step-wise/edu/skills'
+console.log(skills)
+
 const useStyles = makeStyles((theme) => ({
 	home: {
 		alignItems: 'stretch',
