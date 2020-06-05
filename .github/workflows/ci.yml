@@ -21,6 +21,8 @@ jobs:
       - name: Build project
         run: |
           docker-compose -f ops/build.yml build
+      - name: Run shared code tests
+        run: docker run --rm -t shared_build npm test
       - name: Run frontend tests
         run: docker run --rm -t -e CI=true frontend_build npm test
       - name: Run api tests
