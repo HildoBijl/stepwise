@@ -1,6 +1,7 @@
 {
 	"scripts": {
 		"start": "node src/index.js",
+		"dev": "nodemon --watch ./ --watch ../shared src/index.js",
 		"test": "jest src/.*\\.test\\.js",
 		"test:watch": "jest --watch src/.*\\.test\\.js"
 	},
@@ -21,7 +22,8 @@
 		"step-wise": "file:../shared"
 	},
 	"devDependencies": {
-		"supertest": "^4.0.2",
-		"jest": "^26.0.1"
+		"jest": "^26.0.1",
+		"nodemon": "2.0.4",
+		"supertest": "^4.0.2"
 	}
 }
