@@ -25,8 +25,8 @@ jobs:
         run: docker run --rm -t -e CI=true frontend_build npm test
       - name: Run api tests
         run: docker run --rm -t stepwisecom/api npm test
-      - name: Publish images
-        # if: github.ref == 'refs/heads/master'
+      - name: Publish images (only on master branch)
+        if: github.ref == 'refs/heads/master'
         env:
           DOCKER_REGISTRY_KEY: ${{ secrets.DOCKER_REGISTRY_KEY }}
         run: |
