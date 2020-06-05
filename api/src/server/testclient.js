@@ -12,10 +12,11 @@ class MockDatabase extends DataSource {
 }
 
 const defaultConfig = Object.freeze({
-	sessionSecret: 'XXX',
+	sslEnabled: false,
+	sessionSecret: '12345678901234567890',
 	sessionMaxAgeMillis: 1000 * 60,
-	homepageUrl: '',
-	corsUrls: '',
+	homepageUrl: undefined,
+	corsUrls: undefined,
 })
 
 class Client {

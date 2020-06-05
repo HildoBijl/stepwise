@@ -4,8 +4,22 @@ const session = require('express-session')
 const { typeDefs, resolvers } = require('../graphql')
 const cors = require('cors')
 const RedisStore = require('connect-redis')(session)
+const Joi = require('@hapi/joi')
+
+const configValidationSchema = Joi.object({
+	sslEnabled: Joi.boolean().required(),
+	sessionSecret: Joi.string().min(20).required(),
+	sessionMaxAgeMillis: Joi.number().required(),
+	homepageUrl: Joi.string().uri(),
+	corsUrls: Joi.array().items(Joi.string().uri()),
+})
 
 const createServer = ({ config, database, redis, surfConext }) => {
+	const configValidationError = configValidationSchema.validate(config).error
+	if (configValidationError) {
+		throw configValidationError
+	}
+
 	const app = express()
 
 	app.use(session({

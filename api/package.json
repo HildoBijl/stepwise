@@ -5,6 +5,7 @@
 		"test:watch": "jest --watch src/.*\\.test\\.js"
 	},
 	"dependencies": {
+		"@hapi/joi": "^17.1.1",
 		"apollo-server-express": "^2.13.1",
 		"connect-redis": "^4.0.4",
 		"cors": "^2.8.5",
