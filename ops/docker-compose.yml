@@ -1,7 +1,7 @@
 version: '3'
 services:
   gateway:
-    build: gateway
+    image: stepwisecom/gateway
     hostname: gateway
     restart: on-failure
     depends_on: [api]
@@ -14,7 +14,7 @@ services:
         max-size: "10m"
         max-file: "10"
   api:
-    build: ../api
+    image: stepwisecom/api
     hostname: api
     restart: on-failure
     depends_on: [sessions]

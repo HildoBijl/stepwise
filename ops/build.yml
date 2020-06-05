@@ -1,0 +1,14 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: ../frontend
+      args:
+        REACT_APP_API_ADDRESS: "https://api.step-wise.com"
+    image: frontend_build
+  gateway:
+    build: gateway
+    image: stepwisecom/gateway
+  api:
+    build: ../api
+    image: stepwisecom/api
