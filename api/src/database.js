@@ -38,7 +38,7 @@ class Database extends DataSource {
 		// TODO Don’t use syncing in production, because it might erase entire tables.
 		// Introduce proper migrations at some point!
 		// See https://sequelize.org/master/manual/model-basics.html#model-synchronization
-		await this._sequelize.sync({ alter: true })
+		await this._sequelize.sync({ force: true })
 		return this
 	}
 }
