@@ -4,13 +4,34 @@ const { DataTypes } = require('sequelize')
 class Database extends DataSource {
 	constructor(sequelizeInstance) {
 		super()
-		this._sequelize = sequelizeInstance
-		this.Exercise = this._sequelize.define('Exercise', {
+
+		this.User = sequelizeInstance.define('User', {
+			id: {
+				type: DataTypes.UUID,
+				defaultValue: DataTypes.UUIDV4,
+				allowNull: false,
+				primaryKey: true,
+			},
+			name: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
+			email: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			}
+		})
+
+		this.Exercise = sequelizeInstance.define('Exercise', {
 			name: {
 				type: DataTypes.STRING,
 				allowNull: false,
 			}
 		})
+		this.Exercise.belongsTo(this.User)
+
+		// TODO Remove this once `dangerouslySyncDatabaseSchema` is gone
+		this._sequelize = sequelizeInstance
 	}
 
 	async dangerouslySyncDatabaseSchema() {

@@ -19,9 +19,22 @@ const typeDefs = gql`
 
 const resolvers = {
 	Query: {
-		exercises: async (_source, _args, { dataSources }) =>
-			await dataSources.database.Exercise.findAll(),
-		me: (_source, _args, { getPrincipal }) => getPrincipal(),
+		exercises: async (_source, _args, { dataSources, getPrincipal }) => {
+			if (!getPrincipal()) {
+				return null
+			}
+			return await dataSources.database.Exercise.findAll({
+				where: {
+					UserId: getPrincipal().id
+				},
+			})
+		},
+		me: async (_source, _args, { dataSources, getPrincipal }) => {
+			if (!getPrincipal()) {
+				return null
+			}
+			return await dataSources.database.User.findByPk(getPrincipal().id)
+		},
 	},
 }
 

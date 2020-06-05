@@ -51,8 +51,7 @@ const createServer = ({ config, database, redis, surfConext }) => {
 			database,
 		}),
 		context: ({ req }) => ({
-			getSessionId: () => req.session.id,
-			getPrincipal: () => req.session.principal,
+			getPrincipal: () => Object.freeze(req.session.principal),
 		}),
 		playground: {
 			settings: {
@@ -62,11 +61,20 @@ const createServer = ({ config, database, redis, surfConext }) => {
 	})
 	apollo.applyMiddleware({ app, cors: corsOptions, path: '/graphql' });
 
-	app.get('/auth/_devlogin', (req, res) => {
+	app.get('/auth/_devlogin', async (req, res) => {
 		req.session.initiated = new Date()
+		const [user] = await database.User.findOrCreate({
+			where: {
+				email: req.query.email,
+			},
+			defaults: {
+				name: req.query.name,
+				email: req.query.email,
+			},
+		})
+		// TODO update user info?
 		req.session.principal = {
-			name: req.query.name,
-			email: req.query.email,
+			id: user.id,
 		}
 		res.redirect(config.homepageUrl)
 	})
@@ -90,11 +98,8 @@ const createServer = ({ config, database, redis, surfConext }) => {
 			req.query.state,
 			req.session.id,
 		).then(userInfo => {
-			// TODO look up user etc.
-			req.session.principal = {
-				name: userInfo.name,
-				email: userInfo.email,
-			}
+			// TODO look up user and set principal accordingly
+			// req.session.principal = ...
 			res.redirect(config.homepageUrl)
 		}).catch(error => {
 			console.log(error)

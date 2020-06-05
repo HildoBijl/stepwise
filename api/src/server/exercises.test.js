@@ -5,6 +5,6 @@ describe('Exercises', () => {
 		await new Client()
 			.graphql({ query: `{exercises {id,name}}` })
 			.then(({ data }) => expect(data.exercises)
-				.toEqual([{ id: 1, name: 'Mechanics' }, { id: 2, name: 'Biology' }]))
+				.toEqual(null))
 	})
 })
