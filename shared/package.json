@@ -1,0 +1,9 @@
+{
+	"scripts": {
+		"test": "jest .*\\.test\\.js"
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"jest": "^26.0.1"
+	}
+}
