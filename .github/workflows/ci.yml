@@ -14,9 +14,16 @@ jobs:
           sudo touch /config/api.env
       - name: Build project
         run: |
-          docker build --tag=frontend_build frontend
-          docker-compose -f ops/docker-compose.yml -p app build
+          docker-compose -f ops/build.yml build
       - name: Run frontend tests
         run: docker run --rm -t -e CI=true frontend_build npm test
       - name: Run api tests
-        run: docker run --rm -t app_api npm test
+        run: docker run --rm -t stepwisecom/api npm test
+      - name: Publish images
+        # if: github.ref == 'refs/heads/master'
+        env:
+          DOCKER_REGISTRY_KEY: ${{ secrets.DOCKER_REGISTRY_KEY }}
+        run: |
+          docker login --username stepwisecom --password $DOCKER_REGISTRY_KEY
+          docker image ls -f reference="stepwisecom/*" --format "{{.Repository}}" \
+            xargs -n 1 docker push
