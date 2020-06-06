@@ -105,12 +105,11 @@ function getPaths(routes) {
 	const paths = {}
 	const fillPaths = (routes, initialPath = () => '') => {
 		// Walk through the routes, processing them one by one.
-		Object.keys(routes).forEach(key => {
-			// Extract the path.
-			const route = routes[key]
+		Object.values(routes).forEach(route => {
+			// Set up the path function.
 			const path = (parameters) => insertParametersIntoPath(parameters, route.path)
 
-			// If this page has a name, add the path to the paths object at that name.
+			// If this page has a name, add the path function to the paths object at that name.
 			if (route.name) {
 				if (paths[route.name])
 					throw new Error(`Invalid routes object: there are two pages with identical name "${route.name}".`)
