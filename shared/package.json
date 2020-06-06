@@ -4,7 +4,9 @@
 	"scripts": {
 		"test": "jest .*\\.test\\.js"
 	},
-	"dependencies": {},
+	"dependencies": {
+		"react": "16.13.1"
+	},
 	"devDependencies": {
 		"jest": "^26.0.1"
 	}

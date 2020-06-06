@@ -48,6 +48,11 @@ function getRoutes(user = null) {
 				}
 			},
 		},
+		'testExercise': {
+			name: 'testExercise',
+			component: pages.TestExercise,
+			title: 'Test Exercise',
+		},
 	}
 
 	// If the user is not logged in, set up a basic route schema.

@@ -3,6 +3,7 @@ const skills = {
 		title: 'Example skill',
 		prerequisites: [],
 		continuations: [],
+		exercises: ['exampleExercise1'],
 	},
 	a: {
 		title: 'Child skill A',

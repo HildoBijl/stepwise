@@ -2,7 +2,7 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { SwipeableDrawer, List, Divider, IconButton } from '@material-ui/core'
-import { Menu as MenuIcon, Home, School, Feedback, Info, MenuBook, ExitToApp } from '@material-ui/icons'
+import { Menu as MenuIcon, Home, School, Create, Feedback, Info, MenuBook, ExitToApp } from '@material-ui/icons'
 
 import MenuLink from './MenuLink'
 import { usePaths } from '../routing'
@@ -43,6 +43,7 @@ export default function Menu({ className }) {
 				<nav className={classes.menu} role="presentation" onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
 					<List>
 						{user ? <MenuLink path={paths.courses()} text='Courses' icon={School} /> : <MenuLink path={paths.home()} text='Home' icon={Home} />}
+						<MenuLink path={paths.testExercise()} text='Test Exercise' icon={Create} />
 					</List>
 					<Divider />
 					<List>
