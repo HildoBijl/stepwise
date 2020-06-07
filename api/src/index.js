@@ -44,6 +44,7 @@ const config = {
 sequelize.authenticate()
 	.then(() => new Database(sequelize))
 	.then(database => database.dangerouslySyncDatabaseSchema())
+	.then(database => database.fillWithSampleData())
 	.then(database => {
 		const server = createServer({
 			config,

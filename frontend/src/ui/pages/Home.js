@@ -9,9 +9,6 @@ import { center } from '../theme'
 import LinkBar from '../layout/LinkBar'
 import { websiteTitle, websiteTitleAddendum, apiAddress } from '../settings'
 
-import skills from 'step-wise/edu/skills'
-console.log(skills)
-
 const useStyles = makeStyles((theme) => ({
 	home: {
 		alignItems: 'stretch',
@@ -130,7 +127,7 @@ export default function Home() {
 					</div>
 				</Grid>
 				<Grid item xs={12} sm={5} className={classes.logIn}>
-					<p><a href={`${apiAddress}/auth/_devlogin?name=Peter&email=peter@example.org`}>Log in with SURFconext</a></p>
+					<p><a href={`${apiAddress}/auth/_devlogin?name=Step&email=step@wise.com`}>Log in with SURFconext</a></p>
 					<p>Log in with Google</p>
 					<p>Practice without logging in</p>
 				</Grid>

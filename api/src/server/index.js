@@ -51,7 +51,7 @@ const createServer = ({ config, database, redis, surfConext }) => {
 			database,
 		}),
 		context: ({ req }) => ({
-			getPrincipal: () => Object.freeze(req.session.principal),
+			getPrincipal: () => (process.env.NODE_ENV === 'development' ? { id: '00000000-0000-0000-0000-000000000000' } : Object.freeze(req.session.principal)), // On dev use test user for easier testing.
 		}),
 		playground: {
 			settings: {

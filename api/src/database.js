@@ -5,7 +5,7 @@ class Database extends DataSource {
 	constructor(sequelizeInstance) {
 		super()
 
-		this.User = sequelizeInstance.define('User', {
+		this.User = sequelizeInstance.define('user', {
 			id: {
 				type: DataTypes.UUID,
 				defaultValue: DataTypes.UUIDV4,
@@ -22,13 +22,107 @@ class Database extends DataSource {
 			}
 		})
 
-		this.Exercise = sequelizeInstance.define('Exercise', {
-			name: {
+		this.UserSkill = sequelizeInstance.define('userSkill', {
+			id: {
+				type: DataTypes.UUID,
+				defaultValue: DataTypes.UUIDV4,
+				allowNull: false,
+				primaryKey: true,
+			},
+			// userId: {
+			// 	type: DataTypes.UUID,
+			// 	allowNull: false,
+			// },
+			skillId: { // For example 'gasLaw'.
 				type: DataTypes.STRING,
 				allowNull: false,
-			}
+			},
+			coefficients: {
+				type: DataTypes.ARRAY(DataTypes.DOUBLE),
+				defaultValue: [1],
+				allowNull: false,
+			},
+			coefficientsOn: {
+				type: DataTypes.DATE,
+				defaultValue: DataTypes.NOW,
+				allowNull: false,
+			},
+			highest: {
+				type: DataTypes.ARRAY(DataTypes.DOUBLE),
+				defaultValue: [1],
+				allowNull: false,
+			},
+			highestOn: {
+				type: DataTypes.DATE,
+				defaultValue: DataTypes.NOW,
+				allowNull: false,
+			},
+		}, {
+			indexes: [{
+				unique: true,
+				fields: ['userId', 'skillId'],
+			}]
 		})
-		this.Exercise.belongsTo(this.User)
+		this.UserSkill.belongsTo(this.User, { onDelete: 'cascade' })
+
+		this.ExerciseSample = sequelizeInstance.define('exerciseSample', {
+			id: {
+				type: DataTypes.UUID,
+				defaultValue: DataTypes.UUIDV4,
+				allowNull: false,
+				primaryKey: true,
+			},
+			// userId: {
+			// 	type: DataTypes.UUID,
+			// 	allowNull: false,
+			// },
+			// skillId: {
+			// 	type: DataTypes.STRING,
+			// 	allowNull: false,
+			// },
+			// number: { // Separately incrementing number for each UserSkill. (Can be based on createdAt?)
+			// 	type: DataTypes.INTEGER,
+			// 	allowNull: false,
+			//   // autoIncrement: true, // ToDo: check if this can work as desired: incrementing per unique ['userId','skillId'].
+			// },
+			exerciseId: { // For example 'gasLawAppliedToBalloon'.
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
+			state: {
+				type: DataTypes.JSON,
+				allowNull: false,
+			},
+			status: {
+				type: DataTypes.ENUM('inProgress', 'solved', 'split', 'givenUp'),
+				allowNull: false,
+			},
+		})
+		this.ExerciseSample.belongsTo(this.UserSkill, { onDelete: 'cascade' }) // ToDo: check if we can use composite foreign keys for links. It seems not: sequelize doesn't support this.
+
+		this.ExerciseSubmission = sequelizeInstance.define('exerciseSubmission', {
+			id: {
+				type: DataTypes.UUID,
+				defaultValue: DataTypes.UUIDV4,
+				allowNull: false,
+				primaryKey: true,
+			},
+			// attempt: { // Separately incrementing number for each ExerciseSample. (Can be based on createdAt?)
+			// 	type: DataTypes.INTEGER,
+			// 	allowNull: false,
+			// 	primaryKey: true,
+			//   autoIncrement: true,
+			// },
+			input: {
+				type: DataTypes.JSON,
+				allowNull: false,
+			},
+			correct: {
+				type: DataTypes.BOOLEAN,
+				allowNull: false,
+			},
+		})
+		this.ExerciseSubmission.belongsTo(this.ExerciseSample, { onDelete: 'cascade' }) // ToDo: check if we can use composite foreign keys for links. It seems not: sequelize doesn't support this.
 
 		// TODO Remove this once `dangerouslySyncDatabaseSchema` is gone
 		this._sequelize = sequelizeInstance
@@ -39,6 +133,30 @@ class Database extends DataSource {
 		// Introduce proper migrations at some point!
 		// See https://sequelize.org/master/manual/model-basics.html#model-synchronization
 		await this._sequelize.sync({ force: true })
+		return this
+	}
+
+	async fillWithSampleData() {
+		if (process.env.NODE_ENV !== 'development')
+			return
+
+		console.log('Filling database with sample data ...')
+		const user = await this.User.create({ id: '00000000-0000-0000-0000-000000000000', name: 'Step', email: 'step@wise.com' })
+		console.log(user.id)
+		const skills = await Promise.all([
+			this.UserSkill.create({ userId: user.id, skillId: 'example' }),
+			this.UserSkill.create({ userId: user.id, skillId: 'a' }),
+			this.UserSkill.create({ userId: user.id, skillId: 'b' }),
+			this.UserSkill.create({ userId: user.id, skillId: 'x' }),
+		])
+		const exercises = await Promise.all([
+			this.ExerciseSample.create({ userSkillId: skills[0].id, exerciseId: 'exampleExercise1', state: { a: 7, b: 63 }, status: 'inProgress' }),
+		])
+		const submissions = await Promise.all([
+			this.ExerciseSubmission.create({ exerciseSampleId: exercises[0].id, input: { x: 7 }, correct: false }),
+			this.ExerciseSubmission.create({ exerciseSampleId: exercises[0].id, input: { x: 11 }, correct: false }),
+		])
+
 		return this
 	}
 }

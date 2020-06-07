@@ -1,4 +1,4 @@
-import React, { createContext, useContext} from 'react'
+import React, { createContext, useContext } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
 import { Link } from 'react-router-dom'
@@ -23,7 +23,7 @@ function useContents() {
 
 	return (
 		<ul>
-			{courses.map(course => <li key={course.id}><Link to={paths.course({courseId: course.id})}>{course.name}</Link></li>)}
+			{courses.map(course => <li key={course.id}><Link to={paths.course({ courseId: course.id })}>{course.name}</Link></li>)}
 		</ul>
 	)
 }
@@ -35,7 +35,7 @@ function CoursesProvider({ children }) {
 }
 
 // useCoursesQuery is used to extract data and put it in the context.
-const COURSES = gql`{exercises{name,id}}`
+const COURSES = gql`{mySkills{name,id}}` // ToDo: turn this into a somewhat sensible page.
 function useCoursesQuery() {
 	return useQuery(COURSES)
 }
@@ -48,7 +48,7 @@ function useCoursesResults() {
 // useCourses is used to extract the courses data, or null when not loaded yet or on failure.
 function useCourses() {
 	const res = useCoursesResults()
-	return (res && res.data && res.data.exercises) || null
+	return (res && res.data && res.data.mySkills) || null
 }
 
 export { CoursesContext, CoursesProvider, useCoursesQuery, useCoursesResults, useCourses }
