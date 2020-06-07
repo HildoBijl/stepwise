@@ -1,6 +1,6 @@
-import { getRandomInteger } from '../../../util/random'
+const { getRandomInteger } = require('../../../util/random')
 
-export default function generateState() {
+function generateState() {
 	const a = getRandomInteger(1,10)
 	const x = getRandomInteger(1,10)
 	return {
@@ -8,3 +8,4 @@ export default function generateState() {
 		b: a*x,
 	}
 }
+module.exports = generateState

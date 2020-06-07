@@ -1,3 +1,4 @@
-export default function checkInput({ a, b }, { x }) {
+function checkInput({ a, b }, { x }) {
 	return a*x === b
 }
+module.exports = checkInput

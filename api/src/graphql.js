@@ -36,7 +36,7 @@ const typeDefs = gql`
 
 	type Submission {
 		input: JSON!
-		correct: Boolean!
+		correct: JSON!
 	}
 
 	type Query {
@@ -44,12 +44,12 @@ const typeDefs = gql`
 		mySkills(ids: [String]): [Skill]
 	}
 
-	# type Mutation {
-		# startExercise(skillId: String!): Exercise!
+	type Mutation {
+		startExercise(skillId: String!): Exercise!
 		# submitExercise(skillId: String!, input: JSON!): [Skill]!
 		# splitUpExercise(skillId: String!): [Skill]!
 		# giveUpExercise(skillId: String!): [Skill]!
-	# }
+	}
 `
 
 const resolvers = {
@@ -59,16 +59,45 @@ const resolvers = {
 
 	Query: {
 		me: async (_source, _args, { dataSources, getPrincipal }) => {
-			if (!getPrincipal())
+			const user = getPrincipal()
+			if (!user)
 				return null
-			return await dataSources.database.User.findByPk(getPrincipal().id)
+			return await dataSources.database.User.findByPk(user.id)
 		},
 		mySkills: async (_source, { ids }, { dataSources, getPrincipal }) => {
-			if (!getPrincipal())
+			const user = getPrincipal()
+			if (!user)
 				return null
 			if (!ids)
-				return await dataSources.database.UserSkill.findAll({ where: { userId: getPrincipal().id } })
-			return await dataSources.database.UserSkill.findAll({ where: { userId: getPrincipal().id, skillId: { [Op.or]: ids } } })
+				return await dataSources.database.UserSkill.findAll({ where: { userId: user.id } })
+			return await dataSources.database.UserSkill.findAll({ where: { userId: user.id, skillId: { [Op.or]: ids } } })
+		},
+	},
+	Mutation: {
+		startExercise: async (_source, { skillId }, { dataSources, getPrincipal }) => {
+			// Check if there is a user.
+			const user = getPrincipal()
+			if (!user)
+				throw new Error(`Cannot start a new exercise: no user is logged in.`)
+
+			// Check if the given skill exists.
+			const skill = skills[skillId]
+			if (!skill)
+				throw new Error(`Cannot start a new exercise: the given skill "${skillId}" does not exist.`)
+
+			// Check if the last exercise is done. [ToDo: check if this can be done in one query, using a composite primary key or a join.]
+			const userSkill = await dataSources.database.UserSkill.findOne({ where: { userId: user.id, skillId } })
+			const lastExercise = await dataSources.database.ExerciseSample.findOne({ where: { userSkillId: userSkill.id }, order: [['createdAt', 'DESC']] })
+			if (lastExercise && !isExerciseDone(lastExercise))
+				throw new Error(`Cannot start a new exercise: the previous one is not done yet.`)
+
+			// ToDo: select the correct exercise for this user.
+			const exerciseId = skill.exercises[0] // Temporary: just pick the first.
+
+			// Start the new exercise.
+			const { generateState } = require(`step-wise/edu/exercises/${exerciseId}`)
+			const state = generateState()
+			return await dataSources.database.ExerciseSample.create({ userSkillId: userSkill.id, exerciseId, state, status: 'inProgress' })
 		},
 	},
 	User: {
@@ -88,6 +117,10 @@ const resolvers = {
 		startedOn: exerciseSample => exerciseSample.createdAt,
 		submissions: async (exerciseSample, _args, { dataSources }) => await dataSources.database.ExerciseSubmission.findAll({ where: { exerciseSampleId: exerciseSample.id } }),
 	},
+}
+
+function isExerciseDone(exercise) {
+	return (exercise.status === 'solved' || exercise.status === 'givenUp')
 }
 
 module.exports = {

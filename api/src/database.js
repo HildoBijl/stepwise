@@ -140,22 +140,34 @@ class Database extends DataSource {
 		if (process.env.NODE_ENV !== 'development')
 			return
 
+		// Find a date two minutes ago to start adding elements.
+		const date = new Date()
+		date.setSeconds(date.getSeconds() - 120)
 		console.log('Filling database with sample data ...')
-		const user = await this.User.create({ id: '00000000-0000-0000-0000-000000000000', name: 'Step', email: 'step@wise.com' })
+
+		// Create a user.
+		const user = await this.User.create({ id: '00000000-0000-0000-0000-000000000000', name: 'Step', email: 'step@wise.com', createdAt: date.setSeconds(date.getSeconds() + 1) })
 		console.log(user.id)
+
+		// Create skills for the user.
 		const skills = await Promise.all([
-			this.UserSkill.create({ userId: user.id, skillId: 'example' }),
-			this.UserSkill.create({ userId: user.id, skillId: 'a' }),
-			this.UserSkill.create({ userId: user.id, skillId: 'b' }),
-			this.UserSkill.create({ userId: user.id, skillId: 'x' }),
+			this.UserSkill.create({ userId: user.id, skillId: 'example', createdAt: date.setSeconds(date.getSeconds() + 1) }),
+			this.UserSkill.create({ userId: user.id, skillId: 'a', createdAt: date.setSeconds(date.getSeconds() + 1) }),
+			this.UserSkill.create({ userId: user.id, skillId: 'b', createdAt: date.setSeconds(date.getSeconds() + 1) }),
+			this.UserSkill.create({ userId: user.id, skillId: 'x', createdAt: date.setSeconds(date.getSeconds() + 1) }),
 		])
+
+		// Create exercises related to the example skill.
+		const exampleSkill = skills[0]
 		const exercises = await Promise.all([
-			this.ExerciseSample.create({ userSkillId: skills[0].id, exerciseId: 'exampleExercise1', state: { a: 7, b: 63 }, status: 'inProgress' }),
+			// this.ExerciseSample.create({ userSkillId: exampleSkill.id, exerciseId: 'exampleExercise1', state: { a: 9, b: 54 }, status: 'givenUp', createdAt: date.setSeconds(date.getSeconds() + 1) }),
+			// this.ExerciseSample.create({ userSkillId: exampleSkill.id, exerciseId: 'exampleExercise1', state: { a: 2, b: 6 }, status: 'solved', createdAt: date.setSeconds(date.getSeconds() + 1) }),
+			// this.ExerciseSample.create({ userSkillId: exampleSkill.id, exerciseId: 'exampleExercise1', state: { a: 7, b: 63 }, status: 'inProgress', createdAt: date.setSeconds(date.getSeconds() + 1) }),
 		])
-		const submissions = await Promise.all([
-			this.ExerciseSubmission.create({ exerciseSampleId: exercises[0].id, input: { x: 7 }, correct: false }),
-			this.ExerciseSubmission.create({ exerciseSampleId: exercises[0].id, input: { x: 11 }, correct: false }),
-		])
+		// const submissions = await Promise.all([
+		// 	this.ExerciseSubmission.create({ exerciseSampleId: exercises[0].id, input: { x: 7 }, correct: false, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		// 	this.ExerciseSubmission.create({ exerciseSampleId: exercises[0].id, input: { x: 11 }, correct: false, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		// ])
 
 		return this
 	}

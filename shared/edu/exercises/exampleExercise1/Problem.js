@@ -1,6 +1,7 @@
-import React from 'react'
+const React = require('react') // ToDo: figure out how to add JSX.
 
-export default function Problem({ state }) {
+function Problem({ state }) {
 	const { a, b } = state
 	return `Solve the equation ${a}*x = ${b}.`
 }
+module.exports = Problem
