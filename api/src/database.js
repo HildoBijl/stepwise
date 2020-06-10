@@ -94,7 +94,7 @@ class Database extends DataSource {
 				allowNull: false,
 			},
 			status: {
-				type: DataTypes.ENUM('inProgress', 'solved', 'split', 'givenUp'),
+				type: DataTypes.ENUM('started', 'solved', 'split', 'splitSolved', 'givenUp'),
 				allowNull: false,
 			},
 		})
@@ -117,10 +117,10 @@ class Database extends DataSource {
 				type: DataTypes.JSON,
 				allowNull: false,
 			},
-			correct: {
-				type: DataTypes.BOOLEAN,
-				allowNull: false,
-			},
+			// correct: {
+			// 	type: DataTypes.BOOLEAN,
+			// 	allowNull: false,
+			// },
 		})
 		this.ExerciseSubmission.belongsTo(this.ExerciseSample, { onDelete: 'cascade' }) // ToDo: check if we can use composite foreign keys for links. It seems not: sequelize doesn't support this.
 
@@ -152,22 +152,24 @@ class Database extends DataSource {
 		// Create skills for the user.
 		const skills = await Promise.all([
 			this.UserSkill.create({ userId: user.id, skillId: 'example', createdAt: date.setSeconds(date.getSeconds() + 1) }),
-			this.UserSkill.create({ userId: user.id, skillId: 'a', createdAt: date.setSeconds(date.getSeconds() + 1) }),
-			this.UserSkill.create({ userId: user.id, skillId: 'b', createdAt: date.setSeconds(date.getSeconds() + 1) }),
-			this.UserSkill.create({ userId: user.id, skillId: 'x', createdAt: date.setSeconds(date.getSeconds() + 1) }),
+			// this.UserSkill.create({ userId: user.id, skillId: 'a', createdAt: date.setSeconds(date.getSeconds() + 1) }),
+			// this.UserSkill.create({ userId: user.id, skillId: 'b', createdAt: date.setSeconds(date.getSeconds() + 1) }),
+			// this.UserSkill.create({ userId: user.id, skillId: 'x', createdAt: date.setSeconds(date.getSeconds() + 1) }),
 		])
 
 		// Create exercises related to the example skill.
 		const exampleSkill = skills[0]
 		const exercises = await Promise.all([
-			// this.ExerciseSample.create({ userSkillId: exampleSkill.id, exerciseId: 'exampleExercise1', state: { a: 9, b: 54 }, status: 'givenUp', createdAt: date.setSeconds(date.getSeconds() + 1) }),
-			// this.ExerciseSample.create({ userSkillId: exampleSkill.id, exerciseId: 'exampleExercise1', state: { a: 2, b: 6 }, status: 'solved', createdAt: date.setSeconds(date.getSeconds() + 1) }),
-			// this.ExerciseSample.create({ userSkillId: exampleSkill.id, exerciseId: 'exampleExercise1', state: { a: 7, b: 63 }, status: 'inProgress', createdAt: date.setSeconds(date.getSeconds() + 1) }),
+			this.ExerciseSample.create({ userSkillId: exampleSkill.id, exerciseId: 'exampleExercise1', state: { a: 9, b: 54 }, status: 'givenUp', createdAt: date.setSeconds(date.getSeconds() + 1) }),
+			this.ExerciseSample.create({ userSkillId: exampleSkill.id, exerciseId: 'exampleExercise1', state: { a: 2, b: 6 }, status: 'solved', createdAt: date.setSeconds(date.getSeconds() + 1) }),
+			this.ExerciseSample.create({ userSkillId: exampleSkill.id, exerciseId: 'exampleExercise1', state: { a: 7, b: 63 }, status: 'started', createdAt: date.setSeconds(date.getSeconds() + 1) }),
 		])
-		// const submissions = await Promise.all([
-		// 	this.ExerciseSubmission.create({ exerciseSampleId: exercises[0].id, input: { x: 7 }, correct: false, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		// 	this.ExerciseSubmission.create({ exerciseSampleId: exercises[0].id, input: { x: 11 }, correct: false, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		// ])
+		const submissions = await Promise.all([
+			this.ExerciseSubmission.create({ exerciseSampleId: exercises[0].id, input: { x: 7 }, correct: false, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+			this.ExerciseSubmission.create({ exerciseSampleId: exercises[0].id, input: { x: 11 }, correct: false, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+			this.ExerciseSubmission.create({ exerciseSampleId: exercises[1].id, input: { x: 4 }, correct: false, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+			this.ExerciseSubmission.create({ exerciseSampleId: exercises[1].id, input: { x: 3 }, correct: false, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		])
 
 		return this
 	}

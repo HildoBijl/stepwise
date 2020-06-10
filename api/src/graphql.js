@@ -3,12 +3,11 @@ const { EmailAddressResolver, DateTimeResolver, JSONObjectResolver } = require('
 const skills = require('step-wise/edu/skills')
 const { Op } = require('sequelize')
 
-// ToDo: check if a JSON field from the database can be sent as a string through GraphQL.
 const typeDefs = gql`
 	scalar EmailAddress
 	scalar DateTime
 	scalar JSON
-	enum ExerciseStatus { inProgress solved split givenUp }
+	enum ExerciseStatus { started solved split splitSolved givenUp }
 
 	type User {
 		name: String!
@@ -24,6 +23,7 @@ const typeDefs = gql`
 		highest: [Float]!
 		highestOn: DateTime!
 		exercises: [Exercise]!
+		currentExercise: Exercise
 	}
 
 	type Exercise {
@@ -36,7 +36,7 @@ const typeDefs = gql`
 
 	type Submission {
 		input: JSON!
-		correct: JSON!
+		# correct: JSON!
 	}
 
 	type Query {
@@ -46,7 +46,7 @@ const typeDefs = gql`
 
 	type Mutation {
 		startExercise(skillId: String!): Exercise!
-		# submitExercise(skillId: String!, input: JSON!): [Skill]!
+		submitExercise(skillId: String!, input: JSON!, skillIds: [String]): [Skill]!
 		# splitUpExercise(skillId: String!): [Skill]!
 		# giveUpExercise(skillId: String!): [Skill]!
 	}
@@ -85,19 +85,54 @@ const resolvers = {
 			if (!skill)
 				throw new Error(`Cannot start a new exercise: the given skill "${skillId}" does not exist.`)
 
-			// Check if the last exercise is done. [ToDo: check if this can be done in one query, using a composite primary key or a join.]
-			const userSkill = await dataSources.database.UserSkill.findOne({ where: { userId: user.id, skillId } })
-			const lastExercise = await dataSources.database.ExerciseSample.findOne({ where: { userSkillId: userSkill.id }, order: [['createdAt', 'DESC']] })
-			if (lastExercise && !isExerciseDone(lastExercise))
+			// Check if the current exercise is done. Also create a userSkill entry if none is present yet.
+			let { exercise, userSkill } = await getCurrentSkillExercise(user.id, skillId, dataSources)
+			if (!userSkill)
+				userSkill = await dataSources.database.UserSkill.create({ userId: user.id, skillId })
+			if (exercise)
 				throw new Error(`Cannot start a new exercise: the previous one is not done yet.`)
 
-			// ToDo: select the correct exercise for this user.
+			// ToDo: select the most appropriate exercise for this user.
 			const exerciseId = skill.exercises[0] // Temporary: just pick the first.
 
 			// Start the new exercise.
 			const { generateState } = require(`step-wise/edu/exercises/${exerciseId}`)
 			const state = generateState()
-			return await dataSources.database.ExerciseSample.create({ userSkillId: userSkill.id, exerciseId, state, status: 'inProgress' })
+			return await dataSources.database.ExerciseSample.create({ userSkillId: userSkill.id, exerciseId, state, status: 'started' })
+		},
+		submitExercise: async (_source, { skillId, input, skillIds }, { dataSources, getPrincipal }) => {
+			// Check if there is a user.
+			const user = getPrincipal()
+			if (!user)
+				throw new Error(`Cannot submit an exercise: no user is logged in.`)
+
+			// Check if the given skill exists.
+			const skill = skills[skillId]
+			if (!skill)
+				throw new Error(`Cannot submit an exercise: the given skill "${skillId}" does not exist.`)
+
+			// Check if the current exercise is done.
+			const { exercise } = await getCurrentSkillExercise(user.id, skillId, dataSources)
+			if (!exercise)
+				throw new Error(`Cannot submit an exercise: no exercise is open at the moment.`)
+
+			// Grade the input.
+			const exerciseId = exercise.exerciseId
+			const { checkInput } = require(`step-wise/edu/exercises/${exerciseId}`)
+			const correct = checkInput(exercise.state, input) // ToDo: process results into the coefficients.
+
+			// Store the submission and possibly update the status of the exercise.
+			const queries = [dataSources.database.ExerciseSubmission.create({ exerciseSampleId: exercise.id, input })]
+			if (correct)
+				queries.push(exercise.update({ status: exercise.status === 'split' ? 'splitSolved' : 'solved' }))
+			await Promise.all(queries)
+
+			// If the user did not request skill data, return only data related to the given skill. Otherwise return the requested skills.
+			if (!skillIds)
+				skillIds = [skillId]
+			if (skillIds.length === 0)
+				return []
+			return await dataSources.database.UserSkill.findAll({ where: { userId: user.id, skillId: { [Op.or]: skillIds } } })
 		},
 	},
 	User: {
@@ -111,6 +146,7 @@ const resolvers = {
 		id: userSkill => userSkill.skillId,
 		name: userSkill => skills[userSkill.skillId].name,
 		exercises: async (userSkill, _args, { dataSources }) => await dataSources.database.ExerciseSample.findAll({ where: { userSkillId: userSkill.id } }),
+		currentExercise: async (userSkill, _args, { dataSources }) => (await getCurrentSkillExercise(userSkill.userId, userSkill.skillId, dataSources)).exercise,
 	},
 	Exercise: {
 		id: exerciseSample => exerciseSample.exerciseId,
@@ -119,8 +155,24 @@ const resolvers = {
 	},
 }
 
+// isExerciseDone checks whether a given exercise with a "status" parameter is done (solved or given up) or not. Returns a boolean.
 function isExerciseDone(exercise) {
-	return (exercise.status === 'solved' || exercise.status === 'givenUp')
+	return (exercise.status === 'solved' || exercise.status === 'splitSolved' || exercise.status === 'givenUp')
+}
+
+// getCurrentSkillExercise returns { userSkill, exercise } for the given skillId, where exercise is the currently active exercise. It is null if no active exercise exists for the given skill. userSkill is null if no entry exists for this skill in the database (in which case there certainly is no active exercise).
+async function getCurrentSkillExercise(userId, skillId, dataSources) {
+	// [ToDo: check if this can be done in one query, using a composite primary key or a join.]
+	// Extract the user skill from the database.
+	const userSkill = await dataSources.database.UserSkill.findOne({ where: { userId, skillId } })
+	if (!userSkill)
+		return { userSkill, exercise: null }
+
+	// Find the last exercise and see if it's active.
+	const exercise = await dataSources.database.ExerciseSample.findOne({ where: { userSkillId: userSkill.id }, order: [['createdAt', 'DESC']] })
+	return (!exercise || isExerciseDone(exercise)) ?
+		{ userSkill, exercise: null } :
+		{ userSkill, exercise }
 }
 
 module.exports = {
