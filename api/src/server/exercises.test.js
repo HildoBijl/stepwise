@@ -1,10 +1,10 @@
 const { Client } = require('./testclient')
 
-describe('Exercises', () => {
-	it('fetches all exercises', async () => {
+describe('me', () => {
+	it('returns null on unknown user', async () => {
 		await new Client()
-			.graphql({ query: `{exercises {id,name}}` })
-			.then(({ data }) => expect(data.exercises)
+			.graphql({ query: `{me {name, email}}` })
+			.then(({ data }) => expect(data.me)
 				.toEqual(null))
 	})
 })
