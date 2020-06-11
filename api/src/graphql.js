@@ -47,7 +47,7 @@ const typeDefs = gql`
 	type Mutation {
 		startExercise(skillId: String!): Exercise!
 		submitExercise(skillId: String!, input: JSON!, skillIds: [String]): [Skill]!
-		# splitUpExercise(skillId: String!): [Skill]!
+		splitUpExercise(skillId: String!, skillIds: [String]): [Skill]!
 		# giveUpExercise(skillId: String!): [Skill]!
 	}
 `
@@ -107,17 +107,17 @@ const resolvers = {
 			// Check if there is a user.
 			const user = getPrincipal()
 			if (!user)
-				throw new Error(`Cannot submit an exercise: no user is logged in.`)
+				throw new Error(`Cannot submit the exercise: no user is logged in.`)
 
 			// Check if the given skill exists.
 			const skill = skills[skillId]
 			if (!skill)
-				throw new Error(`Cannot submit an exercise: the given skill "${skillId}" does not exist.`)
+				throw new Error(`Cannot submit the exercise: the given skill "${skillId}" does not exist.`)
 
 			// Check if the current exercise is done.
 			const { exercise, userSkill } = await getCurrentSkillExercise(user.id, skillId, dataSources)
 			if (!exercise)
-				throw new Error(`Cannot submit an exercise: no exercise is open at the moment.`)
+				throw new Error(`Cannot submit the exercise: no exercise is open at the moment.`)
 
 			// Grade the input.
 			const exerciseId = exercise.exerciseId
@@ -132,7 +132,36 @@ const resolvers = {
 			}
 			await Promise.all(queries)
 
-			// If the user did not request skill data, return only data related to the given skill. Otherwise return the requested skills.
+			// Return appropriate skill data.
+			if (!skillIds)
+				skillIds = [skillId]
+			checkSkillIds(skillIds)
+			if (skillIds.length === 0)
+				return []
+			return await dataSources.database.UserSkill.findAll({ where: { userId: user.id, skillId: { [Op.or]: skillIds } } })
+		},
+		splitUpExercise: async (_source, { skillId, skillIds }, { dataSources, getPrincipal }) => {
+			// Check if there is a user.
+			const user = getPrincipal()
+			if (!user)
+				throw new Error(`Cannot split up the exercise: no user is logged in.`)
+
+			// Check if the given skill exists.
+			const skill = skills[skillId]
+			if (!skill)
+				throw new Error(`Cannot split up the exercise: the given skill "${skillId}" does not exist.`)
+
+			// Check if the current exercise can be split up.
+			let { exercise, userSkill } = await getCurrentSkillExercise(user.id, skillId, dataSources)
+			if (!exercise)
+				throw new Error(`Cannot split up the exercise: no exercise is open at the moment.`)
+			if (exercise.status !== 'started')
+				throw new Error(`Cannot split up the exercise: it has already been split up.`)
+
+			// Split up the exercise.
+			await exercise.update({ status: 'split' }) // ToDo: update coefficients accordingly.
+
+			// Return appropriate skill data.
 			if (!skillIds)
 				skillIds = [skillId]
 			checkSkillIds(skillIds)
@@ -175,7 +204,7 @@ function isExerciseDone(exercise) {
 	return (exercise.status === 'solved' || exercise.status === 'splitSolved' || exercise.status === 'givenUp')
 }
 
-// getCurrentSkillExercise returns { userSkill, exercise } for the given skillId, where exercise is the currently active exercise. It is null if no active exercise exists for the given skill. userSkill is null if no entry exists for this skill in the database (in which case there certainly is no active exercise).
+// getCurrentSkillExercise returns { userSkill, exercise } for the given userId and skillId, where exercise is the currently active exercise. It is null if no active exercise exists for the given skill. userSkill is null if no entry exists for this skill in the database (in which case there certainly is no active exercise).
 async function getCurrentSkillExercise(userId, skillId, dataSources) {
 	// [ToDo: check if this can be done in one query, using a composite primary key or a join.]
 	// Extract the user skill from the database.
