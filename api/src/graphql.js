@@ -99,7 +99,9 @@ const resolvers = {
 			// Start the new exercise.
 			const { generateState } = require(`step-wise/edu/exercises/${exerciseId}`)
 			const state = generateState()
-			return await dataSources.database.ExerciseSample.create({ userSkillId: userSkill.id, exerciseId, state, status: 'started' })
+			exercise = await dataSources.database.ExerciseSample.create({ userSkillId: userSkill.id, exerciseId, state, status: 'started' })
+			userSkill.update({ currentExerciseId: exercise.id }) // ToDo: check if we need to wait on this?
+			return exercise
 		},
 		submitExercise: async (_source, { skillId, input, skillIds }, { dataSources, getPrincipal }) => {
 			// Check if there is a user.
@@ -113,7 +115,7 @@ const resolvers = {
 				throw new Error(`Cannot submit an exercise: the given skill "${skillId}" does not exist.`)
 
 			// Check if the current exercise is done.
-			const { exercise } = await getCurrentSkillExercise(user.id, skillId, dataSources)
+			const { exercise, userSkill } = await getCurrentSkillExercise(user.id, skillId, dataSources)
 			if (!exercise)
 				throw new Error(`Cannot submit an exercise: no exercise is open at the moment.`)
 
@@ -124,8 +126,10 @@ const resolvers = {
 
 			// Store the submission and possibly update the status of the exercise.
 			const queries = [dataSources.database.ExerciseSubmission.create({ exerciseSampleId: exercise.id, input })]
-			if (correct)
+			if (correct) {
 				queries.push(exercise.update({ status: exercise.status === 'split' ? 'splitSolved' : 'solved' }))
+				queries.push(userSkill.update({ currentExerciseId: null }))
+			}
 			await Promise.all(queries)
 
 			// If the user did not request skill data, return only data related to the given skill. Otherwise return the requested skills.
@@ -176,11 +180,11 @@ async function getCurrentSkillExercise(userId, skillId, dataSources) {
 	// [ToDo: check if this can be done in one query, using a composite primary key or a join.]
 	// Extract the user skill from the database.
 	const userSkill = await dataSources.database.UserSkill.findOne({ where: { userId, skillId } })
-	if (!userSkill)
+	if (!userSkill || !userSkill.currentExerciseId)
 		return { userSkill, exercise: null }
 
-	// Find the last exercise and see if it's active.
-	const exercise = await dataSources.database.ExerciseSample.findOne({ where: { userSkillId: userSkill.id }, order: [['createdAt', 'DESC']] })
+	// Find the last exercise and see if it's active. (It should be, but just in case.)
+	const exercise = await dataSources.database.ExerciseSample.findByPk(userSkill.currentExerciseId)
 	return (!exercise || isExerciseDone(exercise)) ?
 		{ userSkill, exercise: null } :
 		{ userSkill, exercise }

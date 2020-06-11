@@ -63,7 +63,7 @@ class Database extends DataSource {
 				fields: ['userId', 'skillId'],
 			}]
 		})
-		this.UserSkill.belongsTo(this.User, { onDelete: 'cascade' })
+		this.User.hasMany(this.UserSkill, { onDelete: 'cascade' })
 
 		this.ExerciseSample = sequelizeInstance.define('exerciseSample', {
 			id: {
@@ -98,7 +98,8 @@ class Database extends DataSource {
 				allowNull: false,
 			},
 		})
-		this.ExerciseSample.belongsTo(this.UserSkill, { onDelete: 'cascade' }) // ToDo: check if we can use composite foreign keys for links. It seems not: sequelize doesn't support this.
+		this.UserSkill.hasMany(this.ExerciseSample, { onDelete: 'cascade' }) // ToDo: check if we can use composite foreign keys for links. It seems not: sequelize doesn't support this.
+		this.UserSkill.belongsTo(this.ExerciseSample, { as: 'currentExercise', constraints: false, allowNull: true, defaultValue: null })
 
 		this.ExerciseSubmission = sequelizeInstance.define('exerciseSubmission', {
 			id: {
@@ -164,6 +165,9 @@ class Database extends DataSource {
 			this.ExerciseSample.create({ userSkillId: exampleSkill.id, exerciseId: 'exampleExercise1', state: { a: 2, b: 6 }, status: 'solved', createdAt: date.setSeconds(date.getSeconds() + 1) }),
 			this.ExerciseSample.create({ userSkillId: exampleSkill.id, exerciseId: 'exampleExercise1', state: { a: 7, b: 63 }, status: 'started', createdAt: date.setSeconds(date.getSeconds() + 1) }),
 		])
+		console.log('AA')
+		exampleSkill.update({ currentExerciseId: exercises[2].id }).then(() => console.log('OK'))
+		console.log('BB')
 		const submissions = await Promise.all([
 			this.ExerciseSubmission.create({ exerciseSampleId: exercises[0].id, input: { x: 7 }, correct: false, createdAt: date.setSeconds(date.getSeconds() + 1) }),
 			this.ExerciseSubmission.create({ exerciseSampleId: exercises[0].id, input: { x: 11 }, correct: false, createdAt: date.setSeconds(date.getSeconds() + 1) }),
