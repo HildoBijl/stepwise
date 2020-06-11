@@ -21,7 +21,7 @@ const skills = {
 		name: 'Summation of multiplications',
 		prerequisites: ['summation','multiplication'],
 		continuations: [],
-		exercises: ['summationOfMultiplications1'],
+		exercises: ['summationOfMultiplications1','summationOfMultiplications2'],
 	},
 }
 Object.keys(skills).forEach(key => skills[key].key = key) // Inform the skills of their own key.

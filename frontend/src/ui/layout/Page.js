@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-function Page() {
+export default function Page() {
 	const route = useRoute()
 	const contents = useContents()
 
@@ -39,5 +39,3 @@ function useContents() {
 		</>
 	)
 }
-
-export default Page
