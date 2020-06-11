@@ -48,7 +48,7 @@ const typeDefs = gql`
 		startExercise(skillId: String!): Exercise!
 		submitExercise(skillId: String!, input: JSON!, skillIds: [String]): [Skill]!
 		splitUpExercise(skillId: String!, skillIds: [String]): [Skill]!
-		# giveUpExercise(skillId: String!): [Skill]!
+		giveUpExercise(skillId: String!, skillIds: [String]): [Skill]!
 	}
 `
 
@@ -124,7 +124,7 @@ const resolvers = {
 			const { checkInput } = require(`step-wise/edu/exercises/${exerciseId}`)
 			const correct = checkInput(exercise.state, input) // ToDo: process results into the coefficients.
 
-			// Store the submission and possibly update the status of the exercise.
+			// Store the submission and on a correct one update the status of the exercise to solved.
 			const queries = [dataSources.database.ExerciseSubmission.create({ exerciseSampleId: exercise.id, input })]
 			if (correct) {
 				queries.push(exercise.update({ status: exercise.status === 'split' ? 'splitSolved' : 'solved' }))
@@ -133,12 +133,7 @@ const resolvers = {
 			await Promise.all(queries)
 
 			// Return appropriate skill data.
-			if (!skillIds)
-				skillIds = [skillId]
-			checkSkillIds(skillIds)
-			if (skillIds.length === 0)
-				return []
-			return await dataSources.database.UserSkill.findAll({ where: { userId: user.id, skillId: { [Op.or]: skillIds } } })
+			return await getSkills(user.id, skillIds || [skillId], dataSources)
 		},
 		splitUpExercise: async (_source, { skillId, skillIds }, { dataSources, getPrincipal }) => {
 			// Check if there is a user.
@@ -162,12 +157,31 @@ const resolvers = {
 			await exercise.update({ status: 'split' }) // ToDo: update coefficients accordingly.
 
 			// Return appropriate skill data.
-			if (!skillIds)
-				skillIds = [skillId]
-			checkSkillIds(skillIds)
-			if (skillIds.length === 0)
-				return []
-			return await dataSources.database.UserSkill.findAll({ where: { userId: user.id, skillId: { [Op.or]: skillIds } } })
+			return await getSkills(user.id, skillIds || [skillId], dataSources)
+		},
+		giveUpExercise: async (_source, { skillId, skillIds }, { dataSources, getPrincipal }) => {
+			// Check if there is a user.
+			const user = getPrincipal()
+			if (!user)
+				throw new Error(`Cannot give up the exercise: no user is logged in.`)
+
+			// Check if the given skill exists.
+			const skill = skills[skillId]
+			if (!skill)
+				throw new Error(`Cannot give up the exercise: the given skill "${skillId}" does not exist.`)
+
+			// Check if the current exercise can be split up.
+			let { exercise, userSkill } = await getCurrentSkillExercise(user.id, skillId, dataSources)
+			if (!exercise)
+				throw new Error(`Cannot give up the exercise: no exercise is open at the moment.`)
+			if (exercise.status !== 'split')
+				throw new Error(`Cannot give up the exercise: only split-up exercises can be given up.`)
+
+			// Split up the exercise.
+			await exercise.update({ status: 'givenUp' }) // ToDo: update coefficients accordingly.
+
+			// Return appropriate skill data.
+			return await getSkills(user.id, skillIds || [skillId], dataSources)
 		},
 	},
 	User: {
@@ -191,12 +205,20 @@ const resolvers = {
 	},
 }
 
-// checkSkillIds checks an array of skill ids to see if they exist. Throws an error on an unknown skill.
+// checkSkillIds checks an array of skillIds to see if they exist. Throws an error on an unknown skill.
 function checkSkillIds(ids) {
 	ids.forEach(id => {
 		if (!skills[id])
 			throw new Error(`Unknown skills "${id}" encountered.`)
 	})
+}
+
+// getSkills uses a userId and an array of skillIds to get data from the database.
+async function getSkills(userId, skillIds = [], dataSources) {
+	checkSkillIds(skillIds)
+	if (skillIds.length === 0)
+		return []
+	return await dataSources.database.UserSkill.findAll({ where: { userId, skillId: { [Op.or]: skillIds } } })
 }
 
 // isExerciseDone checks whether a given exercise with a "status" parameter is done (solved or given up) or not. Returns a boolean.
