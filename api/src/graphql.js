@@ -70,6 +70,7 @@ const resolvers = {
 				return null
 			if (!ids)
 				return await dataSources.database.UserSkill.findAll({ where: { userId: user.id } })
+			checkSkillIds(ids)
 			return await dataSources.database.UserSkill.findAll({ where: { userId: user.id, skillId: { [Op.or]: ids } } })
 		},
 	},
@@ -130,6 +131,7 @@ const resolvers = {
 			// If the user did not request skill data, return only data related to the given skill. Otherwise return the requested skills.
 			if (!skillIds)
 				skillIds = [skillId]
+			checkSkillIds(skillIds)
 			if (skillIds.length === 0)
 				return []
 			return await dataSources.database.UserSkill.findAll({ where: { userId: user.id, skillId: { [Op.or]: skillIds } } })
@@ -139,6 +141,7 @@ const resolvers = {
 		skills: async (user, { ids }, { dataSources }) => {
 			if (!ids)
 				return await dataSources.database.UserSkill.findAll({ where: { userId: user.id } })
+			checkSkillIds(ids)
 			return await dataSources.database.UserSkill.findAll({ where: { userId: user.id, skillId: { [Op.or]: ids } } })
 		},
 	},
@@ -153,6 +156,14 @@ const resolvers = {
 		startedOn: exerciseSample => exerciseSample.createdAt,
 		submissions: async (exerciseSample, _args, { dataSources }) => await dataSources.database.ExerciseSubmission.findAll({ where: { exerciseSampleId: exerciseSample.id } }),
 	},
+}
+
+// checkSkillIds checks an array of skill ids to see if they exist. Throws an error on an unknown skill.
+function checkSkillIds(ids) {
+	ids.forEach(id => {
+		if (!skills[id])
+			throw new Error(`Unknown skills "${id}" encountered.`)
+	})
 }
 
 // isExerciseDone checks whether a given exercise with a "status" parameter is done (solved or given up) or not. Returns a boolean.
