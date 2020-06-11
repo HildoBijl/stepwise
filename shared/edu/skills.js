@@ -5,23 +5,23 @@ const skills = {
 		continuations: [],
 		exercises: ['exampleExercise1'],
 	},
-	a: {
-		name: 'Child skill A',
+	summation: {
+		name: 'Summation',
 		prerequisites: [],
-		continuations: ['x'],
-		exercises: ['exampleExercise1'],
+		continuations: ['summationOfMultiplication'],
+		exercises: ['summation1'],
 	},
-	b: {
-		name: 'Child skill B',
+	multiplication: {
+		name: 'Multiplication',
 		prerequisites: [],
-		continuations: ['x'],
-		exercises: ['exampleExercise1'],
+		continuations: ['summationOfMultiplication'],
+		exercises: ['multiplication1'],
 	},
-	x: {
-		name: 'Parent skill X',
-		prerequisites: ['a','b'],
+	summationOfMultiplications: {
+		name: 'Summation of multiplications',
+		prerequisites: ['summation','multiplication'],
 		continuations: [],
-		exercises: ['exampleExercise1'],
+		exercises: ['summationOfMultiplications1'],
 	},
 }
 Object.keys(skills).forEach(key => skills[key].key = key) // Inform the skills of their own key.

@@ -79,19 +79,19 @@ const resolvers = {
 			// Check if there is a user.
 			const user = getPrincipal()
 			if (!user)
-				throw new Error(`Cannot start a new exercise: no user is logged in.`)
+				throw new Error(`Cannot start a new exercise for the skill "${skillId}": no user is logged in.`)
 
 			// Check if the given skill exists.
 			const skill = skills[skillId]
 			if (!skill)
-				throw new Error(`Cannot start a new exercise: the given skill "${skillId}" does not exist.`)
+				throw new Error(`Cannot start a new exercise for the skill "${skillId}": the given skill "${skillId}" does not exist.`)
 
 			// Check if the current exercise is done. Also create a userSkill entry if none is present yet.
 			let { exercise, userSkill } = await getCurrentSkillExercise(user.id, skillId, dataSources)
 			if (!userSkill)
 				userSkill = await dataSources.database.UserSkill.create({ userId: user.id, skillId })
 			if (exercise)
-				throw new Error(`Cannot start a new exercise: the previous one is not done yet.`)
+				throw new Error(`Cannot start a new exercise for the skill "${skillId}": the previous one is not done yet.`)
 
 			// ToDo: select the most appropriate exercise for this user.
 			const exerciseId = skill.exercises[0] // Temporary: just pick the first.
@@ -107,17 +107,17 @@ const resolvers = {
 			// Check if there is a user.
 			const user = getPrincipal()
 			if (!user)
-				throw new Error(`Cannot submit the exercise: no user is logged in.`)
+				throw new Error(`Cannot submit a solution for the skill "${skillId}": no user is logged in.`)
 
 			// Check if the given skill exists.
 			const skill = skills[skillId]
 			if (!skill)
-				throw new Error(`Cannot submit the exercise: the given skill "${skillId}" does not exist.`)
+				throw new Error(`Cannot submit a solution for the skill "${skillId}": the given skill "${skillId}" does not exist.`)
 
 			// Check if the current exercise is done.
 			const { exercise, userSkill } = await getCurrentSkillExercise(user.id, skillId, dataSources)
 			if (!exercise)
-				throw new Error(`Cannot submit the exercise: no exercise is open at the moment.`)
+				throw new Error(`Cannot submit a solution for the skill "${skillId}": no exercise is open at the moment.`)
 
 			// Grade the input.
 			const exerciseId = exercise.exerciseId
@@ -139,19 +139,19 @@ const resolvers = {
 			// Check if there is a user.
 			const user = getPrincipal()
 			if (!user)
-				throw new Error(`Cannot split up the exercise: no user is logged in.`)
+				throw new Error(`Cannot split up the current exercise for the skill "${skillId}": no user is logged in.`)
 
 			// Check if the given skill exists.
 			const skill = skills[skillId]
 			if (!skill)
-				throw new Error(`Cannot split up the exercise: the given skill "${skillId}" does not exist.`)
+				throw new Error(`Cannot split up the current exercise for the skill "${skillId}": the given skill "${skillId}" does not exist.`)
 
 			// Check if the current exercise can be split up.
 			let { exercise, userSkill } = await getCurrentSkillExercise(user.id, skillId, dataSources)
 			if (!exercise)
-				throw new Error(`Cannot split up the exercise: no exercise is open at the moment.`)
+				throw new Error(`Cannot split up the current exercise for the skill "${skillId}": no exercise is open at the moment.`)
 			if (exercise.status !== 'started')
-				throw new Error(`Cannot split up the exercise: it has already been split up.`)
+				throw new Error(`Cannot split up the current exercise for the skill "${skillId}": it has already been split up.`)
 
 			// Split up the exercise.
 			await exercise.update({ status: 'split' }) // ToDo: update coefficients accordingly.
@@ -163,19 +163,19 @@ const resolvers = {
 			// Check if there is a user.
 			const user = getPrincipal()
 			if (!user)
-				throw new Error(`Cannot give up the exercise: no user is logged in.`)
+				throw new Error(`Cannot give up the current exercise for the skill "${skillId}": no user is logged in.`)
 
 			// Check if the given skill exists.
 			const skill = skills[skillId]
 			if (!skill)
-				throw new Error(`Cannot give up the exercise: the given skill "${skillId}" does not exist.`)
+				throw new Error(`Cannot give up the current exercise for the skill "${skillId}": the given skill "${skillId}" does not exist.`)
 
 			// Check if the current exercise can be split up.
 			let { exercise, userSkill } = await getCurrentSkillExercise(user.id, skillId, dataSources)
 			if (!exercise)
-				throw new Error(`Cannot give up the exercise: no exercise is open at the moment.`)
+				throw new Error(`Cannot give up the current exercise for the skill "${skillId}": no exercise is open at the moment.`)
 			if (exercise.status !== 'split')
-				throw new Error(`Cannot give up the exercise: only split-up exercises can be given up.`)
+				throw new Error(`Cannot give up the current exercise for the skill "${skillId}": only split-up exercises can be given up.`)
 
 			// Split up the exercise.
 			await exercise.update({ status: 'givenUp' }) // ToDo: update coefficients accordingly.
