@@ -196,7 +196,7 @@ const resolvers = {
 		id: userSkill => userSkill.skillId,
 		name: userSkill => skills[userSkill.skillId].name,
 		exercises: async (userSkill, _args, { dataSources }) => await dataSources.database.ExerciseSample.findAll({ where: { userSkillId: userSkill.id } }),
-		currentExercise: async (userSkill, _args, { dataSources }) => (await getCurrentSkillExercise(userSkill.userId, userSkill.skillId, dataSources)).exercise,
+		currentExercise: async (userSkill, _args, { dataSources }) => await dataSources.database.ExerciseSample.findByPk(userSkill.currentExerciseId),
 	},
 	Exercise: {
 		id: exerciseSample => exerciseSample.exerciseId,

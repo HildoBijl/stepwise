@@ -165,9 +165,7 @@ class Database extends DataSource {
 			this.ExerciseSample.create({ userSkillId: exampleSkill.id, exerciseId: 'exampleExercise1', state: { a: 2, b: 6 }, status: 'solved', createdAt: date.setSeconds(date.getSeconds() + 1) }),
 			this.ExerciseSample.create({ userSkillId: exampleSkill.id, exerciseId: 'exampleExercise1', state: { a: 7, b: 63 }, status: 'started', createdAt: date.setSeconds(date.getSeconds() + 1) }),
 		])
-		console.log('AA')
-		exampleSkill.update({ currentExerciseId: exercises[2].id }).then(() => console.log('OK'))
-		console.log('BB')
+		exampleSkill.update({ currentExerciseId: exercises[2].id })
 		const submissions = await Promise.all([
 			this.ExerciseSubmission.create({ exerciseSampleId: exercises[0].id, input: { x: 7 }, correct: false, createdAt: date.setSeconds(date.getSeconds() + 1) }),
 			this.ExerciseSubmission.create({ exerciseSampleId: exercises[0].id, input: { x: 11 }, correct: false, createdAt: date.setSeconds(date.getSeconds() + 1) }),
