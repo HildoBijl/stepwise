@@ -6,13 +6,13 @@ const resolvers = {
 	Exercise: {
 		id: exerciseSample => exerciseSample.exerciseId,
 		startedOn: exerciseSample => exerciseSample.createdAt,
-		submissions: async (exerciseSample, _args, { dataSources }) => await dataSources.database.ExerciseSubmission.findAll({ where: { exerciseSampleId: exerciseSample.id } }),
+		submissions: async (exerciseSample, _args, { db }) => await db.ExerciseSubmission.findAll({ where: { exerciseSampleId: exerciseSample.id } }),
 	},
 
 	Mutation: {
-		startExercise: async (_source, { skillId }, { dataSources, getPrincipal }) => {
+		startExercise: async (_source, { skillId }, { db, getUser }) => {
 			// Check if there is a user.
-			const user = getPrincipal()
+			const user = await getUser()
 			if (!user)
 				throw new Error(`Cannot start a new exercise for the skill "${skillId}": no user is logged in.`)
 
@@ -22,9 +22,9 @@ const resolvers = {
 				throw new Error(`Cannot start a new exercise for the skill "${skillId}": the given skill "${skillId}" does not exist.`)
 
 			// Check if the current exercise is done. Also create a userSkill entry if none is present yet.
-			let { exercise, userSkill } = await getCurrentExerciseOfSkill(user.id, skillId, dataSources)
+			let { exercise, userSkill } = await getCurrentExerciseOfSkill(user.id, skillId, db)
 			if (!userSkill)
-				userSkill = await dataSources.database.UserSkill.create({ userId: user.id, skillId })
+				userSkill = await db.UserSkill.create({ userId: user.id, skillId })
 			if (exercise)
 				throw new Error(`Cannot start a new exercise for the skill "${skillId}": the previous one is not done yet.`)
 
@@ -34,14 +34,14 @@ const resolvers = {
 			// Start the new exercise.
 			const { generateState } = require(`step-wise/edu/exercises/${exerciseId}`)
 			const state = generateState()
-			exercise = await dataSources.database.ExerciseSample.create({ userSkillId: userSkill.id, exerciseId, state, status: 'started' })
+			exercise = await db.ExerciseSample.create({ userSkillId: userSkill.id, exerciseId, state, status: 'started' })
 			userSkill.update({ currentExerciseId: exercise.id }) // ToDo: check if we need to wait on this?
 			return exercise
 		},
 
-		submitExercise: async (_source, { skillId, input, skillIds }, { dataSources, getPrincipal }) => {
+		submitExercise: async (_source, { skillId, input, skillIds }, { db, getUser }) => {
 			// Check if there is a user.
-			const user = getPrincipal()
+			const user = await getUser()
 			if (!user)
 				throw new Error(`Cannot submit a solution for the skill "${skillId}": no user is logged in.`)
 
@@ -51,7 +51,7 @@ const resolvers = {
 				throw new Error(`Cannot submit a solution for the skill "${skillId}": the given skill "${skillId}" does not exist.`)
 
 			// Check if the current exercise is done.
-			const { exercise, userSkill } = await getCurrentExerciseOfSkill(user.id, skillId, dataSources)
+			const { exercise, userSkill } = await getCurrentExerciseOfSkill(user.id, skillId, db)
 			if (!exercise)
 				throw new Error(`Cannot submit a solution for the skill "${skillId}": no exercise is open at the moment.`)
 
@@ -61,7 +61,7 @@ const resolvers = {
 			const correct = checkInput(exercise.state, input) // ToDo: process results into the coefficients.
 
 			// Store the submission and on a correct one update the status of the exercise to solved.
-			const queries = [dataSources.database.ExerciseSubmission.create({ exerciseSampleId: exercise.id, input })]
+			const queries = [db.ExerciseSubmission.create({ exerciseSampleId: exercise.id, input })]
 			if (correct) {
 				queries.push(exercise.update({ status: exercise.status === 'split' ? 'splitSolved' : 'solved' }))
 				queries.push(userSkill.update({ currentExerciseId: null }))
@@ -69,12 +69,12 @@ const resolvers = {
 			await Promise.all(queries)
 
 			// Return appropriate skill data. [ToDo: consider returning only affected skills and doing so automatically.]
-			return await getSkills(user.id, skillIds || [skillId], dataSources)
+			return await getSkills(user.id, skillIds || [skillId], db)
 		},
 
-		splitUpExercise: async (_source, { skillId, skillIds }, { dataSources, getPrincipal }) => {
+		splitUpExercise: async (_source, { skillId, skillIds }, { db, getUser }) => {
 			// Check if there is a user.
-			const user = getPrincipal()
+			const user = await getUser()
 			if (!user)
 				throw new Error(`Cannot split up the current exercise for the skill "${skillId}": no user is logged in.`)
 
@@ -84,7 +84,7 @@ const resolvers = {
 				throw new Error(`Cannot split up the current exercise for the skill "${skillId}": the given skill "${skillId}" does not exist.`)
 
 			// Check if the current exercise can be split up.
-			let { exercise } = await getCurrentExerciseOfSkill(user.id, skillId, dataSources)
+			let { exercise } = await getCurrentExerciseOfSkill(user.id, skillId, db)
 			if (!exercise)
 				throw new Error(`Cannot split up the current exercise for the skill "${skillId}": no exercise is open at the moment.`)
 			if (exercise.status !== 'started')
@@ -94,12 +94,12 @@ const resolvers = {
 			await exercise.update({ status: 'split' }) // ToDo: update coefficients accordingly.
 
 			// Return appropriate skill data. [ToDo: consider returning only affected skills and doing so automatically.]
-			return await getSkills(user.id, skillIds || [skillId], dataSources)
+			return await getSkills(user.id, skillIds || [skillId], db)
 		},
 
-		giveUpExercise: async (_source, { skillId, skillIds }, { dataSources, getPrincipal }) => {
+		giveUpExercise: async (_source, { skillId, skillIds }, { db, getUser }) => {
 			// Check if there is a user.
-			const user = getPrincipal()
+			const user = await getUser()
 			if (!user)
 				throw new Error(`Cannot give up the current exercise for the skill "${skillId}": no user is logged in.`)
 
@@ -109,7 +109,7 @@ const resolvers = {
 				throw new Error(`Cannot give up the current exercise for the skill "${skillId}": the given skill "${skillId}" does not exist.`)
 
 			// Check if the current exercise can be split up.
-			let { exercise, userSkill } = await getCurrentExerciseOfSkill(user.id, skillId, dataSources)
+			let { exercise, userSkill } = await getCurrentExerciseOfSkill(user.id, skillId, db)
 			if (!exercise)
 				throw new Error(`Cannot give up the current exercise for the skill "${skillId}": no exercise is open at the moment.`)
 			if (exercise.status !== 'split')
@@ -123,7 +123,7 @@ const resolvers = {
 			await Promise.all(queries)
 
 			// Return appropriate skill data. [ToDo: consider returning only affected skills and doing so automatically.]
-			return await getSkills(user.id, skillIds || [skillId], dataSources)
+			return await getSkills(user.id, skillIds || [skillId], db)
 		},
 	},
 }

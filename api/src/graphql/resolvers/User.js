@@ -1,5 +1,6 @@
-const { checkSkillIds } = require('../util/Skill')
 const { Op } = require('sequelize')
+
+const { checkSkillIds } = require('../util/Skill')
 
 const resolvers = {
 	User: {

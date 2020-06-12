@@ -46,12 +46,7 @@ const createServer = ({ config, database, sessionStore, surfConext }) => {
 	const apollo = new ApolloServer({
 		typeDefs,
 		resolvers,
-		dataSources: () => ({
-			database, // DEPRECATED
-		}),
 		context: ({ req }) => ({
-			getPrincipal: () => Object.freeze(req.session.principal), // DEPRECATED
-
 			/**
 			 * All database models
 			 */

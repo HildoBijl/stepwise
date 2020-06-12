@@ -1,4 +1,4 @@
-const router = require('express').Router();
+const router = require('express').Router()
 const { MemoryStore } = require('express-session')
 
 // The following user-ids can be logged in via the devlogin:

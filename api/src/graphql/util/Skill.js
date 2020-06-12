@@ -11,11 +11,11 @@ function checkSkillIds(ids) {
 }
 
 // getSkills uses a userId and an array of skillIds to get data from the database.
-async function getSkills(userId, skillIds = [], dataSources) {
+async function getSkills(userId, skillIds = [], db) {
 	checkSkillIds(skillIds)
 	if (skillIds.length === 0)
 		return []
-	return await dataSources.database.UserSkill.findAll({ where: { userId, skillId: { [Op.or]: skillIds } } })
+	return await db.UserSkill.findAll({ where: { userId, skillId: { [Op.or]: skillIds } } })
 }
 
 module.exports = {
