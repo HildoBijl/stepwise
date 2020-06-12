@@ -3,7 +3,9 @@ import { createContext, useContext, useMemo } from 'react'
 import { useUser, LogOut } from './user'
 import { CoursesProvider } from './pages/Courses'
 import Course, { useCourseTitle } from './pages/Course'
+import Skill, { useSkillTitle } from './pages/Skill'
 import * as pages from './pages'
+import SkillNLI from './pages/SkillNLI'
 
 // Set up a route context object through which child elements can access the current route.
 const RouteContext = createContext(null)
@@ -59,6 +61,11 @@ function getRoutes(user = null) {
 	if (!user) {
 		return processRoutes({
 			...commonPages,
+			'skill/:skillId': {
+				name: 'skill',
+				component: pages.SkillNLI,
+				title: useSkillTitle,
+			},
 			'': {
 				name: 'home',
 				component: pages.Home,
@@ -75,6 +82,11 @@ function getRoutes(user = null) {
 			name: 'logOut',
 			component: LogOut,
 			title: 'Logging out...'
+		},
+		'skill/:skillId': {
+			name: 'skill',
+			component: Skill,
+			title: useSkillTitle,
 		},
 		'': {
 			name: 'courses',

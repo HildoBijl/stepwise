@@ -24,5 +24,5 @@ const skills = {
 		exercises: ['summationOfMultiplications1','summationOfMultiplications2'],
 	},
 }
-Object.keys(skills).forEach(key => skills[key].key = key) // Inform the skills of their own key.
+Object.keys(skills).forEach(key => skills[key].id = key) // Inform the skills of their own id.
 module.exports = skills

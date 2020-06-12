@@ -2,15 +2,23 @@ import React, { createContext, useContext } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
 import { Link } from 'react-router-dom'
+
+import skills from 'step-wise/edu/skills'
 import { usePaths } from '../routing'
 
 export default function Courses() {
-	const contents = useContents()
+	// const contents = useContents()
+	const paths = usePaths()
 
 	return (
 		<>
 			<h1>Courses</h1>
-			{contents}
+			<p>Currently the courses have not been implemented. But you can practice individual skills.</p>
+			<h1>Skills</h1>
+			<p>Click on the skills below to practice them.</p>
+			<ul>
+			{Object.values(skills).map(skill => <li key={skill.id}><Link to={paths.skill({ skillId: skill.id })}>{skill.name}</Link></li>)}
+			</ul>
 		</>
 	)
 }
