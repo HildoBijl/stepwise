@@ -8,12 +8,10 @@ const schema = gql`
 		giveUpExercise(skillId: String!, skillIds: [String]): [Skill]!
 	}
 
-	enum ExerciseStatus { started solved split splitSolved givenUp }
-
 	type Exercise {
 		id: String!
 		state: JSON!
-		status: ExerciseStatus!
+		active: Boolean!
 		startedOn: DateTime!
 		submissions: [Submission]!
 	}

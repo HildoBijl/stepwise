@@ -6,11 +6,7 @@ module.exports = (sequelize, DataTypes) => {
 			allowNull: false,
 			primaryKey: true,
 		},
-		// userId: {
-		// 	type: DataTypes.UUID,
-		// 	allowNull: false,
-		// },
-		skillId: { // For example 'gasLaw'.
+		skillId: {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
@@ -43,9 +39,7 @@ module.exports = (sequelize, DataTypes) => {
 
 	UserSkill.associate = models => {
 		UserSkill.belongsTo(models.User)
-
-		UserSkill.hasMany(models.ExerciseSample, { onDelete: 'CASCADE' }) // ToDo: check if we can use composite foreign keys for links. It seems not: sequelize doesn't support this.
-		UserSkill.belongsTo(models.ExerciseSample, { as: 'currentExercise', constraints: false, allowNull: true, defaultValue: null })
+		UserSkill.hasMany(models.ExerciseSample, { onDelete: 'CASCADE' })
 	}
 
 	return UserSkill

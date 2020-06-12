@@ -6,20 +6,7 @@ module.exports = (sequelize, DataTypes) => {
 			allowNull: false,
 			primaryKey: true,
 		},
-		// userId: {
-		// 	type: DataTypes.UUID,
-		// 	allowNull: false,
-		// },
-		// skillId: {
-		// 	type: DataTypes.STRING,
-		// 	allowNull: false,
-		// },
-		// number: { // Separately incrementing number for each UserSkill. (Can be based on createdAt?)
-		// 	type: DataTypes.INTEGER,
-		// 	allowNull: false,
-		//   // autoIncrement: true, // ToDo: check if this can work as desired: incrementing per unique ['userId','skillId'].
-		// },
-		exerciseId: { // For example 'gasLawAppliedToBalloon'.
+		exerciseId: {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
@@ -27,17 +14,16 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.JSON,
 			allowNull: false,
 		},
-		status: {
-			type: DataTypes.ENUM('started', 'solved', 'split', 'splitSolved', 'givenUp'),
+		active: {
+			type: DataTypes.BOOLEAN,
+			defaultValue: true,
 			allowNull: false,
 		},
 	})
 
 	ExerciseSample.associate = models => {
 		ExerciseSample.belongsTo(models.UserSkill)
-		ExerciseSample.hasOne(models.UserSkill, { as: 'currentExercise', constraints: false, allowNull: true, defaultValue: null })
-
-		ExerciseSample.hasMany(models.ExerciseSubmission, { onDelete: 'CASCADE' }) // ToDo: check if we can use composite foreign keys for links. It seems not: sequelize doesn't support this.
+		ExerciseSample.hasMany(models.ExerciseSubmission, { onDelete: 'CASCADE' })
 	}
 
 	return ExerciseSample

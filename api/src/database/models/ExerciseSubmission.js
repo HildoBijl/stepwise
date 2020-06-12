@@ -6,18 +6,12 @@ module.exports = (sequelize, DataTypes) => {
 			allowNull: false,
 			primaryKey: true,
 		},
-		// attempt: { // Separately incrementing number for each ExerciseSample. (Can be based on createdAt?)
-		// 	type: DataTypes.INTEGER,
-		// 	allowNull: false,
-		// 	primaryKey: true,
-		//   autoIncrement: true,
-		// },
 		input: {
 			type: DataTypes.JSON,
 			allowNull: false,
 		},
 		// correct: {
-		// 	type: DataTypes.BOOLEAN,
+		// 	type: DataTypes.JSON,
 		// 	allowNull: false,
 		// },
 	})

@@ -12,7 +12,7 @@ const resolvers = {
 	Skill: {
 		...commonResolvers,
 		exercises: async (userSkill, _args, { db }) => await db.ExerciseSample.findAll({ where: { userSkillId: userSkill.id } }),
-		currentExercise: async (userSkill, _args, { db }) => await db.ExerciseSample.findByPk(userSkill.currentExerciseId),
+		currentExercise: async (userSkill, _args, { db }) => await db.ExerciseSample.findOne({ where: { userSkillId: userSkill.id, active: true, } })
 	},
 
 	SkillWithoutExercises: {

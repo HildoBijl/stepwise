@@ -34,7 +34,7 @@ const resolvers = {
 			// Start the new exercise.
 			const { generateState } = require(`step-wise/edu/exercises/${exerciseId}`)
 			const state = generateState()
-			exercise = await db.ExerciseSample.create({ userSkillId: userSkill.id, exerciseId, state, status: 'started' })
+			exercise = await db.ExerciseSample.create({ userSkillId: userSkill.id, exerciseId, state, active: true })
 			userSkill.update({ currentExerciseId: exercise.id }) // ToDo: check if we need to wait on this?
 			return exercise
 		},
@@ -60,10 +60,10 @@ const resolvers = {
 			const { checkInput } = require(`step-wise/edu/exercises/${exerciseId}`)
 			const correct = checkInput(exercise.state, input) // ToDo: process results into the coefficients.
 
-			// Store the submission and on a correct one update the status of the exercise to solved.
+			// Store the submission and on a correct one update the active field of the exercise to solved.
 			const queries = [db.ExerciseSubmission.create({ exerciseSampleId: exercise.id, input })]
 			if (correct) {
-				queries.push(exercise.update({ status: exercise.status === 'split' ? 'splitSolved' : 'solved' }))
+				queries.push(exercise.update({ active: false }))
 				queries.push(userSkill.update({ currentExerciseId: null }))
 			}
 			await Promise.all(queries)
@@ -87,11 +87,10 @@ const resolvers = {
 			let { exercise } = await getCurrentExerciseOfSkill(user.id, skillId, db)
 			if (!exercise)
 				throw new Error(`Cannot split up the current exercise for the skill "${skillId}": no exercise is open at the moment.`)
-			if (exercise.status !== 'started')
-				throw new Error(`Cannot split up the current exercise for the skill "${skillId}": it has already been split up.`)
 
 			// Split up the exercise.
-			await exercise.update({ status: 'split' }) // ToDo: update coefficients accordingly.
+			// ToDo: add a submission for splitting up.
+			// ToDo: update coefficients accordingly.
 
 			// Return appropriate skill data. [ToDo: consider returning only affected skills and doing so automatically.]
 			return await getSkills(user.id, skillIds || [skillId], db)
@@ -112,15 +111,9 @@ const resolvers = {
 			let { exercise, userSkill } = await getCurrentExerciseOfSkill(user.id, skillId, db)
 			if (!exercise)
 				throw new Error(`Cannot give up the current exercise for the skill "${skillId}": no exercise is open at the moment.`)
-			if (exercise.status !== 'split')
-				throw new Error(`Cannot give up the current exercise for the skill "${skillId}": only split-up exercises can be given up.`)
 
-			// Split up the exercise. [ToDo: update coefficients accordingly.]
-			queries = [
-				exercise.update({ status: 'givenUp' }),
-				userSkill.update({ currentExerciseId: null }),
-			]
-			await Promise.all(queries)
+			// Split up the exercise. [ToDo: insert a submission for giving up.] [ToDo: update coefficients accordingly.]
+			await exercise.update({ active: false })
 
 			// Return appropriate skill data. [ToDo: consider returning only affected skills and doing so automatically.]
 			return await getSkills(user.id, skillIds || [skillId], db)
