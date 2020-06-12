@@ -34,6 +34,7 @@ const resolvers = {
 				queries.push(activeExercise.update({ active: false }))
 			}
 			await Promise.all(queries)
+			// ToDo: add transactions.
 
 			// Return affected skills.
 			return [userSkill]
@@ -45,6 +46,7 @@ const resolvers = {
 			// Split up the exercise.
 			// ToDo: add a submission for splitting up.
 			// ToDo: update coefficients accordingly.
+			// ToDo: add transactions.
 
 			// Return affected skills.
 			return [userSkill]
@@ -53,7 +55,7 @@ const resolvers = {
 		giveUpExercise: async (_source, { skillId }, { db, getUserId }) => {
 			const { userSkill, activeExercise } = await getActiveExerciseData(getUserId(), skillId, db, true)
 
-			// End the exercise. [ToDo: insert a submission for giving up.] [ToDo: update coefficients accordingly.]
+			// End the exercise. [ToDo: insert a submission for giving up.] [ToDo: update coefficients accordingly.] [ToDo: add transactions.]
 			await activeExercise.update({ active: false })
 
 			// Return affected skills.

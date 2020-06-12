@@ -1,10 +1,11 @@
 const skills = require('step-wise/edu/skills')
+const { AuthenticationError, UserInputError  } = require('apollo-server-express')
 
 // checkSkillIds checks an array of skillIds to see if they exist. It throws an error on an unknown skill. Otherwise it does nothing.
 function checkSkillIds(ids) {
 	ids.forEach(id => {
 		if (!skills[id])
-			throw new Error(`Unknown skill "${id}" encountered.`)
+			throw new UserInputError(`Unknown skill "${id}" encountered.`)
 	})
 }
 
@@ -23,7 +24,7 @@ async function getUserSkills(userId, skillIds, db) {
 	})
 
 	if (!user)
-		throw new Error(`No user is logged in.`)
+		throw new AuthenticationError(`No user is logged in.`)
 
 	return user.userSkills
 }
