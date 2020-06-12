@@ -1,7 +1,5 @@
 import React, { useState, Suspense } from 'react'
 
-import skills from 'step-wise/edu/skills'
-
 export default function Exercise({ id, state, status, split, giveUp, submit, newExercise }) {
 	const Problem = React.lazy(() => import(`../exercises/${id}/Problem`))
 	const Solution = React.lazy(() => import(`../exercises/${id}/Solution`))

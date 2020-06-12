@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useRouteMatch } from 'react-router-dom'
 
 import skills from 'step-wise/edu/skills'

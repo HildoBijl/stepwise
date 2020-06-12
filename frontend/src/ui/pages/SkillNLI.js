@@ -4,7 +4,6 @@ import { useRouteMatch, Link } from 'react-router-dom'
 import Exercise from '../components/Exercise'
 
 import { usePaths } from '../routing'
-import skills from 'step-wise/edu/skills'
 import { getNewExercise, checkExerciseInput } from 'step-wise/edu/util'
 
 export default function SkillNLI() {

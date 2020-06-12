@@ -5,7 +5,6 @@ import { CoursesProvider } from './pages/Courses'
 import Course, { useCourseTitle } from './pages/Course'
 import Skill, { useSkillTitle } from './pages/Skill'
 import * as pages from './pages'
-import SkillNLI from './pages/SkillNLI'
 
 // Set up a route context object through which child elements can access the current route.
 const RouteContext = createContext(null)

@@ -23,18 +23,18 @@ export default function Courses() {
 	)
 }
 
-function useContents() {
-	const courses = useCourses()
-	const paths = usePaths()
+// function useContents() {
+// 	const courses = useCourses()
+// 	const paths = usePaths()
 
-	if (!courses) return <p>Loading...</p>
+// 	if (!courses) return <p>Loading...</p>
 
-	return (
-		<ul>
-			{courses.map(course => <li key={course.id}><Link to={paths.course({ courseId: course.id })}>{course.name}</Link></li>)}
-		</ul>
-	)
-}
+// 	return (
+// 		<ul>
+// 			{courses.map(course => <li key={course.id}><Link to={paths.course({ courseId: course.id })}>{course.name}</Link></li>)}
+// 		</ul>
+// 	)
+// }
 
 // The context is used to spread the data to child elements.
 const CoursesContext = createContext(null)
