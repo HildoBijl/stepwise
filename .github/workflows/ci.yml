@@ -12,11 +12,11 @@ jobs:
     name: Run all tests
     runs-on: ubuntu-latest
     env:
-      POSTGRES_HOST=postgres
-      POSTGRES_PORT=5433
-      POSTGRES_DB=testing
-      POSTGRES_USER=admin
-      POSTGRES_PASSWORD=12345
+      POSTGRES_HOST: "postgres"
+      POSTGRES_PORT: "5433"
+      POSTGRES_DB: "testing"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "12345"
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
