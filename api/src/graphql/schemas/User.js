@@ -8,7 +8,7 @@ const schema = gql`
 	type User {
 		name: String!
 		email: EmailAddress!
-		skills(ids: [String]): [Skill]!
+		skills(ids: [String]): [SkillWithoutExercises]!
 	}
 `
 
