@@ -3,7 +3,10 @@ const { Sequelize } = require('sequelize')
 const { createServer } = require('./server')
 const { Database } = require('./database')
 const { SurfConext } = require('./openid')
+const session = require('express-session')
 const Redis = require('redis')
+const RedisStore = require('connect-redis')(session)
+const devlogin = require('./server/auth/devlogin')
 
 const sequelize = new Sequelize(
 	process.env.POSTGRES_DB,
@@ -28,10 +31,11 @@ const surfConext = new SurfConext(
 	process.env.SURFCONEXT_SECRET,
 )
 
-const redis = process.env.REDIS_HOST ? Redis.createClient({
-	host: process.env.REDIS_HOST,
-	port: process.env.REDIS_PORT,
-}) : null
+const sessionStore = process.env.REDIS_HOST ? new RedisStore({
+	client: Redis.createClient({
+		host: process.env.REDIS_HOST,
+		port: process.env.REDIS_PORT,
+	})}) : devlogin.createMemoryStore()
 
 const config = {
 	sslEnabled: process.env.NODE_ENV === 'production',
@@ -49,9 +53,12 @@ sequelize.authenticate()
 		const server = createServer({
 			config,
 			database,
-			redis,
+			sessionStore,
 			surfConext,
 		})
+		if (process.env.NODE_ENV === 'development') {
+			server.use('/auth/_devlogin', devlogin.router)
+		}
 		server.listen(process.env.PORT, () => {
 			console.log(`Server listening on port ${process.env.PORT}`)
 		})

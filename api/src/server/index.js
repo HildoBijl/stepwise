@@ -3,7 +3,6 @@ const { ApolloServer } = require('apollo-server-express')
 const session = require('express-session')
 const { typeDefs, resolvers } = require('../graphql')
 const cors = require('cors')
-const RedisStore = require('connect-redis')(session)
 const Joi = require('@hapi/joi')
 
 const configValidationSchema = Joi.object({
@@ -14,7 +13,7 @@ const configValidationSchema = Joi.object({
 	corsUrls: Joi.array().items(Joi.string().uri()),
 })
 
-const createServer = ({ config, database, redis, surfConext }) => {
+const createServer = ({ config, database, sessionStore, surfConext }) => {
 	const configValidationError = configValidationSchema.validate(config).error
 	if (configValidationError) {
 		throw configValidationError
@@ -24,7 +23,7 @@ const createServer = ({ config, database, redis, surfConext }) => {
 
 	app.use(session({
 		name: 'session.id',
-		store: redis ? new RedisStore({ client: redis }) : undefined,
+		store: sessionStore,
 		secret: config.sessionSecret,
 		resave: false,
 		saveUninitialized: false,
@@ -51,7 +50,7 @@ const createServer = ({ config, database, redis, surfConext }) => {
 			database,
 		}),
 		context: ({ req }) => ({
-			getPrincipal: () => (process.env.NODE_ENV === 'development' ? { id: '00000000-0000-0000-0000-000000000000' } : Object.freeze(req.session.principal)), // On dev use test user for easier testing.
+			getPrincipal: () => Object.freeze(req.session.principal),
 		}),
 		playground: {
 			settings: {
@@ -61,23 +60,6 @@ const createServer = ({ config, database, redis, surfConext }) => {
 	})
 	apollo.applyMiddleware({ app, cors: corsOptions, path: '/graphql' });
 
-	app.get('/auth/_devlogin', async (req, res) => {
-		req.session.initiated = new Date()
-		const [user] = await database.User.findOrCreate({
-			where: {
-				email: req.query.email,
-			},
-			defaults: {
-				name: req.query.name,
-				email: req.query.email,
-			},
-		})
-		// TODO update user info?
-		req.session.principal = {
-			id: user.id,
-		}
-		res.redirect(config.homepageUrl)
-	})
 	app.get('/auth/logout', (req, res) => {
 		req.session.destroy(() => {
 			res.redirect(config.homepageUrl)
