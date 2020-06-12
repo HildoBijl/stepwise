@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { Problem, Solution } from 'step-wise/edu/exercises/exampleExercise1'
+import { Problem, Solution } from '../exercises/exampleExercise1'
 
 export default function TestExercise() {
 	const state = { a: 4, b: 24 }
