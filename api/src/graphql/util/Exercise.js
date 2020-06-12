@@ -1,16 +1,55 @@
-// getCurrentExerciseOfSkill returns { userSkill, exercise } for the given userId and skillId, where exercise is the currently active exercise. It is null if no active exercise exists for the given skill. userSkill is null if no entry exists for this skill in the database (in which case there certainly is no active exercise).
-async function getCurrentExerciseOfSkill(userId, skillId, db) {
-	// [ToDo: check if this can be done in one query, using a composite primary key or a join.]
-	// Extract the user skill from the database.
-	const userSkill = await db.UserSkill.findOne({ where: { userId, skillId } })
-	if (!userSkill)
-		return { userSkill, exercise: null }
+const skills = require('step-wise/edu/skills')
 
-	// Find the last exercise and see if it's active. (It should be, but just in case.)
-	const exercise = await db.ExerciseSample.findOne({ where: { userSkillId: userSkill.id, active: true } })
-	return { userSkill, exercise }
+// getActiveExerciseData takes a userId and a skillId. For this, it returns { user, skill, userSkill, activeExercise }. If requireExercise is set to true it ensures that there is an active exercise. On false it ensures that there is not. (Otherwise an error is thrown.)
+async function getActiveExerciseData(userId, skillId, db, requireExercise = true) {
+	// Check if the given skill exists.
+	const skill = skills[skillId]
+	if (!skill)
+		throw new Error(`Unknown skill "${skillId}".`)
+
+	// Check if the user is logged in.
+	if (!userId)
+		throw new Error(`No user is logged in.`)
+
+	// Pull everything from the database.
+	const user = await db.User.findOne({
+		where: { id: userId },
+		include: {
+			model: db.UserSkill,
+			where: { skillId },
+			include: {
+				model: db.ExerciseSample,
+				where: { active: true },
+				required: false,
+			}
+		}
+	})
+	if (!user)
+		throw new Error(`No user is logged in.`)
+
+	// Check the UserSkill.
+	let userSkill = user.userSkills[0]
+	if (!userSkill) {
+		if (requireExercise) {
+			throw new Error(`No exercise is open.`)
+		} else {
+			userSkill = await user.createUserSkill({ skillId })
+		}
+	}
+
+	// Check the exercise.
+	let activeExercise = userSkill.exerciseSamples && userSkill.exerciseSamples[0]
+	if (requireExercise) {
+		if (!activeExercise)
+			throw new Error(`There is no active exercise for skill "${skillId}".`)
+	} else {
+		if (activeExercise)
+			throw new Error(`There is still an active exercise for skill "${skillId}".`)
+	}
+
+	return { user, skill, userSkill, activeExercise }
 }
 
 module.exports = {
-	getCurrentExerciseOfSkill,
+	getActiveExerciseData,
 }

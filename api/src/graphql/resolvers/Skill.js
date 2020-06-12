@@ -1,5 +1,5 @@
 const skills = require('step-wise/edu/skills')
-const { checkSkillIds } = require('../util/Skill')
+const { getUserSkills } = require('../util/Skill')
 
 const commonResolvers = {
 	id: userSkill => userSkill.skillId,
@@ -18,27 +18,12 @@ const resolvers = {
 	},
 
 	Query: {
-		skill: async (_source, { id }, { db, getUser }) => {
-			// Check if there is a user.
-			const user = await getUser()
-			if (!user)
-				throw new Error(`Cannot read skill "${id}": no user is logged in.`)
-
-			// Find the corresponding skill.
-			checkSkillIds([id])
-			return await db.UserSkill.findOne({ where: { userId: user.id, skillId: id } })
+		skill: async (_source, { id }, { db, getUserId }) => {
+			return (await getUserSkills(getUserId(), [id], db))[0]
+			// ToDo later: set up data loader to make the querying behind this more efficient. Now all exercises are obtained one by one, and the same for submissions.
 		},
-		mySkills: async (_source, { ids }, { db, getUser }) => {
-			// Check if there is a user.
-			const user = await getUser()
-			if (!user)
-				throw new Error(`Cannot read skill "${id}": no user is logged in.`)
-
-			// Depending on whether ids have been provided, find the corresponding skills.
-			if (!ids)
-				return await db.UserSkill.findAll({ where: { userId: user.id } })
-			checkSkillIds(ids)
-			return await db.UserSkill.findAll({ where: { userId: user.id, skillId: ids } })
+		mySkills: async (_source, { ids }, { db, getUserId }) => {
+			return await getUserSkills(getUserId(), ids, db)
 		},
 	},
 }

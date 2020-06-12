@@ -2,7 +2,7 @@ const { gql } = require('apollo-server-express')
 
 const schema = gql`
   extend type Query {
-		skill(id: [String]): Skill!
+		skill(id: String): Skill!
 		mySkills(ids: [String]): [SkillWithoutExercises]!
   }
 
