@@ -2,11 +2,11 @@ require('dotenv').config()
 const { Sequelize } = require('sequelize')
 const { createServer } = require('./server')
 const { Database } = require('./database')
-const { SurfConext } = require('./openid')
 const session = require('express-session')
 const Redis = require('redis')
 const RedisStore = require('connect-redis')(session)
 const devlogin = require('./server/auth/devlogin')
+const { SurfConext } = require('./server/auth/openid')
 
 const sequelize = new Sequelize(
 	process.env.POSTGRES_DB,
