@@ -47,10 +47,30 @@ const createServer = ({ config, database, sessionStore, surfConext }) => {
 		typeDefs,
 		resolvers,
 		dataSources: () => ({
-			database,
+			database, // DEPRECATED
 		}),
 		context: ({ req }) => ({
-			getPrincipal: () => Object.freeze(req.session.principal),
+			getPrincipal: () => Object.freeze(req.session.principal), // DEPRECATED
+
+			/**
+			 * All database models
+			 */
+			db: database,
+
+			/**
+			 * Returns the id of the currently logged in user, or `null` otherwise.
+			 * Beware: this doesn’t guarantee you that the user still exists in the DB!
+			 */
+			getUserId: () => req.session.principal ? req.session.principal.id : null,
+
+			/**
+			 * Returns the currently logged in user object, or `null` otherwise.
+			 */
+			getUser: async () => {
+				if (!req.session.principal)
+					return
+				return await database.User.findByPk(req.session.principal.id)
+			},
 		}),
 		playground: {
 			settings: {
