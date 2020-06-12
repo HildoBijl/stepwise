@@ -3,7 +3,7 @@ async function getCurrentExerciseOfSkill(userId, skillId, db) {
 	// [ToDo: check if this can be done in one query, using a composite primary key or a join.]
 	// Extract the user skill from the database.
 	const userSkill = await db.UserSkill.findOne({ where: { userId, skillId } })
-	if (!userSkill || !userSkill.currentExerciseId)
+	if (!userSkill)
 		return { userSkill, exercise: null }
 
 	// Find the last exercise and see if it's active. (It should be, but just in case.)

@@ -1,5 +1,3 @@
-const { Op } = require('sequelize')
-
 const skills = require('step-wise/edu/skills')
 const { checkSkillIds } = require('../util/Skill')
 
@@ -40,7 +38,7 @@ const resolvers = {
 			if (!ids)
 				return await db.UserSkill.findAll({ where: { userId: user.id } })
 			checkSkillIds(ids)
-			return await db.UserSkill.findAll({ where: { userId: user.id, skillId: { [Op.or]: ids } } })
+			return await db.UserSkill.findAll({ where: { userId: user.id, skillId: ids } })
 		},
 	},
 }

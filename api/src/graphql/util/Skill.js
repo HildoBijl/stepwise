@@ -15,7 +15,7 @@ async function getSkills(userId, skillIds = [], db) {
 	checkSkillIds(skillIds)
 	if (skillIds.length === 0)
 		return []
-	return await db.UserSkill.findAll({ where: { userId, skillId: { [Op.or]: skillIds } } })
+	return await db.UserSkill.findAll({ where: { userId, skillId: skillIds } })
 }
 
 module.exports = {
