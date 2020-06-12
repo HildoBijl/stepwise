@@ -3,7 +3,9 @@
 		"start": "node scripts/startWebserver.js",
 		"dev": "nodemon --watch ./ --watch ../shared src/index.js",
 		"test": "jest src/.*\\.test\\.js",
-		"test:watch": "jest --watch src/.*\\.test\\.js"
+		"test:watch": "jest --watch src/.*\\.test\\.js",
+		"db:seed": "node scripts/seedDb.js",
+		"db:clear": "node scripts/clearDb.js"
 	},
 	"dependencies": {
 		"@hapi/joi": "^17.1.1",
