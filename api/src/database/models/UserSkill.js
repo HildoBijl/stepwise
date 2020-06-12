@@ -1,4 +1,4 @@
-const userSkill = (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {
 	const UserSkill = sequelize.define('userSkill', {
 		id: {
 			type: DataTypes.UUID,
@@ -50,5 +50,3 @@ const userSkill = (sequelize, DataTypes) => {
 
 	return UserSkill
 }
-
-module.exports = userSkill

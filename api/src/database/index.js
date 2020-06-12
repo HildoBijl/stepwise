@@ -1,4 +1,5 @@
 const { DataSource } = require('apollo-datasource')
+const { DataTypes } = require('sequelize')
 
 const modelKeys = ['User', 'UserSkill', 'ExerciseSample', 'ExerciseSubmission']
 
@@ -9,7 +10,7 @@ class Database extends DataSource {
 
 		// Import all the models.
 		modelKeys.forEach(key => {
-			this[key] = sequelize.import(`./models/${key}`)
+			this[key] = require(`./models/${key}`)(sequelize, DataTypes)
 		})
 
 		// Make associations.

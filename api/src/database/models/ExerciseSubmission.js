@@ -1,4 +1,4 @@
-const exerciseSubmission = (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {
   const ExerciseSubmission = sequelize.define('exerciseSubmission', {
 		id: {
 			type: DataTypes.UUID,
@@ -28,7 +28,4 @@ const exerciseSubmission = (sequelize, DataTypes) => {
 
   return ExerciseSubmission
 }
-
-module.exports = exerciseSubmission
-
 
