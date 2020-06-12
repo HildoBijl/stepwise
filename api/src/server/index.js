@@ -68,7 +68,7 @@ const createServer = ({ config, database, sessionStore, surfConext }) => {
 			 */
 			getUser: async () => {
 				if (!req.session.principal)
-					return
+					return null
 				return await database.User.findByPk(req.session.principal.id)
 			},
 		}),
