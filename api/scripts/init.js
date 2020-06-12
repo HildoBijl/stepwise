@@ -18,7 +18,7 @@ module.exports.createSequelize = () => new Sequelize(
 				ca: process.env.POSTGRES_SSLCERT.replace(/\\n/g, '\n')
 			},
 		},
-		logging: process.env.NODE_ENV === 'production' ? false : console.log,
+		logging: false,
 	}
 )
 
