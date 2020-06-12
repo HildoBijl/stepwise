@@ -40,8 +40,11 @@ git pull
 echo -e '\033[46m [STEP 2/4] \033[0m Install dependencies and build'
 docker-compose -f ops/docker-compose.yml -p app pull
 
-echo -e '\033[46m [STEP 3/4] \033[0m Restart application'
-systemctl restart app
+echo -e '\033[46m [STEP 3/4] \033[0m Restart application, run migrations'
+systemctl stop app
+# TODO replace with migration:
+docker-compose -f ops/docker-compose.yml -p app run --rm api npm run db:clear
+systemctl start app
 
 echo -e '\033[46m [STEP 4/4] \033[0m Cleanup'
 docker image rm $(docker image ls -f "dangling=true" -q) || true

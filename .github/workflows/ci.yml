@@ -11,6 +11,12 @@ jobs:
   build:
     name: Run all tests
     runs-on: ubuntu-latest
+    env:
+      POSTGRES_HOST: "postgres"
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: "testing"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "12345"
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
@@ -18,6 +24,12 @@ jobs:
         run: |
           sudo mkdir /config
           sudo touch /config/api.env
+          docker network create api
+          docker run -d --network=api --name=$POSTGRES_HOST -p $POSTGRES_PORT:5432 \
+            -e POSTGRES_DB=$POSTGRES_DB \
+            -e POSTGRES_USER=$POSTGRES_USER \
+            -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
+            postgres:11.8
       - name: Build project
         run: |
           docker-compose -f ops/build.yml build
@@ -26,7 +38,14 @@ jobs:
       - name: Run frontend tests
         run: docker run --rm -t -e CI=true frontend_build npm test
       - name: Run api tests
-        run: docker run --rm -t stepwisecom/api npm test
+        run: |
+          docker run --rm -t --network=api \
+            -e POSTGRES_DB=$POSTGRES_DB \
+            -e POSTGRES_USER=$POSTGRES_USER \
+            -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
+            -e POSTGRES_HOST=$POSTGRES_HOST \
+            -e POSTGRES_PORT=$POSTGRES_PORT \
+            stepwisecom/api npm test
       - name: Publish images (only on master branch)
         if: github.ref == 'refs/heads/master'
         env:
