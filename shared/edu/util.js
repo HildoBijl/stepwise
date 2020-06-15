@@ -20,7 +20,7 @@ function selectExercise(skillId) {
 function getNewExercise(skillId) {
 	const exerciseId = selectExercise(skillId)
 	// const { generateState } = require(`./exercises/${exerciseId}`)
-	const generateState = require(`./exercises/${exerciseId}/generateState`)
+	const { generateState } = require(`./exercises/${exerciseId}`)
 	return {
 		id: exerciseId,
 		state: generateState(),
