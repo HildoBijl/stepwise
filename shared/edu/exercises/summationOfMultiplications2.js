@@ -15,7 +15,7 @@ module.exports = {
 		}
 	},
 	checkInput: ({ a, b, c, d }, { ans }) => {
-		return a * b + c * d === parseInt(ans)
+		return a * b + c * d === ans
 	},
 	processResult(result, prevProgress) {
 

@@ -1,6 +1,12 @@
 import React from 'react'
 
+import IntegerInput from '../../inputs/IntegerInput'
+
 export default function Problem({ state }) {
-	const { a, b, c } = state
-	return <span>Calculate {a}*{b} + {c}.</span>
+	const { a, b, c, d } = state
+
+	return <>
+		<h3>Problem</h3>
+		<p>{a}*{b} + {c}*{d} = <IntegerInput name="ans" /></p>
+	</>
 }

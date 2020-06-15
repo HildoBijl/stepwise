@@ -13,7 +13,7 @@ module.exports = {
 		}
 	},
 	checkInput: ({ a, b, c }, { ans }) => {
-		return a * b + c === parseInt(ans)
+		return a * b + c === ans
 	},
 	processResult(result, prevProgress) {
 

@@ -5,7 +5,7 @@ import Exercise from '../components/Exercise'
 
 import { usePaths } from '../routing'
 import skills from 'step-wise/edu/skills'
-import { getNewExercise, checkExerciseInput } from 'step-wise/edu/util'
+import { getNewExercise } from 'step-wise/edu/util'
 
 export default function Skill() {
 	const { params } = useRouteMatch()

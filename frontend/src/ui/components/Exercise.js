@@ -1,66 +1,93 @@
-import React, { useState, Suspense, useEffect } from 'react'
+import React, { useState, Suspense, useContext, useEffect } from 'react'
+
+const ExerciseContext = React.createContext({})
+export { ExerciseContext }
+
+let Problem = () => null, Solution = () => null
 
 export default function Exercise({ id, state, startNewExercise }) {
-	const Problem = React.lazy(() => import(`../exercises/${id}/Problem`))
-	const Solution = React.lazy(() => import(`../exercises/${id}/Solution`))
-
-	// Set up the necessary states.
+	// Set up the necessary states and state handlers.
 	const [input, setInput] = useState({ ans: '' })
-	const [prevInput, setPrevInput] = useState()
-	const [result, setResult] = useState()
-	const [checking, setChecking] = useState(false)
+	const [prevInput, setPrevInput] = useState(null)
+	const [result, setResult] = useState(null)
+	const [givenUp, setGivenUp] = useState(false)
+	const [submitting, setSubmitting] = useState(false)
+	const setInputParameter = (parameter, value) => {
+		setInput({ ...input, [parameter]: value })
+	}
 
 	// Reset when the exercise changes.
 	const reset = () => {
-		setInput({ ans: '' })
+		Problem = React.lazy(() => import(`../exercises/${id}/Problem`))
+		Solution = React.lazy(() => import(`../exercises/${id}/Solution`))
+		setInput({})
 		setPrevInput()
 		setResult()
-		setChecking(false)
+		setGivenUp(false)
+		setSubmitting(false)
 	}
-	useEffect(() => reset, [id, state])
+	useEffect(reset, [id, state])
 
-	// Handle submissions.
-	const handleSubmit = async evt => {
-		evt.preventDefault()
-		setChecking(true)
+	// Set up button handlers.
+	const submit = async () => {
+		if (submitting || givenUp)
+			return
+		setSubmitting(true)
+		// ToDo: for logged-in users submit to the server.
 		const { checkInput } = await import(`step-wise/edu/exercises/${id}`)
 		const result = checkInput(state, input)
-		setChecking(false)
+		setSubmitting(false)
 		setPrevInput(input)
 		setResult(result)
 	}
+	const giveUp = () => {
+		if (submitting)
+			return
+		// ToDo: ask for confirmation.
+		// ToDo: for logged-in users submit to the server.
+		setGivenUp(true)
+	}
 
-	const done = result
+	// Note the current status of the exercise.
+	const solved = result === true || (result && result.done === true)
+	const done = solved || givenUp
 
-	return <>
-		<Suspense fallback={<p>Loading exercise...</p>}>
-			<h3>Problem</h3>
-			<Problem state={state} />
-			<h3>Input space</h3>
-			<form onSubmit={handleSubmit}>
-				<label>
-					ans = <input type="text" value={input.ans} onChange={evt => setInput({ ans: evt.target.value })} />
-				</label>
-				{!done ? <input type="submit" value="Submit" /> : null}
-				{/* {status === 'started' ? <button onClick={split}>Split</button> : null}
-				{status === 'split' ? <button onClick={giveUp}>Give up</button> : null} */}
-			</form>
-			{checking ? <p>Checking...</p> : null}
-			<p>Result: {JSON.stringify(result)}</p>
-			<p>On input: {JSON.stringify(prevInput)}</p>
-		</Suspense>
-		{done ? (
-			<>
-				{/* {status === 'solved' || status === 'splitSolved' ? <p>Well done! You solved it.</p> : null}
-				{status === 'givenUp' ? <p>Oh no ... hope you get the next one!</p> : null} */}
-				<Suspense fallback={<p>Loading solution...</p>}>
-					<h3>Solution</h3>
-					<Solution state={state} />
+	return (
+		<ExerciseContext.Provider value={{ input, prevInput, result, setInputParameter, solved, givenUp, done }}>
+			<form onSubmit={(evt) => evt.preventDefault()}>
+				<Suspense fallback={<p>Loading exercise...</p>}>
+					<Problem state={state} />
 				</Suspense>
-				<p><button onClick={startNewExercise}>Next problem</button></p>
-			</>
-		) : null}
-	</>
+				{
+					done ? (
+						<>
+							<Suspense fallback={<p>Loading solution...</p>}>
+								<Solution state={state} />
+							</Suspense>
+							<p><button onClick={startNewExercise}>Next problem</button></p>
+						</>
+					) : (
+							<p>
+								<button onClick={submit} disabled={submitting}>Submit</button>
+								<button onClick={giveUp} disabled={submitting}>Give up</button>
+							</p>
+						)
+				}
+			</form>
+		</ExerciseContext.Provider>
+	)
 }
 
+export function InputSpace({ children }) {
+	const { input, prevInput } = useContext(ExerciseContext)
+	if (!input && !prevInput)
+		return null
+	return <>{children}</>
+}
 
+export function AntiInputSpace({ children }) {
+	const { input, prevInput } = useContext(ExerciseContext)
+	if (input || prevInput)
+		return null
+	return <>{children}</>
+}

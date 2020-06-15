@@ -1,6 +1,18 @@
 import React from 'react'
 
-export default function Problem({ state, prevInput, result }) {
+import { InputSpace, AntiInputSpace } from '../../components/Exercise'
+import IntegerInput from '../../inputs/IntegerInput'
+
+export default function Problem({ state }) {
 	const { a, b } = state
-	return <span>Calculate the product {a}*{b}.</span>
+
+	return <>
+		<h3>Problem</h3>
+		<InputSpace>
+			<p>{a}*{b} = <IntegerInput name="ans" /></p>
+		</InputSpace>
+		<AntiInputSpace>
+			<p>Calculate the product {a}*{b}.</p>
+		</AntiInputSpace>
+	</>
 }

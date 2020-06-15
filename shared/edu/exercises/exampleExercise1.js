@@ -10,7 +10,7 @@ module.exports = {
 		}
 	},
 	checkInput: ({ a, b }, { x }) => {
-		return a * parseInt(x) === b
+		return a * x === b
 	},
 	processResult(result, prevProgress) {
 
