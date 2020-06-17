@@ -19,7 +19,6 @@ function selectExercise(skillId) {
 // getNewExercise takes a skillId and returns a set of exercise data of the form { id: 'linearEquations', state: { a: 3, b: 12 } }.
 function getNewExercise(skillId) {
 	const exerciseId = selectExercise(skillId)
-	// const { generateState } = require(`./exercises/${exerciseId}`)
 	const { generateState } = require(`./exercises/${exerciseId}`)
 	return {
 		id: exerciseId,

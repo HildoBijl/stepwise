@@ -59,18 +59,18 @@ export default function Exercise({ id, state, startNewExercise }) {
 					<Problem state={state} />
 				</Suspense>
 				{
-					done ? (
-						<>
-							<Suspense fallback={<p>Loading solution...</p>}>
-								<Solution state={state} />
-							</Suspense>
-							<p><button onClick={startNewExercise}>Next problem</button></p>
-						</>
+					!done ? (
+						<p>
+							<button onClick={submit} disabled={submitting}>Submit</button>
+							<button onClick={giveUp} disabled={submitting}>Give up</button>
+						</p>
 					) : (
-							<p>
-								<button onClick={submit} disabled={submitting}>Submit</button>
-								<button onClick={giveUp} disabled={submitting}>Give up</button>
-							</p>
+							<>
+								<Suspense fallback={<p>Loading solution...</p>}>
+									<Solution state={state} />
+								</Suspense>
+								<p><button onClick={startNewExercise}>Next problem</button></p>
+							</>
 						)
 				}
 			</form>

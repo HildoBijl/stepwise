@@ -49,17 +49,17 @@ function getRoutes(user = null) {
 				}
 			},
 		},
+		'skill/:skillId': {
+			name: 'skill',
+			component: Skill,
+			title: useSkillTitle,
+		},
 	}
 
 	// If the user is not logged in, set up a basic route schema.
 	if (!user) {
 		return processRoutes({
 			...commonPages,
-			'skill/:skillId': {
-				name: 'skill',
-				component: pages.SkillNLI,
-				title: useSkillTitle,
-			},
 			'': {
 				name: 'home',
 				component: pages.Home,
@@ -76,11 +76,6 @@ function getRoutes(user = null) {
 			name: 'logOut',
 			component: LogOut,
 			title: 'Logging out...'
-		},
-		'skill/:skillId': {
-			name: 'skill',
-			component: Skill,
-			title: useSkillTitle,
 		},
 		'': {
 			name: 'courses',
