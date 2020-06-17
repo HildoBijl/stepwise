@@ -1,7 +1,8 @@
 import React, { useState, Suspense, useContext, useEffect } from 'react'
 
+import processInput from '../inputs/processInput'
+
 const ExerciseContext = React.createContext({})
-export { ExerciseContext }
 
 let Problem = () => null, Solution = () => null
 
@@ -35,7 +36,7 @@ export default function Exercise({ id, state, startNewExercise }) {
 		setSubmitting(true)
 		// ToDo: for logged-in users submit to the server.
 		const { checkInput } = await import(`step-wise/edu/exercises/${id}`)
-		const result = checkInput(state, input)
+		const result = checkInput(state, processInput(input))
 		setSubmitting(false)
 		setPrevInput(input)
 		setResult(result)
@@ -53,7 +54,7 @@ export default function Exercise({ id, state, startNewExercise }) {
 	const done = solved || givenUp
 
 	return (
-		<ExerciseContext.Provider value={{ input, prevInput, result, setInputParameter, solved, givenUp, done }}>
+		<ExerciseContext.Provider value={{ state, input, prevInput, result, solved, givenUp, done, setInputParameter }}>
 			<form onSubmit={(evt) => evt.preventDefault()}>
 				<Suspense fallback={<p>Loading exercise...</p>}>
 					<Problem state={state} />
@@ -90,4 +91,8 @@ export function AntiInputSpace({ children }) {
 	if (input || prevInput)
 		return null
 	return <>{children}</>
+}
+
+export function useExerciseData() {
+	return useContext(ExerciseContext)
 }
