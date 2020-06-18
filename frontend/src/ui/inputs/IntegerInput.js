@@ -38,9 +38,3 @@ export default function IntegerInput({ name, positive = false }) {
 
 	return <input type="text" name={name} value={value} disabled={!editable} onChange={handleChange} />
 }
-
-export function processInput(value) {
-	if (value === '' || value === '-')
-		return 0
-	return parseInt(value)
-}
