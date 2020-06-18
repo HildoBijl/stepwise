@@ -1,4 +1,4 @@
-const skills = require('./skills')
+const skills = require('../skills')
 
 // selectExercise takes a skill and randomly picks an exercise from the collection.
 function selectExercise(skillId) {
@@ -16,19 +16,19 @@ function selectExercise(skillId) {
 	return exercises[Math.floor(Math.random()*exercises.length)]
 }
 
-// getNewExercise takes a skillId and returns a set of exercise data of the form { id: 'linearEquations', state: { a: 3, b: 12 } }.
+// getNewExercise takes a skillId and returns a set of exercise data of the form { id: 'linearEquations', state: { a: 3, b: 12 } }. The state is given in functional format.
 function getNewExercise(skillId) {
 	const exerciseId = selectExercise(skillId)
-	const { generateState } = require(`./exercises/${exerciseId}`)
+	const { generateState } = require(`../exercises/${exerciseId}`)
 	return {
 		id: exerciseId,
 		state: generateState(),
 	}
 }
 
-// checkExerciseInput checks the input for a given exercise with corresponding state.
+// checkExerciseInput checks the input for a given exercise with corresponding state. It assumes the state and input are already in functional format.
 function checkExerciseInput(exerciseId, state, input) {
-	const { checkInput } = require(`./exercises/${exerciseId}`)
+	const { checkInput } = require(`../exercises/${exerciseId}`)
 	return checkInput(state, input)
 }
 

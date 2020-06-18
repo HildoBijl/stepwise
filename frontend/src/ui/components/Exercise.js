@@ -1,6 +1,6 @@
 import React, { useState, Suspense, useContext, useEffect } from 'react'
 
-import processInput from '../inputs/processInput'
+import { IOtoFO } from 'step-wise/edu/inputTransformation'
 
 const ExerciseContext = React.createContext({})
 
@@ -36,7 +36,7 @@ export default function Exercise({ id, state, startNewExercise }) {
 		setSubmitting(true)
 		// ToDo: for logged-in users submit to the server.
 		const { checkInput } = await import(`step-wise/edu/exercises/${id}`)
-		const result = checkInput(state, processInput(input))
+		const result = checkInput(state, IOtoFO(input))
 		setSubmitting(false)
 		setPrevInput(input)
 		setResult(result)

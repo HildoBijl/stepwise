@@ -51,6 +51,7 @@ export default function LinkBar({ className }) {
 			<Typography variant="h5"><Link to={paths.feedback()}>Feedback</Link></Typography>
 			<Typography variant="h5"><Link to={paths.about()}>About</Link></Typography>
 			<Typography variant="h5"><Link to={paths.history()}>History</Link></Typography>
+			<Typography variant="h5"><Link to={paths.skill({ skillId: 'summation' })}>Practice</Link></Typography>
 		</div>
 	)
 }
