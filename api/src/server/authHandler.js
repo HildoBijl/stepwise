@@ -7,13 +7,14 @@ const express = require('express')
 class AuthStrategyTemplate {
 
 	static INVALID_AUTHENTICATION = 'INVALID_AUTHENTICATION'
-	static USER_NOT_FOUND = 'USER_NOT_FOUND'
 	static UNKNOWN_ERROR = 'UNKNOWN_ERROR'
+	static USER_NOT_FOUND = 'USER_NOT_FOUND'
 
 	/**
 	 * Initiates authentication (e.g. with authentication provider)
 	 *
 	 * @returns string				Redirect URL
+	 * @throws string					Error code (see above)
 	 */
 	async initiate(sessionId) {
 		throw AuthStrategyInterface.UNKNOWN_ERROR
@@ -34,11 +35,11 @@ class AuthStrategyTemplate {
 
 	/**
 	 * @param authData				Provider-specific user data
-	 * @returns User					User object from database
+	 * @returns User|null			User object from database
 	 * @throws string					Error code (see above)
 	 */
-	async login(authData) {
-		throw AuthStrategyInterface.USER_NOT_FOUND
+	async findUser(authData) {
+		return null
 	}
 }
 
@@ -50,21 +51,13 @@ class AuthStrategyTemplate {
 const createAuthHandler = (homepageUrl, authStrategy) => {
 	const router = express.Router()
 
-	router.get('/initiate', async (req, res) => {
-		try {
-			req.session.initiated = new Date()
-			const redirectUrl = await authStrategy.initiate()
-			res.redirect(redirectUrl)
-		} catch(e) {
-			console.log(e)
-			res.redirect(`${homepageUrl}?error=${AuthStrategyTemplate.UNKNOWN_ERROR}`)
-		}
-	})
-
 	router.get('/login', async (req, res) => {
 		try {
 			const authData = await authStrategy.authenticate(req)
-			const user = await authStrategy.login(authData)
+			const user = await authStrategy.findUser(authData)
+			if (!user) {
+				throw AuthStrategyInterface.USER_NOT_FOUND
+			}
 			req.session.principal = {
 				id: user.id
 			}
@@ -78,6 +71,17 @@ const createAuthHandler = (homepageUrl, authStrategy) => {
 				console.log(e)
 			}
 			res.redirect(`${homepageUrl}?error=${code}`)
+		}
+	})
+
+	router.get('/initiate', async (req, res) => {
+		try {
+			req.session.initiated = new Date()
+			const redirectUrl = await authStrategy.initiate()
+			res.redirect(redirectUrl)
+		} catch(e) {
+			console.log(e)
+			res.redirect(`${homepageUrl}?error=${AuthStrategyTemplate.UNKNOWN_ERROR}`)
 		}
 	})
 

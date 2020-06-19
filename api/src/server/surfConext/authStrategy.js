@@ -19,7 +19,7 @@ class AuthStrategy extends AuthStrategyTemplate {
 		}
 	}
 
-	async login(authData) {
+	async findUser(authData) {
 		const surfProfile = await this._db.SurfConextProfile.findOne({
 			where: { sub: authData.sub },
 			include: {
