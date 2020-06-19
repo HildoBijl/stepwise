@@ -1,7 +1,7 @@
 const request = require('supertest')
 const { createServer } = require('../src/server')
-const devlogin = require('../src/server/auth/devlogin')
 const { createSequelize } = require('../scripts/init')
+const SurfConextMock = require('../src/server/surfConext/devmock')
 const { Database } = require('../src/database')
 const noop = () => {}
 
@@ -9,11 +9,9 @@ const defaultConfig = Object.freeze({
 	sslEnabled: false,
 	sessionSecret: '12345678901234567890',
 	sessionMaxAgeMillis: 1000 * 60,
-	homepageUrl: undefined,
+	homepageUrl: 'http://step-wise.test',
 	corsUrls: undefined,
 })
-
-const LOGIN_ROUTE = '/auth/_devlogin'
 
 const sequelize = createSequelize()
 const database = new Database(sequelize)
@@ -23,9 +21,9 @@ class Client {
 		this._server = createServer({
 			database: database,
 			config: defaultConfig,
-			sessionStore: devlogin.createMemoryStore(),
+			sessionStore: SurfConextMock.createPrefilledMemoryStore(),
+			surfConextClient: new SurfConextMock.MockClient(),
 		})
-		this._server.use(LOGIN_ROUTE, devlogin.router)
 		this._cookies = new Set()
 	}
 
@@ -39,12 +37,22 @@ class Client {
 		return Array.from(this._cookies).join(' ')
 	}
 
-	async login(id) {
+	async login(surfConextSub) {
 		const response = await request(this._server)
-			.get(LOGIN_ROUTE)
-			.query({ id })
-			.expect(200)
+			.get(`/auth/surfconext/login`)
+			.query({ sub: surfConextSub })
+			.expect(302)
 		this._storeCookies(response)
+		return response.headers['location']
+	}
+
+	async register(surfConextSub) {
+		const response = await request(this._server)
+			.get(`/auth/surfconext/register`)
+			.query({ sub: surfConextSub })
+			.expect(302)
+		this._storeCookies(response)
+		return response.headers['location']
 	}
 
 	async logout() {
@@ -53,6 +61,7 @@ class Client {
 			.set('Cookie', this._cookieHeader())
 			.expect(302)
 		this._storeCookies(response)
+		return response.headers['location']
 	}
 
 	async graphql(query) {
@@ -67,7 +76,8 @@ class Client {
 }
 
 const createClient = async (seedingProcedure = noop) => {
-	await sequelize.drop()
+	await sequelize.query('DROP SCHEMA public CASCADE;')
+	await sequelize.query('CREATE SCHEMA public;')
 	await sequelize.sync({ force: true })
 	await seedingProcedure(database)
 	return new Client()

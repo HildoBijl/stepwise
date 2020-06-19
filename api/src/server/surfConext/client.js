@@ -3,7 +3,7 @@ const crypto = require('crypto')
 
 const hash = text => crypto.createHash('sha256').update(text).digest('hex')
 
-class SurfConext {
+class Client {
 	constructor(issuerUrl, redirectUrl, clientId, secret) {
 		this._issuerUrl = issuerUrl
 		this._redirectUrl = redirectUrl
@@ -49,5 +49,5 @@ class SurfConext {
 }
 
 module.exports = {
-	SurfConext
+	Client
 }
