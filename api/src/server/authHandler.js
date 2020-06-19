@@ -4,20 +4,32 @@ const express = require('express')
  * Template for specifying the interface
  */
 class AuthStrategyInterface {
+
 	static INVALID_AUTHENTICATION = 'INVALID_AUTHENTICATION'
 	static USER_NOT_FOUND = 'USER_NOT_FOUND'
+
 	/**
 	 * Authenticates the a request from a user against
-	 * the authentication provider. Returns a user-id on
+	 * the authentication provider. Returns data on
 	 * success, throws otherwise.
 	 *
 	 * @param req							HTTP request
 	 * @throws String					Error code
-	 * @returns String				User-id
+	 * @returns object				Provider-specific user data
 	 */
 	async authenticate(req) {
 		// This method must be overriden properly in sub-classes
 		throw AuthStrategyInterface.INVALID_AUTHENTICATION
+	}
+
+	async login(authData) {
+		// This method must be overriden properly in sub-classes
+		throw AuthStrategyInterface.USER_NOT_FOUND
+	}
+
+	async register(authData) {
+		// This method must be overriden properly in sub-classes
+		throw AuthStrategyInterface.USER_NOT_FOUND
 	}
 }
 
@@ -31,7 +43,8 @@ const createAuthHandler = (homepageUrl, authStrategy) => {
 
 	router.get('/login', async (req, res) => {
 		try {
-			const userId = await authStrategy.authenticate(req)
+			const authData = await authStrategy.authenticate(req)
+			const userId = await authStrategy.login(authData)
 			req.principal = {
 				id: userId
 			}

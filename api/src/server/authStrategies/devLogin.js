@@ -35,16 +35,19 @@ class AuthStrategy extends AuthStrategyInterface {
 		if (!syntheticSessionId) {
 			throw AuthStrategy.INVALID_AUTHENTICATION
 		}
-		const uniMembership = await this._db.UniversityMembership.findOne({
-			where: { memberId: userId }
-		})
-		if (!uniMembership) {
+		return {
+			userId,
+			forceSessionStart: () => req.sessionID = syntheticSessionId,
+		}
+	}
+
+	async login(authData) {
+		const user = await this._db.User.findByPk(authData.userId)
+		if (!user) {
 			throw AuthStrategy.USER_NOT_FOUND
 		}
-		// HACK: set session-id to the prefilled one, otherwise
-		// a new, random id would be created
-		req.sessionID = syntheticSessionId
-		return req.query.id
+		authData.forceSessionStart()
+		return user.id
 	}
 }
 
