@@ -14,14 +14,14 @@ const seed = async db => {
 }
 
 describe('login', () => {
-	it('`me` returns `null` for non-logged-in user', async () => {
+	it('there is no active session without loggin in', async () => {
 		const client = await createClient(seed)
 
 		await client.graphql({ query: `{me {name, email}}` })
 			.then(({ data }) => expect(data.me).toEqual(null))
 	})
 
-	it('`me` returns user information after login', async () => {
+	it('establishes session after login and destroys it after logout', async () => {
 		const client = await createClient(seed)
 
 		await client
@@ -38,6 +38,37 @@ describe('login', () => {
 
 		await client
 			.graphql({ query: `{me {name, email}}` })
+			.then(({ data }) => expect(data.me).toEqual(null))
+	})
+
+	it('doesn’t login unregistered users', async () => {
+		// We don’t seed here, so the `USER_ID` is unknown to the system
+		const client = await createClient()
+
+		await client
+			.login(USER_ID)
+			.then(redirectUrl => expect(redirectUrl).toEqual(
+				expect.stringContaining('error=USER_NOT_FOUND')
+			))
+
+		await client.graphql({ query: `{me {name, email}}` })
+			.then(({ data }) => expect(data.me).toEqual(null))
+	})
+
+	it('doesn’t login users with invalid credentials', async () => {
+		const client = await createClient(seed)
+
+		// This user-id is not whitelisted in the devLogin strategy,
+		// hence the devlogin will return a failing auth response
+		const INVALID_DEV_LOGIN_ID = '35f919c4-135b-45cf-b969-1bcc69f9dc31'
+
+		await client
+			.login(INVALID_DEV_LOGIN_ID)
+			.then(redirectUrl => expect(redirectUrl).toEqual(
+				expect.stringContaining('error=INVALID_AUTHENTICATION')
+			))
+
+		await client.graphql({ query: `{me {name, email}}` })
 			.then(({ data }) => expect(data.me).toEqual(null))
 	})
 })
