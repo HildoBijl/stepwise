@@ -1,4 +1,4 @@
-const { createClient } = require('../client')
+const { createClient, defaultConfig } = require('../client')
 
 const USER_ID = '00000000-0000-0000-0000-000000000000'
 
@@ -24,13 +24,20 @@ describe('login', () => {
 	it('`me` returns user information after login', async () => {
 		const client = await createClient(seed)
 
-		await client.login(USER_ID)
+		await client
+			.login(USER_ID)
+			.then(redirectUrl => expect(redirectUrl).toEqual(defaultConfig.homepageUrl))
+
 		await client
 			.graphql({ query: `{me {name}}` })
 			.then(({ data }) => expect(data.me).toEqual({ name: 'Tester' }))
 
-		await client.logout()
-		await client.graphql({ query: `{me {name, email}}` })
+		await client
+			.logout()
+			.then(redirectUrl => expect(redirectUrl).toEqual(defaultConfig.homepageUrl))
+
+		await client
+			.graphql({ query: `{me {name, email}}` })
 			.then(({ data }) => expect(data.me).toEqual(null))
 	})
 })

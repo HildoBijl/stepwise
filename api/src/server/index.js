@@ -10,7 +10,7 @@ const configValidationSchema = Joi.object({
 	sslEnabled: Joi.boolean().required(),
 	sessionSecret: Joi.string().min(20).required(),
 	sessionMaxAgeMillis: Joi.number().required(),
-	homepageUrl: Joi.string().uri(),
+	homepageUrl: Joi.string().uri().required(),
 	corsUrls: Joi.array().items(Joi.string().uri()),
 })
 
@@ -88,7 +88,10 @@ const createServer = ({
 	})
 
 	for (const [route, authStrategy] of Object.entries(authStrategies)) {
-		app.use(`/auth/${route}`, createAuthHandler(database, authStrategy))
+		app.use(
+			`/auth/${route}`,
+			createAuthHandler(config.homepageUrl, database, authStrategy),
+		)
 	}
 
 	app.set('trust proxy', true)

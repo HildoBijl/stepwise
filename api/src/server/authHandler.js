@@ -6,34 +6,31 @@ const express = require('express')
  * 				otherwise the data which the `UniversityMembership` record for
  * 				that user is supposed to be updated with.
  */
-const createAuthHandler = (db, authStrategy) => {
+const createAuthHandler = (homepageUrl, db, authStrategy) => {
 	const router = express.Router()
 
 	router.get('/login', async (req, res) => {
 		try {
 			const authData = await authStrategy(req)
 			if (!authData || !authData.memberId) {
-				res.status(403)
-				res.send("INVALID_AUTHENTICATION")
+				res.redirect(`${homepageUrl}?error=INVALID_AUTHENTICATION`)
 				return
 			}
 			const membership = await db.UniversityMembership.findOne({
 				where: { memberId: authData.memberId }
 			})
 			if (!membership) {
-				res.status(403)
-				res.send("USER_NOT_FOUND")
+				res.redirect(`${homepageUrl}?error=USER_NOT_FOUND`)
 				return
 			}
 			req.principal = {
 				id: membership.userId
 			}
 			req.session.initiated = new Date()
-			res.send("OK")
 		} catch(e) {
 			console.log(e)
-			res.send("ERROR")
 		}
+		res.redirect(homepageUrl)
 	})
 
 	return router

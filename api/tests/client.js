@@ -9,7 +9,7 @@ const defaultConfig = Object.freeze({
 	sslEnabled: false,
 	sessionSecret: '12345678901234567890',
 	sessionMaxAgeMillis: 1000 * 60,
-	homepageUrl: undefined,
+	homepageUrl: 'http://step-wise.test',
 	corsUrls: undefined,
 })
 
@@ -45,8 +45,9 @@ class Client {
 		const response = await request(this._server)
 			.get(`/auth/${AUTH_PATH}/login`)
 			.query({ id })
-			.expect(200)
+			.expect(302)
 		this._storeCookies(response)
+		return response.headers['location']
 	}
 
 	async logout() {
@@ -55,6 +56,7 @@ class Client {
 			.set('Cookie', this._cookieHeader())
 			.expect(302)
 		this._storeCookies(response)
+		return response.headers['location']
 	}
 
 	async graphql(query) {
