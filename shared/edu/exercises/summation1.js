@@ -2,7 +2,7 @@ const { getRandomInteger } = require('../../util/random')
 
 module.exports = {
 	data: {
-		canBeSplit: false,
+		canSplit: false,
 	},
 	generateState: () => {
 		const a = getRandomInteger(1, 100)
@@ -15,7 +15,7 @@ module.exports = {
 	checkInput: ({ a, b }, { ans }) => {
 		return a + b === ans
 	},
-	processResult(result, prevProgress) {
+	processResult(result, prevProgress, adjustSkill) {
 
 		return {} // Progress; ToDo.
 	},

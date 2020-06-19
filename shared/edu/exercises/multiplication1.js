@@ -2,7 +2,7 @@ const { getRandomInteger } = require('../../util/random')
 
 module.exports = {
 	data: {
-		canBeSplit: false,
+		canSplit: false,
 	},
 	generateState: () => {
 		const a = getRandomInteger(1,10)

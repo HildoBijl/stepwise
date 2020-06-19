@@ -1,6 +1,9 @@
 const { getRandomInteger } = require('../../util/random')
 
 module.exports = {
+	data: {
+		canSplit: false,
+	},
 	generateState: () => {
 		const a = getRandomInteger(1,10)
 		const x = getRandomInteger(1,10)
