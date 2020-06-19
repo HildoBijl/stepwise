@@ -31,6 +31,23 @@ class AuthStrategy extends AuthStrategyTemplate {
 		}
 		return surfProfile.user
 	}
+
+	async findOrCreateUser(authData) {
+		try {
+			const user = await this.findUser(authData)
+			return user
+		} catch(e) {}
+		// TODO use transaction here
+		const newUser = await this._db.User.create({
+			name: authData.name,
+			email: authData.email,
+		})
+		await this._db.SurfConextProfile.create({
+			sub: authData.sub,
+			userId: newUser.id,
+		})
+		return newUser
+	}
 }
 
 module.exports = {

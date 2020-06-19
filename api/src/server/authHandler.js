@@ -34,12 +34,25 @@ class AuthStrategyTemplate {
 	}
 
 	/**
+	 * Tries to find a user in our system
+	 *
 	 * @param authData				Provider-specific user data
 	 * @returns User|null			User object from database
-	 * @throws string					Error code (see above)
+	 * @throws
 	 */
 	async findUser(authData) {
 		return null
+	}
+
+	/**
+	 * Tries to find a user in our system or creates it otherwise
+	 *
+	 * @param authData				Provider-specific user data
+	 * @returns User|null			User object from database
+	 * @throws
+	 */
+	async findOrCreateUser(authData) {
+		throw AuthStrategyInterface.UNKNOWN_ERROR
 	}
 }
 
@@ -51,17 +64,13 @@ class AuthStrategyTemplate {
 const createAuthHandler = (homepageUrl, authStrategy) => {
 	const router = express.Router()
 
-	router.get('/login', async (req, res) => {
+	const handler = retrieveUser => async (req, res) => {
 		try {
 			const authData = await authStrategy.authenticate(req)
-			const user = await authStrategy.findUser(authData)
-			if (!user) {
-				throw AuthStrategyInterface.USER_NOT_FOUND
-			}
+			const user = await retrieveUser(authData)
 			req.session.principal = {
 				id: user.id
 			}
-			req.session.initiated = new Date()
 			res.redirect(homepageUrl)
 		} catch (e) {
 			let code = AuthStrategyTemplate.UNKNOWN_ERROR
@@ -72,8 +81,10 @@ const createAuthHandler = (homepageUrl, authStrategy) => {
 			}
 			res.redirect(`${homepageUrl}?error=${code}`)
 		}
-	})
+	}
 
+	router.get('/register', handler(authData => authStrategy.findOrCreateUser(authData)))
+	router.get('/login', handler(authData => authStrategy.findUser(authData)))
 	router.get('/initiate', async (req, res) => {
 		try {
 			req.session.initiated = new Date()

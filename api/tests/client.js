@@ -37,10 +37,19 @@ class Client {
 		return Array.from(this._cookies).join(' ')
 	}
 
-	async login(id) {
+	async login(surfConextSub) {
 		const response = await request(this._server)
 			.get(`/auth/surfconext/login`)
-			.query({ sub: id })
+			.query({ sub: surfConextSub })
+			.expect(302)
+		this._storeCookies(response)
+		return response.headers['location']
+	}
+
+	async register(surfConextSub) {
+		const response = await request(this._server)
+			.get(`/auth/surfconext/register`)
+			.query({ sub: surfConextSub })
 			.expect(302)
 		this._storeCookies(response)
 		return response.headers['location']

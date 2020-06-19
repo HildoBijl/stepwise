@@ -1,12 +1,12 @@
 [
 	{
 		"sub": "00000000-0000-0000-0000-000000000000",
-		"name": "Peter Example",
-		"preferred_username": "Peter Example",
-		"given_name": "Peter",
-		"family_name": "Example",
-		"nickname": "Pete",
-		"email": "peter@example.org",
+		"name": "Step Wise",
+		"preferred_username": "Step Wise",
+		"given_name": "Step",
+		"family_name": "Wise",
+		"nickname": "Step Wise",
+		"email": "step@wise.com",
 		"schac_home_organization": "eduid.nl",
 		"edu_person_principal_name": "00000000-0000-0000-0000-000000000000@eduid.nl",
 		"uids": []
