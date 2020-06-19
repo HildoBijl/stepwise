@@ -1,13 +1,14 @@
 require('dotenv').config()
 const { createServer } = require('../src/server')
 const { Database } = require('../src/database')
-const devLogin = require('../src/server/authStrategies/devLogin')
 const { createRedisStore, createSurfConext, createSequelize } = require('./init')
+const SurfConextMock = require('../src/server/surfConext/devmock')
 
-const surfConext = createSurfConext()
+const surfConextClient = process.env.NODE_ENV === 'production' ?
+	createSurfConext() : new SurfConextMock.MockClient()
 
-const sessionStore = process.env.REDIS_HOST ?
-	createRedisStore() : devLogin.createPrefilledMemoryStore()
+const sessionStore = process.env.NODE_ENV === 'production' ?
+	createRedisStore() : SurfConextMock.createPrefilledMemoryStore()
 
 const config = {
 	sslEnabled: process.env.NODE_ENV === 'production',
@@ -22,18 +23,11 @@ const sequelize = createSequelize()
 sequelize.authenticate()
 	.then(() => new Database(sequelize))
 	.then(database => {
-		const authStrategies = {
-			// TODO add SurfConext
-		}
-		if (process.env.NODE_ENV !== 'production') {
-			authStrategies['_devlogin'] = new devLogin.AuthStrategy(database)
-		}
-
 		const server = createServer({
 			config,
 			database,
 			sessionStore,
-			authStrategies
+			surfConextClient,
 		})
 		server.listen(process.env.PORT, () => {
 			console.log(`Server listening on port ${process.env.PORT}`)

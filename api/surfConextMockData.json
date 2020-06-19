@@ -1,0 +1,26 @@
+[
+	{
+		"sub": "00000000-0000-0000-0000-000000000000",
+		"name": "Peter Example",
+		"preferred_username": "Peter Example",
+		"given_name": "Peter",
+		"family_name": "Example",
+		"nickname": "Pete",
+		"email": "peter@example.org",
+		"schac_home_organization": "eduid.nl",
+		"edu_person_principal_name": "00000000-0000-0000-0000-000000000000@eduid.nl",
+		"uids": []
+	},
+	{
+		"sub": "00000000-0000-0000-0000-111111111111",
+		"name": "John Doe",
+		"preferred_username": "John Doe",
+		"given_name": "John",
+		"family_name": "Doe",
+		"nickname": "John Doe",
+		"email": "john@example.org",
+		"schac_home_organization": "eduid.nl",
+		"edu_person_principal_name": "00000000-0000-0000-0000-111111111111@eduid.nl",
+		"uids": []
+	}
+]

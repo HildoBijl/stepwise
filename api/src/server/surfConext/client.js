@@ -3,7 +3,7 @@ const crypto = require('crypto')
 
 const hash = text => crypto.createHash('sha256').update(text).digest('hex')
 
-class SurfConext {
+class Client {
 	constructor(issuerUrl, redirectUrl, clientId, secret) {
 		this._issuerUrl = issuerUrl
 		this._redirectUrl = redirectUrl
@@ -49,29 +49,5 @@ class SurfConext {
 }
 
 module.exports = {
-	SurfConext
+	Client
 }
-
-// app.get('/auth/surfconext/start', (req, res) => {
-// 	req.session.initiated = new Date()
-// 	surfConext.authorizationUrl(req.session.id).then(url =>
-// 		res.redirect(url)
-// 	).catch(error => {
-// 		console.log(error)
-// 		res.send("Error")
-// 	})
-// })
-// app.get('/auth/surfconext/callback', (req, res) => {
-// 	surfConext.userinfo(
-// 		req.query.code,
-// 		req.query.state,
-// 		req.session.id,
-// 	).then(userInfo => {
-// 		// TODO look up user and set principal accordingly
-// 		// req.session.principal = ...
-// 		res.redirect(config.homepageUrl)
-// 	}).catch(error => {
-// 		console.log(error)
-// 		res.redirect(config.homepageUrl)
-// 	})
-// })

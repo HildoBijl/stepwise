@@ -3,18 +3,27 @@ const express = require('express')
 /**
  * Template for specifying the interface
  */
-class AuthStrategyInterface {
+class AuthStrategyTemplate {
 
 	static INVALID_AUTHENTICATION = 'INVALID_AUTHENTICATION'
 	static USER_NOT_FOUND = 'USER_NOT_FOUND'
 
 	/**
-	 * Authenticates the a request from a user against
-	 * the authentication provider. Returns data on
+	 * Initiates authentication (e.g. with authentication provider)
+	 *
+	 * @returns string				Redirect URL
+	 */
+	async initiate(sessionId) {
+		return ''
+	}
+
+	/**
+	 * Authenticates the a request from the client against
+	 * the authentication provider. Returns provider’s data on
 	 * success, throws otherwise.
 	 *
 	 * @param req							HTTP request
-	 * @throws String					Error code
+	 * @throws string					Error code (see above)
 	 * @returns object				Provider-specific user data
 	 */
 	async authenticate(req) {
@@ -45,7 +54,7 @@ const createAuthHandler = (homepageUrl, authStrategy) => {
 		try {
 			const authData = await authStrategy.authenticate(req)
 			const userId = await authStrategy.login(authData)
-			req.principal = {
+			req.session.principal = {
 				id: userId
 			}
 			req.session.initiated = new Date()
@@ -60,5 +69,5 @@ const createAuthHandler = (homepageUrl, authStrategy) => {
 }
 
 module.exports = {
-	createAuthHandler, AuthStrategyInterface
+	createAuthHandler, AuthStrategyTemplate
 }

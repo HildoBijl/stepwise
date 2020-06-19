@@ -14,7 +14,7 @@ const seed = async db => {
 }
 
 describe('login', () => {
-	it('there is no active session without loggin in', async () => {
+	it('there is no active session without logging in', async () => {
 		const client = await createClient(seed)
 
 		await client.graphql({ query: `{me {name, email}}` })

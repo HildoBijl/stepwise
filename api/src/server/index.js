@@ -5,6 +5,7 @@ const { typeDefs, resolvers } = require('../graphql')
 const { createAuthHandler } = require('./authHandler')
 const cors = require('cors')
 const Joi = require('@hapi/joi')
+const SurfConextAuthStrategy = require('./surfConext/authStrategy').AuthStrategy
 
 const configValidationSchema = Joi.object({
 	sslEnabled: Joi.boolean().required(),
@@ -18,7 +19,7 @@ const createServer = ({
 	config,
 	database,
 	sessionStore,
-	authStrategies = {},
+	surfConextClient,
 }) => {
 	const configValidationError = configValidationSchema.validate(config).error
 	if (configValidationError) {
@@ -87,12 +88,9 @@ const createServer = ({
 		})
 	})
 
-	for (const [route, authStrategy] of Object.entries(authStrategies)) {
-		app.use(
-			`/auth/${route}`,
-			createAuthHandler(config.homepageUrl, authStrategy),
-		)
-	}
+	app.use('/auth/surfconext', createAuthHandler(
+		config.homepageUrl, new SurfConextAuthStrategy(database, surfConextClient)
+	))
 
 	app.set('trust proxy', true)
 	return app

@@ -1,7 +1,7 @@
 const request = require('supertest')
 const { createServer } = require('../src/server')
-const devLogin = require('../src/server/authStrategies/devLogin')
 const { createSequelize } = require('../scripts/init')
+const SurfConextMock = require('../src/server/surfConext/devmock')
 const { Database } = require('../src/database')
 const noop = () => {}
 
@@ -13,8 +13,6 @@ const defaultConfig = Object.freeze({
 	corsUrls: undefined,
 })
 
-const AUTH_PATH = '_devlogin'
-
 const sequelize = createSequelize()
 const database = new Database(sequelize)
 
@@ -23,10 +21,8 @@ class Client {
 		this._server = createServer({
 			database: database,
 			config: defaultConfig,
-			sessionStore: devLogin.createPrefilledMemoryStore(),
-			authStrategies: {
-				[AUTH_PATH]: new devLogin.AuthStrategy(database)
-			}
+			sessionStore: SurfConextMock.createPrefilledMemoryStore(),
+			surfConextClient: new SurfConextMock.MockClient(),
 		})
 		this._cookies = new Set()
 	}
@@ -43,8 +39,8 @@ class Client {
 
 	async login(id) {
 		const response = await request(this._server)
-			.get(`/auth/${AUTH_PATH}/login`)
-			.query({ id })
+			.get(`/auth/surfconext/login`)
+			.query({ sub: id })
 			.expect(302)
 		this._storeCookies(response)
 		return response.headers['location']
