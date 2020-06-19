@@ -23,20 +23,20 @@ class AuthStrategyTemplate {
 	 * success, throws otherwise.
 	 *
 	 * @param req							HTTP request
-	 * @throws string					Error code (see above)
 	 * @returns object				Provider-specific user data
+	 * @throws string					Error code (see above)
 	 */
 	async authenticate(req) {
 		// This method must be overriden properly in sub-classes
 		throw AuthStrategyInterface.INVALID_AUTHENTICATION
 	}
 
+	/**
+	 * @param authData				Provider-specific user data
+	 * @returns User					User object from database
+	 * @throws string					Error code (see above)
+	 */
 	async login(authData) {
-		// This method must be overriden properly in sub-classes
-		throw AuthStrategyInterface.USER_NOT_FOUND
-	}
-
-	async register(authData) {
 		// This method must be overriden properly in sub-classes
 		throw AuthStrategyInterface.USER_NOT_FOUND
 	}
@@ -53,14 +53,19 @@ const createAuthHandler = (homepageUrl, authStrategy) => {
 	router.get('/login', async (req, res) => {
 		try {
 			const authData = await authStrategy.authenticate(req)
-			const userId = await authStrategy.login(authData)
+			const user = await authStrategy.login(authData)
 			req.session.principal = {
-				id: userId
+				id: user.id
 			}
 			req.session.initiated = new Date()
 			res.redirect(homepageUrl)
 		} catch (e) {
-			const code = (typeof e === 'string') ? e : 'UNKNOWN_ERROR'
+			let code = 'UNKNOWN_ERROR'
+			if (typeof e === 'string') {
+				code = e
+			} else {
+				console.log(e)
+			}
 			res.redirect(`${homepageUrl}?error=${code}`)
 		}
 	})

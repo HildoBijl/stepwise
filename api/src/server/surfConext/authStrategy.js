@@ -17,12 +17,15 @@ class AuthStrategy extends AuthStrategyTemplate {
 
 	async login(authData) {
 		const surfProfile = await this._db.SurfConextProfile.findOne({
-			where: { sub: authData.sub }
+			where: { sub: authData.sub },
+			include: {
+				model: this._db.User,
+			},
 		})
-		if (!surfProfile) {
+		if (!surfProfile || !surfProfile.user) {
 			throw AuthStrategy.USER_NOT_FOUND
 		}
-		return surfProfile.userId
+		return surfProfile.user
 	}
 }
 
