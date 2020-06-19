@@ -32,8 +32,19 @@ function checkExerciseInput(exerciseId, state, input) {
 	return checkInput(state, input)
 }
 
+// getParameterResult takes a result object and checks whether the given parameter is correct.
+function getParameterResult(parameter, result) {
+	// For simple problems without multiple parameters, return the general problem outcome.
+	if (result === true || result === false || result === undefined)
+		return result
+	
+	// Return the outcome for the respective parameter.
+	return result[parameter]
+}
+
 module.exports = {
 	selectExercise,
 	getNewExercise,
 	checkExerciseInput,
+	getParameterResult,
 }

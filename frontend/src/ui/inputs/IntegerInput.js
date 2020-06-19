@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 
+import { getParameterResult } from 'step-wise/edu/util/exercises'
 import { useExerciseData } from '../components/Exercise'
 
 // Set up memory for updating the cursor position.
@@ -11,6 +12,9 @@ export default function IntegerInput({ name, positive = false }) {
 
 	const value = (input && input[name] && input[name].value) || ''
 	const editable = !done && (!result || result[name] === undefined)
+
+	const submissionResult = getParameterResult(name, result)
+	const prevValue = (prevInput && prevInput[name] && prevInput[name].value) || ''
 
 	const handleChange = evt => {
 		// Extract data.
@@ -34,7 +38,16 @@ export default function IntegerInput({ name, positive = false }) {
 			field.setSelectionRange(cursorPosition, cursorPosition)
 	})
 
-	// ToDo next: provide feedback on input, prevInput, result.
+	// Determine feedback. [This is a temporary way. Later on it should be graphically formatted.]
+	let feedback
+	if (submissionResult === true) {
+		feedback = 'Correct'
+	} else if (submissionResult === false && value === prevValue) {
+		feedback = 'Wrong'
+	}
 
-	return <input type="text" name={name} value={value} disabled={!editable} onChange={handleChange} />
+	return <>
+		<input type="text" name={name} value={value} disabled={!editable} onChange={handleChange} />
+		{feedback ? <span> {feedback}</span> : null}
+	</>
 }

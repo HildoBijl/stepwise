@@ -1,4 +1,4 @@
-import React, { useState, Suspense, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 
 import { IOtoFO } from 'step-wise/edu/inputTransformation'
 
@@ -68,13 +68,13 @@ export default function Exercise({ id, state, startNewExercise }) {
 				{
 					!done ? (
 						<p>
-							<button onClick={submit} disabled={submitting}>Submit</button>
-							<button onClick={giveUp} disabled={submitting}>Give up</button>
+							<button type="button" onClick={submit} disabled={submitting}>Submit</button>
+							<button type="button" onClick={giveUp} disabled={submitting}>Give up</button>
 						</p>
 					) : (
 							<>
 								<components.Solution state={state} />
-								<p><button onClick={startNewExercise}>Next problem</button></p>
+								<p><button type="button" onClick={startNewExercise}>Next problem</button></p>
 							</>
 						)
 				}
