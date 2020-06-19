@@ -1,6 +1,6 @@
 require('dotenv').config()
 const { Sequelize } = require('sequelize')
-const { SurfConext } = require('../src/server/auth/openid')
+const SurfConext = require('../src/server/surfConext/client')
 const session = require('express-session')
 const Redis = require('redis')
 const RedisStore = require('connect-redis')(session)
@@ -22,7 +22,7 @@ module.exports.createSequelize = () => new Sequelize(
 	}
 )
 
-module.exports.createSurfConext = () => new SurfConext(
+module.exports.createSurfConext = () => new SurfConext.Client(
 	process.env.SURFCONEXT_ISSUER_URL,
 	process.env.SURFCONEXT_REDIRECT_URL,
 	process.env.SURFCONEXT_CLIENT_ID,

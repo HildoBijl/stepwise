@@ -13,7 +13,16 @@ async function seedTestData(db) {
 	console.log('Filling database with sample data ...')
 
 	// Create a user.
-	const user = await db.User.create({ id: '00000000-0000-0000-0000-000000000000', name: 'Step', email: 'step@wise.com', createdAt: date.setSeconds(date.getSeconds() + 1) })
+	const user = await db.User.create({
+		id: '00000000-0000-0000-0000-000000000000',
+		name: 'Step',
+		email: 'step@wise.com',
+		createdAt: date.setSeconds(date.getSeconds() + 1)
+	})
+	await db.SurfConextProfile.create({
+		sub: user.id,
+		userId: user.id,
+	})
 
 	// Create skills for the user.
 	const skills = await Promise.all([

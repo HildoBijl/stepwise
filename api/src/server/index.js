@@ -2,18 +2,25 @@ const express = require('express')
 const { ApolloServer } = require('apollo-server-express')
 const session = require('express-session')
 const { typeDefs, resolvers } = require('../graphql')
+const { createAuthHandler } = require('./authHandler')
 const cors = require('cors')
 const Joi = require('@hapi/joi')
+const SurfConextAuthStrategy = require('./surfConext/authStrategy').AuthStrategy
 
 const configValidationSchema = Joi.object({
 	sslEnabled: Joi.boolean().required(),
 	sessionSecret: Joi.string().min(20).required(),
 	sessionMaxAgeMillis: Joi.number().required(),
-	homepageUrl: Joi.string().uri(),
+	homepageUrl: Joi.string().uri().required(),
 	corsUrls: Joi.array().items(Joi.string().uri()),
 })
 
-const createServer = ({ config, database, sessionStore, surfConext }) => {
+const createServer = ({
+	config,
+	database,
+	sessionStore,
+	surfConextClient,
+}) => {
 	const configValidationError = configValidationSchema.validate(config).error
 	if (configValidationError) {
 		throw configValidationError
@@ -80,29 +87,10 @@ const createServer = ({ config, database, sessionStore, surfConext }) => {
 			res.redirect(config.homepageUrl)
 		})
 	})
-	app.get('/auth/surfconext/start', (req, res) => {
-		req.session.initiated = new Date()
-		surfConext.authorizationUrl(req.session.id).then(url =>
-			res.redirect(url)
-		).catch(error => {
-			console.log(error)
-			res.send("Error")
-		})
-	})
-	app.get('/auth/surfconext/callback', (req, res) => {
-		surfConext.userinfo(
-			req.query.code,
-			req.query.state,
-			req.session.id,
-		).then(userInfo => {
-			// TODO look up user and set principal accordingly
-			// req.session.principal = ...
-			res.redirect(config.homepageUrl)
-		}).catch(error => {
-			console.log(error)
-			res.redirect(config.homepageUrl)
-		})
-	})
+
+	app.use('/auth/surfconext', createAuthHandler(
+		config.homepageUrl, new SurfConextAuthStrategy(database, surfConextClient)
+	))
 
 	app.set('trust proxy', true)
 	return app
