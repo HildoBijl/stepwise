@@ -12,7 +12,7 @@ const PRELOGGEDIN_USER = {
 
 class MockClient {
 	async authorizationUrl() {
-		return '/'
+		return `/auth/surfconext/login?sub=${PRELOGGEDIN_USER.SUB_ID}`
 	}
 
 	async userinfo(req) {
