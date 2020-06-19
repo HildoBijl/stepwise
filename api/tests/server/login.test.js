@@ -1,4 +1,4 @@
-const { createClient } = require('./client')
+const { createClient } = require('../client')
 
 const USER_ID = '00000000-0000-0000-0000-000000000000'
 
@@ -13,15 +13,15 @@ const seed = async db => {
 	})
 }
 
-describe('me', () => {
-	it('returns `null` for non-logged-in user', async () => {
+describe('login', () => {
+	it('`me` returns `null` for non-logged-in user', async () => {
 		const client = await createClient(seed)
 
 		await client.graphql({ query: `{me {name, email}}` })
 			.then(({ data }) => expect(data.me).toEqual(null))
 	})
 
-	it('returns user information after login', async () => {
+	it('`me` returns user information after login', async () => {
 		const client = await createClient(seed)
 
 		await client.login(USER_ID)
