@@ -4,10 +4,11 @@ import { IOtoFO } from 'step-wise/edu/inputTransformation'
 
 const ExerciseContext = React.createContext({})
 
-let Problem = () => null, Solution = () => null
+let components
 
 export default function Exercise({ id, state, startNewExercise }) {
 	// Set up the necessary states and state handlers.
+	const [componentsLoaded, setComponentsLoaded] = useState(false)
 	const [input, setInput] = useState({ ans: '' })
 	const [prevInput, setPrevInput] = useState(null)
 	const [result, setResult] = useState(null)
@@ -19,13 +20,16 @@ export default function Exercise({ id, state, startNewExercise }) {
 
 	// Reset when the exercise changes.
 	const reset = () => {
-		Problem = React.lazy(() => import(`../exercises/${id}/Problem`))
-		Solution = React.lazy(() => import(`../exercises/${id}/Solution`))
+		setComponentsLoaded(false)
 		setInput({})
 		setPrevInput()
 		setResult()
 		setGivenUp(false)
 		setSubmitting(false)
+		import(`../exercises/${id}`).then((loadedComponents) => {
+			components = loadedComponents
+			setComponentsLoaded(true)
+		})
 	}
 	useEffect(reset, [id, state])
 
@@ -53,12 +57,14 @@ export default function Exercise({ id, state, startNewExercise }) {
 	const solved = result === true || (result && result.done === true)
 	const done = solved || givenUp
 
+	// Show loader when loading components.
+	if (!componentsLoaded)
+		return <p>Loading exercise...</p>
+
 	return (
 		<ExerciseContext.Provider value={{ state, input, prevInput, result, solved, givenUp, done, setInputParameter }}>
 			<form onSubmit={(evt) => evt.preventDefault()}>
-				<Suspense fallback={<p>Loading exercise...</p>}>
-					<Problem state={state} />
-				</Suspense>
+				<components.Problem state={state} />
 				{
 					!done ? (
 						<p>
@@ -67,9 +73,7 @@ export default function Exercise({ id, state, startNewExercise }) {
 						</p>
 					) : (
 							<>
-								<Suspense fallback={<p>Loading solution...</p>}>
-									<Solution state={state} />
-								</Suspense>
+								<components.Solution state={state} />
 								<p><button onClick={startNewExercise}>Next problem</button></p>
 							</>
 						)

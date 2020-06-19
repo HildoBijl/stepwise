@@ -15,8 +15,8 @@ module.exports = {
 	checkInput: ({ a, b }, { x }) => {
 		return a * x === b
 	},
-	processResult(result, prevProgress) {
+	processResult(result, prevProgress, adjustSkill) {
 
 		return {} // Progress; ToDo.
-	}
+	},
 }
