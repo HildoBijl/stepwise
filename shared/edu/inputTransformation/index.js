@@ -20,7 +20,10 @@ function FOtoIOparameter(param) {
 		throw new Error(`Could not detect the type of the parameter when transforming from functional to input format. The given parameter was "${JSON.stringify(param)}".`)
 
 	// Transform the object accordingly.
-	return require(`./${type}`).FOtoIO(param)
+	return {
+		type,
+		value: require(`./${type}`).FOtoIO(param),
+	}
 }
 
 // IOtoFO takes an object { m: ..., g: ... } with multiple parameters in input format and applies IOtoFOparameter to each parameter of it. 

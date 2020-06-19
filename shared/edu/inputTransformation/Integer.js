@@ -4,11 +4,8 @@ function isFOofType(param) {
 	return typeof param === 'number' && isInt(param)
 }
 
-function FOtoIO(num) {
-	return {
-		type: 'Integer',
-		value: param.toString(),
-	}
+function FOtoIO(param) {
+	return param.toString()
 }
 
 function IOtoFO(value) {
