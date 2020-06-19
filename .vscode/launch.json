@@ -1,0 +1,15 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "node",
+			"request": "attach",
+			"restart": true,
+			"name": "API (remote)",
+			"port": 9229,
+			"localRoot": "${workspaceFolder}/api/src",
+			"remoteRoot": "/app/api/src",
+			"skipFiles": []
+		},
+	]
+}
