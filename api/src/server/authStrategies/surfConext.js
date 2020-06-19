@@ -51,3 +51,27 @@ class SurfConext {
 module.exports = {
 	SurfConext
 }
+
+// app.get('/auth/surfconext/start', (req, res) => {
+// 	req.session.initiated = new Date()
+// 	surfConext.authorizationUrl(req.session.id).then(url =>
+// 		res.redirect(url)
+// 	).catch(error => {
+// 		console.log(error)
+// 		res.send("Error")
+// 	})
+// })
+// app.get('/auth/surfconext/callback', (req, res) => {
+// 	surfConext.userinfo(
+// 		req.query.code,
+// 		req.query.state,
+// 		req.session.id,
+// 	).then(userInfo => {
+// 		// TODO look up user and set principal accordingly
+// 		// req.session.principal = ...
+// 		res.redirect(config.homepageUrl)
+// 	}).catch(error => {
+// 		console.log(error)
+// 		res.redirect(config.homepageUrl)
+// 	})
+// })

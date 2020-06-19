@@ -1,4 +1,3 @@
-const router = require('express').Router()
 const { MemoryStore } = require('express-session')
 
 // The following user-ids can be logged in via the devlogin:
@@ -12,9 +11,9 @@ const syntheticSessionIdsByUser = DEV_USER_WHITELIST.reduce((dict, userId, i) =>
 	return dict
 }, {})
 
-const createMemoryStore = () => {
+const createPrefilledMemoryStore = () => {
 	const ms = new MemoryStore()
-	for (let [userId, sessId] of Object.entries(syntheticSessionIdsByUser)) {
+	for (const [userId, sessId] of Object.entries(syntheticSessionIdsByUser)) {
 		ms.set(sessId, {
 			principal: { id: userId },
 			cookie: {},
@@ -23,19 +22,18 @@ const createMemoryStore = () => {
 	return ms
 }
 
-router.get('/', async (req, res) => {
+const authStrategy = async (req) => {
 	const syntheticSessionId = syntheticSessionIdsByUser[req.query.id]
 	if (!syntheticSessionId) {
-		// Only allow to login whitelisted users.
-		res.status(403)
-		res.send('Illegal dev user!')
-		return
+		return null
 	}
+	// HACK: overwrite session-id to the prefilled one
 	req.sessionID = syntheticSessionId
-	req.session.initiated = new Date()
-	res.send("OK")
-})
+	return {
+		memberId: req.query.id,
+	}
+}
 
 module.exports = {
-	router, createMemoryStore
+	authStrategy, createPrefilledMemoryStore
 }

@@ -1,6 +1,6 @@
 const request = require('supertest')
 const { createServer } = require('../src/server')
-const devlogin = require('../src/server/auth/devlogin')
+const devLogin = require('../src/server/authStrategies/devLogin')
 const { createSequelize } = require('../scripts/init')
 const { Database } = require('../src/database')
 const noop = () => {}
@@ -13,7 +13,7 @@ const defaultConfig = Object.freeze({
 	corsUrls: undefined,
 })
 
-const LOGIN_ROUTE = '/auth/_devlogin'
+const AUTH_PATH = '_devlogin'
 
 const sequelize = createSequelize()
 const database = new Database(sequelize)
@@ -23,9 +23,11 @@ class Client {
 		this._server = createServer({
 			database: database,
 			config: defaultConfig,
-			sessionStore: devlogin.createMemoryStore(),
+			sessionStore: devLogin.createPrefilledMemoryStore(),
+			authStrategies: {
+				[AUTH_PATH]: devLogin.authStrategy
+			}
 		})
-		this._server.use(LOGIN_ROUTE, devlogin.router)
 		this._cookies = new Set()
 	}
 
@@ -41,7 +43,7 @@ class Client {
 
 	async login(id) {
 		const response = await request(this._server)
-			.get(LOGIN_ROUTE)
+			.get(`/auth/${AUTH_PATH}/login`)
 			.query({ id })
 			.expect(200)
 		this._storeCookies(response)

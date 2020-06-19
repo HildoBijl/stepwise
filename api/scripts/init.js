@@ -1,6 +1,6 @@
 require('dotenv').config()
 const { Sequelize } = require('sequelize')
-const { SurfConext } = require('../src/server/auth/openid')
+const { SurfConext } = require('../src/server/authStrategies/surfConext')
 const session = require('express-session')
 const Redis = require('redis')
 const RedisStore = require('connect-redis')(session)
