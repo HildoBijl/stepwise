@@ -1,0 +1,42 @@
+version: '3'
+services:
+  frontend:
+    # $ docker-compose -f dev.yml run --service-ports --rm frontend
+    image: node:12.16.2-buster
+    container_name: frontend
+    ports: ["3000:3000"]
+    working_dir: /app/frontend
+    entrypoint: bash
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+    volumes:
+      - .:/app
+  api:
+    # $ docker-compose -f dev.yml run --service-ports --rm api
+    image: node:12.16.2-buster
+    depends_on: [database]
+    container_name: api
+    ports: ["4000:4000", "9229:9229"]
+    working_dir: /app/api
+    entrypoint: bash
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+    volumes:
+      - .:/app
+  database:
+    # $ docker-compose -f dev.yml up -d database
+    image: postgres:11.8
+    container_name: database
+    ports: ["5432:5432"]
+    environment:
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "12345"
+  sessions:
+    # $ docker-compose -f dev.yml up -d sessions
+    image: redis:6.0.4-alpine
+    container_name: sessions
+    ports: ["6379:6379"]
+    volumes:
+      - ./ops/sessions/overrides.conf:/overrides.conf
+    command:
+      - "--include /overrides.conf"
