@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize')
 
 const modelKeys = [
 	'User',
-	'UniversityMembership',
+	'SurfConextProfile',
 	'UserSkill',
 	'ExerciseSample',
 	'ExerciseSubmission',

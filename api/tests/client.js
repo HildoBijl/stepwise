@@ -67,7 +67,8 @@ class Client {
 }
 
 const createClient = async (seedingProcedure = noop) => {
-	await sequelize.drop()
+	await sequelize.query('DROP SCHEMA public CASCADE;')
+	await sequelize.query('CREATE SCHEMA public;')
 	await sequelize.sync({ force: true })
 	await seedingProcedure(database)
 	return new Client()

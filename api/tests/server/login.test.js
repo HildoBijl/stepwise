@@ -8,8 +8,9 @@ const seed = async db => {
 		name: 'Tester',
 		email: 'step@wise.com'
 	})
-	await db.UniversityMembership.create({
-		memberId: USER_ID,
+	await db.SurfConextProfile.create({
+		sub: USER_ID,
+		userId: USER_ID,
 	})
 }
 

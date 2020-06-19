@@ -16,13 +16,13 @@ class AuthStrategy extends AuthStrategyTemplate {
 	}
 
 	async login(authData) {
-		const uniMembership = await this._db.UniversityMembership.findOne({
-			where: { memberId: authData.sub }
+		const surfProfile = await this._db.SurfConextProfile.findOne({
+			where: { sub: authData.sub }
 		})
-		if (!uniMembership) {
+		if (!surfProfile) {
 			throw AuthStrategy.USER_NOT_FOUND
 		}
-		return uniMembership.userId
+		return surfProfile.userId
 	}
 }
 

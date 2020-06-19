@@ -19,8 +19,8 @@ async function seedTestData(db) {
 		email: 'step@wise.com',
 		createdAt: date.setSeconds(date.getSeconds() + 1)
 	})
-	await db.UniversityMembership.create({
-		memberId: user.id,
+	await db.SurfConextProfile.create({
+		sub: user.id,
 		userId: user.id,
 	})
 
