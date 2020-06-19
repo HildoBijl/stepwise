@@ -2,7 +2,7 @@
 	"scripts": {
 		"start": "node scripts/startWebserver.js",
 		"dev": "nodemon --watch ./ --watch ../shared src/index.js",
-		"test": "POSTGRES_DB=testing jest --runInBand tests/.*\\.test\\.js",
+		"test": "cross-env POSTGRES_DB=\"testing\" jest --runInBand tests/.*\\.test\\.js",
 		"test:watch": "jest --watch src/.*\\.test\\.js",
 		"db:seed": "node scripts/seedDb.js",
 		"db:clear": "node scripts/clearDb.js"
@@ -12,6 +12,7 @@
 		"apollo-server-express": "2.14.3",
 		"connect-redis": "^4.0.4",
 		"cors": "^2.8.5",
+		"cross-env": "^7.0.2",
 		"dotenv": "^8.2.0",
 		"express": "^4.17.1",
 		"express-session": "^1.17.1",
