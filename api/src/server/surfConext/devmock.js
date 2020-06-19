@@ -10,6 +10,8 @@ const PRELOGGEDIN_USER = {
 	SESSION_ID: '00000000000000000000000000000000',
 }
 
+const memoryStore = new MemoryStore()
+
 class MockClient {
 	async authorizationUrl() {
 		return `/auth/surfconext/login?sub=${PRELOGGEDIN_USER.SUB_ID}`
@@ -20,20 +22,21 @@ class MockClient {
 		if (!sfUserinfo) {
 			throw new Error('User not found')
 		}
-		if (sfUserinfo.sub === PRELOGGEDIN_USER.SUB_ID) {
-			req.sessionID = PRELOGGEDIN_USER.SESSION_ID
-		}
+		memoryStore.set(PRELOGGEDIN_USER.SESSION_ID, {
+			principal: { id: PRELOGGEDIN_USER.USER_ID },
+			cookie: {},
+		})
+		req.sessionID = PRELOGGEDIN_USER.SESSION_ID
 		return sfUserinfo
 	}
 }
 
 const createPrefilledMemoryStore = () => {
-	const ms = new MemoryStore()
-	ms.set(PRELOGGEDIN_USER.SESSION_ID, {
+	memoryStore.set(PRELOGGEDIN_USER.SESSION_ID, {
 		principal: { id: PRELOGGEDIN_USER.USER_ID },
 		cookie: {},
 	})
-	return ms
+	return memoryStore
 }
 
 module.exports = {
