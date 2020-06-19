@@ -1,7 +1,13 @@
 const { DataSource } = require('apollo-datasource')
 const { DataTypes } = require('sequelize')
 
-const modelKeys = ['User', 'UserSkill', 'ExerciseSample', 'ExerciseSubmission']
+const modelKeys = [
+	'User',
+	'UniversityMembership',
+	'UserSkill',
+	'ExerciseSample',
+	'ExerciseSubmission',
+]
 
 // TODO remove inheritance once the Database isn’t used as DataSource anymore
 class Database extends DataSource {
