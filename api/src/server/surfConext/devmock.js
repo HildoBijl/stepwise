@@ -12,7 +12,7 @@ const PRELOGGEDIN_USER = {
 
 class MockClient {
 	async authorizationUrl() {
-		return 'about:blank'
+		return '/'
 	}
 
 	async userinfo(req) {

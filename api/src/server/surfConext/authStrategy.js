@@ -7,6 +7,10 @@ class AuthStrategy extends AuthStrategyTemplate {
 		this._surfConext = surfConextClient
 	}
 
+	async initiate(sessionId) {
+		return await this._surfConext.authorizationUrl(sessionId)
+	}
+
 	async authenticate(req) {
 		try {
 			return await this._surfConext.userinfo(req)

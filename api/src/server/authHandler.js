@@ -2,11 +2,13 @@ const express = require('express')
 
 /**
  * Template for specifying the interface
+ * This class must be subclassed and its methods overriden
  */
 class AuthStrategyTemplate {
 
 	static INVALID_AUTHENTICATION = 'INVALID_AUTHENTICATION'
 	static USER_NOT_FOUND = 'USER_NOT_FOUND'
+	static UNKNOWN_ERROR = 'UNKNOWN_ERROR'
 
 	/**
 	 * Initiates authentication (e.g. with authentication provider)
@@ -14,7 +16,7 @@ class AuthStrategyTemplate {
 	 * @returns string				Redirect URL
 	 */
 	async initiate(sessionId) {
-		return ''
+		throw AuthStrategyInterface.UNKNOWN_ERROR
 	}
 
 	/**
@@ -27,7 +29,6 @@ class AuthStrategyTemplate {
 	 * @throws string					Error code (see above)
 	 */
 	async authenticate(req) {
-		// This method must be overriden properly in sub-classes
 		throw AuthStrategyInterface.INVALID_AUTHENTICATION
 	}
 
@@ -37,7 +38,6 @@ class AuthStrategyTemplate {
 	 * @throws string					Error code (see above)
 	 */
 	async login(authData) {
-		// This method must be overriden properly in sub-classes
 		throw AuthStrategyInterface.USER_NOT_FOUND
 	}
 }
@@ -50,6 +50,17 @@ class AuthStrategyTemplate {
 const createAuthHandler = (homepageUrl, authStrategy) => {
 	const router = express.Router()
 
+	router.get('/initiate', async (req, res) => {
+		try {
+			req.session.initiated = new Date()
+			const redirectUrl = await authStrategy.initiate()
+			res.redirect(redirectUrl)
+		} catch(e) {
+			console.log(e)
+			res.redirect(`${homepageUrl}?error=${AuthStrategyTemplate.UNKNOWN_ERROR}`)
+		}
+	})
+
 	router.get('/login', async (req, res) => {
 		try {
 			const authData = await authStrategy.authenticate(req)
@@ -60,7 +71,7 @@ const createAuthHandler = (homepageUrl, authStrategy) => {
 			req.session.initiated = new Date()
 			res.redirect(homepageUrl)
 		} catch (e) {
-			let code = 'UNKNOWN_ERROR'
+			let code = AuthStrategyTemplate.UNKNOWN_ERROR
 			if (typeof e === 'string') {
 				code = e
 			} else {
