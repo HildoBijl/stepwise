@@ -1,4 +1,5 @@
 const { MemoryStore } = require('express-session')
+const { AuthStrategyInterface } = require('../authHandler')
 
 // The following user-ids can be logged in via the devlogin:
 const DEV_USER_WHITELIST = [
@@ -22,18 +23,31 @@ const createPrefilledMemoryStore = () => {
 	return ms
 }
 
-const authStrategy = async (req) => {
-	const syntheticSessionId = syntheticSessionIdsByUser[req.query.id]
-	if (!syntheticSessionId) {
-		return null
+class AuthStrategy extends AuthStrategyInterface {
+	constructor(database) {
+		super()
+		this._db = database
 	}
-	// HACK: overwrite session-id to the prefilled one
-	req.sessionID = syntheticSessionId
-	return {
-		memberId: req.query.id,
+
+	async authenticate(req) {
+		const userId = req.query.id
+		const syntheticSessionId = syntheticSessionIdsByUser[userId]
+		if (!syntheticSessionId) {
+			throw AuthStrategy.INVALID_AUTHENTICATION
+		}
+		const uniMembership = await this._db.UniversityMembership.findOne({
+			where: { memberId: userId }
+		})
+		if (!uniMembership) {
+			throw AuthStrategy.USER_NOT_FOUND
+		}
+		// HACK: set session-id to the prefilled one, otherwise
+		// a new, random id would be created
+		req.sessionID = syntheticSessionId
+		return req.query.id
 	}
 }
 
 module.exports = {
-	authStrategy, createPrefilledMemoryStore
+	AuthStrategy, createPrefilledMemoryStore
 }

@@ -90,7 +90,7 @@ const createServer = ({
 	for (const [route, authStrategy] of Object.entries(authStrategies)) {
 		app.use(
 			`/auth/${route}`,
-			createAuthHandler(config.homepageUrl, database, authStrategy),
+			createAuthHandler(config.homepageUrl, authStrategy),
 		)
 	}
 

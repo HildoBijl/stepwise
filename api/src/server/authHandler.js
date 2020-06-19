@@ -1,41 +1,51 @@
 const express = require('express')
 
 /**
- * @param authStrategy :: async (req) => null | authData
- * 				Shall return `null` if the authentication wasn’t successful,
- * 				otherwise the data which the `UniversityMembership` record for
- * 				that user is supposed to be updated with.
+ * Template for specifying the interface
  */
-const createAuthHandler = (homepageUrl, db, authStrategy) => {
+class AuthStrategyInterface {
+	static INVALID_AUTHENTICATION = 'INVALID_AUTHENTICATION'
+	static USER_NOT_FOUND = 'USER_NOT_FOUND'
+	/**
+	 * Authenticates the a request from a user against
+	 * the authentication provider. Returns a user-id on
+	 * success, throws otherwise.
+	 *
+	 * @param req							HTTP request
+	 * @throws String					Error code
+	 * @returns String				User-id
+	 */
+	async authenticate(req) {
+		// This method must be overriden properly in sub-classes
+		throw AuthStrategyInterface.INVALID_AUTHENTICATION
+	}
+}
+
+/**
+ * Invokes the auth strategy and triggers appropriate redirects
+ *
+ * @param authStrategy AuthStrategyInterface
+ */
+const createAuthHandler = (homepageUrl, authStrategy) => {
 	const router = express.Router()
 
 	router.get('/login', async (req, res) => {
 		try {
-			const authData = await authStrategy(req)
-			if (!authData || !authData.memberId) {
-				res.redirect(`${homepageUrl}?error=INVALID_AUTHENTICATION`)
-				return
-			}
-			const membership = await db.UniversityMembership.findOne({
-				where: { memberId: authData.memberId }
-			})
-			if (!membership) {
-				res.redirect(`${homepageUrl}?error=USER_NOT_FOUND`)
-				return
-			}
+			const userId = await authStrategy.authenticate(req)
 			req.principal = {
-				id: membership.userId
+				id: userId
 			}
 			req.session.initiated = new Date()
-		} catch(e) {
-			console.log(e)
+			res.redirect(homepageUrl)
+		} catch (e) {
+			const code = (typeof e === 'string') ? e : 'UNKNOWN_ERROR'
+			res.redirect(`${homepageUrl}?error=${code}`)
 		}
-		res.redirect(homepageUrl)
 	})
 
 	return router
 }
 
 module.exports = {
-	createAuthHandler
+	createAuthHandler, AuthStrategyInterface
 }

@@ -26,7 +26,7 @@ sequelize.authenticate()
 			// TODO add SurfConext
 		}
 		if (process.env.NODE_ENV !== 'production') {
-			authStrategies['_devlogin'] = devLogin.authStrategy
+			authStrategies['_devlogin'] = new devLogin.AuthStrategy(database)
 		}
 
 		const server = createServer({

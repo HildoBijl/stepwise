@@ -25,7 +25,7 @@ class Client {
 			config: defaultConfig,
 			sessionStore: devLogin.createPrefilledMemoryStore(),
 			authStrategies: {
-				[AUTH_PATH]: devLogin.authStrategy
+				[AUTH_PATH]: new devLogin.AuthStrategy(database)
 			}
 		})
 		this._cookies = new Set()
