@@ -1,41 +1,37 @@
 const { MemoryStore } = require('express-session')
+const fileSystem = require('fs')
 const USERINFO = require('../../../surfConextMockData.json')
 
-const PRELOGGEDIN_USER = {
-	// User-ID as in our system:
-	USER_ID: '00000000-0000-0000-0000-000000000000',
-	// Sub-field from SurfConext
-	SUB_ID: '00000000-0000-0000-0000-000000000000',
-	// Static session id
-	SESSION_ID: '00000000000000000000000000000000',
-}
+const LAST_SESSION_ID_PATH = __dirname + '/../../../lastSessionId'
 
-const memoryStore = new MemoryStore()
+const DIRECTORY_PATH = '/_dev/surfconextporal'
 
 class MockClient {
 	async authorizationUrl() {
-		return `/auth/surfconext/login?sub=${PRELOGGEDIN_USER.SUB_ID}`
+		return DIRECTORY_PATH
 	}
 
-	async userinfo(req) {
-		const sfUserinfo = USERINFO.find(u => u.sub === req.query.sub)
+	async userinfo(params, sessionId) {
+		const sfUserinfo = USERINFO.find(u => u.sub === params.sub)
 		if (!sfUserinfo) {
 			throw new Error('User not found')
 		}
-		memoryStore.set(PRELOGGEDIN_USER.SESSION_ID, {
-			principal: { id: PRELOGGEDIN_USER.USER_ID },
-			cookie: {},
-		})
-		req.sessionID = PRELOGGEDIN_USER.SESSION_ID
+		// Persist session id on file system, so that it can be
+		// recovered on server restart
+		fileSystem.writeFileSync(LAST_SESSION_ID_PATH, sessionId)
 		return sfUserinfo
 	}
 }
 
 const createPrefilledMemoryStore = () => {
-	memoryStore.set(PRELOGGEDIN_USER.SESSION_ID, {
-		principal: { id: PRELOGGEDIN_USER.USER_ID },
-		cookie: {},
-	})
+	const memoryStore = new MemoryStore()
+	if (fileSystem.existsSync(LAST_SESSION_ID_PATH)) {
+		const lastSessionId = fileSystem.readFileSync(LAST_SESSION_ID_PATH)
+		memoryStore.set(lastSessionId, {
+			principal: { id: '00000000-0000-0000-0000-000000000000' },
+			cookie: {},
+		})
+	}
 	return memoryStore
 }
 
