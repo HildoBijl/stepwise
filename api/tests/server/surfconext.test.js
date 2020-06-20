@@ -5,7 +5,7 @@ const SPECIAL_USER_ID = '00000000-0000-0000-0000-000000000000'
 const seed = async db => {
 	await db.User.create({
 		id: SPECIAL_USER_ID,
-		name: 'Tester',
+		name: 'Step Wise',
 		email: 'step@wise.com'
 	})
 	await db.SurfConextProfile.create({
@@ -30,8 +30,12 @@ describe('SurfConext', () => {
 			.then(redirectUrl => expect(redirectUrl).toEqual(defaultConfig.homepageUrl))
 
 		await client
-			.graphql({ query: `{me {email}}` })
-			.then(({ data }) => expect(data.me).toEqual({ email: 'step@wise.com' }))
+			.graphql({ query: `{me {id name email}}` })
+			.then(({ data }) => expect(data.me).toEqual({
+				id: SPECIAL_USER_ID,
+				name: 'Step Wise',
+				email: 'step@wise.com',
+			}))
 
 		await client
 			.logout()
@@ -42,26 +46,12 @@ describe('SurfConext', () => {
 			.then(({ data }) => expect(data.me).toEqual(null))
 	})
 
-	it('doesn’t login unregistered users', async () => {
-		// We don’t seed here, so the `SPECIAL_USER_ID` is unknown to the system
-		const client = await createClient()
-
-		await client
-			.login(SPECIAL_USER_ID)
-			.then(redirectUrl => expect(redirectUrl).toEqual(
-				expect.stringContaining('error=USER_NOT_FOUND')
-			))
-
-		await client.graphql({ query: `{me {email}}` })
-			.then(({ data }) => expect(data.me).toEqual(null))
-	})
-
 	it('doesn’t login users with invalid credentials', async () => {
 		const client = await createClient(seed)
 
-		// This user-id is not whitelisted in the devLogin strategy,
-		// hence the devlogin will return a failing auth response
-		const INVALID_DEV_LOGIN_ID = '35f919c4-135b-45cf-b969-1bcc69f9dc31'
+		// This id is not whitelisted in the SurfConext mock data,
+		// therefore the authentication will fail
+		const INVALID_DEV_LOGIN_ID = 'ffffffff-ffff-ffff-ffff-123456789012'
 
 		await client
 			.login(INVALID_DEV_LOGIN_ID)
@@ -73,25 +63,43 @@ describe('SurfConext', () => {
 			.then(({ data }) => expect(data.me).toEqual(null))
 	})
 
-	it('creates a new user account if it doesn’t exist', async () => {
+	it('Updates the user information on every login', async () => {
+		const client = await createClient(async db => {
+			await db.User.create({
+				id: SPECIAL_USER_ID,
+				name: 'Old Name',
+				email: 'old@email.com'
+			})
+			await db.SurfConextProfile.create({
+				sub: SPECIAL_USER_ID,
+				userId: SPECIAL_USER_ID,
+			})
+		})
+
+		await client
+			.login(SPECIAL_USER_ID)
+			.then(redirectUrl => expect(redirectUrl).toEqual(defaultConfig.homepageUrl))
+
+		await client
+			.graphql({ query: `{me {id name email}}` })
+			.then(({ data }) => expect(data.me).toEqual({
+				id: SPECIAL_USER_ID,
+				name: 'Step Wise',
+				email: 'step@wise.com',
+			}))
+	})
+
+	it('automatically creates account for unregistered users', async () => {
 		const client = await createClient()
 
 		await client
-			.register('00000000-0000-0000-0000-111111111111')
+			.login('00000000-0000-0000-0000-111111111111')
 			.then(redirectUrl => expect(redirectUrl).toEqual(defaultConfig.homepageUrl))
 
-		await client.graphql({ query: `{me {email}}` })
-			.then(({ data }) => expect(data.me).toEqual({ email: 'john@example.org' }))
-	})
-
-	it('just logs someone in when they try to re-register', async () => {
-		const client = await createClient(seed)
-
-		await client
-			.register(SPECIAL_USER_ID)
-			.then(redirectUrl => expect(redirectUrl).toEqual(defaultConfig.homepageUrl))
-
-		await client.graphql({ query: `{me {email}}` })
-			.then(({ data }) => expect(data.me).toEqual({ email: 'step@wise.com' }))
+		await client.graphql({ query: `{me {name email}}` })
+			.then(({ data }) => expect(data.me).toEqual({
+				name: 'John Doe',
+				email: 'john@example.org',
+			}))
 	})
 })

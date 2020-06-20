@@ -6,6 +6,8 @@ const sequelize = createSequelize()
 sequelize.authenticate()
 	.then(() => new Database(sequelize))
 	.then(async () => {
+		await sequelize.query('DROP SCHEMA public CASCADE;')
+		await sequelize.query('CREATE SCHEMA public;')
 		await sequelize.sync({ force: true })
 	})
 	.catch(console.error)

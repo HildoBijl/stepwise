@@ -1,10 +1,13 @@
 module.exports = (sequelize, DataTypes) => {
 	const SurfConextProfile = sequelize.define('surfConextProfile', {
 		sub: {
-			type: DataTypes.STRING,
+			type: DataTypes.UUID,
 			allowNull: false,
-			unique: true,
+			primaryKey: true,
 		},
+		schacHomeOrganization: {
+			type: DataTypes.STRING,
+		}
 	})
 
 	SurfConextProfile.associate = models => {

@@ -21,34 +21,30 @@ class Client {
 		this._server = createServer({
 			database: database,
 			config: defaultConfig,
-			sessionStore: SurfConextMock.createPrefilledMemoryStore(),
+			sessionStore: undefined,
 			surfConextClient: new SurfConextMock.MockClient(),
 		})
-		this._cookies = new Set()
+		this._cookies = {}
 	}
 
 	_storeCookies(response) {
 		(response.headers['set-cookie'] || [])
-			.map(cookie => cookie.substr(0, cookie.indexOf(' ')))
-			.forEach(token => this._cookies.add(token))
+			.map(cookie => cookie.substr(0, cookie.indexOf(';')))
+			.forEach(token => {
+				const [name, value] = token.split('=')
+				this._cookies[name] = value
+			})
 	}
 
 	_cookieHeader() {
-		return Array.from(this._cookies).join(' ')
+		return Object.entries(this._cookies)
+			.map(([name, value]) => `${name}=${value}`)
+			.join(' ')
 	}
 
 	async login(surfConextSub) {
 		const response = await request(this._server)
 			.get(`/auth/surfconext/login`)
-			.query({ sub: surfConextSub })
-			.expect(302)
-		this._storeCookies(response)
-		return response.headers['location']
-	}
-
-	async register(surfConextSub) {
-		const response = await request(this._server)
-			.get(`/auth/surfconext/register`)
 			.query({ sub: surfConextSub })
 			.expect(302)
 		this._storeCookies(response)
