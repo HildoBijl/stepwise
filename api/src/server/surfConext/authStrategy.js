@@ -13,40 +13,32 @@ class AuthStrategy extends AuthStrategyTemplate {
 
 	async authenticate(req) {
 		try {
-			return await this._surfConext.userinfo(req)
+			return await this._surfConext.userinfo(req.query, req.session.id)
 		} catch(e) {
 			throw AuthStrategy.INVALID_AUTHENTICATION
 		}
 	}
 
-	async findUser(authData) {
+	async findOrCreateUser(authData) {
 		const surfProfile = await this._db.SurfConextProfile.findOne({
 			where: { sub: authData.sub },
 			include: {
 				model: this._db.User,
 			},
 		})
-		if (!surfProfile || !surfProfile.user) {
-			throw AuthStrategy.USER_NOT_FOUND
-		}
-		return surfProfile.user
-	}
-
-	async findOrCreateUser(authData) {
-		try {
-			const user = await this.findUser(authData)
-			return user
-		} catch(e) {}
-		// TODO use transaction here
-		const newUser = await this._db.User.create({
+		// TODO use transactions
+		const [user] = await this._db.User.upsert({
+			// Update if user exists, otherwise a new one gets created
+			id: surfProfile ? surfProfile.user.id : undefined,
 			name: authData.name,
 			email: authData.email,
-		})
-		await this._db.SurfConextProfile.create({
+		}, { returning: true })
+		await this._db.SurfConextProfile.upsert({
 			sub: authData.sub,
-			userId: newUser.id,
+			userId: user.id,
+			schacHomeOrganization: authData.schac_home_organization,
 		})
-		return newUser
+		return user
 	}
 }
 
