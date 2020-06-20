@@ -6,6 +6,7 @@ const schema = gql`
   }
 
 	type User {
+		id: ID!
 		name: String!
 		email: EmailAddress!
 		skills(ids: [String]): [SkillWithoutExercises]!
