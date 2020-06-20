@@ -1,4 +1,5 @@
 const skills = require('../skills')
+const { IOtoFO } = require('../inputTransformation')
 
 // selectExercise takes a skill and randomly picks an exercise from the collection.
 function selectExercise(skillId) {
@@ -13,7 +14,7 @@ function selectExercise(skillId) {
 
 	// Select a random exercise from the list.
 	const exercises = skill.exercises
-	return exercises[Math.floor(Math.random()*exercises.length)]
+	return exercises[Math.floor(Math.random() * exercises.length)]
 }
 
 // getNewExercise takes a skillId and returns a set of exercise data of the form { id: 'linearEquations', state: { a: 3, b: 12 } }. The state is given in functional format.
@@ -26,20 +27,45 @@ function getNewExercise(skillId) {
 	}
 }
 
+// ToDo: check if needed.
 // checkExerciseInput checks the input for a given exercise with corresponding state. It assumes the state and input are already in functional format.
 function checkExerciseInput(exerciseId, state, input) {
 	const { checkInput } = require(`../exercises/${exerciseId}`)
 	return checkInput(state, input)
 }
 
+// ToDo: check if needed.
 // getParameterResult takes a result object and checks whether the given parameter is correct.
 function getParameterResult(parameter, result) {
 	// For simple problems without multiple parameters, return the general problem outcome.
 	if (result === true || result === false || result === undefined)
 		return result
-	
+
 	// Return the outcome for the respective parameter.
 	return result[parameter]
+}
+
+// getSimpleExerciseProcessor takes a checkInput function that checks the input for a SimpleExercise and returns a processAction function.
+function getSimpleExerciseProcessor(checkInput) {
+	return ({ progress, action, state, markAsDone, updateSkills }) => {
+		switch (action.type) {
+			case 'submit':
+				const correct = checkInput(state, IOtoFO(action.input))
+				if (correct) {
+					// ToDo: update skills.
+					markAsDone()
+					return { solved: true }
+				} else {
+					// ToDo: update skills.
+					return progress
+				}
+
+			case 'giveUp':
+				// ToDo: update skills.
+				markAsDone()
+				return { givenUp: true }
+		}
+	}
 }
 
 module.exports = {
@@ -47,4 +73,5 @@ module.exports = {
 	getNewExercise,
 	checkExerciseInput,
 	getParameterResult,
+	getSimpleExerciseProcessor,
 }

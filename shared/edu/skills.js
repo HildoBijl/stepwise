@@ -1,4 +1,10 @@
 const skills = {
+	fillIn: {
+		name: 'Fill in x',
+		prerequisites: [],
+		continuations: [],
+		exercises: ['fillIn'],
+	},
 	example: {
 		name: 'Example skill',
 		prerequisites: [],

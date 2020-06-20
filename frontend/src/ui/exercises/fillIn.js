@@ -10,23 +10,18 @@ export default function Exercise() {
 
 function Problem() {
 	const { state } = useExerciseData()
-	const { a, b } = state
+	const { x } = state
 	return <>
 		<h3>Problem</h3>
-		{/* <InputSpace> */}
-		<p>{a}*{b} = <IntegerInput name="ans" /></p>
-		{/* </InputSpace> */}
-		{/* <AntiInputSpace>
-			<p>Calculate the product {a}*{b}.</p>
-		</AntiInputSpace> */}
+		<p>{x} = <IntegerInput name="ans" /></p>
 	</>
 }
 
 function Solution() {
 	const { state } = useExerciseData()
-	const { a, b } = state
+	const { x } = state
 	return <>
 		<h3>Solution</h3>
-		<p>The solution is {a}*{b} = {a * b}.</p>
+		<p>The answer is {x}.</p>
 	</>
 }

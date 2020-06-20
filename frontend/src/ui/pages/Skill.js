@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useRouteMatch, Link } from 'react-router-dom'
 
-import Exercise from '../components/Exercise'
+import ExerciseLoader from '../components/ExerciseLoader'
 
 import { usePaths } from '../routing'
 import skills from 'step-wise/edu/skills'
@@ -12,16 +12,14 @@ export default function Skill() {
 	const { skillId } = params
 	const paths = usePaths() // ToDo: remove later, once not needed.
 
-	// Set up a state to manage the exercise.
-	const [exercise, setExercise] = useState(getNewExercise(skillId))
+	// Use a state to track exercise data. Generate new data on a change in skill ID.
+	const [exercise, setExercise] = useState(null)
 	const startNewExercise = () => setExercise(getNewExercise(skillId))
-
-	// Reset the exercise when a new skillId is given.
 	useEffect(startNewExercise, [skillId])
 
 	return <>
-		<p>Here's a sample exercise for you to try... - <Link to={paths.skill({ skillId: 'summation' })}>Summation</Link> - <Link to={paths.skill({ skillId: 'multiplication' })}>Multiplication</Link>.</p>
-		<Exercise {...exercise} startNewExercise={startNewExercise} />
+		<p>Some possible skills to practice: <Link to={paths.skill({ skillId: 'fillIn' })}>Fill in a number</Link> - <Link to={paths.skill({ skillId: 'summation' })}>Summation</Link> - <Link to={paths.skill({ skillId: 'multiplication' })}>Multiplication</Link> - <Link to={paths.skill({ skillId: 'summationOfMultiplications' })}>Summation of multiplications</Link> - <Link to={paths.skill({ skillId: 'example' })}>Linear equation</Link>.</p>
+		{exercise ? <ExerciseLoader {...exercise} startNewExercise={startNewExercise} /> : null}
 	</>
 }
 

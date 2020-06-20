@@ -1,22 +1,26 @@
 const { getRandomInteger } = require('../../util/random')
+const { getSimpleExerciseProcessor } = require('../util/exercises')
+
+const data = {
+	// ToDo: add data on difficulty.
+}
+
+function generateState() {
+	const a = getRandomInteger(1,10)
+	const x = getRandomInteger(1,10)
+	return {
+		a,
+		b: a*x,
+	}
+}
+
+console.log('EXAMPLE')
+function checkInput({ a, b }, { x }) {
+	return a * x === b
+}
 
 module.exports = {
-	data: {
-		canSplit: false,
-	},
-	generateState: () => {
-		const a = getRandomInteger(1,10)
-		const x = getRandomInteger(1,10)
-		return {
-			a,
-			b: a*x,
-		}
-	},
-	checkInput: ({ a, b }, { x }) => {
-		return a * x === b
-	},
-	processResult(result, prevProgress, adjustSkill) {
-
-		return {} // Progress; ToDo.
-	},
+	data,
+	generateState,
+	processAction: getSimpleExerciseProcessor(checkInput),
 }

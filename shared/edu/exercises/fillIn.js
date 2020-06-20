@@ -6,16 +6,12 @@ const data = {
 }
 
 function generateState() {
-	return {
-		a: getRandomInteger(1,10),
-		b: getRandomInteger(1,10),
-		c: getRandomInteger(1,10),
-		d: getRandomInteger(1,10),
-	}
+	return { x: getRandomInteger(1, 10) }
 }
 
-function checkInput({ a, b, c, d }, { ans }) {
-	return a * b + c * d === ans
+console.log('FILLIN')
+function checkInput({ x }, { ans }) {
+	return x === ans
 }
 
 module.exports = {

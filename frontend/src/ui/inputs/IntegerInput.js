@@ -1,53 +1,39 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 
-import { getParameterResult } from 'step-wise/edu/util/exercises'
-import { useExerciseData } from '../components/Exercise'
-
-// Set up memory for updating the cursor position.
-let cursorPosition = 0
-let field
+import { useExerciseData } from '../components/ExerciseLoader'
+import { useFormParameter } from '../components/Form'
 
 export default function IntegerInput({ name, positive = false }) {
-	const { input, prevInput, result, setInputParameter, done } = useExerciseData()
+	const { done } = useExerciseData()
+	const [input, setInput] = useFormParameter(name)
 
-	const value = (input && input[name] && input[name].value) || ''
-	const editable = !done && (!result || result[name] === undefined)
+	const fieldRef = useRef(null)
+	const cursorPositionRef = useRef(0)
 
-	const submissionResult = getParameterResult(name, result)
-	const prevValue = (prevInput && prevInput[name] && prevInput[name].value) || ''
+	const value = (input && input.value) || ''
+	const editable = !done
 
 	const handleChange = evt => {
 		// Extract data.
-		field = evt.target // Remember the field.
-		const input = field.value
+		fieldRef.current = evt.target
+		const input = fieldRef.current.value
 
 		// Find the new desired cursor position.
 		const oldCursorPosition = evt.target.selectionStart
 		const useMinusSign = !positive && input.charAt(0) === '-'
 		const numNumbersBeforeCursor = (input.substring(0, oldCursorPosition).match(/[0-9]/g) || []).length
-		cursorPosition = numNumbersBeforeCursor + (useMinusSign ? 1 : 0)
+		cursorPositionRef.current = numNumbersBeforeCursor + (useMinusSign ? 1 : 0)
 
 		// Adjust the input, clearing non-valid characters, and store it.
 		const newInput = (useMinusSign ? '-' : '') + input.replace(/[^0-9]/g, '')
-		setInputParameter(name, { type: 'Integer', value: newInput })
+		setInput({ type: 'Integer', value: newInput })
 	}
 
 	// On updates set the cursor position accordingly.
 	useEffect(() => {
-		if (field)
-			field.setSelectionRange(cursorPosition, cursorPosition)
+		if (fieldRef.current)
+			fieldRef.current.setSelectionRange(cursorPositionRef.current, cursorPositionRef.current)
 	})
 
-	// Determine feedback. [This is a temporary way. Later on it should be graphically formatted.]
-	let feedback
-	if (submissionResult === true) {
-		feedback = 'Correct'
-	} else if (submissionResult === false && value === prevValue) {
-		feedback = 'Wrong'
-	}
-
-	return <>
-		<input type="text" name={name} value={value} disabled={!editable} onChange={handleChange} />
-		{feedback ? <span> {feedback}</span> : null}
-	</>
+	return <input type="text" name={name} value={value} disabled={!editable} onChange={handleChange} />
 }
