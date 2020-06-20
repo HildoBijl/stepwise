@@ -9,7 +9,6 @@ function generateState() {
 	return { x: getRandomInteger(1, 10) }
 }
 
-console.log('FILLIN')
 function checkInput({ x }, { ans }) {
 	return x === ans
 }

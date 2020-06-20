@@ -1,7 +1,7 @@
 import React from 'react'
 
 import IntegerInput from '../inputs/IntegerInput'
-import { useExerciseData } from '../components/ExerciseLoader'
+import { useExerciseData } from '../components/ExerciseContainer'
 import SimpleExercise from '../components/SimpleExercise'
 
 export default function Exercise() {

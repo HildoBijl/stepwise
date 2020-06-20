@@ -1,17 +1,17 @@
 import React, { useEffect, useRef } from 'react'
 
-import { useExerciseData } from '../components/ExerciseLoader'
+import { useExerciseData } from '../components/ExerciseContainer'
 import { useFormParameter } from '../components/Form'
 
 export default function IntegerInput({ name, positive = false }) {
-	const { done } = useExerciseData()
+	const { progress } = useExerciseData()
 	const [input, setInput] = useFormParameter(name)
 
 	const fieldRef = useRef(null)
 	const cursorPositionRef = useRef(0)
 
 	const value = (input && input.value) || ''
-	const editable = !done
+	const editable = !progress.done
 
 	const handleChange = evt => {
 		// Extract data.

@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { useExerciseData } from './ExerciseLoader'
+import { useExerciseData } from './ExerciseContainer'
 import { useFormData } from './Form'
 import Form from './Form'
 
@@ -12,19 +12,17 @@ export default function SimpleExercise(props) {
 
 function Contents({ Problem, Solution }) {
 	// Obtain data.
-	const { done, dispatch, startNewExercise } = useExerciseData()
+	const { progress, dispatch, startNewExercise } = useExerciseData()
 	const { input } = useFormData()
 
 	// Set up button handlers.
 	const submit = () => dispatch({ type: 'submit', input })
 	const giveUp = () => dispatch({ type: 'giveUp' })
 
-	// Get state.
-
 	return <>
 		<Problem />
 		{
-			!done ? (
+			!progress.done ? (
 				<p>
 					<button type="button" onClick={submit}>Submit</button>
 					<button type="button" onClick={giveUp}>Give up</button>

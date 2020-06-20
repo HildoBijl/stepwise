@@ -1,6 +1,6 @@
 const skills = {
 	fillIn: {
-		name: 'Fill in x',
+		name: 'Fill in a number',
 		prerequisites: [],
 		continuations: [],
 		exercises: ['fillIn'],
