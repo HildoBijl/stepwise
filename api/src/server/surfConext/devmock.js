@@ -35,6 +35,19 @@ const createPrefilledMemoryStore = () => {
 	return memoryStore
 }
 
+const userDirectory = (req, res) => {
+	const list = USERINFO.map(u => `<li>
+			<a href="/auth/surfconext/login?sub=${u.sub}">
+				${u.name} &lt;${u.email}&gt;
+			</a>
+		</li>
+	`)
+	res.send(`<!doctype html>
+		<html><body>
+			<h1>SurfConext Mock Users</h1>
+			<ul>${list.join('')}`)
+}
+
 module.exports = {
-	MockClient, createPrefilledMemoryStore
+	MockClient, createPrefilledMemoryStore, userDirectory, DIRECTORY_PATH
 }

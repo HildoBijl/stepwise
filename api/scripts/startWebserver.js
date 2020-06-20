@@ -29,6 +29,11 @@ sequelize.authenticate()
 			sessionStore,
 			surfConextClient,
 		})
+
+		if (process.env.NODE_ENV === 'development') {
+			server.get(SurfConextMock.DIRECTORY_PATH, SurfConextMock.userDirectory)
+		}
+
 		server.listen(process.env.PORT, () => {
 			console.log(`Server listening on port ${process.env.PORT}`)
 		})
