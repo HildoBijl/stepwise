@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react'
 
 import { useExerciseData } from '../components/ExerciseContainer'
 import { useFormParameter } from '../components/Form'
+import { useParameterFeedback } from '../components/FeedbackProvider'
 
 export default function IntegerInput({ name, positive = false }) {
 	const { progress } = useExerciseData()
@@ -12,6 +13,9 @@ export default function IntegerInput({ name, positive = false }) {
 
 	const value = (input && input.value) || ''
 	const editable = !progress.done
+
+	const { feedback, prevInput } = useParameterFeedback(name)
+	const showFeedback = (feedback !== undefined && input.value === prevInput.value)
 
 	const handleChange = evt => {
 		// Extract data.
@@ -35,5 +39,8 @@ export default function IntegerInput({ name, positive = false }) {
 			fieldRef.current.setSelectionRange(cursorPositionRef.current, cursorPositionRef.current)
 	})
 
-	return <input type="text" name={name} value={value} disabled={!editable} onChange={handleChange} />
+	return <>
+		<input type="text" name={name} value={value} disabled={!editable} onChange={handleChange} />
+		{showFeedback ? <span> {feedback ? 'Correct' : 'Wrong'}</span> : null}
+	</>
 }

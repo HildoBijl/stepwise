@@ -3,20 +3,30 @@
 import React from 'react'
 
 import { useExerciseData } from './ExerciseContainer'
-import { useFormData } from './Form'
-import Form from './Form'
+import Form, { useFormData } from './Form'
+import FeedbackProvider, { useFeedback } from './FeedbackProvider'
 
 export default function SimpleExercise(props) {
-	return <Form><Contents {...props} /></Form>
+	return (
+		<Form>
+			<FeedbackProvider>
+				<Contents {...props} />
+			</FeedbackProvider>
+		</Form>
+	)
 }
 
 function Contents({ Problem, Solution }) {
 	// Obtain data.
 	const { progress, dispatch, startNewExercise } = useExerciseData()
 	const { input } = useFormData()
+	const { getFeedback } = useFeedback()
 
 	// Set up button handlers.
-	const submit = () => dispatch({ type: 'submit', input })
+	const submit = () => {
+		dispatch({ type: 'submit', input })
+		getFeedback(input)
+	}
 	const giveUp = () => dispatch({ type: 'giveUp' })
 
 	return <>

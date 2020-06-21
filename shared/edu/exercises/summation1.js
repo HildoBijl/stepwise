@@ -1,5 +1,5 @@
 const { getRandomInteger } = require('../../util/random')
-const { getSimpleExerciseProcessor } = require('../util/exercises')
+const { getSimpleExerciseProcessor, getSimpleExerciseFeedbackFunction } = require('../util/exercises')
 
 const data = {
 	// ToDo: add data on difficulty.
@@ -20,4 +20,5 @@ module.exports = {
 	data,
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput),
+	getFeedback: getSimpleExerciseFeedbackFunction(checkInput),
 }

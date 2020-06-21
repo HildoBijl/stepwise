@@ -33,7 +33,7 @@ export default function ExerciseContainer({ id, state, startNewExercise }) {
 	const [history, dispatch] = useReducer(reducer, [])
 
 	return <>
-		<ExerciseContext.Provider value={{ state, history, progress: getLastProgress(history), dispatch, startNewExercise }}>
+		<ExerciseContext.Provider value={{ state, history, progress: getLastProgress(history), dispatch, startNewExercise, meta: ExerciseData.current }}>
 			{loaded ? <Exercise.current /> : <p>Loading...</p>}
 		</ExerciseContext.Provider>
 	</>
