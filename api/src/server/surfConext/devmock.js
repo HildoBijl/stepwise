@@ -28,7 +28,7 @@ const createPrefilledMemoryStore = () => {
 	if (fileSystem.existsSync(LAST_SESSION_ID_PATH)) {
 		const lastSessionId = fileSystem.readFileSync(LAST_SESSION_ID_PATH)
 		memoryStore.set(lastSessionId, {
-			principal: { id: '00000000-0000-0000-0000-000000000000' },
+			principal: { id: '01234567-89ab-cdef-0123-456789abcdef' },
 			cookie: {},
 		})
 	}

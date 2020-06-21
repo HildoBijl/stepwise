@@ -2,11 +2,11 @@ const { checkSkillIds } = require('../util/Skill')
 
 const resolvers = {
 	User: {
-		skills: async (user, { ids }, { db }) => {
+		skills: async (user, { ids }) => {
 			if (!ids)
-				return await db.UserSkill.findAll({ where: { userId: user.id } })
+				return await user.getSkills()
 			checkSkillIds(ids)
-			return await db.UserSkill.findAll({ where: { userId: user.id, skillId: ids } })
+			return await user.getSkills({ where: { skillId: ids } })
 		},
 	},
 

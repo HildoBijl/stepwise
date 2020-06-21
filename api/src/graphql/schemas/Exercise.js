@@ -3,9 +3,7 @@ const { gql } = require('apollo-server-express')
 const schema = gql`
 	extend type Mutation {
 		startExercise(skillId: String!): Exercise!
-		submitExercise(skillId: String!, input: JSON!): [Skill]!
-		splitUpExercise(skillId: String!): [Skill]!
-		giveUpExercise(skillId: String!): [Skill]!
+		processExerciseAction(skillId: String!, action: JSON!): ExerciseActionResult!
 	}
 
 	type Exercise {
@@ -13,7 +11,14 @@ const schema = gql`
 		state: JSON!
 		active: Boolean!
 		startedOn: DateTime!
-		submissions: [Submission]!
+		progress: JSON!
+		lastAction: Action
+		actions: [Action]!
+	}
+
+	type ExerciseActionResult {
+		updatedExercise: Exercise!
+		adjustedSkills: [SkillWithoutExercises]!
 	}
 `
 

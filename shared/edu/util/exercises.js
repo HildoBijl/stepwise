@@ -50,7 +50,7 @@ function getSimpleExerciseProcessor(checkInput) {
 
 // getSimpleExerciseFeedbackFunction takes a checkInput function and turns it into a getFeedback function.
 function getSimpleExerciseFeedbackFunction(checkInput) {
-	return (state, input, progress) => ({ all: checkInput(state, input) })
+	return (state, input) => ({ all: checkInput(state, input) })
 }
 
 module.exports = {

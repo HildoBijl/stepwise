@@ -1,9 +1,10 @@
 const { gql } = require('apollo-server-express')
 
 const schema = gql`
-	type Submission {
-		input: JSON!
-		# correct: JSON!
+	type Action {
+		data: JSON!
+		progress: JSON!
+		performedAt: DateTime!
 	}
 `
 

@@ -1,6 +1,11 @@
 const { gql } = require('apollo-server-express')
 
-const schemaKeys = ['User', 'Skill', 'Exercise', 'Submission']
+const schemaKeys = [
+	'User',
+	'Skill',
+	'Exercise',
+	'Action'
+]
 
 const linkSchema = gql`
 	scalar EmailAddress

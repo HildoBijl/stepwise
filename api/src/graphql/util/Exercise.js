@@ -1,56 +1,69 @@
-const skills = require('step-wise/edu/skills')
 const { AuthenticationError, UserInputError  } = require('apollo-server-express')
 
-// getActiveExerciseData takes a userId and a skillId. For this, it returns { user, skill, userSkill, activeExercise }. If requireExercise is set to true it ensures that there is an active exercise. On false it ensures that there is not. (Otherwise an error is thrown.)
-async function getActiveExerciseData(userId, skillId, db, requireExercise = true) {
-	// Check if the given skill exists.
-	const skill = skills[skillId]
-	if (!skill)
-		throw new UserInputError(`Unknown skill "${skillId}".`)
+const { findOptimum } = require('step-wise/util/arrays')
+const skills = require('step-wise/edu/skills')
+const { checkSkillIds } = require('./Skill')
 
-	// Check if the user is logged in.
-	if (!userId)
-		throw new AuthenticationError('No user is logged in.')
+// getActiveExerciseData takes a userId and a skillId. For this, it returns { user, skill, activeExercise }, where the skill is the UserSkill from the database. If requireExercise is set to true it ensures that there is an active exercise. On false it ensures that there is not. (Otherwise an error is thrown.)
+async function getActiveExerciseData(userId, skillId, db, requireExercise = true) {
+	checkSkillIds([skillId])
 
 	// Pull everything from the database.
-	const user = await db.User.findOne({
-		where: { id: userId },
+	const user = userId && await db.User.findByPk(userId, {
 		include: {
-			model: db.UserSkill,
+			association: 'skills',
 			where: { skillId },
+			required: false,
 			include: {
-				model: db.ExerciseSample,
+				association: 'exercises',
 				where: { active: true },
 				required: false,
-			}
-		}
+				include: {
+					association: 'actions',
+					required: false,
+				},
+			},
+		},
 	})
 	if (!user)
 		throw new AuthenticationError('No user is logged in.')
 
-	// Check the UserSkill.
-	let userSkill = user.userSkills[0]
-	if (!userSkill) {
+	// Obtain or create the skill.
+	let skill = user.skills && user.skills[0]
+	if (!skill) {
 		if (requireExercise) {
-			throw new UserInputError(`No exercise is open.`)
+			throw new UserInputError(`There is no active exercise for skill "${skillId}".`)
 		} else {
-			userSkill = await user.createUserSkill({ skillId })
+			skill = await user.createSkill({ skillId })
 		}
 	}
 
-	// Check the exercise.
-	let activeExercise = userSkill.exerciseSamples && userSkill.exerciseSamples[0]
+	// Obtain the exercise and check if it matches expectations.
+	const exercise = skill.exercises && skill.exercises[0]
 	if (requireExercise) {
-		if (!activeExercise)
+		if (!exercise)
 			throw new UserInputError(`There is no active exercise for skill "${skillId}".`)
 	} else {
-		if (activeExercise)
+		if (exercise)
 			throw new UserInputError(`There is still an active exercise for skill "${skillId}".`)
 	}
 
-	return { user, skill, userSkill, activeExercise }
+	return { user, skill, exercise }
+}
+
+function getLastAction(exercise) {
+	if (!exercise.actions || exercise.actions.length === 0)
+		return null
+	return findOptimum(exercise.actions, (a, b) => a.createdAt > b.createdAt)
+}
+
+function getExerciseProgress(exercise) {
+	const lastAction = getLastAction(exercise)
+	return (lastAction === null ? {} : lastAction.progress) // Note that {} is the default initial progress.
 }
 
 module.exports = {
 	getActiveExerciseData,
+	getLastAction,
+	getExerciseProgress,
 }

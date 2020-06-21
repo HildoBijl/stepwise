@@ -1,65 +1,44 @@
-const { getActiveExerciseData } = require('../util/Exercise')
+const { getNewExercise } = require('step-wise/edu/util/exercises')
+const { getLastAction, getExerciseProgress, getActiveExerciseData } = require('../util/Exercise')
 
 const resolvers = {
 	Exercise: {
-		id: exerciseSample => exerciseSample.exerciseId,
-		startedOn: exerciseSample => exerciseSample.createdAt,
-		submissions: async (exerciseSample, _args, { db }) => await db.ExerciseSubmission.findAll({ where: { exerciseSampleId: exerciseSample.id } }),
+		id: exercise => exercise.exerciseId,
+		startedOn: exercise => exercise.createdAt,
+		lastAction: exercise => getLastAction(exercise),
+		progress: exercise => getExerciseProgress(exercise),
+		actions: exercise => exercise.actions || [],
 	},
 
 	Mutation: {
 		startExercise: async (_source, { skillId }, { db, getUserId }) => {
-			const { skill, userSkill } = await getActiveExerciseData(getUserId(), skillId, db, false)
+			const { skill } = await getActiveExerciseData(getUserId(), skillId, db, false)
 
-			// ToDo: select the most appropriate exercise for this user.
-			const exerciseId = skill.exercises[0] // Temporary: just pick the first.
-
-			// Start the new exercise and return it.
-			const { generateState } = require(`step-wise/edu/exercises/${exerciseId}`)
-			const state = generateState()
-			return await userSkill.createExerciseSample({ exerciseId, state, active: true })
+			// Select a new exercise, store it and return the result.
+			const newExercise = getNewExercise(skillId) // ToDo: add skill data to make a more informed decision.
+			return await skill.createExercise({ exerciseId: newExercise.id, state: newExercise.state, active: true })
 		},
 
-		submitExercise: async (_source, { skillId, input }, { db, getUserId }) => {
-			const { userSkill, activeExercise } = await getActiveExerciseData(getUserId(), skillId, db, true)
+		processExerciseAction: async (_source, { skillId, action }, { db, getUserId }) => {
+			const { exercise } = await getActiveExerciseData(getUserId(), skillId, db, true)
 
-			// Grade the input.
-			const exerciseId = activeExercise.exerciseId
-			const { checkInput } = require(`step-wise/edu/exercises/${exerciseId}`)
-			const correct = checkInput(activeExercise.state, input) // ToDo: process results into the coefficients.
+			// Update the progress parameter.
+			const prevProgress = getExerciseProgress(exercise)
+			const { processAction } = require(`step-wise/edu/exercises/${exercise.exerciseId}`)
+			const progress = processAction({ action, state: exercise.state, progress: prevProgress, updateSkills: () => console.log('ToDo: enable skill updating') })
 
 			// Store the submission and on a correct one update the active field of the exercise to solved.
-			const queries = [activeExercise.createExerciseSubmission({ input })]
-			if (correct) {
-				queries.push(activeExercise.update({ active: false }))
+			const newAction = await exercise.createAction({ action, progress })
+			exercise.actions.push(newAction) // In Sequelize we have to manually add the new action to the current object. 
+			if (progress.done)
+				await exercise.update({ active: false })
+			// ToDo: add transactions.
+			
+			// Return all required data.
+			return {
+				updatedExercise: exercise,
+				adjustedSkills: [], // ToDo: add affected skills.
 			}
-			await Promise.all(queries)
-			// ToDo: add transactions.
-
-			// Return affected skills.
-			return [userSkill]
-		},
-
-		splitUpExercise: async (_source, { skillId }, { db, getUserId }) => {
-			const { userSkill } = await getActiveExerciseData(getUserId(), skillId, db, true)
-
-			// Split up the exercise.
-			// ToDo: add a submission for splitting up.
-			// ToDo: update coefficients accordingly.
-			// ToDo: add transactions.
-
-			// Return affected skills.
-			return [userSkill]
-		},
-
-		giveUpExercise: async (_source, { skillId }, { db, getUserId }) => {
-			const { userSkill, activeExercise } = await getActiveExerciseData(getUserId(), skillId, db, true)
-
-			// End the exercise. [ToDo: insert a submission for giving up.] [ToDo: update coefficients accordingly.] [ToDo: add transactions.]
-			await activeExercise.update({ active: false })
-
-			// Return affected skills.
-			return [userSkill]
 		},
 	},
 }

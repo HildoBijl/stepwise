@@ -6,7 +6,7 @@ const modelKeys = [
 	'SurfConextProfile',
 	'UserSkill',
 	'ExerciseSample',
-	'ExerciseSubmission',
+	'ExerciseAction',
 ]
 
 // TODO remove inheritance once the Database isn’t used as DataSource anymore

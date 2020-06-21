@@ -3,14 +3,13 @@ const { createClient, defaultConfig } = require('../client')
 const SPECIAL_USER_ID = '00000000-0000-0000-0000-000000000000'
 
 const seed = async db => {
-	await db.User.create({
+	const user = await db.User.create({
 		id: SPECIAL_USER_ID,
 		name: 'Step Wise',
 		email: 'step@wise.com'
 	})
-	await db.SurfConextProfile.create({
+	await user.createSurfConextProfile({
 		sub: SPECIAL_USER_ID,
-		userId: SPECIAL_USER_ID,
 	})
 }
 
@@ -65,14 +64,13 @@ describe('SurfConext', () => {
 
 	it('Updates the user information on every login', async () => {
 		const client = await createClient(async db => {
-			await db.User.create({
+			const user = await db.User.create({
 				id: SPECIAL_USER_ID,
 				name: 'Old Name',
 				email: 'old@email.com'
 			})
-			await db.SurfConextProfile.create({
+			await user.createSurfConextProfile({
 				sub: SPECIAL_USER_ID,
-				userId: SPECIAL_USER_ID,
 			})
 		})
 

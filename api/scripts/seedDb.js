@@ -1,5 +1,6 @@
 const { Database } = require('../src/database')
 const { createSequelize } = require('./init')
+const surfConextMockData = require('../surfConextMockData.json')
 
 if (process.env.NODE_ENV !== 'development') process.exit(1)
 
@@ -14,33 +15,36 @@ async function seedTestData(db) {
 
 	// Create a user.
 	const user = await db.User.create({
-		id: '00000000-0000-0000-0000-000000000000',
+		id: '01234567-89ab-cdef-0123-456789abcdef',
 		name: 'Step',
 		email: 'step@wise.com',
 		createdAt: date.setSeconds(date.getSeconds() + 1)
 	})
-	await db.SurfConextProfile.create({
-		sub: user.id,
-		userId: user.id,
-	})
+	const surfConextMockUser = surfConextMockData.find(u => u.email === user.email)
+	if (surfConextMockUser) {
+		await user.createSurfConextProfile({
+			sub: surfConextMockUser.sub,
+			schacHomeOrganization: surfConextMockUser.schac_home_organization,
+		})
+	}
 
 	// Create skills for the user.
 	const skills = await Promise.all([
-		db.UserSkill.create({ userId: user.id, skillId: 'example', createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		user.createSkill({ skillId: 'example', createdAt: date.setSeconds(date.getSeconds() + 1) }),
 	])
 
 	// Create exercises related to the example skill.
 	const exampleSkill = skills[0]
 	const exercises = await Promise.all([
-		db.ExerciseSample.create({ userSkillId: exampleSkill.id, exerciseId: 'exampleExercise1', state: { a: 9, b: 54 }, active: false, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		db.ExerciseSample.create({ userSkillId: exampleSkill.id, exerciseId: 'exampleExercise1', state: { a: 2, b: 6 }, active: false, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		db.ExerciseSample.create({ userSkillId: exampleSkill.id, exerciseId: 'exampleExercise1', state: { a: 7, b: 63 }, active: true, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		exampleSkill.createExercise({ exerciseId: 'exampleExercise1', state: { a: 9, b: 54 }, active: false, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		exampleSkill.createExercise({ exerciseId: 'exampleExercise1', state: { a: 2, b: 6 }, active: false, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		exampleSkill.createExercise({ exerciseId: 'exampleExercise1', state: { a: 7, b: 63 }, active: true, createdAt: date.setSeconds(date.getSeconds() + 1) }),
 	])
-	const submissions = await Promise.all([
-		db.ExerciseSubmission.create({ exerciseSampleId: exercises[0].id, input: { x: 7 }, correct: false, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		db.ExerciseSubmission.create({ exerciseSampleId: exercises[0].id, input: { x: 11 }, correct: false, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		db.ExerciseSubmission.create({ exerciseSampleId: exercises[1].id, input: { x: 4 }, correct: false, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		db.ExerciseSubmission.create({ exerciseSampleId: exercises[1].id, input: { x: 3 }, correct: false, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+	const actions = await Promise.all([
+		exercises[0].createAction({ action: { type: 'submit', input: { x: 7 } }, progress: {}, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		exercises[0].createAction({ action: { type: 'submit', input: { x: 6 } }, progress: { solved: true, done: true }, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		exercises[1].createAction({ action: { type: 'submit', input: { x: 8 } }, progress: {}, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		exercises[1].createAction({ action: { type: 'submit', input: { x: 9 } }, progress: { solved: true, done: true }, createdAt: date.setSeconds(date.getSeconds() + 1) }),
 	])
 }
 

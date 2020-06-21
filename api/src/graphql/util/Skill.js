@@ -9,15 +9,14 @@ function checkSkillIds(ids) {
 	})
 }
 
-// getUserSkills takes a userId and skillIds and gets the UserSkills for the given user. The parameter skillIds can be ommitted (falsy) in which case all skills are extracted.
+// getUserSkills takes a userId and skillIds and gets the UserSkills for the given user. The parameter skillIds can be ommitted (falsy) in which case all skills are extracted. No exercises are loaded.
 async function getUserSkills(userId, skillIds, db) {
 	checkSkillIds(skillIds || [])
 
 	// Load all data.
-	const user = userId && await db.User.findOne({
-		where: { id: userId },
+	const user = userId && await db.User.findByPk(userId, {
 		include: {
-			model: db.UserSkill,
+			association: 'skills',
 			where: skillIds ? { skillId: skillIds } : true,
 			required: false,
 		},
@@ -26,10 +25,38 @@ async function getUserSkills(userId, skillIds, db) {
 	if (!user)
 		throw new AuthenticationError(`No user is logged in.`)
 
-	return user.userSkills
+	return user.skills
+}
+
+// getUserSkill takes a userId and a skillId and gets the corresponding skill object, including all exercises and actions.
+async function getUserSkill(userId, skillId, db) {
+	checkSkillIds([skillId])
+	
+	// Load all data.
+	const user = userId && await db.User.findByPk(userId, {
+		include: {
+			association: 'skills',
+			where: { skillId },
+			required: false,
+			include: {
+				association: 'exercises',
+				required: false,
+				include: {
+					association: 'actions',
+					required: false,
+				},
+			},
+		},
+	})
+
+	if (!user)
+		throw new AuthenticationError(`No user is logged in.`)
+
+	return user.skills[0]
 }
 
 module.exports = {
 	checkSkillIds,
 	getUserSkills,
+	getUserSkill,
 }

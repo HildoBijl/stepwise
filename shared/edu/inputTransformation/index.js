@@ -1,5 +1,5 @@
 const skills = require('../skills')
-const { applyToEachParameter } = require('../../util/object')
+const { applyToEachParameter } = require('../../util/objects')
 
 const types = ['Integer']
 
