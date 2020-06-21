@@ -1,8 +1,8 @@
-import React, { useState, useContext, useReducer, useEffect, useRef } from 'react'
+import React, { useState, createContext, useContext, useReducer, useEffect, useRef } from 'react'
 
 import { emptyFunc } from 'step-wise/util/functions'
 
-const ExerciseContext = React.createContext({})
+const ExerciseContext = createContext({})
 
 export default function ExerciseContainer({ id, state, startNewExercise }) {
 	// Whenever the exercise id changes, reload the component.

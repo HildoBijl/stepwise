@@ -1,6 +1,6 @@
-import React, { useState, useContext } from 'react'
+import React, { createContext, useState, useContext } from 'react'
 
-const FormContext = React.createContext(null)
+const FormContext = createContext(null)
 
 export default function Form({ children }) {
 	const [input, setInput] = useState({})

@@ -5,6 +5,7 @@ import React from 'react'
 import { useExerciseData } from './ExerciseContainer'
 import Form, { useFormData } from './Form'
 import FeedbackProvider, { useFeedback } from './FeedbackProvider'
+import { HideInputSpace } from './InputSpace'
 
 export default function SimpleExercise(props) {
 	return (
@@ -20,7 +21,7 @@ function Contents({ Problem, Solution }) {
 	// Obtain data.
 	const { progress, dispatch, startNewExercise } = useExerciseData()
 	const { input } = useFormData()
-	const { getFeedback } = useFeedback()
+	const { prevInput, getFeedback } = useFeedback()
 
 	// Set up button handlers.
 	const submit = () => {
@@ -29,8 +30,11 @@ function Contents({ Problem, Solution }) {
 	}
 	const giveUp = () => dispatch({ type: 'giveUp' })
 
+	// Determine what to show.
+	const hideProblemInputSpace = progress.givenUp && !prevInput
+
 	return <>
-		<Problem />
+		{hideProblemInputSpace ? <HideInputSpace><Problem /></HideInputSpace> : <Problem />}
 		{
 			!progress.done ? (
 				<p>

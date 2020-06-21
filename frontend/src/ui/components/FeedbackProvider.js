@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { createContext, useContext, useState } from 'react'
 
 import { useExerciseData } from './ExerciseContainer'
 import { IOtoFO } from 'step-wise/edu/inputTransformation'
 
-const FeedbackContext = React.createContext(null)
+const FeedbackContext = createContext(null)
 
 export default function FeedbackProvider({ children }) {
 	const [feedback, setFeedback] = useState({})
