@@ -4,7 +4,7 @@ const USERINFO = require('../../../surfConextMockData.json')
 
 const LAST_SESSION_ID_PATH = __dirname + '/../../../lastSessionId'
 
-const DIRECTORY_PATH = '/_dev/surfconextporal'
+const DIRECTORY_PATH = '/_dev/surfconextportal'
 
 class MockClient {
 	async authorizationUrl() {
