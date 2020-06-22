@@ -9,7 +9,7 @@ const seed = async db => {
 		email: 'step@wise.com'
 	})
 	await user.createSurfConextProfile({
-		sub: SPECIAL_USER_ID,
+		id: SPECIAL_USER_ID,
 	})
 }
 
@@ -70,7 +70,7 @@ describe('SurfConext', () => {
 				email: 'old@email.com'
 			})
 			await user.createSurfConextProfile({
-				sub: SPECIAL_USER_ID,
+				id: SPECIAL_USER_ID,
 			})
 		})
 

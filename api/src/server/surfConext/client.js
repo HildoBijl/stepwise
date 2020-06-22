@@ -10,41 +10,62 @@ class Client {
 		this._clientId = clientId
 		this._secret = secret
 		this._maybeClient = null
+		// Cache issuer configuration for 24h
+		this._clientExpiresAt = new Date()
 	}
 
-	async instance() {
-		if (this._maybeClient) {
-			return this._maybeClient
+	async authorizationUrl(sessionId) {
+		try {
+			const client = await this._instance()
+			return client.authorizationUrl({
+				scope: 'openid',
+				state: hash(sessionId),
+			})
+		} catch(e) {
+			console.log(e)
+			return null
 		}
-		return Issuer.discover(this._issuerUrl)
-			.then(issuer => {
+	}
+
+	async getData(params, sessionId) {
+		try {
+			const client = await this._instance()
+			const tokenSet = await client
+				.callback(this._redirectUrl, {
+					state: params.state,
+					code: params.code,
+				}, {
+					state: hash(sessionId)
+				})
+			return await client.userinfo(tokenSet)
+		} catch(e) {
+			return null
+		}
+	}
+
+	async _instance() {
+		if (!this._maybeClient || this._clientExpiresAt > new Date()) {
+			try {
+				// Autodiscover Issuer configuration
+				const issuer = await Issuer.discover(this._issuerUrl)
 				this._maybeClient = new issuer.Client({
 					client_id: this._clientId,
 					client_secret: this._secret,
 					redirect_uris: [this._redirectUrl],
 					response_types: ['code'],
 				})
-				return this._maybeClient
-			})
-	}
-
-	async authorizationUrl(sessionId) {
-		return this.instance().then(client => client.authorizationUrl({
-			scope: 'openid',
-			state: hash(sessionId),
-		}))
-	}
-
-	async userinfo(authCode, authState, sessionId) {
-		return this.instance().then(client => client
-			.callback(this._redirectUrl, {
-				state: authState,
-				code: authCode,
-			}, {
-				state: hash(sessionId)
-			})
-			.then(tokenSet => client.userinfo(tokenSet))
-		)
+				this._clientExpiresAt = (() => {
+					const d = new Date()
+					// Set to 24h in advance
+					d.setDate(new Date().getDate() + 1)
+					return d
+				})()
+			} catch (e) {
+				console.log(e)
+				return null
+			}
+		}
+		return this._maybeClient
 	}
 }
 

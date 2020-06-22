@@ -11,10 +11,10 @@ class MockClient {
 		return DIRECTORY_PATH
 	}
 
-	async userinfo(params, sessionId) {
+	async getData(params, sessionId) {
 		const sfUserinfo = USERINFO.find(u => u.sub === params.sub)
 		if (!sfUserinfo) {
-			throw new Error('User not found')
+			return null
 		}
 		// Persist session id on file system, so that it can be
 		// recovered on server restart
