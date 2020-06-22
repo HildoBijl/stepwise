@@ -44,7 +44,7 @@ class Client {
 	}
 
 	async _instance() {
-		if (!this._maybeClient || this._clientExpiresAt > new Date()) {
+		if (!this._maybeClient || this._clientExpiresAt < new Date()) {
 			try {
 				// Autodiscover Issuer configuration
 				const issuer = await Issuer.discover(this._issuerUrl)
