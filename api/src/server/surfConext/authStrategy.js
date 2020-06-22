@@ -4,24 +4,22 @@ class AuthStrategy extends AuthStrategyTemplate {
 	constructor(database, surfConextClient) {
 		super()
 		this._db = database
-		this._surfConext = surfConextClient
+		this._surfConextClient = surfConextClient
 	}
 
 	async initiate(sessionId) {
-		return await this._surfConext.authorizationUrl(sessionId)
+		return await this._surfConextClient
+			.authorizationUrl(sessionId)
 	}
 
-	async authenticate(req) {
-		try {
-			return await this._surfConext.userinfo(req.query, req.session.id)
-		} catch(e) {
-			throw AuthStrategy.INVALID_AUTHENTICATION
+	async authenticateAndSync(req) {
+		const surfRawData = await this._surfConextClient
+			.getData(req.query, req.session.id)
+		if (!surfRawData) {
+			return null
 		}
-	}
-
-	async findOrCreateUser(authData) {
 		const surfProfile = await this._db.SurfConextProfile.findOne({
-			where: { sub: authData.sub },
+			where: { id: surfRawData.sub },
 			include: {
 				model: this._db.User,
 			},
@@ -30,13 +28,13 @@ class AuthStrategy extends AuthStrategyTemplate {
 		const [user] = await this._db.User.upsert({
 			// Update if user exists, otherwise a new one gets created
 			id: surfProfile ? surfProfile.user.id : undefined,
-			name: authData.name,
-			email: authData.email,
+			name: surfRawData.name,
+			email: surfRawData.email,
 		}, { returning: true })
 		await this._db.SurfConextProfile.upsert({
-			sub: authData.sub,
+			id: surfRawData.sub,
 			userId: user.id,
-			schacHomeOrganization: authData.schac_home_organization,
+			schacHomeOrganization: surfRawData.schac_home_organization,
 		})
 		return user
 	}
