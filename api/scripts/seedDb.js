@@ -23,7 +23,7 @@ async function seedTestData(db) {
 	const surfConextMockUser = surfConextMockData.find(u => u.email === user.email)
 	if (surfConextMockUser) {
 		await user.createSurfConextProfile({
-			sub: surfConextMockUser.sub,
+			id: surfConextMockUser.sub,
 			schacHomeOrganization: surfConextMockUser.schac_home_organization,
 		})
 	}

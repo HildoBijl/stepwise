@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
 	const SurfConextProfile = sequelize.define('surfConextProfile', {
-		sub: {
-			type: DataTypes.UUID,
+		id: {
+			type: DataTypes.STRING,
 			allowNull: false,
 			primaryKey: true,
 		},
