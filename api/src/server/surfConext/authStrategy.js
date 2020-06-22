@@ -24,19 +24,20 @@ class AuthStrategy extends AuthStrategyTemplate {
 				model: this._db.User,
 			},
 		})
-		// TODO use transactions
-		const [user] = await this._db.User.upsert({
-			// Update if user exists, otherwise a new one gets created
-			id: surfProfile ? surfProfile.user.id : undefined,
-			name: surfRawData.name,
-			email: surfRawData.email,
-		}, { returning: true })
-		await this._db.SurfConextProfile.upsert({
-			id: surfRawData.sub,
-			userId: user.id,
-			schacHomeOrganization: surfRawData.schac_home_organization,
+		return await this._db.transaction(async t => {
+			const [user] = await this._db.User.upsert({
+				// Update if user exists, otherwise a new one gets created
+				id: surfProfile ? surfProfile.user.id : undefined,
+				name: surfRawData.name,
+				email: surfRawData.email,
+			}, { returning: true, transaction: t })
+			await this._db.SurfConextProfile.upsert({
+				id: surfRawData.sub,
+				userId: user.id,
+				schacHomeOrganization: surfRawData.schac_home_organization,
+			}, { transaction: t })
+			return user
 		})
-		return user
 	}
 }
 

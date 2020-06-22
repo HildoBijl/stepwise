@@ -1,4 +1,3 @@
-const { DataSource } = require('apollo-datasource')
 const { DataTypes } = require('sequelize')
 
 const modelKeys = [
@@ -9,10 +8,9 @@ const modelKeys = [
 	'ExerciseAction',
 ]
 
-// TODO remove inheritance once the Database isn’t used as DataSource anymore
-class Database extends DataSource {
+class Database {
 	constructor(sequelize) {
-		super()
+		this._sequelize = sequelize
 
 		// Import all the models.
 		modelKeys.forEach(key => {
@@ -24,6 +22,10 @@ class Database extends DataSource {
 			if (this[key].associate)
 				this[key].associate(this)
 		})
+	}
+
+	async transaction(procedure) {
+		return await this._sequelize.transaction(procedure)
 	}
 }
 
