@@ -6,7 +6,7 @@ const sequelize = createSequelize()
 sequelize.authenticate()
 	.then(() => new Database(sequelize))
 	.then(async () => {
-		await sequelize.drop()
+		await sequelize.drop({ cascade: true })
 		await sequelize.sync({ force: true })
 	})
 	.catch(console.error)
