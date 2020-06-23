@@ -20,5 +20,5 @@ module.exports = {
 	data,
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput),
-	getFeedback: getSimpleExerciseFeedbackFunction(checkInput),
+	checkInput,
 }

@@ -7,14 +7,14 @@ const ExerciseContext = createContext({})
 export default function ExerciseContainer({ id, state, startNewExercise }) {
 	// Whenever the exercise id changes, reload the component.
 	const [loaded, setLoaded] = useState(false)
-	const Exercise = useRef(null)
-	const ExerciseData = useRef({})
+	const ExerciseLocal = useRef(null)
+	const ExerciseShared = useRef({})
 	const reload = () => {
 		setLoaded(false)
 		Promise.all([import(`../exercises/${id}`), import(`step-wise/edu/exercises/${id}`)]).then(importedModules => {
 			const [localModule, sharedModule] = importedModules
-			Exercise.current = localModule.default
-			ExerciseData.current = sharedModule.default
+			ExerciseLocal.current = localModule.default
+			ExerciseShared.current = sharedModule.default
 			setLoaded(true)
 		})
 	}
@@ -27,14 +27,14 @@ export default function ExerciseContainer({ id, state, startNewExercise }) {
 			return []
 		
 		// Update the history in the regular way.
-		const progress = ExerciseData.current.processAction({ state, action, progress: getLastProgress(history), updateSkills: emptyFunc })
+		const progress = ExerciseShared.current.processAction({ state, action, progress: getLastProgress(history), updateSkills: emptyFunc })
 		return [...history, { action, progress }]
 	}
 	const [history, dispatch] = useReducer(reducer, [])
 
 	return <>
-		<ExerciseContext.Provider value={{ state, history, progress: getLastProgress(history), dispatch, startNewExercise, meta: ExerciseData.current }}>
-			{loaded ? <Exercise.current /> : <p>Loading...</p>}
+		<ExerciseContext.Provider value={{ state, history, progress: getLastProgress(history), dispatch, startNewExercise, shared: ExerciseShared.current }}>
+			{loaded ? <ExerciseLocal.current /> : <p>Loading...</p>}
 		</ExerciseContext.Provider>
 	</>
 }

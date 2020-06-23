@@ -5,18 +5,18 @@ import { IOtoFO } from 'step-wise/edu/inputTransformation'
 
 const FeedbackContext = createContext(null)
 
-export default function FeedbackProvider({ children }) {
+export default function FeedbackProvider({ children, getFeedback }) {
 	const [feedback, setFeedback] = useState({})
 	const [prevInput, setPrevInput] = useState(null)
-	const { state, meta } = useExerciseData()
+	const { state, progress } = useExerciseData()
 
-	const getFeedback = (input) => {
+	const updateFeedback = (input) => {
 		setPrevInput(input)
-		if (meta.getFeedback)
-			setFeedback(meta.getFeedback(state, IOtoFO(input)))
+		if (getFeedback)
+			setFeedback(getFeedback(state, IOtoFO(input), progress))
 	}
 
-	return <FeedbackContext.Provider value={{ feedback, prevInput, getFeedback }}>{children}</FeedbackContext.Provider>
+	return <FeedbackContext.Provider value={{ prevInput, feedback, updateFeedback }}>{children}</FeedbackContext.Provider>
 }
 
 export function useFeedback() {

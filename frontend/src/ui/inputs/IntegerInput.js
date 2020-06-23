@@ -11,11 +11,17 @@ export default function IntegerInput({ name, positive = false }) {
 	const fieldRef = useRef(null)
 	const cursorPositionRef = useRef(0)
 
-	const value = (input && input.value) || ''
+	const value = getValue(input)
 	const editable = !progress.done
 
 	const { feedback, prevInput } = useParameterFeedback(name)
-	const showFeedback = (feedback !== undefined && input.value === prevInput.value)
+	let feedbackText = ''
+	if (feedback !== undefined && value === getValue(prevInput)) {
+		if (typeof feedback === 'boolean')
+			feedbackText = (feedback ? 'Correct' : 'Wrong')
+		else
+			feedbackText = feedback.text
+	}
 
 	const handleChange = evt => {
 		// Extract data.
@@ -41,6 +47,10 @@ export default function IntegerInput({ name, positive = false }) {
 
 	return <>
 		<input type="text" name={name} value={value} disabled={!editable} onChange={handleChange} />
-		{showFeedback ? <span> {feedback ? 'Correct' : 'Wrong'}</span> : null}
+		{feedbackText ? <span> {feedbackText}</span> : null}
 	</>
+}
+
+function getValue(input) {
+	return (input && input.value) || ''
 }
