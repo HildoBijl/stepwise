@@ -2,6 +2,11 @@ import { createMuiTheme } from '@material-ui/core/styles'
 
 const themeColor = '#0a6f3c'
 const secondaryColor = '#654321'
+const successColor = themeColor
+const errorColor = '#bd0f0f'
+const warningColor = '#d66c00'
+const infoColor = '#044488'
+
 let theme = {
 	palette: {
 		primary: {
@@ -11,7 +16,21 @@ let theme = {
 			main: secondaryColor,
 		},
 		success: {
-			main: themeColor,
+			main: successColor,
+		},
+		error: {
+			main: errorColor,
+		},
+		warning: {
+			main: warningColor,
+		},
+		info: {
+			main: infoColor,
+		},
+	},
+	typography: {
+		body1: {
+			fontSize: '0.875rem',
 		},
 	},
 	appWidth: 'lg', // The width that is used for the app by default.
