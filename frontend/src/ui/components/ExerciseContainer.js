@@ -1,40 +1,45 @@
-import React, { useState, createContext, useContext, useReducer, useEffect, useRef } from 'react'
+import React, { useState, createContext, useContext, useEffect, useRef } from 'react'
 
-import { emptyFunc } from 'step-wise/util/functions'
+import Loading from '../components/Loading'
 
 const ExerciseContext = createContext({})
 
-export default function ExerciseContainer({ id, state, startNewExercise }) {
+export default function ExerciseContainer({ exercise, skillId, submitting, submitAction, startNewExercise }) {
 	// Whenever the exercise id changes, reload the component.
-	const [loaded, setLoaded] = useState(false)
+	const { exerciseId, state } = exercise
+	const [loading, setLoading] = useState(true)
 	const ExerciseLocal = useRef(null)
 	const ExerciseShared = useRef({})
 	const reload = () => {
-		setLoaded(false)
-		Promise.all([import(`../exercises/${id}`), import(`step-wise/edu/exercises/${id}`)]).then(importedModules => {
+		setLoading(true)
+		Promise.all([import(`../exercises/${exerciseId}`), import(`step-wise/edu/exercises/${exerciseId}`)]).then(importedModules => {
 			const [localModule, sharedModule] = importedModules
 			ExerciseLocal.current = localModule.default
 			ExerciseShared.current = sharedModule.default
-			setLoaded(true)
+			setLoading(false)
 		})
+		// ToDo later: set up error handling for when components fail to load.
 	}
-	useEffect(reload, [id])
+	useEffect(reload, [exerciseId])
 
-	// Set up progress reducer.
-	const reducer = (history, action) => {
-		// Check if we got any special action types.
-		if (action.type === 'clearHistory')
-			return []
-		
-		// Update the history in the regular way.
-		const progress = ExerciseShared.current.processAction({ state, action, progress: getLastProgress(history), updateSkills: emptyFunc })
-		return [...history, { action, progress }]
+	if (loading)
+		return <Loading text="Loading exercise component" />
+
+	// Set up data for the exercise and put it in a context around the exercise.
+	const exerciseData = {
+		state, // ToDo later: turn state from input object to functional object.
+		history: exercise.history,
+		progress: getLastProgress(exercise.history),
+		submitting,
+		submitAction: (action) => submitAction(action, ExerciseShared.current.processAction), // Incorporate the processAction function to allow optimistic responses.
+		startNewExercise,
+		shared: ExerciseShared.current,
+		skillId,
 	}
-	const [history, dispatch] = useReducer(reducer, [])
 
 	return <>
-		<ExerciseContext.Provider value={{ state, history, progress: getLastProgress(history), dispatch, startNewExercise, shared: ExerciseShared.current }}>
-			{loaded ? <ExerciseLocal.current /> : <p>Loading...</p>}
+		<ExerciseContext.Provider value={exerciseData}>
+			<ExerciseLocal.current />
 		</ExerciseContext.Provider>
 	</>
 }

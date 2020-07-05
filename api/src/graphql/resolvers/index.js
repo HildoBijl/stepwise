@@ -4,7 +4,7 @@ const resolverKeys = [
 	'User',
 	'Skill',
 	'Exercise',
-	'Action'
+	'Event',
 ]
 
 const scalarResolvers = {

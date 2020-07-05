@@ -40,11 +40,11 @@ async function seedTestData(db) {
 		exampleSkill.createExercise({ exerciseId: 'exampleExercise1', state: { a: 2, b: 6 }, active: false, createdAt: date.setSeconds(date.getSeconds() + 1) }),
 		exampleSkill.createExercise({ exerciseId: 'exampleExercise1', state: { a: 7, b: 63 }, active: true, createdAt: date.setSeconds(date.getSeconds() + 1) }),
 	])
-	const actions = await Promise.all([
-		exercises[0].createAction({ action: { type: 'submit', input: { x: 7 } }, progress: {}, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		exercises[0].createAction({ action: { type: 'submit', input: { x: 6 } }, progress: { solved: true, done: true }, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		exercises[1].createAction({ action: { type: 'submit', input: { x: 8 } }, progress: {}, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		exercises[1].createAction({ action: { type: 'submit', input: { x: 9 } }, progress: { solved: true, done: true }, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+	const events = await Promise.all([
+		exercises[0].createEvent({ action: { type: 'submit', input: { x: 7 } }, progress: {}, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		exercises[0].createEvent({ action: { type: 'submit', input: { x: 6 } }, progress: { solved: true, done: true }, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		exercises[1].createEvent({ action: { type: 'submit', input: { x: 8 } }, progress: {}, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		exercises[1].createEvent({ action: { type: 'submit', input: { x: 9 } }, progress: { solved: true, done: true }, createdAt: date.setSeconds(date.getSeconds() + 1) }),
 	])
 }
 

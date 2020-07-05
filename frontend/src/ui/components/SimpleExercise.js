@@ -22,7 +22,7 @@ export default function SimpleExercise(props) {
 }
 
 function Contents({ Problem, Solution }) {
-	const { history, progress, dispatch, startNewExercise } = useExerciseData()
+	const { history, progress, submitting, submitAction, startNewExercise } = useExerciseData()
 	const { input } = useFormData()
 	const { prevInput, updateFeedback } = useFeedback()
 
@@ -35,8 +35,9 @@ function Contents({ Problem, Solution }) {
 	}, [history, updateFeedbackRef])
 
 	// Set up button handlers.
-	const submit = () => dispatch({ type: 'submit', input })
-	const giveUp = () => dispatch({ type: 'giveUp' })
+	// ToDo: disable submissions when the page is submitting.
+	const submit = () => submitAction({ type: 'input', input })
+	const giveUp = () => submitAction({ type: 'giveUp' })
 
 	// Determine what to show.
 	const hideProblemInputSpace = progress.givenUp && !prevInput
@@ -46,8 +47,8 @@ function Contents({ Problem, Solution }) {
 		{
 			!progress.done ? (
 				<p>
-					<button type="button" onClick={submit}>Submit</button>
-					<button type="button" onClick={giveUp}>Give up</button>
+					<button type="button" onClick={submit} disabled={submitting}>Submit</button>
+					<button type="button" onClick={giveUp} disabled={submitting}>Give up</button>
 				</p>
 			) : (
 					<>

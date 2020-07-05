@@ -1,8 +1,9 @@
 const { gql } = require('apollo-server-express')
 
 const schema = gql`
-	type Action {
-		data: JSON!
+	type Event {
+		id: ID!
+		action: JSON!
 		progress: JSON!
 		performedAt: DateTime!
 	}

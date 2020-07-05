@@ -19,7 +19,7 @@ async function getActiveExerciseData(userId, skillId, db, requireExercise = true
 				where: { active: true },
 				required: false,
 				include: {
-					association: 'actions',
+					association: 'events',
 					required: false,
 				},
 			},
@@ -51,19 +51,19 @@ async function getActiveExerciseData(userId, skillId, db, requireExercise = true
 	return { user, skill, exercise }
 }
 
-function getLastAction(exercise) {
-	if (!exercise.actions || exercise.actions.length === 0)
+function getLastEvent(exercise) {
+	if (!exercise.events || exercise.events.length === 0)
 		return null
-	return findOptimum(exercise.actions, (a, b) => a.createdAt > b.createdAt)
+	return findOptimum(exercise.events, (a, b) => a.createdAt > b.createdAt)
 }
 
 function getExerciseProgress(exercise) {
-	const lastAction = getLastAction(exercise)
-	return (lastAction === null ? {} : lastAction.progress) // Note that {} is the default initial progress.
+	const lastEvent = getLastEvent(exercise)
+	return (lastEvent === null ? {} : lastEvent.progress) // Note that {} is the default initial progress.
 }
 
 module.exports = {
 	getActiveExerciseData,
-	getLastAction,
+	getLastEvent,
 	getExerciseProgress,
 }

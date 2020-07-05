@@ -31,7 +31,7 @@ function getNewExercise(skillId) {
 function getSimpleExerciseProcessor(checkInput) {
 	return ({ progress, action, state, updateSkills }) => {
 		switch (action.type) {
-			case 'submit':
+			case 'input':
 				const correct = checkInput(state, IOtoFO(action.input))
 				if (correct) {
 					updateSkills() // ToDo: update the right skills in the right way.

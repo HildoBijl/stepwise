@@ -1,5 +1,5 @@
 // isNumber checks if a given parameter is a number. Strings of numbers are allowed.
-export function isNumber(value) {
+function isNumber(value) {
   // Check boundary cases.
   if (typeof value === 'string' && value.trim() === '')
     return false
@@ -9,7 +9,7 @@ export function isNumber(value) {
 }
 
 // isInt checks if a given parameter is an integer. Strings of integers are allowed.
-export function isInt(value) {
+function isInt(value) {
   // Check boundary cases.
   if (Math.abs(value) === Infinity)
     return true
@@ -19,7 +19,13 @@ export function isInt(value) {
 }
 
 // mod is a modulus function which (unlike its built-in counterpart) is guaranteed to give a number between 0 (inclusive) and n (exclusive).
-export function mod(a, n) {
+function mod(a, n) {
   const res = a%n
   return res < 0 ? res + n : res
+}
+
+module.exports = {
+  isNumber,
+  isInt,
+  mod,
 }

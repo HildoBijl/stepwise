@@ -1,13 +1,19 @@
 const { getNewExercise } = require('step-wise/edu/util/exercises')
-const { getLastAction, getExerciseProgress, getActiveExerciseData } = require('../util/Exercise')
+const { getLastEvent, getExerciseProgress, getActiveExerciseData } = require('../util/Exercise')
 
 const resolvers = {
 	Exercise: {
-		id: exercise => exercise.exerciseId,
 		startedOn: exercise => exercise.createdAt,
-		lastAction: exercise => getLastAction(exercise),
 		progress: exercise => getExerciseProgress(exercise),
-		actions: exercise => exercise.actions || [],
+		lastAction: exercise => {
+			const lastEvent = getLastEvent(exercise)
+			return (lastEvent && lastEvent.action) || null
+		},
+		lastActionAt: exercise => {
+			const lastEvent = getLastEvent(exercise)
+			return (lastEvent && lastEvent.createdAt) || null
+		},
+		history: exercise => exercise.events || [],
 	},
 
 	Mutation: {
@@ -19,17 +25,17 @@ const resolvers = {
 			return await skill.createExercise({ exerciseId: newExercise.id, state: newExercise.state, active: true })
 		},
 
-		processExerciseAction: async (_source, { skillId, action }, { db, getUserId }) => {
+		submitExerciseAction: async (_source, { skillId, action }, { db, getUserId }) => {
 			const { exercise } = await getActiveExerciseData(getUserId(), skillId, db, true)
 
 			// Update the progress parameter.
 			const prevProgress = getExerciseProgress(exercise)
 			const { processAction } = require(`step-wise/edu/exercises/${exercise.exerciseId}`)
-			const progress = processAction({ action, state: exercise.state, progress: prevProgress, updateSkills: () => console.log('ToDo: enable skill updating') })
+			const progress = processAction({ action, state: exercise.state, progress: prevProgress, updateSkills: () => {}})
 
 			// Store the submission and on a correct one update the active field of the exercise to solved.
-			const newAction = await exercise.createAction({ action, progress })
-			exercise.actions.push(newAction) // In Sequelize we have to manually add the new action to the current object. 
+			const newEvent = await exercise.createEvent({ action, progress })
+			exercise.events.push(newEvent) // In Sequelize we have to manually add the new action to the current object. 
 			if (progress.done)
 				await exercise.update({ active: false })
 			// ToDo: add transactions.

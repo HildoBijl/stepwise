@@ -5,7 +5,7 @@ const modelKeys = [
 	'SurfConextProfile',
 	'UserSkill',
 	'ExerciseSample',
-	'ExerciseAction',
+	'ExerciseEvent',
 ]
 
 class Database {

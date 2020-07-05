@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-	const ExerciseAction = sequelize.define('exerciseAction', {
+	const ExerciseEvent = sequelize.define('exerciseEvent', {
 		id: {
 			type: DataTypes.UUID,
 			defaultValue: DataTypes.UUIDV4,
@@ -16,10 +16,10 @@ module.exports = (sequelize, DataTypes) => {
 		},
 	})
 
-	ExerciseAction.associate = models => {
-		ExerciseAction.belongsTo(models.ExerciseSample)
+	ExerciseEvent.associate = models => {
+		ExerciseEvent.belongsTo(models.ExerciseSample)
 	}
 
-	return ExerciseAction
+	return ExerciseEvent
 }
 

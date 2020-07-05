@@ -2,7 +2,6 @@ const skills = require('step-wise/edu/skills')
 const { getUserSkill, getUserSkills } = require('../util/Skill')
 
 const commonResolvers = {
-	id: userSkill => userSkill.skillId,
 	name: userSkill => skills[userSkill.skillId].name,
 }
 
@@ -17,11 +16,11 @@ const resolvers = {
 	},
 
 	Query: {
-		skill: async (_source, { id }, { db, getUserId }) => {
-			return await getUserSkill(getUserId(), id, db)
+		skill: async (_source, { skillId }, { db, getUserId }) => {
+			return await getUserSkill(getUserId(), skillId, db)
 		},
-		mySkills: async (_source, { ids }, { db, getUserId }) => {
-			return await getUserSkills(getUserId(), ids, db)
+		mySkills: async (_source, { skillIds }, { db, getUserId }) => {
+			return await getUserSkills(getUserId(), skillIds, db)
 		},
 	},
 }
