@@ -30,7 +30,7 @@ function Contents({ Problem, Solution }) {
 	const updateFeedbackRef = useRefWithValue(updateFeedback) // We use a reference to prevent overly many updates of the useEffect function.
 	useEffect(() => {
 		const lastHistoryItem = lastOf(history)
-		if (lastHistoryItem && lastHistoryItem.action && lastHistoryItem.action.type === 'submit')
+		if (lastHistoryItem && lastHistoryItem.action && lastHistoryItem.action.type === 'input')
 			updateFeedbackRef.current(lastHistoryItem.action.input)
 	}, [history, updateFeedbackRef])
 
