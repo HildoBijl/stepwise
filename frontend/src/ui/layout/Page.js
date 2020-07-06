@@ -4,6 +4,7 @@ import { Container } from '@material-ui/core'
 
 import Header from './Header'
 import OfflineNotification from '../components/OfflineNotification'
+import RecommendLogIn from '../components/RecommendLogIn'
 import { useRoute } from '../routing'
 
 const useStyles = makeStyles((theme) => ({
@@ -33,6 +34,7 @@ function Contents() {
 		<>
 			<Header />
 			<OfflineNotification />
+			<RecommendLogIn recommend={route.recommendLogIn} />
 			<Container maxWidth={theme.appWidth} className={classes.page}>
 				<route.component />
 			</Container>

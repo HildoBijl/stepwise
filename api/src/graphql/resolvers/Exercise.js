@@ -22,7 +22,7 @@ const resolvers = {
 
 			// Select a new exercise, store it and return the result.
 			const newExercise = getNewExercise(skillId) // ToDo: add skill data to make a more informed decision.
-			return await skill.createExercise({ exerciseId: newExercise.id, state: newExercise.state, active: true })
+			return await skill.createExercise({ exerciseId: newExercise.exerciseId, state: newExercise.state, active: true })
 		},
 
 		submitExerciseAction: async (_source, { skillId, action }, { db, getUserId }) => {

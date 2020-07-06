@@ -53,6 +53,7 @@ function getRoutes(user = null) {
 			name: 'skill',
 			component: Skill,
 			title: useSkillTitle,
+			recommendLogIn: true,
 		},
 	}
 

@@ -31,7 +31,7 @@ export default function ExerciseContainer({ exercise, skillId, submitting, submi
 		history: exercise.history,
 		progress: getLastProgress(exercise.history),
 		submitting,
-		submitAction: (action) => submitAction(action, ExerciseShared.current.processAction), // Incorporate the processAction function to allow optimistic responses.
+		submitAction: (action) => submitAction(action, ExerciseShared.current.processAction), // Incorporate the processAction function for Stranger-mode and for optimistic responses.
 		startNewExercise,
 		shared: ExerciseShared.current,
 		skillId,

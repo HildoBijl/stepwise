@@ -1,7 +1,10 @@
-import React, { useEffect, useCallback } from 'react'
-import { useRouteMatch, Link } from 'react-router-dom'
+import React, { useEffect, useState, useCallback } from 'react'
+import { useRouteMatch, Link as RouterLink } from 'react-router-dom'
+import { Link } from '@material-ui/core'
+import { v4 as uuidv4 } from 'uuid'
 
 import skills from 'step-wise/edu/skills'
+import { getNewExercise } from 'step-wise/edu/util/exercises'
 import ExerciseContainer from '../components/ExerciseContainer'
 import { usePaths } from '../routing'
 import { useUserResults } from '../user'
@@ -18,7 +21,7 @@ export default function Skill() {
 
 	const user = data.me
 	return <>
-		<p>Some possible skills to practice: <Link to={paths.skill({ skillId: 'fillIn' })}>Fill in a number</Link> - <Link to={paths.skill({ skillId: 'summation' })}>Summation</Link> - <Link to={paths.skill({ skillId: 'multiplication' })}>Multiplication</Link> - <Link to={paths.skill({ skillId: 'summationOfMultiplications' })}>Summation of multiplications</Link> - <Link to={paths.skill({ skillId: 'example' })}>Linear equation</Link>.</p>
+		<p>Some possible skills to practice: <Link component={RouterLink} to={paths.skill({ skillId: 'fillIn' })}>Fill in a number</Link> - <Link component={RouterLink} to={paths.skill({ skillId: 'summation' })}>Summation</Link> - <Link component={RouterLink} to={paths.skill({ skillId: 'multiplication' })}>Multiplication</Link> - <Link component={RouterLink} to={paths.skill({ skillId: 'summationOfMultiplications' })}>Summation of multiplications</Link> - <Link component={RouterLink} to={paths.skill({ skillId: 'example' })}>Linear equation</Link>.</p>
 		{user ? <SkillForUser /> : <SkillForStranger />}
 	</>
 }
@@ -63,36 +66,49 @@ function SkillForUser() {
 		return <Loading text="No exercise yet. Generating one." />
 
 	// All fine! Display the exercise.
-	return <ExerciseContainer exercise={exercise} skillId={skillId} submitting={submissionLoading} submitAction={submitAction} startNewExercise={startNewExercise} />
+	return <ExerciseContainer key={exercise.startedOn} exercise={exercise} skillId={skillId} submitting={submissionLoading} submitAction={submitAction} startNewExercise={startNewExercise} />
 }
 
 function SkillForStranger() {
-	return <p>Not logged in. Still implementing this...</p>
-	// const { params } = useRouteMatch()
-	// const { skillId } = params
-	// const user = useUser()
-	// const { loading, error, data } = useQuery(SKILL, { variables: { id: skillId } })
+	const { params } = useRouteMatch()
+	const { skillId } = params
 
-	// // 
-	// console.log('Test')	
-	// console.log(loading)
-	// console.log(error)
-	// console.log(data)
+	// Use a state to track exercise data. Generate new data on a change in skill ID.
+	const [exercise, setExercise] = useState(null)
+	const startNewExercise = useCallback(() => {
+		const exercise = { // Emulate the exercise object that we otherwise get from the server.
+			...getNewExercise(skillId), // Contains exerciseId and state.
+			id: uuidv4(), // Just generate a random one.
+			active: true,
+			progress: {},
+			history: [],
+			startedOn: new Date(),
+		}
+		setExercise(exercise)
+	}, [skillId])
+	useEffect(startNewExercise, [skillId])
 
+	// On a submit handle the process as would happen on the server: find the new progress and incorporate it into the exercise data and its history.
+	const submitAction = useCallback((action, processAction) => {
+		const progress = processAction({ action, state: exercise.state, progress: exercise.progress })
+		setExercise({
+			...exercise,
+			active: exercise.active && !progress.done,
+			progress,
+			history: [...exercise.history, {
+				action,
+				progress,
+				performedAt: new Date(),
+			}],
+		})
+	}, [exercise, setExercise])
 
+	if (!exercise)
+		return <Loading text="Generating new exercise" />
 
-	// // Use a state to track exercise data. Generate new data on a change in skill ID.
-	// const [exercise, setExercise] = useState(null)
-	// const [counter, incrementCounter] = useCounter()
-	// const startNewExercise = () => {
-	// 	incrementCounter() // Use a key to enforce a new loader on every new exercise. Otherwise we may see the solution of the old exercise when the state changes.
-	// 	setExercise(getNewExercise(skillId))
-	// }
-	// useEffect(startNewExercise, [skillId])
+	// ToDo: add a banner indicating that the user is not logged in.
 
-	// return <>
-	// 	{/* {exercise ? <ExerciseContainer key={counter} {...exercise} startNewExercise={startNewExercise} skillId={skillId} /> : null} */}
-	// </>
+	return <ExerciseContainer key={exercise.startedOn} exercise={exercise} skillId={skillId} submitting={false} submitAction={submitAction} startNewExercise={startNewExercise} />
 }
 
 export function useSkillTitle() {

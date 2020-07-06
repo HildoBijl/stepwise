@@ -22,7 +22,7 @@ function getNewExercise(skillId) {
 	const exerciseId = selectExercise(skillId)
 	const { generateState } = require(`../exercises/${exerciseId}`)
 	return {
-		id: exerciseId,
+		exerciseId,
 		state: generateState(),
 	}
 }
@@ -34,15 +34,18 @@ function getSimpleExerciseProcessor(checkInput) {
 			case 'input':
 				const correct = checkInput(state, IOtoFO(action.input))
 				if (correct) {
-					updateSkills() // ToDo: update the right skills in the right way.
+					if (updateSkills)
+						updateSkills() // ToDo: update the right skills in the right way.
 					return { solved: true, done: true }
 				} else {
-					updateSkills() // ToDo: update the right skills in the right way.
+					if (updateSkills)
+						updateSkills() // ToDo: update the right skills in the right way.
 					return {}
 				}
 
 			case 'giveUp':
-				updateSkills() // ToDo: update the right skills in the right way.
+				if (updateSkills)
+					updateSkills() // ToDo: update the right skills in the right way.
 				return { givenUp: true, done: true }
 		}
 	}

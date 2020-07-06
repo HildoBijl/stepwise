@@ -5,7 +5,6 @@ import { v4 as uuidv4 } from 'uuid'
 import skills from 'step-wise/edu/skills'
 
 // Get the data for a skill.
-// ToDo later: incorporate data from older exercises. Use this to display past practice.
 export function useSkillQuery(skillId) {
 	return useQuery(SKILL, { variables: { skillId } })
 }
@@ -59,7 +58,7 @@ export function useStartExerciseMutation(skillId) {
 						...skill,
 						currentExercise: exercise,
 						exercises: skill.exercises.concat([exercise]),
-					} : { // When no skill is present yet, simply add it. The ID won't correspond to the server, but that'll be overwritten on the next request.
+					} : { // When no skill is present yet, simply add it. The ID won't correspond to the one on the server, but that'll be overwritten after the next server request.
 						id: uuidv4(),
 						skillId,
 						name: skills[skillId].name,
@@ -91,7 +90,7 @@ const START_EXERCISE = gql`
 `
 
 // Submit an exercise action.
-// ToDo later: implement coefficients in the data.
+// ToDo later: implement coefficients in the data. Then also incorporate the adjusted skills into the cache.
 export function useSubmitExerciseActionMutation(skillId) {
 	const [submit, data] = useMutation(SUBMIT_EXERCISE_ACTION)
 	const newSubmit = parameters => submit({ // Insert the given skillId by default.
