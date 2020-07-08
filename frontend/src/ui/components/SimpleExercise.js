@@ -22,7 +22,7 @@ export default function SimpleExercise(props) {
 }
 
 function Contents({ Problem, Solution }) {
-	const { history, progress, submitting, submitAction, startNewExercise } = useExerciseData()
+	const { state, history, progress, submitting, submitAction, startNewExercise } = useExerciseData()
 	const { input, isValid } = useFormData()
 	const { prevInput, updateFeedback } = useFeedback()
 
@@ -55,7 +55,7 @@ function Contents({ Problem, Solution }) {
 	const hideProblemInputSpace = progress.givenUp && !prevInput
 
 	return <>
-		{hideProblemInputSpace ? <HideInputSpace><Problem /></HideInputSpace> : <Problem />}
+		{hideProblemInputSpace ? <HideInputSpace><Problem {...state} /></HideInputSpace> : <Problem {...state} />}
 		{
 			!progress.done ? (
 				<p>
@@ -64,7 +64,7 @@ function Contents({ Problem, Solution }) {
 				</p>
 			) : (
 					<>
-						<Solution />
+						<Solution {...state} />
 						<p><button type="button" onClick={startNewExercise}>Next problem</button></p>
 					</>
 				)

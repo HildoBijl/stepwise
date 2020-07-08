@@ -1,26 +1,21 @@
 import React from 'react'
 
-import { selectRandomly } from 'step-wise/util/random'
-import IntegerInput from '../inputs/IntegerInput'
-import { useExerciseData } from '../components/ExerciseContainer'
 import SimpleExercise from '../components/SimpleExercise'
+import IntegerInput from '../inputs/IntegerInput'
+import { selectRandomly } from 'step-wise/util/random'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
 }
 
-function Problem() {
-	const { state } = useExerciseData()
-	const { x } = state
+function Problem({ x }) {
 	return <>
 		<h3>Problem</h3>
 		<p>{x} = <IntegerInput name="ans" /></p>
 	</>
 }
 
-function Solution() {
-	const { state } = useExerciseData()
-	const { x } = state
+function Solution({ x }) {
 	return <>
 		<h3>Solution</h3>
 		<p>The answer is {x}.</p>

@@ -1,29 +1,22 @@
 import React from 'react'
 
-import IntegerInput from '../inputs/IntegerInput'
-import { useExerciseData } from '../components/ExerciseContainer'
 import SimpleExercise from '../components/SimpleExercise'
+import IntegerInput from '../inputs/IntegerInput'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} />
 }
 
-function Problem() {
-	const { state } = useExerciseData()
-	const { a, b, c, d } = state
-
+function Problem({ a, b, c, d }) {
 	return <>
 		<h3>Problem 2</h3>
 		<p>{a}*{b} + {c}*{d} = <IntegerInput name="ans" /></p>
 	</>
 }
 
-function Solution() {
-	const { state } = useExerciseData()
-	const { a, b, c, d } = state
-
+function Solution({ a, b, c, d }) {
 	return <>
 		<h3>Solution</h3>
-		<p>The solution is {a}*{b} + {c}*{d} = {a*b} + {c*d} = {a * b + c * d}.</p>
+		<p>The solution is {a}*{b} + {c}*{d} = {a * b} + {c * d} = {a * b + c * d}.</p>
 	</>
 }
