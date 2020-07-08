@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useState, useCallback } from 'react'
 
+import { useRefWithValue } from '../../util/react'
 import { useExerciseData } from './ExerciseContainer'
 import { IOtoFO } from 'step-wise/edu/inputTransformation'
 
@@ -10,11 +11,14 @@ export default function FeedbackProvider({ children, getFeedback }) {
 	const [prevInput, setPrevInput] = useState(null)
 	const { state, progress } = useExerciseData()
 
-	const updateFeedback = (input) => {
+	// Put the data in a ref to prevent the updateFeedback function from changing.
+	const dataRef = useRefWithValue({ getFeedback, state, progress})
+	const updateFeedback = useCallback((input) => {
+		const { getFeedback, state, progress } = dataRef.current
 		setPrevInput(input)
 		if (getFeedback)
 			setFeedback(getFeedback(state, IOtoFO(input), progress))
-	}
+	}, [setFeedback, setPrevInput, dataRef])
 
 	return <FeedbackContext.Provider value={{ prevInput, feedback, updateFeedback }}>{children}</FeedbackContext.Provider>
 }

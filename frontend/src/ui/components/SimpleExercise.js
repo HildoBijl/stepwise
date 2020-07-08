@@ -1,6 +1,6 @@
 // The SimpleExercise is an Exercise that cannot be split. It's just one question and a function that checks whether the input is right or wrong. It must be passed a Problem and Solution component. Optional is a getFeedback parameter to extract feedback from input.
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback } from 'react'
 
 import { emptyFunc } from 'step-wise/util/functions'
 import { lastOf } from 'step-wise/util/arrays'
@@ -23,21 +23,33 @@ export default function SimpleExercise(props) {
 
 function Contents({ Problem, Solution }) {
 	const { history, progress, submitting, submitAction, startNewExercise } = useExerciseData()
-	const { input } = useFormData()
+	const { input, isValid } = useFormData()
 	const { prevInput, updateFeedback } = useFeedback()
 
+	// Set up refs to track state parameters.
+	const inputRef = useRefWithValue(input)
+	const disabledRef = useRefWithValue(submitting) // Do we disable all actions?
+
 	// After a submit action is fully processed, update potential feedback.
-	const updateFeedbackRef = useRefWithValue(updateFeedback) // We use a reference to prevent overly many updates of the useEffect function.
 	useEffect(() => {
 		const lastHistoryItem = lastOf(history)
 		if (lastHistoryItem && lastHistoryItem.action && lastHistoryItem.action.type === 'input')
-			updateFeedbackRef.current(lastHistoryItem.action.input)
-	}, [history, updateFeedbackRef])
+			updateFeedback(lastHistoryItem.action.input)
+	}, [history, updateFeedback])
 
 	// Set up button handlers.
-	// ToDo: disable submissions when the page is submitting.
-	const submit = () => submitAction({ type: 'input', input })
-	const giveUp = () => submitAction({ type: 'giveUp' })
+	const submit = useCallback(() => {
+		if (disabledRef.current)
+			return
+		if (!isValid())
+			return
+		return submitAction({ type: 'input', input: inputRef.current })
+	}, [disabledRef, inputRef, isValid, submitAction])
+	const giveUp = useCallback(() => {
+		if (disabledRef.current)
+			return
+		return submitAction({ type: 'giveUp' })
+	}, [disabledRef, submitAction])
 
 	// Determine what to show.
 	const hideProblemInputSpace = progress.givenUp && !prevInput
@@ -47,8 +59,8 @@ function Contents({ Problem, Solution }) {
 		{
 			!progress.done ? (
 				<p>
-					<button type="button" onClick={submit} disabled={submitting}>Submit</button>
-					<button type="button" onClick={giveUp} disabled={submitting}>Give up</button>
+					<button type="button" onClick={submit} disabled={disabledRef.current}>Submit</button>
+					<button type="button" onClick={giveUp} disabled={disabledRef.current}>Give up</button>
 				</p>
 			) : (
 					<>

@@ -37,11 +37,11 @@ function getFeedback(state, input, progress, shared) {
 				'You got it!',
 				'That was impressive!',
 				'Amazing, you did it!',
-			 ]) : selectRandomly([
-				 'You cannot even fill in a simple number?',
-				 'You failed big time...',
-				 'Geez ... you suck.',
-			 ])
+			]) : selectRandomly([
+				'You cannot even fill in a simple number?',
+				'You failed big time...',
+				'Geez ... you suck.',
+			])
 		}
 	}
 }

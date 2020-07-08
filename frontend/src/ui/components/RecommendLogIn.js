@@ -8,5 +8,5 @@ export default function RecommendLogIn({ recommend }) {
 
 	// Check if the user is known to be not logged in. If so, show the notification.
 	const display = recommend && !loading && !data.me
-	return <NotificationBar display={display} type="info">You are not signed in. You can practice, but no progress is tracked. Personalized exercises and feedback are not possible.</NotificationBar>
+	return <NotificationBar display={display} type="info">You are not signed in. Progress is not tracked. Personalized exercises and feedback are not possible.</NotificationBar>
 }

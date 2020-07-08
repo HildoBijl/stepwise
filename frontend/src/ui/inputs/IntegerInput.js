@@ -1,12 +1,13 @@
 import React, { useEffect, useRef } from 'react'
 
 import { useExerciseData } from '../components/ExerciseContainer'
-import { useFormParameter } from '../components/Form'
+import { useFormParameter, useFieldValidation } from '../components/Form'
 import { useParameterFeedback } from '../components/FeedbackProvider'
 
-export default function IntegerInput({ name, positive = false }) {
+export default function IntegerInput({ name, positive = false, validate = nonEmpty }) {
 	const { progress } = useExerciseData()
 	const [input, setInput] = useFormParameter(name)
+	const { validation, validationInput } = useFieldValidation(name, validate)
 
 	const fieldRef = useRef(null)
 	const cursorPositionRef = useRef(0)
@@ -14,15 +15,19 @@ export default function IntegerInput({ name, positive = false }) {
 	const value = getValue(input)
 	const editable = !progress.done
 
+	// Determine which feedback to give, based on validation results and feedback.
 	const { feedback, prevInput } = useParameterFeedback(name)
 	let feedbackText = ''
-	if (feedback !== undefined && value === getValue(prevInput)) {
+	if (validation !== undefined && value === getValue(validationInput)) {
+		feedbackText = 'Validation problem: ' + validation
+	} else if (feedback !== undefined && value === getValue(prevInput)) {
 		if (typeof feedback === 'boolean')
 			feedbackText = (feedback ? 'Correct' : 'Wrong')
 		else
 			feedbackText = feedback.text
 	}
 
+	// Set up change handler.
 	const handleChange = evt => {
 		// Extract data.
 		fieldRef.current = evt.target
@@ -53,4 +58,10 @@ export default function IntegerInput({ name, positive = false }) {
 
 function getValue(input) {
 	return (input && input.value) || ''
+}
+
+// These are validation functions.
+export function nonEmpty(input) {
+	if (getValue(input) === '')
+		return 'Field is empty'
 }

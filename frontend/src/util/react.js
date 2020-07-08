@@ -7,8 +7,8 @@ export function useCounter(initialValue = 0) {
 }
 
 // useRefWithValue is used to directly store a value in a ref. This is useful when you have use-only functions in a useEffect function: plug them in a ref, apply the ref in the useEffect function and the function isn't triggered so much.
-export function useRefWithValue(value) {
-	const ref = useRef()
+export function useRefWithValue(value, initialValue) {
+	const ref = useRef(initialValue)
 	ref.current = value
 	return ref
 }
