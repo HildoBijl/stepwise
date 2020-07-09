@@ -1,5 +1,5 @@
-function emptyFunc() {}
+function noop() {}
 
 module.exports = {
-	emptyFunc,
+	noop,
 }

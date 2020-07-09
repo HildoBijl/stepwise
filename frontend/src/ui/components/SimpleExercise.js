@@ -2,7 +2,7 @@
 
 import React, { useEffect, useCallback } from 'react'
 
-import { emptyFunc } from 'step-wise/util/functions'
+import { noop } from 'step-wise/util/functions'
 import { lastOf } from 'step-wise/util/arrays'
 import { useExerciseData } from './ExerciseContainer'
 import Form, { useFormData } from './Form'
@@ -89,5 +89,5 @@ function useGetFeedbackFunction(props) {
 		return (state, input) => ({ all: shared.checkInput(state, input) })
 
 	// No data is present...
-	return emptyFunc
+	return noop
 }
