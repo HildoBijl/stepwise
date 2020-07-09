@@ -48,8 +48,7 @@ describe('SurfConext', () => {
 	it('doesn’t login users with invalid credentials', async () => {
 		const client = await createClient(seed)
 
-		// This id is not whitelisted in the SurfConext mock data,
-		// therefore the authentication will fail
+		// This id is not whitelisted in the SurfConext mock data, therefore the authentication will fail.
 		const INVALID_DEV_LOGIN_ID = 'ffffffff-ffff-ffff-ffff-123456789012'
 
 		await client
