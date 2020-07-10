@@ -1,6 +1,7 @@
 import React, { useState, createContext, useContext, useEffect, useRef } from 'react'
 
 import Loading from '../components/Loading'
+import { IOtoFO } from 'step-wise/edu/inputTransformation'
 
 const ExerciseContext = createContext({})
 
@@ -27,7 +28,7 @@ export default function ExerciseContainer({ exercise, skillId, submitting, submi
 
 	// Set up data for the exercise and put it in a context around the exercise.
 	const exerciseData = {
-		state, // ToDo later: turn state from input object to functional object.
+		state: IOtoFO(state),
 		history: exercise.history,
 		progress: getLastProgress(exercise.history),
 		submitting,
