@@ -1,5 +1,5 @@
 const { getRandomInteger } = require('../../util/random')
-const { getSimpleExerciseProcessor, getSimpleExerciseFeedbackFunction } = require('../util/exercises')
+const { getSimpleExerciseProcessor } = require('../util/exercises')
 
 const data = {
 	// ToDo: add data on difficulty.

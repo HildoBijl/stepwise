@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import skills from 'step-wise/edu/skills'
 import { getNewExercise } from 'step-wise/edu/util/exercises'
+import { IOtoFO, FOtoIO } from 'step-wise/edu/inputTransformation'
 import ExerciseContainer from '../components/ExerciseContainer'
 import { usePaths } from '../routing'
 import { useUserResults } from '../user'
@@ -76,8 +77,10 @@ function SkillForStranger() {
 	// Use a state to track exercise data. Generate new data on a change in skill ID.
 	const [exercise, setExercise] = useState(null)
 	const startNewExercise = useCallback(() => {
+		const newExercise = getNewExercise(skillId)
 		const exercise = { // Emulate the exercise object that we otherwise get from the server.
-			...getNewExercise(skillId), // Contains exerciseId and state.
+			exerciseId: newExercise.exerciseId,
+			state: FOtoIO(newExercise.state), // The state should be in input format, as if it came from the database.
 			id: uuidv4(), // Just generate a random one.
 			active: true,
 			progress: {},
@@ -90,7 +93,7 @@ function SkillForStranger() {
 
 	// On a submit handle the process as would happen on the server: find the new progress and incorporate it into the exercise data and its history.
 	const submitAction = useCallback((action, processAction) => {
-		const progress = processAction({ action, state: exercise.state, progress: exercise.progress })
+		const progress = processAction({ action, state: IOtoFO(exercise.state), progress: exercise.progress })
 		setExercise({
 			...exercise,
 			active: exercise.active && !progress.done,

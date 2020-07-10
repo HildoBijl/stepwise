@@ -1,5 +1,5 @@
 const skills = require('../skills')
-const { IOtoFO } = require('../inputTransformation')
+const { IOtoFO, FOtoIO } = require('../inputTransformation')
 
 // selectExercise takes a skill and randomly picks an exercise from the collection.
 function selectExercise(skillId) {
@@ -32,7 +32,7 @@ function getSimpleExerciseProcessor(checkInput) {
 	return ({ progress, action, state, updateSkills }) => {
 		switch (action.type) {
 			case 'input':
-				const correct = checkInput(IOtoFO(state), IOtoFO(action.input))
+				const correct = checkInput(state, IOtoFO(action.input))
 				if (correct) {
 					if (updateSkills)
 						updateSkills() // ToDo: update the right skills in the right way.
