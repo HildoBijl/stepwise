@@ -29,7 +29,7 @@ jobs:
             -e POSTGRES_DB=$POSTGRES_DB \
             -e POSTGRES_USER=$POSTGRES_USER \
             -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
-            postgres:11.8
+            postgres:12.3
       - name: Build project
         run: |
           docker-compose -f ops/build.yml build
