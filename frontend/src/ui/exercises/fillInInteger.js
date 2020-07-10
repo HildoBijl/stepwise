@@ -24,6 +24,8 @@ function Solution({ x }) {
 
 function getFeedback(state, input, progress, shared) {
 	// const correct = shared.checkInput(state, input)
+	const { x } = state
+	const { ans } = input
 	const correct = progress.solved
 	return {
 		ans: {
@@ -32,7 +34,9 @@ function getFeedback(state, input, progress, shared) {
 				'You got it!',
 				'That was impressive!',
 				'Amazing, you did it!',
-			]) : selectRandomly([
+			]) : (Math.abs(x) === Math.abs(ans)) ? (
+				ans > 0 ? 'You missed a minus sign.' : 'Try removing the minus sign.'
+			) : selectRandomly([
 				'You cannot even fill in a simple number?',
 				'You failed big time...',
 				'Geez ... you suck.',

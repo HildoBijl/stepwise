@@ -6,7 +6,7 @@ const data = {
 }
 
 function generateState() {
-	return { x: getRandomInteger(1, 10) }
+	return { x: getRandomInteger(-100, 100) }
 }
 
 function checkInput({ x }, { ans }) {

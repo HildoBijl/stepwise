@@ -13,7 +13,7 @@ const seed = async db => {
 		id: SPECIAL_USER_SUB,
 	})
 	await user.createSkill({
-		skillId: 'fillIn',
+		skillId: 'fillInInteger',
 	})
 }
 
@@ -26,7 +26,7 @@ describe('mySkills', () => {
 		expect(errors).not.toBeUndefined()
 	})
 
-	it('only gives data on existing skills', async () => {
+	it('(only) gives data on existing skills', async () => {
 		const client = await createClient(seed)
 
 		await client.login(SPECIAL_USER_SUB)
@@ -34,6 +34,6 @@ describe('mySkills', () => {
 		const { data: { mySkills }, errors } = await client.graphql({ query: `{mySkills {id skillId name}}` })
 		expect(errors).toBeUndefined()
 		expect(mySkills).toHaveLength(1)
-		expect(mySkills[0]).toMatchObject({ skillId: 'fillIn' })
+		expect(mySkills[0]).toMatchObject({ skillId: 'fillInInteger' })
 	})
 })

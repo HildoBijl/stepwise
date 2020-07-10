@@ -1,25 +1,25 @@
 const skills = {
-	fillIn: {
-		name: 'Fill in a number',
+	fillInInteger: {
+		name: 'Fill in an integer',
 		prerequisites: [],
-		continuations: [],
-		exercises: ['fillIn'],
+		continuations: ['summation','multiplication','example'],
+		exercises: ['fillInInteger'],
 	},
 	example: {
 		name: 'Example skill',
-		prerequisites: [],
+		prerequisites: ['fillInInteger'],
 		continuations: [],
 		exercises: ['exampleExercise1'],
 	},
 	summation: {
 		name: 'Summation',
-		prerequisites: [],
+		prerequisites: ['fillInInteger'],
 		continuations: ['summationOfMultiplication'],
 		exercises: ['summation1'],
 	},
 	multiplication: {
 		name: 'Multiplication',
-		prerequisites: [],
+		prerequisites: ['fillInInteger'],
 		continuations: ['summationOfMultiplication'],
 		exercises: ['multiplication1'],
 	},

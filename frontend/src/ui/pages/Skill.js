@@ -21,7 +21,7 @@ export default function Skill() {
 
 	const user = data.me
 	return <>
-		<p>Some possible skills to practice: <Link component={RouterLink} to={paths.skill({ skillId: 'fillIn' })}>Fill in a number</Link> - <Link component={RouterLink} to={paths.skill({ skillId: 'summation' })}>Summation</Link> - <Link component={RouterLink} to={paths.skill({ skillId: 'multiplication' })}>Multiplication</Link> - <Link component={RouterLink} to={paths.skill({ skillId: 'summationOfMultiplications' })}>Summation of multiplications</Link> - <Link component={RouterLink} to={paths.skill({ skillId: 'example' })}>Linear equation</Link>.</p>
+		<p>Some possible skills to practice: <Link component={RouterLink} to={paths.skill({ skillId: 'fillInInteger' })}>Fill in an integer</Link> - <Link component={RouterLink} to={paths.skill({ skillId: 'summation' })}>Summation</Link> - <Link component={RouterLink} to={paths.skill({ skillId: 'multiplication' })}>Multiplication</Link> - <Link component={RouterLink} to={paths.skill({ skillId: 'summationOfMultiplications' })}>Summation of multiplications</Link> - <Link component={RouterLink} to={paths.skill({ skillId: 'example' })}>Linear equation</Link>.</p>
 		{user ? <SkillForUser /> : <SkillForStranger />}
 	</>
 }
