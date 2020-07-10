@@ -32,7 +32,7 @@ function getSimpleExerciseProcessor(checkInput) {
 	return ({ progress, action, state, updateSkills }) => {
 		switch (action.type) {
 			case 'input':
-				const correct = checkInput(state, IOtoFO(action.input))
+				const correct = checkInput(IOtoFO(state), IOtoFO(action.input))
 				if (correct) {
 					if (updateSkills)
 						updateSkills() // ToDo: update the right skills in the right way.
@@ -47,6 +47,9 @@ function getSimpleExerciseProcessor(checkInput) {
 				if (updateSkills)
 					updateSkills() // ToDo: update the right skills in the right way.
 				return { givenUp: true, done: true }
+
+			default:
+				throw new Error(`Invalid action type: the action type "${action.type}" is unknown and cannot be processed.`)
 		}
 	}
 }

@@ -1,5 +1,6 @@
 const { getNewExercise } = require('step-wise/edu/util/exercises')
 const { getLastEvent, getExerciseProgress, getActiveExerciseData } = require('../util/Exercise')
+const { FOtoIO } = require('step-wise/edu/inputTransformation')
 
 const resolvers = {
 	Exercise: {
@@ -22,7 +23,7 @@ const resolvers = {
 
 			// Select a new exercise, store it and return the result.
 			const newExercise = getNewExercise(skillId) // ToDo: add skill data to make a more informed decision.
-			return await skill.createExercise({ exerciseId: newExercise.exerciseId, state: newExercise.state, active: true })
+			return await skill.createExercise({ exerciseId: newExercise.exerciseId, state: FOtoIO(newExercise.state), active: true })
 		},
 
 		submitExerciseAction: async (_source, { skillId, action }, { db, getUserId }) => {
@@ -32,6 +33,8 @@ const resolvers = {
 			const prevProgress = getExerciseProgress(exercise)
 			const { processAction } = require(`step-wise/edu/exercises/${exercise.exerciseId}`)
 			const progress = processAction({ action, state: exercise.state, progress: prevProgress, updateSkills: () => {}})
+			if (!progress)
+				throw new Error(`Invalid progress object: could not process action due to an error in updating the exercise progress.`)
 
 			// Store the submission and on a correct one update the active field of the exercise to solved.
 			const newEvent = await exercise.createEvent({ action, progress })
