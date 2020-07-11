@@ -54,8 +54,18 @@ function getSimpleExerciseProcessor(checkInput) {
 	}
 }
 
+// getAllExercises walks through all the skills and returns an array (without duplicates) of all the exercise ids. It's useful for testing purposes.
+function getAllExercises() {
+	const exercises = new Set() // Use a set to remove duplicates.
+	Object.values(skills).forEach(skill => {
+		skill.exercises.forEach(exercise => exercises.add(exercise))
+	})
+	return [...exercises] // Return as array.
+}
+
 module.exports = {
 	selectExercise,
 	getNewExercise,
 	getSimpleExerciseProcessor,
+	getAllExercises,
 }

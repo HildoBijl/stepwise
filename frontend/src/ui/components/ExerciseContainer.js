@@ -4,6 +4,7 @@ import Loading from '../components/Loading'
 import { IOtoFO } from 'step-wise/edu/inputTransformation'
 
 const ExerciseContext = createContext({})
+export { ExerciseContext } // Exported for testing purposes.
 
 export default function ExerciseContainer({ exercise, skillId, submitting, submitAction, startNewExercise }) {
 	// Whenever the exercise id changes, reload the component.
@@ -38,11 +39,11 @@ export default function ExerciseContainer({ exercise, skillId, submitting, submi
 		skillId,
 	}
 
-	return <>
+	return (
 		<ExerciseContext.Provider value={exerciseData}>
 			<ExerciseLocal.current />
 		</ExerciseContext.Provider>
-	</>
+	)
 }
 
 export function useExerciseData() {
