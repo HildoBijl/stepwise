@@ -40,7 +40,7 @@ it('continuation links exist and are mutual', () => {
 })
 
 it('there are no dependency cycles in the skill tree', () => {
-	// Use a cycle detection algorithm for a directed graph.
+	// Use a cycle detection algorithm for a directed graph. From each node, do a DFS to try and find a cycle. 
 	const examined = {}
 	const inRecursionTree = {}
 	const examine = skill => {
@@ -54,7 +54,7 @@ it('there are no dependency cycles in the skill tree', () => {
 		inRecursionTree[skill.id] = true
 		examined[skill.id] = true
 		skill.continuations.forEach(continuationId => examine(skills[continuationId]))
-		inRecursionTree[skill.id] = false // If we get here, we didn't find a cycle. Mark all nodes as safe again.
+		inRecursionTree[skill.id] = false // If we get here, we didn't find a cycle. Mark the node as safe again.
 	}
 	Object.values(skills).forEach(skill => examine(skill))
 })
