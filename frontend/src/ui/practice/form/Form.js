@@ -26,13 +26,7 @@ export default function Form({ children }) {
 		setInput(input)
 	}, [setInput, inputRef])
 
-	const setParameters = useCallback((newInput, override = false) => {
-		if (override)
-			return newInput
-		const result = { ...inputRef.current }
-		Object.keys(newInput).forEach(key => result[key] = newInput[key])
-		return result
-	}, [inputRef])
+	const setParameters = useCallback((newInput, override = false) => (override ? { ...newInput } : { ...inputRef.current, ...newInput }), [inputRef])
 
 	const clearForm = useCallback(() => setInput({}), [])
 
@@ -69,6 +63,7 @@ export default function Form({ children }) {
 	)
 }
 
+// useFormData gives everything that's provided through the FormContext. You get the whole set.
 export function useFormData() {
 	const data = useContext(FormContext)
 	if (!data)
