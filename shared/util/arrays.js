@@ -13,8 +13,22 @@ function findOptimum(arr, isBetter) {
 	return arr[findOptimumIndex(arr, isBetter)]
 }
 
+// numberArray creates an array with numbers from min (inclusive) to max (inclusive). If only one parameter is given, min is assumed to be 0 and the number is used as max.
+function numberArray(p1, p2) {
+	let min, max
+	if (p2 === undefined) {
+		min = 0
+		max = p1
+	} else {
+		min = p1
+		max = p2
+	}
+	return [...Array(max - min + 1).keys()].map(x => x + min)
+}
+
 module.exports = {
 	lastOf,
 	findOptimumIndex,
 	findOptimum,
+	numberArray,
 }

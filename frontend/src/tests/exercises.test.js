@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 
 import skills from 'step-wise/edu/skills'
-import { getAllExercises } from 'step-wise/edu/util/exercises'
+import { getAllExercises } from 'step-wise/edu/util/exercises/selection'
 import { noop } from 'step-wise/util/functions'
 import { ExerciseContext } from '../ui/practice/ExerciseContainer'
 

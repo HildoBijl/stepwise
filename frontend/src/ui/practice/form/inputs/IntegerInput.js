@@ -1,19 +1,19 @@
 import React, { useEffect, useRef } from 'react'
 
-import { useExerciseData } from '../../ExerciseContainer'
 import { useFormParameter, useFieldValidation } from '../Form'
 import { useParameterFeedback } from '../FeedbackProvider'
+import { useStatus } from '../Status'
 
 export default function IntegerInput({ name, positive = false, validate = nonEmpty }) {
-	const { progress } = useExerciseData()
 	const [input, setInput] = useFormParameter(name)
 	const { validation, validationInput } = useFieldValidation(name, validate)
+	const { done } = useStatus()
 
 	const fieldRef = useRef(null)
 	const cursorPositionRef = useRef(0)
 
 	const value = getValue(input)
-	const editable = !progress.done
+	const editable = !done
 
 	// Determine which feedback to give, based on validation results and feedback.
 	const { feedback, prevInput } = useParameterFeedback(name)

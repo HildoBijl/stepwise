@@ -1,22 +1,38 @@
 import React from 'react'
 
-import SimpleExercise from '../exerciseTypes/SimpleExercise'
+import StepExercise from '../exerciseTypes/StepExercise'
 import IntegerInput from '../form/inputs/IntegerInput'
+import { InputSpace } from '../form/InputSpace'
 
 export default function Exercise() {
-	return <SimpleExercise Problem={Problem} Solution={Solution} />
+	return <StepExercise Problem={Problem} steps={steps} />
 }
 
-function Problem({ a, b, c }) {
+const Problem = ({ a, b, c }) => {
 	return <>
 		<h3>Problem 1</h3>
-		<p>{a}*{b} + {c} = <IntegerInput name="ans" /></p>
+		<p>Calculate {a}*{b} + {c}.</p>
+		<InputSpace><p>{a}*{b} + {c} = <IntegerInput name="ans" /></p></InputSpace>
 	</>
 }
 
-function Solution({ a, b, c }) {
-	return <>
-		<h3>Solution</h3>
-		<p>The solution is {a}*{b} + {c} = {a * b} + {c} = {a * b + c}.</p>
-	</>
-}
+const steps = [
+	{
+		Problem: ({ a, b }) => <>
+			<p>Calculate {a}*{b}.</p>
+			<InputSpace><p>{a}*{b} = <IntegerInput name="intermediate" /></p></InputSpace>
+		</>,
+		Solution: ({ a, b }) => <>
+			<p>{a}*{b} = {a * b}</p>
+		</>,
+	},
+	{
+		Problem: ({ a, b, c }) => <>
+			<p>Calculate {a * b} + {c}.</p>
+			<InputSpace><p>{a * b} + {c} = <IntegerInput name="ans" /></p></InputSpace>
+		</>,
+		Solution: ({ a, b, c }) => <>
+			<p>{a * b} + {c} = {a * b + c}</p>
+		</>,
+	},
+]

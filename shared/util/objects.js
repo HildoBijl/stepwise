@@ -7,6 +7,34 @@ function applyToEachParameter(obj, func) {
 	return result
 }
 
+// objectsEqual checks whether two objects are equal. It does this iteratively: if the parameters are object, these are recursively checked.
+function objectsEqual(obj1, obj2) {
+	if (!isObject(obj1) || !isObject(obj2))
+		return obj1 === obj2
+	
+	// Check number of keys.
+	const keys1 = Object.keys(obj1)
+	const keys2 = Object.keys(obj2)
+	if (keys1.length !== keys2.length)
+		return false
+	
+	// Merge keys and check new length.
+	const keys = [...new Set([...keys1, ...keys2])]
+	if (keys.length !== keys1.length)
+		return false
+
+	// Walk through keys and check equality.
+	if (keys.some(key => !objectsEqual(obj1[key], obj2[key])))
+		return false
+	return true
+}
+
+function isObject(obj) {
+	return typeof obj === 'object' && obj !== null
+}
+
 module.exports = {
 	applyToEachParameter,
+	isObject,
+	objectsEqual,
 }

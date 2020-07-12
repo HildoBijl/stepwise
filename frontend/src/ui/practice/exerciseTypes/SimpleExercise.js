@@ -1,73 +1,46 @@
 // The SimpleExercise is an Exercise that cannot be split. It's just one question and a function that checks whether the input is right or wrong. It must be passed a Problem and Solution component. Optional is a getFeedback parameter to extract feedback from input.
 
-import React, { useEffect, useCallback } from 'react'
+import React from 'react'
 
-import { lastOf } from 'step-wise/util/arrays'
+import { objectsEqual } from 'step-wise/util/objects'
+
+import ExerciseWrapper from '../form/ExerciseWrapper'
 import { useExerciseData } from '../ExerciseContainer'
-import Form, { useFormData } from '../form/Form'
-import FeedbackProvider, { useFeedback } from '../form/FeedbackProvider'
-import { HideInputSpace } from '../form/InputSpace'
-import { useRefWithValue } from '../../../util/react'
-import { useGetFeedbackFunction } from './util'
+import { useFormData } from '../form/Form'
+import { useFeedback } from '../form/FeedbackProvider'
+import { useButtons } from './util'
+import Status from '../form/Status'
 
 export default function SimpleExercise(props) {
-	const getFeedback = useGetFeedbackFunction(props)
 	return (
-		<Form>
-			<FeedbackProvider getFeedback={getFeedback}>
-				<Contents Problem={props.Problem} Solution={props.Solution} />
-			</FeedbackProvider>
-		</Form>
+		<ExerciseWrapper getFeedback={props.getFeedback || simpleExerciseGetFeedback}>
+			<Contents {...props} />
+		</ExerciseWrapper>
 	)
 }
 
 function Contents({ Problem, Solution }) {
-	const { state, history, progress, submitting, submitAction, startNewExercise } = useExerciseData()
-	const { input, isValid } = useFormData()
-	const { prevInput, updateFeedback } = useFeedback()
-
-	// Set up refs to track state parameters.
-	const inputRef = useRefWithValue(input)
-	const disabledRef = useRefWithValue(submitting) // Do we disable all actions?
-
-	// After a submit action is fully processed, update potential feedback.
-	useEffect(() => {
-		const lastHistoryItem = lastOf(history)
-		if (lastHistoryItem && lastHistoryItem.action && lastHistoryItem.action.type === 'input')
-			updateFeedback(lastHistoryItem.action.input)
-	}, [history, updateFeedback])
-
-	// Set up button handlers.
-	const submit = useCallback(() => {
-		if (disabledRef.current)
-			return
-		if (!isValid())
-			return
-		return submitAction({ type: 'input', input: inputRef.current })
-	}, [disabledRef, inputRef, isValid, submitAction])
-	const giveUp = useCallback(() => {
-		if (disabledRef.current)
-			return
-		return submitAction({ type: 'giveUp' })
-	}, [disabledRef, submitAction])
+	const { state, progress, history } = useExerciseData()
+	const { input } = useFormData()
+	const { feedback, prevInput } = useFeedback()
+	const buttons = useButtons()
 
 	// Determine what to show.
-	const hideProblemInputSpace = progress.givenUp && !prevInput
+	const hasSubmissions = history.some(event => event.action.type === 'input') // Has there been an input action.
+	const showInputSpace = !progress.done || hasSubmissions
 
-	return <>
-		{hideProblemInputSpace ? <HideInputSpace><Problem {...state} /></HideInputSpace> : <Problem {...state} />}
-		{
-			!progress.done ? (
-				<p>
-					<button type="button" onClick={submit} disabled={disabledRef.current}>Submit</button>
-					<button type="button" onClick={giveUp} disabled={disabledRef.current}>Give up</button>
-				</p>
-			) : (
-					<>
-						<Solution {...state} />
-						<p><button type="button" onClick={startNewExercise}>Next problem</button></p>
-					</>
-				)
-		}
-	</>
+	return (
+		<Status done={progress.done} solved={progress.solved} showInputSpace={showInputSpace}>
+			<Problem {...state} />
+			{feedback.main !== undefined && objectsEqual(input, prevInput) ? <p>{feedback.main ? 'Correct' : 'Wrong'}</p> : null}
+			{progress.done ? <Solution {...state} /> : null}{/* ToDo: put this in a wrapper that checks the status. */}
+			{buttons}
+		</Status>
+	)
+}
+
+function simpleExerciseGetFeedback({ state, input, shared }) {
+	if (!shared.checkInput)
+		return {}
+	return { main: shared.checkInput(state, input) }
 }

@@ -4,7 +4,7 @@ import { Link } from '@material-ui/core'
 import { v4 as uuidv4 } from 'uuid'
 
 import skills from 'step-wise/edu/skills'
-import { getNewExercise } from 'step-wise/edu/util/exercises'
+import { getNewExercise } from 'step-wise/edu/util/exercises/selection'
 import { IOtoFO, FOtoIO } from 'step-wise/edu/inputTransformation'
 import ExerciseContainer from '../practice/ExerciseContainer'
 import { usePaths } from '../routing'

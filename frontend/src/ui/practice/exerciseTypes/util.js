@@ -1,22 +1,39 @@
-import { noop } from 'step-wise/util/functions'
+
+import React, { useCallback } from 'react'
+
 import { useExerciseData } from '../ExerciseContainer'
+import { useFormData } from '../form/Form'
+import { useRefWithValue } from '../../../util/react'
 
-// useGetFeedbackFunction is a hook that tries to find a feedback function defined somewhere, or it creates one itself.
-export function useGetFeedbackFunction(props) {
-	const { shared } = useExerciseData()
+export function useButtons() {
+	const { progress, submitting, submitAction, startNewExercise } = useExerciseData()
+	const { input, isValid } = useFormData()
 
-	// Is there a feedback function in the front-end folder that's passed through the properties?
-	if (props.getFeedback)
-		return (state, input, progress) => props.getFeedback(state, input, progress, shared)
+	// Set up refs to track state parameters.
+	const inputRef = useRefWithValue(input)
+	const disabledRef = useRefWithValue(submitting) // Do we disable all actions?
 
-	// Is there a feedback function in the shared folder?
-	if (shared.getFeedback)
-		return shared.getFeedback
+	// Set up button handlers.
+	const submit = useCallback(() => {
+		if (disabledRef.current)
+			return
+		if (!isValid())
+			return
+		return submitAction({ type: 'input', input: inputRef.current })
+	}, [disabledRef, inputRef, isValid, submitAction])
+	const giveUp = useCallback(() => {
+		if (disabledRef.current)
+			return
+		return submitAction({ type: 'giveUp' })
+	}, [disabledRef, submitAction])
 
-	// Is there a checkInput function in the shared folder that we can use to set up a default getFeedback function?
-	if (shared.checkInput)
-		return (state, input) => ({ all: shared.checkInput(state, input) })
-
-	// No data is present...
-	return noop
+	// Return the buttons.
+	if (progress.done)
+		return <p><button type="button" onClick={startNewExercise}>Next problem</button></p>
+	return (
+		<p>
+			<button type="button" onClick={submit} disabled={disabledRef.current}>Submit</button>
+			<button type="button" onClick={giveUp} disabled={disabledRef.current}>Give up</button>
+		</p>
+	)
 }

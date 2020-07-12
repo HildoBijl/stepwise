@@ -19,6 +19,12 @@ export default function Form({ children }) {
 	const setParameter = useCallback((parameter, value) => {
 		setInput({ ...inputRef.current, [parameter]: value })
 	}, [setInput, inputRef])
+	
+	const deleteParameter = useCallback((parameter) => {
+		const input =  { ...inputRef.current }
+		delete input[parameter]
+		setInput(input)
+	}, [setInput, inputRef])
 
 	const setParameters = useCallback((newInput, override = false) => {
 		if (override)
@@ -55,7 +61,7 @@ export default function Form({ children }) {
 	}, [validationFunctionsRef])
 
 	return (
-		<FormContext.Provider value={{ input, setParameter, setParameters, clearForm, validation, validationInput, isValid, saveValidationFunction }}>
+		<FormContext.Provider value={{ input, setParameter, deleteParameter, setParameters, clearForm, validation, validationInput, isValid, saveValidationFunction }}>
 			<form onSubmit={(evt) => evt.preventDefault()}>
 				{children}
 			</form>
@@ -72,7 +78,14 @@ export function useFormData() {
 
 // useFormParameter gives a tuple [value, setValue] for a single input parameter with the given name.
 export function useFormParameter(name) {
-	const { input, setParameter } = useFormData()
+	const { input, setParameter, deleteParameter } = useFormData()
+
+	// Upon unmounting, remove the parameter.
+	useEffect(() => {
+		return () => deleteParameter(name)
+	}, [deleteParameter, name])
+
+	// Set up the right handlers.
 	return [input[name], value => setParameter(name, value)]
 }
 

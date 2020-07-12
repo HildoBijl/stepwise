@@ -50,8 +50,14 @@ export function useExerciseData() {
 	return useContext(ExerciseContext)
 }
 
-function getLastProgress(history) {
+export function getLastProgress(history) {
 	if (history.length === 0)
 		return {}
 	return history[history.length - 1].progress
+}
+
+export function getPrevProgress(history) {
+	if (history.length <= 1)
+		return {}
+	return history[history.length - 2].progress
 }

@@ -22,7 +22,7 @@ function Solution({ x }) {
 	</>
 }
 
-function getFeedback(state, input, progress, shared) {
+function getFeedback({ state, input, progress, prevProgress, shared }) {
 	// const correct = shared.checkInput(state, input)
 	const { x } = state
 	const { ans } = input

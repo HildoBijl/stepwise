@@ -1,7 +1,8 @@
 const { getRandomInteger } = require('../../util/random')
-const { getSimpleExerciseProcessor } = require('../util/exercises')
+const { getStepExerciseProcessor } = require('../util/exercises/stepExercise')
 
 const data = {
+	numSteps: 3,
 	// ToDo: add data on difficulty.
 }
 
@@ -14,13 +15,18 @@ function generateState() {
 	}
 }
 
-function checkInput({ a, b, c, d }, { ans }) {
-	return a * b + c * d === ans
+function checkInput({ a, b, c, d }, { p1, p2, ans }, step) {
+	if (!step || step === 3)
+		return a * b + c * d === ans
+	if (step === 1)
+		return a * b === p1
+	if (step === 2)
+		return c * d === p2
 }
 
 module.exports = {
 	data,
 	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput),
+	processAction: getStepExerciseProcessor(checkInput, data),
 	checkInput,
 }
