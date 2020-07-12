@@ -2,13 +2,13 @@
 
 import React, { useEffect, useCallback } from 'react'
 
-import { noop } from 'step-wise/util/functions'
 import { lastOf } from 'step-wise/util/arrays'
-import { useExerciseData } from './ExerciseContainer'
-import Form, { useFormData } from './Form'
-import FeedbackProvider, { useFeedback } from './FeedbackProvider'
-import { HideInputSpace } from './InputSpace'
-import { useRefWithValue } from '../../util/react'
+import { useExerciseData } from '../ExerciseContainer'
+import Form, { useFormData } from '../form/Form'
+import FeedbackProvider, { useFeedback } from '../form/FeedbackProvider'
+import { HideInputSpace } from '../form/InputSpace'
+import { useRefWithValue } from '../../../util/react'
+import { useGetFeedbackFunction } from './util'
 
 export default function SimpleExercise(props) {
 	const getFeedback = useGetFeedbackFunction(props)
@@ -70,24 +70,4 @@ function Contents({ Problem, Solution }) {
 				)
 		}
 	</>
-}
-
-// useGetFeedbackFunction is a hook that tries to find a feedback function defined somewhere, or it creates one itself.
-function useGetFeedbackFunction(props) {
-	const { shared } = useExerciseData()
-
-	// Is there a feedback function in the front-end folder that's passed through the properties?
-	if (props.getFeedback)
-		return (state, input, progress) => props.getFeedback(state, input, progress, shared)
-
-	// Is there a feedback function in the shared folder?
-	if (shared.getFeedback)
-		return shared.getFeedback
-
-	// Is there a checkInput function in the shared folder that we can use to set up a default getFeedback function?
-	if (shared.checkInput)
-		return (state, input) => ({ all: shared.checkInput(state, input) })
-
-	// No data is present...
-	return noop
 }

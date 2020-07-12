@@ -1,7 +1,7 @@
 import React, { useState, createContext, useContext, useEffect, useRef } from 'react'
 
-import Loading from '../components/Loading'
 import { IOtoFO } from 'step-wise/edu/inputTransformation'
+import Loading from '../components/Loading'
 
 const ExerciseContext = createContext({})
 export { ExerciseContext } // Exported for testing purposes.
@@ -14,7 +14,7 @@ export default function ExerciseContainer({ exercise, skillId, submitting, submi
 	const ExerciseShared = useRef({})
 	const reload = () => {
 		setLoading(true)
-		Promise.all([import(`../exercises/${exerciseId}`), import(`step-wise/edu/exercises/${exerciseId}`)]).then(importedModules => {
+		Promise.all([import(`./exercises/${exerciseId}`), import(`step-wise/edu/exercises/${exerciseId}`)]).then(importedModules => {
 			const [localModule, sharedModule] = importedModules
 			ExerciseLocal.current = localModule.default
 			ExerciseShared.current = sharedModule.default

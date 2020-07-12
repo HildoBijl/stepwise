@@ -1,7 +1,7 @@
 import React from 'react'
 
 import NotificationBar from './NotificationBar'
-import { useUserResults } from '../user'
+import { useUserResults } from '../api/user'
 
 export default function RecommendLogIn({ recommend }) {
 	const { loading, data } = useUserResults()

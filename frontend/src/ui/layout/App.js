@@ -6,7 +6,7 @@ import { ApolloProvider } from '@apollo/react-hooks'
 
 import Routing from './Routing'
 import theme from '../theme'
-import { UserContext, useUserQuery } from '../user'
+import { UserContext, useUserQuery } from '../api/user'
 
 const withApolloProvider = WrappedComponent => props => (
 	<ApolloProvider client={props.apolloClient}>

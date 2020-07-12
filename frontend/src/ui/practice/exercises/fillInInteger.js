@@ -1,8 +1,8 @@
 import React from 'react'
 
-import SimpleExercise from '../components/SimpleExercise'
-import IntegerInput from '../inputs/IntegerInput'
 import { selectRandomly } from 'step-wise/util/random'
+import SimpleExercise from '../exerciseTypes/SimpleExercise'
+import IntegerInput from '../form/inputs/IntegerInput'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />

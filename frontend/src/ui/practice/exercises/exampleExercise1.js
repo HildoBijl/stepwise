@@ -1,8 +1,8 @@
 import React from 'react'
 
-import SimpleExercise from '../components/SimpleExercise'
-import IntegerInput from '../inputs/IntegerInput'
-import { InputSpace } from '../components/InputSpace'
+import SimpleExercise from '../exerciseTypes/SimpleExercise'
+import IntegerInput from '../form/inputs/IntegerInput'
+import { InputSpace } from '../form/InputSpace'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} />

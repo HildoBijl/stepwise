@@ -6,7 +6,7 @@ import { Menu as MenuIcon, Home, School, Create, Feedback, Info, MenuBook, ExitT
 
 import MenuLink from './MenuLink'
 import { usePaths } from '../routing'
-import { useUser } from '../user'
+import { useUser } from '../api/user'
 
 const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent) // To fix the SwipeableDrawer on iOS.
 

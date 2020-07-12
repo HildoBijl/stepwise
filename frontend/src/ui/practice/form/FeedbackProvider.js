@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useCallback } from 'react'
 
-import { useRefWithValue } from '../../util/react'
-import { useExerciseData } from './ExerciseContainer'
+import { useRefWithValue } from '../../../util/react'
+import { useExerciseData } from '../ExerciseContainer'
 import { IOtoFO } from 'step-wise/edu/inputTransformation'
 
 const FeedbackContext = createContext(null)

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react'
 
-import { useExerciseData } from '../components/ExerciseContainer'
-import { useFormParameter, useFieldValidation } from '../components/Form'
-import { useParameterFeedback } from '../components/FeedbackProvider'
+import { useExerciseData } from '../../ExerciseContainer'
+import { useFormParameter, useFieldValidation } from '../Form'
+import { useParameterFeedback } from '../FeedbackProvider'
 
 export default function IntegerInput({ name, positive = false, validate = nonEmpty }) {
 	const { progress } = useExerciseData()
