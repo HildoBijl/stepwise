@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import { useFormParameter, useFieldValidation } from '../Form'
 import { useParameterFeedback } from '../FeedbackProvider'
 import { useStatus } from '../Status'
 
-export default function IntegerInput({ name, positive = false, validate = nonEmpty }) {
+export default function IntegerInput({ name, label = 'Integer', positive = false, validate = nonEmpty }) {
 	const [input, setInput] = useFormParameter(name)
 	const { validation, validationInput } = useFieldValidation(name, validate)
 	const { done } = useStatus()
@@ -51,6 +51,7 @@ export default function IntegerInput({ name, positive = false, validate = nonEmp
 	})
 
 	return <>
+		{label}
 		<input type="text" name={name} value={value} disabled={!editable} onChange={handleChange} />
 		{feedbackText ? <span> {feedbackText}</span> : null}
 	</>

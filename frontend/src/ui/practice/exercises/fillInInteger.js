@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { selectRandomly } from 'step-wise/util/random'
+import { M, BM } from '../../../util/equations'
 import SimpleExercise from '../exerciseTypes/SimpleExercise'
 import IntegerInput from '../form/inputs/IntegerInput'
 
@@ -9,9 +10,11 @@ export default function Exercise() {
 }
 
 function Problem({ x }) {
+	console.log(x)
 	return <>
 		<h3>Problem</h3>
-		<p>{x} = <IntegerInput name="ans" /></p>
+		<p>Fill in the number <M>x={x}</M>.</p>
+		<div><IntegerInput name="ans" label={<M>x=</M>} /></div>
 	</>
 }
 
