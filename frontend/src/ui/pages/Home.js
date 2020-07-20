@@ -5,9 +5,12 @@ import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
-import { center } from '../theme'
+import { center, notSelectable } from '../theme'
 import LinkBar from '../layout/LinkBar'
 import { websiteTitle, websiteTitleAddendum, apiAddress } from '../settings'
+
+import logo from '../logo/logo.svg'
+import SURFconext from '../images/SURFconext.png'
 
 const useStyles = makeStyles((theme) => ({
 	home: {
@@ -57,23 +60,25 @@ const useStyles = makeStyles((theme) => ({
 
 	main: {
 		flexGrow: 0,
+		margin: '0 0 1.5rem',
 	},
 
 	logo: {
+		display: 'flex',
 		flexGrow: 0,
+		flexFlow: 'column nowrap',
+		justifyContent: 'center',
 	},
-	logoCircle: {
-		background: theme.palette.primary.main,
-		borderRadius: '50%',
-		height: '50vh',
-		position: 'relative',
-		width: '100%',
-	},
-	logoContents: {
-		color: theme.palette.primary.contrastText,
-		fontSize: '2rem',
-		textAlign: 'center',
-		...center, // A mixin for centering the element.
+	logoPicture: {
+		...notSelectable,
+		width: '90vw',
+		[theme.breakpoints.up('sm')]: {
+			width: '55vw',
+		},
+		[theme.breakpoints.up('lg')]: {
+			height: '50vh',
+			width: 'auto',
+		},
 	},
 
 	logIn: {
@@ -82,14 +87,32 @@ const useStyles = makeStyles((theme) => ({
 		flexFlow: 'column nowrap',
 		flexGrow: 0,
 		justifyContent: 'center',
+		margin: `1rem 0 1rem 0`,
+		[theme.breakpoints.up('sm')]: {
+			margin: `0rem 0 2.5rem 0`,
+		},
 
-		'& p': {
-			fontSize: '1.5rem',
+		'& div': {
+			fontSize: '1.2rem',
 			fontWeight: 'bold',
 			margin: '0.5rem 0',
 			textAlign: 'center',
 			[theme.breakpoints.up('sm')]: {
 				margin: '1.5rem 0',
+			},
+			[theme.breakpoints.up('md')]: {
+				fontSize: '1.5rem',
+			},
+
+			'& .surfConextLogo': {
+				display: 'inline-block',
+				height: '1.3rem',
+				margin: `0 0.25rem`,
+				[theme.breakpoints.up('md')]: {
+					height: '2rem',
+				},
+				opacity: 0.7,
+				transform: 'translateY(0.5rem)',
 			},
 
 			'& a': {
@@ -97,6 +120,10 @@ const useStyles = makeStyles((theme) => ({
 				textDecoration: 'none',
 				'&:hover': {
 					color: '#000',
+	
+					'& .surfConextLogo': {
+						opacity: 1,
+					},
 				},
 			},
 		},
@@ -117,19 +144,17 @@ export default function Home() {
 	return (
 		<Container maxWidth='lg' className={classes.home}>
 			<div className={classes.title}>
-				<Typography variant="h1" className={classes.name}>Step-wise</Typography>
-				<Typography variant="h2" className={classes.motto}>Your own private tutor</Typography>
+				<Typography variant="h1" className={classes.name}>{websiteTitle}</Typography>
+				<Typography variant="h2" className={classes.motto}>{websiteTitleAddendum}</Typography>
 			</div>
 			<Grid container spacing={3} className={classes.main}>
 				<Grid item xs={12} sm={7} className={classes.logo}>
-					<div className={classes.logoCircle}>
-						<div className={classes.logoContents}>Temporary Logo</div>
-					</div>
+					<img src={logo} className={classes.logoPicture} alt="Logo" />
 				</Grid>
 				<Grid item xs={12} sm={5} className={classes.logIn}>
-					<p><a href={`${apiAddress}/auth/surfconext/initiate`}>Log in with SURFconext</a></p>
-					<p>Log in with Google</p>
-					<p>Practice without logging in</p>
+					<div><a href={`${apiAddress}/auth/surfconext/initiate`}>Log in met <img src={SURFconext} className={'surfConextLogo'} alt="SURFconext" /></a></div>
+					{/* <div>Log in met Google</div> */}
+					<div>Oefen zonder in te loggen<br/>(komt nog)</div>
 				</Grid>
 			</Grid>
 			<div className={classes.spacer} />

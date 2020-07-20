@@ -1,7 +1,7 @@
 import { createMuiTheme } from '@material-ui/core/styles'
 
 const themeColor = '#0a6f3c'
-const secondaryColor = '#654321'
+const secondaryColor = '#422814'
 const successColor = themeColor
 const errorColor = '#bd0f0f'
 const warningColor = '#d66c00'
@@ -34,6 +34,13 @@ let theme = {
 		},
 	},
 	appWidth: 'lg', // The width that is used for the app by default.
+	overrides: {
+		MuiOutlinedInput: {
+			input: {
+				padding: '14px',
+			}
+		}
+	},
 }
 
 theme = createMuiTheme(theme) // Turn the theme into a MUI theme object.

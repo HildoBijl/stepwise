@@ -1,6 +1,6 @@
 // Title settings.
 const websiteTitle = 'Step-wise'
-const websiteTitleAddendum = 'Your own private tutor'
+const websiteTitleAddendum = 'Oefenopgaven op maat'
 export { websiteTitle, websiteTitleAddendum }
 
 const apiAddress = process.env.REACT_APP_API_ADDRESS
