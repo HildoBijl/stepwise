@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import Collapse from '@material-ui/core/collapse'
+import Collapse from '@material-ui/core/Collapse'
 import { ArrowRight } from '@material-ui/icons'
 
 import { notSelectable } from '../../../theme'
