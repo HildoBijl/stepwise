@@ -33,7 +33,7 @@ module.exports.getSimpleExerciseProcessor = getSimpleExerciseProcessor
 
 // getLastInput takes a history object and returns the last given input.
 function getLastInput(history) {
-	for (i = history.length-1; i >= 0; i--) {
+	for (let i = history.length-1; i >= 0; i--) {
 		if (history[i].action.type === 'input')
 			return history[i].action.input
 	}

@@ -3,7 +3,7 @@ import React, { useRef, useState, useCallback, useEffect, createContext, useCont
 import { mod } from 'step-wise/util/numbers'
 import { useEventListener, useRefWithValue } from '../../util/react'
 
-const FieldControllerContext = createContext({})
+const FieldControllerContext = createContext()
 
 export default function FieldController({ children }) {
 	const controllerRef = useRef() // Will refer to the tab controller container.
@@ -89,9 +89,7 @@ export default function FieldController({ children }) {
 		setTabIndex(mod(tabIndexRef.current === -1 ? -1 : tabIndexRef.current - 1, tabOrder.current.length))
 	}, [tabIndexRef])
 
-	const isActive = useCallback((id) => {
-		return tabOrder.current[tabIndexRef.current] === id
-	}, [tabOrder, tabIndexRef])
+	const isActive = useCallback((id) => tabOrder.current[tabIndexRef.current] === id, [tabOrder, tabIndexRef])
 
 	// Set up listener.
 	const keyDownHandler = useCallback((evt) => handleKeyPress(evt, tabbingOnRef.current, incrementTabIndex, decrementTabIndex), [tabbingOnRef, incrementTabIndex, decrementTabIndex])
@@ -125,7 +123,7 @@ export default function FieldController({ children }) {
 // A consuming element can use `const [active, activate, deactivate] = useFieldControl({ id: 'fieldId', ref: refUsedForElement })` to join the tab control. Alternatively, when it's already registered, you can call the function without a ref (just an ID) to just gain the info/controls.
 // Other options include the following. With `apply` set to false you can remove this field from tabbing. (Since conditional hooks not allowed.) With focusRefOnActive set to true you give the ref focus in HTML when this field is activated. With a manual index you can steer the tab order: manual index takes precedence over order in the page. With autofocus you automatically give focus to this field when it mounts. Make sure to only use this once, or it'll depend on the rendering order who gets the focus.
 export function useFieldControl({ id, ref, apply = true, focusRefOnActive = false, manualIndex = 0, autofocus = false }) {
-	const { registerElement, unregisterElement, isActive, activate, deactivate } = useContext(FieldControllerContext)
+	const { registerElement, unregisterElement, isActive, activate, deactivate } = useFieldControllerContext()
 
 	// Make sure the field is registered.
 	useEffect(() => {

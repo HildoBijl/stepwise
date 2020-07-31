@@ -16,12 +16,16 @@ export function getCoordinatesOf(input, parent = null) {
 	}
 
 	// Check if the input is fine.
+	if (!element)
+		throw new Error(`Invalid coordinate request: tried to find the coordinates of a null element.`)
 	if (parent !== null && !parent.contains(element))
 		throw new Error(`Invalid coordinate request: tried to find the coordinates of an element within another element, but the parent does not contain the child.`)
 
 	// Iterate until we reach the given parent.
-	while (!element.offsetParent && element !== null) // Find an element that knows about offsets.
+	while (element !== null && !element.offsetParent) // Find an element that knows about offsets.
 		element = element.parentElement
+	if (element === null)
+		return { x: 0, y: 0 } // If the element has no offset parent, then it's not mounted. This occurs during testing, so we return a zero position to work further with.
 	while (element !== parent) { // Adjust coordinates.
 		x += element.offsetLeft
 		y += element.offsetTop

@@ -1,10 +1,13 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import { ThemeProvider } from '@material-ui/core/styles'
 
 import skills from 'step-wise/edu/skills'
 import { getAllExercises } from 'step-wise/edu/util/exercises/selection'
 import { noop } from 'step-wise/util/functions'
 import { ExerciseContext } from '../ui/practice/ExerciseContainer'
+import FieldController from '../ui/layout/FieldController'
+import theme from '../ui/theme'
 
 it('all exercises have an appropriate shared export', async () => {
 	const exercises = getAllExercises()
@@ -23,6 +26,7 @@ it('all exercises have a front-end exercise component', async () => {
 		expect(typeof Exercise).toBe('function')
 	})
 })
+
 
 it('all exercises render properly', async () => {
 	await Object.values(skills).forEach(async skill => { // We must browse through skills here too because the exercise requires the skillId.
@@ -43,9 +47,13 @@ it('all exercises render properly', async () => {
 				skillId: skill.id,
 			}
 			expect(() => render(
-				<ExerciseContext.Provider value={exerciseData}>
-					<Exercise />
-				</ExerciseContext.Provider>
+				<ThemeProvider theme={theme}>
+					<FieldController>
+						<ExerciseContext.Provider value={exerciseData}>
+							<Exercise />
+						</ExerciseContext.Provider>
+					</FieldController>
+				</ThemeProvider>
 			)).not.toThrow()
 		})
 	})
