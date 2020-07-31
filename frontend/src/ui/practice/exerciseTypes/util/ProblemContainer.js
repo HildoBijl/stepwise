@@ -15,7 +15,7 @@ export default function ProblemContainer(props) {
 function Circle(props) {
 	return (
 		<SvgIcon {...props}>
-			<circle cx="12" cy="12" r="4" fill="black" />
+			<circle cx="12" cy="12" r="4" fill="currentColor" />
 		</SvgIcon>
 	)
 }

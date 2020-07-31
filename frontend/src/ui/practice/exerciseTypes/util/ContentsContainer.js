@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
 			'& .iconContainer': {
 				flex: '0 0 auto',
 				lineHeight: 0,
-				margin: '0 0.3em 0 0',
 
 				'& .icon': {
 					transform: ({ rotateIcon, expand }) => (rotateIcon && expand) ? 'rotate(90deg)' : 'none',
@@ -30,12 +29,13 @@ const useStyles = makeStyles((theme) => ({
 			},
 
 			'& .textContainer': {
+				fontWeight: 'bold',
 				flex: '0 0 auto',
+				margin: '0 0.8em 0 0.2em',
 			},
 			'& .line': {
 				borderTop: ({ color }) => `1px solid ${getColor(color, theme)}`,
 				flex: '1 1 auto',
-				margin: '0 0 0 1em',
 			},
 		},
 		'& .innerContainer': {
