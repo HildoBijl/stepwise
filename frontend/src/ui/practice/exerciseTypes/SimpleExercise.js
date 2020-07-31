@@ -2,14 +2,17 @@
 
 import React from 'react'
 
-import { objectsEqual } from 'step-wise/util/objects'
-
+import { inputSetsEqual } from 'step-wise/edu/inputTransformation'
+import VerticalAdjuster from '../../../util/reactComponents/VerticalAdjuster'
 import ExerciseWrapper from '../form/ExerciseWrapper'
 import { useExerciseData } from '../ExerciseContainer'
 import { useFormData } from '../form/Form'
 import { useFeedback } from '../form/FeedbackProvider'
-import { useButtons } from './util'
 import Status from '../form/Status'
+import ProblemContainer from './util/ProblemContainer'
+import MainFeedback from './util/MainFeedback'
+import SolutionContainer from './util/SolutionContainer'
+import ExerciseButtons from './util/ExerciseButtons'
 
 export default function SimpleExercise(props) {
 	return (
@@ -22,21 +25,27 @@ export default function SimpleExercise(props) {
 function Contents({ Problem, Solution }) {
 	const { state, progress, history } = useExerciseData()
 	const { input } = useFormData()
-	const { feedback, prevInput } = useFeedback()
-	const buttons = useButtons()
+	const { feedbackInput } = useFeedback()
 
 	// Determine what to show.
-	const hasSubmissions = history.some(event => event.action.type === 'input') // Has there been an input action.
+	const hasSubmissions = history.some(event => event.action.type === 'input') // Has there been an input action?
 	const showInputSpace = !progress.done || hasSubmissions
+	const showMainFeedback = showInputSpace && (progress.done || inputSetsEqual(input, feedbackInput))
 
-	return (
-		<Status done={progress.done} solved={progress.solved} showInputSpace={showInputSpace}>
-			<Problem {...state} />
-			{feedback.main !== undefined && objectsEqual(input, prevInput) ? <p>{feedback.main ? 'Correct' : 'Wrong'}</p> : null}
-			{progress.done ? <Solution {...state} /> : null}{/* ToDo: put this in a wrapper that checks the status. */}
-			{buttons}
-		</Status>
-	)
+	return <>
+		<ProblemContainer>
+			<Status showInputSpace={showInputSpace} done={progress.done}>
+				<VerticalAdjuster>
+					<Problem {...state} />
+				</VerticalAdjuster>
+			</Status>
+			<MainFeedback display={showMainFeedback} />
+		</ProblemContainer>
+		<SolutionContainer display={!!progress.done} initialExpand={!progress.solved}>
+			<Solution {...state} />
+		</SolutionContainer>
+		<ExerciseButtons />
+	</>
 }
 
 function simpleExerciseGetFeedback({ state, input, shared }) {

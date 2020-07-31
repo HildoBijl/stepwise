@@ -2,6 +2,7 @@ import '../style.scss'
 
 import React from 'react'
 import { ThemeProvider } from '@material-ui/core/styles'
+import CssBaseline from '@material-ui/core/CssBaseline'
 import { ApolloProvider } from '@apollo/react-hooks'
 
 import Routing from './Routing'
@@ -10,15 +11,16 @@ import { UserContext, useUserQuery } from '../api/user'
 
 const withApolloProvider = WrappedComponent => props => (
 	<ApolloProvider client={props.apolloClient}>
-		<WrappedComponent { ...props } />
+		<WrappedComponent {...props} />
 	</ApolloProvider>
 )
 
 function App() {
 	const result = useUserQuery()
 	return (
-		<div className='app'>
+		<div id='app'>
 			<ThemeProvider theme={theme}>
+				<CssBaseline />
 				<UserContext.Provider value={result}>
 					<Routing />
 				</UserContext.Provider>

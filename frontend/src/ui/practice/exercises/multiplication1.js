@@ -1,8 +1,10 @@
 import React from 'react'
 
 import SimpleExercise from '../exerciseTypes/SimpleExercise'
+import { Par } from '../exerciseTypes/util/containers'
+import { M } from '../../../util/equations'
 import IntegerInput from '../form/inputs/IntegerInput'
-import { InputSpace, AntiInputSpace } from '../form/InputSpace'
+import { InputSpace } from '../form/InputSpace'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} />
@@ -10,19 +12,13 @@ export default function Exercise() {
 
 function Problem({ a, b }) {
 	return <>
-		<h3>Problem</h3>
+		<Par>Bereken de vermenigvuldiging <M>{a} \cdot {b}</M>.</Par>
 		<InputSpace>
-			<p>{a}*{b} = <IntegerInput name="ans" /></p>
+			<Par><IntegerInput id="ans" label="Antwoord" prelabel={<M>{a} \cdot {b} =</M>} size="s" autofocus={true} /></Par>
 		</InputSpace>
-		<AntiInputSpace>
-			<p>Calculate the product {a}*{b}.</p>
-		</AntiInputSpace>
 	</>
 }
 
 function Solution({ a, b }) {
-	return <>
-		<h3>Solution</h3>
-		<p>The solution is {a}*{b} = {a * b}.</p>
-	</>
+	return <Par>De oplossing is <M>{a} \cdot {b} = {a * b}.</M></Par>
 }

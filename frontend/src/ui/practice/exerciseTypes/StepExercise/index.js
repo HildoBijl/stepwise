@@ -1,18 +1,22 @@
 // The StepExercise is an Exercise that can be split into parts. It must be passed a (main) Problem and then a steps array [{ Problem, Solution }]. Optional is a getFeedback parameter to extract feedback from input.
 
-import React from 'react'
+import React, { useState } from 'react'
 
 import { numberArray } from 'step-wise/util/arrays'
-import { objectsEqual } from 'step-wise/util/objects'
 import { getStep } from 'step-wise/edu/util/exercises/stepExercise'
+import { inputSetsEqual } from 'step-wise/edu/inputTransformation'
+import VerticalAdjuster from '../../../../util/reactComponents/VerticalAdjuster'
 
 import ExerciseWrapper from '../../form/ExerciseWrapper'
 import { useExerciseData } from '../../ExerciseContainer'
+import Status from '../../form/Status'
+import ProblemContainer from '../util/ProblemContainer'
+import MainFeedback from '../util/MainFeedback'
+import Steps from './Steps'
+import SolutionContainer from '../util/SolutionContainer'
+import ExerciseButtons from '../util/ExerciseButtons'
 import { useFormData } from '../../form/Form'
 import { useFeedback } from '../../form/FeedbackProvider'
-import { useButtons } from '../util'
-import Status from '../../form/Status'
-import Step from './Step'
 
 export default function StepExercise(props) {
 	return (
@@ -24,37 +28,43 @@ export default function StepExercise(props) {
 
 function Contents({ Problem: MainProblem, steps }) {
 	const { state, progress } = useExerciseData()
+	const [expandSolution, setExpandSolution] = useState(false)
 	const { input } = useFormData()
-	const { feedback, prevInput } = useFeedback()
-	const buttons = useButtons()
+	const { feedbackInput } = useFeedback()
 
 	// Determine what to show.
 	const showInputSpace = !progress.split
-	const step = getStep(progress)
+	const showMainFeedback = showInputSpace && (progress.solved || progress.split || inputSetsEqual(input, feedbackInput))
 
-	return (
-		<Status done={progress.done} solved={progress.solved} showInputSpace={showInputSpace}>
-			<MainProblem {...state} />
-			{feedback.main !== undefined && objectsEqual(input, prevInput) ? <p>{feedback.main ? 'Correct' : 'Wrong'}</p> : null}
-			{steps.map((stepData, index) => (index <= step - 1 ? <Step key={index} step={index + 1} progress={progress[index + 1]} {...stepData} /> : null))}
-			{buttons}
-		</Status>
-	)
+	return <>
+		<ProblemContainer>
+			<Status showInputSpace={showInputSpace} done={progress.done || progress.split}>
+				<VerticalAdjuster>
+					<MainProblem {...state} />
+				</VerticalAdjuster>
+			</Status>
+			<MainFeedback display={showMainFeedback} />
+		</ProblemContainer>
+		{!expandSolution ? <SolutionContainer display={!!progress.done && !progress.split} onClick={() => setExpandSolution(true)} rotateIcon={false} /> : null}{/* This is a clickable dummy to expand the solution after the main problem has been solved directly. */}
+		<Steps steps={steps} forceDisplay={expandSolution} />
+		<ExerciseButtons stepwise={true} />
+	</>
 }
 
 function stepExerciseGetFeedback({ state, input, progress, prevProgress, shared }) {
+	const feedback = {}
 	if (!shared.checkInput)
-		return {}
+		return feedback
 
 	// If we're not split, use the default function.
+	feedback.main = shared.checkInput(state, input, 0)
 	if (!progress.split)
-		return { main: shared.checkInput(state, input, 0) }
+		return feedback
 
 	// We're split! Find the step the user was at during his last action. Provide feedback until that step.
 	const step = getStep(prevProgress)
-	const feedback = {}
 	numberArray(1, step).forEach(index => {
-		feedback[index] = shared.checkInput(state, input, index)
+		feedback[index] = { main: shared.checkInput(state, input, index) }
 	})
 	return feedback
 }

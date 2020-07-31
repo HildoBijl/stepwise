@@ -48,11 +48,15 @@ function getStepExerciseProcessor(checkInput, data) {
 		}
 	}
 }
+module.exports.getStepExerciseProcessor = getStepExerciseProcessor
 
+// getStep takes a progress object and returns the step which this problem is at.
 function getStep(progress) {
 	return progress.split ? progress.step : 0
 }
+module.exports.getStep = getStep
 
+// nextStep takes a progress object and adjusts it to make it one in which the current step is done. The object is adjusted and returned.
 function nextStep(progress, numSteps) {
 	let step = getStep(progress)
 	if (step === numSteps) {
@@ -63,9 +67,4 @@ function nextStep(progress, numSteps) {
 		progress[step] = {}
 	}
 	return progress
-}
-
-module.exports = {
-	getStepExerciseProcessor,
-	getStep,
 }

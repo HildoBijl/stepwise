@@ -2,13 +2,10 @@
 function getRandomInteger(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min
 }
+module.exports.getRandomInteger = getRandomInteger
 
 // selectRandomly takes an array and returns a random element from it.
 function selectRandomly(arr) {
-	return arr[getRandomInteger(0, arr.length-1)]
+	return arr[getRandomInteger(0, arr.length - 1)]
 }
-
-module.exports = {
-	getRandomInteger,
-	selectRandomly,
-}
+module.exports.selectRandomly = selectRandomly

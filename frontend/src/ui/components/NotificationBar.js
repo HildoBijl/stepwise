@@ -1,7 +1,8 @@
 import React from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Container, Typography } from '@material-ui/core'
-import { CheckCircle, Info, Warning, Error } from '@material-ui/icons'
+
+import { getIcon } from '../theme'
 
 const useStyles = makeStyles((theme) => ({
 	notificationBar: {
@@ -38,24 +39,9 @@ export default function NotificationBar({ display, type, children }) {
 	return (
 		<div className={classes.notificationBar}>
 			<Container maxWidth={theme.appWidth} className="container">
-				<div className="icon"><Icon /></div>
+				<div className="icon">{Icon ? <Icon /> : null}</div>
 				<div className="text"><Typography>{children}</Typography></div>
 			</Container>
 		</div>
 	)
-}
-
-function getIcon(type) {
-	switch (type) {
-		case 'success':
-				return CheckCircle
-		case 'info':
-			return Info
-		case 'warning':
-			return Warning
-		case 'error':
-			return Error
-		default:
-			throw new Error(`Unknown notification type "${type}".`)
-	}
 }

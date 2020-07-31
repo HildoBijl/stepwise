@@ -1,13 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { useRouteMatch, Link as RouterLink } from 'react-router-dom'
-import { Link } from '@material-ui/core'
+import { useRouteMatch } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
 import skills from 'step-wise/edu/skills'
 import { getNewExercise } from 'step-wise/edu/util/exercises/selection'
 import { IOtoFO, FOtoIO } from 'step-wise/edu/inputTransformation'
 import ExerciseContainer from '../practice/ExerciseContainer'
-import { usePaths } from '../routing'
 import { useUserResults } from '../api/user'
 import { useSkillQuery, useStartExerciseMutation, useSubmitExerciseActionMutation } from '../api/skill'
 import Loading from '../components/Loading'
@@ -15,16 +13,14 @@ import Error from '../components/Error'
 
 export default function Skill() {
 	const { loading, data } = useUserResults()
-	const paths = usePaths() // ToDo: remove later, once not needed.
 
 	if (loading)
 		return <Loading text="Loading user data." />
 
-	const user = data.me
-	return <>
-		<p>Some possible skills to practice: <Link component={RouterLink} to={paths.skill({ skillId: 'fillInInteger' })}>Fill in an integer</Link> - <Link component={RouterLink} to={paths.skill({ skillId: 'summation' })}>Summation</Link> - <Link component={RouterLink} to={paths.skill({ skillId: 'multiplication' })}>Multiplication</Link> - <Link component={RouterLink} to={paths.skill({ skillId: 'summationOfMultiplications' })}>Summation of multiplications</Link> - <Link component={RouterLink} to={paths.skill({ skillId: 'example' })}>Linear equation</Link>.</p>
-		{user ? <SkillForUser /> : <SkillForStranger />}
-	</>
+	const user = (data && data.me) || null
+	if (user)
+		return <SkillForUser />
+	return <SkillForStranger />
 }
 
 function SkillForUser() {
@@ -108,8 +104,6 @@ function SkillForStranger() {
 
 	if (!exercise)
 		return <Loading text="Generating new exercise" />
-
-	// ToDo: add a banner indicating that the user is not logged in.
 
 	return <ExerciseContainer key={exercise.startedOn} exercise={exercise} skillId={skillId} submitting={false} submitAction={submitAction} startNewExercise={startNewExercise} />
 }

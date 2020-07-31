@@ -13,6 +13,9 @@ export function BM(props) {
 	return <Math displayMode={true} {...props} />
 }
 
+const latexMinus = '−'
+export { latexMinus }
+
 const useStyles = makeStyles((theme) => ({
 	equation: {
 		fontSize: '0.9em',

@@ -1,6 +1,10 @@
-import React, { createContext, useState, useContext, useRef, useCallback, useEffect } from 'react'
+import React, { createContext, useState, useContext, useRef, useCallback, useEffect } from
+	'react'
 
+import { getLastInput } from 'step-wise/edu/util/exercises/simpleExercise'
+import { isEmpty } from 'step-wise/edu/inputTransformation'
 import { useRefWithValue } from '../../../util/react'
+import { useExerciseData } from '../ExerciseContainer'
 
 const FormContext = createContext(null)
 
@@ -14,19 +18,27 @@ export default function Form({ children }) {
 	const validationFunctionsRef = useRef({})
 	const inputRef = useRefWithValue(input)
 	const validationRef = useRefWithValue(validation)
+	const cursorRef = useRef()
 
 	// Define input parameter handlers.
-	const setParameter = useCallback((parameter, value) => {
-		setInput({ ...inputRef.current, [parameter]: value })
-	}, [setInput, inputRef])
-	
-	const deleteParameter = useCallback((parameter) => {
-		const input =  { ...inputRef.current }
-		delete input[parameter]
-		setInput(input)
-	}, [setInput, inputRef])
+	const setParameter = useCallback((id, value) => {
+		setInput((input) => ({
+			...input,
+			[id]: (typeof value === 'function' ? value(input[id]) : value),
+		}))
+	}, [setInput])
 
-	const setParameters = useCallback((newInput, override = false) => (override ? { ...newInput } : { ...inputRef.current, ...newInput }), [inputRef])
+	const deleteParameter = useCallback((id) => {
+		setInput((input) => {
+			const newInput = { ...input }
+			delete newInput[id]
+			return newInput
+		})
+	}, [setInput])
+
+	const setParameters = useCallback((newInput, override = false) => {
+		setInput((input) => (override ? { ...newInput } : { ...input, ...newInput }))
+	}, [])
 
 	const clearForm = useCallback(() => setInput({}), [])
 
@@ -36,26 +48,26 @@ export default function Form({ children }) {
 			return isValidationValid(validationRef.current)
 		const validation = {}
 		const input = inputRef.current
-		Object.keys(validationFunctionsRef.current).forEach(name => {
-			const validate = validationFunctionsRef.current[name]
+		Object.keys(validationFunctionsRef.current).forEach(id => {
+			const validate = validationFunctionsRef.current[id]
 			const result = validate(input)
 			if (result)
-				validation[name] = result
+				validation[id] = result
 		})
 		setValidation(validation)
 		setValidationInput(input)
 		return isValidationValid(validation)
 	}, [inputRef, validationRef, validationFunctionsRef, setValidation])
 
-	const saveValidationFunction = useCallback((name, validate) => {
+	const saveValidationFunction = useCallback((id, validate) => {
 		if (validate)
-			validationFunctionsRef.current[name] = validate
+			validationFunctionsRef.current[id] = validate
 		else
-			delete validationFunctionsRef.current[name]
+			delete validationFunctionsRef.current[id]
 	}, [validationFunctionsRef])
 
 	return (
-		<FormContext.Provider value={{ input, setParameter, deleteParameter, setParameters, clearForm, validation, validationInput, isValid, saveValidationFunction }}>
+		<FormContext.Provider value={{ input, setParameter, deleteParameter, setParameters, clearForm, validation, validationInput, isValid, saveValidationFunction, cursorRef }}>
 			<form onSubmit={(evt) => evt.preventDefault()}>
 				{children}
 			</form>
@@ -71,17 +83,35 @@ export function useFormData() {
 	return data
 }
 
-// useFormParameter gives a tuple [value, setValue] for a single input parameter with the given name.
-export function useFormParameter(name) {
+// useFormParameter gives a tuple [value, setValue] for a single input parameter with the given id. An initial value may also be passed along.
+export function useFormParameter(id, initialValue) {
 	const { input, setParameter, deleteParameter } = useFormData()
+	const { history } = useExerciseData()
 
-	// Upon unmounting, remove the parameter.
+	// If this is the first time, set the initial value.
+	const setValue = useCallback(value => setParameter(id, value), [id, setParameter])
+	const initialValueRef = useRefWithValue(initialValue), inputRef = useRefWithValue(input)
 	useEffect(() => {
-		return () => deleteParameter(name)
-	}, [deleteParameter, name])
+		if (!(id in inputRef.current) && initialValueRef.current !== undefined)
+			setValue(initialValueRef.current)
+		return () => deleteParameter(id) // Upon unmounting, remove the parameter.
+	}, [id, inputRef, initialValueRef, setValue, deleteParameter])
 
-	// Set up the right handlers.
-	return [input[name], value => setParameter(name, value)]
+	// Upon a history change, update the value of this input to the history to match the given input. This should not change anything during page activity but be relevant during reloads.
+	useEffect(() => {
+		const lastInput = getLastInput(history)
+		if (lastInput && lastInput[id])
+			setValue(value => {
+				if (!isEmpty(value))
+					return value
+				return { ...lastInput[id] }
+			})
+	}, [id, history, setValue])
+
+	// Return the required tuple.
+	if (!(id in input))
+		return [initialValue, setValue]
+	return [input[id], setValue]
 }
 
 // useFieldValidation takes a field name and a validation function. On a form submit this validation function is called and the result is given in the resulting parameter.
@@ -98,4 +128,8 @@ export function useFieldValidation(name, validate) {
 // isValidationValid checks whether everything is OK with a given validation object. Returns a boolean.
 function isValidationValid(validation) {
 	return Object.keys(validation).length === 0
+}
+
+export function useCursorRef() {
+	return useFormData().cursorRef
 }

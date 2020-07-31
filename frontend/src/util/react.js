@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect, useReducer } from 'react'
 
 // useCounter is a function that returns [counter, increment], where counter is an integer and increment is a function that, when called, increments said counter.
 export function useCounter(initialValue = 0) {
@@ -11,4 +11,54 @@ export function useRefWithValue(value, initialValue) {
 	const ref = useRef(initialValue)
 	ref.current = value
 	return ref
+}
+
+// useEventListener set up an event for the given handler. It ensures to efficiently deal with registering and unregistering listeners. The element parameter can be a DOM object or an array of DOM objects. It is allowed to insert ref objects whose "current" parameter is a DOM object.
+export function useEventListener(eventName, handler, elements = window) {
+	// If the handler changes, remember it within the ref. This allows us to change the handler without having to reregister listeners.
+	const handlerRef = useRef() // This ref will store the handler function.
+	useEffect(() => {
+		handlerRef.current = handler
+	}, [handler])
+
+	// Set up the listeners using another effect.
+	useEffect(() => {
+		// Ensure that the elements given are an array of existing objects.
+		const processedElements = (Array.isArray(elements) ? elements : [elements]).map(element => {
+			if (!element)
+				return false // No element. Throw it out.
+			if (element.addEventListener)
+				return element // The element can listen. Keep it.
+			if (element.current && element.current.addEventListener)
+				return element.current // There is a "current" property that can listen. The object is most likely a ref.
+			return false // No idea. Throw it out.
+		}).filter(element => element) // Throw out non-existing elements or elements without an event listener.
+
+		// Add and remove event listeners.
+		const redirectingHandler = (evt) => handlerRef.current(evt)
+		processedElements.forEach(element => element.addEventListener(eventName, redirectingHandler))
+		return () => {
+			processedElements.forEach(element => element.removeEventListener(eventName, redirectingHandler))
+		}
+	}, [eventName, elements]) // Reregister only when the event type or the listening objects change.
+}
+
+// useForceUpdate gives you a force update function, which is useful in some extreme cases.
+export function useForceUpdate() {
+	return useReducer(() => ({}))[1]
+}
+
+// useWidthTracker tracks the width of an element. It returns the width of the object which the ref points to. It forces a rerender on every width change unless forceUpdateOnChange is set to false.
+export function useWidthTracker(fieldRef, forceUpdateOnChange = true) {
+	const fieldWidth = useRef(0)
+	const forceUpdate = useForceUpdate()
+
+	useEffect(() => {
+		const prevWidth = fieldWidth.current
+		fieldWidth.current = (fieldRef.current && fieldRef.current.scrollWidth) || 0
+		if (forceUpdateOnChange && prevWidth !== fieldWidth.current)
+			forceUpdate()
+	}, [fieldRef, fieldWidth, forceUpdate, forceUpdateOnChange])
+
+	return fieldWidth.current
 }

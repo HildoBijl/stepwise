@@ -1,11 +1,16 @@
 import { createMuiTheme } from '@material-ui/core/styles'
+import { CheckCircle as SuccessIcon, Cancel as ErrorIcon, Warning as WarningIcon, Info as InfoIcon } from '@material-ui/icons'
 
 const themeColor = '#0a6f3c'
 const secondaryColor = '#422814'
-const successColor = themeColor
-const errorColor = '#bd0f0f'
-const warningColor = '#d66c00'
-const infoColor = '#044488'
+const feedbackColors = {
+	success: themeColor,
+	error: '#bd0f0f',
+	warning: '#d66c00',
+	info: '#044488',
+}
+const backgroundColor = '#f6f6f6'
+const inputBackgroundColor = '#ffffff'
 
 let theme = {
 	palette: {
@@ -16,16 +21,23 @@ let theme = {
 			main: secondaryColor,
 		},
 		success: {
-			main: successColor,
+			main: feedbackColors.success,
 		},
 		error: {
-			main: errorColor,
+			main: feedbackColors.error,
 		},
 		warning: {
-			main: warningColor,
+			main: feedbackColors.warning,
 		},
 		info: {
-			main: infoColor,
+			main: feedbackColors.info,
+		},
+		background: {
+			default: backgroundColor,
+			main: backgroundColor,
+		},
+		inputBackground: {
+			main: inputBackgroundColor,
 		},
 	},
 	typography: {
@@ -39,8 +51,25 @@ let theme = {
 			input: {
 				padding: '14px',
 			}
-		}
-	},
+		},
+    MuiCssBaseline: {
+      '@global': {
+				// Ensure that all the container components have a 100% height, so we can show stuff at the bottom of the page.
+        html: {
+          height: '100%',
+				},
+				body: {
+					height: '100%',
+				},
+				'#root': {
+					height: '100%',
+				},
+				'#app': {
+					height: '100%',
+				},
+      },
+    },
+  },
 }
 
 theme = createMuiTheme(theme) // Turn the theme into a MUI theme object.
@@ -49,16 +78,31 @@ export default theme
 // A macro for making an object unselectable, preventing a blue border around it.
 const notSelectable = {
 	userSelect: 'none',
-	webkitTapHighlightColor: 'rgba(0,0,0,0)',
+	'-webkit-tap-highlight-color': 'rgba(0,0,0,0)',
 }
 export { notSelectable }
 
-// A macro for centering objects. (ToDo: do we need this?)
-const center = {
-	left: '50%',
-	position: 'absolute',
-	top: '50%',
-	transform: 'translate(-50%, -50%)',
-	width: '100%',
+// A macro for making first and last elements of a block not have a margin.
+const startEndMarginFix = (addition = '') => ({
+	[`&:first-child ${addition}`]: {
+		marginTop: 0,
+	},
+	[`&:last-child ${addition}`]: {
+		marginBottom: 0,
+	},
+})
+export { startEndMarginFix }
+
+// Define icons to be used in the app.
+const Icons = {
+	success: SuccessIcon,
+	error: ErrorIcon,
+	warning: WarningIcon,
+	info: InfoIcon,
 }
-export { center }
+
+export function getIcon(feedbackType) {
+	if (Icons[feedbackType] === undefined)
+		return null
+	return Icons[feedbackType]
+}

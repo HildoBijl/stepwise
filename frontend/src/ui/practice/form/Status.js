@@ -7,19 +7,18 @@
 
 import React, { createContext, useContext } from 'react'
 
+import { processOptions } from 'step-wise/util/objects'
+
 const defaults = {
+	children: null,
 	done: false,
-	solved: false,
 	showInputSpace: true,
 }
 
 const StatusContext = createContext(defaults)
 
 export default function Status(props) {
-	const status = {}
-	Object.keys(defaults).forEach(key => {
-		status[key] = (props[key] !== undefined ? props[key] : defaults[key])
-	})
+	const status = processOptions(props, defaults)
 	return <StatusContext.Provider value={status}>{props.children}</StatusContext.Provider>
 }
 

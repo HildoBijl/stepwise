@@ -11,9 +11,11 @@ const ME = gql`{me{name,email}}`
 // Allow user data to be stored in a context.
 const UserContext = createContext(null)
 export { UserContext }
+
 export function useUserResults() {
 	return useContext(UserContext)
 }
+
 export function useUser() {
 	const res = useUserResults()
 	return (res && res.data && res.data.me) || null

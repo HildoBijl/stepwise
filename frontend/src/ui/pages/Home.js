@@ -5,7 +5,7 @@ import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
-import { center, notSelectable } from '../theme'
+import { notSelectable } from '../theme'
 import LinkBar from '../layout/LinkBar'
 import { websiteTitle, websiteTitleAddendum, apiAddress } from '../settings'
 
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 
 	title: {
-		flexGrow: 0,
+		flex: 0,
 
 		margin: '2.4rem 0',
 		padding: '1rem',
@@ -59,13 +59,13 @@ const useStyles = makeStyles((theme) => ({
 	},
 
 	main: {
-		flexGrow: 0,
+		flex: 0,
 		margin: '0 0 1.5rem',
 	},
 
 	logo: {
 		display: 'flex',
-		flexGrow: 0,
+		flex: 1,
 		flexFlow: 'column nowrap',
 		justifyContent: 'center',
 	},
@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 		display: 'flex',
 		flexFlow: 'column nowrap',
-		flexGrow: 0,
+		flex: 1,
 		justifyContent: 'center',
 		margin: `1rem 0 1rem 0`,
 		[theme.breakpoints.up('sm')]: {
@@ -130,11 +130,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 
 	spacer: {
-		flexGrow: 1,
+		flex: 1,
 	},
 
 	linkBar: {
-		flexGrow: 0,
+		flex: 0,
 	},
 }))
 
