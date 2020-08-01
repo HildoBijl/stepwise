@@ -28,6 +28,6 @@ const steps = [
 			<Par>Bereken <M>{a * b} + {c}.</M></Par>
 			<InputSpace><Par><IntegerInput id="ans" prelabel={<M>{a * b} + {c} =</M>} label="Antwoord" size="s" autofocus={true} /></Par></InputSpace>
 		</>,
-		Solution: ({ a, b, c }) => <Par>Tenslotte tellen we alles bij elkaar op. Hiermee vinden we het eindantwoord <M>{a * b} + {c} = {a * b + c}.</M></Par>,
+		Solution: ({ a, b, c }) => <Par>Dan tellen we alles bij elkaar op. Hiermee vinden we het eindantwoord <M>{a * b} + {c} = {a * b + c}.</M></Par>,
 	},
 ]

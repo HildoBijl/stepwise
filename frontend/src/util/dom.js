@@ -25,8 +25,8 @@ export function getCoordinatesOf(input, parent = null) {
 	while (element !== null && !element.offsetParent) // Find an element that knows about offsets.
 		element = element.parentElement
 	if (element === null)
-		return { x: 0, y: 0 } // If the element has no offset parent, then it's not mounted. This occurs during testing, so we return a zero position to work further with.
-	while (element !== parent) { // Adjust coordinates.
+		return { x, y } // If the element has no offset parent, then it's not mounted. This occurs during testing, so we return a zero position to work further with.
+	while (element !== parent && element !== null) { // Adjust coordinates.
 		x += element.offsetLeft
 		y += element.offsetTop
 		element = element.offsetParent

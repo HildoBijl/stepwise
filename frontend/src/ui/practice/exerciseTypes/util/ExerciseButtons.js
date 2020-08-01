@@ -47,7 +47,7 @@ export default function ExerciseButtons({ stepwise }) {
 	let giveUpText = 'Ik geef het op'
 	if (stepwise) {
 		const step = getStep(progress)
-		giveUpText = step ? 'Ik geef deze stap op' : 'Los dit stapsgewijs op'
+		giveUpText = step ? 'Ik geef deze stap op' : 'Los stapsgewijs op'
 	}
 	return (
 		<div className={classes.buttonContainer}>

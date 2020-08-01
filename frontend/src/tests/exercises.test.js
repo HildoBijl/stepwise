@@ -27,7 +27,6 @@ it('all exercises have a front-end exercise component', async () => {
 	})
 })
 
-
 it('all exercises render properly', async () => {
 	await Object.values(skills).forEach(async skill => { // We must browse through skills here too because the exercise requires the skillId.
 		await Object.values(skill.exercises).forEach(async exerciseId => {

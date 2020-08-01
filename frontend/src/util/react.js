@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useReducer } from 'react'
+import { useState, useRef, useEffect, useReducer, useCallback } from 'react'
 
 // useCounter is a function that returns [counter, increment], where counter is an integer and increment is a function that, when called, increments said counter.
 export function useCounter(initialValue = 0) {
@@ -48,17 +48,31 @@ export function useForceUpdate() {
 	return useReducer(() => ({}))[1]
 }
 
-// useWidthTracker tracks the width of an element. It returns the width of the object which the ref points to. It forces a rerender on every width change unless forceUpdateOnChange is set to false.
+// useWidthTracker tracks the width of an element. It returns the width of the object which the ref points to. It forces a rerender on every width change unless forceUpdateOnChange is set to false. It updates on initial render and on window resizes.
 export function useWidthTracker(fieldRef, forceUpdateOnChange = true) {
-	const fieldWidth = useRef(0)
+	const fieldWidthRef = useRef(0)
 	const forceUpdate = useForceUpdate()
 
-	useEffect(() => {
-		const prevWidth = fieldWidth.current
-		fieldWidth.current = (fieldRef.current && fieldRef.current.scrollWidth) || 0
-		if (forceUpdateOnChange && prevWidth !== fieldWidth.current)
+	// Set up a handler that updates the width.
+	const updateWidth = useCallback(() => {
+		console.log('Updating width')
+		const prevWidth = fieldWidthRef.current
+		fieldWidthRef.current = (fieldRef.current && fieldRef.current.offsetWidth) || 0
+		if (forceUpdateOnChange && prevWidth !== fieldWidthRef.current)
 			forceUpdate()
-	}, [fieldRef, fieldWidth, forceUpdate, forceUpdateOnChange])
+	}, [fieldRef, fieldWidthRef, forceUpdate, forceUpdateOnChange])
 
-	return fieldWidth.current
+	// Update the width on the initial render.
+	useEffect(() => {
+		updateWidth()
+		setTimeout(updateWidth, 0) // Add another update after rendering is done, since some things may change.
+	}, [updateWidth])
+
+	// Update the width whenever the window changes size.
+	useEffect(() => {
+		window.addEventListener('resize', updateWidth)
+		return () => window.removeEventListener('resize', updateWidth)
+	}, [updateWidth])
+
+	return fieldWidthRef.current
 }

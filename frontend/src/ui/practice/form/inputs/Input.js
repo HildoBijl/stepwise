@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 			alignItems: 'center',
 			display: ({ hasPrelabel }) => hasPrelabel ? 'flex' : 'none',
 			flexFlow: 'row nowrap',
-			flex: '0 1 auto',
+			flex: '1 0 auto',
 			height: `${height}em`,
 			margin: '0 0.4em 0 0',
 			padding: '0.1em 0 0',
@@ -63,9 +63,9 @@ const useStyles = makeStyles((theme) => ({
 		'& .fieldContainer': {
 			alignItems: 'stretch',
 			display: 'flex',
-			flex: '1 1',
+			flex: '1 1 100%',
 			flexFlow: 'column nowrap',
-			width: ({ width }) => `${width}px`,
+			minWidth: 0, // A fix to not let flexboxes grow beyond their maximum width.
 
 			'& .field': {
 				background: theme.palette.inputBackground.main,
@@ -98,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
 						alignItems: 'center',
 						display: 'flex',
 						flexFlow: 'row nowrap',
-						flex: 1,
+						flex: '0 1 100%',
 						height: '100%',
 						overflow: 'hidden',
 						whiteSpace: 'nowrap',
@@ -147,7 +147,7 @@ const useStyles = makeStyles((theme) => ({
 					left: ({ labelUp }) => labelUp ? `${labelOffset + labelMargin}em` : `${padding}em`,
 					pointerEvents: 'none',
 					position: 'absolute',
-					top: ({ labelUp }) => labelUp ? '-0.6em' : `${height / 2 - 0.82}em`, // Manually tuned values for positioning.
+					top: ({ labelUp }) => labelUp ? '-0.55em' : `${height / 2 - 0.82}em`, // Manually tuned values for positioning.
 					transition: `color ${transitionTime}ms, left ${transitionTime}ms, opacity ${transitionTime}ms, top ${transitionTime}ms, transform ${transitionTime}ms`,
 					transform: ({ labelUp }) => labelUp ? `scale(${scaleFactor})` : 'scale(1)',
 					transformOrigin: 'top left',
@@ -225,7 +225,6 @@ export default function Input(props) {
 		throw new Error(`No ID given to input field.`)
 
 	// Set up refs.
-	const inputRef = useRef()
 	const fieldRef = useRef()
 	const contentsContainerRef = useRef()
 	const contentsRef = useRef()
@@ -243,12 +242,12 @@ export default function Input(props) {
 	const feedback = useFieldFeedback(id, validate, feedbackText)
 	const { done } = useStatus()
 	readOnly = (readOnly === undefined ? done : readOnly)
-	const [active] = useFieldControl({ id, ref: inputRef, apply: !readOnly, autofocus })
+	const [active] = useFieldControl({ id, ref: fieldRef, apply: !readOnly, autofocus })
 
 	// Ensure that there is a cursor. This may be missing when the form just got previously submitted data from the server.
 	useEffect(() => {
 		if (data && data.cursor === undefined)
-			setData({...data, cursor: getEndCursor(data.value)})
+			setData({ ...data, cursor: getEndCursor(data.value) })
 	}, [data, setData, getEndCursor])
 
 	// Set up necessary effects.
@@ -283,7 +282,7 @@ export default function Input(props) {
 	// Render the input field and its contents.
 	const contents = dataToContents({ ...data, cursor: active ? data.cursor : null })
 	return (
-		<div className={clsx(classes.input, className)} ref={inputRef}>
+		<div className={clsx(classes.input, className)}>
 			<div className="prelabel">
 				{prelabel}
 			</div>

@@ -57,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
 			},
 			'& .contentsBlock': {
 				flex: '1 1',
+				minWidth: 0,
 				padding: '0.5em 0',
 			},
 		},
