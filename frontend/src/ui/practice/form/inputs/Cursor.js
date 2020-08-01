@@ -8,13 +8,12 @@ const useStyles = makeStyles(() => ({
 		height: 0,
 		width: 0,
 
-		'& .cursor': {
+		'& span.cursor': {
 			animation: '$cursor 1s linear infinite',
 			background: '#000',
-			height: '1.4em',
+			height: '50%',
 			position: 'absolute',
-			top: '50%',
-			transform: 'translateY(-55%)', // 50% to put it in the middle, and a bit extra to move it slightly above the mean line.
+			top: '23%',
 			width: '1px',
 		},
 	},

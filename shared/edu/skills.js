@@ -1,8 +1,13 @@
 const skills = {
 	fillInInteger: {
-		name: 'Getal invullen',
+		name: 'Geheel getal invullen',
 		prerequisites: [],
 		exercises: ['fillInInteger'],
+	},
+	fillInFloat: {
+		name: 'Kommagetal invullen',
+		prerequisites: [],
+		exercises: ['fillInFloat'],
 	},
 	summation: {
 		name: 'Optellen',

@@ -2,10 +2,10 @@ import React, { useRef, useEffect, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { equals } from 'step-wise/edu/inputTransformation'
+import { applyToEachParameter, deepEquals } from 'step-wise/util/objects'
 import { isNumber, boundTo } from 'step-wise/util/numbers'
 import { noop } from 'step-wise/util/functions'
-import { resetFocus, getCoordinatesOf, ignoreBackspaceEvent } from '../../../../util/dom'
+import { resetFocus, getCoordinatesOf, ignoreBackspaceEvent, getClickSide } from '../../../../util/dom'
 import { useEventListener, useWidthTracker, useRefWithValue } from '../../../../util/react'
 import { latexMinus } from '../../../../util/equations'
 
@@ -103,20 +103,6 @@ const useStyles = makeStyles((theme) => ({
 						overflow: 'hidden',
 						whiteSpace: 'nowrap',
 
-						'& .contents': {
-							display: 'inline-block',
-							fontFamily: 'KaTeX_Main, Times New Roman,serif',
-							fontSize: '1.1em',
-							fontStyle: 'normal',
-							height: '100%',
-
-							'& .char': {
-								display: 'inline-block',
-								height: '100%',
-								lineHeight: '2.9em',
-							},
-						},
-
 						'& .placeholder': {
 							color: theme.palette.text.hint,
 							display: ({ displayPlaceholder }) => displayPlaceholder ? 'inline-block' : 'none',
@@ -213,6 +199,45 @@ const useStyles = makeStyles((theme) => ({
 			},
 		},
 	},
+
+	contents: {
+		display: 'inline-block',
+		fontFamily: 'KaTeX_Main, Times New Roman,serif',
+		fontSize: '1.1em',
+		fontStyle: 'normal',
+		height: '100%',
+
+		'& span': {
+			display: 'inline-block',
+			height: '100%',
+			lineHeight: 0,
+			margin: 0,
+			padding: 0,
+			verticalAlign: 'top',
+		},
+
+		'& .char': {
+			display: 'inline-block',
+			height: '100%',
+			lineHeight: '2.9em',
+
+			'&.times': {
+				padding: '0 0.15em',
+			},
+		},
+
+		'& .power': {
+			fontSize: '0.7em',
+
+			'& .char': {
+				lineHeight: '3.2',
+			},
+			'& span.cursor': {
+				height: '35%',
+				top: '20%',
+			},
+		},
+	},
 }))
 
 export default function Input(props) {
@@ -290,7 +315,7 @@ export default function Input(props) {
 				<div className="field" ref={fieldRef}>
 					<div className="contentsOuterContainer">
 						<div className="contentsInnerContainer" ref={contentsContainerRef}>
-							<span className="contents" ref={contentsRef}>{contents}</span>
+							<span className={classes.contents} ref={contentsRef}>{contents}</span>
 							<span className="placeholder">{placeholder}</span>
 						</div>
 						<div className="icon">{feedback.icon}</div>
@@ -454,11 +479,12 @@ function useBasicFieldFeedback(fieldId, validate = noop, feedbackText = '') {
 	const [inputData] = useFormParameter(fieldId)
 
 	// Check for validation problems.
-	if (validation !== undefined && equals(inputData, validationInput))
+	const inputWithoutCursor = removeCursor(inputData)
+	if (validation !== undefined && deepEquals(inputWithoutCursor, removeCursor(validationInput)))
 		return { type: 'warning', text: validation || feedbackText }
 
 	// Check for feedback.
-	if (feedback !== undefined && equals(inputData, feedbackInput)) {
+	if (feedback !== undefined && deepEquals(inputWithoutCursor, removeCursor(feedbackInput))) {
 		if (typeof feedback === 'boolean')
 			return { type: (feedback ? 'success' : 'error'), text: feedbackText }
 		return { type: feedback.type || (feedback.correct ? 'success' : 'error'), text: feedback.text || feedbackText }
@@ -499,4 +525,22 @@ export function getStringJSX(str, cursor = false) {
 function submitOnEnter(evt, submit) {
 	if (evt.key === 'Enter')
 		submit()
+}
+
+// removeCursor takes an input object like { type: "Integer", value: "123", cursor: 3 } and removes the cursor property. It returns a shallow copy.
+export function removeCursor(input) {
+	const result = { ...input } // Make a shallow copy of the object.
+	delete result.cursor // Remove a potential cursor.
+	return result
+}
+
+// removeCursors applies removeCursor to all elements in an input set.
+export function removeCursors(inputSet) {
+	return applyToEachParameter(inputSet, removeCursor)
+}
+
+// getClickPosition checks, for all char children of the given element, where was clicked. This number (cursor index) is returned. 
+export function getClickPosition(evt, element) {
+	const charPos = [...element.getElementsByClassName('char')].indexOf(evt.target)
+	return charPos + getClickSide(evt)
 }

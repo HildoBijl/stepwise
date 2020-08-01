@@ -1,6 +1,6 @@
 import React, { useState, createContext, useContext, useEffect, useRef } from 'react'
 
-import { IOtoFO } from 'step-wise/edu/inputTransformation'
+import { IOtoFO } from 'step-wise/edu/util/inputTypes'
 import Loading from '../components/Loading'
 
 const ExerciseContext = createContext({})

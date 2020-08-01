@@ -5,7 +5,7 @@ import { Par } from '../exerciseTypes/util/containers'
 import { M } from '../../../util/equations'
 import IntegerInput from '../form/inputs/IntegerInput'
 import { InputSpace } from '../form/InputSpace'
-import { selectRandomly } from 'step-wise/util/random'
+import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -29,20 +29,14 @@ function getFeedback({ state, input, progress, prevProgress, shared }) {
 	const { x } = state
 	const { ans } = input
 	const correct = progress.solved || false
+	if (correct)
+		return { ans: { correct, text: selectRandomCorrect() } }
 	return {
 		ans: {
 			correct,
-			text: correct ? selectRandomly([
-				'Dat is goed!',
-				'Indrukwekkend gedaan.',
-				'Geweldig, het is je gelukt!',
-			]) : (Math.abs(x) === Math.abs(ans)) ? (
+			text: Math.abs(x) === Math.abs(ans) ? (
 				ans > 0 ? 'Je bent het minteken vergeten.' : 'Probeer het minteken te verwijderen.'
-			) : selectRandomly([
-				'Je kunt niet eens een simpel getal intypen?',
-				'Dit lijkt nergens op...',
-				'Wauw ... dat was echt dramatisch.',
-			])
+			) : selectRandomIncorrect()
 		}
 	}
 }

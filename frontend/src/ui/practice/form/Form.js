@@ -2,7 +2,7 @@ import React, { createContext, useState, useContext, useRef, useCallback, useEff
 	'react'
 
 import { getLastInput } from 'step-wise/edu/util/exercises/simpleExercise'
-import { isEmpty } from 'step-wise/edu/inputTransformation'
+import { isEmpty } from 'step-wise/edu/util/inputTypes'
 import { useRefWithValue } from '../../../util/react'
 import { useExerciseData } from '../ExerciseContainer'
 

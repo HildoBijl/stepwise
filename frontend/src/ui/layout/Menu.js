@@ -61,7 +61,8 @@ export default function Menu({ className }) {
 						<MenuLink path={paths.feedback()} text='Feedback' icon={Feedback} />
 						<MenuLink path={paths.about()} text='About' icon={Info} />
 						<MenuLink path={paths.history()} text='History' icon={MenuBook} />
-						<MenuLink path={paths.skill({ skillId: 'fillInInteger' })} text='Oefen met getallen invullen' icon={Dialpad} />
+						<MenuLink path={paths.skill({ skillId: 'fillInInteger' })} text='Geheel getal invullen' icon={Dialpad} />
+						<MenuLink path={paths.skill({ skillId: 'fillInFloat' })} text='Kommagetal invullen' icon={Dialpad} />
 						<MenuLink path={paths.skill({ skillId: 'summation' })} text='Oefen optellen' icon={Add} />
 						<MenuLink path={paths.skill({ skillId: 'multiplication' })} text='Oefen vermenigvuldigen' icon={Clear} />
 						<MenuLink path={paths.skill({ skillId: 'summationAndMultiplication' })} text='Oefen optellen en vermenigvuldigen' icon={Create} />

@@ -1,6 +1,6 @@
 const { getNewExercise } = require('step-wise/edu/util/exercises/selection')
 const { getLastEvent, getExerciseProgress, getActiveExerciseData } = require('../util/Exercise')
-const { FOtoIO, IOtoFO } = require('step-wise/edu/inputTransformation')
+const { FOtoIO, IOtoFO } = require('step-wise/edu/util/inputTypes')
 
 const resolvers = {
 	Exercise: {

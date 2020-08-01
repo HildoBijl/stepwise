@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { inputSetsEqual } from 'step-wise/edu/inputTransformation'
+import { inputSetsEqual } from 'step-wise/edu/util/inputTypes'
 import { getStep } from 'step-wise/edu/util/exercises/stepExercise'
 import VerticalAdjuster from '../../../../util/reactComponents/VerticalAdjuster'
 import { useExerciseData } from '../../ExerciseContainer'

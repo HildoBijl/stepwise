@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 
 import { numberArray } from 'step-wise/util/arrays'
 import { getStep } from 'step-wise/edu/util/exercises/stepExercise'
-import { inputSetsEqual } from 'step-wise/edu/inputTransformation'
+import { inputSetsEqual } from 'step-wise/edu/util/inputTypes'
 import VerticalAdjuster from '../../../../util/reactComponents/VerticalAdjuster'
 
 import ExerciseWrapper from '../../form/ExerciseWrapper'

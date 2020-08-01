@@ -55,7 +55,6 @@ export function useWidthTracker(fieldRef, forceUpdateOnChange = true) {
 
 	// Set up a handler that updates the width.
 	const updateWidth = useCallback(() => {
-		console.log('Updating width')
 		const prevWidth = fieldWidthRef.current
 		fieldWidthRef.current = (fieldRef.current && fieldRef.current.offsetWidth) || 0
 		if (forceUpdateOnChange && prevWidth !== fieldWidthRef.current)

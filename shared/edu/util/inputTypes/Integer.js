@@ -1,4 +1,4 @@
-const { isInt } = require('../../util/numbers')
+const { isInt } = require('../../../util/numbers')
 
 function isFOofType(param) {
 	return typeof param === 'number' && isInt(param)
@@ -19,12 +19,12 @@ module.exports.IOtoFO = IOtoFO
 
 function isEmpty(value) {
 	if (typeof value !== 'string')
-		throw new Error(`Invalid object type: expected a string but received "${JSON.stringify(value)}".`)
+		throw new Error(`Invalid type: expected a string but received "${JSON.stringify(value)}".`)
 	return value === ''
 }
 module.exports.isEmpty = isEmpty
 
 function equals(a, b) {
-	return a === b
+	return IOtoFO(a) === IOtoFO(b)
 }
 module.exports.equals = equals

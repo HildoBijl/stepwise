@@ -1,10 +1,10 @@
 
 import { useCallback } from 'react'
 
-import { applyToEachParameter } from 'step-wise/util/objects'
 import { useRefWithValue } from '../../../../util/react'
 import { useExerciseData } from '../../ExerciseContainer'
 import { useFormData } from '../../form/Form'
+import { removeCursors } from '../../form/inputs/Input'
 
 export function useSubmitAction() {
 	const { submitting, submitAction } = useExerciseData()
@@ -31,12 +31,4 @@ export function useGiveUpAction() {
 			return
 		return submitAction({ type: 'giveUp' })
 	}, [disabledRef, submitAction])
-}
-
-function removeCursors(inputSet) {
-	return applyToEachParameter(inputSet, input => {
-		const result = { ...input } // Make a shallow copy of the object.
-		delete result.cursor // Remove a potential cursor.
-		return result
-	})
 }

@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { fade } from '@material-ui/core/styles/colorManipulator'
 import Collapse from '@material-ui/core/Collapse'
 
-import { selectRandomly } from 'step-wise/util/random'
+import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
 import { deepEquals } from 'step-wise/util/objects'
 import { useFeedback } from '../../form/FeedbackProvider'
 import { getIcon, startEndMarginFix } from '../../../theme'
@@ -87,10 +87,7 @@ function useMainFeedbackText(step) {
 			return
 
 		// Devise a proper text.
-		setText(mainFeedback ?
-			selectRandomly(['Dat is de juiste oplossing.', 'Dat klopt helemaal.', 'Correct! Goed gedaan.', 'Je hebt hem opgelost!']) :
-			selectRandomly(['Dat is niet de juiste oplossing.', 'Helaas, dat klopt niet.', 'Dat is niet correct.', 'Probeer het nog eens.'])
-		)
+		setText(mainFeedback ? selectRandomCorrect() : selectRandomIncorrect())
 	}, [mainFeedback, prevMainFeedback, setText])
 	return text
 }

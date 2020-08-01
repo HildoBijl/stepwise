@@ -1,7 +1,6 @@
-const skills = require('../skills')
-const { applyToEachParameter, isObject, deepEquals } = require('../../util/objects')
+const { applyToEachParameter, isObject, deepEquals } = require('../../../util/objects')
 
-const types = ['Integer']
+const types = ['Integer', 'Float']
 
 // FOtoIO takes an object { m: ..., g: ... } with multiple parameters in functional format and applies FOtoIOparameter to each parameter of it. 
 function FOtoIO(obj) {

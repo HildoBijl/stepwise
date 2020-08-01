@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import skills from 'step-wise/edu/skills'
 import { getNewExercise } from 'step-wise/edu/util/exercises/selection'
-import { IOtoFO, FOtoIO } from 'step-wise/edu/inputTransformation'
+import { IOtoFO, FOtoIO } from 'step-wise/edu/util/inputTypes'
 import ExerciseContainer from '../practice/ExerciseContainer'
 import { useUserResults } from '../api/user'
 import { useSkillQuery, useStartExerciseMutation, useSubmitExerciseActionMutation } from '../api/skill'
