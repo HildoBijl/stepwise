@@ -1,11 +1,11 @@
 import React from 'react'
 
+import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
 import SimpleExercise from '../exerciseTypes/SimpleExercise'
 import { Par } from '../exerciseTypes/util/containers'
 import { M } from '../../../util/equations'
 import FloatInput from '../form/inputs/FloatInput'
-import { InputSpace } from '../form/InputSpace'
-import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
+import { InputSpace } from '../form/Status'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />

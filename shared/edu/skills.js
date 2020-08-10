@@ -9,6 +9,11 @@ const skills = {
 		prerequisites: [],
 		exercises: ['fillInFloat'],
 	},
+	fillInUnit: {
+		name: 'Eenheid invullen',
+		prerequisites: [],
+		exercises: ['fillInUnit'],
+	},
 	summation: {
 		name: 'Optellen',
 		prerequisites: ['fillInInteger'],

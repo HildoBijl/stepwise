@@ -1,15 +1,11 @@
 import React from 'react'
 import clsx from 'clsx'
 
-import { isEmpty, IOtoFO } from 'step-wise/edu/util/inputTypes/Integer'
+import { getEmpty, isEmpty, IOtoFO } from 'step-wise/edu/util/inputTypes/Integer'
 import { isNumber } from 'step-wise/util/numbers'
 import { selectRandomEmpty, selectRandomNegative } from 'step-wise/util/random'
 import { removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
 import Input, { getStringJSX, getClickPosition } from './Input'
-
-export function getEmptyData() {
-	return { type: 'Integer', value: '', cursor: 0 }
-}
 
 const defaultProps = {
 	placeholder: 'Geheel getal',
@@ -23,6 +19,8 @@ const defaultProps = {
 	mouseClickToCursor,
 	getStartCursor,
 	getEndCursor,
+	isCursorAtStart,
+	isCursorAtEnd,
 }
 
 export default function IntegerInput(props) {
@@ -67,6 +65,10 @@ export function dataToContents({ type, value, cursor }) {
 	return getStringJSX(value, cursor)
 }
 
+export function getEmptyData() {
+	return { type: 'Integer', value: getEmpty(), cursor: 0 }
+}
+
 // cursorToKeyboardType takes a cursor object (where is the cursor) and determines which Android keyboard needs to be shown: 'number', 'text' or 'none'.
 export function cursorToKeyboardType(cursor) {
 	return 'number'
@@ -88,18 +90,18 @@ export function keyPressToData(keyInfo, data, positive) {
 	if (key === 'ArrowRight')
 		return { ...data, cursor: Math.min(cursor + 1, value.length) }
 	if (key === 'Home')
-		return { ...data, cursor: getStartCursor(value) }
+		return { ...data, cursor: getStartCursor(value, cursor) }
 	if (key === 'End')
-		return { ...data, cursor: getEndCursor(value) }
+		return { ...data, cursor: getEndCursor(value, cursor) }
 
 	// For backspace/delete, delete the appropriate symbol.
 	if (key === 'Backspace') {
-		if (cursor === 0)
+		if (isCursorAtStart(value, cursor))
 			return data
 		return { ...data, value: removeAtIndex(value, cursor - 1), cursor: cursor - 1 }
 	}
 	if (key === 'Delete') {
-		if (cursor === value.length)
+		if (isCursorAtEnd(value, cursor))
 			return data
 		return { ...data, value: removeAtIndex(value, cursor) }
 	}
@@ -124,14 +126,24 @@ export function mouseClickToCursor(evt, data, contentsElement) {
 	return getClickPosition(evt, contentsElement)
 }
 
-// getStartCursor gives the cursor position at the start of the element.
+// getStartCursor gives the cursor position at the start.
 export function getStartCursor(value) {
 	return 0
 }
 
-// getEndCursor gives the cursor position at the end of the element.
+// getEndCursor gives the cursor position at the end.
 export function getEndCursor(value) {
 	if (!value)
 		return 0
 	return value.length
+}
+
+// isCursorAtStart returns a boolean: is the cursor at the start?
+export function isCursorAtStart(value, cursor) {
+	return cursor === 0
+}
+
+// isCursorAtEnd returns a boolean: is the cursor at the end?
+export function isCursorAtEnd(value, cursor) {
+	return cursor === value.length
 }

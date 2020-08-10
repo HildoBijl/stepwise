@@ -92,3 +92,15 @@ function selectRandomNegative() {
 	])
 }
 module.exports.selectRandomNegative = selectRandomNegative
+
+// selectRandomInvalidUnit gives a random text that a unit is faulty.
+function selectRandomInvalidUnit() {
+	return selectRandomly([
+		'Dit is geen geldige eenheid.',
+		'Check je eenheid nog eens.',
+		'Deze eenheid ziet er niet correct uit.',
+		'Er is iets mis met je eenheid.',
+		'Er zitten niet kloppende delen in je eenheid.',
+	])
+}
+module.exports.selectRandomInvalidUnit = selectRandomInvalidUnit

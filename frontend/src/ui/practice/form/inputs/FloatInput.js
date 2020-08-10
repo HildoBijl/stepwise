@@ -2,7 +2,7 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { isEmpty, IOtoFO } from 'step-wise/edu/util/inputTypes/Float'
+import { getEmpty, isEmpty, IOtoFO } from 'step-wise/edu/util/inputTypes/Float'
 import { isNumber } from 'step-wise/util/numbers'
 import { selectRandomEmpty, selectRandomNegative } from 'step-wise/util/random'
 import { removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
@@ -15,14 +15,6 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 }))
-
-export function getEmptyData() {
-	return {
-		type: 'Float',
-		value: { number: '', power: '' },
-		cursor: { part: 'number', cursor: 0 },
-	}
-}
 
 const defaultProps = {
 	placeholder: 'Kommagetal',
@@ -37,6 +29,8 @@ const defaultProps = {
 	mouseClickToCursor,
 	getStartCursor,
 	getEndCursor,
+	isCursorAtStart,
+	isCursorAtEnd,
 }
 
 export default function FloatInput(props) {
@@ -57,17 +51,18 @@ export default function FloatInput(props) {
 // These are validation functions.
 export function nonEmpty(data) {
 	// If it's empty note it.
-	if (isEmpty(data.value))
+	const { value } = data
+	if (isEmpty(value))
 		return selectRandomEmpty()
 
-	// If there's only a minus sign note it.
-	if (data.value.number === '')
+	// If there's only a minus sign or period note it.
+	if (value.number === '')
 		return 'Je hebt geen getal ingevuld.'
-	if (data.value.number === '-')
+	if (value.number === '-')
 		return 'Alleen een min-teken is geen getal.'
-	if (data.value.number === '.')
+	if (value.number === '.')
 		return 'Een punt als getal werkt helaas niet.'
-	if (data.value.number === '-.')
+	if (value.number === '-.')
 		return 'Eh ... wat voor getal is dit?'
 }
 export function positive(data) {
@@ -106,6 +101,15 @@ export function dataToContents({ type, value, cursor }) {
 	</>
 }
 
+// getEmptyData returns an empty data object, ready to be filled by input.
+export function getEmptyData() {
+	return {
+		type: 'Float',
+		value: getEmpty(),
+		cursor: getStartCursor(),
+	}
+}
+
 // cursorToKeyboardType takes a cursor object (where is the cursor) and determines which Android keyboard needs to be shown: 'number', 'text' or 'none'.
 export function cursorToKeyboardType(cursor) {
 	return 'number'
@@ -138,23 +142,23 @@ export function keyPressToData(keyInfo, data, positive, allowPower) {
 		return { ...data, cursor: { ...cursor, cursor: Math.min(cursor.cursor + 1, value[cursor.part].length) } } // Move the cursor one position to the right.
 	}
 	if (key === 'Home')
-		return { ...data, cursor: getStartCursor(value) }
+		return { ...data, cursor: getStartCursor(value, cursor) }
 	if (key === 'End')
-		return { ...data, cursor: getEndCursor(value) }
+		return { ...data, cursor: getEndCursor(value, cursor) }
 
 	// For backspace/delete, delete the appropriate symbol.
 	if (key === 'Backspace') {
-		if (cursor.part === 'number' && cursor.cursor === 0) // Cursor is at the start of the number.
+		if (isCursorAtStart(value, cursor)) // Cursor is at the start of the number.
 			return data // Do nothing.
 		if (cursor.part === 'power' && cursor.cursor === 0) // Cursor is at the start of the power.
 			return { ...data, value: { ...value, power: '' }, cursor: { part: 'number', cursor: number.length } } // Remove the power.
 		return { ...data, value: { ...value, [cursor.part]: removeAtIndex(value[cursor.part], cursor.cursor - 1) }, cursor: { ...cursor, cursor: cursor.cursor - 1 } } // Just remove the previous character.
 	}
 	if (key === 'Delete') {
+		if (isCursorAtEnd(value, cursor)) // Cursor is at the end.
+			return data // Do nothing.
 		if (cursor.part === 'number' && cursor.cursor === number.length) // Cursor is at the end of the number.
 			return { ...data, value: { ...value, power: '' } } // Remove the power.
-		if (cursor.part === 'power' && cursor.cursor === power.length) // Cursor is at the end of the power.
-			return data // Do nothing.
 		return { ...data, value: { ...value, [cursor.part]: removeAtIndex(value[cursor.part], cursor.cursor) } } // Just remove the upcoming character.
 	}
 
@@ -225,15 +229,27 @@ export function mouseClickToCursor(evt, data, contentsElement) {
 	return data.cursor
 }
 
-// getStartCursor gives the cursor position at the start of the element.
-export function getStartCursor(value) {
+// getStartCursor gives the cursor position at the start.
+export function getStartCursor() {
 	return { part: 'number', cursor: 0 }
 }
 
-// getEndCursor gives the cursor position at the end of the element.
-export function getEndCursor(value) {
+// getEndCursor gives the cursor position at the end.
+export function getEndCursor(value, cursor) {
 	const { number, power } = value
-	if (power === '')
-		return { part: 'number', cursor: number.length }
-	return { part: 'power', cursor: power.length }
+	if (power !== '' || (cursor && cursor.part === 'power'))
+		return { part: 'power', cursor: power.length }
+	return { part: 'number', cursor: number.length }
+}
+
+// isCursorAtStart returns a boolean: is the cursor at the start?
+export function isCursorAtStart(value, cursor) {
+	return cursor.part === 'number' && cursor.cursor === 0
+}
+
+// isCursorAtEnd returns a boolean: is the cursor at the end?
+export function isCursorAtEnd(value, cursor) {
+	if (cursor.part === 'power')
+		return cursor.cursor === value.power.length
+	return value.power === '' && cursor.part === value.number.length
 }

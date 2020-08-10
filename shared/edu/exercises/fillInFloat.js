@@ -7,7 +7,7 @@ const data = {
 }
 
 function generateState() {
-	const power = getRandomInteger(-6, 6)
+	const power = getRandomInteger(-5, 7)
 	const bounds = Math.pow(10, power)
 	const significantDigits = getRandomInteger(2, 4)
 	return { x: getRandomFloat({ min: -bounds, max: bounds, significantDigits }) }

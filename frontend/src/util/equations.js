@@ -16,14 +16,23 @@ export function BM(props) {
 const latexMinus = '−'
 export { latexMinus }
 
+// Accolades are useful as variable because you're not allowed to type them in JSX: they have functionalities.
+const la = '{'
+const ra = '}'
+export { la, ra }
+
+// This is the decimal separator we use site-wide.
+const decimalSeparator = ','
+export { decimalSeparator }
+
 const useStyles = makeStyles((theme) => ({
 	equation: {
-		fontSize: '0.9em',
+		fontSize: ({ displayMode }) => displayMode ? '1em' : '0.9em',
 	},
 }))
 
 function Math({ children, displayMode }) {
-	const classes = useStyles()
+	const classes = useStyles({ displayMode })
 	const latex = preprocess(children)
 	const html = KaTeX.renderToString(latex, { displayMode, throwOnError: true })
 	return <span className={clsx(classes.equation, 'equation')} dangerouslySetInnerHTML={{ __html: html }} />
@@ -34,5 +43,6 @@ function preprocess(latex) {
 		latex = latex.map(preprocess).join('')
 	if (typeof latex !== 'string')
 		latex = latex.toString()
+	latex = latex.replace(/\.\d/g, substr => substr.replace('.', decimalSeparator === ',' ? '{,}' : decimalSeparator)) // Replace a period followed by a number by the default decimal separator. If it's a comma, prevent Latex from messing up spacing.
 	return latex
 }

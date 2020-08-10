@@ -17,6 +17,11 @@ function IOtoFO(value) {
 }
 module.exports.IOtoFO = IOtoFO
 
+function getEmpty() {
+	return ''
+}
+module.exports.getEmpty = getEmpty
+
 function isEmpty(value) {
 	if (typeof value !== 'string')
 		throw new Error(`Invalid type: expected a string but received "${JSON.stringify(value)}".`)

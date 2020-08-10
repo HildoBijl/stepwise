@@ -1,11 +1,11 @@
 import React from 'react'
 
+import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
 import SimpleExercise from '../exerciseTypes/SimpleExercise'
 import { Par } from '../exerciseTypes/util/containers'
 import { M } from '../../../util/equations'
 import IntegerInput from '../form/inputs/IntegerInput'
-import { InputSpace } from '../form/InputSpace'
-import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
+import { InputSpace } from '../form/Status'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -24,8 +24,7 @@ function Solution({ x }) {
 	return <Par>Je klikt op het invoervak en typt <M>{x}</M> in.</Par>
 }
 
-function getFeedback({ state, input, progress, prevProgress, shared }) {
-	// const correct = shared.checkInput(state, input)
+function getFeedback({ state, input, progress }) {
 	const { x } = state
 	const { ans } = input
 	const correct = progress.solved || false

@@ -94,7 +94,7 @@ The `getFeedback` function should return an object. This object can be something
 
 Most problems have a question, like "solve 3*x = 18", and an input space where a user can insert an answer. Something like "x = [ .... ]" with an input field. When a student just gives up on an exercise, without inserting anything, it would be more clean to hide the input field. This can be done by putting it in an `InputSpace` wrapper. 
 
-To do so, first import it using `import { InputSpace } from '../form/InputSpace'`. Then, in your Problem component, use it like `Problem = ({a, b}) => <><p>Solve {a}*x = {b}.</p><InputSpace>x = <IntegerInput name="ans" /></InputSpace></>`. Everything in this input space is then hidden whenever an input space is not required. All the other text is always visible.
+To do so, first import it using `import { InputSpace } from '../form/Status'`. Then, in your Problem component, use it like `Problem = ({a, b}) => <><p>Solve {a}*x = {b}.</p><InputSpace>x = <IntegerInput name="ans" /></InputSpace></>`. Everything in this input space is then hidden whenever an input space is not required. All the other text is always visible.
 
 If you want to put a replacement text in place of the input space, then it's also possible to use the `AntiInputSpace` wrapper, imported in the same way. The contents of this one are only visible when the input space is *not* visible.
 

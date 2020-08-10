@@ -83,12 +83,12 @@ const notSelectable = {
 export { notSelectable }
 
 // A macro for making first and last elements of a block not have a margin.
-const startEndMarginFix = (addition = '') => ({
+const startEndMarginFix = (addition = '', margin = 0) => ({
 	[`&:first-child ${addition}`]: {
-		marginTop: 0,
+		marginTop: margin,
 	},
 	[`&:last-child ${addition}`]: {
-		marginBottom: 0,
+		marginBottom: margin,
 	},
 })
 export { startEndMarginFix }

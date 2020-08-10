@@ -16,5 +16,5 @@ export default function OfflineNotification() {
 	}, [updateStatus])
 
 	// Only display the notification when the user is offline. 
-	return <NotificationBar display={!online} type="warning" text="You seem to have lost your internet connection. Some functionalities will fail to work until you're back online." />
+	return <NotificationBar display={!online} type="warning">Je hebt even geen internetverbinding. Bepaalde website-onderdelen zullen niet werken tot je weer online bent.</NotificationBar>
 }

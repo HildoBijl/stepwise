@@ -1,5 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import clsx from 'clsx'
 
 import { useCursorRef } from '../Form'
 
@@ -14,7 +15,7 @@ const useStyles = makeStyles(() => ({
 			height: '50%',
 			position: 'absolute',
 			top: '23%',
-			width: '1px',
+			width: '0.5px',
 		},
 	},
 	'@keyframes cursor': {
@@ -28,5 +29,5 @@ const useStyles = makeStyles(() => ({
 export default function Cursor() {
 	const classes = useStyles()
 	const cursorRef = useCursorRef()
-	return <span className={classes.cursorContainer} ref={cursorRef}><span className="cursor"/></span>
+	return <span className={clsx(classes.cursorContainer, 'cursorContainer')} ref={cursorRef}><span className="cursor"/></span>
 }

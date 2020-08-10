@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
 	paragraph: {
 		margin: `1em 0`,
 		padding: '0.05px',
-		...startEndMarginFix(),
+		...startEndMarginFix('', '0.5em'),
 	},
 }))
 

@@ -323,7 +323,7 @@ function getSignificantDigits(str) {
 }
 module.exports.getSignificantDigits = getSignificantDigits
 
-// strToSO turns a string into a storage object that can be interpreted.
+// stringToSO turns a string into a storage object that can be interpreted.
 function stringToSO(str) {
 	// Check boundary cases.
 	str = str.trim()
@@ -356,20 +356,20 @@ function numberToSO(number) {
 module.exports.numberToSO = numberToSO
 
 // The following functions are obligatory functions.
-function isFOofType(param) {
-	return isObject(param) && param.constructor === Float
+function isFOofType(float) {
+	return isObject(float) && float.constructor === Float
 }
 module.exports.isFOofType = isFOofType
 
-function FOtoIO(param) {
+function FOtoIO(float) {
 	// Check if we have a Float object already. If not, turn it into one. (Or die trying.)
-	if (param.constructor !== Float)
-		param = new Float(param)
+	if (float.constructor !== Float)
+		float = new Float(float)
 
 	// Find a way to display the float.
-	const power = param.getDisplayPower()
+	const power = float.getDisplayPower()
 	return {
-		number: param.getDisplayNumber(power),
+		number: float.getDisplayNumber(power),
 		power: power === 0 ? '' : power.toString(),
 	}
 }
@@ -389,6 +389,11 @@ function IOtoFO(value) {
 	})
 }
 module.exports.IOtoFO = IOtoFO
+
+function getEmpty() {
+	return { number: '', power: '' }
+}
+module.exports.getEmpty = getEmpty
 
 function isEmpty(value) {
 	return value.number === '' && value.power === ''

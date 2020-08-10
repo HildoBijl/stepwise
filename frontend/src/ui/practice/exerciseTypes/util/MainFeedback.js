@@ -10,7 +10,7 @@ import { getIcon, startEndMarginFix } from '../../../theme'
 
 const useStyles = makeStyles((theme) => ({
 	mainFeedbackCollapse: {
-		...startEndMarginFix('.mainFeedback'),
+		...startEndMarginFix('.mainFeedback', '0.5em'),
 
 		'& .mainFeedback': {
 			alignItems: 'center',

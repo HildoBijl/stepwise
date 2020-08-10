@@ -7,7 +7,7 @@ import { isNumber, boundTo } from 'step-wise/util/numbers'
 import { noop } from 'step-wise/util/functions'
 import { resetFocus, getCoordinatesOf, ignoreBackspaceEvent, getClickSide } from '../../../../util/dom'
 import { useEventListener, useWidthTracker, useRefWithValue } from '../../../../util/react'
-import { latexMinus } from '../../../../util/equations'
+import { latexMinus, decimalSeparator } from '../../../../util/equations'
 
 import Cursor from './Cursor'
 import { useFormParameter, useFieldValidation, useCursorRef } from '../Form'
@@ -193,7 +193,7 @@ const useStyles = makeStyles((theme) => ({
 				display: ({ hasFeedbackText }) => hasFeedbackText ? 'block' : 'none',
 				fontSize: '0.75em',
 				letterSpacing: '0.03em',
-				lineHeight: '1.2',
+				lineHeight: 1.2,
 				padding: '0.3em 0.6em 0',
 				transition: `color ${transitionTime}ms`,
 			},
@@ -219,7 +219,7 @@ const useStyles = makeStyles((theme) => ({
 		'& .char': {
 			display: 'inline-block',
 			height: '100%',
-			lineHeight: '2.9em',
+			lineHeight: 2.9,
 
 			'&.times': {
 				padding: '0 0.15em',
@@ -230,7 +230,7 @@ const useStyles = makeStyles((theme) => ({
 			fontSize: '0.7em',
 
 			'& .char': {
-				lineHeight: '3.2',
+				lineHeight: 3.2,
 			},
 			'& span.cursor': {
 				height: '35%',
@@ -243,7 +243,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Input(props) {
 	// Gather properties.
 	let { id, prelabel, label, placeholder, feedbackText, className, size, validate, readOnly, autofocus } = props // User-defined props that are potentially passed on.
-	let { initialValue, isEmpty, dataToContents, cursorToKeyboardType, keyPressToData, mouseClickToCursor, getStartCursor, getEndCursor } = props // Field-defined props that vary per field type.
+	let { initialValue, isEmpty, dataToContents, cursorToKeyboardType, keyPressToData, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart } = props // Field-defined props that vary per field type.
 
 	// Check properties.
 	if (!id)
@@ -263,7 +263,7 @@ export default function Input(props) {
 
 	// Get input field data, feedback, readOnly and active data.
 	const [data, setData] = useFormParameter(id, initialValue)
-	const empty = isEmpty(data)
+	const empty = isEmpty(data) && isCursorAtStart(data.value, data.cursor)
 	const feedback = useFieldFeedback(id, validate, feedbackText)
 	const { done } = useStatus()
 	readOnly = (readOnly === undefined ? done : readOnly)
@@ -272,12 +272,12 @@ export default function Input(props) {
 	// Ensure that there is a cursor. This may be missing when the form just got previously submitted data from the server.
 	useEffect(() => {
 		if (data && data.cursor === undefined)
-			setData({ ...data, cursor: getEndCursor(data.value) })
+			setData({ ...data, cursor: getEndCursor(data.value, data.cursor) })
 	}, [data, setData, getEndCursor])
 
 	// Set up necessary effects.
 	useKeyboardSelection(() => cursorToKeyboardType(data.cursor), hiddenFieldRef, active)
-	const processKeyPress = useCallback(keyInfo => setData(data => keyPressToData(keyInfo, data)), [setData, keyPressToData])
+	const processKeyPress = useCallback(keyInfo => setData(data => keyPressToData(keyInfo, data, contentsRef.current)), [setData, keyPressToData, contentsRef])
 	useKeyProcessing(processKeyPress, Object.values(hiddenFieldRef.current), active)
 	useMouseClickProcessing(id, mouseClickToCursor, setData, contentsRef, fieldRef, getStartCursor, getEndCursor)
 	useContentSliding(contentsRef, contentsContainerRef)
@@ -356,7 +356,7 @@ function useKeyboardSelection(getKeyboardType, hiddenFieldRef, apply = true) {
 	})
 }
 
-// useKeyProcessing uses an effect to listen for key presses. It gets a key press processing function, which should have as arguments a keyInfo object, a data object and (optionally) a contentsField object, and should return a new data object. This function makes sure that the given processKeyPress function is called. A listening object can also be passed along, or an array of such objects. If this is done, and it's an input field, we can also listen to smartphone inputs.
+// useKeyProcessing uses an effect to listen for key presses. It gets a key press processing function, which should have as arguments a keyInfo object, a data object and (optionally) a contentsElement object, and should return a new data object. This function makes sure that the given processKeyPress function is called. A listening object can also be passed along, or an array of such objects. If this is done, and it's an input field, we can also listen to smartphone inputs.
 function useKeyProcessing(processKeyPress, listeningObject = window, apply = true) {
 	listeningObject = apply ? listeningObject : [] // When not active, don't listen to keys.
 	const keyDownProcessedRef = useRef(false) // Keep track if we managed to decipher the keydown event.
@@ -387,8 +387,8 @@ function useKeyProcessing(processKeyPress, listeningObject = window, apply = tru
 	useEventListener('beforeinput', inputHandler, listeningObject)
 }
 
-// useMouseClickProcessing sets up listeners for mouse clicks and calls the processing function accordingly. The processMouseClick must be a function which receives an event, the input data, a contents object and a field object, and uses that to determine the new cursor position.
-function useMouseClickProcessing(fieldId, processMouseClick, setData, contentsRef, fieldRef, getStartCursor, getEndCursor) {
+// useMouseClickProcessing sets up listeners for mouse clicks and calls the processing function accordingly. The mouseClickToCursor must be a function which receives an event, the input data, a contents object and a field object, and uses that to determine the new cursor position.
+function useMouseClickProcessing(fieldId, mouseClickToCursor, setData, contentsRef, fieldRef, getStartCursor, getEndCursor) {
 	const [active, activate, deactivate] = useFieldControl({ id: fieldId })
 	const activeRef = useRefWithValue(active)
 	const cursorRef = useCursorRef()
@@ -407,30 +407,30 @@ function useMouseClickProcessing(fieldId, processMouseClick, setData, contentsRe
 		}
 
 		// Check various cases that are the same for all input fields.
-		if (!processMouseClick)
+		if (!mouseClickToCursor)
 			return // If no process function is present, do nothing.
 		if (cursorRef.current && cursorRef.current.contains(evt.target))
 			return // If the cursor was clicked, keep everything as is.
+		if (!fieldRef.current.contains(evt.target))
+			return // If the target element has disappeared from the field (like a filler that's no longer present when the field becomes active) then do nothing.
 		if (!contentsRef.current.contains(evt.target)) {
 			// If the field was clicked but not the contents, check where we're closer to.
 			const clickCoords = getCoordinatesOf(evt, fieldRef.current)
 			const contentsCoords = getCoordinatesOf(contentsRef.current, fieldRef.current)
 			const contentsWidth = contentsRef.current.offsetWidth
 			if (clickCoords.x <= contentsCoords.x)
-				setData(data => ({ ...data, cursor: getStartCursor(data && data.value) })) // Left
+				setData(data => ({ ...data, cursor: getStartCursor(data && data.value, data && data.cursor) })) // Left
 			else if (clickCoords.x >= contentsCoords.x + contentsWidth)
-				setData(data => ({ ...data, cursor: getEndCursor(data && data.value) })) // Right
+				setData(data => ({ ...data, cursor: getEndCursor(data && data.value, data && data.cursor) })) // Right
 			return
 		}
 
 		// We have a field-dependent case. Check the cursor position within the contents and apply it.
 		setData((data) => {
-			const cursor = processMouseClick(evt, data, contentsRef.current, fieldRef.current)
-			if (cursor === null || cursor === undefined)
-				return data
-			return { ...data, cursor }
+			const cursor = mouseClickToCursor(evt, data, contentsRef.current, fieldRef.current)
+			return checkCursor(cursor) ? { ...data, cursor } : data
 		})
-	}, [activeRef, activate, deactivate, processMouseClick, contentsRef, fieldRef, cursorRef, setData, getStartCursor, getEndCursor])
+	}, [activeRef, activate, deactivate, mouseClickToCursor, contentsRef, fieldRef, cursorRef, setData, getStartCursor, getEndCursor])
 
 	// When we're active, listen for clicks in the entire window, so we can also deactivate this element. Otherwise listen only inside this field, in case it's activated.
 	const listeningObject = (active ? window : fieldRef)
@@ -442,28 +442,28 @@ function useContentSliding(contentsRef, contentsContainerRef) {
 	const cursorRef = useCursorRef()
 	useEffect(() => {
 		// Calculate widths.
-		const contentsField = contentsRef.current
+		const contentsElement = contentsRef.current
 		const containerWidth = contentsContainerRef.current.offsetWidth
-		const contentsWidth = contentsField.offsetWidth + 1 // Add one for a potential cursor.
+		const contentsWidth = contentsElement.offsetWidth + 1 // Add one for a potential cursor.
 
 		// If everything fits, use no transformation.
 		if (containerWidth >= contentsWidth) {
-			contentsField.style.transform = 'translateX(0px)'
+			contentsElement.style.transform = 'translateX(0px)'
 			return
 		}
 
 		// If there is no cursor inside the field, then we can't position anything. Leave the previous settings.
-		const cursorField = cursorRef.current
-		if (!cursorField || !contentsContainerRef.current.contains(cursorField))
+		const cursorElement = cursorRef.current
+		if (!cursorElement || !contentsContainerRef.current.contains(cursorElement))
 			return
 
 		// If it doesn't fit, slide it appropriately.
 		const cutOff = 0.1 // The part of the container at which the contents don't slide yet.
 		const cutOffDistance = cutOff * containerWidth
-		const cursorPos = getCoordinatesOf(cursorField, contentsField).x
+		const cursorPos = getCoordinatesOf(cursorElement, contentsElement).x
 		const slidePart = boundTo((cursorPos - cutOffDistance) / (contentsWidth - 2 * cutOffDistance), 0, 1)
 		const translation = -slidePart * (contentsWidth - containerWidth)
-		contentsField.style.transform = `translateX(${translation}px)`
+		contentsElement.style.transform = `translateX(${translation}px)`
 	})
 }
 
@@ -512,7 +512,8 @@ export function getStringJSX(str, cursor = false) {
 		throw new Error(`Invalid cursor position: the cursor position was an invalid number. For a string of length ${str.length} you cannot have a cursor position with value ${cursor}.`)
 
 	// Preprocess the string.
-	str = str.replace('-', latexMinus)
+	str = str.replace('-', latexMinus) // Replace a minus sign by a special minus sign.
+	str = str.replace('.', decimalSeparator) // Replace a period by a decimal separator.
 
 	// Set up the digits array with JSX elements, add a potential cursor and return it all.
 	const chars = str.split('').map((char, ind) => <span className="char" key={ind}>{char}</span>)
@@ -525,6 +526,11 @@ export function getStringJSX(str, cursor = false) {
 function submitOnEnter(evt, submit) {
 	if (evt.key === 'Enter')
 		submit()
+}
+
+// checkCursor checks if this cursor could potentially be a valid cursor. It returns true/false. Anything falsy is usually wrong, but a 0 cursor is fine.
+export function checkCursor(cursor) {
+	return !!cursor || cursor === 0
 }
 
 // removeCursor takes an input object like { type: "Integer", value: "123", cursor: 3 } and removes the cursor property. It returns a shallow copy.
