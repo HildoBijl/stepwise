@@ -243,7 +243,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Input(props) {
 	// Gather properties.
 	let { id, prelabel, label, placeholder, feedbackText, className, size, validate, readOnly, autofocus } = props // User-defined props that are potentially passed on.
-	let { initialValue, isEmpty, dataToContents, cursorToKeyboardType, keyPressToData, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart } = props // Field-defined props that vary per field type.
+	let { initialData, isEmpty, dataToContents, cursorToKeyboardType, keyPressToData, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart } = props // Field-defined props that vary per field type.
 
 	// Check properties.
 	if (!id)
@@ -262,7 +262,7 @@ export default function Input(props) {
 	const labelWidth = useWidthTracker(labelRef)
 
 	// Get input field data, feedback, readOnly and active data.
-	const [data, setData] = useFormParameter(id, initialValue)
+	const [data, setData] = useFormParameter(id, initialData)
 	const empty = isEmpty(data) && isCursorAtStart(data.value, data.cursor)
 	const feedback = useFieldFeedback(id, validate, feedbackText)
 	const { done } = useStatus()

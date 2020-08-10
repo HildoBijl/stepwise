@@ -279,8 +279,8 @@ class Float {
 		return this
 	}
 
-	// multiplyBy multiplies this number by another number. It adjusts this number and returns itself.
-	multiplyBy(x) {
+	// multiply multiplies this number by another number. It adjusts this number and returns itself.
+	multiply(x) {
 		// Check the input.
 		if (x.constructor !== this.constructor) // If constructors don't match, try to extract something anyway.
 			x = new this.constructor(x)

@@ -21,7 +21,7 @@ const defaultProps = {
 	positive: false,
 	allowPower: true,
 	validate: nonEmpty,
-	initialValue: getEmptyData(),
+	initialData: getEmptyData(),
 	isEmpty: data => isEmpty(data.value),
 	dataToContents,
 	cursorToKeyboardType,

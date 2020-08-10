@@ -141,7 +141,7 @@ class Unit {
 						data.difference += unitAdjustments.difference || 0
 						data.factor *= unitAdjustments.factor || 1
 						data.power += unitAdjustments.power || 0
-						result.multiplyBy(new Unit(unitAdjustments.unit).toPower(unitElement.power))
+						result.multiply(new Unit(unitAdjustments.unit).toPower(unitElement.power))
 					}
 				})
 				this._den.forEach(unitElement => {
@@ -152,7 +152,7 @@ class Unit {
 						data.difference -= unitAdjustments.difference || 0
 						data.factor /= unitAdjustments.factor || 1
 						data.power -= unitAdjustments.power || 0
-						result.divideBy(new Unit(unitAdjustments.unit).toPower(unitElement.power))
+						result.divide(new Unit(unitAdjustments.unit).toPower(unitElement.power))
 					}
 				})
 				this._num = result.num
@@ -169,14 +169,14 @@ class Unit {
 						if (unitElement.unit.base) {
 							result.num.push(unitElement.clone())
 						} else {
-							result.multiplyBy(new Unit(unitElement.unit.toBase).toPower(unitElement.power))
+							result.multiply(new Unit(unitElement.unit.toBase).toPower(unitElement.power))
 						}
 					})
 					this._den.forEach(unitElement => {
 						if (unitElement.unit.base) {
 							result.den.push(unitElement.clone())
 						} else {
-							result.divideBy(new Unit(unitElement.unit.toBase).toPower(unitElement.power))
+							result.divide(new Unit(unitElement.unit.toBase).toPower(unitElement.power))
 						}
 					})
 					this._num = result.num
@@ -269,15 +269,15 @@ class Unit {
 		return aData.simplification.str === bData.simplification.str
 	}
 
-	// multiplyBy will multiply this unit by the given unit. So kg/s multiplied by s/N will become kg * s / s * N. (Simplification is not automatically done.) The unit itself is adjusted and returned.
-	multiplyBy(unit) {
+	// multiply will multiply this unit by the given unit. So kg/s multiplied by s/N will become kg * s / s * N. (Simplification is not automatically done.) The unit itself is adjusted and returned.
+	multiply(unit) {
 		unit.num.forEach(unitElement => this._num.push(unitElement.clone()))
 		unit.den.forEach(unitElement => this._den.push(unitElement.clone()))
 		return this
 	}
 
-	// divideBy will divide this unit by the given unit. So (m^3/s) / (kg/s) will become (m^3 * s) / (s * kg). No simplification is performed. The unit itself is adjusted and returned.
-	divideBy(unit) {
+	// divide will divide this unit by the given unit. So (m^3/s) / (kg/s) will become (m^3 * s) / (s * kg). No simplification is performed. The unit itself is adjusted and returned.
+	divide(unit) {
 		unit.num.forEach(unitElement => this._den.push(unitElement.clone()))
 		unit.den.forEach(unitElement => this._num.push(unitElement.clone()))
 		return this

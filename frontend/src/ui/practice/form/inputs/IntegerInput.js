@@ -11,7 +11,7 @@ const defaultProps = {
 	placeholder: 'Geheel getal',
 	positive: false,
 	validate: nonEmpty,
-	initialValue: getEmptyData(),
+	initialData: getEmptyData(),
 	isEmpty: data => isEmpty(data.value),
 	dataToContents,
 	cursorToKeyboardType,

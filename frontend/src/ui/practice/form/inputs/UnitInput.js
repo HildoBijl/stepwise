@@ -124,10 +124,8 @@ const useStyles = makeStyles((theme) => ({
 
 const defaultProps = {
 	placeholder: 'Eenheid',
-	positive: false,
-	allowPower: true,
 	validate: nonEmptyAndValid,
-	initialValue: getEmptyData(),
+	initialData: getEmptyData(),
 	isEmpty: data => isEmpty(data.value),
 	dataToContents,
 	cursorToKeyboardType,
