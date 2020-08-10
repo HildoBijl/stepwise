@@ -42,7 +42,7 @@ export function getEmptyData() {
 
 // cursorToKeyboardType takes a cursor object (where is the cursor) and determines which Android keyboard needs to be shown: 'number', 'text' or 'none'.
 export function cursorToKeyboardType(cursor) {
-	return unitElementCursorToKeyboardType(cursor.cursor)
+	return unitElementCursorToKeyboardType(cursor && cursor.cursor)
 }
 
 // keyPressToData takes a keyInfo event and a data object and returns a new data object.
