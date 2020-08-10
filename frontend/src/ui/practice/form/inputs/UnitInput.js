@@ -320,21 +320,22 @@ export function keyPressToData(keyInfo, data, contentsElement) {
 	if (key === '/') {
 		// Before we split, preprocess the unit and figure out where we will split it.
 		let unitBeforeSplit, divideAt
-		if (isCursorAtUnitElementStart(unitElement, unitElementCursor)) {
+		const numLength = (isUnitArrayEmpty(num) ? 0 : num.length)
+		if (isCursorAtUnitElementStart(unitElement, unitElementCursor)) { // Cursor is at the start.
 			// Don't do any preprocessing. Just remember to split before the current unit element.
 			unitBeforeSplit = value
-			divideAt = cursor.part === 'num' ? unitArrayCursor.part : num.length + unitArrayCursor.part
-		} else if (unitElementCursor.part === 'text' && unitElementCursor.cursor < unitElement.prefix.length + unitElement.unit.length) {
+			divideAt = cursor.part === 'num' ? unitArrayCursor.part : numLength + unitArrayCursor.part
+		} else if (unitElementCursor.part === 'text' && unitElementCursor.cursor < unitElement.prefix.length + unitElement.unit.length) { // Cursor is inside of the text (but not at the start/end).
 			// Split the unit element accordingly.
 			unitBeforeSplit = {
 				...value,
 				[cursor.part]: splitElement(unitArray, unitArrayCursor),
 			}
-			divideAt = cursor.part === 'num' ? unitArrayCursor.part + 1 : num.length + unitArrayCursor.part + 1
-		} else {
+			divideAt = cursor.part === 'num' ? unitArrayCursor.part + 1 : numLength + unitArrayCursor.part + 1
+		} else { // Cursor is at the end of the text or in the power.
 			// Don't do any preprocessing. Just remember to split after the current unit element.
 			unitBeforeSplit = value
-			divideAt = cursor.part === 'num' ? unitArrayCursor.part + 1 : num.length + unitArrayCursor.part + 1
+			divideAt = cursor.part === 'num' ? unitArrayCursor.part + 1 : numLength + unitArrayCursor.part + 1
 		}
 
 		// Merge the numerator and denominator together and split it at the right point.
