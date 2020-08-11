@@ -16,17 +16,19 @@ function findOptimum(arr, isBetter) {
 }
 module.exports.findOptimum = findOptimum
 
-// numberArray creates an array with numbers from min (inclusive) to max (inclusive). If only one parameter is given, min is assumed to be 0 and the number is used as max.
+// numberArray creates an array with numbers from start (inclusive) to end (inclusive). So with 3 and 5 it's [3,4,5] and with 5 and 3 it's [5,4,3]. If only one parameter is given, then this is considered the end and the start is set to zero.
 function numberArray(p1, p2) {
-	let min, max
+	let start, end
 	if (p2 === undefined) {
-		min = 0
-		max = p1
+		start = 0
+		end = p1
 	} else {
-		min = p1
-		max = p2
+		start = p1
+		end = p2
 	}
-	return [...Array(max - min + 1).keys()].map(x => x + min)
+	if (start <= end)
+		return [...Array(end - start + 1).keys()].map(x => x + start)
+	return [...Array(start - end + 1).keys()].map(x => start - x)
 }
 module.exports.numberArray = numberArray
 
