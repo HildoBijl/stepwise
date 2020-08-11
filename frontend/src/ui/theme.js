@@ -1,43 +1,46 @@
 import { createMuiTheme } from '@material-ui/core/styles'
 import { CheckCircle as SuccessIcon, Cancel as ErrorIcon, Warning as WarningIcon, Info as InfoIcon } from '@material-ui/icons'
 
-const themeColor = '#0a6f3c'
-const secondaryColor = '#422814'
+import { toCSS } from '../util/colors'
+
+const themeColor = [0.04, 0.44, 0.24, 1] // #0a6f3c
+const secondaryColor = [0.26, 0.16, 0.08, 1] // #422814
 const feedbackColors = {
 	success: themeColor,
-	error: '#bd0f0f',
-	warning: '#d66c00',
-	info: '#044488',
+	error: [0.74, 0.06, 0.06, 1], // #bd0f0f
+	warning: [0.84, 0.42, 0, 1], // #d66c00
+	info: [0.02, 0.27, 0.54, 1], // #044488
 }
-const backgroundColor = '#f6f6f6'
-const inputBackgroundColor = '#ffffff'
+const backgroundColor = [0.96, 0.96, 0.96, 1] // #f6f6f6
+const inputBackgroundColor = [1, 1, 1, 1] // #ffffff
+export { themeColor, secondaryColor, feedbackColors, backgroundColor, inputBackgroundColor }
 
 let theme = {
 	palette: {
 		primary: {
-			main: themeColor,
+			main: toCSS(themeColor),
 		},
 		secondary: {
-			main: secondaryColor,
+			main: toCSS(secondaryColor),
 		},
 		success: {
-			main: feedbackColors.success,
+			main: toCSS(feedbackColors.success),
 		},
 		error: {
-			main: feedbackColors.error,
+			main: toCSS(feedbackColors.error),
 		},
 		warning: {
-			main: feedbackColors.warning,
+			main: toCSS(feedbackColors.warning),
 		},
 		info: {
-			main: feedbackColors.info,
+			main: toCSS(feedbackColors.info),
 		},
 		background: {
-			default: backgroundColor,
-			main: backgroundColor,
+			default: toCSS(backgroundColor),
+			main: toCSS(backgroundColor),
 		},
 		inputBackground: {
-			main: inputBackgroundColor,
+			main: toCSS(inputBackgroundColor),
 		},
 	},
 	typography: {

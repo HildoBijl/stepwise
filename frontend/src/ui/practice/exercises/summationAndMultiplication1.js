@@ -1,7 +1,7 @@
 import React from 'react'
 
 import StepExercise from '../exerciseTypes/StepExercise'
-import { Par } from '../exerciseTypes/util/containers'
+import { Par } from '../../components/containers'
 import { M } from '../../../util/equations'
 import IntegerInput from '../form/inputs/IntegerInput'
 import { InputSpace } from '../form/Status'

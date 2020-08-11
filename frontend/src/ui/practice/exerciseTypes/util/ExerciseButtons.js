@@ -1,4 +1,3 @@
-
 import React, { useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
@@ -16,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'flex-end',
 
 		'& button': {
-			margin: '0.5rem 0 0.5em 0.8rem',
+			margin: '0.5rem 0 0.5rem 0.8rem',
 		},
 	},
 }))

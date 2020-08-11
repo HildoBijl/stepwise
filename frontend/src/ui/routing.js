@@ -10,26 +10,7 @@ import * as pages from './pages'
 // Set up a route context object through which child elements can access the current route.
 const RouteContext = createContext(null)
 
-// useRoutes is used to access the current routes: the map of all pages on this site.
-function useRoutes() {
-	const user = useUser()
-	const routes = useMemo(() => getRoutes(user), [user])
-	return routes
-}
-
-// useRoute is used to give the route to the current page.
-function useRoute() {
-	return useContext(RouteContext)
-}
-
-// usePaths gives all the paths to named pages. These paths are functions. For instance, the courseDeadlines page may have a path ({ courseId }) => `/courses/${courseId}/deadlines`.
-function usePaths() {
-	const routes = useRoutes()
-	const paths = useMemo(() => getPaths(routes), [routes])
-	return paths
-}
-
-// getRoutes sets up a routes object based on the user. This routes object contains the whole site structure.
+// getRoutes sets up a routes object based on the user. This routes object contains the whole site structure. The object keys appear in the URL, so can be language-dependent. The "name" is used in scripts when creating links so should be English. The title is shown on the page.
 function getRoutes(user = null) {
 	// These are pages that are accessible for non-users and users.
 	const commonPages = {
@@ -38,19 +19,24 @@ function getRoutes(user = null) {
 			component: pages.Feedback,
 			title: 'Feedback',
 		},
-		'about': {
+		'info': {
 			name: 'about',
 			component: pages.About,
-			title: 'About',
+			title: 'Over Step-Wise',
 			children: {
-				'history': {
+				'geschiedenis': {
 					name: 'history',
 					component: pages.History,
-					title: 'History'
-				}
+					title: 'Geschiedenis',
+				},
+				'tracker': {
+					name: 'skillTrackerExplainer',
+					component: pages.SkillTrackerExplainer,
+					title: 'Vaardigheden bijhouden',
+				},
 			},
 		},
-		'skill/:skillId': {
+		'vaardigheid/:skillId': {
 			name: 'skill',
 			component: Skill,
 			title: useSkillTitle,
@@ -74,7 +60,7 @@ function getRoutes(user = null) {
 	// The user is logged in. Set up the more complete routes schema.
 	return processRoutes({
 		...commonPages,
-		'logout': {
+		'uitloggen': {
 			name: 'logOut',
 			component: LogOut,
 			title: 'Logging out...'
@@ -93,6 +79,25 @@ function getRoutes(user = null) {
 			},
 		},
 	})
+}
+
+// useRoutes is used to access the current routes: the map of all pages on this site.
+function useRoutes() {
+	const user = useUser()
+	const routes = useMemo(() => getRoutes(user), [user])
+	return routes
+}
+
+// useRoute is used to give the route to the current page.
+function useRoute() {
+	return useContext(RouteContext)
+}
+
+// usePaths gives all the paths to named pages. These paths are functions. For instance, the courseDeadlines page may have a path ({ courseId }) => `/courses/${courseId}/deadlines`.
+function usePaths() {
+	const routes = useRoutes()
+	const paths = useMemo(() => getPaths(routes), [routes])
+	return paths
 }
 
 // processRoutes takes a routes object and automatically add paths (like '/courses/:courseId/deadlines') and parent objects, and ensures all titles are react objects.
