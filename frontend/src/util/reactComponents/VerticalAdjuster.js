@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 		transition: ({ time }) => `height ${getTime(time, theme)}ms`,
 
 		'& .verticalAdjusterInner': {
-			padding: '0.05px', // A fix to compensate for the ridiculous habit of 'overflow hidden' to ignore margin collapse.
+			padding: '0.05px 0', // A fix to compensate for the ridiculous habit of 'overflow hidden' to ignore margin collapse.
 		},
 	},
 }))

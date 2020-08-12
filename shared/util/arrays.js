@@ -16,6 +16,12 @@ function findOptimum(arr, isBetter) {
 }
 module.exports.findOptimum = findOptimum
 
+// sum gives the sum of all array elements.
+function sum(arr) {
+	return arr.reduce((sum, v) => sum + v, 0)
+}
+module.exports.sum = sum
+
 // numberArray creates an array with numbers from start (inclusive) to end (inclusive). So with 3 and 5 it's [3,4,5] and with 5 and 3 it's [5,4,3]. If only one parameter is given, then this is considered the end and the start is set to zero.
 function numberArray(p1, p2) {
 	let start, end

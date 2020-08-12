@@ -43,3 +43,10 @@ function roundTo(number, digits) {
   return Math.round(number * Math.pow(10, factor)) / Math.pow(10, factor)
 }
 module.exports.roundTo = roundTo
+
+// getCounterNumber returns a number that increments on every request. This allows us to get unique numbers whenever we request one on a page.
+let counter = 0
+function getCounterNumber() {
+  return counter++
+}
+module.exports.getCounterNumber = getCounterNumber

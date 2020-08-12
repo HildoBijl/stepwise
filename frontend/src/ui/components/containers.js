@@ -8,12 +8,12 @@ import { startEndMarginFix } from '../theme'
 const useStyles = makeStyles((theme) => ({
 	paragraph: {
 		margin: `1rem 0`,
-		padding: '0.05px',
+		padding: '0.05px 0',
 		...startEndMarginFix('', '0.5rem'),
 	},
 	head: {
 		margin: `1rem 0`,
-		padding: '0.05px',
+		padding: '0.05px 0',
 		...startEndMarginFix('', 0),
 	},
 }))

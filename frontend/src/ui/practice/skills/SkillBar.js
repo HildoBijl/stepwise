@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 	skillBar: {
 		background: ({ colorBar }) => `linear-gradient(to right, ${colorBar.map(toCSS).join(', ')})`,
 		border: `1px solid ${theme.palette.text.primary}`,
-		height: '10px',
+		height: '14px',
 		width: '100%',
 	},
 }))
