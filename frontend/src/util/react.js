@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useReducer, useCallback } from 'react'
+import { getCounterNumber } from 'step-wise/util/numbers'
 
 // useCounter is a function that returns [counter, increment], where counter is an integer and increment is a function that, when called, increments said counter.
 export function useCounter(initialValue = 0) {
@@ -11,6 +12,14 @@ export function useRefWithValue(value, initialValue) {
 	const ref = useRef(initialValue)
 	ref.current = value
 	return ref
+}
+
+// useUniqueNumber gives a number that's unique for this page. It keeps it constant. Usually the first object gets 1, the second 2, and so forth.
+export function useUniqueNumber() {
+	const ref = useRef()
+	if (ref.current === null || ref.current === undefined)
+		ref.current = getCounterNumber()
+	return ref.current
 }
 
 // useEventListener set up an event for the given handler. It ensures to efficiently deal with registering and unregistering listeners. The element parameter can be a DOM object or an array of DOM objects. It is allowed to insert ref objects whose "current" parameter is a DOM object.
