@@ -39,10 +39,6 @@ const pointColors = numberArray(0, numPoints).map(i => {
 })
 
 const useStyles = makeStyles((theme) => ({
-	circle: {
-		fill: ({ color }) => color,
-		transition: `fill ${transitionTime}ms`,
-	},
 	clip: ({ clipProperties }) => ({
 		...clipProperties,
 		transition: `y ${transitionTime}ms, height ${transitionTime}ms`,
@@ -55,15 +51,14 @@ export default function Flask(props) {
 
 	const part = getEV(coef)
 	let { color, fading } = coefToColor(coef)
-	// color = mix(color, [0.5, 0.5, 0.5, 1], fading)
-	// color[3] *= (1 - fading)
+	color = mix(color, [0.5, 0.5, 0.5, 1], fading) // Dull the color in case of uncertainty.
 	const classes = useStyles({
 		color: toCSS(color),
 		clipProperties: {
-			x: 0,
-			y: t + (1 - part) * (vb - 2 * t),
-			width: 2*vb,
-			height: part * (vb - 2 * t),
+			x: '0px',
+			y: `${t + (1 - part) * (vb - 2 * t)}px`,
+			width: `${vb}px`,
+			height: `${part * (vb - 2 * t)}px`,
 		},
 	})
 
@@ -71,12 +66,12 @@ export default function Flask(props) {
 		<svg width={size} height={size} viewBox={`0 0 ${vb} ${vb}`}>
 			<defs>
 				<radialGradient id={`flaskBackground${id}`} cx="50%" cy="50%" r="80%" fx="75%" fy="25%">
-					<stop offset="0%" style={{ stopColor: toCSS(shift(color, 1 - 1.4*fading)) }} />
-					<stop offset="100%" style={{ stopColor: toCSS(shift(color, 0.4 - 1.4*fading)) }} />
+					<stop offset="0%" style={{ stopColor: toCSS(shift(color, 1)) }} />
+					<stop offset="100%" style={{ stopColor: toCSS(shift(color, 0.4)) }} />
 				</radialGradient>
 				<radialGradient id={`flaskForeground${id}`} cx="50%" cy="50%" r="80%" fx="75%" fy="25%">
-					<stop offset="0%" style={{ stopColor: toCSS(shift(color, 0.4 - 0.9*fading)) }} />
-					<stop offset="100%" style={{ stopColor: toCSS(shift(color, -0.8 - 0.2*fading)) }} />
+					<stop offset="0%" style={{ stopColor: toCSS(shift(color, 0.4 + 0.5 * fading)) }} />
+					<stop offset="100%" style={{ stopColor: toCSS(shift(color, -0.8 + 1.0 * fading)) }} />
 				</radialGradient>
 				<clipPath id={`flaskFill${id}`}>
 					<rect className={classes.clip} />

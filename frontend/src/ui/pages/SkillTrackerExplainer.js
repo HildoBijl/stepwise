@@ -73,7 +73,7 @@ export default function SkillTrackerExplainer() {
 		<SkillFlaskWithLabel coef={[0.3, 0.6, 0.1, 0, 0]} text="Waarschijnlijk ongeveer 30%." />
 		<SkillFlaskWithLabel coef={[0, 0, 0, 0, 0, 0, 0.2, 0.6, 0.2]} text="Redelijk zeker rond de 80%." />
 		<SkillFlaskWithLabel coef={[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]} text="Zeker zo'n 50%." />
-		<Par>De kleur/vulling van de voortgangsindicator geeft aan hoe hoog we je succes-kans inschatten. Hoe lichter de indicator, hoe zekerder we hiervan zijn.</Par>
+		<Par>De kleur/vulling van de voortgangsindicator geeft aan hoe hoog we je succes-kans inschatten. Hoe feller de kleur, hoe zekerder we hiervan zijn.</Par>
 
 		<Head>Oefenen zorgt voor updates</Head>
 		<Par>Als je een vaardigheid gaat oefenen, dan krijg je een oefenopgave. Los je deze correct op, of juist niet? Dan rekenen we dit mee. Zo updaten we continu onze schattingen. Experimenteer zelf met hoe dit werkt!</Par>
