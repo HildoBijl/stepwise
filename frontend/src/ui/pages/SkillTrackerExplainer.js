@@ -5,6 +5,7 @@ import Slider from '@material-ui/core/Slider'
 
 import { M } from '../../util/equations'
 import { updateCoef, getEV, getFMax, getSmoothingOrder, smoothenCoef } from 'step-wise/skillTracking'
+import { interpolate } from 'step-wise/util/numbers'
 import Button from '../components/Button'
 import { Par, Head } from '../components/containers'
 import SkillFlask from '../practice/skills/SkillFlask'
@@ -64,21 +65,23 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function SkillTrackerExplainer() {
+	window.i = interpolate
+
 	return <>
-		<Par>Step-wise is achter de schermen opgebouwd uit talloze "vaardigheden". Bijvoorbeeld: kun je twee getallen optellen? Of kun je een kwadratische vergelijking oplossen? Als je met de app bezig gaat, dan krijg je oefenopgaven die met deze vaardigheden te maken hebben. Bijvoorbeeld "Bereken <M>37 + 42</M>." We houden hierbij in detail je voortgang bij. Maar hoe werkt dat?</Par>
+		<Par>Step-wise is achter de schermen opgebouwd uit talloze <em>vaardigheden</em>. Bijvoorbeeld: kun je twee getallen optellen? Of kun je een kwadratische vergelijking oplossen? Als je met de app bezig gaat, dan krijg je oefenopgaven die met deze vaardigheden te maken hebben. Bijvoorbeeld "Bereken <M>37 + 42</M>." We houden hierbij in detail je voortgang bij. Maar hoe werkt dat?</Par>
 
 		<Head>Voortgang: de kans dat je het goed gaat doen</Head>
-		<Par>Achter de schermen zit een hoop kansberekening. Per vaardigheid schatten we de <em>kans</em> in dat je hem <em>de volgende keer</em> correct gaat uitvoeren. Hierbij nemen we ook een zekerheid van deze schatting mee.</Par>
+		<Par>Achter de schermen zit een hoop kansberekening. Per vaardigheid schatten we de <em>kans</em> in dat je hem <em>de volgende keer</em> correct gaat uitvoeren. Hierbij nemen we ook een zekerheid van deze schatting mee. Dit geven we vervolgens weer in een voortgangsindicator.</Par>
 		<SkillFlaskWithLabel coef={[1]} text="Nog geen idee. 50% ofzo?" />
-		<SkillFlaskWithLabel coef={[0.3, 0.6, 0.1, 0, 0]} text="Waarschijnlijk ongeveer 30%." />
+		<SkillFlaskWithLabel coef={[0.3, 0.6, 0.1, 0, 0]} text="Ergens grofweg in de buurt van 30%." />
 		<SkillFlaskWithLabel coef={[0, 0, 0, 0, 0, 0, 0.2, 0.6, 0.2]} text="Redelijk zeker rond de 80%." />
 		<SkillFlaskWithLabel coef={[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]} text="Zeker zo'n 50%." />
-		<Par>De kleur/vulling van de voortgangsindicator geeft aan hoe hoog we je succes-kans inschatten. Hoe feller de kleur, hoe zekerder we hiervan zijn.</Par>
+		<Par>De kleur/vulling van de indicator geeft aan hoe hoog we je succes-kans inschatten. Hoe feller de kleur, hoe zekerder we hiervan zijn.</Par>
 
 		<Head>Oefenen zorgt voor updates</Head>
 		<Par>Als je een vaardigheid gaat oefenen, dan krijg je een oefenopgave. Los je deze correct op, of juist niet? Dan rekenen we dit mee. Zo updaten we continu onze schattingen. Experimenteer zelf met hoe dit werkt!</Par>
 		<SingleSkillTrial showLabel={false} />
-		<Par>Je merkt dat latere opgaven zwaarder meetellen dan eerdere opgaven. Immers, bij elke oefenopgave leer je, wat invloed heeft op de kans dat de volgende opgave goed gaat. Dit noemen we het "oefen-effect".</Par>
+		<Par>Je merkt dat latere opgaven zwaarder meetellen dan eerdere opgaven. Immers, bij elke oefenopgave leer je, wat invloed heeft op de kans dat de volgende opgave goed gaat. Dit noemen we het <em>oefen-effect</em>.</Par>
 
 		<Head>Meer onzekerheid met tijd</Head>
 		<Par>Als je een vaardigheid al een tijdje niet geoefend hebt, dan is het niet meer zo zeker dat je het nog wel kan. Dus hoe langer je iets niet gedaan hebt, hoe meer onzekerheid wij toevoegen aan onze schattingen.</Par>
@@ -98,6 +101,9 @@ export default function SkillTrackerExplainer() {
 		<Par>Hoe bepalen we dan welke oefenopgave je krijgt? Als je een vaardigheid wilt oefenen, dan kijken we eerst naar welke opgaven daarbij horen. Voor elke opgave weten wij welke stappen je moet zetten om hem op te lossen. We berekenen vervolgens de kans dat je dit lukt: je succes-kans.</Par>
 		<Par>ToDo: app met opgavenselectie.</Par>
 		<Par>Bij het oefenen is het belangrijk dat een opgave niet te moeilijk is, maar ook niet te makkelijk! Anders leer je niets. We zoeken dus een opgave die je met zo'n 50% kans in één keer oplost. Om te voorkomen dat je veel dezelfde opgave achter elkaar krijgt, stoppen we hier wel wat willekeur in. Toch geldt: hoe dichter de succes-kans van de opgave bij de 50% ligt, hoe waarschijnlijker het is dat je de opgave krijgt.</Par>
+
+		<Head>Nog belangrijker ...</Head>
+		<Par>Heel leuk al die info, maar van informatie leer je weinig. Van oefenen wel! Althans, dat is onze filosofie: hoe meer je ergens bezig bent, hoe meer je ervan opsteekt. Dat is ook waarom al die interactieve tools hierboven staan. Zou je anders net zo goed begrijpen hoe alles in elkaar zat?</Par>
 	</>
 }
 

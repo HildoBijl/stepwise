@@ -1,10 +1,9 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { getEV } from 'step-wise/skillTracking'
-import { sum, findOptimum, numberArray } from 'step-wise/util/arrays'
-import { boundTo } from 'step-wise/util/numbers'
-import { getFunction } from 'step-wise/skillTracking/evaluation'
+import { getEV, getFMax } from 'step-wise/skillTracking'
+import { numberArray } from 'step-wise/util/arrays'
+import { boundTo, interpolate } from 'step-wise/util/numbers'
 import { mix, shift, toCSS } from '../../../util/colors'
 import { useUniqueNumber } from '../../../util/react'
 import theme from '../../theme'
@@ -15,7 +14,7 @@ const t = 3 // Thickness of the border in SVG coordinates.
 const transitionTime = theme.transitions.duration.complex // Milliseconds.
 
 const numPoints = 20 // Number of numerical points we use to calculate colors.
-const colorFadingStart = 0.8 // From which PDF function maximum function value do we start fading colors?
+const colorFadingStart = 0.7 // From which PDF function maximum function value do we start fading colors?
 const colorFadingEnd = 3 // And when do we end?
 
 const colorSpread = [ // Which colors do we display in the flask?
@@ -23,7 +22,6 @@ const colorSpread = [ // Which colors do we display in the flask?
 	[0.55, 0.05, 0.05, 1], // #8b0e0e
 	[0.60, 0.30, 0.00, 1], // #994d00
 	[0.55, 0.55, 0.05, 1], // #4a9405
-	[0.05, 0.55, 0.05, 1], // #0e8b0e
 	[0.05, 0.55, 0.05, 1], // #0e8b0e
 	[0.02, 0.27, 0.54, 1], // #044488
 ]
@@ -50,8 +48,8 @@ export default function Flask(props) {
 	const id = useUniqueNumber()
 
 	const part = getEV(coef)
-	let { color, fading } = coefToColor(coef)
-	color = mix(color, [0.5, 0.5, 0.5, 1], fading) // Dull the color in case of uncertainty.
+	const fading = coefToFading(coef)
+	const color = mix(partToColor(part), [0.5, 0.5, 0.5, 1], fading) // Dull the color in case of uncertainty.
 	const classes = useStyles({
 		color: toCSS(color),
 		clipProperties: {
@@ -70,8 +68,8 @@ export default function Flask(props) {
 					<stop offset="100%" style={{ stopColor: toCSS(shift(color, 0.4)) }} />
 				</radialGradient>
 				<radialGradient id={`flaskForeground${id}`} cx="50%" cy="50%" r="80%" fx="75%" fy="25%">
-					<stop offset="0%" style={{ stopColor: toCSS(shift(color, 0.4 + 0.5 * fading)) }} />
-					<stop offset="100%" style={{ stopColor: toCSS(shift(color, -0.8 + 1.0 * fading)) }} />
+					<stop offset="0%" style={{ stopColor: toCSS(shift(color, 0.4 + 0.6 * fading)) }} />
+					<stop offset="100%" style={{ stopColor: toCSS(shift(color, -0.8 + 1.2 * fading)) }} />
 				</radialGradient>
 				<clipPath id={`flaskFill${id}`}>
 					<rect className={classes.clip} />
@@ -84,20 +82,14 @@ export default function Flask(props) {
 	)
 }
 
-function coefToColor(coef) {
-	// Calculate some initial parameters.
-	const f = getFunction(coef) // Get the probability density function.
-	const values = numberArray(0, numPoints).map(p => p / numPoints).map(f) // Calculate values at defined intervals.
-	const max = findOptimum(values, (a, b) => a > b) // Find the maximum value.
-	const colorFading = boundTo((max - colorFadingEnd) / (colorFadingStart - colorFadingEnd), 0, 1) // Based on the maximum, how much should we damp colors? If the maximum is low, we want more damping.
+function partToColor(part) {
+	return interpolate(
+		numberArray(0, colorSpread.length - 1).map(v => v / (colorSpread.length - 1)), // For instance [0, 0.2, 0.4, 0.6, 0.8, 1] or so.
+		colorSpread, // [c1, c2, ..., cn] with each ci a color array.
+		part, // The part which the sphere is filled. It's used to interpolate the color.
+	)
+}
 
-	// Find the "expected/mean color value".
-	const valuesSum = sum(values)
-	const integratedColor = numberArray(0, 3).map(i => pointColors.reduce((sum, color, j) => sum + color[i] * values[j], 0) / valuesSum)
-
-	// Return results.
-	return {
-		color: integratedColor,
-		fading: colorFading,
-	}
+function coefToFading(coef) {
+	return boundTo((getFMax(coef, 10).f - colorFadingEnd) / (colorFadingStart - colorFadingEnd), 0, 1) // Based on the maximum, how much should we fade colors to grey? If the maximum is low, we want more fading.
 }
