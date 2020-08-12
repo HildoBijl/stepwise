@@ -1,15 +1,17 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { makeStyles } from '@material-ui/core/styles'
 
 import { getEV } from 'step-wise/skillTracking'
 import { sum, findOptimum, numberArray } from 'step-wise/util/arrays'
 import { boundTo, getCounterNumber } from 'step-wise/util/numbers'
-import { getFunction } from 'step-wise/skillTracking/evaluation'
+import { getFunction, getEntropy } from 'step-wise/skillTracking/evaluation'
 import { mix, toCSS } from '../../../util/colors'
-import theme, { secondaryColor, feedbackColors } from '../../theme'
+import theme from '../../theme'
 
 // Define general settings.
 const vb = 100 // Viewbox size.
 const t = 3 // Thickness of the border in SVG coordinates.
+const transitionTime = theme.transitions.duration.complex // Milliseconds.
 
 const numPoints = 20 // Number of numerical points we use to calculate colors.
 const colorFadingStart = 0.8 // From which PDF function maximum function value do we start fading colors?
@@ -36,22 +38,42 @@ const pointColors = numberArray(0, numPoints).map(i => {
 	return regularPointColor
 })
 
+const useStyles = makeStyles((theme) => ({
+	circle: {
+		fill: ({ color }) => color,
+		transition: `fill ${transitionTime}ms`,
+	},
+	clip: ({ clipProperties }) => ({
+		...clipProperties,
+		transition: `y ${transitionTime}ms, height ${transitionTime}ms`,
+	})
+}))
+
 export default function Flask(props) {
 	const { coef, size = 60 } = props
 
 	const part = getEV(coef)
 	const { color, fading } = coefToColor(coef)
 	color[3]*= (1 - fading)
+	const classes = useStyles({
+		color: toCSS(color),
+		clipProperties: {
+			x: 0,
+			y: t + (1 - part) * (vb - 2 * t),
+			width: vb,
+			height: part * (vb - 2 * t),
+		},
+	})
 	
 	const id = getCounterNumber()
 	return (
 		<svg width={size} height={size} viewBox={`0 0 ${vb} ${vb}`}>
 			<defs>
 				<clipPath id={`flaskFill${id}`}>
-					<rect x="0" y={t + (1 - part) * (vb - 2 * t)} width={vb} height={part * (vb - 2 * t)} />
+					<rect className={classes.clip} />
 				</clipPath>
 			</defs>
-			<circle cx={vb / 2} cy={vb / 2} r={vb / 2 - t / 2} stroke="0" fill={toCSS(color)} clipPath={`url(#flaskFill${id})`} />
+			<circle cx={vb / 2} cy={vb / 2} r={vb / 2 - t / 2} strokeWidth="0" className={classes.circle} clipPath={`url(#flaskFill${id})`} />
 			<circle cx={vb / 2} cy={vb / 2} r={vb / 2 - t / 2} stroke={theme.palette.text.primary} strokeWidth={t} fill="none" />
 		</svg>
 	)

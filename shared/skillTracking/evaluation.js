@@ -1,4 +1,5 @@
 const { isNumber } = require('../util/numbers')
+const { numberArray } = require('../util/arrays')
 const { binomial } = require('../util/combinatorics')
 
 function getOrder(coef) {
@@ -72,6 +73,17 @@ function getFMax(coef, numIterations = 20) {
 	return { x: middle, f: f(middle) }
 }
 module.exports.getFMax = getFMax
+
+// getEntropy estimates numerically the entropy of the distribution. It's the expected value of log(fx(x)).
+function getEntropy(coef, numPoints = 50) {
+	const f = getFunction(coef)
+	const points = numberArray(0, numPoints-1).map(v => (v + 0.5)/numPoints)
+	return points.reduce((sum, x) => {
+		const fx = f(x)
+		return sum + Math.log(fx)*fx
+	}, 0)/numPoints
+}
+module.exports.getEntropy = getEntropy
 
 function getData(coef) {
 	return {

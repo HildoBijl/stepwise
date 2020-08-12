@@ -40,7 +40,7 @@ function applyToEachParameter(obj, func) {
 }
 module.exports.applyToEachParameter = applyToEachParameter
 
-// processOptions is used to process an options object given to a function. It adds the given default options and checks if no non-existing options have been given.
+// processOptions is used to process an options object given to a function. It adds the given default options and checks if no non-existing options have been given. It returns a copy.
 function processOptions(givenOptions, defaultOptions) {
 	// Check if the options are in the proper format.
 	if (typeof givenOptions !== 'object')

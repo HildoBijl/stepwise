@@ -1,3 +1,5 @@
+// Note: the SkillBar is deprecated. It was removed in favor of the SkillFlask.
+
 import React from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
