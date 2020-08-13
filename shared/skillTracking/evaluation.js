@@ -2,10 +2,27 @@ const { isNumber } = require('../util/numbers')
 const { numberArray } = require('../util/arrays')
 const { binomial } = require('../util/combinatorics')
 
+// getOrder returns the order of the coefficient array, which is its length minus one.
 function getOrder(coef) {
 	return coef.length - 1
 }
 module.exports.getOrder = getOrder
+
+// ensureCoef takes a coef array and ensures it actually is one.
+function ensureCoef(coef) {
+	// Check that it's an array of numbers.
+	if (!Array.isArray(coef))
+		throw new Error(`Invalid input: expect a coefficient array but received an object of type "${coef}".`)
+	if (coef.some(v => !isNumber(v)))
+		throw new Error(`Invalid input: expect a coefficient array with numbers but not all entries are numbers.`)
+
+	// Check that the sum equals one.
+	const sum = coef.reduce((sum, v) => sum + v, 0)
+	if (Math.abs(sum - 1) > 1e-12)
+		throw new Error(`Invalid input: expect a coefficient array whose sum equals one, but the sum instead is ${sum}. The array itself is [${coef.join(', ')}].`)
+	return coef
+}
+module.exports.ensureCoef = ensureCoef
 
 // getFunction gives the PDF for the chance of success, given the coefficients.
 function getFunction(coef) {

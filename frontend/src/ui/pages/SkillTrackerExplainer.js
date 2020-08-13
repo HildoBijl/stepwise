@@ -4,7 +4,7 @@ import { Check, Clear, Replay } from '@material-ui/icons'
 import Slider from '@material-ui/core/Slider'
 
 import { M } from '../../util/equations'
-import { updateCoef, getEV, getFMax, getSmoothingOrder, smoothenCoef } from 'step-wise/skillTracking'
+import { updateCoef, getEV, getFMax, getSmoothingFactor, smoothenCoef } from 'step-wise/skillTracking'
 import { interpolate } from 'step-wise/util/numbers'
 import Button from '../components/Button'
 import { Par, Head } from '../components/containers'
@@ -147,12 +147,12 @@ function SingleSkillTrial({ addTimeDecay = false, showLabel = true }) {
 	const [numPracticed, setNumPracticed] = useState(0)
 	const [months, setMonths] = useState(0)
 	const update = (correct) => {
-		const n = getSmoothingOrder({
+		const factor = getSmoothingFactor({
 			time: addTimeDecay ? months * 30 * 24 * 60 * 60 * 1000 : 0,
 			applyPracticeDecay: true,
 			numProblemsPracticed: numPracticed,
 		})
-		setCoef(updateCoef(smoothenCoef(coef, n), correct))
+		setCoef(updateCoef(smoothenCoef(coef, factor), correct))
 		setNumPracticed(numPracticed + 1)
 		setMonths(0)
 	}
@@ -165,12 +165,12 @@ function SingleSkillTrial({ addTimeDecay = false, showLabel = true }) {
 	}
 
 	// Apply smoothing based on the latest data.
-	const n = getSmoothingOrder({
+	const factor = getSmoothingFactor({
 		time: addTimeDecay ? months * 30 * 24 * 60 * 60 * 1000 : 0,
 		applyPracticeDecay: true,
 		numProblemsPracticed: numPracticed,
 	})
-	const smoothenedCoef = smoothenCoef(coef, n)
+	const smoothenedCoef = smoothenCoef(coef, factor)
 
 	// Render contents.
 	return <div className={classes.applet}>
