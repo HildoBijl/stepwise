@@ -55,7 +55,7 @@ export function darkenBasic(color, part = 0.5) {
 export function lighten(color, part = 0.5) {
 	color = checkColor(color)
 	const mean = (color[0] + color[1] + color[2]) / 3
-	if (mean <= 1e-12)
+	if (mean <= 1e-15)
 		return [part, part, part, color[3]]
 	const scaledColor = color.map((v, i) => i === 3 ? v : v * (1 + (1/mean - 1)*part))
 	return redistributeColor(scaledColor)

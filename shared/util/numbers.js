@@ -1,5 +1,3 @@
-const { lastOf } = require('./arrays')
-
 // isNumber checks if a given parameter is a number. Strings of numbers are allowed.
 function isNumber(value) {
   // Check boundary cases.
@@ -22,19 +20,29 @@ function isInt(value) {
 }
 module.exports.isInt = isInt
 
-// ensureNumber ensures that the given value is a number and throws an error otherwise. If it's a string number, like "3.14" then it turns it into a number.
-function ensureNumber(x) {
+// ensureNumber ensures that the given value is a number and throws an error otherwise. If it's a string number, like "3.14" then it turns it into a number. If positive is set to true, it requires it to be positive (or zero) too. If nonzero is set to true, it may not be zero.
+function ensureNumber(x, positive = false, nonzero = false) {
   if (!isNumber(x))
     throw new Error(`Input error: the given value must be a number, but received a parameter of type "${typeof x}" and value "${x}".`)
-  return parseFloat(x)
+  x = parseFloat(x)
+  if (positive && x < 0)
+    throw new Error(`Input error: the given value was negative, but it must be positive. "${x}" was received.`)
+  if (nonzero && x === 0)
+    throw new Error(`Input error: the given value was zero, but this is not allowed.`)
+  return x
 }
 module.exports.ensureNumber = ensureNumber
 
-// ensureInt ensures that the given value is an integer and throws an error otherwise. If it's a string number, like "3" then it turns it into an integer.
-function ensureInt(x) {
+// ensureInt ensures that the given value is an integer and throws an error otherwise. If it's a string number, like "3" then it turns it into an integer. If positive is set to true, it requires it to be positive (or zero) too. If nonzero is set to true, it may not be zero.
+function ensureInt(x, positive = false, nonzero = false) {
   if (!isInt(x))
     throw new Error(`Input error: the given value must be an integer, but received a parameter of type "${typeof x}" and value "${x}".`)
-  return parseInt(x)
+  x = parseInt(x)
+  if (positive && x < 0)
+    throw new Error(`Input error: the given value was negative, but it must be positive. "${x}" was received.`)
+  if (nonzero && x === 0)
+    throw new Error(`Input error: the given value was zero, but this is not allowed.`)
+  return x
 }
 module.exports.ensureInt = ensureInt
 
@@ -90,11 +98,11 @@ function interpolate(inputValues, outputValues, x) {
   // Check boundary cases.
   if (x <= inputValues[0])
     return outputValues[0]
-  if (x >= lastOf(inputValues))
-    return lastOf(outputValues)
+  if (x >= inputValues[inputValues.length - 1])
+    return inputValues[inputValues.length - 1]
 
   // Find the right index for interpolation.
-  const xIndex = inputValues.findIndex((v, i) => i < inputValues.length - 1 && x >= inputValues[i] && x <= inputValues[i+1])
+  const xIndex = inputValues.findIndex((v, i) => i < inputValues.length - 1 && x >= inputValues[i] && x <= inputValues[i + 1])
   const part = (x - inputValues[xIndex]) / (inputValues[xIndex + 1] - inputValues[xIndex])
   if (Array.isArray(outputValues[xIndex]))
     return outputValues[xIndex].map((_, i) => (1 - part) * outputValues[xIndex][i] + part * outputValues[xIndex + 1][i])

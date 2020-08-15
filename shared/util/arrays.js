@@ -1,3 +1,21 @@
+const { ensureNumber } = require('./numbers')
+
+// ensureArray checks whether a variable is an array and throws an error if not. If all is fine, the same parameter is returned.
+function ensureArray(array) {
+	if (!Array.isArray(array))
+		throw new Error(`Input error: expected an array but received an object of type "${typeof array}".`)
+	return array
+}
+module.exports.ensureArray = ensureArray
+
+// ensureNumberArray checks whether a variable is an array filled with numbers. It can be given the same extra options as ensureNumber.
+function ensureNumberArray(array, positive, nonzero) {
+	array = ensureArray(array)
+	array = array.map(v => ensureNumber(v, positive, nonzero))
+	return array
+}
+module.exports.ensureNumberArray = ensureNumberArray
+
 // lastOf takes an array and returns its last item. It does not adjust the array.
 function lastOf(array) {
 	return array[array.length - 1]
@@ -45,3 +63,20 @@ function arraySplice(initialArray, index, numItemsToRemove = 0, ...insertItems) 
 	return result
 }
 module.exports.arraySplice = arraySplice
+
+// multiplyPolynomialCoefficients takes a polynomial of the form "a0 + a1*x + a2*x^2 + ..." and another of the form "b0 + b1*x + b2*x^2 + ...". Both polynomials are given in the form of arrays [a0, a1, ...] and [b0, b1, ...]. This function calculates the product (a0 + a1*x + a2*x^2 + ...) * (b0 + b1*x + b2*x^2 + ...) and returns the corresponding polynomial.
+function multiplyPolynomialCoefficients(a, b) {
+	// Check input.
+	a = ensureNumberArray(a)
+	b = ensureNumberArray(b)
+
+	// Set up result.
+	const result = new Array(a.length + b.length - 1).fill(0)
+	a.forEach((v1, i) => {
+		b.forEach((v2, j) => {
+			result[i + j] += v1 * v2
+		})
+	})
+	return result
+}
+module.exports.multiplyPolynomialCoefficients = multiplyPolynomialCoefficients

@@ -21,8 +21,7 @@ function factorial(n, nEnd = 0) {
 		if (n === 0 || n === nEnd) {
 			factorialMemoization[n][nEnd] = 1
 		} else {
-			const numbers = numberArray(n, nEnd + 1)
-			factorialMemoization[n][nEnd] = numbers.reduce((f, x) => f * x, 1)
+			factorialMemoization[n][nEnd] = numberArray(n, nEnd + 1).reduce((f, x) => f * x, 1)
 		}
 	}
 	return factorialMemoization[n][nEnd]

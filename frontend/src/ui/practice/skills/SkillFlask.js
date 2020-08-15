@@ -1,5 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import clsx from 'clsx'
 
 import { getEV, getFMax } from 'step-wise/skillTracking'
 import { numberArray } from 'step-wise/util/arrays'
@@ -10,7 +11,8 @@ import theme from '../../theme'
 
 // Define general settings.
 const vb = 100 // Viewbox size.
-const t = 1 // Thickness of the border in SVG coordinates.
+const t = 0 // Thickness of the border in SVG coordinates.
+// const 
 const transitionTime = theme.transitions.duration.complex // Milliseconds.
 
 // Define color-related settings.
@@ -27,6 +29,9 @@ const colorFadingStart = 0.9 // From which PDF function maximum function value d
 const colorFadingEnd = 3 // And when do we end?
 
 const useStyles = makeStyles((theme) => ({
+	skillFlask: {
+		filter: 'drop-shadow(-1px 4px 3px rgba(0, 0, 0, .7))',
+	},
 	clip: ({ clipProperties }) => ({
 		...clipProperties,
 		transition: `y ${transitionTime}ms, height ${transitionTime}ms`,
@@ -53,13 +58,13 @@ export default function Flask(props) {
 
 	// Render the component.
 	return (
-		<svg width={size} height={size} viewBox={`0 0 ${vb} ${vb}`}>
+		<svg className={clsx(classes.skillFlask, 'skillFlask')} width={size} height={size} viewBox={`0 0 ${vb} ${vb}`}>
 			<defs>
-				<radialGradient id={`flaskBackground${id}`} cx="50%" cy="50%" r="80%" fx="70%" fy="30%">
+				<radialGradient id={`flaskBackground${id}`} cx="50%" cy="50%" r="70%" fx="64%" fy="26%">
 					<stop offset="0%" style={{ stopColor: toCSS(shift(color, 1)) }} />
 					<stop offset="100%" style={{ stopColor: toCSS(shift(color, 0.4)) }} />
 				</radialGradient>
-				<radialGradient id={`flaskForeground${id}`} cx="50%" cy="50%" r="80%" fx="70%" fy="30%">
+				<radialGradient id={`flaskForeground${id}`} cx="50%" cy="50%" r="70%" fx="64%" fy="26%">
 					<stop offset="0%" style={{ stopColor: toCSS(shift(color, 0.4 + 0.5 * fading)) }} />
 					<stop offset="100%" style={{ stopColor: toCSS(shift(color, -0.8 + 1.0 * fading)) }} />
 				</radialGradient>
@@ -69,7 +74,7 @@ export default function Flask(props) {
 			</defs>
 			<circle cx={vb / 2} cy={vb / 2} r={vb / 2 - t / 2} strokeWidth="0" fill={`url(#flaskBackground${id})`} />
 			<circle cx={vb / 2} cy={vb / 2} r={vb / 2 - t / 2} strokeWidth="0" fill={`url(#flaskForeground${id})`} clipPath={`url(#flaskFill${id})`} />
-			<circle cx={vb / 2} cy={vb / 2} r={vb / 2 - t / 2} stroke={theme.palette.text.primary} strokeWidth={t} fill="none" />
+			{t > 0 ? <circle cx={vb / 2} cy={vb / 2} r={vb / 2 - t / 2} stroke={theme.palette.text.primary} strokeWidth={t} fill="none" /> : null}
 		</svg>
 	)
 }
