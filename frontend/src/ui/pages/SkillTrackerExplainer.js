@@ -3,13 +3,15 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Check, Clear, Replay } from '@material-ui/icons'
 import Slider from '@material-ui/core/Slider'
 
-import { numberArray } from 'step-wise/util/arrays'
-import { processObservation, getEV, getFMax, getSmoothingFactor, smoothen, merge, infer } from 'step-wise/skillTracking'
-import * as st from 'step-wise/skillTracking'
+import { processObservation, getEV, getFMax, getSmoothingFactor, smoothen, merge, infer, getCombinerEV } from 'step-wise/skillTracking'
 import { M } from '../../util/equations'
 import Button from '../components/Button'
 import { Par, Head } from '../components/containers'
 import SkillFlask from '../practice/skills/SkillFlask'
+
+const labelsWithoutLast = ['A', 'B']
+const lastLabel = 'X'
+const labels = [...labelsWithoutLast, lastLabel]
 
 const useStyles = makeStyles((theme) => ({
 	applet: {
@@ -79,24 +81,49 @@ const useStyles = makeStyles((theme) => ({
 		margin: '0 0.8rem 0 0.5rem',
 		width: '250px',
 	},
+
+	exerciseHeader: {
+		fontSize: '1.5em',
+		fontWeight: 500,
+		margin: '0.2em 0',
+	},
+
+	exerciseContainer: {
+		alignItems: 'stretch',
+		display: 'flex',
+		flexFlow: 'column nowrap',
+		margin: '1.5em 0 1em',
+
+		'& .info': {
+			margin: '0.2em 0',
+		},
+
+		'& table': {
+			'& td': {
+				padding: '0.1em 0.2em',
+			},
+			'& thead': {
+				fontSize: '1em',
+				fontWeight: 500,
+				verticalAlign: 'bottom',
+			},
+
+			'& .number': {
+				fontSize: '1.2em',
+				fontWeight: 500,
+				padding: '0.1em 0.4em 0.1em 0',
+			},
+			'& .exerciseTitle': {
+	
+			},
+			'& .successRate, & .selectionRate': {
+				textAlign: 'center',
+			},
+		},
+	},
 }))
 
 export default function SkillTrackerExplainer() {
-	window.st = st
-	const a = [0, 1]
-	const b = [1, 0]
-	const c = [0, 0, 1]
-	const d = [0, 0, 1]
-	const data = { a, b, c, d }
-	const combiner = 'a'
-	// const combiner = { type: 'and', skills: ['a', 'b'] }
-	// const combiner = { type: 'and', skills: [{ type: 'repeat', skill: 'a', times: 2 }, { type: 'skill', skill: 'b' }] }
-	// const combiner = { type: 'and', skills: [{ type: 'repeat', skill: 'a', times: 2 }, { type: 'skill', skill: 'b' }, {type: 'or', skills: ['c', 'd']}] }
-	// const combiner = { type: 'repeat', skill: { type: 'or', skills: ['a', 'b'] }, times: 2 }
-	// console.log(st.getCombinerEV(data, combiner))
-	// console.log(combiner)
-	// console.log(st.processObservation(data, combiner, false))
-
 	return <>
 		<Par>Step-wise is achter de schermen opgebouwd uit talloze <em>vaardigheden</em>. Bijvoorbeeld: kun je twee getallen optellen? Of kun je een kwadratische vergelijking oplossen? Als je met de app bezig gaat, dan krijg je oefenopgaven die met deze vaardigheden te maken hebben. Bijvoorbeeld "Bereken <M>37 + 42</M>" of "Los <M>x^2 - 5*x + 6 = 0</M> op". We houden hierbij in detail je voortgang bij. Maar hoe werkt dat?</Par>
 
@@ -129,8 +156,13 @@ export default function SkillTrackerExplainer() {
 
 		<Head>Oefenopgaven selecteren</Head>
 		<Par>Hoe bepalen we dan welke oefenopgave je krijgt? Als je een vaardigheid wilt oefenen, dan kijken we eerst naar welke opgaven daarbij horen. Voor elke opgave weten wij welke stappen je moet zetten om hem op te lossen. Aan de hand hiervan berekenen we de kans dat je dit lukt: je succes-kans.</Par>
-		<Par>ToDo: app met opgavenselectie.</Par>
-		<Par>Bij het oefenen is het belangrijk dat een opgave niet te moeilijk is, maar ook niet te makkelijk! Anders leer je niets. We zoeken dus een opgave die je met zo'n 50% kans in één keer oplost. Om te voorkomen dat je veel dezelfde opgave achter elkaar krijgt, stoppen we hier wel wat willekeur in. Toch geldt: hoe dichter de succes-kans van de opgave bij de 50% ligt, hoe waarschijnlijker het is dat je de opgave krijgt.</Par>
+		<MultiSkillTrial showButtonsForX={true} exercises={[
+			{ combiner: { type: 'and', skills: ['A', 'B'] }, title: 'Voer eerst A uit en dan B.' },
+			{ combiner: { type: 'and', skills: [{ type: 'repeat', skill: 'A', times: 2 }, 'B'] }, title: 'Voer eerst twee keer A uit en dan B.' },
+			{ combiner: { type: 'and', skills: ['A', { type: 'repeat', skill: 'B', times: 2 }] }, title: 'Voer eerst A uit en dan twee keer B.' },
+			{ combiner: { type: 'repeat', skill: 'X', times: 2 }, title: '[Geavanceerd] Voer twee maal X uit.' },
+		]} />
+		<Par>Bij het oefenen is het belangrijk dat een opgave niet te moeilijk is, maar ook niet te makkelijk! Anders leer je niets. We zoeken dus een opgave die je met zo'n 50% kans in één keer oplost. Om te voorkomen dat je veel dezelfde opgave achter elkaar krijgt, stoppen we hier wel wat willekeur in. We stellen daarbij voor elke opgave een kans in dat hij geselecteerd wordt, en vervolgens kiezen we volgens deze kansen een opgave. Hierbij geldt uiteraard: hoe dichter de succes-kans van de opgave bij de 50% ligt, hoe waarschijnlijker het is dat je de opgave krijgt.</Par>
 
 		<Head>Nog belangrijker ...</Head>
 		<Par>Heel leuk al die info, maar van informatie leer je weinig. Van oefenen wel! Althans, dat is onze filosofie: hoe meer je ergens bezig bent, hoe meer je ervan opsteekt. Dat is ook waarom al die interactieve tools hierboven staan. Zou je anders net zo goed begrijpen hoe alles in elkaar zat? Dus ga vooral lekker klooien en dingen uitproberen!</Par>
@@ -224,17 +256,8 @@ function SingleSkillTrial({ addTimeDecay = false, showLabel = true }) {
 	</div>
 }
 
-function MultiSkillTrial({ showButtonsForX = true }) {
+function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 	const classes = useStyles()
-
-	// Prepare labels.
-	const labels = ['A', 'B', 'X']
-	const labelsWithoutLast = []
-	labels.forEach((label, i) => {
-		if (i < labels.length - 1)
-			labelsWithoutLast.push(label)
-	})
-	const lastLabel = labels[labels.length - 1]
 	const combiner = { type: 'and', skills: labelsWithoutLast }
 
 	// Set up the state.
@@ -321,6 +344,48 @@ function MultiSkillTrial({ showButtonsForX = true }) {
 				) : null}
 			</div>
 		))}
+		<ExerciseOverview dataSet={dataSetNow} exercises={exercises} />
 		<Button variant="contained" startIcon={<Replay />} onClick={reset} color="secondary">Reset</Button>
 	</div>
+}
+
+function ExerciseOverview({ dataSet, exercises }) {
+	const classes = useStyles()
+	if (!exercises)
+		return null
+
+	// Check if there is a subskill that hasn't been practiced enough.
+	const insufficientLabel = labelsWithoutLast.find(label => getEV(dataSet[label]) < 0.7 )
+
+	return (
+		<div className={classes.exerciseContainer}>
+			<Head className={classes.exerciseHeader}>Mogelijke oefenopgaven om X te oefenen</Head>
+			{insufficientLabel ? <div className="info">Het wordt afgeraden om vervolg-vaardigheid X al te oefenen. Basis-vaardigheid {insufficientLabel} is nog niet op voldoende niveau.</div> : <div className="info">Het is een goed idee om vervolg-vaardigheid X te oefenen. De basis-vaardigheden worden voldoende beheerst.</div>}
+			<table>
+				<thead>
+					<tr>
+						<td className="number"></td>
+						<td className="exerciseTitle">Opgave</td>
+						<td className="successRate">Kans op succes</td>
+						<td className="selectionRate">Kans op selectie</td>
+					</tr>
+				</thead>
+				<tbody>
+					{exercises.map((exercise, i) => <Exercise key={i} num={i + 1} dataSet={dataSet} exercise={exercise} />)}
+				</tbody>
+			</table>
+		</div>
+	)
+}
+
+function Exercise({ dataSet, exercise, num }) {
+	const successRate = getCombinerEV(dataSet, exercise.combiner)
+	return (
+		<tr>
+			<td className="number">{num}</td>
+			<td className="exerciseTitle">{exercise.title}</td>
+			<td className="successRate">{Math.round(successRate*100)}%</td>
+			<td className="selectionRate">[ToDo]</td>
+		</tr>
+	)
 }
