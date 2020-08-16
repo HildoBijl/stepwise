@@ -305,6 +305,32 @@ class Float {
 }
 module.exports.Float = Float
 
+/* getRandomFloat returns a random float between the given minimum and maximum. You can either set:
+ * - the number of decimals. Use "1" for "23.4" and "-1" for "2.34 * 10^3".
+ * - the number of significant digits. Use "3" for "23.4" and "2.34 * 10^3".
+ * If none is given then infinite precision will be assumed.
+ * If rounded is true (default) the number will be rounded to be precisely "23.4" and not be "23.4321" or so behind the scenes.
+ */
+function getRandomFloat({ min = 0, max = 1, decimals, significantDigits, round = true }) {
+	if (decimals !== undefined && significantDigits !== undefined)
+		throw new Error(`Invalid input: cannot set both the number of decimals and number of significant digits.`)
+
+	// Determine the number and set its precision accordingly.
+	const number = min + (max - min) * Math.random()
+	let float
+	if (decimals !== undefined) {
+		float = new Float({ number, significantDigits: Math.floor(Math.log10(Math.abs(number))) + 1 + decimals })
+	} else if (significantDigits !== undefined) {
+		float = new Float({ number, significantDigits })
+	} else {
+		float = new Float({ number, significantDigits: Infinity })
+	}
+	if (round)
+		float.roundToPrecision()
+	return float
+}
+module.exports.getRandomFloat = getRandomFloat
+
 // getSignificantDigits returns the number of significant digits that a number in string format has.
 function getSignificantDigits(str) {
 	// Check input.

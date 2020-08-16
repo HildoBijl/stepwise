@@ -9,7 +9,7 @@ const { normalize } = require('./manipulation')
 
 // Define various settings.
 const decayHalfLife = 365.25 * 24 * 60 * 60 * 1000 // [Milliseconds] The time after which half of the convergence towards the flat distribution is obtained.
-const initialPracticeDecayTime = 3 * 30 * 24 * 60 * 60 * 1000 // [Milliseconds] The equivalent time of decay for practicing a problem.
+const initialPracticeDecayTime = 2 * 30 * 24 * 60 * 60 * 1000 // [Milliseconds] The equivalent time of decay for practicing a problem.
 const practiceDecayHalfLife = 8 // [Problems practiced] The number of problems practiced until the practice decay halves.
 const maxSmoothingOrder = 120 // The maximum order for smoothing. This needs a cap, for numerical reasons. For higher values the binomials start failing.
 const defaultSmoothingOptions = {

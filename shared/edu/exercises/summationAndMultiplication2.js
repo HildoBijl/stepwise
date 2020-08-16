@@ -1,4 +1,4 @@
-const { getRandomInteger } = require('../../util/random')
+const { getRandomInteger } = require('../util/inputTypes/Integer')
 const { getStepExerciseProcessor } = require('../util/exercises/stepExercise')
 
 const data = {

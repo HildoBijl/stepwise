@@ -4,6 +4,7 @@ import { Check, Clear, Replay } from '@material-ui/icons'
 import Slider from '@material-ui/core/Slider'
 
 import { processObservation, getEV, getFMax, getSmoothingFactor, smoothen, merge, infer, getCombinerEV } from 'step-wise/skillTracking'
+import { getSelectionRates } from 'step-wise/edu/util/exercises/selection'
 import { M } from '../../util/equations'
 import Button from '../components/Button'
 import { Par, Head } from '../components/containers'
@@ -114,7 +115,7 @@ const useStyles = makeStyles((theme) => ({
 				padding: '0.1em 0.4em 0.1em 0',
 			},
 			'& .exerciseTitle': {
-	
+
 			},
 			'& .successRate, & .selectionRate': {
 				textAlign: 'center',
@@ -135,7 +136,7 @@ export default function SkillTrackerExplainer() {
 		<SkillFlaskWithLabel coef={[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]} text="Zeker zo'n 50%." />
 		<Par>De kleur/vulling van de indicator geeft aan hoe hoog we je succes-kans inschatten. Hoe feller de kleur, hoe zekerder we hiervan zijn.</Par>
 
-		<Head>Oefenen zorgt voor updates</Head>
+		<Head>Jij oefent, wij verbeteren onze schattingen</Head>
 		<Par>Als je een vaardigheid gaat oefenen, dan krijg je een oefenopgave. Los je deze correct op, of juist niet? Dan rekenen we dit mee. Zo updaten we continu onze schattingen. Experimenteer zelf met hoe dit werkt!</Par>
 		<SingleSkillTrial showLabel={false} />
 		<Par>Je merkt dat latere opgaven zwaarder meetellen dan eerdere opgaven. Immers, bij elke oefenopgave leer je, wat invloed heeft op de kans dat de volgende opgave goed gaat. Dit noemen we het <em>oefen-effect</em>.</Par>
@@ -160,11 +161,11 @@ export default function SkillTrackerExplainer() {
 			{ combiner: { type: 'and', skills: ['A', 'B'] }, title: 'Voer eerst A uit en dan B.' },
 			{ combiner: { type: 'and', skills: [{ type: 'repeat', skill: 'A', times: 2 }, 'B'] }, title: 'Voer eerst twee keer A uit en dan B.' },
 			{ combiner: { type: 'and', skills: ['A', { type: 'repeat', skill: 'B', times: 2 }] }, title: 'Voer eerst A uit en dan twee keer B.' },
-			{ combiner: { type: 'repeat', skill: 'X', times: 2 }, title: '[Geavanceerd] Voer twee maal X uit.' },
+			{ combiner: { type: 'repeat', skill: 'X', times: 3 }, title: '[Geavanceerd] Voer drie maal X uit.' },
 		]} />
 		<Par>Bij het oefenen is het belangrijk dat een opgave niet te moeilijk is, maar ook niet te makkelijk! Anders leer je niets. We zoeken dus een opgave die je met zo'n 50% kans in één keer oplost. Om te voorkomen dat je veel dezelfde opgave achter elkaar krijgt, stoppen we hier wel wat willekeur in. We stellen daarbij voor elke opgave een kans in dat hij geselecteerd wordt, en vervolgens kiezen we volgens deze kansen een opgave. Hierbij geldt uiteraard: hoe dichter de succes-kans van de opgave bij de 50% ligt, hoe waarschijnlijker het is dat je de opgave krijgt.</Par>
 
-		<Head>Nog belangrijker ...</Head>
+		<Head>Nog belangrijker ... Oefenen!</Head>
 		<Par>Heel leuk al die info, maar van informatie leer je weinig. Van oefenen wel! Althans, dat is onze filosofie: hoe meer je ergens bezig bent, hoe meer je ervan opsteekt. Dat is ook waarom al die interactieve tools hierboven staan. Zou je anders net zo goed begrijpen hoe alles in elkaar zat? Dus ga vooral lekker klooien en dingen uitproberen!</Par>
 	</>
 }
@@ -296,7 +297,7 @@ function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 		const newNumsPracticed = { ...numsPracticed }
 		newNumsPracticed[label]++
 
-		// If the last skill was used, also do a joint update of the other skills.
+		// If the last (joint) skill was used, also do a joint update of the other skills.
 		if (label === lastLabel) {
 			// First smoothen them.
 			labelsWithoutLast.forEach((label, i) => {
@@ -322,7 +323,7 @@ function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 		setNumsPracticed(getEmptyNumsPracticedFromLabels(labels))
 	}
 
-	// Make the inference towards X.
+	// Make the inference towards X. For this first smoothen all distributions and then run the inference and merging.
 	const dataSetNow = {}
 	labels.forEach(label => {
 		dataSetNow[label] = smoothen(dataSet[label], getSmoothingFactor({ applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }))
@@ -355,8 +356,13 @@ function ExerciseOverview({ dataSet, exercises }) {
 		return null
 
 	// Check if there is a subskill that hasn't been practiced enough.
-	const insufficientLabel = labelsWithoutLast.find(label => getEV(dataSet[label]) < 0.7 )
+	const insufficientLabel = labelsWithoutLast.find(label => getEV(dataSet[label]) < 0.65) // Use 65% as a cheap and easy hack. Normally there'd be hysteresis: if the chance gets above 70% you can continue and it gets below 65% or so you should go back.
 
+	// Calculate success rates.
+	const successRates = exercises.map(exercise => getCombinerEV(dataSet, exercise.combiner))
+	const selectionRates = getSelectionRates(successRates)
+
+	// Render contents.
 	return (
 		<div className={classes.exerciseContainer}>
 			<Head className={classes.exerciseHeader}>Mogelijke oefenopgaven om X te oefenen</Head>
@@ -371,21 +377,16 @@ function ExerciseOverview({ dataSet, exercises }) {
 					</tr>
 				</thead>
 				<tbody>
-					{exercises.map((exercise, i) => <Exercise key={i} num={i + 1} dataSet={dataSet} exercise={exercise} />)}
+					{exercises.map((exercise, i) => (
+						<tr key={i}>
+							<td className="number">{i + 1}</td>
+							<td className="exerciseTitle">{exercise.title}</td>
+							<td className="successRate">{Math.round(successRates[i] * 100)}%</td>
+							<td className="selectionRate">{Math.round(selectionRates[i] * 100)}%</td>
+						</tr>
+					))}
 				</tbody>
 			</table>
 		</div>
-	)
-}
-
-function Exercise({ dataSet, exercise, num }) {
-	const successRate = getCombinerEV(dataSet, exercise.combiner)
-	return (
-		<tr>
-			<td className="number">{num}</td>
-			<td className="exerciseTitle">{exercise.title}</td>
-			<td className="successRate">{Math.round(successRate*100)}%</td>
-			<td className="selectionRate">[ToDo]</td>
-		</tr>
 	)
 }

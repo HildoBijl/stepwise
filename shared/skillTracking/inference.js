@@ -42,8 +42,16 @@ function infer(dataSet, combiner, n = maxSmoothingOrder / 4) {
 	dataSet = ensureDataSet(dataSet)
 	combiner = ensureCombiner(combiner)
 
-	// Pass on the call internally.
-	return inferInternal(dataSet, combiner, n)
+	// Check boundary cases.
+	if (n === 0)
+		return [1]
+
+	// Pass on the call internally. If there is a problem, this is most likely due to the smoothing order being too high. In that case reduce it.
+	try {
+		return inferInternal(dataSet, combiner, n)
+	} catch (err) {
+		return infer(dataSet, combiner, Math.floor(n / 2))
+	}
 }
 module.exports.infer = infer
 

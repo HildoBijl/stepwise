@@ -1,4 +1,7 @@
 const { isInt } = require('../../../util/numbers')
+const { getRandomInteger } = require('../../../util/random')
+
+module.exports.getRandomInteger = getRandomInteger // For easy and consistent access.
 
 function isFOofType(param) {
 	return typeof param === 'number' && isInt(param)

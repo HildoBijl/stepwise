@@ -1,5 +1,5 @@
 const { numberArray } = require('./arrays')
-const { isInt } = require('./numbers')
+const { isInt, ensureNumber } = require('./numbers')
 
 // factorial calculates n!. If an extra parameter nEnd is given, it calculates n!/nEnd! = (n * (n-1) * ... * (nEnd + 1)). It memorizes values that have already been calculated.
 const factorialMemoization = {}
@@ -53,3 +53,15 @@ function binomial(a, b) {
 	return binomialMemoization[a][b]
 }
 module.exports.binomial = binomial
+
+// normalPDF calculates the PDF for a Gaussian (normal) distribution.
+function normalPDF(x, mu = 0, sigma = 1) {
+	// Check input.
+	x = ensureNumber(x)
+	mu = ensureNumber(mu)
+	sigma = ensureNumber(sigma)
+	
+	// Calculate the PDF.
+	return 1/(sigma * Math.sqrt(2*Math.PI)) * Math.exp(-1/2 * ((x - mu)/sigma) ** 2)
+}
+module.exports.normalPDF = normalPDF

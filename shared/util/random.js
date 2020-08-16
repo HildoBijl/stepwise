@@ -1,4 +1,4 @@
-const { Float } = require('../edu/util/inputTypes/Float')
+const { ensureArray, getCumulativeArray, lastOf } = require('./arrays')
 
 // getRandomInteger returns a random integer between the given minimum and maximum (both inclusive).
 function getRandomInteger(min, max) {
@@ -6,35 +6,18 @@ function getRandomInteger(min, max) {
 }
 module.exports.getRandomInteger = getRandomInteger
 
-/* getRandomFloat returns a random float between the given minimum and maximum. You can either set:
- * - the number of decimals. Use "1" for "23.4" and "-1" for "2.34 * 10^3".
- * - the number of significant digits. Use "3" for "23.4" and "2.34 * 10^3".
- * If none is given then infinite precision will be assumed.
- * If rounded is true (default) the number will be rounded to be precisely "23.4" and not be "23.4321" or so behind the scenes.
- */
-function getRandomFloat({ min = 0, max = 1, decimals, significantDigits, round = true }) {
-	if (decimals !== undefined && significantDigits !== undefined)
-		throw new Error(`Invalid input: cannot set both the number of decimals and number of significant digits.`)
-
-	// Determine the number and set its precision accordingly.
-	const number = min + (max - min) * Math.random()
-	let float
-	if (decimals !== undefined) {
-		float = new Float({ number, significantDigits: Math.floor(Math.log10(Math.abs(number))) + 1 + decimals })
-	} else if (significantDigits !== undefined) {
-		float = new Float({ number, significantDigits })
-	} else {
-		float = new Float({ number, significantDigits: Infinity })
-	}
-	if (round)
-		float.roundToPrecision()
-	return float
-}
-module.exports.getRandomFloat = getRandomFloat
-
 // selectRandomly takes an array and returns a random element from it.
-function selectRandomly(arr) {
-	return arr[getRandomInteger(0, arr.length - 1)]
+function selectRandomly(arr, weights) {
+	// If there are no weights, just pick one uniformly randomly.
+	arr = ensureArray(arr)
+	if (weights === undefined)
+		return arr[getRandomInteger(0, arr.length - 1)]
+
+	// If there are weights, apply them.
+	const cumWeights = getCumulativeArray(weights)
+	const random = Math.random()*lastOf(cumWeights)
+	const index = cumWeights.findIndex(cumWeight => random <= cumWeight)
+	return arr[index]
 }
 module.exports.selectRandomly = selectRandomly
 
@@ -48,7 +31,7 @@ function selectRandomCorrect() {
 		'Klopt helemaal.',
 		'Prachtig! Ga zo door.',
 		'Gaat lekker zo.',
-		'Correct! Goed gedaan.', 
+		'Correct! Goed gedaan.',
 		'Je hebt hem opgelost!',
 	])
 }

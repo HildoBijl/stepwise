@@ -80,3 +80,11 @@ function multiplyPolynomialCoefficients(a, b) {
 	return result
 }
 module.exports.multiplyPolynomialCoefficients = multiplyPolynomialCoefficients
+
+// getCumulativeArray takes a number array and returns a cumulative version of it.
+function getCumulativeArray(arr) {
+	arr = ensureNumberArray(arr)
+	let sum = 0
+	return arr.map(value => sum+= value)
+}
+module.exports.getCumulativeArray = getCumulativeArray
