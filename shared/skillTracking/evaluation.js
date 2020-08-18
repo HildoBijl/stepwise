@@ -9,7 +9,7 @@ function ensureCoef(coef) {
 
 	// Check that the sum equals one.
 	const sum = coef.reduce((sum, v) => sum + v, 0)
-	if (Math.abs(sum - 1) > 1e-15)
+	if (Math.abs(sum - 1) > 1e-12)
 		throw new Error(`Invalid input: expect a coefficient array whose sum equals one, but the sum instead is ${sum}. The array itself is [${coef.join(', ')}].`)
 
 	// Return the processed array.
