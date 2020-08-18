@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { Check, Clear, Replay } from '@material-ui/icons'
 import Slider from '@material-ui/core/Slider'
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 		display: 'flex',
 		flexFlow: 'row nowrap',
-		margin: '0.6rem 0',
+		margin: '0.6rem 0 1rem',
 
 		'& svg': {
 			flex: '0 0 auto',
@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'flex-start',
 
 		'& button': {
-			margin: '0.4rem 0.5rem 0 0',
+			margin: '0.2rem 0.5rem 0.2rem 0',
 		},
 	},
 
@@ -87,6 +87,10 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: '1.5em',
 		fontWeight: 500,
 		margin: '0.2em 0',
+	},
+
+	infoMessage: {
+		margin: '0.5em 0',
 	},
 
 	exerciseContainer: {
@@ -126,7 +130,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SkillTrackerExplainer() {
 	return <>
-		<Par>Step-wise is achter de schermen opgebouwd uit talloze <em>vaardigheden</em>. Bijvoorbeeld: kun je twee getallen optellen? Of kun je een kwadratische vergelijking oplossen? Als je met de app bezig gaat, dan krijg je oefenopgaven die met deze vaardigheden te maken hebben. Bijvoorbeeld "Bereken <M>37 + 42</M>" of "Los <M>x^2 - 5*x + 6 = 0</M> op". We houden hierbij in detail je voortgang bij. Maar hoe werkt dat?</Par>
+		<Par>Step-wise is achter de schermen opgebouwd uit talloze <em>vaardigheden</em>. Bijvoorbeeld: kun je twee getallen optellen? Of kun je een kwadratische vergelijking oplossen? Als je met de app bezig gaat, dan krijg je oefenopgaven die met deze vaardigheden te maken hebben. Bijvoorbeeld "Bereken <M>37 + 42</M>" of "Los <M>x^2 - 5x + 6 = 0</M> op". We houden hierbij in detail je voortgang bij. Maar hoe werkt dat?</Par>
 
 		<Head>Voortgang: de kans dat je het goed gaat doen</Head>
 		<Par>Achter de schermen zit een hoop kansberekening. Per vaardigheid schatten we de <em>kans</em> in dat je hem <em>de volgende keer</em> correct gaat uitvoeren. Hierbij nemen we ook een zekerheid van deze schatting mee. Dit geven we vervolgens weer in een voortgangsindicator.</Par>
@@ -148,7 +152,7 @@ export default function SkillTrackerExplainer() {
 		<Head>Basisvaardigheden en vervolg-vaardigheden</Head>
 		<Par>Vaak zijn vaardigheden gelinkt. Na een basisvaardigheid A (bijvoorbeeld optellen) en een basisvaardigheid B (bijvoorbeeld vermenigvuldigen) kun je oefenen met een vervolg-vaardigheid X waarbij je zowel A als B nodig hebt (bijvoorbeeld samengestelde sommen). In dit geval kunnen we je kansen voor X inschatten aan de hand van hoe goed je A en B kan.</Par>
 		<MultiSkillTrial showButtonsForX={false} />
-		<Par>De richtlijn is: als je een score van minimaal 70% hebt voor alle basisvaardigheden (A, B, enzovoort) dan mag je door naar de vervolg-vaardigheid (X).</Par>
+		<Par>De richtlijn is: als je een score van minimaal 70% hebt voor alle basisvaardigheden (A, B, enzovoort) dan "beheers" je de vaardigheid en mag je door naar de vervolg-vaardigheid (X). Als je score later echter weer onder de grofweg 60% duikt, dan word je teruggestuurd.</Par>
 
 		<Head>Vervolg-vaardigheden oefenen</Head>
 		<Par>Als je een vervolg-vaardigheid X uitvoert, dan voer je indirect ook de basisvaardigheden A en B uit. Dit betekent dat we ook daar je score updaten. Als je X goed doet, dan doe je A en B ook goed, en rekenen we dit mee. Als X fout gaat, dan is het echter nog onbekend of dat komt omdat moeite hebt met A of B. Via kansberekening schatten wij zo nauwkeurig mogelijk in waar het knelpunt precies ligt.</Par>
@@ -352,11 +356,27 @@ function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 
 function ExerciseOverview({ dataSet, exercises }) {
 	const classes = useStyles()
-	if (!exercises)
-		return null
 
-	// Check if there is a subskill that hasn't been practiced enough.
-	const insufficientLabel = labelsWithoutLast.find(label => getEV(dataSet[label]) < 0.65) // Use 65% as a cheap and easy hack. Normally there'd be hysteresis: if the chance gets above 70% you can continue and it gets below 65% or so you should go back.
+	// Set up a state to track if the user has passed the previous skills. Update it on dataSet changes.
+	const [pass, setPass] = useState(labelsWithoutLast.map(_ => false))
+	useEffect(() => {
+		const newPass = labelsWithoutLast.map((label, i) => {
+			const EV = getEV(dataSet[label])
+			console.log('Label ' + label + ' has ' + EV + ' and ' + pass[i])
+			return (pass[i] && EV >= 0.62) || (!pass[i] && EV >= 0.7) // Apply hysteresis. [ToDo: implement ratios from settings.]
+		})
+		console.log(pass)
+		console.log(newPass)
+		if (newPass.some((_, i) => pass[i] !== newPass[i]))
+			setPass(newPass)
+	}, [pass, dataSet])
+	const insufficientIndex = pass.indexOf(false)
+	const insufficientLabel = (insufficientIndex === -1 ? null : labelsWithoutLast[insufficientIndex])
+	const infoMessage = insufficientLabel ? <div className={classes.infoMessage}>Het wordt afgeraden om vervolg-vaardigheid X al te oefenen. Basis-vaardigheid {insufficientLabel} is nog niet op voldoende niveau.</div> : <div className={classes.infoMessage}>Het is een goed idee om vervolg-vaardigheid X te oefenen. De basis-vaardigheden worden voldoende beheerst.</div>
+
+	// If there are no exercises, don't do anything.
+	if (!exercises)
+		return infoMessage
 
 	// Calculate success rates.
 	const successRates = exercises.map(exercise => getCombinerEV(dataSet, exercise.combiner))
@@ -366,7 +386,7 @@ function ExerciseOverview({ dataSet, exercises }) {
 	return (
 		<div className={classes.exerciseContainer}>
 			<Head className={classes.exerciseHeader}>Mogelijke oefenopgaven om X te oefenen</Head>
-			{insufficientLabel ? <div className="info">Het wordt afgeraden om vervolg-vaardigheid X al te oefenen. Basis-vaardigheid {insufficientLabel} is nog niet op voldoende niveau.</div> : <div className="info">Het is een goed idee om vervolg-vaardigheid X te oefenen. De basis-vaardigheden worden voldoende beheerst.</div>}
+			{infoMessage}
 			<table>
 				<thead>
 					<tr>
