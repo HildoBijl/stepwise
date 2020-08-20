@@ -6,13 +6,18 @@ const skills = {
 	},
 	fillInFloat: {
 		name: 'Kommagetal invullen',
-		prerequisites: [],
+		prerequisites: ['fillInInteger'],
 		exercises: ['fillInFloat'],
 	},
 	fillInUnit: {
 		name: 'Eenheid invullen',
 		prerequisites: [],
 		exercises: ['fillInUnit'],
+	},
+	lookUpConstant: {
+		name: 'Constanten opzoeken',
+		prerequisites: ['fillInFloat', 'fillInUnit'],
+		exercises: ['lookUpConstant'],
 	},
 	summation: {
 		name: 'Optellen',
@@ -26,8 +31,8 @@ const skills = {
 	},
 	summationAndMultiplication: {
 		name: 'Optellen en vermenigvuldigen',
-		prerequisites: ['summation','multiplication'],
-		exercises: ['summationAndMultiplication1','summationAndMultiplication2'],
+		prerequisites: ['summation', 'multiplication'],
+		exercises: ['summationAndMultiplication1', 'summationAndMultiplication2'],
 	},
 }
 

@@ -8,13 +8,15 @@ import { selectRandomEmpty, selectRandomNegative } from 'step-wise/util/random'
 import { removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
 import Input, { getStringJSX, getClickPosition } from './Input'
 
-const useStyles = makeStyles((theme) => ({
-	floatInput: {
-		'& .tenPowerContainer': {
-			// color: theme.palette.info.main,
-		},
+const style = (theme) => ({
+	'& .tenPowerContainer': {
+		// color: theme.palette.info.main,
 	},
+})
+const useStyles = makeStyles((theme) => ({
+	floatInput: style(theme),
 }))
+export { style }
 
 const defaultProps = {
 	placeholder: 'Kommagetal',
@@ -40,7 +42,7 @@ export default function FloatInput(props) {
 	const allowPower = props.allowPower !== undefined ? props.allowPower : defaultProps.allowPower
 	const mergedProps = {
 		...defaultProps,
-		keyPressToData: (keyInfo, data) => keyPressToData(keyInfo, data, positive, allowPower),
+		keyPressToData: (keyInfo, data, contentsElement) => keyPressToData(keyInfo, data, contentsElement, positive, allowPower),
 		...props,
 		className: clsx(props.className, classes.floatInput, 'floatInput'),
 	}
@@ -116,7 +118,7 @@ export function cursorToKeyboardType(cursor) {
 }
 
 // keyPressToData takes a keyInfo event and a data object and returns a new data object.
-export function keyPressToData(keyInfo, data, positive, allowPower) {
+export function keyPressToData(keyInfo, data, contentsElement, positive = defaultProps.positive, allowPower = defaultProps.allowPower) {
 	// Let's walk through a large variety of cases and see what's up.
 	const { key, ctrl, alt } = keyInfo
 	const { value, cursor } = data
@@ -137,7 +139,7 @@ export function keyPressToData(keyInfo, data, positive, allowPower) {
 		return { ...data, cursor: { ...cursor, cursor: Math.max(cursor.cursor - 1, 0) } } // Move one position to the left.
 	}
 	if (key === 'ArrowRight') {
-		if (allowPower && cursor.part === 'number' && cursor.cursor === number.length)
+		if (allowPower && cursor.part === 'number' && cursor.cursor === number.length && value.power !== '')
 			return { ...data, cursor: { part: 'power', cursor: 0 } } // Move to the start of the power.
 		return { ...data, cursor: { ...cursor, cursor: Math.min(cursor.cursor + 1, value[cursor.part].length) } } // Move the cursor one position to the right.
 	}
@@ -230,12 +232,12 @@ export function mouseClickToCursor(evt, data, contentsElement) {
 }
 
 // getStartCursor gives the cursor position at the start.
-export function getStartCursor() {
+export function getStartCursor(value = getEmpty(), cursor = null) {
 	return { part: 'number', cursor: 0 }
 }
 
 // getEndCursor gives the cursor position at the end.
-export function getEndCursor(value, cursor) {
+export function getEndCursor(value = getEmpty(), cursor = null) {
 	const { number, power } = value
 	if (power !== '' || (cursor && cursor.part === 'power'))
 		return { part: 'power', cursor: power.length }
@@ -251,5 +253,10 @@ export function isCursorAtStart(value, cursor) {
 export function isCursorAtEnd(value, cursor) {
 	if (cursor.part === 'power')
 		return cursor.cursor === value.power.length
-	return value.power === '' && cursor.part === value.number.length
+	return value.power === '' && cursor.cursor === value.number.length
+}
+
+// isValid checks if a float IO is valid.
+export function isValid(value) {
+	return value.number.replace(/[.-]/g, '').length > 0 // It should have a number somewhere in it.
 }

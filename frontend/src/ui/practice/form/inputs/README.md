@@ -102,9 +102,42 @@ There are no options.
 - `valid`: Checks whether a valid unit has been entered. (But no unit is also valid.) So an empty string or `kg * m` passes, but `abcdef` does not.
 - `nonEmptyAndValid`: (Default) Checks whether a non-empty valid unit has been entered. An empty string and `abcdef` both fail but `kg * m` passes.
 
-### FloatWithUnitInput
+### FloatUnitInput
 
-This will still be added.
+#### Return type
+
+The return type is a `FloatUnit` object which is basically a combination of a `Float` and a `Unit` object. It has various properties.
+
+- `str`
+- `tex`
+- `float`
+- `unit`
+
+It has various useful methods.
+
+- `clone`
+- `isValid` for the unit
+- `makeExact` for the float
+- `simplify`
+- `checkEquality`
+- `equals`
+- `add`
+- `multiply`
+
+See the source code for details on this.
+
+#### Options
+
+The options are identical to the Float field.
+
+- `positive`: When set to true (default false) only positive numbers are allowed.
+- `allowPower`: When set to false (default true) no power ` * 10^x` is allowed.
+
+#### Validation functions
+
+- `nonEmpty`: Checks whether something (anything) has been entered.
+- `validNumberAndUnit`: Checks whether a proper number and (possibly empty but valid) unit have been entered.
+- `validNumberAndNonEmptyUnit`: Checks whether a proper number and non-empty valid unit have been entered.
 
 ## New fields
 

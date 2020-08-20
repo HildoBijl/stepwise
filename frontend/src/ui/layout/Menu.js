@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { SwipeableDrawer, List, Divider, IconButton } from '@material-ui/core'
-import { Menu as MenuIcon, Add, Clear, Dialpad, TextFields, Home, School, Create, Feedback, Info, MenuBook, ExitToApp } from '@material-ui/icons'
+import { Menu as MenuIcon, Add, Clear, Dialpad, TextFields, Spellcheck, Home, School, Create, Feedback, Info, MenuBook, ExitToApp } from '@material-ui/icons'
 
 import { useFieldControl, useFieldControllerContext } from './FieldController'
 import MenuLink from './MenuLink'
@@ -64,6 +64,7 @@ export default function Menu({ className }) {
 						<MenuLink path={paths.skill({ skillId: 'fillInInteger' })} text='Geheel getal invullen' icon={Dialpad} />
 						<MenuLink path={paths.skill({ skillId: 'fillInFloat' })} text='Kommagetal invullen' icon={Dialpad} />
 						<MenuLink path={paths.skill({ skillId: 'fillInUnit' })} text='Eenheid invullen' icon={TextFields} />
+						<MenuLink path={paths.skill({ skillId: 'lookUpConstant' })} text='Constanten opzoeken' icon={Spellcheck} />
 						<MenuLink path={paths.skill({ skillId: 'summation' })} text='Optellen' icon={Add} />
 						<MenuLink path={paths.skill({ skillId: 'multiplication' })} text='Vermenigvuldigen' icon={Clear} />
 						<MenuLink path={paths.skill({ skillId: 'summationAndMultiplication' })} text='Optellen en vermenigvuldigen' icon={Create} />

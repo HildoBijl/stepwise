@@ -219,7 +219,7 @@ const useStyles = makeStyles((theme) => ({
 		'& .char': {
 			display: 'inline-block',
 			height: '100%',
-			lineHeight: 2.9,
+			lineHeight: 3.0,
 
 			'&.times': {
 				padding: '0 0.15em',
@@ -236,6 +236,10 @@ const useStyles = makeStyles((theme) => ({
 				height: '35%',
 				top: '20%',
 			},
+		},
+
+		'& .filler': {
+			color: theme.palette.text.hint,
 		},
 	},
 }))

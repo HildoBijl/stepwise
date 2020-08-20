@@ -16,6 +16,10 @@ class Unit {
 	// The constructor input is either a string like "mg^3 * kl / ns^2 * °C^2", or an object with a "num" and a "den" property. In this latter case these properties should either be unit strings like "mg^3 * kl" or arrays of something the UnitElement constructor takes.
 
 	constructor(input = {}) {
+		// If we have a type Unit, just copy it.
+		if (isObject(input) && input.constructor === Unit)
+			return this.become(input)
+
 		// If we have a string, split it up into an object first.
 		if (typeof input === 'string')
 			input = splitUnitString(input)
@@ -73,6 +77,15 @@ class Unit {
 	// clone provides a clone of this object.
 	clone() {
 		return new this.constructor(this.SO)
+	}
+
+	// become turns this object into a clone of the given object.
+	become(param) {
+		if (!isObject(param) || param.constructor !== Unit)
+			throw new Error(`Invalid input: a Unit element cannot become the given object. This object has type "${typeof param}".`)
+		this._num = param.num.map(unitElement => unitElement.clone())
+		this._den = param.den.map(unitElement => unitElement.clone())
+		return this
 	}
 
 	// isValid returns whether we have a valid unit (true or false). So whether all unit elements in this unit are valid unit elements: whether they have been recognized.

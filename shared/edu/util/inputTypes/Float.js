@@ -35,6 +35,10 @@ class Float {
 		 * power (default undefined): the power that is used when displaying the number. A number like 1234.56 with power 2 will be displayed as 12.3456 * 10^2. Keeping undefined means we'll just make our own best guess as how we should display this number. This is better, as a number like 1200 with two significant digits will be displayed like "1.2" with undefined power, but "1200" (wrong) with zero power.
 	 */
 	constructor(input = {}) {
+		// If we have a type Float, just copy it.
+		if (isObject(input) && input.constructor === Float)
+			return this.become(input)
+
 		// If we have a string or number, split it up into an object first.
 		if (typeof input === 'string')
 			input = stringToSO(input)
@@ -167,6 +171,16 @@ class Float {
 	// clone provides a clone of this object.
 	clone() {
 		return new this.constructor(this.SO)
+	}
+
+	// become turns this object into a clone of the given object.
+	become(param) {
+		if (!isObject(param) || param.constructor !== Float)
+			throw new Error(`Invalid input: a Float element cannot become the given object. This object has type "${typeof param}".`)
+		this._number = param.number
+		this._significantDigits = param.significantDigits
+		this._power = param.power
+		return this
 	}
 
 	set significantDigits(significantDigits) {

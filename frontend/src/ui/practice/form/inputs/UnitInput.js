@@ -10,117 +10,115 @@ import Input, { checkCursor } from './Input'
 import { dataToContents as unitArrayDataToContents, cursorToKeyboardType as unitArrayCursorToKeyboardType, keyPressToData as unitArrayKeyPressToData, mouseClickToCursor as unitArrayMouseClickToCursor, getStartCursor as getUnitArrayStartCursor, getEndCursor as getUnitArrayEndCursor, isCursorAtStart as isCursorAtUnitArrayStart, isCursorAtEnd as isCursorAtUnitArrayEnd, mergeElements, splitElement, getCursorFromOffset as getUnitArrayCursorFromOffset } from './UnitArray'
 import { getStartCursor as getUnitElementStartCursor, getEndCursor as getUnitElementEndCursor, isCursorAtStart as isCursorAtUnitElementStart } from './UnitElement'
 
-const useStyles = makeStyles((theme) => ({
-	unitInput: {
-		'& .filler': {
-			color: theme.palette.text.hint,
-
-			'&.filler-1': {
-				pointerEvents: 'none', // To prevent it being clicked on. When the cursor is already in the numerator, the filler disappears as soon as it's clicked on, which messes up the click processing.
-			},
-		},
-		'& .unitElement': {
-			'&.valid': {
-				'& .prefix': {
-					'& .char': {
-						color: theme.palette.text.secondary,
-					},
-				},
-			},
-			'&.invalid': {
-				'& .prefix, .baseUnit': {
-					color: theme.palette.error.main,
+const style = (theme) => ({
+	'&.filler-1': {
+		pointerEvents: 'none', // To prevent it being clicked on. When the cursor is already in the numerator, the filler disappears as soon as it's clicked on, which messes up the click processing.
+	},
+	'& .unitElement': {
+		'&.valid': {
+			'& .prefix': {
+				'& .char': {
+					color: theme.palette.text.secondary,
 				},
 			},
 		},
-		'& .fraction': {
-			textAlign: 'center',
-			transform: 'translateY(1px)',
+		'&.invalid': {
+			'& .prefix, .baseUnit': {
+				color: theme.palette.error.main,
+			},
+		},
+	},
+	'& .fraction': {
+		textAlign: 'center',
+		transform: 'translateY(1px)',
 
-			'& .num, .den, .divider': {
-				display: 'block',
+		'& .num, .den, .divider': {
+			display: 'block',
+		},
+
+		'& .num, .den': {
+			fontSize: '0.85em',
+			height: '50%',
+			padding: '0 3px', // Add padding to make the divider line wider horizontally.
+			position: 'relative', // Needed for cursor positioning.
+
+			'& .cursorContainer': {
+				'& span.cursor': {
+					height: '65%',
+				},
 			},
 
-			'& .num, .den': {
-				fontSize: '0.85em',
-				height: '50%',
-				padding: '0 3px', // Add padding to make the divider line wider horizontally.
-				position: 'relative', // Needed for cursor positioning.
-
+			'& .power': {
 				'& .cursorContainer': {
 					'& span.cursor': {
-						height: '65%',
-					},
-				},
-
-				'& .power': {
-					'& .cursorContainer': {
-						'& span.cursor': {
-							// No common settings left.
-						},
+						// No common settings left.
 					},
 				},
 			},
+		},
 
-			'& .num': {
+		'& .num': {
+			'& .char': {
+				lineHeight: 1.9,
+			},
+			'& .cursorContainer': {
+				'& span.cursor': {
+					top: '25%',
+				},
+			},
+			'& .power': {
+				'& .char': {
+					lineHeight: 2.1,
+				},
+				'& .cursorContainer': {
+					'& span.cursor': {
+						height: '50%',
+						top: '13%',
+					},
+				},
+			},
+		},
+
+		'& .den': {
+			'& .char': {
+				lineHeight: 1.7,
+			},
+			'& .cursorContainer': {
+				'& span.cursor': {
+					top: '15%',
+				},
+			},
+			'& .power': {
 				'& .char': {
 					lineHeight: 1.9,
 				},
 				'& .cursorContainer': {
 					'& span.cursor': {
-						top: '25%',
+						height: '45%',
+						top: '11%',
 					},
-				},
-				'& .power': {
-					'& .char': {
-						lineHeight: 2.1,
-					},
-					'& .cursorContainer': {
-						'& span.cursor': {
-							height: '50%',
-							top: '13%',
-						},
-					},
-				},
-			},
-
-			'& .den': {
-				'& .char': {
-					lineHeight: 1.7,
-				},
-				'& .cursorContainer': {
-					'& span.cursor': {
-						top: '15%',
-					},
-				},
-				'& .power': {
-					'& .char': {
-						lineHeight: 1.9,
-					},
-					'& .cursorContainer': {
-						'& span.cursor': {
-							height: '45%',
-							top: '11%',
-						},
-					},
-				},
-			},
-
-			'& .dividerContainer': {
-				height: 0,
-				pointerEvents: 'none', // To prevent it being clicked on and messing up cursor positioning.
-				position: 'relative',
-				width: '100%',
-
-				'& .divider': {
-					background: '#000',
-					height: '0.5px',
-					width: '100%',
 				},
 			},
 		},
+
+		'& .dividerContainer': {
+			height: 0,
+			pointerEvents: 'none', // To prevent it being clicked on and messing up cursor positioning.
+			position: 'relative',
+			width: '100%',
+
+			'& .divider': {
+				background: '#000',
+				height: '0.5px',
+				width: '100%',
+			},
+		},
 	},
+})
+const useStyles = makeStyles((theme) => ({
+	unitInput: style(theme)
 }))
+export { style }
 
 const defaultProps = {
 	placeholder: 'Eenheid',
@@ -377,13 +375,13 @@ export function mouseClickToCursor(evt, data, contentsElement) {
 }
 
 // getStartCursor gives the cursor position at the start.
-export function getStartCursor(value, cursor) {
+export function getStartCursor(value = getEmpty(), cursor = null) {
 	const unitArrayCursor = cursor && cursor.part === 'num' && cursor.cursor
-	return { part: 'num', cursor: getUnitArrayStartCursor(value && value.num, unitArrayCursor) }
+	return { part: 'num', cursor: getUnitArrayStartCursor(value.num, unitArrayCursor) }
 }
 
 // getEndCursor gives the cursor position at the end.
-export function getEndCursor(value, cursor) {
+export function getEndCursor(value = getEmpty(), cursor = null) {
 	const part = isDenominatorVisible(value, cursor) ? 'den' : 'num'
 	const unitArrayCursor = cursor && cursor.part === part && cursor.cursor
 	return { part, cursor: getUnitArrayEndCursor(value[part], unitArrayCursor) }
@@ -402,13 +400,13 @@ export function isCursorAtEnd(value, cursor) {
 }
 
 // isValid checks if a unit IO is valid.
-function isValid(value) {
+export function isValid(value) {
 	const { num, den } = value
 	return [num, den].every(unitArray => isUnitArrayEmpty(unitArray) || unitArray.every(unitElement => !unitElement.invalid))
 }
 
 // isDenominatorVisible decides if the denominator should be visible or not when displaying the unit.
-function isDenominatorVisible(value, cursor) {
+export function isDenominatorVisible(value, cursor) {
 	return !isUnitArrayEmpty(value.den) || (cursor && cursor.part === 'den')
 }
 
