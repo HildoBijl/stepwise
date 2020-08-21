@@ -111,7 +111,7 @@ export function dataToContents(data) {
 		return null
 
 	// Show the FloatUnit.
-	const showFloatFiller = isFloatEmpty(float) && cursor.part !== 'float'
+	const showFloatFiller = isFloatEmpty(float) && (!cursor || cursor.part !== 'float')
 	return <>
 		<span className="float">{showFloatFiller ? <span className="char filler">?</span> : floatDataToContents(getFloatData(data))}</span>
 		{isUnitVisible(value, cursor) ? <>
@@ -195,14 +195,18 @@ export function keyPressToData(keyInfo, data, contentsElement, positive, allowPo
 			return { ...data, cursor: { part: 'float', cursor: getFloatEndCursor(float, floatCursor) } }
 	}
 	if (key === 'ArrowRight') {
-		// If we're at the end of the float, move to the start of the unit, assuming the float is not empty.
-		if (cursor.part === 'float' && isCursorAtFloatEnd(float, floatCursor) && !isFloatEmpty(float))
+		// If we're at the end of the float, move to the start of the unit, assuming we're not in an empty field.
+		if (cursor.part === 'float' && isCursorAtFloatEnd(float, floatCursor) && !isEmpty(value))
 			return { ...data, cursor: { part: 'unit', cursor: getUnitStartCursor(unit) } }
 	}
 	if (key === 'Home')
 		return { ...data, cursor: { part: 'float', cursor: getFloatStartCursor(float) } } // Move to the start of the float.
-	if (key === 'End')
-		return { ...data, cursor: { part: 'unit', cursor: getUnitEndCursor(unit) } } // Move to the end of the unit.
+	if (key === 'End') {
+		if (isUnitVisible(value, cursor))
+			return { ...data, cursor: { part: 'unit', cursor: getUnitEndCursor(unit) } } // Move to the end of the unit.
+		return { ...data, cursor: { part: 'float', cursor: getFloatEndCursor(float) } } // Move to the end of the float.
+	}
+
 
 	// For backspace/delete, delete the appropriate symbol.
 	if (key === 'Backspace') {
@@ -250,7 +254,10 @@ export function mouseClickToCursor(evt, data, contentsElement) {
 	// Find a new cursor given this part.
 	let newCursor
 	if (part === 'float') {
-		newCursor = floatMouseClickToCursor(evt, getFloatData(data), partElement)
+		if (evt.target.classList.contains('filler'))
+			newCursor = getFloatStartCursor(float)
+		else
+			newCursor = floatMouseClickToCursor(evt, getFloatData(data), partElement)
 	} else if (part === 'unit') {
 		newCursor = unitMouseClickToCursor(evt, getUnitData(data), partElement)
 	} else if (part === 'unitSpacer') {

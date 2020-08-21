@@ -30,7 +30,6 @@ const style = (theme) => ({
 	},
 	'& .fraction': {
 		textAlign: 'center',
-		transform: 'translateY(1px)',
 
 		'& .num, .den, .divider': {
 			display: 'block',

@@ -43,6 +43,6 @@ function getFeedback({ state: { constant }, input: { ans }, progress: { solved }
 	if (!c.unit.equals(ans.unit))
 		return { ans: { correct, text: 'Je eenheid klopt al niet. Kijk daar eerst eens naar.' } }
 	if (c.equals(ans, { relativeMargin: 0.1 }))
-		return { ans: { correct, text: 'Je zit er net naast! Voeg iets meer nauwkeurigheid toe.' } }
+		return { ans: { correct, text: 'Je zit er net naast! Voer het iets nauwkeuriger in.' } }
 	return { ans: { correct, text: 'Je eenheid klopt, maar je getal nog niet.' } }
 }
