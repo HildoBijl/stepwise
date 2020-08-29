@@ -29,7 +29,7 @@ describe('startExercise', () => {
 		await client.login(SPECIAL_USER_SUB)
 
 		// First the skill should not exist.
-		const { data: { skill: skillBefore }, errors: skillBeforeErrors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId name}}` })
+		const { data: { skill: skillBefore }, errors: skillBeforeErrors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId}}` })
 		expect(skillBeforeErrors).toBeUndefined()
 		expect(skillBefore).toBe(null)
 
@@ -43,7 +43,7 @@ describe('startExercise', () => {
 		})
 
 		// After this the skill should exist.
-		const { data: { skill: skillAfter }, errors: skillAfterErrors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId name currentExercise {id exerciseId state active startedOn progress lastAction lastActionAt history {action progress performedAt}} exercises {id}}}` })
+		const { data: { skill: skillAfter }, errors: skillAfterErrors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId currentExercise {id exerciseId state active startedOn progress lastAction lastActionAt history {action progress performedAt}} exercises {id}}}` })
 		expect(skillAfterErrors).toBeUndefined()
 		expect(skillAfter.skillId).toBe(SAMPLE_SKILL)
 		expect(skillAfter.currentExercise).toMatchObject(exercise)

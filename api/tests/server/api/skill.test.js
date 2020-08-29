@@ -22,7 +22,7 @@ describe('skill', () => {
 	it('throws an error when no skill is given (bad request)', async () => {
 		const client = await createClient(seed)
 
-		expect(() => client.graphql({ query: `{skill {id skillId name}}` }))
+		expect(() => client.graphql({ query: `{skill {id skillId}}` }))
 			.rejects
 			.toThrow('Bad Request')
 	})
@@ -30,7 +30,7 @@ describe('skill', () => {
 	it('gives an error when no user is logged in', async () => {
 		const client = await createClient(seed)
 
-		const { data, errors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId name}}` })
+		const { data, errors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId}}` })
 		expect(data).toStrictEqual({ skill: null })
 		expect(errors).not.toBeUndefined()
 	})
@@ -39,7 +39,7 @@ describe('skill', () => {
 		const client = await createClient(seed)
 		await client.login(SPECIAL_USER_SUB)
 
-		const { data: { skill }, errors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId name}}` })
+		const { data: { skill }, errors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId}}` })
 		expect(errors).toBeUndefined()
 		expect(skill).toMatchObject({ skillId: SAMPLE_SKILL })
 	})

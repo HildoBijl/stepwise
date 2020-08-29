@@ -19,11 +19,11 @@ const seed = async db => {
 	})
 }
 
-describe('mySkills', () => {
+describe('skills', () => {
 	it('gives an error when no user is logged in', async () => {
 		const client = await createClient(seed)
 
-		const { data, errors } = await client.graphql({ query: `{mySkills {id skillId name}}` })
+		const { data, errors } = await client.graphql({ query: `{skills {id skillId}}` })
 		expect(data).toBe(null)
 		expect(errors).not.toBeUndefined()
 	})
@@ -32,27 +32,27 @@ describe('mySkills', () => {
 		const client = await createClient(seed)
 		await client.login(SPECIAL_USER_SUB)
 
-		const { data: { mySkills }, errors } = await client.graphql({ query: `{mySkills {id skillId name}}` })
+		const { data: { skills }, errors } = await client.graphql({ query: `{skills {id skillId}}` })
 		expect(errors).toBeUndefined()
-		expect(mySkills).toHaveLength(1)
-		expect(mySkills[0]).toMatchObject({ skillId: SAMPLE_SKILL })
+		expect(skills).toHaveLength(1)
+		expect(skills[0]).toMatchObject({ skillId: SAMPLE_SKILL })
 	})
 
 	it('(only) gives data on existing skills for queries with parameters', async () => {
 		const client = await createClient(seed)
 		await client.login(SPECIAL_USER_SUB)
 
-		const { data: { mySkills }, errors } = await client.graphql({ query: `{mySkills(skillIds: ["${SAMPLE_SKILL}","${BACKUP_SKILL}"]) {id skillId name}}` })
+		const { data: { skills }, errors } = await client.graphql({ query: `{skills(skillIds: ["${SAMPLE_SKILL}","${BACKUP_SKILL}"]) {id skillId}}` })
 		expect(errors).toBeUndefined()
-		expect(mySkills).toHaveLength(1)
-		expect(mySkills[0]).toMatchObject({ skillId: SAMPLE_SKILL })
+		expect(skills).toHaveLength(1)
+		expect(skills[0]).toMatchObject({ skillId: SAMPLE_SKILL })
 	})
 
 	it('gives an error when requesting a non-existing skill', async () => {
 		const client = await createClient(seed)
 		await client.login(SPECIAL_USER_SUB)
 
-		const { data, errors } = await client.graphql({ query: `{mySkills(skillIds: ["nonExistingSkill"]) {id skillId name}}` })
+		const { data, errors } = await client.graphql({ query: `{skills(skillIds: ["nonExistingSkill"]) {id skillId}}` })
 		expect(data).toBe(null)
 		expect(errors).not.toBeUndefined()
 	})
