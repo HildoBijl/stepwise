@@ -1,15 +1,17 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { useRouteMatch } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
+import { makeStyles } from '@material-ui/core/styles'
 
 import skills from 'step-wise/edu/skills'
 import { getNewExercise } from 'step-wise/edu/util/exercises/selection'
 import { IOtoFO, FOtoIO } from 'step-wise/edu/util/inputTypes'
 import ExerciseContainer from '../practice/ExerciseContainer'
 import { useUserResults } from '../api/user'
-import { useSkillQuery, useStartExerciseMutation, useSubmitExerciseActionMutation } from '../api/skill'
+import { useSkillQuery, useSkillsData, useStartExerciseMutation, useSubmitExerciseActionMutation } from '../api/skill'
 import Loading from '../components/Loading'
 import Error from '../components/Error'
+import SkillFlask from '../practice/skills/SkillFlask'
 
 export default function Skill() {
 	const { loading, data } = useUserResults()
@@ -116,4 +118,36 @@ export function useSkillTitle() {
 	if (!skill)
 		return 'Unknown skill'
 	return skill.name
+}
+
+const useStyles = makeStyles((theme) => ({
+	skillIndicator: { // Match the toolbar style boundaries.
+		height: '34px',
+		marginLeft: theme.spacing(2),
+		width: '34px',
+		[`${theme.breakpoints.up('xs')} and (orientation: landscape)`]: {
+			height: '28px',
+			width: '28px',
+		},
+		[theme.breakpoints.up('sm')]: {
+			height: '40px',
+			width: '40px',
+		},
+	},
+}))
+
+export function SkillIndicator() {
+	const { params } = useRouteMatch()
+	const { skillId } = params
+	const data = useSkillsData([skillId])
+	const classes = useStyles()
+
+	// Check if we have data.
+	if (!data)
+		return null
+	const skill = data[skillId]
+	if (!skill)
+		return null
+
+	return <SkillFlask className={classes.skillIndicator} coef={skill.coefficients} strongShadow={true} />
 }

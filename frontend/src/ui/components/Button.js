@@ -1,10 +1,8 @@
 // This is a hack around the Material-UI button limitation to only accept primary or secondary colors.
 
 import React from 'react'
-import { createMuiTheme } from '@material-ui/core/styles'
-import { ThemeProvider } from '@material-ui/core/styles'
+import { createMuiTheme, ThemeProvider, useTheme } from '@material-ui/core/styles'
 import MuiButton from '@material-ui/core/Button'
-import theme from '../theme'
 
 const getAdjustedTheme = (color) => createMuiTheme({
 	palette: {
@@ -13,6 +11,7 @@ const getAdjustedTheme = (color) => createMuiTheme({
 })
 
 export default function Button(props) {
+	const theme = useTheme()
 	const color = theme.palette[props.color]
 	if (!color)
 		throw new Error(`Invalid color: the color "${props.color}" is not in the palette.`)

@@ -33,7 +33,7 @@ function Contents() {
 		return <route.component />
 	return (
 		<FieldController>
-			<Header />
+			<Header Indicator={route.Indicator} />
 			<OfflineNotification />
 			<RecommendLogIn recommend={route.recommendLogIn} />
 			<Container maxWidth={theme.appWidth} className={classes.page}>

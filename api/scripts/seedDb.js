@@ -30,21 +30,25 @@ async function seedTestData(db) {
 
 	// Create skills for the user.
 	const skills = await Promise.all([
-		user.createSkill({ skillId: 'example', createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		user.createSkill({ skillId: 'summation', coefficients: [0,0,1], highest: [0,0,1], numPracticed: 3, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		user.createSkill({ skillId: 'multiplication', coefficients: [0,1], highest: [0,0.2,0.8], numPracticed: 2, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		user.createSkill({ skillId: 'summationAndMultiplication', coefficients: [1,0], highest: [1], numPracticed: 1, createdAt: date.setSeconds(date.getSeconds() + 1) }),
 	])
 
 	// Create exercises related to the example skill.
-	const exampleSkill = skills[0]
+	const summation = skills[0]
+	const multiplication = skills[1]
 	const exercises = await Promise.all([
-		exampleSkill.createExercise({ exerciseId: 'exampleExercise1', state: { a: 9, b: 54 }, active: false, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		exampleSkill.createExercise({ exerciseId: 'exampleExercise1', state: { a: 2, b: 6 }, active: false, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		exampleSkill.createExercise({ exerciseId: 'exampleExercise1', state: { a: 7, b: 63 }, active: true, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		summation.createExercise({ exerciseId: 'summation1', state: { a: { type: "Integer", value: "37" }, b: { type: "Integer", value: "42" } }, active: false, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		summation.createExercise({ exerciseId: 'summation1', state: { a: { type: "Integer", value: "64" }, b: { type: "Integer", value: "32" } }, active: true, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		multiplication.createExercise({ exerciseId: 'multiplication1', state: { a: { type: "Integer", value: "8" }, b: { type: "Integer", value: "4" } }, active: true, createdAt: date.setSeconds(date.getSeconds() + 1) }),
 	])
 	const events = await Promise.all([
-		exercises[0].createEvent({ action: { type: 'submit', input: { x: 7 } }, progress: {}, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		exercises[0].createEvent({ action: { type: 'submit', input: { x: 6 } }, progress: { solved: true, done: true }, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		exercises[1].createEvent({ action: { type: 'submit', input: { x: 8 } }, progress: {}, createdAt: date.setSeconds(date.getSeconds() + 1) }),
-		exercises[1].createEvent({ action: { type: 'submit', input: { x: 9 } }, progress: { solved: true, done: true }, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		exercises[0].createEvent({ action: { type: 'input', input: { ans: { type: 'Integer', value: '80' } } }, progress: {}, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		exercises[0].createEvent({ action: { type: 'input', input: { ans: { type: 'Integer', value: '79' } } }, progress: { solved: true, done: true }, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		exercises[1].createEvent({ action: { type: 'input', input: { ans: { type: 'Integer', value: '90' } } }, progress: {}, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		exercises[2].createEvent({ action: { type: 'input', input: { ans: { type: 'Integer', value: '30' } } }, progress: {}, createdAt: date.setSeconds(date.getSeconds() + 1) }),
+		exercises[2].createEvent({ action: { type: 'input', input: { ans: { type: 'Integer', value: '31' } } }, progress: {}, createdAt: date.setSeconds(date.getSeconds() + 1) }),
 	])
 }
 

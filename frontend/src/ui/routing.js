@@ -4,7 +4,7 @@ import { useUser } from './api/user'
 import LogOut from './components/LogOut'
 import { CoursesProvider } from './pages/Courses'
 import Course, { useCourseTitle } from './pages/Course'
-import Skill, { useSkillTitle } from './pages/Skill'
+import Skill, { useSkillTitle, SkillIndicator } from './pages/Skill'
 import * as pages from './pages'
 
 // Set up a route context object through which child elements can access the current route.
@@ -27,7 +27,7 @@ function getRoutes(user = null) {
 				'geschiedenis': {
 					name: 'history',
 					component: pages.History,
-					title: 'Geschiedenis',
+					title: 'Geschiedenis van deze app', // TODO: SET BACK
 				},
 				'tracker': {
 					name: 'skillTrackerExplainer',
@@ -41,6 +41,7 @@ function getRoutes(user = null) {
 			component: Skill,
 			title: useSkillTitle,
 			recommendLogIn: true,
+			Indicator: SkillIndicator,
 		},
 	}
 

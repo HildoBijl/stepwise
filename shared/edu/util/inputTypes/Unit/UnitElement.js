@@ -166,7 +166,7 @@ function stringToSO(str) {
 }
 module.exports.stringToSO = stringToSO
 
-// process takes a simple unit element value of the form { text: 'kOhm', power: '2' } and optionally also a cursor { part: 'text', cursor: 4 }. It processes it into an object that can be displayed. So you get { value: { prefix: 'k', unit: 'Ω', power: '2' }, cursor: { part: 'text', cursor: 2 } }.
+// process takes a simple unit element value of the form { text: 'kOhm', power: '2' } and optionally also a cursor { part: 'text', cursor: 4 }. It processes it into an object that can be displayed. So you get { value: { prefix: 'k', unit: 'Ω', power: '2' }, cursor: { part: 'text', cursor: 2 } }. If it is invalid, the flag "invalid" will be added and set to true.
 function process(value, cursor) {
 	const { text, power } = value
 	const { prefix, unit, valid } = interpretUnitString(text)
@@ -185,13 +185,15 @@ function process(value, cursor) {
 	}
 
 	// Return all required data.
+	const processedValue = {
+		prefix: prefix.str,
+		unit: unit.str,
+		power,
+	}
+	if (!valid)
+		processedValue.invalid = true
 	return {
-		value: {
-			prefix: prefix.str,
-			unit: unit.str,
-			power,
-			invalid: !valid,
-		},
+		value: processedValue,
 		cursor,
 	}
 }

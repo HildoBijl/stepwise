@@ -1,9 +1,7 @@
 const skills = require('step-wise/edu/skills')
 const { getUserSkill, getUserSkills } = require('../util/Skill')
 
-const commonResolvers = {
-	name: userSkill => skills[userSkill.skillId].name,
-}
+const commonResolvers = {} // None at the moment.
 
 const resolvers = {
 	Skill: {
@@ -19,7 +17,8 @@ const resolvers = {
 		skill: async (_source, { skillId }, { db, getUserId }) => {
 			return await getUserSkill(getUserId(), skillId, db)
 		},
-		mySkills: async (_source, { skillIds }, { db, getUserId }) => {
+		skills: async (_source, { skillIds }, { db, getUserId }) => {
+			console.log(skillIds)
 			return await getUserSkills(getUserId(), skillIds, db)
 		},
 	},

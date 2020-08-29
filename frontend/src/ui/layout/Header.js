@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function Header({ routes }) {
+export default function Header({ routes, Indicator }) {
 	const theme = useTheme()
 	const classes = useStyles()
 
@@ -30,6 +30,7 @@ export default function Header({ routes }) {
 				<Toolbar className={classes.toolbar}>
 					<Menu className={classes.menuButton} />
 					<Title className={classes.title} />
+					{Indicator ? <Indicator /> : null}
 				</Toolbar>
 			</Container>
 		</AppBar>

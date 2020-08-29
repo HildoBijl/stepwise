@@ -10,6 +10,11 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
+		numPracticed: {
+			type: DataTypes.INTEGER,
+			defaultValue: 0,
+			allowNull: false,
+		},
 		coefficients: {
 			type: DataTypes.ARRAY(DataTypes.DOUBLE),
 			defaultValue: [1],

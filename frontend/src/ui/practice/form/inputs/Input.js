@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useCallback } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
 import { applyToEachParameter, deepEquals } from 'step-wise/util/objects'
@@ -13,7 +13,7 @@ import Cursor from './Cursor'
 import { useFormParameter, useFieldValidation, useCursorRef } from '../Form'
 import { useParameterFeedback } from '../FeedbackProvider'
 import { useStatus } from '../Status'
-import theme, { getIcon, notSelectable } from '../../../theme'
+import { getIcon, notSelectable } from '../../../theme'
 import { useFieldControl } from '../../../layout/FieldController'
 import { useSubmitAction } from '../../exerciseTypes/util/actions'
 
@@ -473,7 +473,14 @@ function useContentSliding(contentsRef, contentsContainerRef) {
 
 // useFieldFeedback examines results from validation and feedback to give an indication to the user about the most relevant feedback. It returns { type: '...', text: '...', icon: ReactComponent, color: '#xxxxxx' } where the text parameter may be omitted or an empty string if not relevant. On no feedback it returns { type: 'normal' }. As parameters the field ID must be given, the validate function to be used, and optionally a back-up feedback text.
 export function useFieldFeedback(fieldId, validate = noop, feedbackText = '') {
-	return processFieldFeedback(useBasicFieldFeedback(fieldId, validate, feedbackText))
+	const theme = useTheme()
+	const feedback = useBasicFieldFeedback(fieldId, validate, feedbackText)
+	const Icon = getIcon(feedback.type)
+	return {
+		...feedback,
+		color: (theme.palette[feedback.type] && theme.palette[feedback.type].main) || theme.palette.text.secondary,
+		icon: Icon && <Icon />,
+	}
 }
 
 // useBasicFieldFeedback examines results from validation and feedback and gives an object { type: '...', text: '...' }.
@@ -495,16 +502,6 @@ function useBasicFieldFeedback(fieldId, validate = noop, feedbackText = '') {
 	}
 
 	return { type: 'normal', text: feedbackText }
-}
-
-// processFieldFeedback takes a basic field feedback object (with just a type and possibly a message) and adds data such as color and icon.
-function processFieldFeedback(feedback) {
-	const Icon = getIcon(feedback.type)
-	return {
-		...feedback,
-		color: (theme.palette[feedback.type] && theme.palette[feedback.type].main) || theme.palette.text.secondary,
-		icon: Icon && <Icon />,
-	}
 }
 
 // getStringJSX takes a string, turns it into an array of JSX char elements and returns it. If a cursor position (a number) is given, then the cursor is put in that position.

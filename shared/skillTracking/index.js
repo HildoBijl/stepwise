@@ -7,6 +7,7 @@ module.exports = {
 	...require('./combiners'), // Everything related to combiners.
 	...require('./inference'), // Making predictions of the future.
 	...require('./updating'), // Adjusting coefficients based on observations.
+	SkillData: require('./SkillData'), // Managing coefficients through time in an easy format.
 }
 
 // ToDo: make a selection of what is exported. Probably not manipulation, data and combiners.

@@ -7,13 +7,9 @@ import { numberArray } from 'step-wise/util/arrays'
 import { boundTo, interpolate } from 'step-wise/util/numbers'
 import { mix, shift, toCSS } from '../../../util/colors'
 import { useUniqueNumber } from '../../../util/react'
-import theme from '../../theme'
 
 // Define general settings.
 const vb = 100 // Viewbox size.
-const t = 0 // Thickness of the border in SVG coordinates.
-// const 
-const transitionTime = theme.transitions.duration.complex // Milliseconds.
 
 // Define color-related settings.
 const colorSpread = [ // Which colors do we display in the flask?
@@ -30,16 +26,19 @@ const colorFadingEnd = 3 // And when do we end?
 
 const useStyles = makeStyles((theme) => ({
 	skillFlask: {
-		filter: 'drop-shadow(-1px 4px 3px rgba(0, 0, 0, .7))',
+		filter: ({ strongShadow }) => strongShadow ? 'drop-shadow(-2px 6px 6px rgba(0, 0, 0, 1))' : 'drop-shadow(-1px 4px 3px rgba(0, 0, 0, 0.7))',
+		height: ({ size }) => `${size}px`,
+		transform: 'translateY(-1px)', // Compensation for the drop shadow. This makes it feel more balanced.
+		width: ({ size }) => `${size}px`,
 	},
 	clip: ({ clipProperties }) => ({
 		...clipProperties,
-		transition: `y ${transitionTime}ms, height ${transitionTime}ms`,
+		transition: `y ${theme.transitions.duration.complex}ms, height ${theme.transitions.duration.complex}ms`,
 	})
 }))
 
-export default function Flask(props) {
-	const { coef, size = 60 } = props
+export default function SkillFlask(props) {
+	const { coef, size = 60, strongShadow = false, className } = props
 	const id = useUniqueNumber()
 
 	// Calculate style elements and pass them to the useStyles function.
@@ -47,18 +46,20 @@ export default function Flask(props) {
 	const fading = coefToFading(coef)
 	const color = mix(partToColor(part), fadeColor, fading) // Dull the color in case of uncertainty.
 	const classes = useStyles({
-		color: toCSS(color),
 		clipProperties: {
 			x: '0px',
-			y: `${t + (1 - part) * (vb - 2 * t)}px`,
+			y: `${(1 - part) * (vb)}px`,
 			width: `${vb}px`,
-			height: `${part * (vb - 2 * t)}px`,
+			height: `${part * (vb)}px`,
 		},
+		color: toCSS(color),
+		size,
+		strongShadow,
 	})
 
 	// Render the component.
 	return (
-		<svg className={clsx(classes.skillFlask, 'skillFlask')} width={size} height={size} viewBox={`0 0 ${vb} ${vb}`}>
+		<svg className={clsx(classes.skillFlask, 'skillFlask', className)} viewBox={`0 0 ${vb} ${vb}`}>
 			<defs>
 				<radialGradient id={`flaskBackground${id}`} cx="50%" cy="50%" r="70%" fx="64%" fy="26%">
 					<stop offset="0%" style={{ stopColor: toCSS(shift(color, 1)) }} />
@@ -72,9 +73,8 @@ export default function Flask(props) {
 					<rect className={classes.clip} />
 				</clipPath>
 			</defs>
-			<circle cx={vb / 2} cy={vb / 2} r={vb / 2 - t / 2} strokeWidth="0" fill={`url(#flaskBackground${id})`} />
-			<circle cx={vb / 2} cy={vb / 2} r={vb / 2 - t / 2} strokeWidth="0" fill={`url(#flaskForeground${id})`} clipPath={`url(#flaskFill${id})`} />
-			{t > 0 ? <circle cx={vb / 2} cy={vb / 2} r={vb / 2 - t / 2} stroke={theme.palette.text.primary} strokeWidth={t} fill="none" /> : null}
+			<circle cx={vb / 2} cy={vb / 2} r={vb / 2 - vb/100} strokeWidth="0" fill={`url(#flaskBackground${id})`} />{/* Subtract a small amount to prevent the background from creeping around the edges. */}
+			<circle cx={vb / 2} cy={vb / 2} r={vb / 2} strokeWidth="0" fill={`url(#flaskForeground${id})`} clipPath={`url(#flaskFill${id})`} />
 		</svg>
 	)
 }

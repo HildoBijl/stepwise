@@ -362,11 +362,8 @@ function ExerciseOverview({ dataSet, exercises }) {
 	useEffect(() => {
 		const newPass = labelsWithoutLast.map((label, i) => {
 			const EV = getEV(dataSet[label])
-			console.log('Label ' + label + ' has ' + EV + ' and ' + pass[i])
 			return (pass[i] && EV >= 0.62) || (!pass[i] && EV >= 0.7) // Apply hysteresis. [ToDo: implement ratios from settings.]
 		})
-		console.log(pass)
-		console.log(newPass)
 		if (newPass.some((_, i) => pass[i] !== newPass[i]))
 			setPass(newPass)
 	}, [pass, dataSet])

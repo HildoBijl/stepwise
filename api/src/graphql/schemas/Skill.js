@@ -3,13 +3,13 @@ const { gql } = require('apollo-server-express')
 const schema = gql`
   extend type Query {
 		skill(skillId: String!): Skill
-		mySkills(skillIds: [String]): [SkillWithoutExercises]!
+		skills(skillIds: [String]): [SkillWithoutExercises]!
   }
 
 	type Skill {
 		id: ID!
 		skillId: String!
-		name: String!
+		numPracticed: Int!,
 		coefficients: [Float]!
 		coefficientsOn: DateTime!
 		highest: [Float]!
@@ -21,7 +21,7 @@ const schema = gql`
 	type SkillWithoutExercises {
 		id: ID!
 		skillId: String!
-		name: String!
+		numPracticed: Int!,
 		coefficients: [Float]!
 		coefficientsOn: DateTime!
 		highest: [Float]!
