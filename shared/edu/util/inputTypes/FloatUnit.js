@@ -181,8 +181,6 @@ class FloatUnit {
 		// Perform the multiplication.
 		this._float.multiply(x.float)
 		this._unit.multiply(x.unit)
-		console.log(this._float.str)
-		console.log(this._unit.str)
 		return this
 	}
 }

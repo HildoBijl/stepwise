@@ -51,7 +51,7 @@ function processObservation(dataSet, combiner, correct) {
 }
 module.exports.processObservation = processObservation
 
-// basicUpdate updates a coefficient array based on whether the skill was correct or incorrect. Coefficients are not normalized yet. [ToDo: use this.]
+// basicUpdate updates a coefficient array based on whether the skill was correct or incorrect. Coefficients are not normalized yet.
 function basicUpdate(coef, correct = false) {
 	const n = getOrder(coef)
 	if (correct)

@@ -3,7 +3,7 @@ const { getSimpleExerciseProcessor } = require('../util/exercises/simpleExercise
 const { Unit, FOtoIO } = require('../util/inputTypes/Unit')
 
 const data = {
-	// ToDo: add data on difficulty.
+	skill: 'fillInUnit',
 	equalityOptions: {
 		comparePrefixes: true,
 		compareOrder: true,
@@ -27,6 +27,6 @@ function checkInput({ unit }, { ans }) {
 module.exports = {
 	data,
 	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput),
+	processAction: getSimpleExerciseProcessor(checkInput, data),
 	checkInput,
 }

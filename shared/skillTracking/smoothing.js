@@ -50,7 +50,7 @@ function smoothen(coef, factor) {
 		throw new Error(`Invalid input: the smoothen factor must be a number between 0 and 1 (inclusive) but received "${factor}".`)
 
 	// Check boundary cases.
-	if (factor === 0)
+	if (factor === 0 || coef.length <= 1)
 		return [1]
 	if (factor === 1)
 		return coef

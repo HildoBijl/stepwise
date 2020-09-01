@@ -3,7 +3,7 @@ const { getSimpleExerciseProcessor } = require('../util/exercises/simpleExercise
 const constants = require('../util/constants')
 
 const data = {
-	// ToDo: add data on difficulty.
+	skill: 'lookUpConstant',
 	equalityOptions: {
 		relativeMargin: 0.0001,
 	}
@@ -20,6 +20,6 @@ function checkInput({ constant }, { ans }) {
 module.exports = {
 	data,
 	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput),
+	processAction: getSimpleExerciseProcessor(checkInput, data),
 	checkInput,
 }

@@ -3,7 +3,7 @@ const { getRandomFloat } = require('../util/inputTypes/Float')
 const { getSimpleExerciseProcessor } = require('../util/exercises/simpleExercise')
 
 const data = {
-	// ToDo: add data on difficulty.
+	skill: 'fillInFloat',
 	equalityOptions: { significantDigitMargin: 0, relativeMargin: 0.0001 },
 }
 
@@ -21,6 +21,6 @@ function checkInput({ x }, { ans }) {
 module.exports = {
 	data,
 	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput),
+	processAction: getSimpleExerciseProcessor(checkInput, data),
 	checkInput,
 }

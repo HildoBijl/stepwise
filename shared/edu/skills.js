@@ -3,38 +3,31 @@ const { getCombinerSkills } = require('../skillTracking/combiners')
 const skills = {
 	fillInInteger: {
 		name: 'Geheel getal invullen',
-		// prerequisites: [],
 		exercises: ['fillInInteger'],
 	},
 	fillInFloat: {
 		name: 'Kommagetal invullen',
-		// prerequisites: ['fillInInteger'],
 		exercises: ['fillInFloat'],
 	},
 	fillInUnit: {
 		name: 'Eenheid invullen',
-		// prerequisites: [],
 		exercises: ['fillInUnit'],
 	},
 	lookUpConstant: {
 		name: 'Constanten opzoeken',
-		// prerequisites: ['fillInFloat', 'fillInUnit'],
 		exercises: ['lookUpConstant'],
 	},
 	summation: {
 		name: 'Optellen',
-		// prerequisites: ['fillInInteger'],
 		exercises: ['summation1'],
 	},
 	multiplication: {
 		name: 'Vermenigvuldigen',
-		// prerequisites: ['fillInInteger'],
 		exercises: ['multiplication1'],
 	},
 	summationAndMultiplication: {
 		name: 'Optellen en vermenigvuldigen',
-		setup: { type: 'and', skills: [{type: 'repeat', times: 2, skill: 'multiplication' }, 'summation']},
-		// prerequisites: ['summation', 'multiplication'],
+		setup: { type: 'and', skills: [{ type: 'repeat', times: 2, skill: 'multiplication' }, 'summation'] },
 		exercises: ['summationAndMultiplication1', 'summationAndMultiplication2'],
 	},
 }

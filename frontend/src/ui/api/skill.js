@@ -88,13 +88,13 @@ export function useSkillsData(skillIds) {
 		})
 
 		// Add missing data.
-		skillIds.forEach(skillId => {
+		skillIdsWithPrerequisites.forEach(skillId => {
 			if (!data[skillId])
 				data[skillId] = getDefaultSkillData(skillId)
 		})
 
 		// Create SkillData objects for requested skills.
-		// ToDo: find a way to not constantly recalculate.
+		// ToDo: find a way to not constantly recalculate. (Unless this isn't a problem.)
 		const result = {}
 		skillIds.forEach(skillId => {
 			result[skillId] = new SkillData(skillId, data)

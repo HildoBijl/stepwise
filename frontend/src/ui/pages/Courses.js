@@ -9,9 +9,7 @@ import { useSkillsData } from '../api/skill'
 
 export default function Courses() {
 	// const contents = useContents()
-	console.log(skills)
 	const skillData = useSkillsData(Object.keys(skills))
-	console.log(skillData)
 	const paths = usePaths()
 
 	if (!skillData)
@@ -24,7 +22,7 @@ export default function Courses() {
 			<h1>Skills</h1>
 			<p>Click on the skills below to practice them.</p>
 			<ul>
-			{Object.values(skills).map(skill => <li key={skill.id}><Link to={paths.skill({ skillId: skill.id })}>{skill.name} : {JSON.stringify(skillData[skill.id] && skillData[skill.id].coefficients)}</Link></li>)}
+			{Object.values(skills).map(skill => <li key={skill.id}><Link to={paths.skill({ skillId: skill.id })}>{skill.name}</Link></li>)}
 			</ul>
 		</>
 	)

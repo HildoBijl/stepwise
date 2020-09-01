@@ -18,7 +18,6 @@ const resolvers = {
 			return await getUserSkill(getUserId(), skillId, db)
 		},
 		skills: async (_source, { skillIds }, { db, getUserId }) => {
-			console.log(skillIds)
 			return await getUserSkills(getUserId(), skillIds, db)
 		},
 	},

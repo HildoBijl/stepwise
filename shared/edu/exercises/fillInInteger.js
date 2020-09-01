@@ -2,7 +2,7 @@ const { getRandomInteger } = require('../util/inputTypes/Integer')
 const { getSimpleExerciseProcessor } = require('../util/exercises/simpleExercise')
 
 const data = {
-	// ToDo: add data on difficulty.
+	skill: 'fillInInteger',
 }
 
 function generateState() {
@@ -16,6 +16,6 @@ function checkInput({ x }, { ans }) {
 module.exports = {
 	data,
 	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput),
+	processAction: getSimpleExerciseProcessor(checkInput, data),
 	checkInput,
 }

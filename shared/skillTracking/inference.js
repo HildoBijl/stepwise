@@ -114,7 +114,6 @@ function inferAnd(coefs, times, n = maxSmoothingOrder / 4) {
 	// Calculate the inference.
 	const inference = numberArray(0, n).map(i => {
 		return numberArray(0, n - i).reduce((sum, j) => {
-			// console.log('j: ' + j)
 			const momentMultiplication = times.reduce((product, power, index) => product * getCoefMoment(index, (i + j) * power), 1)
 			const divisors = [i, j, n - i - j].sort()
 			const factorialMultiplication = factorial(n, divisors[2]) / factorial(divisors[1]) / factorial(divisors[0])

@@ -2,8 +2,9 @@ const { getRandomInteger } = require('../util/inputTypes/Integer')
 const { getStepExerciseProcessor } = require('../util/exercises/stepExercise')
 
 const data = {
-	numSteps: 2,
-	// ToDo: add data on difficulty.
+	skill: 'summationAndMultiplication',
+	setup: { type: 'and', skills: ['multiplication', 'summation'] },
+	steps: ['multiplication', 'summation'],
 }
 
 function generateState() {
