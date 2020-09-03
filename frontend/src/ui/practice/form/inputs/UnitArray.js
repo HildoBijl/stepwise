@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { getEmpty as getEmptyUnitElement, process as processUnitElement } from 'step-wise/edu/util/inputTypes/Unit/UnitElement'
+import { getEmpty as getEmptyUnitElement, isEmpty as isUnitElementEmpty, process as processUnitElement } from 'step-wise/edu/util/inputTypes/Unit/UnitElement'
 import { getEmpty, isEmpty } from 'step-wise/edu/util/inputTypes/Unit/UnitArray'
 import { isNumber } from 'step-wise/util/numbers'
 import { isLetter } from 'step-wise/util/strings'
@@ -101,19 +101,21 @@ export function keyPressToData(keyInfo, data) {
 			return { ...data, ...mergeElements(value, cursor.part, true) } // Merge it with the next element.
 	}
 
-	// For a multiplication "*" split up elements.
-	if (key === '*' || key === '.') {
-		if (unitElementCursor.part === 'power' || unitElementCursor.cursor === unitElement.prefix.length + unitElement.unit.length) // The cursor is in the power or at the end of the text.
-			return {
+	// For a multiplication "*" (or a space) split up elements.
+	if (key === '*' || key === '.' || key === ' ') {
+		if (!isUnitElementEmpty(unitElement) && !isCursorAtUnitElementStart(unitElement, unitElementCursor)) { // Cursor is not in an empty element or at the start of the element. This prevents endless rows of multiplications.
+			if (unitElementCursor.part === 'power' || unitElementCursor.cursor === unitElement.prefix.length + unitElement.unit.length) // The cursor is in the power or at the end of the text.
+				return { // Add a new empty element and move the cursor to it.
+					...data,
+					value: arraySplice(value, cursor.part + 1, 0, getEmptyUnitElement()),
+					cursor: { part: cursor.part + 1, cursor: getUnitElementStartCursor() }
+				}
+			return { // Split the unit element up into two.
 				...data,
-				value: arraySplice(value, cursor.part + 1, 0, getEmptyUnitElement()),
-				cursor: { part: cursor.part + 1, cursor: getUnitElementStartCursor() }
-			} // Add a new empty element and move the cursor to it.
-		return {
-			...data,
-			value: splitElement(value, cursor),
-			cursor: { part: cursor.part + 1, cursor: { part: 'text', cursor: 0 } },
-		} // Split the unit element up into two.
+				value: splitElement(value, cursor),
+				cursor: { part: cursor.part + 1, cursor: { part: 'text', cursor: 0 } },
+			}
+		}
 	}
 
 	// For letters, if we're in the power (but not the start), add a new unit element with the pressed letter, with the power split accordingly.

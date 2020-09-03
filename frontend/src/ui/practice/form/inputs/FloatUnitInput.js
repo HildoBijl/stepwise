@@ -220,6 +220,12 @@ export function keyPressToData(keyInfo, data, contentsElement, positive, allowPo
 			return { ...data, cursor: { part: 'unit', cursor: getUnitStartCursor(unit) } }
 	}
 
+	// In case of a space, if we're in the float, move to the start of the unit.
+	if (key === ' ') {
+		if (cursor.part === 'float')
+			return { ...data, cursor: { part: 'unit', cursor: getUnitStartCursor(unit) } }
+	}
+
 	// In case of a letter in the float, process them like we're in the unit.
 	if (isLetter(key) && cursor.part === 'float')
 		return passOn('unit', getUnitStartCursor(unit))
