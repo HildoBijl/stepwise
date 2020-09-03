@@ -14,6 +14,7 @@ export function useSubmitAction() {
 	const { input, isValid } = useFormData()
 
 	const inputRef = useRefWithValue(input)
+	const historyRef = useRefWithValue(history)
 	const disabledRef = useRefWithValue(submitting)
 
 	return useCallback(() => {
@@ -27,13 +28,13 @@ export function useSubmitAction() {
 
 		// Check if the input is the same as for the previous action.
 		const input = removeCursors(inputRef.current)
-		const lastAction = (history.length > 0 && lastOf(history).action)
+		const lastAction = (historyRef.current.length > 0 && lastOf(historyRef.current).action)
 		if (lastAction && lastAction.type === 'input' && deepEquals(input, lastAction.input))
 			return
 		
 		// All checks are fine. Submit the input!
 		return submitAction({ type: 'input', input })
-	}, [disabledRef, inputRef, isValid, submitAction])
+	}, [inputRef, historyRef, disabledRef, isValid, submitAction])
 }
 
 export function useGiveUpAction() {

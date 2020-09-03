@@ -167,7 +167,6 @@ const START_EXERCISE = gql`
 `
 
 // Submit an exercise action.
-// ToDo later: implement coefficients in the data. Then also incorporate the adjusted skills into the cache.
 export function useSubmitExerciseActionMutation(skillId) {
 	const [submit, data] = useMutation(SUBMIT_EXERCISE_ACTION)
 	const newSubmit = parameters => submit({ // Insert the given skillId by default.
@@ -175,6 +174,17 @@ export function useSubmitExerciseActionMutation(skillId) {
 		variables: {
 			skillId, // Put the skillId first, so it can still be overwritten.
 			...parameters.variables,
+		},
+		// ToDo: consider adding an optimistic response here.
+		update: (cache, { data: { submitExerciseAction: { adjustedSkills, updatedExercise } } }) => {
+			// Implement the adjusted skills into the cache. (This is not done automatically when the skill is new, so that's why it has be done manually here.)
+			cache.writeQuery({
+				query: SKILLS,
+				variables: { skillIds: adjustedSkills.map(skill => skill.skillId) },
+				data: {
+					skills: adjustedSkills,
+				},
+			})
 		}
 	})
 	return [newSubmit, data]
@@ -198,6 +208,7 @@ const SUBMIT_EXERCISE_ACTION = gql`
 			adjustedSkills {
 				id
 				skillId
+				numPracticed
 				coefficients
 				coefficientsOn
 				highest
