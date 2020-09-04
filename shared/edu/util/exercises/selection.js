@@ -20,9 +20,7 @@ async function selectExercise(skillId, getSkillsData) {
 	// Get all exercises and intelligently calculate the selection rate.
 	const exerciseIds = skill.exercises
 	const { successRates, weights } = await getExerciseSuccessRates(exerciseIds, getSkillsData)
-	console.log(successRates)
 	const selectionRates = getSelectionRates(successRates, weights)
-	console.log(selectionRates)
 
 	// Select a random exercise, according to the calculated rates, from the list.
 	return selectRandomly(exerciseIds, selectionRates)
