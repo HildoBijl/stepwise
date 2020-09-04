@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 import skills from 'step-wise/edu/skills'
 import { ensureArray } from 'step-wise/util/arrays'
 
+import { useUser } from './user'
 import { useSkillCacherContext } from '../layout/SkillCacher'
 
 // Get the data for a skill.
@@ -48,14 +49,19 @@ const SKILL = gql`
 
 // Get the data for multiple skills. In this case only coefficients can be loaded, and not exercises.
 export function useSkillsQuery(skillIds) {
+	const user = useUser()
 	skillIds = ensureArray(skillIds)
 	skillIds.forEach(skillId => {
 		if (!skills[skillId])
 			throw new Error(`Invalid skillId: the skillId "${skillId}" is not known.`)
 	})
-	const skip = skillIds.length === 0
+	const skip = !user || skillIds.length === 0
 	const result = useQuery(SKILLS, { variables: { skillIds }, skip })
-	return skip ? { data: { skills: [] } } : result
+	if (!user)
+		return null
+	if (skillIds.length === 0)
+		return { data: { skills: [] } }
+	return result
 }
 const SKILLS = gql`
 	query skill($skillIds: [String]!) {

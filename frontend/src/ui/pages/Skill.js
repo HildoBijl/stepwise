@@ -76,17 +76,20 @@ function SkillForStranger() {
 	// Use a state to track exercise data. Generate new data on a change in skill ID.
 	const [exercise, setExercise] = useState(null)
 	const startNewExercise = useCallback(() => {
-		const newExercise = getNewExercise(skillId)
-		const exercise = { // Emulate the exercise object that we otherwise get from the server.
-			exerciseId: newExercise.exerciseId,
-			state: FOtoIO(newExercise.state), // The state should be in input format, as if it came from the database.
-			id: uuidv4(), // Just generate a random one.
-			active: true,
-			progress: {},
-			history: [],
-			startedOn: new Date(),
+		async function startNewExerciseAsync() {
+			const newExercise = await getNewExercise(skillId)
+			const exercise = { // Emulate the exercise object that we otherwise get from the server.
+				exerciseId: newExercise.exerciseId,
+				state: FOtoIO(newExercise.state), // The state should be in input format, as if it came from the database.
+				id: uuidv4(), // Just generate a random one.
+				active: true,
+				progress: {},
+				history: [],
+				startedOn: new Date(),
+			}
+			setExercise(exercise)
 		}
-		setExercise(exercise)
+		startNewExerciseAsync()
 	}, [skillId])
 	useEffect(startNewExercise, [skillId])
 
