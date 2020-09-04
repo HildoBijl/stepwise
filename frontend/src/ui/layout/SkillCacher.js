@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, createContext, useContext } from 'react'
 
-import { includePrerequisites } from 'step-wise/edu/util/skills'
+import { includePrerequisites, processSkill, getDefaultSkillData } from 'step-wise/edu/util/skills'
 import { SkillData } from 'step-wise/skillTracking'
 
 import { useUser } from '../api/user'
@@ -89,27 +89,6 @@ export function useSkillData(skillId) {
 
 export function useSkillCacherContext() {
 	return useContext(SkillCacherContext)
-}
-
-// processSkill turns a skill object from database form to a more usable form before it is cached.
-function processSkill(skill) {
-	return {
-		...skill,
-		coefficientsOn: new Date(skill.coefficientsOn),
-		highestOn: new Date(skill.highestOn),
-	}
-}
-
-// Returns the skill data that we use when the database does not contain a certain skill. It's already in processed form.
-function getDefaultSkillData(skillId) {
-	return {
-		skillId,
-		numPracticed: 0,
-		coefficients: [1],
-		coefficientsOn: new Date(),
-		highest: [1],
-		highestOn: new Date(),
-	}
 }
 
 // getSkillDataFromCache creates a skillData object for the given skill, based on the data in the cache. If the data is not all there yet, null is returned.

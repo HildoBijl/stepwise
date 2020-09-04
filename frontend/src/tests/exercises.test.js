@@ -3,6 +3,7 @@ import { render } from '@testing-library/react'
 import { ThemeProvider } from '@material-ui/core/styles'
 
 import skills from 'step-wise/edu/skills'
+import { getDifficulty } from 'step-wise/edu/util/skills'
 import { getAllExercises } from 'step-wise/edu/util/exercises/selection'
 import { noop } from 'step-wise/util/functions'
 import { ExerciseContext } from '../ui/practice/ExerciseContainer'
@@ -16,6 +17,7 @@ it('all exercises have an appropriate shared export', async () => {
 		expect(typeof exercise.data).toBe('object')
 		expect(typeof exercise.generateState).toBe('function')
 		expect(typeof exercise.processAction).toBe('function')
+		expect(getDifficulty(exercise.data)).not.toBe(undefined)
 	})
 })
 

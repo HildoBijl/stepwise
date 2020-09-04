@@ -9,5 +9,3 @@ module.exports = {
 	...require('./updating'), // Adjusting coefficients based on observations.
 	SkillData: require('./SkillData'), // Managing coefficients through time in an easy format.
 }
-
-// ToDo: make a selection of what is exported. Probably not manipulation, data and combiners.

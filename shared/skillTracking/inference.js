@@ -3,7 +3,7 @@ const { isObject } = require('../util/objects')
 const { ensureInt } = require('../util/numbers')
 const { numberArray } = require('../util/arrays')
 
-const { ensureCoef, getOrder, getMoment } = require('./evaluation')
+const { getOrder, getMoment } = require('./evaluation')
 const { normalize, invert } = require('./manipulation')
 const { maxSmoothingOrder } = require('./smoothing')
 const { ensureDataSet, getCoefFromDataSet } = require('./dataSet')

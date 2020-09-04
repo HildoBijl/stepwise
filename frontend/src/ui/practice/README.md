@@ -17,6 +17,7 @@ When practicing, you practice an exercise. When you want to make exercises, you 
 In its most general form an exercise has these elements.
 
 - `exerciseId`: a unique ID (a string) for the exercise.
+- `data`: some meta-data about the exercise. It must either have a `skill` property to indicate which skill is being practiced or (even better) a `setup` property describing (using a `skill combiner`) which skills need to be executed to solve the exercise. Any other data may also be added.
 - `generateState()`: a function defined in the `shared/edu/exercises/[exerciseId].js` file. It returns a state through which a problem can be generated. For instance, for the exercise "solve a*x = b" the state can be `{ a: 3, b: 18 }`.
 - `processAction({ action, state, progress, history, updateSkills })`: a reducer-like function (defined in the same file) that takes an action (for instance `{type: "input", input: { ans: 6 }}`), a state and a previous progress parameter and returns a new progress parameter. This is the heart of the exercise: it determines if the action solves the exercise or not. There are a few special things to keep in mind here.
 ..- When the progress has a parameter `{ done: true }` then the exercise is registered as done. It means no further actions are possible. However, a new exercise can be started. (It is not possible to start a new exercise when the previous one isn't done.)
@@ -106,10 +107,12 @@ Sometimes you may want to show a hint for a question, which may be hidden when t
 
 One step more complicated than a `SimpleExercise` is the `StepExercise`. This exercise lets you formulate a main question. If the user solves it: great! If he gives up, it's instead split up into subquestions, which he can then solve one by one. This allows us to figure out what exactly he's struggling with.
 
-There's two important differences compared to the `SimpleExercise`. Let's walk through them.
+There's three important differences compared to the `SimpleExercise`. Let's walk through them.
 
 - In the `checkInput` function there is now a third parameter `checkInput(state, input, step)`. This `step` parameter can be 0 (the user made an attempt at the main problem) or 1, 2, 3, ... when he's at a certain step. (Yes, step 1 relates to step 1. We don't start counting at 0 here.) The `checkInput` function should then return `true` or `false` *for the given step*.
 
 - The `Exercise` is now defined as `Exercise = () => <StepExercise Problem={Problem} steps={steps}>`. (A `getFeedback` function is optional again.) In this case the `Problem` is the main problem. The `steps` parameter is an array `[{Problem, Solution}]` with the sub-problems and sub-solutions of each of the steps. These sub-problems/sub-solutions work just like the regular problems/solutions.
+
+- The `data` object in the shared directory must have a `steps` parameter. This must be an array, and for every step it must contain either a `skill` or a `skill combiner` that details the skills that have to be executed to solve the given step.
 
 Everything else is set up automatically for you. It's an easy way to generate exercises that can be split up whenever the user requires it.

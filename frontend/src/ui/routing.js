@@ -64,7 +64,7 @@ function getRoutes(user = null) {
 		'uitloggen': {
 			name: 'logOut',
 			component: LogOut,
-			title: 'Logging out...'
+			title: 'Uitloggen...'
 		},
 		'': {
 			name: 'courses',

@@ -10,20 +10,26 @@ function getSimpleExerciseProcessor(checkInput, data) {
 			case 'input':
 				const correct = checkInput(state, IOtoFO(action.input))
 				if (correct) {
-					if (updateSkills)
+					if (updateSkills) {
 						updateSkills(data.skill, true) // Correctly solved.
+						updateSkills(data.setup, true)
+					}
 					return { solved: true, done: true }
 				} else {
-					if (updateSkills)
+					if (updateSkills) {
 						updateSkills(data.skill, false) // Incorrectly solved.
+						updateSkills(data.setup, false)
+					}
 					return {}
 				}
 
 			case 'giveUp':
 				if (updateSkills) {
 					// When there have been no attempts yet, downgrade too.
-					if (history.length === 0)
+					if (history.length === 0) {
 						updateSkills(data.skill, false)
+						updateSkills(data.setup, false)
+					}
 				}
 				return { givenUp: true, done: true }
 

@@ -1,11 +1,7 @@
-const { factorial, binomial } = require('../util/combinatorics')
 const { isObject } = require('../util/objects')
-const { ensureInt, isInt } = require('../util/numbers')
-const { numberArray } = require('../util/arrays')
+const { isInt } = require('../util/numbers')
 
-const { ensureCoef, getOrder, getEV, getMoment } = require('./evaluation')
-const { normalize, invert } = require('./manipulation')
-const { maxSmoothingOrder } = require('./smoothing')
+const { getEV, getMoment } = require('./evaluation')
 const { ensureDataSet, getCoefFromDataSet } = require('./dataSet')
 
 // ensureCombiner checks that the given object is a valid combiner. It returns itself when everything checks out. Otherwise it throws an error.

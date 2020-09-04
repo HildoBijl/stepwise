@@ -1,5 +1,3 @@
-const { ensureArray, ensureNumberArray } = require('../util/arrays')
-
 // normalize ensures that the sum of the coefficients equals one. It returns a copy (or itself if the sum is already one). It is only used internally.
 function normalize(coef) {
 	const sum = coef.reduce((sum, c) => sum + c, 0)

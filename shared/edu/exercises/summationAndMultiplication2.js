@@ -5,6 +5,7 @@ const data = {
 	skill: 'summationAndMultiplication',
 	setup: { type: 'and', skills: [{ type: 'repeat', times: 2, skill: 'multiplication' }, 'summation'] },
 	steps: ['multiplication', 'multiplication', 'summation'],
+	weight: 2, // This exercise has more variation so can count as two separate copies of this exercise.
 }
 
 function generateState() {

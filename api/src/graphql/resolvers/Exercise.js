@@ -3,7 +3,7 @@ const { FOtoIO, IOtoFO } = require('step-wise/edu/util/inputTypes')
 const { getCombinerSkills, getSmoothingFactor, smoothen, processObservation, getEV } = require('step-wise/skillTracking')
 
 const { getLastEvent, getExerciseProgress, getActiveExerciseData } = require('../util/Exercise')
-const { checkSkillIds } = require('../util/Skill')
+const { checkSkillIds, getUserSkillsData } = require('../util/Skill')
 
 const resolvers = {
 	Exercise: {
@@ -22,10 +22,12 @@ const resolvers = {
 
 	Mutation: {
 		startExercise: async (_source, { skillId }, { db, getUserId }) => {
-			const { skill } = await getActiveExerciseData(getUserId(), skillId, db, false)
+			const userId = getUserId()
+			const { skill } = await getActiveExerciseData(userId, skillId, db, false)
 
 			// Select a new exercise, store it and return the result.
-			const newExercise = getNewExercise(skillId) // ToDo: add skill data to make a more informed decision.
+			const getSkillsData = (skillIds) => getUserSkillsData(userId, skillIds, db)
+			const newExercise = await getNewExercise(skillId, getSkillsData)
 			return await skill.createExercise({ exerciseId: newExercise.exerciseId, state: FOtoIO(newExercise.state), active: true })
 		},
 
@@ -35,7 +37,10 @@ const resolvers = {
 
 			// Set up an updateSkills handler that only collects calls.
 			const skillUpdates = []
-			const updateSkills = (skill, correct) => skillUpdates.push({ skill, correct })
+			const updateSkills = (skill, correct) => {
+				if (skill)
+					skillUpdates.push({ skill, correct })
+			}
 
 			// Update the progress parameter.
 			const prevProgress = getExerciseProgress(exercise)
@@ -101,7 +106,7 @@ async function applySkillUpdates(skillUpdates, userId, db, transaction) {
 			dataSet[skillId] = [1]
 	})
 
-	// Walk through the skill updates and apply them one by one.
+	// Walk through the skill updates and apply them one by one, adjusting the data set.
 	skillUpdates.forEach(({ skill, correct }) => {
 		dataSet = {
 			...dataSet, // Possibly non-adjusted data.
@@ -109,7 +114,7 @@ async function applySkillUpdates(skillUpdates, userId, db, transaction) {
 		}
 	})
 
-	// Walk through the skills to apply the updates. When doing so, also check the highest value.
+	// Walk through the sequelize-skills to apply the updates done in the data set. When doing so, also check the highest value.
 	const skillUpdatePromises = skills.map(skill => {
 		// Set up the initial update.
 		const update = {
