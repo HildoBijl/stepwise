@@ -8,7 +8,8 @@ import { getNewExercise } from 'step-wise/edu/util/exercises/selection'
 import { IOtoFO, FOtoIO } from 'step-wise/edu/util/inputTypes'
 import ExerciseContainer from '../practice/ExerciseContainer'
 import { useUserResults } from '../api/user'
-import { useSkillQuery, useSkillsData, useStartExerciseMutation, useSubmitExerciseActionMutation } from '../api/skill'
+import { useSkillQuery, useStartExerciseMutation, useSubmitExerciseActionMutation } from '../api/skill'
+import { useSkillData } from '../layout/SkillCacher'
 import Loading from '../components/Loading'
 import Error from '../components/Error'
 import SkillFlask from '../practice/skills/SkillFlask'
@@ -139,13 +140,10 @@ const useStyles = makeStyles((theme) => ({
 export function SkillIndicator() {
 	const { params } = useRouteMatch()
 	const { skillId } = params
-	const data = useSkillsData([skillId])
+	const skill = useSkillData(skillId)
 	const classes = useStyles()
 
 	// Check if we have data.
-	if (!data)
-		return null
-	const skill = data[skillId]
 	if (!skill)
 		return null
 

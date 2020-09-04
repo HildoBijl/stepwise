@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 import skills from 'step-wise/edu/skills'
 import { usePaths } from '../routing'
-import { useSkillsData } from '../api/skill'
+import { useSkillsData } from '../layout/SkillCacher'
 
 export default function Courses() {
 	// const contents = useContents()

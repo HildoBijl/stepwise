@@ -8,6 +8,7 @@ import { ApolloProvider } from '@apollo/react-hooks'
 import Routing from './Routing'
 import theme from '../theme'
 import { UserContext, useUserQuery } from '../api/user'
+import SkillCacher from './SkillCacher'
 
 const withApolloProvider = WrappedComponent => props => (
 	<ApolloProvider client={props.apolloClient}>
@@ -16,13 +17,15 @@ const withApolloProvider = WrappedComponent => props => (
 )
 
 function App() {
-	const result = useUserQuery()
+	const result = useUserQuery() // ToDo: turn this into a UserProvider object made in the API.
 	return (
 		<div id='app'>
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
 				<UserContext.Provider value={result}>
-					<Routing />
+					<SkillCacher>
+						<Routing />
+					</SkillCacher>
 				</UserContext.Provider>
 			</ThemeProvider>
 		</div>

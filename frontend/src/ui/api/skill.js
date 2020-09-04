@@ -3,9 +3,9 @@ import { useMutation, useQuery } from '@apollo/react-hooks'
 import { v4 as uuidv4 } from 'uuid'
 
 import skills from 'step-wise/edu/skills'
-import { includePrerequisites } from 'step-wise/edu/util/skills'
-import { SkillData } from 'step-wise/skillTracking'
 import { ensureArray } from 'step-wise/util/arrays'
+
+import { useSkillCacherContext } from '../layout/SkillCacher'
 
 // Get the data for a skill.
 export function useSkillQuery(skillId) {
@@ -53,7 +53,9 @@ export function useSkillsQuery(skillIds) {
 		if (!skills[skillId])
 			throw new Error(`Invalid skillId: the skillId "${skillId}" is not known.`)
 	})
-	return useQuery(SKILLS, { variables: { skillIds } })
+	const skip = skillIds.length === 0
+	const result = useQuery(SKILLS, { variables: { skillIds }, skip })
+	return skip ? { data: { skills: [] } } : result
 }
 const SKILLS = gql`
 	query skill($skillIds: [String]!) {
@@ -68,58 +70,6 @@ const SKILLS = gql`
 		}
 	}
 `
-export function useSkillsData(skillIds) {
-	const skillIdsWithPrerequisites = includePrerequisites(skillIds)
-	const res = useSkillsQuery(skillIdsWithPrerequisites)
-
-	// If the data has loaded, process and return it.
-	if (res && res.data && res.data.skills) {
-		// Process loaded data.
-		let data = {}
-		res.data.skills.forEach(skill => {
-			data[skill.skillId] = {
-				skillId: skill.skillId,
-				numPracticed: skill.numPracticed,
-				coefficients: skill.coefficients,
-				coefficientsOn: new Date(skill.coefficientsOn),
-				highest: skill.highest,
-				highestOn: new Date(skill.highestOn),
-			}
-		})
-
-		// Add missing data.
-		skillIdsWithPrerequisites.forEach(skillId => {
-			if (!data[skillId])
-				data[skillId] = getDefaultSkillData(skillId)
-		})
-
-		// Create SkillData objects for requested skills.
-		// ToDo: find a way to not constantly recalculate. (Unless this isn't a problem.)
-		const result = {}
-		skillIds.forEach(skillId => {
-			result[skillId] = new SkillData(skillId, data)
-		})
-		return result
-	}
-
-	// No data yet. Return null to indicate this.
-	return null
-}
-export function useSkillData(skillId) {
-	const data = useSkillsData([skillId])
-	return data[skillId]
-}
-function getDefaultSkillData(skillId) {
-	return {
-		skillId,
-		numPracticed: 0,
-		coefficients: [1],
-		coefficientsOn: new Date(),
-		highest: [1],
-		highestOn: new Date(),
-	}
-}
-
 
 // Start an exercise.
 export function useStartExerciseMutation(skillId) {
@@ -169,6 +119,7 @@ const START_EXERCISE = gql`
 // Submit an exercise action.
 export function useSubmitExerciseActionMutation(skillId) {
 	const [submit, data] = useMutation(SUBMIT_EXERCISE_ACTION)
+	const { updateCache } = useSkillCacherContext()
 	const newSubmit = parameters => submit({ // Insert the given skillId by default.
 		...parameters,
 		variables: {
@@ -177,14 +128,9 @@ export function useSubmitExerciseActionMutation(skillId) {
 		},
 		// ToDo: consider adding an optimistic response here.
 		update: (cache, { data: { submitExerciseAction: { adjustedSkills, updatedExercise } } }) => {
-			// Implement the adjusted skills into the cache. (This is not done automatically when the skill is new, so that's why it has be done manually here.)
-			cache.writeQuery({
-				query: SKILLS,
-				variables: { skillIds: adjustedSkills.map(skill => skill.skillId) },
-				data: {
-					skills: adjustedSkills,
-				},
-			})
+			// Implement the adjusted skills in the cache. (We use manual caching because GraphQL isn't capable of clever caching when requesting arrays of IDs with varying orders.)
+			if (updateCache)
+				updateCache(adjustedSkills)
 		}
 	})
 	return [newSubmit, data]
