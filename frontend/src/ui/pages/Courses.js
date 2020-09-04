@@ -48,7 +48,7 @@ function CoursesProvider({ children }) {
 }
 
 // useCoursesQuery is used to extract data and put it in the context.
-const COURSES = gql`{mySkills{name,id}}` // ToDo: turn this into a somewhat sensible page.
+const COURSES = gql`{skills{id}}` // ToDo: turn this into a somewhat sensible page.
 function useCoursesQuery() {
 	return useQuery(COURSES)
 }
