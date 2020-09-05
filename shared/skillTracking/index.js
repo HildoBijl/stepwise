@@ -7,5 +7,4 @@ module.exports = {
 	...require('./combiners'), // Everything related to combiners.
 	...require('./inference'), // Making predictions of the future.
 	...require('./updating'), // Adjusting coefficients based on observations.
-	SkillData: require('./SkillData'), // Managing coefficients through time in an easy format.
 }

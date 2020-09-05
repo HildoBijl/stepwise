@@ -1,8 +1,8 @@
 const { AuthenticationError, UserInputError  } = require('apollo-server-express')
 
 const skills = require('step-wise/edu/skills')
+const SkillData = require('step-wise/edu/skills/SkillData')
 const { includePrerequisites, processSkill, getDefaultSkillData } = require('step-wise/edu/skills/util')
-const { SkillData } = require('step-wise/skillTracking')
 
 // checkSkillIds checks an array of skillIds to see if they exist. It throws an error on an unknown skill. Otherwise it does nothing.
 function checkSkillIds(skillIds) {

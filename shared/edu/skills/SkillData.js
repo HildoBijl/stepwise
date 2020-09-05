@@ -3,9 +3,8 @@
  * - rawData: an object which should for each of the prerequisites have skill data from the database.
  */
 
-const skills = require('../edu/skills')
-const { smoothen, getSmoothingFactor } = require('./smoothing')
-const { merge, infer } = require('./inference')
+const skills = require('./index')
+const { smoothen, getSmoothingFactor, merge, infer } = require('../../skillTracking')
 
 const maxCacheTime = 60 * 60 * 1000 // [Milliseconds] Maximum amount of time to still return coefficients before resmoothening them.
 

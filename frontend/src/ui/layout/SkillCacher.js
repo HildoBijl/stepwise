@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect, createContext, useContext } from 'react'
 
+import SkillData from 'step-wise/edu/skills/SkillData'
 import { includePrerequisites, processSkill, getDefaultSkillData } from 'step-wise/edu/skills/util'
-import { SkillData } from 'step-wise/skillTracking'
 
 import { useUser } from '../api/user'
 import { useSkillsQuery } from '../api/skill'
