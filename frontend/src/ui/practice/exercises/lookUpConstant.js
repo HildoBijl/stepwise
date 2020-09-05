@@ -6,8 +6,8 @@ import * as constants from 'step-wise/inputTypes/constants'
 import SimpleExercise from '../exerciseTypes/SimpleExercise'
 import { Par } from '../../components/containers'
 import { M } from '../../../util/equations'
-import FloatUnitInput from '../form/inputs/FloatUnitInput'
-import { InputSpace } from '../form/Status'
+import FloatUnitInput from '../../form/inputs/FloatUnitInput'
+import { InputSpace } from '../../form/Status'
 
 const descriptions = {
 	c: <span>de snelheid van het licht <M>c</M></span>,

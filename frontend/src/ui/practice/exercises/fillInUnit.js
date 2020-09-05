@@ -6,8 +6,8 @@ import { Unit } from 'step-wise/inputTypes/Unit'
 import SimpleExercise from '../exerciseTypes/SimpleExercise'
 import { Par } from '../../components/containers'
 import { M } from '../../../util/equations'
-import UnitInput from '../form/inputs/UnitInput'
-import { InputSpace, WhenNotDone } from '../form/Status'
+import UnitInput from '../../form/inputs/UnitInput'
+import { InputSpace, WhenNotDone } from '../../form/Status'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />

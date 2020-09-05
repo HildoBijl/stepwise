@@ -6,8 +6,8 @@ import { lastOf } from 'step-wise/util/arrays'
 
 import { useRefWithValue } from '../../../../util/react'
 import { useExerciseData } from '../../ExerciseContainer'
-import { useFormData } from '../../form/Form'
-import { removeCursors } from '../../form/inputs/Input'
+import { useFormData } from '../../../form/Form'
+import { removeCursors } from '../../../form/inputs/Input'
 
 export function useSubmitAction() {
 	const { submitting, submitAction, history } = useExerciseData()

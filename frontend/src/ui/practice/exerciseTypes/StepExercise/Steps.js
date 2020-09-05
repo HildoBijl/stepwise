@@ -5,12 +5,12 @@ import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
 
 import VerticalAdjuster from '../../../../util/reactComponents/VerticalAdjuster'
 import { useExerciseData } from '../../ExerciseContainer'
-import Status from '../../form/Status'
+import Status from '../../../form/Status'
 import ProblemContainer from '../util/ProblemContainer'
 import MainFeedback from '../util/MainFeedback'
 import SolutionContainer from '../util/SolutionContainer'
-import { useFormData } from '../../form/Form'
-import { useFeedback } from '../../form/FeedbackProvider'
+import { useFormData } from '../../../form/Form'
+import { useFeedback } from '../../../form/FeedbackProvider'
 
 export default function Steps({ steps, forceDisplay }) {
 	// Walk through the steps, displaying them one by one.

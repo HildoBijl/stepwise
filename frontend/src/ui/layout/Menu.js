@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { SwipeableDrawer, List, Divider, IconButton } from '@material-ui/core'
 import { Menu as MenuIcon, Add, Clear, Dialpad, TextFields, Spellcheck, Home, School, Create, Feedback, Info, MenuBook, ExitToApp } from '@material-ui/icons'
 
-import { useFieldControl, useFieldControllerContext } from './FieldController'
+import { useFieldControl, useFieldControllerContext } from '../form/FieldController'
 import MenuLink from './MenuLink'
 import { usePaths } from '../routing'
 import { useUser } from '../../api/user'

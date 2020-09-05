@@ -4,8 +4,8 @@ import React, { createContext, useState, useContext, useRef, useCallback, useEff
 import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 import { isEmpty } from 'step-wise/inputTypes'
 
-import { useRefWithValue } from '../../../util/react'
-import { useExerciseData } from '../ExerciseContainer'
+import { useRefWithValue } from '../../util/react'
+import { useExerciseData } from '../practice/ExerciseContainer'
 
 const FormContext = createContext(null)
 

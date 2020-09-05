@@ -4,7 +4,7 @@ There is a variety of input fields that you can use at problems. Each of them gi
 
 ## General usage
 
-In general, of you want to use an input field named `SomeInput`, then you first have to import it. Do this using `import SomeInput from '../form/inputs/SomeInput'`. Then you can apply it using `<SomeInput id="x" />`. The `id` parameter is obligatory and its name needs to be unique. The corresponding value is automatically passed along to the input object.
+In general, of you want to use an input field named `SomeInput`, then you first have to import it. Do this using `import SomeInput from '../../form/inputs/SomeInput'`. Then you can apply it using `<SomeInput id="x" />`. The `id` parameter is obligatory and its name needs to be unique. The corresponding value is automatically passed along to the input object.
 
 Fields have several options that you can add (next to `id`). We will list the general options applicable to all fields here. Some fields have more options.
 

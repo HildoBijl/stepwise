@@ -6,7 +6,7 @@ import Collapse from '@material-ui/core/Collapse'
 import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
 import { deepEquals } from 'step-wise/util/objects'
 
-import { useFeedback } from '../../form/FeedbackProvider'
+import { useFeedback } from '../../../form/FeedbackProvider'
 import { getIcon, startEndMarginFix } from '../../../theme'
 
 const useStyles = makeStyles((theme) => ({

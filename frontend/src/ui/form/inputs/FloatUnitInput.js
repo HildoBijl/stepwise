@@ -11,7 +11,7 @@ import { isEmpty as isFloatEmpty, isValid as isFloatValid } from 'step-wise/inpu
 import { isEmpty as isUnitEmpty, isValid as isUnitValid } from 'step-wise/inputTypes/Unit'
 
 import Input, { checkCursor } from './Input'
-import { getClickSide } from '../../../../util/dom'
+import { getClickSide } from '../../../util/dom'
 
 import { style as floatStyle, nonEmpty as floatNonEmpty, dataToContents as floatDataToContents, cursorToKeyboardType as floatCursorToKeyboardType, keyPressToData as floatKeyPressToData, mouseClickToCursor as floatMouseClickToCursor, getStartCursor as getFloatStartCursor, getEndCursor as getFloatEndCursor, isCursorAtStart as isCursorAtFloatStart, isCursorAtEnd as isCursorAtFloatEnd } from './FloatInput'
 import { style as unitStyle, valid as unitValid, dataToContents as unitDataToContents, cursorToKeyboardType as unitCursorToKeyboardType, keyPressToData as unitKeyPressToData, mouseClickToCursor as unitMouseClickToCursor, getStartCursor as getUnitStartCursor, getEndCursor as getUnitEndCursor, isCursorAtStart as isCursorAtUnitStart, isCursorAtEnd as isCursorAtUnitEnd } from './UnitInput'

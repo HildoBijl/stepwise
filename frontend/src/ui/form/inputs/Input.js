@@ -6,17 +6,17 @@ import { applyToEachParameter, deepEquals } from 'step-wise/util/objects'
 import { isNumber, boundTo } from 'step-wise/util/numbers'
 import { noop } from 'step-wise/util/functions'
 
-import { resetFocus, getCoordinatesOf, ignoreBackspaceEvent, getClickSide } from '../../../../util/dom'
-import { useEventListener, useWidthTracker, useRefWithValue } from '../../../../util/react'
-import { latexMinus, decimalSeparator } from '../../../../util/equations'
+import { resetFocus, getCoordinatesOf, ignoreBackspaceEvent, getClickSide } from '../../../util/dom'
+import { useEventListener, useWidthTracker, useRefWithValue } from '../../../util/react'
+import { latexMinus, decimalSeparator } from '../../../util/equations'
 
 import Cursor from './Cursor'
 import { useFormParameter, useFieldValidation, useCursorRef } from '../Form'
 import { useParameterFeedback } from '../FeedbackProvider'
 import { useStatus } from '../Status'
-import { getIcon, notSelectable } from '../../../theme'
-import { useFieldControl } from '../../../layout/FieldController'
-import { useSubmitAction } from '../../exerciseTypes/util/actions'
+import { getIcon, notSelectable } from '../../theme'
+import { useFieldControl } from '../FieldController'
+import { useSubmitAction } from '../../practice/exerciseTypes/util/actions'
 
 // Field definitions.
 const height = 3.2 // em

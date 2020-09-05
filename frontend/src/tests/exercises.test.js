@@ -8,7 +8,7 @@ import { getAllExercises } from 'step-wise/edu/exercises/util/selection'
 import { noop } from 'step-wise/util/functions'
 
 import { ExerciseContext } from '../ui/practice/ExerciseContainer'
-import FieldController from '../ui/layout/FieldController'
+import FieldController from '../ui/form/FieldController'
 import theme from '../ui/theme'
 
 it('all exercises have an appropriate shared export', async () => {

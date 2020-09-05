@@ -3,7 +3,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Container } from '@material-ui/core'
 
 import Header from './Header'
-import FieldController from './FieldController'
+import FieldController from '../form/FieldController'
 import OfflineNotification from '../components/OfflineNotification'
 import RecommendLogIn from '../components/RecommendLogIn'
 import { useRoute } from '../routing'

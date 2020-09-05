@@ -3,8 +3,8 @@ import React, { createContext, useContext, useState, useCallback, useEffect } fr
 import { IOtoFO } from 'step-wise/inputTypes'
 import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 
-import { useRefWithValue } from '../../../util/react'
-import { useExerciseData, getPrevProgress } from '../ExerciseContainer'
+import { useRefWithValue } from '../../util/react'
+import { useExerciseData, getPrevProgress } from '../practice/ExerciseContainer'
 
 const FeedbackContext = createContext(null)
 
