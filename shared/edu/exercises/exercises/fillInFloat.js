@@ -1,6 +1,6 @@
-const { getRandomInteger } = require('../util/inputTypes/Integer')
-const { getRandomFloat } = require('../util/inputTypes/Float')
-const { getSimpleExerciseProcessor } = require('../util/exercises/simpleExercise')
+const { getRandomInteger } = require('../../../inputTypes/Integer')
+const { getRandomFloat } = require('../../../inputTypes/Float')
+const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 
 const data = {
 	skill: 'fillInFloat',

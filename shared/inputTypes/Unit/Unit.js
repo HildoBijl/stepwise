@@ -1,6 +1,6 @@
 // Unit represents any unit a physical quantity may have. For example mg^3 * kl / ns^2 * °C^2.
 
-const { isObject, deepEquals, processOptions } = require('../../../../util/objects')
+const { isObject, deepEquals, processOptions } = require('../../util/objects')
 const { UnitElement } = require('./UnitElement')
 const { getUnitArrayFO, isFOofType: isFOofTypeUnitArray, FOtoIO: unitArrayFOtoIO, IOtoFO: unitArrayIOtoFO, getEmpty: getEmptyUnitArray, isEmpty: isUnitArrayEmpty } = require('./UnitArray')
 

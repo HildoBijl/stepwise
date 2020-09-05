@@ -2,10 +2,11 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { getEmpty, isEmpty, IOtoFO } from 'step-wise/edu/util/inputTypes/Float'
 import { isNumber } from 'step-wise/util/numbers'
 import { selectRandomEmpty, selectRandomNegative } from 'step-wise/util/random'
 import { removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
+import { getEmpty, isEmpty, IOtoFO } from 'step-wise/inputTypes/Float'
+
 import Input, { getStringJSX, getClickPosition } from './Input'
 
 const style = (theme) => ({

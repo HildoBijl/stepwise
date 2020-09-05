@@ -3,9 +3,10 @@
 import React from 'react'
 import clsx from 'clsx'
 
-import { getEmpty, isEmpty, process } from 'step-wise/edu/util/inputTypes/Unit/UnitElement'
 import { isNumber } from 'step-wise/util/numbers'
 import { removeAtIndex, insertAtIndex, isLetter } from 'step-wise/util/strings'
+import { getEmpty, isEmpty, process } from 'step-wise/inputTypes/Unit/UnitElement'
+
 import { getStringJSX, getClickPosition } from './Input'
 
 // dataToContents takes an input data object and shows the corresponding contents as JSX render.

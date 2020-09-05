@@ -3,7 +3,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import { Check, Clear, Replay } from '@material-ui/icons'
 
-import { getStep } from 'step-wise/edu/util/exercises/stepExercise'
+import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
+
 import { useExerciseData } from '../../ExerciseContainer'
 import { useFieldControl } from '../../../layout/FieldController'
 import { useSubmitAction, useGiveUpAction } from './actions'

@@ -1,4 +1,4 @@
-const { applyToEachParameter, isObject, deepEquals } = require('../../../util/objects')
+const { applyToEachParameter, isObject, deepEquals } = require('../util/objects')
 
 const types = ['String', 'Integer', 'Float', 'Unit', 'FloatUnit']
 

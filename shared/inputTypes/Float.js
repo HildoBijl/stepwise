@@ -1,7 +1,7 @@
 // The Float class represents floating point numbers with a certain number of significant digits. By default it is an empty string with zero significant digits.
 
-const { isInt, isNumber, roundTo } = require('../../../util/numbers')
-const { isObject, processOptions } = require('../../../util/objects')
+const { isInt, isNumber, roundTo } = require('../util/numbers')
+const { isObject, processOptions } = require('../util/objects')
 
 const numberFormat = '-?(\\d+[.,]?\\d*)|(\\d*[.,]?\\d+)'
 const regNumberFormat = new RegExp(`^${numberFormat}$`)

@@ -1,4 +1,4 @@
-const skills = require('../skills')
+const skills = require('./index')
 
 function includePrerequisites(skillIds) {
 	const result = new Set()

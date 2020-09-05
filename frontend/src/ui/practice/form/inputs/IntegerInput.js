@@ -1,10 +1,11 @@
 import React from 'react'
 import clsx from 'clsx'
 
-import { getEmpty, isEmpty, IOtoFO } from 'step-wise/edu/util/inputTypes/Integer'
 import { isNumber } from 'step-wise/util/numbers'
 import { selectRandomEmpty, selectRandomNegative } from 'step-wise/util/random'
 import { removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
+import { getEmpty, isEmpty, IOtoFO } from 'step-wise/inputTypes/Integer'
+
 import Input, { getStringJSX, getClickPosition } from './Input'
 
 const defaultProps = {

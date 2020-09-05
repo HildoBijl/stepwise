@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react'
 
-import { IOtoFO } from 'step-wise/edu/util/inputTypes'
-import { getLastInput } from 'step-wise/edu/util/exercises/simpleExercise'
+import { IOtoFO } from 'step-wise/inputTypes'
+import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
+
 import { useRefWithValue } from '../../../util/react'
 import { useExerciseData, getPrevProgress } from '../ExerciseContainer'
 

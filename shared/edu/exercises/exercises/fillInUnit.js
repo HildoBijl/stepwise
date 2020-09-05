@@ -1,6 +1,6 @@
-const { selectRandomly } = require('../../util/random')
-const { getSimpleExerciseProcessor } = require('../util/exercises/simpleExercise')
-const { Unit, FOtoIO } = require('../util/inputTypes/Unit')
+const { selectRandomly } = require('../../../util/random')
+const { Unit } = require('../../../inputTypes/Unit')
+const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 
 const data = {
 	skill: 'fillInUnit',

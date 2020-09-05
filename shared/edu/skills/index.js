@@ -1,4 +1,4 @@
-const { getCombinerSkills } = require('../skillTracking/combiners')
+const { getCombinerSkills } = require('../../skillTracking/combiners')
 
 const skills = {
 	fillInInteger: {

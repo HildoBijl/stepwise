@@ -1,5 +1,5 @@
-const { isInt } = require('../../../util/numbers')
-const { getRandomInteger } = require('../../../util/random')
+const { isInt } = require('../util/numbers')
+const { getRandomInteger } = require('../util/random')
 
 module.exports.getRandomInteger = getRandomInteger // For easy and consistent access.
 

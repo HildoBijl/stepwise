@@ -2,11 +2,12 @@
 
 import React from 'react'
 
-import { getEmpty as getEmptyUnitElement, isEmpty as isUnitElementEmpty, process as processUnitElement } from 'step-wise/edu/util/inputTypes/Unit/UnitElement'
-import { getEmpty, isEmpty } from 'step-wise/edu/util/inputTypes/Unit/UnitArray'
 import { isNumber } from 'step-wise/util/numbers'
 import { isLetter } from 'step-wise/util/strings'
 import { lastOf, arraySplice } from 'step-wise/util/arrays'
+import { getEmpty as getEmptyUnitElement, isEmpty as isUnitElementEmpty, process as processUnitElement } from 'step-wise/inputTypes/Unit/UnitElement'
+import { getEmpty, isEmpty } from 'step-wise/inputTypes/Unit/UnitArray'
+
 import { getClickSide } from '../../../../util/dom'
 
 import { checkCursor } from './Input'

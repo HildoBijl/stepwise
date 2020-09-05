@@ -1,6 +1,6 @@
 import { isNumber } from 'step-wise/util/numbers'
 
-
+// checkColor ensures that the given color is a color. If it's nothing sensible an error is thrown. If it's only an array of 3 it turns it into an array of 4 (adding default opacity). It returns the result, or the color itself if it's already fine. 
 export function checkColor(color) {
 	// Check input.
 	if (!Array.isArray(color))
@@ -22,7 +22,7 @@ export function toCSS(color) {
 	return `rgba(${p(color[0])}, ${p(color[1])}, ${p(color[2])}, ${color[3]})`
 }
 
-// This function mixes two colors, taking "1 - part" of c1 and "part" of c2.
+// mix mixes two colors, taking "1 - part" of c1 and "part" of c2.
 export function mix(c1, c2, part = 0.5) {
 	// Check input.
 	c1 = checkColor(c1)

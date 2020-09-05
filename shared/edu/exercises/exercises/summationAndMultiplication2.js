@@ -1,5 +1,5 @@
-const { getRandomInteger } = require('../util/inputTypes/Integer')
-const { getStepExerciseProcessor } = require('../util/exercises/stepExercise')
+const { getRandomInteger } = require('../../../inputTypes/Integer')
+const { getStepExerciseProcessor } = require('../util/stepExercise')
 
 const data = {
 	skill: 'summationAndMultiplication',

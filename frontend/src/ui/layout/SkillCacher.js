@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, createContext, useContext } from 'react'
 
-import { includePrerequisites, processSkill, getDefaultSkillData } from 'step-wise/edu/util/skills'
+import { includePrerequisites, processSkill, getDefaultSkillData } from 'step-wise/edu/skills/util'
 import { SkillData } from 'step-wise/skillTracking'
 
 import { useUser } from '../api/user'

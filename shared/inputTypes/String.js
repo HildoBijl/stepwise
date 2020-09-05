@@ -1,4 +1,4 @@
-const { isNumber } = require('../../../util/numbers')
+const { isNumber } = require('../util/numbers')
 
 function isFOofType(param) {
 	return typeof param === 'string' && !isNumber(param)

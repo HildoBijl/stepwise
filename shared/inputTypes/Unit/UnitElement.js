@@ -1,9 +1,9 @@
 // UnitElement represents a single term in a Unit. Something like km^3, mV^2 or even m°C^2, but not a composed unit like m/s. Only positive powers are allowed, because negative powers are fixed within the Unit class. Zero powers are also not allowed (pointless anyway).
 
+const { isInt } = require('../../util/numbers')
+const { isObject, processOptions } = require('../../util/objects')
 const { prefixes, findPrefix } = require('./prefixes')
 const { specialUnitSymbols, findUnit } = require('./units')
-const { isInt } = require('../../../../util/numbers')
-const { isObject, processOptions } = require('../../../../util/objects')
 
 // const inputFormat = RegExp(`^(?<unitText>[a-zA-Z${specialUnitSymbols.join('')}]+)(?:\\^(?<power>\\d+))?$`) // Firefox doesn't support named capture groups.
 const inputFormat = RegExp(`^([a-zA-Z${specialUnitSymbols.join('')}]+)(\\^(\\d+))?$`)

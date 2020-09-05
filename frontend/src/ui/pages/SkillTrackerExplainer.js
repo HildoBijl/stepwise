@@ -4,7 +4,8 @@ import { Check, Clear, Replay } from '@material-ui/icons'
 import Slider from '@material-ui/core/Slider'
 
 import { processObservation, getEV, getFMax, getSmoothingFactor, smoothen, merge, infer, getCombinerEV } from 'step-wise/skillTracking'
-import { getSelectionRates } from 'step-wise/edu/util/exercises/selection'
+import { getSelectionRates } from 'step-wise/edu/exercises/util/selection'
+
 import { M } from '../../util/equations'
 import Button from '../components/Button'
 import { Par, Head } from '../components/containers'

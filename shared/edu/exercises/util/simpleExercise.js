@@ -1,4 +1,4 @@
-const { IOtoFO } = require('../inputTypes')
+const { IOtoFO } = require('../../../inputTypes')
 
 // getSimpleExerciseProcessor takes a checkInput function that checks the input for a SimpleExercise and returns a processAction function.
 function getSimpleExerciseProcessor(checkInput, data) {

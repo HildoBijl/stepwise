@@ -1,7 +1,8 @@
 import React from 'react'
 
-import * as constants from 'step-wise/edu/util/constants'
 import { selectRandomCorrect } from 'step-wise/util/random'
+import * as constants from 'step-wise/inputTypes/constants'
+
 import SimpleExercise from '../exerciseTypes/SimpleExercise'
 import { Par } from '../../components/containers'
 import { M } from '../../../util/equations'

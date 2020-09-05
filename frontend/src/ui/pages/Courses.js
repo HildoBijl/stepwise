@@ -4,6 +4,7 @@ import { gql } from 'apollo-boost'
 import { Link } from 'react-router-dom'
 
 import skills from 'step-wise/edu/skills'
+
 import { usePaths } from '../routing'
 import { useSkillsData } from '../layout/SkillCacher'
 

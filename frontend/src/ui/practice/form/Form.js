@@ -1,8 +1,9 @@
 import React, { createContext, useState, useContext, useRef, useCallback, useEffect } from
 	'react'
 
-import { getLastInput } from 'step-wise/edu/util/exercises/simpleExercise'
-import { isEmpty } from 'step-wise/edu/util/inputTypes'
+import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
+import { isEmpty } from 'step-wise/inputTypes'
+
 import { useRefWithValue } from '../../../util/react'
 import { useExerciseData } from '../ExerciseContainer'
 

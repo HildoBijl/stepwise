@@ -1,5 +1,5 @@
-const { getNewExercise } = require('step-wise/edu/util/exercises/selection')
-const { FOtoIO, IOtoFO } = require('step-wise/edu/util/inputTypes')
+const { getNewExercise } = require('step-wise/edu/exercises/util/selection')
+const { FOtoIO, IOtoFO } = require('step-wise/inputTypes')
 const { getCombinerSkills, getSmoothingFactor, smoothen, processObservation, getEV } = require('step-wise/skillTracking')
 
 const { getLastEvent, getExerciseProgress, getActiveExerciseData } = require('../util/Exercise')
@@ -44,7 +44,7 @@ const resolvers = {
 
 			// Update the progress parameter.
 			const prevProgress = getExerciseProgress(exercise)
-			const { processAction } = require(`step-wise/edu/exercises/${exercise.exerciseId}`)
+			const { processAction } = require(`step-wise/edu/exercises/exercises/${exercise.exerciseId}`)
 			const progress = processAction({ action, state: IOtoFO(exercise.state), progress: prevProgress, history: exercise.events, updateSkills })
 			if (!progress)
 				throw new Error(`Invalid progress object: could not process action due to an error in updating the exercise progress.`)

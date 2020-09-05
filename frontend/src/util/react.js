@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useReducer, useCallback } from 'react'
+
 import { getCounterNumber } from 'step-wise/util/numbers'
 
 // useCounter is a function that returns [counter, increment], where counter is an integer and increment is a function that, when called, increments said counter.

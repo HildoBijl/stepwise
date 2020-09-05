@@ -2,7 +2,7 @@ const { normalPDF } = require('../../../util/combinatorics')
 const { selectRandomly } = require('../../../util/random')
 const { isNumber } = require('../../../util/numbers')
 const { getCombinerSkills, getCombinerEV } = require('../../../skillTracking')
-const { getDifficulty } = require('../skills')
+const { getDifficulty } = require('../../skills/util')
 const skills = require('../../skills')
 
 // Define general settings for exercise selection.
@@ -53,7 +53,7 @@ module.exports.getSelectionRates = getSelectionRates
 // getNewExercise takes a skillId and returns a set of exercise data of the form { id: 'linearEquations', state: { a: 3, b: 12 } }. The state is given in functional format.
 async function getNewExercise(skillId, getSkillData) {
 	const exerciseId = await selectExercise(skillId, getSkillData)
-	const { generateState } = require(`../../exercises/${exerciseId}`)
+	const { generateState } = require(`../exercises/${exerciseId}`)
 	return {
 		exerciseId,
 		state: generateState(),
@@ -74,7 +74,7 @@ module.exports.getAllExercises = getAllExercises
 // getExerciseSuccessRates takes a bunch of exercises and calculates the chance, given access to skill data, that the user will succeed in them. It returns an object { successRates: [...], weights: [...] }.
 async function getExerciseSuccessRates(exerciseIds, getSkillsData) {
 	// Load exercise data and extract weights.
-	const exerciseDatas = exerciseIds.map(exerciseId => require(`../../exercises/${exerciseId}`).data)
+	const exerciseDatas = exerciseIds.map(exerciseId => require(`../exercises/${exerciseId}`).data)
 	const weights = exerciseDatas.map(exerciseData => (isNumber(exerciseData.weight) ? Math.abs(exerciseData.weight) : 1))
 
 	// If we cannot get skills data, return a flat success rate.

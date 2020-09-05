@@ -1,7 +1,8 @@
 import React from 'react'
 
-import { inputSetsEqual } from 'step-wise/edu/util/inputTypes'
-import { getStep } from 'step-wise/edu/util/exercises/stepExercise'
+import { inputSetsEqual } from 'step-wise/inputTypes'
+import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
+
 import VerticalAdjuster from '../../../../util/reactComponents/VerticalAdjuster'
 import { useExerciseData } from '../../ExerciseContainer'
 import Status from '../../form/Status'

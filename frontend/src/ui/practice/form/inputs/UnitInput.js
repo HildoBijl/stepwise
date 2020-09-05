@@ -2,10 +2,11 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { getEmpty, isEmpty } from 'step-wise/edu/util/inputTypes/Unit/Unit'
-import { getEmpty as getEmptyUnitArray, isEmpty as isUnitArrayEmpty } from 'step-wise/edu/util/inputTypes/Unit/UnitArray'
 import { lastOf, arraySplice } from 'step-wise/util/arrays'
 import { selectRandomEmpty, selectRandomInvalidUnit } from 'step-wise/util/random'
+import { getEmpty, isEmpty } from 'step-wise/inputTypes/Unit/Unit'
+import { getEmpty as getEmptyUnitArray, isEmpty as isUnitArrayEmpty } from 'step-wise/inputTypes/Unit/UnitArray'
+
 import Input, { checkCursor } from './Input'
 import { dataToContents as unitArrayDataToContents, cursorToKeyboardType as unitArrayCursorToKeyboardType, keyPressToData as unitArrayKeyPressToData, mouseClickToCursor as unitArrayMouseClickToCursor, getStartCursor as getUnitArrayStartCursor, getEndCursor as getUnitArrayEndCursor, isCursorAtStart as isCursorAtUnitArrayStart, isCursorAtEnd as isCursorAtUnitArrayEnd, mergeElements, splitElement, getCursorFromOffset as getUnitArrayCursorFromOffset } from './UnitArray'
 import { getStartCursor as getUnitElementStartCursor, getEndCursor as getUnitElementEndCursor, isCursorAtStart as isCursorAtUnitElementStart } from './UnitElement'
