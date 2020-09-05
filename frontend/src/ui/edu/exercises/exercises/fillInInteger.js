@@ -2,11 +2,11 @@ import React from 'react'
 
 import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
 
-import SimpleExercise from '../exerciseTypes/SimpleExercise'
-import { Par } from '../../components/containers'
-import { M } from '../../../util/equations'
-import IntegerInput from '../../form/inputs/IntegerInput'
-import { InputSpace } from '../../form/Status'
+import SimpleExercise from '../types/SimpleExercise'
+import { Par } from '../../../components/containers'
+import { M } from '../../../../util/equations'
+import IntegerInput from '../../../form/inputs/IntegerInput'
+import { InputSpace } from '../../../form/Status'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />

@@ -6,7 +6,7 @@ import { ApolloProvider } from '@apollo/react-hooks'
 import Routing from './Routing'
 import theme from '../theme'
 import { UserProvider } from '../../api/user'
-import SkillCacher from './SkillCacher'
+import SkillCacher from '../edu/skills/SkillCacher'
 
 const withApolloProvider = WrappedComponent => props => (
 	<ApolloProvider client={props.apolloClient}>

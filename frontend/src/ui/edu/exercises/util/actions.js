@@ -5,7 +5,7 @@ import { deepEquals } from 'step-wise/util/objects'
 import { lastOf } from 'step-wise/util/arrays'
 
 import { useRefWithValue } from '../../../../util/react'
-import { useExerciseData } from '../../ExerciseContainer'
+import { useExerciseData } from '../ExerciseContainer'
 import { useFormData } from '../../../form/Form'
 import { removeCursors } from '../../../form/inputs/Input'
 

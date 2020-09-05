@@ -9,7 +9,7 @@ import { getSelectionRates } from 'step-wise/edu/exercises/util/selection'
 import { M } from '../../util/equations'
 import Button from '../components/Button'
 import { Par, Head } from '../components/containers'
-import SkillFlask from '../practice/skills/SkillFlask'
+import SkillFlask from '../edu/skills/SkillFlask'
 
 const labelsWithoutLast = ['A', 'B']
 const lastLabel = 'X'

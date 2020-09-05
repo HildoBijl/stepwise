@@ -2,7 +2,7 @@ import React, { useState, createContext, useContext, useEffect, useRef } from 'r
 
 import { IOtoFO } from 'step-wise/inputTypes'
 
-import Loading from '../components/Loading'
+import Loading from '../../components/Loading'
 
 const ExerciseContext = createContext({})
 export { ExerciseContext } // Exported for testing purposes.

@@ -5,7 +5,7 @@ import { Check, Clear, Replay } from '@material-ui/icons'
 
 import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
 
-import { useExerciseData } from '../../ExerciseContainer'
+import { useExerciseData } from '../ExerciseContainer'
 import { useFieldControl } from '../../../form/FieldController'
 import { useSubmitAction, useGiveUpAction } from './actions'
 

@@ -4,7 +4,7 @@ import { IOtoFO } from 'step-wise/inputTypes'
 import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 
 import { useRefWithValue } from '../../util/react'
-import { useExerciseData, getPrevProgress } from '../practice/ExerciseContainer'
+import { useExerciseData, getPrevProgress } from '../edu/exercises/ExerciseContainer'
 
 const FeedbackContext = createContext(null)
 

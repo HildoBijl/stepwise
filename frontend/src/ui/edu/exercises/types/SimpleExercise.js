@@ -4,16 +4,17 @@ import React from 'react'
 
 import { inputSetsEqual } from 'step-wise/inputTypes'
 
-import VerticalAdjuster from '../../../util/reactComponents/VerticalAdjuster'
-import ExerciseWrapper from '../../form/ExerciseWrapper'
+import VerticalAdjuster from '../../../../util/reactComponents/VerticalAdjuster'
+import { useFormData } from '../../../form/Form'
+import { useFeedback } from '../../../form/FeedbackProvider'
+import Status from '../../../form/Status'
+
 import { useExerciseData } from '../ExerciseContainer'
-import { useFormData } from '../../form/Form'
-import { useFeedback } from '../../form/FeedbackProvider'
-import Status from '../../form/Status'
-import ProblemContainer from './util/ProblemContainer'
-import MainFeedback from './util/MainFeedback'
-import SolutionContainer from './util/SolutionContainer'
-import ExerciseButtons from './util/ExerciseButtons'
+import ExerciseWrapper from '../util/ExerciseWrapper'
+import ProblemContainer from '../util/ProblemContainer'
+import MainFeedback from '../util/MainFeedback'
+import SolutionContainer from '../util/SolutionContainer'
+import ExerciseButtons from '../util/ExerciseButtons'
 
 export default function SimpleExercise(props) {
 	return (

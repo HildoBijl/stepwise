@@ -16,7 +16,7 @@ import { useParameterFeedback } from '../FeedbackProvider'
 import { useStatus } from '../Status'
 import { getIcon, notSelectable } from '../../theme'
 import { useFieldControl } from '../FieldController'
-import { useSubmitAction } from '../../practice/exerciseTypes/util/actions'
+import { useSubmitAction } from '../../edu/exercises/util/actions'
 
 // Field definitions.
 const height = 3.2 // em

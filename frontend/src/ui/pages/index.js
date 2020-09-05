@@ -1,8 +1,0 @@
-export { default as Home } from './Home'
-export { default as Courses } from './Courses.js'
-export { default as Course } from './Course.js'
-export { default as Feedback } from './Feedback.js'
-export { default as About } from './About.js'
-export { default as History } from './History.js'
-export { default as SkillTrackerExplainer } from './SkillTrackerExplainer.js'
-export { default as Skill } from './Skill.js'

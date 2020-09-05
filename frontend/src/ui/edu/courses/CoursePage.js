@@ -1,9 +1,10 @@
 import React from 'react'
 import { useRouteMatch } from 'react-router-dom'
 
-import { useCourses } from './Courses'
+import { useCourses } from './CoursesPage'
 
-export default function Course() {
+// ToDo: delete this file if it's not used.
+export default function CoursePage() {
 	const courses = useCourses()
 	const { params } = useRouteMatch()
 	const courseId = parseInt(params.courseId)

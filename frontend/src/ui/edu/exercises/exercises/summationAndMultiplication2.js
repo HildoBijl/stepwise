@@ -1,10 +1,10 @@
 import React from 'react'
 
-import StepExercise from '../exerciseTypes/StepExercise'
-import { Par } from '../../components/containers'
-import { M } from '../../../util/equations'
-import IntegerInput from '../../form/inputs/IntegerInput'
-import { InputSpace } from '../../form/Status'
+import StepExercise from '../types/StepExercise'
+import { Par } from '../../../components/containers'
+import { M } from '../../../../util/equations'
+import IntegerInput from '../../../form/inputs/IntegerInput'
+import { InputSpace } from '../../../form/Status'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} />

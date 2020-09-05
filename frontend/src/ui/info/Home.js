@@ -9,8 +9,8 @@ import { notSelectable } from '../theme'
 import LinkBar from '../layout/LinkBar'
 import { websiteTitle, websiteTitleAddendum, apiAddress } from '../settings'
 
-import logo from '../logo/logo.svg'
-import SURFconext from '../images/SURFconext.png'
+import logo from './logo.svg'
+import SURFconext from './SURFconext.png'
 
 const useStyles = makeStyles((theme) => ({
 	home: {

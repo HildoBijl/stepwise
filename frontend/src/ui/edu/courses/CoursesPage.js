@@ -5,16 +5,11 @@ import { Link } from 'react-router-dom'
 
 import skills from 'step-wise/edu/skills'
 
-import { usePaths } from '../routing'
-import { useSkillsData } from '../layout/SkillCacher'
+import { usePaths } from '../../routing'
 
-export default function Courses() {
+export default function CoursesPage() {
 	// const contents = useContents()
-	const skillData = useSkillsData(Object.keys(skills))
 	const paths = usePaths()
-
-	if (!skillData)
-		return null
 
 	return (
 		<>

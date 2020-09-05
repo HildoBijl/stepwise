@@ -5,7 +5,7 @@ import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 import { isEmpty } from 'step-wise/inputTypes'
 
 import { useRefWithValue } from '../../util/react'
-import { useExerciseData } from '../practice/ExerciseContainer'
+import { useExerciseData } from '../edu/exercises/ExerciseContainer'
 
 const FormContext = createContext(null)
 

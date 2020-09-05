@@ -2,10 +2,10 @@ import { createContext, useContext, useMemo } from 'react'
 
 import { useUser } from '../api/user'
 import LogOut from './components/LogOut'
-import { CoursesProvider } from './pages/Courses'
-import Course, { useCourseTitle } from './pages/Course'
-import Skill, { useSkillTitle, SkillIndicator } from './pages/Skill'
-import * as pages from './pages'
+import CoursesPage, { CoursesProvider } from './edu/courses/CoursesPage'
+import CoursePage, { useCourseTitle } from './edu/courses/CoursePage'
+import SkillPage, { useSkillTitle, SkillIndicator } from './edu/skills/SkillPage'
+import * as infoPages from './info'
 
 // Set up a route context object through which child elements can access the current route.
 const RouteContext = createContext(null)
@@ -16,29 +16,29 @@ function getRoutes(user = null) {
 	const commonPages = {
 		'feedback': {
 			name: 'feedback',
-			component: pages.Feedback,
+			component: infoPages.Feedback,
 			title: 'Feedback',
 		},
 		'info': {
 			name: 'about',
-			component: pages.About,
+			component: infoPages.About,
 			title: 'Over Step-Wise',
 			children: {
 				'geschiedenis': {
 					name: 'history',
-					component: pages.History,
-					title: 'Geschiedenis van deze app', // TODO: SET BACK
+					component: infoPages.History,
+					title: 'Geschiedenis',
 				},
 				'tracker': {
 					name: 'skillTrackerExplainer',
-					component: pages.SkillTrackerExplainer,
+					component: infoPages.SkillTrackerExplainer,
 					title: 'Vaardigheden bijhouden',
 				},
 			},
 		},
 		'vaardigheid/:skillId': {
 			name: 'skill',
-			component: Skill,
+			component: SkillPage,
 			title: useSkillTitle,
 			recommendLogIn: true,
 			Indicator: SkillIndicator,
@@ -51,7 +51,7 @@ function getRoutes(user = null) {
 			...commonPages,
 			'': {
 				name: 'home',
-				component: pages.Home,
+				component: infoPages.Home,
 				title: 'Home',
 				fullPage: true,
 			},
@@ -68,14 +68,14 @@ function getRoutes(user = null) {
 		},
 		'': {
 			name: 'courses',
-			component: pages.Courses,
+			component: CoursesPage,
 			title: 'Courses',
 			provider: CoursesProvider,
 			children: {
 				'course/:courseId': {
 					name: 'course',
 					title: useCourseTitle,
-					component: Course,
+					component: CoursePage,
 				},
 			},
 		},
