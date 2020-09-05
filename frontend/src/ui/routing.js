@@ -1,6 +1,6 @@
 import { createContext, useContext, useMemo } from 'react'
 
-import { useUser } from './api/user'
+import { useUser } from '../api/user'
 import LogOut from './components/LogOut'
 import { CoursesProvider } from './pages/Courses'
 import Course, { useCourseTitle } from './pages/Course'

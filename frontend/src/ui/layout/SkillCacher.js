@@ -3,8 +3,8 @@ import React, { useState, useCallback, useEffect, createContext, useContext } fr
 import SkillData from 'step-wise/edu/skills/SkillData'
 import { includePrerequisites, processSkill, getDefaultSkillData } from 'step-wise/edu/skills/util'
 
-import { useUser } from '../api/user'
-import { useSkillsQuery } from '../api/skill'
+import { useUser } from '../../api/user'
+import { useSkillsQuery } from '../../api/skill'
 
 const SkillCacherContext = createContext()
 
