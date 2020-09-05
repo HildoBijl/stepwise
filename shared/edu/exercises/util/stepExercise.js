@@ -44,7 +44,7 @@ function getStepExerciseProcessor(checkInput, data) {
 				// Give up on the main problem? Then split.
 				if (!progress.split) {
 					if (updateSkills && history.length === 0) { // If no input has been submitted for this step, then downgrade it.
-						updateSkills(data.skill, true)
+						updateSkills(data.skill, false)
 						updateSkills(data.setup, false)
 					}
 					return nextStep({ split: true, step: 0 })
