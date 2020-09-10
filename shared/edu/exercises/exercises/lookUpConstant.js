@@ -1,5 +1,5 @@
 const { selectRandomly } = require('../../../util/random')
-const constants = require('../../../inputTypes/constants')
+const constants = require('../../../data/constants')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 
 const data = {

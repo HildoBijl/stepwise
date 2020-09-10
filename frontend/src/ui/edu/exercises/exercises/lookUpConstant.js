@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { selectRandomCorrect } from 'step-wise/util/random'
-import * as constants from 'step-wise/inputTypes/constants'
+import * as constants from 'step-wise/data/constants'
 
 import SimpleExercise from '../types/SimpleExercise'
 import { Par } from '../../../components/containers'
@@ -42,8 +42,8 @@ function getFeedback({ state: { constant }, input: { ans }, progress: { solved }
 
 	const c = constants[constant]
 	if (!c.unit.equals(ans.unit))
-		return { ans: { correct, text: 'Je eenheid klopt al niet. Kijk daar eerst eens naar.' } }
-	if (c.equals(ans, { relativeMargin: 0.1 }))
+		return { ans: { correct, text: 'Je eenheid klopt niet. Kijk daar eerst eens naar.' } }
+	if (c.equals(ans, { relativeMargin: 10*equalityOptions.relativeMargin }))
 		return { ans: { correct, text: 'Je zit er net naast! Voer het iets nauwkeuriger in.' } }
 	return { ans: { correct, text: 'Je eenheid klopt, maar je getal nog niet.' } }
 }

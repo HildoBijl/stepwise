@@ -48,7 +48,7 @@ class FloatUnit {
 	}
 
 	get tex() {
-		return this._float.tex + ' ' + this._unit.tex
+		return this._float.tex + '\\ ' + this._unit.tex
 	}
 
 	// SO returns a storage representation of this object that can be interpreted again.

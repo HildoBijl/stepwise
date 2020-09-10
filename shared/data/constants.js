@@ -1,4 +1,4 @@
-const { FloatUnit } = require('./FloatUnit')
+const { FloatUnit } = require('../inputTypes/FloatUnit')
 
 // Mechanics.
 module.exports.g = new FloatUnit('9.81 m/s^2') // Gravitational acceleration.

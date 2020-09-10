@@ -30,6 +30,11 @@ const skills = {
 		setup: { type: 'and', skills: [{ type: 'repeat', times: 2, skill: 'multiplication' }, 'summation'] },
 		exercises: ['summationAndMultiplication1', 'summationAndMultiplication2'],
 	},
+
+	specificGasConstant: {
+		name: 'Specifieke gasconstante opzoeken',
+		exercises: ['specificGasConstant'],
+	},
 }
 
 // Process the skill object.
