@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useCallback, useEffect } from 'react'
+import React, { useRef, useCallback, useEffect } from 'react'
 import { Helmet } from 'react-helmet'
 import { Breadcrumbs } from '@material-ui/core'
 import { Link } from 'react-router-dom'
@@ -8,7 +8,7 @@ import clsx from 'clsx'
 
 import { useEventListener, useRefWithValue } from '../../util/react'
 import { websiteTitle } from '../settings'
-import { RouteContext } from '../routing'
+import { useRoute } from '../routing'
 
 const useStyles = makeStyles((theme) => ({
 	title: {
@@ -34,9 +34,9 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 // Set up the heading in the default breadcrumbs format.
-export default function Title({ className }) {
+export default function Title({ className, setTitleCollapsed }) {
 	const classes = useStyles()
-	const route = useContext(RouteContext)
+	const route = useRoute()
 	const fullTitleRef = useRef()
 	const partialTitleRef = useRef()
 
@@ -52,10 +52,12 @@ export default function Title({ className }) {
 		contents.innerText = title
 		fullTitleRef.current.style.display = 'block'
 		partialTitleRef.current.style.display = 'none'
+		let collapsed = false
 
 		// If this fails, try a partial set-up.
 		const isFine = (ref) => ref.current.offsetHeight <= 36
 		if (!isFine(fullTitleRef)) {
+			collapsed = true
 			fullTitleRef.current.style.display = 'none'
 			partialTitleRef.current.style.display = 'block'
 
@@ -75,7 +77,8 @@ export default function Title({ className }) {
 				contents.innerText = `${title.substr(0, min)}...`
 			}
 		}
-	}, [fullTitleRef, partialTitleRef, titleRef])
+		setTitleCollapsed(collapsed) // Inform the Header that the title is collapsed. This influences whether a menu button is shown.
+	}, [fullTitleRef, partialTitleRef, titleRef, setTitleCollapsed])
 
 	// Apply the update when anything changes.
 	useEffect(() => {

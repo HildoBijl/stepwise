@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles'
-import { SwipeableDrawer, List, Divider, IconButton } from '@material-ui/core'
-import { Menu as MenuIcon, Add, Clear, Dialpad, TextFields, Spellcheck, Home, School, Create, Feedback, Info, MenuBook, ExitToApp } from '@material-ui/icons'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { SwipeableDrawer, List, Divider, IconButton, useMediaQuery } from '@material-ui/core'
+import { Menu as MenuIcon, ArrowBack, Add, Clear, Dialpad, TextFields, Spellcheck, Home, School, Create, Feedback, Info, MenuBook, ExitToApp } from '@material-ui/icons'
 
 import { useFieldControl, useFieldControllerContext } from '../form/FieldController'
 import MenuLink from './MenuLink'
-import { usePaths } from '../routing'
+import { usePaths, useRoute } from '../routing'
 import { useUser } from '../../api/user'
 
 const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent) // To fix the SwipeableDrawer on iOS.
@@ -17,16 +17,18 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function Menu({ className }) {
+export default function Menu({ className, titleCollapsed }) {
 	const classes = useStyles()
 	const [open, setOpen] = useState(false)
 	const history = useHistory()
 	const paths = usePaths()
 	const user = useUser()
+	const theme = useTheme()
+	const onComputer = useMediaQuery(theme.breakpoints.up('lg'))
 
 	// Include the menu button in the tabbing.
 	const menuButtonRef = useRef()
-	useFieldControl({ id: 'menuButton', ref: menuButtonRef, focusRefOnActive: true, manualIndex: 1}) // Put the tab index at the end.
+	useFieldControl({ id: 'menuButton', ref: menuButtonRef, focusRefOnActive: true, manualIndex: 1 }) // Put the tab index at the end.
 
 	// Deactivate the usual tab control when the menu is open.
 	const { turnTabbingOn, turnTabbingOff } = useFieldControllerContext()
@@ -34,20 +36,21 @@ export default function Menu({ className }) {
 		open ? turnTabbingOff() : turnTabbingOn()
 	}, [open, turnTabbingOn, turnTabbingOff])
 
-	// Set up a toggleDrawer event handler to open/close the drawer.
-	const toggleDrawer = (open) => (event) => {
-		// If a tab (with/without shift) or enter was pressed, process this.
-		if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift'))
-			return // Don't close as usual on a keypress.
-		if (event && event.type === 'keydown' && event.key === 'Enter')
-			history.push(event.target.pathname) // Go to the respective page.
+	// Most often we show a hamburger menu. But on a deeper page we may show a back button.
+	if (onComputer || !titleCollapsed) {
+		// Show a menu. First set up a toggleDrawer event handler to open/close the drawer.
+		const toggleDrawer = (open) => (event) => {
+			// If a tab (with/without shift) or enter was pressed, process this.
+			if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift'))
+				return // Don't close as usual on a keypress.
+			if (event && event.type === 'keydown' && event.key === 'Enter')
+				history.push(event.target.pathname) // Go to the respective page.
 
-		// Process the opening/closing.
-		setOpen(open)
-	}
+			// Process the opening/closing.
+			setOpen(open)
+		}
 
-	return (
-		<>
+		return <>
 			<IconButton edge="start" className={className} color="inherit" aria-label="menu" onClick={toggleDrawer(true)} ref={menuButtonRef}>
 				<MenuIcon />
 			</IconButton>
@@ -73,5 +76,11 @@ export default function Menu({ className }) {
 				</nav>
 			</SwipeableDrawer>
 		</>
-	)
+	} else {
+		return (
+			<IconButton edge="start" className={className} color="inherit" aria-label="menu" onClick={history.goBack} ref={menuButtonRef}>
+				<ArrowBack />
+			</IconButton>
+		)
+	}
 }

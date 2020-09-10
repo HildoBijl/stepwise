@@ -34,14 +34,14 @@ function getRoutes(user = null) {
 					component: infoPages.SkillTrackerExplainer,
 					title: 'Vaardigheden bijhouden',
 				},
+				'vaardigheid/:skillId': {
+					name: 'skill',
+					component: SkillPage,
+					title: useSkillTitle,
+					recommendLogIn: true,
+					Indicator: SkillIndicator,
+				},
 			},
-		},
-		'vaardigheid/:skillId': {
-			name: 'skill',
-			component: SkillPage,
-			title: useSkillTitle,
-			recommendLogIn: true,
-			Indicator: SkillIndicator,
 		},
 	}
 

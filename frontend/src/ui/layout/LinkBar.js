@@ -44,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 export default function LinkBar({ className }) {
 	const classes = useStyles()
 	const paths = usePaths()
+	console.log(paths)
 
 	return (
 		<div className={clsx(className, classes.list)}>
