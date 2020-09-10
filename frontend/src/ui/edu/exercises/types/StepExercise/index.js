@@ -1,6 +1,6 @@
 // The StepExercise is an Exercise that can be split into parts. It must be passed a (main) Problem and then a steps array [{ Problem, Solution }]. Optional is a getFeedback parameter to extract feedback from input.
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { numberArray } from 'step-wise/util/arrays'
 import { inputSetsEqual } from 'step-wise/inputTypes'
@@ -10,6 +10,7 @@ import VerticalAdjuster from '../../../../../util/reactComponents/VerticalAdjust
 import { useFormData } from '../../../../form/Form'
 import { useFeedback } from '../../../../form/FeedbackProvider'
 import Status from '../../../../form/Status'
+import { useFieldControllerContext } from '../../../../form/FieldController'
 
 import { useExerciseData } from '../../ExerciseContainer'
 import ExerciseWrapper from '../../util/ExerciseWrapper'
@@ -28,10 +29,17 @@ export default function StepExercise(props) {
 }
 
 function Contents({ Problem: MainProblem, steps }) {
-	const { state, progress } = useExerciseData()
+	const { state, progress, history } = useExerciseData()
 	const [expandSolution, setExpandSolution] = useState(false)
 	const { input } = useFormData()
 	const { feedbackInput } = useFeedback()
+	const { focusFirst } = useFieldControllerContext()
+
+	// Upon loading, or on history updates, focus on the first field.
+	useEffect(() => {
+		if (!progress.done)
+			focusFirst()
+	}, [MainProblem, progress, history, focusFirst])
 
 	// Determine what to show.
 	const showInputSpace = !progress.split

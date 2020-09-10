@@ -15,7 +15,7 @@ Fields have several options that you can add (next to `id`). We will list the ge
 - `size`: Can be `s`, `m` or `l`. The result depends on the size of the screen: smartphones work differenly than desktop screens.
 - `validate`: A validation function, which needs to be imported from the same file as the input field. Check the input fields to see their validation functions. Each field has its own default, but an empty (noop) function `() => {}` can be passed to cancel this.
 - `readOnly`: The field cannot be changed.
-- `autoFocus`: When set to true, the field is automatically activated on loading.
+- `autoFocus`: When set to true, the field is automatically activated on loading. This is not often used, since most exercises already automatically focus on the first field upon loading, so input fields do not need to activate itself.
 
 ## Field types
 

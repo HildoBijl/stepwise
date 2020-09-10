@@ -6,7 +6,7 @@ import { Menu as MenuIcon, ArrowBack, Add, Clear, Dialpad, TextFields, Spellchec
 
 import { useFieldControl, useFieldControllerContext } from '../form/FieldController'
 import MenuLink from './MenuLink'
-import { usePaths, useRoute } from '../routing'
+import { usePaths } from '../routing'
 import { useUser } from '../../api/user'
 
 const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent) // To fix the SwipeableDrawer on iOS.

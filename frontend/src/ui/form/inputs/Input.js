@@ -12,6 +12,7 @@ import { latexMinus, decimalSeparator } from '../../../util/equations'
 
 import Cursor from './Cursor'
 import { useFormParameter, useFieldValidation, useCursorRef } from '../Form'
+import { useFieldControllerContext } from '../FieldController'
 import { useParameterFeedback } from '../FeedbackProvider'
 import { useStatus } from '../Status'
 import { getIcon, notSelectable } from '../../theme'
@@ -22,7 +23,7 @@ import { useSubmitAction } from '../../edu/exercises/util/actions'
 const height = 3.2 // em
 const padding = 0.75 // em
 const border = 0.0625 // em
-const glowRadius = 0.2 // em
+const glowRadius = 0.25 // em
 const transitionTime = 200 // ms
 
 // Label definitions.
@@ -489,6 +490,13 @@ function useBasicFieldFeedback(fieldId, validate = noop, feedbackText = '') {
 	const { validation, validationInput } = useFieldValidation(fieldId, validate)
 	const { feedback, feedbackInput } = useParameterFeedback(fieldId)
 	const [inputData] = useFormParameter(fieldId)
+	const { activate } = useFieldControllerContext()
+
+	// When a field has just been rendered invalid, focus it.
+	useEffect(() => {
+		if (validation)
+			activate(fieldId)
+	}, [validation, validationInput, activate, fieldId])
 
 	// Check for validation problems.
 	const inputWithoutCursor = removeCursor(inputData)

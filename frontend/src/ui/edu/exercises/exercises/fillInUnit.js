@@ -27,7 +27,7 @@ function Problem({ unit }) {
 	return <>
 		<Par>Voer de eenheid <M>{unit.tex}</M> letterlijk in.</Par>
 		<InputSpace>
-			<Par><UnitInput id="ans" prelabel={<M>{unit.tex} =</M>} label="Vul hier de eenheid in" size="s" autofocus={true} /></Par>
+			<Par><UnitInput id="ans" prelabel={<M>{unit.tex} =</M>} label="Vul hier de eenheid in" size="s" /></Par>
 		</InputSpace>
 		<WhenNotDone>{hint}</WhenNotDone>
 	</>

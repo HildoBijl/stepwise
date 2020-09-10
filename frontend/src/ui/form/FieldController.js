@@ -91,6 +91,9 @@ export default function FieldController({ children }) {
 
 	const isActive = useCallback((id) => tabOrder.current[tabIndexRef.current] === id, [tabOrder, tabIndexRef])
 
+	const blur = useCallback(() => setTabIndex(-1), [setTabIndex])
+	const focusFirst = useCallback(() => setTabIndex(0), [setTabIndex])
+
 	// Set up listener.
 	const keyDownHandler = useCallback((evt) => handleKeyPress(evt, tabbingOnRef.current, incrementTabIndex, decrementTabIndex), [tabbingOnRef, incrementTabIndex, decrementTabIndex])
 	useEventListener('keydown', keyDownHandler)
@@ -109,6 +112,8 @@ export default function FieldController({ children }) {
 		isActive,
 		activate,
 		deactivate,
+		blur,
+		focusFirst,
 	}
 
 	return (

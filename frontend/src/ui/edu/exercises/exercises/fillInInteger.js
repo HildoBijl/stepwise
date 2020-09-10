@@ -16,7 +16,7 @@ function Problem({ x }) {
 	return <>
 		<Par>Voer het getal <M>{x}</M> in.</Par>
 		<InputSpace>
-			<Par><IntegerInput id="ans" prelabel={<M>{x}=</M>} label={<span>Vul hier <M>{x}</M> in</span>} size='s' autofocus={true} /></Par>
+			<Par><IntegerInput id="ans" prelabel={<M>{x}=</M>} label={<span>Vul hier <M>{x}</M> in</span>} size='s' /></Par>
 		</InputSpace>
 	</>
 }

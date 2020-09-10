@@ -16,7 +16,7 @@ function Problem({ x }) {
 	return <>
 		<Par>Voer het getal <M>{x.tex}</M> in.</Par>
 		<InputSpace>
-			<Par><FloatInput id="ans" prelabel={<M>{x.tex}=</M>} label={<span>Vul hier <M>{x.tex}</M> in</span>} size='s' autofocus={true} /></Par>
+			<Par><FloatInput id="ans" prelabel={<M>{x.tex}=</M>} label={<span>Vul hier <M>{x.tex}</M> in</span>} size='s' /></Par>
 		</InputSpace>
 	</>
 }

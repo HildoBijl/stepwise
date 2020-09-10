@@ -14,7 +14,7 @@ function Problem({ a, b }) {
 	return <>
 		<Par>Bereken de vermenigvuldiging <M>{a} \cdot {b}</M>.</Par>
 		<InputSpace>
-			<Par><IntegerInput id="ans" label="Antwoord" prelabel={<M>{a} \cdot {b} =</M>} size="s" autofocus={true} /></Par>
+			<Par><IntegerInput id="ans" label="Antwoord" prelabel={<M>{a} \cdot {b} =</M>} size="s" /></Par>
 		</InputSpace>
 	</>
 }
