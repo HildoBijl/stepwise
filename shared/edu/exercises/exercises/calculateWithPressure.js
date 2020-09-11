@@ -1,7 +1,6 @@
 const { getRandomInteger } = require('../../../inputTypes/Integer')
 const { getRandomExponentialFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Unit } = require('../../../inputTypes/Unit')
-const { FloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 
 const data = {
@@ -12,13 +11,10 @@ const data = {
 		unitCheck: Unit.equalityTypes.sameUnits,
 	},
 	getCorrect: (p, type) => {
-		p = p.clone().simplify()
-		if (type >= 1)
-			return p // Standard units.
-		return new FloatUnit({ // In bar.
-			float: p.float.number / 1e5,
-			unit: 'bar',
-		})
+		p = p.simplify()
+		if (type === 0)
+			p = p.useUnit('bar')
+		return p
 	},
 }
 

@@ -27,6 +27,15 @@ class FloatUnit {
 		this._unit = new Unit(input.unit)
 	}
 
+	// become turns this object into a clone of the given object.
+	become(param) {
+		if (!isObject(param) || param.constructor !== FloatUnit)
+			throw new Error(`Invalid input: a FloatUnit element cannot become the given object. This object has type "${typeof param}".`)
+		this._float = param.float.clone()
+		this._unit = param.unit.clone()
+		return this
+	}
+
 	get float() {
 		return this._float
 	}
@@ -64,15 +73,6 @@ class FloatUnit {
 		return new this.constructor(this.SO)
 	}
 
-	// become turns this object into a clone of the given object.
-	become(param) {
-		if (!isObject(param) || param.constructor !== FloatUnit)
-			throw new Error(`Invalid input: a FloatUnit element cannot become the given object. This object has type "${typeof param}".`)
-		this._float = param.float.clone()
-		this._unit = param.unit.clone()
-		return this
-	}
-
 	// isValid returns whether we have a valid unit (true or false). So whether all unit elements in this unit are valid unit elements: whether they have been recognized. (The Float is always valid.)
 	isValid() {
 		return this._unit.isValid()
@@ -84,17 +84,46 @@ class FloatUnit {
 		return this
 	}
 
-	// simplify simplifies the unit of this FloatUnit. It adjusts the Float accordingly: for example, when going from km to m the float is multiplied by 1000. Options are the same as the options for simplifying units. (See the Unit simplify function.)
+	// simplify simplifies the unit of this FloatUnit. It adjusts the Float accordingly: for example, when going from km to m the float is multiplied by 1000. Options are the same as the options for simplifying units. (See the Unit simplify function.) It does not adjust this object but returns a copy.
 	simplify(options = {}) {
 		// Obtain an adjustment object and use it to adjust the float.
-		const adjustment = this._unit.simplifyWithData(options)
-		if (adjustment.difference !== 0)
-			this._float.add({ number: adjustment.difference })
-		if (adjustment.factor !== 1)
-			this._float.multiply({ number: adjustment.factor })
-		if (adjustment.power !== 0)
-			this._float.multiply({ number: Math.pow(10, adjustment.power) }).simplify()
-		return this
+		const simplificationResults = this.unit.simplifyWithData(options)
+		let float = this.float
+		if (simplificationResults.difference !== 0)
+			float = float.add({ number: simplificationResults.difference })
+		if (simplificationResults.factor !== 1 || simplificationResults.power !== 0)
+			float = float.multiply({ number: simplificationResults.factor * Math.pow(10, simplificationResults.power) })
+
+		// Merge it all into a new FloatUnit.
+		return new FloatUnit({
+			float: float.simplify(),
+			unit: simplificationResults.simplification,
+		})
+	}
+
+	// useUnit takes a unit that is technically equal but possibly differently written (like bar instead of Pascal). (If the given unit does not equal the unit of this object, an error is thrown.) It then gives this FloatUnit the given unit, adjusting the float accordingly.
+	useUnit(unit) {
+		// Check input.
+		if (unit.constructor !== Unit) // If constructors don't match, try to extract something anyway.
+			unit = new Unit(unit)
+		console.log(unit.str)
+		if (!this.isValid() || !this.unit.equals(unit, { type: Unit.equalityTypes.free, checkSize: false }))
+			throw new Error(`Invalid unit given: cannot transform the current FloatUnit "${this.str}" to the unit "${unit.str}". These units are not equal.`)
+
+		// Simplify the current unit and check how the given unit would be simplified. Apply that inversely.
+		const thisSimplified = this.simplify({ type: Unit.simplifyTypes.toStandardUnits, clean: false })
+		const simplificationResults = unit.simplifyWithData({ type: Unit.simplifyTypes.toStandardUnits, clean: false })
+		let float = thisSimplified.float
+		if (simplificationResults.factor !== 1 || simplificationResults.power !== 0)
+			float = float.divide({ number: simplificationResults.factor * Math.pow(10, simplificationResults.power) })
+		if (simplificationResults.difference !== 0)
+			float = float.subtract({ number: simplificationResults.difference })
+
+		// Set up the result and return it.
+		return new FloatUnit({
+			float,
+			unit: unit.clone(),
+		})
 	}
 
 	// equals compares two FloatUnits. It only returns true or false.
@@ -124,9 +153,9 @@ class FloatUnit {
 		// Fill out any missing options with defaults.
 		options = processOptions(options, FloatUnit.defaultEqualityOptions)
 
-		// Make clones to avoid editing the original objects.
-		const a = this.clone()
-		const b = x.clone()
+		// Set up easier names.
+		let a = this
+		let b = x
 
 		// Ensure validity of both FloatUnits and deal with it if they are not valid.
 		const floatEqualityOptions = filterProperties(options, Object.keys(Float.defaultEqualityOptions))
@@ -150,8 +179,8 @@ class FloatUnit {
 
 		// Simplify the units based on the given options. This will adjust the floats accordingly.
 		const simplifyOptions = equalityTypeToSimplifyOptions(options.unitCheck)
-		a.simplify(simplifyOptions)
-		b.simplify(simplifyOptions)
+		a = a.simplify(simplifyOptions)
+		b = b.simplify(simplifyOptions)
 
 		// Compare the floats and the units.
 		const floatComparison = a.float.checkEquality(b.float, floatEqualityOptions) // This is an object.
@@ -166,29 +195,83 @@ class FloatUnit {
 		}
 	}
 
-	// add will add two FloatUnits together. They must have the same unit (when simplified) or an error is thrown. If the unit of the added quantity is merely written differently (for example N*m instead of J) then this is ignored: the unit of this object stays the same. This object is adjusted and returned for chaining.
+	// applyMinus will apply a minus sign to this FloatUnit.
+	applyMinus() {
+		return new FloatUnit({
+			float: this.float.applyMinus(),
+			unit: this.unit.clone(),
+		})
+	}
+
+	// add will add two FloatUnits together. They must have the same unit (when simplified) or an error is thrown. If the unit of the added quantity is merely written differently (for example N*m instead of J) then this is ignored: the unit of this object is used. It does not adjust this object but returns a copy.
 	add(x) {
 		// Check input.
 		if (x.constructor !== this.constructor) // If constructors don't match, try to extract something anyway.
 			x = new this.constructor(x)
-		if (!this.unit.equals(x.unit)) // If units don't match, throw an error.
+		if (!this.unit.equals(x.unit, { type: Unit.equalityTypes.free, checkSize: false })) // If units don't match, throw an error.
 			throw new Error(`Invalid addition: cannot add two quantities with different units. Tried to add "${this.str}" to "${x.str}".`)
 
-		// Add the quantities within the float and we're done.
-		this.float.add(x.float)
-		return this
+		// Simplify the units to make sure they use standard units.
+		const a = this.simplify()
+		const b = x.simplify()
+
+		// Add the quantities within the float and we're done. Though do apply the current unit to prevent surprises.
+		return new FloatUnit({
+			float: a.float.add(b.float),
+			unit: a.unit,
+		}).useUnit(this.unit)
 	}
 
-	// multiply will multiply two FloatUnits. This object is adjusted and returned.
+	// subtract will subtract a given number, just like add adds it.
+	subtract(x) {
+		// Check input.
+		if (x.constructor !== this.constructor) // If constructors don't match, try to extract something anyway.
+			x = new this.constructor(x)
+
+		// Add the number with a minus sign.
+		return this.add(x.applyMinus())
+	}
+
+	// invert will return 1/number, inverting both the number and the unit. It does not adjust this object but returns a copy.
+	invert() {
+		return new FloatUnit({
+			float: this.float.invert(),
+			unit: this.unit.invert(),
+		})
+	}
+
+	// multiply will multiply two FloatUnits. It does not adjust this object but returns a copy.
 	multiply(x) {
 		// Check input.
 		if (x.constructor !== this.constructor) // If constructors don't match, try to extract something anyway.
 			x = new this.constructor(x)
 
 		// Perform the multiplication.
-		this._float.multiply(x.float)
-		this._unit.multiply(x.unit)
-		return this
+		return new FloatUnit({
+			float: this.float.multiply(x.float),
+			unit: this.unit.multiply(x.unit),
+		})
+	}
+
+	// divide will divide this FloatUnit with the given one, just like multiply multiplies them.
+	divide(x) {
+		// Check input.
+		if (x.constructor !== this.constructor) // If constructors don't match, try to extract something anyway.
+			x = new this.constructor(x)
+
+		// Perform the multiplication.
+		return new FloatUnit({
+			float: this.float.divide(x.float),
+			unit: this.unit.divide(x.unit),
+		})
+	}
+
+	// toPower will put this number to the given power. So "2 m" to the power 3 will give "8 m^3".
+	toPower(power) {
+		return new FloatUnit({
+			float: this.float.toPower(power),
+			unit: this.unit.toPower(power),
+		})
 	}
 }
 module.exports.FloatUnit = FloatUnit

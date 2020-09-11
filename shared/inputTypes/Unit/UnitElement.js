@@ -1,6 +1,6 @@
 // UnitElement represents a single term in a Unit. Something like km^3, mV^2 or even m°C^2, but not a composed unit like m/s. Only positive powers are allowed, because negative powers are fixed within the Unit class. Zero powers are also not allowed (pointless anyway).
 
-const { isInt } = require('../../util/numbers')
+const { isInt, ensureInt } = require('../../util/numbers')
 const { isObject, processOptions } = require('../../util/objects')
 const { prefixes, findPrefix } = require('./prefixes')
 const { specialUnitSymbols, findUnit } = require('./units')
@@ -127,19 +127,28 @@ class UnitElement {
 		return this.isValid() && this.unit.standard
 	}
 
-	// removePrefix removes the prefix for this unit element. (Unless the unit has a standard prefix, like kg, in which case the prefix is set to that default prefix.) The number returned is the power which is given from the prefixes. For instance, simplifying "km^2" will give a power of 6, since it's 10^6" times larger than the end-result "m^2".
+	// removePrefix removes the prefix for this unit element. (Unless the unit has a standard prefix, like kg, in which case the prefix is set to that default prefix.) It does not adjust this object but returns a copy.
 	removePrefix() {
-		const power = (this.prefixPower - this.unit.defaultPrefixPower) * this.power
-		this._prefix = this.unit.defaultPrefix
-		return power
+		return new UnitElement({
+			prefix: this.isValid() && this.unit.defaultPrefix ? this.unit.defaultPrefix.letter : '',
+			unit: this.unitString,
+			power: this.power,
+		})
 	}
 
-	// toPower takes this unit element to the given power. For instance, if we have 'km^3' and take it to power 4, we will get (km^3)^4 = km^12. This unit element is adjusted and returned.
+	// getPrefixRemovalPower returns the power that this unit element changes by when we remove the prefix (put it to its default value). For instance, simplifying "km^2" will give a power of 6, since it's 10^6" times larger than the end-result "m^2".
+	getPrefixRemovalPower() {
+		return (this.prefixPower - (this.isValid() && this.unit.defaultPrefixPower || 0)) * this.power
+	}
+
+	// toPower takes this unit element to the given power. For instance, if we have 'km^3' and take it to power 4, we will get (km^3)^4 = km^12. It does not adjust this object but returns a copy.
 	toPower(power) {
-		if (!isInt(power) || power <= 0)
-			throw new Error(`Invalid power given: no non-positive powers are allowed for units.`)
-		this._power *= power
-		return this
+		power = ensureInt(power, true, true)
+		return new UnitElement({
+			prefix: this.prefixString,
+			unit: this.unitString,
+			power: this.power * power,
+		})
 	}
 }
 module.exports.UnitElement = UnitElement

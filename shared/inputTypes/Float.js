@@ -1,6 +1,6 @@
 // The Float class represents floating point numbers with a certain number of significant digits. By default it is an empty string with zero significant digits.
 
-const { isInt, isNumber, ensureNumber, roundTo } = require('../util/numbers')
+const { isInt, ensureInt, isNumber, ensureNumber, roundTo } = require('../util/numbers')
 const { isObject, processOptions } = require('../util/objects')
 const { getRandom } = require('../util/random')
 
@@ -55,6 +55,16 @@ class Float {
 		if (input.power !== undefined && !isInt(input.power))
 			throw new Error(`Invalid input: a Float number should as parameter receive an object with an integer as power parameter. Instead it received "${JSON.stringify(input)}".`)
 		this._power = typeof input.power === 'string' ? parseInt(input.power) : input.power
+	}
+
+	// become turns this object into a clone of the given object.
+	become(param) {
+		if (!isObject(param) || param.constructor !== Float)
+			throw new Error(`Invalid input: a Float element cannot become the given object. This object has type "${typeof param}".`)
+		this._number = param.number
+		this._significantDigits = param.significantDigits
+		this._power = param.power
+		return this
 	}
 
 	// number returns the float number as a number. So it's not 314.159 * 10^(-2) but it's 3.14159.
@@ -166,16 +176,6 @@ class Float {
 		return new this.constructor(this.SO)
 	}
 
-	// become turns this object into a clone of the given object.
-	become(param) {
-		if (!isObject(param) || param.constructor !== Float)
-			throw new Error(`Invalid input: a Float element cannot become the given object. This object has type "${typeof param}".`)
-		this._number = param.number
-		this._significantDigits = param.significantDigits
-		this._power = param.power
-		return this
-	}
-
 	set significantDigits(significantDigits) {
 		if (!isInt(significantDigits) || significantDigits < 0)
 			throw new Error(`Invalid significantDigits: the number of significant digits should be a non-negative integer, but "${significantDigits}" was given.`)
@@ -188,16 +188,27 @@ class Float {
 		this._power = power
 	}
 
-	// makeExact sets the number of significant digits to Infinity, indicating we know this number with full precision. It returns itself to allow for chaining.
+	// makeExact sets the number of significant digits to Infinity, indicating we know this number with full precision. It does not adjust this object but returns a copy.
 	makeExact() {
-		this.significantDigits = Infinity
-		return this
+		return new Float({
+			number: this.number,
+			power: this.power,
+			significantDigits: Infinity,
+		})
 	}
 
-	// simplify sets the format of this number to the default format: x.xxxx * 10^yy. So there's only one non-zero digit prior to the comma. The number of significant digits is kept the same. It adjusts this objects and returns itself.
+	// simplify sets the format of this number to the default format: x.xxxx * 10^yy. So there's only one non-zero digit prior to the comma. The number of significant digits is kept the same. It does not adjust this object but returns a copy.
 	simplify() {
-		this.power = undefined
-		return this
+		return new Float({
+			number: this.number,
+			significantDigits: this.significantDigits,
+			// Leave power undefined.
+		})
+	}
+
+	// equals compares two Floats. It only returns true or false.
+	equals(x, options = {}) {
+		return this.checkEquality(x, options).result
 	}
 
 	/* checkEquality compares the given float with the this-float. Options include:
@@ -264,50 +275,106 @@ class Float {
 		return result
 	}
 
-	// equals compares two Floats. It only returns true or false.
-	equals(x, options = {}) {
-		return this.checkEquality(x, options).result
+	// applyMinus will return minus this number. It does not adjust this object but returns a copy.
+	applyMinus() {
+		return new Float({
+			number: -this.number,
+			power: this.power,
+			significantDigits: this.significantDigits,
+		})
 	}
 
-	// add will add a number to this number. It adjusts this number and returns itself.
+	// add will add a number to this number. It does not adjust this object but returns a copy.
 	add(x) {
 		// Check the input.
 		if (x.constructor !== this.constructor) // If constructors don't match, try to extract something anyway.
 			x = new this.constructor(x)
 
-		// Find the lowest digit power for each number and take the highest. Use this to set the number of digits
-		const digitPower = Math.max( // For 0.09 this is -2, for 0.099 this is -3, and so forth. We take the largest of the digit powers of the two numbers.
-			Math.floor(Math.log10(Math.abs(this._number))) - this._significantDigits + 1,
+		// Find the lowest-digit-power for each number and take the highest. (The lowest-digit-power of 0.19 is -2, for 0.199 this is -3, and so forth.)
+		const digitPower = Math.max(
+			Math.floor(Math.log10(Math.abs(this.number))) - this._significantDigits + 1,
 			Math.floor(Math.log10(Math.abs(x.number))) - x.significantDigits + 1,
 		)
-		this._number = this.number + x.number
-		this._significantDigits = Math.floor(Math.log10(Math.abs(this._number))) - digitPower + 1
-		this._power = this.power === x.power ? this.power : undefined
-		return this
+
+		// Use the lowest-digit-power to set the number of significant digits.
+		const number = this.number + x.number
+		return new Float({
+			number,
+			power: this.power === x.power ? this.power : undefined,
+			significantDigits: Math.floor(Math.log10(Math.abs(number))) - digitPower + 1,
+		})
 	}
 
-	// multiply multiplies this number by another number. It adjusts this number and returns itself.
+	// subtract will subtract a number, just like add adds it.
+	subtract(x) {
+		// Check the input.
+		if (x.constructor !== this.constructor) // If constructors don't match, try to extract something anyway.
+			x = new this.constructor(x)
+
+		// Add the negative number.
+		return this.add(x.applyMinus())
+	}
+
+	// invert will turn this number into 1/number. It returns a copy without adjusting this object.
+	invert() {
+		if (this.number === 0)
+			throw new Error(`Invalid invert call: cannot invert zero. Dividing by zero not allowed.`)
+		return new Float({
+			number: 1 / this.number,
+			significantDigits: this.significantDigits,
+		})
+	}
+
+	// multiply multiplies this number by another number. It does not adjust this object but returns a copy.
 	multiply(x) {
 		// Check the input.
 		if (x.constructor !== this.constructor) // If constructors don't match, try to extract something anyway.
 			x = new this.constructor(x)
 
 		// Process the result.
-		this._number *= x.number
-		this._significantDigits = Math.min(this.significantDigits, x.significantDigits)
-		this._power = undefined // A power is not valid anymore after multiplication. This is necessary, because otherwise a number may potentially not even be displayed. (Like how 10 * 10 = 100 should have two significant digits.)
-		return this
+		return new Float({
+			number: this.number * x.number,
+			significantDigits: Math.min(this.significantDigits, x.significantDigits),
+			// Do not specify a power: it is not valid anymore after multiplication.
+		})
 	}
 
-	// roundToPrecision will take a number that may have digits behind the scenes (like { number: 3.14159, significantDigits: 2 }) and round it to the precision, removing hidden digits. So the result will have { number: 3.1, significantDigits: 2 }. It adjusts this number and returns itself.
-	roundToPrecision() {
-		// If the number is infinitely precise don't do anything.
-		if (this.significantDigits === Infinity)
-			return this
+	// divide will divide this number by the given number, just like multiply multiplies.
+	divide(x) {
+		// Check the input.
+		if (x.constructor !== this.constructor) // If constructors don't match, try to extract something anyway.
+			x = new this.constructor(x)
 
-		// Round to the given precision.
-		this._number = roundTo(this.number, this.significantDigits)
-		return this
+		// Multiply by the inverted number.
+		return this.multiply(x.invert())
+	}
+
+	// toPower will take this number to the given power. So "2,0 * 10^2" to the power 3 will be "8,0 * 10^6".
+	toPower(power) {
+		power = ensureInt(power)
+		if (power === 0) {
+			return new Float({
+				number: 1,
+				significantDigits: Infinite,
+			})
+		}
+
+		if (power < 0)
+			return this.invert().toPower(-power)
+
+		return new Float({
+			number: Math.pow(this.number, power),
+			significantDigits: this.significantDigits,
+		})
+	}
+
+	// roundToPrecision will take a number that may have digits behind the scenes (like { number: 3.14159, significantDigits: 2 }) and round it to the precision, removing hidden digits. So the result will have { number: 3.1, significantDigits: 2 }. It does not adjust this object but returns a copy.
+	roundToPrecision() {
+		return new Float({
+			number: (this.significantDigits === Infinity ? this.number : roundTo(this.number, this.significantDigits)),
+			significantDigits: this.significantDigits,
+			power: this.power,
+		})
 	}
 }
 module.exports.Float = Float
