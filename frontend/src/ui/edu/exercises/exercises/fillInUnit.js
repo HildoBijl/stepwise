@@ -44,9 +44,9 @@ function getFeedback({ state: { unit }, input: { ans }, progress: { solved }, sh
 
 	// Devise feedback text.
 	let text
-	if (unit.equals(ans, { comparePrefixes: true }))
+	if (unit.equals(ans, { type: Unit.equalityTypes.sameUnits }))
 		text = <>Technisch correct, maar je moet de eenheid <strong>letterlijk</strong> overnemen, inclusief volgorde.</>
-	else if (unit.equals(ans))
+	else if (unit.equals(ans, { type: Unit.equalityTypes.free }))
 		text = <>Technisch correct, maar dit is een heel andere schrijfwijze. Neem de eenheid <strong>letterlijk</strong> over.</>
 	else
 		text = selectRandomIncorrect()

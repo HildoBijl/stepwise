@@ -5,7 +5,7 @@ const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 const data = {
 	skill: 'fillInUnit',
 	equalityOptions: {
-		type: Unit.equalsTypes.exact,
+		type: Unit.equalityTypes.exact,
 	}
 }
 

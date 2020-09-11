@@ -106,7 +106,6 @@ class FloatUnit {
 		// Check input.
 		if (unit.constructor !== Unit) // If constructors don't match, try to extract something anyway.
 			unit = new Unit(unit)
-		console.log(unit.str)
 		if (!this.isValid() || !this.unit.equals(unit, { type: Unit.equalityTypes.free, checkSize: false }))
 			throw new Error(`Invalid unit given: cannot transform the current FloatUnit "${this.str}" to the unit "${unit.str}". These units are not equal.`)
 

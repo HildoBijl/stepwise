@@ -44,15 +44,13 @@ const useStyles = makeStyles((theme) => ({
 export default function LinkBar({ className }) {
 	const classes = useStyles()
 	const paths = usePaths()
-	console.log(paths)
 
 	return (
 		<div className={clsx(className, classes.list)}>
-			{/* <Typography variant="h5"><Link to={paths.courses}>Courses</Link></Typography> */}
 			<Typography variant="h5"><Link to={paths.feedback()}>Feedback</Link></Typography>
 			<Typography variant="h5"><Link to={paths.about()}>About</Link></Typography>
 			<Typography variant="h5"><Link to={paths.history()}>History</Link></Typography>
-			<Typography variant="h5"><Link to={paths.skill({ skillId: 'summation' })}>Practice</Link></Typography>
+			<Typography variant="h5"><Link to={paths.skill({ skillId: 'calculateWithPressure' })}>Practice</Link></Typography>
 		</div>
 	)
 }
