@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { selectRandomCorrect } from 'step-wise/util/random'
+import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
 import * as specificGasConstants from 'step-wise/data/specificGasConstants'
 
 import SimpleExercise from '../types/SimpleExercise'
@@ -45,20 +45,34 @@ function Problem({ medium }) {
 
 function Solution({ medium }) {
 	return <>
-	<Par>De specifieke gasconstante van {Dutch[medium]} is <M>{specificGasConstants[medium].tex}</M>.</Par>
-	<Par>Als je dit wilt vinden, dan kun je achterin een thermodynamicaboek kijken: er is vast een bijlage met eigenschappen van gassen. Anders kun je ook Googlen naar "specific gas constant {English[medium]}". Zoeken in het Engels geeft vaak meer/betere resultaten dan het Nederlands.</Par>
+		<Par>De specifieke gasconstante van {Dutch[medium]} is <M>{specificGasConstants[medium].tex}</M>.</Par>
+		<Par>Als je dit wilt vinden, dan kun je achterin een thermodynamicaboek kijken: er is vast een bijlage met eigenschappen van gassen. Anders kun je ook Googlen naar "specific gas constant {English[medium]}". Zoeken in het Engels geeft vaak meer/betere resultaten dan het Nederlands.</Par>
 	</>
 }
 
-function getFeedback({ state: { medium }, input: { ans }, progress: { solved }, shared: { data: { equalityOptions } } }) {
-	const correct = !!solved
-	if (correct)
-		return { ans: { correct, text: selectRandomCorrect() } }
+function getFeedback(exerciseData) {
+	const { progress: { solved } } = exerciseData
+	return { ans: { correct: !!solved, text: getFeedbackText(exerciseData) } }
+}
 
-	const c = specificGasConstants[medium]
-	if (!c.unit.equals(ans.unit))
-		return { ans: { correct, text: 'Je eenheid klopt niet. Kijk daar eerst eens naar.' } }
-	if (c.equals(ans, { relativeMargin: 5*equalityOptions.relativeMargin }))
-		return { ans: { correct, text: 'Je zit er net naast! Voer het iets nauwkeuriger in.' } }
-	return { ans: { correct, text: 'Je eenheid klopt, maar je getal nog niet.' } }
+function getFeedbackText(exerciseData) {
+	const { state: { medium }, input: { ans }, progress: { solved }, shared: { data: { equalityOptions } } } = exerciseData
+
+	if (solved)
+		return selectRandomCorrect()
+
+	// Get the correct answer and compare it to the input.
+	const Rs = specificGasConstants[medium]
+	const result = Rs.checkEquality(ans, equalityOptions)
+
+	if (!result.unitOK)
+		return 'Je eenheid klopt niet. Kijk daar eerst eens naar.'
+
+	if (Rs.equals(ans, { ...equalityOptions, relativeMargin: 5 * equalityOptions.relativeMargin }))
+		return 'Je zit er net naast! Voer het iets nauwkeuriger in.'
+
+	if (result.magnitude !== 'OK')
+		return `Je eenheid klopt maar je getal is te ${result.magnitude === 'TooLarge' ? 'groot' : 'klein'}.`
+
+	return selectRandomIncorrect() // Should not happen.
 }

@@ -1,8 +1,8 @@
 // The FloatUnit class represents a combination of a floating point number and a unit. An example is "9.81 m / s^2". It can be given a string, or an object of the form { float: ..., unit: ... } where the dots are valid float and unit representations.
 
-const { isObject, processOptions } = require('../util/objects')
-const { Float, floatFormat, defaultEqualityOptions: defaultFloatEqualityOptions, FOtoIO: floatFOtoIO, IOtoFO: floatIOtoFO, getEmpty: getEmptyFloat, isEmpty: isFloatEmpty } = require('./Float')
-const { Unit, defaultEqualityOptions: defaultUnitEqualityOptions, FOtoIO: unitFOtoIO, IOtoFO: unitIOtoFO, getEmpty: getEmptyUnit, isEmpty: isUnitEmpty } = require('./Unit')
+const { isObject, processOptions, filterProperties } = require('../util/objects')
+const { Float, floatFormat, getRandomFloat, getRandomExponentialFloat, FOtoIO: floatFOtoIO, IOtoFO: floatIOtoFO, getEmpty: getEmptyFloat, isEmpty: isFloatEmpty } = require('./Float')
+const { Unit, equalityTypeToSimplifyOptions, FOtoIO: unitFOtoIO, IOtoFO: unitIOtoFO, getEmpty: getEmptyUnit, isEmpty: isUnitEmpty } = require('./Unit')
 
 // const inputFormat = new RegExp(`^(?<float>${floatFormat})(?<unit>.*)$`) // Firefox doesn't support named capture groups.
 const inputFormat = new RegExp(`^(${floatFormat})(.*)$`)
@@ -84,7 +84,7 @@ class FloatUnit {
 		return this
 	}
 
-	// simplify simplifies this float with unit. It simplifies the unit given the options (see the Unit class for which options they are) and adjusts the number accordingly.
+	// simplify simplifies the unit of this FloatUnit. It adjusts the Float accordingly: for example, when going from km to m the float is multiplied by 1000. Options are the same as the options for simplifying units. (See the Unit simplify function.)
 	simplify(options = {}) {
 		// Obtain an adjustment object and use it to adjust the float.
 		const adjustment = this._unit.simplifyWithData(options)
@@ -97,8 +97,20 @@ class FloatUnit {
 		return this
 	}
 
-	/* checkEquality compares two FloatUnit objects. Options can include any of the options of the Float and Unit equality functions. There is limited interaction between these options:
-	 * - When the simplification of the unit results in an adjustment of the power of the Float, then the Float will be simplified and the power hence cannot be compared anymore.
+	// equals compares two FloatUnits. It only returns true or false.
+	equals(x, options = {}) {
+		return this.checkEquality(x, options).result
+	}
+
+	/* checkEquality compares two FloatUnit objects. Options include:
+	 * - absoluteMargin: same as with Float.
+	 * - relativeMargin: same as with Float.
+	 * - significantDigitMargin: same as with Float.
+	 * - unitCheck: same as the Unit type parameter.
+	 * Note that the following options are not supported.
+	 * - checkPower (from Float): this is not possible anymore, since simplifying the unit will adjust the power of the unit. This will be the default "false".
+	 * - checkSize (from Unit): this will be set to false, because we are checking the size of the number instead.
+	 * 
 	 * The result is an object containing information. It contains the information from the Float checkEquality but also has:
 	 * - result (true or false): the final verdict on equality.
 	 * - numberOK (true or false): is the number OK? This is a joint check of magnitude, significant digits (if specified) and power (if specified).
@@ -109,54 +121,49 @@ class FloatUnit {
 		if (this.constructor !== x.constructor)
 			throw new Error(`Invalid comparison: cannot compare a number of type "${this.constructor.name || 'unknown'}" with a number of type "${x.constructor.name || 'unknown'}".`)
 
-		// Make to avoid editing the original objects.
-		let result = { result: true } // Assume equality.
+		// Fill out any missing options with defaults.
+		options = processOptions(options, FloatUnit.defaultEqualityOptions)
+
+		// Make clones to avoid editing the original objects.
 		const a = this.clone()
 		const b = x.clone()
 
-		// Ensure validity of both FloatUnits.
+		// Ensure validity of both FloatUnits and deal with it if they are not valid.
+		const floatEqualityOptions = filterProperties(options, Object.keys(Float.defaultEqualityOptions))
+		const handleInvalidResult = (unitOK) => {
+			const floatComparison = a.float.checkEquality(b.float, floatEqualityOptions)
+			const numberOK = floatComparison.result
+			return {
+				...floatComparison,
+				result: unitOK && numberOK,
+				unitOK,
+				numberOK,
+			}
+		}
 		if (!a.isValid()) {
 			if (b.isValid())
-				return false // One is valid, the other is not.
-			return deepEquals(a, b) // We have invalid units: just do a deepEquals.
+				return handleInvalidResult(false) // One is valid, the other is not.
+			return handleInvalidResult(deepEquals(a.SO, b.SO)) // We have invalid units: just do a deepEquals.
 		}
 		if (!b.isValid())
-			return false
+			return handleInvalidResult(false)
 
-		// Simplify the objects based on the given options. This will adjust the float accordingly.
-		const simplifyOptions = {
-			removePrefixes: !options.comparePrefixes,
-			sortUnits: !options.compareOrder,
-			toStandardUnits: (!options.comparePrefixes && !options.compareOrder && options.simplifyUnit),
-			toBaseUnits: (!options.comparePrefixes && !options.compareOrder && options.simplifyUnit),
-		}
+		// Simplify the units based on the given options. This will adjust the floats accordingly.
+		const simplifyOptions = equalityTypeToSimplifyOptions(options.unitCheck)
 		a.simplify(simplifyOptions)
 		b.simplify(simplifyOptions)
 
-		// Next, compare the floats.
-		const floatEqualityOptions = {}
-		Object.keys(defaultFloatEqualityOptions).forEach(option => (options[option] !== undefined ? floatEqualityOptions[option] = options[option] : 0))
-		const floatComparison = a.float.checkEquality(b.float, floatEqualityOptions)
-		result = {
+		// Compare the floats and the units.
+		const floatComparison = a.float.checkEquality(b.float, floatEqualityOptions) // This is an object.
+		const unitComparison = a.unit.str === b.unit.str // This is just a boolean. Note that the units have already been simplified, so a direct string comparison is possible.
+
+		// Assemble the result.
+		return {
 			...floatComparison,
-			...result,
-			result: result.result && floatComparison.result,
+			result: floatComparison.result && unitComparison,
 			numberOK: floatComparison.result,
+			unitOK: unitComparison
 		}
-
-		// Afterwards, compare the units.
-		const unitEqualityOptions = {}
-		Object.keys(defaultUnitEqualityOptions).forEach(option => (options[option] !== undefined ? unitEqualityOptions[option] = options[option] : 0))
-		result.unitOK = a.unit.equals(b.unit, unitEqualityOptions)
-		result.result = result.result && result.unitOK
-
-		// We're done!
-		return result
-	}
-
-	// equals compares two FloatUnits. It only returns true or false.
-	equals(x, options = {}) {
-		return this.checkEquality(x, options).result
 	}
 
 	// add will add two FloatUnits together. They must have the same unit (when simplified) or an error is thrown. If the unit of the added quantity is merely written differently (for example N*m instead of J) then this is ignored: the unit of this object stays the same. This object is adjusted and returned for chaining.
@@ -186,6 +193,20 @@ class FloatUnit {
 }
 module.exports.FloatUnit = FloatUnit
 
+// Define equality check types.
+FloatUnit.equalityTypes = {
+	exact: 0,
+	sameUnitsAndPrefixes: 1,
+	sameUnits: 2,
+	free: 3,
+}
+FloatUnit.defaultEqualityOptions = {
+	absoluteMargin: Float.defaultEqualityOptions.absoluteMargin,
+	relativeMargin: Float.defaultEqualityOptions.relativeMargin,
+	significantDigitMargin: Float.defaultEqualityOptions.significantDigitMargin,
+	unitCheck: Unit.defaultEqualityOptions.type,
+}
+
 // splitString turns a string representation of (hopefully) a FloatUnit into two strings, returning them as an object { float: "...", unit: "..." }.
 function splitString(str) {
 	// Check boundary cases.
@@ -204,6 +225,24 @@ function splitString(str) {
 		unit: match[10],
 	}
 }
+
+// getRandomFloatUnit gives a random Float with given Unit.
+function getRandomFloatUnit(options) {
+	return new FloatUnit({
+		float: getRandomFloat(options),
+		unit: options.unit,
+	})
+}
+module.exports.getRandomFloatUnit = getRandomFloatUnit
+
+// getRandomExponentialFloatUnit gives a random Float according to an exponential distribution with given Unit.
+function getRandomExponentialFloatUnit(options) {
+	return new FloatUnit({
+		float: getRandomExponentialFloat(options),
+		unit: options.unit,
+	})
+}
+module.exports.getRandomExponentialFloatUnit = getRandomExponentialFloatUnit
 
 // The following functions are obligatory functions.
 function isFOofType(floatUnit) {

@@ -1,5 +1,5 @@
 const { getRandomInteger } = require('../../../inputTypes/Integer')
-const { getRandomFloat } = require('../../../inputTypes/Float')
+const { getRandomExponentialFloat } = require('../../../inputTypes/Float')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 
 const data = {
@@ -8,10 +8,14 @@ const data = {
 }
 
 function generateState() {
-	const power = getRandomInteger(-5, 7)
-	const bounds = Math.pow(10, power)
-	const significantDigits = getRandomInteger(2, 4)
-	return { x: getRandomFloat({ min: -bounds, max: bounds, significantDigits }) }
+	return {
+		x: getRandomExponentialFloat({
+			min: 1e-6,
+			max: 1e7,
+			randomSign: true,
+			significantDigits: getRandomInteger(2, 4),
+		})
+	}
 }
 
 function checkInput({ x }, { ans }) {

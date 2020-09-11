@@ -72,3 +72,14 @@ function processOptions(givenOptions, defaultOptions) {
 	return { ...defaultOptions, ...givenOptions }
 }
 module.exports.processOptions = processOptions
+
+// filterProperties filters the properties of an object based on the given arrays of keys. Only properties that are in the given array will be kept, and others will be remove. The original object is not adjusted: a new object is returned.
+function filterProperties(obj, allowedKeys) {
+	const res = {}
+	allowedKeys.forEach(key => {
+		if (obj[key] !== undefined)
+			res[key] = obj[key]
+	})
+	return res
+}
+module.exports.filterProperties = filterProperties

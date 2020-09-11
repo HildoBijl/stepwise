@@ -4,14 +4,6 @@ const { isObject, deepEquals, processOptions } = require('../../util/objects')
 const { UnitElement } = require('./UnitElement')
 const { getUnitArrayFO, isFOofType: isFOofTypeUnitArray, FOtoIO: unitArrayFOtoIO, IOtoFO: unitArrayIOtoFO, getEmpty: getEmptyUnitArray, isEmpty: isUnitArrayEmpty } = require('./UnitArray')
 
-const defaultEqualityOptions = {
-	compareOrder: false,
-	comparePrefixes: false,
-	compareSize: true,
-	simplifyUnit: true,
-}
-module.exports.defaultEqualityOptions = defaultEqualityOptions
-
 class Unit {
 	// The constructor input is either a string like "mg^3 * kl / ns^2 * °C^2", or an object with a "num" and a "den" property. In this latter case these properties should either be unit strings like "mg^3 * kl" or arrays of something the UnitElement constructor takes.
 
@@ -107,10 +99,12 @@ class Unit {
 	}
 
 	/* simplify simplifies a unit, removing prefixes from all unit elements, sorting out the order and removing duplicate units. Various options can be passed along:
-	 * - removePrefixes (default true): should we get rid of the prefixes?
-	 * - toStandardUnits (default true): should we reduce units to standard units? For instance, turning liters into dm^3 (and subsequently to m^3)? This is ignored if prefixes aren't removed. (How would you otherwise transform dl?)
-	 * - toBaseUnits (default false): should we reduce units to base units? For instance, reducing N into kg * m / s^2. This is ignored if toStandardUnits is false.
-	 * - sortUnits (default true): should we sort units in the end? That is, rewrite "m*N" as "N*m" and similar? This also includes power simplifications, reducing m^5 / m^3 to m^2.
+	 * - type (default 2): 
+	 *   0 (Unit.simplifyType.nothing): don't simplify anything.
+	 *   1 (Unit.simplifyType.removePrefixes): remove the prefixes, turning dl into l.
+	 *   2 (Unit.simplifyType.toStandardUnits): go to standard units, turning l into m^3.
+	 *   3 (Unit.simplifyType.toBaseUnits): go to base units, turning C into A*s.
+	 * - clean (default true): should we clean/sort out unit elements in the end? That is, rewrite "m*N" as "N*m" and similar? This also includes power simplifications, reducing m^5 / m^3 to m^2.
 	 * It returns this object itself, allowing for chaining.
 	 */
 	simplify(options = {}) {
@@ -125,13 +119,7 @@ class Unit {
 	 */
 	simplifyWithData(options = {}) {
 		// Fill out any missing options with defaults.
-		const defaultOptions = {
-			removePrefixes: true,
-			toStandardUnits: true,
-			toBaseUnits: false,
-			sortUnits: true,
-		}
-		options = processOptions(options, defaultOptions)
+		options = processOptions(options, Unit.defaultSimplifyOptions)
 
 		// Check if the unit is a valid one. We cannot simplify it otherwise.
 		if (!this.isValid())
@@ -139,12 +127,12 @@ class Unit {
 
 		// First remove all the prefixes, keeping track of the power that we accumulate like this. This should be returned eventually.
 		let data = { simplification: this, difference: 0, factor: 1, power: 0 }
-		if (options.removePrefixes) {
+		if (options.type >= Unit.simplifyTypes.removePrefixes) {
 			this._num.forEach(unitElement => data.power += unitElement.removePrefix())
 			this._den.forEach(unitElement => data.power -= unitElement.removePrefix())
 
 			// Turn all units into standard units, if the options dictate so.
-			if (options.toStandardUnits) {
+			if (options.type >= Unit.simplifyTypes.toStandardUnits) {
 				let result = new Unit('')
 				this._num.forEach(unitElement => {
 					if (unitElement.unit.standard) { // Is it already a standard unit?
@@ -176,7 +164,7 @@ class Unit {
 					data.difference = 0
 
 				// Turn all units into base units, if the options dictate so. In this case we do not keep track of adjustments, because there won't be any. (That's the whole idea behind standard units.)
-				if (options.toBaseUnits) {
+				if (options.type >= Unit.simplifyTypes.toBaseUnits) {
 					let result = new Unit('')
 					this._num.forEach(unitElement => {
 						if (unitElement.unit.base) {
@@ -199,7 +187,7 @@ class Unit {
 		}
 
 		// Should we simplify and sort the whole unit?
-		if (options.sortUnits) {
+		if (options.clean) {
 			// Make a list of all the units that exist and what power they have.
 			const unitPowers = {}
 			const addToUnitPowers = (unitElement, positive) => {
@@ -234,18 +222,20 @@ class Unit {
 	}
 
 	/* equals compares two units, checking if they're equal, returning true or false. It can get an object with options as second parameter. These options include:
-	 * - compareOrder (default false): should we consider "N*m" equals to "m*N"? And should we consider "m^2/m" equal to "m"? Default we don't compare order and these are equal.
-	 * - comparePrefixes (default false): should we consider "m * kg" and "km * g" equal? Default we don't compare prefixes and these are equal.
-	 * - compareSize (default true): should we consider "m" and "km" equal? Default we do compare size and these are unequal.
-	 * - simplifyUnit (default true): should we consider "Pa" and "N/m^2" equal? This option is ignored if any of the first two options is set to true. Default we do this simplification.
+	 * - type (default 3): 
+	 *   0 (Unit.equalityTypes.exact): require exactly the same unit. So N * m and m * N are different.
+	 *   1 (Unit.equalityTypes.sameUnitsAndPrefixes): allow other orders, but keeping the same prefixes. So kg * s and s * kg are equal, but kg * s and g * ks are not equal.
+	 *   2 (Unit.equalityTypes.sameUnits): allow any order and shifting of prefixes, but keep the same unit. So kg * s and g * ks are equal. Also, km / s and m / ms are equal. But turning N into kg * m / s^2 is not allowed.
+	 *   3 (Unit.equalityTypes.free): any units that are equal in some way are considered equal. So N and kg * m / s^2 are equal.
+	 * - checkSize (default true): should we consider m and km equal? This only applies from type 2 and above. For type 0 and 1 size must always be equal, because prefixes must always be equal.
 	 */
 	equals(x, options = {}) {
 		// If constructors don't match, no comparison is possible.
 		if (this.constructor !== x.constructor)
-			throw new Error(`Invalid comparison: cannot compare an object of type "${this.constructor.name || 'unknown'}" with an object of type "${x.constructor.name || 'unknown'}".`)
+			throw new Error(`Invalid comparison:/ cannot compare an object of type "${this.constructor.name || 'unknown'}" with an object of type "${x.constructor.name || 'unknown'}".`)
 
 		// Fill out any missing options with defaults.
-		options = processOptions(options, defaultEqualityOptions)
+		options = processOptions(options, Unit.defaultEqualityOptions)
 
 		// Clone the units to avoid editing the given ones.
 		const a = this.clone()
@@ -261,15 +251,10 @@ class Unit {
 			return false
 
 		// Simplify the units based on the given options.
-		const simplifyOptions = {
-			removePrefixes: !options.comparePrefixes,
-			sortUnits: !options.compareOrder,
-			toStandardUnits: (!options.comparePrefixes && !options.compareOrder && options.simplifyUnit),
-			toBaseUnits: (!options.comparePrefixes && !options.compareOrder && options.simplifyUnit),
-		}
+		const simplifyOptions = equalityTypeToSimplifyOptions(options.type)
 		const aData = a.simplifyWithData(simplifyOptions)
 		const bData = b.simplifyWithData(simplifyOptions)
-		if (options.compareSize) {
+		if (options.checkSize) {
 			if (aData.difference !== bData.difference)
 				return false
 			if (aData.factor !== bData.factor)
@@ -304,6 +289,58 @@ class Unit {
 	}
 }
 module.exports.Unit = Unit
+
+// Define simplify types.
+Unit.simplifyTypes = {
+	doNothing: 0,
+	removePrefixes: 1,
+	toStandardUnits: 2,
+	toBaseUnits: 3,
+}
+Unit.defaultSimplifyOptions = {
+	type: Unit.simplifyTypes.toStandardUnits,
+	clean: true,
+}
+
+// Define equality check types.
+Unit.equalityTypes = {
+	exact: 0,
+	sameUnitsAndPrefixes: 1,
+	sameUnits: 2,
+	free: 3,
+}
+Unit.defaultEqualityOptions = {
+	type: Unit.equalityTypes.free,
+	checkSize: true,
+}
+function equalityTypeToSimplifyOptions(type) {
+	if (type === Unit.equalityTypes.exact) {
+		return {
+			type: Unit.simplifyTypes.doNothing,
+			clean: false,
+		}
+	}
+	if (type === Unit.equalityTypes.sameUnitsAndPrefixes) {
+		return {
+			type: Unit.simplifyTypes.doNothing,
+			clean: true,
+		}
+	}
+	if (type === Unit.equalityTypes.sameUnits) {
+		return {
+			type: Unit.simplifyTypes.removePrefixes,
+			clean: true,
+		}
+	}
+	if (type === Unit.equalityTypes.free) {
+		return {
+			type: Unit.simplifyTypes.toBaseUnits,
+			clean: true,
+		}
+	}
+	throw new Error(`Invalid unit equals type: received "${type}" which is not a known type.`)
+}
+module.exports.equalityTypeToSimplifyOptions = equalityTypeToSimplifyOptions
 
 // splitUnitString takes a unit like "m * kg / N^2 * m^2" and splits it up into an object { num: "m * kg", den: "N^2 * m^2" } with numerator and denominator strings.
 function splitUnitString(str) {

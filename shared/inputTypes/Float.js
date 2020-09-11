@@ -1,7 +1,8 @@
 // The Float class represents floating point numbers with a certain number of significant digits. By default it is an empty string with zero significant digits.
 
-const { isInt, isNumber, roundTo } = require('../util/numbers')
+const { isInt, isNumber, ensureNumber, roundTo } = require('../util/numbers')
 const { isObject, processOptions } = require('../util/objects')
+const { getRandom } = require('../util/random')
 
 const numberFormat = '-?(\\d+[.,]?\\d*)|(\\d*[.,]?\\d+)'
 const regNumberFormat = new RegExp(`^${numberFormat}$`)
@@ -10,14 +11,6 @@ const floatFormat = `(${numberFormat})(\\s*\\*\\s*10\\^((\\((-?\\d+)\\))|(-?\\d+
 const regFloatFormat = new RegExp(`^${floatFormat}$`)
 module.exports.floatFormat = floatFormat
 module.exports.numberFormat = numberFormat
-
-const defaultEqualityOptions = {
-	absoluteMargin: 0,
-	relativeMargin: 0.000001,
-	significantDigitMargin: Infinity,
-	checkPower: false,
-}
-module.exports.defaultEqualityOptions = defaultEqualityOptions
 
 const defaultParameters = {
 	number: 0,
@@ -207,11 +200,11 @@ class Float {
 		return this
 	}
 
-	/* checkEquality compares two floats. Options include:
+	/* checkEquality compares the given float with the this-float. Options include:
 	 * - absoluteMargin (default 0): the absolute margin that is allowed. If 0.05 is given, then 5.00 will be equal to numbers betwee 4.95 and 5.05 (inclusive).
 	 * - relativeMargin (default 0.000001 to prevent numerical issues): the relative margin between the numbers. If 0.01 is given, a 1% margin is used. So then the number 5.00 is considered equal to numbers between 4.95 and 5.0505... (Always the largest number is used to determine margins.) If both a relative and an absolute margin are given, then the numbers are considered equal when one of the margins match. (That is: in doubtful situations, equality is usually set to true.)
 	 * - significantDigitMargin (default Infinity): the allowed difference in the number of significant digits. Is 001.0 (two sig. digits) the same as 1.000 (four sig. digits)?
-	 * - checkPower (default false): requires the power of the numbers to be equal to. When set to true, 123.4 and 1.234 * 10^2 are considered different units.
+	 * - checkPower (default false): requires the power of the numbers to be equal too. When set to true, 123.4 and 1.234 * 10^2 are considered different units.
 	 * The result is an object containing information.
 	 * - result (true or false): is there equality?
 	 * - magnitude ('TooSmall','TooLarge','OK')
@@ -226,7 +219,7 @@ class Float {
 			throw new Error(`Invalid comparison: cannot compare a number of type "${this.constructor.name || 'unknown'}" with a number of type "${x.constructor.name || 'unknown'}".`)
 
 		// Check the option input.
-		options = processOptions(options, defaultEqualityOptions)
+		options = processOptions(options, Float.defaultEqualityOptions)
 		if (!isNumber(options.absoluteMargin) || options.absoluteMargin < 0)
 			throw new Error(`Invalid options: the parameter absoluteMargin must be a non-negative number, but "${options.absoluteMargin}" was given.`)
 		if (!isNumber(options.relativeMargin) || options.relativeMargin < 0)
@@ -246,7 +239,7 @@ class Float {
 			result.magnitude = 'OK'
 		} else { // No equality.
 			result.result = false
-			result.magnitude = (n1 < n2 ? 'TooSmall' : 'TooLarge')
+			result.magnitude = (n2 < n1 ? 'TooSmall' : 'TooLarge')
 		}
 
 		// Check the number of significant digits.
@@ -254,7 +247,7 @@ class Float {
 			result.numSignificantDigits = 'OK'
 			if (Math.abs(this.significantDigits - x.significantDigits) > options.significantDigitMargin) {
 				result.result = false // No equality.
-				result.numSignificantDigits = (this.significantDigits < x.significantDigits ? 'TooSmall' : 'TooLarge')
+				result.numSignificantDigits = (x.significantDigits < this.significantDigits ? 'TooSmall' : 'TooLarge')
 			}
 		}
 
@@ -263,7 +256,7 @@ class Float {
 			result.power = 'OK'
 			if (this.power !== x.power) {
 				result.result = false
-				result.power = (this.power < x.power ? 'TooSmall' : 'TooLarge')
+				result.power = (x.power < this.power ? 'TooSmall' : 'TooLarge')
 			}
 		}
 
@@ -319,18 +312,53 @@ class Float {
 }
 module.exports.Float = Float
 
-/* getRandomFloat returns a random float between the given minimum and maximum. You can either set:
+Float.defaultEqualityOptions = {
+	absoluteMargin: 0,
+	relativeMargin: 0.000001,
+	significantDigitMargin: Infinity,
+	checkPower: false,
+}
+
+/* getRandomFloat returns a random float between the given min and max, according to a uniform distribution. You can either set:
  * - the number of decimals. Use "1" for "23.4" and "-1" for "2.34 * 10^3".
  * - the number of significant digits. Use "3" for "23.4" and "2.34 * 10^3".
  * If none is given then infinite precision will be assumed.
- * If rounded is true (default) the number will be rounded to be precisely "23.4" and not be "23.4321" or so behind the scenes.
+ * If round is true (default true) the number will be rounded to be precisely "23.4" and not be "23.4321" or so behind the scenes.
  */
-function getRandomFloat({ min = 0, max = 1, decimals, significantDigits, round = true }) {
+function getRandomFloat(options) {
+	// Check input: must be numbers.
+	let { min, max } = options
+	min = ensureNumber(min)
+	max = ensureNumber(max)
+
+	// Set up a random float.
+	const number = getRandom(min, max)
+	return processFloat(number, options)
+}
+module.exports.getRandomFloat = getRandomFloat
+
+// getRandomExponentialFloat returns a random float between the given min and max. It does this according to an exponential distribution to satisfy Benford's law. Optionally, "negative" can be set to true to force a negative sign, or otherwise "randomSign" can be set to true to also get negative numbers.
+function getRandomExponentialFloat(options) {
+	// Check input: must be nonzero positive numbers.
+	let { min, max, negative, randomSign } = options
+	min = ensureNumber(min, true, true)
+	max = ensureNumber(max, true, true)
+
+	// Set up a random float.
+	const randomExp = getRandom(Math.log10(min), Math.log10(max))
+	const sign = (negative || (randomSign && Math.random()) < 0.5) ? -1 : 1
+	const number = sign * Math.pow(10, randomExp)
+	return processFloat(number, options)
+}
+module.exports.getRandomExponentialFloat = getRandomExponentialFloat
+
+// processFloat turns the given number with the corresponding options into a Float object.
+function processFloat(number, { decimals, significantDigits, round = true }) {
+	// Check input.
 	if (decimals !== undefined && significantDigits !== undefined)
 		throw new Error(`Invalid input: cannot set both the number of decimals and number of significant digits.`)
 
 	// Determine the number and set its precision accordingly.
-	const number = min + (max - min) * Math.random()
 	let float
 	if (decimals !== undefined) {
 		float = new Float({ number, significantDigits: Math.floor(Math.log10(Math.abs(number))) + 1 + decimals })
@@ -343,7 +371,6 @@ function getRandomFloat({ min = 0, max = 1, decimals, significantDigits, round =
 		float.roundToPrecision()
 	return float
 }
-module.exports.getRandomFloat = getRandomFloat
 
 // getSignificantDigits returns the number of significant digits that a number in string format has.
 function getSignificantDigits(str) {

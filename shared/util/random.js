@@ -1,5 +1,11 @@
 const { ensureArray, getCumulativeArray, lastOf } = require('./arrays')
 
+// getRandom returns a random floating number between the given minimum and maximum.
+function getRandom(min, max) {
+	return min + (max - min) * Math.random()
+}
+module.exports.getRandom = getRandom
+
 // getRandomInteger returns a random integer between the given minimum and maximum (both inclusive).
 function getRandomInteger(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min

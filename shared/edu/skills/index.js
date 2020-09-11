@@ -31,6 +31,10 @@ const skills = {
 		exercises: ['summationAndMultiplication1', 'summationAndMultiplication2'],
 	},
 
+	calculateWithPressure: {
+		name: 'Rekenen met druk',
+		exercises: ['calculateWithPressure'],
+	},
 	specificGasConstant: {
 		name: 'Specifieke gasconstante opzoeken',
 		exercises: ['specificGasConstant'],
