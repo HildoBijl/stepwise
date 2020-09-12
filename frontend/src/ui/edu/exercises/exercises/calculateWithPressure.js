@@ -30,8 +30,8 @@ function Problem({ p, type }) {
 }
 
 function Solution({ p, type }) {
-	const { shared: { data: { getCorrect } } } = useExerciseData()
-	const correctAnswer = getCorrect(p, type)
+	const { shared: { getCorrect } } = useExerciseData()
+	const correctAnswer = getCorrect({ p, type })
 
 	const solution = [
 		<Par>Om van Pascal naar bar te gaan delen we door <M>10^5</M>. Hiermee krijgen we <BM>p = {p.float.tex} / 10^5 = {correctAnswer.tex}.</BM></Par>,
@@ -49,13 +49,13 @@ function getFeedback(exerciseData) {
 }
 
 function getFeedbackText(exerciseData) {
-	const { state: { p, type }, input: { ans }, progress: { solved }, shared: { data: { equalityOptions, getCorrect } } } = exerciseData
+	const { state: { p, type }, input: { ans }, progress: { solved }, shared: { data: { equalityOptions }, getCorrect } } = exerciseData
 
 	if (solved)
 		return selectRandomCorrect()
 
 	// Get the correct answer and compare it to the input.
-	const result = getCorrect(p, type).checkEquality(ans, equalityOptions)
+	const result = getCorrect({ p, type }).checkEquality(ans, equalityOptions)
 
 	if (!result.unitOK) {
 		if (type === 0)
