@@ -20,8 +20,8 @@ const data = {
 
 function generateState() {
 	let V = getRandomExponentialFloatUnit({
-		min: 1e-6,
-		max: 1e1,
+		min: 1e-5,
+		max: 1e2,
 		significantDigits: getRandomInteger(2, 3),
 		unit: 'm^3',
 	})

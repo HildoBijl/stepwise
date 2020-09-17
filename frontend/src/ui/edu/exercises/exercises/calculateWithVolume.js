@@ -1,8 +1,9 @@
 import React from 'react'
 
-import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
+import { selectRandomCorrect } from 'step-wise/util/random'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 
+import { getFloatUnitEqualityFeedbackText } from '../util/feedback'
 import SimpleExercise from '../types/SimpleExercise'
 import { useExerciseData } from '../ExerciseContainer'
 import { Par } from '../../../components/containers'
@@ -14,7 +15,7 @@ export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
 }
 
-function Problem({ V, type, level }) {
+function Problem({ V, type }) {
 	const description = [
 		<Par>Schrijf het volume <M>V = {V.tex}</M> in liters.</Par>,
 		<Par>Schrijf het volume <M>V = {V.tex}</M> in standaard eenheden.</Par>,
@@ -96,11 +97,5 @@ function getFeedbackText(exerciseData) {
 			return 'Je hebt geen kubieke meter als eenheid gebruikt.'
 	}
 
-	if (result.magnitude !== 'OK')
-		return `Je eenheid klopt maar je getal is te ${result.magnitude === 'TooLarge' ? 'groot' : 'klein'}.`
-
-	if (result.numSignificantDigits !== 'OK')
-		return `Je hebt te ${result.numSignificantDigits === 'TooLarge' ? 'veel' : 'weinig'} significante getallen.`
-
-	return selectRandomIncorrect() // Should not happen.
+	return getFloatUnitEqualityFeedbackText(result)
 }

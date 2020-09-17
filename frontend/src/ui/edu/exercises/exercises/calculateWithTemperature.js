@@ -1,8 +1,9 @@
 import React from 'react'
 
-import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
+import { selectRandomCorrect } from 'step-wise/util/random'
 import { temperature as TConversion } from 'step-wise/data/conversions'
 
+import { getFloatUnitEqualityFeedbackText } from '../util/feedback'
 import SimpleExercise from '../types/SimpleExercise'
 import { useExerciseData } from '../ExerciseContainer'
 import { Par } from '../../../components/containers'
@@ -60,18 +61,12 @@ function getFeedbackText(exerciseData) {
 
 	if (!result.unitOK) {
 		if (type === 0)
-			return 'Je hebt niet graden Celsius als eenheid gebruikt.'
+			return 'Je hebt niet graden Celsius als eenheid gebruikt. (Tip: typ "gC" voor graden Celsius.)'
 		if (type === 1 || type === 3)
 			return 'Je hebt niet de standaard eenheid van temperatuur gebruikt.'
 		if (type === 2)
 			return 'Je hebt geen Kelvin als eenheid gebruikt.'
 	}
 
-	if (result.magnitude !== 'OK')
-		return `Je eenheid klopt maar je getal is te ${result.magnitude === 'TooLarge' ? 'groot' : 'klein'}.`
-
-	if (result.numSignificantDigits !== 'OK')
-		return `Je hebt te ${result.numSignificantDigits === 'TooLarge' ? 'veel' : 'weinig'} significante getallen.`
-
-	return selectRandomIncorrect() // Should not happen.
+	return getFloatUnitEqualityFeedbackText(result)
 }
