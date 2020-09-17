@@ -387,8 +387,8 @@ Float.defaultEqualityOptions = {
 }
 
 /* getRandomFloat returns a random float between the given min and max, according to a uniform distribution. You can either set:
- * - the number of decimals. Use "1" for "23.4" and "-1" for "2.34 * 10^3".
- * - the number of significant digits. Use "3" for "23.4" and "2.34 * 10^3".
+ * - the number of decimals through "decimals". Use "1" for "23.4" and "-1" for "2.34 * 10^3".
+ * - the number of significant digits through "significantDigits". Use "3" for "23.4" and "2.34 * 10^3".
  * If none is given then infinite precision will be assumed.
  * If round is true (default true) the number will be rounded to be precisely "23.4" and not be "23.4321" or so behind the scenes.
  */

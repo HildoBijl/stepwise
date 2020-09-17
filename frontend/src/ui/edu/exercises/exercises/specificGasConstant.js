@@ -38,7 +38,7 @@ function Problem({ medium }) {
 	return <>
 		<Par>Zoek de specifieke gasconstante van <strong>{Dutch[medium]}</strong> op. Voer je antwoord zo nauwkeurig mogelijk in.</Par>
 		<InputSpace>
-			<Par><FloatUnitInput id="ans" prelabel={<M>R_s =</M>} label={<span>Vul hier de specifieke gasconstante in</span>} size="s" /></Par>
+			<Par><FloatUnitInput id="ans" prelabel={<M>R_s =</M>} label={<span>Specifieke gasconstante</span>} size="s" /></Par>
 		</InputSpace>
 	</>
 }

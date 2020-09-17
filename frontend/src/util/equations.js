@@ -43,6 +43,7 @@ function preprocess(latex) {
 		latex = latex.map(preprocess).join('')
 	if (typeof latex !== 'string')
 		latex = latex.toString()
-	latex = latex.replace(/\.\d/g, substr => substr.replace('.', decimalSeparator === ',' ? '{,}' : decimalSeparator)) // Replace a period followed by a number by the default decimal separator. If it's a comma, prevent Latex from messing up spacing.
+	const replacement = decimalSeparator === ',' ? '{,}' : decimalSeparator // Prevent Latex from messing up commas.
+	latex = latex.replace(/[.,]\d/g, substr => substr.replace('.', replacement).replace(',', replacement)) // Replace a period/comma followed by a number by the default decimal separator.
 	return latex
 }
