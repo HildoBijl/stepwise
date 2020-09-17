@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
+import { pressure as pConversion } from 'step-wise/data/conversions'
 
 import SimpleExercise from '../types/SimpleExercise'
 import { useExerciseData } from '../ExerciseContainer'
@@ -33,14 +34,22 @@ function Solution({ p, type }) {
 	const { shared: { getCorrect } } = useExerciseData()
 	const correctAnswer = getCorrect({ p, type })
 
-	const solution = [
-		<Par>Om van Pascal naar bar te gaan delen we door <M>10^5</M>. Hiermee krijgen we <BM>p = {p.float.tex} / 10^5 = {correctAnswer.tex}.</BM></Par>,
-		<Par>Dit is een strikvraag. De druk staat al in standaard eenheden (Pascal). Het antwoord is dus gewoon <M>p = {correctAnswer.tex}</M>.</Par>,
-		<Par>Om van bar naar Pascal te gaan vermenigvuldigen we met <M>10^5</M>. Hiermee krijgen we <BM>p = {p.float.tex} \cdot 10^5 = {correctAnswer.tex}.</BM></Par>,
-		<Par>De standaard eenheid van druk is Pascal. Om van bar naar Pascal te gaan vermenigvuldigen we met <M>10^5</M>. Hiermee krijgen we <BM>p = {p.float.tex} \cdot 10^5 = {correctAnswer.tex}.</BM></Par>,
-	][type]
+	switch (type) {
+		case 0:
+			return <Par>Een bar is <M>{pConversion.float.tex}</M> Pascal. Om van Pascal naar bar te gaan delen we dus door <M>{pConversion.float.tex}</M>. Hiermee krijgen we <BM>p = {`\\frac{${p.tex}}{${pConversion.tex}}`} = {correctAnswer.tex}.</BM></Par>
 
-	return <Par>{solution}</Par>
+		case 1:
+			return <Par>Dit is een strikvraag. De druk staat al in standaard eenheden (Pascal). Het antwoord is dus gewoon <M>p = {correctAnswer.tex}</M>.</Par>
+
+		case 2:
+			return <Par>Een bar is <M>{pConversion.float.tex}</M> Pascal. Om van bar naar Pascal te gaan vermenigvuldigen we dus met <M>{pConversion.float.tex}</M>. Hiermee krijgen we <BM>p = {p.tex} \cdot {pConversion.tex} = {correctAnswer.tex}.</BM></Par>
+
+		case 3:
+			return <Par>De standaard eenheid van druk is Pascal, en een bar is <M>{pConversion.float.tex}</M> Pascal. Om van bar naar Pascal te gaan vermenigvuldigen we daarom met <M>{pConversion.float.tex}</M>. Hiermee krijgen we <BM>p = {p.tex} \cdot {pConversion.tex} = {correctAnswer.tex}.</BM></Par>
+
+		default:
+			throw new Error(`Invalid exercise type "${type}".`)
+	}
 }
 
 function getFeedback(exerciseData) {

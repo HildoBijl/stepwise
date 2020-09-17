@@ -4,10 +4,14 @@ const { isInt, ensureInt, isNumber, ensureNumber, roundTo } = require('../util/n
 const { isObject, processOptions } = require('../util/objects')
 const { getRandom } = require('../util/random')
 
-const numberFormat = '-?(\\d+[.,]?\\d*)|(\\d*[.,]?\\d+)'
+const numberFormat = '(-?(\\d+[.,]?\\d*)|(\\d*[.,]?\\d+))'
+const timesFormat = '(\\s*\\*\\s*)'
+// const tenPowerFormat = '10\\^(?:(?:\\((?<powerWithBrackets>-?\\d+)\\))|(?<powerWithoutBrackets>-?\\d+))' // Firefox doesn't support named capture groups.
+const tenPowerFormat = '(10\\^((\\((-?\\d+)\\))|(-?\\d+)))'
+const floatFormat = `(${numberFormat}${timesFormat}${tenPowerFormat}|${tenPowerFormat}|${numberFormat})` // Either a number, or a ten-power, or both with a multiplication in-between. (In reverse order, having more complex first)
+
 const regNumberFormat = new RegExp(`^${numberFormat}$`)
-// const floatFormat = `(?<number>${numberFormat})(?:\\s*\\*\\s*10\\^(?:(?:\\((?<powerWithBrackets>-?\\d+)\\))|(?<powerWithoutBrackets>-?\\d+)))?` // Firefox doesn't support named capture groups.
-const floatFormat = `(${numberFormat})(\\s*\\*\\s*10\\^((\\((-?\\d+)\\))|(-?\\d+)))?`
+const regTenPowerFormat = new RegExp(`^${tenPowerFormat}$`)
 const regFloatFormat = new RegExp(`^${floatFormat}$`)
 module.exports.floatFormat = floatFormat
 module.exports.numberFormat = numberFormat
@@ -95,10 +99,14 @@ class Float {
 		const power = this.getDisplayPower()
 		let str = this.getDisplayNumber(power)
 
+		// Check a special case.
+		if (str === '1' && power !== 0 && this._significantDigits === Infinity)
+			return power > 0 ? `10^${power}` : `10^(${power})`
+
 		// Add a power display.
 		if (power !== 0) {
 			if (power > 0) {
-				str += ` * 10^${power} `
+				str += ` * 10^${power}`
 			} else {
 				str += ` * 10^(${power})`
 			}
@@ -114,6 +122,10 @@ class Float {
 		// Determine the power that's used for string display and use it to determine the corresponding string.
 		const power = this.getDisplayPower()
 		let str = this.getDisplayNumber(power)
+
+		// Check a special case.
+		if (str === '1' && power !== 0 && this._significantDigits === Infinity)
+			return `10^{${power}}`
 
 		// Add a power display.
 		if (power !== 0) {
@@ -465,15 +477,25 @@ function stringToSO(str) {
 		return {}
 
 	// Check the format.
-	let match = regFloatFormat.exec(str)
+	const match = regFloatFormat.exec(str)
 	if (!match)
-		throw new Error(`Invalid Float number given: could not parse "${str}". It did not have the required format of "xxx.xxxx * 10^(yy)", where the power and brackets are optional.`)
+		throw new Error(`Invalid Float number given: could not parse "${str}". It did not have the required format of "xxx.xxxx * 10^(yy)", or alternatively just "xxx.xxxx" or "10^(yy)". (Brackets are also optional.)`)
 
 	// Extract number data and return it.
-	const numberStr = (match[1] || match[2]).replace(',', '.') // Turn a comma into a period. (Dutch vs US formatting.)
-	const power = parseInt(match[7] || match[8] || 0)
+	const numberStr = (match[2] || match[16] || '').replace(',', '.') // Turn a comma into a period. (Dutch vs US formatting.)
+	const power = parseInt(match[9] || match[10] || match[14] || match[15] || 0)
+
+	// Check a special case: no number string.
+	if (numberStr === '')
+		return {
+			number: Math.pow(10, power),
+			significantDigits: Infinity,
+			power,
+		}
+
+	// Default case: assemble the SO.
 	return {
-		number: parseFloat(numberStr) * Math.pow(10, power || 0),
+		number: parseFloat(numberStr) * Math.pow(10, power),
 		significantDigits: getSignificantDigits(numberStr),
 		power,
 	}

@@ -12,7 +12,7 @@ const data = {
 	skill: 'calculateWithTemperature',
 	equalityOptions: {
 		absoluteMargin: 0.2,
-		significantDigitMargin: 0,
+		significantDigitMargin: 1,
 		unitCheck: Unit.equalityTypes.sameUnits,
 	},
 }
@@ -22,7 +22,7 @@ function generateState() {
 	let T = getRandomFloatUnit({
 		min: 0,
 		max: 1000,
-		decimals: getRandomInteger(0,1),
+		decimals: getRandomInteger(0, 1),
 		unit: 'K',
 	})
 	if (type >= 2)

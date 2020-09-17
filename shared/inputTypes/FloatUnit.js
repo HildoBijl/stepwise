@@ -5,7 +5,7 @@ const { Float, floatFormat, getRandomFloat, getRandomExponentialFloat, FOtoIO: f
 const { Unit, equalityTypeToSimplifyOptions, FOtoIO: unitFOtoIO, IOtoFO: unitIOtoFO, getEmpty: getEmptyUnit, isEmpty: isUnitEmpty } = require('./Unit')
 
 // const inputFormat = new RegExp(`^(?<float>${floatFormat})(?<unit>.*)$`) // Firefox doesn't support named capture groups.
-const inputFormat = new RegExp(`^(${floatFormat})(.*)$`)
+const inputFormat = new RegExp(`^(${floatFormat}(.*))$`)
 
 class FloatUnit {
 	// The constructor must either get an object { float: ..., unit: ... } or a string which can be split up into a float and a unit.
@@ -303,8 +303,8 @@ function splitString(str) {
 
 	// Further process and save the results.
 	return {
-		float: match[1],
-		unit: match[10],
+		float: match[2],
+		unit: match[20],
 	}
 }
 

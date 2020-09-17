@@ -39,6 +39,10 @@ const skills = {
 		name: 'Rekenen met temperatuur',
 		exercises: ['calculateWithTemperature'],
 	},
+	calculateWithVolume: {
+		name: 'Rekenen met volume',
+		exercises: ['calculateWithVolume'],
+	},
 	specificGasConstant: {
 		name: 'Specifieke gasconstante opzoeken',
 		exercises: ['specificGasConstant'],

@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
+import { temperature as TConversion } from 'step-wise/data/conversions'
 
 import SimpleExercise from '../types/SimpleExercise'
 import { useExerciseData } from '../ExerciseContainer'
@@ -34,10 +35,10 @@ function Solution({ T, type }) {
 	const correctAnswer = getCorrect({ T, type })
 
 	const solution = [
-		<Par>Om van Kelvin naar graden Celsius te gaan halen we <M>273,15</M> ervan af. Hiermee krijgen we, rekening houdend met significante getallen, <BM>T = {T.float.tex} - 273,15 = {correctAnswer.tex}.</BM></Par>,
+		<Par>Om van Kelvin naar graden Celsius te gaan halen we <M>{TConversion.float.tex}</M> ervan af. Hiermee krijgen we, rekening houdend met significante getallen, <BM>T = {T.float.tex} - {TConversion.float.tex} = {correctAnswer.tex}.</BM></Par>,
 		<Par>Dit is een strikvraag. De temperatuur staat al in standaard eenheden (Kelvin). Het antwoord is dus gewoon <M>T = {correctAnswer.tex}</M>.</Par>,
-		<Par>Om van graden Celsius naar Kelvin te gaan tellen we er <M>273,15</M> bij op. Hiermee krijgen we, rekening houdend met significante getallen, <BM>T = {T.float.tex} + 273,15 = {correctAnswer.tex}.</BM></Par>,
-		<Par>De standaard eenheid van temperatuur is Kelvin. Om van Kelvin naar graden Celsius te gaan tellen we er <M>273,15</M> bij op. Hiermee krijgen we, rekening houdend met significante getallen, <BM>T = {T.float.tex} + 273,15 = {correctAnswer.tex}.</BM></Par>,
+		<Par>Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.float.tex}</M> bij op. Hiermee krijgen we, rekening houdend met significante getallen, <BM>T = {T.float.tex} + {TConversion.float.tex} = {correctAnswer.tex}.</BM></Par>,
+		<Par>De standaard eenheid van temperatuur is Kelvin. Om van Kelvin naar graden Celsius te gaan tellen we er <M>{TConversion.float.tex}</M> bij op. Hiermee krijgen we, rekening houdend met significante getallen, <BM>T = {T.float.tex} + {TConversion.float.tex} = {correctAnswer.tex}.</BM></Par>,
 	][type]
 
 	return <Par>{solution}</Par>
