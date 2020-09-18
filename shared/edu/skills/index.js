@@ -31,6 +31,13 @@ const skills = {
 		exercises: ['summationAndMultiplication1', 'summationAndMultiplication2'],
 	},
 
+	// Mathematics
+	solveLinearEquation: {
+		name: 'Lineaire vergelijking oplossen',
+		exercises: ['solveLinearEquation1'],
+	},
+
+	// Basic physics
 	calculateWithPressure: {
 		name: 'Rekenen met druk',
 		exercises: ['calculateWithPressure'],
@@ -43,6 +50,8 @@ const skills = {
 		name: 'Rekenen met volume',
 		exercises: ['calculateWithVolume'],
 	},
+
+	// Thermodynamics
 	specificGasConstant: {
 		name: 'Specifieke gasconstante opzoeken',
 		exercises: ['specificGasConstant'],

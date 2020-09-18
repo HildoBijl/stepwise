@@ -84,6 +84,10 @@ class Float {
 		return this._power
 	}
 
+	get decimals() {
+		return this.significantDigits - Math.floor(Math.log10(Math.abs(this.number))) - 1
+	}
+
 	// string returns a string representation of this number.
 	get str() {
 		return this.toString()
@@ -224,8 +228,9 @@ class Float {
 	}
 
 	/* checkEquality compares the given float with the this-float. Options include:
-	 * - absoluteMargin (default 0): the absolute margin that is allowed. If 0.05 is given, then 5.00 will be equal to numbers betwee 4.95 and 5.05 (inclusive).
+	 * - absoluteMargin (default 'auto'): the absolute margin that is allowed. If 0.05 is given, then 5.00 will be equal to numbers betwee 4.95 and 5.05 (inclusive). If it equals 'auto', then it will adjust to the accuracy of this float. If this float has value "1.60", then the absolute margin will be 0.005, so that all numbers between 1.595 and 1.605 are valid.
 	 * - relativeMargin (default 0.000001 to prevent numerical issues): the relative margin between the numbers. If 0.01 is given, a 1% margin is used. So then the number 5.00 is considered equal to numbers between 4.95 and 5.0505... (Always the largest number is used to determine margins.) If both a relative and an absolute margin are given, then the numbers are considered equal when one of the margins match. (That is: in doubtful situations, equality is usually set to true.)
+	 * - accuracyFactor (default 1): a factor through which both margins (absolute and relative) can be expanded. If this factor is set to 3, then all margins are tripled and equality is more easily obtained. This is useful to check if the student was close with his answer but not exactly on the spot.
 	 * - significantDigitMargin (default Infinity): the allowed difference in the number of significant digits. Is 001.0 (two sig. digits) the same as 1.000 (four sig. digits)?
 	 * - checkPower (default false): requires the power of the numbers to be equal too. When set to true, 123.4 and 1.234 * 10^2 are considered different units.
 	 * The result is an object containing information.
@@ -243,10 +248,12 @@ class Float {
 
 		// Check the option input.
 		options = processOptions(options, Float.defaultEqualityOptions)
-		if (!isNumber(options.absoluteMargin) || options.absoluteMargin < 0)
-			throw new Error(`Invalid options: the parameter absoluteMargin must be a non-negative number, but "${options.absoluteMargin}" was given.`)
+		if (options.absoluteMargin !== 'auto' && (!isNumber(options.absoluteMargin) || options.absoluteMargin < 0))
+			throw new Error(`Invalid options: the parameter absoluteMargin must be a non-negative number (or 'auto') but "${options.absoluteMargin}" was given.`)
 		if (!isNumber(options.relativeMargin) || options.relativeMargin < 0)
 			throw new Error(`Invalid options: the parameter relativeMargin must be a non-negative number, but "${options.relativeMargin}" was given.`)
+		if (!isNumber(options.accuracyFactor) || options.accuracyFactor < 0)
+			throw new Error(`Invalid options: the parameter accuracyFactor must be a non-negative number, but "${options.accuracyFactor}" was given.`)
 		if (options.significantDigitMargin !== Infinity && (!isInt(options.significantDigitMargin) || options.significantDigitMargin < 0))
 			throw new Error(`Invalid options: the parameter significantDigitMargin must be a non-negative integer, but "${options.significantDigitMargin}" was given.`)
 
@@ -254,10 +261,12 @@ class Float {
 		const result = { result: true } // Assume equality.
 		const n1 = this.number
 		const n2 = x.number
-		if (n1 >= n2 - options.absoluteMargin && n1 <= n2 + options.absoluteMargin) {
+		const absoluteMargin = (options.absoluteMargin === 'auto' ? Math.pow(10, -this.decimals) / 2 : options.absoluteMargin) * options.accuracyFactor
+		const relativeMargin = options.relativeMargin * options.accuracyFactor
+		if (n1 >= n2 - absoluteMargin && n1 <= n2 + absoluteMargin) {
 			result.absoluteMarginOK = true
 			result.magnitude = 'OK'
-		} else if (Math.sign(n1) === Math.sign(n2) && Math.abs(n1) >= Math.abs(n2) * (1 - options.relativeMargin) && Math.abs(n1) <= Math.abs(n2) / (1 - options.relativeMargin)) {
+		} else if (Math.sign(n1) === Math.sign(n2) && Math.abs(n1) >= Math.abs(n2) * (1 - relativeMargin) && Math.abs(n1) <= Math.abs(n2) / (1 - relativeMargin)) {
 			result.relativeMarginOK = true
 			result.magnitude = 'OK'
 		} else { // No equality.
@@ -266,12 +275,10 @@ class Float {
 		}
 
 		// Check the number of significant digits.
-		if (options.significantDigitMargin !== undefined) {
-			result.numSignificantDigits = 'OK'
-			if (Math.abs(this.significantDigits - x.significantDigits) > options.significantDigitMargin) {
-				result.result = false // No equality.
-				result.numSignificantDigits = (x.significantDigits < this.significantDigits ? 'TooSmall' : 'TooLarge')
-			}
+		result.numSignificantDigits = 'OK'
+		if (Math.abs(this.significantDigits - x.significantDigits) > options.significantDigitMargin) {
+			result.result = false // No equality.
+			result.numSignificantDigits = (x.significantDigits < this.significantDigits ? 'TooSmall' : 'TooLarge')
 		}
 
 		// Check powers of the numbers.
@@ -392,8 +399,9 @@ class Float {
 module.exports.Float = Float
 
 Float.defaultEqualityOptions = {
-	absoluteMargin: 0,
+	absoluteMargin: 'auto',
 	relativeMargin: 0.000001,
+	accuracyFactor: 1,
 	significantDigitMargin: Infinity,
 	checkPower: false,
 }
