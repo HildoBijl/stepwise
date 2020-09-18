@@ -203,7 +203,7 @@ class FloatUnit {
 	}
 
 	// add will add two FloatUnits together. They must have the same unit (when simplified) or an error is thrown. If the unit of the added quantity is merely written differently (for example N*m instead of J) then this is ignored: the unit of this object is used. It does not adjust this object but returns a copy.
-	add(x) {
+	add(x, keepDecimals) {
 		// Check input.
 		if (x.constructor !== this.constructor) // If constructors don't match, try to extract something anyway.
 			x = new this.constructor(x)
@@ -216,19 +216,19 @@ class FloatUnit {
 
 		// Add the quantities within the float and we're done. Though do apply the current unit to prevent surprises.
 		return new FloatUnit({
-			float: a.float.add(b.float),
+			float: a.float.add(b.float, keepDecimals),
 			unit: a.unit,
 		}).useUnit(this.unit)
 	}
 
 	// subtract will subtract a given number, just like add adds it.
-	subtract(x) {
+	subtract(x, keepDecimals) {
 		// Check input.
 		if (x.constructor !== this.constructor) // If constructors don't match, try to extract something anyway.
 			x = new this.constructor(x)
 
 		// Add the number with a minus sign.
-		return this.add(x.applyMinus())
+		return this.add(x.applyMinus(), keepDecimals)
 	}
 
 	// invert will return 1/number, inverting both the number and the unit. It does not adjust this object but returns a copy.
@@ -240,27 +240,27 @@ class FloatUnit {
 	}
 
 	// multiply will multiply two FloatUnits. It does not adjust this object but returns a copy.
-	multiply(x) {
+	multiply(x, keepDigits) {
 		// Check input.
 		if (x.constructor !== this.constructor) // If constructors don't match, try to extract something anyway.
 			x = new this.constructor(x)
 
 		// Perform the multiplication.
 		return new FloatUnit({
-			float: this.float.multiply(x.float),
+			float: this.float.multiply(x.float, keepDigits),
 			unit: this.unit.multiply(x.unit),
 		})
 	}
 
 	// divide will divide this FloatUnit with the given one, just like multiply multiplies them.
-	divide(x) {
+	divide(x, keepDigits) {
 		// Check input.
 		if (x.constructor !== this.constructor) // If constructors don't match, try to extract something anyway.
 			x = new this.constructor(x)
 
 		// Perform the multiplication.
 		return new FloatUnit({
-			float: this.float.divide(x.float),
+			float: this.float.divide(x.float, keepDigits),
 			unit: this.unit.divide(x.unit),
 		})
 	}

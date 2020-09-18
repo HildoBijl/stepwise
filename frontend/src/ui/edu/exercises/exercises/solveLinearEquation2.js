@@ -14,20 +14,22 @@ export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
 }
 
-function Problem({ a, b }) {
+function Problem({ a, b, c, d }) {
 	return <>
-		<Par>Los de vergelijking <M>a \cdot x = b</M> op voor <M>x</M>, waarbij <M>a = {a.tex}</M> en <M>b = {b.tex}.</M></Par>
+		<Par>Los de vergelijking <M>{a.tex} \cdot {b.tex} \cdot x = {c.tex} \cdot {d.tex}</M> op voor <M>x</M>.</Par>
 		<InputSpace>
 			<Par><FloatInput id="ans" prelabel={<M>x = </M>} label={<span>Antwoord</span>} size='s' /></Par>
 		</InputSpace>
 	</>
 }
 
-function Solution({ a, b }) {
+function Solution({ a, b, c, d }) {
 	const { shared: { getCorrect } } = useExerciseData()
-	const x = getCorrect({ a, b })
+	const x = getCorrect({ a, b, c, d })
+	const ab = a.multiply(b, true)
+	const cd = c.multiply(d, true)
 
-	return <Par>We beginnen met de vergelijking <BM>{a.tex} \cdot x = {b.tex}.</BM> Als we beide kanten van de vergelijking delen door <M>{a.tex}</M> krijgen we <BM>x = {`\\frac{${b.tex}}{${a.tex}}`} = {x.tex}.</BM> Dit is de oplossing van de opgave.</Par>
+	return <Par>Het is hier handig om de vermenigvuldigingen van getallen eerst simpeler op te schrijven. We weten dat <BM>{a.tex} \cdot {b.tex} = {ab.tex},</BM> <BM>{c.tex} \cdot {d.tex} = {cd.tex}.</BM> De vergelijking die we moeten oplossen is dus <BM>{ab.tex} \cdot x = {cd.tex}.</BM> Als we beide kanten van de vergelijking delen door <M>{ab.tex}</M> volgt <BM>x = {`\\frac{${cd.tex}}{${ab.tex}}`} = {x.tex}.</BM></Par>
 }
 
 function getFeedback(exerciseData) {
@@ -36,9 +38,9 @@ function getFeedback(exerciseData) {
 }
 
 function getFeedbackText(exerciseData) {
-	const { state: { a, b }, input: { ans }, progress: { solved }, shared: { data: { equalityOptions }, getCorrect } } = exerciseData
+	const { state, input: { ans }, progress: { solved }, shared: { data: { equalityOptions }, getCorrect } } = exerciseData
 
 	if (solved)
 		return selectRandomCorrect()
-	return getFloatComparisonFeedback(getCorrect({ a, b }), ans, equalityOptions)
+	return getFloatComparisonFeedback(getCorrect(state), ans, equalityOptions)
 }

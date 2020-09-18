@@ -65,8 +65,16 @@ function roundTo(number, digits) {
     throw new Error(`Invalid input: num has to be a number but "${number}" was given.`)
   if (!isInt(digits) || digits <= 0)
     throw new Error(`Invalid input: digits has to be a positive integer but "${digits}" was given.`)
-  const factor = digits - Math.floor(Math.log10(Math.abs(number))) - 1
-  return Math.round(number * Math.pow(10, factor)) / Math.pow(10, factor)
+  
+  // Boundary cases.
+  if (number === 0)
+    return 0
+  if (digits === Infinity)
+    return number
+  
+  // Calculate rounding.
+  const power = digits - Math.floor(Math.log10(Math.abs(number))) - 1
+  return Math.round(number * Math.pow(10, power)) / Math.pow(10, power)
 }
 module.exports.roundTo = roundTo
 

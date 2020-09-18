@@ -10,22 +10,32 @@ const data = {
 function generateState() {
 	return {
 		a: getRandomExponentialFloat({
-			min: 1e-3,
-			max: 1e3,
+			min: 1e-1,
+			max: 1e2,
 			randomSign: true,
 			significantDigits: getRandomInteger(2, 3),
 		}),
 		b: getRandomExponentialFloat({
-			min: 1e-2,
-			max: 1e4,
+			min: 1e-1,
+			max: 1e2,
+			significantDigits: getRandomInteger(2, 3),
+		}),
+		c: getRandomExponentialFloat({
+			min: 1e-1,
+			max: 1e2,
 			randomSign: true,
+			significantDigits: getRandomInteger(2, 3),
+		}),
+		d: getRandomExponentialFloat({
+			min: 1e-1,
+			max: 1e2,
 			significantDigits: getRandomInteger(2, 3),
 		}),
 	}
 }
 
-function getCorrect({ a, b }) {
-	return b.divide(a)
+function getCorrect({ a, b, c, d }) {
+	return (c.multiply(d)).divide(a.multiply(b))
 }
 
 function checkInput(state, { ans }) {

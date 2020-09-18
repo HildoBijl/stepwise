@@ -138,6 +138,11 @@ class Float {
 		return str
 	}
 
+	// texWithPM will return latex code but then with a plus or minus prior to the number, so it can be used as a term in an equation. For "5" it will return "+5", for "-5" it will return "-5" and for "0" it returns "+0".
+	get texWithPM() {
+		return (this.number < 0 ? '' : '+') + this.tex
+	}
+
 	// getDisplayPower returns the power with which we want to display the number. If the power is known, it is returned. Otherwise we intelligently determine one.
 	getDisplayPower() {
 		// If the power is set, just return that.
@@ -148,8 +153,10 @@ class Float {
 		if (this._number === 0)
 			return 0
 
-		// No power is set. Let's intelligently determine one.
-		const power = Math.floor(Math.log10(Math.abs(this._number))) // This is the one we need to get a number of the form "x.xxx" (with one decimal before the point).
+		// No power is set. Let's intelligently determine one. We do round the number first, or a number like "9.8" might give a wrong result.
+		const number = roundTo(this.number, this.significantDigits)
+		const power = Math.floor(Math.log10(Math.abs(number))) // This is the power that we need to get a number of the form "x.xxx" (with one decimal before the point).
+
 		if (power === -1)
 			return 0 // Display a number like 3 * 10^(-1) as 0.3.
 		if (power === 1 && this._significantDigits > 1)
@@ -161,12 +168,12 @@ class Float {
 
 	// getDisplayNumber returns a string representation for the number as it is displayed. This is done for the given power.
 	getDisplayNumber(power) {
+		// Check boundary case.
+		if (this._number === 0)
+			return '0'
+
 		// Round the number to the right number of significant digits, taking into account the power that will later be added.
-		let number = this._number / Math.pow(10, power || 0)
-		if (this._significantDigits < Infinity) {
-			const powerForRounding = this._significantDigits - Math.floor(Math.log10(Math.abs(number))) - 1
-			number = Math.round(number * Math.pow(10, powerForRounding)) / Math.pow(10, powerForRounding)
-		}
+		const number = roundTo(this._number / Math.pow(10, power || 0), this.significantDigits)
 
 		// Add zeros to the end if needed to match the significant digits.
 		let str = number.toString()
@@ -210,6 +217,16 @@ class Float {
 			number: this.number,
 			power: this.power,
 			significantDigits: Infinity,
+		})
+	}
+
+	// adjustSignificantDigits increases the number of significant digits by the given delta. (Cannot be decreased below zero: will be capped then.) The original object is not adjusted.
+	adjustSignificantDigits(delta) {
+		delta = ensureInt(delta)
+		return new Float({
+			number: this.number,
+			power: this.power,
+			significantDigits: Math.max(this.significantDigits + delta, 0),
 		})
 	}
 
@@ -294,6 +311,10 @@ class Float {
 		return result
 	}
 
+	get sign() {
+		return Math.sign(this.number)
+	}
+
 	// applyMinus will return minus this number. It does not adjust this object but returns a copy.
 	applyMinus() {
 		return new Float({
@@ -303,35 +324,41 @@ class Float {
 		})
 	}
 
-	// add will add a number to this number. It does not adjust this object but returns a copy.
-	add(x) {
+	// abs will take the absolute value of this Float. A copy is returned without adjusting this object.
+	abs() {
+		return new Float({
+			number: Math.abs(this.number),
+			significantDigits: this.significantDigits,
+			power: this.power,
+		})
+	}
+
+	// add will add a number to this number. It does not adjust this object but returns a copy. Normally it uses the rules of significant digits when adding, so 16 + 2.8 will be displayed as 19 (two significant digits). If keepDecimals is set to true (default false) then these will be kept and 16 + 2.8 will be 18.8 (three significant digits).
+	add(x, keepDecimals = false) {
 		// Check the input.
 		if (x.constructor !== this.constructor) // If constructors don't match, try to extract something anyway.
 			x = new this.constructor(x)
 
-		// Find the lowest-digit-power for each number and take the highest. (The lowest-digit-power of 0.19 is -2, for 0.199 this is -3, and so forth.)
-		const digitPower = Math.max(
-			Math.floor(Math.log10(Math.abs(this.number))) - this._significantDigits + 1,
-			Math.floor(Math.log10(Math.abs(x.number))) - x.significantDigits + 1,
-		)
+		// Find the lowest number of decimals. (So if we add 0.15 to 0.026 then the decimals are 2 and 3 and the lowest is 2.)
+		const minDecimals = (keepDecimals ? Math.max : Math.min)(this.decimals, x.decimals)
 
-		// Use the lowest-digit-power to set the number of significant digits.
+		// Use the lowest number of decimals to set the number of significant digits.
 		const number = this.number + x.number
 		return new Float({
 			number,
 			power: this.power === x.power ? this.power : undefined,
-			significantDigits: Math.floor(Math.log10(Math.abs(number))) - digitPower + 1,
+			significantDigits: Math.max(Math.floor(Math.log10(Math.abs(number))) + minDecimals + 1, 1),
 		})
 	}
 
 	// subtract will subtract a number, just like add adds it.
-	subtract(x) {
+	subtract(x, keepDecimals) {
 		// Check the input.
 		if (x.constructor !== this.constructor) // If constructors don't match, try to extract something anyway.
 			x = new this.constructor(x)
 
 		// Add the negative number.
-		return this.add(x.applyMinus())
+		return this.add(x.applyMinus(), keepDecimals)
 	}
 
 	// invert will turn this number into 1/number. It returns a copy without adjusting this object.
@@ -344,8 +371,8 @@ class Float {
 		})
 	}
 
-	// multiply multiplies this number by another number. It does not adjust this object but returns a copy.
-	multiply(x) {
+	// multiply multiplies this number by another number. It does not adjust this object but returns a copy. If keepDigits is set to true, the rules of significant digits are not followed, but instead more significant digits may be added.
+	multiply(x, keepDigits = false) {
 		// Check the input.
 		if (x.constructor !== this.constructor) // If constructors don't match, try to extract something anyway.
 			x = new this.constructor(x)
@@ -353,19 +380,19 @@ class Float {
 		// Process the result.
 		return new Float({
 			number: this.number * x.number,
-			significantDigits: Math.min(this.significantDigits, x.significantDigits),
+			significantDigits: (keepDigits ? Math.max : Math.min)(this.significantDigits, x.significantDigits),
 			// Do not specify a power: it is not valid anymore after multiplication.
 		})
 	}
 
 	// divide will divide this number by the given number, just like multiply multiplies.
-	divide(x) {
+	divide(x, keepDigits) {
 		// Check the input.
 		if (x.constructor !== this.constructor) // If constructors don't match, try to extract something anyway.
 			x = new this.constructor(x)
 
 		// Multiply by the inverted number.
-		return this.multiply(x.invert())
+		return this.multiply(x.invert(), keepDigits)
 	}
 
 	// toPower will take this number to the given power. So "2,0 * 10^2" to the power 3 will be "8,0 * 10^6".

@@ -34,7 +34,7 @@ const skills = {
 	// Mathematics
 	solveLinearEquation: {
 		name: 'Lineaire vergelijking oplossen',
-		exercises: ['solveLinearEquation1'],
+		exercises: ['solveLinearEquation1', 'solveLinearEquation2', 'solveLinearEquation3', 'solveLinearEquation4'],
 	},
 
 	// Basic physics
