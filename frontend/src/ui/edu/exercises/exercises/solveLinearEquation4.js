@@ -1,7 +1,5 @@
 import React from 'react'
 
-import { selectRandomCorrect } from 'step-wise/util/random'
-
 import { getFloatComparisonFeedback } from '../util/feedback'
 import SimpleExercise from '../types/SimpleExercise'
 import { useExerciseData } from '../ExerciseContainer'
@@ -33,14 +31,6 @@ function Solution({ a, b, c, d, e }) {
 }
 
 function getFeedback(exerciseData) {
-	const { progress: { solved } } = exerciseData
-	return { ans: { correct: !!solved, text: getFeedbackText(exerciseData) } }
-}
-
-function getFeedbackText(exerciseData) {
 	const { state, input: { ans }, progress: { solved }, shared: { data: { equalityOptions }, getCorrect } } = exerciseData
-
-	if (solved)
-		return selectRandomCorrect()
-	return getFloatComparisonFeedback(getCorrect(state), ans, equalityOptions)
+	return { ans: getFloatComparisonFeedback(getCorrect(state), ans, { equalityOptions, solved }) }
 }

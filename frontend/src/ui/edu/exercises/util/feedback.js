@@ -10,45 +10,13 @@ const defaultComparisonOptions = {
 	prevFeedback: undefined,
 }
 
-// getFloatComparisonFeedback takes two floats: a correct answer and an input answer. It then compares these using the given equality options and returns a feedback text.
-export function getFloatComparisonFeedback(correctAnswer, inputAnswer, equalityOptions = {}) {
-	// Do default comparison and check equality.
-	const comparison = correctAnswer.checkEquality(inputAnswer, equalityOptions)
-	if (comparison.result)
-		return selectRandomCorrect()
+const accuracyFactorForNearHits = 4
 
-	// Check sign.
-	if (Math.sign(correctAnswer.number) * Math.sign(inputAnswer.number) === -1)
-		return 'Je antwoord heeft niet het juiste teken. Controleer plussen en minnen.'
-
-	// Check for a near-hit.
-	if (correctAnswer.equals(inputAnswer, { ...equalityOptions, accuracyFactor: 4 }))
-		return 'Je zit erg in de buurt! Maak je antwoord iets nauwkeuriger.'
-
-	// Check if we're too high or too low. On negative numbers flip the phrasing.
-	if (comparison.magnitude !== 'OK') {
-		if (Math.sign(inputAnswer) === -1)
-			return `Je antwoord is (qua absolute waarde) te ${comparison.magnitude === 'TooLarge' ? 'klein' : 'groot'}.`
-		return `Je antwoord is te ${comparison.magnitude === 'TooLarge' ? 'groot' : 'klein'}.`
-	}
-
-	if (comparison.numSignificantDigits !== 'OK')
-		return `Je hebt te ${comparison.numSignificantDigits === 'TooLarge' ? 'veel' : 'weinig'} significante getallen.`
-
-	if (comparison.power !== undefined && comparison.power !== 'OK')
-		return `De gebruikte tien-macht is te ${comparison.power === 'TooLarge' ? 'groot' : 'klein'}.`
-
-	return selectRandomIncorrect() // Should not happen.
-
-	// ToDo: set up this function similarly to the one below.
-}
-
-/* getFloatUnitComparisonFeedback takes two FloatUnits: a correct answer and an input answer. It then compares these and returns a feedback object in the form { correct: true/false, text: 'Some feedback text' }. Various options can be provided within the third parameter:
+/* getFloatComparisonFeedback takes two Floats: a correct answer and an input answer. It then compares these and returns a feedback object in the form { correct: true/false, text: 'Some feedback text' }. Various options can be provided within the third parameter:
  * - equalityOptions: an object detailing how the comparison must be performed.
  * - correct: an overwrite, in case the server says it's correct or incorrect.
  * - text: an object with text for certain cases. It's the message if ...
  *   x correct: if it's correct.
- *   x unit: if it's incorrect due to the unit.
  *   x sign: if it's incorrect due to the sign of the answer.
  *   x near: if it's near the answer.
  *   x tooLarge: if it's too high.
@@ -62,21 +30,67 @@ export function getFloatComparisonFeedback(correctAnswer, inputAnswer, equalityO
  *   x wrongPower: a placeholder for both of the above.
  *   x incorrect: if it's wrong for some unknown reason.
  */
-export function getFloatUnitComparisonFeedback(correctAnswer, inputAnswer, options) {
+export function getFloatComparisonFeedback(correctAnswer, inputAnswer, options) {
 	options = processOptions(options, defaultComparisonOptions)
 	const { equalityOptions, solved, text, prevInput, prevFeedback } = options
-
-	// Check if correct is set to true.
-	if (solved === true)
-		return { correct: true, text: text.correct || selectRandomCorrect() }
-	
-	// If no input is given, no feedback will be given.
-	if (inputAnswer === undefined)
-		return
 
 	// If a previous input is given, and it equals the current input, then keep the previous feedback.
 	if (prevInput && equals(prevInput, inputAnswer))
 		return prevFeedback
+
+	// Check if correct is set to true.
+	if (solved === true)
+		return { correct: true, text: text.correct || selectRandomCorrect() }
+
+	// If no input is given, no feedback will be given.
+	if (inputAnswer === undefined)
+		return
+
+	// Do default comparison and check equality.
+	const comparison = correctAnswer.checkEquality(inputAnswer, equalityOptions)
+	if (comparison.result) {
+		if (solved === false)
+			return { correct: false, text: selectRandomIncorrect() } // Overwritten! Apparently the answer is correct now, but the server marks it as incorrect. So we have to show incorrect.
+		return { correct: true, text: selectRandomCorrect() }
+	}
+
+	// Check sign.
+	if (Math.sign(correctAnswer.number) * Math.sign(inputAnswer.number) === -1)
+		return {
+			correct: false,
+			text: text.sign || 'Je antwoord heeft niet het juiste teken. Controleer plussen en minnen.',
+		}
+
+	// Check for a near-hit.
+	if (correctAnswer.equals(inputAnswer, { ...equalityOptions, accuracyFactor: accuracyFactorForNearHits }))
+		return {
+			correct: false,
+			text: text.near || 'Je zit erg in de buurt! Maak je antwoord iets nauwkeuriger.',
+		}
+
+	// Check for default float comparison elements.
+	return {
+		correct: false,
+		text: getFloatComparisonFeedbackTextFromComparison(comparison, { ...options, answerSign: Math.sign(correctAnswer.number), inputSign: Math.sign(inputAnswer.number) }),
+	}
+}
+
+// getFloatUnitComparisonFeedback is identical to getFloatComparisonFeedback, but then with two main differences: it uses FloatUnits, and it can also be provided a "unit" error message text in case the unit is wrong.
+export function getFloatUnitComparisonFeedback(correctAnswer, inputAnswer, options) {
+	options = processOptions(options, defaultComparisonOptions)
+	const { equalityOptions, solved, text, prevInput, prevFeedback } = options
+
+	// If a previous input is given, and it equals the current input, then keep the previous feedback.
+	if (prevInput && equals(prevInput, inputAnswer))
+		return prevFeedback
+
+	// Check if correct is set to true.
+	if (solved === true)
+		return { correct: true, text: text.correct || selectRandomCorrect() }
+
+	// If no input is given, no feedback will be given.
+	if (inputAnswer === undefined)
+		return
 
 	// Do default comparison and check equality.
 	const comparison = correctAnswer.checkEquality(inputAnswer, equalityOptions)
@@ -106,7 +120,7 @@ export function getFloatUnitComparisonFeedback(correctAnswer, inputAnswer, optio
 		}
 
 	// Check for a near-hit.
-	if (correctAnswer.equals(inputAnswer, { ...equalityOptions, accuracyFactor: 4 }))
+	if (correctAnswer.equals(inputAnswer, { ...equalityOptions, accuracyFactor: accuracyFactorForNearHits }))
 		return {
 			correct: false,
 			text: text.near || 'Je zit erg in de buurt! Maak je antwoord iets nauwkeuriger.',
