@@ -24,38 +24,24 @@ const Problem = ({ p, V, T }) => <>
 const steps = [
 	{
 		Problem: () => <>
-			<Par>Zet het volume van het gas in standaard eenheden.</Par>
+			<Par>Zet alle gegeven waarden in standaard eenheden.</Par>
 			<InputSpace>
-				<Par><FloatUnitInput id="ansV" prelabel={<M>V=</M>} label={<span>Volume</span>} size="s" /></Par>
+				<Par>
+					<FloatUnitInput id="ansV" prelabel={<M>V=</M>} label={<span>Volume</span>} size="s" />
+					<FloatUnitInput id="ansp" prelabel={<M>p=</M>} label={<span>Druk</span>} size="s" />
+					<FloatUnitInput id="ansT" prelabel={<M>T=</M>} label={<span>Temperatuur</span>} size="s" />
+				</Par>
 			</InputSpace>
 		</>,
-		Solution: ({ V }) => {
-			return <Par>De standaard eenheid van volume is de kubieke meter. Om van kubieke centimeter naar kubieke meter te gaan gebruiken we een conversiefactor van <M>{VConversion.tex}</M>. Het volume is daarmee <BM>V = {`\\frac{${V.tex}}{${VConversion.tex}}`} = {V.simplify().tex}.</BM></Par>
-		},
-	},
-	{
-		Problem: () => <>
-			<Par>Zet de druk van het gas in standaard eenheden.</Par>
-			<InputSpace>
-				<Par><FloatUnitInput id="ansp" prelabel={<M>p=</M>} label={<span>Druk</span>} size="s" /></Par>
-			</InputSpace>
-		</>,
-		Solution: ({ p }) => {
+		Solution: ({ V, p, T }) => {
 			const pInBar = p.useUnit('bar')
 			const pInPa = pInBar.useUnit('Pa')
-			return <Par>Als eerste schrijven we <M>p = {p.tex}</M> als <M>p = {pInBar.tex}</M>. Vervolgens zetten we dit om naar de standaard eenheid van druk: Pascal. De conversiefactor van bar naar Pascal is <M>{pConversion.tex}</M>. Dit vertelt ons dat de druk gelijk is aan <BM>p = {pInBar.tex} \cdot {pConversion.tex} = {pInPa.tex}.</BM></Par>
-		},
-	},
-	{
-		Problem: () => <>
-			<Par>Zet de temperatuur van het gas in standaard eenheden.</Par>
-			<InputSpace>
-				<Par><FloatUnitInput id="ansT" prelabel={<M>T=</M>} label={<span>Temperatuur</span>} size="s" /></Par>
-			</InputSpace>
-		</>,
-		Solution: ({ T }) => {
 			const TInKelvin = T.useUnit('K')
-			return <Par>De standaard eenheid van temperatuur is de Kelvin. Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.float.tex}</M> bij op. Hiermee krijgen we <BM>T = {T.float.tex} + {TConversion.float.tex} = {TInKelvin.tex}.</BM></Par>
+			return <>
+				<Par>De standaard eenheid van volume is de kubieke meter. Om van kubieke centimeter naar kubieke meter te gaan gebruiken we een conversiefactor van <M>{VConversion.tex}</M>. Het volume is daarmee <BM>V = {`\\frac{${V.tex}}{${VConversion.tex}}`} = {V.simplify().tex}.</BM></Par>
+				<Par>De standaard eenheid van druk is Pascal. Als eerste schrijven we <M>p = {p.tex}</M> als <M>p = {pInBar.tex}</M>. Vervolgens zetten we dit om. De conversiefactor van bar naar Pascal is <M>{pConversion.tex}</M>. Dit vertelt ons dat de druk gelijk is aan <BM>p = {pInBar.tex} \cdot {pConversion.tex} = {pInPa.tex}.</BM></Par>
+				<Par>De standaard eenheid van temperatuur is de Kelvin. Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.float.tex}</M> bij op. Hiermee krijgen we <BM>T = {T.float.tex} + {TConversion.float.tex} = {TInKelvin.tex}.</BM></Par>
+			</>
 		},
 	},
 	{

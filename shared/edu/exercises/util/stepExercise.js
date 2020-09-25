@@ -1,4 +1,5 @@
 const { IOtoFO } = require('../../../inputTypes')
+const { noop } = require('../../../util/functions')
 
 // getStepExerciseProcessor takes a checkInput function that checks the input for a StepExercise and returns a processAction function.
 function getStepExerciseProcessor(checkInput, data) {
@@ -6,63 +7,84 @@ function getStepExerciseProcessor(checkInput, data) {
 	return ({ progress, action, state, history, updateSkills }) => {
 		if (progress.done)
 			return progress // Weird ... we're already done.
+		if (!updateSkills)
+			updateSkills = noop
 
 		const step = getStep(progress)
 		switch (action.type) {
 			case 'input':
-				const correct = checkInput(state, IOtoFO(action.input), step)
-				if (correct) {
-					// Solved the main problem?
-					if (!progress.split) {
-						if (updateSkills) {
-							updateSkills(data.skill, true)
-							updateSkills(data.setup, true)
-						}
+				// Are we in the main problem?
+				if (!progress.split) {
+					const correct = checkInput(state, IOtoFO(action.input), 0, 0)
+					if (correct) {
+						updateSkills(data.skill, true)
+						updateSkills(data.setup, true)
 						return { solved: true, done: true }
+					} else {
+						updateSkills(data.skill, false)
+						updateSkills(data.setup, false)
+						return progress // Nothing changed.
 					}
+				}
 
-					// Solved a step?
-					if (updateSkills)
-						updateSkills(data.steps[step - 1], true)
-					return nextStep({ ...progress, [step]: { solved: true, done: true } }, numSteps)
+				// We're at a step. But are there substeps too?
+				const skill = data.steps[step - 1]
+				if (Array.isArray(skill)) {
+					// There are substeps. Walk through them and, if they haven't been solved, check them one by one.
+					const stepProgress = { ...progress[step] }
+					skill.forEach((subskill, index) => {
+						const substep = index + 1
+						if (stepProgress[substep])
+							return // Already solved before.
+						const correct = checkInput(state, IOtoFO(action.input), step, substep)
+						stepProgress[substep] = correct
+						updateSkills(subskill, correct)
+					})
+
+					// If all substeps are solved, go to the next step. Otherwise stay.
+					if (skill.every((_, index) => stepProgress[index + 1]))
+						return nextStep({ ...progress, [step]: { ...stepProgress, solved: true, done: true } }, numSteps)
+					else
+						return { ...progress, [step]: stepProgress }
 				} else {
-					// Failed.
-					if (updateSkills) {
-						if (!progress.split) {
-							// Failed the main problem.
-							updateSkills(data.skill, false)
-							updateSkills(data.setup, false)
-						} else {
-							// Failed a step.
-							updateSkills(data.steps[step - 1], false)
-						}
-					}
-					return progress
+					// No substeps; just a regular step. Check it and update skills/progress accordingly.
+					const correct = checkInput(state, IOtoFO(action.input), step, 0)
+					updateSkills(skill, correct)
+					if (correct)
+						return nextStep({ ...progress, [step]: { solved: true, done: true } }, numSteps)
+					else
+						return progress // Nothing changed.
 				}
 
 			case 'giveUp':
 				// Give up on the main problem? Then split.
 				if (!progress.split) {
-					if (updateSkills && history.length === 0) { // If no input has been submitted for this step, then downgrade it.
+					if (history.length === 0) { // If no input has been submitted for this step, then downgrade it.
 						updateSkills(data.skill, false)
 						updateSkills(data.setup, false)
 					}
 					return nextStep({ split: true, step: 0 })
 				}
 
-				// Give up on a step?
-				if (updateSkills) {
-					// If no input has been submitted for this step, then downgrade it.
-					const eventAtStepWithInput = history.find((event, index) => {
-						const action = event.action
-						const prevProgress = (index === 0 ? {} : history[index - 1].progress)
-						const prevStep = getStep(prevProgress)
-						return step === prevStep && action.type === 'input'
-					})
-					if (!eventAtStepWithInput)
-						updateSkills(data.steps[step - 1], false)
+				// Give up on a step? If no input has been submitted for this step, then downgrade it.
+				const eventAtStepWithInput = history.find((event, index) => {
+					const action = event.action
+					const prevProgress = (index === 0 ? {} : history[index - 1].progress)
+					const prevStep = getStep(prevProgress)
+					return step === prevStep && action.type === 'input'
+				})
+				if (!eventAtStepWithInput) {
+					// Check if there are substeps which we should treat one by one, or just one step.
+					const skill = data.steps[step - 1]
+					if (Array.isArray(skill)) {
+						skill.forEach(subskill => updateSkills(subskill, false))
+					} else {
+						updateSkills(skill, false)
+					}
 				}
-				return nextStep({ ...progress, [step]: { givenUp: true, done: true } }, numSteps)
+
+				// Set up the new progress and return it.
+				return nextStep({ ...progress, [step]: { ...progress[step], givenUp: true, done: true } }, numSteps)
 
 			default:
 				throw new Error(`Invalid action type: the action type "${action.type}" is unknown and cannot be processed.`)

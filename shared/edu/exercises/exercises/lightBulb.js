@@ -7,7 +7,7 @@ const { argon: Rs } = require('../../../data/specificGasConstants')
 const data = {
 	skill: 'gasLaw',
 	setup: { type: 'and', skills: ['calculateWithPressure', 'calculateWithTemperature', 'calculateWithVolume', 'specificGasConstant', 'solveLinearEquation'] },
-	steps: ['calculateWithPressure', 'calculateWithTemperature', 'calculateWithVolume', 'specificGasConstant', 'solveLinearEquation'],
+	steps: [['calculateWithPressure', 'calculateWithTemperature', 'calculateWithVolume'], 'specificGasConstant', 'solveLinearEquation'],
 
 	equalityOptions: {
 		V: {
@@ -68,16 +68,22 @@ function getCorrect({ p, V, T }) {
 	return { V, p, T, Rs, m }
 }
 
-function checkInput(state, { ansm, ansV, ansp, ansT, ansRs }, step) {
+function checkInput(state, { ansm, ansV, ansp, ansT, ansRs }, step, substep) {
 	const { V, p, T, Rs, m } = getCorrect(state)
+
 	switch (step) {
 		case 1:
-			return V.equals(ansV, data.equalityOptions.V)
+			switch (substep) {
+				case 1:
+					return V.equals(ansV, data.equalityOptions.V)
+				case 2:
+					return p.equals(ansp, data.equalityOptions.p)
+				case 3:
+					return T.equals(ansT, data.equalityOptions.T)
+				default:
+					throw Error('Unknown substep')
+			}
 		case 2:
-			return p.equals(ansp, data.equalityOptions.p)
-		case 3:
-			return T.equals(ansT, data.equalityOptions.T)
-		case 4:
 			return Rs.equals(ansRs, data.equalityOptions.Rs)
 		default:
 			return m.equals(ansm, data.equalityOptions.m)
