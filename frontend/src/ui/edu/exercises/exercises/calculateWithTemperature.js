@@ -1,9 +1,8 @@
 import React from 'react'
 
-import { selectRandomCorrect } from 'step-wise/util/random'
 import { temperature as TConversion } from 'step-wise/data/conversions'
 
-import { getFloatUnitEqualityFeedbackText } from '../util/feedback'
+import { getFloatUnitComparisonFeedback } from '../util/feedback'
 import SimpleExercise from '../types/SimpleExercise'
 import { useExerciseData } from '../ExerciseContainer'
 import { Par } from '../../../components/containers'
@@ -46,27 +45,15 @@ function Solution({ T, type }) {
 }
 
 function getFeedback(exerciseData) {
-	const { progress: { solved } } = exerciseData
-	return { ans: { correct: !!solved, text: getFeedbackText(exerciseData) } }
+	const { state, input: { ans }, progress: { solved }, shared: { data: { equalityOptions }, getCorrect } } = exerciseData
+	return { ans: getFloatUnitComparisonFeedback(getCorrect(state), ans, { equalityOptions, solved, text: { unit: getUnitMessage(state.type) } }) }
 }
 
-function getFeedbackText(exerciseData) {
-	const { state: { T, type }, input: { ans }, progress: { solved }, shared: { data: { equalityOptions }, getCorrect } } = exerciseData
-
-	if (solved)
-		return selectRandomCorrect()
-
-	// Get the correct answer and compare it to the input.
-	const result = getCorrect({ T, type }).checkEquality(ans, equalityOptions)
-
-	if (!result.unitOK) {
-		if (type === 0)
-			return 'Je hebt niet graden Celsius als eenheid gebruikt. (Tip: typ "gC" voor graden Celsius.)'
-		if (type === 1 || type === 3)
-			return 'Je hebt niet de standaard eenheid van temperatuur gebruikt.'
-		if (type === 2)
-			return 'Je hebt geen Kelvin als eenheid gebruikt.'
-	}
-
-	return getFloatUnitEqualityFeedbackText(result)
+function getUnitMessage(type) {
+	if (type === 0)
+		return 'Je hebt niet graden Celsius als eenheid gebruikt. (Tip: typ "gC" voor graden Celsius.)'
+	if (type === 1 || type === 3)
+		return 'Je hebt niet de standaard eenheid van temperatuur gebruikt.'
+	if (type === 2)
+		return 'Je hebt geen Kelvin als eenheid gebruikt.'
 }

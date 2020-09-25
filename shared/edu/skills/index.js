@@ -56,6 +56,11 @@ const skills = {
 		name: 'Specifieke gasconstante opzoeken',
 		exercises: ['specificGasConstant'],
 	},
+	gasLaw: {
+		name: 'De gaswet',
+		exercises: ['lightBulb'],
+		setup: { type: 'and', skills: ['calculateWithPressure', 'calculateWithTemperature', 'calculateWithVolume', 'specificGasConstant', 'solveLinearEquation'] },
+	},
 }
 
 // Process the skill object.

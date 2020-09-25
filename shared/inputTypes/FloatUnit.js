@@ -78,10 +78,20 @@ class FloatUnit {
 		return this._unit.isValid()
 	}
 
-	// makeExact sets the number of significant digits to Infinity, indicating we know this number with full precision. It returns itself to allow for chaining.
+	// makeExact sets the number of significant digits to Infinity, indicating we know this number with full precision. It returns a copy.
 	makeExact() {
-		this._float.makeExact()
-		return this
+		return new FloatUnit({
+			float: this.float.makeExact(),
+			unit: this.unit.clone(),
+		})
+	}
+
+	// adjustSignificantDigits increases the number of significant digits by the given delta. (Cannot be decreased below zero: will be capped then.) It returns a copy.
+	adjustSignificantDigits(delta) {
+		return new FloatUnit({
+			float: this.float.adjustSignificantDigits(delta),
+			unit: this.unit.clone(),
+		})
 	}
 
 	// simplify simplifies the unit of this FloatUnit. It adjusts the Float accordingly: for example, when going from km to m the float is multiplied by 1000. Options are the same as the options for simplifying units. (See the Unit simplify function.) It does not adjust this object but returns a copy.
@@ -133,6 +143,7 @@ class FloatUnit {
 	/* checkEquality compares two FloatUnit objects. Options include:
 	 * - absoluteMargin: same as with Float.
 	 * - relativeMargin: same as with Float.
+	 * - accuracyFactor: same as with Float.
 	 * - significantDigitMargin: same as with Float.
 	 * - unitCheck: same as the Unit type parameter.
 	 * Note that the following options are not supported.
@@ -285,6 +296,7 @@ FloatUnit.equalityTypes = {
 FloatUnit.defaultEqualityOptions = {
 	absoluteMargin: Float.defaultEqualityOptions.absoluteMargin,
 	relativeMargin: Float.defaultEqualityOptions.relativeMargin,
+	accuracyFactor: Float.defaultEqualityOptions.accuracyFactor,
 	significantDigitMargin: Float.defaultEqualityOptions.significantDigitMargin,
 	unitCheck: Unit.defaultEqualityOptions.type,
 }

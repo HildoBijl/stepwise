@@ -10,17 +10,17 @@ const FeedbackContext = createContext(null)
 
 export default function FeedbackProvider({ children, getFeedback }) {
 	const [feedback, setFeedback] = useState({})
-	const [feedbackInput, setFeedbackInput] = useState(null)
+	const [feedbackInput, setFeedbackInput] = useState({})
 	const { state, progress, history, shared } = useExerciseData()
 	const prevProgress = getPrevProgress(history)
 
 	// Set up an updateFeedback handler.
-	const dataRef = useRefWithValue({ getFeedback, state, progress, prevProgress, shared })
+	const dataRef = useRefWithValue({ getFeedback, state, progress, prevProgress, shared, feedback, feedbackInput })
 	const updateFeedback = useCallback((input) => {
-		const { getFeedback, state, progress, prevProgress, shared } = dataRef.current
+		const { getFeedback, state, progress, prevProgress, shared, feedback, feedbackInput } = dataRef.current
 		setFeedbackInput(input)
 		if (getFeedback)
-			setFeedback(getFeedback({ state, input: IOtoFO(input), progress, prevProgress, shared }))
+			setFeedback(getFeedback({ state, input: IOtoFO(input), progress, prevProgress, shared, prevFeedback: feedback, prevInput: IOtoFO(feedbackInput) }))
 	}, [setFeedback, setFeedbackInput, dataRef])
 
 	// After an input action is fully processed, update potential feedback.

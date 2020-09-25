@@ -77,6 +77,14 @@ function getStep(progress) {
 }
 module.exports.getStep = getStep
 
+// isStepSolved checks, from the progress object, whether the given step is solved. If no step is given, it checks the main exercise.
+function isStepSolved(progress, step) {
+	if (!step)
+		return progress.solved
+	return (progress[step] || {}).solved
+}
+module.exports.isStepSolved = isStepSolved
+
 // nextStep takes a progress object and adjusts it to make it one in which the current step is done. The object is adjusted and returned.
 function nextStep(progress, numSteps) {
 	let step = getStep(progress)

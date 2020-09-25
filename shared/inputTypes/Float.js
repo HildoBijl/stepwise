@@ -482,7 +482,7 @@ function processFloat(number, { decimals, significantDigits, round = true }) {
 		float = new Float({ number, significantDigits: Infinity })
 	}
 	if (round)
-		float.roundToPrecision()
+		float = float.roundToPrecision()
 	return float
 }
 
