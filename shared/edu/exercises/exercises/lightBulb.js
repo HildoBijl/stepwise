@@ -68,10 +68,6 @@ function getCorrect({ p, V, T }) {
 	return { V, p, T, Rs, m }
 }
 
-function checkInput(state, { ans }) {
-	return getCorrect(state).equals(ans, data.equalityOptions)
-}
-
 function checkInput(state, { ansm, ansV, ansp, ansT, ansRs }, step) {
 	const { V, p, T, Rs, m } = getCorrect(state)
 	switch (step) {
