@@ -6,6 +6,7 @@ import { isEmpty } from 'step-wise/inputTypes'
 
 import { useRefWithValue } from '../../util/react'
 import { useExerciseData } from '../edu/exercises/ExerciseContainer'
+import { useFieldControllerContext } from './FieldController'
 
 const FormContext = createContext(null)
 
@@ -20,6 +21,9 @@ export default function Form({ children }) {
 	const inputRef = useRefWithValue(input)
 	const validationRef = useRefWithValue(validation)
 	const cursorRef = useRef()
+
+	// Get other parameters.
+	const { activateFirst } = useFieldControllerContext()
 
 	// Define input parameter handlers.
 	const setParameter = useCallback((id, value) => {
@@ -57,8 +61,9 @@ export default function Form({ children }) {
 		})
 		setValidation(validation)
 		setValidationInput(input)
+		activateFirst(Object.keys(validation)) // Put the cursor in the first non-valid field.
 		return isValidationValid(validation)
-	}, [inputRef, validationRef, validationFunctionsRef, setValidation])
+	}, [inputRef, validationRef, validationFunctionsRef, setValidation, activateFirst])
 
 	const saveValidationFunction = useCallback((id, validate) => {
 		if (validate)

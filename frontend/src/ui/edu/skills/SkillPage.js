@@ -67,7 +67,7 @@ function SkillForUser() {
 		return <Loading text="No exercise yet. Generating one." />
 
 	// All fine! Display the exercise.
-	return <ExerciseContainer key={exercise.startedOn} exercise={exercise} skillId={skillId} submitting={submissionLoading} submitAction={submitAction} startNewExercise={startNewExercise} />
+	return <ExerciseContainer key={exercise.startedOn} exercise={exercise} submitting={submissionLoading} submitAction={submitAction} startNewExercise={startNewExercise} />
 }
 
 function SkillForStranger() {

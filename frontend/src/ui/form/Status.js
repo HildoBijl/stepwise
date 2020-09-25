@@ -19,7 +19,7 @@ const StatusContext = createContext(defaults)
 
 export default function Status(props) {
 	const status = processOptions(props, defaults)
-	return <StatusContext.Provider value={status}>{props.children}</StatusContext.Provider>
+	return <StatusContext.Provider value={{ ...status, children: undefined }}>{props.children}</StatusContext.Provider>
 }
 
 export function useStatus() {

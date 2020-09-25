@@ -12,12 +12,12 @@ const data = {
 	equalityOptions: {
 		V: {
 			relativeMargin: 0.001,
-			significantDigitMargin: 0,
+			significantDigitMargin: 1,
 			unitCheck: Unit.equalityTypes.exact,
 		},
 		p: {
 			relativeMargin: 0.001,
-			significantDigitMargin: 0,
+			significantDigitMargin: 1,
 			unitCheck: Unit.equalityTypes.exact,
 		},
 		T: {
@@ -27,6 +27,7 @@ const data = {
 		},
 		Rs: {
 			relativeMargin: 0.01,
+			unitCheck: Unit.equalityTypes.sameUnitsAndPrefixes,
 		},
 		m: {
 			relativeMargin: 0.01,
@@ -80,8 +81,6 @@ function checkInput(state, { ansm, ansV, ansp, ansT, ansRs }, step, substep) {
 					return p.equals(ansp, data.equalityOptions.p)
 				case 3:
 					return T.equals(ansT, data.equalityOptions.T)
-				default:
-					throw Error('Unknown substep')
 			}
 		case 2:
 			return Rs.equals(ansRs, data.equalityOptions.Rs)

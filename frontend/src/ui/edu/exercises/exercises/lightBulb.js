@@ -5,6 +5,7 @@ import { argon as Rs } from 'step-wise/data/specificGasConstants'
 import { isStepSolved } from 'step-wise/edu/exercises/util/stepExercise'
 
 import StepExercise from '../types/StepExercise'
+import Substep from '../types/StepExercise/Substep'
 import { useExerciseData } from '../ExerciseContainer'
 import { Par } from '../../../components/containers'
 import { M, BM } from '../../../../util/equations'
@@ -17,7 +18,7 @@ export default function Exercise() {
 }
 
 const Problem = ({ p, V, T }) => <>
-	<Par>Een gloeilamp met inhoud <M>{V.tex}</M> is met argongas gevuld. De druk binnen de gloeilamp is gemeten als <M>p = {p.tex}</M>. De gloeilamp staat uit, waardoor zijn temperatuur gelijk is aan de omgevingstemperatuur <M>T = {T.tex}</M>. Bereken de massa van het argongas.</Par>
+	<Par>Een gloeilamp met inhoud <M>{V.tex}</M> is met argongas gevuld. De druk binnen de gloeilamp is gemeten als <M>{p.tex}</M>. De gloeilamp staat uit, waardoor zijn temperatuur gelijk is aan de omgevingstemperatuur <M>{T.tex}</M>. Bereken de massa van het argongas.</Par>
 	<InputSpace><Par><FloatUnitInput id="ansm" prelabel={<M>m=</M>} label="Massa" size="s" /></Par></InputSpace>
 </>
 
@@ -27,9 +28,9 @@ const steps = [
 			<Par>Zet alle gegeven waarden in standaard eenheden.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="ansV" prelabel={<M>V=</M>} label={<span>Volume</span>} size="s" />
-					<FloatUnitInput id="ansp" prelabel={<M>p=</M>} label={<span>Druk</span>} size="s" />
-					<FloatUnitInput id="ansT" prelabel={<M>T=</M>} label={<span>Temperatuur</span>} size="s" />
+					<Substep ss={1}><FloatUnitInput id="ansV" prelabel={<M>V=</M>} label={<span>Volume</span>} size="s" /></Substep>
+					<Substep ss={2}><FloatUnitInput id="ansp" prelabel={<M>p=</M>} label={<span>Druk</span>} size="s" /></Substep>
+					<Substep ss={3}><FloatUnitInput id="ansT" prelabel={<M>T=</M>} label={<span>Temperatuur</span>} size="s" /></Substep>
 				</Par>
 			</InputSpace>
 		</>,

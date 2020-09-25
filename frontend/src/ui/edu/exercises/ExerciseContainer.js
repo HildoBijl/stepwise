@@ -7,7 +7,7 @@ import Loading from '../../components/Loading'
 const ExerciseContext = createContext({})
 export { ExerciseContext } // Exported for testing purposes.
 
-export default function ExerciseContainer({ exercise, skillId, submitting, submitAction, startNewExercise }) {
+export default function ExerciseContainer({ exercise, submitting, submitAction, startNewExercise }) {
 	// Whenever the exercise id changes, reload the component.
 	const { exerciseId, state } = exercise
 	const [loading, setLoading] = useState(true)
@@ -37,7 +37,6 @@ export default function ExerciseContainer({ exercise, skillId, submitting, submi
 		submitAction: (action) => submitAction(action, ExerciseShared.current.processAction), // Incorporate the processAction function for Stranger-mode and for optimistic responses.
 		startNewExercise,
 		shared: ExerciseShared.current,
-		skillId,
 	}
 
 	return (

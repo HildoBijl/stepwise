@@ -50,6 +50,13 @@ export default function FieldController({ children }) {
 		setTabIndex(index)
 	}, [tabOrder, setTabIndex])
 
+	// activateFirst gets a set of ids and checks which is the first in the tabbing order. It activates that one.
+	const activateFirst = useCallback((ids) => {
+		const id = tabOrder.current.find(id => ids.includes(id))
+		if (id)
+			activate(id)
+	}, [tabOrder, activate])
+
 	const deactivate = useCallback((id) => {
 		const index = tabOrder.current.indexOf(id)
 		if (index === -1)
@@ -61,7 +68,7 @@ export default function FieldController({ children }) {
 
 	const registerElement = useCallback((id, ref, manualIndex, autofocus) => {
 		if (fieldTracker.current[id])
-			throw new Error(`Invalid tab control call: id "${id}" is already registered.`)
+			throw new Error(`Invalid field control registerElement call: id "${id}" is already registered.`)
 		fieldTracker.current[id] = { id, ref, manualIndex }
 		updateTabOrder()
 		if (autofocus)
@@ -111,6 +118,7 @@ export default function FieldController({ children }) {
 		decrementTabIndex,
 		isActive,
 		activate,
+		activateFirst,
 		deactivate,
 		blur,
 		focusFirst,
