@@ -1,20 +1,15 @@
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Unit } = require('../../../inputTypes/Unit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { argon: Rs } = require('../../../data/specificGasConstants')
+const { helium: Rs } = require('../../../data/specificGasConstants')
 
 const data = {
 	skill: 'gasLaw',
-	setup: { type: 'and', skills: ['calculateWithPressure', 'calculateWithTemperature', 'calculateWithVolume', 'specificGasConstant', 'solveLinearEquation'] },
-	steps: [['calculateWithPressure', 'calculateWithTemperature', 'calculateWithVolume'], 'specificGasConstant', 'solveLinearEquation'],
+	setup: { type: 'and', skills: ['calculateWithMass', 'calculateWithTemperature', 'calculateWithPressure', 'specificGasConstant', 'solveLinearEquation'] },
+	steps: [['calculateWithMass', 'calculateWithTemperature', 'calculateWithPressure'], 'specificGasConstant', 'solveLinearEquation'],
 
 	equalityOptions: {
-		V: {
-			relativeMargin: 0.001,
-			significantDigitMargin: 1,
-			unitCheck: Unit.equalityTypes.exact,
-		},
-		p: {
+		m: {
 			relativeMargin: 0.001,
 			significantDigitMargin: 1,
 			unitCheck: Unit.equalityTypes.exact,
@@ -24,11 +19,16 @@ const data = {
 			significantDigitMargin: 1,
 			unitCheck: Unit.equalityTypes.exact,
 		},
+		p: {
+			relativeMargin: 0.001,
+			significantDigitMargin: 1,
+			unitCheck: Unit.equalityTypes.exact,
+		},
 		Rs: {
 			relativeMargin: 0.01,
 			unitCheck: Unit.equalityTypes.sameUnitsAndPrefixes,
 		},
-		m: {
+		V: {
 			relativeMargin: 0.01,
 			significantDigitMargin: 1,
 		},
@@ -36,55 +36,55 @@ const data = {
 }
 
 function generateState() {
-	const V = getRandomFloatUnit({
-		min: 40,
-		max: 200,
-		decimals: -1,
-		unit: 'cm^3',
-	}).adjustSignificantDigits(1)
-
-	const p = getRandomFloatUnit({
-		min: 200,
-		max: 800,
+	const m = getRandomFloatUnit({
+		min: 0.4,
+		max: 2,
 		significantDigits: 2,
-		unit: 'mbar',
-	}).adjustSignificantDigits(1)
+		unit: 'g',
+	})
 
 	const T = getRandomFloatUnit({
-		min: 15,
-		max: 30,
-		decimals: 0,
+		min: 10,
+		max: 25,
+		significantDigits: 2,
 		unit: 'dC',
 	})
 
-	return { V, p, T }
+	const p = getRandomFloatUnit({
+		min: 1.0,
+		max: 1.1,
+		decimals: 2,
+		unit: 'bar',
+	})
+
+	return { m, T, p }
 }
 
-function getCorrect({ p, V, T }) {
-	V = V.simplify()
-	p = p.simplify()
+function getCorrect({ m, T, p }) {
+	m = m.simplify()
 	T = T.simplify()
-	const m = p.multiply(V).divide(Rs.multiply(T)).useUnit('kg')
+	p = p.simplify()
+	const V = m.multiply(Rs).multiply(T).divide(p).useUnit('m^3')
 	return { p, V, m, Rs, T }
 }
 
-function checkInput(state, { ansm, ansV, ansp, ansT, ansRs }, step, substep) {
+function checkInput(state, { ansV, ansm, ansp, ansT, ansRs }, step, substep) {
 	const { p, V, m, Rs, T } = getCorrect(state)
 
 	switch (step) {
 		case 1:
 			switch (substep) {
 				case 1:
-					return V.equals(ansV, data.equalityOptions.V)
+					return m.equals(ansm, data.equalityOptions.m)
 				case 2:
-					return p.equals(ansp, data.equalityOptions.p)
-				case 3:
 					return T.equals(ansT, data.equalityOptions.T)
+				case 3:
+					return p.equals(ansp, data.equalityOptions.p)
 			}
 		case 2:
 			return Rs.equals(ansRs, data.equalityOptions.Rs)
 		default:
-			return m.equals(ansm, data.equalityOptions.m)
+			return V.equals(ansV, data.equalityOptions.V)
 	}
 }
 

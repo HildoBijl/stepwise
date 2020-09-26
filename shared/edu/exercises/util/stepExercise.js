@@ -1,5 +1,6 @@
 const { IOtoFO } = require('../../../inputTypes')
 const { noop } = require('../../../util/functions')
+const { ensureInt } = require('../../../util/numbers')
 
 // getStepExerciseProcessor takes a checkInput function that checks the input for a StepExercise and returns a processAction function.
 function getStepExerciseProcessor(checkInput, data) {
@@ -106,6 +107,19 @@ function isStepSolved(progress, step) {
 	return (progress[step] || {}).solved
 }
 module.exports.isStepSolved = isStepSolved
+
+// isSubStepSolved checks, from the progress object, whether the given substep is solved.
+function isSubstepSolved(progress, step, substep) {
+	// Check input.
+	step = ensureInt(step, true, true)
+	substep = ensureInt(substep, true, true)
+
+	// Look up the progress.
+	if (!progress[step])
+		return false
+	return !!progress[step][substep]
+}
+module.exports.isSubstepSolved = isSubstepSolved
 
 // nextStep takes a progress object and adjusts it to make it one in which the current step is done. The object is adjusted and returned.
 function nextStep(progress, numSteps) {

@@ -1,12 +1,13 @@
+const { getRandomInteger } = require('../../../inputTypes/Integer')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Unit } = require('../../../inputTypes/Unit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { argon: Rs } = require('../../../data/specificGasConstants')
+const { oxygen: Rs } = require('../../../data/specificGasConstants')
 
 const data = {
 	skill: 'gasLaw',
-	setup: { type: 'and', skills: ['calculateWithPressure', 'calculateWithTemperature', 'calculateWithVolume', 'specificGasConstant', 'solveLinearEquation'] },
-	steps: [['calculateWithPressure', 'calculateWithTemperature', 'calculateWithVolume'], 'specificGasConstant', 'solveLinearEquation'],
+	setup: { type: 'and', skills: ['calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature', 'specificGasConstant', 'solveLinearEquation'] },
+	steps: [['calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature'], 'specificGasConstant', 'solveLinearEquation'],
 
 	equalityOptions: {
 		V: {
@@ -14,7 +15,7 @@ const data = {
 			significantDigitMargin: 1,
 			unitCheck: Unit.equalityTypes.exact,
 		},
-		p: {
+		m: {
 			relativeMargin: 0.001,
 			significantDigitMargin: 1,
 			unitCheck: Unit.equalityTypes.exact,
@@ -28,7 +29,7 @@ const data = {
 			relativeMargin: 0.01,
 			unitCheck: Unit.equalityTypes.sameUnitsAndPrefixes,
 		},
-		m: {
+		p: {
 			relativeMargin: 0.01,
 			significantDigitMargin: 1,
 		},
@@ -36,39 +37,40 @@ const data = {
 }
 
 function generateState() {
-	const V = getRandomFloatUnit({
-		min: 40,
-		max: 200,
-		decimals: -1,
-		unit: 'cm^3',
-	}).adjustSignificantDigits(1)
-
-	const p = getRandomFloatUnit({
-		min: 200,
-		max: 800,
+	const p = getRandomFloatUnit({ // Note: this is the final answer. It won't be part of the state.
+		min: 180,
+		max: 300,
 		significantDigits: 2,
-		unit: 'mbar',
-	}).adjustSignificantDigits(1)
+		unit: 'bar',
+	})
+
+	const V = getRandomFloatUnit({
+		min: 3,
+		max: 18,
+		significantDigits: getRandomInteger(2, 3),
+		unit: 'l',
+	})
 
 	const T = getRandomFloatUnit({
-		min: 15,
-		max: 30,
-		decimals: 0,
+		min: 3,
+		max: 18,
+		significantDigits: 2,
 		unit: 'dC',
 	})
 
-	return { V, p, T }
+	const m = p.multiply(V).divide(Rs.multiply(T.useUnit('K'))).useUnit('kg')
+
+	return { V, m, T }
 }
 
-function getCorrect({ p, V, T }) {
+function getCorrect({ V, m, T }) {
 	V = V.simplify()
-	p = p.simplify()
 	T = T.simplify()
-	const m = p.multiply(V).divide(Rs.multiply(T)).useUnit('kg')
+	const p = m.multiply(Rs).multiply(T).divide(V).useUnit('Pa')
 	return { p, V, m, Rs, T }
 }
 
-function checkInput(state, { ansm, ansV, ansp, ansT, ansRs }, step, substep) {
+function checkInput(state, { ansV, ansm, ansp, ansT, ansRs }, step, substep) {
 	const { p, V, m, Rs, T } = getCorrect(state)
 
 	switch (step) {
@@ -77,14 +79,14 @@ function checkInput(state, { ansm, ansV, ansp, ansT, ansRs }, step, substep) {
 				case 1:
 					return V.equals(ansV, data.equalityOptions.V)
 				case 2:
-					return p.equals(ansp, data.equalityOptions.p)
+					return m.equals(ansm, data.equalityOptions.m)
 				case 3:
 					return T.equals(ansT, data.equalityOptions.T)
 			}
 		case 2:
 			return Rs.equals(ansRs, data.equalityOptions.Rs)
 		default:
-			return m.equals(ansm, data.equalityOptions.m)
+			return p.equals(ansp, data.equalityOptions.p)
 	}
 }
 

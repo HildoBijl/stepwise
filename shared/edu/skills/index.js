@@ -42,13 +42,17 @@ const skills = {
 		name: 'Rekenen met druk',
 		exercises: ['calculateWithPressure'],
 	},
-	calculateWithTemperature: {
-		name: 'Rekenen met temperatuur',
-		exercises: ['calculateWithTemperature'],
-	},
 	calculateWithVolume: {
 		name: 'Rekenen met volume',
 		exercises: ['calculateWithVolume'],
+	},
+	calculateWithMass: {
+		name: 'Rekenen met massa',
+		exercises: ['calculateWithMass'],
+	},
+	calculateWithTemperature: {
+		name: 'Rekenen met temperatuur',
+		exercises: ['calculateWithTemperature'],
 	},
 
 	// Thermodynamics
@@ -58,8 +62,8 @@ const skills = {
 	},
 	gasLaw: {
 		name: 'De gaswet',
-		exercises: ['lightBulb'],
-		setup: { type: 'and', skills: ['calculateWithPressure', 'calculateWithTemperature', 'calculateWithVolume', 'specificGasConstant', 'solveLinearEquation'] },
+		exercises: ['lightBulb', 'heliumBalloon', 'divingCylinder'],
+		setup: { type: 'and', skills: ['calculateWithPressure', 'calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature', 'specificGasConstant', 'solveLinearEquation'] },
 	},
 }
 

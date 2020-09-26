@@ -39,3 +39,35 @@ function findPrefix(str) {
 	return Object.values(prefixes).find(prefix => prefix.equalsString(str)) || null
 }
 module.exports.findPrefix = findPrefix
+
+// getPrefixName takes a string like "mu" and returns the name "micro". It throws an error if no prefix can be found.
+function getPrefixName(str) {
+	// Check no prefix.
+	if (str === '')
+		return ''
+	
+	// Try to find the prefix.
+	const prefix = findPrefix(str)
+	if (!prefix)
+		throw new Error(`Unknown prefix "${str}".`)
+	
+	// Return the text.
+	return prefix.name
+}
+module.exports.getPrefixName = getPrefixName
+
+// getPrefixPower takes a string like "mu" and returns the power "-6". It throws an error if no prefix can be found.
+function getPrefixPower(str) {
+	// Check no prefix.
+	if (str === '')
+		return 0
+	
+	// Try to find the prefix.
+	const prefix = findPrefix(str)
+	if (!prefix)
+		throw new Error(`Unknown prefix "${str}".`)
+	
+	// Return the text.
+	return prefix.power
+}
+module.exports.getPrefixPower = getPrefixPower
