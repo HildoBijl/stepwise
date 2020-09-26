@@ -1,9 +1,10 @@
 const { getRandomInteger } = require('../../../inputTypes/Integer')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
 
 const data = {
 	skill: 'summationAndMultiplication',
-	setup: { type: 'and', skills: [{ type: 'repeat', times: 2, skill: 'multiplication' }, 'summation'] },
+	setup: combinerAnd(combinerRepeat('multiplication', 2), 'summation'),
 	steps: ['multiplication', 'multiplication', 'summation'],
 	weight: 2, // This exercise has more variation so can count as two separate copies of this exercise.
 }

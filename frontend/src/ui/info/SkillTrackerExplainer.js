@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Check, Clear, Replay } from '@material-ui/icons'
 import Slider from '@material-ui/core/Slider'
 
-import { processObservation, getEV, getFMax, getSmoothingFactor, smoothen, merge, infer, getCombinerEV } from 'step-wise/skillTracking'
+import { processObservation, getEV, getFMax, getSmoothingFactor, smoothen, merge, infer, getCombinerEV, combinerAnd, combinerRepeat } from 'step-wise/skillTracking'
 import { getSelectionRates } from 'step-wise/edu/exercises/util/selection'
 
 import { M } from '../../util/equations'
@@ -163,10 +163,10 @@ export default function SkillTrackerExplainer() {
 		<Head>Oefenopgaven selecteren</Head>
 		<Par>Hoe bepalen we dan welke oefenopgave je krijgt? Als je een vaardigheid wilt oefenen, dan kijken we eerst naar welke opgaven daarbij horen. Voor elke opgave weten wij welke stappen je moet zetten om hem op te lossen. Aan de hand hiervan berekenen we de kans dat je dit lukt: je succes-kans.</Par>
 		<MultiSkillTrial showButtonsForX={true} exercises={[
-			{ combiner: { type: 'and', skills: ['A', 'B'] }, title: 'Voer eerst A uit en dan B.' },
-			{ combiner: { type: 'and', skills: [{ type: 'repeat', skill: 'A', times: 2 }, 'B'] }, title: 'Voer eerst twee keer A uit en dan B.' },
-			{ combiner: { type: 'and', skills: ['A', { type: 'repeat', skill: 'B', times: 2 }] }, title: 'Voer eerst A uit en dan twee keer B.' },
-			{ combiner: { type: 'repeat', skill: 'X', times: 3 }, title: '[Geavanceerd] Voer drie maal X uit.' },
+			{ combiner: combinerAnd('A','B'), title: 'Voer eerst A uit en dan B.' },
+			{ combiner: combinerAnd(combinerRepeat('A', 2), 'B'), title: 'Voer eerst twee keer A uit en dan B.' },
+			{ combiner: combinerAnd('A', combinerRepeat('B', 2)), title: 'Voer eerst A uit en dan twee keer B.' },
+			{ combiner: combinerRepeat('X', 3), title: '[Geavanceerd] Voer drie maal X uit.' },
 		]} />
 		<Par>Bij het oefenen is het belangrijk dat een opgave niet te moeilijk is, maar ook niet te makkelijk! Anders leer je niets. We zoeken dus een opgave die je met zo'n 50% kans in één keer oplost. Om te voorkomen dat je veel dezelfde opgave achter elkaar krijgt, stoppen we hier wel wat willekeur in. We stellen daarbij voor elke opgave een kans in dat hij geselecteerd wordt, en vervolgens kiezen we volgens deze kansen een opgave. Hierbij geldt uiteraard: hoe dichter de succes-kans van de opgave bij de 50% ligt, hoe waarschijnlijker het is dat je de opgave krijgt.</Par>
 
@@ -264,7 +264,7 @@ function SingleSkillTrial({ addTimeDecay = false, showLabel = true }) {
 
 function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 	const classes = useStyles()
-	const combiner = { type: 'and', skills: labelsWithoutLast }
+	const combiner = combinerAnd(...labelsWithoutLast)
 
 	// Set up the state.
 	const getEmptyDataSetFromLabels = labels => {

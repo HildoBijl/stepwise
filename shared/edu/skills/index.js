@@ -1,4 +1,4 @@
-const { getCombinerSkills } = require('../../skillTracking/combiners')
+const { getCombinerSkills, combinerAnd, combinerOr, combinerRepeat } = require('../../skillTracking/combiners')
 
 const skills = {
 	fillInInteger: {
@@ -27,7 +27,7 @@ const skills = {
 	},
 	summationAndMultiplication: {
 		name: 'Optellen en vermenigvuldigen',
-		setup: { type: 'and', skills: [{ type: 'repeat', times: 2, skill: 'multiplication' }, 'summation'] },
+		setup: combinerAnd(combinerRepeat('multiplication', 2), 'summation'),
 		exercises: ['summationAndMultiplication1', 'summationAndMultiplication2'],
 	},
 
@@ -63,7 +63,7 @@ const skills = {
 	gasLaw: {
 		name: 'De gaswet',
 		exercises: ['lightBulb', 'heliumBalloon', 'divingCylinder'],
-		setup: { type: 'and', skills: ['calculateWithPressure', 'calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature', 'specificGasConstant', 'solveLinearEquation'] },
+		setup: combinerAnd(combinerRepeat(combinerOr('calculateWithPressure', 'calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature'), 2), 'specificGasConstant', 'solveLinearEquation'),
 	},
 }
 

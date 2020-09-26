@@ -161,3 +161,17 @@ function getCombinerEV(dataSet, combiner) {
 		return getMoment(getCoefFromDataSet(dataSet, combiner.skill), combiner.times)
 }
 module.exports.getCombinerEV = getCombinerEV
+
+// The following functions are used to create combiners.
+function combinerAnd(...skills) {
+	return { type: 'and', skills }
+}
+module.exports.combinerAnd = combinerAnd
+function combinerOr(...skills) {
+	return { type: 'or', skills }
+}
+module.exports.combinerOr = combinerOr
+function combinerRepeat(skill, times) {
+	return { type: 'repeat', skill, times }
+}
+module.exports.combinerRepeat = combinerRepeat

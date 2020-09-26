@@ -3,10 +3,11 @@ const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Unit } = require('../../../inputTypes/Unit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { oxygen: Rs } = require('../../../data/specificGasConstants')
+const { combinerAnd, combinerOr } = require('../../../skillTracking')
 
 const data = {
 	skill: 'gasLaw',
-	setup: { type: 'and', skills: ['calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature', 'specificGasConstant', 'solveLinearEquation'] },
+	setup: combinerAnd(combinerOr('calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature'), 'specificGasConstant', 'solveLinearEquation'),
 	steps: [['calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature'], 'specificGasConstant', 'solveLinearEquation'],
 
 	equalityOptions: {
