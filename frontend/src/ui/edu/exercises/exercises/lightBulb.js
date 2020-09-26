@@ -28,9 +28,9 @@ const steps = [
 			<Par>Zet alle gegeven waarden in standaard eenheden.</Par>
 			<InputSpace>
 				<Par>
-					<Substep ss={1}><FloatUnitInput id="ansV" prelabel={<M>V=</M>} label={<span>Volume</span>} size="s" /></Substep>
-					<Substep ss={2}><FloatUnitInput id="ansp" prelabel={<M>p=</M>} label={<span>Druk</span>} size="s" /></Substep>
-					<Substep ss={3}><FloatUnitInput id="ansT" prelabel={<M>T=</M>} label={<span>Temperatuur</span>} size="s" /></Substep>
+					<Substep ss={1}><FloatUnitInput id="ansV" prelabel={<M>V=</M>} label="Volume" size="s" /></Substep>
+					<Substep ss={2}><FloatUnitInput id="ansp" prelabel={<M>p=</M>} label="Druk" size="s" /></Substep>
+					<Substep ss={3}><FloatUnitInput id="ansT" prelabel={<M>T=</M>} label="Temperatuur" size="s" /></Substep>
 				</Par>
 			</InputSpace>
 		</>,
@@ -48,7 +48,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Zoek de specifieke gasconstante van het gas op, in standaard eenheden.</Par>
 			<InputSpace>
-				<Par><FloatUnitInput id="ansRs" prelabel={<M>R_s=</M>} label={<span>Specifieke gasconstante</span>} size="s" /></Par>
+				<Par><FloatUnitInput id="ansRs" prelabel={<M>R_s=</M>} label="Specifieke gasconstante" size="s" /></Par>
 			</InputSpace>
 		</>,
 		Solution: (state) => {
@@ -61,7 +61,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Bereken via de gaswet de massa van het gas in de gloeilamp.</Par>
 			<InputSpace>
-				<Par><FloatUnitInput id="ansm" prelabel={<M>m=</M>} label={<span>Massa</span>} size="s" /></Par>
+				<Par><FloatUnitInput id="ansm" prelabel={<M>m=</M>} label="Massa" size="s" /></Par>
 			</InputSpace>
 		</>,
 		Solution: (state) => {

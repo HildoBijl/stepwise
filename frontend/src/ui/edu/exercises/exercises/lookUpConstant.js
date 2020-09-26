@@ -26,7 +26,7 @@ function Problem({ constant }) {
 	return <>
 		<Par>Zoek {descriptions[constant]} op. Voer je antwoord zo nauwkeurig mogelijk in.</Par>
 		<InputSpace>
-			<Par><FloatUnitInput id="ans" prelabel={<M>{constant} =</M>} label={<span>Vul hier de constante in</span>} size="s" /></Par>
+			<Par><FloatUnitInput id="ans" prelabel={<M>{constant} =</M>} label="Vul hier de constante in" size="s" /></Par>
 		</InputSpace>
 	</>
 }

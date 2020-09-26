@@ -25,7 +25,7 @@ function Problem({ p, type }) {
 	return <>
 		{description}
 		<InputSpace>
-			<Par><FloatUnitInput id="ans" prelabel={<M>p =</M>} label={<span>Druk</span>} size="s" /></Par>
+			<Par><FloatUnitInput id="ans" prelabel={<M>p =</M>} label="Druk" size="s" /></Par>
 		</InputSpace>
 	</>
 }

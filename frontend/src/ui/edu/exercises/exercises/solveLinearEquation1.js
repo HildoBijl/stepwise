@@ -16,7 +16,7 @@ function Problem({ a, b }) {
 	return <>
 		<Par>Los de vergelijking <M>a \cdot x = b</M> op voor <M>x</M>, waarbij <M>a = {a.tex}</M> en <M>b = {b.tex}.</M></Par>
 		<InputSpace>
-			<Par><FloatInput id="ans" prelabel={<M>x = </M>} label={<span>Antwoord</span>} size='s' /></Par>
+			<Par><FloatInput id="ans" prelabel={<M>x = </M>} label="Antwoord" size='s' /></Par>
 		</InputSpace>
 	</>
 }

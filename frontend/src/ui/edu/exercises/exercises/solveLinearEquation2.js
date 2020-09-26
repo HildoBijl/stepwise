@@ -16,7 +16,7 @@ function Problem({ a, b, c, d }) {
 	return <>
 		<Par>Los de vergelijking <M>{a.tex} \cdot {b.tex} \cdot x = {c.tex} \cdot {d.tex}</M> op voor <M>x</M>.</Par>
 		<InputSpace>
-			<Par><FloatInput id="ans" prelabel={<M>x = </M>} label={<span>Antwoord</span>} size='s' /></Par>
+			<Par><FloatInput id="ans" prelabel={<M>x = </M>} label="Antwoord" size='s' /></Par>
 		</InputSpace>
 	</>
 }
