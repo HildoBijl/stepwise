@@ -63,8 +63,7 @@ const skills = {
 	gasLaw: {
 		name: 'De gaswet',
 		setup: combinerAnd(combinerRepeat(combinerOr('calculateWithPressure', 'calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature'), 2), 'specificGasConstant', 'solveLinearEquation'),
-		exercises: ['weatherBalloon'],
-		// exercises: ['lightBulb', 'heliumBalloon', 'divingCylinder', 'bicyclePump', 'weatherBalloon'],
+		exercises: ['lightBulb', 'heliumBalloon', 'divingCylinder', 'bicyclePump', 'weatherBalloon'],
 	},
 }
 
