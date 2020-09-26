@@ -39,6 +39,13 @@ function selectRandomCorrect() {
 		'Gaat lekker zo.',
 		'Correct! Goed gedaan.',
 		'Je hebt hem opgelost!',
+		'Mooi zo!',
+		'Helemaal perfect.',
+		'Ziet er goed uit.',
+		'Top! Het klopt.',
+		'Ja, dat is hem.',
+		'Dat is het goede antwoord.',
+		'Dat is helemaal correct.',
 	])
 }
 module.exports.selectRandomCorrect = selectRandomCorrect
