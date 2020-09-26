@@ -16,6 +16,11 @@ const useStyles = makeStyles((theme) => ({
 		padding: '0.05px 0',
 		...startEndMarginFix('', 0),
 	},
+	subhead: {
+		margin: `1rem 0`,
+		padding: '0.05px 0',
+		...startEndMarginFix('', 0),
+	},
 }))
 
 export function Par({ children, className }) {
@@ -26,4 +31,9 @@ export function Par({ children, className }) {
 export function Head({ children, className }) {
 	const classes = useStyles()
 	return <Typography variant="h5" className={clsx(classes.head, 'head', className)}>{children}</Typography>
+}
+
+export function SubHead({ children, className }) {
+	const classes = useStyles()
+	return <Typography variant="h6" className={clsx(classes.subhead, 'subhead', className)}>{children}</Typography>
 }

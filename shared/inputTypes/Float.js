@@ -223,11 +223,24 @@ class Float {
 	// adjustSignificantDigits increases the number of significant digits by the given delta. (Cannot be decreased below zero: will be capped then.) The original object is not adjusted.
 	adjustSignificantDigits(delta) {
 		delta = ensureInt(delta)
+		return this.useSignificantDigits(Math.max(this.significantDigits + delta, 0))
+	}
+
+	// useSignificantDigits returns a copy of this number but then with the given number of significant digits.
+	useSignificantDigits(significantDigits) {
+		significantDigits = ensureInt(significantDigits, true)
 		return new Float({
 			number: this.number,
 			power: this.power,
-			significantDigits: Math.max(this.significantDigits + delta, 0),
+			significantDigits: significantDigits,
 		})
+	}
+
+	// useDecimals returns a copy of this number but then with the number of significant digits adjusted to ensure it has the given number of decimals.
+	useDecimals(decimals) {
+		decimals = ensureInt(decimals)
+		const delta = decimals - this.decimals
+		return this.adjustSignificantDigits(delta)
 	}
 
 	// simplify sets the format of this number to the default format: x.xxxx * 10^yy. So there's only one non-zero digit prior to the comma. The number of significant digits is kept the same. It does not adjust this object but returns a copy.

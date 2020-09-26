@@ -1,0 +1,71 @@
+import React from 'react'
+
+import { isStepSolved } from 'step-wise/edu/exercises/util/stepExercise'
+
+import StepExercise from '../types/StepExercise'
+import { useExerciseData } from '../ExerciseContainer'
+import { Par, SubHead } from '../../../components/containers'
+import { M, BM } from '../../../../util/equations'
+import FloatUnitInput from '../../../form/inputs/FloatUnitInput'
+import { InputSpace } from '../../../form/Status'
+import { getFloatUnitComparisonFeedback } from '../util/feedback'
+
+export default function Exercise() {
+	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
+}
+
+const Problem = ({ p1, p2, V1, V2, T1 }) => <>
+	<Par>Een fietspomp, met de hendel omhoog, heeft een inwendig volume van <M>{V1.tex}</M>. De lucht in de fietspomp heeft dezelfde eigenschappen als de omgevingslucht: een temperatuur van <M>{T1.tex}</M> en een druk van <M>{p1.tex}</M>.</Par>
+	<Par>Vervolgens wordt de hendel van de fietspomp ingedrukt, tot het ventiel richting de fietsband net opengaat. De drukmeter van de pomp geeft <M>{p2.tex}</M> aan. Het volume van de lucht in de pomp is door deze compressie <M>{V2.tex}</M> geworden. Wat is de temperatuur van de gecomprimeerde lucht in de pomp?</Par>
+	<InputSpace><Par><FloatUnitInput id="ansT2" prelabel={<M>T=</M>} label="Temperatuur" size="s" /></Par></InputSpace>
+</>
+
+const steps = [
+	{
+		Problem: () => <>
+			<Par>Bekijk de beginsituatie: de fietspomp met de hendel omhoog. Bereken hiervoor, via de gaswet, de massa van de lucht die in de pomp zit.</Par>
+			<InputSpace>
+				<Par>
+					<FloatUnitInput id="ansm" prelabel={<M>m=</M>} label="Massa" size="s" />
+				</Par>
+			</InputSpace>
+		</>,
+		Solution: (state) => {
+			const { shared: { getCorrect } } = useExerciseData()
+			const { p1, V1, T1, Rs, m } = getCorrect(state)
+			return <Par>We zetten allereerst de gegevens van het beginpunt in standaard eenheden. Hiermee vinden we <BM>p_1 = {p1.tex},</BM><BM>V_1 = {V1.tex},</BM><BM>T_1 = {T1.tex}.</BM> Vervolgens zoeken we de gasconstante van lucht op. Deze is <BM>R_s = {Rs.tex}.</BM> De gaswet zegt dat <M>pV = mR_sT.</M> We passen dit toe op punt 1: de fietspomp met de hendel omhoog. Om <M>m</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>R_sT</M>. Het resultaat is <BM>m = {`\\frac{p_1V_1}{R_sT_1}`} = {`\\frac{${p1.float.tex} \\cdot ${V1.float.tex}}{${Rs.float.tex} \\cdot ${T1.float.tex}}`} = {m.tex}.</BM></Par>
+		},
+	},
+	{
+		Problem: () => <>
+			<Par>Bekijk de eindsituatie: de fietspomp met de hendel ingedrukt. Bereken hiervoor, wederom via de gaswet, de temperatuur van de lucht.</Par>
+			<InputSpace>
+				<Par><FloatUnitInput id="ansT2" prelabel={<M>T=</M>} label="Temperatuur" size="s" /></Par>
+			</InputSpace>
+		</>,
+		Solution: (state) => {
+			const { shared: { getCorrect } } = useExerciseData()
+			const { p2, V2, T1, T2, m, Rs } = getCorrect(state)
+			return <>
+				<Par>Als eerste zetten we de eigenschappen van het eindpunt in standaard eenheden: <BM>p_2 = {p2.tex},</BM><BM>V_2 = {V2.tex}.</BM> Vervolgens passen we de gaswet <M>pV = mR_sT</M> toe op punt 2: de fietspomp met de hendel ingedrukt. Om deze wet op te lossen voor de temperatuur <M>T</M> delen we beide kanten van de vergelijking door <M>mR_s</M>. Zo vinden we <BM>T_2 = {`\\frac{p_2V_2}{mR_s}`} = {`\\frac{${p2.float.tex} \\cdot ${V2.float.tex}}{${m.float.tex} \\cdot ${Rs.float.tex}}`} = {T2.tex}.</BM>Je kunt dit eventueel nog omrekenen naar <M>{T2.useUnit('dC').useDecimals(0).tex}</M>. Dit is een stuk warmer dan de begintemperatuur van <M>{state.T1.tex}</M>. Zo zien we dat lucht bij compressie best veel kan opwarmen.</Par>
+				<SubHead>Short-cut</SubHead>
+				<Par>We hadden dit gehele probleem ook in één keer op kunnen lossen door de dubbele gaswet toe te passen, <BM>{`\\frac{p_1V_1}{T_1}`} = {`\\frac{p_2V_2}{T_2}`}.</BM> Als we deze vergelijking oplossen voor <M>T_2</M> vinden we direct <BM>T_2 = T_1 \cdot {`\\frac{p_2}{p_1}`} \cdot {`\\frac{V_2}{V_1}`} = {T1.float.tex} \cdot {`\\frac{${state.p2.float.tex}}{${state.p1.float.tex}}`} \cdot {`\\frac{${state.V2.float.tex}}{${state.V1.float.tex}}`} = {T2.tex}.</BM> Merk op dat we hier zelfs de druk in bar kunnen invullen en het volume in liters, omdat de conversiefactoren toch tegen elkaar weggedeeld worden. De temperatuur moet wel zeker in Kelvin en niet in graden Celsius.</Par>
+			</>
+		},
+	},
+]
+
+const getFeedback = (exerciseData) => {
+	const { state, input, progress, shared, prevInput, prevFeedback } = exerciseData
+	const { ansT2, ansm } = input
+	const { data, getCorrect } = shared
+	const { equalityOptions } = data
+
+	const { T2, m } = getCorrect(state)
+
+	return {
+		ansm: getFloatUnitComparisonFeedback(m, ansm, { equalityOptions: equalityOptions, solved: isStepSolved(progress, 1), prevInput: prevInput.ansm, prevFeedback: prevFeedback.ansm }),
+		ansT2: getFloatUnitComparisonFeedback(T2, ansT2, { equalityOptions: equalityOptions, solved: isStepSolved(progress), prevInput: prevInput.ansT2, prevFeedback: prevFeedback.ansT2 }),
+	}
+}
+

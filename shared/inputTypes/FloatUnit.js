@@ -94,6 +94,22 @@ class FloatUnit {
 		})
 	}
 
+	// useSignificantDigits returns a copy of this number but then with the given number of significant digits.
+	useSignificantDigits(significantDigits) {
+		return new FloatUnit({
+			float: this.float.useSignificantDigits(significantDigits),
+			unit: this.unit.clone(),
+		})
+	}
+
+	// useDecimals returns a copy of this number but then with the number of significant digits adjusted to ensure it has the given number of decimals.
+	useDecimals(decimals) {
+		return new FloatUnit({
+			float: this.float.useDecimals(decimals),
+			unit: this.unit.clone(),
+		})
+	}
+
 	// simplify simplifies the unit of this FloatUnit. It adjusts the Float accordingly: for example, when going from km to m the float is multiplied by 1000. Options are the same as the options for simplifying units. (See the Unit simplify function.) It does not adjust this object but returns a copy.
 	simplify(options = {}) {
 		// Obtain an adjustment object and use it to adjust the float.
@@ -281,6 +297,14 @@ class FloatUnit {
 		return new FloatUnit({
 			float: this.float.toPower(power),
 			unit: this.unit.toPower(power),
+		})
+	}
+
+	// roundToPrecision will round the number of the float to its current significant digits.
+	roundToPrecision() {
+		return new FloatUnit({
+			float: this.float.roundToPrecision(),
+			unit: this.unit.clone(),
 		})
 	}
 }
