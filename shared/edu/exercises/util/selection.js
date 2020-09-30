@@ -4,6 +4,11 @@ const { isNumber } = require('../../../util/numbers')
 const { getCombinerSkills, getCombinerEV } = require('../../../skillTracking')
 const { getDifficulty } = require('../../skills/util')
 const skills = require('../../skills')
+const { inferenceOrder } = require('../../skills/SkillData')
+const { getEV, infer, merge } = require('../../../skillTracking')
+const { vlog } = require('../../../util/log')
+
+const verbose = false
 
 // Define general settings for exercise selection.
 const mu = 0.5 // Make exercises with success rate 0.5 the most likely.
@@ -18,9 +23,16 @@ async function selectExercise(skillId, getSkillsData) {
 		throw new Error(`Could not select an exercise: the skillId "${skillId}" is unknown.`)
 
 	// Get all exercises and intelligently calculate the selection rate.
+	vlog(`=== Selecting exercise for skill "${skillId}" ===`, verbose)
 	const exerciseIds = skill.exercises
 	const { successRates, weights } = await getExerciseSuccessRates(exerciseIds, getSkillsData)
+	vlog('Exercises:', verbose)
+	vlog(exerciseIds, verbose)
+	vlog('Exercise success rates:', verbose)
+	vlog(successRates, verbose)
 	const selectionRates = getSelectionRates(successRates, weights)
+	vlog('Exercise selection rates:', verbose)
+	vlog(selectionRates, verbose)
 
 	// Select a random exercise, according to the calculated rates, from the list.
 	return selectRandomly(exerciseIds, selectionRates)
@@ -84,10 +96,15 @@ async function getExerciseSuccessRates(exerciseIds, getSkillsData) {
 	// Figure out all the skills that need to be loaded and load them.
 	const skillsToLoad = new Set()
 	exerciseDatas.forEach(exerciseData => {
-		getCombinerSkills(getDifficulty(exerciseData)).forEach(skillId => skillsToLoad.add(skillId))
+		['skill', 'setup'].forEach(item => {
+			if (exerciseData[item])
+				getCombinerSkills(exerciseData[item]).forEach(skillId => skillsToLoad.add(skillId))
+		})
 	})
 	const skills = [...skillsToLoad]
 	const skillData = await getSkillsData(skills)
+	vlog('Skill success rates:')
+	skills.forEach(skill => vlog(`${skill}: ${getEV(skillData[skill].coefficients)}`, verbose))
 
 	// Extract coefficients from the skill data.
 	const dataSet = {}
@@ -95,8 +112,18 @@ async function getExerciseSuccessRates(exerciseIds, getSkillsData) {
 		dataSet[skillId] = skillData[skillId].coefficients
 	})
 
-	// Walk through the exercises to calculate success rates (expected values). Use the set-up when given and otherwise just the skill property.
-	const successRates = exerciseDatas.map(exerciseData => getCombinerEV(dataSet, getDifficulty(exerciseData)))
+	// Walk through the exercises to calculate success rates (expected values).
+	const successRates = exerciseDatas.map((exerciseData, i) => {
+		// If there is only a skill (basic exercise) or a setup (joint exercise) then use that to estimate the success rate.
+		if (!exerciseData.skill || !exerciseData.setup)
+			return getCombinerEV(dataSet, getDifficulty(exerciseData))
+			
+		// If there are both a skill and a setup parameter, combine this knowledge.
+		const inference = infer(dataSet, exerciseData.setup, inferenceOrder)
+		const mergedCoefficients = merge(inference, dataSet[exerciseData.skill])
+		return getEV(mergedCoefficients)
+	})
+
 	return {
 		successRates,
 		weights,

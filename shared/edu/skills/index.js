@@ -1,6 +1,7 @@
 const { getCombinerSkills, combinerAnd, combinerOr, combinerRepeat } = require('../../skillTracking/combiners')
 
 const skills = {
+	// Testing exercises.
 	fillInInteger: {
 		name: 'Geheel getal invullen',
 		exercises: ['fillInInteger'],
@@ -62,7 +63,7 @@ const skills = {
 	},
 	gasLaw: {
 		name: 'De gaswet',
-		setup: combinerAnd(combinerRepeat(combinerOr('calculateWithPressure', 'calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature'), 2), 'specificGasConstant', 'solveLinearEquation'),
+		setup: combinerAnd('calculateWithPressure', 'calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature', 'specificGasConstant', 'solveLinearEquation'), // ToDo later: use a "combinerPick(..., 3)" to pick three of the given four unit calculation skills.
 		exercises: ['lightBulb', 'heliumBalloon', 'divingCylinder', 'bicyclePump', 'weatherBalloon'],
 	},
 }

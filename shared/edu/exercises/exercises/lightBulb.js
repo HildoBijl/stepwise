@@ -6,7 +6,8 @@ const { combinerAnd, combinerOr } = require('../../../skillTracking')
 
 const data = {
 	skill: 'gasLaw',
-	setup: combinerAnd(combinerOr('calculateWithPressure', 'calculateWithTemperature', 'calculateWithVolume'), 'specificGasConstant', 'solveLinearEquation'),
+	setup: combinerAnd('calculateWithPressure', 'calculateWithTemperature', 'calculateWithVolume', 'specificGasConstant', 'solveLinearEquation'),
+	// setup: combinerAnd(combinerOr('calculateWithPressure', 'calculateWithTemperature', 'calculateWithVolume'), 'specificGasConstant', 'solveLinearEquation'),
 	steps: [['calculateWithPressure', 'calculateWithTemperature', 'calculateWithVolume'], 'specificGasConstant', 'solveLinearEquation'],
 
 	equalityOptions: {

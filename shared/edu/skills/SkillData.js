@@ -7,6 +7,7 @@ const skills = require('./index')
 const { smoothen, getSmoothingFactor, merge, infer } = require('../../skillTracking')
 
 const maxCacheTime = 60 * 60 * 1000 // [Milliseconds] Maximum amount of time to still return coefficients before resmoothening them.
+const inferenceOrder = 4 // The smoothing order used when inferring a skill from its subskills.
 
 class SkillData {
 	constructor(skillId, rawData) {
@@ -83,7 +84,7 @@ class SkillData {
 				})
 				coefficientsNow[prerequisite] = smoothen(this._rawData[prerequisite].coefficients, factor)
 			})
-			const inference = infer(coefficientsNow, this.setup)
+			const inference = infer(coefficientsNow, this.setup, inferenceOrder)
 			this._cache.coefficients = {
 				coefficients: merge(inference, this.smoothenedCoefficients),
 				on: now,
@@ -116,3 +117,4 @@ class SkillData {
 }
 
 module.exports = SkillData
+SkillData.inferenceOrder = inferenceOrder // Also export the inference order.

@@ -5,7 +5,6 @@ const { helium: Rs } = require('../../../data/specificGasConstants')
 const { combinerRepeat } = require('../../../skillTracking')
 
 const data = {
-	skill: 'gasLaw',
 	setup: combinerRepeat('gasLaw', 2),
 	steps: ['gasLaw', 'gasLaw'],
 
