@@ -32,6 +32,7 @@ const style = (theme) => ({
 			marginTop: '0.6rem',
 			padding: '0.4rem',
 			transition: `background ${theme.transitions.duration.standard}ms`,
+			...notSelectable,
 
 			'&:first-child': {
 				marginTop: 0,
@@ -145,7 +146,6 @@ function Choice({ checked, activate, deactivate, toggle, Element, feedback, feed
 	const classes = useOptionStyle({ feedbackType, feedbackColor })
 	const handleChange = (evt, check) => check ? activate() : deactivate()
 
-	// ToDo: display icon properly.
 	return <>
 		<li onClick={toggle} className={clsx('option', checked ? 'checked' : 'unchecked', classes.option)}>
 			<Element className="checkbox" color="default" checked={checked} onChange={handleChange} disabled={readOnly} />
