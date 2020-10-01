@@ -1,4 +1,4 @@
-// This is a hack around the Material-UI button limitation to only accept primary or secondary colors.
+// This is a hack (override) around the Material-UI button limitation to only accept primary or secondary colors.
 
 import React from 'react'
 import { createMuiTheme, ThemeProvider, useTheme } from '@material-ui/core/styles'

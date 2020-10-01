@@ -108,8 +108,12 @@ export function useFormParameter(id, initialValue) {
 		const lastInput = getLastInput(history)
 		if (lastInput && lastInput[id])
 			setValue(value => {
+				// If there already was a value, then keep it.
 				if (!isEmpty(value))
 					return value
+				// Use a clone of the input from the history.
+				if (Array.isArray(lastInput[id]))
+					return [...lastInput[id]]
 				return { ...lastInput[id] }
 			})
 	}, [id, history, setValue])

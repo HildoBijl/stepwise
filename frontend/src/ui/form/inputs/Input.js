@@ -1,8 +1,8 @@
 import React, { useRef, useEffect, useCallback } from 'react'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { applyToEachParameter, deepEquals } from 'step-wise/util/objects'
+import { isObject, applyToEachParameter } from 'step-wise/util/objects'
 import { isNumber, boundTo } from 'step-wise/util/numbers'
 import { noop } from 'step-wise/util/functions'
 
@@ -11,10 +11,10 @@ import { useEventListener, useWidthTracker, useRefWithValue } from '../../../uti
 import { latexMinus, decimalSeparator } from '../../../util/equations'
 
 import Cursor from './Cursor'
-import { useFormParameter, useFieldValidation, useCursorRef } from '../Form'
-import { useParameterFeedback } from '../FeedbackProvider'
+import { useFieldFeedback } from '../FeedbackProvider'
+import { useFormParameter, useCursorRef } from '../Form'
 import { useStatus } from '../Status'
-import { getIcon, notSelectable } from '../../theme'
+import { notSelectable } from '../../theme'
 import { useFieldControl } from '../FieldController'
 import { useSubmitAction } from '../../edu/exercises/util/actions'
 
@@ -70,9 +70,9 @@ const useStyles = makeStyles((theme) => ({
 
 			'& .field': {
 				background: theme.palette.inputBackground.main,
-				border: ({ feedbackColor }) => `${border}em solid ${feedbackColor}`,
+				border: ({ feedbackColor }) => `${border}em solid ${feedbackColor || theme.palette.text.secondary}`,
 				borderRadius: '0.25em',
-				boxShadow: ({ active, feedbackColor }) => active ? `0 0 ${glowRadius}em 0 ${feedbackColor}` : 'none',
+				boxShadow: ({ active, feedbackColor }) => active ? `0 0 ${glowRadius}em 0 ${feedbackColor || theme.palette.text.secondary}` : 'none',
 				cursor: ({ readOnly }) => readOnly ? 'auto' : 'text',
 				fontSize: '1em',
 				height: `${height}em`,
@@ -84,7 +84,7 @@ const useStyles = makeStyles((theme) => ({
 
 				// Glow on hover.
 				'&:hover': {
-					boxShadow: ({ readOnly, feedbackColor }) => readOnly ? 'none' : `0 0 ${glowRadius}em 0 ${feedbackColor}`,
+					boxShadow: ({ readOnly, feedbackColor }) => readOnly ? 'none' : `0 0 ${glowRadius}em 0 ${feedbackColor || theme.palette.text.secondary}`,
 				},
 
 				// Style the contents.
@@ -113,7 +113,7 @@ const useStyles = makeStyles((theme) => ({
 					},
 
 					'& .icon': {
-						color: ({ feedbackColor }) => feedbackColor,
+						color: ({ feedbackColor }) => feedbackColor || theme.palette.text.primary,
 						display: ({ displayIcon }) => displayIcon ? 'block' : 'none',
 						flex: 0,
 						lineHeight: 1, // Ensure no extra vertical spacing.
@@ -128,7 +128,7 @@ const useStyles = makeStyles((theme) => ({
 
 				// Style the label.
 				'& .labelContainer': {
-					color: ({ labelUp, feedbackColor, feedbackType }) => labelUp ? (feedbackType === 'normal' ? theme.palette.text.primary : feedbackColor) : theme.palette.text.hint,
+					color: ({ labelUp, feedbackColor }) => labelUp ? (feedbackColor || theme.palette.text.primary) : theme.palette.text.hint,
 					display: ({ hasLabel }) => hasLabel ? 'flex' : 'none',
 					flexFlow: 'row nowrap',
 					left: ({ labelUp }) => labelUp ? `${labelOffset + labelMargin}em` : `${padding}em`,
@@ -190,7 +190,7 @@ const useStyles = makeStyles((theme) => ({
 
 			// Style the feedback text: the text that is below the input field.
 			'& .feedbackText': {
-				color: ({ feedbackColor }) => feedbackColor,
+				color: ({ feedbackColor }) => feedbackColor || theme.palette.text.primary,
 				display: ({ hasFeedbackText }) => hasFeedbackText ? 'block' : 'none',
 				fontSize: '0.75em',
 				letterSpacing: '0.03em',
@@ -269,7 +269,7 @@ export default function Input(props) {
 	// Get input field data, feedback, readOnly and active data.
 	const [data, setData] = useFormParameter(id, initialData)
 	const empty = isEmpty(data) && isCursorAtStart(data.value, data.cursor)
-	const feedback = useFieldFeedback(id, validate, feedbackText)
+	const { feedback } = useFieldFeedback({ fieldId: id, validate, feedbackText })
 	const { done } = useStatus()
 	readOnly = (readOnly === undefined ? done : readOnly)
 	const [active] = useFieldControl({ id, ref: fieldRef, apply: !readOnly, autofocus })
@@ -303,13 +303,14 @@ export default function Input(props) {
 		displayPlaceholder: empty, // Should the placeholder be rendered (but possibly invisible)?
 		showPlaceholder: empty && (active || !label), // Should the placeholder be visible? 
 
-		feedbackColor: feedback.color,
-		feedbackType: feedback.type,
-		hasFeedbackText: !!feedback.text,
-		displayIcon: !!feedback.icon,
+		feedbackColor: feedback && feedback.color,
+		feedbackType: feedback && feedback.type,
+		hasFeedbackText: !!(feedback && feedback.text),
+		displayIcon: !!(feedback && feedback.Icon),
 	})
 
 	// Render the input field and its contents.
+	const Icon = feedback && feedback.Icon
 	const contents = dataToContents({ ...data, cursor: active ? data.cursor : null })
 	return (
 		<div className={clsx(classes.input, className)}>
@@ -323,7 +324,7 @@ export default function Input(props) {
 							<span className={classes.contents} ref={contentsRef}>{contents}</span>
 							<span className="placeholder">{placeholder}</span>
 						</div>
-						<div className="icon">{feedback.icon}</div>
+						<div className="icon">{Icon ? <Icon /> : null}</div>
 					</div>
 					<div className="labelContainer">
 						<div className="label" ref={labelRef}>
@@ -336,7 +337,7 @@ export default function Input(props) {
 					<input type="text" className="hidden" ref={hiddenFieldRef.current.text} value="" onChange={noop} />
 					<input type="number" className="hidden" ref={hiddenFieldRef.current.number} value="" onChange={noop} />
 				</div>
-				<div className="feedbackText">{feedback.text}</div>
+				<div className="feedbackText">{feedback && feedback.text}</div>
 			</div>
 		</div>
 	)
@@ -472,39 +473,6 @@ function useContentSliding(contentsRef, contentsContainerRef) {
 	})
 }
 
-// useFieldFeedback examines results from validation and feedback to give an indication to the user about the most relevant feedback. It returns { type: '...', text: '...', icon: ReactComponent, color: '#xxxxxx' } where the text parameter may be omitted or an empty string if not relevant. On no feedback it returns { type: 'normal' }. As parameters the field ID must be given, the validate function to be used, and optionally a back-up feedback text.
-export function useFieldFeedback(fieldId, validate = noop, feedbackText = '') {
-	const theme = useTheme()
-	const feedback = useBasicFieldFeedback(fieldId, validate, feedbackText)
-	const Icon = getIcon(feedback.type)
-	return {
-		...feedback,
-		color: (theme.palette[feedback.type] && theme.palette[feedback.type].main) || theme.palette.text.secondary,
-		icon: Icon && <Icon />,
-	}
-}
-
-// useBasicFieldFeedback examines results from validation and feedback and gives an object { type: '...', text: '...' }.
-function useBasicFieldFeedback(fieldId, validate = noop, feedbackText = '') {
-	const { validation, validationInput } = useFieldValidation(fieldId, validate)
-	const { feedback, feedbackInput } = useParameterFeedback(fieldId)
-	const [inputData] = useFormParameter(fieldId)
-
-	// Check for validation problems.
-	const inputWithoutCursor = removeCursor(inputData)
-	if (validation !== undefined && deepEquals(inputWithoutCursor, removeCursor(validationInput)))
-		return { type: 'warning', text: validation || feedbackText }
-
-	// Check for feedback.
-	if (feedback !== undefined && deepEquals(inputWithoutCursor, removeCursor(feedbackInput))) {
-		if (typeof feedback === 'boolean')
-			return { type: (feedback ? 'success' : 'error'), text: feedbackText }
-		return { type: feedback.type || (feedback.correct ? 'success' : 'error'), text: feedback.text || feedbackText }
-	}
-
-	return { type: 'normal', text: feedbackText }
-}
-
 // getStringJSX takes a string, turns it into an array of JSX char elements and returns it. If a cursor position (a number) is given, then the cursor is put in that position.
 export function getStringJSX(str, cursor = false) {
 	// Check the input.
@@ -537,6 +505,15 @@ export function checkCursor(cursor) {
 
 // removeCursor takes an input object like { type: "Integer", value: "123", cursor: 3 } and removes the cursor property. It returns a shallow copy.
 export function removeCursor(input) {
+	// If we have an array, then there is no cursor.
+	if (Array.isArray(input) || !isObject(input))
+		return input
+
+	// If there is an object, check if there is a cursor.
+	if (!input.cursor)
+		return input
+
+	// There is a cursor. Remove it.
 	const result = { ...input } // Make a shallow copy of the object.
 	delete result.cursor // Remove a potential cursor.
 	return result

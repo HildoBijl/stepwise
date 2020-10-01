@@ -1,5 +1,5 @@
 const { JSONstringifyWithoutPropertyQuotes } = require('step-wise/util/strings')
-const { IOtoFO } = require('step-wise/inputTypes')
+const { setIOtoFO } = require('step-wise/inputTypes')
 const { createClient, defaultConfig } = require('../../client')
 
 const SPECIAL_USER_ID = '01010101-0101-0101-0101-010101010101'
@@ -53,7 +53,7 @@ describe('submitExerciseAction', () => {
 		// Start an exercise.
 		const { data: { startExercise: exercise }, errors: startExerciseErrors } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id exerciseId state active}}` })
 		expect(startExerciseErrors).toBeUndefined()
-		const state = IOtoFO(exercise.state)
+		const state = setIOtoFO(exercise.state)
 
 		// Submit a wrong solution.
 		const action = inputAction(state.x + 1)
@@ -78,7 +78,7 @@ describe('submitExerciseAction', () => {
 		// Start an exercise.
 		const { data: { startExercise: exercise }, errors: startExerciseErrors } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id exerciseId state active}}` })
 		expect(startExerciseErrors).toBeUndefined()
-		const state = IOtoFO(exercise.state)
+		const state = setIOtoFO(exercise.state)
 
 		// Submit a right solution.
 		const action = inputAction(state.x)

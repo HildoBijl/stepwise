@@ -1,6 +1,6 @@
 import React, { useState, createContext, useContext, useEffect, useRef } from 'react'
 
-import { IOtoFO } from 'step-wise/inputTypes'
+import { setIOtoFO } from 'step-wise/inputTypes'
 
 import Loading from '../../components/Loading'
 
@@ -30,7 +30,7 @@ export default function ExerciseContainer({ exercise, submitting, submitAction, 
 
 	// Set up data for the exercise and put it in a context around the exercise.
 	const exerciseData = {
-		state: IOtoFO(state),
+		state: setIOtoFO(state),
 		history: exercise.history,
 		progress: getLastProgress(exercise.history),
 		submitting,

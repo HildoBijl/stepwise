@@ -109,3 +109,7 @@ export function getIcon(feedbackType) {
 		return null
 	return Icons[feedbackType]
 }
+
+export function getFeedbackColor(feedbackType, theme) {
+	return (theme.palette[feedbackType] && theme.palette[feedbackType].main) || theme.palette.text.primary
+}

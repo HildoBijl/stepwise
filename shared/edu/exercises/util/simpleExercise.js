@@ -1,4 +1,4 @@
-const { IOtoFO } = require('../../../inputTypes')
+const { setIOtoFO } = require('../../../inputTypes')
 
 // getSimpleExerciseProcessor takes a checkInput function that checks the input for a SimpleExercise and returns a processAction function.
 function getSimpleExerciseProcessor(checkInput, data) {
@@ -8,7 +8,7 @@ function getSimpleExerciseProcessor(checkInput, data) {
 
 		switch (action.type) {
 			case 'input':
-				const correct = checkInput(state, IOtoFO(action.input))
+				const correct = checkInput(state, setIOtoFO(action.input))
 				if (correct) {
 					if (updateSkills) {
 						updateSkills(data.skill, true) // Correctly solved.

@@ -1,5 +1,5 @@
 const { getNewExercise } = require('step-wise/edu/exercises/util/selection')
-const { FOtoIO, IOtoFO } = require('step-wise/inputTypes')
+const { setFOtoIO, setIOtoFO } = require('step-wise/inputTypes')
 const { getCombinerSkills, getSmoothingFactor, smoothen, processObservation, getEV } = require('step-wise/skillTracking')
 
 const { getLastEvent, getExerciseProgress, getActiveExerciseData } = require('../util/Exercise')
@@ -28,7 +28,7 @@ const resolvers = {
 			// Select a new exercise, store it and return the result.
 			const getSkillsData = (skillIds) => getUserSkillsData(userId, skillIds, db)
 			const newExercise = await getNewExercise(skillId, getSkillsData)
-			return await skill.createExercise({ exerciseId: newExercise.exerciseId, state: FOtoIO(newExercise.state), active: true })
+			return await skill.createExercise({ exerciseId: newExercise.exerciseId, state: setFOtoIO(newExercise.state), active: true })
 		},
 
 		submitExerciseAction: async (_source, { skillId, action }, { db, getUserId }) => {
@@ -45,7 +45,7 @@ const resolvers = {
 			// Update the progress parameter.
 			const prevProgress = getExerciseProgress(exercise)
 			const { processAction } = require(`step-wise/edu/exercises/exercises/${exercise.exerciseId}`)
-			const progress = processAction({ action, state: IOtoFO(exercise.state), progress: prevProgress, history: exercise.events, updateSkills })
+			const progress = processAction({ action, state: setIOtoFO(exercise.state), progress: prevProgress, history: exercise.events, updateSkills })
 			if (!progress)
 				throw new Error(`Invalid progress object: could not process action due to an error in updating the exercise progress.`)
 

@@ -2,14 +2,14 @@ const { applyToEachParameter, isObject, deepEquals } = require('../util/objects'
 
 const types = ['String', 'Integer', 'Float', 'Unit', 'FloatUnit']
 
-// FOtoIO takes an object { m: ..., g: ... } with multiple parameters in functional format and applies FOtoIOparameter to each parameter of it. 
-function FOtoIO(obj) {
-	return applyToEachParameter(obj, FOtoIOparameter)
+// setFOtoIO takes an object { m: ..., g: ... } with multiple parameters in functional format and applies FOtoIO to each parameter of it. 
+function setFOtoIO(obj) {
+	return applyToEachParameter(obj, FOtoIO)
 }
-module.exports.FOtoIO = FOtoIO
+module.exports.setFOtoIO = setFOtoIO
 
-// FOtoIOparameter transforms a functional object (like a Number() object) into an input object representation like { type: "Number", value: { number: "314.159", power: "-2" } }.
-function FOtoIOparameter(param) {
+// FOtoIO transforms a functional object (like a Number() object) into an input object representation like { type: "Number", value: { number: "314.159", power: "-2" } }.
+function FOtoIO(param) {
 	// Check boundary cases.
 	if (param === undefined)
 		return null
@@ -17,7 +17,7 @@ function FOtoIOparameter(param) {
 	// Find out what type of object we have.
 	const type = types.find(type => require(`./${type}`).isFOofType(param))
 	if (!type)
-		throw new Error(`Could not detect the type of the parameter when transforming from functional to input format. The given parameter was "${JSON.stringify(param)}".`)
+		return param // No type found. Keep the parameter as is.
 
 	// Transform the object accordingly.
 	return {
@@ -25,21 +25,21 @@ function FOtoIOparameter(param) {
 		value: require(`./${type}`).FOtoIO(param),
 	}
 }
-module.exports.FOtoIOparameter = FOtoIOparameter
+module.exports.FOtoIO = FOtoIO
 
-// IOtoFO takes an object { m: ..., g: ... } with multiple parameters in input format and applies IOtoFOparameter to each parameter of it. 
-function IOtoFO(obj) {
-	return applyToEachParameter(obj, IOtoFOparameter)
+// setIOtoFO takes an object { m: ..., g: ... } with multiple parameters in input format and applies IOtoFO to each parameter of it. 
+function setIOtoFO(obj) {
+	return applyToEachParameter(obj, IOtoFO)
 }
-module.exports.IOtoFO = IOtoFO
+module.exports.setIOtoFO = setIOtoFO
 
-// IOtoFOparameter transforms an input object representation like { type: "Number", value: { number: "314.159", power: "-2" } } into a functional object (like a Number() object).
-function IOtoFOparameter(obj) {
+// IOtoFO transforms an input object representation like { type: "Number", value: { number: "314.159", power: "-2" } } into a functional object (like a Number() object).
+function IOtoFO(obj) {
 	// Check boundary cases.
 	if (obj === undefined)
 		return null
 	if (!obj.type)
-		return obj
+		return obj // No type found. Keep the parameter as is.
 
 	// Check the given type.
 	if (!types.includes(obj.type))
@@ -48,17 +48,31 @@ function IOtoFOparameter(obj) {
 	// Transform accordingly.
 	return require(`./${obj.type}`).IOtoFO(obj.value)
 }
-module.exports.IOtoFOparameter = IOtoFOparameter
+module.exports.IOtoFO = IOtoFO
 
 // isEmpty checks if an input object representation like { type: "Integer", value: "" } is empty or not.
 function isEmpty(obj) {
 	// Check boundary cases.
 	if (obj === undefined || obj === null)
 		return true
-	if (!obj.type || !types.includes(obj.type))
-		throw new Error(`Unknown object type: cannot figure out object of type "${obj.type}".`)
 
-	// Pass along accordingly.
+	// Check for arrays.
+	if (Array.isArray(obj))
+		return obj.length === 0
+
+	// Check for a valid object.
+	if (!isObject(obj))
+		throw new Error(`Invalid call: input fields must always give an object or array. No native types are supported. Received "${JSON.stringify(obj)}".`)
+	
+	// Check if there is a type. If not, verify if it equals an empty object.
+	if (!obj.type)
+		return Object.keys(obj).length === 0
+
+	// There is a type. Check if it's known.
+	if (!types.includes(obj.type))
+		throw new Error(`Unknown object type: cannot figure out object of type "${obj.type}". The object's value itself was "${JSON.stringify(obj)}".`)
+
+	// Pass along according to the type.
 	return require(`./${obj.type}`).isEmpty(obj.value)
 }
 module.exports.isEmpty = isEmpty
@@ -84,7 +98,7 @@ module.exports.equals = equals
 function inputSetsEqual(a, b) {
 	// Check for non-object types.
 	if (!isObject(a) || !isObject(b))
-		return a === b
+		throw new Error(`Invalid input set: tried to compare two input sets, but one of them wasn't an object. Tried to compare "${JSON.stringify(a)}" with "${JSON.stringify(b)}".`)
 
 	// Check number of keys.
 	const keys1 = Object.keys(a)

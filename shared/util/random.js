@@ -61,6 +61,9 @@ function selectRandomIncorrect() {
 		'Je zit er helaas naast.',
 		'Nee, niet het juiste antwoord.',
 		'Tja ... net niet.',
+		'Sorry, dat is fout.',
+		'Nee, dat is hem niet.',
+		'Oops, dat is een verkeerd antwoord.',
 	])
 }
 module.exports.selectRandomIncorrect = selectRandomIncorrect
