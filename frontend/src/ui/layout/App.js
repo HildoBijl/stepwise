@@ -1,7 +1,7 @@
 import React from 'react'
 import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import { ApolloProvider } from '@apollo/react-hooks'
+import { ApolloProvider } from '@apollo/client'
 
 import { UserProvider } from 'api/user'
 import theme from 'ui/theme'

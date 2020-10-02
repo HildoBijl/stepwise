@@ -50,9 +50,11 @@ const createAuthHandler = (homepageUrl, authStrategy) => {
 				return
 			}
 			req.session.principal = {
-				id: user.id
+				id: user.id,
 			}
-			res.redirect(homepageUrl)
+			const redirectPath = homepageUrl + (req.session.redirect || '')
+			req.session.redirect = null
+			res.redirect(redirectPath)
 		} catch (e) {
 			console.log(e)
 			res.redirect(`${homepageUrl}?error=${INTERNAL_ERROR}`)
@@ -63,8 +65,9 @@ const createAuthHandler = (homepageUrl, authStrategy) => {
 		try {
 			await promisify(cb => req.session.regenerate(cb))()
 			req.session.initiated = new Date()
-			const redirectUrl = await authStrategy.initiate(req.session.id)
-			res.redirect(redirectUrl)
+			req.session.redirect = getValidRedirect(req.query.redirect)
+			const authProviderUrl = await authStrategy.initiate(req.session.id)
+			res.redirect(authProviderUrl)
 		} catch(e) {
 			console.log(e)
 			res.redirect(`${homepageUrl}?error=${INTERNAL_ERROR}`)
@@ -72,6 +75,12 @@ const createAuthHandler = (homepageUrl, authStrategy) => {
 	})
 
 	return router
+}
+
+function getValidRedirect(rawRedirectParam) {
+	if (typeof rawRedirectParam !== "string") return null
+	if (rawRedirectParam.substr(0, 1) !== "/") return null
+	return rawRedirectParam
 }
 
 module.exports = {

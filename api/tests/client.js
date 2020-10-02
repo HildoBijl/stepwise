@@ -42,9 +42,19 @@ class Client {
 			.join(' ')
 	}
 
+	async initiate(redirect) {
+		const response = await request(this._server)
+			.get(`/auth/surfconext/initiate`)
+			.query({ redirect })
+			.expect(302)
+		this._storeCookies(response)
+		return response.headers['location']
+	}
+
 	async login(surfConextSub) {
 		const response = await request(this._server)
 			.get(`/auth/surfconext/login`)
+			.set('Cookie', [this._cookieHeader()])
 			.query({ sub: surfConextSub })
 			.expect(302)
 		this._storeCookies(response)

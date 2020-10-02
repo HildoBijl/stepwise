@@ -1,4 +1,5 @@
 const { createClient, defaultConfig } = require('../client')
+const { DIRECTORY_PATH } = require('../../src/server/surfConext/devmock')
 
 const SPECIAL_USER_ID = '01010101-0101-0101-0101-010101010101'
 const SPECIAL_USER_SUB = '00000000-0000-0000-0000-000000000000'
@@ -14,7 +15,7 @@ const seed = async db => {
 	})
 }
 
-describe('SurfConext', () => {
+describe('Authentication', () => {
 	it('there is no active session without logging in', async () => {
 		const client = await createClient(seed)
 
@@ -99,5 +100,31 @@ describe('SurfConext', () => {
 				name: 'John Doe',
 				email: 'john@example.org',
 			}))
+	})
+
+	it('redirects users after successful login', async () => {
+		const client = await createClient()
+		const customRedirectPath = '/my/custom/redirect/route'
+
+		await client
+			.initiate(customRedirectPath)
+			.then(redirectUrl => expect(redirectUrl).toEqual(DIRECTORY_PATH))
+
+		await client
+			.login('00000000-0000-0000-0000-111111111111')
+			.then(redirectUrl => expect(redirectUrl).toEqual(defaultConfig.homepageUrl + customRedirectPath))
+	})
+
+	it('ignores redirect if it’s not a relative path', async () => {
+		const client = await createClient()
+		const evilRedirectPath = 'http://evil-site.com'
+
+		await client
+			.initiate(evilRedirectPath)
+			.then(redirectUrl => expect(redirectUrl).toEqual(DIRECTORY_PATH))
+
+		await client
+			.login('00000000-0000-0000-0000-111111111111')
+			.then(redirectUrl => expect(redirectUrl).toEqual(defaultConfig.homepageUrl))
 	})
 })
