@@ -1,7 +1,8 @@
 import React from 'react'
 
 import { Typography } from '@material-ui/core'
-import { useUser } from '../../api/user'
+
+import { useUser } from 'api/user'
 
 export default function History() {
 	const user = useUser()

@@ -1,8 +1,9 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 
-import { Page } from '.'
-import { RouteContext } from '../routing'
+import { RouteContext } from 'ui/routing'
+
+import Page from './Page'
 
 export default function RouterSwitch({ children, parent = null }) {
 	// Set up the contents for the route switch. For this, first add routes for all the children. If none of them are found, add a route for the parent itself if present.

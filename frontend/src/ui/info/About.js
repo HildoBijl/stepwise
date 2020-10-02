@@ -1,7 +1,8 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { Button, Typography } from '@material-ui/core'
-import { usePaths } from '../routing'
+
+import { usePaths } from 'ui/routing'
 
 export default function About() {
 	const paths = usePaths()

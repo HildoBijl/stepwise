@@ -5,8 +5,9 @@ import { Check, Clear, Replay } from '@material-ui/icons'
 
 import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
 
+import { useFieldControl } from 'ui/form/FieldController'
+
 import { useExerciseData } from '../ExerciseContainer'
-import { useFieldControl } from '../../../form/FieldController'
 import { useSubmitAction, useGiveUpAction } from './actions'
 
 const useStyles = makeStyles((theme) => ({

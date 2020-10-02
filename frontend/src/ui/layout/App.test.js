@@ -1,7 +1,8 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import { App } from './'
 import ApolloClient from 'apollo-boost'
+
+import { App } from './'
 
 describe('The website', () => {
 	it('renders the title', () => {

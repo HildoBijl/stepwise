@@ -1,7 +1,8 @@
 import React, { useRef, useState, useCallback, useEffect, createContext, useContext } from 'react'
 
 import { mod } from 'step-wise/util/numbers'
-import { useEventListener, useRefWithValue } from '../../util/react'
+
+import { useEventListener, useRefWithValue } from 'util/react'
 
 const FieldControllerContext = createContext()
 

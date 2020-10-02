@@ -6,7 +6,7 @@ import skills from 'step-wise/edu/skills'
 import { ensureArray } from 'step-wise/util/arrays'
 
 import { useUser } from './user'
-import { useSkillCacherContext } from '../ui/edu/skills/SkillCacher'
+import { useSkillCacherContext } from 'ui/edu/skills/SkillCacher'
 
 // Get the data for a skill.
 export function useSkillQuery(skillId) {

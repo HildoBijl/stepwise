@@ -5,9 +5,9 @@ import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
-import { notSelectable } from '../theme'
-import LinkBar from '../layout/LinkBar'
-import { websiteTitle, websiteTitleAddendum, apiAddress } from '../settings'
+import { notSelectable } from 'ui/theme'
+import LinkBar from 'ui/layout/LinkBar'
+import { websiteTitle, websiteTitleAddendum, apiAddress } from 'ui/settings'
 
 import logo from './logo.svg'
 import SURFconext from './SURFconext.png'

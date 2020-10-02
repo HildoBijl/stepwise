@@ -1,12 +1,13 @@
 import React from 'react'
 
-import SimpleExercise from '../types/SimpleExercise'
-import { Par } from '../../../components/containers'
-import { M } from '../../../../util/equations'
-import MultipleChoice from '../../../form/inputs/MultipleChoice'
-import { InputSpace } from '../../../form/Status'
-
 import { selectRandomCorrect } from 'step-wise/util/random'
+
+import { M } from 'util/equations'
+import { Par } from 'ui/components/containers'
+import MultipleChoice from 'ui/form/inputs/MultipleChoice'
+import { InputSpace } from 'ui/form/Status'
+
+import SimpleExercise from '../types/SimpleExercise'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />

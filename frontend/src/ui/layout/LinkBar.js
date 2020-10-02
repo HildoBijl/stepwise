@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 
-import { usePaths } from '../routing'
+import { usePaths } from 'ui/routing'
 
 const useStyles = makeStyles((theme) => ({
 	list: {

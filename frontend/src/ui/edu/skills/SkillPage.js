@@ -7,13 +7,14 @@ import skills from 'step-wise/edu/skills'
 import { setIOtoFO, setFOtoIO } from 'step-wise/inputTypes'
 import { getNewExercise } from 'step-wise/edu/exercises/util/selection'
 
-import ExerciseContainer from '../exercises/ExerciseContainer'
-import { useUserResults } from '../../../api/user'
-import { useSkillQuery, useStartExerciseMutation, useSubmitExerciseActionMutation } from '../../../api/skill'
+import { useUserResults } from 'api/user'
+import { useSkillQuery, useStartExerciseMutation, useSubmitExerciseActionMutation } from 'api/skill'
+import Loading from 'ui/components/Loading'
+import Error from 'ui/components/Error'
+
 import { useSkillData } from './SkillCacher'
-import Loading from '../../components/Loading'
-import Error from '../../components/Error'
 import SkillFlask from './SkillFlask'
+import ExerciseContainer from '../exercises/ExerciseContainer'
 
 export default function SkillPage() {
 	const { loading, data } = useUserResults()

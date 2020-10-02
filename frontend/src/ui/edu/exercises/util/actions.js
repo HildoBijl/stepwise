@@ -4,10 +4,11 @@ import { useCallback } from 'react'
 import { deepEquals } from 'step-wise/util/objects'
 import { lastOf } from 'step-wise/util/arrays'
 
-import { useRefWithValue } from '../../../../util/react'
+import { useRefWithValue } from 'util/react'
+import { useFormData } from 'ui/form/Form'
+import { removeCursors } from 'ui/form/inputs/Input'
+
 import { useExerciseData } from '../ExerciseContainer'
-import { useFormData } from '../../../form/Form'
-import { removeCursors } from '../../../form/inputs/Input'
 
 export function useSubmitAction() {
 	const { submitting, submitAction, history } = useExerciseData()

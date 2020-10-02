@@ -1,11 +1,12 @@
 import { createContext, useContext, useMemo } from 'react'
 
-import { useUser } from '../api/user'
-import LogOut from './components/LogOut'
-import CoursesPage, { CoursesProvider } from './edu/courses/CoursesPage'
-import CoursePage, { useCourseTitle } from './edu/courses/CoursePage'
-import SkillPage, { useSkillTitle, SkillIndicator } from './edu/skills/SkillPage'
-import * as infoPages from './info'
+import { useUser } from 'api/user'
+
+import LogOut from 'ui/components/LogOut'
+import CoursesPage, { CoursesProvider } from 'ui/edu/courses/CoursesPage'
+import CoursePage, { useCourseTitle } from 'ui/edu/courses/CoursePage'
+import SkillPage, { useSkillTitle, SkillIndicator } from 'ui/edu/skills/SkillPage'
+import * as infoPages from 'ui/info'
 
 // Set up a route context object through which child elements can access the current route.
 const RouteContext = createContext(null)

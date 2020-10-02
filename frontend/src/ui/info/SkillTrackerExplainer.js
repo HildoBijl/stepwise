@@ -6,10 +6,10 @@ import Slider from '@material-ui/core/Slider'
 import { processObservation, getEV, getFMax, getSmoothingFactor, smoothen, merge, infer, getCombinerEV, combinerAnd, combinerRepeat } from 'step-wise/skillTracking'
 import { getSelectionRates } from 'step-wise/edu/exercises/util/selection'
 
-import { M } from '../../util/equations'
-import Button from '../components/Button'
-import { Par, Head } from '../components/containers'
-import SkillFlask from '../edu/skills/SkillFlask'
+import { M } from 'util/equations'
+import Button from 'ui/components/Button'
+import { Par, Head } from 'ui/components/containers'
+import SkillFlask from 'ui/edu/skills/SkillFlask'
 
 const labelsWithoutLast = ['A', 'B']
 const lastLabel = 'X'

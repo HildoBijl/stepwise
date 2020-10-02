@@ -6,8 +6,8 @@ import { numberArray } from 'step-wise/util/arrays'
 import { boundTo, interpolate } from 'step-wise/util/numbers'
 import { getEV, getFMax } from 'step-wise/skillTracking'
 
-import { mix, shift, toCSS } from '../../../util/colors'
-import { useUniqueNumber } from '../../../util/react'
+import { mix, shift, toCSS } from 'util/colors'
+import { useUniqueNumber } from 'util/react'
 
 // Define general settings.
 const vb = 100 // Viewbox size.

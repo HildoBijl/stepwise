@@ -4,13 +4,14 @@ import { pressure as pConversion, volumeCubicCentimeter as VConversion, temperat
 import { argon as Rs } from 'step-wise/data/specificGasConstants'
 import { isStepSolved, isSubstepSolved } from 'step-wise/edu/exercises/util/stepExercise'
 
+import { M, BM } from 'util/equations'
+import { Par } from 'ui/components/containers'
+import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
+import { InputSpace } from 'ui/form/Status'
+
+import { useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
-import { useExerciseData } from '../ExerciseContainer'
-import { Par } from '../../../components/containers'
-import { M, BM } from '../../../../util/equations'
-import FloatUnitInput from '../../../form/inputs/FloatUnitInput'
-import { InputSpace } from '../../../form/Status'
 import { getFloatUnitComparisonFeedback } from '../util/feedback'
 
 export default function Exercise() {

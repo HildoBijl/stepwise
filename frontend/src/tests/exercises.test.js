@@ -5,9 +5,9 @@ import { ThemeProvider } from '@material-ui/core/styles'
 import { getAllExercises } from 'step-wise/edu/exercises/util/selection'
 import { noop } from 'step-wise/util/functions'
 
-import { ExerciseContext } from '../ui/edu/exercises/ExerciseContainer'
-import FieldController from '../ui/form/FieldController'
-import theme from '../ui/theme'
+import { ExerciseContext } from 'ui/edu/exercises/ExerciseContainer'
+import FieldController from 'ui/form/FieldController'
+import theme from 'ui/theme'
 
 describe('Check all exercises:', () => {
 	const exercises = getAllExercises()

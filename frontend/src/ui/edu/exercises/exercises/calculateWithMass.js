@@ -3,13 +3,14 @@ import React from 'react'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 import { getPrefixName, getPrefixPower } from 'step-wise/inputTypes/Unit/prefixes'
 
+import { M, BM } from 'util/equations'
+import { Par } from 'ui/components/containers'
+import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
+import { InputSpace } from 'ui/form/Status'
+
 import { getFloatUnitComparisonFeedback } from '../util/feedback'
 import SimpleExercise from '../types/SimpleExercise'
 import { useExerciseData } from '../ExerciseContainer'
-import { Par } from '../../../components/containers'
-import { M, BM } from '../../../../util/equations'
-import FloatUnitInput from '../../../form/inputs/FloatUnitInput'
-import { InputSpace } from '../../../form/Status'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />

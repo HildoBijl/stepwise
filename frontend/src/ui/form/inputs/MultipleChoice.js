@@ -2,19 +2,19 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Radio from '@material-ui/core/Radio'
 import Checkbox from '@material-ui/core/Checkbox'
-import { fade, lighten, darken } from '@material-ui/core/styles/colorManipulator'
+import { fade } from '@material-ui/core/styles/colorManipulator'
 import clsx from 'clsx'
 
 import { numberArray } from 'step-wise/util/arrays'
-import { filterProperties } from 'step-wise/util/objects'
 import { noop } from 'step-wise/util/functions'
 import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
 
-import { getIcon, notSelectable } from '../../theme'
+import { notSelectable } from 'ui/theme'
+import FeedbackBlock from 'ui/components/FeedbackBlock'
+
 import { useFormParameter } from '../Form'
 import { useStatus } from '../Status'
-import { useParameterFeedback, useFieldFeedback } from '../FeedbackProvider'
-import FeedbackBlock from '../../edu/exercises/util/FeedbackBlock'
+import { useFieldFeedback } from '../FeedbackProvider'
 
 // Set up style.
 const style = (theme) => ({

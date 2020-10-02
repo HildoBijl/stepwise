@@ -1,7 +1,8 @@
 import React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 
-import { useRoutes } from '../routing'
+import { useRoutes } from 'ui/routing'
+
 import RouterSwitch from './RouterSwitch'
 
 export default function Routing() {

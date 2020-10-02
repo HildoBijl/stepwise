@@ -7,11 +7,12 @@ import { deepEquals } from 'step-wise/util/objects'
 import { setIOtoFO } from 'step-wise/inputTypes'
 import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 
-import { getIcon, getFeedbackColor } from '../theme'
+import { useRefWithValue } from 'util/react'
+import { getIcon, getFeedbackColor } from 'ui/theme'
+import { useExerciseData, getPrevProgress } from 'ui/edu/exercises/ExerciseContainer'
+
 import { removeCursor } from './inputs/Input'
 import { useFormParameter, useFieldValidation } from './Form'
-import { useRefWithValue } from '../../util/react'
-import { useExerciseData, getPrevProgress } from '../edu/exercises/ExerciseContainer'
 
 const FeedbackContext = createContext(null)
 

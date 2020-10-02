@@ -6,9 +6,9 @@ import { makeStyles } from '@material-ui/core/styles'
 import { ArrowRight as Arrow } from '@material-ui/icons'
 import clsx from 'clsx'
 
-import { useEventListener, useRefWithValue } from '../../util/react'
-import { websiteTitle } from '../settings'
-import { useRoute } from '../routing'
+import { useEventListener, useRefWithValue } from 'util/react'
+import { useRoute } from 'ui/routing'
+import { websiteTitle } from 'ui/settings'
 
 const useStyles = makeStyles((theme) => ({
 	title: {

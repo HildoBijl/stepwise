@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import { Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { startEndMarginFix } from '../theme'
+import { startEndMarginFix } from 'ui/theme'
 
 const useStyles = makeStyles((theme) => ({
 	paragraph: {

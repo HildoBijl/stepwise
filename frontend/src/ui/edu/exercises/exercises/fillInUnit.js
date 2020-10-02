@@ -3,11 +3,12 @@ import React from 'react'
 import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
 import { Unit } from 'step-wise/inputTypes/Unit'
 
+import { M } from 'util/equations'
+import { Par } from 'ui/components/containers'
+import UnitInput from 'ui/form/inputs/UnitInput'
+import { InputSpace, WhenNotDone } from 'ui/form/Status'
+
 import SimpleExercise from '../types/SimpleExercise'
-import { Par } from '../../../components/containers'
-import { M } from '../../../../util/equations'
-import UnitInput from '../../../form/inputs/UnitInput'
-import { InputSpace, WhenNotDone } from '../../../form/Status'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />

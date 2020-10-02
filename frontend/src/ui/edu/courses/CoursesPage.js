@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 import skills from 'step-wise/edu/skills'
 
-import { usePaths } from '../../routing'
+import { usePaths } from 'ui/routing'
 
 export default function CoursesPage() {
 	// const contents = useContents()

@@ -1,12 +1,13 @@
 import React from 'react'
 
-import { getFloatComparisonFeedback } from '../util/feedback'
+import { M, BM } from 'util/equations'
+import { Par } from 'ui/components/containers'
+import FloatInput from 'ui/form/inputs/FloatInput'
+import { InputSpace } from 'ui/form/Status'
+
 import SimpleExercise from '../types/SimpleExercise'
 import { useExerciseData } from '../ExerciseContainer'
-import { Par } from '../../../components/containers'
-import { M, BM } from '../../../../util/equations'
-import FloatInput from '../../../form/inputs/FloatInput'
-import { InputSpace } from '../../../form/Status'
+import { getFloatComparisonFeedback } from '../util/feedback'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />

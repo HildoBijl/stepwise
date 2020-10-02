@@ -8,7 +8,7 @@ import { numberArray, findOptimum } from 'step-wise/util/arrays'
 import { boundTo } from 'step-wise/util/numbers'
 import { getFunction } from 'step-wise/skillTracking/evaluation'
 
-import { mix, darken, toCSS } from '../../../util/colors'
+import { mix, darken, toCSS } from 'util/colors'
 
 const numPoints = 20
 const colorDampingStart = 0.8

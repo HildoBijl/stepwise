@@ -2,11 +2,12 @@ import React from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Container } from '@material-ui/core'
 
+import OfflineNotification from 'ui/components/OfflineNotification'
+import RecommendLogIn from 'ui/components/RecommendLogIn'
+import FieldController from 'ui/form/FieldController'
+import { useRoute } from 'ui/routing'
+
 import Header from './Header'
-import FieldController from '../form/FieldController'
-import OfflineNotification from '../components/OfflineNotification'
-import RecommendLogIn from '../components/RecommendLogIn'
-import { useRoute } from '../routing'
 
 const useStyles = makeStyles((theme) => ({
 	page: {

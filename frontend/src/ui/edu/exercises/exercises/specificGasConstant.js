@@ -3,11 +3,12 @@ import React from 'react'
 import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
 import * as specificGasConstants from 'step-wise/data/specificGasConstants'
 
+import { M } from 'util/equations'
+import { Par } from 'ui/components/containers'
+import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
+import { InputSpace } from 'ui/form/Status'
+
 import SimpleExercise from '../types/SimpleExercise'
-import { Par } from '../../../components/containers'
-import { M } from '../../../../util/equations'
-import FloatUnitInput from '../../../form/inputs/FloatUnitInput'
-import { InputSpace } from '../../../form/Status'
 
 const English = {
 	air: 'air',

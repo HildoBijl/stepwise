@@ -4,11 +4,11 @@ import React, { useEffect } from 'react'
 
 import { inputSetsEqual } from 'step-wise/inputTypes'
 
-import VerticalAdjuster from '../../../../util/reactComponents/VerticalAdjuster'
-import { useFormData } from '../../../form/Form'
-import { useFeedback } from '../../../form/FeedbackProvider'
-import Status from '../../../form/Status'
-import { useFieldControllerContext } from '../../../form/FieldController'
+import VerticalAdjuster from 'util/reactComponents/VerticalAdjuster'
+import { useFormData } from 'ui/form/Form'
+import { useFeedback } from 'ui/form/FeedbackProvider'
+import Status from 'ui/form/Status'
+import { useFieldControllerContext } from 'ui/form/FieldController'
 
 import { useExerciseData } from '../ExerciseContainer'
 import ExerciseWrapper from '../util/ExerciseWrapper'

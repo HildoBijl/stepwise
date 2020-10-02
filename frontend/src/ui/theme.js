@@ -1,7 +1,7 @@
 import { createMuiTheme } from '@material-ui/core/styles'
 import { CheckCircle as SuccessIcon, Cancel as ErrorIcon, Warning as WarningIcon, Info as InfoIcon } from '@material-ui/icons'
 
-import { toCSS } from '../util/colors'
+import { toCSS } from 'util/colors'
 
 const themeColor = [0.04, 0.44, 0.24, 1] // #0a6f3c
 const secondaryColor = [0.26, 0.16, 0.08, 1] // #422814

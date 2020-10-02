@@ -3,7 +3,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { fade } from '@material-ui/core/styles/colorManipulator'
 import clsx from 'clsx'
 
-import { getIcon, getFeedbackColor } from '../../../theme'
+import { getIcon, getFeedbackColor } from 'ui/theme'
 
 const useStyles = makeStyles((theme) => ({
 	feedbackBlock: {

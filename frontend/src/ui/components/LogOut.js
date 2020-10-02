@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { apiAddress } from '../settings'
+import { apiAddress } from 'ui/settings'
 
 // LogOut is a React component that, once you mount it, logs the user out.
 export default function LogOut() {

@@ -8,7 +8,7 @@ import { lastOf, arraySplice } from 'step-wise/util/arrays'
 import { getEmpty as getEmptyUnitElement, isEmpty as isUnitElementEmpty, process as processUnitElement } from 'step-wise/inputTypes/Unit/UnitElement'
 import { getEmpty, isEmpty } from 'step-wise/inputTypes/Unit/UnitArray'
 
-import { getClickSide } from '../../../util/dom'
+import { getClickSide } from 'util/dom'
 
 import { checkCursor } from './Input'
 import { dataToContents as unitElementDataToContents, cursorToKeyboardType as unitElementCursorToKeyboardType, keyPressToData as unitElementKeyPressToData, mouseClickToCursor as unitElementMouseClickToCursor, getStartCursor as getUnitElementStartCursor, getEndCursor as getUnitElementEndCursor, isCursorAtStart as isCursorAtUnitElementStart, isCursorAtEnd as isCursorAtUnitElementEnd } from './UnitElement'

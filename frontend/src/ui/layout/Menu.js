@@ -4,10 +4,11 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { SwipeableDrawer, List, Divider, IconButton, useMediaQuery } from '@material-ui/core'
 import { Menu as MenuIcon, ArrowBack, Add, Clear, Dialpad, TextFields, Spellcheck, Home, School, Create, Feedback, Info, MenuBook, ExitToApp } from '@material-ui/icons'
 
-import { useFieldControl, useFieldControllerContext } from '../form/FieldController'
+import { useUser } from 'api/user'
+import { usePaths } from 'ui/routing'
+import { useFieldControl, useFieldControllerContext } from 'ui/form/FieldController'
+
 import MenuLink from './MenuLink'
-import { usePaths } from '../routing'
-import { useUser } from '../../api/user'
 
 const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent) // To fix the SwipeableDrawer on iOS.
 

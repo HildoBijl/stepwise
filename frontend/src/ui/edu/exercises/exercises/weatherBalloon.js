@@ -2,12 +2,13 @@ import React from 'react'
 
 import { isStepSolved } from 'step-wise/edu/exercises/util/stepExercise'
 
-import StepExercise from '../types/StepExercise'
+import { M, BM } from 'util/equations'
+import { Par, SubHead } from 'ui/components/containers'
+import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
+import { InputSpace } from 'ui/form/Status'
+
 import { useExerciseData } from '../ExerciseContainer'
-import { Par, SubHead } from '../../../components/containers'
-import { M, BM } from '../../../../util/equations'
-import FloatUnitInput from '../../../form/inputs/FloatUnitInput'
-import { InputSpace } from '../../../form/Status'
+import StepExercise from '../types/StepExercise'
 import { getFloatUnitComparisonFeedback } from '../util/feedback'
 
 export default function Exercise() {

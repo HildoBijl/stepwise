@@ -3,10 +3,11 @@ import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { ApolloProvider } from '@apollo/react-hooks'
 
+import { UserProvider } from 'api/user'
+import theme from 'ui/theme'
+import SkillCacher from 'ui/edu/skills/SkillCacher'
+
 import Routing from './Routing'
-import theme from '../theme'
-import { UserProvider } from '../../api/user'
-import SkillCacher from '../edu/skills/SkillCacher'
 
 const withApolloProvider = WrappedComponent => props => (
 	<ApolloProvider client={props.apolloClient}>

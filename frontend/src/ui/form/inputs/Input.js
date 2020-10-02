@@ -6,17 +6,17 @@ import { isObject, applyToEachParameter } from 'step-wise/util/objects'
 import { isNumber, boundTo } from 'step-wise/util/numbers'
 import { noop } from 'step-wise/util/functions'
 
-import { resetFocus, getCoordinatesOf, ignoreBackspaceEvent, getClickSide } from '../../../util/dom'
-import { useEventListener, useWidthTracker, useRefWithValue } from '../../../util/react'
-import { latexMinus, decimalSeparator } from '../../../util/equations'
+import { resetFocus, getCoordinatesOf, ignoreBackspaceEvent, getClickSide } from 'util/dom'
+import { useEventListener, useWidthTracker, useRefWithValue } from 'util/react'
+import { latexMinus, decimalSeparator } from 'util/equations'
+import { notSelectable } from 'ui/theme'
+import { useSubmitAction } from 'ui/edu/exercises/util/actions'
 
 import Cursor from './Cursor'
 import { useFieldFeedback } from '../FeedbackProvider'
 import { useFormParameter, useCursorRef } from '../Form'
 import { useStatus } from '../Status'
-import { notSelectable } from '../../theme'
 import { useFieldControl } from '../FieldController'
-import { useSubmitAction } from '../../edu/exercises/util/actions'
 
 // Field definitions.
 const height = 3.2 // em
