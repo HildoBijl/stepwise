@@ -64,7 +64,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Bereken via de gaswet het volume van het gas in de ballon.</Par>
 			<InputSpace>
-				<Par><FloatUnitInput id="ansm" prelabel={<M>V=</M>} label="Volume" size="s" /></Par>
+				<Par><FloatUnitInput id="ansV" prelabel={<M>V=</M>} label="Volume" size="s" /></Par>
 			</InputSpace>
 		</>,
 		Solution: (state) => {
