@@ -51,7 +51,7 @@ const resolvers = {
 
 			// Time to store things in the database.
 			let adjustedSkills
-			await db._sequelize.transaction(async (transaction) => { // ToDo: check if this is the best way of accessing sequelize to set up a transaction.
+			await db.transaction(async (transaction) => {
 				// Apply all the skill updates that were collected so far.
 				adjustedSkills = await applySkillUpdates(skillUpdates, userId, db, transaction)
 
