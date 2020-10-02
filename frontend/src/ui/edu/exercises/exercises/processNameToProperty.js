@@ -48,12 +48,14 @@ function Solution({ type }) {
 }
 
 function getFeedback(exerciseData) {
-	const { input, progress } = exerciseData
+	const { input, state, progress } = exerciseData
+	const { type } = state
 	const { ans } = input
 
 	return {
 		ans: {
-			[ans[0]]: {
+			[type]: progress.done, // When we're done, mark the correct one as correct.
+			[ans[0]]: { // Mark the selected one appropriately. (Possibly overriding the previous line.)
 				correct: !!progress.solved,
 				text: progress.solved ?
 					selectRandomCorrect() :
