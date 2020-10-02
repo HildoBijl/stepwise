@@ -127,11 +127,10 @@ export default function MultipleChoice({ id, choices = [], validate = nonEmpty, 
 		if (pick === undefined) {
 			newMapping = numberArray(0, numChoices - 1) // Show all choices.
 		} else {
-			include = (include === undefined ? [] : include) // Use [] as a default value.
-			include = (Array.isArray(include) ? include : [include]) // Ensure it's an array.
-			const nonIncluded = numberArray(0, numChoices - 1).filter(index => !include.includes(index))
-			const numExtra = Math.max(pick - include.length, 0)
-			newMapping = [...include, ...getRandomSubset(nonIncluded, numExtra)]
+			const includeArray = (include === undefined ? [] : (Array.isArray(include) ? include : [include])) // Use [] as a default value and ensure it's an array.
+			const nonIncluded = numberArray(0, numChoices - 1).filter(index => !includeArray.includes(index)) // List all elements we may still select (those that are not automatically included).
+			const numExtra = Math.max(pick - includeArray.length, 0) // How many should we still pick?
+			newMapping = [...includeArray, ...getRandomSubset(nonIncluded, numExtra)]
 		}
 		return randomOrder ? shuffle(newMapping) : newMapping.sort()
 	}, [numChoices, pick, include, randomOrder])
