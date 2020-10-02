@@ -1,6 +1,5 @@
 import React, { createContext, useContext } from 'react'
-import { useQuery } from '@apollo/react-hooks'
-import { gql } from 'apollo-boost'
+import { useQuery, gql } from '@apollo/client'
 import { Link } from 'react-router-dom'
 
 import skills from 'step-wise/edu/skills'

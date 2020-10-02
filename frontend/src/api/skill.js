@@ -1,5 +1,5 @@
-import { gql } from 'apollo-boost'
-import { useMutation, useQuery } from '@apollo/react-hooks'
+import { gql } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 
 import skills from 'step-wise/edu/skills'
