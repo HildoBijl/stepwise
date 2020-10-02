@@ -27,12 +27,10 @@ const choices = [
 function Problem({ type }) {
 	const typeName = types[type]
 
-	// ToDo consider: pick four random ones, including the correct one.
-
 	return <>
 		<Par>Wat geldt bij een {typeName.toLowerCase()} proces?</Par>
 		<InputSpace>
-			<MultipleChoice id="ans" choices={choices} />
+			<MultipleChoice id="ans" choices={choices} pick={4} include={type} randomOrder={true} />
 		</InputSpace>
 	</>
 }

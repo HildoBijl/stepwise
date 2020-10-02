@@ -1,4 +1,4 @@
-const { ensureNumber } = require('./numbers')
+const { ensureInt, ensureNumber } = require('./numbers')
 
 // ensureArray checks whether a variable is an array and throws an error if not. If all is fine, the same parameter is returned.
 function ensureArray(array) {
@@ -23,25 +23,27 @@ function lastOf(array) {
 module.exports.lastOf = lastOf
 
 // findOptimumIndex takes an array of objects, like [{x: 3}, {x: 2}, {x: 5}]. It also takes a comparison function (a, b) => [bool], indicating whether a is better than b. For example, to find the object with the highest x, use "(a, b) => x.a > x.b". It then returns the index of the object with the optimal value. Returns -1 on an empty array.
-function findOptimumIndex(arr, isBetter) {
-	return arr.reduce((bestIndex, element, index) => bestIndex === -1 || isBetter(element, arr[bestIndex]) ? index : bestIndex, -1)
+function findOptimumIndex(array, isBetter) {
+	return array.reduce((bestIndex, element, index) => bestIndex === -1 || isBetter(element, array[bestIndex]) ? index : bestIndex, -1)
 }
 module.exports.findOptimumIndex = findOptimumIndex
 
 // findOptimum works identically to findOptimumIndex but returns the optimal object itself. Returns undefined on an empty array.
-function findOptimum(arr, isBetter) {
-	return arr[findOptimumIndex(arr, isBetter)]
+function findOptimum(array, isBetter) {
+	return array[findOptimumIndex(array, isBetter)]
 }
 module.exports.findOptimum = findOptimum
 
 // sum gives the sum of all array elements.
-function sum(arr) {
-	return arr.reduce((sum, v) => sum + v, 0)
+function sum(array) {
+	return array.reduce((sum, v) => sum + v, 0)
 }
 module.exports.sum = sum
 
-// numberArray creates an array with numbers from start (inclusive) to end (inclusive). So with 3 and 5 it's [3,4,5] and with 5 and 3 it's [5,4,3]. If only one parameter is given, then this is considered the end and the start is set to zero.
+// numberArray creates an array with numbers from start (inclusive) to end (inclusive). Both must be integers. So with 3 and 5 it's [3,4,5] and with 5 and 3 it's [5,4,3]. If only one parameter is given, then this is considered the end and the start is set to zero.
 function numberArray(p1, p2) {
+	p1 = ensureInt(p1)
+	p2 = ensureInt(p2)
 	let start, end
 	if (p2 === undefined) {
 		start = 0
@@ -82,9 +84,39 @@ function multiplyPolynomialCoefficients(a, b) {
 module.exports.multiplyPolynomialCoefficients = multiplyPolynomialCoefficients
 
 // getCumulativeArray takes a number array and returns a cumulative version of it.
-function getCumulativeArray(arr) {
-	arr = ensureNumberArray(arr)
+function getCumulativeArray(array) {
+	array = ensureNumberArray(array)
 	let sum = 0
-	return arr.map(value => sum+= value)
+	return array.map(value => sum += value)
 }
 module.exports.getCumulativeArray = getCumulativeArray
+
+// shuffle will shuffle the elements in an array. It returns a shallow copy, not affecting the original array. It uses the Fisher-Yates shuffle algorithm.
+function shuffle(array) {
+	array = [...array] // Clone array.
+	for (let currIndex = array.length - 1; currIndex > 0; currIndex--) {
+		const newPlace = Math.floor(Math.random() * (currIndex + 1))
+		const temp = array[newPlace]
+		array[newPlace] = array[currIndex]
+		array[currIndex] = temp
+	}
+	return array
+}
+module.exports.shuffle = shuffle
+
+// getRandomSubset takes an array like ['A', 'B', 'C', 'D'] and randomly picks num elements out of it. For instance, if num = 2 then it may return ['D', 'B']. If randomOrder is set to true (default) then the order is random. If it is set to false, then the elements will always appear in the same order as in the original array. (Note: for huge arrays and a small subset this function is not optimized for efficiency.)
+function getRandomSubset(array, num, randomOrder = true) {
+	// Check input.
+	array = ensureArray(array)
+	num = ensureInt(num)
+
+	// Create a mapping of the right size.
+	const mapping = shuffle(numberArray(0, array.length - 1)).slice(0, num)
+
+	// The mapping is in random order. If we don't want a random order, we must sort it.
+	if (!randomOrder)
+		mapping.sort()
+
+	return mapping.map(index => array[index])
+}
+module.exports.getRandomSubset = getRandomSubset
