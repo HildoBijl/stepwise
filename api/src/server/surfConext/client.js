@@ -10,7 +10,6 @@ class Client {
 		this._clientId = clientId
 		this._secret = secret
 		this._maybeClient = null
-		// Cache issuer configuration for 24h
 		this._clientExpiresAt = new Date()
 	}
 
