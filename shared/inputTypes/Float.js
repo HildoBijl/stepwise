@@ -447,7 +447,7 @@ class Float {
 		if (power === 0) {
 			return new Float({
 				number: 1,
-				significantDigits: Infinite,
+				significantDigits: Infinity,
 			})
 		}
 
