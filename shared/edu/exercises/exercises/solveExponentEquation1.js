@@ -17,7 +17,7 @@ function generateState() {
 		min: -3,
 		max: 3,
 		decimals: 1,
-		preventZero: true,
+		prevent: 0,
 	})
 	const x = getRandomExponentialFloat({
 		min: 0.1,

@@ -13,26 +13,26 @@ function generateState() {
 		min: 0.1,
 		max: 10,
 	})
-	const power = getRandomFloat({
-		min: -3,
-		max: 3,
-		decimals: 1,
-		preventZero: true,
-	})
-
 	const a = getRandomExponentialFloat({
 		min: 0.1,
 		max: 10,
 		significantDigits: 2,
 	})
+	const c = getRandomFloat({
+		min: -3,
+		max: 3,
+		decimals: 1,
+		prevent: 0,
+	})
 	const d = getRandomFloat({
 		min: -3,
 		max: 3,
 		decimals: 1,
+		prevent: [0, c.number],
 	})
 
-	const c = d.add(power).roundToPrecision()
-	const b = a.multiply(x.toPower(power)).roundToPrecision()
+	const b = a.multiply(x.toPower(c.subtract(d))).useSignificantDigits(2).roundToPrecision()
+
 	return { a, b, c, d }
 }
 

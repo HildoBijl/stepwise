@@ -17,7 +17,7 @@ function generateState() {
 		min: -3,
 		max: 3,
 		decimals: 1,
-		preventZero: true,
+		prevent: 0,
 	})
 	const c = getRandomExponentialFloat({
 		min: 1,
@@ -25,9 +25,9 @@ function generateState() {
 		significantDigits: 2,
 	})
 
-	const cTimesPower = c.multiply(x.toPower(p.applyMinus()))
-	const b = getRandomFloat({ min: -2, max: 2 }).multiply(cTimesPower).useMinimumSignificantDigits(2).roundToPrecision()
-	const a = b.add(cTimesPower).useMinimumSignificantDigits(2).roundToPrecision()
+	const cDivPower = c.divide(x.toPower(p))
+	const b = getRandomFloat({ min: -2, max: 2 }).multiply(cDivPower).useSignificantDigits(2).roundToPrecision()
+	const a = b.add(cDivPower).useSignificantDigits(2).roundToPrecision()
 
 	return { a, b, c, p }
 }

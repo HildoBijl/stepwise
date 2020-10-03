@@ -441,7 +441,9 @@ class Float {
 			power = power.number
 		power = ensureNumber(power)
 
-		// Check boundary case.
+		// Check boundary cases.
+		if (this.number < 0 && !isInt(power))
+			throw new Error(`Invalid toPower call: cannot take a fractional power of a negative number. That is, "(${this.number}) ^ (${power})" cannot be calculated.`)
 		if (power === 0) {
 			return new Float({
 				number: 1,
@@ -482,7 +484,7 @@ Float.defaultEqualityOptions = {
  * - the number of significant digits through "significantDigits". Use "3" for "23.4" and "2.34 * 10^3".
  * If none is given then infinite precision will be assumed.
  * If round is true (default true) the number will be rounded to be precisely "23.4" and not be "23.4321" or so behind the scenes.
- * If preventZero is set to true (default false) then it will repeat the random selection until a nonzero is obtained. Warning: a call like getRandomFloat({ min: -0.001, max: 0.001, decimals: 1 }) will result in an infinite loop.
+ * If prevent is given a value (or array of values) then those numbers (regular floats like "0.5") are excluded. Do note that, if all possible numbers are prevented, this will result in an infinite loop.
  */
 function getRandomFloat(options) {
 	// Check input: must be numbers.
@@ -494,14 +496,19 @@ function getRandomFloat(options) {
 	const number = getRandom(min, max)
 	const result = processFloat(number, options)
 
-	// Check if it's zero.
-	if (options.preventZero && result.number === 0)
-		return getRandomFloat(options)
-	return processFloat(number, options)
+	// Check if it's in the prevent list.
+	if (options.prevent) {
+		const prevent = Array.isArray(options.prevent) ? options.prevent : [options.prevent]
+		if (prevent.includes(result.number))
+			return getRandomFloat(options)
+	}
+
+	// All good!
+	return result
 }
 module.exports.getRandomFloat = getRandomFloat
 
-// getRandomExponentialFloat returns a random float between the given min and max. It does this according to an exponential distribution to satisfy Benford's law. Optionally, "negative" can be set to true to force a negative sign, or otherwise "randomSign" can be set to true to also get negative numbers.
+// getRandomExponentialFloat returns a random float between the given min and max. It does this according to an exponential distribution to satisfy Benford's law. Optionally, "negative" can be set to true to force a negative sign, or otherwise "randomSign" can be set to true to also get negative numbers. A "prevent" option can be given to prevent certain float numbers.
 function getRandomExponentialFloat(options) {
 	// Check input: must be nonzero positive numbers.
 	let { min, max, negative, randomSign } = options
@@ -512,7 +519,17 @@ function getRandomExponentialFloat(options) {
 	const randomExp = getRandom(Math.log10(min), Math.log10(max))
 	const sign = (negative || (randomSign && Math.random()) < 0.5) ? -1 : 1
 	const number = sign * Math.pow(10, randomExp)
-	return processFloat(number, options)
+	const result = processFloat(number, options)
+
+	// Check if it's in the prevent list.
+	if (options.prevent) {
+		const prevent = Array.isArray(options.prevent) ? options.prevent : [options.prevent]
+		if (prevent.includes(result.number))
+			return getRandomExponentialFloat(options)
+	}
+
+	// All good!
+	return result
 }
 module.exports.getRandomExponentialFloat = getRandomExponentialFloat
 
