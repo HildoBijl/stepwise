@@ -1,6 +1,6 @@
 // The Float class represents floating point numbers with a certain number of significant digits. By default it is an empty string with zero significant digits.
 
-const { isInt, ensureInt, isNumber, ensureNumber, roundTo } = require('../util/numbers')
+const { isInt, ensureInt, isNumber, ensureNumber, roundTo, roundToDecimals } = require('../util/numbers')
 const { isObject, processOptions } = require('../util/objects')
 const { getRandom } = require('../util/random')
 
@@ -118,6 +118,22 @@ class Float {
 		return str
 	}
 
+	// hasVisiblePower returns if there is a power visible in the display of this number. It is based on the toString method and the tex method.
+	hasVisiblePower() {
+		if (this._significantDigits === 0)
+			return false
+
+		const power = this.getDisplayPower()
+		if (power !== 0)
+			return true
+
+		const str = this.getDisplayNumber(power)
+		if (str === '1' && this._significantDigits === Infinity)
+			return true
+
+		return false
+	}
+
 	get tex() {
 		// Check boundary cases.
 		if (this._significantDigits === 0)
@@ -141,6 +157,11 @@ class Float {
 	// texWithPM will return latex code but then with a plus or minus prior to the number, so it can be used as a term in an equation. For "5" it will return "+5", for "-5" it will return "-5" and for "0" it returns "+0".
 	get texWithPM() {
 		return (this.number < 0 ? '' : '+') + this.tex
+	}
+
+	// texWithBrackets will return latex code, but then with brackets if this is a negative number or if there is a visible power in the display.
+	get texWithBrackets() {
+		return (this.number < 0 || this.hasVisiblePower() ? `(${this.tex})` : this.tex)
 	}
 
 	// getDisplayPower returns the power with which we want to display the number. If the power is known, it is returned. Otherwise we intelligently determine one.
@@ -234,6 +255,11 @@ class Float {
 			power: this.power,
 			significantDigits: significantDigits,
 		})
+	}
+
+	// useMinimumSignificantDigits returns a copy in which the significant digits is increased to the given amount, if currently less.
+	useMinimumSignificantDigits(significantDigits) {
+		return this.useSignificantDigits(Math.max(significantDigits, this.significantDigits))
 	}
 
 	// useDecimals returns a copy of this number but then with the number of significant digits adjusted to ensure it has the given number of decimals.
@@ -410,7 +436,12 @@ class Float {
 
 	// toPower will take this number to the given power. So "2,0 * 10^2" to the power 3 will be "8,0 * 10^6".
 	toPower(power) {
-		power = ensureInt(power)
+		// Process input.
+		if (power.constructor === this.constructor)
+			power = power.number
+		power = ensureNumber(power)
+
+		// Check boundary case.
 		if (power === 0) {
 			return new Float({
 				number: 1,
@@ -418,9 +449,9 @@ class Float {
 			})
 		}
 
+		// Calculate power.
 		if (power < 0)
 			return this.invert().toPower(-power)
-
 		return new Float({
 			number: Math.pow(this.number, power),
 			significantDigits: this.significantDigits,
@@ -451,6 +482,7 @@ Float.defaultEqualityOptions = {
  * - the number of significant digits through "significantDigits". Use "3" for "23.4" and "2.34 * 10^3".
  * If none is given then infinite precision will be assumed.
  * If round is true (default true) the number will be rounded to be precisely "23.4" and not be "23.4321" or so behind the scenes.
+ * If preventZero is set to true (default false) then it will repeat the random selection until a nonzero is obtained. Warning: a call like getRandomFloat({ min: -0.001, max: 0.001, decimals: 1 }) will result in an infinite loop.
  */
 function getRandomFloat(options) {
 	// Check input: must be numbers.
@@ -460,6 +492,11 @@ function getRandomFloat(options) {
 
 	// Set up a random float.
 	const number = getRandom(min, max)
+	const result = processFloat(number, options)
+
+	// Check if it's zero.
+	if (options.preventZero && result.number === 0)
+		return getRandomFloat(options)
 	return processFloat(number, options)
 }
 module.exports.getRandomFloat = getRandomFloat
@@ -488,7 +525,8 @@ function processFloat(number, { decimals, significantDigits, round = true }) {
 	// Determine the number and set its precision accordingly.
 	let float
 	if (decimals !== undefined) {
-		float = new Float({ number, significantDigits: Math.floor(Math.log10(Math.abs(number))) + 1 + decimals })
+		number = round ? roundToDecimals(number, decimals) : number
+		float = new Float({ number, significantDigits: Math.max(Math.floor(Math.log10(Math.abs(number))) + 1 + decimals, 0) })
 	} else if (significantDigits !== undefined) {
 		float = new Float({ number, significantDigits })
 	} else {

@@ -61,22 +61,30 @@ module.exports.boundTo = boundTo
 
 // roundTo rounds a number to the given number of digits. So roundTo(12.345, 4) will become 12.35. Similarly, roundTo(123, 2) will be 120. Do note: roundTo(999, 3) will be 999 while roundTo(999, 2) will be 1000.
 function roundTo(number, digits) {
-  if (!isNumber(number))
-    throw new Error(`Invalid input: num has to be a number but "${number}" was given.`)
-  if (!isInt(digits) || digits <= 0)
-    throw new Error(`Invalid input: digits has to be a positive integer but "${digits}" was given.`)
-  
+  number = ensureNumber(number)
+  digits = ensureInt(digits, true)
+
   // Boundary cases.
   if (number === 0)
+    return 0
+  if (digits === 0)
     return 0
   if (digits === Infinity)
     return number
   
   // Calculate rounding.
-  const power = digits - Math.floor(Math.log10(Math.abs(number))) - 1
-  return Math.round(number * Math.pow(10, power)) / Math.pow(10, power)
+  const decimals = digits - Math.floor(Math.log10(Math.abs(number))) - 1
+  return roundToDecimals(number, decimals)
 }
 module.exports.roundTo = roundTo
+
+// roundToDecimals rounds a number to the given number of decimals. So roundTo(12.345, 2) will be 12.35, while roundTo(12.345, -1) will be 10.
+function roundToDecimals(number, decimals) {
+  number = ensureNumber(number)
+  decimals = ensureInt(decimals)
+  return Math.round(number * Math.pow(10, decimals)) / Math.pow(10, decimals)
+}
+module.exports.roundToDecimals = roundToDecimals
 
 // getCounterNumber returns a number that increments on every request. This allows us to get unique numbers whenever we request one on a page.
 let counter = 0

@@ -37,6 +37,10 @@ const skills = {
 		name: 'Lineaire vergelijking oplossen',
 		exercises: ['solveLinearEquation1', 'solveLinearEquation2', 'solveLinearEquation3', 'solveLinearEquation4'],
 	},
+	solveExponentEquation: {
+		name: 'Exponent-vergelijking oplossen',
+		exercises: ['solveExponentEquation1', 'solveExponentEquation2', 'solveExponentEquation3', 'solveExponentEquation4'],
+	},
 
 	// Basic physics
 	calculateWithPressure: {
