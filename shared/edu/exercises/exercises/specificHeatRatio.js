@@ -3,7 +3,7 @@ const specificHeatRatios = require('../../../data/specificHeatRatios')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 
 const data = {
-	skill: 'specificHeatRatios',
+	skill: 'specificHeatRatio',
 	equalityOptions: {
 		relativeMargin: 0.01,
 	}
