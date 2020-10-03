@@ -12,10 +12,10 @@ export default function Exercise() {
 }
 
 const questions = [
-	<Par>We brengen in een snelkookpan een klein beetje water aan de kook. Op deze snelkookpan zit een overdrukventiel: als de druk groter dan <M>2\ {`{\\rm bar}`}</M> wordt, dan gaat dit ventiel open om wat lucht te laten ontsnappen. Wat voor soort proces speelt zich binnen de pan af?</Par>,
+	<Par>We brengen in een snelkookpan een klein beetje water aan de kook. Op deze snelkookpan zit een overdrukventiel: als de druk groter dan zo'n <M>2\ {`{\\rm bar}`}</M> wordt, dan gaat dit ventiel open om wat lucht te laten ontsnappen. Wat voor soort proces speelt zich binnen de pan af?</Par>,
 	<Par>In een cilinder van een viertaktmotor van een auto bevindt de zuiger zich in de hoogste stand: het volume van de ingesloten lucht is erg klein. Precies op dit moment geeft de bougie een vonkje waardoor de aanwezige brandstof ontbrandt. Dit zorgt voor een snelle toevoer van warmte. Het gaat zo snel dat de zuiger nog geen tijd heeft gehad om te bewegen. Wat voor soort proces is dit?</Par>,
 	<Par>Een luie wielrenner duwt heel langzaam de hendel van zijn fietspomp naar beneden. Dit zorgt ervoor dat de lucht in de pomp gecomprimeerd wordt. Omdat dit zo langzaam gaat wordt de lucht nauwelijkse warmer: de warmte stroomt via de pompbehuizing gelijk weg. Wat voor soort proces is dit, bij benadering?</Par>,
-	<Par>In een viertaktmotor van een auto bevindt bevindt zich een cilinder waarin zojuist het brandstof is ontbrand. Hierdoor staat de lucht onder erg hoge druk. Deze druk duwt de zuiger van de cilinder omlaag. De brandstof is (bij benadering) al ontbrand: er wordt geen extra warmte meer toegevoegd. Wel is er mogelijk een beetje frictie aanwezig in de cilinder. Wat voor soort proces is dit?</Par>,
+	<Par>In een viertaktmotor van een auto bevindt bevindt zich een cilinder waarin zojuist het brandstof is ontbrand. Hierdoor staat de lucht onder erg hoge druk. Deze druk duwt de zuiger van de cilinder erg snel omlaag. De brandstof is (bij benadering) al ontbrand: er wordt geen extra warmte meer toegevoegd. Wel is er mogelijk een beetje frictie aanwezig in de cilinder. Wat voor soort proces is dit?</Par>,
 	<Par>In een vliegtuigmotor gaat de lucht, na verhitting via brandstof, door de turbine. Deze turbine wekt de energie (arbeid) op om de grote propellor aan te draaien. Deze turbine is zo optimaal mogelijk gemaakt: er is praktisch geen frictie en de behuizing is goed geïsoleerd waardoor er geen warmte-uitwisseling met de omgeving is. Wat voor soort proces is dit? Wees bij je antwoord zo specifiek mogelijk.</Par>,
 ]
 
@@ -44,13 +44,13 @@ function Solution({ type }) {
 function getFeedback(exerciseData) {
 	const { input, state, progress } = exerciseData
 	const { type } = state
-	const { ans } = input
+	const { ans: [ans] } = input
 
 	const text = [
 		[
 			'Zeker! De druk binnen de pan blijft constant.',
 			'Een isochoor proces is een proces waarbij de lucht een constant volume houdt. Omdat een deel van de lucht wegstroomt via het overdrukventiel is dit echter niet het geval. De lucht neemt hiermee meer volume in.',
-			'Een isotherm proces is een proces waarbij de temperatuur constant blijft. De pan wordt echter verwarmd, waardoor de temperatuur toeneemt.',
+			'Een isotherm proces is een proces waarbij de temperatuur constant blijft. De pan wordt echter verwarmd (aan de kook gebracht) waardoor de temperatuur toeneemt.',
 			'Een adiabatisch proces is een zonder warmte-uitwisseling met de omgeving. Bij het koken van een pan wordt echter zeker wel warmte toegevoerd.',
 			'Een isentroop proces is een proces zonder warmte-uitwisseling met de omgeving en zonder interne warmte-ontwikkeling. Bij het koken van een pan wordt echter zeker wel warmte toegevoerd.',
 		],
@@ -82,12 +82,12 @@ function getFeedback(exerciseData) {
 			'Een adiabatisch proces is een zonder warmte-uitwisseling met de omgeving. Dat is hier wel het geval, maar je kunt nog specifieker zijn met je antwoord. Wat geldt namelijk nog meer?',
 			'Perfect! Dit is inderdaad een proces zonder warmte-uitwisseling met de omgeving en zonder interne warmte-ontwikkeling.',
 		],
-	][type][ans[0]]
+	][type][ans]
 	
 	return {
 		ans: {
 			[type]: progress.done, // When we're done, mark the correct one as correct.
-			[ans[0]]: { // Mark the selected one appropriately. (Possibly overriding the previous line.)
+			[ans]: { // Mark the selected one appropriately. (Possibly overriding the previous line.)
 				correct: !!progress.solved,
 				text,
 			}

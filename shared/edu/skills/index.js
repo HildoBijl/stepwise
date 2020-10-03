@@ -68,8 +68,7 @@ const skills = {
 	},
 	recognizeProcessTypes: {
 		name: 'Soorten processen herkennen',
-		exercises: ['propertyToProcessName'], // ToDo later: add questions with p-V-plots too.
-		// exercises: ['processNameToProperty', 'propertyToProcessName'], // ToDo later: add questions with p-V-plots too.
+		exercises: ['processNameToProperty', 'propertyToProcessName', 'findProcessCoefficient'], // ToDo later: add questions with p-V-plots too.
 	},
 }
 

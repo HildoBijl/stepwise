@@ -11,8 +11,8 @@ function generateState() {
 	}
 }
 
-function checkInput({ type }, { ans }) {
-	return type === ans[0]
+function checkInput({ type }, { ans: [ans] }) {
+	return type === ans
 }
 
 module.exports = {

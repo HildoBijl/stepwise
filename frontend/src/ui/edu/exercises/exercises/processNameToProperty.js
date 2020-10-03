@@ -25,10 +25,8 @@ const choices = [
 ]
 
 function Problem({ type }) {
-	const typeName = types[type]
-
 	return <>
-		<Par>Wat geldt bij een {typeName.toLowerCase()} proces?</Par>
+		<Par>Wat geldt bij een {types[type].toLowerCase()} proces?</Par>
 		<InputSpace>
 			<MultipleChoice id="ans" choices={choices} pick={4} include={type} randomOrder={true} />
 		</InputSpace>
@@ -49,16 +47,16 @@ function Solution({ type }) {
 function getFeedback(exerciseData) {
 	const { input, state, progress } = exerciseData
 	const { type } = state
-	const { ans } = input
+	const { ans: [ans] } = input
 
 	return {
 		ans: {
 			[type]: progress.done, // When we're done, mark the correct one as correct.
-			[ans[0]]: { // Mark the selected one appropriately. (Possibly overriding the previous line.)
+			[ans]: { // Mark the selected one appropriately. (Possibly overriding the previous line.)
 				correct: !!progress.solved,
 				text: progress.solved ?
 					selectRandomCorrect() :
-					<span>Dit geldt voor een <strong>{types[ans[0]].toLowerCase()}</strong> proces.</span>
+					<span>Dit geldt voor een <strong>{types[ans].toLowerCase()}</strong> proces.</span>
 			}
 		}
 	}
