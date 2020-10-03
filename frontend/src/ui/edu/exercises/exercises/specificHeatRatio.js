@@ -1,10 +1,10 @@
 import React from 'react'
 
-import * as specificGasConstants from 'step-wise/data/specificGasConstants'
+import * as specificHeatRatios from 'step-wise/data/specificHeatRatios'
 
 import { M } from 'util/equations'
 import { Par } from 'ui/components/containers'
-import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
+import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
@@ -39,17 +39,17 @@ export default function Exercise() {
 
 function Problem({ medium }) {
 	return <>
-		<Par>Zoek de specifieke gasconstante van <strong>{Dutch[medium]}</strong> op. Voer je antwoord zo nauwkeurig mogelijk in.</Par>
+		<Par>Zoek de <M>k</M>-waarde (de verhouding van soortelijke warmten) van <strong>{Dutch[medium]}</strong> op. Voer je antwoord zo nauwkeurig mogelijk in.</Par>
 		<InputSpace>
-			<Par><FloatUnitInput id="ans" prelabel={<M>R_s =</M>} label="Specifieke gasconstante" size="s" /></Par>
+			<Par><FloatUnitInput id="ans" prelabel={<M>k =</M>} label={<span><M>k</M>-waarde</span>} size="s" validate={validNumberAndUnit} /></Par>
 		</InputSpace>
 	</>
 }
 
 function Solution({ medium }) {
 	return <>
-		<Par>De specifieke gasconstante van {Dutch[medium]} is <M>{specificGasConstants[medium].tex}</M>.</Par>
-		<Par>Als je dit wilt vinden, dan kun je achterin een thermodynamicaboek kijken: er is vast een bijlage met eigenschappen van gassen. Anders kun je ook Googlen naar "specific gas constant {English[medium]}". Zoeken in het Engels geeft vaak meer/betere resultaten dan het Nederlands.</Par>
+		<Par>De <M>k</M>-waarde (de verhouding van soortelijke warmten) van {Dutch[medium]} is <M>{specificHeatRatios[medium].tex}</M>.</Par>
+		<Par>Als je dit wilt vinden, dan kun je achterin een thermodynamicaboek kijken: er is vast een bijlage met eigenschappen van gassen. Anders kun je ook Googlen naar "specific heat ratio of {English[medium]}". Zoeken in het Engels geeft vaak meer/betere resultaten dan het Nederlands.</Par>
 	</>
 }
 
@@ -60,9 +60,9 @@ const getFeedback = (exerciseData) => {
 	const { data } = shared
 	const { equalityOptions } = data
 
-	const Rs = specificGasConstants[medium]
+	const k = specificHeatRatios[medium]
 
 	return {
-		ans: getFloatUnitComparisonFeedback(Rs, ans, { equalityOptions: equalityOptions, solved: progress.solved, prevInput: prevInput.ans, prevFeedback: prevFeedback.ans }),
+		ans: getFloatUnitComparisonFeedback(k, ans, { equalityOptions: equalityOptions, solved: progress.solved, prevInput: prevInput.ans, prevFeedback: prevFeedback.ans }),
 	}
 }

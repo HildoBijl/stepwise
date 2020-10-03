@@ -63,11 +63,11 @@ export default function FloatUnitInput(props) {
 }
 
 // These are validation functions.
-export function nonEmpty(data) {
+export function nonEmpty(data) { // Something must have been filled in.
 	if (isEmpty(data.value))
 		return selectRandomEmpty()
 }
-export function validNumberAndUnit(data) {
+export function validNumberAndUnit(data) { // The number and unit must be valid. A missing unit is OK.
 	// Check float. First check if it's empty and give a message dedicated to the number. Then check for other edge cases.
 	if (isFloatEmpty(data.value.unit))
 		return selectRandomly([
@@ -85,7 +85,7 @@ export function validNumberAndUnit(data) {
 	if (unitValidResult)
 		return unitValidResult
 }
-export function validNumberAndNonEmptyUnit(data) {
+export function validNumberAndNonEmptyUnit(data) { // The number and unit must be valid. A missing (empty) unit is not OK.
 	const validNumberAndUnitResult = validNumberAndUnit(data)
 	if (validNumberAndUnitResult)
 		return validNumberAndUnitResult

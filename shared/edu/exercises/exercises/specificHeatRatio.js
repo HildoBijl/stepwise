@@ -1,9 +1,9 @@
 const { selectRandomly } = require('../../../util/random')
-const specificGasConstants = require('../../../data/specificGasConstants')
+const specificHeatRatios = require('../../../data/specificHeatRatios')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 
 const data = {
-	skill: 'specificGasConstant',
+	skill: 'specificHeatRatios',
 	equalityOptions: {
 		relativeMargin: 0.01,
 	}
@@ -14,7 +14,7 @@ function generateState() {
 }
 
 function checkInput({ medium }, { ans }) {
-	return specificGasConstants[medium].equals(ans, data.equalityOptions)
+	return specificHeatRatios[medium].equals(ans, data.equalityOptions)
 }
 
 module.exports = {

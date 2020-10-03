@@ -67,7 +67,9 @@ class Unit {
 			const den = this._den.map(unitElement => unitElement.tex).join(' \\cdot ')
 			return `\\frac{\\color{${unitColor}} ${str}}{\\color{${unitColor}} ${den}}`
 		}
-		return `{\\color{${unitColor}} ${str}}`
+		if (str.length === 0)
+			return ''
+		return `{\\color{${unitColor}}${str}}`
 	}
 
 	// SO returns a storage object representation of this unit that can be interpreted again.

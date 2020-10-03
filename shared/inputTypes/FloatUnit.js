@@ -57,7 +57,9 @@ class FloatUnit {
 	}
 
 	get tex() {
-		return this._float.tex + '\\ ' + this._unit.tex
+		const float = this._float.tex
+		const unit = this._unit.tex
+		return this._float.tex + (float.length > 0 && unit.length > 0 ? '\\ ' : '') + this._unit.tex
 	}
 
 	// SO returns a storage representation of this object that can be interpreted again.
