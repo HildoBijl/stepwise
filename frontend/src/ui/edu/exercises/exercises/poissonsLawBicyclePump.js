@@ -64,7 +64,7 @@ const steps = [
 	},
 	{
 		Problem: () => <>
-			<Par>Bereken via de gekozen wet van Poisson wet de temperatuur na de compressie.</Par>
+			<Par>Bereken via de gekozen wet van Poisson de temperatuur na de compressie.</Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="ansT2" prelabel={<M>T_2=</M>} label="Temperatuur" size="s" />
@@ -91,7 +91,7 @@ const getFeedback = (exerciseData) => {
 	return {
 		ansT1: getFloatUnitComparisonFeedback(T1, ansT1, { equalityOptions: equalityOptions.T1, solved: isSubstepSolved(progress, 1, 1), prevInput: prevInput.ansT1, prevFeedback: prevFeedback.ansT1 }),
 		ansV1: getFloatUnitComparisonFeedback(V1, ansV1, { equalityOptions: equalityOptions.V, solved: isSubstepSolved(progress, 1, 2), prevInput: prevInput.ansV1, prevFeedback: prevFeedback.ansV1 }),
-		ansV2: ansV1.unit.equals(ansV2.unit, equalityOptions.VUnit) ?
+		ansV2: ansV1 && ansV2 && ansV1.unit.equals(ansV2.unit, equalityOptions.VUnit) ?
 			getFloatUnitComparisonFeedback(V2, ansV2, { equalityOptions: equalityOptions.V, solved: isSubstepSolved(progress, 1, 3), prevInput: prevInput.ansV2, prevFeedback: prevFeedback.ansV2 }) :
 			{ correct: false, text: <span>De eenheden van <M>V_1</M> en <M>V_2</M> moeten gelijk zijn.</span> },
 		ansEq: {

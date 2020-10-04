@@ -7,8 +7,8 @@ const { combinerAnd } = require('../../../skillTracking')
 
 const data = {
 	skill: 'poissonsLaw',
-	setup: combinerAnd('calculateWithTemperature', 'specificHeatRatio', 'solveLinearEquation'),
-	steps: [['calculateWithTemperature', null, null], null, 'solveLinearEquation'],
+	setup: combinerAnd('calculateWithTemperature', 'calculateWithVolume', 'solveLinearEquation'),
+	steps: [['calculateWithTemperature', null, 'calculateWithVolume'], null, 'solveLinearEquation'],
 
 	equalityOptions: {
 		V: {
