@@ -78,6 +78,10 @@ async function applySkillUpdates(skillUpdates, userId, db, transaction) {
 	skillIds = [...new Set(skillIds)] // Filter duplicates.
 	checkSkillIds(skillIds) // Make sure they exist.
 
+	// If there are no skills, don't do anything. Return an empty array to show no skills were adjusted.
+	if (skillIds.length === 0)
+		return []
+
 	// Pull everything from the database.
 	const skills = await db.UserSkill.findAll({
 		where: {
@@ -153,7 +157,7 @@ async function applySkillUpdates(skillUpdates, userId, db, transaction) {
 		skillUpdatePromises.push(skillPromise)
 	})
 
-	// Wait until all promises are resolved and return the adjusted skills in an array.
+	// Wait until all promises are resolved and return the adjusted skills in an array.=
 	return await Promise.all(skillUpdatePromises)
 }
 

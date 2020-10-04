@@ -16,7 +16,7 @@ export default function Exercise() {
 }
 
 const Problem = ({ p1, p2, V1, V2, T1 }) => <>
-	<Par>Een fietspomp heeft de hendel omhoog, en heeft hiermee inwendig volume van <M>{V1.tex}</M>. De lucht in de fietspomp heeft dezelfde eigenschappen als de omgevingslucht: een temperatuur van <M>{T1.tex}</M> en een druk van <M>{p1.tex}</M>.</Par>
+	<Par>Een fietspomp heeft de hendel omhoog, en heeft hiermee een inwendig volume van <M>{V1.tex}</M>. De lucht in de fietspomp heeft dezelfde eigenschappen als de omgevingslucht: een temperatuur van <M>{T1.tex}</M> en een druk van <M>{p1.tex}</M>.</Par>
 	<Par>Vervolgens wordt de hendel van de fietspomp ingedrukt, tot het ventiel richting de fietsband net opengaat. De drukmeter van de pomp geeft <M>{p2.tex}</M> aan. Het volume van de lucht in de pomp is door deze compressie <M>{V2.tex}</M> geworden. Wat is de temperatuur van de gecomprimeerde lucht in de pomp?</Par>
 	<InputSpace><Par><FloatUnitInput id="ansT2" prelabel={<M>T=</M>} label="Temperatuur" size="s" /></Par></InputSpace>
 </>
@@ -66,7 +66,7 @@ const getFeedback = (exerciseData) => {
 
 	return {
 		ansm: getFloatUnitComparisonFeedback(m, ansm, { equalityOptions: equalityOptions, solved: isStepSolved(progress, 1), prevInput: prevInput.ansm, prevFeedback: prevFeedback.ansm }),
-		ansT2: getFloatUnitComparisonFeedback(T2, ansT2, { equalityOptions: equalityOptions, solved: isStepSolved(progress), prevInput: prevInput.ansT2, prevFeedback: prevFeedback.ansT2 }),
+		ansT2: getFloatUnitComparisonFeedback(T2, ansT2, { equalityOptions: equalityOptions, solved: isStepSolved(progress) || isStepSolved(progress, 2), prevInput: prevInput.ansT2, prevFeedback: prevFeedback.ansT2 }),
 	}
 }
 

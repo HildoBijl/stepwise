@@ -66,7 +66,7 @@ const getFeedback = (exerciseData) => {
 
 	return {
 		ansm: getFloatUnitComparisonFeedback(m, ansm, { equalityOptions: equalityOptions, solved: isStepSolved(progress, 1), prevInput: prevInput.ansm, prevFeedback: prevFeedback.ansm }),
-		ansV2: getFloatUnitComparisonFeedback(V2, ansV2, { equalityOptions: equalityOptions, solved: isStepSolved(progress), prevInput: prevInput.ansV2, prevFeedback: prevFeedback.ansV2 }),
+		ansV2: getFloatUnitComparisonFeedback(V2, ansV2, { equalityOptions: equalityOptions, solved: isStepSolved(progress) || isStepSolved(progress, 2), prevInput: prevInput.ansV2, prevFeedback: prevFeedback.ansV2 }),
 	}
 }
 

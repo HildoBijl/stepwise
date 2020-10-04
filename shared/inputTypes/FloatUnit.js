@@ -15,9 +15,15 @@ class FloatUnit {
 		if (isObject(input) && input.constructor === FloatUnit)
 			return this.become(input)
 
-		// If we have a string, split it up into an object first.
+		// If we have a type Float, add it without a unit.
+		if (isObject(input) && input.constructor === Float)
+			input = { float: input }
+
+		// If we have a string or number, split it up into an object first.
 		if (typeof input === 'string')
 			input = splitString(input)
+		if (typeof input === 'number')
+			input = { float: input }
 
 		// Include default values.
 		input = processOptions(input, { float: {}, unit: {} })

@@ -24,6 +24,7 @@ function generateState() {
 	const x = getRandomExponentialFloat({
 		min: 0.2,
 		max: 40,
+		prevent: 1,
 	})
 	const p = getRandomFloat({
 		min: -3,

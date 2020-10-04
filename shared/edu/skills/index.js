@@ -72,11 +72,16 @@ const skills = {
 	gasLaw: {
 		name: 'De gaswet',
 		setup: combinerAnd('calculateWithPressure', 'calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature', 'specificGasConstant', 'solveLinearEquation'), // ToDo later: use a "combinerPick(..., 3)" to pick three of the given four unit calculation skills.
-		exercises: ['lightBulb', 'heliumBalloon', 'divingCylinder', 'bicyclePump', 'weatherBalloon'],
+		exercises: ['gasLawLightBulb', 'gasLawHeliumBalloon', 'gasLawDivingCylinder', 'gasLawBicyclePump', 'gasLawWeatherBalloon'],
 	},
 	recognizeProcessTypes: {
 		name: 'Soorten processen herkennen',
 		exercises: ['processNameToProperty', 'propertyToProcessName', 'findProcessCoefficient'], // ToDo later: add questions with p-V-plots too.
+	},
+	poissonsLaw: {
+		name: `Poisson's wet`,
+		setup: combinerAnd('calculateWithTemperature', 'specificHeatRatio', 'solveExponentEquation'), // ToDo later: use "combinerPart('specificHeatRatio', 2/3)" to indicate it's not always needed.
+		exercises: ['poissonsLawBicyclePump'],
 	},
 }
 

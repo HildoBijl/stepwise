@@ -103,8 +103,8 @@ module.exports.getStep = getStep
 // isStepSolved checks, from the progress object, whether the given step is solved. If no step is given, it checks the main exercise.
 function isStepSolved(progress, step) {
 	if (!step)
-		return progress.solved
-	return (progress[step] || {}).solved
+		return !!progress.solved
+	return !!(progress[step] || {}).solved
 }
 module.exports.isStepSolved = isStepSolved
 

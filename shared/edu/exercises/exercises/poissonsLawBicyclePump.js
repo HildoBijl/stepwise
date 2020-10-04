@@ -1,0 +1,92 @@
+const { getRandom } = require('../../../util/random')
+const { getRandomFloat } = require('../../../inputTypes/Float')
+const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
+const { Unit } = require('../../../inputTypes/Unit')
+const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { combinerAnd } = require('../../../skillTracking')
+
+const data = {
+	skill: 'poissonsLaw',
+	setup: combinerAnd('calculateWithTemperature', 'specificHeatRatio', 'solveLinearEquation'),
+	steps: [['calculateWithTemperature', null, null], null, 'solveLinearEquation'],
+
+	equalityOptions: {
+		V: {
+			relativeMargin: 0.001,
+			significantDigitMargin: 1,
+		},
+		VUnit: {
+			type: Unit.equalityTypes.exact,
+		},
+		T1: {
+			absoluteMargin: 0.2,
+			significantDigitMargin: 2,
+			unitCheck: Unit.equalityTypes.exact,
+		},
+		T2: {
+			relativeMargin: 0.01,
+			significantDigitMargin: 1,
+		},
+	},
+}
+
+function generateState() {
+	const n = getRandomFloat({
+		min: 1.1,
+		max: 1.3,
+		decimals: 1,
+	})
+	const T1 = getRandomFloatUnit({
+		min: 5,
+		max: 30,
+		significantDigits: 2,
+		unit: 'dC',
+	})
+	const V1 = getRandomFloatUnit({
+		min: 0.2,
+		max: 1.2,
+		significantDigits: 2,
+		unit: 'l',
+	})
+
+	// Use Poisson's law to calculate the final volume for a realistic pressure ratio.
+	const pressureRatio = getRandom(2, 5)
+	const V2 = V1.multiply(Math.pow(pressureRatio, -1 / n.number)).roundToPrecision()
+
+	return { n, T1, V1, V2 }
+}
+
+function getCorrect({ n, T1, V1, V2 }) {
+	T1 = T1.simplify()
+	const T2 = T1.multiply(V1.float.divide(V2.float).toPower(n.subtract(1)))
+	return { T1, T2, V1, V2 }
+}
+
+function checkInput(state, { ansT1, ansT2, ansV1, ansV2, ansEq }, step, substep) {
+	const { T1, T2, V1, V2 } = getCorrect(state)
+	const eo = data.equalityOptions
+
+	switch (step) {
+		case 1:
+			switch (substep) {
+				case 1:
+					return T1.equals(ansT1, eo.T1)
+				case 2:
+					return V1.equals(ansV1, eo.V)
+				case 3:
+					return V2.equals(ansV2, eo.V) && ansV1.unit.equals(ansV2.unit, eo.VUnit)
+			}
+		case 2:
+			return ansEq[0] === 1
+		default:
+			return T2.equals(ansT2, eo.T2)
+	}
+}
+
+module.exports = {
+	data,
+	generateState,
+	processAction: getStepExerciseProcessor(checkInput, data),
+	checkInput,
+	getCorrect,
+}

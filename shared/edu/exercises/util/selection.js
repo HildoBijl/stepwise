@@ -103,7 +103,7 @@ async function getExerciseSuccessRates(exerciseIds, getSkillsData) {
 	})
 	const skills = [...skillsToLoad]
 	const skillData = await getSkillsData(skills)
-	vlog('Skill success rates:')
+	vlog('Skill success rates:', verbose)
 	skills.forEach(skill => vlog(`${skill}: ${getEV(skillData[skill].coefficients)}`, verbose))
 
 	// Extract coefficients from the skill data.

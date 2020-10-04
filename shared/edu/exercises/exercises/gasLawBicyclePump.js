@@ -19,8 +19,8 @@ function generateState() {
 	// Define first situation.
 	const p1 = new FloatUnit('1.0 bar')
 	const V1 = getRandomFloatUnit({
-		min: 2,
-		max: 10,
+		min: 0.2,
+		max: 1.2,
 		significantDigits: 2,
 		unit: 'l',
 	})

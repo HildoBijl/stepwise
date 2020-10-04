@@ -284,7 +284,7 @@ class Float {
 	}
 
 	/* checkEquality compares the given float with the this-float. Options include:
-	 * - absoluteMargin (default 'auto'): the absolute margin that is allowed. If 0.05 is given, then 5.00 will be equal to numbers betwee 4.95 and 5.05 (inclusive). If it equals 'auto', then it will adjust to the accuracy of this float. If this float has value "1.60", then the absolute margin will be 0.005, so that all numbers between 1.595 and 1.605 are valid.
+	 * - absoluteMargin (default 'auto'): the absolute margin that is allowed. If 0.05 is given, then 5.00 will be equal to numbers betwee 4.95 and 5.05 (inclusive). If it equals 'auto', then it will adjust to the accuracy of this float. If this float has value "1.60", then the absolute margin will be 0.005, so that all numbers between 1.595 and 1.605 are valid. Keeping this auto option is highly recommended: taking a small absoluteMargin and a strict significantDigit limit might result in impossible questions.
 	 * - relativeMargin (default 0.000001 to prevent numerical issues): the relative margin between the numbers. If 0.01 is given, a 1% margin is used. So then the number 5.00 is considered equal to numbers between 4.95 and 5.0505... (Always the largest number is used to determine margins.) If both a relative and an absolute margin are given, then the numbers are considered equal when one of the margins match. (That is: in doubtful situations, equality is usually set to true.)
 	 * - accuracyFactor (default 1): a factor through which both margins (absolute and relative) can be expanded. If this factor is set to 3, then all margins are tripled and equality is more easily obtained. This is useful to check if the student was close with his answer but not exactly on the spot.
 	 * - significantDigitMargin (default Infinity): the allowed difference in the number of significant digits. Is 001.0 (two sig. digits) the same as 1.000 (four sig. digits)?
@@ -302,7 +302,7 @@ class Float {
 		if (this.constructor !== x.constructor)
 			throw new Error(`Invalid comparison: cannot compare a number of type "${this.constructor.name || 'unknown'}" with a number of type "${x.constructor.name || 'unknown'}".`)
 
-		// Check the option input.
+		// Check the options.
 		options = processOptions(options, Float.defaultEqualityOptions)
 		if (options.absoluteMargin !== 'auto' && (!isNumber(options.absoluteMargin) || options.absoluteMargin < 0))
 			throw new Error(`Invalid options: the parameter absoluteMargin must be a non-negative number (or 'auto') but "${options.absoluteMargin}" was given.`)
