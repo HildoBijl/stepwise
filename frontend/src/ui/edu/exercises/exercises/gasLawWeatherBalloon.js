@@ -1,7 +1,5 @@
 import React from 'react'
 
-import { isStepSolved } from 'step-wise/edu/exercises/util/stepExercise'
-
 import { M, BM } from 'util/equations'
 import { Par, SubHead } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
@@ -9,7 +7,7 @@ import { InputSpace } from 'ui/form/Status'
 
 import { useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
-import { getFloatUnitComparisonFeedback } from '../util/feedback'
+import { getDefaultFeedback } from '../util/feedback'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -57,16 +55,6 @@ const steps = [
 ]
 
 const getFeedback = (exerciseData) => {
-	const { state, input, progress, shared, prevInput, prevFeedback } = exerciseData
-	const { ansV2, ansm } = input
-	const { data, getCorrect } = shared
-	const { equalityOptions } = data
-
-	const { V2, m } = getCorrect(state)
-
-	return {
-		ansm: getFloatUnitComparisonFeedback(m, ansm, { equalityOptions: equalityOptions, solved: isStepSolved(progress, 1), prevInput: prevInput.ansm, prevFeedback: prevFeedback.ansm }),
-		ansV2: getFloatUnitComparisonFeedback(V2, ansV2, { equalityOptions: equalityOptions, solved: isStepSolved(progress) || isStepSolved(progress, 2), prevInput: prevInput.ansV2, prevFeedback: prevFeedback.ansV2 }),
-	}
+	return getDefaultFeedback(['V2','m'], exerciseData)
 }
 

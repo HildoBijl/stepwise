@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { temperature as TConversion, volumeLiter as VConversion } from 'step-wise/data/conversions'
-import { isStepSolved, isSubstepSolved } from 'step-wise/edu/exercises/util/stepExercise'
 
 import { M, BM } from 'util/equations'
 import { Par } from 'ui/components/containers'
@@ -11,7 +10,7 @@ import { InputSpace } from 'ui/form/Status'
 import { useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
-import { getFloatUnitComparisonFeedback } from '../util/feedback'
+import { getDefaultFeedback } from '../util/feedback'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -65,25 +64,12 @@ const steps = [
 		Solution: (state) => {
 			const { shared: { getCorrect } } = useExerciseData()
 			const { p, V, m, Rs, T } = getCorrect(state)
-			return <Par>De gaswet zegt dat <BM>pV = mR_sT.</BM> Om <M>p</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>V</M>. Het resultaat is <BM>p = {`\\frac{mR_sT}{V}`} = {`\\frac{${m.float.tex} \\cdot ${Rs.float.tex} \\cdot ${T.float.tex}}{${V.float.tex}}`} = {p.tex}.</BM> Dit is gelijk aan <M>{p.useUnit('bar').tex}</M> wat reëel is voor een duikfles.</Par>
+			return <Par>De gaswet zegt dat <BM>pV = mR_sT.</BM> Om <M>p</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>V</M>. Het resultaat is <BM>p = {`\\frac{mR_sT}{V}`} = {`\\frac{${m.float.tex} \\cdot ${Rs.float.tex} \\cdot ${T.float.tex}}{${V.float.tex}}`} = {p.tex}.</BM> Dit is gelijk aan <M>{p.useUnit('bar').useDecimals(0).tex}</M> wat reëel is voor een duikfles.</Par>
 		},
 	},
 ]
 
 const getFeedback = (exerciseData) => {
-	const { state, input, progress, shared, prevInput, prevFeedback } = exerciseData
-	const { ansV, ansp, ansT, ansRs, ansm } = input
-	const { data, getCorrect } = shared
-	const { equalityOptions } = data
-
-	const { V, p, T, Rs, m } = getCorrect(state)
-
-	return {
-		ansV: getFloatUnitComparisonFeedback(V, ansV, { equalityOptions: equalityOptions.V, solved: isSubstepSolved(progress, 1, 1), prevInput: prevInput.ansV, prevFeedback: prevFeedback.ansV }),
-		ansm: getFloatUnitComparisonFeedback(m, ansm, { equalityOptions: equalityOptions.m, solved: isSubstepSolved(progress, 1, 2), prevInput: prevInput.ansm, prevFeedback: prevFeedback.ansm }),
-		ansT: getFloatUnitComparisonFeedback(T, ansT, { equalityOptions: equalityOptions.T, solved: isSubstepSolved(progress, 1, 3), prevInput: prevInput.ansT, prevFeedback: prevFeedback.ansT }),
-		ansRs: getFloatUnitComparisonFeedback(Rs, ansRs, { equalityOptions: equalityOptions.Rs, solved: isStepSolved(progress, 2), prevInput: prevInput.ansRs, prevFeedback: prevFeedback.ansRs }),
-		ansp: getFloatUnitComparisonFeedback(p, ansp, { equalityOptions: equalityOptions.p, solved: isStepSolved(progress) || isStepSolved(progress, 3), prevInput: prevInput.ansp, prevFeedback: prevFeedback.ansp }),
-	}
+	return getDefaultFeedback(['p', 'V', 'm', 'Rs', 'T'], exerciseData)
 }
 

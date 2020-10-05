@@ -1,5 +1,4 @@
-const { getRandom, selectRandomly } = require('../../../util/random')
-const { getRandomFloat } = require('../../../inputTypes/Float')
+const { selectRandomly } = require('../../../util/random')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Unit } = require('../../../inputTypes/Unit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
@@ -16,7 +15,11 @@ const data = {
 			absoluteMargin: 0.001,
 			significantDigitMargin: 1,
 		},
-		p: {
+		p1: {
+			relativeMargin: 0.001,
+			significantDigitMargin: 1,
+		},
+		p2: {
 			relativeMargin: 0.001,
 			significantDigitMargin: 1,
 		},
@@ -71,7 +74,7 @@ function checkInput(state, { ansp1, ansp2, ansV1, ansV2, ansk, ansEq }, step, su
 		case 1:
 			switch (substep) {
 				case 1:
-					return p1.equals(ansp1, eo.p)
+					return p1.equals(ansp1, eo.p) && ansp1.unit.equals(ansp2.unit, eo.pUnit)
 				case 2:
 					return p2.equals(ansp2, eo.p) && ansp1.unit.equals(ansp2.unit, eo.pUnit)
 				case 3:

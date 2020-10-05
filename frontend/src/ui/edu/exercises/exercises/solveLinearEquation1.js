@@ -7,7 +7,7 @@ import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
 import { useExerciseData } from '../ExerciseContainer'
-import { getFloatComparisonFeedback } from '../util/feedback'
+import { getDefaultFeedback } from '../util/feedback'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -30,6 +30,5 @@ function Solution({ a, b }) {
 }
 
 function getFeedback(exerciseData) {
-	const { state, input: { ans }, progress: { solved }, shared: { data: { equalityOptions }, getCorrect } } = exerciseData
-	return { ans: getFloatComparisonFeedback(getCorrect(state), ans, { equalityOptions, solved }) }
+	return getDefaultFeedback('ans', exerciseData)
 }

@@ -3,7 +3,7 @@ const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Unit } = require('../../../inputTypes/Unit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { oxygen: Rs } = require('../../../data/specificGasConstants')
-const { combinerAnd, combinerOr } = require('../../../skillTracking')
+const { combinerAnd } = require('../../../skillTracking')
 
 const data = {
 	skill: 'gasLaw',

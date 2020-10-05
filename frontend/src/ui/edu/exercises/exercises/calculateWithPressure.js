@@ -7,9 +7,9 @@ import { Par } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
-import { getFloatUnitComparisonFeedback } from '../util/feedback'
 import SimpleExercise from '../types/SimpleExercise'
 import { useExerciseData } from '../ExerciseContainer'
+import { getDefaultFeedback } from '../util/feedback'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -54,8 +54,7 @@ function Solution({ p, type }) {
 }
 
 function getFeedback(exerciseData) {
-	const { state, input: { ans }, progress: { solved }, shared: { data: { equalityOptions }, getCorrect } } = exerciseData
-	return { ans: getFloatUnitComparisonFeedback(getCorrect(state), ans, { equalityOptions, solved, text: { unit: getUnitMessage(state.type) } }) }
+	return getDefaultFeedback('ans', exerciseData, { text: { unit: getUnitMessage(exerciseData.state.type) } })
 }
 
 function getUnitMessage(type) {

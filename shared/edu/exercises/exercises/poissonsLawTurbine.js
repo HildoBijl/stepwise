@@ -10,14 +10,18 @@ const data = {
 	steps: [[null, null, 'calculateWithPressure'], 'specificHeatRatio', null, 'solveExponentEquation'],
 
 	equalityOptions: {
-		p: {
-			relativeMargin: 0.001,
-			significantDigitMargin: 1,
-		},
 		T1: {
 			absoluteMargin: 0.2,
 			significantDigitMargin: 2,
 			unitCheck: Unit.equalityTypes.exact,
+		},
+		p1: {
+			relativeMargin: 0.001,
+			significantDigitMargin: 1,
+		},
+		p2: {
+			relativeMargin: 0.001,
+			significantDigitMargin: 1,
 		},
 		pUnit: {
 			type: Unit.equalityTypes.exact,
@@ -66,7 +70,7 @@ function checkInput(state, { ansp1, ansp2, ansT1, ansT2, ansk, ansEq }, step, su
 				case 1:
 					return T1.equals(ansT1, eo.T1)
 				case 2:
-					return p1.equals(ansp1, eo.p)
+					return p1.equals(ansp1, eo.p) && ansp1.unit.equals(ansp2.unit, eo.pUnit)
 				case 3:
 					return p2.equals(ansp2, eo.p) && ansp1.unit.equals(ansp2.unit, eo.pUnit)
 			}

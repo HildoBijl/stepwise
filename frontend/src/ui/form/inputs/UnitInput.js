@@ -1,5 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import { fade } from '@material-ui/core/styles/colorManipulator'
 import clsx from 'clsx'
 
 import { lastOf, arraySplice } from 'step-wise/util/arrays'
@@ -16,10 +17,11 @@ const style = (theme) => ({
 		pointerEvents: 'none', // To prevent it being clicked on. When the cursor is already in the numerator, the filler disappears as soon as it's clicked on, which messes up the click processing.
 	},
 	'& .unitElement': {
+		color: theme.palette.info.main,
 		'&.valid': {
 			'& .prefix': {
 				'& .char': {
-					color: theme.palette.text.secondary,
+					color: fade(theme.palette.info.main, 0.75),
 				},
 			},
 		},
@@ -108,7 +110,7 @@ const style = (theme) => ({
 			width: '100%',
 
 			'& .divider': {
-				background: '#000',
+				background: theme.palette.info.main,
 				height: '0.5px',
 				width: '100%',
 			},

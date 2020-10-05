@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { isStepSolved, isSubstepSolved } from 'step-wise/edu/exercises/util/stepExercise'
+import { isStepSolved } from 'step-wise/edu/exercises/util/stepExercise'
 
 import { M, BM } from 'util/equations'
 import { Par } from 'ui/components/containers'
@@ -11,7 +11,7 @@ import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
-import { getFloatUnitComparisonFeedback } from '../util/feedback'
+import { getDefaultFeedback } from '../util/feedback'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -92,7 +92,7 @@ const steps = [
 		Solution: (state) => {
 			const { shared: { getCorrect } } = useExerciseData()
 			const { k, V1, V2, p1, p2 } = getCorrect(state)
-			
+
 			return <Par>Poisson's wet zegt dat <M>{`pV^n={\\rm constant}`}</M> waardoor we mogen schrijven, <BM>p_1V_1^n = p_2V_2^n.</BM> We willen dit oplossen voor <M>V_1</M>. Delen door <M>p_1</M> geeft <BM>V_1^n = {`\\frac{p_2}{p_1}`} \cdot V_2^n.</BM> Om de macht weg te krijgen doen we beide kanten van de vergelijking tot de macht <M>{`\\frac{1}{n}`}</M> waarmee we uitkomen op
 			<BM>{`V_1 = \\left(\\frac{p_2}{p_1} \\cdot V_2^n\\right)^{\\frac{1}{n}} = \\left(\\frac{p_2}{p_1}\\right)^{\\frac{1}{n}} V_2 = \\left(\\frac{${p2.float.tex}}{${p1.float.tex}}\\right)^{\\frac{1}{${k.float.tex}}} \\cdot ${V2.float.tex} = ${V1.tex}`}.</BM> Omdat we het volume <M>V_2</M> in liters hebben ingevuld, is de uitkomst <M>V_1</M> ook in liters. We kunnen dit eventueel nog omrekenen naar <M>{V1.simplify().tex}</M> maar dat is niet per se nodig.</Par>
 		},
@@ -100,28 +100,28 @@ const steps = [
 ]
 
 const getFeedback = (exerciseData) => {
-	const { state, input, progress, shared, prevInput, prevFeedback } = exerciseData
-	const { ansp1, ansp2, ansV1, ansV2, ansk, ansEq } = input
-	const { data, getCorrect } = shared
-	const { equalityOptions } = data
+	const { input, progress, shared } = exerciseData
+	const { ansp1, ansp2, ansEq } = input
+	const { data } = shared
 
-	const { k, V1, V2, p1, p2 } = getCorrect(state)
+	const feedback = getDefaultFeedback(['p1', 'p2', 'V1', 'V2', 'k'], exerciseData)
 
-	return {
-		ansp1: getFloatUnitComparisonFeedback(p1, ansp1, { equalityOptions: equalityOptions.p, solved: isSubstepSolved(progress, 1, 1), prevInput: prevInput.ansp1, prevFeedback: prevFeedback.ansp1 }),
-		ansp2: ansp1 && ansp2 && ansp1.unit.equals(ansp2.unit, equalityOptions.pUnit) ?
-			getFloatUnitComparisonFeedback(p2, ansp2, { equalityOptions: equalityOptions.p, solved: isSubstepSolved(progress, 1, 2), prevInput: prevInput.ansp2, prevFeedback: prevFeedback.ansp2 }) :
-			{ correct: false, text: <span>De eenheden van <M>p_1</M> en <M>p_2</M> moeten gelijk zijn.</span> },
-		ansV2: getFloatUnitComparisonFeedback(V2, ansV2, { equalityOptions: equalityOptions.V2, solved: isSubstepSolved(progress, 1, 3), prevInput: prevInput.ansV2, prevFeedback: prevFeedback.ansV2 }),
-		ansk: getFloatUnitComparisonFeedback(k, ansk, { equalityOptions: equalityOptions.k, solved: isStepSolved(progress, 2), prevInput: prevInput.ansk, prevFeedback: prevFeedback.ansk }),
-		ansEq: {
-			0: progress[3] && progress[3].done,
-			[ansEq]: {
-				correct: isStepSolved(progress, 3),
-				text: isStepSolved(progress, 3) ? <span>Inderdaad! We weten <M>p</M> en <M>V</M>, wat dit de optimale vergelijking maakt om te gebruiken.</span> : <span>Dat lijkt me niet handig. We weten niets over de temperatuur <M>T</M>, en we hoeven hem ook niet te weten. Dus waarom wil je die in een vergelijking hebben?</span>,
-			},
-		},
-		ansV1: getFloatUnitComparisonFeedback(V1, ansV1, { equalityOptions: equalityOptions.V1, solved: isStepSolved(progress) || isStepSolved(progress, 4), prevInput: prevInput.ansV1, prevFeedback: prevFeedback.ansV1 }),
+	// If p1 and p2 have different units, then note this.
+	if (ansp1 && ansp2 && !ansp1.unit.equals(ansp2.unit, data.equalityOptions.pUnit)) {
+		const addedFeedback = { correct: false, text: <span>De eenheden van <M>p_1</M> en <M>p_2</M> moeten gelijk zijn.</span> }
+		feedback.ansp1 = addedFeedback
+		feedback.ansp2 = addedFeedback
 	}
+
+	// Get feedback on the multiple choice question.
+	feedback.ansEq = {
+		0: progress[3] && progress[3].done,
+		[ansEq]: {
+			correct: isStepSolved(progress, 3),
+			text: isStepSolved(progress, 3) ? <span>Inderdaad! We weten <M>p</M> en <M>V</M>, wat dit de optimale vergelijking maakt om te gebruiken.</span> : <span>Dat lijkt me niet handig. We weten niets over de temperatuur <M>T</M>, en we hoeven hem ook niet te weten. Dus waarom wil je die in een vergelijking hebben?</span>,
+		},
+	}
+
+	return feedback
 }
 

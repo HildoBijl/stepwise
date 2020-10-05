@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { temperature as TConversion } from 'step-wise/data/conversions'
-import { isStepSolved, isSubstepSolved } from 'step-wise/edu/exercises/util/stepExercise'
+import { isStepSolved } from 'step-wise/edu/exercises/util/stepExercise'
 
 import { M, BM } from 'util/equations'
 import { Par } from 'ui/components/containers'
@@ -12,14 +12,14 @@ import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
-import { getFloatUnitComparisonFeedback } from '../util/feedback'
+import { getDefaultFeedback } from '../util/feedback'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
 const Problem = ({ n, T1, V1, V2 }) => <>
-	<Par>We drukken de hendel van een fietspomp in. Bij aanvang is het volume in de fietspomp <M>{V1.tex}</M>. De temperatuur van de lucht is <M>{T1.tex}</M>. Na het indrukken is het interne volume <M>{V2.tex}</M>. Wat is de temperatuur van de lucht na deze compressie?</Par>
+	<Par>We drukken de hendel van een fietspomp in. Bij aanvang is het volume van de lucht in de fietspomp <M>{V1.tex}</M>. De temperatuur van de lucht is <M>{T1.tex}</M>. Na het indrukken is het interne volume <M>{V2.tex}</M>. Wat is de temperatuur van de lucht na deze compressie?</Par>
 	<Par>Ga ervan uit dat de druk nog niet voldoende is om het ventiel open te laten gaan; er is dus nog geen lucht weggestroomd. Ga er ook van uit dat het proces <em>niet</em> isentropisch verloopt: er stroomt een beetje warmte weg. Gebruik een procescoëfficiënt van <M>n={n.tex}</M>.</Par>
 	<InputSpace>
 		<Par>
@@ -81,27 +81,28 @@ const steps = [
 ]
 
 const getFeedback = (exerciseData) => {
-	const { state, input, progress, shared, prevInput, prevFeedback } = exerciseData
-	const { ansV1, ansV2, ansT1, ansT2, ansEq } = input
-	const { data, getCorrect } = shared
-	const { equalityOptions } = data
+	const { input, progress, shared } = exerciseData
+	const { ansV1, ansV2, ansEq } = input
+	const { data } = shared
 
-	const { T1, T2, V1, V2 } = getCorrect(state)
-	
-	return {
-		ansT1: getFloatUnitComparisonFeedback(T1, ansT1, { equalityOptions: equalityOptions.T1, solved: isSubstepSolved(progress, 1, 1), prevInput: prevInput.ansT1, prevFeedback: prevFeedback.ansT1 }),
-		ansV1: getFloatUnitComparisonFeedback(V1, ansV1, { equalityOptions: equalityOptions.V, solved: isSubstepSolved(progress, 1, 2), prevInput: prevInput.ansV1, prevFeedback: prevFeedback.ansV1 }),
-		ansV2: ansV1 && ansV2 && ansV1.unit.equals(ansV2.unit, equalityOptions.VUnit) ?
-			getFloatUnitComparisonFeedback(V2, ansV2, { equalityOptions: equalityOptions.V, solved: isSubstepSolved(progress, 1, 3), prevInput: prevInput.ansV2, prevFeedback: prevFeedback.ansV2 }) :
-			{ correct: false, text: <span>De eenheden van <M>V_1</M> en <M>V_2</M> moeten gelijk zijn.</span> },
-		ansEq: {
-			1: progress[2] && progress[2].done,
-			[ansEq]: {
-				correct: isStepSolved(progress, 2),
-				text: isStepSolved(progress, 2) ? <span>Inderdaad! We weten <M>T</M> en <M>V</M>, wat dit de optimale vergelijking maakt om te gebruiken.</span> : <span>Dat lijkt me niet handig. We weten niets over de druk <M>p</M>, en we hoeven hem ook niet te weten. Dus waarom wil je die in een vergelijking hebben?</span>,
-			},
-		},
-		ansT2: getFloatUnitComparisonFeedback(T2, ansT2, { equalityOptions: equalityOptions.T2, solved: isStepSolved(progress) || isStepSolved(progress, 3), prevInput: prevInput.ansT2, prevFeedback: prevFeedback.ansT2 }),
+	const feedback = getDefaultFeedback(['T1', 'T2', 'V1', 'V2'], exerciseData)
+
+	// If p1 and p2 have different units, then note this.
+	if (ansV1 && ansV2 && !ansV1.unit.equals(ansV2.unit, data.equalityOptions.VUnit)) {
+		const addedFeedback = { correct: false, text: <span>De eenheden van <M>V_1</M> en <M>V_2</M> moeten gelijk zijn.</span> }
+		feedback.ansV1 = addedFeedback
+		feedback.ansV2 = addedFeedback
 	}
+
+	// Get feedback on the multiple choice question.
+	feedback.ansEq = {
+		1: progress[2] && progress[2].done,
+		[ansEq]: {
+			correct: isStepSolved(progress, 2),
+			text: isStepSolved(progress, 2) ? <span>Inderdaad! We weten <M>T</M> en <M>V</M>, wat dit de optimale vergelijking maakt om te gebruiken.</span> : <span>Dat lijkt me niet handig. We weten niets over de druk <M>p</M>, en we hoeven hem ook niet te weten. Dus waarom wil je die in een vergelijking hebben?</span>,
+		},
+	}
+	
+	return feedback
 }
 

@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { massGram as mConversion, temperature as TConversion, pressure as pConversion } from 'step-wise/data/conversions'
-import { isStepSolved, isSubstepSolved } from 'step-wise/edu/exercises/util/stepExercise'
 
 import { M, BM } from 'util/equations'
 import { Par } from 'ui/components/containers'
@@ -11,7 +10,7 @@ import { InputSpace } from 'ui/form/Status'
 import { useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
-import { getFloatUnitComparisonFeedback } from '../util/feedback'
+import { getDefaultFeedback } from '../util/feedback'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -76,19 +75,6 @@ const steps = [
 ]
 
 const getFeedback = (exerciseData) => {
-	const { state, input, progress, shared, prevInput, prevFeedback } = exerciseData
-	const { ansV, ansp, ansT, ansRs, ansm } = input
-	const { data, getCorrect } = shared
-	const { equalityOptions } = data
-
-	const { V, p, T, Rs, m } = getCorrect(state)
-
-	return {
-		ansm: getFloatUnitComparisonFeedback(m, ansm, { equalityOptions: equalityOptions.m, solved: isSubstepSolved(progress, 1, 1), prevInput: prevInput.ansm, prevFeedback: prevFeedback.ansm }),
-		ansT: getFloatUnitComparisonFeedback(T, ansT, { equalityOptions: equalityOptions.T, solved: isSubstepSolved(progress, 1, 2), prevInput: prevInput.ansT, prevFeedback: prevFeedback.ansT }),
-		ansp: getFloatUnitComparisonFeedback(p, ansp, { equalityOptions: equalityOptions.p, solved: isSubstepSolved(progress, 1, 3), prevInput: prevInput.ansp, prevFeedback: prevFeedback.ansp }),
-		ansRs: getFloatUnitComparisonFeedback(Rs, ansRs, { equalityOptions: equalityOptions.Rs, solved: isStepSolved(progress, 2), prevInput: prevInput.ansRs, prevFeedback: prevFeedback.ansRs }),
-		ansV: getFloatUnitComparisonFeedback(V, ansV, { equalityOptions: equalityOptions.V, solved: isStepSolved(progress) || isStepSolved(progress, 3), prevInput: prevInput.ansV, prevFeedback: prevFeedback.ansV }),
-	}
+	return getDefaultFeedback(['p', 'V', 'm', 'Rs', 'T'], exerciseData)
 }
 

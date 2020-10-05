@@ -1,7 +1,8 @@
 
 import { selectRandomly, selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
 import { processOptions } from 'step-wise/util/objects'
-import { equals } from 'step-wise/inputTypes'
+import { Float } from 'step-wise/inputTypes/Float'
+import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 
 const defaultComparisonOptions = {
 	equalityOptions: {},
@@ -11,7 +12,69 @@ const defaultComparisonOptions = {
 	prevFeedback: undefined,
 }
 
-const accuracyFactorForNearHits = 4
+const accuracyFactorForNearHits = 3
+
+/* getDefaultFeedback takes an array of parameter names (like ['p1', 'p2', 'V1', 'V2']) and provides feedback on these parameters.
+ * Input is an array of parameter string titles. The function uses the exerciseData input parameter to extract all the data from. Extra options for the comparison functions may be provided in the third argument. This can be an object with extra options if they're the same for all parameters, or an array with extra options per parameter if they differ.
+ * There should be a data object and a getCorrect function in the shared file. The data object should have an equalityOptions object with equality options for all parameters. If a parameter has different equality options, it can be specified within this object. So, data: { equalityOptions: { ...optionsForMostParameters..., p1: { ...specificOptions... }, ... } }. 
+ * The outcome is a feedback object for each respective parameter. So { p1: { correct: 'false', text: 'Nope!' }, p2: { ... } }.
+ */
+export function getDefaultFeedback(parameters, exerciseData, extraOptions) {
+	// Extract parameters and check that they are suitable.
+	const { state, input, shared, prevInput, prevFeedback } = exerciseData
+	const { data, getCorrect } = shared
+	if (!data)
+		throw new Error(`Default feedback error: could not find a "data" parameter in the shared file.`)
+	if (!getCorrect || typeof getCorrect !== 'function')
+		throw new Error(`Default feedback error: could not find a "getCorrect" function exported from the shared file.`)
+	const { equalityOptions } = data
+	if (!equalityOptions || typeof equalityOptions !== 'object')
+		throw new Error(`Default feedback error: could not find an "equalityOptions" object in the shared data.`)
+	
+	// Extract correct answers. If we have a single parameter and a single object coming out of getCorrect, adjust the formats accordingly.
+	let correct = getCorrect(state)
+	if (!Array.isArray(parameters) && correct[parameters] === undefined) {
+		correct = { [parameters]: correct }
+		parameters = [parameters]
+	}
+
+	// Walk through the parameters and incorporate feedback.
+	const feedback = {}
+	parameters.forEach((parameter, index) => {
+		// Ignore null parameters.
+		if (parameter === null)
+			return
+
+		// Extract parameters.
+		const inputParameter = parameter === 'ans' ? 'ans' : `ans${parameter}`
+		const correctAnswer = correct[parameter]
+		const givenAnswer = input[inputParameter]
+		const currEqualityOptions = equalityOptions[parameter] || equalityOptions
+		const currExtraOptions = (Array.isArray(extraOptions) ? extraOptions[index] : extraOptions) || {}
+
+		// Check parameters.
+		if (givenAnswer === undefined)
+			return // No input has been given yet.
+		if (correctAnswer === undefined)
+			throw new Error(`Default feedback error: no correct answer for "${parameter}" was passed from the getCorrect function.`)
+
+		// Call the comparison function for the correct parameter type.
+		const comparisonInput = [correctAnswer, givenAnswer, { equalityOptions: currEqualityOptions, prevInput: prevInput[inputParameter], prevFeedback: prevFeedback[inputParameter], ...currExtraOptions }]
+		switch (correctAnswer.constructor) {
+			case Float:
+				feedback[inputParameter] = getFloatComparisonFeedback(...comparisonInput)
+				return
+			case FloatUnit:
+				feedback[inputParameter] = getFloatUnitComparisonFeedback(...comparisonInput)
+				return
+			default:
+				throw new Error(`Default feedback error: could not determine the type of parameter "${parameter}". No comparison could be made.`)
+		}
+	})
+
+	// All done! Return feedback.
+	return feedback
+}
 
 /* getFloatComparisonFeedback takes two Floats: a correct answer and an input answer. It then compares these and returns a feedback object in the form { correct: true/false, text: 'Some feedback text' }. Various options can be provided within the third parameter:
  * - equalityOptions: an object detailing how the comparison must be performed.
@@ -33,15 +96,11 @@ const accuracyFactorForNearHits = 4
  */
 export function getFloatComparisonFeedback(correctAnswer, inputAnswer, options) {
 	options = processOptions(options, defaultComparisonOptions)
-	const { equalityOptions, solved, text, prevInput, prevFeedback } = options
-
-	// If a previous input is given, and it equals the current input, then keep the previous feedback.
-	if (prevInput && equals(prevInput, inputAnswer))
-		return prevFeedback
+	const { equalityOptions, solved, text, prevFeedback } = options
 
 	// Check if correct is set to true.
 	if (solved === true)
-		return { correct: true, text: text.correct || selectRandomCorrect() }
+		return { correct: true, text: text.correct || (prevFeedback && prevFeedback.correct && prevFeedback.text) || selectRandomCorrect() }
 
 	// If no input is given, no feedback will be given.
 	if (inputAnswer === undefined)
@@ -51,8 +110,8 @@ export function getFloatComparisonFeedback(correctAnswer, inputAnswer, options) 
 	const comparison = correctAnswer.checkEquality(inputAnswer, equalityOptions)
 	if (comparison.result) {
 		if (solved === false)
-			return { correct: false, text: selectRandomIncorrect() } // Overwritten! Apparently the answer is correct now, but the server marks it as incorrect. So we have to show incorrect.
-		return { correct: true, text: selectRandomCorrect() }
+			return { correct: false, text: (prevFeedback && !prevFeedback.correct && prevFeedback.text) || selectRandomIncorrect() } // Overwritten! Apparently the answer is correct now, but the server marks it as incorrect. So we have to show incorrect.
+		return { correct: true, text: (prevFeedback && prevFeedback.correct && prevFeedback.text) || selectRandomCorrect() }
 	}
 
 	// Check sign.
@@ -79,15 +138,11 @@ export function getFloatComparisonFeedback(correctAnswer, inputAnswer, options) 
 // getFloatUnitComparisonFeedback is identical to getFloatComparisonFeedback, but then with two main differences: it uses FloatUnits, and it can also be provided a "unit" error message text in case the unit is wrong.
 export function getFloatUnitComparisonFeedback(correctAnswer, inputAnswer, options) {
 	options = processOptions(options, defaultComparisonOptions)
-	const { equalityOptions, solved, text, prevInput, prevFeedback } = options
-
-	// If a previous input is given, and it equals the current input, then keep the previous feedback.
-	if (prevInput && equals(prevInput, inputAnswer))
-		return prevFeedback
+	const { equalityOptions, solved, text, prevFeedback } = options
 
 	// Check if correct is set to true.
 	if (solved === true)
-		return { correct: true, text: text.correct || selectRandomCorrect() }
+		return { correct: true, text: text.correct || (prevFeedback && prevFeedback.correct && prevFeedback.text) || selectRandomCorrect() }
 
 	// If no input is given, no feedback will be given.
 	if (inputAnswer === undefined)
@@ -97,8 +152,8 @@ export function getFloatUnitComparisonFeedback(correctAnswer, inputAnswer, optio
 	const comparison = correctAnswer.checkEquality(inputAnswer, equalityOptions)
 	if (comparison.result) {
 		if (solved === false)
-			return { correct: false, text: selectRandomIncorrect() } // Overwritten! Apparently the answer is correct now, but the server marks it as incorrect. So we have to show incorrect.
-		return { correct: true, text: selectRandomCorrect() }
+			return { correct: false, text: (prevFeedback && !prevFeedback.correct && prevFeedback.text) || selectRandomIncorrect() } // Overwritten! Apparently the answer is correct now, but the server marks it as incorrect. So we have to show incorrect.
+		return { correct: true, text: (prevFeedback && prevFeedback.correct && prevFeedback.text) || selectRandomCorrect() }
 	}
 
 	// Check unit.

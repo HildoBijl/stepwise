@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { isStepSolved, isSubstepSolved } from 'step-wise/edu/exercises/util/stepExercise'
+import { isStepSolved } from 'step-wise/edu/exercises/util/stepExercise'
 
 import { M, BM } from 'util/equations'
 import { Par } from 'ui/components/containers'
@@ -11,7 +11,7 @@ import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
-import { getFloatUnitComparisonFeedback } from '../util/feedback'
+import { getDefaultFeedback } from '../util/feedback'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -92,28 +92,28 @@ const steps = [
 ]
 
 const getFeedback = (exerciseData) => {
-	const { state, input, progress, shared, prevInput, prevFeedback } = exerciseData
-	const { ansp1, ansp2, ansT1, ansT2, ansk, ansEq } = input
-	const { data, getCorrect } = shared
-	const { equalityOptions } = data
+	const { input, progress, shared } = exerciseData
+	const { ansp1, ansp2, ansEq } = input
+	const { data } = shared
 
-	const { k, p1, p2, T1, T2 } = getCorrect(state)
+	const feedback = getDefaultFeedback(['p1', 'p2', 'T1', 'T2', 'k'], exerciseData)
 
-	return {
-		ansT1: getFloatUnitComparisonFeedback(T1, ansT1, { equalityOptions: equalityOptions.T1, solved: isSubstepSolved(progress, 1, 1), prevInput: prevInput.ansT1, prevFeedback: prevFeedback.ansT1 }),
-		ansp1: getFloatUnitComparisonFeedback(p1, ansp1, { equalityOptions: equalityOptions.p, solved: isSubstepSolved(progress, 1, 2), prevInput: prevInput.ansp1, prevFeedback: prevFeedback.ansp1 }),
-		ansp2: ansp1 && ansp2 && ansp1.unit.equals(ansp2.unit, equalityOptions.pUnit) ?
-			getFloatUnitComparisonFeedback(p2, ansp2, { equalityOptions: equalityOptions.p, solved: isSubstepSolved(progress, 1, 3), prevInput: prevInput.ansp2, prevFeedback: prevFeedback.ansp2 }) :
-			{ correct: false, text: <span>De eenheden van <M>p_1</M> en <M>p_2</M> moeten gelijk zijn.</span> },
-		ansk: getFloatUnitComparisonFeedback(k, ansk, { equalityOptions: equalityOptions.k, solved: isStepSolved(progress, 2), prevInput: prevInput.ansk, prevFeedback: prevFeedback.ansk }),
-		ansEq: {
-			2: progress[3] && progress[3].done,
-			[ansEq]: {
-				correct: isStepSolved(progress, 3),
-				text: isStepSolved(progress, 3) ? <span>Inderdaad! We weten <M>p</M> en <M>T</M>, wat dit de optimale vergelijking maakt om te gebruiken.</span> : <span>Dat lijkt me niet handig. We weten niets over het volume <M>V</M>, en we hoeven hem ook niet te weten. Dus waarom wil je die in een vergelijking hebben?</span>,
-			},
-		},
-		ansT2: getFloatUnitComparisonFeedback(T2, ansT2, { equalityOptions: equalityOptions.T2, solved: isStepSolved(progress) || isStepSolved(progress, 4), prevInput: prevInput.ansT2, prevFeedback: prevFeedback.ansT2 }),
+	// If p1 and p2 have different units, then note this.
+	if (ansp1 && ansp2 && !ansp1.unit.equals(ansp2.unit, data.equalityOptions.pUnit)) {
+		const addedFeedback = { correct: false, text: <span>De eenheden van <M>p_1</M> en <M>p_2</M> moeten gelijk zijn.</span> }
+		feedback.ansp1 = addedFeedback
+		feedback.ansp2 = addedFeedback
 	}
+
+	// Get feedback on the multiple choice question.
+	feedback.ansEq = {
+		2: progress[3] && progress[3].done,
+		[ansEq]: {
+			correct: isStepSolved(progress, 3),
+			text: isStepSolved(progress, 3) ? <span>Inderdaad! We weten <M>p</M> en <M>T</M>, wat dit de optimale vergelijking maakt om te gebruiken.</span> : <span>Dat lijkt me niet handig. We weten niets over het volume <M>V</M>, en we hoeven hem ook niet te weten. Dus waarom wil je die in een vergelijking hebben?</span>,
+		},
+	}
+
+	return feedback
 }
 

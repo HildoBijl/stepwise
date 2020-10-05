@@ -3,9 +3,9 @@
 const { ensureInt } = require('../../util/numbers')
 const { isObject, deepEquals, processOptions } = require('../../util/objects')
 const { UnitElement } = require('./UnitElement')
-const { getUnitArrayFO, isFOofType: isFOofTypeUnitArray, FOtoIO: unitArrayFOtoIO, IOtoFO: unitArrayIOtoFO, getEmpty: getEmptyUnitArray, isEmpty: isUnitArrayEmpty } = require('./UnitArray')
+const { getUnitArrayFO, FOtoIO: unitArrayFOtoIO, IOtoFO: unitArrayIOtoFO, getEmpty: getEmptyUnitArray, isEmpty: isUnitArrayEmpty } = require('./UnitArray')
 
-const unitColor = '#555' // The color in which units are printed within Tex. It cannot be imported from the theme because this file is in the shared directory.
+const unitColor = '#044488' // The color in which units are printed within Tex. It cannot be imported from the theme because this file is in the shared directory.
 
 class Unit {
 	// The constructor input is either a string like "mg^3 * kl / ns^2 * °C^2", or an object with a "num" and a "den" property. In this latter case these properties should either be unit strings like "mg^3 * kl" or arrays of something the UnitElement constructor takes.

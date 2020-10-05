@@ -11,7 +11,11 @@ const data = {
 	steps: [['calculateWithTemperature', null, 'calculateWithVolume'], null, 'solveLinearEquation'],
 
 	equalityOptions: {
-		V: {
+		V1: {
+			relativeMargin: 0.001,
+			significantDigitMargin: 1,
+		},
+		V2: {
 			relativeMargin: 0.001,
 			significantDigitMargin: 1,
 		},
@@ -72,7 +76,7 @@ function checkInput(state, { ansT1, ansT2, ansV1, ansV2, ansEq }, step, substep)
 				case 1:
 					return T1.equals(ansT1, eo.T1)
 				case 2:
-					return V1.equals(ansV1, eo.V)
+					return V1.equals(ansV1, eo.V) && ansV1.unit.equals(ansV2.unit, eo.VUnit)
 				case 3:
 					return V2.equals(ansV2, eo.V) && ansV1.unit.equals(ansV2.unit, eo.VUnit)
 			}
