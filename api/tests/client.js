@@ -84,7 +84,7 @@ class Client {
 }
 
 const createClient = async (seedingProcedure = noop) => {
-	clearDatabaseSchema(sequelize)
+	await clearDatabaseSchema(sequelize)
 	const umzug = createUmzug(sequelize)
 	await umzug.up()
 	await seedingProcedure(database)
