@@ -1,6 +1,6 @@
 const request = require('supertest')
 const { createServer } = require('../src/server')
-const { createSequelize } = require('../scripts/init')
+const { createSequelize, createUmzug } = require('../scripts/init')
 const SurfConextMock = require('../src/server/surfConext/devmock')
 const { Database } = require('../src/database')
 const noop = () => {}
@@ -84,7 +84,8 @@ class Client {
 const createClient = async (seedingProcedure = noop) => {
 	await sequelize.query('DROP SCHEMA IF EXISTS public CASCADE;')
 	await sequelize.query('CREATE SCHEMA public;')
-	await sequelize.sync({ force: true })
+	const umzug = createUmzug(sequelize)
+	await umzug.up()
 	await seedingProcedure(database)
 	return new Client()
 }

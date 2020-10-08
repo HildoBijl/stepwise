@@ -1,21 +1,7 @@
-const path = require('path')
-const Umzug = require('umzug')
-const { createSequelize } = require('./init')
+const { createSequelize, createUmzug } = require('./init')
 
 const sequelize = createSequelize()
-
-const umzug = new Umzug({
-	migrations: {
-		path: path.join(__dirname, '../migrations'),
-		params: [
-			sequelize.getQueryInterface()
-		]
-	},
-	storage: 'sequelize',
-	storageOptions: {
-		sequelize: sequelize
-	}
-})
+const umzug = createUmzug(sequelize)
 
 ;(async () => {
 	await printPendingMigrations(umzug)
