@@ -3,6 +3,8 @@ const { createServer } = require('../src/server')
 const { createSequelize, createUmzug } = require('../scripts/init')
 const SurfConextMock = require('../src/server/surfConext/devmock')
 const { Database } = require('../src/database')
+const { clearDatabaseSchema } = require('./testutil')
+
 const noop = () => {}
 
 const defaultConfig = Object.freeze({
@@ -82,8 +84,7 @@ class Client {
 }
 
 const createClient = async (seedingProcedure = noop) => {
-	await sequelize.query('DROP SCHEMA IF EXISTS public CASCADE;')
-	await sequelize.query('CREATE SCHEMA public;')
+	clearDatabaseSchema(sequelize)
 	const umzug = createUmzug(sequelize)
 	await umzug.up()
 	await seedingProcedure(database)
