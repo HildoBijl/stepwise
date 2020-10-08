@@ -4,6 +4,8 @@ const SurfConext = require('../src/server/surfConext/client')
 const session = require('express-session')
 const Redis = require('redis')
 const RedisStore = require('connect-redis')(session)
+const path = require('path')
+const Umzug = require('umzug')
 
 module.exports.createSequelize = () => new Sequelize(
 	process.env.POSTGRES_DB,
@@ -34,4 +36,17 @@ module.exports.createRedisStore = () => new RedisStore({
 		host: process.env.REDIS_HOST,
 		port: process.env.REDIS_PORT,
 	})
+})
+
+module.exports.createUmzug = (sequelize) => new Umzug({
+	migrations: {
+		path: path.join(__dirname, '../migrations'),
+		params: [
+			sequelize.getQueryInterface()
+		]
+	},
+	storage: 'sequelize',
+	storageOptions: {
+		sequelize: sequelize
+	}
 })
