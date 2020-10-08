@@ -1,10 +1,13 @@
 const clearDatabaseSchema = async (sequelize) => {
-	const schema = await(async () => {
-		const [result] = await sequelize.query('SELECT current_schema();')
-		return result[0].current_schema
-	})()
-	await sequelize.query(`DROP SCHEMA IF EXISTS ${schema} CASCADE;`)
-	await sequelize.query(`CREATE SCHEMA ${schema};`)
+	await sequelize.query(`
+		DO $$ DECLARE
+			r RECORD;
+		BEGIN
+				FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = current_schema()) LOOP
+						EXECUTE 'DROP TABLE IF EXISTS ' || quote_ident(r.tablename) || ' CASCADE';
+				END LOOP;
+		END $$;
+	`)
 }
 
 module.exports = {
