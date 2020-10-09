@@ -2,7 +2,8 @@ import React, { useState, createContext, useContext, useEffect, useRef } from 'r
 
 import { setIOtoFO } from 'step-wise/inputTypes'
 
-import Loading from 'ui/components/Loading'
+import LoadingNote from 'ui/components/LoadingNote'
+import ErrorBoundary from 'ui/components/ErrorBoundary'
 
 const ExerciseContext = createContext({})
 export { ExerciseContext } // Exported for testing purposes.
@@ -26,7 +27,7 @@ export default function ExerciseContainer({ exercise, submitting, submitAction, 
 	useEffect(reload, [exerciseId])
 
 	if (loading)
-		return <Loading text="Loading exercise component" />
+		return <LoadingNote text="Loading exercise component" />
 
 	// Set up data for the exercise and put it in a context around the exercise.
 	const exerciseData = {
@@ -41,7 +42,9 @@ export default function ExerciseContainer({ exercise, submitting, submitAction, 
 
 	return (
 		<ExerciseContext.Provider value={exerciseData}>
-			<ExerciseLocal.current />
+			<ErrorBoundary text="De opgave is gecrashed.">
+				<ExerciseLocal.current />
+			</ErrorBoundary>
 		</ExerciseContext.Provider>
 	)
 }

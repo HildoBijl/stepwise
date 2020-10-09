@@ -9,8 +9,8 @@ import { getNewExercise } from 'step-wise/edu/exercises/util/selection'
 
 import { useUserResults } from 'api/user'
 import { useSkillQuery, useStartExerciseMutation, useSubmitExerciseActionMutation } from 'api/skill'
-import Loading from 'ui/components/Loading'
-import Error from 'ui/components/Error'
+import LoadingNote from 'ui/components/LoadingNote'
+import ErrorNote from 'ui/components/ErrorNote'
 
 import { useSkillData } from './SkillCacher'
 import SkillFlask from './SkillFlask'
@@ -20,7 +20,7 @@ export default function SkillPage() {
 	const { loading, data } = useUserResults()
 
 	if (loading)
-		return <Loading text="Loading user data." />
+		return <LoadingNote text="Loading user data." />
 
 	const user = (data && data.me) || null
 	if (user)
@@ -53,19 +53,19 @@ function SkillForUser() {
 
 	// Any errors we should notify the user of?
 	if (error)
-		return <Error data={error} />
+		return <ErrorNote error={error} />
 	if (submissionError)
-		return <Error data={submissionError} />
+		return <ErrorNote error={submissionError} />
 	if (newExerciseError)
-		return <Error data={newExerciseError} />
+		return <ErrorNote error={newExerciseError} />
 
 	// Anything still loading?
 	if (loading)
-		return <Loading text="Loading skill data." />
+		return <LoadingNote text="Loading skill data." />
 	if (newExerciseLoading)
-		return <Loading text="Generating new exercise." />
+		return <LoadingNote text="Generating new exercise." />
 	if (!exercise)
-		return <Loading text="No exercise yet. Generating one." />
+		return <LoadingNote text="No exercise yet. Generating one." />
 
 	// All fine! Display the exercise.
 	return <ExerciseContainer key={exercise.startedOn} exercise={exercise} submitting={submissionLoading} submitAction={submitAction} startNewExercise={startNewExercise} />
@@ -111,7 +111,7 @@ function SkillForStranger() {
 	}, [exercise, setExercise])
 
 	if (!exercise)
-		return <Loading text="Generating new exercise" />
+		return <LoadingNote text="Generating new exercise" />
 
 	return <ExerciseContainer key={exercise.startedOn} exercise={exercise} skillId={skillId} submitting={false} submitAction={submitAction} startNewExercise={startNewExercise} />
 }

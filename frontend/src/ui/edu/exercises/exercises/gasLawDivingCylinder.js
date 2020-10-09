@@ -17,7 +17,7 @@ export default function Exercise() {
 }
 
 const Problem = ({ V, m, T }) => <>
-	<Par>Een duiker heeft een duikfles van <M>{V.float.tex}</M> liter op zijn rug, gevuld met <M>{m.tex}</M> zuurstof. Bij een temperatuur van <M>{T.tex}</M>, bereken de druk in de fles.</Par>
+	<Par>Een duiker heeft een duikfles van <M>{V.tex}</M> op zijn rug, gevuld met <M>{m.tex}</M> zuurstof. Bij een temperatuur van <M>{T.tex}</M>, bereken de druk in de fles.</Par>
 	<InputSpace><Par><FloatUnitInput id="ansp" prelabel={<M>p=</M>} label="Druk" size="s" /></Par></InputSpace>
 </>
 
