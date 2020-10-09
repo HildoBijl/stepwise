@@ -30,7 +30,8 @@ Operating system: Linux CentOS 8
 2. Adjust your local SSH config (see above)
 3. Run `ssh -t step-wise.com 'bash <(curl -Ls https://raw.githubusercontent.com/HildoBijl/stepwise/master/ops/bootstrap-server.sh)'`
 4. Upload configuration (see command above)
-5. Do a release (see command above)
-6. Issue new HTTPS certificates (see command above)
+5. Setup the DB account for the api (see [here for description](/app/ops/db/setup-api-user.sql))
+6. Do a release (see command above)
+7. Issue new HTTPS certificates (see command above)
 
 Note: you can only run that bootstrapping procedure one single time for any given server.
