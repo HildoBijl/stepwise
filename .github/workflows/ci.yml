@@ -41,8 +41,10 @@ jobs:
         run: |
           docker run --rm -t --network=api \
             -e POSTGRES_DB=$POSTGRES_DB \
-            -e POSTGRES_USER=$POSTGRES_USER \
-            -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
+            -e POSTGRES_ADMIN_USER=$POSTGRES_USER \
+            -e POSTGRES_ADMIN_PASSWORD=$POSTGRES_PASSWORD \
+            -e POSTGRES_APP_USER=$POSTGRES_USER \
+            -e POSTGRES_APP_PASSWORD=$POSTGRES_PASSWORD \
             -e POSTGRES_HOST=$POSTGRES_HOST \
             -e POSTGRES_PORT=$POSTGRES_PORT \
             stepwisecom/api npm test
