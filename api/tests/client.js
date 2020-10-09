@@ -92,8 +92,8 @@ const createClient = async (seedingProcedure = noop) => {
 }
 
 // Teardown Jest
-afterAll(() => {
-	sequelize.close()
+afterAll(async () => {
+	await sequelize.close()
 })
 
 module.exports = {

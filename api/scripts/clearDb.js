@@ -9,4 +9,5 @@ sequelize.authenticate()
 	.then(async () => {
 		await clearDatabaseSchema(sequelize)
 	})
+	.then(async () => await sequelize.close())
 	.catch(console.error)
