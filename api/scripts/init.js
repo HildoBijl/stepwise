@@ -7,10 +7,10 @@ const RedisStore = require('connect-redis')(session)
 const path = require('path')
 const Umzug = require('umzug')
 
-module.exports.createSequelize = () => new Sequelize(
+module.exports.createSequelize = (admin = false) => new Sequelize(
 	process.env.POSTGRES_DB,
-	process.env.POSTGRES_USER,
-	process.env.POSTGRES_PASSWORD,
+	admin ? process.env.POSTGRES_ADMIN_USER : process.env.POSTGRES_APP_USER,
+	admin ? process.env.POSTGRES_ADMIN_PASSWORD : process.env.POSTGRES_APP_PASSWORD,
 	{
 		host: process.env.POSTGRES_HOST,
 		port: process.env.POSTGRES_PORT,

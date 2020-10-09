@@ -19,32 +19,33 @@ describe('Authentication', () => {
 	it('there is no active session without logging in', async () => {
 		const client = await createClient(seed)
 
-		await client.graphql({ query: `{me {email}}` })
-			.then(({ data }) => expect(data.me).toEqual(null))
+		await expect(
+			client.graphql({ query: `{me {email}}` }).then(({ data }) => data.me)
+		).resolves.toEqual(null)
 	})
 
 	it('establishes session after login and destroys it after logout', async () => {
 		const client = await createClient(seed)
 
-		await client
-			.login(SPECIAL_USER_SUB)
-			.then(redirectUrl => expect(redirectUrl).toEqual(defaultConfig.homepageUrl))
+		await expect(
+			client.login(SPECIAL_USER_SUB)
+		).resolves.toEqual(defaultConfig.homepageUrl)
 
-		await client
-			.graphql({ query: `{me {id name email}}` })
-			.then(({ data }) => expect(data.me).toEqual({
-				id: SPECIAL_USER_ID,
-				name: 'Step Wise',
-				email: 'step@wise.com',
-			}))
+		await expect(
+			client.graphql({ query: `{me {id name email}}` }).then(({ data }) => data.me)
+		).resolves.toEqual({
+			id: SPECIAL_USER_ID,
+			name: 'Step Wise',
+			email: 'step@wise.com',
+		})
 
-		await client
-			.logout()
-			.then(redirectUrl => expect(redirectUrl).toEqual(defaultConfig.homepageUrl))
+		await expect(
+			client.logout()
+		).resolves.toEqual(defaultConfig.homepageUrl)
 
-		await client
-			.graphql({ query: `{me {email}}` })
-			.then(({ data }) => expect(data.me).toEqual(null))
+		await expect(
+			client.graphql({ query: `{me {email}}` }).then(({ data }) => data.me)
+		).resolves.toEqual(null)
 	})
 
 	it('doesn’t login users with invalid credentials', async () => {
@@ -53,14 +54,15 @@ describe('Authentication', () => {
 		// This id is not whitelisted in the SurfConext mock data, therefore the authentication will fail.
 		const INVALID_DEV_LOGIN_ID = 'ffffffff-ffff-ffff-ffff-123456789012'
 
-		await client
-			.login(INVALID_DEV_LOGIN_ID)
-			.then(redirectUrl => expect(redirectUrl).toEqual(
-				expect.stringContaining('error=INVALID_AUTHENTICATION')
-			))
+		await expect(
+			client.login(INVALID_DEV_LOGIN_ID)
+		).resolves.toEqual(
+			expect.stringContaining('error=INVALID_AUTHENTICATION')
+		)
 
-		await client.graphql({ query: `{me {email}}` })
-			.then(({ data }) => expect(data.me).toEqual(null))
+		await expect(
+			client.graphql({ query: `{me {email}}` }).then(({ data }) => data.me)
+		).resolves.toEqual(null)
 	})
 
 	it('Updates the user information on every login', async () => {
@@ -75,56 +77,57 @@ describe('Authentication', () => {
 			})
 		})
 
-		await client
-			.login(SPECIAL_USER_SUB)
-			.then(redirectUrl => expect(redirectUrl).toEqual(defaultConfig.homepageUrl))
+		await expect(
+			client.login(SPECIAL_USER_SUB)
+		).resolves.toEqual(defaultConfig.homepageUrl)
 
-		await client
-			.graphql({ query: `{me {id name email}}` })
-			.then(({ data }) => expect(data.me).toEqual({
-				id: SPECIAL_USER_ID,
-				name: 'Step Wise',
-				email: 'step@wise.com',
-			}))
+		await expect(
+			client.graphql({ query: `{me {id name email}}` }).then(({ data }) => data.me)
+		).resolves.toEqual({
+			id: SPECIAL_USER_ID,
+			name: 'Step Wise',
+			email: 'step@wise.com',
+		})
 	})
 
 	it('automatically creates account for unregistered users', async () => {
 		const client = await createClient()
 
-		await client
-			.login('00000000-0000-0000-0000-111111111111')
-			.then(redirectUrl => expect(redirectUrl).toEqual(defaultConfig.homepageUrl))
+		await expect(
+			client.login('00000000-0000-0000-0000-111111111111')
+		).resolves.toEqual(defaultConfig.homepageUrl)
 
-		await client.graphql({ query: `{me {name email}}` })
-			.then(({ data }) => expect(data.me).toEqual({
-				name: 'John Doe',
-				email: 'john@example.org',
-			}))
+		await expect(
+			client.graphql({ query: `{me {name email}}` }).then(({ data }) => data.me)
+		).resolves.toEqual({
+			name: 'John Doe',
+			email: 'john@example.org',
+		})
 	})
 
 	it('redirects users after successful login', async () => {
 		const client = await createClient()
 		const customRedirectPath = '/my/custom/redirect/route'
 
-		await client
-			.initiate(customRedirectPath)
-			.then(redirectUrl => expect(redirectUrl).toEqual(DIRECTORY_PATH))
+		await expect(
+			client.initiate(customRedirectPath)
+		).resolves.toEqual(DIRECTORY_PATH)
 
-		await client
-			.login('00000000-0000-0000-0000-111111111111')
-			.then(redirectUrl => expect(redirectUrl).toEqual(defaultConfig.homepageUrl + customRedirectPath))
+		await expect(
+			client.login('00000000-0000-0000-0000-111111111111')
+		).resolves.toEqual(defaultConfig.homepageUrl + customRedirectPath)
 	})
 
 	it('ignores redirect if it’s not a relative path', async () => {
 		const client = await createClient()
 		const evilRedirectPath = 'http://evil-site.com'
 
-		await client
-			.initiate(evilRedirectPath)
-			.then(redirectUrl => expect(redirectUrl).toEqual(DIRECTORY_PATH))
+		await expect(
+			client.initiate(evilRedirectPath)
+		).resolves.toEqual(DIRECTORY_PATH)
 
-		await client
-			.login('00000000-0000-0000-0000-111111111111')
-			.then(redirectUrl => expect(redirectUrl).toEqual(defaultConfig.homepageUrl))
+		await expect(
+			client.login('00000000-0000-0000-0000-111111111111')
+		).resolves.toEqual(defaultConfig.homepageUrl)
 	})
 })

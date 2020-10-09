@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize')
 
 module.exports = {
-	up: async (sequelize) => {
-		await sequelize.createTable('surfConextProfiles', {
+	up: async (queryInterface) => {
+		await queryInterface.createTable('surfConextProfiles', {
 			id: {
 				type: DataTypes.STRING,
 				allowNull: false,
@@ -31,8 +31,8 @@ module.exports = {
 		})
 	},
 
-	down: async (sequelize) => {
-		sequelize.dropTable('surfConextProfiles')
+	down: async (queryInterface) => {
+		queryInterface.dropTable('surfConextProfiles')
 	},
 
 }

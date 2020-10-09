@@ -1,6 +1,6 @@
 const { createSequelize, createUmzug } = require('./init')
 
-const sequelize = createSequelize()
+const sequelize = createSequelize(true)
 const umzug = createUmzug(sequelize)
 
 ;(async () => {
@@ -12,6 +12,7 @@ const umzug = createUmzug(sequelize)
 	if (action === 'down') {
 		await migrateDown(umzug)
 	}
+	await sequelize.close()
 })()
 
 async function printPendingMigrations(umzug) {

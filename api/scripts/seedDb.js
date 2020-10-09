@@ -63,4 +63,5 @@ sequelize.authenticate()
 		return db
 	})
 	.then(seedTestData)
+	.then(async () => await sequelize.close())
 	.catch(console.error)
