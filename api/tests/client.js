@@ -15,7 +15,7 @@ const defaultConfig = Object.freeze({
 	corsUrls: undefined,
 })
 
-const sequelize = createSequelize()
+const sequelize = createSequelize(true)
 const database = new Database(sequelize)
 
 class Client {
