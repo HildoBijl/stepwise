@@ -42,8 +42,8 @@ docker-compose -f ops/docker-compose.yml -p app pull
 
 echo -e '\033[46m [STEP 3/4] \033[0m Restart application, run migrations'
 systemctl stop app
-# TODO replace with migration:
-docker-compose -f ops/docker-compose.yml -p app run --rm api npm run db:clear
+docker-compose -f ops/docker-compose.yml -p app run --rm api \
+	/bin/sh -c "npm run db:clear && npm run db:migrate -- up"
 systemctl start app
 
 echo -e '\033[46m [STEP 4/4] \033[0m Cleanup'

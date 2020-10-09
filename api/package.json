@@ -5,7 +5,8 @@
 		"test": "cross-env POSTGRES_DB=\"testing\" jest --runInBand tests/.*\\.test\\.js",
 		"test:watch": "cross-env POSTGRES_DB=\"testing\" jest --watch --runInBand tests/.*\\.test\\.js",
 		"db:seed": "node scripts/seedDb.js",
-		"db:clear": "node scripts/clearDb.js"
+		"db:clear": "node scripts/clearDb.js",
+		"db:migrate": "node scripts/migrateDb.js"
 	},
 	"dependencies": {
 		"@hapi/joi": "^17.1.1",
@@ -22,8 +23,9 @@
 		"pg": "^8.2.1",
 		"pg-hstore": "^2.3.3",
 		"redis": "^3.0.2",
-		"sequelize": "^5.21.10",
+		"sequelize": "^6.3.5",
 		"step-wise": "file:../shared",
+		"umzug": "^2.3.0",
 		"uuid": "^8.2.0"
 	},
 	"devDependencies": {

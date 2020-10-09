@@ -35,16 +35,11 @@ module.exports = (sequelize, DataTypes) => {
 			defaultValue: DataTypes.NOW,
 			allowNull: false,
 		},
-	}, {
-		indexes: [{
-			unique: true,
-			fields: ['userId', 'skillId'],
-		}]
 	})
 
 	UserSkill.associate = models => {
 		UserSkill.belongsTo(models.User)
-		UserSkill.hasMany(models.ExerciseSample, { as: 'exercises', onDelete: 'CASCADE' })
+		UserSkill.hasMany(models.ExerciseSample, { as: 'exercises' })
 	}
 
 	return UserSkill
