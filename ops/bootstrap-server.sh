@@ -26,6 +26,11 @@ curl -L https://github.com/docker/compose/releases/download/1.25.5/docker-compos
 chmod +x /usr/bin/docker-compose
 
 #
+# Install Postgres client (psql)
+#
+dnf install -y postgresql
+
+#
 # Install `git` and initialise repo
 #
 dnf install -y git
