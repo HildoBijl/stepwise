@@ -21,9 +21,9 @@ services:
     env_file:
       - /config/api.env
     environment:
-      PORT: "80"
+      PORT: "8080"
       NODE_ENV: "production"
-    expose: ["80"]
+    expose: ["8080"]
     logging:
       options:
         max-size: "10m"
