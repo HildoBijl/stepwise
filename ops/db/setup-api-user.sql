@@ -1,11 +1,14 @@
 -- Setting up permissions for api connection
--- Run with:
+-- Run the following command on the server, providing
+-- the $ENV variables from the configuration
 --
--- psql $DATABASE $USER \
--- 	-v db=migrations \
+-- psql $POSTGRES_DB $POSTGRES_ADMIN_USER \
+-- 	-h $POSTGRES_HOST \
+-- 	-p $POSTGRES_PORT \
+-- 	-v db=$POSTGRES_DB \
 -- 	-v user=api \
 -- 	-v schema=public \
--- 	-f setup-api-user.sql
+-- 	-f /app/ops/db/setup-api-user.sql
 
 revoke all on database :db from :user;
 alter role :user with login;
