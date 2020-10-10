@@ -68,8 +68,8 @@ const steps = [
 				]} randomOrder={true} />
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			return <Par>De duikfles wordt niet groter of kleiner: het interne volume <M>V</M> blijft gelijk. (Uitzetting/krimping van het metaal is zo klein dat het te verwaarlozen valt.) Het is dus een isochoor proces: er geldt <M>V_2 = V_1</M>.</Par>
+		Solution: () => {
+			return <Par>De duikfles wordt niet groter of kleiner: het interne volume <M>V</M> blijft gelijk. (De krimp van het metaal is zo klein dat het te verwaarlozen valt.) Het is dus een isochoor proces, met <M>V_2 = V_1</M>.</Par>
 		},
 	},
 	{

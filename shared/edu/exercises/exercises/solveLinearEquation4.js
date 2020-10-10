@@ -45,7 +45,7 @@ function getCorrect({ a, b, c, d, e }) {
 }
 
 function checkInput(state, { ans }) {
-	return getCorrect(state).equals(ans, { ...data.equalityOptions })
+	return getCorrect(state).equals(ans, data.equalityOptions)
 }
 
 module.exports = {

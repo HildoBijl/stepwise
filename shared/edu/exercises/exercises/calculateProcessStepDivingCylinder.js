@@ -3,6 +3,7 @@ const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { oxygen: Rs } = require('../../../data/specificGasConstants')
 const { combinerAnd } = require('../../../skillTracking')
+const { checkField } = require('../util/check')
 
 const equalityOptions = {
 	default: {
@@ -71,19 +72,17 @@ function getCorrect({ m, p1, T1, T2 }) {
 	return { m, Rs, p1, p2, V1, V2, T1, T2 }
 }
 
-function checkInput(state, { ansp1, ansp2, ansV1, ansV2, ansT1, ansT2, ansProcess }, step, substep) {
-	const { p1, p2, V1, V2, T1, T2 } = getCorrect(state)
-	const { equalityOptions } = data
-
+function checkInput(state, input, step, substep) {
+	const correct = getCorrect(state)
 	switch (step) {
 		case 1:
-			return p1.equals(ansp1, equalityOptions.p1) && V1.equals(ansV1, equalityOptions.V1) && T1.equals(ansT1, equalityOptions.T1)
+			return checkField(['p1', 'V1', 'T1'], correct, input, data.equalityOptions)
 		case 2:
-			return ansProcess[0] === 1
+			return input.ansProcess && input.ansProcess[0] === 1
 		case 3:
-			return p2.equals(ansp2, equalityOptions.p2) && V2.equals(ansV2, equalityOptions.V2) && T2.equals(ansT2, equalityOptions.T2)
+			return checkField(['p2', 'V2', 'T2'], correct, input, data.equalityOptions)
 		default:
-			return p1.equals(ansp1, equalityOptions.p1) && V1.equals(ansV1, equalityOptions.V1) && T1.equals(ansT1, equalityOptions.T1) && p2.equals(ansp2, equalityOptions.p2) && V2.equals(ansV2, equalityOptions.V2) && T2.equals(ansT2, equalityOptions.T2)
+			return checkField(['p1', 'V1', 'T1', 'p2', 'V2', 'T2'], correct, input, data.equalityOptions)
 	}
 }
 
