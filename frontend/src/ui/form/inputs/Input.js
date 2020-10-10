@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 		flexFlow: 'row nowrap',
 		margin: ({ hasLabel }) => hasLabel ? '1.2em 0 0.8em' : '0.8em 0',
 		'&:first-child': {
-			marginTop: ({ hasLabel }) => hasLabel ? '0.6em' : '0.2em',
+			marginTop: ({ hasLabel }) => hasLabel ? '0.5em' : '0.2em',
 		},
 		'&:last-child': {
 			marginBottom: '0.2em',

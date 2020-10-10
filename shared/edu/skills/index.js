@@ -83,6 +83,11 @@ const skills = {
 		setup: combinerAnd('calculateWithTemperature', 'specificHeatRatio', 'solveExponentEquation'), // ToDo later: use "combinerPart('specificHeatRatio', 2/3)" to indicate it's not always needed.
 		exercises: ['poissonsLawBicyclePump', 'poissonsLawCompressor', 'poissonsLawTurbine'],
 	},
+	calculateProcessStep: {
+		name: 'Processtap doorrekenen',
+		setup: combinerAnd(combinerRepeat('gasLaw', 2), 'recognizeProcessTypes', 'poissonsLaw'), // ToDo later: use "combinerPart('poissonsLaw', 1/2)" to indicate it's not always needed.
+		exercises: ['calculateProcessStepDivingCylinder'],
+	},
 }
 
 // Process the skill object.

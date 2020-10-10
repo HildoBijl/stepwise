@@ -27,8 +27,12 @@ export default function FeedbackProvider({ children, getFeedback }) {
 	const updateFeedback = useCallback((input) => {
 		const { getFeedback, state, progress, prevProgress, shared, feedback, feedbackInput } = dataRef.current
 		setFeedbackInput(input)
-		if (getFeedback)
-			setFeedback(getFeedback({ state, input: setIOtoFO(input), progress, prevProgress, shared, prevFeedback: feedback, prevInput: setIOtoFO(feedbackInput) }))
+		if (getFeedback) {
+			const newFeedback = getFeedback({ state, input: setIOtoFO(input), progress, prevProgress, shared, prevFeedback: feedback, prevInput: setIOtoFO(feedbackInput) })
+			if (!newFeedback)
+				throw new Error(`Invalid feedback: a feedback was returned which it not an object. Instead, we received "${newFeedback}". Possibly the getFeedback function forgot to return anything sensible?`)
+			setFeedback(newFeedback)
+		}
 	}, [setFeedback, setFeedbackInput, dataRef])
 
 	// After an input action is fully processed, update potential feedback.
