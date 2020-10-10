@@ -2,7 +2,7 @@ const { getRandomInteger } = require('../../../inputTypes/Integer')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { oxygen: Rs } = require('../../../data/specificGasConstants')
-const { combinerAnd } = require('../../../skillTracking')
+const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
 const { checkField } = require('../util/check')
 
 const equalityOptions = {
@@ -18,7 +18,7 @@ const equalityOptions = {
 
 const data = {
 	skill: 'calculateProcessStep',
-	setup: combinerAnd('gasLaw', 'recognizeProcessTypes', 'gasLaw'),
+	setup: combinerAnd(combinerRepeat('gasLaw', 2), 'recognizeProcessTypes'),
 	steps: ['gasLaw', 'recognizeProcessTypes', 'gasLaw'],
 
 	equalityOptions: {
