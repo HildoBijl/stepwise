@@ -59,7 +59,7 @@ function generateState() {
 		unit: 'dC',
 	})
 
-	const m = p.multiply(V).divide(Rs.multiply(T.useUnit('K'))).useUnit('kg')
+	const m = p.multiply(V).divide(Rs.multiply(T.useUnit('K'))).useUnit('kg').roundToPrecision()
 
 	return { V, m, T }
 }

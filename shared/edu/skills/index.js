@@ -85,8 +85,8 @@ const skills = {
 	},
 	calculateProcessStep: {
 		name: 'Processtap doorrekenen',
-		setup: combinerAnd(combinerRepeat('gasLaw', 2), 'recognizeProcessTypes', 'poissonsLaw'), // ToDo later: use "combinerPart('poissonsLaw', 1/2)" to indicate it's not always needed.
-		exercises: ['calculateProcessStepDivingCylinder'],
+		setup: combinerAnd('gasLaw', 'recognizeProcessTypes', 'poissonsLaw'), // ToDo later: use "combinerPart('poissonsLaw', 1/2)" and possibly "combinerPart('gasLaw', 3/2)" to indicate it's not always needed.
+		exercises: ['calculateProcessStepCompressor', 'calculateProcessStepDivingCylinder'],
 	},
 }
 

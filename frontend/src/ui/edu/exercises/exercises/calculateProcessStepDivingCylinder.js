@@ -31,7 +31,7 @@ const fields = [[
 
 const Problem = ({ m, p1, T1, T2 }) => <>
 	<Par>Een duiker pakt op een mooie zomerse dag, met een temperatuur van <M>{T1.tex}</M>, een duikfles van de boot. De duikfles is gevuld met <M>{m.tex}</M> zuurstof. De duiker kijkt op de drukmeter van de fles en leest <M>{p1.tex}</M> af.</Par>
-	<Par>Vervolgens springt de duiker in het koude water: de temperatuur is slechts <M>{T2.tex}</M>. Na even wachten is de duikfles net zo koud als het water geworden. Wat is de druk in de duikfles dan? (Ga ervan uit dat de duiker nog geen zuurstof gebruikt heeft.) Geef verder alle andere relevante gaseigenschappen.</Par>
+	<Par>Vervolgens springt de duiker in het koude water: de temperatuur is slechts <M>{T2.tex}</M>. Na even wachten is de duikfles net zo koud als het water geworden. Wat is de druk in de duikfles dan? Geef verder alle andere relevante gaseigenschappen. Ga ervan uit dat de duiker nog geen zuurstof gebruikt heeft.</Par>
 	<InputSpace>
 		<InputTable {...{ colHeads, rowHeads, fields }} />
 	</InputSpace>

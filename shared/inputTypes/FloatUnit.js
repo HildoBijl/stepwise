@@ -50,6 +50,10 @@ class FloatUnit {
 		return this._unit
 	}
 
+	get number() {
+		return this.float.number
+	}
+
 	// string returns a string representation of this number with unit.
 	get str() {
 		return this.toString()

@@ -44,14 +44,7 @@ function generateState() {
 	})
 
 	// Find end-point.
-	const pressureRatio = p2.float.number / p1.float.number
-	const V2 = new FloatUnit({
-		float: {
-			number: V1.float.number * Math.pow(pressureRatio, -1 / n),
-			significantDigits: 2,
-		},
-		unit: 'l',
-	}).roundToPrecision()
+	const V2 = V1.multiply(Math.pow(p2.number / p1.number, -1/n)).roundToPrecision()
 
 	return { p1, p2, V1, V2, T1 }
 }

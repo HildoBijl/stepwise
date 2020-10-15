@@ -18,7 +18,8 @@ const useStyles = makeStyles((theme) => ({
 		},
 		'& .rowHead': {
 			fontWeight: 'bold',
-			placeSelf: 'center stretch',
+			paddingTop: '1.25rem',
+			placeSelf: 'start stretch',
 			whiteSpace: 'nowrap',
 		},
 		'& .colHead': {

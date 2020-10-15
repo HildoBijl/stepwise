@@ -1,10 +1,11 @@
 import React, { createContext, useState, useContext, useRef, useCallback, useEffect } from
 	'react'
 
-import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
+import { processOptions } from 'step-wise/util/objects'
 import { isEmpty } from 'step-wise/inputTypes'
+import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 
-import { useRefWithValue } from 'util/react'
+import { useRefWithValue, useMountedRef } from 'util/react'
 import { useExerciseData } from 'ui/edu/exercises/ExerciseContainer'
 
 import { useFieldControllerContext } from './FieldController'
@@ -14,6 +15,7 @@ const FormContext = createContext(null)
 export default function Form({ children }) {
 	// Define states.
 	const [input, setInput] = useState({})
+	const [, setSubscriptions] = useState({})
 	const [validation, setValidation] = useState({})
 	const [validationInput, setValidationInput] = useState({})
 
@@ -25,6 +27,7 @@ export default function Form({ children }) {
 
 	// Get other parameters.
 	const { activateFirst } = useFieldControllerContext()
+	const mountedRef = useMountedRef()
 
 	// Define input parameter handlers.
 	const setParameter = useCallback((id, value) => {
@@ -41,6 +44,34 @@ export default function Form({ children }) {
 			return newInput
 		})
 	}, [setInput])
+
+	const subscribe = useCallback((id, initialValue) => {
+		setSubscriptions(subscriptions => ({ ...subscriptions, [id]: (subscriptions[id] || 0) + 1 }))
+		if (initialValue !== undefined) {
+			setInput((input) => {
+				if (input[id] !== undefined)
+					return input
+				return { ...input, [id]: (typeof initialValue === 'function' ? initialValue() : initialValue) }
+			})
+		}
+	}, [setSubscriptions, setInput])
+
+	const unsubscribe = useCallback((id, persistent = false) => {
+		setTimeout(() => { // Delay calls to unsubscribe, to ensure all subscribe calls are finished.
+			if (!mountedRef.current)
+				return // Prevent calls when we have unmounted in the meantime.
+			setSubscriptions((subscriptions) => {
+				subscriptions = { ...subscriptions }
+				if (subscriptions[id] === 1 && !persistent) {
+					delete subscriptions[id]
+					deleteParameter(id)
+				} else {
+					subscriptions[id]--
+				}
+				return subscriptions
+			})
+		}, 0)
+	}, [mountedRef, setSubscriptions, deleteParameter])
 
 	const setParameters = useCallback((newInput, override = false) => {
 		setInput((input) => (override ? { ...newInput } : { ...input, ...newInput }))
@@ -74,7 +105,7 @@ export default function Form({ children }) {
 	}, [validationFunctionsRef])
 
 	return (
-		<FormContext.Provider value={{ input, setParameter, deleteParameter, setParameters, clearForm, validation, validationInput, isValid, saveValidationFunction, cursorRef }}>
+		<FormContext.Provider value={{ input, setParameter, deleteParameter, subscribe, unsubscribe, setParameters, clearForm, validation, validationInput, isValid, saveValidationFunction, cursorRef }}>
 			<form onSubmit={(evt) => evt.preventDefault()}>
 				{children}
 			</form>
@@ -90,24 +121,37 @@ export function useFormData() {
 	return data
 }
 
-// useFormParameter gives a tuple [value, setValue] for a single input parameter with the given id. An initial value may also be passed along.
-export function useFormParameter(id, initialValue) {
-	const { input, setParameter, deleteParameter } = useFormData()
+/* useFormParameter gives a tuple [value, setValue] for a single input parameter with the given id. An options object may be passed along with the options:
+ * - initialValue: the initial value of the parameter.
+ * - subscribe (default false): whether we should note that a React object is controlling this. (Should be true for setters, false (default) for readerrs.) If the number of subscribers drops to zero, then the field is cleared.
+ * - persistent (default false): should the parameter stay (true) or be cleared (false) when the last subscriber unsubscribes from listening for this parameter?
+ */
+const defaultUseFormParameterOptions = {
+	initialValue: undefined, // undefined
+	subscribe: false,
+	persistent: false,
+}
+export function useFormParameter(id, options = {}) {
+	const { input, setParameter, subscribe, unsubscribe } = useFormData()
 	const { history } = useExerciseData()
+	const { initialValue, subscribe: shouldSubscribe, persistent } = processOptions(options, defaultUseFormParameterOptions)
 
-	// If this is the first time, set the initial value.
+	// Define custom handlers.
 	const setValue = useCallback(value => setParameter(id, value), [id, setParameter])
-	const initialValueRef = useRefWithValue(initialValue), inputRef = useRefWithValue(input)
-	useEffect(() => {
-		if (!(id in inputRef.current) && initialValueRef.current !== undefined)
-			setValue(initialValueRef.current)
-		return () => deleteParameter(id) // Upon unmounting, remove the parameter.
-	}, [id, inputRef, initialValueRef, setValue, deleteParameter])
 
-	// Upon a history change, update the value of this input to the history to match the given input. This should not change anything during page activity but be relevant during reloads.
+	// Subscribe if required, and unsubscribe upon unmounting. This also sets an initial value, if given.
+	const initialValueRef = useRefWithValue(initialValue)
+	useEffect(() => {
+		if (shouldSubscribe) {
+			subscribe(id, initialValueRef.current)
+			return () => unsubscribe(id, persistent) // Upon unmounting, remove the parameter.
+		}
+	}, [id, shouldSubscribe, persistent, subscribe, unsubscribe, initialValueRef])
+
+	// Upon a history change, try to fill empty fields with previously submitted values. This is mainly useful upon page reloads for logged-in users to fill up the form. For regular page usage it often does not have an effect, unless later on a field is reused which was submitted in a previous input submission.
 	useEffect(() => {
 		const lastInput = getLastInput(history)
-		if (lastInput && lastInput[id])
+		if (lastInput && lastInput[id]) {
 			setValue(value => {
 				// If there already was a value, then keep it.
 				if (!isEmpty(value))
@@ -117,6 +161,7 @@ export function useFormParameter(id, initialValue) {
 					return [...lastInput[id]]
 				return { ...lastInput[id] }
 			})
+		}
 	}, [id, history, setValue])
 
 	// Return the required tuple.

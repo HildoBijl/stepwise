@@ -15,6 +15,22 @@ export function useRefWithValue(value, initialValue) {
 	return ref
 }
 
+// useMountedRef returns whether the object is mounted, through a reference object. This allows for pass-by-reference.
+export function useMountedRef() {
+	const mountedRef = useRef(false)
+	useEffect(() => {
+		mountedRef.current = true
+		return () => { mountedRef.current = false }
+	}, [mountedRef])
+	return mountedRef
+}
+
+// useMounted returns whether the object is mounted by giving a boolean.
+export function useMounted() {
+	const mountedRef = useMountedRef()
+	return mountedRef.current
+}
+
 // useUniqueNumber gives a number that's unique for this page. It keeps it constant. Usually the first object gets 1, the second 2, and so forth.
 export function useUniqueNumber() {
 	const ref = useRef()

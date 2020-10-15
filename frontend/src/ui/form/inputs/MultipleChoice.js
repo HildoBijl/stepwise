@@ -113,8 +113,8 @@ const useOptionStyle = makeStyles((theme) => ({
  * - randomOrder (default false): should we show the choices in a random order? Behind the scenes the original order is still used: this only related to how it is shown to the user.
  * Changing options while the object is already rendered is currently not supported.
  */
-export default function MultipleChoice({ id, choices = [], validate = nonEmpty, multiple = false, readOnly, pick, include, randomOrder = false }) {
-	const [input, setInput] = useFormParameter(id, [])
+export default function MultipleChoice({ id, choices = [], validate = nonEmpty, multiple = false, readOnly, pick, include, randomOrder = false, persistent }) {
+	const [input, setInput] = useFormParameter(id, { initialValue: [], subscribe: true, persistent })
 	const { feedback, feedbackInput } = useFieldFeedback({ fieldId: id, subFields: numberArray(0, choices.length - 1), validate })
 	const { done } = useStatus()
 	readOnly = (readOnly === undefined ? done : readOnly)
