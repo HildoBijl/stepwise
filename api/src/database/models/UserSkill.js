@@ -1,4 +1,6 @@
-module.exports = (sequelize, DataTypes) => {
+const { DataTypes } = require('sequelize')
+
+module.exports = (sequelize) => {
 	const UserSkill = sequelize.define('userSkill', {
 		id: {
 			type: DataTypes.UUID,

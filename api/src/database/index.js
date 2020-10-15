@@ -14,7 +14,7 @@ class Database {
 
 		// Import all the models.
 		modelKeys.forEach(key => {
-			this[key] = require(`./models/${key}`)(sequelize, DataTypes)
+			this[key] = require(`./models/${key}`)(sequelize)
 		})
 
 		// Make associations.
