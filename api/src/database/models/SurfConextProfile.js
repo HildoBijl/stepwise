@@ -3,6 +3,7 @@ const { DataTypes } = require('sequelize')
 module.exports = (sequelize) => {
 	const SurfConextProfile = sequelize.define('surfConextProfile', {
 		id: {
+			// Unbounded UTF-8 String of unknown format
 			type: DataTypes.TEXT,
 			allowNull: false,
 			primaryKey: true,

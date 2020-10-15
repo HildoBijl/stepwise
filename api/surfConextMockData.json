@@ -1,6 +1,6 @@
 [
 	{
-		"sub": "00000000-0000-0000-0000-000000000000",
+		"sub": "0000000000000000000000000000000000000000",
 		"name": "Step Wise",
 		"preferred_username": "Step Wise",
 		"given_name": "Step",
@@ -8,11 +8,12 @@
 		"nickname": "Step Wise",
 		"email": "step@wise.com",
 		"schac_home_organization": "eduid.nl",
-		"edu_person_principal_name": "00000000-0000-0000-0000-000000000000@eduid.nl",
-		"uids": []
+		"eduperson_affiliation": [],
+		"locale": "",
+		"schac_personal_unique_code": ""
 	},
 	{
-		"sub": "00000000-0000-0000-0000-111111111111",
+		"sub": "1111111111111111111111111111111111111111",
 		"name": "John Doe",
 		"preferred_username": "John Doe",
 		"given_name": "John",
@@ -20,7 +21,8 @@
 		"nickname": "John Doe",
 		"email": "john@example.org",
 		"schac_home_organization": "eduid.nl",
-		"edu_person_principal_name": "00000000-0000-0000-0000-111111111111@eduid.nl",
-		"uids": []
+		"eduperson_affiliation": [],
+		"locale": "",
+		"schac_personal_unique_code": ""
 	}
 ]

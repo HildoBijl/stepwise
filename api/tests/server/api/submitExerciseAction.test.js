@@ -2,8 +2,8 @@ const { JSONstringifyWithoutPropertyQuotes } = require('step-wise/util/strings')
 const { setIOtoFO } = require('step-wise/inputTypes')
 const { createClient, defaultConfig } = require('../../client')
 
-const SPECIAL_USER_ID = '01010101-0101-0101-0101-010101010101'
-const SPECIAL_USER_SUB = '00000000-0000-0000-0000-000000000000'
+const SPECIAL_USER_ID = '00000000-0000-0000-0000-000000000000'
+const SPECIAL_USER_SURFSUB = '0000000000000000000000000000000000000000'
 const SAMPLE_SKILL = 'fillInInteger'
 const BACKUP_SKILL = 'summation'
 
@@ -14,7 +14,7 @@ const seed = async db => {
 		email: 'step@wise.com'
 	})
 	await user.createSurfConextProfile({
-		id: SPECIAL_USER_SUB,
+		id: SPECIAL_USER_SURFSUB,
 	})
 }
 
@@ -39,7 +39,7 @@ describe('submitExerciseAction', () => {
 
 	it('gives an error when no exercise is active', async () => {
 		const client = await createClient(seed)
-		await client.login(SPECIAL_USER_SUB)
+		await client.login(SPECIAL_USER_SURFSUB)
 
 		const { data, errors } = await client.graphql({ query: `mutation{submitExerciseAction(skillId: "${SAMPLE_SKILL}", action: ${JSONstringifyWithoutPropertyQuotes(inputAction(42))}) {updatedExercise {id}}}` })
 		expect(data).toBe(null)
@@ -48,7 +48,7 @@ describe('submitExerciseAction', () => {
 
 	it('remembers a wrong submission', async () => {
 		const client = await createClient(seed)
-		await client.login(SPECIAL_USER_SUB)
+		await client.login(SPECIAL_USER_SURFSUB)
 
 		// Start an exercise.
 		const { data: { startExercise: exercise }, errors: startExerciseErrors } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id exerciseId state active}}` })
@@ -73,7 +73,7 @@ describe('submitExerciseAction', () => {
 
 	it('processes a correct solution so a new exercise can be started', async () => {
 		const client = await createClient(seed)
-		await client.login(SPECIAL_USER_SUB)
+		await client.login(SPECIAL_USER_SURFSUB)
 
 		// Start an exercise.
 		const { data: { startExercise: exercise }, errors: startExerciseErrors } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id exerciseId state active}}` })
