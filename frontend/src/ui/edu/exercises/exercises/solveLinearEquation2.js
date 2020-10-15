@@ -15,7 +15,7 @@ export default function Exercise() {
 
 function Problem({ a, b, c, d }) {
 	return <>
-		<Par>Los de vergelijking <M>{a.tex} \cdot {b.tex} \cdot x = {c.tex} \cdot {d.tex}</M> op voor <M>x</M>.</Par>
+		<Par>Los de vergelijking <M>{a} \cdot {b} \cdot x = {c} \cdot {d}</M> op voor <M>x</M>.</Par>
 		<InputSpace>
 			<Par><FloatInput id="ans" prelabel={<M>x = </M>} label="Antwoord" size='s' /></Par>
 		</InputSpace>
@@ -28,7 +28,7 @@ function Solution({ a, b, c, d }) {
 	const ab = a.multiply(b, true)
 	const cd = c.multiply(d, true)
 
-	return <Par>Het is hier handig om de vermenigvuldigingen van getallen eerst simpeler op te schrijven. We weten dat <BM>{a.tex} \cdot {b.tex} = {ab.tex},</BM> <BM>{c.tex} \cdot {d.tex} = {cd.tex}.</BM> De vergelijking die we moeten oplossen is dus <BM>{ab.tex} \cdot x = {cd.tex}.</BM> Als we beide kanten van de vergelijking delen door <M>{ab.tex}</M> volgt <BM>x = {`\\frac{${cd.tex}}{${ab.tex}}`} = {x.tex}.</BM></Par>
+	return <Par>Het is hier handig om de vermenigvuldigingen van getallen eerst simpeler op te schrijven. We weten dat <BM>{a} \cdot {b} = {ab},</BM> <BM>{c} \cdot {d} = {cd}.</BM> De vergelijking die we moeten oplossen is dus <BM>{ab} \cdot x = {cd}.</BM> Als we beide kanten van de vergelijking delen door <M>{ab}</M> volgt <BM>x = \frac{cd}{ab} = {x}.</BM></Par>
 }
 
 function getFeedback(exerciseData) {

@@ -24,10 +24,10 @@ const Dutch = {
 }
 
 const Problem = ({ gas, V2, p1, p2 }) => <>
-	<Par>Een compressor vult een drukvat met {Dutch[gas]}gas. Het drukvat heeft een volume van <M>{V2.tex}</M>. De compressor comprimeert het {Dutch[gas]} van <M>{p1.tex}</M> naar <M>{p2.tex}</M>. Deze compressie is bij benadering isentroop, waardoor geldt <M>n = k</M>. Hoeveel volume aan {Dutch[gas]}gas is de compressor ingestroomd?</Par>
+	<Par>Een compressor vult een drukvat met {Dutch[gas]}gas. Het drukvat heeft een volume van <M>{V2}</M>. De compressor comprimeert het {Dutch[gas]} van <M>{p1}</M> naar <M>{p2}</M>. Deze compressie is bij benadering isentroop, waardoor geldt <M>n = k</M>. Hoeveel volume aan {Dutch[gas]}gas is de compressor ingestroomd?</Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="ansV1" prelabel={<M>{`V_{\\rm in}=`}</M>} label="Volume" size="s" />
+			<FloatUnitInput id="ansV1" prelabel={<M>V_(\rm in)=</M>} label="Volume" size="s" />
 		</Par>
 	</InputSpace>
 </>
@@ -46,8 +46,8 @@ const steps = [
 		</>,
 		Solution: ({ p1, p2, V2 }) => {
 			return <>
-				<Par>Wat druk betreft mogen we bij Poisson's wet rekenen met zowel bar als Pascal. Natuurlijk is het altijd veiliger om standaard eenheden (Pascal) te gebruiken, maar in dit geval mogen we dus ook met bar rekenen. We houden hier voor het gemak <M>p_1 = {p1.tex}</M> en <M>p_2 = {p2.tex}</M>.</Par>
-				<Par>Ook bij het volume mogen we rekenen met liters, in plaats van de standaard eenheid kubieke meters. We moeten dan wel onthouden dat de uitkomst van onze berekeningen ook in liters is. Dus rekenen we met <M>V_2 = {V2.tex}</M>.</Par>
+				<Par>Wat druk betreft mogen we bij Poisson's wet rekenen met zowel bar als Pascal. Natuurlijk is het altijd veiliger om standaard eenheden (Pascal) te gebruiken, maar in dit geval mogen we dus ook met bar rekenen. We houden hier voor het gemak <M>p_1 = {p1}</M> en <M>p_2 = {p2}</M>.</Par>
+				<Par>Ook bij het volume mogen we rekenen met liters, in plaats van de standaard eenheid kubieke meters. We moeten dan wel onthouden dat de uitkomst van onze berekeningen ook in liters is. Dus rekenen we met <M>V_2 = {V2}</M>.</Par>
 			</>
 		},
 	},
@@ -62,7 +62,7 @@ const steps = [
 			const { shared: { getCorrect } } = useExerciseData()
 			const { gas } = state
 			const { k } = getCorrect(state)
-			return <Par>De verhouding van soortelijke warmten van {Dutch[gas]} is <M>k = {k.tex}</M>.</Par>
+			return <Par>De verhouding van soortelijke warmten van {Dutch[gas]} is <M>k = {k}</M>.</Par>
 		},
 	},
 	{
@@ -70,14 +70,14 @@ const steps = [
 			<Par>Kies de juiste wet van Poisson. Welke is hier het handigst om te gebruiken?</Par>
 			<InputSpace>
 				<MultipleChoice id="ansEq" choices={[
-					<M>{`pV^n={\\rm constant}`}</M>,
-					<M>{`TV^{n-1}={\\rm constant}`}</M>,
-					<M>{`\\frac{T^n}{p^{n-1}}={\\rm constant}`}</M>,
+					<M>pV^n=(\rm constant)</M>,
+					<M>TV^(n-1)=(\rm constant)</M>,
+					<M>\frac(T^n)(p^(n-1))=(\rm constant)</M>,
 				]} />
 			</InputSpace>
 		</>,
 		Solution: () => {
-			return <Par>Bij dit probleem weten we de druk <M>p</M> en het volume <M>V</M>, maar niet de temperatuur <M>T</M>. We pakken dus de vergelijking zonder temperatuur: <BM>{`pV^n={\\rm constant}`}.</BM></Par>
+			return <Par>Bij dit probleem weten we de druk <M>p</M> en het volume <M>V</M>, maar niet de temperatuur <M>T</M>. We pakken dus de vergelijking zonder temperatuur: <BM>pV^n=(\rm constant).</BM></Par>
 		},
 	},
 	{
@@ -93,8 +93,8 @@ const steps = [
 			const { shared: { getCorrect } } = useExerciseData()
 			const { k, V1, V2, p1, p2 } = getCorrect(state)
 
-			return <Par>Poisson's wet zegt dat <M>{`pV^n={\\rm constant}`}</M> waardoor we mogen schrijven, <BM>p_1V_1^n = p_2V_2^n.</BM> We willen dit oplossen voor <M>V_1</M>. Delen door <M>p_1</M> geeft <BM>V_1^n = {`\\frac{p_2}{p_1}`} \cdot V_2^n.</BM> Om de macht weg te krijgen doen we beide kanten van de vergelijking tot de macht <M>{`\\frac{1}{n}`}</M> waarmee we uitkomen op
-			<BM>{`V_1 = \\left(\\frac{p_2}{p_1} \\cdot V_2^n\\right)^{\\frac{1}{n}} = \\left(\\frac{p_2}{p_1}\\right)^{\\frac{1}{n}} V_2 = \\left(\\frac{${p2.float.tex}}{${p1.float.tex}}\\right)^{\\frac{1}{${k.float.tex}}} \\cdot ${V2.float.tex} = ${V1.tex}`}.</BM> Omdat we het volume <M>V_2</M> in liters hebben ingevuld, is de uitkomst <M>V_1</M> ook in liters. We kunnen dit eventueel nog omrekenen naar <M>{V1.simplify().tex}</M> maar dat is niet per se nodig.</Par>
+			return <Par>Poisson's wet zegt dat <M>pV^n=(\rm constant)</M> waardoor we mogen schrijven, <BM>p_1V_1^n = p_2V_2^n.</BM> We willen dit oplossen voor <M>V_1</M>. Delen door <M>p_1</M> geeft <BM>V_1^n = \frac(p_2)(p_1) \cdot V_2^n.</BM> Om de macht weg te krijgen doen we beide kanten van de vergelijking tot de macht <M>\frac(1)(n)</M> waarmee we uitkomen op
+			<BM>V_1 = \left(\frac(p_2)(p_1) \cdot V_2^n\right)^(\frac(1)(n)) = \left(\frac(p_2)(p_1)\right)^(\frac(1)(n)) V_2 = \left(\frac{p2.float}{p1.float}\right)^(\frac(1)({k.float})) \cdot {V2.float} = {V1}.</BM> Omdat we het volume <M>V_2</M> in liters hebben ingevuld, is de uitkomst <M>V_1</M> ook in liters. We kunnen dit eventueel nog omrekenen naar <M>{V1.useUnit('m^3')}</M> maar dat is niet per se nodig.</Par>
 		},
 	},
 ]

@@ -12,7 +12,7 @@ export default function Exercise() {
 }
 
 const questions = [
-	<Par>We brengen in een snelkookpan een klein beetje water aan de kook. Op deze snelkookpan zit een overdrukventiel: als de druk groter dan zo'n <M>2\ {`{\\rm bar}`}</M> wordt, dan gaat dit ventiel open om wat lucht te laten ontsnappen. Wat voor soort proces speelt zich binnen de pan af?</Par>,
+	<Par>We brengen in een snelkookpan een klein beetje water aan de kook. Op deze snelkookpan zit een overdrukventiel: als de druk groter dan zo'n <M>2\ (\rm bar)</M> wordt, dan gaat dit ventiel open om wat lucht te laten ontsnappen. Wat voor soort proces speelt zich binnen de pan af?</Par>,
 	<Par>In een cilinder van een viertaktmotor van een auto bevindt de zuiger zich in de hoogste stand: het volume van de ingesloten lucht is erg klein. Precies op dit moment geeft de bougie een vonkje waardoor de aanwezige brandstof ontbrandt. Dit zorgt voor een snelle toevoer van warmte. Het gaat zo snel dat de zuiger nog geen tijd heeft gehad om te bewegen. Wat voor soort proces is dit?</Par>,
 	<Par>Een luie wielrenner duwt heel langzaam de hendel van zijn fietspomp naar beneden. Dit zorgt ervoor dat de lucht in de pomp gecomprimeerd wordt. Omdat dit zo langzaam gaat wordt de lucht nauwelijkse warmer: de warmte stroomt via de pompbehuizing gelijk weg. Wat voor soort proces is dit, bij benadering?</Par>,
 	<Par>In een viertaktmotor van een auto bevindt bevindt zich een cilinder waarin zojuist het brandstof is ontbrand. Hierdoor staat de lucht onder erg hoge druk. Deze druk duwt de zuiger van de cilinder erg snel omlaag. De brandstof is (bij benadering) al ontbrand: er wordt geen extra warmte meer toegevoegd. Wel is er mogelijk een beetje frictie aanwezig in de cilinder. Wat voor soort proces is dit?</Par>,

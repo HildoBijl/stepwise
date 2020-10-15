@@ -30,8 +30,8 @@ const fields = [[
 ]]
 
 const Problem = ({ m, p1, T1, T2 }) => <>
-	<Par>Een duiker pakt op een mooie zomerse dag, met een temperatuur van <M>{T1.tex}</M>, een duikfles van de boot. De duikfles is gevuld met <M>{m.tex}</M> zuurstof. De duiker kijkt op de drukmeter van de fles en leest <M>{p1.tex}</M> af.</Par>
-	<Par>Vervolgens springt de duiker in het koude water: de temperatuur is slechts <M>{T2.tex}</M>. Na even wachten is de duikfles net zo koud als het water geworden. Wat is de druk in de duikfles dan? Geef verder alle andere relevante gaseigenschappen. Ga ervan uit dat de duiker nog geen zuurstof gebruikt heeft.</Par>
+	<Par>Een duiker pakt op een mooie zomerse dag, met een temperatuur van <M>{T1}</M>, een duikfles van de boot. De duikfles is gevuld met <M>{m}</M> zuurstof. De duiker kijkt op de drukmeter van de fles en leest <M>{p1}</M> af.</Par>
+	<Par>Vervolgens springt de duiker in het koude water: de temperatuur is slechts <M>{T2}</M>. Na even wachten is de duikfles net zo koud als het water geworden. Wat is de druk in de duikfles dan? Geef verder alle andere relevante gaseigenschappen. Ga ervan uit dat de duiker nog geen zuurstof gebruikt heeft.</Par>
 	<InputSpace>
 		<InputTable {...{ colHeads, rowHeads, fields }} />
 	</InputSpace>
@@ -50,9 +50,9 @@ const steps = [
 			const { shared: { getCorrect } } = useExerciseData()
 			const { Rs, p1: p1s, V1, T1: T1s } = getCorrect(state)
 			return <>
-				<Par>We gaan de gaswet gebruiken. Hierbij moeten alle waarden in standaard eenheden staan. Dus schrijven we op,<BM>T_1 = {T1.float.tex} + {TConversion.float.tex} = {T1s.tex},</BM><BM>p_1 = {p1.tex} \cdot {pConversion.tex} = {p1s.tex}.</BM> De massa <M>m = {m.tex}</M> staat al in standaard eenheden.</Par>
-				<Par>Ook is de specifieke gasconstante van zuurstof nodig. Deze kunnen we opzoeken als <BM>R_s = {Rs.tex}.</BM></Par>
-				<Par>De gaswet zegt dat <BM>pV = mR_sT.</BM> Dit toepassen op punt 1 en oplossen voor <M>V_1</M> geeft <BM>V_1 = {`\\frac{mR_sT_1}{p_1}`} = {`\\frac{${m.float.tex} \\cdot ${Rs.float.tex} \\cdot ${T1s.float.tex}}{${p1s.float.tex}}`} = {V1.tex}.</BM> Dit komt neer op <M>V_1 = {V1.useUnit('l').tex}</M>, wat een realistische grootte van een duikfles is. Hiermee zijn alle gaseigenschappen van de duikfles op de boot bekend.</Par>
+				<Par>We gaan de gaswet gebruiken. Hierbij moeten alle waarden in standaard eenheden staan. Dus schrijven we op,<BM>T_1 = {T1.float} + {TConversion.float} = {T1s},</BM><BM>p_1 = {p1} \cdot {pConversion} = {p1s}.</BM> De massa <M>m = {m}</M> staat al in standaard eenheden.</Par>
+				<Par>Ook is de specifieke gasconstante van zuurstof nodig. Deze kunnen we opzoeken als <BM>R_s = {Rs}.</BM></Par>
+				<Par>De gaswet zegt dat <BM>pV = mR_sT.</BM> Dit toepassen op punt 1 en oplossen voor <M>V_1</M> geeft <BM>V_1 = \frac(mR_sT_1)(p_1) = \frac({m.float} \cdot {Rs.float} \cdot {T1s.float})({p1s.float}) = {V1}.</BM> Dit komt neer op <M>V_1 = {V1.useUnit('l')}</M>, wat een realistische grootte van een duikfles is. Hiermee zijn alle gaseigenschappen van de duikfles op de boot bekend.</Par>
 			</>
 		},
 	},
@@ -83,7 +83,7 @@ const steps = [
 			const { m, p1, T2 } = state
 			const { shared: { getCorrect } } = useExerciseData()
 			const { Rs, T2: T2s, V2, p2 } = getCorrect(state)
-			return <Par>We weten inmiddels dat <BM>V_2 = V_1 = {V2.tex}.</BM> Ook is de eindtemperatuur <M>T_2</M> bekend. In standaard eenheden is deze <BM>T_2 = {T2.float.tex} + {TConversion.float.tex} = {T2s.tex}.</BM> Alleen <M>p_2</M> is nog onbekend. Deze kunnen we vinden via de gaswet <BM>pV = mR_sT.</BM> Als we deze oplossen voor <M>p_2</M> vinden we <BM>p_2 = {`\\frac{mR_sT_2}{V_2}`} = {`\\frac{${m.float.tex} \\cdot ${Rs.float.tex} \\cdot ${T2s.float.tex}}{${V2.float.tex}}`} = {p2.tex}.</BM> Deze einddruk <M>p_2 = {p2.useUnit('bar').useDecimals(0).tex}</M> is iets minder dan de begindruk van <M>p_1 = {p1.useUnit('bar').useDecimals(0).tex}</M> wat logisch is: de afkoeling laat de druk iets afnemen.</Par>
+			return <Par>We weten inmiddels dat <BM>V_2 = V_1 = {V2}.</BM> Ook is de eindtemperatuur <M>T_2</M> bekend. In standaard eenheden is deze <BM>T_2 = {T2.float} + {TConversion.float} = {T2s}.</BM> Alleen <M>p_2</M> is nog onbekend. Deze kunnen we vinden via de gaswet <BM>pV = mR_sT.</BM> Als we deze oplossen voor <M>p_2</M> vinden we <BM>p_2 = \frac(mR_sT_2)(V_2) = \frac({m.float} \cdot {Rs.float} \cdot {T2s.float})({V2.float}) = {p2}.</BM> Deze einddruk <M>p_2 = {p2.useUnit('bar').useDecimals(0)}</M> is iets minder dan de begindruk van <M>p_1 = {p1.useUnit('bar').useDecimals(0)}</M> wat logisch is: de afkoeling laat de druk iets afnemen.</Par>
 		},
 	},
 ]

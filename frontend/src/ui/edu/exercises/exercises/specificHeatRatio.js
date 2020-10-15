@@ -48,7 +48,7 @@ function Problem({ medium }) {
 
 function Solution({ medium }) {
 	return <>
-		<Par>De <M>k</M>-waarde (de verhouding van soortelijke warmten) van {Dutch[medium]} is <M>{specificHeatRatios[medium].tex}</M>.</Par>
+		<Par>De <M>k</M>-waarde (de verhouding van soortelijke warmten) van {Dutch[medium]} is <M>{specificHeatRatios[medium]}</M>.</Par>
 		<Par>Als je dit wilt vinden, dan kun je achterin een thermodynamicaboek kijken: er is vast een bijlage met eigenschappen van gassen. Anders kun je ook Googlen naar "specific heat ratio of {English[medium]}". Zoeken in het Engels geeft vaak meer/betere resultaten dan het Nederlands.</Par>
 	</>
 }

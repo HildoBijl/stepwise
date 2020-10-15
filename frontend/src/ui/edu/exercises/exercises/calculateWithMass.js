@@ -18,9 +18,9 @@ export default function Exercise() {
 
 function Problem({ m, type, prefix }) {
 	const description = [
-		<Par>Schrijf de massa <M>m = {m.tex}</M> in kilogram.</Par>,
-		<Par>Schrijf de massa <M>m = {m.tex}</M> in standaard eenheden.</Par>,
-		<Par>Schrijf de massa <M>m = {m.tex}</M> in {getPrefixName(prefix)}gram.</Par>,
+		<Par>Schrijf de massa <M>m = {m}</M> in kilogram.</Par>,
+		<Par>Schrijf de massa <M>m = {m}</M> in standaard eenheden.</Par>,
+		<Par>Schrijf de massa <M>m = {m}</M> in {getPrefixName(prefix)}gram.</Par>,
 	][type]
 
 	return <>
@@ -49,8 +49,8 @@ function Solution({ m, type, prefix }) {
 	const intro = `${type === 1 ? 'De standaard eenheid van massa is de kilogram. Oftewel, we willen' : 'We willen'} van ${fromName}gram naar ${toName}gram gaan.`
 
 	if (fromPower > toPower)
-		return <Par>{intro} Een {fromName}gram is <M>{conversion.float.tex}</M> {toName}gram. We gebruiken dus een conversiefactor van <M>{conversion.tex}</M>. Hiermee vinden we een massa van <BM>m = {m.tex} \cdot {conversion.tex} = {correctAnswer.tex}.</BM></Par>
-	return <Par>{intro} Een {toName}gram is <M>{conversion.float.tex}</M> {fromName}gram. We gebruiken dus een conversiefactor van <M>{conversion.tex}</M>. Hiermee vinden we een massa van <BM>m = {`\\frac{${m.tex}}{${conversion.tex}}`} = {correctAnswer.tex}.</BM></Par>
+		return <Par>{intro} Een {fromName}gram is <M>{conversion.float}</M> {toName}gram. We gebruiken dus een conversiefactor van <M>{conversion}</M>. Hiermee vinden we een massa van <BM>m = {m} \cdot {conversion} = {correctAnswer}.</BM></Par>
+	return <Par>{intro} Een {toName}gram is <M>{conversion.float}</M> {fromName}gram. We gebruiken dus een conversiefactor van <M>{conversion}</M>. Hiermee vinden we een massa van <BM>m = \frac{m}{conversion} = {correctAnswer}.</BM></Par>
 }
 
 function getFeedback(exerciseData) {

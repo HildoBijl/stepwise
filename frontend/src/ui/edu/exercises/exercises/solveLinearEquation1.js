@@ -15,7 +15,7 @@ export default function Exercise() {
 
 function Problem({ a, b }) {
 	return <>
-		<Par>Los de vergelijking <M>a \cdot x = b</M> op voor <M>x</M>, waarbij <M>a = {a.tex}</M> en <M>b = {b.tex}.</M></Par>
+		<Par>Los de vergelijking <M>a \cdot x = b</M> op voor <M>x</M>, waarbij <M>a = {a}</M> en <M>b = {b}.</M></Par>
 		<InputSpace>
 			<Par><FloatInput id="ans" prelabel={<M>x = </M>} label="Antwoord" size='s' /></Par>
 		</InputSpace>
@@ -26,7 +26,7 @@ function Solution({ a, b }) {
 	const { shared: { getCorrect } } = useExerciseData()
 	const x = getCorrect({ a, b })
 
-	return <Par>We beginnen met de vergelijking <BM>{a.tex} \cdot x = {b.tex}.</BM> Als we beide kanten van de vergelijking delen door <M>{a.tex}</M> krijgen we <BM>x = {`\\frac{${b.tex}}{${a.tex}}`} = {x.tex}.</BM> Dit is de oplossing van de opgave.</Par>
+	return <Par>We beginnen met de vergelijking <BM>{a} \cdot x = {b}.</BM> Als we beide kanten van de vergelijking delen door <M>{a}</M> krijgen we <BM>x = \frac{b}{a} = {x}.</BM> Dit is de oplossing van de opgave.</Par>
 }
 
 function getFeedback(exerciseData) {

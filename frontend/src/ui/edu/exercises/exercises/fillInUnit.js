@@ -26,16 +26,16 @@ function Problem({ unit }) {
 		hint = <Par>Tip: Als vermenigvuldigingsteken kun je de ster "*" gebruiken of de punt ".". Als deelteken gebruik je de slash "/" of de pijl omlaag.</Par>
 
 	return <>
-		<Par>Voer de eenheid <M>{unit.tex}</M> letterlijk in.</Par>
+		<Par>Voer de eenheid <M>{unit}</M> letterlijk in.</Par>
 		<InputSpace>
-			<Par><UnitInput id="ans" prelabel={<M>{unit.tex} =</M>} label="Vul hier de eenheid in" size="s" /></Par>
+			<Par><UnitInput id="ans" prelabel={<M>{unit} =</M>} label="Vul hier de eenheid in" size="s" /></Par>
 		</InputSpace>
 		<WhenNotDone>{hint}</WhenNotDone>
 	</>
 }
 
 function Solution({ unit }) {
-	return <Par>Je klikt op het invoervak en typt <M>{unit.tex}</M> in.</Par>
+	return <Par>Je klikt op het invoervak en typt <M>{unit}</M> in.</Par>
 }
 
 function getFeedback({ state: { unit }, input: { ans }, progress: { solved }, shared: { data: { equalityOptions } } }) {

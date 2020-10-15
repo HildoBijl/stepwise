@@ -17,10 +17,10 @@ export default function Exercise() {
 
 function Problem({ T, type }) {
 	const description = [
-		<Par>Schrijf de temperatuur <M>T = {T.tex}</M> in graden Celsius. Houd rekening met het aantal significante getallen.</Par>,
-		<Par>Schrijf de temperatuur <M>T = {T.tex}</M> in standaard eenheden. Houd rekening met het aantal significante getallen.</Par>,
-		<Par>Schrijf de temperatuur <M>T = {T.tex}</M> in Kelvin. Houd rekening met het aantal significante getallen.</Par>,
-		<Par>Schrijf de temperatuur <M>T = {T.tex}</M> in standaard eenheden. Houd rekening met het aantal significante getallen.</Par>,
+		<Par>Schrijf de temperatuur <M>T = {T}</M> in graden Celsius. Houd rekening met het aantal significante getallen.</Par>,
+		<Par>Schrijf de temperatuur <M>T = {T}</M> in standaard eenheden. Houd rekening met het aantal significante getallen.</Par>,
+		<Par>Schrijf de temperatuur <M>T = {T}</M> in Kelvin. Houd rekening met het aantal significante getallen.</Par>,
+		<Par>Schrijf de temperatuur <M>T = {T}</M> in standaard eenheden. Houd rekening met het aantal significante getallen.</Par>,
 	][type]
 
 	return <>
@@ -36,10 +36,10 @@ function Solution({ T, type }) {
 	const correctAnswer = getCorrect({ T, type })
 
 	const solution = [
-		<Par>Om van Kelvin naar graden Celsius te gaan halen we <M>{TConversion.float.tex}</M> ervan af. Hiermee krijgen we, rekening houdend met significante getallen, <BM>T = {T.float.tex} - {TConversion.float.tex} = {correctAnswer.tex}.</BM></Par>,
-		<Par>Dit is een strikvraag. De temperatuur staat al in standaard eenheden (Kelvin). Het antwoord is dus gewoon <M>T = {correctAnswer.tex}</M>.</Par>,
-		<Par>Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.float.tex}</M> bij op. Hiermee krijgen we, rekening houdend met significante getallen, <BM>T = {T.float.tex} + {TConversion.float.tex} = {correctAnswer.tex}.</BM></Par>,
-		<Par>De standaard eenheid van temperatuur is Kelvin. Om van Kelvin naar graden Celsius te gaan tellen we er <M>{TConversion.float.tex}</M> bij op. Hiermee krijgen we, rekening houdend met significante getallen, <BM>T = {T.float.tex} + {TConversion.float.tex} = {correctAnswer.tex}.</BM></Par>,
+		<Par>Om van Kelvin naar graden Celsius te gaan halen we <M>{TConversion.float}</M> ervan af. Hiermee krijgen we, rekening houdend met significante getallen, <BM>T = {T.float} - {TConversion.float} = {correctAnswer}.</BM></Par>,
+		<Par>Dit is een strikvraag. De temperatuur staat al in standaard eenheden (Kelvin). Het antwoord is dus gewoon <M>T = {correctAnswer}</M>.</Par>,
+		<Par>Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.float}</M> bij op. Hiermee krijgen we, rekening houdend met significante getallen, <BM>T = {T.float} + {TConversion.float} = {correctAnswer}.</BM></Par>,
+		<Par>De standaard eenheid van temperatuur is Kelvin. Om van Kelvin naar graden Celsius te gaan tellen we er <M>{TConversion.float}</M> bij op. Hiermee krijgen we, rekening houdend met significante getallen, <BM>T = {T.float} + {TConversion.float} = {correctAnswer}.</BM></Par>,
 	][type]
 
 	return <Par>{solution}</Par>

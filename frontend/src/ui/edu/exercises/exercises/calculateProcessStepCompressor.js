@@ -38,7 +38,7 @@ const fields = [[
 
 const Problem = ({ gas, m, T1, V1, V2 }) => {
 	return <>
-		<Par>Een zuigercompressor wordt gebruikt om de druk van een voorraad {Dutch[gas]}gas op te hogen. Bij elke slag wordt <M>{m.tex}</M> van het gas gecomprimeerd. Dit gebeurt van <M>{V1.tex}</M> {Dutch[gas]} (het maximale volume van de zuigercompressor) tot <M>{V2.tex}</M> (het volume waarop het ventiel open gaat). Deze compressie verloopt isentropisch. Bij aanvang is de temperatuur van het {Dutch[gas]}gas <M>{T1.tex}</M>. Bereken de resterende eigenschappen van het gas voor/na de compressie.</Par>
+		<Par>Een zuigercompressor wordt gebruikt om de druk van een voorraad {Dutch[gas]}gas op te hogen. Bij elke slag wordt <M>{m}</M> van het gas gecomprimeerd. Dit gebeurt van <M>{V1}</M> {Dutch[gas]} (het maximale volume van de zuigercompressor) tot <M>{V2}</M> (het volume waarop het ventiel open gaat). Deze compressie verloopt isentropisch. Bij aanvang is de temperatuur van het {Dutch[gas]}gas <M>{T1}</M>. Bereken de resterende eigenschappen van het gas voor/na de compressie.</Par>
 		<InputSpace>
 			<InputTable {...{ colHeads, rowHeads, fields }} />
 		</InputSpace>
@@ -58,9 +58,9 @@ const steps = [
 			const { shared: { getCorrect } } = useExerciseData()
 			const { Rs, m: ms, p1, V1: V1s, T1: T1s } = getCorrect(state)
 			return <>
-				<Par>We weten <M>V_1</M> en <M>T_1</M> al. We gaan de gaswet gebruiken om <M>p_1</M> te berekenen. Hierbij moeten alle waarden in standaard eenheden staan. Dus schrijven we op,<BM>V_1 = {V1.tex} \cdot {VConversion.tex} = {V1s.tex},</BM><BM>T_1 = {T1.float.tex} + {TConversion.float.tex} = {T1s.tex},</BM><BM>m = {`\\frac{${m.tex}}{${mConversion.tex}}`} = {ms.tex}.</BM></Par>
-				<Par>Ook is de specifieke gasconstante van {Dutch[gas]} nodig. Deze kunnen we opzoeken als <BM>R_s = {Rs.tex}.</BM></Par>
-				<Par>De gaswet zegt dat <BM>pV = mR_sT.</BM> Dit toepassen op punt 1 en oplossen voor <M>p_1</M> geeft <BM>p_1 = {`\\frac{mR_sT_1}{p_1}`} = {`\\frac{${ms.float.tex} \\cdot ${Rs.float.tex} \\cdot ${T1s.float.tex}}{${V1s.float.tex}}`} = {p1.tex}.</BM> Dit komt neer op <M>p_1 = {p1.useUnit('bar').tex}</M>, wat op zich nog een relatief lage druk is voor een drukvak. Gelukkig gaan we met de compressor de druk verhogen.</Par>
+				<Par>We weten <M>V_1</M> en <M>T_1</M> al. We gaan de gaswet gebruiken om <M>p_1</M> te berekenen. Hierbij moeten alle waarden in standaard eenheden staan. Dus schrijven we op,<BM>V_1 = {V1} \cdot {VConversion} = {V1s},</BM><BM>T_1 = {T1.float} + {TConversion.float} = {T1s},</BM><BM>m = \frac{m}{mConversion} = {ms}.</BM></Par>
+				<Par>Ook is de specifieke gasconstante van {Dutch[gas]} nodig. Deze kunnen we opzoeken als <BM>R_s = {Rs}.</BM></Par>
+				<Par>De gaswet zegt dat <BM>pV = mR_sT.</BM> Dit toepassen op punt 1 en oplossen voor <M>p_1</M> geeft <BM>p_1 = \frac(mR_sT_1)(p_1) = \frac({ms.float} \cdot {Rs.float} \cdot {T1s.float})({V1s.float}) = {p1}.</BM> Dit komt neer op <M>p_1 = {p1.useUnit('bar')}</M>, wat op zich nog een relatief lage druk is voor een drukvak. Gelukkig gaan we met de compressor de druk verhogen.</Par>
 			</>
 		},
 	},
@@ -91,7 +91,7 @@ const steps = [
 					<MultipleChoice id="choice" choices={[
 						<span>Ik ga <M>p</M> berekenen.</span>,
 						<span>Ik ga <M>T</M> berekenen.</span>,
-					]} />
+					]} persistent={true} />
 					{choice === 0 ? <>
 						<Par>Prima! Wat is in dit geval de druk na de compressie?</Par>
 						<Par>
@@ -116,10 +116,10 @@ const steps = [
 			const { k, p1, p2, T1, T2 } = getCorrect(state)
 			const [choice] = useFormParameter('choice')
 
-			if (choice === undefined || choice[0] === 0)
-				return <Par>We gaan via Poisson's wet de druk berekenen. We weten al het volume in de begin- en eindsituatie, waardoor we de wet moeten pakken met zowel <M>p</M> als <M>V</M>. Zo vinden we dat <BM>p_1V_1^n = p_2V_2^n.</BM> De waarde van <M>n</M> is hier gelijk aan de <M>k</M>-waarde van {Dutch[gas]}, en die kunnen we opzoeken als <BM>n = k = {k.tex}.</BM> Als we de bovenstaande wet van Poisson oplossen voor <M>p_2</M> vinden we <BM>p_2 = p_1 {`\\frac{V_1^n}{V_2^n}`} = p_1 \left({`\\frac{V_1}{V_2}`}\right)^n = {p1.float.tex} \cdot \left({`\\frac{${V1.float.tex}}{${V2.float.tex}}`}\right)^{`{${k.float.tex}}`} = {p2.tex}.</BM> Dit is een sterk hogere druk dan voorheen, wat logisch is: we zijn het gas immers aan het comprimeren.</Par>
+			if (choice === undefined || choice.length === 0 || choice[0] === 0)
+				return <Par>We gaan via Poisson's wet de druk berekenen. We weten al het volume in de begin- en eindsituatie, waardoor we de wet moeten pakken met zowel <M>p</M> als <M>V</M>. Zo vinden we dat <BM>p_1V_1^n = p_2V_2^n.</BM> De waarde van <M>n</M> is hier gelijk aan de <M>k</M>-waarde van {Dutch[gas]}, en die kunnen we opzoeken als <BM>n = k = {k}.</BM> Als we de bovenstaande wet van Poisson oplossen voor <M>p_2</M> vinden we <BM>p_2 = p_1 \frac(V_1^n)(V_2^n) = p_1 \left(\frac(V_1)(V_2)\right)^n = {p1.float} \cdot \left(\frac{V1.float}{V2.float}\right)^({k.float}) = {p2}.</BM> Dit is een sterk hogere druk dan voorheen, wat logisch is: we zijn het gas immers aan het comprimeren.</Par>
 
-			return <Par>We gaan via Poisson's wet de temperatuur berekenen. We weten al het volume in de begin- en eindsituatie, waardoor we de wet moeten pakken met zowel <M>T</M> als <M>V</M>. Zo vinden we dat <BM>T_1V_1^{`{n-1}`} = T_2V_2^{`{n-1}`}.</BM> De waarde van <M>n</M> is hier gelijk aan de <M>k</M>-waarde van {Dutch[gas]}, en die kunnen we opzoeken als <BM>n = k = {k.tex}.</BM> Als we de bovenstaande wet van Poisson oplossen voor <M>T_2</M> vinden we <BM>T_2 = T_1 {`\\frac{V_1^{n-1}}{V_2^{n-1}}`} = T_1 \left({`\\frac{V_1}{V_2}`}\right)^{`{n-1}`} = {T1.float.tex} \cdot \left({`\\frac{${V1.float.tex}}{${V2.float.tex}}`}\right)^{`{${k.float.tex} - 1}`} = {T2.tex}.</BM> Dit is een stuk warmer dan de begintemperatuur, maar dat klopt: bij compressie stijgt de temperatuur van een gas.</Par>
+			return <Par>We gaan via Poisson's wet de temperatuur berekenen. We weten al het volume in de begin- en eindsituatie, waardoor we de wet moeten pakken met zowel <M>T</M> als <M>V</M>. Zo vinden we dat <BM>T_1V_1^(n-1) = T_2V_2^(n-1).</BM> De waarde van <M>n</M> is hier gelijk aan de <M>k</M>-waarde van {Dutch[gas]}, en die kunnen we opzoeken als <BM>n = k = {k}.</BM> Als we de bovenstaande wet van Poisson oplossen voor <M>T_2</M> vinden we <BM>T_2 = T_1 \frac(V_1^(n-1))(V_2^(n-1)) = T_1 \left(\frac(V_1)(V_2)\right)^(n-1) = {T1.float} \cdot \left(\frac{V1.float}{V2.float}\right)^({k.float} - 1) = {T2}.</BM> Dit is een stuk warmer dan de begintemperatuur, maar dat klopt: bij compressie stijgt de temperatuur van een gas.</Par>
 		},
 	},
 	{
@@ -134,10 +134,10 @@ const steps = [
 			const { Rs, m, p2, V2, T2 } = getCorrect(state)
 			const [choice] = useFormParameter('choice')
 
-			if (choice === undefined || choice[0] === 0)
-				return <Par>We moeten alleen nog de temperatuur <M>T</M> weten. Deze vinden we via de gaswet, toegepast op punt 2. Oftewel, <BM>p_2 V_2 = m R_s T_2.</BM> Dit oplossen voor <M>T_2</M> geeft <BM>T_2 = {`\\frac{p_2V_2}{m R_s}`} = {`\\frac{${p2.float.tex} \\cdot ${V2.float.tex}}{${m.float.tex} \\cdot ${Rs.float.tex}}`} = {T2.tex}.</BM> Dit is een stuk warmer dan de begintemperatuur, maar dat klopt: bij compressie stijgt de temperatuur van een gas.</Par>
+			if (choice === undefined || choice.length === 0 || choice[0] === 0)
+				return <Par>We moeten alleen nog de temperatuur <M>T</M> weten. Deze vinden we via de gaswet, toegepast op punt 2. Oftewel, <BM>p_2 V_2 = m R_s T_2.</BM> Dit oplossen voor <M>T_2</M> geeft <BM>T_2 = \frac(p_2V_2)(m R_s) = \frac({p2.float} \cdot {V2.float})({m.float} \cdot {Rs.float}) = {T2}.</BM> Dit is een stuk warmer dan de begintemperatuur, maar dat klopt: bij compressie stijgt de temperatuur van een gas.</Par>
 
-			return <Par>We moeten alleen nog de druk <M>p</M> weten. Deze vinden we via de gaswet, toegepast op punt 2. Oftewel, <BM>p_2 V_2 = m R_s T_2.</BM> Dit oplossen voor <M>p_2</M> geeft <BM>p_2 = {`\\frac{m R_s T_2}{V_2}`} = {`\\frac{${m.float.tex} \\cdot ${Rs.float.tex} \\cdot ${T2.float.tex}}{${V2.float.tex}}`} = {p2.tex}.</BM> Dit is een sterk hogere druk dan voorheen, wat logisch is: we zijn het gas immers aan het comprimeren.</Par>
+			return <Par>We moeten alleen nog de druk <M>p</M> weten. Deze vinden we via de gaswet, toegepast op punt 2. Oftewel, <BM>p_2 V_2 = m R_s T_2.</BM> Dit oplossen voor <M>p_2</M> geeft <BM>p_2 = \frac(m R_s T_2)(V_2) = \frac({m.float} \cdot {Rs.float} \cdot {T2.float})({V2.float}) = {p2}.</BM> Dit is een sterk hogere druk dan voorheen, wat logisch is: we zijn het gas immers aan het comprimeren.</Par>
 		},
 	},
 ]

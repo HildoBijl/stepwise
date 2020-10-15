@@ -33,7 +33,7 @@ function Problem({ constant }) {
 }
 
 function Solution({ constant }) {
-	return <Par>De waarde van <M>{constant}</M> is <M>{constants[constant].tex}</M>.</Par>
+	return <Par>De waarde van <M>{constant}</M> is <M>{constants[constant]}</M>.</Par>
 }
 
 function getFeedback({ state: { constant }, input: { ans }, progress: { solved }, shared: { data: { equalityOptions } } }) {

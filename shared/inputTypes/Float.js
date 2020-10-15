@@ -161,7 +161,7 @@ class Float {
 
 	// texWithBrackets will return latex code, but then with brackets if this is a negative number or if there is a visible power in the display.
 	get texWithBrackets() {
-		return (this.number < 0 || this.hasVisiblePower() ? `(${this.tex})` : this.tex)
+		return (this.number < 0 || this.hasVisiblePower() ? `\\left(${this.tex}\\right)` : this.tex)
 	}
 
 	// getDisplayPower returns the power with which we want to display the number. If the power is known, it is returned. Otherwise we intelligently determine one.

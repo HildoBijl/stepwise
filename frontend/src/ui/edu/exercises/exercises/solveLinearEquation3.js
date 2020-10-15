@@ -15,7 +15,7 @@ export default function Exercise() {
 
 function Problem({ a, b, c, d }) {
 	return <>
-		<Par>Los de vergelijking <M>{a.tex} x {b.texWithPM} = {c.tex} x {d.texWithPM}</M> op voor <M>x</M>.</Par>
+		<Par>Los de vergelijking <M>{a} x {b.texWithPM} = {c} x {d.texWithPM}</M> op voor <M>x</M>.</Par>
 		<InputSpace>
 			<Par><FloatInput id="ans" prelabel={<M>x = </M>} label="Antwoord" size='s' /></Par>
 		</InputSpace>
@@ -28,7 +28,7 @@ function Solution({ a, b, c, d }) {
 	const ac = a.subtract(c, true)
 	const db = d.subtract(b, true)
 
-	return <Par>Om een lineaire vergelijking als deze op te lossen, willen we eerst alle termen met <M>x</M> naar links halen en alle termen zonder <M>x</M> naar rechts. Hiermee vinden we <BM>{a.tex} x {c.applyMinus().texWithPM} x = {b.applyMinus().tex} {d.texWithPM}.</BM> Vervolgens versimpelen we deze vergelijking tot <BM>{ac.tex} x = {db.tex}.</BM> Als laatste stap delen we beide kanten door <M>{ac.tex}</M> waarmee we uitkomen op <BM>x = {`\\frac{${db.tex}}{${ac.tex}}`} = {x.tex}.</BM></Par>
+	return <Par>Om een lineaire vergelijking als deze op te lossen, willen we eerst alle termen met <M>x</M> naar links halen en alle termen zonder <M>x</M> naar rechts. Hiermee vinden we <BM>{a} x {c.applyMinus().texWithPM} x = {b.applyMinus()} {d.texWithPM}.</BM> Vervolgens versimpelen we deze vergelijking tot <BM>{ac} x = {db}.</BM> Als laatste stap delen we beide kanten door <M>{ac}</M> waarmee we uitkomen op <BM>x = \frac{db}{ac} = {x}.</BM></Par>
 }
 
 function getFeedback(exerciseData) {
