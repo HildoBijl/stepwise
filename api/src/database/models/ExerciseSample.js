@@ -9,7 +9,7 @@ module.exports = (sequelize) => {
 			primaryKey: true,
 		},
 		exerciseId: {
-			type: DataTypes.STRING,
+			type: DataTypes.TEXT,
 			allowNull: false,
 		},
 		state: {

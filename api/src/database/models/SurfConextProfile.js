@@ -3,12 +3,12 @@ const { DataTypes } = require('sequelize')
 module.exports = (sequelize) => {
 	const SurfConextProfile = sequelize.define('surfConextProfile', {
 		id: {
-			type: DataTypes.STRING,
+			type: DataTypes.TEXT,
 			allowNull: false,
 			primaryKey: true,
 		},
 		schacHomeOrganization: {
-			type: DataTypes.STRING,
+			type: DataTypes.TEXT,
 		}
 	})
 
