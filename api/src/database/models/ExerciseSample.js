@@ -1,4 +1,6 @@
-module.exports = (sequelize, DataTypes) => {
+const { DataTypes } = require('sequelize')
+
+module.exports = (sequelize) => {
 	const ExerciseSample = sequelize.define('exerciseSample', {
 		id: {
 			type: DataTypes.UUID,
@@ -7,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
 			primaryKey: true,
 		},
 		exerciseId: {
-			type: DataTypes.STRING,
+			type: DataTypes.TEXT,
 			allowNull: false,
 		},
 		state: {

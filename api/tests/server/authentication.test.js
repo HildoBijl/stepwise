@@ -1,8 +1,8 @@
 const { createClient, defaultConfig } = require('../client')
 const { DIRECTORY_PATH } = require('../../src/server/surfConext/devmock')
 
-const SPECIAL_USER_ID = '01010101-0101-0101-0101-010101010101'
-const SPECIAL_USER_SUB = '00000000-0000-0000-0000-000000000000'
+const SPECIAL_USER_ID = '00000000-0000-0000-0000-000000000000'
+const SPECIAL_USER_SURFSUB = '0000000000000000000000000000000000000000'
 
 const seed = async db => {
 	const user = await db.User.create({
@@ -11,7 +11,7 @@ const seed = async db => {
 		email: 'step@wise.com'
 	})
 	await user.createSurfConextProfile({
-		id: SPECIAL_USER_SUB,
+		id: SPECIAL_USER_SURFSUB,
 	})
 }
 
@@ -28,7 +28,7 @@ describe('Authentication', () => {
 		const client = await createClient(seed)
 
 		await expect(
-			client.login(SPECIAL_USER_SUB)
+			client.login(SPECIAL_USER_SURFSUB)
 		).resolves.toEqual(defaultConfig.homepageUrl)
 
 		await expect(
@@ -73,12 +73,12 @@ describe('Authentication', () => {
 				email: 'old@email.com'
 			})
 			await user.createSurfConextProfile({
-				id: SPECIAL_USER_SUB,
+				id: SPECIAL_USER_SURFSUB,
 			})
 		})
 
 		await expect(
-			client.login(SPECIAL_USER_SUB)
+			client.login(SPECIAL_USER_SURFSUB)
 		).resolves.toEqual(defaultConfig.homepageUrl)
 
 		await expect(
@@ -94,7 +94,7 @@ describe('Authentication', () => {
 		const client = await createClient()
 
 		await expect(
-			client.login('00000000-0000-0000-0000-111111111111')
+			client.login('1111111111111111111111111111111111111111')
 		).resolves.toEqual(defaultConfig.homepageUrl)
 
 		await expect(
@@ -114,7 +114,7 @@ describe('Authentication', () => {
 		).resolves.toEqual(DIRECTORY_PATH)
 
 		await expect(
-			client.login('00000000-0000-0000-0000-111111111111')
+			client.login('1111111111111111111111111111111111111111')
 		).resolves.toEqual(defaultConfig.homepageUrl + customRedirectPath)
 	})
 
@@ -127,7 +127,7 @@ describe('Authentication', () => {
 		).resolves.toEqual(DIRECTORY_PATH)
 
 		await expect(
-			client.login('00000000-0000-0000-0000-111111111111')
+			client.login('1111111111111111111111111111111111111111')
 		).resolves.toEqual(defaultConfig.homepageUrl)
 	})
 })
