@@ -12,19 +12,15 @@ module.exports = (sequelize) => {
 			// This is the full name, potentially including
 			// the academic title
 			type: DataTypes.TEXT,
-			allowNull: true,
 		},
 		givenName: {
 			type: DataTypes.TEXT,
-			allowNull: true,
 		},
 		familyName: {
 			type: DataTypes.TEXT,
-			allowNull: true,
 		},
 		email: {
 			type: DataTypes.TEXT,
-			allowNull: true,
 		},
 		role: {
 			type: DataTypes.ENUM([
