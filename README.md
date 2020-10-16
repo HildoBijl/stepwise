@@ -8,4 +8,4 @@
 - **Perform health check**: `ssh -t step-wise.com health`
 - **Issue HTTPS certificates**: `ssh -t step-wise.com issue-certificates`
 
-See the [`ops/`](ops/README.md) folder for background information.
+See the [`ops/`](ops/) folder for background information.
