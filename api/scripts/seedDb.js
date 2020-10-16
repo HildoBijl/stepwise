@@ -16,7 +16,9 @@ async function seedTestData(db) {
 	// Create a user.
 	const user = await db.User.create({
 		id: '01234567-89ab-cdef-0123-456789abcdef',
-		name: 'Step',
+		name: 'Step Wise',
+		givenName: 'Step',
+		familyName: 'Wise',
 		email: 'step@wise.com',
 		createdAt: date.setSeconds(date.getSeconds() + 1)
 	})
