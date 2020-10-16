@@ -8,9 +8,13 @@
 		"nickname": "Step Wise",
 		"email": "step@wise.com",
 		"schac_home_organization": "eduid.nl",
-		"eduperson_affiliation": [],
-		"locale": "",
-		"schac_personal_unique_code": ""
+		"eduperson_affiliation": [
+			"student"
+		],
+		"locale": "nl, en-gb;q=0.8, en;q=0.7",
+		"schac_personal_unique_code": [
+			"urn:schac:personalUniqueCode:nl:local:eduid.nl:employeeid:x12-3456"
+		]
 	},
 	{
 		"sub": "1111111111111111111111111111111111111111",
@@ -22,7 +26,7 @@
 		"email": "john@example.org",
 		"schac_home_organization": "eduid.nl",
 		"eduperson_affiliation": [],
-		"locale": "",
-		"schac_personal_unique_code": ""
+		"locale": null,
+		"schac_personal_unique_code": null
 	}
 ]
