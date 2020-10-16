@@ -1,3 +1,7 @@
+# If you want to use docker containers for local
+# development, you find all configurations here.
+# This file is NOT used in production.
+
 version: '3'
 services:
   frontend:
