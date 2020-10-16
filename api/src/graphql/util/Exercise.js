@@ -10,6 +10,7 @@ async function getActiveExerciseData(userId, skillId, db, requireExercise = true
 
 	// Pull everything from the database.
 	const user = userId && await db.User.findByPk(userId, {
+		rejectOnEmpty: true,
 		include: {
 			association: 'skills',
 			where: { skillId },

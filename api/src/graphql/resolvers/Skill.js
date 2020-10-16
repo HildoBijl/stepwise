@@ -14,11 +14,11 @@ const resolvers = {
 	},
 
 	Query: {
-		skill: async (_source, { skillId }, { db, getUserId }) => {
-			return await getUserSkill(getUserId(), skillId, db)
+		skill: async (_source, { skillId }, { db, getUserIdOrThrow }) => {
+			return await getUserSkill(getUserIdOrThrow(), skillId, db)
 		},
-		skills: async (_source, { skillIds }, { db, getUserId }) => {
-			return await getUserSkills(getUserId(), skillIds, db)
+		skills: async (_source, { skillIds }, { db, getUserIdOrThrow }) => {
+			return await getUserSkills(getUserIdOrThrow(), skillIds, db)
 		},
 	},
 }

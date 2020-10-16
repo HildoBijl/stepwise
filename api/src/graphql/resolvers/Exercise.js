@@ -21,8 +21,8 @@ const resolvers = {
 	},
 
 	Mutation: {
-		startExercise: async (_source, { skillId }, { db, getUserId }) => {
-			const userId = getUserId()
+		startExercise: async (_source, { skillId }, { db, getUserIdOrThrow }) => {
+			const userId = getUserIdOrThrow()
 			const { skill } = await getActiveExerciseData(userId, skillId, db, false)
 
 			// Select a new exercise, store it and return the result.
@@ -31,8 +31,8 @@ const resolvers = {
 			return await skill.createExercise({ exerciseId: newExercise.exerciseId, state: setFOtoIO(newExercise.state), active: true })
 		},
 
-		submitExerciseAction: async (_source, { skillId, action }, { db, getUserId }) => {
-			const userId = getUserId()
+		submitExerciseAction: async (_source, { skillId, action }, { db, getUserIdOrThrow }) => {
+			const userId = getUserIdOrThrow()
 			const { exercise } = await getActiveExerciseData(userId, skillId, db, true)
 
 			// Set up an updateSkills handler that only collects calls.

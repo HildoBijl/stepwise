@@ -18,6 +18,7 @@ async function getUserSkill(userId, skillId, db) {
 	
 	// Load all data.
 	const user = userId && await db.User.findByPk(userId, {
+		rejectOnEmpty: true,
 		include: {
 			association: 'skills',
 			where: { skillId },
@@ -45,6 +46,7 @@ async function getUserSkills(userId, skillIds, db) {
 
 	// Load all data.
 	const user = userId && await db.User.findByPk(userId, {
+		rejectOnEmpty: true,
 		include: {
 			association: 'skills',
 			where: skillIds ? { skillId: skillIds } : true,

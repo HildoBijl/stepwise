@@ -1,5 +1,5 @@
 const express = require('express')
-const { ApolloServer } = require('apollo-server-express')
+const { ApolloServer, AuthenticationError } = require('apollo-server-express')
 const session = require('express-session')
 const { typeDefs, resolvers } = require('../graphql')
 const { createAuthHandler } = require('./authHandler')
@@ -64,6 +64,16 @@ const createServer = ({
 			 * Beware: this doesn’t guarantee you that the user still exists in the DB!
 			 */
 			getUserId: () => req.session.principal ? req.session.principal.id : null,
+
+			/**
+			 * Returns the id of the currently logged in user, or throws an error otherwise.
+			 * Beware: this doesn’t guarantee you that the user still exists in the DB!
+			 */
+			getUserIdOrThrow: () => {
+				if (req.session.principal && req.session.principal.id)
+					return req.session.principal.id
+				throw new AuthenticationError('No user is logged in.')
+			},
 
 			/**
 			 * Returns the currently logged in user object, or `null` otherwise.
