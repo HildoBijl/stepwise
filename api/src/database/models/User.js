@@ -9,13 +9,28 @@ module.exports = (sequelize) => {
 			primaryKey: true,
 		},
 		name: {
+			// This is the full name, potentially including
+			// the academic title
 			type: DataTypes.TEXT,
-			allowNull: false,
+		},
+		givenName: {
+			type: DataTypes.TEXT,
+		},
+		familyName: {
+			type: DataTypes.TEXT,
 		},
 		email: {
 			type: DataTypes.TEXT,
+		},
+		role: {
+			type: DataTypes.ENUM([
+				'student',
+				'teacher',
+				'admin',
+			]),
+			defaultValue: 'student',
 			allowNull: false,
-		}
+		},
 	})
 
   User.associate = models => {

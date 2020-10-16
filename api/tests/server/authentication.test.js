@@ -70,7 +70,9 @@ describe('Authentication', () => {
 			const user = await db.User.create({
 				id: SPECIAL_USER_ID,
 				name: 'Old Name',
-				email: 'old@email.com'
+				email: 'old@email.com',
+				givenName: 'Old given name',
+				familyName: 'Old family name',
 			})
 			await user.createSurfConextProfile({
 				id: SPECIAL_USER_SURFSUB,
@@ -82,11 +84,16 @@ describe('Authentication', () => {
 		).resolves.toEqual(defaultConfig.homepageUrl)
 
 		await expect(
-			client.graphql({ query: `{me {id name email}}` }).then(({ data }) => data.me)
+			client.graphql({
+				query: `{me {id name givenName familyName email role}}`
+			}).then(({ data }) => data.me)
 		).resolves.toEqual({
 			id: SPECIAL_USER_ID,
 			name: 'Step Wise',
+			givenName: 'Step',
+			familyName: 'Wise',
 			email: 'step@wise.com',
+			role: 'student',
 		})
 	})
 
@@ -94,14 +101,39 @@ describe('Authentication', () => {
 		const client = await createClient()
 
 		await expect(
+			client.login('2222222222222222222222222222222222222222')
+		).resolves.toEqual(defaultConfig.homepageUrl)
+
+		await expect(
+			client.graphql({
+				query: `{me {name givenName familyName email role}}`
+			}).then(({ data }) => data.me)
+		).resolves.toEqual({
+			name: 'Prof. Richard Feynman',
+			givenName: 'Richard',
+			familyName: 'Feynman',
+			email: 'r.feynman@mit.edu',
+			role: 'teacher',
+		})
+	})
+
+	it('automatically creates account with minimal user props', async () => {
+		const client = await createClient()
+
+		await expect(
 			client.login('1111111111111111111111111111111111111111')
 		).resolves.toEqual(defaultConfig.homepageUrl)
 
 		await expect(
-			client.graphql({ query: `{me {name email}}` }).then(({ data }) => data.me)
+			client.graphql({
+				query: `{me {name givenName familyName email role}}`
+			}).then(({ data }) => data.me)
 		).resolves.toEqual({
-			name: 'John Doe',
-			email: 'john@example.org',
+			name: null,
+			givenName: null,
+			familyName: null,
+			email: null,
+			role: 'student',
 		})
 	})
 

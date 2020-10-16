@@ -2,27 +2,38 @@
 	{
 		"sub": "0000000000000000000000000000000000000000",
 		"name": "Step Wise",
-		"preferred_username": "Step Wise",
 		"given_name": "Step",
 		"family_name": "Wise",
-		"nickname": "Step Wise",
 		"email": "step@wise.com",
 		"schac_home_organization": "eduid.nl",
-		"eduperson_affiliation": [],
-		"locale": "",
-		"schac_personal_unique_code": ""
+		"eduperson_affiliation": [
+			"student"
+		],
+		"locale": "nl, en-gb;q=0.8, en;q=0.7",
+		"schac_personal_unique_code": [
+			"urn:schac:personalUniqueCode:nl:local:eduid.nl:employeeid:x12-3456"
+		]
 	},
 	{
 		"sub": "1111111111111111111111111111111111111111",
-		"name": "John Doe",
-		"preferred_username": "John Doe",
-		"given_name": "John",
-		"family_name": "Doe",
-		"nickname": "John Doe",
-		"email": "john@example.org",
+		"name": null,
+		"given_name": null,
+		"family_name": null,
+		"email": null,
 		"schac_home_organization": "eduid.nl",
 		"eduperson_affiliation": [],
-		"locale": "",
-		"schac_personal_unique_code": ""
+		"locale": null,
+		"schac_personal_unique_code": null
+	},
+	{
+		"sub": "2222222222222222222222222222222222222222",
+		"name": "Prof. Richard Feynman",
+		"given_name": "Richard",
+		"family_name": "Feynman",
+		"email": "r.feynman@mit.edu",
+		"schac_home_organization": "mit.edu",
+		"eduperson_affiliation": ["teacher"],
+		"locale": null,
+		"schac_personal_unique_code": null
 	}
 ]

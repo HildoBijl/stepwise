@@ -10,7 +10,13 @@ module.exports = (sequelize) => {
 		},
 		schacHomeOrganization: {
 			type: DataTypes.TEXT,
-		}
+		},
+		schacPersonalUniqueCode: {
+			type: DataTypes.ARRAY(DataTypes.TEXT),
+		},
+		locale: {
+			type: DataTypes.TEXT,
+		},
 	})
 
 	SurfConextProfile.associate = models => {

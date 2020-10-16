@@ -28,17 +28,28 @@ class AuthStrategy extends AuthStrategyTemplate {
 			const [user] = await this._db.User.upsert({
 				// Update if user exists, otherwise a new one gets created
 				id: surfProfile ? surfProfile.user.id : undefined,
-				name: surfRawData.name,
-				email: surfRawData.email,
+				name: surfRawData.name || undefined,
+				givenName: surfRawData.given_name || undefined,
+				familyName: surfRawData.family_name || undefined,
+				email: surfRawData.email || undefined,
+				role: getRole(surfRawData),
 			}, { returning: true, transaction: t })
 			await this._db.SurfConextProfile.upsert({
 				id: surfRawData.sub,
 				userId: user.id,
 				schacHomeOrganization: surfRawData.schac_home_organization,
+				schacPersonalUniqueCode: surfRawData.schac_personal_unique_code,
+				locale: surfRawData.locale,
 			}, { transaction: t })
 			return user
 		})
 	}
+}
+
+function getRole(surfRawData) {
+	const affiliation = surfRawData.eduperson_affiliation
+	if (affiliation.includes('teacher')) return 'teacher'
+	return undefined // use default
 }
 
 module.exports = {
