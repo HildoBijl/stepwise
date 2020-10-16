@@ -48,7 +48,9 @@ class AuthStrategy extends AuthStrategyTemplate {
 
 function getRole(surfRawData) {
 	const affiliation = surfRawData.eduperson_affiliation
-	if (affiliation.includes('teacher')) return 'teacher'
+	if (Array.isArray(affiliation) && affiliation.includes('teacher')) {
+		return 'teacher'
+	}
 	return undefined // use default
 }
 

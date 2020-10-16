@@ -20,8 +20,8 @@
 		"given_name": null,
 		"family_name": null,
 		"email": null,
-		"schac_home_organization": "eduid.nl",
-		"eduperson_affiliation": [],
+		"schac_home_organization": null,
+		"eduperson_affiliation": null,
 		"locale": null,
 		"schac_personal_unique_code": null
 	},
