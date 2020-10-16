@@ -1,10 +1,9 @@
-const { selectRandomly } = require('../../../util/random')
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
+const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
 const { checkField } = require('../util/check')
-const kValues = require('../../../data/specificHeatRatios')
-const RsValues = require('../../../data/specificGasConstants')
+const { air: k } = require('../../../data/specificHeatRatios')
+const { air: Rs } = require('../../../data/specificGasConstants')
 
 const equalityOptions = {
 	default: {
@@ -29,47 +28,34 @@ const data = {
 }
 
 function generateState() {
-	const gas = selectRandomly(['methane', 'helium', 'hydrogen'])
-	const p1 = getRandomFloatUnit({
-		min: 2,
-		max: 8,
-		unit: 'bar',
-	})
-	const V1 = getRandomFloatUnit({
-		min: 10,
-		max: 30,
-		decimals: 0,
-		unit: 'l',
+	const m = getRandomFloatUnit({
+		min: 500,
+		max: 3000,
+		significantDigits: 2,
+		unit: 'kg',
 	})
 	const T1 = getRandomFloatUnit({
-		min: 5,
-		max: 25,
-		decimals: 0,
-		unit: 'dC',
+		min: 900,
+		max: 1200,
+		decimals: -1,
+		unit: 'K',
 	})
-	const p2 = getRandomFloatUnit({
-		min: 15,
-		max: 40,
+	const p1 = getRandomFloatUnit({
+		min: 7,
+		max: 11,
+		decimals: 1,
 		unit: 'bar',
 	})
+	const p2 = new FloatUnit('1.0 bar')
 
-	const k = kValues[gas]
-	const Rs = RsValues[gas]
-	const m = p1.simplify().multiply(V1.simplify()).divide(Rs.multiply(T1.simplify())).useUnit('g').roundToPrecision()
-	const V2 = V1.multiply(Math.pow(p1.number / p2.number, 1 / k)).roundToPrecision()
-
-	return { gas, m, T1, V1, V2 }
+	return { m, T1, p1, p2 }
 }
 
-function getCorrect({ gas, m, T1, V1, V2 }) {
-	const k = kValues[gas]
-	const Rs = RsValues[gas]
-	m = m.simplify()
-	T1 = T1.simplify()
-	V1 = V1.simplify()
-	V2 = V2.simplify()
-	const p1 = m.multiply(Rs).multiply(T1).divide(V1).useUnit('Pa')
-	const p2 = p1.multiply(Math.pow(V1.number / V2.number, k))
+function getCorrect({ m, T1, p1, p2 }) {
+	p1 = p1.simplify()
+	p2 = p2.simplify()
+	const V1 = m.multiply(Rs).multiply(T1).divide(p1).useUnit('m^3')
+	const V2 = V1.multiply(Math.pow(p1.number/p2.number, 1/k.number))
 	const T2 = p2.multiply(V2).divide(m.multiply(Rs)).useUnit('K')
 	return { k, Rs, m, p1, V1, T1, p2, V2, T2 }
 }
@@ -83,7 +69,7 @@ function checkInput(state, input, step, substep) {
 			return input.ansProcess[0] === 3
 		case 3:
 			const choice = input.choice && input.choice[0] || 0
-			return checkField(choice === 0 ? 'p2' : 'T2', correct, input, data.equalityOptions)
+			return checkField(choice === 0 ? 'V2' : 'T2', correct, input, data.equalityOptions)
 		case 4:
 			return checkField(['p2', 'V2', 'T2'], correct, input, data.equalityOptions)
 		default:

@@ -60,7 +60,7 @@ const steps = [
 			return <>
 				<Par>We weten <M>V_1</M> en <M>T_1</M> al. We gaan de gaswet gebruiken om <M>p_1</M> te berekenen. Hierbij moeten alle waarden in standaard eenheden staan. Dus schrijven we op,<BM>V_1 = {V1} \cdot {VConversion} = {V1s},</BM><BM>T_1 = {T1.float} + {TConversion.float} = {T1s},</BM><BM>m = \frac{m}{mConversion} = {ms}.</BM></Par>
 				<Par>Ook is de specifieke gasconstante van {Dutch[gas]} nodig. Deze kunnen we opzoeken als <BM>R_s = {Rs}.</BM></Par>
-				<Par>De gaswet zegt dat <BM>pV = mR_sT.</BM> Dit toepassen op punt 1 en oplossen voor <M>p_1</M> geeft <BM>p_1 = \frac(mR_sT_1)(p_1) = \frac({ms.float} \cdot {Rs.float} \cdot {T1s.float})({V1s.float}) = {p1}.</BM> Dit komt neer op <M>p_1 = {p1.useUnit('bar')}</M>, wat op zich nog een relatief lage druk is voor een drukvak. Gelukkig gaan we met de compressor de druk verhogen.</Par>
+				<Par>De gaswet zegt dat <BM>pV = mR_sT.</BM> Dit toepassen op punt 1 en oplossen voor <M>p_1</M> geeft <BM>p_1 = \frac(mR_sT_1)(V_1) = \frac({ms.float} \cdot {Rs.float} \cdot {T1s.float})({V1s.float}) = {p1}.</BM> Dit komt neer op <M>p_1 = {p1.useUnit('bar')}</M>, wat op zich nog een relatief lage druk is voor een drukvak. Gelukkig gaan we met de compressor de druk verhogen.</Par>
 			</>
 		},
 	},
@@ -72,12 +72,12 @@ const steps = [
 					<span>Er geldt <M>n=0</M>.</span>,
 					<span>Er geldt <M>n=\infty</M>.</span>,
 					<span>Er geldt <M>n=1</M>.</span>,
-					<span>Er geldt <M>n=k</M>.</span>,
+					<span>Er geldt <M>n=k</M>, met <M>k</M> de <M>k</M>-waarde van het betreffende gas.</span>,
 				]} randomOrder={true} />
 			</InputSpace>
 		</>,
 		Solution: () => {
-			return <Par>Er is gegeven dat het proces isentropisch verloopt. Dit betekent dat de procescoëfficiënt <M>m</M> gelijk is aan de <M>k</M>-waarde van het gas.</Par>
+			return <Par>Er is gegeven dat het proces isentropisch verloopt. Dit betekent dat de procescoëfficiënt <M>n</M> gelijk is aan de <M>k</M>-waarde van het gas.</Par>
 		},
 	},
 	{
@@ -87,10 +87,10 @@ const steps = [
 
 			return <>
 				<InputSpace>
-					<Par>We kunnen nu via de wetten van Poisson ofwel <M>p</M> ofwel <M>T</M> berekenen. Welke wil jij berekenen? (Beide opties zijn prima.)</Par>
+					<Par>We kunnen nu via de wetten van Poisson ofwel <M>p_2</M> ofwel <M>T_2</M> berekenen. Welke wil jij berekenen? (Beide opties zijn prima.)</Par>
 					<MultipleChoice id="choice" choices={[
-						<span>Ik ga <M>p</M> berekenen.</span>,
-						<span>Ik ga <M>T</M> berekenen.</span>,
+						<span>Ik ga <M>p_2</M> berekenen.</span>,
+						<span>Ik ga <M>T_2</M> berekenen.</span>,
 					]} persistent={true} />
 					{choice === 0 ? <>
 						<Par>Prima! Wat is in dit geval de druk na de compressie?</Par>
@@ -156,7 +156,7 @@ const getFeedback = (exerciseData) => {
 				correct: !!(progress[mcStep] && progress[mcStep].solved),
 				text: [
 					'Nee, dit is bij een isobaar proces (constante druk). De druk is hier echter zeker niet constant.',
-					'Nee, dit is bij een isochoor proces (constant volume). Maar hier neemt de volume het gas zeker af.',
+					'Nee, dit is bij een isochoor proces (constant volume). Maar hier neemt het volume van het gas zeker af.',
 					'Nee, dit is bij een isotherm proces (constante temperatuur). Hier geldt echter dat de temperatuur toeneemt door de compressie.',
 					<span>Ja! Bij een isentropisch proces geldt altijd <M>n=k</M>.</span>,
 				][ansProcess]

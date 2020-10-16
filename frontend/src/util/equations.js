@@ -45,7 +45,7 @@ function preprocess(latex, advanced = false) {
 
 	// Turn objects into tex code, if possible.
 	if (typeof latex !== 'string')
-		latex = '{' + (latex.tex || latex.toString()) + '}'
+		latex = '{' + (latex && (latex.tex || latex.toString())) + '}'
 
 	if (advanced) {
 		// Prevent Latex from messing up commas.
