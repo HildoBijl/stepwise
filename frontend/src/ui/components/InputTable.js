@@ -12,36 +12,36 @@ const useStyles = makeStyles((theme) => ({
 		marginRight: '0.2rem', // To prevent the input field drop shadow from being cut off by the hidden overflow of the vertical adjuster.
 		placeItems: 'center stretch',
 		...startEndMarginFix('', '0.5rem'),
+		[theme.breakpoints.down('xs')]: {
+			gridTemplateColumns: '100%',
+			marginLeft: '0.2rem', // To prevent the input field drop shadow from being cut off by the hidden overflow of the vertical adjuster.
+		},
+		[theme.breakpoints.up('sm')]: {
+			gridTemplateColumns: ({ numCols }) => `auto repeat(${numCols}, minmax(min(100px, 100%), 1fr))`,
+		},
 
 		'& .cell': {
 			placeSelf: 'start stretch',
 		},
 		'& .rowHead': {
 			fontWeight: 'bold',
-			paddingTop: '1.25rem',
 			placeSelf: 'start stretch',
 			whiteSpace: 'nowrap',
+			[theme.breakpoints.down('xs')]: {
+				marginLeft: '0.3rem',
+				marginTop: '0.6rem',
+			},
+			[theme.breakpoints.up('sm')]: {
+				marginTop: '1.25rem',
+			},
 		},
 		'& .colHead': {
 			fontWeight: 'bold',
 			marginLeft: '0.3rem',
 			placeSelf: 'end stretch',
-		},
-
-		[theme.breakpoints.down('xs')]: {
-			marginLeft: '0.2rem', // To prevent the input field drop shadow from being cut off by the hidden overflow of the vertical adjuster.
-
-			gridTemplateColumns: '100%',
-			'& .colHead': {
+			[theme.breakpoints.down('xs')]: {
 				display: 'none',
 			},
-			'& .rowHead': {
-				marginLeft: '0.3rem',
-				marginTop: '0.8rem',
-			},
-		},
-		[theme.breakpoints.up('sm')]: {
-			gridTemplateColumns: ({ numCols }) => `auto repeat(${numCols}, minmax(min(100px, 100%), 1fr))`,
 		},
 	},
 }))
