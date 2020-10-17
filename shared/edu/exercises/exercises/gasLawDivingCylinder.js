@@ -2,7 +2,7 @@ const { getRandomInteger } = require('../../../inputTypes/Integer')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Unit } = require('../../../inputTypes/Unit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { oxygen: Rs } = require('../../../data/specificGasConstants')
+const { oxygen: { Rs } } = require('../../../data/gasProperties')
 const { combinerAnd } = require('../../../skillTracking')
 
 const data = {

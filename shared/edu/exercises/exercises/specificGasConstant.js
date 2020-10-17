@@ -1,5 +1,5 @@
 const { selectRandomly } = require('../../../util/random')
-const specificGasConstants = require('../../../data/specificGasConstants')
+const gasProperties = require('../../../data/gasProperties')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 
 const data = {
@@ -14,7 +14,7 @@ function generateState() {
 }
 
 function checkInput({ medium }, { ans }) {
-	return specificGasConstants[medium].equals(ans, data.equalityOptions)
+	return gasProperties[medium].Rs.equals(ans, data.equalityOptions)
 }
 
 module.exports = {

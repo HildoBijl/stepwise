@@ -1,6 +1,6 @@
 import React from 'react'
 
-import * as specificGasConstants from 'step-wise/data/specificGasConstants'
+import * as gasProperties from 'step-wise/data/gasProperties'
 
 import { M } from 'util/equations'
 import { Par } from 'ui/components/containers'
@@ -48,7 +48,7 @@ function Problem({ medium }) {
 
 function Solution({ medium }) {
 	return <>
-		<Par>De specifieke gasconstante van {Dutch[medium]} is <M>{specificGasConstants[medium]}</M>.</Par>
+		<Par>De specifieke gasconstante van {Dutch[medium]} is <M>{gasProperties[medium].Rs}</M>.</Par>
 		<Par>Als je dit wilt vinden, dan kun je achterin een thermodynamicaboek kijken: er is vast een bijlage met eigenschappen van gassen. Anders kun je ook Googlen naar "specific gas constant {English[medium]}". Zoeken in het Engels geeft vaak meer/betere resultaten dan het Nederlands.</Par>
 	</>
 }
@@ -60,7 +60,7 @@ const getFeedback = (exerciseData) => {
 	const { data } = shared
 	const { equalityOptions } = data
 
-	const Rs = specificGasConstants[medium]
+	const { Rs } = gasProperties[medium]
 
 	return {
 		ans: getFloatUnitComparisonFeedback(Rs, ans, { equalityOptions: equalityOptions, solved: progress.solved, prevInput: prevInput.ans, prevFeedback: prevFeedback.ans }),

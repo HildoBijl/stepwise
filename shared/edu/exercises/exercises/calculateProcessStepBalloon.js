@@ -1,6 +1,6 @@
 const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { air: Rs } = require('../../../data/specificGasConstants')
+const { air: { Rs } } = require('../../../data/gasProperties')
 const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
 const { checkField } = require('../util/check')
 

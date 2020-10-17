@@ -3,8 +3,7 @@ const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
 const { checkField } = require('../util/check')
-const kValues = require('../../../data/specificHeatRatios')
-const RsValues = require('../../../data/specificGasConstants')
+const gasProperties = require('../../../data/gasProperties')
 
 const equalityOptions = {
 	default: {
@@ -53,8 +52,7 @@ function generateState() {
 		unit: 'bar',
 	})
 
-	const k = kValues[gas]
-	const Rs = RsValues[gas]
+	const { k, Rs } = gasProperties[gas]
 	const m = p1.simplify().multiply(V1.simplify()).divide(Rs.multiply(T1.simplify())).useUnit('g').roundToPrecision()
 	const V2 = V1.multiply(Math.pow(p1.number / p2.number, 1 / k)).roundToPrecision()
 
@@ -62,8 +60,7 @@ function generateState() {
 }
 
 function getCorrect({ gas, m, T1, V1, V2 }) {
-	const k = kValues[gas]
-	const Rs = RsValues[gas]
+	const { k, Rs } = gasProperties[gas]
 	m = m.simplify()
 	T1 = T1.simplify()
 	V1 = V1.simplify()

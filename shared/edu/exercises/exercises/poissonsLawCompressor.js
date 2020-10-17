@@ -3,7 +3,7 @@ const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Unit } = require('../../../inputTypes/Unit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd } = require('../../../skillTracking')
-const kValues = require('../../../data/specificHeatRatios')
+const gasProperties = require('../../../data/gasProperties')
 
 const data = {
 	skill: 'poissonsLaw',
@@ -61,7 +61,7 @@ function generateState() {
 }
 
 function getCorrect({ gas, V2, p1, p2 }) {
-	const k = kValues[gas]
+	const { k } = gasProperties[gas]
 	const V1 = V2.multiply(p2.divide(p1).float.toPower(k.float.invert()))
 	return { k, V1, V2, p1, p2 }
 }

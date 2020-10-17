@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { pressure as pConversion, volumeCubicCentimeter as VConversion, temperature as TConversion } from 'step-wise/data/conversions'
-import { argon as Rs } from 'step-wise/data/specificGasConstants'
 
 import { M, BM } from 'util/equations'
 import { Par } from 'ui/components/containers'
@@ -66,7 +65,7 @@ const steps = [
 		</>,
 		Solution: (state) => {
 			const { shared: { getCorrect } } = useExerciseData()
-			const { p, V, T, m } = getCorrect(state)
+			const { Rs, m, p, V, T } = getCorrect(state)
 			return <Par>De gaswet zegt <BM>pV = mR_sT.</BM> Om <M>m</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>R_sT</M>. Het resultaat is <BM>m = \frac(pV)(R_sT) = \frac({p.float} \cdot {V.float})({Rs.float} \cdot {T.float}) = {m}.</BM></Par>
 		},
 	},

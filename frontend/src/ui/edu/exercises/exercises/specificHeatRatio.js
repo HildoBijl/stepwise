@@ -1,6 +1,6 @@
 import React from 'react'
 
-import * as specificHeatRatios from 'step-wise/data/specificHeatRatios'
+import * as gasProperties from 'step-wise/data/gasProperties'
 
 import { M } from 'util/equations'
 import { Par } from 'ui/components/containers'
@@ -48,7 +48,7 @@ function Problem({ medium }) {
 
 function Solution({ medium }) {
 	return <>
-		<Par>De <M>k</M>-waarde (de verhouding van soortelijke warmten) van {Dutch[medium]} is <M>{specificHeatRatios[medium]}</M>.</Par>
+		<Par>De <M>k</M>-waarde (de verhouding van soortelijke warmten) van {Dutch[medium]} is <M>{gasProperties[medium].k}</M>.</Par>
 		<Par>Als je dit wilt vinden, dan kun je achterin een thermodynamicaboek kijken: er is vast een bijlage met eigenschappen van gassen. Anders kun je ook Googlen naar "specific heat ratio of {English[medium]}". Zoeken in het Engels geeft vaak meer/betere resultaten dan het Nederlands.</Par>
 	</>
 }
@@ -60,7 +60,7 @@ const getFeedback = (exerciseData) => {
 	const { data } = shared
 	const { equalityOptions } = data
 
-	const k = specificHeatRatios[medium]
+	const { k } = gasProperties[medium]
 
 	return {
 		ans: getFloatUnitComparisonFeedback(k, ans, { equalityOptions: equalityOptions, solved: progress.solved, prevInput: prevInput.ans, prevFeedback: prevFeedback.ans }),

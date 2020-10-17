@@ -1,7 +1,7 @@
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Unit } = require('../../../inputTypes/Unit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { argon: Rs } = require('../../../data/specificGasConstants')
+const { argon: { Rs } } = require('../../../data/gasProperties')
 const { combinerAnd, combinerOr } = require('../../../skillTracking')
 
 const data = {

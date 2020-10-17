@@ -140,7 +140,7 @@ export function getFloatUnitComparisonFeedback(correctAnswer, inputAnswer, optio
 	options = processOptions(options, defaultComparisonOptions)
 	const { equalityOptions, solved, text, prevFeedback } = options
 
-	// Check if correct is set to true.
+	// Check if solved is set to true. If so, always return positive feedback.
 	if (solved === true)
 		return { correct: true, text: text.correct || (prevFeedback && prevFeedback.correct && prevFeedback.text) || selectRandomCorrect() }
 

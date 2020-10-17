@@ -1,7 +1,7 @@
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { FloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { helium: Rs } = require('../../../data/specificGasConstants')
+const { helium: { Rs } } = require('../../../data/gasProperties')
 const { combinerRepeat } = require('../../../skillTracking')
 
 const data = {

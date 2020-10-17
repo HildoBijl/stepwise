@@ -2,7 +2,7 @@ const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit
 const { Unit } = require('../../../inputTypes/Unit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd } = require('../../../skillTracking')
-const { air: k } = require('../../../data/specificHeatRatios')
+const { air: { k } } = require('../../../data/gasProperties')
 
 const data = {
 	skill: 'poissonsLaw',

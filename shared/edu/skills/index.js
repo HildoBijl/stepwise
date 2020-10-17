@@ -69,6 +69,10 @@ const skills = {
 		name: 'De k-waarde opzoeken',
 		exercises: ['specificHeatRatio'],
 	},
+	specificHeats: {
+		name: 'Soortelijke warmten opzoeken',
+		exercises: ['specificHeats'],
+	},
 	gasLaw: {
 		name: 'De gaswet',
 		setup: combinerAnd('calculateWithPressure', 'calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature', 'specificGasConstant', 'solveLinearEquation'), // ToDo later: use a "combinerPick(..., 3)" to pick three of the given four unit calculation skills.
@@ -88,6 +92,11 @@ const skills = {
 		setup: combinerAnd('gasLaw', 'recognizeProcessTypes', 'poissonsLaw'), // ToDo later: use "combinerPart('poissonsLaw', 1/2)" and possibly "combinerPart('gasLaw', 3/2)" to indicate it's not always needed.
 		exercises: ['calculateProcessStepCompressor', 'calculateProcessStepDivingCylinder', 'calculateProcessStepBalloon', 'calculateProcessStepGasTurbine'],
 	},
+	// calculateHeatAndWork: {
+	// 	name: 'Warmte en arbeid berekenen',
+	// 	setup: combinerAnd('recognizeProcessTypes', combinerOr('calculateWithPressure','calculateWithVolume','calculateWithTemperature','calculateWithMass'), combinerOr('specificGasConstant','specificHeatRatio','specificHeat')),
+	// 	exercises: [],
+	// },
 }
 
 // Process the skill object.

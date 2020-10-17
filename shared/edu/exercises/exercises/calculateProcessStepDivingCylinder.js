@@ -1,7 +1,7 @@
 const { getRandomInteger } = require('../../../inputTypes/Integer')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { oxygen: Rs } = require('../../../data/specificGasConstants')
+const { oxygen: { Rs } } = require('../../../data/gasProperties')
 const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
 const { checkField } = require('../util/check')
 
