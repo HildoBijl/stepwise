@@ -92,11 +92,11 @@ const skills = {
 		setup: combinerAnd('gasLaw', 'recognizeProcessTypes', 'poissonsLaw'), // ToDo later: use "combinerPart('poissonsLaw', 1/2)" and possibly "combinerPart('gasLaw', 3/2)" to indicate it's not always needed.
 		exercises: ['calculateProcessStepCompressor', 'calculateProcessStepDivingCylinder', 'calculateProcessStepBalloon', 'calculateProcessStepGasTurbine'],
 	},
-	// calculateHeatAndWork: {
-	// 	name: 'Warmte en arbeid berekenen',
-	// 	setup: combinerAnd('recognizeProcessTypes', combinerOr('calculateWithPressure','calculateWithVolume','calculateWithTemperature','calculateWithMass'), combinerOr('specificGasConstant','specificHeatRatio','specificHeat')),
-	// 	exercises: [],
-	// },
+	calculateHeatAndWork: {
+		name: 'Warmte en arbeid berekenen',
+		setup: combinerAnd('recognizeProcessTypes', combinerOr('calculateWithPressure','calculateWithVolume','calculateWithTemperature','calculateWithMass'), combinerOr('specificGasConstant','specificHeatRatio','specificHeats')),
+		exercises: ['calculateHeatAndWorkIsobaric'],
+	},
 }
 
 // Process the skill object.

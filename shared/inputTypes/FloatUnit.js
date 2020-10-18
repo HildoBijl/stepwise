@@ -179,9 +179,9 @@ class FloatUnit {
 	 * - accuracyFactor: same as with Float.
 	 * - significantDigitMargin: same as with Float.
 	 * - unitCheck: same as the Unit type parameter.
+	 * - checkSize (default false): same as the Unit type parameter, the size of the unit must be the same. (Note: the default value is different here than for the Unit type.) A potential error will be shown in the UnitOK parameter. This is useful if you want "2 J" to be equal to "2 N*m" to be equal, but not to "2 * 10^3 mJ".
 	 * Note that the following options are not supported.
 	 * - checkPower (from Float): this is not possible anymore, since simplifying the unit will adjust the power of the unit. This will be the default "false".
-	 * - checkSize (from Unit): this will be set to false, because we are checking the size of the number instead.
 	 * 
 	 * The result is an object containing information. It contains the information from the Float checkEquality but also has:
 	 * - result (true or false): the final verdict on equality.
@@ -220,6 +220,12 @@ class FloatUnit {
 		if (!b.isValid())
 			return handleInvalidResult(false)
 
+		// If we need to check the size of the unit, do so before simplifying.
+		if (options.checkSize) {
+			if (!a.unit.equals(b.unit, { type: options.unitCheck, checkSize: true }))
+				return handleInvalidResult(false)
+		}
+
 		// Simplify the units based on the given options. This will adjust the floats accordingly.
 		const simplifyOptions = equalityTypeToSimplifyOptions(options.unitCheck)
 		a = a.simplify(simplifyOptions)
@@ -253,6 +259,14 @@ class FloatUnit {
 			x = new this.constructor(x)
 		if (!this.unit.equals(x.unit, { type: Unit.equalityTypes.free, checkSize: false })) // If units don't match, throw an error.
 			throw new Error(`Invalid addition: cannot add two quantities with different units. Tried to add "${this.str}" to "${x.str}".`)
+
+		// If the units match precisely, do a simplified addition.
+		if (this.unit.equals(x.unit, { type: Unit.equalityTypes.free, checkSize: true })) {
+			return new FloatUnit({
+				float: this.float.add(x.float, keepDecimals),
+				unit: this.unit,
+			})
+		}
 
 		// Simplify the units to make sure they use standard units.
 		const a = this.simplify()
@@ -340,6 +354,7 @@ FloatUnit.defaultEqualityOptions = {
 	accuracyFactor: Float.defaultEqualityOptions.accuracyFactor,
 	significantDigitMargin: Float.defaultEqualityOptions.significantDigitMargin,
 	unitCheck: Unit.defaultEqualityOptions.type,
+	checkSize: false,
 }
 
 // splitString turns a string representation of (hopefully) a FloatUnit into two strings, returning them as an object { float: "...", unit: "..." }.
