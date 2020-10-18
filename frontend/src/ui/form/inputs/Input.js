@@ -6,7 +6,7 @@ import { isObject, applyToEachParameter } from 'step-wise/util/objects'
 import { isNumber, boundTo } from 'step-wise/util/numbers'
 import { noop } from 'step-wise/util/functions'
 
-import { resetFocus, getCoordinatesOf, ignoreBackspaceEvent, getClickSide } from 'util/dom'
+import { resetFocus, getCoordinatesOf, ignoreBackspaceEvent, ignoreHomeEndEvent, getClickSide } from 'util/dom'
 import { useEventListener, useWidthTracker, useRefWithValue } from 'util/react'
 import { latexMinus, decimalSeparator } from 'util/equations'
 import { notSelectable } from 'ui/theme'
@@ -371,6 +371,7 @@ function useKeyProcessing(processKeyPress, listeningObject = window, apply = tru
 	// Set up the handler for key down events. This one works for most of the events, but on smartphones there are some events it can't figure out.
 	const keyDownHandler = useCallback(evt => {
 		ignoreBackspaceEvent(evt) // A Firefox fix.
+		ignoreHomeEndEvent(evt)
 		submitOnEnter(evt, submit)
 		resetFocus(evt.target) // A trick to allow the Backspace key to consistently be detected on Android.
 		keyDownProcessedRef.current = (evt.key !== 'Unidentified')

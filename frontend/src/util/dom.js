@@ -44,3 +44,9 @@ export function ignoreBackspaceEvent(evt) {
 	if (evt.key === 'Backspace')
 		evt.preventDefault() // Don't go back to the previous page in Firefox on a backspace.
 }
+
+// ignoreHomeEndEvent will prevent browser default behavior on a home/end press which would go to the start/end of the page.
+export function ignoreHomeEndEvent(evt) {
+	if (evt.key === 'Home' || evt.key === 'End')
+		evt.preventDefault()
+}
