@@ -54,7 +54,7 @@ function generateState() {
 		max: 10,
 		decimals: 0,
 		unit: 'dC',
-	}).useDecimals(1)
+	})
 	const T2 = getRandomFloatUnit({
 		min: 30,
 		max: 60,
