@@ -60,7 +60,8 @@ function getCorrect({ p1, p2, T1 }) {
 	return { k, p1, p2, T1, T2 }
 }
 
-function checkInput(state, { ansp1, ansp2, ansT1, ansT2, ansk, ansEq }, step, substep) {
+function checkInput(state, input, step, substep) {
+	const { ansp1, ansp2, ansT1, ansT2, ansk } = input
 	const { k, p1, p2, T1, T2 } = getCorrect(state)
 	const eo = data.equalityOptions
 
@@ -77,7 +78,7 @@ function checkInput(state, { ansp1, ansp2, ansT1, ansT2, ansk, ansEq }, step, su
 		case 2:
 			return k.equals(ansk, eo.k)
 		case 3:
-			return ansEq[0] === 2
+			return input.eq === 2
 		default:
 			return T2.equals(ansT2, eo.T2)
 	}

@@ -79,9 +79,9 @@ function checkInput(state, input, step, substep) {
 	const correct = getCorrect(state)
 	switch (step) {
 		case 1:
-			return input.ansProcess[0] === 0
+			return input.process === 0
 		case 2:
-			return input.ansEq[0] === 1
+			return input.eq === 1
 		case 3:
 			switch (substep) {
 				case 1: return checkField('cp', correct, input, data.equalityOptions)

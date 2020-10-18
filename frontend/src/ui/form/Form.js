@@ -2,7 +2,7 @@ import React, { createContext, useState, useContext, useRef, useCallback, useEff
 	'react'
 
 import { processOptions } from 'step-wise/util/objects'
-import { isEmpty } from 'step-wise/inputTypes'
+import { isEmpty, IOtoFO } from 'step-wise/inputTypes'
 import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 
 import { useRefWithValue, useMountedRef } from 'util/react'
@@ -168,6 +168,14 @@ export function useFormParameter(id, options = {}) {
 	if (!(id in input))
 		return [initialValue, setValue]
 	return [input[id], setValue]
+}
+
+// useInput only returns a certain input parameter, but it gives the FO (functional object). It's mainly used by exercises.
+export function useInput(id) {
+	const { input } = useFormData()
+	if (input[id] === undefined)
+		return undefined
+	return IOtoFO(input[id])
 }
 
 // useFieldValidation takes a field name and a validation function. On a form submit this validation function is called and the result is given in the resulting parameter.

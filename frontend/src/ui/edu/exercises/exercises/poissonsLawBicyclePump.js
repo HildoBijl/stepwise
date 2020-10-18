@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { temperature as TConversion } from 'step-wise/data/conversions'
-import { isStepSolved } from 'step-wise/edu/exercises/util/stepExercise'
 
 import { M, BM } from 'util/equations'
 import { Par } from 'ui/components/containers'
@@ -12,7 +11,7 @@ import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
-import { getDefaultFeedback } from '../util/feedback'
+import { getDefaultFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -51,7 +50,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Kies de juiste wet van Poisson. Welke is hier het handigst om te gebruiken?</Par>
 			<InputSpace>
-				<MultipleChoice id="ansEq" choices={[
+				<MultipleChoice id="eq" choices={[
 					<M>pV^n=(\rm constant)</M>,
 					<M>TV^(n-1)=(\rm constant)</M>,
 					<M>\frac(T^n)(p^(n-1))=(\rm constant)</M>,
@@ -81,11 +80,19 @@ const steps = [
 ]
 
 const getFeedback = (exerciseData) => {
-	const { input, progress, shared } = exerciseData
-	const { ansV1, ansV2, ansEq } = input
+	const { input, shared } = exerciseData
+	const { ansV1, ansV2 } = input
 	const { data } = shared
 
-	const feedback = getDefaultFeedback(['T1', 'T2', 'V1', 'V2'], exerciseData)
+	const feedback = {
+		...getDefaultFeedback(['T1', 'T2', 'V1', 'V2'], exerciseData),
+		...getMCFeedback('eq', exerciseData, {
+			correct: 1,
+			step: 2,
+			correctText: <span>Inderdaad! We weten <M>T</M> en <M>V</M>, wat dit de optimale vergelijking maakt om te gebruiken.</span>,
+			incorrectText: <span>Dat lijkt me niet handig. We weten niets over de druk <M>p</M>, en we hoeven hem ook niet te weten. Dus waarom wil je die in een vergelijking hebben?</span>,
+		}),
+	}
 
 	// If p1 and p2 have different units, then note this.
 	if (ansV1 && ansV2 && !ansV1.unit.equals(ansV2.unit, data.equalityOptions.VUnit)) {
@@ -94,15 +101,6 @@ const getFeedback = (exerciseData) => {
 		feedback.ansV2 = addedFeedback
 	}
 
-	// Get feedback on the multiple choice question.
-	feedback.ansEq = {
-		1: progress[2] && progress[2].done,
-		[ansEq]: {
-			correct: isStepSolved(progress, 2),
-			text: isStepSolved(progress, 2) ? <span>Inderdaad! We weten <M>T</M> en <M>V</M>, wat dit de optimale vergelijking maakt om te gebruiken.</span> : <span>Dat lijkt me niet handig. We weten niets over de druk <M>p</M>, en we hoeven hem ook niet te weten. Dus waarom wil je die in een vergelijking hebben?</span>,
-		},
-	}
-	
 	return feedback
 }
 

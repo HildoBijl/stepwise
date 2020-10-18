@@ -1,6 +1,6 @@
 const { applyToEachParameter, isObject, deepEquals } = require('../util/objects')
 
-const types = ['String', 'Integer', 'Float', 'Unit', 'FloatUnit']
+const types = ['String', 'Integer', 'Float', 'Unit', 'FloatUnit', 'MultipleChoice']
 
 // setFOtoIO takes an object { m: ..., g: ... } with multiple parameters in functional format and applies FOtoIO to each parameter of it. 
 function setFOtoIO(obj) {

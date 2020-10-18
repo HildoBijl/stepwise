@@ -11,7 +11,7 @@ function generateState() {
 	}
 }
 
-function checkInput({ type }, { ans: [ans] }) {
+function checkInput({ type }, { ans }) {
 	return type === ans
 }
 

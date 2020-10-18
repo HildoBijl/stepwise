@@ -6,6 +6,7 @@ import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
+import { getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -42,9 +43,8 @@ function Solution({ type }) {
 }
 
 function getFeedback(exerciseData) {
-	const { input, state, progress } = exerciseData
-	const { type } = state
-	const { ans: [ans] } = input
+	const { state: { type } } = exerciseData
+	const correct = type
 
 	const text = [
 		[
@@ -82,15 +82,7 @@ function getFeedback(exerciseData) {
 			'Een adiabatisch proces is een zonder warmte-uitwisseling met de omgeving. Dat is hier wel het geval, maar je kunt nog specifieker zijn met je antwoord. Wat geldt namelijk nog meer?',
 			'Perfect! Dit is inderdaad een proces zonder warmte-uitwisseling met de omgeving en zonder interne warmte-ontwikkeling.',
 		],
-	][type][ans]
-	
-	return {
-		ans: {
-			[type]: progress.done, // When we're done, mark the correct one as correct.
-			[ans]: { // Mark the selected one appropriately. (Possibly overriding the previous line.)
-				correct: !!progress.solved,
-				text,
-			}
-		}
-	}
+	][type]
+
+	return getMCFeedback('ans', exerciseData, { correct, text })
 }

@@ -7,12 +7,12 @@ import { Par } from 'ui/components/containers'
 import { AntiInputSpace, InputSpace } from 'ui/form/Status'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
-import { useFormParameter } from 'ui/form/Form'
+import { useInput } from 'ui/form/Form'
 import { InputTable } from 'ui/components/InputTable'
 
 import { useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
-import { getDefaultFeedback } from '../util/feedback'
+import { getDefaultFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -68,7 +68,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Wat is de waarde voor <M>n</M> bij dit proces?</Par>
 			<InputSpace>
-				<MultipleChoice id="ansProcess" choices={[
+				<MultipleChoice id="process" choices={[
 					<span>Er geldt <M>n=0</M>.</span>,
 					<span>Er geldt <M>n=\infty</M>.</span>,
 					<span>Er geldt <M>n=1</M>.</span>,
@@ -82,8 +82,7 @@ const steps = [
 	},
 	{
 		Problem: () => {
-			let [choice] = useFormParameter('choice')
-			choice = choice && choice[0]
+			let choice = useInput('choice')
 
 			return <>
 				<InputSpace>
@@ -114,9 +113,9 @@ const steps = [
 			const { gas, V1, V2 } = state
 			const { shared: { getCorrect } } = useExerciseData()
 			const { k, p1, p2, T1, T2 } = getCorrect(state)
-			const [choice] = useFormParameter('choice')
+			const choice = useInput('choice')
 
-			if (choice === undefined || choice.length === 0 || choice[0] === 0)
+			if (choice === undefined || choice === 0)
 				return <Par>We gaan via Poisson's wet de druk berekenen. We weten al het volume in de begin- en eindsituatie, waardoor we de wet moeten pakken met zowel <M>p</M> als <M>V</M>. Zo vinden we dat <BM>p_1V_1^n = p_2V_2^n.</BM> De waarde van <M>n</M> is hier gelijk aan de <M>k</M>-waarde van {Dutch[gas]}, en die kunnen we opzoeken als <BM>n = k = {k}.</BM> Als we de bovenstaande wet van Poisson oplossen voor <M>p_2</M> vinden we <BM>p_2 = p_1 \frac(V_1^n)(V_2^n) = p_1 \left(\frac(V_1)(V_2)\right)^n = {p1.float} \cdot \left(\frac{V1.float}{V2.float}\right)^({k.float}) = {p2}.</BM> Dit is een sterk hogere druk dan voorheen, wat logisch is: we zijn het gas immers aan het comprimeren.</Par>
 
 			return <Par>We gaan via Poisson's wet de temperatuur berekenen. We weten al het volume in de begin- en eindsituatie, waardoor we de wet moeten pakken met zowel <M>T</M> als <M>V</M>. Zo vinden we dat <BM>T_1V_1^(n-1) = T_2V_2^(n-1).</BM> De waarde van <M>n</M> is hier gelijk aan de <M>k</M>-waarde van {Dutch[gas]}, en die kunnen we opzoeken als <BM>n = k = {k}.</BM> Als we de bovenstaande wet van Poisson oplossen voor <M>T_2</M> vinden we <BM>T_2 = T_1 \frac(V_1^(n-1))(V_2^(n-1)) = T_1 \left(\frac(V_1)(V_2)\right)^(n-1) = {T1.float} \cdot \left(\frac{V1.float}{V2.float}\right)^({k.float} - 1) = {T2}.</BM> Dit is een stuk warmer dan de begintemperatuur, maar dat klopt: bij compressie stijgt de temperatuur van een gas.</Par>
@@ -132,9 +131,9 @@ const steps = [
 		Solution: (state) => {
 			const { shared: { getCorrect } } = useExerciseData()
 			const { Rs, m, p2, V2, T2 } = getCorrect(state)
-			const [choice] = useFormParameter('choice')
+			const choice = useInput('choice')
 
-			if (choice === undefined || choice.length === 0 || choice[0] === 0)
+			if (choice === undefined || choice === 0)
 				return <Par>We moeten alleen nog de temperatuur <M>T</M> weten. Deze vinden we via de gaswet, toegepast op punt 2. Oftewel, <BM>p_2 V_2 = m R_s T_2.</BM> Dit oplossen voor <M>T_2</M> geeft <BM>T_2 = \frac(p_2V_2)(m R_s) = \frac({p2.float} \cdot {V2.float})({m.float} \cdot {Rs.float}) = {T2}.</BM> Dit is een stuk warmer dan de begintemperatuur, maar dat klopt: bij compressie stijgt de temperatuur van een gas.</Par>
 
 			return <Par>We moeten alleen nog de druk <M>p</M> weten. Deze vinden we via de gaswet, toegepast op punt 2. Oftewel, <BM>p_2 V_2 = m R_s T_2.</BM> Dit oplossen voor <M>p_2</M> geeft <BM>p_2 = \frac(m R_s T_2)(V_2) = \frac({m.float} \cdot {Rs.float} \cdot {T2.float})({V2.float}) = {p2}.</BM> Dit is een sterk hogere druk dan voorheen, wat logisch is: we zijn het gas immers aan het comprimeren.</Par>
@@ -143,26 +142,17 @@ const steps = [
 ]
 
 const getFeedback = (exerciseData) => {
-	const { input, progress } = exerciseData
-
-	const feedback = getDefaultFeedback(['p1', 'V1', 'T1', 'p2', 'V2', 'T2'], exerciseData)
-
-	if (input.ansProcess) {
-		const mcStep = 2
-		const [ansProcess] = input.ansProcess
-		feedback.ansProcess = {
-			'3': progress[mcStep] && progress[mcStep].done,
-			[ansProcess]: {
-				correct: !!(progress[mcStep] && progress[mcStep].solved),
-				text: [
-					'Nee, dit is bij een isobaar proces (constante druk). De druk is hier echter zeker niet constant.',
-					'Nee, dit is bij een isochoor proces (constant volume). Maar hier neemt het volume van het gas zeker af.',
-					'Nee, dit is bij een isotherm proces (constante temperatuur). Hier geldt echter dat de temperatuur toeneemt door de compressie.',
-					<span>Ja! Bij een isentropisch proces geldt altijd <M>n=k</M>.</span>,
-				][ansProcess]
-			},
-		}
+	return {
+		...getDefaultFeedback(['p1', 'V1', 'T1', 'p2', 'V2', 'T2'], exerciseData),
+		...getMCFeedback('process', exerciseData, {
+			step: 2,
+			correct: 3,
+			text: [
+				'Nee, dit is bij een isobaar proces (constante druk). De druk is hier echter zeker niet constant.',
+				'Nee, dit is bij een isochoor proces (constant volume). Maar hier neemt het volume van het gas zeker af.',
+				'Nee, dit is bij een isotherm proces (constante temperatuur). Hier geldt echter dat de temperatuur toeneemt door de compressie.',
+				<span>Ja! Bij een isentropisch proces geldt altijd <M>n=k</M>.</span>,
+			],
+		}),
 	}
-
-	return feedback
 }

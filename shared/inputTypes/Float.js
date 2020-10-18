@@ -634,9 +634,8 @@ function FOtoIO(float) {
 }
 module.exports.FOtoIO = FOtoIO
 
-function IOtoFO(value) {
+function IOtoFO({ number, power }) {
 	// Grab the number and the power. Take into account a few boundary cases.
-	let { number, power } = value
 	number = (number === '' || number === '-' || number === '.' || number === '-.' ? '0' : number)
 	power = (power === '' || power === '-' ? 0 : parseInt(power))
 
@@ -654,8 +653,8 @@ function getEmpty() {
 }
 module.exports.getEmpty = getEmpty
 
-function isEmpty(value) {
-	return value.number === '' && value.power === ''
+function isEmpty(obj) {
+	return obj.number === '' && obj.power === ''
 }
 module.exports.isEmpty = isEmpty
 

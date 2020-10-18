@@ -8,6 +8,7 @@ import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
+import { getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -52,9 +53,7 @@ function Solution({ type }) {
 }
 
 function getFeedback(exerciseData) {
-	const { input, state, progress } = exerciseData
-	const { type } = state
-	const { ans: [ans] } = input
+	const { state: { type: correct } } = exerciseData
 
 	const text = [
 		<span>Dit geldt voor een <strong>isobaar</strong> proces (constante druk).</span>,
@@ -63,17 +62,8 @@ function getFeedback(exerciseData) {
 		<span>Dit geldt voor een <strong>isentroop</strong> proces (geen warmte-uitwisseling met de omgeving en geen interne warmte-ontwikkeling; een omkeerbaar proces).</span>,
 		<span>Dit geldt voor een <strong>polytroop</strong> proces (een algemeen proces met <M>pV^n=(\rm constant)</M>).</span>,
 		<span>Dit geldt in de praktijk eigenlijk nooit. Het zou moeten betekenen dat, als het volume toeneemt, de druk ook toeneemt! Dat zou erg vreemd zijn.</span>,
-	][ans]
+	]
+	text[correct] = selectRandomCorrect()
 
-	return {
-		ans: {
-			[type]: progress.done, // When we're done, mark the correct one as correct.
-			[ans]: { // Mark the selected one appropriately. (Possibly overriding the previous line.)
-				correct: !!progress.solved,
-				text: progress.solved ?
-					selectRandomCorrect() :
-					<span>{text}</span>,
-			}
-		}
-	}
+	return getMCFeedback('ans', exerciseData, { correct, text })
 }

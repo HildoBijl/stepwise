@@ -11,7 +11,7 @@ import { InputTable } from 'ui/components/InputTable'
 
 import { useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
-import { getDefaultFeedback } from '../util/feedback'
+import { getDefaultFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -60,7 +60,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Wat voor soort proces vindt plaats? En wat geldt er dus?</Par>
 			<InputSpace>
-				<MultipleChoice id="ansProcess" choices={[
+				<MultipleChoice id="process" choices={[
 					<span>Een isobaar proces: de druk <M>p</M> blijft constant.</span>,
 					<span>Een isochoor proces: het volume <M>V</M> blijft constant.</span>,
 					<span>Een isotherm proces: de temperatuur <M>T</M> blijft constant.</span>,
@@ -89,27 +89,18 @@ const steps = [
 ]
 
 const getFeedback = (exerciseData) => {
-	const { input, progress } = exerciseData
-
-	const feedback = getDefaultFeedback(['p1', 'V1', 'T1', 'p2', 'V2', 'T2'], exerciseData)
-
-	if (input.ansProcess) {
-		const mcStep = 2
-		const [ansProcess] = input.ansProcess
-		feedback.ansProcess = {
-			'1': progress[mcStep] && progress[mcStep].done,
-			[ansProcess]: {
-				correct: !!(progress[mcStep] && progress[mcStep].solved),
-				text: [
-					'Nee, de druk blijft niet constant. Als de zuurstof in de duikfles afkoelt daalt de druk.',
-					'Ja! De duikfles wordt immers niet groter of kleiner. Het volume blijft constant.',
-					'Nee, de temperatuur blijft niet constant. De duikfles koelt immers af in het koude water.',
-					'Nee, dit is geen isentroop proces. Er is immers warmte-uitwisseling: de duikfles verliest een hoop warmte aan het koude water.',
-				][ansProcess]
-			},
-		}
+	return {
+		...getDefaultFeedback(['p1', 'V1', 'T1', 'p2', 'V2', 'T2'], exerciseData),
+		...getMCFeedback('process', exerciseData, {
+			step: 2,
+			correct: 1,
+			text: [
+				'Nee, de druk blijft niet constant. Als de zuurstof in de duikfles afkoelt daalt de druk.',
+				'Ja! De duikfles wordt immers niet groter of kleiner. Het volume blijft constant.',
+				'Nee, de temperatuur blijft niet constant. De duikfles koelt immers af in het koude water.',
+				'Nee, dit is geen isentroop proces. Er is immers warmte-uitwisseling: de duikfles verliest een hoop warmte aan het koude water.',
+			],
+		}),
 	}
-
-	return feedback
 }
 

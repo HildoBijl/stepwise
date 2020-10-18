@@ -78,7 +78,7 @@ function checkInput(state, input, step, substep) {
 		case 1:
 			return checkField(['p1', 'V1', 'T1'], correct, input, data.equalityOptions)
 		case 2:
-			return input.ansProcess && input.ansProcess[0] === 1
+			return input.process === 1
 		case 3:
 			return checkField(['p2', 'V2', 'T2'], correct, input, data.equalityOptions)
 		default:

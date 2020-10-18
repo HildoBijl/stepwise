@@ -67,6 +67,8 @@ If you want to access the input, or set your own parameters, you can use `import
 
 If you only want to use a single input parameter, then using the `useFormData` might be a bit overkill. Instead, import `useFormParameter`. Then use it in your React object using `const [value, setValue] = useFormParameter('fieldName')`. This then only access a single input field and you don't have to worry about the rest.
 
+Do you want to use a pre-made input field? In that case it's better to import `useInput` and use `const someParameter = useInput('someFieldId')`. This will turn the parameter into an object with improved functionality, instead of just plain text.
+
 #### Validation
 
 We just saw some validation properties. How does that work? The idea is that, before we send any data to the server, we want to do some basic checks. If the user for instance forgot to insert a value, then this is most likely a simple mistake. We don't want to send any data to the server (which would count as a submission) but we want to immediately inform the user that something went wrong. This check is called validation.

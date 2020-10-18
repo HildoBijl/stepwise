@@ -6,21 +6,21 @@ function isFOofType(param) {
 module.exports.isFOofType = isFOofType
 
 function FOtoIO(param) {
-	return param
+	return { value: param }
 }
 module.exports.FOtoIO = FOtoIO
 
-function IOtoFO(value) {
+function IOtoFO({ value }) {
 	return value
 }
 module.exports.IOtoFO = IOtoFO
 
 function getEmpty() {
-	return ''
+	return { value: '' }
 }
 module.exports.getEmpty = getEmpty
 
-function isEmpty(value) {
+function isEmpty({ value }) {
 	if (typeof value !== 'string')
 		throw new Error(`Invalid type: expected a string but received "${JSON.stringify(value)}".`)
 	return value === ''

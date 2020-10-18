@@ -68,11 +68,12 @@ function getCorrect({ m, V1, T1, T2 }) {
 
 function checkInput(state, input, step, substep) {
 	const correct = getCorrect(state)
+	console.log(input)
 	switch (step) {
 		case 1:
 			return checkField(['p1', 'V1', 'T1'], correct, input, data.equalityOptions)
 		case 2:
-			return input.ansProcess && input.ansProcess[0] === 0
+			return input.process === 0
 		case 3:
 			return checkField(['p2', 'V2', 'T2'], correct, input, data.equalityOptions)
 		default:

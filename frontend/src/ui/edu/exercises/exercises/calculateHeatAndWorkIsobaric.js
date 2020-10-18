@@ -8,7 +8,7 @@ import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 
 import { useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
-import { getDefaultFeedback } from '../util/feedback'
+import { getDefaultFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -43,7 +43,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Wat voor soort proces betreft het hier?</Par>
 			<InputSpace>
-				<MultipleChoice id="ansProcess" choices={[
+				<MultipleChoice id="process" choices={[
 					<span>Dit is een isobaar proces.</span>,
 					<span>Dit is een isochoor proces.</span>,
 					<span>Dit is een isotherm proces.</span>,
@@ -60,7 +60,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Welke formules zijn het handigst om bij deze vraag te gebruiken?</Par>
 			<InputSpace>
-				<MultipleChoice id="ansEq" choices={[
+				<MultipleChoice id="eq" choices={[
 					<span><M>Q = \frac(k)(k-1) p \left(V_2 - V_1\right)</M> en <M>W = p\left(V_2 - V_1\right)</M></span>,
 					<span><M>Q = mc_p\left(T_2-T_1\right)</M> en <M>W = mR_s\left(T_2-T_1\right)</M></span>,
 					<span><M>Q = \frac(1)(k-1) V \left(p_2 - p_1\right)</M> en <M>W = 0</M></span>,
@@ -127,56 +127,40 @@ const steps = [
 			const { shared: { getCorrect } } = useExerciseData()
 			const { cp, Rs, m, T1, T2, Q, W } = getCorrect(state)
 
-			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we <BM>Q = mc_p\left(T_2-T_1\right) = {m.float} \cdot {cp.float} \cdot \left({T2.float} - {T1.float}\right) = {Q},</BM><BM>W = mR_s\left(T_2-T_1\right) = {m.float} \cdot {Rs.float} \cdot \left({T2.float} - {T1.float}\right) = {W}.</BM> Het is lastig om te controleren of dit logisch is. De richtlijn is dat bij processen met enkele grammen gas we enkele honderden Joules nodig hebben, en zodra we met kilogrammen gaan werken we rond de honderden kilo-Joules zitten. Dit lijkt te kloppen met onze waarden, waardoor de antwoorden logisch lijken.</Par>
+			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we <BM>Q = mc_p\left(T_2-T_1\right) = {m.float} \cdot {cp.float} \cdot \left({T2.float} - {T1.float}\right) = {Q},</BM><BM>W = mR_s\left(T_2-T_1\right) = {m.float} \cdot {Rs.float} \cdot \left({T2.float} - {T1.float}\right) = {W}.</BM> Het is lastig om te controleren of dit logisch is. De richtlijn is dat het aantal Joules bij een proces vaak een stuk groter is (een factor 10 à 100) dan het aantal gram gas. Dit lijkt te kloppen met onze waarden, waardoor de antwoorden logisch lijken.</Par>
 		},
 	},
 ]
 
 const getFeedback = (exerciseData) => {
-	const { input, progress } = exerciseData
-
-	const feedback = getDefaultFeedback(['m', 'T1', 'T2', 'cp', 'Rs', 'Q', 'W'], exerciseData)
-
-	if (input.ansProcess) {
-		const mcStep = 1
-		const [ansProcess] = input.ansProcess
-		feedback.ansProcess = {
-			'0': progress[mcStep] && progress[mcStep].done,
-			[ansProcess]: {
-				correct: !!(progress[mcStep] && progress[mcStep].solved),
-				text: [
-					'Ja, dit is inderdaad een isobaar proces, want de druk blijft constant.',
-					'Nee, dan zou het volume constant moeten blijven.',
-					'Nee, dan zou de temperatuur constant moeten blijven.',
-					'Nee, dan zou er geen warmte toegevoerd mogen worden.',
-					'Nee, dat is bij een algemeen proces waarbij niets constant blijft.',
-				][ansProcess]
-			},
-		}
+	return {
+		...getDefaultFeedback(['m', 'T1', 'T2', 'cp', 'Rs', 'Q', 'W'], exerciseData),
+		...getMCFeedback('process', exerciseData, {
+			step: 1,
+			correct: 0,
+			text: [
+				'Ja, dit is inderdaad een isobaar proces, want de druk blijft constant.',
+				'Nee, dan zou het volume constant moeten blijven.',
+				'Nee, dan zou de temperatuur constant moeten blijven.',
+				'Nee, dan zou er geen warmte toegevoerd mogen worden.',
+				'Nee, dat is bij een algemeen proces waarbij niets constant blijft.',
+			],
+		}),
+		...getMCFeedback('eq', exerciseData, {
+			step: 2,
+			correct: 1,
+			text: [
+				'Net niet! Dit zijn wel de formules voor een isobaar proces, maar we weten de druk en het volume niet.',
+				'Ja! Dit zijn de formules voor een isobaar proces, en ze gebruiken de temperatuur, die in de vraag gegeven is.',
+				'Nee, dit zijn de formules voor een isochoor proces. Daarnaast weten we de druk en het volume helemaal niet.',
+				'Nee, dit zijn de formules voor een isochoor proces.',
+				'Nee, dit zijn de formules voor een isotherm proces. Daarnaast weten we de druk en het volume helemaal niet.',
+				'Nee, dit zijn de formules voor een isotherm proces.',
+				'Nee, dit zijn de formules voor een isentroop proces. Daarnaast weten we de druk en het volume helemaal niet.',
+				'Nee, dit zijn de formules voor een isentroop proces.',
+				'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze opgave. Daarnaast weten we de druk en het volume helemaal niet.',
+				'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze opgave.',
+			],
+		})
 	}
-
-	if (input.ansEq) {
-		const mcStep = 2
-		const [ansEq] = input.ansEq
-		feedback.ansEq = {
-			'1': progress[mcStep] && progress[mcStep].done,
-			[ansEq]: {
-				correct: !!(progress[mcStep] && progress[mcStep].solved),
-				text: [
-					'Net niet! Dit zijn wel de formules voor een isobaar proces, maar we weten de druk en het volume niet.',
-					'Ja! Dit zijn de formules voor een isobaar proces, en ze gebruiken de temperatuur, die in de vraag gegeven is.',
-					'Nee, dit zijn de formules voor een isochoor proces. Daarnaast weten we de druk en het volume helemaal niet.',
-					'Nee, dit zijn de formules voor een isochoor proces.',
-					'Nee, dit zijn de formules voor een isotherm proces. Daarnaast weten we de druk en het volume helemaal niet.',
-					'Nee, dit zijn de formules voor een isotherm proces.',
-					'Nee, dit zijn de formules voor een isentroop proces. Daarnaast weten we de druk en het volume helemaal niet.',
-					'Nee, dit zijn de formules voor een isentroop proces.',
-					'Nee, dit zijn de formules voor een polytroop proces, maar dat is te algemeen. Daarnaast weten we de druk en het volume helemaal niet.',
-					'Nee, dit zijn de formules voor een polytroop proces, maar dat is te algemeen.',
-				][ansEq]
-			},
-		}
-	}
-
-	return feedback
 }

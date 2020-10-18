@@ -7,7 +7,7 @@ import clsx from 'clsx'
 
 import { numberArray, shuffle, getRandomSubset } from 'step-wise/util/arrays'
 import { noop } from 'step-wise/util/functions'
-import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
+import { equals, getEmpty } from 'step-wise/inputTypes/MultipleChoice'
 
 import { notSelectable } from 'ui/theme'
 import FeedbackBlock from 'ui/components/FeedbackBlock'
@@ -114,13 +114,19 @@ const useOptionStyle = makeStyles((theme) => ({
  * Changing options while the object is already rendered is currently not supported.
  */
 export default function MultipleChoice({ id, choices = [], validate = nonEmpty, multiple = false, readOnly, pick, include, randomOrder = false, persistent }) {
-	const [input, setInput] = useFormParameter(id, { initialValue: [], subscribe: true, persistent })
+	const [input, setInput] = useFormParameter(id, { initialValue: getEmptyData(multiple), subscribe: true, persistent })
 	const { feedback, feedbackInput } = useFieldFeedback({ fieldId: id, subFields: numberArray(0, choices.length - 1), validate })
 	const { done } = useStatus()
 	readOnly = (readOnly === undefined ? done : readOnly)
 	const Element = multiple ? Checkbox : Radio
 	const classes = useStyles()
 	const mappingRef = useRef()
+
+	// Extract input data.
+	if (input.value.multiple !== multiple)
+		throw new Error(`MultipleChoice error: changing the "multiple" property during operation is not supported.`)
+	const { value: { selection } } = input
+	const setSelection = (selection) => setInput(input => ({ ...input, value: { ...input.value, selection } }))
 
 	// Set up a function that can give us a mapping.
 	const numChoices = choices.length
@@ -143,37 +149,36 @@ export default function MultipleChoice({ id, choices = [], validate = nonEmpty, 
 	const mapping = mappingRef.current
 
 	// Set up handlers to change selections.
-	const isCheckedFromInput = (index, input) => input.includes(index)
-	const isChecked = (index) => isCheckedFromInput(index, input)
+	const isChecked = (index) => selection.includes(index)
 	const activateItem = readOnly ? noop : (multiple ?
-		((index) => isChecked(index) ? undefined : setInput([...input, index])) :
-		((index) => isChecked(index) ? undefined : setInput([index]))
+		((index) => isChecked(index) ? undefined : setSelection([...selection, index])) :
+		((index) => isChecked(index) ? undefined : setSelection([index]))
 	)
 	const deactivateItem = readOnly ? noop : (multiple ?
-		((index) => isChecked(index) ? setInput(input.filter(item => item !== index)) : undefined) :
-		((index) => isChecked(index) ? setInput([]) : undefined)
+		((index) => isChecked(index) ? setSelection(selection.filter(item => item !== index)) : undefined) :
+		((index) => isChecked(index) ? setSelection([]) : undefined)
 	)
 	const toggleItem = (index) => (isChecked(index) ? deactivateItem(index) : activateItem(index))
 
-	// Determine if feedback is shown: only if there is feedback and if the feedbackInput equals the current input.
-	const isFeedback = feedback !== undefined && !!feedback.text
-	const inputEqualToFeedbackInput = feedbackInput && input.length === feedbackInput.length && input.every(item => feedbackInput.includes(item))
-	const showFeedback = isFeedback && inputEqualToFeedbackInput
+	// Determine if feedback text is shown: only if there is feedback and if the feedbackInput equals the current input.
+	const isFeedbackText = feedback !== undefined && !!feedback.text
+	const inputEqualToFeedbackInput = feedbackInput && equals(input.value, feedbackInput.value)
+	const showFeedbackText = isFeedbackText && inputEqualToFeedbackInput
 
 	// Set up output.
 	if (!mapping)
 		return null
 	return <>
 		<ul className={clsx(classes.multipleChoice, readOnly ? 'disabled' : 'enabled')}>
-			{mapping ? mapping.map(index => <Choice key={index} checked={isChecked(index)} activate={() => activateItem(index)} deactivate={() => activateItem(index)} toggle={() => toggleItem(index)} Element={Element} feedback={feedback && feedback[index]} feedbackInput={feedbackInput && isCheckedFromInput(index, feedbackInput)} readOnly={readOnly}>{choices[index]}</Choice>
+			{mapping ? mapping.map(index => <Choice key={index} checked={isChecked(index)} activate={() => activateItem(index)} deactivate={() => activateItem(index)} toggle={() => toggleItem(index)} Element={Element} feedback={feedback && feedback[index]} readOnly={readOnly}>{choices[index]}</Choice>
 			) : null}
 		</ul>
-		{showFeedback ? <FeedbackBlock {...feedback} /> : null}
+		{showFeedbackText ? <FeedbackBlock {...feedback} /> : null}
 	</>
 }
 
 // A choice is a single item from the list.
-function Choice({ checked, activate, deactivate, toggle, Element, feedback, feedbackInput, readOnly, children }) {
+function Choice({ checked, activate, deactivate, toggle, Element, feedback, readOnly, children }) {
 	const { type: feedbackType, text: feedbackText, Icon, color: feedbackColor } = feedback || {}
 	const hasFeedback = (feedbackType && feedbackType !== 'normal')
 	const classes = useOptionStyle({ feedbackType, feedbackColor })
@@ -191,17 +196,13 @@ function Choice({ checked, activate, deactivate, toggle, Element, feedback, feed
 
 // These are validation functions.
 export function nonEmpty(input) {
-	if (input.length === 0)
+	if (input === undefined || (Array.isArray(input) && input.length === 0))
 		return 'Je hebt nog niets geselecteerd.'
 }
 
-export function useMultipleChoiceGetFeedback(id, multiple = false) {
-	return (exerciseData) => {
-		const { input, progress } = exerciseData
-		const selection = input[id]
-
-		if (multiple)
-			return { main: !!progress.solved }
-		return { [id]: { [selection[0]]: { correct: !!progress.solved, text: progress.solved ? selectRandomCorrect() : selectRandomIncorrect() } } }
+function getEmptyData(multiple) {
+	return {
+		type: 'MultipleChoice',
+		value: getEmpty(multiple),
 	}
 }

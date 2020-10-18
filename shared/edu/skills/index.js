@@ -85,7 +85,8 @@ const skills = {
 	poissonsLaw: {
 		name: `Poisson's wet`,
 		setup: combinerAnd('calculateWithTemperature', 'specificHeatRatio', 'solveExponentEquation'), // ToDo later: use "combinerPart('specificHeatRatio', 2/3)" to indicate it's not always needed.
-		exercises: ['poissonsLawBicyclePump', 'poissonsLawCompressor', 'poissonsLawTurbine'],
+		exercises: ['poissonsLawTurbine'],
+		// exercises: ['poissonsLawBicyclePump', 'poissonsLawCompressor', 'poissonsLawTurbine'],
 	},
 	calculateProcessStep: {
 		name: 'Processtap doorrekenen',

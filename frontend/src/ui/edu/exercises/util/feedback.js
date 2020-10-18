@@ -30,7 +30,7 @@ export function getDefaultFeedback(parameters, exerciseData, extraOptions) {
 	const { equalityOptions } = data
 	if (!equalityOptions || typeof equalityOptions !== 'object')
 		throw new Error(`Default feedback error: could not find an "equalityOptions" object in the shared data.`)
-	
+
 	// Extract correct answers. If we have a single parameter and a single object coming out of getCorrect, adjust the formats accordingly.
 	let correct = getCorrect(state)
 	if (!Array.isArray(parameters) && correct[parameters] === undefined) {
@@ -228,4 +228,63 @@ function getFloatComparisonFeedbackTextFromComparison(comparison, options) {
 
 	// Check other problems. (This should not happen.)
 	return options.incorrect || selectRandomIncorrect()
+}
+
+/* getMCFeedback provides a default feedback for multiple choice input fields. Currently this only works for single-input multiple choice and not multi-input. Parameters are:
+ * - name: the name of the field.
+ * - exerciseData: all the data for the exercise in the standard format.
+ * - options: an object with options.
+ * The options object can contain the following.
+ * - correct: the correct answer. It is used to determine if the given input is correct or not. If it is not given, it is attempted to be pulled out of the getCorrect function.
+ * - done: whether the question is done. If so, the correct answer will be displayed.
+ * - step: if provided, the progress object is used to determine whether this question is done. Only used if "done" is not given.
+ * - substep: if provided, the corresponding substep is checked.
+ * - text: the text corresponding to each option, if it is selected. This is usually an array of strings/JSXs. If it is not an array, the given text is simply always shown.
+ * - correctText: the text that is used upon a correct answer, if no text is given.
+ * - incorrectText: the text that is used upon an incorrect answer, if no text is given.
+ * The object returned is of the form { [name]: { 0: { correct: false, text: 'Wrong!' }, 1: { correct: true } } }
+ */
+export function getMCFeedback(name, exerciseData, options = {}) {
+	const { input, state, progress, shared } = exerciseData
+	let { correct, done, step, substep, text, correctText, incorrectText } = options
+
+	// Attempt to get correct answer if not given.
+	if (correct === undefined) {
+		const { getCorrect } = shared
+		if (getCorrect)
+			correct = getCorrect(state)[name]
+	}
+
+	// Attempt to determine "done".
+	if (done === undefined) {
+		if (progress.done) {
+			done = progress.done
+		} else if (step !== undefined) {
+			let currProgress = progress[step]
+			if (substep !== undefined)
+				currProgress = currProgress && currProgress[substep]
+			done = currProgress && currProgress.done
+		}
+	}
+
+	// If the exercise is done, show the correct answer.
+	const feedback = {}
+	if (done && correct !== undefined)
+		feedback[correct] = true
+
+	// If there is an input, show the feedback on this input.
+	const currInput = input[name]
+	if (currInput !== undefined) {
+		const isCorrect = correct === currInput
+		let feedbackText = Array.isArray(text) ? text[currInput] : text
+		if (!feedbackText)
+			feedbackText = (isCorrect ? correctText : incorrectText)
+		feedback[currInput] = {
+			correct: isCorrect,
+			text: feedbackText,
+		}
+	}
+
+	// Return result in appropriate format.
+	return { [name]: feedback }
 }

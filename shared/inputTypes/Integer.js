@@ -9,11 +9,11 @@ function isFOofType(param) {
 module.exports.isFOofType = isFOofType
 
 function FOtoIO(param) {
-	return param.toString()
+	return { value: param.toString() }
 }
 module.exports.FOtoIO = FOtoIO
 
-function IOtoFO(value) {
+function IOtoFO({ value }) {
 	if (value === '' || value === '-')
 		return 0
 	return parseInt(value)
@@ -21,11 +21,11 @@ function IOtoFO(value) {
 module.exports.IOtoFO = IOtoFO
 
 function getEmpty() {
-	return ''
+	return { value: '' }
 }
 module.exports.getEmpty = getEmpty
 
-function isEmpty(value) {
+function isEmpty({ value }) {
 	if (typeof value !== 'string')
 		throw new Error(`Invalid type: expected a string but received "${JSON.stringify(value)}".`)
 	return value === ''

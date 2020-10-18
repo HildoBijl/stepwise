@@ -11,7 +11,7 @@ import { InputTable } from 'ui/components/InputTable'
 
 import { useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
-import { getDefaultFeedback } from '../util/feedback'
+import { getDefaultFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -60,7 +60,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Wat voor soort proces vindt hier bij benadering plaats? En wat geldt er dus?</Par>
 			<InputSpace>
-				<MultipleChoice id="ansProcess" choices={[
+				<MultipleChoice id="process" choices={[
 					<span>Een isobaar proces: de druk <M>p</M> blijft ongeveer constant.</span>,
 					<span>Een isochoor proces: het volume <M>V</M> blijft ongeveer constant.</span>,
 					<span>Een isotherm proces: de temperatuur <M>T</M> blijft ongeveer constant.</span>,
@@ -91,27 +91,18 @@ const steps = [
 ]
 
 const getFeedback = (exerciseData) => {
-	const { input, progress } = exerciseData
-
-	const feedback = getDefaultFeedback(['p1', 'V1', 'T1', 'p2', 'V2', 'T2'], exerciseData)
-
-	if (input.ansProcess) {
-		const mcStep = 2
-		const [ansProcess] = input.ansProcess
-		feedback.ansProcess = {
-			'0': progress[mcStep] && progress[mcStep].done,
-			[ansProcess]: {
-				correct: !!(progress[mcStep] && progress[mcStep].solved),
-				text: [
-					'Ja! Omdat de elasticiteit van de ballon ongeveer constant blijft, zal de druk net iets hoger blijven van de atmosferische druk.',
-					'Nee, de ballon zet uit door het verwarmen. Het volume neemt dus toe.',
-					'Nee, de temperatuur stijgt juist door het verwarmen.',
-					'Nee, dit is geen isentroop proces. Er wordt immers warmte aan de ballon toegevoegd.',
-				][ansProcess]
-			},
-		}
+	return {
+		...getDefaultFeedback(['p1', 'V1', 'T1', 'p2', 'V2', 'T2'], exerciseData),
+		...getMCFeedback('process', exerciseData, {
+			step: 2,
+			correct: 0,
+			text: [
+				'Ja! Omdat de elasticiteit van de ballon ongeveer constant blijft, zal de druk net iets hoger blijven van de atmosferische druk.',
+				'Nee, de ballon zet uit door het verwarmen. Het volume neemt dus toe.',
+				'Nee, de temperatuur stijgt juist door het verwarmen.',
+				'Nee, dit is geen isentroop proces. Er wordt immers warmte aan de ballon toegevoegd.',
+			],
+		}),
 	}
-
-	return feedback
 }
 
