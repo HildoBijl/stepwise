@@ -61,7 +61,6 @@ function getCorrect({ p1, p2, T1 }) {
 }
 
 function checkInput(state, input, step, substep) {
-	const { ansp1, ansp2, ansT1, ansT2, ansk } = input
 	const { k, p1, p2, T1, T2 } = getCorrect(state)
 	const eo = data.equalityOptions
 
@@ -69,18 +68,18 @@ function checkInput(state, input, step, substep) {
 		case 1:
 			switch (substep) {
 				case 1:
-					return T1.equals(ansT1, eo.T1)
+					return T1.equals(input.T1, eo.T1)
 				case 2:
-					return p1.equals(ansp1, eo.p) && ansp1.unit.equals(ansp2.unit, eo.pUnit)
+					return p1.equals(input.p1, eo.p) && input.p1.unit.equals(input.p2.unit, eo.pUnit)
 				case 3:
-					return p2.equals(ansp2, eo.p) && ansp1.unit.equals(ansp2.unit, eo.pUnit)
+					return p2.equals(input.p2, eo.p) && input.p1.unit.equals(input.p2.unit, eo.pUnit)
 			}
 		case 2:
-			return k.equals(ansk, eo.k)
+			return k.equals(input.k, eo.k)
 		case 3:
 			return input.eq === 2
 		default:
-			return T2.equals(ansT2, eo.T2)
+			return T2.equals(input.T2, eo.T2)
 	}
 }
 

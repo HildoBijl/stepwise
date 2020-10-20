@@ -21,13 +21,13 @@ export default function Exercise() {
 const colHeads = ['Druk', 'Volume', 'Temperatuur']
 const rowHeads = ['Voor de turbine', 'Na de turbine']
 const fields = [[
-	<FloatUnitInput id="ansp1" label={<M>p_1</M>} size="l" />,
-	<FloatUnitInput id="ansV1" label={<M>V_1</M>} size="l" />,
-	<FloatUnitInput id="ansT1" label={<M>T_1</M>} size="l" />,
+	<FloatUnitInput id="p1" label={<M>p_1</M>} size="l" />,
+	<FloatUnitInput id="V1" label={<M>V_1</M>} size="l" />,
+	<FloatUnitInput id="T1" label={<M>T_1</M>} size="l" />,
 ], [
-	<FloatUnitInput id="ansp2" label={<M>p_2</M>} size="l" />,
-	<FloatUnitInput id="ansV2" label={<M>V_2</M>} size="l" />,
-	<FloatUnitInput id="ansT2" label={<M>T_2</M>} size="l" />,
+	<FloatUnitInput id="p2" label={<M>p_2</M>} size="l" />,
+	<FloatUnitInput id="V2" label={<M>V_2</M>} size="l" />,
+	<FloatUnitInput id="T2" label={<M>T_2</M>} size="l" />,
 ]]
 
 const Problem = ({ m, T1, p1, p2 }) => {
@@ -89,13 +89,13 @@ const steps = [
 					{choice === 0 ? <>
 						<Par>Wat is in dit geval het volume na de turbine?</Par>
 						<Par>
-							<FloatUnitInput id="ansV2" prelabel={<M>V_2=</M>} label="Volume" size="s" />
+							<FloatUnitInput id="V2" prelabel={<M>V_2=</M>} label="Volume" size="s" />
 						</Par>
 					</> : null}
 					{choice === 1 ? <>
 						<Par>Wat is dan de temperatuur na de turbine?</Par>
 						<Par>
-							<FloatUnitInput id="ansT2" prelabel={<M>T_2=</M>} label="Temperatuur" size="s" />
+							<FloatUnitInput id="T2" prelabel={<M>T_2=</M>} label="Temperatuur" size="s" />
 						</Par>
 					</> : null}
 				</InputSpace>

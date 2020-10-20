@@ -18,7 +18,7 @@ export default function Exercise() {
 
 const Problem = ({ p, V, T }) => <>
 	<Par>Een gloeilamp met inhoud <M>{V}</M> is met argongas gevuld. De druk binnen de gloeilamp is gemeten als <M>{p}</M>. De gloeilamp staat uit, waardoor zijn temperatuur gelijk is aan de omgevingstemperatuur <M>{T}</M>. Bereken de massa van het argongas.</Par>
-	<InputSpace><Par><FloatUnitInput id="ansm" prelabel={<M>m=</M>} label="Massa" size="s" /></Par></InputSpace>
+	<InputSpace><Par><FloatUnitInput id="m" prelabel={<M>m=</M>} label="Massa" size="s" /></Par></InputSpace>
 </>
 
 const steps = [
@@ -27,9 +27,9 @@ const steps = [
 			<Par>Zet alle gegeven waarden in standaard eenheden.</Par>
 			<InputSpace>
 				<Par>
-					<Substep ss={1}><FloatUnitInput id="ansV" prelabel={<M>V=</M>} label="Volume" size="s" /></Substep>
-					<Substep ss={2}><FloatUnitInput id="ansp" prelabel={<M>p=</M>} label="Druk" size="s" /></Substep>
-					<Substep ss={3}><FloatUnitInput id="ansT" prelabel={<M>T=</M>} label="Temperatuur" size="s" /></Substep>
+					<Substep ss={1}><FloatUnitInput id="V" prelabel={<M>V=</M>} label="Volume" size="s" /></Substep>
+					<Substep ss={2}><FloatUnitInput id="p" prelabel={<M>p=</M>} label="Druk" size="s" /></Substep>
+					<Substep ss={3}><FloatUnitInput id="T" prelabel={<M>T=</M>} label="Temperatuur" size="s" /></Substep>
 				</Par>
 			</InputSpace>
 		</>,
@@ -47,7 +47,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Zoek de specifieke gasconstante van het gas op, in standaard eenheden.</Par>
 			<InputSpace>
-				<Par><FloatUnitInput id="ansRs" prelabel={<M>R_s=</M>} label="Specifieke gasconstante" size="s" /></Par>
+				<Par><FloatUnitInput id="Rs" prelabel={<M>R_s=</M>} label="Specifieke gasconstante" size="s" /></Par>
 			</InputSpace>
 		</>,
 		Solution: (state) => {
@@ -60,7 +60,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Bereken via de gaswet de massa van het gas in de gloeilamp.</Par>
 			<InputSpace>
-				<Par><FloatUnitInput id="ansm" prelabel={<M>m=</M>} label="Massa" size="s" /></Par>
+				<Par><FloatUnitInput id="m" prelabel={<M>m=</M>} label="Massa" size="s" /></Par>
 			</InputSpace>
 		</>,
 		Solution: (state) => {

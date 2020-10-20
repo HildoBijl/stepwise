@@ -22,7 +22,7 @@ const Problem = ({ n, T1, V1, V2 }) => <>
 	<Par>Ga ervan uit dat de druk nog niet voldoende is om het ventiel open te laten gaan; er is dus nog geen lucht weggestroomd. Ga er ook van uit dat het proces <em>niet</em> isentropisch verloopt: er stroomt een beetje warmte weg. Gebruik een procescoëfficiënt van <M>n={n}</M>.</Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="ansT2" prelabel={<M>T_(\rm eind)=</M>} label="Temperatuur" size="s" />
+			<FloatUnitInput id="T2" prelabel={<M>T_(\rm eind)=</M>} label="Temperatuur" size="s" />
 		</Par>
 	</InputSpace>
 </>
@@ -33,9 +33,9 @@ const steps = [
 			<Par>Noem de beginsituatie "punt 1" en de eindsituatie "punt 2". Zet alle gegeven waarden in eenheden waarmee we mogen rekenen.</Par>
 			<InputSpace>
 				<Par>
-					<Substep ss={1}><FloatUnitInput id="ansT1" prelabel={<M>T_1=</M>} label="Begintemperatuur" size="s" /></Substep>
-					<Substep ss={2}><FloatUnitInput id="ansV1" prelabel={<M>V_1=</M>} label="Beginvolume" size="s" /></Substep>
-					<Substep ss={3}><FloatUnitInput id="ansV2" prelabel={<M>V_2=</M>} label="Eindvolume" size="s" /></Substep>
+					<Substep ss={1}><FloatUnitInput id="T1" prelabel={<M>T_1=</M>} label="Begintemperatuur" size="s" /></Substep>
+					<Substep ss={2}><FloatUnitInput id="V1" prelabel={<M>V_1=</M>} label="Beginvolume" size="s" /></Substep>
+					<Substep ss={3}><FloatUnitInput id="V2" prelabel={<M>V_2=</M>} label="Eindvolume" size="s" /></Substep>
 				</Par>
 			</InputSpace>
 		</>,
@@ -66,7 +66,7 @@ const steps = [
 			<Par>Bereken via de gekozen wet van Poisson de temperatuur na de compressie.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="ansT2" prelabel={<M>T_2=</M>} label="Temperatuur" size="s" />
+					<FloatUnitInput id="T2" prelabel={<M>T_2=</M>} label="Temperatuur" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -81,7 +81,6 @@ const steps = [
 
 const getFeedback = (exerciseData) => {
 	const { input, shared } = exerciseData
-	const { ansV1, ansV2 } = input
 	const { data } = shared
 
 	const feedback = {
@@ -95,10 +94,10 @@ const getFeedback = (exerciseData) => {
 	}
 
 	// If p1 and p2 have different units, then note this.
-	if (ansV1 && ansV2 && !ansV1.unit.equals(ansV2.unit, data.equalityOptions.VUnit)) {
+	if (input.V1 && input.V2 && !input.V1.unit.equals(input.V2.unit, data.equalityOptions.VUnit)) {
 		const addedFeedback = { correct: false, text: <span>De eenheden van <M>V_1</M> en <M>V_2</M> moeten gelijk zijn.</span> }
-		feedback.ansV1 = addedFeedback
-		feedback.ansV2 = addedFeedback
+		feedback.V1 = addedFeedback
+		feedback.V2 = addedFeedback
 	}
 
 	return feedback

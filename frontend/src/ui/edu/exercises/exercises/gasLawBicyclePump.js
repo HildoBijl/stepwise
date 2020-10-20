@@ -16,7 +16,7 @@ export default function Exercise() {
 const Problem = ({ p1, p2, V1, V2, T1 }) => <>
 	<Par>Een fietspomp heeft de hendel omhoog, en heeft hiermee een inwendig volume van <M>{V1}</M>. De lucht in de fietspomp heeft dezelfde eigenschappen als de omgevingslucht: een temperatuur van <M>{T1}</M> en een druk van <M>{p1}</M>.</Par>
 	<Par>Vervolgens wordt de hendel van de fietspomp ingedrukt, tot het ventiel richting de fietsband net opengaat. De drukmeter van de pomp geeft <M>{p2}</M> aan. Het volume van de lucht in de pomp is door deze compressie <M>{V2}</M> geworden. Wat is de temperatuur van de gecomprimeerde lucht in de pomp?</Par>
-	<InputSpace><Par><FloatUnitInput id="ansT2" prelabel={<M>T=</M>} label="Temperatuur" size="s" /></Par></InputSpace>
+	<InputSpace><Par><FloatUnitInput id="T2" prelabel={<M>T=</M>} label="Temperatuur" size="s" /></Par></InputSpace>
 </>
 
 const steps = [
@@ -25,7 +25,7 @@ const steps = [
 			<Par>Bekijk de beginsituatie: de fietspomp met de hendel omhoog. Bereken hiervoor, via de gaswet, de massa van de lucht die in de pomp zit.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="ansm" prelabel={<M>m=</M>} label="Massa" size="s" />
+					<FloatUnitInput id="m" prelabel={<M>m=</M>} label="Massa" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -39,7 +39,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Bekijk de eindsituatie: de fietspomp met de hendel ingedrukt. Bereken hiervoor, wederom via de gaswet, de temperatuur van de lucht.</Par>
 			<InputSpace>
-				<Par><FloatUnitInput id="ansT2" prelabel={<M>T=</M>} label="Temperatuur" size="s" /></Par>
+				<Par><FloatUnitInput id="T2" prelabel={<M>T=</M>} label="Temperatuur" size="s" /></Par>
 			</InputSpace>
 		</>,
 		Solution: (state) => {

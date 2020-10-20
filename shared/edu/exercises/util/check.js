@@ -6,7 +6,7 @@ function checkField(field, correct, input, equalityOptions) {
 		if (!currCorrect)
 			throw new Error(`Field check error: could not find a correct answer for field "${field}". Make sure it is exported from the getCorrect function.`)
 
-		const currInput = input[field] || input[`ans${field}`]
+		const currInput = input[field]
 		if (!currInput)
 			throw new Error(`Field check error: could not find an input for field "${field}". Make sure that there is an input field named either "${field}" or "ans${field}".`)
 

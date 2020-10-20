@@ -13,8 +13,12 @@ function generateState() {
 	return { medium: selectRandomly(['air', 'argon', 'carbonDioxide', 'carbonMonoxide', 'helium', 'hydrogen', 'methane', 'nitrogen', 'oxygen']) }
 }
 
-function checkInput({ medium }, { ans }) {
-	return gasProperties[medium].k.equals(ans, data.equalityOptions)
+function checkInput(state, { ans }) {
+	return getCorrect(state).equals(ans, data.equalityOptions)
+}
+
+function getCorrect({ medium }) {
+	return gasProperties[medium].k
 }
 
 module.exports = {

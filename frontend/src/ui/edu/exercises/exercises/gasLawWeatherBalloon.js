@@ -16,7 +16,7 @@ export default function Exercise() {
 const Problem = ({ p1, p2, T1, T2, V1 }) => <>
 	<Par>Een grote weerballon wordt met helium gevuld. Bij de grond is de druk <M>{p1}</M> en de temperatuur <M>{T1}</M>. In deze omstandigheden is het volume van de weerballon <M>{V1}.</M></Par>
 	<Par>Vervolgens wordt de weerballon opgelaten. Op tientallen kilometers hoogte is de druk nog maar <M>{p2}</M> en de temperatuur <M>{T2}</M>. Wat is op deze hoogte het volume van de weerballon?</Par>
-	<InputSpace><Par><FloatUnitInput id="ansV2" prelabel={<M>V=</M>} label="Volume" size="s" /></Par></InputSpace>
+	<InputSpace><Par><FloatUnitInput id="V2" prelabel={<M>V=</M>} label="Volume" size="s" /></Par></InputSpace>
 </>
 
 const steps = [
@@ -25,7 +25,7 @@ const steps = [
 			<Par>Bekijk de beginsituatie: de weerballon op de grond. Bereken hiervoor, via de gaswet, de massa van het helium in de ballon.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="ansm" prelabel={<M>m=</M>} label="Massa" size="s" />
+					<FloatUnitInput id="m" prelabel={<M>m=</M>} label="Massa" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -39,7 +39,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Bekijk de eindsituatie: de weerballon op grote hoogte. Bereken hiervoor, wederom via de gaswet, het volume van het helium in de ballon.</Par>
 			<InputSpace>
-				<Par><FloatUnitInput id="ansV2" prelabel={<M>V=</M>} label="Volume" size="s" /></Par>
+				<Par><FloatUnitInput id="V2" prelabel={<M>V=</M>} label="Volume" size="s" /></Par>
 			</InputSpace>
 		</>,
 		Solution: (state) => {

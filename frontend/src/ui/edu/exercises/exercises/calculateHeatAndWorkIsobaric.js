@@ -31,8 +31,8 @@ const Problem = ({ gas, m, T1, T2 }) => {
 		<Par>Een hoeveelheid van <M>{m}</M> {Dutch[gas]} wordt bij gelijkblijvende druk verwarmd van <M>{T1}</M> tot <M>{T2}</M>. Hoeveel warmte <M>Q</M> is er in het gas gestopt en hoeveel arbeid <M>W</M> heeft het gas tijdens dit proces verricht?</Par>
 		<InputSpace>
 			<Par>
-				<FloatUnitInput id="ansQ" prelabel={<M>Q =</M>} label={<span><M>Q</M></span>} size="s" />
-				<FloatUnitInput id="ansW" prelabel={<M>W =</M>} label={<span><M>W</M></span>} size="s" />
+				<FloatUnitInput id="Q" prelabel={<M>Q =</M>} label={<span><M>Q</M></span>} size="s" />
+				<FloatUnitInput id="W" prelabel={<M>W =</M>} label={<span><M>W</M></span>} size="s" />
 			</Par>
 		</InputSpace>
 	</>
@@ -58,7 +58,7 @@ const steps = [
 	},
 	{
 		Problem: () => <>
-			<Par>Welke formules zijn het handigst om bij deze vraag te gebruiken?</Par>
+			<Par>Zoek de formules op die horen bij een isobaar proces. Welke zijn het handigst om hier te gebruiken?</Par>
 			<InputSpace>
 				<MultipleChoice id="eq" choices={[
 					<span><M>Q = \frac(k)(k-1) p \left(V_2 - V_1\right)</M> en <M>W = p\left(V_2 - V_1\right)</M></span>,
@@ -75,7 +75,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			return <Par>Dit is een isobaar proces. Verder weten we alleen de temperatuur en niet de druk of het volume. De formules die we willen gebruiken zijn dus <M>Q = mc_p\left(T_2-T_1\right)</M> en <M>W = mR_s\left(T_2-T_1\right)</M>.</Par>
+			return <Par>Er zijn verschillende formules die horen bij een isobaar proces. We weten echter alleen de temperatuur, en niet de druk of het volume. De formules die we willen gebruiken zijn dus <M>Q = mc_p\left(T_2-T_1\right)</M> en <M>W = mR_s\left(T_2-T_1\right)</M>.</Par>
 		},
 	},
 	{
@@ -84,8 +84,8 @@ const steps = [
 				<Par>Zoek voor {Dutch[gas]} de waarden van <M>c_p</M> en <M>R_s</M> op.</Par>
 				<InputSpace>
 					<Par>
-						<FloatUnitInput id="anscp" prelabel={<M>c_p =</M>} label={<span><M>c_p</M></span>} size="s" />
-						<FloatUnitInput id="ansRs" prelabel={<M>R_s =</M>} label={<span><M>R_s</M></span>} size="s" />
+						<FloatUnitInput id="cp" prelabel={<M>c_p =</M>} label={<span><M>c_p</M></span>} size="s" />
+						<FloatUnitInput id="Rs" prelabel={<M>R_s =</M>} label={<span><M>R_s</M></span>} size="s" />
 					</Par>
 				</InputSpace>
 			</>
@@ -100,17 +100,17 @@ const steps = [
 	},
 	{
 		Problem: () => <>
-			<Par>Zet de gegeven waarden in eenheden waarmee we kunnen rekenen.</Par>
+			<Par>Zet de gegeven waarden in eenheden waarmee we hier mogen rekenen.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="ansm" prelabel={<M>m =</M>} label="Massa" size="s" />
-					<FloatUnitInput id="ansT1" prelabel={<M>T_1 =</M>} label="Temperatuur" size="s" />
-					<FloatUnitInput id="ansT2" prelabel={<M>T_2 =</M>} label="Temperatuur" size="s" />
+					<FloatUnitInput id="m" prelabel={<M>m =</M>} label="Massa" size="s" />
+					<FloatUnitInput id="T1" prelabel={<M>T_1 =</M>} label="Temperatuur" size="s" />
+					<FloatUnitInput id="T2" prelabel={<M>T_2 =</M>} label="Temperatuur" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
 		Solution: ({ m, T1, T2 }) => {
-			return <Par>De massa moet in standaard eenheden. Immers, de soortelijke warmte is ook "per kilogram" gegeven. Dus noteren we <M>m = {m.useUnit('kg')}</M>. Bij de temperaturen gaat het alleen om een temperatuurverschil, en dan mogen we ook in graden Celsius rekenen. Het is dus voldoende om <M>T_1 = {T1}</M> en <M>T_2 = {T2}</M> te schrijven.</Par>
+			return <Par>De massa moet in standaard eenheden. Immers, de soortelijke warmte is ook "per kilogram" gegeven. Dus noteren we <M>m = {m.useUnit('kg')}</M>. Bij de temperaturen gaat het alleen om een temperatuurverschil, en dan mogen we ook in graden Celsius rekenen. Het is dus voldoende om <M>T_1 = {T1}</M> en <M>T_2 = {T2}</M> te gebruiken.</Par>
 		},
 	},
 	{
@@ -118,8 +118,8 @@ const steps = [
 			<Par>Bereken met de gegevens formules en bekende waarden de warmte <M>Q</M> en de arbeid <M>W</M>.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="ansQ" prelabel={<M>Q =</M>} label={<span><M>Q</M></span>} size="s" />
-					<FloatUnitInput id="ansW" prelabel={<M>W =</M>} label={<span><M>W</M></span>} size="s" />
+					<FloatUnitInput id="Q" prelabel={<M>Q =</M>} label={<span><M>Q</M></span>} size="s" />
+					<FloatUnitInput id="W" prelabel={<M>W =</M>} label={<span><M>W</M></span>} size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -150,7 +150,7 @@ const getFeedback = (exerciseData) => {
 			step: 2,
 			correct: 1,
 			text: [
-				'Net niet! Dit zijn wel de formules voor een isobaar proces, maar we weten de druk en het volume niet.',
+				'Net niet! Dit zijn wel de formules voor een isobaar proces, maar we weten de druk en het volume niet. Dus zijn deze niet handig om te gebruiken.',
 				'Ja! Dit zijn de formules voor een isobaar proces, en ze gebruiken de temperatuur, die in de vraag gegeven is.',
 				'Nee, dit zijn de formules voor een isochoor proces. Daarnaast weten we de druk en het volume helemaal niet.',
 				'Nee, dit zijn de formules voor een isochoor proces.',

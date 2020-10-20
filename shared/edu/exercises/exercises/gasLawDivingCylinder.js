@@ -38,7 +38,7 @@ const data = {
 }
 
 function generateState() {
-	const p = getRandomFloatUnit({ // Note: this is the final answer. It won't be part of the state.
+	const p = getRandomFloatUnit({ // Note: this is the final input.wer. It won't be part of the state.
 		min: 180,
 		max: 300,
 		significantDigits: 2,
@@ -71,23 +71,23 @@ function getCorrect({ V, m, T }) {
 	return { p, V, m, Rs, T }
 }
 
-function checkInput(state, { ansV, ansm, ansp, ansT, ansRs }, step, substep) {
+function checkInput(state, input, step, substep) {
 	const { p, V, m, Rs, T } = getCorrect(state)
 
 	switch (step) {
 		case 1:
 			switch (substep) {
 				case 1:
-					return V.equals(ansV, data.equalityOptions.V)
+					return V.equals(input.V, data.equalityOptions.V)
 				case 2:
-					return m.equals(ansm, data.equalityOptions.m)
+					return m.equals(input.m, data.equalityOptions.m)
 				case 3:
-					return T.equals(ansT, data.equalityOptions.T)
+					return T.equals(input.T, data.equalityOptions.T)
 			}
 		case 2:
-			return Rs.equals(ansRs, data.equalityOptions.Rs)
+			return Rs.equals(input.Rs, data.equalityOptions.Rs)
 		default:
-			return p.equals(ansp, data.equalityOptions.p)
+			return p.equals(input.p, data.equalityOptions.p)
 	}
 }
 

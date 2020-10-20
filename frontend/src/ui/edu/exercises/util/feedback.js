@@ -46,9 +46,8 @@ export function getDefaultFeedback(parameters, exerciseData, extraOptions) {
 			return
 
 		// Extract parameters.
-		const inputParameter = parameter === 'ans' ? 'ans' : `ans${parameter}`
 		const correctAnswer = correct[parameter]
-		const givenAnswer = input[inputParameter]
+		const givenAnswer = input[parameter]
 		const currEqualityOptions = equalityOptions[parameter] || equalityOptions
 		const currExtraOptions = (Array.isArray(extraOptions) ? extraOptions[index] : extraOptions) || {}
 
@@ -59,13 +58,13 @@ export function getDefaultFeedback(parameters, exerciseData, extraOptions) {
 			throw new Error(`Default feedback error: no correct answer for "${parameter}" was passed from the getCorrect function.`)
 
 		// Call the comparison function for the correct parameter type.
-		const comparisonInput = [correctAnswer, givenAnswer, { equalityOptions: currEqualityOptions, prevInput: prevInput[inputParameter], prevFeedback: prevFeedback[inputParameter], ...currExtraOptions }]
+		const comparisonInput = [correctAnswer, givenAnswer, { equalityOptions: currEqualityOptions, prevInput: prevInput[parameter], prevFeedback: prevFeedback[parameter], ...currExtraOptions }]
 		switch (correctAnswer.constructor) {
 			case Float:
-				feedback[inputParameter] = getFloatComparisonFeedback(...comparisonInput)
+				feedback[parameter] = getFloatComparisonFeedback(...comparisonInput)
 				return
 			case FloatUnit:
-				feedback[inputParameter] = getFloatUnitComparisonFeedback(...comparisonInput)
+				feedback[parameter] = getFloatUnitComparisonFeedback(...comparisonInput)
 				return
 			default:
 				throw new Error(`Default feedback error: could not determine the type of parameter "${parameter}". No comparison could be made.`)

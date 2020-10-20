@@ -25,7 +25,7 @@ const Problem = ({ gas, V2, p1, p2 }) => <>
 	<Par>Een compressor vult een drukvat met {Dutch[gas]}gas. Het drukvat heeft een volume van <M>{V2}</M>. De compressor comprimeert het {Dutch[gas]} van <M>{p1}</M> naar <M>{p2}</M>. Deze compressie is bij benadering isentroop, waardoor geldt <M>n = k</M>. Hoeveel volume aan {Dutch[gas]}gas is de compressor ingestroomd?</Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="ansV1" prelabel={<M>V_(\rm in)=</M>} label="Volume" size="s" />
+			<FloatUnitInput id="V1" prelabel={<M>V_(\rm in)=</M>} label="Volume" size="s" />
 		</Par>
 	</InputSpace>
 </>
@@ -36,9 +36,9 @@ const steps = [
 			<Par>Noem het ingestroomde gas "punt 1" en het uitgestroomde gas dat nu in het drukvat zit "punt 2". Zet alle gegeven waarden in eenheden waarmee we mogen rekenen.</Par>
 			<InputSpace>
 				<Par>
-					<Substep ss={1}><FloatUnitInput id="ansp1" prelabel={<M>p_1=</M>} label="Begindruk" size="s" /></Substep>
-					<Substep ss={2}><FloatUnitInput id="ansp2" prelabel={<M>p_2=</M>} label="Einddruk" size="s" /></Substep>
-					<Substep ss={3}><FloatUnitInput id="ansV2" prelabel={<M>V_2=</M>} label="Eindvolume" size="s" /></Substep>
+					<Substep ss={1}><FloatUnitInput id="p1" prelabel={<M>p_1=</M>} label="Begindruk" size="s" /></Substep>
+					<Substep ss={2}><FloatUnitInput id="p2" prelabel={<M>p_2=</M>} label="Einddruk" size="s" /></Substep>
+					<Substep ss={3}><FloatUnitInput id="V2" prelabel={<M>V_2=</M>} label="Eindvolume" size="s" /></Substep>
 				</Par>
 			</InputSpace>
 		</>,
@@ -53,7 +53,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Zoek de <M>k</M>-waarde (verhouding van soortelijke warmten) op van het betreffende gas.</Par>
 			<InputSpace>
-				<Par><FloatUnitInput id="ansk" prelabel={<M>k =</M>} label={<span><M>k</M>-waarde</span>} size="s" validate={validNumberAndUnit} /></Par>
+				<Par><FloatUnitInput id="k" prelabel={<M>k =</M>} label={<span><M>k</M>-waarde</span>} size="s" validate={validNumberAndUnit} /></Par>
 			</InputSpace>
 		</>,
 		Solution: (state) => {
@@ -83,7 +83,7 @@ const steps = [
 			<Par>Bereken via de gekozen wet van Poisson het volume voor de compressie.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="ansV1" prelabel={<M>V_1=</M>} label="Volume" size="s" />
+					<FloatUnitInput id="V1" prelabel={<M>V_1=</M>} label="Volume" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -99,7 +99,6 @@ const steps = [
 
 const getFeedback = (exerciseData) => {
 	const { input, shared } = exerciseData
-	const { ansp1, ansp2 } = input
 	const { data } = shared
 
 	const feedback = {
@@ -113,10 +112,10 @@ const getFeedback = (exerciseData) => {
 	}
 
 	// If p1 and p2 have different units, then note this.
-	if (ansp1 && ansp2 && !ansp1.unit.equals(ansp2.unit, data.equalityOptions.pUnit)) {
+	if (input.p1 && input.p2 && !input.p1.unit.equals(input.p2.unit, data.equalityOptions.pUnit)) {
 		const addedFeedback = { correct: false, text: <span>De eenheden van <M>p_1</M> en <M>p_2</M> moeten gelijk zijn.</span> }
-		feedback.ansp1 = addedFeedback
-		feedback.ansp2 = addedFeedback
+		feedback.p1 = addedFeedback
+		feedback.p2 = addedFeedback
 	}
 
 	return feedback

@@ -8,7 +8,7 @@ import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInpu
 import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
-import { getFloatUnitComparisonFeedback } from '../util/feedback'
+import { getDefaultFeedback } from '../util/feedback'
 
 const English = {
 	air: 'air',
@@ -54,15 +54,5 @@ function Solution({ medium }) {
 }
 
 const getFeedback = (exerciseData) => {
-	const { state, input, progress, shared, prevInput, prevFeedback } = exerciseData
-	const { medium } = state
-	const { ans } = input
-	const { data } = shared
-	const { equalityOptions } = data
-
-	const { k } = gasProperties[medium]
-
-	return {
-		ans: getFloatUnitComparisonFeedback(k, ans, { equalityOptions: equalityOptions, solved: progress.solved, prevInput: prevInput.ans, prevFeedback: prevFeedback.ans }),
-	}
+	return getDefaultFeedback('ans', exerciseData)
 }

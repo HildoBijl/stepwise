@@ -19,7 +19,7 @@ const Problem = ({ p1, p2, T1 }) => <>
 	<Par>In de motor van een vliegtuig wordt in de verbrandingskamer de lucht verwarmd tot <M>{T1}</M>. Dit gebeurt op een druk van <M>{p1}</M>. Vervolgens gaat de lucht door de turbine, waarna het weer naar buiten stroomt op <M>{p2}</M>. De turbine is bij benadering isentroop, waardoor geldt <M>n = k</M>. Wat is de temperatuur van de uitstromende lucht?</Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="ansT2" prelabel={<M>T_(\rm uit)=</M>} label="Temperatuur" size="s" />
+			<FloatUnitInput id="T2" prelabel={<M>T_(\rm uit)=</M>} label="Temperatuur" size="s" />
 		</Par>
 	</InputSpace>
 </>
@@ -30,9 +30,9 @@ const steps = [
 			<Par>Noem de lucht die de turbine ingaat "punt 1" en lucht die de turbine uitstroomt "punt 2". Zet alle gegeven waarden in eenheden waarmee we mogen rekenen.</Par>
 			<InputSpace>
 				<Par>
-					<Substep ss={1}><FloatUnitInput id="ansT1" prelabel={<M>T_1=</M>} label="Begintemperatuur" size="s" /></Substep>
-					<Substep ss={2}><FloatUnitInput id="ansp1" prelabel={<M>p_1=</M>} label="Begindruk" size="s" /></Substep>
-					<Substep ss={3}><FloatUnitInput id="ansp2" prelabel={<M>p_2=</M>} label="Einddruk" size="s" /></Substep>
+					<Substep ss={1}><FloatUnitInput id="T1" prelabel={<M>T_1=</M>} label="Begintemperatuur" size="s" /></Substep>
+					<Substep ss={2}><FloatUnitInput id="p1" prelabel={<M>p_1=</M>} label="Begindruk" size="s" /></Substep>
+					<Substep ss={3}><FloatUnitInput id="p2" prelabel={<M>p_2=</M>} label="Einddruk" size="s" /></Substep>
 				</Par>
 			</InputSpace>
 		</>,
@@ -47,7 +47,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Zoek de <M>k</M>-waarde (verhouding van soortelijke warmten) op van het betreffende gas.</Par>
 			<InputSpace>
-				<Par><FloatUnitInput id="ansk" prelabel={<M>k =</M>} label={<span><M>k</M>-waarde</span>} size="s" validate={validNumberAndUnit} /></Par>
+				<Par><FloatUnitInput id="k" prelabel={<M>k =</M>} label={<span><M>k</M>-waarde</span>} size="s" validate={validNumberAndUnit} /></Par>
 			</InputSpace>
 		</>,
 		Solution: (state) => {
@@ -76,7 +76,7 @@ const steps = [
 			<Par>Bereken via de gekozen wet van Poisson de temperatuur na de turbine.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="ansT2" prelabel={<M>T_2=</M>} label="Temperatuur" size="s" />
+					<FloatUnitInput id="T2" prelabel={<M>T_2=</M>} label="Temperatuur" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -91,7 +91,6 @@ const steps = [
 
 const getFeedback = (exerciseData) => {
 	const { input, shared } = exerciseData
-	const { ansp1, ansp2 } = input
 	const { data } = shared
 
 	const feedback = {
@@ -105,10 +104,10 @@ const getFeedback = (exerciseData) => {
 	}
 
 	// If p1 and p2 have different units, then note this.
-	if (ansp1 && ansp2 && !ansp1.unit.equals(ansp2.unit, data.equalityOptions.pUnit)) {
+	if (input.p1 && input.p2 && !input.p1.unit.equals(input.p2.unit, data.equalityOptions.pUnit)) {
 		const addedFeedback = { correct: false, text: <span>De eenheden van <M>p_1</M> en <M>p_2</M> moeten gelijk zijn.</span> }
-		feedback.ansp1 = addedFeedback
-		feedback.ansp2 = addedFeedback
+		feedback.p1 = addedFeedback
+		feedback.p2 = addedFeedback
 	}
 
 	return feedback

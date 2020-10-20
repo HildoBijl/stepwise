@@ -8,7 +8,7 @@ import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
-import { getFloatUnitComparisonFeedback } from '../util/feedback'
+import { getDefaultFeedback } from '../util/feedback'
 
 const English = {
 	air: 'air',
@@ -42,8 +42,8 @@ function Problem({ medium }) {
 		<Par>Zoek de soortelijke warmten <M>c_v</M> en <M>c_p</M> op van <strong>{Dutch[medium]}</strong>. Voer je antwoorden zo nauwkeurig mogelijk in.</Par>
 		<InputSpace>
 			<Par>
-				<FloatUnitInput id="anscv" prelabel={<M>c_v =</M>} label={<span><M>c_v</M></span>} size="s" />
-				<FloatUnitInput id="anscp" prelabel={<M>c_p =</M>} label={<span><M>c_p</M></span>} size="s" />
+				<FloatUnitInput id="cv" prelabel={<M>c_v =</M>} label={<span><M>c_v</M></span>} size="s" />
+				<FloatUnitInput id="cp" prelabel={<M>c_p =</M>} label={<span><M>c_p</M></span>} size="s" />
 			</Par>
 		</InputSpace>
 	</>
@@ -57,16 +57,16 @@ function Solution({ medium }) {
 }
 
 const getFeedback = (exerciseData) => {
-	const { state, input, progress, shared, prevInput, prevFeedback } = exerciseData
-	const { medium } = state
-	const { anscv, anscp } = input
-	const { data } = shared
-	const { equalityOptions } = data
+	return getDefaultFeedback(['cv','cp'], exerciseData)
+	// const { state, input, progress, shared, prevInput, prevFeedback } = exerciseData
+	// const { medium } = state
+	// const { data } = shared
+	// const { equalityOptions } = data
 
-	const { cv, cp } = gasProperties[medium]
+	// const { cv, cp } = gasProperties[medium]
 
-	return {
-		anscv: getFloatUnitComparisonFeedback(cv, anscv, { equalityOptions: equalityOptions, solved: progress.solved, prevInput: prevInput.anscv, prevFeedback: prevFeedback.anscv }),
-		anscp: getFloatUnitComparisonFeedback(cp, anscp, { equalityOptions: equalityOptions, solved: progress.solved, prevInput: prevInput.anscp, prevFeedback: prevFeedback.anscp }),
-	}
+	// return {
+	// 	cv: getFloatUnitComparisonFeedback(cv, input.cv, { equalityOptions: equalityOptions, solved: progress.solved, prevInput: prevInput.anscv, prevFeedback: prevFeedback.anscv }),
+	// 	cp: getFloatUnitComparisonFeedback(cp, input.cp, { equalityOptions: equalityOptions, solved: progress.solved, prevInput: prevInput.anscp, prevFeedback: prevFeedback.anscp }),
+	// }
 }

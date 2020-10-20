@@ -7,7 +7,7 @@ import clsx from 'clsx'
 
 import { numberArray, shuffle, getRandomSubset } from 'step-wise/util/arrays'
 import { noop } from 'step-wise/util/functions'
-import { equals, getEmpty } from 'step-wise/inputTypes/MultipleChoice'
+import { equals, isEmpty, getEmpty } from 'step-wise/inputTypes/MultipleChoice'
 
 import { notSelectable } from 'ui/theme'
 import FeedbackBlock from 'ui/components/FeedbackBlock'
@@ -196,7 +196,7 @@ function Choice({ checked, activate, deactivate, toggle, Element, feedback, read
 
 // These are validation functions.
 export function nonEmpty(input) {
-	if (input === undefined || (Array.isArray(input) && input.length === 0))
+	if (isEmpty(input.value))
 		return 'Je hebt nog niets geselecteerd.'
 }
 

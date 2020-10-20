@@ -18,7 +18,7 @@ export default function Exercise() {
 
 const Problem = ({ V, m, T }) => <>
 	<Par>Een duiker heeft een duikfles van <M>{V}</M> op zijn rug, gevuld met <M>{m}</M> zuurstof. Bij een temperatuur van <M>{T}</M>, bereken de druk in de fles.</Par>
-	<InputSpace><Par><FloatUnitInput id="ansp" prelabel={<M>p=</M>} label="Druk" size="s" /></Par></InputSpace>
+	<InputSpace><Par><FloatUnitInput id="p" prelabel={<M>p=</M>} label="Druk" size="s" /></Par></InputSpace>
 </>
 
 const steps = [
@@ -27,9 +27,9 @@ const steps = [
 			<Par>Zet alle gegeven waarden in standaard eenheden.</Par>
 			<InputSpace>
 				<Par>
-					<Substep ss={1}><FloatUnitInput id="ansV" prelabel={<M>V=</M>} label="Volume" size="s" /></Substep>
-					<Substep ss={2}><FloatUnitInput id="ansm" prelabel={<M>m=</M>} label="Massa" size="s" /></Substep>
-					<Substep ss={3}><FloatUnitInput id="ansT" prelabel={<M>T=</M>} label="Temperatuur" size="s" /></Substep>
+					<Substep ss={1}><FloatUnitInput id="V" prelabel={<M>V=</M>} label="Volume" size="s" /></Substep>
+					<Substep ss={2}><FloatUnitInput id="m" prelabel={<M>m=</M>} label="Massa" size="s" /></Substep>
+					<Substep ss={3}><FloatUnitInput id="T" prelabel={<M>T=</M>} label="Temperatuur" size="s" /></Substep>
 				</Par>
 			</InputSpace>
 		</>,
@@ -45,7 +45,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Zoek de specifieke gasconstante van het gas op, in standaard eenheden.</Par>
 			<InputSpace>
-				<Par><FloatUnitInput id="ansRs" prelabel={<M>R_s=</M>} label="Specifieke gasconstante" size="s" /></Par>
+				<Par><FloatUnitInput id="Rs" prelabel={<M>R_s=</M>} label="Specifieke gasconstante" size="s" /></Par>
 			</InputSpace>
 		</>,
 		Solution: (state) => {
@@ -58,7 +58,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Bereken via de gaswet de druk van het gas in de duikfles.</Par>
 			<InputSpace>
-				<Par><FloatUnitInput id="ansp" prelabel={<M>p=</M>} label="Druk" size="s" /></Par>
+				<Par><FloatUnitInput id="p" prelabel={<M>p=</M>} label="Druk" size="s" /></Par>
 			</InputSpace>
 		</>,
 		Solution: (state) => {

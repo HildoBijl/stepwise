@@ -20,13 +20,13 @@ export default function Exercise() {
 const colHeads = ['Druk', 'Volume', 'Temperatuur']
 const rowHeads = ['Op de boot', 'In het water']
 const fields = [[
-	<FloatUnitInput id="ansp1" label={<M>p_1</M>} size="l" />,
-	<FloatUnitInput id="ansV1" label={<M>V_1</M>} size="l" />,
-	<FloatUnitInput id="ansT1" label={<M>T_1</M>} size="l" />,
+	<FloatUnitInput id="p1" label={<M>p_1</M>} size="l" />,
+	<FloatUnitInput id="V1" label={<M>V_1</M>} size="l" />,
+	<FloatUnitInput id="T1" label={<M>T_1</M>} size="l" />,
 ], [
-	<FloatUnitInput id="ansp2" label={<M>p_2</M>} size="l" />,
-	<FloatUnitInput id="ansV2" label={<M>V_2</M>} size="l" />,
-	<FloatUnitInput id="ansT2" label={<M>T_2</M>} size="l" />,
+	<FloatUnitInput id="p2" label={<M>p_2</M>} size="l" />,
+	<FloatUnitInput id="V2" label={<M>V_2</M>} size="l" />,
+	<FloatUnitInput id="T2" label={<M>T_2</M>} size="l" />,
 ]]
 
 const Problem = ({ m, p1, T1, T2 }) => <>
