@@ -2,7 +2,7 @@ const { normalPDF } = require('../../../util/combinatorics')
 const { selectRandomly } = require('../../../util/random')
 const { isNumber } = require('../../../util/numbers')
 const { getCombinerSkills, getCombinerEV } = require('../../../skillTracking')
-const { getDifficulty } = require('../../skills/util')
+const { processSkillId, getDifficulty } = require('../../skills/util')
 const skills = require('../../skills')
 const { inferenceOrder } = require('../../skills/SkillData')
 const { getEV, infer, merge } = require('../../../skillTracking')
@@ -18,6 +18,7 @@ const thresholdFactor = 0.3 // Exercises with probability lower than this thresh
 // selectExercise takes a skill ID and randomly picks an exercise from the collection. It does this intelligently based on available skill data. This is obtained through the given (async) function getSkillData.
 async function selectExercise(skillId, getSkillsData) {
 	// Extract the skill data.
+	skillId = processSkillId(skillId)
 	const skill = skills[skillId]
 	if (!skill)
 		throw new Error(`Could not select an exercise: the skillId "${skillId}" is unknown.`)

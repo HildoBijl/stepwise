@@ -179,7 +179,7 @@ class FloatUnit {
 	 * - accuracyFactor: same as with Float.
 	 * - significantDigitMargin: same as with Float.
 	 * - unitCheck: same as the Unit type parameter.
-	 * - checkSize (default false): same as the Unit type parameter, the size of the unit must be the same. (Note: the default value is different here than for the Unit type.) A potential error will be shown in the UnitOK parameter. This is useful if you want "2 J" to be equal to "2 N*m" to be equal, but not to "2 * 10^3 mJ".
+	 * - checkUnitSize (default false): same as the Unit type parameter, the size of the unit must be the same. (Note: the default value is different here than for the Unit type.) A potential inequality will be communicated through the UnitOK parameter. This is useful if you want "2 J" to be equal to "2 N*m" to be equal, but not to "2 * 10^3 mJ".
 	 * Note that the following options are not supported.
 	 * - checkPower (from Float): this is not possible anymore, since simplifying the unit will adjust the power of the unit. This will be the default "false".
 	 * 
@@ -221,7 +221,7 @@ class FloatUnit {
 			return handleInvalidResult(false)
 
 		// If we need to check the size of the unit, do so before simplifying.
-		if (options.checkSize) {
+		if (options.checkUnitSize) {
 			if (!a.unit.equals(b.unit, { type: options.unitCheck, checkSize: true }))
 				return handleInvalidResult(false)
 		}
@@ -354,7 +354,7 @@ FloatUnit.defaultEqualityOptions = {
 	accuracyFactor: Float.defaultEqualityOptions.accuracyFactor,
 	significantDigitMargin: Float.defaultEqualityOptions.significantDigitMargin,
 	unitCheck: Unit.defaultEqualityOptions.type,
-	checkSize: false,
+	checkUnitSize: false,
 }
 
 // splitString turns a string representation of (hopefully) a FloatUnit into two strings, returning them as an object { float: "...", unit: "..." }.

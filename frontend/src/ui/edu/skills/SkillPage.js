@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { makeStyles } from '@material-ui/core/styles'
 
 import skills from 'step-wise/edu/skills'
+import { processSkillId } from 'step-wise/edu/skills/util'
 import { setIOtoFO, setFOtoIO } from 'step-wise/inputTypes'
 import { getNewExercise } from 'step-wise/edu/exercises/util/selection'
 
@@ -30,7 +31,7 @@ export default function SkillPage() {
 
 function SkillForUser() {
 	const { params } = useRouteMatch()
-	const { skillId } = params
+	const skillId = processSkillId(params.skillId) // ToDo later: add error handling if skill ID is not known.
 	const { loading, error, data } = useSkillQuery(skillId)
 	const [submitActionToServer, { loading: submissionLoading, error: submissionError }] = useSubmitExerciseActionMutation(skillId)
 	const [startNewExerciseOnServer, { loading: newExerciseLoading, error: newExerciseError }] = useStartExerciseMutation(skillId)
@@ -73,7 +74,7 @@ function SkillForUser() {
 
 function SkillForStranger() {
 	const { params } = useRouteMatch()
-	const { skillId } = params
+	const skillId = processSkillId(params.skillId) // ToDo later: add error handling if skill ID is not known.
 
 	// Use a state to track exercise data. Generate new data on a change in skill ID.
 	const [exercise, setExercise] = useState(null)
@@ -118,7 +119,7 @@ function SkillForStranger() {
 
 export function useSkillTitle() {
 	const { params } = useRouteMatch()
-	const { skillId } = params
+	const skillId = processSkillId(params.skillId) // ToDo later: add error handling if skill ID is not known.
 	const skill = skills[skillId]
 
 	if (!skill)

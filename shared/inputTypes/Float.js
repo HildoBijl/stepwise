@@ -97,7 +97,7 @@ class Float {
 	toString() {
 		// Check boundary cases.
 		if (this._significantDigits === 0)
-			return ''
+			return this._number === 0 ? '0' : '?'
 
 		// Determine the power that's used for string display and use it to determine the corresponding string.
 		const power = this.getDisplayPower()
@@ -137,7 +137,7 @@ class Float {
 	get tex() {
 		// Check boundary cases.
 		if (this._significantDigits === 0)
-			return ''
+			return this._number === 0 ? '0' : '?'
 
 		// Determine the power that's used for string display and use it to determine the corresponding string.
 		const power = this.getDisplayPower()

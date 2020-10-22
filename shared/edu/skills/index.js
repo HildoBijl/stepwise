@@ -95,7 +95,7 @@ const skills = {
 	calculateHeatAndWork: {
 		name: 'Warmte en arbeid berekenen',
 		setup: combinerAnd('recognizeProcessTypes', combinerOr('calculateWithPressure','calculateWithVolume','calculateWithTemperature','calculateWithMass'), combinerOr('specificGasConstant','specificHeatRatio','specificHeats')),
-		exercises: ['calculateHeatAndWorkIsobaric'],
+		exercises: ['calculateHeatAndWorkIsobaric', 'calculateHeatAndWorkIsochoric'],
 	},
 }
 

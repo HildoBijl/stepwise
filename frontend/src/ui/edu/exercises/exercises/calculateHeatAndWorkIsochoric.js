@@ -3,7 +3,7 @@ import React from 'react'
 import { M, BM } from 'util/equations'
 import { Par } from 'ui/components/containers'
 import { InputSpace } from 'ui/form/Status'
-import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
+import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 
 import { useExerciseData } from '../ExerciseContainer'
@@ -26,9 +26,9 @@ const Dutch = {
 	oxygen: 'zuurstof',
 }
 
-const Problem = ({ gas, m, T1, T2 }) => {
+const Problem = ({ gas, V, p1, p2 }) => {
 	return <>
-		<Par>Een hoeveelheid van <M>{m}</M> {Dutch[gas]} wordt bij gelijkblijvende druk verwarmd van <M>{T1}</M> tot <M>{T2}</M>. Bereken hoeveel warmte <M>Q</M> er in het gas is gestopt en hoeveel arbeid <M>W</M> het gas heeft verricht tijdens dit proces.</Par>
+		<Par>Een solide gesloten gastank gevuld met <M>{V}</M> {Dutch[gas]} wordt sterk verwarmd. Hierdoor stijgt de druk van <M>{p1}</M> tot <M>{p2}</M>. Bereken hoeveel warmte <M>Q</M> er in het gas is gestopt en hoeveel arbeid <M>W</M> het gas heeft verricht tijdens dit proces.</Par>
 		<InputSpace>
 			<Par>
 				<FloatUnitInput id="Q" prelabel={<M>Q =</M>} label={<span><M>Q</M></span>} size="s" />
@@ -53,12 +53,12 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			return <Par>Er is gegeven dat het proces bij gelijkblijvende druk verloopt. De druk is dus constant, wat op een isobaar proces duidt.</Par>
+			return <Par>Je mag aannemen dat de gesloten gastank niet opeens van formaat verandert. Dus blijft het volume constant en is dit een isochoor proces.</Par>
 		},
 	},
 	{
 		Problem: () => <>
-			<Par>Zoek de formules op die horen bij een isobaar proces en kies degenen die het handigst zijn om hier te gebruiken.</Par>
+			<Par>Zoek de formules op die horen bij een isochoor proces en kies degenen die het handigst zijn om hier te gebruiken.</Par>
 			<InputSpace>
 				<MultipleChoice id="eq" choices={[
 					<span><M>Q = \frac(k)(k-1) p \left(V_2 - V_1\right)</M> en <M>W = p\left(V_2 - V_1\right)</M></span>,
@@ -71,21 +71,20 @@ const steps = [
 					<span><M>Q = 0</M> en <M>W = -\frac(mR_s)(k-1)\left(T_2 - T_1\right)</M></span>,
 					<span><M>Q = \frac(c)(R_s) \left(p_2V_2 - p_1V_1\right)</M> en <M>W = -\frac(1)(n-1) \left(p_2V_2 - p_1V_1\right)</M></span>,
 					<span><M>Q = mc\left(T_2 - T_1\right)</M> en <M>W = -\frac(mR_s)(n-1)\left(T_2 - T_1\right)</M></span>,
-				]} randomOrder={true} pick={5} include={[0, 1]} />
+				]} randomOrder={true} pick={5} include={[2, 3]} />
 			</InputSpace>
 		</>,
 		Solution: () => {
-			return <Par>Er zijn verschillende formules die horen bij een isobaar proces. We weten echter alleen de temperatuur, en niet de druk of het volume. De formules die we willen gebruiken zijn dus <M>Q = mc_p\left(T_2-T_1\right)</M> en <M>W = mR_s\left(T_2-T_1\right)</M>.</Par>
+			return <Par>Er zijn verschillende formules die horen bij een isochoor proces. We weten echter alleen het volume en de druk, en niet de massa of de temperatuur. De formules die we willen gebruiken zijn dus <M>Q = \frac(1)(k-1) V \left(p_2 - p_1\right)</M> en <M>W = 0</M>.</Par>
 		},
 	},
 	{
 		Problem: ({ gas }) => {
 			return <>
-				<Par>Zoek voor {Dutch[gas]} de waarden van <M>c_p</M> en <M>R_s</M> op.</Par>
+				<Par>Zoek voor {Dutch[gas]} de <M>k</M>-waarde op.</Par>
 				<InputSpace>
 					<Par>
-						<FloatUnitInput id="cp" prelabel={<M>c_p =</M>} label={<span><M>c_p</M></span>} size="s" />
-						<FloatUnitInput id="Rs" prelabel={<M>R_s =</M>} label={<span><M>R_s</M></span>} size="s" />
+						<FloatUnitInput id="k" prelabel={<M>k =</M>} label={<span><M>k</M></span>} size="s" validate={validNumberAndUnit} />
 					</Par>
 				</InputSpace>
 			</>
@@ -93,9 +92,9 @@ const steps = [
 		Solution: (state) => {
 			const { gas } = state
 			const { shared: { getCorrect } } = useExerciseData()
-			const { cp, Rs } = getCorrect(state)
+			const { k } = getCorrect(state)
 
-			return <Par>Voor {Dutch[gas]} geldt <M>c_p = {cp}</M> en <M>R_s = {Rs}</M>.</Par>
+			return <Par>Voor {Dutch[gas]} geldt <M>k = {k}</M>.</Par>
 		},
 	},
 	{
@@ -103,14 +102,14 @@ const steps = [
 			<Par>Zet de gegeven waarden in eenheden waarmee we hier mogen rekenen.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="m" prelabel={<M>m =</M>} label="Massa" size="s" />
-					<FloatUnitInput id="T1" prelabel={<M>T_1 =</M>} label="Temperatuur" size="s" />
-					<FloatUnitInput id="T2" prelabel={<M>T_2 =</M>} label="Temperatuur" size="s" />
+					<FloatUnitInput id="V" prelabel={<M>V =</M>} label="Volume" size="s" />
+					<FloatUnitInput id="p1" prelabel={<M>p_1 =</M>} label="Druk" size="s" />
+					<FloatUnitInput id="p2" prelabel={<M>p_2 =</M>} label="Druk" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: ({ m, T1, T2 }) => {
-			return <Par>De massa moet in standaard eenheden. Immers, de soortelijke warmte is ook "per kilogram" gegeven. Dus noteren we <M>m = {m.useUnit('kg')}</M>. Bij de temperaturen gaat het alleen om een temperatuurverschil, en dan mogen we ook in graden Celsius rekenen. Het is dus voldoende om <M>T_1 = {T1}</M> en <M>T_2 = {T2}</M> te gebruiken.</Par>
+		Solution: ({ V, p1, p2 }) => {
+			return <Par>Zowel het volume als de druk moeten in standaard eenheden. Zo vinden we <M>V = {V.useUnit('m^3')}</M>, <M>p_1 = {p1.useUnit('Pa')}</M> en <M>p_2 = {p2.useUnit('Pa')}</M>.</Par>
 		},
 	},
 	{
@@ -125,22 +124,22 @@ const steps = [
 		</>,
 		Solution: (state) => {
 			const { shared: { getCorrect } } = useExerciseData()
-			const { cp, Rs, m, T1, T2, Q, W } = getCorrect(state)
+			const { gas, k, V, p1, p2, Q, W } = getCorrect(state)
 
-			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we <BM>Q = mc_p\left(T_2-T_1\right) = {m.float} \cdot {cp.float} \cdot \left({T2.float} - {T1.float}\right) = {Q},</BM><BM>W = mR_s\left(T_2-T_1\right) = {m.float} \cdot {Rs.float} \cdot \left({T2.float} - {T1.float}\right) = {W}.</BM> Het is lastig om te controleren of dit logisch is. De richtlijn is dat het aantal Joules bij een proces vaak een stuk groter is (een factor 10 à 100) dan het aantal gram gas. Dit lijkt te kloppen met onze waarden, waardoor de antwoorden logisch lijken.</Par>
+			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we <BM>Q = \frac(1)(k-1) V \left(p_2 - p_1\right) = \frac(1)({k.float}-1) \cdot {V.float} \cdot \left({p2.float} - {p1.float}\right) = {Q},</BM><BM>W = {W}.</BM> Dit is een grote hoeveelheid warmte, maar de druktoename is ook significant, dus dit lijkt logisch.</Par>
 		},
 	},
 ]
 
 const getFeedback = (exerciseData) => {
 	return {
-		...getDefaultFeedback(['m', 'T1', 'T2', 'cp', 'Rs', 'Q', 'W'], exerciseData),
+		...getDefaultFeedback(['k', 'V', 'p1', 'p2', 'Q', 'W'], exerciseData),
 		...getMCFeedback('process', exerciseData, {
 			step: 1,
-			correct: 0,
+			correct: 1,
 			text: [
-				'Ja, dit is inderdaad een isobaar proces, want de druk blijft constant.',
-				'Nee, dan zou het volume constant moeten blijven.',
+				'Nee, dan zou de druk constant moeten blijven.',
+				'Ja, dit is inderdaad een isochoor proces, want de solide gastank groeit niet opeens.',
 				'Nee, dan zou de temperatuur constant moeten blijven.',
 				'Nee, dan zou er geen warmte toegevoerd mogen worden.',
 				'Nee, dat is bij een algemeen proces waarbij niets constant blijft.',
@@ -148,18 +147,18 @@ const getFeedback = (exerciseData) => {
 		}),
 		...getMCFeedback('eq', exerciseData, {
 			step: 2,
-			correct: 1,
+			correct: 2,
 			text: [
-				'Net niet! Dit zijn wel de formules voor een isobaar proces, maar we weten de druk en het volume niet. Dus zijn deze niet handig om te gebruiken.',
-				'Ja! Dit zijn de formules voor een isobaar proces, en ze gebruiken de temperatuur, die in de vraag gegeven is.',
-				'Nee, dit zijn de formules voor een isochoor proces. Daarnaast weten we de druk en het volume helemaal niet.',
-				'Nee, dit zijn de formules voor een isochoor proces.',
-				'Nee, dit zijn de formules voor een isotherm proces. Daarnaast weten we de druk en het volume helemaal niet.',
+				'Nee, dit zijn de formules voor een isobaar proces.',
+				'Nee, dit zijn de formules voor een isobaar proces. Daarnaast weten we de massa en de temperatuur helemaal niet.',
+				'Ja! Dit zijn de formules voor een isochoor proces, en ze gebruiken het volume en de druk, die in de vraag gegeven zijn.',
+				'Net niet! Dit zijn wel de formules voor een isochoor proces, maar weten we de massa en de temperatuur helemaal niet. Dus zijn deze niet handig om te gebruiken.',
 				'Nee, dit zijn de formules voor een isotherm proces.',
-				'Nee, dit zijn de formules voor een isentroop proces. Daarnaast weten we de druk en het volume helemaal niet.',
+				'Nee, dit zijn de formules voor een isotherm proces. Daarnaast weten we de massa en de temperatuur helemaal niet.',
 				'Nee, dit zijn de formules voor een isentroop proces.',
-				'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze opgave. Daarnaast weten we de druk en het volume helemaal niet.',
+				'Nee, dit zijn de formules voor een isentroop proces. Daarnaast weten we de massa en de temperatuur helemaal niet.',
 				'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze opgave.',
+				'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze opgave. Daarnaast weten we de massa en de temperatuur helemaal niet.',
 			],
 		})
 	}

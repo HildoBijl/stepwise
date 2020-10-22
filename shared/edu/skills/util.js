@@ -2,12 +2,10 @@ const skills = require('./index')
 
 function includePrerequisites(skillIds) {
 	const result = new Set()
+	skillIds = processSkillIds(skillIds)
 	skillIds.forEach(skillId => {
-		const skill = skills[skillId]
-		if (!skill)
-			throw new Error(`Unknown skill ID "${skillId}".`)
 		result.add(skillId)
-		skill.prerequisites.forEach(prerequisite => result.add(prerequisite))
+		skills[skillId].prerequisites.forEach(prerequisite => result.add(prerequisite))
 	})
 	return [...result]
 }
@@ -26,6 +24,29 @@ function processSkill(skill) {
 	}
 }
 module.exports.processSkill = processSkill
+
+// processSkillId checks whether a skill ID exists and throws an error if it doesn't. If it doesn't precisely match a skill ID, it does a case insensitive match. It returns the correct skill ID.
+function processSkillId(skillId) {
+	// Direct match?
+	if (skills[skillId])
+		return skillId
+
+	// Case insensitive match?
+	const skillIdLower = skillId.toLowerCase()
+	const adjustedSkillId = Object.keys(skills).find(currSkillId => currSkillId.toLowerCase() === skillIdLower)
+	if (adjustedSkillId)
+		return adjustedSkillId
+
+	// No match.
+	throw new Error(`Unknown skill ID "${skillId}".`)
+}
+module.exports.processSkillId = processSkillId
+
+// processSkillIds does the same as processSkillId, but then for an array.
+function processSkillIds(skillIds) {
+	return skillIds.map(processSkillId)
+}
+module.exports.processSkillIds = processSkillIds
 
 // getDefaultSkillData gives the skill data that we use when the database does not contain a certain skill. It's already in processed form.
 function getDefaultSkillData(skillId) {
