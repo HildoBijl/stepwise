@@ -8,7 +8,7 @@ function checkField(field, correct, input, equalityOptions) {
 
 		const currInput = input[field]
 		if (!currInput)
-			throw new Error(`Field check error: could not find an input for field "${field}". Make sure that there is an input field named either "${field}" or "ans${field}".`)
+			throw new Error(`Field check error: could not find an input for field "${field}". Make sure that there is an input field named "${field}".`)
 
 		const currEqualityOptions = equalityOptions[field]
 		if (!currEqualityOptions)

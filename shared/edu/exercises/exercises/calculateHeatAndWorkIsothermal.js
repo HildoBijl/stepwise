@@ -1,6 +1,7 @@
 const { selectRandomly } = require('../../../util/random')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Unit } = require('../../../inputTypes/Unit')
+const { FloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd, combinerOr } = require('../../../skillTracking')
 const { checkField } = require('../util/check')
@@ -8,27 +9,24 @@ const gasProperties = require('../../../data/gasProperties')
 
 const data = {
 	skill: 'calculateHeatAndWork',
-	setup: combinerAnd('recognizeProcessTypes', combinerOr('specificHeats', 'specificGasConstant'), combinerOr('calculateWithMass', 'calculateWithTemperature')),
-	steps: ['recognizeProcessTypes', null, ['specificHeats', 'specificGasConstant'], ['calculateWithMass', 'calculateWithTemperature'], null],
+	setup: combinerAnd('recognizeProcessTypes', 'specificGasConstant', 'gasLaw', combinerOr('calculateWithMass', 'calculateWithTemperature')),
+	steps: ['recognizeProcessTypes', null, 'specificGasConstant', 'gasLaw', ['calculateWithMass', 'calculateWithTemperature'], null],
 
 	equalityOptions: {
 		m: {
 			relativeMargin: 0.001,
 			unitCheck: Unit.equalityTypes.exact,
 		},
-		cp: {
-			relativeMargin: 0.01,
-		},
 		Rs: {
 			relativeMargin: 0.01,
 		},
-		T1: {
-			absoluteMargin: 0.2,
-			significantDigitMargin: 2,
+		ratio: {
+			relativeMargin: 0.01,
 		},
-		T2: {
+		T: {
 			absoluteMargin: 0.2,
 			significantDigitMargin: 2,
+			unitCheck: Unit.equalityTypes.exact,
 		},
 		Q: {
 			relativeMargin: 0.01,
@@ -44,35 +42,40 @@ const data = {
 function generateState() {
 	const gas = selectRandomly(['air', 'carbonDioxide', 'carbonMonoxide', 'hydrogen', 'methane', 'nitrogen', 'oxygen'])
 	const m = getRandomFloatUnit({
-		min: 20,
-		max: 200,
+		min: 0.5,
+		max: 6,
 		significantDigits: 2,
-		unit: 'g',
+		unit: 'kg',
 	})
-	const T1 = getRandomFloatUnit({
-		min: 0,
-		max: 10,
+	const T = getRandomFloatUnit({
+		min: 6,
+		max: 30,
 		decimals: 0,
 		unit: 'dC',
 	})
-	const T2 = getRandomFloatUnit({
-		min: 30,
-		max: 60,
+	const p1 = getRandomFloatUnit({
+		min: 2,
+		max: 9,
+		decimals: 1,
+		unit: 'bar',
+	})
+	const p2 = getRandomFloatUnit({
+		min: 10,
+		max: 30,
 		decimals: 0,
-		unit: 'dC',
+		unit: 'bar',
 	})
 
-	return { gas, m, T1, T2 }
+	return { gas, m, T, p1, p2 }
 }
 
-function getCorrect({ gas, m, T1, T2 }) {
-	let { cp, Rs } = gasProperties[gas]
-	cp = cp.simplify()
-	m = m.simplify()
-	const dT = T2.subtract(T1)
-	const Q = m.multiply(cp).multiply(dT).useUnit('J')
-	const W = m.multiply(Rs).multiply(dT).useUnit('J')
-	return { gas, process: 0, eq: 1, m, T1, T2, cp, Rs, Q, W }
+function getCorrect({ gas, m, T, p1, p2 }) {
+	let { Rs } = gasProperties[gas]
+	T = T.simplify()
+	ratio = p1.divide(p2).simplify()
+	const Q = m.multiply(Rs).multiply(T).multiply(Math.log(ratio.number)).useUnit('J')
+	const W = Q
+	return { gas, process: 2, eq: 5, Rs, ratio, m, T, Q, W }
 }
 
 function checkInput(state, input, step, substep) {
@@ -83,14 +86,13 @@ function checkInput(state, input, step, substep) {
 		case 2:
 			return input.eq === correct.eq
 		case 3:
-			switch (substep) {
-				case 1: return checkField('cp', correct, input, data.equalityOptions)
-				case 2: return checkField('Rs', correct, input, data.equalityOptions)
-			}
+			return checkField('Rs', correct, input, data.equalityOptions)
 		case 4:
+			return checkField('ratio', correct, input, data.equalityOptions)
+		case 5:
 			switch (substep) {
 				case 1: return checkField('m', correct, input, data.equalityOptions)
-				case 2: return checkField(['T1', 'T2'], correct, input, data.equalityOptions)
+				case 2: return checkField('T', correct, input, data.equalityOptions)
 			}
 		default:
 			return checkField(['Q', 'W'], correct, input, data.equalityOptions)
