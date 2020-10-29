@@ -15,9 +15,15 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		flexFlow: 'row wrap',
 		justifyContent: 'flex-end',
+		margin: '0.2rem 0',
 
 		'& button': {
-			margin: '0.5rem 0 0.5rem 0.8rem',
+			margin: '0.4rem 0 0.4rem 0.8rem',
+
+			[theme.breakpoints.down('xs')]: {
+				marginLeft: '0.4rem',
+				width: '100%',
+			},
 		},
 	},
 }))

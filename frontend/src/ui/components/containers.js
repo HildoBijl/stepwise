@@ -7,10 +7,14 @@ import { startEndMarginFix } from 'ui/theme'
 
 const useStyles = makeStyles((theme) => ({
 	paragraph: {
-		textAlign: 'justify',
 		margin: '1rem 0',
 		padding: '0.05px 0.2rem 0 0',
 		...startEndMarginFix('', '0.5rem'),
+		
+		textAlign: 'left',
+		[theme.breakpoints.up('sm')]: {
+			textAlign: 'justify',
+		},
 	},
 	head: {
 		margin: '1rem 0',

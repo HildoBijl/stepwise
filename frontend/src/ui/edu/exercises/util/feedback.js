@@ -137,7 +137,7 @@ export function getFloatComparisonFeedback(correctAnswer, inputAnswer, options) 
 // getFloatUnitComparisonFeedback is identical to getFloatComparisonFeedback, but then with two main differences: it uses FloatUnits, and it can also be provided a "unit" error message text in case the unit is wrong.
 export function getFloatUnitComparisonFeedback(correctAnswer, inputAnswer, options) {
 	options = processOptions(options, defaultComparisonOptions)
-	const { equalityOptions, solved, text, prevFeedback } = options
+	const { equalityOptions, solved, text, prevInput, prevFeedback } = options
 
 	// Check if solved is set to true. If so, always return positive feedback.
 	if (solved === true)
@@ -154,6 +154,10 @@ export function getFloatUnitComparisonFeedback(correctAnswer, inputAnswer, optio
 			return { correct: false, text: (prevFeedback && !prevFeedback.correct && prevFeedback.text) || selectRandomIncorrect() } // Overwritten! Apparently the answer is correct now, but the server marks it as incorrect. So we have to show incorrect.
 		return { correct: true, text: (prevFeedback && prevFeedback.correct && prevFeedback.text) || selectRandomCorrect() }
 	}
+
+	// If we had exactly the same input before, return the same feedback.
+	if (prevInput && inputAnswer.str === prevInput.str)
+		return prevFeedback
 
 	// Check unit.
 	if (!comparison.unitOK)

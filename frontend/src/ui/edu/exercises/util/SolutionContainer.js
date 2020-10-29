@@ -8,7 +8,7 @@ export default function SolutionContainer(props) {
 		{...props}
 		Icon={Arrow}
 		canToggle={true}
-		color="primary"
+		color="success"
 		text={'Oplossing'} />
 }
 
