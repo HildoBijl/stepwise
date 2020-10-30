@@ -1,22 +1,13 @@
-import React, { useState, useCallback } from 'react'
-import clsx from 'clsx'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
-import { fade, lighten, darken } from '@material-ui/core/styles/colorManipulator'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import Collapse from '@material-ui/core/Collapse'
+import { darken } from '@material-ui/core/styles/colorManipulator'
 import Box from '@material-ui/core/Box'
-import { ChevronRight as Arrow } from '@material-ui/icons'
 
 import skills from 'step-wise/edu/skills'
 
-import { notSelectable, linkDeactivation } from 'ui/theme'
+import { linkDeactivation } from 'ui/theme'
 import { usePaths } from 'ui/routing'
-
-import { getCourseSkills } from './util'
-import { getSkillRecommendation } from '../skills/util'
-import { useSkillData, useSkillsData } from '../skills/SkillCacher'
-import SkillFlask from '../skills/SkillFlask'
 
 const useStyles = makeStyles((theme) => ({
 	skillRecommenderLink: linkDeactivation,
@@ -27,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 		color: theme.palette.info.contrastText,
 		display: 'flex',
 		flexFlow: 'row nowrap',
-		fontSize: '1.1rem',
+		fontSize: '1rem',
 		marginBottom: '0.6rem',
 		padding: '0.8rem',
 		textDecoration: 'none',
@@ -42,10 +33,15 @@ const useStyles = makeStyles((theme) => ({
 export default function SkillRecommender({ recommendation }) {
 	const paths = usePaths()
 	const classes = useStyles()
-	
+
 	// If there is no recommendation (all work is done) then give an alternative.
-	if (!recommendation)
-		return <div>Klaar! TODO TEMP</div> // ToDo later: add a free practice mode, browsing through the end goals.
+	if (!recommendation) {
+		return ( // ToDo later: add a free practice mode, browsing through the end goals.
+			<Box boxShadow={1} className={classes.skillRecommender}>
+				<div className="text">Je hebt alles op voldoende niveau!</div>
+			</Box>
+		)
+	}
 
 	// Give a link to the recommended skill.
 	const skill = skills[recommendation]

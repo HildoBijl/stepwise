@@ -3,14 +3,14 @@ const { getEV } = require('step-wise/skillTracking')
 
 const defaultSkillThresholds = {
 	pass: 0.68, // If the skill is above this level, we can move on.
-	recap: 0.6, // If the skills is below this level, we must recap: go back to it.
+	recap: 0.58, // If the skills is below this level, we must recap: go back to it.
 	pkPass: 0.68, // If a prior knowledge has this skill level, we can move on.
-	pkRecap: 0.45, // If the skill level for a prior skil drops below this, we must recap.
+	pkRecap: 0.48, // If the skill level for a prior skil drops below this, we must recap.
 }
 export { defaultSkillThresholds }
 
-// workToDo checks whether a given skill is mastered sufficiently to pass given thresholds. It returns a number: 0 (enough mastery), 1 (can work) or 2 (should work).
-export function workToDo(skillData, priorKnowledge = false, skillThresholds = {}) {
+// isPracticeNeeded checks whether a given skill still requires practice. It returns a number: 0 (enough mastery), 1 (can work) or 2 (should work).
+export function isPracticeNeeded(skillData, priorKnowledge = false, skillThresholds = {}) {
 	// Determine the thresholds to apply.
 	skillThresholds = processOptions(skillThresholds, defaultSkillThresholds)
 	const pass = priorKnowledge ? skillThresholds.pkPass : skillThresholds.pass
@@ -32,10 +32,10 @@ export function workToDo(skillData, priorKnowledge = false, skillThresholds = {}
 // getSkillRecommendation receives a list of skill IDs and finds the first skill with work to do. Returns undefined if all skills are done. If a skill has no skillData, it also counts as "has work to do".
 export function getSkillRecommendation(skillsData, pkSkillIds, skillIds, skillThresholds) {
 	// Check if there is a prior knowledge that absolutely requires work.
-	const pkRecommendation = pkSkillIds.find(skillId => !skillsData[skillId] || workToDo(skillsData[skillId], true, skillThresholds) >= 2)
+	const pkRecommendation = pkSkillIds.find(skillId => !skillsData[skillId] || isPracticeNeeded(skillsData[skillId], true, skillThresholds) >= 2)
 	if (pkRecommendation)
 		return pkRecommendation
 
 	// Check the regular skills to see if there is something that could use work.
-	return skillIds.find(skillId => !skillsData[skillId] || workToDo(skillsData[skillId], false, skillThresholds) >= 1)
+	return skillIds.find(skillId => !skillsData[skillId] || isPracticeNeeded(skillsData[skillId], false, skillThresholds) >= 1)
 }

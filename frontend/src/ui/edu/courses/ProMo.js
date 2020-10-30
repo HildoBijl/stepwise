@@ -13,12 +13,13 @@ import skills from 'step-wise/edu/skills'
 import { notSelectable } from 'ui/theme'
 import { usePaths } from 'ui/routing'
 
-import { getSkillRecommendation } from '../skills/util'
+import { getSkillRecommendation, isPracticeNeeded } from '../skills/util'
 import { useSkillData, useSkillsData } from '../skills/SkillCacher'
 import SkillFlask from '../skills/SkillFlask'
 
 import { getCourseSkills } from './util'
 import SkillRecommender from './SkillRecommender'
+import ProgressIndicator from './ProgressIndicator'
 
 const courseSetup = {
 	priorKnowledge: [
@@ -46,7 +47,6 @@ const courseSetup = {
 }
 
 const skillLists = getCourseSkills(courseSetup)
-console.log(skillLists)
 
 const useStyles = makeStyles((theme) => ({
 	courseOverview: {
@@ -106,8 +106,8 @@ function LandscapeCourse({ activeBlock, toggleActiveBlock }) {
 	return (
 		<div className={clsx(classes.courseOverview, classes.landscapeOverview)}>
 			<div className="blockList">
-				<Block landscape={landscape} active={activeBlock === -1} toggleActive={() => toggleActiveBlock(-1)} title="Directe voorkennis" />
-				{courseSetup.blocks.map((block, index) => <Block key={index} landscape={landscape} active={activeBlock === index} toggleActive={() => toggleActiveBlock(index)} title={block.title} number={index + 1} />)}
+				<Block landscape={landscape} priorKnowledge={true} skillIds={skillLists.priorKnowledge} active={activeBlock === -1} toggleActive={() => toggleActiveBlock(-1)} title="Directe voorkennis" />
+				{courseSetup.blocks.map((block, index) => <Block key={index} landscape={landscape} skillIds={skillLists.blocks[index]} active={activeBlock === index} toggleActive={() => toggleActiveBlock(index)} title={block.title} number={index + 1} />)}
 			</div>
 			<SkillList skillIds={skillIds} landscape={landscape} />
 		</div>
@@ -121,7 +121,7 @@ function PortraitCourse({ activeBlock, toggleActiveBlock }) {
 	return (
 		<div className={clsx(classes.courseOverview, classes.portraitOverview)}>
 			<div className={clsx(classes.blockList, 'blockList')}>
-				<Block landscape={landscape} skillIds={skillLists.priorKnowledge} active={activeBlock === -1} toggleActive={() => toggleActiveBlock(-1)} title="Directe voorkennis" />
+				<Block landscape={landscape} priorKnowledge={true} skillIds={skillLists.priorKnowledge} active={activeBlock === -1} toggleActive={() => toggleActiveBlock(-1)} title="Directe voorkennis" />
 				{courseSetup.blocks.map((block, index) => (
 					<Block key={index} landscape={landscape} skillIds={skillLists.blocks[index]} active={activeBlock === index} toggleActive={() => toggleActiveBlock(index)} title={block.title} number={index + 1} />
 				))}
@@ -144,19 +144,24 @@ const useBlockStyles = makeStyles((theme) => ({
 			display: 'flex',
 			flexFlow: 'row nowrap',
 			justifyContent: 'flex-start',
-			padding: '1rem',
+			padding: '0.6rem',
 			...notSelectable,
+
+			'& .progressIndicator': {
+				margin: '0 0.4rem 0 0',
+			},
 
 			'& .number': {
 				color: theme.palette.primary.main,
 				flex: '0 0 auto',
 				fontSize: '1.6rem',
-				marginRight: '1rem',
+				margin: '0.2rem 0.6rem',
 			},
 
 			'& .title': {
 				flex: '1 1 auto',
-				fontSize: '1.1rem',
+				fontSize: '1rem',
+				margin: '0.4rem',
 			},
 
 			'& .arrow': {
@@ -194,16 +199,20 @@ const useBlockStyles = makeStyles((theme) => ({
 	},
 }))
 
-function Block({ landscape, skillIds, active, toggleActive, title, number }) {
+function Block({ landscape, priorKnowledge = false, skillIds, active, toggleActive, title, number }) {
 	const classes = useBlockStyles({ landscape, active })
+	const skillsData = useSkillsData(skillIds)
+	const numCompleted = skillIds.reduce((sum, skillId) => skillsData[skillId] && isPracticeNeeded(skillsData[skillId], priorKnowledge) === 0 ? sum + 1 : sum, 0)
+
 	return (
 		<Box boxShadow={1} className={clsx(classes.blockBox, 'blockBox', { active, landscape, portrait: !landscape })}>
 			<div className="block" onClick={toggleActive}>
+				<ProgressIndicator value={numCompleted} total={skillIds.length} />
 				{number === undefined ? null : <div className="number">{number}</div>}
 				<div className="title">{title}</div>
 				<Arrow className="arrow" />
 			</div>
-			{landscape || !skillIds ? null : (
+			{landscape ? null : (
 				<Collapse in={active}>
 					<SkillList skillIds={skillIds} landscape={landscape} />
 				</Collapse>

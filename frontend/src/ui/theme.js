@@ -89,7 +89,6 @@ let theme = {
 
 theme = createMuiTheme(theme) // Turn the theme into a MUI theme object.
 export default theme
-console.log(theme)
 
 // A macro for making an object unselectable, preventing a blue border around it.
 const notSelectable = {
@@ -103,6 +102,14 @@ const linkDeactivation = {
 	textDecoration: 'none',
 }
 export { linkDeactivation }
+
+const centered = {
+	left: '50%',
+	position: 'absolute',
+	top: '50%',
+	transform: 'translate(-50%, -50%)',
+}
+export { centered }
 
 // A macro for making first and last elements of a block not have a margin.
 const startEndMarginFix = (addition = '', margin = 0) => ({

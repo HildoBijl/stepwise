@@ -43,6 +43,8 @@ export default function SkillCacher({ children }) {
 }
 
 export function useSkillsData(skillIds) {
+	if (!skillIds || !Array.isArray(skillIds))
+		throw new Error(`Invalid skillIds given: expected an array but received "${skillIds}".`)
 	const { cache, updateCache } = useSkillCacherContext()
 
 	// Figure out which skills need to be known and if any still need loading.
