@@ -107,12 +107,12 @@ class SkillData {
 				coefficientsHighest[prerequisite] = this._rawData[prerequisite].highest
 			})
 			const inference = infer(coefficientsHighest, this.setup)
-			this._coefficients = {
+			this._cache.highest = {
 				coefficients: merge(inference, this.rawHighest),
 				on: now,
 			}
 		}
-		return this._cache.highest
+		return this._cache.highest.coefficients
 	}
 }
 

@@ -124,7 +124,7 @@ const steps = [
 		</>,
 		Solution: (state) => {
 			const { shared: { getCorrect } } = useExerciseData()
-			const { gas, k, V, p1, p2, Q, W } = getCorrect(state)
+			const { k, V, p1, p2, Q, W } = getCorrect(state)
 
 			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we <BM>Q = \frac(1)(k-1) V \left(p_2 - p_1\right) = \frac(1)({k.float}-1) \cdot {V.float} \cdot \left({p2.float} - {p1.float}\right) = {Q},</BM><BM>W = {W}.</BM> Dit is een grote hoeveelheid warmte, maar de druktoename is ook significant, dus dit lijkt logisch.</Par>
 		},

@@ -95,7 +95,7 @@ export function getDefaultFeedback(parameters, exerciseData, extraOptions) {
  */
 export function getFloatComparisonFeedback(correctAnswer, inputAnswer, options) {
 	options = processOptions(options, defaultComparisonOptions)
-	const { equalityOptions, solved, text, prevFeedback } = options
+	const { equalityOptions, solved, text, prevInput, prevFeedback } = options
 
 	// Check if correct is set to true.
 	if (solved === true)
@@ -112,6 +112,10 @@ export function getFloatComparisonFeedback(correctAnswer, inputAnswer, options) 
 			return { correct: false, text: (prevFeedback && !prevFeedback.correct && prevFeedback.text) || selectRandomIncorrect() } // Overwritten! Apparently the answer is correct now, but the server marks it as incorrect. So we have to show incorrect.
 		return { correct: true, text: (prevFeedback && prevFeedback.correct && prevFeedback.text) || selectRandomCorrect() }
 	}
+
+	// If we had exactly the same input before, return the same feedback.
+	if (prevInput && inputAnswer.str === prevInput.str)
+		return prevFeedback
 
 	// Check sign.
 	if (Math.sign(correctAnswer.number) * Math.sign(inputAnswer.number) === -1)

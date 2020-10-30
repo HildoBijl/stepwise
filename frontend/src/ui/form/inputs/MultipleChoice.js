@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Radio from '@material-ui/core/Radio'
 import Checkbox from '@material-ui/core/Checkbox'
 import { fade } from '@material-ui/core/styles/colorManipulator'
+import Box from '@material-ui/core/Box'
 import clsx from 'clsx'
 
 import { numberArray, shuffle, getRandomSubset } from 'step-wise/util/arrays'
@@ -19,64 +20,47 @@ import { useFieldFeedback } from '../FeedbackProvider'
 // Set up style.
 const style = (theme) => ({
 	listStyleType: 'none',
-	margin: 0,
+	margin: '2px 3px 4px 3px', // To ensure that the box shadow is visible.
 	padding: 0,
 
-	'& li': {
-		'&.option': {
-			alignItems: 'center',
-			borderRadius: '0.5rem',
-			display: 'flex',
-			flexFlow: 'row nowrap',
-			justifyContent: 'flex-start',
-			marginTop: '0.6rem',
-			padding: '0.4rem',
-			transition: `background ${theme.transitions.duration.standard}ms`,
-			...notSelectable,
+	'& .option': {
+		alignItems: 'center',
+		borderRadius: '0.5rem',
+		display: 'flex',
+		flexFlow: 'row nowrap',
+		justifyContent: 'flex-start',
+		marginTop: '0.6rem',
+		padding: '0.4rem',
+		transition: `background ${theme.transitions.duration.standard}ms`,
+		...notSelectable,
 
-			'&:first-child': {
-				marginTop: 0,
-			},
-
-			'& .checkbox': {
-				flex: '0 0 auto',
-				transition: `color ${theme.transitions.duration.standard}ms`,
-			},
-			'& .contents': {
-				flex: '1 1 auto',
-				margin: '0.5rem',
-				transition: `color ${theme.transitions.duration.standard}ms`,
-				...notSelectable,
-			},
-			'& .icon': {
-				flex: '0 0 auto',
-				margin: '0.4rem 0.6rem',
-				transition: `color ${theme.transitions.duration.standard}ms`,
-			}
+		'&:first-child': {
+			marginTop: 0,
 		},
 
-		'&.feedback': {
-			fontSize: '0.75em',
-			letterSpacing: '0.03em',
-			lineHeight: 1.2,
-			padding: '0.3em 1.2em 0',
+		'& .checkbox': {
+			flex: '0 0 auto',
 			transition: `color ${theme.transitions.duration.standard}ms`,
 		},
+		'& .contents': {
+			flex: '1 1 auto',
+			margin: '0.5rem',
+			transition: `color ${theme.transitions.duration.standard}ms`,
+			...notSelectable,
+		},
+		'& .icon': {
+			flex: '0 0 auto',
+			margin: '0.4rem 0.6rem',
+			transition: `color ${theme.transitions.duration.standard}ms`,
+		}
 	},
 
-	'&.enabled': {
-		'& li': {
-			'&.option': {
-				cursor: 'pointer',
-			},
-		},
-	},
-	'&.disabled': {
-		'& li': {
-			'&.option': {
-
-			},
-		},
+	'& .feedback': {
+		fontSize: '0.75em',
+		letterSpacing: '0.03em',
+		lineHeight: 1.2,
+		padding: '0.3em 1.2em 0',
+		transition: `color ${theme.transitions.duration.standard}ms`,
 	},
 })
 const useStyles = makeStyles((theme) => ({
@@ -88,6 +72,11 @@ const useOptionStyle = makeStyles((theme) => ({
 	option: {
 		background: ({ feedbackType, feedbackColor }) => !feedbackType || feedbackType === 'normal' ? fade(theme.palette.info.main, 0.1) : fade(feedbackColor, 0.1),
 		color: ({ feedbackColor }) => feedbackColor || 'inherit',
+		cursor: ({ readOnly }) => readOnly ? 'auto' : 'pointer',
+
+		'&:hover': {
+			background: ({ feedbackType, feedbackColor, readOnly }) => (readOnly ? null : (!feedbackType || feedbackType === 'normal' ? fade(theme.palette.info.main, 0.2) : fade(feedbackColor, 0.2))),
+		},
 
 		'&.checked, &.withFeedback': {
 			background: ({ feedbackType, feedbackColor }) => !feedbackType || feedbackType === 'normal' ? fade(theme.palette.info.main, 0.2) : fade(feedbackColor, 0.2),
@@ -181,16 +170,16 @@ export default function MultipleChoice({ id, choices = [], validate = nonEmpty, 
 function Choice({ checked, activate, deactivate, toggle, Element, feedback, readOnly, children }) {
 	const { type: feedbackType, text: feedbackText, Icon, color: feedbackColor } = feedback || {}
 	const hasFeedback = (feedbackType && feedbackType !== 'normal')
-	const classes = useOptionStyle({ feedbackType, feedbackColor })
+	const classes = useOptionStyle({ feedbackType, feedbackColor, readOnly })
 	const handleChange = (evt, check) => check ? activate() : deactivate()
 
 	return <>
-		<li onClick={toggle} className={clsx('option', checked ? 'checked' : 'unchecked', classes.option, hasFeedback ? 'withFeedback' : 'withoutFeedback')}>
+		<Box boxShadow={1} onClick={toggle} className={clsx('option', checked ? 'checked' : 'unchecked', classes.option, hasFeedback ? 'withFeedback' : 'withoutFeedback')}>
 			<Element className="checkbox" color="default" checked={checked} onChange={handleChange} disabled={readOnly} />
 			<div className="contents">{children}</div>
 			{Icon ? <Icon className="icon" /> : null}
-		</li>
-		{feedbackText ? <li className={clsx('feedback', classes.feedback)}>{feedbackText}</li> : null}
+		</Box>
+		{feedbackText ? <Box className={clsx('feedback', classes.feedback)}>{feedbackText}</Box> : null}
 	</>
 }
 

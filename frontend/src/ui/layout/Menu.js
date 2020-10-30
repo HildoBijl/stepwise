@@ -58,7 +58,7 @@ export default function Menu({ className, titleCollapsed }) {
 			<SwipeableDrawer anchor='left' open={open} onClose={toggleDrawer(false)} onOpen={toggleDrawer(true)} ModalProps={{ keepMounted: true }} disableBackdropTransition={!iOS} disableDiscovery={iOS}>
 				<nav className={classes.menu} role="presentation" onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
 					<List>
-						{user ? <MenuLink path={paths.courses()} text='Courses' icon={School} /> : <MenuLink path={paths.home()} text='Home' icon={Home} />}
+						{user ? <MenuLink path={paths.promo()} text='Processen en Modelleren' icon={School} /> : <MenuLink path={paths.home()} text='Home' icon={Home} />}
 					</List>
 					<Divider />
 					<List>

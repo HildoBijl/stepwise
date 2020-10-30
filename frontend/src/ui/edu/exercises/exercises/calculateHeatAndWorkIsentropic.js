@@ -14,18 +14,6 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Dutch = {
-	air: 'lucht',
-	argon: 'argon',
-	carbonDioxide: 'koolstofdioxide',
-	carbonMonoxide: 'koolstofmonoxide',
-	helium: 'helium',
-	hydrogen: 'waterstof',
-	methane: 'methaan',
-	nitrogen: 'stikstof',
-	oxygen: 'zuurstof',
-}
-
 const Problem = ({ p1, V1, p2, V2 }) => {
 	return <>
 		<Par>We bekijken een grote gasturbine voor een gehele minuut. In deze minuut stroomt er <M>{V1}</M> lucht in, op <M>{p1}</M>. De uitgaande lucht heeft een volume van <M>{V2}</M>, op <M>{p2}</M>. De turbine is goed geïsoleerd en heeft een verwaarloosbare interne frictie. Bereken hoeveel warmte <M>Q</M> er in het gas is gestopt en hoeveel arbeid <M>W</M> het gas heeft verricht tijdens dit proces.</Par>

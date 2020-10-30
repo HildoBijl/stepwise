@@ -3,7 +3,7 @@ import React from 'react'
 import { M, BM } from 'util/equations'
 import { Par } from 'ui/components/containers'
 import { InputSpace } from 'ui/form/Status'
-import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
+import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 
 import { useExerciseData } from '../ExerciseContainer'
@@ -12,18 +12,6 @@ import { getDefaultFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
-}
-
-const Dutch = {
-	air: 'lucht',
-	argon: 'argon',
-	carbonDioxide: 'koolstofdioxide',
-	carbonMonoxide: 'koolstofmonoxide',
-	helium: 'helium',
-	hydrogen: 'waterstof',
-	methane: 'methaan',
-	nitrogen: 'stikstof',
-	oxygen: 'zuurstof',
 }
 
 const Problem = ({ m, T1, T2, n }) => {

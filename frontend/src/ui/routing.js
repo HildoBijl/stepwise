@@ -3,8 +3,9 @@ import { createContext, useContext, useMemo } from 'react'
 import { useUser } from 'api/user'
 
 import LogOut from 'ui/components/LogOut'
-import CoursesPage, { CoursesProvider } from 'ui/edu/courses/CoursesPage'
-import CoursePage, { useCourseTitle } from 'ui/edu/courses/CoursePage'
+// import CoursesPage, { CoursesProvider } from 'ui/edu/courses/CoursesPage'
+// import CoursePage, { useCourseTitle } from 'ui/edu/courses/CoursePage'
+import ProMo from 'ui/edu/courses/ProMo'
 import SkillPage, { useSkillTitle, SkillIndicator } from 'ui/edu/skills/SkillPage'
 import * as infoPages from 'ui/info'
 
@@ -68,17 +69,20 @@ function getRoutes(user = null) {
 			title: 'Uitloggen...'
 		},
 		'': {
-			name: 'courses',
-			component: CoursesPage,
-			title: 'Courses',
-			provider: CoursesProvider,
-			children: {
-				'course/:courseId': {
-					name: 'course',
-					title: useCourseTitle,
-					component: CoursePage,
-				},
-			},
+			name: 'promo',
+			component: ProMo,
+			title: 'Processen en Modelleren',
+			// name: 'courses',
+			// component: CoursesPage,
+			// title: 'Course overview',
+			// provider: CoursesProvider,
+			// children: {
+			// 	'course/:courseId': {
+			// 		name: 'course',
+			// 		title: useCourseTitle,
+			// 		component: CoursePage,
+			// 	},
+			// },
 		},
 	})
 }
