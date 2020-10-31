@@ -16,17 +16,17 @@ export function isPracticeNeeded(skillData, priorKnowledge = false, skillThresho
 	const pass = priorKnowledge ? skillThresholds.pkPass : skillThresholds.pass
 	const recap = priorKnowledge ? skillThresholds.pkRecap : skillThresholds.recap
 	
-	// Check if the thresholds are satisfieid.
-	const EV = getEV(skillData.coefficients)
+	// Check if the thresholds are satisfied. For prior knowledge, don't use prerequisites (only the skill's only coefficients).
+	const EV = getEV(priorKnowledge ? skillData.smoothenedCoefficients : skillData.coefficients)
 	if (EV > pass)
 		return 0 // Sufficient mastery!
 	if (EV < recap)
 		return 2 // Not there yet.
 	if (priorKnowledge)
 		return 1 // It's prior knowledge: we can work but don't really have to.
-	if (getEV(skillData.highest) > pass)
-		return 1 // There has been mastery in the past, so it's borderline.
-	return 2 // Nearly there: keep on working!
+	if (getEV(priorKnowledge ? skillData.rawHighest : skillData.highest) > pass)
+		return 1 // There has been mastery in the past, so it's not completely necessary.
+	return 2 // There has never been mastery yet: keep on working!
 }
 
 // getSkillRecommendation receives a list of skill IDs and finds the first skill with work to do. Returns undefined if all skills are done. If a skill has no skillData, it also counts as "has work to do".
