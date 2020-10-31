@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function Block({ landscape, priorKnowledge = false, skillIds, active, toggleActive, title, number }) {
+export default function Block({ landscape, priorKnowledge = false, skillIds, active, toggleActive, title, number, recommendation }) {
 	const classes = useStyles({ landscape, active })
 	const skillsData = useSkillsData(skillIds)
 	const numCompleted = skillIds.reduce((sum, skillId) => skillsData[skillId] && isPracticeNeeded(skillsData[skillId], priorKnowledge) === 0 ? sum + 1 : sum, 0)
@@ -98,7 +98,7 @@ export default function Block({ landscape, priorKnowledge = false, skillIds, act
 			</div>
 			{landscape ? null : (
 				<Collapse in={active}>
-					<SkillList skillIds={skillIds} landscape={landscape} />
+					<SkillList skillIds={skillIds} landscape={landscape} recommendation={recommendation} />
 				</Collapse>
 			)}
 		</Box>

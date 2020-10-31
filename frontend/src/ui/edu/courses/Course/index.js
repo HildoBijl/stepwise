@@ -88,14 +88,14 @@ export default function Course(props) {
 	}, [hasRecommendation, recommendation, setActiveBlock])
 
 	// Render the component.
-	const data = { ...props, activeBlock, toggleActiveBlock }
+	const data = { ...props, activeBlock, toggleActiveBlock, recommendation }
 	return <>
 		{hasRecommendation ? <SkillRecommender recommendation={recommendation} /> : null}
 		{landscape ? <LandscapeCourse {...data} /> : <PortraitCourse {...data} />}
 	</>
 }
 
-function LandscapeCourse({ activeBlock, toggleActiveBlock }) {
+function LandscapeCourse({ activeBlock, toggleActiveBlock, recommendation }) {
 	const landscape = true
 	const classes = useStyles({ landscape })
 
@@ -110,24 +110,24 @@ function LandscapeCourse({ activeBlock, toggleActiveBlock }) {
 	return (
 		<div className={clsx(classes.courseOverview, classes.landscapeOverview)}>
 			<div className="blockList">
-				<Block landscape={landscape} priorKnowledge={true} skillIds={skillLists.priorKnowledge} active={activeBlock === -1} toggleActive={() => toggleActiveBlock(-1)} title="Directe voorkennis" />
-				{courseSetup.blocks.map((block, index) => <Block key={index} landscape={landscape} skillIds={skillLists.blocks[index]} active={activeBlock === index} toggleActive={() => toggleActiveBlock(index)} title={block.title} number={index + 1} />)}
+				<Block landscape={landscape} priorKnowledge={true} skillIds={skillLists.priorKnowledge} active={activeBlock === -1} toggleActive={() => toggleActiveBlock(-1)} title="Directe voorkennis" recommendation={recommendation} />
+				{courseSetup.blocks.map((block, index) => <Block key={index} landscape={landscape} skillIds={skillLists.blocks[index]} active={activeBlock === index} toggleActive={() => toggleActiveBlock(index)} title={block.title} number={index + 1} recommendation={recommendation} />)}
 			</div>
-			<SkillList skillIds={skillIds} landscape={landscape} />
+			<SkillList skillIds={skillIds} landscape={landscape} recommendation={recommendation} />
 		</div>
 	)
 }
 
-function PortraitCourse({ activeBlock, toggleActiveBlock }) {
+function PortraitCourse({ activeBlock, toggleActiveBlock, recommendation }) {
 	const landscape = false
 	const classes = useStyles({ landscape })
 
 	return (
 		<div className={clsx(classes.courseOverview, classes.portraitOverview)}>
 			<div className={clsx(classes.blockList, 'blockList')}>
-				<Block landscape={landscape} priorKnowledge={true} skillIds={skillLists.priorKnowledge} active={activeBlock === -1} toggleActive={() => toggleActiveBlock(-1)} title="Directe voorkennis" />
+				<Block landscape={landscape} priorKnowledge={true} skillIds={skillLists.priorKnowledge} active={activeBlock === -1} toggleActive={() => toggleActiveBlock(-1)} title="Directe voorkennis" recommendation={recommendation} />
 				{courseSetup.blocks.map((block, index) => (
-					<Block key={index} landscape={landscape} skillIds={skillLists.blocks[index]} active={activeBlock === index} toggleActive={() => toggleActiveBlock(index)} title={block.title} number={index + 1} />
+					<Block key={index} landscape={landscape} skillIds={skillLists.blocks[index]} active={activeBlock === index} toggleActive={() => toggleActiveBlock(index)} title={block.title} number={index + 1} recommendation={recommendation} />
 				))}
 			</div>
 		</div>

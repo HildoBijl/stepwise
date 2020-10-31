@@ -4,11 +4,14 @@ import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { fade } from '@material-ui/core/styles/colorManipulator'
 import Box from '@material-ui/core/Box'
+import Tooltip from '@material-ui/core/Tooltip'
 
 import skills from 'step-wise/edu/skills'
 
 import { notSelectable } from 'ui/theme'
 import { usePaths } from 'ui/routing'
+
+import logo from 'ui/images/logo.svg'
 
 import { useSkillData } from '../../skills/SkillCacher'
 import SkillFlask from '../../skills/SkillFlask'
@@ -32,12 +35,20 @@ const useStyles = makeStyles((theme) => ({
 				background: fade(theme.palette.primary.main, 0.05),
 			},
 
+			'&.recommend': {
+				fontWeight: 'bold',
+			},
+
 			'& .skillFlask': {
 				flex: '0 0 auto',
 				marginRight: '0.8rem',
 			},
 			'& .skillName': {
 				flex: '1 1 auto',
+			},
+			'& .recommendation': {
+				height: '2.5rem',
+				width: '2.5rem',
 			},
 		},
 
@@ -54,16 +65,16 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function SkillList({ skillIds, landscape }) {
+export default function SkillList({ skillIds, landscape, recommendation }) {
 	const classes = useStyles()
 	return (
 		<Box boxShadow={landscape ? 1 : 0} className={clsx(classes.skillList, 'skillList', { landscape })}>
-			{skillIds.map((skillId, index) => <SkillItem key={skillId} skillId={skillId} />)}
+			{skillIds.map((skillId, index) => <SkillItem key={skillId} skillId={skillId} recommend={skillId === recommendation} />)}
 		</Box>
 	)
 }
 
-function SkillItem({ skillId }) {
+function SkillItem({ skillId, recommend = false }) {
 	const skillData = useSkillData(skillId)
 	const skill = skills[skillId]
 	const paths = usePaths()
@@ -71,9 +82,12 @@ function SkillItem({ skillId }) {
 	if (!skillData)
 		return null
 	return (
-		<Link to={paths.skill({ skillId })} className="skillItem">
-			<SkillFlask coef={skillData.coefficients} size={40} />
-			<div className="skillName">{skill.name}</div>
-		</Link>
+		<Tooltip title={recommend ? 'Dit is voor jou nu de optimale vaardigheid om te oefenen.' : ''} arrow>
+			<Link to={paths.skill({ skillId })} className={clsx('skillItem', { recommend })}>
+				<SkillFlask coef={skillData.coefficients} size={40} />
+				<div className="skillName">{skill.name}</div>
+				{recommend ? <img src={logo} className="recommendation" alt="Aanrader" /> : null}
+			</Link>
+		</Tooltip>
 	)
 }
