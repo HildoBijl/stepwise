@@ -54,7 +54,8 @@ function Solution({ m, type, prefix }) {
 }
 
 function getFeedback(exerciseData) {
-	return getDefaultFeedback('ans', exerciseData, { text: { unit: getUnitMessage(exerciseData.state.type) } })
+	const { state: { type, prefix }} = exerciseData
+	return getDefaultFeedback('ans', exerciseData, { text: { unit: getUnitMessage(type, prefix) } })
 }
 
 function getUnitMessage(type, prefix) {

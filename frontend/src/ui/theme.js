@@ -22,7 +22,7 @@ const feedbackColors = {
 	warning: [0.84, 0.42, 0, 1], // #d66c00
 	info: [0.02, 0.27, 0.54, 1], // #044488
 }
-const backgroundColor = [0.96, 0.96, 0.96, 1] // #f6f6f6
+const backgroundColor = [0.96, 0.96, 0.96, 1] // #f5f5f5
 const inputBackgroundColor = [1, 1, 1, 1] // #ffffff
 
 export { themeColor, secondaryColor, feedbackColors, backgroundColor, inputBackgroundColor }

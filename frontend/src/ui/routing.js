@@ -5,7 +5,7 @@ import { useUser } from 'api/user'
 import LogOut from 'ui/components/LogOut'
 // import CoursesPage, { CoursesProvider } from 'ui/edu/courses/CoursesPage'
 // import CoursePage, { useCourseTitle } from 'ui/edu/courses/CoursePage'
-import ProMo from 'ui/edu/courses/ProMo'
+import ProMo from 'ui/edu/courses/Course'
 import SkillPage, { useSkillTitle, SkillIndicator } from 'ui/edu/skills/SkillPage'
 import * as infoPages from 'ui/info'
 
