@@ -2,15 +2,13 @@ import React from 'react'
 import { Helmet } from 'react-helmet'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
-import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
 import { notSelectable } from 'ui/theme'
 import LinkBar from 'ui/layout/LinkBar'
 import { websiteTitle, websiteTitleAddendum, apiAddress } from 'ui/settings'
-
-import logo from './logo.svg'
-import SURFconext from './SURFconext.png'
+import logo from 'ui/images/logo.svg'
+import SURFconext from 'ui/images/SURFconext.png'
 
 const useStyles = makeStyles((theme) => ({
 	home: {
@@ -59,24 +57,33 @@ const useStyles = makeStyles((theme) => ({
 	},
 
 	main: {
+		alignItems: 'stretch',
+		display: 'flex',
 		flex: 0,
 		margin: '0 0 1.5rem',
+
+		flexFlow: 'column nowrap',
+		[theme.breakpoints.up('sm')]: {
+			flexFlow: 'row nowrap',
+			justifyContent: 'space-evenly',
+		}
 	},
 
 	logo: {
+		alignItems: 'center',
 		display: 'flex',
-		flex: 1,
+		flex: '1 1 50%',
 		flexFlow: 'column nowrap',
 		justifyContent: 'center',
 	},
 	logoPicture: {
 		...notSelectable,
-		width: '90vw',
+		width: '60vw',
 		[theme.breakpoints.up('sm')]: {
-			width: '55vw',
+			width: '35vw',
 		},
 		[theme.breakpoints.up('lg')]: {
-			height: '50vh',
+			height: '30vh',
 			width: 'auto',
 		},
 	},
@@ -84,12 +91,13 @@ const useStyles = makeStyles((theme) => ({
 	logIn: {
 		alignItems: 'center',
 		display: 'flex',
+		flex: '1 1 50%',
 		flexFlow: 'column nowrap',
-		flex: 1,
 		justifyContent: 'center',
-		margin: `1rem 0 1rem 0`,
+
+		margin: `1.5rem 0 1rem 0`,
 		[theme.breakpoints.up('sm')]: {
-			margin: `0rem 0 2.5rem 0`,
+			margin: `0 0 2rem 0`,
 		},
 
 		'& div': {
@@ -120,7 +128,7 @@ const useStyles = makeStyles((theme) => ({
 				textDecoration: 'none',
 				'&:hover': {
 					color: '#000',
-	
+
 					'& .surfConextLogo': {
 						opacity: 1,
 					},
@@ -147,16 +155,16 @@ export default function Home() {
 				<Typography variant="h1" className={classes.name}>{websiteTitle}</Typography>
 				<Typography variant="h2" className={classes.motto}>{websiteTitleAddendum}</Typography>
 			</div>
-			<Grid container spacing={3} className={classes.main}>
-				<Grid item xs={12} sm={7} className={classes.logo}>
+			<div className={classes.main}>
+				<div className={classes.logo}>
 					<img src={logo} className={classes.logoPicture} alt="Logo" />
-				</Grid>
-				<Grid item xs={12} sm={5} className={classes.logIn}>
+				</div>
+				<div className={classes.logIn}>
 					<div><a href={`${apiAddress}/auth/surfconext/initiate`}>Log in met <img src={SURFconext} className={'surfConextLogo'} alt="SURFconext" /></a></div>
 					{/* <div>Log in met Google</div> */}
-					<div>Oefen zonder in te loggen<br/>(komt nog)</div>
-				</Grid>
-			</Grid>
+					<div>Oefen zonder in te loggen<br />(komt nog)</div>
+				</div>
+			</div>
 			<div className={classes.spacer} />
 			<LinkBar className={classes.linkBar} />
 			<Helmet><title>{websiteTitle} | {websiteTitleAddendum}</title></Helmet>
