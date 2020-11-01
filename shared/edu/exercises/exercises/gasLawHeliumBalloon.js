@@ -65,7 +65,7 @@ function getCorrect({ m, T, p }) {
 	m = m.simplify()
 	T = T.simplify()
 	p = p.simplify()
-	const V = m.multiply(Rs).multiply(T).divide(p).useUnit('m^3')
+	const V = m.multiply(Rs).multiply(T).divide(p).setUnit('m^3')
 	return { p, V, m, Rs, T }
 }
 

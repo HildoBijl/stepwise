@@ -109,7 +109,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ V, p1, p2 }) => {
-			return <Par>Zowel het volume als de druk moeten in standaard eenheden. Zo vinden we <M>V = {V.useUnit('m^3')}</M>, <M>p_1 = {p1.useUnit('Pa')}</M> en <M>p_2 = {p2.useUnit('Pa')}</M>.</Par>
+			return <Par>Zowel het volume als de druk moeten in standaard eenheden. Zo vinden we <M>V = {V.setUnit('m^3')}</M>, <M>p_1 = {p1.setUnit('Pa')}</M> en <M>p_2 = {p2.setUnit('Pa')}</M>.</Par>
 		},
 	},
 	{

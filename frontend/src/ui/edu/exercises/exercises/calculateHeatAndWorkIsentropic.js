@@ -97,7 +97,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ p1, V1, p2, V2 }) => {
-			return <Par>De volumes staan al in standaard eenheden: <M>V_1 = {V1}</M> en <M>V_2 = {V2}</M>. De druk moet nog in Pascal gezet worden. Zo vinden we <M>p_1 = {p1.useUnit('Pa')}</M> en <M>p_2 = {p2.useUnit('Pa')}</M>.</Par>
+			return <Par>De volumes staan al in standaard eenheden: <M>V_1 = {V1}</M> en <M>V_2 = {V2}</M>. De druk moet nog in Pascal gezet worden. Zo vinden we <M>p_1 = {p1.setUnit('Pa')}</M> en <M>p_2 = {p2.setUnit('Pa')}</M>.</Par>
 		},
 	},
 	{

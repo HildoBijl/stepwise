@@ -50,7 +50,7 @@ function generateState() {
 	})
 	const T2 = new FloatUnit('100 dC')
 
-	const m = p1.useUnit('Pa').multiply(V1.useUnit('m^3')).divide(Rs.multiply(T1.useUnit('K'))).useUnit('g').roundToPrecision()
+	const m = p1.setUnit('Pa').multiply(V1.setUnit('m^3')).divide(Rs.multiply(T1.setUnit('K'))).setUnit('g').roundToPrecision()
 
 	return { m, V1, T1, T2 }
 }
@@ -60,9 +60,9 @@ function getCorrect({ m, V1, T1, T2 }) {
 	V1 = V1.simplify()
 	T1 = T1.simplify()
 	T2 = T2.simplify()
-	const p1 = m.multiply(Rs).multiply(T1).divide(V1).useUnit('Pa')
+	const p1 = m.multiply(Rs).multiply(T1).divide(V1).setUnit('Pa')
 	const p2 = p1
-	const V2 = m.multiply(Rs).multiply(T2).divide(p2).useUnit('m^3')
+	const V2 = m.multiply(Rs).multiply(T2).divide(p2).setUnit('m^3')
 	return { m, Rs, p1, p2, V1, V2, T1, T2 }
 }
 

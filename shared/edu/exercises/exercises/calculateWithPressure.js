@@ -26,13 +26,13 @@ function generateState() {
 		unit: 'Pa',
 	})
 	if (type >= 2)
-		p = p.useUnit('bar')
+		p = p.setUnit('bar')
 	return { p, type }
 }
 
 function getCorrect({ p, type }) {
 	p = p.simplify()
-	return (type === 0 ? p.useUnit('bar') : p)
+	return (type === 0 ? p.setUnit('bar') : p)
 }
 
 function checkInput(state, { ans }) {

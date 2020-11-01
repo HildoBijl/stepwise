@@ -74,7 +74,7 @@ export function useSkillsData(skillIds) {
 				loadedSkills.push(getDefaultSkillData(skillId))
 		})
 		updateCache(loadedSkills)
-	}, [res, unknownSkills, updateCache])
+	})
 
 	// Turn the cache into SkillData objects for the requested skillIds.
 	const result = {}

@@ -29,9 +29,9 @@ function generateState() {
 	const type = getRandomInteger(0, 3)
 	if (type < 2) {
 		const prefix = selectRandomly(['', 'd', 'c'])
-		V = V.useUnit(`${prefix}m^3`)
+		V = V.setUnit(`${prefix}m^3`)
 	} else {
-		V = V.useUnit('l')
+		V = V.setUnit('l')
 	}
 
 	return { V, type }
@@ -39,7 +39,7 @@ function generateState() {
 
 function getCorrect({ V, type }) {
 	V = V.simplify()
-	return (type === 0 ? V.useUnit('l') : V)
+	return (type === 0 ? V.setUnit('l') : V)
 }
 
 function checkInput(state, { ans }) {

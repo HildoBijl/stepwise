@@ -53,7 +53,7 @@ function generateState() {
 	})
 
 	const { k, Rs } = gasProperties[gas]
-	const m = p1.simplify().multiply(V1.simplify()).divide(Rs.multiply(T1.simplify())).useUnit('g').roundToPrecision()
+	const m = p1.simplify().multiply(V1.simplify()).divide(Rs.multiply(T1.simplify())).setUnit('g').roundToPrecision()
 	const V2 = V1.multiply(Math.pow(p1.number / p2.number, 1 / k)).roundToPrecision()
 
 	return { gas, m, T1, V1, V2 }
@@ -65,9 +65,9 @@ function getCorrect({ gas, m, T1, V1, V2 }) {
 	T1 = T1.simplify()
 	V1 = V1.simplify()
 	V2 = V2.simplify()
-	const p1 = m.multiply(Rs).multiply(T1).divide(V1).useUnit('Pa')
+	const p1 = m.multiply(Rs).multiply(T1).divide(V1).setUnit('Pa')
 	const p2 = p1.multiply(Math.pow(V1.number / V2.number, k))
-	const T2 = p2.multiply(V2).divide(m.multiply(Rs)).useUnit('K')
+	const T2 = p2.multiply(V2).divide(m.multiply(Rs)).setUnit('K')
 	return { k, Rs, m, p1, V1, T1, p2, V2, T2 }
 }
 

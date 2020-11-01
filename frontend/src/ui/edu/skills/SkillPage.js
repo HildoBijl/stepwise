@@ -94,7 +94,7 @@ function SkillForStranger() {
 		}
 		startNewExerciseAsync()
 	}, [skillId])
-	useEffect(startNewExercise, [skillId])
+	useEffect(startNewExercise, [startNewExercise, skillId])
 
 	// On a submit handle the process as would happen on the server: find the new progress and incorporate it into the exercise data and its history.
 	const submitAction = useCallback((action, processAction) => {

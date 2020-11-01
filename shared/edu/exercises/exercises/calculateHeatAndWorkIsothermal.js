@@ -73,7 +73,7 @@ function getCorrect({ gas, m, T, p1, p2 }) {
 	let { Rs } = gasProperties[gas]
 	T = T.simplify()
 	ratio = p1.divide(p2).simplify()
-	const Q = m.multiply(Rs).multiply(T).multiply(Math.log(ratio.number)).useUnit('J')
+	const Q = m.multiply(Rs).multiply(T).multiply(Math.log(ratio.number)).setUnit('J')
 	const W = Q
 	return { gas, process: 2, eq: 5, Rs, ratio, m, T, Q, W }
 }

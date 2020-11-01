@@ -40,10 +40,11 @@ export default function ExerciseContainer({ exercise, submitting, submitAction, 
 		shared: ExerciseShared.current,
 	}
 
+	const Exercise = ExerciseLocal.current
 	return (
 		<ExerciseContext.Provider value={exerciseData}>
 			<ErrorBoundary text="De opgave is gecrashed.">
-				<ExerciseLocal.current />
+				<Exercise />
 			</ErrorBoundary>
 		</ExerciseContext.Provider>
 	)

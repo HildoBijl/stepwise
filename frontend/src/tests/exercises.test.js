@@ -28,7 +28,7 @@ describe('Check all exercises:', () => {
 					history: [],
 					progress: {},
 					submitting: false,
-					submitAction: (action) => submitAction(action, shared.processAction),
+					submitAction: noop, // (action) => submitAction(action, shared.processAction),
 					startNewExercise: noop,
 					shared: shared,
 				}

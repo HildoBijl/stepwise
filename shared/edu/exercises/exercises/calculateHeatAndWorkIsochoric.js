@@ -70,7 +70,7 @@ function getCorrect({ gas, V, p1, p2 }) {
 	V = V.simplify()
 	p1 = p1.simplify()
 	p2 = p2.simplify()
-	const Q = V.multiply(p2.subtract(p1)).multiply(1 / (k.number - 1)).useUnit('J')
+	const Q = V.multiply(p2.subtract(p1)).multiply(1 / (k.number - 1)).setUnit('J')
 	const W = new FloatUnit('0 J')
 	return { gas, process: 1, eq: 2, k, V, p1, p2, Q, W }
 }

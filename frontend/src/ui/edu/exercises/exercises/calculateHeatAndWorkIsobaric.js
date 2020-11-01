@@ -110,7 +110,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ m, T1, T2 }) => {
-			return <Par>De massa moet in standaard eenheden. Immers, de soortelijke warmte is ook "per kilogram" gegeven. Dus noteren we <M>m = {m.useUnit('kg')}</M>. Bij de temperaturen gaat het alleen om een temperatuurverschil, en dan mogen we ook in graden Celsius rekenen. Het is dus voldoende om <M>T_1 = {T1}</M> en <M>T_2 = {T2}</M> te gebruiken.</Par>
+			return <Par>De massa moet in standaard eenheden. Immers, de soortelijke warmte is ook "per kilogram" gegeven. Dus noteren we <M>m = {m.setUnit('kg')}</M>. Bij de temperaturen gaat het alleen om een temperatuurverschil, en dan mogen we ook in graden Celsius rekenen. Het is dus voldoende om <M>T_1 = {T1}</M> en <M>T_2 = {T2}</M> te gebruiken.</Par>
 		},
 	},
 	{

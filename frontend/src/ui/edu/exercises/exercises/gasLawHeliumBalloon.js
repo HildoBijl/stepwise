@@ -35,10 +35,10 @@ const steps = [
 		</>,
 		Solution: ({ m, T, p }) => {
 			const mInG = m
-			const mInKG = m.useUnit('kg')
-			const TInKelvin = T.useUnit('K')
+			const mInKG = m.setUnit('kg')
+			const TInKelvin = T.setUnit('K')
 			const pInBar = p
-			const pInPa = p.useUnit('Pa')
+			const pInPa = p.setUnit('Pa')
 			return <>
 				<Par>De standaard eenheid van massa is de kilogram. Om van gram naar kilogram te gaan gebruiken we een conversiefactor van <M>{mConversion}</M>. Hiermee wordt de massa <BM>m = \frac{mInG}{mConversion} = {mInKG}.</BM></Par>
 				<Par>De standaard eenheid van temperatuur is de Kelvin. Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.float}</M> bij op. Hiermee krijgen we <BM>T = {T.float} + {TConversion.float} = {TInKelvin}.</BM></Par>
@@ -69,7 +69,7 @@ const steps = [
 		Solution: (state) => {
 			const { shared: { getCorrect } } = useExerciseData()
 			const { p, V, m, Rs, T } = getCorrect(state)
-			return <Par>De gaswet luidt <BM>pV = mR_sT.</BM> Om <M>V</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>p</M>. Het resultaat is <BM>V = \frac(mR_sT)(p) = \frac({m.float} \cdot {Rs.float} \cdot {T.float})({p.float}) = {V}.</BM> Om dit wat intuïtiever te krijgen kunnen we dit nog omrekenen naar liters: het is <M>{V.useUnit('l')}</M>. Dat is grofweg wat we zouden verwachten van een ballon.</Par>
+			return <Par>De gaswet luidt <BM>pV = mR_sT.</BM> Om <M>V</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>p</M>. Het resultaat is <BM>V = \frac(mR_sT)(p) = \frac({m.float} \cdot {Rs.float} \cdot {T.float})({p.float}) = {V}.</BM> Om dit wat intuïtiever te krijgen kunnen we dit nog omrekenen naar liters: het is <M>{V.setUnit('l')}</M>. Dat is grofweg wat we zouden verwachten van een ballon.</Par>
 		},
 	},
 ]

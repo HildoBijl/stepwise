@@ -26,13 +26,13 @@ function generateState() {
 		unit: 'K',
 	})
 	if (type >= 2)
-		T = T.useUnit('dC')
+		T = T.setUnit('dC')
 	return { T, type }
 }
 
 function getCorrect({ T, type }) {
 	T = T.simplify()
-	return (type === 0 ? T.useUnit('dC') : T)
+	return (type === 0 ? T.setUnit('dC') : T)
 }
 
 function checkInput(state, { ans }) {

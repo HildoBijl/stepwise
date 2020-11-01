@@ -34,12 +34,12 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ V, p, T }) => {
-			const pInBar = p.useUnit('bar')
-			const pInPa = pInBar.useUnit('Pa')
+			const pInBar = p.setUnit('bar')
+			const pInPa = pInBar.setUnit('Pa')
 			return <>
-				<Par>De standaard eenheid van volume is de kubieke meter. Om van kubieke centimeter naar kubieke meter te gaan gebruiken we een conversiefactor van <M>{VConversion}</M>. Het volume is daarmee <BM>V = \frac{V}{VConversion} = {V.useUnit('m^3')}.</BM></Par>
+				<Par>De standaard eenheid van volume is de kubieke meter. Om van kubieke centimeter naar kubieke meter te gaan gebruiken we een conversiefactor van <M>{VConversion}</M>. Het volume is daarmee <BM>V = \frac{V}{VConversion} = {V.setUnit('m^3')}.</BM></Par>
 				<Par>De standaard eenheid van druk is Pascal. Als eerste schrijven we <M>p = {p}</M> als <M>p = {pInBar}</M>. Vervolgens zetten we dit om. De conversiefactor van bar naar Pascal is <M>{pConversion}</M>. Dit vertelt ons dat de druk gelijk is aan <BM>p = {pInBar} \cdot {pConversion} = {pInPa}.</BM></Par>
-				<Par>De standaard eenheid van temperatuur is de Kelvin. Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.float}</M> bij op. Hiermee krijgen we <BM>T = {T.float} + {TConversion.float} = {T.useUnit('K')}.</BM></Par>
+				<Par>De standaard eenheid van temperatuur is de Kelvin. Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.float}</M> bij op. Hiermee krijgen we <BM>T = {T.float} + {TConversion.float} = {T.setUnit('K')}.</BM></Par>
 			</>
 		},
 	},

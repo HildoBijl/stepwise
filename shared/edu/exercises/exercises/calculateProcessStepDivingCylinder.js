@@ -57,7 +57,7 @@ function generateState() {
 		unit: 'dC',
 	})
 
-	const m = p1.multiply(V1).divide(Rs.multiply(T1.useUnit('K'))).useUnit('kg').roundToPrecision()
+	const m = p1.multiply(V1).divide(Rs.multiply(T1.setUnit('K'))).setUnit('kg').roundToPrecision()
 
 	return { m, p1, T1, T2 }
 }
@@ -66,9 +66,9 @@ function getCorrect({ m, p1, T1, T2 }) {
 	p1 = p1.simplify()
 	T1 = T1.simplify()
 	T2 = T2.simplify()
-	const V1 = m.multiply(Rs).multiply(T1).divide(p1).useUnit('m^3')
+	const V1 = m.multiply(Rs).multiply(T1).divide(p1).setUnit('m^3')
 	const V2 = V1
-	const p2 = m.multiply(Rs).multiply(T2).divide(V2).useUnit('Pa')
+	const p2 = m.multiply(Rs).multiply(T2).divide(V2).setUnit('Pa')
 	return { m, Rs, p1, p2, V1, V2, T1, T2 }
 }
 

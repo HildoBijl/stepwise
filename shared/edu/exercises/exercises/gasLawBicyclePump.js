@@ -55,8 +55,8 @@ function getCorrect({ p1, p2, V1, V2, T1 }) {
 	V1 = V1.simplify()
 	V2 = V2.simplify()
 	T1 = T1.simplify()
-	const m = p1.multiply(V1).divide(Rs.multiply(T1)).useUnit('kg')
-	const T2 = T1.multiply(p2).multiply(V2).divide(p1.multiply(V1)).useUnit('K')
+	const m = p1.multiply(V1).divide(Rs.multiply(T1)).setUnit('kg')
+	const T2 = T1.multiply(p2).multiply(V2).divide(p1.multiply(V1)).setUnit('K')
 	return { p1, p2, V1, V2, T1, T2, m, Rs }
 }
 

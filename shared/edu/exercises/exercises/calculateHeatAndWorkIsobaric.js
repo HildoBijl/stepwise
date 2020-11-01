@@ -70,8 +70,8 @@ function getCorrect({ gas, m, T1, T2 }) {
 	cp = cp.simplify()
 	m = m.simplify()
 	const dT = T2.subtract(T1)
-	const Q = m.multiply(cp).multiply(dT).useUnit('J')
-	const W = m.multiply(Rs).multiply(dT).useUnit('J')
+	const Q = m.multiply(cp).multiply(dT).setUnit('J')
+	const W = m.multiply(Rs).multiply(dT).setUnit('J')
 	return { gas, process: 0, eq: 1, m, T1, T2, cp, Rs, Q, W }
 }
 

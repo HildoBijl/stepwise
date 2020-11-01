@@ -115,7 +115,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ m, T1, T2 }) => {
-			return <Par>De massa moet zeker in standaard eenheden. Dus schrijven we <M>m = {m.useUnit('kg')}</M>. Bij de temperatuur moeten we alleen een temperatuursverschil in de formule invullen, en dus mogen we de temperatuur in graden Celsius laten staan. Oftewel, <M>T_1 = {T1}</M> en <M>T_2 = {T2}</M>. Natuurlijk is het ook prima om in Kelvin te rekenen.</Par>
+			return <Par>De massa moet zeker in standaard eenheden. Dus schrijven we <M>m = {m.setUnit('kg')}</M>. Bij de temperatuur moeten we alleen een temperatuursverschil in de formule invullen, en dus mogen we de temperatuur in graden Celsius laten staan. Oftewel, <M>T_1 = {T1}</M> en <M>T_2 = {T2}</M>. Natuurlijk is het ook prima om in Kelvin te rekenen.</Par>
 		},
 	},
 	{

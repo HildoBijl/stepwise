@@ -29,13 +29,13 @@ function generateState() {
 	})
 
 	if (type === 2)
-		m = m.useUnit('kg')
+		m = m.setUnit('kg')
 
 	return { m, type, prefix }
 }
 
 function getCorrect({ m, type, prefix }) {
-	return (type === 2 ? m.useUnit(`${prefix}g`) : m.useUnit('kg'))
+	return (type === 2 ? m.setUnit(`${prefix}g`) : m.setUnit('kg'))
 }
 
 function checkInput(state, { ans }) {

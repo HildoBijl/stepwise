@@ -144,8 +144,8 @@ class FloatUnit {
 		})
 	}
 
-	// useUnit takes a unit that is technically equal but possibly differently written (like bar instead of Pascal). (If the given unit does not equal the unit of this object, an error is thrown.) It then gives this FloatUnit the given unit, adjusting the float accordingly.
-	useUnit(unit) {
+	// setUnit takes a unit that is technically equal but possibly differently written (like bar instead of Pascal). (If the given unit does not equal the unit of this object, an error is thrown.) It then gives this FloatUnit the given unit, adjusting the float accordingly.
+	setUnit(unit) {
 		// Check input.
 		if (unit.constructor !== Unit) // If constructors don't match, try to extract something anyway.
 			unit = new Unit(unit)
@@ -276,7 +276,7 @@ class FloatUnit {
 		return new FloatUnit({
 			float: a.float.add(b.float, keepDecimals),
 			unit: a.unit,
-		}).useUnit(this.unit)
+		}).setUnit(this.unit)
 	}
 
 	// subtract will subtract a given number, just like add adds it.

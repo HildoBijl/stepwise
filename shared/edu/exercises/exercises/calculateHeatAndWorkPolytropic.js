@@ -64,7 +64,7 @@ function generateState() {
 		unit: 'dC',
 	})
 	const pressureRatio = getRandom(2, 4)
-	const T2 = T1.useUnit('K').multiply(Math.pow(pressureRatio, (1 - 1 / n.number))).useUnit('dC').roundToPrecision()
+	const T2 = T1.setUnit('K').multiply(Math.pow(pressureRatio, (1 - 1 / n.number))).setUnit('dC').roundToPrecision()
 
 	return { m, T1, T2, n }
 }
@@ -74,8 +74,8 @@ function getCorrect({ m, T1, T2, n }) {
 	cv = cv.simplify()
 	const c = cv.subtract(Rs.divide(n.number - 1))
 	const mdT = m.multiply(T2.subtract(T1))
-	const Q = mdT.multiply(c).useUnit('J')
-	const W = mdT.multiply(Rs).divide(1 - n.number).useUnit('J')
+	const Q = mdT.multiply(c).setUnit('J')
+	const W = mdT.multiply(Rs).divide(1 - n.number).setUnit('J')
 	return { process: 4, eq: 9, Rs, cv, n, m, c, T1, T2, Q, W }
 }
 

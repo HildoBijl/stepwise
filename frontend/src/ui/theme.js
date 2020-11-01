@@ -89,7 +89,6 @@ let theme = {
 
 theme = createMuiTheme(theme) // Turn the theme into a MUI theme object.
 export default theme
-console.log(theme)
 
 // A macro for making an object unselectable, preventing a blue border around it.
 const notSelectable = {

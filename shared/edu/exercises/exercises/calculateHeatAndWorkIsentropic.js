@@ -67,7 +67,7 @@ function getCorrect({ p1, p2, V1, V2 }) {
 	p1 = p1.simplify()
 	p2 = p2.simplify()
 	const Q = new FloatUnit('0 J')
-	const W = p2.multiply(V2).subtract(p1.multiply(V1)).multiply(-1 / (k.number - 1)).useUnit('J')
+	const W = p2.multiply(V2).subtract(p1.multiply(V1)).multiply(-1 / (k.number - 1)).setUnit('J')
 	return { process: 3, eq: 6, k, p1, p2, V1, V2, Q, W }
 }
 

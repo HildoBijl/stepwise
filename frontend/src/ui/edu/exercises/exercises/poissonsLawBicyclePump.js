@@ -41,7 +41,7 @@ const steps = [
 		</>,
 		Solution: ({ T1, V1, V2 }) => {
 			return <>
-				<Par>De standaard eenheid van temperatuur is de Kelvin. Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.float}</M> bij op. Hiermee krijgen we <BM>T_1 = {T1.float} + {TConversion.float} = {T1.useUnit('K')}.</BM></Par>
+				<Par>De standaard eenheid van temperatuur is de Kelvin. Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.float}</M> bij op. Hiermee krijgen we <BM>T_1 = {T1.float} + {TConversion.float} = {T1.setUnit('K')}.</BM></Par>
 				<Par>Wat volumes betreft mogen we bij Poisson's wet rekenen met liters! Natuurlijk is het altijd prima (veiliger) om standaard eenheden (kubieke meters) te gebruiken, maar in dit geval is het dus ook OK (makkelijker) om gebruik te maken van <M>V_1 = {V1}</M> en <M>V_2 = {V2}</M>.</Par>
 			</>
 		},
@@ -74,7 +74,7 @@ const steps = [
 			const { shared: { getCorrect } } = useExerciseData()
 			const { n, V1, V2 } = state
 			const { T1, T2 } = getCorrect(state)
-			return <Par>Poisson's wet zegt dat <M>TV^(n-1)=(\rm constant)</M> waardoor we mogen schrijven, <BM>T_1V_1^(n-1)=T_2V_2^(n-1).</BM> We willen dit oplossen voor <M>T_2</M>. Delen door <M>V_2^(n-1)</M> geeft <BM>T_2 = T_1 \cdot \frac(V_1^(n-1))(V_2^(n-1)) = T_1 \left(\frac(V_1)(V_2)\right)^(n-1) = {T1.float} \cdot \left(\frac{V1.float}{V2.float}\right)^({n}-1) = {T2}.</BM> Dit komt overeen met een temperatuur van <M>{T2.useUnit('dC').useDecimals(0)}</M>, wat een best redelijke opwarming is. In de praktijk stroomt deze warmte echter snel genoeg weg via de behuizing van de fietspomp.</Par>
+			return <Par>Poisson's wet zegt dat <M>TV^(n-1)=(\rm constant)</M> waardoor we mogen schrijven, <BM>T_1V_1^(n-1)=T_2V_2^(n-1).</BM> We willen dit oplossen voor <M>T_2</M>. Delen door <M>V_2^(n-1)</M> geeft <BM>T_2 = T_1 \cdot \frac(V_1^(n-1))(V_2^(n-1)) = T_1 \left(\frac(V_1)(V_2)\right)^(n-1) = {T1.float} \cdot \left(\frac{V1.float}{V2.float}\right)^({n}-1) = {T2}.</BM> Dit komt overeen met een temperatuur van <M>{T2.setUnit('dC').useDecimals(0)}</M>, wat een best redelijke opwarming is. In de praktijk stroomt deze warmte echter snel genoeg weg via de behuizing van de fietspomp.</Par>
 		},
 	},
 ]

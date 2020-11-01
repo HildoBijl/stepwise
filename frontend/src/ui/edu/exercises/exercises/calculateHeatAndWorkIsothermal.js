@@ -124,7 +124,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ m, T }) => {
-			return <Par>Zowel het volume als de druk moeten in standaard eenheden. De massa <M>m = {m}</M> staat al in standaard eenheden. De temperatuur kunnen we schrijven als <M>T = {T.useUnit('K')}</M>.</Par>
+			return <Par>Zowel het volume als de druk moeten in standaard eenheden. De massa <M>m = {m}</M> staat al in standaard eenheden. De temperatuur kunnen we schrijven als <M>T = {T.setUnit('K')}</M>.</Par>
 		},
 	},
 	{

@@ -53,9 +53,9 @@ function generateState() {
 function getCorrect({ m, T1, p1, p2 }) {
 	p1 = p1.simplify()
 	p2 = p2.simplify()
-	const V1 = m.multiply(Rs).multiply(T1).divide(p1).useUnit('m^3')
+	const V1 = m.multiply(Rs).multiply(T1).divide(p1).setUnit('m^3')
 	const V2 = V1.multiply(Math.pow(p1.number/p2.number, 1/k.number))
-	const T2 = p2.multiply(V2).divide(m.multiply(Rs)).useUnit('K')
+	const T2 = p2.multiply(V2).divide(m.multiply(Rs)).setUnit('K')
 	return { k, Rs, m, p1, V1, T1, p2, V2, T2 }
 }
 
