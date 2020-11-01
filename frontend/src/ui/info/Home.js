@@ -78,12 +78,12 @@ const useStyles = makeStyles((theme) => ({
 	},
 	logoPicture: {
 		...notSelectable,
-		width: '60vw',
+		width: '75vw',
 		[theme.breakpoints.up('sm')]: {
-			width: '35vw',
+			width: '45vw',
 		},
 		[theme.breakpoints.up('lg')]: {
-			height: '30vh',
+			height: '50vh',
 			width: 'auto',
 		},
 	},
