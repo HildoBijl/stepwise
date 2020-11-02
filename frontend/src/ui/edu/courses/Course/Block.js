@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 		'& .block': {
 			alignItems: 'center',
-			background: fade(theme.palette.primary.main, 0.05),
+			background: fade(theme.palette.primary.main, 0.03),
 			cursor: 'pointer',
 			display: 'flex',
 			flexFlow: 'row nowrap',
@@ -91,7 +91,7 @@ export default function Block({ landscape, priorKnowledge = false, skillIds, act
 	return (
 		<Box boxShadow={1} className={clsx(classes.blockBox, 'blockBox', { active, landscape, portrait: !landscape })}>
 			<div className="block" onClick={toggleActive}>
-				<ProgressIndicator value={numCompleted} total={skillIds.length} />
+				<ProgressIndicator total={skillIds.length} done={numCompleted} />
 				{number === undefined ? null : <div className="number">{number}</div>}
 				<div className="title">{title}</div>
 				<Arrow className="arrow" />

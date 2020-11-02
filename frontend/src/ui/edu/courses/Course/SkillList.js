@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 			width: '100%',
 
 			'&:hover': {
-				background: fade(theme.palette.primary.main, 0.05),
+				background: fade(theme.palette.primary.main, 0.03),
 			},
 
 			'&.recommend': {
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
 			borderRadius: '0.5rem',
 
 			'& .skillItem': {
-				background: fade(theme.palette.primary.main, 0.05),
+				background: fade(theme.palette.primary.main, 0.03),
 				'&:hover': {
 					background: fade(theme.palette.primary.main, 0.1),
 				},

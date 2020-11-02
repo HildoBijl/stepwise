@@ -133,3 +133,7 @@ function PortraitCourse({ activeBlock, toggleActiveBlock, recommendation }) {
 		</div>
 	)
 }
+
+export function useCourseTitle() {
+	return 'Temp cursustitel' // ToDo: implement.
+}

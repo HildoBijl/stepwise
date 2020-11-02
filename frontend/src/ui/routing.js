@@ -3,11 +3,10 @@ import { createContext, useContext, useMemo } from 'react'
 import { useUser } from 'api/user'
 
 import LogOut from 'ui/components/LogOut'
-// import CoursesPage, { CoursesProvider } from 'ui/edu/courses/CoursesPage'
-// import CoursePage, { useCourseTitle } from 'ui/edu/courses/CoursePage'
-import ProMo from 'ui/edu/courses/Course'
 import SkillPage, { useSkillTitle, SkillIndicator } from 'ui/edu/skills/SkillPage'
 import * as infoPages from 'ui/info'
+import Courses from 'ui/edu/courses/Courses/index.js'
+import Course, { useCourseTitle } from 'ui/edu/courses/Course'
 
 // Set up a route context object through which child elements can access the current route.
 const RouteContext = createContext(null)
@@ -69,20 +68,17 @@ function getRoutes(user = null) {
 			title: 'Uitloggen...'
 		},
 		'': {
-			name: 'promo',
-			component: ProMo,
-			title: 'Processen en Modelleren',
-			// name: 'courses',
-			// component: CoursesPage,
-			// title: 'Course overview',
+			name: 'courses',
+			component: Courses,
+			title: 'Cursussen',
 			// provider: CoursesProvider,
-			// children: {
-			// 	'course/:courseId': {
-			// 		name: 'course',
-			// 		title: useCourseTitle,
-			// 		component: CoursePage,
-			// 	},
-			// },
+			children: {
+				'cursus/:courseId': {
+					name: 'course',
+					title: useCourseTitle,
+					component: Course,
+				},
+			},
 		},
 	})
 }
@@ -144,7 +140,7 @@ function getPaths(routes) {
 	return fillPaths(routes)
 }
 
-// insertParametersIntoPath takes
+// insertParametersIntoPath takes a path and tries to put the given parameters into it. Like a path "course/:courseId" and a parameters-object { courseId: 'someId' }. If there is a parameter in the path and not a corresponding parameter in the parameters-object, an error is thrown (but not the other way around). 
 function insertParametersIntoPath(parameters = {}, path = '/') {
 	// Insert all given parameters into the given path.
 	Object.keys(parameters).forEach(key => {

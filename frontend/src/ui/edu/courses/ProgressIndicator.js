@@ -35,16 +35,16 @@ const useStyles = makeStyles((theme) => ({
 		},
 
 		'& .text': {
-			fontSize: ({ size }) => `${0.75 * size / designSize}rem`,
+			fontSize: ({ size }) => `${0.65 * size / designSize}rem`,
 			...centered,
 		},
 	},
 }))
 
-export default function ProgressIndicator({ value, total, className, size = designSize }) {
+export default function ProgressIndicator({ done, total, className, size = designSize }) {
 	const r = 45
-	const dash1 = value / total * 2 * Math.PI * r
-	const dash2 = (1 - (value / total)) * 2 * Math.PI * r
+	const dash1 = done / total * 2 * Math.PI * r
+	const dash2 = (1 - (done / total)) * 2 * Math.PI * r
 	const classes = useStyles({ dash1, dash2, size })
 	return (
 		<div className={clsx(className, classes.progressIndicator, 'progressIndicator')}>
@@ -52,7 +52,7 @@ export default function ProgressIndicator({ value, total, className, size = desi
 				<circle cx="0" cy="0" r={r} className="filler" />
 				<circle cx="0" cy="0" r={r} className="front" />
 			</svg>
-			<div className="text">{value}/{total}</div>
+			<div className="text">{done}/{total}</div>
 		</div>
 	)
 }
