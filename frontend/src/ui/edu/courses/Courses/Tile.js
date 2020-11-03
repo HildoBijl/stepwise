@@ -4,11 +4,11 @@ import { makeStyles } from '@material-ui/core/styles'
 import { fade } from '@material-ui/core/styles/colorManipulator'
 import Box from '@material-ui/core/Box'
 import Tooltip from '@material-ui/core/Tooltip'
-import { Create as Pencil } from '@material-ui/icons'
 
 import skills from 'step-wise/edu/skills'
 
 import { notSelectable } from 'ui/theme'
+import QuickPractice from 'ui/components/QuickPractice'
 import Rectangle from 'ui/components/Rectangle'
 import Button from 'ui/components/Button'
 
@@ -50,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
 			justifyContent: 'space-evenly',
 
 			'& .directPractice': {
+				borderRadius: '0.5rem',
 				height: '3rem',
 				minWidth: 0,
 				padding: 0,
@@ -79,7 +80,7 @@ export default function Tile({ course, skillsTotal, skillsLeft, recommendation }
 					<ProgressIndicator total={skillsTotal} done={skillsDone} size={60} />
 					<div>
 						<Tooltip title={`Direct oefenen: ${skills[recommendation].name}`} arrow classes={{ tooltip: classes.tooltip }}>
-							<Button variant="contained" color="info" className="directPractice" onMouseEnter={() => setButtonHover(true)} onMouseLeave={() => setButtonHover(false)}><Pencil /></Button>
+							<Button variant="contained" color="info" className="directPractice" onMouseEnter={() => setButtonHover(true)} onMouseLeave={() => setButtonHover(false)}><QuickPractice /></Button>
 						</Tooltip>
 					</div>
 				</div>
