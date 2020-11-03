@@ -18,11 +18,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function Rectangle({ children, className, aspectRatio = 1 }) {
+export default function Rectangle({ children, className, outerClassName, aspectRatio = 1 }) {
 	const classes = useStyles({ aspectRatio })
 	return (
-		<div className={clsx(classes.rectangleOutside, className)}>
-			<div className={clsx(classes.rectangleInside)}>
+		<div className={clsx(classes.rectangleOutside, outerClassName)}>
+			<div className={clsx(classes.rectangleInside, className)}>
 				{children}
 			</div>
 		</div>

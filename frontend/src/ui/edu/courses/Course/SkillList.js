@@ -10,8 +10,7 @@ import skills from 'step-wise/edu/skills'
 
 import { notSelectable } from 'ui/theme'
 import { usePaths } from 'ui/routing'
-
-import logo from 'ui/images/logo.svg'
+import QuickPractice from 'ui/components/QuickPractice'
 
 import { useSkillData } from '../../skills/SkillCacher'
 import SkillFlask from '../../skills/SkillFlask'
@@ -86,7 +85,7 @@ function SkillItem({ skillId, recommend = false }) {
 			<Link to={paths.skill({ skillId })} className={clsx('skillItem', { recommend })}>
 				<SkillFlask coef={skillData.coefficients} size={40} />
 				<div className="skillName">{skill.name}</div>
-				{recommend ? <img src={logo} className="recommendation" alt="Aanrader" /> : null}
+				{recommend ? <QuickPractice /> : null}
 			</Link>
 		</Tooltip>
 	)

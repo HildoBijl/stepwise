@@ -97,11 +97,11 @@ const notSelectable = {
 }
 export { notSelectable }
 
-const linkDeactivation = {
+const linkStyleReset = {
 	color: 'inherit',
 	textDecoration: 'none',
 }
-export { linkDeactivation }
+export { linkStyleReset }
 
 const centered = {
 	left: '50%',
