@@ -79,7 +79,7 @@ export default function Tile({ course, skillsTotal, skillsLeft, recommendation }
 	const [buttonHover, setButtonHover] = useState(false)
 	const classes = useStyles({ buttonHover })
 	return (
-		<Link to={paths.course({ courseId: 'promo' })} className={clsx(classes.tile, 'tile')}>
+		<Link to={paths.course({ courseId: course.name })} className={clsx(classes.tile, 'tile')}>
 			<Box boxShadow={1} className="tileBox">
 				<Rectangle aspectRatio={0.75} className="tileInner">
 					<div className="titleContainer">

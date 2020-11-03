@@ -5,8 +5,11 @@ import { isPracticeNeeded } from '../skills/util'
 // getCourseSkills takes a course set-up and returns an object { priorKnowledge: ['priorSkill1', ...], course: ['firstSkill', ..., 'lastSkill'], blocks: [['firstSkill', ...], ..., [..., 'lastSkill']] }. It lists all the skills belonging to the course in the right order.
 // If skillsData is given, it only lists the skills with practice needed. If no skillsData is given, all skills are listed. Note: if a skill X is completed but subskills A and B do have practice needed, then iteration is stopped at X, ignoring A and B. After all, if X is mastered, why would the student need to practice A and B? (Unless another skill that is not completed also requires A and/or B.)
 export function getCourseSkills(courseSetup, skillsData) {
-	const { blocks, priorKnowledge } = courseSetup
+	// Check input.
+	if (!courseSetup)
+		return { priorKnowledge: [], blocks: [], course: [] }
 
+	const { blocks, priorKnowledge } = courseSetup
 	const courseSet = new Set()
 	const priorKnowledgeSet = new Set()
 	const blockSets = blocks.map(block => {
