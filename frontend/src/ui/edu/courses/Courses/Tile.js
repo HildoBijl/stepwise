@@ -73,9 +73,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function Tile({ course, skillsTotal, skillsLeft, recommendation }) {
+export default function Tile({ course, skillsTotal, skillsDone, recommendation }) {
 	const paths = usePaths()
-	const skillsDone = skillsTotal - skillsLeft
 	const [buttonHover, setButtonHover] = useState(false)
 	const classes = useStyles({ buttonHover })
 	return (

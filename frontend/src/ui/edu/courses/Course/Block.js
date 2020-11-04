@@ -8,10 +8,8 @@ import { ChevronRight as Arrow } from '@material-ui/icons'
 
 import { notSelectable } from 'ui/theme'
 
-import { isPracticeNeeded } from '../../skills/util'
-import { useSkillsData } from '../../skills/SkillCacher'
-
 import ProgressIndicator from '../ProgressIndicator'
+import { isSkillMastered } from '../util'
 
 import SkillList from './SkillList'
 
@@ -83,10 +81,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function Block({ landscape, priorKnowledge = false, skillIds, active, toggleActive, title, number, recommendation }) {
+export default function Block({ landscape, skillIds, active, toggleActive, title, number, isPriorKnowledge, recommendation, masteredSkills }) {
 	const classes = useStyles({ landscape, active })
-	const skillsData = useSkillsData(skillIds)
-	const numCompleted = skillIds.reduce((sum, skillId) => skillsData[skillId] && isPracticeNeeded(skillsData[skillId], priorKnowledge) === 0 ? sum + 1 : sum, 0)
+	const numCompleted = skillIds.filter(skillId => isSkillMastered(skillId, masteredSkills)).length
 
 	return (
 		<Box boxShadow={1} className={clsx(classes.blockBox, 'blockBox', { active, landscape, portrait: !landscape })}>
@@ -98,7 +95,7 @@ export default function Block({ landscape, priorKnowledge = false, skillIds, act
 			</div>
 			{landscape ? null : (
 				<Collapse in={active}>
-					<SkillList skillIds={skillIds} landscape={landscape} recommendation={recommendation} />
+					<SkillList skillIds={skillIds} landscape={landscape} isPriorKnowledge={isPriorKnowledge} recommendation={recommendation} masteredSkills={masteredSkills} />
 				</Collapse>
 			)}
 		</Box>

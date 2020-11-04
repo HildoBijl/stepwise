@@ -8,7 +8,7 @@ import { getSkillRecommendation } from '../../skills/util'
 import { useSkillsData } from '../../skills/SkillCacher'
 
 import courses from '../courses'
-import { getCourseSkills } from '../util'
+import { getSkillOverview, getMasteredSkills } from '../util'
 
 import SkillRecommender from './SkillRecommender'
 import Block from './Block'
@@ -42,11 +42,12 @@ export default function Course(props) {
 	const { params } = useRouteMatch()
 	const { courseId } = params
 	const course = courses[courseId.toLowerCase()]
-	const skillLists = getCourseSkills(course)
+	const skillLists = getSkillOverview(course)
 
 	// Extract the skill recommendation.
 	const skillsData = useSkillsData([...skillLists.priorKnowledge, ...skillLists.course])
-	const recommendation = getSkillRecommendation(skillsData, skillLists.priorKnowledge, skillLists.course)
+	const masteredSkills = getMasteredSkills(course, skillsData)
+	const recommendation = getSkillRecommendation(skillsData, skillLists.priorKnowledge, skillLists.course, masteredSkills)
 	const hasRecommendation = !!skillsData[recommendation]
 	const recommendationBlock = skillLists.priorKnowledge.includes(recommendation) ? -1 : skillLists.blocks.findIndex(blockList => blockList.includes(recommendation))
 
@@ -73,14 +74,14 @@ export default function Course(props) {
 		return <div>Oops... De cursus die je wilt bezoeken is niet bekend. Mogelijk is er iets mis met de link?</div>
 
 	// Render the component.
-	const data = { ...props, course, skillLists, activeBlock, toggleActiveBlock, recommendation }
+	const data = { ...props, course, skillLists, activeBlock, toggleActiveBlock, recommendation, masteredSkills }
 	return <>
 		{hasRecommendation ? <SkillRecommender recommendation={recommendation} /> : null}
 		{landscape ? <LandscapeCourse {...data} /> : <PortraitCourse {...data} />}
 	</>
 }
 
-function LandscapeCourse({ course, skillLists, activeBlock, toggleActiveBlock, recommendation }) {
+function LandscapeCourse({ course, skillLists, activeBlock, toggleActiveBlock, recommendation, masteredSkills }) {
 	const landscape = true
 	const classes = useStyles({ landscape })
 
@@ -97,15 +98,15 @@ function LandscapeCourse({ course, skillLists, activeBlock, toggleActiveBlock, r
 	return (
 		<div className={clsx(classes.courseOverview, classes.landscapeOverview)}>
 			<div className="blockList">
-				{hasPriorKnowledge ? <Block landscape={landscape} priorKnowledge={true} skillIds={skillLists.priorKnowledge} active={activeBlock === -1} toggleActive={() => toggleActiveBlock(-1)} title="Directe voorkennis" recommendation={recommendation} /> : null}
-				{course.blocks.map((block, index) => <Block key={index} landscape={landscape} skillIds={skillLists.blocks[index]} active={activeBlock === index} toggleActive={() => toggleActiveBlock(index)} title={block.title} number={index + 1} recommendation={recommendation} />)}
+				{hasPriorKnowledge ? <Block landscape={landscape} priorKnowledge={true} skillIds={skillLists.priorKnowledge} active={activeBlock === -1} toggleActive={() => toggleActiveBlock(-1)} title="Directe voorkennis" isPriorKnowledge={true} recommendation={recommendation} masteredSkills={masteredSkills} /> : null}
+				{course.blocks.map((block, index) => <Block key={index} landscape={landscape} skillIds={skillLists.blocks[index]} active={activeBlock === index} toggleActive={() => toggleActiveBlock(index)} title={block.title} number={index + 1} isPriorKnowledge={false} recommendation={recommendation} masteredSkills={masteredSkills} />)}
 			</div>
-			<SkillList skillIds={skillIds} landscape={landscape} recommendation={recommendation} />
+			<SkillList skillIds={skillIds} landscape={landscape} recommendation={recommendation} masteredSkills={masteredSkills} />
 		</div>
 	)
 }
 
-function PortraitCourse({ course, skillLists, activeBlock, toggleActiveBlock, recommendation }) {
+function PortraitCourse({ course, skillLists, activeBlock, toggleActiveBlock, recommendation, masteredSkills }) {
 	const landscape = false
 	const classes = useStyles({ landscape })
 	const hasPriorKnowledge = skillLists.priorKnowledge.length > 0
@@ -113,9 +114,9 @@ function PortraitCourse({ course, skillLists, activeBlock, toggleActiveBlock, re
 	return (
 		<div className={clsx(classes.courseOverview, classes.portraitOverview)}>
 			<div className={clsx(classes.blockList, 'blockList')}>
-				{hasPriorKnowledge ? <Block landscape={landscape} priorKnowledge={true} skillIds={skillLists.priorKnowledge} active={activeBlock === -1} toggleActive={() => toggleActiveBlock(-1)} title="Directe voorkennis" recommendation={recommendation} /> : null}
+				{hasPriorKnowledge ? <Block landscape={landscape} priorKnowledge={true} skillIds={skillLists.priorKnowledge} active={activeBlock === -1} toggleActive={() => toggleActiveBlock(-1)} title="Directe voorkennis" isPriorKnowledge={true} recommendation={recommendation} masteredSkills={masteredSkills} /> : null}
 				{course.blocks.map((block, index) => (
-					<Block key={index} landscape={landscape} skillIds={skillLists.blocks[index]} active={activeBlock === index} toggleActive={() => toggleActiveBlock(index)} title={block.title} number={index + 1} recommendation={recommendation} />
+					<Block key={index} landscape={landscape} skillIds={skillLists.blocks[index]} active={activeBlock === index} toggleActive={() => toggleActiveBlock(index)} title={block.title} number={index + 1} isPriorKnowledge={false} recommendation={recommendation} masteredSkills={masteredSkills} />
 				))}
 			</div>
 		</div>

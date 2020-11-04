@@ -3,6 +3,7 @@
 const courses = {
 	swbasics: {
 		title: 'Step-Wise Basics',
+		goals: ['fillInInteger', 'fillInFloat', 'fillInUnit', 'summationAndMultiplication'],
 		priorKnowledge: [],
 		blocks: [
 			{
@@ -17,6 +18,7 @@ const courses = {
 	},
 	exactd: {
 		title: 'Exacte Wetenschap D',
+		goals: ['calculateProcessStep', 'calculateHeatAndWork'],
 		priorKnowledge: [
 			'calculateWithPressure',
 			'calculateWithVolume',
@@ -42,6 +44,7 @@ const courses = {
 	},
 	promo: {
 		title: 'Processen en Modelleren',
+		goals: ['calculateProcessStep'],
 		priorKnowledge: ['gasLaw', 'recognizeProcessTypes', 'poissonsLaw'],
 		blocks: [
 			{

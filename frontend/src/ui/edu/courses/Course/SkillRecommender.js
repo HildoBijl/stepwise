@@ -16,11 +16,17 @@ const useStyles = makeStyles((theme) => ({
 		borderRadius: '0.5rem',
 		justifyContent: 'flex-start',
 		marginBottom: '0.6rem',
-		padding: '0.7rem 1.2rem',
+		minHeight: '3rem',
+		padding: '0.4rem 1.2rem',
 		width: '100%',
 
 		'&:hover': {
 			background: darken(theme.palette.info.main, 0.2),
+		},
+
+		'& .buttonInner': {
+			marginLeft: '0.2rem',
+			textAlign: 'left',
 		},
 	},
 }))
@@ -32,7 +38,9 @@ export default function SkillRecommender({ recommendation }) {
 	// If there is no recommendation (all work is done) then give an alternative.
 	if (!recommendation) {
 		return ( // ToDo later: add a free practice mode, browsing through the end goals.
-			<Button variant="contained" color="info" startIcon={<QuickPractice />} className={classes.skillRecommender}>Je hebt alles op voldoende niveau!</Button>
+			<Button variant="contained" color="info" startIcon={<QuickPractice />} className={classes.skillRecommender}>
+				<span className="buttonInner">Je hebt alles op voldoende niveau!</span>
+			</Button>
 		)
 	}
 
@@ -40,7 +48,9 @@ export default function SkillRecommender({ recommendation }) {
 	const skill = skills[recommendation]
 	return (
 		<Link to={paths.skill({ skillId: recommendation })} className={classes.skillRecommenderLink}>
-			<Button variant="contained" color="info" startIcon={<QuickPractice />} className={classes.skillRecommender}>Direct oefenen: {skill.name}</Button>
+			<Button variant="contained" color="info" startIcon={<QuickPractice />} className={classes.skillRecommender}>
+				<span className="buttonInner">Direct oefenen: {skill.name}</span>
+			</Button>
 		</Link>
 	)
 }
