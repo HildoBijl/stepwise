@@ -17,7 +17,7 @@ import { useSkillData } from './SkillCacher'
 import SkillFlask from './SkillFlask'
 import ExerciseContainer from '../exercises/ExerciseContainer'
 
-export default function SkillPage() {
+export default function Skill() {
 	const { loading, data } = useUserResults()
 
 	if (loading)

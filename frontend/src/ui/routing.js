@@ -3,7 +3,8 @@ import { createContext, useContext, useMemo } from 'react'
 import { useUser } from 'api/user'
 
 import LogOut from 'ui/components/LogOut'
-import SkillPage, { useSkillTitle, SkillIndicator } from 'ui/edu/skills/SkillPage'
+import Skill, { useSkillTitle, SkillIndicator } from 'ui/edu/skills/Skill'
+import CourseSkill from 'ui/edu/skills/CourseSkill'
 import * as infoPages from 'ui/info'
 import Courses from 'ui/edu/courses/Courses/index.js'
 import Course, { useCourseTitle } from 'ui/edu/courses/Course'
@@ -39,7 +40,7 @@ function getRoutes(user = null) {
 		},
 		'vaardigheid/:skillId': {
 			name: 'skill',
-			component: SkillPage,
+			component: Skill,
 			title: useSkillTitle,
 			recommendLogIn: true,
 			Indicator: SkillIndicator,
@@ -75,8 +76,16 @@ function getRoutes(user = null) {
 			children: {
 				'cursus/:courseId': {
 					name: 'course',
-					title: useCourseTitle,
 					component: Course,
+					title: useCourseTitle,
+					children: {
+						'vaardigheid/:skillId': {
+							name: 'courseSkill',
+							component: CourseSkill,
+							title: useSkillTitle,
+							Indicator: SkillIndicator,
+						},
+					},
 				},
 			},
 		},

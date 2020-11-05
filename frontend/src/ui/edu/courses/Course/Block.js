@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function Block({ landscape, skillIds, active, toggleActive, title, number, isPriorKnowledge, analysis }) {
+export default function Block({ landscape, courseId, skillIds, active, toggleActive, title, number, isPriorKnowledge, analysis }) {
 	const classes = useStyles({ landscape, active })
 	const numCompleted = count(skillIds, (skillId) => analysis.practiceNeeded[skillId] === 0)
 
@@ -96,7 +96,7 @@ export default function Block({ landscape, skillIds, active, toggleActive, title
 			</div>
 			{landscape ? null : (
 				<Collapse in={active}>
-					<SkillList skillIds={skillIds} landscape={landscape} isPriorKnowledge={isPriorKnowledge} analysis={analysis} />
+					<SkillList courseId={courseId} skillIds={skillIds} landscape={landscape} isPriorKnowledge={isPriorKnowledge} analysis={analysis} />
 				</Collapse>
 			)}
 		</Box>

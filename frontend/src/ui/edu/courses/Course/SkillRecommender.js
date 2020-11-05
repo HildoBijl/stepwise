@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function SkillRecommender({ recommendation }) {
+export default function SkillRecommender({ courseId, recommendation }) {
 	const paths = usePaths()
 	const classes = useStyles()
 
@@ -47,7 +47,7 @@ export default function SkillRecommender({ recommendation }) {
 	// Give a link to the recommended skill.
 	const skill = skills[recommendation]
 	return (
-		<Link to={paths.skill({ skillId: recommendation })} className={classes.skillRecommenderLink}>
+		<Link to={paths.courseSkill({ courseId, skillId: recommendation })} className={classes.skillRecommenderLink}>
 			<Button variant="contained" color="info" startIcon={<QuickPractice />} className={classes.skillRecommender}>
 				<span className="buttonInner">Direct oefenen: {skill.name}</span>
 			</Button>

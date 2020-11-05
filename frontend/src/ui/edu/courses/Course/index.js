@@ -75,7 +75,7 @@ export default function Course(props) {
 	// Render the component.
 	const data = { ...props, course, overview, analysis, activeBlock, toggleActiveBlock }
 	return <>
-		{hasRecommendation ? <SkillRecommender recommendation={recommendation} /> : null}
+		{hasRecommendation ? <SkillRecommender courseId={courseId} recommendation={recommendation} /> : null}
 		{landscape ? <LandscapeCourse {...data} /> : <PortraitCourse {...data} />}
 	</>
 }
@@ -101,7 +101,7 @@ function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActive
 			<div className="blockList">
 				{hasPriorKnowledge ? <Block
 					landscape={landscape}
-					priorKnowledge={true}
+					courseId={course.name}
 					skillIds={overview.priorKnowledge}
 					active={activeBlock === -1}
 					toggleActive={() => toggleActiveBlock(-1)}
@@ -112,6 +112,7 @@ function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActive
 				{course.blocks.map((block, index) => <Block
 					key={index}
 					landscape={landscape}
+					courseId={course.name}
 					skillIds={overview.blocks[index]}
 					active={activeBlock === index}
 					toggleActive={() => toggleActiveBlock(index)}
@@ -121,7 +122,7 @@ function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActive
 					analysis={analysis}
 				/>)}
 			</div>
-			<SkillList skillIds={skillIds} landscape={landscape} analysis={analysis} />
+			<SkillList courseId={course.name} skillIds={skillIds} landscape={landscape} isPriorKnowledge={activeBlock === -1} analysis={analysis} />
 		</div>
 	)
 }
@@ -136,7 +137,7 @@ function PortraitCourse({ course, overview, analysis, activeBlock, toggleActiveB
 			<div className={clsx(classes.blockList, 'blockList')}>
 				{hasPriorKnowledge ? <Block
 					landscape={landscape}
-					priorKnowledge={true}
+					courseId={course.name}
 					skillIds={overview.priorKnowledge}
 					active={activeBlock === -1}
 					toggleActive={() => toggleActiveBlock(-1)}
@@ -148,6 +149,7 @@ function PortraitCourse({ course, overview, analysis, activeBlock, toggleActiveB
 					<Block
 						key={index}
 						landscape={landscape}
+						courseId={course.name}
 						skillIds={overview.blocks[index]}
 						active={activeBlock === index}
 						toggleActive={() => toggleActiveBlock(index)}

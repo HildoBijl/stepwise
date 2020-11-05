@@ -1,13 +1,13 @@
 import React, { useRef, useCallback, useEffect } from 'react'
+import { Link, useRouteMatch } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import { Breadcrumbs } from '@material-ui/core'
-import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { ArrowRight as Arrow } from '@material-ui/icons'
 import clsx from 'clsx'
 
 import { useEventListener, useRefWithValue } from 'util/react'
-import { useRoute } from 'ui/routing'
+import { useRoute, usePaths } from 'ui/routing'
 import { websiteTitle } from 'ui/settings'
 
 const useStyles = makeStyles((theme) => ({
@@ -105,11 +105,14 @@ function getBreadcrumbs(route) {
 
 // For the first element add a tab title. For the others make a link.
 function Breadcrumb({ route, first }) {
+	const paths = usePaths()
+	const { params } = useRouteMatch()
+
 	const title = (typeof route.title === 'function' ? route.title() : route.title)
 	if (first) {
 		const tabTitle = `${title} | ${websiteTitle}`
 		return <span>{title}<Helmet><title>{tabTitle}</title></Helmet></span>
 	} else {
-		return <Link to={route.path}>{title}</Link>
+		return <Link to={paths[route.name](params)}>{title}</Link>
 	}
 }
