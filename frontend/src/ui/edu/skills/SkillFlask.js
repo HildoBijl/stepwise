@@ -1,6 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
+import Tooltip from '@material-ui/core/Tooltip'
 
 import { numberArray } from 'step-wise/util/arrays'
 import { boundTo, interpolate } from 'step-wise/util/numbers'
@@ -60,23 +61,25 @@ export default function SkillFlask(props) {
 
 	// Render the component.
 	return (
-		<svg className={clsx(classes.skillFlask, 'skillFlask', className)} viewBox={`0 0 ${vb} ${vb}`}>
-			<defs>
-				<radialGradient id={`flaskBackground${id}`} cx="50%" cy="50%" r="70%" fx="64%" fy="26%">
-					<stop offset="0%" style={{ stopColor: toCSS(shift(color, 1)) }} />
-					<stop offset="100%" style={{ stopColor: toCSS(shift(color, 0.4)) }} />
-				</radialGradient>
-				<radialGradient id={`flaskForeground${id}`} cx="50%" cy="50%" r="70%" fx="64%" fy="26%">
-					<stop offset="0%" style={{ stopColor: toCSS(shift(color, 0.4 + 0.5 * fading)) }} />
-					<stop offset="100%" style={{ stopColor: toCSS(shift(color, -0.8 + 1.0 * fading)) }} />
-				</radialGradient>
-				<clipPath id={`flaskFill${id}`}>
-					<rect className={classes.clip} />
-				</clipPath>
-			</defs>
-			<circle cx={vb / 2} cy={vb / 2} r={vb / 2 - vb/100} strokeWidth="0" fill={`url(#flaskBackground${id})`} />{/* Subtract a small amount to prevent the background from creeping around the edges. */}
-			<circle cx={vb / 2} cy={vb / 2} r={vb / 2} strokeWidth="0" fill={`url(#flaskForeground${id})`} clipPath={`url(#flaskFill${id})`} />
-		</svg>
+		<Tooltip title={<span>We schatten de kans in op <strong>{Math.round(part * 100)}%</strong> dat je een opdracht hiervan goed gaat doen.</span>} arrow>
+			<svg className={clsx(classes.skillFlask, 'skillFlask', className)} viewBox={`0 0 ${vb} ${vb}`}>
+				<defs>
+					<radialGradient id={`flaskBackground${id}`} cx="50%" cy="50%" r="70%" fx="64%" fy="26%">
+						<stop offset="0%" style={{ stopColor: toCSS(shift(color, 1)) }} />
+						<stop offset="100%" style={{ stopColor: toCSS(shift(color, 0.4)) }} />
+					</radialGradient>
+					<radialGradient id={`flaskForeground${id}`} cx="50%" cy="50%" r="70%" fx="64%" fy="26%">
+						<stop offset="0%" style={{ stopColor: toCSS(shift(color, 0.4 + 0.5 * fading)) }} />
+						<stop offset="100%" style={{ stopColor: toCSS(shift(color, -0.8 + 1.0 * fading)) }} />
+					</radialGradient>
+					<clipPath id={`flaskFill${id}`}>
+						<rect className={classes.clip} />
+					</clipPath>
+				</defs>
+				<circle cx={vb / 2} cy={vb / 2} r={vb / 2 - vb / 100} strokeWidth="0" fill={`url(#flaskBackground${id})`} />{/* Subtract a small amount to prevent the background from creeping around the edges. */}
+				<circle cx={vb / 2} cy={vb / 2} r={vb / 2} strokeWidth="0" fill={`url(#flaskForeground${id})`} clipPath={`url(#flaskFill${id})`} />
+			</svg>
+		</Tooltip>
 	)
 }
 

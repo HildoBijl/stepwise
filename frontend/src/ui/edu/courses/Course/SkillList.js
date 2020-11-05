@@ -15,8 +15,6 @@ import QuickPractice from 'ui/components/QuickPractice'
 
 import { useSkillData } from '../../skills/SkillCacher'
 import SkillFlask from '../../skills/SkillFlask'
-
-import { isSkillMastered } from '../util'
 import { isPracticeNeeded } from '../../skills/util'
 
 const useStyles = makeStyles((theme) => ({
@@ -71,39 +69,53 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function SkillList({ skillIds, landscape, isPriorKnowledge, recommendation, masteredSkills }) {
+export default function SkillList({ skillIds, landscape, isPriorKnowledge, analysis }) {
 	const classes = useStyles()
 	return (
 		<Box boxShadow={landscape ? 1 : 0} className={clsx(classes.skillList, 'skillList', { landscape })}>
-			{skillIds.map((skillId, index) => <SkillItem key={skillId} skillId={skillId} isPriorKnowledge={isPriorKnowledge} recommend={skillId === recommendation} mastered={isSkillMastered(skillId, masteredSkills)} />)}
+			{skillIds.map((skillId) => <SkillItem
+				key={skillId}
+				skillId={skillId}
+				isPriorKnowledge={isPriorKnowledge}
+				recommend={skillId === analysis.recommendation}
+				practiceNeeded={analysis.practiceNeeded[skillId]}
+			/>)}
 		</Box>
 	)
 }
 
-function SkillItem({ skillId, isPriorKnowledge, recommend = false, mastered = false }) {
+function SkillItem({ skillId, isPriorKnowledge, recommend = false, practiceNeeded = 2 }) {
 	const skillData = useSkillData(skillId)
 	const skill = skills[skillId]
 	const paths = usePaths()
 
+	// Determine the tooltip to show under a "mastered" checkmark.
 	let iconText = ''
-	if (mastered) {
-		const practiceNeeded = isPracticeNeeded(skillData, isPriorKnowledge)
-		if (practiceNeeded === 0)
+	if (practiceNeeded === 0) {
+		if (isPracticeNeeded(skillData, isPriorKnowledge) === 0)
 			iconText = 'Je beheerst deze vaardigheid goed.'
-		else if (practiceNeeded === 1)
-			iconText = 'Je beheerst deze vaardigheid voldoende om door te kunnen.'
 		else
 			iconText = 'Je beheerst een vervolg-vaardigheid, dus markeren we deze ook als voldoende.'
 	}
 
-	if (!skillData)
-		return null
 	return (
 		<Link to={paths.skill({ skillId })} className={clsx('skillItem', { recommend })}>
-			<SkillFlask coef={skillData.coefficients} size={40} />
+			{skillData ? <SkillFlask coef={skillData.coefficients} size={40} /> : null}
 			<div className="skillName">{skill.name}</div>
-			{mastered ? <Tooltip title={iconText} arrow><div className="iconContainer"><Check className="check" /></div></Tooltip> : null}
-			{recommend && !mastered ? <Tooltip title="Dit is nu de optimale vaardigheid om te oefenen." arrow><div className="iconContainer"><QuickPractice /></div></Tooltip> : null}
+			{practiceNeeded === 0 ? (
+				<Tooltip title={iconText} arrow>
+					<div className="iconContainer">
+						<Check className="check" />
+					</div>
+				</Tooltip>
+			) : null}
+			{recommend ? (
+				<Tooltip title="Dit is nu de optimale vaardigheid om te oefenen." arrow>
+					<div className="iconContainer">
+						<QuickPractice />
+					</div>
+				</Tooltip>
+			) : null}
 		</Link>
 	)
 }

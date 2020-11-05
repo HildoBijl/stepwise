@@ -2,8 +2,8 @@ import skills from 'step-wise/edu/skills'
 
 import { isPracticeNeeded } from '../skills/util'
 
-// getSkillOverview takes a course set-up and returns an object { priorKnowledge: ['priorSkill1', ...], course: ['firstSkill', ..., 'lastSkill'], blocks: [['firstSkill', ...], ..., [..., 'lastSkill']] }. It lists all the skills belonging to the course in the right order.
-export function getSkillOverview(courseSetup) {
+// getOverview takes a course set-up and returns an overview object { priorKnowledge: ['priorSkill1', ...], course: ['firstSkill', ..., 'lastSkill'], blocks: [['firstSkill', ...], ..., [..., 'lastSkill']], goals: [...], all: ['priorSkill1', ..., 'firstSkill', ...] }. It lists all the skills belonging to the course in the right order.
+export function getOverview(courseSetup) {
 	// Check input.
 	if (!courseSetup)
 		return { priorKnowledge: [], blocks: [], course: [] }
@@ -19,8 +19,10 @@ export function getSkillOverview(courseSetup) {
 
 	return {
 		priorKnowledge: [...priorKnowledgeSet],
+		goals: courseSetup.goals,
 		blocks: blockSets.map(blockSet => [...blockSet]),
 		course: [...courseSet],
+		all: [...priorKnowledgeSet, ...courseSet],
 	}
 }
 
@@ -47,45 +49,47 @@ function addToSkillSets(skillId, priorKnowledge, courseSet, blockSet, priorKnowl
 	blockSet.add(skillId)
 }
 
-// getMasteredSkills takes a course, walks from the goals all the way up to the prior knowledge, and checks which skills are mastered. A skill is also marked as mastered if a follow-up skill (directly or indirectly) is mastered. So in theory, if a student only masters the course goals and nothing else, all skills are marked as mastered. It returns an object with two lists: { priorKnowledge: ['firstMasteredSkill', 'secondMasteredSkill', ...], course: ['anotherMasteredSkill', ...] }.
-export function getMasteredSkills(courseSetup, skillsData) {
-	// Set up sets to add skills to.
-	const courseSet = new Set()
-	const priorKnowledgeSet = new Set()
+// getAnalysis checks, for a given course overview and a given set of skills data, which skills have been mastered and which skill is recommended to practice next. It returns an object of the form { practiceNeeded: { skill1: 2, skill2: 0, skill3: 1, ... }, recommendation: 'skill2' }.
+export function getAnalysis(overview, skillsData) {
+	const practiceNeeded = getPracticeNeeded(overview, skillsData)
+	
+	// Check for possible recommendations: first for work needed in prior knowledge and then for work needed in the course skills.
+	let recommendation = overview.priorKnowledge.find(skillId => practiceNeeded[skillId] === 2)
+	if (!recommendation)
+		recommendation = overview.course.find(skillId => practiceNeeded[skillId] === 2)
+	if (!recommendation)
+		recommendation = overview.course.find(skillId => practiceNeeded[skillId] === 2)
 
-	// Recursively walk through skills.
-	courseSetup.goals.forEach(goal => checkMastery(goal, courseSetup.priorKnowledge, skillsData, false, courseSet, priorKnowledgeSet))
-
-	// Return the filled lists.
+	// Return the outcome.
 	return {
-		priorKnowledge: [...priorKnowledgeSet],
-		course: [...courseSet],
+		practiceNeeded,
+		recommendation,
 	}
 }
 
-function checkMastery(skillId, priorKnowledge, skillsData, parentMastered = false, courseSet, priorKnowledgeSet) {
+// getPracticeNeeded takes a course set-up and walks through it to determine which skills require practice. It returns an object { skill1: 2, skill2: 0, skill3: 1, ... } which indicates the practice-needed-index for each skill in the course (including prior knowledge skills). It also takes into account the skill hierarchy: if a main skill X has an index (for instance "1") then all subskills have AT MOST that index, possibly lower.
+function getPracticeNeeded(overview, skillsData) {
+	const result = {}
+	overview.goals.forEach(goal => checkPracticeNeeded(goal, skillsData, overview.priorKnowledge, result))
+	return result
+}
+
+function checkPracticeNeeded(skillId, skillsData = {}, priorKnowledge, result, bestParent) {
 	// Derive data about this skill.
 	const isPriorKnowledge = priorKnowledge.includes(skillId)
-	const mastered = parentMastered || (skillsData && skillsData[skillId] && !isPracticeNeeded(skillsData[skillId], isPriorKnowledge))
+	let practiceNeeded = isPracticeNeeded(skillsData[skillId], isPriorKnowledge)
+	if (bestParent !== undefined)
+		practiceNeeded = Math.min(bestParent, practiceNeeded)
 
-	// Ignore previously seen (and mastered) skills.
-	const relevantSet = (isPriorKnowledge ? priorKnowledgeSet : courseSet)
-	if (relevantSet.has(skillId))
+	// If this was already known, end the iteration. Otherwise store the result.
+	if (result[skillId] !== undefined && result[skillId] <= practiceNeeded)
 		return
+	result[skillId] = practiceNeeded
 
-	// Recursively add prerequisites.
+	// Store, and recursively add prerequisites.
 	const skill = skills[skillId]
 	if (!skill)
 		throw new Error(`Invalid skill: could not find "${skillId}" when processing course data.`)
 	if (!isPriorKnowledge && skill.prerequisites)
-		skill.prerequisites.forEach(prerequisiteId => checkMastery(prerequisiteId, priorKnowledge, skillsData, mastered, courseSet, priorKnowledgeSet))
-
-	// If needed, add this skill to the set.
-	if (mastered)
-		relevantSet.add(skillId)
-}
-
-// isSkillMastered gets a masteredSkills object and checks if the given skillId is in it.
-export function isSkillMastered(skillId, masteredSkills) {
-	return masteredSkills.course.includes(skillId) || masteredSkills.priorKnowledge.includes(skillId)
+		skill.prerequisites.forEach(prerequisiteId => checkPracticeNeeded(prerequisiteId, skillsData, priorKnowledge, result, practiceNeeded))
 }

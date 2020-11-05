@@ -4,11 +4,10 @@ import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
-import { getSkillRecommendation } from '../../skills/util'
 import { useSkillsData } from '../../skills/SkillCacher'
 
 import courses from '../courses'
-import { getSkillOverview, getMasteredSkills } from '../util'
+import { getOverview, getAnalysis } from '../util'
 
 import SkillRecommender from './SkillRecommender'
 import Block from './Block'
@@ -42,14 +41,14 @@ export default function Course(props) {
 	const { params } = useRouteMatch()
 	const { courseId } = params
 	const course = courses[courseId.toLowerCase()]
-	const skillLists = getSkillOverview(course)
+	const overview = getOverview(course)
 
 	// Extract the skill recommendation.
-	const skillsData = useSkillsData([...skillLists.priorKnowledge, ...skillLists.course])
-	const masteredSkills = getMasteredSkills(course, skillsData)
-	const recommendation = getSkillRecommendation(skillsData, skillLists.priorKnowledge, skillLists.course, masteredSkills)
-	const hasRecommendation = !!skillsData[recommendation]
-	const recommendationBlock = skillLists.priorKnowledge.includes(recommendation) ? -1 : skillLists.blocks.findIndex(blockList => blockList.includes(recommendation))
+	const skillsData = useSkillsData(overview.all)
+	const analysis = getAnalysis(overview, skillsData)
+	const recommendation = analysis.recommendation
+	const hasRecommendation = !!recommendation
+	const recommendationBlock = overview.priorKnowledge.includes(recommendation) ? -1 : overview.blocks.findIndex(blockList => blockList.includes(recommendation))
 
 	// Track which block is active.
 	const [activeBlock, setActiveBlock] = useState() // -1 means prior knowledge. Undefined means none selected.
@@ -74,49 +73,89 @@ export default function Course(props) {
 		return <div>Oops... De cursus die je wilt bezoeken is niet bekend. Mogelijk is er iets mis met de link?</div>
 
 	// Render the component.
-	const data = { ...props, course, skillLists, activeBlock, toggleActiveBlock, recommendation, masteredSkills }
+	const data = { ...props, course, overview, analysis, activeBlock, toggleActiveBlock }
 	return <>
 		{hasRecommendation ? <SkillRecommender recommendation={recommendation} /> : null}
 		{landscape ? <LandscapeCourse {...data} /> : <PortraitCourse {...data} />}
 	</>
 }
 
-function LandscapeCourse({ course, skillLists, activeBlock, toggleActiveBlock, recommendation, masteredSkills }) {
+function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActiveBlock }) {
 	const landscape = true
 	const classes = useStyles({ landscape })
 
+	// Determine which skillIds to show on the right.
 	let skillIds = null
 	if (activeBlock === undefined)
 		skillIds = []
 	else if (activeBlock === -1)
-		skillIds = skillLists.priorKnowledge
+		skillIds = overview.priorKnowledge
 	else
-		skillIds = skillLists.blocks[activeBlock]
+		skillIds = overview.blocks[activeBlock]
 
-	const hasPriorKnowledge = skillLists.priorKnowledge.length > 0
+	// Determine other important data.
+	const hasPriorKnowledge = overview.priorKnowledge.length > 0
 
 	return (
 		<div className={clsx(classes.courseOverview, classes.landscapeOverview)}>
 			<div className="blockList">
-				{hasPriorKnowledge ? <Block landscape={landscape} priorKnowledge={true} skillIds={skillLists.priorKnowledge} active={activeBlock === -1} toggleActive={() => toggleActiveBlock(-1)} title="Directe voorkennis" isPriorKnowledge={true} recommendation={recommendation} masteredSkills={masteredSkills} /> : null}
-				{course.blocks.map((block, index) => <Block key={index} landscape={landscape} skillIds={skillLists.blocks[index]} active={activeBlock === index} toggleActive={() => toggleActiveBlock(index)} title={block.title} number={index + 1} isPriorKnowledge={false} recommendation={recommendation} masteredSkills={masteredSkills} />)}
+				{hasPriorKnowledge ? <Block
+					landscape={landscape}
+					priorKnowledge={true}
+					skillIds={overview.priorKnowledge}
+					active={activeBlock === -1}
+					toggleActive={() => toggleActiveBlock(-1)}
+					title="Directe voorkennis"
+					isPriorKnowledge={true}
+					analysis={analysis}
+				/> : null}
+				{course.blocks.map((block, index) => <Block
+					key={index}
+					landscape={landscape}
+					skillIds={overview.blocks[index]}
+					active={activeBlock === index}
+					toggleActive={() => toggleActiveBlock(index)}
+					title={block.title}
+					number={index + 1}
+					isPriorKnowledge={false}
+					analysis={analysis}
+				/>)}
 			</div>
-			<SkillList skillIds={skillIds} landscape={landscape} recommendation={recommendation} masteredSkills={masteredSkills} />
+			<SkillList skillIds={skillIds} landscape={landscape} analysis={analysis} />
 		</div>
 	)
 }
 
-function PortraitCourse({ course, skillLists, activeBlock, toggleActiveBlock, recommendation, masteredSkills }) {
+function PortraitCourse({ course, overview, analysis, activeBlock, toggleActiveBlock }) {
 	const landscape = false
 	const classes = useStyles({ landscape })
-	const hasPriorKnowledge = skillLists.priorKnowledge.length > 0
+	const hasPriorKnowledge = overview.priorKnowledge.length > 0
 
 	return (
 		<div className={clsx(classes.courseOverview, classes.portraitOverview)}>
 			<div className={clsx(classes.blockList, 'blockList')}>
-				{hasPriorKnowledge ? <Block landscape={landscape} priorKnowledge={true} skillIds={skillLists.priorKnowledge} active={activeBlock === -1} toggleActive={() => toggleActiveBlock(-1)} title="Directe voorkennis" isPriorKnowledge={true} recommendation={recommendation} masteredSkills={masteredSkills} /> : null}
+				{hasPriorKnowledge ? <Block
+					landscape={landscape}
+					priorKnowledge={true}
+					skillIds={overview.priorKnowledge}
+					active={activeBlock === -1}
+					toggleActive={() => toggleActiveBlock(-1)}
+					title="Directe voorkennis"
+					isPriorKnowledge={true}
+					analysis={analysis}
+				/> : null}
 				{course.blocks.map((block, index) => (
-					<Block key={index} landscape={landscape} skillIds={skillLists.blocks[index]} active={activeBlock === index} toggleActive={() => toggleActiveBlock(index)} title={block.title} number={index + 1} isPriorKnowledge={false} recommendation={recommendation} masteredSkills={masteredSkills} />
+					<Block
+						key={index}
+						landscape={landscape}
+						skillIds={overview.blocks[index]}
+						active={activeBlock === index}
+						toggleActive={() => toggleActiveBlock(index)}
+						title={block.title}
+						number={index + 1}
+						isPriorKnowledge={false}
+						analysis={analysis}
+					/>
 				))}
 			</div>
 		</div>

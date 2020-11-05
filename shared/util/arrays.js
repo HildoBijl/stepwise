@@ -120,3 +120,9 @@ function getRandomSubset(array, num, randomOrder = true) {
 	return mapping.map(index => array[index])
 }
 module.exports.getRandomSubset = getRandomSubset
+
+// count takes an array and a function and checks for how many elements this function returns a truthy value.
+function count(array, fun) {
+	return array.reduce((sum, item) => sum + (fun(item) ? 1 : 0), 0)
+}
+module.exports.count = count

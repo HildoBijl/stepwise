@@ -6,10 +6,11 @@ import Collapse from '@material-ui/core/Collapse'
 import Box from '@material-ui/core/Box'
 import { ChevronRight as Arrow } from '@material-ui/icons'
 
+import { count } from 'step-wise/util/arrays'
+
 import { notSelectable } from 'ui/theme'
 
 import ProgressIndicator from '../ProgressIndicator'
-import { isSkillMastered } from '../util'
 
 import SkillList from './SkillList'
 
@@ -81,9 +82,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function Block({ landscape, skillIds, active, toggleActive, title, number, isPriorKnowledge, recommendation, masteredSkills }) {
+export default function Block({ landscape, skillIds, active, toggleActive, title, number, isPriorKnowledge, analysis }) {
 	const classes = useStyles({ landscape, active })
-	const numCompleted = skillIds.filter(skillId => isSkillMastered(skillId, masteredSkills)).length
+	const numCompleted = count(skillIds, (skillId) => analysis.practiceNeeded[skillId] === 0)
 
 	return (
 		<Box boxShadow={1} className={clsx(classes.blockBox, 'blockBox', { active, landscape, portrait: !landscape })}>
@@ -95,7 +96,7 @@ export default function Block({ landscape, skillIds, active, toggleActive, title
 			</div>
 			{landscape ? null : (
 				<Collapse in={active}>
-					<SkillList skillIds={skillIds} landscape={landscape} isPriorKnowledge={isPriorKnowledge} recommendation={recommendation} masteredSkills={masteredSkills} />
+					<SkillList skillIds={skillIds} landscape={landscape} isPriorKnowledge={isPriorKnowledge} analysis={analysis} />
 				</Collapse>
 			)}
 		</Box>
