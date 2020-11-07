@@ -58,7 +58,7 @@ export function getAnalysis(overview, skillsData) {
 	if (!recommendation)
 		recommendation = overview.course.find(skillId => practiceNeeded[skillId] === 2)
 	if (!recommendation)
-		recommendation = overview.course.find(skillId => practiceNeeded[skillId] === 2)
+		recommendation = overview.course.find(skillId => practiceNeeded[skillId] === 1)
 
 	// Return the outcome.
 	return {

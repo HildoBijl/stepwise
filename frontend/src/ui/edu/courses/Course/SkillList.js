@@ -9,7 +9,7 @@ import { Check } from '@material-ui/icons'
 
 import skills from 'step-wise/edu/skills'
 
-import { notSelectable } from 'ui/theme'
+import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routing'
 import QuickPractice from 'ui/components/QuickPractice'
 
@@ -61,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
 
 			'& .skillItem': {
 				background: fade(theme.palette.primary.main, 0.03),
+				...linkStyleReset,
 				'&:hover': {
 					background: fade(theme.palette.primary.main, 0.1),
 				},

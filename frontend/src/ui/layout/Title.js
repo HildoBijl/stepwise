@@ -8,7 +8,7 @@ import clsx from 'clsx'
 
 import { useEventListener, useRefWithValue } from 'util/react'
 import { useRoute, usePaths } from 'ui/routing'
-import { websiteTitle } from 'ui/settings'
+import { websiteName } from 'ui/settings'
 
 const useStyles = makeStyles((theme) => ({
 	title: {
@@ -41,7 +41,7 @@ export default function Title({ className, setTitleCollapsed }) {
 	const partialTitleRef = useRef()
 
 	// Extract the title that needs to be shown.
-	const title = (typeof route.title === 'function' ? route.title() : route.title)
+	const title = (typeof route.name === 'function' ? route.name() : route.name)
 	const titleRef = useRefWithValue(title)
 
 	// Define a handler that will adjust what is shown in the title to match the page size.
@@ -108,11 +108,11 @@ function Breadcrumb({ route, first }) {
 	const paths = usePaths()
 	const { params } = useRouteMatch()
 
-	const title = (typeof route.title === 'function' ? route.title() : route.title)
+	const pageName = (typeof route.name === 'function' ? route.name() : route.name)
 	if (first) {
-		const tabTitle = `${title} | ${websiteTitle}`
-		return <span>{title}<Helmet><title>{tabTitle}</title></Helmet></span>
+		const tabTitle = `${pageName} | ${websiteName}`
+		return <span>{pageName}<Helmet><title>{tabTitle}</title></Helmet></span>
 	} else {
-		return <Link to={paths[route.name](params)}>{title}</Link>
+		return <Link to={paths[route.id](params)}>{pageName}</Link>
 	}
 }

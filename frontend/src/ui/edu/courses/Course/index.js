@@ -4,14 +4,12 @@ import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
-import { useSkillsData } from '../../skills/SkillCacher'
-
 import courses from '../courses'
-import { getOverview, getAnalysis } from '../util'
 
 import SkillRecommender from './SkillRecommender'
 import Block from './Block'
 import SkillList from './SkillList'
+import { useCourseData } from './Provider'
 
 const useStyles = makeStyles((theme) => ({
 	courseOverview: {
@@ -37,15 +35,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function Course(props) {
-	// Figure out the course to display.
-	const { params } = useRouteMatch()
-	const { courseId } = params
-	const course = courses[courseId.toLowerCase()]
-	const overview = getOverview(course)
-
-	// Extract the skill recommendation.
-	const skillsData = useSkillsData(overview.all)
-	const analysis = getAnalysis(overview, skillsData)
+	// Load in relevant data about the course.
+	const { courseId, course, overview, analysis } = useCourseData()
 	const recommendation = analysis.recommendation
 	const hasRecommendation = !!recommendation
 	const recommendationBlock = overview.priorKnowledge.includes(recommendation) ? -1 : overview.blocks.findIndex(blockList => blockList.includes(recommendation))
@@ -101,28 +92,28 @@ function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActive
 			<div className="blockList">
 				{hasPriorKnowledge ? <Block
 					landscape={landscape}
-					courseId={course.name}
+					courseId={course.id}
 					skillIds={overview.priorKnowledge}
 					active={activeBlock === -1}
 					toggleActive={() => toggleActiveBlock(-1)}
-					title="Directe voorkennis"
+					name="Directe voorkennis"
 					isPriorKnowledge={true}
 					analysis={analysis}
 				/> : null}
 				{course.blocks.map((block, index) => <Block
 					key={index}
 					landscape={landscape}
-					courseId={course.name}
+					courseId={course.id}
 					skillIds={overview.blocks[index]}
 					active={activeBlock === index}
 					toggleActive={() => toggleActiveBlock(index)}
-					title={block.title}
+					name={block.name}
 					number={index + 1}
 					isPriorKnowledge={false}
 					analysis={analysis}
 				/>)}
 			</div>
-			<SkillList courseId={course.name} skillIds={skillIds} landscape={landscape} isPriorKnowledge={activeBlock === -1} analysis={analysis} />
+			<SkillList courseId={course.id} skillIds={skillIds} landscape={landscape} isPriorKnowledge={activeBlock === -1} analysis={analysis} />
 		</div>
 	)
 }
@@ -137,11 +128,11 @@ function PortraitCourse({ course, overview, analysis, activeBlock, toggleActiveB
 			<div className={clsx(classes.blockList, 'blockList')}>
 				{hasPriorKnowledge ? <Block
 					landscape={landscape}
-					courseId={course.name}
+					courseId={course.id}
 					skillIds={overview.priorKnowledge}
 					active={activeBlock === -1}
 					toggleActive={() => toggleActiveBlock(-1)}
-					title="Directe voorkennis"
+					name="Directe voorkennis"
 					isPriorKnowledge={true}
 					analysis={analysis}
 				/> : null}
@@ -149,11 +140,11 @@ function PortraitCourse({ course, overview, analysis, activeBlock, toggleActiveB
 					<Block
 						key={index}
 						landscape={landscape}
-						courseId={course.name}
+						courseId={course.id}
 						skillIds={overview.blocks[index]}
 						active={activeBlock === index}
 						toggleActive={() => toggleActiveBlock(index)}
-						title={block.title}
+						name={block.name}
 						number={index + 1}
 						isPriorKnowledge={false}
 						analysis={analysis}
@@ -164,9 +155,9 @@ function PortraitCourse({ course, overview, analysis, activeBlock, toggleActiveB
 	)
 }
 
-export function useCourseTitle() {
+export function useCourseName() {
 	const { params } = useRouteMatch()
 	const { courseId } = params
 	const course = courses[courseId.toLowerCase()]
-	return course ? course.title : 'Onbekende cursus'
+	return course ? course.name : 'Onbekende cursus'
 }

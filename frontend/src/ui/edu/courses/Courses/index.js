@@ -31,7 +31,7 @@ export default function Courses() {
 	return (
 		<div className={clsx(classes.courses, 'courses')}>
 			{Object.values(courses).map((course, index) => <Tile
-				key={course.name}
+				key={course.id}
 				course={course}
 				skillsTotal={courseOverviews[index].course.length}
 				skillsDone={count(courseOverviews[index].course, (skillId) => analyses[index].practiceNeeded[skillId] === 0)}

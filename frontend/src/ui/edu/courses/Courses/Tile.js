@@ -37,13 +37,13 @@ const useStyles = makeStyles((theme) => ({
 					background: ({ buttonHover }) => fade(theme.palette.primary.main, buttonHover ? 0.03 : 0.1),
 				},
 
-				'& .titleContainer': {
+				'& .nameContainer': {
 					alignItems: 'center',
 					display: 'flex',
 					flexFlow: 'row nowrap',
 					height: '35%',
 
-					'& .title': {
+					'& .name': {
 						fontWeight: 500,
 						textAlign: 'center',
 						width: '100%',
@@ -80,16 +80,16 @@ export default function Tile({ course, skillsTotal, skillsDone, recommendation }
 	const classes = useStyles({ buttonHover })
 	const goToRecommendation = (evt) => {
 		evt.preventDefault() // Prevent the tile link from working.
-		history.push(paths.courseSkill({ courseId: course.name, skillId: recommendation }))
+		history.push(paths.courseSkill({ courseId: course.id, skillId: recommendation }))
 	}
 
 	return (
-		<Link to={paths.course({ courseId: course.name })} className={clsx(classes.tile, 'tile')}>
+		<Link to={paths.course({ courseId: course.id })} className={clsx(classes.tile, 'tile')}>
 			<Box boxShadow={1} className="tileBox">
 				<Rectangle aspectRatio={0.75} className="tileInner">
-					<div className="titleContainer">
-						<div className="title">
-							{course.title}
+					<div className="nameContainer">
+						<div className="name">
+							{course.name}
 						</div>
 					</div>
 					<div className="info">

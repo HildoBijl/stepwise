@@ -1,7 +1,8 @@
-// Title settings.
-const websiteTitle = 'Step-wise'
-const websiteTitleAddendum = 'Oefenopgaven op maat'
-export { websiteTitle, websiteTitleAddendum }
+// Name settings.
+const websiteName = 'Step-wise'
+const websiteNameAddendum = 'Oefenopgaven op maat'
+export { websiteName, websiteNameAddendum }
 
+// API settings.
 const apiAddress = process.env.REACT_APP_API_ADDRESS
 export { apiAddress }

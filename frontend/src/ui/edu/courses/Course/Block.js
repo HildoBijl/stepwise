@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 				margin: '0.2rem 0.6rem',
 			},
 
-			'& .title': {
+			'& .name': {
 				flex: '1 1 auto',
 				fontSize: '1rem',
 				margin: '0.4rem',
@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function Block({ landscape, courseId, skillIds, active, toggleActive, title, number, isPriorKnowledge, analysis }) {
+export default function Block({ landscape, courseId, skillIds, active, toggleActive, name, number, isPriorKnowledge, analysis }) {
 	const classes = useStyles({ landscape, active })
 	const numCompleted = count(skillIds, (skillId) => analysis.practiceNeeded[skillId] === 0)
 
@@ -91,7 +91,7 @@ export default function Block({ landscape, courseId, skillIds, active, toggleAct
 			<div className="block" onClick={toggleActive}>
 				<ProgressIndicator total={skillIds.length} done={numCompleted} />
 				{number === undefined ? null : <div className="number">{number}</div>}
-				<div className="title">{title}</div>
+				<div className="name">{name}</div>
 				<Arrow className="arrow" />
 			</div>
 			{landscape ? null : (

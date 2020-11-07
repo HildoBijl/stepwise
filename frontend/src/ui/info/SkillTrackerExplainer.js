@@ -119,7 +119,7 @@ const useStyles = makeStyles((theme) => ({
 				fontWeight: 500,
 				padding: '0.1em 0.4em 0.1em 0',
 			},
-			'& .exerciseTitle': {
+			'& .exerciseName': {
 
 			},
 			'& .successRate, & .selectionRate': {
@@ -163,10 +163,10 @@ export default function SkillTrackerExplainer() {
 		<Head>Oefenopgaven selecteren</Head>
 		<Par>Hoe bepalen we dan welke oefenopgave je krijgt? Als je een vaardigheid wilt oefenen, dan kijken we eerst naar welke opgaven daarbij horen. Voor elke opgave weten wij welke stappen je moet zetten om hem op te lossen. Aan de hand hiervan berekenen we de kans dat je dit lukt: je succes-kans.</Par>
 		<MultiSkillTrial showButtonsForX={true} exercises={[
-			{ combiner: combinerAnd('A','B'), title: 'Voer eerst A uit en dan B.' },
-			{ combiner: combinerAnd(combinerRepeat('A', 2), 'B'), title: 'Voer eerst twee keer A uit en dan B.' },
-			{ combiner: combinerAnd('A', combinerRepeat('B', 2)), title: 'Voer eerst A uit en dan twee keer B.' },
-			{ combiner: combinerRepeat('X', 3), title: '[Geavanceerd] Voer drie maal X uit.' },
+			{ combiner: combinerAnd('A','B'), name: 'Voer eerst A uit en dan B.' },
+			{ combiner: combinerAnd(combinerRepeat('A', 2), 'B'), name: 'Voer eerst twee keer A uit en dan B.' },
+			{ combiner: combinerAnd('A', combinerRepeat('B', 2)), name: 'Voer eerst A uit en dan twee keer B.' },
+			{ combiner: combinerRepeat('X', 3), name: '[Geavanceerd] Voer drie maal X uit.' },
 		]} />
 		<Par>Bij het oefenen is het belangrijk dat een opgave niet te moeilijk is, maar ook niet te makkelijk! Anders leer je niets. We zoeken dus een opgave die je met zo'n 50% kans in één keer oplost. Om te voorkomen dat je veel dezelfde opgave achter elkaar krijgt, stoppen we hier wel wat willekeur in. We stellen daarbij voor elke opgave een kans in dat hij geselecteerd wordt, en vervolgens kiezen we volgens deze kansen een opgave. Hierbij geldt uiteraard: hoe dichter de succes-kans van de opgave bij de 50% ligt, hoe waarschijnlijker het is dat je de opgave krijgt.</Par>
 
@@ -389,7 +389,7 @@ function ExerciseOverview({ dataSet, exercises }) {
 				<thead>
 					<tr>
 						<td className="number"></td>
-						<td className="exerciseTitle">Opgave</td>
+						<td className="exerciseName">Opgave</td>
 						<td className="successRate">Kans op succes</td>
 						<td className="selectionRate">Kans op selectie</td>
 					</tr>
@@ -398,7 +398,7 @@ function ExerciseOverview({ dataSet, exercises }) {
 					{exercises.map((exercise, i) => (
 						<tr key={i}>
 							<td className="number">{i + 1}</td>
-							<td className="exerciseTitle">{exercise.title}</td>
+							<td className="exerciseName">{exercise.name}</td>
 							<td className="successRate">{Math.round(successRates[i] * 100)}%</td>
 							<td className="selectionRate">{Math.round(selectionRates[i] * 100)}%</td>
 						</tr>

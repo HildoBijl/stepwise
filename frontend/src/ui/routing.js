@@ -4,44 +4,46 @@ import { useUser } from 'api/user'
 
 import LogOut from 'ui/components/LogOut'
 import Skill, { useSkillTitle, SkillIndicator } from 'ui/edu/skills/Skill'
-import CourseSkill from 'ui/edu/skills/CourseSkill'
 import * as infoPages from 'ui/info'
 import Courses from 'ui/edu/courses/Courses/index.js'
-import Course, { useCourseTitle } from 'ui/edu/courses/Course'
+import Course, { useCourseName } from 'ui/edu/courses/Course'
+import CourseProvider from 'ui/edu/courses/Course/Provider'
+import SkillAdvice from 'ui/edu/courses/Course/SkillAdvice'
+import CourseSkill from 'ui/edu/courses/Course/CourseSkill'
 
 // Set up a route context object through which child elements can access the current route.
 const RouteContext = createContext(null)
 
-// getRoutes sets up a routes object based on the user. This routes object contains the whole site structure. The object keys appear in the URL, so can be language-dependent. The "name" is used in scripts when creating links so should be English. The title is shown on the page.
+// getRoutes sets up a routes object based on the user. This routes object contains the whole site structure. The object keys appear in the URL, so can be language-dependent. The "id" is used in scripts when creating links so should be English. The "name" is shown on the page.
 function getRoutes(user = null) {
 	// These are pages that are accessible for non-users and users.
 	const commonPages = {
 		'feedback': {
-			name: 'feedback',
+			id: 'feedback',
 			component: infoPages.Feedback,
-			title: 'Feedback',
+			name: 'Feedback',
 		},
 		'info': {
-			name: 'about',
+			id: 'about',
 			component: infoPages.About,
-			title: 'Over Step-Wise',
+			name: 'Over Step-Wise',
 			children: {
 				'geschiedenis': {
-					name: 'history',
+					id: 'history',
 					component: infoPages.History,
-					title: 'Geschiedenis',
+					name: 'Geschiedenis',
 				},
 				'tracker': {
-					name: 'skillTrackerExplainer',
+					id: 'skillTrackerExplainer',
 					component: infoPages.SkillTrackerExplainer,
-					title: 'Vaardigheden bijhouden',
+					name: 'Vaardigheden bijhouden',
 				},
 			},
 		},
 		'vaardigheid/:skillId': {
-			name: 'skill',
+			id: 'skill',
 			component: Skill,
-			title: useSkillTitle,
+			name: useSkillTitle,
 			recommendLogIn: true,
 			Indicator: SkillIndicator,
 		},
@@ -52,9 +54,9 @@ function getRoutes(user = null) {
 		return processRoutes({
 			...commonPages,
 			'': {
-				name: 'home',
+				id: 'home',
 				component: infoPages.Home,
-				title: 'Home',
+				name: 'Home',
 				fullPage: true,
 			},
 		})
@@ -64,26 +66,27 @@ function getRoutes(user = null) {
 	return processRoutes({
 		...commonPages,
 		'uitloggen': {
-			name: 'logOut',
+			id: 'logOut',
 			component: LogOut,
-			title: 'Uitloggen...'
+			name: 'Uitloggen...'
 		},
 		'': {
-			name: 'courses',
+			id: 'courses',
 			component: Courses,
-			title: 'Cursussen',
-			// provider: CoursesProvider,
+			name: 'Cursussen',
 			children: {
 				'cursus/:courseId': {
-					name: 'course',
+					id: 'course',
 					component: Course,
-					title: useCourseTitle,
+					name: useCourseName,
+					Provider: CourseProvider,
 					children: {
 						'vaardigheid/:skillId': {
-							name: 'courseSkill',
+							id: 'courseSkill',
 							component: CourseSkill,
-							title: useSkillTitle,
+							name: useSkillTitle,
 							Indicator: SkillIndicator,
+							Notification: SkillAdvice,
 						},
 					},
 				},
@@ -111,7 +114,7 @@ function usePaths() {
 	return paths
 }
 
-// processRoutes takes a routes object and automatically add paths (like '/courses/:courseId/deadlines') and parent objects, and ensures all titles are react objects.
+// processRoutes takes a routes object and automatically add paths (like '/courses/:courseId/deadlines') and parent objects, and ensures all names are react objects.
 function processRoutes(routes, initialPath = '', parent = null) {
 	// Walk through all the routes, processing them one by one.
 	Object.keys(routes).forEach(key => {
@@ -127,22 +130,22 @@ function processRoutes(routes, initialPath = '', parent = null) {
 // getPaths takes a routes object and turns it into a paths object.
 function getPaths(routes) {
 	const paths = {}
-	const fillPaths = (routes, initialPath = () => '') => {
+	const fillPaths = (routes) => {
 		// Walk through the routes, processing them one by one.
 		Object.values(routes).forEach(route => {
 			// Set up the path function.
 			const path = (parameters) => insertParametersIntoPath(parameters, route.path)
 
-			// If this page has a name, add the path function to the paths object at that name.
-			if (route.name) {
-				if (paths[route.name])
-					throw new Error(`Invalid routes object: there are two pages with identical name "${route.name}".`)
-				paths[route.name] = path
+			// If this page has an ID, add the path function to the paths object at that name.
+			if (route.id) {
+				if (paths[route.id])
+					throw new Error(`Invalid routes object: there are two pages with identical ID "${route.id}".`)
+				paths[route.id] = path
 			}
 
 			// Process potential children.
 			if (route.children)
-				fillPaths(route.children, path)
+				fillPaths(route.children)
 		})
 		return paths // For chaining.
 	}

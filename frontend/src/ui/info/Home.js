@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography'
 
 import { notSelectable } from 'ui/theme'
 import LinkBar from 'ui/layout/LinkBar'
-import { websiteTitle, websiteTitleAddendum, apiAddress } from 'ui/settings'
+import { websiteName, websiteNameAddendum, apiAddress } from 'ui/settings'
 import logo from 'ui/images/logo.svg'
 import SURFconext from 'ui/images/SURFconext.png'
 
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 		position: 'relative',
 	},
 
-	title: {
+	nameContainer: {
 		flex: 0,
 
 		margin: '2.4rem 0',
@@ -151,9 +151,9 @@ export default function Home() {
 
 	return (
 		<Container maxWidth='lg' className={classes.home}>
-			<div className={classes.title}>
-				<Typography variant="h1" className={classes.name}>{websiteTitle}</Typography>
-				<Typography variant="h2" className={classes.motto}>{websiteTitleAddendum}</Typography>
+			<div className={classes.nameContainer}>
+				<Typography variant="h1" className={classes.name}>{websiteName}</Typography>
+				<Typography variant="h2" className={classes.motto}>{websiteNameAddendum}</Typography>
 			</div>
 			<div className={classes.main}>
 				<div className={classes.logo}>
@@ -167,7 +167,7 @@ export default function Home() {
 			</div>
 			<div className={classes.spacer} />
 			<LinkBar className={classes.linkBar} />
-			<Helmet><title>{websiteTitle} | {websiteTitleAddendum}</title></Helmet>
+			<Helmet><title>{websiteName} | {websiteNameAddendum}</title></Helmet>
 		</Container>
 	)
 }

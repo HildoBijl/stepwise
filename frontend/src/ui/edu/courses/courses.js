@@ -2,22 +2,22 @@
 
 const courses = {
 	swbasics: {
-		title: 'Step-Wise Basics',
+		name: 'Step-Wise Basics',
 		goals: ['fillInInteger', 'fillInFloat', 'fillInUnit', 'summationAndMultiplication'],
 		priorKnowledge: [],
 		blocks: [
 			{
-				title: 'Antwoorden invoeren',
+				name: 'Antwoorden invoeren',
 				goals: ['fillInInteger', 'fillInFloat', 'fillInUnit'],
 			},
 			{
-				title: 'Demo stapsgewijze oefeningen',
+				name: 'Demo stapsgewijze oefeningen',
 				goals: ['summationAndMultiplication'],
 			},
 		]
 	},
 	exactd: {
-		title: 'Exacte Wetenschap D',
+		name: 'Exacte Wetenschap D',
 		goals: ['calculateProcessStep', 'calculateHeatAndWork'],
 		priorKnowledge: [
 			'calculateWithPressure',
@@ -29,33 +29,33 @@ const courses = {
 		],
 		blocks: [
 			{
-				title: 'De gaswet',
+				name: 'De gaswet',
 				goals: ['gasLaw'],
 			},
 			{
-				title: 'Een processtap doorrekenen',
+				name: 'Een processtap doorrekenen',
 				goals: ['calculateProcessStep'],
 			},
 			{
-				title: 'De warmte en arbeid berekenen',
+				name: 'De warmte en arbeid berekenen',
 				goals: ['calculateHeatAndWork'],
 			},
 		],
 	},
 	promo: {
-		title: 'Processen en Modelleren',
+		name: 'Processen en Modelleren',
 		goals: ['calculateProcessStep'],
 		priorKnowledge: ['gasLaw', 'recognizeProcessTypes', 'poissonsLaw'],
 		blocks: [
 			{
-				title: 'Basisvaardigheden',
+				name: 'Basisvaardigheden',
 				goals: ['calculateProcessStep'],
 			}
 		],
 	},
 }
 Object.keys(courses).forEach(key => {
-	courses[key].name = key
+	courses[key].id = key
 })
 
 export default courses

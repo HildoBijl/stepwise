@@ -30,8 +30,7 @@ export default function Skill() {
 }
 
 function SkillForUser() {
-	const { params } = useRouteMatch()
-	const skillId = processSkillId(params.skillId) // ToDo later: add error handling if skill ID is not known.
+	const skillId = useSkillId()
 	const { loading, error, data } = useSkillQuery(skillId)
 	const [submitActionToServer, { loading: submissionLoading, error: submissionError }] = useSubmitExerciseActionMutation(skillId)
 	const [startNewExerciseOnServer, { loading: newExerciseLoading, error: newExerciseError }] = useStartExerciseMutation(skillId)
@@ -73,8 +72,7 @@ function SkillForUser() {
 }
 
 function SkillForStranger() {
-	const { params } = useRouteMatch()
-	const skillId = processSkillId(params.skillId) // ToDo later: add error handling if skill ID is not known.
+	const skillId = useSkillId()
 
 	// Use a state to track exercise data. Generate new data on a change in skill ID.
 	const [exercise, setExercise] = useState(null)
@@ -154,4 +152,10 @@ export function SkillIndicator() {
 		return null
 
 	return <SkillFlask className={classes.skillIndicator} coef={skill.coefficients} strongShadow={true} />
+}
+
+// useSkillId returns the skill ID extracted from the URL. If this skill ID does not exist, it throws an error.
+export function useSkillId() {
+	const { params } = useRouteMatch()
+	return processSkillId(params.skillId)
 }
