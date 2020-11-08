@@ -2,6 +2,15 @@ import { useState, useRef, useEffect, useReducer, useCallback } from 'react'
 
 import { getCounterNumber } from 'step-wise/util/numbers'
 
+// usePrevious remembers a value from the previous render.
+export function usePrevious(value) {
+	const ref = useRef()
+	useEffect(() => {
+		ref.current = value
+	}, [value])
+	return ref.current
+}
+
 // useCounter is a function that returns [counter, increment], where counter is an integer and increment is a function that, when called, increments said counter.
 export function useCounter(initialValue = 0) {
 	const [counter, setCounter] = useState(initialValue)

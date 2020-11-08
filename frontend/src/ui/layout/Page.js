@@ -1,12 +1,12 @@
 import React from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Container } from '@material-ui/core'
-import { fade } from '@material-ui/core/styles/colorManipulator'
 
+import { linkStyle } from 'ui/theme'
+import { useRoute } from 'ui/routing'
 import OfflineNotification from 'ui/components/OfflineNotification'
 import RecommendLogIn from 'ui/components/RecommendLogIn'
 import FieldController from 'ui/form/FieldController'
-import { useRoute } from 'ui/routing'
 
 import Header from './Header'
 
@@ -15,13 +15,7 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(2),
 
 		'& a': {
-			color: fade(theme.palette.text.primary, 0.6),
-			fontWeight: 600,
-			textDecoration: 'none',
-
-			'&:hover': {
-				color: theme.palette.text.primary,
-			},
+			...linkStyle,
 		},
 	},
 }))
