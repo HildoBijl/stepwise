@@ -5,7 +5,7 @@ import { SwipeableDrawer, List, Divider, IconButton, useMediaQuery } from '@mate
 import { Menu as MenuIcon, ArrowBack, Add, Clear, Dialpad, TextFields, Spellcheck, Home, School, Create, Feedback, Info, MenuBook, ExitToApp } from '@material-ui/icons'
 
 import { useUser } from 'api/user'
-import { usePaths } from 'ui/routing'
+import { usePaths, useParentPath } from 'ui/routing'
 import { useFieldControl, useFieldControllerContext } from 'ui/form/FieldController'
 
 import MenuLink from './MenuLink'
@@ -26,6 +26,7 @@ export default function Menu({ className, titleCollapsed }) {
 	const user = useUser()
 	const theme = useTheme()
 	const onComputer = useMediaQuery(theme.breakpoints.up('lg'))
+	const parentPath = useParentPath()
 
 	// Include the menu button in the tabbing.
 	const menuButtonRef = useRef()
@@ -78,8 +79,9 @@ export default function Menu({ className, titleCollapsed }) {
 			</SwipeableDrawer>
 		</>
 	} else {
+		const goToParent = () => history.push(parentPath)
 		return (
-			<IconButton edge="start" className={className} color="inherit" aria-label="menu" onClick={history.goBack} ref={menuButtonRef}>
+			<IconButton edge="start" className={className} color="inherit" aria-label="menu" onClick={goToParent} ref={menuButtonRef}>
 				<ArrowBack />
 			</IconButton>
 		)

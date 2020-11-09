@@ -1,10 +1,10 @@
 import React, { createContext, useContext } from 'react'
 import { useRouteMatch } from 'react-router-dom'
 
+import { useSkillsData } from '../skills/SkillCacher'
 import courses from '../courses'
-import { getOverview, getAnalysis } from '../util'
 
-import { useSkillsData } from '../../skills/SkillCacher'
+import { getOverview, getAnalysis } from './util'
 
 const CourseContext = createContext(null)
 export default function CourseProvider({ children }) {

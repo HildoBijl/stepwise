@@ -9,8 +9,7 @@ import { ChevronRight as Arrow } from '@material-ui/icons'
 import { count } from 'step-wise/util/arrays'
 
 import { notSelectable } from 'ui/theme'
-
-import ProgressIndicator from '../ProgressIndicator'
+import ProgressIndicator from 'ui/components/ProgressIndicator'
 
 import SkillList from './SkillList'
 

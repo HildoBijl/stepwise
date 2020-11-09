@@ -13,10 +13,9 @@ import { linkStyle, centered } from 'ui/theme'
 import { usePaths } from 'ui/routing'
 import NotificationBar from 'ui/components/NotificationBar'
 
-import { useSkillId } from '../../skills/Skill'
+import { useSkillId } from '../skills/Skill'
 
-import { strFreePractice } from '../util'
-
+import { strFreePractice } from './util'
 import { useCourseData } from './Provider'
 
 export default function SkillAdvice() {
@@ -151,10 +150,11 @@ function SkillModal() {
 	// Use an effect to show a modal when the advice changes.
 	const [showModal, setShowModal] = useState(false)
 	const previousAdviceType = usePrevious(adviceType)
+	const previousSkillId = usePrevious(skillId)
 	useEffect(() => {
-		if (previousAdviceType === 1 && (adviceType === 0 || adviceType === 2))
+		if (previousSkillId === skillId && previousAdviceType === 1 && (adviceType === 0 || adviceType === 2))
 			setShowModal(true)
-	}, [adviceType, previousAdviceType, setShowModal])
+	}, [adviceType, previousAdviceType, skillId, previousSkillId, setShowModal])
 
 	// Set up handlers.
 	const closeModal = () => setShowModal(false)

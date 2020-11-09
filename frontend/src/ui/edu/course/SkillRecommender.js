@@ -7,10 +7,10 @@ import skills from 'step-wise/edu/skills'
 
 import { linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routing'
-import QuickPractice from 'ui/components/QuickPractice'
+import QuickPractice from 'ui/components/icons/QuickPractice'
 import Button from 'ui/components/Button'
 
-import { strFreePractice } from '../util'
+import { strFreePractice } from './util'
 
 const useStyles = makeStyles((theme) => ({
 	skillRecommenderLink: linkStyleReset,
@@ -45,7 +45,7 @@ export default function SkillRecommender({ courseId, recommendation }) {
 	let link, message
 	if (recommendation === strFreePractice) {
 		link = paths.freePractice({ courseId })
-		message = `Je hebt alles op voldoende niveau! Ga naar de vrij-oefenen-modus.`
+		message = `Je hebt alles op voldoende niveau! Tijd voor vrij oefenen.`
 	} else {
 		link = paths.courseSkill({ courseId, skillId: recommendation })
 		message = `Direct oefenen: ${skills[recommendation].name}`

@@ -1,18 +1,21 @@
 import { createContext, useContext, useMemo } from 'react'
+import { useRouteMatch } from 'react-router-dom'
 
 import { useUser } from 'api/user'
 
-import LogOut from 'ui/components/LogOut'
-import Skill, { useSkillTitle, SkillIndicator } from 'ui/edu/skills/Skill'
 import * as infoPages from 'ui/info'
-import Courses from 'ui/edu/courses/Courses/index.js'
-import Course, { useCourseName } from 'ui/edu/courses/Course'
-import CourseProvider from 'ui/edu/courses/Course/Provider'
-import SkillAdvice from 'ui/edu/courses/Course/SkillAdvice'
-import FreePractice from 'ui/edu/courses/Course/FreePractice'
+import LogOut from 'ui/components/LogOut'
+
+import Skill, { useSkillTitle, SkillIndicator } from 'ui/edu/skills/Skill'
+import Courses from 'ui/edu/courses/Courses'
+import Course, { useCourseName } from 'ui/edu/course/Course'
+import CourseProvider from 'ui/edu/course/Provider'
+import SkillAdvice from 'ui/edu/course/SkillAdvice'
+import FreePractice from 'ui/edu/course/FreePractice'
 
 // Set up a route context object through which child elements can access the current route.
 const RouteContext = createContext(null)
+export { RouteContext}
 
 // getRoutes sets up a routes object based on the user. This routes object contains the whole site structure. The object keys appear in the URL, so can be language-dependent. The "id" is used in scripts when creating links so should be English. The "name" is shown on the page.
 function getRoutes(user = null) {
@@ -102,19 +105,19 @@ function getRoutes(user = null) {
 }
 
 // useRoutes is used to access the current routes: the map of all pages on this site.
-function useRoutes() {
+export function useRoutes() {
 	const user = useUser()
 	const routes = useMemo(() => getRoutes(user), [user])
 	return routes
 }
 
 // useRoute is used to give the route to the current page.
-function useRoute() {
+export function useRoute() {
 	return useContext(RouteContext)
 }
 
 // usePaths gives all the paths to named pages. These paths are functions. For instance, the courseDeadlines page may have a path ({ courseId }) => `/courses/${courseId}/deadlines`.
-function usePaths() {
+export function usePaths() {
 	const routes = useRoutes()
 	const paths = useMemo(() => getPaths(routes), [routes])
 	return paths
@@ -173,4 +176,11 @@ function insertParametersIntoPath(parameters = {}, path = '/') {
 	return path
 }
 
-export { useRoutes, useRoute, usePaths, RouteContext }
+// useParentPath takes the current route and finds the path towards the parent.
+export function useParentPath() {
+	const route = useRoute()
+	const { params } = useRouteMatch()
+	if (!route.parent)
+		return '/'
+	return insertParametersIntoPath(params, route.parent.path)
+}

@@ -10,12 +10,12 @@ import skills from 'step-wise/edu/skills'
 
 import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routing'
-import QuickPractice from 'ui/components/QuickPractice'
+import QuickPractice from 'ui/components/icons/QuickPractice'
 import Rectangle from 'ui/components/Rectangle'
 import Button from 'ui/components/Button'
+import ProgressIndicator from 'ui/components/ProgressIndicator'
 
-import ProgressIndicator from '../ProgressIndicator'
-import { strFreePractice } from '../util'
+import { strFreePractice } from '../course/util'
 
 const useStyles = makeStyles((theme) => ({
 	tile: {
