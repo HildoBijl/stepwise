@@ -7,7 +7,7 @@ import * as infoPages from 'ui/info'
 import LogOut from 'ui/components/LogOut'
 
 import Skill, { useSkillTitle, SkillIndicator } from 'ui/edu/skills/Skill'
-import Courses from 'ui/edu/courses/Temp'
+import Courses from 'ui/edu/courses/Courses'
 import Course, { useCourseName } from 'ui/edu/course/Course'
 import CourseProvider from 'ui/edu/course/Provider'
 import SkillAdvice from 'ui/edu/course/SkillAdvice'
