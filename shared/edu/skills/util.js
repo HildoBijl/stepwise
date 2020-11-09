@@ -25,8 +25,14 @@ function processSkill(skill) {
 }
 module.exports.processSkill = processSkill
 
-// processSkillId checks whether a skill ID exists and throws an error if it doesn't. If it doesn't precisely match a skill ID, it does a case insensitive match. It returns the correct skill ID.
+// processSkillId checks whether a skill ID exists and throws an error if it doesn't. If it doesn't precisely match a skill ID, it does a case insensitive match. It returns the correct skill ID. (An undefined skillId is allowed and passed through.)
 function processSkillId(skillId) {
+	// Check input.
+	if (skillId === undefined)
+		return undefined
+	if (typeof skillId !== 'string')
+		throw new Error(`Missing skill ID. Expected a string but received "${skillId}".`)
+
 	// Direct match?
 	if (skills[skillId])
 		return skillId

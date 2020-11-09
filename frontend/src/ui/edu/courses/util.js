@@ -49,16 +49,26 @@ function addToSkillSets(skillId, priorKnowledge, courseSet, blockSet, priorKnowl
 	blockSet.add(skillId)
 }
 
-// getAnalysis checks, for a given course overview and a given set of skills data, which skills have been mastered and which skill is recommended to practice next. It returns an object of the form { practiceNeeded: { skill1: 2, skill2: 0, skill3: 1, ... }, recommendation: 'skill2' }.
+// getAnalysis checks, for a given course overview and a given set of skills data, which skills have been mastered and which skill is recommended to practice next. It returns an object of the form { practiceNeeded: { skill1: 2, skill2: 0, skill3: 1, ... }, recommendation: 'skill2' }. The recommendation can also be undefined (not enough data loaded yet) or the freePractice string.
+const strFreePractice = 'StepWiseFreePracticeMode'
+export { strFreePractice }
 export function getAnalysis(overview, skillsData) {
 	const practiceNeeded = getPracticeNeeded(overview, skillsData)
-	
+
+	// Check if there are still undefined practiceNeeded. Then not all data is loaded yet. Return undefined as recommendation.
+	if (overview.all.find(skillId => practiceNeeded[skillId] === undefined))
+		return { practiceNeeded }
+
 	// Check for possible recommendations: first for work needed in prior knowledge and then for work needed in the course skills.
 	let recommendation = overview.priorKnowledge.find(skillId => practiceNeeded[skillId] === 2)
 	if (!recommendation)
 		recommendation = overview.course.find(skillId => practiceNeeded[skillId] === 2)
 	if (!recommendation)
 		recommendation = overview.course.find(skillId => practiceNeeded[skillId] === 1)
+
+	// If no recommendation has been found, then all skills are mastered. Recommend free practice.
+	if (!recommendation)
+		recommendation = strFreePractice
 
 	// Return the outcome.
 	return {
@@ -78,11 +88,11 @@ function checkPracticeNeeded(skillId, skillsData = {}, priorKnowledge, result, b
 	// Derive data about this skill.
 	const isPriorKnowledge = priorKnowledge.includes(skillId)
 	let practiceNeeded = isPracticeNeeded(skillsData[skillId], isPriorKnowledge)
-	if (bestParent !== undefined)
+	if (bestParent !== undefined && practiceNeeded !== undefined)
 		practiceNeeded = Math.min(bestParent, practiceNeeded)
 
 	// If this was already known, end the iteration. Otherwise store the result.
-	if (result[skillId] !== undefined && result[skillId] <= practiceNeeded)
+	if (result[skillId] !== undefined && practiceNeeded !== undefined && result[skillId] <= practiceNeeded)
 		return
 	result[skillId] = practiceNeeded
 

@@ -10,6 +10,8 @@ import { usePaths } from 'ui/routing'
 import QuickPractice from 'ui/components/QuickPractice'
 import Button from 'ui/components/Button'
 
+import { strFreePractice } from '../util'
+
 const useStyles = makeStyles((theme) => ({
 	skillRecommenderLink: linkStyleReset,
 	skillRecommender: {
@@ -35,21 +37,25 @@ export default function SkillRecommender({ courseId, recommendation }) {
 	const paths = usePaths()
 	const classes = useStyles()
 
-	// If there is no recommendation (all work is done) then give an alternative.
-	if (!recommendation) {
-		return ( // ToDo later: add a free practice mode, browsing through the end goals.
-			<Button variant="contained" color="info" startIcon={<QuickPractice />} className={classes.skillRecommender}>
-				<span className="buttonInner">Je hebt alles op voldoende niveau!</span>
-			</Button>
-		)
+	// If there is no recommendation, not all data is loaded yet.
+	if (!recommendation)
+		return null
+
+	// Determine what to show on the button.
+	let link, message
+	if (recommendation === strFreePractice) {
+		link = paths.freePractice({ courseId })
+		message = `Je hebt alles op voldoende niveau! Ga naar de vrij-oefenen-modus.`
+	} else {
+		link = paths.courseSkill({ courseId, skillId: recommendation })
+		message = `Direct oefenen: ${skills[recommendation].name}`
 	}
 
-	// Give a link to the recommended skill.
-	const skill = skills[recommendation]
+	// Show the button.
 	return (
-		<Link to={paths.courseSkill({ courseId, skillId: recommendation })} className={classes.skillRecommenderLink}>
+		<Link to={link} className={classes.skillRecommenderLink}>
 			<Button variant="contained" color="info" startIcon={<QuickPractice />} className={classes.skillRecommender}>
-				<span className="buttonInner">Direct oefenen: {skill.name}</span>
+				<span className="buttonInner">{message}</span>
 			</Button>
 		</Link>
 	)

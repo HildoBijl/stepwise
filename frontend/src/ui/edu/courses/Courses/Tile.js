@@ -15,10 +15,10 @@ import Rectangle from 'ui/components/Rectangle'
 import Button from 'ui/components/Button'
 
 import ProgressIndicator from '../ProgressIndicator'
+import { strFreePractice } from '../util'
 
 const useStyles = makeStyles((theme) => ({
 	tile: {
-		...linkStyleReset,
 		...notSelectable,
 
 		'& .tileBox': {
@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 			borderRadius: '0.5rem',
 			cursor: 'pointer',
 			overflow: 'hidden',
+			...linkStyleReset,
 
 			'& .tileInner': {
 				alignItems: 'stretch',
@@ -78,9 +79,28 @@ export default function Tile({ course, skillsTotal, skillsDone, recommendation }
 	const [buttonHover, setButtonHover] = useState(false)
 	const history = useHistory()
 	const classes = useStyles({ buttonHover })
+
+	// Set up recommendation tooltip.
+	let tooltip
+	switch (recommendation) {
+		case undefined:
+			tooltip = 'Je voortgang wordt nog ingeladen...'
+			break
+		case strFreePractice:
+			tooltip = 'Je beheerst alle vaardigheden. Ga naar de vrij-oefenen-modus.'
+			break
+		default:
+			tooltip = `Direct oefenen: ${skills[recommendation].name}`
+			break
+	}
+
+	// Set up recommendation handler.
 	const goToRecommendation = (evt) => {
 		evt.preventDefault() // Prevent the tile link from working.
-		history.push(paths.courseSkill({ courseId: course.id, skillId: recommendation }))
+		if (recommendation === strFreePractice)
+			history.push(paths.freePractice({ courseId: course.id }))
+		else if (recommendation)
+			history.push(paths.courseSkill({ courseId: course.id, skillId: recommendation }))
 	}
 
 	return (
@@ -95,7 +115,7 @@ export default function Tile({ course, skillsTotal, skillsDone, recommendation }
 					<div className="info">
 						<ProgressIndicator total={skillsTotal} done={skillsDone} size={60} />
 						<div>
-							<Tooltip title={`Direct oefenen: ${skills[recommendation].name}`} arrow classes={{ tooltip: classes.tooltip }}>
+							<Tooltip title={tooltip} arrow classes={{ tooltip: classes.tooltip }}>
 								<Button variant="contained" color="info" className="directPractice" onMouseEnter={() => setButtonHover(true)} onMouseLeave={() => setButtonHover(false)} onClick={goToRecommendation}>
 									<QuickPractice />
 								</Button>

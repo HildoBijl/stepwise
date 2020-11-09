@@ -9,7 +9,7 @@ import Courses from 'ui/edu/courses/Courses/index.js'
 import Course, { useCourseName } from 'ui/edu/courses/Course'
 import CourseProvider from 'ui/edu/courses/Course/Provider'
 import SkillAdvice from 'ui/edu/courses/Course/SkillAdvice'
-import CourseSkill from 'ui/edu/courses/Course/CourseSkill'
+import FreePractice from 'ui/edu/courses/Course/FreePractice'
 
 // Set up a route context object through which child elements can access the current route.
 const RouteContext = createContext(null)
@@ -83,9 +83,15 @@ function getRoutes(user = null) {
 					children: {
 						'vaardigheid/:skillId': {
 							id: 'courseSkill',
-							component: CourseSkill,
+							component: Skill,
 							name: useSkillTitle,
 							Indicator: SkillIndicator,
+							Notification: SkillAdvice,
+						},
+						'vrijoefenen': {
+							id: 'freePractice',
+							component: FreePractice,
+							name: 'Vrij oefenen',
 							Notification: SkillAdvice,
 						},
 					},

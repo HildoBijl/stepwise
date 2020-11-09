@@ -10,6 +10,7 @@ const defaultSkillThresholds = {
 export { defaultSkillThresholds }
 
 /* isPracticeNeeded checks whether a given skill still requires practice. Possible outcomes are:
+ * undefined: no data is given yet.
  * 0: skill is mastered.
  * 1: work is useful but not directly necessary. (No recommendation.)
  * 2: work is necessary. (Recommend.)
@@ -17,7 +18,7 @@ export { defaultSkillThresholds }
 export function isPracticeNeeded(skillData, priorKnowledge = false, skillThresholds = {}) {
 	// If there is no skillData, return the worst.
 	if (!skillData)
-		return 2
+		return undefined
 
 	// Determine the thresholds to apply.
 	skillThresholds = processOptions(skillThresholds, defaultSkillThresholds)
