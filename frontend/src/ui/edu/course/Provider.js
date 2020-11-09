@@ -2,7 +2,7 @@ import React, { createContext, useContext } from 'react'
 import { useRouteMatch } from 'react-router-dom'
 
 import { useSkillsData } from '../skills/SkillCacher'
-import courses from '../allCourses'
+import courses from '../courses'
 
 import { getOverview, getAnalysis } from './util'
 

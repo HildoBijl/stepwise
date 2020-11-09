@@ -6,7 +6,7 @@ import { count } from 'step-wise/util/arrays'
 
 import { useSkillsData } from '../skills/SkillCacher'
 import { getOverview, getAnalysis } from '../course/util'
-import courses from '../allCourses'
+import courses from '../courses'
 
 import Tile from './Tile'
 

@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
-import courses from '../allCourses'
+import courses from '../courses'
 
 import SkillRecommender from './SkillRecommender'
 import Block from './Block'
