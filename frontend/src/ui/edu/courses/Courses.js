@@ -14,7 +14,8 @@ const useStyles = makeStyles((theme) => ({
 	courses: {
 		display: 'grid',
 		gap: '1rem',
-		gridTemplateColumns: 'repeat(auto-fill, minmax(9.6rem, 1fr))',
+		gridTemplateColumns: 'repeat(auto-fill, minmax(11rem, 1fr))',
+		gridAutoRows: '8.5rem',
 	},
 }))
 
