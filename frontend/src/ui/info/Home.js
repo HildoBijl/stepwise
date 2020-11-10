@@ -190,7 +190,7 @@ export default function Home() {
 	// When cookies are confirmed, store this and go to SURFconext to log in.
 	const confirmCookies = () => {
 		setShowModal(false)
-		cookies.set(cookieApprovalName, '1')
+		cookies.set(cookieApprovalName, '1', { path: '/', maxAge: 2 * 365.25 * 24 * 60 * 60 })
 		window.location.href = surfConextInitiate
 	}
 
