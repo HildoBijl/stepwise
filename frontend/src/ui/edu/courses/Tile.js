@@ -11,7 +11,6 @@ import skills from 'step-wise/edu/skills'
 import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routing'
 import QuickPractice from 'ui/components/icons/QuickPractice'
-import Rectangle from 'ui/components/Rectangle'
 import Button from 'ui/components/Button'
 import ProgressIndicator from 'ui/components/ProgressIndicator'
 

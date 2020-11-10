@@ -6,3 +6,7 @@ export { websiteName, websiteNameAddendum }
 // API settings.
 const apiAddress = process.env.REACT_APP_API_ADDRESS
 export { apiAddress }
+
+// Cookie settings.
+const cookieApprovalName = 'cookieApproval'
+export { cookieApprovalName }
