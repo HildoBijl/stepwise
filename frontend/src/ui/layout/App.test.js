@@ -10,8 +10,8 @@ describe('The website', () => {
 			uri: 'localhost',
 			cache: new InMemoryCache(),
 		})
-		const { getByText } = render(<App apolloClient={apolloClient} />)
-		const linkElement = getByText(/Step-wise/i)
+		const { getAllByText } = render(<App apolloClient={apolloClient} />)
+		const linkElement = getAllByText(/Step-wise/i)
 		expect(linkElement).toBeInTheDocument()
 	})
 })
