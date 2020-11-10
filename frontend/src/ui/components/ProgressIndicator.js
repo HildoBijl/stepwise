@@ -43,8 +43,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ProgressIndicator({ done, total, className, size = designSize }) {
 	const r = 45
-	const dash1 = done / total * 2 * Math.PI * r
-	const dash2 = (1 - (done / total)) * 2 * Math.PI * r
+	const part = total === 0 ? 0 : done / total
+	const dash1 = part * 2 * Math.PI * r
+	const dash2 = (1 - part) * 2 * Math.PI * r
 	const classes = useStyles({ dash1, dash2, size })
 	return (
 		<div className={clsx(className, classes.progressIndicator, 'progressIndicator')}>

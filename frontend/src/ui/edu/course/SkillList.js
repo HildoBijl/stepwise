@@ -33,7 +33,12 @@ const useStyles = makeStyles((theme) => ({
 			width: '100%',
 			...linkStyleReset,
 
-			'&:hover': {
+			'&.dummy': {
+				cursor: 'auto',
+				minHeight: '3.5rem',
+			},
+
+			'&:hover:not(.dummy)': {
 				background: fade(theme.palette.primary.main, 0.03),
 			},
 
@@ -62,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 
 			'& .skillItem': {
 				background: fade(theme.palette.primary.main, 0.03),
-				'&:hover': {
+				'&:hover:not(.dummy)': {
 					background: fade(theme.palette.primary.main, 0.1),
 				},
 			},
@@ -72,6 +77,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SkillList({ courseId, skillIds, landscape, isPriorKnowledge, analysis }) {
 	const classes = useStyles()
+
+	// If there are no skills, add a note that skills will be added in the future.
+	if (skillIds.length === 0) {
+		return (
+			<Box boxShadow={landscape ? 1 : 0} className={clsx(classes.skillList, 'skillList', { landscape })}>
+				<SkillItem />
+			</Box>
+		)
+	}
+
 	return (
 		<Box boxShadow={landscape ? 1 : 0} className={clsx(classes.skillList, 'skillList', { landscape })}>
 			{skillIds.map((skillId) => <SkillItem
@@ -87,9 +102,13 @@ export default function SkillList({ courseId, skillIds, landscape, isPriorKnowle
 }
 
 function SkillItem({ courseId, skillId, isPriorKnowledge, recommend = false, practiceNeeded = 2 }) {
-	const skillData = useSkillData(skillId)
-	const skill = skills[skillId]
 	const paths = usePaths()
+	const skillData = useSkillData(skillId)
+
+	// If there is no data, show that skills will be added in the future.
+	if (!skillId) {
+		return <div className="skillItem dummy">Er zijn nog geen opgaven toegevoegd hier. Ze komen er zo snel mogelijk aan.</div>
+	}
 
 	// Determine the tooltip to show under a "mastered" checkmark.
 	let iconText = ''
@@ -100,6 +119,7 @@ function SkillItem({ courseId, skillId, isPriorKnowledge, recommend = false, pra
 			iconText = 'Je beheerst een vervolg-vaardigheid, dus markeren we deze ook als voldoende.'
 	}
 
+	const skill = skills[skillId]
 	return (
 		<Link to={paths.courseSkill({ courseId, skillId })} className={clsx('skillItem', { recommend })}>
 			{skillData ? <SkillFlask coef={skillData.coefficients} size={40} /> : null}

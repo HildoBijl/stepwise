@@ -85,7 +85,7 @@ export function useSkillsData(skillIds) {
 }
 
 export function useSkillData(skillId) {
-	const data = useSkillsData([skillId])
+	const data = useSkillsData(skillId === undefined ? [] : [skillId])
 	return data[skillId]
 }
 

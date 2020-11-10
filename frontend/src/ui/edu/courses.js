@@ -37,8 +37,12 @@ const courses = {
 				goals: ['calculateProcessStep'],
 			},
 			{
-				name: 'De warmte en arbeid berekenen',
+				name: 'Warmte en arbeid berekenen',
 				goals: ['calculateHeatAndWork'],
+			},
+			{
+				name: 'Een cyclus doorrekenen',
+				goals: [],
 			},
 		],
 	},

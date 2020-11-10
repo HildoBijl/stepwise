@@ -212,9 +212,9 @@ export default function Home() {
 						<div className="title">Hoe werkt het?</div>
 						<ol className="list">
 							<li className="item">Jij maakt oefenopgaven in de web-app.</li>
-							<li className="item">Elke oefenopgave geeft je gedetailleerde feedback.</li>
-							<li className="item">De web-app houdt bij waar je moeite mee hebt.</li>
-							<li className="item">Nieuwe opgaven worden op maat voor je samengesteld.</li>
+							<li className="item">Elke opgave geeft je gedetailleerde feedback.</li>
+							<li className="item">De app houdt bij waar je moeite mee hebt.</li>
+							<li className="item">Je krijgt op jouw niveau nieuwe opgaven.</li>
 						</ol>
 						<div className="link" onClick={verifyCookies}><img src={HUlogo} className="logo" alt="HU logo" /> Log in om te beginnen</div>
 					</div>
