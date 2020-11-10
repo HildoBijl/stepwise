@@ -31,11 +31,6 @@ function getRoutes(user = null) {
 			component: infoPages.About,
 			name: 'Over Step-Wise',
 			children: {
-				'geschiedenis': {
-					id: 'history',
-					component: infoPages.History,
-					name: 'Geschiedenis',
-				},
 				'tracker': {
 					id: 'skillTrackerExplainer',
 					component: infoPages.SkillTrackerExplainer,

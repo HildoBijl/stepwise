@@ -52,29 +52,33 @@ export default function Menu({ className, titleCollapsed }) {
 			setOpen(open)
 		}
 
+		// Define buttons common to logged-in and non-logged-in users.
+		const commonButtons = <>
+			<MenuLink path={paths.about()} text='Over Step-Wise' icon={Info} />
+			<MenuLink path={paths.feedback()} text='Feedback' icon={Feedback} />
+		</>
+
 		return <>
 			<IconButton edge="start" className={className} color="inherit" aria-label="menu" onClick={toggleDrawer(true)} ref={menuButtonRef}>
 				<MenuIcon />
 			</IconButton>
 			<SwipeableDrawer anchor='left' open={open} onClose={toggleDrawer(false)} onOpen={toggleDrawer(true)} ModalProps={{ keepMounted: true }} disableBackdropTransition={!iOS} disableDiscovery={iOS}>
 				<nav className={classes.menu} role="presentation" onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
-					<List>
-						{user ? <MenuLink path={paths.courses()} text='Cursussen' icon={School} /> : <MenuLink path={paths.home()} text='Home' icon={Home} />}
-					</List>
-					<Divider />
-					<List>
-						<MenuLink path={paths.feedback()} text='Feedback' icon={Feedback} />
-						<MenuLink path={paths.about()} text='About' icon={Info} />
-						<MenuLink path={paths.history()} text='History' icon={MenuBook} />
-						<MenuLink path={paths.skill({ skillId: 'fillInInteger' })} text='Geheel getal invullen' icon={Dialpad} />
-						<MenuLink path={paths.skill({ skillId: 'fillInFloat' })} text='Kommagetal invullen' icon={Dialpad} />
-						<MenuLink path={paths.skill({ skillId: 'fillInUnit' })} text='Eenheid invullen' icon={TextFields} />
-						<MenuLink path={paths.skill({ skillId: 'lookUpConstant' })} text='Constanten opzoeken' icon={Spellcheck} />
-						<MenuLink path={paths.skill({ skillId: 'summation' })} text='Optellen' icon={Add} />
-						<MenuLink path={paths.skill({ skillId: 'multiplication' })} text='Vermenigvuldigen' icon={Clear} />
-						<MenuLink path={paths.skill({ skillId: 'summationAndMultiplication' })} text='Optellen en vermenigvuldigen' icon={Create} />
-						{user ? <MenuLink path={paths.logOut()} text='Log out' icon={ExitToApp} /> : null}
-					</List>
+					{user ? <>
+						<List>
+							<MenuLink path={paths.courses()} text='Cursussen' icon={School} />
+							<MenuLink path={paths.logOut()} text='Uitloggen' icon={ExitToApp} />
+						</List>
+						<Divider />
+						<List>
+							{commonButtons}
+						</List>
+					</> : <>
+							<List>
+								<MenuLink path={paths.home()} text='Home' icon={Home} />
+								{commonButtons}
+							</List>
+						</>}
 				</nav>
 			</SwipeableDrawer>
 		</>
