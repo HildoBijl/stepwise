@@ -31,14 +31,17 @@ export default function Skill() {
 
 function SkillForUser() {
 	const skillId = useSkillId()
+	const skill = skills[skillId]
+	const hasExercises = skill.exercises.length > 0
 	const { loading, error, data } = useSkillQuery(skillId)
 	const [submitActionToServer, { loading: submissionLoading, error: submissionError }] = useSubmitExerciseActionMutation(skillId)
 	const [startNewExerciseOnServer, { loading: newExerciseLoading, error: newExerciseError }] = useStartExerciseMutation(skillId)
 
 	// Set up callbacks for the exercise component.
 	const startNewExercise = useCallback(() => {
-		startNewExerciseOnServer()
-	}, [startNewExerciseOnServer])
+		if (hasExercises)
+			startNewExerciseOnServer()
+	}, [startNewExerciseOnServer, hasExercises])
 	const submitAction = useCallback((action, processAction) => {
 		// ToDo later: implement processAction, if it's given, to set up an optimistic response.
 		submitActionToServer({ variables: { action } })
@@ -50,6 +53,10 @@ function SkillForUser() {
 		if (!loading && !exercise)
 			startNewExercise()
 	}, [loading, exercise, startNewExercise])
+
+	// Are there simply no exercises?
+	if (!hasExercises)
+		return <div>Helaas ... er zijn nog geen opgaven voor deze vaardigheid toegevoegd. Ze komen er zo snel mogelijk aan. Kom later nog eens terug!</div>
 
 	// Any errors we should notify the user of?
 	if (error)
@@ -73,6 +80,8 @@ function SkillForUser() {
 
 function SkillForStranger() {
 	const skillId = useSkillId()
+	const skill = skills[skillId]
+	const hasExercises = skill.exercises.length > 0
 
 	// Use a state to track exercise data. Generate new data on a change in skill ID.
 	const [exercise, setExercise] = useState(null)
@@ -90,8 +99,11 @@ function SkillForStranger() {
 			}
 			setExercise(exercise)
 		}
-		startNewExerciseAsync()
-	}, [skillId])
+		if (hasExercises)
+			startNewExerciseAsync()
+	}, [hasExercises, skillId])
+
+	// Start a new exercise whenever the skillId changes.
 	useEffect(startNewExercise, [startNewExercise, skillId])
 
 	// On a submit handle the process as would happen on the server: find the new progress and incorporate it into the exercise data and its history.
@@ -109,6 +121,11 @@ function SkillForStranger() {
 		})
 	}, [exercise, setExercise])
 
+	// Are there simply no exercises?
+	if (!hasExercises)
+		return <div>Helaas ... er zijn nog geen opgaven voor deze vaardigheid toegevoegd. Ze komen er zo snel mogelijk aan. Kom later nog eens terug!</div>
+
+	// Is there no exercise loaded yet?
 	if (!exercise)
 		return <LoadingNote text="Generating new exercise" />
 

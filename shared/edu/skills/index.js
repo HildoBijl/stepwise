@@ -92,10 +92,28 @@ const skills = {
 		setup: combinerAnd('gasLaw', 'recognizeProcessTypes', 'poissonsLaw'), // ToDo later: use "combinerPart('poissonsLaw', 1/2)" and possibly "combinerPart('gasLaw', 3/2)" to indicate it's not always needed.
 		exercises: ['calculateProcessStepCompressor', 'calculateProcessStepDivingCylinder', 'calculateProcessStepBalloon', 'calculateProcessStepGasTurbine'],
 	},
+	calculateCycle: {
+		name: 'Kringproces doorrekeken',
+		setup: combinerRepeat('calculateProcessStep', 3),
+	},
 	calculateHeatAndWork: {
 		name: 'Warmte en arbeid berekenen',
 		setup: combinerAnd('recognizeProcessTypes', combinerOr('calculateWithPressure','calculateWithVolume','calculateWithTemperature','calculateWithMass'), combinerOr('specificGasConstant','specificHeatRatio','specificHeats')),
 		exercises: ['calculateHeatAndWorkIsobaric', 'calculateHeatAndWorkIsochoric', 'calculateHeatAndWorkIsothermal', 'calculateHeatAndWorkIsentropic', 'calculateHeatAndWorkPolytropic'],
+	},
+	createCycleEnergyOverview: {
+		name: 'Kringproces energie-overzicht maken',
+		setup: combinerRepeat('calculateHeatAndWork', 3),
+	},
+	calculateEfficiency: {
+		name: 'Rendement berekenen',
+	},
+	calculateCOP: {
+		name: 'Koudefactor en warmtefactor berekenen',
+	},
+	analyseCycle: {
+		name: 'Kringproces analyseren',
+		setup: combinerAnd('calculateCycle', 'createCycleEnergyOverview', combinerOr('calculateEfficiency','calculateCOP')),
 	},
 }
 
@@ -105,6 +123,8 @@ Object.keys(skills).forEach(key => {
 	skill.id = key // Inform the skills of their own id.
 	skill.prerequisites = skill.setup ? getCombinerSkills(skill.setup) : [] // If no set-up is given, there are none.
 	skill.continuations = [] // Prepare an empty array.
+	if (!skill.exercises) // Ensure all skills have an exercises array (albeit an empty one).
+		skill.exercises = []
 })
 
 // Set up continuations.

@@ -5,7 +5,7 @@ const defaultSkillThresholds = {
 	pass: 0.68, // If the skill is above this level, we can move on.
 	recap: 0.58, // If the skills is below this level, we must recap: go back to it.
 	pkPass: 0.68, // If a prior knowledge has this skill level, we can move on.
-	pkRecap: 0.48, // If the skill level for a prior skil drops below this, we must recap.
+	pkRecap: 0.46, // If the skill level for a prior skil drops below this, we must recap.
 }
 export { defaultSkillThresholds }
 

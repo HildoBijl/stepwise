@@ -18,7 +18,7 @@ const courses = {
 	},
 	exactd: {
 		name: 'Exacte Wetenschap D',
-		goals: ['calculateProcessStep', 'calculateHeatAndWork'],
+		goals: ['analyseCycle'],
 		priorKnowledge: [
 			'calculateWithPressure',
 			'calculateWithVolume',
@@ -42,21 +42,21 @@ const courses = {
 			},
 			{
 				name: 'Een cyclus doorrekenen',
-				goals: [],
+				goals: ['analyseCycle'],
 			},
 		],
 	},
-	promo: {
-		name: 'Processen en Modelleren',
-		goals: ['calculateProcessStep'],
-		priorKnowledge: ['gasLaw', 'recognizeProcessTypes', 'poissonsLaw'],
-		blocks: [
-			{
-				name: 'Basisvaardigheden',
-				goals: ['calculateProcessStep'],
-			}
-		],
-	},
+	// promo: {
+	// 	name: 'Processen en Modelleren',
+	// 	goals: ['calculateProcessStep'],
+	// 	priorKnowledge: ['gasLaw', 'recognizeProcessTypes', 'poissonsLaw'],
+	// 	blocks: [
+	// 		{
+	// 			name: 'Basisvaardigheden',
+	// 			goals: ['calculateProcessStep'],
+	// 		}
+	// 	],
+	// },
 }
 Object.keys(courses).forEach(key => {
 	courses[key].id = key

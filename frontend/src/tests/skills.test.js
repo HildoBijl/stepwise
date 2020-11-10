@@ -12,10 +12,10 @@ describe('Check all skills:', () => {
 				expect(typeof skill.name).toBe('string')
 			})
 
-			it('has at least one exercise', () => {
-				expect(Array.isArray(skill.exercises)).toBe(true)
-				expect(skill.exercises.length).toBeGreaterThan(0)
-			})
+			// it('has at least one exercise', () => {
+			// 	expect(Array.isArray(skill.exercises)).toBe(true)
+			// 	expect(skill.exercises.length).toBeGreaterThan(0)
+			// })
 
 			it('has prerequisite links, which are mutual', () => {
 				(skill.prerequisites || []).forEach(prerequisiteId => {

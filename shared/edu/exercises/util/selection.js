@@ -26,6 +26,8 @@ async function selectExercise(skillId, getSkillsData) {
 	// Get all exercises and intelligently calculate the selection rate.
 	vlog(`=== Selecting exercise for skill "${skillId}" ===`, verbose)
 	const exerciseIds = skill.exercises
+	if (exerciseIds.length === 0)
+		throw new Error(`Invalid request: cannot get an exercise for skill "${skillId}". This skill has no exercises yet.`)
 	const { successRates, weights } = await getExerciseSuccessRates(exerciseIds, getSkillsData)
 	vlog('Exercises:', verbose)
 	vlog(exerciseIds, verbose)
