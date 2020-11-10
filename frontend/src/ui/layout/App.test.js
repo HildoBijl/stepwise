@@ -11,7 +11,8 @@ describe('The website', () => {
 			cache: new InMemoryCache(),
 		})
 		const { getAllByText } = render(<App apolloClient={apolloClient} />)
-		const linkElement = getAllByText(/Step-wise/i)
-		expect(linkElement).toBeInTheDocument()
+		const linkElements = getAllByText(/Step-Wise/i)
+		expect(linkElements.length).toBeGreaterThanOrEqual(1)
+		expect(linkElements[0]).toBeInTheDocument()
 	})
 })
