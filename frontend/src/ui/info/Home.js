@@ -16,6 +16,8 @@ import logo from 'ui/images/logo.svg'
 import HUlogo from 'ui/images/HU.png'
 import Cookies from 'ui/images/Cookies.jpg'
 
+import { useIsUserDataLoaded } from 'api/user'
+
 const useStyles = makeStyles((theme) => ({
 	home: {
 		alignItems: 'stretch',
@@ -177,6 +179,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Home() {
 	const classes = useStyles()
 	const [showModal, setShowModal] = useState(false)
+	const isUserDataLoaded = useIsUserDataLoaded()
 
 	// If cookies are OK, go to SURFconext, otherwise show a confirmation screen.
 	const surfConextInitiate = `${apiAddress}/auth/surfconext/initiate`
@@ -200,27 +203,29 @@ export default function Home() {
 				<Typography variant="h1" className="name">{websiteName}</Typography>
 				<Typography variant="h2" className="motto">{websiteNameAddendum}</Typography>
 			</div>
-			<div className="main">
-				<div className="logo">
-					<img src={logo} className="logoPicture" alt="Logo" />
+			{isUserDataLoaded ? <>
+				<div className="main">
+					<div className="logo">
+						<img src={logo} className="logoPicture" alt="Logo" />
+					</div>
+					<div className="explanation">
+						<div className="title">Hoe werkt het?</div>
+						<ol className="list">
+							<li className="item">Jij maakt oefenopgaven in de web-app.</li>
+							<li className="item">Elke oefenopgave geeft je gedetailleerde feedback.</li>
+							<li className="item">De web-app houdt bij waar je moeite mee hebt.</li>
+							<li className="item">Nieuwe opgaven worden op maat voor je samengesteld.</li>
+						</ol>
+						<div className="link" onClick={verifyCookies}><img src={HUlogo} className="logo" alt="HU logo" /> Log in om te beginnen</div>
+					</div>
 				</div>
-				<div className="explanation">
-					<div className="title">Hoe werkt het?</div>
-					<ol className="list">
-						<li className="item">Jij maakt oefenopgaven in de web-app.</li>
-						<li className="item">Elke oefenopgave geeft je gedetailleerde feedback.</li>
-						<li className="item">De web-app houdt bij waar je moeite mee hebt.</li>
-						<li className="item">Nieuwe opgaven worden op maat voor je samengesteld.</li>
-					</ol>
-					<div className="link" onClick={verifyCookies}><img src={HUlogo} className="logo" alt="HU logo" /> Log in om te beginnen</div>
-				</div>
-			</div>
-			<div className="spacer" />
-			<LinkBar className="linkBar" />
-			<Helmet><title>{websiteName} | {websiteNameAddendum}</title></Helmet>
-			<Modal open={showModal} onClose={() => setShowModal(false)}>
-				<CookieConfirmation reject={() => setShowModal(false)} confirm={confirmCookies} />
-			</Modal>
+				<div className="spacer" />
+				<LinkBar className="linkBar" />
+				<Helmet><title>{websiteName} | {websiteNameAddendum}</title></Helmet>
+				<Modal open={showModal} onClose={() => setShowModal(false)}>
+					<CookieConfirmation reject={() => setShowModal(false)} confirm={confirmCookies} />
+				</Modal>
+			</> : null}
 		</Container>
 	)
 }

@@ -29,3 +29,9 @@ export function useUser() {
 	const res = useUserResults()
 	return (res && res.data && res.data.me) || null
 }
+
+// Check if user data is done loading.
+export function useIsUserDataLoaded() {
+	const res = useUserResults()
+	return !!(res && res.data)
+}
