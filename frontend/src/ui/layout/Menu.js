@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { SwipeableDrawer, List, Divider, IconButton, useMediaQuery } from '@material-ui/core'
-import { Menu as MenuIcon, ArrowBack, Home, School, Feedback, Info, ExitToApp } from '@material-ui/icons'
+import { Menu as MenuIcon, ArrowBack, Home, MenuBook, Feedback, Info, ExitToApp } from '@material-ui/icons'
 
 import { useUser } from 'api/user'
 import { usePaths, useParentPath } from 'ui/routing'
@@ -66,7 +66,7 @@ export default function Menu({ className, titleCollapsed }) {
 				<nav className={classes.menu} role="presentation" onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
 					{user ? <>
 						<List>
-							<MenuLink path={paths.courses()} text='Cursussen' icon={School} />
+							<MenuLink path={paths.courses()} text='Cursussen' icon={MenuBook} />
 							<MenuLink path={paths.logOut()} text='Uitloggen' icon={ExitToApp} />
 						</List>
 						<Divider />

@@ -7,10 +7,8 @@ const { checkSkillIds } = require('./Skill')
 // getActiveExerciseData takes a userId and a skillId. For this, it returns { user, skill, activeExercise }, where the skill is the UserSkill from the database. If requireExercise is set to true it ensures that there is an active exercise. On false it ensures that there is not. (Otherwise an error is thrown.)
 async function getActiveExerciseData(userId, skillId, db, requireExercise = true) {
 	checkSkillIds([skillId])
-	console.log('EEE')
 
 	// Pull everything from the database.
-	console.log(userId)
 	const user = userId && await db.User.findByPk(userId, {
 		rejectOnEmpty: true,
 		include: {
@@ -28,7 +26,6 @@ async function getActiveExerciseData(userId, skillId, db, requireExercise = true
 			},
 		},
 	})
-	console.log('DDD')
 	if (!user)
 		throw new AuthenticationError('No user is logged in.')
 
@@ -41,7 +38,6 @@ async function getActiveExerciseData(userId, skillId, db, requireExercise = true
 			skill = await user.createSkill({ skillId })
 		}
 	}
-	console.log('CCC')
 
 	// Obtain the exercise and check if it matches expectations.
 	const exercise = skill.exercises && skill.exercises[0]
@@ -52,7 +48,6 @@ async function getActiveExerciseData(userId, skillId, db, requireExercise = true
 		if (exercise)
 			throw new UserInputError(`There is still an active exercise for skill "${skillId}".`)
 	}
-	console.log('EEE')
 
 	return { user, skill, exercise }
 }
