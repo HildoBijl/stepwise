@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 			padding: '0.8rem',
 			textDecoration: 'none',
 			width: '100%',
+			...linkStyleReset,
 
 			'&:hover': {
 				background: fade(theme.palette.primary.main, 0.03),
@@ -61,7 +62,6 @@ const useStyles = makeStyles((theme) => ({
 
 			'& .skillItem': {
 				background: fade(theme.palette.primary.main, 0.03),
-				...linkStyleReset,
 				'&:hover': {
 					background: fade(theme.palette.primary.main, 0.1),
 				},
