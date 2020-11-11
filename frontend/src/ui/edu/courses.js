@@ -46,17 +46,41 @@ const courses = {
 			},
 		],
 	},
-	// promo: {
-	// 	name: 'Processen en Modelleren',
-	// 	goals: ['calculateProcessStep'],
-	// 	priorKnowledge: ['gasLaw', 'recognizeProcessTypes', 'poissonsLaw'],
-	// 	blocks: [
-	// 		{
-	// 			name: 'Basisvaardigheden',
-	// 			goals: ['calculateProcessStep'],
-	// 		}
-	// 	],
-	// },
+	promo: {
+		name: 'Processen en Modelleren',
+		goals: ['analyseCycle'],
+		priorKnowledge: ['calculateProcessStep', 'calculateHeatAndWork'],
+		blocks: [
+			{
+				name: 'Gesloten systemen en kringprocessen',
+				goals: ['analyseCycle'],
+			},
+			{
+				name: 'Open systemen en enthalpie',
+				goals: [],
+			},
+			{
+				name: 'Entropie en de tweede hoofdwet',
+				goals: [],
+			},
+			{
+				name: 'Gasturbines',
+				goals: [],
+			},
+			{
+				name: 'Dampen en diagrammen',
+				goals: [],
+			},
+			{
+				name: 'Stoomturbines',
+				goals: [],
+			},
+			{
+				name: 'Koelmachines en warmtepompen',
+				goals: [],
+			},
+		],
+	},
 }
 Object.keys(courses).forEach(key => {
 	courses[key].id = key
