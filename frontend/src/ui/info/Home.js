@@ -217,6 +217,7 @@ export default function Home() {
 							<li className="item">Je krijgt op jouw niveau nieuwe opgaven.</li>
 						</ol>
 						<div className="link" onClick={verifyCookies}><img src={HUlogo} className="logo" alt="HU logo" /> Log in om te beginnen</div>
+						<div style={{ textAlign: 'center', margin: '0.8rem 0 0' }}>(Helaas werkt het log-in systeem nog niet. Hij moet nog worden goedgekeurd door de IT-afdeling van de Hogeschool Utrecht.)</div>
 					</div>
 				</div>
 				<div className="spacer" />

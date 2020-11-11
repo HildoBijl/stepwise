@@ -1,5 +1,5 @@
 // Name settings.
-const websiteName = 'Step-wise'
+const websiteName = 'Step-Wise'
 const websiteNameAddendum = 'Oefenopgaven op maat'
 export { websiteName, websiteNameAddendum }
 
