@@ -1,8 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './ui/layout/App'
-import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
+import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client'
+import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 
+// Apollo Client.
 const apolloClient = new ApolloClient({
 	link: createHttpLink({
 		uri: `${process.env.REACT_APP_API_ADDRESS}/graphql`,
@@ -11,8 +13,8 @@ const apolloClient = new ApolloClient({
 	cache: new InMemoryCache(),
 })
 
-ReactDOM.render(
-	// Disable strict mode to prevent Material UI from bugging out.
-	<App apolloClient={apolloClient}/>,
-	document.getElementById('root')
-)
+// React. Do not use strict mode to prevent Material UI from bugging out.
+ReactDOM.render(<App apolloClient={apolloClient} />, document.getElementById('root'))
+
+// Service worker.
+serviceWorkerRegistration.register()
