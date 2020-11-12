@@ -84,6 +84,7 @@ const useStyles = makeStyles((theme) => ({
 
 				'& .logoPicture': {
 					...notSelectable,
+					height: 'auto',
 					width: '75vw',
 					[theme.breakpoints.up('sm')]: {
 						width: '45vw',
@@ -152,17 +153,16 @@ const useStyles = makeStyles((theme) => ({
 						opacity: 1,
 					},
 
-					'& .logo': {
+					'& img': {
 						display: 'inline-block',
 						height: '1.5rem',
 						margin: `0 0.4rem`,
 						[theme.breakpoints.up('md')]: {
 							height: '2rem',
 						},
-						opacity: 0.75,
 						transform: 'translateY(0.5rem)',
+						width: 'auto',
 					},
-
 				},
 			},
 		},
@@ -206,7 +206,7 @@ export default function Home() {
 			{isUserDataLoaded ? <>
 				<div className="main">
 					<div className="logo">
-						<img src={logo} className="logoPicture" alt="Logo" />
+						<img src={logo} className="logoPicture" alt="Logo" width="512" height="512" />
 					</div>
 					<div className="explanation">
 						<div className="title">Hoe werkt het?</div>
@@ -216,7 +216,7 @@ export default function Home() {
 							<li className="item">De app houdt bij waar je moeite mee hebt.</li>
 							<li className="item">Je krijgt op jouw niveau nieuwe opgaven.</li>
 						</ol>
-						<div className="link" onClick={verifyCookies}><img src={HUlogo} className="logo" alt="HU logo" /> Log in om te beginnen</div>
+						<div className="link" onClick={verifyCookies}><img src={HUlogo} className="logo" alt="HU logo" width="606" height="525" /> Log in om te beginnen</div>
 						<div style={{ textAlign: 'center', margin: '0.8rem 0 0' }}>(Helaas werkt het log-in systeem nog niet. De verbinding met SURFconext moet nog goedgekeurd worden.)</div>
 					</div>
 				</div>
@@ -260,8 +260,10 @@ const useModalStyles = makeStyles((theme) => ({
 			margin: '0.8rem 0',
 
 			'& img': {
+				height: 'auto',
 				maxHeight: '14rem',
 				maxWidth: '100%',
+				width: 'auto',
 			},
 		},
 
@@ -288,7 +290,7 @@ const CookieConfirmation = React.forwardRef(({ reject, confirm }, _) => {
 	return (
 		<div className={clsx(classes.cookieConfirmation, 'cookieConfirmation')}>
 			<div className="title">Zijn cookies OK?</div>
-			<div className="image"><img src={Cookies} alt="Cookies" /></div>
+			<div className="image"><img src={Cookies} alt="Cookies" width="668" height="1002" /></div>
 			<div className="message">Om in te loggen moeten we één klein cookie plaatsen. Geef je daar toestemming toe?</div>
 			<div className="buttons">
 				<Button variant="contained" className="button" startIcon={<Clear />} onClick={reject} color="secondary">Nee! Ik ben allergisch</Button>
