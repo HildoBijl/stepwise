@@ -22,6 +22,7 @@ export default function Feedback() {
 				<li><strong>Docent-modus:</strong> Ik kan een extra pagina voor docenten maken, waarmee ze kunnen zien waar studenten mee bezig zijn. Zo kan een docent een student beter helpen als er vragen zijn omtrent een opgave.</li>
 				<li><strong>Betere smartphone-ondersteuning:</strong> De app is deels ontworpen om ook op smartphones te werken. Helaas werken de invoervelden niet optimaal op smartphones. Dit moet nog verbeterd worden.</li>
 				<li><strong>Zelf je eigen cursus samenstellen:</strong> Nu staan alle cursussen vast gedefinieerd. Maar mogelijk wil je je eigen leerdoelen stellen, en zo je eigen cursus maken. Deze optie zou toegevoegd kunnen worden.</li>
+				<li><strong>Verbeterde machine learning:</strong> Er zijn ook plannen om het Machine Learning algoritme iets beter af te stemmen, zodat we nog betere voorspellingen kunnen geven. Vind je de voorspellingen soms wat vreemd? Dan kan dit mogelijk helpen.</li>
 				<li><strong>Iets anders:</strong> Heb je zelf nog suggesties? Laat het ook weten!</li>
 			</ul>
 			<Par>Stuur me vooral een mail met wat jij als eerste toegevoegd wilt zien.</Par>
