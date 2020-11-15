@@ -111,6 +111,7 @@ const skills = {
 	},
 	calculateWithCOP: {
 		name: 'Rekenen met koudefactor/warmtefactor',
+		exercises: ['calculateWithCOPRefrigerator', 'calculateWithCOPHeatPump'],
 	},
 	analyseCycle: {
 		name: 'Kringproces analyseren',

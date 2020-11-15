@@ -1,36 +1,32 @@
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+const { getRandom } = require('../../../util/random')
 const { checkField } = require('../util/check')
 
 const data = {
-	skill: 'calculateWithEfficiency',
+	skill: 'calculateWithCOP',
 	equalityOptions: { significantDigitMargin: 1 },
 }
 
 function generateState() {
-	const E = getRandomFloatUnit({
-		min: 15,
-		max: 60,
-		digits: 0,
-		unit: 'kWh',
-	}).useSignificantDigits(3)
-	const eta = getRandomFloatUnit({
-		min: 0.915,
-		max: 0.995,
-		significantDigits: 3,
-		unit: '',
+	const Pe = getRandomFloatUnit({
+		min: 8,
+		max: 15,
+		significantDigits: 2,
+		unit: 'kW',
 	})
-	const Ein = E.divide(eta).roundToPrecision()
+	const COP = getRandom(3,5)
+	const Pin = Pe.multiply(COP - 1).roundToPrecision()
 
-	return { E, Ein }
+	return { Pe, Pin }
 }
 
-function getCorrect({ E, Ein }) {
-	return E.divide(Ein).setUnit('')
+function getCorrect({ Pe, Pin }) {
+	return Pin.add(Pe).divide(Pe).setUnit('').useSignificantDigits(2)
 }
 
 function checkInput(state, input, step, substep) {
-	return checkField('eta', getCorrect(state), input, data.equalityOptions)
+	return checkField('COP', getCorrect(state), input, data.equalityOptions)
 }
 
 module.exports = {
