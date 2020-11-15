@@ -93,8 +93,9 @@ const skills = {
 		exercises: ['calculateProcessStepCompressor', 'calculateProcessStepDivingCylinder', 'calculateProcessStepBalloon', 'calculateProcessStepGasTurbine'],
 	},
 	calculateClosedCycle: {
-		name: 'Gesloten kringproces doorrekeken',
+		name: 'Gesloten kringproces doorrekenen',
 		setup: combinerRepeat('calculateProcessStep', 3),
+		exercises: ['calculateClosedCycleSimple'],
 	},
 	calculateHeatAndWork: {
 		name: 'Warmte en arbeid berekenen',

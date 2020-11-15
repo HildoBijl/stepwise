@@ -18,7 +18,7 @@ const courses = {
 	},
 	exactd: {
 		name: 'Exacte Wetenschap D',
-		goals: ['analyseCycle'],
+		goals: ['analyseClosedCycle'],
 		priorKnowledge: [
 			'calculateWithPressure',
 			'calculateWithVolume',
@@ -42,18 +42,18 @@ const courses = {
 			},
 			{
 				name: 'Een cyclus doorrekenen',
-				goals: ['analyseCycle'],
+				goals: ['analyseClosedCycle'],
 			},
 		],
 	},
 	promo: {
 		name: 'Processen en Modelleren',
-		goals: ['analyseCycle'],
+		goals: ['analyseClosedCycle'],
 		priorKnowledge: ['calculateProcessStep', 'calculateHeatAndWork'],
 		blocks: [
 			{
 				name: 'Gesloten systemen en kringprocessen',
-				goals: ['analyseCycle'],
+				goals: ['analyseClosedCycle'],
 			},
 			{
 				name: 'Open systemen en enthalpie',

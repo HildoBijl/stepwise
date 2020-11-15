@@ -5,6 +5,7 @@ import { Par } from 'ui/components/containers'
 import { InputSpace } from 'ui/form/Status'
 import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
+import { Dutch } from 'ui/lang/gases'
 
 import { useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
@@ -13,12 +14,6 @@ import { getDefaultFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
-}
-
-const Dutch = {
-	helium: 'helium',
-	hydrogen: 'waterstof',
-	methane: 'methaan',
 }
 
 const Problem = ({ gas, V2, p1, p2 }) => <>

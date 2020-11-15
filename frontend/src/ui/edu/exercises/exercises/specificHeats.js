@@ -6,32 +6,10 @@ import { M } from 'util/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
+import { English, Dutch } from 'ui/lang/gases'
 
 import SimpleExercise from '../types/SimpleExercise'
 import { getDefaultFeedback } from '../util/feedback'
-
-const English = {
-	air: 'air',
-	argon: 'argon',
-	carbonDioxide: 'carbon dioxide',
-	carbonMonoxide: 'carbon monoxide',
-	helium: 'helium',
-	hydrogen: 'hydrogen',
-	methane: 'methane',
-	nitrogen: 'nitrogen',
-	oxygen: 'oxygen',
-}
-const Dutch = {
-	air: 'lucht',
-	argon: 'argon',
-	carbonDioxide: 'koolstofdioxide',
-	carbonMonoxide: 'koolstofmonoxide',
-	helium: 'helium',
-	hydrogen: 'waterstof',
-	methane: 'methaan',
-	nitrogen: 'stikstof',
-	oxygen: 'zuurstof',
-}
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
