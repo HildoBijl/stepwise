@@ -10,6 +10,7 @@ import { M } from 'util/equations'
 import Button from 'ui/components/Button'
 import { Par, Head } from 'ui/components/containers'
 import SkillFlask from 'ui/edu/skills/SkillFlask'
+import { defaultSkillThresholds } from 'ui/edu/skills/util'
 
 const labelsWithoutLast = ['A', 'B']
 const lastLabel = 'X'
@@ -363,7 +364,7 @@ function ExerciseOverview({ dataSet, exercises }) {
 	useEffect(() => {
 		const newPass = labelsWithoutLast.map((label, i) => {
 			const EV = getEV(dataSet[label])
-			return (pass[i] && EV >= 0.62) || (!pass[i] && EV >= 0.7) // Apply hysteresis. [ToDo: implement ratios from settings.]
+			return (pass[i] && EV >= defaultSkillThresholds.recap) || (!pass[i] && EV >= defaultSkillThresholds.pass) // Apply hysteresis.
 		})
 		if (newPass.some((_, i) => pass[i] !== newPass[i]))
 			setPass(newPass)
