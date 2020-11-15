@@ -41,7 +41,7 @@ function Solution({ V, type }) {
 		case 0:
 			if (!prefix) { // From cubic meters to liters.
 				conversion = new FloatUnit('10^3 dm^3/m^3')
-				return <Par>Een liter is per definitie een kubieke decimeter. We moeten dus van kubieke meter naar kubieke decimeter. Een meter is <M>10</M> decimeter, waardoor een kubieke meter gelijk is aan <M>10^3</M> kubieke decimeter. De conversiefactor is daarom <M>{conversion}</M>. Hiermee vinden we <BM>V = {V} \cdot {conversion} = {correctAnswer.setUnit('dm^3')} = {correctAnswer}.</BM></Par>
+				return <Par>Een liter is per definitie een kubieke decimeter. We moeten dus van kubieke meter naar kubieke decimeter. Een meter is <M>10</M> decimeter, waardoor een kubieke meter gelijk is aan <M>10^3</M> kubieke decimeter. De conversiefactor is daarom <M>{conversion}.</M> Hiermee vinden we <BM>V = {V} \cdot {conversion} = {correctAnswer.setUnit('dm^3')} = {correctAnswer}.</BM></Par>
 			}
 			switch (prefix.letter) {
 				case 'd':
@@ -49,7 +49,7 @@ function Solution({ V, type }) {
 
 				case 'c':
 					conversion = new FloatUnit('10^3 cm^3/dm^3')
-					return <Par>Een liter is per definitie een kubieke decimeter. We moeten dus van kubieke centimeter naar kubieke decimeter. Een decimeter is <M>10</M> centimeter, waardoor een kubieke decimeter gelijk is aan <M>10^3</M> kubieke centimeter. De conversiefactor is daarom <M>{conversion}</M>. Hiermee vinden we <BM>V = \frac{V}{conversion} = {correctAnswer.setUnit('dm^3')} = {correctAnswer}.</BM></Par>
+					return <Par>Een liter is per definitie een kubieke decimeter. We moeten dus van kubieke centimeter naar kubieke decimeter. Een decimeter is <M>10</M> centimeter, waardoor een kubieke decimeter gelijk is aan <M>10^3</M> kubieke centimeter. De conversiefactor is daarom <M>{conversion}.</M> Hiermee vinden we <BM>V = \frac{V}{conversion} = {correctAnswer.setUnit('dm^3')} = {correctAnswer}.</BM></Par>
 
 				default:
 					throw new Error(`Invalid prefix letter "${prefix.letter}".`)
@@ -57,7 +57,7 @@ function Solution({ V, type }) {
 
 		case 1:
 			if (!prefix)
-				return <Par>Dit is een strikvraag. Het volume staat al in standaard eenheden (kubieke meters). Het antwoord is dus gewoon <M>V = {correctAnswer}</M>.</Par>
+				return <Par>Dit is een strikvraag. Het volume staat al in standaard eenheden (kubieke meters). Het antwoord is dus gewoon <M>V = {correctAnswer}.</M></Par>
 
 			const word = prefix.letter === 'c' ? 'centimeter' : 'decimeter'
 			conversion = new FloatUnit(`10^${-3 * prefix.power} ${prefix.letter}m^3/m^3`)
@@ -67,7 +67,7 @@ function Solution({ V, type }) {
 		case 3:
 			conversion = new FloatUnit('10^3 dm^3/m^3')
 			const V_in_dm = V.setUnit('dm^3')
-			return <Par>{type === 2 ? 'We willen' : 'De standaard eenheid van volume is kubieke meters. We willen dus'} van liters naar kubieke meters gaan. Als eerste merken we op dat een liter een kubieke decimeter is. Oftewel, <BM>V = {V_in_dm}.</BM> Vervolgens gaan we van kubieke decimeters naar kubieke meters. Een meter is <M>10</M> decimeter, waardoor een kubieke meter gelijk is aan <M>10^3</M> kubieke decimeter. De conversiefactor is dus <M>{conversion}</M>. Hiermee vinden we <BM>V = \frac{V_in_dm}{conversion} = {correctAnswer}.</BM></Par>
+			return <Par>{type === 2 ? 'We willen' : 'De standaard eenheid van volume is kubieke meters. We willen dus'} van liters naar kubieke meters gaan. Als eerste merken we op dat een liter een kubieke decimeter is. Oftewel, <BM>V = {V_in_dm}.</BM> Vervolgens gaan we van kubieke decimeters naar kubieke meters. Een meter is <M>10</M> decimeter, waardoor een kubieke meter gelijk is aan <M>10^3</M> kubieke decimeter. De conversiefactor is dus <M>{conversion}.</M> Hiermee vinden we <BM>V = \frac{V_in_dm}{conversion} = {correctAnswer}.</BM></Par>
 
 		default:
 			throw new Error(`Invalid exercise type "${type}".`)

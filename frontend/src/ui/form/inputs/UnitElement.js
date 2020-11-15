@@ -106,7 +106,7 @@ export function keyPressToData(keyInfo, data) {
 	}
 
 	// For letters add them to the unit.
-	if (isLetter(key)) {
+	if (isLetter(key) || key === '%') {
 		const addAt = cursor.part === 'text' ? cursor.cursor : prefix.length + unit.length
 		return { ...data, ...process({ text: insertAtIndex(prefix + unit, key, addAt), power }, { part: 'text', cursor: addAt + 1 }) }
 	}

@@ -31,7 +31,7 @@ const fields = [[
 
 const Problem = ({ m, p1, T1, T2 }) => <>
 	<Par>Een duiker pakt op een mooie zomerse dag, met een temperatuur van <M>{T1}</M>, een duikfles van de boot. De duikfles is gevuld met <M>{m}</M> zuurstof. De duiker kijkt op de drukmeter van de fles en leest <M>{p1}</M> af.</Par>
-	<Par>Vervolgens springt de duiker in het koude water: de temperatuur is slechts <M>{T2}</M>. Na even wachten is de duikfles net zo koud als het water geworden. Wat is de druk in de duikfles dan? Geef verder alle andere relevante gaseigenschappen. Ga ervan uit dat de duiker nog geen zuurstof gebruikt heeft.</Par>
+	<Par>Vervolgens springt de duiker in het koude water: de temperatuur is slechts <M>{T2}.</M> Na even wachten is de duikfles net zo koud als het water geworden. Wat is de druk in de duikfles dan? Geef verder alle andere relevante gaseigenschappen. Ga ervan uit dat de duiker nog geen zuurstof gebruikt heeft.</Par>
 	<InputSpace>
 		<InputTable {...{ colHeads, rowHeads, fields }} />
 	</InputSpace>
@@ -69,7 +69,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			return <Par>De duikfles wordt niet groter of kleiner: het interne volume <M>V</M> blijft gelijk. (De krimp van het metaal is zo klein dat het te verwaarlozen valt.) Het is dus een isochoor proces, met <M>V_2 = V_1</M>.</Par>
+			return <Par>De duikfles wordt niet groter of kleiner: het interne volume <M>V</M> blijft gelijk. (De krimp van het metaal is zo klein dat het te verwaarlozen valt.) Het is dus een isochoor proces, met <M>V_2 = V_1.</M></Par>
 		},
 	},
 	{

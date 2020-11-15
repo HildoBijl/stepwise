@@ -98,22 +98,23 @@ const skills = {
 	},
 	calculateHeatAndWork: {
 		name: 'Warmte en arbeid berekenen',
-		setup: combinerAnd('recognizeProcessTypes', combinerOr('calculateWithPressure','calculateWithVolume','calculateWithTemperature','calculateWithMass'), combinerOr('specificGasConstant','specificHeatRatio','specificHeats')),
+		setup: combinerAnd('recognizeProcessTypes', combinerOr('calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature', 'calculateWithMass'), combinerOr('specificGasConstant', 'specificHeatRatio', 'specificHeats')),
 		exercises: ['calculateHeatAndWorkIsobaric', 'calculateHeatAndWorkIsochoric', 'calculateHeatAndWorkIsothermal', 'calculateHeatAndWorkIsentropic', 'calculateHeatAndWorkPolytropic'],
 	},
 	createCycleEnergyOverview: {
 		name: 'Kringproces energie-overzicht maken',
 		setup: combinerRepeat('calculateHeatAndWork', 3),
 	},
-	calculateEfficiency: {
-		name: 'Rendement berekenen',
+	calculateWithEfficiency: {
+		name: 'Rekenen met rendement',
+		exercises: ['calculateWithEfficiencyGenerator', 'calculateWithEfficiencyBattery'],
 	},
-	calculateCOP: {
-		name: 'Koudefactor en warmtefactor berekenen',
+	calculateWithCOP: {
+		name: 'Rekenen met koudefactor/warmtefactor',
 	},
 	analyseCycle: {
 		name: 'Kringproces analyseren',
-		setup: combinerAnd('calculateCycle', 'createCycleEnergyOverview', combinerOr('calculateEfficiency','calculateCOP')),
+		setup: combinerAnd('calculateCycle', 'createCycleEnergyOverview', combinerOr('calculateWithEfficiency', 'calculateWithCOP')),
 	},
 }
 

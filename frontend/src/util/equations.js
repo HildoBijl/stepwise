@@ -54,6 +54,9 @@ function preprocess(latex, advanced = false) {
 		// Replace a period/comma followed by a number by the default decimal separator.
 		latex = latex.replace(/[.,]\d/g, substr => substr.replace('.', replacement).replace(',', replacement))
 
+		// Escape percentage signs.
+		latex = latex.replace('%', '\\%')
+
 		// Replace brackets without \left or \right by accolades, since we cannot use accolades in JSX. Only do this in the end.
 		latex = bracketsToAccolades(latex)
 	}

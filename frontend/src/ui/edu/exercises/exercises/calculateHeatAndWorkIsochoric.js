@@ -28,7 +28,7 @@ const Dutch = {
 
 const Problem = ({ gas, V, p1, p2 }) => {
 	return <>
-		<Par>Een solide gesloten gastank gevuld met <M>{V}</M> {Dutch[gas]} wordt sterk verwarmd. Hierdoor stijgt de druk van <M>{p1}</M> tot <M>{p2}</M>. Bereken hoeveel warmte <M>Q</M> er in het gas is gestopt en hoeveel arbeid <M>W</M> het gas heeft verricht tijdens dit proces.</Par>
+		<Par>Een solide gesloten gastank gevuld met <M>{V}</M> {Dutch[gas]} wordt sterk verwarmd. Hierdoor stijgt de druk van <M>{p1}</M> tot <M>{p2}.</M> Bereken hoeveel warmte <M>Q</M> er in het gas is gestopt en hoeveel arbeid <M>W</M> het gas heeft verricht tijdens dit proces.</Par>
 		<InputSpace>
 			<Par>
 				<FloatUnitInput id="Q" prelabel={<M>Q =</M>} label={<span><M>Q</M></span>} size="s" />
@@ -75,7 +75,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			return <Par>Er zijn verschillende formules die horen bij een isochoor proces. We weten echter alleen het volume en de druk, en niet de massa of de temperatuur. De formules die we willen gebruiken zijn dus <M>Q = \frac(1)(k-1) V \left(p_2 - p_1\right)</M> en <M>W = 0</M>.</Par>
+			return <Par>Er zijn verschillende formules die horen bij een isochoor proces. We weten echter alleen het volume en de druk, en niet de massa of de temperatuur. De formules die we willen gebruiken zijn dus <M>Q = \frac(1)(k-1) V \left(p_2 - p_1\right)</M> en <M>W = 0.</M></Par>
 		},
 	},
 	{
@@ -94,7 +94,7 @@ const steps = [
 			const { shared: { getCorrect } } = useExerciseData()
 			const { k } = getCorrect(state)
 
-			return <Par>Voor {Dutch[gas]} geldt <M>k = {k}</M>.</Par>
+			return <Par>Voor {Dutch[gas]} geldt <M>k = {k}.</M></Par>
 		},
 	},
 	{
@@ -109,12 +109,12 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ V, p1, p2 }) => {
-			return <Par>Zowel het volume als de druk moeten in standaard eenheden. Zo vinden we <M>V = {V.setUnit('m^3')}</M>, <M>p_1 = {p1.setUnit('Pa')}</M> en <M>p_2 = {p2.setUnit('Pa')}</M>.</Par>
+			return <Par>Zowel het volume als de druk moeten in standaard eenheden. Zo vinden we <M>V = {V.setUnit('m^3')}</M>, <M>p_1 = {p1.setUnit('Pa')}</M> en <M>p_2 = {p2.setUnit('Pa')}.</M></Par>
 		},
 	},
 	{
 		Problem: () => <>
-			<Par>Bereken met de gegeven formules en bekende waarden de warmte <M>Q</M> en de arbeid <M>W</M>.</Par>
+			<Par>Bereken met de gegeven formules en bekende waarden de warmte <M>Q</M> en de arbeid <M>W.</M></Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="Q" prelabel={<M>Q =</M>} label={<span><M>Q</M></span>} size="s" />

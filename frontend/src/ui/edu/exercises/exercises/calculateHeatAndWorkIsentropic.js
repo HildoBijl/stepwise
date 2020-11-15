@@ -16,7 +16,7 @@ export default function Exercise() {
 
 const Problem = ({ p1, V1, p2, V2 }) => {
 	return <>
-		<Par>We bekijken een grote gasturbine voor een gehele minuut. In deze minuut stroomt er <M>{V1}</M> lucht in, op <M>{p1}</M>. De uitgaande lucht heeft een volume van <M>{V2}</M>, op <M>{p2}</M>. De turbine is goed geïsoleerd en heeft een verwaarloosbare interne frictie. Bereken hoeveel warmte <M>Q</M> er in het gas is gestopt en hoeveel arbeid <M>W</M> het gas heeft verricht tijdens dit proces.</Par>
+		<Par>We bekijken een grote gasturbine voor een gehele minuut. In deze minuut stroomt er <M>{V1}</M> lucht in, op <M>{p1}.</M> De uitgaande lucht heeft een volume van <M>{V2}</M>, op <M>{p2}.</M> De turbine is goed geïsoleerd en heeft een verwaarloosbare interne frictie. Bereken hoeveel warmte <M>Q</M> er in het gas is gestopt en hoeveel arbeid <M>W</M> het gas heeft verricht tijdens dit proces.</Par>
 		<InputSpace>
 			<Par>
 				<FloatUnitInput id="Q" prelabel={<M>Q =</M>} label={<span><M>Q</M></span>} size="s" />
@@ -81,7 +81,7 @@ const steps = [
 			const { shared: { getCorrect } } = useExerciseData()
 			const { k } = getCorrect(state)
 
-			return <Par>Voor lucht geldt <M>k = {k}</M>.</Par>
+			return <Par>Voor lucht geldt <M>k = {k}.</M></Par>
 		},
 	},
 	{
@@ -97,12 +97,12 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ p1, V1, p2, V2 }) => {
-			return <Par>De volumes staan al in standaard eenheden: <M>V_1 = {V1}</M> en <M>V_2 = {V2}</M>. De druk moet nog in Pascal gezet worden. Zo vinden we <M>p_1 = {p1.setUnit('Pa')}</M> en <M>p_2 = {p2.setUnit('Pa')}</M>.</Par>
+			return <Par>De volumes staan al in standaard eenheden: <M>V_1 = {V1}</M> en <M>V_2 = {V2}.</M> De druk moet nog in Pascal gezet worden. Zo vinden we <M>p_1 = {p1.setUnit('Pa')}</M> en <M>p_2 = {p2.setUnit('Pa')}.</M></Par>
 		},
 	},
 	{
 		Problem: () => <>
-			<Par>Bereken met de gegeven formules en bekende waarden de warmte <M>Q</M> en de arbeid <M>W</M>.</Par>
+			<Par>Bereken met de gegeven formules en bekende waarden de warmte <M>Q</M> en de arbeid <M>W.</M></Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="Q" prelabel={<M>Q =</M>} label={<span><M>Q</M></span>} size="s" />

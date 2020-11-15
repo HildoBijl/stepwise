@@ -33,7 +33,7 @@ const fields = [[
 const Problem = ({ m, T1, p1, p2 }) => {
 	return <>
 		<Par>Door een gasturbine in een elektriciteitscentrale stroomt continu lucht. We bekijken één minuut van de operatie van deze gasturbine.</Par>
-		<Par>In deze minuut is er <M>{m}</M> lucht door de turbine gestroomd. Vòòr de turbine, in de verbrandingskamer, heeft de lucht een temperatuur van <M>{T1}</M> en een druk van <M>{p1}</M>. De turbine komt uit op de omgeving, met druk <M>{p2}</M>. De expansie in de turbine verloopt isentropisch.</Par>
+		<Par>In deze minuut is er <M>{m}</M> lucht door de turbine gestroomd. Vòòr de turbine, in de verbrandingskamer, heeft de lucht een temperatuur van <M>{T1}</M> en een druk van <M>{p1}.</M> De turbine komt uit op de omgeving, met druk <M>{p2}.</M> De expansie in de turbine verloopt isentropisch.</Par>
 		<Par>Bereken het totale volume van de lucht die, gedurende de minuut, de turbine inging. Bereken ook het totale volume van de lucht die eruit stroomt en de uitstroomtemperatuur.</Par>
 		<InputSpace>
 			<InputTable {...{ colHeads, rowHeads, fields }} />
@@ -54,7 +54,7 @@ const steps = [
 			const { shared: { getCorrect } } = useExerciseData()
 			const { Rs, p1: p1s, V1 } = getCorrect(state)
 			return <>
-				<Par>We weten <M>p_1</M> en <M>T_1</M> al. We gaan de gaswet gebruiken om <M>V_1</M> te berekenen. Hierbij moeten alle waarden in standaard eenheden staan. Dus schrijven we op,<BM>p_1 = {p1} \cdot {pConversion} = {p1s}.</BM> Merk op dat de temperatuur <M>T1 = {T1}</M> en de massa <M>m = {m}</M> al in standaard eenheden staan. Verder weten we dat de specifieke gasconstante van lucht gelijk is aan <M>{Rs}</M>.</Par>
+				<Par>We weten <M>p_1</M> en <M>T_1</M> al. We gaan de gaswet gebruiken om <M>V_1</M> te berekenen. Hierbij moeten alle waarden in standaard eenheden staan. Dus schrijven we op,<BM>p_1 = {p1} \cdot {pConversion} = {p1s}.</BM> Merk op dat de temperatuur <M>T1 = {T1}</M> en de massa <M>m = {m}</M> al in standaard eenheden staan. Verder weten we dat de specifieke gasconstante van lucht gelijk is aan <M>{Rs}.</M></Par>
 				<Par>De gaswet zegt dat <BM>pV = mR_sT.</BM> Dit toepassen op punt 1 en oplossen voor <M>V_1</M> geeft <BM>V_1 = \frac(mR_sT_1)(p_1) = \frac({m.float} \cdot {Rs.float} \cdot {T1.float})({p1s.float}) = {V1}.</BM> Dit is een grote hoeveelheid, maar dat is logisch: het is het volume van <M>{m}</M> sterk verwarmde lucht.</Par>
 			</>
 		},
@@ -64,9 +64,9 @@ const steps = [
 			<Par>Wat is de waarde voor <M>n</M> bij dit proces?</Par>
 			<InputSpace>
 				<MultipleChoice id="process" choices={[
-					<span>Er geldt <M>n=0</M>.</span>,
-					<span>Er geldt <M>n=\infty</M>.</span>,
-					<span>Er geldt <M>n=1</M>.</span>,
+					<span>Er geldt <M>n=0.</M></span>,
+					<span>Er geldt <M>n=\infty.</M></span>,
+					<span>Er geldt <M>n=1.</M></span>,
 					<span>Er geldt <M>n=k</M>, met <M>k</M> de <M>k</M>-waarde van het betreffende gas.</span>,
 				]} randomOrder={true} />
 			</InputSpace>
@@ -111,9 +111,9 @@ const steps = [
 			const choice = useInput('choice')
 
 			if (choice === undefined || choice === 0)
-				return <Par>We gaan via Poisson's wet het volume berekenen. We weten al de druk in de begin- en eindsituatie, waardoor we de wet moeten pakken met zowel <M>p</M> als <M>V</M>. Zo vinden we dat <BM>p_1V_1^n = p_2V_2^n.</BM> De waarde van <M>n</M> is hier gelijk aan de <M>k</M>-waarde van lucht, en die kunnen we opzoeken als <BM>n = k = {k}.</BM> We willen dus de bovenstaande wet van Poisson oplossen voor <M>V_2</M>. Hiervoor delen we eerst beide kanten van de vergelijking door <M>p_2</M>. Zo vinden we <BM>V_2^n = \frac(p_1)(p_2) \cdot V_1^n.</BM> Vervolgens werken we de macht bij <M>V_2</M> weg door beide kanten van de vergelijking tot de macht <M>\frac(1)(n)</M> te doen. Zo vinden we <BM>V_2 = \left(\frac(p_1)(p_2) \cdot V_1^n\right)^(\frac(1)(n)) = \left(\frac(p_1)(p_2)\right)^(\frac(1)(n)) \cdot V_1 = \left(\frac{p1.float}{p2.float}\right)^(\frac(1)({k})) \cdot {V1.float} = {V2}.</BM> Dit is een groter volume dan voorheen, wat logisch is: in een turbine expandeert gas waardoor de druk en de temperatuur afnemen en het volume toeneemt.</Par>
+				return <Par>We gaan via Poisson's wet het volume berekenen. We weten al de druk in de begin- en eindsituatie, waardoor we de wet moeten pakken met zowel <M>p</M> als <M>V.</M> Zo vinden we dat <BM>p_1V_1^n = p_2V_2^n.</BM> De waarde van <M>n</M> is hier gelijk aan de <M>k</M>-waarde van lucht, en die kunnen we opzoeken als <BM>n = k = {k}.</BM> We willen dus de bovenstaande wet van Poisson oplossen voor <M>V_2.</M> Hiervoor delen we eerst beide kanten van de vergelijking door <M>p_2.</M> Zo vinden we <BM>V_2^n = \frac(p_1)(p_2) \cdot V_1^n.</BM> Vervolgens werken we de macht bij <M>V_2</M> weg door beide kanten van de vergelijking tot de macht <M>\frac(1)(n)</M> te doen. Zo vinden we <BM>V_2 = \left(\frac(p_1)(p_2) \cdot V_1^n\right)^(\frac(1)(n)) = \left(\frac(p_1)(p_2)\right)^(\frac(1)(n)) \cdot V_1 = \left(\frac{p1.float}{p2.float}\right)^(\frac(1)({k})) \cdot {V1.float} = {V2}.</BM> Dit is een groter volume dan voorheen, wat logisch is: in een turbine expandeert gas waardoor de druk en de temperatuur afnemen en het volume toeneemt.</Par>
 
-			return <Par>We gaan via Poisson's wet de temperatuur berekenen. We weten al de druk in de begin- en eindsituatie, waardoor we de wet moeten pakken met zowel <M>T</M> als <M>p</M>. Zo vinden we dat <BM>\frac(T_1^n)(p_1^(n-1)) = \frac(T_2^n)(p_2^(n-1)).</BM> De waarde van <M>n</M> is hier gelijk aan de <M>k</M>-waarde van lucht, en die kunnen we opzoeken als <BM>n = k = {k}.</BM> We willen dus de bovenstaande wet van Poisson oplossen voor <M>T_2</M>. Hiervoor vermenigvuldigen we eerst beide kanten van de vergelijking met <M>p_2^(n-1)</M>. Zo vinden we <BM>T_2^n = T_1^n \cdot \frac(p_2^(n-1))(p_1^(n-1)) = T_1^n \left(\frac(p_2)(p_1)\right)^(n-1).</BM> Vervolgens werken we de macht bij <M>T_2</M> weg door beide kanten van de vergelijking tot de macht <M>\frac(1)(n)</M> te doen. Zo vinden we <BM>T_2 = \left(T_1^n \left(\frac(p_2)(p_1)\right)^(n-1)\right)^(\frac(1)(n)) = T_1 \left(\frac(p_2)(p_1)\right)^(\frac(n-1)(n)) = {T1.float} \cdot \left(\frac{p2.float}{p1.float}\right)^(\frac({k}-1)({k})) = {T2}.</BM> Dit is een stuk kouder dan in de verbrandingskamer, wat logisch is: de lucht expandeert in de turbine, en bij expanderen daalt de temperatuur altijd. Hoewel een temperatuur van <M>T_2 = {T2.setUnit('dC').useDecimals(0)}</M> natuurlijk nog steeds best warm is.</Par>
+			return <Par>We gaan via Poisson's wet de temperatuur berekenen. We weten al de druk in de begin- en eindsituatie, waardoor we de wet moeten pakken met zowel <M>T</M> als <M>p.</M> Zo vinden we dat <BM>\frac(T_1^n)(p_1^(n-1)) = \frac(T_2^n)(p_2^(n-1)).</BM> De waarde van <M>n</M> is hier gelijk aan de <M>k</M>-waarde van lucht, en die kunnen we opzoeken als <BM>n = k = {k}.</BM> We willen dus de bovenstaande wet van Poisson oplossen voor <M>T_2.</M> Hiervoor vermenigvuldigen we eerst beide kanten van de vergelijking met <M>p_2^(n-1).</M> Zo vinden we <BM>T_2^n = T_1^n \cdot \frac(p_2^(n-1))(p_1^(n-1)) = T_1^n \left(\frac(p_2)(p_1)\right)^(n-1).</BM> Vervolgens werken we de macht bij <M>T_2</M> weg door beide kanten van de vergelijking tot de macht <M>\frac(1)(n)</M> te doen. Zo vinden we <BM>T_2 = \left(T_1^n \left(\frac(p_2)(p_1)\right)^(n-1)\right)^(\frac(1)(n)) = T_1 \left(\frac(p_2)(p_1)\right)^(\frac(n-1)(n)) = {T1.float} \cdot \left(\frac{p2.float}{p1.float}\right)^(\frac({k}-1)({k})) = {T2}.</BM> Dit is een stuk kouder dan in de verbrandingskamer, wat logisch is: de lucht expandeert in de turbine, en bij expanderen daalt de temperatuur altijd. Hoewel een temperatuur van <M>T_2 = {T2.setUnit('dC').useDecimals(0)}</M> natuurlijk nog steeds best warm is.</Par>
 		},
 	},
 	{
@@ -146,7 +146,7 @@ const getFeedback = (exerciseData) => {
 				'Nee, dit is bij een isobaar proces (constante druk). De druk is hier echter zeker niet constant: die neemt af.',
 				'Nee, dit is bij een isochoor proces (constant volume). Maar hier neemt het volume van het gas toe: het expandeert in de turbine.',
 				'Nee, dit is bij een isotherm proces (constante temperatuur). Hier geldt echter dat de temperatuur afneemt door de expansie in de turbine.',
-				<span>Ja! Bij een isentropisch proces geldt altijd <M>n=k</M>.</span>,
+				<span>Ja! Bij een isentropisch proces geldt altijd <M>n=k.</M></span>,
 			],
 		}),
 	}

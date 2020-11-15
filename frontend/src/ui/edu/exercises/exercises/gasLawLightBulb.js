@@ -17,7 +17,7 @@ export default function Exercise() {
 }
 
 const Problem = ({ p, V, T }) => <>
-	<Par>Een gloeilamp met inhoud <M>{V}</M> is met argongas gevuld. De druk binnen de gloeilamp is gemeten als <M>{p}</M>. De gloeilamp staat uit, waardoor zijn temperatuur gelijk is aan de omgevingstemperatuur <M>{T}</M>. Bereken de massa van het argongas.</Par>
+	<Par>Een gloeilamp met inhoud <M>{V}</M> is met argongas gevuld. De druk binnen de gloeilamp is gemeten als <M>{p}.</M> De gloeilamp staat uit, waardoor zijn temperatuur gelijk is aan de omgevingstemperatuur <M>{T}.</M> Bereken de massa van het argongas.</Par>
 	<InputSpace><Par><FloatUnitInput id="m" prelabel={<M>m=</M>} label="Massa" size="s" /></Par></InputSpace>
 </>
 
@@ -37,8 +37,8 @@ const steps = [
 			const pInBar = p.setUnit('bar')
 			const pInPa = pInBar.setUnit('Pa')
 			return <>
-				<Par>De standaard eenheid van volume is de kubieke meter. Om van kubieke centimeter naar kubieke meter te gaan gebruiken we een conversiefactor van <M>{VConversion}</M>. Het volume is daarmee <BM>V = \frac{V}{VConversion} = {V.setUnit('m^3')}.</BM></Par>
-				<Par>De standaard eenheid van druk is Pascal. Als eerste schrijven we <M>p = {p}</M> als <M>p = {pInBar}</M>. Vervolgens zetten we dit om. De conversiefactor van bar naar Pascal is <M>{pConversion}</M>. Dit vertelt ons dat de druk gelijk is aan <BM>p = {pInBar} \cdot {pConversion} = {pInPa}.</BM></Par>
+				<Par>De standaard eenheid van volume is de kubieke meter. Om van kubieke centimeter naar kubieke meter te gaan gebruiken we een conversiefactor van <M>{VConversion}.</M> Het volume is daarmee <BM>V = \frac{V}{VConversion} = {V.setUnit('m^3')}.</BM></Par>
+				<Par>De standaard eenheid van druk is Pascal. Als eerste schrijven we <M>p = {p}</M> als <M>p = {pInBar}.</M> Vervolgens zetten we dit om. De conversiefactor van bar naar Pascal is <M>{pConversion}.</M> Dit vertelt ons dat de druk gelijk is aan <BM>p = {pInBar} \cdot {pConversion} = {pInPa}.</BM></Par>
 				<Par>De standaard eenheid van temperatuur is de Kelvin. Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.float}</M> bij op. Hiermee krijgen we <BM>T = {T.float} + {TConversion.float} = {T.setUnit('K')}.</BM></Par>
 			</>
 		},
@@ -53,7 +53,7 @@ const steps = [
 		Solution: (state) => {
 			const { shared: { getCorrect } } = useExerciseData()
 			const { Rs } = getCorrect(state)
-			return <Par>De specifieke gasconstante van argon is <M>R_s = {Rs}</M>.</Par>
+			return <Par>De specifieke gasconstante van argon is <M>R_s = {Rs}.</M></Par>
 		},
 	},
 	{
@@ -66,7 +66,7 @@ const steps = [
 		Solution: (state) => {
 			const { shared: { getCorrect } } = useExerciseData()
 			const { Rs, m, p, V, T } = getCorrect(state)
-			return <Par>De gaswet zegt <BM>pV = mR_sT.</BM> Om <M>m</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>R_sT</M>. Het resultaat is <BM>m = \frac(pV)(R_sT) = \frac({p.float} \cdot {V.float})({Rs.float} \cdot {T.float}) = {m}.</BM></Par>
+			return <Par>De gaswet zegt <BM>pV = mR_sT.</BM> Om <M>m</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>R_sT.</M> Het resultaat is <BM>m = \frac(pV)(R_sT) = \frac({p.float} \cdot {V.float})({Rs.float} \cdot {T.float}) = {m}.</BM></Par>
 		},
 	},
 ]

@@ -35,7 +35,7 @@ const steps = [
 		</>,
 		Solution: ({ V, m, T }) => {
 			return <>
-				<Par>De standaard eenheid van volume is de kubieke meter. We gebruiken hierbij een conversiefactor van <M>{VConversion}</M>. Het volume is vervolgens <BM>V = \frac{V}{VConversion} = {V.simplify()}.</BM></Par>
+				<Par>De standaard eenheid van volume is de kubieke meter. We gebruiken hierbij een conversiefactor van <M>{VConversion}.</M> Het volume is vervolgens <BM>V = \frac{V}{VConversion} = {V.simplify()}.</BM></Par>
 				<Par>De standaard eenheid van massa is de kilogram. De massa staat al in die eenheid, waardoor we gelijk <M>m = {m}</M> op kunnen schrijven.</Par>
 				<Par>De standaard eenheid van temperatuur is de Kelvin. Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.float}</M> bij op. Hiermee krijgen we <BM>T = {T.float} + {TConversion.float} = {T.setUnit('K')}.</BM></Par>
 			</>
@@ -51,7 +51,7 @@ const steps = [
 		Solution: (state) => {
 			const { shared: { getCorrect } } = useExerciseData()
 			const { Rs } = getCorrect(state)
-			return <Par>De specifieke gasconstante van zuurstof is <M>R_s = {Rs}</M>.</Par>
+			return <Par>De specifieke gasconstante van zuurstof is <M>R_s = {Rs}.</M></Par>
 		},
 	},
 	{
@@ -64,7 +64,7 @@ const steps = [
 		Solution: (state) => {
 			const { shared: { getCorrect } } = useExerciseData()
 			const { p, V, m, Rs, T } = getCorrect(state)
-			return <Par>De gaswet zegt dat <BM>pV = mR_sT.</BM> Om <M>p</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>V</M>. Het resultaat is <BM>p = \frac(mR_sT)(V) = \frac({m.float} \cdot {Rs.float} \cdot {T.float})({V.float}) = {p}.</BM> Dit is gelijk aan <M>{p.setUnit('bar').useDecimals(0)}</M> wat reëel is voor een duikfles.</Par>
+			return <Par>De gaswet zegt dat <BM>pV = mR_sT.</BM> Om <M>p</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>V.</M> Het resultaat is <BM>p = \frac(mR_sT)(V) = \frac({m.float} \cdot {Rs.float} \cdot {T.float})({V.float}) = {p}.</BM> Dit is gelijk aan <M>{p.setUnit('bar').useDecimals(0)}</M> wat reëel is voor een duikfles.</Par>
 		},
 	},
 ]

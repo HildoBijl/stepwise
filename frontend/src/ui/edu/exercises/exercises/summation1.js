@@ -13,7 +13,7 @@ export default function Exercise() {
 
 function Problem({ a, b }) {
 	return <>
-		<Par>Bereken de optelsom <M>{a} + {b}</M>.</Par>
+		<Par>Bereken de optelsom <M>{a} + {b}.</M></Par>
 		<InputSpace>
 			<Par><IntegerInput id="ans" label="Antwoord" prelabel={<M>{a} + {b} =</M>} size="s" /></Par>
 		</InputSpace>

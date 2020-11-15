@@ -229,7 +229,7 @@ export function keyPressToData(keyInfo, data, contentsElement, positive, allowPo
 	}
 
 	// In case of a letter in the float, process them like we're in the unit. Except if it's an e: this one is processed by the unit.
-	if ((isLetter(key) && key !== 'e') && cursor.part === 'float')
+	if (((isLetter(key) || key === '%') && key !== 'e') && cursor.part === 'float')
 		return passOn('unit', getUnitStartCursor(unit))
 
 	// In case of a number in the unit, check if we're at the start. If so, pretend we're in the float.

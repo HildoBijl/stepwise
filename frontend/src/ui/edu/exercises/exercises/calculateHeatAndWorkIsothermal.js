@@ -28,7 +28,7 @@ const Dutch = {
 
 const Problem = ({ gas, m, T, p1, p2 }) => {
 	return <>
-		<Par>Een hoeveelheid van <M>{m}</M> {Dutch[gas]} wordt gecomprimeerd van <M>{p1}</M> naar <M>{p2}</M>. De temperatuur wordt hierbij op <M>{T}</M> gehouden. Bereken hoeveel warmte <M>Q</M> er in het gas is gestopt en hoeveel arbeid <M>W</M> het gas heeft verricht tijdens dit proces.</Par>
+		<Par>Een hoeveelheid van <M>{m}</M> {Dutch[gas]} wordt gecomprimeerd van <M>{p1}</M> naar <M>{p2}.</M> De temperatuur wordt hierbij op <M>{T}</M> gehouden. Bereken hoeveel warmte <M>Q</M> er in het gas is gestopt en hoeveel arbeid <M>W</M> het gas heeft verricht tijdens dit proces.</Par>
 		<InputSpace>
 			<Par>
 				<FloatUnitInput id="Q" prelabel={<M>Q =</M>} label={<span><M>Q</M></span>} size="s" />
@@ -94,12 +94,12 @@ const steps = [
 			const { shared: { getCorrect } } = useExerciseData()
 			const { Rs } = getCorrect(state)
 
-			return <Par>Voor {Dutch[gas]} geldt <M>R_s = {Rs}</M>.</Par>
+			return <Par>Voor {Dutch[gas]} geldt <M>R_s = {Rs}.</M></Par>
 		},
 	},
 	{
 		Problem: () => <>
-			<Par>In de formule staat ook de verhouding <M>V_2/V_1</M>. Bereken deze verhouding. Gebruik hiervoor eventueel de gaswet, wetende dat de temperatuur constant blijft.</Par>
+			<Par>In de formule staat ook de verhouding <M>V_2/V_1.</M> Bereken deze verhouding. Gebruik hiervoor eventueel de gaswet, wetende dat de temperatuur constant blijft.</Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="ratio" prelabel={<M>\frac(V_2)(V_1) =</M>} label="Volumeverhouding" size="s" validate={validNumberAndUnit} />
@@ -110,7 +110,7 @@ const steps = [
 			const { p1, p2 } = state
 			const { shared: { getCorrect } } = useExerciseData()
 			const { ratio } = getCorrect(state)
-			return <Par>De gaswet zegt dat <M>pV = mR_sT</M>. We weten hier dat <M>m</M>, <M>R_s</M> en <M>T</M> allen constant blijven. Dus moet ook <M>pV</M> constant blijven. Er geldt dus <BM>p_1V_1 = p_2V_2.</BM> Hieruit kunnen we de volumeverhouding halen. Deze is het omgekeerde van de drukverhouding. Oftewel, <BM>\frac(V_2)(V_1) = \frac(p_1)(p_2) = \frac{p1.float}{p2.float} = {ratio}.</BM> Dit kunnen we straks in de formule voor <M>Q</M> en <M>W</M> invullen.</Par>
+			return <Par>De gaswet zegt dat <M>pV = mR_sT.</M> We weten hier dat <M>m</M>, <M>R_s</M> en <M>T</M> allen constant blijven. Dus moet ook <M>pV</M> constant blijven. Er geldt dus <BM>p_1V_1 = p_2V_2.</BM> Hieruit kunnen we de volumeverhouding halen. Deze is het omgekeerde van de drukverhouding. Oftewel, <BM>\frac(V_2)(V_1) = \frac(p_1)(p_2) = \frac{p1.float}{p2.float} = {ratio}.</BM> Dit kunnen we straks in de formule voor <M>Q</M> en <M>W</M> invullen.</Par>
 		},
 	},
 	{
@@ -124,12 +124,12 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ m, T }) => {
-			return <Par>Zowel het volume als de druk moeten in standaard eenheden. De massa <M>m = {m}</M> staat al in standaard eenheden. De temperatuur kunnen we schrijven als <M>T = {T.setUnit('K')}</M>.</Par>
+			return <Par>Zowel het volume als de druk moeten in standaard eenheden. De massa <M>m = {m}</M> staat al in standaard eenheden. De temperatuur kunnen we schrijven als <M>T = {T.setUnit('K')}.</M></Par>
 		},
 	},
 	{
 		Problem: () => <>
-			<Par>Bereken met de gegeven formules en bekende waarden de warmte <M>Q</M> en de arbeid <M>W</M>.</Par>
+			<Par>Bereken met de gegeven formules en bekende waarden de warmte <M>Q</M> en de arbeid <M>W.</M></Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="Q" prelabel={<M>Q =</M>} label={<span><M>Q</M></span>} size="s" />

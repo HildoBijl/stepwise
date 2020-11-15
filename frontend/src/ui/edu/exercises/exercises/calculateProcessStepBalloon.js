@@ -30,8 +30,8 @@ const fields = [[
 ]]
 
 const Problem = ({ m, V1, T1, T2 }) => <>
-	<Par>We blazen een ballon op tot een volume van <M>{V1}</M>. Hierbij gebruiken we <M>{m}</M> lucht. De lucht heeft de temperatuur van de omgeving: <M>{T1}</M>.</Par>
-	<Par>Vervolgens verwarmen we de ballon door hem in kokend water te leggen. Hierdoor stijgt de temperatuur van de lucht in de ballon naar <M>{T2}</M>. Ga ervan uit dat de elasticiteit van de ballon bij benadering constant blijft. Tot welk volume is de ballon uitgezet? Geef verder alle andere relevante gaseigenschappen.</Par>
+	<Par>We blazen een ballon op tot een volume van <M>{V1}.</M> Hierbij gebruiken we <M>{m}</M> lucht. De lucht heeft de temperatuur van de omgeving: <M>{T1}.</M></Par>
+	<Par>Vervolgens verwarmen we de ballon door hem in kokend water te leggen. Hierdoor stijgt de temperatuur van de lucht in de ballon naar <M>{T2}.</M> Ga ervan uit dat de elasticiteit van de ballon bij benadering constant blijft. Tot welk volume is de ballon uitgezet? Geef verder alle andere relevante gaseigenschappen.</Par>
 	<InputSpace>
 		<InputTable {...{ colHeads, rowHeads, fields }} />
 	</InputSpace>
@@ -71,7 +71,7 @@ const steps = [
 		Solution: (state) => {
 			const { shared: { getCorrect } } = useExerciseData()
 			const { p1 } = getCorrect(state)
-			return <Par>Op het moment is de druk in de ballon <M>{p1.setUnit('bar').useDecimals(2)}</M>. Dit is gelijk aan de atmosferische druk plus nog een klein beetje extra druk die, vanwege de elasticiteit van de ballon, toegevoegd wordt. De ballon "trekt aan" waardoor de lucht nog net ietsje meer samengedrukt wordt. Omdat de elasticiteit van de ballon bij benadering constant blijft, zal deze "extra druk" ook hetzelfde blijven. Kortom: de druk blijft gelijk. Het is (bij benadering) een isobaar proces, waardoor <M>p_2 = p_1</M>.</Par>
+			return <Par>Op het moment is de druk in de ballon <M>{p1.setUnit('bar').useDecimals(2)}.</M> Dit is gelijk aan de atmosferische druk plus nog een klein beetje extra druk die, vanwege de elasticiteit van de ballon, toegevoegd wordt. De ballon "trekt aan" waardoor de lucht nog net ietsje meer samengedrukt wordt. Omdat de elasticiteit van de ballon bij benadering constant blijft, zal deze "extra druk" ook hetzelfde blijven. Kortom: de druk blijft gelijk. Het is (bij benadering) een isobaar proces, waardoor <M>p_2 = p_1.</M></Par>
 		},
 	},
 	{
@@ -85,7 +85,7 @@ const steps = [
 			const { m, V1, T2 } = state
 			const { shared: { getCorrect } } = useExerciseData()
 			const { Rs, T2: T2s, V2, p2 } = getCorrect(state)
-			return <Par>We weten inmiddels dat <BM>p_2 = p_1 = {p2}.</BM> Ook is de eindtemperatuur <M>T_2</M> bekend. In standaard eenheden is deze <BM>T_2 = {T2.float} + {TConversion.float} = {T2s}.</BM> Alleen <M>V_2</M> is nog onbekend. Deze kunnen we vinden via de gaswet <BM>pV = mR_sT.</BM> Als we deze oplossen voor <M>V_2</M> vinden we <BM>V_2 = \frac(mR_sT_2)(p_2) = \frac({m.float} \cdot {Rs.float} \cdot {T2s.float})({p2.float}) = {V2}.</BM> Dit komt neer op <M>{V2.setUnit('l')}</M> wat een beetje groter is dan het beginvolume van <M>{V1}</M>. Dit klinkt logisch: de ballon zet immers uit.</Par>
+			return <Par>We weten inmiddels dat <BM>p_2 = p_1 = {p2}.</BM> Ook is de eindtemperatuur <M>T_2</M> bekend. In standaard eenheden is deze <BM>T_2 = {T2.float} + {TConversion.float} = {T2s}.</BM> Alleen <M>V_2</M> is nog onbekend. Deze kunnen we vinden via de gaswet <BM>pV = mR_sT.</BM> Als we deze oplossen voor <M>V_2</M> vinden we <BM>V_2 = \frac(mR_sT_2)(p_2) = \frac({m.float} \cdot {Rs.float} \cdot {T2s.float})({p2.float}) = {V2}.</BM> Dit komt neer op <M>{V2.setUnit('l')}</M> wat een beetje groter is dan het beginvolume van <M>{V1}.</M> Dit klinkt logisch: de ballon zet immers uit.</Par>
 		},
 	},
 ]

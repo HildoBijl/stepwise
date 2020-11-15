@@ -15,7 +15,7 @@ export default function Exercise() {
 
 function Problem({ a, b, c, d }) {
 	return <>
-		<Par>Los de vergelijking <M>{a} \cdot {b} \cdot x = {c} \cdot {d}</M> op voor <M>x</M>.</Par>
+		<Par>Los de vergelijking <M>{a} \cdot {b} \cdot x = {c} \cdot {d}</M> op voor <M>x.</M></Par>
 		<InputSpace>
 			<Par><FloatInput id="ans" prelabel={<M>x = </M>} label="Antwoord" size='s' /></Par>
 		</InputSpace>

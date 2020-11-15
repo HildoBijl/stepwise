@@ -48,7 +48,7 @@ function Problem({ medium }) {
 
 function Solution({ medium }) {
 	return <>
-		<Par>De specifieke gasconstante van {Dutch[medium]} is <M>{gasProperties[medium].Rs}</M>.</Par>
+		<Par>De specifieke gasconstante van {Dutch[medium]} is <M>{gasProperties[medium].Rs}.</M></Par>
 		<Par>Als je dit wilt vinden, dan kun je achterin een thermodynamicaboek kijken: er is vast een bijlage met eigenschappen van gassen. Anders kun je ook Googlen naar "specific gas constant {English[medium]}". Zoeken in het Engels geeft vaak meer/betere resultaten dan het Nederlands.</Par>
 	</>
 }

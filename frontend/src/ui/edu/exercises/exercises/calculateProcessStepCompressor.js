@@ -38,7 +38,7 @@ const fields = [[
 
 const Problem = ({ gas, m, T1, V1, V2 }) => {
 	return <>
-		<Par>Een zuigercompressor wordt gebruikt om de druk van een voorraad {Dutch[gas]}gas op te hogen. Bij elke slag wordt <M>{m}</M> van het gas gecomprimeerd. Dit gebeurt van <M>{V1}</M> {Dutch[gas]} (het maximale volume van de zuigercompressor) tot <M>{V2}</M> (het volume waarop het ventiel open gaat). Deze compressie verloopt isentropisch. Bij aanvang is de temperatuur van het {Dutch[gas]}gas <M>{T1}</M>. Bereken de resterende eigenschappen van het gas voor/na de compressie.</Par>
+		<Par>Een zuigercompressor wordt gebruikt om de druk van een voorraad {Dutch[gas]}gas op te hogen. Bij elke slag wordt <M>{m}</M> van het gas gecomprimeerd. Dit gebeurt van <M>{V1}</M> {Dutch[gas]} (het maximale volume van de zuigercompressor) tot <M>{V2}</M> (het volume waarop het ventiel open gaat). Deze compressie verloopt isentropisch. Bij aanvang is de temperatuur van het {Dutch[gas]}gas <M>{T1}.</M> Bereken de resterende eigenschappen van het gas voor/na de compressie.</Par>
 		<InputSpace>
 			<InputTable {...{ colHeads, rowHeads, fields }} />
 		</InputSpace>
@@ -69,9 +69,9 @@ const steps = [
 			<Par>Wat is de waarde voor <M>n</M> bij dit proces?</Par>
 			<InputSpace>
 				<MultipleChoice id="process" choices={[
-					<span>Er geldt <M>n=0</M>.</span>,
-					<span>Er geldt <M>n=\infty</M>.</span>,
-					<span>Er geldt <M>n=1</M>.</span>,
+					<span>Er geldt <M>n=0.</M></span>,
+					<span>Er geldt <M>n=\infty.</M></span>,
+					<span>Er geldt <M>n=1.</M></span>,
 					<span>Er geldt <M>n=k</M>, met <M>k</M> de <M>k</M>-waarde van het betreffende gas.</span>,
 				]} randomOrder={true} />
 			</InputSpace>
@@ -116,9 +116,9 @@ const steps = [
 			const choice = useInput('choice')
 
 			if (choice === undefined || choice === 0)
-				return <Par>We gaan via Poisson's wet de druk berekenen. We weten al het volume in de begin- en eindsituatie, waardoor we de wet moeten pakken met zowel <M>p</M> als <M>V</M>. Zo vinden we dat <BM>p_1V_1^n = p_2V_2^n.</BM> De waarde van <M>n</M> is hier gelijk aan de <M>k</M>-waarde van {Dutch[gas]}, en die kunnen we opzoeken als <BM>n = k = {k}.</BM> Als we de bovenstaande wet van Poisson oplossen voor <M>p_2</M> vinden we <BM>p_2 = p_1 \frac(V_1^n)(V_2^n) = p_1 \left(\frac(V_1)(V_2)\right)^n = {p1.float} \cdot \left(\frac{V1.float}{V2.float}\right)^({k.float}) = {p2}.</BM> Dit is een sterk hogere druk dan voorheen, wat logisch is: we zijn het gas immers aan het comprimeren.</Par>
+				return <Par>We gaan via Poisson's wet de druk berekenen. We weten al het volume in de begin- en eindsituatie, waardoor we de wet moeten pakken met zowel <M>p</M> als <M>V.</M> Zo vinden we dat <BM>p_1V_1^n = p_2V_2^n.</BM> De waarde van <M>n</M> is hier gelijk aan de <M>k</M>-waarde van {Dutch[gas]}, en die kunnen we opzoeken als <BM>n = k = {k}.</BM> Als we de bovenstaande wet van Poisson oplossen voor <M>p_2</M> vinden we <BM>p_2 = p_1 \frac(V_1^n)(V_2^n) = p_1 \left(\frac(V_1)(V_2)\right)^n = {p1.float} \cdot \left(\frac{V1.float}{V2.float}\right)^({k.float}) = {p2}.</BM> Dit is een sterk hogere druk dan voorheen, wat logisch is: we zijn het gas immers aan het comprimeren.</Par>
 
-			return <Par>We gaan via Poisson's wet de temperatuur berekenen. We weten al het volume in de begin- en eindsituatie, waardoor we de wet moeten pakken met zowel <M>T</M> als <M>V</M>. Zo vinden we dat <BM>T_1V_1^(n-1) = T_2V_2^(n-1).</BM> De waarde van <M>n</M> is hier gelijk aan de <M>k</M>-waarde van {Dutch[gas]}, en die kunnen we opzoeken als <BM>n = k = {k}.</BM> Als we de bovenstaande wet van Poisson oplossen voor <M>T_2</M> vinden we <BM>T_2 = T_1 \frac(V_1^(n-1))(V_2^(n-1)) = T_1 \left(\frac(V_1)(V_2)\right)^(n-1) = {T1.float} \cdot \left(\frac{V1.float}{V2.float}\right)^({k.float} - 1) = {T2}.</BM> Dit is een stuk warmer dan de begintemperatuur, maar dat klopt: bij compressie stijgt de temperatuur van een gas.</Par>
+			return <Par>We gaan via Poisson's wet de temperatuur berekenen. We weten al het volume in de begin- en eindsituatie, waardoor we de wet moeten pakken met zowel <M>T</M> als <M>V.</M> Zo vinden we dat <BM>T_1V_1^(n-1) = T_2V_2^(n-1).</BM> De waarde van <M>n</M> is hier gelijk aan de <M>k</M>-waarde van {Dutch[gas]}, en die kunnen we opzoeken als <BM>n = k = {k}.</BM> Als we de bovenstaande wet van Poisson oplossen voor <M>T_2</M> vinden we <BM>T_2 = T_1 \frac(V_1^(n-1))(V_2^(n-1)) = T_1 \left(\frac(V_1)(V_2)\right)^(n-1) = {T1.float} \cdot \left(\frac{V1.float}{V2.float}\right)^({k.float} - 1) = {T2}.</BM> Dit is een stuk warmer dan de begintemperatuur, maar dat klopt: bij compressie stijgt de temperatuur van een gas.</Par>
 		},
 	},
 	{
@@ -151,7 +151,7 @@ const getFeedback = (exerciseData) => {
 				'Nee, dit is bij een isobaar proces (constante druk). De druk is hier echter zeker niet constant.',
 				'Nee, dit is bij een isochoor proces (constant volume). Maar hier neemt het volume van het gas zeker af.',
 				'Nee, dit is bij een isotherm proces (constante temperatuur). Hier geldt echter dat de temperatuur toeneemt door de compressie.',
-				<span>Ja! Bij een isentropisch proces geldt altijd <M>n=k</M>.</span>,
+				<span>Ja! Bij een isentropisch proces geldt altijd <M>n=k.</M></span>,
 			],
 		}),
 	}

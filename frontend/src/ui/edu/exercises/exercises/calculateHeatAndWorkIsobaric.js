@@ -28,7 +28,7 @@ const Dutch = {
 
 const Problem = ({ gas, m, T1, T2 }) => {
 	return <>
-		<Par>Een hoeveelheid van <M>{m}</M> {Dutch[gas]} wordt bij gelijkblijvende druk verwarmd van <M>{T1}</M> tot <M>{T2}</M>. Bereken hoeveel warmte <M>Q</M> er in het gas is gestopt en hoeveel arbeid <M>W</M> het gas heeft verricht tijdens dit proces.</Par>
+		<Par>Een hoeveelheid van <M>{m}</M> {Dutch[gas]} wordt bij gelijkblijvende druk verwarmd van <M>{T1}</M> tot <M>{T2}.</M> Bereken hoeveel warmte <M>Q</M> er in het gas is gestopt en hoeveel arbeid <M>W</M> het gas heeft verricht tijdens dit proces.</Par>
 		<InputSpace>
 			<Par>
 				<FloatUnitInput id="Q" prelabel={<M>Q =</M>} label={<span><M>Q</M></span>} size="s" />
@@ -75,7 +75,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			return <Par>Er zijn verschillende formules die horen bij een isobaar proces. We weten echter alleen de temperatuur, en niet de druk of het volume. De formules die we willen gebruiken zijn dus <M>Q = mc_p\left(T_2-T_1\right)</M> en <M>W = mR_s\left(T_2-T_1\right)</M>.</Par>
+			return <Par>Er zijn verschillende formules die horen bij een isobaar proces. We weten echter alleen de temperatuur, en niet de druk of het volume. De formules die we willen gebruiken zijn dus <M>Q = mc_p\left(T_2-T_1\right)</M> en <M>W = mR_s\left(T_2-T_1\right).</M></Par>
 		},
 	},
 	{
@@ -95,7 +95,7 @@ const steps = [
 			const { shared: { getCorrect } } = useExerciseData()
 			const { cp, Rs } = getCorrect(state)
 
-			return <Par>Voor {Dutch[gas]} geldt <M>c_p = {cp}</M> en <M>R_s = {Rs}</M>.</Par>
+			return <Par>Voor {Dutch[gas]} geldt <M>c_p = {cp}</M> en <M>R_s = {Rs}.</M></Par>
 		},
 	},
 	{
@@ -110,12 +110,12 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ m, T1, T2 }) => {
-			return <Par>De massa moet in standaard eenheden. Immers, de soortelijke warmte is ook "per kilogram" gegeven. Dus noteren we <M>m = {m.setUnit('kg')}</M>. Bij de temperaturen gaat het alleen om een temperatuurverschil, en dan mogen we ook in graden Celsius rekenen. Het is dus voldoende om <M>T_1 = {T1}</M> en <M>T_2 = {T2}</M> te gebruiken.</Par>
+			return <Par>De massa moet in standaard eenheden. Immers, de soortelijke warmte is ook "per kilogram" gegeven. Dus noteren we <M>m = {m.setUnit('kg')}.</M> Bij de temperaturen gaat het alleen om een temperatuurverschil, en dan mogen we ook in graden Celsius rekenen. Het is dus voldoende om <M>T_1 = {T1}</M> en <M>T_2 = {T2}</M> te gebruiken.</Par>
 		},
 	},
 	{
 		Problem: () => <>
-			<Par>Bereken met de gegeven formules en bekende waarden de warmte <M>Q</M> en de arbeid <M>W</M>.</Par>
+			<Par>Bereken met de gegeven formules en bekende waarden de warmte <M>Q</M> en de arbeid <M>W.</M></Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="Q" prelabel={<M>Q =</M>} label={<span><M>Q</M></span>} size="s" />

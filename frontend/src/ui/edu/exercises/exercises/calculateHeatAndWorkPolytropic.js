@@ -16,7 +16,7 @@ export default function Exercise() {
 
 const Problem = ({ m, T1, T2, n }) => {
 	return <>
-		<Par>In een fietspomp wordt tijdens één slag <M>{m}</M> lucht gecomprimeerd. De temperatuur van de lucht voor de compressie is <M>{T1}</M>, en na de compressie is dit <M>{T2}</M>. De compressie verloopt niet isentroop: via metingen is de procescoëfficiënt bepaald als <M>n = {n}</M>. Bereken hoeveel warmte <M>Q</M> er in het gas is gestopt en hoeveel arbeid <M>W</M> het gas heeft verricht tijdens dit proces.</Par>
+		<Par>In een fietspomp wordt tijdens één slag <M>{m}</M> lucht gecomprimeerd. De temperatuur van de lucht voor de compressie is <M>{T1}</M>, en na de compressie is dit <M>{T2}.</M> De compressie verloopt niet isentroop: via metingen is de procescoëfficiënt bepaald als <M>n = {n}.</M> Bereken hoeveel warmte <M>Q</M> er in het gas is gestopt en hoeveel arbeid <M>W</M> het gas heeft verricht tijdens dit proces.</Par>
 		<InputSpace>
 			<Par>
 				<FloatUnitInput id="Q" prelabel={<M>Q =</M>} label={<span><M>Q</M></span>} size="s" />
@@ -41,7 +41,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			return <Par>Het is een isentroop proces (gegeven) maar ook geen isotherm proces (want de temperatuur neemt toe). Het moet dus een polytroop proces met een bepaalde procescoëfficiënt <M>n</M>.</Par>
+			return <Par>Het is een isentroop proces (gegeven) maar ook geen isotherm proces (want de temperatuur neemt toe). Het moet dus een polytroop proces met een bepaalde procescoëfficiënt <M>n.</M></Par>
 		},
 	},
 	{
@@ -82,7 +82,7 @@ const steps = [
 			const { shared: { getCorrect } } = useExerciseData()
 			const { Rs, cv } = getCorrect(state)
 
-			return <Par>Voor lucht geldt <M>R_s = {Rs}</M> en <M>c_v = {cv}</M>.</Par>
+			return <Par>Voor lucht geldt <M>R_s = {Rs}</M> en <M>c_v = {cv}.</M></Par>
 		},
 	},
 	{
@@ -115,12 +115,12 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ m, T1, T2 }) => {
-			return <Par>De massa moet zeker in standaard eenheden. Dus schrijven we <M>m = {m.setUnit('kg')}</M>. Bij de temperatuur moeten we alleen een temperatuursverschil in de formule invullen, en dus mogen we de temperatuur in graden Celsius laten staan. Oftewel, <M>T_1 = {T1}</M> en <M>T_2 = {T2}</M>. Natuurlijk is het ook prima om in Kelvin te rekenen.</Par>
+			return <Par>De massa moet zeker in standaard eenheden. Dus schrijven we <M>m = {m.setUnit('kg')}.</M> Bij de temperatuur moeten we alleen een temperatuursverschil in de formule invullen, en dus mogen we de temperatuur in graden Celsius laten staan. Oftewel, <M>T_1 = {T1}</M> en <M>T_2 = {T2}.</M> Natuurlijk is het ook prima om in Kelvin te rekenen.</Par>
 		},
 	},
 	{
 		Problem: () => <>
-			<Par>Bereken met de gegeven formules en bekende waarden de warmte <M>Q</M> en de arbeid <M>W</M>.</Par>
+			<Par>Bereken met de gegeven formules en bekende waarden de warmte <M>Q</M> en de arbeid <M>W.</M></Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="Q" prelabel={<M>Q =</M>} label={<span><M>Q</M></span>} size="s" />
@@ -148,7 +148,7 @@ const getFeedback = (exerciseData) => {
 				'Nee, dan zou het volume constant moeten blijven, maar het gas wordt gecomprimeerd.',
 				'Nee, dan zou de temperatuur constant moeten blijven.',
 				'Nee, dan zou er geen warmte toegevoerd/afgevoerd mogen worden. Maar om de temperatuur gelijk te blijven wordt er hier zeker wel warmte afgevoerd.',
-				<span>Ja, dit is een algemeen proces waarbij niets constant blijft en we alleen kunnen rekenen met een procescoëfficiënt <M>n</M>.</span>,
+				<span>Ja, dit is een algemeen proces waarbij niets constant blijft en we alleen kunnen rekenen met een procescoëfficiënt <M>n.</M></span>,
 			],
 		}),
 		...getMCFeedback('eq', exerciseData, {
