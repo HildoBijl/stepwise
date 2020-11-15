@@ -32,7 +32,7 @@ const fields = [[
 ]]
 
 const Problem = ({ medium, m, V1, T1, p3 }) => <>
-	<Par>We voeren een kringproces uit met <M>{m}</M> {Dutch[medium]}. Bij aanvang (punt 1) heeft dit gas een volume van <M>{V1}</M> en een temperatuur van <M>{T1}</M>. De eerste stap is een isobare opwarming. Vervolgens wordt het gas isotherm gecomprimeerd tot <M>{p3}</M>. We koelen het gas tenslotte isochoor af tot we weer bij het beginpunt zijn. Bereken de gaseigenschappen voor elk punt in dit kringproces.</Par>
+	<Par>We voeren een kringproces uit met <M>{m}</M> {Dutch[medium]}. Bij aanvang (punt 1) heeft dit gas een volume van <M>{V1}</M> en een temperatuur van <M>{T1}.</M> De eerste stap is een isobare opwarming. Vervolgens wordt het gas isotherm gecomprimeerd tot <M>{p3}.</M> We koelen het gas tenslotte isochoor af tot we weer bij het beginpunt zijn. Bereken de gaseigenschappen voor elk punt in dit kringproces.</Par>
 	<InputSpace>
 		<InputTable {...{ colHeads, rowHeads, fields }} />
 	</InputSpace>
@@ -50,7 +50,7 @@ const steps = [
 			const { shared: { getCorrect } } = useExerciseData()
 			const { m, Rs, p1, V1, T1, p3, V3, T3 } = getCorrect(state)
 			return <>
-				<Par>In punt 1 hebben we twee van de drie eigenschappen: <M>V_1 = {V1}</M> en <M>T_1 = {T1}</M>. Via de gaswet vinden we <M>p_1</M> als <BM>p_1 = \frac(mR_sT_1)(V_1) = \frac({m.float} \cdot {Rs.float} \cdot {T1.float})({V1.float}) = {p1}.</BM> Omdat proces 3-1 isochoor is geldt <BM>V_3 = V_1 = {V3}.</BM> In punt 3 was al gegeven dat <M>p_3 = {p3}.</M> Nu we ook hier twee van de drie eigenschappen weten volgt wederom via de gaswet <M>T_3</M> als <BM>T_3 = \frac(p_3V_3)(mR_s) = \frac({p3.float} \cdot {V3.float})({m.float} \cdot {Rs.float}) = {T3}.</BM> Hiermee is alles voor punten 1 en 3 bekend.</Par>
+				<Par>In punt 1 hebben we twee van de drie eigenschappen: <M>V_1 = {V1}</M> en <M>T_1 = {T1}.</M> Via de gaswet vinden we <M>p_1</M> als <BM>p_1 = \frac(mR_sT_1)(V_1) = \frac({m.float} \cdot {Rs.float} \cdot {T1.float})({V1.float}) = {p1}.</BM> Omdat proces 3-1 isochoor is geldt <BM>V_3 = V_1 = {V3}.</BM> In punt 3 was al gegeven dat <M>p_3 = {p3}.</M> Nu we ook hier twee van de drie eigenschappen weten volgt wederom via de gaswet <M>T_3</M> als <BM>T_3 = \frac(p_3V_3)(mR_s) = \frac({p3.float} \cdot {V3.float})({m.float} \cdot {Rs.float}) = {T3}.</BM> Hiermee is alles voor punten 1 en 3 bekend.</Par>
 			</>
 		},
 	},
