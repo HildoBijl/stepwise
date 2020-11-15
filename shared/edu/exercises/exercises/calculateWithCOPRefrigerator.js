@@ -1,7 +1,7 @@
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 const { getRandom } = require('../../../util/random')
-const { checkField } = require('../util/check')
+const { checkParameter } = require('../util/check')
 
 const data = {
 	skill: 'calculateWithCOP',
@@ -26,7 +26,7 @@ function getCorrect({ Ee, Eout }) {
 }
 
 function checkInput(state, input, step, substep) {
-	return checkField('epsilon', getCorrect(state), input, data.equalityOptions)
+	return checkParameter('epsilon', getCorrect(state), input, data.equalityOptions)
 }
 
 module.exports = {

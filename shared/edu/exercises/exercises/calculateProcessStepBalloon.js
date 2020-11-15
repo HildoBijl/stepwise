@@ -2,7 +2,7 @@ const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { air: { Rs } } = require('../../../data/gasProperties')
 const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
-const { checkField } = require('../util/check')
+const { checkParameter: checkParameter } = require('../util/check')
 
 const equalityOptions = {
 	default: {
@@ -21,10 +21,7 @@ const data = {
 	steps: ['gasLaw', 'recognizeProcessTypes', 'gasLaw'],
 
 	equalityOptions: {
-		p1: equalityOptions.default,
-		p2: equalityOptions.default,
-		V1: equalityOptions.default,
-		V2: equalityOptions.default,
+		default: equalityOptions.default,
 		T1: equalityOptions.T,
 		T2: equalityOptions.T,
 	},
@@ -70,13 +67,13 @@ function checkInput(state, input, step, substep) {
 	const correct = getCorrect(state)
 	switch (step) {
 		case 1:
-			return checkField(['p1', 'V1', 'T1'], correct, input, data.equalityOptions)
+			return checkParameter(['p1', 'V1', 'T1'], correct, input, data.equalityOptions)
 		case 2:
 			return input.process === 0
 		case 3:
-			return checkField(['p2', 'V2', 'T2'], correct, input, data.equalityOptions)
+			return checkParameter(['p2', 'V2', 'T2'], correct, input, data.equalityOptions)
 		default:
-			return checkField(['p1', 'V1', 'T1', 'p2', 'V2', 'T2'], correct, input, data.equalityOptions)
+			return checkParameter(['p1', 'V1', 'T1', 'p2', 'V2', 'T2'], correct, input, data.equalityOptions)
 	}
 }
 

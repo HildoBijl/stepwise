@@ -1,6 +1,6 @@
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { checkField } = require('../util/check')
+const { checkParameter } = require('../util/check')
 
 const data = {
 	skill: 'calculateWithEfficiency',
@@ -30,7 +30,7 @@ function getCorrect({ E, Ein }) {
 }
 
 function checkInput(state, input, step, substep) {
-	return checkField('eta', getCorrect(state), input, data.equalityOptions)
+	return checkParameter('eta', getCorrect(state), input, data.equalityOptions)
 }
 
 module.exports = {

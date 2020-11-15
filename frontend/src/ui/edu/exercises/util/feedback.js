@@ -14,12 +14,12 @@ const defaultComparisonOptions = {
 
 const accuracyFactorForNearHits = 3
 
-/* getDefaultFeedback takes an array of parameter names (like ['p1', 'p2', 'V1', 'V2']) and provides feedback on these parameters.
+/* getDefaultFeedback takes an array of parameter names (like ['p1', 'p2', 'V1', 'V2']) and provides feedback on these parameters. It is also possible to give a single parameter 'p1'.
  * Input is an array of parameter string IDs. The function uses the exerciseData input parameter to extract all the data from. Extra options for the comparison functions may be provided in the third argument. This can be an object with extra options if they're the same for all parameters, or an array with extra options per parameter if they differ.
  * There should be a data object and a getCorrect function in the shared file. The data object should have an equalityOptions object with equality options for all parameters. If a parameter has different equality options, it can be specified within this object. So, data: { equalityOptions: { ...optionsForMostParameters..., p1: { ...specificOptions... }, ... } }. 
  * The outcome is a feedback object for each respective parameter. So { p1: { correct: 'false', text: 'Nope!' }, p2: { ... } }.
  */
-export function getDefaultFeedback(parameters, exerciseData, extraOptions) {
+export function getDefaultFeedback(parameter, exerciseData, extraOptions) {
 	// Extract parameters and check that they are suitable.
 	const { state, input, shared, prevInput, prevFeedback } = exerciseData
 	const { data, getCorrect } = shared
@@ -33,41 +33,48 @@ export function getDefaultFeedback(parameters, exerciseData, extraOptions) {
 
 	// Extract correct answers. If we have a single parameter and a single object coming out of getCorrect, adjust the formats accordingly.
 	let correct = getCorrect(state)
-	if (!Array.isArray(parameters) && correct[parameters] === undefined) {
-		correct = { [parameters]: correct }
-		parameters = [parameters]
-	}
+	const parameters = Array.isArray(parameter) ? parameter : [parameter]
 
 	// Walk through the parameters and incorporate feedback.
 	const feedback = {}
-	parameters.forEach((parameter, index) => {
+	parameters.forEach((currParameter, index) => {
 		// Ignore null parameters.
-		if (parameter === null)
+		if (currParameter === null)
 			return
 
 		// Extract parameters.
-		const correctAnswer = correct[parameter]
-		const givenAnswer = input[parameter]
-		const currEqualityOptions = equalityOptions[parameter] || equalityOptions
+		let correctAnswer
+		if (correct[currParameter] !== undefined)
+			correctAnswer = correct[currParameter]
+		else if (!Array.isArray(parameter))
+			correctAnswer = correct
+		let currEqualityOptions
+		if (equalityOptions[currParameter] !== undefined)
+			currEqualityOptions = equalityOptions[currParameter]
+		else if (equalityOptions.default !== undefined)
+			currEqualityOptions = equalityOptions.default
+		else if (!Array.isArray(parameter))
+			currEqualityOptions = equalityOptions
+		const givenAnswer = input[currParameter]
 		const currExtraOptions = (Array.isArray(extraOptions) ? extraOptions[index] : extraOptions) || {}
 
 		// Check parameters.
 		if (givenAnswer === undefined)
 			return // No input has been given yet.
 		if (correctAnswer === undefined)
-			throw new Error(`Default feedback error: no correct answer for "${parameter}" was passed from the getCorrect function.`)
+			throw new Error(`Default feedback error: no correct answer for "${currParameter}" was passed from the getCorrect function.`)
 
 		// Call the comparison function for the correct parameter type.
-		const comparisonInput = [correctAnswer, givenAnswer, { equalityOptions: currEqualityOptions, prevInput: prevInput[parameter], prevFeedback: prevFeedback[parameter], ...currExtraOptions }]
+		const comparisonInput = [correctAnswer, givenAnswer, { equalityOptions: currEqualityOptions, prevInput: prevInput[currParameter], prevFeedback: prevFeedback[currParameter], ...currExtraOptions }]
 		switch (correctAnswer.constructor) {
 			case Float:
-				feedback[parameter] = getFloatComparisonFeedback(...comparisonInput)
+				feedback[currParameter] = getFloatComparisonFeedback(...comparisonInput)
 				return
 			case FloatUnit:
-				feedback[parameter] = getFloatUnitComparisonFeedback(...comparisonInput)
+				feedback[currParameter] = getFloatUnitComparisonFeedback(...comparisonInput)
 				return
 			default:
-				throw new Error(`Default feedback error: could not determine the type of parameter "${parameter}". No comparison could be made.`)
+				throw new Error(`Default feedback error: could not determine the type of parameter "${currParameter}". No comparison could be made.`)
 		}
 	})
 

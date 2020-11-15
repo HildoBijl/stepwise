@@ -2,7 +2,7 @@ const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Unit } = require('../../../inputTypes/Unit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd, combinerOr } = require('../../../skillTracking')
-const { checkField } = require('../util/check')
+const { checkParameter } = require('../util/check')
 const { getRandom } = require('../../../util/random')
 let { air: { Rs, cv } } = require('../../../data/gasProperties')
 
@@ -88,18 +88,18 @@ function checkInput(state, input, step, substep) {
 			return input.eq === correct.eq
 		case 3:
 			switch (substep) {
-				case 1: return checkField('Rs', correct, input, data.equalityOptions)
-				case 2: return checkField('cv', correct, input, data.equalityOptions)
+				case 1: return checkParameter('Rs', correct, input, data.equalityOptions)
+				case 2: return checkParameter('cv', correct, input, data.equalityOptions)
 			}
 		case 4:
-				return checkField('c', correct, input, data.equalityOptions)
+				return checkParameter('c', correct, input, data.equalityOptions)
 		case 5:
 			switch (substep) {
-				case 1: return checkField('m', correct, input, data.equalityOptions)
-				case 2: return checkField(['T1','T2'], correct, input, data.equalityOptions)
+				case 1: return checkParameter('m', correct, input, data.equalityOptions)
+				case 2: return checkParameter(['T1','T2'], correct, input, data.equalityOptions)
 			}
 		default:
-			return checkField(['Q', 'W'], correct, input, data.equalityOptions)
+			return checkParameter(['Q', 'W'], correct, input, data.equalityOptions)
 	}
 }
 

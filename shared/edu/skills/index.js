@@ -92,8 +92,8 @@ const skills = {
 		setup: combinerAnd('gasLaw', 'recognizeProcessTypes', 'poissonsLaw'), // ToDo later: use "combinerPart('poissonsLaw', 1/2)" and possibly "combinerPart('gasLaw', 3/2)" to indicate it's not always needed.
 		exercises: ['calculateProcessStepCompressor', 'calculateProcessStepDivingCylinder', 'calculateProcessStepBalloon', 'calculateProcessStepGasTurbine'],
 	},
-	calculateCycle: {
-		name: 'Kringproces doorrekeken',
+	calculateClosedCycle: {
+		name: 'Gesloten kringproces doorrekeken',
 		setup: combinerRepeat('calculateProcessStep', 3),
 	},
 	calculateHeatAndWork: {
@@ -101,8 +101,8 @@ const skills = {
 		setup: combinerAnd('recognizeProcessTypes', combinerOr('calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature', 'calculateWithMass'), combinerOr('specificGasConstant', 'specificHeatRatio', 'specificHeats')),
 		exercises: ['calculateHeatAndWorkIsobaric', 'calculateHeatAndWorkIsochoric', 'calculateHeatAndWorkIsothermal', 'calculateHeatAndWorkIsentropic', 'calculateHeatAndWorkPolytropic'],
 	},
-	createCycleEnergyOverview: {
-		name: 'Kringproces energie-overzicht maken',
+	createClosedCycleEnergyOverview: {
+		name: 'Gesloten kringproces energie-overzicht maken',
 		setup: combinerRepeat('calculateHeatAndWork', 3),
 	},
 	calculateWithEfficiency: {
@@ -113,9 +113,9 @@ const skills = {
 		name: 'Rekenen met koudefactor/warmtefactor',
 		exercises: ['calculateWithCOPRefrigerator', 'calculateWithCOPHeatPump'],
 	},
-	analyseCycle: {
-		name: 'Kringproces analyseren',
-		setup: combinerAnd('calculateCycle', 'createCycleEnergyOverview', combinerOr('calculateWithEfficiency', 'calculateWithCOP')),
+	analyseClosedCycle: {
+		name: 'Gesloten kringproces analyseren',
+		setup: combinerAnd('calculateClosedCycle', 'createClosedCycleEnergyOverview', combinerOr('calculateWithEfficiency', 'calculateWithCOP')),
 	},
 }
 
