@@ -105,6 +105,7 @@ const skills = {
 	createClosedCycleEnergyOverview: {
 		name: 'Gesloten kringproces energie-overzicht maken',
 		setup: combinerRepeat('calculateHeatAndWork', 3),
+		exercises: ['createClosedCycleEnergyOverviewSimple'],
 	},
 	calculateWithEfficiency: {
 		name: 'Rekenen met rendement',
