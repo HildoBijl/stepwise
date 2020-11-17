@@ -16,7 +16,7 @@ export default function Exercise() {
 }
 
 const colHeads = ['Druk', 'Volume', 'Temperatuur']
-const rowHeads = ['1', '2', '3']
+const rowHeads = ['Punt 1', 'Punt 2', 'Punt 3']
 const fields = [[
 	<FloatUnitInput id="p1" label={<M>p_1</M>} size="l" />,
 	<FloatUnitInput id="V1" label={<M>V_1</M>} size="l" />,
@@ -50,7 +50,8 @@ const steps = [
 			const { shared: { getCorrect } } = useExerciseData()
 			const { m, Rs, p1, V1, T1, p3, V3, T3 } = getCorrect(state)
 			return <>
-				<Par>In punt 1 hebben we twee van de drie eigenschappen: <M>V_1 = {V1}</M> en <M>T_1 = {T1}.</M> Via de gaswet vinden we <M>p_1</M> als <BM>p_1 = \frac(mR_sT_1)(V_1) = \frac({m.float} \cdot {Rs.float} \cdot {T1.float})({V1.float}) = {p1}.</BM> Omdat proces 3-1 isochoor is geldt <BM>V_3 = V_1 = {V3}.</BM> In punt 3 was al gegeven dat <M>p_3 = {p3}.</M> Nu we ook hier twee van de drie eigenschappen weten volgt wederom via de gaswet <M>T_3</M> als <BM>T_3 = \frac(p_3V_3)(mR_s) = \frac({p3.float} \cdot {V3.float})({m.float} \cdot {Rs.float}) = {T3}.</BM> Hiermee is alles voor punten 1 en 3 bekend.</Par>
+				<Par>In punt 1 hebben we twee van de drie eigenschappen: <M>V_1 = {V1}</M> en <M>T_1 = {T1}.</M> Via de gaswet vinden we <M>p_1</M> als <BM>p_1 = \frac(mR_sT_1)(V_1) = \frac({m.float} \cdot {Rs.float} \cdot {T1.float})({V1.float}) = {p1}.</BM> Zo is punt 1 volledig bekend.</Par>
+				<Par>In punt 3 was al gegeven dat <M>p_3 = {p3}.</M> Omdat proces 3-1 isochoor is geldt verder <BM>V_3 = V_1 = {V3}.</BM> Nu we ook hier twee van de drie eigenschappen weten volgt wederom via de gaswet <M>T_3</M> als <BM>T_3 = \frac(p_3V_3)(mR_s) = \frac({p3.float} \cdot {V3.float})({m.float} \cdot {Rs.float}) = {T3}.</BM> En daarmee is ook punt 3 bekend.</Par>
 			</>
 		},
 	},

@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 		'& .nameContainer': {
 			flex: 0,
-			margin: '2.4rem 0',
+			margin: '2rem 0 1.5rem',
 			padding: '1rem',
 			[theme.breakpoints.up('sm')]: {
 				margin: '3rem 0',
@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 			alignItems: 'stretch',
 			display: 'flex',
 			flex: 0,
-			margin: '0 0 1.5rem',
+			margin: '0 0 0.5rem',
 
 			flexFlow: 'column nowrap',
 			[theme.breakpoints.up('sm')]: {
@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
 				'& .logoPicture': {
 					...notSelectable,
 					height: 'auto',
-					width: '75vw',
+					width: '70vw',
 					[theme.breakpoints.up('sm')]: {
 						width: '45vw',
 					},
@@ -193,7 +193,7 @@ export default function Home() {
 	// When cookies are confirmed, store this and go to SURFconext to log in.
 	const confirmCookies = () => {
 		setShowModal(false)
-		cookies.set(cookieApprovalName, '1', { path: '/', maxAge: 2 * 365.25 * 24 * 60 * 60 })
+		cookies.set(cookieApprovalName, '1', { path: '/', maxAge: 90 * 24 * 60 * 60 })
 		window.location.href = surfConextInitiate
 	}
 
@@ -217,7 +217,6 @@ export default function Home() {
 							<li className="item">Je krijgt op jouw niveau nieuwe opgaven.</li>
 						</ol>
 						<div className="link" onClick={verifyCookies}><img src={HUlogo} className="logo" alt="HU logo" width="606" height="525" /> Log in om te beginnen</div>
-						<div style={{ textAlign: 'center', margin: '0.8rem 0 0' }}>(Helaas werkt het log-in systeem nog niet. De verbinding met SURFconext moet nog goedgekeurd worden.)</div>
 					</div>
 				</div>
 				<div className="spacer" />
