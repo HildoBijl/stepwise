@@ -3,7 +3,7 @@ const { getStepExerciseProcessor } = require('../util/stepExercise')
 const gasProperties = require('../../../data/gasProperties')
 const { combinerRepeat } = require('../../../skillTracking')
 const { checkParameter: checkParameter } = require('../util/check')
-const { generateState, getCorrect: getCycleParameters } = require('./calculateClosedCycleSimple')
+const { generateState, getCorrect: getCycleParametersRaw } = require('./calculateClosedCycleSimple')
 
 const data = {
 	skill: 'createClosedCycleEnergyOverview',
@@ -16,6 +16,20 @@ const data = {
 			significantDigitMargin: 1,
 		},
 	},
+}
+
+function getCycleParameters(state) {
+	let { m, p1, V1, T1, p2, V2, T2, p3, V3, T3 } = getCycleParametersRaw(state)
+	p1 = p1.useSignificantDigits(3)
+	V1 = V1.useSignificantDigits(3)
+	T1 = T1.useSignificantDigits(3)
+	p2 = p2.useSignificantDigits(3)
+	V2 = V2.useSignificantDigits(3)
+	T2 = T2.useSignificantDigits(3)
+	p3 = p3.useSignificantDigits(3)
+	V3 = V3.useSignificantDigits(3)
+	T3 = T3.useSignificantDigits(3)
+	return { m, p1, V1, T1, p2, V2, T2, p3, V3, T3 }
 }
 
 function getCorrect(state) {
