@@ -113,7 +113,7 @@ function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActive
 					analysis={analysis}
 				/>)}
 			</div>
-			<SkillList courseId={course.id} skillIds={skillIds} landscape={landscape} isPriorKnowledge={activeBlock === -1} analysis={analysis} />
+			<SkillList courseId={course.id} skillIds={skillIds} display={activeBlock !== undefined} landscape={landscape} isPriorKnowledge={activeBlock === -1} analysis={analysis} />
 		</div>
 	)
 }

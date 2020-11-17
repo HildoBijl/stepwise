@@ -75,8 +75,12 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function SkillList({ courseId, skillIds, landscape, isPriorKnowledge, analysis }) {
+export default function SkillList({ courseId, skillIds, display = true, landscape, isPriorKnowledge, analysis }) {
 	const classes = useStyles()
+
+	// If we should not display this skill list, show nothing instead.
+	if (!display)
+		return <div className={clsx(classes.skillList, 'skillList', { landscape })} />
 
 	// If there are no skills, add a note that skills will be added in the future.
 	if (skillIds.length === 0) {
