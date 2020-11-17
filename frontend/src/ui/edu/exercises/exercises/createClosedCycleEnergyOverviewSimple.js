@@ -108,6 +108,6 @@ const steps = [
 ]
 
 const getFeedback = (exerciseData) => {
-	return getDefaultFeedback(['p1', 'V1', 'T1', 'p2', 'V2', 'T2', 'p3', 'V3', 'T3'], exerciseData)
+	return getDefaultFeedback(['Q12', 'W12', 'Q23', 'W23', 'Q31', 'W31'], exerciseData)
 }
 

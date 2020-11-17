@@ -12,7 +12,7 @@ const data = {
 
 	equalityOptions: {
 		default: {
-			relativeMargin: 0.015,
+			relativeMargin: 0.02,
 			significantDigitMargin: 1,
 		},
 	},
@@ -20,7 +20,9 @@ const data = {
 
 function getCorrect(state) {
 	const { m, p1, V1, T1, p2, V2, T2, V3, T3 } = getCycleParameters(state)
-	const { cv, cp } = gasProperties[state.medium]
+	let { cv, cp } = gasProperties[state.medium]
+	cv = cv.simplify()
+	cp = cp.simplify()
 	const Q12 = m.multiply(cp).multiply(T2.subtract(T1)).setUnit('J').useMinimumSignificantDigits(2)
 	const W12 = p1.multiply(V2.subtract(V1)).setUnit('J').useMinimumSignificantDigits(2)
 	const Q23 = p2.multiply(V2).multiply(Math.log(V3.number / V2.number)).setUnit('J').useMinimumSignificantDigits(2)
