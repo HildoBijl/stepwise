@@ -400,6 +400,15 @@ class Float {
 		return this.add(x.applyMinus(), keepDecimals)
 	}
 
+	// abs will take the absolute value of the Float.
+	abs() {
+		return new Float({
+			number: Math.abs(this.number),
+			power: this.power,
+			significantDigits: this.significantDigits,
+		})
+	}
+
 	// invert will turn this number into 1/number. It returns a copy without adjusting this object.
 	invert() {
 		if (this.number === 0)
@@ -605,11 +614,11 @@ function stringToSO(str) {
 }
 module.exports.stringToSO = stringToSO
 
-// numberToSO turns a number into a storage object that can be interpreted.
+// numberToSO turns a number into a storage object that can be interpreted. We always assume that numbers are infinitely precise.
 function numberToSO(number) {
 	return {
 		number,
-		significantDigits: getSignificantDigits(number.toString()),
+		significantDigits: Infinity,
 	}
 }
 module.exports.numberToSO = numberToSO

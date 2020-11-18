@@ -102,7 +102,7 @@ const steps = [
 			const { cv, Q12, W12, Q23, W23, Q31, W31 } = getCorrect(state)
 			return <>
 				<Par>Bij een isochore stap geldt <M>W_(31) = {W31}.</M> We hoeven dus alleen <M>Q_(31)</M> te berekenen. Dit gaat het makkelijkst via <BM>Q_(31) = mc_v\left(T_1 - T_3\right) = {m.float} \cdot {cv.float} \cdot \left({T1.float} - {T3.float}\right) = {Q31}.</BM> Daarmee is alles doorgerekend.</Par>
-				<Par>Als controle kunnen we nog kijken of de energiebalans klopt. De totaal netto toegevoerde warmte is <BM>Q_(12) + Q_(23) + Q_(31) = {Q12.float} {Q23.float.texWithPM} {Q31.float.texWithPM} = {Q12.add(Q23, true).add(Q31, true)}.</BM> Dit moet gelijk zijn aan de totaal netto geleverde arbeid, welke gelijk is aan <BM>W_(12) + W_(23) + W_(31) = {W12.float} {W23.float.texWithPM} {W31.float.texWithPM} = {W12.add(W23, true).add(W31)}.</BM> We zien dat dit inderdaad gelijk aan elkaar is, dus we hebben geen rekenfout gemaakt. Ook zien we dat het een negatief kringproces betreft.</Par>
+				<Par>Als controle kunnen we nog kijken of de energiebalans klopt. De totaal netto toegevoerde warmte is <BM>Q_(netto) = Q_(12) + Q_(23) + Q_(31) = {Q12.float} {Q23.float.texWithPM} {Q31.float.texWithPM} = {Q12.add(Q23, true).add(Q31, true)}.</BM> Dit moet gelijk zijn aan de totaal netto geleverde arbeid, welke gelijk is aan <BM>W_(netto) = W_(12) + W_(23) + W_(31) = {W12.float} {W23.float.texWithPM} {W31.float.texWithPM} = {W12.add(W23, true).add(W31)}.</BM> We zien dat dit inderdaad gelijk aan elkaar is, dus we hebben geen rekenfout gemaakt. Ook zien we dat het een negatief kringproces betreft.</Par>
 			</>
 		},
 	},

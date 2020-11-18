@@ -289,6 +289,14 @@ class FloatUnit {
 		return this.add(x.applyMinus(), keepDecimals)
 	}
 
+	// abs will take the absolute value of the FloatUnit.
+	abs() {
+		return new FloatUnit({
+			float: this.float.abs(),
+			unit: this.unit,
+		})
+	}
+
 	// invert will return 1/number, inverting both the number and the unit. It does not adjust this object but returns a copy.
 	invert() {
 		return new FloatUnit({

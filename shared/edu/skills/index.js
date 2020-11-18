@@ -118,6 +118,7 @@ const skills = {
 	analyseClosedCycle: {
 		name: 'Gesloten kringproces analyseren',
 		setup: combinerAnd('calculateClosedCycle', 'createClosedCycleEnergyOverview', combinerOr('calculateWithEfficiency', 'calculateWithCOP')),
+		exercises: ['analyseClosedCycleSimple'],
 	},
 }
 
