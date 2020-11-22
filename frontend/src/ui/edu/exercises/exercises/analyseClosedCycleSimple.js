@@ -1,3 +1,5 @@
+// This exercise is deprecated and will be removed later on.
+
 import React from 'react'
 
 import { M, BM } from 'util/equations'
@@ -127,7 +129,7 @@ const steps = [
 			const { Q12, Q23, Q31, Wn, epsilon, COP } = getCorrect(state)
 			const Qtoe = Q12
 			const Qaf = Q23.add(Q31, true).abs()
-			return <Par>Als dit proces voor een koelkast gebruikt wordt, dan is de toegevoerde warmte <M>Q_(toe)</M> nuttig. Immers, dit is de warmte die uit de koelkast gehaald wordt en aan het koudemiddel toegevoegd wordt. Deze warmte is <BM>Q_(toe) = Q_(12) = {Qtoe}.</BM> De netto arbeid is al bekend als <M>W_(netto) = {Wn}.</M> Hiermee volgt de koudefactor als <BM>\varepsilon = \frac(\rm nutting)(\rm invoer) = \frac(Q_(toe))(W_(netto)) = \frac{Qtoe.float}{Wn.float.abs()} = {epsilon}.</BM> Als dit proces echter voor een warmtepomp gebruikt wordt, dan is de afgevoerde warmte <M>Q_(af)</M> nuttig. Deze is gelijk aan <BM>Q_(af) = Q_(23) + Q_(31) = {Q23.float.abs()} + {Q31.float.abs()} = {Qaf}.</BM> Hiermee wordt de warmtefactor (de COP) <BM>\varepsilon_w = \frac(\rm nuttig)(\rm invoer) = \frac(Q_(af))(W_(netto)) = \frac{Qaf.float}{Wn.float.abs()} = {COP}.</BM> Eventueel hadden we dit ook kunnen vinden door <M>1</M> bij de koudefactor op te tellen. Immers, er geldt altijd dat <M>\varepsilon_w = \varepsilon + 1.</M></Par>
+			return <Par>Als dit proces voor een koelkast gebruikt wordt, dan is de toegevoerde warmte <M>Q_(toe)</M> nuttig. Immers, dit is de warmte die uit de koelkast gehaald wordt en aan het koudemiddel toegevoegd wordt. Deze warmte is <BM>Q_(toe) = Q_(12) = {Qtoe}.</BM> De netto arbeid is al bekend als <M>W_(netto) = {Wn}.</M> Hiermee volgt de koudefactor als <BM>\varepsilon = \frac(\rm nuttig)(\rm invoer) = \frac(Q_(toe))(W_(netto)) = \frac{Qtoe.float}{Wn.float.abs()} = {epsilon}.</BM> Als dit proces echter voor een warmtepomp gebruikt wordt, dan is de afgevoerde warmte <M>Q_(af)</M> nuttig. Deze is gelijk aan <BM>Q_(af) = Q_(23) + Q_(31) = {Q23.float.abs()} + {Q31.float.abs()} = {Qaf}.</BM> Hiermee wordt de warmtefactor (de COP) <BM>\varepsilon_w = \frac(\rm nuttig)(\rm invoer) = \frac(Q_(af))(W_(netto)) = \frac{Qaf.float}{Wn.float.abs()} = {COP}.</BM> Eventueel hadden we dit ook kunnen vinden door <M>1</M> bij de koudefactor op te tellen. Immers, er geldt altijd dat <M>\varepsilon_w = \varepsilon + 1.</M></Par>
 		},
 	},
 ]

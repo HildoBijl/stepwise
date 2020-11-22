@@ -1,3 +1,5 @@
+// This exercise is deprecated and will be removed later on.
+
 import React from 'react'
 
 import { M, BM } from 'util/equations'
