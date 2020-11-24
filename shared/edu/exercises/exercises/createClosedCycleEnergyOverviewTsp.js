@@ -3,7 +3,7 @@ const { getStepExerciseProcessor } = require('../util/stepExercise')
 const gasProperties = require('../../../data/gasProperties')
 const { combinerRepeat } = require('../../../skillTracking')
 const { checkParameter: checkParameter } = require('../util/check')
-const { generateState, getCorrect: getCycleParametersRaw } = require('./calculateClosedCycleVTp')
+const { generateState, getCorrect: getCycleParametersRaw } = require('./calculateClosedCycleTsp')
 
 const data = {
 	skill: 'createClosedCycleEnergyOverview',
@@ -33,17 +33,17 @@ function getCycleParameters(state) {
 }
 
 function getCorrect(state) {
-	const { m, V1, T1, p2, V2, T2, p3, V3, T3 } = getCycleParameters(state)
+	const { m, p1, V1, T1, V2, T2, T3 } = getCycleParameters(state)
 	let { cv, cp } = gasProperties[state.medium]
 	cv = cv.simplify()
 	cp = cp.simplify()
-	const Q12 = m.multiply(cv).multiply(T2.subtract(T1)).setUnit('J').useMinimumSignificantDigits(2)
-	const W12 = new FloatUnit('0 J')
-	const Q23 = p2.multiply(V2).multiply(Math.log(V3.number / V2.number)).setUnit('J').useMinimumSignificantDigits(2)
-	const W23 = Q23
-	const Q31 = m.multiply(cp).multiply(T1.subtract(T3)).setUnit('J').useMinimumSignificantDigits(2)
-	const W31 = p3.multiply(V1.subtract(V3)).setUnit('J').useMinimumSignificantDigits(2)
-	const Qn = Q12.add(Q23, true).add(Q31, true)
+	const Q12 = p1.multiply(V1).multiply(Math.log(V2.number / V1.number)).setUnit('J').useMinimumSignificantDigits(2)
+	const W12 = Q12
+	const Q23 = new FloatUnit('0 J')
+	const W23 = m.multiply(cv).multiply(T2.subtract(T3)).setUnit('J').useMinimumSignificantDigits(2)
+	const Q31 = m.multiply(cv).multiply(T1.subtract(T3)).setUnit('J').useMinimumSignificantDigits(2)
+	const W31 = new FloatUnit('0 J')
+	const Qn = Q12.add(Q23).add(Q31, true)
 	const Wn = W12.add(W23, true).add(W31)
 	return { cv, cp, Q12, W12, Q23, W23, Q31, W31, Qn, Wn }
 }

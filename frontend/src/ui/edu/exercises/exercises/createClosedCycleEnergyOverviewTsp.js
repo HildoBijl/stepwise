@@ -37,9 +37,9 @@ const Problem = (state) => {
 	return <>
 		<Par>We voeren een kringproces uit met <M>{m}</M> {Dutch[medium]}. Hiermee doorlopen we drie stappen:</Par>
 		<List items={[
-			'Stap 1-2: een isochore opwarming.',
-			'Stap 2-3: een isotherme expansie.',
-			'Stap 3-1: een isobare koeling.',
+			'Stap 1-2: een isotherme compressie.',
+			'Stap 2-3: een isentrope expansie.',
+			'Stap 3-1: een isochore opwarming.',
 		]} />
 		<Par>Op elk van de punten 1, 2 en 3 heeft het gas de volgende eigenschappen.</Par>
 		<Table colHeads={['Druk', 'Volume', 'Temperatuur']} rowHeads={['Punt 1', 'Punt 2', 'Punt 3']} fields={[[<M>p_1 = {p1.setUnit('bar')}</M>, <M>V_1 = {V1}</M>, <M>T_1 = {T1}</M>], [<M>p_2 = {p2.setUnit('bar')}</M>, <M>V_2 = {V2}</M>, <M>T_2 = {T2}</M>], [<M>p_3 = {p3.setUnit('bar')}</M>, <M>V_3 = {V3}</M>, <M>T_3 = {T3}</M>]]} style={{ minWidth: '460px', maxWidth: '540px' }} />
@@ -54,7 +54,7 @@ const Problem = (state) => {
 const steps = [
 	{
 		Problem: (state) => <>
-			<Par>Bekijk eerst stap 1-2. Bij deze stap wordt het gas <strong>isochoor</strong> verwarmd. Bereken met behulp van de gegeven waarden de toegevoerde warmte en de door het gas geleverde arbeid.</Par>
+			<Par>Bekijk eerst stap 1-2. Bij deze stap wordt het gas <strong>isotherm</strong> gecomprimeerd. Bereken met behulp van de gegeven waarden de toegevoerde warmte en de door het gas geleverde arbeid.</Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="Q12" prelabel={<M>Q_(1-2) =</M>} label={<span><M>Warmte</M></span>} size="s" />
@@ -64,14 +64,14 @@ const steps = [
 		</>,
 		Solution: (state) => {
 			const { shared: { getCycleParameters, getCorrect } } = useExerciseData()
-			const { m, T1, T2 } = getCycleParameters(state)
-			const { cv, Q12, W12 } = getCorrect(state)
-			return <Par>Bij een isochore stap geldt <M>W_(1-2) = {W12}.</M> We hoeven dus alleen <M>Q_(1-2)</M> te berekenen. Dit gaat het makkelijkst via <BM>Q_(1-2) = mc_v\left(T_2 - T_1\right) = {m.float} \cdot {cv.float} \cdot \left({T2.float} - {T1.float}\right) = {Q12}.</BM> Hiermee is de eerste stap doorgerekend.</Par>
+			const { p1, V1, V2 } = getCycleParameters(state)
+			const { Q12, W12 } = getCorrect(state)
+			return <Par>Er zijn meerdere manieren om dit uit te rekenen. We kunnen bijvoorbeeld de warmte <M>Q_(1-2)</M> berekenen via <BM>Q_(1-2) = pV\ln\left(\frac(V_2)(V_1)\right) = {p1.float} \cdot {V1.float} \cdot \ln\left(\frac{V2.float}{V1.float}\right) = {Q12}.</BM> Omdat het een isotherm proces is geldt verder <M>W_(1-2) = Q_(1-2) = {W12}.</M> Hiermee is de eerste stap doorgerekend.</Par>
 		},
 	},
 	{
 		Problem: () => <>
-			<Par>Bekijk vervolgens stap 2-3. Bij deze stap wordt het gas <strong>isotherm</strong> gecomprimeerd. Bereken met behulp van de gegeven waarden de toegevoerde warmte en de door het gas geleverde arbeid.</Par>
+			<Par>Bekijk vervolgens stap 2-3. Bij deze stap wordt het gas <strong>isentroop</strong> geëxpandeerd. Bereken met behulp van de gegeven waarden de toegevoerde warmte en de door het gas geleverde arbeid.</Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="Q23" prelabel={<M>Q_(2-3) =</M>} label={<span><M>Warmte</M></span>} size="s" />
@@ -81,14 +81,14 @@ const steps = [
 		</>,
 		Solution: (state) => {
 			const { shared: { getCycleParameters, getCorrect } } = useExerciseData()
-			const { p2, V2, V3 } = getCycleParameters(state)
-			const { Q23, W23 } = getCorrect(state)
-			return <Par>Er zijn wederom meerdere formules om te gebruiken. We vinden <M>Q_(2-3)</M> het makkelijkst via <BM>Q_(2-3) = pV\ln\left(\frac(V_3)(V_2)\right) = {p2.float} \cdot {V2.float} \cdot \ln\left(\frac{V3.float}{V2.float}\right) = {Q23}.</BM> Omdat het een isotherm proces is geldt verder <M>W_(2-3) = Q_(2-3) = {W23}.</M> Hiermee is ook deze stap klaar.</Par>
+			const { m, T2, T3 } = getCycleParameters(state)
+			const { cv, Q23, W23 } = getCorrect(state)
+			return <Par>Bij een isentroop proces is er per definitie geen warmte toegevoerd. Er geldt dus <M>Q_(2-3) = {Q23}.</M> De arbeid is te berekenen als <BM>W_(2-3) = -mc_v\left(T_3-T_2\right) = -{m.float} \cdot {cv.float} \cdot \left({T3.float} - {T2.float}\right) = {W23}.</BM> Hiermee is ook deze stap klaar.</Par>
 		},
 	},
 	{
 		Problem: () => <>
-			<Par>Tenslotte is er stap 3-1. Hier wordt het gas <strong>isobaar</strong> afgekoeld. Bereken met behulp van de gegeven waarden de toegevoerde warmte en de door het gas geleverde arbeid.</Par>
+			<Par>Tenslotte is er stap 3-1. Hier wordt het gas <strong>isochoor</strong> opgewarmd. Bereken met behulp van de gegeven waarden de toegevoerde warmte en de door het gas geleverde arbeid.</Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="Q31" prelabel={<M>Q_(3-1) =</M>} label={<span><M>Warmte</M></span>} size="s" />
@@ -98,11 +98,12 @@ const steps = [
 		</>,
 		Solution: (state) => {
 			const { shared: { getCycleParameters, getCorrect } } = useExerciseData()
-			const { m, V1, T1, p3, V3, T3 } = getCycleParameters(state)
-			const { cp, Q12, W12, Q23, W23, Q31, W31, Qn, Wn } = getCorrect(state)
+			const { m, T1, T3 } = getCycleParameters(state)
+			const { cv, Q12, W12, Q23, W23, Q31, W31, Qn, Wn } = getCorrect(state)
+			
 			return <>
-				<Par>Er zijn meerdere formules die we kunnen gebruiken, maar het makkelijkst hier zijn <BM>Q_(3-1) = mc_p\left(T_1-T_3\right) = {m.float} \cdot {cp.float} \cdot \left({T1.float} - {T3.float}\right) = {Q31},</BM> <BM>W_(1-2) = p\left(V_1-V_3\right) = {p3.float} \cdot \left({V1.float} - {V3.float}\right) = {W12}.</BM> Daarmee is alles doorgerekend.</Par>
-				<Par>Als controle kunnen we nog kijken of de energiebalans klopt. De totaal netto toegevoerde warmte is <BM>Q_(netto) = Q_(1-2) + Q_(2-3) + Q_(3-1) = {Q12.float} {Q23.float.texWithPM} {Q31.float.texWithPM} = {Qn}.</BM> Dit moet gelijk zijn aan de totaal netto geleverde arbeid, welke gelijk is aan <BM>W_(netto) = W_(1-2) + W_(2-3) + W_(3-1) = {W12.float} {W23.float.texWithPM} {W31.float.texWithPM} = {Wn}.</BM> We zien dat dit inderdaad gelijk aan elkaar is, dus we hebben geen rekenfout gemaakt. Ook zien we dat het een positief kringproces betreft.</Par>
+				<Par>Bij een isochore stap geldt <M>W_(3-1) = {W31}.</M> We hoeven dus alleen <M>Q_(3-1)</M> te berekenen. Dit gaat het makkelijkst via <BM>Q_(3-1) = mc_v\left(T_1 - T_3\right) = {m.float} \cdot {cv.float} \cdot \left({T1.float} - {T3.float}\right) = {Q31}.</BM> Daarmee is alles doorgerekend.</Par>
+				<Par>Als controle kunnen we nog kijken of de energiebalans klopt. De totaal netto toegevoerde warmte is <BM>Q_(netto) = Q_(1-2) + Q_(2-3) + Q_(3-1) = {Q12.float} {Q23.float.texWithPM} {Q31.float.texWithPM} = {Qn}.</BM> Dit moet gelijk zijn aan de totaal netto geleverde arbeid, welke gelijk is aan <BM>W_(netto) = W_(1-2) + W_(2-3) + W_(3-1) = {W12.float} {W23.float.texWithPM} {W31.float.texWithPM} = {Wn}.</BM> We zien dat dit inderdaad gelijk aan elkaar is, dus we hebben geen rekenfout gemaakt. Ook zien we dat het een negatief kringproces betreft.</Par>
 			</>
 		},
 	},

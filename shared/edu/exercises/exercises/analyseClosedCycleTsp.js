@@ -1,8 +1,8 @@
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd } = require('../../../skillTracking')
 const { checkParameter: checkParameter } = require('../util/check')
-const { generateState, getCorrect: getCycleParameters } = require('./calculateClosedCycleVTp')
-const { getCorrect: getEnergyParameters } = require('./createClosedCycleEnergyOverviewVTp')
+const { generateState, getCorrect: getCycleParameters } = require('./calculateClosedCycleTsp')
+const { getCorrect: getEnergyParameters } = require('./createClosedCycleEnergyOverviewTsp')
 
 const data = {
 	skill: 'analyseClosedCycle',
@@ -22,12 +22,13 @@ const data = {
 }
 
 function getCorrect(state) {
-	const { m, Rs, p1, V1, T1, p2, V2, T2, p3, V3, T3 } = getCycleParameters(state)
+	const { m, Rs, k, p1, V1, T1, p2, V2, T2, p3, V3, T3 } = getCycleParameters(state)
 	const { cv, cp, Q12, W12, Q23, W23, Q31, W31, Wn } = getEnergyParameters(state)
 
-	const Qin = Q12.add(Q23).useMinimumSignificantDigits(2)
-	const eta = Wn.divide(Qin).setUnit('')
-	return { Rs, cv, cp, m, p1, V1, T1, p2, V2, T2, p3, V3, T3, Q12, W12, Q23, W23, Q31, W31, Wn, Qin, eta }
+	const Qin = Q31
+	const epsilon = Qin.divide(Wn.abs()).setUnit('').useMinimumSignificantDigits(2)
+	const COP = epsilon.add(1)
+	return { Rs, k, cv, cp, m, p1, V1, T1, p2, V2, T2, p3, V3, T3, Q12, W12, Q23, W23, Q31, W31, Wn, Qin, epsilon, COP }
 }
 
 function checkInput(state, input, step, substep) {
@@ -39,11 +40,11 @@ function checkInput(state, input, step, substep) {
 		case 2:
 			return checkParameter(['Q12', 'W12', 'Q23', 'W23', 'Q31', 'W31'], correct, input, data.equalityOptions)
 		case 3:
-			return choice === 0
+			return choice === 1
 		default:
-			if (choice === 1)
+			if (choice === 0)
 				return false
-			return checkParameter('eta', correct, input, data.equalityOptions)
+			return checkParameter(['epsilon', 'COP'], correct, input, data.equalityOptions)
 	}
 }
 
