@@ -95,7 +95,7 @@ const skills = {
 	calculateClosedCycle: {
 		name: 'Gesloten kringproces doorrekenen',
 		setup: combinerRepeat('calculateProcessStep', 3),
-		exercises: ['calculateClosedCycleVTp'],
+		exercises: ['calculateClosedCycleVTp', 'calculateClosedCycleTsp'],
 	},
 	calculateHeatAndWork: {
 		name: 'Warmte en arbeid berekenen',
