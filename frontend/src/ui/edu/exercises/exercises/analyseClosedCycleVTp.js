@@ -103,7 +103,7 @@ const steps = [
 				Voor de isotherme stap 2-3 geldt <BM>Q_(2-3) = W_(2-3) = pV\ln\left(\frac(V_3)(V_2)\right) = {p2.float} \cdot {V2.float} \cdot \ln\left(\frac{V3.float}{V2.float}\right) = {Q23}.</BM>
 				De isobare stap 3-1 heeft tenslotte
 				<BM>Q_(3-1) = mc_p\left(T_1 - T_3\right) = {m.float} \cdot {cp.float} \cdot \left({T1.float} - {T3.float}\right) = {Q31},</BM> <BM>W_(3-1) = p\left(V_1 - V_3\right) = {p1.float} \cdot \left({V1.float} - {V3.float}\right) = {W31}.</BM>
-				Als check controleren we de energiebalans. Zo vinden we <BM>Q_(netto) = Q_(12) + Q_(23) + Q_(31) = {Q12.float} {Q23.float.texWithPM} {Q31.float.texWithPM} = {Wn},</BM> <BM>W_(netto) = W_(12) + W_(23) + W_(31) = {W12.float} {W23.float.texWithPM} {W31.float.texWithPM} = {Wn}.</BM> Deze waarden zijn gelijk aan elkaar, dus hebben we geen rekenfout gemaakt.</Par>
+				Als check controleren we de energiebalans. Zo vinden we <BM>Q_(netto) = Q_(1-2) + Q_(2-3) + Q_(3-1) = {Q12.float} {Q23.float.texWithPM} {Q31.float.texWithPM} = {Wn},</BM> <BM>W_(netto) = W_(1-2) + W_(2-3) + W_(3-1) = {W12.float} {W23.float.texWithPM} {W31.float.texWithPM} = {Wn}.</BM> Deze waarden zijn gelijk aan elkaar, dus hebben we geen rekenfout gemaakt.</Par>
 		},
 	},
 	{
@@ -133,7 +133,7 @@ const steps = [
 			return <Par>De processtappen waarop warmte toegevoerd wordt (<M>Q \gt 0</M>) zijn stappen 1-2 en 2-3. De toegevoerde warmte is dus
 			<BM>Q_(toe) = Q_(1-2) + Q_(2-3) = {Q12} + {Q23} = {Qin}.</BM>
 			De netto arbeid is al bekend als <M>W_(netto) = {Wn}.</M> Hiermee volgt het rendement als
-			<BM>\eta = \frac(\rm nuttig)(\rm invoer) = \frac(W_n)(Q_(toe)) = \frac{Wn}{Qin} = {eta} = {eta.setUnit('%')}.</BM>
+			<BM>\eta = \frac(\rm nuttig)(\rm invoer) = \frac(W_(netto))(Q_(toe)) = \frac{Wn}{Qin} = {eta} = {eta.setUnit('%')}.</BM>
 			Dit is niet een al te hoog rendement, maar dat valt te verwachten van zo'n onhandig proces.</Par>
 		},
 	},
@@ -148,7 +148,7 @@ const getFeedback = (exerciseData) => {
 			correct: 0,
 			text: [
 				<span>Ja! Het is inderdaad een positief kringproces: de pijlen in het <M>p</M>-<M>V</M>-diagram gaan met de klok mee en <M>W_(netto)</M> is positief.</span>,
-				<span>Nee, het is geen negatief kringproces. Kijk goed of de netto arbeid <M>W_(netto) = W_(12) + W_(23) + W_(31)</M> positief of negatief is.</span>,
+				<span>Nee, het is geen negatief kringproces. Kijk goed of de netto arbeid <M>W_(netto) = W_(1-2) + W_(2-3) + W_(3-1)</M> positief of negatief is.</span>,
 			],
 		}),
 		epsilon: (epsilon ? { correct: false, text: 'Aangezien we geen negatief kringproces hebben, is het zinloos om de koudefactor te berekenen.' } : undefined),

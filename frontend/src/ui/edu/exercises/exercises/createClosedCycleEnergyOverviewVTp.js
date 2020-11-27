@@ -57,8 +57,8 @@ const steps = [
 			<Par>Bekijk eerst stap 1-2. Bij deze stap wordt het gas <strong>isochoor</strong> verwarmd. Bereken met behulp van de gegeven waarden de toegevoerde warmte en de door het gas geleverde arbeid.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="Q12" prelabel={<M>Q_(1-2) =</M>} label={<span><M>Warmte</M></span>} size="s" />
-					<FloatUnitInput id="W12" prelabel={<M>W_(1-2) =</M>} label={<span><M>Arbeid</M></span>} size="s" />
+					<FloatUnitInput id="Q12" prelabel={<M>Q_(1-2) =</M>} label="Warmte" size="s" />
+					<FloatUnitInput id="W12" prelabel={<M>W_(1-2) =</M>} label="Arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -74,8 +74,8 @@ const steps = [
 			<Par>Bekijk vervolgens stap 2-3. Bij deze stap wordt het gas <strong>isotherm</strong> gecomprimeerd. Bereken met behulp van de gegeven waarden de toegevoerde warmte en de door het gas geleverde arbeid.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="Q23" prelabel={<M>Q_(2-3) =</M>} label={<span><M>Warmte</M></span>} size="s" />
-					<FloatUnitInput id="W23" prelabel={<M>W_(2-3) =</M>} label={<span><M>Arbeid</M></span>} size="s" />
+					<FloatUnitInput id="Q23" prelabel={<M>Q_(2-3) =</M>} label="Warmte" size="s" />
+					<FloatUnitInput id="W23" prelabel={<M>W_(2-3) =</M>} label="Arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
@@ -91,8 +91,8 @@ const steps = [
 			<Par>Tenslotte is er stap 3-1. Hier wordt het gas <strong>isobaar</strong> afgekoeld. Bereken met behulp van de gegeven waarden de toegevoerde warmte en de door het gas geleverde arbeid.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="Q31" prelabel={<M>Q_(3-1) =</M>} label={<span><M>Warmte</M></span>} size="s" />
-					<FloatUnitInput id="W31" prelabel={<M>W_(3-1) =</M>} label={<span><M>Arbeid</M></span>} size="s" />
+					<FloatUnitInput id="Q31" prelabel={<M>Q_(3-1) =</M>} label="Warmte" size="s" />
+					<FloatUnitInput id="W31" prelabel={<M>W_(3-1) =</M>} label="Arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,

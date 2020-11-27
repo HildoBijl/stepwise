@@ -43,8 +43,8 @@ function getCorrect(state) {
 	const W23 = Q23
 	const Q31 = m.multiply(cp).multiply(T1.subtract(T3)).setUnit('J').useMinimumSignificantDigits(2)
 	const W31 = p3.multiply(V1.subtract(V3)).setUnit('J').useMinimumSignificantDigits(2)
-	const Qn = Q12.add(Q23, true).add(Q31, true)
-	const Wn = W12.add(W23, true).add(W31)
+	const Qn = Q12.add(Q23).add(Q31).useMinimumSignificantDigits(2)
+	const Wn = W12.add(W23).add(W31).useMinimumSignificantDigits(2)
 	return { cv, cp, Q12, W12, Q23, W23, Q31, W31, Qn, Wn }
 }
 
