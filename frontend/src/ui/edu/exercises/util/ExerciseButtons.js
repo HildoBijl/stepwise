@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
-import { Check, Clear, Replay } from '@material-ui/icons'
+import { Check, Clear, ArrowForward } from '@material-ui/icons'
 
 import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
 
@@ -46,7 +46,7 @@ export default function ExerciseButtons({ stepwise }) {
 	if (progress.done)
 		return (
 			<div className={classes.buttonContainer}>
-				<Button variant="contained" startIcon={<Replay />} onClick={startNewExercise} color="primary" ref={startNewExerciseButtonRef}>Volgende opgave</Button>
+				<Button variant="contained" endIcon={<ArrowForward />} onClick={startNewExercise} color="primary" ref={startNewExerciseButtonRef}>Volgende opgave</Button>
 			</div>
 		)
 
@@ -58,8 +58,8 @@ export default function ExerciseButtons({ stepwise }) {
 	}
 	return (
 		<div className={classes.buttonContainer}>
-			<Button variant="contained" startIcon={<Check />} onClick={submit} disabled={submitting} color="primary" ref={submitButtonRef}>Controleer</Button>
 			<Button variant="contained" startIcon={<Clear />} onClick={giveUp} disabled={submitting} color="secondary" ref={giveUpButtonRef}>{giveUpText}</Button>
+			<Button variant="contained" startIcon={<Check />} onClick={submit} disabled={submitting} color="primary" ref={submitButtonRef}>Controleer</Button>
 		</div>
 	)
 }

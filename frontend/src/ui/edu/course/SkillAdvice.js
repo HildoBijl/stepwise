@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
@@ -12,6 +12,7 @@ import { usePrevious } from 'util/react'
 import { linkStyle, centered } from 'ui/theme'
 import { usePaths } from 'ui/routing'
 import NotificationBar from 'ui/components/NotificationBar'
+import { useFieldControl } from 'ui/form/FieldController'
 
 import { useSkillId } from '../skills/Skill'
 
@@ -163,6 +164,12 @@ function SkillModal() {
 		history.push(recommendation === strFreePractice ? paths.freePractice({ courseId }) : paths.courseSkill({ courseId, skillId: recommendation }))
 	}
 
+	// Add tab control.
+	const stayButtonRef = useRef(), followAdviceButtonRef = useRef()
+	// useFieldControl({ id: 'stayButton', ref: stayButtonRef, apply: showModal, focusRefOnActive: true })
+	// useFieldControl({ id: 'followAdviceButton', ref: followAdviceButtonRef, apply: showModal, focusRefOnActive: true })
+	// ToDo later: fix tab control. Tab control now does not work because the modal element doesn't fall within the field controller, and because the buttons appear later than that the tab order is checked. If this needs to be implemented, then the existing field controller should be deactivated and a new one should be set up inside the modal.
+
 	// Determine the contents to show in the modal.
 	let contents = <div />
 	if (adviceType === 0) {
@@ -175,8 +182,8 @@ function SkillModal() {
 				<div className="icon"><SuccessIcon /></div>
 				<div className="message">{message}</div>
 				<div className="buttons">
-					<Button variant="contained" className="button" startIcon={<DownArrow />} onClick={closeModal} color="secondary">Blijf nog even</Button>
-					<Button variant="contained" className="button" endIcon={<RightArrow />} onClick={goToRecommendation} color="primary">Ga verder</Button>
+					<Button variant="contained" className="button" startIcon={<DownArrow />} onClick={closeModal} color="secondary" ref={stayButtonRef}>Blijf nog even</Button>
+					<Button variant="contained" className="button" endIcon={<RightArrow />} onClick={goToRecommendation} color="primary" ref={followAdviceButtonRef}>Ga verder</Button>
 				</div>
 			</div>
 		)
@@ -189,8 +196,8 @@ function SkillModal() {
 				<div className="message">Het lijkt erop dat je de sub-vaardigheid <Link to={paths.courseSkill({ courseId, skillId: recommendation })} onClick={closeModal}>{skills[recommendation].name}</Link> nog niet voldoende beheerst. Het is handig om hier eerst los wat mee te oefenen.</div>
 				<div className="message">Maak je geen zorgen: je opgave blijft bewaard en je kunt altijd nog terugkomen.</div>
 				<div className="buttons">
-					<Button variant="contained" className="button" startIcon={<div className="rotate"><RightArrow /></div>} onClick={goToRecommendation} color="primary">Ga een stapje terug</Button>
-					<Button variant="contained" className="button" endIcon={<DownArrow />} onClick={closeModal} color="secondary">Blijf nog even</Button>
+					<Button variant="contained" className="button" startIcon={<div className="rotate"><RightArrow /></div>} onClick={goToRecommendation} color="primary" ref={followAdviceButtonRef}>Ga een stapje terug</Button>
+					<Button variant="contained" className="button" endIcon={<DownArrow />} onClick={closeModal} color="secondary" ref={stayButtonRef}>Blijf nog even</Button>
 				</div>
 			</div>
 		)
