@@ -95,8 +95,7 @@ const skills = {
 	calculateClosedCycle: {
 		name: 'Gesloten kringproces doorrekenen',
 		setup: combinerRepeat('calculateProcessStep', 3),
-		exercises: ['calculateClosedCycleSTST'],
-		// exercises: ['calculateClosedCycleVTp', 'calculateClosedCycleTsp', 'calculateClosedCycleSTST'],
+		exercises: ['calculateClosedCycleVTp', 'calculateClosedCycleTsp', 'calculateClosedCycleSTST', 'calculateClosedCycleSVSV'],
 	},
 	calculateHeatAndWork: {
 		name: 'Warmte en arbeid berekenen',
@@ -106,8 +105,7 @@ const skills = {
 	createClosedCycleEnergyOverview: {
 		name: 'Gesloten kringproces energie-overzicht maken',
 		setup: combinerRepeat('calculateHeatAndWork', 3),
-		exercises: ['createClosedCycleEnergyOverviewSTST'],
-		// exercises: ['createClosedCycleEnergyOverviewVTp', 'createClosedCycleEnergyOverviewTsp', 'createClosedCycleEnergyOverviewSTST'],
+		exercises: ['createClosedCycleEnergyOverviewVTp', 'createClosedCycleEnergyOverviewTsp', 'createClosedCycleEnergyOverviewSTST', 'createClosedCycleEnergyOverviewSVSV'],
 	},
 	calculateWithEfficiency: {
 		name: 'Rekenen met rendement',
@@ -120,8 +118,7 @@ const skills = {
 	analyseClosedCycle: {
 		name: 'Gesloten kringproces analyseren',
 		setup: combinerAnd('calculateClosedCycle', 'createClosedCycleEnergyOverview', combinerOr('calculateWithEfficiency', 'calculateWithCOP')),
-		exercises: ['analyseClosedCycleSTST'],
-		// exercises: ['analyseClosedCycleVTp', 'analyseClosedCycleTsp', 'analyseClosedCycleSTST'],
+		exercises: ['analyseClosedCycleVTp', 'analyseClosedCycleTsp', 'analyseClosedCycleSTST', 'analyseClosedCycleSVSV'],
 	},
 }
 

@@ -12,7 +12,6 @@ import { usePrevious } from 'util/react'
 import { linkStyle, centered } from 'ui/theme'
 import { usePaths } from 'ui/routing'
 import NotificationBar from 'ui/components/NotificationBar'
-import { useFieldControl } from 'ui/form/FieldController'
 
 import { useSkillId } from '../skills/Skill'
 

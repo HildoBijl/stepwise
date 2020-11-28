@@ -15,7 +15,7 @@ const data = {
 			significantDigitMargin: 1,
 		},
 		eta: {
-			relativeMargin: 0.05,
+			relativeMargin: 0.04,
 			significantDigitMargin: 1,
 		},
 	},
