@@ -43,7 +43,7 @@ const steps = [
 	},
 	{
 		Problem: () => <>
-			<Par>Bereken de tijdens de stap toegevoerde warmte <M>Q</M> en door de lucht geleverde arbeid <M>W</M>.</Par>
+			<Par>Bereken de tijdens het proces toegevoerde warmte <M>Q</M> en door de lucht geleverde arbeid <M>W</M>.</Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="Q" prelabel={<M>Q =</M>} label={<span><M>Q</M></span>} size="s" />

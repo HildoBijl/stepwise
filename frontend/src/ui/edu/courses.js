@@ -38,7 +38,7 @@ const courses = {
 			},
 			{
 				name: 'Warmte en arbeid berekenen',
-				goals: ['calculateHeatAndWork'],
+				goals: ['calculateHeatAndWork', 'calculateWithInternalEnergy'],
 			},
 			{
 				name: 'Een cyclus doorrekenen',
@@ -49,7 +49,7 @@ const courses = {
 	promo: {
 		name: 'Processen en Modelleren',
 		goals: ['analyseClosedCycle'],
-		priorKnowledge: ['calculateProcessStep', 'calculateHeatAndWork'],
+		priorKnowledge: ['calculateProcessStep', 'calculateHeatAndWork', 'calculateWithInternalEnergy'],
 		blocks: [
 			{
 				name: 'Gesloten systemen en kringprocessen',
