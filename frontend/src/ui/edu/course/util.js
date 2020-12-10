@@ -54,6 +54,8 @@ const strFreePractice = 'StepWiseFreePracticeMode'
 export { strFreePractice }
 export function getAnalysis(overview, skillsData) {
 	const practiceNeeded = getPracticeNeeded(overview, skillsData)
+	console.log(overview)
+	console.log(practiceNeeded) // TEST TODO REMOVE
 
 	// Check if there are still undefined practiceNeeded. Then not all data is loaded yet. Return undefined as recommendation.
 	if (overview.all.find(skillId => practiceNeeded[skillId] === undefined))
