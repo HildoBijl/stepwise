@@ -102,9 +102,16 @@ const skills = {
 		setup: combinerAnd('recognizeProcessTypes', combinerOr('calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature', 'calculateWithMass'), combinerOr('specificGasConstant', 'specificHeatRatio', 'specificHeats')),
 		exercises: ['calculateHeatAndWorkIsobaric', 'calculateHeatAndWorkIsochoric', 'calculateHeatAndWorkIsothermal', 'calculateHeatAndWorkIsentropic', 'calculateHeatAndWorkPolytropic'],
 	},
+	calculateWithInternalEnergy: {
+		name: 'Rekenen met inwendige energie',
+		setup: combinerAnd(combinerOr('gasLaw', 'poissonsLaw'), combinerOr('specificHeats', 'solveLinearEquation'), 'calculateHeatAndWork'),
+		exercises: ['calculateWithInternalEnergyEngine'],
+		// exercises: ['calculateWithInternalEnergyEngine', 'calculateWithInternalEnergyBalloon', 'calculateWithInternalEnergyTire'],
+	},
 	createClosedCycleEnergyOverview: {
 		name: 'Gesloten kringproces energie-overzicht maken',
-		setup: combinerRepeat('calculateHeatAndWork', 3),
+		setup: combinerAnd(combinerRepeat('calculateHeatAndWork', 2), 'calculateWithInternalEnergy'),
+		// setup: combinerAnd(combinerRepeat('calculateHeatAndWork', 2), combinerOr('calculateHeatAndWork', 'calculateWithInternalEnergy')), // ToDo later: use this instead.
 		exercises: ['createClosedCycleEnergyOverviewVTp', 'createClosedCycleEnergyOverviewTsp', 'createClosedCycleEnergyOverviewSTST', 'createClosedCycleEnergyOverviewSVSV'],
 	},
 	calculateWithEfficiency: {

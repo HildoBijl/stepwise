@@ -1,14 +1,14 @@
 const { FloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const gasProperties = require('../../../data/gasProperties')
-const { combinerRepeat } = require('../../../skillTracking')
-const { checkParameter: checkParameter } = require('../util/check')
+const { combinerRepeat, combinerOr } = require('../../../skillTracking')
+const { checkParameter } = require('../util/check')
 const { generateState, getCorrect: getCycleParametersRaw } = require('./calculateClosedCycleSTST')
 
 const data = {
 	skill: 'createClosedCycleEnergyOverview',
 	setup: combinerRepeat('calculateHeatAndWork', 4),
-	steps: ['calculateHeatAndWork', 'calculateHeatAndWork', 'calculateHeatAndWork', 'calculateHeatAndWork'],
+	steps: ['calculateHeatAndWork', 'calculateHeatAndWork', 'calculateHeatAndWork', combinerOr('calculateHeatAndWork', 'calculateWithInternalEnergy')],
 
 	equalityOptions: {
 		default: {

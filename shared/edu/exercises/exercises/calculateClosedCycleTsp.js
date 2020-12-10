@@ -3,7 +3,7 @@ const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const gasProperties = require('../../../data/gasProperties')
 const { combinerRepeat } = require('../../../skillTracking')
-const { checkParameter: checkParameter } = require('../util/check')
+const { checkParameter } = require('../util/check')
 
 const data = {
 	skill: 'calculateClosedCycle',

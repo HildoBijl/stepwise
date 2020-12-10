@@ -1,9 +1,9 @@
-const { selectRandomly, getRandom } = require('../../../util/random')
+const { getRandom } = require('../../../util/random')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { air } = require('../../../data/gasProperties')
 const { combinerRepeat } = require('../../../skillTracking')
-const { checkParameter: checkParameter } = require('../util/check')
+const { checkParameter } = require('../util/check')
 
 const data = {
 	skill: 'calculateClosedCycle',

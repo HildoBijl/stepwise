@@ -33,7 +33,6 @@ const fields = [[
 const Problem = (state) => {
 	const { shared: { getCycleParameters } } = useExerciseData()
 	const { m, p1, V1, T1, p2, V2, T2, p3, V3, T3, p4, V4, T4 } = getCycleParameters(state)
-	const { medium } = state
 
 	// ToDo: add horizontal slider around table.
 	return <>

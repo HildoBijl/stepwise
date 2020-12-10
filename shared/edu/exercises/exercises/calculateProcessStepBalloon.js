@@ -2,7 +2,7 @@ const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { air: { Rs } } = require('../../../data/gasProperties')
 const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
-const { checkParameter: checkParameter } = require('../util/check')
+const { checkParameter } = require('../util/check')
 
 const equalityOptions = {
 	default: {

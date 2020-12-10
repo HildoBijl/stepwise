@@ -51,7 +51,6 @@ const steps = [
 		</>,
 		Solution: (state) => {
 			const { shared: { getCorrect } } = useExerciseData()
-			const { medium } = state
 			const { m, Rs, k, p1, V1, T1, p2, V2, T2 } = getCorrect(state)
 			return <>
 				<Par>
