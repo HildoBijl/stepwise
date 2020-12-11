@@ -7,6 +7,7 @@ import * as infoPages from 'ui/info'
 import LogOut from 'ui/components/LogOut'
 
 import Skill, { useSkillTitle, SkillIndicator } from 'ui/edu/skills/Skill'
+import BlankExercise from 'ui/edu/exercises/BlankExercise'
 import Courses from 'ui/edu/courses/Courses'
 import Course, { useCourseName } from 'ui/edu/course/Course'
 import CourseProvider from 'ui/edu/course/Provider'
@@ -44,6 +45,11 @@ function getRoutes(user = null) {
 			name: useSkillTitle,
 			recommendLogIn: true,
 			Indicator: SkillIndicator,
+		},
+		'opgave/:exerciseId': {
+			id: 'exercise',
+			component: BlankExercise,
+			name: 'Testopgave',
 		},
 	}
 

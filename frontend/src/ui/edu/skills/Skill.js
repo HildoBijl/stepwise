@@ -127,7 +127,7 @@ function SkillForStranger() {
 
 	// Is there no exercise loaded yet?
 	if (!exercise)
-		return <LoadingNote text="Generating new exercise" />
+		return <LoadingNote text="Generating new exercise." />
 
 	return <ExerciseContainer key={exercise.startedOn} exercise={exercise} skillId={skillId} submitting={false} submitAction={submitAction} startNewExercise={startNewExercise} />
 }

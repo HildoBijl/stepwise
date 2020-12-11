@@ -38,7 +38,7 @@ const courses = {
 			},
 			{
 				name: 'Warmte en arbeid berekenen',
-				goals: ['calculateHeatAndWork', 'calculateWithInternalEnergy'],
+				goals: ['calculateWithInternalEnergy'],
 			},
 			{
 				name: 'Een cyclus doorrekenen',
