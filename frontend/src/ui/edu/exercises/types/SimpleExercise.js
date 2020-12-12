@@ -4,7 +4,7 @@ import React, { useEffect } from 'react'
 
 import { inputSetsEqual } from 'step-wise/inputTypes'
 
-import VerticalAdjuster from 'util/reactComponents/VerticalAdjuster'
+import VerticalAdjuster from 'ui/components/layout/VerticalAdjuster'
 import { useFormData } from 'ui/form/Form'
 import { useFeedback } from 'ui/form/FeedbackProvider'
 import Status from 'ui/form/Status'

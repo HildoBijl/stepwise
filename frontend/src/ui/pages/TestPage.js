@@ -8,7 +8,6 @@ import { Par } from 'ui/components/containers'
 
 export default function TestPage() {
 	const paths = usePaths()
-	console.log(skills)
 	return <>
 		<Par>Dit is een testsysteem, gemaakt om gemakkelijk opgaven mee te kunnen inspecteren. Hieronder vind je een lijst van alle aanwezige vaardigheden en bijbehorende opgaven.</Par>
 		<ul>

@@ -8,7 +8,7 @@ import { noop } from 'step-wise/util/functions'
 
 import { resetFocus, getCoordinatesOf, ignoreBackspaceEvent, ignoreHomeEndEvent, getClickSide } from 'util/dom'
 import { useEventListener, useWidthTracker, useRefWithValue } from 'util/react'
-import { latexMinus, decimalSeparator } from 'util/equations'
+import { latexMinus, decimalSeparator } from 'ui/components/equations'
 import { notSelectable } from 'ui/theme'
 import { useSubmitAction } from 'ui/edu/exercises/util/actions'
 

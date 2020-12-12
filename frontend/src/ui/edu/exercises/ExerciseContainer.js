@@ -2,8 +2,8 @@ import React, { useState, createContext, useContext, useEffect, useRef } from 'r
 
 import { setIOtoFO } from 'step-wise/inputTypes'
 
-import LoadingNote from 'ui/components/LoadingNote'
-import ErrorBoundary from 'ui/components/ErrorBoundary'
+import LoadingNote from 'ui/components/flow/LoadingNote'
+import ErrorBoundary from 'ui/components/flow/ErrorBoundary'
 
 const ExerciseContext = createContext({})
 export { ExerciseContext } // Exported for testing purposes.

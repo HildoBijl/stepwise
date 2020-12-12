@@ -8,7 +8,7 @@ import skills from 'step-wise/edu/skills'
 import { linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routing'
 import QuickPractice from 'ui/components/icons/QuickPractice'
-import Button from 'ui/components/Button'
+import Button from 'ui/components/misc/Button'
 
 import { strFreePractice } from './util'
 

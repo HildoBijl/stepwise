@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Unit } from 'step-wise/inputTypes/Unit'
 
-import { M, BM } from 'util/equations'
+import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'

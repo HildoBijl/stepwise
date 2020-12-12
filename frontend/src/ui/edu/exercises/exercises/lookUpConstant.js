@@ -3,7 +3,7 @@ import React from 'react'
 import { selectRandomCorrect } from 'step-wise/util/random'
 import * as constants from 'step-wise/data/constants'
 
-import { M } from 'util/equations'
+import { M } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'

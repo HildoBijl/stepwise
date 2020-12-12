@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { M } from 'util/equations'
+import { M } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { InputSpace } from 'ui/form/Status'

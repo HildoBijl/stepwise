@@ -3,7 +3,7 @@ import React from 'react'
 import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
 import { Unit } from 'step-wise/inputTypes/Unit'
 
-import { M } from 'util/equations'
+import { M } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import UnitInput from 'ui/form/inputs/UnitInput'
 import { InputSpace, WhenNotDone } from 'ui/form/Status'

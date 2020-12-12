@@ -11,7 +11,7 @@ import { noop } from 'step-wise/util/functions'
 import { equals, isEmpty, getEmpty } from 'step-wise/inputTypes/MultipleChoice'
 
 import { notSelectable } from 'ui/theme'
-import FeedbackBlock from 'ui/components/FeedbackBlock'
+import FeedbackBlock from 'ui/components/misc/FeedbackBlock'
 
 import { useFormParameter } from '../Form'
 import { useStatus } from '../Status'

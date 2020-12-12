@@ -2,7 +2,7 @@ import React from 'react'
 
 import { massGram as mConversion, temperature as TConversion, pressure as pConversion } from 'step-wise/data/conversions'
 
-import { M, BM } from 'util/equations'
+import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'

@@ -4,8 +4,8 @@ import { Container } from '@material-ui/core'
 
 import { linkStyle } from 'ui/theme'
 import { useRoute } from 'ui/routing'
-import OfflineNotification from 'ui/components/OfflineNotification'
-import RecommendLogIn from 'ui/components/RecommendLogIn'
+import OfflineNotification from 'ui/components/notifications/OfflineNotification'
+import RecommendLogIn from 'ui/components/notifications/RecommendLogIn'
 import FieldController from 'ui/form/FieldController'
 
 import Header from './Header'

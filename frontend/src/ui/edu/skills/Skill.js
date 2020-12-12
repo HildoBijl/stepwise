@@ -10,8 +10,8 @@ import { getNewExercise } from 'step-wise/edu/exercises/util/selection'
 
 import { useUserResults } from 'api/user'
 import { useSkillQuery, useStartExerciseMutation, useSubmitExerciseActionMutation } from 'api/skill'
-import LoadingNote from 'ui/components/LoadingNote'
-import ErrorNote from 'ui/components/ErrorNote'
+import LoadingNote from 'ui/components/flow/LoadingNote'
+import ErrorNote from 'ui/components/flow/ErrorNote'
 
 import { useSkillData } from './SkillCacher'
 import SkillFlask from './SkillFlask'

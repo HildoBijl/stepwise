@@ -11,7 +11,7 @@ import skills from 'step-wise/edu/skills'
 import { usePrevious } from 'util/react'
 import { linkStyle, centered } from 'ui/theme'
 import { usePaths } from 'ui/routing'
-import NotificationBar from 'ui/components/NotificationBar'
+import NotificationBar from 'ui/components/notifications/NotificationBar'
 
 import { useSkillId } from '../skills/Skill'
 

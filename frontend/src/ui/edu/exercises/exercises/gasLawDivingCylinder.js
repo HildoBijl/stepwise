@@ -2,7 +2,7 @@ import React from 'react'
 
 import { temperature as TConversion, volumeLiter as VConversion } from 'step-wise/data/conversions'
 
-import { M, BM } from 'util/equations'
+import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'

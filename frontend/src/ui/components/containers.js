@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import { Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
+import HorizontalSlider from 'ui/components/layout/HorizontalSlider'
 import { startEndMarginFix } from 'ui/theme'
 
 const useStyles = makeStyles((theme) => ({
@@ -36,9 +37,8 @@ const useStyles = makeStyles((theme) => ({
 	table: {
 		display: 'grid',
 		gridGap: '0.6rem 0.8rem',
-		margin: '1rem 0',
+		margin: '0.5rem 0',
 		placeItems: 'start center',
-		...startEndMarginFix('', '0.5rem'),
 		gridTemplateColumns: ({ numCols }) => `auto repeat(${numCols}, minmax(min(100px, 100%), 1fr))`,
 
 		'& .cell': {},
@@ -80,13 +80,15 @@ export function Table({ fields, rowHeads, colHeads, className, style }) {
 	const classes = useStyles({ numRows, numCols })
 
 	return (
-		<div className={clsx(classes.table, 'table', className)} style={style}>
-			{colHeads && rowHeads ? <div className="rowHead colHead"></div> : null}
-			{colHeads ? colHeads.map((head, index) => <div key={index} className="colHead">{head}</div>) : null}
-			{fields.map((row, rowIndex) => <Fragment key={rowIndex}>
-				{rowHeads ? <div className="rowHead">{rowHeads[rowIndex]}</div> : null}
-				{row.map((field, colIndex) => <div key={colIndex} className="cell">{field}</div>)}
-			</Fragment>)}
-		</div>
+		<HorizontalSlider>
+			<div className={clsx(classes.table, 'table', className)} style={style}>
+				{colHeads && rowHeads ? <div className="rowHead colHead"></div> : null}
+				{colHeads ? colHeads.map((head, index) => <div key={index} className="colHead">{head}</div>) : null}
+				{fields.map((row, rowIndex) => <Fragment key={rowIndex}>
+					{rowHeads ? <div className="rowHead">{rowHeads[rowIndex]}</div> : null}
+					{row.map((field, colIndex) => <div key={colIndex} className="cell">{field}</div>)}
+				</Fragment>)}
+			</div>
+		</HorizontalSlider>
 	)
 }

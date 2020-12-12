@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { M, BM } from 'util/equations'
+import { M, BM } from 'ui/components/equations'
 import { Par, List, Table } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
-import { InputTable } from 'ui/components/InputTable'
+import { InputTable } from 'ui/components/misc/InputTable'
 import { Dutch } from 'ui/lang/gases'
 
 import { useExerciseData } from '../ExerciseContainer'
@@ -33,7 +33,6 @@ const Problem = (state) => {
 	const { m, p1, V1, T1, p2, V2, T2, p3, V3, T3 } = getCycleParameters(state)
 	const { medium } = state
 
-	// ToDo: add horizontal slider around table.
 	return <>
 		<Par>We voeren een kringproces uit met <M>{m}</M> {Dutch[medium]}. Hiermee doorlopen we drie stappen:</Par>
 		<List items={[
@@ -42,7 +41,7 @@ const Problem = (state) => {
 			'Stap 3-1: een isobare koeling.',
 		]} />
 		<Par>Op elk van de punten 1, 2 en 3 heeft het gas de volgende eigenschappen.</Par>
-		<Table colHeads={['Druk', 'Volume', 'Temperatuur']} rowHeads={['Punt 1', 'Punt 2', 'Punt 3']} fields={[[<M>p_1 = {p1.setUnit('bar')}</M>, <M>V_1 = {V1}</M>, <M>T_1 = {T1}</M>], [<M>p_2 = {p2.setUnit('bar')}</M>, <M>V_2 = {V2}</M>, <M>T_2 = {T2}</M>], [<M>p_3 = {p3.setUnit('bar')}</M>, <M>V_3 = {V3}</M>, <M>T_3 = {T3}</M>]]} style={{ minWidth: '460px', maxWidth: '540px' }} />
+		<Table colHeads={['Druk', 'Volume', 'Temperatuur']} rowHeads={['Punt 1', 'Punt 2', 'Punt 3']} fields={[[<M>p_1 = {p1.setUnit('bar')}</M>, <M>V_1 = {V1}</M>, <M>T_1 = {T1}</M>], [<M>p_2 = {p2.setUnit('bar')}</M>, <M>V_2 = {V2}</M>, <M>T_2 = {T2}</M>], [<M>p_3 = {p3.setUnit('bar')}</M>, <M>V_3 = {V3}</M>, <M>T_3 = {T3}</M>]]} style={{ minWidth: '500px', maxWidth: '540px' }} />
 		<Par>Bereken de toegevoerde warmte <M>Q</M> en de door het gas geleverde arbeid <M>W</M> bij elke stap.</Par>
 		<InputSpace>
 			<InputTable {...{ colHeads, rowHeads, fields }} />

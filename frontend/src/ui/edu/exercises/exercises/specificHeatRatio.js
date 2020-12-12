@@ -2,7 +2,7 @@ import React from 'react'
 
 import * as gasProperties from 'step-wise/data/gasProperties'
 
-import { M } from 'util/equations'
+import { M } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'

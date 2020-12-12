@@ -1,12 +1,12 @@
 import React from 'react'
 
-import { M, BM } from 'util/equations'
+import { M, BM } from 'ui/components/equations'
 import { Par, SubHead } from 'ui/components/containers'
 import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { useInput } from 'ui/form/Form'
 import { InputSpace } from 'ui/form/Status'
-import { InputTable } from 'ui/components/InputTable'
+import { InputTable } from 'ui/components/misc/InputTable'
 import { Dutch } from 'ui/lang/gases'
 
 import { useExerciseData } from '../ExerciseContainer'

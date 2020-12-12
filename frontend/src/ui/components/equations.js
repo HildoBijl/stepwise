@@ -3,6 +3,8 @@ import KaTeX from 'katex'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
+import HorizontalSlider from 'ui/components/layout/HorizontalSlider'
+
 // Inline math equation.
 export function M(props) {
 	return <Math displayMode={false} {...props} />
@@ -10,7 +12,11 @@ export function M(props) {
 
 // Block math equation.
 export function BM(props) {
-	return <Math displayMode={true} {...props} />
+	return (
+		<HorizontalSlider sliderInside={true} padding={12}>
+			<Math displayMode={true} {...props} />
+		</HorizontalSlider>
+	)
 }
 
 const latexMinus = '−'

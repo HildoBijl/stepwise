@@ -6,8 +6,8 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { setIOtoFO, setFOtoIO } from 'step-wise/inputTypes'
 
-import LoadingNote from 'ui/components/LoadingNote'
-import ErrorNote from 'ui/components/ErrorNote'
+import LoadingNote from 'ui/components/flow/LoadingNote'
+import ErrorNote from 'ui/components/flow/ErrorNote'
 
 import ExerciseContainer from './ExerciseContainer'
 
@@ -76,4 +76,13 @@ function BlankExerciseInner({ exerciseId }) {
 
 	// No loading/error notes: show the exercise!
 	return <ExerciseContainer key={exercise.startedOn} exercise={exercise} submitting={false} submitAction={submitAction} startNewExercise={startNewExercise} />
+}
+
+export function useExerciseId() {
+	const { params } = useRouteMatch()
+	const exerciseId = params.exerciseId
+	if (!exerciseId)
+		return '???'
+	return exerciseId
+
 }

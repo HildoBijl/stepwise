@@ -2,7 +2,7 @@ import React from 'react'
 
 import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
 
-import { M } from 'util/equations'
+import { M } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import IntegerInput from 'ui/form/inputs/IntegerInput'
 import { InputSpace } from 'ui/form/Status'

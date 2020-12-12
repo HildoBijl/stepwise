@@ -3,11 +3,10 @@ import { useRouteMatch } from 'react-router-dom'
 
 import { useUser } from 'api/user'
 
-import * as infoPages from 'ui/info'
-import LogOut from 'ui/components/LogOut'
+import * as pages from 'ui/pages'
 
 import Skill, { useSkillTitle, SkillIndicator } from 'ui/edu/skills/Skill'
-import BlankExercise from 'ui/edu/exercises/BlankExercise'
+import BlankExercise, { useExerciseId } from 'ui/edu/exercises/BlankExercise'
 import Courses from 'ui/edu/courses/Courses'
 import Course, { useCourseName } from 'ui/edu/course/Course'
 import CourseProvider from 'ui/edu/course/Provider'
@@ -16,7 +15,7 @@ import FreePractice from 'ui/edu/course/FreePractice'
 
 // Set up a route context object through which child elements can access the current route.
 const RouteContext = createContext(null)
-export { RouteContext}
+export { RouteContext }
 
 // getRoutes sets up a routes object based on the user. This routes object contains the whole site structure. The object keys appear in the URL, so can be language-dependent. The "id" is used in scripts when creating links so should be English. The "name" is shown on the page.
 function getRoutes(user = null) {
@@ -24,17 +23,17 @@ function getRoutes(user = null) {
 	const commonPages = {
 		'feedback': {
 			id: 'feedback',
-			component: infoPages.Feedback,
+			component: pages.Feedback,
 			name: 'Feedback',
 		},
 		'info': {
 			id: 'about',
-			component: infoPages.About,
+			component: pages.About,
 			name: 'Over Step-Wise',
 			children: {
 				'tracker': {
 					id: 'skillTrackerExplainer',
-					component: infoPages.SkillTrackerExplainer,
+					component: pages.SkillTrackerExplainer,
 					name: 'Vaardigheden bijhouden',
 				},
 			},
@@ -48,7 +47,7 @@ function getRoutes(user = null) {
 		},
 		'test': {
 			id: 'test',
-			component: infoPages.TestPage,
+			component: pages.TestPage,
 			name: 'Testsysteem',
 			children: {
 				'vaardigheid/:skillId': {
@@ -61,7 +60,7 @@ function getRoutes(user = null) {
 				'opgave/:exerciseId': {
 					id: 'testExercise',
 					component: BlankExercise,
-					name: 'Testopgave',
+					name: useExerciseId,
 				},
 			},
 		},
@@ -73,7 +72,7 @@ function getRoutes(user = null) {
 			...commonPages,
 			'': {
 				id: 'home',
-				component: infoPages.Home,
+				component: pages.Home,
 				name: 'Home',
 				fullPage: true,
 			},
@@ -85,7 +84,7 @@ function getRoutes(user = null) {
 		...commonPages,
 		'uitloggen': {
 			id: 'logOut',
-			component: LogOut,
+			component: pages.LogOut,
 			name: 'Uitloggen...'
 		},
 		'': {
@@ -144,7 +143,7 @@ function processRoutes(routes, initialPath = '', parent = null) {
 	Object.keys(routes).forEach(key => {
 		const route = routes[key]
 		route.parent = parent
-		route.path = `${initialPath}/${key}`.replace('//','/')
+		route.path = `${initialPath}/${key}`.replace('//', '/')
 		if (route.children)
 			processRoutes(route.children, route.path, route)
 	})

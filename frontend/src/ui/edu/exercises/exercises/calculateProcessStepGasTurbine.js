@@ -2,13 +2,13 @@ import React from 'react'
 
 import { pressure as pConversion } from 'step-wise/data/conversions'
 
-import { M, BM } from 'util/equations'
+import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import { AntiInputSpace, InputSpace } from 'ui/form/Status'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { useInput } from 'ui/form/Form'
-import { InputTable } from 'ui/components/InputTable'
+import { InputTable } from 'ui/components/misc/InputTable'
 
 import { useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'

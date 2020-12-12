@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { M, BM } from 'util/equations'
+import { M, BM } from 'ui/components/equations'
 import { Par, List, Table } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
-import { InputTable } from 'ui/components/InputTable'
+import { InputTable } from 'ui/components/misc/InputTable'
 import { Dutch } from 'ui/lang/gases'
 
 import { useExerciseData } from '../ExerciseContainer'
@@ -33,7 +33,6 @@ const Problem = (state) => {
 	const { m, p1, V1, T1, p2, V2, T2, p3, V3, T3 } = getCycleParameters(state)
 	const { medium } = state
 
-	// ToDo: add horizontal slider around table.
 	return <>
 		<Par>We voeren een kringproces uit met <M>{m}</M> {Dutch[medium]}. Hiermee doorlopen we drie stappen:</Par>
 		<List items={[
@@ -42,7 +41,7 @@ const Problem = (state) => {
 			'Stap 3-1: een isochore opwarming.',
 		]} />
 		<Par>Op elk van de punten 1, 2 en 3 heeft het gas de volgende eigenschappen.</Par>
-		<Table colHeads={['Druk', 'Volume', 'Temperatuur']} rowHeads={['Punt 1', 'Punt 2', 'Punt 3']} fields={[[<M>p_1 = {p1.setUnit('bar')}</M>, <M>V_1 = {V1}</M>, <M>T_1 = {T1}</M>], [<M>p_2 = {p2.setUnit('bar')}</M>, <M>V_2 = {V2}</M>, <M>T_2 = {T2}</M>], [<M>p_3 = {p3.setUnit('bar')}</M>, <M>V_3 = {V3}</M>, <M>T_3 = {T3}</M>]]} style={{ minWidth: '460px', maxWidth: '540px' }} />
+		<Table colHeads={['Druk', 'Volume', 'Temperatuur']} rowHeads={['Punt 1', 'Punt 2', 'Punt 3']} fields={[[<M>p_1 = {p1.setUnit('bar')}</M>, <M>V_1 = {V1}</M>, <M>T_1 = {T1}</M>], [<M>p_2 = {p2.setUnit('bar')}</M>, <M>V_2 = {V2}</M>, <M>T_2 = {T2}</M>], [<M>p_3 = {p3.setUnit('bar')}</M>, <M>V_3 = {V3}</M>, <M>T_3 = {T3}</M>]]} style={{ minWidth: '500px', maxWidth: '540px' }} />
 		<Par>Bereken de toegevoerde warmte <M>Q</M> en de door het gas geleverde arbeid <M>W</M> bij elke stap.</Par>
 		<InputSpace>
 			<InputTable {...{ colHeads, rowHeads, fields }} />
@@ -100,7 +99,7 @@ const steps = [
 			const { shared: { getCycleParameters, getCorrect } } = useExerciseData()
 			const { m, T1, T3 } = getCycleParameters(state)
 			const { cv, Q12, W12, Q23, W23, Q31, W31, Qn, Wn } = getCorrect(state)
-			
+
 			return <>
 				<Par>Bij een isochore stap geldt <M>W_(3-1) = {W31}.</M> We hoeven dus alleen <M>Q_(3-1)</M> te berekenen. Dit gaat het makkelijkst via <BM>Q_(3-1) = mc_v\left(T_1 - T_3\right) = {m.float} \cdot {cv.float} \cdot \left({T1.float} - {T3.float}\right) = {Q31}.</BM> Daarmee is alles doorgerekend.</Par>
 				<Par>Als controle kunnen we nog kijken of de energiebalans klopt. De totaal netto toegevoerde warmte is <BM>Q_(netto) = Q_(1-2) + Q_(2-3) + Q_(3-1) = {Q12.float} {Q23.float.texWithPM} {Q31.float.texWithPM} = {Qn}.</BM> Dit moet gelijk zijn aan de totaal netto geleverde arbeid, welke gelijk is aan <BM>W_(netto) = W_(1-2) + W_(2-3) + W_(3-1) = {W12.float} {W23.float.texWithPM} {W31.float.texWithPM} = {Wn}.</BM> We zien dat dit inderdaad gelijk aan elkaar is, dus we hebben geen rekenfout gemaakt. Ook zien we dat het een negatief kringproces betreft.</Par>
