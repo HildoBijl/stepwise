@@ -46,10 +46,24 @@ function getRoutes(user = null) {
 			recommendLogIn: true,
 			Indicator: SkillIndicator,
 		},
-		'opgave/:exerciseId': {
-			id: 'exercise',
-			component: BlankExercise,
-			name: 'Testopgave',
+		'test': {
+			id: 'test',
+			component: infoPages.TestPage,
+			name: 'Testsysteem',
+			children: {
+				'vaardigheid/:skillId': {
+					id: 'testSkill',
+					component: Skill,
+					name: useSkillTitle,
+					recommendLogIn: true,
+					Indicator: SkillIndicator,
+				},
+				'opgave/:exerciseId': {
+					id: 'testExercise',
+					component: BlankExercise,
+					name: 'Testopgave',
+				},
+			},
 		},
 	}
 
