@@ -13,6 +13,7 @@ import Header from './Header'
 const useStyles = makeStyles((theme) => ({
 	page: {
 		marginTop: theme.spacing(2),
+		paddingBottom: '0.5rem', // Use padding to ensure that bottom elements inside this page can show their margin.
 
 		'& a': {
 			...linkStyle,
