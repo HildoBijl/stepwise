@@ -1,0 +1,1 @@
+ToDo: write about course set-up here.

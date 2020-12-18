@@ -1,5 +1,19 @@
 # Operating
 
+This page gives important info on operating the app.
+
+
+## Summary: operational tasks
+
+The following commands can be used for basic operational tasks.
+
+- **Release**: `ssh -t step-wise.com release`
+- **View latest server logs**: `ssh -t step-wise.com logs`
+- **Change configuration**: `ssh -t step-wise.com configure`
+- **Perform health check**: `ssh -t step-wise.com health`
+- **Issue HTTPS certificates**: `ssh -t step-wise.com issue-certificates`
+
+
 ## Operating in production
 
 (As of: 10/2020)
@@ -18,6 +32,9 @@ Make sure that `IdentityFile` points to the correct SSH key and `HostName` conta
 
 
 ## Documentation
+
+Below you find more information about how the operational side is set up.
+
 
 ### Application architecture
 

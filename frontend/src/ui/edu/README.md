@@ -1,6 +1,9 @@
 # Exercise system notes
 
-The exercise system is based on skills and exercises. Let's take a look at what they entail.
+The exercise system is based on skills and exercises. Before reading this, it is wise to read in the [shared folder](../../../../shared/) about [skills](../../../../shared/edu/skills/) and [exercises](../../../../shared/edu/exercises/) first.
+
+
+
 
 ## Skills
 
