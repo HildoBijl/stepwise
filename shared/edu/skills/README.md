@@ -12,7 +12,7 @@ To solve an exercise of calculating composite expressions, you need to apply the
 
 ## Basic and composite skills
 
-There are two types of skills.
+We make a distinction between basic and composite skills.
 
 - **Basic skills:** these are very simple skills that have no prerequisites. For instance, "Summation" is most likely a basic skill. Their exercises do not have steps: they can be solved directly. (In theory, if it turns out students struggle with the summation of sums like `23 + 82` it can still be split up into steps. In this case summation is not a basic skill anymore but will have various subskills too.)
 - **Composite skills:** these are skills that consist of multiple other skills. For example, "calculate composite expressions" is a composite skill.
@@ -118,3 +118,16 @@ Note that basic skills do not have a setup (since they have no prerequisites) bu
 The order in which skills appear inside the skills file is important! When Step-Wise recommends skills to students, it starts with the first one mentioned in the skills file. That is why `operationOrder` is placed later on in the file (even though it's the first step in most exercises): because it makes more sense for students to learn summation and multiplication first, before worrying about the order of these operations.
 
 At the bottom of the skill tree we define *linked groups*. Finally some post-processing is done, like extracting prerequisites and such.
+
+
+## Selecting an exercise for a skill
+
+Suppose a student wants to practice a skill. They need to be presented with an exercise. But which exercise is the most suitable? This is determined by the exercise selection algorithm. This algorithm executes the following steps.
+
+- For each `exercise` connected to the `skill`, calculate the chance that the student will do it correctly. This is determined by the `skill` and/or `setup` parameters of the exercise. (Example: three exercises have success probabilities 50%, 60% and 70%.)
+- Determine the *suitability* of each exercise. For this, check how close the probability of success is to 50%. The closer that the probability is to 50%, the higher the suitability is. (In practice we use a Gaussian bell curve for this with mean `0.5` and STD `0.1`. For the example, this results in suitabilities of 3.99, 2.42 and 0.54.)
+- Set a threshold: pick the exercise with the highest suitability, take 30% of this suitability (exact settings may vary) and define this as the threshold. Any exercise with suitability less than this threshold is not considered. (For the example, the threshold is `1.2` which means the third exercise is ignored.)
+- For all remaining exercises, apply the weight: increase the suitability by the given weight factor. Note: you can see this weight as the amount of "variation" in an exercise. If one exercise has such amazing random state generation that it appears to be multiple different exercises, it is wise to increase its weight so it is selected more often. (Say, for example, that the second exercise has weight `2`. The resulting suitabilities are then `3.99` and `4.84`. The third exercise is still ignored, irrespective of its weight.)
+- Use the resulting numbers as factors when determining probabilities. (In the example, the total suitability is `3.99 + 4.84 = 8.83`. As a result, exercise 1 has a chance of `3.99/8.83 = 45%` while exercise 2 has a chance of `55%` to be selected.)
+
+This heuristic method makes sure that the student gets an exercise which is sufficiently challenging: not too difficult but not too easy. At the same time, it leaves room for randomness, so that the student does not get the same exercise every time.

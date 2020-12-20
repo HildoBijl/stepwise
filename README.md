@@ -14,11 +14,10 @@ The Step-Wise code-base is split up into four main directories.
 
 A few systems span more than just one directory. If you want to learn more about these systems, check out their individual documentation, ideally in the ordered in which they appear below.
 
-- **[The skill tree.](shared/edu/skills/)** This is the foundation of Step-Wise. In Step-Wise all educational content is split up into skills to master. When a teacher sets a goal (e.g., an advanced skill) the app then automatically knows which skills (e.g., basic skills) the students should practice first.
+- **[The skill tree.](shared/edu/skills/)** This is the foundation of Step-Wise. In Step-Wise all educational content is split up into skills to master. When a teacher sets a goal (e.g., an advanced skill) the app then automatically knows which skills (e.g., basic skills) the students should practice first. This readme file also discusses how to optimally select exercises to practice.
 - **[The exercise system.](shared/edu/exercises/)** Every skill has a multitude of exercises connected to it. Each exercise is randomly generated. This allows for a huge variety of exercises for the student to practice with.
 - **[The input system.](shared/inputTypes/)** Step-Wise uses a manually programmed system for inputs, allowing us to have very intuitive input fields as well as easy processing of the provided data. 
 - **[Skill tracking.](shared/skillTracking)** For every skill, the app tracks/estimates the chance that a student will correctly apply this skill in an upcoming exercise. This always gives us up-to-date data on the student progress.
-- **[Exercise selection.](shared/edu/exercises/exerciseSelection.md)** When a student practices a skill, the Step-Wise system does not just randomly selects exercises. The exercise is tuned to the student, giving the optimal learning experience.
 - **[Course system and skill recommendation.](frontend/src/ui/edu/course/)** In most universities, subjects are grouped into a "course". Each course then has various "chapters". To accommodate this, Step-Wise also has a course system working in exactly the same way. Within courses, the Step-Wise system intelligently recommends students which skills to practice.
 
 When developing Step-Wise, we adhere to a few [principles](philosophy.md). These principles may help you understand some of the design decisions made in the app. 

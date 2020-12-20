@@ -1,1 +1,0 @@
-ToDo: explain exercise selection here.

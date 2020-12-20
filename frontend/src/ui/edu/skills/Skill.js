@@ -3,9 +3,10 @@ import { useRouteMatch } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 import { makeStyles } from '@material-ui/core/styles'
 
+import { noop } from 'step-wise/util/functions'
+import { setIOtoFO, setFOtoIO } from 'step-wise/inputTypes'
 import skills from 'step-wise/edu/skills'
 import { processSkillId } from 'step-wise/edu/skills/util'
-import { setIOtoFO, setFOtoIO } from 'step-wise/inputTypes'
 import { getNewExercise } from 'step-wise/edu/exercises/util/selection'
 
 import { useUserResults } from 'api/user'
@@ -108,7 +109,7 @@ function SkillForStranger() {
 
 	// On a submit handle the process as would happen on the server: find the new progress and incorporate it into the exercise data and its history.
 	const submitAction = useCallback((action, processAction) => {
-		const progress = processAction({ action, state: setIOtoFO(exercise.state), progress: exercise.progress, history: exercise.history })
+		const progress = processAction({ action, state: setIOtoFO(exercise.state), progress: exercise.progress, history: exercise.history, updateSkills: noop })
 		setExercise({
 			...exercise,
 			active: exercise.active && !progress.done,

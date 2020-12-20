@@ -5,6 +5,7 @@ import { useRouteMatch } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
 import { setIOtoFO, setFOtoIO } from 'step-wise/inputTypes'
+import { noop } from 'step-wise/util/functions'
 
 import LoadingNote from 'ui/components/flow/LoadingNote'
 import ErrorNote from 'ui/components/flow/ErrorNote'
@@ -55,7 +56,7 @@ function BlankExerciseInner({ exerciseId }) {
 
 	// Set up a submit handler. Do the same as would happen on the server: find the new progress and incorporate it into the exercise data and its history.
 	const submitAction = useCallback((action, processAction) => {
-		const progress = processAction({ action, state: setIOtoFO(exercise.state), progress: exercise.progress, history: exercise.history })
+		const progress = processAction({ action, state: setIOtoFO(exercise.state), progress: exercise.progress, history: exercise.history, updateSkills: noop })
 		setExercise({
 			...exercise,
 			active: exercise.active && !progress.done,

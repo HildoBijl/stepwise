@@ -1,5 +1,4 @@
 const { setIOtoFO } = require('../../../inputTypes')
-const { noop } = require('../../../util/functions')
 const { ensureInt } = require('../../../util/numbers')
 
 // getStepExerciseProcessor takes a checkInput function that checks the input for a StepExercise and returns a processAction function.
@@ -8,8 +7,6 @@ function getStepExerciseProcessor(checkInput, data) {
 	return ({ progress, action, state, history, updateSkills }) => {
 		if (progress.done)
 			return progress // Weird ... we're already done.
-		if (!updateSkills)
-			updateSkills = noop
 
 		const step = getStep(progress)
 		switch (action.type) {

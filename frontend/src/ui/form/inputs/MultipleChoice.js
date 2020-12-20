@@ -92,14 +92,14 @@ const useOptionStyle = makeStyles((theme) => ({
 }))
 
 /* This is the MultipleChoice component, used for making multiple-choice questions. It has a variety of properties to be set.
- * - choices (default empty array): 
+ * - choices (default empty array): the options to display.
  * - id (obligatory): a string indicating what Form id to store the data under. This data always takes the form of an array with the indices of the chosen options. For instance, [0, 3] if the first and fourth option are selected.
  * - validate (default nonEmpty): a validation function. Default is that at least one option should be chosen.
  * - multiple (default false): are multiple choices allowed? If set to true, checkboxes are used instead of radio buttons.
  * - readOnly (default undefined): can the value still be changed? If left undefined, the exercise status is checked and only when the exercise is not done can the value be changed. If this option is defined, it overwrites this.
  * - pick (default undefined): choose a subset of the choices given. If there are six choices and pick is set to four, then only four of the six choices are shown. If left undefined, all choices are included.
  * - include (default []): only used when pick is defined. The given options are then definitely included in the pick. If you set include to [0,3], then choices 0 and 3 are definitely picked, along with a few other random ones. This is useful to make sure you include the correct answer. If only a single option has to be included, no array is needed: this is automatically fixed.
- * - randomOrder (default false): should we show the choices in a random order? Behind the scenes the original order is still used: this only related to how it is shown to the user.
+ * - randomOrder (default false): should we show the choices in a random order? Behind the scenes the original order is still used: this only relates to how it is shown to the user.
  * Changing options while the object is already rendered is currently not supported.
  */
 export default function MultipleChoice({ id, choices = [], validate = nonEmpty, multiple = false, readOnly, pick, include, randomOrder = false, persistent }) {

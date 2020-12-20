@@ -2,9 +2,10 @@
 
 There is a variety of input fields that you can use at problems. Each of them give a different number type.
 
+
 ## General usage
 
-In general, of you want to use an input field named `SomeInput`, then you first have to import it. Do this using `import SomeInput from '../../form/inputs/SomeInput'`. Then you can apply it using `<SomeInput id="x" />`. The `id` parameter is obligatory and its name needs to be unique. The corresponding value is automatically passed along to the input object.
+In general, if you want to use an input field named `SomeInput`, then you first have to import it. Do this using `import SomeInput from '../../form/inputs/SomeInput'`. Then you can apply it using `<SomeInput id="x" />`. The `id` parameter is obligatory and its name needs to be unique. The corresponding value is automatically passed along to the input object.
 
 Fields have several options that you can add (next to `id`). We will list the general options applicable to all fields here. Some fields have more options.
 
@@ -17,9 +18,36 @@ Fields have several options that you can add (next to `id`). We will list the ge
 - `readOnly`: The field cannot be changed.
 - `autoFocus`: When set to true, the field is automatically activated on loading. This is not often used, since most exercises already automatically focus on the first field upon loading, so input fields do not need to activate itself.
 
+
 ## Field types
 
 There is a variety of field types, each with its own options and validation functions.
+
+
+### MultipleChoice
+
+#### Return type
+
+The multiple choice input type gives the following value.
+
+- If multiple choices are allowed: an array of integers. This array could be empty, when no options have been chosen.
+- If multiple choices are *not* allowed: an integer, or undefined if no option has been chosen.
+
+The given integers correspond to the chosen option, where counting starts from `0`. The first option is hence option `0`, and if the student selects the first and third option, the result is `[0, 2]`.
+
+#### Options
+
+- `choices` (default `[]`): the options to display, in an array.
+- `multiple` (default `false`): are multiple choices allowed? If set to `true`, checkboxes are used instead of radio buttons.
+- `readOnly` (default `undefined`): can the value still be changed? If left undefined, the exercise status is checked and only when the exercise is not done can the value be changed. If this option is defined, it overwrites this.
+- `pick` (default `undefined`): choose a subset of the choices given. If there are six choices and pick is set to four, then only four of the six choices are shown. If left undefined, all choices are included.
+- `include` (default `[]`): only used when pick is defined. The given options are then definitely included in the pick. If you set `include` to `[0,3]`, then choices `0` and `3` are definitely picked, along with a few other random ones. This is useful to make sure you include the correct answer in the random selection of answers. If only a single option has to be included, no array is needed: entering a number would suffice too.
+- `randomOrder` (default `false`): should we show the choices in a random order? Behind the scenes the original order is still used: this only relates to how it is shown to the user.
+
+#### Validation functions
+
+- `nonEmpty`: (Default) Checks whether at least one value has been chosen.
+
 
 ### IntegerInput
 
@@ -35,6 +63,7 @@ Gives an integer, in javascript's regular form. Like `8`.
 
 - `nonEmpty`: (Default) Checks whether something has been entered.
 - `positive`: Checks whether a positive number or 0 has been entered. In this case it may be better to not even allow negative numbers.
+
 
 ### FloatInput
 
@@ -56,7 +85,7 @@ It has various useful methods.
 - `equals`
 - `checkEquality`
 
-See the source code for details on this.
+See the `Float` source code in the `shared` directory for details on this.
 
 #### Options
 
@@ -67,6 +96,7 @@ See the source code for details on this.
 
 - `nonEmpty`: (Default) Checks whether something has been entered.
 - `positive`: Checks whether a positive number or 0 has been entered. In this case it may be better to not even allow negative numbers.
+
 
 ### UnitInput
 
@@ -90,7 +120,7 @@ It has various useful methods.
 - `simplifyWithData`
 - `equals`
 
-See the source code for details on this.
+See the `Unit` source code in the `shared` directory for details on this.
 
 #### Options
 
@@ -101,6 +131,7 @@ There are no options.
 - `nonEmpty`: Checks whether something has been entered. (But it may be a senseless unit.) So `abcdef` passes but an empty string does not.
 - `valid`: Checks whether a valid unit has been entered. (But no unit is also valid.) So an empty string or `kg * m` passes, but `abcdef` does not.
 - `nonEmptyAndValid`: (Default) Checks whether a non-empty valid unit has been entered. An empty string and `abcdef` both fail but `kg * m` passes.
+
 
 ### FloatUnitInput
 
@@ -124,7 +155,7 @@ It has various useful methods.
 - `add`
 - `multiply`
 
-See the source code for details on this.
+See the `FloatUnit` source code in the `shared` directory for details on this.
 
 #### Options
 
@@ -138,6 +169,7 @@ The options are identical to the Float field.
 - `nonEmpty`: Checks whether something (anything) has been entered.
 - `validNumberAndUnit`: Checks whether a proper number and (possibly empty but valid) unit have been entered.
 - `validNumberAndNonEmptyUnit`: Checks whether a proper number and non-empty valid unit have been entered.
+
 
 ## New fields
 
