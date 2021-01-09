@@ -56,7 +56,7 @@ const steps = [
 				<Par>
 					In punt 1 is alles bekend behalve de massa. Het is dus handig om hieruit de massa te berekenen. Via de gaswet vinden we
 					<BM>m = \frac(p_1V_1)(R_sT_1) = \frac({p1.float} \cdot {p2.float})({Rs.float} \cdot {T1.float}) = {m}.</BM>
-					In punt 2 was al gegeven dat <M>p_2 = {p2}.</M> Omdat proces 1-2 isentroop is geldt hierbij <M>n = k</M> en voor lucht geldt <M>k = {k}</M>. Via Poisson's wet <M>p_1V_1^n = p_2V_2^n</M> vinden we zo
+					In punt 2 was al gegeven dat <M>p_2 = {p2}.</M> Omdat proces 1-2 isentroop is geldt hierbij <M>n = k</M> en voor lucht geldt <M>k = {k}.</M> Via Poisson's wet <M>p_1V_1^n = p_2V_2^n</M> vinden we zo
 					<BM>V_2^n = \frac(p_1)(p_2) V_1^n,</BM>
 					<BM>V_2 = \left(\frac(p_1)(p_2) V_1^n\right)^(\frac(1)(n)) = \left(\frac(p_1)(p_2)\right)^(\frac(1)(n)) V_1 = \left(\frac{p1.float}{p2.float}\right)^(\frac{1}{k}) \cdot {V1.float} = {V2}.</BM>
 					De temperatuur <M>T_2</M> volgt via de gaswet als

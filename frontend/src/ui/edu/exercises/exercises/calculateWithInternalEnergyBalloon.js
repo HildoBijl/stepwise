@@ -14,7 +14,7 @@ export default function Exercise() {
 }
 
 const Problem = ({ p, V1, V2 }) => <>
-	<Par>Een met helium gevulde ballon met druk <M>{p}</M> en volume <M>{V1}</M> wordt verwarmd. Hierdoor stijgt het volume tot <M>{V2}</M>. Neem aan dat de druk constant blijft. Bereken de verandering van de inwendige energie van het helium in de ballon.</Par>
+	<Par>Een met helium gevulde ballon met druk <M>{p}</M> en volume <M>{V1}</M> wordt verwarmd. Hierdoor stijgt het volume tot <M>{V2}.</M> Neem aan dat de druk constant blijft. Bereken de verandering van de inwendige energie van het helium in de ballon.</Par>
 	<InputSpace>
 		<Par>
 			<FloatUnitInput id="dU" prelabel={<M>\Delta U=</M>} label={<span>Verandering in <M>U</M></span>} size="s" />
@@ -25,7 +25,7 @@ const Problem = ({ p, V1, V2 }) => <>
 const steps = [
 	{
 		Problem: () => <>
-			<Par>Bereken de toegevoerde warmte <M>Q</M> en door het helium geleverde arbeid <M>W</M>.</Par>
+			<Par>Bereken de toegevoerde warmte <M>Q</M> en door het helium geleverde arbeid <M>W.</M></Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="Q" prelabel={<M>Q =</M>} label={<span><M>Q</M></span>} size="s" />

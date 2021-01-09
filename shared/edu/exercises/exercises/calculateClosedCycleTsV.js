@@ -58,8 +58,8 @@ function getCorrect({ medium, p1, V1, T1, p2 }) {
 	const mRs = m.multiply(Rs)
 	const T2 = T1
 	const V2 = mRs.multiply(T2).divide(p2).setUnit('m^3')
-	const p3 = p1
-	const V3 = V2.multiply(Math.pow(p2.number/p3.number, 1/k.number))
+	const V3 = V1
+	const p3 = p2.multiply(Math.pow(V2.number/V3.number, k.number))
 	const T3 = p3.multiply(V3).divide(mRs).setUnit('K')
 	return { m, Rs, k, p1, V1, T1, p2, V2, T2, p3, V3, T3 }
 }

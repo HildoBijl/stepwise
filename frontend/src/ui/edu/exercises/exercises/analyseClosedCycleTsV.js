@@ -20,7 +20,7 @@ export default function Exercise() {
 const Problem = ({ medium, p1, V1, T1, p2 }) => {
 	const choice = useInput('choice')
 	return <>
-		<Par>We voeren een kringproces uit met een vaste hoeveelheid {Dutch[medium]}. Bij aanvang (punt 1) heeft dit gas een druk van <M>{p1}</M>, een volume van <M>{V1}</M> en een temperatuur van <M>{T1}.</M> We comprimeren dit gas isotherm tot <M>{p2}</M>. Vervolgens laten we het isentroop expanderen tot de begindruk. Van hieruit warmt het gas op tot het beginpunt.</Par>
+		<Par>We voeren een kringproces uit met een vaste hoeveelheid {Dutch[medium]}. Bij aanvang (punt 1) heeft dit gas een druk van <M>{p1}</M>, een volume van <M>{V1}</M> en een temperatuur van <M>{T1}.</M> We comprimeren dit gas isotherm tot <M>{p2}.</M> Vervolgens laten we het isentroop expanderen tot de begindruk. Van hieruit warmt het gas op tot het beginpunt.</Par>
 		<Par>Bepaal of dit een positief of negatief kringproces is en bereken de betreffende factor(en).</Par>
 		<InputSpace>
 			<MultipleChoice id="choice" choices={[
@@ -70,9 +70,7 @@ const steps = [
 		Solution: (state) => {
 			const { shared: { getCorrect } } = useExerciseData()
 			const { m, Rs, k, p1, V1, T1, p2, V2, T2, p3, V3, T3 } = getCorrect(state)
-			return <>
-				<Par>In punt 1 is al gegeven dat <M>p_1 = {p1}</M>, <M>V_1 = {V1}</M> en <M>T_1 = {T1}.</M> De massa van het gas volgt via de gaswet als <BM>m = \frac(p_1V_1)(mR_s) = \frac({p1.float} \cdot {V1.float})({Rs.float} \cdot {T1.float}) = {m}.</BM> In punt 2 geldt <M>p_2 = {p2}</M> en <M>T_2 = T_1 = {T2}</M> (isotherm proces). Via de gaswet volgt <BM>V_2 = \frac(mR_sT_2)(p_2) = \frac({m.float} \cdot {Rs.float} \cdot {T2.float})({p2.float}) = {V2}.</BM> In punt 3 is al bekend dat <M>p_3 = p_1 = {p3}.</M> Via Poisson's wet <M>p_2V_2^n = p_3V_3^n</M> vinden we <M>V_3</M> als <BM>V_3 = \left(\frac(p_2)(p_3)\right)^(\frac(1)(n)) \cdot V_2 = \left(\frac{p2.float}{p3.float}\right)^(\frac(1)({k})) \cdot {V2.float} = {V3}.</BM> Tenslotte volgt <M>T_3</M> via de gaswet als <BM>T_3 = \frac(p_3V_3)(mR_s) = \frac({p3.float} \cdot {V3.float})({m.float} \cdot {Rs.float}) = {T3}.</BM> Daarmee zijn alle eigenschappen bekend.</Par>
-			</>
+			return <Par>In punt 1 is al gegeven dat <M>p_1 = {p1}</M>, <M>V_1 = {V1}</M> en <M>T_1 = {T1}.</M> De massa van het gas volgt via de gaswet als <BM>m = \frac(p_1V_1)(R_sT_1) = \frac({p1.float} \cdot {V1.float})({Rs.float} \cdot {T1.float}) = {m}.</BM> In punt 2 geldt <M>p_2 = {p2}</M> en <M>T_2 = T_1 = {T2}</M> (isotherm proces). Via de gaswet volgt <BM>V_2 = \frac(mR_sT_2)(p_2) = \frac({m.float} \cdot {Rs.float} \cdot {T2.float})({p2.float}) = {V2}.</BM> In punt 3 is al bekend dat <M>V_3 = V_1 = {V3}.</M> Via Poisson's wet <M>p_2V_2^n = p_3V_3^n</M> vinden we <M>p_3</M> als <BM>p_3 = p_2 \frac(V_2^n)(V_3^n) = p_2 \left(\frac(V_2)(V_3)\right)^n = {p2.float} \cdot \left(\frac{V2.float}{V3.float}\right)^({k}) = {p3}.</BM> Tenslotte volgt <M>T_3</M> via de gaswet als <BM>T_3 = \frac(p_3V_3)(mR_s) = \frac({p3.float} \cdot {V3.float})({m.float} \cdot {Rs.float}) = {T3}.</BM> Daarmee zijn alle eigenschappen bekend.</Par>
 		},
 	},
 	{

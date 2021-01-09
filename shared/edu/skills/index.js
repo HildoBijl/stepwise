@@ -92,10 +92,11 @@ const skills = {
 		setup: combinerAnd('gasLaw', 'recognizeProcessTypes', 'poissonsLaw'), // ToDo later: use "combinerPart('poissonsLaw', 1/2)" and possibly "combinerPart('gasLaw', 3/2)" to indicate it's not always needed.
 		exercises: ['calculateProcessStepCompressor', 'calculateProcessStepDivingCylinder', 'calculateProcessStepBalloon', 'calculateProcessStepGasTurbine'],
 	},
+
 	calculateClosedCycle: {
 		name: 'Gesloten kringproces doorrekenen',
 		setup: combinerRepeat('calculateProcessStep', 3),
-		exercises: ['calculateClosedCycleVTp', 'calculateClosedCycleTsp', 'calculateClosedCycleSTST', 'calculateClosedCycleSVSV'],
+		exercises: ['calculateClosedCycleVTp', 'calculateClosedCycleTsV', 'calculateClosedCycleSTST', 'calculateClosedCycleSVSV'],
 	},
 	calculateHeatAndWork: {
 		name: 'Warmte en arbeid berekenen',
@@ -111,7 +112,7 @@ const skills = {
 		name: 'Gesloten kringproces energie-overzicht maken',
 		setup: combinerAnd(combinerRepeat('calculateHeatAndWork', 2), 'calculateWithInternalEnergy'),
 		// setup: combinerAnd(combinerRepeat('calculateHeatAndWork', 2), combinerOr('calculateHeatAndWork', 'calculateWithInternalEnergy')), // ToDo later: use this instead.
-		exercises: ['createClosedCycleEnergyOverviewVTp', 'createClosedCycleEnergyOverviewTsp', 'createClosedCycleEnergyOverviewSTST', 'createClosedCycleEnergyOverviewSVSV'],
+		exercises: ['createClosedCycleEnergyOverviewVTp', 'createClosedCycleEnergyOverviewTsV', 'createClosedCycleEnergyOverviewSTST', 'createClosedCycleEnergyOverviewSVSV'],
 	},
 	calculateWithEfficiency: {
 		name: 'Rekenen met rendement',
@@ -124,7 +125,41 @@ const skills = {
 	analyseClosedCycle: {
 		name: 'Gesloten kringproces analyseren',
 		setup: combinerAnd('calculateClosedCycle', 'createClosedCycleEnergyOverview', combinerOr('calculateWithEfficiency', 'calculateWithCOP')),
-		exercises: ['analyseClosedCycleVTp', 'analyseClosedCycleTsp', 'analyseClosedCycleSTST', 'analyseClosedCycleSVSV'],
+		exercises: ['analyseClosedCycleVTp', 'analyseClosedCycleTsV', 'analyseClosedCycleSTST', 'analyseClosedCycleSVSV'],
+	},
+
+	calculateWithSpecificQuantities: {
+		name: 'Rekenen met specifieke grootheden',
+	},
+	massFlowTrick: {
+		name: 'De massastroom-truc',
+	},
+	calculateOpenProcessStep: {
+		name: 'Specifieke processtap doorrekenen',
+		setup: combinerAnd('gasLaw', 'calculateWithSpecificQuantities', 'recognizeProcessTypes', 'poissonsLaw'), // ToDo later: use "combinerPart('poissonsLaw', 1/2)" and possibly "combinerPart('gasLaw', 3/2)" to indicate it's not always needed.
+	},
+	calculateOpenCycle: {
+		name: 'Open kringproces doorrekenen',
+		setup: combinerRepeat('calculateOpenProcessStep', 3),
+		exercises: ['calculateOpenCyclespsp', 'calculateOpenCycleNspsp', 'calculateOpenCycleTsp'],
+	},
+	calculateSpecificHeatAndTechnicalWork: {
+		name: 'Specifieke warmte en technische arbeid berekenen',
+		setup: combinerAnd('recognizeProcessTypes', combinerOr('calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature', 'calculateWithMass'), combinerOr('specificGasConstant', 'specificHeatRatio', 'specificHeats'), 'calculateWithSpecificQuantities'), // ToDo: check this.
+	},
+	calculateWithEnthalpy: {
+		name: 'Rekenen met enthalpie',
+		setup: combinerAnd(combinerOr('gasLaw', 'poissonsLaw'), combinerOr('specificHeats', 'solveLinearEquation'), 'calculateSpecificHeatAndTechnicalWork'), // ToDo later: adjust this to something more sensible.
+	},
+	createOpenCycleEnergyOverview: {
+		name: 'Open kringproces energie-overzicht maken',
+		setup: combinerAnd(combinerRepeat('calculateSpecificHeatAndTechnicalWork', 2), 'calculateWithEnthalpy'),
+		exercises: ['createOpenCycleEnergyOverviewspsp', 'createOpenCycleEnergyOverviewNspsp', 'createOpenCycleEnergyOverviewTsp'],
+	},
+	analyseOpenCycle: {
+		name: 'Open kringproces analyseren',
+		setup: combinerAnd('calculateOpenCycle', 'createOpenCycleEnergyOverview', combinerOr('calculateWithEfficiency', 'calculateWithCOP'), 'massFlowTrick'),
+		exercises: ['analyseOpenCyclespsp', 'analyseOpenCycleNspsp', 'analyseOpenCycleTsp'],
 	},
 }
 

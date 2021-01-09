@@ -6,8 +6,8 @@ const { getCorrect: getEnergyParameters } = require('./createClosedCycleEnergyOv
 
 const data = {
 	skill: 'analyseClosedCycle',
-	setup: combinerAnd('calculateClosedCycle', 'createClosedCycleEnergyOverview', 'calculateWithEfficiency'),
-	steps: ['calculateClosedCycle', 'createClosedCycleEnergyOverview', null, 'calculateWithEfficiency'],
+	setup: combinerAnd('calculateClosedCycle', 'createClosedCycleEnergyOverview', 'calculateWithCOP'),
+	steps: ['calculateClosedCycle', 'createClosedCycleEnergyOverview', null, 'calculateWithCOP'],
 
 	equalityOptions: {
 		default: {

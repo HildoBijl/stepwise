@@ -43,7 +43,7 @@ const steps = [
 	},
 	{
 		Problem: () => <>
-			<Par>Bereken de tijdens het proces toegevoerde warmte <M>Q</M> en door de lucht geleverde arbeid <M>W</M>.</Par>
+			<Par>Bereken de tijdens het proces toegevoerde warmte <M>Q</M> en door de lucht geleverde arbeid <M>W.</M></Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="Q" prelabel={<M>Q =</M>} label={<span><M>Q</M></span>} size="s" />
@@ -62,7 +62,7 @@ const steps = [
 				De geleverde arbeid volgt soortgelijk via
 				<BM>W = -\frac(1)(n-1) \left(p_2V_2 - p_1V_1\right) = -\frac(1)({n}-1) \cdot \left({p2.float} \cdot {V2.float} - {p1.float} \cdot {V1.float}\right) = {W}.</BM>
 				Het is tenslotte handig om intuïtief te checken of de tekens kloppen. De arbeid <M>W</M> moet zeker positief zijn, omdat het gas bij deze expansiestap veel arbeid levert. Dit klopt dus. Ook de toegevoerde warmte <M>Q</M> moet positief zijn. Dit laatste is echter wat lastiger in te zien.</Par>
-				<Par>Om te begrijpen waarom <M>Q &gt; 0</M> moeten we eerst stilstaan bij het feit dat <M>n = {n}.</M> Dit betekent dat het proces ergens tussen een isentroop en een isotherm proces inzit. Bij een isentroop proces geldt dat <M>Q = 0</M>. Bij een isotherme expansie geldt dat <M>Q = W</M> waardoor <M>Q</M> net als <M>W</M> sterk positief is. Omdat ons proces tussen een isentroop en een isotherm proces in zit geldt dat <M>Q</M> positief moet zijn, maar niet zo groot als <M>W</M>. Dat klopt bij onze getallen inderdaad.</Par>
+				<Par>Om te begrijpen waarom <M>Q &gt; 0</M> moeten we eerst stilstaan bij het feit dat <M>n = {n}.</M> Dit betekent dat het proces ergens tussen een isentroop en een isotherm proces inzit. Bij een isentroop proces geldt dat <M>Q = 0.</M> Bij een isotherme expansie geldt dat <M>Q = W</M> waardoor <M>Q</M> net als <M>W</M> sterk positief is. Omdat ons proces tussen een isentroop en een isotherm proces in zit geldt dat <M>Q</M> positief moet zijn, maar niet zo groot als <M>W.</M> Dat klopt bij onze getallen inderdaad.</Par>
 			</>
 		},
 	},

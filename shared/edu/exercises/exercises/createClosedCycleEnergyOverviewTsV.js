@@ -3,7 +3,7 @@ const { getStepExerciseProcessor } = require('../util/stepExercise')
 const gasProperties = require('../../../data/gasProperties')
 const { combinerRepeat, combinerOr } = require('../../../skillTracking')
 const { checkParameter } = require('../util/check')
-const { generateState, getCorrect: getCycleParametersRaw } = require('./calculateClosedCycleTsp')
+const { generateState, getCorrect: getCycleParametersRaw } = require('./calculateClosedCycleTsV')
 
 const data = {
 	skill: 'createClosedCycleEnergyOverview',

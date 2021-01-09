@@ -32,7 +32,7 @@ const fields = [[
 ]]
 
 const Problem = ({ medium, p1, V1, T1, p2 }) => <>
-	<Par>We voeren een kringproces uit met een vaste hoeveelheid {Dutch[medium]}. Bij aanvang (punt 1) heeft dit gas een druk van <M>{p1}</M>, een volume van <M>{V1}</M> en een temperatuur van <M>{T1}.</M> We comprimeren dit gas isotherm tot <M>{p2}</M>. Vervolgens laten we het isentroop expanderen tot de begindruk. Van hieruit warmt het gas op tot het beginpunt. Bereken de gaseigenschappen voor elk punt in dit kringproces.</Par>
+	<Par>We voeren een kringproces uit met een vaste hoeveelheid {Dutch[medium]}. Bij aanvang (punt 1) heeft dit gas een druk van <M>{p1}</M>, een volume van <M>{V1}</M> en een temperatuur van <M>{T1}.</M> We comprimeren dit gas isotherm tot <M>{p2}.</M> Vervolgens laten we het isentroop expanderen tot het beginvolume. Van hieruit warmt het gas op tot het beginpunt. Bereken de gaseigenschappen voor elk punt in dit kringproces.</Par>
 	<InputSpace>
 		<InputTable {...{ colHeads, rowHeads, fields }} />
 	</InputSpace>
@@ -59,7 +59,7 @@ const steps = [
 	},
 	{
 		Problem: () => <>
-			<Par>Gebruik de kennis dat <M>p_3 = p_1</M> en dat stap 2-3 isentroop is om punt 3 door te rekenen.</Par>
+			<Par>Gebruik de kennis dat <M>V_3 = V_1</M> en dat stap 2-3 isentroop is om punt 3 door te rekenen.</Par>
 			<InputSpace>
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[2]]} fields={[fields[2]]} />
 			</InputSpace>
@@ -68,7 +68,7 @@ const steps = [
 			const { shared: { getCorrect } } = useExerciseData()
 			const { medium } = state
 			const { m, Rs, k, p2, V2, p3, V3, T3 } = getCorrect(state)
-			return <Par>We weten dat <M>p_3 = p_1 = {p3}</M>. Proces 2-3 is isentroop, waardoor ook geldt, <BM>p_2V_2^n = p_3V_3^n.</BM> Bij het isentrope proces geldt <M>n = k</M> en voor {Dutch[medium]} geldt <M>k = {k}.</M> De oplossing voor <M>V_3</M> vinden we vervolgens via <BM>V_3^n = \frac(p_2)(p_3) \cdot V_2^n,</BM><BM>V_3 = \left(\frac(p_2)(p_3) \cdot V_2^n\right)^(\frac(1)(n)) = \left(\frac(p_2)(p_3)\right)^(\frac(1)(n)) \cdot V_2 = \left(\frac{p2.float}{p3.float}\right)^(\frac(1)({k})) \cdot {V2.float} = {V3}.</BM> Tenslotte volgt <M>T_3</M> via de gaswet (of eventueel Poisson's wet als je de massa niet wilt berekenen) als <BM>T_3 = \frac(p_3V_3)(mR_s) = \frac({p3.float} \cdot {V3.float})({m.float} \cdot {Rs.float}) = {T3}.</BM> Hiermee is het gehele proces doorgerekend.</Par>
+			return <Par>We weten dat <M>V_3 = V_1 = {V3}.</M> Proces 2-3 is isentroop, waardoor ook geldt, <BM>p_2V_2^n = p_3V_3^n.</BM> Bij het isentrope proces geldt <M>n = k</M> en voor {Dutch[medium]} geldt <M>k = {k}.</M> De oplossing voor <M>p_3</M> is <BM>p_3 = p_2 \frac(V_2^n)(V_3^n) = p_2 \left(\frac(V_2)(V_3)\right)^n = {p2.float} \cdot \left(\frac{V2.float}{V3.float}\right)^({k}) = {p3}.</BM> Tenslotte volgt <M>T_3</M> via de gaswet (of eventueel Poisson's wet als je de massa niet wilt berekenen) als <BM>T_3 = \frac(p_3V_3)(mR_s) = \frac({p3.float} \cdot {V3.float})({m.float} \cdot {Rs.float}) = {T3}.</BM> Hiermee is het gehele proces doorgerekend.</Par>
 		},
 	},
 ]

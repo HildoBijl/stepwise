@@ -48,8 +48,8 @@ const courses = {
 	},
 	promo: {
 		name: 'Processen en Modelleren',
-		goals: ['analyseClosedCycle'],
-		priorKnowledge: ['calculateProcessStep', 'calculateHeatAndWork', 'calculateWithInternalEnergy'],
+		goals: ['analyseClosedCycle', 'analyseOpenCycle'],
+		priorKnowledge: ['calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature', 'calculateWithMass', 'specificGasConstant', 'specificHeatRatio', 'specificHeats', 'solveLinearEquation', 'gasLaw', 'poissonsLaw', 'recognizeProcessTypes'],
 		blocks: [
 			{
 				name: 'Gesloten systemen en kringprocessen',
@@ -57,7 +57,7 @@ const courses = {
 			},
 			{
 				name: 'Open systemen en enthalpie',
-				goals: [],
+				goals: ['analyseOpenCycle'],
 			},
 			{
 				name: 'Entropie en de tweede hoofdwet',
