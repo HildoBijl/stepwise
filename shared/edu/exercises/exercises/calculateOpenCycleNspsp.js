@@ -33,13 +33,13 @@ function generateState() {
 	})
 	const ratio = p2.number / p1.number
 	const factor = Math.pow(ratio, 1 - 1 / k.number) // T2/T1
-	T3 = T1.add(getRandomFloatUnit({
+	const T3 = T1.add(getRandomFloatUnit({
 		min: 5,
 		max: 20,
 		decimals: 0,
 		unit: 'K',
 	}))
-	T4 = T3.divide(factor).roundToPrecision()
+	const T4 = T3.divide(factor).roundToPrecision()
 
 	return { p1, T1, p2, T4 }
 }

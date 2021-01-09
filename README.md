@@ -12,7 +12,7 @@ The Step-Wise code-base is split up into four main directories.
 - **[The shared directory](shared/).** Whenever both the API and the front-end require a certain piece of code, it's placed in the shared directory. Think of utility Javascript functions, [educational functions](shared/edu/) (like whether an exercise submission is correct), various [input data types](shared/inputTypes/), our [skill tracking algorithm](shared/skillTracking) and physical constants.
 - **[The ops folder](ops/).** This is used for all operational tasks, like releasing new versions of the app through continuous deployment, checking server logs and more.
 
-A few systems span more than just one directory. If you want to learn more about these systems, check out their individual documentation, ideally in the ordered in which they appear below.
+A few systems span more than just one directory. If you want to learn more about these systems, check out their individual documentation, ideally in the order in which they appear below.
 
 - **[The skill tree.](shared/edu/skills/)** This is the foundation of Step-Wise. In Step-Wise all educational content is split up into skills to master. When a teacher sets a goal (e.g., an advanced skill) the app then automatically knows which skills (e.g., basic skills) the students should practice first. This readme file also discusses how to optimally select exercises to practice.
 - **[The exercise system.](shared/edu/exercises/)** Every skill has a multitude of exercises connected to it. Each exercise is randomly generated. This allows for a huge variety of exercises for the student to practice with.
