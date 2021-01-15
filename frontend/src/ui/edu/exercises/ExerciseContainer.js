@@ -65,3 +65,8 @@ export function getPrevProgress(history) {
 		return {}
 	return history[history.length - 2].progress
 }
+
+export function useCorrect() {
+	const { state, shared: { getCorrect } } = useExerciseData()
+	return getCorrect(state)
+}
