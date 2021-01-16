@@ -180,10 +180,8 @@ class Float {
 
 		if (power === -1)
 			return 0 // Display a number like 3 * 10^(-1) as 0.3.
-		if (power === 1 && this._significantDigits > 1)
-			return 0 // Display a number like 1.2 * 10^1 as 12.
-		if (power === 2 && this._significantDigits > 2)
-			return 0 // Display a number like 2.7315 * 10^2 as 273.15.
+		if (power > 0 && this._significantDigits > power)
+			return 0 // Display a number like 1.2 * 10^1 as 12, or a number like 2.7315 * 10^2 as 273.15.
 		return power
 	}
 
@@ -262,11 +260,11 @@ class Float {
 		return this.useSignificantDigits(Math.max(significantDigits, this.significantDigits))
 	}
 
-	// useDecimals returns a copy of this number but then with the number of significant digits adjusted to ensure it has the given number of decimals.
+	// useDecimals returns a copy of this number but then with the number of significant digits adjusted to ensure it has the given number of decimals. You can use "-2" to ensure a number like "1234" is shown like "1.2 * 10^3". It bounds it to show at least one digit. So if "1234" is shown with -6 decimals, then it's shown as "1 * 10^3".
 	useDecimals(decimals) {
 		decimals = ensureInt(decimals)
-		const delta = decimals - this.decimals
-		return this.adjustSignificantDigits(delta)
+		const significantDigits = Math.floor(Math.log10(Math.abs(this.number)) + 1 + decimals) // Find the necessary number of significant digits.
+		return this.useSignificantDigits(Math.max(significantDigits, 1)) // Bound to at least one significant digit.
 	}
 
 	// simplify sets the format of this number to the default format: x.xxxx * 10^yy. So there's only one non-zero digit prior to the comma. The number of significant digits is kept the same. It does not adjust this object but returns a copy.
