@@ -28,7 +28,7 @@ const fields = [[
 ]]
 
 const Problem = ({ p1, T1, T2 }) => <>
-	<Par>In de verbrandingskamer komt continu lucht binnen van <M>{p1}</M> en <M>{T1}.</M> Deze lucht wordt isobaar verwarmd tot <M>{T2}.</M> Bereken alle relevante eigenschappen van het lucht in deze verbrandingskamer, zowel vooraf als achteraf.</Par>
+	<Par>In de verbrandingskamer van een gasturbine komt continu lucht binnen van <M>{p1}</M> en <M>{T1}.</M> Deze lucht wordt hier isobaar verwarmd tot <M>{T2}.</M> Bereken alle relevante eigenschappen van de lucht in deze verbrandingskamer, zowel vooraf als achteraf.</Par>
 	<InputSpace>
 		<InputTable {...{ colHeads, rowHeads, fields }} />
 	</InputSpace>

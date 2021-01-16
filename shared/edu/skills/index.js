@@ -133,6 +133,7 @@ const skills = {
 	},
 	massFlowTrick: {
 		name: 'De massastroom-truc',
+		exercises: ['massFlowTrickCompressor', 'massFlowTrickWater', 'massFlowTrickEngine'],
 	},
 	calculateOpenProcessStep: {
 		name: 'Specifieke processtap doorrekenen',
