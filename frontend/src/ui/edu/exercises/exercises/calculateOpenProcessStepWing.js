@@ -121,7 +121,7 @@ const steps = [
 		},
 	},
 	{
-		Problem: ({ gas }) => <>
+		Problem: () => <>
 			<Par>Vind via de gaswet de resterende eigenschappen van de lucht boven op de vleugel.</Par>
 			<InputSpace>
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[1]]} fields={[fields[1]]} />

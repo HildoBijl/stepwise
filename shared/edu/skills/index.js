@@ -137,7 +137,7 @@ const skills = {
 	calculateOpenProcessStep: {
 		name: 'Specifieke processtap doorrekenen',
 		setup: combinerAnd('gasLaw', 'calculateWithSpecificQuantities', 'recognizeProcessTypes', 'poissonsLaw'), // ToDo later: use "combinerPart('poissonsLaw', 1/2)" and possibly "combinerPart('gasLaw', 3/2)" to indicate it's not always needed.
-		exercises: ['calculateOpenProcessStepWing'],
+		exercises: ['calculateOpenProcessStepWing', 'calculateOpenProcessStepCompressor'],
 	},
 	calculateOpenCycle: {
 		name: 'Open kringproces doorrekenen',
