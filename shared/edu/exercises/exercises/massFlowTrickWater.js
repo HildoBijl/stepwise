@@ -13,33 +13,33 @@ const data = {
 }
 
 function generateState() {
-	const wt = getRandomFloatUnit({
-		min: 200,
-		max: 360,
+	const q = getRandomFloatUnit({
+		min: 150,
+		max: 250,
 		unit: 'kJ/kg',
 		decimals: -1,
 	}).useDecimals(0)
 	const mdot = getRandomFloatUnit({
-		min: 20,
-		max: 100,
-		unit: 'g/s',
+		min: 0.2,
+		max: 1,
+		unit: 'kg/s',
 		significantDigits: 2,
 	})
-	const P = mdot.multiply(wt).setUnit('kW').roundToPrecision()
+	const Qdot = mdot.multiply(q).setUnit('kW').roundToPrecision()
 
-	return { mdot, P }
+	return { q, Qdot }
 }
 
-function getCorrect({ mdot, P }) {
-	mdot = mdot.simplify()
-	P = P.simplify()
-	const wt = P.divide(mdot).setUnit('J/kg')
-	return { mdot, P, wt }
+function getCorrect({ q, Qdot }) {
+	q = q.simplify()
+	Qdot = Qdot.simplify()
+	const mdot = Qdot.divide(q).setUnit('kg/s')
+	return { mdot, q, Qdot }
 }
 
 function checkInput(state, input) {
 	const correct = getCorrect(state)
-	return checkParameter('wt', correct, input, data.equalityOptions)
+	return checkParameter('mdot', correct, input, data.equalityOptions)
 }
 
 module.exports = {

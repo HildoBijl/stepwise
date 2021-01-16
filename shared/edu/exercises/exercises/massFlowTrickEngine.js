@@ -1,9 +1,10 @@
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+const { combinerAnd } = require('../../../skillTracking')
 const { checkParameter } = require('../util/check')
 
 const data = {
-	skill: 'massFlowTrick',
+	setup: combinerAnd('calculateWithSpecificQuantities', 'massFlowTrick'),
 	equalityOptions: {
 		default: {
 			relativeMargin: 0.01,
@@ -13,33 +14,31 @@ const data = {
 }
 
 function generateState() {
-	const wt = getRandomFloatUnit({
-		min: 200,
-		max: 360,
-		unit: 'kJ/kg',
-		decimals: -1,
-	}).useDecimals(0)
-	const mdot = getRandomFloatUnit({
-		min: 20,
-		max: 100,
-		unit: 'g/s',
+	const rho = getRandomFloatUnit({
+		min: 0.35,
+		max: 0.6,
+		unit: 'kg/m^3',
 		significantDigits: 2,
 	})
-	const P = mdot.multiply(wt).setUnit('kW').roundToPrecision()
+	const mdot = getRandomFloatUnit({
+		min: 20,
+		max: 80,
+		unit: 'kg/s',
+		significantDigits: 2,
+	})
 
-	return { mdot, P }
+	return { rho, mdot }
 }
 
-function getCorrect({ mdot, P }) {
-	mdot = mdot.simplify()
-	P = P.simplify()
-	const wt = P.divide(mdot).setUnit('J/kg')
-	return { mdot, P, wt }
+function getCorrect({ rho, mdot }) {
+	const v = rho.invert()
+	const Vdot = mdot.multiply(v).setUnit('m^3/s')
+	return { rho, mdot, v, Vdot }
 }
 
 function checkInput(state, input) {
 	const correct = getCorrect(state)
-	return checkParameter('wt', correct, input, data.equalityOptions)
+	return checkParameter('Vdot', correct, input, data.equalityOptions)
 }
 
 module.exports = {
