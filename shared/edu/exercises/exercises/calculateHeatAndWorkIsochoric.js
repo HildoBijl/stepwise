@@ -1,6 +1,5 @@
 const { selectRandomly } = require('../../../util/random')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { Unit } = require('../../../inputTypes/Unit')
 const { FloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd, combinerOr } = require('../../../skillTracking')

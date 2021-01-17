@@ -63,7 +63,7 @@ function generateState() {
 function getCorrect({ n, T1, V1, V2 }) {
 	T1 = T1.simplify()
 	const T2 = T1.multiply(V1.float.divide(V2.float).toPower(n.subtract(1)))
-	return { T1, T2, V1, V2 }
+	return { n, T1, T2, V1, V2 }
 }
 
 function checkInput(state, input, step, substep) {

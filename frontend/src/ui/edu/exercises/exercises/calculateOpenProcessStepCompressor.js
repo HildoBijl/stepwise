@@ -8,8 +8,8 @@ import { useInput } from 'ui/form/Form'
 import { InputSpace, AntiInputSpace } from 'ui/form/Status'
 import { InputTable } from 'ui/components/misc/InputTable'
 
-import { useCorrect } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
+import { useCorrect } from '../ExerciseContainer'
 import { getDefaultFeedback } from '../util/feedback'
 
 export default function Exercise() {

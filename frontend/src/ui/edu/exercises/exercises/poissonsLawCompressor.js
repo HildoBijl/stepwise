@@ -7,9 +7,9 @@ import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInpu
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { Dutch } from 'ui/lang/gases'
 
-import { useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
+import { useCorrect } from '../ExerciseContainer'
 import { getDefaultFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -51,10 +51,8 @@ const steps = [
 				<Par><FloatUnitInput id="k" prelabel={<M>k =</M>} label={<span><M>k</M>-waarde</span>} size="s" validate={validNumberAndUnit} /></Par>
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { shared: { getCorrect } } = useExerciseData()
-			const { gas } = state
-			const { k } = getCorrect(state)
+		Solution: () => {
+			const { gas, k } = useCorrect()
 			return <Par>De verhouding van soortelijke warmten van {Dutch[gas]} is <M>k = {k}.</M></Par>
 		},
 	},
@@ -82,10 +80,8 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { shared: { getCorrect } } = useExerciseData()
-			const { k, V1, V2, p1, p2 } = getCorrect(state)
-
+		Solution: () => {
+			const { k, V1, V2, p1, p2 } = useCorrect()
 			return <Par>Poisson's wet zegt dat <M>pV^n=(\rm constant)</M> waardoor we mogen schrijven, <BM>p_1V_1^n = p_2V_2^n.</BM> We willen dit oplossen voor <M>V_1.</M> Delen door <M>p_1</M> geeft <BM>V_1^n = \frac(p_2)(p_1) \cdot V_2^n.</BM> Om de macht weg te krijgen doen we beide kanten van de vergelijking tot de macht <M>\frac(1)(n)</M> waarmee we uitkomen op
 			<BM>V_1 = \left(\frac(p_2)(p_1) \cdot V_2^n\right)^(\frac(1)(n)) = \left(\frac(p_2)(p_1)\right)^(\frac(1)(n)) V_2 = \left(\frac{p2.float}{p1.float}\right)^(\frac(1)({k.float})) \cdot {V2.float} = {V1}.</BM> Omdat we het volume <M>V_2</M> in liters hebben ingevuld, is de uitkomst <M>V_1</M> ook in liters. We kunnen dit eventueel nog omrekenen naar <M>{V1.setUnit('m^3')}</M> maar dat is niet per se nodig.</Par>
 		},

@@ -6,8 +6,8 @@ import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 import { InputTable } from 'ui/components/misc/InputTable'
 
-import { useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
+import { useCorrect } from '../ExerciseContainer'
 import { getDefaultFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -49,9 +49,8 @@ const steps = [
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[0], rowHeads[1]]} fields={[fields[0], fields[1]]} />
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { shared: { getCorrect } } = useExerciseData()
-			const { m, Rs, k, p1, V1, T1, p2, V2, T2 } = getCorrect(state)
+		Solution: () => {
+			const { m, Rs, k, p1, V1, T1, p2, V2, T2 } = useCorrect()
 			return <>
 				<Par>
 					In punt 1 is alles bekend behalve de massa. Het is dus handig om hieruit de massa te berekenen. Via de gaswet vinden we
@@ -78,9 +77,8 @@ const steps = [
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[2]]} fields={[fields[2]]} />
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { shared: { getCorrect } } = useExerciseData()
-			const { m, Rs, p3, V3, T3 } = getCorrect(state)
+		Solution: () => {
+			const { m, Rs, p3, V3, T3 } = useCorrect()
 			return <Par>Gegeven is dat <M>p_3 = {p3}.</M> Omdat proces 2-3 isochoor is geldt verder <M>V_3 = V_2 = {V3}.</M> Via de gaswet volgt <BM>T_3 = \frac(p_3V_3)(mR_s) = \frac({p3.float} \cdot {V3.float})({m.float} \cdot {Rs.float}) = {T3}.</BM> Daarmee is punt 3 bekend.</Par>
 		},
 	},
@@ -91,9 +89,8 @@ const steps = [
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[2]]} fields={[fields[2]]} />
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { shared: { getCorrect } } = useExerciseData()
-			const { m, Rs, k, p3, V3, p4, V4, T4 } = getCorrect(state)
+		Solution: () => {
+			const { m, Rs, k, p3, V3, p4, V4, T4 } = useCorrect()
 			return <Par>
 				Omdat proces 4-1 isotherm is geldt <M>V_4 = V_1 = {V4}.</M> Proces 3-4 is isentroop, wat betekent dat we Poisson's wet moeten gebruiken. Via <M>p_3V_3^n = p_4V_4^n</M> vinden we zo
 				<BM>V_4^n = \frac(p_3)(p_4) V_3^n,</BM>

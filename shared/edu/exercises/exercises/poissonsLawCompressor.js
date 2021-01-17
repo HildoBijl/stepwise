@@ -63,7 +63,7 @@ function generateState() {
 function getCorrect({ gas, V2, p1, p2 }) {
 	const { k } = gasProperties[gas]
 	const V1 = V2.multiply(p2.divide(p1).float.toPower(k.float.invert()))
-	return { k, V1, V2, p1, p2 }
+	return { gas, k, V1, V2, p1, p2 }
 }
 
 function checkInput(state, input, step, substep) {

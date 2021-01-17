@@ -6,8 +6,8 @@ import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 import { InputTable } from 'ui/components/misc/InputTable'
 
-import { useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
+import { useCorrect } from '../ExerciseContainer'
 import { getDefaultFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -50,9 +50,8 @@ const steps = [
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[0], rowHeads[1]]} fields={[fields[0], fields[1]]} />
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { shared: { getCorrect } } = useExerciseData()
-			const { k, Rs, p1, v1, T1, p2, v2, T2 } = getCorrect(state)
+		Solution: () => {
+			const { k, Rs, p1, v1, T1, p2, v2, T2 } = useCorrect()
 			return <>
 				<Par>We kunnen <M>T_2</M> vinden via Poisson's wet. Deze wet zegt dat
 				<BM>\frac(T_1^n)(p_1^(n-1)) = \frac(T_2^n)(p_2^(n-1)).</BM>
@@ -73,9 +72,8 @@ const steps = [
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[2]]} fields={[fields[2]]} />
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { shared: { getCorrect } } = useExerciseData()
-			const { Rs, p3, v3, T3 } = getCorrect(state)
+		Solution: () => {
+			const { Rs, p3, v3, T3 } = useCorrect()
 			return <Par>We weten dat <M>p_3 = p_2 = {p3}</M> en <M>T_3 = {T3}.</M> Het specifieke volume volgt via de gaswet als
 			<BM>v_3 = \frac(R_sT_3)(p_3) = \frac({Rs.float} \cdot {T3.float})({p3.float}) = {v3}.</BM>
 			Zo is ook punt drie bekend.
@@ -89,9 +87,8 @@ const steps = [
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[3]]} fields={[fields[3]]} />
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { shared: { getCorrect } } = useExerciseData()
-			const { k, Rs, T3, p3, p4, v4, T4 } = getCorrect(state)
+		Solution: () => {
+			const { k, Rs, T3, p3, p4, v4, T4 } = useCorrect()
 			return <Par>Omdat stap 4-1 isobaar is geldt <M>p_4 = p_1 = {p4}.</M> De temperatuur <M>T_4</M> volgt vanuit Poisson's wet. Identiek aan hoe we <M>T_2</M> vonden geldt hier
 			<BM>T_4 = T_3 \left(\frac(p_4)(p_3)\right)^(\frac(n-1)(n)) = {T3.float} \cdot \left(\frac{p4.float}{p3.float}\right)^(\frac({k}-1)({k})) = {T4}.</BM>
 			Het specifieke volume <M>v_4</M> volgt wederom vanuit de gaswet als

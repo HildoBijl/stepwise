@@ -6,7 +6,7 @@ import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import StepExercise from '../types/StepExercise'
-import { useExerciseData } from '../ExerciseContainer'
+import { useCorrect } from '../ExerciseContainer'
 import { getDefaultFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -32,9 +32,8 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { shared: { getCorrect } } = useExerciseData()
-			const { Rs, p2, V2, T2, m } = getCorrect(state)
+		Solution: () => {
+			const { Rs, p2, V2, T2, m } = useCorrect()
 			return <Par>
 				Na het oppompen van de band heeft het lucht in de band een druk <M>p_2 = {p2},</M> een volume <M>V_2 = {V2}</M> en een temperatuur <M>T_2 = {T2}.</M> De gaswet zegt nu dat de massa van deze lucht gelijk is aan
 				<BM>m = \frac(p_2V_2)(R_sT_2) = \frac({p2.float} \cdot {V2.float})({Rs.float} \cdot {T2.float}) = {m}.</BM>
@@ -51,9 +50,8 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { shared: { getCorrect } } = useExerciseData()
-			const { cv } = getCorrect(state)
+		Solution: () => {
+			const { cv } = useCorrect()
 			return <>
 				<Par>Voor lucht geldt <M>c_v = {cv}.</M></Par>
 			</>
@@ -68,9 +66,8 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { shared: { getCorrect } } = useExerciseData()
-			const { cv, T1, T2, m, dU } = getCorrect(state)
+		Solution: () => {
+			const { cv, T1, T2, m, dU } = useCorrect()
 			return <Par>
 				De formule die we hierbij kunnen gebruiken is
 				<BM>\Delta U = mc_v \Delta T.</BM>

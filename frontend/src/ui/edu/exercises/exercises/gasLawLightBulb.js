@@ -7,9 +7,9 @@ import { Par } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
-import { useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
+import { useCorrect } from '../ExerciseContainer'
 import { getDefaultFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -50,9 +50,8 @@ const steps = [
 				<Par><FloatUnitInput id="Rs" prelabel={<M>R_s=</M>} label="Specifieke gasconstante" size="s" /></Par>
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { shared: { getCorrect } } = useExerciseData()
-			const { Rs } = getCorrect(state)
+		Solution: () => {
+			const { Rs } = useCorrect()
 			return <Par>De specifieke gasconstante van argon is <M>R_s = {Rs}.</M></Par>
 		},
 	},
@@ -63,9 +62,8 @@ const steps = [
 				<Par><FloatUnitInput id="m" prelabel={<M>m=</M>} label="Massa" size="s" /></Par>
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { shared: { getCorrect } } = useExerciseData()
-			const { Rs, m, p, V, T } = getCorrect(state)
+		Solution: () => {
+			const { Rs, m, p, V, T } = useCorrect()
 			return <Par>De gaswet zegt <BM>pV = mR_sT.</BM> Om <M>m</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>R_sT.</M> Het resultaat is <BM>m = \frac(pV)(R_sT) = \frac({p.float} \cdot {V.float})({Rs.float} \cdot {T.float}) = {m}.</BM></Par>
 		},
 	},

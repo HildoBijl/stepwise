@@ -1,4 +1,4 @@
-const { selectRandomly, getRandom } = require('../../../util/random')
+const { selectRandomly } = require('../../../util/random')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const gasProperties = require('../../../data/gasProperties')
@@ -74,7 +74,7 @@ function getCorrect({ medium, m, p1, V1, p2, p4 }) {
 	const T3 = T2
 	const V3 = V4.multiply(Math.pow(T4.number / T3.number, 1 / (k.number - 1)))
 	const p3 = mRs.multiply(T3).divide(V3).setUnit('Pa')
-	return { m, Rs, k, p1, V1, T1, p2, V2, T2, p3, V3, T3, p4, V4, T4 }
+	return { medium, m, Rs, k, p1, V1, T1, p2, V2, T2, p3, V3, T3, p4, V4, T4 }
 }
 
 function checkInput(state, input, step, substep) {

@@ -7,8 +7,8 @@ import { InputSpace } from 'ui/form/Status'
 import { InputTable } from 'ui/components/misc/InputTable'
 import { Dutch } from 'ui/lang/gases'
 
-import { useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
+import { useCorrect } from '../ExerciseContainer'
 import { getDefaultFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -46,10 +46,8 @@ const steps = [
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[0], rowHeads[1]]} fields={[fields[0], fields[1]]} />
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { shared: { getCorrect } } = useExerciseData()
-			const { medium } = state
-			const { m, Rs, p1, V1, T1, p2, V2, T2 } = getCorrect(state)
+		Solution: () => {
+			const { medium, m, Rs, p1, V1, T1, p2, V2, T2 } = useCorrect()
 			return <>
 				<Par>In punt 1 hebben we drie eigenschappen, maar we weten de massa van het gas niet. Het is handig om deze eerst te vinden. Voor {Dutch[medium]} geldt <M>R_s = {Rs}.</M> Via de gaswet volgt <M>m</M> als <BM>m = \frac(p_1V_1)(R_sT_1) = \frac({p1.float} \cdot {V1.float})({Rs.float} \cdot {T1.float}) = {m}.</BM> Nu dit bekend is kunnen we naar punt 2 kijken. We weten al dat <M>p_2 = {p2}.</M> Omdat proces 1-2 een isotherm proces is geldt verder <BM>T_2 = T_1 = {T2}.</BM> Via de gaswet volgt <M>V_2</M> als <BM>V_2 = \frac(mR_sT_2)(p_2) = \frac({m.float} \cdot {Rs.float} \cdot {T2.float})({p2.float}) = {V2}.</BM> Daarmee is punt 2 volledig bekend.</Par>
 				<SubHead>Short-cut</SubHead>
@@ -64,10 +62,8 @@ const steps = [
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[2]]} fields={[fields[2]]} />
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { shared: { getCorrect } } = useExerciseData()
-			const { medium } = state
-			const { m, Rs, k, p2, V2, p3, V3, T3 } = getCorrect(state)
+		Solution: () => {
+			const { medium, m, Rs, k, p2, V2, p3, V3, T3 } = useCorrect()
 			return <Par>We weten dat <M>V_3 = V_1 = {V3}.</M> Proces 2-3 is isentroop, waardoor ook geldt, <BM>p_2V_2^n = p_3V_3^n.</BM> Bij het isentrope proces geldt <M>n = k</M> en voor {Dutch[medium]} geldt <M>k = {k}.</M> De oplossing voor <M>p_3</M> is <BM>p_3 = p_2 \frac(V_2^n)(V_3^n) = p_2 \left(\frac(V_2)(V_3)\right)^n = {p2.float} \cdot \left(\frac{V2.float}{V3.float}\right)^({k}) = {p3}.</BM> Tenslotte volgt <M>T_3</M> via de gaswet (of eventueel Poisson's wet als je de massa niet wilt berekenen) als <BM>T_3 = \frac(p_3V_3)(mR_s) = \frac({p3.float} \cdot {V3.float})({m.float} \cdot {Rs.float}) = {T3}.</BM> Hiermee is het gehele proces doorgerekend.</Par>
 		},
 	},

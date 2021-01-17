@@ -8,7 +8,7 @@ import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInpu
 import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
-import { useExerciseData } from '../ExerciseContainer'
+import { useCorrect } from '../ExerciseContainer'
 import { getDefaultFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -25,8 +25,7 @@ function Problem({ E, Ein }) {
 }
 
 function Solution({ E, Ein }) {
-	const { shared: { getCorrect } } = useExerciseData()
-	const eta = getCorrect({ E, Ein })
+	const eta = useCorrect()
 
 	return <Par>We berekenen het rendement via <M>\frac(\rm nuttig)(\rm invoer).</M> De nuttige energie is de energie die daadwerkelijk in de batterij is aangekomen. Dit is <M>E_(\rm batterij)={E}.</M> De invoer is de daadwerkelijk gebruikte energie <M>E_(\rm in)={Ein}.</M> Zo vinden we het rendement <BM>\eta = \frac(\rm nuttig)(\rm invoer) = \frac(E_(\rm batterij))(E_(\rm in)) = \frac{E}{Ein} = {eta}.</BM> In het ideale geval komt alle gebruikte energie aan bij de batterij, maar in de praktijk vinden altijd verliezen plaats. Gelukkig zijn grote batterijen relatief efficiënt: met <M>{eta.setUnit('%')}</M> weet de batterij de meeste elektriciteit op te slaan.</Par>
 }

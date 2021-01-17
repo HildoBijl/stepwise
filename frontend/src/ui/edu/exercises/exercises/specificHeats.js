@@ -36,15 +36,4 @@ function Solution({ medium }) {
 
 const getFeedback = (exerciseData) => {
 	return getDefaultFeedback(['cv','cp'], exerciseData)
-	// const { state, input, progress, shared, prevInput, prevFeedback } = exerciseData
-	// const { medium } = state
-	// const { data } = shared
-	// const { equalityOptions } = data
-
-	// const { cv, cp } = gasProperties[medium]
-
-	// return {
-	// 	cv: getFloatUnitComparisonFeedback(cv, input.cv, { equalityOptions: equalityOptions, solved: progress.solved, prevInput: prevInput.anscv, prevFeedback: prevFeedback.anscv }),
-	// 	cp: getFloatUnitComparisonFeedback(cp, input.cp, { equalityOptions: equalityOptions, solved: progress.solved, prevInput: prevInput.anscp, prevFeedback: prevFeedback.anscp }),
-	// }
 }

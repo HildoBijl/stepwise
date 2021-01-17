@@ -6,8 +6,8 @@ import { InputSpace } from 'ui/form/Status'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 
-import { useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
+import { useCorrect } from '../ExerciseContainer'
 import { getDefaultFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -78,9 +78,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { shared: { getCorrect } } = useExerciseData()
-			const { Rs, cv } = getCorrect(state)
+		Solution: () => {
+			const { Rs, cv } = useCorrect()
 
 			return <Par>Voor lucht geldt <M>R_s = {Rs}</M> en <M>c_v = {cv}.</M></Par>
 		},
@@ -96,10 +95,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { shared: { getCorrect } } = useExerciseData()
-			const { n, Rs, cv, c } = getCorrect(state)
-
+		Solution: () => {
+			const { n, Rs, cv, c } = useCorrect()
 			return <Par>Voor elk proces met procescoëfficiënt <M>n</M> kunnen we de soortelijke warmte berekenen via <BM>c = c_v - \frac(R_s)(n-1).</BM> Getallen invullen geeft <BM>c = {cv.float} - \frac({Rs.float})({n.float} - 1) = {c}.</BM> Hiermee kunnen we zo de toegevoerde warmte berekenen.</Par>
 		},
 	},
@@ -128,10 +125,8 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { shared: { getCorrect } } = useExerciseData()
-			const { Rs, n, m, c, T1, T2, Q, W } = getCorrect(state)
-
+		Solution: () => {
+			const { Rs, n, m, c, T1, T2, Q, W } = useCorrect()
 			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we <BM>Q = mc\left(T_2 - T_1\right) = {m.float} \cdot {c.float} \cdot \left({T2.float} - {T1.float}\right) = {Q},</BM> <BM>W = -\frac(mR_s)(n-1)\left(T_2 - T_1\right) = -\frac({m.float} \cdot {Rs.float})({n.float} - 1) \cdot \left({T2.float} - {T1.float}\right) = {W}.</BM> De mintekens hier betekenen dat er warmte <strong>uit het gas</strong> stroomt en dat er arbeid <strong>op het gas</strong> wordt verricht. Dit klopt, want we zijn de lucht aan het comprimeren, dus dit kost arbeid. En omdat de lucht warmer wordt stroomt er warmte uit. De mintekens moeten dus zeker wel vermeld worden, want ze geven de richtingen van deze energiestromen aan.
 			</Par>
 		},

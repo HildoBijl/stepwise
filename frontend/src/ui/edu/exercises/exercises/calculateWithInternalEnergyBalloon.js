@@ -6,7 +6,7 @@ import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import StepExercise from '../types/StepExercise'
-import { useExerciseData } from '../ExerciseContainer'
+import { useCorrect } from '../ExerciseContainer'
 import { getDefaultFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -33,9 +33,8 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { shared: { getCorrect } } = useExerciseData()
-			const { k, p, V1, V2, Q, W } = getCorrect(state)
+		Solution: () => {
+			const { k, p, V1, V2, Q, W } = useCorrect()
 			return <>
 				<Par>De verwarming vindt op gelijke druk plaats, waardoor we met een isobaar proces te maken hebben. Het gebruikte medium is helium, met <M>k = {k}.</M> Bij dit proces valt de toegevoerde warmte te berekenen via 
 				<BM>Q = \frac(k)(k-1) p\left(V_2 - V_1\right) = \frac({k})({k} - 1) \cdot {p.float} \cdot \left({V2.float} - {V1.float}\right) = {Q}.</BM>
@@ -54,9 +53,8 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { shared: { getCorrect } } = useExerciseData()
-			const { k, p, V1, V2, Q, W, dU } = getCorrect(state)
+		Solution: () => {
+			const { k, p, V1, V2, Q, W, dU } = useCorrect()
 			return <>
 				<Par>De eerste hoofdwet zegt dat <M>Q = \Delta U + W.</M> Hieruit volgt direct dat <BM>\Delta U = Q - W = {Q.float} - {W.float} = {dU}.</BM>
 				Omdat we veel warmte aan het gas toegevoegd hebben is deze waarde positief.</Par>

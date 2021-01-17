@@ -10,8 +10,8 @@ import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { useInput } from 'ui/form/Form'
 import { InputTable } from 'ui/components/misc/InputTable'
 
-import { useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
+import { useCorrect } from '../ExerciseContainer'
 import { getDefaultFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -51,8 +51,7 @@ const steps = [
 		</>,
 		Solution: (state) => {
 			const { m, T1, p1 } = state
-			const { shared: { getCorrect } } = useExerciseData()
-			const { Rs, p1: p1s, V1 } = getCorrect(state)
+			const { Rs, p1: p1s, V1 } = useCorrect()
 			return <>
 				<Par>We weten <M>p_1</M> en <M>T_1</M> al. We gaan de gaswet gebruiken om <M>V_1</M> te berekenen. Hierbij moeten alle waarden in standaard eenheden staan. Dus schrijven we op,<BM>p_1 = {p1} \cdot {pConversion} = {p1s}.</BM> Merk op dat de temperatuur <M>T1 = {T1}</M> en de massa <M>m = {m}</M> al in standaard eenheden staan. Verder weten we dat de specifieke gasconstante van lucht gelijk is aan <M>{Rs}.</M></Par>
 				<Par>De gaswet zegt dat <BM>pV = mR_sT.</BM> Dit toepassen op punt 1 en oplossen voor <M>V_1</M> geeft <BM>V_1 = \frac(mR_sT_1)(p_1) = \frac({m.float} \cdot {Rs.float} \cdot {T1.float})({p1s.float}) = {V1}.</BM> Dit is een grote hoeveelheid, maar dat is logisch: het is het volume van <M>{m}</M> sterk verwarmde lucht.</Par>
@@ -106,8 +105,7 @@ const steps = [
 		},
 		Solution: (state) => {
 			const { p1, p2 } = state
-			const { shared: { getCorrect } } = useExerciseData()
-			const { k, V1, V2, T1, T2 } = getCorrect(state)
+			const { k, V1, V2, T1, T2 } = useCorrect()
 			const choice = useInput('choice')
 
 			if (choice === undefined || choice === 0)
@@ -123,9 +121,8 @@ const steps = [
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[1]]} fields={[fields[1]]} />
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { shared: { getCorrect } } = useExerciseData()
-			const { Rs, m, p2, V2, T2 } = getCorrect(state)
+		Solution: () => {
+			const { Rs, m, p2, V2, T2 } = useCorrect()
 			const choice = useInput('choice')
 
 			if (choice === undefined || choice === 0)

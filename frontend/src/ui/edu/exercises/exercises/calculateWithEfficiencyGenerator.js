@@ -8,7 +8,7 @@ import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInpu
 import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
-import { useExerciseData } from '../ExerciseContainer'
+import { useCorrect } from '../ExerciseContainer'
 import { getDefaultFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -25,9 +25,7 @@ function Problem({ P, Pin }) {
 }
 
 function Solution({ P, Pin }) {
-	const { shared: { getCorrect } } = useExerciseData()
-	const eta = getCorrect({ P, Pin })
-
+	const eta = useCorrect()
 	return <Par>We berekenen het rendement via <M>\frac(\rm nuttig)(\rm invoer).</M> Het nuttige vermogen hier is het elektrische vermogen <M>P_(\rm elek)={P}.</M> De energie (invoer) komt uit het verbranden van de brandstof <M>P_(\rm in)={Pin}.</M> Zo vinden we het rendement <BM>\eta = \frac(\rm nuttig)(\rm invoer) = \frac(P_(\rm elek))(P_(\rm in)) = \frac{P}{Pin} = {eta}.</BM> Dit kunnen we eventueel nog schrijven als <M>{eta.setUnit('%')}</M> maar dat is niet per se nodig.</Par>
 }
 

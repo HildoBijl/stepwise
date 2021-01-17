@@ -7,8 +7,8 @@ import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInpu
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { Dutch } from 'ui/lang/gases'
 
-import { useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
+import { useCorrect } from '../ExerciseContainer'
 import { getDefaultFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -78,11 +78,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { gas } = state
-			const { shared: { getCorrect } } = useExerciseData()
-			const { k } = getCorrect(state)
-
+		Solution: () => {
+			const { gas, k } = useCorrect()
 			return <Par>Voor {Dutch[gas]} geldt <M>k = {k}.</M></Par>
 		},
 	},
@@ -111,10 +108,8 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { shared: { getCorrect } } = useExerciseData()
-			const { k, V, p1, p2, Q, W } = getCorrect(state)
-
+		Solution: () => {
+			const { k, V, p1, p2, Q, W } = useCorrect()
 			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we <BM>Q = \frac(1)(k-1) V \left(p_2 - p_1\right) = \frac(1)({k.float}-1) \cdot {V.float} \cdot \left({p2.float} - {p1.float}\right) = {Q},</BM><BM>W = {W}.</BM> Dit is een grote hoeveelheid warmte, maar de druktoename is ook significant, dus dit lijkt logisch.</Par>
 		},
 	},

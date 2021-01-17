@@ -1,7 +1,6 @@
 const { selectRandomly } = require('../../../util/random')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Unit } = require('../../../inputTypes/Unit')
-const { FloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd, combinerOr } = require('../../../skillTracking')
 const { checkParameter } = require('../util/check')
@@ -75,7 +74,7 @@ function getCorrect({ gas, m, T, p1, p2 }) {
 	ratio = p1.divide(p2).simplify()
 	const Q = m.multiply(Rs).multiply(T).multiply(Math.log(ratio.number)).setUnit('J')
 	const W = Q
-	return { gas, process: 2, eq: 5, Rs, ratio, m, T, Q, W }
+	return { gas, process: 2, eq: 5, Rs, ratio, m, T, p1, p2, Q, W }
 }
 
 function checkInput(state, input, step, substep) {

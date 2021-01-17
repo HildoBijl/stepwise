@@ -6,7 +6,7 @@ import FloatInput from 'ui/form/inputs/FloatInput'
 import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
-import { useExerciseData } from '../ExerciseContainer'
+import { useCorrect } from '../ExerciseContainer'
 import { getDefaultFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -23,9 +23,8 @@ function Problem({ a, b, c, p }) {
 }
 
 function Solution(state) {
-	const { shared: { getCorrect } } = useExerciseData()
 	const { a, b, c, p } = state
-	const x = getCorrect(state)
+	const x = useCorrect()
 
 	const aDivB = a.divide(b, true)
 	const aDivBTimesCToP = aDivB.multiply(c.toPower(p))

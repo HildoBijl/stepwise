@@ -6,7 +6,7 @@ import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInpu
 import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
-import { useExerciseData } from '../ExerciseContainer'
+import { useCorrect } from '../ExerciseContainer'
 import { getDefaultFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -23,9 +23,8 @@ function Problem({ Ee, Eout }) {
 }
 
 function Solution({ Ee, Eout }) {
-	const { shared: { getCorrect } } = useExerciseData()
 	const Ef = Eout.subtract(Ee, true)
-	const epsilon = getCorrect({ Ee, Eout })
+	const epsilon = useCorrect()
 
 	return <>
 		<Par>We berekenen de koudefactor via <M>\frac(\rm nuttig)(\rm invoer).</M> Het is hierbij belangrijk om te kijken welke energiestroom daadwerkelijk nuttig is. Dit is <em>niet</em> de warmte die aan de keuken toegevoerd wordt. Immers, het doel is om de koelkast koud te krijgen, en niet om de keuken warm te krijgen.</Par>

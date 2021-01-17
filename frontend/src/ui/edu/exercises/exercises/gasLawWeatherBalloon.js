@@ -5,8 +5,8 @@ import { Par, SubHead } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
-import { useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
+import { useCorrect } from '../ExerciseContainer'
 import { getDefaultFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -29,9 +29,8 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { shared: { getCorrect } } = useExerciseData()
-			const { p1, V1, T1, Rs, m } = getCorrect(state)
+		Solution: () => {
+			const { p1, V1, T1, Rs, m } = useCorrect()
 			return <Par>We zetten allereerst de gegevens van het beginpunt in standaard eenheden. Hiermee vinden we <BM>p_1 = {p1},</BM><BM>V_1 = {V1},</BM><BM>T_1 = {T1}.</BM> Vervolgens zoeken we de gasconstante van helium op. Deze is <BM>R_s = {Rs}.</BM> De gaswet zegt dat <M>pV = mR_sT.</M> We passen dit toe op punt 1: de weerballon op de grond. Om <M>m</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>R_sT.</M> Het resultaat is <BM>m = \frac(p_1V_1)(R_sT_1) = \frac({p1.float} \cdot {V1.float})({Rs.float} \cdot {T1.float}) = {m}.</BM></Par>
 		},
 	},
@@ -43,8 +42,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: (state) => {
-			const { shared: { getCorrect } } = useExerciseData()
-			const { p1, p2, V2, V1, T2, m, Rs } = getCorrect(state)
+			const { p1, p2, V2, V1, T2, m, Rs } = useCorrect()
 			return <>
 				<Par>Als eerste zetten we de eigenschappen van het eindpunt in standaard eenheden: <BM>p_2 = {p2},</BM><BM>T_2 = {T2}.</BM> Vervolgens passen we de gaswet <M>pV = mR_sT</M> toe op punt 2: de weerballon hoog in de lucht. Om deze wet op te lossen voor het volume <M>V</M> delen we beide kanten van de vergelijking door <M>p.</M> Zo vinden we <BM>V_2 = \frac(mR_sT_2)(p_2) = \frac({m.float} \cdot {Rs.float} \cdot {T2.float})({p2.float}) = {V2}.</BM> Dit is een stuk groter dan voorheen, maar dat is logisch gezien de erg lage druk hoog in de lucht.</Par>
 				<SubHead>Short-cut</SubHead>

@@ -53,7 +53,7 @@ function getCorrect({ medium, p1, T1, p2 }) {
 	const p3 = p1
 	const v3 = v2.multiply(Math.pow(p2.number/p3.number, 1/k.number))
 	const T3 = p3.multiply(v3).divide(Rs).setUnit('K')
-	return { Rs, k, p1, v1, T1, p2, v2, T2, p3, v3, T3 }
+	return { medium, Rs, k, p1, v1, T1, p2, v2, T2, p3, v3, T3 }
 }
 
 function checkInput(state, input, step, substep) {

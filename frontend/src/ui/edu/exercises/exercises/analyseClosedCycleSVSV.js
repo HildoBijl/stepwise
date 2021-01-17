@@ -8,8 +8,8 @@ import { useInput } from 'ui/form/Form'
 import { InputSpace } from 'ui/form/Status'
 import { InputTable } from 'ui/components/misc/InputTable'
 
-import { useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
+import { useCorrect } from '../ExerciseContainer'
 import { getDefaultFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -70,9 +70,8 @@ const steps = [
 					]]} />
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { shared: { getCorrect } } = useExerciseData()
-			const { m, Rs, k, p1, V1, T1, p2, V2, T2, p3, V3, T3, p4, V4, T4 } = getCorrect(state)
+		Solution: () => {
+			const { m, Rs, k, p1, V1, T1, p2, V2, T2, p3, V3, T3, p4, V4, T4 } = useCorrect()
 			return <>
 				<Par>
 					In punt 1 weten we al dat <M>p_1 = {p1}</M>, <M>V_1 = {V1}</M> en <M>T_1 = {T1}.</M> We vinden de massa via de gaswet,
@@ -114,9 +113,8 @@ const steps = [
 					]]} />
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { shared: { getCorrect } } = useExerciseData()
-			const { m, cv, T1, T2, T3, T4, Q12, W12, Q23, W23, Q34, W34, Q41, W41, Wn } = getCorrect(state)
+		Solution: () => {
+			const { m, cv, T1, T2, T3, T4, Q12, W12, Q23, W23, Q34, W34, Q41, W41, Wn } = useCorrect()
 			return <>
 				<Par>
 					Voor de isentrope stap 1-2 zijn de energiestromen
@@ -162,9 +160,8 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { shared: { getCorrect } } = useExerciseData()
-			const { Wn, Qin, eta } = getCorrect(state)
+		Solution: () => {
+			const { Wn, Qin, eta } = useCorrect()
 			return <Par>
 				De processtappen waarop warmte toegevoerd wordt (<M>Q \gt 0</M>) is alleen de verbrandingsstap 2-3. De toegevoerde warmte is dus <M>Q_(toe) = Q_(2-3) = {Qin}.</M> De netto arbeid is al bekend als <M>W_(netto) = {Wn}.</M> Hiermee volgt het rendement als
 				<BM>\eta = \frac(\rm nuttig)(\rm invoer) = \frac(W_(netto))(Q_(toe)) = \frac{Wn}{Qin} = {eta} = {eta.setUnit('%')}.</BM>
