@@ -5,8 +5,8 @@ const { checkParameter } = require('../util/check')
 
 const data = {
 	skill: 'calculateWithEnthalpy',
-	setup: combinerAnd('massFlowTrick', 'calculateSpecificHeatAndTechnicalWork', 'solveLinearEquation'),
-	steps: ['massFlowTrick', 'calculateSpecificHeatAndTechnicalWork', 'solveLinearEquation'],
+	setup: combinerAnd('massFlowTrick', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation'),
+	steps: ['massFlowTrick', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation'],
 
 	equalityOptions: {
 		default: {

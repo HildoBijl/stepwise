@@ -215,7 +215,7 @@ class Unit {
 				if (unitA.order !== unitB.order)
 					return unitA.order - unitB.order
 				if (unitA.letter !== unitB.letter)
-					return unitA.letter > unitB.letter ? 1 : -1
+					return unitA.letter.toLowerCase() > unitB.letter.toLowerCase() ? 1 : -1
 				const prefixA = unitPowers[a].prefix
 				const prefixB = unitPowers[b].prefix
 				if (prefixA.power !== prefixB.power)

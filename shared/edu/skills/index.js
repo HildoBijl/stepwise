@@ -145,18 +145,19 @@ const skills = {
 		setup: combinerRepeat('calculateOpenProcessStep', 3),
 		exercises: ['calculateOpenCyclespsp', 'calculateOpenCycleNspsp', 'calculateOpenCycleTsp'],
 	},
-	calculateSpecificHeatAndTechnicalWork: {
+	calculateSpecificHeatAndMechanicalWork: {
 		name: 'Specifieke warmte en technische arbeid berekenen',
 		setup: combinerAnd('recognizeProcessTypes', combinerOr('calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature', 'calculateWithMass'), combinerOr('specificGasConstant', 'specificHeatRatio', 'specificHeats'), 'calculateWithSpecificQuantities'), // ToDo: check this.
+		exercises: ['calculateSpecificHeatAndMechanicalWorkIsobaric', 'calculateSpecificHeatAndMechanicalWorkIsothermal', 'calculateSpecificHeatAndMechanicalWorkIsentropic'],
 	},
 	calculateWithEnthalpy: {
 		name: 'Rekenen met enthalpie',
-		setup: combinerAnd(combinerOr('calculateWithSpecificQuantities', 'calculateSpecificHeatAndTechnicalWork'), 'solveLinearEquation'), // ToDo later: adjust this to something more sensible, like a combinerPick.
+		setup: combinerAnd(combinerOr('calculateWithSpecificQuantities', 'calculateSpecificHeatAndMechanicalWork'), 'solveLinearEquation'), // ToDo later: adjust this to something more sensible, like a combinerPick.
 		exercises: ['calculateWithEnthalpyCompressor', 'calculateWithEnthalpyBoiler', 'calculateWithEnthalpyTurbine'],
 	},
 	createOpenCycleEnergyOverview: {
 		name: 'Open kringproces energie-overzicht maken',
-		setup: combinerAnd(combinerRepeat('calculateSpecificHeatAndTechnicalWork', 2), 'calculateWithEnthalpy'),
+		setup: combinerAnd(combinerRepeat('calculateSpecificHeatAndMechanicalWork', 2), 'calculateWithEnthalpy'),
 		exercises: ['createOpenCycleEnergyOverviewspsp', 'createOpenCycleEnergyOverviewNspsp', 'createOpenCycleEnergyOverviewTsp'],
 	},
 	analyseOpenCycle: {

@@ -7,8 +7,8 @@ const { generateState, getCorrect: getCycleParametersRaw } = require('./calculat
 
 const data = {
 	skill: 'createOpenCycleEnergyOverview',
-	setup: combinerRepeat('calculateSpecificHeatAndTechnicalWork', 4),
-	steps: ['calculateSpecificHeatAndTechnicalWork', 'calculateSpecificHeatAndTechnicalWork', 'calculateSpecificHeatAndTechnicalWork', combinerOr('calculateSpecificHeatAndTechnicalWork', 'calculateWithEnthalpy')],
+	setup: combinerRepeat('calculateSpecificHeatAndMechanicalWork', 4),
+	steps: ['calculateSpecificHeatAndMechanicalWork', 'calculateSpecificHeatAndMechanicalWork', 'calculateSpecificHeatAndMechanicalWork', combinerOr('calculateSpecificHeatAndMechanicalWork', 'calculateWithEnthalpy')],
 
 	equalityOptions: {
 		default: {

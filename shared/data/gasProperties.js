@@ -43,8 +43,11 @@ const gases = {
 
 // Calculate derived properties.
 Object.values(gases).forEach(gas => {
-	gas.cv = gas.Rs.divide(gas.k.number - 1).useSignificantDigits(3)
+	gas.cv = gas.Rs.divide(gas.k.number - 1).useMinimumSignificantDigits(3)
 	gas.cp = gas.cv.multiply(gas.k)
 })
+
+// Set manual fixes.
+gases.air.cp = gases.air.cp.useMinimumSignificantDigits(4)
 
 module.exports = gases

@@ -141,8 +141,8 @@ const getFeedback = (exerciseData) => {
 				'Nee, dit zijn de formules voor een isotherm proces. Daarnaast weten we de massa en de temperatuur helemaal niet.',
 				'Ja! Dit zijn de formules voor een isentroop proces die we kunnen gebruiken.',
 				'Net niet! Dit zijn wel de formules voor een isentroop proces. We weten alleen de massa en de temperatuur niet, waardoor deze formules niet handig zijn.',
-				'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze opgave.',
-				'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze opgave. Daarnaast weten we de massa en de temperatuur helemaal niet.',
+				'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze vraag.',
+				'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze vraag. Daarnaast weten we de massa en de temperatuur helemaal niet.',
 			],
 		})
 	}
