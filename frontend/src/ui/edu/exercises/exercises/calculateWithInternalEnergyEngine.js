@@ -33,7 +33,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { p1, V1, p2, V2, n, } = useCorrect()
+			const { p1, V1, p2, V2, n } = useCorrect()
 			return <Par>Er is gegeven dat <M>p_1 = {p1},</M> <M>V_1 = {V1},</M> <M>V_2 = {V2}</M> en <M>n = {n}.</M> We vinden <M>p_2</M> via Poisson's wet,
 			<BM>p_1V_1^n = p_2V_2^n,</BM>
 				<BM>p_2 = p_1 \frac(V_1^n)(V_2^n) = p_1 \left(\frac(V_1)(V_2)\right)^n = {p1.float} \cdot \left(\frac{V1.float}{V2.float}\right)^{n} = {p2}.</BM>

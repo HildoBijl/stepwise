@@ -43,7 +43,7 @@ const gases = {
 
 // Calculate derived properties.
 Object.values(gases).forEach(gas => {
-	gas.cv = gas.Rs.divide(gas.k.number - 1).useSignificantDigits(3).setUnit('kJ/kg * K')
+	gas.cv = gas.Rs.divide(gas.k.number - 1).useSignificantDigits(3)
 	gas.cp = gas.cv.multiply(gas.k)
 })
 

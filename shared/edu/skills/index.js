@@ -151,7 +151,8 @@ const skills = {
 	},
 	calculateWithEnthalpy: {
 		name: 'Rekenen met enthalpie',
-		setup: combinerAnd(combinerOr('gasLaw', 'poissonsLaw'), combinerOr('specificHeats', 'solveLinearEquation'), 'calculateSpecificHeatAndTechnicalWork'), // ToDo later: adjust this to something more sensible.
+		setup: combinerAnd(combinerOr('calculateWithSpecificQuantities', 'calculateSpecificHeatAndTechnicalWork'), 'solveLinearEquation'), // ToDo later: adjust this to something more sensible, like a combinerPick.
+		exercises: ['calculateWithEnthalpyCompressor', 'calculateWithEnthalpyBoiler', 'calculateWithEnthalpyTurbine'],
 	},
 	createOpenCycleEnergyOverview: {
 		name: 'Open kringproces energie-overzicht maken',
