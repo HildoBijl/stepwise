@@ -1,5 +1,4 @@
 const { getRandom } = require('../../../util/random')
-const { getRandomFloat } = require('../../../inputTypes/Float')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 let { helium: { k } } = require('../../../data/gasProperties')
@@ -7,6 +6,7 @@ const { combinerAnd } = require('../../../skillTracking')
 const { checkParameter } = require('../util/check')
 
 const data = {
+	skill: 'calculateWithInternalEnergy',
 	setup: combinerAnd('calculateHeatAndWork', 'solveLinearEquation'),
 	steps: ['calculateHeatAndWork', 'solveLinearEquation'],
 

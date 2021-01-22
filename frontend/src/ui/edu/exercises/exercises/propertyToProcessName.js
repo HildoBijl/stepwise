@@ -57,13 +57,13 @@ function getFeedback(exerciseData) {
 		[
 			'Een isobaar proces is een proces met constante druk. Maar hier geldt: door de verwarming van de lucht in de cilinder stijgt de druk sterk.',
 			'Ja! Het volume blijft immers constant.',
-			'Een isotherm proces is een proces waarbij de temperatuur constant blijft. Het lucht in de cilinder wordt echter sterk verwarmd, waardoor de temperatuur stijgt.',
+			'Een isotherm proces is een proces waarbij de temperatuur constant blijft. De lucht in de cilinder wordt echter sterk verwarmd, waardoor de temperatuur stijgt.',
 			'Een adiabatisch proces is een zonder warmte-uitwisseling. Door de verbranding van het brandstof wordt echter zeker wel warmte toegevoerd.',
 			'Een isentroop proces is een proces zonder warmte-uitwisseling met de omgeving en zonder interne warmte-ontwikkeling. Door de verbranding van het brandstof wordt echter zeker wel warmte toegevoerd.',
 		],
 		[
 			'Een isobaar proces is een proces met constante druk. Maar hier geldt: bij het indrukken van de hendel wordt de lucht gecomprimeerd, waardoor de druk stijgt.',
-			'Een isochoor proces is een proces met constant volume. Het lucht in de fietspomp wordt echter gecomprimeerd: het volume neemt af.',
+			'Een isochoor proces is een proces met constant volume. De lucht in de fietspomp wordt echter gecomprimeerd: het volume neemt af.',
 			'Dat klopt! De temperatuur van de lucht binnen de fietspomp blijft ongeveer constant.',
 			'Een adiabatisch proces is een zonder warmte-uitwisseling met de omgeving. Omdat de fietspomp heel langzaam ingedrukt wordt, stroomt er echter continu wel een beetje warmte naar buiten.',
 			'Een isentroop proces is een proces zonder warmte-uitwisseling met de omgeving en zonder interne warmte-ontwikkeling. Omdat de fietspomp heel langzaam ingedrukt wordt, stroomt er echter continu wel een beetje warmte naar buiten.',

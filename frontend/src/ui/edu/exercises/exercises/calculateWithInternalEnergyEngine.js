@@ -14,7 +14,7 @@ export default function Exercise() {
 }
 
 const Problem = ({ p1, V1, V2, n }) => <>
-	<Par>De zuiger van een benzinemotor zit in zijn hoogste stand, waardoor het lucht is samengedrukt tot <M>{V1}.</M> De brandstof is zojuist ontbrand, waardoor de druk is toegenomen tot <M>{p1}.</M> Wij bekijken de expansiestap, waarbij de zuiger terug naar beneden wordt geduwd. Aan het einde van deze stap is het volume <M>{V2}.</M> Dit proces heeft een procescoëfficiënt van <M>n = {n}.</M> Wat is de verandering in de inwendige energie <M>U</M> tijdens deze expansie?</Par>
+	<Par>De zuiger van een benzinemotor zit in zijn hoogste stand, waardoor de lucht is samengedrukt tot <M>{V1}.</M> De brandstof is zojuist ontbrand, waardoor de druk is toegenomen tot <M>{p1}.</M> Wij bekijken de expansiestap, waarbij de zuiger terug naar beneden wordt geduwd. Aan het einde van deze stap is het volume <M>{V2}.</M> Dit proces heeft een procescoëfficiënt van <M>n = {n}.</M> Wat is de verandering in de inwendige energie <M>U</M> tijdens deze expansie?</Par>
 	<InputSpace>
 		<Par>
 			<FloatUnitInput id="dU" prelabel={<M>\Delta U=</M>} label={<span>Verandering in <M>U</M></span>} size="s" />

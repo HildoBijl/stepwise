@@ -6,6 +6,7 @@ const { combinerAnd } = require('../../../skillTracking')
 const { checkParameter } = require('../util/check')
 
 const data = {
+	skill: 'calculateWithInternalEnergy',
 	setup: combinerAnd('gasLaw', 'specificHeats', 'solveLinearEquation'),
 	steps: ['gasLaw', 'specificHeats', 'solveLinearEquation'],
 

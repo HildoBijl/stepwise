@@ -7,6 +7,7 @@ const { combinerAnd } = require('../../../skillTracking')
 const { checkParameter } = require('../util/check')
 
 const data = {
+	skill: 'calculateWithInternalEnergy',
 	setup: combinerAnd('poissonsLaw', 'calculateHeatAndWork', 'solveLinearEquation'),
 	steps: ['poissonsLaw', 'calculateHeatAndWork', 'solveLinearEquation'],
 
@@ -51,8 +52,8 @@ function getCorrect({ p1, V1, V2, n }) {
 	const p2 = p1.multiply(Math.pow(V1.number/V2.number, n))
 	const diff = p2.multiply(V2).subtract(p1.multiply(V1)).setUnit('J')
 	const c = cv.subtract(Rs.divide(n-1))
-	const Q = c.divide(Rs).multiply(diff).setUnit('J')
-	const W = diff.multiply(-1/(n-1))
+	const Q = c.divide(Rs).multiply(diff).setUnit('J').useMinimumSignificantDigits(2)
+	const W = diff.multiply(-1/(n-1)).useMinimumSignificantDigits(2)
 	const dU = Q.subtract(W).useMinimumSignificantDigits(2)
 	return { cv, Rs, c, p1, V1, p2, V2, n, Q, W, dU }
 }
