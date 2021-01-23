@@ -130,13 +130,14 @@ const skills = {
 
 	calculateWithSpecificQuantities: {
 		name: 'Rekenen met specifieke grootheden',
+		exercises: ['calculateWithSpecificQuantitiesDensity', 'calculateWithSpecificQuantitiesBoiler', 'calculateWithSpecificQuantitiesTurbine']
 	},
 	massFlowTrick: {
 		name: 'De massastroom-truc',
 		exercises: ['massFlowTrickCompressor', 'massFlowTrickWater', 'massFlowTrickEngine'],
 	},
 	calculateOpenProcessStep: {
-		name: 'Specifieke processtap doorrekenen',
+		name: 'Open processtap doorrekenen',
 		setup: combinerAnd('gasLaw', 'calculateWithSpecificQuantities', 'recognizeProcessTypes', 'poissonsLaw'), // ToDo later: use "combinerPart('poissonsLaw', 1/2)" and possibly "combinerPart('gasLaw', 3/2)" to indicate it's not always needed.
 		exercises: ['calculateOpenProcessStepWing', 'calculateOpenProcessStepCompressor', 'calculateOpenProcessStepGasTurbine'],
 	},

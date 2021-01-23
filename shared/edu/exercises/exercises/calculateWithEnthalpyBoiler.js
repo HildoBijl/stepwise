@@ -2,6 +2,7 @@ const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd } = require('../../../skillTracking')
 const { checkParameter } = require('../util/check')
+const { generateState } = require('./calculateWithSpecificQuantitiesBoiler')
 
 const data = {
 	skill: 'calculateWithEnthalpy',
@@ -14,23 +15,6 @@ const data = {
 			significantDigitMargin: 1,
 		},
 	},
-}
-
-function generateState() {
-	const q = getRandomFloatUnit({
-		min: 150,
-		max: 250,
-		unit: 'kJ/kg',
-	})
-	const Q = getRandomFloatUnit({
-		min: 100,
-		max: 200,
-		decimals: -1,
-		unit: 'MJ',
-	}).useDecimals(0)
-	const m = Q.divide(q).setUnit('kg').useDecimals(-1).roundToPrecision().useDecimals(0)
-
-	return { Q, m }
 }
 
 function getCorrect({ Q, m }) {
