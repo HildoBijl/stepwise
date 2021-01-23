@@ -72,7 +72,7 @@ const steps = [
 		</>,
 		Solution: () => {
 			const { n, T1, T2, V1, V2 } = useCorrect()
-			return <Par>Poisson's wet zegt dat <M>TV^(n-1)=(\rm constant)</M> waardoor we mogen schrijven, <BM>T_1V_1^(n-1)=T_2V_2^(n-1).</BM> We willen dit oplossen voor <M>T_2.</M> Delen door <M>V_2^(n-1)</M> geeft <BM>T_2 = T_1 \cdot \frac(V_1^(n-1))(V_2^(n-1)) = T_1 \left(\frac(V_1)(V_2)\right)^(n-1) = {T1.float} \cdot \left(\frac{V1.float}{V2.float}\right)^({n}-1) = {T2}.</BM> Dit komt overeen met een temperatuur van <M>{T2.setUnit('dC').useDecimals(0)}</M>, wat een best redelijke opwarming is. In de praktijk stroomt deze warmte echter snel genoeg weg via de behuizing van de fietspomp.</Par>
+			return <Par>Poisson's wet zegt dat <M>TV^(n-1)=(\rm constant)</M> waardoor we mogen schrijven, <BM>T_1V_1^(n-1)=T_2V_2^(n-1).</BM> We willen dit oplossen voor <M>T_2.</M> Delen door <M>V_2^(n-1)</M> geeft <BM>T_2 = T_1 \cdot \frac(V_1^(n-1))(V_2^(n-1)) = T_1 \left(\frac(V_1)(V_2)\right)^(n-1) = {T1.float} \cdot \left(\frac{V1.float}{V2.float}\right)^({n}-1) = {T2}.</BM> Dit komt overeen met een temperatuur van <M>{T2.setUnit('dC').setDecimals(0)}</M>, wat een best redelijke opwarming is. In de praktijk stroomt deze warmte echter snel genoeg weg via de behuizing van de fietspomp.</Par>
 		},
 	},
 ]

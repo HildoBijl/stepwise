@@ -51,7 +51,7 @@ const steps = [
 			return <>
 				<Par>We gaan de gaswet gebruiken. Hierbij moeten alle waarden in standaard eenheden staan. Dus schrijven we op,<BM>V_1 = {V1} \cdot {VConversion} = {V1s},</BM><BM>T_1 = {T1.float} + {TConversion.float} = {T1s},</BM><BM>m = \frac{m}{mConversion} = {ms}.</BM></Par>
 				<Par>Ook is de specifieke gasconstante van lucht nodig. Deze kunnen we opzoeken als <BM>R_s = {Rs}.</BM></Par>
-				<Par>De gaswet zegt dat <BM>pV = mR_sT.</BM> Dit toepassen op punt 1 en oplossen voor <M>p_1</M> geeft <BM>p_1 = \frac(mR_sT_1)(V_1) = \frac({ms.float} \cdot {Rs.float} \cdot {T1s.float})({V1s.float}) = {p1}.</BM> Onafgerond was dit antwoord <M>p_1 = {p1.setUnit('bar').useDecimals(2)}</M>, wat net iets hoger is dan de atmosferische druk. Dit is logisch: een ballon trekt wel een klein beetje extra op de lucht die erin zit, waardoor de druk ietsje hoger is dan atmosferische druk, maar een ballon is relatief flexibel, dus deze overdruk is minimaal.</Par>
+				<Par>De gaswet zegt dat <BM>pV = mR_sT.</BM> Dit toepassen op punt 1 en oplossen voor <M>p_1</M> geeft <BM>p_1 = \frac(mR_sT_1)(V_1) = \frac({ms.float} \cdot {Rs.float} \cdot {T1s.float})({V1s.float}) = {p1}.</BM> Onafgerond was dit antwoord <M>p_1 = {p1.setUnit('bar').setDecimals(2)}</M>, wat net iets hoger is dan de atmosferische druk. Dit is logisch: een ballon trekt wel een klein beetje extra op de lucht die erin zit, waardoor de druk ietsje hoger is dan atmosferische druk, maar een ballon is relatief flexibel, dus deze overdruk is minimaal.</Par>
 			</>
 		},
 	},
@@ -69,7 +69,7 @@ const steps = [
 		</>,
 		Solution: () => {
 			const { p1 } = useCorrect()
-			return <Par>Op het moment is de druk in de ballon <M>{p1.setUnit('bar').useDecimals(2)}.</M> Dit is gelijk aan de atmosferische druk plus nog een klein beetje extra druk die, vanwege de elasticiteit van de ballon, toegevoegd wordt. De ballon "trekt aan" waardoor de lucht nog net ietsje meer samengedrukt wordt. Omdat de elasticiteit van de ballon bij benadering constant blijft, zal deze "extra druk" ook hetzelfde blijven. Kortom: de druk blijft gelijk. Het is (bij benadering) een isobaar proces, waardoor <M>p_2 = p_1.</M></Par>
+			return <Par>Op het moment is de druk in de ballon <M>{p1.setUnit('bar').setDecimals(2)}.</M> Dit is gelijk aan de atmosferische druk plus nog een klein beetje extra druk die, vanwege de elasticiteit van de ballon, toegevoegd wordt. De ballon "trekt aan" waardoor de lucht nog net ietsje meer samengedrukt wordt. Omdat de elasticiteit van de ballon bij benadering constant blijft, zal deze "extra druk" ook hetzelfde blijven. Kortom: de druk blijft gelijk. Het is (bij benadering) een isobaar proces, waardoor <M>p_2 = p_1.</M></Par>
 		},
 	},
 	{

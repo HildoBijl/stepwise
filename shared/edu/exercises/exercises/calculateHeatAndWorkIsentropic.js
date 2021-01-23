@@ -54,11 +54,11 @@ function generateState() {
 	})
 	const pressureRatio = getRandom(7, 11)
 	const V2 = V1.multiply(Math.pow(pressureRatio, 1 / k)).roundToPrecision()
-	V1 = V1.useDecimals(0)
+	V1 = V1.setDecimals(0)
 
 	// Determine corresponding pressures.
 	const p2 = new FloatUnit('1.0 bar')
-	const p1 = p2.multiply(Math.pow(V2.number / V1.number, k)).useDecimals(1)
+	const p1 = p2.multiply(Math.pow(V2.number / V1.number, k)).setDecimals(1)
 
 	return { p1, p2, V1, V2 }
 }

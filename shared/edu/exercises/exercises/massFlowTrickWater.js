@@ -18,7 +18,7 @@ function generateState() {
 		max: 250,
 		unit: 'kJ/kg',
 		decimals: -1,
-	}).useDecimals(0)
+	}).setDecimals(0)
 	const mdot = getRandomFloatUnit({
 		min: 0.2,
 		max: 1,

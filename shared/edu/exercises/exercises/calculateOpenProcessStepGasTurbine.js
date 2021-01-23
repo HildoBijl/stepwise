@@ -41,13 +41,13 @@ function generateState() {
 		max: 300,
 		unit: 'K',
 	})
-	const T1 = T0.multiply(Math.pow(pressureRatio, 1 - 1 / k.number)).useDecimals(-1).roundToPrecision().useDecimals(0)
+	const T1 = T0.multiply(Math.pow(pressureRatio, 1 - 1 / k.number)).setDecimals(-1).roundToPrecision().setDecimals(0)
 	const T2 = getRandomFloatUnit({
 		min: 900,
 		max: 1300,
 		unit: 'K',
 		decimals: -1,
-	}).useDecimals(0)
+	}).setDecimals(0)
 
 	return { p1, T1, T2 }
 }

@@ -38,13 +38,13 @@ function generateState() {
 		max: 300,
 		decimals: -1,
 		unit: 'dC',
-	}).useDecimals(0)
+	}).setDecimals(0)
 	const T2 = getRandomFloatUnit({
 		min: 650,
 		max: 800,
 		decimals: -1,
 		unit: 'dC',
-	}).useDecimals(0)
+	}).setDecimals(0)
 
 	return { T1, T2 }
 }

@@ -260,8 +260,8 @@ class Float {
 		return this.useSignificantDigits(Math.max(significantDigits, this.significantDigits))
 	}
 
-	// useDecimals returns a copy of this number but then with the number of significant digits adjusted to ensure it has the given number of decimals. You can use "-2" to ensure a number like "1234" is shown like "1.2 * 10^3". It bounds it to show at least one digit. So if "1234" is shown with -6 decimals, then it's shown as "1 * 10^3".
-	useDecimals(decimals) {
+	// setDecimals returns a copy of this number but then with the number of significant digits adjusted to ensure it has the given number of decimals. You can use "-2" to ensure a number like "1234" is shown like "1.2 * 10^3". It bounds it to show at least one digit. So if "1234" is shown with -6 decimals, then it's shown as "1 * 10^3".
+	setDecimals(decimals) {
 		decimals = ensureInt(decimals)
 		const significantDigits = Math.floor(Math.log10(Math.abs(this.number)) + 1 + decimals) // Find the necessary number of significant digits.
 		return this.useSignificantDigits(Math.max(significantDigits, 1)) // Bound to at least one significant digit.

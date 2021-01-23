@@ -34,12 +34,12 @@ function generateState() {
 		max: 400,
 		unit: 'mbar',
 		decimals: -1,
-	}).useDecimals(0)
+	}).setDecimals(0)
 	const p2 = p1.divide(1.8).subtract(getRandomFloatUnit({
 		min: 20,
 		max: 40,
 		unit: 'mbar',
-	})).useDecimals(-1).roundToPrecision().useDecimals(0)
+	})).setDecimals(-1).roundToPrecision().setDecimals(0)
 	const rho = getRandomFloatUnit({
 		min: 0.4,
 		max: 0.65,

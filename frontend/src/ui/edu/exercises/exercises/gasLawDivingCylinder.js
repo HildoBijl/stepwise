@@ -62,7 +62,7 @@ const steps = [
 		</>,
 		Solution: () => {
 			const { p, V, m, Rs, T } = useCorrect()
-			return <Par>De gaswet zegt dat <BM>pV = mR_sT.</BM> Om <M>p</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>V.</M> Het resultaat is <BM>p = \frac(mR_sT)(V) = \frac({m.float} \cdot {Rs.float} \cdot {T.float})({V.float}) = {p}.</BM> Dit is gelijk aan <M>{p.setUnit('bar').useDecimals(0)}</M> wat reëel is voor een duikfles.</Par>
+			return <Par>De gaswet zegt dat <BM>pV = mR_sT.</BM> Om <M>p</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>V.</M> Het resultaat is <BM>p = \frac(mR_sT)(V) = \frac({m.float} \cdot {Rs.float} \cdot {T.float})({V.float}) = {p}.</BM> Dit is gelijk aan <M>{p.setUnit('bar').setDecimals(0)}</M> wat reëel is voor een duikfles.</Par>
 		},
 	},
 ]

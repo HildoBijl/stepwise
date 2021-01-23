@@ -119,10 +119,10 @@ class FloatUnit {
 		return this.useSignificantDigits(Math.max(significantDigits, this.float.significantDigits))
 	}
 
-	// useDecimals returns a copy of this number but then with the number of significant digits adjusted to ensure it has the given number of decimals.
-	useDecimals(decimals) {
+	// setDecimals returns a copy of this number but then with the number of significant digits adjusted to ensure it has the given number of decimals.
+	setDecimals(decimals) {
 		return new FloatUnit({
-			float: this.float.useDecimals(decimals),
+			float: this.float.setDecimals(decimals),
 			unit: this.unit.clone(),
 		})
 	}

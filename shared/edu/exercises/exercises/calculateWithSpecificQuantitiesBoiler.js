@@ -23,8 +23,8 @@ function generateState() {
 		max: 200,
 		decimals: -1,
 		unit: 'MJ',
-	}).useDecimals(0)
-	const m = Q.divide(q).setUnit('kg').useDecimals(-1).roundToPrecision().useDecimals(0)
+	}).setDecimals(0)
+	const m = Q.divide(q).setUnit('kg').setDecimals(-1).roundToPrecision().setDecimals(0)
 
 	return { Q, m }
 }

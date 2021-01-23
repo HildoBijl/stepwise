@@ -30,7 +30,7 @@ function generateState() {
 		max: 600,
 		significantDigits: 2,
 		unit: 'cm^3',
-	}).useDecimals(0)
+	}).setDecimals(0)
 	const T1 = getRandomFloatUnit({
 		min: 0,
 		max: 30,
@@ -38,9 +38,9 @@ function generateState() {
 		unit: 'dC',
 	})
 	const volumeFactor = getRandom(15, 25) // = V1/V2
-	const p2 = p1.multiply(Math.pow(volumeFactor, air.k.number)).useDecimals(0).roundToPrecision() // Poisson's law
+	const p2 = p1.multiply(Math.pow(volumeFactor, air.k.number)).setDecimals(0).roundToPrecision() // Poisson's law
 	const pressureFactor = getRandom(1.3, 1.6) // Increase in pressure due to heating.
-	const p3 = p2.multiply(pressureFactor).useDecimals(0).roundToPrecision()
+	const p3 = p2.multiply(pressureFactor).setDecimals(0).roundToPrecision()
 
 	return { p1, V1, T1, p2, p3 }
 }

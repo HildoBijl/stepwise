@@ -81,7 +81,7 @@ const steps = [
 		Solution: (state) => {
 			const { m, p1, T2 } = state
 			const { Rs, T2: T2s, V2, p2 } = useCorrect()
-			return <Par>We weten inmiddels dat <BM>V_2 = V_1 = {V2}.</BM> Ook is de eindtemperatuur <M>T_2</M> bekend. In standaard eenheden is deze <BM>T_2 = {T2.float} + {TConversion.float} = {T2s}.</BM> Alleen <M>p_2</M> is nog onbekend. Deze kunnen we vinden via de gaswet <BM>pV = mR_sT.</BM> Als we deze oplossen voor <M>p_2</M> vinden we <BM>p_2 = \frac(mR_sT_2)(V_2) = \frac({m.float} \cdot {Rs.float} \cdot {T2s.float})({V2.float}) = {p2}.</BM> Deze einddruk <M>p_2 = {p2.setUnit('bar').useDecimals(0)}</M> is iets minder dan de begindruk van <M>p_1 = {p1.setUnit('bar').useDecimals(0)}</M> wat logisch is: de afkoeling laat de druk iets afnemen.</Par>
+			return <Par>We weten inmiddels dat <BM>V_2 = V_1 = {V2}.</BM> Ook is de eindtemperatuur <M>T_2</M> bekend. In standaard eenheden is deze <BM>T_2 = {T2.float} + {TConversion.float} = {T2s}.</BM> Alleen <M>p_2</M> is nog onbekend. Deze kunnen we vinden via de gaswet <BM>pV = mR_sT.</BM> Als we deze oplossen voor <M>p_2</M> vinden we <BM>p_2 = \frac(mR_sT_2)(V_2) = \frac({m.float} \cdot {Rs.float} \cdot {T2s.float})({V2.float}) = {p2}.</BM> Deze einddruk <M>p_2 = {p2.setUnit('bar').setDecimals(0)}</M> is iets minder dan de begindruk van <M>p_1 = {p1.setUnit('bar').setDecimals(0)}</M> wat logisch is: de afkoeling laat de druk iets afnemen.</Par>
 		},
 	},
 ]

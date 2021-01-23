@@ -57,7 +57,7 @@ function generateState() {
 
 	// Determine corresponding pressures.
 	const p2 = new FloatUnit('1.0 bar')
-	const p1 = p2.multiply(Math.pow(v2.number / v1.number, k)).useDecimals(1)
+	const p1 = p2.multiply(Math.pow(v2.number / v1.number, k)).setDecimals(1)
 
 	return { p1, p2, v1, v2 }
 }

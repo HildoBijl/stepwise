@@ -55,7 +55,7 @@ function generateState() {
 		max: 300,
 		decimals: -1,
 		unit: 'bar',
-	}).useDecimals(0)
+	}).setDecimals(0)
 
 	return { gas, V2, p1, p2 }
 }
