@@ -88,7 +88,7 @@ const courses = {
 		blocks: [
 			{
 				name: 'Thermodynamische processen',
-				goals: ['calculateProcessStep'],
+				goals: ['calculateProcessStep', 'calculateWithInternalEnergy'],
 			},
 			{
 				name: 'Gesloten systemen en kringprocessen',
