@@ -81,6 +81,45 @@ const courses = {
 			},
 		],
 	},
+	dlwmpn: {
+		name: 'Deeltijd: Modelleren en Processen',
+		goals: ['analyseClosedCycle', 'analyseOpenCycle'],
+		priorKnowledge: ['calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature', 'calculateWithMass', 'solveLinearEquation', 'solveExponentEquation'],
+		blocks: [
+			{
+				name: 'Thermodynamische processen',
+				goals: ['calculateProcessStep'],
+			},
+			{
+				name: 'Gesloten systemen en kringprocessen',
+				goals: ['analyseClosedCycle'],
+			},
+			{
+				name: 'Open systemen en enthalpie',
+				goals: ['analyseOpenCycle'],
+			},
+			{
+				name: 'Entropie en de tweede hoofdwet',
+				goals: [],
+			},
+			{
+				name: 'Gasturbines',
+				goals: [],
+			},
+			{
+				name: 'Dampen en diagrammen',
+				goals: [],
+			},
+			{
+				name: 'Stoomturbines',
+				goals: [],
+			},
+			{
+				name: 'Koelmachines en warmtepompen',
+				goals: [],
+			},
+		],
+	},
 }
 Object.keys(courses).forEach(key => {
 	courses[key].id = key
