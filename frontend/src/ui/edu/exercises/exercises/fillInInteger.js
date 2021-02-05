@@ -23,7 +23,7 @@ function Problem({ x }) {
 }
 
 function Solution({ x }) {
-	return <Par>Je klikt op het invoervak en typt <M>{x}</M> in.</Par>
+	return <Par>Je klikt op het invoervak en typt <M>{x}</M> in. {x < 0 ? `Het minteken kun je eventueel ook intypen na het getal. Het invoerveld snapt vanzelf dat dit minteken ervoor moet staan.` : ''}</Par>
 }
 
 function getFeedback({ state, input, progress }) {

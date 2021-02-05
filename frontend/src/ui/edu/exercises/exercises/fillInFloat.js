@@ -23,7 +23,7 @@ function Problem({ x }) {
 }
 
 function Solution({ x }) {
-	return <Par>Je klikt op het invoervak en typt <M>{x}</M> in.</Par>
+	return <Par>Je klikt op het invoervak en typt <M>{x}</M> in. {x.power !== 0 ? 'Voor de tienmacht gebruik je het keer-teken "*". Je hoeft dan de "10" niet zelf te typen: dat snapt het invoerveld vanzelf. Eventueel is de shortcut "e" (vanuit de wetenschappelijke notatie) ook mogelijk.' : ''}</Par>
 }
 
 function getFeedback({ state: { x }, input: { ans }, progress: { solved }, shared: { data: { equalityOptions } } }) {
