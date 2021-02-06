@@ -13,7 +13,7 @@ function generateState() {
 		max: 60,
 		digits: 0,
 		unit: 'kWh',
-	}).useSignificantDigits(3)
+	}).setSignificantDigits(3)
 	const eta = getRandomFloatUnit({
 		min: 0.915,
 		max: 0.995,

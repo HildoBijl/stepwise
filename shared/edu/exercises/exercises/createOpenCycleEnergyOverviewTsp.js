@@ -20,15 +20,15 @@ const data = {
 
 function getCycleParameters(state) {
 	let { m, p1, v1, T1, p2, v2, T2, p3, v3, T3 } = getCycleParametersRaw(state)
-	p1 = p1.useSignificantDigits(3)
-	v1 = v1.useSignificantDigits(3)
-	T1 = T1.useSignificantDigits(3)
-	p2 = p2.useSignificantDigits(3)
-	v2 = v2.useSignificantDigits(3)
-	T2 = T2.useSignificantDigits(3)
-	p3 = p3.useSignificantDigits(3)
-	v3 = v3.useSignificantDigits(3)
-	T3 = T3.useSignificantDigits(3)
+	p1 = p1.setSignificantDigits(3)
+	v1 = v1.setSignificantDigits(3)
+	T1 = T1.setSignificantDigits(3)
+	p2 = p2.setSignificantDigits(3)
+	v2 = v2.setSignificantDigits(3)
+	T2 = T2.setSignificantDigits(3)
+	p3 = p3.setSignificantDigits(3)
+	v3 = v3.setSignificantDigits(3)
+	T3 = T3.setSignificantDigits(3)
 	return { m, p1, v1, T1, p2, v2, T2, p3, v3, T3 }
 }
 
@@ -37,14 +37,14 @@ function getCorrect(state) {
 	let { cv, cp } = gasProperties[state.medium]
 	cv = cv.simplify()
 	cp = cp.simplify()
-	const q12 = p1.multiply(v1).multiply(Math.log(v2.number / v1.number)).setUnit('J/kg').useMinimumSignificantDigits(2)
+	const q12 = p1.multiply(v1).multiply(Math.log(v2.number / v1.number)).setUnit('J/kg').setMinimumSignificantDigits(2)
 	const wt12 = q12
 	const q23 = new FloatUnit('0 J/kg')
-	const wt23 = cp.multiply(T2.subtract(T3)).setUnit('J/kg').useMinimumSignificantDigits(2)
-	const q31 = cp.multiply(T1.subtract(T3)).setUnit('J/kg').useMinimumSignificantDigits(2)
+	const wt23 = cp.multiply(T2.subtract(T3)).setUnit('J/kg').setMinimumSignificantDigits(2)
+	const q31 = cp.multiply(T1.subtract(T3)).setUnit('J/kg').setMinimumSignificantDigits(2)
 	const wt31 = new FloatUnit('0 J/kg')
-	const qn = q12.add(q23).add(q31).useMinimumSignificantDigits(2)
-	const wn = wt12.add(wt23).add(wt31).useMinimumSignificantDigits(2)
+	const qn = q12.add(q23).add(q31).setMinimumSignificantDigits(2)
+	const wn = wt12.add(wt23).add(wt31).setMinimumSignificantDigits(2)
 	return { cv, cp, q12, wt12, q23, wt23, q31, wt31, qn, wn }
 }
 

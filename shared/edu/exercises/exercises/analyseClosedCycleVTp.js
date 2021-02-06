@@ -25,7 +25,7 @@ function getCorrect(state) {
 	const { m, Rs, p1, V1, T1, p2, V2, T2, p3, V3, T3 } = getCycleParameters(state)
 	const { cv, cp, Q12, W12, Q23, W23, Q31, W31, Wn } = getEnergyParameters(state)
 
-	const Qin = Q12.add(Q23).useMinimumSignificantDigits(2)
+	const Qin = Q12.add(Q23).setMinimumSignificantDigits(2)
 	const eta = Wn.divide(Qin).setUnit('')
 	return { Rs, cv, cp, m, p1, V1, T1, p2, V2, T2, p3, V3, T3, Q12, W12, Q23, W23, Q31, W31, Wn, Qin, eta }
 }

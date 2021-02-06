@@ -32,7 +32,7 @@ function generateState() {
 		prevent: [0, c.number],
 	})
 
-	const b = a.multiply(x.toPower(c.subtract(d))).useSignificantDigits(2).roundToPrecision()
+	const b = a.multiply(x.toPower(c.subtract(d))).setSignificantDigits(2).roundToPrecision()
 
 	return { a, b, c, d }
 }

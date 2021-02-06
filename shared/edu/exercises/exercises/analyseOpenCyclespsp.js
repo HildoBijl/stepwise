@@ -39,7 +39,7 @@ function getCorrect(state) {
 	const { cv, cp, q12, wt12, q23, wt23, q34, wt34, q41, wt41, qn, wn } = getEnergyParameters(state)
 
 	const qin = q23
-	const eta = wn.divide(qin).setUnit('').useMinimumSignificantDigits(2)
+	const eta = wn.divide(qin).setUnit('').setMinimumSignificantDigits(2)
 	const mdot = P.divide(wn).setUnit('kg/s')
 	return { Rs, k, cv, cp, P, p1, v1, T1, p2, v2, T2, p3, v3, T3, p4, v4, T4, q12, wt12, q23, wt23, q34, wt34, q41, wt41, qn, wn, qin, eta, mdot }
 }

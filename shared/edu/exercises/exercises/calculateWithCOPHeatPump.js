@@ -22,7 +22,7 @@ function generateState() {
 }
 
 function getCorrect({ Pe, Pin }) {
-	return Pin.add(Pe).divide(Pe).setUnit('').useSignificantDigits(2)
+	return Pin.add(Pe).divide(Pe).setUnit('').setSignificantDigits(2)
 }
 
 function checkInput(state, input, step, substep) {

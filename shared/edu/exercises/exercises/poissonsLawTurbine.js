@@ -42,7 +42,7 @@ function generateState() {
 		max: 1200,
 		decimals: -1,
 		unit: 'K',
-	}).useSignificantDigits(3)
+	}).setSignificantDigits(3)
 	const p1 = getRandomFloatUnit({
 		min: 6,
 		max: 12,

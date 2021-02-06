@@ -20,18 +20,18 @@ const data = {
 
 function getCycleParameters(state) {
 	let { k, Rs, p1, v1, T1, p2, v2, T2, p3, v3, T3, p4, v4, T4 } = getCycleParametersRaw(state)
-	p1 = p1.useSignificantDigits(3)
-	v1 = v1.useSignificantDigits(3)
-	T1 = T1.useSignificantDigits(3)
-	p2 = p2.useSignificantDigits(3)
-	v2 = v2.useSignificantDigits(3)
-	T2 = T2.useSignificantDigits(3)
-	p3 = p3.useSignificantDigits(3)
-	v3 = v3.useSignificantDigits(3)
-	T3 = T3.useSignificantDigits(3)
-	p4 = p4.useSignificantDigits(3)
-	v4 = v4.useSignificantDigits(3)
-	T4 = T4.useSignificantDigits(3)
+	p1 = p1.setSignificantDigits(3)
+	v1 = v1.setSignificantDigits(3)
+	T1 = T1.setSignificantDigits(3)
+	p2 = p2.setSignificantDigits(3)
+	v2 = v2.setSignificantDigits(3)
+	T2 = T2.setSignificantDigits(3)
+	p3 = p3.setSignificantDigits(3)
+	v3 = v3.setSignificantDigits(3)
+	T3 = T3.setSignificantDigits(3)
+	p4 = p4.setSignificantDigits(3)
+	v4 = v4.setSignificantDigits(3)
+	T4 = T4.setSignificantDigits(3)
 	return { k, Rs, p1, v1, T1, p2, v2, T2, p3, v3, T3, p4, v4, T4 }
 }
 
@@ -48,8 +48,8 @@ function getCorrect(state) {
 	const wt34 = cp.multiply(T3.subtract(T4)).setUnit('J/kg')
 	const q41 = cp.multiply(T1.subtract(T4)).setUnit('J/kg')
 	const wt41 = new FloatUnit('0 J/kg')
-	const qn = q12.add(q23).add(q34).add(q41).useMinimumSignificantDigits(2)
-	const wn = wt12.add(wt23).add(wt34).add(wt41).useMinimumSignificantDigits(2)
+	const qn = q12.add(q23).add(q34).add(q41).setMinimumSignificantDigits(2)
+	const wn = wt12.add(wt23).add(wt34).add(wt41).setMinimumSignificantDigits(2)
 	return { cv, cp, q12, wt12, q23, wt23, q34, wt34, q41, wt41, qn, wn }
 }
 

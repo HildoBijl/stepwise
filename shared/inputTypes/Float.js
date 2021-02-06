@@ -242,11 +242,11 @@ class Float {
 	// adjustSignificantDigits increases the number of significant digits by the given delta. (Cannot be decreased below zero: will be capped then.) The original object is not adjusted.
 	adjustSignificantDigits(delta) {
 		delta = ensureInt(delta)
-		return this.useSignificantDigits(Math.max(this.significantDigits + delta, 0))
+		return this.setSignificantDigits(Math.max(this.significantDigits + delta, 0))
 	}
 
-	// useSignificantDigits returns a copy of this number but then with the given number of significant digits.
-	useSignificantDigits(significantDigits) {
+	// setSignificantDigits returns a copy of this number but then with the given number of significant digits.
+	setSignificantDigits(significantDigits) {
 		significantDigits = ensureInt(significantDigits, true)
 		return new Float({
 			number: this.number,
@@ -255,16 +255,16 @@ class Float {
 		})
 	}
 
-	// useMinimumSignificantDigits returns a copy in which the significant digits is increased to the given amount, if currently less.
-	useMinimumSignificantDigits(significantDigits) {
-		return this.useSignificantDigits(Math.max(significantDigits, this.significantDigits))
+	// setMinimumSignificantDigits returns a copy in which the significant digits is increased to the given amount, if currently less.
+	setMinimumSignificantDigits(significantDigits) {
+		return this.setSignificantDigits(Math.max(significantDigits, this.significantDigits))
 	}
 
 	// setDecimals returns a copy of this number but then with the number of significant digits adjusted to ensure it has the given number of decimals. You can use "-2" to ensure a number like "1234" is shown like "1.2 * 10^3". It bounds it to show at least one digit. So if "1234" is shown with -6 decimals, then it's shown as "1 * 10^3".
 	setDecimals(decimals) {
 		decimals = ensureInt(decimals)
 		const significantDigits = Math.floor(Math.log10(Math.abs(this.number)) + 1 + decimals) // Find the necessary number of significant digits.
-		return this.useSignificantDigits(Math.max(significantDigits, 1)) // Bound to at least one significant digit.
+		return this.setSignificantDigits(Math.max(significantDigits, 1)) // Bound to at least one significant digit.
 	}
 
 	// simplify sets the format of this number to the default format: x.xxxx * 10^yy. So there's only one non-zero digit prior to the comma. The number of significant digits is kept the same. It does not adjust this object but returns a copy.

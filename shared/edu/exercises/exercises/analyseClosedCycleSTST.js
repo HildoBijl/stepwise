@@ -26,7 +26,7 @@ function getCorrect(state) {
 	const { cv, cp, Q12, W12, Q23, W23, Q34, W34, Q41, W41, Wn } = getEnergyParameters(state)
 
 	const Qin = Q41
-	const epsilon = Qin.divide(Wn.abs()).setUnit('').useMinimumSignificantDigits(2)
+	const epsilon = Qin.divide(Wn.abs()).setUnit('').setMinimumSignificantDigits(2)
 	const COP = epsilon.add(1)
 	return { Rs, k, cv, cp, m, p1, V1, T1, p2, V2, T2, p3, V3, T3, p4, V4, T4, Q12, W12, Q23, W23, Q34, W34, Q41, W41, Wn, Qin, epsilon, COP }
 }

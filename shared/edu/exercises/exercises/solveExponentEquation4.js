@@ -27,14 +27,14 @@ function generateState() {
 	})
 
 	const cDivPower = c.divide(x.toPower(p))
-	const b = getRandomFloat({ min: -2, max: 2 }).multiply(cDivPower).useSignificantDigits(2).roundToPrecision()
-	const a = b.add(cDivPower).useSignificantDigits(2).roundToPrecision()
+	const b = getRandomFloat({ min: -2, max: 2 }).multiply(cDivPower).setSignificantDigits(2).roundToPrecision()
+	const a = b.add(cDivPower).setSignificantDigits(2).roundToPrecision()
 
 	return { a, b, c, p }
 }
 
 function getCorrect({ a, b, c, p }) {
-	return a.subtract(b).divide(c).toPower(p.applyMinus().invert()).useMinimumSignificantDigits(2)
+	return a.subtract(b).divide(c).toPower(p.applyMinus().invert()).setMinimumSignificantDigits(2)
 }
 
 function checkInput(state, { ans }) {

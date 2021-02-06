@@ -30,14 +30,14 @@ function generateState() {
 		significantDigits: 2,
 	})
 
-	const a = fraction.multiply(x.toPower(p)).useSignificantDigits(2).roundToPrecision()
-	const b = fraction.multiply(c.toPower(p)).useSignificantDigits(2).roundToPrecision()
+	const a = fraction.multiply(x.toPower(p)).setSignificantDigits(2).roundToPrecision()
+	const b = fraction.multiply(c.toPower(p)).setSignificantDigits(2).roundToPrecision()
 
 	return { a, b, c, p }
 }
 
 function getCorrect({ a, b, c, p }) {
-	return a.divide(b).toPower(p.invert()).multiply(c).useMinimumSignificantDigits(2)
+	return a.divide(b).toPower(p.invert()).multiply(c).setMinimumSignificantDigits(2)
 }
 
 function checkInput(state, { ans }) {

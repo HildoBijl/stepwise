@@ -106,17 +106,17 @@ class FloatUnit {
 		})
 	}
 
-	// useSignificantDigits returns a copy of this number but then with the given number of significant digits.
-	useSignificantDigits(significantDigits) {
+	// setSignificantDigits returns a copy of this number but then with the given number of significant digits.
+	setSignificantDigits(significantDigits) {
 		return new FloatUnit({
-			float: this.float.useSignificantDigits(significantDigits),
+			float: this.float.setSignificantDigits(significantDigits),
 			unit: this.unit.clone(),
 		})
 	}
 
-	// useMinimumSignificantDigits returns a copy in which the significant digits is increased to the given amount, if currently less.
-	useMinimumSignificantDigits(significantDigits) {
-		return this.useSignificantDigits(Math.max(significantDigits, this.float.significantDigits))
+	// setMinimumSignificantDigits returns a copy in which the significant digits is increased to the given amount, if currently less.
+	setMinimumSignificantDigits(significantDigits) {
+		return this.setSignificantDigits(Math.max(significantDigits, this.float.significantDigits))
 	}
 
 	// setDecimals returns a copy of this number but then with the number of significant digits adjusted to ensure it has the given number of decimals.

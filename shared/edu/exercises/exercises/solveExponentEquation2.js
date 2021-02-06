@@ -33,7 +33,7 @@ function generateState() {
 		prevent: 0,
 	})
 
-	const b = c.subtract(a).divide(x.toPower(p)).useSignificantDigits(2).roundToPrecision()
+	const b = c.subtract(a).divide(x.toPower(p)).setSignificantDigits(2).roundToPrecision()
 
 	return { a, b, p, c }
 }

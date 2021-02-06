@@ -42,7 +42,7 @@ function getCorrect({ p, V1, V2 }) {
 	V2 = V2.simplify()
 	const W = p.multiply(V2.subtract(V1)).setUnit('J')
 	const Q = W.multiply(k.number/(k.number - 1))
-	const dU = Q.subtract(W).useMinimumSignificantDigits(2)
+	const dU = Q.subtract(W).setMinimumSignificantDigits(2)
 	return { k, p, V1, V2, Q, W, dU }
 }
 

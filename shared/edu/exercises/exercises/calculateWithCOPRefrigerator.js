@@ -22,7 +22,7 @@ function generateState() {
 }
 
 function getCorrect({ Ee, Eout }) {
-	return Eout.subtract(Ee).divide(Ee).setUnit('').useSignificantDigits(2)
+	return Eout.subtract(Ee).divide(Ee).setUnit('').setSignificantDigits(2)
 }
 
 function checkInput(state, input, step, substep) {

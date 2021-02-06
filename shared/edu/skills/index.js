@@ -166,6 +166,17 @@ const skills = {
 		setup: combinerAnd('calculateOpenCycle', 'createOpenCycleEnergyOverview', combinerOr('calculateWithEfficiency', 'calculateWithCOP'), 'massFlowTrick'),
 		exercises: ['analyseOpenCyclespsp', 'analyseOpenCycleNspsp', 'analyseOpenCycleTsp'],
 	},
+
+	calculateEntropyChange: {
+		name: 'Entropieverandering berekenen',
+		setup: combinerAnd('calculateWithTemperature', 'specificGasConstant', 'specificHeats', 'solveLinearEquation'),
+		exercises: ['calculateEntropyChangeIsotherm', 'calculateEntropyChangeWithTemperature', 'calculateEntropyChangeWithProperties'],
+	},
+	calculateMissedWork: {
+		name: 'Gemiste arbeid berekenen',
+		setup: combinerAnd('calculateEntropyChange', 'solveLinearEquation'),
+		exercises: ['calculateMissedWorkIsotherm', 'calculateMissedWorkPiston', 'calculateMissedWorkCompressor'],
+	},
 }
 
 // Process the skill object.
