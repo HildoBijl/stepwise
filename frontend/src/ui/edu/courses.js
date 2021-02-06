@@ -2,13 +2,13 @@
 
 const courses = {
 	swbasics: {
-		name: 'Step-Wise Basics',
-		goals: ['fillInInteger', 'fillInFloat', 'fillInUnit', 'summationAndMultiplication'],
+		name: 'Step-Wise Tutorial',
+		goals: ['fillInInteger', 'fillInFloat', 'fillInUnit', 'lookUpConstant', 'summationAndMultiplication'],
 		priorKnowledge: [],
 		blocks: [
 			{
 				name: 'Antwoorden invoeren',
-				goals: ['fillInInteger', 'fillInFloat', 'fillInUnit'],
+				goals: ['fillInInteger', 'fillInFloat', 'fillInUnit', 'lookUpConstant'],
 			},
 			{
 				name: 'Demo stapsgewijze oefeningen',
