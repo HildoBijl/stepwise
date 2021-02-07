@@ -48,7 +48,7 @@ const courses = {
 	},
 	promo: {
 		name: 'Processen en Modelleren',
-		goals: ['analyseClosedCycle', 'analyseOpenCycle'],
+		goals: ['analyseClosedCycle', 'analyseOpenCycle', 'calculateMissedWork'],
 		priorKnowledge: ['calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature', 'calculateWithMass', 'specificGasConstant', 'specificHeatRatio', 'specificHeats', 'solveLinearEquation', 'gasLaw', 'poissonsLaw', 'recognizeProcessTypes'],
 		blocks: [
 			{
@@ -61,7 +61,7 @@ const courses = {
 			},
 			{
 				name: 'Entropie en de tweede hoofdwet',
-				goals: [],
+				goals: ['calculateMissedWork'],
 			},
 			{
 				name: 'Gasturbines',
