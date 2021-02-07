@@ -72,7 +72,7 @@ const steps = [
 		Solution: () => {
 			const { Qw, Tw, dSw } = useCorrect()
 			return <>
-				<Par>De ingaande warmtestroom voor het koude vat is hier <BM>Q_w = -Q = {Qw}.</BM> Immers, de warmte stroomt uit dit vat, en dus is de warmtestroom voor dit vat negatief. De entropieverandering volgt nu wederom via
+				<Par>De ingaande warmtestroom voor het warme vat is hier <BM>Q_w = -Q = {Qw}.</BM> Immers, de warmte stroomt uit dit vat, en dus is de warmtestroom voor dit vat negatief. De entropieverandering volgt nu wederom via
 				<BM>\Delta S_w = \frac(Q_w)(T_w) = \frac{Qw.float}{Tw.float} = {dSw}.</BM>
 				</Par>
 			</>

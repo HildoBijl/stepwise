@@ -69,7 +69,14 @@ class FloatUnit {
 	get tex() {
 		const float = this._float.tex
 		const unit = this._unit.tex
-		return this._float.tex + (float.length > 0 && unit.length > 0 ? '\\ ' : '') + this._unit.tex
+		return float + (float.length > 0 && unit.length > 0 ? '\\ ' : '') + unit
+	}
+
+	// texWithPM will return latex code but then with a plus or minus prior to the number, so it can be used as a term in an equation. For "5" it will return "+5", for "-5" it will return "-5" and for "0" it returns "+0".
+	get texWithPM() {
+		const float = this._float.texWithPM
+		const unit = this._unit.tex
+		return float + (float.length > 0 && unit.length > 0 ? '\\ ' : '') + unit
 	}
 
 	// SO returns a storage representation of this object that can be interpreted again.

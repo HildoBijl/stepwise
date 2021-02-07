@@ -37,7 +37,7 @@ function generateState() {
 		significantDigits: 2,
 		unit: 'cm^3',
 	}).setDecimals(0)
-	const volumeFactor = getRandom(15, 25) // = V1/V2
+	const volumeFactor = getRandom(15, 25) // = V2/V1
 	const V1 = V2.divide(volumeFactor).setDecimals(0).roundToPrecision()
 	const p1 = p2.multiply(Math.pow(volumeFactor, n)).setDecimals(0).roundToPrecision() // Poisson's law
 

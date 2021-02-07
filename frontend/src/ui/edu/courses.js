@@ -83,7 +83,7 @@ const courses = {
 	},
 	dlwmpn: {
 		name: 'Deeltijd: Modelleren en Processen',
-		goals: ['analyseClosedCycle', 'analyseOpenCycle'],
+		goals: ['analyseClosedCycle', 'analyseOpenCycle', 'calculateMissedWork'],
 		priorKnowledge: ['calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature', 'calculateWithMass', 'solveLinearEquation', 'solveExponentEquation'],
 		blocks: [
 			{
@@ -100,7 +100,7 @@ const courses = {
 			},
 			{
 				name: 'Entropie en de tweede hoofdwet',
-				goals: [],
+				goals: ['calculateMissedWork'],
 			},
 			{
 				name: 'Gasturbines',

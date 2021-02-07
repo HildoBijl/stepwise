@@ -7,12 +7,12 @@ const { air: { cv, cp, Rs } } = require('../../../data/gasProperties')
 
 const data = {
 	skill: 'calculateEntropyChange',
-	setup: combinerAnd('calculateWithTemperature', 'specificGasConstants', 'specificHeats', 'solveLinearEquation'),
+	setup: combinerAnd('calculateWithTemperature', 'specificGasConstant', 'specificHeats', 'solveLinearEquation'),
 	steps: ['calculateWithTemperature', ['specificGasConstant', 'specificHeats'], 'solveLinearEquation'],
 
 	equalityOptions: {
 		default: {
-			relativeMargin: 0.01,
+			relativeMargin: 0.02,
 			significantDigitMargin: 1,
 		},
 		Rs: {

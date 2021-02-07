@@ -1,3 +1,4 @@
+const { Unit } = require('../../../inputTypes/Unit')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
@@ -10,7 +11,7 @@ const data = {
 
 	equalityOptions: {
 		default: {
-			relativeMargin: 0.01,
+			relativeMargin: 0.02,
 			significantDigitMargin: 1,
 		},
 		Tw: {
