@@ -12,7 +12,7 @@ const defaultComparisonOptions = {
 	prevFeedback: undefined,
 }
 
-const accuracyFactorForNearHits = 3
+const accuracyFactorForNearHits = 4
 
 /* getDefaultFeedback takes an array of parameter names (like ['p1', 'p2', 'V1', 'V2']) and provides feedback on these parameters. It is also possible to give a single parameter 'p1'.
  * Input is an array of parameter string IDs. The function uses the exerciseData input parameter to extract all the data from. Extra options for the comparison functions may be provided in the third argument. This can be an object with extra options if they're the same for all parameters, or an array with extra options per parameter if they differ.
@@ -132,7 +132,7 @@ export function getFloatComparisonFeedback(correctAnswer, inputAnswer, options) 
 		}
 
 	// Check for a near-hit.
-	if (correctAnswer.equals(inputAnswer, { ...equalityOptions, accuracyFactor: accuracyFactorForNearHits }))
+	if (correctAnswer.equals(inputAnswer, { ...equalityOptions, accuracyFactor: (equalityOptions.accuracyFactor || 1) * accuracyFactorForNearHits }))
 		return {
 			correct: false,
 			text: text.near || 'Je zit erg in de buurt! Maak je antwoord iets nauwkeuriger.',

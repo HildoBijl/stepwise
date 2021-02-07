@@ -47,8 +47,8 @@ At each course, Step-Wise gives students a skill recommendation: which skill is 
 
 To establish whether practice is needed, we establish an upper bound and a lower bound. These bounds are constant across the site and defined as follows. (Minor changes may occur as the website is further fine-tuned.)
 
-- For regular course skills the upper bound (mastery) is `68%`. The lower bound is `58%`. When calculating the skill level of a regular skill `X` we *do* take into account the level the student has at potential subskills `A`, `B`, `C`.
-- For prior knowledge skills the upper bound is `68%`. The lower bound is `46%`. Furthermore, when calculating the skill level of a prior knowledge skill `X` we *do not* take into account the level of its subskills.
+- For regular course skills the upper bound (mastery) is `66%`. The lower bound is `56%`. When calculating the skill level of a regular skill `X` we *do* take into account the level the student has at potential subskills `A`, `B`, `C`.
+- For prior knowledge skills the upper bound is `66%`. The lower bound is `46%`. Furthermore, when calculating the skill level of a prior knowledge skill `X` we *do not* take into account the level of its subskills.
 
 Given these bounds, we determine whether a student needs to practice each skill.
 
