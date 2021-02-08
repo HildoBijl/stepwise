@@ -24,27 +24,26 @@ Each skill has corresponding exercises. Exercises for basic skills generally do 
 
 Consider an exercise of a composite skill. For example, "Calculate `3*9 + 8*7`." This exercise corresponds to skill `X` (calculate composite expressions). To solve it, we have to first apply skill `A`, then apply skill `B` twice, and then apply skill `C`. You see: solving an exercise for a composite skill requires the application of multiple subskills.
 
-Every composite exercise has a *setup* defining exactly what steps need to be applied to solve the exercise. To define this setup, we use three setup functions.
+Every composite exercise has a *setup* defining exactly what steps need to be applied to solve the exercise. To define this setup, we use two setup functions.
 
-- **and**: writing `and(A, B, C)` means skills `A`, `B` and `C` all need to be applied to solve the exercise.
+- **and**: writing `and(A, B, C)` means skills `A`, `B` and `C` all need to be applied to solve the exercise. Writing `and(A, 3)` means the same as `and(A, A, A)` but is considered cleaner. You can also use `and([A, B], [2, 1])` which means `and(A, A, B)`.
 - **or**: writing `or(A, B, C)` means students can solve the exercise in three different ways. They can use skill `A`, `B` or `C`, or even use multiple of these skills and compare the corresponding outcomes to evaluate their own work.
-- **repeat**: writing `repeat(A, 3)` means the same as writing `and(A, A, A)` but it is considered cleaner.
 
-So for the exercise of calculating `3*9 + 8*7` the setup is `and(A, repeat(B, 2), C)`. You notice that these functions can be nested to your heart's desire.
+So for the exercise of calculating `3*9 + 8*7` the setup is `and([A, B, C], [1, 2, 1])`.
 
-When defining the setup, the order does not matter. We could have also written the setup as `and(and(C, B), and(A, B))` which would have the same effect. Nevertheless, it is customary to write the setup in the same order as the steps need to be executed, to keep the code easier to understand.
+When defining the setup, the order does not matter. We could have also written the setup as `and(and(C, B), and(A, B))` which would have the same effect. (Yes, you can nest functions to your heart's desire.) Nevertheless, it is customary to write the setup in the same order as the steps need to be executed, to keep the code easier to understand.
 
 
 ## The setup for composite skills
 
-Just like exercises, composite skills also have a setup. This setup defines which subskills (like `A`, `B` and `C`) are needed to solve an "average" exercise. However, you may be wondering, "Sometimes we get an exercise like `42 + 8*2` with setup `and(A, B, C)`, but sometimes we get an exercise like `3*9 + 8*7` with setup `and(A, repeat(B, 2), C)`. How does this work?" And you are correct: the problem with skills is that there is some variability involved.
+Just like exercises, composite skills also have a setup. This setup defines which subskills (like `A`, `B` and `C`) are needed to solve an "average" exercise. However, you may be wondering, "Sometimes we get an exercise like `42 + 8*2` with setup `and(A, B, C)`, but sometimes we get an exercise like `3*9 + 8*7` with setup `and(A, B, B, C)`. How does this work?" And you are correct: the problem with skills is that there is some variability involved.
 
-To accomodate for this, we have two additional setup functions for skills. These functions do *not* work (nor would they be appropriate) for exercises, so keep that in mind. They are the following.
+To accomodate for this, we have two additional setup functions for skills. These functions do *not* work (nor would they be appropriate) for exercises, so keep that in mind. Also, these functions must *always* be used inside an `and` or `or` function. They are the following.
 
 - **pick**: writing `pick([A, B, C])` will randomly pick one of the given skills. This is useful if an exercise sometimes requires subskill A, sometimes subskill B and sometimes subskill C, but it varies per exercise. This function also has extra possibilities.
-	- Pick multiple: writing `pick([A, B, C], 2)` will pick two skills out of the set (without repeats). So in this case a third of the exercises uses `and(A, B)`, a third of the exercises uses `and(A, C)` and a third of the exercises uses `and(B, C)`. By default, only one skill is picked.
-	- Add weights: writing `pick([A, B, C, D], 2, [1, 1, 2, 2])` will make it much more likely that `C` and `D` are chosen. By default equal weights are used.
-- **part**: writing `part(A, 0.5)` means skill `A` is used only half the times. It only occurs in half the exercises.
+	- Pick multiple: writing `and(pick([A, B, C], 2))` will pick two skills out of the set (without repeats). So in this case a third of the exercises uses `and(A, B)`, a third of the exercises uses `and(A, C)` and a third of the exercises uses `and(B, C)`. By default, only one skill is picked.
+	- Add weights: writing `or(pick([A, B, C, D], 2, [1, 1, 2, 2]))` will make it much more likely that `C` and `D` are chosen for `or(C,D)`. Other combinations are less likely. By default equal weights are used.
+- **part**: writing `and(part(A, 0.5), B)` means skill `A` is used only half the times. So half the time it is `and(A, B)` and the other half of the times it is only `and(B)` which equates to `B`.
 
 For our example skill, we could hence define the setup in either of the following ways. (And there are plenty of more convoluted possibilities.)
 
@@ -52,7 +51,7 @@ For our example skill, we could hence define the setup in either of the followin
 - `and(A, B, part(B, 0.5), C)`
 - `pick(and(A, B, C), and(A, repeat(B, 2), C))`
 
-By defining the setup like this, our machine learning algorithm can calculate the chance that the student has mastered said skill.
+Note that in this last case the `pick` operator also exists outside of an `and`/`or` operator, which is an exception. If a `pick` operator only selects one element, this is OK. If it picks multiple, the algorithm throws an error.
 
 Some people mix up the `or` and the `pick` operator. Note that these are in fact *very different* operators. Using `or(A, B)` in an exercise (or skill) setup means that the exercise can be solved using either of the skills `A` or `B`: students are free to pick. However, using `pick(A, B)` in a skill setup means there are multiple exercises. Half of these exercises require skill `A` to be used and they *cannot be solved* with skill `B`. (And vice versa for the other half.) Keep this distinction in mind.
 
@@ -84,9 +83,11 @@ There are actually three options here:
 
 - If the skills are *very similar* then just merge them into a single skill. For example, we could define a merged skill "calculatePerformanceParameters". However, if you want students to calculate with efficiency without them having to know about heat pumps, then this may not be what you want.
 - If the skills are *distinct enough* then just keep them separate. This of course works, but it does require a student who already mastered skill `P` to start from scratch with skill `Q`. It may result in Step-Wise recommending a couple of boring and seemingly pointless exercises, which is not ideal.
-- If the situation falls in-between, it is possible to link the skills into linked groups.
+- If the situation falls in-between, it is possible to *link* the skills.
 
-To set up a linked group, use a function `group([P, Q], 0.8)`. The given percentage is the correlation between these skills: "If hypothetically the student has mastered skill `P` completely, and has a 100% chance of succeeding in it, what is the chance he/she successfully applies skill `Q`, and vice versa?" This percentage must be the same within the entire group. If it is not, you can make multiple groups for each individual link. This is then taking into account by the machine learning algorithm when estimating success probabilities.
+To add links, just add a parameter to the skill description object (see the skill tree below) like `links: [{ skill: "calculateEfficiency", correlation: 0.8 }, { skill: "someOtherSkill", correlation: 0.4 }]`. It is also possible to provide only a single object, without an array. Or you can just provide a string, in which case a default correlation of `0.5` is assumed. Note that links are always bidirectional: if you define `A` to be linked with `B`, then automatically (you don't have to indicate this) `B` is linked with `A`. If you do define a link the other way, and the correlation differs, an error is thrown.
+
+What does this correlation mean though? To see that, we do a thought experiment. Assume skills `A` and `B` are linked with `0.6` correlation. Also assume that we have determined that the student has a 100% chance of succeeding at skill `A`, but no data is known yet on skill `B`. That is, skill `B` has a chance of success of 50% without any additional data. Due to this link, however, we pull this chance by a factor of `0.6` towards `p(A)`. So in this example the success rate for `B` will be estimated as 80%. In practice, mathematics-wise, this comes down to the distribution of skill `A` being smoothened with decay ratio `0.6` before being merged into the distribution of skill `B`.
 
 
 ## Programming the skill tree
@@ -110,6 +111,7 @@ Currently the skill tree is hard-coded in the `shared/edu/skills/index.js` file.
 			name: 'Calculate composite expressions',
 			exercises: ['someExerciseId', 'someOtherExerciseId'],
 			setup: and('operationOrder', 'summation', 'multiplication'),
+			links: [{ skill: 'someOtherRelatedSkill', correlation: 0.4 }],
 		},
 	}
 
@@ -117,7 +119,7 @@ Note that basic skills do not have a setup (since they have no prerequisites) bu
 
 The order in which skills appear inside the skills file is important! When Step-Wise recommends skills to students, it starts with the first one mentioned in the skills file. That is why `operationOrder` is placed later on in the file (even though it's the first step in most exercises): because it makes more sense for students to learn summation and multiplication first, before worrying about the order of these operations.
 
-At the bottom of the skill tree we define *linked groups*. Finally some post-processing is done, like extracting prerequisites and such.
+At the bottom of the skill tree some post-processing is done, like ensuring links go both ways, extracting prerequisites and doing final checks.
 
 
 ## Selecting an exercise for a skill
