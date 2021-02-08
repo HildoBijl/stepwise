@@ -1,6 +1,6 @@
 # Step-Wise skill tracking
 
-Step-Wise uses a large skill tree. For each student, and for each skill in the tree, Step-Wise tracks the mastery level. This file discusses script-wise how this all works. For the mathematics behind skill tracking, there is a [separate PDF file on Skill Tracking](frontend/public/SkillTracking.pdf) that you can read. 
+Step-Wise uses a large skill tree. For each student, and for each skill in the tree, Step-Wise tracks the mastery level. This file discusses script-wise how this all works. For the mathematics behind skill tracking, there is a [separate PDF file on Skill Tracking](../../frontend/public/SkillTracking.pdf) that you can read. 
 
 ToDo: expand the file below, while implementing the updated machine learning algorithm.
 
