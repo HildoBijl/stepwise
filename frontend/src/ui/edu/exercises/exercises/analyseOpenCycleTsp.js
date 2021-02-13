@@ -8,6 +8,7 @@ import { InputTable } from 'ui/components/misc/InputTable'
 import { Dutch } from 'ui/lang/gases'
 
 import StepExercise from '../types/StepExercise'
+import Substep from '../types/StepExercise/Substep'
 import { useCorrect } from '../ExerciseContainer'
 import { getDefaultFeedback } from '../util/feedback'
 
@@ -91,9 +92,9 @@ const steps = [
 			<Par>Bereken, gebaseerd op de energiestromen, de koudefactor en de warmtefactor. Bereken ook via de massastroom het koelvermogen.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="epsilon" prelabel={<M>\varepsilon =</M>} label="Koudefactor" size="s" validate={validNumberAndUnit} />
-					<FloatUnitInput id="COP" prelabel={<M>\varepsilon_w =</M>} label="Warmtefactor" size="s" validate={validNumberAndUnit} />
-					<FloatUnitInput id="Pc" prelabel={<M>P_(koel) =</M>} label="Koelvermogen" size="s" />
+					<Substep ss={1}><FloatUnitInput id="epsilon" prelabel={<M>\varepsilon =</M>} label="Koudefactor" size="s" validate={validNumberAndUnit} /></Substep>
+					<Substep ss={1}><FloatUnitInput id="COP" prelabel={<M>\varepsilon_w =</M>} label="Warmtefactor" size="s" validate={validNumberAndUnit} /></Substep>
+					<Substep ss={2}><FloatUnitInput id="Pc" prelabel={<M>P_(koel) =</M>} label="Koelvermogen" size="s" /></Substep>
 				</Par>
 			</InputSpace>
 		</>,
