@@ -177,6 +177,17 @@ const skills = {
 		setup: combinerAnd('calculateEntropyChange', 'solveLinearEquation'),
 		exercises: ['calculateMissedWorkIsotherm', 'calculateMissedWorkPiston', 'calculateMissedWorkCompressor'],
 	},
+
+	useIsentropicEfficiency: {
+		name: 'Isentropisch rendement gebruiken',
+		setup: combinerAnd('calculateSpecificHeatAndMechanicalWork', 'calculateWithEnthalpy', 'solveLinearEquation'), // ToDo later: adjust this to either twice wt or twice dh.
+		// ToDo: add exercises.
+	},
+	analyseGasTurbine: {
+		name: 'Analyseer gasturbine',
+		setup: combinerAnd('calculateOpenCycle', 'useIsentropicEfficiency', 'createOpenCycleEnergyOverview', 'calculateWithEfficiency', 'massFlowTrick'),
+		exercises: ['analyseGasTurbine1'],
+	},
 }
 
 // Process the skill object.
