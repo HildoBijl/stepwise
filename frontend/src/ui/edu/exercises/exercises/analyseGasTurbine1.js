@@ -18,7 +18,7 @@ export default function Exercise() {
 const Problem = ({ p1, p2, T1, T3, etai, P }) => {
 	return <>
 		<Par>In een gasturbine doorloopt lucht een kringproces van Brayton. Aan het begin is de druk <M>{p1}</M> en de temperatuur <M>{T1}</M>. Een compressor comprimeert de lucht naar <M>{p2}</M>. Hierna wordt de lucht isobaar verwarmd tot <M>{T3}.</M> Na een turbine, waarin arbeid door de lucht geleverd wordt, wordt de lucht weer isobaar gekoeld tot het beginpunt. (In de praktijk wordt de lucht uitgestoten en wordt nieuwe lucht aangezogen.)</Par>
-		<Par>Voor deze gasturbine geldt verder dat de compressor en de turbine <em>niet</em> isentroop werken: ze hebben elk een isentroop rendement van <M>{etai}.</M> Bereken het thermodynamisch rendement van deze gasturbine. Bereken ook de massastroom lucht <M>\dot(m)</M>, gegeven dat het geleverde (netto) asvermogen <M>{P}</M> is.</Par>
+		<Par>Voor deze gasturbine geldt verder dat de compressor en de turbine <em>niet</em> isentroop werken: ze hebben elk een isentropisch rendement van <M>{etai}.</M> Bereken het thermodynamisch rendement van deze gasturbine. Bereken ook de massastroom lucht <M>\dot(m)</M>, gegeven dat het geleverde (netto) asvermogen <M>{P}</M> is.</Par>
 		<InputSpace>
 			<Par>
 				<FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={validNumberAndUnit} />
@@ -64,7 +64,7 @@ const steps = [
 	},
 	{
 		Problem: () => <>
-			<Par>Bereken via het isentroop rendement de werkelijke temperaturen na de compressor en turbine.</Par>
+			<Par>Bereken via het isentropisch rendement de werkelijke temperaturen na de compressor en turbine.</Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="T2" prelabel={<M>T_2 =</M>} label="Temperatuur na compressor" size="s" />
@@ -74,11 +74,11 @@ const steps = [
 		</>,
 		Solution: () => {
 			const { T1, T2, T2p, T3, T4, T4p, etai } = useCorrect()
-			return <Par>Bij de compressor heb je vanwege frictie in werkelijkheid meer arbeid nodig dan in de perfecte (isentrope) situatie. Dit isentroop rendement is dus
+			return <Par>Bij de compressor heb je vanwege frictie in werkelijkheid meer arbeid nodig dan in de perfecte (isentrope) situatie. Dit isentropisch rendement is dus
 				<BM>\eta_(i_c) = \frac(w_(t_i))(w_t) = \frac(c_p \left(T_(2') - T_1\right))(c_p \left(T_2 - T_1\right)) = \frac(T_(2') - T_1)(T_2 - T_1).</BM>
 				De oplossing voor <M>T_2</M> volgt als
 				<BM>T_2 = T_1 + \frac(T_(2') - T_1)(\eta_(i_c)) = {T1.float} + \frac({T2p.float} - {T1.float})({etai.float}) = {T2}.</BM>
-				Bij de turbine is het andersom: daar heb je vanwege frictie in werkelijkheid juist minder geleverde arbeid dan in de perfecte (isentrope) situatie. Hier is het isentroop rendement dus
+				Bij de turbine is het andersom: daar heb je vanwege frictie in werkelijkheid juist minder geleverde arbeid dan in de perfecte (isentrope) situatie. Hier is het isentropisch rendement dus
 				<BM>\eta_(i_t) = \frac(w_t)(w_(t_i)) = \frac(c_p \left(T_4 - T_3\right))(c_p \left(T_(4') - T_3\right)) = \frac(T_4 - T_3)(T_(4') - T_3).</BM>
 				De oplossing voor <M>T_4</M> is
 				<BM>T_4 = T_3 - \eta_(i_t) \left(T_3 - T_(4')\right) = {T3.float} - {etai.float} \cdot \left({T3.float} - {T4p.float}\right) = {T4}.</BM>

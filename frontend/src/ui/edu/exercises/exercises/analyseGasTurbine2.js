@@ -18,7 +18,7 @@ export default function Exercise() {
 const Problem = ({ p1, T1, p2, T2, T3, mdot }) => {
 	return <>
 		<Par>In een gasturbine doorloopt lucht een kringproces van Brayton. Aan het begin is de druk <M>{p1}</M> en de temperatuur <M>{T1}</M>. Een compressor comprimeert de lucht naar <M>{p2}</M> en <M>{T2}</M>. Hierna wordt de lucht isobaar verwarmd tot <M>{T3}.</M> Na een turbine, waarin arbeid door de lucht geleverd wordt, wordt de lucht weer isobaar gekoeld tot het beginpunt. (In de praktijk wordt de lucht uitgestoten en wordt nieuwe lucht aangezogen.)</Par>
-		<Par>Voor deze gasturbine geldt verder dat de compressor en de turbine <em>niet</em> isentroop werken. Het isentroop rendement is tot dusver nog onbekend, maar we nemen aan dat de compressor en de turbine <em>hetzelfde</em> isentroop rendement hebben. Bereken het thermodynamisch rendement van de gasturbine. Bereken ook het geleverde (netto) asvermogen, gegeven dat de massastroom lucht <M>{mdot}</M> is.</Par>
+		<Par>Voor deze gasturbine geldt verder dat de compressor en de turbine <em>niet</em> isentroop werken. Het isentropisch rendement is tot dusver nog onbekend, maar we nemen aan dat de compressor en de turbine <em>hetzelfde</em> isentropisch rendement hebben. Bereken het thermodynamisch rendement van de gasturbine. Bereken ook het geleverde (netto) asvermogen, gegeven dat de massastroom lucht <M>{mdot}</M> is.</Par>
 		<InputSpace>
 			<Par>
 				<FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={validNumberAndUnit} />
@@ -64,23 +64,23 @@ const steps = [
 	},
 	{
 		Problem: () => <>
-			<Par>Bereken het isentroop rendement van de compressor.</Par>
+			<Par>Bereken het isentropisch rendement van de compressor.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="etai" prelabel={<M>\eta_i =</M>} label="Isentroop rendement" size="s" validate={validNumberAndUnit} />
+					<FloatUnitInput id="etai" prelabel={<M>\eta_i =</M>} label="Isentropisch rendement" size="s" validate={validNumberAndUnit} />
 				</Par>
 			</InputSpace>
 		</>,
 		Solution: () => {
 			const { T1, T2, T2p, etai } = useCorrect()
-			return <Par>Bij de compressor heb je vanwege frictie in werkelijkheid meer arbeid nodig dan in de perfecte (isentrope) situatie. Dit isentroop rendement is dus
+			return <Par>Bij de compressor heb je vanwege frictie in werkelijkheid meer arbeid nodig dan in de perfecte (isentrope) situatie. Dit isentropisch rendement is dus
 				<BM>\eta_(i_c) = \frac(w_(t_i))(w_t) = \frac(c_p \left(T_(2') - T_1\right))(c_p \left(T_2 - T_1\right)) = \frac(T_(2') - T_1)(T_2 - T_1) = \frac({T2p.float} - {T1.float})({T2.float} - {T1.float}) = {etai}.</BM>
-				Een isentroop rendement van <M>{etai.setUnit('%')}</M> klinkt aannemelijk.</Par>
+				Een isentropisch rendement van <M>{etai.setUnit('%')}</M> klinkt aannemelijk.</Par>
 		},
 	},
 	{
 		Problem: () => <>
-			<Par>Er is gegeven dat de compressor en de turbine hetzelfde isentroop rendement hebben. Gebruik dit om de temperatuur bij de uitgang van de turbine te berekenen.</Par>
+			<Par>Er is gegeven dat de compressor en de turbine hetzelfde isentropisch rendement hebben. Gebruik dit om de temperatuur bij de uitgang van de turbine te berekenen.</Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="T4" prelabel={<M>T_4 =</M>} label="Temperatuur na turbine" size="s" />
@@ -89,7 +89,7 @@ const steps = [
 		</>,
 		Solution: () => {
 			const { T3, T4, T4p, etai } = useCorrect()
-			return <Par>Bij de turbine is de formule voor het isentroop rendement andersom ten opzichte van de compressor: je hebt nu vanwege frictie in werkelijkheid juist minder geleverde arbeid dan in de perfecte (isentrope) situatie. Hier is het isentroop rendement dus
+			return <Par>Bij de turbine is de formule voor het isentropisch rendement andersom ten opzichte van de compressor: je hebt nu vanwege frictie in werkelijkheid juist minder geleverde arbeid dan in de perfecte (isentrope) situatie. Hier is het isentropisch rendement dus
 				<BM>\eta_(i_t) = \frac(w_t)(w_(t_i)) = \frac(c_p \left(T_4 - T_3\right))(c_p \left(T_(4') - T_3\right)) = \frac(T_4 - T_3)(T_(4') - T_3).</BM>
 				De oplossing voor <M>T_4</M> is
 				<BM>T_4 = T_3 - \eta_(i_t) \left(T_3 - T_(4')\right) = {T3.float} - {etai.float} \cdot \left({T3.float} - {T4p.float}\right) = {T4}.</BM>

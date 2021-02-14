@@ -181,7 +181,7 @@ const skills = {
 	useIsentropicEfficiency: {
 		name: 'Isentropisch rendement gebruiken',
 		setup: combinerAnd('calculateSpecificHeatAndMechanicalWork', 'calculateWithEnthalpy', 'solveLinearEquation'), // ToDo later: adjust this to either twice wt or twice dh.
-		// ToDo: add exercises.
+		exercises: ['useIsentropicEfficiencyCompressor1', 'useIsentropicEfficiencyCompressor2', 'useIsentropicEfficiencyTurbine1', 'useIsentropicEfficiencyTurbine2'],
 	},
 	analyseGasTurbine: {
 		name: 'Analyseer gasturbine',
