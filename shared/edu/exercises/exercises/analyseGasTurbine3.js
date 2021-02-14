@@ -19,7 +19,7 @@ const data = {
 		eta: {
 			relativeMargin: 0.02,
 			significantDigitMargin: 1,
-			accuracyFactor: 2,
+			accuracyFactor: 1.5,
 		},
 	},
 }

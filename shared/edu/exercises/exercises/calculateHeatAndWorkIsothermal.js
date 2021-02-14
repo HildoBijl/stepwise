@@ -9,31 +9,22 @@ const gasProperties = require('../../../data/gasProperties')
 const data = {
 	skill: 'calculateHeatAndWork',
 	setup: combinerAnd('recognizeProcessTypes', 'specificGasConstant', 'gasLaw', combinerOr('calculateWithMass', 'calculateWithTemperature')),
-	steps: ['recognizeProcessTypes', null, 'specificGasConstant', 'gasLaw', ['calculateWithMass', 'calculateWithTemperature'], null],
+	steps: ['recognizeProcessTypes', null, 'specificGasConstant', 'gasLaw', ['calculateWithMass', 'calculateWithTemperature'], 'solveLinearEquation'],
 
 	equalityOptions: {
+		default: {
+			relativeMargin: 0.01,
+			significantDigitMargin: 2,
+			accuracyFactor: 2,
+		},
 		m: {
 			relativeMargin: 0.001,
 			unitCheck: Unit.equalityTypes.exact,
-		},
-		Rs: {
-			relativeMargin: 0.01,
-		},
-		ratio: {
-			relativeMargin: 0.01,
 		},
 		T: {
 			absoluteMargin: 0.2,
 			significantDigitMargin: 2,
 			unitCheck: Unit.equalityTypes.exact,
-		},
-		Q: {
-			relativeMargin: 0.01,
-			significantDigitMargin: 1,
-		},
-		W: {
-			relativeMargin: 0.01,
-			significantDigitMargin: 1,
 		},
 	},
 }

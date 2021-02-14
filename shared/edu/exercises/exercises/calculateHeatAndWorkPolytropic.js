@@ -9,17 +9,13 @@ let { air: { Rs, cv } } = require('../../../data/gasProperties')
 const data = {
 	skill: 'calculateHeatAndWork',
 	setup: combinerAnd('recognizeProcessTypes', combinerOr('specificGasConstant', 'specificHeats'), combinerOr('calculateWithMass', 'calculateWithTemperature')),
-	steps: ['recognizeProcessTypes', null, ['specificGasConstant', 'specificHeats'], null, ['calculateWithMass', 'calculateWithTemperature'], null],
+	steps: ['recognizeProcessTypes', null, ['specificGasConstant', 'specificHeats'], null, ['calculateWithMass', 'calculateWithTemperature'], 'solveLinearEquation'],
 
 	equalityOptions: {
-		Rs: {
+		default: {
 			relativeMargin: 0.01,
-		},
-		cv: {
-			relativeMargin: 0.01,
-		},
-		c: {
-			relativeMargin: 0.01,
+			significantDigitMargin: 2,
+			accuracyFactor: 2,
 		},
 		m: {
 			relativeMargin: 0.001,

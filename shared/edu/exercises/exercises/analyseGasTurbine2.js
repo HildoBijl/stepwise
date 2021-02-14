@@ -14,12 +14,12 @@ const data = {
 		default: {
 			relativeMargin: 0.01,
 			significantDigitMargin: 1,
-			accuracyFactor: 2,
+			accuracyFactor: 1.5,
 		},
 		eta: {
 			relativeMargin: 0.02,
 			significantDigitMargin: 1,
-			accuracyFactor: 2,
+			accuracyFactor: 1.5,
 		},
 	},
 }

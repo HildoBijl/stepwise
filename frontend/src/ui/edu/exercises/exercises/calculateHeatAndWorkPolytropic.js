@@ -135,7 +135,7 @@ const steps = [
 
 const getFeedback = (exerciseData) => {
 	return {
-		...getDefaultFeedback(['Rs', 'cv', 'm', 'T1', 'T2', 'Q', 'W'], exerciseData),
+		...getDefaultFeedback(['Rs', 'cv', 'c', 'm', 'T1', 'T2', 'Q', 'W'], exerciseData),
 		...getMCFeedback('process', exerciseData, {
 			step: 1,
 			text: [
