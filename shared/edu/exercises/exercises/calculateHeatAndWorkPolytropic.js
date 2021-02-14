@@ -32,17 +32,17 @@ const data = {
 		c: {
 			relativeMargin: 0.02,
 			significantDigitMargin: 2,
-			accuracyFactor: 2,
+			accuracyFactor: 3,
 		},
 		Q: {
 			relativeMargin: 0.02,
 			significantDigitMargin: 2,
-			accuracyFactor: 2,
+			accuracyFactor: 3,
 		},
 		W: {
 			relativeMargin: 0.02,
 			significantDigitMargin: 2,
-			accuracyFactor: 2,
+			accuracyFactor: 3,
 		},
 	},
 }
