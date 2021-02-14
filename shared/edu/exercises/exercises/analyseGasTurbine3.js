@@ -7,14 +7,14 @@ const { getCycle } = require('./support/gasTurbineCycle')
 
 const data = {
 	skill: 'analyseGasTurbine',
-	setup: combinerAnd(combinerRepeat('poissonsLaw', 2), combinerRepeat('useIsentropicEfficiency', 2), combinerRepeat('calculateTechnicalHeatAndMechanicalWork', 2), 'calculateWithEfficiency', 'massFlowTrick'),
-	steps: ['poissonsLaw', 'useIsentropicEfficiency', 'calculateTechnicalHeatAndMechanicalWork', 'poissonsLaw', 'useIsentropicEfficiency', 'calculateTechnicalHeatAndMechanicalWork', ['calculateWithEfficiency', 'massFlowTrick']],
+	setup: combinerAnd(combinerRepeat('poissonsLaw', 2), combinerRepeat('useIsentropicEfficiency', 2), combinerRepeat('calculateSpecificHeatAndMechanicalWork', 2), 'calculateWithEfficiency', 'massFlowTrick'),
+	steps: ['poissonsLaw', 'useIsentropicEfficiency', 'calculateSpecificHeatAndMechanicalWork', 'poissonsLaw', 'useIsentropicEfficiency', 'calculateSpecificHeatAndMechanicalWork', ['calculateWithEfficiency', 'massFlowTrick']],
 
 	equalityOptions: {
 		default: {
 			relativeMargin: 0.01,
 			significantDigitMargin: 1,
-			accuracyFactor: 2,
+			accuracyFactor: 1.5,
 		},
 		eta: {
 			relativeMargin: 0.02,
