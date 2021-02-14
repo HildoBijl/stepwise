@@ -186,7 +186,7 @@ const skills = {
 	analyseGasTurbine: {
 		name: 'Analyseer gasturbine',
 		setup: combinerAnd('calculateOpenCycle', 'useIsentropicEfficiency', 'createOpenCycleEnergyOverview', 'calculateWithEfficiency', 'massFlowTrick'),
-		exercises: ['analyseGasTurbine1'],
+		exercises: ['analyseGasTurbine1', 'analyseGasTurbine2', 'analyseGasTurbine3'],
 	},
 }
 

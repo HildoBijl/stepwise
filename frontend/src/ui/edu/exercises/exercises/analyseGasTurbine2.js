@@ -15,14 +15,14 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = ({ p1, p2, T1, T3, etai, P }) => {
+const Problem = ({ p1, T1, p2, T2, T3, mdot }) => {
 	return <>
-		<Par>In een gasturbine doorloopt lucht een kringproces van Brayton. Aan het begin is de druk <M>{p1}</M> en de temperatuur <M>{T1}</M>. Een compressor comprimeert de lucht naar <M>{p2}</M>. Hierna wordt de lucht isobaar verwarmd tot <M>{T3}.</M> Na een turbine, waarin arbeid door de lucht geleverd wordt, wordt de lucht weer isobaar gekoeld tot het beginpunt. (In de praktijk wordt de lucht uitgestoten en wordt nieuwe lucht aangezogen.)</Par>
-		<Par>Voor deze gasturbine geldt verder dat de compressor en de turbine <em>niet</em> isentroop werken: ze hebben elk een isentroop rendement van <M>{etai}.</M> Bereken het thermodynamisch rendement van deze gasturbine. Bereken ook de massastroom lucht <M>\dot(m)</M>, gegeven dat het geleverde (netto) asvermogen <M>{P}</M> is.</Par>
+		<Par>In een gasturbine doorloopt lucht een kringproces van Brayton. Aan het begin is de druk <M>{p1}</M> en de temperatuur <M>{T1}</M>. Een compressor comprimeert de lucht naar <M>{p2}</M> en <M>{T2}</M>. Hierna wordt de lucht isobaar verwarmd tot <M>{T3}.</M> Na een turbine, waarin arbeid door de lucht geleverd wordt, wordt de lucht weer isobaar gekoeld tot het beginpunt. (In de praktijk wordt de lucht uitgestoten en wordt nieuwe lucht aangezogen.)</Par>
+		<Par>Voor deze gasturbine geldt verder dat de compressor en de turbine <em>niet</em> isentroop werken. Het isentroop rendement is tot dusver nog onbekend, maar we nemen aan dat de compressor en de turbine <em>hetzelfde</em> isentroop rendement hebben. Bereken het thermodynamisch rendement van de gasturbine. Bereken ook het geleverde (netto) asvermogen, gegeven dat de massastroom lucht <M>{mdot}</M> is.</Par>
 		<InputSpace>
 			<Par>
 				<FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={validNumberAndUnit} />
-				<FloatUnitInput id="mdot" prelabel={<M>\dot(m) =</M>} label="Massadebiet" size="s" />
+				<FloatUnitInput id="P" prelabel={<M>P =</M>} label="Asvermogen" size="s" />
 			</Par>
 		</InputSpace>
 	</>
@@ -64,25 +64,36 @@ const steps = [
 	},
 	{
 		Problem: () => <>
-			<Par>Bereken via het isentroop rendement de werkelijke temperaturen na de compressor en turbine.</Par>
+			<Par>Bereken het isentroop rendement van de compressor.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="T2" prelabel={<M>T_2 =</M>} label="Temperatuur na compressor" size="s" />
+					<FloatUnitInput id="etai" prelabel={<M>\eta_i =</M>} label="Isentroop rendement" size="s" validate={validNumberAndUnit} />
+				</Par>
+			</InputSpace>
+		</>,
+		Solution: () => {
+			const { T1, T2, T2p, etai } = useCorrect()
+			return <Par>Bij de compressor heb je vanwege frictie in werkelijkheid meer arbeid nodig dan in de perfecte (isentrope) situatie. Dit isentroop rendement is dus
+				<BM>\eta_(i_c) = \frac(w_(t_i))(w_t) = \frac(c_p \left(T_(2') - T_1\right))(c_p \left(T_2 - T_1\right)) = \frac(T_(2') - T_1)(T_2 - T_1) = \frac({T2p.float} - {T1.float})({T2.float} - {T1.float}) = {etai}.</BM>
+				Een isentroop rendement van <M>{etai.setUnit('%')}</M> klinkt aannemelijk.</Par>
+		},
+	},
+	{
+		Problem: () => <>
+			<Par>Er is gegeven dat de compressor en de turbine hetzelfde isentroop rendement hebben. Gebruik dit om de temperatuur bij de uitgang van de turbine te berekenen.</Par>
+			<InputSpace>
+				<Par>
 					<FloatUnitInput id="T4" prelabel={<M>T_4 =</M>} label="Temperatuur na turbine" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { T1, T2, T2p, T3, T4, T4p, etai } = useCorrect()
-			return <Par>Bij de compressor heb je vanwege frictie in werkelijkheid meer arbeid nodig dan in de perfecte (isentrope) situatie. Dit isentroop rendement is dus
-				<BM>\eta_(i_c) = \frac(w_(t_i))(w_t) = \frac(c_p \left(T_(2') - T_1\right))(c_p \left(T_2 - T_1\right)) = \frac(T_(2') - T_1)(T_2 - T_1).</BM>
-				De oplossing voor <M>T_2</M> volgt als
-				<BM>T_2 = T_1 + \frac(T_(2') - T_1)(\eta_(i_c)) = {T1.float} + \frac({T2p.float} - {T1.float})({etai.float}) = {T2}.</BM>
-				Bij de turbine is het andersom: daar heb je vanwege frictie in werkelijkheid juist minder geleverde arbeid dan in de perfecte (isentrope) situatie. Hier is het isentroop rendement dus
+			const { T3, T4, T4p, etai } = useCorrect()
+			return <Par>Bij de turbine is de formule voor het isentroop rendement andersom ten opzichte van de compressor: je hebt nu vanwege frictie in werkelijkheid juist minder geleverde arbeid dan in de perfecte (isentrope) situatie. Hier is het isentroop rendement dus
 				<BM>\eta_(i_t) = \frac(w_t)(w_(t_i)) = \frac(c_p \left(T_4 - T_3\right))(c_p \left(T_(4') - T_3\right)) = \frac(T_4 - T_3)(T_(4') - T_3).</BM>
 				De oplossing voor <M>T_4</M> is
 				<BM>T_4 = T_3 - \eta_(i_t) \left(T_3 - T_(4')\right) = {T3.float} - {etai.float} \cdot \left({T3.float} - {T4p.float}\right) = {T4}.</BM>
-				Zo hebben we de werkelijke temperaturen na de compressor en turbine berekend.</Par>
+				Hiermee zijn alle werkelijke temperaturen in de cyclus bekend.</Par>
 		},
 	},
 	{
@@ -128,11 +139,11 @@ const steps = [
 	},
 	{
 		Problem: () => <>
-			<Par>Bereken, gebaseerd op de energiestromen, het rendement van de gasturbine. Bereken ook via het gegeven asvermogen de gebruikte massastroom.</Par>
+			<Par>Bereken, gebaseerd op de energiestromen, het rendement van de gasturbine. Bereken ook via de gegeven massastroom het asvermogen.</Par>
 			<InputSpace>
 				<Par>
 					<Substep ss={1}><FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={validNumberAndUnit} /></Substep>
-					<Substep ss={2}><FloatUnitInput id="mdot" prelabel={<M>\dot(m) =</M>} label="Massadebiet" size="s" /></Substep>
+					<Substep ss={2}><FloatUnitInput id="P" prelabel={<M>P =</M>} label="Asvermogen" size="s" /></Substep>
 				</Par>
 			</InputSpace>
 		</>,
@@ -140,14 +151,14 @@ const steps = [
 			const { P, wn, qin, eta, mdot } = useCorrect()
 			return <Par>Er wordt alleen bij stap 2-3 warmte toegevoerd. De toegevoerde warmte is dus <M>q_(toe) = q_(2-3) = {qin}.</M> De netto arbeid is al bekend als <M>w_(netto) = {wn}.</M> Hiermee volgt het rendement als
 				<BM>\eta = \frac(\rm nuttig)(\rm invoer) = \frac(w_(netto))(q_(toe)) = \frac{wn.float}{qin.float} = {eta}.</BM>
-				Dit komt neer op <M>{eta.setUnit('%')}</M> wat redelijk normaal is voor een gasturbine. We vinden de massastroom via de vergelijking <M>P = \dot(m) w_(netto).</M> Het resultaat is
-				<BM>\dot(m) = \frac(P)(w_(netto)) = \frac{P.float}{wn.float} = {mdot}.</BM>
-				Dit is een best grote hoeveelheid, maar een gasturbine van <M>{state.P}</M> is dan ook een flinke installatie.</Par>
+				Dit komt neer op <M>{eta.setUnit('%')}</M> wat redelijk normaal is voor een gasturbine. We vinden het asvermogen via
+				<BM>P = \dot(m) w_(netto) = {mdot.float} \cdot {wn.float} = {P}.</BM>
+				Een vermogen van <M>{P.setUnit('MW')}</M> geeft aan dat het een best grote installatie is.</Par>
 		},
 	},
 ]
 
 const getFeedback = (exerciseData) => {
-	return getDefaultFeedback(['p1', 'T1', 'p2', 'T2', 'T2p', 'p3', 'T3', 'p4', 'T4', 'T4p', 'q12', 'wt12', 'q23', 'wt23', 'q34', 'wt34', 'q41', 'wt41', 'eta', 'mdot'], exerciseData)
+	return getDefaultFeedback(['p1', 'T1', 'p2', 'T2p', 'p3', 'T3', 'p4', 'T4', 'T4p', 'etai', 'q12', 'wt12', 'q23', 'wt23', 'q34', 'wt34', 'q41', 'wt41', 'eta', 'P'], exerciseData)
 }
 
