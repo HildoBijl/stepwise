@@ -42,7 +42,7 @@ const steps = [
 	},
 	{
 		Problem: () => <>
-			<Par>Bereken de specifieke technische arbeid van de compressor, zowel voor het theoretische isentrope geval als in werkelijkheid.</Par>
+			<Par>Bereken de specifieke technische arbeid die de lucht in de compressor levert, zowel voor het theoretische isentrope geval als in werkelijkheid.</Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="wti" prelabel={<M>w_(t_i)=</M>} label="Theoretische specifieke technische arbeid" size="s" />
@@ -88,4 +88,3 @@ const steps = [
 const getFeedback = (exerciseData) => {
 	return getDefaultFeedback(['T2p', 'wti', 'wt', 'etai'], exerciseData)
 }
-

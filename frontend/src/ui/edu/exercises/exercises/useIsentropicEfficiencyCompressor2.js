@@ -42,7 +42,7 @@ const steps = [
 	},
 	{
 		Problem: () => <>
-			<Par>Bereken de specifieke technische arbeid van de compressor in dit theoretische isentrope geval.</Par>
+			<Par>Bereken de specifieke technische arbeid die de lucht in de compressor levert, in dit theoretische isentrope geval.</Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="wti" prelabel={<M>w_(t_i)=</M>} label="Theoretische specifieke technische arbeid" size="s" />
@@ -62,7 +62,7 @@ const steps = [
 	},
 	{
 		Problem: () => <>
-			<Par>Gebruik het isentropisch rendement om de werkelijke specifieke technische arbeid van de compressor te berekenen.</Par>
+			<Par>Gebruik het isentropisch rendement om de werkelijke specifieke technische arbeid die de lucht in de compressor levert te berekenen.</Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="wt" prelabel={<M>w_t =</M>} label="Specifieke technische arbeid" size="s" />
@@ -110,4 +110,3 @@ const steps = [
 const getFeedback = (exerciseData) => {
 	return getDefaultFeedback(['T2p', 'wti', 'wt', 'T2'], exerciseData)
 }
-
