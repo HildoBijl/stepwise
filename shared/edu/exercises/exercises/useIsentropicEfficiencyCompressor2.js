@@ -1,12 +1,12 @@
 const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd } = require('../../../skillTracking')
+const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
 const { checkParameter } = require('../util/check')
 const { air: { k, cp } } = require('../../../data/gasProperties')
 const { getCycle } = require('./support/gasTurbineCycle')
 
 const data = {
 	skill: 'useIsentropicEfficiency',
-	setup: combinerAnd('poissonsLaw', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation', 'calculateSpecificHeatAndMechanicalWork'),
+	setup: combinerAnd('poissonsLaw', combinerRepeat('calculateSpecificHeatAndMechanicalWork', 2), 'solveLinearEquation'),
 	steps: ['poissonsLaw', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation', 'calculateSpecificHeatAndMechanicalWork'],
 
 	equalityOptions: {

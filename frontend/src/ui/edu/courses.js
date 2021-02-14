@@ -48,7 +48,7 @@ const courses = {
 	},
 	promo: {
 		name: 'Processen en Modelleren',
-		goals: ['analyseClosedCycle', 'analyseOpenCycle', 'calculateMissedWork'],
+		goals: ['analyseClosedCycle', 'analyseOpenCycle', 'calculateMissedWork', 'analyseGasTurbine'],
 		priorKnowledge: ['calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature', 'calculateWithMass', 'specificGasConstant', 'specificHeatRatio', 'specificHeats', 'solveLinearEquation', 'gasLaw', 'poissonsLaw', 'recognizeProcessTypes'],
 		blocks: [
 			{
@@ -65,7 +65,7 @@ const courses = {
 			},
 			{
 				name: 'Gasturbines',
-				goals: [],
+				goals: ['analyseGasTurbine'],
 			},
 			{
 				name: 'Dampen en diagrammen',
@@ -83,7 +83,7 @@ const courses = {
 	},
 	dlwmpn: {
 		name: 'Deeltijd: Modelleren en Processen',
-		goals: ['analyseClosedCycle', 'analyseOpenCycle', 'calculateMissedWork'],
+		goals: ['analyseClosedCycle', 'analyseOpenCycle', 'calculateMissedWork', 'analyseGasTurbine'],
 		priorKnowledge: ['calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature', 'calculateWithMass', 'solveLinearEquation', 'solveExponentEquation'],
 		blocks: [
 			{
@@ -104,7 +104,7 @@ const courses = {
 			},
 			{
 				name: 'Gasturbines',
-				goals: [],
+				goals: ['analyseGasTurbine'],
 			},
 			{
 				name: 'Dampen en diagrammen',
