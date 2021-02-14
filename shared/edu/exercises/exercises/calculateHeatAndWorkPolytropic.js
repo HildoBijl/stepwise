@@ -29,13 +29,20 @@ const data = {
 			absoluteMargin: 0.2,
 			significantDigitMargin: 2,
 		},
+		c: {
+			relativeMargin: 0.02,
+			significantDigitMargin: 2,
+			accuracyFactor: 2,
+		},
 		Q: {
-			relativeMargin: 0.01,
-			significantDigitMargin: 1,
+			relativeMargin: 0.02,
+			significantDigitMargin: 2,
+			accuracyFactor: 2,
 		},
 		W: {
-			relativeMargin: 0.01,
-			significantDigitMargin: 1,
+			relativeMargin: 0.02,
+			significantDigitMargin: 2,
+			accuracyFactor: 2,
 		},
 	},
 }

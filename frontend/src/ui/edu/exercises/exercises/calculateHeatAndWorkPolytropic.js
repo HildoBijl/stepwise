@@ -127,7 +127,7 @@ const steps = [
 		</>,
 		Solution: () => {
 			const { Rs, n, m, c, T1, T2, Q, W } = useCorrect()
-			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we <BM>Q = mc\left(T_2 - T_1\right) = {m.float} \cdot {c.float} \cdot \left({T2.float} - {T1.float}\right) = {Q},</BM> <BM>W = -\frac(mR_s)(n-1)\left(T_2 - T_1\right) = -\frac({m.float} \cdot {Rs.float})({n.float} - 1) \cdot \left({T2.float} - {T1.float}\right) = {W}.</BM> De mintekens hier betekenen dat er warmte <strong>uit het gas</strong> stroomt en dat er arbeid <strong>op het gas</strong> wordt verricht. Dit klopt, want we zijn de lucht aan het comprimeren, dus dit kost arbeid. En omdat de lucht warmer wordt stroomt er warmte uit. De mintekens moeten dus zeker wel vermeld worden, want ze geven de richtingen van deze energiestromen aan.
+			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we <BM>Q = mc\left(T_2 - T_1\right) = {m.float} \cdot {c.float} \cdot \left({T2.float} - {T1.float}\right) = {Q},</BM> <BM>W = -\frac(mR_s)(n-1)\left(T_2 - T_1\right) = -\frac({m.float} \cdot {Rs.float})({n.float} - 1) \cdot \left({T2.float} - {T1.float}\right) = {W}.</BM> De mintekens hier betekenen dat er warmte <strong>uit het gas</strong> stroomt en dat er arbeid <strong>op het gas</strong> wordt verricht. Dit klopt, want we zijn de lucht aan het comprimeren, dus dit kost arbeid. En omdat de lucht warmer wordt stroomt er warmte uit. De mintekens moeten zeker wel vermeld worden, want ze geven de richtingen van deze energiestromen aan.
 			</Par>
 		},
 	},
