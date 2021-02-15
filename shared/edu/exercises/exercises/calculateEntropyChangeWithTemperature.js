@@ -14,21 +14,18 @@ const data = {
 
 	equalityOptions: {
 		default: {
-			relativeMargin: 0.01,
+			relativeMargin: 0.015,
 			significantDigitMargin: 1,
 			accuracyFactor: 2,
 		},
-		c: {
-			relativeMargin: 0.02,
-		},
 		T1: {
 			absoluteMargin: 0.2,
-			significantDigitMargin: 1,
+			significantDigitMargin: 2,
 			unitCheck: Unit.equalityTypes.exact,
 		},
 		T2: {
 			absoluteMargin: 0.2,
-			significantDigitMargin: 1,
+			significantDigitMargin: 2,
 			unitCheck: Unit.equalityTypes.exact,
 		},
 	},
@@ -36,7 +33,7 @@ const data = {
 
 function generateState() {
 	const type = getRandomInteger(0, 2) // 0 isobaric, 1 isochoric, 2 isentropic
-	const medium = selectRandomly(['air', 'carbonDioxide', 'carbonMonoxide', 'hydrogen', 'methane', 'nitrogen', 'oxygen'])
+	const medium = selectRandomly(['air', 'carbonMonoxide', 'hydrogen', 'methane', 'nitrogen', 'oxygen'])
 	const T1 = getRandomFloatUnit({
 		min: 200,
 		max: 400,

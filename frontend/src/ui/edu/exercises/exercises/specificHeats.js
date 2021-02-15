@@ -35,5 +35,5 @@ function Solution({ medium }) {
 }
 
 const getFeedback = (exerciseData) => {
-	return getDefaultFeedback(['cv','cp'], exerciseData)
+	return getDefaultFeedback(['cv', 'cp'], exerciseData)
 }

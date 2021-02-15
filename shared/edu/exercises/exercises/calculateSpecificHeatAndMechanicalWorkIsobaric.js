@@ -11,7 +11,7 @@ const data = {
 
 	equalityOptions: {
 		cp: {
-			relativeMargin: 0.01,
+			relativeMargin: 0.02,
 		},
 		T1: {
 			absoluteMargin: 0.2,
@@ -22,11 +22,11 @@ const data = {
 			significantDigitMargin: 2,
 		},
 		q: {
-			relativeMargin: 0.01,
+			relativeMargin: 0.02,
 			significantDigitMargin: 1,
 		},
 		wt: {
-			relativeMargin: 0.01,
+			relativeMargin: 0.02,
 			significantDigitMargin: 1,
 		},
 	},

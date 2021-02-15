@@ -13,7 +13,7 @@ const data = {
 
 	equalityOptions: {
 		k: {
-			relativeMargin: 0.01,
+			relativeMargin: 0.015,
 		},
 		v1: {
 			relativeMargin: 0.01,
@@ -34,11 +34,11 @@ const data = {
 			checkUnitSize: true,
 		},
 		q: {
-			relativeMargin: 0.01,
+			relativeMargin: 0.02,
 			significantDigitMargin: 1,
 		},
 		wt: {
-			relativeMargin: 0.01,
+			relativeMargin: 0.02,
 			significantDigitMargin: 1,
 		},
 	},

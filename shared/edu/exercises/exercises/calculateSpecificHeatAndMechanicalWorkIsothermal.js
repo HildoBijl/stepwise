@@ -13,7 +13,7 @@ const data = {
 
 	equalityOptions: {
 		Rs: {
-			relativeMargin: 0.01,
+			relativeMargin: 0.015,
 		},
 		ratio: {
 			relativeMargin: 0.01,
@@ -24,18 +24,20 @@ const data = {
 			unitCheck: Unit.equalityTypes.exact,
 		},
 		q: {
-			relativeMargin: 0.01,
+			relativeMargin: 0.015,
 			significantDigitMargin: 1,
+			accuracyFactor: 2,
 		},
 		wt: {
-			relativeMargin: 0.01,
+			relativeMargin: 0.015,
 			significantDigitMargin: 1,
+			accuracyFactor: 2,
 		},
 	},
 }
 
 function generateState() {
-	const gas = selectRandomly(['air', 'carbonDioxide', 'carbonMonoxide', 'hydrogen', 'methane', 'nitrogen', 'oxygen'])
+	const gas = selectRandomly(['air', 'carbonMonoxide', 'hydrogen', 'methane', 'nitrogen', 'oxygen'])
 	const T = getRandomFloatUnit({
 		min: 6,
 		max: 30,

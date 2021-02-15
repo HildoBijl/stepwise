@@ -1,20 +1,22 @@
 const { selectRandomly } = require('../../../util/random')
 const gasProperties = require('../../../data/gasProperties')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+const { checkParameter } = require('../util/check')
 
 const data = {
 	skill: 'specificHeatRatio',
 	equalityOptions: {
-		relativeMargin: 0.01,
+		relativeMargin: 0.015,
 	}
 }
 
 function generateState() {
-	return { medium: selectRandomly(['air', 'argon', 'carbonDioxide', 'carbonMonoxide', 'helium', 'hydrogen', 'methane', 'nitrogen', 'oxygen']) }
+	return { medium: selectRandomly(['air', 'argon', 'carbonMonoxide', 'helium', 'hydrogen', 'methane', 'nitrogen', 'oxygen']) }
 }
 
-function checkInput(state, { ans }) {
-	return getCorrect(state).equals(ans, data.equalityOptions)
+function checkInput(state, input) {
+	const correct = getCorrect(state)
+	return checkParameter('k', correct, input, data.equalityOptions)
 }
 
 function getCorrect({ medium }) {

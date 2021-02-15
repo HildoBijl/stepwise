@@ -13,29 +13,30 @@ const data = {
 
 	equalityOptions: {
 		default: {
-			relativeMargin: 0.01,
+			relativeMargin: 0.015,
 			significantDigitMargin: 2,
 			accuracyFactor: 2,
 		},
 		V: {
 			relativeMargin: 0.01,
+			significantDigitMargin: 1,
 			checkUnitSize: true,
 		},
 		p1: {
-			absoluteMargin: 0.2,
-			significantDigitMargin: 2,
+			relativeMargin: 0.01,
+			significantDigitMargin: 1,
 			checkUnitSize: true,
 		},
 		p2: {
-			absoluteMargin: 0.2,
-			significantDigitMargin: 2,
+			relativeMargin: 0.01,
+			significantDigitMargin: 1,
 			checkUnitSize: true,
 		},
 	},
 }
 
 function generateState() {
-	const gas = selectRandomly(['air', 'carbonDioxide', 'carbonMonoxide', 'hydrogen', 'methane', 'nitrogen', 'oxygen'])
+	const gas = selectRandomly(['air', 'carbonMonoxide', 'hydrogen', 'methane', 'nitrogen', 'oxygen'])
 	const V = getRandomFloatUnit({
 		min: 20,
 		max: 200,

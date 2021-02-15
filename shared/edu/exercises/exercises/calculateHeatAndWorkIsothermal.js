@@ -19,6 +19,7 @@ const data = {
 		},
 		m: {
 			relativeMargin: 0.001,
+			significantDigitMargin: 1,
 			unitCheck: Unit.equalityTypes.exact,
 		},
 		T: {
@@ -30,7 +31,7 @@ const data = {
 }
 
 function generateState() {
-	const gas = selectRandomly(['air', 'carbonDioxide', 'carbonMonoxide', 'hydrogen', 'methane', 'nitrogen', 'oxygen'])
+	const gas = selectRandomly(['air', 'carbonMonoxide', 'hydrogen', 'methane', 'nitrogen', 'oxygen'])
 	const m = getRandomFloatUnit({
 		min: 0.5,
 		max: 6,

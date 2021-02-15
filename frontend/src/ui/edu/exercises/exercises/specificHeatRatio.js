@@ -19,7 +19,7 @@ function Problem({ medium }) {
 	return <>
 		<Par>Zoek de <M>k</M>-waarde (de verhouding van soortelijke warmten) van <strong>{Dutch[medium]}</strong> op. Voer je antwoord zo nauwkeurig mogelijk in.</Par>
 		<InputSpace>
-			<Par><FloatUnitInput id="ans" prelabel={<M>k =</M>} label={<span><M>k</M>-waarde</span>} size="s" validate={validNumberAndUnit} /></Par>
+			<Par><FloatUnitInput id="k" prelabel={<M>k =</M>} label={<span><M>k</M>-waarde</span>} size="s" validate={validNumberAndUnit} /></Par>
 		</InputSpace>
 	</>
 }
@@ -32,5 +32,5 @@ function Solution({ medium }) {
 }
 
 const getFeedback = (exerciseData) => {
-	return getDefaultFeedback('ans', exerciseData)
+	return getDefaultFeedback('k', exerciseData)
 }

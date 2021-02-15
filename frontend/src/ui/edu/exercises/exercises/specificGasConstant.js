@@ -19,7 +19,7 @@ function Problem({ medium }) {
 	return <>
 		<Par>Zoek de specifieke gasconstante van <strong>{Dutch[medium]}</strong> op. Voer je antwoord zo nauwkeurig mogelijk in.</Par>
 		<InputSpace>
-			<Par><FloatUnitInput id="ans" prelabel={<M>R_s =</M>} label="Specifieke gasconstante" size="s" /></Par>
+			<Par><FloatUnitInput id="Rs" prelabel={<M>R_s =</M>} label="Specifieke gasconstante" size="s" /></Par>
 		</InputSpace>
 	</>
 }
@@ -32,5 +32,5 @@ function Solution({ medium }) {
 }
 
 const getFeedback = (exerciseData) => {
-	return getDefaultFeedback('ans', exerciseData)
+	return getDefaultFeedback('Rs', exerciseData)
 }
