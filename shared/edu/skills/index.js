@@ -184,9 +184,15 @@ const skills = {
 		exercises: ['useIsentropicEfficiencyCompressor1', 'useIsentropicEfficiencyCompressor2', 'useIsentropicEfficiencyTurbine1', 'useIsentropicEfficiencyTurbine2'],
 	},
 	analyseGasTurbine: {
-		name: 'Analyseer gasturbine',
+		name: 'Gasturbine analyseren',
 		setup: combinerAnd('calculateOpenCycle', 'useIsentropicEfficiency', 'createOpenCycleEnergyOverview', 'calculateWithEfficiency', 'massFlowTrick'),
 		exercises: ['analyseGasTurbine1', 'analyseGasTurbine2', 'analyseGasTurbine3'],
+	},
+
+	linearInterpolation: {
+		name: 'Lineair interpoleren',
+		setup: combinerRepeat('solveLinearEquation', 2),
+		exercises: ['linearInterpolationPopulation'],
 	},
 }
 
@@ -198,6 +204,8 @@ Object.keys(skills).forEach(key => {
 	skill.continuations = [] // Prepare an empty array.
 	if (!skill.exercises) // Ensure all skills have an exercises array (albeit an empty one).
 		skill.exercises = []
+	if (!Array.isArray(skill.exercises)) // Ensure that the exercises parameter is an array.
+		skill.exercises = [skill.exercises]
 })
 
 // Set up continuations.

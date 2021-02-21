@@ -175,6 +175,16 @@ class FloatUnit {
 		})
 	}
 
+	// compare receives a FloatUnit object and checks which one is bigger. If this object is bigger than 1 is returned. If the other one is bigger, -1 is returned. If the size is equal, 0 is given.
+	compare(x) {
+		// If constructors don't match, no comparison is possible.
+		if (this.constructor !== x.constructor)
+			throw new Error(`Invalid comparison: cannot compare a number of type "${this.constructor.name || 'unknown'}" with a number of type "${x.constructor.name || 'unknown'}".`)
+
+		// Ensure units are equal and compare the resulting floats. (If units cannot be equal, then this will throw an error.)
+		return this.float.compare(x.setUnit(this.unit).float)
+	}
+
 	// equals compares two FloatUnits. It only returns true or false.
 	equals(x, options = {}) {
 		return this.checkEquality(x, options).result
