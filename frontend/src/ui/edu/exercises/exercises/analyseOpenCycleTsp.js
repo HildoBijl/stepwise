@@ -36,19 +36,19 @@ const steps = [
 			<Par>Maak een overzicht van de gaseigenschappen in elk punt.</Par>
 			<InputSpace>
 				<InputTable
-					colHeads={['Druk', 'Volume', 'Temperatuur']}
+					colHeads={['Druk', 'Specifiek volume', 'Temperatuur']}
 					rowHeads={['Punt 1', 'Punt 2', 'Punt 3']}
 					fields={[[
 						<FloatUnitInput id="p1" label={<M>p_1</M>} size="l" />,
-						<FloatUnitInput id="V1" label={<M>V_1</M>} size="l" />,
+						<FloatUnitInput id="v1" label={<M>v_1</M>} size="l" />,
 						<FloatUnitInput id="T1" label={<M>T_1</M>} size="l" />,
 					], [
 						<FloatUnitInput id="p2" label={<M>p_2</M>} size="l" />,
-						<FloatUnitInput id="V2" label={<M>V_2</M>} size="l" />,
+						<FloatUnitInput id="v2" label={<M>v_2</M>} size="l" />,
 						<FloatUnitInput id="T2" label={<M>T_2</M>} size="l" />,
 					], [
 						<FloatUnitInput id="p3" label={<M>p_3</M>} size="l" />,
-						<FloatUnitInput id="V3" label={<M>V_3</M>} size="l" />,
+						<FloatUnitInput id="v3" label={<M>v_3</M>} size="l" />,
 						<FloatUnitInput id="T3" label={<M>T_3</M>} size="l" />,
 					]]} />
 			</InputSpace>
