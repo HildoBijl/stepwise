@@ -2,10 +2,10 @@ import { processOptions } from 'step-wise/util/objects'
 import { getEV } from 'step-wise/skillTracking'
 
 const defaultSkillThresholds = {
-	pass: 0.66, // If the skill is above this level, we can move on.
-	recap: 0.56, // If the skills is below this level, we must recap: go back to it.
-	pkPass: 0.66, // If a prior knowledge has this skill level, we can move on.
-	pkRecap: 0.46, // If the skill level for a prior skil drops below this, we must recap.
+	pass: 0.62, // If the skill is above this level, we can move on.
+	recap: 0.52, // If the skills is below this level, we must recap: go back to it.
+	pkPass: 0.62, // If a prior knowledge has this skill level, we can move on.
+	pkRecap: 0.44, // If the skill level for a prior skil drops below this, we must recap.
 }
 export { defaultSkillThresholds }
 
