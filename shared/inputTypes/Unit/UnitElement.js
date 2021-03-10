@@ -73,7 +73,7 @@ class UnitElement {
 		return this.prefixString + this.unitString
 	}
 
-	// string returns a string representation of this number.
+	// str returns a string representation of this number.
 	get str() {
 		return this.toString()
 	}

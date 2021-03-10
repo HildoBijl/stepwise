@@ -1,6 +1,7 @@
 
 import { selectRandomly, selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
 import { processOptions } from 'step-wise/util/objects'
+import { Integer } from 'step-wise/inputTypes/Integer'
 import { Float } from 'step-wise/inputTypes/Float'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 
@@ -67,6 +68,9 @@ export function getDefaultFeedback(parameter, exerciseData, extraOptions) {
 		// Call the comparison function for the correct parameter type.
 		const comparisonInput = [correctAnswer, givenAnswer, { equalityOptions: currEqualityOptions, prevInput: prevInput[currParameter], prevFeedback: prevFeedback[currParameter], ...currExtraOptions }]
 		switch (correctAnswer.constructor) {
+			case Integer:
+				feedback[currParameter] = getIntegerComparisonFeedback(...comparisonInput)
+				return
 			case Float:
 				feedback[currParameter] = getFloatComparisonFeedback(...comparisonInput)
 				return
@@ -82,9 +86,66 @@ export function getDefaultFeedback(parameter, exerciseData, extraOptions) {
 	return feedback
 }
 
+/* getIntegerComparisonFeedback takes two Integers: a correct answer and an input answer. It then compares these and returns a feedback object in the form { correct: true/false, text: 'Some feedback text' }. Various options can be provided within the third parameter:
+ * - equalityOptions: an object detailing how the comparison must be performed.
+ * - solved: an overwrite, in case the server says it's correct or incorrect.
+ * - text: an object with text for certain cases. It's the message if ...
+ *   x correct: if it's correct.
+ *   x sign: if it's incorrect due to the sign of the answer.
+ *   x near: if it's near the answer.
+ *   x tooLarge: if it's too high.
+ *   x tooSmall: if it's too low.
+ *   x wrongValue: a placeholder for both tooHigh and tooLow.
+ *   x incorrect: if it's wrong for some unknown reason.
+ */
+export function getIntegerComparisonFeedback(correctAnswer, inputAnswer, options) {
+	options = processOptions(options, defaultComparisonOptions)
+	const { equalityOptions, solved, text, prevInput, prevFeedback } = options
+
+	// Check if solved is set to true.
+	if (solved === true)
+		return { correct: true, text: text.correct || (prevFeedback && prevFeedback.correct && prevFeedback.text) || selectRandomCorrect() }
+
+	// If no input is given, no feedback will be given.
+	if (inputAnswer === undefined)
+		return
+
+	// Do default comparison and check equality.
+	const comparison = correctAnswer.checkEquality(inputAnswer, equalityOptions)
+	if (comparison.result) {
+		if (solved === false)
+			return { correct: false, text: (prevFeedback && !prevFeedback.correct && prevFeedback.text) || selectRandomIncorrect() } // Overwritten! Apparently the answer is correct now, but the server marks it as incorrect. So we have to show incorrect.
+		return { correct: true, text: (prevFeedback && prevFeedback.correct && prevFeedback.text) || selectRandomCorrect() }
+	}
+
+	// If we had exactly the same input before, return the same feedback.
+	if (prevInput && inputAnswer.str === prevInput.str)
+		return prevFeedback
+
+	// Check sign.
+	if (Math.sign(correctAnswer.number) * Math.sign(inputAnswer.number) === -1)
+		return {
+			correct: false,
+			text: text.sign || 'Je antwoord heeft niet het juiste teken. Controleer plussen en minnen.',
+		}
+
+	// Check for a near-hit.
+	if (correctAnswer.equals(inputAnswer, { ...equalityOptions, accuracyFactor: (equalityOptions.accuracyFactor || 1) * accuracyFactorForNearHits }))
+		return {
+			correct: false,
+			text: text.near || 'Je zit erg in de buurt! Maak je antwoord iets nauwkeuriger.',
+		}
+
+	// Check for default integer comparison elements.
+	return {
+		correct: false,
+		text: getIntegerComparisonFeedbackTextFromComparison(comparison, { ...options, answerSign: Math.sign(correctAnswer.number), inputSign: Math.sign(inputAnswer.number) }),
+	}
+}
+
 /* getFloatComparisonFeedback takes two Floats: a correct answer and an input answer. It then compares these and returns a feedback object in the form { correct: true/false, text: 'Some feedback text' }. Various options can be provided within the third parameter:
  * - equalityOptions: an object detailing how the comparison must be performed.
- * - correct: an overwrite, in case the server says it's correct or incorrect.
+ * - solved: an overwrite, in case the server says it's correct or incorrect.
  * - text: an object with text for certain cases. It's the message if ...
  *   x correct: if it's correct.
  *   x sign: if it's incorrect due to the sign of the answer.
@@ -104,7 +165,7 @@ export function getFloatComparisonFeedback(correctAnswer, inputAnswer, options) 
 	options = processOptions(options, defaultComparisonOptions)
 	const { equalityOptions, solved, text, prevInput, prevFeedback } = options
 
-	// Check if correct is set to true.
+	// Check if solved is set to true.
 	if (solved === true)
 		return { correct: true, text: text.correct || (prevFeedback && prevFeedback.correct && prevFeedback.text) || selectRandomCorrect() }
 
@@ -203,7 +264,8 @@ export function getFloatUnitComparisonFeedback(correctAnswer, inputAnswer, optio
 	}
 }
 
-function getFloatComparisonFeedbackTextFromComparison(comparison, options) {
+// The functions below give feedback text based on a comparison result from a checkEquality function.
+function getNumberComparisonFeedbackTextFromComparison(comparison, options) {
 	// Check if we're too high or too low. On negative numbers flip the phrasing.
 	if (comparison.magnitude !== 'OK') {
 		if (options.inputSign === 0) {
@@ -223,6 +285,23 @@ function getFloatComparisonFeedbackTextFromComparison(comparison, options) {
 				return options.tooSmall || options.wrongValue || 'Je antwoord is te klein.'
 		}
 	}
+}
+
+function getIntegerComparisonFeedbackTextFromComparison(comparison, options) {
+	// Get feedback on the number.
+	const feedbackText = getNumberComparisonFeedbackTextFromComparison()
+	if (feedbackText)
+		return feedbackText
+
+	// Check other problems. (This should not happen.)
+	return options.incorrect || selectRandomIncorrect()
+}
+
+function getFloatComparisonFeedbackTextFromComparison(comparison, options) {
+	// Get feedback on the number.
+	const feedbackText = getNumberComparisonFeedbackTextFromComparison()
+	if (feedbackText)
+		return feedbackText
 
 	// Check the number of significant digits.
 	if (comparison.numSignificantDigits !== 'OK') {

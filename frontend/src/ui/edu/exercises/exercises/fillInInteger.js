@@ -35,7 +35,7 @@ function getFeedback({ state, input, progress }) {
 	return {
 		ans: {
 			correct,
-			text: Math.abs(x) === Math.abs(ans) ? (
+			text: x.abs().equals(ans.abs()) ? (
 				ans > 0 ? 'Je bent het minteken vergeten.' : 'Probeer het minteken te verwijderen.'
 			) : selectRandomIncorrect()
 		}

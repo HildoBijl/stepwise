@@ -54,7 +54,7 @@ class FloatUnit {
 		return this.float.number
 	}
 
-	// string returns a string representation of this number with unit.
+	// str returns a string representation of this number with unit.
 	get str() {
 		return this.toString()
 	}
@@ -269,6 +269,14 @@ class FloatUnit {
 		})
 	}
 
+	// abs will take the absolute value of the FloatUnit.
+	abs() {
+		return new FloatUnit({
+			float: this.float.abs(),
+			unit: this.unit,
+		})
+	}
+
 	// add will add two FloatUnits together. They must have the same unit (when simplified) or an error is thrown. If the unit of the added quantity is merely written differently (for example N*m instead of J) then this is ignored: the unit of this object is used. It does not adjust this object but returns a copy.
 	add(x, keepDecimals) {
 		// Check input.
@@ -304,14 +312,6 @@ class FloatUnit {
 
 		// Add the number with a minus sign.
 		return this.add(x.applyMinus(), keepDecimals)
-	}
-
-	// abs will take the absolute value of the FloatUnit.
-	abs() {
-		return new FloatUnit({
-			float: this.float.abs(),
-			unit: this.unit,
-		})
 	}
 
 	// invert will return 1/number, inverting both the number and the unit. It does not adjust this object but returns a copy.

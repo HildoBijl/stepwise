@@ -46,7 +46,7 @@ class Unit {
 		return this._den
 	}
 
-	// string returns a string representation of this unit.
+	// str returns a string representation of this unit.
 	get str() {
 		return this.toString()
 	}

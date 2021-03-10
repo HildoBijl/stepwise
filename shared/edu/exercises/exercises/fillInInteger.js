@@ -6,11 +6,11 @@ const data = {
 }
 
 function generateState() {
-	return { x: getRandomInteger(-100, 100) }
+	return { x: getRandomInteger({ min: -100, max: 100 }) }
 }
 
 function checkInput({ x }, { ans }) {
-	return x === ans
+	return x.number === ans.number
 }
 
 module.exports = {

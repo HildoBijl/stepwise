@@ -1,58 +1,58 @@
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
+const { getRandom, getRandomInteger } = require('../../../util/random')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd } = require('../../../skillTracking')
 const { checkParameter } = require('../util/check')
 
 const data = {
-	skill: 'useIsentropicEfficiency',
-	setup: combinerAnd('calculateWithEnthalpy', 'solveLinearEquation'),
-	steps: ['calculateWithEnthalpy', 'solveLinearEquation'],
+	skill: 'linearInterpolation',
+	setup: combinerAnd('solveLinearEquation', 'solveLinearEquation'),
+	steps: ['solveLinearEquation', 'solveLinearEquation'],
 
 	equalityOptions: {
-		default: {
+		default: {},
+		x: {
+			absoluteMargin: 0.005,
 			relativeMargin: 0.01,
-			significantDigitMargin: 1,
-		},
+		}
 	},
 }
 
 function generateState() {
-	// ToDo later: use steam installation support function.	
-	const etai = getRandomFloatUnit({
-		min: 0.86,
-		max: 0.98,
-		unit: '',
-	})
-	const h1 = getRandomFloatUnit({
-		min: 3100,
-		max: 3600,
-		decimals: -1,
-		unit: 'kJ/kg',
-	}).setDecimals(0)
-	const h2p = getRandomFloatUnit({
-		min: 2300,
-		max: 2600,
-		decimals: -1,
-		unit: 'kJ/kg',
-	}).setDecimals(0)
-	const h2 = h1.subtract(h1.subtract(h2p).multiply(etai)).setDecimals(-1).roundToPrecision().setDecimals(0)
-	return { h1, h2p, h2 }
+	const type = getRandomInteger(1, 2) // 1 means give year, find population. 2 means give population, find year.
+	const year1 = getRandomInteger(1950, 1970)
+	const year2 = getRandomInteger(1980, 2000)
+	const x = getRandom(0.1, 0.9)
+	const pop1 = getRandomInteger(1500, 2500)
+	const pop2 = getRandomInteger(3500, 5500)
+
+	if (type === 1) {
+		const year = Math.floor(year1 + x * (year2 - year1))
+		return { type, year1, year2, pop1, pop2, year }
+	} else {
+		const pop = Math.round(pop1 + x * (pop2 - pop1))
+		return { type, year1, year2, pop1, pop2, pop }
+	}
 }
 
-function getCorrect({ h1, h2p, h2 }) {
-	const wti = h1.subtract(h2p)
-	const wt = h1.subtract(h2)
-	const etai = wt.divide(wti).setUnit('').setDecimals(3)
-	return { h1, h2p, h2, wti, wt, etai }
+function getCorrect({ type, year1, year2, pop1, pop2, year, pop }) {
+	let x
+	if (type === 1) {
+		x = (year - year1) / (year2 - year1)
+		pop = pop1 + x * (pop2 - pop1)
+	} else {
+		x = (pop - pop1) / (pop2 - pop1)
+		year = year1 + x * (year2 - year1)
+	}
+	return { type, year1, year2, pop1, pop2, x, year, pop }
 }
 
 function checkInput(state, input, step, substep) {
 	const correct = getCorrect(state)
 	switch (step) {
 		case 1:
-			return checkParameter(['wti', 'wt'], correct, input, data.equalityOptions)
+			return checkParameter('x', correct, input, data.equalityOptions)
 		default:
-			return checkParameter('etai', correct, input, data.equalityOptions)
+			return checkParameter(state.type === 1 ? 'pop' : 'year', correct, input, data.equalityOptions)
 	}
 }
 

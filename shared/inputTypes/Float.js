@@ -3,6 +3,7 @@
 const { isInt, ensureInt, isNumber, ensureNumber, roundTo, roundToDecimals } = require('../util/numbers')
 const { isObject, processOptions } = require('../util/objects')
 const { getRandom } = require('../util/random')
+const { Integer } = require('./Integer')
 
 const numberFormat = '(-?(\\d+[.,]?\\d*)|(\\d*[.,]?\\d+))'
 const timesFormat = '(\\s*\\*\\s*)'
@@ -35,6 +36,10 @@ class Float {
 		// If we have a type Float, just copy it.
 		if (isObject(input) && input.constructor === Float)
 			return this.become(input)
+
+		// If we have an integer type, extract the number.
+		if (input.constructor === Integer)
+			input = input.number
 
 		// If we have a string or number, split it up into an object first.
 		if (typeof input === 'string')
@@ -88,7 +93,7 @@ class Float {
 		return this.significantDigits - Math.floor(Math.log10(Math.abs(this.number))) - 1
 	}
 
-	// string returns a string representation of this number.
+	// str returns a string representation of this number.
 	get str() {
 		return this.toString()
 	}
@@ -276,7 +281,7 @@ class Float {
 		})
 	}
 
-	// compare receives a Float object and checks which one is bigger. If this object is bigger than 1 is returned. If the other one is bigger, -1 is returned. If the size is equal, 0 is given.
+	// compare receives a Float object and checks which one is bigger. If this object is bigger, then 1 is returned. If the other one is bigger, -1 is returned. If the size is equal, 0 is given.
 	compare(x) {
 		// If constructors don't match, no comparison is possible.
 		if (this.constructor !== x.constructor)
@@ -408,25 +413,6 @@ class Float {
 
 		// Add the negative number.
 		return this.add(x.applyMinus(), keepDecimals)
-	}
-
-	// abs will take the absolute value of the Float.
-	abs() {
-		return new Float({
-			number: Math.abs(this.number),
-			power: this.power,
-			significantDigits: this.significantDigits,
-		})
-	}
-
-	// invert will turn this number into 1/number. It returns a copy without adjusting this object.
-	invert() {
-		if (this.number === 0)
-			throw new Error(`Invalid invert call: cannot invert zero. Dividing by zero not allowed.`)
-		return new Float({
-			number: 1 / this.number,
-			significantDigits: this.significantDigits,
-		})
 	}
 
 	// multiply multiplies this number by another number. It does not adjust this object but returns a copy. If keepDigits is set to true, the rules of significant digits are not followed, but instead more significant digits may be added.
