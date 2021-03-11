@@ -10,10 +10,10 @@ import { Dutch } from 'ui/lang/gases'
 import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
 import { useCorrect } from '../ExerciseContainer'
-import { getDefaultFeedback } from '../util/feedback'
+import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
-	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
+	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
 }
 
 const Problem = ({ medium, mdot, p1, T1, p2 }) => {
@@ -112,8 +112,3 @@ const steps = [
 		},
 	},
 ]
-
-const getFeedback = (exerciseData) => {
-	return getDefaultFeedback(['p1', 'v1', 'T1', 'p2', 'v2', 'T2', 'p3', 'v3', 'T3', 'q12', 'wt12', 'q23', 'wt23', 'q31', 'wt31', 'epsilon', 'COP', 'Pc'], exerciseData)
-}
-

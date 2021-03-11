@@ -10,7 +10,7 @@ import { InputSpace } from 'ui/form/Status'
 
 import StepExercise from '../types/StepExercise'
 import { useCorrect } from '../ExerciseContainer'
-import { getDefaultFeedback } from '../util/feedback'
+import { getInputFieldFeedback } from '../util/feedback'
 
 // ToDo: remove below tests.
 
@@ -118,5 +118,5 @@ const steps = [
 ]
 
 const getFeedback = (exerciseData) => {
-	return getDefaultFeedback(['x', 'pop', 'year'], exerciseData)
+	return getInputFieldFeedback(['x', 'pop', 'year'], exerciseData)
 }

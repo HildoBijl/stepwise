@@ -9,10 +9,10 @@ import { InputTable } from 'ui/components/misc/InputTable'
 import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
 import { useCorrect } from '../ExerciseContainer'
-import { getDefaultFeedback } from '../util/feedback'
+import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
-	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
+	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
 }
 
 const Problem = ({ p1, T1, p2, T2, T3, mdot }) => {
@@ -157,8 +157,3 @@ const steps = [
 		},
 	},
 ]
-
-const getFeedback = (exerciseData) => {
-	return getDefaultFeedback(['p1', 'T1', 'p2', 'T2p', 'p3', 'T3', 'p4', 'T4', 'T4p', 'etai', 'q12', 'wt12', 'q23', 'wt23', 'q34', 'wt34', 'q41', 'wt41', 'eta', 'P'], exerciseData)
-}
-

@@ -9,7 +9,7 @@ import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
 import { useCorrect } from '../ExerciseContainer'
-import { getDefaultFeedback } from '../util/feedback'
+import { getInputFieldFeedback } from '../util/feedback'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -38,7 +38,7 @@ function getFeedback(exerciseData) {
 		return { eta: { correct: false, text: message } }
 
 	// Get default feedback otherwise.
-	return getDefaultFeedback('eta', exerciseData)
+	return getInputFieldFeedback('eta', exerciseData)
 }
 
 function getPercentageMessage(percentage) {

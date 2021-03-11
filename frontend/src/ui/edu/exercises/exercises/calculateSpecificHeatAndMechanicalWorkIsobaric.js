@@ -8,7 +8,7 @@ import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 
 import StepExercise from '../types/StepExercise'
 import { useCorrect } from '../ExerciseContainer'
-import { getDefaultFeedback, getMCFeedback } from '../util/feedback'
+import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -118,7 +118,7 @@ const steps = [
 
 const getFeedback = (exerciseData) => {
 	return {
-		...getDefaultFeedback(['T1', 'T2', 'cp', 'q', 'wt'], exerciseData),
+		...getInputFieldFeedback(['T1', 'T2', 'cp', 'q', 'wt'], exerciseData),
 		...getMCFeedback('process', exerciseData, {
 			step: 1,
 			text: [

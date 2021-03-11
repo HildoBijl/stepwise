@@ -7,10 +7,10 @@ import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
 import { useCorrect } from '../ExerciseContainer'
-import { getDefaultFeedback } from '../util/feedback'
+import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
-	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
+	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getAllInputFieldsFeedback} />
 }
 
 function Problem({ rho, mdot }) {
@@ -25,8 +25,4 @@ function Problem({ rho, mdot }) {
 function Solution() {
 	const { mdot, rho, v, Vdot } = useCorrect()
 	return <Par>Er zijn tweede manieren om dit op te lossen. De ietwat lange manier is om eerst vanuit de dichtheid <M>\rho</M> het specifieke volume <M>v</M> van de lucht te berekenen. Dit kan via <BM>v = \frac(1)(\rho) = \frac(1){rho.float} = {v}.</BM> Vervolgens volgt de volumestroom als <BM>\dot(V) = \dot(m)v = {mdot.float} \cdot {v.float} = {Vdot}.</BM> De short-cut hier is om dit gelijk vanuit de dichtheid te berekenen als <BM>\dot(V) = \frac(\dot(m))(\rho) = \frac{mdot.float}{rho.float} = {Vdot}.</BM> Dit is een relatief hoge volumestroom, maar aangezien een vliegtuig ook relatief snel vliegt is dit prima haalbaar.</Par>
-}
-
-function getFeedback(exerciseData) {
-	return getDefaultFeedback('Vdot', exerciseData)
 }

@@ -142,7 +142,7 @@ After you defined your `getFeedback` function, make sure to include it into the 
 
 If you do not specify a `getFeedback` function yourself, the `SimpleExercise` and `StepExercise` components will try to make a feedback function themselves from the `checkInput` function. 
 
-Very often, you'll want to provide feedback to parameters in a default way. For instance, for `FloatUnit` parameters, you want to first check the unit, if that matches check the number, and so forth. In this case the `getDefaultFeedback` function comes in very handy! You might see it at various example exercises.
+Very often, you'll want to provide feedback to parameters in a default way. For instance, for `FloatUnit` parameters, you want to first check the unit, if that matches check the number, and so forth. In this case the `getInputFieldFeedback` function comes in very handy! You might see it at various example exercises.
 
 
 ### InputSpace

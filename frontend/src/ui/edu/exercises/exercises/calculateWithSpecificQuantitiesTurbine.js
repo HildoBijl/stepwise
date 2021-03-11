@@ -9,10 +9,10 @@ import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
 import { useCorrect } from '../ExerciseContainer'
-import { getDefaultFeedback } from '../util/feedback'
+import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
-	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
+	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getAllInputFieldsFeedback} />
 }
 
 function Problem({ wt, m }) {
@@ -28,8 +28,4 @@ function Solution() {
 	const { wt, m, Wt } = useCorrect()
 	const wtUnit = wt.multiply(new FloatUnit('1.000000 kg')).setUnit('kJ')
 	return <Par>De specifieke technische arbeid <M>w_t = {wt.setUnit('kJ/kg')}</M> betekent dat elke kilogram stoom zorgt voor <M>{wtUnit}</M> aan arbeid. We hebben in totaal <M>{m}</M> aan stoom. Dit zorgt voor een totale technische arbeid van <BM>W_t = mw_t = {m.float} \cdot {wt.float} = {Wt} = {Wt.setUnit('GJ')}.</BM> Dit is een grote hoeveelheid arbeid, maar dat is te verwachten van een stoomturbine die meerdere minuten draait.</Par>
-}
-
-function getFeedback(exerciseData) {
-	return getDefaultFeedback('Wt', exerciseData)
 }

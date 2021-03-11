@@ -10,7 +10,7 @@ import { Dutch } from 'ui/lang/gases'
 import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
 import { useCorrect } from '../ExerciseContainer'
-import { getDefaultFeedback, getMCFeedback } from '../util/feedback'
+import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -93,7 +93,7 @@ const getFeedback = (exerciseData) => {
 	const { data } = shared
 
 	const feedback = {
-		...getDefaultFeedback(['p1', 'p2', 'V1', 'V2', 'k'], exerciseData),
+		...getInputFieldFeedback(['p1', 'p2', 'V1', 'V2', 'k'], exerciseData),
 		...getMCFeedback('eq', exerciseData, {
 			correct: 0,
 			step: 3,

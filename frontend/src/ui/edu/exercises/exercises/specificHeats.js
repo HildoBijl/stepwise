@@ -9,10 +9,10 @@ import { InputSpace } from 'ui/form/Status'
 import { English, Dutch } from 'ui/lang/gases'
 
 import SimpleExercise from '../types/SimpleExercise'
-import { getDefaultFeedback } from '../util/feedback'
+import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
-	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
+	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getAllInputFieldsFeedback} />
 }
 
 function Problem({ medium }) {
@@ -32,8 +32,4 @@ function Solution({ medium }) {
 		<Par>Voor {Dutch[medium]} geldt <M>c_v = {gasProperties[medium].cv}</M> en <M>c_p = {gasProperties[medium].cp}.</M> Merk op dat de exacte waarden iets kunnen verschillen, omdat ze toch een klein beetje variëren met bijvoorbeeld temperatuur.</Par>
 		<Par>Als je de bovenstaande waarden wilt vinden, dan kun je achterin een thermodynamicaboek kijken: er is vast een bijlage met eigenschappen van gassen. Anders kun je ook Googlen naar "specific heat of {English[medium]}". Zoeken in het Engels geeft vaak meer/betere resultaten dan het Nederlands.</Par>
 	</>
-}
-
-const getFeedback = (exerciseData) => {
-	return getDefaultFeedback(['cv', 'cp'], exerciseData)
 }

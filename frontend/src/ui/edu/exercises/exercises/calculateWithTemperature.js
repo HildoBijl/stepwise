@@ -9,7 +9,7 @@ import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
 import { useCorrect } from '../ExerciseContainer'
-import { getDefaultFeedback } from '../util/feedback'
+import { getInputFieldFeedback } from '../util/feedback'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -44,7 +44,7 @@ function Solution({ T, type }) {
 }
 
 function getFeedback(exerciseData) {
-	return getDefaultFeedback('ans', exerciseData, { text: { unit: getUnitMessage(exerciseData.state.type) } })
+	return getInputFieldFeedback('ans', exerciseData, { text: { unit: getUnitMessage(exerciseData.state.type) } })
 }
 
 function getUnitMessage(type) {

@@ -47,6 +47,8 @@ function Solution({ type }) {
 
 function getFeedback(exerciseData) {
 	const { input: { ans }, state: { type: correct } } = exerciseData
+	console.log(ans)
+	console.log(correct)
 	return getMCFeedback('ans', exerciseData, {
 		correct,
 		text: ans === correct ?

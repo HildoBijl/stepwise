@@ -16,12 +16,12 @@ const defaultComparisonOptions = {
 
 const accuracyFactorForNearHits = 4
 
-/* getDefaultFeedback takes an array of parameter names (like ['p1', 'p2', 'V1', 'V2']) and provides feedback on these parameters. It is also possible to give a single parameter 'p1'.
+/* getInputFieldFeedback takes an array of parameter names (like ['p1', 'p2', 'V1', 'V2']) and provides feedback on these parameters. It is also possible to give a single parameter 'p1'.
  * Input is an array of parameter string IDs. The function uses the exerciseData input parameter to extract all the data from. Extra options for the comparison functions may be provided in the third argument. This can be an object with extra options if they're the same for all parameters, or an array with extra options per parameter if they differ.
  * There should be a data object and a getCorrect function in the shared file. The data object should have an equalityOptions object with equality options for all parameters. If a parameter has different equality options, it can be specified within this object. So, data: { equalityOptions: { ...optionsForMostParameters..., p1: { ...specificOptions... }, ... } }. 
  * The outcome is a feedback object for each respective parameter. So { p1: { correct: 'false', text: 'Nope!' }, p2: { ... } }.
  */
-export function getDefaultFeedback(parameter, exerciseData, extraOptions) {
+export function getInputFieldFeedback(parameter, exerciseData, extraOptions) {
 	// Extract parameters and check that they are suitable.
 	const { state, input, shared, prevInput, prevFeedback } = exerciseData
 	const { data, getCorrect } = shared
@@ -88,6 +88,12 @@ export function getDefaultFeedback(parameter, exerciseData, extraOptions) {
 
 	// All done! Return feedback.
 	return feedback
+}
+
+// getAllInputFieldsFeedback is a function that tries to give feedback about the provided input in as intelligent a manner as possible. It figures out for itself which fields to give input on.
+export function getAllInputFieldsFeedback(exerciseData) {
+	const inputFields = Object.keys(exerciseData.input)
+	return getInputFieldFeedback(inputFields.length === 1 ? inputFields[0] : inputFields, exerciseData)
 }
 
 /* getIntegerComparisonFeedback takes two Integers: a correct answer and an input answer. It then compares these and returns a feedback object in the form { correct: true/false, text: 'Some feedback text' }. Various options can be provided within the third parameter:
@@ -293,7 +299,7 @@ function getNumberComparisonFeedbackTextFromComparison(comparison, options) {
 
 function getIntegerComparisonFeedbackTextFromComparison(comparison, options) {
 	// Get feedback on the number.
-	const feedbackText = getNumberComparisonFeedbackTextFromComparison()
+	const feedbackText = getNumberComparisonFeedbackTextFromComparison(comparison, options)
 	if (feedbackText)
 		return feedbackText
 
@@ -303,7 +309,7 @@ function getIntegerComparisonFeedbackTextFromComparison(comparison, options) {
 
 function getFloatComparisonFeedbackTextFromComparison(comparison, options) {
 	// Get feedback on the number.
-	const feedbackText = getNumberComparisonFeedbackTextFromComparison()
+	const feedbackText = getNumberComparisonFeedbackTextFromComparison(comparison, options)
 	if (feedbackText)
 		return feedbackText
 

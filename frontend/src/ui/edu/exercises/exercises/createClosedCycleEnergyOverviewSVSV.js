@@ -8,10 +8,10 @@ import { InputTable } from 'ui/components/misc/InputTable'
 
 import StepExercise from '../types/StepExercise'
 import { useExerciseData } from '../ExerciseContainer'
-import { getDefaultFeedback } from '../util/feedback'
+import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
-	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
+	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
 }
 
 const colHeads = [<span>Warmte <M>Q</M></span>, <span>Arbeid <M>W</M></span>]
@@ -125,7 +125,3 @@ const steps = [
 		},
 	},
 ]
-
-const getFeedback = (exerciseData) => {
-	return getDefaultFeedback(['Q12', 'W12', 'Q23', 'W23', 'Q34', 'W34', 'Q41', 'W41'], exerciseData)
-}

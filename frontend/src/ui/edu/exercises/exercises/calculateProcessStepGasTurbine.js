@@ -12,7 +12,7 @@ import { InputTable } from 'ui/components/misc/InputTable'
 
 import StepExercise from '../types/StepExercise'
 import { useCorrect } from '../ExerciseContainer'
-import { getDefaultFeedback, getMCFeedback } from '../util/feedback'
+import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -135,7 +135,7 @@ const steps = [
 
 const getFeedback = (exerciseData) => {
 	return {
-		...getDefaultFeedback(['p1', 'V1', 'T1', 'p2', 'V2', 'T2'], exerciseData),
+		...getInputFieldFeedback(['p1', 'V1', 'T1', 'p2', 'V2', 'T2'], exerciseData),
 		...getMCFeedback('process', exerciseData, {
 			step: 2,
 			correct: 3,

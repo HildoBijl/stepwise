@@ -7,7 +7,7 @@ import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
 import { useCorrect } from '../ExerciseContainer'
-import { getDefaultFeedback } from '../util/feedback'
+import { getInputFieldFeedback } from '../util/feedback'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -39,5 +39,5 @@ function getFeedback(exerciseData) {
 		return { COP: { correct: false, text: 'Bijna! Kijk nog eens goed naar welke energie we echt als "nuttig" zien.' } }
 
 	// Give default feedback.
-	return getDefaultFeedback('COP', exerciseData)
+	return getInputFieldFeedback('COP', exerciseData)
 }

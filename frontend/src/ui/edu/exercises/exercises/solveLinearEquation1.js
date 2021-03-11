@@ -7,10 +7,10 @@ import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
 import { useCorrect } from '../ExerciseContainer'
-import { getDefaultFeedback } from '../util/feedback'
+import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
-	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
+	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getAllInputFieldsFeedback} />
 }
 
 function Problem({ a, b }) {
@@ -25,8 +25,4 @@ function Problem({ a, b }) {
 function Solution({ a, b }) {
 	const x = useCorrect()
 	return <Par>We beginnen met de vergelijking <BM>{a} \cdot x = {b}.</BM> Als we beide kanten van de vergelijking delen door <M>{a}</M> krijgen we <BM>x = \frac{b}{a} = {x}.</BM> Dit is de oplossing van de opgave.</Par>
-}
-
-function getFeedback(exerciseData) {
-	return getDefaultFeedback('ans', exerciseData)
 }
