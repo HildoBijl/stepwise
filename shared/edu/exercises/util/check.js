@@ -1,3 +1,6 @@
+const { isInt } = require('../../../util/numbers')
+const { areIntegersEqual } = require('../../../inputTypes/Integer')
+
 // checkParameter is a quick and uniform way to perform an "equals" check for a parameter with the corresponding answer.
 function checkParameter(parameter, correct, input, equalityOptions) {
 	const parameters = Array.isArray(parameter) ? parameter : [parameter]
@@ -17,6 +20,8 @@ function checkParameter(parameter, correct, input, equalityOptions) {
 			throw new Error(`Field check error: could not find an input for field "${currParameter}". Make sure that there is an input field named "${currParameter}".`)
 
 		// Extract equality options.
+		if (equalityOptions === undefined)
+			throw new Error(`Missing equality options error: expected equality options, but none were given. Note that, when using default check functions, you should provide equality options. This could be of the form { default: { ... }, input1: { ... }, input2: { ... } }, where empty objects can be used to apply default equality options.`)
 		let currEqualityOptions
 		if (equalityOptions[currParameter] !== undefined)
 			currEqualityOptions = equalityOptions[currParameter]
@@ -26,6 +31,10 @@ function checkParameter(parameter, correct, input, equalityOptions) {
 			currEqualityOptions = equalityOptions
 		if (!currEqualityOptions)
 			throw new Error(`Field check error: could not find equality options for field "${currParameter}". Make sure that the equality options object has a parameter with this name, or otherwise a parameter "default". (This could even be an empty object if default options are used.) Only when the "field" parameter is not an array do we potentially take the equalityOptions object itself as the equalityOptions parameter for this field.`)
+
+		// What kind of parameter do we have? Is it an integer?
+		if (isInt(currCorrect))
+			return areIntegersEqual(currCorrect, currInput, currEqualityOptions)
 
 		// We have an object-based parameter. Use the built-in equals function.
 		return currCorrect.equals(currInput, currEqualityOptions)

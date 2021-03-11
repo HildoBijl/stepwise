@@ -1,3 +1,4 @@
+const { ensureInt } = require('./numbers')
 const { ensureArray, getCumulativeArray, lastOf } = require('./arrays')
 
 // getRandom returns a random floating number between the given minimum and maximum.
@@ -6,9 +7,30 @@ function getRandom(min, max) {
 }
 module.exports.getRandom = getRandom
 
-// getRandomInteger returns a random integer between the given minimum and maximum (both inclusive).
-function getRandomInteger(min, max) {
-	return Math.floor(Math.random() * (max - min + 1)) + min
+/* getRandomInteger returns a random integer object between the given min and max (both inclusive) according to a uniform distribution. It must receive an options object which can include:
+ * - min (obligatory): the minimum value (inclusive).
+ * - max (obligatory): the maximum value (inclusive).
+ * - prevent: an integer or array of integers to exclude. For instance, using { min: -3, max: 3, prevent: [-1, 0, 1] } will give either -3, -2, 2 or 3.
+ */
+function getRandomInteger(min, max, prevent = []) {
+	// Check input: must be numbers.
+	min = ensureInt(min)
+	max = ensureInt(max)
+	prevent = Array.isArray(prevent) ? prevent : [prevent]
+
+	// Check the number of options.
+	if (max - min + 1 <= prevent.length)
+		throw new Error(`Invalid getRandomInteger options: we tried to generate a random number between ${max} and ${min}, but (after taking into account a prevent-array) there were no options left.`)
+
+	// Set up a random integer number.
+	const number = Math.floor(Math.random() * (max - min + 1)) + min
+
+	// Check if it's in the prevent list.
+	if (prevent.includes(number))
+		return getRandomInteger(min, max, prevent)
+
+	// All good!
+	return number
 }
 module.exports.getRandomInteger = getRandomInteger
 

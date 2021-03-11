@@ -1,7 +1,8 @@
 
 import { selectRandomly, selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
 import { processOptions } from 'step-wise/util/objects'
-import { Integer } from 'step-wise/inputTypes/Integer'
+import { isInt } from 'step-wise/util/numbers'
+import { checkIntegerEquality } from 'step-wise/inputTypes/Integer'
 import { Float } from 'step-wise/inputTypes/Float'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 
@@ -68,9 +69,12 @@ export function getDefaultFeedback(parameter, exerciseData, extraOptions) {
 		// Call the comparison function for the correct parameter type.
 		const comparisonInput = [correctAnswer, givenAnswer, { equalityOptions: currEqualityOptions, prevInput: prevInput[currParameter], prevFeedback: prevFeedback[currParameter], ...currExtraOptions }]
 		switch (correctAnswer.constructor) {
-			case Integer:
-				feedback[currParameter] = getIntegerComparisonFeedback(...comparisonInput)
-				return
+			case (0).constructor: // Integer?
+				if (isInt(correctAnswer)) {
+					feedback[currParameter] = getIntegerComparisonFeedback(...comparisonInput)
+					return
+				}
+			// eslint-disable-next-line no-fallthrough
 			case Float:
 				feedback[currParameter] = getFloatComparisonFeedback(...comparisonInput)
 				return
@@ -111,7 +115,7 @@ export function getIntegerComparisonFeedback(correctAnswer, inputAnswer, options
 		return
 
 	// Do default comparison and check equality.
-	const comparison = correctAnswer.checkEquality(inputAnswer, equalityOptions)
+	const comparison = checkIntegerEquality(correctAnswer, inputAnswer, equalityOptions)
 	if (comparison.result) {
 		if (solved === false)
 			return { correct: false, text: (prevFeedback && !prevFeedback.correct && prevFeedback.text) || selectRandomIncorrect() } // Overwritten! Apparently the answer is correct now, but the server marks it as incorrect. So we have to show incorrect.
@@ -130,7 +134,7 @@ export function getIntegerComparisonFeedback(correctAnswer, inputAnswer, options
 		}
 
 	// Check for a near-hit.
-	if (correctAnswer.equals(inputAnswer, { ...equalityOptions, accuracyFactor: (equalityOptions.accuracyFactor || 1) * accuracyFactorForNearHits }))
+	if (checkIntegerEquality(correctAnswer, inputAnswer, { ...equalityOptions, accuracyFactor: (equalityOptions.accuracyFactor || 1) * accuracyFactorForNearHits }))
 		return {
 			correct: false,
 			text: text.near || 'Je zit erg in de buurt! Maak je antwoord iets nauwkeuriger.',
