@@ -415,6 +415,16 @@ class Float {
 		return this.add(x.applyMinus(), keepDecimals)
 	}
 
+	// invert will turn this number into 1/number. It returns a copy without adjusting this object.
+	invert() {
+		if (this.number === 0)
+			throw new Error(`Invalid invert call: cannot invert zero. Dividing by zero not allowed.`)
+		return new Float({
+			number: 1 / this.number,
+			significantDigits: this.significantDigits,
+		})
+	}
+
 	// multiply multiplies this number by another number. It does not adjust this object but returns a copy. If keepDigits is set to true, the rules of significant digits are not followed, but instead more significant digits may be added.
 	multiply(x, keepDigits = false) {
 		// Check the input.
