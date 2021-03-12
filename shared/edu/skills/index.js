@@ -41,6 +41,11 @@ const skills = {
 		name: 'Exponent-vergelijking oplossen',
 		exercises: ['solveExponentEquation1', 'solveExponentEquation2', 'solveExponentEquation3', 'solveExponentEquation4'],
 	},
+	linearInterpolation: {
+		name: 'Lineair interpoleren',
+		setup: combinerRepeat('solveLinearEquation', 2),
+		exercises: ['linearInterpolationPopulation', 'linearInterpolationKettle', 'linearInterpolationChild'],
+	},
 
 	// Basic physics
 	calculateWithPressure: {
@@ -189,10 +194,9 @@ const skills = {
 		exercises: ['analyseGasTurbine1', 'analyseGasTurbine2', 'analyseGasTurbine3'],
 	},
 
-	linearInterpolation: {
-		name: 'Lineair interpoleren',
-		setup: combinerRepeat('solveLinearEquation', 2),
-		exercises: ['linearInterpolationPopulation', 'linearInterpolationKettle', 'linearInterpolationChild'],
+	lookUpSteamProperties: {
+		name: 'Stoomeigenschappen opzoeken',
+		exercises: ['steamPropertiesAtTemperature', 'steamPropertiesAtPressure'], //steamPropertiesSuperheated [TODO]
 	},
 }
 

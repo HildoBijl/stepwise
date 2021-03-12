@@ -87,7 +87,7 @@ function gridInterpolate(input, outputSeries, ...inputSeries) {
 			throw new Error(`Interpolate error: the input series was not an array. Instead, we received "${JSON.stringify(inputSeries)}".`)
 		inputSeries = inputSeries.map(value => ensureNumberLike(value))
 		inputSeries.forEach((value, index) => {
-			if (index > 0 && inputSeries[index - 1] >= value)
+			if (index > 0 && (isNumber(value) ? inputSeries[index - 1] >= value : inputSeries[index - 1].compare(value) >= 0))
 				throw new Error(`Grid interpolate error: the input series must be an ascending array of numbers, but this is not the case. Received ${JSON.stringify(inputSeries)}.`)
 		})
 

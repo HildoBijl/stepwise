@@ -15,7 +15,7 @@ export default function Exercise() {
 }
 
 const Problem = ({ type, h1, h2, W1, W2, h, W }) => type === 1 ? <>
-	<Par>We bekijken de manier waarop een kind groeit. Op een bepaald moment meten we het kind op: het gewicht is <M>{W1}</M> en de hoogte is <M>{h1}</M> groot. Enkele jaren later meten we opnieuw en vinden we <M>{W2}</M> en <M>{h2}</M>. Hoeveel woog het kind toen het <M>{h}</M> groot was? Ga uit van een lineair verband tussen hoogte en gewicht.</Par>
+	<Par>We bekijken een opgroeiend kind. Op een bepaald moment meten we het kind op: het gewicht is <M>{W1}</M> en de hoogte is <M>{h1}</M> groot. Enkele jaren later meten we opnieuw en vinden we <M>{W2}</M> en <M>{h2}</M>. Hoeveel woog het kind toen het <M>{h}</M> groot was? Ga uit van een lineair verband tussen hoogte en gewicht.</Par>
 	<InputSpace>
 		<Par>
 			<FloatUnitInput id="W" prelabel={<M>W =</M>} label={<span>Gewicht bij <M>{h}</M></span>} size="s" />
