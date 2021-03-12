@@ -1,12 +1,12 @@
 const { getRandom } = require('../../../util/random')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd } = require('../../../skillTracking')
+const { combinerRepeat } = require('../../../skillTracking')
 const { checkParameter } = require('../util/check')
 const { getRandomInteger } = require('../../../inputTypes/Integer')
 
 const data = {
 	skill: 'linearInterpolation',
-	setup: combinerAnd('solveLinearEquation', 'solveLinearEquation'),
+	setup: combinerRepeat('solveLinearEquation', 2),
 	steps: ['solveLinearEquation', 'solveLinearEquation'],
 
 	equalityOptions: {
