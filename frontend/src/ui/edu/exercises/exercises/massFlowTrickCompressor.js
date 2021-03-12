@@ -17,7 +17,7 @@ export default function Exercise() {
 
 function Problem({ mdot, P }) {
 	return <>
-		<Par>Een axiale compressor zuigt continu lucht aan om te comprimeren. De compressor comprimeert <M>{mdot}</M> aan lucht en gebruikt hiervoor <M>{P}</M>. Ga ervan uit dat de compressor 100% efficiënt is: alle energie wordt nuttig gebruikt om de lucht te comprimeren. Bereken de specifieke technische arbeid <M>w_t</M> die op de lucht uitgeoefend wordt.</Par>
+		<Par>Een axiale compressor zuigt continu lucht aan om te comprimeren. De compressor comprimeert <M>{mdot}</M> aan lucht en gebruikt hiervoor <M>{P}.</M> Ga ervan uit dat de compressor 100% efficiënt is: alle energie wordt nuttig gebruikt om de lucht te comprimeren. Bereken de specifieke technische arbeid <M>w_t</M> die op de lucht uitgeoefend wordt.</Par>
 		<InputSpace>
 			<Par><FloatUnitInput id="wt" prelabel={<M>w_t =</M>} label="Specifieke technische arbeid" size="s" positive="true" /></Par>
 		</InputSpace>

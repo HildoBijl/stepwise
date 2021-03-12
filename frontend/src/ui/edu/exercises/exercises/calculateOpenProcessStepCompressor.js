@@ -29,7 +29,7 @@ const fields = [[
 ]]
 
 const Problem = ({ p1, p2, T1, n }) => <>
-	<Par>In een centrifugaalcompressor wordt lucht continue gecomprimeerd. Bij de ingang van de compressor heeft de lucht een druk van <M>{p1}</M> en een temperatuur van <M>{T1}.</M> De compressor levert lucht op een druk van <M>{p2}.</M> De compressie gebeurt niet isentropisch: ga uit van een procescoëfficiënt van <M>n = {n}</M>.</Par>
+	<Par>In een centrifugaalcompressor wordt lucht continue gecomprimeerd. Bij de ingang van de compressor heeft de lucht een druk van <M>{p1}</M> en een temperatuur van <M>{T1}.</M> De compressor levert lucht op een druk van <M>{p2}.</M> De compressie gebeurt niet isentropisch: ga uit van een procescoëfficiënt van <M>n = {n}.</M></Par>
 	<Par>Bereken het specifieke volume van de geleverde druk. Bereken ook andere relevante parameters.</Par>
 	<InputSpace>
 		<InputTable {...{ colHeads, rowHeads, fields }} />

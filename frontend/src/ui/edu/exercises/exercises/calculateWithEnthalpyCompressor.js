@@ -14,7 +14,7 @@ export default function Exercise() {
 }
 
 const Problem = ({ T1, T2, wt }) => <>
-	<Par>Een axiale compressor comprimeert lucht. De specifieke technische arbeid hierbij is <M>w_t = {wt}</M>. Dat wil zeggen, er wordt <M>{wt.abs()}</M> aan specifieke technische arbeid <em>uitgeoefend op de lucht</em>.</Par>
+	<Par>Een axiale compressor comprimeert lucht. De specifieke technische arbeid hierbij is <M>w_t = {wt}.</M> Dat wil zeggen, er wordt <M>{wt.abs()}</M> aan specifieke technische arbeid <em>uitgeoefend op de lucht</em>.</Par>
 	<Par>De compressie verloopt niet isentroop: er wordt warmte afgevoerd naar de omgeving. Om uit te vinden hoeveel warmte er precies afgevoerd wordt, wordt de temperatuur van de ingezogen en geleverde lucht gemeten. De ingaande lucht is <M>{T1}</M> en de uitgaande lucht is <M>{T2}.</M> Wat is de specifieke <em>toegevoerde</em> warmte tijdens dit compressieproces?</Par>
 	<InputSpace>
 		<Par>

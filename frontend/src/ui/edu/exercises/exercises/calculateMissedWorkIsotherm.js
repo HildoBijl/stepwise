@@ -16,7 +16,7 @@ export default function Exercise() {
 }
 
 const Problem = ({ Q, Tw, Tc }) => <>
-	<Par>In een fabriekshal staan twee grote drukvaten. Het warme vat heeft een temperatuur van <M>{Tw}</M> en het koude vat zit op <M>{Tc}</M>. Vanwege dit temperatuursverschil stroomt er <M>{Q}</M> aan warmte van het warme vat naar het koude. Deze warmtestroom wordt nu niet gebruikt om arbeid te genereren. Bereken hoeveel arbeid hiermee in theorie gemist wordt. Je mag ervan uitgaan dat de vaten groot genoeg zijn dat de temperatuur ervan niet verandert.</Par>
+	<Par>In een fabriekshal staan twee grote drukvaten. Het warme vat heeft een temperatuur van <M>{Tw}</M> en het koude vat zit op <M>{Tc}.</M> Vanwege dit temperatuursverschil stroomt er <M>{Q}</M> aan warmte van het warme vat naar het koude. Deze warmtestroom wordt nu niet gebruikt om arbeid te genereren. Bereken hoeveel arbeid hiermee in theorie gemist wordt. Je mag ervan uitgaan dat de vaten groot genoeg zijn dat de temperatuur ervan niet verandert.</Par>
 	<InputSpace>
 		<Par>
 			<FloatUnitInput id="Wm" prelabel={<M>W_m=</M>} label="Gemiste arbeid" size="s" />

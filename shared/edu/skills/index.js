@@ -192,7 +192,7 @@ const skills = {
 	linearInterpolation: {
 		name: 'Lineair interpoleren',
 		setup: combinerRepeat('solveLinearEquation', 2),
-		exercises: ['linearInterpolationPopulation'],
+		exercises: ['linearInterpolationPopulation', 'linearInterpolationKettle', 'linearInterpolationChild'],
 	},
 }
 

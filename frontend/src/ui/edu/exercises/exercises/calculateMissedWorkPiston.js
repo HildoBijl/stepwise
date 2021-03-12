@@ -27,7 +27,7 @@ const Problem = ({ m, TAtm, T1, T2, T2p }) => <>
 const steps = [
 	{
 		Problem: () => <>
-			<Par>De truc bij deze opgave is om het niet-isentropische proces (van voor de onderhoud) als "twee processen" te zien. Het eerste proces is hierbij de isentropische expansie: van punt <M>1</M> naar het theoretische punt <M>2'</M>. Bereken voor deze isentropische stap de entropieverandering.</Par>
+			<Par>De truc bij deze opgave is om het niet-isentropische proces (van voor de onderhoud) als "twee processen" te zien. Het eerste proces is hierbij de isentropische expansie: van punt <M>1</M> naar het theoretische punt <M>2'.</M> Bereken voor deze isentropische stap de entropieverandering.</Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="dS12p" prelabel={<M>\Delta S_(1-2') =</M>} label="Entropieverandering" size="s" />
@@ -59,7 +59,7 @@ const steps = [
 	},
 	{
 		Problem: () => <>
-			<Par>Bereken de totale entropieverandering bij het gehele proces, van punt <M>1</M> naar punt <M>2</M>.</Par>
+			<Par>Bereken de totale entropieverandering bij het gehele proces, van punt <M>1</M> naar punt <M>2.</M></Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="dS" prelabel={<M>\Delta S_(1-2) =</M>} label="Entropieverandering" size="s" />

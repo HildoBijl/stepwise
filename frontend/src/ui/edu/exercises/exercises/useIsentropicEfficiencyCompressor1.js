@@ -53,7 +53,7 @@ const steps = [
 		Solution: () => {
 			const { cp, T1, T2, T2p, wt, wti } = useCorrect()
 			return <>
-				<Par>Bij de compressor wordt geen warmte toegevoerd, dus <M>q = 0</M>. De technische arbeid volgt vanuit de eerste hoofdwet als
+				<Par>Bij de compressor wordt geen warmte toegevoerd, dus <M>q = 0.</M> De technische arbeid volgt vanuit de eerste hoofdwet als
 				<BM>w_t = q - \Delta h = -\Delta h = -c_p \left(T_2 - T_1\right).</BM>
 				Dit geldt zowel voor het theoretische isentrope geval als voor de werkelijkheid. Zo vinden we
 				<BM>w_(t_i) = -c_p \left(T_(2') - T_1\right) = -{cp.float} \cdot \left({T2p.float} - {T1.float}\right) = {wti},</BM>

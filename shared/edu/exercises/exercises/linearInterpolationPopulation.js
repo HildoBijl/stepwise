@@ -3,7 +3,6 @@ const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd } = require('../../../skillTracking')
 const { checkParameter } = require('../util/check')
 const { getRandomInteger } = require('../../../inputTypes/Integer')
-const { getRandomFloat } = require('../../../inputTypes/Float')
 
 const data = {
 	skill: 'linearInterpolation',
@@ -25,9 +24,9 @@ function generateState() {
 	const type = getRandomInteger(1, 2) // 1 means give year, find population. 2 means give population, find year.
 	const year1 = getRandomInteger(1950, 1970)
 	const year2 = getRandomInteger(1980, 2000)
-	const x = getRandom(0.1, 0.9)
 	const pop1 = getRandomInteger(1500, 2500)
 	const pop2 = getRandomInteger(3500, 5500)
+	const x = getRandom(0.1, 0.9)
 
 	if (type === 1) {
 		const year = Math.floor(year1 + x * (year2 - year1))

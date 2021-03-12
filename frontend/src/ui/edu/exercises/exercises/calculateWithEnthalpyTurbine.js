@@ -14,7 +14,7 @@ export default function Exercise() {
 }
 
 const Problem = ({ P, mdot }) => <>
-	<Par>Een stoomturbine levert een vermogen van <M>{P}</M>. Dit gebeurt via stoom dat met <M>{mdot}</M> langsstroomt. Ga ervan uit dat de turbine isentropisch werkt. Vanwege deze arbeidsproductie verandert de specifieke enthalpie <M>h</M> van de stoom. Bereken deze specifieke enthalpieverandering.</Par>
+	<Par>Een stoomturbine levert een vermogen van <M>{P}.</M> Dit gebeurt via stoom dat met <M>{mdot}</M> langsstroomt. Ga ervan uit dat de turbine isentropisch werkt. Vanwege deze arbeidsproductie verandert de specifieke enthalpie <M>h</M> van de stoom. Bereken deze specifieke enthalpieverandering.</Par>
 	<InputSpace>
 		<Par>
 			<FloatUnitInput id="dh" prelabel={<M>\Delta h=</M>} label="Specifieke enthalpietoename" size="s" />

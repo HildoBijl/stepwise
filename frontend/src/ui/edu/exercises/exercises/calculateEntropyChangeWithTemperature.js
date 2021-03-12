@@ -17,7 +17,7 @@ export default function Exercise() {
 }
 
 const Problem = ({ type, medium, T1, T2, m }) => <>
-	<Par>We voeren een {type === 0 ? 'isobaar' : type === 1 ? 'isochoor' : 'isentroop'} proces uit met <M>{m}</M> {Dutch[medium]}. De temperatuur daalt bij dit proces van <M>{T1}</M> naar <M>{T2}</M>. Wat is de entropieverandering tijdens dit proces?</Par>
+	<Par>We voeren een {type === 0 ? 'isobaar' : type === 1 ? 'isochoor' : 'isentroop'} proces uit met <M>{m}</M> {Dutch[medium]}. De temperatuur daalt bij dit proces van <M>{T1}</M> naar <M>{T2}.</M> Wat is de entropieverandering tijdens dit proces?</Par>
 	<InputSpace>
 		<Par>
 			<FloatUnitInput id="dS" prelabel={<M>\Delta S=</M>} label="Entropieverandering" size="s" />
