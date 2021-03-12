@@ -2,7 +2,8 @@ const { getRandom } = require('../../../util/random')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd } = require('../../../skillTracking')
 const { checkParameter } = require('../util/check')
-const { Integer, getRandomInteger } = require('../../../inputTypes/Integer')
+const { getRandomInteger } = require('../../../inputTypes/Integer')
+const { getRandomFloat } = require('../../../inputTypes/Float')
 
 const data = {
 	skill: 'linearInterpolation',
@@ -10,7 +11,9 @@ const data = {
 	steps: ['solveLinearEquation', 'solveLinearEquation'],
 
 	equalityOptions: {
-		default: {},
+		default: {
+			absoluteMargin: 1,
+		},
 		x: {
 			absoluteMargin: 0.005,
 			relativeMargin: 0.01,
@@ -27,24 +30,26 @@ function generateState() {
 	const pop2 = getRandomInteger(3500, 5500)
 
 	if (type === 1) {
-		const year = new Integer(Math.floor(year1.number + x * (year2.number - year1.number)))
+		const year = Math.floor(year1 + x * (year2 - year1))
 		return { type, year1, year2, pop1, pop2, year }
 	} else {
-		const pop = new Integer(Math.round(pop1.number + x * (pop2.number - pop1.number)))
+		const pop = Math.round(pop1 + x * (pop2 - pop1))
 		return { type, year1, year2, pop1, pop2, pop }
 	}
 }
 
 function getCorrect({ type, year1, year2, pop1, pop2, year, pop }) {
-	let x
+	let x, popRounded, yearFloored
 	if (type === 1) {
 		x = (year - year1) / (year2 - year1)
 		pop = pop1 + x * (pop2 - pop1)
+		popRounded = Math.round(pop)
 	} else {
 		x = (pop - pop1) / (pop2 - pop1)
 		year = year1 + x * (year2 - year1)
+		yearFloored = Math.floor(year)
 	}
-	return { type, year1, year2, pop1, pop2, x, year, pop }
+	return { type, year1, year2, pop1, pop2, x, year, pop, yearFloored, popRounded }
 }
 
 function checkInput(state, input, step, substep) {

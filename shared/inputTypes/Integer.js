@@ -1,10 +1,10 @@
-const { isInt, ensureInt, isNumber } = require('../util/numbers')
+const { isInt, isNumber } = require('../util/numbers')
 const { processOptions } = require('../util/objects')
 const { getRandomInteger } = require('../util/random')
 
 module.exports.getRandomInteger = getRandomInteger // Exports this function here too, for uniformity's sake.
 
-// The below default equality options are used when comparing integers through the areIntegersEqual or checkIntegerEquality functions.
+// The below default equality options are used when comparing integers through the areNumbersEqual or checkNumberEquality functions.
 const defaultEqualityOptions = {
 	absoluteMargin: 0,
 	relativeMargin: 0,
@@ -12,18 +12,14 @@ const defaultEqualityOptions = {
 }
 module.exports.defaultEqualityOptions = defaultEqualityOptions
 
-// areIntegersEqual does a more thorough integer equality check where various options are possible.
-function areIntegersEqual(a, b, options = {}) {
-	return checkIntegerEquality(a, b, options).result
+// areNumbersEqual does a more thorough number equality check where various options are possible. Note that the numbers may not even need to be integers. If the correct answer is 23.4, then you can give an absoluteMargin of 1 to ensure both 23 and 24 are considered equal.
+function areNumbersEqual(a, b, options = {}) {
+	return checkNumberEquality(a, b, options).result
 }
-module.exports.areIntegersEqual = areIntegersEqual
+module.exports.areNumbersEqual = areNumbersEqual
 
-// checkIntegerEquality does a thorough equality check on the integers, giving reasons on why they may be unequal.
-function checkIntegerEquality(a, b, options = {}) {
-	// Check given input.
-	a = ensureInt(a)
-	b = ensureInt(b)
-
+// checkNumberEquality does a thorough equality check on the numbers, giving reasons on why they may be unequal.
+function checkNumberEquality(a, b, options = {}) {
 	// Check the options.
 	options = processOptions(options, defaultEqualityOptions)
 	if (!isNumber(options.absoluteMargin) || options.absoluteMargin < 0)
@@ -50,7 +46,7 @@ function checkIntegerEquality(a, b, options = {}) {
 
 	return result
 }
-module.exports.checkIntegerEquality = checkIntegerEquality
+module.exports.checkNumberEquality = checkNumberEquality
 
 // tex turns a given integer into code for LaTeX.
 function tex(int) {

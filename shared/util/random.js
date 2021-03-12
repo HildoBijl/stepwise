@@ -25,7 +25,7 @@ function getRandomInteger(min, max, prevent = []) {
 	// Set up a random integer number.
 	const number = Math.floor(Math.random() * (max - min + 1)) + min
 
-	// Check if it's in the prevent list.
+	// Check if it's in the prevent list. If so, repeat to eventually find something.
 	if (prevent.includes(number))
 		return getRandomInteger(min, max, prevent)
 

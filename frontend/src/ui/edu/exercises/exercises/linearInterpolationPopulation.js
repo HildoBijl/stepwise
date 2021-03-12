@@ -58,7 +58,7 @@ const Problem = ({ type, year1, year2, pop1, pop2, year, pop }) => type === 1 ? 
 		</Par>
 	</InputSpace>
 </> : <>
-		<Par>In het fictieve dorpje Arcadia woonden in het jaar <M>{year1}</M>, gemeten op 1 januari, <M>{pop1}</M> mensen. Op 1 januari <M>{year2}</M> waren dit <M>{pop2}</M> mensen. In welk jaar woonden er <M>{pop}</M> mensen? Ga ervan uit dat de populatie lineair toeneemt met de tijd.</Par>
+		<Par>In het fictieve dorpje Arcadia woonden op 1 januari <M>{year1}</M> in totaal <M>{pop1}</M> mensen. Op 1 januari <M>{year2}</M> waren dit <M>{pop2}</M> mensen. In welk jaar woonden er <M>{pop}</M> mensen? Ga ervan uit dat de populatie lineair toeneemt met de tijd.</Par>
 		<InputSpace>
 			<Par>
 				<IntegerInput id="year" prelabel={<M>(\rm Jaar) =</M>} label={`Jaar met ${pop} mensen`} size="s" />
@@ -109,10 +109,10 @@ const steps = [
 				</InputSpace>
 			</>,
 		Solution: () => {
-			const { type, year1, year2, pop1, pop2, x, year, pop } = useCorrect()
+			const { type, year1, year2, pop1, pop2, x, year, pop, yearFloored, popRounded } = useCorrect()
 			return type === 1 ?
-				<Par>We beginnen al op <M>n_1 = {pop1} (\rm mensen)</M>. Tijdens de gehele periode is de toename <BM>n_2 - n_1 = {pop2} - {pop1} = {pop2 - pop1} (\rm mensen).</BM> We hebben slechts een deel <M>x = {roundTo(x, 2)}</M> van deze toename. Dit is een toename van <BM>x \left(n_2 - n_1\right) = {roundTo(x, 2)} \cdot \left({pop2} - {pop1}\right) = {roundTo(x * (pop2 - pop1), 0)} (\rm mensen).</BM> De totale hoeveelheid mensen is hiermee <BM>n = n_1 + x\left(n_2 - n_1\right) = {pop1} + {roundTo(x, 2)} \cdot \left({pop2} - {pop1}\right) = {pop}.</BM> Als controle kunnen we checken of dit getal inderdaad tussen <M>{pop1}</M> en <M>{pop2}</M> valt. Dat is inderdaad het geval.</Par> :
-				<Par>Het beginjaar is <M>t_1 = {year1} (\rm jaar)</M>. De gehele periode duurt <BM>t_2 - t_1 = {year2} - {year1} = {year2 - year1} (\rm jaar).</BM> Er is slechts een deel <M>x = {roundTo(x, 2)}</M> van deze periode gepasseerd. Dit komt neer op <BM>x \left(t_2 - t_1\right) = {roundTo(x, 2)} \cdot \left({year2} - {year1}\right) = {roundTo(x*(year2 - year1), 1)} (\rm jaar).</BM> Het exacte jaartal is hiermee <BM>t = t_1 + x\left(t_2 - t_1\right) = {year1} + {roundTo(x, 2)} \cdot \left({year2} - {year1}\right) = {roundTo(year1 + x*(year2 - year1), 1)}.</BM> Merk op dat alle metingen gedaan zijn op 1 januari (het begin van het jaar) waardoor we het deel achter de komma mogen negeren. Het jaartal is dus simpelweg <M>{year}.</M> Als controle kunnen we nog checken of dit jaartal inderdaad tussen <M>{year1}</M> en <M>{year2}</M> valt. Dat is inderdaad het geval.</Par>
+				<Par>We beginnen al op <M>n_1 = {pop1} (\rm\ mensen)</M>. Tijdens de gehele periode is de toename <BM>n_2 - n_1 = {pop2} - {pop1} = {pop2 - pop1} (\rm\ mensen).</BM> We hebben slechts een deel <M>x = {roundTo(x, 2)}</M> van deze toename. Dit is een toename van <BM>x \left(n_2 - n_1\right) = {roundTo(x, 2)} \cdot \left({pop2} - {pop1}\right) = {roundTo(x * (pop2 - pop1), 0)} (\rm\ mensen).</BM> De totale hoeveelheid mensen is hiermee <BM>n = n_1 + x\left(n_2 - n_1\right) = {pop1} + {roundTo(x, 2)} \cdot \left({pop2} - {pop1}\right) = {roundTo(pop, 1)} (\rm\ mensen).</BM> Merk op dat het aantal mensen een geheel getal moet zijn, waardoor we dit afronden naar <M>{popRounded} (\rm\ mensen).</M> Als controle kunnen we checken of dit getal wel tussen <M>{pop1}</M> en <M>{pop2}</M> valt. Dat is inderdaad het geval.</Par> :
+				<Par>Het beginjaar is <M>t_1 = {year1} (\rm\ jaar)</M>. De gehele periode duurt <BM>t_2 - t_1 = {year2} - {year1} = {year2 - year1} (\rm\ jaar).</BM> Er is slechts een deel <M>x = {roundTo(x, 2)}</M> van deze periode gepasseerd. Dit komt neer op <BM>x \left(t_2 - t_1\right) = {roundTo(x, 2)} \cdot \left({year2} - {year1}\right) = {roundTo(x*(year2 - year1), 1)} (\rm\ jaar).</BM> Het exacte jaartal is hiermee <BM>t = t_1 + x\left(t_2 - t_1\right) = {year1} + {roundTo(x, 2)} \cdot \left({year2} - {year1}\right) = {roundTo(year, 1)}.</BM> Merk op dat alle metingen gedaan zijn op 1 januari (het begin van het jaar) waardoor we het deel achter de komma mogen negeren. Het jaartal is dus simpelweg <M>{yearFloored}.</M> Als controle kunnen we nog checken of dit jaartal inderdaad tussen <M>{year1}</M> en <M>{year2}</M> valt. Dat is inderdaad het geval.</Par>
 		},
 	},
 ]

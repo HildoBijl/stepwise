@@ -1,5 +1,5 @@
 const { isInt } = require('../../../util/numbers')
-const { areIntegersEqual } = require('../../../inputTypes/Integer')
+const { areNumbersEqual } = require('../../../inputTypes/Integer')
 
 // checkParameter is a quick and uniform way to perform an "equals" check for a parameter with the corresponding answer.
 function checkParameter(parameter, correct, input, equalityOptions) {
@@ -32,9 +32,14 @@ function checkParameter(parameter, correct, input, equalityOptions) {
 		if (!currEqualityOptions)
 			throw new Error(`Field check error: could not find equality options for field "${currParameter}". Make sure that the equality options object has a parameter with this name, or otherwise a parameter "default". (This could even be an empty object if default options are used.) Only when the "field" parameter is not an array do we potentially take the equalityOptions object itself as the equalityOptions parameter for this field.`)
 
-		// What kind of parameter do we have? Is it an integer?
-		if (isInt(currCorrect))
-			return areIntegersEqual(currCorrect, currInput, currEqualityOptions)
+		// What kind of parameter do we have? Is it a pure number?
+		const isInputANumber = currInput.constructor === (0).constructor
+		const isCorrectANumber = currCorrect.constructor === (0).constructor
+		if (isInputANumber || isCorrectANumber) {
+			const currInputAsNumber = (isInputANumber ? currInput : currInput.number)
+			const currCorrectAsNumber = (isCorrectANumber ? currCorrect : currCorrect.number)
+			return areNumbersEqual(currCorrectAsNumber, currInputAsNumber, currEqualityOptions)
+		}
 
 		// We have an object-based parameter. Use the built-in equals function.
 		return currCorrect.equals(currInput, currEqualityOptions)

@@ -2,7 +2,7 @@
 import { selectRandomly, selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
 import { processOptions } from 'step-wise/util/objects'
 import { isInt } from 'step-wise/util/numbers'
-import { checkIntegerEquality } from 'step-wise/inputTypes/Integer'
+import { checkNumberEquality, areNumbersEqual } from 'step-wise/inputTypes/Integer'
 import { Float } from 'step-wise/inputTypes/Float'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 
@@ -57,29 +57,33 @@ export function getInputFieldFeedback(parameter, exerciseData, extraOptions) {
 			currEqualityOptions = equalityOptions.default
 		else if (!Array.isArray(parameter))
 			currEqualityOptions = equalityOptions
-		const givenAnswer = input[currParameter]
+		const inputAnswer = input[currParameter]
 		const currExtraOptions = (Array.isArray(extraOptions) ? extraOptions[index] : extraOptions) || {}
 
 		// Check parameters.
-		if (givenAnswer === undefined)
+		if (inputAnswer === undefined)
 			return // No input has been given yet.
 		if (correctAnswer === undefined)
 			throw new Error(`Default feedback error: no correct answer for "${currParameter}" was passed from the getCorrect function.`)
 
-		// Call the comparison function for the correct parameter type.
-		const comparisonInput = [correctAnswer, givenAnswer, { equalityOptions: currEqualityOptions, prevInput: prevInput[currParameter], prevFeedback: prevFeedback[currParameter], ...currExtraOptions }]
-		switch (correctAnswer.constructor) {
-			case (0).constructor: // Integer?
-				if (isInt(correctAnswer)) {
-					feedback[currParameter] = getIntegerComparisonFeedback(...comparisonInput)
-					return
-				}
-			// eslint-disable-next-line no-fallthrough
+		// Call the comparison function for the correct parameter type. First check if it's a pure number.
+		const options = { equalityOptions: currEqualityOptions, prevInput: prevInput[currParameter], prevFeedback: prevFeedback[currParameter], ...currExtraOptions }
+		const isInputANumber = inputAnswer.constructor === (0).constructor
+		const isCorrectANumber = correctAnswer.constructor === (0).constructor
+		if (isInputANumber || isCorrectANumber) {
+			const inputAsNumber = (isInputANumber ? inputAnswer : inputAnswer.number)
+			const correctAsNumber = (isCorrectANumber ? correctAnswer : correctAnswer.number)
+			feedback[currParameter] = getNumberComparisonFeedback(correctAsNumber, inputAsNumber, options)
+			return
+		}
+
+		// It's not a pure number. Try various other parameter types.
+		switch (inputAnswer.constructor) {
 			case Float:
-				feedback[currParameter] = getFloatComparisonFeedback(...comparisonInput)
+				feedback[currParameter] = getFloatComparisonFeedback(correctAnswer, inputAnswer, options)
 				return
 			case FloatUnit:
-				feedback[currParameter] = getFloatUnitComparisonFeedback(...comparisonInput)
+				feedback[currParameter] = getFloatUnitComparisonFeedback(correctAnswer, inputAnswer, options)
 				return
 			default:
 				throw new Error(`Default feedback error: could not determine the type of parameter "${currParameter}". No comparison could be made.`)
@@ -96,7 +100,7 @@ export function getAllInputFieldsFeedback(exerciseData) {
 	return getInputFieldFeedback(inputFields.length === 1 ? inputFields[0] : inputFields, exerciseData)
 }
 
-/* getIntegerComparisonFeedback takes two Integers: a correct answer and an input answer. It then compares these and returns a feedback object in the form { correct: true/false, text: 'Some feedback text' }. Various options can be provided within the third parameter:
+/* getNumberComparisonFeedback takes two Integers: a correct answer and an input answer. It then compares these and returns a feedback object in the form { correct: true/false, text: 'Some feedback text' }. Various options can be provided within the third parameter:
  * - equalityOptions: an object detailing how the comparison must be performed.
  * - solved: an overwrite, in case the server says it's correct or incorrect.
  * - text: an object with text for certain cases. It's the message if ...
@@ -108,7 +112,7 @@ export function getAllInputFieldsFeedback(exerciseData) {
  *   x wrongValue: a placeholder for both tooHigh and tooLow.
  *   x incorrect: if it's wrong for some unknown reason.
  */
-export function getIntegerComparisonFeedback(correctAnswer, inputAnswer, options) {
+export function getNumberComparisonFeedback(correctAnswer, inputAnswer, options) {
 	options = processOptions(options, defaultComparisonOptions)
 	const { equalityOptions, solved, text, prevInput, prevFeedback } = options
 
@@ -121,7 +125,7 @@ export function getIntegerComparisonFeedback(correctAnswer, inputAnswer, options
 		return
 
 	// Do default comparison and check equality.
-	const comparison = checkIntegerEquality(correctAnswer, inputAnswer, equalityOptions)
+	const comparison = checkNumberEquality(correctAnswer, inputAnswer, equalityOptions)
 	if (comparison.result) {
 		if (solved === false)
 			return { correct: false, text: (prevFeedback && !prevFeedback.correct && prevFeedback.text) || selectRandomIncorrect() } // Overwritten! Apparently the answer is correct now, but the server marks it as incorrect. So we have to show incorrect.
@@ -129,7 +133,7 @@ export function getIntegerComparisonFeedback(correctAnswer, inputAnswer, options
 	}
 
 	// If we had exactly the same input before, return the same feedback.
-	if (prevInput && inputAnswer.str === prevInput.str)
+	if (prevInput !== undefined && inputAnswer === prevInput)
 		return prevFeedback
 
 	// Check sign.
@@ -140,7 +144,7 @@ export function getIntegerComparisonFeedback(correctAnswer, inputAnswer, options
 		}
 
 	// Check for a near-hit.
-	if (checkIntegerEquality(correctAnswer, inputAnswer, { ...equalityOptions, accuracyFactor: (equalityOptions.accuracyFactor || 1) * accuracyFactorForNearHits }))
+	if (areNumbersEqual(correctAnswer, inputAnswer, { ...equalityOptions, accuracyFactor: (equalityOptions.accuracyFactor || 1) * accuracyFactorForNearHits }))
 		return {
 			correct: false,
 			text: text.near || 'Je zit erg in de buurt! Maak je antwoord iets nauwkeuriger.',
@@ -149,7 +153,7 @@ export function getIntegerComparisonFeedback(correctAnswer, inputAnswer, options
 	// Check for default integer comparison elements.
 	return {
 		correct: false,
-		text: getIntegerComparisonFeedbackTextFromComparison(comparison, { ...options, answerSign: Math.sign(correctAnswer.number), inputSign: Math.sign(inputAnswer.number) }),
+		text: getNumberComparisonFeedbackTextFromComparison(comparison, { ...options, answerSign: Math.sign(correctAnswer.number), inputSign: Math.sign(inputAnswer.number) }),
 	}
 }
 
@@ -295,13 +299,6 @@ function getNumberComparisonFeedbackTextFromComparison(comparison, options) {
 				return options.tooSmall || options.wrongValue || 'Je antwoord is te klein.'
 		}
 	}
-}
-
-function getIntegerComparisonFeedbackTextFromComparison(comparison, options) {
-	// Get feedback on the number.
-	const feedbackText = getNumberComparisonFeedbackTextFromComparison(comparison, options)
-	if (feedbackText)
-		return feedbackText
 
 	// Check other problems. (This should not happen.)
 	return options.incorrect || selectRandomIncorrect()

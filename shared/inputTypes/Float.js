@@ -1,6 +1,6 @@
 // The Float class represents floating point numbers with a certain number of significant digits. By default it is an empty string with zero significant digits.
 
-const { isInt, ensureInt, isNumber, ensureNumber, roundTo, roundToDecimals } = require('../util/numbers')
+const { isInt, ensureInt, isNumber, ensureNumber, roundToDigits, roundTo } = require('../util/numbers')
 const { isObject, processOptions } = require('../util/objects')
 const { getRandom } = require('../util/random')
 const { Integer } = require('./Integer')
@@ -180,7 +180,7 @@ class Float {
 			return 0
 
 		// No power is set. Let's intelligently determine one. We do round the number first, or a number like "9.8" might give a wrong result.
-		const number = roundTo(this.number, this.significantDigits)
+		const number = roundToDigits(this.number, this.significantDigits)
 		const power = Math.floor(Math.log10(Math.abs(number))) // This is the power that we need to get a number of the form "x.xxx" (with one decimal before the point).
 
 		if (power === -1)
@@ -197,7 +197,7 @@ class Float {
 			return '0'
 
 		// Round the number to the right number of significant digits, taking into account the power that will later be added.
-		const number = roundTo(this._number / Math.pow(10, power || 0), this.significantDigits)
+		const number = roundToDigits(this._number / Math.pow(10, power || 0), this.significantDigits)
 
 		// Add zeros to the end if needed to match the significant digits.
 		let str = number.toString()
@@ -478,7 +478,7 @@ class Float {
 	// roundToPrecision will take a number that may have digits behind the scenes (like { number: 3.14159, significantDigits: 2 }) and round it to the precision, removing hidden digits. So the result will have { number: 3.1, significantDigits: 2 }. It does not adjust this object but returns a copy.
 	roundToPrecision() {
 		return new Float({
-			number: (this.significantDigits === Infinity ? this.number : roundTo(this.number, this.significantDigits)),
+			number: (this.significantDigits === Infinity ? this.number : roundToDigits(this.number, this.significantDigits)),
 			significantDigits: this.significantDigits,
 			power: this.power,
 		})
@@ -557,7 +557,7 @@ function processFloat(number, { decimals, significantDigits, round = true }) {
 	// Determine the number and set its precision accordingly.
 	let float
 	if (decimals !== undefined) {
-		number = round ? roundToDecimals(number, decimals) : number
+		number = round ? roundTo(number, decimals) : number
 		float = new Float({ number, significantDigits: Math.max(Math.floor(Math.log10(Math.abs(number))) + 1 + decimals, 0) })
 	} else if (significantDigits !== undefined) {
 		float = new Float({ number, significantDigits })
