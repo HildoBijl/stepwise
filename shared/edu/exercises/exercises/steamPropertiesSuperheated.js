@@ -1,0 +1,46 @@
+const { getRandomInteger } = require('../../../util/random')
+const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+const { checkParameter } = require('../util/check')
+const { enthalpy, entropy } = require('../../../data/steamProperties')
+const { gridInterpolate } = require('../../../util/interpolation')
+
+const data = {
+	skill: 'lookUpSteamProperties',
+	weight: 2,
+	equalityOptions: {
+		default: {
+			relativeMargin: 0.001,
+		},
+	},
+}
+
+function generateState() {
+	// Extract pressure column.
+	const pressureRange = enthalpy.headers[0]
+	const p = pressureRange[getRandomInteger(3, Math.min(20, pressureRange.length))] // Limit to a certain part of the table.
+
+	// Extract temperature row.
+	const temperatureRange = enthalpy.headers[1]
+	const T = temperatureRange[getRandomInteger(6, Math.min(24, temperatureRange.length))] // Limit to a certain part of the table.
+
+	return { p, T }
+}
+
+function getCorrect({ p, T }) {
+	const h = gridInterpolate([p, T], enthalpy.grid, ...enthalpy.headers)
+	const s = gridInterpolate([p, T], entropy.grid, ...entropy.headers)
+	return { p, T, h, s }
+}
+
+function checkInput(state, input) {
+	const correct = getCorrect(state)
+	return checkParameter(['h', 's'], correct, input, data.equalityOptions)
+}
+
+module.exports = {
+	data,
+	generateState,
+	processAction: getSimpleExerciseProcessor(checkInput, data),
+	checkInput,
+	getCorrect,
+}

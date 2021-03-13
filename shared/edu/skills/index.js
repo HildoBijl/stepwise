@@ -196,7 +196,7 @@ const skills = {
 
 	lookUpSteamProperties: {
 		name: 'Stoomeigenschappen opzoeken',
-		exercises: ['steamPropertiesAtTemperature', 'steamPropertiesAtPressure'], //steamPropertiesSuperheated [TODO]
+		exercises: ['steamPropertiesAtTemperature', 'steamPropertiesAtPressure', 'steamPropertiesSuperheated'],
 	},
 }
 
