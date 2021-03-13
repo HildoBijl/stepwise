@@ -203,6 +203,12 @@ const skills = {
 		setup: combinerAnd('lookUpSteamProperties', 'linearInterpolation'),
 		exercises: ['useVaporFractionWithEnthalpy', 'useVaporFractionWithEntropy'],
 	},
+	createRankineCycleOverview: {
+		name: 'Overzicht Rankine-cyclus maken',
+		setup: combinerAnd(combinerRepeat('lookUpSteamProperties', 2), 'recognizeProcessTypes', 'useVaporFraction'),
+		exercises: ['createRankineCycleOverview'],
+	},
+	// ToDo: analyseRankineCycle
 }
 
 // Process the skill object.

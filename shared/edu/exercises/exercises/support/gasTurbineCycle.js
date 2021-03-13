@@ -59,4 +59,4 @@ function getCycle() {
 
 	return { p1, T1, p2, T2, p3, T3, p4, T4, etai, q12, wt12, q23, wt23, q34, wt34, q41, wt41, wn, qin, eta, mdot, P }
 }
-module.exports = { getCycle }
+module.exports.getCycle = getCycle
