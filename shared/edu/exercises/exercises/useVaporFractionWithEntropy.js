@@ -34,14 +34,14 @@ function generateState() {
 		const T = temperatureRange[getRandomInteger(0, Math.min(25, temperatureRange.length))] // Limit to a certain part of the table.
 		const s0 = gridInterpolate(T, withTemperature.entropyLiquid.grid, ...withTemperature.entropyLiquid.headers)
 		const s1 = gridInterpolate(T, withTemperature.entropyVapor.grid, ...withTemperature.entropyVapor.headers)
-		s = s0.add(x.multiply(s1.subtract(s0))).setDecimals(3).roundToPrecision()
+		const s = s0.add(x.multiply(s1.subtract(s0))).setDecimals(3).roundToPrecision()
 		return { type, T, s }
 	} else {
 		const pressureRange = withPressure.entropyLiquid.headers[0]
 		const p = pressureRange[getRandomInteger(0, Math.min(25, pressureRange.length))] // Limit to a certain part of the table.
 		const s0 = gridInterpolate(p, withPressure.entropyLiquid.grid, ...withPressure.entropyLiquid.headers)
 		const s1 = gridInterpolate(p, withPressure.entropyVapor.grid, ...withPressure.entropyVapor.headers)
-		s = s0.add(x.multiply(s1.subtract(s0))).setDecimals(3).roundToPrecision()
+		const s = s0.add(x.multiply(s1.subtract(s0))).setDecimals(3).roundToPrecision()
 		return { type, p, s }
 	}
 }
