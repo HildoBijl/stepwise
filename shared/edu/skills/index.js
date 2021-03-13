@@ -198,6 +198,11 @@ const skills = {
 		name: 'Stoomeigenschappen opzoeken',
 		exercises: ['steamPropertiesAtTemperature', 'steamPropertiesAtPressure', 'steamPropertiesSuperheated'],
 	},
+	useVaporFraction: {
+		name: 'Dampfractie gebruiken',
+		setup: combinerAnd('lookUpSteamProperties', 'linearInterpolation'),
+		exercises: ['useVaporFractionWithEnthalpy', 'useVaporFractionWithEntropy'],
+	},
 }
 
 // Process the skill object.

@@ -398,10 +398,15 @@ class Float {
 
 		// Use the lowest number of decimals to set the number of significant digits.
 		const number = this.number + x.number
+		const significantDigits = number === 0 ?
+			minDecimals + 1 :
+			Math.max(Math.floor(Math.log10(Math.abs(number))) + minDecimals + 1, 1)
+
+		// Set up the result.
 		return new Float({
 			number,
 			power: this.power === x.power ? this.power : undefined,
-			significantDigits: Math.max(Math.floor(Math.log10(Math.abs(number))) + minDecimals + 1, 1),
+			significantDigits,
 		})
 	}
 
