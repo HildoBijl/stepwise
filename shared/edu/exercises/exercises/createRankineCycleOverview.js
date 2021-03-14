@@ -6,7 +6,7 @@ const { withPressure, enthalpy, entropy } = require('../../../data/steamProperti
 const { gridInterpolate } = require('../../../util/interpolation')
 
 const data = {
-	skill: 'createRankineOverview',
+	skill: 'createRankineCycleOverview',
 	setup: combinerAnd(combinerRepeat('lookUpSteamProperties', 2), 'recognizeProcessTypes', 'useVaporFraction'),
 	steps: ['lookUpSteamProperties', null, 'lookUpSteamProperties', 'recognizeProcessTypes', 'useVaporFraction'],
 

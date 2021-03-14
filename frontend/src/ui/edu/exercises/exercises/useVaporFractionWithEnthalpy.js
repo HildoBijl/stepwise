@@ -51,7 +51,7 @@ const steps = [
 		</>,
 		Solution: () => {
 			const { h, hx0, hx1, x } = useCorrect()
-			return <Par>We bekijken hoe ver <M>h</M> zit, op het interval van <M>h_(x=0)</M> tot <M>h_(x=1).</M> Dit is op een deel van <BM>x = \frac(h - h_(x=0))(h_(x=1) - h_(x=0)) = \frac({h.float} - {hx0.float})({hx1.float} - {hx0.float}) = {x}.</BM> Dit is ook de dampfractie: het deel van het vloeibare water wat inmiddels in gasvormig stoom is omgezet.</Par>
+			return <Par>We bekijken hoe ver <M>h</M> zit, op het interval van <M>h_(x=0)</M> tot <M>h_(x=1).</M> Dit is op een deel van <BM>x = \frac(h - h_(x=0))(h_(x=1) - h_(x=0)) = \frac({h.float} - {hx0.float})({hx1.float} - {hx0.float}) = {x}.</BM> Dit is ook de dampfractie: het deel van het vloeibare water dat inmiddels in gasvormig stoom is omgezet.</Par>
 		},
 	},
 	{
