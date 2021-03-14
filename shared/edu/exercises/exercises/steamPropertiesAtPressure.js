@@ -2,7 +2,7 @@ const { getRandomInteger } = require('../../../util/random')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 const { checkParameter } = require('../util/check')
 const { withPressure } = require('../../../data/steamProperties')
-const { gridInterpolate } = require('../../../util/interpolation')
+const { tableInterpolate } = require('../../../util/interpolation')
 
 const data = {
 	skill: 'lookUpSteamProperties',
@@ -22,15 +22,13 @@ function generateState() {
 
 function getCorrect({ p, type }) {
 	// Get pressure.
-	const T = gridInterpolate(p, withPressure.boilingTemperature.grid, ...withPressure.boilingTemperature.headers)
+	const T = tableInterpolate(p, withPressure.boilingTemperature)
 
 	// Get enthalpy.
-	const enthalpyTable = type === 1 ? withPressure.enthalpyLiquid : withPressure.enthalpyVapor
-	h = gridInterpolate(p, enthalpyTable.grid, ...enthalpyTable.headers)
+	h = tableInterpolate(p, type === 1 ? withPressure.enthalpyLiquid : withPressure.enthalpyVapor)
 
 	// Get entropy.
-	const entropyTable = type === 1 ? withPressure.entropyLiquid : withPressure.entropyVapor
-	s = gridInterpolate(p, entropyTable.grid, ...entropyTable.headers)
+	s = tableInterpolate(p, type === 1 ? withPressure.entropyLiquid : withPressure.entropyVapor)
 
 	return { p, type, T, h, s }
 }

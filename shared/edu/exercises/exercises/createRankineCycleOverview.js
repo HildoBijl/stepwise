@@ -3,7 +3,7 @@ const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
 const { checkParameter } = require('../util/check')
 const { getCycle } = require('./support/steamTurbineCycle')
 const { withPressure, enthalpy, entropy } = require('../../../data/steamProperties')
-const { gridInterpolate } = require('../../../util/interpolation')
+const { tableInterpolate } = require('../../../util/interpolation')
 
 const data = {
 	skill: 'createRankineCycleOverview',
@@ -28,10 +28,10 @@ function generateState() {
 
 function getCorrect({ pc, pe, T2 }) {
 	// Get liquid and vapor points.
-	const hx0 = gridInterpolate(pc, withPressure.enthalpyLiquid.grid, ...withPressure.enthalpyLiquid.headers)
-	const hx1 = gridInterpolate(pc, withPressure.enthalpyVapor.grid, ...withPressure.enthalpyVapor.headers)
-	const sx0 = gridInterpolate(pc, withPressure.entropyLiquid.grid, ...withPressure.entropyLiquid.headers)
-	const sx1 = gridInterpolate(pc, withPressure.entropyVapor.grid, ...withPressure.entropyVapor.headers)
+	const hx0 = tableInterpolate(pc, withPressure.enthalpyLiquid)
+	const hx1 = tableInterpolate(pc, withPressure.enthalpyVapor)
+	const sx0 = tableInterpolate(pc, withPressure.entropyLiquid)
+	const sx1 = tableInterpolate(pc, withPressure.entropyVapor)
 
 	// Find points 1 and 4.
 	const h1 = hx0
@@ -40,8 +40,8 @@ function getCorrect({ pc, pe, T2 }) {
 	const s4 = s1
 
 	// Find point 2.
-	const h2 = gridInterpolate([pe, T2], enthalpy.grid, ...enthalpy.headers)
-	const s2 = gridInterpolate([pe, T2], entropy.grid, ...entropy.headers)
+	const h2 = tableInterpolate([pe, T2], enthalpy)
+	const s2 = tableInterpolate([pe, T2], entropy)
 
 	// Find point 3.
 	const s3 = s2

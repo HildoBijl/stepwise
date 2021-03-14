@@ -143,6 +143,12 @@ function gridInterpolate(input, outputSeries, ...inputSeries) {
 }
 module.exports.gridInterpolate = gridInterpolate
 
+// tableInterpolate takes a table and interpolates in it. A table is an object of the form { grid: [ ... ], headers: [ ... ], ... }. Here, if the headers parameter has n sub-arrays (ranges), then the grid must be an n-dimensional array to match. Identically, the input must be an array with values for these n parameters. (If n = 1, a single parameter may be given instead of an array.)
+function tableInterpolate(input, table) {
+	return gridInterpolate(input, table.grid, ...table.headers)
+}
+module.exports.tableInterpolate = tableInterpolate
+
 // ensureNumberLike checks if a given parameter is either a number or a number-like object with add/subtract/multiply/divide/compare functions and a number property.
 function ensureNumberLike(x) {
 	// If we do not have an object, then it must be a number. Ensure it is.

@@ -2,7 +2,7 @@ const { getRandomFloatUnit } = require('../../../../inputTypes/FloatUnit')
 const { withPressure, enthalpy, entropy } = require('../../../../data/steamProperties')
 const { numberArray } = require('../../../../util/arrays')
 const { selectRandomly, getRandomInteger } = require('../../../../util/random')
-const { gridInterpolate } = require('../../../../util/interpolation')
+const { tableInterpolate } = require('../../../../util/interpolation')
 
 function getCycle() {
 	// Pressure in the condensor and evaporator.
@@ -13,7 +13,7 @@ function getCycle() {
 	const pressureRangeTable2 = enthalpy.headers[0]
 	const evaporatorIndex = getRandomInteger(13, 19) // Index in the enthalpy tables.
 	const pe = pressureRangeTable2[evaporatorIndex] // 50 to 120 bar
-	const Te = gridInterpolate(pe, withPressure.boilingTemperature.grid, ...withPressure.boilingTemperature.headers)
+	const Te = tableInterpolate(pe, withPressure.boilingTemperature)
 
 	// Turbine output state.
 	const x3 = getRandomFloatUnit({

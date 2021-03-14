@@ -4,7 +4,7 @@ const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd } = require('../../../skillTracking')
 const { checkParameter } = require('../util/check')
 const { withTemperature, withPressure } = require('../../../data/steamProperties')
-const { gridInterpolate } = require('../../../util/interpolation')
+const { tableInterpolate } = require('../../../util/interpolation')
 
 const data = {
 	skill: 'useVaporFraction',
@@ -32,15 +32,15 @@ function generateState() {
 	if (type === 1) {
 		const temperatureRange = withTemperature.enthalpyLiquid.headers[0]
 		const T = temperatureRange[getRandomInteger(0, Math.min(25, temperatureRange.length))] // Limit to a certain part of the table.
-		const hx0 = gridInterpolate(T, withTemperature.enthalpyLiquid.grid, ...withTemperature.enthalpyLiquid.headers)
-		const hx1 = gridInterpolate(T, withTemperature.enthalpyVapor.grid, ...withTemperature.enthalpyVapor.headers)
+		const hx0 = tableInterpolate(T, withTemperature.enthalpyLiquid)
+		const hx1 = tableInterpolate(T, withTemperature.enthalpyVapor)
 		const h = hx0.add(x.multiply(hx1.subtract(hx0))).setDecimals(0).roundToPrecision()
 		return { type, T, h }
 	} else {
 		const pressureRange = withPressure.enthalpyLiquid.headers[0]
 		const p = pressureRange[getRandomInteger(0, Math.min(25, pressureRange.length))] // Limit to a certain part of the table.
-		const hx0 = gridInterpolate(p, withPressure.enthalpyLiquid.grid, ...withPressure.enthalpyLiquid.headers)
-		const hx1 = gridInterpolate(p, withPressure.enthalpyVapor.grid, ...withPressure.enthalpyVapor.headers)
+		const hx0 = tableInterpolate(p, withPressure.enthalpyLiquid)
+		const hx1 = tableInterpolate(p, withPressure.enthalpyVapor)
 		const h = hx0.add(x.multiply(hx1.subtract(hx0))).setDecimals(0).roundToPrecision()
 		return { type, p, h }
 	}
@@ -50,10 +50,10 @@ function getCorrect({ type, T, p, h }) {
 	// Use the right value to look up the enthalpy/entropy in the right table.
 	const value = (type === 1 ? T : p)
 	const table = (type === 1 ? withTemperature : withPressure)
-	const hx0 = gridInterpolate(value, table.enthalpyLiquid.grid, ...table.enthalpyLiquid.headers)
-	const hx1 = gridInterpolate(value, table.enthalpyVapor.grid, ...table.enthalpyVapor.headers)
-	const sx0 = gridInterpolate(value, table.entropyLiquid.grid, ...table.entropyLiquid.headers)
-	const sx1 = gridInterpolate(value, table.entropyVapor.grid, ...table.entropyVapor.headers)
+	const hx0 = tableInterpolate(value, table.enthalpyLiquid)
+	const hx1 = tableInterpolate(value, table.enthalpyVapor)
+	const sx0 = tableInterpolate(value, table.entropyLiquid)
+	const sx1 = tableInterpolate(value, table.entropyVapor)
 
 	// Find the vapor fraction and the outcome.
 	const x = h.subtract(hx0).divide(hx1.subtract(hx0)).setUnit('')

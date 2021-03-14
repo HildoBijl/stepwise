@@ -2,7 +2,7 @@ const { getRandomInteger } = require('../../../util/random')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 const { checkParameter } = require('../util/check')
 const { enthalpy, entropy } = require('../../../data/steamProperties')
-const { gridInterpolate } = require('../../../util/interpolation')
+const { tableInterpolate } = require('../../../util/interpolation')
 
 const data = {
 	skill: 'lookUpSteamProperties',
@@ -27,8 +27,8 @@ function generateState() {
 }
 
 function getCorrect({ p, T }) {
-	const h = gridInterpolate([p, T], enthalpy.grid, ...enthalpy.headers)
-	const s = gridInterpolate([p, T], entropy.grid, ...entropy.headers)
+	const h = tableInterpolate([p, T], enthalpy)
+	const s = tableInterpolate([p, T], entropy)
 	return { p, T, h, s }
 }
 
