@@ -208,7 +208,11 @@ const skills = {
 		setup: combinerAnd(combinerRepeat('lookUpSteamProperties', 2), 'recognizeProcessTypes', 'useVaporFraction'),
 		exercises: ['createRankineCycleOverview'],
 	},
-	// ToDo: analyseRankineCycle
+	analyseRankineCycle: {
+		name: 'Rankine-cyclus analyseren',
+		setup: combinerAnd('createRankineCycleOverview', 'useIsentropicEfficiency', 'calculateWithEfficiency', 'massFlowTrick'), // ToDo later: add 'half the time useVaporFraction' to this.
+		exercises: ['analyseRankineCycleWithEtai', 'analyseRankineCycleWithX3'],
+	},
 }
 
 // Process the skill object.

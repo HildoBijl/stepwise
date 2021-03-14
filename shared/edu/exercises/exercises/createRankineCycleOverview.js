@@ -1,4 +1,3 @@
-const { FloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
 const { checkParameter } = require('../util/check')
