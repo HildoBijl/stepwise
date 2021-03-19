@@ -13,6 +13,7 @@ courses = {
 		name: 'The course title',
 		goals: ['finalSkill1'],
 		priorKnowledge: ['priorKnowledgeSkill1', 'priorKnowledgeSkill2', 'priorKnowledgeSkill3', 'priorKnowledgeSkill4'],
+		startingPoints: ['someBasicSkill1', 'someBasicSkill2'],
 		blocks: [
 			{
 				name: 'Learning intermediate skill 1',
@@ -31,7 +32,7 @@ courses = {
 }
 ```
 
-The most important part is the goals of the course. What are the final skills (the very end of the course skill tree) which the student should master? Also important are the prior-knowledge-skills. Which skills do you assume the student has mastered before starting the course? All the skills in-between prior-knowledge-skills and final skills are the skills that the student needs to master for the course. Step-Wise can figure those out by itself.
+The most important part is the goals of the course. What are the final skills (the very end of the course skill tree) that the student should master? Also important are the prior-knowledge-skills. Which skills do you assume the student has mastered before starting the course? In addition, there are the starting-point-skills: which basic skills (so skills without prior knowledge) also consist of the course? All the skills in-between prior-knowledge-skills (exclusive)/starting-point-skills (inclusive) and final skills are skills that the student needs to master for the course. Step-Wise can figure those out by itself.
 
 To structure matters for the students, the course is split up into blocks. (These are often connected to weeks or lectures, but this is no necessity.) Each block has its own intermediate goals. For instance, block 1 has as intermediate goal `intermediateSkill1`. All skills in-between this skill (inclusive) and skills mastered previously (exclusive) are inserted into this block. In this way, the student walks through the course step by step.
 
