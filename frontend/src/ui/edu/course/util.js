@@ -8,6 +8,7 @@ export function getOverview(courseSetup) {
 	if (!courseSetup)
 		return { priorKnowledge: [], blocks: [], course: [] }
 
+	// Fill up all the skill sets.
 	const { blocks, priorKnowledge } = courseSetup
 	const courseSet = new Set()
 	const priorKnowledgeSet = new Set()
@@ -17,8 +18,15 @@ export function getOverview(courseSetup) {
 		return blockSet
 	})
 
+	// Sort the prior knowledge by the order of the skills object. This prevents some funky situations when later on we encounter a prior-knowledge-skill that is a subskills of a skill an earlier-encountered skill.
+	const allSkillIds = Object.keys(skills)
+	const indices = priorKnowledge.map(skillId => allSkillIds.indexOf(skillId)).sort((a, b) => a - b)
+	const priorKnowledgeSorted = indices.map(index => allSkillIds[index])
+
+	// Return all sets as arrays.
 	return {
-		priorKnowledge: [...priorKnowledgeSet],
+		// priorKnowledge: [...priorKnowledgeSet], // Using the prior knowledge set puts the prior knowledge skills in the order which they're encountered in. This results in some weird situations where later on we encounter a prerequisite of an earlier prior knowledge skill. So it's better not to use it.
+		priorKnowledge: priorKnowledgeSorted, // Use the prior knowledge sorted according to the skill tree file instead. It's cleaner. Optionally, we could traverse the tree to see which prior knowledge skills are children of which other prior knowledge skills, but that's computationally more of a challenge.
 		goals: courseSetup.goals,
 		blocks: blockSets.map(blockSet => [...blockSet]),
 		course: [...courseSet],
