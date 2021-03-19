@@ -6,7 +6,7 @@ import { useQuery, gql } from '@apollo/client'
 function useUserQuery() {
 	return useQuery(ME)
 }
-const ME = gql`{me{name,email}}`
+const ME = gql`{me{name,email,givenName,familyName,role}}`
 
 // Put the query results in a context, so there's a single source of truth.
 const UserContext = createContext(null)

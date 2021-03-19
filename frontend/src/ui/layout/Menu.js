@@ -2,9 +2,10 @@ import React, { useState, useRef, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { SwipeableDrawer, List, Divider, IconButton, useMediaQuery } from '@material-ui/core'
-import { Menu as MenuIcon, ArrowBack, Home, MenuBook, Feedback, Info, ExitToApp } from '@material-ui/icons'
+import { Menu as MenuIcon, ArrowBack, Home, MenuBook, Feedback, Info, ExitToApp, Policy, SupervisorAccount } from '@material-ui/icons'
 
 import { useUser } from 'api/user'
+import { isAdmin } from 'api/admin'
 import { usePaths, useParentPath } from 'ui/routing'
 import { useFieldControl, useFieldControllerContext } from 'ui/form/FieldController'
 
@@ -58,6 +59,15 @@ export default function Menu({ className, titleCollapsed }) {
 			<MenuLink path={paths.feedback()} text='Feedback' icon={Feedback} />
 		</>
 
+		// Define buttons for admins.
+		const adminButtons = isAdmin(user) ? <>
+			<Divider />
+			<List>
+				<MenuLink path={paths.test()} text='Testsysteem' icon={Policy} />
+				<MenuLink path={paths.admin()} text='Gebruikersoverzicht' icon={SupervisorAccount} />
+			</List>
+		</> : null
+
 		return <>
 			<IconButton edge="start" className={className} color="inherit" aria-label="menu" onClick={toggleDrawer(true)} ref={menuButtonRef}>
 				<MenuIcon />
@@ -67,18 +77,16 @@ export default function Menu({ className, titleCollapsed }) {
 					{user ? <>
 						<List>
 							<MenuLink path={paths.courses()} text='Cursussen' icon={MenuBook} />
+							{commonButtons}
 							<MenuLink path={paths.logOut()} text='Uitloggen' icon={ExitToApp} />
 						</List>
-						<Divider />
+						{adminButtons}
+					</> : <>
 						<List>
+							<MenuLink path={paths.home()} text='Home' icon={Home} />
 							{commonButtons}
 						</List>
-					</> : <>
-							<List>
-								<MenuLink path={paths.home()} text='Home' icon={Home} />
-								{commonButtons}
-							</List>
-						</>}
+					</>}
 				</nav>
 			</SwipeableDrawer>
 		</>

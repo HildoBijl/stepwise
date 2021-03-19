@@ -2,8 +2,10 @@ import { createContext, useContext, useMemo } from 'react'
 import { useRouteMatch } from 'react-router-dom'
 
 import { useUser } from 'api/user'
+import { isAdmin } from 'api/admin'
 
 import * as pages from 'ui/pages'
+import UserOverview from 'ui/admin/UserOverview'
 
 import Skill, { useSkillTitle, SkillIndicator } from 'ui/edu/skills/Skill'
 import BlankExercise, { useExerciseId } from 'ui/edu/exercises/BlankExercise'
@@ -20,7 +22,7 @@ export { RouteContext }
 // getRoutes sets up a routes object based on the user. This routes object contains the whole site structure. The object keys appear in the URL, so can be language-dependent. The "id" is used in scripts when creating links so should be English. The "name" is shown on the page.
 function getRoutes(user = null) {
 	// These are pages that are accessible for non-users and users.
-	const commonPages = {
+	let routes = {
 		'feedback': {
 			id: 'feedback',
 			component: pages.Feedback,
@@ -45,77 +47,93 @@ function getRoutes(user = null) {
 			recommendLogIn: true,
 			Indicator: SkillIndicator,
 		},
-		'test': {
-			id: 'test',
-			component: pages.TestPage,
-			name: 'Testsysteem',
-			children: {
-				'vaardigheid/:skillId': {
-					id: 'testSkill',
-					component: Skill,
-					name: useSkillTitle,
-					recommendLogIn: true,
-					Indicator: SkillIndicator,
-				},
-				'opgave/:exerciseId': {
-					id: 'testExercise',
-					component: BlankExercise,
-					name: useExerciseId,
-				},
-			},
-		},
 	}
 
-	// If the user is not logged in, set up a basic route schema.
+	// Determine the type of users.
 	if (!user) {
-		return processRoutes({
-			...commonPages,
-			'': {
+		// For non-logged-in users add log-in options.
+		routes = {
+			...routes,
+			'': { // Note that the '' path must be last.
 				id: 'home',
 				component: pages.Home,
 				name: 'Home',
 				fullPage: true,
 			},
-		})
-	}
-
-	// The user is logged in. Set up the more complete routes schema.
-	return processRoutes({
-		...commonPages,
-		'uitloggen': {
-			id: 'logOut',
-			component: pages.LogOut,
-			name: 'Uitloggen...'
-		},
-		'': {
-			id: 'courses',
-			component: Courses,
-			name: 'Cursussen',
-			children: {
-				'cursus/:courseId': {
-					id: 'course',
-					component: Course,
-					name: useCourseName,
-					Provider: CourseProvider,
+		}
+	} else {
+		// For admins add pages.
+		if (isAdmin(user)) {
+			routes = {
+				...routes,
+				'test': {
+					id: 'test',
+					component: pages.TestPage,
+					name: 'Testsysteem',
 					children: {
 						'vaardigheid/:skillId': {
-							id: 'courseSkill',
+							id: 'testSkill',
 							component: Skill,
 							name: useSkillTitle,
+							recommendLogIn: true,
 							Indicator: SkillIndicator,
-							Notification: SkillAdvice,
 						},
-						'vrijoefenen': {
-							id: 'freePractice',
-							component: FreePractice,
-							name: 'Vrij oefenen',
-							Notification: SkillAdvice,
+						'opgave/:exerciseId': {
+							id: 'testExercise',
+							component: BlankExercise,
+							name: useExerciseId,
+						},
+					},
+				},
+				'admin': {
+					id: 'admin',
+					component: UserOverview,
+					name: 'Gebruikersoverzicht',
+				},
+			}
+		}
+
+		// Set up routes for regular logged-in users.
+		routes = {
+			...routes,
+			'uitloggen': {
+				id: 'logOut',
+				component: pages.LogOut,
+				name: 'Uitloggen...'
+			},
+			'': { // Note that the '' path must be last.
+				id: 'courses',
+				component: Courses,
+				name: 'Cursussen',
+				children: {
+					'cursus/:courseId': {
+						id: 'course',
+						component: Course,
+						name: useCourseName,
+						Provider: CourseProvider,
+						children: {
+							'vaardigheid/:skillId': {
+								id: 'courseSkill',
+								component: Skill,
+								name: useSkillTitle,
+								Indicator: SkillIndicator,
+								Notification: SkillAdvice,
+							},
+							'vrijoefenen': {
+								id: 'freePractice',
+								component: FreePractice,
+								name: 'Vrij oefenen',
+								Notification: SkillAdvice,
+							},
 						},
 					},
 				},
 			},
-		},
-	})
+		}
+	}
+
+	// Finally do post-processing.
+	return processRoutes(routes)
 }
 
 // useRoutes is used to access the current routes: the map of all pages on this site.
