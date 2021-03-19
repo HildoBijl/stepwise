@@ -64,7 +64,7 @@ export function useSkillsQuery(skillIds) {
 	return result
 }
 const SKILLS = gql`
-	query skill($skillIds: [String]!) {
+	query skills($skillIds: [String]!) {
 		skills(skillIds: $skillIds) {
 			id
 			skillId
