@@ -126,3 +126,14 @@ function count(array, fun) {
 	return array.reduce((sum, item) => sum + (fun(item) ? 1 : 0), 0)
 }
 module.exports.count = count
+
+// hasDuplicates checks if an array has duplicates. Optionally, an equals function can be defined.
+function hasDuplicates(array, equals = (a,b) => a === b) {
+	const duplicate = array.find((x, index) => {
+		return array.find((y, index2) => {
+			return index < index2 && equals(x,y)
+		})
+	})
+	return duplicate !== undefined
+}
+module.exports.hasDuplicates = hasDuplicates

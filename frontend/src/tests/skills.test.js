@@ -14,22 +14,24 @@ describe('Check all skills:', () => {
 
 			// it('has at least one exercise', () => {
 			// 	expect(Array.isArray(skill.exercises)).toBe(true)
-			// 	expect(skill.exercises.length).toBeGreaterThan(0)
+			// 	expect(skill.exercises).not.toHaveLength(0)
 			// })
 
 			it('has prerequisite links, which are mutual', () => {
-				(skill.prerequisites || []).forEach(prerequisiteId => {
+				expect(Array.isArray(skill.prerequisites)).toBe(true)
+				skill.prerequisites.forEach(prerequisiteId => {
 					const prerequisite = skills[prerequisiteId]
 					expect(typeof prerequisite).toBe('object')
-					expect(prerequisite.continuations || []).toContain(skill.id)
+					expect(prerequisite.continuations).toContain(skill.id)
 				})
 			})
 
 			it('has continuation links, which are mutual', () => {
-				(skill.continuations || []).forEach(continuationId => {
+				expect(Array.isArray(skill.continuations)).toBe(true)
+				skill.continuations.forEach(continuationId => {
 					const continuation = skills[continuationId]
 					expect(typeof continuation).toBe('object')
-					expect(continuation.prerequisites || []).toContain(skill.id)
+					expect(continuation.prerequisites).toContain(skill.id)
 				})
 			})
 		})
