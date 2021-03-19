@@ -19,7 +19,7 @@ function processSkill(skill) {
 		numPracticed: skill.numPracticed,
 		coefficients: skill.coefficients,
 		coefficientsOn: new Date(skill.coefficientsOn), // Give extra functionalities.
-		highest: skill.coefficients,
+		highest: skill.highest,
 		highestOn: new Date(skill.highestOn), // Give extra functionalities.
 	}
 }

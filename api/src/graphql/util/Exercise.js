@@ -1,7 +1,6 @@
 const { AuthenticationError, UserInputError  } = require('apollo-server-express')
 
 const { findOptimum } = require('step-wise/util/arrays')
-const skills = require('step-wise/edu/skills')
 const { checkSkillIds } = require('./Skill')
 
 // getActiveExerciseData takes a userId and a skillId. For this, it returns { user, skill, activeExercise }, where the skill is the UserSkill from the database. If requireExercise is set to true it ensures that there is an active exercise. On false it ensures that there is not. (Otherwise an error is thrown.)
@@ -51,20 +50,17 @@ async function getActiveExerciseData(userId, skillId, db, requireExercise = true
 
 	return { user, skill, exercise }
 }
+module.exports.getActiveExerciseData = getActiveExerciseData
 
 function getLastEvent(exercise) {
 	if (!exercise.events || exercise.events.length === 0)
 		return null
 	return findOptimum(exercise.events, (a, b) => a.createdAt > b.createdAt)
 }
+module.exports.getLastEvent = getLastEvent
 
 function getExerciseProgress(exercise) {
 	const lastEvent = getLastEvent(exercise)
 	return (lastEvent === null ? {} : lastEvent.progress) // Note that {} is the default initial progress.
 }
-
-module.exports = {
-	getActiveExerciseData,
-	getLastEvent,
-	getExerciseProgress,
-}
+module.exports.getExerciseProgress = getExerciseProgress

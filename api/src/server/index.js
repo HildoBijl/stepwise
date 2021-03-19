@@ -83,6 +83,17 @@ const createServer = ({
 					return null
 				return await database.User.findByPk(req.session.principal.id)
 			},
+
+			/**
+			 * Returns a boolean: is the user an admin.
+			 */
+			ensureAdmin: async () => {
+				if (!req.session.principal)
+					throw new AuthenticationError('No user is logged in.')
+				const user = await database.User.findByPk(req.session.principal.id)
+				if (user.role !== 'admin')
+					throw new AuthenticationError('No admin rights.')
+			}
 		}),
 		playground: {
 			settings: {
