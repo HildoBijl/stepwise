@@ -20,12 +20,26 @@ function isValidDate(date) {
 }
 module.exports.isValidDate = isValidDate
 
-function formatDate(date) {
+function formatDate(date, includeTime = false, includeSeconds = false) {
+	// Determine the day format.
 	date = ensureDate(date)
 	const ensureTwoDigits = (x) => x < 10 ? `0${x}` : x
 	const year = date.getFullYear()
 	const month = ensureTwoDigits(date.getMonth() + 1)
 	const day = ensureTwoDigits(date.getDate())
-	return `${year}-${month}-${day}`
+	const dateFormat = `${year}-${month}-${day}`
+	if (!includeTime)
+		return dateFormat
+
+	// Include the time format.
+	const hours = ensureTwoDigits(date.getHours())
+	const minutes = ensureTwoDigits(date.getMinutes())
+	const dateTimeFormat = `${dateFormat} ${hours}:${minutes}`
+	if (!includeSeconds)
+		return dateTimeFormat
+
+	// Include the seconds.
+	const seconds = ensureTwoDigits(date.getSeconds())
+	return `${dateTimeFormat}:${seconds}`
 }
 module.exports.formatDate = formatDate

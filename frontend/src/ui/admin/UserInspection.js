@@ -1,11 +1,16 @@
 import React, { useMemo } from 'react'
 import { useRouteMatch } from 'react-router-dom'
+import clsx from 'clsx'
+import { makeStyles } from '@material-ui/core/styles'
 
+import { formatDate } from 'step-wise/util/date'
+import skills from 'step-wise/edu/skills'
 import SkillData from 'step-wise/edu/skills/SkillData'
 import { includePrerequisites, processSkill, getDefaultSkillData } from 'step-wise/edu/skills/util'
 
 import { useUserQuery } from 'api/admin'
 import { Par } from 'ui/components/containers'
+import SkillFlask from 'ui/edu/skills/SkillFlask'
 
 export default function UserInspection() {
 	const { params } = useRouteMatch()
@@ -24,19 +29,48 @@ export default function UserInspection() {
 	return <UserInspectionForUser user={user} />
 }
 
+const useStyles = makeStyles((theme) => ({
+	skillList: {
+		display: 'grid',
+		gridGap: '0.8rem 0.8rem',
+		gridTemplateColumns: '40px 4fr 1fr 1fr',
+		placeItems: 'center stretch',
+		width: '100%',
+
+		'& .head': {
+			fontWeight: 'bold',
+		},
+		'& .numPracticed': {
+			textAlign: 'center',
+		},
+		'& .lastPracticed': {
+			textAlign: 'center',
+		},
+	},
+}))
+
 function UserInspectionForUser({ user }) {
 	const skillsData = useSkillsData(user)
+	const classes = useStyles()
 	return <>
 		<Par>Hier zie je al de vaardigheden die {user.name} geoefend heeft, met de meest recente boven.</Par>
-		<div>
+		<div className={clsx(classes.skillList, 'skillList')}>
+			<div className="flask head"></div>
+			<div className="name head">Vaardigheid</div>
+			<div className="numPracticed head">Gemaakte pogingen</div>
+			<div className="lastPracticed head">Laatste actie</div>
 			{Object.keys(skillsData).map(skillId => <UserInspectionItem key={skillId} skillData={skillsData[skillId]} />)}
 		</div>
 	</>
-	// ToDo next: add skill flasks, numPracticed, lastPracticed info.
 }
 
 function UserInspectionItem({ skillData }) {
-	return <div>{skillData.skillId}</div>
+	return <>
+		<SkillFlask coef={skillData.coefficients} size={40} />
+		<div className="name">{skills[skillData.skillId].name}</div>
+		<div className="numPracticed">{skillData.numPracticed}</div>
+		<div className="lastPracticed">{formatDate(skillData.lastPracticed, true)}</div>
+	</>
 }
 
 export function useUserInspectionTitle() {
