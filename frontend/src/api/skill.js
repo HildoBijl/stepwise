@@ -73,6 +73,8 @@ const SKILLS = gql`
 			coefficientsOn
 			highest
 			highestOn
+			createdAt
+			updatedAt
 		}
 	}
 `

@@ -1,4 +1,4 @@
-const { AuthenticationError, UserInputError  } = require('apollo-server-express')
+const { AuthenticationError, UserInputError } = require('apollo-server-express')
 
 const skills = require('step-wise/edu/skills')
 const SkillData = require('step-wise/edu/skills/SkillData')
@@ -16,7 +16,7 @@ module.exports.checkSkillIds = checkSkillIds
 // getUserSkill takes a userId and a skillId and gets the corresponding skill object, including all exercises and actions.
 async function getUserSkill(userId, skillId, db) {
 	checkSkillIds([skillId])
-	
+
 	// Load all data.
 	const user = userId && await db.User.findByPk(userId, {
 		rejectOnEmpty: true,
@@ -36,7 +36,7 @@ async function getUserSkill(userId, skillId, db) {
 	})
 
 	if (!user)
-		throw new AuthenticationError(`No user is logged in.`)
+		throw new UserInputError(`Invalid request: unknown user ID "${userId}".`)
 
 	return user.skills[0]
 }
@@ -57,7 +57,7 @@ async function getUserSkills(userId, skillIds, db) {
 	})
 
 	if (!user)
-		throw new AuthenticationError(`No user is logged in.`)
+		throw new UserInputError(`Invalid request: unknown user ID "${userId}".`)
 
 	return user.skills
 }

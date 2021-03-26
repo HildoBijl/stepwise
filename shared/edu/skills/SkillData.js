@@ -28,6 +28,10 @@ class SkillData {
 		this._cache = {}
 	}
 
+	get skillId() {
+		return this._skillId
+	}
+
 	get setup() {
 		return skills[this._skillId].setup
 	}
@@ -40,12 +44,20 @@ class SkillData {
 		return this._rawData[this._skillId].numPracticed
 	}
 
+	get lastPracticed() {
+		return this._rawData[this._skillId].coefficientsOn
+	}
+
 	get rawCoefficients() {
 		return this._rawData[this._skillId].coefficients
 	}
 
 	get rawHighest() {
 		return this._rawData[this._skillId].highest
+	}
+
+	get highestOn() {
+		return this._rawData[this._skillId].highestOn
 	}
 
 	get smoothenedCoefficients() {

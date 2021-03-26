@@ -1,5 +1,8 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useRouteMatch } from 'react-router-dom'
+
+import SkillData from 'step-wise/edu/skills/SkillData'
+import { includePrerequisites, processSkill, getDefaultSkillData } from 'step-wise/edu/skills/util'
 
 import { useUserQuery } from 'api/admin'
 import { Par } from 'ui/components/containers'
@@ -18,7 +21,22 @@ export default function UserInspection() {
 		return <Par>Oops... De gebruiker kon niet gevonden worden. Hij bestaat niet.</Par>
 
 	// Display the user.
-	return <Par>Test: dit komt nog. {user.name}</Par>
+	return <UserInspectionForUser user={user} />
+}
+
+function UserInspectionForUser({ user }) {
+	const skillsData = useSkillsData(user)
+	return <>
+		<Par>Hier zie je al de vaardigheden die {user.name} geoefend heeft, met de meest recente boven.</Par>
+		<div>
+			{Object.keys(skillsData).map(skillId => <UserInspectionItem key={skillId} skillData={skillsData[skillId]} />)}
+		</div>
+	</>
+	// ToDo next: add skill flasks, numPracticed, lastPracticed info.
+}
+
+function UserInspectionItem({ skillData }) {
+	return <div>{skillData.skillId}</div>
 }
 
 export function useUserInspectionTitle() {
@@ -32,4 +50,27 @@ export function useUserInspectionTitle() {
 	if (!user)
 		return 'Onbekende gebruiker'
 	return user.name
+}
+
+function useSkillsData(user) {
+	return useMemo(() => {
+		// Process the skills into a raw data set.
+		const skills = user.skills
+		const data = {}
+		skills.forEach(skill => {
+			data[skill.skillId] = processSkill(skill)
+		})
+
+		// Add skills that are not in the data set. (These are skills that are not in the database yet.)
+		const skillIds = user.skills.map(skill => skill.skillId)
+		const skillIdsWithPrerequisites = includePrerequisites(skillIds)
+		skillIdsWithPrerequisites.forEach(skillId => {
+			if (!data[skillId])
+				data[skillId] = getDefaultSkillData(skillId)
+		})
+
+		// Set up SkillData objects.
+		const result = skillIds.map(skillId => new SkillData(skillId, data))
+		return result.sort((a, b) => b.lastPracticed - a.lastPracticed) // Sort with latest first.
+	}, [user])
 }

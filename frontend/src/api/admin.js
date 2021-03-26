@@ -16,13 +16,18 @@ const USER = gql`
 			familyName
 			email
 			role
+			createdAt
+			updatedAt
 			skills(ids: $skillIds) {
 				id
 				skillId
+				numPracticed
 				coefficients
 				coefficientsOn
 				highest
 				highestOn
+				createdAt
+				updatedAt
 			}
 		}
 	}
@@ -40,13 +45,18 @@ const ALLUSERS = gql`
 			familyName
 			email
 			role
+			createdAt
+			updatedAt
 			skills(ids: $skillIds) {
 				id
 				skillId
+				numPracticed
 				coefficients
 				coefficientsOn
 				highest
 				highestOn
+				createdAt
+				updatedAt
 			}
 		}
 	}

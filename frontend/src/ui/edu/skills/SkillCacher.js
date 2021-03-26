@@ -62,6 +62,8 @@ export function useSkillsData(skillIds) {
 			return // Nothing to add.
 		if (!res || res.loading)
 			return // Still loading.
+		if (res.error)
+			return // Oops ... something went wrong. ToDo later: properly handle this error.
 		
 		// Add the loaded skills, or use default skills if skills are missing (that is, not in the database yet).
 		const loadedSkills = res && res.data && [...res.data.skills]
