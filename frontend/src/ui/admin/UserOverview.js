@@ -1,10 +1,13 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import { useAllUsersQuery } from 'api/admin'
 import { Par } from 'ui/components/containers'
+import { usePaths } from 'ui/routing'
 
-export default function About() {
+export default function UserOverview() {
 	const res = useAllUsersQuery()
+	const paths = usePaths()
 
 	// Check if data has loaded properly.
 	if (res.loading)
@@ -16,10 +19,13 @@ export default function About() {
 
 	// Display the users.
 	const allUsers = res.data.allUsers
+	console.log(allUsers)
 	return (
 		<>
 			<Par>Dit is de admin-pagina. Hieronder zie je alle gebruikers.</Par>
-			{allUsers.map(user => <Par key={user.email}>{user.name}: {user.role} with {user.skills.length} practiced skills</Par>)}
+			{allUsers.map(user => <Par key={user.email}>
+				<Link to={paths.userInspection({ userId: user.id })}>{user.name}</Link>: {user.role} with {user.skills.length} practiced skills
+				</Par>)}
 		</>
 	)
 }

@@ -1,5 +1,5 @@
 const { checkSkillIds } = require('../util/Skill')
-const { getAllUsers } = require('../util/User')
+const { getUser, getAllUsers } = require('../util/User')
 
 const resolvers = {
 	User: {
@@ -14,6 +14,11 @@ const resolvers = {
 	Query: {
 		me: async (_source, _args, { getUser }) => {
 			return await getUser()
+		},
+
+		user: async (_source, { id }, { db, ensureAdmin }) => {
+			await ensureAdmin()
+			return await getUser(db, id)
 		},
 
 		allUsers: async (_source, _args, { db, ensureAdmin }) => {

@@ -5,6 +5,7 @@ import { useUser } from 'api/user'
 import { isAdmin } from 'api/admin'
 
 import * as pages from 'ui/pages'
+import UserInspection, { useUserInspectionTitle } from 'ui/admin/UserInspection'
 import UserOverview from 'ui/admin/UserOverview'
 
 import Skill, { useSkillTitle, SkillIndicator } from 'ui/edu/skills/Skill'
@@ -89,6 +90,13 @@ function getRoutes(user = null) {
 					id: 'admin',
 					component: UserOverview,
 					name: 'Gebruikersoverzicht',
+					children: {
+						'user/:userId': {
+							id: 'userInspection',
+							component: UserInspection,
+							name: useUserInspectionTitle,
+						},
+					},
 				},
 			}
 		}

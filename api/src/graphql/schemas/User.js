@@ -3,6 +3,7 @@ const { gql } = require('apollo-server-express')
 const schema = gql`
   extend type Query {
 		me: User
+		user(id: ID!): User
 		allUsers: [User]
   }
 
