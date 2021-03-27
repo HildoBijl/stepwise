@@ -16,9 +16,9 @@ const resolvers = {
 			return await getUser()
 		},
 
-		user: async (_source, { id }, { db, ensureAdmin }) => {
+		user: async (_source, { userId }, { db, ensureAdmin }) => {
 			await ensureAdmin()
-			return await getUser(db, id)
+			return await getUser(db, userId)
 		},
 
 		allUsers: async (_source, _args, { db, ensureAdmin }) => {

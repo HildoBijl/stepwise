@@ -1,6 +1,9 @@
 // getUser returns a user with given id from the database. It does not check rights.
 async function getUser(db, userId) {
-	return await db.User.findByPk(userId)
+	const user = await db.User.findByPk(userId)
+	if (!user)
+		throw new UserInputError(`Invalid request: unknown user ID "${userId}".`)
+	return user
 }
 module.exports.getUser = getUser
 

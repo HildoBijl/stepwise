@@ -9,7 +9,7 @@ export function useUserQuery(userId, skillIds) {
 }
 const USER = gql`
 	query user($userId: ID!, $skillIds: [String]) {
-		user(id: $userId) {
+		user(userId: $userId) {
 			id
 			name
 			givenName
