@@ -5,7 +5,8 @@ export { websiteName, websiteNameAddendum }
 
 // API settings.
 const apiAddress = process.env.REACT_APP_API_ADDRESS
-export { apiAddress }
+const logOutAddress = `${apiAddress}/auth/logout`
+export { apiAddress, logOutAddress }
 
 // Cookie settings.
 const cookieApprovalName = 'cookieApproval'
