@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
@@ -43,7 +43,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UserOverview() {
 	const res = useAllUsersQuery()
-	const classes = useStyles()
 
 	// Check if data has loaded properly.
 	if (res.loading)
@@ -53,10 +52,31 @@ export default function UserOverview() {
 		return <Par>Oops... De gebruikers konden niet geladen worden.</Par>
 	}
 
-	// Display the users.
+	// All loaded!
 	const allUsers = res.data.allUsers
+	return <UserOverviewWithData allUsers={allUsers} />
+}
+
+function UserOverviewWithData({ allUsers }) {
+	const classes = useStyles()
+
+	// Sort all users by their last activity.
+	const usersWithLastActivity = useMemo(() => {
+		// Find the last activity of each user.
+		const usersWithLastActivity = allUsers.map(user => {
+			const activitiesAt = [user.updatedAt, ...user.skills.map(skill => skill.updatedAt)].map(ensureDate)
+			return {
+				user,
+				lastActivity: findOptimum(activitiesAt, (a, b) => a > b),
+			}
+		})
+
+		// Sort by the last activity.
+		return usersWithLastActivity.sort((a, b) => b.lastActivity - a.lastActivity)
+	}, [allUsers])
+
 	return <>
-		<Par>Hieronder vind je alle gebruikers die ooit op Step-Wise ingelogd zijn.</Par>
+		<Par>Hieronder vind je alle gebruikers die ooit op Step-Wise ingelogd zijn, gesorteerd op wanneer ze voor het laatst actief waren.</Par>
 		<div className={clsx(classes.userOverview, 'userOverview')}>
 			<div className="name head">Naam</div>
 			<div className="email head">Emailadres</div>
@@ -65,19 +85,13 @@ export default function UserOverview() {
 			<div className="updatedAt head">Laatst actief</div>
 			<div className="createdAt head">Eerst actief</div>
 
-			{allUsers.map(user => <UserOverviewItem key={user.id} user={user} />)}
+			{usersWithLastActivity.map(userWithLastActivity => <UserOverviewItem key={userWithLastActivity.user.id} user={userWithLastActivity.user} lastActivity={userWithLastActivity.lastActivity} />)}
 		</div>
 	</>
 }
 
-function UserOverviewItem({ user }) {
+function UserOverviewItem({ user, lastActivity }) {
 	const paths = usePaths()
-
-	// Find the last activity.
-	const activitiesAt = [user.updatedAt, ...user.skills.map(skill => skill.updatedAt)].map(ensureDate)
-	const lastActivity = findOptimum(activitiesAt, (a,b) => a > b)
-
-	// Display the item.
 	return <>
 		<div className="name"><Link to={paths.userInspection({ userId: user.id })}>{user.name}</Link></div>
 		<div className="email">{user.email}</div>
