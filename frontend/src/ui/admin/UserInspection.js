@@ -77,7 +77,7 @@ export function useUserInspectionTitle() {
 	const { params } = useRouteMatch()
 	const res = useUserQuery(params && params.userId)
 	if (res.loading)
-		return ''
+		return 'Even wachten...'
 	if (res.error || !res.data)
 		return 'Oops...'
 	const user = res.data.user
