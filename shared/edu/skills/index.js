@@ -213,6 +213,11 @@ const skills = {
 		setup: combinerAnd('createRankineCycleOverview', 'useIsentropicEfficiency', 'calculateWithEfficiency', 'massFlowTrick'), // ToDo later: add 'half the time useVaporFraction' to this.
 		exercises: ['analyseRankineCycleWithEtai', 'analyseRankineCycleWithX3'],
 	},
+
+	findFridgeTemperatures: {
+		name: 'Koelmachine temperaturen vinden',
+		exercises: ['findFridgeTemperaturesInternal', 'findFridgeTemperaturesExternal'],
+	},
 }
 
 // Process the skill object.

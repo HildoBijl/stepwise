@@ -66,20 +66,20 @@ const courses = {
 		],
 		blocks: [
 			{
-				name: 'De gaswet',
-				goals: ['gasLaw'],
-			},
-			{
 				name: 'Een processtap doorrekenen',
 				goals: ['calculateProcessStep'],
 			},
 			{
-				name: 'Warmte en arbeid berekenen',
+				name: 'Arbeid en warmte berekenen',
 				goals: ['calculateWithInternalEnergy'],
 			},
 			{
-				name: 'Een cyclus doorrekenen',
+				name: 'Een kringproces doorrekenen',
 				goals: ['analyseClosedCycle'],
+			},
+			{
+				name: `Koelkasten en airco's`,
+				goals: ['findFridgeTemperatures'],
 			},
 		],
 	},
