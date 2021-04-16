@@ -11,6 +11,7 @@ import { includePrerequisites, processSkill, getDefaultSkillData } from 'step-wi
 import { useUserQuery } from 'api/admin'
 import { Par } from 'ui/components/containers'
 import SkillFlask from 'ui/edu/skills/SkillFlask'
+import HorizontalSlider from 'ui/components/layout/HorizontalSlider'
 
 export default function UserInspection() {
 	const { params } = useRouteMatch()
@@ -33,17 +34,26 @@ const useStyles = makeStyles((theme) => ({
 	skillList: {
 		display: 'grid',
 		gridGap: '0.8rem 0.8rem',
-		gridTemplateColumns: '40px 4fr 1fr 1fr',
+		gridTemplateColumns: '50px 4fr 1fr 1fr',
 		placeItems: 'center stretch',
 		width: '100%',
 
 		'& .head': {
 			fontWeight: 'bold',
 		},
+
+		'& .flask': {
+			textAlign: 'center',
+		},
+		'& .name': {
+			minWidth: '160px',
+		},
 		'& .numPracticed': {
+			minWidth: '80px',
 			textAlign: 'center',
 		},
 		'& .lastPracticed': {
+			minWidth: '80px',
 			textAlign: 'center',
 		},
 	},
@@ -54,19 +64,21 @@ function UserInspectionForUser({ user }) {
 	const classes = useStyles()
 	return <>
 		<Par>Hier zie je al de vaardigheden die {user.name} geoefend heeft, met de meest recente boven.</Par>
-		<div className={clsx(classes.skillList, 'skillList')}>
-			<div className="flask head"></div>
-			<div className="name head">Vaardigheid</div>
-			<div className="numPracticed head">Gemaakte pogingen</div>
-			<div className="lastPracticed head">Laatste actie</div>
-			{Object.keys(skillsData).map(skillId => <UserInspectionItem key={skillId} skillData={skillsData[skillId]} />)}
-		</div>
+		<HorizontalSlider>
+			<div className={clsx(classes.skillList, 'skillList')}>
+				<div className="flask head"></div>
+				<div className="name head">Vaardigheid</div>
+				<div className="numPracticed head">Gemaakte pogingen</div>
+				<div className="lastPracticed head">Laatste actie</div>
+				{Object.keys(skillsData).map(skillId => <UserInspectionItem key={skillId} skillData={skillsData[skillId]} />)}
+			</div>
+		</HorizontalSlider>
 	</>
 }
 
 function UserInspectionItem({ skillData }) {
 	return <>
-		<SkillFlask coef={skillData.coefficients} size={40} />
+		<div className="flask"><SkillFlask coef={skillData.coefficients} size={40} /></div>
 		<div className="name">{skills[skillData.skillId].name}</div>
 		<div className="numPracticed">{skillData.numPracticed}</div>
 		<div className="lastPracticed">{formatDate(skillData.lastPracticed, true)}</div>

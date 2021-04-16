@@ -9,6 +9,7 @@ import { ensureDate, formatDate } from 'step-wise/util/date'
 import { useAllUsersQuery } from 'api/admin'
 import { Par } from 'ui/components/containers'
 import { usePaths } from 'ui/routing'
+import HorizontalSlider from 'ui/components/layout/HorizontalSlider'
 
 const useStyles = makeStyles((theme) => ({
 	userOverview: {
@@ -23,19 +24,25 @@ const useStyles = makeStyles((theme) => ({
 		},
 
 		'& .name': {
+			minWidth: '120px',
 		},
 		'& .email': {
+			minWidth: '160px',
 		},
 		'& .role': {
-			textAlign: 'center',
-		},
-		'& .updatedAt': {
-			textAlign: 'center',
-		},
-		'& .createdAt': {
+			minWidth: '80px',
 			textAlign: 'center',
 		},
 		'& .stats': {
+			minWidth: '100px',
+			textAlign: 'center',
+		},
+		'& .updatedAt': {
+			minWidth: '80px',
+			textAlign: 'center',
+		},
+		'& .createdAt': {
+			minWidth: '80px',
 			textAlign: 'center',
 		},
 	},
@@ -77,16 +84,18 @@ function UserOverviewWithData({ allUsers }) {
 
 	return <>
 		<Par>Hieronder vind je alle gebruikers die ooit op Step-Wise ingelogd zijn, gesorteerd op wanneer ze voor het laatst actief waren.</Par>
-		<div className={clsx(classes.userOverview, 'userOverview')}>
-			<div className="name head">Naam</div>
-			<div className="email head">Emailadres</div>
-			<div className="role head">Rechten</div>
-			<div className="stats head">Vaardigheden</div>
-			<div className="updatedAt head">Laatst actief</div>
-			<div className="createdAt head">Eerst actief</div>
+		<HorizontalSlider>
+			<div className={clsx(classes.userOverview, 'userOverview')}>
+				<div className="name head">Naam</div>
+				<div className="email head">Emailadres</div>
+				<div className="role head">Rechten</div>
+				<div className="stats head">Vaardigheden</div>
+				<div className="updatedAt head">Laatst actief</div>
+				<div className="createdAt head">Eerst actief</div>
 
-			{usersWithLastActivity.map(userWithLastActivity => <UserOverviewItem key={userWithLastActivity.user.id} user={userWithLastActivity.user} lastActivity={userWithLastActivity.lastActivity} />)}
-		</div>
+				{usersWithLastActivity.map(userWithLastActivity => <UserOverviewItem key={userWithLastActivity.user.id} user={userWithLastActivity.user} lastActivity={userWithLastActivity.lastActivity} />)}
+			</div>
+		</HorizontalSlider>
 	</>
 }
 
