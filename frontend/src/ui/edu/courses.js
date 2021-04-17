@@ -63,6 +63,8 @@ const courses = {
 			'recognizeProcessTypes',
 			'calculateWithEfficiency',
 			'calculateWithCOP',
+			'findFridgeTemperatures',
+			'readMollierDiagram',
 		],
 		blocks: [
 			{
