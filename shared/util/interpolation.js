@@ -149,6 +149,16 @@ function tableInterpolate(input, table) {
 }
 module.exports.tableInterpolate = tableInterpolate
 
+// inverseTableInterpolate takes a table with only one parameter (a 1D-table) and does inverse interpolation. The output is given and the input is found.
+function inverseTableInterpolate(output, table) {
+	if (!table || !table.headers || !Array.isArray(table.headers))
+		throw new Error(`Interpolation error: invalid table received.`)
+	if (table.headers.length > 1)
+		throw new Error(`Interpolation error: can only apply inverse table interpolation on a table with one input parameter. However, the given table has ${table.headers.length}.`)
+	return gridInterpolate(output, table.headers[0], table.grid)
+}
+module.exports.inverseTableInterpolate = inverseTableInterpolate
+
 // ensureNumberLike checks if a given parameter is either a number or a number-like object with add/subtract/multiply/divide/compare functions and a number property.
 function ensureNumberLike(x) {
 	// If we do not have an object, then it must be a number. Ensure it is.
