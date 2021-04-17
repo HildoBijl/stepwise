@@ -24,8 +24,8 @@ function checkInput(state, input) {
 }
 
 function getCorrect({ type, Tcond, Tevap, dTcold, dTwarm }) {
-	const Twarm = Tcond.subtract(dTcold)
-	const Tcold = Tevap.add(dTwarm)
+	const Twarm = Tcond.subtract(dTwarm)
+	const Tcold = Tevap.add(dTcold)
 	return { type, Tcold, Twarm, dTcold, dTwarm, Tevap, Tcond }
 }
 

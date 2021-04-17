@@ -28,17 +28,10 @@ function Problem({ type, Tcond, Tevap, dTcold, dTwarm }) {
 
 function Solution() {
 	const { type, Tcold, Twarm, dTcold, dTwarm, Tevap, Tcond } = useCorrect()
-	if (type === 'heatPump')
-		return <Par>We bekijken eerst het leveren van warmte aan de huiskamer. De huiskamer heeft een temperatuur van <M>{Twarm}.</M> Er wordt warmte geleverd aan de huiskamer, en die warmte komt uit het koudemiddel. Omdat het koudemiddel warmte kwijtraakt, zal het gaan condenseren. We hebben hier dus met de condensor te maken. De temperatuur in deze condensor moet hoger zijn dan de temperatuur in de huiskamer, want alleen dan wordt er warmte overgedragen aan de huiskamer. De temperatuur in de condensor is dus
-			<BM>T_c = T_(huis) + \Delta T_c = {Twarm.float} + {dTwarm.float} = {Tcond}.</BM>
-			Als tweede bekijken we het onttrekken van warmte aan de buitenlucht. De buitenlucht is <M>{Tcold}.</M> Hieruit wordt warmte onttrokken en aan het koudemiddel overgedragen. Deze warmte zorgt ervoor dat het koudemiddel verdampt, waardoor hier de verdamper moet zitten. Om deze warmteoverdracht mogelijk te maken moet de temperatuur van de verdamper lager zijn dan de temperatuur buiten. Dus geldt
-			<BM>T_v = T_(buiten) - \Delta T_v = {Tcold.float} - {dTcold.float} = {Tevap}.</BM>
-			De temperaturen in de condensor en de verdamper liggen altijd verder uit elkaar dan de temperaturen van de respectievelijke ruimtes, dus dit klopt.
-		</Par>
-	return <Par>We bekijken eerst het onttrekken van warmte aan de te koelen ruimte. De binnenkant van de koelkast is <M>{Tcold}.</M> Hieruit wordt warmte onttrokken en aan het koudemiddel overgedragen. Deze warmte zorgt ervoor dat het koudemiddel verdampt, waardoor hier de verdamper moet zitten. Om deze warmteoverdracht mogelijk te maken moet de temperatuur van de verdamper lager zijn dan de temperatuur in de koelkast. Dus geldt
-		<BM>T_v = T_(koelkast) - \Delta T_v = {Tcold.float} - {dTcold.float} = {Tevap}.</BM>
-			Als tweede bekijken we het lozen van warmte aan de keuken. De keuken heeft een temperatuur van <M>{Twarm}.</M> Er wordt warmte geleverd aan de keuken, en die warmte komt uit het koudemiddel. Omdat het koudemiddel warmte kwijtraakt, zal het gaan condenseren. We hebben hier dus met de condensor te maken. De temperatuur in deze condensor moet hoger zijn dan de temperatuur in de keuken, want alleen dan wordt er warmte overgedragen aan de keuken. De temperatuur in de condensor is dus
-			<BM>T_c = T_(keuken) + \Delta T_c = {Twarm.float} + {dTwarm.float} = {Tcond}.</BM>
+	return <Par>We bekijken eerst de condensor. Deze zit op <M>{Tcond}.</M> In de condensor gaat er warmte uit het koudemiddel (daarom condenseert het) en deze warmte wordt dus geleverd aan de {type === 'heatPump' ? 'huiskamer' : 'keuken'}. Om deze warmte te kunnen leveren moet deze ruimte dus kouder zijn dan de condensor. Zo vinden we
+	<BM>{type === 'heatPump' ? `T_(binnen)` : `T_(keuken)`} = T_c - \Delta T_c = {Tcond.float} - {dTwarm.float} = {Twarm}.</BM>
+	Vervolgens bekijken we de verdamper. Deze zit op <M>{Tevap}.</M> In de verdamper gaat er warmte in het koudemiddel (daarom verdampt het) en deze warmte wordt dus onttrokken aan de {type === 'heatPump' ? 'buitenlucht' : 'te koelen ruimte'}. Om hier warmte aan te kunnen onttrekken moet de temperatuur in de verdamper kouder zijn. Zo vinden we
+	<BM>{type === 'heatPump' ? `T_(buiten)` : `T_(koelkast)`} = T_v + \Delta T_v = {Tevap.float} + {dTcold.float} = {Tcold}.</BM>
 			De temperaturen in de condensor en de verdamper liggen altijd verder uit elkaar dan de temperaturen van de respectievelijke ruimtes, dus dit klopt.
 		</Par>
 }
@@ -47,41 +40,41 @@ function getFeedback(exerciseData) {
 	const { input, state, shared: { getCorrect, data: { equalityOptions } } } = exerciseData
 	const { type, Tcold, Twarm, dTcold, dTwarm, Tevap, Tcond } = getCorrect(state)
 	const wrong = {
-		Tcond: Twarm.subtract(dTwarm),
-		Tevap: Tcold.add(dTcold),
+		Twarm: Tcond.add(dTwarm),
+		Tcold: Tevap.subtract(dTcold),
 	}
 	const feedback = {}
 
 	// Have the condensor/evaporator been mixed up?
-	if (Tevap.equals(input.Tcond, equalityOptions.default) && Tcond.equals(input.Tevap, equalityOptions.default))
+	if (Tcold.equals(input.Twarm, equalityOptions.default) && Twarm.equals(input.Tcold, equalityOptions.default))
 		return {
-			Tcond: { correct: false, text: 'Oops ... je hebt de condensor en de verdamper omgewisseld.' },
-			Tevap: { correct: false, text: 'Dit is dus de temperatuur in de condensor.' },
+			Tcold: { correct: false, text: 'Oops ... je hebt de positie van de condensor en de verdamper omgewisseld.' },
+			Twarm: { correct: false, text: `Dit is dus de temperatuur van de ${type === 'heatPump' ? 'buitenlucht' : 'koelkast'}.` },
 		}
 
-	// Has at the condensor the temperature been subtracted?
-	if (Tcond.equals(input.Tcond, equalityOptions.default))
-		feedback.Tcond = { correct: true, text: selectRandomCorrect() }
-	else if (wrong.Tcond.equals(input.Tcond, equalityOptions.default))
-		feedback.Tcond = { correct: false, text: `Moet het koudemiddel in de condensor warmer of juist kouder zijn, om warmte aan de ${type === 'heatPump' ? 'woonkamer' : 'keuken'} af te geven?` }
-	else if (Tevap.equals(input.Tcond, equalityOptions.default))
-		feedback.Tcond = { correct: false, text: `Dit is de temperatuur in de verdamper.` }
-	else if (wrong.Tevap.equals(input.Tcond, equalityOptions.default))
-		feedback.Tcond = { correct: false, text: 'Je haalt een hoop door elkaar. Waar zit de condensor? En moet het temperatuursverschil erbij of juist eraf?' }
+	// Has at the evaporator the temperature been subtracted?
+	if (Tcold.equals(input.Tcold, equalityOptions.default))
+		feedback.Tcold = { correct: true, text: selectRandomCorrect() }
+	else if (wrong.Tcold.equals(input.Tcold))
+		feedback.Tcold = { correct: false, text: `Moet het koudemiddel in de verdamper warmer of juist kouder zijn, om warmte aan de ${type === 'heatPump' ? 'buitenlucht' : 'koelruimte'} te onttrekken?` }
+	else if (Twarm.equals(input.Tcold, equalityOptions.default))
+		feedback.Tcold = { correct: false, text: `Dit is de temperatuur in de ${type === 'heatPump' ? 'woonkamer' : 'keuken'}.` }
+	else if (wrong.Twarm.equals(input.Tcold, equalityOptions.default))
+		feedback.Tcold = { correct: false, text: 'Je haalt een hoop door elkaar. Waar zit de verdamper? En moet het temperatuursverschil erbij of juist eraf?' }
 	else
-		feedback.Tcond = { correct: false, text: 'Hoe kom je hierop? Het idee is dat je het juiste temperatuursverschil bij de juiste temperatuur optelt/aftrekt. Niets meer.' }
+		feedback.Tcold = { correct: false, text: 'Hoe kom je hierop? Het idee is dat je het juiste temperatuursverschil bij de juiste temperatuur optelt/aftrekt. Niets meer.' }
 
-	// Has at the evaporator the temperature been added?
-	if (Tevap.equals(input.Tevap, equalityOptions.default))
-		feedback.Tevap = { correct: true, text: selectRandomCorrect() }
-	else if (wrong.Tevap.equals(input.Tevap))
-		feedback.Tevap = { correct: false, text: `Moet het koudemiddel in de verdamper warmer of juist kouder zijn, om warmte aan de ${type === 'heatPump' ? 'buitenlucht' : 'koelruimte'} te onttrekken?` }
-	else if (Tcond.equals(input.Tevap, equalityOptions.default))
-		feedback.Tevap = { correct: false, text: `Dit is de temperatuur in de condensor.` }
-	else if (wrong.Tcond.equals(input.Tevap, equalityOptions.default))
-		feedback.Tevap = { correct: false, text: 'Je haalt een hoop door elkaar. Waar zit de verdamper? En moet het temperatuursverschil erbij of juist eraf?' }
+	// Has at the condensor the temperature been added?
+	if (Twarm.equals(input.Twarm, equalityOptions.default))
+		feedback.Twarm = { correct: true, text: selectRandomCorrect() }
+	else if (wrong.Twarm.equals(input.Twarm, equalityOptions.default))
+		feedback.Twarm = { correct: false, text: `Moet het koudemiddel in de condensor warmer of juist kouder zijn, om warmte aan de ${type === 'heatPump' ? 'woonkamer' : 'keuken'} af te geven?` }
+	else if (Tcold.equals(input.Twarm, equalityOptions.default))
+		feedback.Twarm = { correct: false, text: `Dit is de temperatuur in de ${type === 'heatPump' ? 'buitenlucht' : 'koelkast'}.` }
+	else if (wrong.Tcold.equals(input.Twarm, equalityOptions.default))
+		feedback.Twarm = { correct: false, text: 'Je haalt een hoop door elkaar. Waar zit de condensor? En moet het temperatuursverschil erbij of juist eraf?' }
 	else
-		feedback.Tevap = { correct: false, text: 'Hoe kom je hierop? Het idee is dat je het juiste temperatuursverschil bij de juiste temperatuur optelt/aftrekt. Niets meer.' }
+		feedback.Twarm = { correct: false, text: 'Hoe kom je hierop? Het idee is dat je het juiste temperatuursverschil bij de juiste temperatuur optelt/aftrekt. Niets meer.' }
 
 	// All done.
 	return feedback
