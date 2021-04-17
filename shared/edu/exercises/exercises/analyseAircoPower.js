@@ -29,7 +29,7 @@ function generateState() {
 	T4 = T4.setDecimals(0).roundToPrecision().setDecimals(0)
 	startRH = startRH.setUnit('%').setDecimals(0).roundToPrecision()
 	endRH = endRH.setUnit('%').setDecimals(0).roundToPrecision()
-	mdot = getRandomFloatUnit({
+	const mdot = getRandomFloatUnit({
 		min: 3,
 		max: 15,
 		unit: 'kg/s',
