@@ -40,8 +40,8 @@ function getCorrect({ p, V1, V2 }) {
 	p = p.simplify()
 	V1 = V1.simplify()
 	V2 = V2.simplify()
-	const W = p.multiply(V2.subtract(V1)).setUnit('J')
-	const Q = W.multiply(k.number/(k.number - 1))
+	const W = p.multiply(V2.subtract(V1)).setUnit('J').setMinimumSignificantDigits(2)
+	const Q = W.multiply(k.number/(k.number - 1)).setMinimumSignificantDigits(2)
 	const dU = Q.subtract(W).setMinimumSignificantDigits(2)
 	return { k, p, V1, V2, Q, W, dU }
 }

@@ -226,7 +226,7 @@ const skills = {
 	analyseAirco: {
 		name: 'Airco analyseren',
 		setup: combinerRepeat('readMollierDiagram', 3),
-		exercises: ['analyseAircoBasic', 'analyseAircoWaterDischarge'],
+		exercises: ['analyseAircoBasic', 'analyseAircoWaterDischarge', 'analyseAircoPower'],
 	},
 }
 

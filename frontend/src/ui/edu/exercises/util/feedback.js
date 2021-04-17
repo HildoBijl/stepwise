@@ -299,8 +299,7 @@ function getNumberComparisonFeedbackTextFromComparison(comparison, options) {
 		}
 	}
 
-	// Check other problems. (This should not happen.)
-	return options.incorrect || selectRandomIncorrect()
+	// No problem found. Return nothing to indicate it's not the common faults that took place here.
 }
 
 function getFloatComparisonFeedbackTextFromComparison(comparison, options) {

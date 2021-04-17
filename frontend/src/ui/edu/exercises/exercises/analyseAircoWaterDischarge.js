@@ -16,7 +16,7 @@ export default function Exercise() {
 }
 
 const Problem = ({ T1, startRH, T4, endRH }) => <>
-	<Par>Een airconditioning-systeem krijgt lucht met temperatuur <M>{T1}</M> en relatieve luchtvochtigheid <M>{startRH}</M> binnen. Hij levert vervolgens lucht met temperatuur <M>{T4}</M> en relatieve luchtvochtigheid <M>{endRH}.</M> Om dit te kunnen doen koelt de airco eerst de lucht af en warmt het daarna weer ietsje op. Bereken de temperatuur tot waar de airco de lucht afkoelt. Vind ook de hoeveelheid water per kilogram lucht (in <M>{new Unit('g/kg')}</M>) die hierbij condenseert en afgevoerd wordt.</Par>
+	<Par>Een airconditioning-systeem krijgt lucht met temperatuur <M>{T1}</M> en relatieve luchtvochtigheid <M>{startRH}</M> binnen. Hij levert vervolgens lucht met temperatuur <M>{T4}</M> en relatieve luchtvochtigheid <M>{endRH}.</M> Om dit te kunnen doen koelt de airco eerst de lucht af en warmt het de lucht daarna weer ietsje op. Bereken de temperatuur tot waar de airco de lucht afkoelt. Vind ook de hoeveelheid water per kilogram lucht (in <M>{new Unit('g/kg')}</M>) die hierbij condenseert en afgevoerd wordt.</Par>
 	<InputSpace>
 		<Par>
 			<FloatUnitInput id="T3" prelabel={<M>T_(tussen) =</M>} label="Tussentemperatuur" size="s" />
