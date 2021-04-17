@@ -218,6 +218,16 @@ const skills = {
 		name: 'Koelmachine temperaturen vinden',
 		exercises: ['findFridgeTemperaturesInternal', 'findFridgeTemperaturesExternal'],
 	},
+
+	readMollierDiagram: {
+		name: 'Mollier diagram aflezen',
+		exercises: ['readMollierDiagramRH', 'readMollierDiagramAH'],
+	},
+	analyseAirco: {
+		name: 'Airco analyseren',
+		setup: combinerRepeat('readMollierDiagram', 3),
+		exercises: [],
+	},
 }
 
 // Process the skill object.

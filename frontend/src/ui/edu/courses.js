@@ -47,7 +47,7 @@ const courses = {
 	
 	exactd: {
 		name: 'Exacte Wetenschap D',
-		goals: ['analyseClosedCycle'],
+		goals: ['analyseClosedCycle', 'findFridgeTemperatures', 'analyseAirco'],
 		priorKnowledge: [
 			'calculateWithPressure',
 			'calculateWithVolume',
@@ -78,8 +78,8 @@ const courses = {
 				goals: ['analyseClosedCycle'],
 			},
 			{
-				name: `Koelkasten en airco's`,
-				goals: ['findFridgeTemperatures'],
+				name: `Koelmachines en airco's`,
+				goals: ['findFridgeTemperatures', 'analyseAirco'],
 			},
 		],
 	},
