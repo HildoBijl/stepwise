@@ -1,0 +1,97 @@
+/* Drawing is the parent component of every drawing made, either through SVG or Canvas. It is generally used inside other components to make specific types of plots, figures or similar.
+ * When Drawing is given a ref, it places in this ref an object { svg: ..., canvas: ... } with references to the respective DOM elements. Note that the option useCanvas needs to be set to true if a Canvas is desired.
+ */
+
+import React, { useRef, forwardRef, useImperativeHandle } from 'react'
+import clsx from 'clsx'
+import { makeStyles } from '@material-ui/core/styles'
+
+import { processOptions, filterOptions } from 'step-wise/util/objects'
+
+import { notSelectable } from 'ui/theme'
+
+import Figure, { defaultOptions as figureDefaultOptions } from './Figure'
+
+const defaultOptions = {
+	...figureDefaultOptions, // Includes a maxWidth option to set the maximum width of the figure.
+	width: 800, // Viewport width.
+	height: 600, // Viewport height.
+	useSVG: true,
+	useCanvas: false,
+}
+delete defaultOptions.aspectRatio // We override the aspect ratio based on the width and height of the viewport.
+export { defaultOptions }
+
+const useStyles = makeStyles((theme) => ({
+	drawing: {
+		'& svg': {
+			display: 'block',
+			...notSelectable,
+			overflow: 'visible',
+			width: '100%',
+			zIndex: 2,
+		},
+	
+		'& canvas': {
+			height: '100%',
+			...notSelectable,
+			width: '100%',
+			zIndex: 1,
+		},
+	},
+}))
+
+function Drawing(options, ref) {
+	// Process, calculate and check options and style.
+	options = processOptions(options, defaultOptions)
+	options.aspectRatio = options.height / options.width
+	if (!options.useSVG && !options.useCanvas)
+		throw new Error('Drawing render error: cannot generate a plot without either an SVG or a canvas.')
+	const classes = useStyles()
+
+	// Set up refs and make them accessible to any implementing component.
+	const figureRef = useRef()
+	const svgRef = useRef()
+	const canvasRef = useRef()
+	useImperativeHandle(ref, () => ({
+		get figureInner() {
+			return figureRef.current.inner
+		},
+		get figureOuter() {
+			return figureRef.current.outer
+		},
+		get svg() {
+			return svgRef.current
+		},
+		get canvas() {
+			return canvasRef.current
+		},
+		get ctx() {
+			return canvasRef.current ? canvasRef.current.getContext('2d') : undefined
+		},
+		get width() {
+			return parseFloat(options.width)
+		},
+		get height() {
+			return parseFloat(options.height)
+		},
+	}))
+
+	// Render figure with SVG and Canvas properly placed.
+	options.className = clsx('drawing', classes.drawing, options.className)
+	return (
+		<Figure ref={figureRef} {...filterOptions(options, figureDefaultOptions)}>
+			{options.useSVG ? (
+				<svg ref={svgRef} viewBox={`0 0 ${options.width} ${options.height}`}>
+					<defs>
+						<mask id="noOverflow">
+							<rect x="0" y="0" width={options.width} height={options.height} fill="#fff" />
+						</mask>
+					</defs>
+				</svg>
+			) : null}
+			{options.useCanvas ? <canvas ref={canvasRef} width={options.width} height={options.height} /> : null}
+		</Figure>
+	)
+}
+export default forwardRef(Drawing)

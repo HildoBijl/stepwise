@@ -7,6 +7,8 @@ import { Par } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
+import MollierDiagram from '../../content/diagrams/MollierDiagram'
+
 import StepExercise from '../types/StepExercise'
 import { useCorrect } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
@@ -17,6 +19,7 @@ export default function Exercise() {
 
 const Problem = ({ T1, startRH, T4, endRH, mdot }) => <>
 	<Par>Een grote airconditioning-installatie koelt continu <M>{mdot}</M> lucht met temperatuur <M>{T1}</M> en relatieve luchtvochtigheid <M>{startRH}</M> af tot temperatuur <M>{T4}</M> en relatieve luchtvochtigheid <M>{endRH}.</M> Om dit te kunnen doen koelt de airco eerst de lucht sterk af en warmt het de lucht daarna weer ietsje op. Het gehele proces gebeurt op atmosferische druk. Bereken het koelvermogen waarmee de lucht afgekoeld wordt en het verwarmingsvermogen waarmee de lucht daarna weer opgewarmd wordt.</Par>
+	<MollierDiagram maxWidth="500" />
 	<InputSpace>
 		<Par>
 			<FloatUnitInput id="Pcool" prelabel={<M>P_(koel) =</M>} label="Koelvermogen" size="s" positive={true} />

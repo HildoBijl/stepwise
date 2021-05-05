@@ -7,6 +7,8 @@ import { Par } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
+import MollierDiagram from '../../content/diagrams/MollierDiagram'
+
 import StepExercise from '../types/StepExercise'
 import { useCorrect } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
@@ -17,6 +19,7 @@ export default function Exercise() {
 
 const Problem = ({ T1, T3, T4, startRH }) => <>
 	<Par>Een airconditioning-systeem krijgt lucht met temperatuur <M>{T1}</M> en relatieve luchtvochtigheid <M>{startRH}</M> binnen. De airco koelt deze lucht eerst af tot <M>{T3}</M> en warmt het vervolgens weer op tot <M>{T4}.</M> Bereken de relatieve luchtvochtigheid waarmee de lucht uit deze airco komt.</Par>
+	<MollierDiagram maxWidth="500" />
 	<InputSpace>
 		<Par>
 			<FloatUnitInput id="endRH" prelabel={<M>RV_(uit) =</M>} label="Relatieve luchtvochtigheid" size="s" />

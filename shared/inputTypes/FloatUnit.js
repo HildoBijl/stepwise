@@ -1,6 +1,6 @@
 // The FloatUnit class represents a combination of a floating point number and a unit. An example is "9.81 m / s^2". It can be given a string, or an object of the form { float: ..., unit: ... } where the dots are valid float and unit representations.
 
-const { isObject, processOptions, filterProperties } = require('../util/objects')
+const { isObject, processOptions, filterOptions } = require('../util/objects')
 const { Float, floatFormat, getRandomFloat, getRandomExponentialFloat, FOtoIO: floatFOtoIO, IOtoFO: floatIOtoFO, getEmpty: getEmptyFloat, isEmpty: isFloatEmpty } = require('./Float')
 const { Unit, equalityTypeToSimplifyOptions, FOtoIO: unitFOtoIO, IOtoFO: unitIOtoFO, getEmpty: getEmptyUnit, isEmpty: isUnitEmpty } = require('./Unit')
 
@@ -218,7 +218,7 @@ class FloatUnit {
 		let b = x
 
 		// Ensure validity of both FloatUnits and deal with it if they are not valid.
-		const floatEqualityOptions = filterProperties(options, Object.keys(Float.defaultEqualityOptions))
+		const floatEqualityOptions = filterOptions(options, Float.defaultEqualityOptions)
 		const handleInvalidResult = (unitOK) => {
 			const floatComparison = a.float.checkEquality(b.float, floatEqualityOptions)
 			const numberOK = floatComparison.result

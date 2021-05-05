@@ -136,3 +136,9 @@ function interpolate(inputValues, outputValues, x) {
   return (1 - part) * outputValues[xIndex] + part * outputValues[xIndex + 1]
 }
 module.exports.interpolate = interpolate
+
+// getRange(min, max, numPoints) return an array with numPoints numbers, equally distributed between min and max. For instance, getRange(3,9,5) will give [3, 4.5, 6, 7.5, 9].
+function getRange(min, max, numPoints) {
+	return (new Array(numPoints)).fill(0).map((v, i) => min + (max - min) * i / (numPoints - 1))
+}
+module.exports.getRange = getRange
