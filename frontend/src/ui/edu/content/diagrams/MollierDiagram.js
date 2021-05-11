@@ -30,6 +30,7 @@ function MollierDiagram({ maxWidth }, ref) {
 			input: { min: 0, max: 35 },
 			output: { min: firstOf(temperatureRange).number, max: lastOf(temperatureRange).number }
 		}
+		plot.drawAxes()
 		plot.addLabels('Absolute luchtvochtigheid [g/kg]', 'Temperatuur [°C]')
 
 		// Draw all lines.
@@ -37,17 +38,18 @@ function MollierDiagram({ maxWidth }, ref) {
 
 		// Add the percentage markers.
 		xOptions.forEach((x, index) => {
-			let xPos = plot.scale.input(lastOf(lines[index].points).input) + 14
-			let yPos = 0
+			const text = `${Math.round(x * 100)}%`
 			if (index === xOptions.length - 1) {
-				xPos = plot.drawing.width + 18
-				yPos = 10
+				plot.drawing.placeText(text, {
+					x: plot.drawing.width + 18,
+					y: 10,
+				})
+			} else {
+				plot.drawing.placeText(text, {
+					x: plot.scale.input(lastOf(lines[index].points).input) + 14,
+					y: 0,
+				})
 			}
-			plot.svg.append('text')
-				.attr('text-anchor', 'middle')
-				.attr('x', xPos)
-				.attr('y', yPos)
-				.text(`${Math.round(x * 100)}%`)
 		})
 	}, [plotRef])
 

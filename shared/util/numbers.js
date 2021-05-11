@@ -142,3 +142,15 @@ function getRange(min, max, numPoints) {
 	return (new Array(numPoints)).fill(0).map((v, i) => min + (max - min) * i / (numPoints - 1))
 }
 module.exports.getRange = getRange
+
+// deg2rad converts degrees to radians.
+function deg2rad(deg) {
+  return deg*Math.PI/180
+}
+module.exports.deg2rad = deg2rad
+
+// rad2deg converts radians to degrees.
+function rad2deg(rad) {
+  return rad*180/Math.PI
+}
+module.exports.rad2deg = rad2deg

@@ -4,7 +4,6 @@ import React, { useRef, forwardRef, useImperativeHandle, useEffect } from 'react
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { select } from 'd3-selection'
 import { scaleLinear } from 'd3-scale'
 import { axisLeft, axisBottom } from 'd3-axis'
 import { line, curveLinear } from 'd3-shape'
@@ -57,10 +56,7 @@ export function Plot(options, ref) {
 	const plotRef = useRef() // This will contain all data for this plot.
 	useImperativeHandle(ref, () => ({
 		get drawing() {
-			return drawingRef.current
-		},
-		get svg() {
-			return plotRef.current.svg
+			return plotRef.current.drawing
 		},
 		get scale() {
 			return plotRef.current.scale
@@ -68,11 +64,17 @@ export function Plot(options, ref) {
 		set range(range) {
 			setRange(plotRef.current, range)
 		},
-		drawLine(line) {
-			return drawLine(plotRef.current, line)
+		drawAxes() {
+			return drawAxes(plotRef.current)
 		},
 		addLabels(xLabel, yLabel) {
 			return addLabels(plotRef.current, xLabel, yLabel)
+		},
+		drawLine(line) {
+			return drawLine(plotRef.current, line)
+		},
+		clearLines() {
+			return clearLines(plotRef.current)
 		},
 	}))
 
@@ -90,17 +92,49 @@ export default forwardRef(Plot)
 
 function initialize(drawing) {
 	// Get properties from the drawing.
-	const { width, height, svg: svgDOM } = drawing
+	const { width, height, d3svg } = drawing
 
 	// Build up the SVG with the most important containers.
-	const svg = select(svgDOM)
-	const gAxes = svg.append('g').attr('class', 'axis')
-	const gLines = svg.append('g').attr('class', 'lines').attr('mask', 'url(#noOverflow)')
+	const gAxes = d3svg.append('g').attr('class', 'axis')
+	const gLines = d3svg.append('g').attr('class', 'lines').attr('mask', 'url(#noOverflow)')
 
 	// Store all containers and draw the plot for as much as we can.
-	const plot = { ...defaultPlotProperties, svg, gAxes, gLines, width: parseFloat(width), height: parseFloat(height), lines: [] }
-	drawAxes(plot)
-	return plot
+	return { ...defaultPlotProperties, drawing, gAxes, gLines, width: parseFloat(width), height: parseFloat(height) }
+}
+
+function setRange(plot, range) {
+	// Check input.
+	range = plot.range = ensureRange(range)
+
+	// Adjust the scale inside the plot.
+	plot.scale = {
+		input: scaleLinear().domain([range.input.min, range.input.max]).range([0, plot.width]),
+		output: scaleLinear().domain([range.output.min, range.output.max]).range([plot.height, 0]),
+	}
+
+	// Adjust the line function.
+	plot.lineFunction = line()
+		.x(point => plot.scale.input(point.input))
+		.y(point => plot.scale.output(point.output))
+		.curve(curveLinear)
+}
+
+function ensureRange(range) {
+	// Check the range object itself.
+	if (typeof range !== 'object')
+		throw new Error(`Invalid range: the given range object was not an object but has type "${typeof range}".`)
+
+	// Check its properties.
+	const dirs = ['input', 'output']
+	dirs.forEach(dir => {
+		if (typeof range[dir] !== 'object')
+			throw new Error(`Invalid range: the given range object did not have a valid "${dir}" property. This property must be an object but has type "${typeof range[dir]}".`)
+		ensureNumber(range[dir].min)
+		ensureNumber(range[dir].max)
+	})
+
+	// All good.
+	return range
 }
 
 function drawAxes(plot) {
@@ -126,42 +160,16 @@ function drawAxes(plot) {
 		.call(outputAxis)
 }
 
-function setRange(plot, range) {
-	// Check input.
-	range = plot.range = ensureRange(range)
-
-	// Adjust the scale inside the plot.
-	plot.scale = {
-		input: scaleLinear().domain([range.input.min, range.input.max]).range([0, plot.width]),
-		output: scaleLinear().domain([range.output.min, range.output.max]).range([plot.height, 0]),
-	}
-
-	// Adjust the line function.
-	plot.lineFunction = line()
-		.x(point => plot.scale.input(point.input))
-		.y(point => plot.scale.output(point.output))
-		.curve(curveLinear)
-
-	// Redraw the axes.
-	drawAxes(plot)
-}
-
-function ensureRange(range) {
-	// Check the range object itself.
-	if (typeof range !== 'object')
-		throw new Error(`Invalid range: the given range object was not an object but has type "${typeof range}".`)
-
-	// Check its properties.
-	const dirs = ['input', 'output']
-	dirs.forEach(dir => {
-		if (typeof range[dir] !== 'object')
-			throw new Error(`Invalid range: the given range object did not have a valid "${dir}" property. This property must be an object but has type "${typeof range[dir]}".`)
-		ensureNumber(range[dir].min)
-		ensureNumber(range[dir].max)
+function addLabels(plot, xLabel, yLabel) {
+	plot.drawing.placeText(xLabel, {
+		x: plot.width * 0.6,
+		y: plot.scale.output(0) + 36,
 	})
-
-	// All good.
-	return range
+	plot.drawing.placeText(yLabel, {
+		x: plot.scale.input(0) - 32,
+		y: plot.height * 0.4,
+		rotate: -90,
+	})
 }
 
 function drawLine(plot, line) {
@@ -183,18 +191,8 @@ function drawLine(plot, line) {
 	})
 }
 
-function addLabels(plot, xLabel, yLabel) {
-	plot.svg.append('text')
-		.attr('text-anchor', 'middle')
-		.attr('x', plot.width * 0.6) // Distance to the right.
-		.attr('y', plot.scale.output(0) + 36) // Distance downwards.
-		.text(xLabel)
-	plot.svg.append('text')
-		.attr('text-anchor', 'middle')
-		.attr('transform', 'rotate(-90)')
-		.attr('x', -plot.height * 0.4) // Distance upwards.
-		.attr('y', plot.scale.input(0) - 32) // Distance to the right.
-		.text(yLabel)
+function clearLines(plot) {
+	plot.gLines.selectAll('*').remove()
 }
 
 // ToDo: use or remove? Might be useful when implementing hovering and showing lines.
