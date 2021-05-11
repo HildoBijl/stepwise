@@ -1,6 +1,6 @@
 // Plot is the parent component of every plot made. It gives options to generate various kinds of plots.
 
-import React, { useRef, forwardRef, useImperativeHandle, useEffect } from 'react'
+import React, { useState, useRef, forwardRef, useImperativeHandle, useEffect } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -10,6 +10,8 @@ import { line, curveLinear } from 'd3-shape'
 
 import { ensureNumber } from 'step-wise/util/numbers'
 import { processOptions, filterOptions } from 'step-wise/util/objects'
+
+import { useEventListener } from 'util/react'
 
 import Drawing, { defaultOptions as drawingDefaultOptions } from './Drawing'
 
@@ -23,20 +25,14 @@ const defaultPlotProperties = {}
 const useStyles = makeStyles((theme) => ({
 	plot: {
 		'& svg': {
-			// Format D3 axes.
-			// ToDo: check if we still need this.
-			'& .tick': {
-				stroke: 'currentColor', // For the axis tick numbers.
-				line: {
-					stroke: 'currentColor', // For the tick lines.
-				},
-			},
-			'& .domain': {
-				stroke: 'currentColor', // For the axes.
-			},
 			'& .line': {
 				fill: 'none',
 				stroke: 'black',
+				'stroke-width': 1,
+			},
+			'& .hoverLine': {
+				fill: 'none',
+				stroke: theme.palette.primary.main,
 				'stroke-width': 1,
 			},
 		},
@@ -46,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 export function Plot(options, ref) {
 	options = processOptions(options, defaultOptions)
 	const classes = useStyles()
+	const [useHoverLines, setUseHoverLines] = useState(false)
 
 	// Set up refs and make them accessible to any implementing component.
 	const drawingRef = useRef() // This will be the link to the drawing.
@@ -59,6 +56,9 @@ export function Plot(options, ref) {
 		},
 		set range(range) {
 			setRange(plotRef.current, range)
+		},
+		set useHoverLines(useHoverLines) {
+			setUseHoverLines(!!useHoverLines)
 		},
 		drawAxes() {
 			return drawAxes(plotRef.current)
@@ -86,6 +86,17 @@ export function Plot(options, ref) {
 			plotRef.current = initialize(drawingRef.current)
 	}, [drawingRef, plotRef])
 
+	// Set up event listeners for hover lines.
+	const target = useHoverLines && drawingRef.current ? [drawingRef.current.figure.inner] : []
+	const applyHoverLines = (evt) => drawHoverLines(plotRef.current, getCoordsFromEvent(plotRef.current, evt))
+	const clearHoverLines = () => drawHoverLines(plotRef.current, null)
+	useEventListener('mousemove', applyHoverLines, target)
+	useEventListener('touchmove', (evt) => {
+		applyHoverLines(evt)
+		evt.preventDefault() // Prevent smartphone scrolling.
+	}, target)
+	useEventListener('mouseleave', clearHoverLines, target)
+
 	// Render the drawing.
 	options.className = clsx('plot', classes.plot, options.className)
 	return <Drawing ref={drawingRef} {...filterOptions(options, drawingDefaultOptions)} />
@@ -94,15 +105,16 @@ export default forwardRef(Plot)
 
 function initialize(drawing) {
 	// Get properties from the drawing.
-	const { width, height, d3svg } = drawing
+	const { d3svg } = drawing
 
 	// Build up the SVG with the most important containers.
 	const gAxes = d3svg.append('g').attr('class', 'axis')
 	const gLines = d3svg.append('g').attr('class', 'lines').attr('mask', 'url(#noOverflow)')
 	const gShapes = d3svg.append('g').attr('class', 'shapes').attr('mask', 'url(#noOverflow)')
+	const gHoverLines = d3svg.append('g').attr('class', 'hoverLines').attr('mask', 'url(#noOverflow)')
 
 	// Store all containers and draw the plot for as much as we can.
-	return { ...defaultPlotProperties, drawing, gAxes, gLines, gShapes, width: parseFloat(width), height: parseFloat(height) }
+	return { ...defaultPlotProperties, drawing, gAxes, gLines, gShapes, gHoverLines }
 }
 
 function setRange(plot, range) {
@@ -111,8 +123,8 @@ function setRange(plot, range) {
 
 	// Adjust the scale inside the plot.
 	plot.scale = {
-		input: scaleLinear().domain([range.input.min, range.input.max]).range([0, plot.width]),
-		output: scaleLinear().domain([range.output.min, range.output.max]).range([plot.height, 0]),
+		input: scaleLinear().domain([range.input.min, range.input.max]).range([0, plot.drawing.width]),
+		output: scaleLinear().domain([range.output.min, range.output.max]).range([plot.drawing.height, 0]),
 	}
 
 	// Adjust the line function.
@@ -165,12 +177,12 @@ function drawAxes(plot) {
 
 function addLabels(plot, xLabel, yLabel) {
 	plot.drawing.placeText(xLabel, {
-		x: plot.width * 0.6,
+		x: plot.drawing.width * 0.6,
 		y: plot.scale.output(0) + 36,
 	})
 	plot.drawing.placeText(yLabel, {
 		x: plot.scale.input(0) - 32,
-		y: plot.height * 0.4,
+		y: plot.drawing.height * 0.4,
 		rotate: -90,
 	})
 }
@@ -208,11 +220,34 @@ function applyStyle(obj, style = {}) {
 	})
 }
 
-// ToDo: use or remove? Might be useful when implementing hovering and showing lines.
-// function isPointWithinRange(point, range) {
-// 	if (point.input < range.input.min || point.input > range.input.max)
-// 		return false
-// 	if (point.output < range.output.min || point.output > range.output.max)
-// 		return false
-// 	return true
-// }
+function getCoordsFromEvent(plot, event) {
+	const point = plot.drawing.getPointFromEvent(event)
+	return getCoordsFromPoint(plot, point)
+}
+
+function getCoordsFromPoint(plot, point) {
+	return {
+		input: plot.scale.input.invert(point.x),
+		output: plot.scale.output.invert(point.y),
+	}
+}
+
+function isCoordWithinRange(coord, range) {
+	if (coord.input < range.input.min || coord.input > range.input.max)
+		return false
+	if (coord.output < range.output.min || coord.output > range.output.max)
+		return false
+	return true
+}
+
+function drawHoverLines(plot, coord) {
+	// If the coordinates exist and are within the plot range, set up the points for the line.
+	coord = coord && (isCoordWithinRange(coord, plot.range) ? coord : undefined)
+	const linePoints = coord ? [{ input: 0, output: coord.output }, coord, { input: coord.input, output: 0 }] : []
+
+	// Use d3 to create the lines.
+	const lines = plot.gHoverLines.selectAll('path').data([linePoints])
+	const enteringLines = lines.enter().append('path').attr('class', 'hoverLine')
+	enteringLines.merge(lines).attr('d', plot.lineFunction)
+	lines.exit().remove()
+}

@@ -54,7 +54,7 @@ export function useUniqueNumber() {
 	return ref.current
 }
 
-// useEventListener set up an event for the given handler. It ensures to efficiently deal with registering and unregistering listeners. The element parameter can be a DOM object or an array of DOM objects. It is allowed to insert ref objects whose "current" parameter is a DOM object.
+// useEventListener sets up event listeners for the given elements, executing the given handler. It ensures to efficiently deal with registering and unregistering listeners. The element parameter can be a DOM object or an array of DOM objects. It is allowed to insert ref objects whose "current" parameter is a DOM object.
 export function useEventListener(eventName, handler, elements = window) {
 	// If the handler changes, remember it within the ref. This allows us to change the handler without having to reregister listeners.
 	const handlerRef = useRef() // This ref will store the handler function.

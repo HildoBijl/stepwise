@@ -32,6 +32,7 @@ function MollierDiagram({ maxWidth }, ref) {
 		}
 		plot.drawAxes()
 		plot.addLabels('Absolute luchtvochtigheid [g/kg]', 'Temperatuur [°C]')
+		plot.useHoverLines = true
 
 		// Draw all lines.
 		lines.forEach(line => plot.drawLine(line))

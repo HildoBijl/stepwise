@@ -72,16 +72,19 @@ function Drawing(options, ref) {
 			return drawingRef.current.context
 		},
 		get width() {
-			return parseFloat(options.width)
+			return drawingRef.current.width
 		},
 		get height() {
-			return parseFloat(options.height)
+			return drawingRef.current.height
 		},
 		placeText(text, options) {
 			return placeText(drawingRef.current, text, options)
 		},
 		clearText() {
 			return drawingRef.current.gText.selectAll('*').remove()
+		},
+		getPointFromEvent(event) {
+			return getPointFromEvent(drawingRef.current, event)
 		},
 	}))
 
@@ -90,6 +93,12 @@ function Drawing(options, ref) {
 		if (figureRef.current && !drawingRef.current)
 			drawingRef.current = initialize(figureRef.current, svgRef.current, canvasRef.current)
 	}, [figureRef, drawingRef])
+
+	// Make sure the width and height are always up-to-date.
+	useEffect(() => {
+		drawingRef.current.width = parseFloat(options.width)
+		drawingRef.current.height = parseFloat(options.height)
+	}, [options.width, options.height])
 
 	// Render figure with SVG and Canvas properly placed.
 	const svgRef = useRef()
@@ -145,4 +154,15 @@ function placeText(drawing, text, options = {}) {
 		.attr('x', options.x * Math.cos(alpha) + options.y * Math.sin(alpha))
 		.attr('y', -options.x * Math.sin(alpha) + options.y * Math.cos(alpha))
 		.text(text)
+}
+
+// getPointFromEvent returns the point in SVG/Canvas coordinates based on an event.
+function getPointFromEvent(drawing, event) {
+	const innerFigure = drawing.figure.inner
+	const rect = innerFigure.getBoundingClientRect()
+	const eventProcessed = ((event.touches && event.touches[0]) || event)
+	return {
+		x: (eventProcessed.clientX - rect.left) / rect.width * drawing.width,
+		y: (eventProcessed.clientY - rect.top) / rect.height * drawing.height,
+	}
 }

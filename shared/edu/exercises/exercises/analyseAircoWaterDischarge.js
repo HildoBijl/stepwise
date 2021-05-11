@@ -12,7 +12,7 @@ const data = {
 
 	equalityOptions: {
 		default: { // AH
-			absoluteMargin: .001, // In standard units.
+			absoluteMargin: .001, // In standard units, so kg/kg.
 			significantDigitMargin: 1,
 		},
 		T3: {
