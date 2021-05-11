@@ -135,7 +135,7 @@ const useStyles = makeStyles((theme) => ({
 					},
 				},
 
-				'& .link': {
+				'& .login': {
 					cursor: 'pointer',
 					fontSize: '1.2rem',
 					fontWeight: 'bold',
@@ -216,7 +216,7 @@ export default function Home() {
 							<li className="item">De app houdt bij waar je moeite mee hebt.</li>
 							<li className="item">Je krijgt op jouw niveau nieuwe opgaven.</li>
 						</ol>
-						<div className="link" onClick={verifyCookies}><img src={HUlogo} className="logo" alt="HU logo" width="606" height="525" /> Log in om te beginnen</div>
+						<div className="login" onClick={verifyCookies}><img src={HUlogo} className="logo" alt="HU logo" width="606" height="525" /> Log in om te beginnen</div>
 					</div>
 				</div>
 				<div className="spacer" />

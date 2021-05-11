@@ -10,7 +10,7 @@ export default function About() {
 
 	return (
 		<>
-			<Par>Step-Wise is een web-app die studenten helpt bij het oefenen van opgaven.</Par>
+			<Par>Step-Wise is een web-app die studenten helpt bij het oefenen van opgaven. Leer meer erover via onderstaande explainer, of via onze <a href={`${process.env.PUBLIC_URL}/Explainer-NL.pdf`} target="_blank" rel="noreferrer">explainer in strip-vorm (PDF)</a>. (Ook in het <a href={`${process.env.PUBLIC_URL}/Explainer-EN.pdf`} target="_blank" rel="noreferrer">Engels</a> beschikbaar.)</Par>
 
 			<Head>Hoe werkt Step-Wise?</Head>
 			<Par>De Step-Wise app ondersteunt je op verschillende manieren bij het oefenen.</Par>
