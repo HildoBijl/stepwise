@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react'
 
 import { Unit } from 'step-wise/inputTypes/Unit'
 
+import { useInitializer } from 'util/react'
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
@@ -32,7 +33,7 @@ function Problem({ T, RH }) {
 function Solution() {
 	const { T, RH, AHmax, AH } = useCorrect()
 	const plotRef = useRef()
-	useEffect(() => {
+	useInitializer(() => {
 		const plot = plotRef.current
 		const color = 'red'
 		plot.drawLine({
@@ -41,21 +42,20 @@ function Solution() {
 				{ input: AHmax.number, output: T.number, },
 				{ input: 0, output: T.number, },
 			],
-			style: { stroke: color, 'stroke-width': '2', opacity: 0.3 },
+			style: { stroke: color, 'stroke-dasharray': '4, 4' },
 		})
 		plot.drawCircle({
 			input: AHmax.number,
 			output: T.number,
 			radius: 4,
-			style: { fill: color, opacity: 0.3 },
+			style: { fill: color },
 		})
 		plot.drawLine({
 			points: [
 				{ input: AH.number, output: 0, },
 				{ input: AH.number, output: T.number, },
-				{ input: 0, output: T.number, },
 			],
-			style: { stroke: color, 'stroke-width': '2' },
+			style: { stroke: color, 'stroke-dasharray': '4, 4' },
 		})
 		plot.drawCircle({
 			input: AH.number,
@@ -63,7 +63,7 @@ function Solution() {
 			radius: 4,
 			style: { fill: color },
 		})
-	}, [])
+	})
 	return <>
 		<Par>In het Mollier diagram kunnen we direct bij <M>T = {T}</M> en <M>RV = {RH.setUnit('%')}</M> opzoeken dat <M>AV = {AH}.</M></Par>
 		<MollierDiagram ref={plotRef} maxWidth="500" />

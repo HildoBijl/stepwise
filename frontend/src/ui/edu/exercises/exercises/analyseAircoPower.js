@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useRef } from 'react'
 
 import { Unit } from 'step-wise/inputTypes/Unit'
+import { maximumHumidity } from 'step-wise/data/moistureProperties'
 
+import { useInitializer } from 'util/react'
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
@@ -28,6 +30,13 @@ const Problem = ({ T1, startRH, T4, endRH, mdot }) => <>
 	</InputSpace>
 </>
 
+const color = 'red' // What is the color of the solution lines?
+const points = maximumHumidity.headers[0].map((T, index) => ({
+	input: maximumHumidity.grid[index].number,
+	output: T.number,
+}))
+const lineStyle = { stroke: color, 'stroke-width': '2' }
+const lineStyleDashed = { stroke: color, 'stroke-dasharray': '4, 4' }
 const steps = [
 	{
 		Problem: () => <>
@@ -39,8 +48,56 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { T4, endRH, endAH, T3 } = useCorrect()
-			return <Par>De uitstromende lucht heeft een temperatuur van <M>{T4}</M> en een relatieve luchtvochtigheid van <M>{endRH.setUnit('%')}.</M> De absolute luchtvochtigheid hier is dus <M>{endAH}.</M> Om op deze absolute luchtvochtigheid te komen is de lucht hiervoor (op 100% luchtvochtigheid) gekoeld tot <M>T_(tussen) = {T3},</M> af te lezen uit ons Mollier-diagram.</Par>
+			const { T1, T2, T3, T4, startAH, endAH, endRH } = useCorrect()
+			const plotRef = useRef()
+			useInitializer(() => {
+				const plot = plotRef.current
+				const point1 = {
+					input: startAH.number,
+					output: T1.number,
+				}
+				const point2 = {
+					input: startAH.number,
+					output: T2.number,
+				}
+				const point3 = {
+					input: endAH.number,
+					output: T3.number,
+				}
+				const point4 = {
+					input: endAH.number,
+					output: T4.number,
+				}
+
+				// Start drawing.
+				plot.drawLine({
+					points: [
+						point1,
+						point2,
+						...points.filter(point => point.output < T2.number && point.output > T3.number).reverse(),
+						point3,
+						point4,
+					],
+					style: lineStyle,
+				})
+				plot.drawLine({
+					points: [
+						{ input: point3.input, output: 0 },
+						point3,
+						{ input: 0, output: point3.output },
+					],
+					style: lineStyleDashed,
+				})
+				const drawCircle = (point) => plot.drawCircle({ ...point, radius: 4, style: { fill: color } })
+				drawCircle(point1)
+				drawCircle(point2)
+				drawCircle(point3)
+				drawCircle(point4)
+			})
+			return <>
+				<Par>De uitstromende lucht heeft een temperatuur van <M>{T4}</M> en een relatieve luchtvochtigheid van <M>{endRH.setUnit('%')}.</M> De absolute luchtvochtigheid hier is dus <M>{endAH}.</M> Om op deze absolute luchtvochtigheid te komen is de lucht hiervoor (op 100% luchtvochtigheid) gekoeld tot <M>T_(tussen) = {T3},</M> af te lezen uit ons Mollier-diagram.</Par>
+				<MollierDiagram ref={plotRef} maxWidth="500" />
+			</>
 		},
 	},
 	{

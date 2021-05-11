@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 
 		'& .text': {
-			fontSize: ({ size }) => `${0.65 * size / designSize}rem`,
+			fontSize: ({ size }) => `${0.60 * size / designSize}rem`,
 			...centered,
 		},
 	},

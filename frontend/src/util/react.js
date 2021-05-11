@@ -24,6 +24,12 @@ export function useRefWithValue(value, initialValue) {
 	return ref
 }
 
+// useInitializer is like useEffect(func, []) but then can have dependencies without giving warnings. 
+export function useInitializer(func) {
+	const funcRef = useRefWithValue(func)
+	useEffect(() => funcRef.current(), [funcRef])
+}
+
 // useMountedRef returns whether the object is mounted, through a reference object. This allows for pass-by-reference.
 export function useMountedRef() {
 	const mountedRef = useRef(false)

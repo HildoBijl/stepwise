@@ -17,7 +17,7 @@ export default function Exercise() {
 function Problem({ type, Tcold, Twarm, dTcold, dTwarm }) {
 	return <>
 		{type === 'heatPump' ?
-			<Par>Een warmtepomp levert warmte aan een huiskamer van <M>{Twarm}.</M> Deze warmte wordt aan de buitenlucht van <M>{Tcold}</M> onttrokken. Bij het leveren van warmte aan de huiskamer is voor de warmtewisselaar een temperatuursverschil van <M>{dTwarm}</M> benodigd. Voor het onttrekken van warmte aan de buitenlucht is een temperatuursverschil van <M>{dTcold}</M> nodig. Bereken de temperaturen in de condensor en verdamper van de warmtewisselaar.</Par> :
+			<Par>Een warmtepomp levert warmte aan een huiskamer van <M>{Twarm}.</M> Deze warmte wordt aan de buitenlucht van <M>{Tcold}</M> onttrokken. Bij het leveren van warmte aan de huiskamer is voor de warmtewisselaar een temperatuursverschil van <M>{dTwarm}</M> benodigd. Voor het onttrekken van warmte aan de buitenlucht is een temperatuursverschil van <M>{dTcold}</M> nodig. Bereken de temperaturen in de condensor en verdamper van de warmtepomp.</Par> :
 			<Par>Een koelkast heeft aan de binnenkant, in de te koelen ruimte, een temperatuur van <M>{Tcold}.</M> De koelkast staat in een keuken met een temperatuur van <M>{Twarm}.</M> Bij het onttrekken van warmte uit de te koelen ruimte is voor de warmtewisselaar een temperatuursverschil van <M>{dTcold}</M> benodigd. Voor het lozen van warmte in de keuken is een temperatuursverschil van <M>{dTwarm}</M> nodig. Bereken de temperaturen in de condensor en verdamper van de koelkast.</Par>}
 		<InputSpace>
 			<Par>
