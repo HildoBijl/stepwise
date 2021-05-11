@@ -20,10 +20,6 @@ export { defaultOptions }
 
 const defaultPlotProperties = {}
 
-const defaultLineAttributes = {
-	class: 'line',
-}
-
 const useStyles = makeStyles((theme) => ({
 	plot: {
 		'& svg': {
@@ -74,7 +70,13 @@ export function Plot(options, ref) {
 			return drawLine(plotRef.current, line)
 		},
 		clearLines() {
-			return clearLines(plotRef.current)
+			return plotRef.current.gLines.selectAll('*').remove()
+		},
+		drawCircle(circle) {
+			return drawCircle(plotRef.current, circle)
+		},
+		clearShapes() {
+			return plotRef.current.gShapes.selectAll('*').remove()
 		},
 	}))
 
@@ -97,9 +99,10 @@ function initialize(drawing) {
 	// Build up the SVG with the most important containers.
 	const gAxes = d3svg.append('g').attr('class', 'axis')
 	const gLines = d3svg.append('g').attr('class', 'lines').attr('mask', 'url(#noOverflow)')
+	const gShapes = d3svg.append('g').attr('class', 'shapes').attr('mask', 'url(#noOverflow)')
 
 	// Store all containers and draw the plot for as much as we can.
-	return { ...defaultPlotProperties, drawing, gAxes, gLines, width: parseFloat(width), height: parseFloat(height) }
+	return { ...defaultPlotProperties, drawing, gAxes, gLines, gShapes, width: parseFloat(width), height: parseFloat(height) }
 }
 
 function setRange(plot, range) {
@@ -174,25 +177,35 @@ function addLabels(plot, xLabel, yLabel) {
 
 function drawLine(plot, line) {
 	// Set up the line and shape it.
+	line = processOptions(line, { points: [], style: {} })
 	const path = plot.gLines
 		.append('path')
 		.datum(line.points)
 		.attr('d', plot.lineFunction)
-
-	// Apply attributes.
-	const attributes = { ...defaultLineAttributes, ...(line.attributes || {}) }
-	Object.keys(attributes).forEach(key => {
-		path.attr(key, attributes[key]) // ToDo: use style instead.
-	})
+		.attr('class', 'line')
 
 	// Apply style.
-	Object.keys(line.style || {}).forEach(key => {
-		path.style(key, line.style[key])
-	})
+	applyStyle(path, line.style)
 }
 
-function clearLines(plot) {
-	plot.gLines.selectAll('*').remove()
+function drawCircle(plot, circle) {
+	// Set up the circle.
+	circle = processOptions(circle, { input: 0, output: 0, radius: 5, style: {} })
+	const shape = plot.gShapes.append('circle')
+		.attr('cx', plot.scale.input(circle.input))
+		.attr('cy', plot.scale.output(circle.output))
+		.attr('r', circle.radius)
+		.attr('class', 'circle')
+
+	// Apply style.
+	applyStyle(shape, circle.style)
+}
+
+// ToDo: put this function somewhere more central.
+function applyStyle(obj, style = {}) {
+	Object.keys(style).forEach(key => {
+		obj.style(key, style[key])
+	})
 }
 
 // ToDo: use or remove? Might be useful when implementing hovering and showing lines.

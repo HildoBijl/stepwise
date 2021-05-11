@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 
 import { Unit } from 'step-wise/inputTypes/Unit'
 
@@ -6,6 +6,8 @@ import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
+
+import MollierDiagram from '../../content/diagrams/MollierDiagram'
 
 import SimpleExercise from '../types/SimpleExercise'
 import { useCorrect } from '../ExerciseContainer'
@@ -18,6 +20,7 @@ export default function Exercise() {
 function Problem({ T, RH }) {
 	return <>
 		<Par>Buiten is de temperatuur <M>{T}</M> en de relatieve luchtvochtigheid <M>{RH}.</M> Wat is de absolute luchtvochtigheid, in <M>{new Unit('g/kg')}?</M></Par>
+		<MollierDiagram maxWidth="500" />
 		<InputSpace>
 			<Par>
 				<FloatUnitInput id="AH" prelabel={<M>AV =</M>} label="Absolute luchtvochtigheid" size="s" />
@@ -28,5 +31,42 @@ function Problem({ T, RH }) {
 
 function Solution() {
 	const { T, RH, AHmax, AH } = useCorrect()
-	return <Par>In het Mollier diagram kunnen we direct bij <M>T = {T}</M> en <M>RV = {RH}</M> opzoeken dat <M>AV = {AH}.</M> Eventueel hadden we als omweg ook op kunnen zoeken dat <BM>AV_(max) = {AHmax}.</BM> Hiermee volgt de absolute luchtvochtigheid als <BM>AV = RV \cdot AV_(max) = {RH.float} \cdot {AHmax.float} = {AH}.</BM></Par>
+	const plotRef = useRef()
+	useEffect(() => {
+		const plot = plotRef.current
+		const color = 'red'
+		plot.drawLine({
+			points: [
+				{ input: AHmax.number, output: 0, },
+				{ input: AHmax.number, output: T.number, },
+				{ input: 0, output: T.number, },
+			],
+			style: { stroke: color, 'stroke-width': '2', opacity: 0.3 },
+		})
+		plot.drawCircle({
+			input: AHmax.number,
+			output: T.number,
+			radius: 4,
+			style: { fill: color, opacity: 0.3 },
+		})
+		plot.drawLine({
+			points: [
+				{ input: AH.number, output: 0, },
+				{ input: AH.number, output: T.number, },
+				{ input: 0, output: T.number, },
+			],
+			style: { stroke: color, 'stroke-width': '2' },
+		})
+		plot.drawCircle({
+			input: AH.number,
+			output: T.number,
+			radius: 4,
+			style: { fill: color },
+		})
+	}, [])
+	return <>
+		<Par>In het Mollier diagram kunnen we direct bij <M>T = {T}</M> en <M>RV = {RH.setUnit('%')}</M> opzoeken dat <M>AV = {AH}.</M></Par>
+		<MollierDiagram ref={plotRef} maxWidth="500" />
+		<Par>Eventueel hadden we als omweg ook op kunnen zoeken dat <BM>AV_(max) = {AHmax}.</BM> Hiermee volgt de absolute luchtvochtigheid als <BM>AV = RV \cdot AV_(max) = {RH.float} \cdot {AHmax.float} = {AH}.</BM></Par>
+	</>
 }

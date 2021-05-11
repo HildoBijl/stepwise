@@ -81,7 +81,7 @@ function Drawing(options, ref) {
 			return placeText(drawingRef.current, text, options)
 		},
 		clearText() {
-			return clearText(drawingRef.current)
+			return drawingRef.current.gText.selectAll('*').remove()
 		},
 	}))
 
@@ -145,8 +145,4 @@ function placeText(drawing, text, options = {}) {
 		.attr('x', options.x * Math.cos(alpha) + options.y * Math.sin(alpha))
 		.attr('y', -options.x * Math.sin(alpha) + options.y * Math.cos(alpha))
 		.text(text)
-}
-
-function clearText(drawing) {
-	drawing.gText.selectAll('*').remove()
 }

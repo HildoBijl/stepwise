@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
+
+import MollierDiagram from '../../content/diagrams/MollierDiagram'
 
 import SimpleExercise from '../types/SimpleExercise'
 import { useCorrect } from '../ExerciseContainer'
@@ -16,6 +18,7 @@ export default function Exercise() {
 function Problem({ T, AH }) {
 	return <>
 		<Par>In een ruimte van <M>{T}</M> is de absolute luchtvochtigheid <M>{AH}.</M> Wat is de relatieve luchtvochtigheid in deze ruimte?</Par>
+		<MollierDiagram maxWidth="500" />
 		<InputSpace>
 			<Par>
 				<FloatUnitInput id="RH" prelabel={<M>RV =</M>} label="Relatieve luchtvochtigheid" size="s" />
@@ -26,5 +29,42 @@ function Problem({ T, AH }) {
 
 function Solution() {
 	const { T, RH, AHmax, AH } = useCorrect()
-	return <Par>In het Mollier diagram kunnen we direct bij <M>T = {T}</M> en <M>AV = {AH}</M> opzoeken dat <M>RV = {RH}.</M> Eventueel hadden we als omweg ook op kunnen zoeken dat <BM>AV_(max) = {AHmax}.</BM> Hiermee volgt de relatieve luchtvochtigheid als <BM>RV = \frac(AV)(AV_(max)) = \frac{AH.float}{AHmax.float} = {RH}.</BM></Par>
+	const plotRef = useRef()
+	useEffect(() => {
+		const plot = plotRef.current
+		const color = 'red'
+		plot.drawLine({
+			points: [
+				{ input: AHmax.number, output: 0, },
+				{ input: AHmax.number, output: T.number, },
+				{ input: 0, output: T.number, },
+			],
+			style: { stroke: color, 'stroke-width': '2', opacity: 0.3 },
+		})
+		plot.drawCircle({
+			input: AHmax.number,
+			output: T.number,
+			radius: 4,
+			style: { fill: color, opacity: 0.3 },
+		})
+		plot.drawLine({
+			points: [
+				{ input: AH.number, output: 0, },
+				{ input: AH.number, output: T.number, },
+				{ input: 0, output: T.number, },
+			],
+			style: { stroke: color, 'stroke-width': '2' },
+		})
+		plot.drawCircle({
+			input: AH.number,
+			output: T.number,
+			radius: 4,
+			style: { fill: color },
+		})
+	}, [])
+	return <>
+		<Par>In het Mollier diagram kunnen we direct bij <M>T = {T}</M> en <M>AV = {AH}</M> opzoeken dat <M>RV = {RH}.</M></Par>
+		<MollierDiagram ref={plotRef} maxWidth="500" />
+		<Par>Eventueel hadden we als omweg ook op kunnen zoeken dat <BM>AV_(max) = {AHmax}.</BM> Hiermee volgt de relatieve luchtvochtigheid als <BM>RV = \frac(AV)(AV_(max)) = \frac{AH.float}{AHmax.float} = {RH}.</BM></Par>
+	</>
 }

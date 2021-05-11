@@ -8,14 +8,16 @@ const { firstOf, lastOf } = require('../../../util/arrays')
 const data = {
 	skill: 'readMollierDiagram',
 	equalityOptions: {
-		default: {},
+		default: {
+			absoluteMargin: 0.0005, // In standard units: kg/kg.
+		},
 	},
 }
 
 function generateState() {
 	const temperatureRange = maximumHumidity.headers[0]
 	const T = getRandomFloatUnit({
-		min: 0, // Limit to temperatures above zero to have some resolution in the plot.
+		min: 5, // Limit to higher temperatures to have some resolution in the plot.
 		max: lastOf(temperatureRange).number,
 		unit: firstOf(temperatureRange).unit,
 		decimals: 0,
@@ -32,7 +34,7 @@ function generateState() {
 function getCorrect({ T, RH }) {
 	RH = RH.simplify()
 	const AHmax = tableInterpolate(T, maximumHumidity).setSignificantDigits(2)
-	const AH = RH.multiply(AHmax).setDecimals(0)
+	const AH = RH.multiply(AHmax)
 	return { T, RH, AHmax, AH }
 }
 

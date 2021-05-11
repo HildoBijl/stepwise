@@ -17,7 +17,7 @@ const data = {
 function generateState() {
 	const temperatureRange = maximumHumidity.headers[0]
 	const T = getRandomFloatUnit({
-		min: 5, // Limit to none-low temperatures to have some resolution in the plot.
+		min: 5, // Limit to higher temperatures to have some resolution in the plot.
 		max: lastOf(temperatureRange).number,
 		unit: firstOf(temperatureRange).unit,
 		decimals: 0,
