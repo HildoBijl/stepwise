@@ -4,6 +4,8 @@ import { mod } from 'step-wise/util/numbers'
 
 import { useEventListener, useRefWithValue } from 'util/react'
 
+import Keyboard from './Keyboard'
+
 const FieldControllerContext = createContext()
 
 export default function FieldController({ children }) {
@@ -130,6 +132,7 @@ export default function FieldController({ children }) {
 			<div id="fieldController" ref={controllerRef}>
 				{children}
 			</div>
+			<Keyboard options={{}} />
 		</FieldControllerContext.Provider>
 	)
 }
