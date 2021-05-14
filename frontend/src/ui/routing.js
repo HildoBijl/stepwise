@@ -48,6 +48,11 @@ function getRoutes(user = null) {
 			recommendLogIn: true,
 			Indicator: SkillIndicator,
 		},
+		'test': {
+			id: 'test',
+			component: pages.Test,
+			name: 'Testpagina',
+		},
 	}
 
 	// Determine the type of users.
@@ -67,20 +72,20 @@ function getRoutes(user = null) {
 		if (isAdmin(user)) {
 			routes = {
 				...routes,
-				'test': {
-					id: 'test',
-					component: pages.TestPage,
-					name: 'Testsysteem',
+				'inspect': {
+					id: 'inspect',
+					component: pages.SkillOverview,
+					name: 'Vaardigheden overzicht',
 					children: {
 						'vaardigheid/:skillId': {
-							id: 'testSkill',
+							id: 'skillInspection',
 							component: Skill,
 							name: useSkillTitle,
 							recommendLogIn: true,
 							Indicator: SkillIndicator,
 						},
 						'opgave/:exerciseId': {
-							id: 'testExercise',
+							id: 'exerciseInspection',
 							component: BlankExercise,
 							name: useExerciseId,
 						},

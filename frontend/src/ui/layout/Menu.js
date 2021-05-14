@@ -63,7 +63,7 @@ export default function Menu({ className, titleCollapsed }) {
 		const adminButtons = isAdmin(user) ? <>
 			<Divider />
 			<List>
-				<MenuLink path={paths.test()} text='Testsysteem' icon={Policy} />
+				<MenuLink path={paths.inspect()} text='Vaardigheden overzicht' icon={Policy} />
 				<MenuLink path={paths.admin()} text='Gebruikersoverzicht' icon={SupervisorAccount} />
 			</List>
 		</> : null
