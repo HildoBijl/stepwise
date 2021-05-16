@@ -104,7 +104,11 @@ export default function FieldController({ children }) {
 	const blur = useCallback(() => setTabIndex(-1), [setTabIndex])
 	const focusFirst = useCallback(() => setTabIndex(0), [setTabIndex])
 
-	// Set up listener.
+	// Set up keyboard parameters.
+	const [keyboard, setKeyboard] = useState(null)
+	const keyboardRef = useRef()
+
+	// Set up listeners.
 	const keyDownHandler = useCallback((evt) => handleKeyPress(evt, tabbingOnRef.current, incrementTabIndex, decrementTabIndex), [tabbingOnRef, incrementTabIndex, decrementTabIndex])
 	useEventListener('keydown', keyDownHandler)
 
@@ -125,6 +129,9 @@ export default function FieldController({ children }) {
 		deactivate,
 		blur,
 		focusFirst,
+
+		setKeyboard,
+		keyboardRef,
 	}
 
 	return (
@@ -132,13 +139,18 @@ export default function FieldController({ children }) {
 			<div id="fieldController" ref={controllerRef}>
 				{children}
 			</div>
-			<Keyboard options={{}} />
+			<Keyboard ref={keyboardRef} settings={keyboard} />
 		</FieldControllerContext.Provider>
 	)
 }
 
-// A consuming element can use `const [active, activate, deactivate] = useFieldControl({ id: 'fieldId', ref: refUsedForElement })` to join the tab control. Alternatively, when it's already registered, you can call the function without a ref (just an ID) to just gain the info/controls.
-// Other options include the following. With `apply` set to false you can remove this field from tabbing. (Since conditional hooks not allowed.) With focusRefOnActive set to true you give the ref focus in HTML when this field is activated. With a manual index you can steer the tab order: manual index takes precedence over order in the page. With autofocus you automatically give focus to this field when it mounts. Make sure to only use this once, or it'll depend on the rendering order who gets the focus.
+/* A consuming element can use `const [active, activate, deactivate] = useFieldControl({ id: 'fieldId', ref: refUsedForElement })` to join the tab control. Alternatively, when it's already registered, you can call the function without a ref (just an ID) to just gain the info/controls.
+ * Other options include the following.
+ * With `apply` set to false you can remove this field from tabbing. (Since conditional hooks are not allowed.)
+ * With `focusRefOnActive` set to true you give the ref focus in HTML when this field is activated.
+ * With a `manualIndex` you can steer the tab order: manual index takes precedence over order in the page.
+ * With `autofocus` you automatically give focus to this field when it mounts. Make sure to only use this once, or it'll depend on the rendering order who gets the focus.
+ */
 export function useFieldControl({ id, ref, apply = true, focusRefOnActive = false, manualIndex = 0, autofocus = false }) {
 	const { registerElement, unregisterElement, isActive, activate, deactivate } = useFieldControllerContext()
 
@@ -180,4 +192,22 @@ function handleKeyPress(evt, tabbingOn, incrementTabIndex, decrementTabIndex) {
 		else
 			incrementTabIndex()
 	}
+}
+
+// An input field can apply useKeyboard to pop up the keyboard whenever it is active. In this case the type of keyboard should be given. See the Keyboard file for further details.
+export function useKeyboard(fieldId, keyboard) {
+	const { setKeyboard } = useFieldControllerContext()
+	const [active] = useFieldControl({ id: fieldId })
+
+	// Pull up the right keyboard when needed.
+	useEffect(() => {
+		if (active)
+			setKeyboard(keyboard)
+		return () => setKeyboard(null)
+	}, [active, keyboard, setKeyboard])
+}
+
+export function useKeyboardRef() {
+	const { keyboardRef } = useFieldControllerContext()
+	return keyboardRef
 }

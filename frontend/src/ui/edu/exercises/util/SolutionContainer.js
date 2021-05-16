@@ -1,5 +1,6 @@
 import React from 'react'
-import SvgIcon from '@material-ui/core/SvgIcon'
+
+import Arrow from 'ui/components/icons/Arrow'
 
 import ContentsContainer from './ContentsContainer'
 
@@ -10,12 +11,4 @@ export default function SolutionContainer(props) {
 		canToggle={true}
 		color="success"
 		text={'Oplossing'} />
-}
-
-function Arrow(props) {
-	return (
-		<SvgIcon {...props}>
-			<path d="M9 18 l6 -6 -6 -6 v12z" fill="currentColor" />
-		</SvgIcon>
-	)
 }

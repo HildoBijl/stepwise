@@ -16,7 +16,7 @@ import Cursor from './Cursor'
 import { useFieldFeedback } from '../FeedbackProvider'
 import { useFormParameter, useCursorRef } from '../Form'
 import { useStatus } from '../Status'
-import { useFieldControl } from '../FieldController'
+import { useFieldControl, useKeyboard, useKeyboardRef } from '../FieldController'
 
 // Field definitions.
 const height = 3.2 // em
@@ -273,6 +273,7 @@ export default function Input(props) {
 	const { done } = useStatus()
 	readOnly = (readOnly === undefined ? done : readOnly)
 	const [active] = useFieldControl({ id, ref: fieldRef, apply: !readOnly, autofocus })
+	useKeyboard(id, 'hoi')
 
 	// Ensure that there is a cursor. This may be missing when the form just got previously submitted data from the server.
 	useEffect(() => {
@@ -399,6 +400,7 @@ function useMouseClickProcessing(fieldId, mouseClickToCursor, setData, contentsR
 	const [active, activate, deactivate] = useFieldControl({ id: fieldId })
 	const activeRef = useRefWithValue(active)
 	const cursorRef = useCursorRef()
+	const keyboardRef = useKeyboardRef()
 
 	// Set up the click handler.
 	const mouseClickHandler = useCallback(evt => {
@@ -406,6 +408,8 @@ function useMouseClickProcessing(fieldId, mouseClickToCursor, setData, contentsR
 		if (fieldRef.current.contains(evt.target)) {
 			if (!activeRef.current)
 				activate()
+		} else if (keyboardRef.current.contains(evt.target)) {
+			// Do not change the focus when the user clicks on the keyboard.
 		} else {
 			if (activeRef.current) {
 				deactivate()
@@ -437,7 +441,7 @@ function useMouseClickProcessing(fieldId, mouseClickToCursor, setData, contentsR
 			const cursor = mouseClickToCursor(evt, data, contentsRef.current, fieldRef.current)
 			return checkCursor(cursor) ? { ...data, cursor } : data
 		})
-	}, [activeRef, activate, deactivate, mouseClickToCursor, contentsRef, fieldRef, cursorRef, setData, getStartCursor, getEndCursor])
+	}, [activeRef, activate, deactivate, mouseClickToCursor, contentsRef, fieldRef, keyboardRef, cursorRef, setData, getStartCursor, getEndCursor])
 
 	// When we're active, listen for clicks in the entire window, so we can also deactivate this element. Otherwise listen only inside this field, in case it's activated.
 	const listeningObject = (active ? window : fieldRef)

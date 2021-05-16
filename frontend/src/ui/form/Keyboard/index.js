@@ -1,19 +1,28 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, forwardRef, useImperativeHandle } from 'react'
 import clsx from 'clsx'
 
 import { useTheme, makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
+import Paper from '@material-ui/core/Paper'
 import Container from '@material-ui/core/Container'
-import { Keyboard as KeyboardIcon, KeyboardArrowUp as ArrowUp } from '@material-ui/icons'
+import { Keyboard as KeyboardIcon } from '@material-ui/icons'
 
 import { notSelectable } from 'ui/theme'
+import Arrow from 'ui/components/icons/Arrow'
 
 const useStyles = makeStyles((theme) => ({
 	keyboardBar: {
-		bottom: 0,
+		background: theme.palette.primary.main,
+		bottom: '-1000rem', // To make sure the tabs are hidden on page load.
+		color: theme.palette.primary.contrastText,
 		height: 0,
+		left: 'auto',
+		position: 'fixed',
+		right: 0,
 		top: 'auto', // To override Material UI style settings.
-		transition: `height ${theme.transitions.duration.standard}ms`,
+		transition: `height ${theme.transitions.duration.standard}ms, bottom ${theme.transitions.duration.standard}ms`,
+		width: '100%',
+		zIndex: 1000,
 
 		'& .tabContainer': {
 			height: 0,
@@ -21,19 +30,19 @@ const useStyles = makeStyles((theme) => ({
 			width: '100%',
 
 			'& .tabs': {
+				bottom: 0, // To make sure it's hidden on page load.
 				display: 'flex',
 				flexFlow: 'row nowrap',
 				height: '2rem',
 				right: 0,
 				padding: '0 0.4rem', // For separation from the side of the page.
 				position: 'absolute',
-				bottom: '-2000rem', // To make sure it's hidden on page load.
 				transition: `bottom ${theme.transitions.duration.standard}ms`,
 
 				'& .tab': {
 					...notSelectable,
 					alignItems: 'center',
-					background: theme.palette.primary.main,
+					background: theme.palette.primary.light,
 					cursor: 'pointer',
 					display: 'flex',
 					flexFlow: 'row nowrap',
@@ -44,8 +53,8 @@ const useStyles = makeStyles((theme) => ({
 					position: 'relative',
 
 					'&:hover': {
-						background: theme.palette.primary.light,
-						// ToDo: use this color for active tabs.
+						background: theme.palette.primary.main,
+						// ToDo: use this color, or the light one, for inactive tabs.
 					},
 
 					'& .leftEdge': {
@@ -74,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
 			},
 		},
 		'& .keyboardArrow': {
-			transform: ({ open }) => `scaleY(${open ? -1 : 1})`,
+			transform: ({ open }) => `translateX(2px) rotate(${open ? 90 : -90}deg)`,
 			transition: `transform ${theme.transitions.duration.standard}ms`,
 		},
 		'& .keyboard': {
@@ -86,9 +95,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function Keyboard({ children }) {
+function Keyboard({ settings }, ref) {
 	const [open, setOpen] = useState(false)
-	const [active, setActive] = useState(false)
+	const active = !!settings
 
 	const theme = useTheme()
 	const classes = useStyles({ active, open })
@@ -97,32 +106,37 @@ export default function Keyboard({ children }) {
 	const keyboardRef = useRef()
 	const fillerRef = useRef()
 
+	// Position the keyboard properly.
 	useEffect(() => {
 		const tabHeight = tabsRef.current.offsetHeight
 		const keyboardHeight = keyboardRef.current.offsetHeight
 		if (active) {
+			// tabsRef.current.style.bottom = 0
+			barRef.current.style.bottom = 0
 			if (open) {
-				tabsRef.current.style.bottom = 0
 				barRef.current.style.height = `${keyboardHeight}px`
 				fillerRef.current.style.height = `${keyboardHeight + tabHeight}px`
 			} else {
-				tabsRef.current.style.bottom = 0
 				barRef.current.style.height = 0
 				fillerRef.current.style.height = `${tabHeight}px`
 			}
 		} else {
-			tabsRef.current.style.bottom = `${-tabHeight}px`
+			// tabsRef.current.style.bottom = `${-tabHeight}px`
+			barRef.current.style.bottom = `${-tabHeight}px`
 			barRef.current.style.height = 0
 			fillerRef.current.style.height = 0
 		}
 	}, [tabsRef, keyboardRef, active, open])
 
-	useEffect(() => {
-		setTimeout(() => setActive(true), 3000)
-	}, [])
+	// Provide API for objects using the keyboard ref.
+	useImperativeHandle(ref, () => ({
+		contains(obj) {
+			return barRef.current.contains(obj)
+		},
+	}))
 
 	return <>
-		<AppBar ref={barRef} position="fixed" className={clsx(classes.keyboardBar, 'keyboardBar')}>
+		<Paper ref={barRef} elevation={12} square={true} className={clsx(classes.keyboardBar, 'keyboardBar')}>
 			<Container maxWidth={theme.appWidth}>
 				<div className='tabContainer'>
 					<div ref={tabsRef} className='tabs'>
@@ -140,7 +154,7 @@ export default function Keyboard({ children }) {
 							<div className='leftEdge' />
 							<div className='rightEdge' />
 							<KeyboardIcon />
-							<ArrowUp className='keyboardArrow' />
+							<Arrow className='keyboardArrow' />
 						</div>
 					</div>
 				</div>
@@ -152,8 +166,8 @@ export default function Keyboard({ children }) {
 					Hi!<br />
 				</div>
 			</Container>
-		</AppBar>
+		</Paper>
 		<div ref={fillerRef} className={clsx(classes.filler, 'filler')} />
 	</>
-	// return <div className={clsx(classes.keyboard, 'keyboard')}>{children}</div>
 }
+export default forwardRef(Keyboard)
