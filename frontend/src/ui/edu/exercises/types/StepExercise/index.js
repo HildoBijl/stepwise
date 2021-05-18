@@ -33,13 +33,13 @@ function Contents({ Problem: MainProblem, steps }) {
 	const [expandSolution, setExpandSolution] = useState(false)
 	const { input } = useFormData()
 	const { feedbackInput } = useFeedback()
-	const { focusFirst } = useFieldControllerContext()
+	const { activateFirst } = useFieldControllerContext()
 
 	// Upon loading, or on history updates, focus on the first field.
 	useEffect(() => {
 		if (!progress.done)
-			focusFirst()
-	}, [MainProblem, progress, history, focusFirst])
+			activateFirst()
+	}, [MainProblem, progress, history, activateFirst])
 
 	// Determine what to show.
 	const showInputSpace = !progress.split

@@ -165,8 +165,8 @@ function SkillModal() {
 
 	// Add tab control.
 	const stayButtonRef = useRef(), followAdviceButtonRef = useRef()
-	// useFieldControl({ id: 'stayButton', ref: stayButtonRef, apply: showModal, focusRefOnActive: true })
-	// useFieldControl({ id: 'followAdviceButton', ref: followAdviceButtonRef, apply: showModal, focusRefOnActive: true })
+	// useFieldRegistration({ id: 'stayButton', ref: stayButtonRef, apply: showModal, focusRefOnActive: true })
+	// useFieldRegistration({ id: 'followAdviceButton', ref: followAdviceButtonRef, apply: showModal, focusRefOnActive: true })
 	// ToDo later: fix tab control. Tab control now does not work because the modal element doesn't fall within the field controller, and because the buttons appear later than that the tab order is checked. If this needs to be implemented, then the existing field controller should be deactivated and a new one should be set up inside the modal.
 
 	// Determine the contents to show in the modal.

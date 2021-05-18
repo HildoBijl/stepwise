@@ -16,7 +16,7 @@ import Cursor from './Cursor'
 import { useFieldFeedback } from '../FeedbackProvider'
 import { useFormParameter, useCursorRef } from '../Form'
 import { useStatus } from '../Status'
-import { useFieldControl, useKeyboard, useKeyboardRef } from '../FieldController'
+import { useFieldRegistration, useFieldActivation, useKeyboardRef } from '../FieldController'
 
 // Field definitions.
 const height = 3.2 // em
@@ -245,6 +245,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
+const keyboardSettings = { int: true, greek: true, text: true, float: true, unit: true, tab: 'greek' } // TODO TEST REMOVE
 export default function Input(props) {
 	// Gather properties.
 	let { id, prelabel, label, placeholder, feedbackText, className, size, validate, readOnly, autofocus, persistent } = props // User-defined props that are potentially passed on.
@@ -272,8 +273,12 @@ export default function Input(props) {
 	const { feedback } = useFieldFeedback({ fieldId: id, validate, feedbackText })
 	const { done } = useStatus()
 	readOnly = (readOnly === undefined ? done : readOnly)
-	const [active] = useFieldControl({ id, ref: fieldRef, apply: !readOnly, autofocus })
-	useKeyboard(id, 'hoi')
+	const [active] = useFieldRegistration({
+		id, ref: fieldRef, apply: !readOnly, autofocus, keyboard: {
+			keyFunction: (key) => console.log('Pressed: key "' + key + '"'),
+			settings: keyboardSettings,
+		}
+	}) // TODO
 
 	// Ensure that there is a cursor. This may be missing when the form just got previously submitted data from the server.
 	useEffect(() => {
@@ -397,7 +402,7 @@ function useKeyProcessing(processKeyPress, listeningObject = window, apply = tru
 
 // useMouseClickProcessing sets up listeners for mouse clicks and calls the processing function accordingly. The mouseClickToCursor must be a function which receives an event, the input data, a contents object and a field object, and uses that to determine the new cursor position.
 function useMouseClickProcessing(fieldId, mouseClickToCursor, setData, contentsRef, fieldRef, getStartCursor, getEndCursor) {
-	const [active, activate, deactivate] = useFieldControl({ id: fieldId })
+	const [active, activate, deactivate] = useFieldActivation(fieldId)
 	const activeRef = useRefWithValue(active)
 	const cursorRef = useCursorRef()
 	const keyboardRef = useKeyboardRef()

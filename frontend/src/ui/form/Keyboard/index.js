@@ -2,13 +2,32 @@ import React, { useState, useRef, useEffect, forwardRef, useImperativeHandle } f
 import clsx from 'clsx'
 
 import { useTheme, makeStyles } from '@material-ui/core/styles'
-import AppBar from '@material-ui/core/AppBar'
 import Paper from '@material-ui/core/Paper'
 import Container from '@material-ui/core/Container'
 import { Keyboard as KeyboardIcon } from '@material-ui/icons'
 
-import { notSelectable } from 'ui/theme'
+import { usePrevious } from 'util/react'
+
 import Arrow from 'ui/components/icons/Arrow'
+import { M } from 'ui/components/equations'
+
+import Tab from './Tab'
+
+// These are the keyboard tabs that can be used. Their order determines the order in which the tabs appear. It's not possible to deviate from this order.
+const tabs = [
+	'int',
+	'float',
+	'unit',
+	'text',
+	'greek',
+]
+const tabTitles = {
+	int: <M>123</M>,
+	float: <M>1.23</M>,
+	unit: <M>\rm °C / s</M>,
+	text: <M>abc</M>,
+	greek: <M>\alpha \beta \gamma</M>,
+}
 
 const useStyles = makeStyles((theme) => ({
 	keyboardBar: {
@@ -38,48 +57,6 @@ const useStyles = makeStyles((theme) => ({
 				padding: '0 0.4rem', // For separation from the side of the page.
 				position: 'absolute',
 				transition: `bottom ${theme.transitions.duration.standard}ms`,
-
-				'& .tab': {
-					...notSelectable,
-					alignItems: 'center',
-					background: theme.palette.primary.light,
-					cursor: 'pointer',
-					display: 'flex',
-					flexFlow: 'row nowrap',
-					height: '100%',
-					justifyContent: 'center',
-					margin: '0 0.65rem', // For in-between tabs.
-					padding: '0 0.5rem',
-					position: 'relative',
-
-					'&:hover': {
-						background: theme.palette.primary.main,
-						// ToDo: use this color, or the light one, for inactive tabs.
-					},
-
-					'& .leftEdge': {
-						background: 'inherit',
-						borderRadius: '0.6rem 0 0 0',
-						height: '100%',
-						position: 'absolute',
-						left: '-0.6rem',
-						top: 0,
-						transform: 'skewX(-8deg)',
-						width: '1rem',
-						zIndex: -1,
-					},
-					'& .rightEdge': {
-						background: 'inherit',
-						borderRadius: '0 0.6rem 0 0',
-						height: '100%',
-						position: 'absolute',
-						right: '-0.6rem',
-						top: 0,
-						transform: 'skewX(8deg)',
-						width: '1rem',
-						zIndex: -1,
-					},
-				},
 			},
 		},
 		'& .keyboardArrow': {
@@ -95,8 +72,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-function Keyboard({ settings }, ref) {
-	const [open, setOpen] = useState(false)
+function Keyboard({ settings, keyFunction }, ref) {
+	const [open, setOpen] = useState(true)
+	const [chosenTab, setChosenTab] = useState()
+	const previousSettings = usePrevious(settings)
 	const active = !!settings
 
 	const theme = useTheme()
@@ -106,12 +85,27 @@ function Keyboard({ settings }, ref) {
 	const keyboardRef = useRef()
 	const fillerRef = useRef()
 
+	// Provide API for objects using the keyboard ref.
+	useImperativeHandle(ref, () => ({
+		get bar() {
+			return barRef.current
+		},
+		get keyboard() {
+			return keyboardRef.current
+		},
+		contains(obj) { // Used for checking if an event target is inside the keyboard.
+			return barRef.current.contains(obj)
+		},
+		setTab(tab) { // Used for input fields to force a certain tab to open. Although normally this is done through the Field Registration, by changing the keyboard settings there.
+			setChosenTab(tab)
+		},
+	}))
+
 	// Position the keyboard properly.
 	useEffect(() => {
 		const tabHeight = tabsRef.current.offsetHeight
 		const keyboardHeight = keyboardRef.current.offsetHeight
 		if (active) {
-			// tabsRef.current.style.bottom = 0
 			barRef.current.style.bottom = 0
 			if (open) {
 				barRef.current.style.height = `${keyboardHeight}px`
@@ -121,49 +115,70 @@ function Keyboard({ settings }, ref) {
 				fillerRef.current.style.height = `${tabHeight}px`
 			}
 		} else {
-			// tabsRef.current.style.bottom = `${-tabHeight}px`
 			barRef.current.style.bottom = `${-tabHeight}px`
 			barRef.current.style.height = 0
 			fillerRef.current.style.height = 0
 		}
 	}, [tabsRef, keyboardRef, active, open])
 
-	// Provide API for objects using the keyboard ref.
-	useImperativeHandle(ref, () => ({
-		contains(obj) {
-			return barRef.current.contains(obj)
-		},
-	}))
+	// When a different tab is requested by the input field, make sure to show it.
+	const requestedTab = settings && settings.tab
+	useEffect(() => {
+		if (requestedTab) {
+			if (!tabs.includes(requestedTab))
+				throw new Error(`Invalid keyboard tab: tried to use a keyboard tab "${requestedTab}" but this tab does not exist.`)
+			setChosenTab(requestedTab)
+		}
+	}, [requestedTab])
+
+	// Check which tabs to show.
+	let activeTabs = []
+	const currSettings = active ? settings : previousSettings // On an inactive keyboard, use the previous settings. This allows us to show the previous tabs while the keyboard is sliding down into hiding.
+	if (currSettings) {
+		if (typeof currSettings !== 'object')
+			throw new Error(`Invalid keyboard settings: the given settings parameter must be an object, but received something of type ${typeof currSettings}.`)
+		activeTabs = tabs.filter(tab => currSettings[tab])
+		if (activeTabs.length === 0)
+			throw new Error(`Invalid keyboard settings: the given settings parameter must be an object with a key equal to one of the keyboard variants, but no keyboard variants were found.`)
+	}
+
+	// Check which tab is currently active.
+	let activeTab = chosenTab
+	if (!chosenTab || !activeTabs.includes(chosenTab))
+		activeTab = activeTabs[0]
+
+	// Set up an activation handler.
+	const activate = (tab) => {
+		setChosenTab(tab)
+		setOpen(true)
+	}
 
 	return <>
 		<Paper ref={barRef} elevation={12} square={true} className={clsx(classes.keyboardBar, 'keyboardBar')}>
 			<Container maxWidth={theme.appWidth}>
 				<div className='tabContainer'>
 					<div ref={tabsRef} className='tabs'>
-						<div className='tab'>
-							<div className='leftEdge' />
-							<div className='rightEdge' />
-								Number
-						</div>
-						<div className='tab'>
-							<div className='leftEdge' />
-							<div className='rightEdge' />
-								Unit
-						</div>
-						<div className='tab' onClick={() => setOpen(!open)}>
-							<div className='leftEdge' />
-							<div className='rightEdge' />
+						{activeTabs.length === 1 ? null : activeTabs.map(tab => (
+							<Tab
+								key={tab}
+								active={open && tab === activeTab}
+								onClick={() => activate(tab)}
+							>
+								{tabTitles[tab]}
+							</Tab>
+						))}
+						<Tab onClick={() => setOpen(!open)}>
 							<KeyboardIcon />
 							<Arrow className='keyboardArrow' />
-						</div>
+						</Tab>
 					</div>
 				</div>
 				<div ref={keyboardRef} className='keyboard'>
-					Hi!<br />
-					Hi!<br />
-					Hi!<br />
-					Hi!<br />
-					Hi!<br />
+					{activeTab}<br />
+					{activeTab}<br />
+					{activeTab}<br />
+					{activeTab}<br />
+					{activeTab}<br />
 				</div>
 			</Container>
 		</Paper>
