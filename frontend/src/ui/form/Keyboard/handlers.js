@@ -1,5 +1,5 @@
 /* The handlers of the keyboard are used by the parent component. Of particular importance are:
- * - keyFunction(key): this function will check which input field is currently active and call the keyFunction specified for that input field.
+ * - keyFunction(key, evt): this function will check which input field is currently active and call the keyFunction specified for that input field.
  * - storeKeyboard(id, keyboard): for the input field with the given ID, it stores the given keyboard object. The keyboard object is an object of the form:
  *   {
  *     settings: { 
@@ -7,7 +7,7 @@
  *       abc: true, // true simply indicates to show this tab with the default settings.
  *       tab: 'abc', // The tab (optional) determines which tab to show prior to any user interaction.
  *     },
- *     keyFunction: (key) => { ... some function provided by the input field ... },
+ *     keyFunction: (key, evt) => { ... some function provided by the input field ... },
  *   }
 */
 
@@ -58,10 +58,10 @@ export default function useKeyboardHandlers(fieldTracker, tabOrder, tabIndexRef)
 	}, [fieldTracker, refreshKeyboard])
 
 	// keyFunction is a steady function (its reference doesn't change) that calls the key function of the currently active input field.
-	const keyFunction = useCallback((key) => {
+	const keyFunction = useCallback((key, evt) => {
 		const keyboard = getKeyboard()
 		if (keyboard)
-			return keyboard.keyFunction(key)
+			return keyboard.keyFunction(key, evt)
 	}, [getKeyboard])
 
 	return { keyboardSettings, getKeyboard, keyFunction, refreshKeyboard, storeKeyboard }

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, forwardRef, useImperativeHandle } from 'react'
+import React, { useState, useRef, useEffect, useCallback, forwardRef, useImperativeHandle } from 'react'
 import clsx from 'clsx'
 
 import { useTheme, makeStyles } from '@material-ui/core/styles'
@@ -6,28 +6,12 @@ import Paper from '@material-ui/core/Paper'
 import Container from '@material-ui/core/Container'
 import { Keyboard as KeyboardIcon } from '@material-ui/icons'
 
-import { usePrevious } from 'util/react'
+import { usePrevious, useEventListener } from 'util/react'
 
 import Arrow from 'ui/components/icons/Arrow'
-import { M } from 'ui/components/equations'
 
 import Tab from './Tab'
-
-// These are the keyboard tabs that can be used. Their order determines the order in which the tabs appear. It's not possible to deviate from this order.
-const tabs = [
-	'int',
-	'float',
-	'unit',
-	'text',
-	'greek',
-]
-const tabTitles = {
-	int: <M>123</M>,
-	float: <M>1.23</M>,
-	unit: <M>\rm °C / s</M>,
-	text: <M>abc</M>,
-	greek: <M>\alpha \beta \gamma</M>,
-}
+import keyboards, { tabs } from './keyboards'
 
 const useStyles = makeStyles((theme) => ({
 	keyboardBar: {
@@ -64,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 			transition: `transform ${theme.transitions.duration.standard}ms`,
 		},
 		'& .keyboard': {
-			padding: '0.5rem',
+			padding: '0.5rem 0',
 		},
 	},
 	filler: {
@@ -101,26 +85,6 @@ function Keyboard({ settings, keyFunction }, ref) {
 		},
 	}))
 
-	// Position the keyboard properly.
-	useEffect(() => {
-		const tabHeight = tabsRef.current.offsetHeight
-		const keyboardHeight = keyboardRef.current.offsetHeight
-		if (active) {
-			barRef.current.style.bottom = 0
-			if (open) {
-				barRef.current.style.height = `${keyboardHeight}px`
-				fillerRef.current.style.height = `${keyboardHeight + tabHeight}px`
-			} else {
-				barRef.current.style.height = 0
-				fillerRef.current.style.height = `${tabHeight}px`
-			}
-		} else {
-			barRef.current.style.bottom = `${-tabHeight}px`
-			barRef.current.style.height = 0
-			fillerRef.current.style.height = 0
-		}
-	}, [tabsRef, keyboardRef, active, open])
-
 	// When a different tab is requested by the input field, make sure to show it.
 	const requestedTab = settings && settings.tab
 	useEffect(() => {
@@ -142,16 +106,22 @@ function Keyboard({ settings, keyFunction }, ref) {
 			throw new Error(`Invalid keyboard settings: the given settings parameter must be an object with a key equal to one of the keyboard variants, but no keyboard variants were found.`)
 	}
 
-	// Check which tab is currently active.
+	// Check which tab and keyboard is currently active.
 	let activeTab = chosenTab
 	if (!chosenTab || !activeTabs.includes(chosenTab))
 		activeTab = activeTabs[0]
+	const Buttons = activeTab ? keyboards[activeTab].Buttons : null
 
 	// Set up an activation handler.
 	const activate = (tab) => {
 		setChosenTab(tab)
 		setOpen(true)
 	}
+
+	// Position the keyboard properly.
+	const positionKeyboardCB = useCallback(() => { setTimeout(() => positionKeyboard(barRef, tabsRef, keyboardRef, fillerRef, active, open)) }, [barRef, tabsRef, keyboardRef, fillerRef, active, open]) // Use a time-out to ensure this happens after all resizing, rendering and media queries are finished.
+	useEffect(positionKeyboardCB, [positionKeyboardCB, activeTab]) // Also update the position when the active tab changes.
+	useEventListener('resize', positionKeyboardCB)
 
 	return <>
 		<Paper ref={barRef} elevation={12} square={true} className={clsx(classes.keyboardBar, 'keyboardBar')}>
@@ -164,7 +134,7 @@ function Keyboard({ settings, keyFunction }, ref) {
 								active={open && tab === activeTab}
 								onClick={() => activate(tab)}
 							>
-								{tabTitles[tab]}
+								{keyboards[tab].tab}
 							</Tab>
 						))}
 						<Tab onClick={() => setOpen(!open)}>
@@ -174,11 +144,9 @@ function Keyboard({ settings, keyFunction }, ref) {
 					</div>
 				</div>
 				<div ref={keyboardRef} className='keyboard'>
-					{activeTab}<br />
-					{activeTab}<br />
-					{activeTab}<br />
-					{activeTab}<br />
-					{activeTab}<br />
+					{Buttons ?
+						<Buttons settings={settings && activeTab ? settings[activeTab] : null} keyFunction={keyFunction} />
+						: null}
 				</div>
 			</Container>
 		</Paper>
@@ -186,3 +154,22 @@ function Keyboard({ settings, keyFunction }, ref) {
 	</>
 }
 export default forwardRef(Keyboard)
+
+function positionKeyboard(barRef, tabsRef, keyboardRef, fillerRef, active, open) {
+	const tabHeight = tabsRef.current.offsetHeight
+	const keyboardHeight = keyboardRef.current.offsetHeight
+	if (active) {
+		barRef.current.style.bottom = 0
+		if (open) {
+			barRef.current.style.height = `${keyboardHeight}px`
+			fillerRef.current.style.height = `${keyboardHeight + tabHeight}px`
+		} else {
+			barRef.current.style.height = 0
+			fillerRef.current.style.height = `${tabHeight}px`
+		}
+	} else {
+		barRef.current.style.bottom = `${-tabHeight}px`
+		barRef.current.style.height = 0
+		fillerRef.current.style.height = 0
+	}
+}

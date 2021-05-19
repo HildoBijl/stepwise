@@ -245,7 +245,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-const keyboardSettings = { int: true, greek: true, text: true, float: true, unit: true, tab: 'greek' } // TODO TEST REMOVE
+const keyboardSettings = { int: true, text: true, float: true, unit: true, tab: 'int' } // TODO TEST REMOVE
 export default function Input(props) {
 	// Gather properties.
 	let { id, prelabel, label, placeholder, feedbackText, className, size, validate, readOnly, autofocus, persistent } = props // User-defined props that are potentially passed on.
@@ -278,7 +278,7 @@ export default function Input(props) {
 			keyFunction: (key) => console.log('Pressed: key "' + key + '"'),
 			settings: keyboardSettings,
 		}
-	}) // TODO
+	}) // TODO TEST PULL OUT KEYBOARD SETTINGS.
 
 	// Ensure that there is a cursor. This may be missing when the form just got previously submitted data from the server.
 	useEffect(() => {
