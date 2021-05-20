@@ -1,4 +1,4 @@
-// The Rectangle object ensures that the given HTML object always has a certain aspect ratio (1, square by default).
+// The Rectangle object ensures that the given HTML object always has a certain aspect ratio (height divided by width; it is 1 (square) by default). Alternatively, a falsy aspect ratio can be given to ignore the aspect ratio.
 
 import React from 'react'
 import clsx from 'clsx'
@@ -22,6 +22,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Rectangle({ children, className, outerClassName, aspectRatio = 1 }) {
 	const classes = useStyles({ aspectRatio })
+	
+	// On a falsy aspect ratio, just give a div.
+	if (!aspectRatio)
+		return <div className={className}>{children}</div>
+
+	// Set up the Rectangle properly.
 	return (
 		<div className={clsx(classes.rectangleOutside, outerClassName)}>
 			<div className={clsx(classes.rectangleInside, className)}>

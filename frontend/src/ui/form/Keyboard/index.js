@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 				bottom: 0, // To make sure it's hidden on page load.
 				display: 'flex',
 				flexFlow: 'row nowrap',
-				height: '2rem',
+				height: '2.2rem',
 				right: 0,
 				padding: '0 0.4rem', // For separation from the side of the page.
 				position: 'absolute',
@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Keyboard({ settings, keyFunction }, ref) {
 	const [open, setOpen] = useState(true)
-	const [chosenTab, setChosenTab] = useState()
+	let [chosenTab, setChosenTab] = useState()
 	const previousSettings = usePrevious(settings)
 	const active = !!settings
 
@@ -107,10 +107,9 @@ function Keyboard({ settings, keyFunction }, ref) {
 	}
 
 	// Check which tab and keyboard is currently active.
-	let activeTab = chosenTab
 	if (!chosenTab || !activeTabs.includes(chosenTab))
-		activeTab = activeTabs[0]
-	const Buttons = activeTab ? keyboards[activeTab].Buttons : null
+		chosenTab = activeTabs[0]
+	const Buttons = chosenTab ? keyboards[chosenTab].Buttons : null
 
 	// Set up an activation handler.
 	const activate = (tab) => {
@@ -120,7 +119,7 @@ function Keyboard({ settings, keyFunction }, ref) {
 
 	// Position the keyboard properly.
 	const positionKeyboardCB = useCallback(() => { setTimeout(() => positionKeyboard(barRef, tabsRef, keyboardRef, fillerRef, active, open)) }, [barRef, tabsRef, keyboardRef, fillerRef, active, open]) // Use a time-out to ensure this happens after all resizing, rendering and media queries are finished.
-	useEffect(positionKeyboardCB, [positionKeyboardCB, activeTab]) // Also update the position when the active tab changes.
+	useEffect(positionKeyboardCB, [positionKeyboardCB, chosenTab]) // Also update the position when the active tab changes.
 	useEventListener('resize', positionKeyboardCB)
 
 	return <>
@@ -131,7 +130,7 @@ function Keyboard({ settings, keyFunction }, ref) {
 						{activeTabs.length === 1 ? null : activeTabs.map(tab => (
 							<Tab
 								key={tab}
-								active={open && tab === activeTab}
+								active={open && tab === chosenTab}
 								onClick={() => activate(tab)}
 							>
 								{keyboards[tab].tab}
@@ -145,7 +144,7 @@ function Keyboard({ settings, keyFunction }, ref) {
 				</div>
 				<div ref={keyboardRef} className='keyboard'>
 					{Buttons ?
-						<Buttons settings={settings && activeTab ? settings[activeTab] : null} keyFunction={keyFunction} />
+						<Buttons settings={settings && chosenTab ? settings[chosenTab] : null} keyFunction={keyFunction} />
 						: null}
 				</div>
 			</Container>

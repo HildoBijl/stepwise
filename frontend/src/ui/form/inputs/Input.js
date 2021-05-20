@@ -18,6 +18,8 @@ import { useFormParameter, useCursorRef } from '../Form'
 import { useStatus } from '../Status'
 import { useFieldRegistration, useFieldActivation, useKeyboardRef } from '../FieldController'
 
+import { standard, positive, minusDisabled } from '../Keyboard/keyboards/int'
+
 // Field definitions.
 const height = 3.2 // em
 const padding = 0.75 // em
@@ -245,7 +247,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-const keyboardSettings = { int: true, text: true, float: true, unit: true, tab: 'int' } // TODO TEST REMOVE
 export default function Input(props) {
 	// Gather properties.
 	let { id, prelabel, label, placeholder, feedbackText, className, size, validate, readOnly, autofocus, persistent } = props // User-defined props that are potentially passed on.
@@ -273,12 +274,6 @@ export default function Input(props) {
 	const { feedback } = useFieldFeedback({ fieldId: id, validate, feedbackText })
 	const { done } = useStatus()
 	readOnly = (readOnly === undefined ? done : readOnly)
-	const [active] = useFieldRegistration({
-		id, ref: fieldRef, apply: !readOnly, autofocus, keyboard: {
-			keyFunction: (key) => console.log('Pressed: key "' + key + '"'),
-			settings: keyboardSettings,
-		}
-	}) // TODO TEST PULL OUT KEYBOARD SETTINGS.
 
 	// Ensure that there is a cursor. This may be missing when the form just got previously submitted data from the server.
 	useEffect(() => {
@@ -286,9 +281,17 @@ export default function Input(props) {
 			setData({ ...data, cursor: getEndCursor(data.value, data.cursor) })
 	}, [data, setData, getEndCursor])
 
+	// Register the field for tabbing and for a keyboard.
+	const processKeyPress = useCallback(keyInfo => setData(data => keyPressToData(keyInfo, data, contentsRef.current)), [setData, keyPressToData, contentsRef])
+	const [active] = useFieldRegistration({
+		id, ref: fieldRef, apply: !readOnly, autofocus, keyboard: {
+			keyFunction: (key) => processKeyPress({ key }),
+			settings: standard,
+		}
+	}) // TODO TEST PULL OUT KEYBOARD SETTINGS.
+
 	// Set up necessary effects.
 	useKeyboardSelection(() => cursorToKeyboardType(data.cursor), hiddenFieldRef, active)
-	const processKeyPress = useCallback(keyInfo => setData(data => keyPressToData(keyInfo, data, contentsRef.current)), [setData, keyPressToData, contentsRef])
 	useKeyProcessing(processKeyPress, Object.values(hiddenFieldRef.current), active)
 	useMouseClickProcessing(id, mouseClickToCursor, setData, contentsRef, fieldRef, getStartCursor, getEndCursor)
 	useContentSliding(contentsRef, contentsContainerRef)
