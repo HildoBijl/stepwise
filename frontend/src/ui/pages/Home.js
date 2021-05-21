@@ -1,17 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Helmet } from 'react-helmet'
-import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
-import Modal from '@material-ui/core/Modal'
-import Button from '@material-ui/core/Button'
-import { Check, Clear } from '@material-ui/icons'
 
 import cookies from 'ui/cookies'
-import { notSelectable, linkStyle, centered } from 'ui/theme'
+import { notSelectable } from 'ui/theme'
 import LinkBar from 'ui/layout/LinkBar'
 import { websiteName, websiteNameAddendum, apiAddress, cookieApprovalName } from 'ui/settings'
+import { useModal, PictureConfirmation } from 'ui/components/Modal'
 import logo from 'ui/images/logo.svg'
 import HUlogo from 'ui/images/HU.png'
 import Cookies from 'ui/images/Cookies.jpg'
@@ -178,23 +175,33 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Home() {
 	const classes = useStyles()
-	const [showModal, setShowModal] = useState(false)
 	const isUserDataLoaded = useIsUserDataLoaded()
 
-	// If cookies are OK, go to SURFconext, otherwise show a confirmation screen.
-	const surfConextInitiate = `${apiAddress}/auth/surfconext/initiate`
-	const verifyCookies = () => {
-		if (cookies.get(cookieApprovalName) === '1')
-			window.location.href = surfConextInitiate
-		else
-			setShowModal(true)
+	// How do we send the user to SURFConext?
+	const goToSurfConext = () => window.location.href = `${apiAddress}/auth/surfconext/initiate`
+
+	// When the user clicks to accept cookies, store this and go to SURFconext to log in.
+	const onCookieConfirm = () => {
+		cookies.set(cookieApprovalName, '1', { path: '/', maxAge: 90 * 24 * 60 * 60 })
+		goToSurfConext()
 	}
 
-	// When cookies are confirmed, store this and go to SURFconext to log in.
-	const confirmCookies = () => {
-		setShowModal(false)
-		cookies.set(cookieApprovalName, '1', { path: '/', maxAge: 90 * 24 * 60 * 60 })
-		window.location.href = surfConextInitiate
+	// Create a Modal to ask the user about cookies.
+	const [, setModalOpen] = useModal(<PictureConfirmation
+		onConfirm={onCookieConfirm}
+		title='Zijn cookies OK?'
+		picture={<img src={Cookies} alt="Cookies" width="668" height="1002" />}
+		message='Om in te loggen moeten we één klein cookie plaatsen. Geef je daar toestemming toe?'
+		rejectText='Nee! Ik ben allergisch'
+		confirmText='Prima! Log in'
+	/>)
+
+	// Check if Cookies are OK. If so, go to SURFConext. If not, ask.
+	const verifyCookies = () => {
+		if (cookies.get(cookieApprovalName) === '1')
+			goToSurfConext()
+		else
+			setModalOpen(true)
 	}
 
 	return (
@@ -222,79 +229,7 @@ export default function Home() {
 				<div className="spacer" />
 				<LinkBar className="linkBar" />
 				<Helmet><title>{websiteName} | {websiteNameAddendum}</title></Helmet>
-				<Modal open={showModal} onClose={() => setShowModal(false)}>
-					<CookieConfirmation reject={() => setShowModal(false)} confirm={confirmCookies} />
-				</Modal>
 			</> : null}
 		</Container>
 	)
 }
-
-const useModalStyles = makeStyles((theme) => ({
-	cookieConfirmation: {
-		alignItems: 'stretch',
-		background: theme.palette.background.main,
-		borderRadius: '1rem',
-		display: 'flex',
-		flexFlow: 'column nowrap',
-		outline: 0,
-		padding: '1.5rem',
-		width: 'min(80vw, 30rem)',
-		...centered,
-
-		'& a': {
-			...linkStyle,
-		},
-
-		'& .title': {
-			fontSize: '1.5rem',
-			fontWeight: 'bold',
-			textAlign: 'center',
-		},
-
-		'& .image': {
-			display: 'flex',
-			flexFlow: 'row nowrap',
-			justifyContent: 'center',
-			margin: '0.8rem 0',
-
-			'& img': {
-				height: 'auto',
-				maxHeight: '14rem',
-				maxWidth: '100%',
-				width: 'auto',
-			},
-		},
-
-		'& .message': {
-			margin: '0.4rem 0',
-		},
-
-		'& .buttons': {
-			display: 'flex',
-			flexFlow: 'row wrap',
-			justifyContent: 'stretch',
-			margin: '0.4rem -0.6rem -0.4rem',
-
-			'& .button': {
-				flex: '1 1 auto',
-				margin: '0.4rem 0.6rem',
-			},
-		},
-	},
-}))
-
-const CookieConfirmation = React.forwardRef(({ reject, confirm }, _) => {
-	const classes = useModalStyles()
-	return (
-		<div className={clsx(classes.cookieConfirmation, 'cookieConfirmation')}>
-			<div className="title">Zijn cookies OK?</div>
-			<div className="image"><img src={Cookies} alt="Cookies" width="668" height="1002" /></div>
-			<div className="message">Om in te loggen moeten we één klein cookie plaatsen. Geef je daar toestemming toe?</div>
-			<div className="buttons">
-				<Button variant="contained" className="button" startIcon={<Clear />} onClick={reject} color="secondary">Nee! Ik ben allergisch</Button>
-				<Button variant="contained" className="button" startIcon={<Check />} onClick={confirm} color="primary">Prima! Log in</Button>
-			</div>
-		</div>
-	)
-})

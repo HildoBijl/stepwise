@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function ExerciseButtons({ stepwise }) {
-	const { progress, submitting, startNewExercise } = useExerciseData()
+	const { progress, history, submitting, startNewExercise } = useExerciseData()
 
 	// Set up button handlers.
 	const submit = useSubmitAction()
@@ -52,10 +52,10 @@ export default function ExerciseButtons({ stepwise }) {
 
 	// If the exercise is not done these are the submit and give-up buttons. Text depends on if this is a stepwise exercise or not.
 	let giveUpText = 'Ik geef het op'
-	if (stepwise) {
-		const step = getStep(progress)
+	const step = getStep(progress)
+	if (stepwise)
 		giveUpText = step ? 'Ik geef deze stap op' : 'Los stapsgewijs op'
-	}
+
 	return (
 		<div className={classes.buttonContainer}>
 			<Button variant="contained" startIcon={<Clear />} onClick={giveUp} disabled={submitting} color="secondary" ref={giveUpButtonRef}>{giveUpText}</Button>
