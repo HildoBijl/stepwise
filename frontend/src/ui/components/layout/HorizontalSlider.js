@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import { fade } from '@material-ui/core/styles/colorManipulator'
@@ -159,6 +159,7 @@ export default function HorizontalSlider({ children, sliderInside = false, paddi
 	// On a window-resize rerender the scrollbar.
 	const forceUpdate = useForceUpdate()
 	useEventListener('resize', forceUpdate)
+	useEffect(() => forceUpdate(), [forceUpdate])
 
 	// Implement style and render slider.
 	const classes = useStyles({ active, sliding, dragging, sliderInside, padding, slidePart, contentsWidth, containerWidth, contentsPart })
