@@ -16,7 +16,7 @@ const useModalStyles = makeStyles((theme) => ({
 		flexFlow: 'column nowrap',
 		outline: 0,
 		padding: '1.5rem',
-		width: 'min(80vw, 30rem)',
+		width: 'min(80vw, 40rem)',
 		...centered,
 	},
 }))
