@@ -47,7 +47,7 @@ export default function ExerciseButtons({ stepwise }) {
 
 	// Set up a warning Modal for when the user gives up a step exercise without even trying.
 	const [, setModalOpen] = useModal(<PictureConfirmation
-		title='Weet je het zeker?'
+		title={<span style={{ color: theme.palette.warning.main }}>Weet je het zeker?</span>}
 		picture={<Warning style={{ color: theme.palette.warning.main, height: '8rem', width: '8rem' }} />}
 		message='Het doel van Step-Wise is dat je uiteindelijk opgaven op kunt lossen zonder de hulp van tussenstappen. Geef je het op zonder te proberen? Dan geldt dit als een foute inzending: je score gaat omlaag.'
 		rejectText='Wacht even ...'

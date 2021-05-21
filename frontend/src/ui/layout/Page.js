@@ -4,6 +4,7 @@ import { Container } from '@material-ui/core'
 
 import { linkStyle } from 'ui/theme'
 import { useRoute } from 'ui/routing'
+import ModalManager from 'ui/components/Modal/ModalManager'
 import OfflineNotification from 'ui/components/notifications/OfflineNotification'
 import RecommendLogIn from 'ui/components/notifications/RecommendLogIn'
 import FieldController from 'ui/form/FieldController'
@@ -44,16 +45,24 @@ function Contents() {
 
 	// Full page components don't get a header/container, while regular pages do.
 	if (route.fullPage)
-		return <route.component />
+		return (
+			<FieldController>
+				<ModalManager>
+					<route.component />
+				</ModalManager>
+			</FieldController>
+		)
 	return (
 		<FieldController>
-			<Header Indicator={route.Indicator} />
-			<OfflineNotification />
-			<RecommendLogIn recommend={route.recommendLogIn} />
-			{route.Notification ? <route.Notification /> : null}
-			<Container maxWidth={theme.appWidth} className={classes.page}>
-				<route.component />
-			</Container>
+			<ModalManager>
+				<Header Indicator={route.Indicator} />
+				<OfflineNotification />
+				<RecommendLogIn recommend={route.recommendLogIn} />
+				{route.Notification ? <route.Notification /> : null}
+				<Container maxWidth={theme.appWidth} className={classes.page}>
+					<route.component />
+				</Container>
+			</ModalManager>
 		</FieldController>
 	)
 }

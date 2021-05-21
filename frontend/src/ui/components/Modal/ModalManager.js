@@ -22,7 +22,7 @@ const useModalStyles = makeStyles((theme) => ({
 }))
 
 const ModalContext = createContext(null)
-export function ModalManager({ children }) {
+export default function ModalManager({ children }) {
 	const [showModal, setShowModal] = useState(false)
 	const classes = useModalStyles()
 	const contentsRef = useRef(null)
@@ -47,7 +47,7 @@ export function ModalManager({ children }) {
 
 	const context = {
 		useModal,
-		closeCurrentModal: () => setShowModal(false),
+		closeModal: () => setShowModal(false),
 	}
 
 	return <ModalContext.Provider value={context}>

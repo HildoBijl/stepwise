@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 		'& .message': {
 			margin: '0.4rem 0',
+			textAlign: 'justify',
 		},
 	},
 }))

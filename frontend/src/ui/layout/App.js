@@ -6,7 +6,6 @@ import { ApolloProvider } from '@apollo/client'
 import { UserProvider } from 'api/user'
 import theme from 'ui/theme'
 import SkillCacher from 'ui/edu/skills/SkillCacher'
-import { ModalManager } from 'ui/components/Modal/ModalManager'
 
 import Routing from './Routing'
 
@@ -23,9 +22,7 @@ function App() {
 				<CssBaseline />
 				<UserProvider>
 					<SkillCacher>
-						<ModalManager>
-							<Routing />
-						</ModalManager>
+						<Routing />
 					</SkillCacher>
 				</UserProvider>
 			</ThemeProvider>

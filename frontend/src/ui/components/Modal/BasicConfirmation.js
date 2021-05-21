@@ -28,19 +28,23 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function BasicConfirmation({ children, className, onConfirm, confirmText = 'OK', rejectText = 'Nee' }) {
-	const { closeCurrentModal } = useModalContext()
+	const classes = useStyles()
+
+	// Set up the confirm function.
+	const { closeModal } = useModalContext()
 	const confirm = (evt) => {
-		closeCurrentModal()
+		closeModal()
 		onConfirm(evt)
 	}
-	const classes = useStyles()
+
+
 	return (
 		<div className={clsx(classes.basicConfirmation, 'basicConfirmation', className)}>
 			<div className="contents">
 				{children}
 			</div>
 			<div className="buttons">
-				<Button variant="contained" className="button" startIcon={<Clear />} onClick={closeCurrentModal} color="secondary">{rejectText}</Button>
+				<Button variant="contained" className="button" startIcon={<Clear />} onClick={closeModal} color="secondary">{rejectText}</Button>
 				<Button variant="contained" className="button" startIcon={<Check />} onClick={confirm} color="primary">{confirmText}</Button>
 			</div>
 		</div>
