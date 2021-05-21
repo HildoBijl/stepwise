@@ -5,9 +5,10 @@ import { ThemeProvider } from '@material-ui/core/styles'
 import { getAllExercises } from 'step-wise/edu/exercises/util/selection'
 import { noop } from 'step-wise/util/functions'
 
-import { ExerciseContext } from 'ui/edu/exercises/ExerciseContainer'
-import FieldController from 'ui/form/FieldController'
 import theme from 'ui/theme'
+import FieldController from 'ui/form/FieldController'
+import ModalManager from 'ui/components/Modal/ModalManager'
+import { ExerciseContext } from 'ui/edu/exercises/ExerciseContainer'
 
 describe('Check all exercises:', () => {
 	const exercises = getAllExercises()
@@ -35,9 +36,11 @@ describe('Check all exercises:', () => {
 				expect(() => render(
 					<ThemeProvider theme={theme}>
 						<FieldController>
-							<ExerciseContext.Provider value={exerciseData}>
-								<Exercise />
-							</ExerciseContext.Provider>
+							<ModalManager>
+								<ExerciseContext.Provider value={exerciseData}>
+									<Exercise />
+								</ExerciseContext.Provider>
+							</ModalManager>
 						</FieldController>
 					</ThemeProvider>
 				)).not.toThrow()

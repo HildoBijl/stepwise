@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
-import Modal from '@material-ui/core/Modal'
 import { CheckCircle as SuccessIcon, Info as InfoIcon, TrendingFlat as RightArrow, VerticalAlignBottom as DownArrow } from '@material-ui/icons'
 
 import skills from 'step-wise/edu/skills'
 
 import { usePrevious } from 'util/react'
-import { linkStyle, centered } from 'ui/theme'
+import { linkStyle } from 'ui/theme'
 import { usePaths } from 'ui/routing'
 import NotificationBar from 'ui/components/notifications/NotificationBar'
+import { useModalContext } from 'ui/components/Modal'
 
 import { useSkillId } from '../skills/Skill'
 
@@ -19,10 +19,8 @@ import { strFreePractice } from './util'
 import { useCourseData } from './Provider'
 
 export default function SkillAdvice() {
-	return <>
-		<SkillNotification />
-		<SkillModal />
-	</>
+	useSkillModal()
+	return <SkillNotification />
 }
 
 // SkillNotification shows the notification bar at the top of the screen recommending users to go to a different skill.
@@ -64,16 +62,6 @@ function SkillNotification() {
 
 const useStyles = makeStyles((theme) => ({
 	skillModal: {
-		alignItems: 'stretch',
-		background: theme.palette.background.main,
-		borderRadius: '1rem',
-		display: 'flex',
-		flexFlow: 'column nowrap',
-		outline: 0,
-		padding: '1.5rem',
-		width: 'min(80vw, 30rem)',
-		...centered,
-
 		'& a': {
 			...linkStyle,
 		},
@@ -99,6 +87,7 @@ const useStyles = makeStyles((theme) => ({
 
 		'& .message': {
 			margin: '0.4rem 0',
+			textAlign: 'justify',
 		},
 
 		'& .buttons': {
@@ -138,36 +127,21 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-// SkillModal shows a pop-up modal whenever the skill advice changes. So when the user mastered the skill he's practicing ("mastery") or when he sinks a prerequisite too low ("repeat").
-function SkillModal() {
+// useSkillModal shows a pop-up modal whenever the skill advice changes. So when the user mastered the skill he's practicing ("mastery") or when he sinks a prerequisite too low ("repeat").
+function useSkillModal() {
 	const classes = useStyles()
-	const { type: adviceType, recommendation } = useSkillAdvice()
 	const paths = usePaths()
 	const history = useHistory()
 	const { courseId, course } = useCourseData()
 	const skillId = useSkillId()
-
-	// Use an effect to show a modal when the advice changes.
-	const [showModal, setShowModal] = useState(false)
-	const previousAdviceType = usePrevious(adviceType)
-	const previousSkillId = usePrevious(skillId)
-	useEffect(() => {
-		if (previousSkillId === skillId && previousAdviceType === 1 && (adviceType === 0 || adviceType === 2))
-			setShowModal(true)
-	}, [adviceType, previousAdviceType, skillId, previousSkillId, setShowModal])
+	const { useModal, closeModal } = useModalContext()
+	const { type: adviceType, recommendation } = useSkillAdvice()
 
 	// Set up handlers.
-	const closeModal = () => setShowModal(false)
 	const goToRecommendation = () => {
 		closeModal()
 		history.push(recommendation === strFreePractice ? paths.freePractice({ courseId }) : paths.courseSkill({ courseId, skillId: recommendation }))
 	}
-
-	// Add tab control.
-	const stayButtonRef = useRef(), followAdviceButtonRef = useRef()
-	// useFieldRegistration({ id: 'stayButton', ref: stayButtonRef, apply: showModal, focusRefOnActive: true })
-	// useFieldRegistration({ id: 'followAdviceButton', ref: followAdviceButtonRef, apply: showModal, focusRefOnActive: true })
-	// ToDo later: fix tab control. Tab control now does not work because the modal element doesn't fall within the field controller, and because the buttons appear later than that the tab order is checked. If this needs to be implemented, then the existing field controller should be deactivated and a new one should be set up inside the modal.
 
 	// Determine the contents to show in the modal.
 	let contents = <div />
@@ -181,8 +155,8 @@ function SkillModal() {
 				<div className="icon"><SuccessIcon /></div>
 				<div className="message">{message}</div>
 				<div className="buttons">
-					<Button variant="contained" className="button" startIcon={<DownArrow />} onClick={closeModal} color="secondary" ref={stayButtonRef}>Blijf nog even</Button>
-					<Button variant="contained" className="button" endIcon={<RightArrow />} onClick={goToRecommendation} color="primary" ref={followAdviceButtonRef}>Ga verder</Button>
+					<Button variant="contained" className="button" startIcon={<DownArrow />} onClick={closeModal} color="secondary">Blijf nog even</Button>
+					<Button variant="contained" className="button" endIcon={<RightArrow />} onClick={goToRecommendation} color="primary">Ga verder</Button>
 				</div>
 			</div>
 		)
@@ -195,18 +169,21 @@ function SkillModal() {
 				<div className="message">Het lijkt erop dat je de sub-vaardigheid <Link to={paths.courseSkill({ courseId, skillId: recommendation })} onClick={closeModal}>{skills[recommendation].name}</Link> nog niet voldoende beheerst. Het is handig om hier eerst los wat mee te oefenen.</div>
 				<div className="message">Maak je geen zorgen: je opgave blijft bewaard en je kunt altijd nog terugkomen.</div>
 				<div className="buttons">
-					<Button variant="contained" className="button" startIcon={<div className="rotate"><RightArrow /></div>} onClick={goToRecommendation} color="primary" ref={followAdviceButtonRef}>Ga een stapje terug</Button>
-					<Button variant="contained" className="button" endIcon={<DownArrow />} onClick={closeModal} color="secondary" ref={stayButtonRef}>Blijf nog even</Button>
+					<Button variant="contained" className="button" startIcon={<div className="rotate"><RightArrow /></div>} onClick={goToRecommendation} color="primary">Ga een stapje terug</Button>
+					<Button variant="contained" className="button" endIcon={<DownArrow />} onClick={closeModal} color="secondary">Blijf nog even</Button>
 				</div>
 			</div>
 		)
 	}
+	const [, setShowModal] = useModal(contents)
 
-	return (
-		<Modal open={showModal} onClose={() => setShowModal(false)}>
-			{contents}
-		</Modal>
-	)
+	// Use an effect to show a modal when the advice changes.
+	const previousAdviceType = usePrevious(adviceType)
+	const previousSkillId = usePrevious(skillId)
+	useEffect(() => {
+		if (previousSkillId === skillId && previousAdviceType === 1 && (adviceType === 0 || adviceType === 2))
+			setShowModal(true)
+	}, [adviceType, previousAdviceType, skillId, previousSkillId, setShowModal])
 }
 
 // useSkillAdvice returns an object { type: 0/1/2, recommendation: 'someSkillId' } that is used to determine whether the user should be sent to another skill. The types match with isPracticeNeeded: 0 means "all fine", 1 means "OK, but could be better" and 2 means "wrong". The recommendation is based on the current skillId: it's not always the course recommendation. For instance, if a prerequisite of the given skill is good to practice, it recommends that one.
