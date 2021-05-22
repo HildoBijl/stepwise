@@ -58,8 +58,11 @@ function getStepExerciseProcessor(checkInput, data) {
 				// Give up on the main problem? Then split.
 				if (!progress.split) {
 					if (history.length === 0) { // If no input has been submitted for this step, then downgrade it.
-						updateSkills(data.skill, false)
-						updateSkills(data.setup, false)
+						// Don't penalize subskills when it can be avoided: apparently the student didn't know the steps. But when the exercise is not connected to a skill, then do penalize subskills.
+						if (data.skill)
+							updateSkills(data.skill, false)
+						else
+							updateSkills(data.setup, false)
 					}
 					return nextStep({ split: true, step: 0 })
 				}
