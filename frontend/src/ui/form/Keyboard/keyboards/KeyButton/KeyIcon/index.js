@@ -1,7 +1,8 @@
 import React from 'react'
+import { Remove as Minus, ArrowBack as ArrowLeft, ArrowForward as ArrowRight, ArrowUpward as ArrowUp, ArrowDownward as ArrowDown, Backspace } from '@material-ui/icons'
 
 import Character from './Character'
-import { Remove as Minus, ArrowBack as ArrowLeft, ArrowForward as ArrowRight, ArrowUpward as ArrowUp, ArrowDownward as ArrowDown, Backspace } from '@material-ui/icons'
+import TenPower from './TenPower'
 
 // KeyIcon displays the icon for a given key.
 export default function KeyIcon({ keyID }) {
@@ -22,6 +23,10 @@ export default function KeyIcon({ keyID }) {
 			return <ArrowDown />
 		case 'Backspace':
 			return <Backspace style={{ transform: 'scale(0.75)' }} /> // The backspace icon is for some reason overly large.
+		case 'TenPower':
+			return <TenPower />
+		case '.':
+			return <Character char="," /> // This should be made language/setting-dependent later.
 		default:
 		// On other keys, try the things below.
 	}

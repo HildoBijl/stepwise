@@ -46,6 +46,7 @@ export default function FloatInput(props) {
 		keyPressToData: (keyInfo, data, contentsElement) => keyPressToData(keyInfo, data, contentsElement, positive, allowPower),
 		...props,
 		className: clsx(props.className, classes.floatInput, 'floatInput'),
+		keyboardSettings: (data) => dataToKeyboardSettings(data, positive),
 	}
 
 	return <Input {...mergedProps} />
@@ -113,6 +114,24 @@ export function getEmptyData() {
 	}
 }
 
+// dataToKeyboardSettings takes a data object and determines what keyboard settings are appropriate.
+function dataToKeyboardSettings(data, positive) {
+	const { value, cursor } = data
+	let settings = {}
+	if (cursor && cursor.part === 'power') {
+		settings = { ...settings, '.': 'disabled', 'TenPower': 'disabled' }
+	} else {
+		if (positive)
+			settings = { ...settings, '-': 'disabled' }
+	}
+	if (isCursorAtStart(value, cursor))
+		settings = { ...settings, Backspace: 'disabled', ArrowLeft: 'disabled' }
+	if (isCursorAtEnd(value, cursor))
+		settings = { ...settings, ArrowRight: 'disabled' }
+	return { float: settings }
+}
+
+// ToDo: remove.
 // cursorToKeyboardType takes a cursor object (where is the cursor) and determines which Android keyboard needs to be shown: 'number', 'text' or 'none'.
 export function cursorToKeyboardType(cursor) {
 	return 'number'
@@ -130,7 +149,7 @@ export function keyPressToData(keyInfo, data, contentsElement, positive = defaul
 		return data
 
 	// For power, multiplication and E keys, move the cursor to the end of the power.
-	if (allowPower && (key === '^' || key === '*' || key === 'e' || key === 'E'))
+	if (allowPower && (key === '^' || key === '*' || key === 'e' || key === 'E' || key === 'TenPower'))
 		return { ...data, cursor: { part: 'power', cursor: power.length } }
 
 	// For left/right-arrows, home and end, adjust the cursor.

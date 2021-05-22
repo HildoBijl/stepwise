@@ -4,6 +4,6 @@ import { M } from 'ui/components/equations'
 
 export const tab = <M>\alpha \beta \gamma</M>
 
-export function Buttons() {
+export function Layout() {
 	return <div>A keyboard with Greek symbols will appear here.</div>
 }

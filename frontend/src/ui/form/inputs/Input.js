@@ -18,8 +18,6 @@ import { useFormParameter, useCursorRef } from '../Form'
 import { useStatus } from '../Status'
 import { useFieldRegistration, useFieldActivation, useKeyboardRef } from '../FieldController'
 
-import { standard, positive, minusDisabled } from '../Keyboard/keyboards/int'
-
 // Field definitions.
 const height = 3.2 // em
 const padding = 0.75 // em
@@ -250,7 +248,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Input(props) {
 	// Gather properties.
 	let { id, prelabel, label, placeholder, feedbackText, className, size, validate, readOnly, autofocus, persistent } = props // User-defined props that are potentially passed on.
-	let { initialData, isEmpty, dataToContents, cursorToKeyboardType, keyPressToData, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart } = props // Field-defined props that vary per field type.
+	let { initialData, isEmpty, dataToContents, cursorToKeyboardType, keyPressToData, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart, keyboardSettings } = props // Field-defined props that vary per field type.
 
 	// Check properties.
 	if (!id)
@@ -283,14 +281,14 @@ export default function Input(props) {
 
 	// Register the field for tabbing and for a keyboard.
 	const processKeyPress = useCallback(keyInfo => setData(data => keyPressToData(keyInfo, data, contentsRef.current)), [setData, keyPressToData, contentsRef])
-	const [active] = useFieldRegistration({
-		id, ref: fieldRef, apply: !readOnly, autofocus, keyboard: {
-			keyFunction: (key) => processKeyPress({ key }),
-			settings: standard,
-		}
-	}) // TODO TEST PULL OUT KEYBOARD SETTINGS.
+	const keyboard = keyboardSettings ? {
+		keyFunction: (key) => processKeyPress({ key }),
+		settings: typeof keyboardSettings === 'function' ? keyboardSettings(data) : keyboardSettings, // keyboardSettings may be a function, taking data and giving settings.
+	} : null // When no settings are provided, no keyboard needs to be shown.
+	const [active] = useFieldRegistration({ id, ref: fieldRef, apply: !readOnly, autofocus, keyboard })
 
 	// Set up necessary effects.
+	// ToDo: get rid of cursorToKeyboardType. Just give keyboard settings to input field. Also simplify useKeyProcessing to get rid of smartphone keyboard mess.
 	useKeyboardSelection(() => cursorToKeyboardType(data.cursor), hiddenFieldRef, active)
 	useKeyProcessing(processKeyPress, Object.values(hiddenFieldRef.current), active)
 	useMouseClickProcessing(id, mouseClickToCursor, setData, contentsRef, fieldRef, getStartCursor, getEndCursor)

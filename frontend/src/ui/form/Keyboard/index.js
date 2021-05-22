@@ -109,7 +109,7 @@ function Keyboard({ settings, keyFunction }, ref) {
 	// Check which tab and keyboard is currently active.
 	if (!chosenTab || !activeTabs.includes(chosenTab))
 		chosenTab = activeTabs[0]
-	const Buttons = chosenTab ? keyboards[chosenTab].Buttons : null
+	const Layout = chosenTab ? keyboards[chosenTab].Layout : null
 
 	// Set up an activation handler.
 	const activate = (tab) => {
@@ -143,8 +143,8 @@ function Keyboard({ settings, keyFunction }, ref) {
 					</div>
 				</div>
 				<div ref={keyboardRef} className='keyboard'>
-					{Buttons ?
-						<Buttons settings={settings && chosenTab ? settings[chosenTab] : null} keyFunction={keyFunction} />
+					{Layout ?
+						<Layout settings={settings && chosenTab ? settings[chosenTab] : null} keyFunction={keyFunction} />
 						: null}
 				</div>
 			</Container>
@@ -155,6 +155,11 @@ function Keyboard({ settings, keyFunction }, ref) {
 export default forwardRef(Keyboard)
 
 function positionKeyboard(barRef, tabsRef, keyboardRef, fillerRef, active, open) {
+	// If they keyboard has been unmounted, do nothing.
+	if (!tabsRef.current || !keyboardRef.current)
+		return
+
+	// Position the keyboard appropriately.
 	const tabHeight = tabsRef.current.offsetHeight
 	const keyboardHeight = keyboardRef.current.offsetHeight
 	if (active) {

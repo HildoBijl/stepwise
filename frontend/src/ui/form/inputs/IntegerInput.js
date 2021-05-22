@@ -32,6 +32,7 @@ export default function IntegerInput(props) {
 		keyPressToData: (keyInfo, data) => keyPressToData(keyInfo, data, positive),
 		...props,
 		className: clsx(props.className, 'integerInput'),
+		keyboardSettings: (data) => dataToKeyboardSettings(data, positive),
 	}
 
 	return <Input {...mergedProps} />
@@ -42,7 +43,7 @@ export function nonEmpty(data) {
 	// If it's empty note it.
 	if (isEmpty(data.value))
 		return selectRandomEmpty()
-	
+
 	// If there's only a minus sign note it.
 	if (data.value === '-')
 		return 'Alleen een min-teken is geen getal.'
@@ -70,6 +71,20 @@ export function getEmptyData() {
 	return { type: 'Integer', value: getEmpty(), cursor: 0 }
 }
 
+// dataToKeyboardSettings takes a data object and determines what keyboard settings are appropriate.
+function dataToKeyboardSettings(data, positive) {
+	const { value, cursor } = data
+	let settings = {}
+	if (positive)
+		settings = { ...settings, positive: true }
+	if (isCursorAtStart(value, cursor))
+		settings = { ...settings, Backspace: 'disabled', ArrowLeft: 'disabled' }
+	if (isCursorAtEnd(value, cursor))
+		settings = { ...settings, ArrowRight: 'disabled' }
+	return { int: settings }
+}
+
+// ToDo: remove.
 // cursorToKeyboardType takes a cursor object (where is the cursor) and determines which Android keyboard needs to be shown: 'number', 'text' or 'none'.
 export function cursorToKeyboardType(cursor) {
 	return 'number'
