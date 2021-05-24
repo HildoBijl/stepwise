@@ -31,9 +31,10 @@ const useStyles = makeStyles((theme) => ({
 			height: 0,
 			position: 'relative',
 			width: '100%',
+			zIndex: -1, // Put the tabs behind the keyboard.
 
 			'& .tabs': {
-				bottom: 0, // To make sure it's hidden on page load.
+				bottom: -1, // This should be 0, but the tabs are moved down one pixel to prevent layout bugs on smartphones.
 				display: 'flex',
 				flexFlow: 'row nowrap',
 				height: '2.2rem',
@@ -48,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 			transition: `transform ${theme.transitions.duration.standard}ms`,
 		},
 		'& .keyboard': {
+			background: theme.palette.primary.main, // Give the keyboard a background too, to allow the tabs to be behind it.
 			padding: '0.5rem 0',
 		},
 	},

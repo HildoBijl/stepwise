@@ -4,9 +4,8 @@ import clsx from 'clsx'
 
 import { isObject, applyToEachParameter } from 'step-wise/util/objects'
 import { isNumber, boundTo } from 'step-wise/util/numbers'
-import { noop } from 'step-wise/util/functions'
 
-import { resetFocus, getCoordinatesOf, ignoreBackspaceEvent, ignoreHomeEndEvent, getClickSide } from 'util/dom'
+import { resetFocus, getCoordinatesOf, preventDefaultOnKeys, getClickSide } from 'util/dom'
 import { useEventListener, useWidthTracker, useRefWithValue } from 'util/react'
 import { latexMinus, decimalSeparator } from 'ui/components/equations'
 import { notSelectable } from 'ui/theme'
@@ -172,20 +171,6 @@ const useStyles = makeStyles((theme) => ({
 					height: `${border}em`,
 					top: `${-border}em`,
 				},
-
-				// Style the hidden fields: make them hidden. These are used to make sure input for smartphones works properly.
-				'& .hidden': {
-					background: 'transparent',
-					border: 0,
-					display: 'block', // Has to be displayed for this to work.
-					height: 0,
-					left: 0,
-					opacity: 0,
-					padding: 0,
-					position: 'absolute',
-					top: 0,
-					width: 0,
-				},
 			},
 
 			// Style the feedback text: the text that is below the input field.
@@ -346,38 +331,17 @@ export default function Input(props) {
 	)
 }
 
-// useKeyProcessing uses an effect to listen for key presses. It gets a key press processing function, which should have as arguments a keyInfo object, a data object and (optionally) a contentsElement object, and should return a new data object. This function makes sure that the given processKeyPress function is called. A listening object can also be passed along, or an array of such objects. If this is done, and it's an input field, we can also listen to smartphone inputs.
+// useKeyProcessing uses an effect to listen for key presses. It gets a key press processing function, which should have as arguments a keyInfo object, a data object and (optionally) a contentsElement object, and should return a new data object. This function makes sure that the given processKeyPress function is called.
 function useKeyProcessing(processKeyPress, apply = true) {
-	const listeningObject = apply ? window : [] // When not active, don't listen to keys.
-
-	// TODO: SIMPLIFY!
-	const keyDownProcessedRef = useRef(false) // Keep track if we managed to decipher the keydown event.
 	const submit = useSubmitAction()
-
-	// Set up the handler for key down events. This one works for most of the events, but on smartphones there are some events it can't figure out.
 	const keyDownHandler = useCallback(evt => {
-		ignoreBackspaceEvent(evt) // A Firefox fix.
-		ignoreHomeEndEvent(evt)
+		preventDefaultOnKeys(evt, ['Backspace', 'Home', 'End', 'ArrowUp', 'ArrowDown'])
 		submitOnEnter(evt, submit)
-		resetFocus(evt.target) // A trick to allow the Backspace key to consistently be detected on Android.
-		keyDownProcessedRef.current = (evt.key !== 'Unidentified')
-		if (keyDownProcessedRef.current) {
-			const keyInfo = { evt, key: evt.key, shift: evt.shiftKey || false, ctrl: evt.ctrlKey || false, alt: evt.altKey || false }
-			processKeyPress(keyInfo)
-		}
-	}, [processKeyPress, keyDownProcessedRef, submit])
-
-	// Set up the handler for input events. This one is the fallback for smartphones.
-	const inputHandler = useCallback(evt => {
-		if (!keyDownProcessedRef.current) {
-			const keyInfo = { evt, key: evt.data || 'Backspace', shift: evt.shiftKey || false, ctrl: evt.ctrlKey || false, alt: evt.altKey || false } // When we don't understand this key either, it's usually a backspace. Assume it is the case.
-			processKeyPress(keyInfo)
-		}
-	}, [processKeyPress, keyDownProcessedRef])
-
-	// Apply the listeners in the appropriate way.
+		const keyInfo = { evt, key: evt.key, shift: evt.shiftKey || false, ctrl: evt.ctrlKey || false, alt: evt.altKey || false }
+		processKeyPress(keyInfo)
+	}, [processKeyPress, submit])
+	const listeningObject = apply ? window : [] // When not active, don't listen to keys.
 	useEventListener('keydown', keyDownHandler, listeningObject)
-	useEventListener('beforeinput', inputHandler, listeningObject)
 }
 
 // useMouseClickProcessing sets up listeners for mouse clicks and calls the processing function accordingly. The mouseClickToCursor must be a function which receives an event, the input data, a contents object and a field object, and uses that to determine the new cursor position.

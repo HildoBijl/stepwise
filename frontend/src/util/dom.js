@@ -39,14 +39,23 @@ export function getClickSide(evt) {
 	return (evt.offsetX + 1) * 2 >= evt.target.offsetWidth ? 1 : 0 // Add a small offset delta to make it feel more natural.
 }
 
-// ignoreBackspaceEvent will prevent browser default behavior on a backspace keypress.
+// ignoreBackspaceEvent will prevent browser default behavior on a backspace keypress. This prevents us from going back in the browser.
 export function ignoreBackspaceEvent(evt) {
-	if (evt.key === 'Backspace')
-		evt.preventDefault() // Don't go back to the previous page in Firefox on a backspace.
+	preventDefaultOnKeys(evt, 'Backspace')
 }
 
 // ignoreHomeEndEvent will prevent browser default behavior on a home/end press which would go to the start/end of the page.
 export function ignoreHomeEndEvent(evt) {
-	if (evt.key === 'Home' || evt.key === 'End')
+	preventDefaultOnKeys(evt, ['Home', 'End'])
+}
+
+// ignoreArrowKeyEvent will prevent browser default behavior on arrow keys, which could scroll the page.
+export function ignoreArrowKeyEvent(evt) {
+	preventDefaultOnKeys(evt, ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'])
+}
+
+export function preventDefaultOnKeys(evt, keys) {
+	keys = Array.isArray(keys) ? keys : [keys]
+	if (keys.includes(evt.key))
 		evt.preventDefault()
 }
