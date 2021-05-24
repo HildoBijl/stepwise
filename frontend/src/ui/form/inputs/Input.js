@@ -5,7 +5,7 @@ import clsx from 'clsx'
 import { isObject, applyToEachParameter } from 'step-wise/util/objects'
 import { isNumber, boundTo } from 'step-wise/util/numbers'
 
-import { resetFocus, getCoordinatesOf, preventDefaultOnKeys, getClickSide } from 'util/dom'
+import { getCoordinatesOf, preventDefaultOnKeys, getClickSide } from 'util/dom'
 import { useEventListener, useWidthTracker, useRefWithValue } from 'util/react'
 import { latexMinus, decimalSeparator } from 'ui/components/equations'
 import { notSelectable } from 'ui/theme'
@@ -233,7 +233,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Input(props) {
 	// Gather properties.
 	let { id, prelabel, label, placeholder, feedbackText, className, size, validate, readOnly, autofocus, persistent } = props // User-defined props that are potentially passed on.
-	let { initialData, isEmpty, JSXObject, cursorToKeyboardType, keyPressToData, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart, keyboardSettings } = props // Field-defined props that vary per field type.
+	let { initialData, isEmpty, JSXObject, keyPressToData, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart, keyboardSettings } = props // Field-defined props that vary per field type.
 
 	// Check properties.
 	if (!id)

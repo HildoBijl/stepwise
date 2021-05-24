@@ -11,7 +11,7 @@ import { getEmpty as getEmptyUnitArray, isEmpty as isUnitArrayEmpty } from 'step
 import { isEmpty as isUnitElementEmpty } from 'step-wise/inputTypes/Unit/UnitElement'
 
 import Input, { checkCursor } from './Input'
-import { UnitArray, cursorToKeyboardType as unitArrayCursorToKeyboardType, keyPressToData as unitArrayKeyPressToData, mouseClickToCursor as unitArrayMouseClickToCursor, getStartCursor as getUnitArrayStartCursor, getEndCursor as getUnitArrayEndCursor, isCursorAtStart as isCursorAtUnitArrayStart, isCursorAtEnd as isCursorAtUnitArrayEnd, mergeElements, splitElement, getCursorFromOffset as getUnitArrayCursorFromOffset } from './UnitArray'
+import { UnitArray, keyPressToData as unitArrayKeyPressToData, mouseClickToCursor as unitArrayMouseClickToCursor, getStartCursor as getUnitArrayStartCursor, getEndCursor as getUnitArrayEndCursor, isCursorAtStart as isCursorAtUnitArrayStart, isCursorAtEnd as isCursorAtUnitArrayEnd, mergeElements, splitElement, getCursorFromOffset as getUnitArrayCursorFromOffset } from './UnitArray'
 import { getStartCursor as getUnitElementStartCursor, getEndCursor as getUnitElementEndCursor, isCursorAtStart as isCursorAtUnitElementStart } from './UnitElement'
 
 const style = (theme) => ({
@@ -130,7 +130,7 @@ const defaultProps = {
 	initialData: getEmptyData(),
 	isEmpty: data => isEmpty(data.value),
 	JSXObject: Unit,
-	cursorToKeyboardType,
+	keyboardSettings: dataToKeyboardSettings,
 	keyPressToData,
 	mouseClickToCursor,
 	getStartCursor,
@@ -146,7 +146,6 @@ export default function UnitInput(props) {
 		...defaultProps,
 		...props,
 		className: clsx(props.className, classes.unitInput, 'unitInput'),
-		keyboardSettings: dataToKeyboardSettings,
 	}
 
 	return <Input {...mergedProps} />
@@ -249,12 +248,6 @@ function dataToKeyboardSettings(data) {
 		repeat(10, (index) => int[index] = false)
 
 	return { unitText, int, tab: unitElementCursor.part === 'power' ? 'int' : 'unitText' }
-}
-
-// ToDo: remove.
-// cursorToKeyboardType takes a cursor object (where is the cursor) and determines which Android keyboard needs to be shown: 'number', 'text' or 'none'.
-export function cursorToKeyboardType(cursor) {
-	return unitArrayCursorToKeyboardType(cursor && cursor.cursor)
 }
 
 // keyPressToData takes a keyInfo event and a data object and returns a new data object.

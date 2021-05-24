@@ -13,8 +13,8 @@ import { isEmpty as isUnitEmpty, isValid as isUnitValid } from 'step-wise/inputT
 import { getClickSide } from 'util/dom'
 
 import Input, { checkCursor } from './Input'
-import { style as floatStyle, nonEmpty as floatNonEmpty, Float, cursorToKeyboardType as floatCursorToKeyboardType, keyPressToData as floatKeyPressToData, mouseClickToCursor as floatMouseClickToCursor, getStartCursor as getFloatStartCursor, getEndCursor as getFloatEndCursor, isCursorAtStart as isCursorAtFloatStart, isCursorAtEnd as isCursorAtFloatEnd } from './FloatInput'
-import { style as unitStyle, valid as unitValid, Unit, cursorToKeyboardType as unitCursorToKeyboardType, keyPressToData as unitKeyPressToData, mouseClickToCursor as unitMouseClickToCursor, getStartCursor as getUnitStartCursor, getEndCursor as getUnitEndCursor, isCursorAtStart as isCursorAtUnitStart, isCursorAtEnd as isCursorAtUnitEnd } from './UnitInput'
+import { style as floatStyle, nonEmpty as floatNonEmpty, Float, keyPressToData as floatKeyPressToData, mouseClickToCursor as floatMouseClickToCursor, getStartCursor as getFloatStartCursor, getEndCursor as getFloatEndCursor, isCursorAtStart as isCursorAtFloatStart, isCursorAtEnd as isCursorAtFloatEnd } from './FloatInput'
+import { style as unitStyle, valid as unitValid, Unit, keyPressToData as unitKeyPressToData, mouseClickToCursor as unitMouseClickToCursor, getStartCursor as getUnitStartCursor, getEndCursor as getUnitEndCursor, isCursorAtStart as isCursorAtUnitStart, isCursorAtEnd as isCursorAtUnitEnd } from './UnitInput'
 
 const style = (theme) => ({
 	'& .float': {
@@ -38,7 +38,7 @@ const defaultProps = {
 	initialData: getEmptyData(),
 	isEmpty: data => isEmpty(data.value),
 	JSXObject: FloatUnit,
-	cursorToKeyboardType,
+	keyboardSettings: dataToKeyboardSettings,
 	keyPressToData,
 	mouseClickToCursor,
 	getStartCursor,
@@ -55,6 +55,7 @@ export default function FloatUnitInput(props) {
 	const mergedProps = {
 		...defaultProps,
 		keyPressToData: (keyInfo, data, contentsElement) => keyPressToData(keyInfo, data, contentsElement, positive, allowPower),
+		keyboardSettings: (data) => dataToKeyboardSettings(data, positive, allowPower),
 		...props,
 		className: clsx(props.className, classes.floatUnitInput, 'floatUnitInput'),
 	}
@@ -142,13 +143,22 @@ export function getEmptyData() {
 	}
 }
 
-// cursorToKeyboardType takes a cursor object (where is the cursor) and determines which Android keyboard needs to be shown: 'number', 'text' or 'none'.
-export function cursorToKeyboardType(cursor) {
-	if (!cursor)
-		return 'none'
-	if (cursor.part === 'float')
-		return floatCursorToKeyboardType(cursor.cursor)
-	return unitCursorToKeyboardType(cursor.cursor)
+// dataToKeyboardSettings takes a data object and determines what keyboard settings are appropriate.
+function dataToKeyboardSettings(data, positive = false, allowPower = true) {
+	// TODO
+	const { value, cursor } = data
+	let settings = {}
+	if (cursor && cursor.part === 'power') {
+		settings = { ...settings, '.': 'disabled', 'TenPower': 'disabled' }
+	} else {
+		if (positive)
+			settings = { ...settings, '-': 'disabled' }
+	}
+	if (isCursorAtStart(value, cursor))
+		settings = { ...settings, Backspace: 'disabled', ArrowLeft: 'disabled' }
+	if (isCursorAtEnd(value, cursor))
+		settings = { ...settings, ArrowRight: 'disabled' }
+	return { float: settings }
 }
 
 // keyPressToData takes a keyInfo event and a data object and returns a new data object.

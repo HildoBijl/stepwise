@@ -27,7 +27,7 @@ const defaultProps = {
 	initialData: getEmptyData(),
 	isEmpty: data => isEmpty(data.value),
 	JSXObject: Float,
-	cursorToKeyboardType,
+	keyboardSettings: dataToKeyboardSettings,
 	keyPressToData,
 	mouseClickToCursor,
 	getStartCursor,
@@ -44,9 +44,9 @@ export default function FloatInput(props) {
 	const mergedProps = {
 		...defaultProps,
 		keyPressToData: (keyInfo, data, contentsElement) => keyPressToData(keyInfo, data, contentsElement, positive, allowPower),
+		keyboardSettings: (data) => dataToKeyboardSettings(data, positive, allowPower),
 		...props,
 		className: clsx(props.className, classes.floatInput, 'floatInput'),
-		keyboardSettings: (data) => dataToKeyboardSettings(data, positive),
 	}
 
 	return <Input {...mergedProps} />
@@ -114,26 +114,26 @@ export function getEmptyData() {
 }
 
 // dataToKeyboardSettings takes a data object and determines what keyboard settings are appropriate.
-function dataToKeyboardSettings(data, positive) {
+function dataToKeyboardSettings(data, positive = false, allowPower = true) {
 	const { value, cursor } = data
-	let settings = {}
+	let settings = {
+		positive: !!positive,
+		allowPower: !!allowPower,
+	}
 	if (cursor && cursor.part === 'power') {
-		settings = { ...settings, '.': 'disabled', 'TenPower': 'disabled' }
+		settings['.'] = 'disabled'
+		settings.TenPower = 'disabled'
 	} else {
 		if (positive)
-			settings = { ...settings, '-': 'disabled' }
+			settings.Minus = 'disabled'
 	}
-	if (isCursorAtStart(value, cursor))
-		settings = { ...settings, Backspace: 'disabled', ArrowLeft: 'disabled' }
+	if (isCursorAtStart(value, cursor)) {
+		settings.Backspace = 'disabled'
+		settings.ArrowLeft = 'disabled'
+	}
 	if (isCursorAtEnd(value, cursor))
-		settings = { ...settings, ArrowRight: 'disabled' }
+		settings.ArrowRight = 'disabled'
 	return { float: settings }
-}
-
-// ToDo: remove.
-// cursorToKeyboardType takes a cursor object (where is the cursor) and determines which Android keyboard needs to be shown: 'number', 'text' or 'none'.
-export function cursorToKeyboardType(cursor) {
-	return 'number'
 }
 
 // keyPressToData takes a keyInfo event and a data object and returns a new data object.

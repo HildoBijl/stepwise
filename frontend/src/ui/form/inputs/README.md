@@ -180,7 +180,7 @@ When you want to create extra input fields, there are a LOT of things you need t
 - `initialData`: What is the initial data object? It is generally of the form `{ type: 'Float', value: { number: '314.159', power: '-2' }, cursor: { part: 'number', cursor: 4 } }`, where value and cursor can be very deep objects, if needed.
 - `isEmpty`: Gets a data object and checks whether it's empty. Is used to check if the placeholder should be shown.
 - `JSXObject`: Gets a `data` object expanded as its properties and renders JSX to be shown in the field contents.
-- `cursorToKeyboardType`: Gets a cursor object and returns `text`, `number` or `none`, indicating which keyboard needs to be shown on smartphones.
+- `keyboardSettings`: The settings that need to be applied for the site-based keyboard. It can be a function, receiving a `data` object and returning said keyboard settings.
 - `keyPressToData`: Gets `(keyInfo, data, contentsElement, fieldElement)` and needs to return, based on this information, the adjusted `data` object. Note: this includes both the `value` and the `cursor`.
 - `mouseClickToCursor`: Gets `(evt, data, contentsElement)` and needs to return, based on this information, an adjusted `cursor` object.
 - `getStartCursor`: Gets `(value, cursor)` and needs to determine what the leftmost (home) position of the `cursor` would be.

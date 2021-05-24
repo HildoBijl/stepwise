@@ -11,7 +11,7 @@ import { getEmpty, isEmpty } from 'step-wise/inputTypes/Unit/UnitArray'
 import { getClickSide } from 'util/dom'
 
 import { checkCursor } from './Input'
-import { UnitElement, cursorToKeyboardType as unitElementCursorToKeyboardType, keyPressToData as unitElementKeyPressToData, mouseClickToCursor as unitElementMouseClickToCursor, getStartCursor as getUnitElementStartCursor, getEndCursor as getUnitElementEndCursor, isCursorAtStart as isCursorAtUnitElementStart, isCursorAtEnd as isCursorAtUnitElementEnd } from './UnitElement'
+import { UnitElement, keyPressToData as unitElementKeyPressToData, mouseClickToCursor as unitElementMouseClickToCursor, getStartCursor as getUnitElementStartCursor, getEndCursor as getUnitElementEndCursor, isCursorAtStart as isCursorAtUnitElementStart, isCursorAtEnd as isCursorAtUnitElementEnd } from './UnitElement'
 
 // UnitArray takes an input data object and shows the corresponding contents as JSX render.
 export function UnitArray({ type, value, cursor }) {
@@ -39,11 +39,6 @@ export function getEmptyData() {
 		value: getEmpty(),
 		cursor: getStartCursor(),
 	}
-}
-
-// cursorToKeyboardType takes a cursor object (where is the cursor) and determines which Android keyboard needs to be shown: 'number', 'text' or 'none'.
-export function cursorToKeyboardType(cursor) {
-	return unitElementCursorToKeyboardType(cursor && cursor.cursor)
 }
 
 // keyPressToData takes a keyInfo event and a data object and returns a new data object.

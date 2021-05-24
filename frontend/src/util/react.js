@@ -82,8 +82,6 @@ export function useEventListener(eventName, handler, elements = window) {
 		}).filter(element => element) // Throw out non-existing elements or elements without an event listener.
 
 		// Add and remove event listeners.
-		console.log('Re!')
-		console.log(elements)
 		const redirectingHandler = (evt) => handlerRef.current(evt)
 		processedElements.forEach(element => element.addEventListener(eventName, redirectingHandler))
 		return () => {
