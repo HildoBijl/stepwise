@@ -6,7 +6,7 @@ import { selectRandomEmpty, selectRandomNegative } from 'step-wise/util/random'
 import { removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
 import { getEmpty, isEmpty, IOtoFO } from 'step-wise/inputTypes/Integer'
 
-import Input, { getStringJSX, getClickPosition } from './Input'
+import Input, { CharString, getClickPosition } from './Input'
 
 const defaultProps = {
 	placeholder: 'Geheel getal',
@@ -14,7 +14,7 @@ const defaultProps = {
 	validate: nonEmpty,
 	initialData: getEmptyData(),
 	isEmpty: data => isEmpty(data.value),
-	dataToContents,
+	JSXObject: Integer,
 	cursorToKeyboardType,
 	keyPressToData,
 	mouseClickToCursor,
@@ -60,11 +60,11 @@ export function positive(data) {
 		return selectRandomNegative()
 }
 
-// dataToContents takes an input data object and shows the corresponding contents as JSX render.
-export function dataToContents({ type, value, cursor }) {
+// Integer takes an input data object and shows the corresponding contents as JSX render.
+export function Integer({ type, value, cursor }) {
 	if (type !== 'Integer')
 		throw new Error(`Invalid type: tried to get the contents of an Integer field but got data for a type "${type}" field.`)
-	return getStringJSX(value, cursor)
+	return <CharString str={value} cursor={cursor} />
 }
 
 export function getEmptyData() {
@@ -123,7 +123,7 @@ export function keyPressToData(keyInfo, data, positive) {
 	}
 
 	// For the minus sign, flip the sign of the current part.
-	if (!positive && key === '-') {
+	if (!positive && (key === '-' || key === 'Minus')) {
 		if (value.slice(0, 1) === '-')
 			return { ...data, value: value.slice(1), cursor: Math.max(cursor - 1, 0) } // Remove a minus sign.
 		return { ...data, value: `-${value}`, cursor: cursor + 1 } // Add a minus sign.

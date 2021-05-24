@@ -5,34 +5,32 @@ import clsx from 'clsx'
 
 import { isNumber } from 'step-wise/util/numbers'
 import { removeAtIndex, insertAtIndex, isLetter } from 'step-wise/util/strings'
-import { getEmpty, isEmpty, process } from 'step-wise/inputTypes/Unit/UnitElement'
+import { getEmpty, process } from 'step-wise/inputTypes/Unit/UnitElement'
 
-import { getStringJSX, getClickPosition } from './Input'
+import { CharString, getClickPosition } from './Input'
 
-// dataToContents takes an input data object and shows the corresponding contents as JSX render.
-export function dataToContents({ type, value, cursor }) {
+// UnitElement takes an input data object and shows the corresponding contents as JSX render.
+export function UnitElement({ type, value, cursor }) {
 	// Check input.
 	if (type !== 'UnitElement')
 		throw new Error(`Invalid type: tried to get the contents of a UnitElement field but got data for a type "${type}" field.`)
-
-	// Check if anything should be shown.
-	if (isEmpty(value) && !cursor)
-		return null
 
 	// Set up the visuals in the right way.
 	const useFiller = (value.prefix === '' && value.unit === '' && (!cursor || cursor.part !== 'text'))
 	return (
 		<span className={clsx('unitElement', { valid: !value.invalid, invalid: value.invalid })}>
 			<span className="prefix">
-				{getStringJSX(value.prefix, cursor && cursor.part === 'text' && cursor.cursor <= value.prefix.length && cursor.cursor)}
+				<CharString str={value.prefix} cursor={cursor && cursor.part === 'text' && cursor.cursor <= value.prefix.length && cursor.cursor} />
 			</span>
 			<span className="baseUnit">
 				{useFiller ?
 					<span className={clsx('char', 'filler', 'filler-qm')} key='filler'>?</span> :
-					getStringJSX(value.unit, cursor && cursor.part === 'text' && cursor.cursor > value.prefix.length && cursor.cursor <= value.prefix.length + value.unit.length && cursor.cursor - value.prefix.length)
+					<CharString str={value.unit} cursor={cursor && cursor.part === 'text' && cursor.cursor > value.prefix.length && cursor.cursor <= value.prefix.length + value.unit.length && cursor.cursor - value.prefix.length} />
 				}
 			</span>
-			<span className="power">{getStringJSX(value.power, cursor && cursor.part === 'power' && cursor.cursor)}</span>
+			<span className="power">
+				<CharString str={value.power} cursor={cursor && cursor.part === 'power' && cursor.cursor} />
+			</span>
 		</span>
 	)
 }
@@ -101,7 +99,7 @@ export function keyPressToData(keyInfo, data) {
 	}
 
 	// For a power symbol move the cursor to the start of the power.
-	if (key === '^' && cursor.part === 'text') {
+	if ((key === '^' || key === 'Power') && cursor.part === 'text') {
 		return { ...data, cursor: { part: 'power', cursor: 0 } }
 	}
 

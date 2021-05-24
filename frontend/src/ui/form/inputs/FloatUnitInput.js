@@ -13,8 +13,8 @@ import { isEmpty as isUnitEmpty, isValid as isUnitValid } from 'step-wise/inputT
 import { getClickSide } from 'util/dom'
 
 import Input, { checkCursor } from './Input'
-import { style as floatStyle, nonEmpty as floatNonEmpty, dataToContents as floatDataToContents, cursorToKeyboardType as floatCursorToKeyboardType, keyPressToData as floatKeyPressToData, mouseClickToCursor as floatMouseClickToCursor, getStartCursor as getFloatStartCursor, getEndCursor as getFloatEndCursor, isCursorAtStart as isCursorAtFloatStart, isCursorAtEnd as isCursorAtFloatEnd } from './FloatInput'
-import { style as unitStyle, valid as unitValid, dataToContents as unitDataToContents, cursorToKeyboardType as unitCursorToKeyboardType, keyPressToData as unitKeyPressToData, mouseClickToCursor as unitMouseClickToCursor, getStartCursor as getUnitStartCursor, getEndCursor as getUnitEndCursor, isCursorAtStart as isCursorAtUnitStart, isCursorAtEnd as isCursorAtUnitEnd } from './UnitInput'
+import { style as floatStyle, nonEmpty as floatNonEmpty, Float, cursorToKeyboardType as floatCursorToKeyboardType, keyPressToData as floatKeyPressToData, mouseClickToCursor as floatMouseClickToCursor, getStartCursor as getFloatStartCursor, getEndCursor as getFloatEndCursor, isCursorAtStart as isCursorAtFloatStart, isCursorAtEnd as isCursorAtFloatEnd } from './FloatInput'
+import { style as unitStyle, valid as unitValid, Unit, cursorToKeyboardType as unitCursorToKeyboardType, keyPressToData as unitKeyPressToData, mouseClickToCursor as unitMouseClickToCursor, getStartCursor as getUnitStartCursor, getEndCursor as getUnitEndCursor, isCursorAtStart as isCursorAtUnitStart, isCursorAtEnd as isCursorAtUnitEnd } from './UnitInput'
 
 const style = (theme) => ({
 	'& .float': {
@@ -37,7 +37,7 @@ const defaultProps = {
 	validate: validNumberAndNonEmptyUnit,
 	initialData: getEmptyData(),
 	isEmpty: data => isEmpty(data.value),
-	dataToContents,
+	JSXObject: FloatUnit,
 	cursorToKeyboardType,
 	keyPressToData,
 	mouseClickToCursor,
@@ -99,8 +99,8 @@ export function validNumberAndNonEmptyUnit(data) { // The number and unit must b
 		])
 }
 
-// dataToContents takes an input data object and shows the corresponding contents as JSX render.
-export function dataToContents(data) {
+// FloatUnit takes an input data object and shows the corresponding contents as JSX render.
+export function FloatUnit(data) {
 	const { type, value, cursor } = data
 	const { float } = value
 
@@ -115,11 +115,22 @@ export function dataToContents(data) {
 	// Show the FloatUnit.
 	const showFloatFiller = isFloatEmpty(float) && (!cursor || cursor.part !== 'float')
 	return <>
-		<span className="float">{showFloatFiller ? <span className="char filler">?</span> : floatDataToContents(getFloatData(data))}</span>
-		{isUnitVisible(value, cursor) ? <>
-			<span className="spacer unitSpacer" />
-			<span className="unit">{unitDataToContents(getUnitData(data))}</span>
-		</> : null}
+		<span className="float">
+			{
+				showFloatFiller ?
+					<span className="char filler">?</span> :
+					<Float {...getFloatData(data)} />
+			}
+		</span>
+		{
+			isUnitVisible(value, cursor) ? (
+				<>
+					<span className="spacer unitSpacer" />
+					<span className="unit">
+						<Unit {...getUnitData(data)} />
+					</span>
+				</>
+			) : null}
 	</>
 }
 

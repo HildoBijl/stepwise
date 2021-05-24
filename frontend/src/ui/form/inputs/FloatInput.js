@@ -7,7 +7,7 @@ import { selectRandomEmpty, selectRandomNegative } from 'step-wise/util/random'
 import { removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
 import { getEmpty, isEmpty, IOtoFO } from 'step-wise/inputTypes/Float'
 
-import Input, { getStringJSX, getClickPosition } from './Input'
+import Input, { CharString, getClickPosition } from './Input'
 
 const style = (theme) => ({
 	'& .tenPowerContainer': {
@@ -26,7 +26,7 @@ const defaultProps = {
 	validate: nonEmpty,
 	initialData: getEmptyData(),
 	isEmpty: data => isEmpty(data.value),
-	dataToContents,
+	JSXObject: Float,
 	cursorToKeyboardType,
 	keyPressToData,
 	mouseClickToCursor,
@@ -81,8 +81,8 @@ export function positive(data) {
 		return selectRandomNegative()
 }
 
-// dataToContents takes an input data object and shows the corresponding contents as JSX render.
-export function dataToContents({ type, value, cursor }) {
+// Float takes an input data object and shows the corresponding contents as JSX render.
+export function Float({ type, value, cursor }) {
 	// Check input.
 	if (type !== 'Float')
 		throw new Error(`Invalid type: tried to get the contents of a Float field but got data for a type "${type}" field.`)
@@ -92,14 +92,13 @@ export function dataToContents({ type, value, cursor }) {
 	const showPower = power !== '' || (cursor && cursor.part === 'power')
 	return <>
 		<span className="number">
-			{getStringJSX(number, cursor && cursor.part === 'number' && cursor.cursor)}
+			<CharString str={number} cursor={cursor && cursor.part === 'number' && cursor.cursor} />
 		</span>
 		{!showPower ? null : <span className="tenPowerContainer">
-			{/* <span className="timesContainer"><span className="times" /></span> */}
 			<span className="char times">⋅</span>
 			<span className="char ten">10</span>
 			<span className="power">
-				{getStringJSX(power, cursor && cursor.part === 'power' && cursor.cursor)}
+				<CharString str={power} cursor={cursor && cursor.part === 'power' && cursor.cursor} />
 			</span>
 		</span>}
 	</>
@@ -149,7 +148,7 @@ export function keyPressToData(keyInfo, data, contentsElement, positive = defaul
 		return data
 
 	// For power, multiplication and E keys, move the cursor to the end of the power.
-	if (allowPower && (key === '^' || key === '*' || key === 'e' || key === 'E' || key === 'TenPower'))
+	if (allowPower && (key === '^' || key === 'Power' || key === '*' || key === 'Times' || key === 'e' || key === 'E' || key === 'TenPower'))
 		return { ...data, cursor: { part: 'power', cursor: power.length } }
 
 	// For left/right-arrows, home and end, adjust the cursor.
@@ -185,7 +184,7 @@ export function keyPressToData(keyInfo, data, contentsElement, positive = defaul
 	}
 
 	// For the minus sign, flip the sign of the current part.
-	if (key === '-' && (!positive || cursor.part === 'power')) {
+	if ((key === '-' || key === 'Minus') && (!positive || cursor.part === 'power')) {
 		if (value[cursor.part].slice(0, 1) === '-')
 			return { ...data, value: { ...value, [cursor.part]: value[cursor.part].slice(1) }, cursor: { ...cursor, cursor: Math.max(cursor.cursor - 1, 0) } } // Remove a minus sign.
 		return { ...data, value: { ...value, [cursor.part]: `-${value[cursor.part]}` }, cursor: { ...cursor, cursor: cursor.cursor + 1 } } // Add a minus sign.

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
@@ -32,14 +32,17 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function KeyboardLayout({ settings, keyFunction, keys, numColumns, numRows, styles }) {
+export default function KeyboardLayout({ settings, keyFunction, keys, numColumns, numRows, styles, widthToRowHeight }) {
 	// Determine the row height.
 	const keyboardLayoutRef = useRef()
-	const width = useWidthTracker(keyboardLayoutRef)
-	const rowHeight = width / numColumns
+	const width = useWidthTracker(keyboardLayoutRef, true)
+	const rowHeight = widthToRowHeight ? widthToRowHeight(width) : width / numColumns
 	const classes = useStyles({ rowHeight, numColumns, numRows, settings, styles })
+	const [buttonClickFunction, properties] = useButtonClickFunction(keyFunction)
 
-	// ToDo: implement styles.
+	// Check which keys are needed.
+	if (typeof keys === 'function')
+		keys = keys(properties)
 
 	return (
 		<div ref={keyboardLayoutRef} className={clsx(classes.keyboardLayout, 'keyboardLayout')}>
@@ -48,10 +51,31 @@ export default function KeyboardLayout({ settings, keyFunction, keys, numColumns
 					key={keyID} // For React.
 					keyID={keyID} // To pass to the object.
 					setting={typeof settings === 'object' ? settings[keyID] : undefined}
-					onClick={(evt) => keyFunction(keyID, evt)}
+					onClick={(evt) => buttonClickFunction(keyID, evt)}
 					rowHeight={rowHeight}
 					className={`key${keyID}`}
+					properties={properties}
 				/>))}
 		</div>
 	)
+}
+
+function useButtonClickFunction(keyFunction) {
+	// Set up states for various keys.
+	const [shift, setShift] = useState(false)
+
+	// Set up the button click function for each possible keyID.
+	const buttonClickFunction = (keyID, evt) => {
+		switch (keyID) {
+			case 'Shift':
+				setShift(shift => !shift)
+				return
+			default: // Regular key.
+				setShift(false)
+				return keyFunction({ key: keyID, shift }, evt)
+		}
+	}
+
+	// Return the button click function and the parameters.
+	return [buttonClickFunction, { shift }]
 }

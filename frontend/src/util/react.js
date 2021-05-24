@@ -82,6 +82,8 @@ export function useEventListener(eventName, handler, elements = window) {
 		}).filter(element => element) // Throw out non-existing elements or elements without an event listener.
 
 		// Add and remove event listeners.
+		console.log('Re!')
+		console.log(elements)
 		const redirectingHandler = (evt) => handlerRef.current(evt)
 		processedElements.forEach(element => element.addEventListener(eventName, redirectingHandler))
 		return () => {
@@ -111,7 +113,8 @@ export function useWidthTracker(fieldRef, forceUpdateOnChange = true) {
 	// Update the width on the initial render.
 	useEffect(() => {
 		updateWidth()
-		setTimeout(updateWidth, 0) // Add another update after rendering is done, since some things may change.
+		const timeout = setTimeout(updateWidth, 0) // Add another update after rendering is done, since some things may change.
+		return () => clearTimeout(timeout) // Cancel the update call when the component dismounts.
 	}, [updateWidth])
 
 	// Update the width whenever the window changes size.

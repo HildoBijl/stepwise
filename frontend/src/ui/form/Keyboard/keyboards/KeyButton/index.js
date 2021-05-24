@@ -45,11 +45,13 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function KeyButton({ keyID, className, setting, onClick }) {
+export default function KeyButton({ keyID, className, setting, onClick, properties }) {
+	if (setting === false)
+		setting = 'disabled'
 	const classes = useStyles({ setting })
 	return (
 		<Paper className={clsx(classes.keyButton, 'keyButton', className, setting)} elevation={4} onClick={setting === 'disabled' ? null : onClick}>
-			<KeyIcon keyID={keyID} />
+			<KeyIcon keyID={keyID} properties={properties} />
 		</Paper>
 	)
 }

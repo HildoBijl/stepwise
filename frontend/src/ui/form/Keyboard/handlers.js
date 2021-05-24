@@ -58,10 +58,10 @@ export default function useKeyboardHandlers(fieldTracker, tabOrder, tabIndexRef)
 	}, [fieldTracker, refreshKeyboard])
 
 	// keyFunction is a steady function (its reference doesn't change) that calls the key function of the currently active input field.
-	const keyFunction = useCallback((key, evt) => {
+	const keyFunction = useCallback((keyInfo, evt) => {
 		const keyboard = getKeyboard()
 		if (keyboard)
-			return keyboard.keyFunction(key, evt)
+			return keyboard.keyFunction(keyInfo, evt)
 	}, [getKeyboard])
 
 	return { keyboardSettings, getKeyboard, keyFunction, refreshKeyboard, storeKeyboard }

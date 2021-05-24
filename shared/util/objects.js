@@ -79,7 +79,7 @@ function filterOptions(allOptions, allowedOptions) {
 }
 module.exports.filterOptions = filterOptions
 
-// filterProperties filters the properties of an object based on the given arrays of keys. Only properties that are in the given array will be kept, and others will be remove. The original object is not adjusted: a new object is returned.
+// filterProperties filters the properties of an object based on the given arrays of keys. Only properties that are in the given array will be kept, and others will be removed. The original object is not adjusted: a new object is returned.
 function filterProperties(obj, allowedKeys) {
 	const res = {}
 	allowedKeys.forEach(key => {
@@ -89,3 +89,14 @@ function filterProperties(obj, allowedKeys) {
 	return res
 }
 module.exports.filterProperties = filterProperties
+
+// removeProperties removes the properties of an object given by an array of keys. All other properties are kept. The original object is not adjusted: a new object is returned.
+function removeProperties(obj, keysToRemove) {
+	keysToRemove = Array.isArray(keysToRemove) ? keysToRemove : [keysToRemove]
+	const res = { ...obj }
+	keysToRemove.forEach(key => {
+		delete res[key]
+	})
+	return res
+}
+module.exports.removeProperties = removeProperties

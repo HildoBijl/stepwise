@@ -11,8 +11,8 @@ export const tab = <M>1.23</M>
 // These are commonly used settings for the keyboard.
 export const settings = {
 	standard: { float: {} },
-	positive: { float: { '-': 'disabled' } },
-	minusDisabled: { float: { '.': 'disabled', 'TenPower': 'disabled' } },
+	positive: { float: { Minus: false } },
+	minusDisabled: { float: { '.': false, TenPower: false } },
 }
 
 export function Layout({ settings, keyFunction }) {
@@ -21,8 +21,8 @@ export function Layout({ settings, keyFunction }) {
 	const numColumns = smallScreen ? 8 : 16
 	const numRows = smallScreen ? 2 : 1
 	const keys = numRows === 1 ?
-		['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '.', 'TenPower', 'ArrowLeft', 'ArrowRight', 'Backspace'] :
-		['1', '2', '3', '4', '5', '-', 'TenPower', 'Backspace', '6', '7', '8', '9', '0', '.', 'ArrowLeft', 'ArrowRight']
+		['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'Minus', '.', 'TenPower', 'ArrowLeft', 'ArrowRight', 'Backspace'] :
+		['1', '2', '3', '4', '5', 'Minus', 'TenPower', 'Backspace', '6', '7', '8', '9', '0', '.', 'ArrowLeft', 'ArrowRight']
 
 	return <KeyboardLayout {...{
 		settings,

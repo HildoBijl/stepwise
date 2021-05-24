@@ -3,6 +3,7 @@ import * as greek from './greek'
 import * as int from './int'
 import * as text from './text'
 import * as unit from './unit'
+import * as unitText from './unitText'
 
 // This is an object containing all keyboards, for easy loading.
 const keyboards = {
@@ -11,6 +12,7 @@ const keyboards = {
 	int,
 	text,
 	unit,
+	unitText,
 }
 export default keyboards
 
@@ -21,4 +23,5 @@ export const tabs = [
 	'unit',
 	'text',
 	'greek',
+	'unitText',
 ]

@@ -54,7 +54,7 @@ export default function FieldController({ children }) {
 	const updateTabOrder = useCallback(() => {
 		const newTabOrder = getTabOrder(controllerRef.current, fieldTracker.current)
 		const oldTabOrder = tabOrder.current // This will change before the state change is finished.
-		setTabIndex(tabIndex => oldTabOrder[tabIndex] ? newTabOrder.indexOf(oldTabOrder[tabIndex]) : -1) // Adjust the tab index to keep the active field identical if there was an active field.
+		setTabIndex(tabIndex => (oldTabOrder && oldTabOrder[tabIndex] ? newTabOrder.indexOf(oldTabOrder[tabIndex]) : -1)) // Adjust the tab index to keep the active field identical if there was an active field.
 		tabOrder.current = newTabOrder
 	}, [controllerRef, fieldTracker, tabOrder, setTabIndex])
 
