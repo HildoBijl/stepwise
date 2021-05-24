@@ -18,13 +18,14 @@ export const settings = {
 export function Layout({ settings, keyFunction }) {
 	settings = useCurrentOrPrevious(settings) // When the settings turn to null, use the previous one for display purposes.
 	const smallScreen = !useMediaQuery(theme => theme.breakpoints.up('sm'))
-	const numColumns = smallScreen ? 8 : 16
+	const numColumns = smallScreen ? 8 : (settings.allowPower ? 16 : (settings.positive ? 14 : 15))
 	const numRows = smallScreen ? 2 : 1
 	const keys = numRows === 1 ?
 		['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'Minus', '.', 'TenPower', 'ArrowLeft', 'ArrowRight', 'Backspace'] :
 		['1', '2', '3', '4', '5', 'Minus', 'TenPower', 'Backspace', '6', '7', '8', '9', '0', '.', 'ArrowLeft', 'ArrowRight']
 
 	// Define extra styles for properly displaying the backspace button when positive is true and/or allowPower is true.
+	console.log(settings)
 	const styles = ({ settings, numRows }) => ({
 		'& .keyBackspace': {
 			gridColumn: numRows === 1 ? 'auto' : (

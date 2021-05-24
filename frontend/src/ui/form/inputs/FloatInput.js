@@ -114,13 +114,13 @@ export function getEmptyData() {
 }
 
 // dataToKeyboardSettings takes a data object and determines what keyboard settings are appropriate.
-function dataToKeyboardSettings(data, positive = false, allowPower = true) {
+export function dataToKeyboardSettings(data, positive = false, allowPower = true) {
 	const { value, cursor } = data
 	let settings = {
 		positive: !!positive,
 		allowPower: !!allowPower,
 	}
-	if (cursor && cursor.part === 'power') {
+	if (cursor.part === 'power') {
 		settings['.'] = 'disabled'
 		settings.TenPower = 'disabled'
 	} else {

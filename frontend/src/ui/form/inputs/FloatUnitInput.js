@@ -13,8 +13,8 @@ import { isEmpty as isUnitEmpty, isValid as isUnitValid } from 'step-wise/inputT
 import { getClickSide } from 'util/dom'
 
 import Input, { checkCursor } from './Input'
-import { style as floatStyle, nonEmpty as floatNonEmpty, Float, keyPressToData as floatKeyPressToData, mouseClickToCursor as floatMouseClickToCursor, getStartCursor as getFloatStartCursor, getEndCursor as getFloatEndCursor, isCursorAtStart as isCursorAtFloatStart, isCursorAtEnd as isCursorAtFloatEnd } from './FloatInput'
-import { style as unitStyle, valid as unitValid, Unit, keyPressToData as unitKeyPressToData, mouseClickToCursor as unitMouseClickToCursor, getStartCursor as getUnitStartCursor, getEndCursor as getUnitEndCursor, isCursorAtStart as isCursorAtUnitStart, isCursorAtEnd as isCursorAtUnitEnd } from './UnitInput'
+import { style as floatStyle, nonEmpty as floatNonEmpty, Float, dataToKeyboardSettings as floatDataToKeyboardSettings, keyPressToData as floatKeyPressToData, mouseClickToCursor as floatMouseClickToCursor, getStartCursor as getFloatStartCursor, getEndCursor as getFloatEndCursor, isCursorAtStart as isCursorAtFloatStart, isCursorAtEnd as isCursorAtFloatEnd } from './FloatInput'
+import { style as unitStyle, valid as unitValid, Unit, dataToKeyboardSettings as unitDataToKeyboardSettings, keyPressToData as unitKeyPressToData, mouseClickToCursor as unitMouseClickToCursor, getStartCursor as getUnitStartCursor, getEndCursor as getUnitEndCursor, isCursorAtStart as isCursorAtUnitStart, isCursorAtEnd as isCursorAtUnitEnd } from './UnitInput'
 
 const style = (theme) => ({
 	'& .float': {
@@ -144,21 +144,27 @@ export function getEmptyData() {
 }
 
 // dataToKeyboardSettings takes a data object and determines what keyboard settings are appropriate.
-function dataToKeyboardSettings(data, positive = false, allowPower = true) {
-	// TODO
+export function dataToKeyboardSettings(data, positive = false, allowPower = true) {
 	const { value, cursor } = data
-	let settings = {}
-	if (cursor && cursor.part === 'power') {
-		settings = { ...settings, '.': 'disabled', 'TenPower': 'disabled' }
-	} else {
-		if (positive)
-			settings = { ...settings, '-': 'disabled' }
+
+	// In the float?
+	if (cursor.part === 'float') {
+		const settings = floatDataToKeyboardSettings({ value: value.float, cursor: cursor.cursor }, positive, allowPower)
+		settings.unitText = {}
+		settings.tab = 'float'
+		return settings
 	}
-	if (isCursorAtStart(value, cursor))
-		settings = { ...settings, Backspace: 'disabled', ArrowLeft: 'disabled' }
-	if (isCursorAtEnd(value, cursor))
-		settings = { ...settings, ArrowRight: 'disabled' }
-	return { float: settings }
+
+	// We're in the unit.
+	const settings = unitDataToKeyboardSettings({ value: value.unit, cursor: cursor.cursor })
+	settings.float = {
+		...settings.int,
+		TenPower: false,
+		'.': false,
+	}
+	delete settings.int
+	settings.tab = (settings.tab === 'int' ? 'float' : 'unitText')
+	return settings
 }
 
 // keyPressToData takes a keyInfo event and a data object and returns a new data object.

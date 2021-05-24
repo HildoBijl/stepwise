@@ -218,7 +218,7 @@ export function getEmptyData() {
 }
 
 // dataToKeyboardSettings takes a data object and determines what keyboard settings are appropriate.
-function dataToKeyboardSettings(data) {
+export function dataToKeyboardSettings(data) {
 	const { value: unit, cursor: unitCursor } = data
 	const unitArray = unit[unitCursor.part]
 	const unitArrayCursor = unitCursor.cursor
