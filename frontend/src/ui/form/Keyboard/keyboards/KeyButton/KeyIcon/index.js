@@ -1,9 +1,14 @@
 import React from 'react'
-import { Remove as Minus, ArrowBack as ArrowLeft, ArrowForward as ArrowRight, ArrowUpward as ArrowUp, ArrowDownward as ArrowDown, Backspace } from '@material-ui/icons'
+import { ArrowBack as ArrowLeft, ArrowForward as ArrowRight, ArrowUpward as ArrowUp, ArrowDownward as ArrowDown, Backspace } from '@material-ui/icons'
 
 import Character from './Character'
 import Shift from './Shift'
 import TenPower from './TenPower'
+import Plus from './Plus'
+import Minus from './Minus'
+import Times from './Times'
+import Divide from './Divide'
+import Power from './Power'
 
 // KeyIcon displays the icon for a given key.
 export default function KeyIcon({ keyID, properties }) {
@@ -14,13 +19,13 @@ export default function KeyIcon({ keyID, properties }) {
 	const { shift } = properties
 	switch (keyID) {
 		case 'ArrowLeft':
-			return <ArrowLeft />
+			return <ArrowLeft style={{ transform: 'scale(0.9)' }} />
 		case 'ArrowRight':
-			return <ArrowRight />
+			return <ArrowRight style={{ transform: 'scale(0.9)' }} />
 		case 'ArrowUp':
-			return <ArrowUp />
+			return <ArrowUp style={{ transform: 'scale(0.9)' }} />
 		case 'ArrowDown':
-			return <ArrowDown />
+			return <ArrowDown style={{ transform: 'scale(0.9)' }} />
 		case 'Backspace':
 			return <Backspace style={{ transform: 'scale(0.75)' }} /> // The backspace icon is for some reason overly large.
 		case 'TenPower':
@@ -30,16 +35,16 @@ export default function KeyIcon({ keyID, properties }) {
 		case 'Shift':
 			return <Shift full={shift} style={{ transform: 'scale(0.75)' }} />
 		case 'Plus':
-			return <Character char='+' /> // ToDo: implement this.
+			return <Plus />
 		case '-':
 		case 'Minus':
 			return <Minus />
 		case 'Times':
-			return <Character char='*' /> // ToDo: implement this.
+			return <Times />
 		case 'Divide':
-			return <Character char='/' /> // ToDo: implement this.
+			return <Divide />
 		case 'Power':
-			return <Character char='^' /> // ToDo: implement this.
+			return <Power />
 		default:
 		// On other keys, try the things below.
 	}

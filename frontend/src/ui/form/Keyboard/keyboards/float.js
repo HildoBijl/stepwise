@@ -25,7 +25,6 @@ export function Layout({ settings, keyFunction }) {
 		['1', '2', '3', '4', '5', 'Minus', 'TenPower', 'Backspace', '6', '7', '8', '9', '0', '.', 'ArrowLeft', 'ArrowRight']
 
 	// Define extra styles for properly displaying the backspace button when positive is true and/or allowPower is true.
-	console.log(settings)
 	const styles = ({ settings, numRows }) => ({
 		'& .keyBackspace': {
 			gridColumn: numRows === 1 ? 'auto' : (
