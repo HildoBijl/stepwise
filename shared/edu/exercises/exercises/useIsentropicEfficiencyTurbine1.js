@@ -1,7 +1,7 @@
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd } = require('../../../skillTracking')
 const { checkParameter } = require('../util/check')
+const { getCycle } = require('./support/steamTurbineCycle')
 
 const data = {
 	skill: 'useIsentropicEfficiency',
@@ -17,25 +17,10 @@ const data = {
 }
 
 function generateState() {
-	// ToDo later: use steam installation support function.	
-	const etai = getRandomFloatUnit({
-		min: 0.86,
-		max: 0.98,
-		unit: '',
-	})
-	const h1 = getRandomFloatUnit({
-		min: 3100,
-		max: 3600,
-		decimals: -1,
-		unit: 'kJ/kg',
-	}).setDecimals(0)
-	const h2p = getRandomFloatUnit({
-		min: 2300,
-		max: 2600,
-		decimals: -1,
-		unit: 'kJ/kg',
-	}).setDecimals(0)
-	const h2 = h1.subtract(h1.subtract(h2p).multiply(etai)).setDecimals(-1).roundToPrecision().setDecimals(0)
+	let { h2: h1, h3p: h2p, h3: h2 } = getCycle() // Cycle indices.
+	h1 = h1.setDecimals(-1).roundToPrecision().setDecimals(0)
+	h2p = h2p.setDecimals(-1).roundToPrecision().setDecimals(0)
+	h2 = h2.setDecimals(-1).roundToPrecision().setDecimals(0)
 	return { h1, h2p, h2 }
 }
 
