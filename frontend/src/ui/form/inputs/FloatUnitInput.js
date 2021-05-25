@@ -149,22 +149,38 @@ export function dataToKeyboardSettings(data, positive = false, allowPower = true
 
 	// In the float?
 	if (cursor.part === 'float') {
-		const settings = floatDataToKeyboardSettings({ value: value.float, cursor: cursor.cursor }, positive, allowPower)
-		settings.unitText = {}
-		settings.tab = 'float'
-		return settings
+		const floatCursor = cursor.cursor
+		const floatSettings = floatDataToKeyboardSettings({ value: value.float, cursor: cursor.cursor }, positive, allowPower)
+		return {
+			float: {
+				...floatSettings.float,
+				ArrowRight: true,
+			},
+			unitText: {
+				ArrowDown: false,
+				ArrowUp: false,
+				Power: false,
+				Times: floatCursor.part === 'number',
+			},
+			tab: 'float',
+		}
 	}
 
-	// We're in the unit.
-	const settings = unitDataToKeyboardSettings({ value: value.unit, cursor: cursor.cursor })
-	settings.float = {
-		...settings.int,
-		TenPower: false,
-		'.': false,
+	// In the unit.
+	const unitSettings = unitDataToKeyboardSettings({ value: value.unit, cursor: cursor.cursor })
+	return {
+		unitText: {
+			...unitSettings.unitText,
+			ArrowLeft: true,
+			Backspace: true,
+		},
+		float: {
+			...unitSettings.int,
+			TenPower: false,
+			'.': false,
+		},
+		tab: (unitSettings.tab === 'int' ? 'float' : 'unitText'),
 	}
-	delete settings.int
-	settings.tab = (settings.tab === 'int' ? 'float' : 'unitText')
-	return settings
 }
 
 // keyPressToData takes a keyInfo event and a data object and returns a new data object.
