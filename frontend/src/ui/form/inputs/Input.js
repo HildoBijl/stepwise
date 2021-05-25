@@ -4,9 +4,8 @@ import clsx from 'clsx'
 
 import { isObject, applyToEachParameter } from 'step-wise/util/objects'
 import { isNumber, boundTo } from 'step-wise/util/numbers'
-import { noop } from 'step-wise/util/functions'
 
-import { resetFocus, getCoordinatesOf, ignoreBackspaceEvent, ignoreHomeEndEvent, getClickSide } from 'util/dom'
+import { getCoordinatesOf, preventDefaultOnKeys, getClickSide } from 'util/dom'
 import { useEventListener, useWidthTracker, useRefWithValue } from 'util/react'
 import { latexMinus, decimalSeparator } from 'ui/components/equations'
 import { notSelectable } from 'ui/theme'
@@ -16,7 +15,7 @@ import Cursor from './Cursor'
 import { useFieldFeedback } from '../FeedbackProvider'
 import { useFormParameter, useCursorRef } from '../Form'
 import { useStatus } from '../Status'
-import { useFieldControl } from '../FieldController'
+import { useFieldRegistration, useFieldActivation, useKeyboardRef } from '../FieldController'
 
 // Field definitions.
 const height = 3.2 // em
@@ -172,20 +171,6 @@ const useStyles = makeStyles((theme) => ({
 					height: `${border}em`,
 					top: `${-border}em`,
 				},
-
-				// Style the hidden fields: make them hidden. These are used to make sure input for smartphones works properly.
-				'& .hidden': {
-					background: 'transparent',
-					border: 0,
-					display: 'block', // Has to be displayed for this to work.
-					height: 0,
-					left: 0,
-					opacity: 0,
-					padding: 0,
-					position: 'absolute',
-					top: 0,
-					width: 0,
-				},
 			},
 
 			// Style the feedback text: the text that is below the input field.
@@ -248,7 +233,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Input(props) {
 	// Gather properties.
 	let { id, prelabel, label, placeholder, feedbackText, className, size, validate, readOnly, autofocus, persistent } = props // User-defined props that are potentially passed on.
-	let { initialData, isEmpty, dataToContents, cursorToKeyboardType, keyPressToData, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart } = props // Field-defined props that vary per field type.
+	let { initialData, isEmpty, JSXObject, keyPressToData, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart, keyboardSettings } = props // Field-defined props that vary per field type.
 
 	// Check properties.
 	if (!id)
@@ -259,7 +244,6 @@ export default function Input(props) {
 	const contentsContainerRef = useRef()
 	const contentsRef = useRef()
 	const labelRef = useRef()
-	const hiddenFieldRef = useRef({ text: useRef(), number: useRef() })
 
 	// Determine element widths.
 	const fieldWidth = useWidthTracker(fieldRef)
@@ -272,7 +256,6 @@ export default function Input(props) {
 	const { feedback } = useFieldFeedback({ fieldId: id, validate, feedbackText })
 	const { done } = useStatus()
 	readOnly = (readOnly === undefined ? done : readOnly)
-	const [active] = useFieldControl({ id, ref: fieldRef, apply: !readOnly, autofocus })
 
 	// Ensure that there is a cursor. This may be missing when the form just got previously submitted data from the server.
 	useEffect(() => {
@@ -280,10 +263,16 @@ export default function Input(props) {
 			setData({ ...data, cursor: getEndCursor(data.value, data.cursor) })
 	}, [data, setData, getEndCursor])
 
-	// Set up necessary effects.
-	useKeyboardSelection(() => cursorToKeyboardType(data.cursor), hiddenFieldRef, active)
+	// Register the field for tabbing and for a keyboard.
 	const processKeyPress = useCallback(keyInfo => setData(data => keyPressToData(keyInfo, data, contentsRef.current)), [setData, keyPressToData, contentsRef])
-	useKeyProcessing(processKeyPress, Object.values(hiddenFieldRef.current), active)
+	const keyboard = keyboardSettings ? {
+		keyFunction: (keyInfo) => processKeyPress(keyInfo),
+		settings: typeof keyboardSettings === 'function' ? keyboardSettings(data) : keyboardSettings, // keyboardSettings may be a function, taking data and giving settings.
+	} : null // When no settings are provided, no keyboard needs to be shown.
+	const [active] = useFieldRegistration({ id, ref: fieldRef, apply: !readOnly, autofocus, keyboard })
+
+	// Set up necessary effects.
+	useKeyProcessing(processKeyPress, active)
 	useMouseClickProcessing(id, mouseClickToCursor, setData, contentsRef, fieldRef, getStartCursor, getEndCursor)
 	useContentSliding(contentsRef, contentsContainerRef)
 
@@ -311,7 +300,6 @@ export default function Input(props) {
 
 	// Render the input field and its contents.
 	const Icon = feedback && feedback.Icon
-	const contents = dataToContents({ ...data, cursor: active ? data.cursor : null })
 	return (
 		<div className={clsx(classes.input, className)}>
 			<div className="prelabel">
@@ -321,7 +309,9 @@ export default function Input(props) {
 				<div className="field" ref={fieldRef}>
 					<div className="contentsOuterContainer">
 						<div className="contentsInnerContainer" ref={contentsContainerRef}>
-							<span className={classes.contents} ref={contentsRef}>{contents}</span>
+							<span className={classes.contents} ref={contentsRef}>
+								<JSXObject {...data} cursor={active ? data.cursor : null} />
+							</span>
 							<span className="placeholder">{placeholder}</span>
 						</div>
 						<div className="icon">{Icon ? <Icon /> : null}</div>
@@ -334,8 +324,6 @@ export default function Input(props) {
 					</div>
 					<div className="hider glowHider" />
 					<div className="hider borderHider" />
-					<input type="text" className="hidden" ref={hiddenFieldRef.current.text} value="" onChange={noop} />
-					<input type="number" className="hidden" ref={hiddenFieldRef.current.number} value="" onChange={noop} />
 				</div>
 				<div className="feedbackText">{feedback && feedback.text}</div>
 			</div>
@@ -343,69 +331,35 @@ export default function Input(props) {
 	)
 }
 
-// useKeyboardSelection applies an effect that properly manages the keyboard that is shown on smartphones. It does this by given the correct hidden input field the focus and blurring the others.
-function useKeyboardSelection(getKeyboardType, hiddenFieldRef, apply = true) {
-	useEffect(() => {
-		// Make sure the right hidden input field is focused and the others are blurred.
-		const hiddenFields = hiddenFieldRef.current
-		const keyboardType = apply ? ((getKeyboardType && getKeyboardType()) || 'text') : 'none' // If no function is specified, assume we want a regular text input.
-
-		Object.keys(hiddenFields).forEach(key => {
-			const field = hiddenFields[key].current
-			if (!field)
-				return
-			if (key === keyboardType)
-				setTimeout(() => field.focus()) // For some reason we need to timeout the focus, or otherwise it won't activate on the first click after changing fields.
-			else
-				field.blur()
-		})
-	})
-}
-
-// useKeyProcessing uses an effect to listen for key presses. It gets a key press processing function, which should have as arguments a keyInfo object, a data object and (optionally) a contentsElement object, and should return a new data object. This function makes sure that the given processKeyPress function is called. A listening object can also be passed along, or an array of such objects. If this is done, and it's an input field, we can also listen to smartphone inputs.
-function useKeyProcessing(processKeyPress, listeningObject = window, apply = true) {
-	listeningObject = apply ? listeningObject : [] // When not active, don't listen to keys.
-	const keyDownProcessedRef = useRef(false) // Keep track if we managed to decipher the keydown event.
+// useKeyProcessing uses an effect to listen for key presses. It gets a key press processing function, which should have as arguments a keyInfo object, a data object and (optionally) a contentsElement object, and should return a new data object. This function makes sure that the given processKeyPress function is called.
+function useKeyProcessing(processKeyPress, apply = true) {
 	const submit = useSubmitAction()
-
-	// Set up the handler for key down events. This one works for most of the events, but on smartphones there are some events it can't figure out.
 	const keyDownHandler = useCallback(evt => {
-		ignoreBackspaceEvent(evt) // A Firefox fix.
-		ignoreHomeEndEvent(evt)
+		preventDefaultOnKeys(evt, ['Backspace', 'Home', 'End', 'ArrowUp', 'ArrowDown'])
 		submitOnEnter(evt, submit)
-		resetFocus(evt.target) // A trick to allow the Backspace key to consistently be detected on Android.
-		keyDownProcessedRef.current = (evt.key !== 'Unidentified')
-		if (keyDownProcessedRef.current) {
-			const keyInfo = { evt, key: evt.key, shift: evt.shiftKey || false, ctrl: evt.ctrlKey || false, alt: evt.altKey || false }
-			processKeyPress(keyInfo)
-		}
-	}, [processKeyPress, keyDownProcessedRef, submit])
-
-	// Set up the handler for input events. This one is the fallback for smartphones.
-	const inputHandler = useCallback(evt => {
-		if (!keyDownProcessedRef.current) {
-			const keyInfo = { evt, key: evt.data || 'Backspace', shift: evt.shiftKey || false, ctrl: evt.ctrlKey || false, alt: evt.altKey || false } // When we don't understand this key either, it's usually a backspace. Assume it is the case.
-			processKeyPress(keyInfo)
-		}
-	}, [processKeyPress, keyDownProcessedRef])
-
-	// Apply the listeners in the appropriate way.
+		const keyInfo = { evt, key: evt.key, shift: evt.shiftKey || false, ctrl: evt.ctrlKey || false, alt: evt.altKey || false }
+		processKeyPress(keyInfo)
+	}, [processKeyPress, submit])
+	const listeningObject = apply ? window : [] // When not active, don't listen to keys.
 	useEventListener('keydown', keyDownHandler, listeningObject)
-	useEventListener('beforeinput', inputHandler, listeningObject)
 }
 
 // useMouseClickProcessing sets up listeners for mouse clicks and calls the processing function accordingly. The mouseClickToCursor must be a function which receives an event, the input data, a contents object and a field object, and uses that to determine the new cursor position.
 function useMouseClickProcessing(fieldId, mouseClickToCursor, setData, contentsRef, fieldRef, getStartCursor, getEndCursor) {
-	const [active, activate, deactivate] = useFieldControl({ id: fieldId })
+	const [active, activate, deactivate] = useFieldActivation(fieldId)
 	const activeRef = useRefWithValue(active)
 	const cursorRef = useCursorRef()
+	const keyboardRef = useKeyboardRef()
 
 	// Set up the click handler.
 	const mouseClickHandler = useCallback(evt => {
 		// Manage the field status.
 		if (fieldRef.current.contains(evt.target)) {
-			if (!activeRef.current)
+			if (!activeRef.current) {
 				activate()
+			}
+		} else if (keyboardRef.current.contains(evt.target)) {
+			return // Do not change the focus when the user clicks on the keyboard.
 		} else {
 			if (activeRef.current) {
 				deactivate()
@@ -437,7 +391,7 @@ function useMouseClickProcessing(fieldId, mouseClickToCursor, setData, contentsR
 			const cursor = mouseClickToCursor(evt, data, contentsRef.current, fieldRef.current)
 			return checkCursor(cursor) ? { ...data, cursor } : data
 		})
-	}, [activeRef, activate, deactivate, mouseClickToCursor, contentsRef, fieldRef, cursorRef, setData, getStartCursor, getEndCursor])
+	}, [activeRef, activate, deactivate, mouseClickToCursor, contentsRef, fieldRef, keyboardRef, cursorRef, setData, getStartCursor, getEndCursor])
 
 	// When we're active, listen for clicks in the entire window, so we can also deactivate this element. Otherwise listen only inside this field, in case it's activated.
 	const listeningObject = (active ? window : fieldRef)
@@ -474,8 +428,8 @@ function useContentSliding(contentsRef, contentsContainerRef) {
 	})
 }
 
-// getStringJSX takes a string, turns it into an array of JSX char elements and returns it. If a cursor position (a number) is given, then the cursor is put in that position.
-export function getStringJSX(str, cursor = false) {
+// CharString takes a string, turns it into an array of JSX char elements and returns it. If a cursor position (a number) is given, then the cursor is put in that position.
+export function CharString({ str, cursor = false }) {
 	// Check the input.
 	if (cursor && !isNumber(cursor))
 		throw new Error(`Invalid cursor position: the cursor position has to be a number, but its value was "${cursor}".`)
@@ -490,7 +444,7 @@ export function getStringJSX(str, cursor = false) {
 	const chars = str.split('').map((char, ind) => <span className="char" key={ind}>{char}</span>)
 	if (cursor || cursor === 0)
 		chars.splice(cursor, 0, <Cursor key="cursor" />)
-	return chars
+	return <>{chars}</>
 }
 
 // submitOnEnter checks if an event is an enter key press. If so, it submits the exercise.

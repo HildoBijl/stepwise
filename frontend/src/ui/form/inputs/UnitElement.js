@@ -5,34 +5,34 @@ import clsx from 'clsx'
 
 import { isNumber } from 'step-wise/util/numbers'
 import { removeAtIndex, insertAtIndex, isLetter } from 'step-wise/util/strings'
-import { getEmpty, isEmpty, process } from 'step-wise/inputTypes/Unit/UnitElement'
+import { getEmpty, process } from 'step-wise/inputTypes/Unit/UnitElement'
+import { units } from 'step-wise/inputTypes/Unit/units'
+import { prefixes } from 'step-wise/inputTypes/Unit/prefixes'
 
-import { getStringJSX, getClickPosition } from './Input'
+import { CharString, getClickPosition } from './Input'
 
-// dataToContents takes an input data object and shows the corresponding contents as JSX render.
-export function dataToContents({ type, value, cursor }) {
+// UnitElement takes an input data object and shows the corresponding contents as JSX render.
+export function UnitElement({ type, value, cursor }) {
 	// Check input.
 	if (type !== 'UnitElement')
 		throw new Error(`Invalid type: tried to get the contents of a UnitElement field but got data for a type "${type}" field.`)
-
-	// Check if anything should be shown.
-	if (isEmpty(value) && !cursor)
-		return null
 
 	// Set up the visuals in the right way.
 	const useFiller = (value.prefix === '' && value.unit === '' && (!cursor || cursor.part !== 'text'))
 	return (
 		<span className={clsx('unitElement', { valid: !value.invalid, invalid: value.invalid })}>
 			<span className="prefix">
-				{getStringJSX(value.prefix, cursor && cursor.part === 'text' && cursor.cursor <= value.prefix.length && cursor.cursor)}
+				<CharString str={value.prefix} cursor={cursor && cursor.part === 'text' && cursor.cursor <= value.prefix.length && cursor.cursor} />
 			</span>
 			<span className="baseUnit">
 				{useFiller ?
 					<span className={clsx('char', 'filler', 'filler-qm')} key='filler'>?</span> :
-					getStringJSX(value.unit, cursor && cursor.part === 'text' && cursor.cursor > value.prefix.length && cursor.cursor <= value.prefix.length + value.unit.length && cursor.cursor - value.prefix.length)
+					<CharString str={value.unit} cursor={cursor && cursor.part === 'text' && cursor.cursor > value.prefix.length && cursor.cursor <= value.prefix.length + value.unit.length && cursor.cursor - value.prefix.length} />
 				}
 			</span>
-			<span className="power">{getStringJSX(value.power, cursor && cursor.part === 'power' && cursor.cursor)}</span>
+			<span className="power">
+				<CharString str={value.power} cursor={cursor && cursor.part === 'power' && cursor.cursor} />
+			</span>
 		</span>
 	)
 }
@@ -46,21 +46,20 @@ export function getEmptyData() {
 	}
 }
 
-// cursorToKeyboardType takes a cursor object (where is the cursor) and determines which Android keyboard needs to be shown: 'number', 'text' or 'none'.
-export function cursorToKeyboardType(cursor) {
-	return cursor && cursor.part === 'power' ? 'number' : 'text'
-}
-
 // keyPressToData takes a keyInfo event and a data object and returns a new data object.
 export function keyPressToData(keyInfo, data) {
 	// Let's walk through a large variety of cases and see what's up.
-	const { key, ctrl, alt } = keyInfo
+	let { key, ctrl, alt } = keyInfo
 	const { value, cursor } = data
 	const { prefix, unit, power } = value
 
 	// Ignore ctrl/alt keys.
 	if (ctrl || alt)
 		return data
+
+	// The meter key counts as an m.
+	if (key === 'Meter')
+		key = 'm'
 
 	// For left/right-arrows, home and end, adjust the cursor.
 	if (key === 'ArrowLeft') {
@@ -101,14 +100,14 @@ export function keyPressToData(keyInfo, data) {
 	}
 
 	// For a power symbol move the cursor to the start of the power.
-	if (key === '^' && cursor.part === 'text') {
+	if ((key === '^' || key === 'Power') && cursor.part === 'text') {
 		return { ...data, cursor: { part: 'power', cursor: 0 } }
 	}
 
-	// For letters add them to the unit.
-	if (isLetter(key) || key === '%') {
+	// For letters and base units add them to the unit.
+	if (isLetter(key) || Object.keys(units).includes(key) || Object.keys(prefixes).includes(key)) {
 		const addAt = cursor.part === 'text' ? cursor.cursor : prefix.length + unit.length
-		return { ...data, ...process({ text: insertAtIndex(prefix + unit, key, addAt), power }, { part: 'text', cursor: addAt + 1 }) }
+		return { ...data, ...process({ text: insertAtIndex(prefix + unit, key, addAt), power }, { part: 'text', cursor: addAt + key.length }) }
 	}
 
 	// For numbers add them to the power.

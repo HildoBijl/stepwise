@@ -11,6 +11,12 @@ export function usePrevious(value) {
 	return ref.current
 }
 
+// useCurrentOrPrevious will check if the current object still exists. If not, the previous one is used. This is useful for keeping the layout intact while an object slides into hiding.
+export function useCurrentOrPrevious(value) {
+	const previousValue = usePrevious(value)
+	return value || previousValue
+}
+
 // useCounter is a function that returns [counter, increment], where counter is an integer and increment is a function that, when called, increments said counter.
 export function useCounter(initialValue = 0) {
 	const [counter, setCounter] = useState(initialValue)
@@ -105,7 +111,8 @@ export function useWidthTracker(fieldRef, forceUpdateOnChange = true) {
 	// Update the width on the initial render.
 	useEffect(() => {
 		updateWidth()
-		setTimeout(updateWidth, 0) // Add another update after rendering is done, since some things may change.
+		const timeout = setTimeout(updateWidth, 0) // Add another update after rendering is done, since some things may change.
+		return () => clearTimeout(timeout) // Cancel the update call when the component dismounts.
 	}, [updateWidth])
 
 	// Update the width whenever the window changes size.

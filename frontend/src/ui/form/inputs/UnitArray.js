@@ -1,6 +1,6 @@
 // UnitArray represents a multiplication of unit elements like "km^3 * s^2 * N", but not a division like "m / s". It is not an input field but its functionality is used by other input fields.
 
-import React from 'react'
+import React, { Fragment } from 'react'
 
 import { isNumber } from 'step-wise/util/numbers'
 import { isLetter } from 'step-wise/util/strings'
@@ -11,10 +11,10 @@ import { getEmpty, isEmpty } from 'step-wise/inputTypes/Unit/UnitArray'
 import { getClickSide } from 'util/dom'
 
 import { checkCursor } from './Input'
-import { dataToContents as unitElementDataToContents, cursorToKeyboardType as unitElementCursorToKeyboardType, keyPressToData as unitElementKeyPressToData, mouseClickToCursor as unitElementMouseClickToCursor, getStartCursor as getUnitElementStartCursor, getEndCursor as getUnitElementEndCursor, isCursorAtStart as isCursorAtUnitElementStart, isCursorAtEnd as isCursorAtUnitElementEnd } from './UnitElement'
+import { UnitElement, keyPressToData as unitElementKeyPressToData, mouseClickToCursor as unitElementMouseClickToCursor, getStartCursor as getUnitElementStartCursor, getEndCursor as getUnitElementEndCursor, isCursorAtStart as isCursorAtUnitElementStart, isCursorAtEnd as isCursorAtUnitElementEnd } from './UnitElement'
 
-// dataToContents takes an input data object and shows the corresponding contents as JSX render.
-export function dataToContents({ type, value, cursor }) {
+// UnitArray takes an input data object and shows the corresponding contents as JSX render.
+export function UnitArray({ type, value, cursor }) {
 	// Check input.
 	if (type !== 'UnitArray')
 		throw new Error(`Invalid type: tried to get the contents of a UnitArray field but got data for a type "${type}" field.`)
@@ -25,10 +25,10 @@ export function dataToContents({ type, value, cursor }) {
 
 	// Iterate over all the unit elements, putting times signs in-between them.
 	return value.map((unitElement, index) => (
-		<React.Fragment key={index}>
+		<Fragment key={index}>
 			{index === 0 ? null : <span className="char times">⋅</span>}
-			{unitElementDataToContents({ type: 'UnitElement', value: unitElement, cursor: cursor && cursor.part === index && cursor.cursor })}
-		</React.Fragment>
+			<UnitElement {...{ type: 'UnitElement', value: unitElement, cursor: cursor && cursor.part === index && cursor.cursor }} />
+		</Fragment>
 	))
 }
 
@@ -39,11 +39,6 @@ export function getEmptyData() {
 		value: getEmpty(),
 		cursor: getStartCursor(),
 	}
-}
-
-// cursorToKeyboardType takes a cursor object (where is the cursor) and determines which Android keyboard needs to be shown: 'number', 'text' or 'none'.
-export function cursorToKeyboardType(cursor) {
-	return unitElementCursorToKeyboardType(cursor && cursor.cursor)
 }
 
 // keyPressToData takes a keyInfo event and a data object and returns a new data object.
@@ -84,8 +79,12 @@ export function keyPressToData(keyInfo, data) {
 			return { ...data, cursor: { part: cursor.part - 1, cursor: getUnitElementEndCursor(value[cursor.part - 1]) } } // Move to the end of the previous one.
 	}
 	if (key === 'ArrowRight') {
-		if (cursor.part < value.length - 1 && isCursorAtUnitElementEnd(unitElement, unitElementCursor))
-			return { ...data, cursor: { part: cursor.part + 1, cursor: getUnitElementStartCursor(value[cursor.part + 1]) } }
+		if (isCursorAtUnitElementEnd(unitElement, unitElementCursor)) {
+			if (cursor.part < value.length - 1) // Is there still another unit element? If so, go there.
+				return { ...data, cursor: { part: cursor.part + 1, cursor: getUnitElementStartCursor(value[cursor.part + 1]) } }
+			// else if (!isUnitElementEmpty(unitElement)) // If not, and if we're not in an empty element, add a new empty element and move the cursor to it.
+			// 	return { ...data, value: [...value, getEmptyUnitElement()], cursor: { part: cursor.part + 1, cursor: getUnitElementStartCursor() } }
+		}
 	}
 	if (key === 'Home')
 		return { ...data, cursor: getStartCursor(value, cursor) }
@@ -103,14 +102,21 @@ export function keyPressToData(keyInfo, data) {
 	}
 
 	// For a multiplication "*" (or a space) split up elements.
-	if (key === '*' || key === '.' || key === ' ') {
+	if (key === '*' || key === 'Times' || key === '.' || key === ' ' || key === 'Space') {
 		if (!isUnitElementEmpty(unitElement) && !isCursorAtUnitElementStart(unitElement, unitElementCursor)) { // Cursor is not in an empty element or at the start of the element. This prevents endless rows of multiplications.
-			if (unitElementCursor.part === 'power' || unitElementCursor.cursor === unitElement.prefix.length + unitElement.unit.length) // The cursor is in the power or at the end of the text.
+			if (unitElementCursor.part === 'power' || unitElementCursor.cursor === unitElement.prefix.length + unitElement.unit.length) { // The cursor is in the power or at the end of the text.
+				const nextUnitElement = value[cursor.part + 1]
+				if (nextUnitElement && isUnitElementEmpty(nextUnitElement)) // If the next element is empty, just go there without changing anything.
+					return {
+						...data,
+						cursor: { part: cursor.part + 1, cursor: getUnitElementStartCursor(nextUnitElement) },
+					}
 				return { // Add a new empty element and move the cursor to it.
 					...data,
 					value: arraySplice(value, cursor.part + 1, 0, getEmptyUnitElement()),
-					cursor: { part: cursor.part + 1, cursor: getUnitElementStartCursor() }
+					cursor: { part: cursor.part + 1, cursor: getUnitElementStartCursor() },
 				}
+			}
 			return { // Split the unit element up into two.
 				...data,
 				value: splitElement(value, cursor),
@@ -133,17 +139,21 @@ export function keyPressToData(keyInfo, data) {
 	}
 
 	// For numbers or power symbols, if the cursor is in the text, split the unit element.
-	if (isNumber(key) || key === '^') {
-		if (unitElementCursor.part === 'text' && unitElementCursor.cursor < unitElement.prefix.length + unitElement.unit.length) {
-			const toAdd = isNumber(key) ? key : ''
-			return {
-				...data,
-				value: splitElement(value, cursor, toAdd),
-				cursor: { part: cursor.part, cursor: { part: 'power', cursor: toAdd.length } },
-			} // Split the unit element up into two.
+	if (isNumber(key) || key === '^' || key === 'Power') {
+		if (unitElementCursor.part === 'text') {
+			if (unitElementCursor.cursor === 0 && unitElement.prefix.length + unitElement.unit.length > 0) // If the cursor is at the start of a unit element with text, do nothing. Don't pass on.
+				return { ...data }
+			if (unitElementCursor.cursor < unitElement.prefix.length + unitElement.unit.length) {
+				const toAdd = isNumber(key) ? key : ''
+				return {
+					...data,
+					value: splitElement(value, cursor, toAdd),
+					cursor: { part: cursor.part, cursor: { part: 'power', cursor: toAdd.length } },
+				} // Split the unit element up into two.
+			}
 		}
 	}
-
+	
 	// Unknown key. Try to pass it on.
 	return passOn()
 }

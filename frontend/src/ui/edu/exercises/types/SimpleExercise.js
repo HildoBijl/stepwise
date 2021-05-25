@@ -29,13 +29,13 @@ function Contents({ Problem, Solution }) {
 	const { state, progress, history } = useExerciseData()
 	const { input } = useFormData()
 	const { feedbackInput } = useFeedback()
-	const { focusFirst } = useFieldControllerContext()
+	const { activateFirst } = useFieldControllerContext()
 
 	// Upon loading, or on history updates, focus on the first field.
 	useEffect(() => {
 		if (!progress.done)
-			focusFirst()
-	}, [Problem, progress, history, focusFirst])
+			activateFirst()
+	}, [Problem, progress, history, activateFirst])
 
 	// Determine what to show.
 	const hasSubmissions = history.some(event => event.action.type === 'input') // Has there been an input action?

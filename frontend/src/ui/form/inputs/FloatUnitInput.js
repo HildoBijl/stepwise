@@ -9,12 +9,14 @@ import { selectRandomly, selectRandomEmpty } from 'step-wise/util/random'
 import { getEmpty, isEmpty } from 'step-wise/inputTypes/FloatUnit'
 import { isEmpty as isFloatEmpty, isValid as isFloatValid } from 'step-wise/inputTypes/Float'
 import { isEmpty as isUnitEmpty, isValid as isUnitValid } from 'step-wise/inputTypes/Unit'
+import { units } from 'step-wise/inputTypes/Unit/units'
+import { prefixes } from 'step-wise/inputTypes/Unit/prefixes'
 
 import { getClickSide } from 'util/dom'
 
 import Input, { checkCursor } from './Input'
-import { style as floatStyle, nonEmpty as floatNonEmpty, dataToContents as floatDataToContents, cursorToKeyboardType as floatCursorToKeyboardType, keyPressToData as floatKeyPressToData, mouseClickToCursor as floatMouseClickToCursor, getStartCursor as getFloatStartCursor, getEndCursor as getFloatEndCursor, isCursorAtStart as isCursorAtFloatStart, isCursorAtEnd as isCursorAtFloatEnd } from './FloatInput'
-import { style as unitStyle, valid as unitValid, dataToContents as unitDataToContents, cursorToKeyboardType as unitCursorToKeyboardType, keyPressToData as unitKeyPressToData, mouseClickToCursor as unitMouseClickToCursor, getStartCursor as getUnitStartCursor, getEndCursor as getUnitEndCursor, isCursorAtStart as isCursorAtUnitStart, isCursorAtEnd as isCursorAtUnitEnd } from './UnitInput'
+import { style as floatStyle, nonEmpty as floatNonEmpty, Float, dataToKeyboardSettings as floatDataToKeyboardSettings, keyPressToData as floatKeyPressToData, mouseClickToCursor as floatMouseClickToCursor, getStartCursor as getFloatStartCursor, getEndCursor as getFloatEndCursor, isCursorAtStart as isCursorAtFloatStart, isCursorAtEnd as isCursorAtFloatEnd } from './FloatInput'
+import { style as unitStyle, valid as unitValid, Unit, dataToKeyboardSettings as unitDataToKeyboardSettings, keyPressToData as unitKeyPressToData, mouseClickToCursor as unitMouseClickToCursor, getStartCursor as getUnitStartCursor, getEndCursor as getUnitEndCursor, isCursorAtStart as isCursorAtUnitStart, isCursorAtEnd as isCursorAtUnitEnd } from './UnitInput'
 
 const style = (theme) => ({
 	'& .float': {
@@ -37,8 +39,8 @@ const defaultProps = {
 	validate: validNumberAndNonEmptyUnit,
 	initialData: getEmptyData(),
 	isEmpty: data => isEmpty(data.value),
-	dataToContents,
-	cursorToKeyboardType,
+	JSXObject: FloatUnit,
+	keyboardSettings: dataToKeyboardSettings,
 	keyPressToData,
 	mouseClickToCursor,
 	getStartCursor,
@@ -55,6 +57,7 @@ export default function FloatUnitInput(props) {
 	const mergedProps = {
 		...defaultProps,
 		keyPressToData: (keyInfo, data, contentsElement) => keyPressToData(keyInfo, data, contentsElement, positive, allowPower),
+		keyboardSettings: (data) => dataToKeyboardSettings(data, positive, allowPower),
 		...props,
 		className: clsx(props.className, classes.floatUnitInput, 'floatUnitInput'),
 	}
@@ -99,8 +102,8 @@ export function validNumberAndNonEmptyUnit(data) { // The number and unit must b
 		])
 }
 
-// dataToContents takes an input data object and shows the corresponding contents as JSX render.
-export function dataToContents(data) {
+// FloatUnit takes an input data object and shows the corresponding contents as JSX render.
+export function FloatUnit(data) {
 	const { type, value, cursor } = data
 	const { float } = value
 
@@ -115,11 +118,22 @@ export function dataToContents(data) {
 	// Show the FloatUnit.
 	const showFloatFiller = isFloatEmpty(float) && (!cursor || cursor.part !== 'float')
 	return <>
-		<span className="float">{showFloatFiller ? <span className="char filler">?</span> : floatDataToContents(getFloatData(data))}</span>
-		{isUnitVisible(value, cursor) ? <>
-			<span className="spacer unitSpacer" />
-			<span className="unit">{unitDataToContents(getUnitData(data))}</span>
-		</> : null}
+		<span className="float">
+			{
+				showFloatFiller ?
+					<span className="char filler">?</span> :
+					<Float {...getFloatData(data)} />
+			}
+		</span>
+		{
+			isUnitVisible(value, cursor) ? (
+				<>
+					<span className="spacer unitSpacer" />
+					<span className="unit">
+						<Unit {...getUnitData(data)} />
+					</span>
+				</>
+			) : null}
 	</>
 }
 
@@ -131,13 +145,40 @@ export function getEmptyData() {
 	}
 }
 
-// cursorToKeyboardType takes a cursor object (where is the cursor) and determines which Android keyboard needs to be shown: 'number', 'text' or 'none'.
-export function cursorToKeyboardType(cursor) {
-	if (!cursor)
-		return 'none'
-	if (cursor.part === 'float')
-		return floatCursorToKeyboardType(cursor.cursor)
-	return unitCursorToKeyboardType(cursor.cursor)
+// dataToKeyboardSettings takes a data object and determines what keyboard settings are appropriate.
+export function dataToKeyboardSettings(data, positive = false, allowPower = true) {
+	const { value, cursor } = data
+
+	// Find the settings for the individual parts and merge the key settings.
+	const floatSettings = floatDataToKeyboardSettings({ value: value.float, cursor: cursor.part === 'float' ? cursor.cursor : null }, positive, allowPower)
+	const unitSettings = unitDataToKeyboardSettings({ value: value.unit, cursor: cursor.part === 'unit' ? cursor.cursor : null })
+	const keySettings = {
+		...floatSettings.keySettings,
+		...unitSettings.keySettings,
+	}
+
+	// Check out special cases in which key settings need to be adjusted.
+	if (cursor.part === 'float') {
+		const floatCursor = cursor.cursor
+		keySettings.ArrowRight = true
+		keySettings.ArrowDown = keySettings.ArrowUp = false
+		keySettings.Power = false
+		keySettings.Times = floatCursor.part === 'number'
+	}
+	if (cursor.part === 'unit') {
+		keySettings.ArrowLeft = true
+		keySettings.Backspace = true
+		keySettings.TenPower = false
+		keySettings['.'] = false
+	}
+
+	// Pass on settings.
+	return {
+		keySettings,
+		float: floatSettings.float,
+		unit: unitSettings.unit,
+		tab: cursor.part === 'float' ? 'float' : 'unit',
+	}
 }
 
 // keyPressToData takes a keyInfo event and a data object and returns a new data object.
@@ -229,7 +270,7 @@ export function keyPressToData(keyInfo, data, contentsElement, positive, allowPo
 	}
 
 	// In case of a letter in the float, process them like we're in the unit. Except if it's an e: this one is processed by the unit.
-	if (((isLetter(key) || key === '%') && key !== 'e') && cursor.part === 'float')
+	if (((isLetter(key) || key === '%' || key === 'Meter' || Object.keys(units).includes(key) || Object.keys(prefixes).includes(key)) && key !== 'e') && cursor.part === 'float')
 		return passOn('unit', getUnitStartCursor(unit))
 
 	// In case of a number in the unit, check if we're at the start. If so, pretend we're in the float.

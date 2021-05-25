@@ -5,7 +5,7 @@ import { Check, Clear, ArrowForward } from '@material-ui/icons'
 
 import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
 
-import { useFieldControl } from 'ui/form/FieldController'
+import { useFieldRegistration } from 'ui/form/FieldController'
 import { useModal, PictureConfirmation } from 'ui/components/Modal'
 import { Warning } from '@material-ui/icons'
 
@@ -41,9 +41,9 @@ export default function ExerciseButtons({ stepwise }) {
 
 	// Include the buttons in the tabbing.
 	const submitButtonRef = useRef(), giveUpButtonRef = useRef(), startNewExerciseButtonRef = useRef()
-	useFieldControl({ id: 'submitButton', ref: submitButtonRef, apply: !progress.done, focusRefOnActive: true })
-	useFieldControl({ id: 'giveUpButton', ref: giveUpButtonRef, apply: !progress.done, focusRefOnActive: true })
-	useFieldControl({ id: 'startNewExerciseButton', ref: startNewExerciseButtonRef, apply: progress.done, focusRefOnActive: true })
+	useFieldRegistration({ id: 'submitButton', ref: submitButtonRef, apply: !progress.done, focusRefOnActive: true })
+	useFieldRegistration({ id: 'giveUpButton', ref: giveUpButtonRef, apply: !progress.done, focusRefOnActive: true })
+	useFieldRegistration({ id: 'startNewExerciseButton', ref: startNewExerciseButtonRef, apply: progress.done, focusRefOnActive: true })
 
 	// Set up a warning Modal for when the user gives up a step exercise without even trying.
 	const [, setModalOpen] = useModal(<PictureConfirmation
