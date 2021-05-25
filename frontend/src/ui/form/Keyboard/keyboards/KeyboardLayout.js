@@ -7,7 +7,7 @@ import { useWidthTracker } from 'util/react'
 import KeyButton from './KeyButton'
 
 const useStyles = makeStyles((theme) => ({
-	keyboardLayout: ({ rowHeight, numColumns, numRows, settings, styles }) => {
+	keyboardLayout: ({ rowHeight, numColumns, numRows, settings, styles, maxWidth }) => {
 		// Process and include extra styles.
 		if (typeof styles === 'function')
 			styles = styles({ rowHeight, numColumns, numRows, settings })
@@ -19,7 +19,8 @@ const useStyles = makeStyles((theme) => ({
 			gap: `${rowHeight * 0.1}px`,
 			gridTemplateColumns: `repeat(${numColumns}, 1fr)`,
 			gridTemplateRows: `repeat(${numRows}, 1fr)`,
-			margin: '0.4rem 0',
+			margin: '0.4rem auto',
+			maxWidth: maxWidth ? `${maxWidth}px` : 'none',
 
 			'& .keyButton': {
 				borderRadius: `${rowHeight * 0.15}px`,
@@ -32,12 +33,12 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function KeyboardLayout({ settings, keyFunction, keys, numColumns, numRows, styles, widthToRowHeight }) {
+export default function KeyboardLayout({ settings, keyFunction, keys, numColumns, numRows, styles, widthToRowHeight, maxWidth }) {
 	// Determine the row height.
 	const keyboardLayoutRef = useRef()
 	const width = useWidthTracker(keyboardLayoutRef, true)
 	const rowHeight = widthToRowHeight ? widthToRowHeight(width) : width / numColumns
-	const classes = useStyles({ rowHeight, numColumns, numRows, settings, styles })
+	const classes = useStyles({ rowHeight, numColumns, numRows, settings, styles, maxWidth })
 	const [buttonClickFunction, properties] = useButtonClickFunction(keyFunction)
 
 	// Check which keys are needed.

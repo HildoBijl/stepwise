@@ -47,13 +47,17 @@ export function getEmptyData() {
 // keyPressToData takes a keyInfo event and a data object and returns a new data object.
 export function keyPressToData(keyInfo, data) {
 	// Let's walk through a large variety of cases and see what's up.
-	const { key, ctrl, alt } = keyInfo
+	let { key, ctrl, alt } = keyInfo
 	const { value, cursor } = data
 	const { prefix, unit, power } = value
 
 	// Ignore ctrl/alt keys.
 	if (ctrl || alt)
 		return data
+
+	// The meter key counts as an m.
+	if (key === 'Meter')
+		key = 'm'
 
 	// For left/right-arrows, home and end, adjust the cursor.
 	if (key === 'ArrowLeft') {
@@ -99,9 +103,9 @@ export function keyPressToData(keyInfo, data) {
 	}
 
 	// For letters add them to the unit.
-	if (isLetter(key) || key === '%') {
+	if (isLetter(key) || key === '%' || key === '°C' || key === 'Pa' || key === 'bar' || key === 'Hz' || key === 'rad' || key === 'deg' || key === 'cd' || key === 'mol') {
 		const addAt = cursor.part === 'text' ? cursor.cursor : prefix.length + unit.length
-		return { ...data, ...process({ text: insertAtIndex(prefix + unit, key, addAt), power }, { part: 'text', cursor: addAt + 1 }) }
+		return { ...data, ...process({ text: insertAtIndex(prefix + unit, key, addAt), power }, { part: 'text', cursor: addAt + key.length }) }
 	}
 
 	// For numbers add them to the power.

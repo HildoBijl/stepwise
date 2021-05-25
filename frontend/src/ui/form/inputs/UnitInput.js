@@ -247,7 +247,13 @@ export function dataToKeyboardSettings(data) {
 	if (unitElementCursor.part === 'text' && unitElementCursor.cursor === 0 && unitElement.prefix.length + unitElement.unit.length > 0)
 		repeat(10, (index) => int[index] = false)
 
-	return { unitText, int, tab: unitElementCursor.part === 'power' ? 'int' : 'unitText' }
+	return {
+		unit: {}, // TODO
+		unitText,
+		int,
+		tab: 'unit',
+		// tab: unitElementCursor.part === 'power' ? 'int' : 'unitText',
+	}
 }
 
 // keyPressToData takes a keyInfo event and a data object and returns a new data object.

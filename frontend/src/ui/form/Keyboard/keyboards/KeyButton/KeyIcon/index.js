@@ -45,13 +45,23 @@ export default function KeyIcon({ keyID, properties }) {
 			return <Divide />
 		case 'Power':
 			return <Power />
+		case 'Meter': // Created to prevent confusion with milli, creating a different class for meters.
+			return <Character char="m" />
 		default:
 		// On other keys, try the things below.
 	}
 
-	// Check if it's a character key.
-	if (keyID.length === 1)
-		return <Character char={keyID} />
+	// Check if it's a character key or similar.
+	switch (keyID.length) {
+		case 1:
+			return <Character char={keyID} />
+		case 2:
+			return <Character char={keyID} scale={0.9} />
+		case 3:
+			return <Character char={keyID} scale={0.8} />
+		default:
+		// On other keys, try the things below.
+	}
 
 	throw new Error(`Unknown keyboard icon: could not find an icon for the key "${keyID}".`)
 }
