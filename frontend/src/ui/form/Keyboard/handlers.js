@@ -19,7 +19,7 @@ import { useRefWithValue } from 'util/react'
 
 export default function useKeyboardHandlers(fieldTracker, tabOrder, tabIndexRef) {
 	// Use a state to store the keyboard settings.
-	const [keyboardSettings, setKeyboardSettings] = useState(null)
+	const [keyboardSettings, setKeyboardSettings] = useState(undefined)
 	const keyboardSettingsRef = useRefWithValue(keyboardSettings)
 
 	// getKeyboard returns the keyboard of the currently active input field.
@@ -35,7 +35,7 @@ export default function useKeyboardHandlers(fieldTracker, tabOrder, tabIndexRef)
 		const currentKeyboardSettings = keyboardSettingsRef.current
 		const desiredKeyboard = getKeyboard()
 		if (!desiredKeyboard)
-			return setKeyboardSettings(null)
+			return setKeyboardSettings(undefined)
 		if (currentKeyboardSettings !== desiredKeyboard.settings && !deepEquals(currentKeyboardSettings, desiredKeyboard.settings))
 			return setKeyboardSettings(desiredKeyboard.settings)
 	}, [keyboardSettingsRef, getKeyboard])

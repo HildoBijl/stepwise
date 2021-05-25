@@ -82,8 +82,8 @@ export function keyPressToData(keyInfo, data) {
 		if (isCursorAtUnitElementEnd(unitElement, unitElementCursor)) {
 			if (cursor.part < value.length - 1) // Is there still another unit element? If so, go there.
 				return { ...data, cursor: { part: cursor.part + 1, cursor: getUnitElementStartCursor(value[cursor.part + 1]) } }
-			else if (!isUnitElementEmpty(unitElement)) // If not, and if we're not in an empty element, add a new empty element and move the cursor to it.
-				return { ...data, value: [...value, getEmptyUnitElement()], cursor: { part: cursor.part + 1, cursor: getUnitElementStartCursor() } }
+			// else if (!isUnitElementEmpty(unitElement)) // If not, and if we're not in an empty element, add a new empty element and move the cursor to it.
+			// 	return { ...data, value: [...value, getEmptyUnitElement()], cursor: { part: cursor.part + 1, cursor: getUnitElementStartCursor() } }
 		}
 	}
 	if (key === 'Home')

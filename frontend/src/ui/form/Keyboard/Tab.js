@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
 		'&:hover': {
 			background: theme.palette.primary.main,
 			zIndex: 2,
-			// ToDo: use this color, or the light one, for inactive tabs.
 		},
 
 		'& .leftEdge': {

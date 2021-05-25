@@ -6,6 +6,8 @@ import clsx from 'clsx'
 import { isNumber } from 'step-wise/util/numbers'
 import { removeAtIndex, insertAtIndex, isLetter } from 'step-wise/util/strings'
 import { getEmpty, process } from 'step-wise/inputTypes/Unit/UnitElement'
+import { units } from 'step-wise/inputTypes/Unit/units'
+import { prefixes } from 'step-wise/inputTypes/Unit/prefixes'
 
 import { CharString, getClickPosition } from './Input'
 
@@ -102,8 +104,8 @@ export function keyPressToData(keyInfo, data) {
 		return { ...data, cursor: { part: 'power', cursor: 0 } }
 	}
 
-	// For letters add them to the unit.
-	if (isLetter(key) || key === '%' || key === '°C' || key === 'Pa' || key === 'bar' || key === 'Hz' || key === 'rad' || key === 'deg' || key === 'cd' || key === 'mol') {
+	// For letters and base units add them to the unit.
+	if (isLetter(key) || Object.keys(units).includes(key) || Object.keys(prefixes).includes(key)) {
 		const addAt = cursor.part === 'text' ? cursor.cursor : prefix.length + unit.length
 		return { ...data, ...process({ text: insertAtIndex(prefix + unit, key, addAt), power }, { part: 'text', cursor: addAt + key.length }) }
 	}

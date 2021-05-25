@@ -8,14 +8,7 @@ import KeyboardLayout from './KeyboardLayout'
 
 export const tab = <M>123</M>
 
-// These are commonly used settings for the keyboard.
-export const settings = {
-	standard: { int: {} },
-	positive: { int: { positive: true } },
-	minusDisabled: { int: { Minus: false } },
-}
-
-export function Layout({ settings, keyFunction }) {
+export function Layout({ settings, keyFunction, keySettings }) {
 	settings = useCurrentOrPrevious(settings) // When the settings turn to null, use the previous one for display purposes.
 	const smallScreen = !useMediaQuery(theme => theme.breakpoints.up('sm'))
 	const numColumns = smallScreen ? 7 : (settings.positive ? 13 : 14)
@@ -37,6 +30,7 @@ export function Layout({ settings, keyFunction }) {
 	return <KeyboardLayout {...{
 		settings,
 		keyFunction,
+		keySettings,
 		keys,
 		numColumns,
 		numRows,

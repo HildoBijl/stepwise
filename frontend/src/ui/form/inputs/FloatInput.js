@@ -116,24 +116,33 @@ export function getEmptyData() {
 // dataToKeyboardSettings takes a data object and determines what keyboard settings are appropriate.
 export function dataToKeyboardSettings(data, positive = false, allowPower = true) {
 	const { value, cursor } = data
-	let settings = {
-		positive: !!positive,
-		allowPower: !!allowPower,
+
+	// Determine which keys to disable.
+	let keySettings = {}
+	if (cursor) {
+		if (cursor.part === 'power') {
+			keySettings['.'] = false
+			keySettings.TenPower = false
+		} else {
+			if (positive)
+				keySettings.Minus = false
+		}
+		if (isCursorAtStart(value, cursor)) {
+			keySettings.Backspace = false
+			keySettings.ArrowLeft = false
+		}
+		if (isCursorAtEnd(value, cursor))
+			keySettings.ArrowRight = false
 	}
-	if (cursor.part === 'power') {
-		settings['.'] = 'disabled'
-		settings.TenPower = 'disabled'
-	} else {
-		if (positive)
-			settings.Minus = 'disabled'
+
+	// Pass on settings.
+	return {
+		keySettings,
+		float: {
+			positive: !!positive,
+			allowPower: !!allowPower,
+		},
 	}
-	if (isCursorAtStart(value, cursor)) {
-		settings.Backspace = 'disabled'
-		settings.ArrowLeft = 'disabled'
-	}
-	if (isCursorAtEnd(value, cursor))
-		settings.ArrowRight = 'disabled'
-	return { float: settings }
 }
 
 // keyPressToData takes a keyInfo event and a data object and returns a new data object.

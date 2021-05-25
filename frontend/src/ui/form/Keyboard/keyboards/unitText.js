@@ -5,12 +5,12 @@ import { M } from 'ui/components/equations'
 
 import KeyboardLayout from './KeyboardLayout'
 
-export const tab = <M>abc</M>
+export const tab = <M>\rm abc</M>
 
 const defaultKeys = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'Backspace', 'Power', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'ArrowUp', 'Times', 'Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'Divide']
 const upperCaseKeys = defaultKeys.map(keyID => keyID.length === 1 ? keyID.toUpperCase() : keyID)
 
-export function Layout({ settings, keyFunction }) {
+export function Layout({ settings, keyFunction, keySettings }) {
 	settings = useCurrentOrPrevious(settings) // When the settings turn to null, use the previous one for display purposes.
 	const numColumns = 25 // Buttons are two columns.
 	const numRows = 3
@@ -58,6 +58,7 @@ export function Layout({ settings, keyFunction }) {
 	return <KeyboardLayout {...{
 		settings,
 		keyFunction,
+		keySettings,
 		keys,
 		numColumns,
 		numRows,

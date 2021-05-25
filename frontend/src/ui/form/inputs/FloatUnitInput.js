@@ -9,6 +9,8 @@ import { selectRandomly, selectRandomEmpty } from 'step-wise/util/random'
 import { getEmpty, isEmpty } from 'step-wise/inputTypes/FloatUnit'
 import { isEmpty as isFloatEmpty, isValid as isFloatValid } from 'step-wise/inputTypes/Float'
 import { isEmpty as isUnitEmpty, isValid as isUnitValid } from 'step-wise/inputTypes/Unit'
+import { units } from 'step-wise/inputTypes/Unit/units'
+import { prefixes } from 'step-wise/inputTypes/Unit/prefixes'
 
 import { getClickSide } from 'util/dom'
 
@@ -147,39 +149,35 @@ export function getEmptyData() {
 export function dataToKeyboardSettings(data, positive = false, allowPower = true) {
 	const { value, cursor } = data
 
-	// In the float?
-	if (cursor.part === 'float') {
-		const floatCursor = cursor.cursor
-		const floatSettings = floatDataToKeyboardSettings({ value: value.float, cursor: cursor.cursor }, positive, allowPower)
-		return {
-			float: {
-				...floatSettings.float,
-				ArrowRight: true,
-			},
-			unitText: {
-				ArrowDown: false,
-				ArrowUp: false,
-				Power: false,
-				Times: floatCursor.part === 'number',
-			},
-			tab: 'float',
-		}
+	// Find the settings for the individual parts and merge the key settings.
+	const floatSettings = floatDataToKeyboardSettings({ value: value.float, cursor: cursor.part === 'float' ? cursor.cursor : null }, positive, allowPower)
+	const unitSettings = unitDataToKeyboardSettings({ value: value.unit, cursor: cursor.part === 'unit' ? cursor.cursor : null })
+	const keySettings = {
+		...floatSettings.keySettings,
+		...unitSettings.keySettings,
 	}
 
-	// In the unit.
-	const unitSettings = unitDataToKeyboardSettings({ value: value.unit, cursor: cursor.cursor })
+	// Check out special cases in which key settings need to be adjusted.
+	if (cursor.part === 'float') {
+		const floatCursor = cursor.cursor
+		keySettings.ArrowRight = true
+		keySettings.ArrowDown = keySettings.ArrowUp = false
+		keySettings.Power = false
+		keySettings.Times = floatCursor.part === 'number'
+	}
+	if (cursor.part === 'unit') {
+		keySettings.ArrowLeft = true
+		keySettings.Backspace = true
+		keySettings.TenPower = false
+		keySettings['.'] = false
+	}
+
+	// Pass on settings.
 	return {
-		unitText: {
-			...unitSettings.unitText,
-			ArrowLeft: true,
-			Backspace: true,
-		},
-		float: {
-			...unitSettings.int,
-			TenPower: false,
-			'.': false,
-		},
-		tab: (unitSettings.tab === 'int' ? 'float' : 'unitText'),
+		keySettings,
+		float: floatSettings.float,
+		unit: unitSettings.unit,
+		tab: cursor.part === 'float' ? 'float' : 'unit',
 	}
 }
 
@@ -272,7 +270,7 @@ export function keyPressToData(keyInfo, data, contentsElement, positive, allowPo
 	}
 
 	// In case of a letter in the float, process them like we're in the unit. Except if it's an e: this one is processed by the unit.
-	if (((isLetter(key) || key === '%') && key !== 'e') && cursor.part === 'float')
+	if (((isLetter(key) || key === '%' || key === 'Meter' || Object.keys(units).includes(key) || Object.keys(prefixes).includes(key)) && key !== 'e') && cursor.part === 'float')
 		return passOn('unit', getUnitStartCursor(unit))
 
 	// In case of a number in the unit, check if we're at the start. If so, pretend we're in the float.

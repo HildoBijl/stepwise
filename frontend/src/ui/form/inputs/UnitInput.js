@@ -220,39 +220,36 @@ export function getEmptyData() {
 // dataToKeyboardSettings takes a data object and determines what keyboard settings are appropriate.
 export function dataToKeyboardSettings(data) {
 	const { value: unit, cursor: unitCursor } = data
-	const unitArray = unit[unitCursor.part]
-	const unitArrayCursor = unitCursor.cursor
-	const unitElement = unitArray[unitArrayCursor.part]
-	const unitElementCursor = unitArrayCursor.cursor
 
-	const ArrowLeft = !isCursorAtStart(unit, unitCursor)
-	const ArrowRight = !isCursorAtEnd(unit, unitCursor) || !isUnitElementEmpty(unitElement)
-	const Backspace = ArrowLeft
-	const unitText = {
-		ArrowLeft,
-		ArrowRight,
-		ArrowUp: unitCursor.part === 'den',
-		ArrowDown: unitCursor.part === 'num',
-		Backspace,
-		Times: !isUnitElementEmpty(unitElement) && !isCursorAtUnitElementStart(unitElement, unitElementCursor),
-		Divide: unitCursor.part === 'num' || (unitCursor.part === 'den' && !isCursorAtUnitArrayStart(unitArray, unitArrayCursor)),
-		Power: unitElementCursor.part === 'text' && !isCursorAtUnitElementStart(unitElement, unitElementCursor),
+	let keySettings = {}
+	if (unitCursor) {
+		// Get the exact cursor position.
+		const unitArray = unit[unitCursor.part]
+		const unitArrayCursor = unitCursor.cursor
+		const unitElement = unitArray[unitArrayCursor.part]
+		const unitElementCursor = unitArrayCursor.cursor
+	
+		// Determine which keys to disable.
+		keySettings = {
+			Backspace: !isCursorAtStart(unit, unitCursor),
+			ArrowLeft: !isCursorAtStart(unit, unitCursor),
+			ArrowRight: !isCursorAtEnd(unit, unitCursor),
+			ArrowUp: unitCursor.part === 'den',
+			ArrowDown: unitCursor.part === 'num',
+			Minus: unitElementCursor.part === 'power',
+			Times: !isUnitElementEmpty(unitElement) && !isCursorAtUnitElementStart(unitElement, unitElementCursor),
+			Divide: unitCursor.part === 'num' || (unitCursor.part === 'den' && !isCursorAtUnitArrayStart(unitArray, unitArrayCursor)),
+			Power: unitElementCursor.part === 'text' && !isCursorAtUnitElementStart(unitElement, unitElementCursor),
+		}
+		if (unitElementCursor.part === 'text' && unitElementCursor.cursor === 0 && unitElement.prefix.length + unitElement.unit.length > 0)
+			repeat(10, (index) => keySettings[index] = false)
 	}
-	const int = {
-		ArrowLeft,
-		ArrowRight,
-		Backspace,
-		Minus: unitElementCursor.part === 'power',
-	}
-	if (unitElementCursor.part === 'text' && unitElementCursor.cursor === 0 && unitElement.prefix.length + unitElement.unit.length > 0)
-		repeat(10, (index) => int[index] = false)
 
+	// Pass on settings.
 	return {
-		unit: {}, // TODO
-		unitText,
-		int,
+		keySettings,
+		unit: {},
 		tab: 'unit',
-		// tab: unitElementCursor.part === 'power' ? 'int' : 'unitText',
 	}
 }
 

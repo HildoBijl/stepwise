@@ -146,7 +146,7 @@ function Keyboard({ settings, keyFunction }, ref) {
 				</div>
 				<div ref={keyboardRef} className='keyboard'>
 					{Layout ?
-						<Layout settings={settings && chosenTab ? settings[chosenTab] : null} keyFunction={keyFunction} />
+						<Layout settings={settings && chosenTab ? settings[chosenTab] : null} keyFunction={keyFunction} keySettings={settings && settings.keySettings} />
 						: null}
 				</div>
 			</Container>
