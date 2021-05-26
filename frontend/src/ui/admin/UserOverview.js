@@ -24,25 +24,25 @@ const useStyles = makeStyles((theme) => ({
 		},
 
 		'& .name': {
-			minWidth: '120px',
+			width: '120px',
 		},
 		'& .email': {
-			minWidth: '220px',
+			width: '220px',
 		},
 		'& .role': {
-			minWidth: '80px',
+			width: '80px',
 			textAlign: 'center',
 		},
 		'& .stats': {
-			minWidth: '100px',
+			width: '100px',
 			textAlign: 'center',
 		},
 		'& .updatedAt': {
-			minWidth: '80px',
+			width: '80px',
 			textAlign: 'center',
 		},
 		'& .createdAt': {
-			minWidth: '80px',
+			width: '80px',
 			textAlign: 'center',
 		},
 	},

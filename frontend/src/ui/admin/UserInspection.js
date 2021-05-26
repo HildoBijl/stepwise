@@ -46,14 +46,14 @@ const useStyles = makeStyles((theme) => ({
 			textAlign: 'center',
 		},
 		'& .name': {
-			minWidth: '160px',
+			width: '160px',
 		},
 		'& .numPracticed': {
-			minWidth: '80px',
+			width: '80px',
 			textAlign: 'center',
 		},
 		'& .lastPracticed': {
-			minWidth: '80px',
+			width: '80px',
 			textAlign: 'center',
 		},
 	},
