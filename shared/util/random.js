@@ -7,7 +7,7 @@ function getRandom(min, max) {
 }
 module.exports.getRandom = getRandom
 
-/* getRandomInteger returns a random integer object between the given min and max (both inclusive) according to a uniform distribution. It must receive an options object which can include:
+/* getRandomInteger returns a random integer between the given min and max (both inclusive) according to a uniform distribution. It must receive these parameters:
  * - min (obligatory): the minimum value (inclusive).
  * - max (obligatory): the maximum value (inclusive).
  * - prevent: an integer or array of integers to exclude. For instance, using { min: -3, max: 3, prevent: [-1, 0, 1] } will give either -3, -2, 2 or 3.
