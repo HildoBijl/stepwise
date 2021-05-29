@@ -1,6 +1,7 @@
 // The Expression class represents any type of mathematical expression, including with brackets, fractions, functions, variables with subscripts, powers and more. It does NOT include an equals sign or other form of comparison: that would make it an equation or inequality.
 
 const { isObject, processOptions } = require('../util/objects')
+const { firstOf, lastOf } = require('../util/arrays')
 
 // TODO
 // const numberFormat = '(-?(\\d+[.,]?\\d*)|(\\d*[.,]?\\d+))'
@@ -163,7 +164,7 @@ function getEmpty() {
 module.exports.getEmpty = getEmpty
 
 function isEmpty(expressionArray) {
-	return expressionArray.length === 1 && expression[0] === ''
+	return expressionArray.length === 1 && firstOf(expressionArray) === ''
 }
 module.exports.isEmpty = isEmpty
 

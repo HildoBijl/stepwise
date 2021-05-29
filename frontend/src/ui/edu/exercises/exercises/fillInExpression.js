@@ -4,7 +4,7 @@ import { selectRandomCorrect } from 'step-wise/util/random'
 
 import { M } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
-import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
+import ExpressionInput from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/Status'
 
 import { useExerciseData, useCorrect } from '../ExerciseContainer'
@@ -20,7 +20,9 @@ function Problem({ index }) {
 	return <>
 		<Par>Voer letterlijk de uitdrukking <M>{expression}</M> in.</Par>
 		<InputSpace>
-			<Par><FloatUnitInput id="ans" label="Vul hier de uitdrukking in" size="s" /></Par>
+			<Par>
+				<ExpressionInput id="ans" label="Vul hier de uitdrukking in" size="s" />
+			</Par>
 		</InputSpace>
 	</>
 }

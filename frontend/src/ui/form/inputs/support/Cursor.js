@@ -29,5 +29,9 @@ const useStyles = makeStyles(() => ({
 export default function Cursor() {
 	const classes = useStyles()
 	const cursorRef = useCursorRef()
-	return <span className={clsx(classes.cursorContainer, 'cursorContainer')} ref={cursorRef}><span className="cursor"/></span>
+	return (
+		<span ref={cursorRef} className={clsx(classes.cursorContainer, 'cursorContainer')}>
+			<span className="cursor" />
+		</span>
+	)
 }

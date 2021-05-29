@@ -2,11 +2,14 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { lastOf } from 'step-wise/util/arrays'
+import { lastOf, arraySplice } from 'step-wise/util/arrays'
 import { isNumber } from 'step-wise/util/numbers'
+import { isLetter } from 'step-wise/util/strings'
 import { selectRandomEmpty } from 'step-wise/util/random'
 import { removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
-import { getEmpty, isEmpty, IOtoFO } from 'step-wise/inputTypes/Expression'
+import { getEmpty, isEmpty } from 'step-wise/inputTypes/Expression'
+
+import { RBM } from 'ui/components/equations'
 
 import Input, { CharString, getClickPosition } from './support/Input'
 
@@ -65,7 +68,7 @@ export function Expression({ type, value, cursor }) {
 	// Set up the output.
 	console.log(value)
 	console.log(cursor)
-	return <>ToDo</>
+	return <RBM>{value[0]}</RBM>
 	// const { number, power } = value
 	// const showPower = power !== '' || (cursor && cursor.part === 'power')
 	// return <>
@@ -98,7 +101,7 @@ export function dataToKeyboardSettings(data) {
 	// Determine which keys to disable.
 	let keySettings = {}
 	keySettings.Minus = false // TODO: PLACEHOLDER. REMOVE.
-	
+
 	// Pass on settings.
 	return {
 		keySettings,
@@ -118,72 +121,63 @@ export function keyPressToData(keyInfo, data, contentsElement, positive = defaul
 	if (ctrl || alt)
 		return data
 
-	// ToDo: build this.
+	// ToDo: check if we are in a special type (odd-numbered) and then pass it to that object.
+
+	// For left/right-arrows, home and end, adjust the cursor.
+	if (key === 'ArrowLeft') {
+		// ToDo: check if we need to move to another part.
+		return { ...data, cursor: { ...cursor, cursor: Math.max(cursor.cursor - 1, 0) } } // Move one position to the left.
+	}
+	if (key === 'ArrowRight') {
+		// ToDo: check if we need to move to another part.
+		return { ...data, cursor: { ...cursor, cursor: Math.min(cursor.cursor + 1, value[cursor.part].length) } } // Move the cursor one position to the right.
+	}
+	if (key === 'Home') // ToDo: if within a part, go to the start of said part. When already at the start, go to the start of everything. (And same with end.)
+		return { ...data, cursor: getStartCursor(value, cursor) }
+	if (key === 'End')
+		return { ...data, cursor: getEndCursor(value, cursor) }
+
+	// For backspace/delete, remove the appropriate symbol.
+	if (key === 'Backspace') {
+		if (isCursorAtStart(value, cursor)) // Cursor is at the start.
+			return data // Do nothing.
+		// ToDo: when the cursor is at the start of a string after a special part, deal with this appropriately.
+		return { ...data, value: arraySplice(value, cursor.part, 1, removeAtIndex(value[cursor.part], cursor.cursor - 1)), cursor: { ...cursor, cursor: cursor.cursor - 1 } } // Just remove the previous character.
+	}
+	if (key === 'Delete') {
+		if (isCursorAtEnd(value, cursor)) // Cursor is at the end.
+			return data // Do nothing.
+		// ToDo: when the cursor is at the end of a string before a special part, deal with this appropriately.
+		return { ...data, value: arraySplice(value, cursor.part, 1, removeAtIndex(value[cursor.part], cursor.cursor)) } // Just remove the upcoming character.
+	}
+
+	// Check for additions.
+	if (isLetter(key) || isNumber(key)) // Letters and numbers.
+		return addStrToData(key, data)
+	if (key === '+' || key === 'Plus') // Plus.
+		return addStrToData('+', data)
+	if (key === '-' || key === 'Minus') // Minus.
+		return addStrToData('-', data)
+	if (key === '*' || key === 'Times') // Times.
+		return addStrToData('*', data)
+	if (key === '(' || key === ')') // Brackets.
+		return addStrToData(key, data)
+	if (key === '.' || key === ',') // Period.
+		return addStrToData('.', data)
+
+	// Unknown key. Ignore, do nothing.
 	return data
+}
 
-	// // For left/right-arrows, home and end, adjust the cursor.
-	// if (key === 'ArrowLeft') {
-	// 	if (cursor.part === 'power' && cursor.cursor === 0)
-	// 		return { ...data, cursor: { part: 'number', cursor: number.length } } // Move to the end of the number.
-	// 	return { ...data, cursor: { ...cursor, cursor: Math.max(cursor.cursor - 1, 0) } } // Move one position to the left.
-	// }
-	// if (key === 'ArrowRight') {
-	// 	if (allowPower && cursor.part === 'number' && cursor.cursor === number.length && value.power !== '')
-	// 		return { ...data, cursor: { part: 'power', cursor: 0 } } // Move to the start of the power.
-	// 	return { ...data, cursor: { ...cursor, cursor: Math.min(cursor.cursor + 1, value[cursor.part].length) } } // Move the cursor one position to the right.
-	// }
-	// if (key === 'Home')
-	// 	return { ...data, cursor: getStartCursor(value, cursor) }
-	// if (key === 'End')
-	// 	return { ...data, cursor: getEndCursor(value, cursor) }
-
-	// // For backspace/delete, delete the appropriate symbol.
-	// if (key === 'Backspace') {
-	// 	if (isCursorAtStart(value, cursor)) // Cursor is at the start of the number.
-	// 		return data // Do nothing.
-	// 	if (cursor.part === 'power' && cursor.cursor === 0) // Cursor is at the start of the power.
-	// 		return { ...data, value: { ...value, power: '' }, cursor: { part: 'number', cursor: number.length } } // Remove the power.
-	// 	return { ...data, value: { ...value, [cursor.part]: removeAtIndex(value[cursor.part], cursor.cursor - 1) }, cursor: { ...cursor, cursor: cursor.cursor - 1 } } // Just remove the previous character.
-	// }
-	// if (key === 'Delete') {
-	// 	if (isCursorAtEnd(value, cursor)) // Cursor is at the end.
-	// 		return data // Do nothing.
-	// 	if (cursor.part === 'number' && cursor.cursor === number.length) // Cursor is at the end of the number.
-	// 		return { ...data, value: { ...value, power: '' } } // Remove the power.
-	// 	return { ...data, value: { ...value, [cursor.part]: removeAtIndex(value[cursor.part], cursor.cursor) } } // Just remove the upcoming character.
-	// }
-
-	// // For the minus sign, flip the sign of the current part.
-	// if ((key === '-' || key === 'Minus') && (!positive || cursor.part === 'power')) {
-	// 	if (value[cursor.part].slice(0, 1) === '-')
-	// 		return { ...data, value: { ...value, [cursor.part]: value[cursor.part].slice(1) }, cursor: { ...cursor, cursor: Math.max(cursor.cursor - 1, 0) } } // Remove a minus sign.
-	// 	return { ...data, value: { ...value, [cursor.part]: `-${value[cursor.part]}` }, cursor: { ...cursor, cursor: cursor.cursor + 1 } } // Add a minus sign.
-	// }
-
-	// // Check for additions.
-	// if (isNumber(key)) // Numbers.
-	// 	return addStrToData(key, data)
-
-	// if (key === '.' || key === ',') { // Period.
-	// 	// Don't do anything if we're not in the number part.
-	// 	if (cursor.part !== 'number')
-	// 		return data // We're not in the number.
-
-	// 	// If there already is a period, remove it first.
-	// 	const periodPosition = number.indexOf('.')
-	// 	if (periodPosition !== -1)
-	// 		data = { ...data, value: { ...value, number: removeAtIndex(number, periodPosition) }, cursor: { ...cursor, cursor: cursor.cursor + (periodPosition < cursor.cursor ? -1 : 0) } }
-
-	// 	// Add the period.
-	// 	return addStrToData('.', data)
-	// }
-
-	// // Check for additions. Only numbers allowed here.
-	// if (isNumber(key)) // Numbers.
-	// 	return { ...data, value: insertAtIndex(value, key, cursor), cursor: cursor + 1 }
-
-	// // Unknown key. Ignore, do nothing.
-	// return data
+// addStrToData adds a string into the data object, at the position of the cursor. It returns the new data object, with the cursor moved accordingly.
+function addStrToData(str, data) {
+	const { value, cursor } = data
+	const adjustedString = insertAtIndex(value[cursor.part], str, cursor.cursor)
+	return {
+		...data,
+		value: arraySplice(value, cursor.part, 1, adjustedString),
+		cursor: { ...cursor, cursor: cursor.cursor + str.toString().length },
+	}
 }
 
 // mouseClickToCursor takes an event object like a "click" (but possibly also a drag) and, for the given field, returns the cursor object related to the click.

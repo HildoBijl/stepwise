@@ -19,6 +19,11 @@ export function BM(props) {
 	)
 }
 
+// Raw block math: no horizontal slider around it.
+export function RBM(props) {
+	return <Math displayMode={true} {...props} />
+}
+
 const latexMinus = '−'
 export { latexMinus }
 
