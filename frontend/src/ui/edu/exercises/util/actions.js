@@ -6,7 +6,7 @@ import { lastOf } from 'step-wise/util/arrays'
 
 import { useRefWithValue } from 'util/react'
 import { useFormData } from 'ui/form/Form'
-import { removeCursors } from 'ui/form/inputs/Input'
+import { removeCursors } from 'ui/form/inputs/support/Input'
 
 import { useExerciseData } from '../ExerciseContainer'
 

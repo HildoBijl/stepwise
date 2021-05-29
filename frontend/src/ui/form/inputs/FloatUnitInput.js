@@ -14,7 +14,7 @@ import { prefixes } from 'step-wise/inputTypes/Unit/prefixes'
 
 import { getClickSide } from 'util/dom'
 
-import Input, { checkCursor } from './Input'
+import Input, { checkCursor } from './support/Input'
 import { style as floatStyle, nonEmpty as floatNonEmpty, Float, dataToKeyboardSettings as floatDataToKeyboardSettings, keyPressToData as floatKeyPressToData, mouseClickToCursor as floatMouseClickToCursor, getStartCursor as getFloatStartCursor, getEndCursor as getFloatEndCursor, isCursorAtStart as isCursorAtFloatStart, isCursorAtEnd as isCursorAtFloatEnd } from './FloatInput'
 import { style as unitStyle, valid as unitValid, Unit, dataToKeyboardSettings as unitDataToKeyboardSettings, keyPressToData as unitKeyPressToData, mouseClickToCursor as unitMouseClickToCursor, getStartCursor as getUnitStartCursor, getEndCursor as getUnitEndCursor, isCursorAtStart as isCursorAtUnitStart, isCursorAtEnd as isCursorAtUnitEnd } from './UnitInput'
 

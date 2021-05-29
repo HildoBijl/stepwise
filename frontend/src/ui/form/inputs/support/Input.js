@@ -12,10 +12,10 @@ import { notSelectable } from 'ui/theme'
 import { useSubmitAction } from 'ui/edu/exercises/util/actions'
 
 import Cursor from './Cursor'
-import { useFieldFeedback } from '../FeedbackProvider'
-import { useFormParameter, useCursorRef } from '../Form'
-import { useStatus } from '../Status'
-import { useFieldRegistration, useFieldActivation, useKeyboardRef } from '../FieldController'
+import { useFieldFeedback } from '../../FeedbackProvider'
+import { useFormParameter, useCursorRef } from '../../Form'
+import { useStatus } from '../../Status'
+import { useFieldRegistration, useFieldActivation, useKeyboardRef } from '../../FieldController'
 
 // Field definitions.
 const height = 3.2 // em

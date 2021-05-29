@@ -2,7 +2,7 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { useCursorRef } from '../Form'
+import { useCursorRef } from '../../Form'
 
 const useStyles = makeStyles(() => ({
 	cursorContainer: {

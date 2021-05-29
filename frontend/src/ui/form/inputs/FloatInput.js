@@ -7,7 +7,7 @@ import { selectRandomEmpty, selectRandomNegative } from 'step-wise/util/random'
 import { removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
 import { getEmpty, isEmpty, IOtoFO } from 'step-wise/inputTypes/Float'
 
-import Input, { CharString, getClickPosition } from './Input'
+import Input, { CharString, getClickPosition } from './support/Input'
 
 const style = (theme) => ({
 	'& .tenPowerContainer': {

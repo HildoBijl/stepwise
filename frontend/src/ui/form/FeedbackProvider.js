@@ -11,7 +11,7 @@ import { useRefWithValue } from 'util/react'
 import { getIcon, getFeedbackColor } from 'ui/theme'
 import { useExerciseData, getPrevProgress } from 'ui/edu/exercises/ExerciseContainer'
 
-import { removeCursor } from './inputs/Input'
+import { removeCursor } from './inputs/support/Input'
 import { useFormParameter, useFieldValidation } from './Form'
 
 const FeedbackContext = createContext(null)

@@ -8,7 +8,7 @@ import { selectRandomEmpty } from 'step-wise/util/random'
 import { removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
 import { getEmpty, isEmpty, IOtoFO } from 'step-wise/inputTypes/Expression'
 
-import Input, { CharString, getClickPosition } from './Input'
+import Input, { CharString, getClickPosition } from './support/Input'
 
 const style = (theme) => ({
 	// TODO: STILL NEEDED?
@@ -176,14 +176,14 @@ export function keyPressToData(keyInfo, data, contentsElement, positive = defaul
 
 	// 	// Add the period.
 	// 	return addStrToData('.', data)
-	}
+	// }
 
-	// Check for additions. Only numbers allowed here.
-	if (isNumber(key)) // Numbers.
-		return { ...data, value: insertAtIndex(value, key, cursor), cursor: cursor + 1 }
+	// // Check for additions. Only numbers allowed here.
+	// if (isNumber(key)) // Numbers.
+	// 	return { ...data, value: insertAtIndex(value, key, cursor), cursor: cursor + 1 }
 
-	// Unknown key. Ignore, do nothing.
-	return data
+	// // Unknown key. Ignore, do nothing.
+	// return data
 }
 
 // mouseClickToCursor takes an event object like a "click" (but possibly also a drag) and, for the given field, returns the cursor object related to the click.
