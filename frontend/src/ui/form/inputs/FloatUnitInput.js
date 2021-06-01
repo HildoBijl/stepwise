@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 export { style }
 
 const defaultProps = {
+	basic: true, // To get the basic character layout.
 	placeholder: 'Getal met eenheid',
 	validate: validNumberAndNonEmptyUnit,
 	initialData: getEmptyData(),

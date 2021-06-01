@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 export { style }
 
 const defaultProps = {
+	basic: true, // To get the basic character layout.
 	placeholder: 'Kommagetal',
 	positive: false,
 	allowPower: true,
@@ -219,7 +220,7 @@ export function keyPressToData(keyInfo, data, contentsElement, positive = defaul
 
 	// Check for additions. Only numbers allowed here.
 	if (isNumber(key)) // Numbers.
-		return { ...data, value: insertAtIndex(value, key, cursor), cursor: cursor + 1 }
+		return { ...data, value: insertAtIndex(value, cursor, key), cursor: cursor + 1 }
 
 	// Unknown key. Ignore, do nothing.
 	return data
@@ -230,7 +231,7 @@ function addStrToData(str, data) {
 	// Add the string at the position of the cursor or, if we are to the left of a minus sign, to the right of this minus sign instead.
 	const { value, cursor } = data
 	const addAt = (cursor.cursor === 0 && value[cursor.part].slice(0, 1) === '-' ? 1 : cursor.cursor)
-	return { ...data, value: { ...value, [cursor.part]: insertAtIndex(value[cursor.part], str, addAt) }, cursor: { ...cursor, cursor: addAt + str.toString().length } }
+	return { ...data, value: { ...value, [cursor.part]: insertAtIndex(value[cursor.part], addAt, str) }, cursor: { ...cursor, cursor: addAt + str.toString().length } }
 }
 
 // mouseClickToCursor takes an event object like a "click" (but possibly also a drag) and, for the given field, returns the cursor object related to the click.

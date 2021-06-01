@@ -9,6 +9,7 @@ import { getEmpty, isEmpty, IOtoFO } from 'step-wise/inputTypes/Integer'
 import Input, { CharString, getClickPosition } from './support/Input'
 
 const defaultProps = {
+	basic: true, // To get the basic character layout.
 	placeholder: 'Geheel getal',
 	positive: false,
 	validate: nonEmpty,
@@ -136,7 +137,7 @@ export function keyPressToData(keyInfo, data, positive) {
 
 	// Check for additions. Only numbers allowed here.
 	if (isNumber(key)) // Numbers.
-		return { ...data, value: insertAtIndex(value, key, cursor), cursor: cursor + 1 }
+		return { ...data, value: insertAtIndex(value, cursor, key), cursor: cursor + 1 }
 
 	// Unknown key. Ignore, do nothing.
 	return data

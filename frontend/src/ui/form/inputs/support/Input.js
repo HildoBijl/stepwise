@@ -186,7 +186,11 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 
-	contents: {
+	contents: { // For all possible input fields.
+
+	},
+
+	basicContents: { // Only for the basic type.
 		display: 'inline-block',
 		fontFamily: 'KaTeX_Main, Times New Roman,serif',
 		fontSize: '1.1em',
@@ -233,7 +237,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Input(props) {
 	// Gather properties.
 	let { id, prelabel, label, placeholder, feedbackText, className, size, validate, readOnly, autofocus, persistent } = props // User-defined props that are potentially passed on.
-	let { initialData, isEmpty, JSXObject, keyPressToData, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart, keyboardSettings } = props // Field-defined props that vary per field type.
+	let { initialData, isEmpty, JSXObject, keyPressToData, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart, keyboardSettings, basic } = props // Field-defined props that vary per field type.
 
 	// Check properties.
 	if (!id)
@@ -309,7 +313,7 @@ export default function Input(props) {
 				<div className="field" ref={fieldRef}>
 					<div className="contentsOuterContainer">
 						<div className="contentsInnerContainer" ref={contentsContainerRef}>
-							<span className={classes.contents} ref={contentsRef}>
+							<span ref={contentsRef} className={clsx(classes.contents, { [classes.basicContents]: basic })}>
 								<JSXObject {...data} cursor={active ? data.cursor : null} />
 							</span>
 							<span className="placeholder">{placeholder}</span>
@@ -451,6 +455,14 @@ export function CharString({ str, cursor = false }) {
 function submitOnEnter(evt, submit) {
 	if (evt.key === 'Enter')
 		submit()
+}
+
+// addCursor will add the given cursor to the given data object.
+export function addCursor(data, cursor) {
+	return {
+		...data,
+		cursor,
+	}
 }
 
 // checkCursor checks if this cursor could potentially be a valid cursor. It returns true/false. Anything falsy is usually wrong, but a 0 cursor is fine.

@@ -10,7 +10,7 @@ const data = {
 
 const expressions = [
 	'a*b+c',
-	// 'a*(b+c)',
+	'a\\left(b+c\\right)',
 	// ToDo: eventually add all use cases here.
 ]
 

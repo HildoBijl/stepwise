@@ -153,18 +153,18 @@ function FOtoIO(expression) {
 }
 module.exports.FOtoIO = FOtoIO
 
-function IOtoFO(expressionArray) {
+function IOtoFO(expression) {
 	return new Expression({}) // TODO
 }
 module.exports.IOtoFO = IOtoFO
 
 function getEmpty() {
-	return ['']
+	return [{ type: 'ExpressionPart', value: '' }]
 }
 module.exports.getEmpty = getEmpty
 
-function isEmpty(expressionArray) {
-	return expressionArray.length === 1 && firstOf(expressionArray) === ''
+function isEmpty(expression) {
+	return expression.length === 1 && firstOf(expression) === ''
 }
 module.exports.isEmpty = isEmpty
 

@@ -5,10 +5,16 @@ function removeAtIndex(str, ind, len = 1) {
 module.exports.removeAtIndex = removeAtIndex
 
 // insertAtIndex takes a string and inserts another string at the given index.
-function insertAtIndex(str, insertion = '', ind = 0) {
+function insertAtIndex(str, ind = 0, insertion = '') {
 	return str.slice(0, ind) + insertion + str.slice(ind)
 }
 module.exports.insertAtIndex = insertAtIndex
+
+// stringSplice removes a certain number of characters from a string and adds a new substring in its place.
+function stringSplice(str, index, numCharsToRemove = 0, insertion = '') {
+	return str.slice(0, ind) + insertion + str.slice(ind + numCharsToRemove)
+}
+module.exports.stringSplice = stringSplice
 
 // isLetter checks if a character is a letter.
 const letterRegExp = /[a-z]/i
@@ -27,3 +33,16 @@ function JSONstringifyWithoutPropertyQuotes(obj) {
 	return `{${Object.keys(obj).map(key => `${key}:${JSONstringifyWithoutPropertyQuotes(obj[key])}`).join(',')}}`
 }
 module.exports.JSONstringifyWithoutPropertyQuotes = JSONstringifyWithoutPropertyQuotes
+
+// allIndicesOf returns an array of all the indices for a certain character in a string.
+function allIndicesOf(str, symbol) {
+	const res = []
+	let index
+	while (index !== -1) {
+		index = str.indexOf(symbol, index === undefined ? 0 : index + 1)
+		if (index !== -1)
+			res.push(index)
+	}
+	return res
+}
+module.exports.allIndicesOf = allIndicesOf

@@ -2,16 +2,14 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { lastOf, arraySplice } from 'step-wise/util/arrays'
-import { isNumber } from 'step-wise/util/numbers'
-import { isLetter } from 'step-wise/util/strings'
 import { selectRandomEmpty } from 'step-wise/util/random'
-import { removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
+import { insertAtIndex } from 'step-wise/util/strings'
 import { getEmpty, isEmpty } from 'step-wise/inputTypes/Expression'
 
 import { RBM } from 'ui/components/equations'
 
-import Input, { CharString, getClickPosition } from './support/Input'
+import Input from './support/Input'
+import { toLatex, keyPressToData as expressionKeyPressToData, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd } from './support/expressionTypes/Expression'
 
 const style = (theme) => ({
 	// TODO: STILL NEEDED?
@@ -59,30 +57,74 @@ export function nonEmpty(data) {
 		return selectRandomEmpty()
 }
 
-// Float takes an input data object and shows the corresponding contents as JSX render.
-export function Expression({ type, value, cursor }) {
+// Expression takes an input data object and shows the corresponding contents as JSX render.
+export function Expression(data) {
+	const { type, value } = data
+
 	// Check input.
 	if (type !== 'Expression')
 		throw new Error(`Invalid type: tried to get the contents of an Expression field but got data for a type "${type}" field.`)
 
 	// Set up the output.
-	console.log(value)
-	console.log(cursor)
-	return <RBM>{value[0]}</RBM>
-	// const { number, power } = value
-	// const showPower = power !== '' || (cursor && cursor.part === 'power')
-	// return <>
-	// 	<span className="number">
-	// 		<CharString str={number} cursor={cursor && cursor.part === 'number' && cursor.cursor} />
-	// 	</span>
-	// 	{!showPower ? null : <span className="tenPowerContainer">
-	// 		<span className="char times">⋅</span>
-	// 		<span className="char ten">10</span>
-	// 		<span className="power">
-	// 			<CharString str={power} cursor={cursor && cursor.part === 'power' && cursor.cursor} />
-	// 		</span>
-	// 	</span>}
-	// </>
+	console.log(data)
+	const latex = toLatex(value)
+	if (latex === '')
+		return <span />
+	return <RBM>{processLatex(latex)}</RBM>
+}
+
+function processLatex(str) {
+	// If there are certain signs at the start or end, add spacing. This is to prevent inconsistent Latex spacing when you for instance type "a+" and then type "b" after. Without this, the plus sign jumps.
+	if (['+', '*'].includes(str[0]))
+		str = insertAtIndex(str, 1, '\\: ')
+	const end = str.length - 1
+	if (['+', '*', '-'].includes(str[end]))
+		str = insertAtIndex(str, end, '\\: ')
+
+	// Fix stars, brackets.
+	str = str.replaceAll('*', '\\cdot ')
+	str = processBrackets(str)
+
+	// All done!
+	return str
+}
+
+function processBrackets(str) {
+	// Walk through the string. Memorize opening brackets. Whenever we encounter a closing bracket, match it to the previous opening backet.
+	let openingBracketIndices = []
+	for (let index = 0; index < str.length; index++) {
+		if (str[index] === '(') { // Opening bracket?
+			openingBracketIndices.push(index) // Remember the opening bracket.
+		} else if (str[index] === ')') { // Closing bracket?
+			let matchingBracketIndex = openingBracketIndices.pop()
+			if (matchingBracketIndex !== undefined) { // Matching opening bracket?
+				const addRight = '\\right'
+				const addLeft = '\\left'
+				str = insertAtIndex(str, index, addRight)
+				str = insertAtIndex(str, matchingBracketIndex, addLeft)
+				index += addLeft.length + addRight.length // These characters were added. To prevent an infinite loop, add this length to the index.
+			} else { // No matching opening bracket.
+				const addRight = '\\right'
+				const addLeft = '\\left.\\hspace{-0\\.12em}' // Add negative space to prevent the \. from distorting the layout. Also, escape the period in the negative space due to our own system changing periods to commas on some language settings.
+				str = insertAtIndex(str, index, addRight) // Close off the bracket.
+				str = insertAtIndex(str, 0, addLeft)
+				index += addLeft.length + addRight.length // These characters were added. To prevent an infinite loop, add this length to the index.
+			}
+		}
+	}
+
+	// ToDo later: decide whether to open/close at end, at bracket or not at all. At end gives large brackets which can be pretty but it causes a jump of the equation on an opening bracket. (It puts the contents in a new block.) At bracket gives space at the bracket, which is not ideal either. Not at all gives a small bracket, which is fine, but it requires an adjustment of the preprocessing. Single brackets would have to be allowed or escaped or so.
+	// Close off remaining opening brackets.
+	while (openingBracketIndices.length > 0) {
+		const bracketIndex = openingBracketIndices.pop()
+		str = insertAtIndex(str, str.length, '\\right.\\hspace{-0\\.12em}')
+		str = insertAtIndex(str, bracketIndex, '\\left')
+	}
+	return str
+}
+
+export function keyPressToData(keyInfo, data, contentsElement) {
+	return expressionKeyPressToData(keyInfo, data, contentsElement, data, contentsElement)
 }
 
 // getEmptyData returns an empty data object, ready to be filled by input.
@@ -108,75 +150,6 @@ export function dataToKeyboardSettings(data) {
 		float: {},
 		unit: {},
 		// ToDo
-	}
-}
-
-// keyPressToData takes a keyInfo event and a data object and returns a new data object.
-export function keyPressToData(keyInfo, data, contentsElement, positive = defaultProps.positive, allowPower = defaultProps.allowPower) {
-	// Let's walk through a large variety of cases and see what's up.
-	const { key, ctrl, alt } = keyInfo
-	const { value, cursor } = data
-
-	// Ignore ctrl/alt keys.
-	if (ctrl || alt)
-		return data
-
-	// ToDo: check if we are in a special type (odd-numbered) and then pass it to that object.
-
-	// For left/right-arrows, home and end, adjust the cursor.
-	if (key === 'ArrowLeft') {
-		// ToDo: check if we need to move to another part.
-		return { ...data, cursor: { ...cursor, cursor: Math.max(cursor.cursor - 1, 0) } } // Move one position to the left.
-	}
-	if (key === 'ArrowRight') {
-		// ToDo: check if we need to move to another part.
-		return { ...data, cursor: { ...cursor, cursor: Math.min(cursor.cursor + 1, value[cursor.part].length) } } // Move the cursor one position to the right.
-	}
-	if (key === 'Home') // ToDo: if within a part, go to the start of said part. When already at the start, go to the start of everything. (And same with end.)
-		return { ...data, cursor: getStartCursor(value, cursor) }
-	if (key === 'End')
-		return { ...data, cursor: getEndCursor(value, cursor) }
-
-	// For backspace/delete, remove the appropriate symbol.
-	if (key === 'Backspace') {
-		if (isCursorAtStart(value, cursor)) // Cursor is at the start.
-			return data // Do nothing.
-		// ToDo: when the cursor is at the start of a string after a special part, deal with this appropriately.
-		return { ...data, value: arraySplice(value, cursor.part, 1, removeAtIndex(value[cursor.part], cursor.cursor - 1)), cursor: { ...cursor, cursor: cursor.cursor - 1 } } // Just remove the previous character.
-	}
-	if (key === 'Delete') {
-		if (isCursorAtEnd(value, cursor)) // Cursor is at the end.
-			return data // Do nothing.
-		// ToDo: when the cursor is at the end of a string before a special part, deal with this appropriately.
-		return { ...data, value: arraySplice(value, cursor.part, 1, removeAtIndex(value[cursor.part], cursor.cursor)) } // Just remove the upcoming character.
-	}
-
-	// Check for additions.
-	if (isLetter(key) || isNumber(key)) // Letters and numbers.
-		return addStrToData(key, data)
-	if (key === '+' || key === 'Plus') // Plus.
-		return addStrToData('+', data)
-	if (key === '-' || key === 'Minus') // Minus.
-		return addStrToData('-', data)
-	if (key === '*' || key === 'Times') // Times.
-		return addStrToData('*', data)
-	if (key === '(' || key === ')') // Brackets.
-		return addStrToData(key, data)
-	if (key === '.' || key === ',') // Period.
-		return addStrToData('.', data)
-
-	// Unknown key. Ignore, do nothing.
-	return data
-}
-
-// addStrToData adds a string into the data object, at the position of the cursor. It returns the new data object, with the cursor moved accordingly.
-function addStrToData(str, data) {
-	const { value, cursor } = data
-	const adjustedString = insertAtIndex(value[cursor.part], str, cursor.cursor)
-	return {
-		...data,
-		value: arraySplice(value, cursor.part, 1, adjustedString),
-		cursor: { ...cursor, cursor: cursor.cursor + str.toString().length },
 	}
 }
 
@@ -209,27 +182,7 @@ export function mouseClickToCursor(evt, data, contentsElement) {
 	// return data.cursor
 }
 
-// getStartCursor gives the cursor position at the start.
-export function getStartCursor(value = getEmpty(), cursor = null) {
-	return { part: 0, cursor: 0 }
-}
-
-// getEndCursor gives the cursor position at the end.
-export function getEndCursor(value = getEmpty(), cursor = null) {
-	return { part: value.length - 1, cursor: lastOf(value).length }
-}
-
-// isCursorAtStart returns a boolean: is the cursor at the start?
-export function isCursorAtStart(value, cursor) {
-	return cursor.part === 0 && cursor.cursor === 0
-}
-
-// isCursorAtEnd returns a boolean: is the cursor at the end?
-export function isCursorAtEnd(value, cursor) {
-	return cursor.part === value.length - 1 && cursor.cursor === lastOf(value).length
-}
-
-// isValid checks if a float IO is valid.
+// isValid checks if this IO is valid.
 export function isValid(value) {
-	return false // ToDo: check brackets and stuff.
+	return false // ToDo: check brackets and stuff. Also plusses and minusses. Give a message indicating what is wrong. At least, use a checkValidity function for this, which is called by isValid.
 }

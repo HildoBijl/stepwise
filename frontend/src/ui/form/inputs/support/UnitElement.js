@@ -107,13 +107,13 @@ export function keyPressToData(keyInfo, data) {
 	// For letters and base units add them to the unit.
 	if (isLetter(key) || Object.keys(units).includes(key) || Object.keys(prefixes).includes(key)) {
 		const addAt = cursor.part === 'text' ? cursor.cursor : prefix.length + unit.length
-		return { ...data, ...process({ text: insertAtIndex(prefix + unit, key, addAt), power }, { part: 'text', cursor: addAt + key.length }) }
+		return { ...data, ...process({ text: insertAtIndex(prefix + unit, addAt, key), power }, { part: 'text', cursor: addAt + key.length }) }
 	}
 
 	// For numbers add them to the power.
 	if (isNumber(key)) {
 		const addAt = cursor.part === 'power' ? cursor.cursor : 0
-		return { ...data, value: { ...value, power: insertAtIndex(power, key, addAt) }, cursor: { part: 'power', cursor: addAt + 1 } }
+		return { ...data, value: { ...value, power: insertAtIndex(power, addAt, key) }, cursor: { part: 'power', cursor: addAt + 1 } }
 	}
 
 	// Nothing sensible found. Don't make any changes.

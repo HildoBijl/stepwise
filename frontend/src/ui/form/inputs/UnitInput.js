@@ -125,6 +125,7 @@ const useStyles = makeStyles((theme) => ({
 export { style }
 
 const defaultProps = {
+	basic: true, // To get the basic character layout.
 	placeholder: 'Eenheid',
 	validate: nonEmptyAndValid,
 	initialData: getEmptyData(),

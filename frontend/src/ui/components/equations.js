@@ -62,8 +62,9 @@ function preprocess(latex, advanced = false) {
 		// Prevent Latex from messing up commas.
 		const replacement = decimalSeparator === ',' ? '{,}' : decimalSeparator
 
-		// Replace a period/comma followed by a number by the default decimal separator.
-		latex = latex.replace(/[.,]\d/g, substr => substr.replace('.', replacement).replace(',', replacement))
+		// Replace a period/comma by the default decimal separator, but only when not preceded by \left or \right or \ (a backslash itself).
+		latex = latex.replace(/(?<!(\\left)|(\\right)|(\\))[.,]/g, substr => substr.replace('.', replacement).replace(',', replacement))
+		latex = latex.replaceAll('\\.', '.') // Remove backslashes from escaped periods.
 
 		// Escape percentage signs.
 		latex = latex.replace('%', '\\%')
