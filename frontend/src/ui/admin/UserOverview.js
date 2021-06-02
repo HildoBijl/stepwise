@@ -55,7 +55,6 @@ export default function UserOverview() {
 	if (res.loading)
 		return <Par>Gebruikers worden geladen...</Par>
 	if (res.error || !res.data || !res.data.allUsers) {
-		console.log(res)
 		return <Par>Oops... De gebruikers konden niet geladen worden.</Par>
 	}
 

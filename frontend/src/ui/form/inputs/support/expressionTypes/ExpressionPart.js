@@ -2,7 +2,7 @@
 import { isNumber } from 'step-wise/util/numbers'
 import { isLetter, removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
 
-import { countNetBrackets as expressionCountNetBrackets } from './Expression'
+import * as Expression from './Expression'
 
 export function toLatex(value) {
 	return value
@@ -17,12 +17,10 @@ export function keyPressToData(keyInfo, data, contentsElement, expressionData, e
 		return data
 
 	// For left/right-arrows, home and end, adjust the cursor.
-	if (key === 'ArrowLeft') {
+	if (key === 'ArrowLeft')
 		return { ...data, cursor: Math.max(cursor - 1, 0) } // Move one position to the left.
-	}
-	if (key === 'ArrowRight') {
+	if (key === 'ArrowRight')
 		return { ...data, cursor: Math.min(cursor + 1, value.length) } // Move the cursor one position to the right.
-	}
 	if (key === 'Home')
 		return { ...data, cursor: getStartCursor(value) }
 	if (key === 'End')
@@ -45,8 +43,9 @@ export function keyPressToData(keyInfo, data, contentsElement, expressionData, e
 
 	// For brackets, check if we need to apply a bracket trick. For the opening bracket add a closing bracket, and for the closing bracket skip over it.
 	if (key === '(') {
-		const netBracketsBefore = expressionCountNetBrackets(expressionData, -1)
-		const netBracketsAfter = expressionCountNetBrackets(expressionData, 1)
+		const parentExpressionData = Expression.getDeepestExpression(expressionData)
+		const netBracketsBefore = Expression.countNetBrackets(parentExpressionData, -1)
+		const netBracketsAfter = Expression.countNetBrackets(parentExpressionData, 1)
 		if (netBracketsBefore < -netBracketsAfter)
 			return addStrToData(key, data) // There already is a closing bracket too much after the cursor. Just add an opening bracket.
 		return { // There are not sufficient opening brackets after the cursor. Add a closing bracket and put the cursor in-between.
@@ -61,8 +60,9 @@ export function keyPressToData(keyInfo, data, contentsElement, expressionData, e
 			return addStrToData(key, data)
 
 		// We are in front of a closing bracket. Should we override it?
-		const netBracketsBefore = expressionCountNetBrackets(expressionData, -1)
-		const netBracketsAfter = expressionCountNetBrackets(expressionData, 1)
+		const parentExpressionData = Expression.getDeepestExpression(expressionData)
+		const netBracketsBefore = Expression.countNetBrackets(parentExpressionData, -1)
+		const netBracketsAfter = Expression.countNetBrackets(parentExpressionData, 1)
 		if (netBracketsBefore > -netBracketsAfter)
 			return addStrToData(key, data) // There are too many opening brackets. Add a closing bracket.
 		return { ...data, cursor: cursor + 1 } // There are insufficient opening brackets to warrant a closing bracket. Overwrite it, effectively moving the cursor one to the right.

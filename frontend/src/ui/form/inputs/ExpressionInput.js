@@ -66,7 +66,8 @@ export function Expression(data) {
 		throw new Error(`Invalid type: tried to get the contents of an Expression field but got data for a type "${type}" field.`)
 
 	// Set up the output.
-	console.log(data)
+	console.log(value)
+	console.log(data.cursor)
 	const latex = toLatex(value)
 	if (latex === '')
 		return <span />
@@ -83,43 +84,8 @@ function processLatex(str) {
 
 	// Fix stars, brackets.
 	str = str.replaceAll('*', '\\cdot ')
-	str = processBrackets(str)
 
 	// All done!
-	return str
-}
-
-function processBrackets(str) {
-	// Walk through the string. Memorize opening brackets. Whenever we encounter a closing bracket, match it to the previous opening backet.
-	let openingBracketIndices = []
-	for (let index = 0; index < str.length; index++) {
-		if (str[index] === '(') { // Opening bracket?
-			openingBracketIndices.push(index) // Remember the opening bracket.
-		} else if (str[index] === ')') { // Closing bracket?
-			let matchingBracketIndex = openingBracketIndices.pop()
-			if (matchingBracketIndex !== undefined) { // Matching opening bracket?
-				const addRight = '\\right'
-				const addLeft = '\\left'
-				str = insertAtIndex(str, index, addRight)
-				str = insertAtIndex(str, matchingBracketIndex, addLeft)
-				index += addLeft.length + addRight.length // These characters were added. To prevent an infinite loop, add this length to the index.
-			} else { // No matching opening bracket.
-				const addRight = '\\right'
-				const addLeft = '\\left.\\hspace{-0\\.12em}' // Add negative space to prevent the \. from distorting the layout. Also, escape the period in the negative space due to our own system changing periods to commas on some language settings.
-				str = insertAtIndex(str, index, addRight) // Close off the bracket.
-				str = insertAtIndex(str, 0, addLeft)
-				index += addLeft.length + addRight.length // These characters were added. To prevent an infinite loop, add this length to the index.
-			}
-		}
-	}
-
-	// ToDo later: decide whether to open/close at end, at bracket or not at all. At end gives large brackets which can be pretty but it causes a jump of the equation on an opening bracket. (It puts the contents in a new block.) At bracket gives space at the bracket, which is not ideal either. Not at all gives a small bracket, which is fine, but it requires an adjustment of the preprocessing. Single brackets would have to be allowed or escaped or so.
-	// Close off remaining opening brackets.
-	while (openingBracketIndices.length > 0) {
-		const bracketIndex = openingBracketIndices.pop()
-		str = insertAtIndex(str, str.length, '\\right.\\hspace{-0\\.12em}')
-		str = insertAtIndex(str, bracketIndex, '\\left')
-	}
 	return str
 }
 

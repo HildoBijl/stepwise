@@ -41,10 +41,3 @@ export function isCursorAtEnd(data) {
 	const { type, value, cursor } = data
 	return functions[type].isCursorAtEnd(value, cursor)
 }
-
-export function countNetBrackets(data, relativeToCursor) {
-	const { type } = data
-	if (!functions[type].countNetBrackets)
-		return 0
-	return functions[type].countNetBrackets(data, relativeToCursor)
-}
