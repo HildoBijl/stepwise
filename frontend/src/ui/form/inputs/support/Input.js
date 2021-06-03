@@ -269,7 +269,7 @@ export default function Input(props) {
 
 	// Register the field for tabbing and for a keyboard.
 	const processKeyPress = useCallback(keyInfo => setData(data => keyPressToData(keyInfo, data, contentsRef.current)), [setData, keyPressToData, contentsRef])
-	const keyboard = keyboardSettings ? {
+	const keyboard = data && data.cursor && keyboardSettings ? {
 		keyFunction: (keyInfo) => processKeyPress(keyInfo),
 		settings: typeof keyboardSettings === 'function' ? keyboardSettings(data) : keyboardSettings, // keyboardSettings may be a function, taking data and giving settings.
 	} : null // When no settings are provided, no keyboard needs to be shown.
