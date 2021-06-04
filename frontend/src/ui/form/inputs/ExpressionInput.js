@@ -2,14 +2,15 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
+import { flattenFully, forceIntoShape } from 'step-wise/util/arrays'
 import { selectRandomEmpty } from 'step-wise/util/random'
 import { insertAtIndex } from 'step-wise/util/strings'
 import { getEmpty, isEmpty } from 'step-wise/inputTypes/Expression'
 
-import { RBM } from 'ui/components/equations'
+import { RBM, zeroWidthSpace } from 'ui/components/equations'
 
 import Input from './support/Input'
-import { toLatex, keyPressToData as expressionKeyPressToData, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd } from './support/expressionTypes/Expression'
+import { toLatex, getLatexChars, keyPressToData as expressionKeyPressToData, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd } from './support/expressionTypes/Expression'
 
 const style = (theme) => ({
 	// TODO: STILL NEEDED?
@@ -35,6 +36,8 @@ const defaultProps = {
 	getEndCursor,
 	isCursorAtStart,
 	isCursorAtEnd,
+	autoResize: true, // Resize the field height to the height of the contents (the equation).
+	heightDelta: -10, // Equations always have some margin, and we want less for the input field.
 }
 
 export default function ExpressionInput(props) {
@@ -69,8 +72,6 @@ export function Expression(data) {
 	console.log(value)
 	console.log(data.cursor)
 	const latex = toLatex(value)
-	if (latex === '')
-		return <span />
 	return <RBM>{processLatex(latex)}</RBM>
 }
 
@@ -90,7 +91,9 @@ function processLatex(str) {
 }
 
 export function keyPressToData(keyInfo, data, contentsElement) {
-	return expressionKeyPressToData(keyInfo, data, contentsElement, data, contentsElement)
+	const equationElement = contentsElement.getElementsByClassName('katex-html')[0]
+	const charElements = getCharElements(equationElement, data.value)
+	return expressionKeyPressToData(keyInfo, data, charElements, data, equationElement)
 }
 
 // getEmptyData returns an empty data object, ready to be filled by input.
@@ -151,4 +154,26 @@ export function mouseClickToCursor(evt, data, contentsElement) {
 // isValid checks if this IO is valid.
 export function isValid(value) {
 	return false // ToDo: check brackets and stuff. Also plusses and minusses. Give a message indicating what is wrong. At least, use a checkValidity function for this, which is called by isValid.
+}
+
+// getCharElements takes an expression and finds all the DOM elements related to all characters.
+export function getCharElements(equationElement, value) {
+	// Get all the chars that should be there. Compare this with all the chars that are rendered to check if this matches out. (If not, the whole plan fails.)
+	const latexChars = getLatexChars(value)
+	const textLatexChars = flattenFully(latexChars).join('')
+	const textContent = equationElement.textContent.replaceAll(zeroWidthSpace, '') // Get all text in HTML elements, but remove zero-width spaces.
+	window.eq = equationElement // TODO REMOVE
+	window.ch = latexChars // TODO REMOVE
+	if (textContent !== textLatexChars)
+		throw new Error(`Equation character error: expected the render of the equation to have characters "${textLatexChars}", but the actual Katex equation rendered "${textLatexChars}". These two strings must be equal: all characters must appear in the order they are expected in.`)
+
+	// Extract all DOM elements (leafs) with a character and match them appropriately.
+	const allElements = [...equationElement.getElementsByTagName('*')]
+	const charElementList = allElements.filter(element => element.childElementCount === 0 && element.textContent.replaceAll(zeroWidthSpace, '').length > 0)
+	console.log(charElementList)
+	window.ce = charElementList // TODO REMOVE
+	console.log(latexChars)
+	const charElements = forceIntoShape(charElementList, latexChars)
+	console.log(charElements)
+	return charElements
 }

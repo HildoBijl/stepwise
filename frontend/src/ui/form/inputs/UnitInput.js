@@ -55,7 +55,7 @@ const style = (theme) => ({
 			'& .power': {
 				'& .cursorContainer': {
 					'& span.cursor': {
-						// No common settings left.
+						height: '46%',
 					},
 				},
 			},
@@ -63,7 +63,7 @@ const style = (theme) => ({
 
 		'& .num': {
 			'& .char': {
-				lineHeight: 1.9,
+				lineHeight: 1.8,
 			},
 			'& .cursorContainer': {
 				'& span.cursor': {
@@ -72,12 +72,11 @@ const style = (theme) => ({
 			},
 			'& .power': {
 				'& .char': {
-					lineHeight: 2.1,
+					lineHeight: 2.0,
 				},
 				'& .cursorContainer': {
 					'& span.cursor': {
-						height: '50%',
-						top: '13%',
+						top: '14%',
 					},
 				},
 			},
@@ -85,20 +84,19 @@ const style = (theme) => ({
 
 		'& .den': {
 			'& .char': {
-				lineHeight: 1.7,
+				lineHeight: 1.6,
 			},
 			'& .cursorContainer': {
 				'& span.cursor': {
-					top: '15%',
+					top: '20%',
 				},
 			},
 			'& .power': {
 				'& .char': {
-					lineHeight: 1.9,
+					lineHeight: 1.8,
 				},
 				'& .cursorContainer': {
 					'& span.cursor': {
-						height: '45%',
 						top: '11%',
 					},
 				},

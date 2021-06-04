@@ -2,13 +2,22 @@
 import { isNumber } from 'step-wise/util/numbers'
 import { isLetter, removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
 
+import { latexMinus } from 'ui/components/equations'
+
 import * as Expression from './Expression'
 
 export function toLatex(value) {
 	return value
 }
 
-export function keyPressToData(keyInfo, data, contentsElement, expressionData, expressionContentsElement) {
+export function getLatexChars(value) {
+	value = value.replaceAll('*', '⋅') // This is what appears for the cdot.
+	value = value.replaceAll('.', ',') // Commas for language-dependent processing of numbers.
+	value = value.replaceAll('-', latexMinus) // Latex minuses.
+	return value.split('')
+}
+
+export function keyPressToData(keyInfo, data, charElements, mainExpressionData, mainExpressionElement) {
 	const { key, ctrl, alt } = keyInfo
 	const { value, cursor } = data
 
@@ -43,7 +52,7 @@ export function keyPressToData(keyInfo, data, contentsElement, expressionData, e
 
 	// For brackets, check if we need to apply a bracket trick. For the opening bracket add a closing bracket, and for the closing bracket skip over it.
 	if (key === '(') {
-		const parentExpressionData = Expression.getDeepestExpression(expressionData)
+		const parentExpressionData = Expression.getDeepestExpression(mainExpressionData)
 		const netBracketsBefore = Expression.countNetBrackets(parentExpressionData, -1)
 		const netBracketsAfter = Expression.countNetBrackets(parentExpressionData, 1)
 		if (netBracketsBefore < -netBracketsAfter)
@@ -60,7 +69,7 @@ export function keyPressToData(keyInfo, data, contentsElement, expressionData, e
 			return addStrToData(key, data)
 
 		// We are in front of a closing bracket. Should we override it?
-		const parentExpressionData = Expression.getDeepestExpression(expressionData)
+		const parentExpressionData = Expression.getDeepestExpression(mainExpressionData)
 		const netBracketsBefore = Expression.countNetBrackets(parentExpressionData, -1)
 		const netBracketsAfter = Expression.countNetBrackets(parentExpressionData, 1)
 		if (netBracketsBefore > -netBracketsAfter)

@@ -10,13 +10,17 @@ export function toLatex(value) {
 	return `\\frac{${General.toLatex(value.num)}}{${General.toLatex(value.den)}}`
 }
 
-export function keyPressToData(keyInfo, data, contentsElement, expressionData, expressionContentsElement) {
+export function getLatexChars(value) {
+	return [General.getLatexChars(value.den), General.getLatexChars(value.num)] // Katex puts the denominator first in its HTML rendering.
+}
+
+export function keyPressToData(keyInfo, data, charElements, mainExpressionData, mainExpressionElement) {
 	const { key, ctrl, alt } = keyInfo
 	const { value, cursor } = data
 
 	// When we want to pass this on to the child element, we have this custom function.
 	const passOn = () => {
-		const adjustedElement = General.keyPressToData(keyInfo, addCursor(value[cursor.part], cursor.cursor), contentsElement, expressionData, expressionContentsElement) // ToDo: adjust contentsElement.
+		const adjustedElement = General.keyPressToData(keyInfo, addCursor(value[cursor.part], cursor.cursor), charElements[cursor.part === 'den' ? 0 : 1], mainExpressionData, mainExpressionElement)
 		return {
 			...data,
 			value: {

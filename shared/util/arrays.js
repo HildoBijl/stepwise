@@ -143,3 +143,25 @@ function hasDuplicates(array, equals = (a,b) => a === b) {
 	return duplicate !== undefined
 }
 module.exports.hasDuplicates = hasDuplicates
+
+// flattenFully flattens an array until it has no arrays left.
+function flattenFully(arr) {
+	while (arr.some(element => Array.isArray(element)))
+		arr = arr.flat()
+	return arr
+}
+module.exports.flattenFully = flattenFully
+
+// forceIntoShape takes a list and turns it into the shape given by the shape argument. If you provide a list [3, 5, 7, 9, 11] and a shape [[*, *], *, [*, [*]]], then the result will be [[3, 5], 7, [9, [11]]]. (The values of the shape do not matter.) You could see this as a form of array unflatten.
+function forceIntoShape(list, shape) {
+	// Perform the unflattening.
+	let counter = 0
+	const forceIntoShapeRecursion = (shape) => shape.map(shapeElement => (Array.isArray(shapeElement)) ? forceIntoShapeRecursion(shapeElement) : list[counter++])
+	const result = forceIntoShapeRecursion(shape, 0)
+
+	// Check if we didn't run into the end of the list.
+	if (counter > list.length)
+		throw new Error(`Invalid list/shape combination: the list had fewer elements than the shape, which is not allowed.`)
+	return result
+}
+module.exports.forceIntoShape = forceIntoShape

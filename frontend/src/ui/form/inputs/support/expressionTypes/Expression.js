@@ -11,6 +11,10 @@ export function toLatex(value) {
 	return processExpressionPartBrackets(value.map(General.toLatex)).join(' ')
 }
 
+export function getLatexChars(value) {
+	return value.map(General.getLatexChars)
+}
+
 function processExpressionPartBrackets(arr) {
 	// Walk through the ExpressionParts, one by one and inside. Memorize opening brackets. Whenever we encounter a closing bracket, match it to the previous opening backet.
 	let openingBrackets = []
@@ -51,14 +55,13 @@ function processExpressionPartBrackets(arr) {
 	return arr
 }
 
-export function keyPressToData(keyInfo, data, contentsElement, expressionData, expressionContentsElement) {
-	// ToDo: check transitions between elements.
+export function keyPressToData(keyInfo, data, charElements, mainExpressionData, mainExpressionElement) {
 	const { key, ctrl, alt } = keyInfo
 	const { value, cursor } = data
 
 	// When we want to pass this on to the child element, we have this custom function.
 	const passOn = () => {
-		const adjustedElement = General.keyPressToData(keyInfo, addCursor(value[cursor.part], cursor.cursor), contentsElement, expressionData, expressionContentsElement) // ToDo: adjust contentsElement.
+		const adjustedElement = General.keyPressToData(keyInfo, addCursor(value[cursor.part], cursor.cursor), charElements[cursor.part], mainExpressionData, mainExpressionElement)
 		return cleanUp({
 			...data,
 			value: arraySplice(value, cursor.part, 1, removeCursor(adjustedElement)),

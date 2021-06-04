@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 			flex: '1 0 auto',
 			height: `${height}em`,
 			margin: '0 0.4em 0 0',
-			padding: '0.1em 0 0',
+			transform: 'translateY(0.1em)', // For better centering taking into account the label.
 		},
 
 		'& .fieldContainer': {
@@ -92,6 +92,7 @@ const useStyles = makeStyles((theme) => ({
 					display: 'flex',
 					flexFlow: 'row nowrap',
 					height: '100%',
+					transform: 'translateY(0.1em)', // For better centering taking into account the label.
 					width: '100%',
 
 					'& .contentsInnerContainer': {
@@ -209,7 +210,7 @@ const useStyles = makeStyles((theme) => ({
 		'& .char': {
 			display: 'inline-block',
 			height: '100%',
-			lineHeight: 3.0,
+			lineHeight: 2.85,
 
 			'&.times': {
 				padding: '0 0.15em',
@@ -220,7 +221,7 @@ const useStyles = makeStyles((theme) => ({
 			fontSize: '0.7em',
 
 			'& .char': {
-				lineHeight: 3.2,
+				lineHeight: 3.05,
 			},
 			'& span.cursor': {
 				height: '35%',
@@ -237,13 +238,14 @@ const useStyles = makeStyles((theme) => ({
 export default function Input(props) {
 	// Gather properties.
 	let { id, prelabel, label, placeholder, feedbackText, className, size, validate, readOnly, autofocus, persistent } = props // User-defined props that are potentially passed on.
-	let { initialData, isEmpty, JSXObject, keyPressToData, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart, keyboardSettings, basic } = props // Field-defined props that vary per field type.
+	let { initialData, isEmpty, JSXObject, keyPressToData, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart, keyboardSettings, basic, autoResize = false, heightDelta = 0 } = props // Field-defined props that vary per field type.
 
 	// Check properties.
 	if (!id)
 		throw new Error(`No ID given to input field.`)
 
 	// Set up refs.
+	const prelabelRef = useRef()
 	const fieldRef = useRef()
 	const contentsContainerRef = useRef()
 	const contentsRef = useRef()
@@ -271,7 +273,7 @@ export default function Input(props) {
 	const processKeyPress = useCallback(keyInfo => setData(data => keyPressToData(keyInfo, data, contentsRef.current)), [setData, keyPressToData, contentsRef])
 	const keyboard = data && data.cursor && keyboardSettings ? {
 		keyFunction: (keyInfo) => processKeyPress(keyInfo),
-		settings: typeof keyboardSettings === 'function' ? keyboardSettings(data) : keyboardSettings, // keyboardSettings may be a function, taking data and giving settings.
+		settings: typeof keyboardSettings === 'function' ? keyboardSettings(data) : keyboardSettings, // keyboardSettings may be a function, taking data and giving settings. It requires a cursor, so this must be present. Otherwise no keyboard ought to be shown.
 	} : null // When no settings are provided, no keyboard needs to be shown.
 	const [active] = useFieldRegistration({ id, ref: fieldRef, apply: !readOnly, autofocus, keyboard })
 
@@ -279,6 +281,7 @@ export default function Input(props) {
 	useKeyProcessing(processKeyPress, active)
 	useMouseClickProcessing(id, mouseClickToCursor, setData, contentsRef, fieldRef, getStartCursor, getEndCursor)
 	useContentSliding(contentsRef, contentsContainerRef)
+	useFieldResizing(contentsRef, prelabelRef, fieldRef, data.value, autoResize, heightDelta)
 
 	// Pass relevant data to the style function.
 	const classes = useStyles({
@@ -306,7 +309,7 @@ export default function Input(props) {
 	const Icon = feedback && feedback.Icon
 	return (
 		<div className={clsx(classes.input, className)}>
-			<div className="prelabel">
+			<div className="prelabel" ref={prelabelRef}>
 				{prelabel}
 			</div>
 			<div className="fieldContainer">
@@ -430,6 +433,18 @@ function useContentSliding(contentsRef, contentsContainerRef) {
 		const translation = -slidePart * (contentsWidth - containerWidth)
 		contentsElement.style.transform = `translateX(${translation}px)`
 	})
+}
+
+// useFieldResizing adjusts the height of the input field based on the contents.
+function useFieldResizing(contentsRef, prelabelRef, fieldRef, value, apply, heightDelta = 0) {
+	useEffect(() => {
+		if (!apply)
+			return
+		const contentsHeight = contentsRef.current.offsetHeight + heightDelta
+		const fieldHeight = `max(${height}em, ${contentsHeight}px)`
+		fieldRef.current.style.height = fieldHeight
+		prelabelRef.current.style.height = fieldHeight
+	}, [contentsRef, prelabelRef, fieldRef, value, apply, heightDelta])
 }
 
 // CharString takes a string, turns it into an array of JSX char elements and returns it. If a cursor position (a number) is given, then the cursor is put in that position.

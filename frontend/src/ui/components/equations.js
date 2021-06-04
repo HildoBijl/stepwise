@@ -32,6 +32,10 @@ const la = '{'
 const ra = '}'
 export { la, ra }
 
+// The zero-width space is sometimes used while rendering equations.
+const zeroWidthSpace = String.fromCharCode(8203)
+export { zeroWidthSpace }
+
 // This is the decimal separator we use site-wide.
 const decimalSeparator = ','
 export { decimalSeparator }

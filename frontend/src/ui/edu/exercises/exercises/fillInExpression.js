@@ -18,10 +18,10 @@ function Problem({ index }) {
 	const { shared: { expressions } } = useExerciseData()
 	const expression = expressions[index]
 	return <>
-		<Par>Voer letterlijk de uitdrukking <M>{expression}</M> in.</Par>
+		<Par>Voer letterlijk de uitdrukking <M>x = {expression}</M> in.</Par>
 		<InputSpace>
 			<Par>
-				<ExpressionInput id="ans" label="Vul hier de uitdrukking in" size="s" />
+				<ExpressionInput id="ans" prelabel={<M>x=</M>} label="Vul hier de uitdrukking in" size="s" />
 			</Par>
 		</InputSpace>
 	</>
