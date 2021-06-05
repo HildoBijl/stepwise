@@ -111,7 +111,7 @@ export function getCursorPropertiesFromElements(left, right, container) {
 	if (!left) {
 		const { x, y } = getCoordinatesOf(right, container)
 		return {
-			left: x,
+			left: x - 1,
 			top: y,
 			height: right.offsetHeight,
 		}
@@ -119,7 +119,7 @@ export function getCursorPropertiesFromElements(left, right, container) {
 	if (!right) {
 		const { x, y } = getCoordinatesOf(left, container)
 		return {
-			left: x + left.offsetWidth,
+			left: x + left.offsetWidth + 1,
 			top: y,
 			height: left.offsetHeight
 		}
