@@ -12,8 +12,9 @@ import { notSelectable } from 'ui/theme'
 import { useSubmitAction } from 'ui/edu/exercises/util/actions'
 
 import Cursor from './Cursor'
+import AbsoluteCursor from './AbsoluteCursor'
 import { useFieldFeedback } from '../../FeedbackProvider'
-import { useFormParameter, useCursorRef } from '../../Form'
+import { useFormParameter, useCursorRef, useAbsoluteCursorRef } from '../../Form'
 import { useStatus } from '../../Status'
 import { useFieldRegistration, useFieldActivation, useKeyboardRef } from '../../FieldController'
 
@@ -188,7 +189,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 
 	contents: { // For all possible input fields.
-
+		padding: '0 1px', // To make sure the cursor is visible when all the way on the left.
 	},
 
 	basicContents: { // Only for the basic type.
@@ -307,6 +308,7 @@ export default function Input(props) {
 
 	// Render the input field and its contents.
 	const Icon = feedback && feedback.Icon
+	const cursor = active ? data.cursor : null
 	return (
 		<div className={clsx(classes.input, className)}>
 			<div className="prelabel" ref={prelabelRef}>
@@ -317,7 +319,8 @@ export default function Input(props) {
 					<div className="contentsOuterContainer">
 						<div className="contentsInnerContainer" ref={contentsContainerRef}>
 							<span ref={contentsRef} className={clsx(classes.contents, { [classes.basicContents]: basic })}>
-								<JSXObject {...data} cursor={active ? data.cursor : null} />
+								{basic ? null : <AbsoluteCursor active={active} />}
+								<JSXObject {...data} cursor={cursor} contentsRef={contentsRef} />
 							</span>
 							<span className="placeholder">{placeholder}</span>
 						</div>
@@ -408,6 +411,7 @@ function useMouseClickProcessing(fieldId, mouseClickToCursor, setData, contentsR
 // useContentSlidingEffect sets up an effect for content sliding. It gets references to the contents field and the cursor (if existing). It then positions the contents field within its container (the input field) such that the cursor is appropriately visible.
 function useContentSliding(contentsRef, contentsContainerRef) {
 	const cursorRef = useCursorRef()
+	const absoluteCursorRef = useAbsoluteCursorRef()
 	useEffect(() => {
 		// Calculate widths.
 		const contentsElement = contentsRef.current
@@ -419,12 +423,12 @@ function useContentSliding(contentsRef, contentsContainerRef) {
 			contentsElement.style.transform = 'translateX(0px)'
 			return
 		}
-
+		
 		// If there is no cursor inside the field, then we can't position anything. Leave the previous settings.
-		const cursorElement = cursorRef.current
+		const cursorElement = cursorRef.current || absoluteCursorRef.current.element
 		if (!cursorElement || !contentsContainerRef.current.contains(cursorElement))
 			return
-
+		
 		// If it doesn't fit, slide it appropriately.
 		const cutOff = 0.1 // The part of the container at which the contents don't slide yet.
 		const cutOffDistance = cutOff * containerWidth

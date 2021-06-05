@@ -14,6 +14,14 @@ export function getLatexChars(value) {
 	return [General.getLatexChars(value.den), General.getLatexChars(value.num)] // Katex puts the denominator first in its HTML rendering.
 }
 
+export function getCursorProperties(data, charElements, container) {
+	const { cursor, value } = data
+	return General.getCursorProperties({
+		...value[cursor.part],
+		cursor: cursor.cursor,
+	}, charElements[cursor.part === 'den' ? 0 : 1], container)
+}
+
 export function keyPressToData(keyInfo, data, charElements, mainExpressionData, mainExpressionElement) {
 	const { key, ctrl, alt } = keyInfo
 	const { value, cursor } = data

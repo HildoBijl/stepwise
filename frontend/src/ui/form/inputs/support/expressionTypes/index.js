@@ -21,6 +21,11 @@ export function getLatexChars(data) {
 	return functions[type].getLatexChars(value)
 }
 
+// getCursorProperties takes a data object and an array of char elements and uses this to determine the properties { x, y, height } that the cursor should have.
+export function getCursorProperties(data, charElements, container) {
+	return functions[data.type].getCursorProperties(data, charElements, container)
+}
+
 // keyPressToData takes a keyInfo event and a data object and returns a new data object.
 export function keyPressToData(keyInfo, data, contentsElement, originalData, originalContentsElement) {
 	// Check which type of object we have and pass on the call.

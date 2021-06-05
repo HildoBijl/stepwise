@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext, useRef, useCallback, useEffect } from
 	'react'
 
-import { processOptions } from 'step-wise/util/objects'
+import { processOptions, ensureConsistency } from 'step-wise/util/objects'
 import { isEmpty, IOtoFO } from 'step-wise/inputTypes'
 import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 
@@ -24,6 +24,7 @@ export default function Form({ children }) {
 	const inputRef = useRefWithValue(input)
 	const validationRef = useRefWithValue(validation)
 	const cursorRef = useRef()
+	const absoluteCursorRef = useRef()
 
 	// Get other parameters.
 	const { activateFirst } = useFieldControllerContext()
@@ -31,10 +32,14 @@ export default function Form({ children }) {
 
 	// Define input parameter handlers.
 	const setParameter = useCallback((id, value) => {
-		setInput((input) => ({
-			...input,
-			[id]: (typeof value === 'function' ? value(input[id]) : value),
-		}))
+		setInput((input) => {
+			const oldValue = input[id]
+			const newValue = typeof value === 'function' ? value(oldValue) : value
+			return {
+				...input,
+				[id]: ensureConsistency(newValue, oldValue),
+			}
+		})
 	}, [setInput])
 
 	const deleteParameter = useCallback((id) => {
@@ -105,7 +110,7 @@ export default function Form({ children }) {
 	}, [validationFunctionsRef])
 
 	return (
-		<FormContext.Provider value={{ input, setParameter, deleteParameter, subscribe, unsubscribe, setParameters, clearForm, validation, validationInput, isValid, saveValidationFunction, cursorRef }}>
+		<FormContext.Provider value={{ input, setParameter, deleteParameter, subscribe, unsubscribe, setParameters, clearForm, validation, validationInput, isValid, saveValidationFunction, cursorRef, absoluteCursorRef }}>
 			<form onSubmit={(evt) => evt.preventDefault()}>
 				{children}
 			</form>
@@ -196,4 +201,9 @@ function isValidationValid(validation) {
 
 export function useCursorRef() {
 	return useFormData().cursorRef
+}
+export function useAbsoluteCursorRef(apply = true) {
+	const ref = useRef()
+	const formData = useFormData()
+	return apply ? formData.absoluteCursorRef : ref
 }

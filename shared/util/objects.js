@@ -22,6 +22,10 @@ module.exports.ensureBoolean = ensureBoolean
 
 // deepEquals checks whether two objects are equal. It does this iteratively: if the parameters are objects or arrays, these are recursively checked.
 function deepEquals(a, b) {
+	// Check reference equality.
+	if (a === b)
+		return true
+
 	// Check for arrays.
 	if (Array.isArray(a) && Array.isArray(b))
 		return a.length === b.length && a.every((val, index) => deepEquals(val, b[index]))
@@ -45,6 +49,29 @@ function deepEquals(a, b) {
 	return keys.every(key => deepEquals(a[key], b[key]))
 }
 module.exports.deepEquals = deepEquals
+
+// ensureConsistency takes a new value and compares it with the old value. It tries to maintain consistency. If the new value deepEquals the old value, but has a different reference (is cloned/reconstructed) the old value is return, to maintain reference equality. If the value is an object, the process is repeated for its children in an iterative way.
+function ensureConsistency(newValue, oldValue) {
+	// On a deepEquals, return the old value to keep the reference intact.
+	if (deepEquals(newValue, oldValue))
+		return oldValue
+
+	// There is no deepEquals. Walk through the object to see if children can be kept consistent. First check for arrays.
+	if (Array.isArray(newValue) && Array.isArray(oldValue))
+		return newValue.map((item, index) => ensureConsistency(item, oldValue[index]))
+	
+	// Then check for non-objects. For non-objects there's no such thing as reference inequality, so just return the value.
+	if (!isObject(newValue) || !isObject(oldValue))
+		return newValue
+
+	// We have an object. Assemble the new object.
+	const newObject = {}
+	Object.keys(newValue).forEach(key => {
+		newObject[key] = ensureConsistency(newValue[key], oldValue[key])
+	})
+	return newObject
+}
+module.exports.ensureConsistency = ensureConsistency
 
 // applyToEachParameter takes an object with multiple parameters, like { a: 2, b: 3 }, and applies a function like (x) => 2*x to each parameter. It returns a new object (the old one is unchanged) with the result, like { a: 4, b: 6 }.
 function applyToEachParameter(obj, func) {

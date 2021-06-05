@@ -18,6 +18,7 @@ const useStyles = makeStyles(() => ({
 			width: '0.5px',
 		},
 	},
+	
 	'@keyframes cursor': {
 		'0%': { opacity: 1 },
 		'30%': { opacity: 0 },

@@ -15,44 +15,12 @@ export function getLatexChars(value) {
 	return value.map(General.getLatexChars)
 }
 
-function processExpressionPartBrackets(arr) {
-	// Walk through the ExpressionParts, one by one and inside. Memorize opening brackets. Whenever we encounter a closing bracket, match it to the previous opening backet.
-	let openingBrackets = []
-	arr.forEach((_, index) => {
-		// Keep non-expression-parts as is.
-		if (index % 2 === 1)
-			return
-
-		// Walk through the string.
-		for (let char = 0; char < arr[index].length; char++) {
-			if (arr[index][char] === '(') { // Opening bracket?
-				openingBrackets.push({ index, char }) // Remember the opening bracket.
-			} else if (arr[index][char] === ')') { // Closing bracket?
-				const matchingBracket = openingBrackets.pop()
-				if (matchingBracket !== undefined) { // Matching opening bracket? Couple them.
-					const addRight = '\\right'
-					const addLeft = '\\left'
-					arr[index] = insertAtIndex(arr[index], char, addRight)
-					arr[matchingBracket.index] = insertAtIndex(arr[matchingBracket.index], matchingBracket.char, addLeft)
-					char += (index === matchingBracket.index ? addLeft.length : 0) + addRight.length // These characters were added. To prevent an infinite loop, add this length to the char iterator.
-				} else { // No matching opening bracket. Add a \. at the start of the ExpressionPart.
-					const addRight = '\\right'
-					const addLeft = '\\left.\\hspace{-0\\.12em}' // Add negative space to prevent the \. from distorting the layout. Also, escape the period in the negative space due to our own system changing periods to commas on some language settings.
-					arr[index] = insertAtIndex(arr[index], char, addRight) // Close off the bracket.
-					arr[index] = insertAtIndex(arr[index], 0, addLeft)
-					char += addLeft.length + addRight.length // These characters were added. To prevent an infinite loop, add this length to the char iterator.
-				}
-			}
-		}
-	})
-
-	// Close off remaining opening brackets by adding \. on the end of the respective strings.
-	while (openingBrackets.length > 0) {
-		const openingBracket = openingBrackets.pop()
-		arr[openingBracket.index] = insertAtIndex(arr[openingBracket.index], arr[openingBracket.index].length, '\\right.\\hspace{-0\\.12em}')
-		arr[openingBracket.index] = insertAtIndex(arr[openingBracket.index], openingBracket.char, '\\left')
-	}
-	return arr
+export function getCursorProperties(data, charElements, container) {
+	const { cursor, value } = data
+	return General.getCursorProperties({
+		...value[cursor.part],
+		cursor: cursor.cursor,
+	}, charElements[cursor.part], container)
 }
 
 export function keyPressToData(keyInfo, data, charElements, mainExpressionData, mainExpressionElement) {
@@ -359,4 +327,45 @@ export function countNetBrackets(data, relativeToCursor = 0) {
 	const netBracketsInPreviousParts = sum(arrayPart.map(element => element.type === 'ExpressionPart' ? ExpressionPart.countNetBrackets(element) : 0))
 	const netBracketsInCurrentPart = ExpressionPart.countNetBrackets(addCursor(value[cursor.part], cursor.cursor), relativeToCursor)
 	return netBracketsInPreviousParts + netBracketsInCurrentPart
+}
+
+// processExpressionPartBrackets takes an array of Latex-strings and matches the brackets inside all strings. It does this only for the even-numbered elements, which are the ExpressionParts.
+function processExpressionPartBrackets(arr) {
+	// Walk through the ExpressionParts, one by one and inside. Memorize opening brackets. Whenever we encounter a closing bracket, match it to the previous opening backet.
+	let openingBrackets = []
+	arr.forEach((_, index) => {
+		// Keep non-expression-parts as is.
+		if (index % 2 === 1)
+			return
+
+		// Walk through the string.
+		for (let char = 0; char < arr[index].length; char++) {
+			if (arr[index][char] === '(') { // Opening bracket?
+				openingBrackets.push({ index, char }) // Remember the opening bracket.
+			} else if (arr[index][char] === ')') { // Closing bracket?
+				const matchingBracket = openingBrackets.pop()
+				if (matchingBracket !== undefined) { // Matching opening bracket? Couple them.
+					const addRight = '\\right'
+					const addLeft = '\\left'
+					arr[index] = insertAtIndex(arr[index], char, addRight)
+					arr[matchingBracket.index] = insertAtIndex(arr[matchingBracket.index], matchingBracket.char, addLeft)
+					char += (index === matchingBracket.index ? addLeft.length : 0) + addRight.length // These characters were added. To prevent an infinite loop, add this length to the char iterator.
+				} else { // No matching opening bracket. Add a \. at the start of the ExpressionPart.
+					const addRight = '\\right'
+					const addLeft = '\\left.\\hspace{-0\\.12em}' // Add negative space to prevent the \. from distorting the layout. Also, escape the period in the negative space due to our own system changing periods to commas on some language settings.
+					arr[index] = insertAtIndex(arr[index], char, addRight) // Close off the bracket.
+					arr[index] = insertAtIndex(arr[index], 0, addLeft)
+					char += addLeft.length + addRight.length // These characters were added. To prevent an infinite loop, add this length to the char iterator.
+				}
+			}
+		}
+	})
+
+	// Close off remaining opening brackets by adding \. on the end of the respective strings.
+	while (openingBrackets.length > 0) {
+		const openingBracket = openingBrackets.pop()
+		arr[openingBracket.index] = insertAtIndex(arr[openingBracket.index], arr[openingBracket.index].length, '\\right.\\hspace{-0\\.12em}')
+		arr[openingBracket.index] = insertAtIndex(arr[openingBracket.index], openingBracket.char, '\\left')
+	}
+	return arr
 }

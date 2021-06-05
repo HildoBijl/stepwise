@@ -1,22 +1,19 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
 import { flattenFully, forceIntoShape } from 'step-wise/util/arrays'
 import { selectRandomEmpty } from 'step-wise/util/random'
-import { insertAtIndex } from 'step-wise/util/strings'
 import { getEmpty, isEmpty } from 'step-wise/inputTypes/Expression'
 
-import { RBM, zeroWidthSpace } from 'ui/components/equations'
+import { zeroWidthSpace } from 'ui/components/equations'
 
 import Input from './support/Input'
-import { toLatex, getLatexChars, keyPressToData as expressionKeyPressToData, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd } from './support/expressionTypes/Expression'
+import MathWithCursor, { MathWithCursorProvider, useMathWithCursorContext } from './support/MathWithCursor'
+import { getLatexChars, keyPressToData as expressionKeyPressToData, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd } from './support/expressionTypes/Expression'
 
 const style = (theme) => ({
-	// TODO: STILL NEEDED?
-	'& .tenPowerContainer': {
-		// color: theme.palette.info.main,
-	},
+	// Currently empty.
 })
 const useStyles = makeStyles((theme) => ({
 	expressionInput: style(theme),
@@ -28,9 +25,8 @@ const defaultProps = {
 	validate: nonEmpty,
 	initialData: getEmptyData(),
 	isEmpty: data => isEmpty(data.value),
-	JSXObject: Expression,
+	JSXObject: MathWithCursor,
 	keyboardSettings: dataToKeyboardSettings,
-	keyPressToData,
 	mouseClickToCursor,
 	getStartCursor,
 	getEndCursor,
@@ -41,11 +37,29 @@ const defaultProps = {
 }
 
 export default function ExpressionInput(props) {
+	// Wrap the ExpressionInput in a provider for the MathWithCursorProvider, so we can access its context.
+	return (
+		<MathWithCursorProvider>
+			<ExpressionInputInner {...props} />
+		</MathWithCursorProvider>
+	)
+}
+
+function ExpressionInputInner(props) {
+	// Get the charElements and use this to set up a proper keyPressToData function.
+	const { charElementsRef } = useMathWithCursorContext()
+	const keyPressToData = useCallback((keyInfo, data, contentsElement) => {
+		const charElements = charElementsRef.current
+		const equationElement = contentsElement.getElementsByClassName('katex-html')[0]
+		return expressionKeyPressToData(keyInfo, data, charElements, data, equationElement)
+	}, [charElementsRef])
+
 	// Gather all relevant data.
 	const classes = useStyles()
 	const mergedProps = {
 		...defaultProps,
 		...props,
+		keyPressToData,
 		className: clsx(props.className, classes.expressionInput, 'expressionInput'),
 	}
 
@@ -58,42 +72,6 @@ export function nonEmpty(data) {
 	const { value } = data
 	if (isEmpty(value))
 		return selectRandomEmpty()
-}
-
-// Expression takes an input data object and shows the corresponding contents as JSX render.
-export function Expression(data) {
-	const { type, value } = data
-
-	// Check input.
-	if (type !== 'Expression')
-		throw new Error(`Invalid type: tried to get the contents of an Expression field but got data for a type "${type}" field.`)
-
-	// Set up the output.
-	console.log(value)
-	console.log(data.cursor)
-	const latex = toLatex(value)
-	return <RBM>{processLatex(latex)}</RBM>
-}
-
-function processLatex(str) {
-	// If there are certain signs at the start or end, add spacing. This is to prevent inconsistent Latex spacing when you for instance type "a+" and then type "b" after. Without this, the plus sign jumps.
-	if (['+', '*'].includes(str[0]))
-		str = insertAtIndex(str, 1, '\\: ')
-	const end = str.length - 1
-	if (['+', '*', '-'].includes(str[end]))
-		str = insertAtIndex(str, end, '\\: ')
-
-	// Fix stars, brackets.
-	str = str.replaceAll('*', '\\cdot ')
-
-	// All done!
-	return str
-}
-
-export function keyPressToData(keyInfo, data, contentsElement) {
-	const equationElement = contentsElement.getElementsByClassName('katex-html')[0]
-	const charElements = getCharElements(equationElement, data.value)
-	return expressionKeyPressToData(keyInfo, data, charElements, data, equationElement)
 }
 
 // getEmptyData returns an empty data object, ready to be filled by input.
@@ -156,6 +134,7 @@ export function isValid(value) {
 	return false // ToDo: check brackets and stuff. Also plusses and minusses. Give a message indicating what is wrong. At least, use a checkValidity function for this, which is called by isValid.
 }
 
+// TODO REMOVE
 // getCharElements takes an expression and finds all the DOM elements related to all characters.
 export function getCharElements(equationElement, value) {
 	// Get all the chars that should be there. Compare this with all the chars that are rendered to check if this matches out. (If not, the whole plan fails.)
@@ -170,10 +149,7 @@ export function getCharElements(equationElement, value) {
 	// Extract all DOM elements (leafs) with a character and match them appropriately.
 	const allElements = [...equationElement.getElementsByTagName('*')]
 	const charElementList = allElements.filter(element => element.childElementCount === 0 && element.textContent.replaceAll(zeroWidthSpace, '').length > 0)
-	console.log(charElementList)
 	window.ce = charElementList // TODO REMOVE
-	console.log(latexChars)
 	const charElements = forceIntoShape(charElementList, latexChars)
-	console.log(charElements)
 	return charElements
 }

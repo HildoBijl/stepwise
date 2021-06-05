@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useReducer, useCallback } from 'react'
 
 import { getCounterNumber } from 'step-wise/util/numbers'
+import { ensureConsistency } from 'step-wise/util/objects'
 
 // usePrevious remembers a value from the previous render.
 export function usePrevious(value) {
@@ -15,6 +16,13 @@ export function usePrevious(value) {
 export function useCurrentOrPrevious(value) {
 	const previousValue = usePrevious(value)
 	return value || previousValue
+}
+
+// useConsistentValue will check if the given value is the same as previously. If the reference changes, but a deepEquals check still results in the same object, the same reference will be maintained. 
+export function useConsistentValue(value) {
+	const ref = useRef()
+	ref.current = ensureConsistency(value, ref.current)
+	return ref.current
 }
 
 // useCounter is a function that returns [counter, increment], where counter is an integer and increment is a function that, when called, increments said counter.
