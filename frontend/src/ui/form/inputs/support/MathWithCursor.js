@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useRef, useEffect, useCallback } from 'react'
 
 import { insertAtIndex } from 'step-wise/util/strings'
+import { filterProperties } from 'step-wise/util/objects'
 import { flattenFully, forceIntoShape } from 'step-wise/util/arrays'
 
 import { getCoordinatesOf } from 'util/dom'
@@ -9,6 +10,15 @@ import { RBM, zeroWidthSpace } from 'ui/components/equations'
 import { useAbsoluteCursorRef } from '../../Form'
 
 import { toLatex, getLatexChars, getCursorProperties } from './expressionTypes'
+
+// We use this character to put in empty elements, instead of leaving them empty. By having this char, we can find the respective element afterwards.
+const emptyElementChar = '_'
+const emptyElementCharLatex = '\\!{\\color{#ffffff}\\_}\\!' // Make it white and add negative space afterwards to not change the layout.
+export { emptyElementChar, emptyElementCharLatex }
+
+// These are old options that are not used anymore, but could in theory be used again if the regular option is not possible anymore.
+// const emptyElementChar = '‘'
+// const emptyElementCharLatex = '`'
 
 export default function MathWithCursor({ contentsRef, ...data }) {
 	const { type, value, cursor } = data
@@ -67,6 +77,7 @@ export function getCharElements(equationElement, data) {
 	// Get all the chars that should be there. Compare this with all the chars that are rendered to check if this matches out. (If not, the whole plan fails.)
 	const latexChars = getLatexChars(data)
 	const textLatexChars = flattenFully(latexChars).join('')
+	console.log('Text: "' + equationElement.textContent.split('').join('","') + '"')
 	const textContent = equationElement.textContent.replaceAll(zeroWidthSpace, '') // Get all text in HTML elements, but remove zero-width spaces.
 	if (textContent !== textLatexChars)
 		throw new Error(`Equation character error: expected the render of the equation to have characters "${textLatexChars}", but the actual Katex equation rendered "${textLatexChars}". These two strings must be equal: all characters must appear in the order they are expected in.`)
@@ -102,37 +113,105 @@ export function useMathWithCursorContext() {
 	return useContext(MathWithCursorContext)
 }
 
-export function getCursorPropertiesFromElements(left, right, container) {
+// The functions below concern the positioning of the cursor.
+
+const maxCursorHeight = 20
+const emptyElementCursorHeight = 16
+export function getCursorPropertiesFromElements(leftElement, rightElement, container) {
 	// At least one of the two has to be present.
-	if (!left && !right)
+	if (!leftElement && !rightElement)
 		throw new Error(`Invalid cursor positioning: tried to get the position of the cursor, but both elements needed for positioning were missing.`)
 
-	// If any of the two is missing, use the other.
-	if (!left) {
-		const { x, y } = getCoordinatesOf(right, container)
-		return {
-			left: x - 1,
-			top: y,
-			height: right.offsetHeight,
-		}
+	// Get the rectangles.
+	const leftRect = leftElement && getCharRectangle(leftElement, container)
+	const rightRect = rightElement && getCharRectangle(rightElement, container)
+
+	// If the element is the emptyElement, then make a cursor with the emptyElementCursorHeight.
+	if (!leftElement && isCharElementEmpty(rightElement)) {
+		return constrainHeight({
+			left: rightRect.left,
+			top: rightRect.top,
+			height: rightRect.height,
+		}, emptyElementCursorHeight)
 	}
-	if (!right) {
-		const { x, y } = getCoordinatesOf(left, container)
+
+	// Set up handlers.
+	const applyLeft = () => constrainHeight({
+		left: leftRect.right,
+		top: leftRect.top,
+		height: leftRect.height,
+	}, maxCursorHeight)
+	const applyRight = () => constrainHeight({
+		left: rightRect.left,
+		top: rightRect.top,
+		height: rightRect.height,
+	}, maxCursorHeight)
+
+	// If any of the two is missing, use the other.
+	if (!leftElement)
+		return applyRight()
+	if (!rightElement)
+		return applyLeft()
+
+	// Is one of the two elements too big? Then use the other one.
+	if (leftElement.height > Math.max(maxCursorHeight, rightElement.height))
+		return applyRight()
+	if (rightElement.height > Math.max(maxCursorHeight, leftElement.height))
+		return applyLeft()
+
+	// Put the cursor in-between. Vertically, take the largest bounds of the two.
+	const top = Math.min(leftRect.top, rightRect.top)
+	const bottom = Math.max(leftRect.bottom, rightRect.bottom)
+	const height = bottom - top
+	const left = (leftRect.right + rightRect.left) / 2
+	return constrainHeight({
+		left,
+		top,
+		height,
+	}, maxCursorHeight)
+}
+
+function getCharRectangle(charElement, container) {
+	const { x, y } = getCoordinatesOf(charElement, container)
+	const height = charElement.offsetHeight
+	const width = charElement.offsetWidth
+
+	// Special case: the empty character. Turn that into a zero-width rectangle, right in the middle.
+	if (isCharElementEmpty(charElement)) {
 		return {
-			left: x + left.offsetWidth + 1,
+			left: x + width/2,
+			right: x + width/2,
+			width: 0,
 			top: y,
-			height: left.offsetHeight
+			bottom: y + height,
+			height,
 		}
 	}
 
-	// Put the cursor in-between. Vertically, take the largest bounds of the two.
-	const leftPos = getCoordinatesOf(left, container)
-	const rightPos = getCoordinatesOf(right, container)
-	const top = Math.min(leftPos.y, rightPos.y)
-	const bottom = Math.max(leftPos.y + left.offsetHeight, rightPos.y + right.offsetHeight)
 	return {
-		left: ((leftPos.x + left.offsetWidth) + rightPos.x) / 2,
-		top,
-		height: bottom - top,
+		left: x,
+		right: x + width,
+		width,
+		top: y,
+		bottom: y + height,
+		height,
 	}
+}
+
+function constrainHeight(properties, maxHeight) {
+	// If the height is fine, keep the properties.
+	if (properties.height <= maxHeight)
+		return properties
+
+	// If the height is too much, shorten it, keeping its center in-place.
+	const difference = properties.height - maxHeight
+	return {
+		left: properties.left,
+		top: properties.top + difference / 2,
+		height: maxHeight,
+	}
+}
+
+function isCharElementEmpty(element) {
+	return element.textContent === emptyElementChar
 }

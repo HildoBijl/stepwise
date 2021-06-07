@@ -4,21 +4,17 @@ import { isLetter, removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
 
 import { latexMinus } from 'ui/components/equations'
 
-import { getCursorPropertiesFromElements } from '../MathWithCursor'
+import { emptyElementChar, emptyElementCharLatex, getCursorPropertiesFromElements } from '../MathWithCursor'
 import * as Expression from './Expression'
 
-// ToDo: fine-tune and move to proper place.
-const defaultCursor = {
-	left: 1,
-	top: 0,
-	height: 16,
-}
-
 export function toLatex(value) {
-	return value
+	return value === '' ? emptyElementCharLatex : value
 }
 
 export function getLatexChars(value) {
+	if (value === '')
+		return emptyElementChar.split('')
+
 	value = value.replaceAll('*', '⋅') // This is what appears for the cdot.
 	value = value.replaceAll('.', ',') // Commas for language-dependent processing of numbers.
 	value = value.replaceAll('-', latexMinus) // Latex minuses.
@@ -26,9 +22,7 @@ export function getLatexChars(value) {
 }
 
 export function getCursorProperties(data, charElements, container) {
-	const { value, cursor } = data
-	if (value === '')
-		return defaultCursor
+	const { cursor } = data
 	return getCursorPropertiesFromElements(charElements[cursor - 1], charElements[cursor], container)
 }
 

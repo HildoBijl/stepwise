@@ -93,6 +93,36 @@ export function keyPressToData(keyInfo, data, charElements, mainExpressionData, 
 	return passOn()
 }
 
+// mouseClickToCursor TODO
+export function mouseClickToCursor() {
+	return getStartCursor()
+
+	// TODO
+	// TODO
+	// // Did we click on the number element?
+	// const numberElement = contentsElement.getElementsByClassName('number')[0]
+	// if (numberElement && numberElement.contains(evt.target))
+	// 	return { part: 'number', cursor: getClickPosition(evt, numberElement) }
+
+	// // Was it the power element?
+	// const powerElement = contentsElement.getElementsByClassName('power')[0]
+	// if (powerElement && powerElement.contains(evt.target))
+	// 	return { part: 'power', cursor: getClickPosition(evt, powerElement) }
+
+	// // Was it the times symbol?
+	// const timesElement = contentsElement.getElementsByClassName('times')[0]
+	// if (timesElement && timesElement.contains(evt.target))
+	// 	return { part: 'number', cursor: data.value.number.length }
+
+	// // Was it the ten symbol?
+	// const tenElement = contentsElement.getElementsByClassName('ten')[0]
+	// if (tenElement && tenElement.contains(evt.target))
+	// 	return { part: 'power', cursor: 0 }
+
+	// // Most likely we never get here. Just in case, keep the cursor as it.
+	// return data.cursor
+}
+
 // findEndOfTerm searches for the end of a term. When you have an expression like a*(b+c/d+e)sin(2x)+3, and you put a "/" sign right before "sin", then we need to know which parts need to go in the fraction. We can go right (direction = true) and left (direction = false) and find the cursor positions of the respective endings of the terms. Basically, the term ends whenever we encounter a +, - or * and we are not still within brackets.
 export function findEndOfTerm(data, direction = true) {
 	const { value, cursor } = data
