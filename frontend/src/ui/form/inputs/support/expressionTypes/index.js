@@ -11,14 +11,12 @@ const functions = {
 
 // toLatex takes a value object and turns it into Latex code.
 export function toLatex(data) {
-	const { type, value } = data
-	return functions[type].toLatex(value)
+	return functions[data.type].toLatex(data.value)
 }
 
 // getLatexChars must return a list of all the characters that appear in the Katex rendering of the equation, in the order in which they appear in said rendering. (Yes, this sadly requires back-engineering Katex.)
 export function getLatexChars(data) {
-	const { type, value } = data
-	return functions[type].getLatexChars(value)
+	return functions[data.type].getLatexChars(data.value)
 }
 
 // getCursorProperties takes a data object and an array of char elements and uses this to determine the properties { x, y, height } that the cursor should have.
@@ -27,10 +25,18 @@ export function getCursorProperties(data, charElements, container) {
 }
 
 // keyPressToData takes a keyInfo event and a data object and returns a new data object.
-export function keyPressToData(keyInfo, data, contentsElement, originalData, originalContentsElement) {
-	// Check which type of object we have and pass on the call.
-	const { type } = data
-	return functions[type].keyPressToData(keyInfo, data, contentsElement, originalData, originalContentsElement) // ToDo later: process contents element.
+export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement) {
+	return functions[data.type].keyPressToData(keyInfo, data, charElements, topParentData, contentsElement)
+}
+
+// charElementClickToCursor takes a click on a charElement and returns the responding cursor position. It's given all required data.
+export function charElementClickToCursor(evt, data, trace, charElements, contentsElement) {
+	return functions[data.type].charElementClickToCursor(evt, data.value, trace, charElements, contentsElement)
+}
+
+// coordinatesToCursor takes a set of coordinates and turns it into a cursor position close to that click.
+export function coordinatesToCursor(coordinates, boundsData, data, charElements, contentsElement) {
+	return functions[data.type].coordinatesToCursor(coordinates, boundsData, data, charElements, contentsElement)
 }
 
 export function getStartCursor(data) {

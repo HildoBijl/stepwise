@@ -6,7 +6,7 @@ import { selectRandomEmpty } from 'step-wise/util/random'
 import { getEmpty, isEmpty } from 'step-wise/inputTypes/Expression'
 
 import Input from './support/Input'
-import MathWithCursor, { MathWithCursorProvider, useMathWithCursorContext } from './support/MathWithCursor'
+import MathWithCursor, { MathWithCursorProvider, useMathWithCursorContext, mouseClickToCursor as generalMouseClickToCursor } from './support/MathWithCursor'
 import * as Expression from './support/expressionTypes/Expression'
 
 const style = (theme) => ({
@@ -42,18 +42,15 @@ export default function ExpressionInput(props) {
 }
 
 function ExpressionInputInner(props) {
-	// Get the charElements and use this to set up a proper keyPressToData function.
+	// Get the charElements and use this to set up proper keyPressToData and mouseClickToCursor functions.
 	const { charElementsRef } = useMathWithCursorContext()
 	const keyPressToData = useCallback((keyInfo, data, contentsElement) => {
 		const charElements = charElementsRef.current
-		const equationElement = contentsElement.getElementsByClassName('katex-html')[0]
-		return Expression.keyPressToData(keyInfo, data, charElements, data, equationElement)
+		return Expression.keyPressToData(keyInfo, data, charElements, data, contentsElement)
 	}, [charElementsRef])
-
 	const mouseClickToCursor = useCallback((evt, data, contentsElement) => {
 		const charElements = charElementsRef.current
-		const equationElement = contentsElement.getElementsByClassName('katex-html')[0]
-		return Expression.mouseClickToCursor(evt, data, charElements, data, equationElement)
+		return generalMouseClickToCursor(evt, data, charElements, contentsElement)
 	}, [charElementsRef])
 
 	// Gather all relevant data.

@@ -2,9 +2,11 @@
 import { isNumber } from 'step-wise/util/numbers'
 import { isLetter, removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
 
+import { getClickSide } from 'util/dom'
+
 import { latexMinus } from 'ui/components/equations'
 
-import { emptyElementChar, emptyElementCharLatex, getCursorPropertiesFromElements } from '../MathWithCursor'
+import { emptyElementChar, emptyElementCharLatex, isCharElementEmpty, getCursorPropertiesFromElements, getClosestElement } from '../MathWithCursor'
 import * as Expression from './Expression'
 
 export function toLatex(value) {
@@ -26,7 +28,7 @@ export function getCursorProperties(data, charElements, container) {
 	return getCursorPropertiesFromElements(charElements[cursor - 1], charElements[cursor], container)
 }
 
-export function keyPressToData(keyInfo, data, charElements, mainExpressionData, mainExpressionElement) {
+export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement) {
 	const { key, ctrl, alt } = keyInfo
 	const { value, cursor } = data
 
@@ -61,7 +63,7 @@ export function keyPressToData(keyInfo, data, charElements, mainExpressionData, 
 
 	// For brackets, check if we need to apply a bracket trick. For the opening bracket add a closing bracket, and for the closing bracket skip over it.
 	if (key === '(') {
-		const parentExpressionData = Expression.getDeepestExpression(mainExpressionData)
+		const parentExpressionData = Expression.getDeepestExpression(topParentData)
 		const netBracketsBefore = Expression.countNetBrackets(parentExpressionData, -1)
 		const netBracketsAfter = Expression.countNetBrackets(parentExpressionData, 1)
 		if (netBracketsBefore < -netBracketsAfter)
@@ -78,7 +80,7 @@ export function keyPressToData(keyInfo, data, charElements, mainExpressionData, 
 			return addStrToData(key, data)
 
 		// We are in front of a closing bracket. Should we override it?
-		const parentExpressionData = Expression.getDeepestExpression(mainExpressionData)
+		const parentExpressionData = Expression.getDeepestExpression(topParentData)
 		const netBracketsBefore = Expression.countNetBrackets(parentExpressionData, -1)
 		const netBracketsAfter = Expression.countNetBrackets(parentExpressionData, 1)
 		if (netBracketsBefore > -netBracketsAfter)
@@ -110,6 +112,25 @@ function addStrToData(str, data) {
 		value: insertAtIndex(value, cursor, str),
 		cursor: cursor + str.length,
 	}
+}
+
+export function charElementClickToCursor(evt, value, trace, charElements, equationElement) {
+	return trace[0] + getClickSide(evt)
+}
+
+export function coordinatesToCursor(coordinates, boundsData, data, charElements, contentsElement) {
+	// Extract which character was closest to the click. Check if it's empty.
+	const part = getClosestElement(coordinates, boundsData)
+
+	// If the element is empty, put the cursor on its left side.
+	const charElement = charElements[part]
+	if (isCharElementEmpty(charElement))
+		return part
+
+	// Check which side of the element was closest to the click.
+	const partBounds = boundsData.parts[part].bounds
+	const side = (coordinates.x - partBounds.left + 1) * 2 >= (partBounds.right - partBounds.left) ? 1 : 0
+	return part + side
 }
 
 export function getStartCursor(value) {

@@ -1,6 +1,7 @@
-
+import { findOptimumIndex } from 'step-wise/util/objects'
 
 import { addCursor, removeCursor } from '../Input'
+import { getClosestElement } from '../MathWithCursor'
 
 import * as General from './index'
 import * as ExpressionPart from './ExpressionPart'
@@ -22,13 +23,13 @@ export function getCursorProperties(data, charElements, container) {
 	}, charElements[cursor.part === 'den' ? 0 : 1], container)
 }
 
-export function keyPressToData(keyInfo, data, charElements, mainExpressionData, mainExpressionElement) {
+export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement) {
 	const { key, ctrl, alt } = keyInfo
 	const { value, cursor } = data
 
 	// When we want to pass this on to the child element, we have this custom function.
 	const passOn = () => {
-		const adjustedElement = General.keyPressToData(keyInfo, addCursor(value[cursor.part], cursor.cursor), charElements[cursor.part === 'den' ? 0 : 1], mainExpressionData, mainExpressionElement)
+		const adjustedElement = General.keyPressToData(keyInfo, addCursor(value[cursor.part], cursor.cursor), charElements[cursor.part === 'den' ? 0 : 1], topParentData, contentsElement)
 		return {
 			...data,
 			value: {
@@ -68,6 +69,26 @@ export function keyPressToData(keyInfo, data, charElements, mainExpressionData, 
 
 	// Pass on to the appropriate child element.
 	return passOn()
+}
+
+export function charElementClickToCursor(evt, value, trace, charElements, equationElement) {
+	// Pass it on to the respective element.
+	const traceClone = [...trace]
+	const index = traceClone.shift()
+	const part = (index === 0 ? 'den' : 'num')
+	return {
+		part,
+		cursor: General.charElementClickToCursor(evt, value[part], traceClone, charElements[index], equationElement),
+	}
+}
+
+export function coordinatesToCursor(coordinates, boundsData, data, charElements, contentsElement) {
+	const index = getClosestElement(coordinates, boundsData, false)
+	const part = (index === 0 ? 'den' : 'num')
+	return {
+		part,
+		cursor: General.coordinatesToCursor(coordinates, boundsData.parts[index], data.value[part], charElements[index], contentsElement)
+	}
 }
 
 export function getStartCursor(value) {

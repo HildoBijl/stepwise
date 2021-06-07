@@ -4,6 +4,7 @@ import { repeatWithIndices } from 'step-wise/util/functions'
 import { isEmpty, getEmpty } from 'step-wise/inputTypes/Expression'
 
 import { addCursor, removeCursor } from '../Input'
+import { getClosestElement } from '../MathWithCursor'
 import * as General from './index.js'
 import * as ExpressionPart from './ExpressionPart'
 
@@ -23,13 +24,13 @@ export function getCursorProperties(data, charElements, container) {
 	}, charElements[cursor.part], container)
 }
 
-export function keyPressToData(keyInfo, data, charElements, mainExpressionData, mainExpressionElement) {
+export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement) {
 	const { key, ctrl, alt } = keyInfo
 	const { value, cursor } = data
 
 	// When we want to pass this on to the child element, we have this custom function.
 	const passOn = () => {
-		const adjustedElement = General.keyPressToData(keyInfo, addCursor(value[cursor.part], cursor.cursor), charElements[cursor.part], mainExpressionData, mainExpressionElement)
+		const adjustedElement = General.keyPressToData(keyInfo, addCursor(value[cursor.part], cursor.cursor), charElements[cursor.part], topParentData, contentsElement)
 		return cleanUp({
 			...data,
 			value: arraySplice(value, cursor.part, 1, removeCursor(adjustedElement)),
@@ -93,34 +94,22 @@ export function keyPressToData(keyInfo, data, charElements, mainExpressionData, 
 	return passOn()
 }
 
-// mouseClickToCursor TODO
-export function mouseClickToCursor() {
-	return getStartCursor()
+export function charElementClickToCursor(evt, value, trace, charElements, equationElement) {
+	// Pass it on to the respective element.
+	const traceClone = [...trace]
+	const part = traceClone.shift()
+	return {
+		part,
+		cursor: General.charElementClickToCursor(evt, value[part], traceClone, charElements[part], equationElement),
+	}
+}
 
-	// TODO
-	// TODO
-	// // Did we click on the number element?
-	// const numberElement = contentsElement.getElementsByClassName('number')[0]
-	// if (numberElement && numberElement.contains(evt.target))
-	// 	return { part: 'number', cursor: getClickPosition(evt, numberElement) }
-
-	// // Was it the power element?
-	// const powerElement = contentsElement.getElementsByClassName('power')[0]
-	// if (powerElement && powerElement.contains(evt.target))
-	// 	return { part: 'power', cursor: getClickPosition(evt, powerElement) }
-
-	// // Was it the times symbol?
-	// const timesElement = contentsElement.getElementsByClassName('times')[0]
-	// if (timesElement && timesElement.contains(evt.target))
-	// 	return { part: 'number', cursor: data.value.number.length }
-
-	// // Was it the ten symbol?
-	// const tenElement = contentsElement.getElementsByClassName('ten')[0]
-	// if (tenElement && tenElement.contains(evt.target))
-	// 	return { part: 'power', cursor: 0 }
-
-	// // Most likely we never get here. Just in case, keep the cursor as it.
-	// return data.cursor
+export function coordinatesToCursor(coordinates, boundsData, data, charElements, contentsElement) {
+	const part = getClosestElement(coordinates, boundsData)
+	return {
+		part,
+		cursor: General.coordinatesToCursor(coordinates, boundsData.parts[part], data.value[part], charElements[part], contentsElement)
+	}
 }
 
 // findEndOfTerm searches for the end of a term. When you have an expression like a*(b+c/d+e)sin(2x)+3, and you put a "/" sign right before "sin", then we need to know which parts need to go in the fraction. We can go right (direction = true) and left (direction = false) and find the cursor positions of the respective endings of the terms. Basically, the term ends whenever we encounter a +, - or * and we are not still within brackets.

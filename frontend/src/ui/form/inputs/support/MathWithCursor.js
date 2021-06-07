@@ -1,24 +1,25 @@
 import React, { createContext, useContext, useRef, useEffect, useCallback } from 'react'
 
 import { insertAtIndex } from 'step-wise/util/strings'
+import { findOptimum, findOptimumIndex, flattenFully, forceIntoShape, getIndexTrace } from 'step-wise/util/arrays'
 import { filterProperties } from 'step-wise/util/objects'
-import { flattenFully, forceIntoShape } from 'step-wise/util/arrays'
 
 import { getCoordinatesOf } from 'util/dom'
 import { RBM, zeroWidthSpace } from 'ui/components/equations'
 
 import { useAbsoluteCursorRef } from '../../Form'
 
-import { toLatex, getLatexChars, getCursorProperties } from './expressionTypes'
+import { toLatex, getLatexChars, getCursorProperties, charElementClickToCursor, coordinatesToCursor } from './expressionTypes'
 
 // We use this character to put in empty elements, instead of leaving them empty. By having this char, we can find the respective element afterwards.
-const emptyElementChar = '_'
-const emptyElementCharLatex = '\\!{\\color{#ffffff}\\_}\\!' // Make it white and add negative space afterwards to not change the layout.
+const emptyElementChar = '‘'
+const emptyElementCharLatex = '\\!{\\color{#ffffff}`}\\!'
 export { emptyElementChar, emptyElementCharLatex }
 
-// These are old options that are not used anymore, but could in theory be used again if the regular option is not possible anymore.
-// const emptyElementChar = '‘'
-// const emptyElementCharLatex = '`'
+// These are old options that are not used anymore, but could in theory be used again if the regular option is not possible anymore. They didn't work well for aesthetic reasons.
+// const emptyElementChar = '_'
+// const emptyElementCharLatex = '\\!{\\color{#ffffff}\\_}\\!' // Make it white and add negative space afterwards to not change the layout.
+// export { emptyElementChar, emptyElementCharLatex }
 
 export default function MathWithCursor({ contentsRef, ...data }) {
 	const { type, value, cursor } = data
@@ -72,23 +73,6 @@ function processLatex(str) {
 	return str
 }
 
-// getCharElements takes an expression and finds all the DOM elements related to all characters.
-export function getCharElements(equationElement, data) {
-	// Get all the chars that should be there. Compare this with all the chars that are rendered to check if this matches out. (If not, the whole plan fails.)
-	const latexChars = getLatexChars(data)
-	const textLatexChars = flattenFully(latexChars).join('')
-	console.log('Text: "' + equationElement.textContent.split('').join('","') + '"')
-	const textContent = equationElement.textContent.replaceAll(zeroWidthSpace, '') // Get all text in HTML elements, but remove zero-width spaces.
-	if (textContent !== textLatexChars)
-		throw new Error(`Equation character error: expected the render of the equation to have characters "${textLatexChars}", but the actual Katex equation rendered "${textLatexChars}". These two strings must be equal: all characters must appear in the order they are expected in.`)
-
-	// Extract all DOM elements (leafs) with a character and match them appropriately.
-	const allElements = [...equationElement.getElementsByTagName('*')]
-	const charElementList = allElements.filter(element => element.childElementCount === 0 && element.textContent.replaceAll(zeroWidthSpace, '').length > 0)
-	const charElements = forceIntoShape(charElementList, latexChars)
-	return charElements
-}
-
 // A context can be used by the consuming input field to access the charElements.
 const MathWithCursorContext = createContext(null)
 export function MathWithCursorProvider({ children }) {
@@ -113,7 +97,31 @@ export function useMathWithCursorContext() {
 	return useContext(MathWithCursorContext)
 }
 
-// The functions below concern the positioning of the cursor.
+// getCharElements takes an expression and finds all the DOM elements related to all characters.
+export function getCharElements(equationElement, data) {
+	// Get all the chars that should be there. Compare this with all the chars that are rendered to check if this matches out. (If not, the whole plan fails.)
+	const latexChars = getLatexChars(data)
+	const textLatexChars = flattenFully(latexChars).join('')
+	const textContent = equationElement.textContent.replaceAll(zeroWidthSpace, '') // Get all text in HTML elements, but remove zero-width spaces.
+	if (textContent !== textLatexChars)
+		throw new Error(`Equation character error: expected the render of the equation to have characters "${textLatexChars}", but the actual Katex equation rendered "${textLatexChars}". These two strings must be equal: all characters must appear in the order they are expected in.`)
+
+	// Extract all DOM elements (leafs) with a character and match them appropriately.
+	const allElements = [...equationElement.getElementsByTagName('*')]
+	const charElementList = allElements.filter(isCharElement)
+	const charElements = forceIntoShape(charElementList, latexChars)
+	return charElements
+}
+
+export function isCharElement(element) {
+	return element.childElementCount === 0 && element.textContent.replaceAll(zeroWidthSpace, '').length > 0
+}
+
+export function isCharElementEmpty(element) {
+	return element.textContent === emptyElementChar
+}
+
+// The functions below concern the positioning of the cursor, based on two charElements it should be placed between.
 
 const maxCursorHeight = 20
 const emptyElementCursorHeight = 16
@@ -179,8 +187,8 @@ function getCharRectangle(charElement, container) {
 	// Special case: the empty character. Turn that into a zero-width rectangle, right in the middle.
 	if (isCharElementEmpty(charElement)) {
 		return {
-			left: x + width/2,
-			right: x + width/2,
+			left: x + width / 2,
+			right: x + width / 2,
 			width: 0,
 			top: y,
 			bottom: y + height,
@@ -212,6 +220,58 @@ function constrainHeight(properties, maxHeight) {
 	}
 }
 
-function isCharElementEmpty(element) {
-	return element.textContent === emptyElementChar
+// The functions below concern the translation of a mouse click to a cursor.
+export function mouseClickToCursor(evt, data, charElements, contentsElement) {
+	// First check if the click was on a charElement. This is the easy variant.
+	if (isCharElement(evt.target) && !isCharElementEmpty(evt.target)) {
+		const trace = getIndexTrace(charElements, evt.target)
+		if (trace)
+			return charElementClickToCursor(evt, data, trace, charElements, contentsElement)
+	}
+
+	// The click was not on a charElement. Use the coordinates to determine the best cursor position.
+	const coordinates = getCoordinatesOf(evt)
+	const boundsData = charElementsToBounds(charElements)
+	return coordinatesToCursor(coordinates, boundsData, data, charElements, contentsElement)
+}
+
+// charElementsToBounds takes a charElements array and creates bounding boxes for each group of charElements, in a tree-like fashion.
+function charElementsToBounds(charElements) {
+	const parts = charElements.map(element => {
+		if (Array.isArray(element))
+			return charElementsToBounds(element)
+		return {
+			bounds: filterProperties(element.getBoundingClientRect(), ['left', 'top', 'right', 'bottom'])
+		}
+	})
+	const bounds = {
+		left: findOptimum(parts, (a, b) => a.bounds.left < b.bounds.left).bounds.left,
+		top: findOptimum(parts, (a, b) => a.bounds.top < b.bounds.top).bounds.top,
+		right: findOptimum(parts, (a, b) => a.bounds.right > b.bounds.right).bounds.right,
+		bottom: findOptimum(parts, (a, b) => a.bounds.bottom > b.bounds.bottom).bounds.bottom,
+	}
+	return { bounds, parts }
+}
+
+export function getEquationElement(contentsElement) {
+	return contentsElement.getElementsByClassName('katex-html')[0]
+}
+
+export function getClosestElement(coordinates, boundsData, horizontally = true) {
+	const distances = boundsData.parts.map(partBoundsData => {
+		const bounds = partBoundsData.bounds
+		if (horizontally) {
+			if (coordinates.x < bounds.left)
+				return bounds.left - coordinates.x
+			if (coordinates.x > bounds.right)
+				return coordinates.x - bounds.right
+		} else {
+			if (coordinates.y < bounds.top)
+				return bounds.top - coordinates.y
+			if (coordinates.y > bounds.bottom)
+				return coordinates.y - bounds.bottom
+		}
+		return 0 // Inside
+	})
+	return findOptimumIndex(distances, (a, b) => a < b)
 }
