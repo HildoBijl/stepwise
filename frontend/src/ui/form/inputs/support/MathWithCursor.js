@@ -13,7 +13,7 @@ import { toLatex, getLatexChars, getCursorProperties, charElementClickToCursor, 
 
 // We use this character to put in empty elements, instead of leaving them empty. By having this char, we can find the respective element afterwards.
 const emptyElementChar = '‘'
-const emptyElementCharLatex = '\\!{\\color{#ffffff}`}\\!'
+const emptyElementCharLatex = '\\!{\\color{#ffffff}`}\\!' // Make it white and add negative space around to only minimally change the layout.
 export { emptyElementChar, emptyElementCharLatex }
 
 // These are old options that are not used anymore, but could in theory be used again if the regular option is not possible anymore. They didn't work well for aesthetic reasons.
@@ -236,7 +236,7 @@ export function mouseClickToCursor(evt, data, charElements, contentsElement) {
 }
 
 // charElementsToBounds takes a charElements array and creates bounding boxes for each group of charElements, in a tree-like fashion.
-function charElementsToBounds(charElements) {
+export function charElementsToBounds(charElements) {
 	const parts = charElements.map(element => {
 		if (Array.isArray(element))
 			return charElementsToBounds(element)

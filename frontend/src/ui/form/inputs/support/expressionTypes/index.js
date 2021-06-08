@@ -25,8 +25,13 @@ export function getCursorProperties(data, charElements, container) {
 }
 
 // keyPressToData takes a keyInfo event and a data object and returns a new data object.
-export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement) {
-	return functions[data.type].keyPressToData(keyInfo, data, charElements, topParentData, contentsElement)
+export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement) {
+	return functions[data.type].keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement)
+}
+
+// canMoveCursorVertically checks whether a cursor can move vertically (up or down depending on the second parameter) inside this element or one of its children.
+export function canMoveCursorVertically(data, up) {
+	return functions[data.type].canMoveCursorVertically(data, up)
 }
 
 // charElementClickToCursor takes a click on a charElement and returns the responding cursor position. It's given all required data.

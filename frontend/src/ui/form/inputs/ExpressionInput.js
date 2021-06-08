@@ -5,6 +5,8 @@ import clsx from 'clsx'
 import { selectRandomEmpty } from 'step-wise/util/random'
 import { getEmpty, isEmpty } from 'step-wise/inputTypes/Expression'
 
+import { useAbsoluteCursorRef } from '../Form'
+
 import Input from './support/Input'
 import MathWithCursor, { MathWithCursorProvider, useMathWithCursorContext, mouseClickToCursor as generalMouseClickToCursor } from './support/MathWithCursor'
 import * as Expression from './support/expressionTypes/Expression'
@@ -44,10 +46,11 @@ export default function ExpressionInput(props) {
 function ExpressionInputInner(props) {
 	// Get the charElements and use this to set up proper keyPressToData and mouseClickToCursor functions.
 	const { charElementsRef } = useMathWithCursorContext()
+	const cursorRef = useAbsoluteCursorRef()
 	const keyPressToData = useCallback((keyInfo, data, contentsElement) => {
 		const charElements = charElementsRef.current
-		return Expression.keyPressToData(keyInfo, data, charElements, data, contentsElement)
-	}, [charElementsRef])
+		return Expression.keyPressToData(keyInfo, data, charElements, data, contentsElement, cursorRef.current.element)
+	}, [charElementsRef, cursorRef])
 	const mouseClickToCursor = useCallback((evt, data, contentsElement) => {
 		const charElements = charElementsRef.current
 		return generalMouseClickToCursor(evt, data, charElements, contentsElement)

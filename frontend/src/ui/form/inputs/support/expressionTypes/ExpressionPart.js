@@ -28,7 +28,7 @@ export function getCursorProperties(data, charElements, container) {
 	return getCursorPropertiesFromElements(charElements[cursor - 1], charElements[cursor], container)
 }
 
-export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement) {
+export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement) {
 	const { key, ctrl, alt } = keyInfo
 	const { value, cursor } = data
 
@@ -112,6 +112,10 @@ function addStrToData(str, data) {
 		value: insertAtIndex(value, cursor, str),
 		cursor: cursor + str.length,
 	}
+}
+
+export function canMoveCursorVertically(data, up) {
+	return false // You can never move vertically inside of an expression part.
 }
 
 export function charElementClickToCursor(evt, value, trace, charElements, equationElement) {

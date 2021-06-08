@@ -1,7 +1,5 @@
-import { findOptimumIndex } from 'step-wise/util/objects'
-
 import { addCursor, removeCursor } from '../Input'
-import { getClosestElement } from '../MathWithCursor'
+import { getClosestElement, charElementsToBounds } from '../MathWithCursor'
 
 import * as General from './index'
 import * as ExpressionPart from './ExpressionPart'
@@ -23,13 +21,13 @@ export function getCursorProperties(data, charElements, container) {
 	}, charElements[cursor.part === 'den' ? 0 : 1], container)
 }
 
-export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement) {
+export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement) {
 	const { key, ctrl, alt } = keyInfo
 	const { value, cursor } = data
 
 	// When we want to pass this on to the child element, we have this custom function.
 	const passOn = () => {
-		const adjustedElement = General.keyPressToData(keyInfo, addCursor(value[cursor.part], cursor.cursor), charElements[cursor.part === 'den' ? 0 : 1], topParentData, contentsElement)
+		const adjustedElement = General.keyPressToData(keyInfo, addCursor(value[cursor.part], cursor.cursor), charElements[cursor.part === 'den' ? 0 : 1], topParentData, contentsElement, cursorElement)
 		return {
 			...data,
 			value: {
@@ -44,14 +42,45 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 	if (ctrl || alt)
 		return data
 
+	// Get the active element.
+	const activeElement = value[cursor.part]
+	const activeElementCursor = cursor.cursor
+	const activeElementData = addCursor(activeElement, activeElementCursor)
+
 	// For left/right-arrows, home and end, adjust the cursor.
-	if (key === 'ArrowLeft' && cursor.part === 'den' && General.isCursorAtStart(addCursor(value.den, cursor.cursor)))
+	if (key === 'ArrowLeft' && cursor.part === 'den' && General.isCursorAtStart(activeElementData))
 		return { ...data, cursor: { part: 'num', cursor: General.getEndCursor(value.num) } } // Move to the end of the numerator.
-	if (key === 'ArrowRight' && cursor.part === 'num' && General.isCursorAtEnd(addCursor(value.num, cursor.cursor)))
+	if (key === 'ArrowRight' && cursor.part === 'num' && General.isCursorAtEnd(activeElementData))
 		return { ...data, cursor: { part: 'den', cursor: General.getStartCursor(value.den) } } // Move to the start of the denominator.
 
+	// For up/down arrows, check if we can/need to move up.
+	if (key === 'ArrowUp' || key === 'ArrowDown') {
+		const up = key === 'ArrowUp'
+		// Can we relegate this to a child? If so, pass it on.
+		if (General.canMoveCursorVertically(activeElementData, up))
+			return passOn()
+
+		// We cannot relegate it. Can we move up/down here?
+		if ((up && cursor.part === 'num') || (!up && cursor.part === 'den'))
+			return data // We cannot do this. Don't move the cursor.
+
+		// We can move in the right direction. Use the coordinates to get the right cursor position.
+		const part = up ? 'num' : 'den'
+		const partCharElements = charElements[part === 'den' ? 0 : 1]
+		const boundsData = charElementsToBounds(partCharElements)
+		const rect = cursorElement.getBoundingClientRect()
+		const cursorMiddle = { x: (rect.left + rect.right) / 2, y: (rect.top + rect.bottom) / 2 }
+		return {
+			...data,
+			cursor: {
+				part,
+				cursor: General.coordinatesToCursor(cursorMiddle, boundsData, value[part], partCharElements, contentsElement),
+			}
+		}
+	}
+
 	// For backspace/delete check if we should destroy the fraction.
-	if ((key === 'Backspace' && cursor.part === 'den' && General.isCursorAtStart(addCursor(value.den, cursor.cursor))) || (key === 'Delete' && cursor.part === 'num' && General.isCursorAtEnd(addCursor(value.num, cursor.cursor)))) {
+	if ((key === 'Backspace' && cursor.part === 'den' && General.isCursorAtStart(activeElementData)) || (key === 'Delete' && cursor.part === 'num' && General.isCursorAtEnd(activeElementData))) {
 		// Turn it into an expression with the respective parts.
 		return Expression.cleanUp({
 			type: 'Expression',
@@ -69,6 +98,14 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 
 	// Pass on to the appropriate child element.
 	return passOn()
+}
+
+export function canMoveCursorVertically(data, up) {
+	// Can we go in the given direction inside the fraction? If so, it's a definite true. Otherwise check the child element.
+	const { value, cursor } = data
+	if ((up && cursor.part === 'den') || (!up && cursor.part === 'num'))
+		return true
+	return General.canMoveCursorVertically(addCursor(value[cursor.part], cursor.cursor), up)
 }
 
 export function charElementClickToCursor(evt, value, trace, charElements, equationElement) {

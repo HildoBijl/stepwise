@@ -24,13 +24,13 @@ export function getCursorProperties(data, charElements, container) {
 	}, charElements[cursor.part], container)
 }
 
-export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement) {
+export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement) {
 	const { key, ctrl, alt } = keyInfo
 	const { value, cursor } = data
 
 	// When we want to pass this on to the child element, we have this custom function.
 	const passOn = () => {
-		const adjustedElement = General.keyPressToData(keyInfo, addCursor(value[cursor.part], cursor.cursor), charElements[cursor.part], topParentData, contentsElement)
+		const adjustedElement = General.keyPressToData(keyInfo, addCursor(value[cursor.part], cursor.cursor), charElements[cursor.part], topParentData, contentsElement, cursorElement)
 		return cleanUp({
 			...data,
 			value: arraySplice(value, cursor.part, 1, removeCursor(adjustedElement)),
@@ -43,16 +43,16 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 		return data
 
 	// Get the active element.
-	const cursorElement = value[cursor.part]
-	const cursorElementCursor = cursor.cursor
-	const cursorElementData = addCursor(cursorElement, cursorElementCursor)
+	const activeElement = value[cursor.part]
+	const activeElementCursor = cursor.cursor
+	const activeElementData = addCursor(activeElement, activeElementCursor)
 
 	// For left/right-arrows, home and end, adjust the cursor.
-	if (key === 'ArrowLeft' && cursor.part > 0 && General.isCursorAtStart(cursorElementData)) {
+	if (key === 'ArrowLeft' && cursor.part > 0 && General.isCursorAtStart(activeElementData)) {
 		const part = cursor.part - 1
 		return { ...data, cursor: { part, cursor: General.getEndCursor(value[part]) } } // Move to the end of the previous element.
 	}
-	if (key === 'ArrowRight' && cursor.part < value.length - 1 && General.isCursorAtEnd(cursorElementData)) {
+	if (key === 'ArrowRight' && cursor.part < value.length - 1 && General.isCursorAtEnd(activeElementData)) {
 		const part = cursor.part + 1
 		return { ...data, cursor: { part, cursor: General.getStartCursor(value[part]) } } // Move to the start of the next element.
 	}
@@ -90,8 +90,78 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 		})
 	}
 
+	// When the cursor is at the start of an element and a backspace is pressed, merge elements appropriately.
+	if (key === 'Backspace' && General.isCursorAtStart(activeElementData)) {
+		if (isCursorAtStart(value, cursor))
+			return data // Cannot remove anything.
+
+		// Are we in an expression part?
+		if (activeElementData.type === 'ExpressionPart') {
+			// ToDo next: 
+			// - Put the stuff below into a separate mergeFraction function. Call it for backspace and delete.
+			// - Extend the function to work for both front and back. Apply this too.
+			// - Clean up the code.
+			
+			// If we are right after a fraction, merge the denominator with what follows.
+			const previousPart = value[cursor.part - 1]
+			console.log(value)
+			console.log(cursor)
+			if (previousPart.type === 'Fraction') {
+				const fraction = previousPart.value
+				const newDen = cleanUp({
+					...fraction.den,
+					value: [
+						...fraction.den.value, // Take what was in the denominator.
+						...value.slice(cursor.part), // Add what is after the fraction.
+					],
+					cursor: getEndCursor(fraction.den.value), // Put the cursor at the end of the previous denominator.
+				})
+				return cleanUp({
+					...data,
+					value: [
+						...value.slice(0, cursor.part - 1), // Keep previous elements.
+						{ // Extend the fraction.
+							...previousPart,
+							value: {
+								num: fraction.num, // Keep the numerator.
+								den: removeCursor(newDen), // Use the new denominator.
+							},
+						},
+					],
+					cursor: {
+						part: cursor.part - 1,
+						cursor: {
+							part: 'den',
+							cursor: newDen.cursor, // Use the cursor of the new denominator.
+						},
+					},
+				})
+			}
+		} else { // We are in a special element.
+
+		}
+	}
+
+	// When the cursor is at the end of an element and a delete is pressed, merge elements appropriately.
+	if (key === 'Delete' && General.isCursorAtEnd(activeElementData)) {
+		if (isCursorAtEnd(value, cursor))
+			return data // Cannot delete anything.
+
+		// Are we in an expression part?
+		if (activeElementData.type === 'ExpressionPart') {
+
+		} else { // We are in a special element.
+
+		}
+	}
+
 	// Pass on to the appropriate child element.
 	return passOn()
+}
+
+export function canMoveCursorVertically(data, up) {
+	const { value, cursor } = data
+	return General.canMoveCursorVertically(addCursor(value[cursor.part], cursor.cursor), up)
 }
 
 export function charElementClickToCursor(evt, value, trace, charElements, equationElement) {
