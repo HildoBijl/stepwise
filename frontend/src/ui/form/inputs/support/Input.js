@@ -423,12 +423,12 @@ function useContentSliding(contentsRef, contentsContainerRef) {
 			contentsElement.style.transform = 'translateX(0px)'
 			return
 		}
-		
+
 		// If there is no cursor inside the field, then we can't position anything. Leave the previous settings.
 		const cursorElement = cursorRef.current || absoluteCursorRef.current.element
 		if (!cursorElement || !contentsContainerRef.current.contains(cursorElement))
 			return
-		
+
 		// If it doesn't fit, slide it appropriately.
 		const cutOff = 0.1 // The part of the container at which the contents don't slide yet.
 		const cutOffDistance = cutOff * containerWidth
@@ -496,7 +496,7 @@ export function removeCursor(input) {
 		return input
 
 	// If there is an object, check if there is a cursor.
-	if (!input.cursor)
+	if (input.cursor === undefined)
 		return input
 
 	// There is a cursor. Remove it.

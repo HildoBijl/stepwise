@@ -166,3 +166,11 @@ export function countNetBrackets(data, relativeToCursor) {
 	const valuePart = relativeToCursor === 0 ? value : (relativeToCursor === -1 ? value.substring(0, cursor) : value.substring(cursor))
 	return valuePart.split('(').length - valuePart.split(')').length
 }
+
+export function canMerge() {
+	return false
+}
+
+export function canSplit() {
+	return false
+}

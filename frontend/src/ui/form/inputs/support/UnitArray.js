@@ -102,7 +102,7 @@ export function keyPressToData(keyInfo, data) {
 	}
 
 	// For a multiplication "*" (or a space) split up elements.
-	if (key === '*' || key === 'Times' || key === '.' || key === ' ' || key === 'Space') {
+	if (key === '*' || key === 'Times' || key === '.' || key === ' ' || key === 'Spacebar') {
 		if (!isUnitElementEmpty(unitElement) && !isCursorAtUnitElementStart(unitElement, unitElementCursor)) { // Cursor is not in an empty element or at the start of the element. This prevents endless rows of multiplications.
 			if (unitElementCursor.part === 'power' || unitElementCursor.cursor === unitElement.prefix.length + unitElement.unit.length) { // The cursor is in the power or at the end of the text.
 				const nextUnitElement = value[cursor.part + 1]

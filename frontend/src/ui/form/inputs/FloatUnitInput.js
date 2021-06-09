@@ -265,7 +265,7 @@ export function keyPressToData(keyInfo, data, contentsElement, positive, allowPo
 	}
 
 	// In case of a space, if we're in the float, move to the start of the unit.
-	if (key === ' ') {
+	if (key === ' ' || key === 'Spacebar') {
 		if (cursor.part === 'float')
 			return { ...data, cursor: { part: 'unit', cursor: getUnitStartCursor(unit) } }
 	}

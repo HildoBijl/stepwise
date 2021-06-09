@@ -1,3 +1,4 @@
+import { addCursor } from '../Input'
 
 import * as Expression from './Expression'
 import * as ExpressionPart from './ExpressionPart'
@@ -62,4 +63,33 @@ export function isCursorAtStart(data) {
 export function isCursorAtEnd(data) {
 	const { type, value, cursor } = data
 	return functions[type].isCursorAtEnd(value, cursor)
+}
+
+export function canMerge(data) {
+	return functions[data.type].canMerge(data.value)
+}
+
+// merge takes an expression value and an index pointing to a special element. It then merges what comes after this element (when mergeWithNext is true (default)) into the element, or what comes before the element (when mergeWithNext is false) into the numerator (left). An expression data object is returned, including properly placed cursor.
+export function merge(expressionValue, partIndex, mergeWithNext) {
+	return functions[expressionValue[partIndex].type].merge(expressionValue, partIndex, mergeWithNext)
+}
+
+export function canSplit(data) {
+	return functions[data.type].canSplit(data)
+}
+
+// split takes an element that needs to be split (like a fraction with a cursor halfway through the denominator) and returns an object (including cursor) representing the split result (like an expression with two elements, one being a fraction without most of the denominator and the second being what used to be in the denominator). Often the result is a non-cleaned expression, but it can be anything.
+export function split(data) {
+	return functions[data.type].split(data)
+}
+
+// zoomIn takes a data object with a cursor and goes down one layer (or multiple if a number is specified), hence going to the first element which the cursor points at. The cursor is brought along.
+export function zoomIn(data, number = 1) {
+	// If the number is large than 1, call this function recursively.
+	if (number > 1)
+		return zoomIn(zoomIn(data), number - 1)
+
+	// Zoom in in the regular way.
+	const { value, cursor } = data
+	return addCursor(value[cursor.part], cursor.cursor)
 }
