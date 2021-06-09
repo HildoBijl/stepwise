@@ -64,12 +64,12 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 		if ((up && cursor.part === 'num') || (!up && cursor.part === 'den'))
 			return data // We cannot do this. Don't move the cursor.
 
-		// We can move in the right direction. Use the coordinates to get the right cursor position.
+		// We can move in the right direction. Use the current cursor coordinates to get the appropriate cursor position.
 		const part = up ? 'num' : 'den'
 		const partCharElements = charElements[part === 'den' ? 0 : 1]
 		const boundsData = charElementsToBounds(partCharElements)
-		const rect = cursorElement.getBoundingClientRect()
-		const cursorMiddle = { x: (rect.left + rect.right) / 2, y: (rect.top + rect.bottom) / 2 }
+		const cursorRect = cursorElement.getBoundingClientRect()
+		const cursorMiddle = { x: (cursorRect.left + cursorRect.right) / 2, y: (cursorRect.top + cursorRect.bottom) / 2 }
 		return {
 			...data,
 			cursor: {

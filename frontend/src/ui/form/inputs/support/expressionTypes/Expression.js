@@ -101,11 +101,9 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 			// - Put the stuff below into a separate mergeFraction function. Call it for backspace and delete.
 			// - Extend the function to work for both front and back. Apply this too.
 			// - Clean up the code.
-			
+
 			// If we are right after a fraction, merge the denominator with what follows.
 			const previousPart = value[cursor.part - 1]
-			console.log(value)
-			console.log(cursor)
 			if (previousPart.type === 'Fraction') {
 				const fraction = previousPart.value
 				const newDen = cleanUp({
