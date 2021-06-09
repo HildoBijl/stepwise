@@ -18,6 +18,11 @@ const data = {
 			significantDigitMargin: 1,
 			accuracyFactor: 2,
 		},
+		c: {
+			relativeMargin: 0.015,
+			significantDigitMargin: 2,
+			accuracyFactor: 2,
+		},
 		T1: {
 			absoluteMargin: 0.2,
 			significantDigitMargin: 2,

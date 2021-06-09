@@ -7,6 +7,7 @@ const data = {
 	skill: 'specificHeatRatio',
 	equalityOptions: {
 		relativeMargin: 0.015,
+		significantDigitMargin: 2,
 	}
 }
 
