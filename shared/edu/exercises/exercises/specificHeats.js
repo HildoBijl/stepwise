@@ -8,6 +8,7 @@ const data = {
 	equalityOptions: {
 		default: {
 			relativeMargin: 0.03,
+			significantDigitMargin: 2,
 		},
 	}
 }

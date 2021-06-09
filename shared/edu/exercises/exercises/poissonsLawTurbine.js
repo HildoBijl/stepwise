@@ -28,6 +28,7 @@ const data = {
 		},
 		k: {
 			relativeMargin: 0.01,
+			significantDigitMargin: 2,
 		},
 		T2: {
 			relativeMargin: 0.01,
