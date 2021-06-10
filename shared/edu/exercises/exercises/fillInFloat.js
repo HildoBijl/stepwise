@@ -4,7 +4,7 @@ const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 
 const data = {
 	skill: 'fillInFloat',
-	equalityOptions: { significantDigitMargin: 0, relativeMargin: 0.0001 },
+	equalityOptions: { relativeMargin: 0.0001 },
 }
 
 function generateState() {

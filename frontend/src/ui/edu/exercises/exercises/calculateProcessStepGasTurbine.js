@@ -60,7 +60,7 @@ const steps = [
 	},
 	{
 		Problem: () => <>
-			<Par>Wat is de waarde voor <M>n</M> bij dit proces?</Par>
+			<Par>Bepaal de waarde voor <M>n</M> bij dit proces.</Par>
 			<InputSpace>
 				<MultipleChoice id="process" choices={[
 					<span>Er geldt <M>n=0.</M></span>,
