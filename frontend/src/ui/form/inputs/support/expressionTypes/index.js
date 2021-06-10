@@ -3,11 +3,15 @@ import { addCursor } from '../Input'
 import * as Expression from './Expression'
 import * as ExpressionPart from './ExpressionPart'
 import * as Fraction from './Fraction'
+import * as SimpleText from './SimpleText'
+import * as SubSup from './SubSup'
 
 const functions = {
 	Expression,
 	ExpressionPart,
 	Fraction,
+	SimpleText,
+	SubSup,
 }
 
 // toLatex takes a value object and turns it into Latex code.
@@ -65,8 +69,17 @@ export function isCursorAtEnd(data) {
 	return functions[type].isCursorAtEnd(value, cursor)
 }
 
-export function canMerge(data) {
-	return functions[data.type].canMerge(data.value)
+export function getEmpty(type) {
+	return functions[type].getEmpty()
+}
+
+export function isEmpty(data) {
+	const { type, value } = data
+	return functions[type].isEmpty(value)
+}
+
+export function canMerge(data, mergeWithNext) {
+	return functions[data.type].canMerge(data.value, mergeWithNext)
 }
 
 // merge takes an expression value and an index pointing to a special element. It then merges what comes after this element (when mergeWithNext is true (default)) into the element, or what comes before the element (when mergeWithNext is false) into the numerator (left). An expression data object is returned, including properly placed cursor.

@@ -39,25 +39,31 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 		})
 	}
 
+	// Set up other handlers.
+	const moveLeft = () => {
+		const part = cursor.part - 1
+		return cleanUp({ ...data, cursor: { part, cursor: General.getEndCursor(value[part]) } }) // Move to the end of the previous element.
+	}
+	const moveRight = () => {
+		const part = cursor.part + 1
+		return cleanUp({ ...data, cursor: { part, cursor: General.getStartCursor(value[part]) } }) // Move to the start of the next element.
+	}
+
 	// Ignore ctrl/alt keys.
 	if (ctrl || alt)
 		return data
 
 	// For left/right-arrows, adjust the cursor.
-	if (key === 'ArrowLeft' && cursor.part > 0 && General.isCursorAtStart(activeElementData)) {
-		const part = cursor.part - 1
-		return { ...data, cursor: { part, cursor: General.getEndCursor(value[part]) } } // Move to the end of the previous element.
-	}
-	if (key === 'ArrowRight' && cursor.part < value.length - 1 && General.isCursorAtEnd(activeElementData)) {
-		const part = cursor.part + 1
-		return { ...data, cursor: { part, cursor: General.getStartCursor(value[part]) } } // Move to the start of the next element.
-	}
+	if (key === 'ArrowLeft' && cursor.part > 0 && General.isCursorAtStart(activeElementData))
+		return moveLeft()
+	if (key === 'ArrowRight' && cursor.part < value.length - 1 && General.isCursorAtEnd(activeElementData))
+		return moveRight()
 
 	// For the home/end, move to the start/end of this expression. If the cursor is inside a special part, and inside the child elements not yet at the corresponding edge, pass the call on.
 	if (key === 'Home' && (activeElementData.type === 'ExpressionPart' || General.isCursorAtStart(activeElementData) || General.isCursorAtStart(General.zoomIn(activeElementData))))
-		return { ...data, cursor: getStartCursor(value) }
+		return cleanUp({ ...data, cursor: getStartCursor(value) })
 	if (key === 'End' && (activeElementData.type === 'ExpressionPart' || General.isCursorAtEnd(activeElementData) || General.isCursorAtEnd(General.zoomIn(activeElementData))))
-		return { ...data, cursor: getEndCursor(value) }
+		return cleanUp({ ...data, cursor: getEndCursor(value) })
 
 	// On divisions create a fraction.
 	if (key === '/' || key === 'Divide') {
@@ -96,12 +102,16 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 		// Are we in an expression part?
 		if (activeElementData.type === 'ExpressionPart') {
 			const previousPart = value[cursor.part - 1]
-			if (General.canMerge(previousPart))
-				return General.merge(value, cursor.part - 1, true)
+			if (General.canMerge(previousPart, true))
+				return cleanUp(General.merge(value, cursor.part - 1, true))
+			else
+				return moveLeft()
 		} else { // We are in a special element.
 			const activePart = value[cursor.part]
-			if (General.canMerge(activePart))
-				return General.merge(value, cursor.part, false)
+			if (General.canMerge(activePart, false))
+				return cleanUp(General.merge(value, cursor.part, false))
+			else
+				return moveLeft()
 		}
 	}
 
@@ -113,12 +123,16 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 		// Are we in an expression part?
 		if (activeElementData.type === 'ExpressionPart') {
 			const nextPart = value[cursor.part + 1]
-			if (General.canMerge(nextPart))
-				return General.merge(value, cursor.part + 1, false)
+			if (General.canMerge(nextPart, false))
+				return cleanUp(General.merge(value, cursor.part + 1, false))
+			else
+				return moveRight()
 		} else { // We are in a special element.
 			const activePart = value[cursor.part]
-			if (General.canMerge(activePart))
-				return General.merge(value, cursor.part, true)
+			if (General.canMerge(activePart, true))
+				return cleanUp(General.merge(value, cursor.part, true))
+			else
+				return moveRight()
 		}
 	}
 
@@ -138,6 +152,52 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 					part: cursor.part,
 					cursor: split.cursor,
 				},
+			})
+		}
+	}
+
+	// When an underscore or power symbol is pressed, while in an ExpressionPart, create a subsup.
+	if (key === '_' || key === 'Underscore' || key === '^' || key === 'Power') {
+		if (activeElementData.type === 'ExpressionPart') {
+			const sub = (key === '_' || key === 'Underscore') // Cursor in the sub or the sup?
+
+			// Set up a handler for determining the cursor.
+			const getCursorOfSubSup = (subSupValue, delta, putAtStart) => ({
+				part: cursor.part + delta, // Use the delta to adjust the cursor part.
+				cursor: {
+					part: sub ? 'sub' : 'sup',
+					cursor: General[`get${putAtStart ? 'Start' : 'End'}Cursor`](subSupValue[sub ? 'sub' : 'sup']),
+				}
+			})
+
+			// Check if we are after or prior to a SubSup. In that case, only move the cursor.
+			const previousElementData = value[cursor.part - 1]
+			if (General.isCursorAtStart(activeElementData) && previousElementData && previousElementData.type === 'SubSup')
+				return cleanUp({
+					...data,
+					cursor: getCursorOfSubSup(previousElementData.value, -1, false)
+				})
+			const nextElementData = value[cursor.part + 1]
+			if (General.isCursorAtEnd(activeElementData) && nextElementData && nextElementData.type === 'SubSup')
+				return cleanUp({
+					...data,
+					cursor: getCursorOfSubSup(nextElementData.value, 1, true),
+				})
+
+			// Split the current ExpressionPart and put an empty SubSup in-between.
+			const split = splitAtCursor(data)
+			const newSubSup = {
+				type: 'SubSup',
+				value: General.getEmpty('SubSup'),
+			}
+			return cleanUp({
+				...data,
+				value: [
+					...split.left,
+					newSubSup,
+					...split.right,
+				],
+				cursor: getCursorOfSubSup(newSubSup.value, 1, true),
 			})
 		}
 	}
@@ -268,7 +328,10 @@ export function cleanUp(data) {
 	// Step 1 is to flatten all expressions inside of the expression array.
 	data = flattenExpressionArray(data)
 
-	// Step 2 is to ensure that the expression consists of alternating ExpressionParts (even indices) and alternating other parts (odd indices).
+	// Step 2 is to remove all empty elements.
+	data = removeEmptyElements(data)
+
+	// Step 3 is to ensure that the expression consists of alternating ExpressionParts (even indices) and alternating other parts (odd indices).
 	data = alternateExpressionParts(data)
 
 	// Return the result with or without a cursor.
@@ -311,6 +374,20 @@ function flattenExpressionArray(data) {
 
 function flattenExpressionArraysFromValue(value) {
 	return value.map(element => element.type === 'Expression' ? flattenExpressionArraysFromValue(element.value) : element).flat()
+}
+
+function removeEmptyElements(data) {
+	const { value, cursor } = data
+	const activeElement = cursor && value[cursor.part]
+	const filteredValue = value.filter((element, index) => !General.isEmpty(element) || (cursor && cursor.part === index)) // Keep all elements that have contents (are non-empty) or have a cursor in them.
+	return {
+		...data,
+		value: filteredValue,
+		cursor: cursor && {
+			...cursor,
+			part: filteredValue.indexOf(activeElement),
+		},
+	}
 }
 
 function alternateExpressionParts(data) {
@@ -467,7 +544,7 @@ export function splitAtCursor(data) {
 
 	return {
 		left: [
-			value.slice(0, cursor.part),
+			...value.slice(0, cursor.part),
 			{
 				...activeElementData,
 				value: activeElementData.value.substring(0, activeElementData.cursor),
@@ -478,7 +555,7 @@ export function splitAtCursor(data) {
 				...activeElementData,
 				value: activeElementData.value.substring(activeElementData.cursor),
 			},
-			value.slice(cursor.part + 1),
+			...value.slice(cursor.part + 1),
 		],
 	}
 }

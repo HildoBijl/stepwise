@@ -26,6 +26,7 @@ export function getCursorProperties(data, charElements, container) {
 export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement) {
 	const { key, ctrl, alt } = keyInfo
 	const { value, cursor } = data
+	const activeElementData = General.zoomIn(data)
 
 	// When we want to pass this on to the child element, we have this custom function.
 	const passOn = () => {
@@ -43,11 +44,6 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 	// Ignore ctrl/alt keys.
 	if (ctrl || alt)
 		return data
-
-	// Get the active element.
-	const activeElement = value[cursor.part]
-	const activeElementCursor = cursor.cursor
-	const activeElementData = addCursor(activeElement, activeElementCursor)
 
 	// For left/right-arrows, home and end, adjust the cursor.
 	if (key === 'ArrowLeft' && cursor.part === 'den' && General.isCursorAtStart(activeElementData))
@@ -104,10 +100,10 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 
 export function canMoveCursorVertically(data, up) {
 	// Can we go in the given direction inside the fraction? If so, it's a definite true. Otherwise check the child element.
-	const { value, cursor } = data
+	const { cursor } = data
 	if ((up && cursor.part === 'den') || (!up && cursor.part === 'num'))
 		return true
-	return General.canMoveCursorVertically(addCursor(value[cursor.part], cursor.cursor), up)
+	return General.canMoveCursorVertically(General.zoomIn(data), up)
 }
 
 export function charElementClickToCursor(evt, value, trace, charElements, equationElement) {
@@ -131,11 +127,11 @@ export function coordinatesToCursor(coordinates, boundsData, data, charElements,
 }
 
 export function getStartCursor(value) {
-	return { part: 'num', cursor: Expression.getStartCursor(value.num.value) }
+	return { part: 'num', cursor: General.getStartCursor(value.num) }
 }
 
 export function getEndCursor(value) {
-	return { part: 'den', cursor: Expression.getEndCursor(value.den.value) }
+	return { part: 'den', cursor: General.getEndCursor(value.den) }
 }
 
 export function isCursorAtStart(value, cursor) {
@@ -154,14 +150,14 @@ export function getEmpty() {
 }
 
 export function isEmpty(value) {
-	return Expression.isEmpty(value.num.value) && Expression.isEmpty(value.den.value)
+	return General.isEmpty(value.num) && General.isEmpty(value.den)
 }
 
-export function canMerge(value) {
+export function canMerge() {
 	return true
 }
 
-export function merge(expressionValue, partIndex, mergeWithNext = true) {
+export function merge(expressionValue, partIndex, mergeWithNext) {
 	const fraction = expressionValue[partIndex].value
 
 	// Should we merge with the next?
@@ -177,7 +173,7 @@ export function merge(expressionValue, partIndex, mergeWithNext = true) {
 		})
 
 		// Set up the complete expression.
-		return Expression.cleanUp({
+		return {
 			type: 'Expression',
 			value: [
 				...expressionValue.slice(0, partIndex), // Keep previous elements.
@@ -196,7 +192,7 @@ export function merge(expressionValue, partIndex, mergeWithNext = true) {
 					cursor: newDen.cursor, // Use the cursor of the new denominator.
 				},
 			},
-		})
+		}
 	}
 
 	// We should merge with the previous. Set up the new numerator.
@@ -211,7 +207,7 @@ export function merge(expressionValue, partIndex, mergeWithNext = true) {
 	})
 
 	// Set up the complete expression.
-	return Expression.cleanUp({
+	return {
 		type: 'Expression',
 		value: [
 			{ // Extend the fraction.
@@ -230,7 +226,7 @@ export function merge(expressionValue, partIndex, mergeWithNext = true) {
 				cursor: newNum.cursor, // Use the cursor of the new denominator.
 			},
 		},
-	})
+	}
 }
 
 export function canSplit(data) {

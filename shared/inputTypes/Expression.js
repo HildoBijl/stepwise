@@ -164,7 +164,8 @@ function getEmpty() {
 module.exports.getEmpty = getEmpty
 
 function isEmpty(expression) {
-	return expression.length === 1 && firstOf(expression) === ''
+	const firstElement = firstOf(expression)
+	return expression.length === 1 && firstElement && firstElement.value === ''
 }
 module.exports.isEmpty = isEmpty
 

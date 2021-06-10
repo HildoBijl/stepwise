@@ -105,7 +105,7 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 }
 
 // addStrToData adds a string into the data object, at the position of the cursor. It returns the new data object, with the cursor moved accordingly.
-function addStrToData(str, data) {
+export function addStrToData(str, data) {
 	const { value, cursor } = data
 	return {
 		...data,
@@ -123,7 +123,7 @@ export function charElementClickToCursor(evt, value, trace, charElements, equati
 }
 
 export function coordinatesToCursor(coordinates, boundsData, data, charElements, contentsElement) {
-	// Extract which character was closest to the click. Check if it's empty.
+	// Extract which character was closest to the click.
 	const part = getClosestElement(coordinates, boundsData)
 
 	// If the element is empty, put the cursor on its left side.
