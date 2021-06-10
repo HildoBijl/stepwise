@@ -17,11 +17,9 @@ const data = {
 		},
 		Rs: {
 			relativeMargin: 0.02,
-			significantDigitMargin: 2,
 		},
 		cp: {
 			relativeMargin: 0.02,
-			significantDigitMargin: 2,
 		},
 	},
 }

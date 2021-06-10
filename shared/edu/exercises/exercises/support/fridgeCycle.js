@@ -8,7 +8,7 @@ function getCycle() {
 		decimals: 0,
 	})
 	const Twarm = getRandomFloatUnit({
-		min: 16,
+		min: 18,
 		max: 25,
 		unit: 'dC',
 		decimals: 0,

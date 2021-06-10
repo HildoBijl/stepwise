@@ -19,8 +19,8 @@ function Problem({ type, Tcond, Tevap, dTcold, dTwarm }) {
 		<Par>{type === 'heatPump' ? `Een warmtepomp onttrekt warmte uit de buitenlucht en levert deze aan de huiskamer. De warmtepomp` : `Een koelkast onttrekt warmte uit de te koelen ruimte en levert deze af aan de keuken waar hij in staat. De koelkast`} heeft een condensortemperatuur van <M>{Tcond}</M> en een verdampertemperatuur van <M>{Tevap}.</M> De warmtewisselaar van de condensor heeft minimaal een temperatuursverschil nodig van <M>{dTwarm}.</M> Bij de verdamper is dit minimaal benodigde temperatuursverschil <M>{dTcold}.</M> {type === 'heatPump' ? `Bereken de temperatuur buiten en binnen waarbij de warmtepomp nog net goed werkt.` : `Bereken de temperatuur in de koelkast en in de keuken waarbij de koelkast nog net goed werkt.`}</Par>
 		<InputSpace>
 			<Par>
-				<FloatUnitInput id="Tcold" prelabel={<M>{type === 'heatPump' ? `T_(buiten)` : `T_(koelkast)`}=</M>} label={<span><M>{type === 'heatPump' ? `T_(buiten)` : `T_(koelkast)`}</M></span>} size="s" />
-				<FloatUnitInput id="Twarm" prelabel={<M>{type === 'heatPump' ? `T_(binnen)` : `T_(keuken)`}=</M>} label={<span><M>{type === 'heatPump' ? `T_(binnen)` : `T_(keuken)`}</M></span>} size="s" />
+				<FloatUnitInput id="Tcold" prelabel={<M>{type === 'heatPump' ? `T_(buiten)` : `T_(koelkast)`}=</M>} label={type === 'heatPump' ? 'Temperatuur buiten' : 'Temperatuur in de koelkast'} size="s" />
+				<FloatUnitInput id="Twarm" prelabel={<M>{type === 'heatPump' ? `T_(binnen)` : `T_(keuken)`}=</M>} label={type === 'heatPump' ? 'Temperatuur binnen' : 'Temperatuur in de keuken'} size="s" />
 			</Par>
 		</InputSpace>
 	</>

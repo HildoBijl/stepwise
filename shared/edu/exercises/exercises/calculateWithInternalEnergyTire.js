@@ -16,8 +16,7 @@ const data = {
 			significantDigitMargin: 1,
 		},
 		cv: {
-			relativeMargin: 0.01,
-			significantDigitMargin: 2,
+			relativeMargin: 0.02,
 		},
 	},
 }

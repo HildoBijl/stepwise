@@ -20,7 +20,6 @@ const data = {
 		},
 		c: {
 			relativeMargin: 0.015,
-			significantDigitMargin: 2,
 			accuracyFactor: 2,
 		},
 		T1: {

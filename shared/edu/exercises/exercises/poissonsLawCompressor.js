@@ -27,8 +27,7 @@ const data = {
 			type: Unit.equalityTypes.exact,
 		},
 		k: {
-			relativeMargin: 0.01,
-			significantDigitMargin: 2,
+			relativeMargin: 0.015,
 		},
 		V1: {
 			relativeMargin: 0.01,

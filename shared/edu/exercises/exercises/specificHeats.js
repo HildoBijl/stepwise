@@ -7,8 +7,7 @@ const data = {
 	skill: 'specificHeats',
 	equalityOptions: {
 		default: {
-			relativeMargin: 0.03,
-			significantDigitMargin: 2,
+			relativeMargin: 0.02,
 		},
 	}
 }

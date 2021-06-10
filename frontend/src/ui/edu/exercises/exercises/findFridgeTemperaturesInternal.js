@@ -21,8 +21,8 @@ function Problem({ type, Tcold, Twarm, dTcold, dTwarm }) {
 			<Par>Een koelkast heeft aan de binnenkant, in de te koelen ruimte, een temperatuur van <M>{Tcold}.</M> De koelkast staat in een keuken met een temperatuur van <M>{Twarm}.</M> Bij het onttrekken van warmte uit de te koelen ruimte is voor de warmtewisselaar een temperatuursverschil van <M>{dTcold}</M> benodigd. Voor het lozen van warmte in de keuken is een temperatuursverschil van <M>{dTwarm}</M> nodig. Bereken de temperaturen in de condensor en verdamper van de koelkast.</Par>}
 		<InputSpace>
 			<Par>
-				<FloatUnitInput id="Tcond" prelabel={<M>T_c =</M>} label={<span><M>T_c</M></span>} size="s" />
-				<FloatUnitInput id="Tevap" prelabel={<M>T_v =</M>} label={<span><M>T_v</M></span>} size="s" />
+				<FloatUnitInput id="Tcond" prelabel={<M>T_c =</M>} label="Temperatuur in de condensor" size="s" />
+				<FloatUnitInput id="Tevap" prelabel={<M>T_v =</M>} label="Temperatuur in de verdamper" size="s" />
 			</Par>
 		</InputSpace>
 	</>
