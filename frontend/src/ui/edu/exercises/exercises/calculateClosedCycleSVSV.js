@@ -35,7 +35,7 @@ const fields = [[
 ]]
 
 const Problem = ({ p1, V1, T1, p2, p3 }) => <>
-	<Par>We bekijken een viertaktmotor die een Otto-cyclus uitvoert. Eerst zuigt de motor <M>{V1}</M> lucht aan op <M>{p1}</M> en <M>{T1}</M> (punt 1). Bij het omlaag gaan van de zuiger wordt deze lucht isentropisch gecomprimeerd tot <M>{p2}.</M> Vervolgens vindt de verbranding plaats, die de druk isochoor verder ophoogt tot <M>{p3}.</M> Hierna wordt de zuiger isentropisch weer terug omhoog geduwd tot het beginvolume. Tenslotte wordt de lucht uitgestoten en wordt weer verse lucht aangezogen. (Je kunt deze stap zien als "isochore koeling".) Bereken de gaseigenschappen voor elk punt in dit kringproces.</Par>
+	<Par>We bekijken een viertaktmotor die een Otto-cyclus uitvoert. Eerst zuigt de motor <M>{V1}</M> lucht aan op <M>{p1}</M> en <M>{T1}</M> (punt 1). Bij het omhoog gaan van de zuiger wordt deze lucht isentropisch gecomprimeerd tot <M>{p2}.</M> Vervolgens vindt de verbranding plaats, die de druk isochoor verder ophoogt tot <M>{p3}.</M> Hierna wordt de zuiger isentropisch weer terug omlaag geduwd tot het beginvolume. Tenslotte wordt de lucht uitgestoten en wordt weer verse lucht aangezogen. (Je kunt deze stap zien als "isochore koeling".) Bereken de gaseigenschappen voor elk punt in dit kringproces.</Par>
 	<InputSpace>
 		<InputTable {...{ colHeads, rowHeads, fields }} />
 	</InputSpace>

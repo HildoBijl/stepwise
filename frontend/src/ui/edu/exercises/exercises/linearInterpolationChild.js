@@ -73,14 +73,14 @@ const steps = [
 	},
 	{
 		Problem: ({ type, h1, h2, W1, W2, h, W }) => type === 1 ? <>
-			<Par>Uitgaande van dat ook dit deel van de gewichtstoename plaats heeft gevonden, wat is het gewicht dan? Merk op dat het gewicht bij de eerste meting <M>{W1}</M> was en bij de tweede <M>{W2}.</M></Par>
+			<Par>Uitgaande van dat ook dit deel van de gewichtstoename plaats heeft gevonden, bepaal het gewicht. Merk op dat het gewicht bij de eerste meting <M>{W1}</M> was en bij de tweede <M>{W2}.</M></Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="W" prelabel={<M>W =</M>} label={<span>Gewicht bij <M>{h}</M></span>} size="s" />
 				</Par>
 			</InputSpace>
 		</> : <>
-			<Par>Uitgaande van dat ook dit deel van de hoogtestijging plaats heeft gevonden, wat is de hoogte dan? Merk op dat de hoogte bij de eerste meting <M>{h1}</M> was en bij de tweede <M>{h2}.</M></Par>
+			<Par>Uitgaande van dat ook dit deel van de hoogtestijging plaats heeft gevonden, bepaal de hoogte. Merk op dat de hoogte bij de eerste meting <M>{h1}</M> was en bij de tweede <M>{h2}.</M></Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="h" prelabel={<M>h =</M>} label={<span>Hoogte bij <M>{W}</M></span>} size="s" />
