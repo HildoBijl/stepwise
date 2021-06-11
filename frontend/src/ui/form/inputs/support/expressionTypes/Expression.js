@@ -493,7 +493,7 @@ export function cleanUp(data) {
 	data = flattenExpressionArray(data)
 
 	// Step 3 is to remove all unnecessary elements.
-	data = removeUnncessaryElements(data)
+	data = removeUnnecessaryElements(data)
 
 	// Step 4 is to ensure that the expression consists of alternating ExpressionParts (even indices) and alternating other parts (odd indices).
 	data = alternateExpressionParts(data)
@@ -557,7 +557,7 @@ function flattenExpressionArraysFromValue(value) {
 	return value.map(element => element.type === 'Expression' ? flattenExpressionArraysFromValue(element.value) : element).flat()
 }
 
-function removeUnncessaryElements(data) {
+function removeUnnecessaryElements(data) {
 	const { value, cursor } = data
 	const activeElement = cursor && value[cursor.part]
 	const filteredValue = value.filter((element, index) => !General.shouldRemove(element) || (cursor && cursor.part === index)) // Remove all elements that say they should be removed. (Unless there's a cursor in them.)
@@ -589,10 +589,20 @@ function alternateExpressionParts(data) {
 	value.forEach((element, index) => {
 		const lastAddedElement = lastOf(newValue)
 		if (element.type === 'ExpressionPart' && lastAddedElement.type === 'ExpressionPart') {
-			// Two ExpressionParts in a row. Merge them. And if the cursor is in the new ExpressionPart, position it appropriately.
+			// Two ExpressionParts in a row. Merge them. And if the cursor is in this merged ExpressionPart, position it appropriately. Also run a clean-up, in case this merging creates auto-replace options.
+			let jointCursor = null
 			if (cursor && cursor.part === index)
-				newCursor = { part: newValue.length - 1, cursor: lastAddedElement.value.length + cursor.cursor }
-			newValue[newValue.length - 1] = { ...lastAddedElement, value: lastAddedElement.value + element.value }
+				jointCursor = lastAddedElement.value.length + cursor.cursor
+			if (newCursor && newCursor.part === newValue.length - 1)
+				jointCursor = newCursor.cursor
+			const newExpressionPart = ExpressionPart.cleanUp({
+				...lastAddedElement,
+				value: lastAddedElement.value + element.value,
+				cursor: jointCursor,
+			})
+			if (jointCursor !== null)
+				newCursor = { part: newValue.length - 1, cursor: newExpressionPart.cursor }
+			newValue[newValue.length - 1] = removeCursor(newExpressionPart)
 		} else {
 			// If there are two special parts in a row, add an empty ExpressionPart in-between.
 			if (element.type !== 'ExpressionPart' && lastAddedElement.type !== 'ExpressionPart')
