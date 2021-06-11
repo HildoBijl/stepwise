@@ -8,12 +8,14 @@ import { emptyElementChar, emptyElementCharLatex } from '../MathWithCursor'
 import * as ExpressionPart from './ExpressionPart'
 
 export function toLatex(value) {
-	return value === '' ? emptyElementCharLatex : value
+	return value === '' ? emptyElementCharLatex : `{\\rm ${value}}`
 }
 
 export function getLatexChars(value) {
 	if (value === '')
 		return emptyElementChar.split('')
+
+	value = value.replaceAll('*', '∗') // This is what appears for the cdot.
 	value = value.replaceAll('-', latexMinus) // Latex minuses.
 	return value.split('')
 }
@@ -109,6 +111,10 @@ export function isEmpty(value) {
 	return ExpressionPart.isEmpty(value)
 }
 
+export function shouldRemove(value) {
+	return ExpressionPart.shouldRemove(value)
+}
+
 export function countNetBrackets(data, relativeToCursor) {
 	return 0 // Brackets in SimpleText are irrelevant for any count. They are just text and not functional.
 }
@@ -119,4 +125,8 @@ export function canMerge() {
 
 export function canSplit() {
 	return ExpressionPart.canSplit()
+}
+
+export function cleanUp(data) {
+	return data
 }

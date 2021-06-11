@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useRef, useEffect, useCallback } from 'react'
 
-import { insertAtIndex } from 'step-wise/util/strings'
 import { findOptimum, findOptimumIndex, flattenFully, forceIntoShape, getIndexTrace } from 'step-wise/util/arrays'
 import { filterProperties } from 'step-wise/util/objects'
 
@@ -58,19 +57,8 @@ function MathWithoutCursor({ type, value }) {
 }
 
 // processLatex will do some final adjustments to the Latex code to make it a bit prettier when the Latex is used for input fields.
-function processLatex(str) {
-	// If there are certain signs at the start or end, add spacing. This is to prevent inconsistent Latex spacing when you for instance type "a+" and then type "b" after. Without this, the plus sign jumps.
-	if (['+', '*'].includes(str[0]))
-		str = insertAtIndex(str, 1, '\\: ')
-	const end = str.length - 1
-	if (['+', '*', '-'].includes(str[end]))
-		str = insertAtIndex(str, end, '\\: ')
-
-	// Turn stars into cdots.
-	str = str.replaceAll('*', '\\cdot ')
-
-	// All done!
-	return str
+function processLatex(latex) {
+	return latex // No processing at the moment.
 }
 
 // A context can be used by the consuming input field to access the charElements.
@@ -104,7 +92,7 @@ export function getCharElements(equationElement, data) {
 	const textLatexChars = flattenFully(latexChars).join('')
 	const textContent = equationElement.textContent.replaceAll(zeroWidthSpace, '') // Get all text in HTML elements, but remove zero-width spaces.
 	if (textContent !== textLatexChars)
-		throw new Error(`Equation character error: expected the render of the equation to have characters "${textLatexChars}", but the actual Katex equation rendered "${textLatexChars}". These two strings must be equal: all characters must appear in the order they are expected in.`)
+		throw new Error(`Equation character error: expected the render of the equation to have characters "${textLatexChars}", but the actual Katex equation rendered "${textContent}". These two strings must be equal: all characters must appear in the order they are expected in.`)
 
 	// Extract all DOM elements (leafs) with a character and match them appropriately.
 	const allElements = [...equationElement.getElementsByTagName('*')]

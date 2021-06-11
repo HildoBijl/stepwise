@@ -10,7 +10,15 @@ import { emptyElementChar, emptyElementCharLatex, isCharElementEmpty, getCursorP
 import * as Expression from './Expression'
 
 export function toLatex(value) {
-	return value === '' ? emptyElementCharLatex : value
+	if (value === '')
+		return emptyElementCharLatex
+
+	// Replace stars by dots.
+	let latex = value
+	latex = latex.replaceAll('*', '\\cdot ')
+
+	// All done.
+	return latex
 }
 
 export function getLatexChars(value) {
@@ -161,6 +169,10 @@ export function isEmpty(value) {
 	return value.length === 0
 }
 
+export function shouldRemove(value) {
+	return isEmpty(value)
+}
+
 export function countNetBrackets(data, relativeToCursor) {
 	const { value, cursor } = data
 	const valuePart = relativeToCursor === 0 ? value : (relativeToCursor === -1 ? value.substring(0, cursor) : value.substring(cursor))
@@ -173,4 +185,8 @@ export function canMerge() {
 
 export function canSplit() {
 	return false
+}
+
+export function cleanUp(data) {
+	return data
 }

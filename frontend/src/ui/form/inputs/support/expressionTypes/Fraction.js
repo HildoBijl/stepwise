@@ -7,12 +7,22 @@ import * as General from './index'
 import * as ExpressionPart from './ExpressionPart'
 import * as Expression from './Expression'
 
+const parts = ['den', 'num'] // Katex puts the denominator first in its HTML rendering, so put that first.
+
 export function toLatex(value) {
 	return `\\frac{${General.toLatex(value.num)}}{${General.toLatex(value.den)}}`
 }
 
 export function getLatexChars(value) {
-	return [General.getLatexChars(value.den), General.getLatexChars(value.num)] // Katex puts the denominator first in its HTML rendering.
+	return parts.map(part => General.getLatexChars(value[part]))
+}
+
+export function partToIndex(part) {
+	return parts.indexOf(part)
+}
+
+export function indexToPart(index) {
+	return parts[index]
 }
 
 export function getCursorProperties(data, charElements, container) {
@@ -20,7 +30,7 @@ export function getCursorProperties(data, charElements, container) {
 	return General.getCursorProperties({
 		...value[cursor.part],
 		cursor: cursor.cursor,
-	}, charElements[cursor.part === 'den' ? 0 : 1], container)
+	}, charElements[partToIndex(cursor.part)], container)
 }
 
 export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement) {
@@ -30,7 +40,7 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 
 	// When we want to pass this on to the child element, we have this custom function.
 	const passOn = () => {
-		const adjustedElement = General.keyPressToData(keyInfo, addCursor(value[cursor.part], cursor.cursor), charElements[cursor.part === 'den' ? 0 : 1], topParentData, contentsElement, cursorElement)
+		const adjustedElement = General.keyPressToData(keyInfo, addCursor(value[cursor.part], cursor.cursor), charElements[partToIndex(cursor.part)], topParentData, contentsElement, cursorElement)
 		return {
 			...data,
 			value: {
@@ -64,7 +74,7 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 
 		// We can move in the right direction. Use the current cursor coordinates to get the appropriate cursor position.
 		const part = up ? 'num' : 'den'
-		const partCharElements = charElements[part === 'den' ? 0 : 1]
+		const partCharElements = charElements[partToIndex(part)]
 		const boundsData = charElementsToBounds(partCharElements)
 		const cursorRect = cursorElement.getBoundingClientRect()
 		const cursorMiddle = { x: (cursorRect.left + cursorRect.right) / 2, y: (cursorRect.top + cursorRect.bottom) / 2 }
@@ -153,21 +163,35 @@ export function isEmpty(value) {
 	return General.isEmpty(value.num) && General.isEmpty(value.den)
 }
 
+export function shouldRemove(value) {
+	return parts.every(part => General.isEmpty(value[part]))
+}
+
 export function canMerge() {
 	return true
 }
 
-export function merge(expressionValue, partIndex, mergeWithNext) {
+export function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {
 	const fraction = expressionValue[partIndex].value
 
 	// Should we merge with the next?
-	if (mergeWithNext) {
+	if (mergeWithNext) { // Yes, merge with the next.
+		// Find the expression to pull in. If it's empty, and we came from inside, move the cursor outside.
+		const expressionAfterFraction = expressionValue.slice(partIndex + 1)
+		if (!fromOutside && Expression.isEmpty(expressionAfterFraction)) {
+			return {
+				type: 'Expression',
+				value: expressionValue,
+				cursor: { part: partIndex + 1, cursor: 0 }
+			}
+		}
+
 		// Set up the new denominator.
 		const newDen = Expression.cleanUp({
 			...fraction.den,
 			value: [
 				...fraction.den.value, // Take what was in the denominator.
-				...expressionValue.slice(partIndex + 1), // Add what is after the fraction.
+				...expressionAfterFraction, // Add what is after the fraction.
 			],
 			cursor: Expression.getEndCursor(fraction.den.value), // Put the cursor at the end of the previous denominator.
 		})
@@ -193,39 +217,48 @@ export function merge(expressionValue, partIndex, mergeWithNext) {
 				},
 			},
 		}
-	}
+	} else { // We should merge with the previous.
+		// Find the expression to pull in. If it's empty, and we came from inside, move the cursor to the left.
+		const expressionBeforeFraction = expressionValue.slice(0, partIndex)
+		if (!fromOutside && Expression.isEmpty(expressionBeforeFraction)) {
+			return {
+				type: 'Expression',
+				value: expressionValue,
+				cursor: { part: 0, cursor: 0 }
+			}
+		}
 
-	// We should merge with the previous. Set up the new numerator.
-	const expressionBeforeFraction = expressionValue.slice(0, partIndex)
-	const newNum = Expression.cleanUp({
-		...fraction.num,
-		value: [
-			...expressionBeforeFraction, // Add what is before the fraction.
-			...fraction.num.value, // Take what was in the numerator.
-		],
-		cursor: Expression.getEndCursor(expressionBeforeFraction), // Put the cursor at the end of the previous denominator.
-	})
+		// Set up the new numerator.
+		const newNum = Expression.cleanUp({
+			...fraction.num,
+			value: [
+				...expressionBeforeFraction, // Add what is before the fraction.
+				...fraction.num.value, // Take what was in the numerator.
+			],
+			cursor: Expression.getEndCursor(expressionBeforeFraction), // Put the cursor at the end of the pulled-in expression.
+		})
 
-	// Set up the complete expression.
-	return {
-		type: 'Expression',
-		value: [
-			{ // Extend the fraction.
-				...expressionValue[partIndex],
-				value: {
-					num: removeCursor(newNum), // Use the new numerator.
-					den: fraction.den, // Keep the denominator.
+		// Set up the complete expression.
+		return {
+			type: 'Expression',
+			value: [
+				{ // Extend the fraction.
+					...expressionValue[partIndex],
+					value: {
+						num: removeCursor(newNum), // Use the new numerator.
+						den: fraction.den, // Keep the denominator.
+					},
+				},
+				...expressionValue.slice(partIndex + 1), // Keep remaining elements.
+			],
+			cursor: {
+				part: 0,
+				cursor: {
+					part: 'num',
+					cursor: newNum.cursor, // Use the cursor of the new denominator.
 				},
 			},
-			...expressionValue.slice(partIndex + 1), // Keep remaining elements.
-		],
-		cursor: {
-			part: 0,
-			cursor: {
-				part: 'num',
-				cursor: newNum.cursor, // Use the cursor of the new denominator.
-			},
-		},
+		}
 	}
 }
 
@@ -284,5 +317,26 @@ export function split(data) {
 				cursor: General.getStartCursor(firstOf(split.right)),
 			},
 		}
+	}
+}
+
+export function cleanUp(data) {
+	const { cursor } = data
+
+	// Clean up the parts individually, keeping track of the cursor.
+	const newValue = {}
+	let newCursor = null
+	parts.forEach(part => {
+		newValue[part] = General.cleanUp(General.zoomInAt(data, part))
+		if (cursor && cursor.part === part)
+			newCursor = { part, cursor: newValue[part].cursor }
+		newValue[part] = removeCursor(newValue[part])
+	})
+
+	// Assemble everything.
+	return {
+		...data,
+		value: newValue,
+		cursor: newCursor,
 	}
 }

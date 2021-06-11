@@ -239,7 +239,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Input(props) {
 	// Gather properties.
 	let { id, prelabel, label, placeholder, feedbackText, className, size, validate, readOnly, autofocus, persistent } = props // User-defined props that are potentially passed on.
-	let { initialData, isEmpty, JSXObject, keyPressToData, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart, keyboardSettings, basic, autoResize = false, heightDelta = 0 } = props // Field-defined props that vary per field type.
+	let { initialData, isEmpty, JSXObject, keyPressToData, mouseClickToCursor, mouseClickToData, getStartCursor, getEndCursor, isCursorAtStart, keyboardSettings, basic, autoResize = false, heightDelta = 0 } = props // Field-defined props that vary per field type.
 
 	// Check properties.
 	if (!id)
@@ -280,7 +280,7 @@ export default function Input(props) {
 
 	// Set up necessary effects.
 	useKeyProcessing(processKeyPress, active)
-	useMouseClickProcessing(id, mouseClickToCursor, setData, contentsRef, fieldRef, getStartCursor, getEndCursor)
+	useMouseClickProcessing(id, mouseClickToCursor, mouseClickToData, setData, contentsRef, fieldRef, getStartCursor, getEndCursor)
 	useContentSliding(contentsRef, contentsContainerRef)
 	useFieldResizing(contentsRef, prelabelRef, fieldRef, data.value, autoResize, heightDelta)
 
@@ -354,12 +354,20 @@ function useKeyProcessing(processKeyPress, apply = true) {
 	useEventListener('keydown', keyDownHandler, listeningObject)
 }
 
-// useMouseClickProcessing sets up listeners for mouse clicks and calls the processing function accordingly. The mouseClickToCursor must be a function which receives an event, the input data, a contents object and a field object, and uses that to determine the new cursor position.
-function useMouseClickProcessing(fieldId, mouseClickToCursor, setData, contentsRef, fieldRef, getStartCursor, getEndCursor) {
+// useMouseClickProcessing sets up listeners for mouse clicks and calls the processing function accordingly. The mouseClickToData must be a function which receives an event, the input data, a contents object and a field object, and uses that to determine the new cursor position.
+function useMouseClickProcessing(fieldId, mouseClickToCursor, mouseClickToData, setData, contentsRef, fieldRef, getStartCursor, getEndCursor) {
 	const [active, activate, deactivate] = useFieldActivation(fieldId)
 	const activeRef = useRefWithValue(active)
 	const cursorRef = useCursorRef()
 	const keyboardRef = useKeyboardRef()
+
+	// If no mouseClickToData function has been provided, but a mouseClickToCursor function has been provided, establish an own mouseClickToData function.
+	if (!mouseClickToData && mouseClickToCursor) {
+		mouseClickToData = (evt, data, contentsElement, fieldElement) => {
+			const cursor = mouseClickToCursor(evt, data, contentsElement, fieldElement)
+			return checkCursor(cursor) ? { ...data, cursor } : data
+		}
+	}
 
 	// Set up the click handler.
 	const mouseClickHandler = useCallback(evt => {
@@ -378,7 +386,7 @@ function useMouseClickProcessing(fieldId, mouseClickToCursor, setData, contentsR
 		}
 
 		// Check various cases that are the same for all input fields.
-		if (!mouseClickToCursor)
+		if (!mouseClickToData)
 			return // If no process function is present, do nothing.
 		if (cursorRef.current && cursorRef.current.contains(evt.target))
 			return // If the cursor was clicked, keep everything as is.
@@ -397,11 +405,8 @@ function useMouseClickProcessing(fieldId, mouseClickToCursor, setData, contentsR
 		}
 
 		// We have a field-dependent case. Check the cursor position within the contents and apply it.
-		setData((data) => {
-			const cursor = mouseClickToCursor(evt, data, contentsRef.current, fieldRef.current)
-			return checkCursor(cursor) ? { ...data, cursor } : data
-		})
-	}, [activeRef, activate, deactivate, mouseClickToCursor, contentsRef, fieldRef, keyboardRef, cursorRef, setData, getStartCursor, getEndCursor])
+		setData((data) => mouseClickToData(evt, data, contentsRef.current, fieldRef.current))
+	}, [activeRef, activate, deactivate, mouseClickToData, contentsRef, fieldRef, keyboardRef, cursorRef, setData, getStartCursor, getEndCursor])
 
 	// When we're active, listen for clicks in the entire window, so we can also deactivate this element. Otherwise listen only inside this field, in case it's activated.
 	const listeningObject = (active ? window : fieldRef)

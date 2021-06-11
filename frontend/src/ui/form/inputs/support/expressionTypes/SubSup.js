@@ -7,6 +7,8 @@ import * as General from './index'
 import * as Expression from './Expression'
 import * as SimpleText from './SimpleText'
 
+const parts = ['sub', 'sup']
+
 export function toLatex(value) {
 	const { sub, sup } = value
 	const subLatex = sub ? `_{${General.toLatex(sub)}}` : ''
@@ -15,7 +17,7 @@ export function toLatex(value) {
 }
 
 export function getLatexChars(value) {
-	return ['sub', 'sup'].map(part => value[part] ? General.getLatexChars(value[part]) : []).filter(array => array.length > 0) // Only add an array for a part that actually exists.
+	return parts.map(part => value[part] ? General.getLatexChars(value[part]) : []).filter(array => array.length > 0) // Only add an array for a part that actually exists.
 }
 
 export function partToIndex(value, part) {
@@ -56,10 +58,10 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 	if (ctrl || alt)
 		return data
 
-	// For left/right-arrows, home and end, adjust the cursor.
-	if (key === 'ArrowLeft' && cursor.part === 'sup' && General.isCursorAtStart(activeElementData) && value.sub)
+	// For left/right-arrows, adjust the cursor. Do the same for Backspace/Delete when the cursor is at the end of the respective element.
+	if ((key === 'ArrowLeft' || key === 'Backspace') && cursor.part === 'sup' && General.isCursorAtStart(activeElementData) && value.sub)
 		return { ...data, cursor: { part: 'sub', cursor: General.getEndCursor(value.sub) } }
-	if (key === 'ArrowRight' && cursor.part === 'sub' && General.isCursorAtEnd(activeElementData) && value.sup)
+	if ((key === 'ArrowRight' || key === 'Delete') && cursor.part === 'sub' && General.isCursorAtEnd(activeElementData) && value.sup)
 		return { ...data, cursor: { part: 'sup', cursor: General.getStartCursor(value.sup) } }
 
 	// For up/down arrows, check if we can/need to move up. This is the case if we cannot move up/down inside a child, but we can move up/down here.
@@ -68,7 +70,7 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 		if (!General.canMoveCursorVertically(activeElementData, up) && canMoveCursorVertically(data, up)) {
 			// Use the current cursor coordinates to get the appropriate cursor position.
 			const part = up ? 'sup' : 'sub'
-			const partCharElements = charElements[part === 'sub' ? 0 : 1]
+			const partCharElements = charElements[partToIndex(value, part)]
 			const boundsData = charElementsToBounds(partCharElements)
 			const cursorRect = cursorElement.getBoundingClientRect()
 			const cursorMiddle = { x: (cursorRect.left + cursorRect.right) / 2, y: (cursorRect.top + cursorRect.bottom) / 2 }
@@ -87,31 +89,13 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 		const newValue = value.sup ? value : { ...value, sup: getEmptySup() } // If there is no superscript yet, add an empty one.
 		return {
 			...data,
-			value: newValue, 
+			value: newValue,
 			cursor: {
 				part: 'sup',
 				cursor: General.getStartCursor(newValue.sup),
 			},
 		}
 	}
-
-	// TODO
-	// // For backspace/delete check if we should destroy the fraction.
-	// if ((key === 'Backspace' && cursor.part === 'den' && General.isCursorAtStart(activeElementData)) || (key === 'Delete' && cursor.part === 'num' && General.isCursorAtEnd(activeElementData))) {
-	// 	// Turn it into an expression with the respective parts.
-	// 	return Expression.cleanUp({
-	// 		type: 'Expression',
-	// 		value: [
-	// 			value.num, // Plug the numerator in here. The clean-up will spread it out.
-	// 			{ type: 'ExpressionPart', value: ExpressionPart.getEmpty() },
-	// 			value.den, // Plug the denominator in here. The clean-up will spread it out.
-	// 		],
-	// 		cursor: {
-	// 			part: 1, // In the new ExpressionPart.
-	// 			cursor: ExpressionPart.getStartCursor(),
-	// 		},
-	// 	})
-	// }
 
 	// Pass on to the appropriate child element.
 	return passOn()
@@ -187,6 +171,10 @@ export function isEmpty(value) {
 	return (!value.sub || General.isEmpty(value.sub)) && (!value.sup || General.isEmpty(value.sup))
 }
 
+export function shouldRemove(value) {
+	return parts.every(part => !value[part] || General.isEmpty(value[part]))
+}
+
 export function canMerge(value, mergeWithNext) {
 	return mergeWithNext && !!value.sup
 }
@@ -254,5 +242,28 @@ export function split(data) {
 			part: 1,
 			cursor: General.getStartCursor(firstOf(split.right)),
 		},
+	}
+}
+
+export function cleanUp(data) {
+	const { value, cursor } = data
+
+	// Clean up the parts individually, keeping track of the cursor.
+	const newValue = {}
+	let newCursor = null
+	parts.forEach(part => {
+		newValue[part] = value[part] && General.cleanUp(General.zoomInAt(data, part))
+		if (cursor && cursor.part === part)
+			newCursor = { part, cursor: newValue[part].cursor }
+		else if (newValue[part] && General.isEmpty(newValue[part]))
+			newValue[part] = null // Remove the element when we don't need it anymore.
+		newValue[part] = removeCursor(newValue[part])
+	})
+
+	// Assemble everything.
+	return {
+		...data,
+		value: newValue,
+		cursor: newCursor,
 	}
 }

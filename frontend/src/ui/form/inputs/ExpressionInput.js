@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
 import { selectRandomEmpty } from 'step-wise/util/random'
+import { deepEquals } from 'step-wise/util/objects'
 import { getEmpty, isEmpty } from 'step-wise/inputTypes/Expression'
 
 import { useAbsoluteCursorRef } from '../Form'
@@ -49,11 +50,13 @@ function ExpressionInputInner(props) {
 	const cursorRef = useAbsoluteCursorRef()
 	const keyPressToData = useCallback((keyInfo, data, contentsElement) => {
 		const charElements = charElementsRef.current
-		return Expression.keyPressToData(keyInfo, data, charElements, data, contentsElement, cursorRef.current.element)
+		const newData = Expression.keyPressToData(keyInfo, data, charElements, data, contentsElement, cursorRef.current.element)
+		return newData === data || deepEquals(data, newData) ? data : Expression.cleanUp(newData)
 	}, [charElementsRef, cursorRef])
-	const mouseClickToCursor = useCallback((evt, data, contentsElement) => {
+	const mouseClickToData = useCallback((evt, data, contentsElement) => {
 		const charElements = charElementsRef.current
-		return generalMouseClickToCursor(evt, data, charElements, contentsElement)
+		const newData = { ...data, cursor: generalMouseClickToCursor(evt, data, charElements, contentsElement) }
+		return newData === data || deepEquals(data, newData) ? data : Expression.cleanUp(newData)
 	}, [charElementsRef])
 
 	// Gather all relevant data.
@@ -62,7 +65,7 @@ function ExpressionInputInner(props) {
 		...defaultProps,
 		...props,
 		keyPressToData,
-		mouseClickToCursor,
+		mouseClickToData,
 		className: clsx(props.className, classes.expressionInput, 'expressionInput'),
 	}
 

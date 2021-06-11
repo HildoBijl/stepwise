@@ -78,13 +78,18 @@ export function isEmpty(data) {
 	return functions[type].isEmpty(value)
 }
 
+export function shouldRemove(data) {
+	const { type, value } = data
+	return functions[type].shouldRemove(value)
+}
+
 export function canMerge(data, mergeWithNext) {
 	return functions[data.type].canMerge(data.value, mergeWithNext)
 }
 
 // merge takes an expression value and an index pointing to a special element. It then merges what comes after this element (when mergeWithNext is true (default)) into the element, or what comes before the element (when mergeWithNext is false) into the numerator (left). An expression data object is returned, including properly placed cursor.
-export function merge(expressionValue, partIndex, mergeWithNext) {
-	return functions[expressionValue[partIndex].type].merge(expressionValue, partIndex, mergeWithNext)
+export function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {
+	return functions[expressionValue[partIndex].type].merge(expressionValue, partIndex, mergeWithNext, fromOutside)
 }
 
 export function canSplit(data) {
@@ -96,6 +101,11 @@ export function split(data) {
 	return functions[data.type].split(data)
 }
 
+// cleanUp takes a object and cleans it up, removing unnecessary elements and such. While doing so, the respective cursor is kept in the same place. If no cursor is provided, no cursor is returned either. Generally, the clean-up function is called by the input field after every data change.
+export function cleanUp(data) {
+	return functions[data.type].cleanUp(data)
+}
+
 // zoomIn takes a data object with a cursor and goes down one layer (or multiple if a number is specified), hence going to the first element which the cursor points at. The cursor is brought along.
 export function zoomIn(data, number = 1) {
 	// If the number is large than 1, call this function recursively.
@@ -105,4 +115,10 @@ export function zoomIn(data, number = 1) {
 	// Zoom in in the regular way.
 	const { value, cursor } = data
 	return addCursor(value[cursor.part], cursor.cursor)
+}
+
+// zoomInAt takes a data object and zooms in at a particular child of said data element. If that element is pointed at by the cursor, the cursor is passed along. Otherwise no cursor is passed.
+export function zoomInAt(data, part) {
+	const { value, cursor } = data
+	return (cursor && cursor.part === part) ? zoomIn(data) : value[part]
 }
