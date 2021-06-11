@@ -128,5 +128,5 @@ export function canSplit() {
 }
 
 export function cleanUp(data) {
-	return data
+	return ExpressionPart.applyAutoReplace(data)
 }

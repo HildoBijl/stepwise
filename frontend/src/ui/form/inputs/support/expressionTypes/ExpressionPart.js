@@ -1,6 +1,7 @@
 
 import { isNumber } from 'step-wise/util/numbers'
 import { isLetter, removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
+import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 
 import { getClickSide } from 'util/dom'
 
@@ -188,5 +189,29 @@ export function canSplit() {
 }
 
 export function cleanUp(data) {
-	return data
+	return applyAutoReplace(data)
+}
+
+export function applyAutoReplace(data) {
+	let { value, cursor } = data
+	const hasCursor = !!cursor || cursor === 0
+
+	// Apply an auto-replace on the Greek alphabet. For each letter, replace all instances and shift the cursor along accordingly.
+	let found = false
+	Object.values(greekAlphabet).forEach(letter => {
+		let position = value.search(letter.name)
+		while (position !== -1) {
+			found = true
+			value = value.replace(letter.name, letter.symbol)
+			if (cursor !== null) {
+				if (cursor > position && cursor <= position + letter.name.length)
+					cursor = position + letter.symbol.length
+				if (cursor > position + letter.name.length)
+					cursor -= (letter.name.length - letter.symbol.length)
+			}
+			position = value.search(letter.name)
+		}
+	})
+
+	return found ? (hasCursor ? { ...data, value, cursor } : { ...data, value }) : data
 }
