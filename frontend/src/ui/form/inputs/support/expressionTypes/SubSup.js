@@ -8,11 +8,22 @@ import * as Expression from './Expression'
 import * as SimpleText from './SimpleText'
 
 export function toLatex(value) {
-	return `_{${General.toLatex(value.sub)}}^{${General.toLatex(value.sup)}}`
+	const { sub, sup } = value
+	const subLatex = sub ? `_{${General.toLatex(sub)}}` : ''
+	const supLatex = sup ? `^{${General.toLatex(value.sup)}}` : ''
+	return `${subLatex}${supLatex}`
 }
 
 export function getLatexChars(value) {
-	return ['sub', 'sup'].map(part => General.getLatexChars(value[part]))
+	return ['sub', 'sup'].map(part => value[part] ? General.getLatexChars(value[part]) : []).filter(array => array.length > 0) // Only add an array for a part that actually exists.
+}
+
+export function partToIndex(value, part) {
+	return (part === 'sub' || !value.sub) ? 0 : 1
+}
+
+export function indexToPart(value, index) {
+	return (index === 1 || !value.sub) ? 'sup' : 'sub'
 }
 
 export function getCursorProperties(data, charElements, container) {
@@ -20,7 +31,7 @@ export function getCursorProperties(data, charElements, container) {
 	return General.getCursorProperties({
 		...value[cursor.part],
 		cursor: cursor.cursor,
-	}, charElements[cursor.part === 'sub' ? 0 : 1], container)
+	}, charElements[partToIndex(value, cursor.part)], container)
 }
 
 export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement) {
@@ -30,7 +41,7 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 
 	// When we want to pass this on to the child element, we have this custom function.
 	const passOn = () => {
-		const adjustedElement = General.keyPressToData(keyInfo, addCursor(value[cursor.part], cursor.cursor), charElements[cursor.part === 'sub' ? 0 : 1], topParentData, contentsElement, cursorElement)
+		const adjustedElement = General.keyPressToData(keyInfo, addCursor(value[cursor.part], cursor.cursor), charElements[partToIndex(value, cursor.part)], topParentData, contentsElement, cursorElement)
 		return {
 			...data,
 			value: {
@@ -46,9 +57,9 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 		return data
 
 	// For left/right-arrows, home and end, adjust the cursor.
-	if (key === 'ArrowLeft' && cursor.part === 'sup' && General.isCursorAtStart(activeElementData))
+	if (key === 'ArrowLeft' && cursor.part === 'sup' && General.isCursorAtStart(activeElementData) && value.sub)
 		return { ...data, cursor: { part: 'sub', cursor: General.getEndCursor(value.sub) } }
-	if (key === 'ArrowRight' && cursor.part === 'sub' && General.isCursorAtEnd(activeElementData))
+	if (key === 'ArrowRight' && cursor.part === 'sub' && General.isCursorAtEnd(activeElementData) && value.sup)
 		return { ...data, cursor: { part: 'sup', cursor: General.getStartCursor(value.sup) } }
 
 	// For up/down arrows, check if we can/need to move up. This is the case if we cannot move up/down inside a child, but we can move up/down here.
@@ -73,11 +84,13 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 
 	// For a power button when inside the subscript, go to the start of the superscript.
 	if ((key === '^' || key === 'Power') && cursor.part === 'sub') {
+		const newValue = value.sup ? value : { ...value, sup: getEmptySup() } // If there is no superscript yet, add an empty one.
 		return {
 			...data,
+			value: newValue, 
 			cursor: {
 				part: 'sup',
-				cursor: General.getStartCursor(value.sup),
+				cursor: General.getStartCursor(newValue.sup),
 			},
 		}
 	}
@@ -106,7 +119,7 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 
 export function canMoveCursorVertically(data, up) {
 	const { value, cursor } = data
-	if ((up && cursor.part === 'sub' && !General.isEmpty(value.sup)) || (!up && cursor.part === 'sup' && !General.isEmpty(value.sub)))
+	if ((up && cursor.part === 'sub' && value.sup) || (!up && cursor.part === 'sup' && value.sub))
 		return true
 	return General.canMoveCursorVertically(General.zoomIn(data), up)
 }
@@ -115,7 +128,7 @@ export function charElementClickToCursor(evt, value, trace, charElements, equati
 	// Pass it on to the respective element.
 	const traceClone = [...trace]
 	const index = traceClone.shift()
-	const part = (index === 0 ? 'sub' : 'sup')
+	const part = indexToPart(value, index)
 	return {
 		part,
 		cursor: General.charElementClickToCursor(evt, value[part], traceClone, charElements[index], equationElement),
@@ -123,47 +136,59 @@ export function charElementClickToCursor(evt, value, trace, charElements, equati
 }
 
 export function coordinatesToCursor(coordinates, boundsData, data, charElements, contentsElement) {
+	const { value } = data
 	const index = getClosestElement(coordinates, boundsData, false)
-	const part = (index === 0 ? 'sub' : 'sup')
+	const part = indexToPart(value, index)
 	return {
 		part,
-		cursor: General.coordinatesToCursor(coordinates, boundsData.parts[index], data.value[part], charElements[index], contentsElement)
+		cursor: General.coordinatesToCursor(coordinates, boundsData.parts[index], value[part], charElements[index], contentsElement)
 	}
 }
 
 export function getStartCursor(value) {
-	if (General.isEmpty(value.sub) && !General.isEmpty(value.sup))
+	if (!value.sub)
 		return { part: 'sup', cursor: General.getStartCursor(value.sup) }
 	return { part: 'sub', cursor: General.getStartCursor(value.sub) }
 }
 
 export function getEndCursor(value) {
-	if (General.isEmpty(value.sup) && !General.isEmpty(value.sub))
+	if (!value.sup)
 		return { part: 'sub', cursor: General.getEndCursor(value.sub) }
 	return { part: 'sup', cursor: General.getEndCursor(value.sup) }
 }
 
 export function isCursorAtStart(value, cursor) {
-	return (cursor.part === 'sub' && SimpleText.isCursorAtStart(value.sub.value, cursor.cursor)) || (cursor.part === 'sup' && General.isEmpty(value.sub) && Expression.isCursorAtStart(value.sup.value, cursor.cursor))
+	return value.sub ?
+		(cursor.part === 'sub' && SimpleText.isCursorAtStart(value.sub.value, cursor.cursor)) :
+		(cursor.part === 'sup' && Expression.isCursorAtStart(value.sup.value, cursor.cursor))
 }
 
 export function isCursorAtEnd(value, cursor) {
-	return (cursor.part === 'sup' && Expression.isCursorAtEnd(value.sup.value, cursor.cursor)) || (cursor.part === 'sub' && General.isEmpty(value.sup) && SimpleText.isCursorAtEnd(value.sub.value, cursor.cursor))
+	return value.sup ?
+		(cursor.part === 'sup' && Expression.isCursorAtEnd(value.sup.value, cursor.cursor)) : (cursor.part === 'sub' && SimpleText.isCursorAtEnd(value.sub.value, cursor.cursor))
 }
 
-export function getEmpty() {
+export function getEmpty(includeSub = true, includeSup = true) {
 	return {
-		sub: { type: 'SimpleText', value: SimpleText.getEmpty() },
-		sup: { type: 'Expression', value: Expression.getEmpty() },
+		sub: includeSub ? getEmptySub() : null,
+		sup: includeSup ? getEmptySup() : null,
 	}
 }
 
+export function getEmptySub() {
+	return { type: 'SimpleText', value: SimpleText.getEmpty() }
+}
+
+export function getEmptySup() {
+	return { type: 'Expression', value: Expression.getEmpty() }
+}
+
 export function isEmpty(value) {
-	return General.isEmpty(value.sub) && General.isEmpty(value.sup)
+	return (!value.sub || General.isEmpty(value.sub)) && (!value.sup || General.isEmpty(value.sup))
 }
 
 export function canMerge(value, mergeWithNext) {
-	return mergeWithNext && !General.isEmpty(value.sup)
+	return mergeWithNext && !!value.sup
 }
 
 export function merge(expressionValue, partIndex, mergeWithNext) {

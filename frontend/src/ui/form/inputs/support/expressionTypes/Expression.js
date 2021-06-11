@@ -7,6 +7,7 @@ import { addCursor, removeCursor } from '../Input'
 import { getClosestElement } from '../MathWithCursor'
 import * as General from './index.js'
 import * as ExpressionPart from './ExpressionPart'
+import * as SubSup from './SubSup'
 
 export function toLatex(value) {
 	return processExpressionPartBrackets(value.map(General.toLatex)).join(' ')
@@ -188,7 +189,7 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 			const split = splitAtCursor(data)
 			const newSubSup = {
 				type: 'SubSup',
-				value: General.getEmpty('SubSup'),
+				value: SubSup.getEmpty(sub === true, sub === false),
 			}
 			return cleanUp({
 				...data,
