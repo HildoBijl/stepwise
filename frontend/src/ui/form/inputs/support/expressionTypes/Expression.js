@@ -10,11 +10,25 @@ import * as ExpressionPart from './ExpressionPart'
 import * as SubSup from './SubSup'
 
 export function toLatex(value) {
-	// Distribute over elements.
-	const latexPerElement = value.map(General.toLatex)
+	// Get the Latex of each individual element. For this, assemble the options properly.
+	const latexPerElement = value.map((element, index) => {
+		const nextElement = value[index + 1]
+
+		// Check if we have a set-up like f_1(x): a SubSup followed by a bracket.
+		let beforeSubSupWithBrackets = false
+		if (element.type === 'ExpressionPart' && nextElement && nextElement.type === 'SubSup' && value[index + 2].value[0] === '(') {
+			// The superscript must also be empty or be "-1" for an inverse.
+			const sup = nextElement.value.sup
+			if (!sup || General.isEmpty(sup) || (sup.value.length === 1 && sup.value[0].value === '-1'))
+				beforeSubSupWithBrackets = true
+		}
+
+		// Make the call with the right options.
+		return General.toLatex(element, { index, beforeSubSupWithBrackets })
+	})
 
 	// Arrange the brackets.
-	let latex = processExpressionPartBrackets(latexPerElement).join(' ')
+	let latex = processExpressionPartBrackets(latexPerElement).join('')
 
 	// If there are certain signs at the start or end, add spacing. This is to prevent inconsistent Latex spacing when you for instance type "a+" and then type "b" after. Without this, the plus sign jumps.
 	const start = ['+', '\\cdot '].find(char => latex.startsWith(char))
@@ -118,13 +132,13 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 		// Are we in an expression part?
 		if (activeElementData.type === 'ExpressionPart') {
 			const previousPart = value[cursor.part - 1]
-			if (General.canMerge(previousPart, true))
+			if (General.canMerge(previousPart, true, true))
 				return General.merge(value, cursor.part - 1, true, true)
 			else
 				return moveLeft()
 		} else { // We are in a special element.
 			const activePart = value[cursor.part]
-			if (General.canMerge(activePart, false))
+			if (General.canMerge(activePart, false, false))
 				return General.merge(value, cursor.part, false, false)
 			else
 				return moveLeft()
@@ -139,13 +153,13 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 		// Are we in an expression part?
 		if (activeElementData.type === 'ExpressionPart') {
 			const nextPart = value[cursor.part + 1]
-			if (General.canMerge(nextPart, false))
+			if (General.canMerge(nextPart, false, true))
 				return General.merge(value, cursor.part + 1, false, true)
 			else
 				return moveRight()
 		} else { // We are in a special element.
 			const activePart = value[cursor.part]
-			if (General.canMerge(activePart, true))
+			if (General.canMerge(activePart, true, false))
 				return General.merge(value, cursor.part, true, false)
 			else
 				return moveRight()
@@ -432,7 +446,7 @@ function processExpressionPartBrackets(arr) {
 					char += (index === matchingBracket.index ? addLeft.length : 0) + addRight.length // These characters were added. To prevent an infinite loop, add this length to the char iterator.
 				} else { // No matching opening bracket. Add a \. at the start of the ExpressionPart.
 					const addRight = '\\right'
-					const addLeft = '\\left.\\hspace{-0\\.12em}' // Add negative space to prevent the \. from distorting the layout. Also, escape the period in the negative space due to our own system changing periods to commas on some language settings.
+					const addLeft = '\\left.\\hspace{-0\\.28em}' // Add negative space to prevent the \. from distorting the layout. Also, escape the period in the negative space due to our own system changing periods to commas on some language settings.
 					arr[index] = insertAtIndex(arr[index], char, addRight) // Close off the bracket.
 					arr[index] = insertAtIndex(arr[index], 0, addLeft)
 					char += addLeft.length + addRight.length // These characters were added. To prevent an infinite loop, add this length to the char iterator.
@@ -444,7 +458,7 @@ function processExpressionPartBrackets(arr) {
 	// Close off remaining opening brackets by adding \. on the end of the respective strings.
 	while (openingBrackets.length > 0) {
 		const openingBracket = openingBrackets.pop()
-		arr[openingBracket.index] = insertAtIndex(arr[openingBracket.index], arr[openingBracket.index].length, '\\right.\\hspace{-0\\.12em}')
+		arr[openingBracket.index] = insertAtIndex(arr[openingBracket.index], arr[openingBracket.index].length, '\\right.\\hspace{-0\\.28em}')
 		arr[openingBracket.index] = insertAtIndex(arr[openingBracket.index], openingBracket.char, '\\left')
 	}
 	return arr
@@ -497,6 +511,9 @@ export function cleanUp(data) {
 
 	// Step 4 is to ensure that the expression consists of alternating ExpressionParts (even indices) and alternating other parts (odd indices).
 	data = alternateExpressionParts(data)
+
+	// Step 5 is to auto-replace functions. The auto-replace on ExpressionPart level (Greek symbols) was already done by cleaning them (and running an extra cleaning upon merging) but this concerns expression-wide auto-replace.
+	data = applyAutoReplace(data)
 
 	// Return the result with or without a cursor.
 	return hasCursor ? data : removeCursor(data)
@@ -624,4 +641,13 @@ function alternateExpressionParts(data) {
 		value: newValue,
 		cursor: newCursor,
 	}
+}
+
+function applyAutoReplace(data) {
+	// ToDo first: render normal functions with \rm.
+
+	// ToDo: check for special functions and their aliases, and apply them too, with standard values.
+	// ToDo: render an sqrt function. Get clicks working.
+	// ToDo: render a log function. Get clicks working.
+	return data
 }

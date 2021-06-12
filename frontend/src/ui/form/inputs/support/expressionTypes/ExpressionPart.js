@@ -10,12 +10,26 @@ import { latexMinus } from 'ui/components/equations'
 import { emptyElementChar, emptyElementCharLatex, isCharElementEmpty, getCursorPropertiesFromElements, getClosestElement } from '../MathWithCursor'
 import * as Expression from './Expression'
 
-export function toLatex(value) {
+const basicFunctions = ['sin', 'cos', 'tan', 'asin', 'acos', 'atan', 'arcsin', 'arccos', 'arctan', 'ln'] // ToDo later: put this in a mathematics file and import it here.
+
+export function toLatex(value, options = {}) {
+	const { index, beforeSubSupWithBrackets } = options
+
+	// Check for empty ExpressionParts.
 	if (value === '')
 		return emptyElementCharLatex
 
-	// Replace stars by dots.
+	// Apply non-italic text for basic functions. To do so, for any text (only letters) followed by a bracket, turn the text in non-italic form.
 	let latex = value
+	latex = latex.replace(/[a-zA-Z]+(?=\()/g, func => basicFunctions.includes(func) ? `{\\rm ${func}}\\!` : `${func}\\!`) // Add a negative space to bring the bracket closer.
+	if (beforeSubSupWithBrackets)
+		latex = latex.replace(/[a-zA-Z]+$/g, func => basicFunctions.includes(func) ? `{\\rm ${func}}` : func) // Don't add a negative space since a subscript follows.
+
+	// If a string begins with a bracket, add some negative spacing.
+	if (index > 0 && latex[0] === '(')
+		latex = `\\!${latex}`
+
+	// Replace stars by dots.
 	latex = latex.replaceAll('*', '\\cdot ')
 
 	// All done.

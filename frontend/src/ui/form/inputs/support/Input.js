@@ -108,6 +108,7 @@ const useStyles = makeStyles((theme) => ({
 						'& .placeholder': {
 							color: theme.palette.text.hint,
 							display: ({ displayPlaceholder }) => displayPlaceholder ? 'inline-block' : 'none',
+							margin: '0 0.1em',
 							opacity: ({ showPlaceholder }) => showPlaceholder ? 1 : 0,
 							transition: `opacity ${transitionTime}ms`,
 						},
@@ -189,7 +190,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 
 	contents: { // For all possible input fields.
-		padding: '0 1px', // To make sure the cursor is visible when all the way on the left.
+		margin: '0 -0.25em',
+		padding: '0 0.25em', // To make sure the cursor is visible when all the way on the edge, even for expressions starting/ending with large brackets.
 	},
 
 	basicContents: { // Only for the basic type.

@@ -202,6 +202,7 @@ function isValidationValid(validation) {
 export function useCursorRef() {
 	return useFormData().cursorRef
 }
+
 export function useAbsoluteCursorRef(apply = true) {
 	const ref = useRef()
 	const formData = useFormData()

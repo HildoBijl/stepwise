@@ -15,8 +15,8 @@ const functions = {
 }
 
 // toLatex takes a value object and turns it into Latex code.
-export function toLatex(data) {
-	return functions[data.type].toLatex(data.value)
+export function toLatex(data, options) {
+	return functions[data.type].toLatex(data.value, options)
 }
 
 // getLatexChars must return a list of all the characters that appear in the Katex rendering of the equation, in the order in which they appear in said rendering. (Yes, this sadly requires back-engineering Katex.)
@@ -83,8 +83,8 @@ export function shouldRemove(data) {
 	return functions[type].shouldRemove(value)
 }
 
-export function canMerge(data, mergeWithNext) {
-	return functions[data.type].canMerge(data.value, mergeWithNext)
+export function canMerge(data, mergeWithNext, fromOutside) {
+	return functions[data.type].canMerge(data.value, mergeWithNext, fromOutside)
 }
 
 // merge takes an expression value and an index pointing to a special element. It then merges what comes after this element (when mergeWithNext is true (default)) into the element, or what comes before the element (when mergeWithNext is false) into the numerator (left). An expression data object is returned, including properly placed cursor.

@@ -175,8 +175,9 @@ export function shouldRemove(value) {
 	return parts.every(part => !value[part] || General.isEmpty(value[part]))
 }
 
-export function canMerge(value, mergeWithNext) {
-	return mergeWithNext && !!value.sup
+export function canMerge(value, mergeWithNext, fromOutside) {
+	const { sup } = value
+	return mergeWithNext && !fromOutside && !!sup && !General.isEmpty(sup) // Only merge when we're at the inside of a non-empty superscript and we want to merge with what's outside.
 }
 
 export function merge(expressionValue, partIndex, mergeWithNext) {

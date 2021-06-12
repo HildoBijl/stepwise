@@ -50,7 +50,7 @@ function ExpressionInputInner(props) {
 	const cursorRef = useAbsoluteCursorRef()
 	const keyPressToData = useCallback((keyInfo, data, contentsElement) => {
 		const charElements = charElementsRef.current
-		const newData = Expression.keyPressToData(keyInfo, data, charElements, data, contentsElement, cursorRef.current.element)
+		const newData = Expression.keyPressToData(keyInfo, data, charElements, data, contentsElement, (cursorRef.current && cursorRef.current.element))
 		return newData === data || deepEquals(data, newData) ? data : Expression.cleanUp(newData)
 	}, [charElementsRef, cursorRef])
 	const mouseClickToData = useCallback((evt, data, contentsElement) => {
