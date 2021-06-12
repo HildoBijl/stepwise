@@ -101,7 +101,7 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 		if (value[cursor.part].type !== 'ExpressionPart')
 			return passOn()
 
-		// We must create a fraction! First find what needs to be put in the fraction. Find the cursor endings.
+		// We must create a fraction! First find what needs to be put in the fraction: find the cursor endings.
 		const leftCursor = findEndOfTerm(data, false)
 		const rightCursor = findEndOfTerm(data, true)
 
@@ -116,7 +116,7 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 			fraction,
 			...getSubExpression(value, rightCursor, getEndCursor(value)),
 		]
-		const newCursor = { part: newValue.indexOf(fraction), cursor: { part: 'den', cursor: getStartCursor(fraction.value.den.value) } }
+		const newCursor = { part: newValue.indexOf(fraction), cursor: { part: 'den', cursor: General.getStartCursor(fraction.value.den) } }
 		return {
 			...data,
 			value: newValue,
@@ -275,8 +275,8 @@ export function coordinatesToCursor(coordinates, boundsData, data, charElements,
 	}
 }
 
-// findEndOfTerm searches for the end of a term. When you have an expression like a*(b+c/d+e)sin(2x)+3, and you put a "/" sign right before "sin", then we need to know which parts need to go in the fraction. We can go right (direction = true) and left (direction = false) and find the cursor positions of the respective endings of the terms. Basically, the term ends whenever we encounter a +, - or * and we are not still within brackets.
-export function findEndOfTerm(data, direction = true) {
+// findEndOfTerm searches for the end of a term. When you have an expression like a*(b+c/d+e)sin(2x)+3, and you put a "/" sign right before "sin", then we need to know which parts need to go in the fraction. We can go right (toRight = true) and left (toRight = false) and find the cursor positions of the respective endings of the terms. Basically, the term ends whenever we encounter a +, - or * and we are not still within brackets.
+export function findEndOfTerm(data, toRight = true, skipFirst = false) {
 	const { value, cursor } = data
 
 	// Define iterators: parameters that will change as we go.
@@ -285,13 +285,13 @@ export function findEndOfTerm(data, direction = true) {
 
 	// Define functions that will be needed while iterating.
 	const hasNextSymbol = () => {
-		if (direction)
+		if (toRight)
 			return partIterator < value.length - 1 || cursorIterator < value[partIterator].value.length // Before the end of the last part?
 		return partIterator > 0 || cursorIterator > 0 // After the start of the first part?
 	}
 	const getNextSymbol = () => {
 		const currentString = value[partIterator].value
-		if (direction) { // To the right.
+		if (toRight) { // To the right.
 			// At the end of a string?
 			if (cursorIterator === currentString.length)
 				return value[partIterator + 1] // Return next special element.
@@ -304,7 +304,7 @@ export function findEndOfTerm(data, direction = true) {
 		}
 	}
 	const shiftCursor = () => {
-		if (direction) { // To the right.
+		if (toRight) { // To the right.
 			// If we are at the end of a string, move to the start of the next string. Otherwise just shift the cursor.
 			if (cursorIterator === value[partIterator].value.length) {
 				partIterator += 2
@@ -324,6 +324,8 @@ export function findEndOfTerm(data, direction = true) {
 	}
 
 	// Iterate over the expression.
+	if (skipFirst && hasNextSymbol())
+		shiftCursor()
 	while (hasNextSymbol()) {
 		const nextSymbol = getNextSymbol()
 
@@ -333,9 +335,9 @@ export function findEndOfTerm(data, direction = true) {
 
 		// On a bracket, adjust the bracket count. If it drops below zero, return the current cursor position too.
 		if (nextSymbol === '(')
-			bracketCount += direction ? 1 : -1
+			bracketCount += toRight ? 1 : -1
 		else if (nextSymbol === ')')
-			bracketCount += direction ? -1 : 1
+			bracketCount += toRight ? -1 : 1
 		if (bracketCount < 0)
 			return { part: partIterator, cursor: cursorIterator }
 
@@ -364,8 +366,42 @@ export function getSubExpression(value, left, right) {
 	repeatWithIndices(left.part + 1, right.part - 1, (index) => newValue.push(value[index]))
 	newValue.push({ type: 'ExpressionPart', value: value[right.part].value.substring(0, right.cursor) })
 
-	// All done! Run a clean-up and return the result.
-	return cleanUp({ type: 'Expression', value: newValue }).value
+	// All done!
+	return newValue
+}
+
+// getMergeParts takes an expression value and an index to a specific part. It then walks from this part outwards until it finds a break character (like a plus, minus or times symbol). It returns an object { toPullIn: [...], toLeaveBehind: [...], ... various cursors ... } with the expression parts to pull in and to leave behind in the given direction.
+export function getMergeParts(expressionValue, partIndex, toRight, skipFirst) {
+	// Find the cursor positions where we need to split things.
+	const edgeElementIndex = partIndex + (toRight ? 1 : -1)
+	const cursorAtEdgeOfElement = {
+		part: edgeElementIndex,
+		cursor: General[`get${toRight ? 'Start' : 'End'}Cursor`](expressionValue[edgeElementIndex]),
+	}
+	const dummyExpression = {
+		type: 'Expression',
+		value: expressionValue,
+		cursor: cursorAtEdgeOfElement,
+	}
+	const cursorAtBreak = findEndOfTerm(dummyExpression, toRight, skipFirst)
+	const cursorAtEnd = toRight ? getEndCursor(expressionValue) : getStartCursor(expressionValue)
+
+	// Apply the proper split.
+	const toPullIn = toRight ?
+		getSubExpression(expressionValue, cursorAtEdgeOfElement, cursorAtBreak) :
+		getSubExpression(expressionValue, cursorAtBreak, cursorAtEdgeOfElement)
+	const toLeaveBehind = toRight ?
+		getSubExpression(expressionValue, cursorAtBreak, cursorAtEnd) :
+		getSubExpression(expressionValue, cursorAtEnd, cursorAtBreak)
+
+	// Return the result, including cursors.
+	return {
+		toPullIn,
+		toLeaveBehind,
+		cursorAtEdgeOfElement,
+		cursorAtBreak,
+		cursorAtEnd,
+	}
 }
 
 export function getStartCursor(value = getEmpty()) {
@@ -446,7 +482,7 @@ function processExpressionPartBrackets(arr) {
 					char += (index === matchingBracket.index ? addLeft.length : 0) + addRight.length // These characters were added. To prevent an infinite loop, add this length to the char iterator.
 				} else { // No matching opening bracket. Add a \. at the start of the ExpressionPart.
 					const addRight = '\\right'
-					const addLeft = '\\left.\\hspace{-0\\.28em}' // Add negative space to prevent the \. from distorting the layout. Also, escape the period in the negative space due to our own system changing periods to commas on some language settings.
+					const addLeft = '\\left.\\hspace{-0\\.12em}' // Add negative space to prevent the \. from distorting the layout. Also, escape the period in the negative space due to our own system changing periods to commas on some language settings.
 					arr[index] = insertAtIndex(arr[index], char, addRight) // Close off the bracket.
 					arr[index] = insertAtIndex(arr[index], 0, addLeft)
 					char += addLeft.length + addRight.length // These characters were added. To prevent an infinite loop, add this length to the char iterator.
@@ -458,7 +494,7 @@ function processExpressionPartBrackets(arr) {
 	// Close off remaining opening brackets by adding \. on the end of the respective strings.
 	while (openingBrackets.length > 0) {
 		const openingBracket = openingBrackets.pop()
-		arr[openingBracket.index] = insertAtIndex(arr[openingBracket.index], arr[openingBracket.index].length, '\\right.\\hspace{-0\\.28em}')
+		arr[openingBracket.index] = insertAtIndex(arr[openingBracket.index], arr[openingBracket.index].length, '\\right.\\hspace{-0\\.12em}')
 		arr[openingBracket.index] = insertAtIndex(arr[openingBracket.index], openingBracket.char, '\\left')
 	}
 	return arr

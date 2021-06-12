@@ -183,12 +183,15 @@ export function canMerge(value, mergeWithNext, fromOutside) {
 export function merge(expressionValue, partIndex, mergeWithNext) {
 	const subSup = expressionValue[partIndex].value
 
+	// Get the part that needs to be pulled in.
+	const { toPullIn, toLeaveBehind } = Expression.getMergeParts(expressionValue, partIndex, mergeWithNext, true)
+
 	// Set up the new superscript.
 	const newSup = Expression.cleanUp({
 		...subSup.sup,
 		value: [
 			...subSup.sup.value, // Take what was in the superscript.
-			...expressionValue.slice(partIndex + 1), // Add what is after the fraction.
+			...toPullIn, // Add what needs to be pulled in.
 		],
 		cursor: Expression.getEndCursor(subSup.sup.value), // Put the cursor at the end of the previous superscript.
 	})
@@ -205,6 +208,7 @@ export function merge(expressionValue, partIndex, mergeWithNext) {
 					sup: removeCursor(newSup), // Use the new superscript.
 				},
 			},
+			...toLeaveBehind, // Keep what is left behind in the Expression.
 		],
 		cursor: {
 			part: partIndex,

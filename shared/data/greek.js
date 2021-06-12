@@ -39,7 +39,7 @@ const alphabet = {
 		symbol: 'ξ',
 	},
 	omicron: {
-		symbol: 'ο',
+		symbol: 'o',
 	},
 	pi: {
 		symbol: 'π',

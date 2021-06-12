@@ -174,24 +174,26 @@ export function canMerge() {
 export function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {
 	const fraction = expressionValue[partIndex].value
 
+	// Get the part that needs to be pulled in.
+	const { toPullIn, toLeaveBehind, cursorAtBreak } = Expression.getMergeParts(expressionValue, partIndex, mergeWithNext, true)
+
+	// If the expression to pull in is empty, and we came from inside, move the cursor outside.
+	if (!fromOutside && Expression.isEmpty(toPullIn)) {
+		return {
+			type: 'Expression',
+			value: expressionValue,
+			cursor: cursorAtBreak,
+		}
+	}
+
 	// Should we merge with the next?
 	if (mergeWithNext) { // Yes, merge with the next.
-		// Find the expression to pull in. If it's empty, and we came from inside, move the cursor outside.
-		const expressionAfterFraction = expressionValue.slice(partIndex + 1)
-		if (!fromOutside && Expression.isEmpty(expressionAfterFraction)) {
-			return {
-				type: 'Expression',
-				value: expressionValue,
-				cursor: { part: partIndex + 1, cursor: 0 }
-			}
-		}
-
 		// Set up the new denominator.
 		const newDen = Expression.cleanUp({
 			...fraction.den,
 			value: [
 				...fraction.den.value, // Take what was in the denominator.
-				...expressionAfterFraction, // Add what is after the fraction.
+				...toPullIn, // Add what needs to be pulled in.
 			],
 			cursor: Expression.getEndCursor(fraction.den.value), // Put the cursor at the end of the previous denominator.
 		})
@@ -208,6 +210,7 @@ export function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {
 						den: removeCursor(newDen), // Use the new denominator.
 					},
 				},
+				...toLeaveBehind, // Keep what is left behind in the Expression.
 			],
 			cursor: {
 				part: partIndex,
@@ -218,30 +221,21 @@ export function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {
 			},
 		}
 	} else { // We should merge with the previous.
-		// Find the expression to pull in. If it's empty, and we came from inside, move the cursor to the left.
-		const expressionBeforeFraction = expressionValue.slice(0, partIndex)
-		if (!fromOutside && Expression.isEmpty(expressionBeforeFraction)) {
-			return {
-				type: 'Expression',
-				value: expressionValue,
-				cursor: { part: 0, cursor: 0 }
-			}
-		}
-
 		// Set up the new numerator.
 		const newNum = Expression.cleanUp({
 			...fraction.num,
 			value: [
-				...expressionBeforeFraction, // Add what is before the fraction.
+				...toPullIn, // Add what needs to be pulled in.
 				...fraction.num.value, // Take what was in the numerator.
 			],
-			cursor: Expression.getEndCursor(expressionBeforeFraction), // Put the cursor at the end of the pulled-in expression.
+			cursor: Expression.getEndCursor(toPullIn), // Put the cursor at the end of the pulled-in expression.
 		})
 
 		// Set up the complete expression.
 		return {
 			type: 'Expression',
 			value: [
+				...toLeaveBehind, // Keep what is left behind in the Expression.
 				{ // Extend the fraction.
 					...expressionValue[partIndex],
 					value: {
@@ -252,7 +246,7 @@ export function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {
 				...expressionValue.slice(partIndex + 1), // Keep remaining elements.
 			],
 			cursor: {
-				part: 0,
+				part: toLeaveBehind.length,
 				cursor: {
 					part: 'num',
 					cursor: newNum.cursor, // Use the cursor of the new denominator.
