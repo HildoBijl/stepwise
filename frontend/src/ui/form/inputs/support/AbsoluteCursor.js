@@ -32,10 +32,13 @@ function AbsoluteCursor({ active }, parentRef) {
 	const internalRef = useRef()
 	const [properties, setProperties] = useState()
 	const classes = useStyles(active && properties)
-	
+
 	const imperativeHandleFunction = () => ({
 		get element() {
 			return internalRef.current
+		},
+		get properties() {
+			return properties
 		},
 		show(properties) {
 			setProperties(properties)

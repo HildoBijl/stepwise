@@ -419,7 +419,9 @@ function useMouseClickProcessing(fieldId, mouseClickToCursor, mouseClickToData, 
 function useContentSliding(contentsRef, contentsContainerRef) {
 	const cursorRef = useCursorRef()
 	const absoluteCursorRef = useAbsoluteCursorRef()
-	useEffect(() => {
+
+	// Set up a function that adjusts the sliding.
+	const adjustContentSliding = useCallback(() => {
 		// Calculate widths.
 		const contentsElement = contentsRef.current
 		const containerWidth = contentsContainerRef.current.offsetWidth
@@ -432,7 +434,7 @@ function useContentSliding(contentsRef, contentsContainerRef) {
 		}
 
 		// If there is no cursor inside the field, then we can't position anything. Leave the previous settings.
-		const cursorElement = cursorRef.current || absoluteCursorRef.current.element
+		const cursorElement = cursorRef.current || (absoluteCursorRef.current && absoluteCursorRef.current.element)
 		if (!cursorElement || !contentsContainerRef.current.contains(cursorElement))
 			return
 
@@ -443,6 +445,11 @@ function useContentSliding(contentsRef, contentsContainerRef) {
 		const slidePart = boundTo((cursorPos - cutOffDistance) / (contentsWidth - 2 * cutOffDistance), 0, 1)
 		const translation = -slidePart * (contentsWidth - containerWidth)
 		contentsElement.style.transform = `translateX(${translation}px)`
+	}, [contentsRef, contentsContainerRef, cursorRef, absoluteCursorRef])
+
+	// Apply the function through an effect. Use a setTimeout to ensure that the adjustments are done after the absolute cursor has properly updated its position.
+	useEffect(() => {
+		setTimeout(adjustContentSliding, 0)
 	})
 }
 
