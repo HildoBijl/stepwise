@@ -8,8 +8,13 @@ import { getClosestElement } from '../MathWithCursor'
 import * as General from './index.js'
 import * as ExpressionPart from './ExpressionPart'
 import * as SubSup from './SubSup'
+import * as Function from './Function'
 
-export function toLatex(value) {
+export function toLatex(data) {
+	const { value } = data
+
+	// ToDo next: first walk through the expression, extracting arguments for special functions. Find a special function, find its delimiter, plug it all together, and pass it to said function.
+
 	// Get the Latex of each individual element. For this, assemble the options properly.
 	const latexPerElement = value.map((element, index) => {
 		const nextElement = value[index + 1]
@@ -42,7 +47,8 @@ export function toLatex(value) {
 	return latex
 }
 
-export function getLatexChars(value) {
+export function getLatexChars(data) {
+	const { value } = data
 	return value.map(General.getLatexChars)
 }
 
@@ -257,8 +263,9 @@ export function canMoveCursorVertically(data, up) {
 	return General.canMoveCursorVertically(General.zoomIn(data), up)
 }
 
-export function charElementClickToCursor(evt, value, trace, charElements, equationElement) {
+export function charElementClickToCursor(evt, data, trace, charElements, equationElement) {
 	// Pass it on to the respective element.
+	const { value } = data
 	const traceClone = [...trace]
 	const part = traceClone.shift()
 	return {
@@ -680,10 +687,51 @@ function alternateExpressionParts(data) {
 }
 
 function applyAutoReplace(data) {
-	// ToDo first: render normal functions with \rm.
+	// Check if the cursor is in an expression part. If not, we don't apply auto-replace.
+	const { cursor, value } = data
+	if (!cursor)
+		return data
+	const activeElementData = General.zoomIn(data)
+	if (activeElementData.type !== 'ExpressionPart')
+		return data
 
-	// ToDo: check for special functions and their aliases, and apply them too, with standard values.
-	// ToDo: render an sqrt function. Get clicks working.
-	// ToDo: render a log function. Get clicks working.
-	return data
+	// Walk through the expression part to search for the respective functions. If they're found, insert 
+	const part = cursor.part
+	let newValue = value
+	let newCursor = cursor
+	const expressionPartValue = activeElementData.value
+	Object.keys(Function.functions).forEach(name => {
+		const { aliases } = Function.functions[name]
+		aliases.forEach(alias => {
+			const toSearch = `${alias}(`
+			const position = expressionPartValue.indexOf(toSearch)
+			if (position !== -1) {
+				newValue = [
+					...newValue.slice(0, part),
+					{ type: 'ExpressionPart', value: expressionPartValue.substring(0, position) },
+					{ type: 'Function', name, alias, value: Function.getEmpty(name, alias) },
+					{ type: 'ExpressionPart', value: expressionPartValue.substring(position + toSearch.length) },
+					...newValue.slice(part + 1),
+				]
+				newCursor = cursor.cursor <= position ? newCursor : {
+					part: part + 2,
+					cursor: Math.max(cursor.cursor - (position + toSearch.length), 0),
+				}
+			}
+		})
+	})
+
+	// Return the result. If it didn't change, keep the reference intact.
+	if (cursor === newCursor && value === newValue)
+		return data
+	console.log({
+		...data,
+		cursor: newCursor,
+		value: newValue,
+	})
+	return {
+		...data,
+		cursor: newCursor,
+		value: newValue,
+	}
 }

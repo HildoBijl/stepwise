@@ -12,7 +12,8 @@ import * as Expression from './Expression'
 
 const basicFunctions = ['sin', 'cos', 'tan', 'asin', 'acos', 'atan', 'arcsin', 'arccos', 'arctan', 'ln'] // ToDo later: put this in a mathematics file and import it here.
 
-export function toLatex(value, options = {}) {
+export function toLatex(data, options = {}) {
+	const { value } = data
 	const { index, beforeSubSupWithBrackets } = options
 
 	// Check for empty ExpressionParts.
@@ -36,7 +37,8 @@ export function toLatex(value, options = {}) {
 	return latex
 }
 
-export function getLatexChars(value) {
+export function getLatexChars(data) {
+	let { value } = data
 	if (value === '')
 		return emptyElementChar.split('')
 
@@ -141,7 +143,7 @@ export function canMoveCursorVertically(data, up) {
 	return false // You can never move vertically inside of an expression part.
 }
 
-export function charElementClickToCursor(evt, value, trace, charElements, equationElement) {
+export function charElementClickToCursor(evt, data, trace, charElements, equationElement) {
 	return trace[0] + getClickSide(evt)
 }
 

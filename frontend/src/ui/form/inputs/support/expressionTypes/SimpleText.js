@@ -7,11 +7,13 @@ import { latexMinus } from 'ui/components/equations'
 import { emptyElementChar, emptyElementCharLatex } from '../MathWithCursor'
 import * as ExpressionPart from './ExpressionPart'
 
-export function toLatex(value) {
+export function toLatex(data) {
+	const { value } = data
 	return value === '' ? emptyElementCharLatex : `{\\rm ${value}}`
 }
 
-export function getLatexChars(value) {
+export function getLatexChars(data) {
+	let { value } = data
 	if (value === '')
 		return emptyElementChar.split('')
 
@@ -79,8 +81,8 @@ export function canMoveCursorVertically(data, up) {
 	return ExpressionPart.canMoveCursorVertically(data, up)
 }
 
-export function charElementClickToCursor(evt, value, trace, charElements, equationElement) {
-	return ExpressionPart.charElementClickToCursor(evt, value, trace, charElements, equationElement)
+export function charElementClickToCursor(evt, data, trace, charElements, equationElement) {
+	return ExpressionPart.charElementClickToCursor(evt, data, trace, charElements, equationElement)
 }
 
 export function coordinatesToCursor(coordinates, boundsData, data, charElements, contentsElement) {

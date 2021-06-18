@@ -422,10 +422,15 @@ function useContentSliding(contentsRef, contentsContainerRef) {
 
 	// Set up a function that adjusts the sliding.
 	const adjustContentSliding = useCallback(() => {
-		// Calculate widths.
+		// Ensure all objects are present.
 		const contentsElement = contentsRef.current
-		const containerWidth = contentsContainerRef.current.offsetWidth
+		const containerElement = contentsContainerRef.current
+		if (!contentsElement || !containerElement)
+			return
+
+		// Calculate widths.
 		const contentsWidth = contentsElement.offsetWidth + 1 // Add one for a potential cursor.
+		const containerWidth = containerElement.offsetWidth
 
 		// If everything fits, use no transformation.
 		if (containerWidth >= contentsWidth) {

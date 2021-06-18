@@ -9,14 +9,16 @@ import * as SimpleText from './SimpleText'
 
 const parts = ['sub', 'sup']
 
-export function toLatex(value) {
+export function toLatex(data) {
+	const { value } = data
 	const { sub, sup } = value
 	const subLatex = sub ? `_{${General.toLatex(sub)}}` : ''
 	const supLatex = sup ? `^{${General.toLatex(value.sup)}}` : ''
 	return `${subLatex}${supLatex}`
 }
 
-export function getLatexChars(value) {
+export function getLatexChars(data) {
+	const { value } = data
 	return parts.map(part => value[part] ? General.getLatexChars(value[part]) : []).filter(array => array.length > 0) // Only add an array for a part that actually exists.
 }
 
@@ -108,8 +110,9 @@ export function canMoveCursorVertically(data, up) {
 	return General.canMoveCursorVertically(General.zoomIn(data), up)
 }
 
-export function charElementClickToCursor(evt, value, trace, charElements, equationElement) {
+export function charElementClickToCursor(evt, data, trace, charElements, equationElement) {
 	// Pass it on to the respective element.
+	const { value } = data
 	const traceClone = [...trace]
 	const index = traceClone.shift()
 	const part = indexToPart(value, index)

@@ -5,6 +5,7 @@ import * as ExpressionPart from './ExpressionPart'
 import * as Fraction from './Fraction'
 import * as SimpleText from './SimpleText'
 import * as SubSup from './SubSup'
+import * as Function from './Function'
 
 const functions = {
 	Expression,
@@ -12,16 +13,17 @@ const functions = {
 	Fraction,
 	SimpleText,
 	SubSup,
+	Function,
 }
 
 // toLatex takes a value object and turns it into Latex code.
 export function toLatex(data, options) {
-	return functions[data.type].toLatex(data.value, options)
+	return functions[data.type].toLatex(data, options)
 }
 
 // getLatexChars must return a list of all the characters that appear in the Katex rendering of the equation, in the order in which they appear in said rendering. (Yes, this sadly requires back-engineering Katex.)
 export function getLatexChars(data) {
-	return functions[data.type].getLatexChars(data.value)
+	return functions[data.type].getLatexChars(data)
 }
 
 // getCursorProperties takes a data object and an array of char elements and uses this to determine the properties { x, y, height } that the cursor should have.
@@ -41,7 +43,7 @@ export function canMoveCursorVertically(data, up) {
 
 // charElementClickToCursor takes a click on a charElement and returns the responding cursor position. It's given all required data.
 export function charElementClickToCursor(evt, data, trace, charElements, contentsElement) {
-	return functions[data.type].charElementClickToCursor(evt, data.value, trace, charElements, contentsElement)
+	return functions[data.type].charElementClickToCursor(evt, data, trace, charElements, contentsElement)
 }
 
 // coordinatesToCursor takes a set of coordinates and turns it into a cursor position close to that click.

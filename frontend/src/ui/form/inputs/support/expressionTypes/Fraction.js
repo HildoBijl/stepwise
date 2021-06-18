@@ -9,11 +9,13 @@ import * as Expression from './Expression'
 
 const parts = ['den', 'num'] // Katex puts the denominator first in its HTML rendering, so put that first.
 
-export function toLatex(value) {
+export function toLatex(data) {
+	const { value } = data
 	return `\\frac{${General.toLatex(value.num)}}{${General.toLatex(value.den)}}`
 }
 
-export function getLatexChars(value) {
+export function getLatexChars(data) {
+	const { value } = data
 	return parts.map(part => General.getLatexChars(value[part]))
 }
 
@@ -116,8 +118,9 @@ export function canMoveCursorVertically(data, up) {
 	return General.canMoveCursorVertically(General.zoomIn(data), up)
 }
 
-export function charElementClickToCursor(evt, value, trace, charElements, equationElement) {
+export function charElementClickToCursor(evt, data, trace, charElements, equationElement) {
 	// Pass it on to the respective element.
+	const { value } = data
 	const traceClone = [...trace]
 	const index = traceClone.shift()
 	const part = (index === 0 ? 'den' : 'num')
