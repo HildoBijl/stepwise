@@ -30,8 +30,6 @@ function create(expressionData, part, position, name, alias) {
 	functionElement.value = getFuncs(functionElement).getEmpty()
 
 	// Set up the adjusted expression.
-	console.log('ToDo: check if we need this.')
-	console.log('Creating for ' + alias)
 	const { value, cursor } = expressionData
 	const expressionPartValue = value[part].value
 	const newValue = [
@@ -94,21 +92,28 @@ function keyPressToData(keyInfo, data, charElements, topParentData, contentsElem
 }
 
 function charElementClickToCursor(evt, data, trace, charElements, equationElement) {
-	const traceClone = [...trace]
-	const part = traceClone.shift()
+	const part = firstOf(trace)
 	const element = data.value[part]
-	return {
+
+	// If no element can be traced, then most likely the user clicked on the function name. Return null to indicate we cannot use the element to trace the cursor position.
+	if (!element)
+		return null
+
+	// All good. Pass on to the respective element.
+	const newCursor = getFuncs(element).charElementClickToCursor(evt, element, trace.slice(1), charElements[part], equationElement)
+	return newCursor === null ? null : {
 		part,
-		cursor: getFuncs(element).charElementClickToCursor(evt, element, traceClone, charElements[part], equationElement),
+		cursor: newCursor,
 	}
 }
 
 function coordinatesToCursor(coordinates, boundsData, data, charElements, contentsElement) {
-	const part = getClosestElement(coordinates, boundsData, false)
+	const part = getClosestElement(coordinates, boundsData)
 	const element = data.value[part]
-	return {
+	const newCursor = getFuncs(element).coordinatesToCursor(coordinates, boundsData.parts[part], element, charElements[part], contentsElement)
+	return newCursor === null ? null : {
 		part,
-		cursor: getFuncs(element).coordinatesToCursor(coordinates, boundsData.parts[part], element, charElements[part], contentsElement)
+		cursor: newCursor,
 	}
 }
 

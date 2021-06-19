@@ -90,18 +90,19 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 	// For backspace/delete check if we should destroy the fraction.
 	if ((key === 'Backspace' && cursor.part === 'den' && isCursorAtDataStart(activeElementData)) || (key === 'Delete' && cursor.part === 'num' && isCursorAtDataEnd(activeElementData))) {
 		// Turn it into an expression with the respective parts.
-		return Expression.cleanUp({
+		const dummyExpressionPart = { type: 'ExpressionPart', value: ExpressionPart.getEmpty() }
+		return {
 			type: 'Expression',
 			value: [
 				value.num, // Plug the numerator in here. The clean-up will spread it out.
-				{ type: 'ExpressionPart', value: ExpressionPart.getEmpty() },
+				dummyExpressionPart,
 				value.den, // Plug the denominator in here. The clean-up will spread it out.
 			],
 			cursor: {
-				part: 1, // In the new ExpressionPart.
-				cursor: ExpressionPart.getStartCursor(),
+				part: 1, // In the new dummyExpressionPart.
+				cursor: getDataStartCursor(dummyExpressionPart),
 			},
-		})
+		}
 	}
 
 	// Pass on to the appropriate child element.
@@ -121,20 +122,20 @@ export function canMoveCursorVertically(data, up) {
 export function charElementClickToCursor(evt, data, trace, charElements, equationElement) {
 	// Pass it on to the respective element.
 	const { value } = data
-	const traceClone = [...trace]
-	const index = traceClone.shift()
-	const part = indexToPart(value, index)
+	const index = firstOf(trace)
+	const part = indexToPart(index)
 	const element = value[part]
-	return {
+	const newCursor = getFuncs(element).charElementClickToCursor(evt, element, trace.slice(1), charElements[index], equationElement)
+	return newCursor === null ? null : {
 		part,
-		cursor: getFuncs(element).charElementClickToCursor(evt, element, traceClone, charElements[index], equationElement),
+		cursor: newCursor,
 	}
 }
 
 export function coordinatesToCursor(coordinates, boundsData, data, charElements, contentsElement) {
 	const { value } = data
 	const index = getClosestElement(coordinates, boundsData, false)
-	const part = indexToPart(value, index)
+	const part = indexToPart(index)
 	const element = value[part]
 	return {
 		part,
@@ -257,7 +258,7 @@ export function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {
 				part: toLeaveBehind.length,
 				cursor: {
 					part: 'num',
-					cursor: newNum.cursor, // Use the cursor of the new denominator.
+					cursor: newNum.cursor, // Use the cursor of the new numerator.
 				},
 			},
 		}

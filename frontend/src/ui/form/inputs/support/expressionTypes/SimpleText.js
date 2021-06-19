@@ -84,10 +84,6 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 	return data
 }
 
-export function canMoveCursorVertically(data, up) {
-	return ExpressionPart.canMoveCursorVertically(data, up)
-}
-
 export function charElementClickToCursor(evt, data, trace, charElements, equationElement) {
 	return ExpressionPart.charElementClickToCursor(evt, data, trace, charElements, equationElement)
 }
@@ -122,18 +118,6 @@ export function isEmpty(value) {
 
 export function shouldRemove(data) {
 	return ExpressionPart.shouldRemove(data)
-}
-
-export function countNetBrackets(data, relativeToCursor) {
-	return 0 // Brackets in SimpleText are irrelevant for any count. They are just text and not functional.
-}
-
-export function canMerge() {
-	return ExpressionPart.canMerge()
-}
-
-export function canSplit() {
-	return ExpressionPart.canSplit()
 }
 
 export function cleanUp(data) {

@@ -260,20 +260,23 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 
 	// When the spacebar is pressed, try to split up the element. Only do this when the child element is the last element in the chain that can be split up. Otherwise pass it on to split the child up.
 	if (key === ' ' || key === 'Spacebar') {
-		const furtherZoom = zoomIn(activeElementData)
-		if (activeElementFuncs.canSplit(activeElementData) && !getFuncs(furtherZoom).canSplit(furtherZoom)) {
-			const split = activeElementFuncs.split(activeElementData)
-			return {
-				...data,
-				value: [
-					...value.slice(0, cursor.part),
-					removeCursor(split),
-					...value.slice(cursor.part + 1),
-				],
-				cursor: {
-					part: cursor.part,
-					cursor: split.cursor,
-				},
+		if (activeElementFuncs.canSplit && activeElementFuncs.canSplit(activeElementData)) {
+			const furtherZoom = zoomIn(activeElementData)
+			const furtherZoomFuncs = getFuncs(furtherZoom)
+			if (!(furtherZoomFuncs.canSplit && furtherZoomFuncs.canSplit(furtherZoom))) {
+				const split = activeElementFuncs.split(activeElementData)
+				return {
+					...data,
+					value: [
+						...value.slice(0, cursor.part),
+						removeCursor(split),
+						...value.slice(cursor.part + 1),
+					],
+					cursor: {
+						part: cursor.part,
+						cursor: split.cursor,
+					},
+				}
 			}
 		}
 	}
@@ -354,11 +357,11 @@ export function canMoveCursorVertically(data, up) {
 export function charElementClickToCursor(evt, data, trace, charElements, equationElement) {
 	// Pass it on to the respective element.
 	const { value } = data
-	const traceClone = [...trace]
-	const part = traceClone.shift()
-	return {
+	const part = firstOf(trace)
+	const newCursor = getFuncs(value[part]).charElementClickToCursor(evt, value[part], trace.slice(1), charElements[part], equationElement)
+	return newCursor === null ? null : {
 		part,
-		cursor: getFuncs(value[part]).charElementClickToCursor(evt, value[part], traceClone, charElements[part], equationElement),
+		cursor: newCursor,
 	}
 }
 
@@ -420,17 +423,21 @@ export function findEndOfTerm(data, toRight = true, skipFirst = false) {
 	}
 
 	// Iterate over the expression.
-	if (skipFirst && hasNextSymbol())
-		shiftCursor()
+	let first = true
 	while (hasNextSymbol()) {
 		const nextSymbol = getNextSymbol()
 
-		// On an encountered function, return the current cursor position.
-		if (isObject(nextSymbol) && nextSymbol.type === 'Function')
-			return { part: partIterator, cursor: cursorIterator }
+		// On an encountered function, return the current cursor position, unless we're inside brackets.
+		if (isObject(nextSymbol) && nextSymbol.type === 'Function') {
+			if (bracketCount === 0 && (!skipFirst || !first))
+				return { part: partIterator, cursor: cursorIterator }
+			const netBracketCountFunc = getFuncs(nextSymbol).netBracketCount
+			const netBracketCount = netBracketCountFunc ? netBracketCountFunc(nextSymbol) : 0
+			bracketCount += (toRight ? 1 : -1) * netBracketCount
+		}
 
 		// On a breaking character, return the current cursor position. 
-		if (bracketCount === 0 && ['+', '-', '*'].includes(nextSymbol))
+		if (bracketCount === 0 && ['+', '-', '*'].includes(nextSymbol) && (!skipFirst || !first))
 			return { part: partIterator, cursor: cursorIterator }
 
 		// On a bracket, adjust the bracket count. If it drops below zero, return the current cursor position too.
@@ -438,11 +445,12 @@ export function findEndOfTerm(data, toRight = true, skipFirst = false) {
 			bracketCount += toRight ? 1 : -1
 		else if (nextSymbol === ')')
 			bracketCount += toRight ? -1 : 1
-		if (bracketCount < 0)
+		if (bracketCount < 0 && (!skipFirst || !first))
 			return { part: partIterator, cursor: cursorIterator }
 
 		// All good so far! Shift the cursor and check out the next symbol.
 		shiftCursor()
+		first = false
 	}
 
 	// We're at the end. Return the current cursor position.
@@ -619,7 +627,8 @@ export function canMerge() {
 
 export function canSplit(data) {
 	const activeElementData = zoomIn(data)
-	return getFuncs(activeElementData).canSplit(activeElementData)
+	const canSplit = getFuncs(activeElementData).canSplit
+	return canSplit && canSplit(activeElementData)
 }
 
 // splitAtCursor takes an expression with a cursor in an expression part and splits it up into two expressions. It returns an object { left: ..., right ... } where each parameter is an expression value (so an array).

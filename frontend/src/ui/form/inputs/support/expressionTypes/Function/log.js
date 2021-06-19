@@ -14,9 +14,11 @@ function toLatex(data, options) {
 	const { value } = data
 	const [parameter] = value
 	const parameterLatex = getFuncs(parameter).toLatex(parameter, options)
+	const logCharsArray = 'log('.split('')
+	logCharsArray.include = false
 	return {
 		latex: `{}^{${parameterLatex.latex}}{\\rm log}\\!(`,
-		chars: [parameterLatex.chars, 'log('.split('')],
+		chars: [parameterLatex.chars, logCharsArray],
 	}
 }
 

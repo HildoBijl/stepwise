@@ -118,13 +118,13 @@ export function canMoveCursorVertically(data, up) {
 export function charElementClickToCursor(evt, data, trace, charElements, equationElement) {
 	// Pass it on to the respective element.
 	const { value } = data
-	const traceClone = [...trace]
-	const index = traceClone.shift()
+	const index = firstOf(trace)
 	const part = indexToPart(value, index)
 	const element = value[part]
-	return {
+	const newCursor = getFuncs(element).charElementClickToCursor(evt, element, trace.slice(1), charElements[index], equationElement)
+	return newCursor === null ? null : {
 		part,
-		cursor: getFuncs(element).charElementClickToCursor(evt, element, traceClone, charElements[index], equationElement),
+		cursor: newCursor,
 	}
 }
 

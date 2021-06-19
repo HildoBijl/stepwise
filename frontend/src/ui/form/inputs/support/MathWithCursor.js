@@ -216,7 +216,7 @@ export function mouseClickToCursor(evt, data, charElements, contentsElement) {
 		if (trace) {
 			const cursor = getFuncs(data).charElementClickToCursor(evt, data, trace, charElements, contentsElement)
 			// The function may return something falsy, indicating it failed to figure things out. (This may happen when you click on the function name like "log" of a function.) In that case proceed to plan B.
-			if (cursor)
+			if (cursor !== null)
 				return cursor
 		}
 	}

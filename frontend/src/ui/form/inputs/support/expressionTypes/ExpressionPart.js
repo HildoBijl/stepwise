@@ -1,6 +1,7 @@
 
 import { isNumber } from 'step-wise/util/numbers'
 import { isLetter, removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
+import { firstOf } from 'step-wise/util/arrays'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 
 import { getClickSide } from 'util/dom'
@@ -152,12 +153,8 @@ export function addStrToData(str, data) {
 	}
 }
 
-export function canMoveCursorVertically(data, up) {
-	return false // You can never move vertically inside of an expression part.
-}
-
 export function charElementClickToCursor(evt, data, trace, charElements, equationElement) {
-	return trace[0] + getClickSide(evt)
+	return firstOf(trace) + getClickSide(evt)
 }
 
 export function coordinatesToCursor(coordinates, boundsData, data, charElements, contentsElement) {
@@ -207,14 +204,6 @@ export function countNetBrackets(data, relativeToCursor) {
 	const { value, cursor } = data
 	const valuePart = relativeToCursor === 0 ? value : (relativeToCursor === -1 ? value.substring(0, cursor) : value.substring(cursor))
 	return valuePart.split('(').length - valuePart.split(')').length
-}
-
-export function canMerge() {
-	return false
-}
-
-export function canSplit() {
-	return false
 }
 
 export function cleanUp(data) {

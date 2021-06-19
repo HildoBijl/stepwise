@@ -74,7 +74,7 @@ export function isDataEmpty(data) {
 	return getFuncs(data).isEmpty(value)
 }
 
-// ToDo: remove all the below stuff.
+// ToDo: remove all the below stuff. Potentially keep documentation?
 
 // // toLatex takes a data object and returns an object { latex: ..., chars: ... } where latex has the latex code and chars show the chars that will be in said latex code, in the order in which Katex renders them. (Yes, this requires back-engineering Katex, but otherwise we cannot trace elements in the equation.)
 // export function toLatex(data, options) {

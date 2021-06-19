@@ -57,9 +57,12 @@ function ensureConsistency(newValue, oldValue) {
 		return oldValue
 
 	// There is no deepEquals. Walk through the object to see if children can be kept consistent. First check for arrays.
-	if (Array.isArray(newValue) && Array.isArray(oldValue))
-		return newValue.map((item, index) => ensureConsistency(item, oldValue[index]))
-	
+	if (Array.isArray(newValue)) {
+		if (Array.isArray(oldValue))
+			return newValue.map((item, index) => ensureConsistency(item, oldValue[index]))
+		return newValue
+	}
+
 	// Then check for non-objects. For non-objects there's no such thing as reference inequality, so just return the value.
 	if (!isObject(newValue) || !isObject(oldValue))
 		return newValue
