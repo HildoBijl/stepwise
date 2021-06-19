@@ -120,8 +120,8 @@ export function isEmpty(value) {
 	return ExpressionPart.isEmpty(value)
 }
 
-export function shouldRemove(value) {
-	return ExpressionPart.shouldRemove(value)
+export function shouldRemove(data) {
+	return ExpressionPart.shouldRemove(data)
 }
 
 export function countNetBrackets(data, relativeToCursor) {

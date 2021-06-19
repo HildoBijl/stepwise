@@ -1,16 +1,20 @@
-import * as General from '../index'
+import { getFuncs } from '../'
 
-// Define various settings.
-const numParameters = 1
-const delimiter = ')'
-const aliases = ['sqrt(', 'root(', 'wortel(']
-export { numParameters, delimiter, aliases }
+import defaultFunctions from './defaults/singleParameterAfter'
 
-export function toLatex(data, options) {
-	const { argument } = options
-	const argumentLatex = General.toLatex(argument)
+const fullExport = {
+	...defaultFunctions,
+	aliases: ['sqrt'],
+	toLatex,
+}
+export default fullExport
+
+function toLatex(data, options) {
+	const { value } = data
+	const [parameter] = value
+	const parameterLatex = getFuncs(parameter).toLatex(parameter, options)
 	return {
-		latex: `\\sqrt{${argumentLatex.latex}}`,
-		chars: [argumentLatex.chars, ')'],
+		latex: `\\sqrt{${parameterLatex.latex}}`,
+		chars: [parameterLatex.chars, ')'],
 	}
 }

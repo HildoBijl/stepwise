@@ -1,27 +1,33 @@
-import * as General from '../index'
+import { getFuncs } from '../'
 
-// Define various settings.
-const numParameters = 1
-const aliases = ['log(']
-export { numParameters, aliases }
+import defaultFunctions from './defaults/singleParameter'
 
-// Define all non-default functions.
-export function toLatex(data) {
+const fullExport = {
+	...defaultFunctions,
+	aliases: ['log('],
+	toLatex,
+	getEmpty,
+}
+export default fullExport
+
+function toLatex(data, options) {
 	const { value } = data
-	const argumentLatex = General.toLatex(value[0])
-
+	const [parameter] = value
+	const parameterLatex = getFuncs(parameter).toLatex(parameter, options)
 	return {
-		latex: `{}^{${argumentLatex.latex}}{\\rm log}\\!(`,
-		chars: [argumentLatex.chars, 'log('.split('')],
+		latex: `{}^{${parameterLatex.latex}}{\\rm log}\\!(`,
+		chars: [parameterLatex.chars, 'log('.split('')],
 	}
 }
 
-export function getEmpty() {
+function getEmpty() {
 	return [{
 		type: 'Expression',
-		value: [{
-			type: 'ExpressionPart',
-			value: '10',
-		}]
+		value: [
+			{
+				type: 'ExpressionPart',
+				value: '10',
+			},
+		],
 	}]
 }

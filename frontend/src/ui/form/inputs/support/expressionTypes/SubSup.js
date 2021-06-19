@@ -1,9 +1,9 @@
 import { firstOf } from 'step-wise/util/arrays'
 
-import { addCursor, removeCursor } from '../Input'
+import { removeCursor } from '../Input'
 import { getClosestElement, charElementsToBounds } from '../MathWithCursor'
 
-import * as General from './index'
+import { getFuncs, zoomIn, zoomInAt, getDataStartCursor, getDataEndCursor, isCursorAtDataStart, isCursorAtDataEnd, isDataEmpty } from './index.js'
 import * as Expression from './Expression'
 import * as SimpleText from './SimpleText'
 
@@ -16,7 +16,7 @@ export function toLatex(data, options = {}) {
 	parts.forEach(part => {
 		const element = value[part]
 		if (element) {
-			const partLatex = General.toLatex(element)
+			const partLatex = getFuncs(element).toLatex(element)
 			const preSymbol = part === 'sub' ? '_' : '^'
 			latex += `${preSymbol}{${partLatex.latex}}`
 			chars.push(partLatex.chars)
@@ -34,21 +34,20 @@ export function indexToPart(value, index) {
 }
 
 export function getCursorProperties(data, charElements, container) {
-	const { cursor, value } = data
-	return General.getCursorProperties({
-		...value[cursor.part],
-		cursor: cursor.cursor,
-	}, charElements[partToIndex(value, cursor.part)], container)
+	const { value, cursor } = data
+	const activeElementData = zoomIn(data)
+	return getFuncs(activeElementData).getCursorProperties(activeElementData, charElements[partToIndex(value, cursor.part)], container)
 }
 
 export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement) {
 	const { key, ctrl, alt } = keyInfo
 	const { value, cursor } = data
-	const activeElementData = General.zoomIn(data)
+	const activeElementData = zoomIn(data)
+	const activeElementFuncs = getFuncs(activeElementData)
 
 	// When we want to pass this on to the child element, we have this custom function.
 	const passOn = () => {
-		const adjustedElement = General.keyPressToData(keyInfo, addCursor(value[cursor.part], cursor.cursor), charElements[partToIndex(value, cursor.part)], topParentData, contentsElement, cursorElement)
+		const adjustedElement = activeElementFuncs.keyPressToData(keyInfo, activeElementData, charElements[partToIndex(value, cursor.part)], topParentData, contentsElement, cursorElement)
 		return {
 			...data,
 			value: {
@@ -64,17 +63,18 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 		return data
 
 	// For left/right-arrows, adjust the cursor. Do the same for Backspace/Delete when the cursor is at the end of the respective element.
-	if ((key === 'ArrowLeft' || key === 'Backspace') && cursor.part === 'sup' && General.isCursorAtStart(activeElementData) && value.sub)
-		return { ...data, cursor: { part: 'sub', cursor: General.getEndCursor(value.sub) } }
-	if ((key === 'ArrowRight' || key === 'Delete') && cursor.part === 'sub' && General.isCursorAtEnd(activeElementData) && value.sup)
-		return { ...data, cursor: { part: 'sup', cursor: General.getStartCursor(value.sup) } }
+	if ((key === 'ArrowLeft' || key === 'Backspace') && cursor.part === 'sup' && isCursorAtDataStart(activeElementData) && value.sub)
+		return { ...data, cursor: { part: 'sub', cursor: getDataEndCursor(value.sub) } }
+	if ((key === 'ArrowRight' || key === 'Delete') && cursor.part === 'sub' && isCursorAtDataEnd(activeElementData) && value.sup)
+		return { ...data, cursor: { part: 'sup', cursor: getDataStartCursor(value.sup) } }
 
 	// For up/down arrows, check if we can/need to move up. This is the case if we cannot move up/down inside a child, but we can move up/down here.
 	if (key === 'ArrowUp' || key === 'ArrowDown') {
 		const up = key === 'ArrowUp'
-		if (!General.canMoveCursorVertically(activeElementData, up) && canMoveCursorVertically(data, up)) {
+		if (!(activeElementFuncs.canMoveCursorVertically && activeElementFuncs.canMoveCursorVertically(activeElementData, up)) && canMoveCursorVertically(data, up)) {
 			// Use the current cursor coordinates to get the appropriate cursor position.
 			const part = up ? 'sup' : 'sub'
+			const element = value[part]
 			const partCharElements = charElements[partToIndex(value, part)]
 			const boundsData = charElementsToBounds(partCharElements)
 			const cursorRect = cursorElement.getBoundingClientRect()
@@ -83,7 +83,7 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 				...data,
 				cursor: {
 					part,
-					cursor: General.coordinatesToCursor(cursorMiddle, boundsData, value[part], partCharElements, contentsElement),
+					cursor: getFuncs(element).coordinatesToCursor(cursorMiddle, boundsData, element, partCharElements, contentsElement),
 				}
 			}
 		}
@@ -97,7 +97,7 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 			value: newValue,
 			cursor: {
 				part: 'sup',
-				cursor: General.getStartCursor(newValue.sup),
+				cursor: getDataStartCursor(newValue.sup),
 			},
 		}
 	}
@@ -110,7 +110,9 @@ export function canMoveCursorVertically(data, up) {
 	const { value, cursor } = data
 	if ((up && cursor.part === 'sub' && value.sup) || (!up && cursor.part === 'sup' && value.sub))
 		return true
-	return General.canMoveCursorVertically(General.zoomIn(data), up)
+	const activeElementData = zoomIn(data)
+	const canMoveCursorVertically = getFuncs(activeElementData).canMoveCursorVertically
+	return canMoveCursorVertically ? canMoveCursorVertically(activeElementData, up) : false
 }
 
 export function charElementClickToCursor(evt, data, trace, charElements, equationElement) {
@@ -119,9 +121,10 @@ export function charElementClickToCursor(evt, data, trace, charElements, equatio
 	const traceClone = [...trace]
 	const index = traceClone.shift()
 	const part = indexToPart(value, index)
+	const element = value[part]
 	return {
 		part,
-		cursor: General.charElementClickToCursor(evt, value[part], traceClone, charElements[index], equationElement),
+		cursor: getFuncs(element).charElementClickToCursor(evt, element, traceClone, charElements[index], equationElement),
 	}
 }
 
@@ -129,33 +132,33 @@ export function coordinatesToCursor(coordinates, boundsData, data, charElements,
 	const { value } = data
 	const index = getClosestElement(coordinates, boundsData, false)
 	const part = indexToPart(value, index)
+	const element = value[part]
 	return {
 		part,
-		cursor: General.coordinatesToCursor(coordinates, boundsData.parts[index], value[part], charElements[index], contentsElement)
+		cursor: getFuncs(element).coordinatesToCursor(coordinates, boundsData.parts[index], element, charElements[index], contentsElement)
 	}
 }
 
 export function getStartCursor(value) {
 	if (!value.sub)
-		return { part: 'sup', cursor: General.getStartCursor(value.sup) }
-	return { part: 'sub', cursor: General.getStartCursor(value.sub) }
+		return { part: 'sup', cursor: getDataStartCursor(value.sup) }
+	return { part: 'sub', cursor: getDataStartCursor(value.sub) }
 }
 
 export function getEndCursor(value) {
 	if (!value.sup)
-		return { part: 'sub', cursor: General.getEndCursor(value.sub) }
-	return { part: 'sup', cursor: General.getEndCursor(value.sup) }
+		return { part: 'sub', cursor: getDataEndCursor(value.sub) }
+	return { part: 'sup', cursor: getDataEndCursor(value.sup) }
 }
 
 export function isCursorAtStart(value, cursor) {
-	return value.sub ?
-		(cursor.part === 'sub' && SimpleText.isCursorAtStart(value.sub.value, cursor.cursor)) :
-		(cursor.part === 'sup' && Expression.isCursorAtStart(value.sup.value, cursor.cursor))
+	const data = { type: 'SubSup', value, cursor }
+	return (value.sub ? cursor.part === 'sub' : cursor.part === 'sup') && isCursorAtDataStart(zoomIn(data))
 }
 
 export function isCursorAtEnd(value, cursor) {
-	return value.sup ?
-		(cursor.part === 'sup' && Expression.isCursorAtEnd(value.sup.value, cursor.cursor)) : (cursor.part === 'sub' && SimpleText.isCursorAtEnd(value.sub.value, cursor.cursor))
+	const data = { type: 'SubSup', value, cursor }
+	return (value.sup ? cursor.part === 'sup' : cursor.part === 'sub') && isCursorAtDataEnd(zoomIn(data))
 }
 
 export function getEmpty(includeSub = true, includeSup = true) {
@@ -174,16 +177,16 @@ export function getEmptySup() {
 }
 
 export function isEmpty(value) {
-	return (!value.sub || General.isEmpty(value.sub)) && (!value.sup || General.isEmpty(value.sup))
+	return (!value.sub || isDataEmpty(value.sub)) && (!value.sup || isDataEmpty(value.sup))
 }
 
-export function shouldRemove(value) {
-	return parts.every(part => !value[part] || General.isEmpty(value[part]))
+export function shouldRemove(data) {
+	return parts.every(part => !data.value[part] || isDataEmpty(data.value[part]))
 }
 
 export function canMerge(value, mergeWithNext, fromOutside) {
 	const { sup } = value
-	return mergeWithNext && !fromOutside && !!sup && !General.isEmpty(sup) // Only merge when we're at the inside of a non-empty superscript and we want to merge with what's outside.
+	return mergeWithNext && !fromOutside && !!sup && !isDataEmpty(sup) // Only merge when we're at the inside of a non-empty superscript and we want to merge with what's outside.
 }
 
 export function merge(expressionValue, partIndex, mergeWithNext) {
@@ -231,7 +234,7 @@ export function canSplit(data) {
 }
 
 export function split(data) {
-	const split = Expression.splitAtCursor(General.zoomIn(data))
+	const split = Expression.splitAtCursor(zoomIn(data))
 	const newSup = Expression.cleanUp({
 		type: 'Expression',
 		value: split.left,
@@ -251,23 +254,32 @@ export function split(data) {
 		],
 		cursor: {
 			part: 1,
-			cursor: General.getStartCursor(firstOf(split.right)),
+			cursor: getDataStartCursor(firstOf(split.right)),
 		},
 	}
 }
 
 export function cleanUp(data) {
-	const { value, cursor } = data
+	const { cursor } = data
 
 	// Clean up the parts individually, keeping track of the cursor.
 	const newValue = {}
 	let newCursor = null
 	parts.forEach(part => {
-		newValue[part] = value[part] && General.cleanUp(General.zoomInAt(data, part))
+		// Clean up the element if we can.
+		const element = zoomInAt(data, part)
+		if (!element) {
+			newValue[part] = element
+		} else {
+			const cleanUp = getFuncs(element).cleanUp
+			newValue[part] = cleanUp ? cleanUp(element) : element
+		}
+
+		// Extract the possibly adjusted cursor positions.
 		if (cursor && cursor.part === part)
 			newCursor = { part, cursor: newValue[part].cursor }
-		else if (newValue[part] && General.isEmpty(newValue[part]))
-			newValue[part] = null // Remove the element when we don't need it anymore.
+		else if (newValue[part] && isDataEmpty(newValue[part]))
+			newValue[part] = null // If the part is empty, and also has no cursor, remove it entirely.
 		newValue[part] = removeCursor(newValue[part])
 	})
 

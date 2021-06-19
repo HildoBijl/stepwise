@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useRef, useEffect, useCallback } from 'react'
+import React, { createContext, useContext, useRef, useEffect, useCallback, useMemo } from 'react'
 
 import { findOptimum, findOptimumIndex, flattenFully, forceIntoShape, getIndexTrace } from 'step-wise/util/arrays'
 import { filterProperties } from 'step-wise/util/objects'
@@ -8,7 +8,7 @@ import { RBM, zeroWidthSpace } from 'ui/components/equations'
 
 import { useAbsoluteCursorRef } from '../../Form'
 
-import { toLatex, getLatexChars, getCursorProperties, charElementClickToCursor, coordinatesToCursor } from './expressionTypes'
+import { getFuncs } from './expressionTypes'
 
 // We use this character to put in empty elements, instead of leaving them empty. By having this char, we can find the respective element afterwards.
 const emptyElementChar = '‘'
@@ -21,7 +21,7 @@ export { emptyElementChar, emptyElementCharLatex }
 // export { emptyElementChar, emptyElementCharLatex }
 
 export default function MathWithCursor({ contentsRef, ...data }) {
-	const { type, value, cursor } = data
+	const { type, value } = data
 	const context = useMathWithCursorContext()
 	const charElementsRef = context && context.charElementsRef
 	const cursorRef = useAbsoluteCursorRef()
@@ -31,13 +31,13 @@ export default function MathWithCursor({ contentsRef, ...data }) {
 		// Gather all data. If anything is missing, no cursor is shown.
 		const cursorHandle = cursorRef.current
 		const charElements = charElementsRef && charElementsRef.current
-		if (!cursor || !charElements)
+		if (!data.cursor || !charElements)
 			return
 
 		// Let the expression figure out where the cursor should be and apply this.
-		const cursorProperties = getCursorProperties({ type, value, cursor }, charElements, contentsRef.current)
+		const cursorProperties = getFuncs(data).getCursorProperties(data, charElements, contentsRef.current)
 		cursorHandle.show(cursorProperties)
-	}, [contentsRef, charElementsRef, cursorRef, type, value, cursor])
+	}, [contentsRef, charElementsRef, cursorRef, data])
 
 	return <MathWithoutCursor type={type} value={value} contentsRef={contentsRef} />
 }
@@ -45,17 +45,18 @@ export default function MathWithCursor({ contentsRef, ...data }) {
 // A separate MathWithoutCursor element is used that does not get the cursor. This makes sure it only rerenders on changes in value. It does make sure that the MathWithCursor context knows of all the characters in the equation.
 function MathWithoutCursor({ type, value, contentsRef }) {
 	// Access the context in which char elements need to be stored.
+	const data = useMemo(() => ({ type, value }), [type, value])
 	const context = useMathWithCursorContext()
 	const storeCharElements = context && context.storeCharElements
 
 	// Set up the latex, extract char elements and store them.
-	const { latex, chars } = toLatex({ type, value })
+	const { latex, chars } = getFuncs(data).toLatex(data)
 
 	// Whenever the equation changes, trace all characters again.
 	useEffect(() => {
 		const equationElement = contentsRef.current.getElementsByClassName('katex-html')[0]
 		storeCharElements(matchCharElements(equationElement, chars))
-	}, [contentsRef, type, value, storeCharElements, chars])
+	}, [contentsRef, data, storeCharElements, chars])
 
 	// Render the equation!
 	return <RBM>{latex}</RBM>
@@ -96,9 +97,6 @@ export function matchCharElements(equationElement, latexChars) {
 	// Extract all DOM elements (leafs) with a character and match them appropriately.
 	const allElements = [...equationElement.getElementsByTagName('*')]
 	const charElementList = allElements.filter(isCharElement)
-	console.log(charElementList)
-	console.log(charElementList.map(el => el.textContent))
-	console.log(latexChars)
 	const charElements = forceIntoShape(charElementList, latexChars)
 	return charElements
 }
@@ -215,14 +213,18 @@ export function mouseClickToCursor(evt, data, charElements, contentsElement) {
 	// First check if the click was on a charElement. This is the easy variant.
 	if (isCharElement(evt.target) && !isCharElementEmpty(evt.target)) {
 		const trace = getIndexTrace(charElements, evt.target)
-		if (trace)
-			return charElementClickToCursor(evt, data, trace, charElements, contentsElement)
+		if (trace) {
+			const cursor = getFuncs(data).charElementClickToCursor(evt, data, trace, charElements, contentsElement)
+			// The function may return something falsy, indicating it failed to figure things out. (This may happen when you click on the function name like "log" of a function.) In that case proceed to plan B.
+			if (cursor)
+				return cursor
+		}
 	}
 
-	// The click was not on a charElement. Use the coordinates to determine the best cursor position.
+	// Plan B: the click was not on a charElement or the charElement couldn't figure it out. Use the coordinates to determine the best cursor position.
 	const coordinates = getCoordinatesOf(evt)
 	const boundsData = charElementsToBounds(charElements)
-	return coordinatesToCursor(coordinates, boundsData, data, charElements, contentsElement)
+	return getFuncs(data).coordinatesToCursor(coordinates, boundsData, data, charElements, contentsElement)
 }
 
 // charElementsToBounds takes a charElements array and creates bounding boxes for each group of charElements, in a tree-like fashion.

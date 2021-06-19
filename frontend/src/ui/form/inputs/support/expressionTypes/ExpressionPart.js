@@ -199,8 +199,8 @@ export function isEmpty(value) {
 	return value.length === 0
 }
 
-export function shouldRemove(value) {
-	return isEmpty(value)
+export function shouldRemove(data) {
+	return isEmpty(data.value)
 }
 
 export function countNetBrackets(data, relativeToCursor) {

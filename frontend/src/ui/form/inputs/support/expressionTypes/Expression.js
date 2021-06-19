@@ -6,15 +6,15 @@ import { isEmpty, getEmpty } from 'step-wise/inputTypes/Expression'
 
 import { addCursor, removeCursor } from '../Input'
 import { getClosestElement } from '../MathWithCursor'
-import * as General from './index.js'
+import { getFuncs, zoomIn, zoomInAt, getDataStartCursor, getDataEndCursor, isCursorAtDataStart, isCursorAtDataEnd } from './index.js'
 import * as ExpressionPart from './ExpressionPart'
 import * as SubSup from './SubSup'
-import * as Function from './Function'
+import { functions } from './Function'
 
 export function toLatex(data) {
 	let { value } = data
 
-	// ToDo: remove this later on.
+	// ToDo: remove this later on. We can use this for interpreting though.
 	// // First process functions. Walk from right to left. For each function we find, find the corresponding delimiter, and get the Latex accordingly.
 	// for (let index = value.length - 1; index >= 0; index--) {
 	// 	const element = value[index]
@@ -47,12 +47,12 @@ export function toLatex(data) {
 		if (element.type === 'ExpressionPart' && nextElement && nextElement.type === 'SubSup' && value[index + 2].value[0] === '(') {
 			// The superscript must also be empty or be "-1" for an inverse.
 			const sup = nextElement.value.sup
-			if (!sup || General.isEmpty(sup) || (sup.value.length === 1 && sup.value[0].value === '-1'))
+			if (!sup || getFuncs(sup).isEmpty(sup) || (sup.value.length === 1 && sup.value[0].value === '-1'))
 				beforeSubSupWithBrackets = true
 		}
 
 		// Make the call with the right options.
-		return General.toLatex(element, { index, beforeSubSupWithBrackets })
+		return getFuncs(element).toLatex(element, { index, beforeSubSupWithBrackets })
 	})
 
 	// We now have an array with latex and chars mixed. Let's extract the latex and the chars.
@@ -70,8 +70,15 @@ export function toLatex(data) {
 	if (end)
 		latex = insertAtIndex(latex, latex.length - end.length, '\\: ')
 
+	// If the string starts or ends with \! (negative space) then remove it. This is to prevent the Expression from having no margin and cursors potentially disappearing. An expeption occurs when we're empty: then we want to have no space at all.
+	if (!isEmpty(value)) {
+		if (latex.substring(0, 2) === '\\!')
+			latex = latex.slice(2)
+		if (latex.substr(-2) === '\\!')
+			latex = latex.slice(0, -2)
+	}
+
 	// All done.
-	console.log(latex)
 	return { latex, chars }
 }
 
@@ -91,7 +98,7 @@ export function toLatex(data) {
 // 			const currElement = value[delimiterIndex]
 // 			if (currElement.type !== 'ExpressionPart') {
 // 				// No ExpressionPart. Just check if there are brackets and add this to the count.
-// 				netBracketCount += General.countNetBrackets(currElement, 0)
+// 				netBracketCount += getFuncs(currElement).countNetBrackets(currElement, 0)
 // 			} else {
 // 				// An ExpressionPart. Walk through it to see if the netBracketCount drops below zero at some point.
 // 				const str = currElement.value
@@ -124,21 +131,19 @@ export function toLatex(data) {
 // }
 
 export function getCursorProperties(data, charElements, container) {
-	const { cursor, value } = data
-	return General.getCursorProperties({
-		...value[cursor.part],
-		cursor: cursor.cursor,
-	}, charElements[cursor.part], container)
+	const activeElement = zoomIn(data)
+	return getFuncs(activeElement).getCursorProperties(activeElement, charElements[data.cursor.part], container)
 }
 
 export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement) {
 	const { key, ctrl, alt } = keyInfo
 	const { value, cursor } = data
-	const activeElementData = General.zoomIn(data)
+	const activeElementData = zoomIn(data)
+	const activeElementFuncs = getFuncs(activeElementData)
 
 	// When we want to pass this on to the child element, we have this custom function.
 	const passOn = () => {
-		const adjustedElement = General.keyPressToData(keyInfo, activeElementData, charElements[cursor.part], topParentData, contentsElement, cursorElement)
+		const adjustedElement = activeElementFuncs.keyPressToData(keyInfo, activeElementData, charElements[cursor.part], topParentData, contentsElement, cursorElement)
 		return {
 			...data,
 			value: arraySplice(value, cursor.part, 1, removeCursor(adjustedElement)),
@@ -149,11 +154,13 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 	// Set up other handlers.
 	const moveLeft = () => {
 		const part = cursor.part - 1
-		return { ...data, cursor: { part, cursor: General.getEndCursor(value[part]) } } // Move to the end of the previous element.
+		const prevElement = value[part]
+		return { ...data, cursor: { part, cursor: getFuncs(prevElement).getEndCursor(prevElement.value) } } // Move to the end of the previous element.
 	}
 	const moveRight = () => {
 		const part = cursor.part + 1
-		return { ...data, cursor: { part, cursor: General.getStartCursor(value[part]) } } // Move to the start of the next element.
+		const nextElement = value[part]
+		return { ...data, cursor: { part, cursor: getFuncs(nextElement).getStartCursor(nextElement.value) } } // Move to the start of the next element.
 	}
 
 	// Ignore ctrl/alt keys.
@@ -161,16 +168,20 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 		return data
 
 	// For left/right-arrows, adjust the cursor.
-	if (key === 'ArrowLeft' && cursor.part > 0 && General.isCursorAtStart(activeElementData))
+	if (key === 'ArrowLeft' && cursor.part > 0 && isCursorAtDataStart(activeElementData))
 		return moveLeft()
-	if (key === 'ArrowRight' && cursor.part < value.length - 1 && General.isCursorAtEnd(activeElementData))
+	if (key === 'ArrowRight' && cursor.part < value.length - 1 && isCursorAtDataEnd(activeElementData))
 		return moveRight()
 
 	// For the home/end, move to the start/end of this expression. If the cursor is inside a special part, and inside the child elements not yet at the corresponding edge, pass the call on.
-	if (key === 'Home' && (activeElementData.type === 'ExpressionPart' || General.isCursorAtStart(activeElementData) || General.isCursorAtStart(General.zoomIn(activeElementData))))
-		return { ...data, cursor: getStartCursor(value) }
-	if (key === 'End' && (activeElementData.type === 'ExpressionPart' || General.isCursorAtEnd(activeElementData) || General.isCursorAtEnd(General.zoomIn(activeElementData))))
-		return { ...data, cursor: getEndCursor(value) }
+	if (key === 'Home') {
+		if (activeElementData.type === 'ExpressionPart' || isCursorAtDataStart(activeElementData) || isCursorAtDataStart(zoomIn(activeElementData)))
+			return { ...data, cursor: getStartCursor(value) }
+	}
+	if (key === 'End') {
+		if (activeElementData.type === 'ExpressionPart' || isCursorAtDataEnd(activeElementData) || isCursorAtDataEnd(zoomIn(activeElementData)))
+			return { ...data, cursor: getEndCursor(value) }
+	}
 
 	// On divisions create a fraction.
 	if (key === '/' || key === 'Divide') {
@@ -193,7 +204,7 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 			fraction,
 			...getSubExpression(value, rightCursor, getEndCursor(value)),
 		]
-		const newCursor = { part: newValue.indexOf(fraction), cursor: { part: 'den', cursor: General.getStartCursor(fraction.value.den) } }
+		const newCursor = { part: newValue.indexOf(fraction), cursor: { part: 'den', cursor: getDataStartCursor(fraction.value.den) } }
 		return {
 			...data,
 			value: newValue,
@@ -202,42 +213,46 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 	}
 
 	// When the cursor is at the start of an element and a backspace is pressed, merge elements appropriately.
-	if (key === 'Backspace' && General.isCursorAtStart(activeElementData)) {
+	if (key === 'Backspace' && isCursorAtDataStart(activeElementData)) {
 		if (isCursorAtStart(value, cursor))
 			return data // Cannot remove anything.
 
 		// Are we in an expression part?
 		if (activeElementData.type === 'ExpressionPart') {
 			const previousPart = value[cursor.part - 1]
-			if (General.canMerge(previousPart, true, true))
-				return General.merge(value, cursor.part - 1, true, true)
+			const previousPartFuncs = getFuncs(previousPart)
+			if (previousPartFuncs.canMerge && previousPartFuncs.canMerge(previousPart, true, true))
+				return previousPartFuncs.merge(value, cursor.part - 1, true, true)
 			else
 				return moveLeft()
 		} else { // We are in a special element.
 			const activePart = value[cursor.part]
-			if (General.canMerge(activePart, false, false))
-				return General.merge(value, cursor.part, false, false)
+			const activePartFuncs = getFuncs(activePart)
+			if (activePartFuncs.canMerge && activePartFuncs.canMerge(activePart, false, false))
+				return activePartFuncs.merge(value, cursor.part, false, false)
 			else
 				return moveLeft()
 		}
 	}
 
 	// When the cursor is at the end of an element and a delete is pressed, merge elements appropriately.
-	if (key === 'Delete' && General.isCursorAtEnd(activeElementData)) {
+	if (key === 'Delete' && isCursorAtDataEnd(activeElementData)) {
 		if (isCursorAtEnd(value, cursor))
 			return data // Cannot delete anything.
 
 		// Are we in an expression part?
 		if (activeElementData.type === 'ExpressionPart') {
 			const nextPart = value[cursor.part + 1]
-			if (General.canMerge(nextPart, false, true))
-				return General.merge(value, cursor.part + 1, false, true)
+			const nextPartFuncs = getFuncs(nextPart)
+			if (nextPartFuncs.canMerge && nextPartFuncs.canMerge(nextPart, false, true))
+				return nextPartFuncs.merge(value, cursor.part + 1, false, true)
 			else
 				return moveRight()
 		} else { // We are in a special element.
 			const activePart = value[cursor.part]
-			if (General.canMerge(activePart, true, false))
-				return General.merge(value, cursor.part, true, false)
+			const activePartFuncs = getFuncs(activePart)
+			if (activePartFuncs.canMerge && activePartFuncs.canMerge(activePart, true, false))
+				return activePartFuncs.merge(value, cursor.part, true, false)
 			else
 				return moveRight()
 		}
@@ -245,9 +260,9 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 
 	// When the spacebar is pressed, try to split up the element. Only do this when the child element is the last element in the chain that can be split up. Otherwise pass it on to split the child up.
 	if (key === ' ' || key === 'Spacebar') {
-		const zoom = General.zoomIn(data)
-		if (General.canSplit(zoom) && !General.canSplit(General.zoomIn(zoom))) {
-			const split = General.split(zoom)
+		const furtherZoom = zoomIn(activeElementData)
+		if (activeElementFuncs.canSplit(activeElementData) && !getFuncs(furtherZoom).canSplit(furtherZoom)) {
+			const split = activeElementFuncs.split(activeElementData)
 			return {
 				...data,
 				value: [
@@ -288,7 +303,7 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 						part, // In the subSup.
 						cursor: {
 							part: subSupPart,
-							cursor: General[`get${toRight ? 'Start' : 'End'}Cursor`](subSup.value[subSupPart]),
+							cursor: (toRight ? getDataStartCursor : getDataEndCursor)(subSup.value[subSupPart]),
 						},
 					},
 				}
@@ -296,10 +311,10 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 
 			// Check if we are after or prior to a SubSup. In that case, only move the cursor.
 			const previousElementData = value[cursor.part - 1]
-			if (General.isCursorAtStart(activeElementData) && previousElementData && previousElementData.type === 'SubSup')
+			if (isCursorAtDataStart(activeElementData) && previousElementData && previousElementData.type === 'SubSup')
 				return moveCursorToSubSup(false)
 			const nextElementData = value[cursor.part + 1]
-			if (General.isCursorAtEnd(activeElementData) && nextElementData && nextElementData.type === 'SubSup')
+			if (isCursorAtDataEnd(activeElementData) && nextElementData && nextElementData.type === 'SubSup')
 				return moveCursorToSubSup(true)
 
 			// Split the current ExpressionPart and put an empty SubSup in-between.
@@ -319,7 +334,7 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 					part: cursor.part + 1,
 					cursor: {
 						part: subSupPart,
-						cursor: General.getStartCursor(newSubSup.value[subSupPart]),
+						cursor: getDataStartCursor(newSubSup.value[subSupPart]),
 					},
 				},
 			}
@@ -331,7 +346,9 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 }
 
 export function canMoveCursorVertically(data, up) {
-	return General.canMoveCursorVertically(General.zoomIn(data), up)
+	const activeElementData = zoomIn(data)
+	const canMoveCursorVertically = getFuncs(activeElementData).canMoveCursorVertically
+	return canMoveCursorVertically ? canMoveCursorVertically(activeElementData, up) : false
 }
 
 export function charElementClickToCursor(evt, data, trace, charElements, equationElement) {
@@ -341,15 +358,16 @@ export function charElementClickToCursor(evt, data, trace, charElements, equatio
 	const part = traceClone.shift()
 	return {
 		part,
-		cursor: General.charElementClickToCursor(evt, value[part], traceClone, charElements[part], equationElement),
+		cursor: getFuncs(value[part]).charElementClickToCursor(evt, value[part], traceClone, charElements[part], equationElement),
 	}
 }
 
 export function coordinatesToCursor(coordinates, boundsData, data, charElements, contentsElement) {
 	const part = getClosestElement(coordinates, boundsData)
+	const element = data.value[part]
 	return {
 		part,
-		cursor: General.coordinatesToCursor(coordinates, boundsData.parts[part], data.value[part], charElements[part], contentsElement)
+		cursor: getFuncs(element).coordinatesToCursor(coordinates, boundsData.parts[part], element, charElements[part], contentsElement)
 	}
 }
 
@@ -458,7 +476,7 @@ export function getMergeParts(expressionValue, partIndex, toRight, skipFirst) {
 	const edgeElementIndex = partIndex + (toRight ? 1 : -1)
 	const cursorAtEdgeOfElement = {
 		part: edgeElementIndex,
-		cursor: General[`get${toRight ? 'Start' : 'End'}Cursor`](expressionValue[edgeElementIndex]),
+		cursor: (toRight ? getDataStartCursor : getDataEndCursor)(expressionValue[edgeElementIndex]),
 	}
 	const dummyExpression = {
 		type: 'Expression',
@@ -487,19 +505,19 @@ export function getMergeParts(expressionValue, partIndex, toRight, skipFirst) {
 }
 
 export function getStartCursor(value = getEmpty()) {
-	return { part: 0, cursor: General.getStartCursor(firstOf(value)) }
+	return { part: 0, cursor: getDataStartCursor(firstOf(value)) }
 }
 
 export function getEndCursor(value = getEmpty()) {
-	return { part: value.length - 1, cursor: General.getEndCursor(lastOf(value)) }
+	return { part: value.length - 1, cursor: getDataEndCursor(lastOf(value)) }
 }
 
 export function isCursorAtStart(value, cursor) {
-	return cursor.part === 0 && General.isCursorAtStart(addCursor(firstOf(value), cursor.cursor))
+	return cursor.part === 0 && isCursorAtDataStart(addCursor(firstOf(value), cursor.cursor))
 }
 
 export function isCursorAtEnd(value, cursor) {
-	return cursor.part === value.length - 1 && General.isCursorAtEnd(addCursor(lastOf(value), cursor.cursor))
+	return cursor.part === value.length - 1 && isCursorAtDataEnd(addCursor(lastOf(value), cursor.cursor))
 }
 
 export { getEmpty, isEmpty }
@@ -527,8 +545,13 @@ export function countNetBrackets(data, relativeToCursor = 0) {
 	const { value, cursor } = data
 
 	// When we don't care about the cursor, we just sum everything up.
-	if (relativeToCursor === 0)
-		return sum(value.map(element => General.countNetBrackets(element, relativeToCursor)))
+	if (relativeToCursor === 0) {
+		return sum(value.map(element => {
+			const funcs = getFuncs(element)
+			const countNetBrackets = funcs.countNetBrackets
+			return countNetBrackets ? countNetBrackets(element, relativeToCursor) : 0
+		}))
+	}
 
 	// We care about the cursor. Check that the cursor is in an ExpressionPart element.
 	if (value[cursor.part].type !== 'ExpressionPart')
@@ -536,8 +559,11 @@ export function countNetBrackets(data, relativeToCursor = 0) {
 
 	// Find the right range and add up for that range, also taking into account the element itself.
 	const arrayPart = (relativeToCursor === -1 ? value.slice(0, cursor.part) : value.slice(cursor.part + 1))
-	const netBracketsInPreviousParts = sum(arrayPart.map(element => General.countNetBrackets(element, 0)))
-	const netBracketsInCurrentPart = ExpressionPart.countNetBrackets(General.zoomIn(data), relativeToCursor)
+	const netBracketsInPreviousParts = sum(arrayPart.map(element => {
+		const countNetBrackets = getFuncs(element).countNetBrackets
+		return countNetBrackets ? countNetBrackets(element, 0) : 0
+	}))
+	const netBracketsInCurrentPart = ExpressionPart.countNetBrackets(zoomIn(data), relativeToCursor)
 	return netBracketsInPreviousParts + netBracketsInCurrentPart
 }
 
@@ -592,13 +618,14 @@ export function canMerge() {
 }
 
 export function canSplit(data) {
-	return General.canSplit(General.zoomIn(data))
+	const activeElementData = zoomIn(data)
+	return getFuncs(activeElementData).canSplit(activeElementData)
 }
 
 // splitAtCursor takes an expression with a cursor in an expression part and splits it up into two expressions. It returns an object { left: ..., right ... } where each parameter is an expression value (so an array).
 export function splitAtCursor(data) {
 	const { value, cursor } = data
-	const activeElementData = General.zoomIn(data)
+	const activeElementData = zoomIn(data)
 	if (activeElementData.type !== 'ExpressionPart')
 		throw new Error(`Invalid splitAtCursor call: tried to split an expression up along the cursor, but this was not possible. The cursor was not in a directly descending ExpressionPart.`)
 
@@ -647,7 +674,9 @@ function cleanUpElements(data) {
 	const { value, cursor } = data
 	let newCursor = null
 	const newValue = value.map((_, part) => {
-		const newElement = General.cleanUp(General.zoomInAt(data, part))
+		const newElementUncleaned = zoomInAt(data, part)
+		const cleanUp = getFuncs(newElementUncleaned).cleanUp
+		const newElement = cleanUp ? cleanUp(newElementUncleaned) : newElementUncleaned
 		if (cursor && cursor.part === part)
 			newCursor = { part, cursor: newElement.cursor }
 		return removeCursor(newElement)
@@ -700,7 +729,14 @@ function flattenExpressionArraysFromValue(value) {
 function removeUnnecessaryElements(data) {
 	const { value, cursor } = data
 	const activeElement = cursor && value[cursor.part]
-	const filteredValue = value.filter((element, index) => !General.shouldRemove(element) || (cursor && cursor.part === index)) // Remove all elements that say they should be removed. (Unless there's a cursor in them.)
+	const filteredValue = value.filter((element, index) => { // Remove pointless object.
+		if (cursor && cursor.part === index)
+			return true // The cursor is in here. Keep it.
+		const funcs = getFuncs(element)
+		if (!funcs.shouldRemove)
+			return true // No removal function specified. Keep it.
+		return !funcs.shouldRemove(element) // Let the object decide.
+	})
 	return {
 		...data,
 		value: filteredValue,
@@ -771,19 +807,19 @@ function applyAutoReplace(data) {
 	const { cursor } = data
 	if (!cursor)
 		return data
-	const activeElementData = General.zoomIn(data)
+	const activeElementData = zoomIn(data)
 	if (activeElementData.type !== 'ExpressionPart')
 		return data
 
 	// Walk through the expression part to search for the respective functions. If they're found, create the respective function.
 	const expressionPartValue = activeElementData.value
-	Object.keys(Function.functions).forEach(name => {
-		const { aliases } = Function.functions[name]
+	Object.keys(functions).forEach(name => {
+		const { aliases, create } = functions[name]
 		aliases.forEach(alias => {
 			const toSearch = `${alias}`
 			const position = expressionPartValue.indexOf(toSearch)
 			if (position !== -1)
-				data = Function.create(data, cursor.part, position, name, alias)
+				data = create(data, cursor.part, position, name, alias)
 		})
 	})
 
