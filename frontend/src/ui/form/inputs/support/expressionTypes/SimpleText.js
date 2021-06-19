@@ -7,17 +7,24 @@ import { latexMinus } from 'ui/components/equations'
 import { emptyElementChar, emptyElementCharLatex } from '../MathWithCursor'
 import * as ExpressionPart from './ExpressionPart'
 
-export function toLatex(data) {
+export function toLatex(data, options = {}) {
+	return {
+		latex: getLatex(data, options),
+		chars: getLatexChars(data, options),
+	}
+}
+
+function getLatex(data) {
 	const { value } = data
 	return value === '' ? emptyElementCharLatex : `{\\rm ${value}}`
 }
 
-export function getLatexChars(data) {
+function getLatexChars(data) {
 	let { value } = data
 	if (value === '')
 		return emptyElementChar.split('')
 
-	value = value.replaceAll('*', '∗') // This is what appears for the cdot.
+	value = value.replaceAll('*', '∗') // This is what appears for the star.
 	value = value.replaceAll('-', latexMinus) // Latex minuses.
 	return value.split('')
 }

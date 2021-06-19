@@ -9,14 +9,12 @@ import * as Expression from './Expression'
 
 const parts = ['den', 'num'] // Katex puts the denominator first in its HTML rendering, so put that first.
 
-export function toLatex(data) {
-	const { value } = data
-	return `\\frac{${General.toLatex(value.num)}}{${General.toLatex(value.den)}}`
-}
-
-export function getLatexChars(data) {
-	const { value } = data
-	return parts.map(part => General.getLatexChars(value[part]))
+export function toLatex(data, options = {}) {
+	const latex = parts.map(part => General.toLatex(data.value[part], options))
+	return {
+		latex: `\\frac{${latex[partToIndex('num')].latex}}{${latex[partToIndex('den')].latex}}`,
+		chars: latex.map(partLatex => partLatex.chars),
+	}
 }
 
 export function partToIndex(part) {

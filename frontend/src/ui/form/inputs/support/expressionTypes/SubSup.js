@@ -9,17 +9,20 @@ import * as SimpleText from './SimpleText'
 
 const parts = ['sub', 'sup']
 
-export function toLatex(data) {
+export function toLatex(data, options = {}) {
 	const { value } = data
-	const { sub, sup } = value
-	const subLatex = sub ? `_{${General.toLatex(sub)}}` : ''
-	const supLatex = sup ? `^{${General.toLatex(value.sup)}}` : ''
-	return `${subLatex}${supLatex}`
-}
-
-export function getLatexChars(data) {
-	const { value } = data
-	return parts.map(part => value[part] ? General.getLatexChars(value[part]) : []).filter(array => array.length > 0) // Only add an array for a part that actually exists.
+	let latex = ''
+	let chars = []
+	parts.forEach(part => {
+		const element = value[part]
+		if (element) {
+			const partLatex = General.toLatex(element)
+			const preSymbol = part === 'sub' ? '_' : '^'
+			latex += `${preSymbol}{${partLatex.latex}}`
+			chars.push(partLatex.chars)
+		}
+	})
+	return { latex, chars }
 }
 
 export function partToIndex(value, part) {

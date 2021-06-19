@@ -1,5 +1,6 @@
 import { insertAtIndex } from 'step-wise/util/strings'
 import { firstOf, lastOf, arraySplice, sum } from 'step-wise/util/arrays'
+import { isObject } from 'step-wise/util/objects'
 import { repeatWithIndices } from 'step-wise/util/functions'
 import { isEmpty, getEmpty } from 'step-wise/inputTypes/Expression'
 
@@ -11,12 +12,34 @@ import * as SubSup from './SubSup'
 import * as Function from './Function'
 
 export function toLatex(data) {
-	const { value } = data
+	let { value } = data
 
-	// ToDo next: first walk through the expression, extracting arguments for special functions. Find a special function, find its delimiter, plug it all together, and pass it to said function.
+	// ToDo: remove this later on.
+	// // First process functions. Walk from right to left. For each function we find, find the corresponding delimiter, and get the Latex accordingly.
+	// for (let index = value.length - 1; index >= 0; index--) {
+	// 	const element = value[index]
+	// 	if (element.type !== 'Function')
+	// 		continue
+
+	// 	// We have a function. Let's find the delimiter. Then extract the argument and use it to generate Latex code for the function.
+	// 	const delimiterData = findFunctionDelimiter(value, index)
+	// 	const leftCursor = { part: index + 1, cursor: 0 }
+	// 	const rightCursor = { part: delimiterData.part, cursor: delimiterData.position }
+	// 	const argument = { type: 'Expression', value: getSubExpression(value, leftCursor, rightCursor) }
+	// 	const latexWithChars = Function.toLatex(element, { argument, delimiter: delimiterData.delimiter })
+
+	// 	// Plug the latex code into the expression and assemble the remainder around it.
+	// 	const expressionPartRemainder = value[delimiterData.part].value.substring(delimiterData.position + (delimiterData.delimiter ? delimiterData.delimiter.length : 0))
+	// 	value = [
+	// 		...value.slice(0, index), // Elements before the function.
+	// 		latexWithChars,
+	// 		{ type: 'ExpressionPart', value: expressionPartRemainder },
+	// 		...value.slice(delimiterData.part + 1),
+	// 	]
+	// }
 
 	// Get the Latex of each individual element. For this, assemble the options properly.
-	const latexPerElement = value.map((element, index) => {
+	const latexAndCharsPerElement = value.map((element, index) => {
 		const nextElement = value[index + 1]
 
 		// Check if we have a set-up like f_1(x): a SubSup followed by a bracket.
@@ -32,7 +55,11 @@ export function toLatex(data) {
 		return General.toLatex(element, { index, beforeSubSupWithBrackets })
 	})
 
-	// Arrange the brackets.
+	// We now have an array with latex and chars mixed. Let's extract the latex and the chars.
+	const latexPerElement = latexAndCharsPerElement.map(elementLatexAndChars => elementLatexAndChars.latex)
+	const chars = latexAndCharsPerElement.map(elementLatexAndChars => elementLatexAndChars.chars)
+
+	// Arrange the brackets. Do this before joining the array because using indices we can still find which elements are ExpressionParts: the odd indices.
 	let latex = processExpressionPartBrackets(latexPerElement).join('')
 
 	// If there are certain signs at the start or end, add spacing. This is to prevent inconsistent Latex spacing when you for instance type "a+" and then type "b" after. Without this, the plus sign jumps.
@@ -44,13 +71,57 @@ export function toLatex(data) {
 		latex = insertAtIndex(latex, latex.length - end.length, '\\: ')
 
 	// All done.
-	return latex
+	console.log(latex)
+	return { latex, chars }
 }
 
-export function getLatexChars(data) {
-	const { value } = data
-	return value.map(General.getLatexChars)
-}
+// ToDo later: remove this or implement it.
+// // findFunctionDelimiter gets an Expression value and a part index pointing to a Function. It then takes this function and searches in the Expression for the matching delimiter. An object is returned { delimiter: 'dz', part: 3, position: 5 } or similar, where the position points to the first character of the delimiter. The delimiter is undefined when no matching delimiter has been found.
+// // Note that the Expression must be evaluated from right to left, or otherwise "int 2 + sqrt(3*dx" will match the integral with dx, while here it should not do so because of the missing bracket.
+// function findFunctionDelimiter(value, part) {
+// 	const element = value[part]
+// 	const functionData = Function.functions[element.name]
+// 	const { delimiter } = functionData
+
+// 	// What we do depends on the type of delimiter.
+// 	if (delimiter === ')') {
+// 		// We have a bracket delimiter. Walk to the right until the net bracket count reaches 0.
+// 		let netBracketCount = 1 // The function has an opening bracket.
+// 		for (let delimiterIndex = part + 1; delimiterIndex < value.length; delimiterIndex++) {
+// 			const currElement = value[delimiterIndex]
+// 			if (currElement.type !== 'ExpressionPart') {
+// 				// No ExpressionPart. Just check if there are brackets and add this to the count.
+// 				netBracketCount += General.countNetBrackets(currElement, 0)
+// 			} else {
+// 				// An ExpressionPart. Walk through it to see if the netBracketCount drops below zero at some point.
+// 				const str = currElement.value
+// 				for (let charIndex = 0; charIndex < str.length; charIndex++) {
+// 					if (str[charIndex] === '(')
+// 						netBracketCount++
+// 					else if (str[charIndex] === ')')
+// 						netBracketCount--
+// 					if (netBracketCount <= 0) {
+// 						return {
+// 							delimiter,
+// 							part: delimiterIndex,
+// 							position: charIndex,
+// 						}
+// 					}
+// 				}
+
+// 				// No matching closing bracket has been found. Return the end of the expression.
+// 				return {
+// 					delimiter: undefined,
+// 					part: value.length - 1,
+// 					position: lastOf(value).length
+// 				}
+// 			}
+// 		}
+// 	}
+
+// 	// ToDo later: when integrals come into play, a delimiter like /d[a-zA-Z+greek]/ would be required. Implement that then.
+// 	throw new Error(`Invalid delimiter: no delimiter other than a closing bracket is supported at this moment.`)
+// }
 
 export function getCursorProperties(data, charElements, container) {
 	const { cursor, value } = data
@@ -336,6 +407,10 @@ export function findEndOfTerm(data, toRight = true, skipFirst = false) {
 	while (hasNextSymbol()) {
 		const nextSymbol = getNextSymbol()
 
+		// On an encountered function, return the current cursor position.
+		if (isObject(nextSymbol) && nextSymbol.type === 'Function')
+			return { part: partIterator, cursor: cursorIterator }
+
 		// On a breaking character, return the current cursor position. 
 		if (bracketCount === 0 && ['+', '-', '*'].includes(nextSymbol))
 			return { part: partIterator, cursor: cursorIterator }
@@ -453,7 +528,7 @@ export function countNetBrackets(data, relativeToCursor = 0) {
 
 	// When we don't care about the cursor, we just sum everything up.
 	if (relativeToCursor === 0)
-		return sum(value.map(element => element.type === 'ExpressionPart' ? ExpressionPart.countNetBrackets(element) : 0))
+		return sum(value.map(element => General.countNetBrackets(element, relativeToCursor)))
 
 	// We care about the cursor. Check that the cursor is in an ExpressionPart element.
 	if (value[cursor.part].type !== 'ExpressionPart')
@@ -461,7 +536,7 @@ export function countNetBrackets(data, relativeToCursor = 0) {
 
 	// Find the right range and add up for that range, also taking into account the element itself.
 	const arrayPart = (relativeToCursor === -1 ? value.slice(0, cursor.part) : value.slice(cursor.part + 1))
-	const netBracketsInPreviousParts = sum(arrayPart.map(element => element.type === 'ExpressionPart' ? ExpressionPart.countNetBrackets(element) : 0))
+	const netBracketsInPreviousParts = sum(arrayPart.map(element => General.countNetBrackets(element, 0)))
 	const netBracketsInCurrentPart = ExpressionPart.countNetBrackets(General.zoomIn(data), relativeToCursor)
 	return netBracketsInPreviousParts + netBracketsInCurrentPart
 }
@@ -471,9 +546,14 @@ function processExpressionPartBrackets(arr) {
 	// Walk through the ExpressionParts, one by one and inside. Memorize opening brackets. Whenever we encounter a closing bracket, match it to the previous opening backet.
 	let openingBrackets = []
 	arr.forEach((_, index) => {
-		// Keep non-expression-parts as is.
-		if (index % 2 === 1)
+		// For non-expression-parts, check if they end with a bracket. If so, remember this. For the rest, keep them as is.
+		if (index % 2 === 1) {
+			const latex = arr[index]
+			const lastCharIndex = latex.length - 1
+			if (latex[lastCharIndex] === '(')
+				openingBrackets.push({ index, char: lastCharIndex })
 			return
+		}
 
 		// Walk through the string.
 		for (let char = 0; char < arr[index].length; char++) {
@@ -687,51 +767,25 @@ function alternateExpressionParts(data) {
 }
 
 function applyAutoReplace(data) {
-	// Check if the cursor is in an expression part. If not, we don't apply auto-replace.
-	const { cursor, value } = data
+	// Check if the cursor is in an expression part. If not, don't apply auto-replace.
+	const { cursor } = data
 	if (!cursor)
 		return data
 	const activeElementData = General.zoomIn(data)
 	if (activeElementData.type !== 'ExpressionPart')
 		return data
 
-	// Walk through the expression part to search for the respective functions. If they're found, insert 
-	const part = cursor.part
-	let newValue = value
-	let newCursor = cursor
+	// Walk through the expression part to search for the respective functions. If they're found, create the respective function.
 	const expressionPartValue = activeElementData.value
 	Object.keys(Function.functions).forEach(name => {
 		const { aliases } = Function.functions[name]
 		aliases.forEach(alias => {
-			const toSearch = `${alias}(`
+			const toSearch = `${alias}`
 			const position = expressionPartValue.indexOf(toSearch)
-			if (position !== -1) {
-				newValue = [
-					...newValue.slice(0, part),
-					{ type: 'ExpressionPart', value: expressionPartValue.substring(0, position) },
-					{ type: 'Function', name, alias, value: Function.getEmpty(name, alias) },
-					{ type: 'ExpressionPart', value: expressionPartValue.substring(position + toSearch.length) },
-					...newValue.slice(part + 1),
-				]
-				newCursor = cursor.cursor <= position ? newCursor : {
-					part: part + 2,
-					cursor: Math.max(cursor.cursor - (position + toSearch.length), 0),
-				}
-			}
+			if (position !== -1)
+				data = Function.create(data, cursor.part, position, name, alias)
 		})
 	})
 
-	// Return the result. If it didn't change, keep the reference intact.
-	if (cursor === newCursor && value === newValue)
-		return data
-	console.log({
-		...data,
-		cursor: newCursor,
-		value: newValue,
-	})
-	return {
-		...data,
-		cursor: newCursor,
-		value: newValue,
-	}
+	return data
 }

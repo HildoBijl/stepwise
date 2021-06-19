@@ -12,7 +12,20 @@ import * as Expression from './Expression'
 
 const basicFunctions = ['sin', 'cos', 'tan', 'asin', 'acos', 'atan', 'arcsin', 'arccos', 'arctan', 'ln'] // ToDo later: put this in a mathematics file and import it here.
 
+const autoReplaceSymbols = [
+	{ name: 'pm', symbol: '±' },
+	{ name: 'mp', symbol: '∓' },
+	...Object.values(greekAlphabet),
+]
+
 export function toLatex(data, options = {}) {
+	return {
+		latex: getLatex(data, options),
+		chars: getLatexChars(data, options),
+	}
+}
+
+function getLatex(data, options) {
 	const { value } = data
 	const { index, beforeSubSupWithBrackets } = options
 
@@ -37,7 +50,7 @@ export function toLatex(data, options = {}) {
 	return latex
 }
 
-export function getLatexChars(data) {
+function getLatexChars(data) {
 	let { value } = data
 	if (value === '')
 		return emptyElementChar.split('')
@@ -212,20 +225,20 @@ export function applyAutoReplace(data) {
 	let { value, cursor } = data
 	const hasCursor = !!cursor || cursor === 0
 
-	// Apply an auto-replace on the Greek alphabet. For each letter, replace all instances and shift the cursor along accordingly.
+	// Apply an auto-replace on all auto-replace symbols. For each symbol, replace all instances and shift the cursor along accordingly.
 	let found = false
-	Object.values(greekAlphabet).forEach(letter => {
-		let position = value.search(letter.name)
+	autoReplaceSymbols.forEach(symbol => {
+		let position = value.search(symbol.name)
 		while (position !== -1) {
 			found = true
-			value = value.replace(letter.name, letter.symbol)
+			value = value.replace(symbol.name, symbol.symbol)
 			if (cursor !== null) {
-				if (cursor > position && cursor <= position + letter.name.length)
-					cursor = position + letter.symbol.length
-				if (cursor > position + letter.name.length)
-					cursor -= (letter.name.length - letter.symbol.length)
+				if (cursor > position && cursor <= position + symbol.name.length)
+					cursor = position + symbol.symbol.length
+				if (cursor > position + symbol.name.length)
+					cursor -= (symbol.name.length - symbol.symbol.length)
 			}
-			position = value.search(letter.name)
+			position = value.search(symbol.name)
 		}
 	})
 

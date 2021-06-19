@@ -16,14 +16,22 @@ const functions = {
 	Function,
 }
 
-// toLatex takes a value object and turns it into Latex code.
-export function toLatex(data, options) {
-	return functions[data.type].toLatex(data, options)
+// getFuncs takes a data object and returns an object with all the functions for that data type.
+export function getFuncs(data) {
+	const funcs = functions[data.type]
+	if (!funcs)
+		throw new Error(`Invalid data type: cannot find functions for data type "${data.type}".`)
+	return funcs
 }
 
-// getLatexChars must return a list of all the characters that appear in the Katex rendering of the equation, in the order in which they appear in said rendering. (Yes, this sadly requires back-engineering Katex.)
-export function getLatexChars(data) {
-	return functions[data.type].getLatexChars(data)
+// toLatex takes a data object and returns an object { latex: ..., chars: ... } where latex has the latex code and chars show the chars that will be in said latex code, in the order in which Katex renders them. (Yes, this requires back-engineering Katex, but otherwise we cannot trace elements in the equation.)
+export function toLatex(data, options) {
+	// If the data is already turned into Latex, then do nothing.
+	if (data.type === 'LatexWithChars')
+		return data
+
+	// Pass on the call to the corresponding function.
+	return functions[data.type].toLatex(data, options)
 }
 
 // getCursorProperties takes a data object and an array of char elements and uses this to determine the properties { x, y, height } that the cursor should have.
@@ -83,6 +91,11 @@ export function isEmpty(data) {
 export function shouldRemove(data) {
 	const { type, value } = data
 	return functions[type].shouldRemove(value)
+}
+
+export function countNetBrackets(data, relativeToCursor = 0) {
+	const func = functions[data.type] && functions[data.type].countNetBrackets
+	return (func && func(data, relativeToCursor)) || 0
 }
 
 export function canMerge(data, mergeWithNext, fromOutside) {

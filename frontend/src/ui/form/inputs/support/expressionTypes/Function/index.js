@@ -7,24 +7,55 @@ import * as General from '../index'
 import * as Expression from '../Expression'
 
 import * as sqrt from './sqrt'
+import * as log from './log'
 
 const functions = {
 	sqrt,
+	log,
 }
 export { functions }
 
-export function toLatex(data) {
-	return functions[data.name].toLatex(data)
+export function create(expressionData, part, position, name, alias) {
+	// If the given function has this specified, apply it.
+	const functionOfType = functions[name].create
+	if (functionOfType)
+		return functionOfType(expressionData, part, position, name, alias)
+
+	// Apply the default procedure. First set up the new value.
+	console.log('Creating for ' + alias)
+	const { value, cursor } = expressionData
+	const expressionPartValue = value[part].value
+	const newValue = [
+		...value.slice(0, part),
+		{ type: 'ExpressionPart', value: expressionPartValue.substring(0, position) },
+		{ type: 'Function', name, alias, value: getEmpty(name, alias) },
+		{ type: 'ExpressionPart', value: expressionPartValue.substring(position + alias.length) },
+		...value.slice(part + 1),
+	]
+
+	// Then figure out where we need to put the cursor.
+	let newCursor
+	if (!cursor)
+		newCursor = null
+	else if (cursor.part < part)
+		newCursor = cursor // Keep it where it is.
+	else if (cursor.part > part)
+		newCursor = { part: cursor.part + 2, cursor: cursor.cursor } // Keep it where it is, but two parts have been added prior to it.
+	else
+		newCursor = { part: cursor.part + 2, cursor: 0 } // Move right after the new function.
+
+	return {
+		...expressionData,
+		value: newValue,
+		cursor: newCursor,
+	}
 }
 
-export function getLatexChars(data) {
-	// If the given function has this specified, apply it.
-	const functionOfType = functions[data.name].getLatexChars
-	if (functionOfType)
-		return functionOfType(data)
-
-	// Use the default function.
-	return data.value.map(General.getLatexChars)
+export function toLatex(data, options) {
+	return {
+		type: 'LatexWithChars',
+		...functions[data.name].toLatex(data, options),
+	}
 }
 
 export function getCursorProperties(data, charElements, container) {
@@ -175,151 +206,42 @@ export function shouldRemove(value) {
 	return false
 }
 
-export function canMerge() {
-	return false // TODO
+export function countNetBrackets(data, relativeToCursor) {
+	// If the given function has this specified, apply it.
+	const functionOfType = functions[data.name].countNetBrackets
+	if (functionOfType)
+		return functionOfType(data, relativeToCursor)
+
+	// Use the default value.
+	return 1 // Assume that it's something like "log(" with an opening bracket.
 }
 
-export function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {
-	// const fraction = expressionValue[partIndex].value
+export function canMerge(data, mergeWithNext, fromOutside) {
+	// If the given function has this specified, apply it.
+	const functionOfType = functions[data.name].canMerge
+	if (functionOfType)
+		return functionOfType(data, mergeWithNext, fromOutside)
 
-	// // Get the part that needs to be pulled in.
-	// const { toPullIn, toLeaveBehind, cursorAtBreak } = Expression.getMergeParts(expressionValue, partIndex, mergeWithNext, true)
+	// Use the default value.
+	return false
+}
 
-	// // If the expression to pull in is empty, and we came from inside, move the cursor outside.
-	// if (!fromOutside && Expression.isEmpty(toPullIn)) {
-	// 	return {
-	// 		type: 'Expression',
-	// 		value: expressionValue,
-	// 		cursor: cursorAtBreak,
-	// 	}
-	// }
-
-	// // Should we merge with the next?
-	// if (mergeWithNext) { // Yes, merge with the next.
-	// 	// Set up the new denominator.
-	// 	const newDen = Expression.cleanUp({
-	// 		...fraction.den,
-	// 		value: [
-	// 			...fraction.den.value, // Take what was in the denominator.
-	// 			...toPullIn, // Add what needs to be pulled in.
-	// 		],
-	// 		cursor: Expression.getEndCursor(fraction.den.value), // Put the cursor at the end of the previous denominator.
-	// 	})
-
-	// 	// Set up the complete expression.
-	// 	return {
-	// 		type: 'Expression',
-	// 		value: [
-	// 			...expressionValue.slice(0, partIndex), // Keep previous elements.
-	// 			{ // Extend the fraction.
-	// 				...expressionValue[partIndex],
-	// 				value: {
-	// 					num: fraction.num, // Keep the numerator.
-	// 					den: removeCursor(newDen), // Use the new denominator.
-	// 				},
-	// 			},
-	// 			...toLeaveBehind, // Keep what is left behind in the Expression.
-	// 		],
-	// 		cursor: {
-	// 			part: partIndex,
-	// 			cursor: {
-	// 				part: 'den',
-	// 				cursor: newDen.cursor, // Use the cursor of the new denominator.
-	// 			},
-	// 		},
-	// 	}
-	// } else { // We should merge with the previous.
-	// 	// Set up the new numerator.
-	// 	const newNum = Expression.cleanUp({
-	// 		...fraction.num,
-	// 		value: [
-	// 			...toPullIn, // Add what needs to be pulled in.
-	// 			...fraction.num.value, // Take what was in the numerator.
-	// 		],
-	// 		cursor: Expression.getEndCursor(toPullIn), // Put the cursor at the end of the pulled-in expression.
-	// 	})
-
-	// 	// Set up the complete expression.
-	// 	return {
-	// 		type: 'Expression',
-	// 		value: [
-	// 			...toLeaveBehind, // Keep what is left behind in the Expression.
-	// 			{ // Extend the fraction.
-	// 				...expressionValue[partIndex],
-	// 				value: {
-	// 					num: removeCursor(newNum), // Use the new numerator.
-	// 					den: fraction.den, // Keep the denominator.
-	// 				},
-	// 			},
-	// 			...expressionValue.slice(partIndex + 1), // Keep remaining elements.
-	// 		],
-	// 		cursor: {
-	// 			part: toLeaveBehind.length,
-	// 			cursor: {
-	// 				part: 'num',
-	// 				cursor: newNum.cursor, // Use the cursor of the new denominator.
-	// 			},
-	// 		},
-	// 	}
-	// }
+export function merge(data, mergeWithNext, fromOutside) {
+	return functions[data.name].merge(data, mergeWithNext, fromOutside) // If a function has specified that it can do this, it will have a function for it.
 }
 
 export function canSplit(data) {
-	return false // TODO
+	// If the given function has this specified, apply it.
+	const functionOfType = functions[data.name].canSplit
+	if (functionOfType)
+		return functionOfType(data)
+
+	// Use the default value.
+	return false
 }
 
 export function split(data) {
-	// const { value, cursor } = data
-	// const split = Expression.splitAtCursor(General.zoomIn(data))
-
-	// // How to assemble things depends on whether we split up a numerator or denominator.
-	// if (cursor.part === 'num') {
-	// 	const newNum = Expression.cleanUp({
-	// 		type: 'Expression',
-	// 		value: split.right, // Keep the right part of the numerator.
-	// 	})
-	// 	const newFractionData = {
-	// 		type: 'Fraction',
-	// 		value: {
-	// 			num: newNum,
-	// 			den: value.den, // Keep the denominator.
-	// 		},
-	// 	}
-	// 	return {
-	// 		type: 'Expression',
-	// 		value: [
-	// 			...split.left, // Put the left part of the numerator outside of the fraction.
-	// 			newFractionData,
-	// 		],
-	// 		cursor: {
-	// 			part: split.left.length,
-	// 			cursor: General.getStartCursor(newFractionData),
-	// 		},
-	// 	}
-	// } else {
-	// 	const newDen = Expression.cleanUp({
-	// 		type: 'Expression',
-	// 		value: split.left, // Keep the left part of the denominator.
-	// 	})
-	// 	const newFractionData = {
-	// 		type: 'Fraction',
-	// 		value: {
-	// 			num: value.num, // Keep the numerator.
-	// 			den: newDen,
-	// 		},
-	// 	}
-	// 	return {
-	// 		type: 'Expression',
-	// 		value: [
-	// 			newFractionData,
-	// 			...split.right, // Put the right part of the denominator outside of the fraction.
-	// 		],
-	// 		cursor: {
-	// 			part: 1,
-	// 			cursor: General.getStartCursor(firstOf(split.right)),
-	// 		},
-	// 	}
-	// }
+	return functions[data.name].split(data) // If a function has specified that it can do this, it will have a function for it.
 }
 
 export function cleanUp(data) {

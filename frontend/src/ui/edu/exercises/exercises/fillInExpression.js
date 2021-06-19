@@ -22,7 +22,7 @@ function Problem({ index }) {
 		<InputSpace>
 			<Par>
 				<ExpressionInput id="ans" prelabel={<M>x=</M>} label="Vul hier de uitdrukking in" size="s" />
-				<ExpressionInput id="y" prelabel={<M>y=</M>} label="Vul hier de uitdrukking in" size="s" />
+				{/* <ExpressionInput id="y" prelabel={<M>y=</M>} label="Vul hier de uitdrukking in" size="s" /> */}
 			</Par>
 		</InputSpace>
 	</>

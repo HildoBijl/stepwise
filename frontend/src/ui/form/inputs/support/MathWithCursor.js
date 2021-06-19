@@ -24,15 +24,7 @@ export default function MathWithCursor({ contentsRef, ...data }) {
 	const { type, value, cursor } = data
 	const context = useMathWithCursorContext()
 	const charElementsRef = context && context.charElementsRef
-	const storeCharElements = context && context.storeCharElements
 	const cursorRef = useAbsoluteCursorRef()
-
-	// When the value changes, the equation is rerendered. In that case also update the charElements.
-	useEffect(() => {
-		const equationElement = contentsRef.current.getElementsByClassName('katex-html')[0]
-		const charElements = getCharElements(equationElement, { type, value })
-		storeCharElements(charElements)
-	}, [contentsRef, type, value, storeCharElements])
 
 	// When the cursor changes, or the value changes (like on a delete key), reposition the cursor.
 	useEffect(() => {
@@ -47,18 +39,26 @@ export default function MathWithCursor({ contentsRef, ...data }) {
 		cursorHandle.show(cursorProperties)
 	}, [contentsRef, charElementsRef, cursorRef, type, value, cursor])
 
-	return <MathWithoutCursor type={type} value={value} />
+	return <MathWithoutCursor type={type} value={value} contentsRef={contentsRef} />
 }
 
-// A separate MathWithoutCursor element is used that does not get the cursor. This makes sure it only rerenders on changes in value.
-function MathWithoutCursor({ type, value }) {
-	const latex = processLatex(toLatex({ type, value }))
+// A separate MathWithoutCursor element is used that does not get the cursor. This makes sure it only rerenders on changes in value. It does make sure that the MathWithCursor context knows of all the characters in the equation.
+function MathWithoutCursor({ type, value, contentsRef }) {
+	// Access the context in which char elements need to be stored.
+	const context = useMathWithCursorContext()
+	const storeCharElements = context && context.storeCharElements
+
+	// Set up the latex, extract char elements and store them.
+	const { latex, chars } = toLatex({ type, value })
+
+	// Whenever the equation changes, trace all characters again.
+	useEffect(() => {
+		const equationElement = contentsRef.current.getElementsByClassName('katex-html')[0]
+		storeCharElements(matchCharElements(equationElement, chars))
+	}, [contentsRef, type, value, storeCharElements, chars])
+
+	// Render the equation!
 	return <RBM>{latex}</RBM>
-}
-
-// processLatex will do some final adjustments to the Latex code to make it a bit prettier when the Latex is used for input fields.
-function processLatex(latex) {
-	return latex // No processing at the moment.
 }
 
 // A context can be used by the consuming input field to access the charElements.
@@ -85,10 +85,9 @@ export function useMathWithCursorContext() {
 	return useContext(MathWithCursorContext)
 }
 
-// getCharElements takes an expression and finds all the DOM elements related to all characters.
-export function getCharElements(equationElement, data) {
+// matchCharElements takes an expression and finds all the DOM elements related to all characters.
+export function matchCharElements(equationElement, latexChars) {
 	// Get all the chars that should be there. Compare this with all the chars that are rendered to check if this matches out. (If not, the whole plan fails.)
-	const latexChars = getLatexChars(data)
 	const textLatexChars = flattenFully(latexChars).join('')
 	const textContent = equationElement.textContent.replaceAll(zeroWidthSpace, '') // Get all text in HTML elements, but remove zero-width spaces.
 	if (textContent !== textLatexChars)
@@ -97,6 +96,9 @@ export function getCharElements(equationElement, data) {
 	// Extract all DOM elements (leafs) with a character and match them appropriately.
 	const allElements = [...equationElement.getElementsByTagName('*')]
 	const charElementList = allElements.filter(isCharElement)
+	console.log(charElementList)
+	console.log(charElementList.map(el => el.textContent))
+	console.log(latexChars)
 	const charElements = forceIntoShape(charElementList, latexChars)
 	return charElements
 }
