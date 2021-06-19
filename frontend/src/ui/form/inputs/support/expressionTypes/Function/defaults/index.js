@@ -5,7 +5,7 @@ import { firstOf, lastOf, arraySplice } from 'step-wise/util/arrays'
 import { removeCursor } from '../../../Input'
 import { getClosestElement } from '../../../MathWithCursor'
 
-import { getFuncs, zoomIn, getDataStartCursor, getDataEndCursor, isCursorAtDataStart, isCursorAtDataEnd, isDataEmpty } from '../../'
+import { getFuncs, zoomIn, zoomInAt, getDataStartCursor, getDataEndCursor, isCursorAtDataStart, isCursorAtDataEnd, isDataEmpty } from '../../'
 import { getEmpty as getEmptyExpression } from '../../Expression'
 
 const allFunctions = {
@@ -21,6 +21,7 @@ const allFunctions = {
 	isCursorAtEnd,
 	getEmpty,
 	isEmpty,
+	cleanUp,
 }
 export default allFunctions
 
@@ -141,4 +142,30 @@ function getEmpty(numParameters = 1) {
 
 function isEmpty(value) {
 	return value.every(element => isDataEmpty(element))
+}
+
+function cleanUp(data) {
+	const { value, cursor } = data
+
+	// Clean up the parts individually, keeping track of the cursor.
+	let newCursor = null
+	const newValue = value.map((_, part) => {
+		// Clean up the element if we can.
+		const element = zoomInAt(data, part)
+		const cleanUp = getFuncs(element).cleanUp
+		const cleanedElement = cleanUp ? cleanUp(element) : element
+
+		// Extract the possibly adjusted cursor positions.
+		if (cursor && cursor.part === part)
+			newCursor = { part, cursor: cleanedElement.cursor }
+		return removeCursor(cleanedElement)
+	})
+
+	// Assemble everything.
+	return {
+		...data,
+		value: newValue,
+		cursor: newCursor,
+	}
+
 }

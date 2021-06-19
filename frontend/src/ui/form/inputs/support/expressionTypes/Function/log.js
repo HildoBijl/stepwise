@@ -14,11 +14,11 @@ function toLatex(data, options) {
 	const { value } = data
 	const [parameter] = value
 	const parameterLatex = getFuncs(parameter).toLatex(parameter, options)
-	const logCharsArray = 'log('.split('')
-	logCharsArray.include = false
+	const nameCharsArray = 'log('.split('')
+	nameCharsArray.include = false // Make sure that the name cannot be clicked on for cursor positioning.
 	return {
 		latex: `{}^{${parameterLatex.latex}}{\\rm log}\\!(`,
-		chars: [parameterLatex.chars, logCharsArray],
+		chars: [parameterLatex.chars, nameCharsArray],
 	}
 }
 

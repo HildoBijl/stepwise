@@ -15,14 +15,15 @@ const allFunctions = {
 	merge,
 	canSplit,
 	split,
+	removeElement,
 }
 export default allFunctions
 
-export function canMerge(data, mergeWithNext, fromOutside) {
+function canMerge(data, mergeWithNext, fromOutside) {
 	return true
 }
 
-export function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {
+function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {
 	const element = expressionValue[partIndex]
 	const parameter = element.value[0]
 
@@ -73,13 +74,11 @@ export function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {
 	}
 }
 
-export function canSplit(data) {
-	if (!data.cursor)
-		return false
+function canSplit(data) {
 	return !isCursorAtDataStart(zoomIn(data))
 }
 
-export function split(data) {
+function split(data) {
 	const split = Expression.splitAtCursor(zoomIn(data))
 
 	// Set up the new parameter.
@@ -108,7 +107,7 @@ export function split(data) {
 	}
 }
 
-export function removeElement(expressionValue, partIndex, withBackspace) {
+function removeElement(expressionValue, partIndex, withBackspace) {
 	const element = expressionValue[partIndex]
 	const { alias } = element
 

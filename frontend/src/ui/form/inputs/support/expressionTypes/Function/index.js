@@ -1,8 +1,8 @@
-// import sqrt from './sqrt' // TODO
+import sqrt from './sqrt'
 import log from './log'
 
 const functions = {
-	// sqrt, // TODO
+	sqrt,
 	log,
 }
 export { functions }

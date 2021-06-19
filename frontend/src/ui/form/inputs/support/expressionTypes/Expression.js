@@ -14,30 +14,6 @@ import { functions } from './Function'
 export function toLatex(data) {
 	let { value } = data
 
-	// ToDo: remove this later on. We can use this for interpreting though.
-	// // First process functions. Walk from right to left. For each function we find, find the corresponding delimiter, and get the Latex accordingly.
-	// for (let index = value.length - 1; index >= 0; index--) {
-	// 	const element = value[index]
-	// 	if (element.type !== 'Function')
-	// 		continue
-
-	// 	// We have a function. Let's find the delimiter. Then extract the argument and use it to generate Latex code for the function.
-	// 	const delimiterData = findFunctionDelimiter(value, index)
-	// 	const leftCursor = { part: index + 1, cursor: 0 }
-	// 	const rightCursor = { part: delimiterData.part, cursor: delimiterData.position }
-	// 	const argument = { type: 'Expression', value: getSubExpression(value, leftCursor, rightCursor) }
-	// 	const latexWithChars = Function.toLatex(element, { argument, delimiter: delimiterData.delimiter })
-
-	// 	// Plug the latex code into the expression and assemble the remainder around it.
-	// 	const expressionPartRemainder = value[delimiterData.part].value.substring(delimiterData.position + (delimiterData.delimiter ? delimiterData.delimiter.length : 0))
-	// 	value = [
-	// 		...value.slice(0, index), // Elements before the function.
-	// 		latexWithChars,
-	// 		{ type: 'ExpressionPart', value: expressionPartRemainder },
-	// 		...value.slice(delimiterData.part + 1),
-	// 	]
-	// }
-
 	// Get the Latex of each individual element. For this, assemble the options properly.
 	const latexAndCharsPerElement = value.map((element, index) => {
 		const nextElement = value[index + 1]
@@ -81,54 +57,6 @@ export function toLatex(data) {
 	// All done.
 	return { latex, chars }
 }
-
-// ToDo later: remove this or implement it.
-// // findFunctionDelimiter gets an Expression value and a part index pointing to a Function. It then takes this function and searches in the Expression for the matching delimiter. An object is returned { delimiter: 'dz', part: 3, position: 5 } or similar, where the position points to the first character of the delimiter. The delimiter is undefined when no matching delimiter has been found.
-// // Note that the Expression must be evaluated from right to left, or otherwise "int 2 + sqrt(3*dx" will match the integral with dx, while here it should not do so because of the missing bracket.
-// function findFunctionDelimiter(value, part) {
-// 	const element = value[part]
-// 	const functionData = Function.functions[element.name]
-// 	const { delimiter } = functionData
-
-// 	// What we do depends on the type of delimiter.
-// 	if (delimiter === ')') {
-// 		// We have a bracket delimiter. Walk to the right until the net bracket count reaches 0.
-// 		let netBracketCount = 1 // The function has an opening bracket.
-// 		for (let delimiterIndex = part + 1; delimiterIndex < value.length; delimiterIndex++) {
-// 			const currElement = value[delimiterIndex]
-// 			if (currElement.type !== 'ExpressionPart') {
-// 				// No ExpressionPart. Just check if there are brackets and add this to the count.
-// 				netBracketCount += getFuncs(currElement).countNetBrackets(currElement, 0)
-// 			} else {
-// 				// An ExpressionPart. Walk through it to see if the netBracketCount drops below zero at some point.
-// 				const str = currElement.value
-// 				for (let charIndex = 0; charIndex < str.length; charIndex++) {
-// 					if (str[charIndex] === '(')
-// 						netBracketCount++
-// 					else if (str[charIndex] === ')')
-// 						netBracketCount--
-// 					if (netBracketCount <= 0) {
-// 						return {
-// 							delimiter,
-// 							part: delimiterIndex,
-// 							position: charIndex,
-// 						}
-// 					}
-// 				}
-
-// 				// No matching closing bracket has been found. Return the end of the expression.
-// 				return {
-// 					delimiter: undefined,
-// 					part: value.length - 1,
-// 					position: lastOf(value).length
-// 				}
-// 			}
-// 		}
-// 	}
-
-// 	// ToDo later: when integrals come into play, a delimiter like /d[a-zA-Z+greek]/ would be required. Implement that then.
-// 	throw new Error(`Invalid delimiter: no delimiter other than a closing bracket is supported at this moment.`)
-// }
 
 export function getCursorProperties(data, charElements, container) {
 	const activeElement = zoomIn(data)
@@ -190,8 +118,8 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 			return passOn()
 
 		// We must create a fraction! First find what needs to be put in the fraction: find the cursor endings.
-		const leftCursor = findEndOfTerm(data, false)
-		const rightCursor = findEndOfTerm(data, true)
+		const leftCursor = findEndOfTerm(data, false, true)
+		const rightCursor = findEndOfTerm(data, true, false)
 
 		// Then set up the numerator and denominator for the fraction.
 		const num = { type: 'Expression', value: getSubExpression(value, leftCursor, cursor) }
@@ -375,12 +303,12 @@ export function coordinatesToCursor(coordinates, boundsData, data, charElements,
 }
 
 // findEndOfTerm searches for the end of a term. When you have an expression like a*(b+c/d+e)sin(2x)+3, and you put a "/" sign right before "sin", then we need to know which parts need to go in the fraction. We can go right (toRight = true) and left (toRight = false) and find the cursor positions of the respective endings of the terms. Basically, the term ends whenever we encounter a +, - or * and we are not still within brackets.
-export function findEndOfTerm(data, toRight = true, skipFirst = false) {
+export function findEndOfTerm(data, toRight = true, skipFirst = false, initialBracketCount = 0) {
 	const { value, cursor } = data
 
 	// Define iterators: parameters that will change as we go.
 	let { part: partIterator, cursor: cursorIterator } = cursor
-	let bracketCount = 0
+	let bracketCount = initialBracketCount
 
 	// Define functions that will be needed while iterating.
 	const hasNextSymbol = () => {
@@ -441,10 +369,15 @@ export function findEndOfTerm(data, toRight = true, skipFirst = false) {
 			return { part: partIterator, cursor: cursorIterator }
 
 		// On a bracket, adjust the bracket count. If it drops below zero, return the current cursor position too.
-		if (nextSymbol === '(')
+		if (nextSymbol === '(') {
 			bracketCount += toRight ? 1 : -1
-		else if (nextSymbol === ')')
+			if (!toRight && bracketCount === 0)
+				return { part: partIterator, cursor: cursorIterator - 1 }
+		} else if (nextSymbol === ')') {
 			bracketCount += toRight ? -1 : 1
+			if (toRight && bracketCount === 0)
+				return { part: partIterator, cursor: cursorIterator + 1 }
+		}
 		if (bracketCount < 0 && (!skipFirst || !first))
 			return { part: partIterator, cursor: cursorIterator }
 
