@@ -157,24 +157,26 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 		}
 	}
 
-	// When the spacebar is pressed, try to split up the element. Only do this when the child element is the last element in the chain that can be split up. Otherwise pass it on to split the child up.
+	// When the spacebar is pressed, try to split up the element. Only do this when the active element indicates its child can be split, the said child (parameter) cannot be split itself, and the cursor is in an ExpressionPart of said child.
 	if (key === ' ' || key === 'Spacebar') {
 		if (activeElementFuncs.canSplit && activeElementFuncs.canSplit(activeElementData)) {
-			const furtherZoom = zoomIn(activeElementData)
-			const furtherZoomFuncs = getFuncs(furtherZoom)
-			if (!(furtherZoomFuncs.canSplit && furtherZoomFuncs.canSplit(furtherZoom))) {
-				const split = activeElementFuncs.split(activeElementData)
-				return {
-					...data,
-					value: [
-						...value.slice(0, cursor.part),
-						removeCursor(split),
-						...value.slice(cursor.part + 1),
-					],
-					cursor: {
-						part: cursor.part,
-						cursor: split.cursor,
-					},
+			const parameter = zoomIn(activeElementData)
+			const parameterFuncs = getFuncs(parameter)
+			if (!(parameterFuncs.canSplit && parameterFuncs.canSplit(parameter))) {
+				if (zoomIn(parameter).type === 'ExpressionPart') {
+					const split = activeElementFuncs.split(activeElementData)
+					return {
+						...data,
+						value: [
+							...value.slice(0, cursor.part),
+							removeCursor(split),
+							...value.slice(cursor.part + 1),
+						],
+						cursor: {
+							part: cursor.part,
+							cursor: split.cursor,
+						},
+					}
 				}
 			}
 		}
