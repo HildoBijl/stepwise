@@ -393,6 +393,7 @@ function processExpressionPartBrackets(arr) {
 	return arr
 }
 
+// canSplit asks the child element whether it can split.
 export function canSplit(data) {
 	const activeElementData = zoomIn(data)
 	const canSplit = getFuncs(activeElementData).canSplit
