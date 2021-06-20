@@ -1,9 +1,9 @@
 import { addCursor } from '../Input'
 
-import * as Expression from './Expression'
-import * as ExpressionPart from './ExpressionPart'
+import Expression from './Expression'
+import ExpressionPart from './ExpressionPart'
 import * as Fraction from './Fraction'
-import * as SimpleText from './SimpleText'
+import SimpleText from './SimpleText'
 import * as SubSup from './SubSup'
 import * as Function from './Function'
 

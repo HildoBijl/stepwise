@@ -4,8 +4,10 @@ import { removeCursor } from '../Input'
 import { getClosestElement, charElementsToBounds } from '../MathWithCursor'
 
 import { getFuncs, zoomIn, zoomInAt, getDataStartCursor, getDataEndCursor, isCursorAtDataStart, isCursorAtDataEnd, isDataEmpty } from './index.js'
-import * as ExpressionPart from './ExpressionPart'
-import * as Expression from './Expression'
+import ExpressionPart from './ExpressionPart'
+import Expression from './Expression'
+import { getMergeParts } from './support/merging'
+import { splitAtCursor } from './support/splitting'
 
 const parts = ['den', 'num'] // Katex puts the denominator first in its HTML rendering, so put that first.
 
@@ -184,7 +186,7 @@ export function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {
 	const fraction = expressionValue[partIndex].value
 
 	// Get the part that needs to be pulled in.
-	const { toPullIn, toLeaveBehind, cursorAtBreak } = Expression.getMergeParts(expressionValue, partIndex, mergeWithNext, true)
+	const { toPullIn, toLeaveBehind, cursorAtBreak } = getMergeParts(expressionValue, partIndex, mergeWithNext, true)
 
 	// If the expression to pull in is empty, and we came from inside, move the cursor outside.
 	if (!fromOutside && Expression.isEmpty(toPullIn)) {
@@ -198,14 +200,13 @@ export function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {
 	// Should we merge with the next?
 	if (mergeWithNext) { // Yes, merge with the next.
 		// Set up the new denominator.
-		const newDen = Expression.cleanUp({
+		const newDen = {
 			...fraction.den,
 			value: [
 				...fraction.den.value, // Take what was in the denominator.
 				...toPullIn, // Add what needs to be pulled in.
 			],
-			cursor: Expression.getEndCursor(fraction.den.value), // Put the cursor at the end of the previous denominator.
-		})
+		}
 
 		// Set up the complete expression.
 		return {
@@ -216,7 +217,7 @@ export function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {
 					...expressionValue[partIndex],
 					value: {
 						num: fraction.num, // Keep the numerator.
-						den: removeCursor(newDen), // Use the new denominator.
+						den: newDen, // Use the new denominator.
 					},
 				},
 				...toLeaveBehind, // Keep what is left behind in the Expression.
@@ -225,20 +226,19 @@ export function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {
 				part: partIndex,
 				cursor: {
 					part: 'den',
-					cursor: newDen.cursor, // Use the cursor of the new denominator.
+					cursor: Expression.getEndCursor(fraction.den.value), // Put the cursor at the end of the previous denominator.
 				},
 			},
 		}
 	} else { // We should merge with the previous.
 		// Set up the new numerator.
-		const newNum = Expression.cleanUp({
+		const newNum = {
 			...fraction.num,
 			value: [
 				...toPullIn, // Add what needs to be pulled in.
 				...fraction.num.value, // Take what was in the numerator.
 			],
-			cursor: Expression.getEndCursor(toPullIn), // Put the cursor at the end of the pulled-in expression.
-		})
+		}
 
 		// Set up the complete expression.
 		return {
@@ -248,7 +248,7 @@ export function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {
 				{ // Extend the fraction.
 					...expressionValue[partIndex],
 					value: {
-						num: removeCursor(newNum), // Use the new numerator.
+						num: newNum, // Use the new numerator.
 						den: fraction.den, // Keep the denominator.
 					},
 				},
@@ -258,7 +258,7 @@ export function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {
 				part: toLeaveBehind.length,
 				cursor: {
 					part: 'num',
-					cursor: newNum.cursor, // Use the cursor of the new numerator.
+					cursor: Expression.getEndCursor(toPullIn), // Put the cursor at the end of the pulled-in expression.
 				},
 			},
 		}
@@ -271,14 +271,14 @@ export function canSplit(data) {
 
 export function split(data) {
 	const { value, cursor } = data
-	const split = Expression.splitAtCursor(zoomIn(data))
+	const split = splitAtCursor(zoomIn(data))
 
 	// How to assemble things depends on whether we split up a numerator or denominator.
 	if (cursor.part === 'num') {
-		const newNum = Expression.cleanUp({
+		const newNum = {
 			type: 'Expression',
 			value: split.right, // Keep the right part of the numerator.
-		})
+		}
 		const newFractionData = {
 			type: 'Fraction',
 			value: {
@@ -298,10 +298,10 @@ export function split(data) {
 			},
 		}
 	} else {
-		const newDen = Expression.cleanUp({
+		const newDen = {
 			type: 'Expression',
 			value: split.left, // Keep the left part of the denominator.
-		})
+		}
 		const newFractionData = {
 			type: 'Fraction',
 			value: {

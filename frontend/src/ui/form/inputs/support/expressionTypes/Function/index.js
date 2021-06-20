@@ -1,9 +1,11 @@
-import sqrt from './sqrt'
 import log from './log'
+import sqrt from './sqrt'
+import root from './root'
 
 const functions = {
-	sqrt,
 	log,
+	sqrt,
+	root,
 }
 export { functions }
 

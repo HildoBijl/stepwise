@@ -5,7 +5,16 @@ import { isLetter, removeAtIndex } from 'step-wise/util/strings'
 import { latexMinus } from 'ui/components/equations'
 
 import { emptyElementChar, emptyElementCharLatex } from '../MathWithCursor'
-import * as ExpressionPart from './ExpressionPart'
+import ExpressionPart, { addStrToData } from './ExpressionPart'
+
+const { getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd } = ExpressionPart
+
+const allFunctions = {
+	...ExpressionPart,
+	toLatex,
+	keyPressToData,
+}
+export default allFunctions
 
 export function toLatex(data, options = {}) {
 	return {
@@ -27,10 +36,6 @@ function getLatexChars(data) {
 	value = value.replaceAll('*', '∗') // This is what appears for the star.
 	value = value.replaceAll('-', latexMinus) // Latex minuses.
 	return value.split('')
-}
-
-export function getCursorProperties(data, charElements, container) {
-	return ExpressionPart.getCursorProperties(data, charElements, container)
 }
 
 export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement) {
@@ -68,58 +73,18 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 
 	// Check for additions.
 	if (isLetter(key) || isNumber(key)) // Letters and numbers.
-		return ExpressionPart.addStrToData(key, data)
+		return addStrToData(key, data)
 	if (key === '.' || key === ',') // Basic symbols.
-		return ExpressionPart.addStrToData(key, data)
+		return addStrToData(key, data)
 	if (key === '+' || key === 'Plus') // Plus.
-		return ExpressionPart.addStrToData('+', data)
+		return addStrToData('+', data)
 	if (key === '-' || key === 'Minus') // Minus.
-		return ExpressionPart.addStrToData('-', data)
+		return addStrToData('-', data)
 	if (key === '*' || key === 'Times') // Times.
-		return ExpressionPart.addStrToData('*', data)
+		return addStrToData('*', data)
 	if (key === '=' || key === 'Equals') // Equals.
-		return ExpressionPart.addStrToData('=', data)
+		return addStrToData('=', data)
 
 	// Unknown key. Ignore, do nothing.
 	return data
-}
-
-export function charElementClickToCursor(evt, data, trace, charElements, equationElement) {
-	return ExpressionPart.charElementClickToCursor(evt, data, trace, charElements, equationElement)
-}
-
-export function coordinatesToCursor(coordinates, boundsData, data, charElements, contentsElement) {
-	return ExpressionPart.coordinatesToCursor(coordinates, boundsData, data, charElements, contentsElement)
-}
-
-export function getStartCursor(value) {
-	return ExpressionPart.getStartCursor(value)
-}
-
-export function getEndCursor(value) {
-	return ExpressionPart.getEndCursor(value)
-}
-
-export function isCursorAtStart(value, cursor) {
-	return ExpressionPart.isCursorAtStart(value, cursor)
-}
-
-export function isCursorAtEnd(value, cursor) {
-	return ExpressionPart.isCursorAtEnd(value, cursor)
-}
-
-export function getEmpty() {
-	return ExpressionPart.getEmpty()
-}
-
-export function isEmpty(value) {
-	return ExpressionPart.isEmpty(value)
-}
-
-export function shouldRemove(data) {
-	return ExpressionPart.shouldRemove(data)
-}
-
-export function cleanUp(data) {
-	return ExpressionPart.applyAutoReplace(data)
 }

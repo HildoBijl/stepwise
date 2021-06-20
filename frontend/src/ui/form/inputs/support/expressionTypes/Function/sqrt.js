@@ -1,13 +1,11 @@
 import { getFuncs } from '../'
-import { getEmpty as getEmptyExpression } from '../Expression'
 
-import defaultFunctions from './defaults/singleParameterAfter'
+import defaultFunctions from './templates/withArgument1Parameter'
 
 const fullExport = {
 	...defaultFunctions,
 	aliases: ['sqrt('],
 	toLatex,
-	getEmpty,
 }
 export default fullExport
 
@@ -16,14 +14,7 @@ function toLatex(data, options) {
 	const [parameter] = value
 	const parameterLatex = getFuncs(parameter).toLatex(parameter, options)
 	return {
-		latex: `\\sqrt{${parameterLatex.latex}}`,
+		latex: `\\sqrt{${parameterLatex.latex}\\,}`,
 		chars: [parameterLatex.chars],
 	}
-}
-
-function getEmpty() {
-	return [{
-		type: 'Expression',
-		value: getEmptyExpression(),
-	}]
 }

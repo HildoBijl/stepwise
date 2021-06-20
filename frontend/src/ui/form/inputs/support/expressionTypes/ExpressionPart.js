@@ -9,7 +9,8 @@ import { getClickSide } from 'util/dom'
 import { latexMinus } from 'ui/components/equations'
 
 import { emptyElementChar, emptyElementCharLatex, isCharElementEmpty, getCursorPropertiesFromElements, getClosestElement } from '../MathWithCursor'
-import * as Expression from './Expression'
+import Expression from './Expression'
+import { getDeepestExpression } from './support/ExpressionSupport'
 
 const basicFunctions = ['sin', 'cos', 'tan', 'asin', 'acos', 'atan', 'arcsin', 'arccos', 'arctan', 'ln'] // ToDo later: put this in a mathematics file and import it here.
 
@@ -18,6 +19,24 @@ const autoReplaceSymbols = [
 	{ name: 'mp', symbol: '∓' },
 	...Object.values(greekAlphabet),
 ]
+
+const allFunctions = {
+	toLatex,
+	getCursorProperties,
+	keyPressToData,
+	charElementClickToCursor,
+	coordinatesToCursor,
+	getStartCursor,
+	getEndCursor,
+	isCursorAtStart,
+	isCursorAtEnd,
+	getEmpty,
+	isEmpty,
+	shouldRemove,
+	countNetBrackets,
+	cleanUp,
+}
+export default allFunctions
 
 export function toLatex(data, options = {}) {
 	return {
@@ -62,7 +81,7 @@ function getLatexChars(data) {
 	return value.split('')
 }
 
-export function getCursorProperties(data, charElements, container) {
+function getCursorProperties(data, charElements, container) {
 	const { cursor } = data
 	return getCursorPropertiesFromElements(charElements[cursor - 1], charElements[cursor], container)
 }
@@ -102,7 +121,7 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 
 	// For brackets, check if we need to apply a bracket trick. For the opening bracket add a closing bracket, and for the closing bracket skip over it.
 	if (key === '(') {
-		const parentExpressionData = Expression.getDeepestExpression(topParentData)
+		const parentExpressionData = getDeepestExpression(topParentData)
 		const netBracketsBefore = Expression.countNetBrackets(parentExpressionData, -1)
 		const netBracketsAfter = Expression.countNetBrackets(parentExpressionData, 1)
 		if (netBracketsBefore < -netBracketsAfter)
@@ -119,7 +138,7 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 			return addStrToData(key, data)
 
 		// We are in front of a closing bracket. Should we override it?
-		const parentExpressionData = Expression.getDeepestExpression(topParentData)
+		const parentExpressionData = getDeepestExpression(topParentData)
 		const netBracketsBefore = Expression.countNetBrackets(parentExpressionData, -1)
 		const netBracketsAfter = Expression.countNetBrackets(parentExpressionData, 1)
 		if (netBracketsBefore > -netBracketsAfter)

@@ -4,8 +4,10 @@ import { removeCursor } from '../Input'
 import { getClosestElement, charElementsToBounds } from '../MathWithCursor'
 
 import { getFuncs, zoomIn, zoomInAt, getDataStartCursor, getDataEndCursor, isCursorAtDataStart, isCursorAtDataEnd, isDataEmpty } from './index.js'
-import * as Expression from './Expression'
-import * as SimpleText from './SimpleText'
+import Expression from './Expression'
+import SimpleText from './SimpleText'
+import { getMergeParts } from './support/merging'
+import { splitAtCursor } from './support/splitting'
 
 const parts = ['sub', 'sup']
 
@@ -193,17 +195,16 @@ export function merge(expressionValue, partIndex, mergeWithNext) {
 	const subSup = expressionValue[partIndex].value
 
 	// Get the part that needs to be pulled in.
-	const { toPullIn, toLeaveBehind } = Expression.getMergeParts(expressionValue, partIndex, mergeWithNext, true)
+	const { toPullIn, toLeaveBehind } = getMergeParts(expressionValue, partIndex, mergeWithNext, true)
 
 	// Set up the new superscript.
-	const newSup = Expression.cleanUp({
+	const newSup = {
 		...subSup.sup,
 		value: [
 			...subSup.sup.value, // Take what was in the superscript.
 			...toPullIn, // Add what needs to be pulled in.
 		],
-		cursor: Expression.getEndCursor(subSup.sup.value), // Put the cursor at the end of the previous superscript.
-	})
+	}
 
 	// Set up the complete expression.
 	return {
@@ -214,7 +215,7 @@ export function merge(expressionValue, partIndex, mergeWithNext) {
 				...expressionValue[partIndex],
 				value: {
 					sub: subSup.sub, // Keep the subscript.
-					sup: removeCursor(newSup), // Use the new superscript.
+					sup: newSup, // Use the new superscript.
 				},
 			},
 			...toLeaveBehind, // Keep what is left behind in the Expression.
@@ -223,7 +224,7 @@ export function merge(expressionValue, partIndex, mergeWithNext) {
 			part: partIndex,
 			cursor: {
 				part: 'sup',
-				cursor: newSup.cursor, // Use the cursor of the new superscript.
+				cursor: Expression.getEndCursor(subSup.sup.value), // Put the cursor at the end of the previous superscript.
 			},
 		},
 	}
@@ -234,11 +235,11 @@ export function canSplit(data) {
 }
 
 export function split(data) {
-	const split = Expression.splitAtCursor(zoomIn(data))
-	const newSup = Expression.cleanUp({
+	const split = splitAtCursor(zoomIn(data))
+	const newSup = {
 		type: 'Expression',
 		value: split.left,
-	})
+	}
 	const newSubSup = {
 		type: 'SubSup',
 		value: {

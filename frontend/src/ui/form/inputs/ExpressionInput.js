@@ -10,7 +10,7 @@ import { useAbsoluteCursorRef } from '../Form'
 
 import Input from './support/Input'
 import MathWithCursor, { MathWithCursorProvider, useMathWithCursorContext, mouseClickToCursor as generalMouseClickToCursor } from './support/MathWithCursor'
-import * as Expression from './support/expressionTypes/Expression'
+import Expression from './support/expressionTypes/Expression'
 
 const style = (theme) => ({
 	// Currently empty.
