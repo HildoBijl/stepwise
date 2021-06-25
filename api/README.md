@@ -27,7 +27,7 @@ The current database structure is defined in the `database` folder. This contain
 
 The GraphQL server is defined in the `graphql` folder. First there are various `schemas` that determine what kind of calls the API accepts. Once such a call takes place, the `resolvers` deal with it, gathering data from the database in the appropriate way.
 
-When the database structure changes, the `models` need to change. In addition, in the `migrations` folder, an `up` and `down` migration function needs to be defined which adjusts the database accordingly. Upon deploying the database is automatically migrated up to the latest version.
+In order to make changes to the database structure you need to run a migration and change the models. The procedure is explained [here](migrations/README.md).
 
 
 ## Server and authentication
