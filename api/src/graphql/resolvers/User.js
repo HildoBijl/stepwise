@@ -1,5 +1,8 @@
 const { checkSkillIds } = require('../util/Skill')
 const { getUser, getAllUsers } = require('../util/User')
+const { AuthenticationError } = require('apollo-server-express')
+
+const CURRENT_PRIVACY_POLICY_VERSION = 1;
 
 const resolvers = {
 	User: {
@@ -9,11 +12,51 @@ const resolvers = {
 			checkSkillIds(ids)
 			return await user.getSkills({ where: { skillId: ids } })
 		},
+		privacyPolicyConsent: (user) => {
+			return {
+				version: user.privacyPolicyAcceptedVersion,
+				acceptedAt: user.privacyPolicyAcceptedAt,
+				isLatestVersion: user.privacyPolicyAcceptedVersion === CURRENT_PRIVACY_POLICY_VERSION,
+			}
+		}
+	},
+
+	Mutation: {
+		acceptLatestPrivacyPolicy: async (_source, _args, { getCurrentUser }) => {
+			const user = await getCurrentUser()
+			// Only run update if we are behind
+			if (!user.privacyPolicyAcceptedVersion || user.privacyPolicyAcceptedVersion < CURRENT_PRIVACY_POLICY_VERSION) {
+				await user.update({
+					privacyPolicyAcceptedVersion: CURRENT_PRIVACY_POLICY_VERSION,
+					privacyPolicyAcceptedAt: new Date(),
+				})
+			}
+			return {
+				version: user.privacyPolicyAcceptedVersion,
+				acceptedAt: user.privacyPolicyAcceptedAt,
+				isLatestVersion: true,
+			}
+		},
+
+		shutdownAccount: async (_source, { confirmEmail }, { getCurrentUser }) => {
+			const user = await getCurrentUser()
+			if (user.email !== confirmEmail) {
+				throw new Error('Email (for confirmation) does not match')
+			}
+			// The database is configured to cascade the deletion, so this
+			// will also delete all associated user data.
+			await user.destroy()
+			return user.id
+		},
 	},
 
 	Query: {
-		me: async (_source, _args, { getUser }) => {
-			return await getUser()
+		me: async (_source, _args, { getCurrentUser }) => {
+			try {
+				return await getCurrentUser()
+			} catch (AuthenticationError) {
+				return null
+			}
 		},
 
 		user: async (_source, { userId }, { db, ensureAdmin }) => {
