@@ -71,3 +71,64 @@ describe('user', () => {
 		expect(user).toMatchObject({ id: STUDENT_ID })
 	})
 })
+
+describe('privacy policy consent', () => {
+	it('does not have privacy policy consent by default', async () => {
+		const client = await createClient(seed)
+		await client.login(STUDENT_SURFSUB)
+
+		const { data: { me: { privacyPolicyConsent } }, errors } = await client.graphql(
+			{ query: `{me {privacyPolicyConsent {version, acceptedAt, isLatestVersion}}}` }
+		)
+		expect(errors).toBeUndefined()
+		expect(privacyPolicyConsent).toMatchObject({
+			acceptedAt: null,
+			isLatestVersion: false,
+			version: null,
+		})
+	})
+
+	it('accepts current privacy policy', async () => {
+		const client = await createClient(seed)
+		await client.login(STUDENT_SURFSUB)
+
+		const before = new Date().getTime()
+		const { data: { acceptLatestPrivacyPolicy }, errors } = await client.graphql(
+			{ query: `mutation {acceptLatestPrivacyPolicy {version, acceptedAt, isLatestVersion}}` }
+		)
+		const after = new Date().getTime()
+
+		expect(errors).toBeUndefined()
+		expect(acceptLatestPrivacyPolicy.version).toEqual(1)
+		const acceptedAt = new Date(acceptLatestPrivacyPolicy.acceptedAt).getTime()
+		expect(acceptedAt).toBeGreaterThanOrEqual(before)
+		expect(acceptedAt).toBeLessThanOrEqual(after)
+		expect(acceptLatestPrivacyPolicy.isLatestVersion).toEqual(true)
+
+		// Double-check that the `me` query yields the same data.
+		const { data: { me: { privacyPolicyConsent } } } = await client.graphql(
+			{ query: `{me {privacyPolicyConsent {version, acceptedAt, isLatestVersion}}}` }
+		)
+		expect(privacyPolicyConsent.version).toEqual(acceptLatestPrivacyPolicy.version)
+		expect(privacyPolicyConsent.acceptedAt).toEqual(acceptLatestPrivacyPolicy.acceptedAt)
+		expect(privacyPolicyConsent.isLatestVersion).toEqual(acceptLatestPrivacyPolicy.isLatestVersion)
+	})
+
+	it('does not overwrite the `acceptedAt` date if version didn’t advance', async() => {
+		const client = await createClient(seed)
+		await client.login(STUDENT_SURFSUB)
+
+		const { data: { acceptLatestPrivacyPolicy: firstConsent } } = await client.graphql(
+			{ query: `mutation {acceptLatestPrivacyPolicy {version, acceptedAt, isLatestVersion}}` }
+		)
+
+		// Let time progress a little bit...
+		await new Promise(resolve => setTimeout(resolve, 5));
+
+		const { data: { acceptLatestPrivacyPolicy: secondConsent } } = await client.graphql(
+			{ query: `mutation {acceptLatestPrivacyPolicy {version, acceptedAt, isLatestVersion}}` }
+		)
+
+		expect(firstConsent).toMatchObject(secondConsent)
+	})
+})
