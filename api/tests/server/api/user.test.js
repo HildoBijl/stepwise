@@ -77,8 +77,8 @@ describe('privacy policy consent', () => {
 		const client = await createClient(seed)
 		await client.login(STUDENT_SURFSUB)
 
-		const { data: { me: { privacyPolicyConsent } }, errors } = await client.graphql(
-			{ query: `{me {privacyPolicyConsent {version, acceptedAt, isLatestVersion}}}` }
+		const {data: {me: {privacyPolicyConsent}}, errors} = await client.graphql(
+			{query: `{me {privacyPolicyConsent {version, acceptedAt, isLatestVersion}}}`}
 		)
 		expect(errors).toBeUndefined()
 		expect(privacyPolicyConsent).toMatchObject({
@@ -93,8 +93,8 @@ describe('privacy policy consent', () => {
 		await client.login(STUDENT_SURFSUB)
 
 		const before = new Date().getTime()
-		const { data: { acceptLatestPrivacyPolicy }, errors } = await client.graphql(
-			{ query: `mutation {acceptLatestPrivacyPolicy {version, acceptedAt, isLatestVersion}}` }
+		const {data: {acceptLatestPrivacyPolicy}, errors} = await client.graphql(
+			{query: `mutation {acceptLatestPrivacyPolicy {version, acceptedAt, isLatestVersion}}`}
 		)
 		const after = new Date().getTime()
 
@@ -106,29 +106,69 @@ describe('privacy policy consent', () => {
 		expect(acceptLatestPrivacyPolicy.isLatestVersion).toEqual(true)
 
 		// Double-check that the `me` query yields the same data.
-		const { data: { me: { privacyPolicyConsent } } } = await client.graphql(
-			{ query: `{me {privacyPolicyConsent {version, acceptedAt, isLatestVersion}}}` }
+		const {data: {me: {privacyPolicyConsent}}} = await client.graphql(
+			{query: `{me {privacyPolicyConsent {version, acceptedAt, isLatestVersion}}}`}
 		)
 		expect(privacyPolicyConsent.version).toEqual(acceptLatestPrivacyPolicy.version)
 		expect(privacyPolicyConsent.acceptedAt).toEqual(acceptLatestPrivacyPolicy.acceptedAt)
 		expect(privacyPolicyConsent.isLatestVersion).toEqual(acceptLatestPrivacyPolicy.isLatestVersion)
 	})
 
-	it('does not overwrite the `acceptedAt` date if version didn’t advance', async() => {
+	it('does not overwrite the `acceptedAt` date if version didn’t advance', async () => {
 		const client = await createClient(seed)
 		await client.login(STUDENT_SURFSUB)
 
-		const { data: { acceptLatestPrivacyPolicy: firstConsent } } = await client.graphql(
-			{ query: `mutation {acceptLatestPrivacyPolicy {version, acceptedAt, isLatestVersion}}` }
+		const {data: {acceptLatestPrivacyPolicy: firstConsent}} = await client.graphql(
+			{query: `mutation {acceptLatestPrivacyPolicy {version, acceptedAt, isLatestVersion}}`}
 		)
 
 		// Let time progress a little bit...
 		await new Promise(resolve => setTimeout(resolve, 5));
 
-		const { data: { acceptLatestPrivacyPolicy: secondConsent } } = await client.graphql(
-			{ query: `mutation {acceptLatestPrivacyPolicy {version, acceptedAt, isLatestVersion}}` }
+		const {data: {acceptLatestPrivacyPolicy: secondConsent}} = await client.graphql(
+			{query: `mutation {acceptLatestPrivacyPolicy {version, acceptedAt, isLatestVersion}}`}
 		)
 
 		expect(firstConsent).toMatchObject(secondConsent)
+	})
+})
+
+describe('shutdown account', () => {
+	it('shuts down the logged-in user account', async () => {
+		const client = await createClient(seed)
+		await client.login(STUDENT_SURFSUB)
+
+		const { data: shutdownData, errors: shutdownErrors } = await client.graphql(
+			{ query: `mutation {shutdownAccount(confirmEmail: "student@wise.com")}` }
+		)
+		expect(shutdownErrors).toBeUndefined()
+		expect(shutdownData).toMatchObject({ shutdownAccount: STUDENT_ID })
+
+		const { data: { me }, errors: fetchErrors } = await client.graphql(
+			{ query: `{me {name}}` }
+		)
+		expect(fetchErrors).toBeUndefined()
+		expect(me).toBeNull()
+	})
+
+	it('cannot shutdown account if not logged in', async () => {
+		const client = await createClient(seed)
+
+		const { data, errors } = await client.graphql(
+			{ query: `mutation {shutdownAccount(confirmEmail: "student@wise.com")}` }
+		)
+		expect(errors).not.toBeUndefined()
+		expect(data).toBeNull()
+	})
+
+	it('cannot shutdown user account if confirmation email does not match up', async () => {
+		const client = await createClient(seed)
+		await client.login(STUDENT_SURFSUB)
+
+		const { data, errors } = await client.graphql(
+			{ query: `mutation {shutdownAccount(confirmEmail: "foo@asdf.com")}` }
+		)
+		expect(errors).not.toBeUndefined()
+		expect(data).toBeNull()
 	})
 })

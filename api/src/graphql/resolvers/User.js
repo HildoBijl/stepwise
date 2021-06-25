@@ -40,6 +40,20 @@ const resolvers = {
 				isLatestVersion: true,
 			}
 		},
+
+		shutdownAccount: async (_source, { confirmEmail }, { getUser }) => {
+			const user = await getUser()
+			if (!user) {
+				throw new AuthenticationError('Not logged in')
+			}
+			if (user.email !== confirmEmail) {
+				throw new Error('Email (for confirmation) does not match')
+			}
+			// The database is configured to cascade the deletion, so this
+			// will also delete all associated user data.
+			await user.destroy()
+			return user.id
+		},
 	},
 
 	Query: {

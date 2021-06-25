@@ -9,6 +9,7 @@ const schema = gql`
 
 	extend type Mutation {
 		acceptLatestPrivacyPolicy: PrivacyPolicyConsent!
+		shutdownAccount(confirmEmail: String!): ID!
 	}
 
 	type PrivacyPolicyConsent {
