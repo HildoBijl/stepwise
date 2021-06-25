@@ -40,14 +40,16 @@ export function create(expressionData, part, position, name, alias) {
 	// Build the new Expression around it.
 	const { value, cursor } = expressionData
 	const expressionPartValue = value[part].value
+	const expressionPartBefore = { type: 'ExpressionPart', value: expressionPartValue.substring(0, position) }
+	const expressionPartAfter = { type: 'ExpressionPart', value: expressionPartValue.substring(position + alias.length) }
 	const newValue = [
 		...value.slice(0, part),
-		{ type: 'ExpressionPart', value: expressionPartValue.substring(0, position) },
+		expressionPartBefore,
 		functionElement,
-		{ type: 'ExpressionPart', value: expressionPartValue.substring(position + alias.length) },
+		expressionPartAfter,
 		...value.slice(part + 1),
 	]
-	const newCursor = { part: cursor.part + 2, cursor: funcs.getInitialCursor(functionElement) }
+	const newCursor = { part: cursor.part + 2, cursor: getFuncs(expressionPartAfter).getStartCursor(expressionPartAfter.value) }
 	return {
 		...expressionData,
 		value: newValue,
@@ -77,7 +79,7 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 	const { key } = keyInfo
 	const { value, cursor } = data
 	const activeElementData = zoomIn(data)
-	
+
 	const { passOn, moveLeft, moveRight } = getKeyPressHandlers(keyInfo, data, charElements, topParentData, contentsElement, cursorElement)
 
 	// For left/right-arrows, adjust the cursor.

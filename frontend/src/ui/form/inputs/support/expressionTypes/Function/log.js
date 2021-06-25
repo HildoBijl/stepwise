@@ -6,7 +6,7 @@ const fullExport = {
 	...defaultFunctions,
 	aliases: ['log('],
 	toLatex,
-	getEmpty,
+	getInitial,
 }
 export default fullExport
 
@@ -22,7 +22,7 @@ function toLatex(data, options) {
 	}
 }
 
-function getEmpty() {
+function getInitial() {
 	return [{
 		type: 'Expression',
 		value: [
