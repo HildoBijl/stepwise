@@ -7,6 +7,10 @@ const schema = gql`
 		allUsers: [User]
   }
 
+	extend type Mutation {
+		shutdownAccount(confirmEmail: String!): ID!
+	}
+
 	type User {
 		id: ID!
 		name: String
