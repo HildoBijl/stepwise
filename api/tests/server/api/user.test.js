@@ -71,3 +71,43 @@ describe('user', () => {
 		expect(user).toMatchObject({ id: STUDENT_ID })
 	})
 })
+
+describe('shutdown account', () => {
+	it('shuts down the logged-in user account', async () => {
+		const client = await createClient(seed)
+		await client.login(STUDENT_SURFSUB)
+
+		const { data: shutdownData, errors: shutdownErrors } = await client.graphql(
+			{ query: `mutation {shutdownAccount(confirmEmail: "student@wise.com")}` }
+		)
+		expect(shutdownErrors).toBeUndefined()
+		expect(shutdownData).toMatchObject({ shutdownAccount: STUDENT_ID })
+
+		const { data: { me }, errors: fetchErrors } = await client.graphql(
+			{ query: `{me {name}}` }
+		)
+		expect(fetchErrors).toBeUndefined()
+		expect(me).toBeNull()
+	})
+
+	it('cannot shutdown account if not logged in', async () => {
+		const client = await createClient(seed)
+
+		const { data, errors } = await client.graphql(
+			{ query: `mutation {shutdownAccount(confirmEmail: "student@wise.com")}` }
+		)
+		expect(errors).not.toBeUndefined()
+		expect(data).toBeNull()
+	})
+
+	it('cannot shutdown user account if confirmation email does not match up', async () => {
+		const client = await createClient(seed)
+		await client.login(STUDENT_SURFSUB)
+
+		const { data, errors } = await client.graphql(
+			{ query: `mutation {shutdownAccount(confirmEmail: "foo@asdf.com")}` }
+		)
+		expect(errors).not.toBeUndefined()
+		expect(data).toBeNull()
+	})
+})
