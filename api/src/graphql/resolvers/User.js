@@ -22,11 +22,8 @@ const resolvers = {
 	},
 
 	Mutation: {
-		acceptLatestPrivacyPolicy: async (_source, _args, { getUser }) => {
-			const user = await getUser()
-			if (!user) {
-				throw new AuthenticationError('Not logged in')
-			}
+		acceptLatestPrivacyPolicy: async (_source, _args, { getCurrentUser }) => {
+			const user = await getCurrentUser()
 			// Only run update if we are behind
 			if (!user.privacyPolicyAcceptedVersion || user.privacyPolicyAcceptedVersion < CURRENT_PRIVACY_POLICY_VERSION) {
 				await user.update({
@@ -41,11 +38,8 @@ const resolvers = {
 			}
 		},
 
-		shutdownAccount: async (_source, { confirmEmail }, { getUser }) => {
-			const user = await getUser()
-			if (!user) {
-				throw new AuthenticationError('Not logged in')
-			}
+		shutdownAccount: async (_source, { confirmEmail }, { getCurrentUser }) => {
+			const user = await getCurrentUser()
 			if (user.email !== confirmEmail) {
 				throw new Error('Email (for confirmation) does not match')
 			}
@@ -57,8 +51,12 @@ const resolvers = {
 	},
 
 	Query: {
-		me: async (_source, _args, { getUser }) => {
-			return await getUser()
+		me: async (_source, _args, { getCurrentUser }) => {
+			try {
+				return await getCurrentUser()
+			} catch (AuthenticationError) {
+				return null
+			}
 		},
 
 		user: async (_source, { userId }, { db, ensureAdmin }) => {

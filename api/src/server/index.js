@@ -70,12 +70,12 @@ const createServer = ({
 			},
 
 			/**
-			 * Returns the currently logged in user object, or `null` otherwise.
+			 * Returns the currently logged in user object, or throws an exception otherwise.
 			 */
-			getUser: async () => {
-				if (!req.session.principal)
-					return null
-				return await database.User.findByPk(req.session.principal.id)
+			getCurrentUser: async () => {
+				if (req.session.principal && req.session.principal.id)
+					return await database.User.findByPk(req.session.principal.id)
+				throw new AuthenticationError('No user is logged in.')
 			},
 
 			/**
