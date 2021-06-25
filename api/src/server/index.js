@@ -60,12 +60,6 @@ const createServer = ({
 			db: database,
 
 			/**
-			 * Returns the id of the currently logged in user, or `null` otherwise.
-			 * Beware: this doesn’t guarantee you that the user still exists in the DB!
-			 */
-			getUserId: () => req.session.principal ? req.session.principal.id : null,
-
-			/**
 			 * Returns the id of the currently logged in user, or throws an error otherwise.
 			 * Beware: this doesn’t guarantee you that the user still exists in the DB!
 			 */
