@@ -21,8 +21,8 @@ const resolvers = {
 	},
 
 	Mutation: {
-		startExercise: async (_source, { skillId }, { db, getUserIdOrThrow }) => {
-			const userId = getUserIdOrThrow()
+		startExercise: async (_source, { skillId }, { db, getCurrentUserId }) => {
+			const userId = getCurrentUserId()
 			const { skill } = await getActiveExerciseData(userId, skillId, db, false)
 
 			// Select a new exercise, store it and return the result.
@@ -31,8 +31,8 @@ const resolvers = {
 			return await skill.createExercise({ exerciseId: newExercise.exerciseId, state: setFOtoIO(newExercise.state), active: true })
 		},
 
-		submitExerciseAction: async (_source, { skillId, action }, { db, getUserIdOrThrow }) => {
-			const userId = getUserIdOrThrow()
+		submitExerciseAction: async (_source, { skillId, action }, { db, getCurrentUserId }) => {
+			const userId = getCurrentUserId()
 			const { exercise } = await getActiveExerciseData(userId, skillId, db, true)
 
 			// Set up an updateSkills handler that only collects calls.
@@ -57,7 +57,7 @@ const resolvers = {
 
 				// Store the submission and on a correct one update the active field of the exercise to solved.
 				const newEvent = await exercise.createEvent({ action, progress }, { transaction })
-				exercise.events.push(newEvent) // In Sequelize we have to manually add the new action to the current object. 
+				exercise.events.push(newEvent) // In Sequelize we have to manually add the new action to the current object.
 				if (progress.done)
 					await exercise.update({ active: false }, { transaction })
 			})

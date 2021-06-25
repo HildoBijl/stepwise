@@ -14,10 +14,10 @@ const resolvers = {
 	},
 
 	Query: {
-		skill: async (_source, { skillId, userId }, { db, getUserIdOrThrow, ensureAdmin }) => {
+		skill: async (_source, { skillId, userId }, { db, getCurrentUserId, ensureAdmin }) => {
 			// If no ID is given, the request is for the current user.
 			if (!userId)
-				return await getUserSkill(getUserIdOrThrow(), skillId, db)
+				return await getUserSkill(getCurrentUserId(), skillId, db)
 
 			// If an ID is given, it's a request for someone else. Only admins are allowed to do so for now.
 			if (userId) {
@@ -25,8 +25,8 @@ const resolvers = {
 				return await getUserSkill(userId, skillId, db)
 			}
 		},
-		skills: async (_source, { skillIds }, { db, getUserIdOrThrow }) => {
-			return await getUserSkills(getUserIdOrThrow(), skillIds, db)
+		skills: async (_source, { skillIds }, { db, getCurrentUserId }) => {
+			return await getUserSkills(getCurrentUserId(), skillIds, db)
 		},
 	},
 }
