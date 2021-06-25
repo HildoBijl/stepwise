@@ -8,7 +8,14 @@ const schema = gql`
   }
 
 	extend type Mutation {
+		acceptLatestPrivacyPolicy: PrivacyPolicyConsent!
 		shutdownAccount(confirmEmail: String!): ID!
+	}
+
+	type PrivacyPolicyConsent {
+		version: Int
+		acceptedAt: DateTime
+		isLatestVersion: Boolean!
 	}
 
 	type User {
@@ -21,6 +28,7 @@ const schema = gql`
 		createdAt: DateTime!
 		updatedAt: DateTime!
 		skills(ids: [String]): [SkillWithoutExercises]!
+		privacyPolicyConsent: PrivacyPolicyConsent!
 	}
 `
 

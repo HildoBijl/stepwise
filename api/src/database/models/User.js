@@ -31,6 +31,14 @@ module.exports = (sequelize) => {
 			defaultValue: 'student',
 			allowNull: false,
 		},
+		privacyPolicyAcceptedVersion: {
+			type: DataTypes.INTEGER,
+			allowNull: true,
+		},
+		privacyPolicyAcceptedAt: {
+			type: DataTypes.DATE,
+			allowNull: true,
+		},
 	})
 
   User.associate = models => {
