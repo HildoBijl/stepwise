@@ -2,12 +2,13 @@ import React, { useRef, useEffect, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
+import { decimalSeparator } from 'step-wise/settings'
 import { isObject, applyToEachParameter } from 'step-wise/util/objects'
 import { isNumber, boundTo } from 'step-wise/util/numbers'
 
 import { getCoordinatesOf, preventDefaultOnKeys, getClickSide } from 'util/dom'
 import { useEventListener, useWidthTracker, useRefWithValue } from 'util/react'
-import { latexMinus, decimalSeparator } from 'ui/components/equations'
+import { latexMinus } from 'ui/components/equations'
 import { notSelectable } from 'ui/theme'
 import { useSubmitAction } from 'ui/edu/exercises/util/actions'
 

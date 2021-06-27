@@ -36,10 +36,6 @@ export { la, ra }
 const zeroWidthSpace = String.fromCharCode(8203)
 export { zeroWidthSpace }
 
-// This is the decimal separator we use site-wide.
-const decimalSeparator = ','
-export { decimalSeparator }
-
 const useStyles = makeStyles((theme) => ({
 	equation: {
 		fontSize: ({ displayMode }) => displayMode ? '1em' : '0.9em',
@@ -63,13 +59,6 @@ function preprocess(latex, advanced = false) {
 		latex = '{' + (latex && (latex.tex || latex.toString())) + '}'
 
 	if (advanced) {
-		// Prevent Latex from messing up commas.
-		const replacement = decimalSeparator === ',' ? '{,}' : decimalSeparator
-
-		// Replace a period/comma by the default decimal separator, but only when not preceded by \left or \right or \ (a backslash itself).
-		latex = latex.replace(/(?<!(\\left)|(\\right)|(\\))[.,]/g, substr => substr.replace('.', replacement).replace(',', replacement))
-		latex = latex.replaceAll('\\.', '.') // Remove backslashes from escaped periods.
-
 		// Escape percentage signs.
 		latex = latex.replace('%', '\\%')
 

@@ -1,4 +1,4 @@
-
+import { decimalSeparator } from 'step-wise/settings'
 import { isNumber } from 'step-wise/util/numbers'
 import { isLetter, removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
 import { firstOf } from 'step-wise/util/arrays'
@@ -66,6 +66,12 @@ function getLatex(data, options) {
 	// Replace stars by dots.
 	latex = latex.replaceAll('*', '\\cdot ')
 
+	// Replace a period by the default decimal separator, but only when not preceded by \left or \right or \ (a backslash itself).
+	// Prevent Latex from messing up commas.
+	const replacement = decimalSeparator === ',' ? '{,}' : decimalSeparator
+	latex = latex.replace(/(?<!(\\left)|(\\right)|(\\))\\./g, substr => substr.replace('.', replacement).replace(',', replacement))
+	latex = latex.replaceAll('\\.', '.') // Remove backslashes from escaped periods.
+
 	// All done.
 	return latex
 }
@@ -76,7 +82,7 @@ function getLatexChars(data) {
 		return emptyElementChar.split('')
 
 	value = value.replaceAll('*', '⋅') // This is what appears for the cdot.
-	value = value.replaceAll('.', ',') // Commas for language-dependent processing of numbers.
+	value = value.replaceAll('.', decimalSeparator) // Decimal separator for language-dependent processing of numbers.
 	value = value.replaceAll('-', latexMinus) // Latex minuses.
 	return value.split('')
 }

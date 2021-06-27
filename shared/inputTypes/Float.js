@@ -1,5 +1,6 @@
 // The Float class represents floating point numbers with a certain number of significant digits. By default it is an empty string with zero significant digits.
 
+const { decimalSeparator } = require('../settings')
 const { isInt, ensureInt, isNumber, ensureNumber, roundToDigits, roundTo } = require('../util/numbers')
 const { isObject, processOptions } = require('../util/objects')
 const { getRandom } = require('../util/random')
@@ -151,6 +152,10 @@ class Float {
 		// Check a special case.
 		if (str === '1' && power !== 0 && this._significantDigits === Infinity)
 			return `10^{${power}}`
+
+		// Replace a period by the decimal separator.
+		const replacement = decimalSeparator === ',' ? '{,}' : decimalSeparator
+		str = str.replace('.', replacement)
 
 		// Add a power display.
 		if (power !== 0) {
