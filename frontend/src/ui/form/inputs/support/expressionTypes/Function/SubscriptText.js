@@ -4,8 +4,8 @@ import { isLetter, removeAtIndex } from 'step-wise/util/strings'
 
 import { latexMinus } from 'ui/components/equations'
 
-import { emptyElementChar, emptyElementCharLatex } from '../MathWithCursor'
-import ExpressionPart, { addStrToData } from './ExpressionPart'
+import { emptyElementChar, emptyElementCharLatex } from '../../MathWithCursor'
+import ExpressionPart, { addStrToData } from '../ExpressionPart'
 
 const { getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd } = ExpressionPart
 

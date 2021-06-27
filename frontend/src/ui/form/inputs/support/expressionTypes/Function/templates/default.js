@@ -5,7 +5,7 @@ import { firstOf } from 'step-wise/util/arrays'
 import { removeCursor } from '../../../Input'
 import { getClosestElement } from '../../../MathWithCursor'
 
-import { getFuncs, zoomIn, zoomInAt, getDataStartCursor, getDataEndCursor, isCursorAtDataStart, isCursorAtDataEnd, isDataEmpty } from '../../'
+import { getFuncs, zoomIn, zoomInAt, getDataStartCursor, getDataEndCursor, isCursorAtDataStart, isCursorAtDataEnd, isDataEmpty } from '../..'
 import Expression from '../../Expression'
 import { getKeyPressHandlers, getSubExpression } from '../../support/ExpressionSupport'
 
@@ -54,14 +54,13 @@ export function create(expressionData, part, position, name, alias) {
 		functionElement,
 		...expressionAfter,
 	]
-	const newCursor = {
-		part: value.indexOf(functionElement) + 1,
-		cursor: getDataStartCursor(firstOf(expressionAfter)),
-	}
 	return {
 		...expressionData,
 		value,
-		cursor: newCursor,
+		cursor: {
+			part: value.indexOf(functionElement) + 1,
+			cursor: getDataStartCursor(firstOf(expressionAfter)),
+		},
 	}
 }
 

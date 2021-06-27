@@ -7,7 +7,7 @@ import { findEndOfTerm, getSubExpression } from '../../support/ExpressionSupport
 import { mergeWithRight } from '../../support/merging'
 import { splitToRight } from '../../support/splitting'
 
-import defaultFunctions from './root'
+import defaultFunctions from './default'
 
 const allFunctions = {
 	...defaultFunctions,
@@ -23,7 +23,7 @@ const allFunctions = {
 export default allFunctions
 
 function create(expressionData, part, position, name, alias) {
-	const { value } = expressionData
+	let { value } = expressionData
 
 	// Define cursors.
 	const start = getDataStartCursor(expressionData)
@@ -51,19 +51,18 @@ function create(expressionData, part, position, name, alias) {
 	functionElement.value = funcs.getInitial(alias, parameter)
 
 	// Build the new Expression around it.
-	const newValue = [
+	value = [
 		...getSubExpression(value, start, beforeAlias),
 		functionElement,
 		...getSubExpression(value, endOfTerm, end),
 	]
-	const newCursor = {
-		part: newValue.indexOf(functionElement),
-		cursor: funcs.getInitialCursor(functionElement),
-	}
 	return {
 		...expressionData,
-		value: newValue,
-		cursor: newCursor,
+		value,
+		cursor: {
+			part: value.indexOf(functionElement),
+			cursor: funcs.getInitialCursor(functionElement),
+		},
 	}
 }
 

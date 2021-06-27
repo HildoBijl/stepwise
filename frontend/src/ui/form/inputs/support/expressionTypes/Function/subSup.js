@@ -7,7 +7,7 @@ import { getSubExpression } from '../support/ExpressionSupport'
 import { mergeWithRight } from '../support/merging'
 import { splitToRight } from '../support/splitting'
 import Expression from '../Expression'
-import SimpleText from '../SimpleText'
+import SubscriptText from './SubscriptText'
 
 const fullExport = {
 	...defaultFunctions,
@@ -69,7 +69,10 @@ function create(expressionData, part, position, name, alias) {
 	return {
 		...expressionData,
 		value,
-		cursor: { part: value.indexOf(functionElement), cursor: funcs.getInitialCursor(functionElement) },
+		cursor: {
+			part: value.indexOf(functionElement),
+			cursor: funcs.getInitialCursor(functionElement),
+		},
 	}
 }
 
@@ -132,7 +135,7 @@ function getInitial(alias) {
 }
 
 function getEmptySub() {
-	return { type: 'SimpleText', value: SimpleText.getEmpty() }
+	return { type: 'SubscriptText', value: SubscriptText.getEmpty() }
 }
 
 function getEmptySup() {

@@ -283,7 +283,7 @@ function processExpressionPartBrackets(arr) {
 					char += (index === matchingBracket.index ? addLeft.length : 0) + addRight.length // These characters were added. To prevent an infinite loop, add this length to the char iterator.
 				} else { // No matching opening bracket. Add a \. at the start of the ExpressionPart.
 					const addRight = '\\right'
-					const addLeft = '\\left.\\hspace{-0\\.12em}' // Add negative space to prevent the \. from distorting the layout. Also, escape the period in the negative space due to our own system changing periods to commas on some language settings.
+					const addLeft = '\\left.\\hspace{-0.12em}' // Add negative space to prevent the \. from distorting the layout.
 					arr[index] = insertAtIndex(arr[index], char, addRight) // Close off the bracket.
 					arr[index] = insertAtIndex(arr[index], 0, addLeft)
 					char += addLeft.length + addRight.length // These characters were added. To prevent an infinite loop, add this length to the char iterator.
@@ -292,10 +292,10 @@ function processExpressionPartBrackets(arr) {
 		}
 	})
 
-	// Close off remaining opening brackets by adding \. on the end of the respective strings.
+	// Close off remaining opening brackets by adding \right. on the end of the respective strings.
 	while (openingBrackets.length > 0) {
 		const openingBracket = openingBrackets.pop()
-		arr[openingBracket.index] = insertAtIndex(arr[openingBracket.index], arr[openingBracket.index].length, '\\right.\\hspace{-0\\.12em}')
+		arr[openingBracket.index] = insertAtIndex(arr[openingBracket.index], arr[openingBracket.index].length, '\\right.\\hspace{-0.12em}')
 		arr[openingBracket.index] = insertAtIndex(arr[openingBracket.index], openingBracket.char, '\\left')
 	}
 	return arr

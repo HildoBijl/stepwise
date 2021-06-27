@@ -2,13 +2,13 @@
  * This is where all the magic happens for math input fields. Inside these input fields, there are several element types.
  * - Expression: this is the default for any maths stuff. It's a list of the below elements.
  * - ExpressionPart: anything that's a string. So "a+b" can be an expression part, or "2*sin(3)+5". (It transforms stars into cdots.)
- * - SimpleText: text that has no functionality. Generally, this is used inside a subscript. (It does not transform stars into cdots.)
  * - Function: there is a large variety of functions that can be used. Some examples include:
  *   x frac: has two arguments and puts a divide stripe between them.
  *   x subSup: a subscript and superscript. Can have one of them or both.
  *   x sqrt: the square root.
  *   x root: the root with a power added to it.
  *   x log: a logarithm with certain base.
+ * - Accent: there is also a large variety of accents that can be used, like dot(m).
  * 
  * Every one of the above element types can have a variety of functions. We will list the important ones.
  * - toLatex(data): takes a data object and returns an object { latex: ..., chars: ... } where latex has the latex code and chars show the chars that will be in said latex code, in the order in which Katex renders them. (Yes, this requires back-engineering Katex, but otherwise we cannot trace elements in the equation.)
@@ -38,14 +38,16 @@ import { addCursor } from '../Input'
 
 import Expression from './Expression'
 import ExpressionPart from './ExpressionPart'
-import SimpleText from './SimpleText'
 import * as Function from './Function'
+import SubscriptText from './Function/SubscriptText'
+import * as Accent from './Accent'
 
 const functions = {
 	Expression,
 	ExpressionPart,
-	SimpleText,
+	SubscriptText,
 	Function,
+	Accent,
 }
 
 // getFuncs takes a data object and returns an object with all the functions for that data type.

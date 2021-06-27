@@ -6,10 +6,11 @@ import { getFuncs, zoomIn, zoomInAt } from '../index.js'
 import { getStartCursor } from '../Expression'
 import ExpressionPart from '../ExpressionPart'
 import { functions } from '../Function'
+import { accents } from '../Accent'
 
 export default function cleanUp(data) {
 	const hasCursor = !!data.cursor
-	
+
 	// Step 1 is to clean up all the elements individually.
 	data = cleanUpElements(data)
 
@@ -170,18 +171,22 @@ function applyAutoReplace(data) {
 	const activeElementData = zoomIn(data)
 	if (activeElementData.type !== 'ExpressionPart')
 		return data
-
-	// Walk through the expression part to search for the respective functions. If they're found, create the respective function.
 	const expressionPartValue = activeElementData.value
-	Object.keys(functions).forEach(name => {
-		const { aliases, create } = functions[name]
+
+	// Set up a handler to apply auto-replace with.
+	const checkAutoReplaceFor = (name, funcs) => {
+		const { aliases, create } = funcs
 		aliases.forEach(alias => {
 			const toSearch = `${alias}`
 			const position = expressionPartValue.indexOf(toSearch)
 			if (position !== -1)
 				data = create(data, cursor.part, position, name, alias)
 		})
-	})
+	}
+
+	// Walk through the expression part to search for the respective functions. If they're found, create the respective function.
+	Object.keys(functions).forEach(name => checkAutoReplaceFor(name, functions[name]))
+	Object.keys(accents).forEach(name => checkAutoReplaceFor(name, accents[name]))
 
 	return data
 }

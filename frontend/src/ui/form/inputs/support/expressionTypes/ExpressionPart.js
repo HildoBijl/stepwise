@@ -70,7 +70,6 @@ function getLatex(data, options) {
 	// Prevent Latex from messing up commas.
 	const replacement = decimalSeparator === ',' ? '{,}' : decimalSeparator
 	latex = latex.replace(/(?<!(\\left)|(\\right)|(\\))\\./g, substr => substr.replace('.', replacement).replace(',', replacement))
-	latex = latex.replaceAll('\\.', '.') // Remove backslashes from escaped periods.
 
 	// All done.
 	return latex
@@ -93,12 +92,8 @@ function getCursorProperties(data, charElements, container) {
 }
 
 export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement) {
-	const { key, ctrl, alt } = keyInfo
+	const { key } = keyInfo
 	const { value, cursor } = data
-
-	// Ignore ctrl/alt keys.
-	if (ctrl || alt)
-		return data
 
 	// For left/right-arrows, home and end, adjust the cursor.
 	if (key === 'ArrowLeft')
