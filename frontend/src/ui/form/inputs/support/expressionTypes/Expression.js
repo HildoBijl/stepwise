@@ -1,16 +1,14 @@
 import { insertAtIndex } from 'step-wise/util/strings'
-import { firstOf, lastOf, arraySplice, sum } from 'step-wise/util/arrays'
+import { firstOf, lastOf, sum } from 'step-wise/util/arrays'
 import { isEmpty, getEmpty } from 'step-wise/inputTypes/Expression'
 
 import { addCursor, removeCursor } from '../Input'
 import { getClosestElement } from '../MathWithCursor'
 import { getFuncs, zoomIn, getDataStartCursor, getDataEndCursor, isCursorAtDataStart, isCursorAtDataEnd } from './index.js'
 import ExpressionPart from './ExpressionPart'
-import * as SubSup from './SubSup'
 
 import cleanUp from './support/ExpressionCleanUp'
 import { getKeyPressHandlers } from './support/ExpressionSupport'
-import { splitAtCursor } from './support/splitting'
 
 const allFunctions = {
 	toLatex,
@@ -178,69 +176,6 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 						},
 					}
 				}
-			}
-		}
-	}
-
-	// When an underscore or power symbol is pressed, while in an ExpressionPart, create a subsup.
-	if (key === '_' || key === 'Underscore' || key === '^' || key === 'Power') {
-		if (activeElementData.type === 'ExpressionPart') {
-			const sub = (key === '_' || key === 'Underscore') // Cursor in the sub or the sup?
-			const subSupPart = sub ? 'sub' : 'sup'
-
-			// Set up a handler for determining the cursor.
-			const moveCursorToSubSup = (toRight) => {
-				const part = cursor.part + (toRight ? 1 : -1)
-
-				// If the subSup doesn't have the part where the cursor should be in, make it first.
-				let subSup = value[part], newValue = value
-				if (!subSup.value[subSupPart]) {
-					subSup = { ...subSup, value: { ...subSup.value, [subSupPart]: SubSup[`getEmpty${sub ? 'Sub' : 'Sup'}`]() } }
-					newValue = arraySplice(value, part, 1, subSup)
-				}
-
-				// Set up the result.
-				return {
-					...data,
-					value: newValue,
-					cursor: {
-						part, // In the subSup.
-						cursor: {
-							part: subSupPart,
-							cursor: (toRight ? getDataStartCursor : getDataEndCursor)(subSup.value[subSupPart]),
-						},
-					},
-				}
-			}
-
-			// Check if we are after or prior to a SubSup. In that case, only move the cursor.
-			const previousElementData = value[cursor.part - 1]
-			if (isCursorAtDataStart(activeElementData) && previousElementData && previousElementData.type === 'SubSup')
-				return moveCursorToSubSup(false)
-			const nextElementData = value[cursor.part + 1]
-			if (isCursorAtDataEnd(activeElementData) && nextElementData && nextElementData.type === 'SubSup')
-				return moveCursorToSubSup(true)
-
-			// Split the current ExpressionPart and put an empty SubSup in-between.
-			const split = splitAtCursor(data)
-			const newSubSup = {
-				type: 'SubSup',
-				value: SubSup.getEmpty(sub === true, sub === false),
-			}
-			return {
-				...data,
-				value: [
-					...split.left,
-					newSubSup,
-					...split.right,
-				],
-				cursor: {
-					part: cursor.part + 1,
-					cursor: {
-						part: subSupPart,
-						cursor: getDataStartCursor(newSubSup.value[subSupPart]),
-					},
-				},
 			}
 		}
 	}

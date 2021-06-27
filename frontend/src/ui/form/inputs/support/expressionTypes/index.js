@@ -4,8 +4,8 @@
  * - ExpressionPart: anything that's a string. So "a+b" can be an expression part, or "2*sin(3)+5". (It transforms stars into cdots.)
  * - SimpleText: text that has no functionality. Generally, this is used inside a subscript. (It does not transform stars into cdots.)
  * - Function: there is a large variety of functions that can be used. Some examples include:
- *   x Fraction: has two arguments and puts a divide stripe between them.
- *   x SubSup: a subscript and superscript. Can have one of them or both.
+ *   x frac: has two arguments and puts a divide stripe between them.
+ *   x subSup: a subscript and superscript. Can have one of them or both.
  *   x sqrt: the square root.
  *   x root: the root with a power added to it.
  *   x log: a logarithm with certain base.
@@ -39,14 +39,12 @@ import { addCursor } from '../Input'
 import Expression from './Expression'
 import ExpressionPart from './ExpressionPart'
 import SimpleText from './SimpleText'
-import * as SubSup from './SubSup' // TODO
 import * as Function from './Function'
 
 const functions = {
 	Expression,
 	ExpressionPart,
 	SimpleText,
-	SubSup,
 	Function,
 }
 

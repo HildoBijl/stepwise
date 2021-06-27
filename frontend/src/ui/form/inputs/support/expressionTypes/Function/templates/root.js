@@ -1,13 +1,13 @@
 // This is the most general template for settings up equation function objects, like sqrt, log, etcetera. It has default functionalities for most basic cases.
 
-import { firstOf, lastOf } from 'step-wise/util/arrays'
+import { firstOf } from 'step-wise/util/arrays'
 
 import { removeCursor } from '../../../Input'
 import { getClosestElement } from '../../../MathWithCursor'
 
 import { getFuncs, zoomIn, zoomInAt, getDataStartCursor, getDataEndCursor, isCursorAtDataStart, isCursorAtDataEnd, isDataEmpty } from '../../'
-import { getEmpty as getEmptyExpression } from '../../Expression'
-import { getKeyPressHandlers } from '../../support/ExpressionSupport'
+import Expression from '../../Expression'
+import { getKeyPressHandlers, getSubExpression } from '../../support/ExpressionSupport'
 
 const allFunctions = {
 	create,
@@ -15,6 +15,7 @@ const allFunctions = {
 	getInitialCursor,
 	toLatex,
 	charPartToValuePart,
+	valuePartToCharPart,
 	getCursorProperties,
 	keyPressToData,
 	canMoveCursorVertically,
@@ -38,22 +39,25 @@ export function create(expressionData, part, position, name, alias) {
 	const funcs = getFuncs(functionElement)
 	functionElement.value = funcs.getInitial(alias)
 
+	// Define cursors.
+	const start = getDataStartCursor(expressionData)
+	const beforeAlias = { part, cursor: position }
+	const afterAlias = { part, cursor: position + alias.length }
+	const end = getDataEndCursor(expressionData)
+
 	// Build the new Expression around it.
-	const { value, cursor } = expressionData
-	const expressionPartValue = value[part].value
-	const expressionPartBefore = { type: 'ExpressionPart', value: expressionPartValue.substring(0, position) }
-	const expressionPartAfter = { type: 'ExpressionPart', value: expressionPartValue.substring(position + alias.length) }
-	const newValue = [
-		...value.slice(0, part),
-		expressionPartBefore,
+	let { value } = expressionData
+	const expressionBefore = getSubExpression(value, start, beforeAlias)
+	const expressionAfter = getSubExpression(value, afterAlias, end)
+	value = [
+		...expressionBefore,
 		functionElement,
-		expressionPartAfter,
-		...value.slice(part + 1),
+		...expressionAfter,
 	]
-	const newCursor = { part: cursor.part + 2, cursor: getFuncs(expressionPartAfter).getStartCursor(expressionPartAfter.value) }
+	const newCursor = { part: expressionBefore.length + 1, cursor: Expression.getStartCursor(expressionAfter) }
 	return {
 		...expressionData,
-		value: newValue,
+		value,
 		cursor: newCursor,
 	}
 }
@@ -81,7 +85,9 @@ export function valuePartToCharPart(part) {
 export function getCursorProperties(data, charElements, container) {
 	const { cursor } = data
 	const activeElementData = zoomIn(data)
-	return getFuncs(activeElementData).getCursorProperties(activeElementData, charElements[getFuncs(data).valuePartToCharPart(cursor.part)], container)
+	const valuePartToCharPart = getFuncs(data).valuePartToCharPart
+	const charPart = valuePartToCharPart ? valuePartToCharPart(cursor.part) : cursor.part
+	return getFuncs(activeElementData).getCursorProperties(activeElementData, charElements[charPart], container)
 }
 
 export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement) {
@@ -141,26 +147,36 @@ export function coordinatesToCursor(coordinates, boundsData, data, charElements,
 	}
 }
 
+export function getFirstParameterIndex(value, backwards) {
+	if (backwards)
+		return value.length - 1 - getFirstParameterIndex([...value].reverse(), false)
+	return value.findIndex(element => !!element)
+}
+
 export function getStartCursor(value) {
-	return { part: 0, cursor: getDataStartCursor(firstOf(value)) }
+	const part = getFirstParameterIndex(value)
+	return { part, cursor: getDataStartCursor(value[part]) }
 }
 
 export function getEndCursor(value) {
-	return { part: value.length - 1, cursor: getDataEndCursor(lastOf(value)) }
+	const part = getFirstParameterIndex(value, true)
+	return { part, cursor: getDataEndCursor(value[part]) }
 }
 
 export function isCursorAtStart(value, cursor) {
+	const part = getFirstParameterIndex(value)
 	const data = { type: 'Function', value, cursor }
-	return cursor.part === 0 && isCursorAtDataStart(zoomIn(data))
+	return cursor.part === part && isCursorAtDataStart(zoomIn(data))
 }
 
 export function isCursorAtEnd(value, cursor) {
+	const part = getFirstParameterIndex(value, true)
 	const data = { type: 'Function', value, cursor }
-	return cursor.part === value.length - 1 && isCursorAtDataEnd(zoomIn(data))
+	return cursor.part === part && isCursorAtDataEnd(zoomIn(data))
 }
 
 export function getEmpty(numParameters = 1) {
-	return (new Array(numParameters)).fill(0).map(() => ({ type: 'Expression', value: getEmptyExpression() }))
+	return (new Array(numParameters)).fill(0).map(() => ({ type: 'Expression', value: Expression.getEmpty() }))
 }
 
 export function isEmpty(value) {
@@ -173,8 +189,12 @@ export function cleanUp(data) {
 	// Clean up the parts individually, keeping track of the cursor.
 	let newCursor = null
 	const newValue = value.map((_, part) => {
-		// Clean up the element if we can.
+		// Extract the element.
 		const element = zoomInAt(data, part)
+		if (element === null)
+			return element
+
+		// Clean up the element if we can.
 		const cleanUp = getFuncs(element).cleanUp
 		const cleanedElement = cleanUp ? cleanUp(element) : element
 

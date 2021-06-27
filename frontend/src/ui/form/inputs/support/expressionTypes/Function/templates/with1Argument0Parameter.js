@@ -27,9 +27,9 @@ function create(expressionData, part, position, name, alias) {
 
 	// Define cursors.
 	const start = getDataStartCursor(expressionData)
-	const leftSide = { part, cursor: position }
-	const rightSide = { part, cursor: position + alias.length }
-	const endOfTerm = findEndOfTerm({ ...expressionData, cursor: rightSide }, true, false, 1)
+	const beforeAlias = { part, cursor: position }
+	const afterAlias = { part, cursor: position + alias.length }
+	const endOfTerm = findEndOfTerm({ ...expressionData, cursor: afterAlias }, true, false, 1)
 	const end = getDataEndCursor(expressionData)
 
 	// Check if we had a bracket at the end of the term.
@@ -40,7 +40,7 @@ function create(expressionData, part, position, name, alias) {
 	// Set up the new function element. 
 	const parameter = {
 		type: 'Expression',
-		value: getSubExpression(value, rightSide, endOfTermWithoutBracket),
+		value: getSubExpression(value, afterAlias, endOfTermWithoutBracket),
 	}
 	const functionElement = {
 		type: 'Function',
@@ -52,11 +52,11 @@ function create(expressionData, part, position, name, alias) {
 
 	// Build the new Expression around it.
 	const newValue = [
-		...getSubExpression(value, start, leftSide),
+		...getSubExpression(value, start, beforeAlias),
 		functionElement,
 		...getSubExpression(value, endOfTerm, end),
 	]
-	const newCursor = { part: part + 1, cursor: funcs.getInitialCursor(functionElement) }
+	const newCursor = { part: newValue.indexOf(functionElement), cursor: funcs.getInitialCursor(functionElement) }
 	return {
 		...expressionData,
 		value: newValue,

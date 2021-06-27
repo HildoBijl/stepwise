@@ -1,7 +1,5 @@
 // This is the template for functions like frac(...)(...) or SubSup which have two parameters that are vertically above each other.
 
-import { firstOf } from 'step-wise/util/arrays'
-
 import defaultFunctions from './with1Argument0Parameter'
 
 import { charElementsToBounds } from '../../../MathWithCursor'
@@ -46,7 +44,6 @@ function create(expressionData, part, position, name, alias) {
 	const functionElement = {
 		type: 'Function',
 		name,
-		alias,
 	}
 	const funcs = getFuncs(functionElement)
 	functionElement.value = funcs.getInitial(alias, parameters)
@@ -73,6 +70,7 @@ function getInitial(alias, parameters) {
 }
 
 function getInitialCursor(element) {
+	// Find the first part that exists.
 	const part = element.value.findIndex(elementPart => !!elementPart)
 	return { part, cursor: getDataStartCursor(element.value[part]) }
 }
@@ -134,7 +132,7 @@ function split(data) {
 }
 
 function shouldRemove(data) {
-	return data.value.every(element => isDataEmpty(element))
+	return data.value.every(element => !element || isDataEmpty(element))
 }
 
 function removeElement(data) {
