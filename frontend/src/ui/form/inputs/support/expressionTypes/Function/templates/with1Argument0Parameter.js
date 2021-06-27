@@ -56,7 +56,10 @@ function create(expressionData, part, position, name, alias) {
 		functionElement,
 		...getSubExpression(value, endOfTerm, end),
 	]
-	const newCursor = { part: newValue.indexOf(functionElement), cursor: funcs.getInitialCursor(functionElement) }
+	const newCursor = {
+		part: newValue.indexOf(functionElement),
+		cursor: funcs.getInitialCursor(functionElement),
+	}
 	return {
 		...expressionData,
 		value: newValue,

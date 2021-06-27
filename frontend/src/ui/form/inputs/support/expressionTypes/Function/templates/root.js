@@ -54,7 +54,10 @@ export function create(expressionData, part, position, name, alias) {
 		functionElement,
 		...expressionAfter,
 	]
-	const newCursor = { part: expressionBefore.length + 1, cursor: Expression.getStartCursor(expressionAfter) }
+	const newCursor = {
+		part: value.indexOf(functionElement) + 1,
+		cursor: getDataStartCursor(firstOf(expressionAfter)),
+	}
 	return {
 		...expressionData,
 		value,
