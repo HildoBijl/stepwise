@@ -3,7 +3,6 @@
 import { lastOf } from 'step-wise/util/arrays'
 
 import { getFuncs, getDataStartCursor, getDataEndCursor } from '../..'
-import Expression from '../../Expression'
 import { findEndOfTerm, getSubExpression } from '../../support/ExpressionSupport'
 import { mergeWithRight } from '../../support/merging'
 import { splitToRight } from '../../support/splitting'
@@ -27,11 +26,11 @@ function create(expressionData, part, position, name, alias) {
 	const { value } = expressionData
 
 	// Define cursors.
-	const start = Expression.getStartCursor(value)
+	const start = getDataStartCursor(expressionData)
 	const leftSide = { part, cursor: position }
 	const rightSide = { part, cursor: position + alias.length }
 	const endOfTerm = findEndOfTerm({ ...expressionData, cursor: rightSide }, true, false, 1)
-	const end = Expression.getEndCursor(value)
+	const end = getDataEndCursor(expressionData)
 
 	// Check if we had a bracket at the end of the term.
 	let endOfTermWithoutBracket = endOfTerm
@@ -49,7 +48,7 @@ function create(expressionData, part, position, name, alias) {
 		alias,
 	}
 	const funcs = getFuncs(functionElement)
-	functionElement.value = funcs.getInitial(parameter)
+	functionElement.value = funcs.getInitial(alias, parameter)
 
 	// Build the new Expression around it.
 	const newValue = [
@@ -65,7 +64,7 @@ function create(expressionData, part, position, name, alias) {
 	}
 }
 
-function getInitial(parameter) {
+function getInitial(alias, parameter) {
 	return [parameter]
 }
 

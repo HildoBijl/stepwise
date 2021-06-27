@@ -1,8 +1,12 @@
+import frac from './frac'
+import subSup from './subSup'
 import log from './log'
 import sqrt from './sqrt'
 import root from './root'
 
 const functions = {
+	frac,
+	subSup,
 	log,
 	sqrt,
 	root,

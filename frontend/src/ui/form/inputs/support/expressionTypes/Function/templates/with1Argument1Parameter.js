@@ -4,7 +4,7 @@ import { getFuncs, zoomIn, getDataStartCursor, isCursorAtDataStart, isCursorAtDa
 import { mergeWithLeft, mergeWithRight } from '../../support/merging'
 import { splitToLeft, splitToRight } from '../../support/splitting'
 
-import defaultFunctions from './withArgument1Parameter'
+import defaultFunctions from './with1Argument0Parameter'
 
 const allFunctions = {
 	...defaultFunctions,
@@ -16,7 +16,7 @@ const allFunctions = {
 }
 export default allFunctions
 
-function getInitial(parameter) {
+function getInitial(alias, parameter) {
 	return [
 		{
 			type: 'Expression',
@@ -37,7 +37,7 @@ function keyPressToData(keyInfo, data, charElements, topParentData, contentsElem
 	const { key } = keyInfo
 	const activeElementData = zoomIn(data)
 
-	// When the cursor is at the start of an element and a backspace is pressed, or at the end of an element and a delete is pressed, move the cursor too.
+	// When the cursor is at the start of an element and a backspace is pressed, or at the end of an element and a delete is pressed remove this element.
 	if (key === 'Backspace' && isCursorAtDataStart(activeElementData) && !isCursorAtDataStart(data))
 		return getFuncs(data).removeElement(data, true)
 	if (key === 'Delete' && isCursorAtDataEnd(activeElementData) && !isCursorAtDataEnd(data))

@@ -14,6 +14,7 @@ const allFunctions = {
 	getInitial,
 	getInitialCursor,
 	toLatex,
+	charPartToValuePart,
 	getCursorProperties,
 	keyPressToData,
 	canMoveCursorVertically,
@@ -35,7 +36,7 @@ export function create(expressionData, part, position, name, alias) {
 	// Set up the new function element.
 	const functionElement = { type: 'Function', name, alias }
 	const funcs = getFuncs(functionElement)
-	functionElement.value = funcs.getInitial()
+	functionElement.value = funcs.getInitial(alias)
 
 	// Build the new Expression around it.
 	const { value, cursor } = expressionData
@@ -57,7 +58,7 @@ export function create(expressionData, part, position, name, alias) {
 	}
 }
 
-export function getInitial() {
+export function getInitial(alias) {
 	return getEmpty()
 }
 
@@ -69,10 +70,18 @@ export function toLatex(data) {
 	throw new Error(`Missing function error: the function component "${data && data.name}" has not implemented the toLatex function.`)
 }
 
+export function charPartToValuePart(part) {
+	return part
+}
+
+export function valuePartToCharPart(part) {
+	return part
+}
+
 export function getCursorProperties(data, charElements, container) {
 	const { cursor } = data
 	const activeElementData = zoomIn(data)
-	return getFuncs(activeElementData).getCursorProperties(activeElementData, charElements[cursor.part], container)
+	return getFuncs(activeElementData).getCursorProperties(activeElementData, charElements[getFuncs(data).valuePartToCharPart(cursor.part)], container)
 }
 
 export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement) {
@@ -105,7 +114,8 @@ export function canMoveCursorVertically(data, up) {
 }
 
 export function charElementClickToCursor(evt, data, trace, charElements, equationElement) {
-	const part = firstOf(trace)
+	const charPart = firstOf(trace)
+	const part = getFuncs(data).charPartToValuePart(charPart)
 	const element = data.value[part]
 
 	// If no element can be traced, then most likely the user clicked on the function name. Return null to indicate we cannot use the element to trace the cursor position.
@@ -113,7 +123,7 @@ export function charElementClickToCursor(evt, data, trace, charElements, equatio
 		return null
 
 	// All good. Pass on to the respective element.
-	const newCursor = getFuncs(element).charElementClickToCursor(evt, element, trace.slice(1), charElements[part], equationElement)
+	const newCursor = getFuncs(element).charElementClickToCursor(evt, element, trace.slice(1), charElements[charPart], equationElement)
 	return newCursor === null ? null : {
 		part,
 		cursor: newCursor,
@@ -121,9 +131,10 @@ export function charElementClickToCursor(evt, data, trace, charElements, equatio
 }
 
 export function coordinatesToCursor(coordinates, boundsData, data, charElements, contentsElement) {
-	const part = getClosestElement(coordinates, boundsData)
+	const charPart = getClosestElement(coordinates, boundsData)
+	const part = getFuncs(data).charPartToValuePart(charPart)
 	const element = data.value[part]
-	const newCursor = getFuncs(element).coordinatesToCursor(coordinates, boundsData.parts[part], element, charElements[part], contentsElement)
+	const newCursor = getFuncs(element).coordinatesToCursor(coordinates, boundsData.parts[charPart], element, charElements[charPart], contentsElement)
 	return newCursor === null ? null : {
 		part,
 		cursor: newCursor,

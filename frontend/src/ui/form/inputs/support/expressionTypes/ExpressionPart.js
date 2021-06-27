@@ -157,6 +157,8 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 		return addStrToData('*', data)
 	if (key === '.' || key === ',') // Period.
 		return addStrToData('.', data)
+	if (key === '/' || key === 'Divide') // Fraction. Will be auto-replaced.
+		return addStrToData('/', data)
 
 	// Unknown key. Ignore, do nothing.
 	return data

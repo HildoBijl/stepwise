@@ -39,14 +39,12 @@ import { addCursor } from '../Input'
 import Expression from './Expression'
 import ExpressionPart from './ExpressionPart'
 import SimpleText from './SimpleText'
-import * as Fraction from './Fraction' // TODO
 import * as SubSup from './SubSup' // TODO
 import * as Function from './Function'
 
 const functions = {
 	Expression,
 	ExpressionPart,
-	Fraction,
 	SimpleText,
 	SubSup,
 	Function,

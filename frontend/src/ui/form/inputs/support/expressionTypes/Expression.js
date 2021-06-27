@@ -9,7 +9,7 @@ import ExpressionPart from './ExpressionPart'
 import * as SubSup from './SubSup'
 
 import cleanUp from './support/ExpressionCleanUp'
-import { getKeyPressHandlers, findEndOfTerm, getSubExpression } from './support/ExpressionSupport'
+import { getKeyPressHandlers } from './support/ExpressionSupport'
 import { splitAtCursor } from './support/splitting'
 
 const allFunctions = {
@@ -178,33 +178,6 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 						},
 					}
 				}
-			}
-		}
-	}
-
-	// On divisions create a fraction.
-	if (key === '/' || key === 'Divide') {
-		if (activeElementData.type === 'ExpressionPart') {
-			// We must create a fraction! First find what needs to be put in the fraction: find the cursor endings.
-			const leftCursor = findEndOfTerm(data, false, true)
-			const rightCursor = findEndOfTerm(data, true, false)
-
-			// Then set up the numerator and denominator for the fraction.
-			const num = { type: 'Expression', value: getSubExpression(value, leftCursor, cursor) }
-			const den = { type: 'Expression', value: getSubExpression(value, cursor, rightCursor) }
-			const fraction = { type: 'Fraction', value: { num, den } }
-
-			// Gather all remaining parts, clean it up and return it.
-			const newValue = [
-				...getSubExpression(value, getStartCursor(value), leftCursor),
-				fraction,
-				...getSubExpression(value, rightCursor, getEndCursor(value)),
-			]
-			const newCursor = { part: newValue.indexOf(fraction), cursor: { part: 'den', cursor: getDataStartCursor(fraction.value.den) } }
-			return {
-				...data,
-				value: newValue,
-				cursor: newCursor,
 			}
 		}
 	}
