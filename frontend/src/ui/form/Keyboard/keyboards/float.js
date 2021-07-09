@@ -6,7 +6,7 @@ import { M } from 'ui/components/equations'
 
 import KeyboardLayout from './KeyboardLayout'
 
-export const tab = <M>1.23</M>
+export const tab = <M>1{`{,}`}23</M>
 
 export function Layout({ settings, keyFunction, keySettings }) {
 	settings = useCurrentOrPrevious(settings) // When the settings turn to null, use the previous one for display purposes.

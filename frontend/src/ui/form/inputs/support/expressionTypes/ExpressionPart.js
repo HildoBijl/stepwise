@@ -71,7 +71,7 @@ function getLatex(data, options) {
 	// Replace a period by the default decimal separator, but only when not preceded by \left or \right or \ (a backslash itself).
 	// Prevent Latex from messing up commas.
 	const replacement = decimalSeparator === ',' ? '{,}' : decimalSeparator
-	latex = latex.replace(/(?<!(\\left)|(\\right)|(\\))\\./g, substr => substr.replace('.', replacement).replace(',', replacement))
+	latex = latex.replace(/(?<!(\\left)|(\\right)|(\\))[.,]/g, substr => substr.replace('.', replacement).replace(',', replacement))
 
 	// All done.
 	return latex
