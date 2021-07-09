@@ -1,6 +1,6 @@
-import { createMuiTheme } from '@material-ui/core/styles'
+import { createTheme } from '@material-ui/core/styles'
 import { CheckCircle as SuccessIcon, Cancel as ErrorIcon, Warning as WarningIcon, Info as InfoIcon } from '@material-ui/icons'
-import { fade } from '@material-ui/core/styles/colorManipulator'
+import { alpha } from '@material-ui/core/styles/colorManipulator'
 
 import { toCSS } from 'util/colors'
 
@@ -88,7 +88,7 @@ let theme = {
 	},
 }
 
-theme = createMuiTheme(theme) // Turn the theme into a MUI theme object.
+theme = createTheme(theme) // Turn the theme into a MUI theme object.
 export default theme
 
 // A macro for making an object unselectable, preventing a blue border around it.
@@ -99,7 +99,7 @@ const notSelectable = {
 export { notSelectable }
 
 const linkStyle = {
-	color: fade(theme.palette.text.primary, 0.6),
+	color: alpha(theme.palette.text.primary, 0.6),
 	fontWeight: 600,
 	textDecoration: 'none',
 

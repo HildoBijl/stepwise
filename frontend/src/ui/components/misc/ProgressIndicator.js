@@ -1,7 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
-import { fade } from '@material-ui/core/styles/colorManipulator'
+import { alpha } from '@material-ui/core/styles/colorManipulator'
 
 import { notSelectable, centered } from 'ui/theme'
 
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 				transform: 'rotate(-90deg)', // Let the circle start at the top.
 
 				'&.filler': {
-					stroke: fade(theme.palette.text.primary, 0.1),
+					stroke: alpha(theme.palette.text.primary, 0.1),
 				},
 				'&.front': {
 					stroke: theme.palette.primary.main,

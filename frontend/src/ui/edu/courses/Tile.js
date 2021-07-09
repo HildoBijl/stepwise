@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import clsx from 'clsx'
 import { Link, useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
-import { fade } from '@material-ui/core/styles/colorManipulator'
+import { alpha } from '@material-ui/core/styles/colorManipulator'
 import Box from '@material-ui/core/Box'
 import Tooltip from '@material-ui/core/Tooltip'
 
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 		'& .tileBox': {
 			alignItems: 'stretch',
-			background: fade(theme.palette.primary.main, 0.03),
+			background: alpha(theme.palette.primary.main, 0.03),
 			borderRadius: '0.5rem',
 			cursor: 'pointer',
 			display: 'flex',
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 			...linkStyleReset,
 
 			'&:hover': {
-				background: ({ buttonHover }) => fade(theme.palette.primary.main, buttonHover ? 0.03 : 0.1),
+				background: ({ buttonHover }) => alpha(theme.palette.primary.main, buttonHover ? 0.03 : 0.1),
 			},
 
 			'& .nameContainer': {

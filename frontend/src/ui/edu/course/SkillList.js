@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
-import { fade } from '@material-ui/core/styles/colorManipulator'
+import { alpha } from '@material-ui/core/styles/colorManipulator'
 import Box from '@material-ui/core/Box'
 import Tooltip from '@material-ui/core/Tooltip'
 import { Check } from '@material-ui/icons'
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 			},
 
 			'&:hover:not(.dummy)': {
-				background: fade(theme.palette.primary.main, 0.03),
+				background: alpha(theme.palette.primary.main, 0.03),
 			},
 
 			'&.recommend': {
@@ -66,9 +66,9 @@ const useStyles = makeStyles((theme) => ({
 			borderRadius: '0.5rem',
 
 			'& .skillItem': {
-				background: fade(theme.palette.primary.main, 0.03),
+				background: alpha(theme.palette.primary.main, 0.03),
 				'&:hover:not(.dummy)': {
-					background: fade(theme.palette.primary.main, 0.1),
+					background: alpha(theme.palette.primary.main, 0.1),
 				},
 			},
 		},

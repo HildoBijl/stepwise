@@ -1,7 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
-import { fade } from '@material-ui/core/styles/colorManipulator'
+import { alpha } from '@material-ui/core/styles/colorManipulator'
 import Collapse from '@material-ui/core/Collapse'
 import Box from '@material-ui/core/Box'
 import { ChevronRight as Arrow } from '@material-ui/icons'
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 		'& .block': {
 			alignItems: 'center',
-			background: fade(theme.palette.primary.main, 0.03),
+			background: alpha(theme.palette.primary.main, 0.03),
 			cursor: 'pointer',
 			display: 'flex',
 			flexFlow: 'row nowrap',
@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 
 		'&.landscape': {
 			'&.active .block, & .block:hover': {
-				background: fade(theme.palette.primary.main, 0.1),
+				background: alpha(theme.palette.primary.main, 0.1),
 			},
 			'&.active': {
 				'& .arrow': {

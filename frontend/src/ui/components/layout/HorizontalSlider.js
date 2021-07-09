@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
-import { fade } from '@material-ui/core/styles/colorManipulator'
+import { alpha } from '@material-ui/core/styles/colorManipulator'
 
 import { boundTo } from 'step-wise/util/numbers'
 
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 		'&.active': {
 			'&:hover, &.sliding, &.dragging': {
-				background: fade(theme.palette.primary.main, 0.05),
+				background: alpha(theme.palette.primary.main, 0.05),
 				'& > .scroller': {
 					opacity: 1, // Show on hover or when sliding.
 				},
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 			},
 		},
 		'& > .scroller': {
-			background: fade(theme.palette.primary.main, 0.2),
+			background: alpha(theme.palette.primary.main, 0.2),
 			borderRadius: '0.25rem',
 			bottom: 0,
 			cursor: 'pointer',
@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 			width: '100%',
 
 			'& > .toggle': {
-				background: fade(theme.palette.primary.main, 0.8),
+				background: alpha(theme.palette.primary.main, 0.8),
 				borderRadius: '0.25rem',
 				height: '0.5rem',
 				left: ({ active, slidePart, contentsPart }) => active ? `${slidePart * (1 - contentsPart) * 100}%` : '0',

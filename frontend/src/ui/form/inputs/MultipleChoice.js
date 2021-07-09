@@ -2,7 +2,7 @@ import React, { useRef, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Radio from '@material-ui/core/Radio'
 import Checkbox from '@material-ui/core/Checkbox'
-import { fade } from '@material-ui/core/styles/colorManipulator'
+import { alpha } from '@material-ui/core/styles/colorManipulator'
 import Box from '@material-ui/core/Box'
 import clsx from 'clsx'
 
@@ -70,16 +70,16 @@ export { style }
 
 const useOptionStyle = makeStyles((theme) => ({
 	option: {
-		background: ({ feedbackType, feedbackColor }) => !feedbackType || feedbackType === 'normal' ? fade(theme.palette.info.main, 0.1) : fade(feedbackColor, 0.1),
+		background: ({ feedbackType, feedbackColor }) => !feedbackType || feedbackType === 'normal' ? alpha(theme.palette.info.main, 0.1) : alpha(feedbackColor, 0.1),
 		color: ({ feedbackColor }) => feedbackColor || 'inherit',
 		cursor: ({ readOnly }) => readOnly ? 'auto' : 'pointer',
 
 		'&:hover': {
-			background: ({ feedbackType, feedbackColor, readOnly }) => (readOnly ? null : (!feedbackType || feedbackType === 'normal' ? fade(theme.palette.info.main, 0.2) : fade(feedbackColor, 0.2))),
+			background: ({ feedbackType, feedbackColor, readOnly }) => (readOnly ? null : (!feedbackType || feedbackType === 'normal' ? alpha(theme.palette.info.main, 0.2) : alpha(feedbackColor, 0.2))),
 		},
 
 		'&.checked, &.withFeedback': {
-			background: ({ feedbackType, feedbackColor }) => !feedbackType || feedbackType === 'normal' ? fade(theme.palette.info.main, 0.2) : fade(feedbackColor, 0.2),
+			background: ({ feedbackType, feedbackColor }) => !feedbackType || feedbackType === 'normal' ? alpha(theme.palette.info.main, 0.2) : alpha(feedbackColor, 0.2),
 		},
 
 		'& .checkbox': {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
-import { fade } from '@material-ui/core/styles/colorManipulator'
+import { alpha } from '@material-ui/core/styles/colorManipulator'
 import clsx from 'clsx'
 
 import { getIcon, getFeedbackColor } from 'ui/theme'
@@ -8,7 +8,7 @@ import { getIcon, getFeedbackColor } from 'ui/theme'
 const useStyles = makeStyles((theme) => ({
 	feedbackBlock: {
 		alignItems: 'center',
-		background: ({ color }) => fade(color, 0.1),
+		background: ({ color }) => alpha(color, 0.1),
 		borderRadius: '0.5em',
 		color: ({ color }) => color,
 		display: 'flex',

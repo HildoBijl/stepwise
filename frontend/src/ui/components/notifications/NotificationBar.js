@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Container, Typography } from '@material-ui/core'
-import { fade } from '@material-ui/core/styles/colorManipulator'
+import { alpha } from '@material-ui/core/styles/colorManipulator'
 
 import { getIcon } from 'ui/theme'
 
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 				flex: '1 1 auto',
 
 				'& a': {
-					color: ({ type }) => fade(theme.palette[type].contrastText, 0.8),
+					color: ({ type }) => alpha(theme.palette[type].contrastText, 0.8),
 					fontWeight: 600,
 					textDecoration: 'none',
 					

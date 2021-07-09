@@ -1,6 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { fade } from '@material-ui/core/styles/colorManipulator'
+import { alpha } from '@material-ui/core/styles/colorManipulator'
 import clsx from 'clsx'
 
 import { repeat } from 'step-wise/util/functions'
@@ -23,7 +23,7 @@ const style = (theme) => ({
 		'&.valid': {
 			'& .prefix': {
 				'& .char': {
-					color: fade(theme.palette.info.main, 0.75),
+					color: alpha(theme.palette.info.main, 0.75),
 				},
 			},
 		},
