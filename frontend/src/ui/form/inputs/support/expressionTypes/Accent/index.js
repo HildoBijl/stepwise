@@ -1,9 +1,11 @@
 import { isLetter } from 'step-wise/util/strings'
 
 import dot from './dot'
+import hat from './hat'
 
 const accents = {
 	dot,
+	hat,
 }
 export { accents }
 
