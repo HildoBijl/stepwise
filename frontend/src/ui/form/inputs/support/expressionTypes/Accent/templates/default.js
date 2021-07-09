@@ -6,6 +6,7 @@ import { getDataStartCursor, getDataEndCursor } from '../../'
 import ExpressionPart, { addStrToData } from '../../ExpressionPart'
 import { keyPressToData as expressionKeyPressToData } from '../../Expression'
 import { findEndOfTerm, getSubExpression } from '../../support/ExpressionSupport'
+import { isCursorKey } from '../../support/acceptsKey'
 
 import { isAcceptableChar, filterAcceptableChar } from '../'
 
@@ -15,6 +16,7 @@ const allFunctions = {
 	...ExpressionPart,
 	create,
 	toLatex,
+	acceptsKey,
 	keyPressToData,
 	shouldRemove,
 	canMerge,
@@ -75,9 +77,18 @@ export function toLatex(data) {
 	throw new Error(`Missing function error: the accent component "${data && data.name}" has not implemented the toLatex function.`)
 }
 
+export function acceptsKey(keyInfo, data) {
+	const { key } = keyInfo
+	return isCursorKey(keyInfo, data) || isAcceptableChar(key)
+}
+
 export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement) {
 	const { key } = keyInfo
 	const { value, cursor } = data
+
+	// Verify the key.
+	if (!acceptsKey(keyInfo, data))
+		return data
 
 	// For left/right-arrows, home and end, adjust the cursor.
 	if (key === 'ArrowLeft')
@@ -108,8 +119,8 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 	if (isAcceptableChar(key))
 		return addStrToData(key, data)
 
-	// Unknown character. Do nothing.
-	return data
+	// Unknown character.
+	throw new Error(`Unknown character processing: received the key "${key}" which got accepted, but did not know how to process this.`)
 }
 
 export function shouldRemove(data) {

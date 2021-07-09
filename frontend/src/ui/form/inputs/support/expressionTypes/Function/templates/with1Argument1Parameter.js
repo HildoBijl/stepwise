@@ -25,7 +25,7 @@ function getInitial(alias, parameter) {
 				value: '2',
 			}]
 		},
-		parameter
+		parameter,
 	]
 }
 

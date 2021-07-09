@@ -21,7 +21,7 @@ function toLatex(data, options) {
 	}
 }
 
-function getInitial(parameter) {
+function getInitial(alias, parameter) {
 	return [
 		{
 			type: 'Expression',
@@ -30,6 +30,6 @@ function getInitial(parameter) {
 				value: '2',
 			}],
 		},
-		parameter
+		parameter,
 	]
 }

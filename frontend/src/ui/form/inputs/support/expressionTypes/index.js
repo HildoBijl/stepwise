@@ -107,3 +107,12 @@ export function isDataEmpty(data) {
 	const { value } = data
 	return getFuncs(data).isEmpty(value)
 }
+
+export function canMoveDataCursorVertically(data, up) {
+	const canMoveCursorVertically = getFuncs(data).canMoveCursorVertically
+	return !!canMoveCursorVertically && canMoveCursorVertically(data, up)
+}
+
+export function dataAcceptsKey(keyInfo, data) {
+	return getFuncs(data).acceptsKey(keyInfo, data)
+}

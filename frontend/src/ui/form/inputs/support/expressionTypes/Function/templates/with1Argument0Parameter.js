@@ -81,7 +81,7 @@ function canMerge(data, mergeWithNext, fromOutside) {
 function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {
 	// If we want to merge with what came before, this actually means we must remove the element.
 	if (!mergeWithNext)
-		return getFuncs(expressionValue[partIndex]).removeElementFromExpression(expressionValue, partIndex, fromOutside)
+		return getFuncs(expressionValue[partIndex]).removeElementFromExpression(expressionValue, partIndex, !fromOutside)
 	return mergeWithRight(expressionValue, partIndex, fromOutside)
 }
 

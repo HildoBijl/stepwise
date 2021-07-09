@@ -6,12 +6,14 @@ import { latexMinus } from 'ui/components/equations'
 
 import { emptyElementChar, emptyElementCharLatex } from '../../MathWithCursor'
 import ExpressionPart, { addStrToData } from '../ExpressionPart'
+import { isCursorKey } from '../support/acceptsKey'
 
 const { getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd } = ExpressionPart
 
 const allFunctions = {
 	...ExpressionPart,
 	toLatex,
+	acceptsKey,
 	keyPressToData,
 }
 export default allFunctions
@@ -38,12 +40,34 @@ function getLatexChars(data) {
 	return value.split('')
 }
 
+export function acceptsKey(keyInfo, data) {
+	if (isCursorKey(keyInfo, data))
+		return true
+
+	const { key } = keyInfo
+	if (isLetter(key) || isNumber(key))
+		return true
+	if (key === '.' || key === ',')
+		return true
+	if (key === '+' || key === 'Plus')
+		return true
+	if (key === '-' || key === 'Minus')
+		return true
+	if (key === '*' || key === 'Times')
+		return true
+	if (key === '=' || key === 'Equals')
+		return true
+
+	// Nothing found.
+	return false
+}
+
 export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement) {
-	const { key, ctrl, alt } = keyInfo
+	const { key } = keyInfo
 	const { value, cursor } = data
 
-	// Ignore ctrl/alt keys.
-	if (ctrl || alt)
+	// Verify the key.
+	if (!acceptsKey(keyInfo, data))
 		return data
 
 	// For left/right-arrows, home and end, adjust the cursor.
@@ -85,6 +109,6 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 	if (key === '=' || key === 'Equals') // Equals.
 		return addStrToData('=', data)
 
-	// Unknown key. Ignore, do nothing.
-	return data
+	// Unknown character.
+	throw new Error(`Unknown character processing: received the key "${key}" which got accepted, but did not know how to process this.`)
 }

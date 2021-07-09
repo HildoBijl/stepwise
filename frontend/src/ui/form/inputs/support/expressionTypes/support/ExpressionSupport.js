@@ -147,15 +147,12 @@ export function getSubExpression(value, left, right) {
 }
 
 export function getDeepestExpression(data) {
-	// Follow the cursor until we're nearly the end.
-	let { value, cursor } = data
-	while (data.value[cursor.part].type !== 'ExpressionPart') {
-		data = value[cursor.part]
-		cursor = cursor.cursor
-		value = data.value
+	// Zoom in until the end and remember the last expression we found.
+	let deepestExpression = data
+	while (data.cursor.part !== undefined) {
+		data = zoomIn(data)
+		if (data.type === 'Expression')
+			deepestExpression = data
 	}
-	return {
-		...data,
-		cursor,
-	}
+	return deepestExpression
 }

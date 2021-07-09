@@ -11,6 +11,7 @@ import { latexMinus } from 'ui/components/equations'
 import { emptyElementChar, emptyElementCharLatex, isCharElementEmpty, getCursorPropertiesFromElements, getClosestElement } from '../MathWithCursor'
 import Expression from './Expression'
 import { getDeepestExpression } from './support/ExpressionSupport'
+import { isCursorKey } from './support/acceptsKey'
 
 const basicFunctions = ['sin', 'cos', 'tan', 'asin', 'acos', 'atan', 'arcsin', 'arccos', 'arctan', 'ln'] // ToDo later: put this in a mathematics file and import it here.
 
@@ -23,6 +24,7 @@ const autoReplaceSymbols = [
 const allFunctions = {
 	toLatex,
 	getCursorProperties,
+	acceptsKey,
 	keyPressToData,
 	charElementClickToCursor,
 	coordinatesToCursor,
@@ -91,9 +93,41 @@ function getCursorProperties(data, charElements, container) {
 	return getCursorPropertiesFromElements(charElements[cursor - 1], charElements[cursor], container)
 }
 
+export function acceptsKey(keyInfo, data) {
+	if (isCursorKey(keyInfo, data))
+		return true
+
+	const { key } = keyInfo
+	if (isLetter(key) || isNumber(key))
+		return true
+	if (key === '(' || key === ')')
+		return true
+	if (key === '+' || key === 'Plus')
+		return true
+	if (key === '-' || key === 'Minus')
+		return true
+	if (key === '*' || key === 'Times')
+		return true
+	if (key === '.' || key === ',')
+		return true
+	if (key === '/' || key === 'Divide')
+		return true
+	if (key === '_' || key === 'Subscript')
+		return true
+	if (key === '^' || key === 'Superscript')
+		return true
+
+	// Nothing found.
+	return false
+}
+
 export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement) {
 	const { key } = keyInfo
 	const { value, cursor } = data
+
+	// Verify the key.
+	if (!acceptsKey(keyInfo, data))
+		return data
 
 	// For left/right-arrows, home and end, adjust the cursor.
 	if (key === 'ArrowLeft')
@@ -165,8 +199,8 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 	if (key === '^' || key === 'Superscript') // Will be auto-replaced by a SubSup.
 		return addStrToData('^', data)
 
-	// Unknown key. Ignore, do nothing.
-	return data
+	// Unknown character.
+	throw new Error(`Unknown character processing: received the key "${key}" which got accepted, but did not know how to process this.`)
 }
 
 // addStrToData adds a string into the data object, at the position of the cursor. It returns the new data object, with the cursor moved accordingly.

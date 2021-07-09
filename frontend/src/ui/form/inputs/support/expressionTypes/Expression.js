@@ -4,15 +4,17 @@ import { isEmpty, getEmpty } from 'step-wise/inputTypes/Expression'
 
 import { addCursor, removeCursor } from '../Input'
 import { getClosestElement } from '../MathWithCursor'
-import { getFuncs, zoomIn, getDataStartCursor, getDataEndCursor, isCursorAtDataStart, isCursorAtDataEnd } from './index.js'
+import { getFuncs, zoomIn, getDataStartCursor, getDataEndCursor, isCursorAtDataStart, isCursorAtDataEnd, dataAcceptsKey } from './index.js'
 import ExpressionPart from './ExpressionPart'
 
 import cleanUp from './support/ExpressionCleanUp'
 import { getKeyPressHandlers } from './support/ExpressionSupport'
+import { isCursorKey } from './support/acceptsKey'
 
 const allFunctions = {
 	toLatex,
 	getCursorProperties,
+	acceptsKey,
 	keyPressToData,
 	canMoveCursorVertically,
 	charElementClickToCursor,
@@ -81,17 +83,58 @@ export function getCursorProperties(data, charElements, container) {
 	return getFuncs(activeElement).getCursorProperties(activeElement, charElements[data.cursor.part], container)
 }
 
-export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement) {
+export function acceptsKey(keyInfo, data) {
 	const { key, ctrl, alt } = keyInfo
+	const { cursor, value } = data
+	const activeElementData = zoomIn(data)
+	const activeElementFuncs = getFuncs(activeElementData)
+
+	// Ignore ctrl/alt keys.
+	if (ctrl || alt)
+		return false
+
+	// Check for cursor keys.
+	if (isCursorKey(keyInfo, data))
+		return true
+
+	// Check for the spacebar.
+	if (key === ' ' || key === 'Spacebar') {
+		if (activeElementFuncs.canSplit && activeElementFuncs.canSplit(activeElementData)) {
+			const parameter = zoomIn(activeElementData)
+			const parameterFuncs = getFuncs(parameter)
+			if (!(parameterFuncs.canSplit && parameterFuncs.canSplit(parameter))) {
+				if (zoomIn(parameter).type === 'ExpressionPart') {
+					return true
+				}
+			}
+		}
+	}
+
+	// Check for inavlid keys inside accents that are shifted to the neighbouring element.
+	if (activeElementData.type === 'Accent') {
+		if (!dataAcceptsKey(keyInfo, activeElementData)) {
+			if (isCursorAtDataStart(activeElementData) && dataAcceptsKey(keyInfo, value[cursor.part - 1]))
+				return true
+			if (isCursorAtDataEnd(activeElementData) && dataAcceptsKey(keyInfo, value[cursor.part + 1]))
+				return true
+		}
+	}
+
+	// Check the child element.
+	return dataAcceptsKey(keyInfo, zoomIn(data))
+}
+
+export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement) {
+	const { key } = keyInfo
 	const { value, cursor } = data
 	const activeElementData = zoomIn(data)
 	const activeElementFuncs = getFuncs(activeElementData)
 
-	const { passOn, moveLeft, moveRight } = getKeyPressHandlers(keyInfo, data, charElements, topParentData, contentsElement, cursorElement)
-
-	// Ignore ctrl/alt keys.
-	if (ctrl || alt)
+	// Verify the key.
+	if (!acceptsKey(keyInfo, data))
 		return data
+
+	const { passOn, moveLeft, moveRight } = getKeyPressHandlers(keyInfo, data, charElements, topParentData, contentsElement, cursorElement)
 
 	// For left/right-arrows, adjust the cursor.
 	if (key === 'ArrowLeft' && cursor.part > 0 && isCursorAtDataStart(activeElementData))
@@ -101,11 +144,11 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 
 	// For the home/end, move to the start/end of this expression, but only if the cursor is already at the start of said element or a child of said element. (If not, pass the call on to let the part itself handle it.)
 	if (key === 'Home') {
-		if (activeElementData.type === 'ExpressionPart' || isCursorAtDataStart(activeElementData) || isCursorAtDataStart(zoomIn(activeElementData)))
+		if (activeElementData.type === 'ExpressionPart' || activeElementData.type === 'Accent' || isCursorAtDataStart(activeElementData) || isCursorAtDataStart(zoomIn(activeElementData)))
 			return { ...data, cursor: getStartCursor(value) }
 	}
 	if (key === 'End') {
-		if (activeElementData.type === 'ExpressionPart' || isCursorAtDataEnd(activeElementData) || isCursorAtDataEnd(zoomIn(activeElementData)))
+		if (activeElementData.type === 'ExpressionPart' || activeElementData.type === 'Accent' || isCursorAtDataEnd(activeElementData) || isCursorAtDataEnd(zoomIn(activeElementData)))
 			return { ...data, cursor: getEndCursor(value) }
 	}
 
@@ -176,6 +219,37 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 						},
 					}
 				}
+			}
+		}
+	}
+
+	// Check if the cursor is at the start/end of an accent that doesn't accept the key, while the ExpressionPart neighbour does accept the key. In that case, move the cursor first to the ExpressionPart and process appropriately.
+	if (activeElementData.type === 'Accent') {
+		if (!dataAcceptsKey(keyInfo, activeElementData)) {
+			// Check if we're near the previous part and if that accepts it.
+			const previousPart = value[cursor.part - 1]
+			if (isCursorAtDataStart(activeElementData) && dataAcceptsKey(keyInfo, previousPart)) {
+				const newExpression = {
+					...data,
+					cursor: {
+						part: cursor.part - 1,
+						cursor: getDataEndCursor(previousPart),
+					},
+				}
+				return keyPressToData(keyInfo, newExpression, charElements, newExpression, contentsElement, cursorElement)
+			}
+
+			// Check if we're near the next part and if that accepts it.
+			const nextPart = value[cursor.part + 1]
+			if (isCursorAtDataEnd(activeElementData) && dataAcceptsKey(keyInfo, nextPart)) {
+				const newExpression = {
+					...data,
+					cursor: {
+						part: cursor.part + 1,
+						cursor: getDataStartCursor(nextPart),
+					},
+				}
+				return keyPressToData(keyInfo, newExpression, charElements, newExpression, contentsElement, cursorElement)
 			}
 		}
 	}

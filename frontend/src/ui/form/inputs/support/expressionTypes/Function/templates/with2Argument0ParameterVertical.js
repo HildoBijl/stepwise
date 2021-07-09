@@ -2,7 +2,7 @@
 
 import defaultFunctions from './with1Argument0Parameter'
 
-import { charElementsToBounds } from '../../../MathWithCursor'
+import { charElementsToBounds, getClosestElement } from '../../../MathWithCursor'
 
 import { zoomIn, getFuncs, getDataStartCursor, getDataEndCursor, isDataEmpty } from '../../'
 import { findEndOfTerm, getSubExpression } from '../../support/ExpressionSupport'
@@ -16,6 +16,7 @@ const allFunctions = {
 	getInitialCursor,
 	keyPressToData,
 	canMoveCursorVertically,
+	coordinatesToCursor,
 	merge,
 	split,
 	shouldRemove,
@@ -119,6 +120,17 @@ function canMoveCursorVertically(data, up) {
 
 	// Check if the child allows us to move vertically.
 	return defaultFunctions.canMoveCursorVertically(data, up)
+}
+
+export function coordinatesToCursor(coordinates, boundsData, data, charElements, contentsElement) {
+	const charPart = getClosestElement(coordinates, boundsData, false)
+	const part = getFuncs(data).charPartToValuePart(charPart)
+	const element = data.value[part]
+	const newCursor = getFuncs(element).coordinatesToCursor(coordinates, boundsData.parts[charPart], element, charElements[charPart], contentsElement)
+	return newCursor === null ? null : {
+		part,
+		cursor: newCursor,
+	}
 }
 
 function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {

@@ -5,9 +5,10 @@ import { firstOf } from 'step-wise/util/arrays'
 import { removeCursor } from '../../../Input'
 import { getClosestElement } from '../../../MathWithCursor'
 
-import { getFuncs, zoomIn, zoomInAt, getDataStartCursor, getDataEndCursor, isCursorAtDataStart, isCursorAtDataEnd, isDataEmpty } from '../..'
+import { getFuncs, zoomIn, zoomInAt, getDataStartCursor, getDataEndCursor, isCursorAtDataStart, isCursorAtDataEnd, isDataEmpty, dataAcceptsKey } from '../../'
 import Expression from '../../Expression'
 import { getKeyPressHandlers, getSubExpression } from '../../support/ExpressionSupport'
+import { isCursorKey } from '../../support/acceptsKey'
 
 const allFunctions = {
 	create,
@@ -17,6 +18,7 @@ const allFunctions = {
 	charPartToValuePart,
 	valuePartToCharPart,
 	getCursorProperties,
+	acceptsKey,
 	keyPressToData,
 	canMoveCursorVertically,
 	charElementClickToCursor,
@@ -92,10 +94,20 @@ export function getCursorProperties(data, charElements, container) {
 	return getFuncs(activeElementData).getCursorProperties(activeElementData, charElements[charPart], container)
 }
 
+export function acceptsKey(keyInfo, data) {
+	if (isCursorKey(keyInfo, data))
+		return true
+	return dataAcceptsKey(keyInfo, zoomIn(data))
+}
+
 export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement) {
 	const { key } = keyInfo
 	const { value, cursor } = data
 	const activeElementData = zoomIn(data)
+
+	// Verify the key.
+	if (!acceptsKey(keyInfo, data))
+		return data
 
 	const { passOn, moveLeft, moveRight } = getKeyPressHandlers(keyInfo, data, charElements, topParentData, contentsElement, cursorElement)
 
