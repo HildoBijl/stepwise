@@ -1,11 +1,11 @@
 // This is the most general template for settings up accents.
 
 import { removeAtIndex } from 'step-wise/util/strings'
-import { firstOf } from 'step-wise/util/arrays'
 
-import { getFuncs, zoomIn, getDataStartCursor, getDataEndCursor, isCursorAtDataStart, isCursorAtDataEnd, isDataEmpty } from '../../'
+import { getDataStartCursor, getDataEndCursor } from '../../'
 import ExpressionPart, { addStrToData } from '../../ExpressionPart'
-import { getKeyPressHandlers, findEndOfTerm, getSubExpression } from '../../support/ExpressionSupport'
+import { keyPressToData as expressionKeyPressToData } from '../../Expression'
+import { findEndOfTerm, getSubExpression } from '../../support/ExpressionSupport'
 
 import { isAcceptableChar, filterAcceptableChar } from '../'
 
@@ -13,11 +13,12 @@ const { getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd, isEmpty } 
 
 const allFunctions = {
 	...ExpressionPart,
-
 	create,
 	toLatex,
 	keyPressToData,
 	shouldRemove,
+	canMerge,
+	merge,
 }
 export default allFunctions
 
@@ -113,4 +114,48 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 
 export function shouldRemove(data) {
 	return isEmpty(data.value)
+}
+
+export function canMerge() {
+	return true
+}
+
+export function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {
+	// If we are from outside, put the cursor inside and process the corresponding keypress.
+	if (fromOutside) {
+		const accentData = expressionValue[partIndex]
+		const accentCursor = (mergeWithNext ? getDataEndCursor : getDataStartCursor)(accentData)
+		const expressionData = {
+			type: 'Expression',
+			value: expressionValue,
+			cursor: {
+				part: partIndex,
+				cursor: accentCursor,
+			}
+		}
+		const keyInfo = { key: mergeWithNext ? 'Backspace' : 'Delete' }
+		return expressionKeyPressToData(keyInfo, expressionData)
+	}
+
+	// If we are from inside, put the cursor outside and process the corresponding keypress.
+	const accentData = expressionValue[partIndex]
+	const part = mergeWithNext ? partIndex + 1 : partIndex - 1
+	const elementData = expressionValue[part]
+	const elementCursor = (mergeWithNext ? getDataStartCursor : getDataEndCursor)(elementData)
+	const expressionData = {
+		type: 'Expression',
+		value: expressionValue,
+		cursor: {
+			part,
+			cursor: elementCursor,
+		}
+	}
+
+	// Run an extra check: if the accent is empty, just remove the accent. Not the character prior to it.
+	if (isEmpty(accentData.value))
+		return expressionData // By moving the cursor, the element will get automatically removed by the clean-up.
+
+	// No exception cases. Apply the key as planned.
+	const keyInfo = { key: mergeWithNext ? 'Delete' : 'Backspace' }
+	return expressionKeyPressToData(keyInfo, expressionData)
 }

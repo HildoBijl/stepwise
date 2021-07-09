@@ -14,7 +14,7 @@ export function getKeyPressHandlers(keyInfo, data, charElements, topParentData, 
 
 	const passOn = () => {
 		const charPart = (funcs.valuePartToCharPart ? funcs.valuePartToCharPart(cursor.part) : cursor.part)
-		const adjustedElement = activeElementFuncs.keyPressToData(keyInfo, activeElementData, charElements[charPart], topParentData, contentsElement, cursorElement)
+		const adjustedElement = activeElementFuncs.keyPressToData(keyInfo, activeElementData, charElements && charElements[charPart], topParentData, contentsElement, cursorElement)
 		return {
 			...data,
 			value: arraySplice(value, cursor.part, 1, removeCursor(adjustedElement)),
