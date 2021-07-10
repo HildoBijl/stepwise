@@ -22,7 +22,7 @@ function getInitial(alias, parameter) {
 			type: 'Expression',
 			value: [{
 				type: 'ExpressionPart',
-				value: '2',
+				value: '',
 			}]
 		},
 		parameter,

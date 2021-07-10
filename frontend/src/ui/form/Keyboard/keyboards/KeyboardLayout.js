@@ -73,10 +73,42 @@ function useButtonClickFunction(keyFunction) {
 				return
 			default: // Regular key.
 				setShift(false)
-				return keyFunction({ key: keyID, shift }, evt)
+				return keyFunction({ key: simplifyKey(keyID), shift }, evt)
 		}
 	}
 
 	// Return the button click function and the parameters.
 	return [buttonClickFunction, { shift }]
+}
+
+// simplifyKey takes a key like "Plus" and turns it into a symbol "+". This allows input fields to only check for "+" and not additionally check for "Plus". (And similarly for many other symbols.)
+export function simplifyKey(key) {
+	switch (key) {
+		case 'Plus':
+			return '+'
+		case 'Minus':
+			return '-'
+		case 'Times':
+			return '*'
+		case 'Divide':
+			return '/'
+		case 'Power':
+			return '^'
+		case 'Underscore':
+			return '_'
+		case 'BracketOpen':
+			return '('
+		case 'BracketClose':
+			return ')'
+		case 'Equals':
+			return '='
+		case 'eMath':
+			return 'e'
+		case 'Meter':
+			return 'm'
+		case 'Spacebar':
+			return ' '
+		default:
+			return key // On normal keys, just keep the key itself.
+	}
 }

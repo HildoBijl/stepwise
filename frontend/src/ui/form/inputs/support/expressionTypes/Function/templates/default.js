@@ -231,13 +231,23 @@ export function removeElementFromExpression(expressionValue, partIndex, withBack
 	const element = expressionValue[partIndex]
 	const removedElement = getFuncs(element).removeElement(element, withBackspace)
 
+	// Check if the expression part after this function started with a closing bracket. So effectively, the function was empty. In that case, remove the closing bracket too.
+	let expressionPartAfter = expressionValue[partIndex + 1]
+	if (expressionPartAfter.value[0] === ')') {
+		expressionPartAfter = {
+			...expressionPartAfter,
+			value: expressionPartAfter.value.slice(1),
+		}
+	}
+
 	// Merge it all into a new expression.
 	return {
 		type: 'Expression',
 		value: [
 			...expressionValue.slice(0, partIndex),
 			removeCursor(removedElement),
-			...expressionValue.slice(partIndex + 1),
+			expressionPartAfter,
+			...expressionValue.slice(partIndex + 2),
 		],
 		cursor: {
 			part: partIndex,

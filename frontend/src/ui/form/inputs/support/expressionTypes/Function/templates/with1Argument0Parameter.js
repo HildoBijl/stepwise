@@ -2,7 +2,7 @@
 
 import { lastOf } from 'step-wise/util/arrays'
 
-import { getFuncs, getDataStartCursor, getDataEndCursor } from '../..'
+import { getFuncs, getDataStartCursor, getDataEndCursor, isDataEmpty } from '../..'
 import { findEndOfTerm, getSubExpression } from '../../support/ExpressionSupport'
 import { mergeWithRight } from '../../support/merging'
 import { splitToRight } from '../../support/splitting'
@@ -104,7 +104,7 @@ function removeElement(data, withBackspace) {
 	}
 	const rightInsertion = {
 		type: 'ExpressionPart',
-		value: ')',
+		value: isDataEmpty(parameter) ? '' : ')', // When not empty, add a closing bracket.
 	}
 	return {
 		type: 'Expression',

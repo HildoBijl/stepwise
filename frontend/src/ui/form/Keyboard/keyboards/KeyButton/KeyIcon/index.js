@@ -9,6 +9,14 @@ import Minus from './Minus'
 import Times from './Times'
 import Divide from './Divide'
 import Power from './Power'
+import Underscore from './Underscore'
+import Bracket from './Bracket'
+import EMath from './EMath'
+import Dot from './Dot'
+import Hat from './Hat'
+import Root from './Root'
+import Pi from './Pi'
+import Equals from './Equals'
 
 // KeyIcon displays the icon for a given key.
 export default function KeyIcon({ keyID, properties }) {
@@ -45,8 +53,32 @@ export default function KeyIcon({ keyID, properties }) {
 			return <Divide />
 		case 'Power':
 			return <Power />
+		case '_':
+		case 'Underscore':
+			return <Underscore />
+		case '(':
+		case 'BracketOpen':
+			return <Bracket open={true} />
+		case ')':
+		case 'BracketClose':
+			return <Bracket open={false} />
+		case '=':
+		case 'Equals':
+			return <Equals />
+		case 'pi':
+			return <Pi />
+		case 'eMath':
+			return <EMath />
+		case 'dot':
+			return <Dot />
+		case 'hat':
+			return <Hat />
+		case 'root':
+			return <Root />
 		case 'Meter': // Created to prevent confusion with milli, creating a different class for meters.
 			return <Character char="m" />
+		case 'Spacebar':
+			return <Character char=" " />
 		default:
 		// On other keys, try the things below.
 	}
@@ -59,6 +91,8 @@ export default function KeyIcon({ keyID, properties }) {
 			return <Character char={keyID} scale={0.9} />
 		case 3:
 			return <Character char={keyID} scale={0.8} />
+		case 4:
+			return <Character char={keyID} scale={0.7} />
 		default:
 		// On other keys, try the things below.
 	}

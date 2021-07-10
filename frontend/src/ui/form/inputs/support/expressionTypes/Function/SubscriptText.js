@@ -49,13 +49,13 @@ export function acceptsKey(keyInfo, data) {
 		return true
 	if (key === '.' || key === ',')
 		return true
-	if (key === '+' || key === 'Plus')
+	if (key === '+')
 		return true
-	if (key === '-' || key === 'Minus')
+	if (key === '-')
 		return true
-	if (key === '*' || key === 'Times')
+	if (key === '*')
 		return true
-	if (key === '=' || key === 'Equals')
+	if (key === '=')
 		return true
 
 	// Nothing found.
@@ -100,13 +100,13 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 		return addStrToData(key, data)
 	if (key === '.' || key === ',') // Basic symbols.
 		return addStrToData(key, data)
-	if (key === '+' || key === 'Plus') // Plus.
+	if (key === '+') // Plus.
 		return addStrToData('+', data)
-	if (key === '-' || key === 'Minus') // Minus.
+	if (key === '-') // Minus.
 		return addStrToData('-', data)
-	if (key === '*' || key === 'Times') // Times.
+	if (key === '*') // Times.
 		return addStrToData('*', data)
-	if (key === '=' || key === 'Equals') // Equals.
+	if (key === '=') // Equals.
 		return addStrToData('=', data)
 
 	// Unknown character.

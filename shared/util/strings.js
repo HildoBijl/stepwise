@@ -19,7 +19,7 @@ module.exports.stringSplice = stringSplice
 // isLetter checks if a character is a letter.
 const letterRegExp = /[a-z]/i
 function isLetter(str) {
-	return str.length === 1 && str.match(letterRegExp)
+	return !!(str.length === 1 && str.match(letterRegExp))
 }
 module.exports.isLetter = isLetter
 

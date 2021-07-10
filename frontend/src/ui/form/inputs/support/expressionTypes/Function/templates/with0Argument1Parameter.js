@@ -8,6 +8,7 @@ import defaultFunctions from './default'
 
 const allFunctions = {
 	...defaultFunctions,
+	countNetBrackets,
 	canMerge,
 	merge,
 	canSplit,
@@ -32,4 +33,8 @@ function canSplit(data) {
 
 function split(data) {
 	return splitToLeft(data)
+}
+
+function countNetBrackets(data) {
+	return 1
 }

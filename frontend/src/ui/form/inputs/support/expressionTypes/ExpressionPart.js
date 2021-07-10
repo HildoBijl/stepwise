@@ -13,7 +13,10 @@ import Expression from './Expression'
 import { getDeepestExpression } from './support/ExpressionSupport'
 import { isCursorKey } from './support/acceptsKey'
 
-const basicFunctions = ['sin', 'cos', 'tan', 'asin', 'acos', 'atan', 'arcsin', 'arccos', 'arctan', 'ln'] // ToDo later: put this in a mathematics file and import it here.
+const basicFunctions = ['sin', 'cos', 'tan', 'asin', 'acos', 'atan', 'arcsin', 'arccos', 'arctan', 'ln']
+const advancedFunctions = ['root', 'log']
+const accents = ['dot', 'hat']
+export { basicFunctions, accents, advancedFunctions }
 
 const autoReplaceSymbols = [
 	{ name: 'pm', symbol: '±' },
@@ -102,19 +105,27 @@ export function acceptsKey(keyInfo, data) {
 		return true
 	if (key === '(' || key === ')')
 		return true
-	if (key === '+' || key === 'Plus')
+	if (key === '+')
 		return true
-	if (key === '-' || key === 'Minus')
+	if (key === '-')
 		return true
-	if (key === '*' || key === 'Times')
+	if (key === '*')
 		return true
 	if (key === '.' || key === ',')
 		return true
-	if (key === '/' || key === 'Divide')
+	if (key === '/')
 		return true
-	if (key === '_' || key === 'Subscript')
+	if (key === '_')
 		return true
-	if (key === '^' || key === 'Superscript')
+	if (key === '^')
+		return true
+	if (key === 'pi')
+		return true
+	if (basicFunctions.includes(key))
+		return true
+	if (accents.includes(key))
+		return true
+	if (advancedFunctions.includes(key))
 		return true
 
 	// Nothing found.
@@ -141,6 +152,16 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 
 	// For backspace/delete, remove the appropriate symbol.
 	if (key === 'Backspace' && !isCursorAtStart(value, cursor)) {
+		// Check if we are removing an opening bracket and there's a closing bracket on the other side of the cursor too.
+		if (value[cursor - 1] === '(' && value[cursor] === ')') {
+			return {
+				...data,
+				value: removeAtIndex(value, cursor - 1, 2),
+				cursor: cursor - 1,
+			}
+		}
+
+		// Normal case.
 		return {
 			...data,
 			value: removeAtIndex(value, cursor - 1),
@@ -156,9 +177,12 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 
 	// For brackets, check if we need to apply a bracket trick. For the opening bracket add a closing bracket, and for the closing bracket skip over it.
 	if (key === '(') {
+		console.log('JA')
 		const parentExpressionData = getDeepestExpression(topParentData)
 		const netBracketsBefore = Expression.countNetBrackets(parentExpressionData, -1)
 		const netBracketsAfter = Expression.countNetBrackets(parentExpressionData, 1)
+		console.log(netBracketsBefore)
+		console.log(netBracketsAfter)
 		if (netBracketsBefore < -netBracketsAfter)
 			return addStrToData(key, data) // There already is a closing bracket too much after the cursor. Just add an opening bracket.
 		return { // There are not sufficient opening brackets after the cursor. Add a closing bracket and put the cursor in-between.
@@ -184,20 +208,28 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 	// Check for additions.
 	if (isLetter(key) || isNumber(key)) // Letters and numbers.
 		return addStrToData(key, data)
-	if (key === '+' || key === 'Plus') // Plus.
+	if (key === '+') // Plus.
 		return addStrToData('+', data)
-	if (key === '-' || key === 'Minus') // Minus.
+	if (key === '-') // Minus.
 		return addStrToData('-', data)
-	if (key === '*' || key === 'Times') // Times.
+	if (key === '*') // Times.
 		return addStrToData('*', data)
 	if (key === '.' || key === ',') // Period.
 		return addStrToData('.', data)
-	if (key === '/' || key === 'Divide') // Fraction. Will be auto-replaced.
+	if (key === '/') // Fraction. Will be auto-replaced.
 		return addStrToData('/', data)
-	if (key === '_' || key === 'Subscript') // Will be auto-replaced by a SubSup.
+	if (key === '_') // Will be auto-replaced by a SubSup.
 		return addStrToData('_', data)
-	if (key === '^' || key === 'Superscript') // Will be auto-replaced by a SubSup.
+	if (key === '^') // Will be auto-replaced by a SubSup.
 		return addStrToData('^', data)
+	if (key === 'pi')
+		return addStrToData(key, data)
+
+	// On mathematical functions, add the words and then add the bracket.
+	if (basicFunctions.includes(key) || accents.includes(key) || advancedFunctions.includes(key)) {
+		const dataWithKey = addStrToData(key, data)
+		return keyPressToData({ key: '(' }, dataWithKey, charElements, topParentData, contentsElement, cursorElement)
+	}
 
 	// Unknown character.
 	throw new Error(`Unknown character processing: received the key "${key}" which got accepted, but did not know how to process this.`)

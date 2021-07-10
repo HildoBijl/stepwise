@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
 		'& svg': {
 			display: 'block',
 			height: '100%',
+			overflow: 'visible',
 			width: '100%',
 
 			'& text': {
@@ -46,11 +47,10 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function KeyButton({ keyID, className, setting, onClick, properties }) {
-	if (setting === false)
-		setting = 'disabled'
-	const classes = useStyles({ setting })
+	const disabled = (setting === false)
+	const classes = useStyles()
 	return (
-		<Paper className={clsx(classes.keyButton, 'keyButton', className, setting)} elevation={4} onClick={setting === 'disabled' ? null : onClick}>
+		<Paper className={clsx(classes.keyButton, 'keyButton', className, setting, { disabled })} elevation={4} onClick={disabled ? null : onClick}>
 			<KeyIcon keyID={keyID} properties={properties} />
 		</Paper>
 	)

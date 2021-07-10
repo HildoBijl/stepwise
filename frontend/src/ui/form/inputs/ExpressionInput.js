@@ -11,6 +11,8 @@ import { useAbsoluteCursorRef } from '../Form'
 import Input from './support/Input'
 import MathWithCursor, { MathWithCursorProvider, useMathWithCursorContext, mouseClickToCursor as generalMouseClickToCursor } from './support/MathWithCursor'
 import Expression from './support/expressionTypes/Expression'
+import { keys as mathKeys } from '../Keyboard/keyboards/basicMath'
+import { simplifyKey } from '../Keyboard/keyboards/KeyboardLayout'
 
 const style = (theme) => ({
 	// Currently empty.
@@ -94,12 +96,15 @@ export function dataToKeyboardSettings(data) {
 	// const { value, cursor } = data
 
 	// Determine which keys to disable.
-	let keySettings = {}
-	keySettings.Minus = false // TODO: PLACEHOLDER. REMOVE.
+	const keySettings = {}
+	mathKeys.forEach(key => {
+		keySettings[key] = Expression.acceptsKey({ key: simplifyKey(key) }, data)
+	})
 
 	// Pass on settings.
 	return {
 		keySettings,
+		basicMath: {},
 		float: {},
 		unit: {},
 		// ToDo

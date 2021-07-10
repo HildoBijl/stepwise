@@ -1,12 +1,12 @@
 import { getFuncs } from '../'
 
 import defaultFunctions from './templates/with1Argument1Parameter'
+import { isDataEmpty } from '../index'
 
 const fullExport = {
 	...defaultFunctions,
 	aliases: ['root(', 'wortel('],
 	toLatex,
-	getInitial,
 }
 export default fullExport
 
@@ -16,20 +16,7 @@ function toLatex(data, options) {
 	const powerLatex = getFuncs(power).toLatex(power, options)
 	const parameterLatex = getFuncs(parameter).toLatex(parameter, options)
 	return {
-		latex: `\\sqrt[${powerLatex.latex}]{${parameterLatex.latex}\\,}`,
+		latex: `${isDataEmpty(power) ? `\\,` : ``}\\sqrt[${powerLatex.latex}]{${parameterLatex.latex}\\,}`,
 		chars: [powerLatex.chars, parameterLatex.chars],
 	}
-}
-
-function getInitial(alias, parameter) {
-	return [
-		{
-			type: 'Expression',
-			value: [{
-				type: 'ExpressionPart',
-				value: '2',
-			}],
-		},
-		parameter,
-	]
 }

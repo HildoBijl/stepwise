@@ -157,7 +157,7 @@ function keyPressToData(keyInfo, data, charElements, topParentData, contentsElem
 	const { value, cursor } = data
 	const { key } = keyInfo
 
-	// For a power button when inside the subscript, go to the start of the superscript.
+	// For a power button when inside the subscript, go to the end of the superscript.
 	if ((key === '^' || key === 'Power') && cursor.part === 0) {
 		const newValue = value[1] ? value : [value[0], getEmptySup()] // If there is no superscript yet, add an empty one.
 		return {
@@ -165,7 +165,7 @@ function keyPressToData(keyInfo, data, charElements, topParentData, contentsElem
 			value: newValue,
 			cursor: {
 				part: 1,
-				cursor: getDataStartCursor(newValue[1]),
+				cursor: getDataEndCursor(newValue[1]),
 			},
 		}
 	}
