@@ -4,7 +4,7 @@ import defaultFunctions from './with1Argument0Parameter'
 
 import { charElementsToBounds, getClosestElement } from '../../../MathWithCursor'
 
-import { zoomIn, getFuncs, getDataStartCursor, getDataEndCursor, isDataEmpty } from '../../'
+import { zoomIn, getFuncs, getDataStartCursor, getDataEndCursor, isCursorAtDataStart, isCursorAtDataEnd, isDataEmpty } from '../../'
 import { findEndOfTerm, getSubExpression } from '../../support/ExpressionSupport'
 import { mergeWithLeft, mergeWithRight } from '../../support/merging'
 import { splitToLeft, splitToRight } from '../../support/splitting'
@@ -17,6 +17,8 @@ const allFunctions = {
 	keyPressToData,
 	canMoveCursorVertically,
 	coordinatesToCursor,
+	isCursorAtStart,
+	isCursorAtEnd,
 	merge,
 	split,
 	shouldRemove,
@@ -122,7 +124,7 @@ function canMoveCursorVertically(data, up) {
 	return defaultFunctions.canMoveCursorVertically(data, up)
 }
 
-export function coordinatesToCursor(coordinates, boundsData, data, charElements, contentsElement) {
+function coordinatesToCursor(coordinates, boundsData, data, charElements, contentsElement) {
 	const charPart = getClosestElement(coordinates, boundsData, false)
 	const part = getFuncs(data).charPartToValuePart(charPart)
 	const element = data.value[part]
@@ -131,6 +133,16 @@ export function coordinatesToCursor(coordinates, boundsData, data, charElements,
 		part,
 		cursor: newCursor,
 	}
+}
+
+function isCursorAtStart(value, cursor) {
+	const data = { type: 'Function', value, cursor }
+	return isCursorAtDataStart(zoomIn(data)) // Let any active part register as a potential start cursor. This causes the cursor to keep moving left instead of jump to the other part on arrow keys.
+}
+
+function isCursorAtEnd(value, cursor) {
+	const data = { type: 'Function', value, cursor }
+	return isCursorAtDataEnd(zoomIn(data))
 }
 
 function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {
