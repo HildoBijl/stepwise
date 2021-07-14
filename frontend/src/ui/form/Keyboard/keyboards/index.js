@@ -20,11 +20,11 @@ export default keyboards
 
 // This is the order in which the tabs appear in the keyboard bar.
 export const tabs = [
-	'basicMath',
 	'int',
 	'float',
 	'unit',
 	'textMath',
+	'basicMath',
 	'textUnit',
 	'greek',
 ]

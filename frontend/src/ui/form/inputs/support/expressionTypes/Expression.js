@@ -137,9 +137,9 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 	const { passOn, moveLeft, moveRight } = getKeyPressHandlers(keyInfo, data, charElements, topParentData, contentsElement, cursorElement)
 
 	// For left/right-arrows, adjust the cursor.
-	if (key === 'ArrowLeft' && cursor.part > 0 && isCursorAtDataStart(activeElementData))
+	if (key === 'ArrowLeft' && cursor.part > 0 && (isCursorAtDataStart(activeElementData) || (activeElementFuncs.canMoveCursorOutside && activeElementFuncs.canMoveCursorOutside(activeElementData, false))))
 		return moveLeft()
-	if (key === 'ArrowRight' && cursor.part < value.length - 1 && isCursorAtDataEnd(activeElementData))
+	if (key === 'ArrowRight' && cursor.part < value.length - 1 && (isCursorAtDataEnd(activeElementData) || (activeElementFuncs.canMoveCursorOutside && activeElementFuncs.canMoveCursorOutside(activeElementData, true))))
 		return moveRight()
 
 	// For the home/end, move to the start/end of this expression, but only if the cursor is already at the start of said element or a child of said element. (If not, pass the call on to let the part itself handle it.)

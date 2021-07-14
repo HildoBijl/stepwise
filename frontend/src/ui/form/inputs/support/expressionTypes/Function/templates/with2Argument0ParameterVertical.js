@@ -16,9 +16,8 @@ const allFunctions = {
 	getInitialCursor,
 	keyPressToData,
 	canMoveCursorVertically,
+	canMoveCursorOutside,
 	coordinatesToCursor,
-	isCursorAtStart,
-	isCursorAtEnd,
 	merge,
 	split,
 	shouldRemove,
@@ -116,12 +115,16 @@ function keyPressToData(keyInfo, data, charElements, topParentData, contentsElem
 function canMoveCursorVertically(data, up) {
 	// Check if we can move vertically in this part.
 	const upFirst = getFuncs(data).isUpFirst()
-	const { cursor } = data
-	if ((cursor.part === 0 && up !== upFirst) || (cursor.part === 1 && up === upFirst))
+	const { value, cursor } = data
+	if ((cursor.part === 0 && up !== upFirst && value[1]) || (cursor.part === 1 && up === upFirst && value[0]))
 		return true
 
 	// Check if the child allows us to move vertically.
 	return defaultFunctions.canMoveCursorVertically(data, up)
+}
+
+function canMoveCursorOutside(data, toRight) {
+	return toRight ? isCursorAtDataEnd(zoomIn(data)) : isCursorAtDataStart(zoomIn(data))
 }
 
 function coordinatesToCursor(coordinates, boundsData, data, charElements, contentsElement) {
@@ -133,16 +136,6 @@ function coordinatesToCursor(coordinates, boundsData, data, charElements, conten
 		part,
 		cursor: newCursor,
 	}
-}
-
-function isCursorAtStart(value, cursor) {
-	const data = { type: 'Function', value, cursor }
-	return isCursorAtDataStart(zoomIn(data)) // Let any active part register as a potential start cursor. This causes the cursor to keep moving left instead of jump to the other part on arrow keys.
-}
-
-function isCursorAtEnd(value, cursor) {
-	const data = { type: 'Function', value, cursor }
-	return isCursorAtDataEnd(zoomIn(data))
 }
 
 function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {

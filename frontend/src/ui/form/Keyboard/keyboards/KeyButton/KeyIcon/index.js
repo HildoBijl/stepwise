@@ -16,7 +16,6 @@ import EMath from './EMath'
 import Dot from './Dot'
 import Hat from './Hat'
 import Root from './Root'
-import Pi from './Pi'
 import Equals from './Equals'
 
 // KeyIcon displays the icon for a given key.
@@ -67,8 +66,6 @@ export default function KeyIcon({ keyID, properties }) {
 		case '=':
 		case 'Equals':
 			return <Equals />
-		case 'pi':
-			return <Pi />
 		case 'eMath':
 			return <EMath />
 		case 'dot':
