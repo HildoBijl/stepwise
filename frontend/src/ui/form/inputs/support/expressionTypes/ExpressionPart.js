@@ -180,8 +180,6 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 		const parentExpressionData = getDeepestExpression(topParentData)
 		const netBracketsBefore = Expression.countNetBrackets(parentExpressionData, -1)
 		const netBracketsAfter = Expression.countNetBrackets(parentExpressionData, 1)
-		console.log(netBracketsBefore)
-		console.log(netBracketsAfter)
 		if (netBracketsBefore < -netBracketsAfter)
 			return addStrToData(key, data) // There already is a closing bracket too much after the cursor. Just add an opening bracket.
 		return { // There are not sufficient opening brackets after the cursor. Add a closing bracket and put the cursor in-between.
