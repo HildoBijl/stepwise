@@ -1,5 +1,4 @@
 import React from 'react'
-import { useTheme } from '@material-ui/core/styles'
 
 import { numberArray } from 'step-wise/util/arrays'
 
@@ -20,23 +19,19 @@ const numbers = numberArray(0, 9)
 
 export function Layout({ settings, keyFunction, keySettings }) {
 	settings = useCurrentOrPrevious(settings) // When the settings turn to null, use the previous one for display purposes.
-	const theme = useTheme()
 	const numColumns = 10
 	const numRows = 4
 
 	// Define styles to position buttons.
 	const styles = {
-		// Adjust the number key styles.
-		[numbers.map(prefix => `& .key${prefix}`).join(', ')]: {
-			background: theme.palette.secondary.main,
-			'&:active': {
-				background: theme.palette.secondary.dark,
-			},
-		},
 		'& .keySpacebar': {
 			gridColumn: '6 / span 2',
 		},
 	}
+
+	// Add classnames to keys.
+	const keyClassNames = {}
+	numbers.forEach(number => keyClassNames[number] = 'secondary')
 
 	return <KeyboardLayout {...{
 		settings,
@@ -47,6 +42,7 @@ export function Layout({ settings, keyFunction, keySettings }) {
 		numColumns,
 		numRows,
 		styles,
+		keyClassNames,
 	}} />
 }
 

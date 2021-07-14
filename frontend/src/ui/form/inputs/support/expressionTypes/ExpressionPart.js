@@ -119,7 +119,7 @@ export function acceptsKey(keyInfo, data) {
 		return true
 	if (key === '^')
 		return true
-	if (key === 'pi')
+	if (greekAlphabet[key] !== undefined)
 		return true
 	if (basicFunctions.includes(key))
 		return true
@@ -177,7 +177,6 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 
 	// For brackets, check if we need to apply a bracket trick. For the opening bracket add a closing bracket, and for the closing bracket skip over it.
 	if (key === '(') {
-		console.log('JA')
 		const parentExpressionData = getDeepestExpression(topParentData)
 		const netBracketsBefore = Expression.countNetBrackets(parentExpressionData, -1)
 		const netBracketsAfter = Expression.countNetBrackets(parentExpressionData, 1)
@@ -224,6 +223,8 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 		return addStrToData('^', data)
 	if (key === 'pi')
 		return addStrToData(key, data)
+	if (greekAlphabet[key] !== undefined)
+		return addStrToData(greekAlphabet[key].symbol, data)
 
 	// On mathematical functions, add the words and then add the bracket.
 	if (basicFunctions.includes(key) || accents.includes(key) || advancedFunctions.includes(key)) {

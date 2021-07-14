@@ -105,8 +105,8 @@ export function dataToKeyboardSettings(data) {
 	return {
 		keySettings,
 		basicMath: {},
-		textUnit: {}, // TODO: REMOVE
 		textMath: {},
+		greek: {},
 	}
 }
 

@@ -43,6 +43,18 @@ const useStyles = makeStyles((theme) => ({
 				fill: 'currentColor',
 			},
 		},
+
+		'&.secondary': {
+			background: theme.palette.secondary.main,
+			'&:active': {
+				background: theme.palette.secondary.dark,
+			},
+			'&.disabled': {
+				background: theme.palette.secondary.dark,
+				color: theme.palette.secondary.main,
+				cursor: 'auto',
+			},
+		},
 	},
 }))
 

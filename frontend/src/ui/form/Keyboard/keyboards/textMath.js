@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { numberArray } from 'step-wise/util/arrays'
+
 import { useCurrentOrPrevious } from 'util/react'
 import { M } from 'ui/components/equations'
 
@@ -73,6 +75,11 @@ export function Layout({ settings, keyFunction, keySettings }) {
 		'& .keyDivide': { gridColumn: '22 / span 2' },
 	}
 
+	// Add classnames to keys.
+	const keyClassNames = {}
+	const secondaryButtons = [...numberArray(0, 9), 'DecimalSeparator', 'Equals', 'BracketOpen', 'BracketClose', 'Power', 'Underscore', 'Plus', 'Minus', 'Times', 'Divide']
+	secondaryButtons.forEach(key => keyClassNames[key] = 'secondary')
+
 	return <KeyboardLayout {...{
 		settings,
 		keyFunction,
@@ -82,6 +89,7 @@ export function Layout({ settings, keyFunction, keySettings }) {
 		numColumns,
 		numRows,
 		styles,
+		keyClassNames,
 		widthToRowHeight: width => width / numColumns * 2, // Buttons are usually two columns.
 	}} />
 }

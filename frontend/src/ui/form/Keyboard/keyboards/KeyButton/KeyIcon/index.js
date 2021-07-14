@@ -1,5 +1,6 @@
 import React from 'react'
 import { ArrowBack as ArrowLeft, ArrowForward as ArrowRight, ArrowUpward as ArrowUp, ArrowDownward as ArrowDown, Backspace } from '@material-ui/icons'
+import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 
 import Character from './Character'
 import Shift from './Shift'
@@ -82,6 +83,11 @@ export default function KeyIcon({ keyID, properties }) {
 			return <Character char=" " />
 		default:
 		// On other keys, try the things below.
+	}
+
+	// Check Greek characters.
+	if (greekAlphabet[keyID] !== undefined) {
+		return <Character char={greekAlphabet[keyID].symbol} />
 	}
 
 	// Check if it's a character key or similar.

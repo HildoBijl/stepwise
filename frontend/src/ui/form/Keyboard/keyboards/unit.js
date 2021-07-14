@@ -1,5 +1,4 @@
 import React from 'react'
-import { useTheme } from '@material-ui/core/styles'
 
 import { useCurrentOrPrevious } from 'util/react'
 import { M } from 'ui/components/equations'
@@ -20,20 +19,14 @@ const keys = [
 
 export function Layout({ settings, keyFunction, keySettings }) {
 	settings = useCurrentOrPrevious(settings) // When the settings turn to null, use the previous one for display purposes.
-	const theme = useTheme()
 	const numColumns = 11
 	const numRows = 5
 
-	// Define styles to position buttons.
-	const styles = {
-		// Adjust the prefix key styles.
-		[[...prefixesUp, ...prefixesDown].map(prefix => `& .key${prefix}`).join(', ')]: {
-			background: theme.palette.secondary.main,
-			'&:active': {
-				background: theme.palette.secondary.dark,
-			},
-		}
-	}
+	// Add classnames to keys.
+	const keyClassNames = {}
+	const applySecondary = number => keyClassNames[number] = 'secondary'
+	prefixesUp.forEach(applySecondary)
+	prefixesDown.forEach(applySecondary)
 
 	return <KeyboardLayout {...{
 		settings,
@@ -43,6 +36,6 @@ export function Layout({ settings, keyFunction, keySettings }) {
 		maxWidth: 600,
 		numColumns,
 		numRows,
-		styles,
+		keyClassNames,
 	}} />
 }

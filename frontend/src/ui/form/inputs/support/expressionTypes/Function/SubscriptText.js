@@ -1,6 +1,7 @@
 
 import { isNumber } from 'step-wise/util/numbers'
 import { isLetter, removeAtIndex } from 'step-wise/util/strings'
+import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 
 import { latexMinus } from 'ui/components/equations'
 
@@ -57,6 +58,8 @@ export function acceptsKey(keyInfo, data) {
 		return true
 	if (key === '=')
 		return true
+	if (greekAlphabet[key] !== undefined)
+		return true
 
 	// Nothing found.
 	return false
@@ -108,6 +111,8 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 		return addStrToData('*', data)
 	if (key === '=') // Equals.
 		return addStrToData('=', data)
+	if (greekAlphabet[key] !== undefined)
+		return addStrToData(greekAlphabet[key].symbol, data)
 
 	// Unknown character.
 	throw new Error(`Unknown character processing: received the key "${key}" which got accepted, but did not know how to process this.`)

@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function KeyboardLayout({ settings, keyFunction, keySettings = {}, keys, numColumns, numRows, styles, widthToRowHeight, maxWidth }) {
+export default function KeyboardLayout({ settings, keyFunction, keySettings = {}, keys, numColumns, numRows, styles, widthToRowHeight, maxWidth, keyClassNames = {} }) {
 	// Determine the row height.
 	const keyboardLayoutRef = useRef()
 	const width = useWidthTracker(keyboardLayoutRef, true)
@@ -54,7 +54,7 @@ export default function KeyboardLayout({ settings, keyFunction, keySettings = {}
 					setting={keySettings[keyID]}
 					onClick={(evt) => buttonClickFunction(keyID, evt)}
 					rowHeight={rowHeight}
-					className={`key${keyID}`}
+					className={clsx(`key${keyID}`, keyClassNames[keyID])}
 					properties={properties}
 				/>))}
 		</div>

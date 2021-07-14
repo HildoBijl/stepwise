@@ -1,4 +1,5 @@
 import { isLetter } from 'step-wise/util/strings'
+import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 
 import dot from './dot'
 import hat from './hat'
@@ -30,8 +31,8 @@ export function getFuncsOf(name) {
 	return funcs
 }
 
-export function isAcceptableChar(char) {
-	return isLetter(char)
+export function isAcceptableChar(key) {
+	return isLetter(key) || greekAlphabet[key] !== undefined
 }
 
 export function filterAcceptableChar(str) {
