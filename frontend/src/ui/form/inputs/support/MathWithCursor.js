@@ -4,7 +4,7 @@ import { findOptimum, findOptimumIndex, flattenFully, forceIntoShape, getIndexTr
 import { filterProperties } from 'step-wise/util/objects'
 
 import { getCoordinatesOf } from 'util/dom'
-import { RBM, zeroWidthSpace } from 'ui/components/equations'
+import { RBM, zeroWidthSpace, zeroWidthSpaceRegExp } from 'ui/components/equations'
 
 import { useAbsoluteCursorRef } from '../../Form'
 
@@ -90,7 +90,7 @@ export function useMathWithCursorContext() {
 export function matchCharElements(equationElement, latexChars) {
 	// Get all the chars that should be there. Compare this with all the chars that are rendered to check if this matches out. (If not, the whole plan fails.)
 	const textLatexChars = flattenFully(latexChars).join('')
-	const textContent = equationElement.textContent.replaceAll(zeroWidthSpace, '') // Get all text in HTML elements, but remove zero-width spaces.
+	const textContent = equationElement.textContent.replace(zeroWidthSpaceRegExp, '') // Get all text in HTML elements, but remove zero-width spaces.
 	if (textContent !== textLatexChars)
 		throw new Error(`Equation character error: expected the render of the equation to have characters "${textLatexChars}", but the actual Katex equation rendered "${textContent}". These two strings must be equal: all characters must appear in the order they are expected in.`)
 
@@ -102,7 +102,7 @@ export function matchCharElements(equationElement, latexChars) {
 }
 
 export function isCharElement(element) {
-	return element.childElementCount === 0 && element.textContent.replaceAll(zeroWidthSpace, '').length > 0
+	return element.childElementCount === 0 && element.textContent.replace(zeroWidthSpaceRegExp, '').length > 0
 }
 
 export function isCharElementEmpty(element) {

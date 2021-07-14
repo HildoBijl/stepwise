@@ -36,8 +36,8 @@ function getLatexChars(data) {
 	if (value === '')
 		return emptyElementChar.split('')
 
-	value = value.replaceAll('*', '∗') // This is what appears for the star.
-	value = value.replaceAll('-', latexMinus) // Latex minuses.
+	value = value.replace(/\*/g, '∗') // This is what appears for the star.
+	value = value.replace(/-/g, latexMinus) // Latex minuses.
 	return value.split('')
 }
 

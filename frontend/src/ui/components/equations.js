@@ -34,7 +34,8 @@ export { la, ra }
 
 // The zero-width space is sometimes used while rendering equations.
 const zeroWidthSpace = String.fromCharCode(8203)
-export { zeroWidthSpace }
+const zeroWidthSpaceRegExp = new RegExp(zeroWidthSpace, 'g')
+export { zeroWidthSpace, zeroWidthSpaceRegExp }
 
 const useStyles = makeStyles((theme) => ({
 	equation: {

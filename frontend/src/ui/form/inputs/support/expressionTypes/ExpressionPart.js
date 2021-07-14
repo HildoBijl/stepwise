@@ -69,7 +69,7 @@ function getLatex(data, options) {
 		latex = `\\!${latex}`
 
 	// Replace stars by dots.
-	latex = latex.replaceAll('*', '\\cdot ')
+	latex = latex.replace(/\*/g, '\\cdot ')
 
 	// Replace a period by the default decimal separator, but only when not preceded by \left or \right or \ (a backslash itself).
 	// Prevent Latex from messing up commas.
@@ -85,9 +85,9 @@ function getLatexChars(data) {
 	if (value === '')
 		return emptyElementChar.split('')
 
-	value = value.replaceAll('*', '⋅') // This is what appears for the cdot.
-	value = value.replaceAll('.', decimalSeparator) // Decimal separator for language-dependent processing of numbers.
-	value = value.replaceAll('-', latexMinus) // Latex minuses.
+	value = value.replace(/\*/g, '⋅') // This is what appears for the cdot.
+	value = value.replace(/\./g, decimalSeparator) // Decimal separator for language-dependent processing of numbers.
+	value = value.replace(/-/g, latexMinus) // Latex minuses.
 	return value.split('')
 }
 
