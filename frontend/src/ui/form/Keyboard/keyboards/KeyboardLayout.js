@@ -84,6 +84,8 @@ function useButtonClickFunction(keyFunction) {
 // simplifyKey takes a key like "Plus" and turns it into a symbol "+". This allows input fields to only check for "+" and not additionally check for "Plus". (And similarly for many other symbols.)
 export function simplifyKey(key) {
 	switch (key) {
+		case 'DecimalSeparator':
+			return '.'
 		case 'Plus':
 			return '+'
 		case 'Minus':

@@ -39,7 +39,8 @@ export default function KeyIcon({ keyID, properties }) {
 		case 'TenPower':
 			return <TenPower />
 		case '.':
-			return <Character char="," /> // This should be made language/setting-dependent later.
+		case 'DecimalSeparator':
+			return <Character char="," /> // ToDo later: make this language-dependent.
 		case 'Shift':
 			return <Shift full={shift} style={{ transform: 'scale(0.75)' }} />
 		case 'Plus':

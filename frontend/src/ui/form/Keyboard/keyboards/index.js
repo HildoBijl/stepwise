@@ -1,17 +1,17 @@
 import * as float from './float'
 import * as int from './int'
-import * as text from './text'
 import * as unit from './unit'
-import * as unitText from './unitText'
+import * as textUnit from './textUnit'
+import * as textMath from './textMath'
 import * as basicMath from './basicMath'
 
 // This is an object containing all keyboards, for easy loading.
 const keyboards = {
 	float,
 	int,
-	text,
 	unit,
-	unitText,
+	textUnit,
+	textMath,
 	basicMath,
 }
 export default keyboards
@@ -22,6 +22,6 @@ export const tabs = [
 	'int',
 	'float',
 	'unit',
-	'text',
-	'unitText',
+	'textMath',
+	'textUnit',
 ]
