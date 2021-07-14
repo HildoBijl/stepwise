@@ -37,7 +37,7 @@ export function getKeyPressHandlers(keyInfo, data, charElements, topParentData, 
 	return { passOn, moveLeft, moveRight }
 }
 
-// findEndOfTerm searches for the end of a term. When you have an expression like a*(b+c/d+e)sin(2x)+3, and you put a "/" sign right before "sin", then we need to know which parts need to go in the fraction. We can go right (toRight = true) and left (toRight = false) and find the cursor positions of the respective endings of the terms. Basically, the term ends whenever we encounter a +, - or * and we are not still within brackets.
+// findEndOfTerm searches for the end of a term. When you have an expression like a*cos(b+c/d+e)sin(2x)+3, and you put a "/" sign right before "sin", then we need to know which parts need to go in the fraction. We can go right (toRight = true) and left (toRight = false) and find the cursor positions of the respective endings of the terms. Basically, the term ends whenever we encounter a +, - or * and we are not still within brackets.
 export function findEndOfTerm(data, toRight = true, skipFirst = false, initialBracketCount = 0) {
 	const { value, cursor } = data
 
@@ -106,12 +106,12 @@ export function findEndOfTerm(data, toRight = true, skipFirst = false, initialBr
 		// On a bracket, adjust the bracket count. If it drops below zero, return the current cursor position too.
 		if (nextSymbol === '(') {
 			bracketCount += toRight ? 1 : -1
-			if (!toRight && bracketCount === 0)
-				return { part: partIterator, cursor: cursorIterator - 1 }
+			if (!toRight && bracketCount < 0)
+				return { part: partIterator, cursor: cursorIterator }
 		} else if (nextSymbol === ')') {
 			bracketCount += toRight ? -1 : 1
-			if (toRight && bracketCount === 0)
-				return { part: partIterator, cursor: cursorIterator + 1 }
+			if (toRight && bracketCount < 0)
+				return { part: partIterator, cursor: cursorIterator }
 		}
 		if (bracketCount < 0 && (!skipFirst || !first))
 			return { part: partIterator, cursor: cursorIterator }
