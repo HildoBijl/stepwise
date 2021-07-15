@@ -1,6 +1,26 @@
 const { getRandomInteger } = require('../../../util/random')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 
+// Testing code.
+const Expression = require('../../../inputTypes/Expression/Expression')
+const Constant = require('../../../inputTypes/Expression/Constant')
+const Variable = require('../../../inputTypes/Expression/Variable')
+
+const a = new Constant(-5)
+const b = a.multiplyBy(4)
+const c = new Variable({
+	symbol: 'x',
+	accent: 'dot',
+	subscript:'x=0',
+})
+const d = new Variable('dot(x)_[x=0]')
+
+console.log(c.str)
+console.log(c.dependsOn(c))
+console.log(d.str)
+console.log(c.dependsOn(d))
+
+
 const data = {
 	skill: 'fillInExpression',
 	equalityOptions: {
