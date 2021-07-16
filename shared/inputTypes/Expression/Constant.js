@@ -1,11 +1,10 @@
 const Expression = require('./Expression')
-const { roundToDigits } = require('../../util/numbers')
 
 const defaultSO = { ...Expression.defaultSO }
 
 class Constant extends Expression {
-	toString(omitMinus = false) {
-		return `${roundToDigits(omitMinus ? Math.abs(this.factor) : this.factor, 3)}`
+	toString(ignoreFactor = false) {
+		return ignoreFactor ? '1' : this.factor.toString()
 	}
 
 	dependsOn() {
@@ -28,6 +27,10 @@ class Constant extends Expression {
 		if (expression.constructor !== this.constructor)
 			return false
 		return ignoreFactor || expression.factor === this.factor
+	}
+
+	getDerivative() {
+		return new Constant(0) // The derivative of a constant is always zero.
 	}
 }
 Constant.defaultSO = defaultSO

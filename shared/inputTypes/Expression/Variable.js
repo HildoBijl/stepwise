@@ -1,6 +1,7 @@
 const { processOptions, filterOptions } = require('../../util/objects')
 
 const Parent = require('./Expression')
+const Constant = require('./Constant')
 
 const regVariableFormat = /^((([a-zA-Z]*)\(([a-zA-Z0-9α-ωΑ-Ω]+)\))|([a-zA-Z0-9α-ωΑ-Ω]+))(_((.)|\[(.*)\]))?$/
 
@@ -38,12 +39,12 @@ class Variable extends Parent {
 		})
 	}
 
-	toString() {
+	toString(ignoreFactor = false) {
 		let result = this.symbol
 		if (this.accent)
 			result = `${this.accent}(${result})`
-		if (this.factor !== 1)
-			result = `${this.factor}${result}`
+		if (!ignoreFactor)
+			result = this.addFactorToString(result)
 		if (this.subscript) {
 			if (this.subscript.length > 1)
 				result = `${result}_[${this.subscript}]`
@@ -82,6 +83,13 @@ class Variable extends Parent {
 		if (!super.equals(expression, options))
 			return false
 		return parts.every(part => this[part] === expression[part])
+	}
+
+	getDerivative(variable) {
+		variable = this.verifyVariable(variable)
+		if (!this.equals(variable, { ignoreFactor: true }))
+			return new Constant(0) // It's a different parameter.
+		return new Constant(this.factor/variable.factor)
 	}
 
 	static interpret(str) {

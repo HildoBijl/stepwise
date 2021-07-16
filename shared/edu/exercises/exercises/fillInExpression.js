@@ -5,21 +5,36 @@ const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 const Expression = require('../../../inputTypes/Expression/Expression')
 const Constant = require('../../../inputTypes/Expression/Constant')
 const Variable = require('../../../inputTypes/Expression/Variable')
+const Sum = require('../../../inputTypes/Expression/Sum')
+const Product = require('../../../inputTypes/Expression/Product')
 
 const a = new Constant(-5)
 const b = a.multiplyBy(4)
 const c = new Variable({
 	symbol: 'x',
-	accent: 'dot',
-	subscript:'x=0',
+	accent: undefined,
+	subscript: '2',
+	factor: -6,
 })
-const d = new Variable('dot(x)_[x=0]')
+const d = new Variable('x_2')
+d.factor = 2
+const e = new Sum({
+	factor: -7,
+	terms: [c, a, d],
+})
+const f = new Product({
+	factor: 3,
+	terms: [e, c, b],
+})
 
+console.log(a.str)
 console.log(c.str)
-console.log(c.dependsOn(c))
 console.log(d.str)
-console.log(c.dependsOn(d))
-
+console.log(e.str)
+console.log(e.SO)
+console.log(e.getDerivative('x_2').str)
+console.log(f.str)
+console.log(f.getDerivative('x_2').str)
 
 const data = {
 	skill: 'fillInExpression',

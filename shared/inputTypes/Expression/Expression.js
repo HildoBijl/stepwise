@@ -1,7 +1,7 @@
 // An Expression is an abstract class that represents anything that can be inside an expression. Every class inside the Expression inherits it, directly or indirectly.
 
 const { ensureNumber } = require('../../util/numbers')
-const { processOptions } = require('../../util/objects')
+const { isObject, processOptions } = require('../../util/objects')
 
 const defaultSO = {
 	factor: 1,
@@ -20,6 +20,14 @@ class Expression {
 				throw new Error(`Child classes of the Expression class must implement the "${method}" method.`)
 		})
 
+		// If the SO has a type parameter, check it and remove it.
+		if (SO.type) {
+			if (SO.type !== this.constructor.name)
+				throw new Error(`Invalid Expression creation: tried to create an Expression of type "${this.constructor.name}" but the given Storage Object has type "${SO.type}".`)
+			SO = { ...SO } // Clone it to prevent making changes to the given object.
+			delete SO.type
+		}
+
 		// Become the given SO.
 		if (typeof SO === 'string' || typeof SO === 'number')
 			SO = { factor: parseFloat(SO) }
@@ -32,8 +40,7 @@ class Expression {
 		const processProp = (prop) => {
 			if (Array.isArray(prop))
 				return prop.map(element => processProp(element))
-			const dataPointSO = prop.SO
-			return dataPointSO === undefined ? prop : dataPointSO
+			return isObject(prop) ? prop.SO : prop
 		}
 
 		// Walk through all properties and process them.
@@ -41,6 +48,9 @@ class Expression {
 		Object.keys(this.constructor.defaultSO).forEach(key => {
 			result[key] = processProp(this[key])
 		})
+
+		// Add the type too.
+		result.type = this.type
 		return result
 	}
 
@@ -99,7 +109,40 @@ class Expression {
 		return this.factor === expression.factor
 	}
 
+	// verifyVariable is used by functions requiring a variable as input. It checks the given variable. If no variable is given, it tries to figure out which variable was meant.
+	verifyVariable(variable) {
+		const Variable = require('./Variable')
+
+		// If no variable was given, try to find one.
+		if (variable === undefined) {
+			const variables = this.getVariables()
+			if (variables.length === 0)
+				variable = 'x' // Default.
+			else if (variables.length > 1)
+				throw new TypeError(`No variable was given. Also, the given expression depends on multiple variables, so no default variable could be extracted. The expression is "${this.toString()}".`)
+			else
+				variable = variables[0] // If the expression only depends on one variable, just assume that one was meant.
+		}
+
+		// If the variable isn't a veriable, turn it into one. (Or die trying.)
+		if (variable.constructor !== Variable)
+			variable = new Variable(variable)
+
+		// All is in order. Return the parameter.
+		return variable
+	}
+
+	// addFactorToString adds a factor multiplication to a string, based on the value of the factor.
+	addFactorToString(str) {
+		if (this.factor === 1)
+			return str
+		if (this.factor === -1)
+			return `-${str}`
+		return `${this.factor}*${str}`
+	}
+
 	/* The following functions need to be implemented.
+	 * ToDo: check this later on.
 	 * clone(deep = true) creates a new object identical to the given one. If deep is true, all sub-expressions are cloned too, so no double references occur.
 	 * equals(expression, ignoreFactor = false) checks equality between two expressions. This equality check is basic. While "1 + x" and "x + 1" will be considered equal, "(x+1)/x" and "1+1/x" will not be considered equal. After all, they are of different type. It is wise to simplify expressions manually before checking for equality. When ignoreFactor is set to true, then 2*x will be seen as equal to x.
 	 * dependsOn(variable) checks whether the expression depends on the given variable and returns true or false.
