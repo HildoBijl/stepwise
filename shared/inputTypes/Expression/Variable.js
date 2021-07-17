@@ -1,10 +1,11 @@
 const { processOptions, filterOptions } = require('../../util/objects')
 
-const Parent = require('./Expression')
+const Expression = require('./abstracts/Expression')
 const Constant = require('./Constant')
 
-const regVariableFormat = /^((([a-zA-Z]*)\(([a-zA-Z0-9α-ωΑ-Ω]+)\))|([a-zA-Z0-9α-ωΑ-Ω]+))(_((.)|\[(.*)\]))?$/
+const regVariableFormat = /^((([a-zA-Z]*)\[([a-zA-Z0-9α-ωΑ-Ω]+)\])|([a-zA-Z0-9α-ωΑ-Ω]+))(_((.)|\[(.*)\]))?$/
 
+const Parent = Expression
 const defaultSO = {
 	...Parent.defaultSO,
 	symbol: 'x',
@@ -22,6 +23,7 @@ class Variable extends Parent {
 
 	become(SO) {
 		// Check own input.
+		SO = this.checkAndRemoveType(SO)
 		SO = processOptions(SO, defaultSO)
 		parts.forEach(part => {
 			if (typeof SO[part] !== 'string' && typeof SO[part] !== typeof defaultSO[part])
@@ -42,7 +44,7 @@ class Variable extends Parent {
 	toString(ignoreFactor = false) {
 		let result = this.symbol
 		if (this.accent)
-			result = `${this.accent}(${result})`
+			result = `${this.accent}[${result}]`
 		if (!ignoreFactor)
 			result = this.addFactorToString(result)
 		if (this.subscript) {
@@ -54,12 +56,20 @@ class Variable extends Parent {
 		return result
 	}
 
+	requiresBracketsFor(level, ignoreFactor = false) {
+		if (level === Expression.addition)
+			return false
+		if (level === Expression.multiplication && (ignoreFactor || this.factor >= 0))
+			return false
+		return this.factor !== 1
+	}
+
 	dependsOn(variable) {
 		return this.equals(variable, { ignoreFactor: true })
 	}
 
-	getVariables() {
-		return [this.eliminateFactor()]
+	getVariableStrings() {
+		return new Set([this.eliminateFactor().str]) // Return a set with the string representation of this variable. The string representation allows proper set comparisons, filtering out duplicates.
 	}
 
 	substitute(variable, substitution) {
@@ -89,18 +99,28 @@ class Variable extends Parent {
 		variable = this.verifyVariable(variable)
 		if (!this.equals(variable, { ignoreFactor: true }))
 			return new Constant(0) // It's a different parameter.
-		return new Constant(this.factor/variable.factor)
+		return new Constant(this.factor / variable.factor)
 	}
 
+	// interpret turns a string representation of a variable into an SO representation of a variable. (No factors are allowed in this. Only symbols, subscripts and accents. Use square brackets for accents.)
 	static interpret(str) {
 		const match = regVariableFormat.exec(str)
 		if (!match)
-			throw new Error(`Variable interpretation error: tried to interpret a variable "${str}" but could not interpret this string. It should be of the form "x_2", "dot(x)", "x_[av]" or "dot(x)_[av]".`)
+			throw new Error(`Variable interpretation error: tried to interpret a variable "${str}" but could not interpret this string. It should be of the form "x_2", "dot[x]", "x_[av]" or "dot[x]_[av]".`)
 		return {
 			symbol: match[4] || match[5],
 			subscript: match[8] || match[9],
 			accent: match[3],
 		}
+	}
+
+	// variableSort determines the sorting order of variables. It takes two variables and returns a value larger than zero if b must be before a.
+	static variableSort(a, b) {
+		const comparisonOrder = ['symbol', 'subscript', 'accent', 'factor']
+		const firstDifferentKey = comparisonOrder.find(key => a[key] !== b[key])
+		if (firstDifferentKey)
+			return (a[firstDifferentKey] || '') < (b[firstDifferentKey] || '') ? -1 : 1
+		return 0 // All equal.
 	}
 }
 Variable.defaultSO = defaultSO

@@ -1,25 +1,37 @@
 // The Expression class represents any type of mathematical expression, including with brackets, fractions, functions, variables with subscripts, powers and more. It does NOT include an equals sign or other form of comparison: that would make it an equation or inequality.
 
-const { isObject, processOptions } = require('../../util/objects')
+const { isNumber } = require('../../util/numbers')
+const { isObject } = require('../../util/objects')
 const { firstOf } = require('../../util/arrays')
 
-const Expression = require('./Expression')
+const Expression = require('./abstracts/Expression')
 
 function getExpressionTypes() {
 	return {
+		...require('./functions'),
 		Constant: require('./Constant'),
 		Variable: require('./Variable'),
 		Sum: require('./Sum'),
 		Product: require('./Product'),
 	}
 }
+module.exports.getExpressionTypes = getExpressionTypes
 
 function ensureFO(obj) {
-	// Check that we have an object with type parameter.
-	if (!isObject)
-		throw new Error(`Invalid expression object: received an object that was supposedly an Expression, but it was "${obj}".`)
+	const Constant = require('./Constant')
+	const Variable = require('./Variable')
+
+	// Check if this is easy to interpret.
+	if (isNumber(obj))
+		obj = new Constant(obj)
+	if (typeof obj === 'string')
+		obj = new Variable(obj)
 	if (obj instanceof Expression)
 		return obj // All good!
+
+	// No easy interpretations. Check if this is a raw object with a type parameter.
+	if (!isObject)
+		throw new Error(`Invalid expression object: received an object that was supposedly an Expression, but it was "${obj}".`)
 	if (!obj.type)
 		throw new Error(`Invalid expression object: received an object that was supposedly an Expression, but it is a basic data object without a type property. Cannot interpret it.`)
 

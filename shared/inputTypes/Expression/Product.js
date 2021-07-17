@@ -1,18 +1,18 @@
-const ExpressionList = require('./ExpressionList')
+const Expression = require('./abstracts/Expression')
+const ExpressionList = require('./abstracts/ExpressionList')
 const Constant = require('./Constant')
 const Sum = require('./Sum')
-// const Variable = require('./Variable')
+
 const Parent = ExpressionList
 
 class Product extends Parent {
 	toString(ignoreFactor = false) {
 		// Set up the string for the product.
-		let result = this.terms.map(term => term.str).join('*')
-
-		// Add brackets if necessary.
-		let addBrackets = false
-		if (addBrackets)
-			result = `(${result})`
+		let result = this.terms.map(term => {
+			if (term.requiresBracketsFor(Expression.multiplication))
+				return `(${term.str})`
+			return term.str
+		}).join('*')
 
 		// Add the factor.
 		if (!ignoreFactor)
@@ -21,21 +21,32 @@ class Product extends Parent {
 		return result
 	}
 
+	requiresBracketsFor(level, ignoreFactor = false) {
+		return level === Expression.powers
+	}
+
 	getDerivative(variable) {
 		variable = this.verifyVariable(variable)
 
 		// Apply the product rule.
 		const sumTerms = []
 		this.terms.forEach((term, termIndex) => {
-			const termsCopy = this.terms.map(term => term.clone()) // Make a full copy (clone) of the terms array.
-			termsCopy[termIndex] = term.getDerivative(variable) // Replace the i'th term by its derivative.
-			if (!termsCopy[termIndex].equals(new Constant(0))) // If the derivative is not zero ...
-				sumTerms.push(new Product({ terms: termsCopy })) // ... then add this to the resulting sum. Also keep the factor.
+			if (term.dependsOn(variable)) {
+				const termsCopy = this.terms.map(term => term.clone()) // Make a full copy (clone) of the terms array.
+				termsCopy[termIndex] = term.getDerivative(variable) // Replace the i'th term by its derivative.
+				sumTerms.push(new Product({ terms: termsCopy })) // And add this to the resulting sum.
+			}
 		})
 		return new Sum({ factor: this.factor, terms: sumTerms }).simplify()
 	}
 
 	simplify() {
+		// Check simple cases.
+		if (this.terms.length === 0)
+			return new Constant(this.factor)
+		if (this.terms.length === 1)
+			return this.terms[0].multiplyBy(this.factor)
+
 		return this // ToDo later: add this.
 	}
 

@@ -1,18 +1,33 @@
-const Expression = require('./Expression')
+const Expression = require('./abstracts/Expression')
 
-const defaultSO = { ...Expression.defaultSO }
+const Parent = Expression
+const defaultSO = { ...Parent.defaultSO }
 
-class Constant extends Expression {
+class Constant extends Parent {
+	constructor(SO) {
+		if (typeof SO === 'string' || typeof SO === 'number')
+			SO = { factor: parseFloat(SO) }
+		super(SO)
+	}
+
 	toString(ignoreFactor = false) {
 		return ignoreFactor ? '1' : this.factor.toString()
+	}
+	
+	requiresBracketsFor(level, ignoreFactor = false) {
+		if (level === Expression.addition)
+			return false
+		if (ignoreFactor || this.factor >= 0)
+			return false
+		return true
 	}
 
 	dependsOn() {
 		return false
 	}
 
-	getVariables() {
-		return []
+	getVariableStrings() {
+		return new Set() // Empty set: there are no variables.
 	}
 
 	substitute() {

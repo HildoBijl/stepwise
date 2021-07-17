@@ -1,7 +1,7 @@
 // An Expression is an abstract class that represents anything that can be inside an expression. Every class inside the Expression inherits it, directly or indirectly.
 
-const { ensureNumber } = require('../../util/numbers')
-const { isObject, processOptions } = require('../../util/objects')
+const { ensureNumber } = require('../../../util/numbers')
+const { isObject, processOptions } = require('../../../util/objects')
 
 const defaultSO = {
 	factor: 1,
@@ -14,24 +14,37 @@ class Expression {
 			throw new TypeError(`Abstract class "Expression" may not be instantiated directly.`)
 
 		// Certain methods must be implemented in child classes.
-		const methods = ['clone', 'become', 'dependsOn', 'getVariables', 'substitute', 'simplify', 'equals']
+		const methods = ['clone', 'become', 'toString', 'requiresBracketsFor', 'dependsOn', 'getVariableStrings', 'substitute', 'simplify', 'equals']
 		methods.forEach(method => {
 			if (this[method] === undefined || this[method] === Object.prototype[method]) // The Object object has some default methods, and those are not acceptable either.
-				throw new Error(`Child classes of the Expression class must implement the "${method}" method.`)
+				throw new Error(`Child classes of the Expression class must implement the "${method}" method. The "${this.constructor.name}" class doesn't seem to have done so.`)
 		})
 
-		// If the SO has a type parameter, check it and remove it.
-		if (SO.type) {
-			if (SO.type !== this.constructor.name)
-				throw new Error(`Invalid Expression creation: tried to create an Expression of type "${this.constructor.name}" but the given Storage Object has type "${SO.type}".`)
-			SO = { ...SO } // Clone it to prevent making changes to the given object.
-			delete SO.type
-		}
-
 		// Become the given SO.
-		if (typeof SO === 'string' || typeof SO === 'number')
-			SO = { factor: parseFloat(SO) }
 		this.become(SO)
+	}
+
+	// become will turn the current object into one having the data of the SO.
+	become(SO) {
+		SO = this.checkAndRemoveType(SO)
+		SO = processOptions(SO, defaultSO)
+		this.factor = ensureNumber(SO.factor)
+	}
+
+	// checkAndRemoveType checks if the given SO has a type. If so, it is checked and subsequently removed. (If not, this function does nothing.) The resulting SO is returned.
+	checkAndRemoveType(SO) {
+		// If there is no type, just return the same SO unchanged.
+		if (!SO.type)
+			return SO
+
+		// There is a type. Check it.
+		if (SO.type !== this.constructor.name)
+			throw new Error(`Invalid Expression creation: tried to create an Expression of type "${this.constructor.name}" but the given Storage Object has type "${SO.type}".`)
+
+		// Clone the SO (shallowly) to not change the original and remove the type.
+		SO = { ...SO }
+		delete SO.type
+		return SO
 	}
 
 	// SO returns a storage object version of this object. 
@@ -54,12 +67,6 @@ class Expression {
 		return result
 	}
 
-	// become will turn the current object into one having the data of the SO.
-	become(SO) {
-		SO = processOptions(SO, defaultSO)
-		this.factor = ensureNumber(SO.factor)
-	}
-
 	// clone will create a clone of this element.
 	clone() {
 		return new this.constructor(this.SO)
@@ -80,12 +87,18 @@ class Expression {
 		return this.toString()
 	}
 
+	// requiresBracketsFor checks whether the string representation requires brackets to properly display it. The given level indicates whether we will have addition/subtraction (level 1), multiplication/division (level 2) or powers (level 3).
+	requiresBracketsFor(level, ignoreFactor = false) {
+		return true
+	}
+
 	// multiplyBy create a clone of this expression which is multiplied by the given number. So multiplying "2*x + y" by 3 gives "3*(2*x + y)". The original object is unchanged.
 	multiplyBy(multiplication) {
+		const Constant = require('../Constant')
+		const { ensureFO } = require('../')
+
 		// If we have a regular number, in whatever form, process it accordingly.
-		const Constant = require('./Constant') // Load in the Constant here to prevent cycle problems.
-		if (typeof multiplication === 'string' || typeof multiplication === 'number')
-			multiplication = new Constant(multiplication)
+		multiplication = ensureFO(multiplication)
 		if (multiplication.constructor === Constant) {
 			const result = this.clone()
 			result.factor *= multiplication.factor
@@ -93,7 +106,13 @@ class Expression {
 		}
 
 		// We have another type of expression. Set up a product.
-		throw new Error(`ToDo: implement this.`)
+		const Product = require('../Product')
+		return new Product({
+			terms: [
+				multiplication,
+				this,
+			],
+		})
 	}
 
 	// eliminateFactor creates a clone of this expression, but then with a factor of 1 (default).
@@ -111,7 +130,7 @@ class Expression {
 
 	// verifyVariable is used by functions requiring a variable as input. It checks the given variable. If no variable is given, it tries to figure out which variable was meant.
 	verifyVariable(variable) {
-		const Variable = require('./Variable')
+		const Variable = require('../Variable')
 
 		// If no variable was given, try to find one.
 		if (variable === undefined) {
@@ -132,10 +151,19 @@ class Expression {
 		return variable
 	}
 
+	// getVariables uses getVariableStrings. This latter function returns a set of variable strings that are in this expression. Then getVariables sorts this set and turns the result into variables again.
+	getVariables() {
+		const Variable = require('../Variable')
+		const variableStrings = this.getVariableStrings()
+		return [...variableStrings].map(str => new Variable(str)).sort(Variable.variableSort)
+	}
+
 	// addFactorToString adds a factor multiplication to a string, based on the value of the factor.
-	addFactorToString(str) {
+	addFactorToString(str, addBracketsOnFactor = false) {
 		if (this.factor === 1)
 			return str
+		if (addBracketsOnFactor)
+			str = `(${str})`
 		if (this.factor === -1)
 			return `-${str}`
 		return `${this.factor}*${str}`
@@ -153,3 +181,9 @@ class Expression {
 }
 Expression.defaultSO = defaultSO
 module.exports = Expression
+
+// Add bracket levels.
+Expression.addition = 0
+Expression.multiplication = 1
+Expression.division = 2
+Expression.powers = 3

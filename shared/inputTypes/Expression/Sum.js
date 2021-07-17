@@ -1,6 +1,6 @@
-const ExpressionList = require('./ExpressionList')
-// const Constant = require('./Constant')
-// const Variable = require('./Variable')
+const Expression = require('./abstracts/Expression')
+const ExpressionList = require('./abstracts/ExpressionList')
+
 const Parent = ExpressionList
 
 class Sum extends Parent {
@@ -10,26 +10,23 @@ class Sum extends Parent {
 		this.terms.forEach((term, index) => {
 			if (index > 0 && term.factor >= 0)
 				result += '+'
-			result += term.toString()
+			const addBrackets = term.requiresBracketsFor(Expression.addition)
+			result += addBrackets ? `(${term.toString()})` : term.toString()
 		})
-
-		// Add brackets if necessary.
-		let addBrackets = false
-		if (this.factor !== 1)
-			addBrackets = true
-		else {
-			const Product = require('./Product')
-			if (this.parent && this.parent instanceof Product)
-				addBrackets = true
-		}
-		if (addBrackets)
-			result = `(${result})`
 
 		// Add the factor.
 		if (!ignoreFactor)
-			result = this.addFactorToString(result)
+			result = this.addFactorToString(result, true)
 
 		return result
+	}
+
+	requiresBracketsFor(level, ignoreFactor = false) {
+		if (level === Expression.addition)
+			return false
+		if (level === Expression.multiplication)
+			return ignoreFactor || this.factor === 1 // In this case no brackets have been added yet.
+		return true
 	}
 
 	getDerivative(variable) {
@@ -43,6 +40,12 @@ class Sum extends Parent {
 	}
 
 	simplify() {
+		// Check simple cases.
+		if (this.terms.length === 0)
+			return new Constant(0)
+		if (this.terms.length === 1)
+			return this.terms[0].multiplyBy(this.factor)
+
 		return this // ToDo: add this later.
 	}
 

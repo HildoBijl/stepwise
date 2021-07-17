@@ -1,10 +1,11 @@
 // This is the abstract ExpressionList class. It should not be instantiated, but it is used for Sum, Product and such.
 
-const { processOptions, filterOptions } = require('../../util/objects')
+const { processOptions, filterOptions } = require('../../../util/objects')
+const { union } = require('../../../util/sets')
 
 const Expression = require('./Expression')
 const Parent = Expression
-const { ensureFO } = require('./')
+const { ensureFO } = require('..')
 
 const defaultSO = {
 	...Parent.defaultSO,
@@ -12,8 +13,26 @@ const defaultSO = {
 }
 
 class ExpressionList extends Parent {
+	constructor(...args) {
+		let SO
+		if (args.length === 0) {
+			SO = {}
+		} else if (args.length === 1) {
+			if (args[0] instanceof Expression)
+				SO = { terms: [args[0]] }
+			else if (Array.isArray(args[0]))
+				SO = { terms: args[0] }
+			else
+				SO = args[0]
+		} else {
+			SO = { terms: args }
+		}
+		super(SO)
+	}
+
 	become(SO) {
 		// Check own input.
+		SO = this.checkAndRemoveType(SO)
 		SO = processOptions(SO, defaultSO)
 		if (!Array.isArray(SO.terms))
 			throw new Error(`Invalid terms list: tried to create a ${this.constructor.name}, but the terms parameter was not an array. Its value was "${terms}".`)
@@ -34,14 +53,8 @@ class ExpressionList extends Parent {
 		return this.terms.some(term => term.dependsOn(variable))
 	}
 
-	getVariables() {
-		let set = new Set()
-		this.terms.forEach(term => {
-			term.getVariables().forEach(variable => {
-				set.add(variable) // ToDo: check if this filters out uniques.
-			})
-		})
-		return [...set].sort() // ToDo: check sort. Use Variable sort function?
+	getVariableStrings() {
+		return union(...this.terms.map(term => term.getVariableStrings()))
 	}
 
 	substitute(variable, substitution) {
