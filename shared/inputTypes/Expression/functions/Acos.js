@@ -4,9 +4,7 @@ const Fraction = require('./Fraction')
 const Power = require('./Power')
 
 class Acos extends Parent {
-	getDerivative(variable) {
-		variable = this.verifyVariable(variable)
-		
+	getDerivativeBasic(variable) {
 		// Set up 1 - arg^2.
 		const inner = new Sum([
 			1,
@@ -18,7 +16,7 @@ class Acos extends Parent {
 			factor: -this.factor, // Keep the factor, but apply the minus.
 			numerator: this.argument.getDerivative(variable), // Apply the chain rule.
 			denominator: new Sqrt(inner), // sqrt(1 - arg^2).
-		}).simplify()
+		})
 	}
 
 	simplify() {

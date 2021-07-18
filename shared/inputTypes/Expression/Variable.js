@@ -83,6 +83,12 @@ class Variable extends Parent {
 		return substitution.multiplyByNumber(this.factor) // Replace this parameter by a clone of the substitution, multiplied by the current parameter's factor.
 	}
 
+	getDerivativeBasic(variable) {
+		if (!this.equals(variable, { ignoreFactor: true }))
+			return new Constant(0) // It's a different parameter.
+		return new Constant(this.factor)
+	}
+
 	simplify() {
 		return this // Parameter types don't get any simpler.
 	}
@@ -91,13 +97,6 @@ class Variable extends Parent {
 		if (!super.equals(expression, options))
 			return false
 		return parts.every(part => this[part] === expression[part])
-	}
-
-	getDerivative(variable) {
-		variable = this.verifyVariable(variable)
-		if (!this.equals(variable, { ignoreFactor: true }))
-			return new Constant(0) // It's a different parameter.
-		return new Constant(this.factor / variable.factor)
 	}
 
 	// interpret turns a string representation of a variable into an SO representation of a variable. (No factors are allowed in this. Only symbols, subscripts and accents. Use square brackets for accents.)

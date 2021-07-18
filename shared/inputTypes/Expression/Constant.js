@@ -34,6 +34,10 @@ class Constant extends Parent {
 		return this.clone() // A constant does not change upon substitution.
 	}
 
+	getDerivativeBasic() {
+		return new Constant(0) // The derivative of a constant is always zero.
+	}
+
 	simplify() {
 		return this // You cannot simplify a number. It's as simple as it gets.
 	}
@@ -42,10 +46,6 @@ class Constant extends Parent {
 		if (expression.constructor !== this.constructor)
 			return false
 		return ignoreFactor || expression.factor === this.factor
-	}
-
-	getDerivative() {
-		return new Constant(0) // The derivative of a constant is always zero.
 	}
 }
 Constant.defaultSO = defaultSO

@@ -29,14 +29,9 @@ class Sum extends Parent {
 		return true
 	}
 
-	getDerivative(variable) {
-		variable = this.verifyVariable(variable)
-
+	getDerivativeBasic(variable) {
 		// Apply the derivative to each element individually.
-		return new Sum({
-			...this.SO,
-			terms: this.terms.map(term => term.getDerivative(variable)),
-		}).simplify()
+		return new Sum(this.terms.map(term => term.getDerivativeBasic(variable))).multiplyBy(this.factor)
 	}
 
 	simplify() {

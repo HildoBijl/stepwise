@@ -4,13 +4,12 @@ const Fraction = require('./Fraction')
 const Power = require('./Power')
 
 class Atan extends Parent {
-	getDerivative(variable) {
-		variable = this.verifyVariable(variable)
+	getDerivativeBasic(variable) {
 		return new Fraction({
 			factor: this.factor, // Keep the factor.
 			numerator: this.argument.getDerivative(variable), // Apply the chain rule.
 			denominator: new Sum([1, new Power(this.argument, 2)]), // 1 + arg^2.
-		}).simplify()
+		})
 	}
 
 	simplify() {

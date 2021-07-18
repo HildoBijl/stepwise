@@ -5,8 +5,8 @@ const Power = require('./Power')
 const args = ['base', 'argument']
 
 class Root extends Parent {
-	getDerivative(variable) {
-		return this.simplify().getDerivative(variable)
+	getDerivativeBasic(variable) {
+		return this.simplify().getDerivativeBasic(variable) // ToDo: add level/options.
 	}
 
 	simplify(level) {

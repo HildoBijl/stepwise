@@ -2,8 +2,7 @@ const Parent = require('../abstracts/FunctionSingleArgument')
 const Product = require('../Product')
 
 class Cos extends Parent {
-	getDerivative(variable) {
-		variable = this.verifyVariable(variable)
+	getDerivativeBasic(variable) {
 		const Sin = require('./Sin')
 		return new Product({
 			factor: -this.factor, // Apply a minus.
@@ -11,7 +10,7 @@ class Cos extends Parent {
 				new Sin(this.argument),
 				this.argument.getDerivative(variable), // Apply the chain rule.
 			],
-		}).simplify()
+		})
 	}
 
 	simplify() {

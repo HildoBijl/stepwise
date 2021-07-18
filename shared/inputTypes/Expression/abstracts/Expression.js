@@ -14,7 +14,7 @@ class Expression {
 			throw new TypeError(`Abstract class "Expression" may not be instantiated directly.`)
 
 		// Certain methods must be implemented in child classes.
-		const methods = ['clone', 'become', 'toString', 'requiresBracketsFor', 'dependsOn', 'getVariableStrings', 'substitute', 'simplify', 'equals']
+		const methods = ['clone', 'become', 'toString', 'requiresBracketsFor', 'dependsOn', 'getVariableStrings', 'substitute', 'getDerivativeBasic', 'simplify', 'equals']
 		methods.forEach(method => {
 			if (this[method] === undefined || this[method] === Object.prototype[method]) // The Object object has some default methods, and those are not acceptable either.
 				throw new Error(`Child classes of the Expression class must implement the "${method}" method. The "${this.constructor.name}" class doesn't seem to have done so.`)
@@ -92,6 +92,17 @@ class Expression {
 		return true
 	}
 
+	// addFactorToString adds a factor multiplication to a string, based on the value of the factor.
+	addFactorToString(str, addBracketsOnFactor = false) {
+		if (this.factor === 1)
+			return str
+		if (addBracketsOnFactor)
+			str = `(${str})`
+		if (this.factor === -1)
+			return `-${str}`
+		return `${this.factor}*${str}`
+	}
+
 	// multiplyBy create a clone of this expression which is multiplied by the given number. So multiplying "2*x + y" by 3 gives "3*(2*x + y)". The original object is unchanged.
 	multiplyBy(multiplication) {
 		const Constant = require('../Constant')
@@ -120,12 +131,12 @@ class Expression {
 		return this.multiplyBy(1 / this.factor)
 	}
 
-	equals(expression, options = {}) {
-		if (this.constructor !== expression.constructor)
-			return false
-		if (options.ignoreFactor === true)
-			return true
-		return this.factor === expression.factor
+	// getDerivative returns the derivative. It includes checking the variable and simplifying the result, unlike getDerivativeBasic which doesn't check the input and only returns a derivative in any form.
+	getDerivative(variable) {
+		variable = this.verifyVariable(variable)
+		if (variable.factor !== 1)
+			throw new Error(`Invalid derivative variable: the variable has a factor. Taking derivatives with respect to variables with factors is not allowed. Try using "variable.eliminateFactor()" first.`)
+		return this.getDerivativeBasic(variable).simplify() // ToDo: add the right options.
 	}
 
 	// verifyVariable is used by functions requiring a variable as input. It checks the given variable. If no variable is given, it tries to figure out which variable was meant.
@@ -158,15 +169,12 @@ class Expression {
 		return [...variableStrings].map(str => new Variable(str)).sort(Variable.variableSort)
 	}
 
-	// addFactorToString adds a factor multiplication to a string, based on the value of the factor.
-	addFactorToString(str, addBracketsOnFactor = false) {
-		if (this.factor === 1)
-			return str
-		if (addBracketsOnFactor)
-			str = `(${str})`
-		if (this.factor === -1)
-			return `-${str}`
-		return `${this.factor}*${str}`
+	equals(expression, options = {}) {
+		if (this.constructor !== expression.constructor)
+			return false
+		if (options.ignoreFactor === true)
+			return true
+		return this.factor === expression.factor
 	}
 
 	/* The following functions need to be implemented.

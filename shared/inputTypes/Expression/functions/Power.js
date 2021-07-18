@@ -28,13 +28,12 @@ class Power extends Parent {
 		return result
 	}
 
-	getDerivative(variable) {
-		variable = this.verifyVariable(variable)
+	getDerivativeBasic(variable) {
 		const terms = []
 
 		// For the simple cases, simplify the power first.
 		if (this.exponent.equals(0) || this.exponent.equals(1))
-			return this.simplify().getDerivative(variable)
+			return this.simplify().getDerivative(variable) // ToDo: add level/options.
 
 		// If the base depends on the variable, apply the default derivative rule, lowering the exponent by one.
 		if (this.base.dependsOn(variable)) {
@@ -45,26 +44,24 @@ class Power extends Parent {
 			)
 
 			// Assemble everything.
-			const derivative = new Product(
+			terms.push(new Product(
 				this.exponent, // Pre-multiply by the exponent.
 				powerWithExponentOneLower, // Lower the exponent of the power by one.
 				this.base.getDerivative(variable), // Apply the chain rule, multiplying by the derivative of the base.
-			).simplify()
-			terms.push(derivative)
+			))
 		}
 
 		// If the exponent depends on the variable, apply the exponent derivative rule, multiplying by the logarithm of the base.
 		if (this.exponent.dependsOn(variable)) {
-			const derivative = new Product(
+			terms.push(new Product(
 				new Ln(this.base),
 				this, // Keep the power intact.
 				this.exponent.getDerivative(variable), // Apply the chain rule on the exponent.
-			).simplify()
-			terms.push(derivative)
+			))
 		}
 
 		// Return the outcome.
-		return new Sum(...terms).multiplyBy(this.factor).simplify()
+		return new Sum(...terms).multiplyBy(this.factor)
 	}
 
 	simplify(level) {

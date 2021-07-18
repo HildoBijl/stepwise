@@ -32,8 +32,7 @@ class Fraction extends Parent {
 		return level === Expression.bracketLevels.division || level === Expression.bracketLevels.powers
 	}
 
-	getDerivative(variable) {
-		variable = this.verifyVariable(variable)
+	getDerivativeBasic(variable) {
 		const terms = []
 
 		// If the numerator depends on the variable, take its derivative.
@@ -59,7 +58,7 @@ class Fraction extends Parent {
 		}
 		
 		// Return the outcome.
-		return new Sum(...terms).multiplyBy(this.factor).simplify()
+		return new Sum(...terms).multiplyBy(this.factor)
 	}
 
 	// ToDo: equals.

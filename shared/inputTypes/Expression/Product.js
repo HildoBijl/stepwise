@@ -25,19 +25,17 @@ class Product extends Parent {
 		return level === Expression.bracketLevels.division || level === Expression.bracketLevels.powers
 	}
 
-	getDerivative(variable) {
-		variable = this.verifyVariable(variable)
-
+	getDerivativeBasic(variable) {
 		// Apply the product rule.
-		const sumTerms = []
+		const terms = []
 		this.terms.forEach((term, termIndex) => {
 			if (term.dependsOn(variable)) {
-				const termsCopy = this.terms.map(term => term.clone()) // Make a full copy (clone) of the terms array.
-				termsCopy[termIndex] = term.getDerivative(variable) // Replace the i'th term by its derivative.
-				sumTerms.push(new Product({ terms: termsCopy })) // And add this to the resulting sum.
+				const termsCopy = [...this.terms] // Make a shallow clone of the product terms array.
+				termsCopy[termIndex] = term.getDerivativeBasic(variable) // Replace the i'th term by its derivative.
+				terms.push(new Product({ terms: termsCopy })) // And add this to the resulting sum.
 			}
 		})
-		return new Sum({ factor: this.factor, terms: sumTerms }).simplify()
+		return new Sum(terms).multiplyBy(this.factor)
 	}
 
 	simplify() {

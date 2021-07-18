@@ -5,9 +5,9 @@ const Ln = require('./Ln')
 const args = ['base', 'argument']
 
 class Log extends Parent {
-	getDerivative(variable) {
+	getDerivativeBasic(variable) {
 		// ToDo: check level.
-		return this.simplify().getDerivative(variable)
+		return this.simplify().getDerivativeBasic(variable)
 	}
 
 	simplify(level) {
