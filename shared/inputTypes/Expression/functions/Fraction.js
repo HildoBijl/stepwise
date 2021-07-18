@@ -10,12 +10,12 @@ class Fraction extends Parent {
 	toString(ignoreFactor = false) {
 		// Get the numerator.
 		let numStr = this.numerator.toString()
-		if (this.numerator.requiresBracketsFor(Expression.multiplication))
+		if (this.numerator.requiresBracketsFor(Expression.bracketLevels.multiplication))
 			numStr = `(${numStr})`
 
 		// Add the denominator.
 		let denStr = this.denominator.toString()
-		if (this.denominator.requiresBracketsFor(Expression.division))
+		if (this.denominator.requiresBracketsFor(Expression.bracketLevels.division))
 			denStr = `(${denStr})`
 
 		// Put them together.
@@ -29,7 +29,7 @@ class Fraction extends Parent {
 	}
 
 	requiresBracketsFor(level, ignoreFactor = false) {
-		return level === Expression.division
+		return level === Expression.bracketLevels.division || level === Expression.bracketLevels.powers
 	}
 
 	getDerivative(variable) {

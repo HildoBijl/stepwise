@@ -9,7 +9,7 @@ class Product extends Parent {
 	toString(ignoreFactor = false) {
 		// Set up the string for the product.
 		let result = this.terms.map(term => {
-			if (term.requiresBracketsFor(Expression.multiplication))
+			if (term.requiresBracketsFor(Expression.bracketLevels.multiplication))
 				return `(${term.str})`
 			return term.str
 		}).join('*')
@@ -22,7 +22,7 @@ class Product extends Parent {
 	}
 
 	requiresBracketsFor(level, ignoreFactor = false) {
-		return level === Expression.powers
+		return level === Expression.bracketLevels.division || level === Expression.bracketLevels.powers
 	}
 
 	getDerivative(variable) {

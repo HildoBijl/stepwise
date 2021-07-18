@@ -10,12 +10,12 @@ class Power extends Parent {
 	toString(ignoreFactor = false) {
 		// Get the base.
 		let baseStr = this.base.toString()
-		if (this.base.requiresBracketsFor(Expression.powers))
+		if (this.base.requiresBracketsFor(Expression.bracketLevels.powers))
 			baseStr = `(${baseStr})`
 
 		// Add the exponent.
 		let exponentStr = this.exponent.toString()
-		if (this.exponent.requiresBracketsFor(Expression.powers))
+		if (this.exponent.requiresBracketsFor(Expression.bracketLevels.powers))
 			exponentStr = `(${exponentStr})`
 
 		// Put them together.

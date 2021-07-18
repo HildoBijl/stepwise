@@ -10,7 +10,7 @@ class Sum extends Parent {
 		this.terms.forEach((term, index) => {
 			if (index > 0 && term.factor >= 0)
 				result += '+'
-			const addBrackets = term.requiresBracketsFor(Expression.addition)
+			const addBrackets = term.requiresBracketsFor(Expression.bracketLevels.addition)
 			result += addBrackets ? `(${term.toString()})` : term.toString()
 		})
 
@@ -22,9 +22,9 @@ class Sum extends Parent {
 	}
 
 	requiresBracketsFor(level, ignoreFactor = false) {
-		if (level === Expression.addition)
+		if (level === Expression.bracketLevels.addition)
 			return false
-		if (level === Expression.multiplication)
+		if (level === Expression.bracketLevels.multiplication)
 			return ignoreFactor || this.factor === 1 // In this case no brackets have been added yet.
 		return true
 	}

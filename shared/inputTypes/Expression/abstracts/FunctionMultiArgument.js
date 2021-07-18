@@ -64,7 +64,7 @@ class FunctionMultiArgument extends Parent {
 	}
 
 	requiresBracketsFor(level, ignoreFactor = false) {
-		return level === Expression.powers
+		return level === Expression.bracketLevels.powers
 	}
 
 	dependsOn(variable) {

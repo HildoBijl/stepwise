@@ -183,7 +183,9 @@ Expression.defaultSO = defaultSO
 module.exports = Expression
 
 // Add bracket levels.
-Expression.addition = 0
-Expression.multiplication = 1
-Expression.division = 2
-Expression.powers = 3
+Expression.bracketLevels = {
+	addition: 0, // Should we use brackets for x + [...]?
+	multiplication: 1, // Should we use brackets for x*[...]?
+	division: 2, // Should we use brackets for x/[...]?
+	powers: 3, // Should we use brackets for x^[...] or [...]^x?
+}

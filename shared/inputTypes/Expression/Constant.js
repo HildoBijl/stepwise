@@ -15,9 +15,9 @@ class Constant extends Parent {
 	}
 	
 	requiresBracketsFor(level, ignoreFactor = false) {
-		if (level === Expression.addition)
-			return false
 		if (ignoreFactor || this.factor >= 0)
+			return false
+		if (level === Expression.bracketLevels.addition || level === Expression.bracketLevels.multiplication)
 			return false
 		return true
 	}
