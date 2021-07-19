@@ -8,6 +8,7 @@ import ExpressionInput from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/Status'
 
 // import { useExerciseData, useCorrect } from '../ExerciseContainer'
+// import { useFormData } from '../../../form/Form'
 import SimpleExercise from '../types/SimpleExercise'
 
 export default function Exercise() {
@@ -16,7 +17,11 @@ export default function Exercise() {
 
 function Problem({ index }) {
 	// const { shared: { expressions } } = useExerciseData()
-	// const expression = expressions[index]
+
+	// const { input } = useFormData()
+	// const { ans } = input
+	// console.log(ans)
+	
 	return <>
 		<Par>Voer een uitdrukking in die je voor je eigen cursus zou kunnen gebruiken. (Klik niet op "Controleer" want die functionaliteit is nog niet gemaakt.)</Par>
 		<InputSpace>

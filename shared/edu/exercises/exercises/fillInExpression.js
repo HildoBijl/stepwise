@@ -4,6 +4,7 @@ const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 // Testing code.
 const { getExpressionTypes } = require('../../../inputTypes/Expression')
 const { Constant, Variable, Sum, Product, Power, Ln, Fraction, Sqrt, Root, Log, Sin, Cos, Asin } = getExpressionTypes()
+const { interpretExpression } = require('../../../inputTypes/Expression/interpreter')
 
 const a = new Constant(-5)
 const b = a.multiplyBy(4)
@@ -60,16 +61,16 @@ const i = new Asin(new Variable('x').multiplyBy(3))
 // console.log(new Sqrt(e).multiplyBy(4).str)
 // console.log(new Sqrt(e).multiplyBy(4).getDerivative('x_2').str)
 
-const x = new Variable('x')
+// const x = new Variable('x')
 
 // const fx = new Ln(new Sum(x, 1).multiplyBy(3)).multiplyBy(4)
 // console.log(fx.str)
 // console.log(fx.getDerivative().str)
 
 // const fx = new Root(x.multiplyBy(2), new Sum(x, 1).multiplyBy(3)).multiplyBy(4)
-const fx = new Root(x.multiplyBy(2), x.multiplyBy(3))
-console.log(fx.str)
-console.log(fx.getDerivative().str)
+// const fx = new Root(x.multiplyBy(2), x.multiplyBy(3))
+// console.log(fx.str)
+// console.log(fx.getDerivative().str)
 
 const data = {
 	skill: 'fillInExpression',

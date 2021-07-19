@@ -1,3 +1,5 @@
+const { decimalSeparator } = require('../../settings')
+
 const Expression = require('./abstracts/Expression')
 
 const Parent = Expression
@@ -5,15 +7,17 @@ const defaultSO = { ...Parent.defaultSO }
 
 class Constant extends Parent {
 	constructor(SO) {
-		if (typeof SO === 'string' || typeof SO === 'number')
-			SO = { factor: parseFloat(SO) }
+		if (typeof SO === 'string')
+			SO = { factor: parseFloat(SO.replace(decimalSeparator, '.')) }
+		else if (typeof SO === 'number')
+			SO = { factor: SO }
 		super(SO)
 	}
 
 	toString(ignoreFactor = false) {
 		return ignoreFactor ? '1' : this.factor.toString()
 	}
-	
+
 	requiresBracketsFor(level, ignoreFactor = false) {
 		if (ignoreFactor || this.factor >= 0)
 			return false
