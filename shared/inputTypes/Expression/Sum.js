@@ -34,14 +34,31 @@ class Sum extends Parent {
 		return new Sum(this.terms.map(term => term.getDerivativeBasic(variable))).multiplyBy(this.factor)
 	}
 
-	simplify() {
-		// Check simple cases.
-		if (this.terms.length === 0)
-			return new Constant(0)
-		if (this.terms.length === 1)
-			return this.terms[0].multiplyBy(this.factor)
+	simplify(options = {}) {
+		// Simplify all children.
+		let factor = this.factor
+		let terms = this.terms.map(term => term.simplify(options))
 
-		return this // ToDo: add this later.
+		// Check for structure simplifications.
+		if (options.structure) {
+			// Check simple cases.
+			if (terms.length === 0)
+				return new Constant(this.factor)
+			if (terms.length === 1)
+				return terms[0].multiplyBy(this.factor)
+
+			// Flatten sums inside this sum. If there is a sum with a factor of 1, replace it by its array of terms.
+			terms = terms.map(term => {
+				if (!(term instanceof Sum))
+					return term // Not a sum. Keep the term as is.
+				if (term.factor !== 1)
+					return term // There is a factor. Keep the term as is.
+				return term.terms
+			}).flat() // Flatten the result to get an array of terms.
+		}
+
+		// Return the final result.
+		return new Sum({ factor, terms })
 	}
 
 	// ToDo later: add simplify functions.

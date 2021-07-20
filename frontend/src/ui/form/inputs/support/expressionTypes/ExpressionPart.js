@@ -3,6 +3,7 @@ import { isNumber } from 'step-wise/util/numbers'
 import { isLetter, removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
 import { firstOf } from 'step-wise/util/arrays'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
+import { basicFunctions, advancedFunctions, accents } from 'step-wise/inputTypes/Expression/interpreter'
 
 import { getClickSide } from 'util/dom'
 
@@ -12,11 +13,6 @@ import { emptyElementChar, emptyElementCharLatex, isCharElementEmpty, getCursorP
 import Expression from './Expression'
 import { getDeepestExpression } from './support/ExpressionSupport'
 import { isCursorKey } from './support/acceptsKey'
-
-const basicFunctions = ['sin', 'cos', 'tan', 'asin', 'acos', 'atan', 'arcsin', 'arccos', 'arctan', 'ln']
-const advancedFunctions = ['root', 'log']
-const accents = ['dot', 'hat']
-export { basicFunctions, accents, advancedFunctions }
 
 const autoReplaceSymbols = [
 	{ name: 'pm', symbol: '±' },

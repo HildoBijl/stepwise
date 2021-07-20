@@ -1,6 +1,6 @@
 import { getFuncs } from '../'
 
-import defaultFunctions from './templates/with1Argument1Parameter'
+import defaultFunctions from './templates/with2In0After'
 import { isDataEmpty } from '../index'
 
 const fullExport = {

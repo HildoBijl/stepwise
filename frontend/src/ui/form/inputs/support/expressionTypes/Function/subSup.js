@@ -1,6 +1,6 @@
 import { arraySplice } from 'step-wise/util/arrays'
 
-import defaultFunctions from './templates/with2Argument0ParameterVertical'
+import defaultFunctions from './templates/with2In0AfterVertical'
 
 import { removeCursor } from '../../Input'
 import { getFuncs, getDataStartCursor, getDataEndCursor, isDataEmpty } from '../'

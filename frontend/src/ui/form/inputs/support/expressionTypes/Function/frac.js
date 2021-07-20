@@ -1,4 +1,4 @@
-import defaultFunctions from './templates/with2Argument0ParameterVertical'
+import defaultFunctions from './templates/with2In0AfterVertical'
 
 import { zoomIn, getFuncs, getDataStartCursor, isCursorAtDataStart, isCursorAtDataEnd } from '../'
 

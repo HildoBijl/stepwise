@@ -4,7 +4,7 @@ import { getFuncs, zoomIn, getDataStartCursor, isCursorAtDataStart, isCursorAtDa
 import { mergeWithLeft, mergeWithRight } from '../../support/merging'
 import { splitToLeft, splitToRight } from '../../support/splitting'
 
-import defaultFunctions from './with1Argument0Parameter'
+import defaultFunctions from './with1In0After'
 
 const allFunctions = {
 	...defaultFunctions,

@@ -6,34 +6,34 @@ const { getExpressionTypes } = require('../../../inputTypes/Expression')
 const { Constant, Variable, Sum, Product, Power, Ln, Fraction, Sqrt, Root, Log, Sin, Cos, Asin } = getExpressionTypes()
 const { interpretExpression } = require('../../../inputTypes/Expression/interpreter')
 
-const a = new Constant(-5)
-const b = a.multiplyBy(4)
-const c = new Variable({
-	symbol: 'x',
-	accent: '',
-	subscript: '2',
-	factor: -6,
-})
-const d = new Variable('x_2')
-d.factor = 2
-const e = new Sum({
-	factor: -7,
-	terms: [c, a, d],
-})
-const f = new Product({
-	factor: 3,
-	terms: [e, c, b],
-})
-const g = new Power({
-	factor: 4,
-	base: new Variable('x_2'),
-	exponent: 3,
-})
-const h = new Power({
-	base: new Variable('x'),
-	exponent: new Variable('x'),
-})
-const i = new Asin(new Variable('x').multiplyBy(3))
+// const a = new Constant(-5)
+// const b = a.multiplyBy(4)
+// const c = new Variable({
+// 	symbol: 'x',
+// 	accent: '',
+// 	subscript: '2',
+// 	factor: -6,
+// })
+// const d = new Variable('x_2')
+// d.factor = 2
+// const e = new Sum({
+// 	factor: -7,
+// 	terms: [c, a, d],
+// })
+// const f = new Product({
+// 	factor: 3,
+// 	terms: [e, c, b],
+// })
+// const g = new Power({
+// 	factor: 4,
+// 	base: new Variable('x_2'),
+// 	exponent: 3,
+// })
+// const h = new Power({
+// 	base: new Variable('x'),
+// 	exponent: new Variable('x'),
+// })
+// const i = new Asin(new Variable('x').multiplyBy(3))
 
 // let j = new Fraction(h, i)
 // j = j.multiplyBy(5).multiplyBy(-2)

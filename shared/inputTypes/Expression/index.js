@@ -22,12 +22,12 @@ function ensureFO(obj) {
 	const Variable = require('./Variable')
 
 	// Check if this is easy to interpret.
-	if (isNumber(obj))
-		obj = new Constant(obj)
-	if (typeof obj === 'string')
-		obj = new Variable(obj)
 	if (obj instanceof Expression)
-		return obj // All good!
+		return obj // All good already!
+	if (isNumber(obj))
+		return new Constant(obj)
+	if (typeof obj === 'string')
+		return new Variable(obj)
 
 	// No easy interpretations. Check if this is a raw object with a type parameter.
 	if (!isObject)

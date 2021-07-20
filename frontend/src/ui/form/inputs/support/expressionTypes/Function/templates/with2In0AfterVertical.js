@@ -1,10 +1,10 @@
 // This is the template for functions like frac(...)(...) or SubSup which have two parameters that are vertically above each other.
 
-import defaultFunctions from './with1Argument0Parameter'
+import defaultFunctions from './with1In0After'
 
 import { charElementsToBounds, getClosestElement } from '../../../MathWithCursor'
 
-import { zoomIn, getFuncs, getDataStartCursor, getDataEndCursor, isCursorAtDataStart, isCursorAtDataEnd, isDataEmpty } from '../../'
+import { zoomIn, getFuncs, getDataStartCursor, getDataEndCursor, isCursorAtDataStart, isCursorAtDataEnd, isDataEmpty } from '../..'
 import { findEndOfTerm, getSubExpression } from '../../support/ExpressionSupport'
 import { mergeWithLeft, mergeWithRight } from '../../support/merging'
 import { splitToLeft, splitToRight } from '../../support/splitting'

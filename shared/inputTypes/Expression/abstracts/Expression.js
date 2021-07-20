@@ -123,7 +123,7 @@ class Expression {
 				multiplication,
 				this,
 			],
-		})
+		}).simplify(Expression.simplifyOptions.structureOnly)
 	}
 
 	// eliminateFactor creates a clone of this expression, but then with a factor of 1 (default).
@@ -197,3 +197,7 @@ Expression.bracketLevels = {
 	division: 2, // Should we use brackets for x/[...]?
 	powers: 3, // Should we use brackets for x^[...] or [...]^x?
 }
+
+// Add simplification options.
+Expression.simplifyOptions = {}
+Expression.simplifyOptions.structureOnly = { structure: true }

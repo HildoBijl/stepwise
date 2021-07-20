@@ -38,14 +38,31 @@ class Product extends Parent {
 		return new Sum(terms).multiplyBy(this.factor)
 	}
 
-	simplify() {
-		// Check simple cases.
-		if (this.terms.length === 0)
-			return new Constant(this.factor)
-		if (this.terms.length === 1)
-			return this.terms[0].multiplyBy(this.factor)
+	simplify(options = {}) {
+		// Simplify all children.
+		let factor = this.factor
+		let terms = this.terms.map(term => term.simplify(options))
 
-		return this // ToDo later: add this.
+		// Check for structure simplifications.
+		if (options.structure) {
+			// Check simple cases.
+			if (terms.length === 0)
+				return new Constant(this.factor)
+			if (terms.length === 1)
+				return terms[0].multiplyBy(this.factor)
+
+			// Flatten products inside this product. If there is a product, replace it by its array of terms (if necessary preceded by its factor) and then flatten the result.
+			terms = terms.map(term => {
+				if (!(term instanceof Product))
+					return term // Keep the term as is.
+				if (term.factor === 1)
+					return term.terms // Insert the terms of the sub-product.
+				return [new Constant(factor), ...term.terms] // There is a factor: also include that.
+			}).flat() // Flatten the result to get an array of terms.
+		}
+
+		// Return the final result.
+		return new Product({ factor, terms })
 	}
 
 	// // hasDenominator checks if the product has terms with a negative power.

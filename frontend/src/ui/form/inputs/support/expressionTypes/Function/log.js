@@ -1,6 +1,6 @@
 import { getFuncs } from '../'
 
-import defaultFunctions from './templates/with0Argument1Parameter'
+import defaultFunctions from './templates/with1In1After'
 
 const fullExport = {
 	...defaultFunctions,
