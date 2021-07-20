@@ -59,7 +59,9 @@ class Product extends Parent {
 					return term // Keep the term as is.
 				if (term.factor === 1)
 					return term.terms // Insert the terms of the sub-product.
-				return [new Constant(factor), ...term.terms] // There is a factor: also include that.
+				if (term.factor === -1 && term.terms[0].factor >= 0)
+					return [term.terms[0].multiplyBy(-1), ...term.terms.slice(1)] // Multiply the first term by -1.
+				return [new Constant(term.factor), ...term.terms] // Include the factor as extra term.
 			}).flat() // Flatten the result to get an array of terms.
 		}
 

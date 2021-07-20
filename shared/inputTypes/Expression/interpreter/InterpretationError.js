@@ -26,11 +26,19 @@ function getInterpretationErrorMessage(error) {
 
 		// Sum interpretation.
 		case 'PlusAtStart':
-			return `De uitdrukking begint met een plus.`
+			return `Er staat een plus aan het begin.`
 		case 'DoublePlusMinus':
 			return `Er zijn twee plussen/minnen na elkaar.`
 		case 'PlusMinusAtEnd':
 			return `Er staat een ${cause === '+' ? 'plus' : 'min'} aan het eind.`
+
+		// Product interpretation.
+		case 'TimesAtStart':
+			return `Er staat een vermenigvuldiging aan het begin van een term.`
+		case 'DoubleTimes':
+			return `Er staan twee vermenigvuldigingen na elkaar.`
+		case 'TimesAtEnd':
+			return `Er staat een vermenigvuldiging aan het eind van een term.`
 
 		// Advanced function interpretation.
 		case 'UnknownAdvancedFunction':

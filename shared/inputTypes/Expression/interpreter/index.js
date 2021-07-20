@@ -52,11 +52,11 @@ const test = {
 	value: [
 		// { type: 'ExpressionPart', value: '2+(3+(4+5)+(6+7)+8)+9' },
 		// { type: 'ExpressionPart', value: '2+3' },
-		// { type: 'ExpressionPart', value: '3x' },
+		// { type: 'ExpressionPart', value: '3*-2' },
 		// { type: 'ExpressionPart', value: '2(3x)' },
 		// { type: 'ExpressionPart', value: '2(3(4x)(5x)6)7' },
 
-		{ type: 'ExpressionPart', value: '-5-2sin(3b)+' },
+		{ type: 'ExpressionPart', value: '5*-2sin(3b)' },
 		{
 			type: 'Function', name: 'frac', value: [
 				{
@@ -70,8 +70,9 @@ const test = {
 			]
 		},
 
-		{ type: 'ExpressionPart', value: '-x' },
+		// { type: 'ExpressionPart', value: '' },
 
+		{ type: 'ExpressionPart', value: '*-x*' },
 		{
 			type: 'Function', name: 'log', alias: 'log(', value: [
 				{
@@ -81,7 +82,7 @@ const test = {
 				}
 			]
 		},
-		{ type: 'ExpressionPart', value: '2(y+z))' },
+		{ type: 'ExpressionPart', value: '2(y-z))' },
 	],
 }
 
@@ -288,7 +289,6 @@ function interpretSums(value) {
 
 	// Walk through all expression parts, find pluses and minuses, and split the expressions up there.
 	let start = { part: 0, cursor: 0 }
-	console.log(value)
 	value.forEach((element, part) => {
 		// Only consider ExpressionParts
 		if (element.type !== 'ExpressionPart')
@@ -299,7 +299,6 @@ function interpretSums(value) {
 		const getNextPlusMinus = (startFrom = -1) => getNextSymbol(str, ['+', '-'], startFrom + 1)
 		for (let nextPlusMinus = getNextPlusMinus(); nextPlusMinus !== -1; nextPlusMinus = getNextPlusMinus(nextPlusMinus)) {
 			const currentSymbol = str[nextPlusMinus]
-			console.log(currentSymbol)
 			const end = { part, cursor: nextPlusMinus }
 
 			// Check that there is no plus at the start.
@@ -311,6 +310,10 @@ function interpretSums(value) {
 				if (lastSymbol === '-' || currentSymbol === '+')
 					throw new InterpretationError('DoublePlusMinus', `${lastSymbol}${currentSymbol}`, `Could not interpret the Expression due to a double plus/minus.`)
 			}
+
+			// Check if we have a minus sign preceded by a times. In that case ignore it here and incorporate the minus when dealing with the product.
+			if (currentSymbol === '-' && str[nextPlusMinus - 1] === '*')
+				continue
 
 			// Extract the expression from the last plus or minus and interpret it.
 			addPart(start, end)
@@ -329,14 +332,68 @@ function interpretSums(value) {
 
 	// Assemble all terms in a sum.
 	if (sumTerms.length === 0)
-		return null // Should not happen.
+		throw new Error(`Sum interpreting error: We wound up with an empty sum, which should never happen.`)
 	if (sumTerms.length === 1)
 		return sumTerms[0]
 	return new Sum(sumTerms).simplify(Expression.simplifyOptions.structureOnly)
 }
 
-function interpretProducts(obj) {
-	return interpretExpressionValue(obj, steps.products)
+// interpretProducts takes a partially interpreted expression without any brackets, pluses or minuses and interprets it.
+function interpretProducts(value) {
+	// Set up a handler to add parts to the product.
+	const productTerms = []
+	const addPart = (start, end, minusAtPrevious) => {
+		// If there was a minus after the previous times operator, take that into account. Move the start cursor one to the right and multiply by minus one.
+		if (minusAtPrevious)
+			start = moveRight(start)
+		let interpretedExpression = interpretExpressionValue(getSubExpression(value, start, end), steps.products)
+		if (minusAtPrevious)
+			interpretedExpression = interpretedExpression.multiplyBy(-1)
+		productTerms.push(interpretedExpression)
+	}
+
+	// Walk through all expression parts, find times operators, and split the expressions up there.
+	let start = { part: 0, cursor: 0 }
+	let minusAtPrevious = false
+	value.forEach((element, part) => {
+		// Only consider ExpressionParts
+		if (element.type !== 'ExpressionPart')
+			return
+
+		// Walk through the times operators and process the resulting parts.
+		const str = element.value
+		const getNextTimes = (startFrom = -1) => str.indexOf('*', startFrom + 1)
+		for (let nextTimes = getNextTimes(); nextTimes !== -1; nextTimes = getNextTimes(nextTimes)) {
+			const end = { part, cursor: nextTimes }
+
+			// Check that there is no plus at the start.
+			if (end.part === 0 && end.cursor === 0)
+				throw new InterpretationError('TimesAtStart', '*', `Could not interpret the Expression due to it starting with a times operator.`)
+
+			// Check that we are not too close.
+			if (start.part === end.part && start.cursor === end.cursor)
+				throw new InterpretationError('DoubleTimes', '**', `Could not interpret the Expression due to a double times operator.`)
+
+			// Extract the expression from the last times and interpret it.
+			addPart(start, end, minusAtPrevious)
+			start = moveRight(end)
+			minusAtPrevious = (str[nextTimes + 1] === '-')
+		}
+	})
+
+	// Check for a times at the end. If it's not there, add the remaining part.
+	const end = { part: value.length - 1, cursor: lastOf(value).value.length }
+	if (start.part === end.part && start.cursor === end.cursor)
+		throw new InterpretationError('TimesAtEnd', '*', `Could not interpret the Expression due to it ending with a times operator.`)
+	addPart(start, end, minusAtPrevious)
+
+	// Assemble all terms in a product.
+	console.log(productTerms)
+	if (productTerms.length === 0)
+		throw new Error(`Product interpreting error: We wound up with an empty product, which should never happen.`)
+	if (productTerms.length === 1)
+		return productTerms[0]
+	return new Product(productTerms).simplify(Expression.simplifyOptions.structureOnly)
 }
 
 // interpretRemaining interprets expressions without any brackets, pluses/minuses and times operators.
