@@ -1,5 +1,6 @@
 const Expression = require('./abstracts/Expression')
 const ExpressionList = require('./abstracts/ExpressionList')
+const Constant = require('./Constant')
 
 const Parent = ExpressionList
 
@@ -43,7 +44,7 @@ class Sum extends Parent {
 		if (options.structure) {
 			// Check simple cases.
 			if (terms.length === 0)
-				return new Constant(this.factor)
+				return new Constant(0)
 			if (terms.length === 1)
 				return terms[0].multiplyBy(this.factor)
 

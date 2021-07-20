@@ -50,6 +50,8 @@ class Product extends Parent {
 				return new Constant(this.factor)
 			if (terms.length === 1)
 				return terms[0].multiplyBy(this.factor)
+			if (this.factor === 1 && terms.length === 2 && terms[0] instanceof Constant && terms[1].factor === 1)
+				return terms[1].multiplyBy(terms[0]) // Replace the product 3*x by a variable 3*x with factor 3.
 
 			// Flatten products inside this product. If there is a product, replace it by its array of terms (if necessary preceded by its factor) and then flatten the result.
 			terms = terms.map(term => {

@@ -1,9 +1,10 @@
 // This is the template for functions like sqrt(...) which have a parameter after their term and have no other parameters.
 
 import { lastOf } from 'step-wise/util/arrays'
+import { getSubExpression } from 'step-wise/inputTypes/Expression/interpreter/support'
 
 import { getFuncs, getDataStartCursor, getDataEndCursor, isDataEmpty } from '../..'
-import { findEndOfTerm, getSubExpression } from '../../support/ExpressionSupport'
+import { findEndOfTerm } from '../../support/ExpressionSupport'
 import { mergeWithRight } from '../../support/merging'
 import { splitToRight } from '../../support/splitting'
 

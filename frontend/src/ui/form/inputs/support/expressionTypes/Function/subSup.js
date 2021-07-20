@@ -1,10 +1,10 @@
 import { arraySplice } from 'step-wise/util/arrays'
+import { getSubExpression } from 'step-wise/inputTypes/Expression/interpreter/support'
 
 import defaultFunctions from './templates/with2In0AfterVertical'
 
 import { removeCursor } from '../../Input'
 import { getFuncs, getDataStartCursor, getDataEndCursor, isDataEmpty } from '../'
-import { getSubExpression } from '../support/ExpressionSupport'
 import { mergeWithRight } from '../support/merging'
 import { splitToRight } from '../support/splitting'
 import Expression from '../Expression'

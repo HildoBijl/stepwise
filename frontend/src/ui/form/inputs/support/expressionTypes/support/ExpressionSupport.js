@@ -1,6 +1,5 @@
 import { arraySplice } from 'step-wise/util/arrays'
 import { isObject } from 'step-wise/util/objects'
-import { repeatWithIndices } from 'step-wise/util/functions'
 
 import { removeCursor } from '../../Input'
 import { getFuncs, zoomIn } from '../index.js'
@@ -123,27 +122,6 @@ export function findEndOfTerm(data, toRight = true, skipFirst = false, initialBr
 
 	// We're at the end. Return the current cursor position.
 	return { part: partIterator, cursor: cursorIterator }
-}
-
-// getSubExpression gets an expression array (the value) and returns the expression between the left and the right cursor. The right cursor MUST be to the right (or equal to) the left cursor. Both cursors must be in an ExpressionPart (string) part of the expression array. The returned value is a value-array too.
-export function getSubExpression(value, left, right) {
-	// Are the cursors in the same part? If so, return an expression with just one ExpressionPart.
-	if (left.part === right.part) {
-		const element = value[left.part]
-		return [{
-			...element,
-			value: element.value.substring(left.cursor, right.cursor),
-		}]
-	}
-
-	// Assemble the new expression array step by step, with the left part, the in-between parts, and the right part.
-	const newValue = []
-	newValue.push({ type: 'ExpressionPart', value: value[left.part].value.substring(left.cursor) })
-	repeatWithIndices(left.part + 1, right.part - 1, (index) => newValue.push(value[index]))
-	newValue.push({ type: 'ExpressionPart', value: value[right.part].value.substring(0, right.cursor) })
-
-	// All done!
-	return newValue
 }
 
 export function getDeepestExpression(data) {

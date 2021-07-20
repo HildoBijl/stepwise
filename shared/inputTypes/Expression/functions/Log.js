@@ -6,13 +6,17 @@ const args = ['base', 'argument']
 
 class Log extends Parent {
 	getDerivativeBasic(variable) {
-		// ToDo: check level.
-		return this.simplify().getDerivativeBasic(variable)
+		// ToDo: check options.
+		return this.simplify({ forDerivatives: true }).getDerivativeBasic(variable)
 	}
 
-	simplify(level) {
-		// ToDo: check level.
-		return new Fraction(new Ln(this.argument), new Ln(this.base)).multiplyBy(this.factor).simplify(level)
+	simplify(options) {
+		// ToDo: check options.
+
+		if (options.forDerivatives)
+			return new Fraction(new Ln(this.argument), new Ln(this.base)).multiplyBy(this.factor).simplify(level)
+
+		return this
 	}
 
 	// ToDo: equals.

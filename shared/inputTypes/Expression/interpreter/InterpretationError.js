@@ -18,9 +18,27 @@ module.exports.InterpretationError = InterpretationError
 function getInterpretationErrorMessage(error) {
 	const { code, cause } = error
 	switch (code) {
+		// Bracket interpretation.
+		case 'UnmatchedClosingBracket':
+			return `Er is een sluitend haakje zonder bijbehorend openingshaakje.`
+		case 'UnmatchedOpeningBracket':
+			return `Er is een openend haakje zonder bijbehorend sluitingshaakje.`
+
+		// Sum interpretation.
+		case 'PlusAtStart':
+			return `De uitdrukking begint met een plus.`
+		case 'DoublePlusMinus':
+			return `Er zijn twee plussen/minnen na elkaar.`
+		case 'PlusMinusAtEnd':
+			return `Er staat een ${cause === '+' ? 'plus' : 'min'} aan het eind.`
+
 		// Advanced function interpretation.
 		case 'UnknownAdvancedFunction':
 			return `Er is een onbekende functie aangetroffen.`
+
+		// Basic function interpretation.
+		case 'UnknownBasicFunction':
+			return `Onbekende functie "${cause}(...)". Voor vermenigvuldiging: gebruik een vermenigvuldigingsteken.`
 
 		// Accent interpretation.
 		case 'UnknownAccent':

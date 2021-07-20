@@ -16,10 +16,10 @@ function stringSplice(str, index, numCharsToRemove = 0, insertion = '') {
 }
 module.exports.stringSplice = stringSplice
 
-// isLetter checks if a character is a letter.
-const letterRegExp = /[a-z]/i
+// isLetter checks if a character is a letter. This includes Greek letters.
+const letterRegExp = /[a-zα-ω]/i
 function isLetter(str) {
-	return !!(str.length === 1 && str.match(letterRegExp))
+	return !!(typeof str === 'string' && str.length === 1 && str.match(letterRegExp))
 }
 module.exports.isLetter = isLetter
 
@@ -46,3 +46,16 @@ function allIndicesOf(str, symbol) {
 	return res
 }
 module.exports.allIndicesOf = allIndicesOf
+
+// getNextSymbol takes a string and an array of symbols and finds the first occurrence of one of these symbols. Optionally, a startFrom can be added to start searching from this index. The result will be greater or equal than this number. Returns -1 if none of the symbols are found.
+function getNextSymbol(str, symbols, startFrom = 0) {
+	return symbols.reduce((result, symbol) => {
+		const nextOccurrence = str.indexOf(symbol, startFrom)
+		if (nextOccurrence === -1)
+			return result
+		if (result === -1)
+			return nextOccurrence
+		return Math.min(result, nextOccurrence)
+	}, -1)
+}
+module.exports.getNextSymbol = getNextSymbol
