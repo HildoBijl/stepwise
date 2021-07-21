@@ -37,7 +37,7 @@ export function getKeyPressHandlers(keyInfo, data, charElements, topParentData, 
 }
 
 // findEndOfTerm searches for the end of a term. When you have an expression like a*cos(b+c/d+e)sin(2x)+3, and you put a "/" sign right before "sin", then we need to know which parts need to go in the fraction. We can go right (toRight = true) and left (toRight = false) and find the cursor positions of the respective endings of the terms. Basically, the term ends whenever we encounter a +, - or * and we are not still within brackets.
-export function findEndOfTerm(data, toRight = true, skipFirst = false, initialBracketCount = 0) {
+export function findEndOfTerm(data, toRight = true, skipFirst = false, initialBracketCount = 0, returnOnZeroCount = false) {
 	const { value, cursor } = data
 
 	// Define iterators: parameters that will change as we go.
@@ -88,6 +88,10 @@ export function findEndOfTerm(data, toRight = true, skipFirst = false, initialBr
 	let first = true
 	while (hasNextSymbol()) {
 		const nextSymbol = getNextSymbol()
+
+		// Check if we have a zero bracket count and are ordered to return then.
+		if (returnOnZeroCount && bracketCount === 0)
+			return { part: partIterator, cursor: cursorIterator }
 
 		// On an encountered function, return the current cursor position, unless we're inside brackets.
 		if (isObject(nextSymbol) && nextSymbol.type === 'Function') {

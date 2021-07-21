@@ -1,4 +1,4 @@
-const { decimalSeparator } = require('../../settings')
+const { decimalSeparator, decimalSeparatorTex } = require('../../settings')
 
 const Expression = require('./abstracts/Expression')
 
@@ -14,12 +14,16 @@ class Constant extends Parent {
 		super(SO)
 	}
 
-	toString(ignoreFactor = false) {
-		return ignoreFactor ? '1' : this.factor.toString()
+	toString() {
+		return this.factor.toString()
 	}
 
-	requiresBracketsFor(level, ignoreFactor = false) {
-		if (ignoreFactor || this.factor >= 0)
+	toTex() {
+		return this.str.replace('.', decimalSeparatorTex)
+	}
+
+	requiresBracketsFor(level) {
+		if (this.factor >= 0)
 			return false
 		if (level === Expression.bracketLevels.addition || level === Expression.bracketLevels.multiplication)
 			return false
@@ -46,10 +50,11 @@ class Constant extends Parent {
 		return this // You cannot simplify a number. It's as simple as it gets.
 	}
 
-	equals(expression, ignoreFactor = false) {
+	equals(expression, options) {
+		// ToDo
 		if (expression.constructor !== this.constructor)
 			return false
-		return ignoreFactor || expression.factor === this.factor
+		return expression.factor === this.factor
 	}
 }
 Constant.defaultSO = defaultSO

@@ -2,6 +2,10 @@ const Parent = require('../abstracts/FunctionSingleArgument')
 const Fraction = require('./Fraction')
 
 class Sqrt extends Parent {
+	toTex() {
+		return this.addFactorToTex(`\\sqrt{${this.argument.tex}}`)
+	}
+
 	getDerivativeBasic(variable) {
 		return new Fraction({
 			factor: this.factor / 2, // Keep the factor, but divide by two because of the sqrt power.

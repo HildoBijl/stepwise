@@ -5,13 +5,21 @@ const Power = require('./Power')
 const args = ['base', 'argument']
 
 class Root extends Parent {
-	getDerivativeBasic(variable) {
-		return this.simplify().getDerivativeBasic(variable) // ToDo: add level/options.
+	toTex() {
+		return this.addFactorToTex(`\\sqrt[${this.base.tex}]{${this.argument.tex}}`)
 	}
 
-	simplify(level) {
+	getDerivativeBasic(variable) {
+		return this.simplify({ forDerivatives: true }).getDerivativeBasic(variable) // ToDo: add level/options.
+	}
+
+	simplify(options) {
 		// ToDo: check level.
-		return new Power(this.argument, new Fraction(1, this.base)).multiplyBy(this.factor).simplify(level)
+
+		if (options.forDerivatives)
+			return new Power(this.argument, new Fraction(1, this.base)).multiplyBy(this.factor).simplify(options)
+
+		return this
 	}
 
 	// ToDo: equals.

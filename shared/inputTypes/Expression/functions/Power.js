@@ -7,7 +7,7 @@ const Ln = require('./Ln')
 const args = ['base', 'exponent']
 
 class Power extends Parent {
-	toString(ignoreFactor = false) {
+	toString() {
 		// Get the base.
 		let baseStr = this.base.toString()
 		if (this.base.requiresBracketsFor(Expression.bracketLevels.powers))
@@ -19,13 +19,22 @@ class Power extends Parent {
 			exponentStr = `(${exponentStr})`
 
 		// Put them together.
-		let result = `${baseStr}^${exponentStr}`
+		return this.addFactorToString(`${baseStr}^${exponentStr}`)
+	}
 
-		// Add the factor.
-		if (!ignoreFactor)
-			result = this.addFactorToString(result)
+	toTex() {
+		// Get the base.
+		let baseTex = this.base.tex
+		if (this.base.requiresBracketsFor(Expression.bracketLevels.powers))
+			baseTex = `\\left(${baseTex}\\right)`
 
-		return result
+		// Add the exponent.
+		let exponentTex = this.exponent.tex
+		if (this.exponent.requiresBracketsFor(Expression.bracketLevels.powers))
+			exponentTex = `\\left(${exponentTex}\\right)`
+
+		// Put them together.
+		return this.addFactorToTex(`${baseTex}^{${exponentTex}}`)
 	}
 
 	getDerivativeBasic(variable) {
@@ -76,6 +85,8 @@ class Power extends Parent {
 		return this // ToDo: implement later.
 	}
 
+	// ToDo: implement the below stuff or delete it.
+	
 	// simplify() {
 
 	// 	// Okay, stuff is more complicated. First, let's create a clone so we can work safely.

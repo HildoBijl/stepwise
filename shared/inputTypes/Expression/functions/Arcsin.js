@@ -2,8 +2,9 @@ const Parent = require('../abstracts/FunctionSingleArgument')
 const Sum = require('../Sum')
 const Fraction = require('./Fraction')
 const Power = require('./Power')
+const Sqrt = require('./Sqrt')
 
-class Acos extends Parent {
+class Arcsin extends Parent {
 	getDerivativeBasic(variable) {
 		// Set up 1 - arg^2.
 		const inner = new Sum([
@@ -13,7 +14,7 @@ class Acos extends Parent {
 
 		// Set up the result.
 		return new Fraction({
-			factor: -this.factor, // Keep the factor, but apply the minus.
+			factor: this.factor, // Keep the factor.
 			numerator: this.argument.getDerivative(variable), // Apply the chain rule.
 			denominator: new Sqrt(inner), // sqrt(1 - arg^2).
 		})
@@ -23,5 +24,5 @@ class Acos extends Parent {
 		return this // ToDo: add this later.
 	}
 }
-Acos.defaultSO = Parent.defaultSO
-module.exports = Acos
+Arcsin.defaultSO = Parent.defaultSO
+module.exports = Arcsin

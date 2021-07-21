@@ -6,7 +6,7 @@ const Sum = require('./Sum')
 const Parent = ExpressionList
 
 class Product extends Parent {
-	toString(ignoreFactor = false) {
+	toString() {
 		// Set up the string for the product.
 		let result = this.terms.map(term => {
 			if (term.requiresBracketsFor(Expression.bracketLevels.multiplication))
@@ -15,13 +15,22 @@ class Product extends Parent {
 		}).join('*')
 
 		// Add the factor.
-		if (!ignoreFactor)
-			result = this.addFactorToString(result)
-
-		return result
+		return this.addFactorToString(result)
 	}
 
-	requiresBracketsFor(level, ignoreFactor = false) {
+	toTex() {
+		// Set up the string for the product.
+		let result = this.terms.map(term => {
+			if (term.requiresBracketsFor(Expression.bracketLevels.multiplication))
+				return `(${term.tex})`
+			return term.tex
+		}).join(' \\cdot ')
+
+		// Add the factor.
+		return this.addFactorToTex(result)
+	}
+
+	requiresBracketsFor(level) {
 		return level === Expression.bracketLevels.division || level === Expression.bracketLevels.powers
 	}
 

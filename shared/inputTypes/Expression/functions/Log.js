@@ -5,6 +5,10 @@ const Ln = require('./Ln')
 const args = ['base', 'argument']
 
 class Log extends Parent {
+	toTex() {
+		return this.addFactorToTex(`{^{${this.base.tex}}}\\!\\log\\left(${this.argument.tex}\\right)`)
+	}
+
 	getDerivativeBasic(variable) {
 		// ToDo: check options.
 		return this.simplify({ forDerivatives: true }).getDerivativeBasic(variable)
@@ -14,7 +18,7 @@ class Log extends Parent {
 		// ToDo: check options.
 
 		if (options.forDerivatives)
-			return new Fraction(new Ln(this.argument), new Ln(this.base)).multiplyBy(this.factor).simplify(level)
+			return new Fraction(new Ln(this.argument), new Ln(this.base)).multiplyBy(this.factor).simplify(options)
 
 		return this
 	}

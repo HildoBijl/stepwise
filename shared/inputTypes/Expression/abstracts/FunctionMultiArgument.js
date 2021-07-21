@@ -53,17 +53,24 @@ class FunctionMultiArgument extends Parent {
 		})
 	}
 
-	toString(ignoreFactor = false) {
+	toString() {
 		let result = this.type.toLowerCase()
 		this.constructor.args.forEach(key => {
 			result += `[${this[key].str}]`
 		})
-		if (!ignoreFactor)
-			result = this.addFactorToString(result)
+		result = this.addFactorToString(result)
 		return result
 	}
 
-	requiresBracketsFor(level, ignoreFactor = false) {
+	toTex() {
+		let result = `{\\${this.type.toLowerCase()}}`
+		this.constructor.args.forEach(key => {
+			result += `\\left(${this[key].tex}\\right)`
+		})
+		return this.addFactorToTex(result)
+	}
+
+	requiresBracketsFor(level) {
 		return level === Expression.bracketLevels.powers
 	}
 

@@ -5,28 +5,40 @@ const Constant = require('./Constant')
 const Parent = ExpressionList
 
 class Sum extends Parent {
-	toString(ignoreFactor = false) {
+	toString() {
 		// Set up the string for the sum. Only add a plus if there was no minus already from the factor.
 		let result = ''
 		this.terms.forEach((term, index) => {
 			if (index > 0 && term.factor >= 0)
 				result += '+'
 			const addBrackets = term.requiresBracketsFor(Expression.bracketLevels.addition)
-			result += addBrackets ? `(${term.toString()})` : term.toString()
+			result += addBrackets ? `(${term.str})` : term.str
 		})
 
 		// Add the factor.
-		if (!ignoreFactor)
-			result = this.addFactorToString(result, true)
+		return this.addFactorToString(result, true)
+	}
 
+	toTex() {
+		// Set up the string for the sum. Only add a plus if there was no minus already from the factor.
+		let result = ''
+		this.terms.forEach((term, index) => {
+			if (index > 0 && term.factor >= 0)
+				result += '+'
+			const addBrackets = term.requiresBracketsFor(Expression.bracketLevels.addition)
+			result += addBrackets ? `(${term.tex})` : term.tex
+		})
+
+		// Add the factor.
+		result = this.addFactorToTex(result, true)
 		return result
 	}
 
-	requiresBracketsFor(level, ignoreFactor = false) {
+	requiresBracketsFor(level) {
 		if (level === Expression.bracketLevels.addition)
 			return false
 		if (level === Expression.bracketLevels.multiplication)
-			return ignoreFactor || this.factor === 1 // In this case no brackets have been added yet.
+			return this.factor === 1 // In this case no brackets have been added yet.
 		return true
 	}
 

@@ -30,7 +30,7 @@ function create(expressionData, part, position, name, alias) {
 	const start = getDataStartCursor(expressionData)
 	const beforeAlias = { part, cursor: position }
 	const afterAlias = { part, cursor: position + alias.length }
-	const endOfTerm = findEndOfTerm({ ...expressionData, cursor: afterAlias }, true, false, 1)
+	const endOfTerm = findEndOfTerm({ ...expressionData, cursor: afterAlias }, true, false, 1, true)
 	const end = getDataEndCursor(expressionData)
 
 	// Check if we had a bracket at the end of the term.

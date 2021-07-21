@@ -41,12 +41,11 @@ class Variable extends Parent {
 		})
 	}
 
-	toString(ignoreFactor = false) {
+	toString() {
 		let result = this.symbol
 		if (this.accent)
 			result = `${this.accent}[${result}]`
-		if (!ignoreFactor)
-			result = this.addFactorToString(result)
+		result = this.addFactorToString(result)
 		if (this.subscript) {
 			if (this.subscript.length > 1)
 				result = `${result}_[${this.subscript}]`
@@ -56,10 +55,20 @@ class Variable extends Parent {
 		return result
 	}
 
-	requiresBracketsFor(level, ignoreFactor = false) {
+	toTex() {
+		let result = this.symbol
+		if (this.accent)
+			result = `\\${this.accent}{${result}}`
+		result = this.addFactorToTex(result)
+		if (this.subscript)
+			result = `${result}_{${this.subscript}}`
+		return result
+	}
+
+	requiresBracketsFor(level) {
 		if (level === Expression.bracketLevels.addition || level === Expression.bracketLevels.multiplication)
 			return false
-		return ignoreFactor || this.factor !== 1
+		return this.factor !== 1
 	}
 
 	dependsOn(variable) {
@@ -93,9 +102,13 @@ class Variable extends Parent {
 		return this // Parameter types don't get any simpler.
 	}
 
+	// equals checks if this variable equals another variable.
 	equals(expression, options = {}) {
+		// Compare the type and factor.
 		if (!super.equals(expression, options))
 			return false
+
+		// Compare all parts.
 		return parts.every(part => this[part] === expression[part])
 	}
 

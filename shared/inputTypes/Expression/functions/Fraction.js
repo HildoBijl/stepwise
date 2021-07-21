@@ -7,7 +7,7 @@ const Power = require('./Power')
 const args = ['numerator', 'denominator']
 
 class Fraction extends Parent {
-	toString(ignoreFactor = false) {
+	toString() {
 		// Get the numerator.
 		let numStr = this.numerator.toString()
 		if (this.numerator.requiresBracketsFor(Expression.bracketLevels.multiplication))
@@ -19,16 +19,14 @@ class Fraction extends Parent {
 			denStr = `(${denStr})`
 
 		// Put them together.
-		let result = `${numStr}/${denStr}`
-
-		// Add the factor.
-		if (!ignoreFactor)
-			result = this.addFactorToString(result)
-
-		return result
+		return this.addFactorToString(`${numStr}/${denStr}`)
 	}
 
-	requiresBracketsFor(level, ignoreFactor = false) {
+	toTex() {
+		return this.addFactorToTex(`\\frac{${this.numerator.tex}}{${this.denominator.tex}}`)
+	}
+
+	requiresBracketsFor(level) {
 		return level === Expression.bracketLevels.division || level === Expression.bracketLevels.powers
 	}
 
@@ -56,7 +54,7 @@ class Fraction extends Parent {
 				),
 			).multiplyBy(-1)) // Apply the minus.
 		}
-		
+
 		// Return the outcome.
 		return new Sum(...terms).multiplyBy(this.factor)
 	}

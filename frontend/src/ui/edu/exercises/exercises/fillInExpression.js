@@ -2,7 +2,7 @@ import React from 'react'
 
 import { selectRandomCorrect } from 'step-wise/util/random'
 
-import { M } from 'ui/components/equations'
+import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import ExpressionInput from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/Status'
@@ -25,16 +25,25 @@ function Problem({ index }) {
 
 	const { input } = useFormData()
 	const { ans } = input
+	let eq = ''
+	let der = ''
+	let probleem = false
 	try {
 		// console.log(input)
 		// console.log(ans)
 		if (ans) {
 			const res = interpretExpression(cleanUp(removeCursor(ans)))
-			console.log('Vergelijking: ' + res.str)
-			console.log('Afgeleide: ' + res.getDerivative('x').str)
+			// console.log('Vergelijking: ' + res.str)
+			// console.log('Tex: ' + res.tex)
+			// console.log('Afgeleide: ' + res.getDerivative('x').str)
+			console.log(res)
+			eq = res.tex
+			der = res.getDerivative('x').tex
 		}
 	} catch (e) {
-		console.log('Probleem: ' + getInterpretationErrorMessage(e))
+		eq = ['Probleem: ' + getInterpretationErrorMessage(e)]
+		probleem = true
+		// console.log(eq)
 	}
 
 	return <>
@@ -44,6 +53,14 @@ function Problem({ index }) {
 				<ExpressionInput id="ans" prelabel={<M>x=</M>} label="Vul hier de uitdrukking in" size="s" />
 				{/* <ExpressionInput id="y" prelabel={<M>y=</M>} label="Vul hier de uitdrukking in" size="s" /> */}
 			</Par>
+			{
+				probleem ? <Par>{eq}</Par> : <>
+					<Par>De ingevoerde uitdrukking is:</Par>
+					<BM>{eq}</BM>
+					<Par>De afgeleide hiervan (ten opzichte van <M>x</M>) is:</Par>
+					<BM>{der}</BM>
+				</>
+			}
 		</InputSpace>
 	</>
 }

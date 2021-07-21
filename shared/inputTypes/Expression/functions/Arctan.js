@@ -3,7 +3,7 @@ const Sum = require('../Sum')
 const Fraction = require('./Fraction')
 const Power = require('./Power')
 
-class Atan extends Parent {
+class Arctan extends Parent {
 	getDerivativeBasic(variable) {
 		return new Fraction({
 			factor: this.factor, // Keep the factor.
@@ -16,5 +16,5 @@ class Atan extends Parent {
 		return this // ToDo: add this later.
 	}
 }
-Atan.defaultSO = Parent.defaultSO
-module.exports = Atan
+Arctan.defaultSO = Parent.defaultSO
+module.exports = Arctan

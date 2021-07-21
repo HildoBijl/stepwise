@@ -68,18 +68,18 @@ class ExpressionList extends Parent {
 	equals(expression, options = {}) {
 		// ToDo later: check if this makes sense.
 
-		// Check that we have an expression of an equal number of terms and with equal factor.
-		if (this.constructor !== expression.constructor)
+		// Compare the type and factor.
+		if (!super.equals(expression, options))
 			return false
+
+		// Check the term length.
 		if (this.terms.length !== expression.terms.length)
-			return false
-		if (options.ignoreFactor !== true && this.factor !== expression.factor)
 			return false
 
 		// Walk through the terms and try to find a matching.
 		const found = this.terms.map(() => false)
 		return this.terms.every(term1 => { // For every term, find a matching partner.
-			const index = expression.terms.findIndex((term2, index) => !found[index] && term1.equals(term2)) // Is there a partner that has not been matched yet?
+			const index = expression.terms.findIndex((term2, index) => !found[index] && term1.equals(term2, options)) // Is there a partner that has not been matched yet?
 			if (index === -1)
 				return false // No match found. Abort.
 			found[index] = true // Note that this term has been matched.

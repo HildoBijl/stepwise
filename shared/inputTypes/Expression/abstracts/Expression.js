@@ -1,5 +1,7 @@
 // An Expression is an abstract class that represents anything that can be inside an expression. Every class inside the Expression inherits it, directly or indirectly.
 
+const { decimalSeparatorTex } = require('../../../settings')
+
 const { ensureNumber } = require('../../../util/numbers')
 const { isObject, processOptions } = require('../../../util/objects')
 
@@ -14,7 +16,7 @@ class Expression {
 			throw new TypeError(`Abstract class "Expression" may not be instantiated directly.`)
 
 		// Certain methods must be implemented in child classes.
-		const methods = ['clone', 'become', 'toString', 'requiresBracketsFor', 'dependsOn', 'getVariableStrings', 'substitute', 'getDerivativeBasic', 'simplify', 'equals']
+		const methods = ['clone', 'become', 'toString', 'requiresBracketsFor', 'toTex', 'dependsOn', 'getVariableStrings', 'substitute', 'getDerivativeBasic', 'simplify', 'equals']
 		methods.forEach(method => {
 			if (this[method] === undefined || this[method] === Object.prototype[method]) // The Object object has some default methods, and those are not acceptable either.
 				throw new Error(`Child classes of the Expression class must implement the "${method}" method. The "${this.constructor.name}" class doesn't seem to have done so.`)
@@ -87,8 +89,12 @@ class Expression {
 		return this.toString()
 	}
 
+	get tex() {
+		return this.toTex()
+	}
+
 	// requiresBracketsFor checks whether the string representation requires brackets to properly display it. The given level indicates whether we will have addition/subtraction (level 1), multiplication/division (level 2) or powers (level 3).
-	requiresBracketsFor(level, ignoreFactor = false) {
+	requiresBracketsFor(level) {
 		return true
 	}
 
@@ -101,6 +107,18 @@ class Expression {
 		if (this.factor === -1)
 			return `-${str}`
 		return `${this.factor}*${str}`
+	}
+
+	// addFactorToTex adds a factor multiplication to a tex string, based on the value of the factor.
+	addFactorToTex(str, addBracketsOnFactor = false) {
+		if (this.factor === 1)
+			return str
+		if (addBracketsOnFactor)
+			str = `\\left(${str}\\right)`
+		if (this.factor === -1)
+			return `-${str}`
+		const factor = this.factor.toString().replace('.', decimalSeparatorTex)
+		return `${factor} \\cdot ${str}`
 	}
 
 	// multiplyBy create a clone of this expression which is multiplied by the given number. So multiplying "2*x + y" by 3 gives "3*(2*x + y)". The original object is unchanged.
@@ -169,6 +187,7 @@ class Expression {
 		return [...variableStrings].map(str => new Variable(str)).sort(Variable.variableSort)
 	}
 
+	// equals for a general Expression only compares the type and the factor.
 	equals(expression, options = {}) {
 		if (this.constructor !== expression.constructor)
 			return false

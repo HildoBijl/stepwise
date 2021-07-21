@@ -13,7 +13,7 @@ const { InterpretationError } = require('./InterpretationError')
 const expressionTypes = getExpressionTypes()
 const { Constant, Variable, Sum, Product } = expressionTypes // Elementary elements.
 const { Fraction, Power, Log, Sqrt, Root } = expressionTypes // Advanced functions.
-const { Ln, Sin, Cos, Tan, Asin, Acos, Atan } = expressionTypes // Basic functions.
+const { Ln, Sin, Cos, Tan, Arcsin, Arccos, Arctan } = expressionTypes // Basic functions.
 
 // Define all the basic and advanced functions and all accents that are recognized.
 const basicFunctions = {
@@ -21,12 +21,12 @@ const basicFunctions = {
 	sin: Sin,
 	cos: Cos,
 	tan: Tan,
-	asin: Asin,
-	acos: Acos,
-	atan: Atan,
-	arcsin: Asin,
-	arccos: Acos,
-	arctan: Atan,
+	asin: Arcsin,
+	acos: Arccos,
+	atan: Arctan,
+	arcsin: Arcsin,
+	arccos: Arccos,
+	arctan: Arctan,
 }
 const advancedFunctions = {
 	frac: {
