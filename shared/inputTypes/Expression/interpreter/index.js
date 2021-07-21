@@ -1,5 +1,6 @@
 const { isLetter, getNextSymbol } = require('../../../util/strings')
 const { lastOf } = require('../../../util/arrays')
+const { isObject } = require('../../../util/objects')
 
 const { decimalSeparator } = require('../../../settings')
 
@@ -7,11 +8,11 @@ const { getExpressionTypes } = require('../')
 const Expression = require('../abstracts/Expression')
 
 const { getSubExpression, moveRight } = require('./support')
-const { InterpretationError, getInterpretationErrorMessage } = require('./InterpretationError')
+const { InterpretationError } = require('./InterpretationError')
 
 const expressionTypes = getExpressionTypes()
 const { Constant, Variable, Sum, Product } = expressionTypes // Elementary elements.
-const { Fraction, Log, Sqrt, Root } = expressionTypes // Advanced functions.
+const { Fraction, Power, Log, Sqrt, Root } = expressionTypes // Advanced functions.
 const { Ln, Sin, Cos, Tan, Asin, Acos, Atan } = expressionTypes // Basic functions.
 
 // Define all the basic and advanced functions and all accents that are recognized.
@@ -31,6 +32,10 @@ const advancedFunctions = {
 	frac: {
 		component: Fraction,
 	},
+	subSup: {
+		// Does not have a component. It's interpreted separately.
+		hasParameterAfter: false,
+	},
 	log: {
 		component: Log,
 		hasParameterAfter: true,
@@ -47,68 +52,11 @@ module.exports.basicFunctions = Object.keys(basicFunctions)
 module.exports.advancedFunctions = Object.keys(advancedFunctions)
 module.exports.accents = accents
 
-const test = {
-	type: 'Expression',
-	value: [
-		// { type: 'ExpressionPart', value: '2+(3+(4+5)+(6+7)+8)+9' },
-		// { type: 'ExpressionPart', value: '2+3' },
-		// { type: 'ExpressionPart', value: '3*-2' },
-		// { type: 'ExpressionPart', value: '2(3x)' },
-		// { type: 'ExpressionPart', value: '2(3(4x)(5x)6)7' },
-
-		{ type: 'ExpressionPart', value: '5*-2sin(3b)' },
-		{
-			type: 'Function', name: 'frac', value: [
-				{
-					type: 'Expression', value: [
-						{ type: 'ExpressionPart', value: '3' },
-						{ type: 'Accent', alias: 'dot(', name: 'dot', value: 'm' },
-						{ type: 'ExpressionPart', value: '' },
-					]
-				},
-				{ type: 'Expression', value: [{ type: 'ExpressionPart', value: '2' }] },
-			]
-		},
-
-		// { type: 'ExpressionPart', value: '' },
-
-		{ type: 'ExpressionPart', value: '*-x*' },
-		{
-			type: 'Function', name: 'log', alias: 'log(', value: [
-				{
-					type: 'Expression', value: [
-						{ type: 'ExpressionPart', value: '10x' },
-					],
-				}
-			]
-		},
-		{ type: 'ExpressionPart', value: '2(y-z))' },
-	],
-}
-
-
-
-setTimeout(() => {
-	try {
-		console.log('Begin')
-		console.log(test)
-		const result = interpretExpression(test)
-		console.log('Eindresultaat')
-		console.log(result)
-		console.log(result.str)
-	} catch (error) {
-		// Not an interpretation error? Throw it on.
-		if (!(error instanceof InterpretationError))
-			throw error
-
-		// Interpretation error? Interpret it.
-		const message = getInterpretationErrorMessage(error)
-		console.log(message)
-	}
-}, 0)
-
+// interpretExpression is the very important function that turns an IO expression into a functional object.
 function interpretExpression(obj) {
 	// Check the type.
+	if (!isObject(obj))
+		throw new Error(`Interpreting error: the function interpretExpression was called but was not given an object. Instead, it was given "${obj}".`)
 	if (obj.type !== 'Expression')
 		throw new Error(`Interpreting error: the function interpretExpression was called on an object of type "${obj.type}". This must be an expression type.`)
 
@@ -124,6 +72,11 @@ const steps = {
 	remaining: 4,
 }
 function interpretExpressionValue(value, afterStep = 0) {
+	// Check special cases.
+	if (value.length === 1 && value[0].value === '')
+	throw new InterpretationError('EmptyExpression', '', `Could not interpret the Expression due to it being empty.`)
+
+	// Check how much we need to do.
 	switch (afterStep) {
 		case 0:
 			return interpretBrackets(value)
@@ -190,7 +143,7 @@ function getMatchingBrackets(value) {
 	}
 	const noteClosingBracket = (position) => {
 		if (level === 0)
-			throw new InterpretationError('UnmatchedClosingBracket', bracketPosition, `Could not interpret the expression due to a missing opening bracket.`)
+			throw new InterpretationError('UnmatchedClosingBracket', position, `Could not interpret the expression due to a missing opening bracket.`)
 		if (level === 1)
 			lastOf(brackets).closing = position
 		level--
@@ -274,7 +227,7 @@ function processBracketPart(value, opening, closing) {
 function interpretSums(value) {
 	// Set up a handler to add parts to the sum.
 	const sumTerms = []
-	let lastSymbol = '+'
+	let lastSymbol = ''
 	const addPart = (start, end) => {
 		// Don't add things if the start and the end collide. (Like with a minus at the start.)
 		if (start.part === end.part && start.cursor === end.cursor)
@@ -326,7 +279,7 @@ function interpretSums(value) {
 
 	// Check for a plus or minus at the end. If it's not there, add the remaining part.
 	const end = { part: value.length - 1, cursor: lastOf(value).value.length }
-	if (start.part === end.part && start.cursor === end.cursor)
+	if (start.part === end.part && start.cursor === end.cursor && lastSymbol)
 		throw new InterpretationError('PlusMinusAtEnd', lastSymbol, `Could not interpret the Expression due to it ending with "${lastSymbol}".`)
 	addPart(start, end)
 
@@ -388,7 +341,6 @@ function interpretProducts(value) {
 	addPart(start, end, minusAtPrevious)
 
 	// Assemble all terms in a product.
-	console.log(productTerms)
 	if (productTerms.length === 0)
 		throw new Error(`Product interpreting error: We wound up with an empty product, which should never happen.`)
 	if (productTerms.length === 1)
@@ -454,29 +406,46 @@ function interpretElements(value) {
 		if (element instanceof Expression)
 			return result.push(element)
 
-		// Check for functions. (These should only be functions without a parameter after. Functions with a parameter after have already been interpreted when interpreting brackets.)
-		if (element.type === 'Function')
+		// Check for functions. (These should only be functions without a parameter after. Functions with a parameter after have already been interpreted when interpreting brackets.) SubSups have a more complex interpretation.
+		if (element.type === 'Function') {
+			if (element.name === 'subSup')
+				return incorporateSubSup(element, result)
 			return result.push(interpretFunction(element))
+		}
 
 		// Check for accents.
 		if (element.type === 'Accent')
 			return result.push(interpretAccent(element))
-
-		// ToDo: process SubSup.
 	})
 
 	// All done!
 	return result
 }
 
-// fixSimpleChildElements goes through all elements in the expression that can be interpreted without any help from outside. This includes functions without a parameter after (like fractions, roots) and accents, but not functions with a parameter after and SubSup.
-function fixSimpleChildElements(value) {
-	// Do this element by element.
-	return value.map(element => {
+// incorporateSubSup takes a SubSup IO element and a results array and tries to incorporate the SubSup into the given result array. It does this by adjusting the result array. It does not return anything.
+function incorporateSubSup(element, result) {
+	const [sub, sup] = element.value
+	const previousTerm = lastOf(result)
 
-		// Nothing simple found. Keep the element as is for now.
-		return element
-	})
+	// First incorporate the subscript.
+	if (sub) {
+		// On a subscript, the previous element must be a variable.
+		if (!(previousTerm instanceof Variable))
+			throw new InterpretationError(`MisplacedSubscript`, sub.value, `Could not interpret the subscript "${sub.value}".`)
+
+		// Apply the subscript.
+		previousTerm.subscript = sub.value
+	}
+
+	// The interpret and add the superscript.
+	if (sup) {
+		// There must be a previous term.
+		if (!previousTerm)
+			throw new InterpretationError(`MisplacedSuperscript`, '', `Could not interpret the superscript due to a missing term prior to it.`)
+
+		const exponent = interpretExpression(sup)
+		result[result.length - 1] = new Power(previousTerm, exponent)
+	}
 }
 
 // interpretFunction interprets a function object. This only works for functions that do not have a parameter afterwards, like [10]log(...).

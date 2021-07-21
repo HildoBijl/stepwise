@@ -8,8 +8,13 @@ import ExpressionInput from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/Status'
 
 // import { useExerciseData, useCorrect } from '../ExerciseContainer'
-// import { useFormData } from '../../../form/Form'
+import { useFormData } from '../../../form/Form'
 import SimpleExercise from '../types/SimpleExercise'
+
+import { removeCursor } from '../../../form/inputs/support/Input'
+import { cleanUp } from '../../../form/inputs/support/expressionTypes/Expression'
+import { interpretExpression } from 'step-wise/inputTypes/Expression/interpreter'
+import { getInterpretationErrorMessage } from 'step-wise/inputTypes/Expression/interpreter/InterpretationError'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -18,10 +23,20 @@ export default function Exercise() {
 function Problem({ index }) {
 	// const { shared: { expressions } } = useExerciseData()
 
-	// const { input } = useFormData()
-	// const { ans } = input
-	// console.log(ans)
-	
+	const { input } = useFormData()
+	const { ans } = input
+	try {
+		// console.log(input)
+		// console.log(ans)
+		if (ans) {
+			const res = interpretExpression(cleanUp(removeCursor(ans)))
+			console.log('Vergelijking: ' + res.str)
+			console.log('Afgeleide: ' + res.getDerivative('x').str)
+		}
+	} catch (e) {
+		console.log('Probleem: ' + getInterpretationErrorMessage(e))
+	}
+
 	return <>
 		<Par>Voer een uitdrukking in die je voor je eigen cursus zou kunnen gebruiken. (Klik niet op "Controleer" want die functionaliteit is nog niet gemaakt.)</Par>
 		<InputSpace>
