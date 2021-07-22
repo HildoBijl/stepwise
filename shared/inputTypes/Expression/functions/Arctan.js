@@ -4,6 +4,10 @@ const Fraction = require('./Fraction')
 const Power = require('./Power')
 
 class Arctan extends Parent {
+	toNumber() {
+		return Math.atan(this.argument.toNumber())
+	}
+
 	getDerivativeBasic(variable) {
 		return new Fraction({
 			factor: this.factor, // Keep the factor.

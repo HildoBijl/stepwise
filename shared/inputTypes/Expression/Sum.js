@@ -1,3 +1,5 @@
+const { sum } = require('../../util/arrays')
+
 const Expression = require('./abstracts/Expression')
 const ExpressionList = require('./abstracts/ExpressionList')
 const Constant = require('./Constant')
@@ -40,6 +42,10 @@ class Sum extends Parent {
 		if (level === Expression.bracketLevels.multiplication)
 			return this.factor === 1 // In this case no brackets have been added yet.
 		return true
+	}
+
+	toNumber() {
+		return this.factor*sum(this.terms.map(term => term.toNumber()))
 	}
 
 	getDerivativeBasic(variable) {

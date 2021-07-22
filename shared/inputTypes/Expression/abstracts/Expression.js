@@ -1,5 +1,47 @@
 // An Expression is an abstract class that represents anything that can be inside an expression. Every class inside the Expression inherits it, directly or indirectly.
 
+/* [Automatic functions]
+ * Every Expression automatically has the following getters.
+ * - SO: a storage object representing this object. Can be used for cloning the element.
+ * - type: a string indicating the constructor name. For instance, for the cosine function, this returns "Cos".
+ * - str: a string representation of this object. It directly calls toString.
+ * - tex: a LaTeX representation of this object. It directly calls toTex.
+ * - number: the numeric value of this object. Call the function isNumeric before asking for the number, because an error is thrown if the Expression is not numeric.
+ * 
+ * Next to getters, there are also the following useful functions.
+ * - clone: returns a clone of this object.
+ * - print: logs the string representation of this object. Short for console.log(this.str).
+ * - isType(type): checks if this object is of the given type. The type can be a string "Product" or a constructor Product.
+ * - add(addition): adds the given expression. As always, the calling object (this) remains unchanged.
+ * - subtract(subtraction): subtracts the given expression.
+ * - multiplyBy(multiplication, mergeConstants = true): multiplies by the given expression. Constants are automatically pulled into the factor, so that when you multiply "3x" by 2 you get "6x" and not "2*3x". This can be turned off by setting mergeConstants to false.
+ * - divideBy(division, mergeConstants = true): same as multiplyBy, but then creating a fraction.
+ * - toPower(exponent): returns this expression to the given power.
+ * - eliminateFactor: returns a clone of this expression whose factor is set to 1.
+ * - isNumeric: returns whether this is a numeric object, and hence does not depend on any variables.
+ * - dependsOn(variable): returns true/false depending on whether this expression contains (and hence depends on) the given variable.
+ * - getVariables: returns an array of Variable objects which this expression depends on. This is an empty array for a numeric object. All Variable objects have factor 1.
+ * - substitute(variable, substitution): substitute the given variable (expression-wide) by the given substitution.
+ * - getDerivative(variable): get the derivative of this expression with respect to the given variable. If no variable is given, and if the expression only depends on one variable, that variable is picked automatically. Otherwise an error is thrown.
+ * - simplify(simplifyOptions): simplifies the expression and return a simplified clone. The options describe what kind of simplifications need to be done. See Expression.simplifyOptions for details.
+ * - equals(other, equalityOptions): checks whether this expression equals the other expression. The equalityOptions describe what kind of equality check needs to be done: should "a*(b+c)" for instance be equal to "a*b+a*c"? See Expression.equalityOptions for details.
+ */
+
+/* [Mandatory child functions]
+ * Inheriting classes should implement the following methods.
+ * - toString: turn this object into a string that can in turn be interpreted again.
+ * - toTex: turn this object into LaTeX code that can be shown as equation.
+ * - requiresBracketsFor(bracketLevel): if we implement this in an expression, should we put brackets around this term? The type of term (summation, multiplication, division, powers) can be indicated by the bracket level. See Expression.bracketLevel for possible values.
+ * - dependsOn(variable): see the description above.
+ * - getVariableStrings: returns a Set of strings representing the variables that are used inside this expression.
+ * - substitute(variable, substitution): see the description above.
+ * - isNumeric: is this expression numeric? Basically it comes down to checking if it depends on any variables.
+ * - toNumber: turn this expression into a number. (Assuming there are no variables in it.)
+ * - getDerivativeBasic(variable): takes the derivative with respect to the given variable. It does not require any input checking (is done prior) or output simplification (is done afterwards).
+ * - simplify(simplifyOptions): see the description above.
+ * - equals(other, simplifyOptions): see the description above.
+ */
+
 const { decimalSeparatorTex } = require('../../../settings')
 
 const { ensureNumber } = require('../../../util/numbers')
@@ -16,7 +58,7 @@ class Expression {
 			throw new TypeError(`Abstract class "Expression" may not be instantiated directly.`)
 
 		// Certain methods must be implemented in child classes.
-		const methods = ['clone', 'become', 'toString', 'requiresBracketsFor', 'toTex', 'dependsOn', 'getVariableStrings', 'substitute', 'getDerivativeBasic', 'simplify', 'equals']
+		const methods = ['clone', 'become', 'toString', 'requiresBracketsFor', 'toTex', 'dependsOn', 'getVariableStrings', 'substitute', 'isNumeric', 'toNumber', 'getDerivativeBasic', 'simplify', 'equals']
 		methods.forEach(method => {
 			if (this[method] === undefined || this[method] === Object.prototype[method]) // The Object object has some default methods, and those are not acceptable either.
 				throw new Error(`Child classes of the Expression class must implement the "${method}" method. The "${this.constructor.name}" class doesn't seem to have done so.`)
@@ -84,6 +126,13 @@ class Expression {
 		return this.constructor.name
 	}
 
+	// isType(type) checks if the given object is of the given type. The type given can be either a string like "Product" or a constructor Product. It may not be a product itself: use someProduct.type then for comparison.
+	isType(type) {
+		if (typeof type === 'string')
+			return this.type === type
+		return this.constructor === type
+	}
+
 	// str returns a string representation of the expression. It calls the toString method.
 	get str() {
 		return this.toString()
@@ -121,14 +170,24 @@ class Expression {
 		return `${factor} \\cdot ${str}`
 	}
 
-	// multiplyBy create a clone of this expression which is multiplied by the given number. So multiplying "2*x + y" by 3 gives "3*(2*x + y)". The original object is unchanged.
-	multiplyBy(multiplication) {
+	// add will add up the given expression to this expression. (As always, the original object remains unchanged.)
+	add(addition) {
+		return new Sum([this, addition]).simplify(Expression.simplifyOptions.structureOnly)
+	}
+
+	// subtract will subtract the given expression from this expression.
+	subtract(subtraction) {
+		return this.add(subtraction.multiplyBy(-1))
+	}
+
+	// multiplyBy will multiply this expression by the given expression. If the expression is a constant, it is pulled directly into the factor. Otherwise a product is created.
+	multiplyBy(multiplication, mergeConstants = true) {
 		const Constant = require('../Constant')
 		const { ensureFO } = require('../')
 
 		// If we have a regular number, in whatever form, process it accordingly.
 		multiplication = ensureFO(multiplication)
-		if (multiplication.constructor === Constant) {
+		if (multiplication.isType(Constant) || !mergeConstants) {
 			const result = this.clone()
 			result.factor *= multiplication.factor
 			return result
@@ -136,12 +195,31 @@ class Expression {
 
 		// We have another type of expression. Set up a product.
 		const Product = require('../Product')
-		return new Product({
-			terms: [
-				multiplication,
-				this,
-			],
-		}).simplify(Expression.simplifyOptions.structureOnly)
+		return new Product(multiplication, this).simplify(Expression.simplifyOptions.structureOnly)
+	}
+
+	// divideBy will divide this expression by the given expression. If the expression is a constant, it is pulled directly into the factor. Otherwise a fraction is created.
+	divideBy(division, mergeConstants = true) {
+		const Constant = require('../Constant')
+		const { ensureFO } = require('../')
+
+		// If we have a regular number, in whatever form, process it accordingly.
+		division = ensureFO(division)
+		if (division.isType(Constant) || !mergeConstants) {
+			const result = this.clone()
+			result.factor /= division.factor
+			return result
+		}
+
+		// We have another type of expression. Set up a fraction.
+		const Fraction = require('../functions/Fraction')
+		return new Fraction(this, division).simplify(Expression.simplifyOptions.structureOnly)
+	}
+
+	// toPower will take this object and apply the given power.
+	toPower(exponent) {
+		const Power = require('../functions/Power')
+		return new Power(this, exponent).simplify(Expression.simplifyOptions.structureOnly)
 	}
 
 	// eliminateFactor creates a clone of this expression, but then with a factor of 1 (default).
@@ -187,6 +265,13 @@ class Expression {
 		return [...variableStrings].map(str => new Variable(str)).sort(Variable.variableSort)
 	}
 
+	get number() {
+		const number = this.toNumber()
+		if (Math.abs(number) < Expression.epsilon)
+			return 0
+		return number
+	}
+
 	// equals for a general Expression only compares the type and the factor.
 	equals(expression, options = {}) {
 		if (this.constructor !== expression.constructor)
@@ -195,21 +280,14 @@ class Expression {
 			return true
 		return this.factor === expression.factor
 	}
-
-	/* The following functions need to be implemented.
-	 * ToDo: check this later on.
-	 * clone(deep = true) creates a new object identical to the given one. If deep is true, all sub-expressions are cloned too, so no double references occur.
-	 * equals(expression, ignoreFactor = false) checks equality between two expressions. This equality check is basic. While "1 + x" and "x + 1" will be considered equal, "(x+1)/x" and "1+1/x" will not be considered equal. After all, they are of different type. It is wise to simplify expressions manually before checking for equality. When ignoreFactor is set to true, then 2*x will be seen as equal to x.
-	 * dependsOn(variable) checks whether the expression depends on the given variable and returns true or false.
-	 * getVariables() extracts all variables inside the expression and returns them as an array. So for the expression y*x_1^2/(x_1+x_2) you get ['y','x_1','x_2'] but then with Variable objects.
-	 * substitute(variable, substitution) returns the same expression, except that the given parameter (for instance "x") has been replaced by the given substitution Expression (for instance 2*y^2). The original object is NOT changed; an adjusted clone is returned.
-	 * simplify() returns a (potentially new, potentially existing) expression that is a simplified version of the current expression. For example, simplifying the sum 2*x + x will result in the Expression 3*x. The original object is NOT changed; it is either returned unchanged or an adjusted clone is returned.
-	 */
 }
 Expression.defaultSO = defaultSO
 module.exports = Expression
 
-// Add bracket levels.
+// Define Expression settings.
+Expression.epsilon = 1e-15 // If the difference between two values is smaller than this, they are considered equal.
+
+// Define possible bracket levels.
 Expression.bracketLevels = {
 	addition: 0, // Should we use brackets for x + [...]?
 	multiplication: 1, // Should we use brackets for x*[...]?
@@ -217,6 +295,6 @@ Expression.bracketLevels = {
 	powers: 3, // Should we use brackets for x^[...] or [...]^x?
 }
 
-// Add simplification options.
+// Define common simplify options.
 Expression.simplifyOptions = {}
 Expression.simplifyOptions.structureOnly = { structure: true }

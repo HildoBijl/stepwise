@@ -5,6 +5,10 @@ const Power = require('./Power')
 const args = ['base', 'argument']
 
 class Root extends Parent {
+	toNumber() {
+		return Math.pow(this.argument.toNumber(), 1/this.base.toNumber())
+	}
+
 	toTex() {
 		return this.addFactorToTex(`\\sqrt[${this.base.tex}]{${this.argument.tex}}`)
 	}

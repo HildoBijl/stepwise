@@ -46,6 +46,12 @@ function sum(array) {
 }
 module.exports.sum = sum
 
+// product gives the product of all array elements.
+function product(array) {
+	return array.reduce((product, v) => product*v, 1)
+}
+module.exports.product = product
+
 // numberArray creates an array with numbers from start (inclusive) to end (inclusive). Both must be integers. So with 3 and 5 it's [3,4,5] and with 5 and 3 it's [5,4,3]. If only one parameter is given, then this is considered the end and the start is set to zero.
 function numberArray(p1, p2) {
 	p1 = ensureInt(p1)

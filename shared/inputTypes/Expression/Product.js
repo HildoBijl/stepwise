@@ -1,3 +1,5 @@
+const { product } = require('../../util/arrays')
+
 const Expression = require('./abstracts/Expression')
 const ExpressionList = require('./abstracts/ExpressionList')
 const Constant = require('./Constant')
@@ -32,6 +34,10 @@ class Product extends Parent {
 
 	requiresBracketsFor(level) {
 		return level === Expression.bracketLevels.division || level === Expression.bracketLevels.powers
+	}
+
+	toNumber() {
+		return this.factor*product(this.terms.map(term => term.toNumber()))
 	}
 
 	getDerivativeBasic(variable) {

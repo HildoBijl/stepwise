@@ -2,6 +2,10 @@ const Parent = require('../abstracts/FunctionSingleArgument')
 const Product = require('../Product')
 
 class Sin extends Parent {
+	toNumber() {
+		return Math.sin(this.argument.toNumber())
+	}
+
 	getDerivativeBasic(variable) {
 		const Cos = require('./Cos')
 		return new Product({

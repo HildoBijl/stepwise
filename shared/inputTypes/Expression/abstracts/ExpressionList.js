@@ -64,6 +64,10 @@ class ExpressionList extends Parent {
 		})
 	}
 
+	isNumeric() {
+		return this.terms.every(term => term.isNumeric())
+	}
+
 	// equals checks for equality. Note that 2*(3*x) does not equal 6*x according to this function. Always simplify expressions before checking for equality.
 	equals(expression, options = {}) {
 		// ToDo later: check if this makes sense.

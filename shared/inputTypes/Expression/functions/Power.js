@@ -7,6 +7,10 @@ const Ln = require('./Ln')
 const args = ['base', 'exponent']
 
 class Power extends Parent {
+	toNumber() {
+		return Math.pow(this.base.toNumber(), this.exponent.toNumber())
+	}
+
 	toString() {
 		// Get the base.
 		let baseStr = this.base.toString()

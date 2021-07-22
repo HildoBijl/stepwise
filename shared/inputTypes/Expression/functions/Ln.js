@@ -1,6 +1,10 @@
 const Parent = require('../abstracts/FunctionSingleArgument')
 
 class Ln extends Parent {
+	toNumber() {
+		return Math.log(this.argument.toNumber())
+	}
+
 	getDerivativeBasic(variable) {
 		const Fraction = require('./Fraction')
 		const arg = this.argument.eliminateFactor() // The factor has no influence on the derivative of the ln.

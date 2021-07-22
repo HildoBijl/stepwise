@@ -92,6 +92,26 @@ class Variable extends Parent {
 		return substitution.multiplyByNumber(this.factor) // Replace this parameter by a clone of the substitution, multiplied by the current parameter's factor.
 	}
 
+	// isPi and isE check if this variable equals the given numbers.
+	isPi() {
+		return this.equals(Variable.pi, { ignoreFactor: true })
+	}
+	isE() {
+		return this.equals(Variable.e, { ignoreFactor: true })
+	}
+
+	isNumeric() {
+		return this.isPi() || this.isE()
+	}
+
+	toNumber() {
+		if (this.isPi())
+			return this.factor * Math.PI
+		if (this.isE())
+			return this.factor * Math.E
+		throw new Error(`Invalid toNumber call: cannot turn the given expression into a number because it depends on the variable "${this.str}". Tip: check if the expression is numeric through exp.isNumeric() before asking for the number.`)
+	}
+
 	getDerivativeBasic(variable) {
 		if (!this.equals(variable, { ignoreFactor: true }))
 			return new Constant(0) // It's a different parameter.
@@ -135,3 +155,6 @@ class Variable extends Parent {
 }
 Variable.defaultSO = defaultSO
 module.exports = Variable
+
+Variable.e = new Variable('e')
+Variable.pi = new Variable('π')

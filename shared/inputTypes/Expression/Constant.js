@@ -42,6 +42,14 @@ class Constant extends Parent {
 		return this.clone() // A constant does not change upon substitution.
 	}
 
+	isNumeric() {
+		return true
+	}
+
+	toNumber() {
+		return this.factor
+	}
+
 	getDerivativeBasic() {
 		return new Constant(0) // The derivative of a constant is always zero.
 	}

@@ -7,6 +7,10 @@ const Power = require('./Power')
 const args = ['numerator', 'denominator']
 
 class Fraction extends Parent {
+	toNumber() {
+		return this.numerator.toNumber()/this.denominator.toNumber()
+	}
+
 	toString() {
 		// Get the numerator.
 		let numStr = this.numerator.toString()

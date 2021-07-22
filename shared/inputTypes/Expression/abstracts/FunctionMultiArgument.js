@@ -82,6 +82,10 @@ class FunctionMultiArgument extends Parent {
 		return union(...this.constructor.args.map(key => this[key].getVariableStrings()))
 	}
 
+	isNumeric() {
+		return this.constructor.args.every(key => this[key].isNumeric())
+	}
+
 	substitute(variable, substitution) {
 		const newSO = this.SO
 		this.constructor.args.forEach(key => {

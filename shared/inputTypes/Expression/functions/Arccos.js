@@ -5,6 +5,10 @@ const Power = require('./Power')
 const Sqrt = require('./Sqrt')
 
 class Arccos extends Parent {
+	toNumber() {
+		return Math.acos(this.argument.toNumber())
+	}
+
 	getDerivativeBasic(variable) {
 		// Set up 1 - arg^2.
 		const inner = new Sum([

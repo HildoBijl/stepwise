@@ -4,6 +4,10 @@ const Sin = require('./Sin')
 const Cos = require('./Cos')
 
 class Tan extends Parent {
+	toNumber() {
+		return Math.tan(this.argument.toNumber())
+	}
+
 	getDerivativeBasic(variable) {
 		return new Fraction({
 			factor: this.factor, // Keep the factor.

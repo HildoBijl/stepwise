@@ -5,6 +5,10 @@ const Ln = require('./Ln')
 const args = ['base', 'argument']
 
 class Log extends Parent {
+	toNumber() {
+		return Math.log(this.argument.toNumber()) / Math.log(this.base.toNumber())
+	}
+
 	toTex() {
 		return this.addFactorToTex(`{^{${this.base.tex}}}\\!\\log\\left(${this.argument.tex}\\right)`)
 	}

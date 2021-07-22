@@ -28,15 +28,17 @@ function Problem({ index }) {
 	let eq = ''
 	let der = ''
 	let probleem = false
+	let res
 	try {
 		// console.log(input)
 		// console.log(ans)
 		if (ans) {
-			const res = interpretExpression(cleanUp(removeCursor(ans)))
+			res = interpretExpression(cleanUp(removeCursor(ans)))
 			// console.log('Vergelijking: ' + res.str)
 			// console.log('Tex: ' + res.tex)
 			// console.log('Afgeleide: ' + res.getDerivative('x').str)
 			console.log(res)
+			console.log(res.isNumeric())
 			eq = res.tex
 			der = res.getDerivative('x').tex
 		}
@@ -59,6 +61,7 @@ function Problem({ index }) {
 					<BM>{eq}</BM>
 					<Par>De afgeleide hiervan (ten opzichte van <M>x</M>) is:</Par>
 					<BM>{der}</BM>
+					<Par>Hierbij geldt: {res && res.isNumeric() ? 'true' : 'false'} en {res && res.isNumeric() ? res.number : '???'}</Par>
 				</>
 			}
 		</InputSpace>
