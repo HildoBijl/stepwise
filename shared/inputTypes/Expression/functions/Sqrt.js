@@ -12,14 +12,10 @@ class Sqrt extends Parent {
 
 	getDerivativeBasic(variable) {
 		return new Fraction({
-			factor: this.factor / 2, // Keep the factor, but divide by two because of the sqrt power.
+			factor: this.factor, // Keep the factor.
 			numerator: this.argument.getDerivative(variable), // Apply the chain rule.
-			denominator: new Sqrt(this.argument), // Put the sqrt in the denominator.
+			denominator: new Sqrt(this.argument).multiplyBy(2), // Put the sqrt in the denominator. Multiply by 2 because of the square root derivative rule.
 		})
-	}
-
-	simplify() {
-		return this // ToDo: add this later.
 	}
 }
 Sqrt.defaultSO = Sqrt.defaultSO

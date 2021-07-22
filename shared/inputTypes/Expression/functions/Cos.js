@@ -8,17 +8,10 @@ class Cos extends Parent {
 
 	getDerivativeBasic(variable) {
 		const Sin = require('./Sin')
-		return new Product({
-			factor: -this.factor, // Apply a minus.
-			terms: [
-				new Sin(this.argument),
-				this.argument.getDerivative(variable), // Apply the chain rule.
-			],
-		})
-	}
-
-	simplify() {
-		return this // ToDo: add this later.
+		return new Product(
+			new Sin(this.argument),
+			this.argument.getDerivative(variable), // Apply the chain rule.
+		).multiplyBy(-this.factor) // Include a minus here.
 	}
 }
 Cos.defaultSO = Parent.defaultSO

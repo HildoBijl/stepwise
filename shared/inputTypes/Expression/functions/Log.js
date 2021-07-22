@@ -14,17 +14,18 @@ class Log extends Parent {
 	}
 
 	getDerivativeBasic(variable) {
-		// ToDo: check options.
-		return this.simplify({ forDerivatives: true }).getDerivativeBasic(variable)
+		return this.simplify(Expression.simplifyOptions.forDerivatives).getDerivativeBasic(variable)
 	}
 
-	simplify(options) {
-		// ToDo: check options.
+	simplifyBasic(options) {
+		let { factor, base, argument } = this.simplifyChildren(options)
+
+		// ToDo: check basic cases.
 
 		if (options.forDerivatives)
-			return new Fraction(new Ln(this.argument), new Ln(this.base)).multiplyBy(this.factor).simplify(options)
+			return new Fraction(new Ln(argument), new Ln(base)).multiplyBy(factor).simplifyBasic(options)
 
-		return this
+		return new Log({ factor, numerator, denominator })
 	}
 
 	// ToDo: equals.

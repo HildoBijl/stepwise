@@ -94,12 +94,9 @@ class FunctionMultiArgument extends Parent {
 		return new this.constructor(newSO)
 	}
 
-	simplify(level) {
-		const newSO = this.SO
-		this.constructor.args.forEach(key => {
-			newSO[key] = this[key].simplify(level)
-		})
-		return new this.constructor(newSO)
+	simplifyBasic(options) {
+		const simplifiedChildren = this.simplifyChildren(options)
+		return new this.constructor(simplifiedChildren)
 	}
 
 	// ToDo: equals.

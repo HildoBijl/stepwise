@@ -54,7 +54,7 @@ class Constant extends Parent {
 		return new Constant(0) // The derivative of a constant is always zero.
 	}
 
-	simplify() {
+	simplifyBasic() {
 		return this // You cannot simplify a number. It's as simple as it gets.
 	}
 
@@ -67,3 +67,6 @@ class Constant extends Parent {
 }
 Constant.defaultSO = defaultSO
 module.exports = Constant
+
+Constant.zero = new Constant(0)
+Constant.one = new Constant(1)

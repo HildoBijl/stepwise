@@ -118,7 +118,7 @@ class Variable extends Parent {
 		return new Constant(this.factor)
 	}
 
-	simplify() {
+	simplifyBasic() {
 		return this // Parameter types don't get any simpler.
 	}
 

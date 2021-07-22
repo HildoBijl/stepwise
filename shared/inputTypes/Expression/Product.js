@@ -1,4 +1,5 @@
 const { product } = require('../../util/arrays')
+const { processOptions } = require('../../util/objects')
 
 const Expression = require('./abstracts/Expression')
 const ExpressionList = require('./abstracts/ExpressionList')
@@ -37,7 +38,7 @@ class Product extends Parent {
 	}
 
 	toNumber() {
-		return this.factor*product(this.terms.map(term => term.toNumber()))
+		return this.factor * product(this.terms.map(term => term.toNumber()))
 	}
 
 	getDerivativeBasic(variable) {
@@ -53,24 +54,41 @@ class Product extends Parent {
 		return new Sum(terms).multiplyBy(this.factor)
 	}
 
-	simplify(options = {}) {
-		// Simplify all children.
-		let factor = this.factor
-		let terms = this.terms.map(term => term.simplify(options))
+	simplifyBasic(options = {}) {
+		let { factor, terms } = this.simplifyChildren(options)
+
+		// Check for factor reductions.
+		if (options.reduceFactors) {
+			// Pull all element factors into the factor of the product.
+			terms = terms.map(term => {
+				factor *= term.factor
+				return term.eliminateFactor()
+			})
+		}
+
+		// Check for useless elements.
+		if (options.removeUseless) {
+			// If the factor is 0, turn this term into zero.
+			if (factor === 0)
+				return Constant.zero
+
+			// Filter out one elements.
+			terms = terms.filter(term => !term.equals(Constant.one))
+		}
 
 		// Check for structure simplifications.
 		if (options.structure) {
-			// Check simple cases.
+			// Check basic cases.
 			if (terms.length === 0)
-				return new Constant(this.factor)
-			if (terms.length === 1)
-				return terms[0].multiplyBy(this.factor)
-			if (this.factor === 1 && terms.length === 2 && terms[0] instanceof Constant && terms[1].factor === 1)
+				return new Constant(factor)
+			if (terms.length === 1 && (factor === 1 || terms[0].factor === 1))
+				return terms[0].multiplyBy(factor)
+			if (factor === 1 && terms.length === 2 && terms[0].isType(Constant) && terms[1].factor === 1)
 				return terms[1].multiplyBy(terms[0]) // Replace the product 3*x by a variable 3*x with factor 3.
 
 			// Flatten products inside this product. If there is a product, replace it by its array of terms (if necessary preceded by its factor) and then flatten the result.
 			terms = terms.map(term => {
-				if (!(term instanceof Product))
+				if (!term.isType(Product))
 					return term // Keep the term as is.
 				if (term.factor === 1)
 					return term.terms // Insert the terms of the sub-product.
@@ -79,6 +97,9 @@ class Product extends Parent {
 				return [new Constant(term.factor), ...term.terms] // Include the factor as extra term.
 			}).flat() // Flatten the result to get an array of terms.
 		}
+
+		// ToDo: expand brackets.
+		// ToDo: sort terms.
 
 		// Return the final result.
 		return new Product({ factor, terms })

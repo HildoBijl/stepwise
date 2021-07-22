@@ -23,10 +23,6 @@ class Arccos extends Parent {
 			denominator: new Sqrt(inner), // sqrt(1 - arg^2).
 		})
 	}
-
-	simplify() {
-		return this // ToDo: add this later.
-	}
 }
 Arccos.defaultSO = Parent.defaultSO
 module.exports = Arccos

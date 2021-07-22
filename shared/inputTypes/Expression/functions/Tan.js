@@ -16,8 +16,16 @@ class Tan extends Parent {
 		})
 	}
 
-	simplify(options) {
-		return Fraction(Sin(this.argument), Cos(this.argument)).multiplyBy(this.factor).simplify(options)
+	simplifyBasic(options) {
+		let { factor, argument } = this.simplifyChildren(options)
+
+		// ToDo: check basic cases.
+
+		// Check for analysis reductions.
+		if (options.forAnalysis)
+			return Fraction(Sin(argument), Cos(argument)).multiplyBy(factor).simplify(options)
+
+		return new Tan({ factor, argument })
 	}
 }
 Tan.defaultSO = Parent.defaultSO

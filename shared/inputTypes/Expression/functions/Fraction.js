@@ -8,7 +8,7 @@ const args = ['numerator', 'denominator']
 
 class Fraction extends Parent {
 	toNumber() {
-		return this.numerator.toNumber()/this.denominator.toNumber()
+		return this.numerator.toNumber() / this.denominator.toNumber()
 	}
 
 	toString() {
@@ -61,6 +61,14 @@ class Fraction extends Parent {
 
 		// Return the outcome.
 		return new Sum(...terms).multiplyBy(this.factor)
+	}
+
+	simplifyBasic(options) {
+		let { factor, numerator, denominator } = this.simplifyChildren(options)
+
+		// ToDo
+
+		return new Fraction({ factor, numerator, denominator })
 	}
 
 	// ToDo: equals.

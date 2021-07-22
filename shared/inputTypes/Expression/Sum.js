@@ -1,4 +1,5 @@
-const { sum } = require('../../util/arrays')
+const { sum, count } = require('../../util/arrays')
+const { processOptions } = require('../../util/objects')
 
 const Expression = require('./abstracts/Expression')
 const ExpressionList = require('./abstracts/ExpressionList')
@@ -45,7 +46,7 @@ class Sum extends Parent {
 	}
 
 	toNumber() {
-		return this.factor*sum(this.terms.map(term => term.toNumber()))
+		return this.factor * sum(this.terms.map(term => term.toNumber()))
 	}
 
 	getDerivativeBasic(variable) {
@@ -53,18 +54,52 @@ class Sum extends Parent {
 		return new Sum(this.terms.map(term => term.getDerivativeBasic(variable))).multiplyBy(this.factor)
 	}
 
-	simplify(options = {}) {
-		// Simplify all children.
-		let factor = this.factor
-		let terms = this.terms.map(term => term.simplify(options))
+	simplifyBasic(options = {}) {
+		let { factor, terms } = this.simplifyChildren(options)
+
+		// Check for useless elements.
+		if (options.removeUseless) {
+			// If the factor is 0, turn this term into zero.
+			if (factor === 0)
+				return Constant.zero
+
+			// Filter out zero elements.
+			terms = terms.filter(term => !term.equals(Constant.zero))
+		}
+
+		// Check for factor reductions.
+		if (options.reduceFactors) {
+			// Apply the factor of the sum to each term in the sum.
+			if (factor !== 1) {
+				terms = terms.map(term => term.multiplyBy(factor))
+				factor = 1
+			}
+
+			// If there are at least two constants, merge them together.
+			if (count(terms, term => term.isType(Constant)) >= 2) {
+				let constant = 0
+				terms = terms.filter(term => {
+					if (term.isType(Constant)) {
+						constant += term.factor // Add the number.
+						return false // Remove it.
+					}
+					return true // Keep it.
+				})
+				if (constant !== 0)
+					terms.unshift(new Constant(constant))
+			}
+		}
 
 		// Check for structure simplifications.
 		if (options.structure) {
 			// Check simple cases.
 			if (terms.length === 0)
-				return new Constant(0)
-			if (terms.length === 1)
-				return terms[0].multiplyBy(this.factor)
+				return Constant.zero
+			if (terms.length === 1) {
+				if (factor === 1 || terms[0].factor === 1)
+					return terms[0].multiplyBy(factor)
+				return new Product({ factor, terms }).simplify(options) // Turn it into a single-element product. This is easier to deal with than a single-element Sum.
+			}
 
 			// Flatten sums inside this sum. If there is a sum with a factor of 1, replace it by its array of terms.
 			terms = terms.map(term => {
@@ -75,6 +110,8 @@ class Sum extends Parent {
 				return term.terms
 			}).flat() // Flatten the result to get an array of terms.
 		}
+
+		// ToDo: sort terms.
 
 		// Return the final result.
 		return new Sum({ factor, terms })

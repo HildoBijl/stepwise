@@ -6,7 +6,7 @@ const args = ['base', 'argument']
 
 class Root extends Parent {
 	toNumber() {
-		return Math.pow(this.argument.toNumber(), 1/this.base.toNumber())
+		return Math.pow(this.argument.toNumber(), 1 / this.base.toNumber())
 	}
 
 	toTex() {
@@ -17,13 +17,15 @@ class Root extends Parent {
 		return this.simplify({ forDerivatives: true }).getDerivativeBasic(variable) // ToDo: add level/options.
 	}
 
-	simplify(options) {
-		// ToDo: check level.
+	simplifyBasic(options) {
+		let { factor, base, argument } = this.simplifyChildren(options)
+
+		// ToDo: check basic cases.
 
 		if (options.forDerivatives)
-			return new Power(this.argument, new Fraction(1, this.base)).multiplyBy(this.factor).simplify(options)
+			return new Power(argument, new Fraction(1, base)).multiplyBy(factor).simplifyBasic(options)
 
-		return this
+		return new Root({ factor, base, argument })
 	}
 
 	// ToDo: equals.

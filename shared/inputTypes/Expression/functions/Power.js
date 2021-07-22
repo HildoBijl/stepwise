@@ -1,5 +1,8 @@
+const { processOptions } = require('../../../util/objects')
+
 const Expression = require('../abstracts/Expression')
 const Parent = require('../abstracts/FunctionMultiArgument')
+const Constant = require('../Constant')
 const Sum = require('../Sum')
 const Product = require('../Product')
 const Ln = require('./Ln')
@@ -44,10 +47,6 @@ class Power extends Parent {
 	getDerivativeBasic(variable) {
 		const terms = []
 
-		// For the simple cases, simplify the power first.
-		if (this.exponent.equals(0) || this.exponent.equals(1))
-			return this.simplify().getDerivative(variable) // ToDo: add level/options.
-
 		// If the base depends on the variable, apply the default derivative rule, lowering the exponent by one.
 		if (this.base.dependsOn(variable)) {
 			// Lower the exponent of the power by one.
@@ -77,20 +76,42 @@ class Power extends Parent {
 		return new Sum(...terms).multiplyBy(this.factor)
 	}
 
-	simplify(level) {
-		// If the power is 0, become the factor.
-		if (this.exponent.equals(0))
-			return new Constant(this.factor)
+	simplifyBasic(options) {
+		let { factor, base, exponent } = this.simplifyChildren(options)
 
-		// If the power is 1, become the base.
-		if (this.exponent.equals(1))
-			return this.base.simplify(level).multiplyBy(this.factor)
+		// Check for factor reductions.
+		if (options.reduceFactors) {
+			if (base.factor !== 1 && exponent.isType(Constant)) {
+				factor *= Math.pow(base.factor, exponent.factor)
+				base.eliminateFactor()
+			}
+		}
 
-		return this // ToDo: implement later.
+		// Check for useless terms.
+		if (options.removeUseless) {
+			// If the factor is 0, turn this term into zero.
+			if (factor === 0)
+				return Constant.zero
+
+			// If the power is 0, become the factor.
+			if (exponent.equals(Constant.zero))
+				return new Constant(factor)
+
+			// If the power is 1, become the base.
+			if (exponent.equals(Constant.one)) {
+				if (factor === 1 || base.factor === 1)
+					return base.multiplyBy(factor)
+				return new Product({ factor, terms: [base] }).simplify(options) // Create a single-element product.
+			}
+		}
+
+		// ToDo: expand brackets.
+
+		return new Power({ factor, base, exponent })
 	}
 
 	// ToDo: implement the below stuff or delete it.
-	
+
 	// simplify() {
 
 	// 	// Okay, stuff is more complicated. First, let's create a clone so we can work safely.

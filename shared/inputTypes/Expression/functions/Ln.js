@@ -14,10 +14,6 @@ class Ln extends Parent {
 			denominator: arg, // Take 1/argument according to the derivative of ln(x).
 		})
 	}
-
-	simplify() {
-		return this // ToDo: add this later.
-	}
 }
 Ln.defaultSO = Parent.defaultSO
 Ln.args = Parent.args

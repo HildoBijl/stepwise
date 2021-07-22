@@ -38,7 +38,7 @@
  * - isNumeric: is this expression numeric? Basically it comes down to checking if it depends on any variables.
  * - toNumber: turn this expression into a number. (Assuming there are no variables in it.)
  * - getDerivativeBasic(variable): takes the derivative with respect to the given variable. It does not require any input checking (is done prior) or output simplification (is done afterwards).
- * - simplify(simplifyOptions): see the description above.
+ * - simplifyBasic(simplifyOptions): simplifies the object with the given options. It does not require checking the options (is done prior).
  * - equals(other, simplifyOptions): see the description above.
  */
 
@@ -58,7 +58,7 @@ class Expression {
 			throw new TypeError(`Abstract class "Expression" may not be instantiated directly.`)
 
 		// Certain methods must be implemented in child classes.
-		const methods = ['clone', 'become', 'toString', 'requiresBracketsFor', 'toTex', 'dependsOn', 'getVariableStrings', 'substitute', 'isNumeric', 'toNumber', 'getDerivativeBasic', 'simplify', 'equals']
+		const methods = ['clone', 'become', 'toString', 'requiresBracketsFor', 'toTex', 'dependsOn', 'getVariableStrings', 'substitute', 'isNumeric', 'toNumber', 'getDerivativeBasic', 'simplifyBasic', 'equals']
 		methods.forEach(method => {
 			if (this[method] === undefined || this[method] === Object.prototype[method]) // The Object object has some default methods, and those are not acceptable either.
 				throw new Error(`Child classes of the Expression class must implement the "${method}" method. The "${this.constructor.name}" class doesn't seem to have done so.`)
@@ -224,15 +224,9 @@ class Expression {
 
 	// eliminateFactor creates a clone of this expression, but then with a factor of 1 (default).
 	eliminateFactor() {
-		return this.multiplyBy(1 / this.factor)
-	}
-
-	// getDerivative returns the derivative. It includes checking the variable and simplifying the result, unlike getDerivativeBasic which doesn't check the input and only returns a derivative in any form.
-	getDerivative(variable) {
-		variable = this.verifyVariable(variable)
-		if (variable.factor !== 1)
-			throw new Error(`Invalid derivative variable: the variable has a factor. Taking derivatives with respect to variables with factors is not allowed. Try using "variable.eliminateFactor()" first.`)
-		return this.getDerivativeBasic(variable).simplify() // ToDo: add the right options.
+		const clone = this.clone()
+		clone.factor = 1
+		return clone
 	}
 
 	// verifyVariable is used by functions requiring a variable as input. It checks the given variable. If no variable is given, it tries to figure out which variable was meant.
@@ -272,6 +266,37 @@ class Expression {
 		return number
 	}
 
+	// getDerivative returns the derivative. It includes checking the variable and simplifying the result, unlike getDerivativeBasic which doesn't check the input and only returns a derivative in any form.
+	getDerivative(variable) {
+		// Check the input.
+		variable = this.verifyVariable(variable)
+		if (variable.factor !== 1)
+			throw new Error(`Invalid derivative variable: the variable has a factor. Taking derivatives with respect to variables with factors is not allowed. Try using "variable.eliminateFactor()" first.`)
+
+		// Simplify the variable first. Then take the derivative and simplify that.
+		const simplified = this.simplify(Expression.simplifyOptions.basic)
+		const derivative = simplified.getDerivativeBasic(variable)
+		return derivative.simplify(Expression.simplifyOptions.basic)
+	}
+
+	// simplify simplifies an object. It checks the given options and calls simplifyWithoutCheck.
+	simplify(options = {}) {
+		options = processOptions(options, Expression.simplifyOptions.all)
+		return this.simplifyBasic(options)
+	}
+
+	// simplifyChildren will simplify all children an object has and return it as an object.
+	simplifyChildren(options) {
+		const result = { factor: this.factor }
+		Object.keys(this.constructor.defaultSO).forEach(key => {
+			if (Array.isArray(this[key]))
+				result[key] = this[key].map(element => element.simplifyBasic(options))
+			else if (key !== 'factor')
+				result[key] = this[key].simplifyBasic(options)
+		})
+		return result
+	}
+
 	// equals for a general Expression only compares the type and the factor.
 	equals(expression, options = {}) {
 		if (this.constructor !== expression.constructor)
@@ -295,6 +320,48 @@ Expression.bracketLevels = {
 	powers: 3, // Should we use brackets for x^[...] or [...]^x?
 }
 
-// Define common simplify options.
-Expression.simplifyOptions = {}
-Expression.simplifyOptions.structureOnly = { structure: true }
+// There is a variety of simplifying options available. The objects below are common combinations of them.
+const all = { // This is never applied, but only use to verify options given. (Some options contradict eachother.)
+	structure: false, // Simplify the structure of the object in a way that the expression itself does not seem rewritten. For instance, if there is a sum inside a sum, just turn it into one sum. Or if there is a sum of one element, just turn it into said element.
+	removeUseless: false, // Remove useless elements. For instance, a sum with "+0" or a product with "*1" will be simplified.
+	reduceFactors: false, // Reduce the number of factors that are used. If there is a product with constants, like (2*x)*(3*y)*(4*z), turn it into 24*(x*y*z). Or if there is a sum with a factor, like 2*(3*x+4*y), pull the factor into the sum, like 6*x+8*y.
+	expandBrackets: false, // Minimize the number of brackets needed. If there is a product of sums, expand brackets. So (a+b)*(c+d) becomes a*c+a*d+b*c+b*d. Similarly for powers. (a+b)^3 gets a binomial expansion.
+	mergeFractionProducts: false, // Merge products of fractions into a single fraction. So (a/b)*(c/d) becomes (a*c)/(b*d).
+	sortTerms: false, // Sort the terms inside expressionLists (Sum and Product) to put simpler terms first and more complex terms second.
+	basicReductions: false, // Turns sin(arcsin(x)) into x, cos(pi) into -1 and y/y into 1. (Yes, this assumes y is not zero, but this is not a formal mathematical toolbox, so let's go along with it.)
+	forDisplay: false, // Make the expression easier to display. For instance, a*b^(-1) will be turned into a fraction a/b, and a^(1/2) will be turned into sqrt(a).
+	forDerivatives: false, // Make the expression easier to get the derivative of. For instance, by rewriting [a]log(b) to ln(b)/ln(a) it's easier to get its derivative.
+	forAnalysis: false, // Make the expression easier to analyze. Turn fractions into powers, so a/b becomes a*b^(-1), and sqrt(a) becomes a^(1/2). Similarly, [a]log(b) will be ln(b)/ln(a) and other similar simplifications ensue, using basic functions as much as possible.
+}
+const structureOnly = {
+	structure: true
+}
+const forDerivatives = {
+	...structureOnly,
+	forDerivatives: true,
+}
+const basic = {
+	...structureOnly,
+	removeUseless: true,
+	reduceFactors: true,
+	sortTerms: true,
+	basicReductions: true,
+}
+const forAnalysis = {
+	...basic,
+	expandBrackets: true,
+	forAnalysis: true,
+}
+const forDisplay = {
+	...basic,
+	mergeFractionProducts: true,
+	forDisplay: true,
+}
+Expression.simplifyOptions = {
+	all,
+	structureOnly,
+	basic,
+	forDerivatives,
+	forAnalysis,
+	forDisplay,
+}

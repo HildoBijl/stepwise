@@ -23,10 +23,6 @@ class Arcsin extends Parent {
 			denominator: new Sqrt(inner), // sqrt(1 - arg^2).
 		})
 	}
-
-	simplify() {
-		return this // ToDo: add this later.
-	}
 }
 Arcsin.defaultSO = Parent.defaultSO
 module.exports = Arcsin
