@@ -93,8 +93,8 @@ export function findEndOfTerm(data, toRight = true, skipFirst = false, initialBr
 		if (returnOnZeroCount && bracketCount === 0)
 			return { part: partIterator, cursor: cursorIterator }
 
-		// On an encountered function, return the current cursor position, unless we're inside brackets.
-		if (isObject(nextSymbol) && nextSymbol.type === 'Function') {
+		// On an encountered function (not a subSup) return the current cursor position, unless we're inside brackets.
+		if (isObject(nextSymbol) && nextSymbol.type === 'Function' && nextSymbol.name !== 'subSup') {
 			if (bracketCount === 0 && (!skipFirst || !first))
 				return { part: partIterator, cursor: cursorIterator }
 			const netBracketCountFunc = getFuncs(nextSymbol).netBracketCount
