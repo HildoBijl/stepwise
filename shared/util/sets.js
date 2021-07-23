@@ -1,14 +1,14 @@
 // This file has support functionalities for sets.
 
 // union applies a union to two or more sets.
-function union(...arguments) {
+function union(...args) {
 	// Deal with simple cases: 0, 1 or 2 arguments.
-	if (arguments.length === 0)
+	if (args.length === 0)
 		return new Set()
-	if (arguments.length === 1)
-		return arguments[0]
-	if (arguments.length === 2) {
-		const [setA, setB] = arguments
+	if (args.length === 1)
+		return args[0]
+	if (args.length === 2) {
+		const [setA, setB] = args
 		const result = new Set(setA)
 		for (const element of setB) {
 			result.add(element)
@@ -16,9 +16,9 @@ function union(...arguments) {
 		return result
 	}
 
-	// Iterate over a larger array of arguments.
+	// Iterate over a larger array of args.
 	let result = new Set()
-	arguments.forEach(set => {
+	args.forEach(set => {
 		result = union(result, set)
 	})
 	return result
@@ -26,14 +26,14 @@ function union(...arguments) {
 module.exports.union = union
 
 // intersection applies an intersection to two or more sets.
-function intersection(...arguments) {
+function intersection(...args) {
 	// Deal with simple cases: 0, 1 or 2 arguments.
-	if (arguments.length === 0)
+	if (args.length === 0)
 		return new Set()
-	if (arguments.length === 1)
-		return arguments[0]
-	if (arguments.length === 2) {
-		const [setA, setB] = arguments
+	if (args.length === 1)
+		return args[0]
+	if (args.length === 2) {
+		const [setA, setB] = args
 		let result = new Set()
 		for (let element of setA) {
 			if (setB.has(element)) {
@@ -45,7 +45,7 @@ function intersection(...arguments) {
 
 	// Iterate over a larger array of arguments.
 	let result = new Set()
-	arguments.forEach(set => {
+	args.forEach(set => {
 		result = intersection(result, set)
 	})
 	return result
