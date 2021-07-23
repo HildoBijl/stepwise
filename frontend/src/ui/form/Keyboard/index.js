@@ -161,9 +161,19 @@ function positionKeyboard(barRef, tabsRef, keyboardRef, fillerRef, active, open)
 	if (!tabsRef.current || !keyboardRef.current)
 		return
 
-	// Position the keyboard appropriately.
+	// Get keyboard heights.
 	const tabHeight = tabsRef.current.offsetHeight
 	const keyboardHeight = keyboardRef.current.offsetHeight
+
+	// Check if the keyboard finished rendering. If not (and the height is still small) we should wait for a bit.
+	const threshold = 40
+	if (keyboardHeight < threshold) {
+		const waitTime = 10 // Milliseconds
+		setTimeout(() => positionKeyboard(barRef, tabsRef, keyboardRef, fillerRef, active, open), waitTime)
+		return
+	}
+
+	// Position the keyboard appropriately.
 	if (active) {
 		barRef.current.style.bottom = 0
 		if (open) {
