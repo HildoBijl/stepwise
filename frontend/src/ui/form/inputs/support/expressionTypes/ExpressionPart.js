@@ -1,4 +1,4 @@
-import { decimalSeparator } from 'step-wise/settings'
+import { decimalSeparator, decimalSeparatorTex } from 'step-wise/settings'
 import { isNumber } from 'step-wise/util/numbers'
 import { isLetter, removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
 import { firstOf } from 'step-wise/util/arrays'
@@ -68,9 +68,14 @@ function getLatex(data, options) {
 	latex = latex.replace(/\*/g, '\\cdot ')
 
 	// Replace a period by the default decimal separator, but only when not preceded by \left or \right or \ (a backslash itself).
-	// Prevent Latex from messing up commas.
-	const replacement = decimalSeparator === ',' ? '{,}' : decimalSeparator
-	latex = latex.replace(/(?<!(\\left)|(\\right)|(\\))[.,]/g, substr => substr.replace('.', replacement).replace(',', replacement))
+	const latexSplit = latex.split('.')
+	latex = latexSplit.map((str, index) => {
+		if (index === latexSplit.length - 1)
+			return str // Don't change the last string.
+		if (str.endsWith('\\left') || str.endsWith('\\right') || str.endsWith('\\'))
+			return `${str}.` // Add a period after this string.
+		return `${str}${decimalSeparatorTex}` // Apply the decimalSeparator.
+	}).join('')
 
 	// All done.
 	return latex

@@ -363,9 +363,9 @@ function interpretRemaining(value) {
 }
 
 // interpretString takes a string and interprets it, returning an array of elements. For instance, a2.3bc will return [a, 2.3, b, c], where the array elements are constants, variables and such. The string may not have numbers or times operators anymore.
-const regInvalidSymbols = new RegExp(`[^a-zα-ω0-9,]`, 'i')
-const regSingleDecimalSeparator = new RegExp(`(?<![0-9])${decimalSeparator}(?![0-9])`)
-const regMultipleDecimalSeparator = new RegExp(`${decimalSeparator}[0-9]*${decimalSeparator}`)
+const regInvalidSymbols = new RegExp(`[^a-zα-ω0-9.]`, 'i')
+const regSingleDecimalSeparator = new RegExp(`(([^0-9]\\.[^0-9])|(^\\.[^0-9])|([^0-9]\\.$))`) // Period without any numbers.
+const regMultipleDecimalSeparator = new RegExp(`\\.[0-9]*\\.`) // Number with two periods.
 function interpretString(str) {
 	// Check the string format.
 	const invalidSymbolMatch = str.match(regInvalidSymbols)

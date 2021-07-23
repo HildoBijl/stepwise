@@ -3,8 +3,8 @@ const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 
 // Testing code.
 const { getExpressionTypes } = require('../../../inputTypes/Expression')
-const { Constant, Variable, Sum, Product, Power, Ln, Fraction, Sqrt, Root, Log, Sin, Cos, Asin } = getExpressionTypes()
-const { interpretExpression } = require('../../../inputTypes/Expression/interpreter')
+// const { Constant, Variable, Sum, Product, Power, Ln, Fraction, Sqrt, Root, Log, Sin, Cos, Asin } = getExpressionTypes()
+// const { interpretExpression } = require('../../../inputTypes/Expression/interpreter')
 
 // const a = new Constant(-5)
 // const b = a.multiplyBy(4)

@@ -348,7 +348,7 @@ export default function Input(props) {
 function useKeyProcessing(processKeyPress, apply = true) {
 	const submit = useSubmitAction()
 	const keyDownHandler = useCallback(evt => {
-		preventDefaultOnKeys(evt, ['Backspace', 'Home', 'End', 'ArrowUp', 'ArrowDown'])
+		preventDefaultOnKeys(evt, ['Backspace', 'Home', 'End', 'ArrowUp', 'ArrowDown', '/']) // Prevent browser-back-behavior, automatic scrolling on keys, and the Firefox quick-search button.
 		submitOnEnter(evt, submit)
 		const keyInfo = { evt, key: evt.key, shift: evt.shiftKey || false, ctrl: evt.ctrlKey || false, alt: evt.altKey || false }
 		processKeyPress(keyInfo)

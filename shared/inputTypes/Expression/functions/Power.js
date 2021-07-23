@@ -35,10 +35,8 @@ class Power extends Parent {
 		if (this.base.requiresBracketsFor(Expression.bracketLevels.powers))
 			baseTex = `\\left(${baseTex}\\right)`
 
-		// Add the exponent.
+		// Add the exponent. It never requires a bracket, because it's a superscript.
 		let exponentTex = this.exponent.tex
-		if (this.exponent.requiresBracketsFor(Expression.bracketLevels.powers))
-			exponentTex = `\\left(${exponentTex}\\right)`
 
 		// Put them together.
 		return this.addFactorToTex(`${baseTex}^{${exponentTex}}`)
