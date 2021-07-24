@@ -29,4 +29,5 @@ class Tan extends Parent {
 	}
 }
 Tan.defaultSO = Parent.defaultSO
+Tan.type = 'Tan'
 module.exports = Tan

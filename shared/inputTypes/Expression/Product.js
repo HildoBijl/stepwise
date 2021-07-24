@@ -231,4 +231,5 @@ class Product extends Parent {
 	// }
 }
 Product.defaultSO = Parent.defaultSO
+Product.type = 'Product'
 module.exports = Product

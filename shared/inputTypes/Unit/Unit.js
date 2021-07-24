@@ -243,7 +243,7 @@ class Unit {
 	equals(x, options = {}) {
 		// If constructors don't match, no comparison is possible.
 		if (this.constructor !== x.constructor)
-			throw new Error(`Invalid comparison: cannot compare an object of type "${this.constructor.name || 'unknown'}" with an object of type "${x.constructor.name || 'unknown'}".`)
+			throw new Error(`Invalid comparison: cannot compare an object of type "${this.type || 'unknown'}" with an object of type "${x.type || 'unknown'}".`)
 
 		// Fill out any missing options with defaults.
 		options = processOptions(options, Unit.defaultEqualityOptions)

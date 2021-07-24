@@ -23,6 +23,15 @@ class Arccos extends Parent {
 			denominator: new Sqrt(inner), // sqrt(1 - arg^2).
 		})
 	}
+
+	simplifyBasic(options) {
+		let { factor, argument } = this.simplifyChildren(options)
+
+		// ToDo
+
+		return new Arccos({ factor, argument })
+	}
 }
 Arccos.defaultSO = Parent.defaultSO
+Arccos.type = 'Arccos'
 module.exports = Arccos

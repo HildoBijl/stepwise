@@ -15,6 +15,15 @@ class Arctan extends Parent {
 			denominator: new Sum([1, new Power(this.argument, 2)]), // 1 + arg^2.
 		})
 	}
+
+	simplifyBasic(options) {
+		let { factor, argument } = this.simplifyChildren(options)
+
+		// ToDo
+
+		return new Arctan({ factor, argument })
+	}
 }
 Arctan.defaultSO = Parent.defaultSO
+Arctan.type = 'Arctan'
 module.exports = Arctan

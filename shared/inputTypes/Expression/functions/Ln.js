@@ -14,7 +14,16 @@ class Ln extends Parent {
 			denominator: arg, // Take 1/argument according to the derivative of ln(x).
 		})
 	}
+
+	simplifyBasic(options) {
+		let { factor, argument } = this.simplifyChildren(options)
+
+		// ToDo
+
+		return new Ln({ factor, argument })
+	}
 }
 Ln.defaultSO = Parent.defaultSO
 Ln.args = Parent.args
+Ln.type = 'Ln'
 module.exports = Ln

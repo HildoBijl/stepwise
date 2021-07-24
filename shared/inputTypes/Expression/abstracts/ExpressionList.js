@@ -35,7 +35,7 @@ class ExpressionList extends Parent {
 		SO = this.checkAndRemoveType(SO)
 		SO = processOptions(SO, defaultSO)
 		if (!Array.isArray(SO.terms))
-			throw new Error(`Invalid terms list: tried to create a ${this.constructor.name}, but the terms parameter was not an array. Its value was "${terms}".`)
+			throw new Error(`Invalid terms list: tried to create a ${this.constructor.type}, but the terms parameter was not an array. Its value was "${terms}".`)
 		const terms = SO.terms.map(ensureFO)
 
 		// Handle parent input.

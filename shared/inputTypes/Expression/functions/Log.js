@@ -32,4 +32,5 @@ class Log extends Parent {
 }
 Log.defaultSO = Parent.getDefaultSO(args)
 Log.args = args
+Log.type = 'Log'
 module.exports = Log

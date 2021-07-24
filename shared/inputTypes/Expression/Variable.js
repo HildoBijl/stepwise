@@ -154,6 +154,7 @@ class Variable extends Parent {
 	}
 }
 Variable.defaultSO = defaultSO
+Variable.type = 'Variable'
 module.exports = Variable
 
 Variable.e = new Variable('e')

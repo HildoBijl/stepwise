@@ -17,7 +17,16 @@ class Sqrt extends Parent {
 			denominator: new Sqrt(this.argument).multiplyBy(2), // Put the sqrt in the denominator. Multiply by 2 because of the square root derivative rule.
 		})
 	}
+
+	simplifyBasic(options) {
+		let { factor, argument } = this.simplifyChildren(options)
+
+		// ToDo
+
+		return new Sqrt({ factor, argument })
+	}
 }
 Sqrt.defaultSO = Sqrt.defaultSO
 Sqrt.args = Sqrt.args
+Sqrt.type = 'Sqrt'
 module.exports = Sqrt

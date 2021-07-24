@@ -32,4 +32,5 @@ class Root extends Parent {
 }
 Root.defaultSO = Parent.getDefaultSO(args)
 Root.args = args
+Root.type = 'Root'
 module.exports = Root

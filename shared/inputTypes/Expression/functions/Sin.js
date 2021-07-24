@@ -15,7 +15,7 @@ class Sin extends Parent {
 		).multiplyBy(this.factor)
 	}
 
-	simplifyBasic() {
+	simplifyBasic(options) {
 		let { factor, argument } = this.simplifyChildren(options)
 
 		// Check for basic reductions.
@@ -30,4 +30,5 @@ class Sin extends Parent {
 	}
 }
 Sin.defaultSO = Parent.defaultSO
+Sin.type = 'Sin'
 module.exports = Sin

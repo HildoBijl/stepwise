@@ -66,6 +66,7 @@ class Constant extends Parent {
 	}
 }
 Constant.defaultSO = defaultSO
+Constant.type = 'Constant'
 module.exports = Constant
 
 Constant.zero = new Constant(0)

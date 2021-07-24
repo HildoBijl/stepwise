@@ -177,4 +177,5 @@ class Power extends Parent {
 }
 Power.defaultSO = Parent.getDefaultSO(args)
 Power.args = args
+Power.type = 'Power'
 module.exports = Power

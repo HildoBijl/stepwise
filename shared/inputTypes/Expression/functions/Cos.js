@@ -13,6 +13,15 @@ class Cos extends Parent {
 			this.argument.getDerivative(variable), // Apply the chain rule.
 		).multiplyBy(-this.factor) // Include a minus here.
 	}
+
+	simplifyBasic(options) {
+		let { factor, argument } = this.simplifyChildren(options)
+
+		// ToDo
+
+		return new Cos({ factor, argument })
+	}
 }
 Cos.defaultSO = Parent.defaultSO
+Cos.type = 'Cos'
 module.exports = Cos

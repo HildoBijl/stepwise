@@ -277,4 +277,5 @@ class Sum extends Parent {
 	// }
 }
 Sum.defaultSO = Parent.defaultSO
+Sum.type = 'Sum'
 module.exports = Sum

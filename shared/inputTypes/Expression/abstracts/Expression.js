@@ -57,11 +57,15 @@ class Expression {
 		if (this.constructor === Expression)
 			throw new TypeError(`Abstract class "Expression" may not be instantiated directly.`)
 
+		// Every class must have a type property too.
+		if (!this.constructor.type)
+			throw new Error(`Child classes of the Expression class must have a static type property. The "${this.constructor.name}" class does not have one.`)
+
 		// Certain methods must be implemented in child classes.
 		const methods = ['clone', 'become', 'toString', 'requiresBracketsFor', 'toTex', 'dependsOn', 'getVariableStrings', 'substitute', 'isNumeric', 'toNumber', 'getDerivativeBasic', 'simplifyBasic', 'equals']
 		methods.forEach(method => {
 			if (this[method] === undefined || this[method] === Object.prototype[method]) // The Object object has some default methods, and those are not acceptable either.
-				throw new Error(`Child classes of the Expression class must implement the "${method}" method. The "${this.constructor.name}" class doesn't seem to have done so.`)
+				throw new Error(`Child classes of the Expression class must implement the "${method}" method. The "${this.constructor.type}" class doesn't seem to have done so.`)
 		})
 
 		// Become the given SO.
@@ -82,8 +86,8 @@ class Expression {
 			return SO
 
 		// There is a type. Check it.
-		if (SO.type !== this.constructor.name)
-			throw new Error(`Invalid Expression creation: tried to create an Expression of type "${this.constructor.name}" but the given Storage Object has type "${SO.type}".`)
+		if (SO.type !== this.type)
+			throw new Error(`Invalid Expression creation: tried to create an Expression of type "${this.constructor.type}" but the given Storage Object has type "${SO.type}".`)
 
 		// Clone the SO (shallowly) to not change the original and remove the type.
 		SO = { ...SO }
@@ -123,7 +127,7 @@ class Expression {
 
 	// type returns the type of an expression. This is the name of the constructor.
 	get type() {
-		return this.constructor.name
+		return this.constructor.type
 	}
 
 	// isType(type) checks if the given object is of the given type. The type given can be either a string like "Product" or a constructor Product. It may not be a product itself: use someProduct.type then for comparison.

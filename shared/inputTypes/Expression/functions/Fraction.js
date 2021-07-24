@@ -75,4 +75,5 @@ class Fraction extends Parent {
 }
 Fraction.defaultSO = Parent.getDefaultSO(args)
 Fraction.args = args
+Fraction.type = 'Fraction'
 module.exports = Fraction
