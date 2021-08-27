@@ -8,6 +8,10 @@ const apiAddress = process.env.REACT_APP_API_ADDRESS
 const logOutAddress = `${apiAddress}/auth/logout`
 export { apiAddress, logOutAddress }
 
+// Google Login settings.
+const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID
+export { googleClientId }
+
 // Cookie settings.
 const cookieApprovalName = 'cookieApproval'
 export { cookieApprovalName }
