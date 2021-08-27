@@ -3,5 +3,6 @@ COPY --from=shared_build /app /shared
 WORKDIR /app
 COPY . .
 ARG REACT_APP_API_ADDRESS
+ARG REACT_APP_GOOGLE_CLIENT_ID
 RUN npm ci --quiet
 RUN npm run build
