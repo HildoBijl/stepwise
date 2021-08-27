@@ -26,7 +26,7 @@ describe('startExercise', () => {
 
 	it('creates a skill when none exists yet', async () => {
 		const client = await createClient(seed)
-		await client.login(SPECIAL_USER_SURFSUB)
+		await client.loginSurfConext(SPECIAL_USER_SURFSUB)
 
 		// First the skill should not exist.
 		const { data: { skill: skillBefore }, errors: skillBeforeErrors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId}}` })
@@ -53,7 +53,7 @@ describe('startExercise', () => {
 
 	it('gives an error when there already is an active exercise', async () => {
 		const client = await createClient(seed)
-		await client.login(SPECIAL_USER_SURFSUB)
+		await client.loginSurfConext(SPECIAL_USER_SURFSUB)
 
 		// The first exercise we start should be fine.
 		const { data: { startExercise: exercise }, errors: errorsBefore } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id}}` })

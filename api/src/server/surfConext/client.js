@@ -13,6 +13,10 @@ class Client {
 		this._clientExpiresAt = new Date()
 	}
 
+	/**
+	 * Generate the SurfConext URL that we send the user to.
+	 * @param sessionId The current session id of the (anonymous) user.
+	 */
 	async authorizationUrl(sessionId) {
 		try {
 			const client = await this._instance()
@@ -26,6 +30,15 @@ class Client {
 		}
 	}
 
+	/**
+	 * Verifies the callback request from SurfConext, after the user has
+	 * logged in there.
+	 * If the verification was successful, it returns the raw user information
+	 * from SurfConext. Otherwise it returns null, which means the user is not
+	 * authenticated.
+	 * @param params URL query parameters as given from SurfConext Portal.
+	 * @param sessionId The session ID with which the user had initiated the flow.
+	 */
 	async getData(params, sessionId) {
 		try {
 			const client = await this._instance()
@@ -42,6 +55,10 @@ class Client {
 		}
 	}
 
+	/**
+	 * Returns an instance of the client. This is automatically refreshed
+	 * after 24h, because of occasional certificate rotation.
+	 */
 	async _instance() {
 		if (!this._maybeClient || this._clientExpiresAt < new Date()) {
 			try {
