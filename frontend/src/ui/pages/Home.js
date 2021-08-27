@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
+import { useHistory, useLocation } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 import cookies from 'ui/cookies'
 import { notSelectable } from 'ui/theme'
@@ -223,6 +225,7 @@ export default function Home() {
 							<li className="item">De app houdt bij waar je moeite mee hebt.</li>
 							<li className="item">Je krijgt op jouw niveau nieuwe opgaven.</li>
 						</ol>
+						<LoginError />
 						<div className="login" onClick={verifyCookies}><img src={HUlogo} className="logo" alt="HU logo" width="606" height="525" /> Log in om te beginnen</div>
 					</div>
 				</div>
@@ -231,5 +234,35 @@ export default function Home() {
 				<Helmet><title>{websiteName} | {websiteNameAddendum}</title></Helmet>
 			</> : null}
 		</Container>
+	)
+}
+
+const errorCode2Message = {
+	INVALID_AUTHENTICATION: "Authentication was not successful, please try a different account.",
+	INTERNAL_ERROR: "Something went wrong, please try again or come back later.",
+}
+
+function LoginError() {
+	const [errorMessage, setErrorMessage] = useState('')
+	const location = useLocation()
+	const history = useHistory()
+
+	useEffect(() => {
+		const queryParams = new URLSearchParams(location.search)
+		if (queryParams.has('error')) {
+			const code = queryParams.get('error')
+			setErrorMessage(errorCode2Message[code] || "Unknown Error :-(")
+			queryParams.delete('error')
+			history.replace({
+				search: queryParams.toString(),
+			})
+		}
+	}, [location, history])
+
+	return errorMessage && (
+		<Alert severity="error">
+        	<AlertTitle>Login Failed!</AlertTitle>
+			{errorMessage}
+		</Alert>
 	)
 }
