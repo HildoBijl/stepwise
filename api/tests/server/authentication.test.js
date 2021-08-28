@@ -132,7 +132,7 @@ describe('Authentication', () => {
 			name: null,
 			givenName: null,
 			familyName: null,
-			email: null,
+			email: 'foo@example.org',
 			role: 'student',
 		})
 	})
