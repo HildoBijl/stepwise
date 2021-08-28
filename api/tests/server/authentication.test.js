@@ -8,6 +8,8 @@ const seed = async db => {
 	const user = await db.User.create({
 		id: SPECIAL_USER_ID,
 		name: 'Step Wise',
+		givenName: 'Step',
+		familyName: 'Wise',
 		email: 'step@wise.com'
 	})
 	await user.createSurfConextProfile({
@@ -15,12 +17,12 @@ const seed = async db => {
 	})
 }
 
-describe('Authentication', () => {
+describe('Authentication: Session Handling', () => {
 	it('there is no active session without logging in', async () => {
 		const client = await createClient(seed)
 
 		await expect(
-			client.graphql({ query: `{me {email}}` }).then(({ data }) => data.me)
+			client.graphql({query: `{me {email}}`}).then(({data}) => data.me)
 		).resolves.toEqual(null)
 	})
 
@@ -28,11 +30,11 @@ describe('Authentication', () => {
 		const client = await createClient(seed)
 
 		await expect(
-			client.login(SPECIAL_USER_SURFSUB)
+			client.loginSurfConext(SPECIAL_USER_SURFSUB)
 		).resolves.toEqual(defaultConfig.homepageUrl)
 
 		await expect(
-			client.graphql({ query: `{me {id name email}}` }).then(({ data }) => data.me)
+			client.graphql({query: `{me {id name email}}`}).then(({data}) => data.me)
 		).resolves.toEqual({
 			id: SPECIAL_USER_ID,
 			name: 'Step Wise',
@@ -44,28 +46,13 @@ describe('Authentication', () => {
 		).resolves.toEqual(defaultConfig.homepageUrl)
 
 		await expect(
-			client.graphql({ query: `{me {email}}` }).then(({ data }) => data.me)
+			client.graphql({query: `{me {email}}`}).then(({data}) => data.me)
 		).resolves.toEqual(null)
 	})
+})
 
-	it('doesn’t login users with invalid credentials', async () => {
-		const client = await createClient(seed)
-
-		// This id is not whitelisted in the SurfConext mock data, therefore the authentication will fail.
-		const INVALID_DEV_LOGIN_ID = 'ffffffff-ffff-ffff-ffff-123456789012'
-
-		await expect(
-			client.login(INVALID_DEV_LOGIN_ID)
-		).resolves.toEqual(
-			expect.stringContaining('error=INVALID_AUTHENTICATION')
-		)
-
-		await expect(
-			client.graphql({ query: `{me {email}}` }).then(({ data }) => data.me)
-		).resolves.toEqual(null)
-	})
-
-	it('Updates the user information on every login', async () => {
+describe('Authentication: SurfConext', () => {
+	it('Updates all user information on every login', async () => {
 		const client = await createClient(async db => {
 			const user = await db.User.create({
 				id: SPECIAL_USER_ID,
@@ -80,13 +67,13 @@ describe('Authentication', () => {
 		})
 
 		await expect(
-			client.login(SPECIAL_USER_SURFSUB)
+			client.loginSurfConext(SPECIAL_USER_SURFSUB)
 		).resolves.toEqual(defaultConfig.homepageUrl)
 
 		await expect(
 			client.graphql({
 				query: `{me {id name givenName familyName email role}}`
-			}).then(({ data }) => data.me)
+			}).then(({data}) => data.me)
 		).resolves.toEqual({
 			id: SPECIAL_USER_ID,
 			name: 'Step Wise',
@@ -101,13 +88,13 @@ describe('Authentication', () => {
 		const client = await createClient()
 
 		await expect(
-			client.login('2222222222222222222222222222222222222222')
+			client.loginSurfConext('2222222222222222222222222222222222222222')
 		).resolves.toEqual(defaultConfig.homepageUrl)
 
 		await expect(
 			client.graphql({
 				query: `{me {name givenName familyName email role}}`
-			}).then(({ data }) => data.me)
+			}).then(({data}) => data.me)
 		).resolves.toEqual({
 			name: 'Prof. Richard Feynman',
 			givenName: 'Richard',
@@ -121,22 +108,163 @@ describe('Authentication', () => {
 		const client = await createClient()
 
 		await expect(
-			client.login('1111111111111111111111111111111111111111')
+			client.loginSurfConext('1111111111111111111111111111111111111111')
 		).resolves.toEqual(defaultConfig.homepageUrl)
 
 		await expect(
 			client.graphql({
 				query: `{me {name givenName familyName email role}}`
-			}).then(({ data }) => data.me)
+			}).then(({data}) => data.me)
 		).resolves.toEqual({
 			name: null,
 			givenName: null,
 			familyName: null,
-			email: null,
+			email: 'foo@example.org',
 			role: 'student',
 		})
 	})
 
+	it('doesn’t login users with invalid credentials', async () => {
+		const client = await createClient(seed)
+
+		// This id is not whitelisted in the SurfConext mock data, therefore the authentication will fail.
+		const INVALID_DEV_LOGIN_ID = 'ffffffff-ffff-ffff-ffff-123456789012'
+
+		await expect(
+			client.loginSurfConext(INVALID_DEV_LOGIN_ID)
+		).resolves.toEqual(
+			expect.stringContaining('error=INVALID_AUTHENTICATION')
+		)
+
+		await expect(
+			client.graphql({query: `{me {email}}`}).then(({data}) => data.me)
+		).resolves.toEqual(null)
+	})
+
+	it('falls back to looking for the email address if it cannot find a SurfConext profile', async () => {
+		const client = await createClient(async db => {
+			// Seed user, but no associated SurfConext profile.
+			await db.User.create({
+				id: SPECIAL_USER_ID,
+				name: 'Steppy Wisey',
+				firstName: 'Steppy',
+				givenName: 'Wisey',
+				email: 'step@wise.com',
+			})
+		})
+
+		await expect(
+			client.loginSurfConext(SPECIAL_USER_SURFSUB)
+		).resolves.toEqual(defaultConfig.homepageUrl)
+
+		await expect(
+			client.graphql({
+				query: `{me {name givenName familyName email role}}`
+			}).then(({data}) => data.me)
+		).resolves.toEqual({
+			name: 'Step Wise',
+			givenName: 'Step',
+			familyName: 'Wise',
+			email: 'step@wise.com',
+			role: 'student',
+		})
+	})
+})
+
+describe('Authentication: Google', () => {
+	it('creates a new user when they log in via Google and their email is unknown', async () => {
+		const client = await createClient(seed)
+
+		await expect(
+			client.loginGoogle('00112233445566778899')
+		).resolves.toEqual(defaultConfig.homepageUrl)
+
+		await expect(
+			client.graphql({
+				query: `{me {name givenName familyName email role}}`
+			}).then(({data}) => data.me)
+		).resolves.toEqual({
+			name: 'Larry Page',
+			givenName: 'Larry',
+			familyName: 'Page',
+			email: 'larry@google.com',
+			role: 'student',
+		})
+	})
+
+	it('does not overwrite SurfConext data when logging in via Google', async () => {
+		const client = await createClient(seed)
+
+		await expect(
+			client.loginGoogle('99990000555500001111')
+		).resolves.toEqual(defaultConfig.homepageUrl)
+
+		await expect(
+			client.graphql({
+				query: `{me {name givenName familyName email role}}`
+			}).then(({data}) => data.me)
+		).resolves.toEqual({
+			name: 'Step Wise',
+			givenName: 'Step',
+			familyName: 'Wise',
+			email: 'step@wise.com',
+			role: 'student',
+		})
+	})
+
+	it('updates data when logging in via SurfConext after having logged in via Google', async () => {
+		const client = await createClient()
+
+		await expect(
+			client.loginGoogle('99990000555500001111')
+		).resolves.toEqual(defaultConfig.homepageUrl)
+
+		await expect(
+			client.graphql({
+				query: `{me {email}}`
+			}).then(({data}) => data.me)
+		).resolves.toEqual({
+			email: 'step@wise.com',
+		})
+
+		await client.logout()
+
+		await expect(
+			client.loginSurfConext(SPECIAL_USER_SURFSUB)
+		).resolves.toEqual(defaultConfig.homepageUrl)
+
+		await expect(
+			client.graphql({
+				query: `{me {name givenName familyName email role}}`
+			}).then(({data}) => data.me)
+		).resolves.toEqual({
+			name: 'Step Wise',
+			givenName: 'Step',
+			familyName: 'Wise',
+			email: 'step@wise.com',
+			role: 'student',
+		})
+	})
+
+	it('doesn’t login users with invalid credentials', async () => {
+		const client = await createClient(seed)
+
+		// This id is not whitelisted in the Google mock data, therefore the authentication will fail.
+		const INVALID_DEV_LOGIN_ID = 'foobar123'
+
+		await expect(
+			client.loginGoogle(INVALID_DEV_LOGIN_ID)
+		).resolves.toEqual(
+			expect.stringContaining('error=INVALID_AUTHENTICATION')
+		)
+
+		await expect(
+			client.graphql({query: `{me {email}}`}).then(({data}) => data.me)
+		).resolves.toEqual(null)
+	})
+})
+
+describe('Authentication: Redirects', () => {
 	it('redirects users after successful login', async () => {
 		const client = await createClient()
 		const customRedirectPath = '/my/custom/redirect/route'
@@ -146,7 +274,7 @@ describe('Authentication', () => {
 		).resolves.toEqual(DIRECTORY_PATH)
 
 		await expect(
-			client.login('1111111111111111111111111111111111111111')
+			client.loginSurfConext('1111111111111111111111111111111111111111')
 		).resolves.toEqual(defaultConfig.homepageUrl + customRedirectPath)
 	})
 
@@ -159,7 +287,7 @@ describe('Authentication', () => {
 		).resolves.toEqual(DIRECTORY_PATH)
 
 		await expect(
-			client.login('1111111111111111111111111111111111111111')
+			client.loginSurfConext('1111111111111111111111111111111111111111')
 		).resolves.toEqual(defaultConfig.homepageUrl)
 	})
 })

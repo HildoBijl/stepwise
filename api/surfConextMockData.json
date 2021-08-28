@@ -19,7 +19,7 @@
 		"name": null,
 		"given_name": null,
 		"family_name": null,
-		"email": null,
+		"email": "foo@example.org",
 		"schac_home_organization": null,
 		"eduperson_affiliation": null,
 		"locale": null,
