@@ -10,7 +10,7 @@ const seed = async db => {
 	const student = await db.User.create({
 		id: STUDENT_ID,
 		name: 'Student',
-		email: 'student@wise.com',
+		email: 'foo@example.org',
 	})
 	await student.createSurfConextProfile({
 		id: STUDENT_SURFSUB,
@@ -139,7 +139,7 @@ describe('shutdown account', () => {
 		await client.login(STUDENT_SURFSUB)
 
 		const { data: shutdownData, errors: shutdownErrors } = await client.graphql(
-			{ query: `mutation {shutdownAccount(confirmEmail: "student@wise.com")}` }
+			{ query: `mutation {shutdownAccount(confirmEmail: "foo@example.org")}` }
 		)
 		expect(shutdownErrors).toBeUndefined()
 		expect(shutdownData).toMatchObject({ shutdownAccount: STUDENT_ID })
@@ -155,7 +155,7 @@ describe('shutdown account', () => {
 		const client = await createClient(seed)
 
 		const { data, errors } = await client.graphql(
-			{ query: `mutation {shutdownAccount(confirmEmail: "student@wise.com")}` }
+			{ query: `mutation {shutdownAccount(confirmEmail: "foo@example.org")}` }
 		)
 		expect(errors).not.toBeUndefined()
 		expect(data).toBeNull()
