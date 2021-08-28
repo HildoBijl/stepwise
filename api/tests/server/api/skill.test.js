@@ -42,7 +42,7 @@ describe('skill', () => {
 
 	it('throws an error when no skill is given (bad request)', async () => {
 		const client = await createClient(seed)
-		await client.login(STUDENT_SURFSUB)
+		await client.loginSurfConext(STUDENT_SURFSUB)
 
 		expect(() => client.graphql({ query: `{skill {id skillId}}` }))
 			.rejects
@@ -51,7 +51,7 @@ describe('skill', () => {
 
 	it('gives an error when a non-existing skill is given (bad request)', async () => {
 		const client = await createClient(seed)
-		await client.login(STUDENT_SURFSUB)
+		await client.loginSurfConext(STUDENT_SURFSUB)
 
 		const { data, errors } = await client.graphql({ query: `{skill(skillId: "${NONEXISTING_SKILL}") {id skillId}}` })
 		expect(data).toStrictEqual({ skill: null })
@@ -60,7 +60,7 @@ describe('skill', () => {
 
 	it('gives skill data when an appropriate query is given', async () => {
 		const client = await createClient(seed)
-		await client.login(STUDENT_SURFSUB)
+		await client.loginSurfConext(STUDENT_SURFSUB)
 
 		const { data: { skill }, errors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId}}` })
 		expect(errors).toBeUndefined()
@@ -69,7 +69,7 @@ describe('skill', () => {
 
 	it('gives an error when a student accesses other people\'s skills', async () => {
 		const client = await createClient(seed)
-		await client.login(STUDENT_SURFSUB)
+		await client.loginSurfConext(STUDENT_SURFSUB)
 
 		const { data, errors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}", userId: "${ADMIN_ID}") {id skillId}}` })
 		expect(data).toStrictEqual({ skill: null })
@@ -78,7 +78,7 @@ describe('skill', () => {
 
 	it('gives an error when an admin uses a non-existing userId', async () => {
 		const client = await createClient(seed)
-		await client.login(ADMIN_SURFSUB)
+		await client.loginSurfConext(ADMIN_SURFSUB)
 
 		const { data, errors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}", userId: "${NONEXISTING_SURFSUB}") {id skillId}}` })
 		expect(data).toStrictEqual({ skill: null })
@@ -87,7 +87,7 @@ describe('skill', () => {
 
 	it('gives admins access to skill data of other users', async () => {
 		const client = await createClient(seed)
-		await client.login(ADMIN_SURFSUB)
+		await client.loginSurfConext(ADMIN_SURFSUB)
 
 		const { data: { skill }, errors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}", userId: "${STUDENT_ID}") {id skillId}}` })
 		expect(errors).toBeUndefined()
