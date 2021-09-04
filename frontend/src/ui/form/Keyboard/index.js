@@ -59,7 +59,14 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function Keyboard({ settings, keyFunction }, ref) {
-	const [open, setOpen] = useState(true)
+	// When the keyboard is opened or closed, remember this in local storage.
+	const [open, setOpen] = useState(!localStorage || localStorage.getItem('keyboardStatus') !== 'closed')
+	const setAndStoreOpen = useCallback((open) => {
+		if (localStorage)
+			localStorage.setItem('keyboardStatus', open ? 'open' : 'closed')
+		setOpen(open)
+	}, [setOpen])
+
 	let [chosenTab, setChosenTab] = useState()
 	const previousSettings = usePrevious(settings)
 	const active = !!settings
@@ -86,6 +93,7 @@ function Keyboard({ settings, keyFunction }, ref) {
 			setChosenTab(tab)
 		},
 	}))
+
 
 	// When a different tab is requested by the input field, make sure to show it.
 	const requestedTab = settings && settings.tab
@@ -116,7 +124,7 @@ function Keyboard({ settings, keyFunction }, ref) {
 	// Set up an activation handler.
 	const activate = (tab) => {
 		setChosenTab(tab)
-		setOpen(true)
+		setAndStoreOpen(true)
 	}
 
 	// Position the keyboard properly.
@@ -138,7 +146,7 @@ function Keyboard({ settings, keyFunction }, ref) {
 								{keyboards[tab].tab}
 							</Tab>
 						))}
-						<Tab onClick={() => setOpen(!open)}>
+						<Tab onClick={() => setAndStoreOpen(!open)}>
 							<KeyboardIcon />
 							<Arrow className='keyboardArrow' />
 						</Tab>
