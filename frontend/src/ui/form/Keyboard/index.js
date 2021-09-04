@@ -156,6 +156,7 @@ function Keyboard({ settings, keyFunction }, ref) {
 }
 export default forwardRef(Keyboard)
 
+let positionKeyboardTimeout
 function positionKeyboard(barRef, tabsRef, keyboardRef, fillerRef, active, open) {
 	// If they keyboard has been unmounted, do nothing.
 	if (!tabsRef.current || !keyboardRef.current)
@@ -167,9 +168,10 @@ function positionKeyboard(barRef, tabsRef, keyboardRef, fillerRef, active, open)
 
 	// Check if the keyboard finished rendering. If not (and the height is still small) we should wait for a bit.
 	const threshold = 40
+	clearTimeout(positionKeyboardTimeout) // Prevent an older setting from applying.
 	if (keyboardHeight < threshold) {
 		const waitTime = 10 // Milliseconds
-		setTimeout(() => positionKeyboard(barRef, tabsRef, keyboardRef, fillerRef, active, open), waitTime)
+		positionKeyboardTimeout = setTimeout(() => positionKeyboard(barRef, tabsRef, keyboardRef, fillerRef, active, open), waitTime)
 		return
 	}
 

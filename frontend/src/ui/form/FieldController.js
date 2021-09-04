@@ -155,7 +155,7 @@ const defaultFieldControlOptions = {
 	apply: true, // By setting this to false, the field is unregistered. This allows you to unregister fields without needing a conditional hook.
 	useTabbing: true, // Should this object be part of the tabbing order?
 	manualIndex: 0, // This index is used to sort the elements for the tabbing. On a tie in the manual index the order on the page will be used.
-	autofocus: false, // When true, uts the focus on this field when it mounts. Make sure to only apply this for one input field, or the last-rendered-object gets the focus, which is usually quite arbitrary.
+	autofocus: false, // When true, puts the focus on this field when it mounts. Make sure to only apply this for one input field, or the last-rendered-object gets the focus, which is usually quite arbitrary.
 	focusRefOnActive: false, // When true, the ref DOM object is focused with obj.focus() whenever the field becomes active.
 	keyboard: undefined, // A keyboard object describing all the details of what keyboard should be shown when this field is active. When undefined, no keyboard is shown. For details, see the Keyboard component and its handlers.
 }
