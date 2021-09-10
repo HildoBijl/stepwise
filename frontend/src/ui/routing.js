@@ -109,6 +109,11 @@ function getRoutes(user = null) {
 		// Set up routes for regular logged-in users.
 		routes = {
 			...routes,
+			'instellingen': {
+				id: 'settings',
+				component: pages.Settings,
+				name: 'Instellingen',
+			},
 			'uitloggen': {
 				id: 'logOut',
 				component: pages.LogOut,
