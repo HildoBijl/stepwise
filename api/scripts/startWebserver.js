@@ -1,11 +1,13 @@
 require('dotenv').config()
 const { createServer } = require('../src/server')
 const { Database } = require('../src/database')
-const { createRedisStore, createSurfConext, createSequelize } = require('./init')
+const { createRedisStore, createSurfConext, createSequelize, createGoogleClient } = require('./init')
 const SurfConextMock = require('../src/server/surfConext/devmock')
 
 const surfConextClient = process.env.NODE_ENV === 'production' ?
 	createSurfConext() : new SurfConextMock.MockClient()
+
+const googleClient = createGoogleClient()
 
 const sessionStore = process.env.NODE_ENV === 'production' ?
 	createRedisStore() : SurfConextMock.createPrefilledMemoryStore()
@@ -28,6 +30,7 @@ sequelize.authenticate()
 			database,
 			sessionStore,
 			surfConextClient,
+			googleClient,
 		})
 
 		if (process.env.NODE_ENV === 'development') {

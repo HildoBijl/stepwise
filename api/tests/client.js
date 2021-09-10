@@ -2,6 +2,7 @@ const request = require('supertest')
 const { createServer } = require('../src/server')
 const { createSequelize, createUmzug } = require('../scripts/init')
 const SurfConextMock = require('../src/server/surfConext/devmock')
+const GoogleMock = require('../src/server/google/devmock')
 const { Database } = require('../src/database')
 const { clearDatabaseSchema } = require('./testutil')
 
@@ -25,6 +26,7 @@ class Client {
 			config: defaultConfig,
 			sessionStore: undefined,
 			surfConextClient: new SurfConextMock.MockClient(),
+			googleClient: new GoogleMock.MockClient(),
 		})
 		this._cookies = {}
 	}
@@ -53,11 +55,20 @@ class Client {
 		return response.headers['location']
 	}
 
-	async login(surfConextSub) {
+	async loginSurfConext(surfConextSub) {
 		const response = await request(this._server)
 			.get(`/auth/surfconext/login`)
 			.set('Cookie', [this._cookieHeader()])
 			.query({ sub: surfConextSub })
+			.expect(302)
+		this._storeCookies(response)
+		return response.headers['location']
+	}
+
+	async loginGoogle(googleSub) {
+		const response = await request(this._server)
+			.post(`/auth/google/login`)
+			.send(`credential=${googleSub}`)
 			.expect(302)
 		this._storeCookies(response)
 		return response.headers['location']

@@ -1,6 +1,7 @@
 require('dotenv').config()
 const { Sequelize } = require('sequelize')
 const SurfConext = require('../src/server/surfConext/client')
+const Google = require('../src/server/google/client')
 const session = require('express-session')
 const Redis = require('redis')
 const RedisStore = require('connect-redis')(session)
@@ -30,6 +31,8 @@ module.exports.createSurfConext = () => new SurfConext.Client(
 	process.env.SURFCONEXT_CLIENT_ID,
 	process.env.SURFCONEXT_SECRET,
 )
+
+module.exports.createGoogleClient = () => new Google.Client(process.env.GOOGLE_CLIENT_ID)
 
 module.exports.createRedisStore = () => new RedisStore({
 	client: Redis.createClient({

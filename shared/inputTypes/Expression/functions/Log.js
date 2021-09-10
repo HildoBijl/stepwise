@@ -1,4 +1,5 @@
 const Parent = require('../abstracts/FunctionMultiArgument')
+const Expression = require('../abstracts/Expression')
 const Fraction = require('./Fraction')
 const Ln = require('./Ln')
 
@@ -25,7 +26,7 @@ class Log extends Parent {
 		if (options.forDerivatives)
 			return new Fraction(new Ln(argument), new Ln(base)).multiplyBy(factor).simplifyBasic(options)
 
-		return new Log({ factor, numerator, denominator })
+		return new Log({ factor, base, argument })
 	}
 
 	// ToDo: equals.

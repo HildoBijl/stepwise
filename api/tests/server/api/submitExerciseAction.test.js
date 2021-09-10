@@ -39,7 +39,7 @@ describe('submitExerciseAction', () => {
 
 	it('gives an error when no exercise is active', async () => {
 		const client = await createClient(seed)
-		await client.login(SPECIAL_USER_SURFSUB)
+		await client.loginSurfConext(SPECIAL_USER_SURFSUB)
 
 		const { data, errors } = await client.graphql({ query: `mutation{submitExerciseAction(skillId: "${SAMPLE_SKILL}", action: ${JSONstringifyWithoutPropertyQuotes(inputAction(42))}) {updatedExercise {id}}}` })
 		expect(data).toBe(null)
@@ -48,7 +48,7 @@ describe('submitExerciseAction', () => {
 
 	it('remembers a wrong submission', async () => {
 		const client = await createClient(seed)
-		await client.login(SPECIAL_USER_SURFSUB)
+		await client.loginSurfConext(SPECIAL_USER_SURFSUB)
 
 		// Start an exercise.
 		const { data: { startExercise: exercise }, errors: startExerciseErrors } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id exerciseId state active}}` })
@@ -73,7 +73,7 @@ describe('submitExerciseAction', () => {
 
 	it('processes a correct solution so a new exercise can be started', async () => {
 		const client = await createClient(seed)
-		await client.login(SPECIAL_USER_SURFSUB)
+		await client.loginSurfConext(SPECIAL_USER_SURFSUB)
 
 		// Start an exercise.
 		const { data: { startExercise: exercise }, errors: startExerciseErrors } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id exerciseId state active}}` })
