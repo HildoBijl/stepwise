@@ -13,6 +13,11 @@ const ME = gql`
 			givenName
 			familyName
 			role
+			privacyPolicyConsent {
+				version,
+				acceptedAt,
+				isLatestVersion,
+			}
 		}
 	}
 `
