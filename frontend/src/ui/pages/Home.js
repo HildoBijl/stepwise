@@ -238,8 +238,8 @@ export default function Home() {
 }
 
 const errorCode2Message = {
-	INVALID_AUTHENTICATION: "Authentication was not successful, please try a different account.",
-	INTERNAL_ERROR: "Something went wrong, please try again or come back later.",
+	INVALID_AUTHENTICATION: "We konden niet bepalen wie je bent. Probeer indien mogelijk een andere account.",
+	INTERNAL_ERROR: "Er ging bij het inloggen iets mis achter de schermen. Probeer het later nog eens.",
 }
 
 function LoginError() {
@@ -251,7 +251,7 @@ function LoginError() {
 		const queryParams = new URLSearchParams(location.search)
 		if (queryParams.has('error')) {
 			const code = queryParams.get('error')
-			setErrorMessage(errorCode2Message[code] || "Unknown Error :-(")
+			setErrorMessage(errorCode2Message[code] || "Er ging iets mis bij het inloggen. Probeer het later nog eens.")
 			queryParams.delete('error')
 			history.replace({
 				search: queryParams.toString(),
@@ -261,7 +261,7 @@ function LoginError() {
 
 	return errorMessage && (
 		<Alert severity="error">
-        	<AlertTitle>Login Failed!</AlertTitle>
+			<AlertTitle>Niet gelukt om in te loggen</AlertTitle>
 			{errorMessage}
 		</Alert>
 	)
