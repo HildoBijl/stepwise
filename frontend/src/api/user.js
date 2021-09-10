@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react'
-import { useQuery, gql } from '@apollo/client'
+import { useMutation, useQuery, gql } from '@apollo/client'
 
 // Get the query results. It's recommended not to use this one externally but use the context results, to have a single source of truth. (GraphQL gives flaky results.)
 function useUserQuery() {
@@ -44,3 +44,15 @@ export function useIsUserDataLoaded() {
 	const res = useUserResults()
 	return !!(res && res.data)
 }
+
+// Shut down (delete) an account.
+export function useShutdownAccountMutation() {
+	const [shutdownAccount, data] = useMutation(SHUTDOWN_ACCOUNT)
+	const newShutdownAccount = (confirmEmail) => shutdownAccount({ variables: { confirmEmail } })
+	return [newShutdownAccount, data]
+}
+const SHUTDOWN_ACCOUNT = gql`
+	mutation shutdownAccount($confirmEmail: String!) {
+		shutdownAccount(confirmEmail: $confirmEmail)
+	}
+`
