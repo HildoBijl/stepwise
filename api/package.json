@@ -25,7 +25,7 @@
 		"openid-client": "^4.2.0",
 		"pg": "^8.2.1",
 		"pg-hstore": "^2.3.3",
-		"redis": "^3.0.2",
+		"redis": "^3.1.2",
 		"sequelize": "^6.3.5",
 		"step-wise": "file:../shared",
 		"umzug": "^2.3.0",
