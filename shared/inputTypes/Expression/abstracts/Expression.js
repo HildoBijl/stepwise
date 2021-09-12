@@ -47,9 +47,7 @@ const { decimalSeparatorTex } = require('../../../settings')
 const { ensureNumber } = require('../../../util/numbers')
 const { isObject, processOptions } = require('../../../util/objects')
 
-const defaultSO = {
-	factor: 1,
-}
+const defaultSO = {}
 
 class Expression {
 	constructor(SO = {}) {
@@ -57,12 +55,12 @@ class Expression {
 		if (this.constructor === Expression)
 			throw new TypeError(`Abstract class "Expression" may not be instantiated directly.`)
 
-		// Every class must have a type property too.
+		// Every class must have a type property too. [ToDo: put this in unit tests.]
 		if (!this.constructor.type)
 			throw new Error(`Child classes of the Expression class must have a static type property. The "${this.constructor.name}" class does not have one.`)
 
-		// Certain methods must be implemented in child classes.
-		const methods = ['clone', 'become', 'toString', 'requiresBracketsFor', 'toTex', 'dependsOn', 'getVariableStrings', 'substitute', 'isNumeric', 'toNumber', 'getDerivativeBasic', 'simplifyBasic', 'equals']
+		// Certain methods must be implemented in child classes. [ToDo: put this in unit tests.]
+		const methods = ['clone', 'become', 'toString', 'requiresBracketsFor', 'requiresPlusInSum', 'toTex', 'dependsOn', 'getVariableStrings', 'substituteBasic', 'isNumeric', 'toNumber', 'hasFloat', 'getDerivativeBasic', 'simplifyBasic', 'equals']
 		methods.forEach(method => {
 			if (this[method] === undefined || this[method] === Object.prototype[method]) // The Object object has some default methods, and those are not acceptable either.
 				throw new Error(`Child classes of the Expression class must implement the "${method}" method. The "${this.constructor.type}" class doesn't seem to have done so.`)
@@ -75,8 +73,10 @@ class Expression {
 	// become will turn the current object into one having the data of the SO.
 	become(SO) {
 		SO = this.checkAndRemoveType(SO)
-		SO = processOptions(SO, defaultSO)
-		this.factor = ensureNumber(SO.factor)
+		SO = processOptions(SO, this.constructor.defaultSO)
+		Object.keys(SO).forEach(key => {
+			this[key] = SO[key]
+		})
 	}
 
 	// checkAndRemoveType checks if the given SO has a type. If so, it is checked and subsequently removed. (If not, this function does nothing.) The resulting SO is returned.
@@ -151,6 +151,11 @@ class Expression {
 		return true
 	}
 
+	// requiresPlusInSum checks whether the string representation requires a plus when displayed in a sum. The number "-5" for instance does not: the minus sign is sufficient.
+	requiresPlusInSum() {
+		return true
+	}
+
 	// addFactorToString adds a factor multiplication to a string, based on the value of the factor.
 	addFactorToString(str, addBracketsOnFactor = false) {
 		if (this.factor === 1)
@@ -186,7 +191,7 @@ class Expression {
 
 	// multiplyBy will multiply this expression by the given expression. If the expression is a constant, it is pulled directly into the factor. Otherwise a product is created.
 	multiplyBy(multiplication, mergeConstants = true) {
-		const Constant = require('../Constant')
+		const Constant = require('./Constant')
 		const { ensureFO } = require('../')
 
 		// If we have a regular number, in whatever form, process it accordingly.
@@ -204,7 +209,7 @@ class Expression {
 
 	// divideBy will divide this expression by the given expression. If the expression is a constant, it is pulled directly into the factor. Otherwise a fraction is created.
 	divideBy(division, mergeConstants = true) {
-		const Constant = require('../Constant')
+		const Constant = require('./Constant')
 		const { ensureFO } = require('../')
 
 		// If we have a regular number, in whatever form, process it accordingly.
@@ -260,7 +265,7 @@ class Expression {
 	getVariables() {
 		const Variable = require('../Variable')
 		const variableStrings = this.getVariableStrings()
-		return [...variableStrings].map(str => new Variable(str)).sort(Variable.variableSort)
+		return [...variableStrings].map(str => new Variable(str)).sort(Variable.order)
 	}
 
 	get number() {
@@ -268,6 +273,23 @@ class Expression {
 		if (Math.abs(number) < Expression.epsilon)
 			return 0
 		return number
+	}
+
+	// substitute applies a substitution, replacing the given variable by the given substitution. The variable must be a variable object, while the substitution must be an instance of Expression.
+	substitute(variable, substitution) {
+		this.checkSubstitutionParameters(variable, substitution)
+		this.substituteBasic(variable, substitution)
+	}
+
+	// checkSubstitutionParameters takes parameters given for a substitution and checks if they're valid. If so, it does nothing. If not, an error is thrown.
+	checkSubstitutionParameters(variable, substitution) {
+		// Check if the variable is indeed a variable.
+		if (!(variable instanceof Variable))
+			throw new TypeError(`Invalid substitution: when substituting, the given "variable" must be a variable object. The current given variable was "${variable}".`)
+
+		// Check if the subsitution is an expression.
+		if (!(substitution instanceof Expression))
+			throw new TypeError(`Invalid substitution: when substituting, an Expression should be given to substitute with. Instead, the substitution given was "${substitution}".`)
 	}
 
 	// getDerivative returns the derivative. It includes checking the variable and simplifying the result, unlike getDerivativeBasic which doesn't check the input and only returns a derivative in any form.
@@ -291,11 +313,11 @@ class Expression {
 
 	// simplifyChildren will simplify all children an object has and return it as an object.
 	simplifyChildren(options) {
-		const result = { factor: this.factor }
+		const result = {}
 		Object.keys(this.constructor.defaultSO).forEach(key => {
 			if (Array.isArray(this[key]))
 				result[key] = this[key].map(element => element.simplifyBasic(options))
-			else if (key !== 'factor')
+			else
 				result[key] = this[key].simplifyBasic(options)
 		})
 		return result
@@ -305,9 +327,7 @@ class Expression {
 	equals(expression, options = {}) {
 		if (this.constructor !== expression.constructor)
 			return false
-		if (options.ignoreFactor === true)
-			return true
-		return this.factor === expression.factor
+		return true
 	}
 }
 Expression.defaultSO = defaultSO
@@ -328,7 +348,7 @@ Expression.bracketLevels = {
 const all = { // This is never applied, but only use to verify options given. (Some options contradict eachother.)
 	structure: false, // Simplify the structure of the object in a way that the expression itself does not seem rewritten. For instance, if there is a sum inside a sum, just turn it into one sum. Or if there is a sum of one element, just turn it into said element.
 	removeUseless: false, // Remove useless elements. For instance, a sum with "+0" or a product with "*1" will be simplified.
-	reduceFactors: false, // Reduce the number of factors that are used. If there is a product with constants, like (2*x)*(3*y)*(4*z), turn it into 24*(x*y*z). Or if there is a sum with a factor, like 2*(3*x+4*y), pull the factor into the sum, like 6*x+8*y.
+	mergeNumbers: false, // Reduce the number of numbers that are used. If there is a product with constants, like 2*x*3*y*4*z, turn it into 24*x*y*z. Or if there is a sum with numbers, like 2+3*x+4, group the numbers together, like 6+3*x.
 	expandBrackets: false, // Minimize the number of brackets needed. If there is a product of sums, expand brackets. So (a+b)*(c+d) becomes a*c+a*d+b*c+b*d. Similarly for powers. (a+b)^3 gets a binomial expansion.
 	mergeFractionProducts: false, // Merge products of fractions into a single fraction. So (a/b)*(c/d) becomes (a*c)/(b*d).
 	sortTerms: false, // Sort the terms inside expressionLists (Sum and Product) to put simpler terms first and more complex terms second.
@@ -347,7 +367,7 @@ const forDerivatives = {
 const basic = {
 	...structureOnly,
 	removeUseless: true,
-	reduceFactors: true,
+	mergeNumbers: true,
 	sortTerms: true,
 	basicReductions: true,
 }

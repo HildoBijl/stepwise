@@ -1,5 +1,5 @@
 const Parent = require('../abstracts/FunctionSingleArgument')
-const Constant = require('../Constant')
+const Integer = require('../Integer')
 const Product = require('../Product')
 
 class Sin extends Parent {
@@ -20,8 +20,8 @@ class Sin extends Parent {
 
 		// Check for basic reductions.
 		if (options.basicReductions) {
-			if (argument.equals(Constant.zero))
-				return Constant.zero
+			if (argument.equals(Integer.zero))
+				return Integer.zero
 
 			// ToDo: check for basic angles. (And same for cos and tan.)
 		}

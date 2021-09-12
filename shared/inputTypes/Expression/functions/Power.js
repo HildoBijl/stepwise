@@ -2,7 +2,7 @@ const { processOptions } = require('../../../util/objects')
 
 const Expression = require('../abstracts/Expression')
 const Parent = require('../abstracts/FunctionMultiArgument')
-const Constant = require('../Constant')
+const Constant = require('../abstracts/Constant')
 const Sum = require('../Sum')
 const Product = require('../Product')
 const Ln = require('./Ln')

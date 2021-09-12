@@ -1,7 +1,7 @@
 const { processOptions, filterOptions } = require('../../util/objects')
 
 const Expression = require('./abstracts/Expression')
-const Constant = require('./Constant')
+const Integer = require('./Integer')
 
 const regVariableFormat = /^((([a-zA-Z]*)\[([a-zA-Z0-9α-ωΑ-Ω]+)\])|([a-zA-Z0-9α-ωΑ-Ω]+))(_((.)|\[(.*)\]))?$/
 
@@ -45,7 +45,6 @@ class Variable extends Parent {
 		let result = this.symbol
 		if (this.accent)
 			result = `${this.accent}[${result}]`
-		result = this.addFactorToString(result)
 		if (this.subscript) {
 			if (this.subscript.length > 1)
 				result = `${result}_[${this.subscript}]`
@@ -59,7 +58,6 @@ class Variable extends Parent {
 		let result = this.symbol
 		if (this.accent)
 			result = `\\${this.accent}{${result}}`
-		result = this.addFactorToTex(result)
 		if (this.subscript)
 			result = `${result}_{${this.subscript}}`
 		return result
@@ -72,32 +70,25 @@ class Variable extends Parent {
 	}
 
 	dependsOn(variable) {
-		return this.equals(variable, { ignoreFactor: true })
+		return this.equals(variable)
 	}
 
 	getVariableStrings() {
 		return new Set([this.eliminateFactor().str]) // Return a set with the string representation of this variable. The string representation allows proper set comparisons, filtering out duplicates.
 	}
 
-	substitute(variable, substitution) {
-		// Check input.
-		if (!(variable instanceof Variable))
-			throw new TypeError(`Invalid substitution: when substituting, the given "variable" must be a variable object. The current given variable was "${variable}".`)
-		if (!(substitution instanceof Component))
-			throw new TypeError(`Invalid substitution: when substituting, a Component should be given to substitute with. Instead, the substitution given was "${substitution}".`)
-
-		// Check variable name and apply substitution.
-		if (!this.equals(variable, { ignoreFactor: true }))
+	substituteBasic(variable, substitution) {
+		if (!this.equals(variable))
 			return this // It's a different parameter. No change takes place.
-		return substitution.multiplyByNumber(this.factor) // Replace this parameter by a clone of the substitution, multiplied by the current parameter's factor.
+		return substitution
 	}
 
 	// isPi and isE check if this variable equals the given numbers.
 	isPi() {
-		return this.equals(Variable.pi, { ignoreFactor: true })
+		return this.equals(Variable.pi)
 	}
 	isE() {
-		return this.equals(Variable.e, { ignoreFactor: true })
+		return this.equals(Variable.e)
 	}
 
 	isNumeric() {
@@ -106,16 +97,18 @@ class Variable extends Parent {
 
 	toNumber() {
 		if (this.isPi())
-			return this.factor * Math.PI
+			return Math.PI
 		if (this.isE())
-			return this.factor * Math.E
+			return Math.E
 		throw new Error(`Invalid toNumber call: cannot turn the given expression into a number because it depends on the variable "${this.str}". Tip: check if the expression is numeric through exp.isNumeric() before asking for the number.`)
 	}
 
+	hasFloat() {
+		return false
+	}
+
 	getDerivativeBasic(variable) {
-		if (!this.equals(variable, { ignoreFactor: true }))
-			return new Constant(0) // It's a different parameter.
-		return new Constant(this.factor)
+		return this.equals(variable) ? Integer.one : Integer.zero
 	}
 
 	simplifyBasic() {
@@ -124,15 +117,15 @@ class Variable extends Parent {
 
 	// equals checks if this variable equals another variable.
 	equals(expression, options = {}) {
-		// Compare the type and factor.
-		if (!super.equals(expression, options))
+		// Check if the expression is a variable.
+		if (!(expression instanceof Variable))
 			return false
 
 		// Compare all parts.
 		return parts.every(part => this[part] === expression[part])
 	}
 
-	// interpret turns a string representation of a variable into an SO representation of a variable. (No factors are allowed in this. Only symbols, subscripts and accents. Use square brackets for accents.)
+	// interpret turns a string representation of a variable into an SO representation of a variable.
 	static interpret(str) {
 		const match = regVariableFormat.exec(str)
 		if (!match)
@@ -144,9 +137,9 @@ class Variable extends Parent {
 		}
 	}
 
-	// variableSort determines the sorting order of variables. It takes two variables and returns a value larger than zero if b must be before a.
-	static variableSort(a, b) {
-		const comparisonOrder = ['symbol', 'subscript', 'accent', 'factor']
+	// order determines the sorting order of variables. It takes two variables and returns a value larger than zero if b must be before a.
+	static order(a, b) {
+		const comparisonOrder = ['symbol', 'subscript', 'accent']
 		const firstDifferentKey = comparisonOrder.find(key => a[key] !== b[key])
 		if (firstDifferentKey)
 			return (a[firstDifferentKey] || '') < (b[firstDifferentKey] || '') ? -1 : 1

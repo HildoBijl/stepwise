@@ -4,7 +4,7 @@ const { processOptions, filterOptions } = require('../../../util/objects')
 const { union } = require('../../../util/sets')
 
 const Expression = require('./Expression')
-const Constant = require('../Constant')
+const Constant = require('./Constant')
 const Parent = Expression
 
 const { ensureFO } = require('../')

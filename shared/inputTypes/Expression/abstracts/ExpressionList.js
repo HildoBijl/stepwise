@@ -57,7 +57,7 @@ class ExpressionList extends Parent {
 		return union(...this.terms.map(term => term.getVariableStrings()))
 	}
 
-	substitute(variable, substitution) {
+	substituteBasic(variable, substitution) {
 		return new this.constructor({
 			...this.SO,
 			terms: this.terms.map(term => term.substitute(variable, substitution)),
@@ -68,11 +68,15 @@ class ExpressionList extends Parent {
 		return this.terms.every(term => term.isNumeric())
 	}
 
+	hasFloat() {
+		return this.terms.some(term => term.hasFloat())
+	}
+
 	// equals checks for equality. Note that 2*(3*x) does not equal 6*x according to this function. Always simplify expressions before checking for equality.
 	equals(expression, options = {}) {
 		// ToDo later: check if this makes sense.
 
-		// Compare the type and factor.
+		// Compare the type.
 		if (!super.equals(expression, options))
 			return false
 
