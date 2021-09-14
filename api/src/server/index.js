@@ -10,6 +10,7 @@ const configValidationSchema = Joi.object({
 	sessionSecret: Joi.string().min(20).required(),
 	sessionMaxAgeMillis: Joi.number().required(),
 	homepageUrl: Joi.string().uri().required(),
+	apiDomain: Joi.string().required(),
 	corsUrls: Joi.array().items(Joi.string().uri()),
 })
 
@@ -38,6 +39,7 @@ const createServer = ({
 			secure: config.sslEnabled,
 			sameSite: 'Lax',
 			httpOnly: true,
+			domain: config.apiDomain,
 			maxAge: config.sessionMaxAgeMillis,
 		},
 		principal: null,

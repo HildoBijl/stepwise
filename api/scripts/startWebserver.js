@@ -17,6 +17,7 @@ const config = {
 	sessionSecret: process.env.SESSION_SECRET,
 	sessionMaxAgeMillis: (process.env.SESSION_MAXAGE_HOURS || 0)*60*60*1000,
 	homepageUrl: process.env.HOMEPAGE_URL,
+	apiDomain: process.env.API_DOMAIN,
 	corsUrls: process.env.CORS_URLS ? process.env.CORS_URLS.split(';') : undefined,
 }
 
