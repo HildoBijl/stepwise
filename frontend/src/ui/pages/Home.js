@@ -9,7 +9,14 @@ import { Alert, AlertTitle } from '@material-ui/lab';
 import cookies from 'ui/cookies'
 import { notSelectable } from 'ui/theme'
 import LinkBar from 'ui/layout/LinkBar'
-import { websiteName, websiteNameAddendum, apiAddress, cookieApprovalName, googleClientId } from 'ui/settings'
+import {
+	websiteName,
+	websiteNameAddendum,
+	apiAddress,
+	cookieApprovalName,
+	googleClientId,
+	googleRedirectAddress,
+} from 'ui/settings'
 import { useModal, PictureConfirmation } from 'ui/components/Modal'
 import logo from 'ui/images/logo.svg'
 import HUlogo from 'ui/images/HU.png'
@@ -264,7 +271,7 @@ class GoogleLoginButton extends React.Component {
 				data-client_id={googleClientId}
 				data-context='signin'
 				data-ux_mode='redirect'
-				data-login_uri={`${apiAddress}/auth/google/login`}
+				data-login_uri={`${googleRedirectAddress}/auth/google/login`}
 				data-nonce=''
 				data-auto_prompt='false'>
 			</div>

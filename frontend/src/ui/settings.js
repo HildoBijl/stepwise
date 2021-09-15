@@ -10,7 +10,8 @@ export { apiAddress, logOutAddress }
 
 // Google Login settings.
 const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID
-export { googleClientId }
+const googleRedirectAddress = process.env.REACT_APP_GOOGLE_REDIRECT_ADDRESS
+export { googleClientId, googleRedirectAddress }
 
 // Cookie settings.
 const cookieApprovalName = 'cookieApproval'
