@@ -41,7 +41,7 @@ const resolvers = {
 		shutdownAccount: async (_source, { confirmEmail }, { getCurrentUser }) => {
 			const user = await getCurrentUser()
 			if (user.email !== confirmEmail) {
-				throw new Error('Email (for confirmation) does not match')
+				throw new Error('The confirmation email does not match.')
 			}
 			// The database is configured to cascade the deletion, so this
 			// will also delete all associated user data.

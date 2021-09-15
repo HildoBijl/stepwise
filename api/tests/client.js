@@ -12,6 +12,7 @@ const defaultConfig = Object.freeze({
 	sslEnabled: false,
 	sessionSecret: '12345678901234567890',
 	sessionMaxAgeMillis: 1000 * 60,
+	apiDomain: 'api.step-wise.test',
 	homepageUrl: 'http://step-wise.test',
 	corsUrls: undefined,
 })
