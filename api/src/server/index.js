@@ -10,7 +10,10 @@ const configValidationSchema = Joi.object({
 	sessionSecret: Joi.string().min(20).required(),
 	sessionMaxAgeMillis: Joi.number().required(),
 	homepageUrl: Joi.string().uri().required(),
-	apiDomain: Joi.string().domain().required(),
+	apiDomain: [
+		Joi.string().valid("localhost").required(),
+		Joi.string().domain().required(),
+	],
 	corsUrls: Joi.array().items(Joi.string().uri()),
 })
 

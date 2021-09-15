@@ -12,7 +12,7 @@ describe('config', () => {
 				sslEnabled: false,
 				sessionSecret: '12345678901234567890',
 				sessionMaxAgeMillis: 24,
-				apiDomain: 'api.example.org',
+				apiDomain: 'example.org',
 				homepageUrl: 'https://www.example.org/home',
 				corsUrls: ['https://www.example.org'],
 			}
