@@ -40,6 +40,7 @@ function Problem({ index }) {
 			// console.log('Tex: ' + res.tex)
 			// console.log('Afgeleide: ' + res.getDerivative('x').str)
 			console.log(res)
+			console.log(res.str)
 		}
 	} catch (e) {
 		probleem = 'Probleem: ' + getInterpretationErrorMessage(e)

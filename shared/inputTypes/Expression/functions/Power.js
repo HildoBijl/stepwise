@@ -3,6 +3,7 @@ const { processOptions } = require('../../../util/objects')
 const Expression = require('../abstracts/Expression')
 const Parent = require('../abstracts/FunctionMultiArgument')
 const Constant = require('../abstracts/Constant')
+const Integer = require('../Integer')
 const Sum = require('../Sum')
 const Product = require('../Product')
 const Ln = require('./Ln')
@@ -89,14 +90,14 @@ class Power extends Parent {
 		if (options.removeUseless) {
 			// If the factor is 0, turn this term into zero.
 			if (factor === 0)
-				return Constant.zero
+				return Integer.zero
 
 			// If the power is 0, become the factor.
-			if (exponent.equals(Constant.zero))
+			if (exponent.equals(Integer.zero))
 				return new Constant(factor)
 
 			// If the power is 1, become the base.
-			if (exponent.equals(Constant.one)) {
+			if (exponent.equals(Integer.one)) {
 				if (factor === 1 || base.factor === 1)
 					return base.multiplyBy(factor)
 				return new Product({ factor, terms: [base] }).simplify(options) // Create a single-element product.

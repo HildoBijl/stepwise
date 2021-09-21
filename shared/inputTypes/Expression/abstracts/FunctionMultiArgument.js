@@ -4,7 +4,7 @@ const { processOptions, filterOptions } = require('../../../util/objects')
 const { union } = require('../../../util/sets')
 
 const Expression = require('./Expression')
-const Constant = require('./Constant')
+const Integer = require('../Integer')
 const Parent = Expression
 
 const { ensureFO } = require('../')
@@ -106,7 +106,7 @@ class FunctionMultiArgument extends Parent {
 			...Parent.defaultSO,
 		}
 		args.forEach(key => {
-			defaultSO[key] = new Constant(1)
+			defaultSO[key] = Integer.one
 		})
 		return defaultSO
 	}

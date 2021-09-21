@@ -33,7 +33,7 @@ class Sum extends Parent {
 
 			// Add brackets when necessary.
 			const addBrackets = term.requiresBracketsFor(Expression.bracketLevels.addition)
-			result += addBrackets ? `(${term.tex})` : term.tex
+			result += addBrackets ? `\\left(${term.tex}\\right)` : term.tex
 		})
 		return result
 	}
@@ -75,14 +75,14 @@ class Sum extends Parent {
 
 		// Check for structure simplifications.
 		if (options.structure) {
-			// Check simple cases.
-			if (terms.length === 0)
-				return Constant.zero
-			if (terms.length === 1)
-				return terms[0]
-
 			// Flatten sums inside this sum.
 			terms = terms.map(term => term.isType(Sum) ? term.terms : term).flat()
+
+			// Check simple cases.
+			if (terms.length === 0)
+				return Integer.zero
+			if (terms.length === 1)
+				return terms[0]
 		}
 
 		// ToDo: Merge equal terms (except for a constant) together.

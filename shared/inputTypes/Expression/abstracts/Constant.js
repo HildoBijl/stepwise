@@ -74,16 +74,16 @@ class Constant extends Parent {
 			return false
 		return expression.toNumber() === this.toNumber()
 	}
+
+	static toNumber(number) {
+		if (isInt(number)) {
+			const Integer = require('../Integer')
+			return new Integer(number)
+		}
+		const Float = require('../Float')
+		return new Float(number)
+	}
 }
 Constant.defaultSO = defaultSO
 Constant.type = 'Constant'
 module.exports = Constant
-
-Constant.toNumber = (number) => {
-	if (isInt(number)) {
-		const Integer = require('../Integer')
-		return new Integer(number)
-	}
-	const Float = require('../Float')
-	return new Float(number)
-}

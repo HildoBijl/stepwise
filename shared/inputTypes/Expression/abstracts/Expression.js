@@ -60,11 +60,11 @@ class Expression {
 			throw new Error(`Child classes of the Expression class must have a static type property. The "${this.constructor.name}" class does not have one.`)
 
 		// Certain methods must be implemented in child classes. [ToDo: put this in unit tests.]
-		const methods = ['clone', 'become', 'toString', 'requiresBracketsFor', 'requiresPlusInSum', 'toTex', 'dependsOn', 'getVariableStrings', 'substituteBasic', 'isNumeric', 'toNumber', 'hasFloat', 'getDerivativeBasic', 'simplifyBasic', 'equals']
-		methods.forEach(method => {
-			if (this[method] === undefined || this[method] === Object.prototype[method]) // The Object object has some default methods, and those are not acceptable either.
-				throw new Error(`Child classes of the Expression class must implement the "${method}" method. The "${this.constructor.type}" class doesn't seem to have done so.`)
-		})
+		// const methods = ['clone', 'become', 'toString', 'requiresBracketsFor', 'requiresPlusInSum', 'toTex', 'dependsOn', 'getVariableStrings', 'substituteBasic', 'isNumeric', 'toNumber', 'hasFloat', 'getDerivativeBasic', 'simplifyBasic', 'equals']
+		// methods.forEach(method => {
+		// 	if (this[method] === undefined || this[method] === Object.prototype[method]) // The Object object has some default methods, and those are not acceptable either.
+		// 		throw new Error(`Child classes of the Expression class must implement the "${method}" method. The "${this.constructor.type}" class doesn't seem to have done so.`)
+		// })
 
 		// Become the given SO.
 		this.become(SO)
@@ -156,29 +156,6 @@ class Expression {
 		return true
 	}
 
-	// addFactorToString adds a factor multiplication to a string, based on the value of the factor.
-	addFactorToString(str, addBracketsOnFactor = false) {
-		if (this.factor === 1)
-			return str
-		if (addBracketsOnFactor)
-			str = `(${str})`
-		if (this.factor === -1)
-			return `-${str}`
-		return `${this.factor}*${str}`
-	}
-
-	// addFactorToTex adds a factor multiplication to a tex string, based on the value of the factor.
-	addFactorToTex(str, addBracketsOnFactor = false) {
-		if (this.factor === 1)
-			return str
-		if (addBracketsOnFactor)
-			str = `\\left(${str}\\right)`
-		if (this.factor === -1)
-			return `-${str}`
-		const factor = this.factor.toString().replace('.', decimalSeparatorTex)
-		return `${factor} \\cdot ${str}`
-	}
-
 	// add will add up the given expression to this expression. (As always, the original object remains unchanged.)
 	add(addition) {
 		return new Sum([this, addition]).simplify(Expression.simplifyOptions.structureOnly)
@@ -189,53 +166,34 @@ class Expression {
 		return this.add(subtraction.multiplyBy(-1))
 	}
 
-	// multiplyBy will multiply this expression by the given expression. If the expression is a constant, it is pulled directly into the factor. Otherwise a product is created.
-	multiplyBy(multiplication, mergeConstants = true) {
-		const Constant = require('./Constant')
+	// multiplyBy will multiply this expression by the given expression. It puts the given expression after the current one: a.multiply(b) = a*b. If the second argument is set to true, this is reversed: a.multiply(b, true) = b*a.
+	multiplyBy(multiplication, putAtStart = false) {
 		const { ensureFO } = require('../')
-
-		// If we have a regular number, in whatever form, process it accordingly.
 		multiplication = ensureFO(multiplication)
-		if (multiplication.isType(Constant) || !mergeConstants) {
-			const result = this.clone()
-			result.factor *= multiplication.factor
-			return result
-		}
 
-		// We have another type of expression. Set up a product.
+		// Set up the product.
 		const Product = require('../Product')
-		return new Product(multiplication, this).simplify(Expression.simplifyOptions.structureOnly)
+		return new Product(putAtStart ? [this, multiplication] : [multiplication, this]).simplify(Expression.simplifyOptions.structureOnly)
 	}
 
-	// divideBy will divide this expression by the given expression. If the expression is a constant, it is pulled directly into the factor. Otherwise a fraction is created.
-	divideBy(division, mergeConstants = true) {
-		const Constant = require('./Constant')
+	// divideBy will divide this expression by the given expression.
+	divideBy(division) {
 		const { ensureFO } = require('../')
-
-		// If we have a regular number, in whatever form, process it accordingly.
 		division = ensureFO(division)
-		if (division.isType(Constant) || !mergeConstants) {
-			const result = this.clone()
-			result.factor /= division.factor
-			return result
-		}
 
-		// We have another type of expression. Set up a fraction.
+		// Set up a fraction.
 		const Fraction = require('../functions/Fraction')
 		return new Fraction(this, division).simplify(Expression.simplifyOptions.structureOnly)
 	}
 
 	// toPower will take this object and apply the given power.
 	toPower(exponent) {
+		const { ensureFO } = require('../')
+		exponent = ensureFO(exponent)
+
+		// Set up the power.
 		const Power = require('../functions/Power')
 		return new Power(this, exponent).simplify(Expression.simplifyOptions.structureOnly)
-	}
-
-	// eliminateFactor creates a clone of this expression, but then with a factor of 1 (default).
-	eliminateFactor() {
-		const clone = this.clone()
-		clone.factor = 1
-		return clone
 	}
 
 	// verifyVariable is used by functions requiring a variable as input. It checks the given variable. If no variable is given, it tries to figure out which variable was meant.
@@ -294,10 +252,7 @@ class Expression {
 
 	// getDerivative returns the derivative. It includes checking the variable and simplifying the result, unlike getDerivativeBasic which doesn't check the input and only returns a derivative in any form.
 	getDerivative(variable) {
-		// Check the input.
 		variable = this.verifyVariable(variable)
-		if (variable.factor !== 1)
-			throw new Error(`Invalid derivative variable: the variable has a factor. Taking derivatives with respect to variables with factors is not allowed. Try using "variable.eliminateFactor()" first.`)
 
 		// Simplify the variable first. Then take the derivative and simplify that.
 		const simplified = this.simplify(Expression.simplifyOptions.basic)
@@ -323,7 +278,7 @@ class Expression {
 		return result
 	}
 
-	// equals for a general Expression only compares the type and the factor.
+	// equals for a general Expression only compares the type.
 	equals(expression, options = {}) {
 		if (this.constructor !== expression.constructor)
 			return false

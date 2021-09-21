@@ -2,7 +2,7 @@ const { isLetter, getNextSymbol } = require('../../../util/strings')
 const { lastOf } = require('../../../util/arrays')
 const { isObject } = require('../../../util/objects')
 
-const { decimalSeparator } = require('../../../settings')
+const Constant = require('../abstracts/Constant')
 
 const { getExpressionTypes } = require('../')
 const Expression = require('../abstracts/Expression')
@@ -11,7 +11,7 @@ const { getSubExpression, moveRight } = require('./support')
 const { InterpretationError } = require('./InterpretationError')
 
 const expressionTypes = getExpressionTypes()
-const { Constant, Variable, Sum, Product } = expressionTypes // Elementary elements.
+const { Integer, Float, Variable, Sum, Product } = expressionTypes // Elementary elements.
 const { Fraction, Power, Log, Sqrt, Root } = expressionTypes // Advanced functions.
 const { Ln, Sin, Cos, Tan, Arcsin, Arccos, Arctan } = expressionTypes // Basic functions.
 
@@ -80,13 +80,13 @@ function interpretExpressionValue(value, afterStep = 0) {
 	switch (afterStep) {
 		case 0:
 			return interpretBrackets(value)
-		case 1:
+		case 1: // steps.brackets
 			return interpretSums(value)
-		case 2:
+		case 2: // steps.sums
 			return interpretProducts(value)
-		case 3:
+		case 3: // steps.products
 			return interpretRemaining(value)
-		default:
+		default: // steps.remaining
 			throw new Error(`Invalid interpretExpression call: tried to interpret an expression, but the afterStep parameter was invalid. A value of "${afterStep}" was given.`)
 	}
 }
@@ -380,19 +380,19 @@ function interpretString(str) {
 	if (multipleDecimalSeparatorMatch)
 		throw new InterpretationError('MultipleDecimalSeparator', multipleDecimalSeparatorMatch[0], `Could not interpret the string "${str}".`)
 
-	// All seems fine. Interpret the string. For this, walk through the string, add every individual letter as variable and every group of digits as constant.
+	// All seems fine. Interpret the string. For this, walk through the string, add every individual letter as variable and every group of digits as constant (Integer or Float).
 	let lastLetter = -1
 	const terms = []
 	for (let i = 0; i < str.length; i++) {
 		if (isLetter(str[i])) {
 			if (lastLetter < i - 1)
-				terms.push(new Constant(str.slice(lastLetter + 1, i)))
+				terms.push(Constant.toNumber(str.slice(lastLetter + 1, i)))
 			terms.push(new Variable(str[i]))
 			lastLetter = i
 		}
 	}
 	if (lastLetter < str.length - 1)
-		terms.push(new Constant(str.slice(lastLetter + 1)))
+		terms.push(Constant.toNumber(str.slice(lastLetter + 1)))
 
 	// All done. Return the corresponding elements.
 	return terms

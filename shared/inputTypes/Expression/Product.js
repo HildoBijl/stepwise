@@ -26,7 +26,7 @@ class Product extends Parent {
 	toTex() {
 		const termToTex = (term) => {
 			if (term.requiresBracketsFor(Expression.bracketLevels.multiplication))
-				return `(${term.tex})`
+				return `\\left(${term.tex}\\right)`
 			return term.tex
 		}
 
@@ -93,7 +93,7 @@ class Product extends Parent {
 		if (options.structure) {
 			// Check basic cases.
 			if (terms.length === 0)
-				return Constant.one
+				return Integer.one
 			if (terms.length === 1)
 				return terms[0]
 
