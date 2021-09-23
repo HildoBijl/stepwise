@@ -88,6 +88,10 @@ module.exports.applyToEachParameter = applyToEachParameter
 
 // processOptions is used to process an options object given to a function. It adds the given default options and checks if no non-existing options have been given. It returns a copy.
 function processOptions(givenOptions, defaultOptions) {
+	// Check if the default options were given.
+	if (!defaultOptions || typeof defaultOptions !== 'object')
+		throw new Error(`Invalid defaultOptions: no or an invalid defaultOptions object was given.`)
+
 	// Check if the options are in the proper format.
 	if (typeof givenOptions !== 'object')
 		throw new Error(`Invalid options: the options object must be an object, but it had type "${typeof options}".`)

@@ -5,7 +5,7 @@ import { selectRandomCorrect } from 'step-wise/util/random'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
-import ExpressionInput from 'ui/form/inputs/ExpressionInput'
+import ExpressionInput, { basicMath } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/Status'
 
 // import { useExerciseData, useCorrect } from '../ExerciseContainer'
@@ -39,8 +39,8 @@ function Problem({ index }) {
 			// console.log('Vergelijking: ' + res.str)
 			// console.log('Tex: ' + res.tex)
 			// console.log('Afgeleide: ' + res.getDerivative('x').str)
-			console.log(res)
-			console.log(res.str)
+			// console.log(res)
+			// console.log(res.str)
 		}
 	} catch (e) {
 		probleem = 'Probleem: ' + getInterpretationErrorMessage(e)
@@ -51,7 +51,7 @@ function Problem({ index }) {
 		<Par>Voer een uitdrukking in die je voor je eigen cursus zou kunnen gebruiken. (Klik niet op "Controleer" want die functionaliteit is nog niet gemaakt.)</Par>
 		<InputSpace>
 			<Par>
-				<ExpressionInput id="ans" prelabel={<M>f\left(x\right)=</M>} label="Vul hier de uitdrukking in" size="s" />
+				<ExpressionInput id="ans" prelabel={<M>f\left(x\right)=</M>} label="Vul hier de uitdrukking in" size="s" allow={{ ...basicMath, divide: false }} />
 				{/* <ExpressionInput id="y" prelabel={<M>y=</M>} label="Vul hier de uitdrukking in" size="s" /> */}
 			</Par>
 			{

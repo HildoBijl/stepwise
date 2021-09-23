@@ -1,7 +1,6 @@
 const { decimalSeparator } = require('../../settings')
 
 const Constant = require('./abstracts/Constant')
-console.log(Constant)
 
 const Parent = Constant
 const defaultSO = { ...Parent.defaultSO }

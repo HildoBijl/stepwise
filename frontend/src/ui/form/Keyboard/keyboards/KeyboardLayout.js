@@ -85,6 +85,7 @@ function useButtonClickFunction(keyFunction) {
 export function simplifyKey(key) {
 	switch (key) {
 		case 'DecimalSeparator':
+		case ',':
 			return '.'
 		case 'Plus':
 			return '+'
