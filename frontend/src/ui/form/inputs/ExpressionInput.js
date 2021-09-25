@@ -5,6 +5,8 @@ import clsx from 'clsx'
 import { selectRandomEmpty } from 'step-wise/util/random'
 import { deepEquals, processOptions } from 'step-wise/util/objects'
 import { getEmpty, isEmpty } from 'step-wise/inputTypes/Expression'
+import { interpretExpressionValue } from 'step-wise/inputTypes/Expression/interpreter'
+import { getInterpretationErrorMessage } from 'step-wise/inputTypes/Expression/interpreter/InterpretationError'
 
 import { useRefWithValue } from 'util/react'
 
@@ -26,7 +28,7 @@ export { style }
 
 const defaultProps = {
 	placeholder: 'Uitdrukking',
-	validate: nonEmpty,
+	validate: nonEmptyAndValid,
 	initialData: getEmptyData(),
 	isEmpty: data => isEmpty(data.value),
 	JSXObject: MathWithCursor,
@@ -37,10 +39,10 @@ const defaultProps = {
 	isCursorAtEnd: Expression.isCursorAtEnd,
 	autoResize: true, // Resize the field height to the height of the contents (the equation).
 	heightDelta: -10, // Equations always have some margin, and we want less for the input field.
-	allow: {}, // The settings object specifying what is allowed. By default: everything.
+	settings: {}, // The settings object specifying what is allowed.
 }
 
-const defaultAllow = {
+const defaultSettings = {
 	float: true,
 	plus: true,
 	minus: true,
@@ -53,6 +55,7 @@ const defaultAllow = {
 	root: true,
 	logarithm: true,
 	accent: true,
+	equals: false,
 }
 
 export default function ExpressionInput(props) {
@@ -65,20 +68,19 @@ export default function ExpressionInput(props) {
 }
 
 function ExpressionInputInner(props) {
-	// Process the allow property.
-	const allow = useMemo(() => processOptions(props.allow || {}, defaultAllow), [props.allow])
-	const allowRef = useRefWithValue(allow)
+	// Process the field settings, and use them to determine the keyboard settings function.
+	const settings = useMemo(() => processOptions(props.settings || {}, defaultSettings), [props.settings])
+	const settingsRef = useRefWithValue(settings)
+	const keyboardSettings = useCallback((data) => dataToKeyboardSettings(data, settingsRef.current), [settingsRef])
 
 	// Get the charElements and use this to set up proper keyPressToData and mouseClickToCursor functions.
 	const { charElementsRef } = useMathWithCursorContext()
 	const cursorRef = useAbsoluteCursorRef()
 	const keyPressToData = useCallback((keyInfo, data, contentsElement) => {
-		if (!isKeyAllowed(keyInfo.key, allowRef.current))
-			return data
 		const charElements = charElementsRef.current
-		const newData = Expression.keyPressToData(keyInfo, data, charElements, data, contentsElement, (cursorRef.current && cursorRef.current.element))
+		const newData = Expression.keyPressToData(keyInfo, data, settingsRef.current, charElements, data, contentsElement, (cursorRef.current && cursorRef.current.element))
 		return newData === data || deepEquals(data, newData) ? data : Expression.cleanUp(newData)
-	}, [charElementsRef, cursorRef, allowRef])
+	}, [charElementsRef, cursorRef, settingsRef])
 	const mouseClickToData = useCallback((evt, data, contentsElement) => {
 		const charElements = charElementsRef.current
 		const newData = { ...data, cursor: generalMouseClickToCursor(evt, data, charElements, contentsElement) }
@@ -90,14 +92,10 @@ function ExpressionInputInner(props) {
 	const mergedProps = {
 		...defaultProps,
 		...props,
+		keyboardSettings,
 		keyPressToData,
 		mouseClickToData,
 		className: clsx(props.className, classes.expressionInput, 'expressionInput'),
-	}
-
-	// If an allow property has been given, but not a keyboardSettings, then set up a new keyboardSettings.
-	if (allow && !props.keyboardSettings) {
-		mergedProps.keyboardSettings = (data) => dataToKeyboardSettings(data, allow)
 	}
 
 	return <Input {...mergedProps} />
@@ -105,10 +103,23 @@ function ExpressionInputInner(props) {
 
 // These are validation functions.
 export function nonEmpty(data) {
-	// If it's empty note it.
 	const { value } = data
 	if (isEmpty(value))
 		return selectRandomEmpty()
+}
+export function nonEmptyAndValid(data) {
+	// Check if it's empty first.
+	const nonEmptyResult = nonEmpty(data)
+	if (nonEmptyResult)
+		return nonEmptyResult
+
+	// Interpret it and see if there are problems.
+	const { value } = data
+	try {
+		interpretExpressionValue(value)
+	} catch (e) {
+		return getInterpretationErrorMessage(e)
+	}
 }
 
 // getEmptyData returns an empty data object, ready to be filled by input.
@@ -121,12 +132,12 @@ export function getEmptyData() {
 }
 
 // dataToKeyboardSettings takes a data object and determines what keyboard settings are appropriate.
-export function dataToKeyboardSettings(data, allow = {}) {
+export function dataToKeyboardSettings(data, settings) {
 	// Determine which keys to disable based on the position.
 	const keySettings = {}
 	mathKeys.forEach(keyboardKey => {
 		const key = simplifyKey(keyboardKey)
-		keySettings[keyboardKey] = isKeyAllowed(key, allow) && Expression.acceptsKey({ key }, data)
+		keySettings[keyboardKey] = Expression.acceptsKey({ key }, data, settings)
 	})
 
 	// Pass on settings.
@@ -145,6 +156,7 @@ export function isValid(value) {
 
 // isKeyAllowed checks if a given key is allowed according to the allow options given.
 export function isKeyAllowed(key, allow) {
+	// ToDo: Remove this function and implement it in acceptsKey.
 	key = simplifyKey(key)
 
 	// Is there any reason to disallow the key?

@@ -90,6 +90,7 @@ function interpretExpressionValue(value, afterStep = 0) {
 			throw new Error(`Invalid interpretExpression call: tried to interpret an expression, but the afterStep parameter was invalid. A value of "${afterStep}" was given.`)
 	}
 }
+module.exports.interpretExpressionValue = interpretExpressionValue
 
 // interpretBrackets interprets everything related to brackets. This includes both regular brackets 2*(3+4), brackets with simple functions sin(2*x) and brackets for advanced functions with a parameter after it like [10]log(2*x).
 function interpretBrackets(value) {

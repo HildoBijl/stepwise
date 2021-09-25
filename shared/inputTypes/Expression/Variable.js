@@ -145,6 +145,11 @@ class Variable extends Parent {
 			return (a[firstDifferentKey] || '') < (b[firstDifferentKey] || '') ? -1 : 1
 		return 0 // All equal.
 	}
+
+	// sortVariableStrings takes a Set containing variable strings and turns it into an ordered array of Variable objects.
+	static sortVariableStrings(variableStrings) {
+		return [...variableStrings].map(str => new Variable(str)).sort(Variable.order)
+	}
 }
 Variable.defaultSO = defaultSO
 Variable.type = 'Variable'

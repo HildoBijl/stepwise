@@ -83,7 +83,7 @@ export function getCursorProperties(data, charElements, container) {
 	return getFuncs(activeElement).getCursorProperties(activeElement, charElements[data.cursor.part], container)
 }
 
-export function acceptsKey(keyInfo, data) {
+export function acceptsKey(keyInfo, data, settings) {
 	const { key, ctrl, alt } = keyInfo
 	const { cursor, value } = data
 	const activeElementData = zoomIn(data)
@@ -110,31 +110,31 @@ export function acceptsKey(keyInfo, data) {
 		}
 	}
 
-	// Check for inavlid keys inside accents that are shifted to the neighbouring element.
+	// Check for invalid keys inside accents that are shifted to the neighbouring element.
 	if (activeElementData.type === 'Accent') {
-		if (!dataAcceptsKey(keyInfo, activeElementData)) {
-			if (isCursorAtDataStart(activeElementData) && dataAcceptsKey(keyInfo, value[cursor.part - 1]))
+		if (!dataAcceptsKey(keyInfo, activeElementData, settings)) {
+			if (isCursorAtDataStart(activeElementData) && dataAcceptsKey(keyInfo, value[cursor.part - 1], settings))
 				return true
-			if (isCursorAtDataEnd(activeElementData) && dataAcceptsKey(keyInfo, value[cursor.part + 1]))
+			if (isCursorAtDataEnd(activeElementData) && dataAcceptsKey(keyInfo, value[cursor.part + 1], settings))
 				return true
 		}
 	}
 
 	// Check the child element.
-	return dataAcceptsKey(keyInfo, zoomIn(data))
+	return dataAcceptsKey(keyInfo, zoomIn(data), settings)
 }
 
-export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement) {
+export function keyPressToData(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement) {
 	const { key } = keyInfo
 	const { value, cursor } = data
 	const activeElementData = zoomIn(data)
 	const activeElementFuncs = getFuncs(activeElementData)
 
 	// Verify the key.
-	if (!acceptsKey(keyInfo, data))
+	if (!acceptsKey(keyInfo, data, settings))
 		return data
 
-	const { passOn, moveLeft, moveRight } = getKeyPressHandlers(keyInfo, data, charElements, topParentData, contentsElement, cursorElement)
+	const { passOn, moveLeft, moveRight } = getKeyPressHandlers(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement)
 
 	// For left/right-arrows, adjust the cursor.
 	if (key === 'ArrowLeft' && cursor.part > 0 && (isCursorAtDataStart(activeElementData) || (activeElementFuncs.canMoveCursorOutside && activeElementFuncs.canMoveCursorOutside(activeElementData, false))))
@@ -225,10 +225,10 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 
 	// Check if the cursor is at the start/end of an accent that doesn't accept the key, while the ExpressionPart neighbour does accept the key. In that case, move the cursor first to the ExpressionPart and process appropriately.
 	if (activeElementData.type === 'Accent') {
-		if (!dataAcceptsKey(keyInfo, activeElementData)) {
+		if (!dataAcceptsKey(keyInfo, activeElementData, settings)) {
 			// Check if we're near the previous part and if that accepts it.
 			const previousPart = value[cursor.part - 1]
-			if (isCursorAtDataStart(activeElementData) && dataAcceptsKey(keyInfo, previousPart)) {
+			if (isCursorAtDataStart(activeElementData) && dataAcceptsKey(keyInfo, previousPart, settings)) {
 				const newExpression = {
 					...data,
 					cursor: {
@@ -236,12 +236,12 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 						cursor: getDataEndCursor(previousPart),
 					},
 				}
-				return keyPressToData(keyInfo, newExpression, charElements, newExpression, contentsElement, cursorElement)
+				return keyPressToData(keyInfo, newExpression, settings, charElements, newExpression, contentsElement, cursorElement)
 			}
 
 			// Check if we're near the next part and if that accepts it.
 			const nextPart = value[cursor.part + 1]
-			if (isCursorAtDataEnd(activeElementData) && dataAcceptsKey(keyInfo, nextPart)) {
+			if (isCursorAtDataEnd(activeElementData) && dataAcceptsKey(keyInfo, nextPart, settings)) {
 				const newExpression = {
 					...data,
 					cursor: {
@@ -249,7 +249,7 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 						cursor: getDataStartCursor(nextPart),
 					},
 				}
-				return keyPressToData(keyInfo, newExpression, charElements, newExpression, contentsElement, cursorElement)
+				return keyPressToData(keyInfo, newExpression, settings, charElements, newExpression, contentsElement, cursorElement)
 			}
 		}
 	}

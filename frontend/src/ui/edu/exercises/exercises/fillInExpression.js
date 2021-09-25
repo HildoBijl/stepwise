@@ -6,6 +6,7 @@ import { selectRandomCorrect } from 'step-wise/util/random'
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import ExpressionInput, { basicMath } from 'ui/form/inputs/ExpressionInput'
+import EquationInput from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form/Status'
 
 // import { useExerciseData, useCorrect } from '../ExerciseContainer'
@@ -51,7 +52,8 @@ function Problem({ index }) {
 		<Par>Voer een uitdrukking in die je voor je eigen cursus zou kunnen gebruiken. (Klik niet op "Controleer" want die functionaliteit is nog niet gemaakt.)</Par>
 		<InputSpace>
 			<Par>
-				<ExpressionInput id="ans" prelabel={<M>f\left(x\right)=</M>} label="Vul hier de uitdrukking in" size="s" allow={{ ...basicMath, divide: false }} />
+				<ExpressionInput id="ans" prelabel={<M>f\left(x\right)=</M>} label="Vul hier de uitdrukking in" size="s" settings={{ ...basicMath, divide: false }} />
+				{/* <EquationInput id="eq" label="Vul hier de vergelijking in" size="s" settings={{ ...basicMath, divide: false }} /> */}
 				{/* <ExpressionInput id="y" prelabel={<M>y=</M>} label="Vul hier de uitdrukking in" size="s" /> */}
 			</Par>
 			{

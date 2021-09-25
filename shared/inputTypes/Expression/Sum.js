@@ -89,7 +89,8 @@ class Sum extends Parent {
 		// ToDo: Figure out what to do with 2*x + pi*x. Merge it to (2 + pi) or keep it separate?
 
 		// Sort terms.
-		terms = terms.sort(Sum.order)
+		if (options.sortTerms)
+			terms = terms.sort(Sum.order)
 
 		// Return the final result.
 		return new Sum(terms)

@@ -5,7 +5,7 @@ import { removeCursor } from '../../Input'
 import { getFuncs, zoomIn } from '../index.js'
 
 // getKeyPressHandlers returns a couple of handlers useful for key presses. It returns { passOn, moveLeft, moveRight } where passOn passes on the call to the active child element, moveLeft moves the cursor an element to the left and moveRight moves the cursor an element to the right.
-export function getKeyPressHandlers(keyInfo, data, charElements, topParentData, contentsElement, cursorElement) {
+export function getKeyPressHandlers(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement) {
 	const { value, cursor } = data
 	const funcs = getFuncs(data)
 	const activeElementData = zoomIn(data)
@@ -13,7 +13,7 @@ export function getKeyPressHandlers(keyInfo, data, charElements, topParentData, 
 
 	const passOn = () => {
 		const charPart = (funcs.valuePartToCharPart ? funcs.valuePartToCharPart(cursor.part) : cursor.part)
-		const adjustedElement = activeElementFuncs.keyPressToData(keyInfo, activeElementData, charElements && charElements[charPart], topParentData, contentsElement, cursorElement)
+		const adjustedElement = activeElementFuncs.keyPressToData(keyInfo, activeElementData, settings, charElements && charElements[charPart], topParentData, contentsElement, cursorElement)
 		return {
 			...data,
 			value: arraySplice(value, cursor.part, 1, removeCursor(adjustedElement)),

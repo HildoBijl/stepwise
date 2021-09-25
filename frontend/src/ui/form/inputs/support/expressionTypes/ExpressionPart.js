@@ -97,48 +97,54 @@ function getCursorProperties(data, charElements, container) {
 	return getCursorPropertiesFromElements(charElements[cursor - 1], charElements[cursor], container)
 }
 
-export function acceptsKey(keyInfo, data) {
+export function acceptsKey(keyInfo, data, settings) {
 	if (isCursorKey(keyInfo, data))
 		return true
 
 	const { key } = keyInfo
 	if (isLetter(key) || isNumber(key))
 		return true
-	if (key === '(' || key === ')')
-		return true
-	if (key === '+')
-		return true
-	if (key === '-')
-		return true
-	if (key === '*')
-		return true
 	if (key === '.' || key === ',')
-		return true
+		return settings.float
+	if (key === '+')
+		return settings.plus
+	if (key === '-')
+		return settings.minus
+	if (key === '*')
+		return settings.times
 	if (key === '/')
-		return true
-	if (key === '_')
-		return true
+		return settings.divide
+	if (key === '(' || key === ')')
+		return settings.brackets
 	if (key === '^')
+		return settings.power
+	if (key === '_')
+		return settings.subscript
+	if (key === 'sin' || key === 'cos' || key === 'tan' || key === 'asin' || key === 'acos' || key === 'atan')
+		return settings.trigonometry
+	if (key === 'sqrt' || key === 'root')
+		return settings.root
+	if (key === 'ln' || key === 'log')
+		return settings.logarithm
+	if (accents.includes(key))
+		return settings.accent
+	if (basicFunctions.includes(key) || advancedFunctions.includes(key))
 		return true
 	if (greekAlphabet[key] !== undefined)
 		return true
-	if (basicFunctions.includes(key))
-		return true
-	if (accents.includes(key))
-		return true
-	if (advancedFunctions.includes(key))
-		return true
+	if (key === '=')
+		return settings.equals
 
 	// Nothing found.
 	return false
 }
 
-export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement) {
+export function keyPressToData(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement) {
 	const { key } = keyInfo
 	const { value, cursor } = data
 
 	// Verify the key.
-	if (!acceptsKey(keyInfo, data))
+	if (!acceptsKey(keyInfo, data, settings))
 		return data
 
 	// For left/right-arrows, home and end, adjust the cursor.
@@ -224,6 +230,8 @@ export function keyPressToData(keyInfo, data, charElements, topParentData, conte
 		return addStrToData(key, data)
 	if (greekAlphabet[key] !== undefined)
 		return addStrToData(greekAlphabet[key].symbol, data)
+	if (key === '=')
+		return addStrToData(key, data)
 
 	// On mathematical functions, add the words and then add the bracket.
 	if (basicFunctions.includes(key) || accents.includes(key) || advancedFunctions.includes(key)) {

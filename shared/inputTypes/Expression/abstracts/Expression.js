@@ -42,9 +42,6 @@
  * - equals(other, simplifyOptions): see the description above.
  */
 
-const { decimalSeparatorTex } = require('../../../settings')
-
-const { ensureNumber } = require('../../../util/numbers')
 const { isObject, processOptions } = require('../../../util/objects')
 
 const defaultSO = {}
@@ -223,7 +220,7 @@ class Expression {
 	getVariables() {
 		const Variable = require('../Variable')
 		const variableStrings = this.getVariableStrings()
-		return [...variableStrings].map(str => new Variable(str)).sort(Variable.order)
+		return Variable.sortVariableStrings(variableStrings)
 	}
 
 	get number() {

@@ -116,7 +116,8 @@ class Product extends Parent {
 		// ToDo: merge equal terms into powers.
 
 		// Sort terms.
-		terms = terms.sort(Product.order)
+		if (options.sortTerms)
+			terms = terms.sort(Product.order)
 
 		// Return the final result.
 		return new Product(terms)

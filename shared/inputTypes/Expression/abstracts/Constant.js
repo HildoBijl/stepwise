@@ -15,9 +15,6 @@ class Constant extends Parent {
 		// This class may not be instantiated.
 		if (this.constructor === Constant)
 			throw new TypeError(`Abstract class "Constant" may not be instantiated directly.`)
-
-		// Process the number.
-		this.value = SO.value
 	}
 
 	toString() {

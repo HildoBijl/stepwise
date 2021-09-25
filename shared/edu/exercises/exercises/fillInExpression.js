@@ -95,8 +95,11 @@ function getCorrect({ index }) {
 }
 
 function checkInput(state, { ans }) {
-	const correct = getCorrect(state)
-	return correct.equals(ans, data.equalityOptions)
+	// const correct = getCorrect(state)
+	// return correct.equals(ans, data.equalityOptions)
+	console.log(ans)
+	console.log(ans.str)
+	return false
 }
 
 module.exports = {

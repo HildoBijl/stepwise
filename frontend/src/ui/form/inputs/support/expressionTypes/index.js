@@ -113,6 +113,6 @@ export function canMoveDataCursorVertically(data, up) {
 	return !!canMoveCursorVertically && canMoveCursorVertically(data, up)
 }
 
-export function dataAcceptsKey(keyInfo, data) {
-	return getFuncs(data).acceptsKey(keyInfo, data)
+export function dataAcceptsKey(keyInfo, data, settings) {
+	return getFuncs(data).acceptsKey(keyInfo, data, settings)
 }

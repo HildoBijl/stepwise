@@ -95,22 +95,22 @@ export function getCursorProperties(data, charElements, container) {
 	return getFuncs(activeElementData).getCursorProperties(activeElementData, charElements[charPart], container)
 }
 
-export function acceptsKey(keyInfo, data) {
+export function acceptsKey(keyInfo, data, settings) {
 	if (isCursorKey(keyInfo, data))
 		return true
-	return dataAcceptsKey(keyInfo, zoomIn(data))
+	return dataAcceptsKey(keyInfo, zoomIn(data), settings)
 }
 
-export function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement) {
+export function keyPressToData(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement) {
 	const { key } = keyInfo
 	const { value, cursor } = data
 	const activeElementData = zoomIn(data)
 
 	// Verify the key.
-	if (!acceptsKey(keyInfo, data))
+	if (!acceptsKey(keyInfo, data, settings))
 		return data
 
-	const { passOn, moveLeft, moveRight } = getKeyPressHandlers(keyInfo, data, charElements, topParentData, contentsElement, cursorElement)
+	const { passOn, moveLeft, moveRight } = getKeyPressHandlers(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement)
 
 	// For left/right-arrows, adjust the cursor.
 	if (key === 'ArrowLeft' && cursor.part > 0 && isCursorAtDataStart(activeElementData))
