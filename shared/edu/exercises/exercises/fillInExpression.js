@@ -94,11 +94,13 @@ function getCorrect({ index }) {
 	return expressions[index]
 }
 
-function checkInput(state, { ans }) {
+function checkInput(state, { ans, eq }) {
 	// const correct = getCorrect(state)
 	// return correct.equals(ans, data.equalityOptions)
 	console.log(ans)
 	console.log(ans.str)
+	console.log(eq)
+	console.log(eq.str)
 	return false
 }
 

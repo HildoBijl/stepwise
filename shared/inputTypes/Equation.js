@@ -1,6 +1,8 @@
 // An Equation is an input type containing two expressions with an equals sign in-between.
 
-const { Expression, ensureFO: ensureExpressionFO, getEmpty: getEmptyExpression, isEmpty: isExpressionEmpty } = require('./Expression')
+const { deepEquals } = require('../util/objects')
+
+const { ensureFO: ensureExpressionFO, getEmpty: getEmptyExpression, isEmpty: isExpressionEmpty } = require('./Expression')
 
 const parts = ['left', 'right']
 
@@ -116,7 +118,7 @@ class Equation {
 		return false
 	}
 }
-module.exports = Equation
+module.exports.Equation = Equation
 
 // ToDo: figure out which extra simplify options we still need, on top of the Expression ones. Merge them in some way.
 
@@ -135,10 +137,8 @@ function FOtoIO(equation) {
 module.exports.FOtoIO = FOtoIO
 
 function IOtoFO(equation) {
-	return new Equation({
-		left: new Expression(),
-		right: new Expression(),
-	}) // TODO
+	const { interpretEquationValue } = require('./Expression/interpreter/Equation')
+	return interpretEquationValue(equation)
 }
 module.exports.IOtoFO = IOtoFO
 
@@ -153,6 +153,6 @@ function isEmpty(equation) {
 module.exports.isEmpty = isEmpty
 
 function equals(a, b) {
-	return deepEquals(a, b) // ToDo
+	return deepEquals(a, b)
 }
 module.exports.equals = equals

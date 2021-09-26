@@ -5,7 +5,7 @@ import clsx from 'clsx'
 import { selectRandomEmpty } from 'step-wise/util/random'
 import { deepEquals, processOptions } from 'step-wise/util/objects'
 import { getEmpty, isEmpty } from 'step-wise/inputTypes/Expression'
-import { interpretExpressionValue } from 'step-wise/inputTypes/Expression/interpreter'
+import { interpretExpressionValue } from 'step-wise/inputTypes/Expression/interpreter/Expression'
 import { getInterpretationErrorMessage } from 'step-wise/inputTypes/Expression/interpreter/InterpretationError'
 
 import { useRefWithValue } from 'util/react'
@@ -115,11 +115,9 @@ export function nonEmptyAndValid(data) {
 
 	// Interpret it and see if there are problems.
 	const { value } = data
-	try {
-		interpretExpressionValue(value)
-	} catch (e) {
-		return getInterpretationErrorMessage(e)
-	}
+	const validityResult = getValidityMessage(value)
+	if (validityResult)
+		return validityResult
 }
 
 // getEmptyData returns an empty data object, ready to be filled by input.
@@ -151,42 +149,16 @@ export function dataToKeyboardSettings(data, settings) {
 
 // isValid checks if this IO is valid.
 export function isValid(value) {
-	return false // ToDo: check brackets and stuff. Also plusses and minusses. Give a message indicating what is wrong. At least, use a checkValidity function for this, which is called by isValid.
+	return getValidityMessage(value) === undefined
 }
 
-// isKeyAllowed checks if a given key is allowed according to the allow options given.
-export function isKeyAllowed(key, allow) {
-	// ToDo: Remove this function and implement it in acceptsKey.
-	key = simplifyKey(key)
-
-	// Is there any reason to disallow the key?
-	if (!allow.float && key === '.')
-		return false
-	if (!allow.plus && key === '+')
-		return false
-	if (!allow.minus && key === '-')
-		return false
-	if (!allow.times && key === '*')
-		return false
-	if (!allow.divide && key === '/')
-		return false
-	if (!allow.brackets && (key === '(' || key === ')'))
-		return false
-	if (!allow.power && key === '^')
-		return false
-	if (!allow.subscript && key === '_')
-		return false
-	if (!allow.trigonometry && (key === 'sin' || key === 'cos' || key === 'tan' || key === 'asin' || key === 'acos' || key === 'atan'))
-		return false
-	if (!allow.root && key === 'root')
-		return false
-	if (!allow.logarithm && (key === 'ln' || key === 'log'))
-		return false
-	if (!allow.accent && (key === 'dot' || key === 'hat'))
-		return false
-
-	// No case found. The key is allowed so far.
-	return true
+// getValidityMessage takes an Expression value and checks whether it is valid. If not, it gives a message explaining a problem. If it is valid, nothing is returned.
+export function getValidityMessage(value) {
+	try {
+		interpretExpressionValue(value)
+	} catch (e) {
+		return getInterpretationErrorMessage(e)
+	}
 }
 
 // Below we define several commonly used objects for the allow setting for Expression input fields.

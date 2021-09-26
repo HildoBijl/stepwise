@@ -25,7 +25,7 @@ function getInterpretationErrorMessage(error) {
 	switch (code) {
 		// Special cases.
 		case 'EmptyExpression':
-				return `Er mist een (deel van een) vergelijking.`
+			return `Er mist een (deel van een) vergelijking.`
 
 		// Bracket interpretation.
 		case 'UnmatchedClosingBracket':
@@ -78,6 +78,12 @@ function getInterpretationErrorMessage(error) {
 			return `Er is een subscript "${cause}" zonder variabele ervoor.`
 		case 'MisplacedSuperscript':
 			return `Er is een macht zonder term ervoor.`
+
+		// Equation interpretation.
+		case 'MultipleEqualsSigns':
+			return `De vergelijking heeft meerdere "=" tekens.`
+		case 'MissingEqualsSign':
+			return `De vergelijking heeft geen "=" teken.`
 
 		default:
 			throw new Error(`Invalid interpretation error code: cannot determine what went wrong with the interpretation. The error code "${code}" is not known.`)

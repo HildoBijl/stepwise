@@ -4,7 +4,7 @@ const { isObject } = require('../../../util/objects')
 
 const Constant = require('../abstracts/Constant')
 
-const { getExpressionTypes } = require('../')
+const { getExpressionTypes } = require('..')
 const Expression = require('../abstracts/Expression')
 
 const { getSubExpression, moveRight } = require('./support')

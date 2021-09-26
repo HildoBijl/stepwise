@@ -42,12 +42,15 @@ import * as Function from './Function'
 import SubscriptText from './Function/SubscriptText'
 import * as Accent from './Accent'
 
+import Equation from './Equation'
+
 const functions = {
 	Expression,
 	ExpressionPart,
 	SubscriptText,
 	Function,
 	Accent,
+	Equation,
 }
 
 // getFuncs takes a data object and returns an object with all the functions for that data type.
