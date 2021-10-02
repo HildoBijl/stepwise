@@ -115,14 +115,20 @@ class Variable extends Parent {
 		return this // Parameter types don't get any simpler.
 	}
 
-	// equals checks if this variable equals another variable.
-	equals(expression, options = {}) {
-		// Check if the expression is a variable.
+	equalsBasic(expression, level) {
+		// Check that the expression is a variable.
 		if (!(expression instanceof Variable))
 			return false
 
-		// Compare all parts.
+		// Check all parts of the Variable.
 		return parts.every(part => this[part] === expression[part])
+	}
+
+	// ensureVariable ensures that the given variable is a variable.
+	static ensureVariable(variable) {
+		if (variable instanceof Variable)
+			return variable
+		return new Variable(variable)
 	}
 
 	// interpret turns a string representation of a variable into an SO representation of a variable.

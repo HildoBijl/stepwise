@@ -1,6 +1,5 @@
 // The Expression class represents any type of mathematical expression, including with brackets, fractions, functions, variables with subscripts, powers and more. It does NOT include an equals sign or other form of comparison: that would make it an equation or inequality.
 
-const { isInt, isNumber } = require('../../util/numbers')
 const { isObject, deepEquals } = require('../../util/objects')
 const { firstOf } = require('../../util/arrays')
 
@@ -9,6 +8,7 @@ const Expression = require('./abstracts/Expression')
 module.exports.Expression = Expression
 module.exports.bracketLevels = Expression.bracketLevels
 module.exports.simplifyOptions = Expression.simplifyOptions
+module.exports.equalityLevels = Expression.equalityLevels
 
 function getExpressionTypes() {
 	return {
@@ -22,37 +22,6 @@ function getExpressionTypes() {
 }
 module.exports.getExpressionTypes = getExpressionTypes
 
-function ensureFO(obj) {
-	const Integer = require('./Integer')
-	const Float = require('./Float')
-	const Variable = require('./Variable')
-
-	// Check if this is easy to interpret.
-	if (obj instanceof Expression)
-		return obj // All good already!
-	if (isInt(obj))
-		return new Integer(obj)
-	if (isNumber(obj))
-		return new Float(obj)
-	if (typeof obj === 'string')
-		return new Variable(obj)
-
-	// No easy interpretations. Check if this is a raw object with a type parameter.
-	if (!isObject(obj))
-		throw new Error(`Invalid expression object: received an object that was supposedly an Expression, but it was "${obj}".`)
-	if (!obj.type)
-		throw new Error(`Invalid expression object: received an object that was supposedly an Expression, but it is a basic data object without a type property. Cannot interpret it.`)
-
-	// Check the given type.
-	const types = getExpressionTypes()
-	if (!types[obj.type])
-		throw new Error(`Invalid expression object: received an object that was supposedly an Expression, but its type "${obj.type}" is not known.`)
-
-	// Pass the object to the right constructor.
-	return new types[obj.type](obj)
-}
-module.exports.ensureFO = ensureFO
-
 // The following functions are obligatory functions.
 function isFOofType(expression) {
 	return isObject(expression) && expression.constructor === Expression
@@ -60,7 +29,7 @@ function isFOofType(expression) {
 module.exports.isFOofType = isFOofType
 
 function FOtoIO(expression) {
-	expression = ensureFO(expression)
+	expression = Expression.ensureExpression(expression)
 
 	// Assemble the input object.
 	return getEmpty() // TODO

@@ -13,7 +13,7 @@ class Arccos extends Parent {
 		// Set up 1 - arg^2.
 		const inner = new Sum([
 			1,
-			new Power(this.argument, 2).multiplyBy(-1),
+			new Power(this.argument, 2).applyMinus(),
 		])
 
 		// Set up the result.

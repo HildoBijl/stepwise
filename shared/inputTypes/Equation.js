@@ -1,8 +1,8 @@
 // An Equation is an input type containing two expressions with an equals sign in-between.
 
-const { deepEquals } = require('../util/objects')
+const { deepEquals, processOptions } = require('../util/objects')
 
-const { ensureFO: ensureExpressionFO, getEmpty: getEmptyExpression, isEmpty: isExpressionEmpty } = require('./Expression')
+const { Expression, getEmpty: getEmptyExpression, isEmpty: isExpressionEmpty } = require('./Expression')
 
 const parts = ['left', 'right']
 
@@ -19,7 +19,7 @@ class Equation {
 		parts.forEach(part => {
 			if (!SO[part])
 				throw new Error(`Invalid equation part: tried to create an equation, but the "${part}" part was not given.`)
-			this[part] = ensureExpressionFO(SO[part])
+			this[part] = Expression.ensureExpression(SO[part])
 		})
 	}
 
@@ -74,7 +74,7 @@ class Equation {
 
 	// subtract will subtract the given expression from this expression.
 	subtract(subtraction) {
-		return this.applyToBothSides(part => part.subtract(addition))
+		return this.applyToBothSides(part => part.subtract(subtraction))
 	}
 
 	// multiplyBy will multiply both sides of the equation by the given expression. A potential putAtStart parameter is passed on to the expressions.
@@ -104,6 +104,14 @@ class Equation {
 		return this.applyToBothSides(part => part.substitue(variable, substitution))
 	}
 
+	// flip will switch the left and right sides of the equation.
+	flip() {
+		return new Equation({
+			left: this.right,
+			right: this.left,
+		})
+	}
+
 	// simplify simplifies an object. It checks the given options and calls simplifyWithoutCheck.
 	simplify(options = {}) {
 		// ToDo: devise various options on simplifying equations. What is extra, on top of expressions?
@@ -111,18 +119,70 @@ class Equation {
 	}
 
 	// equals compares of two equations are the same, subject to various options.
-	equals(equation, options = {}) {
-		// ToDo: devise extra option like "allowLeftRightSwitch" with values 0 (no), 1 (only switch, and that's it) and 2 (everything goes). For 0: check both sides. For 1: check it twice, for each case. For 2: subtract and check if it is a constant multiple.
+	equals(equation, levels = {}) {
+		// Check the input.
+		equation = Equation.ensureEquation(equation)
+		levels = processOptions(levels, defaultEqualityLevels)
+		if (Object.values(Expression.equalityLevels).every(level => level !== levels.expression))
+			throw new Error(`Invalid expression equality level: could not check for equality. The expression equality level "${level}" is not known.`)
+		if (Object.values(Equation.equalityLevels).every(level => level !== levels.equation))
+			throw new Error(`Invalid equation equality level: could not check for equality. The equation equality level "${level}" is not known.`)
 
-		// No reason for equality found.
-		return false
+		// Define handlers.
+		const checkExpression = (a, b) => a.equals(b, levels.expression)
+		const checkEquation = (a, b) => checkExpression(a.left, b.left) && checkExpression(a.right, b.right)
+
+		// When the equation must keep sides, compare left with left and right with right.
+		if (levels.equation === Equation.equalityLevels.keepSides) {
+			return checkEquation(this, equation)
+		}
+
+		// When sides can switch, check both cases. So compare left/left and right/right, but also check left/right and right/left.
+		if (levels.equation === Equation.equalityLevels.allowSwitch) {
+			return checkEquation(this, equation) || checkEquation(this, equation.flip())
+		}
+
+		// When rewrites are allowed, check if one equation is a constant multiple of another.
+		if (levels.equation === Equation.equalityLevels.allowRewrite) {
+			const a = this.left.subtract(this.right)
+			const b = equation.left.subtract(equation.right)
+			return a.equals(b, Expression.equalityLevels.constantMultiple)
+		}
+
+		// Should never get here.
+		throw new Error(`Unexpected equation equality level: did not expect the equation equality level "${levels.equation}". Cannot process this.`)
+	}
+
+	static ensureEquation(equation) {
+		// Check if it's already an equation.
+		if (equation instanceof Equation)
+			return equation
+
+		// Check if it's an object that can then be interpreted.
+		if (!isObject(equation))
+			throw new Error(`Invalid equation object: received an object that was supposedly an Equation, but its value was "${JSON.stringify(equation)}".`)
+
+		// Try to turn it into an equation.
+		return new Equation(equation)
 	}
 }
 module.exports.Equation = Equation
 
 // ToDo: figure out which extra simplify options we still need, on top of the Expression ones. Merge them in some way.
 
+Equation.equalityLevels = {
+	default: 2,
+	keepSides: 0, // This means that on an equality check the sides may not change. So the equation "a = b" is NOT equal to the equation "b = a". 
+	allowSwitch: 1, // This means that sides may switch, but no rewrites are allowed. So "a + b = c" is equal to "c = a + b", but NOT equal to "c - b = a". (Note: whether "a + b = c" is equal to "b + a = c" or "c = b + a" depends on the expression level.)
+	allowRewrite: 2, // This allows all possible rewrites. Note that in this case the expression equality level is ignored.
+}
+module.exports.equalityLevels = Equation.equalityLevels
 
+const defaultEqualityLevels = {
+	expression: Expression.equalityLevels.default,
+	equation: Equation.equalityLevels.default,
+}
+module.exports.defaultEqualityLevels = defaultEqualityLevels
 
 // The following functions are obligatory functions.
 function isFOofType(equation) {

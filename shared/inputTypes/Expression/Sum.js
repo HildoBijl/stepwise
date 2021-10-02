@@ -54,31 +54,50 @@ class Sum extends Parent {
 	simplifyBasic(options = {}) {
 		let { terms } = this.simplifyChildren(options)
 
-		// Filter out zero elements.
-		if (options.removeUseless) {
-			terms = terms.filter(term => !term.equals(Integer.zero))
+		// Flatten sums inside this sum.
+		if (options.structure) {
+			terms = terms.map(term => term.isType(Sum) ? term.terms : term).flat()
 		}
 
-		// Merge all numbers together and put them at the start.
+		// Filter out zero elements.
+		if (options.removeUseless) {
+			terms = terms.filter(term => !term.equalsBasic(Integer.zero))
+		}
+
+		// If there are at least two constants, merge them together and put them at the start.
 		if (options.mergeNumbers) {
-			let number = 0
-			terms = terms.filter(term => {
-				if (term instanceof Constant) {
-					number += term.number
-					return false
+			const isConstant = term => term instanceof Constant
+			if (count(terms, isConstant) > 1) {
+				let number = 0
+				terms = terms.filter(term => {
+					if (isConstant(term)) {
+						number += term.number
+						return false
+					}
+					return true
+				})
+				if (number !== 0)
+					terms.unshift(Constant.toNumber(number))
+			}
+		}
+
+		// Find equal terms to cancel out. For this, walk through the terms, and try to match them with a negative counterpart. Upon finding a pair, skip both.
+		if (options.applySumCancellations) {
+			const skipped = terms.map(_ => false)
+			// console.log(terms)
+			terms = terms.filter((term1, index1) => {
+				const index = terms.findIndex((term2, index2) => index1 < index2 && !skipped[index1] && !skipped[index2] && term1.equals(term2.applyMinus(), Expression.equalityLevels.onlyOrderChanges))
+				if (index !== -1) {
+					skipped[index1] = true
+					skipped[index] = true
 				}
-				return true
+				return !skipped[index1]
 			})
-			if (number !== 0)
-				terms.unshift(Constant.toNumber(number))
+			// console.log(terms)
 		}
 
 		// Check for structure simplifications.
 		if (options.structure) {
-			// Flatten sums inside this sum.
-			terms = terms.map(term => term.isType(Sum) ? term.terms : term).flat()
-
-			// Check simple cases.
 			if (terms.length === 0)
 				return Integer.zero
 			if (terms.length === 1)

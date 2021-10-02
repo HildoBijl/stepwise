@@ -56,7 +56,7 @@ class Fraction extends Parent {
 					this.denominator,
 					2,
 				),
-			).multiplyBy(-1)) // Apply the minus.
+			).applyMinus()) // Apply the minus.
 		}
 
 		// Return the outcome.

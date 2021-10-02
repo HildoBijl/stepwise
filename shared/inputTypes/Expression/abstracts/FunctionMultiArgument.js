@@ -7,8 +7,6 @@ const Expression = require('./Expression')
 const Integer = require('../Integer')
 const Parent = Expression
 
-const { ensureFO } = require('../')
-
 class FunctionMultiArgument extends Parent {
 	constructor(...args) {
 		// If no arguments are given, use default values.
@@ -49,7 +47,7 @@ class FunctionMultiArgument extends Parent {
 
 		// Apply own input.
 		this.constructor.args.forEach((key, index) => {
-			this[key] = ensureFO(SO[key])
+			this[key] = Expression.ensureExpression(SO[key])
 		})
 	}
 
@@ -97,6 +95,15 @@ class FunctionMultiArgument extends Parent {
 	simplifyBasic(options) {
 		const simplifiedChildren = this.simplifyChildren(options)
 		return new this.constructor(simplifiedChildren)
+	}
+
+	equalsBasic(expression, level) {
+		// Check that the function type is equal.
+		if (this.constructor !== expression.constructor)
+			return false
+
+		// Check that all arguments are equal.
+		return this.constructor.args.every(arg => this[arg].equals(expression[arg], level))
 	}
 
 	// ToDo: equals.

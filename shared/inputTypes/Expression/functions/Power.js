@@ -93,11 +93,11 @@ class Power extends Parent {
 				return Integer.zero
 
 			// If the power is 0, become the factor.
-			if (exponent.equals(Integer.zero))
+			if (exponent.equalsBasic(Integer.zero))
 				return new Constant(factor)
 
 			// If the power is 1, become the base.
-			if (exponent.equals(Integer.one)) {
+			if (exponent.equalsBasic(Integer.one)) {
 				if (factor === 1 || base.factor === 1)
 					return base.multiplyBy(factor)
 				return new Product({ factor, terms: [base] }).simplify(options) // Create a single-element product.

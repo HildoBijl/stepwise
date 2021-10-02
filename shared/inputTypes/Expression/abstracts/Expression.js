@@ -12,10 +12,10 @@
  * - clone: returns a clone of this object.
  * - print: logs the string representation of this object. Short for console.log(this.str).
  * - isType(type): checks if this object is of the given type. The type can be a string "Product" or a constructor Product.
- * - add(addition): adds the given expression. As always, the calling object (this) remains unchanged.
- * - subtract(subtraction): subtracts the given expression.
- * - multiplyBy(multiplication, mergeConstants = true): multiplies by the given expression. Constants are automatically pulled into the factor, so that when you multiply "3x" by 2 you get "6x" and not "2*3x". This can be turned off by setting mergeConstants to false.
- * - divideBy(division, mergeConstants = true): same as multiplyBy, but then creating a fraction.
+ * - add(addition, putAtStart = false): adds the given expression. As always, the calling object (this) remains unchanged.
+ * - subtract(subtraction, putAtStart = false): subtracts the given expression.
+ * - multiplyBy(multiplication, putAtStart = false): multiplies by the given expression.
+ * - divideBy(division): same as multiplyBy, but then creating a fraction.
  * - toPower(exponent): returns this expression to the given power.
  * - eliminateFactor: returns a clone of this expression whose factor is set to 1.
  * - isNumeric: returns whether this is a numeric object, and hence does not depend on any variables.
@@ -42,6 +42,7 @@
  * - equals(other, simplifyOptions): see the description above.
  */
 
+const { isInt, isNumber } = require('../../../util/numbers')
 const { isObject, processOptions } = require('../../../util/objects')
 
 const defaultSO = {}
@@ -57,7 +58,7 @@ class Expression {
 			throw new Error(`Child classes of the Expression class must have a static type property. The "${this.constructor.name}" class does not have one.`)
 
 		// Certain methods must be implemented in child classes. [ToDo: put this in unit tests.]
-		// const methods = ['clone', 'become', 'toString', 'requiresBracketsFor', 'requiresPlusInSum', 'toTex', 'dependsOn', 'getVariableStrings', 'substituteBasic', 'isNumeric', 'toNumber', 'hasFloat', 'getDerivativeBasic', 'simplifyBasic', 'equals']
+		// const methods = ['clone', 'become', 'toString', 'requiresBracketsFor', 'requiresPlusInSum', 'toTex', 'dependsOn', 'getVariableStrings', 'substituteBasic', 'isNumeric', 'toNumber', 'hasFloat', 'getDerivativeBasic', 'simplifyBasic', 'equals', 'equalsBasic']
 		// methods.forEach(method => {
 		// 	if (this[method] === undefined || this[method] === Object.prototype[method]) // The Object object has some default methods, and those are not acceptable either.
 		// 		throw new Error(`Child classes of the Expression class must implement the "${method}" method. The "${this.constructor.type}" class doesn't seem to have done so.`)
@@ -154,39 +155,42 @@ class Expression {
 	}
 
 	// add will add up the given expression to this expression. (As always, the original object remains unchanged.)
-	add(addition) {
-		return new Sum([this, addition]).simplify(Expression.simplifyOptions.structureOnly)
+	add(addition, putAtStart = false) {
+		const Sum = require('../Sum')
+		return new Sum(putAtStart ? [addition, this] : [this, addition]).simplify(Expression.simplifyOptions.structureOnly)
 	}
 
 	// subtract will subtract the given expression from this expression.
-	subtract(subtraction) {
-		return this.add(subtraction.multiplyBy(-1))
+	subtract(subtraction, putAtStart = false) {
+		return this.add(subtraction.applyMinus(), putAtStart)
 	}
 
 	// multiplyBy will multiply this expression by the given expression. It puts the given expression after the current one: a.multiply(b) = a*b. If the second argument is set to true, this is reversed: a.multiply(b, true) = b*a.
 	multiplyBy(multiplication, putAtStart = false) {
-		const { ensureFO } = require('../')
-		multiplication = ensureFO(multiplication)
+		multiplication = Expression.ensureExpression(multiplication)
 
 		// Set up the product.
 		const Product = require('../Product')
-		return new Product(putAtStart ? [this, multiplication] : [multiplication, this]).simplify(Expression.simplifyOptions.structureOnly)
+		return new Product(putAtStart ? [multiplication, this] : [this, multiplication]).simplify(Expression.simplifyOptions.structureOnly)
 	}
 
 	// divideBy will divide this expression by the given expression.
 	divideBy(division) {
-		const { ensureFO } = require('../')
-		division = ensureFO(division)
+		division = Expression.ensureExpression(division)
 
 		// Set up a fraction.
 		const Fraction = require('../functions/Fraction')
 		return new Fraction(this, division).simplify(Expression.simplifyOptions.structureOnly)
 	}
 
+	// applyMinus will multiply a quantity by -1 and do a few minor simplifications.
+	applyMinus() {
+		return this.multiplyBy(-1, true).simplify(Expression.simplifyOptions.removeUseless)
+	}
+
 	// toPower will take this object and apply the given power.
 	toPower(exponent) {
-		const { ensureFO } = require('../')
-		exponent = ensureFO(exponent)
+		exponent = Expression.ensureExpression(exponent)
 
 		// Set up the power.
 		const Power = require('../functions/Power')
@@ -232,13 +236,16 @@ class Expression {
 
 	// substitute applies a substitution, replacing the given variable by the given substitution. The variable must be a variable object, while the substitution must be an instance of Expression.
 	substitute(variable, substitution) {
-		this.checkSubstitutionParameters(variable, substitution)
-		this.substituteBasic(variable, substitution)
+		const Variable = require('../Variable')
+		variable = Variable.ensureVariable(variable)
+		substitution = Expression.ensureExpression(substitution)
+		return this.substituteBasic(variable, substitution)
 	}
 
 	// checkSubstitutionParameters takes parameters given for a substitution and checks if they're valid. If so, it does nothing. If not, an error is thrown.
 	checkSubstitutionParameters(variable, substitution) {
 		// Check if the variable is indeed a variable.
+		const Variable = require('../Variable')
 		if (!(variable instanceof Variable))
 			throw new TypeError(`Invalid substitution: when substituting, the given "variable" must be a variable object. The current given variable was "${variable}".`)
 
@@ -252,14 +259,16 @@ class Expression {
 		variable = this.verifyVariable(variable)
 
 		// Simplify the variable first. Then take the derivative and simplify that.
-		const simplified = this.simplify(Expression.simplifyOptions.basic)
+		const simplified = this.simplify(Expression.simplifyOptions.forDerivatives)
 		const derivative = simplified.getDerivativeBasic(variable)
-		return derivative.simplify(Expression.simplifyOptions.basic)
+		return derivative.simplify(Expression.simplifyOptions.basicClean)
 	}
 
 	// simplify simplifies an object. It checks the given options and calls simplifyWithoutCheck.
-	simplify(options = {}) {
-		options = processOptions(options, Expression.simplifyOptions.all)
+	simplify(options) {
+		if (!options)
+			throw new Error(`Missing simplify options: when simplifying an expression, a simplifying options object must be given.`)
+		options = processOptions(options, Expression.simplifyOptions.noSimplify)
 		return this.simplifyBasic(options)
 	}
 
@@ -276,10 +285,60 @@ class Expression {
 	}
 
 	// equals for a general Expression only compares the type.
-	equals(expression, options = {}) {
-		if (this.constructor !== expression.constructor)
-			return false
-		return true
+	equals(expression, level = Expression.equalityLevels.default) {
+		// Check the input.
+		expression = Expression.ensureExpression(expression)
+		if (Object.values(Expression.equalityLevels).every(equalityLevel => equalityLevel !== level))
+			throw new Error(`Invalid expression equality level: could not check for equality. The equality level "${level}" is not known.`)
+
+		// Deal with certain levels centrally.
+		if (level === Expression.equalityLevels.equivalent) {
+			// To check equivalence of f(x) and g(x), just take f(x) - g(x) and compare its simplification to zero.
+			const Integer = require('../Integer')
+			const comparison = this.subtract(expression).simplify(Expression.simplifyOptions.forAnalysis)
+			return comparison.equalsBasic(Integer.zero)
+		} else if (level === Expression.equalityLevels.constantMultiple) {
+			// To check a constant equivalence of f(x) and g(x), just take f(x)/g(x) and see if the result is a constant number.
+			const comparison = this.divideBy(expression).simplify(Expression.simplifyOptions.forAnalysis)
+			return comparison.isNumeric()
+		}
+
+		// Pas the remaining levels on to the equalsBasic function of the descendant classes.
+		const a = this.simplify(Expression.simplifyOptions.structureOnly)
+		const b = expression.simplify(Expression.simplifyOptions.structureOnly)
+		return a.equalsBasic(b, level)
+	}
+
+	// ensureExpression ensures that the given expression is of type expression.
+	static ensureExpression(expression) {
+		const Integer = require('../Integer')
+		const Float = require('../Float')
+		const Variable = require('../Variable')
+
+		// Check if this is easy to interpret.
+		if (expression instanceof Expression)
+			return expression // All good already!
+		if (isInt(expression))
+			return new Integer(expression)
+		if (isNumber(expression))
+			return new Float(expression)
+		if (typeof expression === 'string')
+			return new Variable(expression)
+
+		// No easy interpretations. Check if this is a raw object with a type parameter.
+		if (!isObject(expression))
+			throw new Error(`Invalid expression object: received an object that was supposedly an Expression, but it was "${expression}".`)
+		if (!expression.type)
+			throw new Error(`Invalid expression object: received an object that was supposedly an Expression, but it is a basic data object without a type property. Cannot interpret it.`)
+
+		// Check the given type.
+		const { getExpressionTypes } = require('../')
+		const types = getExpressionTypes()
+		if (!types[expression.type])
+			throw new Error(`Invalid expression object: received an object that was supposedly an Expression, but its type "${expression.type}" is not known.`)
+
+		// Pass the object to the right constructor.
+		return new types[obj.type](obj)
 	}
 }
 Expression.defaultSO = defaultSO
@@ -297,47 +356,74 @@ Expression.bracketLevels = {
 }
 
 // There is a variety of simplifying options available. The objects below are common combinations of them.
-const all = { // This is never applied, but only use to verify options given. (Some options contradict eachother.)
+const noSimplify = { // This is never applied, but only use to verify options given. (Some options contradict eachother.)
 	structure: false, // Simplify the structure of the object in a way that the expression itself does not seem rewritten. For instance, if there is a sum inside a sum, just turn it into one sum. Or if there is a sum of one element, just turn it into said element.
 	removeUseless: false, // Remove useless elements. For instance, a sum with "+0" or a product with "*1" will be simplified.
 	mergeNumbers: false, // Reduce the number of numbers that are used. If there is a product with constants, like 2*x*3*y*4*z, turn it into 24*x*y*z. Or if there is a sum with numbers, like 2+3*x+4, group the numbers together, like 6+3*x.
+	applySumCancellations: false, // Check inside of sums whether terms can be cancelled. Note that this is a more basic version than mergeNumbers, which can group terms.
+
+	// ToDo: implement the simplification methods below.
+	groupSumTerms: false, // Check inside of sums whether terms can be grouped. For instance, 2*x+3*x can be grouped into (2+3)*x, after which the numbers can be merged to form 5*x.
+	applyFractionCancellations: false, // Check inside of fractions whether factors can be cancelled.
 	expandBrackets: false, // Minimize the number of brackets needed. If there is a product of sums, expand brackets. So (a+b)*(c+d) becomes a*c+a*d+b*c+b*d. Similarly for powers. (a+b)^3 gets a binomial expansion.
 	mergeFractionProducts: false, // Merge products of fractions into a single fraction. So (a/b)*(c/d) becomes (a*c)/(b*d).
-	sortTerms: false, // Sort the terms inside expressionLists (Sum and Product) to put simpler terms first and more complex terms second.
+	sortProducts: false, // Sort the terms inside products to put simpler terms first and more complex terms later.
+	sortSums: false, // Sort the terms inside sums to put simpler terms first and more complex terms later.
 	basicReductions: false, // Turns sin(arcsin(x)) into x, cos(pi) into -1 and y/y into 1. (Yes, this assumes y is not zero, but this is not a formal mathematical toolbox, so let's go along with it.)
 	forDisplay: false, // Make the expression easier to display. For instance, a*b^(-1) will be turned into a fraction a/b, and a^(1/2) will be turned into sqrt(a).
 	forDerivatives: false, // Make the expression easier to get the derivative of. For instance, by rewriting [a]log(b) to ln(b)/ln(a) it's easier to get its derivative.
 	forAnalysis: false, // Make the expression easier to analyze. Turn fractions into powers, so a/b becomes a*b^(-1), and sqrt(a) becomes a^(1/2). Similarly, [a]log(b) will be ln(b)/ln(a) and other similar simplifications ensue, using basic functions as much as possible.
 }
 const structureOnly = {
+	...noSimplify,
 	structure: true
 }
 const forDerivatives = {
 	...structureOnly,
 	forDerivatives: true,
 }
-const basic = {
+const removeUseless = {
 	...structureOnly,
 	removeUseless: true,
+}
+const basicClean = {
+	...structureOnly,
 	mergeNumbers: true,
-	sortTerms: true,
+	applySumCancellations: true,
+	applyFractionCancellations: true,
+}
+const regularClean = {
+	...basicClean,
+	sortProducts: true,
+	sortSums: true,
 	basicReductions: true,
 }
 const forAnalysis = {
-	...basic,
+	...regularClean,
 	expandBrackets: true,
 	forAnalysis: true,
 }
 const forDisplay = {
-	...basic,
+	...regularClean,
 	mergeFractionProducts: true,
 	forDisplay: true,
 }
 Expression.simplifyOptions = {
-	all,
+	noSimplify,
 	structureOnly,
-	basic,
 	forDerivatives,
+	removeUseless,
+	basicClean,
+	regularClean,
 	forAnalysis,
 	forDisplay,
+}
+
+// Equality options boil down to a few possibilities. If these are not sufficient, considering simplifying expressions before comparing for equality.
+Expression.equalityLevels = {
+	default: 2,
+	exact: 0, // Everything must be exactly the same. So x+y is different from y+x.
+	onlyOrderChanges: 1, // Order changes are OK, but the rest is not. So a*x+b equals b+x*a, but x+x does NOT equal 2*x.
+	equivalent: 2, // Any equivalent expression works. So sin(pi/6)*x would equal x/sqrt(4). Prior simplification is obviously not needed when using this option.
+	constantMultiple: 3, // A constant multiple is still considered equal. So (x+1) is equal to (2x+2) but not to (2x+1).
 }

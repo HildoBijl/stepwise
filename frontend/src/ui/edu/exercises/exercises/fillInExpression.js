@@ -59,7 +59,7 @@ function Problem({ index }) {
 			{
 				probleem ? <Par>{probleem}</Par> : <>
 					<Par>De ingevoerde uitdrukking is:</Par>
-					<BM>f\left(x\right)={res.simplify(Expression.simplifyOptions.basic).tex}</BM>
+					<BM>f\left(x\right)={res.simplify(Expression.simplifyOptions.structureOnly).tex}</BM>
 					<Par>{res.isNumeric() ? <>Qua getal is dit (afgerond) {roundTo(res.number, 2)}.</> : <>Dit is een variabele, dus een getal kan niet gegeven worden.</>}</Par>
 					<Par>De afgeleide hiervan (ten opzichte van <M>x</M>) is:</Par>
 					<BM>\frac(df\left(x\right))(dx)={res.getDerivative('x').tex}</BM>

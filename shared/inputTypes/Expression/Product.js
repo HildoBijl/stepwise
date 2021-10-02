@@ -1,4 +1,4 @@
-const { product } = require('../../util/arrays')
+const { product, count } = require('../../util/arrays')
 
 const Expression = require('./abstracts/Expression')
 const ExpressionList = require('./abstracts/ExpressionList')
@@ -11,29 +11,31 @@ const Parent = ExpressionList
 
 class Product extends Parent {
 	toString() {
-		const termToString = (term) => {
+		const termToString = (term, index) => {
+			const precursor = preceedByTimes(term, index) ? '*' : ''
 			if (term.requiresBracketsFor(Expression.bracketLevels.multiplication))
-				return `(${term.str})`
-			return term.str
+				return `${precursor}(${term.str})`
+			return `${precursor}${term.str}`
 		}
 
 		// If the product starts with "-1" then just add a minus instead of "-1*".
-		if (this.terms.length > 1 && this.terms[0].equals(Integer.minusOne))
-			return '-' + this.terms.slice(1).map(termToString).join('*')
-		return this.terms.map(termToString).join('*')
+		if (this.terms.length > 1 && this.terms[0].equalsBasic(Integer.minusOne) && !(this.terms[1] instanceof Constant))
+			return '-' + this.terms.slice(1).map(termToString).join('')
+		return this.terms.map(termToString).join('')
 	}
 
 	toTex() {
-		const termToTex = (term) => {
+		const termToTex = (term, index) => {
+			const precursor = preceedByTimes(term, index) ? ' \\cdot ' : ''
 			if (term.requiresBracketsFor(Expression.bracketLevels.multiplication))
-				return `\\left(${term.tex}\\right)`
-			return term.tex
+				return `${precursor}\\left(${term.tex}\\right)`
+			return `${precursor}${term.tex}`
 		}
 
 		// If the product starts with "-1" then just add a minus instead of "-1*".
-		if (this.terms.length > 1 && this.terms[0].equals(Integer.minusOne))
-			return '-' + this.terms.slice(1).map(termToTex).join(' \\cdot ')
-		return this.terms.map(termToTex).join(' \\cdot ')
+		if (this.terms.length > 1 && this.terms[0].equalsBasic(Integer.minusOne) && !(this.terms[1] instanceof Constant))
+			return '-' + this.terms.slice(1).map(termToTex).join('')
+		return this.terms.map(termToTex).join('')
 	}
 
 	requiresBracketsFor(level) {
@@ -82,11 +84,24 @@ class Product extends Parent {
 		// Check for useless elements.
 		if (options.removeUseless) {
 			// If there is a zero multiplication, return zero.
-			if (terms.some(term => term.equals(Integer.zero)))
+			if (terms.some(term => term.equalsBasic(Integer.zero)))
 				return Integer.zero
 
 			// Filter out one elements.
-			terms = terms.filter(term => !term.equals(Integer.one))
+			terms = terms.filter(term => !term.equalsBasic(Integer.one))
+
+			// Filter out minus one elements. If there's an odd number, check if the first factor is a constant. If so, make it negative. Otherwise add a -1 at the start.
+			const isMinusOne = term => term.equalsBasic(Integer.minusOne)
+			const minusOneCount = count(terms, isMinusOne)
+			if (minusOneCount > 0)
+				terms = terms.filter(term => !isMinusOne(term))
+			if (minusOneCount % 2 === 1) {
+				if (terms[0] instanceof Constant) {
+					terms[0] = terms[0].applyMinus()
+				} else {
+					terms.unshift(Integer.minusOne)
+				}
+			}
 		}
 
 		// Check for structure simplifications.
@@ -161,3 +176,8 @@ class Product extends Parent {
 Product.defaultSO = Parent.defaultSO
 Product.type = 'Product'
 module.exports = Product
+
+// preceedByTimes checks if the given term requires a times symbol prior to it when displaying it. It returns true or false.
+function preceedByTimes(term, index) {
+	return index > 0 && (term instanceof Constant)
+}

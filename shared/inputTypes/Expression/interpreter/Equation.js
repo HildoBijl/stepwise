@@ -2,7 +2,7 @@ const { lastOf } = require('../../../util/arrays')
 
 const { interpretExpressionValue } = require('./Expression')
 const { InterpretationError } = require('./InterpretationError')
-const { getSubExpression } = require('./support')
+const { getSubExpression, moveRight } = require('./support')
 
 const { Equation } = require('../../Equation')
 
@@ -46,8 +46,11 @@ function interpretEquationValue(value) {
 		throw new InterpretationError('MissingEqualsSign', undefined, `Could not interpret the equation due to no equals sign being present.`)
 
 	// Split up the Expression at the given equals sign and interpret both parts separately.
-	const left = getSubExpression(value, { part: 0, cursor: 0 }, { part, cursor })
-	const right = getSubExpression(value, { part, cursor: cursor + 1 }, { part: value.length - 1, cursor: lastOf(value).value.length })
+	const start = { part: 0, cursor: 0 }
+	const equalsPosition = { part, cursor }
+	const end = { part: value.length - 1, cursor: lastOf(value).value.length }
+	const left = getSubExpression(value, start, equalsPosition)
+	const right = getSubExpression(value, moveRight(equalsPosition), end)
 	return new Equation({
 		left: interpretExpressionValue(left),
 		right: interpretExpressionValue(right),

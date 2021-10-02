@@ -20,7 +20,7 @@ class Sin extends Parent {
 
 		// Check for basic reductions.
 		if (options.basicReductions) {
-			if (argument.equals(Integer.zero))
+			if (argument.equalsBasic(Integer.zero))
 				return Integer.zero
 
 			// ToDo: check for basic angles. (And same for cos and tan.)

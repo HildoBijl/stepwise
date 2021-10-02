@@ -3,9 +3,8 @@ class InterpretationError extends Error {
 		super(...args)
 
 		// Maintain proper stack trace for where the error was thrown.
-		if (Error.captureStackTrace) {
+		if (Error.captureStackTrace)
 			Error.captureStackTrace(this, InterpretationError)
-		}
 
 		// Store important data.
 		this.name = 'InterpretationError'
@@ -67,7 +66,7 @@ function getInterpretationErrorMessage(error) {
 
 		// String interpretation.
 		case 'InvalidSymbol':
-			return `Onbekend symbool "${cause}".`
+			return `Onverwacht symbool "${cause}".`
 		case 'SingleDecimalSeparator':
 			return `Er is een komma zonder getallen eromheen.`
 		case 'MultipleDecimalSeparator':

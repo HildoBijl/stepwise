@@ -1,6 +1,12 @@
 const { ensureInt } = require('./numbers')
 const { ensureArray, getCumulativeArray, lastOf } = require('./arrays')
 
+// getRandomBoolean returns true or false, randomly. Optionally, the probability for true can be given.
+function getRandomBoolean(probability = 0.5) {
+	return Math.random() < probability
+}
+module.exports.getRandomBoolean = getRandomBoolean
+
 // getRandom returns a random floating number between the given minimum and maximum.
 function getRandom(min, max) {
 	return min + (max - min) * Math.random()
@@ -43,7 +49,7 @@ function selectRandomly(arr, weights) {
 
 	// If there are weights, apply them.
 	const cumWeights = getCumulativeArray(weights)
-	const random = Math.random()*lastOf(cumWeights)
+	const random = Math.random() * lastOf(cumWeights)
 	const index = cumWeights.findIndex(cumWeight => random <= cumWeight)
 	return arr[index]
 }

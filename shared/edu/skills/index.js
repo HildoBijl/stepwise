@@ -36,6 +36,12 @@ const skills = {
 		exercises: ['summationAndMultiplication1', 'summationAndMultiplication2'],
 	},
 
+	// Basic mathematics.
+	moveATerm: {
+		name: 'Een term verplaatsen',
+		exercises: ['moveATerm1'],
+	},
+
 	// Mathematics
 	solveLinearEquation: {
 		name: 'Lineaire vergelijking oplossen',

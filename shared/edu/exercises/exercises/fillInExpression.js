@@ -82,7 +82,6 @@ const data = {
 const expressions = [
 	'a\\cdot b+c \\pm 2 \\mp 3',
 	// 'a\\left(b+c\\right)',
-	// '\\log(x^2)',
 	// ToDo: eventually add all use cases here.
 ]
 

@@ -49,6 +49,10 @@ class Constant extends Parent {
 		return this.clone() // A constant does not change upon substitution.
 	}
 
+	applyMinus() {
+		return Constant.toNumber(-this.toNumber())
+	}
+
 	isNumeric() {
 		return true
 	}
@@ -66,7 +70,7 @@ class Constant extends Parent {
 		return this // You cannot simplify a number. It's as simple as it gets.
 	}
 
-	equals(expression, options) {
+	equalsBasic(expression, level) {
 		if (!(expression instanceof Constant))
 			return false
 		return expression.toNumber() === this.toNumber()
