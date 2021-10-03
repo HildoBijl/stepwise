@@ -50,9 +50,6 @@ function getCorrect(state) {
 
 function checkInput(state, input) {
 	const { ans } = getCorrect(state)
-	console.log(ans.str)
-	console.log(input.ans.str)
-	console.log(ans.equals(input.ans, data.equalityOptions.ans))
 	return ans.equals(input.ans, data.equalityOptions.ans)
 }
 

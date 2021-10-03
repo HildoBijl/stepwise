@@ -72,10 +72,6 @@ class ExpressionList extends Parent {
 	}
 
 	equalsBasic(expression, level) {
-		// Check that the list type is equal.
-		if (this.constructor !== expression.constructor)
-			return false
-
 		// Depending on the settings, simplify each expression. This is necessary to ensure that, for instance, -x*2 will not be considered different from -2*x.
 		let a = this
 		let b = expression
@@ -83,6 +79,10 @@ class ExpressionList extends Parent {
 			a = a.simplify(Expression.simplifyOptions.basicClean)
 			b = b.simplify(Expression.simplifyOptions.basicClean)
 		}
+
+		// Check that the list type is equal.
+		if (a.constructor !== b.constructor)
+			return false
 
 		// Check that the term lists have equal length.
 		if (a.terms.length !== b.terms.length)

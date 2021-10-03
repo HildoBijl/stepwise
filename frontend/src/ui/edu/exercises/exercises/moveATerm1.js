@@ -1,6 +1,7 @@
 import React from 'react'
 
-import { selectRandomCorrect } from 'step-wise/util/random'
+import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
+import { simplifyOptions } from 'step-wise/inputTypes/Expression'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
@@ -40,11 +41,36 @@ function Solution(state) {
 	} Immers, als we aan beide kanten van de vergelijking dezelfde term {a < 0 ? 'optellen' : 'aftrekken'}, dan blijft de vergelijking kloppen. Zo vinden we <BM>{intermediate}.</BM> Nu zien we dat er aan de {switchLeftRight ? 'rechter' : 'linker'} kant termen wegvallen tegen elkaar. Immers, als we eerst ergens <M>{termAbs}</M> {a < 0 ? <>van afhalen en het er vervolgens weer bij optellen</> : <>bij optellen en het er vervolgens weer van afhalen</>}, dan heeft dat geen effect. Zo vinden we de vergelijking <BM>{ans}.</BM> Hiermee is de term met <M>{switchXY ? 'y' : 'x'}</M> inderdaad naar de andere kant gehaald.</Par>
 }
 
-function getFeedback({ state: { constant }, input: { ans }, progress: { solved }, shared: { data: { equalityOptions } } }) {
+function getFeedback({ state, input, progress: { solved }, shared: { getCorrect, data: { equalityOptions } } }) {
+	// Check for a correct solution.
 	const correct = !!solved
 	if (correct)
 		return { ans: { correct, text: selectRandomCorrect() } }
 
-	// ToDo:
-	return { ans: { correct, text: 'Er is iets mis. De feedback functie moet echter nog geschreven worden. ' } }
+	// Extract data.
+	const { a, switchLeftRight } = state
+	const { equation, term, intermediate } = getCorrect(state)
+	const turnIntoFeedback = (text) => ({ ans: { correct, text } })
+
+	// Check for the original expression.
+	if (equation.equals(input.ans, equalityOptions.ans))
+		return turnIntoFeedback('Dit is de oorspronkelijke vergelijking. Je hebt hier nog niets mee gedaan.')
+
+	// Check for the intermediate step.
+	if (intermediate.equals(input.ans, equalityOptions.ans))
+		return turnIntoFeedback(`Je hebt de juiste term bij beide kanten ${a > 0 ? 'afgehaald' : 'opgeteld'}, maar vervolgens moet je nog wat wegstrepen.`)
+
+	// Check if the sign was incorrect.
+	const addTerm = part => part.add(term).simplify(simplifyOptions.basicClean)
+	const subtractTerm = part => part.subtract(term).simplify(simplifyOptions.basicClean)
+	const falseSolution = equation.applyToLeft(switchLeftRight ? addTerm : subtractTerm).applyToRight(switchLeftRight ? subtractTerm : addTerm)
+	if (falseSolution.equals(input.ans, equalityOptions.ans))
+		return turnIntoFeedback(`Als de term aan de ene kant ${a > 0 ? 'positief' : 'negatief'} is, dan moet hij aan de andere kant ${a > 0 ? 'negatief' : 'positief'} worden.`)
+
+	// Check if the equation itself is still correct.
+	return turnIntoFeedback(selectRandomIncorrect())
+	// ToDo: use the stuff below when proper equation equality has been implemented.
+	// if (equation.equals(input.ans))
+	// 	return turnIntoFeedback('De vergelijking klopt wel, maar je hebt niet gedaan wat gevraagd werd.')
+	// return turnIntoFeedback('Deze vergelijking klopt niet meer. Je hebt bij het omschrijven iets gedaan dat niet mag.')
 }
