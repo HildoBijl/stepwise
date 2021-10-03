@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
-import { useShutdownAccountMutation } from 'api/user'
+import { useUser, useShutdownAccountMutation } from 'api/user'
 import { logOutAddress } from 'ui/settings'
 
 import { Par, Head } from 'ui/components/containers'
@@ -22,7 +22,9 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function About() {
+	const user = useUser()
 	return <>
+		<Par>Je bent ingelogd als {user.name} &lt;{user.email}&gt;.</Par>
 		<Par>Er zijn nog geen app-brede instellingen. Zijn er dingen die je in wilt stellen? Laat het weten via <a href="mailto:hildo.bijl@hu.nl">hildo.bijl@hu.nl</a> en we kijken of we het toe kunnen voegen.</Par>
 
 		<DeleteAccount />
