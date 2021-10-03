@@ -5,7 +5,7 @@ import { getEmpty, isEmpty } from 'step-wise/inputTypes/Equation'
 import { interpretEquationValue } from 'step-wise/inputTypes/Expression/interpreter/Equation'
 import { getInterpretationErrorMessage } from 'step-wise/inputTypes/Expression/interpreter/InterpretationError'
 
-import Expression from './support/expressionTypes/Expression'
+import Equation from './support/expressionTypes/Equation'
 
 import ExpressionInput from './ExpressionInput'
 
@@ -56,7 +56,7 @@ export function getEmptyData() {
 	return {
 		type: 'Equation',
 		value: getEmpty(),
-		cursor: Expression.getStartCursor(),
+		cursor: Equation.getStartCursor(),
 	}
 }
 
@@ -65,7 +65,7 @@ export function isValid(value) {
 	return getValidityMessage(value) === undefined
 }
 
-// getValidityMessage takes an Expression value and checks whether it is valid. If not, it gives a message explaining a problem. If it is valid, nothing is returned.
+// getValidityMessage takes an Equation value and checks whether it is valid. If not, it gives a message explaining a problem. If it is valid, nothing is returned.
 export function getValidityMessage(value) {
 	try {
 		interpretEquationValue(value)
@@ -73,5 +73,3 @@ export function getValidityMessage(value) {
 		return getInterpretationErrorMessage(e)
 	}
 }
-
-// ToDo: add in a default validate function that checks if an equation is provided.
