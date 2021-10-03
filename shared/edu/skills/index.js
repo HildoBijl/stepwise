@@ -39,7 +39,7 @@ const skills = {
 	// Basic mathematics.
 	moveATerm: {
 		name: 'Een term verplaatsen',
-		exercises: ['moveATerm1'],
+		exercises: ['moveATerm1', 'moveATerm2'],
 	},
 
 	// Mathematics

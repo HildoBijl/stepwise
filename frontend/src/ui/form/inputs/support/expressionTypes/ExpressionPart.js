@@ -14,10 +14,17 @@ import Expression from './Expression'
 import { getDeepestExpression } from './support/ExpressionSupport'
 import { isCursorKey } from './support/acceptsKey'
 
-const autoReplaceSymbols = [
+const pmSymbols = [
 	{ name: 'pm', symbol: '±' },
 	{ name: 'mp', symbol: '∓' },
+]
+const autoReplaceSymbols = [
+	...pmSymbols,
 	...Object.values(greekAlphabet),
+]
+const autoReplaceSymbolsWithoutGreek = [
+	...pmSymbols,
+	{ name: 'pi', symbol: 'π' },
 ]
 
 const allFunctions = {
@@ -128,9 +135,9 @@ export function acceptsKey(keyInfo, data, settings) {
 		return settings.logarithm
 	if (accents.includes(key))
 		return settings.accent
-	if (basicFunctions.includes(key) || advancedFunctions.includes(key))
-		return true
 	if (greekAlphabet[key] !== undefined)
+		return key === 'pi' || settings.greek
+	if (basicFunctions.includes(key) || advancedFunctions.includes(key))
 		return true
 	if (key === '=')
 		return settings.equals
@@ -306,17 +313,18 @@ export function countNetBrackets(data, relativeToCursor) {
 	return valuePart.split('(').length - valuePart.split(')').length
 }
 
-export function cleanUp(data) {
-	return applyAutoReplace(data)
+export function cleanUp(data, settings) {
+	return applyAutoReplace(data, settings)
 }
 
-export function applyAutoReplace(data) {
+export function applyAutoReplace(data, settings) {
 	let { value, cursor } = data
 	const hasCursor = !!cursor || cursor === 0
 
 	// Apply an auto-replace on all auto-replace symbols. For each symbol, replace all instances and shift the cursor along accordingly.
 	let found = false
-	autoReplaceSymbols.forEach(symbol => {
+	const symbols = settings.greek ? autoReplaceSymbols : autoReplaceSymbolsWithoutGreek
+	symbols.forEach(symbol => {
 		let position = value.search(symbol.name)
 		while (position !== -1) {
 			found = true

@@ -67,6 +67,11 @@ class Product extends Parent {
 		// Simplify all children with the same options.
 		let { terms } = this.simplifyChildren(options)
 
+		// Flatten products inside this product.
+		if (options.structure) {
+			terms = terms.map(term => term.isType(Product) ? term.terms : term).flat()
+		}
+
 		// Merge all numbers together and put them at the start.
 		if (options.mergeNumbers) {
 			let number = 1
@@ -111,19 +116,16 @@ class Product extends Parent {
 				return Integer.one
 			if (terms.length === 1)
 				return terms[0]
-
-			// Flatten products inside this product.
-			terms = terms.map(term => term.isType(Product) ? term.terms : term).flat()
 		}
 
 		// Expand brackets. For this, find the first sum and expand it. Other sums will be expanded recursively through further simplify calls.
 		if (options.expandBrackets) {
-			const sumIndex = this.terms.findIndex(term => term.isType(Sum))
+			const sumIndex = terms.findIndex(term => term.isType(Sum))
 			if (sumIndex !== -1) {
-				return new Sum(this.terms[sumIndex].terms.map(sumTerm => new Product([
-					...this.terms.slice(0, sumIndex),
+				return new Sum(terms[sumIndex].terms.map(sumTerm => new Product([
+					...terms.slice(0, sumIndex),
 					sumTerm,
-					...this.terms.slice(sumIndex + 1),
+					...terms.slice(sumIndex + 1),
 				]))).simplifyBasic(options)
 			}
 		}
@@ -179,5 +181,5 @@ module.exports = Product
 
 // preceedByTimes checks if the given term requires a times symbol prior to it when displaying it. It returns true or false.
 function preceedByTimes(term, index) {
-	return index > 0 && (term instanceof Constant)
+	return index > 0 && ((term instanceof Constant) || (term instanceof Product && term.terms[0] instanceof Constant))
 }

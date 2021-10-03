@@ -52,6 +52,22 @@ module.exports.basicFunctions = Object.keys(basicFunctions)
 module.exports.advancedFunctions = Object.keys(advancedFunctions)
 module.exports.accents = accents
 
+// isFunctionAllowed takes a function name (like "log") and a settings object, and checks if the function is allowed.
+function isFunctionAllowed(func, settings) {
+	if (func === 'frac')
+		return settings.divide
+	if (func === 'subSup')
+		return settings.power || settings.subscript	
+	if (func === 'sin' || func === 'cos' || func === 'tan' || func === 'asin' || func === 'acos' || func === 'atan' || func === 'arcsin' || func === 'arccos' || func === 'arctan')
+		return settings.trigonometry
+	if (func === 'sqrt' || func === 'root')
+		return settings.root
+	if (func === 'ln' || func === 'log')
+		return settings.logarithm
+	return false
+}
+module.exports.isFunctionAllowed = isFunctionAllowed
+
 // interpretExpression is the very important function that turns an IO expression into a functional object.
 function interpretExpression(obj) {
 	// Check the type.

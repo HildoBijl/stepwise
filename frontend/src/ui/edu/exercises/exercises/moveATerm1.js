@@ -1,8 +1,6 @@
 import React from 'react'
 
-import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
-import { simplifyOptions } from 'step-wise/inputTypes/Expression'
-import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
+import { simplifyOptions, equalityLevels } from 'step-wise/inputTypes/Expression'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
@@ -13,8 +11,9 @@ import { InputSpace } from 'ui/form/Status'
 import { useExerciseData, useCorrect } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 
+import { getInputFieldFeedback } from '../util/feedback'
+
 export default function Exercise() {
-	// return <StepExercise Problem={Problem} steps={steps} />
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
@@ -27,7 +26,7 @@ const Problem = (state) => {
 		<Par>Gegeven is de vergelijking <BM>{equation.tex}.</BM> Breng de term met <M>{switchXY ? 'y' : 'x'}</M> naar de andere kant van het is-teken.</Par>
 		<InputSpace>
 			<Par>
-				<EquationInput id="ans" label="Vul hier de vergelijking in" size="s" settings={{ ...basicMath, divide: false }} />
+				<EquationInput id="ans" label="Vul hier de vergelijking in" size="s" settings={{ ...basicMath, divide: false, greek: false }} />
 			</Par>
 		</InputSpace>
 	</>
@@ -39,7 +38,7 @@ const steps = [
 			const { a, switchLeftRight, term, termAbs } = useCorrect(state)
 			return <>
 				<Par>We willen iets doen met beide kanten van de vergelijking om {switchLeftRight ? 'rechts' : 'links'} de term <M>{term}</M> weg te krijgen. {a > 0 ? <>Trek hiervoor <M>{termAbs}</M> van beide kanten van de vergelijking af.</> : <>Tel hiervoor <M>{termAbs}</M> bij beide kanten van de vergelijking op.</>} (Streep nog geen termen weg.)</Par>
-				<InputSpace><Par><EquationInput id="intermediate" label="Vul hier de vergelijking in" size="s" settings={{ ...basicMath, divide: false }} /></Par></InputSpace>
+				<InputSpace><Par><EquationInput id="intermediate" label="Vul hier de vergelijking in" size="s" settings={{ ...basicMath, divide: false, greek: false }} /></Par></InputSpace>
 			</>
 		},
 		Solution: (state) => {
@@ -52,7 +51,7 @@ const steps = [
 			const { switchLeftRight } = state
 			return <>
 				<Par>Streep aan de {switchLeftRight ? 'rechter' : 'linker'} kant van de vergelijking waar mogelijk termen weg.</Par>
-				<InputSpace><Par><EquationInput id="ans" label="Vul hier de vergelijking in" size="s" settings={{ ...basicMath, divide: false }} /></Par></InputSpace>
+				<InputSpace><Par><EquationInput id="ans" label="Vul hier de vergelijking in" size="s" settings={{ ...basicMath, divide: false, greek: false }} /></Par></InputSpace>
 			</>
 		},
 		Solution: (state) => {
@@ -63,64 +62,41 @@ const steps = [
 ]
 
 function getFeedback(exerciseData) {
-	console.log(exerciseData)
-
-	const { state, input, shared: { getCorrect, data: { equalityOptions } } } = exerciseData
-	const { a, switchLeftRight, equation, term, intermediate, ans } = getCorrect(state)
-
-	const feedback = {}
-	if (input.intermediate) {
-		feedback.intermediate = { correct: false, text: selectRandomIncorrect() }
-
-		// Check for the original expression.
-		if (equation.equals(input.intermediate, equalityOptions.default))
-			feedback.intermediate = { correct: false, text: 'Dit is de oorspronkelijke vergelijking. Je hebt hier nog niets mee gedaan.' }
-
-		// Check if the sign was incorrect.
-		const addTerm = part => part.add(term).simplify(simplifyOptions.basicClean)
-		const subtractTerm = part => part.subtract(term).simplify(simplifyOptions.basicClean)
-		const falseSolution = equation.applyToLeft(switchLeftRight ? addTerm : subtractTerm).applyToRight(switchLeftRight ? subtractTerm : addTerm)
-		if (falseSolution.equals(input.intermediate, equalityOptions.default))
-			return { correct: false, text: `Als de term aan de ene kant ${a > 0 ? 'positief' : 'negatief'} is, dan moet hij aan de andere kant ${a > 0 ? 'negatief' : 'positief'} worden.` }
-
-		// Check if the equation itself is still correct.
-		// ToDo: use the stuff below when proper equation equality has been implemented.
-		// if (ans.equals(input.intermediate))
-		// 	return turnIntoFeedback('De vergelijking klopt wel, maar je hebt niet gedaan wat gevraagd werd.')
-		// return turnIntoFeedback('Deze vergelijking klopt niet meer. Je hebt bij het omschrijven iets gedaan dat niet mag.')
-
-		// Check for a correct solution.
-		if (intermediate.equals(input.intermediate, equalityOptions.default))
-			feedback.intermediate = { correct: true, text: selectRandomCorrect() }
+	// Define extra checks.
+	const equalityOptions = exerciseData.shared.data.equalityOptions.default
+	const originalExpression = {
+		check: (input, { equation }) => equation.equals(input, equalityOptions),
+		text: 'Dit is de oorspronkelijke vergelijking. Je hebt hier nog niets mee gedaan.',
 	}
-	if (input.ans) {
-		feedback.ans = { correct: false, text: selectRandomIncorrect() }
-
-		// Check for the original expression.
-		if (equation.equals(input.ans, equalityOptions.default))
-			feedback.ans = { correct: false, text: 'Dit is de oorspronkelijke vergelijking. Je hebt hier nog niets mee gedaan.' }
-
-		// Check for the intermediate step.
-		if (intermediate.equals(input.ans, equalityOptions.default))
-			feedback.ans = { correct: false, text: `Je hebt de juiste term bij beide kanten ${a > 0 ? 'afgehaald' : 'opgeteld'}, maar vervolgens moet je nog wat wegstrepen.` }
-
-		// Check if the sign was incorrect.
-		const addTerm = part => part.add(term).simplify(simplifyOptions.basicClean)
-		const subtractTerm = part => part.subtract(term).simplify(simplifyOptions.basicClean)
-		const falseSolution = equation.applyToLeft(switchLeftRight ? addTerm : subtractTerm).applyToRight(switchLeftRight ? subtractTerm : addTerm)
-		if (falseSolution.equals(input.ans, equalityOptions.default))
-			feedback.ans = { correct: false, text: `Als de term aan de ene kant ${a > 0 ? 'positief' : 'negatief'} is, dan moet hij aan de andere kant ${a > 0 ? 'negatief' : 'positief'} worden.` }
-
-		// Check if the equation itself is still correct.
-		// ToDo: use the stuff below when proper equation equality has been implemented.
-		// if (ans.equals(input.ans))
-		// 	return turnIntoFeedback('De vergelijking klopt wel, maar je hebt niet gedaan wat gevraagd werd.')
-		// return turnIntoFeedback('Deze vergelijking klopt niet meer. Je hebt bij het omschrijven iets gedaan dat niet mag.')
-
-		// Check for a correct solution.
-		if (ans.equals(input.ans, equalityOptions.default))
-			feedback.ans = { correct: true, text: selectRandomCorrect() }
+	const atIntermediateStep = {
+		check: (input, { intermediate }) => intermediate.equals(input, equalityOptions),
+		text: ({ a }) => `Je hebt de juiste term ${a > 0 ? 'van beide kanten afgehaald' : 'bij beide kanten opgeteld'}, maar vervolgens moet je nog wat wegstrepen.`
+	}
+	const incorrectSign = {
+		check: (input, { equation, term, switchLeftRight }) => {
+			const addTerm = part => part.add(term).simplify(simplifyOptions.basicClean)
+			const subtractTerm = part => part.subtract(term).simplify(simplifyOptions.basicClean)
+			const falseSolution = equation.applyToLeft(switchLeftRight ? addTerm : subtractTerm).applyToRight(switchLeftRight ? subtractTerm : addTerm)
+			return falseSolution.equals(input, equalityOptions)
+		},
+		text: ({ a }) => `Als de term aan de ene kant ${a > 0 ? 'positief' : 'negatief'} is, dan moet hij aan de andere kant ${a > 0 ? 'negatief' : 'positief'} worden.`,
+	}
+	const correctEquation = {
+		check: (input, { ans }) => ans.left.subtract(ans.right).equals(input.left.subtract(input.right), equalityLevels.equivalent),
+		// check: (input, { ans }) => ans.equals(input), // ToDo: put this back once equality checks are in full working order.
+		text: 'De vergelijking klopt wel, maar je hebt niet gedaan wat gevraagd werd.',
+	}
+	const remaining = {
+		check: () => true,
+		text: 'Deze vergelijking klopt niet. Je hebt bij het omschrijven iets gedaan dat niet mag.',
 	}
 
-	return feedback
+	// Determine feedback.
+	return getInputFieldFeedback([
+		'intermediate',
+		'ans'
+	], exerciseData, [
+		{ checks: [originalExpression, correctEquation, remaining] },
+		{ checks: [originalExpression, atIntermediateStep, incorrectSign, correctEquation, remaining] },
+	])
 }

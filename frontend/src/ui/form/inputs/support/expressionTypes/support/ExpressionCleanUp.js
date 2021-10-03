@@ -1,5 +1,6 @@
 import { lastOf } from 'step-wise/util/arrays'
 import { getEmpty } from 'step-wise/inputTypes/Expression'
+import { isFunctionAllowed } from 'step-wise/inputTypes/Expression/interpreter/Expression'
 
 import { removeCursor } from '../../Input'
 import { getFuncs, zoomIn, zoomInAt } from '../index.js'
@@ -8,11 +9,11 @@ import ExpressionPart from '../ExpressionPart'
 import { functions } from '../Function'
 import { accents } from '../Accent'
 
-export default function cleanUp(data) {
+export default function cleanUp(data, settings) {
 	const hasCursor = !!data.cursor
 
 	// Step 1 is to clean up all the elements individually.
-	data = cleanUpElements(data)
+	data = cleanUpElements(data, settings)
 
 	// Step 2 is to flatten all expressions inside of the expression array.
 	data = flattenExpressionArray(data)
@@ -21,23 +22,23 @@ export default function cleanUp(data) {
 	data = removeUnnecessaryElements(data)
 
 	// Step 4 is to ensure that the expression consists of alternating ExpressionParts (even indices) and alternating other parts (odd indices).
-	data = alternateExpressionParts(data)
+	data = alternateExpressionParts(data, settings)
 
 	// Step 5 is to auto-replace functions. The auto-replace on ExpressionPart level for symbols (Greek alphabet, plus-minus, ...) was already done by cleaning them (and running an extra cleaning upon merging) but this concerns expression-wide auto-replace like functions (root, log, ...) and accents (dot, hat, ...).
-	data = applyAutoReplace(data)
+	data = applyAutoReplace(data, settings)
 
 	// Return the result with or without a cursor.
 	return hasCursor ? data : removeCursor(data)
 }
 
 // cleanUpElements will take an expression data object and walk through all children, calling the cleanUp function for them. It adjusts the cursor along when needed.
-function cleanUpElements(data) {
+function cleanUpElements(data, settings) {
 	const { value, cursor } = data
 	let newCursor = null
 	const newValue = value.map((_, part) => {
 		const newElementUncleaned = zoomInAt(data, part)
 		const cleanUp = getFuncs(newElementUncleaned).cleanUp
-		const newElement = cleanUp ? cleanUp(newElementUncleaned) : newElementUncleaned
+		const newElement = cleanUp ? cleanUp(newElementUncleaned, settings) : newElementUncleaned
 		if (cursor && cursor.part === part)
 			newCursor = { part, cursor: newElement.cursor }
 		return removeCursor(newElement)
@@ -108,7 +109,7 @@ function removeUnnecessaryElements(data) {
 	}
 }
 
-function alternateExpressionParts(data) {
+function alternateExpressionParts(data, settings) {
 	const { value, cursor } = data
 
 	// Check a special case.
@@ -136,7 +137,7 @@ function alternateExpressionParts(data) {
 				...lastAddedElement,
 				value: lastAddedElement.value + element.value,
 				cursor: jointCursor,
-			})
+			}, settings)
 			if (jointCursor !== null)
 				newCursor = { part: newValue.length - 1, cursor: newExpressionPart.cursor }
 			newValue[newValue.length - 1] = removeCursor(newExpressionPart)
@@ -163,7 +164,7 @@ function alternateExpressionParts(data) {
 	}
 }
 
-function applyAutoReplace(data) {
+function applyAutoReplace(data, settings) {
 	// Check if the cursor is in an expression part. If not, don't apply auto-replace.
 	const { cursor } = data
 	if (!cursor)
@@ -185,8 +186,8 @@ function applyAutoReplace(data) {
 	}
 
 	// Walk through the expression part to search for the respective functions. If they're found, create the respective function.
-	Object.keys(functions).forEach(name => checkAutoReplaceFor(name, functions[name]))
-	Object.keys(accents).forEach(name => checkAutoReplaceFor(name, accents[name]))
+	Object.keys(functions).forEach(name => isFunctionAllowed(name, settings) && checkAutoReplaceFor(name, functions[name]))
+	Object.keys(accents).forEach(name => settings.accent && checkAutoReplaceFor(name, accents[name]))
 
 	return data
 }

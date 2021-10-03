@@ -174,9 +174,9 @@ function keyPressToData(keyInfo, data, charElements, topParentData, contentsElem
 	return defaultFunctions.keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement)
 }
 
-function cleanUp(data) {
+function cleanUp(data, settings) {
 	// First clean up in the default way.
-	data = defaultFunctions.cleanUp(data)
+	data = defaultFunctions.cleanUp(data, settings)
 
 	// Then remove empty parts. Keep parts that are not empty or have a cursor in them.
 	const { cursor, value } = data

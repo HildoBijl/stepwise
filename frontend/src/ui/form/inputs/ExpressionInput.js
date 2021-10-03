@@ -7,6 +7,7 @@ import { deepEquals, processOptions } from 'step-wise/util/objects'
 import { getEmpty, isEmpty } from 'step-wise/inputTypes/Expression'
 import { interpretExpressionValue } from 'step-wise/inputTypes/Expression/interpreter/Expression'
 import { getInterpretationErrorMessage } from 'step-wise/inputTypes/Expression/interpreter/InterpretationError'
+import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 
 import { useRefWithValue } from 'util/react'
 
@@ -17,6 +18,8 @@ import MathWithCursor, { MathWithCursorProvider, useMathWithCursorContext, mouse
 import Expression from './support/expressionTypes/Expression'
 import { keys as mathKeys } from '../Keyboard/keyboards/basicMath'
 import { simplifyKey } from '../Keyboard/keyboards/KeyboardLayout'
+
+const keysToCheck = [...mathKeys, ...Object.keys(greekAlphabet)]
 
 const style = (theme) => ({
 	// Currently empty.
@@ -55,6 +58,7 @@ const defaultSettings = {
 	root: true,
 	logarithm: true,
 	accent: true,
+	greek: true,
 	equals: false,
 }
 
@@ -79,13 +83,13 @@ function ExpressionInputInner(props) {
 	const keyPressToData = useCallback((keyInfo, data, contentsElement) => {
 		const charElements = charElementsRef.current
 		const newData = Expression.keyPressToData(keyInfo, data, settingsRef.current, charElements, data, contentsElement, (cursorRef.current && cursorRef.current.element))
-		return newData === data || deepEquals(data, newData) ? data : Expression.cleanUp(newData)
+		return newData === data || deepEquals(data, newData) ? data : Expression.cleanUp(newData, settingsRef.current)
 	}, [charElementsRef, cursorRef, settingsRef])
 	const mouseClickToData = useCallback((evt, data, contentsElement) => {
 		const charElements = charElementsRef.current
 		const newData = { ...data, cursor: generalMouseClickToCursor(evt, data, charElements, contentsElement) }
-		return newData === data || deepEquals(data, newData) ? data : Expression.cleanUp(newData)
-	}, [charElementsRef])
+		return newData === data || deepEquals(data, newData) ? data : Expression.cleanUp(newData, settingsRef.current)
+	}, [charElementsRef, settingsRef])
 
 	// Gather all relevant data.
 	const classes = useStyles()
@@ -133,7 +137,7 @@ export function getEmptyData() {
 export function dataToKeyboardSettings(data, settings) {
 	// Determine which keys to disable based on the position.
 	const keySettings = {}
-	mathKeys.forEach(keyboardKey => {
+	keysToCheck.forEach(keyboardKey => {
 		const key = simplifyKey(keyboardKey)
 		keySettings[keyboardKey] = Expression.acceptsKey({ key }, data, settings)
 	})
@@ -143,7 +147,7 @@ export function dataToKeyboardSettings(data, settings) {
 		keySettings,
 		basicMath: {},
 		textMath: {},
-		greek: {},
+		greek: settings.greek && {},
 	}
 }
 

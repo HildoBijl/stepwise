@@ -295,7 +295,14 @@ class Expression {
 		if (level === Expression.equalityLevels.equivalent) {
 			// To check equivalence of f(x) and g(x), just take f(x) - g(x) and compare its simplification to zero.
 			const Integer = require('../Integer')
+			console.log(this.str)
+			console.log(expression.str)
 			const comparison = this.subtract(expression).simplify(Expression.simplifyOptions.forAnalysis)
+			console.log(this.subtract(expression))
+			console.log(this.subtract(expression).str)
+			console.log(this.subtract(expression).simplify(Expression.simplifyOptions.forAnalysis))
+			console.log(this.subtract(expression).simplify(Expression.simplifyOptions.forAnalysis).str)
+			console.log(this.subtract(expression).simplify(Expression.simplifyOptions.forAnalysis).simplify(Expression.simplifyOptions.forAnalysis).str)
 			return comparison.equalsBasic(Integer.zero)
 		} else if (level === Expression.equalityLevels.constantMultiple) {
 			// To check a constant equivalence of f(x) and g(x), just take f(x)/g(x) and see if the result is a constant number.

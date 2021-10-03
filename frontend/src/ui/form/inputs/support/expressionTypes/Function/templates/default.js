@@ -198,7 +198,7 @@ export function isEmpty(value) {
 	return value.every(element => isDataEmpty(element))
 }
 
-export function cleanUp(data) {
+export function cleanUp(data, settings) {
 	const { value, cursor } = data
 
 	// Clean up the parts individually, keeping track of the cursor.
@@ -211,7 +211,7 @@ export function cleanUp(data) {
 
 		// Clean up the element if we can.
 		const cleanUp = getFuncs(element).cleanUp
-		const cleanedElement = cleanUp ? cleanUp(element) : element
+		const cleanedElement = cleanUp ? cleanUp(element, settings) : element
 
 		// Extract the possibly adjusted cursor positions.
 		if (cursor && cursor.part === part)
