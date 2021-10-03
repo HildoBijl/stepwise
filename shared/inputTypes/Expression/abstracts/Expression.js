@@ -303,7 +303,7 @@ class Expression {
 			return comparison.isNumeric()
 		}
 
-		// Pas the remaining levels on to the equalsBasic function of the descendant classes.
+		// Pass the remaining levels on to the equalsBasic function of the descendant classes.
 		const a = this.simplify(Expression.simplifyOptions.structureOnly)
 		const b = expression.simplify(Expression.simplifyOptions.structureOnly)
 		return a.equalsBasic(b, level)
@@ -423,7 +423,7 @@ Expression.simplifyOptions = {
 Expression.equalityLevels = {
 	default: 2,
 	exact: 0, // Everything must be exactly the same. So x+y is different from y+x.
-	onlyOrderChanges: 1, // Order changes are OK, but the rest is not. So a*x+b equals b+x*a, but x+x does NOT equal 2*x.
+	onlyOrderChanges: 1, // Order changes are OK, but the rest is not. So a*x+b equals b+x*a, but x+x does NOT equal 2*x. This also includes number merges. So 2+x+4 equals x+6, and -1*x*2 equals x*(-2). 
 	equivalent: 2, // Any equivalent expression works. So sin(pi/6)*x would equal x/sqrt(4). Prior simplification is obviously not needed when using this option.
 	constantMultiple: 3, // A constant multiple is still considered equal. So (x+1) is equal to (2x+2) but not to (2x+1).
 }

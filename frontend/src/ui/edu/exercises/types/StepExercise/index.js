@@ -66,14 +66,17 @@ function stepExerciseGetFeedback({ state, input, progress, prevProgress, shared 
 		return feedback
 
 	// If we're not split, use the default function.
-	feedback.main = shared.checkInput(state, input, 0)
-	if (!progress.split)
+	if (!progress.split) {
+		feedback.main = shared.checkInput(state, input, 0)
 		return feedback
+	}
 
 	// We're split! Find the step the user was at during his last action. Provide feedback until that step.
 	const step = getStep(prevProgress)
-	numberArray(1, step).forEach(index => {
-		feedback[index] = { main: shared.checkInput(state, input, index) }
-	})
+	if (step > 0) {
+		numberArray(1, step).forEach(index => {
+			feedback[index] = { main: shared.checkInput(state, input, index) }
+		})
+	}
 	return feedback
 }

@@ -1,5 +1,5 @@
 const { getRandomInteger, getRandomBoolean } = require('../../../util/random')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 
 // Testing code.
 const { Expression, getExpressionTypes } = require('../../../inputTypes/Expression')
@@ -8,9 +8,8 @@ const { Equation } = require('../../../inputTypes/Equation')
 
 const data = {
 	skill: 'moveATerm',
-	steps: [null, null],
 	equalityOptions: {
-		default: {
+		ans: {
 			expression: Expression.equalityLevels.onlyOrderChanges,
 			equation: Equation.equalityLevels.keepSides,
 		}
@@ -44,24 +43,20 @@ function getCorrect(state) {
 
 	const equation = getEquation(state)
 	const term = new Product([a, x])
-	const termAbs = (a < 0 ? term.applyMinus() : term)
 	const intermediate = equation.subtract(term)
 	const ans = intermediate.simplify(Expression.simplifyOptions.basicClean)
-	return { ...state, equation, term, termAbs, intermediate, ans }
+	return { equation, term, intermediate, ans }
 }
 
-function checkInput(state, input, step) {
-	const { intermediate, ans } = getCorrect(state)
-	if (step === 0 || step === 2)
-		return ans.equals(input.ans, data.equalityOptions.default)
-	if (step === 1)
-		return intermediate.equals(input.intermediate, data.equalityOptions.default)
+function checkInput(state, input) {
+	const { ans } = getCorrect(state)
+	return ans.equals(input.ans, data.equalityOptions.ans)
 }
 
 module.exports = {
 	data,
 	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
+	processAction: getSimpleExerciseProcessor(checkInput, data),
 	getEquation,
 	getCorrect,
 	checkInput,

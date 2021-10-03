@@ -72,33 +72,25 @@ class ExpressionList extends Parent {
 	}
 
 	equalsBasic(expression, level) {
-		// Depending on the settings, simplify each expression. This is necessary to ensure that, for instance, -x*2 will not be considered different from -2*x.
-		let a = this
-		let b = expression
-		if (level === Expression.equalityLevels.onlyOrderChanges) {
-			a = a.simplify(Expression.simplifyOptions.basicClean)
-			b = b.simplify(Expression.simplifyOptions.basicClean)
-		}
-
 		// Check that the list type is equal.
-		if (a.constructor !== b.constructor)
+		if (this.constructor !== expression.constructor)
 			return false
 
 		// Check that the term lists have equal length.
-		if (a.terms.length !== b.terms.length)
+		if (this.terms.length !== expression.terms.length)
 			return false
 
 		// For exact equality, check that all arguments with matching indices are equal.
 		if (level === Expression.equalityLevels.exact) {
-			return a.terms.every((term, index) => term.equalsBasic(b.terms[index], level))
+			return this.terms.every((term, index) => term.equalsBasic(expression.terms[index], level))
 		}
 
 		// When allowing order changes, check that every term has a matching term somewhere that is equal.
 		if (level === Expression.equalityLevels.onlyOrderChanges) {
 			// Try to match each term from this expression with a term from the other.
-			const matched = a.terms.map(_ => false)
-			return a.terms.every(term => { // For every term, find a matching partner.
-				const index = b.terms.findIndex((otherTerm, index) => !matched[index] && term.equalsBasic(otherTerm, level)) // Is there a partner that has not been matched yet?
+			const matched = this.terms.map(_ => false)
+			return this.terms.every(term => { // For every term, find a matching partner.
+				const index = expression.terms.findIndex((otherTerm, index) => !matched[index] && term.equalsBasic(otherTerm, level)) // Is there a partner that has not been matched yet?
 				if (index === -1)
 					return false // No match found. Abort.
 				matched[index] = true // Remember that this term from the other expression has been matched.
