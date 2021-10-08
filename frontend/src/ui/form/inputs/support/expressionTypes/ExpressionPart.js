@@ -3,7 +3,7 @@ import { isNumber } from 'step-wise/util/numbers'
 import { isLetter, removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
 import { firstOf } from 'step-wise/util/arrays'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
-import { basicFunctions, advancedFunctions, accents } from 'step-wise/inputTypes/Expression/interpreter/expression'
+import { basicFunctions, advancedFunctions, accents } from 'step-wise/inputTypes/Expression/interpreter/expressions'
 
 import { getClickSide } from 'util/dom'
 

@@ -214,7 +214,7 @@ function FOtoIO(equation) {
 module.exports.FOtoIO = FOtoIO
 
 function IOtoFO(equation) {
-	const { interpretEquationValue } = require('./Expression/interpreter/equation')
+	const { interpretEquationValue } = require('./Expression/interpreter/equations')
 	return interpretEquationValue(equation)
 }
 module.exports.IOtoFO = IOtoFO

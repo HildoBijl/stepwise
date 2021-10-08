@@ -6,7 +6,7 @@ import { selectRandomEmpty } from 'step-wise/util/random'
 import { deepEquals, processOptions } from 'step-wise/util/objects'
 import { getEmpty, isEmpty } from 'step-wise/inputTypes/Expression'
 import Variable from 'step-wise/inputTypes/Expression/Variable'
-import { interpretExpressionValue } from 'step-wise/inputTypes/Expression/interpreter/expression'
+import { interpretExpressionValue } from 'step-wise/inputTypes/Expression/interpreter/expressions'
 import { getInterpretationErrorMessage } from 'step-wise/inputTypes/Expression/interpreter/InterpretationError'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 

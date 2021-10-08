@@ -15,7 +15,7 @@ import SimpleExercise from '../types/SimpleExercise'
 
 import { removeCursor } from '../../../form/inputs/support/Input'
 import { cleanUp } from '../../../form/inputs/support/expressionTypes/Expression'
-import { interpretExpression } from 'step-wise/inputTypes/Expression/interpreter/expression'
+import { interpretExpression } from 'step-wise/inputTypes/Expression/interpreter/expressions'
 import { getInterpretationErrorMessage } from 'step-wise/inputTypes/Expression/interpreter/InterpretationError'
 import Expression from 'step-wise/inputTypes/Expression/abstracts/Expression'
 

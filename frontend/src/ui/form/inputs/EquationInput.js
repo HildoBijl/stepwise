@@ -2,7 +2,7 @@ import React from 'react'
 
 import { selectRandomEmpty } from 'step-wise/util/random'
 import { getEmpty, isEmpty } from 'step-wise/inputTypes/Equation'
-import { interpretEquationValue } from 'step-wise/inputTypes/Expression/interpreter/equation'
+import { interpretEquationValue } from 'step-wise/inputTypes/Expression/interpreter/equations'
 import { getInterpretationErrorMessage } from 'step-wise/inputTypes/Expression/interpreter/InterpretationError'
 
 import Equation from './support/expressionTypes/Equation'
