@@ -12,6 +12,7 @@ describe('config', () => {
 				sslEnabled: false,
 				sessionSecret: '12345678901234567890',
 				sessionMaxAgeMillis: 24,
+				apiDomain: 'example.org',
 				homepageUrl: 'https://www.example.org/home',
 				corsUrls: ['https://www.example.org'],
 			}
@@ -39,6 +40,13 @@ describe('config', () => {
 				homepageUrl: 'www.example.org', // wrong format
 			}
 		})).toThrow('homepageUrl')
+
+		expect(() => createServer({
+			config: {
+				...defaultConfig,
+				apiDomain: 'foo', // not a domain
+			}
+		})).toThrow('apiDomain')
 
 		expect(() => createServer({
 			config: {

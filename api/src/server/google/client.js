@@ -16,6 +16,14 @@ class Client {
 	 * @param csrfToken The CSRF token as obtained from the `g_csrf_token` cookie.
 	 */
 	async getData(authData, csrfToken) {
+		// Before starting the authentication flow, Google sets a cookie with a
+		// CSRF token. The same token value is included in the authData of the
+		// callback request, and we must make sure that both match up.
+		const expectedCsrfToken = authData['g_csrf_token']
+		if (expectedCsrfToken !== csrfToken) {
+			return null
+		}
+
 		// Verify token and fetch ticket data.
 		const ticket = await this._client.verifyIdToken({
 			idToken: authData.credential,
