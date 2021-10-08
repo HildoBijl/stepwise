@@ -34,7 +34,7 @@ function Problem({ index }) {
 		// console.log(input)
 		// console.log(ans)
 		if (ans) {
-			res = interpretExpression(cleanUp(removeCursor(ans)))
+			res = interpretExpression(cleanUp(removeCursor(ans), { ...basicMath, divide: false }))
 			if (res)
 				probleem = false
 			// console.log('Vergelijking: ' + res.str)

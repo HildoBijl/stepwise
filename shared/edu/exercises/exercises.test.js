@@ -14,13 +14,6 @@ const assertSkillCombiner = (combiner) => {
 	})
 }
 
-// Filter the null values out of an array. Apply recursively to subarrays.
-const filterNull = (arr) => {
-	arr = arr.map(item => (Array.isArray(item) ? filterNull(item) : item)) // Recursively apply to sub-arrays.
-	arr = arr.filter(item => Array.isArray(item) ? item.length > 0 : item !== null) // Keep non-empty arrays and non-null non-array items.
-	return arr
-}
-
 // Run the tests!
 describe('Check all exercises:', () => {
 	const exercises = getAllExercises()
@@ -57,11 +50,17 @@ describe('Check all exercises:', () => {
 				it('has steps properly defined', () => {
 					const { steps } = exercise.data
 					expect(Array.isArray(steps)).toBe(true)
-					const stepsFiltered = filterNull(steps)
-					expect(stepsFiltered.length).toBeGreaterThan(0)
-					stepsFiltered.forEach(step => {
+					expect(steps.length).toBeGreaterThan(1)
+					steps.forEach(step => {
+						if (step === null)
+							return // Null is always fine.
 						if (Array.isArray(step)) {
-							step.forEach(substep => assertSkillCombiner(substep))
+							expect(step.length).toBeGreaterThan(1)
+							step.forEach(substep => {
+								if (substep === null)
+									return // Null is always fine.
+								assertSkillCombiner(substep)
+							})
 						} else {
 							assertSkillCombiner(step)
 						}
