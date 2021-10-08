@@ -11,6 +11,7 @@ import { getInterpretationErrorMessage } from 'step-wise/inputTypes/Expression/i
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 
 import { useRefWithValue } from 'util/react'
+import { M } from 'ui/components/equations'
 
 import { useAbsoluteCursorRef } from '../Form'
 
@@ -125,6 +126,10 @@ export function nonEmptyAndValid(data) {
 		return validityResult
 }
 export function validWithVariables(...variables) {
+	// This validation function is special, in the sense that it's a function that returns a validation function. Give it a set of variables that are accepted, and it checks that only those variables are used.
+	return validWithVariablesGeneric(interpretExpressionValue, ...variables)
+}
+export function validWithVariablesGeneric(interpreter, ...variables) {
 	// Check input.
 	if (variables.length === 0)
 		throw new Error(`Invalid validation function: when using the validWithVariables validation function, a list of variables must be provided. If there are no variables, then use the nonEmptyAndValid validation function.`)
@@ -134,16 +139,24 @@ export function validWithVariables(...variables) {
 
 	// Set up a validation function based on these variables.
 	return (data) => {
-		// Interpret the expression.
-		let expression
+		// Check if it's empty first.
+		const nonEmptyResult = nonEmpty(data)
+		if (nonEmptyResult)
+			return nonEmptyResult
+
+		// Interpret the expression, and give a message on a problem.
+		let equation
 		try {
-			expression = interpretExpressionValue(data.value)
+			equation = interpreter(data.value)
 		} catch (e) {
 			return getInterpretationErrorMessage(e)
 		}
 
 		// Extract variables.
-		window.expression = expression
+		const inputVariables = equation.getVariables()
+		const invalidVariable = inputVariables.find(inputVariable => !variables.some(variable => variable.equals(inputVariable)))
+		if (invalidVariable)
+			return <>Onbekende variabele <M>{invalidVariable}</M>.</>
 	}
 }
 

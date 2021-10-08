@@ -2,15 +2,12 @@ import React from 'react'
 
 import { selectRandomEmpty } from 'step-wise/util/random'
 import { getEmpty, isEmpty } from 'step-wise/inputTypes/Equation'
-import Variable from 'step-wise/inputTypes/Expression/Variable'
 import { interpretEquationValue } from 'step-wise/inputTypes/Expression/interpreter/Equation'
 import { getInterpretationErrorMessage } from 'step-wise/inputTypes/Expression/interpreter/InterpretationError'
 
-import { M } from 'ui/components/equations'
-
 import Equation from './support/expressionTypes/Equation'
 
-import ExpressionInput from './ExpressionInput'
+import ExpressionInput, { validWithVariablesGeneric } from './ExpressionInput'
 
 const equationProps = {
 	placeholder: 'Vergelijking',
@@ -54,34 +51,8 @@ export function nonEmptyAndValid(data) {
 		return validityResult
 }
 export function validWithVariables(...variables) {
-	// Check input.
-	if (variables.length === 0)
-		throw new Error(`Invalid validation function: when using the validWithVariables validation function, a list of variables must be provided. If there are no variables, then use the nonEmptyAndValid validation function.`)
-	if (variables.length === 1 && Array.isArray(variables))
-		variables = variables[0]
-	variables = variables.map(Variable.ensureVariable)
-
-	// Set up a validation function based on these variables.
-	return (data) => {
-		// Check if it's empty first.
-		const nonEmptyResult = nonEmpty(data)
-		if (nonEmptyResult)
-			return nonEmptyResult
-
-		// Interpret the expression, and give a message on a problem.
-		let equation
-		try {
-			equation = interpretEquationValue(data.value)
-		} catch (e) {
-			return getInterpretationErrorMessage(e)
-		}
-
-		// Extract variables.
-		const inputVariables = equation.getVariables()
-		const invalidVariable = inputVariables.find(inputVariable => !variables.some(variable => variable.equals(inputVariable)))
-		if (invalidVariable)
-			return <>Onbekende variabele <M>{invalidVariable}</M>.</>
-	}
+	// This validation function is special, in the sense that it's a function that returns a validation function. Give it a set of variables that are accepted, and it checks that only those variables are used.
+	return validWithVariablesGeneric(interpretEquationValue, ...variables)
 }
 
 // getEmptyData returns an empty data object, ready to be filled by input.
