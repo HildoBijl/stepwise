@@ -1,6 +1,7 @@
 // An Equation is an input type containing two expressions with an equals sign in-between.
 
 const { isObject, deepEquals, processOptions } = require('../util/objects')
+const { union } = require('../util/sets')
 
 const { Expression, getEmpty: getEmptyExpression, isEmpty: isExpressionEmpty } = require('./Expression')
 
@@ -111,7 +112,7 @@ class Equation {
 	// getVariables returns all the variables that are present in this equation, in sorted order.
 	getVariables() {
 		const Variable = require('./Expression/Variable')
-		const variableStrings = this.left.getVariableStrings().union(this.right.getVariableStrings)
+		const variableStrings = union(this.left.getVariableStrings(), this.right.getVariableStrings())
 		return Variable.sortVariableStrings(variableStrings)
 	}
 

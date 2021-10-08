@@ -5,6 +5,7 @@ import clsx from 'clsx'
 import { selectRandomEmpty } from 'step-wise/util/random'
 import { deepEquals, processOptions } from 'step-wise/util/objects'
 import { getEmpty, isEmpty } from 'step-wise/inputTypes/Expression'
+import Variable from 'step-wise/inputTypes/Expression/Variable'
 import { interpretExpressionValue } from 'step-wise/inputTypes/Expression/interpreter/Expression'
 import { getInterpretationErrorMessage } from 'step-wise/inputTypes/Expression/interpreter/InterpretationError'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
@@ -122,6 +123,28 @@ export function nonEmptyAndValid(data) {
 	const validityResult = getValidityMessage(value)
 	if (validityResult)
 		return validityResult
+}
+export function validWithVariables(...variables) {
+	// Check input.
+	if (variables.length === 0)
+		throw new Error(`Invalid validation function: when using the validWithVariables validation function, a list of variables must be provided. If there are no variables, then use the nonEmptyAndValid validation function.`)
+	if (variables.length === 1 && Array.isArray(variables))
+		variables = variables[0]
+	variables = variables.map(Variable.ensureVariable)
+
+	// Set up a validation function based on these variables.
+	return (data) => {
+		// Interpret the expression.
+		let expression
+		try {
+			expression = interpretExpressionValue(data.value)
+		} catch (e) {
+			return getInterpretationErrorMessage(e)
+		}
+
+		// Extract variables.
+		window.expression = expression
+	}
 }
 
 // getEmptyData returns an empty data object, ready to be filled by input.

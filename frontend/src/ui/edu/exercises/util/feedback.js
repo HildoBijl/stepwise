@@ -150,7 +150,7 @@ export function getNumberComparisonFeedback(correctAnswer, inputAnswer, options)
 		return prevFeedback
 
 	// Walk through the checks and see if one matches.
-	const checkText = getCheckText(checks, inputAnswer, correct)
+	const checkText = getCheckFeedback(checks, inputAnswer, correct)
 	if (checkText)
 		return { correct: false, text: checkText }
 
@@ -218,7 +218,7 @@ export function getFloatComparisonFeedback(correctAnswer, inputAnswer, options) 
 		return prevFeedback
 
 	// Walk through the checks and see if one matches.
-	const checkText = getCheckText(checks, inputAnswer, correct)
+	const checkText = getCheckFeedback(checks, inputAnswer, correct)
 	if (checkText)
 		return { correct: false, text: checkText }
 
@@ -269,7 +269,7 @@ export function getFloatUnitComparisonFeedback(correctAnswer, inputAnswer, optio
 		return prevFeedback
 
 	// Walk through the checks and see if one matches.
-	const checkText = getCheckText(checks, inputAnswer, correct)
+	const checkText = getCheckFeedback(checks, inputAnswer, correct)
 	if (checkText)
 		return { correct: false, text: checkText }
 
@@ -331,7 +331,7 @@ export function getEquationComparisonFeedback(correctAnswer, inputAnswer, option
 		return prevFeedback
 
 	// Walk through the checks and see if one matches.
-	const checkText = getCheckText(checks, inputAnswer, correct)
+	const checkText = getCheckFeedback(checks, inputAnswer, correct)
 	if (checkText)
 		return { correct: false, text: checkText }
 
@@ -449,12 +449,12 @@ export function getMCFeedback(name, exerciseData, options = {}) {
 	return { [name]: feedback }
 }
 
-// getCheckText gets an array of checks, a given input to an exercise and a correct object. It then walks through all the checks, which are of the form checks = [{ check: (inputAnswer, correct) => true, text: 'This is the feedback if the check matches.' }]. If a check matches, the given feedback text is returned. The feedback text can also be a function of the form (correct) => `Some ${correct.x} message`.  If no check matches, undefined is returned.
-function getCheckText(checks, inputAnswer, correct) {
+// getCheckFeedback gets an array of checks, a given input to an exercise and a correct object. It then walks through all the checks, which are of the form checks = [{ check: (inputAnswer, correct) => true, text: <>This is the feedback if the check matches.</> }]. If a check matches, the given feedback text is returned. The feedback can also be a function of the form "(input, correct) => <>Some <M>{correct.x}</M> message about <M>{input.left}</M>.</>"". If no check matches, undefined is returned.
+function getCheckFeedback(checks, inputAnswer, correct) {
 	const matchingCheckObj = checks.find(checkObj => checkObj.check(inputAnswer, correct))
 	if (!matchingCheckObj)
 		return undefined
 	if (typeof matchingCheckObj.text === 'function')
-		return matchingCheckObj.text(correct)
+		return matchingCheckObj.text(inputAnswer, correct)
 	return matchingCheckObj.text
 }

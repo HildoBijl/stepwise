@@ -5,11 +5,11 @@ import { BM } from 'ui/components/equations'
 
 // import Integer from 'step-wise/inputTypes/Expression/Integer'
 // import Float from 'step-wise/inputTypes/Expression/Float'
-import Variable from 'step-wise/inputTypes/Expression/Variable'
-import Product from 'step-wise/inputTypes/Expression/Product'
-import Sum from 'step-wise/inputTypes/Expression/Sum'
-import { Expression } from 'step-wise/inputTypes/Expression'
-import { Equation } from 'step-wise/inputTypes/Equation'
+// import Variable from 'step-wise/inputTypes/Expression/Variable'
+// import Product from 'step-wise/inputTypes/Expression/Product'
+// import Sum from 'step-wise/inputTypes/Expression/Sum'
+// import { Expression } from 'step-wise/inputTypes/Expression'
+// import { Equation } from 'step-wise/inputTypes/Equation'
 
 // console.log(Integer.zero.str)
 // const a = new Integer({ value: 2 })

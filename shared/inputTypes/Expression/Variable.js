@@ -59,7 +59,7 @@ class Variable extends Parent {
 		if (this.accent)
 			result = `\\${this.accent}{${result}}`
 		if (this.subscript)
-			result = `${result}_{${this.subscript}}`
+			result = `${result}_{\\rm ${this.subscript}}`
 		return result
 	}
 
@@ -74,7 +74,7 @@ class Variable extends Parent {
 	}
 
 	getVariableStrings() {
-		return new Set([this.eliminateFactor().str]) // Return a set with the string representation of this variable. The string representation allows proper set comparisons, filtering out duplicates.
+		return new Set([this.str]) // Return a set with the string representation of this variable. The string representation allows proper set comparisons, filtering out duplicates.
 	}
 
 	substituteBasic(variable, substitution) {
