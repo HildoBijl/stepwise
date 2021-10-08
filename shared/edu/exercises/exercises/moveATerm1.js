@@ -2,9 +2,9 @@ const { getRandomInteger, getRandomBoolean } = require('../../../util/random')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 
 // Testing code.
-const { Expression, getExpressionTypes } = require('../../../inputTypes/Expression')
-const { Sum, Product, Variable } = getExpressionTypes()
+const { Expression } = require('../../../inputTypes/Expression')
 const { Equation } = require('../../../inputTypes/Equation')
+const { asExpression, asEquation } = require('../../../inputTypes/Expression/interpreter/fromString')
 
 const data = {
 	skill: 'moveATerm',
@@ -29,23 +29,22 @@ function generateState() {
 }
 
 function getEquation({ a, b, c, switchLeftRight, switchXY }) {
-	const x = new Variable(switchXY ? 'y' : 'x')
-	const y = new Variable(switchXY ? 'x' : 'y')
-
-	const left = new Sum([new Product([a, x]), b])
-	const right = new Product([c, y])
-
-	return new Equation(switchLeftRight ? { left: right, right: left } : { left, right })
+	const equation = asEquation(switchXY ? 'ay+b=cx' : 'ax+b=cy').substitute('a', a).substitute('b', b).substitute('c', c)
+	return switchLeftRight ? equation.flip() : equation
 }
 
 function getCorrect(state) {
 	const { a, switchXY } = state
-	const x = new Variable(switchXY ? 'y' : 'x')
 
+	// Get the original equation.
 	const equation = getEquation(state)
-	const term = new Product([a, x])
+
+	// Find the intermediate step.
+	const term = asExpression(switchXY ? 'ay' : 'ax').substitute('a', a)
 	const termAbs = (a < 0 ? term.applyMinus() : term)
 	const intermediate = equation.subtract(term)
+
+	// Simplify to the final solution.
 	const ans = intermediate.simplify(Expression.simplifyOptions.basicClean)
 	return { ...state, equation, term, termAbs, intermediate, ans }
 }

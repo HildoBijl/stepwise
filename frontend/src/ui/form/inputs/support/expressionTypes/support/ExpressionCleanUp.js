@@ -1,6 +1,6 @@
 import { lastOf } from 'step-wise/util/arrays'
 import { getEmpty } from 'step-wise/inputTypes/Expression'
-import { isFunctionAllowed } from 'step-wise/inputTypes/Expression/interpreter/Expression'
+import { isFunctionAllowed } from 'step-wise/inputTypes/Expression/interpreter/expression'
 
 import { removeCursor } from '../../Input'
 import { getFuncs, zoomIn, zoomInAt } from '../index.js'

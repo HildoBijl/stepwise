@@ -1,10 +1,10 @@
 const { getRandomInteger, getRandomBoolean } = require('../../../util/random')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 
-// Testing code.
 const { Expression, getExpressionTypes } = require('../../../inputTypes/Expression')
-const { Sum, Product } = getExpressionTypes()
+const { Sum } = getExpressionTypes()
 const { Equation } = require('../../../inputTypes/Equation')
+const { asExpression } = require('../../../inputTypes/Expression/interpreter/fromString')
 
 const data = {
 	skill: 'moveATerm',
@@ -33,9 +33,9 @@ function generateState() {
 
 function getTerms({ a, b, c }) {
 	return {
-		FA: new Product(a, 'F_A'),
-		FB: new Product(b, 'F_B'),
-		FC: new Product(c, 'F_C'),
+		FA: asExpression('aF_A').substitute('a', a),
+		FB: asExpression('bF_B').substitute('b', b),
+		FC: asExpression('cF_C').substitute('c', c),
 	}
 }
 
@@ -43,9 +43,10 @@ function getEquation(state) {
 	const { aLeft, bLeft, cLeft } = state
 	const { FA, FB, FC } = getTerms(state)
 
-	const left = new Sum([aLeft ? FA : 0, bLeft ? FB : 0, cLeft ? FC : 0])
-	const right = new Sum([aLeft ? 0 : FA, bLeft ? 0 : FB, cLeft ? 0 : FC])
-	return new Equation({ left, right }).simplify(Expression.simplifyOptions.removeUseless)
+	return new Equation({
+		left: new Sum(aLeft ? FA : 0, bLeft ? FB : 0, cLeft ? FC : 0),
+		right: new Sum(aLeft ? 0 : FA, bLeft ? 0 : FB, cLeft ? 0 : FC),
+	}).simplify(Expression.simplifyOptions.removeUseless)
 }
 
 function getCorrect(state) {

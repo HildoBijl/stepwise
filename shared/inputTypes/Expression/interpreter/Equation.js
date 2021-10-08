@@ -1,6 +1,9 @@
+// The equation interpreter takes an equation in Input Object (IO) format and turns it into a Functional Object (FO).
+
+const { isObject } = require('../../../util/objects')
 const { lastOf } = require('../../../util/arrays')
 
-const { interpretExpressionValue } = require('./Expression')
+const { interpretExpressionValue } = require('./expression')
 const { InterpretationError } = require('./InterpretationError')
 const { getSubExpression, moveRight } = require('./support')
 
@@ -11,7 +14,7 @@ function interpretEquation(obj) {
 	// Check the type.
 	if (!isObject(obj))
 		throw new Error(`Interpreting error: the function interpretEquation was called but was not given an object. Instead, it was given "${obj}".`)
-	if (obj.type !== 'Expression')
+	if (obj.type !== 'Equation')
 		throw new Error(`Interpreting error: the function interpretEquation was called on an object of type "${obj.type}". This must be an equation type.`)
 
 	// Interpret the value.

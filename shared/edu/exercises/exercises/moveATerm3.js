@@ -1,10 +1,9 @@
 const { getRandomInteger } = require('../../../util/random')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 
-// Testing code.
-const { Expression, getExpressionTypes } = require('../../../inputTypes/Expression')
-const { Sum, Product, Variable } = getExpressionTypes()
+const { Expression } = require('../../../inputTypes/Expression')
 const { Equation } = require('../../../inputTypes/Equation')
+const { asExpression, asEquation } = require('../../../inputTypes/Expression/interpreter/fromString')
 
 const data = {
 	skill: 'moveATerm',
@@ -24,33 +23,14 @@ function generateState() {
 	}
 }
 
-function getTerms() {
-	return {
-		U: new Variable('U'),
-		BvL: new Product('B', 'v', 'L'),
-		IR: new Product('I', 'R'),
-	}
-}
-
 function getEquation({ start }) {
-	const { U, BvL, IR } = getTerms()
-
 	switch (start) {
 		case 0:
-			return new Equation({
-				left: U,
-				right: new Sum(BvL, IR),
-			})
+			return asEquation('U=BvL+IR')
 		case 1:
-			return new Equation({
-				left: new Sum(U, BvL.applyMinus()),
-				right: IR,
-			})
+			return asEquation('U-BvL=IR')
 		default:
-			return new Equation({
-				left: new Sum(U, IR.applyMinus()),
-				right: BvL,
-			})
+			return asEquation('U-IR=BvL')
 	}
 }
 
@@ -61,15 +41,13 @@ function getCorrect(state) {
 	const equation = getEquation(state)
 
 	// Determine what to move.
-	const { U, BvL, IR } = getTerms()
-	const term = [U, BvL, IR][move]
+	const term = [asExpression('U'), asExpression('BvL'),	asExpression('IR')][move]
 	const left = move === 0 || move === start
 	const subtract = start === 0 || start !== move
 	const intermediate = equation[subtract ? 'subtract' : 'add'](term)
 
 	// Determine the answer.
 	const ans = intermediate.simplify(Expression.simplifyOptions.basicClean)
-
 	return { ...state, equation, term, left, subtract, intermediate, ans }
 }
 

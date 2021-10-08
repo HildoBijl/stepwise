@@ -6,7 +6,7 @@ import { selectRandomEmpty } from 'step-wise/util/random'
 import { deepEquals, processOptions } from 'step-wise/util/objects'
 import { getEmpty, isEmpty } from 'step-wise/inputTypes/Expression'
 import Variable from 'step-wise/inputTypes/Expression/Variable'
-import { interpretExpressionValue } from 'step-wise/inputTypes/Expression/interpreter/Expression'
+import { interpretExpressionValue } from 'step-wise/inputTypes/Expression/interpreter/expression'
 import { getInterpretationErrorMessage } from 'step-wise/inputTypes/Expression/interpreter/InterpretationError'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 
@@ -133,8 +133,12 @@ export function validWithVariablesGeneric(interpreter, ...variables) {
 	// Check input.
 	if (variables.length === 0)
 		throw new Error(`Invalid validation function: when using the validWithVariables validation function, a list of variables must be provided. If there are no variables, then use the nonEmptyAndValid validation function.`)
-	if (variables.length === 1 && Array.isArray(variables))
-		variables = variables[0]
+	if (variables.length === 1) {
+		if (variables[0] === undefined)
+			throw new Error(`Invalid validation variables: when using the validWithVariables function, "undefined" was given as array of variables. This cannot be processed. Please provide actual variables.`)
+		if (Array.isArray(variables))
+			variables = variables[0]
+	}
 	variables = variables.map(Variable.ensureVariable)
 
 	// Set up a validation function based on these variables.

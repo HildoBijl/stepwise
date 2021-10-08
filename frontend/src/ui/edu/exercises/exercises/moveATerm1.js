@@ -23,7 +23,7 @@ const Problem = (state) => {
 	const { switchXY } = state
 
 	return <>
-		<Par>Gegeven is de vergelijking <BM>{equation}.</BM> Breng de term met <M>{switchXY ? 'y' : 'x'}</M> naar de andere kant van het is-teken.</Par>
+		<Par>Gegeven is de vergelijking <BM>{equation}.</BM> Breng de term met <M>{switchXY ? 'y' : 'x'}</M> naar de andere kant van het is-teken. Laat de andere termen op hun plek staan.</Par>
 		<InputSpace>
 			<Par>
 				<EquationInput id="ans" label="Vul hier de vergelijking in" size="s" settings={{ ...basicMath, divide: false, greek: false }} validate={validWithVariables('x', 'y')} />

@@ -1,3 +1,5 @@
+// The expression interpreter takes an expression in Input Object (IO) format and turns it into a Functional Object (FO).
+
 const { isLetter, getNextSymbol } = require('../../../util/strings')
 const { lastOf } = require('../../../util/arrays')
 const { isObject } = require('../../../util/objects')

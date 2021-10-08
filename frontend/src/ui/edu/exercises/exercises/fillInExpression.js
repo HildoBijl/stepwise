@@ -15,7 +15,7 @@ import SimpleExercise from '../types/SimpleExercise'
 
 import { removeCursor } from '../../../form/inputs/support/Input'
 import { cleanUp } from '../../../form/inputs/support/expressionTypes/Expression'
-import { interpretExpression } from 'step-wise/inputTypes/Expression/interpreter/Expression'
+import { interpretExpression } from 'step-wise/inputTypes/Expression/interpreter/expression'
 import { getInterpretationErrorMessage } from 'step-wise/inputTypes/Expression/interpreter/InterpretationError'
 import Expression from 'step-wise/inputTypes/Expression/abstracts/Expression'
 
@@ -52,7 +52,7 @@ function Problem({ index }) {
 		<Par>Voer een uitdrukking in die je voor je eigen cursus zou kunnen gebruiken. (Klik niet op "Controleer" want die functionaliteit is nog niet gemaakt.)</Par>
 		<InputSpace>
 			<Par>
-				<ExpressionInput id="ans" prelabel={<M>f\left(x\right)=</M>} label="Vul hier de uitdrukking in" size="s" settings={{ ...basicMath, divide: false }} />
+				<ExpressionInput id="ans" prelabel={<M>f\left(x\right)=</M>} label="Vul hier de uitdrukking in" size="s" settings={{ ...basicMath, subscript: true, divide: false }} />
 				<EquationInput id="eq" label="Vul hier de vergelijking in" size="s" settings={{ ...basicMath, divide: false }} />
 				{/* <ExpressionInput id="y" prelabel={<M>y=</M>} label="Vul hier de uitdrukking in" size="s" /> */}
 			</Par>

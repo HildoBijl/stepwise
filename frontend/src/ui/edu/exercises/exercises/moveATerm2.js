@@ -22,7 +22,7 @@ const Problem = (state) => {
 	const { move, equation } = useCorrect(state)
 
 	return <>
-		<Par>Gegeven is de vergelijking <BM>{equation}.</BM> Breng de term met <M>{new Variable(['F_A', 'F_B', 'F_C'][move])}</M> naar de andere kant van het is-teken.</Par>
+		<Par>Gegeven is de vergelijking <BM>{equation}.</BM> Breng de term met <M>{new Variable(['F_A', 'F_B', 'F_C'][move])}</M> naar de andere kant van het is-teken. Laat de andere termen op hun plek staan.</Par>
 		<InputSpace>
 			<Par>
 				<EquationInput id="ans" label="Vul hier de vergelijking in" size="s" settings={{ ...basicMath, subscript: true, divide: false, greek: false }} validate={validWithVariables('F_A', 'F_B', 'F_C')} />
@@ -72,7 +72,7 @@ function getFeedback(exerciseData) {
 		text: (input, { positive }) => <>Je hebt de juiste term {positive ? 'van beide kanten afgehaald' : 'bij beide kanten opgeteld'}, maar vervolgens moet je nog wat wegstrepen.</>
 	}
 	const incorrectSign = {
-		check: (input, { start, move, equation, term, left, subtract }) => {
+		check: (input, { equation, term, left, subtract }) => {
 			const addTerm = part => part.add(term).simplify(simplifyOptions.basicClean)
 			const subtractTerm = part => part.subtract(term).simplify(simplifyOptions.basicClean)
 			const falseSolution = equation.applyToLeft(left === subtract ? subtractTerm : addTerm).applyToRight(left === subtract ? addTerm : subtractTerm)

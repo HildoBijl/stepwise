@@ -118,7 +118,7 @@ class Equation {
 
 	// substitute applies a substitution, replacing the given variable by the given substitution. The variable must be a variable object, while the substitution must be an instance of Expression.
 	substitute(variable, substitution) {
-		return this.applyToBothSides(part => part.substitue(variable, substitution))
+		return this.applyToBothSides(part => part.substitute(variable, substitution))
 	}
 
 	// flip will switch the left and right sides of the equation.
@@ -214,7 +214,7 @@ function FOtoIO(equation) {
 module.exports.FOtoIO = FOtoIO
 
 function IOtoFO(equation) {
-	const { interpretEquationValue } = require('./Expression/interpreter/Equation')
+	const { interpretEquationValue } = require('./Expression/interpreter/equation')
 	return interpretEquationValue(equation)
 }
 module.exports.IOtoFO = IOtoFO

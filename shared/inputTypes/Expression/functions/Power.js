@@ -27,7 +27,7 @@ class Power extends Parent {
 			exponentStr = `(${exponentStr})`
 
 		// Put them together.
-		return this.addFactorToString(`${baseStr}^${exponentStr}`)
+		return `${baseStr}^${exponentStr}`
 	}
 
 	toTex() {
@@ -40,7 +40,7 @@ class Power extends Parent {
 		let exponentTex = this.exponent.tex
 
 		// Put them together.
-		return this.addFactorToTex(`${baseTex}^{${exponentTex}}`)
+		return `${baseTex}^{${exponentTex}}`
 	}
 
 	getDerivativeBasic(variable) {
@@ -72,41 +72,26 @@ class Power extends Parent {
 		}
 
 		// Return the outcome.
-		return new Sum(...terms).multiplyBy(this.factor)
+		return new Sum(...terms)
 	}
 
 	simplifyBasic(options) {
-		let { factor, base, exponent } = this.simplifyChildren(options)
-
-		// Check for factor reductions.
-		if (options.reduceFactors) {
-			if (base.factor !== 1 && exponent.isType(Constant)) {
-				factor *= Math.pow(base.factor, exponent.factor)
-				base.eliminateFactor()
-			}
-		}
+		let { base, exponent } = this.simplifyChildren(options)
 
 		// Check for useless terms.
 		if (options.removeUseless) {
-			// If the factor is 0, turn this term into zero.
-			if (factor === 0)
-				return Integer.zero
-
-			// If the power is 0, become the factor.
+			// If the power is 0, become 1.
 			if (exponent.equalsBasic(Integer.zero))
-				return new Constant(factor)
+				return Integer.one
 
 			// If the power is 1, become the base.
-			if (exponent.equalsBasic(Integer.one)) {
-				if (factor === 1 || base.factor === 1)
-					return base.multiplyBy(factor)
-				return new Product({ factor, terms: [base] }).simplify(options) // Create a single-element product.
-			}
+			if (exponent.equalsBasic(Integer.one))
+				return base
 		}
 
 		// ToDo: expand brackets.
 
-		return new Power({ factor, base, exponent })
+		return new Power({ base, exponent })
 	}
 
 	// ToDo: implement the below stuff or delete it.

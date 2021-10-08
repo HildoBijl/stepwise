@@ -37,7 +37,7 @@ function FOtoIO(expression) {
 module.exports.FOtoIO = FOtoIO
 
 function IOtoFO(expression) {
-	const { interpretExpressionValue } = require('./interpreter/Expression')
+	const { interpretExpressionValue } = require('./interpreter/expression')
 	return interpretExpressionValue(expression)
 }
 module.exports.IOtoFO = IOtoFO

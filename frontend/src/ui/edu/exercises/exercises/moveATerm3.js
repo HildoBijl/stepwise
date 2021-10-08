@@ -8,25 +8,25 @@ import { basicMath } from 'ui/form/inputs/ExpressionInput'
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form/Status'
 
-import { useExerciseData, useCorrect } from '../ExerciseContainer'
+import { useCorrect } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
+
+const variables = ['U', 'B', 'v', 'L', 'I', 'R']
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
 const Problem = (state) => {
-	const { shared: { getEquation } } = useExerciseData()
-	const equation = getEquation(state)
-	const { move } = state
+	const { move, equation } = useCorrect(state)
 
 	return <>
-		<Par>Gegeven is de vergelijking <BM>{equation}.</BM> Breng de term met <M>{['U', 'B', 'I'][move]}</M> naar de andere kant van het is-teken.</Par>
+		<Par>Gegeven is de vergelijking <BM>{equation}.</BM> Breng de term met <M>{['U', 'B', 'I'][move]}</M> naar de andere kant van het is-teken. Laat de andere termen op hun plek staan.</Par>
 		<InputSpace>
 			<Par>
-				<EquationInput id="ans" label="Vul hier de vergelijking in" size="s" settings={{ ...basicMath, divide: false, greek: false }} validate={validWithVariables('U', 'B', 'v', 'L', 'I', 'R')} />
+				<EquationInput id="ans" label="Vul hier de vergelijking in" size="s" settings={{ ...basicMath, divide: false, greek: false }} validate={validWithVariables(variables)} />
 			</Par>
 		</InputSpace>
 	</>
@@ -38,7 +38,7 @@ const steps = [
 			const { term, left, subtract } = useCorrect(state)
 			return <>
 				<Par>We willen iets doen met beide kanten van de vergelijking om {left ? 'links' : 'rechts'} de term <M>{term}</M> weg te krijgen. {subtract ? <>Trek hiervoor <M>{term}</M> van beide kanten van de vergelijking af.</> : <>Tel hiervoor <M>{term}</M> bij beide kanten van de vergelijking op.</>} (Streep nog geen termen weg.)</Par>
-				<InputSpace><Par><EquationInput id="intermediate" label="Vul hier de vergelijking in" size="s" settings={{ ...basicMath, divide: false, greek: false }} validate={validWithVariables('U', 'B', 'v', 'L', 'I', 'R')} /></Par></InputSpace>
+				<InputSpace><Par><EquationInput id="intermediate" label="Vul hier de vergelijking in" size="s" settings={{ ...basicMath, divide: false, greek: false }} validate={validWithVariables(variables)} /></Par></InputSpace>
 			</>
 		},
 		Solution: (state) => {
@@ -51,7 +51,7 @@ const steps = [
 			const { left } = useCorrect(state)
 			return <>
 				<Par>Streep aan de {left ? 'linker' : 'rechter'} kant van de vergelijking waar mogelijk termen weg.</Par>
-				<InputSpace><Par><EquationInput id="ans" label="Vul hier de vergelijking in" size="s" settings={{ ...basicMath, divide: false, greek: false }} validate={validWithVariables('U', 'B', 'v', 'L', 'I', 'R')} /></Par></InputSpace>
+				<InputSpace><Par><EquationInput id="ans" label="Vul hier de vergelijking in" size="s" settings={{ ...basicMath, divide: false, greek: false }} validate={validWithVariables(variables)} /></Par></InputSpace>
 			</>
 		},
 		Solution: (state) => {
@@ -73,7 +73,7 @@ function getFeedback(exerciseData) {
 		text: (input, { subtract }) => <>Je hebt de juiste term {subtract ? 'van beide kanten afgehaald' : 'bij beide kanten opgeteld'}, maar vervolgens moet je nog wat wegstrepen.</>
 	}
 	const incorrectSign = {
-		check: (input, { start, move, equation, term, left, subtract }) => {
+		check: (input, { equation, term, left, subtract }) => {
 			const addTerm = part => part.add(term).simplify(simplifyOptions.basicClean)
 			const subtractTerm = part => part.subtract(term).simplify(simplifyOptions.basicClean)
 			const falseSolution = equation.applyToLeft(left === subtract ? subtractTerm : addTerm).applyToRight(left === subtract ? addTerm : subtractTerm)

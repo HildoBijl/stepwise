@@ -64,9 +64,7 @@ class Variable extends Parent {
 	}
 
 	requiresBracketsFor(level) {
-		if (level === Expression.bracketLevels.addition || level === Expression.bracketLevels.multiplication)
-			return false
-		return this.factor !== 1
+		return false
 	}
 
 	dependsOn(variable) {
