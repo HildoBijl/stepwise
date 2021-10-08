@@ -3,7 +3,7 @@
 const { isObject } = require('../../../util/objects')
 const { lastOf } = require('../../../util/arrays')
 
-const { interpretExpressionValue } = require('./expression')
+const { interpretExpressionValue } = require('./expressions')
 const { InterpretationError } = require('./InterpretationError')
 const { getSubExpression, moveRight } = require('./support')
 

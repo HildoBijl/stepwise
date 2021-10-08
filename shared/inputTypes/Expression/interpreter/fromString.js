@@ -2,8 +2,8 @@
 
 const { getNextSymbol } = require('../../../util/strings')
 
-const { interpretExpression } = require('./expression')
-const { interpretEquation } = require('./equation')
+const { interpretExpression } = require('./expressions')
+const { interpretEquation } = require('./equations')
 
 function expressionStrToIO(str) {
 	let value = [{
