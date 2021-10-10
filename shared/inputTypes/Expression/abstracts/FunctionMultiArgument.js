@@ -106,8 +106,6 @@ class FunctionMultiArgument extends Parent {
 		return this.constructor.args.every(arg => this[arg].equals(expression[arg], level))
 	}
 
-	// ToDo: equals.
-
 	static getDefaultSO(args) {
 		const defaultSO = {
 			...Parent.defaultSO,

@@ -2,6 +2,9 @@ import React from 'react'
 
 import { roundTo } from 'step-wise/util/numbers'
 import { selectRandomCorrect } from 'step-wise/util/random'
+import Expression from 'step-wise/inputTypes/Expression/abstracts/Expression'
+import { interpretExpression } from 'step-wise/inputTypes/Expression/interpreter/expressions'
+
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
@@ -10,14 +13,12 @@ import EquationInput from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form/Status'
 
 // import { useExerciseData, useCorrect } from '../ExerciseContainer'
-import { useFormData } from '../../../form/Form'
-import SimpleExercise from '../types/SimpleExercise'
+import { useFormData } from 'ui/form/Form'
+import { removeCursor } from 'ui/form/inputs/support/Input'
+import { cleanUp } from 'ui/form/inputs/support/expressionTypes/Expression'
+import { getInterpretationErrorMessage } from 'ui/form/inputs/support/expressionTypes/support/interpretationError'
 
-import { removeCursor } from '../../../form/inputs/support/Input'
-import { cleanUp } from '../../../form/inputs/support/expressionTypes/Expression'
-import { interpretExpression } from 'step-wise/inputTypes/Expression/interpreter/expressions'
-import { getInterpretationErrorMessage } from 'step-wise/inputTypes/Expression/interpreter/InterpretationError'
-import Expression from 'step-wise/inputTypes/Expression/abstracts/Expression'
+import SimpleExercise from '../types/SimpleExercise'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />

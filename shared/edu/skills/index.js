@@ -41,6 +41,10 @@ const skills = {
 		name: 'Een term verplaatsen',
 		exercises: ['moveATerm1', 'moveATerm2', 'moveATerm3'],
 	},
+	expandBrackets: {
+		name: 'Haakjes uitwerken',
+		exercises: ['expandBrackets1', 'expandBrackets2', 'expandBrackets3'],
+	},
 
 	// Mathematics
 	solveLinearEquation: {

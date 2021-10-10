@@ -8,62 +8,32 @@ import { BM } from 'ui/components/equations'
 // import Variable from 'step-wise/inputTypes/Expression/Variable'
 // import Product from 'step-wise/inputTypes/Expression/Product'
 // import Sum from 'step-wise/inputTypes/Expression/Sum'
+// import Fraction from 'step-wise/inputTypes/Expression/functions/Fraction'
 // import { Expression } from 'step-wise/inputTypes/Expression'
 // import { Equation } from 'step-wise/inputTypes/Equation'
+// import { asExpression } from 'step-wise/inputTypes/Expression/interpreter/fromString'
 
-// console.log(Integer.zero.str)
-// const a = new Integer({ value: 2 })
-// const b = 
+// const a = asExpression('mgh+5mv^2+E')
 // console.log(a.str)
-// const b = new Float({ value: -2.6 })
+// const b = a.pullOutsideBrackets('m')
+// console.log(b)
 // console.log(b.str)
-// const x1 = new Variable('x_1')
-// const pi = Variable.pi
-// console.log(x1.str)
-// console.log(pi.str)
 
-// const p = new Product([
-// 	Integer.minusOne,
-// 	new Variable('y'),
-// 	new Integer(3),
-// 	Integer.minusOne,
-// 	new Sum([
-// 		new Variable('x'),
-// 		new Integer(5),
-// 	]),
-// 	new Sum([
-// 		new Variable('y'),
-// 		new Variable('x'),
-// 		new Integer(3),
-// 	]),
-// 	new Integer(2),
-// ])
-// console.log(p.str)
-// console.log(p.simplify(simplifyOptions.basic).str)
-// console.log(p.simplify(simplifyOptions.forAnalysis).str)
-// const e = new Equation({
-// 	left: new Variable('x'),
-// 	right: p.simplify(simplifyOptions.basic),
-// }).multiplyBy(3, true)
-// console.log(e.simplify(simplifyOptions.basic).str)
-
-// const a = new Product(['y', 'x']).multiplyBy(2, false)
+// const a = new Fraction(asExpression('3x12x'), asExpression('-2*9x'))
 // console.log(a.str)
-// const b = new Product(['x', 'y']).multiplyBy(2, true)
+// const b = a.simplify(Expression.simplifyOptions.basicClean)
 // console.log(b.str)
-// console.log(a.equals(b, 0))
 
-// const a = new Sum([3, 'x'])
-// const b = new Product([-7, a])
-// const c = new Sum([5, b])
-// const d = new Product([2, c])
-// const e = new Sum([4, d])
-// console.log('START')
-// console.log(e.str)
-// const f = e.simplify(Expression.simplifyOptions.forAnalysis)
-// console.log(f.str)
-// const g = f.simplify(Expression.simplifyOptions.forAnalysis)
-// console.log(g.str)
+// const a = new Fraction('a', 'b')
+// const b = new Fraction('c', 'd')
+// const c = new Fraction(a, b)
+// console.log(c.str)
+// console.log(c.simplify({ flattenFractions: true }).str)
+
+// const a = asExpression('a + b')
+// const b = new Fraction(a, 'b')
+// console.log(b.str)
+// console.log(b.simplify({ splitFractions: true }).str)
 
 export default function Test() {
 	return (

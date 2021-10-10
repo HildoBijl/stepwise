@@ -82,7 +82,7 @@ class Sum extends Parent {
 		}
 
 		// Find equal terms to cancel out. For this, walk through the terms, and try to match them with a negative counterpart. Upon finding a pair, skip both.
-		if (options.applySumCancellations) {
+		if (options.cancelSumTerms) {
 			const skipped = terms.map(_ => false)
 			terms = terms.filter((term1, index1) => {
 				const index = terms.findIndex((term2, index2) => index1 < index2 && !skipped[index1] && !skipped[index2] && term1.equals(term2.applyMinus(), Expression.equalityLevels.onlyOrderChanges))

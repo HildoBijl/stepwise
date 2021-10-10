@@ -59,3 +59,9 @@ function getNextSymbol(str, symbols, startFrom = 0) {
 	}, -1)
 }
 module.exports.getNextSymbol = getNextSymbol
+
+// removeWhitespace removes all whitespace from a string.
+function removeWhitespace(str) {
+	return str.replace(/\s/g, "")
+}
+module.exports.removeWhitespace = removeWhitespace

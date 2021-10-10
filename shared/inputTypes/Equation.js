@@ -4,6 +4,7 @@ const { isObject, deepEquals, processOptions } = require('../util/objects')
 const { union } = require('../util/sets')
 
 const { Expression, getEmpty: getEmptyExpression, isEmpty: isExpressionEmpty } = require('./Expression')
+const { asEquation } = require('./Expression/interpreter/fromString')
 
 const parts = ['left', 'right']
 
@@ -175,6 +176,10 @@ class Equation {
 		if (equation instanceof Equation)
 			return equation
 
+		// If it's a string, we can interpret it.
+		if (typeof equation === 'string')
+			return asEquation(equation)
+
 		// Check if it's an object that can then be interpreted.
 		if (!isObject(equation))
 			throw new Error(`Invalid equation object: received an object that was supposedly an Equation, but its value was "${JSON.stringify(equation)}".`)
@@ -191,7 +196,7 @@ Equation.equalityLevels = {
 	default: 2,
 	keepSides: 0, // This means that on an equality check the sides may not change. So the equation "a = b" is NOT equal to the equation "b = a". 
 	allowSwitch: 1, // This means that sides may switch, but no rewrites are allowed. So "a + b = c" is equal to "c = a + b", but NOT equal to "c - b = a". (Note: whether "a + b = c" is equal to "b + a = c" or "c = b + a" depends on the expression level.)
-	allowRewrite: 2, // This allows all possible rewrites. So the equation "x = y" and the equation "2x - 2y = 0" are equal. Note that in this case the expression equality level is ignored.
+	allowRewrite: 2, // This allows all possible rewrites. So the equation "x = y" and the equation "2x - 2y = 0" are equal. Note that in this case the expression equality level is ignored: we are checking equivalence regardless.
 }
 module.exports.equalityLevels = Equation.equalityLevels
 

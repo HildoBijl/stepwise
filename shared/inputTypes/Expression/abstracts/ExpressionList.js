@@ -42,10 +42,6 @@ class ExpressionList extends Parent {
 
 		// Apply own input.
 		this.terms = terms
-
-		// Set parent for the children.
-		const parent = this
-		this.terms.forEach(term => { term.parent = parent })
 	}
 
 	dependsOn(variable) {
@@ -69,6 +65,18 @@ class ExpressionList extends Parent {
 
 	hasFloat() {
 		return this.terms.some(term => term.hasFloat())
+	}
+
+	// applyToElement takes a function and applies it to a specified elements in this ExpressionList. The indexArray can be a single index or an array of indices.
+	applyToElement(indexArray, func) {
+		if (!Array.isArray(indexArray))
+			indexArray = [indexArray]
+		return new this.constructor(this.terms.map((term, index) => indexArray.includes(index)? func(term) : term))
+	}
+
+	// applyToElement takes a function and applies it to all elements in this ExpressionList.
+	applyToAllElements(func) {
+		return this.constructor(this.terms.map(term => func(term)))
 	}
 
 	equalsBasic(expression, level) {

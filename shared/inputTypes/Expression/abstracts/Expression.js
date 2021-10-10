@@ -53,6 +53,12 @@ class Expression {
 		if (this.constructor === Expression)
 			throw new TypeError(`Abstract class "Expression" may not be instantiated directly.`)
 
+		// If it's a string, interpret it, and turn it into an SO to become.
+		if (typeof SO === 'string') {
+			const { asExpression } = require('../interpreter/fromString')
+			SO = asExpression(SO).SO
+		}
+
 		// Every class must have a type property too. [ToDo: put this in unit tests.]
 		if (!this.constructor.type)
 			throw new Error(`Child classes of the Expression class must have a static type property. The "${this.constructor.name}" class does not have one.`)
@@ -197,6 +203,19 @@ class Expression {
 		return new Power(this, exponent).simplify(Expression.simplifyOptions.structureOnly)
 	}
 
+	// pullOutsideBrackets will take a term and pull it out of brackets. So if we pull m from "mgh+1/2mv^2+E" then you get "m*(gh+1/2v^2+E/m)".
+	pullOutsideBrackets(term) {
+		term = Expression.ensureExpression(term)
+
+		// Set up the term that remains within brackets.
+		const Fraction = require('../functions/Fraction')
+		const inner = (new Fraction(this, term)).simplify({ ...Expression.simplifyOptions.removeUseless, mergeNumbers: true, reduceFractionNumbers: true, cancelFractionTerms: true, splitFractions: true })
+
+		// Set up the product that's the final result.
+		const Product = require('../Product')
+		return new Product([term, inner])
+	}
+
 	// verifyVariable is used by functions requiring a variable as input. It checks the given variable. If no variable is given, it tries to figure out which variable was meant.
 	verifyVariable(variable) {
 		const Variable = require('../Variable')
@@ -322,8 +341,10 @@ class Expression {
 			return new Integer(expression)
 		if (isNumber(expression))
 			return new Float(expression)
-		if (typeof expression === 'string')
-			return new Variable(expression)
+		if (typeof expression === 'string') {
+			const { asExpression } = require('../interpreter/fromString')
+			return asExpression(expression)
+		}
 
 		// No easy interpretations. Check if this is a raw object with a type parameter.
 		if (!isObject(expression))
@@ -357,14 +378,24 @@ Expression.bracketLevels = {
 
 // There is a variety of simplifying options available. The objects below are common combinations of them.
 const noSimplify = { // This is never applied, but only use to verify options given. (Some options contradict eachother.)
+
+	// The following options are basic ones, usually applied.
 	structure: false, // Simplify the structure of the object in a way that the expression itself does not seem rewritten. For instance, if there is a sum inside a sum, just turn it into one sum. Or if there is a sum of one element, just turn it into said element.
 	removeUseless: false, // Remove useless elements. For instance, a sum with "+0" or a product with "*1" will be simplified.
 	mergeNumbers: false, // Reduce the number of numbers that are used. If there is a product with constants, like 2*x*3*y*4*z, turn it into 24*x*y*z. Or if there is a sum with numbers, like 2+3*x+4, group the numbers together, like 6+3*x.
-	applySumCancellations: false, // Check inside of sums whether terms can be cancelled. Note that this is a more basic version than mergeNumbers, which can group terms.
+	cancelSumTerms: false, // Cancel terms in sums. So 2x+3y-2x becoming 3y. Note that this is a more basic version than groupSumTerms, which can group terms.
+
+	// The following options relate to fractions.
+	reduceFractionNumbers: false, // Reduce the numbers in a fraction by dividing out the GCD. So 18/12 reduces to 3/2. This is only triggered if mergeNumbers is also true.
+	cancelFractionTerms: false, // Cancel terms inside fraction. So (ab)/(bc) becomes a/c. (Note: so far this has only been implemented for single terms and products, and not for sums (ax+bx)/x or powers x^2/x yet.)
+	flattenFractions: false, // Turn fractions inside fractions into a single fraction. So (a/b)/(c/d) becomes (ad)/(bc), similarly a/(b/c) becomes (ac)/b and (a/b)/c becomes a/(bc).
+	splitFractions: false, // Split up fractions. So (a+b)/c becomes a/c+b/c.
 
 	// ToDo: implement the simplification methods below.
+	mergeFractionProducts: false, // Turn products of fractions into single fractions. So a*(b/c) becomes (ab)/c and (a/b)*(c/d) becomes (ac)/(bd).
+	mergeFractionSums: false, // Turns sums of fractions into a single fraction. So a/x+b/x becomes (a+b)/x and a/b+c/d becomes (ad+bc)/(bd).
+
 	groupSumTerms: false, // Check inside of sums whether terms can be grouped. For instance, 2*x+3*x can be grouped into (2+3)*x, after which the numbers can be merged to form 5*x.
-	applyFractionCancellations: false, // Check inside of fractions whether factors can be cancelled.
 	expandBrackets: false, // Minimize the number of brackets needed. If there is a product of sums, expand brackets. So (a+b)*(c+d) becomes a*c+a*d+b*c+b*d. Similarly for powers. (a+b)^3 gets a binomial expansion.
 	mergeFractionProducts: false, // Merge products of fractions into a single fraction. So (a/b)*(c/d) becomes (a*c)/(b*d).
 	sortProducts: false, // Sort the terms inside products to put simpler terms first and more complex terms later.
@@ -389,8 +420,9 @@ const forDerivatives = {
 const basicClean = {
 	...removeUseless,
 	mergeNumbers: true,
-	applySumCancellations: true,
-	applyFractionCancellations: true,
+	cancelSumTerms: true,
+	reduceFractionNumbers: true,
+	cancelFractionTerms: true,
 }
 const regularClean = {
 	...basicClean,
@@ -423,7 +455,7 @@ Expression.simplifyOptions = {
 Expression.equalityLevels = {
 	default: 2,
 	exact: 0, // Everything must be exactly the same. So x+y is different from y+x.
-	onlyOrderChanges: 1, // Order changes are OK, but the rest is not. So a*x+b equals b+x*a, but x+x does NOT equal 2*x. This also includes number merges. So 2+x+4 equals x+6, and -1*x*2 equals x*(-2). 
+	onlyOrderChanges: 1, // Order changes are OK, but the rest is not. So a*x+b equals b+x*a, but x+x does NOT equal 2*x.
 	equivalent: 2, // Any equivalent expression works. So sin(pi/6)*x would equal x/sqrt(4). Prior simplification is obviously not needed when using this option.
 	constantMultiple: 3, // A constant multiple is still considered equal. So (x+1) is equal to (2x+2) but not to (2x+1).
 }

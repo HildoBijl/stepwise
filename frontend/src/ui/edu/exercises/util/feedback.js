@@ -4,6 +4,7 @@ import { processOptions } from 'step-wise/util/objects'
 import { checkNumberEquality, areNumbersEqual } from 'step-wise/inputTypes/Integer'
 import { Float } from 'step-wise/inputTypes/Float'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
+import { Expression } from 'step-wise/inputTypes/Expression'
 import { Equation } from 'step-wise/inputTypes/Equation'
 
 const defaultComparisonOptions = {
@@ -86,24 +87,28 @@ export function getInputFieldFeedback(parameter, exerciseData, extraOptions) {
 		}
 
 		// It's not a pure number. Try various other parameter types.
-		switch (inputAnswer.constructor) {
-			case Float:
-				feedback[currParameter] = getFloatComparisonFeedback(correctAnswer, inputAnswer, options)
-				return
-			case FloatUnit:
-				feedback[currParameter] = getFloatUnitComparisonFeedback(correctAnswer, inputAnswer, options)
-				return
-			// ToDo: add Expression feedback.
-			case Equation:
-				feedback[currParameter] = getEquationComparisonFeedback(correctAnswer, inputAnswer, options)
-				return
-			default:
-				throw new Error(`Default feedback error: could not determine the type of parameter "${currParameter}". No comparison could be made.`)
+		if (inputAnswer.constructor === Float) {
+			feedback[currParameter] = getFloatComparisonFeedback(correctAnswer, inputAnswer, options)
+			return
 		}
+		if (inputAnswer.constructor === FloatUnit) {
+			feedback[currParameter] = getFloatUnitComparisonFeedback(correctAnswer, inputAnswer, options)
+			return
+		}
+		if (inputAnswer instanceof Expression) {
+			feedback[currParameter] = getExpressionComparisonFeedback(correctAnswer, inputAnswer, options)
+			return
+		}
+		if (inputAnswer.constructor === Equation) {
+			feedback[currParameter] = getExpressionComparisonFeedback(correctAnswer, inputAnswer, options) // Deal with Equations in the same way as Expressions.
+			return
+		}
+
+		throw new Error(`Default feedback error: could not determine the type of parameter "${currParameter}". No comparison could be made.`)
 	})
 
-	// All done! Return feedback.
-	return feedback
+// All done! Return feedback.
+return feedback
 }
 
 // getAllInputFieldsFeedback is a function that tries to give feedback about the provided input in as intelligent a manner as possible. It figures out for itself which fields to give input on.
@@ -306,8 +311,8 @@ export function getFloatUnitComparisonFeedback(correctAnswer, inputAnswer, optio
 	}
 }
 
-// getEquationComparisonFeedback is identical to getNumberComparisonFeedback, but then uses Equations.
-export function getEquationComparisonFeedback(correctAnswer, inputAnswer, options) {
+// getExpressionComparisonFeedback is identical to getNumberComparisonFeedback, but then uses Expressions.
+export function getExpressionComparisonFeedback(correctAnswer, inputAnswer, options) {
 	options = processOptions(options, defaultComparisonOptions)
 	const { equalityOptions, solved, text, prevInput, prevFeedback, correct, checks } = options
 

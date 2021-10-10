@@ -42,7 +42,7 @@ function ensureInt(x, positive = false, nonzero = false) {
   // Approve of infinity before further processing. (Given the usual checks, which we relegate to parseNumber.)
   if (Math.abs(x) === Infinity)
     return ensureNumber(x, positive, nonzero)
-  
+
   // Ensure it's in integer form.
   x = parseInt(x)
 
@@ -82,7 +82,7 @@ function roundToDigits(number, digits) {
     return 0
   if (digits === Infinity)
     return number
-  
+
   // Calculate rounding.
   const decimals = digits - Math.floor(Math.log10(Math.abs(number))) - 1
   return roundTo(number, decimals)
@@ -139,18 +139,39 @@ module.exports.interpolate = interpolate
 
 // getRange(min, max, numPoints) return an array with numPoints numbers, equally distributed between min and max. For instance, getRange(3,9,5) will give [3, 4.5, 6, 7.5, 9].
 function getRange(min, max, numPoints) {
-	return (new Array(numPoints)).fill(0).map((v, i) => min + (max - min) * i / (numPoints - 1))
+  return (new Array(numPoints)).fill(0).map((v, i) => min + (max - min) * i / (numPoints - 1))
 }
 module.exports.getRange = getRange
 
 // deg2rad converts degrees to radians.
 function deg2rad(deg) {
-  return deg*Math.PI/180
+  return deg * Math.PI / 180
 }
 module.exports.deg2rad = deg2rad
 
 // rad2deg converts radians to degrees.
 function rad2deg(rad) {
-  return rad*180/Math.PI
+  return rad * 180 / Math.PI
 }
 module.exports.rad2deg = rad2deg
+
+// gcd returns the greatest common divider of the two integer numbers.
+function gcd(a, b) {
+  a = Math.abs(ensureInt(a))
+  b = Math.abs(ensureInt(b))
+  while (b > 0) {
+    const c = b
+    b = a % b
+    a = c
+  }
+  return a
+}
+module.exports.gcd = gcd
+
+// gcm returns the smallest common multiple of two integer numbers.
+function scm(a, b) {
+  a = Math.abs(ensureInt(a))
+  b = Math.abs(ensureInt(b))
+  return a*(b/gcm(a,b))
+}
+module.exports.scm = scm

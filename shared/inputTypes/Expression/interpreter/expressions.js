@@ -10,7 +10,7 @@ const { getExpressionTypes } = require('..')
 const Expression = require('../abstracts/Expression')
 
 const { getSubExpression, moveRight } = require('./support')
-const { InterpretationError } = require('./InterpretationError')
+const InterpretationError = require('./InterpretationError')
 
 const expressionTypes = getExpressionTypes()
 const { Integer, Float, Variable, Sum, Product } = expressionTypes // Elementary elements.

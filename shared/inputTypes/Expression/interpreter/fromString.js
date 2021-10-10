@@ -1,11 +1,15 @@
 // This file has all functionalities to turn Expressions, Equations and such from String format to Input Object format. (You can turn String to IO, IO to FO, and FO to String.)
 
-const { getNextSymbol } = require('../../../util/strings')
+const { getNextSymbol, removeWhitespace } = require('../../../util/strings')
 
 const { interpretExpression } = require('./expressions')
 const { interpretEquation } = require('./equations')
 
 function expressionStrToIO(str) {
+	// Whitespace is always ignored. Remove it directly to prevent confusion.
+	str = removeWhitespace(str)
+
+	// Start with a single expression part. We'll split it up as we go.
 	let value = [{
 		type: 'ExpressionPart',
 		value: str,
