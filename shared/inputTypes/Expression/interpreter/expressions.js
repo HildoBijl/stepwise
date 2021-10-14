@@ -59,7 +59,7 @@ function isFunctionAllowed(func, settings) {
 	if (func === 'frac')
 		return settings.divide
 	if (func === 'subSup')
-		return settings.power || settings.subscript	
+		return settings.power || settings.subscript
 	if (func === 'sin' || func === 'cos' || func === 'tan' || func === 'asin' || func === 'acos' || func === 'atan' || func === 'arcsin' || func === 'arccos' || func === 'arctan')
 		return settings.trigonometry
 	if (func === 'sqrt' || func === 'root')
@@ -79,7 +79,7 @@ function interpretExpression(obj) {
 		throw new Error(`Interpreting error: the function interpretExpression was called on an object of type "${obj.type}". This must be an expression type.`)
 
 	// Interpret the value.
-	return interpretExpressionValue(obj.value)
+	return interpretExpressionValue(obj.value, obj.settings)
 }
 module.exports.interpretExpression = interpretExpression
 
@@ -89,21 +89,21 @@ const steps = {
 	products: 3,
 	remaining: 4,
 }
-function interpretExpressionValue(value, afterStep = 0) {
+function interpretExpressionValue(value, settings = {}, afterStep = 0) {
 	// Check special cases.
 	if (value.length === 1 && value[0].value === '')
-	throw new InterpretationError('EmptyExpression', '', `Could not interpret the Expression due to it being empty.`)
+		throw new InterpretationError('EmptyExpression', '', `Could not interpret the Expression due to it being empty.`)
 
 	// Check how much we need to do.
 	switch (afterStep) {
 		case 0:
-			return interpretBrackets(value)
+			return interpretBrackets(value, settings)
 		case 1: // steps.brackets
-			return interpretSums(value)
+			return interpretSums(value, settings)
 		case 2: // steps.sums
-			return interpretProducts(value)
+			return interpretProducts(value, settings)
 		case 3: // steps.products
-			return interpretRemaining(value)
+			return interpretRemaining(value, settings)
 		default: // steps.remaining
 			throw new Error(`Invalid interpretExpression call: tried to interpret an expression, but the afterStep parameter was invalid. A value of "${afterStep}" was given.`)
 	}
@@ -111,7 +111,7 @@ function interpretExpressionValue(value, afterStep = 0) {
 module.exports.interpretExpressionValue = interpretExpressionValue
 
 // interpretBrackets interprets everything related to brackets. This includes both regular brackets 2*(3+4), brackets with simple functions sin(2*x) and brackets for advanced functions with a parameter after it like [10]log(2*x).
-function interpretBrackets(value) {
+function interpretBrackets(value, settings) {
 	const bracketSets = getMatchingBrackets(value)
 	const result = []
 
@@ -128,15 +128,19 @@ function interpretBrackets(value) {
 			end.part--
 			end.cursor = value[end.part].length
 		} else {
-			// On a bracket in an expression part, do not take along letters before the backet. They are part of the function.
+			// On a bracket in an expression part, interpret the letters before the bracket as a function, and hence don't interpret in the part prior to the brackets. But only do this when these letters form a basic function, or when custom functions are on.
 			const str = value[end.part].value
-			while (isLetter(str[end.cursor - 1]))
-				end.cursor--
+			let movingCursor = end.cursor
+			while (isLetter(str[movingCursor - 1]))
+				movingCursor--
+			const lettersBeforeBracket = str.substring(movingCursor, end.cursor)
+			if (basicFunctions[lettersBeforeBracket] || settings.customFunctions)
+				end.cursor -= lettersBeforeBracket.length
 		}
 		result.push(...getSubExpression(value, start, end))
 
 		// Interpret the part between brackets and add it as interpreted expression.
-		result.push(processBracketPart(value, opening, closing))
+		result.push(processBracketPart(value, opening, closing, settings))
 
 		// Shift the position to after the closing bracket.
 		position = moveRight(closing)
@@ -147,7 +151,7 @@ function interpretBrackets(value) {
 	result.push(...getSubExpression(value, position, end))
 
 	// Keep interpreting it, assuming there are no brackets.
-	return interpretExpressionValue(result, steps.brackets)
+	return interpretExpressionValue(result, settings, steps.brackets)
 }
 
 // getMatchingBrackets returns an array [{ opening: { part: 0, cursor: 4 }, closing: { part: 2, cursor: 0 } }, ... ] with matching brackets. Brackets inside these brackets are ignored (assuming they match).
@@ -203,7 +207,7 @@ function getMatchingBrackets(value) {
 	return brackets
 }
 
-function processBracketPart(value, opening, closing) {
+function processBracketPart(value, opening, closing, settings) {
 	// Check if it is a special function.
 	if (value[opening.part].type === 'Function') {
 		const { name, value: internalArguments } = value[opening.part]
@@ -226,16 +230,18 @@ function processBracketPart(value, opening, closing) {
 	let cursor = opening.cursor
 	while (isLetter(str[cursor - 1]))
 		cursor--
-	const lettersBeforeBracket = str.slice(cursor, opening.cursor)
+	const lettersBeforeBracket = str.substring(cursor, opening.cursor)
 	if (lettersBeforeBracket.length > 0) {
 		// Check if it is a valid function name.
 		const name = lettersBeforeBracket
-		if (!basicFunctions[name])
-			throw new InterpretationError('UnknownBasicFunction', name, `Could not interpret the Expression due to an unknown function "${name}(...)".`)
+		if (basicFunctions[name]) {
+			const Component = basicFunctions[name]
+			return new Component(interpretedExpression)
+		}
 
-		// Set up the function.
-		const Component = basicFunctions[name]
-		return new Component(interpretedExpression)
+		// Check if we should interpret custom functions. (This still must be implemented later on.)
+		if (settings.customFunctions)
+			throw new Error(`Invalid input field settings: custom functions are not yet supported. This must still be programmed in the future.`)
 	}
 
 	// It is a regular bracket.
@@ -243,7 +249,7 @@ function processBracketPart(value, opening, closing) {
 }
 
 // interpretSums interprets pluses and minuses. It assumes there are no brackets left.
-function interpretSums(value) {
+function interpretSums(value, settings) {
 	// Set up a handler to add parts to the sum.
 	const sumTerms = []
 	let lastSymbol = ''
@@ -253,7 +259,7 @@ function interpretSums(value) {
 			return
 
 		// Extract the expression and check if it needs a minus sign.
-		let interpretedExpression = interpretExpressionValue(getSubExpression(value, start, end), steps.sums)
+		let interpretedExpression = interpretExpressionValue(getSubExpression(value, start, end), settings, steps.sums)
 		if (lastSymbol === '-')
 			interpretedExpression = interpretedExpression.applyMinus()
 		sumTerms.push(interpretedExpression)
@@ -311,14 +317,14 @@ function interpretSums(value) {
 }
 
 // interpretProducts takes a partially interpreted expression without any brackets, pluses or minuses and interprets it.
-function interpretProducts(value) {
+function interpretProducts(value, settings) {
 	// Set up a handler to add parts to the product.
 	const productTerms = []
 	const addPart = (start, end, minusAtPrevious) => {
 		// If there was a minus after the previous times operator, take that into account. Move the start cursor one to the right and multiply by minus one.
 		if (minusAtPrevious)
 			start = moveRight(start)
-		let interpretedExpression = interpretExpressionValue(getSubExpression(value, start, end), steps.products)
+		let interpretedExpression = interpretExpressionValue(getSubExpression(value, start, end), settings, steps.products)
 		if (minusAtPrevious)
 			interpretedExpression = interpretedExpression.applyMinus()
 		productTerms.push(interpretedExpression)
@@ -368,7 +374,7 @@ function interpretProducts(value) {
 }
 
 // interpretRemaining interprets expressions without any brackets, pluses/minuses and times operators.
-function interpretRemaining(value) {
+function interpretRemaining(value, settings) {
 	// Turn all ExpressionParts (strings) into arrays of interpreted elements. (Keep other elements, interpreted or not, as they are.)
 	value = value.map(element => {
 		if (element.type !== 'ExpressionPart')
@@ -377,7 +383,7 @@ function interpretRemaining(value) {
 	}).flat()
 
 	// Interpret the remaining elements. This needs to be done after the interpreting of strings, in case of SubSups that need merging. Then turn the result into one big product.
-	value = interpretElements(value)
+	value = interpretElements(value, settings)
 	return new Product(value).simplify(Expression.simplifyOptions.structureOnly)
 }
 
@@ -405,20 +411,20 @@ function interpretString(str) {
 	for (let i = 0; i < str.length; i++) {
 		if (isLetter(str[i])) {
 			if (lastLetter < i - 1)
-				terms.push(Constant.toNumber(str.slice(lastLetter + 1, i)))
+				terms.push(Constant.toNumber(str.substring(lastLetter + 1, i)))
 			terms.push(new Variable(str[i]))
 			lastLetter = i
 		}
 	}
 	if (lastLetter < str.length - 1)
-		terms.push(Constant.toNumber(str.slice(lastLetter + 1)))
+		terms.push(Constant.toNumber(str.substring(lastLetter + 1)))
 
 	// All done. Return the corresponding elements.
 	return terms
 }
 
 // interpretElements takes an array of elements, some already interpreted and some not yet. It interprets all non-interpreted elements.
-function interpretElements(value) {
+function interpretElements(value, settings) {
 	const result = []
 	value.forEach((element, part) => {
 		// If the element has already been interpreted, keep it.
@@ -429,12 +435,12 @@ function interpretElements(value) {
 		if (element.type === 'Function') {
 			if (element.name === 'subSup')
 				return incorporateSubSup(element, result)
-			return result.push(interpretFunction(element))
+			return result.push(interpretFunction(element, settings))
 		}
 
 		// Check for accents.
 		if (element.type === 'Accent')
-			return result.push(interpretAccent(element))
+			return result.push(interpretAccent(element, settings))
 	})
 
 	// All done!
@@ -468,7 +474,7 @@ function incorporateSubSup(element, result) {
 }
 
 // interpretFunction interprets a function object. This only works for functions that do not have a parameter afterwards, like [10]log(...).
-function interpretFunction(element) {
+function interpretFunction(element, settings) {
 	const { name, value } = element
 
 	// Verify the input. On a function with brackets, leave it for later.
@@ -486,7 +492,7 @@ function interpretFunction(element) {
 }
 
 // interpretAccent interprets an accent object.
-function interpretAccent(element) {
+function interpretAccent(element, settings) {
 	const { name, value, alias } = element
 
 	// Verify the input.

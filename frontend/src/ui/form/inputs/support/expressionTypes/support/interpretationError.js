@@ -42,10 +42,6 @@ export function getInterpretationErrorMessage(error) {
 		case 'UnknownAdvancedFunction':
 			return `Er is een onbekende functie aangetroffen.`
 
-		// Basic function interpretation.
-		case 'UnknownBasicFunction':
-			return <>Onbekende functie "<M>{cause}\left(\ldots\right)</M>". Voor vermenigvuldiging: gebruik een vermenigvuldigingsteken "<M>{cause}\cdot\left(\ldots\right)</M>".</>
-
 		// Accent interpretation.
 		case 'UnknownAccent':
 			return `Onbekend accent "${cause}".`

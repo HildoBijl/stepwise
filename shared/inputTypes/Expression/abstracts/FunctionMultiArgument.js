@@ -56,7 +56,6 @@ class FunctionMultiArgument extends Parent {
 		this.constructor.args.forEach(key => {
 			result += `[${this[key].str}]`
 		})
-		result = this.addFactorToString(result)
 		return result
 	}
 
@@ -65,7 +64,7 @@ class FunctionMultiArgument extends Parent {
 		this.constructor.args.forEach(key => {
 			result += `\\left(${this[key].tex}\\right)`
 		})
-		return this.addFactorToTex(result)
+		return result
 	}
 
 	requiresBracketsFor(level) {

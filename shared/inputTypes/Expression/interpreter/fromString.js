@@ -16,7 +16,10 @@ function expressionStrToIO(str) {
 	}]
 
 	// Check for subscripts and powers.
-	value = value.map(part => processSubSup(part)).flat()
+	value = value.map(part => processSubSups(part)).flat()
+
+	// Check for fractions.
+	value = processFractions(value)
 
 	// ToDo: extend this further with other function types.
 
@@ -51,8 +54,8 @@ module.exports.asEquation = equationStrToFO // This is the name of the function 
 
 // Below are functions required for expressionStrToIO.
 
-// processSubSup takes an ExpressionPart object like { type: 'ExpressionPart', value: 'aF^2_bc' } and turns this into the right input object format, having a SubSup of the form { sub: 'b', sup: '2' } (okay, with proper object types).
-function processSubSup(part) {
+// processSubSups takes an ExpressionPart object like { type: 'ExpressionPart', value: 'aF^2_bc' } and turns this into the right input object format, having a SubSup of the form { sub: 'b', sup: '2' } (okay, with proper object types).
+function processSubSups(part) {
 	// Only process ExpressionParts.
 	if (part.type !== 'ExpressionPart')
 		return part
@@ -126,6 +129,19 @@ function processSubSup(part) {
 	})
 	return result
 }
+
+// processFractions takes an array of ExpressionParts with possibly other elements in there, and sets up the "frac" functions, just like in the input objects.
+function processFractions(value) {
+	// Walk through the parts of the expression and look for dividing symbols "/".
+	const result = []
+	value.forEach((part, index) => {
+		// if (part.type !== 'ExpressionPart')
+
+		// ToDo next: process functions through their aliases.
+	})
+	return value // TEMP
+}
+
 
 function getFirstSubSupPosition(str, from) {
 	return getNextSymbol(str, ['_', '^'], from)

@@ -46,7 +46,7 @@ function IOtoFO(obj) {
 		throw new Error(`Invalid object type "${obj.type}" detected when transforming to input object. No transforming function is known for this type.`)
 
 	// Transform accordingly.
-	return require(`./${obj.type}`).IOtoFO(obj.value)
+	return require(`./${obj.type}`).IOtoFO(obj.value, obj.settings)
 }
 module.exports.IOtoFO = IOtoFO
 

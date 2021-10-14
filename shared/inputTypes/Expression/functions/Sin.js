@@ -12,11 +12,11 @@ class Sin extends Parent {
 		return new Product(
 			new Cos(this.argument),
 			this.argument.getDerivative(variable), // Apply the chain rule.
-		).multiplyBy(this.factor)
+		)
 	}
 
 	simplifyBasic(options) {
-		let { factor, argument } = this.simplifyChildren(options)
+		let { argument } = this.simplifyChildren(options)
 
 		// Check for basic reductions.
 		if (options.basicReductions) {
@@ -26,7 +26,7 @@ class Sin extends Parent {
 			// ToDo: check for basic angles. (And same for cos and tan.)
 		}
 
-		return new Sin({ factor, argument })
+		return new Sin(argument)
 	}
 }
 Sin.defaultSO = Parent.defaultSO

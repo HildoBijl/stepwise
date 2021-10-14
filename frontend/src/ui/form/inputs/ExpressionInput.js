@@ -61,7 +61,8 @@ const defaultSettings = {
 	logarithm: true,
 	accent: true,
 	greek: true,
-	equals: false,
+	equals: false, // Are equals signs allowed in ExpressionParts?
+	customFunctions: false, // Should we interpret f(x+2) as f*(x+2) (false, default) or as a custom function f with argument x+2 (true)?
 }
 
 export default function ExpressionInput(props) {
@@ -74,10 +75,12 @@ export default function ExpressionInput(props) {
 }
 
 function ExpressionInputInner(props) {
-	// Process the field settings, and use them to determine the keyboard settings function.
+	// Process the field settings, and use them to determine the keyboard settings function and expression interpreter settings.
 	const settings = useMemo(() => processOptions(props.settings || {}, defaultSettings), [props.settings])
 	const settingsRef = useRefWithValue(settings)
 	const keyboardSettings = useCallback((data) => dataToKeyboardSettings(data, settingsRef.current), [settingsRef])
+	const interpreterSettings = (settings.customFunctions ? { customFunctions: true } : {})
+	const initialData = getEmptyData(interpreterSettings)
 
 	// Get the charElements and use this to set up proper keyPressToData and mouseClickToCursor functions.
 	const { charElementsRef } = useMathWithCursorContext()
@@ -99,6 +102,7 @@ function ExpressionInputInner(props) {
 		...defaultProps,
 		...props,
 		keyboardSettings,
+		initialData,
 		keyPressToData,
 		mouseClickToData,
 		className: clsx(props.className, classes.expressionInput, 'expressionInput'),
@@ -165,11 +169,12 @@ export function validWithVariablesGeneric(interpreter, ...variables) {
 }
 
 // getEmptyData returns an empty data object, ready to be filled by input.
-export function getEmptyData() {
+export function getEmptyData(settings = {}) {
 	return {
 		type: 'Expression',
 		value: getEmpty(),
 		cursor: Expression.getStartCursor(),
+		settings,
 	}
 }
 

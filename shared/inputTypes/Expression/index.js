@@ -29,16 +29,15 @@ function isFOofType(expression) {
 module.exports.isFOofType = isFOofType
 
 function FOtoIO(expression) {
+	const { expressionStrToIO } = require('./interpreter/fromString')
 	expression = Expression.ensureExpression(expression)
-
-	// Assemble the input object.
-	return getEmpty() // TODO
+	return expressionStrToIO(expression.str)
 }
 module.exports.FOtoIO = FOtoIO
 
-function IOtoFO(expression) {
+function IOtoFO(expression, settings) {
 	const { interpretExpressionValue } = require('./interpreter/expressions')
-	return interpretExpressionValue(expression)
+	return interpretExpressionValue(expression, settings)
 }
 module.exports.IOtoFO = IOtoFO
 

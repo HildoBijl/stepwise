@@ -56,11 +56,12 @@ export function validWithVariables(...variables) {
 }
 
 // getEmptyData returns an empty data object, ready to be filled by input.
-export function getEmptyData() {
+export function getEmptyData(settings = {}) {
 	return {
 		type: 'Equation',
 		value: getEmpty(),
 		cursor: Equation.getStartCursor(),
+		settings,
 	}
 }
 

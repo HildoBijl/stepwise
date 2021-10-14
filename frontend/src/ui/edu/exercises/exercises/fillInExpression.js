@@ -45,7 +45,7 @@ function Problem({ index }) {
 			// console.log(res.str)
 		}
 	} catch (e) {
-		probleem = 'Probleem: ' + getInterpretationErrorMessage(e)
+		probleem = <>Probleem: {getInterpretationErrorMessage(e)}</>
 		// console.log(eq)
 	}
 
@@ -53,7 +53,7 @@ function Problem({ index }) {
 		<Par>Voer een uitdrukking in die je voor je eigen cursus zou kunnen gebruiken. (Klik niet op "Controleer" want die functionaliteit is nog niet gemaakt.)</Par>
 		<InputSpace>
 			<Par>
-				<ExpressionInput id="ans" prelabel={<M>f\left(x\right)=</M>} label="Vul hier de uitdrukking in" size="s" settings={{ ...basicMath, subscript: true, divide: false }} />
+				<ExpressionInput id="ans" prelabel={<M>f\left(x\right)=</M>} label="Vul hier de uitdrukking in" size="s" settings={{ ...basicMath, subscript: true }} />
 				<EquationInput id="eq" label="Vul hier de vergelijking in" size="s" settings={{ ...basicMath, divide: false }} />
 				{/* <ExpressionInput id="y" prelabel={<M>y=</M>} label="Vul hier de uitdrukking in" size="s" /> */}
 			</Par>

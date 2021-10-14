@@ -1,5 +1,6 @@
 const Parent = require('../abstracts/FunctionSingleArgument')
 const Product = require('../Product')
+const Integer = require('../Integer')
 
 class Cos extends Parent {
 	toNumber() {
@@ -9,17 +10,24 @@ class Cos extends Parent {
 	getDerivativeBasic(variable) {
 		const Sin = require('./Sin')
 		return new Product(
+			Integer.minusOne,
 			new Sin(this.argument),
 			this.argument.getDerivative(variable), // Apply the chain rule.
-		).multiplyBy(-this.factor) // Include a minus here.
+		)
 	}
 
 	simplifyBasic(options) {
-		let { factor, argument } = this.simplifyChildren(options)
+		let { argument } = this.simplifyChildren(options)
 
-		// ToDo
+		// Check for basic reductions.
+		if (options.basicReductions) {
+			if (argument.equalsBasic(Integer.zero))
+				return Integer.one
 
-		return new Cos({ factor, argument })
+			// ToDo: check for basic angles. (And same for cos and tan.)
+		}
+
+		return new Cos(argument)
 	}
 }
 Cos.defaultSO = Parent.defaultSO

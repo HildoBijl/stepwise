@@ -4,7 +4,7 @@ const { isObject, deepEquals, processOptions } = require('../util/objects')
 const { union } = require('../util/sets')
 
 const { Expression, getEmpty: getEmptyExpression, isEmpty: isExpressionEmpty } = require('./Expression')
-const { asEquation } = require('./Expression/interpreter/fromString')
+const { equationStrToIO } = require('./Expression/interpreter/fromString')
 
 const parts = ['left', 'right']
 
@@ -178,7 +178,7 @@ class Equation {
 
 		// If it's a string, we can interpret it.
 		if (typeof equation === 'string')
-			return asEquation(equation)
+			return equationStrToIO(equation)
 
 		// Check if it's an object that can then be interpreted.
 		if (!isObject(equation))
@@ -213,8 +213,8 @@ function isFOofType(equation) {
 module.exports.isFOofType = isFOofType
 
 function FOtoIO(equation) {
-	// Assemble the input object.
-	return getEmpty() // TODO
+	equation = Equation.ensureEquation(equation)
+	return equationStrToIO(equation.str)
 }
 module.exports.FOtoIO = FOtoIO
 

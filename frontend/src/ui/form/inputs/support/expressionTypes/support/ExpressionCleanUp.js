@@ -178,8 +178,7 @@ function applyAutoReplace(data, settings) {
 	const checkAutoReplaceFor = (name, funcs) => {
 		const { aliases, create } = funcs
 		aliases.forEach(alias => {
-			const toSearch = `${alias}`
-			const position = expressionPartValue.indexOf(toSearch)
+			const position = expressionPartValue.indexOf(alias)
 			if (position !== -1)
 				data = create(data, cursor.part, position, name, alias)
 		})
