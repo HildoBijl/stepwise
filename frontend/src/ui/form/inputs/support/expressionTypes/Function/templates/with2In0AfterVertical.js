@@ -76,7 +76,7 @@ function getInitialCursor(element) {
 	return { part, cursor: getDataStartCursor(element.value[part]) }
 }
 
-function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement) {
+function keyPressToData(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement) {
 	const funcs = getFuncs(data)
 	const { key } = keyInfo
 	const activeElementData = zoomIn(data)
@@ -109,7 +109,7 @@ function keyPressToData(keyInfo, data, charElements, topParentData, contentsElem
 	}
 
 	// Process the key as usual.
-	return defaultFunctions.keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement)
+	return defaultFunctions.keyPressToData(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement)
 }
 
 function canMoveCursorVertically(data, up) {

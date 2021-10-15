@@ -1,8 +1,4 @@
-import React from 'react'
-
 import InterpretationError from 'step-wise/inputTypes/Expression/interpreter/InterpretationError'
-
-import { M } from 'ui/components/equations'
 
 export function getInterpretationErrorMessage(error) {
 	// If the error is not an interpretation error, rethrow it.

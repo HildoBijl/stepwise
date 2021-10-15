@@ -36,17 +36,51 @@ const skills = {
 		exercises: ['summationAndMultiplication1', 'summationAndMultiplication2'],
 	},
 
-	// Basic mathematics.
-	moveATerm: {
-		name: 'Een term verplaatsen',
-		exercises: ['moveATerm1', 'moveATerm2', 'moveATerm3'],
+	/*
+	 * Basic mathematics.
+	 * - Manipulating fractions.
+	 * - Manipulating brackets.
+	 * - Manipulating expressions.
+	 * - Solving equations.
+	 */
+
+	// Basic mathematics: manipulating fractions.
+	addRemoveFractionFactors: {
+		name: 'Breukfactoren toevoegen/wegstrepen',
+		exercises: ['addRemoveFractionFactors1', 'addRemoveFractionFactors1Reverse', 'addRemoveFractionFactors2', 'addRemoveFractionFactors2Reverse', 'addRemoveFractionFactors3', 'addRemoveFractionFactors3Reverse'],
 	},
+	mergeSplitBasicFractions: {
+		name: 'Gelijknamige breuken samenvoegen/splitsen',
+		exercises: ['mergeSplitBasicFractions1', 'mergeSplitBasicFractions2', 'mergeSplitBasicFractions3'],
+	},
+	mergeSplitGeneralFractions: {
+		name: 'Algemene breuken samenvoegen/splitsen',
+		exercises: ['mergeSplitGeneralFractions1', 'mergeSplitGeneralFractions2', 'mergeSplitGeneralFractions3'],
+	},
+	multiplyDivideFractions: {
+		name: 'Breuken vermenigvuldigen/delen',
+		exercises: ['mergeSplitFractionSums1', 'mergeSplitFractionSums2', 'mergeSplitFractionSums3'],
+	},
+	simplifyFractions: {
+		name: 'Breuken simplificeren',
+		exercises: ['simplifyFractions1', 'simplifyFractions2', 'simplifyFractions3'],
+	},
+
+	// Basic mathematics: manipulating brackets.
 	expandBrackets: {
 		name: 'Haakjes uitwerken',
 		exercises: ['expandBrackets1', 'expandBrackets2', 'expandBrackets3'],
 	},
 
-	// Mathematics
+	// Basic mathematics: manipulating expressions.
+	moveATerm: {
+		name: 'Een term verplaatsen',
+		exercises: ['moveATerm1', 'moveATerm2', 'moveATerm3'],
+	},
+
+	// Basic mathematics: solving equations.
+
+	// Physics mathematics: solving float-problems.
 	solveLinearEquation: {
 		name: 'Lineaire vergelijking oplossen',
 		exercises: ['solveLinearEquation1', 'solveLinearEquation2', 'solveLinearEquation3', 'solveLinearEquation4'],

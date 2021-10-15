@@ -33,7 +33,7 @@ function getInitialCursor(element) {
 	return { part: 1, cursor: getDataStartCursor(element.value[1]) }
 }
 
-function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement) {
+function keyPressToData(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement) {
 	const { key } = keyInfo
 	const activeElementData = zoomIn(data)
 
@@ -44,7 +44,7 @@ function keyPressToData(keyInfo, data, charElements, topParentData, contentsElem
 		return getFuncs(data).removeElement(data, false)
 
 	// Process the key as usual.
-	return defaultFunctions.keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement)
+	return defaultFunctions.keyPressToData(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement)
 }
 
 function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {

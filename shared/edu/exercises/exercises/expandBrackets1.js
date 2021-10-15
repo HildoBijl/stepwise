@@ -1,7 +1,6 @@
 const { getRandomInteger, getRandomBoolean } = require('../../../util/random')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 
-// Testing code.
 const { Expression } = require('../../../inputTypes/Expression')
 const Product = require('../../../inputTypes/Expression/Product')
 const { asExpression } = require('../../../inputTypes/Expression/interpreter/fromString')
