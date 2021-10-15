@@ -1,6 +1,6 @@
 import { insertAtIndex } from 'step-wise/util/strings'
 import { firstOf, lastOf, sum } from 'step-wise/util/arrays'
-import { isEmpty, getEmpty } from 'step-wise/inputTypes/Expression'
+import { isEmpty, getEmpty, getIOValueStart as getStartCursor, getIOValueEnd as getEndCursor } from 'step-wise/inputTypes/Expression'
 
 import { addCursor, removeCursor } from '../Input'
 import { getClosestElement } from '../MathWithCursor'
@@ -30,6 +30,7 @@ const allFunctions = {
 	cleanUp,
 }
 export default allFunctions
+export { getStartCursor, getEndCursor }
 
 export function toLatex(data) {
 	let { value } = data
@@ -282,14 +283,6 @@ export function coordinatesToCursor(coordinates, boundsData, data, charElements,
 		part,
 		cursor: getFuncs(element).coordinatesToCursor(coordinates, boundsData.parts[part], element, charElements[part], contentsElement)
 	}
-}
-
-export function getStartCursor(value = getEmpty()) {
-	return { part: 0, cursor: getDataStartCursor(firstOf(value)) }
-}
-
-export function getEndCursor(value = getEmpty()) {
-	return { part: value.length - 1, cursor: getDataEndCursor(lastOf(value)) }
 }
 
 export function isCursorAtStart(value, cursor) {

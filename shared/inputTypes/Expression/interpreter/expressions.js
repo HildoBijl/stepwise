@@ -6,7 +6,7 @@ const { isObject } = require('../../../util/objects')
 
 const Constant = require('../abstracts/Constant')
 
-const { getExpressionTypes } = require('..')
+const { getExpressionTypes, getIOValueStart, getIOValueEnd } = require('..')
 const Expression = require('../abstracts/Expression')
 
 const { getSubExpression, moveRight } = require('./support')
@@ -116,7 +116,7 @@ function interpretBrackets(value, settings) {
 	const result = []
 
 	// Walk through the matching brackets and add each part accordingly.
-	let position = { part: 0, cursor: 0 }
+	let position = getIOValueStart(value)
 	bracketSets.forEach(bracketSet => {
 		const { opening, closing } = bracketSet
 
@@ -147,7 +147,7 @@ function interpretBrackets(value, settings) {
 	})
 
 	// Add the remaining part of the expression.
-	const end = { part: value.length - 1, cursor: lastOf(value).value.length }
+	const end = getIOValueEnd(value)
 	result.push(...getSubExpression(value, position, end))
 
 	// Keep interpreting it, assuming there are no brackets.
@@ -266,7 +266,7 @@ function interpretSums(value, settings) {
 	}
 
 	// Walk through all expression parts, find pluses and minuses, and split the expressions up there.
-	let start = { part: 0, cursor: 0 }
+	let start = getIOValueStart(value)
 	value.forEach((element, part) => {
 		// Only consider ExpressionParts
 		if (element.type !== 'ExpressionPart')
@@ -303,7 +303,7 @@ function interpretSums(value, settings) {
 	})
 
 	// Check for a plus or minus at the end. If it's not there, add the remaining part.
-	const end = { part: value.length - 1, cursor: lastOf(value).value.length }
+	const end = getIOValueEnd(value)
 	if (start.part === end.part && start.cursor === end.cursor && lastSymbol)
 		throw new InterpretationError('PlusMinusAtEnd', lastSymbol, `Could not interpret the Expression due to it ending with "${lastSymbol}".`)
 	addPart(start, end)
@@ -331,7 +331,7 @@ function interpretProducts(value, settings) {
 	}
 
 	// Walk through all expression parts, find times operators, and split the expressions up there.
-	let start = { part: 0, cursor: 0 }
+	let start = getIOValueStart(value)
 	let minusAtPrevious = false
 	value.forEach((element, part) => {
 		// Only consider ExpressionParts
@@ -360,7 +360,7 @@ function interpretProducts(value, settings) {
 	})
 
 	// Check for a times at the end. If it's not there, add the remaining part.
-	const end = { part: value.length - 1, cursor: lastOf(value).value.length }
+	const end = getIOValueEnd(value)
 	if (start.part === end.part && start.cursor === end.cursor)
 		throw new InterpretationError('TimesAtEnd', '*', `Could not interpret the Expression due to it ending with a times operator.`)
 	addPart(start, end, minusAtPrevious)

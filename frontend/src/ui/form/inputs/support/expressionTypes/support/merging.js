@@ -1,9 +1,8 @@
 import { firstOf, lastOf } from 'step-wise/util/arrays'
-import { getSubExpression } from 'step-wise/inputTypes/Expression/interpreter/support'
+import { getSubExpression, findEndOfTerm } from 'step-wise/inputTypes/Expression/interpreter/support'
 
 import { getDataStartCursor, getDataEndCursor } from '../'
 import Expression from '../Expression'
-import { findEndOfTerm } from './ExpressionSupport'
 
 export function mergeWithLeft(expressionValue, partIndex, fromOutside) {
 	const element = expressionValue[partIndex]

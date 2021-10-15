@@ -1,7 +1,7 @@
 // The Expression class represents any type of mathematical expression, including with brackets, fractions, functions, variables with subscripts, powers and more. It does NOT include an equals sign or other form of comparison: that would make it an equation or inequality.
 
 const { isObject, deepEquals } = require('../../util/objects')
-const { firstOf } = require('../../util/arrays')
+const { firstOf, lastOf } = require('../../util/arrays')
 
 const Expression = require('./abstracts/Expression')
 
@@ -21,6 +21,16 @@ function getExpressionTypes() {
 	}
 }
 module.exports.getExpressionTypes = getExpressionTypes
+
+function getIOValueStart(value = getEmpty()) {
+	return { part: 0, cursor: 0 }
+}
+module.exports.getIOValueStart = getIOValueStart
+
+function getIOValueEnd(value = getEmpty()) {
+	return { part: value.length - 1, cursor: lastOf(value).value.length }
+}
+module.exports.getIOValueEnd = getIOValueEnd
 
 // The following functions are obligatory functions.
 function isFOofType(expression) {

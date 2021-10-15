@@ -30,14 +30,16 @@ function Problem({ index }) {
 	const { input } = useFormData()
 	const { ans } = input
 	let probleem = 'Het veld is leeg'
-	let res
+	let res, resSimp
 	try {
 		// console.log(input)
 		// console.log(ans)
 		if (ans) {
-			res = interpretExpression(cleanUp(removeCursor(ans), { ...basicMath, divide: false }))
+			res = interpretExpression(cleanUp(removeCursor(ans), { ...basicMath, divide: false })).simplify(Expression.simplifyOptions.structureOnly)
 			if (res)
 				probleem = false
+
+			resSimp = res.simplify(Expression.simplifyOptions.basicClean)
 			// console.log('Vergelijking: ' + res.str)
 			// console.log('Tex: ' + res.tex)
 			// console.log('Afgeleide: ' + res.getDerivative('x').str)
@@ -60,10 +62,10 @@ function Problem({ index }) {
 			{
 				probleem ? <Par>{probleem}</Par> : <>
 					<Par>De ingevoerde uitdrukking is:</Par>
-					<BM>f\left(x\right)={res.simplify(Expression.simplifyOptions.structureOnly).tex}</BM>
+					<BM>f\left(x\right) = {res} = {resSimp}</BM>
 					<Par>{res.isNumeric() ? <>Qua getal is dit (afgerond) {roundTo(res.number, 2)}.</> : <>Dit is een variabele, dus een getal kan niet gegeven worden.</>}</Par>
 					<Par>De afgeleide hiervan (ten opzichte van <M>x</M>) is:</Par>
-					<BM>\frac(df\left(x\right))(dx)={res.getDerivative('x').tex}</BM>
+					<BM>\frac(df\left(x\right))(dx)={resSimp.getDerivative('x').tex}</BM>
 				</>
 			}
 		</InputSpace>

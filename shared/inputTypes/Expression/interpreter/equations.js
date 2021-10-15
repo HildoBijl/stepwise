@@ -1,11 +1,11 @@
 // The equation interpreter takes an equation in Input Object (IO) format and turns it into a Functional Object (FO).
 
 const { isObject } = require('../../../util/objects')
-const { lastOf } = require('../../../util/arrays')
 
 const { interpretExpressionValue } = require('./expressions')
 const InterpretationError = require('./InterpretationError')
 const { getSubExpression, moveRight } = require('./support')
+const { getIOValueStart, getIOValueEnd } = require('..')
 
 const { Equation } = require('../../Equation')
 
@@ -49,9 +49,9 @@ function interpretEquationValue(value) {
 		throw new InterpretationError('MissingEqualsSign', undefined, `Could not interpret the equation due to no equals sign being present.`)
 
 	// Split up the Expression at the given equals sign and interpret both parts separately.
-	const start = { part: 0, cursor: 0 }
+	const start = getIOValueStart(value)
 	const equalsPosition = { part, cursor }
-	const end = { part: value.length - 1, cursor: lastOf(value).value.length }
+	const end = getIOValueEnd(value)
 	const left = getSubExpression(value, start, equalsPosition)
 	const right = getSubExpression(value, moveRight(equalsPosition), end)
 	return new Equation({
