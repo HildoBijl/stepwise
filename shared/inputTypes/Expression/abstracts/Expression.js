@@ -332,7 +332,6 @@ class Expression {
 	static ensureExpression(expression) {
 		const Integer = require('../Integer')
 		const Float = require('../Float')
-		const Variable = require('../Variable')
 
 		// Check if this is easy to interpret.
 		if (expression instanceof Expression)

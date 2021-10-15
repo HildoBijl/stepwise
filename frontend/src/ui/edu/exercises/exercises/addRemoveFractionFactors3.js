@@ -1,5 +1,8 @@
 import React from 'react'
 
+import Fraction from 'step-wise/inputTypes/Expression/functions/Fraction'
+import Integer from 'step-wise/inputTypes/Expression/Integer'
+
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import ExpressionInput, { basicMath, validWithVariables } from 'ui/form/inputs/ExpressionInput'
@@ -15,25 +18,24 @@ export default function Exercise() {
 }
 
 const Problem = (state) => {
-	const { expand, expression, terms } = useCorrect(state)
+	const { variables, expression } = useCorrect(state)
 
 	return <>
-		<Par>Gegeven is de uitdrukking <BM>{expression}.</BM> {expand ? <>Werk de haakjes uit en schrijf het resultaat zo simpel mogelijk op.</> : <>Breng de term <M>{terms[0]}</M> buiten haakjes.</>}</Par>
+		<Par>Gegeven is de breuk <BM>{expression}.</BM> Streep gemeenschappelijke factoren in de teller/noemer weg. Simplificeer het resultaat zo veel mogelijk.</Par>
 		<InputSpace>
 			<Par>
-				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={{ ...basicMath, divide: false, greek: false }} validate={validWithVariables('x', 'y', 'z')} />
+				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={{ ...basicMath, greek: false }} validate={validWithVariables(Object.values(variables))} />
 			</Par>
 		</InputSpace>
 	</>
 }
 
 const Solution = (state) => {
-	const { expand, terms, ans } = useCorrect(state)
+	const { upper, sum, expression, ans } = useCorrect(state)
 
-	if (expand)
-		return <Par>Om de haakjes uit te werken vermenigvuldigen we de term buiten haakjes <M>{terms[0]}</M> los met elk van de termen binnen haakjes <M>{terms[1]}</M> en <M>{terms[2]}</M>. Zo vinden we eerst <BM>\left({terms[0]}\right)\cdot\left({terms[1]}\right)+\left({terms[0]}\right)\cdot\left({terms[2]}\right).</BM> Als we dit verder uitwerken, dan kunnen we dit simplificeren tot <BM>{ans}.</BM></Par>
-
-	return <Par>Als we de term <M>{terms[0]}</M> buiten haakjes halen, dan willen we het bovenstaande schrijven als <BM>{terms[0]}\left(\ldots + \ldots\right).</BM> Als we hier vervolgens weer de haakjes uitwerken, dan moeten we op de oorspronkelijke uitdrukking uitkomen. Met deze gedachte kunnen we vinden wat op de puntjes moet staan. Het resultaat is <BM>{ans}.</BM></Par>
+	if (upper)
+		return <Par>Zowel de teller als de noemer bevat een factor <M>{sum}.</M> Deze kan dus boven en onder weggelaten worden. Als we de noemer door <M>{sum}</M> delen, dan blijft er <M>1</M> over. Zo vinden we <BM>{expression} = \frac({ans})(1).</BM> Delen door <M>1</M> heeft geen effect, waardoor dit simpeler geschreven kan worden als <BM>{expression} = {ans}.</BM></Par>
+	return <Par>Zowel de teller als de noemer bevat een factor <M>{sum}.</M> Deze kan dus boven en onder weggelaten worden. Als we de teller door <M>{sum}</M> delen, dan blijft er <M>1</M> over. Zo vinden we <BM>{expression} = {ans}.</BM> Dit kan niet simpeler geschreven worden.</Par>
 }
 
 function getFeedback(exerciseData) {
@@ -41,7 +43,11 @@ function getFeedback(exerciseData) {
 	const equalityOptions = exerciseData.shared.data.equalityOptions.default
 	const originalExpression = {
 		check: (input, { expression }) => expression.equals(input, equalityOptions),
-		text: <>Dit is de oorspronkelijke uitdrukking. Je hebt de haakjes nog niet uitgewerkt.</>,
+		text: <>Dit is de oorspronkelijke uitdrukking. Je hebt nog geen termen weggestreept.</>,
+	}
+	const asFraction = {
+		check: (input, { upper, ans }) => upper && (new Fraction(ans, Integer.one)).equals(input, equalityOptions),
+		text: <>Je hebt goed de termen weggestreept, maar het resultaat kan nog verder gesimplificeerd worden.</>,
 	}
 	const correctExpression = {
 		check: (input, { ans }) => ans.equals(input),
@@ -53,5 +59,5 @@ function getFeedback(exerciseData) {
 	}
 
 	// Determine feedback.
-	return getInputFieldFeedback('ans', exerciseData, { checks: [originalExpression, correctExpression, remaining] })
+	return getInputFieldFeedback('ans', exerciseData, { checks: [originalExpression, asFraction, correctExpression, remaining] })
 }
