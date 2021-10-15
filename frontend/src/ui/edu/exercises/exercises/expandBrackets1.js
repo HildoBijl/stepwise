@@ -21,7 +21,7 @@ const Problem = (state) => {
 		<Par>Gegeven is de uitdrukking <BM>{expression}.</BM> {expand ? <>Werk de haakjes uit en schrijf het resultaat zo simpel mogelijk op.</> : <>Breng de term <M>{terms[0]}</M> buiten haakjes.</>}</Par>
 		<InputSpace>
 			<Par>
-				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={{ ...basicMath, divide: false, greek: false }} validate={validWithVariables('x', 'y', 'z')} />
+				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={{ ...basicMath, divide: false }} validate={validWithVariables('x', 'y', 'z')} />
 			</Par>
 		</InputSpace>
 	</>

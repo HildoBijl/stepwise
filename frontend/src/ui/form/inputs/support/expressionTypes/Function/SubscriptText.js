@@ -41,8 +41,8 @@ function getLatexChars(data) {
 	return value.split('')
 }
 
-export function acceptsKey(keyInfo, data) {
-	if (isCursorKey(keyInfo, data))
+export function acceptsKey(keyInfo, data, settings) {
+	if (isCursorKey(keyInfo, data, settings))
 		return true
 
 	const { key } = keyInfo

@@ -230,6 +230,7 @@ const basicMath = {
 	...noFunctions,
 	...noPowers,
 	...simpleVariables,
+	greek: false,
 	float: false,
 }
 

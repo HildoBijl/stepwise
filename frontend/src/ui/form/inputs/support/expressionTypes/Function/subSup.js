@@ -145,15 +145,15 @@ function getEmptySup() {
 	return { type: 'Expression', value: Expression.getEmpty() }
 }
 
-function acceptsKey(keyInfo, data) {
+function acceptsKey(keyInfo, data, settings) {
 	const { key } = keyInfo
 	const { cursor } = data
 	if ((key === '^' || key === 'Power') && cursor.part === 0)
 		return true
-	return defaultFunctions.acceptsKey(keyInfo, data)
+	return defaultFunctions.acceptsKey(keyInfo, data, settings)
 }
 
-function keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement) {
+function keyPressToData(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement) {
 	const { value, cursor } = data
 	const { key } = keyInfo
 
@@ -171,7 +171,7 @@ function keyPressToData(keyInfo, data, charElements, topParentData, contentsElem
 	}
 
 	// Process the key as usual.
-	return defaultFunctions.keyPressToData(keyInfo, data, charElements, topParentData, contentsElement, cursorElement)
+	return defaultFunctions.keyPressToData(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement)
 }
 
 function cleanUp(data, settings) {

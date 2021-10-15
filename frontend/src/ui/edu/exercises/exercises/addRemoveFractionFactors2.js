@@ -1,5 +1,7 @@
 import React from 'react'
 
+import Expression from 'step-wise/inputTypes/Expression'
+
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import ExpressionInput, { basicMath, validWithVariables } from 'ui/form/inputs/ExpressionInput'
@@ -21,16 +23,16 @@ const Problem = (state) => {
 		<Par>Gegeven is de breuk <BM>{expression}.</BM> Simplificeer deze breuk zo veel mogelijk door gemeenschappelijke factoren in de teller/noemer weg te strepen.</Par>
 		<InputSpace>
 			<Par>
-				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={{ ...basicMath, greek: false }} validate={validWithVariables(Object.values(variables))} />
+				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={{ ...basicMath, power: true }} validate={validWithVariables(Object.values(variables))} />
 			</Par>
 		</InputSpace>
 	</>
 }
 
 const Solution = (state) => {
-	const { variables, expression, ans } = useCorrect(state)
+	const { variables, square, expression, ans } = useCorrect(state)
 
-	return <Par>Zowel de teller als de noemer bevat een factor <M>{variables.x}.</M> Deze kan dus boven en onder weggelaten worden. Hetzelfde geldt voor de factor <M>{variables.y}</M>: die kan ook weggestreept worden. Er geldt dus <BM>{expression} = {ans}.</BM></Par>
+	return <Par>Zowel de teller als de noemer bevatten een factor <M>{variables.x}.</M> De teller bevat er zelfs twee: onthoud dat <M>{square} = {variables.x} \cdot {variables.x}.</M> Als we de factor <M>{variables.x}</M> onderin wegstrepen tegen één van de factoren <M>{variables.x}</M> bovenin, dan blijven we over met <BM>{expression} = {ans}.</BM></Par>
 }
 
 function getFeedback(exerciseData) {
@@ -40,9 +42,9 @@ function getFeedback(exerciseData) {
 		check: (input, { expression }) => expression.equals(input, equalityOptions),
 		text: <>Dit is de oorspronkelijke uitdrukking. Je hebt nog geen termen weggestreept.</>,
 	}
-	const oneVariableCancelled = {
-		check: (input, { variables, ans }) => (ans.multiplyNumDenBy(variables.x).equals(input, equalityOptions) || ans.multiplyNumDenBy(variables.y).equals(input, equalityOptions)),
-		text: <>Goed op weg, maar er is nòg een variabele die je weg kunt strepen.</>,
+	const squareDisappeared = {
+		check: (input, { variables, ans }) => ans.divideBy(variables.x).simplify(Expression.simplifyOptions.basicClean).equals(input, equalityOptions),
+		text: (input, { square, variables }) => <>Je hebt <M>{square}</M> in z'n geheel weggestreept tegen <M>{variables.x}.</M> Dat mag niet! Onthoud dat <M>{square} = {variables.x} \cdot {variables.x}.</M></>,
 	}
 	const correctExpression = {
 		check: (input, { ans }) => ans.equals(input),
@@ -54,5 +56,5 @@ function getFeedback(exerciseData) {
 	}
 
 	// Determine feedback.
-	return getInputFieldFeedback('ans', exerciseData, { checks: [originalExpression, oneVariableCancelled, correctExpression, remaining] })
+	return getInputFieldFeedback('ans', exerciseData, { checks: [originalExpression, squareDisappeared, correctExpression, remaining] })
 }

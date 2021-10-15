@@ -5,6 +5,7 @@ const { Expression } = require('../../../inputTypes/Expression')
 const Sum = require('../../../inputTypes/Expression/Sum')
 const Product = require('../../../inputTypes/Expression/Product')
 const Fraction = require('../../../inputTypes/Expression/functions/Fraction')
+const Variable = require('../../../inputTypes/Expression/Variable')
 
 const data = {
 	skill: 'addRemoveFractionFactors',

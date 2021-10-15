@@ -4,14 +4,16 @@ const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 const { Expression } = require('../../../inputTypes/Expression')
 const Product = require('../../../inputTypes/Expression/Product')
 const Fraction = require('../../../inputTypes/Expression/functions/Fraction')
+const Power = require('../../../inputTypes/Expression/functions/Power')
+const Variable = require('../../../inputTypes/Expression/Variable')
 
 const data = {
 	skill: 'addRemoveFractionFactors',
 	equalityOptions: {
 		default: Expression.equalityLevels.onlyOrderChanges,
 	},
-	availableVariables: ['a', 'b', 'c', 'x', 'y', 'P', 'R', 't', 'I', 'U', 'L'],
-	usedVariables: ['a', 'b', 'x', 'y'],
+	availableVariables: ['a', 'b', 'c', 'x', 'y', 'P', 'R', 't', 'I', 'U', 'L'].map(Variable.ensureVariable),
+	usedVariables: ['a', 'b', 'x'].map(Variable.ensureVariable),
 }
 
 function generateState() {
@@ -22,6 +24,8 @@ function generateState() {
 		state[variable] = getRandomInteger(0, data.availableVariables.length - 1, usedIndices)
 		usedIndices.push(state[variable])
 	})
+	state.flipNumerator = getRandomBoolean()
+	state.flipDenominator = getRandomBoolean()
 	return state
 }
 
@@ -33,16 +37,13 @@ function getVariables(state) {
 	return result
 }
 
-function getExpression(state) {
-	const { a, b, x, y } = getVariables(state)
-	return new Fraction(new Product(a, x, y), new Product(y, b, x))
-}
-
 function getCorrect(state) {
 	const variables = getVariables(state)
-	const expression = getExpression(state)
+	const { a, b, x } = variables
+	const square = new Power(x, 2)
+	const expression = new Fraction(new Product(state.flipNumerator ? [square, a] : [a, square]), new Product(state.flipDenominator ? [x, b] : [b, x]))
 	const ans = expression.simplify(Expression.simplifyOptions.basicClean)
-	return { ...state, variables, expression, ans }
+	return { ...state, variables, square, expression, ans }
 }
 
 function checkInput(state, input) {
@@ -55,7 +56,6 @@ module.exports = {
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),
 	getVariables,
-	getExpression,
 	getCorrect,
 	checkInput,
 }
