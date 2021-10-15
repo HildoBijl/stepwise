@@ -15,7 +15,7 @@ const data = {
 }
 
 function generateState() {
-	// (axy)/(ybx) = a/b.
+	// a*x^2/(b*x) = ax/b.
 	const state = {}
 	const usedIndices = []
 	data.usedVariables.forEach(variable => {

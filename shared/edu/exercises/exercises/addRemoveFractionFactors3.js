@@ -11,13 +11,13 @@ const data = {
 	equalityOptions: {
 		default: Expression.equalityLevels.onlyOrderChanges,
 	},
-	availableVariablesLower: ['a', 'b', 'c', 'x', 'y', 't'],
-	availableVariablesUpper: ['P', 'R', 'I', 'U', 'L'],
-	usedVariables: ['P', 'x', 'y'],
+	availableVariablesLower: ['a', 'b', 'c', 'x', 'y', 't'].map(Variable.ensureVariable),
+	availableVariablesUpper: ['P', 'R', 'I', 'U', 'L'].map(Variable.ensureVariable),
+	usedVariables: ['P', 'x', 'y'].map(Variable.ensureVariable),
 }
 
 function generateState() {
-	// P*(x+y)/(x+y) or (x+y)*P/(x+y).
+	// P*(x+y)/(x+y) or (x+y)/(P*(x+y)).
 	const state = {}
 	state.P = getRandomInteger(0, data.availableVariablesUpper.length - 1)
 	state.x = getRandomInteger(0, data.availableVariablesLower.length - 1)

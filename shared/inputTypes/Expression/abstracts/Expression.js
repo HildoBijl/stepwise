@@ -273,6 +273,15 @@ class Expression {
 			throw new TypeError(`Invalid substitution: when substituting, an Expression should be given to substitute with. Instead, the substitution given was "${substitution}".`)
 	}
 
+	// multiplyNumDenBy takes this object and turns it into a fraction, if it isn't already. Subsequently, it multiplies both the numerator and the denominator with a given expression.
+	multiplyNumDenBy(expression) {
+		expression = Expression.ensureExpression(expression)
+		const Fraction = require('../functions/Fraction')
+		if (this.isType(Fraction))
+			return new Fraction(this.numerator.multiplyBy(expression), this.denominator.multiplyBy(expression))
+		return new Fraction(this.multiplyBy(expression), expression)
+	}
+
 	// getDerivative returns the derivative. It includes checking the variable and simplifying the result, unlike getDerivativeBasic which doesn't check the input and only returns a derivative in any form.
 	getDerivative(variable) {
 		variable = this.verifyVariable(variable)

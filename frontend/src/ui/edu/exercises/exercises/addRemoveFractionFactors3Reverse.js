@@ -1,5 +1,7 @@
 import React from 'react'
 
+import Fraction from 'step-wise/inputTypes/Expression/functions/Fraction'
+
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import ExpressionInput, { basicMath, validWithVariables } from 'ui/form/inputs/ExpressionInput'
@@ -15,10 +17,10 @@ export default function Exercise() {
 }
 
 const Problem = (state) => {
-	const { variables, expression } = useCorrect(state)
+	const { upper, variables, expression, sum } = useCorrect(state)
 
 	return <>
-		<Par>Gegeven is de breuk <BM>{expression}.</BM> Voeg boven/onder de breuk zowel een factor <M>{variables.x}</M> als een factor <M>{variables.y}</M> toe.</Par>
+		<Par>Gegeven is de {upper ? 'term' : 'breuk'} <BM>{expression}.</BM> Herschrijf deze term tot een enkele breuk met {upper ? 'noemer' : 'teller'} gelijk aan <M>{sum}</M>.</Par>
 		<InputSpace>
 			<Par>
 				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={{ ...basicMath, greek: false }} validate={validWithVariables(Object.values(variables))} />
@@ -28,9 +30,11 @@ const Problem = (state) => {
 }
 
 const Solution = (state) => {
-	const { expression, factor, ans } = useCorrect(state)
+	const { upper, sum, expression, ans } = useCorrect(state)
 
-	return <Par>We vermenigvuldigen de noemer boven en onder met de factor <M>{factor}.</M> Als we een breuk boven en onder met hetzelfde vermenigvuldigen blijft de breuk kloppen. Immers, we vermenigvuldigen eerst met <M>{factor}</M> en delen er daarna gelijk weer door. Het resultaat is <BM>{expression} = {ans}.</BM></Par>
+	if (upper)
+		return <Par>We vermenigvuldigen en delen de factor <M>{expression}</M> met <M>{sum}</M>. Immers, als we <M>{expression}</M> met iets vermenigvuldigen en vervolgens er weer door delen, dan houdt de uitdrukking dezelfde waarde. Als we de haakjes bij de vermenigvuldiging (zeer cruciaal) niet vergeten, dan krijgen we <BM>{expression} = {ans}.</BM></Par>
+	return <Par>We vermenigvuldigen zowel de teller als de noemer van de breuk <M>{expression}</M> met <M>{sum}</M>. Immers, als we zowel met <M>{expression}</M> vermenigvuldigen als erdoor delen, dan heeft het geen invloed op de waarde van onze breuk. Als we ook nog de haakjes in de noemer (zeer cruciaal) niet vergeten, dan krijgen we <BM>{expression} = {ans}.</BM></Par>
 }
 
 function getFeedback(exerciseData) {
@@ -38,15 +42,15 @@ function getFeedback(exerciseData) {
 	const equalityOptions = exerciseData.shared.data.equalityOptions.default
 	const originalExpression = {
 		check: (input, { expression }) => expression.equals(input, equalityOptions),
-		text: <>Dit is de oorspronkelijke uitdrukking. Je hebt nog geen factoren toegevoegd.</>,
+		text: (input, { upper }) => <>Dit is de oorspronkelijke uitdrukking. Je hebt er nog geen breuk van gemaakt met de gevraagde {upper ? 'teller' : 'noemer'}.</>,
 	}
-	const oneVariableAdded = {
-		check: (input, { variables, expression }) => (expression.multiplyNumDenBy(variables.x).equals(input, equalityOptions) || expression.multiplyNumDenBy(variables.y).equals(input, equalityOptions)),
-		text: <>Goed op weg, maar je hebt slechts één van de twee gevraagde factoren toegevoegd.</>,
+	const isFraction = {
+		check: (input) => !input.isType(Fraction),
+		text: <>Je antwoord is geen breuk, zoals gevraagd.</>
 	}
-	const correctExpression = {
-		check: (input, { ans }) => ans.equals(input),
-		text: <>De uitdrukking klopt wel, maar het is niet wat gevraagd wordt.</>,
+	const hasRightPart = {
+		check: (input, { upper, sum }) => input.isType(Fraction) && !sum.equals(input[upper ? 'denominator' : 'numerator'], equalityOptions),
+		text: (input, { upper, sum }) => <>Je antwoord heeft niet <M>{sum}</M> in de {upper ? 'noemer' : 'teller'}.</>,
 	}
 	const remaining = {
 		check: () => true,
@@ -54,5 +58,5 @@ function getFeedback(exerciseData) {
 	}
 
 	// Determine feedback.
-	return getInputFieldFeedback('ans', exerciseData, { checks: [originalExpression, oneVariableAdded, correctExpression, remaining] })
+	return getInputFieldFeedback('ans', exerciseData, { checks: [originalExpression, isFraction, hasRightPart, remaining] })
 }

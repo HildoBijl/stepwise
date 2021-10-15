@@ -2,54 +2,54 @@ const { getRandomInteger, getRandomBoolean } = require('../../../util/random')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 
 const { Expression } = require('../../../inputTypes/Expression')
+const Sum = require('../../../inputTypes/Expression/Sum')
 const Product = require('../../../inputTypes/Expression/Product')
 const Fraction = require('../../../inputTypes/Expression/functions/Fraction')
+const Integer = require('../../../inputTypes/Expression/Integer')
+const Variable = require('../../../inputTypes/Expression/Variable')
 
 const data = {
 	skill: 'addRemoveFractionFactors',
 	equalityOptions: {
 		default: Expression.equalityLevels.onlyOrderChanges,
 	},
-	availableVariables: ['a', 'b', 'c', 'x', 'y', 'P', 'R', 't', 'I', 'U', 'L'],
-	usedVariables: ['a', 'b', 'x', 'y'],
+	availableVariablesLower: ['a', 'b', 'c', 'x', 'y', 't'].map(Variable.ensureVariable),
+	availableVariablesUpper: ['P', 'R', 'I', 'U', 'L'].map(Variable.ensureVariable),
+	usedVariables: ['P', 'x', 'y'].map(Variable.ensureVariable),
 }
 
 function generateState() {
-	// (axy)/(ybx) = a/b.
+	// P*(x+y)/(x+y) or (x+y)/(P*(x+y)).
 	const state = {}
-	const usedIndices = []
-	data.usedVariables.forEach(variable => {
-		state[variable] = getRandomInteger(0, data.availableVariables.length - 1, usedIndices)
-		usedIndices.push(state[variable])
-	})
+	state.P = getRandomInteger(0, data.availableVariablesUpper.length - 1)
+	state.x = getRandomInteger(0, data.availableVariablesLower.length - 1)
+	state.y = getRandomInteger(0, data.availableVariablesLower.length - 1, [state.x])
+	state.upper = getRandomBoolean()
 	return state
 }
 
 function getVariables(state) {
-	const result = {}
-	data.usedVariables.forEach(variable => {
-		result[variable] = data.availableVariables[state[variable]]
-	})
-	return result
-}
-
-function getExpression(state) {
-	const { a, b } = getVariables(state)
-	return new Fraction(a, b)
+	return {
+		P: data.availableVariablesUpper[state.P],
+		x: data.availableVariablesLower[state.x],
+		y: data.availableVariablesLower[state.y],
+	}
 }
 
 function getCorrect(state) {
 	const variables = getVariables(state)
-	const { x, y } = variables
-	const expression = getExpression(state)
-	const factor = new Product(x, y)
-	const ans = expression.multiplyNumDenBy(factor)
-	return { ...state, variables, expression, factor, ans }
+	const { P, x, y } = variables
+	const sum = new Sum(x, y)
+	const product = new Product(state.front ? [P, sum] : [sum, P])
+	const expression = state.upper ? P : new Fraction(Integer.one, P)
+	const ans = expression.multiplyNumDenBy(sum).simplify(Expression.simplifyOptions.removeUseless)
+	return { ...state, variables, sum, product, expression, ans }
 }
 
 function checkInput(state, input) {
-	const { ans } = getCorrect(state)
-	return ans.equals(input.ans, data.equalityOptions.default)
+	const { upper, sum, ans } = getCorrect(state)
+	const part = upper ? 'denominator' : 'numerator'
+	return input.ans.isType(Fraction) && sum.equals(input.ans[part], Expression.equalityLevels.onlyOrderChanges) && ans.equals(input.ans)
 }
 
 module.exports = {
@@ -57,7 +57,6 @@ module.exports = {
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),
 	getVariables,
-	getExpression,
 	getCorrect,
 	checkInput,
 }
