@@ -137,32 +137,29 @@ class Fraction extends Parent {
 			// ToDo: expand this to more generic cases, involving sums, powers, etcetera.
 		}
 
-		// Cancel fraction terms.
-		if (options.cancelFractionTerms) {
-			// Only do this for fractions of products now. No support for sums (ax+bc)/x or powers x^2/x is present.
+		// Merge fraction terms.
+		if (options.mergeFractionTerms) {
+			// Set up a terms list of all factors in the numerator and denominators. For denominator factors, add a power of -1 (invert them).
+			let terms = []
+			let numeratorTerms = numerator.isType(Product) ? numerator.terms : [numerator]
+			let denominatorTerms = denominator.isType(Product) ? denominator.terms : [denominator]
+			numeratorTerms.forEach(term => terms.push(term))
+			denominatorTerms.forEach(term => terms.push(term.invert()))
 
-			// For each term in the denominator, check if it's a factor of every term in the numerator. If so, cancel it.
-			const denominatorTerms = denominator.isType(Product) ? denominator.terms : [denominator]
-			const numeratorTerms = numerator.isType(Product) ? numerator.terms : [numerator]
+			// Merge the list of terms, just like for a product.
+			terms = Product.mergeProductTerms(terms, options)
 
-			const denominatorResult = []
-			const found = numeratorTerms.map(() => false)
-			denominatorTerms.forEach(denominatorTerm => {
-				const index = numeratorTerms.findIndex((numeratorTerm, index) => !found[index] && numeratorTerm.equals(denominatorTerm))
-				if (index === -1)
-					denominatorResult.push(denominatorTerm)
+			// Check which factors should be in the numerator and which in the denominator, based on their exponent, and reassemble both.
+			numeratorTerms = []
+			denominatorTerms = []
+			terms.forEach(term => {
+				if (term.isType(Power) && term.exponent.isNegative())
+					denominatorTerms.push(term.invert())
 				else
-					found[index] = true
+					numeratorTerms.push(term)
 			})
-
-			// Has anything been found?
-			if (found.some(element => element)) {
-				const numeratorResult = numeratorTerms.filter((_, index) => !found[index])
-				numerator = new Product(numeratorResult).simplify(Expression.simplifyOptions.removeUseless)
-				denominator = new Product(denominatorResult).simplify(Expression.simplifyOptions.removeUseless)
-			}
-
-			// ToDo: expand this to more generic cases, involving sums, powers, etcetera.
+			numerator = new Product(numeratorTerms).simplify(Expression.simplifyOptions.removeUseless)
+			denominator = new Product(denominatorTerms).simplify(Expression.simplifyOptions.removeUseless)
 		}
 
 		// Check for useless elements.

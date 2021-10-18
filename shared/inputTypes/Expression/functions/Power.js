@@ -43,6 +43,11 @@ class Power extends Parent {
 		return `${baseTex}^{${exponentTex}}`
 	}
 
+	// invert on powers means make the power negative. So x^2 becomes x^(-2).
+	invert() {
+		return new Power(this.base, this.exponent.applyMinus()).simplify(Expression.simplifyOptions.removeUseless)
+	}
+
 	getDerivativeBasic(variable) {
 		const terms = []
 
@@ -87,6 +92,14 @@ class Power extends Parent {
 			// If the power is 1, become the base.
 			if (exponent.equalsBasic(Integer.one))
 				return base
+		}
+
+		// Check for powers within powers. Reduce (a^b)^c to a^(b*c).
+		if (options.removePowersWithinPowers) {
+			if (base.isType(Power)) {
+				exponent = new Product(base.exponent, exponent).simplify(options)
+				base = base.base
+			}
 		}
 
 		// ToDo: expand brackets.

@@ -9,6 +9,7 @@ import { BM } from 'ui/components/equations'
 // import Product from 'step-wise/inputTypes/Expression/Product'
 // import Sum from 'step-wise/inputTypes/Expression/Sum'
 // import Fraction from 'step-wise/inputTypes/Expression/functions/Fraction'
+// import Power from 'step-wise/inputTypes/Expression/functions/Power'
 // import { Expression } from 'step-wise/inputTypes/Expression'
 // import { Equation } from 'step-wise/inputTypes/Equation'
 // import { asExpression } from 'step-wise/inputTypes/Expression/interpreter/fromString'
@@ -19,21 +20,6 @@ import { BM } from 'ui/components/equations'
 // console.log(b)
 // console.log(b.str)
 
-// const a = new Fraction(asExpression('3x12x'), asExpression('-2*9x'))
-// console.log(a.str)
-// const b = a.simplify(Expression.simplifyOptions.basicClean)
-// console.log(b.str)
-
-// const a = new Fraction('a', 'b')
-// const b = new Fraction('c', 'd')
-// const c = new Fraction(a, b)
-// console.log(c.str)
-// console.log(c.simplify({ flattenFractions: true }).str)
-
-// const a = asExpression('a + b')
-// const b = new Fraction(a, 'b')
-// console.log(b.str)
-// console.log(b.simplify({ splitFractions: true }).str)
 
 export default function Test() {
 	return (

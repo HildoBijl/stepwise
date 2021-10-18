@@ -46,6 +46,10 @@ class Sum extends Parent {
 		return sum(this.terms.map(term => term.toNumber()))
 	}
 
+	applyMinus() {
+		return new Sum(this.terms.map(term => term.applyMinus()))
+	}
+
 	getDerivativeBasic(variable) {
 		// Apply the derivative to each element individually.
 		return new Sum(this.terms.map(term => term.getDerivativeBasic(variable)))

@@ -191,7 +191,8 @@ class Expression {
 
 	// applyMinus will multiply a quantity by -1 and do a few minor simplifications.
 	applyMinus() {
-		return this.multiplyBy(-1, true).simplify(Expression.simplifyOptions.removeUseless)
+		const Integer = require('../Integer')
+		return this.multiplyBy(Integer.minusOne, true).simplify(Expression.simplifyOptions.removeUseless)
 	}
 
 	// toPower will take this object and apply the given power.
@@ -201,6 +202,12 @@ class Expression {
 		// Set up the power.
 		const Power = require('../functions/Power')
 		return new Power(this, exponent).simplify(Expression.simplifyOptions.structureOnly)
+	}
+
+	// invert will apply a power of -1.
+	invert() {
+		const Integer = require('../Integer')
+		return this.toPower(Integer.minusOne)
 	}
 
 	// pullOutsideBrackets will take a term and pull it out of brackets. So if we pull m from "mgh+1/2mv^2+E" then you get "m*(gh+1/2v^2+E/m)".
@@ -251,6 +258,14 @@ class Expression {
 		if (Math.abs(number) < Expression.epsilon)
 			return 0
 		return number
+	}
+
+	// isNegative takes an expression and checks if it can be considered to be negative. For numbers this is trivial. For expressions, it only checks if it starts with a minus sign.
+	isNegative() {
+		// Check for numeric types.
+		if (this.isNumeric())
+			return this.number < 0
+		return false
 	}
 
 	// substitute applies a substitution, replacing the given variable by the given substitution. The variable must be a variable object, while the substitution must be an instance of Expression.
@@ -395,17 +410,20 @@ const noSimplify = { // This is never applied, but only use to verify options gi
 
 	// The following options relate to fractions.
 	reduceFractionNumbers: false, // Reduce the numbers in a fraction by dividing out the GCD. So 18/12 reduces to 3/2. This is only triggered if mergeNumbers is also true.
-	cancelFractionTerms: false, // Cancel terms inside fraction. So (ab)/(bc) becomes a/c. (Note: so far this has only been implemented for single terms and products, and not for sums (ax+bx)/x or powers x^2/x yet.)
+	mergeFractionTerms: false, // Merge terms inside fraction. So (ab)/(bc) becomes a/c and x^2/(ax) becomes x/a. (Note: so far this has not been implemented for sums like (ax+bx)/x yet.)
 	flattenFractions: false, // Turn fractions inside fractions into a single fraction. So (a/b)/(c/d) becomes (ad)/(bc), similarly a/(b/c) becomes (ac)/b and (a/b)/c becomes a/(bc).
 	splitFractions: false, // Split up fractions. So (a+b)/c becomes a/c+b/c.
+	mergeFractionProducts: false, // Turn products of fractions into single fractions. So a*(b/c) becomes (ab)/c and (a/b)*(c/d) becomes (ac)/(bd).
+
+	// The following options relate to powers.
+	mergeProductTerms: false, // Merge terms in products into powers. So x*x^2 becomes x^3.
+	removePowersWithinPowers: false, // Reduces (a^b)^c to a^(b*c).
 
 	// ToDo: implement the simplification methods below.
-	mergeFractionProducts: false, // Turn products of fractions into single fractions. So a*(b/c) becomes (ab)/c and (a/b)*(c/d) becomes (ac)/(bd).
 	mergeFractionSums: false, // Turns sums of fractions into a single fraction. So a/x+b/x becomes (a+b)/x and a/b+c/d becomes (ad+bc)/(bd).
 
 	groupSumTerms: false, // Check inside of sums whether terms can be grouped. For instance, 2*x+3*x can be grouped into (2+3)*x, after which the numbers can be merged to form 5*x.
 	expandBrackets: false, // Minimize the number of brackets needed. If there is a product of sums, expand brackets. So (a+b)*(c+d) becomes a*c+a*d+b*c+b*d. Similarly for powers. (a+b)^3 gets a binomial expansion.
-	mergeFractionProducts: false, // Merge products of fractions into a single fraction. So (a/b)*(c/d) becomes (a*c)/(b*d).
 	sortProducts: false, // Sort the terms inside products to put simpler terms first and more complex terms later.
 	sortSums: false, // Sort the terms inside sums to put simpler terms first and more complex terms later.
 	basicReductions: false, // Turns sin(arcsin(x)) into x, cos(pi) into -1 and y/y into 1. (Yes, this assumes y is not zero, but this is not a formal mathematical toolbox, so let's go along with it.)
@@ -430,12 +448,16 @@ const basicClean = {
 	mergeNumbers: true,
 	cancelSumTerms: true,
 	reduceFractionNumbers: true,
-	cancelFractionTerms: true,
+	flattenFractions: true,
+	mergeFractionProducts: true,
+	mergeProductTerms: true,
+	mergeFractionTerms: true,
 }
 const regularClean = {
 	...basicClean,
 	sortProducts: true,
 	sortSums: true,
+	removePowersWithinPowers: true,
 	basicReductions: true,
 }
 const forAnalysis = {

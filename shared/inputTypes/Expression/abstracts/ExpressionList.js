@@ -63,6 +63,10 @@ class ExpressionList extends Parent {
 		return this.terms.every(term => term.isNumeric())
 	}
 
+	isNegative() {
+		return firstOf(exponent.terms).isNegative()
+	}
+
 	hasFloat() {
 		return this.terms.some(term => term.hasFloat())
 	}

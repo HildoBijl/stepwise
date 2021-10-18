@@ -109,6 +109,11 @@ class Product extends Parent {
 			}
 		}
 
+		// If there are terms in this product equal to each other (or with equal base) then merge them into powers. So x*x^2 becomes x^3.
+		if (options.mergeProductTerms) {
+			terms = Product.mergeProductTerms(terms, options)
+		}
+
 		// Check for structure simplifications.
 		if (options.structure) {
 			// Check basic cases.
@@ -116,6 +121,24 @@ class Product extends Parent {
 				return Integer.one
 			if (terms.length === 1)
 				return terms[0]
+		}
+
+		// If there is a fraction anywhere in this product, turn this product into a merged fraction. So a*(b/c) becomes (a*b)/c and similar.
+		if (options.mergeFractionProducts) {
+			const Fraction = require('./functions/Fraction')
+			if (terms.some(term => term.isType(Fraction))) {
+				const numeratorTerms = []
+				const denominatorTerms = []
+				terms.forEach(term => {
+					if (term.isType(Fraction)) {
+						numeratorTerms.push(term.numerator)
+						denominatorTerms.push(term.denominator)
+					} else {
+						numeratorTerms.push(term)
+					}
+				})
+				return new Fraction(new Product(numeratorTerms), new Product(denominatorTerms)).simplifyBasic(options)
+			}
 		}
 
 		// Expand brackets. For this, find the first sum and expand it. Other sums will be expanded recursively through further simplify calls.
@@ -129,8 +152,6 @@ class Product extends Parent {
 				]))).simplifyBasic(options)
 			}
 		}
-
-		// ToDo: merge equal terms into powers.
 
 		// Sort terms.
 		if (options.sortTerms)
@@ -173,6 +194,24 @@ class Product extends Parent {
 			case 4: // Remaining.
 				return 0 // Doesn't matter for now.
 		}
+	}
+
+	// mergeProductTerms takes a list of terms and merges the ones with equal base. So 2*x*a*x^2 becomes 2*x^3*a.
+	static mergeProductTerms(terms, options) {
+		// Walk through the terms and see if any matches (the base of) an earlier term. If not, add the term. If so, add up the powers.
+		const Power = require('./functions/Power')
+		const getBaseOf = term => term.isType(Power) ? term.base : term
+		const getPowerOf = term => term.isType(Power) ? term.exponent : Integer.one
+		const result = []
+		terms.forEach(term => {
+			const index = result.findIndex(comparisonTerm => getBaseOf(comparisonTerm).equalsBasic(getBaseOf(term), Expression.equalityLevels.onlyOrderChanges))
+			if (index === -1) {
+				result.push(term)
+			} else {
+				result[index] = new Power(getBaseOf(result[index]), getPowerOf(result[index]).add(getPowerOf(term))).simplifyBasic(options)
+			}
+		})
+		return result
 	}
 }
 Product.defaultSO = Parent.defaultSO
