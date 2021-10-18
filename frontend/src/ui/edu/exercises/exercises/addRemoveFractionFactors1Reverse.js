@@ -54,5 +54,5 @@ function getFeedback(exerciseData) {
 	}
 
 	// Determine feedback.
-	return getInputFieldFeedback('ans', exerciseData, { checks: [originalExpression, oneVariableAdded, correctExpression, remaining] })
+	return getInputFieldFeedback('ans', exerciseData, { checks: [originalExpression, oneVariableAdded, correctExpression, remaining], solved: exerciseData.progress.solved })
 }

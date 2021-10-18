@@ -1,5 +1,6 @@
 import React from 'react'
 
+import Expression from 'step-wise/inputTypes/Expression'
 import Fraction from 'step-wise/inputTypes/Expression/functions/Fraction'
 
 import { M, BM } from 'ui/components/equations'
@@ -39,9 +40,8 @@ const Solution = (state) => {
 
 function getFeedback(exerciseData) {
 	// Define extra checks.
-	const equalityOptions = exerciseData.shared.data.equalityOptions.default
 	const originalExpression = {
-		check: (input, { expression }) => expression.equals(input, equalityOptions),
+		check: (input, { expression }) => expression.equals(input, Expression.equalityLevels.onlyOrderChanges),
 		text: (input, { upper }) => <>Dit is de oorspronkelijke uitdrukking. Je hebt er nog geen breuk van gemaakt met de gevraagde {upper ? 'teller' : 'noemer'}.</>,
 	}
 	const isFraction = {
@@ -49,7 +49,7 @@ function getFeedback(exerciseData) {
 		text: <>Je antwoord is geen breuk, zoals gevraagd.</>
 	}
 	const hasRightPart = {
-		check: (input, { upper, sum }) => input.isType(Fraction) && !sum.equals(input[upper ? 'denominator' : 'numerator'], equalityOptions),
+		check: (input, { upper, sum }) => input.isType(Fraction) && !sum.equals(input[upper ? 'denominator' : 'numerator'], Expression.equalityLevels.onlyOrderChanges),
 		text: (input, { upper, sum }) => <>Je antwoord heeft niet <M>{sum}</M> in de {upper ? 'noemer' : 'teller'}.</>,
 	}
 	const remaining = {
@@ -58,5 +58,5 @@ function getFeedback(exerciseData) {
 	}
 
 	// Determine feedback.
-	return getInputFieldFeedback('ans', exerciseData, { checks: [originalExpression, isFraction, hasRightPart, remaining] })
+	return getInputFieldFeedback('ans', exerciseData, { checks: [originalExpression, isFraction, hasRightPart, remaining], solved: exerciseData.progress.solved })
 }

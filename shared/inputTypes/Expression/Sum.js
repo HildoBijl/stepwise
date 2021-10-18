@@ -85,6 +85,24 @@ class Sum extends Parent {
 			}
 		}
 
+		// On a sum of fractions, merge them together. For this, first find the denominator by multiplying all fraction denominators. Then find the numerator by multiplying all terms by the new denominator and simplifying them.
+		if (options.mergeFractionSums) {
+			const Fraction = require('./functions/Fraction')
+			if (terms.some(term => term.isType(Fraction))) {
+				const Product = require('./Product')
+				const denominator = new Product(terms.map(term => term.isType(Fraction) ? term.denominator : Integer.one)).simplify(Expression.simplifyOptions.removeUseless)
+				const numerator = new Sum(terms.map((term, index) => {
+					if (!term.isType(Fraction))
+						return term.multiplyBy(denominator).simplify(options)
+
+					// Get the product of denominators of all other fractions, and multiply by the numerator.
+					const factor = new Product(terms.map((comparisonTerm, comparisonIndex) => comparisonTerm.isType(Fraction) && index !== comparisonIndex ? comparisonTerm.denominator : Integer.one)).simplify(Expression.simplifyOptions.removeUseless)
+					return term.numerator.multiplyBy(factor)
+				}))
+				return new Fraction(numerator, denominator).simplify(options)
+			}
+		}
+
 		// Find equal terms to cancel out. For this, walk through the terms, and try to match them with a negative counterpart. Upon finding a pair, skip both.
 		if (options.cancelSumTerms) {
 			const skipped = terms.map(_ => false)

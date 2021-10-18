@@ -37,6 +37,11 @@ class Fraction extends Parent {
 		return level === Expression.bracketLevels.division || level === Expression.bracketLevels.powers
 	}
 
+	multiplyNumDenBy(expression) {
+		expression = Expression.ensureExpression(expression)
+		return new Fraction(this.numerator.multiplyBy(expression), this.denominator.multiplyBy(expression))
+	}
+
 	getDerivativeBasic(variable) {
 		const terms = []
 

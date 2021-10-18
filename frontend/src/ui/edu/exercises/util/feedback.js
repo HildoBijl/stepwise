@@ -107,8 +107,8 @@ export function getInputFieldFeedback(parameter, exerciseData, extraOptions) {
 		throw new Error(`Default feedback error: could not determine the type of parameter "${currParameter}". No comparison could be made.`)
 	})
 
-// All done! Return feedback.
-return feedback
+	// All done! Return feedback.
+	return feedback
 }
 
 // getAllInputFieldsFeedback is a function that tries to give feedback about the provided input in as intelligent a manner as possible. It figures out for itself which fields to give input on.
@@ -210,14 +210,6 @@ export function getFloatComparisonFeedback(correctAnswer, inputAnswer, options) 
 	if (inputAnswer === undefined)
 		return
 
-	// Do default comparison and check equality.
-	const comparison = correctAnswer.checkEquality(inputAnswer, equalityOptions)
-	if (comparison.result) {
-		if (solved === false)
-			return { correct: false, text: (prevFeedback && !prevFeedback.correct && prevFeedback.text) || selectRandomIncorrect() } // Overwritten! Apparently the answer is correct now, but the server marks it as incorrect. So we have to show incorrect.
-		return { correct: true, text: (prevFeedback && prevFeedback.correct && prevFeedback.text) || selectRandomCorrect() }
-	}
-
 	// If we had exactly the same input before, return the same feedback.
 	if (prevInput && inputAnswer.str === prevInput.str)
 		return prevFeedback
@@ -226,6 +218,14 @@ export function getFloatComparisonFeedback(correctAnswer, inputAnswer, options) 
 	const checkText = getCheckFeedback(checks, inputAnswer, correct)
 	if (checkText)
 		return { correct: false, text: checkText }
+
+	// Do default comparison and check equality.
+	const comparison = correctAnswer.checkEquality(inputAnswer, equalityOptions)
+	if (comparison.result) {
+		if (solved === false)
+			return { correct: false, text: (prevFeedback && !prevFeedback.correct && prevFeedback.text) || selectRandomIncorrect() } // Overwritten! Apparently the answer is correct now, but the server marks it as incorrect. So we have to show incorrect.
+		return { correct: true, text: (prevFeedback && prevFeedback.correct && prevFeedback.text) || selectRandomCorrect() }
+	}
 
 	// Check sign.
 	if (Math.sign(correctAnswer.number) * Math.sign(inputAnswer.number) === -1)
@@ -261,14 +261,6 @@ export function getFloatUnitComparisonFeedback(correctAnswer, inputAnswer, optio
 	if (inputAnswer === undefined)
 		return
 
-	// Do default comparison and check equality.
-	const comparison = correctAnswer.checkEquality(inputAnswer, equalityOptions)
-	if (comparison.result) {
-		if (solved === false)
-			return { correct: false, text: (prevFeedback && !prevFeedback.correct && prevFeedback.text) || selectRandomIncorrect() } // Overwritten! Apparently the answer is correct now, but the server marks it as incorrect. So we have to show incorrect.
-		return { correct: true, text: (prevFeedback && prevFeedback.correct && prevFeedback.text) || selectRandomCorrect() }
-	}
-
 	// If we had exactly the same input before, return the same feedback.
 	if (prevInput && inputAnswer.str === prevInput.str)
 		return prevFeedback
@@ -277,6 +269,14 @@ export function getFloatUnitComparisonFeedback(correctAnswer, inputAnswer, optio
 	const checkText = getCheckFeedback(checks, inputAnswer, correct)
 	if (checkText)
 		return { correct: false, text: checkText }
+
+	// Do default comparison and check equality.
+	const comparison = correctAnswer.checkEquality(inputAnswer, equalityOptions)
+	if (comparison.result) {
+		if (solved === false)
+			return { correct: false, text: (prevFeedback && !prevFeedback.correct && prevFeedback.text) || selectRandomIncorrect() } // Overwritten! Apparently the answer is correct now, but the server marks it as incorrect. So we have to show incorrect.
+		return { correct: true, text: (prevFeedback && prevFeedback.correct && prevFeedback.text) || selectRandomCorrect() }
+	}
 
 	// Check unit.
 	if (!comparison.unitOK)
@@ -324,13 +324,6 @@ export function getExpressionComparisonFeedback(correctAnswer, inputAnswer, opti
 	if (inputAnswer === undefined)
 		return
 
-	// Do default comparison and check equality.
-	if (correctAnswer.equals(inputAnswer, equalityOptions)) {
-		if (solved === false)
-			return { correct: false, text: (prevFeedback && !prevFeedback.correct && prevFeedback.text) || selectRandomIncorrect() } // Overwritten! Apparently the answer is correct now, but the server marks it as incorrect. So we have to show incorrect.
-		return { correct: true, text: (prevFeedback && prevFeedback.correct && prevFeedback.text) || selectRandomCorrect() }
-	}
-
 	// If we had exactly the same input before, return the same feedback.
 	if (prevInput && inputAnswer.str === prevInput.str)
 		return prevFeedback
@@ -339,6 +332,13 @@ export function getExpressionComparisonFeedback(correctAnswer, inputAnswer, opti
 	const checkText = getCheckFeedback(checks, inputAnswer, correct)
 	if (checkText)
 		return { correct: false, text: checkText }
+
+	// Do default comparison and check equality.
+	if (correctAnswer.equals(inputAnswer, equalityOptions)) {
+		if (solved === false)
+			return { correct: false, text: (prevFeedback && !prevFeedback.correct && prevFeedback.text) || selectRandomIncorrect() } // Overwritten! Apparently the answer is correct now, but the server marks it as incorrect. So we have to show incorrect.
+		return { correct: true, text: (prevFeedback && prevFeedback.correct && prevFeedback.text) || selectRandomCorrect() }
+	}
 
 	// Unknown what happened. It's just wrong.
 	return { correct: false, text: selectRandomIncorrect() }

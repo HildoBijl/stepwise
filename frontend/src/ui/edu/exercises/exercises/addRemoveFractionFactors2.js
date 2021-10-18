@@ -43,10 +43,7 @@ function getFeedback(exerciseData) {
 		text: <>Dit is de oorspronkelijke uitdrukking. Je hebt nog geen termen weggestreept.</>,
 	}
 	const squareDisappeared = {
-		check: (input, { variables, ans }) => {
-			console.log(ans.divideBy(variables.x).simplify(Expression.simplifyOptions.basicClean).str)
-			return ans.divideBy(variables.x).simplify(Expression.simplifyOptions.basicClean).equals(input, equalityOptions)
-		},
+		check: (input, { variables, ans }) => ans.divideBy(variables.x).simplify(Expression.simplifyOptions.basicClean).equals(input, equalityOptions),
 		text: (input, { square, variables }) => <>Je hebt <M>{square}</M> in z'n geheel weggestreept tegen <M>{variables.x}.</M> Dat mag niet! Onthoud dat <M>{square} = {variables.x} \cdot {variables.x}.</M></>,
 	}
 	const correctExpression = {
@@ -59,5 +56,5 @@ function getFeedback(exerciseData) {
 	}
 
 	// Determine feedback.
-	return getInputFieldFeedback('ans', exerciseData, { checks: [originalExpression, squareDisappeared, correctExpression, remaining] })
+	return getInputFieldFeedback('ans', exerciseData, { checks: [originalExpression, squareDisappeared, correctExpression, remaining], solved: exerciseData.progress.solved })
 }

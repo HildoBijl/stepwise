@@ -59,5 +59,5 @@ function getFeedback(exerciseData) {
 	}
 
 	// Determine feedback.
-	return getInputFieldFeedback('ans', exerciseData, { checks: [originalExpression, asFraction, correctExpression, remaining] })
+	return getInputFieldFeedback('ans', exerciseData, { checks: [originalExpression, asFraction, correctExpression, remaining], solved: exerciseData.progress.solved })
 }

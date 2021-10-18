@@ -292,8 +292,6 @@ class Expression {
 	multiplyNumDenBy(expression) {
 		expression = Expression.ensureExpression(expression)
 		const Fraction = require('../functions/Fraction')
-		if (this.isType(Fraction))
-			return new Fraction(this.numerator.multiplyBy(expression), this.denominator.multiplyBy(expression))
 		return new Fraction(this.multiplyBy(expression), expression)
 	}
 
@@ -414,13 +412,13 @@ const noSimplify = { // This is never applied, but only use to verify options gi
 	flattenFractions: false, // Turn fractions inside fractions into a single fraction. So (a/b)/(c/d) becomes (ad)/(bc), similarly a/(b/c) becomes (ac)/b and (a/b)/c becomes a/(bc).
 	splitFractions: false, // Split up fractions. So (a+b)/c becomes a/c+b/c.
 	mergeFractionProducts: false, // Turn products of fractions into single fractions. So a*(b/c) becomes (ab)/c and (a/b)*(c/d) becomes (ac)/(bd).
+	mergeFractionSums: false, // Turns sums of fractions into a single fraction. So a/x+b/x becomes (a+b)/x and a/b+c/d becomes (ad+bc)/(bd).
 
 	// The following options relate to powers.
 	mergeProductTerms: false, // Merge terms in products into powers. So x*x^2 becomes x^3.
 	removePowersWithinPowers: false, // Reduces (a^b)^c to a^(b*c).
 
 	// ToDo: implement the simplification methods below.
-	mergeFractionSums: false, // Turns sums of fractions into a single fraction. So a/x+b/x becomes (a+b)/x and a/b+c/d becomes (ad+bc)/(bd).
 
 	groupSumTerms: false, // Check inside of sums whether terms can be grouped. For instance, 2*x+3*x can be grouped into (2+3)*x, after which the numbers can be merged to form 5*x.
 	expandBrackets: false, // Minimize the number of brackets needed. If there is a product of sums, expand brackets. So (a+b)*(c+d) becomes a*c+a*d+b*c+b*d. Similarly for powers. (a+b)^3 gets a binomial expansion.
@@ -462,6 +460,7 @@ const regularClean = {
 }
 const forAnalysis = {
 	...regularClean,
+	mergeFractionSums: true,
 	expandBrackets: true,
 	forAnalysis: true,
 }

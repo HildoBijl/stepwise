@@ -20,6 +20,11 @@ import { BM } from 'ui/components/equations'
 // console.log(b)
 // console.log(b.str)
 
+// const a = new Fraction(new Variable('a'), new Variable('d'))
+// const b = new Fraction(new Variable('c'), new Variable('d'))
+// const c = a.add(b)
+// console.log(c.str)
+// console.log(c.simplify(Expression.simplifyOptions.forAnalysis).str)
 
 export default function Test() {
 	return (

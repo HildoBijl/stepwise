@@ -11,7 +11,7 @@ const Variable = require('../../../inputTypes/Expression/Variable')
 const data = {
 	skill: 'addRemoveFractionFactors',
 	equalityOptions: {
-		default: Expression.equalityLevels.onlyOrderChanges,
+		default: Expression.equalityLevels.equivalent,
 	},
 	availableVariablesLower: ['a', 'b', 'c', 'x', 'y', 't'].map(Variable.ensureVariable),
 	availableVariablesUpper: ['P', 'R', 'I', 'U', 'L'].map(Variable.ensureVariable),
@@ -19,8 +19,9 @@ const data = {
 }
 
 function generateState() {
-	// P*(x+y)/(x+y) or (x+y)/(P*(x+y)).
+	// aP*(x+y)/(x+y) or (x+y)/(aP*(x+y)).
 	const state = {}
+	state.a = getRandomInteger(2, 12)
 	state.P = getRandomInteger(0, data.availableVariablesUpper.length - 1)
 	state.x = getRandomInteger(0, data.availableVariablesLower.length - 1)
 	state.y = getRandomInteger(0, data.availableVariablesLower.length - 1, [state.x])
@@ -40,10 +41,11 @@ function getCorrect(state) {
 	const variables = getVariables(state)
 	const { P, x, y } = variables
 	const sum = new Sum(x, y)
-	const product = new Product(state.front ? [P, sum] : [sum, P])
-	const expression = state.upper ? P : new Fraction(Integer.one, P)
+	const term = new Product(state.a, P)
+	const product = new Product(state.front ? [term, sum] : [sum, term])
+	const expression = state.upper ? term : new Fraction(Integer.one, term)
 	const ans = expression.multiplyNumDenBy(sum).simplify(Expression.simplifyOptions.removeUseless)
-	return { ...state, variables, sum, product, expression, ans }
+	return { ...state, variables, sum, term, product, expression, ans }
 }
 
 function checkInput(state, input) {
