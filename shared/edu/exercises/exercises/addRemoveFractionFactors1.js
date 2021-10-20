@@ -1,4 +1,4 @@
-const { getRandomInteger, getRandomBoolean } = require('../../../util/random')
+const { getRandomInteger } = require('../../../util/random')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 
 const { Expression } = require('../../../inputTypes/Expression')
@@ -12,7 +12,7 @@ const data = {
 		default: Expression.equalityLevels.onlyOrderChanges,
 	},
 	availableVariables: ['a', 'b', 'c', 'x', 'y', 'P', 'R', 't', 'I', 'U', 'L'].map(Variable.ensureVariable),
-	usedVariables: ['a', 'b', 'x', 'y'].map(Variable.ensureVariable),
+	usedVariables: ['a', 'b', 'x', 'y'],
 }
 
 function generateState() {

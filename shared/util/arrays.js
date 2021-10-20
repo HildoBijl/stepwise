@@ -122,16 +122,18 @@ function getRandomSubset(array, num, randomOrder = true) {
 	array = ensureArray(array)
 	num = ensureInt(num)
 
-	// Create a mapping of the right size.
-	const mapping = shuffle(numberArray(0, array.length - 1)).slice(0, num)
-
-	// The mapping is in random order. If we don't want a random order, we must sort it.
-	if (!randomOrder)
-		mapping.sort()
-
+	// Create a mapping of the right size and apply it.
+	const mapping = getRandomIndices(array.length, num, randomOrder)
 	return mapping.map(index => array[index])
 }
 module.exports.getRandomSubset = getRandomSubset
+
+// getRandomIndices takes an array length, like 5, and a number of indices that need to be chosen, like 3. It then returns an array with that many randomly chosen indices. Like [4, 0, 3]. If randomOrder is manually set to false, they will appear in order. (So [0, 3, 4] in the example.) Note: the given arrayLength number is an exclusive bound: it itself never appears in the array.
+function getRandomIndices(arrayLength, num = arrayLength, randomOrder = true) {
+	const indices = shuffle(numberArray(0, arrayLength - 1)).slice(0, num)
+	return randomOrder ? indices : indices.sort()
+}
+module.exports.getRandomIndices = getRandomIndices
 
 // count takes an array and a function and checks for how many elements this function returns a truthy value.
 function count(array, fun) {

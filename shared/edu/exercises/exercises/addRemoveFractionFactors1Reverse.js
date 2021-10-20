@@ -12,7 +12,7 @@ const data = {
 		default: Expression.equalityLevels.onlyOrderChanges,
 	},
 	availableVariables: ['a', 'b', 'c', 'x', 'y', 'P', 'R', 't', 'I', 'U', 'L'].map(Variable.ensureVariable),
-	usedVariables: ['a', 'b', 'x', 'y'].map(Variable.ensureVariable),
+	usedVariables: ['a', 'b', 'x', 'y'],
 }
 
 function generateState() {

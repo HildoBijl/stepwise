@@ -14,7 +14,7 @@ const data = {
 	},
 	availableVariablesLower: ['a', 'b', 'c', 'x', 'y', 't'].map(Variable.ensureVariable),
 	availableVariablesUpper: ['P', 'R', 'I', 'U', 'L'].map(Variable.ensureVariable),
-	usedVariables: ['P', 'x', 'y'].map(Variable.ensureVariable),
+	usedVariables: ['P', 'x', 'y'],
 }
 
 function generateState() {

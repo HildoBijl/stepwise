@@ -83,6 +83,14 @@ class FunctionMultiArgument extends Parent {
 		return this.constructor.args.every(key => this[key].isNumeric())
 	}
 
+	recursiveSome(check) {
+		return check(this) || this.constructor.args.some(key => this[key].recursiveSome(check))
+	}
+
+	recursiveEvery(check) {
+		return check(this) && this.constructor.args.every(key => this[key].recursiveEvery(check))
+	}
+
 	substitute(variable, substitution) {
 		const newSO = this.SO
 		this.constructor.args.forEach(key => {

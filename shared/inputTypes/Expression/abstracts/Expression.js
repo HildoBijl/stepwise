@@ -295,6 +295,16 @@ class Expression {
 		return new Fraction(this.multiplyBy(expression), expression)
 	}
 
+	// recursiveSome runs a function on this expression term and on all of its children. If it turns up as true anywhere, true is returned. Otherwise false is given.
+	recursiveSome(check) {
+		return check(this)
+	}
+
+	// recursiveEvery runs a function on this expression term and on all of its children. If it turns up as false anywhere, false is returned. Otherwise true is given.
+	recursiveEvery(check) {
+		return check(this)
+	}
+
 	// getDerivative returns the derivative. It includes checking the variable and simplifying the result, unlike getDerivativeBasic which doesn't check the input and only returns a derivative in any form.
 	getDerivative(variable) {
 		variable = this.verifyVariable(variable)

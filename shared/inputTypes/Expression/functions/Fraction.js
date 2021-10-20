@@ -167,6 +167,8 @@ class Fraction extends Parent {
 			denominator = new Product(denominatorTerms).simplify(Expression.simplifyOptions.removeUseless)
 		}
 
+		// ToDo: in case of a sum in the numerator/denominator, find the greatest common factor of all terms, and divide up/down by that.
+
 		// Check for useless elements.
 		if (options.removeUseless) {
 			// On a zero numerator, ignore the denominator.

@@ -101,9 +101,10 @@ function findEndOfTerm(data, toRight = true, skipFirst = false, initialBracketCo
 		if (isObject(nextSymbol) && nextSymbol.type === 'Function' && nextSymbol.name !== 'subSup') {
 			if (bracketCount === 0 && (!skipFirst || !first))
 				return { part: partIterator, cursor: cursorIterator }
-			const netBracketCountFunc = getFuncs(nextSymbol).netBracketCount
-			const netBracketCount = netBracketCountFunc ? netBracketCountFunc(nextSymbol) : 0
-			bracketCount += (toRight ? 1 : -1) * netBracketCount
+			// ToDo: set the below lines back after moving all the expression code to shared. Also incorporate proper processing of functions like log[10](...) that need a net bracket count.
+			// const countNetBrackets = getFuncs(nextSymbol).countNetBrackets
+			// const netBracketCount = countNetBrackets ? countNetBrackets(nextSymbol) : 0
+			// bracketCount += (toRight ? 1 : -1) * netBracketCount
 		}
 
 		// On a breaking character, return the current cursor position. 

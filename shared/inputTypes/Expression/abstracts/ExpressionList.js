@@ -83,6 +83,14 @@ class ExpressionList extends Parent {
 		return this.constructor(this.terms.map(term => func(term)))
 	}
 
+	recursiveSome(check) {
+		return check(this) || this.terms.some(term => term.recursiveSome(check))
+	}
+
+	recursiveEvery(check) {
+		return check(this) && this.terms.every(term => term.recursiveEvery(check))
+	}
+
 	equalsBasic(expression, level) {
 		// Check that the list type is equal.
 		if (this.constructor !== expression.constructor)
