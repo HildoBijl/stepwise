@@ -245,50 +245,38 @@ export default function Home() {
 	)
 }
 
-class GoogleLoginButton extends React.Component {
-	shouldComponentUpdate() {
-		// If React would re-render this component, the Google button would disappear,
-		// because the Google script only runs once after it has been loaded.
-		// To prevent that from happening, we “freeze” this component and make it
-		// immune to updates by state changes.
-		// This doesn’t prevent the Hot Module Reloader to re-render, however, so in
-		// development the button might still disappear if you make changes in this file.
-		return false
-	}
-
-	render() {
-		// We have to fetch the Google JS library dynamically, because it inspects
-		// the DOM for the `g_id_onload` and `g_id_signin` elements. This must
-		// happen *after* the DOM render is complete, though, otherwise it doesn’t
-		// find any elements and nothing happens.
-		//
-		// The code for the two <div>’s can be obtained from here:
-		// https://developers.google.com/identity/gsi/web/tools/configurator
-		// (Remember to replace the clientId and the login URI afterwards!)
-		return <>
-			<div
-				id='g_id_onload'
-				data-client_id={googleClientId}
-				data-context='signin'
-				data-ux_mode='redirect'
-				data-login_uri={`${googleRedirectAddress}/auth/google/login`}
-				data-nonce=''
-				data-auto_prompt='false'>
-			</div>
-			<div
-				className='g_id_signin'
-				data-type='standard'
-				data-shape='rectangular'
-				data-theme='outline'
-				data-text='continue_with'
-				data-size='large'
-				data-logo_alignment='left'>
-			</div>
-			<Helmet>
-				<script src='https://accounts.google.com/gsi/client' async defer/>
-			</Helmet>
-		</>
-	}
+function GoogleLoginButton() {
+	// We have to fetch the Google JS library dynamically, because it inspects
+	// the DOM for the `g_id_onload` and `g_id_signin` elements. This must
+	// happen *after* the DOM render is complete, though, otherwise it doesn’t
+	// find any elements and nothing happens.
+	//
+	// The code for the two <div>’s can be obtained from here:
+	// https://developers.google.com/identity/gsi/web/tools/configurator
+	// (Remember to replace the clientId and the login URI afterwards!)
+	return <>
+		<div
+			id='g_id_onload'
+			data-client_id={googleClientId}
+			data-context='signin'
+			data-ux_mode='redirect'
+			data-login_uri={`${googleRedirectAddress}/auth/google/login`}
+			data-nonce=''
+			data-auto_prompt='false'>
+		</div>
+		<div
+			className='g_id_signin'
+			data-type='standard'
+			data-shape='rectangular'
+			data-theme='outline'
+			data-text='continue_with'
+			data-size='large'
+			data-logo_alignment='left'>
+		</div>
+		<Helmet>
+			<script src='https://accounts.google.com/gsi/client' async defer/>
+		</Helmet>
+	</>
 }
 
 const errorCode2Message = {
