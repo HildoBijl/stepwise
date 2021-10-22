@@ -34,8 +34,8 @@ const unitList = [
 	new BaseUnit({ letter: 'l', name: 'liter', toStandard: { unit: 'm^3', power: -3 }, }),
 	new BaseUnit({ letter: '°', alternatives: ['deg', '∘'], name: 'degree', plural: 'degrees', toStandard: { unit: 'rad', factor: Math.PI / 180 }, }),
 	new BaseUnit({ letter: '%', name: 'percent', toStandard: { unit: '', power: -2 }, }),
-	new BaseUnit({ letter: 'h', name: 'hour', toStandard: { unit: 's', factor: 1 / 3600 }, }),
-	new BaseUnit({ letter: 'kWh', name: 'kilowatt-hour', toStandard: { unit: 'J', factor: 1 / 3600000 } }),
+	new BaseUnit({ letter: 'h', name: 'hour', toStandard: { unit: 's', factor: 3600 }, }),
+	new BaseUnit({ letter: 'kWh', name: 'kilowatt-hour', toStandard: { unit: 'J', factor: 3600000 } }),
 ]
 
 // Turn the unit list into an object with the letter as key.
