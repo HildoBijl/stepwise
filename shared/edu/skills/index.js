@@ -53,9 +53,9 @@ const skills = {
 		name: 'Gelijknamige breuken samenvoegen/splitsen',
 		exercises: ['mergeSplitBasicFractions1', 'mergeSplitBasicFractions2', 'mergeSplitBasicFractions3'],
 	},
-	mergeSplitGeneralFractions: {
+	mergeSplitFractions: {
 		name: 'Algemene breuken samenvoegen/splitsen',
-		exercises: ['mergeSplitGeneralFractions1', 'mergeSplitGeneralFractions2', 'mergeSplitGeneralFractions3'],
+		exercises: ['mergeSplitFractions1', 'mergeSplitFractions2', 'mergeSplitFractions3'],
 	},
 	multiplyDivideFractions: {
 		name: 'Breuken vermenigvuldigen/delen',

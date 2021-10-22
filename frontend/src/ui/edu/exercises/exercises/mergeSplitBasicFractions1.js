@@ -104,6 +104,7 @@ function getFeedback(exerciseData) {
 	// - Trigger check on a false result?
 	// - Use same formatting for input object?
 	// Or do we change the feedback mechanism altogether? Since standard tests don't really seem to apply.
+	// How does this work for a step exercise? Try to consider a mergeSplitFractions exercise to see how this goes.
 
 	// Determine feedback.
 	return getInputFieldFeedback('ans', exerciseData, { checks, solved: exerciseData.progress.solved })
