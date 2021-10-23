@@ -195,7 +195,12 @@ export function useFieldRegistration(options) {
 	}, [apply, id, keyboard, storeKeyboard])
 
 	// Return the controllers from useFieldActivation.
-	return [active, activateField, deactivateField]
+	if (apply)
+		return [active, activateField, deactivateField]
+	
+	// On a non-applied input field (like a read-only input field) do not allow activation. Throw an error when an attempt is made.
+	const throwFunction = () => { throw new Error(`Invalid field (de)activation: cannot (de)activate an inactive field "${id}".`) }
+	return [false, throwFunction, throwFunction]
 }
 
 // getTabOrder takes a controller DOM object and a fields object (with all fields inside this DOM object) and returns the required tabbing order, as an array of field IDs.
