@@ -125,7 +125,7 @@ class Unit {
 		// If we need to do nothing, return the result.
 		let data = { simplification: this, difference: 0, factor: 1, power: 0 }
 		if (options.type === Unit.simplifyTypes.doNothing && !options.clean) {
-			data.simplfication = this.clone()
+			data.simplification = this.clone()
 			return data
 		}
 
@@ -151,8 +151,8 @@ class Unit {
 					} else { // It is not. Make adjustments.
 						const unitAdjustments = unitElement.unit.toStandard
 						data.difference += unitAdjustments.difference || 0
-						data.factor *= unitAdjustments.factor || 1
-						data.power += unitAdjustments.power || 0
+						data.factor *= Math.pow(unitAdjustments.factor, unitElement.power) || 1
+						data.power += unitAdjustments.power * unitElement.power || 0
 						result = result.multiply(new Unit(unitAdjustments.unit).toPower(unitElement.power))
 					}
 				})
@@ -162,8 +162,8 @@ class Unit {
 					} else { // It is not. Make adjustments.
 						const unitAdjustments = unitElement.unit.toStandard
 						data.difference -= unitAdjustments.difference || 0
-						data.factor /= unitAdjustments.factor || 1
-						data.power -= unitAdjustments.power || 0
+						data.factor /= Math.pow(unitAdjustments.factor, unitElement.power) || 1
+						data.power -= unitAdjustments.power * unitElement.power || 0
 						result = result.divide(new Unit(unitAdjustments.unit).toPower(unitElement.power))
 					}
 				})
