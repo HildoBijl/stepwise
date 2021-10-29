@@ -1,6 +1,7 @@
-const { DataTypes } = require('sequelize')
+import sq from 'sequelize'
+const { DataTypes } = sq
 
-module.exports = (sequelize) => {
+export default (sequelize) => {
   const User = sequelize.define('user', {
 		id: {
 			type: DataTypes.UUID,
@@ -43,7 +44,7 @@ module.exports = (sequelize) => {
 		},
 	})
 
-  User.associate = models => {
+	User.associate = models => {
 		User.hasMany(models.UserSkill, { as: 'skills', onDelete: 'CASCADE' })
 		User.hasMany(models.SurfConextProfile, { onDelete: 'CASCADE' })
   }

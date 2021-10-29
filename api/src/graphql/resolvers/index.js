@@ -1,11 +1,8 @@
-const { EmailAddressResolver, DateTimeResolver, JSONObjectResolver } = require('graphql-scalars')
-
-const resolverKeys = [
-	'User',
-	'Skill',
-	'Exercise',
-	'Event',
-]
+import { EmailAddressResolver, DateTimeResolver, JSONObjectResolver } from 'graphql-scalars'
+import userResolver from './User'
+import skillResolver from './Skill'
+import exerciseResolver from './Exercise'
+import eventResolver from './Event'
 
 const scalarResolvers = {
 	EmailAddress: EmailAddressResolver,
@@ -13,9 +10,10 @@ const scalarResolvers = {
 	JSON: JSONObjectResolver,
 }
 
-// Put all resolvers into one big array and export it.
-const resolvers = [scalarResolvers]
-resolverKeys.forEach(key => {
-	resolvers.push(require(`./${key}`))
-})
-module.exports = resolvers
+export default [
+	scalarResolvers,
+	userResolver,
+	skillResolver,
+	exerciseResolver,
+	eventResolver,
+]

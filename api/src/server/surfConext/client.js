@@ -1,9 +1,9 @@
-const { Issuer } = require('openid-client')
-const crypto = require('crypto')
+import { Issuer } from 'openid-client'
+import crypto from 'crypto'
 
 const hash = text => crypto.createHash('sha256').update(text).digest('hex')
 
-class Client {
+export default class Client {
 	constructor(issuerUrl, redirectUrl, clientId, secret) {
 		this._issuerUrl = issuerUrl
 		this._redirectUrl = redirectUrl
@@ -83,8 +83,4 @@ class Client {
 		}
 		return this._maybeClient
 	}
-}
-
-module.exports = {
-	Client
 }

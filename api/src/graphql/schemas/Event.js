@@ -1,6 +1,6 @@
-const { gql } = require('apollo-server-express')
+import { gql } from 'apollo-server-express'
 
-const schema = gql`
+export default gql`
 	type Event {
 		id: ID!
 		action: JSON!
@@ -8,5 +8,3 @@ const schema = gql`
 		performedAt: DateTime!
 	}
 `
-
-module.exports = schema

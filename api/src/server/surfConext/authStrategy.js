@@ -1,4 +1,4 @@
-class AuthStrategy {
+export default class AuthStrategy {
 	constructor(database, surfConextClient) {
 		this._db = database
 		this._surfConextClient = surfConextClient
@@ -81,8 +81,4 @@ function getRole(surfRawData) {
 		return 'teacher'
 	}
 	return undefined // use default
-}
-
-module.exports = {
-	AuthStrategy
 }

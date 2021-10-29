@@ -1,9 +1,9 @@
-const express = require('express')
-const { createApollo } = require('./apollo')
-const session = require('express-session')
-const cors = require('cors')
-const Joi = require('@hapi/joi')
-const { createAuthRouter } = require('./auth')
+import express from 'express'
+import { createApollo } from './apollo'
+import session from 'express-session'
+import cors from 'cors'
+import Joi from '@hapi/joi'
+import { createAuthRouter } from './auth'
 
 const configValidationSchema = Joi.object({
 	sslEnabled: Joi.boolean().required(),
@@ -17,7 +17,7 @@ const configValidationSchema = Joi.object({
 	corsUrls: Joi.array().items(Joi.string().uri()),
 })
 
-const createServer = ({
+export const createServer = ({
 	config,
 	database,
 	sessionStore,
@@ -67,8 +67,4 @@ const createServer = ({
 
 	app.set('trust proxy', true)
 	return app
-}
-
-module.exports = {
-	createServer
 }

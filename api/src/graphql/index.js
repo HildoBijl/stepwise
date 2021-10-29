@@ -1,6 +1,4 @@
-const typeDefs = require('./schemas')
-const resolvers = require('./resolvers')
+import typeDefs from './schemas'
+import resolvers from './resolvers'
 
-module.exports = {
-	typeDefs, resolvers
-}
+export {typeDefs, resolvers}

@@ -1,11 +1,8 @@
-const { gql } = require('apollo-server-express')
-
-const schemaKeys = [
-	'User',
-	'Skill',
-	'Exercise',
-	'Event',
-]
+import { gql } from 'apollo-server-express'
+import userSchema from './User'
+import skillSchema from './Skill'
+import exerciseSchema from './Exercise'
+import eventSchema from './Event'
 
 const linkSchema = gql`
 	scalar EmailAddress
@@ -25,9 +22,10 @@ const linkSchema = gql`
 	}
 `
 
-// Put all schemas into one big array and export it.
-const schemas = [linkSchema]
-schemaKeys.forEach(key => {
-	schemas.push(require(`./${key}`))
-})
-module.exports = schemas
+export default [
+	linkSchema,
+	userSchema,
+	skillSchema,
+	exerciseSchema,
+	eventSchema,
+]

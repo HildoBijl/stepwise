@@ -1,6 +1,7 @@
-const { DataTypes } = require('sequelize')
+import sq from 'sequelize'
+const { DataTypes } = sq
 
-module.exports = (sequelize) => {
+export default (sequelize) => {
 	const ExerciseEvent = sequelize.define('exerciseEvent', {
 		id: {
 			type: DataTypes.UUID,

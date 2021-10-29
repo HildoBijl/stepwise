@@ -1,6 +1,6 @@
-const { gql } = require('apollo-server-express')
+import { gql } from 'apollo-server-express'
 
-const schema = gql`
+export default gql`
 	extend type Mutation {
 		startExercise(skillId: String!): Exercise!
 		submitExerciseAction(skillId: String!, action: JSON!): ExerciseActionResult!
@@ -23,5 +23,3 @@ const schema = gql`
 		adjustedSkills: [SkillWithoutExercises]!
 	}
 `
-
-module.exports = schema

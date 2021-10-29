@@ -1,8 +1,5 @@
-const resolvers = {
+export default {
 	Event: {
 		performedAt: event => event.createdAt,
 	},
 }
-
-module.exports = resolvers
-

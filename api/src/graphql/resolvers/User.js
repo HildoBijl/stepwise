@@ -1,10 +1,10 @@
-const { checkSkillIds } = require('../util/Skill')
-const { getUser, getAllUsers } = require('../util/User')
-const { AuthenticationError } = require('apollo-server-express')
+import { checkSkillIds } from '../util/Skill'
+import { getUser, getAllUsers } from '../util/User'
+import { AuthenticationError } from 'apollo-server-express'
 
 const CURRENT_PRIVACY_POLICY_VERSION = 1;
 
-const resolvers = {
+export default {
 	User: {
 		skills: async (user, { ids }) => {
 			if (!ids)
@@ -70,5 +70,3 @@ const resolvers = {
 		},
 	},
 }
-
-module.exports = resolvers

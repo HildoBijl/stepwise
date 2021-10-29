@@ -1,8 +1,8 @@
-const { getUserSkill, getUserSkills } = require('../util/Skill')
+import { getUserSkill, getUserSkills } from '../util/Skill'
 
 const commonResolvers = {} // None at the moment.
 
-const resolvers = {
+export default {
 	Skill: {
 		...commonResolvers,
 		currentExercise: skill => skill.exercises.find(exercise => exercise.active),
@@ -29,5 +29,3 @@ const resolvers = {
 		},
 	},
 }
-
-module.exports = resolvers

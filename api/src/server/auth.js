@@ -1,14 +1,14 @@
-const express = require('express')
-const { promisify } = require('util')
-const cookieParser = require('cookie-parser')
-const bodyParser = require('body-parser')
-const SurfConextAuthStrategy = require('./surfConext/authStrategy').AuthStrategy
-const GoogleAuthStrategy = require('./google/authStrategy').AuthStrategy
+import express from 'express'
+import { promisify } from 'util'
+import cookieParser from 'cookie-parser'
+import bodyParser from 'body-parser'
+import SurfConextAuthStrategy from './surfConext/authStrategy'
+import GoogleAuthStrategy from './google/authStrategy'
 
 const INVALID_AUTHENTICATION = 'INVALID_AUTHENTICATION'
 const INTERNAL_ERROR = 'INTERNAL_ERROR'
 
-function createAuthRouter(config, database, { surfConextClient, googleClient }) {
+export function createAuthRouter(config, database, { surfConextClient, googleClient }) {
 
 	const authRouter = express.Router()
 	authRouter.use(cookieParser())
@@ -93,8 +93,4 @@ function getValidRedirect(rawRedirectParam) {
 	if (typeof rawRedirectParam !== "string") return null
 	if (rawRedirectParam.substr(0, 1) !== "/") return null
 	return rawRedirectParam
-}
-
-module.exports = {
-	createAuthRouter
 }

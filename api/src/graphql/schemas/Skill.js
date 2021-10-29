@@ -1,6 +1,6 @@
-const { gql } = require('apollo-server-express')
+import { gql } from 'apollo-server-express'
 
-const schema = gql`
+export default gql`
   extend type Query {
 		skill(skillId: String!, userId: ID): Skill
 		skills(skillIds: [String]): [SkillWithoutExercises]!
@@ -32,5 +32,3 @@ const schema = gql`
 		updatedAt: DateTime!
 	}
 `
-
-module.exports = schema

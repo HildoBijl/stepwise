@@ -1,14 +1,9 @@
-const { getLastEvent, getExerciseProgress, getActiveExerciseData } = require('../util/Exercise')
-const { checkSkillIds, getUserSkillsData } = require('../util/Skill')
-const {getNewExercise} = require('step-wise/edu/exercises/util/selection.js')
-const {setFOtoIO, setIOtoFO} = require('step-wise/inputTypes/index.js')
-const {
-	getCombinerSkills,
-	getSmoothingFactor,
-	smoothen,
-	processObservation,
-	getEV
-} = require('step-wise/skillTracking/index.js')
+import { getNewExercise } from 'step-wise/edu/exercises/util/selection'
+import { setFOtoIO, setIOtoFO } from 'step-wise/inputTypes'
+import { getCombinerSkills, getSmoothingFactor, smoothen, processObservation, getEV } from 'step-wise/skillTracking'
+
+import { getLastEvent, getExerciseProgress, getActiveExerciseData } from '../util/Exercise'
+import { checkSkillIds, getUserSkillsData } from '../util/Skill'
 
 const resolvers = {
 	Exercise: {
@@ -85,7 +80,7 @@ const resolvers = {
 		},
 	},
 }
-module.exports = resolvers
+export default resolvers
 
 async function applySkillUpdates(skillUpdates, userId, db, transaction) {
 	// Extract all skillIds in the updates.

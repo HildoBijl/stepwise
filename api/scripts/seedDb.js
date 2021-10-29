@@ -1,6 +1,6 @@
-const { Database } = require('../src/database')
-const { createSequelize } = require('./init')
-const surfConextMockData = require('../surfConextMockData.json')
+import { Database } from '../src/database'
+import { createSequelize } from './init'
+import surfConextMockData from '../surfConextMockData.json'
 
 if (process.env.NODE_ENV !== 'development') process.exit(1)
 

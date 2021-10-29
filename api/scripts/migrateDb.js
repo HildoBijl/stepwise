@@ -1,4 +1,4 @@
-const { createSequelize, createUmzug } = require('./init')
+import { createSequelize, createUmzug } from './init'
 
 const sequelize = createSequelize(true)
 const umzug = createUmzug(sequelize)

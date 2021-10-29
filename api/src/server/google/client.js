@@ -1,6 +1,6 @@
-const { OAuth2Client } = require('google-auth-library')
+import { OAuth2Client } from 'google-auth-library'
 
-class Client {
+export default class Client {
 	constructor(clientId) {
 		this._clientId = clientId
 		this._client = new OAuth2Client(this._clientId)
@@ -39,8 +39,4 @@ class Client {
 
 		return payload
 	}
-}
-
-module.exports = {
-	Client,
 }

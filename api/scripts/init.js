@@ -1,14 +1,18 @@
-require('dotenv').config()
-const { Sequelize } = require('sequelize')
-const SurfConext = require('../src/server/surfConext/client')
-const Google = require('../src/server/google/client')
-const session = require('express-session')
-const Redis = require('redis')
-const RedisStore = require('connect-redis')(session)
-const path = require('path')
-const Umzug = require('umzug')
+import dotenv from 'dotenv'
+dotenv.config()
 
-module.exports.createSequelize = (admin = false) => new Sequelize(
+import { Sequelize } from 'sequelize'
+import SurfConextClient from '../src/server/surfConext/client'
+import GoogleClient from '../src/server/google/client'
+import session from 'express-session'
+import Redis from 'redis'
+import expressRedis from 'connect-redis'
+import path from 'path'
+import Umzug from 'umzug'
+
+const RedisStore = expressRedis(session)
+
+export const createSequelize = (admin = false) => new Sequelize(
 	process.env.POSTGRES_DB,
 	admin ? process.env.POSTGRES_ADMIN_USER : process.env.POSTGRES_APP_USER,
 	admin ? process.env.POSTGRES_ADMIN_PASSWORD : process.env.POSTGRES_APP_PASSWORD,
@@ -25,23 +29,23 @@ module.exports.createSequelize = (admin = false) => new Sequelize(
 	}
 )
 
-module.exports.createSurfConext = () => new SurfConext.Client(
+export const createSurfConext = () => new SurfConextClient(
 	process.env.SURFCONEXT_ISSUER_URL,
 	process.env.SURFCONEXT_REDIRECT_URL,
 	process.env.SURFCONEXT_CLIENT_ID,
 	process.env.SURFCONEXT_SECRET,
 )
 
-module.exports.createGoogleClient = () => new Google.Client(process.env.GOOGLE_CLIENT_ID)
+export const createGoogleClient = () => new GoogleClient(process.env.GOOGLE_CLIENT_ID)
 
-module.exports.createRedisStore = () => new RedisStore({
+export const createRedisStore = () => new RedisStore({
 	client: Redis.createClient({
 		host: process.env.REDIS_HOST,
 		port: process.env.REDIS_PORT,
 	})
 })
 
-module.exports.createUmzug = (sequelize) => new Umzug({
+export const createUmzug = (sequelize) => new Umzug({
 	migrations: {
 		path: path.join(__dirname, '../migrations'),
 		params: [

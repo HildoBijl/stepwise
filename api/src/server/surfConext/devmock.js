@@ -1,12 +1,12 @@
-const { MemoryStore } = require('express-session')
-const fileSystem = require('fs')
-const USERINFO = require('../../../surfConextMockData.json')
+import { MemoryStore } from 'express-session'
+import fileSystem from 'fs'
+import USERINFO from '../../../surfConextMockData.json'
 
-const LAST_SESSION_ID_PATH = __dirname + '/../../../lastSessionId'
+const LAST_SESSION_ID_PATH = new URL('.', import.meta.url).pathname + '/../../../lastSessionId'
 
-const DIRECTORY_PATH = '/_dev/surfconextportal'
+export const DIRECTORY_PATH = '/_dev/surfconextportal'
 
-class MockClient {
+export class MockClient {
 	async authorizationUrl() {
 		return DIRECTORY_PATH
 	}
@@ -23,7 +23,7 @@ class MockClient {
 	}
 }
 
-const createPrefilledMemoryStore = () => {
+export const createPrefilledMemoryStore = () => {
 	const memoryStore = new MemoryStore()
 	if (fileSystem.existsSync(LAST_SESSION_ID_PATH)) {
 		const lastSessionId = fileSystem.readFileSync(LAST_SESSION_ID_PATH)
@@ -35,7 +35,7 @@ const createPrefilledMemoryStore = () => {
 	return memoryStore
 }
 
-const userDirectory = (req, res) => {
+export const userDirectory = (req, res) => {
 	const list = USERINFO.map(u => `<li>
 			<a href="/auth/surfconext/login?sub=${u.sub}">
 				${u.name} &lt;${u.email}&gt;
@@ -46,8 +46,4 @@ const userDirectory = (req, res) => {
 		<html><body>
 			<h1>SurfConext Mock Users</h1>
 			<ul>${list.join('')}`)
-}
-
-module.exports = {
-	MockClient, createPrefilledMemoryStore, userDirectory, DIRECTORY_PATH
 }

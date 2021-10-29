@@ -1,8 +1,10 @@
-require('dotenv').config()
-const { createServer } = require('../src/server')
-const { Database } = require('../src/database')
-const { createRedisStore, createSurfConext, createSequelize, createGoogleClient } = require('./init')
-const SurfConextMock = require('../src/server/surfConext/devmock')
+import dotenv from 'dotenv'
+dotenv.config()
+
+import { createServer } from '../src/server'
+import { Database } from '../src/database'
+import { createRedisStore, createSurfConext, createSequelize, createGoogleClient } from './init'
+import * as SurfConextMock from '../src/server/surfConext/devmock'
 
 const surfConextClient = process.env.NODE_ENV === 'production' ?
 	createSurfConext() : new SurfConextMock.MockClient()

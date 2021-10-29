@@ -1,6 +1,6 @@
-const { Database } = require('../src/database')
-const { createSequelize } = require('./init')
-const { clearDatabaseSchema } = require('../tests/testutil')
+import { Database } from '../src/database'
+import { createSequelize } from './init'
+import { clearDatabaseSchema } from '../tests/testutil'
 
 const sequelize = createSequelize(true)
 

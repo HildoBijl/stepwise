@@ -37,13 +37,9 @@ const USERS = {
  * The mock client is only used in the tests, because the Google login
  * works normally on localhost.
  */
-class MockClient {
+export class MockClient {
 	async getData(authData) {
 		// We abuse the `credential` field for passing through the sub parameter.
 		return USERS[authData.credential]
 	}
-}
-
-module.exports = {
-	MockClient,
 }

@@ -1,4 +1,4 @@
-const { DataTypes } = require('sequelize')
+import { DataTypes } from 'sequelize'
 
 const TABLE_COLUMN = [
 	// [tableName, columnName, allowNull]
@@ -10,7 +10,7 @@ const TABLE_COLUMN = [
 	['exerciseSamples', 'exerciseId', false],
 ]
 
-module.exports = {
+export default {
 	up: async (queryInterface) => {
 		for await (const p of TABLE_COLUMN) {
 			await queryInterface.changeColumn(p[0], p[1], {

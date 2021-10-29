@@ -1,4 +1,4 @@
-class AuthStrategy {
+export default class AuthStrategy {
 	constructor(database, googleClient) {
 		this._db = database
 		this._googleClient = googleClient
@@ -40,8 +40,4 @@ class AuthStrategy {
 			role: undefined,
 		})
 	}
-}
-
-module.exports = {
-	AuthStrategy
 }

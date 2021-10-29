@@ -1,7 +1,7 @@
-const { ApolloServer, AuthenticationError } = require('apollo-server-express')
-const { typeDefs, resolvers } = require('../graphql')
+import { ApolloServer, AuthenticationError } from 'apollo-server-express'
+import { typeDefs, resolvers } from '../graphql'
 
-function createApollo(database) {
+export function createApollo(database) {
 	return new ApolloServer({
 		typeDefs,
 		resolvers,
@@ -51,8 +51,4 @@ function createApollo(database) {
 			}
 		}
 	})
-}
-
-module.exports = {
-	createApollo
 }

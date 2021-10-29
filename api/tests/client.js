@@ -8,7 +8,7 @@ const { clearDatabaseSchema } = require('./testutil')
 
 const noop = () => {}
 
-const defaultConfig = Object.freeze({
+export const defaultConfig = Object.freeze({
 	sslEnabled: false,
 	sessionSecret: '12345678901234567890',
 	sessionMaxAgeMillis: 1000 * 60,
@@ -95,7 +95,7 @@ class Client {
 	}
 }
 
-const createClient = async (seedingProcedure = noop) => {
+export const createClient = async (seedingProcedure = noop) => {
 	await clearDatabaseSchema(sequelize)
 	const umzug = createUmzug(sequelize)
 	await umzug.up()
@@ -107,7 +107,3 @@ const createClient = async (seedingProcedure = noop) => {
 afterAll(async () => {
 	await sequelize.close()
 })
-
-module.exports = {
-	createClient, defaultConfig
-}

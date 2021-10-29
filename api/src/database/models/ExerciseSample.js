@@ -1,6 +1,7 @@
-const { DataTypes } = require('sequelize')
+import sq from 'sequelize'
+const { DataTypes } = sq
 
-module.exports = (sequelize) => {
+export default (sequelize) => {
 	const ExerciseSample = sequelize.define('exerciseSample', {
 		id: {
 			type: DataTypes.UUID,
