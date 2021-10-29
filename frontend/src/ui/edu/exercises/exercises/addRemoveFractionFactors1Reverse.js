@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { checks } from 'step-wise/inputTypes/Expression'
+
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import ExpressionInput, { basicMath, validWithVariables } from 'ui/form/inputs/ExpressionInput'
@@ -9,6 +11,9 @@ import { useCorrect } from '../ExerciseContainer'
 import SimpleExercise from '../types/SimpleExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
+import { originalExpression, correctExpression, incorrectExpression } from '../util/feedbackChecks'
+
+const { onlyOrderChanges } = checks
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -29,30 +34,16 @@ const Problem = (state) => {
 
 const Solution = (state) => {
 	const { expression, factor, ans } = useCorrect(state)
-
 	return <Par>We vermenigvuldigen de noemer boven en onder met de factor <M>{factor}.</M> Als we een breuk boven en onder met hetzelfde vermenigvuldigen blijft de breuk kloppen. Immers, we vermenigvuldigen eerst met <M>{factor}</M> en delen er daarna gelijk weer door. Het resultaat is <BM>{expression} = {ans}.</BM></Par>
 }
 
 function getFeedback(exerciseData) {
 	// Define extra checks.
-	const equalityOptions = exerciseData.shared.data.equalityOptions.default
-	const originalExpression = {
-		check: (input, { expression }) => expression.equals(input, equalityOptions),
-		text: <>Dit is de oorspronkelijke uitdrukking. Je hebt nog geen factoren toegevoegd.</>,
-	}
 	const oneVariableAdded = {
-		check: (input, { variables, expression }) => (expression.multiplyNumDenBy(variables.x).equals(input, equalityOptions) || expression.multiplyNumDenBy(variables.y).equals(input, equalityOptions)),
+		check: (correct, input, { variables, expression }) => onlyOrderChanges(expression.multiplyNumDenBy(variables.x), input) || onlyOrderChanges(expression.multiplyNumDenBy(variables.y), input),
 		text: <>Goed op weg, maar je hebt slechts één van de twee gevraagde factoren toegevoegd.</>,
-	}
-	const correctExpression = {
-		check: (input, { ans }) => ans.equals(input),
-		text: <>De uitdrukking klopt wel, maar het is niet wat gevraagd wordt.</>,
-	}
-	const remaining = {
-		check: () => true,
-		text: <>Deze uitdrukking is niet gelijk aan wat gegeven is. Je hebt bij het omschrijven iets gedaan dat niet mag.</>,
 	}
 
 	// Determine feedback.
-	return getInputFieldFeedback('ans', exerciseData, { checks: [originalExpression, oneVariableAdded, correctExpression, remaining], solved: exerciseData.progress.solved })
+	return getInputFieldFeedback('ans', exerciseData, { feedbackChecks: [originalExpression, oneVariableAdded, correctExpression, incorrectExpression] })
 }

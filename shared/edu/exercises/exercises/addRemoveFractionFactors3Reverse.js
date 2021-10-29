@@ -1,7 +1,8 @@
 const { getRandomInteger, getRandomBoolean } = require('../../../util/random')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+const { performCheck } = require('../util/check')
 
-const { Expression } = require('../../../inputTypes/Expression')
+const { Expression, checks } = require('../../../inputTypes/Expression')
 const Sum = require('../../../inputTypes/Expression/Sum')
 const Product = require('../../../inputTypes/Expression/Product')
 const Fraction = require('../../../inputTypes/Expression/functions/Fraction')
@@ -10,9 +11,7 @@ const Variable = require('../../../inputTypes/Expression/Variable')
 
 const data = {
 	skill: 'addRemoveFractionFactors',
-	equalityOptions: {
-		default: Expression.equalityLevels.equivalent,
-	},
+	check: (correct, input, { upper, sum }) => input.isType(Fraction) && checks.onlyOrderChanges(sum, input[upper ? 'denominator' : 'numerator']) && checks.equivalent(correct, input),
 	availableVariablesLower: ['a', 'b', 'c', 'x', 'y', 't'].map(Variable.ensureVariable),
 	availableVariablesUpper: ['P', 'R', 'I', 'U', 'L'].map(Variable.ensureVariable),
 	usedVariables: ['P', 'x', 'y'],
@@ -49,9 +48,7 @@ function getCorrect(state) {
 }
 
 function checkInput(state, input) {
-	const { upper, sum, ans } = getCorrect(state)
-	const part = upper ? 'denominator' : 'numerator'
-	return input.ans.isType(Fraction) && sum.equals(input.ans[part], Expression.equalityLevels.onlyOrderChanges) && ans.equals(input.ans)
+	return performCheck('ans', getCorrect(state), input, data.check)
 }
 
 module.exports = {

@@ -9,6 +9,7 @@ module.exports.Expression = Expression
 module.exports.bracketLevels = Expression.bracketLevels
 module.exports.simplifyOptions = Expression.simplifyOptions
 module.exports.equalityLevels = Expression.equalityLevels
+module.exports.checks = Expression.checks
 
 function getExpressionTypes() {
 	return {

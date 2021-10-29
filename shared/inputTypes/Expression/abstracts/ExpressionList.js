@@ -1,6 +1,7 @@
 // This is the abstract ExpressionList class. It should not be instantiated, but it is used for Sum, Product and such.
 
 const { processOptions, filterOptions } = require('../../../util/objects')
+const { hasSimpleMatching } = require('../../../util/arrays')
 const { union } = require('../../../util/sets')
 
 const Expression = require('./Expression')
@@ -75,7 +76,7 @@ class ExpressionList extends Parent {
 	applyToElement(indexArray, func) {
 		if (!Array.isArray(indexArray))
 			indexArray = [indexArray]
-		return new this.constructor(this.terms.map((term, index) => indexArray.includes(index)? func(term) : term))
+		return new this.constructor(this.terms.map((term, index) => indexArray.includes(index) ? func(term) : term))
 	}
 
 	// applyToElement takes a function and applies it to all elements in this ExpressionList.
@@ -83,12 +84,12 @@ class ExpressionList extends Parent {
 		return this.constructor(this.terms.map(term => func(term)))
 	}
 
-	recursiveSome(check) {
-		return check(this) || this.terms.some(term => term.recursiveSome(check))
+	recursiveSome(check, includeSelf) {
+		return super.recursiveSome(check, includeSelf) || this.terms.some(term => term.recursiveSome(check))
 	}
 
 	recursiveEvery(check) {
-		return check(this) && this.terms.every(term => term.recursiveEvery(check))
+		return super.recursiveEvery(check, includeSelf) && this.terms.every(term => term.recursiveEvery(check))
 	}
 
 	equalsBasic(expression, level) {
@@ -101,22 +102,12 @@ class ExpressionList extends Parent {
 			return false
 
 		// For exact equality, check that all arguments with matching indices are equal.
-		if (level === Expression.equalityLevels.exact) {
+		if (level === Expression.equalityLevels.exact)
 			return this.terms.every((term, index) => term.equalsBasic(expression.terms[index], level))
-		}
 
 		// When allowing order changes, check that every term has a matching term somewhere that is equal.
-		if (level === Expression.equalityLevels.onlyOrderChanges) {
-			// Try to match each term from this expression with a term from the other.
-			const matched = this.terms.map(_ => false)
-			return this.terms.every(term => { // For every term, find a matching partner.
-				const index = expression.terms.findIndex((otherTerm, index) => !matched[index] && term.equalsBasic(otherTerm, level)) // Is there a partner that has not been matched yet?
-				if (index === -1)
-					return false // No match found. Abort.
-				matched[index] = true // Remember that this term from the other expression has been matched.
-				return true // Match found. Continue.
-			})
-		}
+		if (level === Expression.equalityLevels.onlyOrderChanges)
+			return hasSimpleMatching(this.terms, expression.terms, (a, b) => a.equalsBasic(b, level))
 
 		// Should never happen.
 		throw new Error(`Unexpected expression equality level: did not expect the expression equality level "${level}". Cannot process this.`)

@@ -1,20 +1,21 @@
 const { getRandomInteger, getRandomBoolean } = require('../../../util/random')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { performCheck } = require('../util/check')
 
 // Testing code.
 const { Expression } = require('../../../inputTypes/Expression')
-const { Equation } = require('../../../inputTypes/Equation')
+const { checks } = require('../../../inputTypes/Equation')
 const { asExpression, asEquation } = require('../../../inputTypes/Expression/interpreter/fromString')
+
+const { onlyOrderChanges } = checks
 
 const data = {
 	skill: 'moveATerm',
 	steps: [null, null],
-	equalityOptions: {
-		default: {
-			expression: Expression.equalityLevels.onlyOrderChanges,
-			equation: Equation.equalityLevels.keepSides,
-		}
-	},
+	check: {
+		ans: onlyOrderChanges,
+		intermediate: onlyOrderChanges,
+	}
 }
 
 function generateState() {
@@ -50,11 +51,11 @@ function getCorrect(state) {
 }
 
 function checkInput(state, input, step) {
-	const { intermediate, ans } = getCorrect(state)
+	const correct = getCorrect(state)
 	if (step === 0 || step === 2)
-		return ans.equals(input.ans, data.equalityOptions.default)
+		return performCheck('ans', correct, input, data.check)
 	if (step === 1)
-		return intermediate.equals(input.intermediate, data.equalityOptions.default)
+		return performCheck('intermediate', correct, input, data.check)
 }
 
 module.exports = {

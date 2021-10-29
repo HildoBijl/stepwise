@@ -4,7 +4,6 @@ const { isObject, deepEquals, processOptions } = require('../util/objects')
 const { union } = require('../util/sets')
 
 const { Expression, getEmpty: getEmptyExpression, isEmpty: isExpressionEmpty } = require('./Expression')
-const { equationStrToIO } = require('./Expression/interpreter/fromString')
 
 const parts = ['left', 'right']
 
@@ -177,8 +176,10 @@ class Equation {
 			return equation
 
 		// If it's a string, we can interpret it.
-		if (typeof equation === 'string')
+		if (typeof equation === 'string') {
+			const { equationStrToIO } = require('./Expression/interpreter/fromString')
 			return equationStrToIO(equation)
+		}
 
 		// Check if it's an object that can then be interpreted.
 		if (!isObject(equation))
@@ -206,6 +207,20 @@ const defaultEqualityLevels = {
 }
 module.exports.defaultEqualityLevels = defaultEqualityLevels
 
+module.exports.checks = {
+	onlyOrderChanges: (correct, input) => correct.equals(input, {
+		expression: Expression.equalityLevels.onlyOrderChanges,
+		equation: Equation.equalityLevels.keepSides,
+	}),
+	onlyOrderChangesAndSwitch: (correct, input) => correct.equals(input, {
+		expression: Expression.equalityLevels.onlyOrderChanges,
+		equation: Equation.equalityLevels.allowSwitch,
+	}),
+	equivalent: (correct, input) => correct.equals(input, {
+		equation: Equation.equalityLevels.allowRewrite,
+	}),
+}
+
 // The following functions are obligatory functions.
 function isFOofType(equation) {
 	return isObject(equation) && equation.constructor === Equation
@@ -214,6 +229,7 @@ module.exports.isFOofType = isFOofType
 
 function FOtoIO(equation) {
 	equation = Equation.ensureEquation(equation)
+	const { equationStrToIO } = require('./Expression/interpreter/fromString')
 	return equationStrToIO(equation.str)
 }
 module.exports.FOtoIO = FOtoIO

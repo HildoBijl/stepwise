@@ -80,7 +80,10 @@ function ExpressionInputInner(props) {
 	const settingsRef = useRefWithValue(settings)
 	const keyboardSettings = useCallback((data) => dataToKeyboardSettings(data, settingsRef.current), [settingsRef])
 	const interpreterSettings = (settings.customFunctions ? { customFunctions: true } : {})
-	const initialData = getEmptyData(interpreterSettings)
+	const initialData = {
+		...getEmptyData(interpreterSettings),
+		...props.initialData,
+	}
 
 	// Get the charElements and use this to set up proper keyPressToData and mouseClickToCursor functions.
 	const { charElementsRef } = useMathWithCursorContext()

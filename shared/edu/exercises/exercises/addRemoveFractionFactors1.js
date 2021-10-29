@@ -1,16 +1,15 @@
 const { getRandomInteger } = require('../../../util/random')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+const { performCheck } = require('../util/check')
 
-const { Expression } = require('../../../inputTypes/Expression')
+const { Expression, checks } = require('../../../inputTypes/Expression')
 const Product = require('../../../inputTypes/Expression/Product')
 const Fraction = require('../../../inputTypes/Expression/functions/Fraction')
 const Variable = require('../../../inputTypes/Expression/Variable')
 
 const data = {
 	skill: 'addRemoveFractionFactors',
-	equalityOptions: {
-		default: Expression.equalityLevels.onlyOrderChanges,
-	},
+	check: checks.onlyOrderChanges,
 	availableVariables: ['a', 'b', 'c', 'x', 'y', 'P', 'R', 't', 'I', 'U', 'L'].map(Variable.ensureVariable),
 	usedVariables: ['a', 'b', 'x', 'y'],
 }
@@ -34,21 +33,16 @@ function getVariables(state) {
 	return result
 }
 
-function getExpression(state) {
-	const { a, b, x, y } = getVariables(state)
-	return new Fraction(new Product(a, x, y), new Product(y, b, x))
-}
-
 function getCorrect(state) {
 	const variables = getVariables(state)
-	const expression = getExpression(state)
+	const { a, b, x, y } = getVariables(state)
+	const expression = new Fraction(new Product(a, x, y), new Product(y, b, x))
 	const ans = expression.simplify(Expression.simplifyOptions.basicClean)
 	return { ...state, variables, expression, ans }
 }
 
 function checkInput(state, input) {
-	const { ans } = getCorrect(state)
-	return ans.equals(input.ans, data.equalityOptions.default)
+	return performCheck('ans', getCorrect(state), input, data.check)
 }
 
 module.exports = {
@@ -56,7 +50,6 @@ module.exports = {
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),
 	getVariables,
-	getExpression,
 	getCorrect,
 	checkInput,
 }

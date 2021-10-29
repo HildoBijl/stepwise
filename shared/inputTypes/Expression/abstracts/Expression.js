@@ -216,7 +216,7 @@ class Expression {
 
 		// Set up the term that remains within brackets.
 		const Fraction = require('../functions/Fraction')
-		const inner = (new Fraction(this, term)).simplify({ ...Expression.simplifyOptions.removeUseless, mergeNumbers: true, reduceFractionNumbers: true, cancelFractionTerms: true, splitFractions: true })
+		const inner = (new Fraction(this, term)).simplify({ ...Expression.simplifyOptions.removeUseless, mergeNumbers: true, reduceFractionNumbers: true, mergeFractionTerms: true, splitFractions: true })
 
 		// Set up the product that's the final result.
 		const Product = require('../Product')
@@ -296,13 +296,19 @@ class Expression {
 	}
 
 	// recursiveSome runs a function on this expression term and on all of its children. If it turns up as true anywhere, true is returned. Otherwise false is given.
-	recursiveSome(check) {
-		return check(this)
+	recursiveSome(check, includeSelf = true) {
+		return includeSelf && check(this)
 	}
 
 	// recursiveEvery runs a function on this expression term and on all of its children. If it turns up as false anywhere, false is returned. Otherwise true is given.
-	recursiveEvery(check) {
-		return check(this)
+	recursiveEvery(check, includeSelf = true) {
+		return !includeSelf || check(this)
+	}
+
+	// hasFractions checks if there are fractions inside this term. It does not check this term itself for being a fraction.
+	hasFractions() {
+		const Fraction = require('../functions/Fraction')
+		return this.recursiveSome(term => term.isType(Fraction), false)
 	}
 
 	// getDerivative returns the derivative. It includes checking the variable and simplifying the result, unlike getDerivativeBasic which doesn't check the input and only returns a derivative in any form.
@@ -497,4 +503,12 @@ Expression.equalityLevels = {
 	onlyOrderChanges: 1, // Order changes are OK, but the rest is not. So a*x+b equals b+x*a, but x+x does NOT equal 2*x.
 	equivalent: 2, // Any equivalent expression works. So sin(pi/6)*x would equal x/sqrt(4). Prior simplification is obviously not needed when using this option.
 	constantMultiple: 3, // A constant multiple is still considered equal. So (x+1) is equal to (2x+2) but not to (2x+1).
+}
+
+// Expression checks are functions that we can perform to check expressions. They are used to check for correctness and/or to provide feedback. All checks have the correct input first and the given input second.
+Expression.checks = {
+	exactEqual: (correct, input) => correct.equals(input, Expression.equalityLevels.exact),
+	onlyOrderChanges: (correct, input) => correct.equals(input, Expression.equalityLevels.onlyOrderChanges),
+	equivalent: (correct, input) => correct.equals(input, Expression.equalityLevels.equivalent),
+	constantMultiple: (correct, input) => correct.equals(input, Expression.equalityLevels.constantMultiple),
 }

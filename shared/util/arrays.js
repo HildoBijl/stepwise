@@ -48,7 +48,7 @@ module.exports.sum = sum
 
 // product gives the product of all array elements.
 function product(array) {
-	return array.reduce((product, v) => product*v, 1)
+	return array.reduce((product, v) => product * v, 1)
 }
 module.exports.product = product
 
@@ -209,3 +209,20 @@ function getIndexTrace(array, elementToFind) {
 	return result && result.value
 }
 module.exports.getIndexTrace = getIndexTrace
+
+// hasSimpleMatching checks if every element of one array can be matched with a term from the other array, where the given matching function decides if a matching is allowed. Only a simple matching is performed: we assume transitivity on the matching function. In other words, if A matches B and B matches C, then also A matches C.
+function hasSimpleMatching(arr1, arr2, matching) {
+	if (arr1.length !== arr2.length)
+		return false
+	const matched = arr1.map(() => false)
+	return arr1.every(element => { // For every element, find a matching partner.
+		const index = arr2.findIndex((otherElement, index) => {
+			return !matched[index] && matching(element, otherElement)
+		}) // Is there a partner that has not been matched yet?
+		if (index === -1)
+			return false // No match found. Abort.
+		matched[index] = true // Remember that this element from the second array has been matched.
+		return true // Match found. Continue.
+	})
+}
+module.exports.hasSimpleMatching = hasSimpleMatching

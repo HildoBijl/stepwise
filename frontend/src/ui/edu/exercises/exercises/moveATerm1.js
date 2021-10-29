@@ -1,6 +1,7 @@
 import React from 'react'
 
-import { simplifyOptions, equalityLevels } from 'step-wise/inputTypes/Expression'
+import { simplifyOptions } from 'step-wise/inputTypes/Expression'
+import { checks } from 'step-wise/inputTypes/Equation'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
@@ -12,6 +13,9 @@ import { useExerciseData, useCorrect } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
+import { originalEquation, correctEquation, incorrectEquation } from '../util/feedbackChecks'
+
+const { onlyOrderChanges } = checks
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -63,32 +67,18 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Define extra checks.
-	const equalityOptions = exerciseData.shared.data.equalityOptions.default
-	const originalExpression = {
-		check: (input, { equation }) => equation.equals(input, equalityOptions),
-		text: <>Dit is de oorspronkelijke vergelijking. Je hebt hier nog niets mee gedaan.</>,
-	}
 	const atIntermediateStep = {
-		check: (input, { intermediate }) => intermediate.equals(input, equalityOptions),
-		text: (input, { a }) => <>Je hebt de juiste term {a > 0 ? 'van beide kanten afgehaald' : 'bij beide kanten opgeteld'}, maar vervolgens moet je nog wat wegstrepen.</>
+		check: (correct, input, { intermediate }) => onlyOrderChanges(intermediate, input),
+		text: (correct, input, { a }) => <>Je hebt de juiste term {a > 0 ? 'van beide kanten afgehaald' : 'bij beide kanten opgeteld'}, maar vervolgens moet je nog wat wegstrepen.</>
 	}
-	const incorrectSign = {
-		check: (input, { equation, term, switchLeftRight }) => {
+	const wrongSignUsed = {
+		check: (correct, input, { equation, term, switchLeftRight }) => {
 			const addTerm = part => part.add(term).simplify(simplifyOptions.basicClean)
 			const subtractTerm = part => part.subtract(term).simplify(simplifyOptions.basicClean)
 			const falseSolution = equation.applyToLeft(switchLeftRight ? addTerm : subtractTerm).applyToRight(switchLeftRight ? subtractTerm : addTerm)
-			return falseSolution.equals(input, equalityOptions)
+			return onlyOrderChanges(falseSolution, input)
 		},
-		text: (input, { a }) => <>Als de term aan de ene kant {a > 0 ? 'positief' : 'negatief'} is, dan moet hij aan de andere kant {a > 0 ? 'negatief' : 'positief'} worden.</>,
-	}
-	const correctEquation = {
-		check: (input, { ans }) => ans.left.subtract(ans.right).equals(input.left.subtract(input.right), equalityLevels.equivalent),
-		// check: (input, { ans }) => ans.equals(input), // ToDo: put this back once equality checks are in full working order.
-		text: <>De vergelijking klopt wel, maar je hebt niet gedaan wat gevraagd werd.</>,
-	}
-	const remaining = {
-		check: () => true,
-		text: <>Deze vergelijking klopt niet. Je hebt bij het omschrijven iets gedaan dat niet mag.</>,
+		text: (correct, input, { a }) => <>Als de term aan de ene kant {a > 0 ? 'positief' : 'negatief'} is, dan moet hij aan de andere kant {a > 0 ? 'negatief' : 'positief'} worden.</>,
 	}
 
 	// Determine feedback.
@@ -96,7 +86,7 @@ function getFeedback(exerciseData) {
 		'intermediate',
 		'ans'
 	], exerciseData, [
-		{ checks: [originalExpression, correctEquation, remaining] },
-		{ checks: [originalExpression, atIntermediateStep, incorrectSign, correctEquation, remaining] },
+		{ feedbackChecks: [originalEquation, correctEquation, incorrectEquation] },
+		{ feedbackChecks: [originalEquation, atIntermediateStep, wrongSignUsed, correctEquation, incorrectEquation] },
 	])
 }

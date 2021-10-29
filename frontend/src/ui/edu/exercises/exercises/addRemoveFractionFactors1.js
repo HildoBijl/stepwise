@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { checks } from 'step-wise/inputTypes/Expression'
+
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import ExpressionInput, { basicMath, validWithVariables } from 'ui/form/inputs/ExpressionInput'
@@ -9,6 +11,9 @@ import { useCorrect } from '../ExerciseContainer'
 import SimpleExercise from '../types/SimpleExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
+import { originalExpression, correctExpression, incorrectExpression } from '../util/feedbackChecks'
+
+const { onlyOrderChanges } = checks
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -16,7 +21,6 @@ export default function Exercise() {
 
 const Problem = (state) => {
 	const { variables, expression } = useCorrect(state)
-
 	return <>
 		<Par>Gegeven is de breuk <BM>{expression}.</BM> Simplificeer deze breuk zo veel mogelijk door gemeenschappelijke factoren in de teller/noemer weg te strepen.</Par>
 		<InputSpace>
@@ -29,30 +33,16 @@ const Problem = (state) => {
 
 const Solution = (state) => {
 	const { variables, expression, ans } = useCorrect(state)
-
 	return <Par>Zowel de teller als de noemer bevat een factor <M>{variables.x}.</M> Deze kan dus boven en onder weggelaten worden. Hetzelfde geldt voor de factor <M>{variables.y}</M>: die kan ook weggestreept worden. Er geldt dus <BM>{expression} = {ans}.</BM></Par>
 }
 
 function getFeedback(exerciseData) {
 	// Define extra checks.
-	const equalityOptions = exerciseData.shared.data.equalityOptions.default
-	const originalExpression = {
-		check: (input, { expression }) => expression.equals(input, equalityOptions),
-		text: <>Dit is de oorspronkelijke uitdrukking. Je hebt nog geen termen weggestreept.</>,
-	}
 	const oneVariableCancelled = {
-		check: (input, { variables, ans }) => (ans.multiplyNumDenBy(variables.x).equals(input, equalityOptions) || ans.multiplyNumDenBy(variables.y).equals(input, equalityOptions)),
+		check: (correct, input, { variables, ans }) => onlyOrderChanges(ans.multiplyNumDenBy(variables.x), input) || onlyOrderChanges(ans.multiplyNumDenBy(variables.y), input),
 		text: <>Goed op weg, maar er is nòg een variabele die je weg kunt strepen.</>,
-	}
-	const correctExpression = {
-		check: (input, { ans }) => ans.equals(input),
-		text: <>De uitdrukking klopt wel, maar je moet hem nog verder simplificeren.</>,
-	}
-	const remaining = {
-		check: () => true,
-		text: <>Deze uitdrukking is niet gelijk aan wat gegeven is. Je hebt bij het omschrijven iets gedaan dat niet mag.</>,
 	}
 
 	// Determine feedback.
-	return getInputFieldFeedback('ans', exerciseData, { checks: [originalExpression, oneVariableCancelled, correctExpression, remaining], solved: exerciseData.progress.solved })
+	return getInputFieldFeedback('ans', exerciseData, { feedbackChecks: [originalExpression, oneVariableCancelled, correctExpression, incorrectExpression] })
 }

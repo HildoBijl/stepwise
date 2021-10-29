@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Expression from 'step-wise/inputTypes/Expression'
+import { checks } from 'step-wise/inputTypes/Expression'
 import Fraction from 'step-wise/inputTypes/Expression/functions/Fraction'
 
 import { M, BM } from 'ui/components/equations'
@@ -12,6 +12,9 @@ import { useCorrect } from '../ExerciseContainer'
 import SimpleExercise from '../types/SimpleExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
+import { noFraction, incorrectExpression } from '../util/feedbackChecks'
+
+const { onlyOrderChanges } = checks
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -19,7 +22,6 @@ export default function Exercise() {
 
 const Problem = (state) => {
 	const { upper, variables, expression, sum } = useCorrect(state)
-
 	return <>
 		<Par>Gegeven is de {upper ? 'term' : 'breuk'} <BM>{expression}.</BM> Herschrijf deze term tot een enkele breuk met {upper ? 'noemer' : 'teller'} gelijk aan <M>{sum}</M>.</Par>
 		<InputSpace>
@@ -32,7 +34,6 @@ const Problem = (state) => {
 
 const Solution = (state) => {
 	const { upper, sum, expression, ans } = useCorrect(state)
-
 	if (upper)
 		return <Par>We vermenigvuldigen en delen de factor <M>{expression}</M> met <M>{sum}</M>. Immers, als we <M>{expression}</M> met iets vermenigvuldigen en vervolgens er weer door delen, dan houdt de uitdrukking dezelfde waarde. Als we de haakjes bij de vermenigvuldiging (zeer cruciaal) niet vergeten, dan krijgen we <BM>{expression} = {ans}.</BM></Par>
 	return <Par>We vermenigvuldigen zowel de teller als de noemer van de breuk <M>{expression}</M> met <M>{sum}</M>. Immers, als we zowel met <M>{expression}</M> vermenigvuldigen als erdoor delen, dan heeft het geen invloed op de waarde van onze breuk. Als we ook nog de haakjes in de noemer (zeer cruciaal) niet vergeten, dan krijgen we <BM>{expression} = {ans}.</BM></Par>
@@ -41,22 +42,14 @@ const Solution = (state) => {
 function getFeedback(exerciseData) {
 	// Define extra checks.
 	const originalExpression = {
-		check: (input, { expression }) => expression.equals(input, Expression.equalityLevels.onlyOrderChanges),
-		text: (input, { upper }) => <>Dit is de oorspronkelijke uitdrukking. Je hebt er nog geen breuk van gemaakt met de gevraagde {upper ? 'teller' : 'noemer'}.</>,
+		check: (correct, input, { expression }) => onlyOrderChanges(expression, input),
+		text: (correct, input, { upper }) => <>Dit is de oorspronkelijke uitdrukking. Je hebt er nog geen breuk van gemaakt met de gevraagde {upper ? 'noemer' : 'teller'}.</>,
 	}
-	const isFraction = {
-		check: (input) => !input.isType(Fraction),
-		text: <>Je antwoord is geen breuk, zoals gevraagd.</>
-	}
-	const hasRightPart = {
-		check: (input, { upper, sum }) => input.isType(Fraction) && !sum.equals(input[upper ? 'denominator' : 'numerator'], Expression.equalityLevels.onlyOrderChanges),
-		text: (input, { upper, sum }) => <>Je antwoord heeft niet <M>{sum}</M> in de {upper ? 'noemer' : 'teller'}.</>,
-	}
-	const remaining = {
-		check: () => true,
-		text: <>Deze uitdrukking is niet gelijk aan wat gegeven is. Je hebt bij het omschrijven iets gedaan dat niet mag.</>,
+	const wrongPart = {
+		check: (correct, input, { upper, sum }) => input.isType(Fraction) && !onlyOrderChanges(sum, input[upper ? 'denominator' : 'numerator']),
+		text: (correct, input, { upper, sum }) => <>Je antwoord heeft niet <M>{sum}</M> in de {upper ? 'noemer' : 'teller'}.</>,
 	}
 
 	// Determine feedback.
-	return getInputFieldFeedback('ans', exerciseData, { checks: [originalExpression, isFraction, hasRightPart, remaining], solved: exerciseData.progress.solved })
+	return getInputFieldFeedback('ans', exerciseData, { feedbackChecks: [originalExpression, noFraction, wrongPart, incorrectExpression], solved: exerciseData.progress.solved })
 }
