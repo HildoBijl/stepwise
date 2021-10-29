@@ -1,6 +1,25 @@
 import { applyToEachParameter, isObject, deepEquals } from '../util/objects'
+import * as String from './String'
+import * as Boolean from './Boolean'
+import * as Integer from './Integer'
+import * as Float from './Float'
+import * as Unit from './Unit'
+import * as FloatUnit from './FloatUnit'
+import * as MultipleChoice from './MultipleChoice'
+import * as Expression from './Expression'
+import * as Equation from './Equation'
 
-const types = ['String', 'Boolean', 'Integer', 'Float', 'Unit', 'FloatUnit', 'MultipleChoice', 'Expression' ,'Equation']
+const types = {
+	'String': String,
+	'Boolean': Boolean,
+	'Integer': Integer,
+	'Float': Float,
+	'Unit': Unit,
+	'FloatUnit': FloatUnit,
+	'MultipleChoice': MultipleChoice,
+	'Expression': Expression,
+	'Equation': Equation,
+}
 
 // setFOtoIO takes an object { m: ..., g: ... } with multiple parameters in functional format and applies FOtoIO to each parameter of it.
 export function setFOtoIO(obj) {
@@ -14,14 +33,14 @@ export function FOtoIO(param) {
 		return null
 
 	// Find out what type of object we have.
-	const type = types.find(type => require(`./${type}`).isFOofType(param))
+	const type = Object.keys(types).find(t => t.isFOofType(param))
 	if (!type)
 		return param // No type found. Keep the parameter as is.
 
 	// Transform the object accordingly.
 	return {
 		type,
-		value: require(`./${type}`).FOtoIO(param),
+		value: type.FOtoIO(param),
 	}
 }
 
@@ -43,7 +62,7 @@ export function IOtoFO(obj) {
 		throw new Error(`Invalid object type "${obj.type}" detected when transforming to input object. No transforming function is known for this type.`)
 
 	// Transform accordingly.
-	return require(`./${obj.type}`).IOtoFO(obj.value)
+	return types[obj.type].IOtoFO(obj.value)
 }
 
 // isEmpty checks if an input object representation like { type: "Integer", value: "" } is empty or not.
@@ -69,7 +88,7 @@ export function isEmpty(obj) {
 		throw new Error(`Unknown object type: cannot figure out object of type "${obj.type}". The object's value itself was "${JSON.stringify(obj)}".`)
 
 	// Pass along according to the type.
-	return require(`./${obj.type}`).isEmpty(obj.value)
+	return types[obj.type].isEmpty(obj.value)
 }
 
 // equals checks if two input object representations like { type: "Integer", value: "-42" } are equal. If they are other types of objects, a deep comparison is executed.
@@ -85,7 +104,7 @@ export function equals(a, b) {
 		return false
 
 	// Pass along the call to the respective type.
-	return require(`./${a.type}`).equals(a.value, b.value)
+	return types[a.type].equals(a.value, b.value)
 }
 
 // inputSetsEqual checks if two input sets are equal. For instance, the set { x: { type: "Integer", value: "-42" }, y: { type: "Integer", value: "12" } }. It does this by calling the equals function for each parameter.

@@ -1,7 +1,8 @@
 import { getRandom } from '../../../util/random'
 import { getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
 import { getStepExerciseProcessor } from '../util/stepExercise'
-let { helium: { k } } = require('../../../data/gasProperties')
+import * as gasProperties from '../../../data/gasProperties'
+const { helium: { k } } = gasProperties
 import { combinerAnd } from '../../../skillTracking'
 import { checkParameter } from '../util/check'
 

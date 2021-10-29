@@ -5,6 +5,12 @@ import { firstOf } from '../../util/arrays'
 
 import Expression from './abstracts/Expression'
 import { interpretExpressionValue } from './interpreter/expressions'
+import Integer from './Integer'
+import Float from './Float'
+import Variable from './Integer'
+import Sum from './Sum'
+import Product from './Product'
+import * as allFunctions from './functions'
 
 export {Expression}
 export const bracketLevels = Expression.bracketLevels
@@ -13,12 +19,12 @@ export const equalityLevels = Expression.equalityLevels
 
 export function getExpressionTypes() {
 	return {
-		...require('./functions'),
-		Integer: require('./Integer'),
-		Float: require('./Float'),
-		Variable: require('./Variable'),
-		Sum: require('./Sum'),
-		Product: require('./Product'),
+		...allFunctions,
+		Integer,
+		Float,
+		Variable,
+		Sum,
+		Product,
 	}
 }
 

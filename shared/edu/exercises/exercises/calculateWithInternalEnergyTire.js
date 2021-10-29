@@ -1,7 +1,8 @@
 import { getRandom } from '../../../util/random'
 import { getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
 import { getStepExerciseProcessor } from '../util/stepExercise'
-let { air: { Rs, cv } } = require('../../../data/gasProperties')
+import * as gasProperties from '../../../data/gasProperties'
+const { air: { Rs, cv } } = gasProperties
 import { combinerAnd } from '../../../skillTracking'
 import { checkParameter } from '../util/check'
 

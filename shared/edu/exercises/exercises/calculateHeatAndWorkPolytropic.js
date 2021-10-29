@@ -4,7 +4,8 @@ import { getStepExerciseProcessor } from '../util/stepExercise'
 import { combinerAnd, combinerOr } from '../../../skillTracking'
 import { checkParameter } from '../util/check'
 import { getRandom } from '../../../util/random'
-let { air: { Rs, cv } } = require('../../../data/gasProperties')
+import * as gasProperties from '../../../data/gasProperties'
+const { air: { Rs, cv } } = gasProperties
 
 export const data = {
 	skill: 'calculateHeatAndWork',
