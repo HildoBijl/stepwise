@@ -6,7 +6,7 @@ version: '3'
 services:
   frontend:
     # $ docker-compose -f dev.yml run --service-ports --rm frontend
-    image: node:12.16.2-buster
+    image: node:16.13.0-buster
     container_name: frontend
     ports: ["3000:3000"]
     working_dir: /app/frontend
@@ -17,7 +17,7 @@ services:
       - .:/app
   api:
     # $ docker-compose -f dev.yml run --service-ports --rm api
-    image: node:12.16.2-buster
+    image: node:16.13.0-buster
     depends_on: [database]
     container_name: api
     ports: ["4000:4000", "9229:9229"]
