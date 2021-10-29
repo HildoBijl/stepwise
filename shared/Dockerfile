@@ -1,4 +1,4 @@
-FROM node:12.16.3-alpine
+FROM node:16.13.0-alpine
 WORKDIR /app
 COPY . .
 RUN npm ci --quiet
