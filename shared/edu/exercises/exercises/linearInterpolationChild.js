@@ -1,11 +1,11 @@
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerRepeat } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
-const { getRandomInteger } = require('../../../inputTypes/Integer')
-const { getRandomFloat } = require('../../../inputTypes/Float')
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
+import { getStepExerciseProcessor } from '../util/stepExercise'
+import { combinerRepeat } from '../../../skillTracking'
+import { checkParameter } from '../util/check'
+import { getRandomInteger } from '../../../inputTypes/Integer'
+import { getRandomFloat } from '../../../inputTypes/Float'
+import { getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
 
-const data = {
+export const data = {
 	skill: 'linearInterpolation',
 	setup: combinerRepeat('solveLinearEquation', 2),
 	steps: ['solveLinearEquation', 'solveLinearEquation'],
@@ -22,7 +22,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	const type = getRandomInteger(1, 2) // 1 means give year, find population. 2 means give population, find year.
 	const h1 = getRandomFloatUnit({
 		min: 80,
@@ -59,7 +59,7 @@ function generateState() {
 	}
 }
 
-function getCorrect({ type, h1, h2, W1, W2, h, W }) {
+export function getCorrect({ type, h1, h2, W1, W2, h, W }) {
 	let x
 	if (type === 1) {
 		x = h.subtract(h1).divide(h2.subtract(h1)).setUnit('')
@@ -71,7 +71,7 @@ function getCorrect({ type, h1, h2, W1, W2, h, W }) {
 	return { type, h1, h2, W1, W2, x, h, W }
 }
 
-function checkInput(state, input, step, substep) {
+export function checkInput(state, input, step, substep) {
 	const correct = getCorrect(state)
 	switch (step) {
 		case 1:
@@ -81,10 +81,4 @@ function checkInput(state, input, step, substep) {
 	}
 }
 
-module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getCorrect,
-}
+export const processAction = getStepExerciseProcessor(checkInput, data)

@@ -1,9 +1,9 @@
-const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
+import { FloatUnit, getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
+import { getStepExerciseProcessor } from '../util/stepExercise'
+import { combinerAnd } from '../../../skillTracking'
+import { checkParameter } from '../util/check'
 
-const data = {
+export const data = {
 	skill: 'calculateWithEnthalpy',
 	setup: combinerAnd('massFlowTrick', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation'),
 	steps: ['massFlowTrick', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation'],
@@ -16,7 +16,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	const mdot = getRandomFloatUnit({
 		min: 10,
 		max: 50,
@@ -33,7 +33,7 @@ function generateState() {
 	return { P, mdot }
 }
 
-function getCorrect({ P, mdot }) {
+export function getCorrect({ P, mdot }) {
 	P = P.simplify()
 	const wt = P.divide(mdot).setUnit('kJ/kg')
 	const q = new FloatUnit('0 kJ/kg')
@@ -41,7 +41,7 @@ function getCorrect({ P, mdot }) {
 	return { P, mdot, q, wt, dh }
 }
 
-function checkInput(state, input, step, substep) {
+export function checkInput(state, input, step, substep) {
 	const correct = getCorrect(state)
 	switch (step) {
 		case 1:
@@ -53,10 +53,4 @@ function checkInput(state, input, step, substep) {
 	}
 }
 
-module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getCorrect,
-}
+export const processAction = getStepExerciseProcessor(checkInput, data)

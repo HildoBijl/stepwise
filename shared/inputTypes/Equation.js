@@ -1,13 +1,14 @@
 // An Equation is an input type containing two expressions with an equals sign in-between.
 
-const { isObject, deepEquals, processOptions } = require('../util/objects')
-const { union } = require('../util/sets')
-
-const { Expression, getEmpty: getEmptyExpression, isEmpty: isExpressionEmpty } = require('./Expression')
+import { isObject, deepEquals, processOptions } from '../util/objects'
+import { union } from '../util/sets'
+import { interpretEquationValue } from './Expression/interpreter/equations'
+import { Expression, getEmpty as getEmptyExpression, isEmpty as isExpressionEmpty } from './Expression'
+import Variable from './Expression/Variable'
 
 const parts = ['left', 'right']
 
-class Equation {
+export class Equation {
 	constructor(SO = {}) {
 		// ToDo later: properly interpret equation strings too.
 
@@ -24,7 +25,7 @@ class Equation {
 		})
 	}
 
-	// SO returns a storage object version of this object. 
+	// SO returns a storage object version of this object.
 	get SO() {
 		const result = {}
 		parts.forEach(part => {
@@ -111,7 +112,6 @@ class Equation {
 
 	// getVariables returns all the variables that are present in this equation, in sorted order.
 	getVariables() {
-		const Variable = require('./Expression/Variable')
 		const variableStrings = union(this.left.getVariableStrings(), this.right.getVariableStrings())
 		return Variable.sortVariableStrings(variableStrings)
 	}
@@ -183,53 +183,44 @@ class Equation {
 		return new Equation(equation)
 	}
 }
-module.exports.Equation = Equation
 
 // ToDo: figure out which extra simplify options we still need, on top of the Expression ones. Merge them in some way.
 
 Equation.equalityLevels = {
 	default: 2,
-	keepSides: 0, // This means that on an equality check the sides may not change. So the equation "a = b" is NOT equal to the equation "b = a". 
+	keepSides: 0, // This means that on an equality check the sides may not change. So the equation "a = b" is NOT equal to the equation "b = a".
 	allowSwitch: 1, // This means that sides may switch, but no rewrites are allowed. So "a + b = c" is equal to "c = a + b", but NOT equal to "c - b = a". (Note: whether "a + b = c" is equal to "b + a = c" or "c = b + a" depends on the expression level.)
 	allowRewrite: 2, // This allows all possible rewrites. So the equation "x = y" and the equation "2x - 2y = 0" are equal. Note that in this case the expression equality level is ignored.
 }
-module.exports.equalityLevels = Equation.equalityLevels
+export const equalityLevels = Equation.equalityLevels
 
-const defaultEqualityLevels = {
+export const defaultEqualityLevels = {
 	expression: Expression.equalityLevels.default,
 	equation: Equation.equalityLevels.default,
 }
-module.exports.defaultEqualityLevels = defaultEqualityLevels
 
 // The following functions are obligatory functions.
-function isFOofType(equation) {
+export function isFOofType(equation) {
 	return isObject(equation) && equation.constructor === Equation
 }
-module.exports.isFOofType = isFOofType
 
-function FOtoIO(equation) {
+export function FOtoIO(equation) {
 	// Assemble the input object.
 	return getEmpty() // TODO
 }
-module.exports.FOtoIO = FOtoIO
 
-function IOtoFO(equation) {
-	const { interpretEquationValue } = require('./Expression/interpreter/equations')
+export function IOtoFO(equation) {
 	return interpretEquationValue(equation)
 }
-module.exports.IOtoFO = IOtoFO
 
-function getEmpty() {
+export function getEmpty() {
 	return getEmptyExpression()
 }
-module.exports.getEmpty = getEmpty
 
-function isEmpty(equation) {
+export function isEmpty(equation) {
 	return isExpressionEmpty(equation)
 }
-module.exports.isEmpty = isEmpty
 
-function equals(a, b) {
+export function equals(a, b) {
 	return deepEquals(a, b)
 }
-module.exports.equals = equals

@@ -1,10 +1,10 @@
-const { getRandomFloatUnit } = require('../../../../inputTypes/FloatUnit')
-const { withPressure, enthalpy, entropy } = require('../../../../data/steamProperties')
-const { numberArray } = require('../../../../util/arrays')
-const { selectRandomly, getRandomInteger } = require('../../../../util/random')
-const { tableInterpolate } = require('../../../../util/interpolation')
+import { getRandomFloatUnit } from '../../../../inputTypes/FloatUnit'
+import { withPressure, enthalpy, entropy } from '../../../../data/steamProperties'
+import { numberArray } from '../../../../util/arrays'
+import { selectRandomly, getRandomInteger } from '../../../../util/random'
+import { tableInterpolate } from '../../../../util/interpolation'
 
-function getCycle() {
+export function getCycle() {
 	// Pressure in the condensor and evaporator.
 	const pressureRangeTable1 = withPressure.boilingTemperature.headers[0]
 	const condenserIndex = getRandomInteger(3, 8) // Index in the pressure tables.
@@ -72,7 +72,6 @@ function getCycle() {
 	// Gather all data and return it.
 	return { pc, Tc, pe, Te, hx0, hx1, sx0, sx1, h1, s1, p1, T1, h2, s2, p2, T2, x3p, h3p, s3p, x3, h3, s3, p3, T3, h4, s4, p4, T4, etai, mdot, P, Ph, eta }
 }
-module.exports.getCycle = getCycle
 
 function getCycleProperties(condenserIndex, evaporatorIndex, temperatureIndex, x3) {
 	// Find liquid and vapor points.
@@ -84,7 +83,7 @@ function getCycleProperties(condenserIndex, evaporatorIndex, temperatureIndex, x
 	// Find properties of point 2.
 	const h2 = enthalpy.grid[temperatureIndex][evaporatorIndex]
 	const s2 = entropy.grid[temperatureIndex][evaporatorIndex]
-	
+
 	// Find properties of point 3p.
 	const s3p = s2
 	const x3p = s3p.subtract(sx0).divide(sx1.subtract(sx0)).setUnit('')

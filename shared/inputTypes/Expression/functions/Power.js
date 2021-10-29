@@ -1,16 +1,16 @@
-const { processOptions } = require('../../../util/objects')
+import { processOptions } from '../../../util/objects'
 
-const Expression = require('../abstracts/Expression')
-const Parent = require('../abstracts/FunctionMultiArgument')
-const Constant = require('../abstracts/Constant')
-const Integer = require('../Integer')
-const Sum = require('../Sum')
-const Product = require('../Product')
-const Ln = require('./Ln')
+import Expression from '../abstracts/Expression'
+import Parent from '../abstracts/FunctionMultiArgument'
+import Constant from '../abstracts/Constant'
+import Integer from '../Integer'
+import Sum from '../Sum'
+import Product from '../Product'
+import Ln from './Ln'
 
 const args = ['base', 'exponent']
 
-class Power extends Parent {
+export default class Power extends Parent {
 	toNumber() {
 		return Math.pow(this.base.toNumber(), this.exponent.toNumber())
 	}
@@ -122,7 +122,7 @@ class Power extends Parent {
 	// 		return new Product(terms, result.factor)
 	// 	}
 
-	// 	// All done! Return the result 
+	// 	// All done! Return the result
 	// 	return result
 	// }
 
@@ -164,4 +164,3 @@ class Power extends Parent {
 Power.defaultSO = Parent.getDefaultSO(args)
 Power.args = args
 Power.type = 'Power'
-module.exports = Power

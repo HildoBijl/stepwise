@@ -1,14 +1,14 @@
-const { getRandomInteger } = require('../../../inputTypes/Integer')
-const { getRandomExponentialFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { Unit } = require('../../../inputTypes/Unit')
-const { selectRandomly } = require('../../../util/random')
-const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+import { getRandomInteger } from '../../../inputTypes/Integer'
+import { getRandomExponentialFloatUnit } from '../../../inputTypes/FloatUnit'
+import { Unit } from '../../../inputTypes/Unit'
+import { selectRandomly } from '../../../util/random'
+import { getSimpleExerciseProcessor } from '../util/simpleExercise'
 
 // Type 0: from (mu/m/./M)g to kg.
 // Type 1: from (mu/m/./M)g to SI (so kg: which it may already be in).
 // Type 2: from kg to (mu/m/./M)g.
 
-const data = {
+export const data = {
 	skill: 'calculateWithMass',
 	equalityOptions: {
 		relativeMargin: 0.001,
@@ -17,7 +17,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	const type = getRandomInteger(0, 2)
 	const prefix = selectRandomly(['mu', 'm', '', 'M'])
 
@@ -34,15 +34,15 @@ function generateState() {
 	return { m, type, prefix }
 }
 
-function getCorrect({ m, type, prefix }) {
+export function getCorrect({ m, type, prefix }) {
 	return (type === 2 ? m.setUnit(`${prefix}g`) : m.setUnit('kg'))
 }
 
-function checkInput(state, { ans }) {
+export function checkInput(state, { ans }) {
 	return getCorrect(state).equals(ans, data.equalityOptions)
 }
 
-module.exports = {
+export default {
 	data,
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),

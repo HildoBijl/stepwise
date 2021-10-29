@@ -1,11 +1,11 @@
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { combinerAnd } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
-const { generateState: generateStateRaw, getCorrect: getCycleParameters } = require('./calculateOpenCycleTsp')
-const { getCorrect: getEnergyParameters } = require('./createOpenCycleEnergyOverviewTsp')
+import { getStepExerciseProcessor } from '../util/stepExercise'
+import { getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
+import { combinerAnd } from '../../../skillTracking'
+import { checkParameter } from '../util/check'
+import { generateState as generateStateRaw, getCorrect as getCycleParameters } from './calculateOpenCycleTsp'
+import { getCorrect as getEnergyParameters } from './createOpenCycleEnergyOverviewTsp'
 
-const data = {
+export const data = {
 	skill: 'analyseOpenCycle',
 	setup: combinerAnd('calculateOpenCycle', 'createOpenCycleEnergyOverview', 'calculateWithCOP', 'massFlowTrick'),
 	steps: ['calculateOpenCycle', 'createOpenCycleEnergyOverview', ['calculateWithCOP', 'massFlowTrick']],
@@ -24,7 +24,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	return {
 		...generateStateRaw(),
 		mdot: getRandomFloatUnit({
@@ -35,7 +35,7 @@ function generateState() {
 		}),
 	}
 }
-function getCorrect(state) {
+export function getCorrect(state) {
 	const mdot = state.mdot.simplify()
 	const { Rs, k, p1, v1, T1, p2, v2, T2, p3, v3, T3 } = getCycleParameters(state)
 	const { cv, cp, q12, wt12, q23, wt23, q31, wt31, qn, wn } = getEnergyParameters(state)
@@ -47,7 +47,7 @@ function getCorrect(state) {
 	return { Rs, k, cv, cp, mdot, p1, v1, T1, p2, v2, T2, p3, v3, T3, q12, wt12, q23, wt23, q31, wt31, qn, wn, qin, epsilon, COP, Pc }
 }
 
-function checkInput(state, input, step, substep) {
+export function checkInput(state, input, step, substep) {
 	const correct = getCorrect(state)
 	switch (step) {
 		case 1:
@@ -66,7 +66,7 @@ function checkInput(state, input, step, substep) {
 	}
 }
 
-module.exports = {
+export default {
 	data,
 	generateState,
 	processAction: getStepExerciseProcessor(checkInput, data),

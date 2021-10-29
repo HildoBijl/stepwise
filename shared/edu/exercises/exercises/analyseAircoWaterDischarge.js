@@ -1,11 +1,11 @@
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerRepeat } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
-const { tableInterpolate, inverseTableInterpolate } = require('../../../util/interpolation')
-const { getCycle } = require('./support/aircoCycle')
-const { maximumHumidity } = require('../../../data/moistureProperties')
+import { getStepExerciseProcessor } from '../util/stepExercise'
+import { combinerRepeat } from '../../../skillTracking'
+import { checkParameter } from '../util/check'
+import { tableInterpolate, inverseTableInterpolate } from '../../../util/interpolation'
+import { getCycle } from './support/aircoCycle'
+import { maximumHumidity } from '../../../data/moistureProperties'
 
-const data = {
+export const data = {
 	skill: 'analyseAirco',
 	setup: combinerRepeat('readMollierDiagram', 3),
 	steps: ['readMollierDiagram', 'readMollierDiagram', 'readMollierDiagram', null],
@@ -22,7 +22,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	let { T1, startRH, T4, endRH } = getCycle()
 	T1 = T1.setDecimals(0).roundToPrecision().setDecimals(0)
 	T4 = T4.setDecimals(0).roundToPrecision().setDecimals(0)
@@ -31,7 +31,7 @@ function generateState() {
 	return { T1, startRH, T4, endRH }
 }
 
-function getCorrect({ T1, startRH, T4, endRH }) {
+export function getCorrect({ T1, startRH, T4, endRH }) {
 	// Relative humidity.
 	startRH = startRH.simplify()
 	endRH = endRH.simplify()
@@ -52,7 +52,7 @@ function getCorrect({ T1, startRH, T4, endRH }) {
 	return { T1, T2, T3, T4, startRH, startAH, startAHmax, endRH, endAH, endAHmax, dAH }
 }
 
-function checkInput(state, input, step, substep) {
+export function checkInput(state, input, step, substep) {
 	const correct = getCorrect(state)
 	switch (step) {
 		case 1:
@@ -68,10 +68,4 @@ function checkInput(state, input, step, substep) {
 	}
 }
 
-module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getCorrect,
-}
+export const processAction = getStepExerciseProcessor(checkInput, data)

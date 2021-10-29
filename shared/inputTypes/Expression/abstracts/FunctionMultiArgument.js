@@ -1,13 +1,13 @@
 // This is the abstract FunctionMultiArgument class. It should not be instantiated, but it is used for multi-argument functions like fractions, logs, roots, etcetera.
 
-const { processOptions, filterOptions } = require('../../../util/objects')
-const { union } = require('../../../util/sets')
+import { processOptions, filterOptions } from '../../../util/objects'
+import { union } from '../../../util/sets'
 
-const Expression = require('./Expression')
-const Integer = require('../Integer')
+import Expression from './Expression'
+import Integer from '../Integer'
 const Parent = Expression
 
-class FunctionMultiArgument extends Parent {
+export default class FunctionMultiArgument extends Parent {
 	constructor(...args) {
 		// If no arguments are given, use default values.
 		if (args.length === 0) {
@@ -118,4 +118,3 @@ class FunctionMultiArgument extends Parent {
 		return defaultSO
 	}
 }
-module.exports = FunctionMultiArgument

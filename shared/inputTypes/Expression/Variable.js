@@ -1,7 +1,7 @@
-const { processOptions, filterOptions } = require('../../util/objects')
+import { processOptions, filterOptions } from '../../util/objects'
 
-const Expression = require('./abstracts/Expression')
-const Integer = require('./Integer')
+import Expression from './abstracts/Expression'
+import Integer from './Integer'
 
 const regVariableFormat = /^((([a-zA-Z]*)\[([a-zA-Z0-9α-ωΑ-Ω]+)\])|([a-zA-Z0-9α-ωΑ-Ω]+))(_((.)|\[(.*)\]))?$/
 
@@ -14,7 +14,7 @@ const defaultSO = {
 }
 const parts = ['symbol', 'subscript', 'accent']
 
-class Variable extends Parent {
+export default class Variable extends Parent {
 	constructor(SO) {
 		if (typeof SO === 'string')
 			SO = Variable.interpret(SO)
@@ -157,7 +157,6 @@ class Variable extends Parent {
 }
 Variable.defaultSO = defaultSO
 Variable.type = 'Variable'
-module.exports = Variable
 
 Variable.e = new Variable('e')
 Variable.pi = new Variable('π')

@@ -1,6 +1,12 @@
-const functionList = ['Fraction', 'Power', 'Ln', 'Log', 'Sqrt', 'Root', 'Sin', 'Cos', 'Tan', 'Arcsin', 'Arccos', 'Arctan']
-
-// Export all functions.
-functionList.forEach(func => {
-	module.exports[func] = require(`./${func}`)
-})
+export * as Fraction from './Fraction'
+export * as Power from './Power'
+export * as Ln from './Ln'
+export * as Log from './Log'
+export * as Sqrt from './Sqrt'
+export * as Root from './Root'
+export * as Sin from './Sin'
+export * as Cos from './Cos'
+export * as Tan from './Tan'
+export * as Arcsin from './Arcsin'
+export * as Arccos from './Arccos'
+export * as Arctan from './Arctan'

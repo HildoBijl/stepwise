@@ -1,11 +1,11 @@
-const Parent = require('../abstracts/FunctionMultiArgument')
-const Expression = require('../abstracts/Expression')
-const Fraction = require('./Fraction')
-const Ln = require('./Ln')
+import Parent from '../abstracts/FunctionMultiArgument'
+import Expression from '../abstracts/Expression'
+import Fraction from './Fraction'
+import Ln from './Ln'
 
 const args = ['base', 'argument']
 
-class Log extends Parent {
+export default class Log extends Parent {
 	toNumber() {
 		return Math.log(this.argument.toNumber()) / Math.log(this.base.toNumber())
 	}
@@ -34,4 +34,3 @@ class Log extends Parent {
 Log.defaultSO = Parent.getDefaultSO(args)
 Log.args = args
 Log.type = 'Log'
-module.exports = Log

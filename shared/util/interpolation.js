@@ -1,4 +1,4 @@
-const { ensureNumber, isNumber } = require('./numbers')
+import { ensureNumber, isNumber } from './numbers'
 
 /* interpolate applies linear (or bilinear, trilinear, etcetera) interpolation between numbers. It has various use cases, depending on the number of input parameters.
  * - For a single parameter: interpolate(V1, [Vo_1min, Vo_1max], [V1_min, V1_max]). Here Vo_1min means the output at parameter 1's minimum value. Optionally you can use [V1] instead of V1.
@@ -8,7 +8,7 @@ const { ensureNumber, isNumber } = require('./numbers')
  * The first two input parameters are obligatory. If a bounds array like [V1_min, V_1max] is not given, [0, 1] will be used as default. (Exception: in the single-parameter case also the default value of [Vo_1min, Vo_1max] is [0, 1]. For multi-parameter situations this output value array is obligatory.)
  * When the input does not fall within the input range, undefined is returned.
  */
-function interpolate(input, outputRange, ...inputRange) {
+export function interpolate(input, outputRange, ...inputRange) {
 	// Is this the single-parameter case? Deal with it accordingly.
 	if (!Array.isArray(input) || input.length === 1) {
 		// Check the input parameter.
@@ -60,7 +60,6 @@ function interpolate(input, outputRange, ...inputRange) {
 	const Vmax = interpolate(input, outputRange[1], ...inputRange)
 	return interpolate(param, [Vmin, Vmax], paramInputRange)
 }
-module.exports.interpolate = interpolate
 
 /* gridInterpolate applies linear (or bilinear, trilinear, etcetera) interpolation between a series or grid of numbers. It has various use cases, depending on the number of input parameters.
  * - For a single parameter: gridInterpolate(V1, [Vo-series], [V1-series]). It is assumed here that the input series V1-series is in ascending order. Optionally you can use [V1] instead of V1.
@@ -70,7 +69,7 @@ module.exports.interpolate = interpolate
  * An example usage would be gridInterpolate([1963, 19], [[10, 11, 12, 13], [9, 12, 14, 17], [6, 7, 9, 10]], [1950, 1960, 1970, 1980], [18, 20, 22]). All parameters are obligatory.
  * It is possible to have undefined values in the grid. When this happens, and the input falls near such a value (that is, the value is needed for the interpolation) then undefined is returned. The return value is also undefined when the input value falls outside of the grid.
  */
-function gridInterpolate(input, outputSeries, ...inputSeries) {
+export function gridInterpolate(input, outputSeries, ...inputSeries) {
 	// Is this the single-parameter case? Deal with it accordingly.
 	if (!Array.isArray(input) || input.length === 1) {
 		// Check the input parameter.
@@ -141,26 +140,23 @@ function gridInterpolate(input, outputSeries, ...inputSeries) {
 		return undefined
 	return interpolate(param, [Vmin, Vmax], [paramInputSeries[min], paramInputSeries[max]])
 }
-module.exports.gridInterpolate = gridInterpolate
 
 // tableInterpolate takes a table and interpolates in it. A table is an object of the form { grid: [ ... ], headers: [ ... ], ... }. Here, if the headers parameter has n sub-arrays (ranges), then the grid must be an n-dimensional array to match. Identically, the input must be an array with values for these n parameters. (If n = 1, a single parameter may be given instead of an array.)
-function tableInterpolate(input, table) {
+export function tableInterpolate(input, table) {
 	return gridInterpolate(input, table.grid, ...table.headers)
 }
-module.exports.tableInterpolate = tableInterpolate
 
 // inverseTableInterpolate takes a table with only one parameter (a 1D-table) and does inverse interpolation. The output is given and the input is found.
-function inverseTableInterpolate(output, table) {
+export function inverseTableInterpolate(output, table) {
 	if (!table || !table.headers || !Array.isArray(table.headers))
 		throw new Error(`Interpolation error: invalid table received.`)
 	if (table.headers.length > 1)
 		throw new Error(`Interpolation error: can only apply inverse table interpolation on a table with one input parameter. However, the given table has ${table.headers.length}.`)
 	return gridInterpolate(output, table.headers[0], table.grid)
 }
-module.exports.inverseTableInterpolate = inverseTableInterpolate
 
 // ensureNumberLike checks if a given parameter is either a number or a number-like object with add/subtract/multiply/divide/compare functions and a number property.
-function ensureNumberLike(x) {
+export function ensureNumberLike(x) {
 	// If we do not have an object, then it must be a number. Ensure it is.
 	if (typeof x !== 'object')
 		return ensureNumber(x)
@@ -177,4 +173,3 @@ function ensureNumberLike(x) {
 	// All good! Return the object.
 	return x
 }
-module.exports.ensureNumberLike = ensureNumberLike

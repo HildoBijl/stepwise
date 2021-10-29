@@ -1,9 +1,9 @@
-const Constant = require('./abstracts/Constant')
+import Constant from './abstracts/Constant'
 
 const Parent = Constant
 const defaultSO = { ...Parent.defaultSO }
 
-class Integer extends Parent {
+export default class Integer extends Parent {
 	constructor(SO) {
 		if (typeof SO === 'string' || typeof SO === 'number')
 			SO = { value: parseInt(SO) }
@@ -16,7 +16,6 @@ class Integer extends Parent {
 }
 Integer.defaultSO = defaultSO
 Integer.type = 'Integer'
-module.exports = Integer
 
 Integer.zero = new Integer(0)
 Integer.one = new Integer(1)

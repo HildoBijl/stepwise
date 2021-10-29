@@ -1,16 +1,16 @@
 // The equation interpreter takes an equation in Input Object (IO) format and turns it into a Functional Object (FO).
 
-const { isObject } = require('../../../util/objects')
-const { lastOf } = require('../../../util/arrays')
+import { isObject } from '../../../util/objects'
+import { lastOf } from '../../../util/arrays'
 
-const { interpretExpressionValue } = require('./expressions')
-const { InterpretationError } = require('./InterpretationError')
-const { getSubExpression, moveRight } = require('./support')
+import { interpretExpressionValue } from './expressions'
+import { InterpretationError } from './InterpretationError'
+import { getSubExpression, moveRight } from './support'
 
-const { Equation } = require('../../Equation')
+import { Equation } from '../../Equation'
 
 // interpretEquation turns an IO equation into a functional object (FO).
-function interpretEquation(obj) {
+export function interpretEquation(obj) {
 	// Check the type.
 	if (!isObject(obj))
 		throw new Error(`Interpreting error: the function interpretEquation was called but was not given an object. Instead, it was given "${obj}".`)
@@ -20,9 +20,8 @@ function interpretEquation(obj) {
 	// Interpret the value.
 	return interpretEquationValue(obj.value)
 }
-module.exports.interpretEquation = interpretEquation
 
-function interpretEquationValue(value) {
+export function interpretEquationValue(value) {
 	// Walk through the expression to find an equals symbol.
 	let part, cursor
 	value.forEach((element, partIndex) => {
@@ -59,4 +58,3 @@ function interpretEquationValue(value) {
 		right: interpretExpressionValue(right),
 	})
 }
-module.exports.interpretEquationValue = interpretEquationValue

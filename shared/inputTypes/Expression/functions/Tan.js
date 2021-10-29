@@ -1,9 +1,9 @@
-const Parent = require('../abstracts/FunctionSingleArgument')
-const Fraction = require('./Fraction')
-const Sin = require('./Sin')
-const Cos = require('./Cos')
+import Parent from '../abstracts/FunctionSingleArgument'
+import Fraction from './Fraction'
+import Sin from './Sin'
+import Cos from './Cos'
 
-class Tan extends Parent {
+export default class Tan extends Parent {
 	toNumber() {
 		return Math.tan(this.argument.toNumber())
 	}
@@ -30,4 +30,3 @@ class Tan extends Parent {
 }
 Tan.defaultSO = Parent.defaultSO
 Tan.type = 'Tan'
-module.exports = Tan

@@ -1,11 +1,12 @@
-const { selectRandomly } = require('../../../util/random')
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { Unit } = require('../../../inputTypes/Unit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd } = require('../../../skillTracking')
-const gasProperties = require('../../../data/gasProperties')
+import { selectRandomly } from '../../../util/random'
+import { getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
+import { Unit } from '../../../inputTypes/Unit'
+import { getStepExerciseProcessor } from '../util/stepExercise'
+import { combinerAnd } from '../../../skillTracking'
+import * as gasProperties from '../../../data/gasProperties'
 
-const data = {
+
+export const data = {
 	skill: 'poissonsLaw',
 	setup: combinerAnd('calculateWithPressure', 'specificHeatRatio', 'solveExponentEquation'),
 	steps: [[null, 'calculateWithPressure', null], 'specificHeatRatio', null, 'solveExponentEquation'],
@@ -36,7 +37,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	const gas = selectRandomly(['methane', 'helium', 'hydrogen'])
 	const V2 = getRandomFloatUnit({
 		min: 20,
@@ -60,13 +61,13 @@ function generateState() {
 	return { gas, V2, p1, p2 }
 }
 
-function getCorrect({ gas, V2, p1, p2 }) {
+export function getCorrect({ gas, V2, p1, p2 }) {
 	const { k } = gasProperties[gas]
 	const V1 = V2.multiply(p2.divide(p1).float.toPower(k.float.invert()))
 	return { gas, k, V1, V2, p1, p2 }
 }
 
-function checkInput(state, input, step, substep) {
+export function checkInput(state, input, step, substep) {
 	const { k, V1, V2, p1, p2 } = getCorrect(state)
 	const eo = data.equalityOptions
 
@@ -89,10 +90,4 @@ function checkInput(state, input, step, substep) {
 	}
 }
 
-module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getCorrect,
-}
+export const processAction = getStepExerciseProcessor(checkInput, data)

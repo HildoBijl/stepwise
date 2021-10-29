@@ -1,23 +1,23 @@
-const { selectRandomly } = require('../../../util/random')
-const constants = require('../../../data/constants')
-const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+import { selectRandomly } from '../../../util/random'
+import * as constants from '../../../data/constants'
+import { getSimpleExerciseProcessor } from '../util/simpleExercise'
 
-const data = {
+export const data = {
 	skill: 'lookUpConstant',
 	equalityOptions: {
 		relativeMargin: 0.0001,
 	}
 }
 
-function generateState() {
+export function generateState() {
 	return { constant: selectRandomly(['c', 'g', 'R', 'e', 'k', 'G']) }
 }
 
-function checkInput({ constant }, { ans }) {
+export function checkInput({ constant }, { ans }) {
 	return constants[constant].equals(ans, data.equalityOptions)
 }
 
-module.exports = {
+export default {
 	data,
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),

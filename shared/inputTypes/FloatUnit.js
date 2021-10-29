@@ -1,13 +1,13 @@
 // The FloatUnit class represents a combination of a floating point number and a unit. An example is "9.81 m / s^2". It can be given a string, or an object of the form { float: ..., unit: ... } where the dots are valid float and unit representations.
 
-const { isObject, processOptions, filterOptions } = require('../util/objects')
-const { Float, floatFormat, getRandomFloat, getRandomExponentialFloat, FOtoIO: floatFOtoIO, IOtoFO: floatIOtoFO, getEmpty: getEmptyFloat, isEmpty: isFloatEmpty } = require('./Float')
-const { Unit, equalityTypeToSimplifyOptions, FOtoIO: unitFOtoIO, IOtoFO: unitIOtoFO, getEmpty: getEmptyUnit, isEmpty: isUnitEmpty } = require('./Unit')
+import { isObject, processOptions, filterOptions } from '../util/objects'
+import { Float, floatFormat, getRandomFloat, getRandomExponentialFloat, FOtoIO as floatFOtoIO, IOtoFO as floatIOtoFO, getEmpty as getEmptyFloat, isEmpty as isFloatEmpty } from './Float'
+import { Unit, equalityTypeToSimplifyOptions, FOtoIO as unitFOtoIO, IOtoFO as unitIOtoFO, getEmpty as getEmptyUnit, isEmpty as isUnitEmpty } from './Unit'
 
 // const inputFormat = new RegExp(`^(?<float>${floatFormat})(?<unit>.*)$`) // Firefox doesn't support named capture groups.
 const inputFormat = new RegExp(`^(${floatFormat}(.*))$`)
 
-class FloatUnit {
+export class FloatUnit {
 	// The constructor must either get an object { float: ..., unit: ... } or a string which can be split up into a float and a unit.
 
 	constructor(input = {}) {
@@ -199,7 +199,7 @@ class FloatUnit {
 	 * - checkUnitSize (default false): same as the Unit type parameter, the size of the unit must be the same. (Note: the default value is different here than for the Unit type.) A potential inequality will be communicated through the UnitOK parameter. This is useful if you want "2 J" to be equal to "2 N*m" to be equal, but not to "2 * 10^3 mJ".
 	 * Note that the following options are not supported.
 	 * - checkPower (from Float): this is not possible anymore, since simplifying the unit will adjust the power of the unit. This will be the default "false".
-	 * 
+	 *
 	 * The result is an object containing information. It contains the information from the Float checkEquality but also has:
 	 * - result (true or false): the final verdict on equality.
 	 * - numberOK (true or false): is the number OK? This is a joint check of magnitude, significant digits (if specified) and power (if specified).
@@ -364,7 +364,6 @@ class FloatUnit {
 		})
 	}
 }
-module.exports.FloatUnit = FloatUnit
 
 // Define equality check types.
 FloatUnit.equalityTypes = {
@@ -402,30 +401,27 @@ function splitString(str) {
 }
 
 // getRandomFloatUnit gives a random Float with given Unit.
-function getRandomFloatUnit(options) {
+export function getRandomFloatUnit(options) {
 	return new FloatUnit({
 		float: getRandomFloat(options),
 		unit: options.unit,
 	})
 }
-module.exports.getRandomFloatUnit = getRandomFloatUnit
 
 // getRandomExponentialFloatUnit gives a random Float according to an exponential distribution with given Unit.
-function getRandomExponentialFloatUnit(options) {
+export function getRandomExponentialFloatUnit(options) {
 	return new FloatUnit({
 		float: getRandomExponentialFloat(options),
 		unit: options.unit,
 	})
 }
-module.exports.getRandomExponentialFloatUnit = getRandomExponentialFloatUnit
 
 // The following functions are obligatory functions.
-function isFOofType(floatUnit) {
+export function isFOofType(floatUnit) {
 	return isObject(floatUnit) && floatUnit.constructor === FloatUnit
 }
-module.exports.isFOofType = isFOofType
 
-function FOtoIO(floatUnit) {
+export function FOtoIO(floatUnit) {
 	// Check if we have a FloatUnit object already. If not, turn it into one. (Or die trying.)
 	if (floatUnit.constructor !== FloatUnit)
 		floatUnit = new FloatUnit(floatUnit)
@@ -436,27 +432,22 @@ function FOtoIO(floatUnit) {
 		unit: unitFOtoIO(floatUnit.unit),
 	}
 }
-module.exports.FOtoIO = FOtoIO
 
-function IOtoFO(value) {
+export function IOtoFO(value) {
 	return new FloatUnit({
 		float: floatIOtoFO(value.float),
 		unit: unitIOtoFO(value.unit),
 	})
 }
-module.exports.IOtoFO = IOtoFO
 
-function getEmpty() {
+export function getEmpty() {
 	return { float: getEmptyFloat(), unit: getEmptyUnit() }
 }
-module.exports.getEmpty = getEmpty
 
-function isEmpty(value) {
+export function isEmpty(value) {
 	return isFloatEmpty(value.float) && isUnitEmpty(value.unit)
 }
-module.exports.isEmpty = isEmpty
 
-function equals(a, b) {
+export function equals(a, b) {
 	return IOtoFO(a).equals(IOtoFO(b))
 }
-module.exports.equals = equals

@@ -1,9 +1,9 @@
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
-const { getCycle } = require('./support/steamTurbineCycle')
+import { getStepExerciseProcessor } from '../util/stepExercise'
+import { combinerAnd, combinerRepeat } from '../../../skillTracking'
+import { checkParameter } from '../util/check'
+import { getCycle } from './support/steamTurbineCycle'
 
-const data = {
+export const data = {
 	skill: 'useIsentropicEfficiency',
 	setup: combinerAnd(combinerRepeat('calculateWithEnthalpy', 2), 'solveLinearEquation'),
 	steps: ['calculateWithEnthalpy', 'solveLinearEquation', 'calculateWithEnthalpy'],
@@ -16,7 +16,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	let { etai, h2: h1, h3p: h2p } = getCycle() // Cycle indices.
 	etai = etai.setUnit('%').setDecimals(0).roundToPrecision()
 	h1 = h1.setDecimals(-1).roundToPrecision().setDecimals(0)
@@ -24,7 +24,7 @@ function generateState() {
 	return { h1, h2p, etai }
 }
 
-function getCorrect({ h1, h2p, etai }) {
+export function getCorrect({ h1, h2p, etai }) {
 	etai = etai.simplify()
 	const wti = h1.subtract(h2p)
 	const wt = wti.multiply(etai).setDecimals(0)
@@ -32,7 +32,7 @@ function getCorrect({ h1, h2p, etai }) {
 	return { h1, h2p, h2, wti, wt, etai }
 }
 
-function checkInput(state, input, step, substep) {
+export function checkInput(state, input, step, substep) {
 	const correct = getCorrect(state)
 	switch (step) {
 		case 1:
@@ -44,10 +44,4 @@ function checkInput(state, input, step, substep) {
 	}
 }
 
-module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getCorrect,
-}
+export const processAction = getStepExerciseProcessor(checkInput, data)

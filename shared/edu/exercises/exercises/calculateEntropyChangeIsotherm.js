@@ -1,10 +1,10 @@
-const { Unit } = require('../../../inputTypes/Unit')
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
+import { Unit } from '../../../inputTypes/Unit'
+import { getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
+import { getStepExerciseProcessor } from '../util/stepExercise'
+import { combinerAnd, combinerRepeat } from '../../../skillTracking'
+import { checkParameter } from '../util/check'
 
-const data = {
+export const data = {
 	skill: 'calculateEntropyChange',
 	setup: combinerAnd('calculateWithTemperature', combinerRepeat('solveLinearEquation', 2)),
 	steps: ['calculateWithTemperature', 'solveLinearEquation', 'solveLinearEquation', null],
@@ -28,7 +28,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	const Q = getRandomFloatUnit({
 		min: 2,
 		max: 10,
@@ -51,7 +51,7 @@ function generateState() {
 	return { Q, Tw, Tc }
 }
 
-function getCorrect({ Q, Tw, Tc }) {
+export function getCorrect({ Q, Tw, Tc }) {
 	Q = Q.simplify()
 	Tw = Tw.simplify()
 	Tc = Tc.simplify()
@@ -63,7 +63,7 @@ function getCorrect({ Q, Tw, Tc }) {
 	return { Q, Tw, Tc, Qw, Qc, dSw, dSc, dS }
 }
 
-function checkInput(state, input, step, substep) {
+export function checkInput(state, input, step, substep) {
 	const correct = getCorrect(state)
 	switch (step) {
 		case 1:
@@ -77,10 +77,4 @@ function checkInput(state, input, step, substep) {
 	}
 }
 
-module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getCorrect,
-}
+export const processAction = getStepExerciseProcessor(checkInput, data)

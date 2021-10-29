@@ -1,7 +1,8 @@
-const { FloatUnit, getRandomFloatUnit } = require('../../../../inputTypes/FloatUnit')
-const { air: { k, cp } } = require('../../../../data/gasProperties')
+import { FloatUnit, getRandomFloatUnit } from '../../../../inputTypes/FloatUnit'
+import * as gasProperties from '../../../../data/gasProperties'
+const { air: { k, cp } } = gasProperties
 
-function getCycle() {
+export function getCycle() {
 	// Pressure.
 	const p1 = new FloatUnit('1.0 bar')
 	const p2 = getRandomFloatUnit({
@@ -59,4 +60,3 @@ function getCycle() {
 
 	return { p1, T1, p2, T2, p3, T3, p4, T4, etai, q12, wt12, q23, wt23, q34, wt34, q41, wt41, wn, qin, eta, mdot, P }
 }
-module.exports.getCycle = getCycle

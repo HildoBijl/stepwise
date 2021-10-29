@@ -1,4 +1,4 @@
-const alphabet = {
+export const alphabet = {
 	alpha: {
 		symbol: 'α',
 	},
@@ -148,4 +148,3 @@ const alphabet = {
 Object.keys(alphabet).forEach(name => {
 	alphabet[name].name = name // Also store the name inside the object.
 })
-module.exports.alphabet = alphabet

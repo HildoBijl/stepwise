@@ -1,9 +1,9 @@
-const { ensureInt, ensureNumber } = require('../util/numbers')
-const { ensureArray, ensureNumberArray, numberArray } = require('../util/arrays')
-const { factorial, binomial } = require('../util/combinatorics')
+import { ensureInt, ensureNumber } from '../util/numbers'
+import { ensureArray, ensureNumberArray, numberArray } from '../util/arrays'
+import { factorial, binomial } from '../util/combinatorics'
 
 // ensureCoef takes a coef array and ensures it actually is one. It returns a copy.
-function ensureCoef(coef) {
+export function ensureCoef(coef) {
 	// Check that it's an array of numbers.
 	coef = ensureNumberArray(coef, true)
 
@@ -15,17 +15,15 @@ function ensureCoef(coef) {
 	// Return the processed array.
 	return coef
 }
-module.exports.ensureCoef = ensureCoef
 
 // getOrder returns the order of the coefficient array, which is its length minus one.
-function getOrder(coef) {
+export function getOrder(coef) {
 	coef = ensureArray(coef)
 	return coef.length - 1
 }
-module.exports.getOrder = getOrder
 
 // getFunction gives the PDF for the chance of success, given the coefficients.
-function getFunction(coef) {
+export function getFunction(coef) {
 	// Check input.
 	coef = ensureCoef(coef)
 
@@ -41,10 +39,9 @@ function getFunction(coef) {
 		return coef.reduce((sum, c, i) => sum + c * binomial(n, i) * Math.pow(x, i) * Math.pow(1 - x, n - i), 0) * (n + 1)
 	}
 }
-module.exports.getFunction = getFunction
 
 // getFunctionDerivative gives the derivative of the PDF.
-function getFunctionDerivative(coef) {
+export function getFunctionDerivative(coef) {
 	// Check input.
 	coef = ensureCoef(coef)
 
@@ -66,16 +63,14 @@ function getFunctionDerivative(coef) {
 		}, 0) * (n + 1)
 	}
 }
-module.exports.getFunction = getFunction
 
 // getEV returns the expected value of x, given the PDF fx(x). So it's basically the integral over x*f(x).
-function getEV(coef) {
+export function getEV(coef) {
 	return getMoment(coef, 1)
 }
-module.exports.getEV = getEV
 
 // getMoment returns the expected value of x^i, given the PDF fx(x) and an integer i. So it's basically the integral over x^i*f(x).
-function getMoment(coef, i) {
+export function getMoment(coef, i) {
 	// Check input.
 	coef = ensureCoef(coef)
 	i = ensureInt(i, true)
@@ -84,10 +79,9 @@ function getMoment(coef, i) {
 	const n = getOrder(coef)
 	return coef.reduce((sum, c, j) => sum + c * factorial(i+j, j), 0) / factorial(n + i + 1, n + 1)
 }
-module.exports.getMoment = getMoment
 
 // getFMax returns the maximum value of the PDF function. It returns an object {x, f} with x the input and f the output. It's the result of a binary search, so results are not fully exact.
-function getFMax(coef, numIterations = 20) {
+export function getFMax(coef, numIterations = 20) {
 	// Check input.
 	coef = ensureCoef(coef)
 	numIterations = ensureInt(numIterations, true, true)
@@ -109,10 +103,9 @@ function getFMax(coef, numIterations = 20) {
 	const middle = (left + right) / 2
 	return { x: middle, f: f(middle) }
 }
-module.exports.getFMax = getFMax
 
 // getEntropy estimates numerically the entropy of the distribution. It's the expected value of log(fx(x)).
-function getEntropy(coef, numPoints = 50) {
+export function getEntropy(coef, numPoints = 50) {
 	// Check input.
 	coef = ensureCoef(coef)
 	numPoints = ensureInt(numPoints, true, true)
@@ -125,4 +118,3 @@ function getEntropy(coef, numPoints = 50) {
 		return sum + Math.log(fx) * fx
 	}, 0) / numPoints
 }
-module.exports.getEntropy = getEntropy

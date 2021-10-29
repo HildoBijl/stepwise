@@ -1,33 +1,27 @@
-const { isNumber } = require('../util/numbers')
+import { isNumber } from '../util/numbers'
 
-function isFOofType(param) {
+export function isFOofType(param) {
 	return typeof param === 'string' && !isNumber(param)
 }
-module.exports.isFOofType = isFOofType
 
-function FOtoIO(param) {
+export function FOtoIO(param) {
 	return { value: param }
 }
-module.exports.FOtoIO = FOtoIO
 
-function IOtoFO({ value }) {
+export function IOtoFO({ value }) {
 	return value
 }
-module.exports.IOtoFO = IOtoFO
 
-function getEmpty() {
+export function getEmpty() {
 	return { value: '' }
 }
-module.exports.getEmpty = getEmpty
 
-function isEmpty({ value }) {
+export function isEmpty({ value }) {
 	if (typeof value !== 'string')
 		throw new Error(`Invalid type: expected a string but received "${JSON.stringify(value)}".`)
 	return value === ''
 }
-module.exports.isEmpty = isEmpty
 
-function equals(a, b) {
+export function equals(a, b) {
 	return a === b
 }
-module.exports.equals = equals

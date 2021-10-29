@@ -1,4 +1,4 @@
-function ensureDate(input) {
+export function ensureDate(input) {
 	// Check if it's already a date object.
 	if (input.constructor === Date)
 		return input
@@ -11,16 +11,14 @@ function ensureDate(input) {
 	// Nothing worked.
 	throw new Error(`Invalid date encountered: received "${input}" which could not be converted into a date.`)
 }
-module.exports.ensureDate = ensureDate
 
-function isValidDate(date) {
+export function isValidDate(date) {
 	if (date.constructor !== Date)
 		return false
 	return !isNaN(date.getTime())
 }
-module.exports.isValidDate = isValidDate
 
-function formatDate(date, includeTime = false, includeSeconds = false) {
+export function formatDate(date, includeTime = false, includeSeconds = false) {
 	// Determine the day format.
 	date = ensureDate(date)
 	const ensureTwoDigits = (x) => x < 10 ? `0${x}` : x
@@ -42,4 +40,3 @@ function formatDate(date, includeTime = false, includeSeconds = false) {
 	const seconds = ensureTwoDigits(date.getSeconds())
 	return `${dateTimeFormat}:${seconds}`
 }
-module.exports.formatDate = formatDate

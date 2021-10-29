@@ -1,11 +1,11 @@
-const { getRandom } = require('../../../util/random')
-const { getRandomFloat } = require('../../../inputTypes/Float')
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { Unit } = require('../../../inputTypes/Unit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd } = require('../../../skillTracking')
+import { getRandom } from '../../../util/random'
+import { getRandomFloat } from '../../../inputTypes/Float'
+import { getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
+import { Unit } from '../../../inputTypes/Unit'
+import { getStepExerciseProcessor } from '../util/stepExercise'
+import { combinerAnd } from '../../../skillTracking'
 
-const data = {
+export const data = {
 	skill: 'poissonsLaw',
 	setup: combinerAnd('calculateWithTemperature', 'calculateWithVolume', 'solveLinearEquation'),
 	steps: [['calculateWithTemperature', null, 'calculateWithVolume'], null, 'solveLinearEquation'],
@@ -34,7 +34,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	const n = getRandomFloat({
 		min: 1.1,
 		max: 1.3,
@@ -60,13 +60,13 @@ function generateState() {
 	return { n, T1, V1, V2 }
 }
 
-function getCorrect({ n, T1, V1, V2 }) {
+export function getCorrect({ n, T1, V1, V2 }) {
 	T1 = T1.simplify()
 	const T2 = T1.multiply(V1.float.divide(V2.float).toPower(n.subtract(1)))
 	return { n, T1, T2, V1, V2 }
 }
 
-function checkInput(state, input, step, substep) {
+export function checkInput(state, input, step, substep) {
 	const { T1, T2, V1, V2 } = getCorrect(state)
 	const eo = data.equalityOptions
 
@@ -87,10 +87,4 @@ function checkInput(state, input, step, substep) {
 	}
 }
 
-module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getCorrect,
-}
+export const processAction = getStepExerciseProcessor(checkInput, data)

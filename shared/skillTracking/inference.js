@@ -1,16 +1,16 @@
-const { factorial, binomial } = require('../util/combinatorics')
-const { isObject } = require('../util/objects')
-const { ensureInt } = require('../util/numbers')
-const { numberArray } = require('../util/arrays')
+import { factorial, binomial } from '../util/combinatorics'
+import { isObject } from '../util/objects'
+import { ensureInt } from '../util/numbers'
+import { numberArray } from '../util/arrays'
 
-const { getOrder, getMoment } = require('./evaluation')
-const { normalize, invert } = require('./manipulation')
-const { maxSmoothingOrder } = require('./smoothing')
-const { ensureDataSet, getCoefFromDataSet } = require('./dataSet')
-const { ensureCombiner } = require('./combiners')
+import { getOrder, getMoment } from './evaluation'
+import { normalize, invert } from './manipulation'
+import { maxSmoothingOrder } from './smoothing'
+import { ensureDataSet, getCoefFromDataSet } from './dataSet'
+import { ensureCombiner } from './combiners'
 
 // merge takes two sets of coefficients and merges them, coming up with a joint distribution.
-function merge(coef1, coef2) {
+export function merge(coef1, coef2) {
 	// Get orders for easy notation.
 	const n1 = getOrder(coef1)
 	const n2 = getOrder(coef2)
@@ -33,11 +33,10 @@ function merge(coef1, coef2) {
 	r = normalize(r)
 	return r
 }
-module.exports.merge = merge
 
 // infer takes a data set (an object with skill IDs as keys and coefficients as values) and a combiner object (for instance { type: 'and', skills: ['A', {type: 'repeat', times: 2, skill: 'B'}, {type: 'repeat', times: 2, skill: { type: 'or', skills: ['C', 'D' ] } } ] } for a skill involving subskill A, subskill B twice and then twice either subskill C or D) and gives the inferred coefficients for the combined skill. Optionally, an order n can be given with which to perform the inference.
 // Warning: when n is larger than 30 there may be inaccuracies and when n goes above 50 the results may be bogus.
-function infer(dataSet, combiner, n = maxSmoothingOrder / 4) {
+export function infer(dataSet, combiner, n = maxSmoothingOrder / 4) {
 	// Check the input.
 	dataSet = ensureDataSet(dataSet)
 	combiner = ensureCombiner(combiner)
@@ -53,7 +52,6 @@ function infer(dataSet, combiner, n = maxSmoothingOrder / 4) {
 		return infer(dataSet, combiner, Math.floor(n / 2))
 	}
 }
-module.exports.infer = infer
 
 function inferInternal(dataSet, combiner, n) {
 	// Handle skill-combiners.

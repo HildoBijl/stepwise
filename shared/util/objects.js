@@ -1,27 +1,24 @@
 // isObject checks if a variable is an object.
-function isObject(obj) {
+export function isObject(obj) {
 	return typeof obj === 'object' && obj !== null
 }
-module.exports.isObject = isObject
 
 // ensureObject makes sure an object is an object and otherwise throws an error.
-function ensureObject(obj) {
+export function ensureObject(obj) {
 	if (!isObject(obj))
 		throw new Error(`Invalid input: expected an object but received a parameter of type "${typeof obj}".`)
 	return obj
 }
-module.exports.ensureObject = ensureObject
 
 // ensureBoolean makes sure a parameter is boolean.
-function ensureBoolean(param) {
+export function ensureBoolean(param) {
 	if (typeof param !== 'boolean')
 		throw new Error(`Invalid input: expected a boolean parameter but received something of type "${typeof param}".`)
 	return param
 }
-module.exports.ensureBoolean = ensureBoolean
 
 // deepEquals checks whether two objects are equal. It does this iteratively: if the parameters are objects or arrays, these are recursively checked.
-function deepEquals(a, b) {
+export function deepEquals(a, b) {
 	// Check reference equality.
 	if (a === b)
 		return true
@@ -48,10 +45,9 @@ function deepEquals(a, b) {
 	// Walk through keys and check equality.
 	return keys.every(key => deepEquals(a[key], b[key]))
 }
-module.exports.deepEquals = deepEquals
 
 // ensureConsistency takes a new value and compares it with the old value. It tries to maintain consistency. If the new value deepEquals the old value, but has a different reference (is cloned/reconstructed) the old value is return, to maintain reference equality. If the value is an object, the process is repeated for its children in an iterative way.
-function ensureConsistency(newValue, oldValue) {
+export function ensureConsistency(newValue, oldValue) {
 	// On a deepEquals, return the old value to keep the reference intact.
 	if (deepEquals(newValue, oldValue))
 		return oldValue
@@ -74,20 +70,18 @@ function ensureConsistency(newValue, oldValue) {
 	})
 	return newObject
 }
-module.exports.ensureConsistency = ensureConsistency
 
 // applyToEachParameter takes an object with multiple parameters, like { a: 2, b: 3 }, and applies a function like (x) => 2*x to each parameter. It returns a new object (the old one is unchanged) with the result, like { a: 4, b: 6 }.
-function applyToEachParameter(obj, func) {
+export function applyToEachParameter(obj, func) {
 	const result = {}
 	Object.keys(obj).forEach(key => {
 		result[key] = func(obj[key])
 	})
 	return result
 }
-module.exports.applyToEachParameter = applyToEachParameter
 
 // processOptions is used to process an options object given to a function. It adds the given default options and checks if no non-existing options have been given. It returns a copy.
-function processOptions(givenOptions, defaultOptions) {
+export function processOptions(givenOptions, defaultOptions) {
 	// Check if the default options were given.
 	if (!defaultOptions || typeof defaultOptions !== 'object')
 		throw new Error(`Invalid defaultOptions: no or an invalid defaultOptions object was given.`)
@@ -105,16 +99,14 @@ function processOptions(givenOptions, defaultOptions) {
 	// Merge the defaults with the given options.
 	return { ...defaultOptions, ...givenOptions }
 }
-module.exports.processOptions = processOptions
 
 // filterOptions takes two options objects and filters the properties of the first based on what's in the second. This is useful if only some of the properties need to be passed on to a child object.
-function filterOptions(allOptions, allowedOptions) {
+export function filterOptions(allOptions, allowedOptions) {
 	return filterProperties(allOptions, Object.keys(allowedOptions))
 }
-module.exports.filterOptions = filterOptions
 
 // filterProperties filters the properties of an object based on the given arrays of keys. Only properties that are in the given array will be kept, and others will be removed. The original object is not adjusted: a new object is returned.
-function filterProperties(obj, allowedKeys) {
+export function filterProperties(obj, allowedKeys) {
 	const res = {}
 	allowedKeys.forEach(key => {
 		if (obj[key] !== undefined)
@@ -122,10 +114,9 @@ function filterProperties(obj, allowedKeys) {
 	})
 	return res
 }
-module.exports.filterProperties = filterProperties
 
 // removeProperties removes the properties of an object given by an array of keys. All other properties are kept. The original object is not adjusted: a new object is returned.
-function removeProperties(obj, keysToRemove) {
+export function removeProperties(obj, keysToRemove) {
 	keysToRemove = Array.isArray(keysToRemove) ? keysToRemove : [keysToRemove]
 	const res = { ...obj }
 	keysToRemove.forEach(key => {
@@ -133,4 +124,3 @@ function removeProperties(obj, keysToRemove) {
 	})
 	return res
 }
-module.exports.removeProperties = removeProperties

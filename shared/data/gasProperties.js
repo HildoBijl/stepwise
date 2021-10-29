@@ -1,8 +1,8 @@
-const { FloatUnit } = require('../inputTypes/FloatUnit')
-const { Float } = require('../inputTypes/Float')
+import { FloatUnit } from '../inputTypes/FloatUnit'
+import { Float } from '../inputTypes/Float'
 
 // Define initial properties.
-const gases = {
+export const gases = {
 	air: {
 		Rs: new FloatUnit('287.05 J / kg * K'),
 		k: new FloatUnit('1.40'),
@@ -49,5 +49,3 @@ Object.values(gases).forEach(gas => {
 
 // Set manual fixes.
 gases.air.cp = gases.air.cp.setMinimumSignificantDigits(4)
-
-module.exports = gases

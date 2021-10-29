@@ -1,14 +1,14 @@
-const { getRandomInteger } = require('../../../inputTypes/Integer')
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { Unit } = require('../../../inputTypes/Unit')
-const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+import { getRandomInteger } from '../../../inputTypes/Integer'
+import { getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
+import { Unit } from '../../../inputTypes/Unit'
+import { getSimpleExerciseProcessor } from '../util/simpleExercise'
 
 // Type 0: from K to °C.
 // Type 1: from K to SI (so K: which it already is in).
 // Type 2: from °C to K.
 // Type 3: from °C to SI (so K).
 
-const data = {
+export const data = {
 	skill: 'calculateWithTemperature',
 	equalityOptions: {
 		absoluteMargin: 0.2,
@@ -17,7 +17,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	const type = getRandomInteger(0, 3)
 	let T = getRandomFloatUnit({
 		min: 0,
@@ -30,16 +30,16 @@ function generateState() {
 	return { T, type }
 }
 
-function getCorrect({ T, type }) {
+export function getCorrect({ T, type }) {
 	T = T.simplify()
 	return (type === 0 ? T.setUnit('dC') : T)
 }
 
-function checkInput(state, { ans }) {
+export function checkInput(state, { ans }) {
 	return getCorrect(state).equals(ans, data.equalityOptions)
 }
 
-module.exports = {
+export default {
 	data,
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),

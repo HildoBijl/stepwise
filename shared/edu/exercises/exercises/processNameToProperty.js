@@ -1,21 +1,21 @@
-const { getRandomInteger } = require('../../../inputTypes/Integer')
-const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+import { getRandomInteger } from '../../../inputTypes/Integer'
+import { getSimpleExerciseProcessor } from '../util/simpleExercise'
 
-const data = {
+export const data = {
 	skill: 'recognizeProcessTypes',
 }
 
-function generateState() {
+export function generateState() {
 	return {
 		type: getRandomInteger(0, 5),
 	}
 }
 
-function checkInput({ type }, { ans }) {
+export function checkInput({ type }, { ans }) {
 	return type === ans
 }
 
-module.exports = {
+export default {
 	data,
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),

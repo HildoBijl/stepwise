@@ -1,8 +1,8 @@
-const { isInt } = require('../../../util/numbers')
-const { areNumbersEqual } = require('../../../inputTypes/Integer')
+import { isInt } from '../../../util/numbers'
+import { areNumbersEqual } from '../../../inputTypes/Integer'
 
 // checkParameter is a quick and uniform way to perform an "equals" check for a parameter with the corresponding answer.
-function checkParameter(parameter, correct, input, equalityOptions) {
+export function checkParameter(parameter, correct, input, equalityOptions) {
 	const parameters = Array.isArray(parameter) ? parameter : [parameter]
 	return parameters.every(currParameter => {
 		// Extract the correct answer.
@@ -45,4 +45,3 @@ function checkParameter(parameter, correct, input, equalityOptions) {
 		return currCorrect.equals(currInput, currEqualityOptions)
 	})
 }
-module.exports.checkParameter = checkParameter

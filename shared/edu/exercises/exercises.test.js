@@ -1,8 +1,8 @@
 
-const skills = require('../skills')
-const { getAllExercises } = require('./util/selection')
-const { getDifficulty } = require('../skills/util')
-const { ensureCombiner, getCombinerSkills } = require('../../skillTracking')
+import skills from '../skills'
+import { getAllExercises } from './util/selection'
+import { getDifficulty } from '../skills/util'
+import { ensureCombiner, getCombinerSkills } from '../../skillTracking'
 
 // Set up a support function to check if something is a skill combiner.
 const assertSkillCombiner = (combiner) => {
@@ -15,14 +15,14 @@ const assertSkillCombiner = (combiner) => {
 }
 
 // Run the tests!
-describe('Check all exercises:', () => {
+describe('Check all exercises:', async () => {
 	const exercises = getAllExercises()
 	exercises.forEach(exerciseId => {
-		describe(exerciseId, () => {
+		describe(exerciseId, async () => {
 			// Load exercise file.
 			let exercise
 			try {
-				exercise = require(`./exercises/${exerciseId}`)
+				exercise = await import(`./exercises/${exerciseId}`)
 			} catch (e) {
 				it('has a shared file', () => fail())
 			}

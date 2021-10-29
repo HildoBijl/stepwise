@@ -1,11 +1,12 @@
-const { getRandom } = require('../../../util/random')
-const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { air: { k, Rs, cv } } = require('../../../data/gasProperties')
-const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
+import { getRandom } from '../../../util/random'
+import { FloatUnit, getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
+import { getStepExerciseProcessor } from '../util/stepExercise'
+import * as gasProperties from '../../../data/gasProperties'
+const { air: { k, Rs, cv } } = gasProperties
+import { combinerAnd, combinerRepeat } from '../../../skillTracking'
+import { checkParameter } from '../util/check'
 
-const data = {
+export const data = {
 	skill: 'calculateMissedWork',
 	setup: combinerAnd(combinerRepeat('calculateEntropyChange', 2), 'solveLinearEquation'),
 	steps: ['calculateEntropyChange', 'calculateEntropyChange', null, 'solveLinearEquation'],
@@ -19,7 +20,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	// State before compression.
 	const pAtm = new FloatUnit('1.0 bar')
 	const TAtm = getRandomFloatUnit({
@@ -60,7 +61,7 @@ function generateState() {
 	return { m, TAtm, T1, T2, T2p }
 }
 
-function getCorrect({ m, TAtm, T1, T2, T2p }) {
+export function getCorrect({ m, TAtm, T1, T2, T2p }) {
 	const dS12p = new FloatUnit('0 J/K')
 	const dS2p2 = m.multiply(cv).multiply(Math.log(T2.number / T2p.number)).setUnit('J/K')
 	const dS = dS12p.add(dS2p2)
@@ -68,7 +69,7 @@ function getCorrect({ m, TAtm, T1, T2, T2p }) {
 	return { m, cv, TAtm, T1, T2, T2p, dS12p, dS2p2, dS, Wm }
 }
 
-function checkInput(state, input, step, substep) {
+export function checkInput(state, input, step, substep) {
 	const correct = getCorrect(state)
 	switch (step) {
 		case 1:
@@ -82,10 +83,4 @@ function checkInput(state, input, step, substep) {
 	}
 }
 
-module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getCorrect,
-}
+export const processAction = getStepExerciseProcessor(checkInput, data)

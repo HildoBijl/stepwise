@@ -1,16 +1,16 @@
 // The expression interpreter takes an expression in Input Object (IO) format and turns it into a Functional Object (FO).
 
-const { isLetter, getNextSymbol } = require('../../../util/strings')
-const { lastOf } = require('../../../util/arrays')
-const { isObject } = require('../../../util/objects')
+import { isLetter, getNextSymbol } from '../../../util/strings'
+import { lastOf } from '../../../util/arrays'
+import { isObject } from '../../../util/objects'
 
-const Constant = require('../abstracts/Constant')
+import Constant from '../abstracts/Constant'
 
-const { getExpressionTypes } = require('..')
-const Expression = require('../abstracts/Expression')
+import { getExpressionTypes } from '..'
+import Expression from '../abstracts/Expression'
 
-const { getSubExpression, moveRight } = require('./support')
-const { InterpretationError } = require('./InterpretationError')
+import { getSubExpression, moveRight } from './support'
+import { InterpretationError } from './InterpretationError'
 
 const expressionTypes = getExpressionTypes()
 const { Integer, Float, Variable, Sum, Product } = expressionTypes // Elementary elements.
@@ -18,7 +18,7 @@ const { Fraction, Power, Log, Sqrt, Root } = expressionTypes // Advanced functio
 const { Ln, Sin, Cos, Tan, Arcsin, Arccos, Arctan } = expressionTypes // Basic functions.
 
 // Define all the basic and advanced functions and all accents that are recognized.
-const basicFunctions = {
+const basicFunctionsObj = {
 	ln: Ln,
 	sin: Sin,
 	cos: Cos,
@@ -30,7 +30,7 @@ const basicFunctions = {
 	arccos: Arccos,
 	arctan: Arctan,
 }
-const advancedFunctions = {
+const advancedFunctionsObj = {
 	frac: {
 		component: Fraction,
 	},
@@ -49,17 +49,16 @@ const advancedFunctions = {
 		component: Root,
 	},
 }
-const accents = ['dot', 'hat']
-module.exports.basicFunctions = Object.keys(basicFunctions)
-module.exports.advancedFunctions = Object.keys(advancedFunctions)
-module.exports.accents = accents
+export const accents = ['dot', 'hat']
+export const basicFunctions = Object.keys(basicFunctionsObj)
+export const advancedFunctions = Object.keys(advancedFunctionsObj)
 
 // isFunctionAllowed takes a function name (like "log") and a settings object, and checks if the function is allowed.
-function isFunctionAllowed(func, settings) {
+export function isFunctionAllowed(func, settings) {
 	if (func === 'frac')
 		return settings.divide
 	if (func === 'subSup')
-		return settings.power || settings.subscript	
+		return settings.power || settings.subscript
 	if (func === 'sin' || func === 'cos' || func === 'tan' || func === 'asin' || func === 'acos' || func === 'atan' || func === 'arcsin' || func === 'arccos' || func === 'arctan')
 		return settings.trigonometry
 	if (func === 'sqrt' || func === 'root')
@@ -68,10 +67,9 @@ function isFunctionAllowed(func, settings) {
 		return settings.logarithm
 	return false
 }
-module.exports.isFunctionAllowed = isFunctionAllowed
 
 // interpretExpression is the very important function that turns an IO expression into a functional object.
-function interpretExpression(obj) {
+export function interpretExpression(obj) {
 	// Check the type.
 	if (!isObject(obj))
 		throw new Error(`Interpreting error: the function interpretExpression was called but was not given an object. Instead, it was given "${obj}".`)
@@ -81,7 +79,6 @@ function interpretExpression(obj) {
 	// Interpret the value.
 	return interpretExpressionValue(obj.value)
 }
-module.exports.interpretExpression = interpretExpression
 
 const steps = {
 	brackets: 1,
@@ -89,7 +86,7 @@ const steps = {
 	products: 3,
 	remaining: 4,
 }
-function interpretExpressionValue(value, afterStep = 0) {
+export function interpretExpressionValue(value, afterStep = 0) {
 	// Check special cases.
 	if (value.length === 1 && value[0].value === '')
 	throw new InterpretationError('EmptyExpression', '', `Could not interpret the Expression due to it being empty.`)
@@ -108,7 +105,6 @@ function interpretExpressionValue(value, afterStep = 0) {
 			throw new Error(`Invalid interpretExpression call: tried to interpret an expression, but the afterStep parameter was invalid. A value of "${afterStep}" was given.`)
 	}
 }
-module.exports.interpretExpressionValue = interpretExpressionValue
 
 // interpretBrackets interprets everything related to brackets. This includes both regular brackets 2*(3+4), brackets with simple functions sin(2*x) and brackets for advanced functions with a parameter after it like [10]log(2*x).
 function interpretBrackets(value) {
@@ -173,7 +169,7 @@ function getMatchingBrackets(value) {
 		// On a function with a parameter afterwards, like [10]log(, note the opening bracket.
 		if (element.type === 'Function') {
 			const { name } = element
-			if (advancedFunctions[name].hasParameterAfter)
+			if (advancedFunctionsObj[name].hasParameterAfter)
 				noteOpeningBracket({ part })
 		}
 
@@ -209,7 +205,7 @@ function processBracketPart(value, opening, closing) {
 		const { name, value: internalArguments } = value[opening.part]
 		const shiftedOpening = { part: opening.part + 1, cursor: 0 }
 		const externalArgument = interpretExpressionValue(getSubExpression(value, shiftedOpening, closing))
-		const Component = advancedFunctions[name].component
+		const Component = advancedFunctionsObj[name].component
 		return new Component(
 			...internalArguments.map(interpretExpression),
 			externalArgument
@@ -230,11 +226,11 @@ function processBracketPart(value, opening, closing) {
 	if (lettersBeforeBracket.length > 0) {
 		// Check if it is a valid function name.
 		const name = lettersBeforeBracket
-		if (!basicFunctions[name])
+		if (!basicFunctionsObj[name])
 			throw new InterpretationError('UnknownBasicFunction', name, `Could not interpret the Expression due to an unknown function "${name}(...)".`)
 
 		// Set up the function.
-		const Component = basicFunctions[name]
+		const Component = basicFunctionsObj[name]
 		return new Component(interpretedExpression)
 	}
 
@@ -472,15 +468,15 @@ function interpretFunction(element) {
 	const { name, value } = element
 
 	// Verify the input. On a function with brackets, leave it for later.
-	if (!advancedFunctions[name])
+	if (!advancedFunctionsObj[name])
 		throw new InterpretationError(`UnknownAdvancedFunction`, name, `Could not interpret the function "${name}".`)
 
 	// Ensure that this function has no parameter afterwards.
-	if (advancedFunctions[name].hasParameterAfter)
+	if (advancedFunctionsObj[name].hasParameterAfter)
 		throw new Error(`Invalid function processing: tried to process a function "${name}" as a parameterless function, but this function has a parameter afterwards.`)
 
 	// Process the input.
-	const Component = advancedFunctions[name].component
+	const Component = advancedFunctionsObj[name].component
 	const valueInterpreted = value.map(arg => interpretExpression(arg))
 	return new Component(...valueInterpreted)
 }

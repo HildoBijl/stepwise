@@ -1,11 +1,11 @@
-const { getRandom } = require('../../../util/random')
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
+import { getRandom } from '../../../util/random'
+import { getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
+import { getStepExerciseProcessor } from '../util/stepExercise'
 let { helium: { k } } = require('../../../data/gasProperties')
-const { combinerAnd } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
+import { combinerAnd } from '../../../skillTracking'
+import { checkParameter } from '../util/check'
 
-const data = {
+export const data = {
 	skill: 'calculateWithInternalEnergy',
 	setup: combinerAnd('calculateHeatAndWork', 'solveLinearEquation'),
 	steps: ['calculateHeatAndWork', 'solveLinearEquation'],
@@ -18,7 +18,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	const factor = getRandom(1.1, 1.25)
 	const p = getRandomFloatUnit({
 		min: 1.01,
@@ -36,7 +36,7 @@ function generateState() {
 	return { p, V1, V2 }
 }
 
-function getCorrect({ p, V1, V2 }) {
+export function getCorrect({ p, V1, V2 }) {
 	p = p.simplify()
 	V1 = V1.simplify()
 	V2 = V2.simplify()
@@ -46,7 +46,7 @@ function getCorrect({ p, V1, V2 }) {
 	return { k, p, V1, V2, Q, W, dU }
 }
 
-function checkInput(state, input, step, substep) {
+export function checkInput(state, input, step, substep) {
 	const correct = getCorrect(state)
 	switch (step) {
 		case 1:
@@ -56,10 +56,4 @@ function checkInput(state, input, step, substep) {
 	}
 }
 
-module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getCorrect,
-}
+export const processAction = getStepExerciseProcessor(checkInput, data)

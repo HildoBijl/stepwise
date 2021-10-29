@@ -1,8 +1,8 @@
-const { lastOf } = require('../../../util/arrays')
-const { repeatWithIndices } = require('../../../util/functions')
+import { lastOf } from '../../../util/arrays'
+import { repeatWithIndices } from '../../../util/functions'
 
 // getSubExpression gets an expression array (the IO value) and returns the expression between the left and the right cursor. The right cursor MUST be to the right (or equal to) the left cursor. Both cursors must be in an ExpressionPart (string) part of the expression array. The returned value is a value-array too.
-function getSubExpression(value, left, right) {
+export function getSubExpression(value, left, right) {
 	// Is one of the cursors missing? Use the end.
 	if (!left)
 		left = { part: 0, cursor: 0 }
@@ -27,13 +27,11 @@ function getSubExpression(value, left, right) {
 	// All done!
 	return newValue
 }
-module.exports.getSubExpression = getSubExpression
 
 // moveRight takes a position in an expression and moves it one to the right. This is useful if you want to skip over an element.
-function moveRight(position) {
+export function moveRight(position) {
 	return {
 		...position,
 		cursor: position.cursor + 1,
 	}
 }
-module.exports.moveRight = moveRight

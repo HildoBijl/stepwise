@@ -1,9 +1,9 @@
 // This is the abstract ExpressionList class. It should not be instantiated, but it is used for Sum, Product and such.
 
-const { processOptions, filterOptions } = require('../../../util/objects')
-const { union } = require('../../../util/sets')
+import { processOptions, filterOptions } from '../../../util/objects'
+import { union } from '../../../util/sets'
 
-const Expression = require('./Expression')
+import Expression from './Expression'
 const Parent = Expression
 
 const defaultSO = {
@@ -11,7 +11,7 @@ const defaultSO = {
 	terms: [],
 }
 
-class ExpressionList extends Parent {
+export default class ExpressionList extends Parent {
 	constructor(...args) {
 		let SO
 		if (args.length === 0) {
@@ -103,4 +103,3 @@ class ExpressionList extends Parent {
 	}
 }
 ExpressionList.defaultSO = defaultSO
-module.exports = ExpressionList

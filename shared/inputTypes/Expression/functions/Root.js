@@ -1,10 +1,10 @@
-const Parent = require('../abstracts/FunctionMultiArgument')
-const Fraction = require('./Fraction')
-const Power = require('./Power')
+import Parent from '../abstracts/FunctionMultiArgument'
+import Fraction from './Fraction'
+import Power from './Power'
 
 const args = ['base', 'argument']
 
-class Root extends Parent {
+export default class Root extends Parent {
 	toNumber() {
 		return Math.pow(this.argument.toNumber(), 1 / this.base.toNumber())
 	}
@@ -33,4 +33,3 @@ class Root extends Parent {
 Root.defaultSO = Parent.getDefaultSO(args)
 Root.args = args
 Root.type = 'Root'
-module.exports = Root

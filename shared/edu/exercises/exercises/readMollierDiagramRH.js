@@ -1,11 +1,11 @@
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { checkParameter } = require('../util/check')
-const { maximumHumidity } = require('../../../data/moistureProperties')
-const { tableInterpolate } = require('../../../util/interpolation')
-const { firstOf, lastOf } = require('../../../util/arrays')
+import { getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
+import { getSimpleExerciseProcessor } from '../util/simpleExercise'
+import { checkParameter } from '../util/check'
+import { maximumHumidity } from '../../../data/moistureProperties'
+import { tableInterpolate } from '../../../util/interpolation'
+import { firstOf, lastOf } from '../../../util/arrays'
 
-const data = {
+export const data = {
 	skill: 'readMollierDiagram',
 	equalityOptions: {
 		default: {
@@ -14,7 +14,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	const temperatureRange = maximumHumidity.headers[0]
 	const T = getRandomFloatUnit({
 		min: 5, // Limit to higher temperatures to have some resolution in the plot.
@@ -32,18 +32,18 @@ function generateState() {
 	return { T, AH }
 }
 
-function getCorrect({ T, AH }) {
+export function getCorrect({ T, AH }) {
 	const AHmax = tableInterpolate(T, maximumHumidity).setSignificantDigits(2)
 	const RH = AH.divide(AHmax).setUnit('%').setDecimals(0)
 	return { T, RH, AHmax, AH }
 }
 
-function checkInput(state, input) {
+export function checkInput(state, input) {
 	const correct = getCorrect(state)
 	return checkParameter(['RH'], correct, input, data.equalityOptions)
 }
 
-module.exports = {
+export default {
 	data,
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),

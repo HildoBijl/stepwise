@@ -1,12 +1,12 @@
-const Expression = require('../abstracts/Expression')
-const Parent = require('../abstracts/FunctionMultiArgument')
-const Sum = require('../Sum')
-const Product = require('../Product')
-const Power = require('./Power')
+import Expression from '../abstracts/Expression'
+import Parent from '../abstracts/FunctionMultiArgument'
+import Sum from '../Sum'
+import Product from '../Product'
+import Power from './Power'
 
 const args = ['numerator', 'denominator']
 
-class Fraction extends Parent {
+export default class Fraction extends Parent {
 	toNumber() {
 		return this.numerator.toNumber() / this.denominator.toNumber()
 	}
@@ -76,4 +76,3 @@ class Fraction extends Parent {
 Fraction.defaultSO = Parent.getDefaultSO(args)
 Fraction.args = args
 Fraction.type = 'Fraction'
-module.exports = Fraction

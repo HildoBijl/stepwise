@@ -1,10 +1,11 @@
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
-const { air: { k, cp } } = require('../../../data/gasProperties')
-const { getCycle } = require('./support/gasTurbineCycle')
+import { getStepExerciseProcessor } from '../util/stepExercise'
+import { combinerAnd } from '../../../skillTracking'
+import { checkParameter } from '../util/check'
+import * as gasProperties from '../../../data/gasProperties'
+const { air: { k, cp } } = gasProperties
+import { getCycle } from './support/gasTurbineCycle'
 
-const data = {
+export const data = {
 	skill: 'useIsentropicEfficiency',
 	setup: combinerAnd('poissonsLaw', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation'),
 	steps: ['poissonsLaw', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation'],
@@ -17,7 +18,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	let { p1, T1, p2, T2 } = getCycle()
 	p1 = p1.setDecimals(0).roundToPrecision().setMinimumSignificantDigits(2)
 	p2 = p2.setDecimals(0).roundToPrecision().setMinimumSignificantDigits(2)
@@ -26,7 +27,7 @@ function generateState() {
 	return { p1, p2, T1, T2 }
 }
 
-function getCorrect({ p1, p2, T1, T2 }) {
+export function getCorrect({ p1, p2, T1, T2 }) {
 	const T2p = T1.multiply(p2.divide(p1).float.toPower(1 - 1 / k.number)).setDecimals(0)
 	const wt = cp.multiply(T2.subtract(T1)).setUnit('J/kg')
 	const wti = cp.multiply(T2p.subtract(T1)).setUnit('J/kg')
@@ -34,7 +35,7 @@ function getCorrect({ p1, p2, T1, T2 }) {
 	return { k, cp, p1, p2, T1, T2, T2p, wt, wti, etai }
 }
 
-function checkInput(state, input, step, substep) {
+export function checkInput(state, input, step, substep) {
 	const correct = getCorrect(state)
 	switch (step) {
 		case 1:
@@ -46,10 +47,4 @@ function checkInput(state, input, step, substep) {
 	}
 }
 
-module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getCorrect,
-}
+export const processAction = getStepExerciseProcessor(checkInput, data)

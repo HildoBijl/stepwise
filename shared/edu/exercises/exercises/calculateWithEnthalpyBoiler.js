@@ -1,10 +1,10 @@
-const { FloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
-const { generateState } = require('./calculateWithSpecificQuantitiesBoiler')
+import { FloatUnit } from '../../../inputTypes/FloatUnit'
+import { getStepExerciseProcessor } from '../util/stepExercise'
+import { combinerAnd } from '../../../skillTracking'
+import { checkParameter } from '../util/check'
+import { generateState } from './calculateWithSpecificQuantitiesBoiler'
 
-const data = {
+export const data = {
 	skill: 'calculateWithEnthalpy',
 	setup: combinerAnd('calculateWithSpecificQuantities', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation'),
 	steps: ['calculateWithSpecificQuantities', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation'],
@@ -17,7 +17,7 @@ const data = {
 	},
 }
 
-function getCorrect({ Q, m }) {
+export function getCorrect({ Q, m }) {
 	Q = Q.simplify()
 	q = Q.divide(m).setUnit('kJ/kg')
 	wt = new FloatUnit('0 kJ/kg')
@@ -25,7 +25,7 @@ function getCorrect({ Q, m }) {
 	return { Q, m, q, wt, dh }
 }
 
-function checkInput(state, input, step, substep) {
+export function checkInput(state, input, step, substep) {
 	const correct = getCorrect(state)
 	switch (step) {
 		case 1:
@@ -37,10 +37,4 @@ function checkInput(state, input, step, substep) {
 	}
 }
 
-module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getCorrect,
-}
+export const processAction = getStepExerciseProcessor(checkInput, data)

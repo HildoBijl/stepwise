@@ -1,12 +1,12 @@
-const { Float, getRandomFloat } = require('../../../inputTypes/Float')
-const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+import { Float, getRandomFloat } from '../../../inputTypes/Float'
+import { getSimpleExerciseProcessor } from '../util/simpleExercise'
 
-const data = {
+export const data = {
 	skill: 'solveLinearEquation',
 	equalityOptions: { significantDigitMargin: 1 },
 }
 
-function generateState() {
+export function generateState() {
 	const state = {
 		a: getRandomFloat({
 			min: -30,
@@ -40,15 +40,15 @@ function generateState() {
 	return state
 }
 
-function getCorrect({ a, b, c, d, e }) {
+export function getCorrect({ a, b, c, d, e }) {
 	return (d.subtract(b)).divide(a.add(c).subtract(e))
 }
 
-function checkInput(state, { ans }) {
+export function checkInput(state, { ans }) {
 	return getCorrect(state).equals(ans, data.equalityOptions)
 }
 
-module.exports = {
+export default {
 	data,
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),

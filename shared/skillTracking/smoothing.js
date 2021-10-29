@@ -1,31 +1,30 @@
-const { numberArray } = require('../util/arrays')
-const { binomial } = require('../util/combinatorics')
-const { isInt } = require('../util/numbers')
-const { ensureNumber } = require('../util/numbers')
-const { processOptions } = require('../util/objects')
+import { numberArray } from '../util/arrays'
+import { binomial } from '../util/combinatorics'
+import { isInt } from '../util/numbers'
+import { ensureNumber } from '../util/numbers'
+import { processOptions } from '../util/objects'
 
-const { getOrder, ensureCoef } = require('./evaluation')
-const { normalize } = require('./manipulation')
+import { getOrder, ensureCoef } from './evaluation'
+import { normalize } from './manipulation'
 
 // Define various settings.
 const decayHalfLife = 365.25 * 24 * 60 * 60 * 1000 // [Milliseconds] The time after which half of the convergence towards the flat distribution is obtained.
 const initialPracticeDecayTime = 2 * 30 * 24 * 60 * 60 * 1000 // [Milliseconds] The equivalent time of decay for practicing a problem.
 const practiceDecayHalfLife = 12 // [Problems practiced] The number of problems practiced until the practice decay halves.
-const maxSmoothingOrder = 120 // The maximum order for smoothing. This needs a cap, for numerical reasons. For higher values the binomials start failing.
+export const maxSmoothingOrder = 120 // The maximum order for smoothing. This needs a cap, for numerical reasons. For higher values the binomials start failing.
 const maxOrder = 150 // If we encounter a higher order coefficient array than this, then we will always do smoothing to keep it manageable.
 const defaultSmoothingOptions = {
 	time: 0,
 	applyPracticeDecay: false,
 	numProblemsPracticed: 0,
 }
-module.exports.maxSmoothingOrder = maxSmoothingOrder
 
 /* getSmoothingFactor gives the order appropriate for smoothing. It calculates this on the given options:
  * - time (default 0): how much time (in milliseconds) has passed since the last exercise?
  * - applyPracticeDecay (default false): should we add in practice decay?
  * - numProblemsPracticed (default 0): how many times has the user practiced this skill before? How many problems have been done?
  */
-function getSmoothingFactor(options) {
+export function getSmoothingFactor(options) {
 	const { time, applyPracticeDecay, numProblemsPracticed } = processOptions(options, defaultSmoothingOptions)
 
 	// Calculate the equivalent time for smoothing.
@@ -39,10 +38,9 @@ function getSmoothingFactor(options) {
 	// Calculate smoothing factor.
 	return Math.pow(1 / 2, equivalentTime / decayHalfLife)
 }
-module.exports.getSmoothingFactor = getSmoothingFactor
 
 // smoothen smoothens the distribution described by the coefficients with a given factor. A factor of 1 leaves the distribution unchanged, while 0 brings it back to the starting distribution. Effectively, the new mean is (0.5 * (mu_old - 0.5) * factor). If the factor is too close to one, then no smoothing is done, unless the coefficient array is too large, which may cause numerical problems.
-function smoothen(coef, factor) {
+export function smoothen(coef, factor) {
 	// Check input.
 	coef = ensureCoef(coef)
 	factor = ensureNumber(factor)
@@ -75,7 +73,6 @@ function smoothen(coef, factor) {
 	})
 	return coef
 }
-module.exports.smoothen = smoothen
 
 // smoothenWithOrder smoothens the distribution described by the coefficients, using a smoothing order. If the smoothing order is too high, no smoothing is done.
 function smoothenWithOrder(coef, nNew) {

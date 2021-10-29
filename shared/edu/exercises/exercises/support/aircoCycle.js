@@ -1,8 +1,8 @@
-const { tableInterpolate, inverseTableInterpolate } = require('../../../../util/interpolation')
-const { getRandomFloatUnit } = require('../../../../inputTypes/FloatUnit')
-const { maximumHumidity } = require('../../../../data/moistureProperties')
+import { tableInterpolate, inverseTableInterpolate } from '../../../../util/interpolation'
+import { getRandomFloatUnit } from '../../../../inputTypes/FloatUnit'
+import { maximumHumidity } from '../../../../data/moistureProperties'
 
-function getCycle() {
+export function getCycle() {
 	// Determine starting and ending temperatures.
 	const T1 = getRandomFloatUnit({ // Starting temperature.
 		min: 22,
@@ -41,4 +41,3 @@ function getCycle() {
 
 	return { T1, T2, T3, T4, startRH, startAH, startAHmax, endRH, endAH, endAHmax }
 }
-module.exports.getCycle = getCycle

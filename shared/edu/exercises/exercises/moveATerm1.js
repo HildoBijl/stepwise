@@ -1,12 +1,12 @@
-const { getRandomInteger, getRandomBoolean } = require('../../../util/random')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
+import { getRandomInteger, getRandomBoolean } from '../../../util/random'
+import { getStepExerciseProcessor } from '../util/stepExercise'
 
 // Testing code.
-const { Expression } = require('../../../inputTypes/Expression')
-const { Equation } = require('../../../inputTypes/Equation')
-const { asExpression, asEquation } = require('../../../inputTypes/Expression/interpreter/fromString')
+import { Expression } from '../../../inputTypes/Expression'
+import { Equation } from '../../../inputTypes/Equation'
+import { asExpression, asEquation } from '../../../inputTypes/Expression/interpreter/fromString'
 
-const data = {
+export const data = {
 	skill: 'moveATerm',
 	steps: [null, null],
 	equalityOptions: {
@@ -17,7 +17,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	// ax + b = cy
 	return {
 		a: getRandomInteger(-12, 12, [0, 1]),
@@ -33,7 +33,7 @@ function getEquation({ a, b, c, switchLeftRight, switchXY }) {
 	return switchLeftRight ? equation.flip() : equation
 }
 
-function getCorrect(state) {
+export function getCorrect(state) {
 	const { a, switchXY } = state
 
 	// Get the original equation.
@@ -49,7 +49,7 @@ function getCorrect(state) {
 	return { ...state, equation, term, termAbs, intermediate, ans }
 }
 
-function checkInput(state, input, step) {
+export function checkInput(state, input, step) {
 	const { intermediate, ans } = getCorrect(state)
 	if (step === 0 || step === 2)
 		return ans.equals(input.ans, data.equalityOptions.default)
@@ -57,7 +57,7 @@ function checkInput(state, input, step) {
 		return intermediate.equals(input.intermediate, data.equalityOptions.default)
 }
 
-module.exports = {
+export default {
 	data,
 	generateState,
 	processAction: getStepExerciseProcessor(checkInput, data),

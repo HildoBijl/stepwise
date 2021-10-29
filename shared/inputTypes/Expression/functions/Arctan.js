@@ -1,9 +1,9 @@
-const Parent = require('../abstracts/FunctionSingleArgument')
-const Sum = require('../Sum')
-const Fraction = require('./Fraction')
-const Power = require('./Power')
+import Parent from '../abstracts/FunctionSingleArgument'
+import Sum from '../Sum'
+import Fraction from './Fraction'
+import Power from './Power'
 
-class Arctan extends Parent {
+export default class Arctan extends Parent {
 	toNumber() {
 		return Math.atan(this.argument.toNumber())
 	}
@@ -26,4 +26,3 @@ class Arctan extends Parent {
 }
 Arctan.defaultSO = Parent.defaultSO
 Arctan.type = 'Arctan'
-module.exports = Arctan

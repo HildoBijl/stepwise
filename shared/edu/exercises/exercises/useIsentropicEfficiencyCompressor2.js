@@ -1,10 +1,11 @@
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
-const { air: { k, cp } } = require('../../../data/gasProperties')
-const { getCycle } = require('./support/gasTurbineCycle')
+import { getStepExerciseProcessor } from '../util/stepExercise'
+import { combinerAnd, combinerRepeat } from '../../../skillTracking'
+import { checkParameter } from '../util/check'
+import * as gasProperties from '../../../data/gasProperties'
+const { air: { k, cp } } = gasProperties
+import { getCycle } from './support/gasTurbineCycle'
 
-const data = {
+export const data = {
 	skill: 'useIsentropicEfficiency',
 	setup: combinerAnd('poissonsLaw', combinerRepeat('calculateSpecificHeatAndMechanicalWork', 2), 'solveLinearEquation'),
 	steps: ['poissonsLaw', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation', 'calculateSpecificHeatAndMechanicalWork'],
@@ -17,7 +18,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	let { p1, T1, p2, etai } = getCycle()
 	p1 = p1.setDecimals(0).roundToPrecision().setMinimumSignificantDigits(2)
 	p2 = p2.setDecimals(0).roundToPrecision().setMinimumSignificantDigits(2)
@@ -26,7 +27,7 @@ function generateState() {
 	return { p1, p2, T1, etai }
 }
 
-function getCorrect({ p1, p2, T1, etai }) {
+export function getCorrect({ p1, p2, T1, etai }) {
 	etai = etai.simplify()
 	const T2p = T1.multiply(p2.divide(p1).float.toPower(1 - 1 / k.number)).setDecimals(0)
 	const wti = cp.multiply(T1.subtract(T2p)).setUnit('J/kg')
@@ -35,7 +36,7 @@ function getCorrect({ p1, p2, T1, etai }) {
 	return { k, cp, p1, p2, T1, T2, T2p, wt, wti, etai }
 }
 
-function checkInput(state, input, step, substep) {
+export function checkInput(state, input, step, substep) {
 	const correct = getCorrect(state)
 	switch (step) {
 		case 1:
@@ -49,10 +50,4 @@ function checkInput(state, input, step, substep) {
 	}
 }
 
-module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getCorrect,
-}
+export const processAction = getStepExerciseProcessor(checkInput, data)

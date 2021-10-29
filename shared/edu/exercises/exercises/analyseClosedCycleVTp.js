@@ -1,10 +1,10 @@
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
-const { generateState, getCorrect: getCycleParameters } = require('./calculateClosedCycleVTp')
-const { getCorrect: getEnergyParameters } = require('./createClosedCycleEnergyOverviewVTp')
+import { getStepExerciseProcessor } from '../util/stepExercise'
+import { combinerAnd } from '../../../skillTracking'
+import { checkParameter } from '../util/check'
+import { generateState, getCorrect as getCycleParameters } from './calculateClosedCycleVTp'
+import { getCorrect as getEnergyParameters } from './createClosedCycleEnergyOverviewVTp'
 
-const data = {
+export const data = {
 	skill: 'analyseClosedCycle',
 	setup: combinerAnd('calculateClosedCycle', 'createClosedCycleEnergyOverview', 'calculateWithEfficiency'),
 	steps: ['calculateClosedCycle', 'createClosedCycleEnergyOverview', null, 'calculateWithEfficiency'],
@@ -23,7 +23,7 @@ const data = {
 	},
 }
 
-function getCorrect(state) {
+export function getCorrect(state) {
 	const { m, Rs, p1, V1, T1, p2, V2, T2, p3, V3, T3 } = getCycleParameters(state)
 	const { cv, cp, Q12, W12, Q23, W23, Q31, W31, Wn } = getEnergyParameters(state)
 
@@ -32,7 +32,7 @@ function getCorrect(state) {
 	return { Rs, cv, cp, m, p1, V1, T1, p2, V2, T2, p3, V3, T3, Q12, W12, Q23, W23, Q31, W31, Wn, Qin, eta }
 }
 
-function checkInput(state, input, step, substep) {
+export function checkInput(state, input, step, substep) {
 	const correct = getCorrect(state)
 	const { choice } = input
 	switch (step) {
@@ -49,7 +49,7 @@ function checkInput(state, input, step, substep) {
 	}
 }
 
-module.exports = {
+export default {
 	data,
 	generateState,
 	processAction: getStepExerciseProcessor(checkInput, data),

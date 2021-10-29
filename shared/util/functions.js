@@ -1,16 +1,14 @@
-const { ensureInt } = require('./numbers')
+import { ensureInt } from './numbers'
 
-function noop() { }
-module.exports.noop = noop
+export function noop() { }
 
 // repeat will repeat the given function the given number of times. The function is passed the index (0, 1, ..., (times-1)) as parameter. Negative times will throw an error.
-function repeat(times, func) {
+export function repeat(times, func) {
 	repeatWithIndices(0, times - 1, func)
 }
-module.exports.repeat = repeat
 
 // repeatWithIndices will repeat the given function with indices ranging from min to max (both inclusive). So repeatWithIndices(3, 5, print) will print 3, 4 and 5. If min is larger than max, an error will be thrown.
-function repeatWithIndices(min, max, func) {
+export function repeatWithIndices(min, max, func) {
 	// Proces input.
 	min = ensureInt(min)
 	max = ensureInt(max)
@@ -24,4 +22,3 @@ function repeatWithIndices(min, max, func) {
 	const arr = (new Array(times)).fill(0)
 	arr.forEach((_, index) => func(index + min))
 }
-module.exports.repeatWithIndices = repeatWithIndices

@@ -1,9 +1,9 @@
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
-const { generateState, getCorrect: getCorrectPrevious } = require('./calculateEntropyChangeWithProperties')
+import { getStepExerciseProcessor } from '../util/stepExercise'
+import { combinerAnd, combinerRepeat } from '../../../skillTracking'
+import { checkParameter } from '../util/check'
+import { generateState, getCorrect as getCorrectPrevious } from './calculateEntropyChangeWithProperties'
 
-const data = {
+export const data = {
 	skill: 'calculateMissedWork',
 	setup: combinerAnd('poissonsLaw', combinerRepeat('calculateEntropyChange', 2), 'solveLinearEquation'),
 	steps: ['poissonsLaw', 'calculateEntropyChange', 'calculateSpecificHeatAndMechanicalWork', 'calculateEntropyChange', null, 'solveLinearEquation'],
@@ -17,7 +17,7 @@ const data = {
 	},
 }
 
-function getCorrect(state) {
+export function getCorrect(state) {
 	const correct = getCorrectPrevious(state)
 	let { T1, T2, ds: dsIn, c } = correct
 	dsIn = dsIn.setDecimals(0)
@@ -28,7 +28,7 @@ function getCorrect(state) {
 	return { ...correct, q, dsIn, dsOut, ds, wm }
 }
 
-function checkInput(state, input, step, substep) {
+export function checkInput(state, input, step, substep) {
 	const correct = getCorrect(state)
 	switch (step) {
 		case 1:
@@ -46,10 +46,4 @@ function checkInput(state, input, step, substep) {
 	}
 }
 
-module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getCorrect,
-}
+export const processAction = getStepExerciseProcessor(checkInput, data)

@@ -1,7 +1,7 @@
-const { setIOtoFO } = require('../../../inputTypes')
+import { setIOtoFO } from '../../../inputTypes'
 
 // getSimpleExerciseProcessor takes a checkInput function that checks the input for a SimpleExercise and returns a processAction function.
-function getSimpleExerciseProcessor(checkInput, data) {
+export function getSimpleExerciseProcessor(checkInput, data) {
 	return ({ progress, action, state, history, updateSkills }) => {
 		if (progress.done)
 			return progress // Weird ... we're already done.
@@ -32,14 +32,12 @@ function getSimpleExerciseProcessor(checkInput, data) {
 		}
 	}
 }
-module.exports.getSimpleExerciseProcessor = getSimpleExerciseProcessor
 
 // getLastInput takes a history object and returns the last given input.
-function getLastInput(history) {
+export function getLastInput(history) {
 	for (let i = history.length - 1; i >= 0; i--) {
 		if (history[i].action.type === 'input')
 			return history[i].action.input
 	}
 	return null
 }
-module.exports.getLastInput = getLastInput

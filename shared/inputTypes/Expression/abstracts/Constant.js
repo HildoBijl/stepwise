@@ -1,14 +1,16 @@
 // The Constant class is an abstract class inherited by classes like Integer and Float in the CAS.
 
-const { decimalSeparatorTex } = require('../../../settings')
-const { isInt } = require('../../../util/numbers')
+import { decimalSeparatorTex } from '../../../settings'
+import { isInt } from '../../../util/numbers'
 
-const Expression = require('./Expression')
+import Expression from './Expression'
+import Integer from '../Integer'
+import Float from '../Float'
 
 const Parent = Expression
 const defaultSO = { ...Parent.defaultSO, value: 0 }
 
-class Constant extends Parent {
+export default class Constant extends Parent {
 	constructor(SO) {
 		super(SO)
 
@@ -62,7 +64,6 @@ class Constant extends Parent {
 	}
 
 	getDerivativeBasic() {
-		const Integer = require('../Integer')
 		return Integer.zero // The derivative of a constant is always zero.
 	}
 
@@ -78,13 +79,10 @@ class Constant extends Parent {
 
 	static toNumber(number) {
 		if (isInt(number)) {
-			const Integer = require('../Integer')
 			return new Integer(number)
 		}
-		const Float = require('../Float')
 		return new Float(number)
 	}
 }
 Constant.defaultSO = defaultSO
 Constant.type = 'Constant'
-module.exports = Constant

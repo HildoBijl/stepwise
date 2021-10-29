@@ -1,14 +1,14 @@
-const Parent = require('../abstracts/FunctionSingleArgument')
-const Integer = require('../Integer')
-const Product = require('../Product')
+import Parent from '../abstracts/FunctionSingleArgument'
+import Integer from '../Integer'
+import Product from '../Product'
+import Cos from './Cos'
 
-class Sin extends Parent {
+export default class Sin extends Parent {
 	toNumber() {
 		return Math.sin(this.argument.toNumber())
 	}
 
 	getDerivativeBasic(variable) {
-		const Cos = require('./Cos')
 		return new Product(
 			new Cos(this.argument),
 			this.argument.getDerivative(variable), // Apply the chain rule.
@@ -31,4 +31,3 @@ class Sin extends Parent {
 }
 Sin.defaultSO = Parent.defaultSO
 Sin.type = 'Sin'
-module.exports = Sin

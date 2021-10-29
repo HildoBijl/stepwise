@@ -1,4 +1,4 @@
-class InterpretationError extends Error {
+export class InterpretationError extends Error {
 	constructor(code, cause, ...args) {
 		super(...args)
 
@@ -12,9 +12,8 @@ class InterpretationError extends Error {
 		this.cause = cause
 	}
 }
-module.exports.InterpretationError = InterpretationError
 
-function getInterpretationErrorMessage(error) {
+export function getInterpretationErrorMessage(error) {
 	// If the error is not an interpretation error, rethrow it.
 	if (!(error instanceof InterpretationError))
 		throw error
@@ -88,4 +87,3 @@ function getInterpretationErrorMessage(error) {
 			throw new Error(`Invalid interpretation error code: cannot determine what went wrong with the interpretation. The error code "${code}" is not known.`)
 	}
 }
-module.exports.getInterpretationErrorMessage = getInterpretationErrorMessage

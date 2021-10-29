@@ -1,4 +1,4 @@
-const { Prefix } = require('./Prefix')
+import { Prefix } from './Prefix'
 
 // General overview of all prefixes.
 const prefixList = [
@@ -25,12 +25,11 @@ const prefixList = [
 ]
 
 // Turn the prefix list into an object with the letter as key.
-const prefixes = {}
+export const prefixes = {}
 prefixList.forEach(prefix => prefixes[prefix.letter] = prefix)
-module.exports.prefixes = prefixes
 
 // Find which prefix corresponds to the given text, taking into account alternatives. Return null when nothing is found.
-function findPrefix(str) {
+export function findPrefix(str) {
 	// Try to find the prefix by the key.
 	if (prefixes[str])
 		return prefixes[str]
@@ -38,36 +37,33 @@ function findPrefix(str) {
 	// Try to find the prefix by the alternatives.
 	return Object.values(prefixes).find(prefix => prefix.equalsString(str)) || null
 }
-module.exports.findPrefix = findPrefix
 
 // getPrefixName takes a string like "mu" and returns the name "micro". It throws an error if no prefix can be found.
-function getPrefixName(str) {
+export function getPrefixName(str) {
 	// Check no prefix.
 	if (str === '')
 		return ''
-	
+
 	// Try to find the prefix.
 	const prefix = findPrefix(str)
 	if (!prefix)
 		throw new Error(`Unknown prefix "${str}".`)
-	
+
 	// Return the text.
 	return prefix.name
 }
-module.exports.getPrefixName = getPrefixName
 
 // getPrefixPower takes a string like "mu" and returns the power "-6". It throws an error if no prefix can be found.
-function getPrefixPower(str) {
+export function getPrefixPower(str) {
 	// Check no prefix.
 	if (str === '')
 		return 0
-	
+
 	// Try to find the prefix.
 	const prefix = findPrefix(str)
 	if (!prefix)
 		throw new Error(`Unknown prefix "${str}".`)
-	
+
 	// Return the text.
 	return prefix.power
 }
-module.exports.getPrefixPower = getPrefixPower

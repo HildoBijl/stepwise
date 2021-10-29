@@ -1,10 +1,10 @@
-const { getRandom } = require('../../../util/random')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerRepeat } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
-const { getRandomInteger } = require('../../../inputTypes/Integer')
+import { getRandom } from '../../../util/random'
+import { getStepExerciseProcessor } from '../util/stepExercise'
+import { combinerRepeat } from '../../../skillTracking'
+import { checkParameter } from '../util/check'
+import { getRandomInteger } from '../../../inputTypes/Integer'
 
-const data = {
+export const data = {
 	skill: 'linearInterpolation',
 	setup: combinerRepeat('solveLinearEquation', 2),
 	steps: ['solveLinearEquation', 'solveLinearEquation'],
@@ -20,7 +20,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	const type = getRandomInteger(1, 2) // 1 means give year, find population. 2 means give population, find year.
 	const year1 = getRandomInteger(1950, 1970)
 	const year2 = getRandomInteger(1980, 2000)
@@ -37,7 +37,7 @@ function generateState() {
 	}
 }
 
-function getCorrect({ type, year1, year2, pop1, pop2, year, pop }) {
+export function getCorrect({ type, year1, year2, pop1, pop2, year, pop }) {
 	let x, popRounded, yearFloored
 	if (type === 1) {
 		x = (year - year1) / (year2 - year1)
@@ -51,7 +51,7 @@ function getCorrect({ type, year1, year2, pop1, pop2, year, pop }) {
 	return { type, year1, year2, pop1, pop2, x, year, pop, yearFloored, popRounded }
 }
 
-function checkInput(state, input, step, substep) {
+export function checkInput(state, input, step, substep) {
 	const correct = getCorrect(state)
 	switch (step) {
 		case 1:
@@ -61,10 +61,4 @@ function checkInput(state, input, step, substep) {
 	}
 }
 
-module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getCorrect,
-}
+export const processAction = getStepExerciseProcessor(checkInput, data)

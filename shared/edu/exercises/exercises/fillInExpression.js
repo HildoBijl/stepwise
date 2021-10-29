@@ -1,10 +1,10 @@
-const { getRandomInteger } = require('../../../util/random')
-const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+import { getRandomInteger } from '../../../util/random'
+import { getSimpleExerciseProcessor } from '../util/simpleExercise'
 
 // Testing code.
-const { getExpressionTypes } = require('../../../inputTypes/Expression')
+import { getExpressionTypes } from '../../../inputTypes/Expression'
 // const { Constant, Variable, Sum, Product, Power, Ln, Fraction, Sqrt, Root, Log, Sin, Cos, Asin } = getExpressionTypes()
-// const { interpretExpression } = require('../../../inputTypes/Expression/interpreter')
+// import { interpretExpression } from '../../../inputTypes/Expression/interpreter'
 
 // const a = new Constant(-5)
 // const b = a.multiplyBy(4)
@@ -72,7 +72,7 @@ const { getExpressionTypes } = require('../../../inputTypes/Expression')
 // console.log(fx.str)
 // console.log(fx.getDerivative().str)
 
-const data = {
+export const data = {
 	skill: 'fillInExpression',
 	equalityOptions: {
 		// TODO
@@ -85,15 +85,15 @@ const expressions = [
 	// ToDo: eventually add all use cases here.
 ]
 
-function generateState() {
+export function generateState() {
 	return { index: getRandomInteger(0, expressions.length - 1) }
 }
 
-function getCorrect({ index }) {
+export function getCorrect({ index }) {
 	return expressions[index]
 }
 
-function checkInput(state, { ans, eq }) {
+export function checkInput(state, { ans, eq }) {
 	// const correct = getCorrect(state)
 	// return correct.equals(ans, data.equalityOptions)
 	console.log(ans)
@@ -103,7 +103,7 @@ function checkInput(state, { ans, eq }) {
 	return false
 }
 
-module.exports = {
+export default {
 	data,
 	expressions,
 	generateState,

@@ -1,33 +1,25 @@
-const { getRandomBoolean } = require('../util/random')
+export { getRandomBoolean } from '../util/random' // Exports this function here too, for uniformity's sake.
 
-module.exports.getRandomBoolean = getRandomBoolean // Exports this function here too, for uniformity's sake.
-
-function isFOofType(bool) {
+export function isFOofType(bool) {
 	return typeof bool === 'boolean'
 }
-module.exports.isFOofType = isFOofType
 
-function FOtoIO(bool) {
+export function FOtoIO(bool) {
 	return bool
 }
-module.exports.FOtoIO = FOtoIO
 
-function IOtoFO(bool) {
+export function IOtoFO(bool) {
 	return bool
 }
-module.exports.IOtoFO = IOtoFO
 
-function getEmpty() {
+export function getEmpty() {
 	return false
 }
-module.exports.getEmpty = getEmpty
 
-function isEmpty(value) {
+export function isEmpty(value) {
 	return false // Never empty.
 }
-module.exports.isEmpty = isEmpty
 
-function equals(a, b) {
+export function equals(a, b) {
 	return IOtoFO(a) === IOtoFO(b)
 }
-module.exports.equals = equals

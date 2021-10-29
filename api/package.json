@@ -1,6 +1,6 @@
 {
 	"scripts": {
-		"start": "node scripts/startWebserver.js",
+		"start": "node --experimental-specifier-resolution=node scripts/startWebserver.js",
 		"dev": "nodemon --watch ./ --watch ../shared src/index.js",
 		"test": "cross-env POSTGRES_DB=\"testing\" jest --runInBand tests/.*\\.test\\.js",
 		"test:watch": "cross-env POSTGRES_DB=\"testing\" jest --watch --runInBand tests/.*\\.test\\.js",

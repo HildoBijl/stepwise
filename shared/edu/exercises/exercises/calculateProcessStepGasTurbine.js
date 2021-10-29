@@ -1,10 +1,11 @@
-const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
-const { air: { k, Rs } } = require('../../../data/gasProperties')
+import { FloatUnit, getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
+import { getStepExerciseProcessor } from '../util/stepExercise'
+import { combinerAnd, combinerRepeat } from '../../../skillTracking'
+import { checkParameter } from '../util/check'
+import * as gasProperties from '../../../data/gasProperties'
+const { air: { k, Rs } } = gasProperties
 
-const data = {
+export const data = {
 	skill: 'calculateProcessStep',
 	setup: combinerAnd(combinerRepeat('gasLaw', 2), 'recognizeProcessTypes', 'poissonsLaw'),
 	steps: ['gasLaw', 'recognizeProcessTypes', 'poissonsLaw', 'gasLaw'],
@@ -17,7 +18,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	const m = getRandomFloatUnit({
 		min: 500,
 		max: 3000,
@@ -41,7 +42,7 @@ function generateState() {
 	return { m, T1, p1, p2 }
 }
 
-function getCorrect({ m, T1, p1, p2 }) {
+export function getCorrect({ m, T1, p1, p2 }) {
 	p1 = p1.simplify()
 	p2 = p2.simplify()
 	const V1 = m.multiply(Rs).multiply(T1).divide(p1).setUnit('m^3')
@@ -50,7 +51,7 @@ function getCorrect({ m, T1, p1, p2 }) {
 	return { k, Rs, m, p1, V1, T1, p2, V2, T2 }
 }
 
-function checkInput(state, input, step, substep) {
+export function checkInput(state, input, step, substep) {
 	const correct = getCorrect(state)
 	switch (step) {
 		case 1:
@@ -67,10 +68,4 @@ function checkInput(state, input, step, substep) {
 	}
 }
 
-module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getCorrect,
-}
+export const processAction = getStepExerciseProcessor(checkInput, data)

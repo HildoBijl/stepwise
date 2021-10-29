@@ -1,11 +1,11 @@
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
-const { getCycle } = require('./support/steamTurbineCycle')
-const { withPressure, enthalpy, entropy } = require('../../../data/steamProperties')
-const { tableInterpolate } = require('../../../util/interpolation')
+import { getStepExerciseProcessor } from '../util/stepExercise'
+import { combinerAnd, combinerRepeat } from '../../../skillTracking'
+import { checkParameter } from '../util/check'
+import { getCycle } from './support/steamTurbineCycle'
+import { withPressure, enthalpy, entropy } from '../../../data/steamProperties'
+import { tableInterpolate } from '../../../util/interpolation'
 
-const data = {
+export const data = {
 	skill: 'createRankineCycleOverview',
 	setup: combinerAnd(combinerRepeat('lookUpSteamProperties', 2), 'recognizeProcessTypes', 'useVaporFraction'),
 	steps: ['lookUpSteamProperties', null, 'lookUpSteamProperties', 'recognizeProcessTypes', 'useVaporFraction'],
@@ -18,7 +18,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	let { pc, pe, T2 } = getCycle()
 	pc = pc.setSignificantDigits(2).roundToPrecision()
 	pe = pe.setDecimals(0).roundToPrecision()
@@ -26,7 +26,7 @@ function generateState() {
 	return { pc, pe, T2 }
 }
 
-function getCorrect({ pc, pe, T2 }) {
+export function getCorrect({ pc, pe, T2 }) {
 	// Get liquid and vapor points.
 	const hx0 = tableInterpolate(pc, withPressure.enthalpyLiquid)
 	const hx1 = tableInterpolate(pc, withPressure.enthalpyVapor)
@@ -52,7 +52,7 @@ function getCorrect({ pc, pe, T2 }) {
 	return { pc, pe, T2, hx0, hx1, sx0, sx1, h1, s1, h2, s2, h3, s3, x3, h4, s4 }
 }
 
-function checkInput(state, input, step, substep) {
+export function checkInput(state, input, step, substep) {
 	const correct = getCorrect(state)
 	switch (step) {
 		case 1:
@@ -70,10 +70,4 @@ function checkInput(state, input, step, substep) {
 	}
 }
 
-module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getCorrect,
-}
+export const processAction = getStepExerciseProcessor(checkInput, data)

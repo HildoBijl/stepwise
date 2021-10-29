@@ -1,11 +1,12 @@
-const { selectRandomly } = require('../../../util/random')
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
-const gasProperties = require('../../../data/gasProperties')
+import { selectRandomly } from '../../../util/random'
+import { getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
+import { getStepExerciseProcessor } from '../util/stepExercise'
+import { combinerAnd, combinerRepeat } from '../../../skillTracking'
+import { checkParameter } from '../util/check'
+import * as gasProperties from '../../../data/gasProperties'
 
-const data = {
+
+export const data = {
 	skill: 'calculateProcessStep',
 	setup: combinerAnd(combinerRepeat('gasLaw', 2), 'recognizeProcessTypes', 'poissonsLaw'),
 	steps: ['gasLaw', 'recognizeProcessTypes', 'poissonsLaw', 'gasLaw'],
@@ -18,7 +19,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	const gas = selectRandomly(['methane', 'helium', 'hydrogen'])
 	const p1 = getRandomFloatUnit({
 		min: 2,
@@ -50,7 +51,7 @@ function generateState() {
 	return { gas, m, T1, V1, V2 }
 }
 
-function getCorrect({ gas, m, T1, V1, V2 }) {
+export function getCorrect({ gas, m, T1, V1, V2 }) {
 	const { k, Rs } = gasProperties[gas]
 	m = m.simplify()
 	T1 = T1.simplify()
@@ -62,7 +63,7 @@ function getCorrect({ gas, m, T1, V1, V2 }) {
 	return { k, Rs, m, p1, V1, T1, p2, V2, T2 }
 }
 
-function checkInput(state, input, step, substep) {
+export function checkInput(state, input, step, substep) {
 	const correct = getCorrect(state)
 	switch (step) {
 		case 1:
@@ -79,10 +80,4 @@ function checkInput(state, input, step, substep) {
 	}
 }
 
-module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getCorrect,
-}
+export const processAction = getStepExerciseProcessor(checkInput, data)

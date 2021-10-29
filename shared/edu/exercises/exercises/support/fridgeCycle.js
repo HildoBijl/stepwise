@@ -1,6 +1,6 @@
-const { getRandomFloatUnit } = require('../../../../inputTypes/FloatUnit')
+import { getRandomFloatUnit } from '../../../../inputTypes/FloatUnit'
 
-function getCycle() {
+export function getCycle() {
 	const Tcold = getRandomFloatUnit({
 		min: 1,
 		max: 8,
@@ -31,4 +31,3 @@ function getCycle() {
 
 	return { Tcold, Twarm, dTcold, dTwarm, Tevap, Tcond }
 }
-module.exports.getCycle = getCycle

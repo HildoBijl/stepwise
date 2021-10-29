@@ -1,4 +1,3 @@
-const skills = require('step-wise/edu/skills')
 const { getUserSkill, getUserSkills } = require('../util/Skill')
 
 const commonResolvers = {} // None at the moment.

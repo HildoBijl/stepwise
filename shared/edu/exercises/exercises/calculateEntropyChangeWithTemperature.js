@@ -1,12 +1,13 @@
-const { Unit } = require('../../../inputTypes/Unit')
-const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getRandomInteger, selectRandomly } = require('../../../util/random')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
-const gasProperties = require('../../../data/gasProperties')
+import { Unit } from '../../../inputTypes/Unit'
+import { FloatUnit, getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
+import { getRandomInteger, selectRandomly } from '../../../util/random'
+import { getStepExerciseProcessor } from '../util/stepExercise'
+import { combinerAnd } from '../../../skillTracking'
+import { checkParameter } from '../util/check'
+import * as gasProperties from '../../../data/gasProperties'
 
-const data = {
+
+export const data = {
 	skill: 'calculateEntropyChange',
 	setup: combinerAnd('calculateWithTemperature', 'specificHeats', 'solveLinearEquation'),
 	steps: ['calculateWithTemperature', 'specificHeats', 'solveLinearEquation'],
@@ -35,7 +36,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	const type = getRandomInteger(0, 2) // 0 isobaric, 1 isochoric, 2 isentropic
 	const medium = selectRandomly(['air', 'carbonMonoxide', 'hydrogen', 'methane', 'nitrogen', 'oxygen'])
 	const T1 = getRandomFloatUnit({
@@ -60,7 +61,7 @@ function generateState() {
 	return { type, medium, T1, T2, m }
 }
 
-function getCorrect({ type, medium, T1, T2, m }) {
+export function getCorrect({ type, medium, T1, T2, m }) {
 	T1 = T1.simplify()
 	T2 = T2.simplify()
 	m = m.simplify()
@@ -69,7 +70,7 @@ function getCorrect({ type, medium, T1, T2, m }) {
 	return { type, medium, T1, T2, m, c, dS }
 }
 
-function checkInput(state, input, step, substep) {
+export function checkInput(state, input, step, substep) {
 	const correct = getCorrect(state)
 	switch (step) {
 		case 1:
@@ -81,10 +82,4 @@ function checkInput(state, input, step, substep) {
 	}
 }
 
-module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getCorrect,
-}
+export const processAction = getStepExerciseProcessor(checkInput, data)

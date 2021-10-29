@@ -1,8 +1,8 @@
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { checkParameter } = require('../util/check')
+import { getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
+import { getSimpleExerciseProcessor } from '../util/simpleExercise'
+import { checkParameter } from '../util/check'
 
-const data = {
+export const data = {
 	skill: 'calculateWithSpecificQuantities',
 	equalityOptions: {
 		default: {
@@ -12,7 +12,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	const rho = getRandomFloatUnit({
 		min: 0.4,
 		max: 1.2,
@@ -23,17 +23,17 @@ function generateState() {
 	return { rho }
 }
 
-function getCorrect({ rho }) {
+export function getCorrect({ rho }) {
 	const v = rho.invert()
 	return { rho, v }
 }
 
-function checkInput(state, input) {
+export function checkInput(state, input) {
 	const correct = getCorrect(state)
 	return checkParameter('v', correct, input, data.equalityOptions)
 }
 
-module.exports = {
+export default {
 	data,
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),

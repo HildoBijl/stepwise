@@ -1,11 +1,12 @@
-const { FloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const gasProperties = require('../../../data/gasProperties')
-const { combinerRepeat, combinerOr } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
-const { generateState, getCorrect: getCycleParametersRaw } = require('./calculateOpenCycleTsp')
+import { FloatUnit } from '../../../inputTypes/FloatUnit'
+import { getStepExerciseProcessor } from '../util/stepExercise'
+import * as gasProperties from '../../../data/gasProperties'
 
-const data = {
+import { combinerRepeat, combinerOr } from '../../../skillTracking'
+import { checkParameter } from '../util/check'
+import { generateState, getCorrect as getCycleParametersRaw } from './calculateOpenCycleTsp'
+
+export const data = {
 	skill: 'createOpenCycleEnergyOverview',
 	setup: combinerRepeat('calculateSpecificHeatAndMechanicalWork', 3),
 	steps: ['calculateSpecificHeatAndMechanicalWork', 'calculateSpecificHeatAndMechanicalWork', combinerOr('calculateSpecificHeatAndMechanicalWork', 'calculateWithEnthalpy')],
@@ -32,7 +33,7 @@ function getCycleParameters(state) {
 	return { m, p1, v1, T1, p2, v2, T2, p3, v3, T3 }
 }
 
-function getCorrect(state) {
+export function getCorrect(state) {
 	const { m, p1, v1, T1, v2, T2, T3 } = getCycleParameters(state)
 	let { cv, cp } = gasProperties[state.medium]
 	cv = cv.simplify()
@@ -48,7 +49,7 @@ function getCorrect(state) {
 	return { cv, cp, q12, wt12, q23, wt23, q31, wt31, qn, wn }
 }
 
-function checkInput(state, input, step, substep) {
+export function checkInput(state, input, step, substep) {
 	const correct = getCorrect(state)
 	switch (step) {
 		case 1:
@@ -62,7 +63,7 @@ function checkInput(state, input, step, substep) {
 	}
 }
 
-module.exports = {
+export default {
 	data,
 	generateState,
 	processAction: getStepExerciseProcessor(checkInput, data),

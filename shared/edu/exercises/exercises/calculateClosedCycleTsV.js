@@ -1,11 +1,12 @@
-const { selectRandomly } = require('../../../util/random')
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const gasProperties = require('../../../data/gasProperties')
-const { combinerRepeat } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
+import { selectRandomly } from '../../../util/random'
+import { getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
+import { getStepExerciseProcessor } from '../util/stepExercise'
+import * as gasProperties from '../../../data/gasProperties'
 
-const data = {
+import { combinerRepeat } from '../../../skillTracking'
+import { checkParameter } from '../util/check'
+
+export const data = {
 	skill: 'calculateClosedCycle',
 	setup: combinerRepeat('calculateProcessStep', 2),
 	steps: ['calculateProcessStep', 'calculateProcessStep'],
@@ -19,7 +20,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	const medium = selectRandomly(['air', 'argon', 'carbonMonoxide', 'helium', 'hydrogen', 'methane', 'nitrogen', 'oxygen'])
 	const V1 = getRandomFloatUnit({
 		min: 1,
@@ -49,7 +50,7 @@ function generateState() {
 	return { medium, p1, V1, T1, p2 }
 }
 
-function getCorrect({ medium, p1, V1, T1, p2 }) {
+export function getCorrect({ medium, p1, V1, T1, p2 }) {
 	const { Rs, k } = gasProperties[medium]
 	p1 = p1.simplify()
 	V1 = V1.simplify()
@@ -65,7 +66,7 @@ function getCorrect({ medium, p1, V1, T1, p2 }) {
 	return { medium, m, Rs, k, p1, V1, T1, p2, V2, T2, p3, V3, T3 }
 }
 
-function checkInput(state, input, step, substep) {
+export function checkInput(state, input, step, substep) {
 	const correct = getCorrect(state)
 	switch (step) {
 		case 1:
@@ -77,10 +78,4 @@ function checkInput(state, input, step, substep) {
 	}
 }
 
-module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getCorrect,
-}
+export const processAction = getStepExerciseProcessor(checkInput, data)

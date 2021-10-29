@@ -1,15 +1,15 @@
-const { getRandomInteger } = require('../../../inputTypes/Integer')
-const { getRandomExponentialFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { Unit } = require('../../../inputTypes/Unit')
-const { selectRandomly } = require('../../../util/random')
-const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+import { getRandomInteger } from '../../../inputTypes/Integer'
+import { getRandomExponentialFloatUnit } from '../../../inputTypes/FloatUnit'
+import { Unit } from '../../../inputTypes/Unit'
+import { selectRandomly } from '../../../util/random'
+import { getSimpleExerciseProcessor } from '../util/simpleExercise'
 
 // Type 0: from (c/d/.)m^3 to liter.
 // Type 1: from (c/d/.)m^3 to SI (so m^3: which it may already be in).
 // Type 2: from liter to m^3.
 // Type 3: from liter to SI (so m^3).
 
-const data = {
+export const data = {
 	skill: 'calculateWithVolume',
 	equalityOptions: {
 		relativeMargin: 0.001,
@@ -18,7 +18,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	let V = getRandomExponentialFloatUnit({
 		min: 1e-5,
 		max: 1e2,
@@ -37,16 +37,16 @@ function generateState() {
 	return { V, type }
 }
 
-function getCorrect({ V, type }) {
+export function getCorrect({ V, type }) {
 	V = V.simplify()
 	return (type === 0 ? V.setUnit('l') : V)
 }
 
-function checkInput(state, { ans }) {
+export function checkInput(state, { ans }) {
 	return getCorrect(state).equals(ans, data.equalityOptions)
 }
 
-module.exports = {
+export default {
 	data,
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),

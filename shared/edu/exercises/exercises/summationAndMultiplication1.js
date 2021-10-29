@@ -1,14 +1,14 @@
-const { getRandomInteger } = require('../../../inputTypes/Integer')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd } = require('../../../skillTracking')
+import { getRandomInteger } from '../../../inputTypes/Integer'
+import { getStepExerciseProcessor } from '../util/stepExercise'
+import { combinerAnd } from '../../../skillTracking'
 
-const data = {
+export const data = {
 	skill: 'summationAndMultiplication',
 	setup: combinerAnd('multiplication', 'summation'),
 	steps: ['multiplication', 'summation'],
 }
 
-function generateState() {
+export function generateState() {
 	return {
 		a: getRandomInteger(1, 10),
 		b: getRandomInteger(1, 10),
@@ -16,7 +16,7 @@ function generateState() {
 	}
 }
 
-function checkInput({ a, b, c }, { ans, ab }, step) {
+export function checkInput({ a, b, c }, { ans, ab }, step) {
 	if (step === 0)
 		return a * b + c === ans
 	if (step === 1)
@@ -25,7 +25,7 @@ function checkInput({ a, b, c }, { ans, ab }, step) {
 		return a * b + c === ans
 }
 
-module.exports = {
+export default {
 	data,
 	generateState,
 	processAction: getStepExerciseProcessor(checkInput, data),

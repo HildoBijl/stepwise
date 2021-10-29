@@ -222,7 +222,7 @@ export function useSkillAdvice() {
 	}
 }
 
-// findPriorSkillToPractice takes a skillId and a practiceNeeded object and determines which prior skill requires 
+// findPriorSkillToPractice takes a skillId and a practiceNeeded object and determines which prior skill requires
 function findPriorSkillToPractice(skillId, practiceNeeded) {
 	// Walk through prior skills to see if one requires practice.
 	const recommendation = skills[skillId].prerequisites.find(prerequisiteId => practiceNeeded[prerequisiteId] === 2)

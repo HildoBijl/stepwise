@@ -1,13 +1,13 @@
-const { getRandomInteger } = require('../../../inputTypes/Integer')
-const { getRandomExponentialFloat } = require('../../../inputTypes/Float')
-const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+import { getRandomInteger } from '../../../inputTypes/Integer'
+import { getRandomExponentialFloat } from '../../../inputTypes/Float'
+import { getSimpleExerciseProcessor } from '../util/simpleExercise'
 
-const data = {
+export const data = {
 	skill: 'fillInFloat',
 	equalityOptions: { relativeMargin: 0.0001 },
 }
 
-function generateState() {
+export function generateState() {
 	return {
 		x: getRandomExponentialFloat({
 			min: 1e-6,
@@ -18,11 +18,11 @@ function generateState() {
 	}
 }
 
-function checkInput({ x }, { ans }) {
+export function checkInput({ x }, { ans }) {
 	return x.equals(ans, data.equalityOptions)
 }
 
-module.exports = {
+export default {
 	data,
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),

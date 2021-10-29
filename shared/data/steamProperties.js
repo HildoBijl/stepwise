@@ -1,8 +1,8 @@
-const { FloatUnit } = require('../inputTypes/FloatUnit')
+import { FloatUnit } from '../inputTypes/FloatUnit'
 
 // Data for a given temperature.
 const temperatureRange = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 255, 260, 265, 270, 275, 280, 285, 290, 295, 300, 305, 310, 315, 320, 325, 330, 335, 340, 345, 350, 355, 360, 365, 370].map(T => new FloatUnit({ float: T, unit: 'dC' }).makeExact())
-const withTemperature = {
+export const withTemperature = {
 	boilingPressure: {
 		grid: ['0.0061', '0.0123', '0.0234', '0.0424', '0.0737', '0.1233', '0.1992', '0.3116', '0.4736', '0.7011', '1.013', '1.433', '1.985', '2.701', '3.614', '4.76', '6.18', '7.92', '10.03', '12.55', '15.55', '19.08', '23.20', '27.98', '33.48', '39.78', '43.24', '46.94', '50.87', '55.05', '59.49', '64.19', '69.17', '74.45', '80.03', '85.9', '92.1', '98.7', '105.6', '112.9', '120.6', '128.7', '137.1', '146.1', '155.5', '165.4', '175.8', '186.7', '198.3', '210.5'].map(p => new FloatUnit({ float: p, unit: 'bar' })),
 	},
@@ -23,11 +23,10 @@ Object.values(withTemperature).forEach(column => {
 	column.labels = ['Temperature']
 	column.headers = [temperatureRange]
 })
-module.exports.withTemperature = withTemperature
 
 // Data for a given pressure.
 const pressureRange = [0.01, 0.02, 0.05, 0.1, 0.2, 0.4, 0.6, 0.8, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 36, 40, 45, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210].map(p => new FloatUnit({ float: p, unit: 'bar' }).makeExact())
-const withPressure = {
+export const withPressure = {
 	boilingTemperature: {
 		grid: ['6.98', '17.51', '32.9', '45.8', '60.1', '75.9', '86.0', '93.5', '99.6', '120.2', '133.5', '143.6', '151.9', '158.8', '165.0', '170.4', '175.4', '180.0', '188.0', '195.0', '201.4', '207.1', '212.4', '217.2', '221.8', '226.0', '230.0', '233.8', '237.4', '244.2', '250.3', '257.4', '263.9', '275.6', '285.8', '295.0', '303.3', '311.0', '318.0', '324.6', '330.8', '336.6', '342.1', '347.3', '352.3', '357.0', '361.4', '365.7', '369.8'].map(T => new FloatUnit({ float: T, unit: 'dC' })),
 	},
@@ -48,10 +47,9 @@ Object.values(withPressure).forEach(column => {
 	column.labels = ['Pressure']
 	column.headers = [pressureRange]
 })
-module.exports.withPressure = withPressure
 
 // Enthalpy of superheated steam.
-const enthalpy = {
+export const enthalpy = {
 	labels: ['Pressure', 'Temperature'],
 	headers: [
 		[14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 36, 40, 45, 50, 60, 70, 80, 90, 100, 120, 140, 160, 180, 200].map(p => new FloatUnit({ float: p, unit: 'bar' }).makeExact()),
@@ -86,10 +84,9 @@ const enthalpy = {
 		['3965.5', '3964.4', '3963.3', '3962.1', '3961.0', '3959.9', '3958.7', '3957.6', '3956.4', '3955.3', '3953.0', '3950.8', '3947.9', '3945.1', '3939.4', '3933.8', '3928.1', '3922.5', '3916.8', '3905.5', '3894.2', '3882.9', '3871.7', '3860.4'],
 	].map(arr => arr.map(h => h === undefined ? undefined : new FloatUnit({ float: h, unit: 'kJ/kg' }))),
 }
-module.exports.enthalpy = enthalpy
 
 // Entropy of superheated steam.
-const entropy = {
+export const entropy = {
 	labels: ['Pressure', 'Temperature'],
 	headers: [
 		[14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 36, 40, 45, 50, 60, 70, 80, 90, 100, 120, 140, 160, 180, 200].map(p => new FloatUnit({ float: p, unit: 'bar' }).makeExact()),
@@ -124,4 +121,3 @@ const entropy = {
 		['8.1604', '8.0979', '8.0427', '7.9932', '7.9484', '7.9073', '7.8695', '7.8345', '7.8018', '7.7711', '7.7150', '7.6647', '7.6081', '7.5573', '7.4689', '7.3934', '7.3274', '7.2688', '7.2158', '7.1230', '7.0432', '6.9729', '6.9099', '6.8526'],
 	].map(arr => arr.map(s => s === undefined ? undefined : new FloatUnit({ float: s, unit: 'kJ/kg * K' }))),
 }
-module.exports.entropy = entropy

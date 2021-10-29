@@ -1,8 +1,8 @@
-const { setIOtoFO } = require('../../../inputTypes')
-const { ensureInt } = require('../../../util/numbers')
+import { setIOtoFO } from '../../../inputTypes'
+import { ensureInt } from '../../../util/numbers'
 
 // getStepExerciseProcessor takes a checkInput function that checks the input for a StepExercise and returns a processAction function.
-function getStepExerciseProcessor(checkInput, data) {
+export function getStepExerciseProcessor(checkInput, data) {
 	const numSteps = data.steps.length
 	return ({ progress, action, state, history, updateSkills }) => {
 		if (progress.done)
@@ -92,24 +92,21 @@ function getStepExerciseProcessor(checkInput, data) {
 		}
 	}
 }
-module.exports.getStepExerciseProcessor = getStepExerciseProcessor
 
 // getStep takes a progress object and returns the step which this problem is at.
-function getStep(progress) {
+export function getStep(progress) {
 	return progress.split ? progress.step : 0
 }
-module.exports.getStep = getStep
 
 // isStepSolved checks, from the progress object, whether the given step is solved. If no step is given, it checks the main exercise.
-function isStepSolved(progress, step) {
+export function isStepSolved(progress, step) {
 	if (!step)
 		return !!progress.solved
 	return !!(progress[step] || {}).solved
 }
-module.exports.isStepSolved = isStepSolved
 
 // isSubStepSolved checks, from the progress object, whether the given substep is solved.
-function isSubstepSolved(progress, step, substep) {
+export function isSubstepSolved(progress, step, substep) {
 	// Check input.
 	step = ensureInt(step, true, true)
 	substep = ensureInt(substep, true, true)
@@ -119,7 +116,6 @@ function isSubstepSolved(progress, step, substep) {
 		return false
 	return !!progress[step][substep]
 }
-module.exports.isSubstepSolved = isSubstepSolved
 
 // nextStep takes a progress object and adjusts it to make it one in which the current step is done. The object is adjusted and returned.
 function nextStep(progress, numSteps) {

@@ -1,4 +1,4 @@
-const { getCombinerSkills, combinerAnd, combinerOr, combinerRepeat } = require('../../skillTracking/combiners')
+import { getCombinerSkills, combinerAnd, combinerOr, combinerRepeat } from '../../skillTracking/combiners'
 
 const skills = {
 	// Testing exercises.
@@ -262,4 +262,4 @@ Object.values(skills).forEach(skill => {
 	})
 })
 
-module.exports = skills
+export default skills

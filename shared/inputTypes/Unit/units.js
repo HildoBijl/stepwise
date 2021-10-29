@@ -1,9 +1,8 @@
-const { BaseUnit } = require('./BaseUnit')
-const { prefixes } = require('./prefixes')
+import { BaseUnit } from './BaseUnit'
+import { prefixes } from './prefixes'
 
 // The special symbols used in units, other than the regular 26 alphabet letters. Note: this also includes prefix symbols.
-const specialUnitSymbols = ['Ω', 'μ', '°', '∘', '%']
-module.exports.specialUnitSymbols = specialUnitSymbols
+export const specialUnitSymbols = ['Ω', 'μ', '°', '∘', '%']
 
 // General overview of all units.
 const unitList = [
@@ -39,12 +38,11 @@ const unitList = [
 ]
 
 // Turn the unit list into an object with the letter as key.
-const units = {}
+export const units = {}
 unitList.forEach(unit => units[unit.letter] = unit)
-module.exports.units = units
 
 // Find which unit corresponds to the given text. Return null when nothing is found.
-function findUnit(str) {
+export function findUnit(str) {
 	// Check input.
 	if (typeof str !== 'string')
 		throw new Error(`Invalid input: a string was expected, but received input type "${typeof str}".`)
@@ -61,4 +59,3 @@ function findUnit(str) {
 	// Nothing found.
 	return null
 }
-module.exports.findUnit = findUnit

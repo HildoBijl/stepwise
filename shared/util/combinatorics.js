@@ -1,9 +1,9 @@
-const { numberArray } = require('./arrays')
-const { isInt, ensureNumber } = require('./numbers')
+import { numberArray } from './arrays'
+import { isInt, ensureNumber } from './numbers'
 
 // factorial calculates n!. If an extra parameter nEnd is given, it calculates n!/nEnd! = (n * (n-1) * ... * (nEnd + 1)). It memorizes values that have already been calculated.
 const factorialMemoization = {}
-function factorial(n, nEnd = 0) {
+export function factorial(n, nEnd = 0) {
 	// Check input.
 	if (!isInt(n) || !isInt(nEnd))
 		throw new Error(`Invalid input: the factorial function requires integers but was given "${n}" and "${nEnd}".`)
@@ -26,11 +26,10 @@ function factorial(n, nEnd = 0) {
 	}
 	return factorialMemoization[n][nEnd]
 }
-module.exports.factorial = factorial
 
 // binomial calculates (a above b) = a! / (b! * (a-b)!). It memorizes values that have already been calculated.
 const binomialMemoization = {}
-function binomial(a, b) {
+export function binomial(a, b) {
 	// Check input.
 	if (!isInt(a) || !isInt(b))
 		throw new Error(`Invalid input: the binomial function requires integers but was given "${a}" and "${b}".`)
@@ -52,16 +51,14 @@ function binomial(a, b) {
 		binomialMemoization[a][b] = factorial(a, a - b) / factorial(b) // Calculate it.
 	return binomialMemoization[a][b]
 }
-module.exports.binomial = binomial
 
 // normalPDF calculates the PDF for a Gaussian (normal) distribution.
-function normalPDF(x, mu = 0, sigma = 1) {
+export function normalPDF(x, mu = 0, sigma = 1) {
 	// Check input.
 	x = ensureNumber(x)
 	mu = ensureNumber(mu)
 	sigma = ensureNumber(sigma)
-	
+
 	// Calculate the PDF.
 	return 1/(sigma * Math.sqrt(2*Math.PI)) * Math.exp(-1/2 * ((x - mu)/sigma) ** 2)
 }
-module.exports.normalPDF = normalPDF

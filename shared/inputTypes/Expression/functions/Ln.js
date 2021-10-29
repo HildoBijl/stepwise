@@ -1,12 +1,12 @@
-const Parent = require('../abstracts/FunctionSingleArgument')
+import Parent from '../abstracts/FunctionSingleArgument'
+import Fraction from './Fraction'
 
-class Ln extends Parent {
+export default class Ln extends Parent {
 	toNumber() {
 		return Math.log(this.argument.toNumber())
 	}
 
 	getDerivativeBasic(variable) {
-		const Fraction = require('./Fraction')
 		const arg = this.argument.eliminateFactor() // The factor has no influence on the derivative of the ln.
 		return new Fraction({
 			factor: this.factor,
@@ -26,4 +26,3 @@ class Ln extends Parent {
 Ln.defaultSO = Parent.defaultSO
 Ln.args = Parent.args
 Ln.type = 'Ln'
-module.exports = Ln

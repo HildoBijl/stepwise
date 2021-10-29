@@ -1,11 +1,11 @@
-const { decimalSeparator } = require('../../settings')
+import { decimalSeparator } from '../../settings'
 
-const Constant = require('./abstracts/Constant')
+import Constant from './abstracts/Constant'
 
 const Parent = Constant
 const defaultSO = { ...Parent.defaultSO }
 
-class Float extends Parent {
+export default class Float extends Parent {
 	constructor(SO) {
 		if (typeof SO === 'string')
 			SO = { value: parseFloat(SO.replace(decimalSeparator, '.')) }
@@ -20,4 +20,3 @@ class Float extends Parent {
 }
 Float.defaultSO = defaultSO
 Float.type = 'Float'
-module.exports = Float

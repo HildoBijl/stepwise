@@ -1,13 +1,13 @@
 // Unit represents any unit a physical quantity may have. For example mg^3 * kl / ns^2 * °C^2.
 
-const { ensureInt } = require('../../util/numbers')
-const { isObject, deepEquals, processOptions } = require('../../util/objects')
-const { UnitElement } = require('./UnitElement')
-const { getUnitArrayFO, FOtoIO: unitArrayFOtoIO, IOtoFO: unitArrayIOtoFO, getEmpty: getEmptyUnitArray, isEmpty: isUnitArrayEmpty } = require('./UnitArray')
+import { ensureInt } from '../../util/numbers'
+import { isObject, deepEquals, processOptions } from '../../util/objects'
+import { UnitElement } from './UnitElement'
+import { getUnitArrayFO, FOtoIO as unitArrayFOtoIO, IOtoFO as unitArrayIOtoFO, getEmpty as getEmptyUnitArray, isEmpty as isUnitArrayEmpty } from './UnitArray'
 
 const unitColor = '#044488' // The color in which units are printed within Tex. It cannot be imported from the theme because this file is in the shared directory.
 
-class Unit {
+export class Unit {
 	// The constructor input is either a string like "mg^3 * kl / ns^2 * °C^2", or an object with a "num" and a "den" property. In this latter case these properties should either be unit strings like "mg^3 * kl" or arrays of something the UnitElement constructor takes.
 
 	constructor(input = {}) {
@@ -96,7 +96,7 @@ class Unit {
 	}
 
 	/* simplify simplifies a unit, removing prefixes from all unit elements, sorting out the order and removing duplicate units. Various options can be passed along:
-	 * - type (default 2): 
+	 * - type (default 2):
 	 *   0 (Unit.simplifyType.doNothing): don't simplify anything.
 	 *   1 (Unit.simplifyType.removePrefixes): remove the prefixes, turning dl into l.
 	 *   2 (Unit.simplifyType.toStandardUnits): go to standard units, turning l into m^3.
@@ -233,7 +233,7 @@ class Unit {
 	}
 
 	/* equals compares two units, checking if they're equal, returning true or false. It can get an object with options as second parameter. These options include:
-	 * - type (default 3): 
+	 * - type (default 3):
 	 *   0 (Unit.equalityTypes.exact): require exactly the same unit. So N * m and m * N are different.
 	 *   1 (Unit.equalityTypes.sameUnitsAndPrefixes): allow other orders, but keeping the same prefixes. So kg * s and s * kg are equal, but kg * s and g * ks are not equal.
 	 *   2 (Unit.equalityTypes.sameUnits): allow any order and shifting of prefixes, but keep the same unit. So kg * s and g * ks are equal. Also, km / s and m / ms are equal. But turning N into kg * m / s^2 is not allowed.
@@ -315,7 +315,6 @@ class Unit {
 		})
 	}
 }
-module.exports.Unit = Unit
 
 // Define simplify types.
 Unit.simplifyTypes = {
@@ -340,7 +339,7 @@ Unit.defaultEqualityOptions = {
 	type: Unit.equalityTypes.free,
 	checkSize: true,
 }
-function equalityTypeToSimplifyOptions(type) {
+export function equalityTypeToSimplifyOptions(type) {
 	if (type === Unit.equalityTypes.exact) {
 		return {
 			type: Unit.simplifyTypes.doNothing,
@@ -367,10 +366,9 @@ function equalityTypeToSimplifyOptions(type) {
 	}
 	throw new Error(`Invalid unit equals type: received "${type}" which is not a known type.`)
 }
-module.exports.equalityTypeToSimplifyOptions = equalityTypeToSimplifyOptions
 
 // splitUnitString takes a unit like "m * kg / N^2 * m^2" and splits it up into an object { num: "m * kg", den: "N^2 * m^2" } with numerator and denominator strings.
-function splitUnitString(str) {
+export function splitUnitString(str) {
 	// Do a separate bracket check. We don't need this for the functionality, but it's nice to show more helpful errors.
 	if (str.includes('(') || str.includes(')'))
 		throw new Error(`Invalid unit input: received a unit with brackets. Brackets are not necessary in units. Enter them like "N * m^2 / kg * K". The received input, with brackets, was "${str}".`)
@@ -385,15 +383,13 @@ function splitUnitString(str) {
 		den: strSplit[1] || '',
 	}
 }
-module.exports.splitUnitString = splitUnitString
 
 // The following functions are obligatory functions.
-function isFOofType(unit) {
+export function isFOofType(unit) {
 	return isObject(unit) && unit.constructor === Unit
 }
-module.exports.isFOofType = isFOofType
 
-function FOtoIO(unit) {
+export function FOtoIO(unit) {
 	// Check if we have a Unit object already. If not, turn it into one. (Or die trying.)
 	if (unit.constructor !== Unit)
 		unit = new Unit(unit)
@@ -404,30 +400,29 @@ function FOtoIO(unit) {
 		den: unitArrayFOtoIO(unit.den),
 	}
 }
-module.exports.FOtoIO = FOtoIO
 
-function IOtoFO(value) {
+export function IOtoFO(value) {
 	return new Unit({
 		num: unitArrayIOtoFO(value.num),
 		den: unitArrayIOtoFO(value.den),
 	})
 }
-module.exports.IOtoFO = IOtoFO
 
-function getEmpty() {
+export function getEmpty() {
 	return {
 		num: getEmptyUnitArray(),
 		den: getEmptyUnitArray(),
 	}
 }
-module.exports.getEmpty = getEmpty
 
-function isEmpty(value) {
+export function isValid() {
+	return true // TODO
+}
+
+export function isEmpty(value) {
 	return isUnitArrayEmpty(value.num) && isUnitArrayEmpty(value.den)
 }
-module.exports.isEmpty = isEmpty
 
-function equals(a, b) {
+export function equals(a, b) {
 	return IOtoFO(a).equals(IOtoFO(b))
 }
-module.exports.equals = equals

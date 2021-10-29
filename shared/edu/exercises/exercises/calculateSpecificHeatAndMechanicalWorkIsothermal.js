@@ -1,12 +1,13 @@
-const { selectRandomly } = require('../../../util/random')
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { Unit } = require('../../../inputTypes/Unit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd, combinerOr } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
-const gasProperties = require('../../../data/gasProperties')
+import { selectRandomly } from '../../../util/random'
+import { getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
+import { Unit } from '../../../inputTypes/Unit'
+import { getStepExerciseProcessor } from '../util/stepExercise'
+import { combinerAnd, combinerOr } from '../../../skillTracking'
+import { checkParameter } from '../util/check'
+import * as gasProperties from '../../../data/gasProperties'
 
-const data = {
+
+export const data = {
 	skill: 'calculateSpecificHeatAndMechanicalWork',
 	setup: combinerAnd('recognizeProcessTypes', 'specificGasConstant', 'gasLaw', 'calculateWithTemperature', 'calculateWithSpecificQuantities'),
 	steps: ['recognizeProcessTypes', null, 'specificGasConstant', 'gasLaw', 'calculateWithTemperature', 'calculateWithSpecificQuantities'],
@@ -36,7 +37,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	const gas = selectRandomly(['air', 'carbonMonoxide', 'hydrogen', 'methane', 'nitrogen', 'oxygen'])
 	const T = getRandomFloatUnit({
 		min: 6,
@@ -60,7 +61,7 @@ function generateState() {
 	return { gas, T, p1, p2 }
 }
 
-function getCorrect({ gas, T, p1, p2 }) {
+export function getCorrect({ gas, T, p1, p2 }) {
 	let { Rs } = gasProperties[gas]
 	T = T.simplify()
 	ratio = p1.divide(p2).simplify()
@@ -69,7 +70,7 @@ function getCorrect({ gas, T, p1, p2 }) {
 	return { gas, process: 2, eq: 5, Rs, ratio, T, p1, p2, q, wt }
 }
 
-function checkInput(state, input, step, substep) {
+export function checkInput(state, input, step, substep) {
 	const correct = getCorrect(state)
 	switch (step) {
 		case 1:
@@ -87,10 +88,4 @@ function checkInput(state, input, step, substep) {
 	}
 }
 
-module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getCorrect,
-}
+export const processAction = getStepExerciseProcessor(checkInput, data)

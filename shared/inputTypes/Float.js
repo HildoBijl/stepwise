@@ -1,22 +1,19 @@
 // The Float class represents floating point numbers with a certain number of significant digits. By default it is an empty string with zero significant digits.
 
-const { decimalSeparator } = require('../settings')
-const { isInt, ensureInt, isNumber, ensureNumber, roundToDigits, roundTo } = require('../util/numbers')
-const { isObject, processOptions } = require('../util/objects')
-const { getRandom } = require('../util/random')
-const { Integer } = require('./Integer')
+import { decimalSeparator } from '../settings'
+import { isInt, ensureInt, isNumber, ensureNumber, roundToDigits, roundTo } from '../util/numbers'
+import { isObject, processOptions } from '../util/objects'
+import { getRandom } from '../util/random'
 
-const numberFormat = '(-?(\\d+[.,]?\\d*)|(\\d*[.,]?\\d+))'
+export const numberFormat = '(-?(\\d+[.,]?\\d*)|(\\d*[.,]?\\d+))'
 const timesFormat = '(\\s*\\*\\s*)'
 // const tenPowerFormat = '10\\^(?:(?:\\((?<powerWithBrackets>-?\\d+)\\))|(?<powerWithoutBrackets>-?\\d+))' // Firefox doesn't support named capture groups.
 const tenPowerFormat = '(10\\^((\\((-?\\d+)\\))|(-?\\d+)))'
-const floatFormat = `(${numberFormat}${timesFormat}${tenPowerFormat}|${tenPowerFormat}|${numberFormat})` // Either a number, or a ten-power, or both with a multiplication in-between. (In reverse order, having more complex first)
+export const floatFormat = `(${numberFormat}${timesFormat}${tenPowerFormat}|${tenPowerFormat}|${numberFormat})` // Either a number, or a ten-power, or both with a multiplication in-between. (In reverse order, having more complex first)
 
 const regNumberFormat = new RegExp(`^${numberFormat}$`)
 const regTenPowerFormat = new RegExp(`^${tenPowerFormat}$`)
 const regFloatFormat = new RegExp(`^${floatFormat}$`)
-module.exports.floatFormat = floatFormat
-module.exports.numberFormat = numberFormat
 
 const defaultParameters = {
 	number: 0,
@@ -24,13 +21,13 @@ const defaultParameters = {
 	power: undefined, // Solely for display purposes. 0 means a number like "1234.56" will be display as "1234.56", 2 means a number like "1234.56" will be displayed as "12.3456 * 10^2", and undefined means we'll just make our own best guess as how we should display this number.
 }
 
-class Float {
+export class Float {
 	/* The constructor input can be of the form string, number or SO.
 	 * string: A string of the form "123.456 * 10^(-2)" (the power is optional, and so are the brackets). The significant digits and power will be interpreted from the string.
 	 * number: A number like 12.345. Significant digits will be deduced from whatever is given. So for 12.345 it'll be five. No trailing zeros are possible in this input form.
 	 * SO: An object with parameters
 		 * number (default 0): the number that we have.
-		 * significantDigits (default Infinity): the number of significant digits of the unit. 
+		 * significantDigits (default Infinity): the number of significant digits of the unit.
 		 * power (default undefined): the power that is used when displaying the number. A number like 1234.56 with power 2 will be displayed as 12.3456 * 10^2. Keeping undefined means we'll just make our own best guess as how we should display this number. This is better, as a number like 1200 with two significant digits will be displayed like "1.2" with undefined power, but "1200" (wrong) with zero power.
 	 */
 	constructor(input = {}) {
@@ -38,9 +35,9 @@ class Float {
 		if (isObject(input) && input.constructor === Float)
 			return this.become(input)
 
-		// If we have an integer type, extract the number.
-		if (input.constructor === Integer)
-			input = input.number
+		// // If we have an integer type, extract the number.
+		// if (input.constructor === Integer)
+		// 	input = input.number
 
 		// If we have a string or number, split it up into an object first.
 		if (typeof input === 'string')
@@ -494,7 +491,6 @@ class Float {
 		})
 	}
 }
-module.exports.Float = Float
 
 Float.defaultEqualityOptions = {
 	absoluteMargin: 'auto',
@@ -511,7 +507,7 @@ Float.defaultEqualityOptions = {
  * If round is true (default true) the number will be rounded to be precisely "23.4" and not be "23.4321" or so behind the scenes.
  * If prevent is given a value (or array of values) then those numbers (regular floats like "0.5") are excluded. Do note that, if all possible numbers are prevented, this will result in an infinite loop.
  */
-function getRandomFloat(options) {
+export function getRandomFloat(options) {
 	// Check input: must be numbers.
 	let { min, max } = options
 	min = ensureNumber(min)
@@ -531,10 +527,9 @@ function getRandomFloat(options) {
 	// All good!
 	return result
 }
-module.exports.getRandomFloat = getRandomFloat
 
 // getRandomExponentialFloat returns a random float between the given min and max. It does this according to an exponential distribution to satisfy Benford's law. Optionally, "negative" can be set to true to force a negative sign, or otherwise "randomSign" can be set to true to also get negative numbers. A "prevent" option can be given to prevent certain float numbers.
-function getRandomExponentialFloat(options) {
+export function getRandomExponentialFloat(options) {
 	// Check input: must be nonzero positive numbers.
 	let { min, max, negative, randomSign } = options
 	min = ensureNumber(min, true, true)
@@ -556,7 +551,6 @@ function getRandomExponentialFloat(options) {
 	// All good!
 	return result
 }
-module.exports.getRandomExponentialFloat = getRandomExponentialFloat
 
 // processFloat turns the given number with the corresponding options into a Float object.
 function processFloat(number, { decimals, significantDigits, round = true }) {
@@ -580,7 +574,7 @@ function processFloat(number, { decimals, significantDigits, round = true }) {
 }
 
 // getSignificantDigits returns the number of significant digits that a number in string format has.
-function getSignificantDigits(str) {
+export function getSignificantDigits(str) {
 	// Check input.
 	if (typeof str !== 'string')
 		throw new Error(`Invalid input: expected a string but received an input parameter of type "${typeof str}".`)
@@ -595,10 +589,9 @@ function getSignificantDigits(str) {
 	// Return the number of digits minus the number of leading zeros.
 	return strAsArray.length - strAsArray.findIndex(x => (x !== '0'))
 }
-module.exports.getSignificantDigits = getSignificantDigits
 
 // stringToSO turns a string into a storage object that can be interpreted.
-function stringToSO(str) {
+export function stringToSO(str) {
 	// Check boundary cases.
 	str = str.trim()
 	if (str === '')
@@ -628,24 +621,21 @@ function stringToSO(str) {
 		power,
 	}
 }
-module.exports.stringToSO = stringToSO
 
 // numberToSO turns a number into a storage object that can be interpreted. We always assume that numbers are infinitely precise.
-function numberToSO(number) {
+export function numberToSO(number) {
 	return {
 		number,
 		significantDigits: Infinity,
 	}
 }
-module.exports.numberToSO = numberToSO
 
 // The following functions are obligatory functions.
-function isFOofType(float) {
+export function isFOofType(float) {
 	return isObject(float) && float.constructor === Float
 }
-module.exports.isFOofType = isFOofType
 
-function FOtoIO(float) {
+export function FOtoIO(float) {
 	// Check if we have a Float object already. If not, turn it into one. (Or die trying.)
 	if (float.constructor !== Float)
 		float = new Float(float)
@@ -657,9 +647,8 @@ function FOtoIO(float) {
 		power: power === 0 ? '' : power.toString(),
 	}
 }
-module.exports.FOtoIO = FOtoIO
 
-function IOtoFO({ number, power }) {
+export function IOtoFO({ number, power }) {
 	// Grab the number and the power. Take into account a few boundary cases.
 	number = (number === '' || number === '-' || number === '.' || number === '-.' ? '0' : number)
 	power = (power === '' || power === '-' ? 0 : parseInt(power))
@@ -671,19 +660,19 @@ function IOtoFO({ number, power }) {
 		power,
 	})
 }
-module.exports.IOtoFO = IOtoFO
 
-function getEmpty() {
+export function getEmpty() {
 	return { number: '', power: '' }
 }
-module.exports.getEmpty = getEmpty
 
-function isEmpty(obj) {
+export function isEmpty(obj) {
 	return obj.number === '' && obj.power === ''
 }
-module.exports.isEmpty = isEmpty
 
-function equals(a, b) {
+export function isValid() {
+	return true // TODO ?
+}
+
+export function equals(a, b) {
 	return IOtoFO(a).equals(IOtoFO(b))
 }
-module.exports.equals = equals

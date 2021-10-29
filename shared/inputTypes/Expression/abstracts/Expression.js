@@ -7,7 +7,7 @@
  * - str: a string representation of this object. It directly calls toString.
  * - tex: a LaTeX representation of this object. It directly calls toTex.
  * - number: the numeric value of this object. Call the function isNumeric before asking for the number, because an error is thrown if the Expression is not numeric.
- * 
+ *
  * Next to getters, there are also the following useful functions.
  * - clone: returns a clone of this object.
  * - print: logs the string representation of this object. Short for console.log(this.str).
@@ -42,12 +42,20 @@
  * - equals(other, simplifyOptions): see the description above.
  */
 
-const { isInt, isNumber } = require('../../../util/numbers')
-const { isObject, processOptions } = require('../../../util/objects')
+import { isInt, isNumber } from '../../../util/numbers'
+import { isObject, processOptions } from '../../../util/objects'
+import Sum from '../Sum'
+import Product from '../Product'
+import Fraction from '../functions/Fraction'
+
+import Variable from '../Variable'
+import Integer from '../Integer'
+import Float from '../Float'
+import { getExpressionTypes } from '../'
 
 const defaultSO = {}
 
-class Expression {
+export default class Expression {
 	constructor(SO = {}) {
 		// This class may not be instantiated.
 		if (this.constructor === Expression)
@@ -93,7 +101,7 @@ class Expression {
 		return SO
 	}
 
-	// SO returns a storage object version of this object. 
+	// SO returns a storage object version of this object.
 	get SO() {
 		// Set up a handler that recursively turns properties into SOs.
 		const processProp = (prop) => {
@@ -156,7 +164,6 @@ class Expression {
 
 	// add will add up the given expression to this expression. (As always, the original object remains unchanged.)
 	add(addition, putAtStart = false) {
-		const Sum = require('../Sum')
 		return new Sum(putAtStart ? [addition, this] : [this, addition]).simplify(Expression.simplifyOptions.structureOnly)
 	}
 
@@ -170,7 +177,6 @@ class Expression {
 		multiplication = Expression.ensureExpression(multiplication)
 
 		// Set up the product.
-		const Product = require('../Product')
 		return new Product(putAtStart ? [multiplication, this] : [this, multiplication]).simplify(Expression.simplifyOptions.structureOnly)
 	}
 
@@ -179,7 +185,6 @@ class Expression {
 		division = Expression.ensureExpression(division)
 
 		// Set up a fraction.
-		const Fraction = require('../functions/Fraction')
 		return new Fraction(this, division).simplify(Expression.simplifyOptions.structureOnly)
 	}
 
@@ -193,14 +198,11 @@ class Expression {
 		exponent = Expression.ensureExpression(exponent)
 
 		// Set up the power.
-		const Power = require('../functions/Power')
 		return new Power(this, exponent).simplify(Expression.simplifyOptions.structureOnly)
 	}
 
 	// verifyVariable is used by functions requiring a variable as input. It checks the given variable. If no variable is given, it tries to figure out which variable was meant.
 	verifyVariable(variable) {
-		const Variable = require('../Variable')
-
 		// If no variable was given, try to find one.
 		if (variable === undefined) {
 			const variables = this.getVariables()
@@ -222,7 +224,6 @@ class Expression {
 
 	// getVariables uses getVariableStrings. This latter function returns a set of variable strings that are in this expression. Then getVariables sorts this set and turns the result into variables again.
 	getVariables() {
-		const Variable = require('../Variable')
 		const variableStrings = this.getVariableStrings()
 		return Variable.sortVariableStrings(variableStrings)
 	}
@@ -236,7 +237,6 @@ class Expression {
 
 	// substitute applies a substitution, replacing the given variable by the given substitution. The variable must be a variable object, while the substitution must be an instance of Expression.
 	substitute(variable, substitution) {
-		const Variable = require('../Variable')
 		variable = Variable.ensureVariable(variable)
 		substitution = Expression.ensureExpression(substitution)
 		return this.substituteBasic(variable, substitution)
@@ -245,7 +245,6 @@ class Expression {
 	// checkSubstitutionParameters takes parameters given for a substitution and checks if they're valid. If so, it does nothing. If not, an error is thrown.
 	checkSubstitutionParameters(variable, substitution) {
 		// Check if the variable is indeed a variable.
-		const Variable = require('../Variable')
 		if (!(variable instanceof Variable))
 			throw new TypeError(`Invalid substitution: when substituting, the given "variable" must be a variable object. The current given variable was "${variable}".`)
 
@@ -294,7 +293,6 @@ class Expression {
 		// Deal with certain levels centrally.
 		if (level === Expression.equalityLevels.equivalent) {
 			// To check equivalence of f(x) and g(x), just take f(x) - g(x) and compare its simplification to zero.
-			const Integer = require('../Integer')
 			const comparison = this.subtract(expression).simplify(Expression.simplifyOptions.forAnalysis)
 			return comparison.equalsBasic(Integer.zero)
 		} else if (level === Expression.equalityLevels.constantMultiple) {
@@ -311,10 +309,6 @@ class Expression {
 
 	// ensureExpression ensures that the given expression is of type expression.
 	static ensureExpression(expression) {
-		const Integer = require('../Integer')
-		const Float = require('../Float')
-		const Variable = require('../Variable')
-
 		// Check if this is easy to interpret.
 		if (expression instanceof Expression)
 			return expression // All good already!
@@ -332,7 +326,6 @@ class Expression {
 			throw new Error(`Invalid expression object: received an object that was supposedly an Expression, but it is a basic data object without a type property. Cannot interpret it.`)
 
 		// Check the given type.
-		const { getExpressionTypes } = require('../')
 		const types = getExpressionTypes()
 		if (!types[expression.type])
 			throw new Error(`Invalid expression object: received an object that was supposedly an Expression, but its type "${expression.type}" is not known.`)
@@ -342,7 +335,6 @@ class Expression {
 	}
 }
 Expression.defaultSO = defaultSO
-module.exports = Expression
 
 // Define Expression settings.
 Expression.epsilon = 1e-15 // If the difference between two values is smaller than this, they are considered equal.
@@ -423,7 +415,7 @@ Expression.simplifyOptions = {
 Expression.equalityLevels = {
 	default: 2,
 	exact: 0, // Everything must be exactly the same. So x+y is different from y+x.
-	onlyOrderChanges: 1, // Order changes are OK, but the rest is not. So a*x+b equals b+x*a, but x+x does NOT equal 2*x. This also includes number merges. So 2+x+4 equals x+6, and -1*x*2 equals x*(-2). 
+	onlyOrderChanges: 1, // Order changes are OK, but the rest is not. So a*x+b equals b+x*a, but x+x does NOT equal 2*x. This also includes number merges. So 2+x+4 equals x+6, and -1*x*2 equals x*(-2).
 	equivalent: 2, // Any equivalent expression works. So sin(pi/6)*x would equal x/sqrt(4). Prior simplification is obviously not needed when using this option.
 	constantMultiple: 3, // A constant multiple is still considered equal. So (x+1) is equal to (2x+2) but not to (2x+1).
 }

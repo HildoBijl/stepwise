@@ -1,15 +1,15 @@
-const { selectRandomly } = require('../../../util/random')
-const { Unit } = require('../../../inputTypes/Unit')
-const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+import { selectRandomly } from '../../../util/random'
+import { Unit } from '../../../inputTypes/Unit'
+import { getSimpleExerciseProcessor } from '../util/simpleExercise'
 
-const data = {
+export const data = {
 	skill: 'fillInUnit',
 	equalityOptions: {
 		type: Unit.equalityTypes.exact,
 	}
 }
 
-function generateState() {
+export function generateState() {
 	return { unit: selectRandomly([
 		new Unit('dC'),
 		new Unit('mum'),
@@ -21,11 +21,11 @@ function generateState() {
 	 ]) }
 }
 
-function checkInput({ unit }, { ans }) {
+export function checkInput({ unit }, { ans }) {
 	return unit.equals(ans, data.equalityOptions)
 }
 
-module.exports = {
+export default {
 	data,
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),

@@ -1,6 +1,6 @@
 // BaseUnit represents a basic type of unit, like m, g, N, Pa, °C, V, etcetera.
 
-class BaseUnit {
+export class BaseUnit {
 	/* The constructor must take an object with all the relevant data. This includes:
 	 * - letter: like "g", "cd" or "Ω".
 	 * - alternatives [optional]: an array of optional names, like "Ohm".
@@ -135,4 +135,3 @@ class BaseUnit {
 		return this._toBase
 	}
 }
-module.exports.BaseUnit = BaseUnit

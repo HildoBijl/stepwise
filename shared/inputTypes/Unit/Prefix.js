@@ -6,9 +6,9 @@
  * alternatives: an array of alternatives that can also be used, like 'mu' instead of 'μ'.
  */
 
-const { isInt } = require('../../util/numbers')
+import { isInt } from '../../util/numbers'
 
-class Prefix {
+export class Prefix {
 	/* The constructor must contain all required prefix data, being:
 	 * - letter: a string like "k" or "da".
 	 * - name: the name, like "kilo" or "deca".
@@ -95,10 +95,9 @@ class Prefix {
 		// Check input.
 		if (typeof str !== 'string')
 			throw new Error(`Invalid input: a string was expected, but received input type "${typeof str}".`)
-		
+
 		// Find the prefix.
 		const options = [this.letter].concat(this.alternatives)
 		return options.find(option => str.startsWith(option))
 	}
 }
-module.exports.Prefix = Prefix

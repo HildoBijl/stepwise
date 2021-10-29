@@ -1,24 +1,22 @@
-const { ensureInt } = require('./numbers')
-const { ensureArray, getCumulativeArray, lastOf } = require('./arrays')
+import { ensureInt } from './numbers'
+import { ensureArray, getCumulativeArray, lastOf } from './arrays'
 
 // getRandomBoolean returns true or false, randomly. Optionally, the probability for true can be given.
-function getRandomBoolean(probability = 0.5) {
+export function getRandomBoolean(probability = 0.5) {
 	return Math.random() < probability
 }
-module.exports.getRandomBoolean = getRandomBoolean
 
 // getRandom returns a random floating number between the given minimum and maximum.
-function getRandom(min, max) {
+export function getRandom(min, max) {
 	return min + (max - min) * Math.random()
 }
-module.exports.getRandom = getRandom
 
 /* getRandomInteger returns a random integer between the given min and max (both inclusive) according to a uniform distribution. It must receive these parameters:
  * - min (obligatory): the minimum value (inclusive).
  * - max (obligatory): the maximum value (inclusive).
  * - prevent: an integer or array of integers to exclude. For instance, using { min: -3, max: 3, prevent: [-1, 0, 1] } will give either -3, -2, 2 or 3.
  */
-function getRandomInteger(min, max, prevent = []) {
+export function getRandomInteger(min, max, prevent = []) {
 	// Check input: must be numbers.
 	min = ensureInt(min)
 	max = ensureInt(max)
@@ -38,10 +36,9 @@ function getRandomInteger(min, max, prevent = []) {
 	// All good!
 	return number
 }
-module.exports.getRandomInteger = getRandomInteger
 
 // selectRandomly takes an array and returns a random element from it.
-function selectRandomly(arr, weights) {
+export function selectRandomly(arr, weights) {
 	// If there are no weights, just pick one uniformly randomly.
 	arr = ensureArray(arr)
 	if (weights === undefined)
@@ -53,10 +50,9 @@ function selectRandomly(arr, weights) {
 	const index = cumWeights.findIndex(cumWeight => random <= cumWeight)
 	return arr[index]
 }
-module.exports.selectRandomly = selectRandomly
 
 // selectRandomCorrect gives a random correct text.
-function selectRandomCorrect() {
+export function selectRandomCorrect() {
 	return selectRandomly([
 		'Dat is goed!',
 		'Indrukwekkend gedaan.',
@@ -76,10 +72,9 @@ function selectRandomCorrect() {
 		'Dat is helemaal correct.',
 	])
 }
-module.exports.selectRandomCorrect = selectRandomCorrect
 
 // selectRandomIncorrect gives a random incorrect text.
-function selectRandomIncorrect() {
+export function selectRandomIncorrect() {
 	return selectRandomly([
 		'Dat is niet de juiste oplossing.',
 		'Helaas, dat klopt niet.',
@@ -94,10 +89,9 @@ function selectRandomIncorrect() {
 		'Oops, dat is een verkeerd antwoord.',
 	])
 }
-module.exports.selectRandomIncorrect = selectRandomIncorrect
 
 // selectRandomEmpty gives a random text that a field is empty.
-function selectRandomEmpty() {
+export function selectRandomEmpty() {
 	return selectRandomly([
 		'Je hebt niets ingevuld.',
 		'Dit veld is nog leeg.',
@@ -106,10 +100,9 @@ function selectRandomEmpty() {
 		'Hier mist nog wat.',
 	])
 }
-module.exports.selectRandomEmpty = selectRandomEmpty
 
 // selectRandomNegative gives a random text that a number is negative.
-function selectRandomNegative() {
+export function selectRandomNegative() {
 	return selectRandomly([
 		'Dit is een negatief getal.',
 		'Dit getal is niet positief.',
@@ -118,10 +111,9 @@ function selectRandomNegative() {
 		'Wat doet dat minteken daar?',
 	])
 }
-module.exports.selectRandomNegative = selectRandomNegative
 
 // selectRandomInvalidUnit gives a random text that a unit is faulty.
-function selectRandomInvalidUnit() {
+export function selectRandomInvalidUnit() {
 	return selectRandomly([
 		'Dit is geen geldige eenheid.',
 		'Check je eenheid nog eens.',
@@ -130,4 +122,3 @@ function selectRandomInvalidUnit() {
 		'Er zitten niet kloppende delen in je eenheid.',
 	])
 }
-module.exports.selectRandomInvalidUnit = selectRandomInvalidUnit

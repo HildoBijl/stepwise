@@ -1,10 +1,10 @@
-const { getRandomInteger } = require('../../../util/random')
-const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { checkParameter } = require('../util/check')
-const { enthalpy, entropy } = require('../../../data/steamProperties')
-const { tableInterpolate } = require('../../../util/interpolation')
+import { getRandomInteger } from '../../../util/random'
+import { getSimpleExerciseProcessor } from '../util/simpleExercise'
+import { checkParameter } from '../util/check'
+import { enthalpy, entropy } from '../../../data/steamProperties'
+import { tableInterpolate } from '../../../util/interpolation'
 
-const data = {
+export const data = {
 	skill: 'lookUpSteamProperties',
 	weight: 2,
 	equalityOptions: {
@@ -14,7 +14,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	// Extract pressure column.
 	const pressureRange = enthalpy.headers[0]
 	const p = pressureRange[getRandomInteger(3, Math.min(20, pressureRange.length))] // Limit to a certain part of the table.
@@ -26,18 +26,18 @@ function generateState() {
 	return { p, T }
 }
 
-function getCorrect({ p, T }) {
+export function getCorrect({ p, T }) {
 	const h = tableInterpolate([p, T], enthalpy)
 	const s = tableInterpolate([p, T], entropy)
 	return { p, T, h, s }
 }
 
-function checkInput(state, input) {
+export function checkInput(state, input) {
 	const correct = getCorrect(state)
 	return checkParameter(['h', 's'], correct, input, data.equalityOptions)
 }
 
-module.exports = {
+export default {
 	data,
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),

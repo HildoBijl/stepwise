@@ -1,14 +1,14 @@
-const { getRandomFloat, getRandomExponentialFloat } = require('../../../inputTypes/Float')
-const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+import { getRandomFloat, getRandomExponentialFloat } from '../../../inputTypes/Float'
+import { getSimpleExerciseProcessor } from '../util/simpleExercise'
 
 // a + b*x^p = c
 
-const data = {
+export const data = {
 	skill: 'solveExponentEquation',
 	equalityOptions: { significantDigitMargin: 2 },
 }
 
-function generateState() {
+export function generateState() {
 	const a = getRandomFloat({
 		min: -20,
 		max: 20,
@@ -38,15 +38,15 @@ function generateState() {
 	return { a, b, p, c }
 }
 
-function getCorrect({ a, b, p, c }) {
+export function getCorrect({ a, b, p, c }) {
 	return c.subtract(a).divide(b).toPower(p.invert())
 }
 
-function checkInput(state, { ans }) {
+export function checkInput(state, { ans }) {
 	return getCorrect(state).equals(ans, data.equalityOptions)
 }
 
-module.exports = {
+export default {
 	data,
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),

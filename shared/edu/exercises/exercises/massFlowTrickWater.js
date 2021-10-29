@@ -1,8 +1,8 @@
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { checkParameter } = require('../util/check')
+import { getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
+import { getSimpleExerciseProcessor } from '../util/simpleExercise'
+import { checkParameter } from '../util/check'
 
-const data = {
+export const data = {
 	skill: 'massFlowTrick',
 	equalityOptions: {
 		default: {
@@ -12,7 +12,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	const q = getRandomFloatUnit({
 		min: 150,
 		max: 250,
@@ -30,19 +30,19 @@ function generateState() {
 	return { q, Qdot }
 }
 
-function getCorrect({ q, Qdot }) {
+export function getCorrect({ q, Qdot }) {
 	q = q.simplify()
 	Qdot = Qdot.simplify()
 	const mdot = Qdot.divide(q).setUnit('kg/s')
 	return { mdot, q, Qdot }
 }
 
-function checkInput(state, input) {
+export function checkInput(state, input) {
 	const correct = getCorrect(state)
 	return checkParameter('mdot', correct, input, data.equalityOptions)
 }
 
-module.exports = {
+export default {
 	data,
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),

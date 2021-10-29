@@ -1,29 +1,30 @@
-const { selectRandomly } = require('../../../util/random')
-const gasProperties = require('../../../data/gasProperties')
-const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { checkParameter } = require('../util/check')
+import { selectRandomly } from '../../../util/random'
+import * as gasProperties from '../../../data/gasProperties'
 
-const data = {
+import { getSimpleExerciseProcessor } from '../util/simpleExercise'
+import { checkParameter } from '../util/check'
+
+export const data = {
 	skill: 'specificHeatRatio',
 	equalityOptions: {
 		relativeMargin: 0.015,
 	}
 }
 
-function generateState() {
+export function generateState() {
 	return { medium: selectRandomly(['air', 'argon', 'carbonMonoxide', 'helium', 'hydrogen', 'methane', 'nitrogen', 'oxygen']) }
 }
 
-function checkInput(state, input) {
+export function checkInput(state, input) {
 	const correct = getCorrect(state)
 	return checkParameter('k', correct, input, data.equalityOptions)
 }
 
-function getCorrect({ medium }) {
+export function getCorrect({ medium }) {
 	return gasProperties[medium].k
 }
 
-module.exports = {
+export default {
 	data,
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),

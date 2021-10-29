@@ -1,11 +1,11 @@
 // This file has all functionalities to turn Expressions, Equations and such from String format to Input Object format. (You can turn String to IO, IO to FO, and FO to String.)
 
-const { getNextSymbol } = require('../../../util/strings')
+import { getNextSymbol } from '../../../util/strings'
 
-const { interpretExpression } = require('./expressions')
-const { interpretEquation } = require('./equations')
+import { interpretExpression } from './expressions'
+import { interpretEquation } from './equations'
 
-function expressionStrToIO(str) {
+export function expressionStrToIO(str) {
 	let value = [{
 		type: 'ExpressionPart',
 		value: str,
@@ -22,28 +22,24 @@ function expressionStrToIO(str) {
 		value,
 	}
 }
-module.exports.expressionStrToIO = expressionStrToIO
 
-function expressionStrToFO(expression) {
+export function expressionStrToFO(expression) {
 	return interpretExpression(expressionStrToIO(expression))
 }
-module.exports.expressionStrToFO = expressionStrToFO
-module.exports.asExpression = expressionStrToFO // This is the name of the function used by exercise creators.
+export const asExpression = expressionStrToFO // This is the name of the function used by exercise creators.
 
-function equationStrToIO(equation) {
+export function equationStrToIO(equation) {
 	// The method is the same as for an expression.
 	return {
 		type: 'Equation',
 		value: expressionStrToIO(equation).value
 	}
 }
-module.exports.equationStrToIO = equationStrToIO
 
-function equationStrToFO(equation) {
+export function equationStrToFO(equation) {
 	return interpretEquation(equationStrToIO(equation))
 }
-module.exports.equationStrToFO = equationStrToFO
-module.exports.asEquation = equationStrToFO // This is the name of the function used by exercise creators.
+export const asEquation = equationStrToFO // This is the name of the function used by exercise creators.
 
 // Below are functions required for expressionStrToIO.
 

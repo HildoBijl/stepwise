@@ -1,10 +1,10 @@
-const Parent = require('../abstracts/FunctionSingleArgument')
-const Sum = require('../Sum')
-const Fraction = require('./Fraction')
-const Power = require('./Power')
-const Sqrt = require('./Sqrt')
+import Parent from '../abstracts/FunctionSingleArgument'
+import Sum from '../Sum'
+import Fraction from './Fraction'
+import Power from './Power'
+import Sqrt from './Sqrt'
 
-class Arcsin extends Parent {
+export default class Arcsin extends Parent {
 	toNumber() {
 		return Math.asin(this.argument.toNumber())
 	}
@@ -34,4 +34,3 @@ class Arcsin extends Parent {
 }
 Arcsin.defaultSO = Parent.defaultSO
 Arcsin.type = 'Arcsin'
-module.exports = Arcsin

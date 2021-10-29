@@ -1,14 +1,14 @@
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { getRandom } = require('../../../util/random')
-const { checkParameter } = require('../util/check')
+import { getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
+import { getSimpleExerciseProcessor } from '../util/simpleExercise'
+import { getRandom } from '../../../util/random'
+import { checkParameter } from '../util/check'
 
-const data = {
+export const data = {
 	skill: 'calculateWithCOP',
 	equalityOptions: { significantDigitMargin: 1 },
 }
 
-function generateState() {
+export function generateState() {
 	const Pe = getRandomFloatUnit({
 		min: 8,
 		max: 15,
@@ -21,15 +21,15 @@ function generateState() {
 	return { Pe, Pin }
 }
 
-function getCorrect({ Pe, Pin }) {
+export function getCorrect({ Pe, Pin }) {
 	return Pin.add(Pe).divide(Pe).setUnit('').setSignificantDigits(2)
 }
 
-function checkInput(state, input, step, substep) {
+export function checkInput(state, input, step, substep) {
 	return checkParameter('COP', getCorrect(state), input, data.equalityOptions)
 }
 
-module.exports = {
+export default {
 	data,
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),

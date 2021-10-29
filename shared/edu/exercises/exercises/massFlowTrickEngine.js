@@ -1,9 +1,9 @@
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { combinerAnd } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
+import { getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
+import { getSimpleExerciseProcessor } from '../util/simpleExercise'
+import { combinerAnd } from '../../../skillTracking'
+import { checkParameter } from '../util/check'
 
-const data = {
+export const data = {
 	setup: combinerAnd('calculateWithSpecificQuantities', 'massFlowTrick'),
 	equalityOptions: {
 		default: {
@@ -13,7 +13,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	const rho = getRandomFloatUnit({
 		min: 0.35,
 		max: 0.6,
@@ -30,18 +30,18 @@ function generateState() {
 	return { rho, mdot }
 }
 
-function getCorrect({ rho, mdot }) {
+export function getCorrect({ rho, mdot }) {
 	const v = rho.invert()
 	const Vdot = mdot.multiply(v).setUnit('m^3/s')
 	return { rho, mdot, v, Vdot }
 }
 
-function checkInput(state, input) {
+export function checkInput(state, input) {
 	const correct = getCorrect(state)
 	return checkParameter('Vdot', correct, input, data.equalityOptions)
 }
 
-module.exports = {
+export default {
 	data,
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),

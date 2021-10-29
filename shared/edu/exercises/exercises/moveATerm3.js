@@ -1,11 +1,11 @@
-const { getRandomInteger } = require('../../../util/random')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
+import { getRandomInteger } from '../../../util/random'
+import { getStepExerciseProcessor } from '../util/stepExercise'
 
-const { Expression } = require('../../../inputTypes/Expression')
-const { Equation } = require('../../../inputTypes/Equation')
-const { asExpression, asEquation } = require('../../../inputTypes/Expression/interpreter/fromString')
+import { Expression } from '../../../inputTypes/Expression'
+import { Equation } from '../../../inputTypes/Equation'
+import { asExpression, asEquation } from '../../../inputTypes/Expression/interpreter/fromString'
 
-const data = {
+export const data = {
 	skill: 'moveATerm',
 	steps: [null, null],
 	equalityOptions: {
@@ -16,7 +16,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	return {
 		start: getRandomInteger(0, 2), // Do we start with (0) U = BvL + IR, with (1) U - BvL = IR or (2) U - IR = BvL?
 		move: getRandomInteger(0, 2), // Do we move (0) U, (1) BvL or (2) IR?
@@ -34,7 +34,7 @@ function getEquation({ start }) {
 	}
 }
 
-function getCorrect(state) {
+export function getCorrect(state) {
 	const { start, move } = state
 
 	// Determine starting point.
@@ -51,7 +51,7 @@ function getCorrect(state) {
 	return { ...state, equation, term, left, subtract, intermediate, ans }
 }
 
-function checkInput(state, input, step) {
+export function checkInput(state, input, step) {
 	const { intermediate, ans } = getCorrect(state)
 	if (step === 0 || step === 2)
 		return ans.equals(input.ans, data.equalityOptions.default)
@@ -59,7 +59,7 @@ function checkInput(state, input, step) {
 		return intermediate.equals(input.intermediate, data.equalityOptions.default)
 }
 
-module.exports = {
+export default {
 	data,
 	generateState,
 	processAction: getStepExerciseProcessor(checkInput, data),

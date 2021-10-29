@@ -1,15 +1,16 @@
-const { sum, count } = require('../../util/arrays')
-const { processOptions } = require('../../util/objects')
+import { sum, count } from '../../util/arrays'
+import { processOptions } from '../../util/objects'
 
-const Expression = require('./abstracts/Expression')
-const ExpressionList = require('./abstracts/ExpressionList')
-const Constant = require('./abstracts/Constant')
-const Integer = require('./Integer')
-const Variable = require('./Variable')
+import Expression from './abstracts/Expression'
+import ExpressionList from './abstracts/ExpressionList'
+import Constant from './abstracts/Constant'
+import Integer from './Integer'
+import Variable from './Variable'
+import Product from './Product'
 
 const Parent = ExpressionList
 
-class Sum extends Parent {
+export default class Sum extends Parent {
 	toString() {
 		let result = ''
 		this.terms.forEach((term, index) => {
@@ -116,7 +117,6 @@ class Sum extends Parent {
 	// order determines the sorting orders. It takes two terms and returns a value larger than 0 if b must be before a.
 	static order(a, b) {
 		// Define a series of tests. If one of them matches for an element and not for the other, the first element comes first.
-		const Product = require('./Product')
 		const tests = [
 			x => x instanceof Constant,
 			x => x.isNumeric(),
@@ -145,7 +145,7 @@ class Sum extends Parent {
 			case 3: // Product.
 				// ToDo: turn this into something sensible.
 				// Perhaps check if it has a function. If so, move it later on. If not, use a default polynomial ordering set-up.
-				return a.terms.length - b.terms.length // Fewer terms first. 
+				return a.terms.length - b.terms.length // Fewer terms first.
 			case 4: // Remaining.
 				return 0 // Doesn't matter for now.
 		}
@@ -153,4 +153,3 @@ class Sum extends Parent {
 }
 Sum.defaultSO = Parent.defaultSO
 Sum.type = 'Sum'
-module.exports = Sum

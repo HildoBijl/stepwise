@@ -1,15 +1,15 @@
-const { ensureInt } = require('../util/numbers')
-const { numberArray } = require('../util/arrays')
-const { ensureBoolean } = require('../util/objects')
-const { binomial } = require('../util/combinatorics')
+import { ensureInt } from '../util/numbers'
+import { numberArray } from '../util/arrays'
+import { ensureBoolean } from '../util/objects'
+import { binomial } from '../util/combinatorics'
 
-const { getOrder, ensureCoef } = require('./evaluation')
-const { normalize } = require('./manipulation')
-const { ensureDataSet, getCoefFromDataSet } = require('./dataSet')
-const { ensureCombiner, getCombinerSkills, getRepeat, assume, getCombinerEV } = require('./combiners')
+import { getOrder, ensureCoef } from './evaluation'
+import { normalize } from './manipulation'
+import { ensureDataSet, getCoefFromDataSet } from './dataSet'
+import { ensureCombiner, getCombinerSkills, getRepeat, assume, getCombinerEV } from './combiners'
 
 // processObservation is the main function to update skill coefficients. It is given a data set and a combiner. Additionally, there is a boolean to indicate whether the combine was witnessed as correctly performed or incorrectly performed. The function then checks all skills related to this combiner and updates them accordingly. An adjusted data set with only adjusted skills is returned. Potentially merging this into the main data set is left for the calling function.
-function processObservation(dataSet, combiner, correct) {
+export function processObservation(dataSet, combiner, correct) {
 	// Check input.
 	dataSet = ensureDataSet(dataSet)
 	combiner = ensureCombiner(combiner)
@@ -49,7 +49,6 @@ function processObservation(dataSet, combiner, correct) {
 	})
 	return adjustedData
 }
-module.exports.processObservation = processObservation
 
 // basicUpdate updates a coefficient array based on whether the skill was correct or incorrect. Coefficients are not normalized yet.
 function basicUpdate(coef, correct = false) {

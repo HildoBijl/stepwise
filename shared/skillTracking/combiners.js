@@ -1,11 +1,11 @@
-const { isObject } = require('../util/objects')
-const { isInt } = require('../util/numbers')
+import { isObject } from '../util/objects'
+import { isInt } from '../util/numbers'
 
-const { getEV, getMoment } = require('./evaluation')
-const { ensureDataSet, getCoefFromDataSet } = require('./dataSet')
+import { getEV, getMoment } from './evaluation'
+import { ensureDataSet, getCoefFromDataSet } from './dataSet'
 
 // ensureCombiner checks that the given object is a valid combiner. It returns itself when everything checks out. Otherwise it throws an error.
-function ensureCombiner(combiner) {
+export function ensureCombiner(combiner) {
 	// If it's a string, then it's all good right away. It's just an endpoint.
 	if (typeof combiner === 'string')
 		return combiner
@@ -59,10 +59,9 @@ function ensureCombiner(combiner) {
 	// All good!
 	return combiner
 }
-module.exports.ensureCombiner = ensureCombiner
 
 // getCombinerSkills return a list of all skills in a combiner.
-function getCombinerSkills(combiner) {
+export function getCombinerSkills(combiner) {
 	// Check input.
 	combiner = ensureCombiner(combiner)
 
@@ -78,7 +77,6 @@ function getCombinerSkills(combiner) {
 	})
 	return skills
 }
-module.exports.getCombinerSkills = getCombinerSkills
 
 function getCombinerSkillsInternal(combiner) {
 	// Handle skill types.
@@ -97,7 +95,7 @@ function getCombinerSkillsInternal(combiner) {
 }
 
 // getRepeat finds out how much the given skill is repeated in the combiner.
-function getRepeat(combiner, skill) {
+export function getRepeat(combiner, skill) {
 	if (typeof combiner === 'string')
 		return (combiner === skill ? 1 : 0)
 	if (combiner.type === 'skill')
@@ -107,10 +105,9 @@ function getRepeat(combiner, skill) {
 	if (combiner.type === 'and' || combiner.type === 'or')
 		return combiner.skills.reduce((sum, innerCombiner) => sum + getRepeat(innerCombiner, skill), 0)
 }
-module.exports.getRepeat = getRepeat
 
 // assume takes a combiner and assumes the given skill to either be true or false. It return a shallow copy of the object.
-function assume(combiner, skill, result) {
+export function assume(combiner, skill, result) {
 	if (typeof combiner === 'string') {
 		if (combiner === skill)
 			return { type: 'skill', skill, assumption: result }
@@ -130,10 +127,9 @@ function assume(combiner, skill, result) {
 		return { ...combiner, skills: combiner.skills.map(innerCombiner => assume(innerCombiner, skill, result)) }
 	}
 }
-module.exports.assume = assume
 
 // getCombinerEV calculates the expected value that a combiner will turn out correct. Optionally, within the combiner, the assumption property can be set to true or false to make assumptions on what may happen. (You can also first get the combiner coefficients and then find the EV, but this is more efficient.)
-function getCombinerEV(dataSet, combiner) {
+export function getCombinerEV(dataSet, combiner) {
 	// Check the input.
 	dataSet = ensureDataSet(dataSet)
 	combiner = ensureCombiner(combiner)
@@ -160,18 +156,16 @@ function getCombinerEV(dataSet, combiner) {
 	if (combiner.type === 'repeat')
 		return getMoment(getCoefFromDataSet(dataSet, combiner.skill), combiner.times)
 }
-module.exports.getCombinerEV = getCombinerEV
 
 // The following functions are used to create combiners.
-function combinerAnd(...skills) {
+export function combinerAnd(...skills) {
 	return { type: 'and', skills }
 }
-module.exports.combinerAnd = combinerAnd
-function combinerOr(...skills) {
+
+export function combinerOr(...skills) {
 	return { type: 'or', skills }
 }
-module.exports.combinerOr = combinerOr
-function combinerRepeat(skill, times) {
+
+export function combinerRepeat(skill, times) {
 	return { type: 'repeat', skill, times }
 }
-module.exports.combinerRepeat = combinerRepeat

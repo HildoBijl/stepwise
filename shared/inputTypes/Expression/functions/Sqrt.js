@@ -1,7 +1,7 @@
-const Parent = require('../abstracts/FunctionSingleArgument')
-const Fraction = require('./Fraction')
+import Parent from '../abstracts/FunctionSingleArgument'
+import Fraction from './Fraction'
 
-class Sqrt extends Parent {
+export default class Sqrt extends Parent {
 	toNumber() {
 		return Math.sqrt(this.argument.toNumber())
 	}
@@ -29,4 +29,3 @@ class Sqrt extends Parent {
 Sqrt.defaultSO = Sqrt.defaultSO
 Sqrt.args = Sqrt.args
 Sqrt.type = 'Sqrt'
-module.exports = Sqrt

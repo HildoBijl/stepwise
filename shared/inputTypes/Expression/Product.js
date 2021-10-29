@@ -1,15 +1,15 @@
-const { product, count } = require('../../util/arrays')
+import { product, count } from '../../util/arrays'
 
-const Expression = require('./abstracts/Expression')
-const ExpressionList = require('./abstracts/ExpressionList')
-const Constant = require('./abstracts/Constant')
-const Integer = require('./Integer')
-const Variable = require('./Variable')
-const Sum = require('./Sum')
+import Expression from './abstracts/Expression'
+import ExpressionList from './abstracts/ExpressionList'
+import Constant from './abstracts/Constant'
+import Integer from './Integer'
+import Variable from './Variable'
+import Sum from './Sum'
 
 const Parent = ExpressionList
 
-class Product extends Parent {
+export default class Product extends Parent {
 	toString() {
 		const termToString = (term, index) => {
 			const precursor = preceedByTimes(term, index) ? '*' : ''
@@ -177,7 +177,6 @@ class Product extends Parent {
 }
 Product.defaultSO = Parent.defaultSO
 Product.type = 'Product'
-module.exports = Product
 
 // preceedByTimes checks if the given term requires a times symbol prior to it when displaying it. It returns true or false.
 function preceedByTimes(term, index) {

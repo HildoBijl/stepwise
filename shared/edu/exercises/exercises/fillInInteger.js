@@ -1,25 +1,25 @@
-const { getRandomInteger } = require('../../../inputTypes/Integer')
-const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { checkParameter } = require('../util/check')
+import { getRandomInteger } from '../../../inputTypes/Integer'
+import { getSimpleExerciseProcessor } from '../util/simpleExercise'
+import { checkParameter } from '../util/check'
 
-const data = {
+export const data = {
 	skill: 'fillInInteger',
 	equalityOptions: {},
 }
 
-function generateState() {
+export function generateState() {
 	return { x: getRandomInteger(-100, 100) }
 }
 
-function getCorrect({ x }) {
+export function getCorrect({ x }) {
 	return { ans: x }
 }
 
-function checkInput(state, input) {
+export function checkInput(state, input) {
 	return checkParameter('ans', getCorrect(state), input, data.equalityOptions) // Basically returns whether state.ans === input.ans in a very convoluted but generalized way.
 }
 
-module.exports = {
+export default {
 	data,
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),

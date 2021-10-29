@@ -1,12 +1,12 @@
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
-const { getCycle } = require('./support/steamTurbineCycle')
-const { withPressure, enthalpy, entropy } = require('../../../data/steamProperties')
-const { tableInterpolate } = require('../../../util/interpolation')
-const { getRandomInteger } = require('../../../util/random')
+import { getStepExerciseProcessor } from '../util/stepExercise'
+import { combinerAnd } from '../../../skillTracking'
+import { checkParameter } from '../util/check'
+import { getCycle } from './support/steamTurbineCycle'
+import { withPressure, enthalpy, entropy } from '../../../data/steamProperties'
+import { tableInterpolate } from '../../../util/interpolation'
+import { getRandomInteger } from '../../../util/random'
 
-const data = {
+export const data = {
 	skill: 'analyseRankineCycle',
 	setup: combinerAnd('createRankineCycleOverview', 'useVaporFraction', 'useIsentropicEfficiency', 'calculateWithEfficiency', 'massFlowTrick'),
 	steps: ['createRankineCycleOverview', 'useVaporFraction', ['useIsentropicEfficiency', 'calculateWithEfficiency', 'massFlowTrick']],
@@ -19,7 +19,7 @@ const data = {
 	},
 }
 
-function generateState() {
+export function generateState() {
 	let { pc, pe, T2, x3, mdot, P } = getCycle()
 	pc = pc.setSignificantDigits(2).roundToPrecision()
 	pe = pe.setDecimals(0).roundToPrecision()
@@ -36,7 +36,7 @@ function generateState() {
 	}
 }
 
-function getCorrect({ type, pc, pe, T2, x3, mdot, P }) {
+export function getCorrect({ type, pc, pe, T2, x3, mdot, P }) {
 	// Get liquid and vapor points.
 	const hx0 = tableInterpolate(pc, withPressure.enthalpyLiquid)
 	const hx1 = tableInterpolate(pc, withPressure.enthalpyVapor)
@@ -78,7 +78,7 @@ function getCorrect({ type, pc, pe, T2, x3, mdot, P }) {
 	return { type, pc, pe, T2, hx0, hx1, sx0, sx1, h1, s1, h2, s2, h3p, s3p, x3p, h3, x3, h4, s4, etai, wt, q, eta, P, mdot }
 }
 
-function checkInput(state, input, step, substep) {
+export function checkInput(state, input, step, substep) {
 	const correct = getCorrect(state)
 	const toCheck = state.type === 1 ? 'P' : 'mdot'
 	switch (step) {
@@ -100,10 +100,4 @@ function checkInput(state, input, step, substep) {
 	}
 }
 
-module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getCorrect,
-}
+export const processAction = getStepExerciseProcessor(checkInput, data)
