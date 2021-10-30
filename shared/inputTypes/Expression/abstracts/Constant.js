@@ -3,9 +3,7 @@
 import { decimalSeparatorTex } from '../../../settings'
 import { isInt } from '../../../util/numbers'
 
-import Expression from './Expression'
-import Integer from '../Integer'
-import Float from '../Float'
+import { Expression, Integer, Float } from '../loader'
 
 const Parent = Expression
 const defaultSO = { ...Parent.defaultSO, value: 0 }

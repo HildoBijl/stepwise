@@ -7,7 +7,7 @@ import { interpretExpressionValue } from './expressions'
 import { InterpretationError } from './InterpretationError'
 import { getSubExpression, moveRight } from './support'
 
-import { Equation } from '../../Equation'
+import Equation from '../../Equation'
 
 // interpretEquation turns an IO equation into a functional object (FO).
 export function interpretEquation(obj) {

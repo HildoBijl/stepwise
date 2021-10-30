@@ -3,12 +3,12 @@
 import { isObject, deepEquals, processOptions } from '../util/objects'
 import { union } from '../util/sets'
 import { interpretEquationValue } from './Expression/interpreter/equations'
-import { Expression, getEmpty as getEmptyExpression, isEmpty as isExpressionEmpty } from './Expression'
+import Expression, { getEmpty as getEmptyExpression, isEmpty as isExpressionEmpty } from './Expression'
 import Variable from './Expression/Variable'
 
 const parts = ['left', 'right']
 
-export class Equation {
+export default class Equation {
 	constructor(SO = {}) {
 		// ToDo later: properly interpret equation strings too.
 

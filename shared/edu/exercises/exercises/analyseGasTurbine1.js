@@ -1,4 +1,4 @@
-import { FloatUnit } from '../../../inputTypes/FloatUnit'
+import FloatUnit from '../../../inputTypes/FloatUnit'
 import { getStepExerciseProcessor } from '../util/stepExercise'
 import { combinerAnd } from '../../../skillTracking'
 import * as gasProperties from '../../../data/gasProperties'

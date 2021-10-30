@@ -1,4 +1,4 @@
-import { FloatUnit } from '../inputTypes/FloatUnit'
+import FloatUnit from '../inputTypes/FloatUnit'
 
 export const pressure = new FloatUnit('10^5 Pa/bar')
 export const temperature = new FloatUnit('273.15 K')

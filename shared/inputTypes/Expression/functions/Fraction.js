@@ -1,8 +1,6 @@
-import Expression from '../abstracts/Expression'
-import Parent from '../abstracts/FunctionMultiArgument'
-import Sum from '../Sum'
-import Product from '../Product'
-import Power from './Power'
+import { Expression, FunctionMultiArgument, Sum, Product, Power } from '../loader'
+
+const Parent = FunctionMultiArgument
 
 const args = ['numerator', 'denominator']
 

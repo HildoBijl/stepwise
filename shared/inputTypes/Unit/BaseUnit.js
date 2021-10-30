@@ -1,6 +1,6 @@
 // BaseUnit represents a basic type of unit, like m, g, N, Pa, °C, V, etcetera.
 
-export class BaseUnit {
+export default class BaseUnit {
 	/* The constructor must take an object with all the relevant data. This includes:
 	 * - letter: like "g", "cd" or "Ω".
 	 * - alternatives [optional]: an array of optional names, like "Ohm".

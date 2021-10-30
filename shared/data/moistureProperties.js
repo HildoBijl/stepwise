@@ -1,4 +1,4 @@
-import { FloatUnit } from '../inputTypes/FloatUnit'
+import FloatUnit from '../inputTypes/FloatUnit'
 
 // This is the Mollier diagram in g/kg moisture in the air.
 export const maximumHumidity = {

@@ -9,8 +9,8 @@ import { selectRandomly, selectRandomEmpty } from 'step-wise/util/random'
 import { getEmpty, isEmpty } from 'step-wise/inputTypes/FloatUnit'
 import { isEmpty as isFloatEmpty, isValid as isFloatValid } from 'step-wise/inputTypes/Float'
 import { isEmpty as isUnitEmpty, isValid as isUnitValid } from 'step-wise/inputTypes/Unit'
-import { units } from 'step-wise/inputTypes/Unit/units'
-import { prefixes } from 'step-wise/inputTypes/Unit/prefixes'
+import units from 'step-wise/inputTypes/Unit/units'
+import prefixes from 'step-wise/inputTypes/Unit/prefixes'
 
 import { getClickSide } from 'util/dom'
 

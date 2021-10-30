@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 
-import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
+import FloatUnit from 'step-wise/inputTypes/FloatUnit'
 import { maximumHumidity } from 'step-wise/data/moistureProperties'
 
 import { useInitializer } from 'util/react'

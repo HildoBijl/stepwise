@@ -1,4 +1,4 @@
-import { Unit } from '../../../inputTypes/Unit'
+import Unit from '../../../inputTypes/Unit'
 import { getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
 import { getStepExerciseProcessor } from '../util/stepExercise'
 import { combinerAnd, combinerRepeat } from '../../../skillTracking'

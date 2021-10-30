@@ -1,12 +1,6 @@
 import { sum, count } from '../../util/arrays'
-import { processOptions } from '../../util/objects'
 
-import Expression from './abstracts/Expression'
-import ExpressionList from './abstracts/ExpressionList'
-import Constant from './abstracts/Constant'
-import Integer from './Integer'
-import Variable from './Variable'
-import Product from './Product'
+import { Expression, ExpressionList, Constant, Integer, Variable, Product } from './loader'
 
 const Parent = ExpressionList
 

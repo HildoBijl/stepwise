@@ -3,7 +3,8 @@
 import { processOptions, filterOptions } from '../../../util/objects'
 import { union } from '../../../util/sets'
 
-import Expression from './Expression'
+import { Expression } from '../loader'
+
 const Parent = Expression
 
 const defaultSO = {

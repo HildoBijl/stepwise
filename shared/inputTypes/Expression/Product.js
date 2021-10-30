@@ -1,11 +1,6 @@
 import { product, count } from '../../util/arrays'
 
-import Expression from './abstracts/Expression'
-import ExpressionList from './abstracts/ExpressionList'
-import Constant from './abstracts/Constant'
-import Integer from './Integer'
-import Variable from './Variable'
-import Sum from './Sum'
+import { Expression, ExpressionList, Constant, Integer, Variable, Sum } from './loader'
 
 const Parent = ExpressionList
 

@@ -2,12 +2,12 @@
 
 import { ensureInt } from '../../util/numbers'
 import { isObject, deepEquals, processOptions } from '../../util/objects'
-import { UnitElement } from './UnitElement'
+import UnitElement from './UnitElement'
 import { getUnitArrayFO, FOtoIO as unitArrayFOtoIO, IOtoFO as unitArrayIOtoFO, getEmpty as getEmptyUnitArray, isEmpty as isUnitArrayEmpty } from './UnitArray'
 
 const unitColor = '#044488' // The color in which units are printed within Tex. It cannot be imported from the theme because this file is in the shared directory.
 
-export class Unit {
+export default class Unit {
 	// The constructor input is either a string like "mg^3 * kl / ns^2 * °C^2", or an object with a "num" and a "den" property. In this latter case these properties should either be unit strings like "mg^3 * kl" or arrays of something the UnitElement constructor takes.
 
 	constructor(input = {}) {

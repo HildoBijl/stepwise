@@ -21,7 +21,7 @@ const defaultParameters = {
 	power: undefined, // Solely for display purposes. 0 means a number like "1234.56" will be display as "1234.56", 2 means a number like "1234.56" will be displayed as "12.3456 * 10^2", and undefined means we'll just make our own best guess as how we should display this number.
 }
 
-export class Float {
+export default class Float {
 	/* The constructor input can be of the form string, number or SO.
 	 * string: A string of the form "123.456 * 10^(-2)" (the power is optional, and so are the brackets). The significant digits and power will be interpreted from the string.
 	 * number: A number like 12.345. Significant digits will be deduced from whatever is given. So for 12.345 it'll be five. No trailing zeros are possible in this input form.

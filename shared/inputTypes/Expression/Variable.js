@@ -1,7 +1,6 @@
 import { processOptions, filterOptions } from '../../util/objects'
 
-import Expression from './abstracts/Expression'
-import Integer from './Integer'
+import { Expression, Integer } from './loader'
 
 const regVariableFormat = /^((([a-zA-Z]*)\[([a-zA-Z0-9α-ωΑ-Ω]+)\])|([a-zA-Z0-9α-ωΑ-Ω]+))(_((.)|\[(.*)\]))?$/
 

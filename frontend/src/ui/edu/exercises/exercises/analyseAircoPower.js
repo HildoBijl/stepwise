@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 
-import { Unit } from 'step-wise/inputTypes/Unit'
+import Unit from 'step-wise/inputTypes/Unit'
 import { maximumHumidity } from 'step-wise/data/moistureProperties'
 
 import { useInitializer } from 'util/react'

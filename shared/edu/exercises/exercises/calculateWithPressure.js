@@ -1,6 +1,6 @@
 import { getRandomInteger } from '../../../inputTypes/Integer'
 import { getRandomExponentialFloatUnit } from '../../../inputTypes/FloatUnit'
-import { Unit } from '../../../inputTypes/Unit'
+import Unit from '../../../inputTypes/Unit'
 import { getSimpleExerciseProcessor } from '../util/simpleExercise'
 
 // Type 0: from Pa to bar.

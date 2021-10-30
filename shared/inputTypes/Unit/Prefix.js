@@ -8,7 +8,7 @@
 
 import { isInt } from '../../util/numbers'
 
-export class Prefix {
+export default class Prefix {
 	/* The constructor must contain all required prefix data, being:
 	 * - letter: a string like "k" or "da".
 	 * - name: the name, like "kilo" or "deca".

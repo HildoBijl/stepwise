@@ -14,21 +14,26 @@ import { InterpretationError } from './InterpretationError'
 
 const expressionTypes = getExpressionTypes()
 const { Integer, Float, Variable, Sum, Product } = expressionTypes // Elementary elements.
-const { Fraction, Power, Log, Sqrt, Root } = expressionTypes // Advanced functions.
-const { Ln, Sin, Cos, Tan, Arcsin, Arccos, Arctan } = expressionTypes // Basic functions.
+const { Fraction, Power } = expressionTypes // Advanced functions.
+const { Ln } = expressionTypes // Basic functions.
+
+// ToDo: set back.
+// const { Integer, Float, Variable, Sum, Product } = expressionTypes // Elementary elements.
+// const { Fraction, Power, Log, Sqrt, Root } = expressionTypes // Advanced functions.
+// const { Ln, Sin, Cos, Tan, Arcsin, Arccos, Arctan } = expressionTypes // Basic functions.
 
 // Define all the basic and advanced functions and all accents that are recognized.
 const basicFunctionsObj = {
 	ln: Ln,
-	sin: Sin,
-	cos: Cos,
-	tan: Tan,
-	asin: Arcsin,
-	acos: Arccos,
-	atan: Arctan,
-	arcsin: Arcsin,
-	arccos: Arccos,
-	arctan: Arctan,
+	// sin: Sin,
+	// cos: Cos,
+	// tan: Tan,
+	// asin: Arcsin,
+	// acos: Arccos,
+	// atan: Arctan,
+	// arcsin: Arcsin,
+	// arccos: Arccos,
+	// arctan: Arctan,
 }
 const advancedFunctionsObj = {
 	frac: {
@@ -38,16 +43,16 @@ const advancedFunctionsObj = {
 		// Does not have a component. It's interpreted separately.
 		hasParameterAfter: false,
 	},
-	log: {
-		component: Log,
-		hasParameterAfter: true,
-	},
-	sqrt: {
-		component: Sqrt,
-	},
-	root: {
-		component: Root,
-	},
+	// log: {
+	// 	component: Log,
+	// 	hasParameterAfter: true,
+	// },
+	// sqrt: {
+	// 	component: Sqrt,
+	// },
+	// root: {
+	// 	component: Root,
+	// },
 }
 export const accents = ['dot', 'hat']
 export const basicFunctions = Object.keys(basicFunctionsObj)

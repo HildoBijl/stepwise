@@ -2,13 +2,13 @@
 
 import { isInt, ensureInt } from '../../util/numbers'
 import { isObject, processOptions } from '../../util/objects'
-import { prefixes, findPrefix } from './prefixes'
+import prefixes, { findPrefix } from './prefixes'
 import { specialUnitSymbols, findUnit } from './units'
 
 // const inputFormat = RegExp(`^(?<unitText>[a-zA-Z${specialUnitSymbols.join('')}]+)(?:\\^(?<power>\\d+))?$`) // Firefox doesn't support named capture groups.
 const inputFormat = RegExp(`^([a-zA-Z${specialUnitSymbols.join('')}]+)(\\^(\\d+))?$`)
 
-export class UnitElement {
+export default class UnitElement {
 	// The constructor input can be of the form string or SO. A string is like "km^3" and a Storage Object is of the form { prefix: 'mu', unit: 'm', power: 2 }. All parameters in this form are optional. Defaults are empty string for the prefix and unit and 1 for the power.
 
 	constructor(input = {}) {

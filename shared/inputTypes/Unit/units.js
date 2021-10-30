@@ -1,5 +1,5 @@
-import { BaseUnit } from './BaseUnit'
-import { prefixes } from './prefixes'
+import BaseUnit from './BaseUnit'
+import prefixes from './prefixes'
 
 // The special symbols used in units, other than the regular 26 alphabet letters. Note: this also includes prefix symbols.
 export const specialUnitSymbols = ['Ω', 'μ', '°', '∘', '%']
@@ -38,8 +38,9 @@ const unitList = [
 ]
 
 // Turn the unit list into an object with the letter as key.
-export const units = {}
+const units = {}
 unitList.forEach(unit => units[unit.letter] = unit)
+export default units
 
 // Find which unit corresponds to the given text. Return null when nothing is found.
 export function findUnit(str) {

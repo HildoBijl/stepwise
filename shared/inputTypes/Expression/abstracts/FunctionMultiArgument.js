@@ -3,8 +3,8 @@
 import { processOptions, filterOptions } from '../../../util/objects'
 import { union } from '../../../util/sets'
 
-import Expression from './Expression'
-import Integer from '../Integer'
+import { Expression, Integer } from '../loader'
+
 const Parent = Expression
 
 export default class FunctionMultiArgument extends Parent {

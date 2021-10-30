@@ -44,13 +44,8 @@
 
 import { isInt, isNumber } from '../../../util/numbers'
 import { isObject, processOptions } from '../../../util/objects'
-import Sum from '../Sum'
-import Product from '../Product'
-import Fraction from '../functions/Fraction'
 
-import Variable from '../Variable'
-import Integer from '../Integer'
-import Float from '../Float'
+import { Sum, Product, Fraction, Variable, Integer, Float } from '../loader'
 import { getExpressionTypes } from '../'
 
 const defaultSO = {}

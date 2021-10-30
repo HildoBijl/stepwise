@@ -1,4 +1,4 @@
-import Constant from './abstracts/Constant'
+import { Constant } from './loader'
 
 const Parent = Constant
 const defaultSO = { ...Parent.defaultSO }

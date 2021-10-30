@@ -1,5 +1,5 @@
 import { selectRandomly } from '../../../util/random'
-import { Unit } from '../../../inputTypes/Unit'
+import Unit from '../../../inputTypes/Unit'
 import { getSimpleExerciseProcessor } from '../util/simpleExercise'
 
 export const data = {

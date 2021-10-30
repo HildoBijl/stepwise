@@ -1,5 +1,6 @@
-import Parent from '../abstracts/FunctionSingleArgument'
-import Fraction from './Fraction'
+import { FunctionSingleArgument, Fraction } from '../loader'
+
+const Parent = FunctionSingleArgument
 
 export default class Ln extends Parent {
 	toNumber() {

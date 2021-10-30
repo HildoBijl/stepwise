@@ -1,9 +1,9 @@
 import { getRandomInteger, getRandomBoolean } from '../../../util/random'
 import { getStepExerciseProcessor } from '../util/stepExercise'
 
-import { Expression, getExpressionTypes } from '../../../inputTypes/Expression'
+import Expression, { getExpressionTypes } from '../../../inputTypes/Expression'
 const { Sum } = getExpressionTypes()
-import { Equation } from '../../../inputTypes/Equation'
+import Equation from '../../../inputTypes/Equation'
 import { asExpression } from '../../../inputTypes/Expression/interpreter/fromString'
 
 export const data = {

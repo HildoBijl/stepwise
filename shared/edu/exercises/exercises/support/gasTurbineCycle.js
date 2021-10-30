@@ -1,4 +1,4 @@
-import { FloatUnit, getRandomFloatUnit } from '../../../../inputTypes/FloatUnit'
+import FloatUnit, { getRandomFloatUnit } from '../../../../inputTypes/FloatUnit'
 import * as gasProperties from '../../../../data/gasProperties'
 const { air: { k, cp } } = gasProperties
 
@@ -12,7 +12,7 @@ export function getCycle() {
 	})
 	const p3 = p2
 	const p4 = p1
-	const ratio = p2.number/p1.number
+	const ratio = p2.number / p1.number
 
 	// Isentropic efficiency.
 	const etai = getRandomFloatUnit({
@@ -27,14 +27,14 @@ export function getCycle() {
 		max: 300,
 		unit: 'K',
 	})
-	const T2p = T1.multiply(Math.pow(ratio, 1 - 1/k.number))
+	const T2p = T1.multiply(Math.pow(ratio, 1 - 1 / k.number))
 	const T2 = T1.add(T2p.subtract(T1).divide(etai))
 	const T3 = getRandomFloatUnit({
 		min: 800,
 		max: 1200,
 		unit: 'K',
 	})
-	const T4p = T3.divide(Math.pow(ratio, 1 - 1/k.number))
+	const T4p = T3.divide(Math.pow(ratio, 1 - 1 / k.number))
 	const T4 = T3.add(T4p.subtract(T3).multiply(etai))
 
 	// Heat and work.

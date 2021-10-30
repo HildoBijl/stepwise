@@ -1,4 +1,4 @@
-import { Prefix } from './Prefix'
+import Prefix from './Prefix'
 
 // General overview of all prefixes.
 const prefixList = [
@@ -25,8 +25,9 @@ const prefixList = [
 ]
 
 // Turn the prefix list into an object with the letter as key.
-export const prefixes = {}
+const prefixes = {}
 prefixList.forEach(prefix => prefixes[prefix.letter] = prefix)
+export default prefixes
 
 // Find which prefix corresponds to the given text, taking into account alternatives. Return null when nothing is found.
 export function findPrefix(str) {

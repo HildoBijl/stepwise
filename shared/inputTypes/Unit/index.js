@@ -1,8 +1,11 @@
 // Gather a few of the most common exports into an index file.
-export * from './Prefix'
-export * from './prefixes'
-export * from './BaseUnit'
-export * from './units'
-export * from './UnitElement'
-export * from './UnitArray'
+import Prefix from './Prefix'
+import prefixes from './prefixes'
+import BaseUnit from './BaseUnit'
+import units from './units'
+import UnitElement from './UnitElement'
+import Unit from './Unit'
+
+export default Unit
+export { Prefix, prefixes, BaseUnit, units, UnitElement } // ToDo: check if we need this. Can be shorter.
 export * from './Unit'

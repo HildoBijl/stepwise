@@ -1,5 +1,5 @@
-import { FloatUnit } from '../inputTypes/FloatUnit'
-import { Float } from '../inputTypes/Float'
+import FloatUnit from '../inputTypes/FloatUnit'
+import Float from '../inputTypes/Float'
 
 // Define initial properties.
 export const gases = {

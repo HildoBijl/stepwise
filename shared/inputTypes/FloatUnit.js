@@ -1,13 +1,13 @@
 // The FloatUnit class represents a combination of a floating point number and a unit. An example is "9.81 m / s^2". It can be given a string, or an object of the form { float: ..., unit: ... } where the dots are valid float and unit representations.
 
 import { isObject, processOptions, filterOptions } from '../util/objects'
-import { Float, floatFormat, getRandomFloat, getRandomExponentialFloat, FOtoIO as floatFOtoIO, IOtoFO as floatIOtoFO, getEmpty as getEmptyFloat, isEmpty as isFloatEmpty } from './Float'
-import { Unit, equalityTypeToSimplifyOptions, FOtoIO as unitFOtoIO, IOtoFO as unitIOtoFO, getEmpty as getEmptyUnit, isEmpty as isUnitEmpty } from './Unit'
+import Float, { floatFormat, getRandomFloat, getRandomExponentialFloat, FOtoIO as floatFOtoIO, IOtoFO as floatIOtoFO, getEmpty as getEmptyFloat, isEmpty as isFloatEmpty } from './Float'
+import Unit, { equalityTypeToSimplifyOptions, FOtoIO as unitFOtoIO, IOtoFO as unitIOtoFO, getEmpty as getEmptyUnit, isEmpty as isUnitEmpty } from './Unit'
 
 // const inputFormat = new RegExp(`^(?<float>${floatFormat})(?<unit>.*)$`) // Firefox doesn't support named capture groups.
 const inputFormat = new RegExp(`^(${floatFormat}(.*))$`)
 
-export class FloatUnit {
+export default class FloatUnit {
 	// The constructor must either get an object { float: ..., unit: ... } or a string which can be split up into a float and a unit.
 
 	constructor(input = {}) {

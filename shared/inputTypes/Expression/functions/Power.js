@@ -1,12 +1,6 @@
-import { processOptions } from '../../../util/objects'
+import { Expression, FunctionMultiArgument, Integer, Sum, Product, Ln } from '../loader'
 
-import Expression from '../abstracts/Expression'
-import Parent from '../abstracts/FunctionMultiArgument'
-import Constant from '../abstracts/Constant'
-import Integer from '../Integer'
-import Sum from '../Sum'
-import Product from '../Product'
-import Ln from './Ln'
+const Parent = FunctionMultiArgument
 
 const args = ['base', 'exponent']
 

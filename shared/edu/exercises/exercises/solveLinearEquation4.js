@@ -1,4 +1,4 @@
-import { Float, getRandomFloat } from '../../../inputTypes/Float'
+import Float, { getRandomFloat } from '../../../inputTypes/Float'
 import { getSimpleExerciseProcessor } from '../util/simpleExercise'
 
 export const data = {

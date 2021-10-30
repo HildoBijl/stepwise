@@ -1,6 +1,6 @@
 import { getRandomInteger } from '../../../inputTypes/Integer'
 import { getRandomExponentialFloatUnit } from '../../../inputTypes/FloatUnit'
-import { Unit } from '../../../inputTypes/Unit'
+import Unit from '../../../inputTypes/Unit'
 import { selectRandomly } from '../../../util/random'
 import { getSimpleExerciseProcessor } from '../util/simpleExercise'
 

@@ -1,4 +1,4 @@
-import { FloatUnit } from '../inputTypes/FloatUnit'
+import FloatUnit from '../inputTypes/FloatUnit'
 
 // Mechanics.
 export const g = new FloatUnit('9.81 m/s^2') // Gravitational acceleration.

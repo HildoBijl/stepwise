@@ -1,5 +1,5 @@
-import { Unit } from '../../../inputTypes/Unit'
-import { FloatUnit, getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
+import Unit from '../../../inputTypes/Unit'
+import FloatUnit, { getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
 import { getRandomInteger, selectRandomly } from '../../../util/random'
 import { getStepExerciseProcessor } from '../util/stepExercise'
 import { combinerAnd } from '../../../skillTracking'

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Unit } from 'step-wise/inputTypes/Unit'
+import Unit from 'step-wise/inputTypes/Unit'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'

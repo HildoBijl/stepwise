@@ -1,5 +1,5 @@
 import { getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
-import { Unit } from '../../../inputTypes/Unit'
+import Unit from '../../../inputTypes/Unit'
 import { getStepExerciseProcessor } from '../util/stepExercise'
 import * as gasProperties from '../../../data/gasProperties'
 const { helium: { Rs } } = gasProperties

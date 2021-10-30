@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
+import FloatUnit from 'step-wise/inputTypes/FloatUnit'
 
 import { M, BM } from 'ui/components/equations'
 import { Par, SubHead } from 'ui/components/containers'

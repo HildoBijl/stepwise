@@ -1,6 +1,8 @@
 // This is the abstract FunctionSingleArgument class. It should not be instantiated, but it is used for single-argument functions like ln, sin, cos, etcetera.
 
-import Parent from './FunctionMultiArgument'
+import { FunctionMultiArgument } from '../loader'
+
+const Parent = FunctionMultiArgument
 
 const args = ['argument'] // Only use a single argument.
 

@@ -6,8 +6,8 @@ import clsx from 'clsx'
 import { isNumber } from 'step-wise/util/numbers'
 import { removeAtIndex, insertAtIndex, isLetter } from 'step-wise/util/strings'
 import { getEmpty, process } from 'step-wise/inputTypes/Unit/UnitElement'
-import { units } from 'step-wise/inputTypes/Unit/units'
-import { prefixes } from 'step-wise/inputTypes/Unit/prefixes'
+import units from 'step-wise/inputTypes/Unit/units'
+import prefixes from 'step-wise/inputTypes/Unit/prefixes'
 
 import { CharString, getClickPosition } from './Input'
 

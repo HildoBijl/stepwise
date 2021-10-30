@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 
-import { Unit } from 'step-wise/inputTypes/Unit'
+import Unit from 'step-wise/inputTypes/Unit'
 
 import { useInitializer } from 'util/react'
 import { M, BM } from 'ui/components/equations'

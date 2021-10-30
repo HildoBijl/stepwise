@@ -1,8 +1,8 @@
 import { getRandomInteger } from '../../../util/random'
 import { getStepExerciseProcessor } from '../util/stepExercise'
 
-import { Expression } from '../../../inputTypes/Expression'
-import { Equation } from '../../../inputTypes/Equation'
+import Expression from '../../../inputTypes/Expression'
+import Equation from '../../../inputTypes/Equation'
 import { asExpression, asEquation } from '../../../inputTypes/Expression/interpreter/fromString'
 
 export const data = {
