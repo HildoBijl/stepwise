@@ -2,8 +2,7 @@ import { MemoryStore } from 'express-session'
 import fileSystem from 'fs'
 import USERINFO from '../../../surfConextMockData.json'
 
-const LAST_SESSION_ID_PATH = new URL('.', import.meta.url).pathname + '../../../lastSessionId'
-console.log(new URL('.', import.meta.url).pathname)
+const LAST_SESSION_ID_PATH = new URL('.', import.meta.url).pathname.replace(/(^\/|\/$)/g, '') + '/../../../lastSessionId'
 
 export const DIRECTORY_PATH = '/_dev/surfconextportal'
 
@@ -19,12 +18,6 @@ export class MockClient {
 		}
 		// Persist session id on file system, so that it can be
 		// recovered on server restart
-		console.log('TESTING1234')
-		console.log(LAST_SESSION_ID_PATH)
-		console.log(sessionId)
-		const test = fileSystem.readFileSync(LAST_SESSION_ID_PATH)
-		console.log(test)
-		console.log('Done?')
 		fileSystem.writeFileSync(LAST_SESSION_ID_PATH, sessionId)
 		return sfUserinfo
 	}
@@ -32,12 +25,8 @@ export class MockClient {
 
 export const createPrefilledMemoryStore = () => {
 	const memoryStore = new MemoryStore()
-	console.log('TEST')
 	if (fileSystem.existsSync(LAST_SESSION_ID_PATH)) {
-		console.log('AAAAAAAAAAA')
-		console.log(LAST_SESSION_ID_PATH)
 		const lastSessionId = fileSystem.readFileSync(LAST_SESSION_ID_PATH)
-		console.log(lastSessionId)
 		memoryStore.set(lastSessionId, {
 			principal: { id: '01234567-89ab-cdef-0123-456789abcdef' },
 			cookie: {},
