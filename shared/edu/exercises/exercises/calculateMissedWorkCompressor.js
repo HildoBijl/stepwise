@@ -17,6 +17,8 @@ export const data = {
 	},
 }
 
+export { generateState }
+
 export function getCorrect(state) {
 	const correct = getCorrectPrevious(state)
 	let { T1, T2, ds: dsIn, c } = correct

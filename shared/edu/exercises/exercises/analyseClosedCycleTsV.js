@@ -1,7 +1,7 @@
 import { getStepExerciseProcessor } from '../util/stepExercise'
 import { combinerAnd } from '../../../skillTracking'
 import { checkParameter } from '../util/check'
-import { getCorrect as getCycleParameters } from './calculateClosedCycleTsV'
+import { generateState, getCorrect as getCycleParameters } from './calculateClosedCycleTsV'
 import { getCorrect as getEnergyParameters } from './createClosedCycleEnergyOverviewTsV'
 
 export const data = {
@@ -22,6 +22,8 @@ export const data = {
 		},
 	},
 }
+
+export { generateState }
 
 export function getCorrect(state) {
 	const { m, Rs, k, p1, V1, T1, p2, V2, T2, p3, V3, T3 } = getCycleParameters(state)

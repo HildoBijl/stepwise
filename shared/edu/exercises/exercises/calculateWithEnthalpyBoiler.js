@@ -17,6 +17,8 @@ export const data = {
 	},
 }
 
+export { generateState }
+
 export function getCorrect({ Q, m }) {
 	Q = Q.simplify()
 	q = Q.divide(m).setUnit('kJ/kg')

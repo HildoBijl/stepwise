@@ -17,6 +17,8 @@ export const data = {
 	},
 }
 
+export { generateState }
+
 export function getCorrect(state) {
 	const correct = getCorrectPrevious(state)
 	const Wm = correct.dS.multiply(correct.Tc).setUnit('J')
