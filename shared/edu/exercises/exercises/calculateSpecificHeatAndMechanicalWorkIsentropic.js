@@ -3,7 +3,7 @@ import { getStepExerciseProcessor } from '../util/stepExercise'
 import { combinerAnd, combinerOr } from '../../../skillTracking'
 import { checkParameter } from '../util/check'
 import { getRandom } from '../../../util/random'
-import * as gasProperties from '../../../data/gasProperties'
+import gasProperties from '../../../data/gasProperties'
 const { air: { k } } = gasProperties
 
 export const data = {

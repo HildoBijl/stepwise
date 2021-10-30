@@ -1,8 +1,7 @@
 import FloatUnit from '../inputTypes/FloatUnit'
-import Float from '../inputTypes/Float'
 
 // Define initial properties.
-export const gases = {
+const gasProperties = {
 	air: {
 		Rs: new FloatUnit('287.05 J / kg * K'),
 		k: new FloatUnit('1.40'),
@@ -40,12 +39,13 @@ export const gases = {
 		k: new FloatUnit('1.395'),
 	},
 }
+export default gasProperties
 
 // Calculate derived properties.
-Object.values(gases).forEach(gas => {
+Object.values(gasProperties).forEach(gas => {
 	gas.cv = gas.Rs.divide(gas.k.number - 1).setMinimumSignificantDigits(3)
 	gas.cp = gas.cv.multiply(gas.k)
 })
 
 // Set manual fixes.
-gases.air.cp = gases.air.cp.setMinimumSignificantDigits(4)
+gasProperties.air.cp = gasProperties.air.cp.setMinimumSignificantDigits(4)

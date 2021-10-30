@@ -1,6 +1,6 @@
 import React from 'react'
 
-import * as gasProperties from 'step-wise/data/gasProperties'
+import gasProperties from 'step-wise/data/gasProperties'
 
 import { M } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'

@@ -1,5 +1,5 @@
 import { selectRandomly } from '../../../util/random'
-import * as gasProperties from '../../../data/gasProperties'
+import gasProperties from '../../../data/gasProperties'
 
 import { getSimpleExerciseProcessor } from '../util/simpleExercise'
 import { checkParameter } from '../util/check'

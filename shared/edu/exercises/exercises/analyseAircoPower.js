@@ -1,7 +1,7 @@
 import { getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
 import { getStepExerciseProcessor } from '../util/stepExercise'
 import { combinerAnd } from '../../../skillTracking'
-import * as gasProperties from '../../../data/gasProperties'
+import gasProperties from '../../../data/gasProperties'
 const { air: { cp } } = gasProperties
 import { checkParameter } from '../util/check'
 import { tableInterpolate, inverseTableInterpolate } from '../../../util/interpolation'

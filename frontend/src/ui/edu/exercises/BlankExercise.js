@@ -29,7 +29,7 @@ function BlankExerciseInner({ exerciseId }) {
 		setLoading(true)
 		setError(false)
 		import(`step-wise/edu/exercises/exercises/${exerciseId}`).then(importedModule => {
-			ExerciseShared.current = importedModule.default
+			ExerciseShared.current = { ...importedModule }
 			setLoading(false)
 		}).catch((err) => {
 			console.log(err) // ToDo later: properly process errors.
@@ -57,7 +57,6 @@ function BlankExerciseInner({ exerciseId }) {
 
 	// Set up a submit handler. Do the same as would happen on the server: find the new progress and incorporate it into the exercise data and its history.
 	const submitAction = useCallback((action, processAction) => {
-		console.log('BBB')
 		const progress = processAction({ action, state: setIOtoFO(exercise.state), progress: exercise.progress, history: exercise.history, updateSkills: noop })
 		setExercise({
 			...exercise,

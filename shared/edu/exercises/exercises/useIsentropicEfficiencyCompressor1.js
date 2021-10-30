@@ -1,7 +1,7 @@
 import { getStepExerciseProcessor } from '../util/stepExercise'
 import { combinerAnd } from '../../../skillTracking'
 import { checkParameter } from '../util/check'
-import * as gasProperties from '../../../data/gasProperties'
+import gasProperties from '../../../data/gasProperties'
 const { air: { k, cp } } = gasProperties
 import { getCycle } from './support/gasTurbineCycle'
 

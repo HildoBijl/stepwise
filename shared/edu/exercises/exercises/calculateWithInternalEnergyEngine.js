@@ -2,7 +2,7 @@ import { getRandom } from '../../../util/random'
 import { getRandomFloat } from '../../../inputTypes/Float'
 import { getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
 import { getStepExerciseProcessor } from '../util/stepExercise'
-import * as gasProperties from '../../../data/gasProperties'
+import gasProperties from '../../../data/gasProperties'
 const { air: { Rs, cv } } = gasProperties
 import { combinerAnd } from '../../../skillTracking'
 import { checkParameter } from '../util/check'

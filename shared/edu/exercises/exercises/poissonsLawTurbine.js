@@ -2,7 +2,7 @@ import FloatUnit, { getRandomFloatUnit } from '../../../inputTypes/FloatUnit'
 import Unit from '../../../inputTypes/Unit'
 import { getStepExerciseProcessor } from '../util/stepExercise'
 import { combinerAnd } from '../../../skillTracking'
-import * as gasProperties from '../../../data/gasProperties'
+import gasProperties from '../../../data/gasProperties'
 const { air: { k } } = gasProperties
 
 export const data = {

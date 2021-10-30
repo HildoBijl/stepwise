@@ -1,5 +1,5 @@
 import FloatUnit, { getRandomFloatUnit } from '../../../../inputTypes/FloatUnit'
-import * as gasProperties from '../../../../data/gasProperties'
+import gasProperties from '../../../../data/gasProperties'
 const { air: { k, cp } } = gasProperties
 
 export function getCycle() {

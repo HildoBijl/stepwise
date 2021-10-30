@@ -1,6 +1,6 @@
 import FloatUnit from '../../../inputTypes/FloatUnit'
 import { getStepExerciseProcessor } from '../util/stepExercise'
-import * as gasProperties from '../../../data/gasProperties'
+import gasProperties from '../../../data/gasProperties'
 const { air } = gasProperties
 import { combinerRepeat, combinerOr } from '../../../skillTracking'
 import { checkParameter } from '../util/check'

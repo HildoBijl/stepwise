@@ -109,7 +109,6 @@ function SkillForStranger() {
 
 	// On a submit handle the process as would happen on the server: find the new progress and incorporate it into the exercise data and its history.
 	const submitAction = useCallback((action, processAction) => {
-		console.log('CCC')
 		const progress = processAction({ action, state: setIOtoFO(exercise.state), progress: exercise.progress, history: exercise.history, updateSkills: noop })
 		setExercise({
 			...exercise,

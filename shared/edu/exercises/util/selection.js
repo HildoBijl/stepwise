@@ -86,7 +86,7 @@ export function getAllExercises() {
 export async function getExerciseSuccessRates(exerciseIds, getSkillsData) {
 	// Load exercise data and extract weights.
 	const exercises = await Promise.all(exerciseIds.map(exerciseId => import(`../exercises/${exerciseId}`)))
-	const exerciseDatas = exercises.map(e => e.data)
+	const exerciseDatas = exercises.map(exercise => exercise.data)
 	const weights = exerciseDatas.map(exerciseData => (isNumber(exerciseData.weight) ? Math.abs(exerciseData.weight) : 1))
 
 	// If we cannot get skills data, return a flat success rate.
