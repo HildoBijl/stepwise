@@ -1,4 +1,5 @@
 import { applyToEachParameter, isObject, deepEquals } from '../util/objects'
+
 import * as String from './String'
 import * as Boolean from './Boolean'
 import * as Integer from './Integer'
@@ -33,14 +34,14 @@ export function FOtoIO(param) {
 		return null
 
 	// Find out what type of object we have.
-	const type = Object.keys(types).find(t => t.isFOofType(param))
+	const type = Object.keys(types).find(type => types[type].isFOofType(param))
 	if (!type)
 		return param // No type found. Keep the parameter as is.
 
 	// Transform the object accordingly.
 	return {
 		type,
-		value: type.FOtoIO(param),
+		value: types[type].FOtoIO(param),
 	}
 }
 
@@ -58,7 +59,7 @@ export function IOtoFO(obj) {
 		return obj // No type found. Keep the parameter as is.
 
 	// Check the given type.
-	if (!types.includes(obj.type))
+	if (!types[obj.type])
 		throw new Error(`Invalid object type "${obj.type}" detected when transforming to input object. No transforming function is known for this type.`)
 
 	// Transform accordingly.
@@ -84,7 +85,7 @@ export function isEmpty(obj) {
 		return Object.keys(obj).length === 0
 
 	// There is a type. Check if it's known.
-	if (!types.includes(obj.type))
+	if (!types[obj.type])
 		throw new Error(`Unknown object type: cannot figure out object of type "${obj.type}". The object's value itself was "${JSON.stringify(obj)}".`)
 
 	// Pass along according to the type.
@@ -98,7 +99,7 @@ export function equals(a, b) {
 		return deepEquals(a, b)
 
 	// Check if they have types that we can compare.
-	if (!a.type || !types.includes(a.type) || !b.type || !types.includes(b.type))
+	if (!a.type || !types[a.type] || !b.type || !types[b.type])
 		return deepEquals(a, b)
 	if (a.type !== b.type)
 		return false
