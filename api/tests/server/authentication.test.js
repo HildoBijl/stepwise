@@ -1,5 +1,5 @@
-const { createClient, defaultConfig } = require('../client')
-const { DIRECTORY_PATH } = require('../../src/server/surfConext/devmock')
+import { createClient, defaultConfig } from '../client'
+import { DIRECTORY_PATH } from '../../src/server/surfConext/devmock'
 
 const SPECIAL_USER_ID = '00000000-0000-0000-0000-000000000000'
 const SPECIAL_USER_SURFSUB = '0000000000000000000000000000000000000000'

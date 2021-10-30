@@ -1,5 +1,5 @@
-const { createServer } = require('../../src/server/index')
-const { defaultConfig } = require('../client')
+import { createServer } from '../../src/server/index'
+import { defaultConfig } from '../client'
 
 describe('config', () => {
 	it('accepts well-formed configuration', () => {
