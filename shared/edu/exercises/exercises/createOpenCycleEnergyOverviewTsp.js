@@ -19,7 +19,9 @@ export const data = {
 	},
 }
 
-function getCycleParameters(state) {
+export { generateState }
+
+export function getCycleParameters(state) {
 	let { m, p1, v1, T1, p2, v2, T2, p3, v3, T3 } = getCycleParametersRaw(state)
 	p1 = p1.setSignificantDigits(3)
 	v1 = v1.setSignificantDigits(3)
@@ -63,11 +65,4 @@ export function checkInput(state, input, step, substep) {
 	}
 }
 
-export default {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getCycleParameters,
-	getCorrect,
-}
+export const processAction = getStepExerciseProcessor(checkInput, data)

@@ -22,9 +22,4 @@ export function checkInput({ x }, { ans }) {
 	return x.equals(ans, data.equalityOptions)
 }
 
-export default {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	checkInput,
-}
+export const processAction = getSimpleExerciseProcessor(checkInput, data)

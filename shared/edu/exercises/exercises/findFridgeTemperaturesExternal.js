@@ -29,10 +29,4 @@ export function getCorrect({ type, Tcond, Tevap, dTcold, dTwarm }) {
 	return { type, Tcold, Twarm, dTcold, dTwarm, Tevap, Tcond }
 }
 
-export default {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	checkInput,
-	getCorrect,
-}
+export const processAction = getSimpleExerciseProcessor(checkInput, data)

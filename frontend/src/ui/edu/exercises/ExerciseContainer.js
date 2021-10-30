@@ -18,8 +18,8 @@ export default function ExerciseContainer({ exercise, submitting, submitAction, 
 		setLoading(true)
 		Promise.all([import(`./exercises/${exerciseId}`), import(`step-wise/edu/exercises/exercises/${exerciseId}`)]).then(importedModules => {
 			const [localModule, sharedModule] = importedModules
-			ExerciseLocal.current = localModule.default
-			ExerciseShared.current = sharedModule.default
+			ExerciseLocal.current = localModule.default // Load the default element of the front-end. This is a React element displaying the exercise.
+			ExerciseShared.current = { ...sharedModule } // Load all the data from the shared directory.
 			setLoading(false)
 		})
 		// ToDo later: set up error handling for when components fail to load.

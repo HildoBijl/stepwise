@@ -24,10 +24,4 @@ export function getCorrect({ medium }) {
 	return gasProperties[medium].Rs
 }
 
-export default {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	checkInput,
-	getCorrect,
-}
+export const processAction = getSimpleExerciseProcessor(checkInput, data)

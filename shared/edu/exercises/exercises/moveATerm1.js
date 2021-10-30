@@ -28,7 +28,7 @@ export function generateState() {
 	}
 }
 
-function getEquation({ a, b, c, switchLeftRight, switchXY }) {
+export function getEquation({ a, b, c, switchLeftRight, switchXY }) {
 	const equation = asEquation(switchXY ? 'ay+b=cx' : 'ax+b=cy').substitute('a', a).substitute('b', b).substitute('c', c)
 	return switchLeftRight ? equation.flip() : equation
 }
@@ -57,11 +57,4 @@ export function checkInput(state, input, step) {
 		return intermediate.equals(input.intermediate, data.equalityOptions.default)
 }
 
-export default {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	getEquation,
-	getCorrect,
-	checkInput,
-}
+export const processAction = getStepExerciseProcessor(checkInput, data)

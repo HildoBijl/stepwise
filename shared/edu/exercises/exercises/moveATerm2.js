@@ -39,7 +39,7 @@ function getTerms({ a, b, c }) {
 	}
 }
 
-function getEquation(state) {
+export function getEquation(state) {
 	const { aLeft, bLeft, cLeft } = state
 	const { FA, FB, FC } = getTerms(state)
 
@@ -79,11 +79,4 @@ export function checkInput(state, input, step) {
 		return intermediate.equals(input.intermediate, data.equalityOptions.default)
 }
 
-export default {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	getEquation,
-	getCorrect,
-	checkInput,
-}
+export const processAction = getStepExerciseProcessor(checkInput, data)

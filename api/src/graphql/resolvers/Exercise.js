@@ -21,9 +21,9 @@ const resolvers = {
 	},
 
 	Mutation: {
-		startExercise: async (_source, {skillId}, {db, getCurrentUserId}) => {
+		startExercise: async (_source, { skillId }, { db, getCurrentUserId }) => {
 			const userId = getCurrentUserId()
-			const {skill} = await getActiveExerciseData(userId, skillId, db, false)
+			const { skill } = await getActiveExerciseData(userId, skillId, db, false)
 
 			// Select a new exercise, store it and return the result.
 			const getSkillsData = (skillIds) => getUserSkillsData(userId, skillIds, db)
@@ -35,20 +35,20 @@ const resolvers = {
 			})
 		},
 
-		submitExerciseAction: async (_source, {skillId, action}, {db, getCurrentUserId}) => {
+		submitExerciseAction: async (_source, { skillId, action }, { db, getCurrentUserId }) => {
 			const userId = getCurrentUserId()
-			const {exercise} = await getActiveExerciseData(userId, skillId, db, true)
+			const { exercise } = await getActiveExerciseData(userId, skillId, db, true)
 
 			// Set up an updateSkills handler that only collects calls.
 			const skillUpdates = []
 			const updateSkills = (skill, correct) => {
 				if (skill)
-					skillUpdates.push({skill, correct})
+					skillUpdates.push({ skill, correct })
 			}
 
 			// Update the progress parameter.
 			const prevProgress = getExerciseProgress(exercise)
-			const {processAction} = await import(`step-wise/edu/exercises/exercises/${exercise.exerciseId}`)
+			const { processAction }  = await import(`step-wise/edu/exercises/exercises/${exercise.exerciseId}`)
 			const progress = processAction({
 				action,
 				state: setIOtoFO(exercise.state),
@@ -66,10 +66,10 @@ const resolvers = {
 				adjustedSkills = await applySkillUpdates(skillUpdates, userId, db, transaction)
 
 				// Store the submission and on a correct one update the active field of the exercise to solved.
-				const newEvent = await exercise.createEvent({action, progress}, {transaction})
+				const newEvent = await exercise.createEvent({ action, progress }, { transaction })
 				exercise.events.push(newEvent) // In Sequelize we have to manually add the new action to the current object.
 				if (progress.done)
-					await exercise.update({active: false}, {transaction})
+					await exercise.update({ active: false }, { transaction })
 			})
 
 			// Return all required data.
@@ -84,7 +84,7 @@ export default resolvers
 
 async function applySkillUpdates(skillUpdates, userId, db, transaction) {
 	// Extract all skillIds in the updates.
-	let skillIds = skillUpdates.map(({skill}) => getCombinerSkills(skill)).flat() // Get all IDs.
+	let skillIds = skillUpdates.map(({ skill }) => getCombinerSkills(skill)).flat() // Get all IDs.
 	skillIds = [...new Set(skillIds)] // Filter duplicates.
 	checkSkillIds(skillIds) // Make sure they exist.
 
@@ -121,7 +121,7 @@ async function applySkillUpdates(skillUpdates, userId, db, transaction) {
 	})
 
 	// Walk through the skill updates and apply them one by one, adjusting the data set.
-	skillUpdates.forEach(({skill, correct}) => {
+	skillUpdates.forEach(({ skill, correct }) => {
 		dataSet = {
 			...dataSet, // Possibly non-adjusted data.
 			...processObservation(dataSet, skill, correct), // Adjusted data.
@@ -145,7 +145,7 @@ async function applySkillUpdates(skillUpdates, userId, db, transaction) {
 		}
 
 		// Apply the update. Return the resulting promise.
-		return skill.update(update, {transaction})
+		return skill.update(update, { transaction })
 	})
 
 	// Create new skills for the ones previously missing, and add their promises to the promise array.

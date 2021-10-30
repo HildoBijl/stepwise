@@ -1,7 +1,7 @@
 import { getStepExerciseProcessor } from '../util/stepExercise'
 import { combinerAnd } from '../../../skillTracking'
 import { checkParameter } from '../util/check'
-import { generateState, getCorrect as getCycleParameters } from './calculateClosedCycleSVSV'
+import { getCorrect as getCycleParameters } from './calculateClosedCycleSVSV'
 import { getCorrect as getEnergyParameters } from './createClosedCycleEnergyOverviewSVSV'
 
 export const data = {
@@ -50,11 +50,4 @@ export function checkInput(state, input, step, substep) {
 	}
 }
 
-export default {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getCycleParameters,
-	getCorrect,
-}
+export const processAction = getStepExerciseProcessor(checkInput, data)

@@ -16,9 +16,4 @@ export function checkInput({ a, b }, { ans }) {
 	return a * b === ans
 }
 
-export default {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	checkInput,
-}
+export const processAction = getSimpleExerciseProcessor(checkInput, data)

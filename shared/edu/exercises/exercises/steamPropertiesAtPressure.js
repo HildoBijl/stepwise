@@ -38,10 +38,4 @@ export function checkInput(state, input) {
 	return checkParameter(['T', 'h', 's'], correct, input, data.equalityOptions)
 }
 
-export default {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	checkInput,
-	getCorrect,
-}
+export const processAction = getSimpleExerciseProcessor(checkInput, data)

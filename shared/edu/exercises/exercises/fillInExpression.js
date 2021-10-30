@@ -103,10 +103,4 @@ export function checkInput(state, { ans, eq }) {
 	return false
 }
 
-export default {
-	data,
-	expressions,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	checkInput,
-}
+export const processAction = getSimpleExerciseProcessor(checkInput, data)

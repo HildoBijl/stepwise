@@ -23,7 +23,7 @@ export function generateState() {
 	}
 }
 
-function getEquation({ start }) {
+export function getEquation({ start }) {
 	switch (start) {
 		case 0:
 			return asEquation('U=BvL+IR')
@@ -59,11 +59,4 @@ export function checkInput(state, input, step) {
 		return intermediate.equals(input.intermediate, data.equalityOptions.default)
 }
 
-export default {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	getEquation,
-	getCorrect,
-	checkInput,
-}
+export const processAction = getStepExerciseProcessor(checkInput, data)
