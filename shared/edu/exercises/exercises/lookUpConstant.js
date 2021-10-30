@@ -10,8 +10,7 @@ export const data = {
 }
 
 export function generateState() {
-	// return { constant: selectRandomly(['c', 'g', 'R', 'e', 'k', 'G']) }
-	return { constant: 'c' }
+	return { constant: selectRandomly(['c', 'g', 'R', 'e', 'k', 'G']) }
 }
 
 export function checkInput({ constant }, { ans }) {
