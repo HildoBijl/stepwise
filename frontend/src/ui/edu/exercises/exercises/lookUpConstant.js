@@ -42,7 +42,7 @@ function getFeedback({ state: { constant }, input: { ans }, progress: { solved }
 		return { ans: { correct, text: selectRandomCorrect() } }
 
 	const c = constants[constant]
-	if (!c.unit.equals(ans.unit))
+	if (!c.unit.equals(ans.unit, { checkSize: false }))
 		return { ans: { correct, text: 'Je eenheid klopt niet. Kijk daar eerst eens naar.' } }
 	if (c.equals(ans, { relativeMargin: 10*equalityOptions.relativeMargin }))
 		return { ans: { correct, text: 'Je zit er net naast! Voer het iets nauwkeuriger in.' } }
