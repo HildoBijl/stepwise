@@ -53,18 +53,18 @@ const skills = {
 		name: 'Gelijknamige breuken samenvoegen/splitsen',
 		exercises: ['mergeSplitBasicFractions1', 'mergeSplitBasicFractions2', 'mergeSplitBasicFractions3'],
 	},
-	mergeSplitFractions: {
-		name: 'Algemene breuken samenvoegen/splitsen',
-		exercises: ['mergeSplitFractions1', 'mergeSplitFractions2', 'mergeSplitFractions3'],
-	},
-	multiplyDivideFractions: {
-		name: 'Breuken vermenigvuldigen/delen',
-		exercises: ['mergeSplitFractionSums1', 'mergeSplitFractionSums2', 'mergeSplitFractionSums3'],
-	},
-	simplifyFractions: {
-		name: 'Breuken simplificeren',
-		exercises: ['simplifyFractions1', 'simplifyFractions2', 'simplifyFractions3'],
-	},
+	// mergeSplitFractions: {
+	// 	name: 'Algemene breuken samenvoegen/splitsen',
+	// 	exercises: ['mergeSplitFractions1', 'mergeSplitFractions2', 'mergeSplitFractions3'],
+	// },
+	// multiplyDivideFractions: {
+	// 	name: 'Breuken vermenigvuldigen/delen',
+	// 	exercises: ['mergeSplitFractionSums1', 'mergeSplitFractionSums2', 'mergeSplitFractionSums3'],
+	// },
+	// simplifyFractions: {
+	// 	name: 'Breuken simplificeren',
+	// 	exercises: ['simplifyFractions1', 'simplifyFractions2', 'simplifyFractions3'],
+	// },
 
 	// Basic mathematics: manipulating brackets.
 	expandBrackets: {

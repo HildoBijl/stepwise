@@ -3,6 +3,17 @@ import React from 'react'
 import { Par, Head } from 'ui/components/containers'
 import { BM } from 'ui/components/equations'
 
+import CAS, { Variable, Integer, Fraction } from 'step-wise/CAS'
+
+console.log(CAS)
+
+const a = new Variable('x')
+console.log(a)
+const b = new Integer(3)
+const c = new Integer(5)
+console.log(a.applyMinus().add(b).toPower(c).str)
+console.log(new Fraction(a.add(c.applyMinus()), b).str)
+
 // import Integer from 'step-wise/inputTypes/Expression/Integer'
 // import Float from 'step-wise/inputTypes/Expression/Float'
 // import Variable from 'step-wise/inputTypes/Expression/Variable'

@@ -134,3 +134,9 @@ function removeProperties(obj, keysToRemove) {
 	return res
 }
 module.exports.removeProperties = removeProperties
+
+// getParentClass takes a class and extracts its parent class.
+function getParentClass(cls) {
+	return Object.getPrototypeOf(cls)
+}
+module.exports.getParentClass = getParentClass
