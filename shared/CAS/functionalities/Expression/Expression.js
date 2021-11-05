@@ -25,7 +25,7 @@ const { decimalSeparator, decimalSeparatorTex } = require('../../../settings')
 
 const { isInt, isNumber, gcd } = require('../../../util/numbers')
 const { isObject, processOptions, filterOptions, getParentClass } = require('../../../util/objects')
-const { count, sum, product, hasSimpleMatching } = require('../../../util/arrays')
+const { firstOf, count, sum, product, hasSimpleMatching } = require('../../../util/arrays')
 const { union } = require('../../../util/sets')
 
 const { bracketLevels, simplifyOptions, equalityLevels, epsilon } = require('../../options')
@@ -565,7 +565,7 @@ class Constant extends Expression {
 	equalsBasic(expression, level) {
 		if (!(expression instanceof Constant))
 			return false
-		return expression.toNumber() - this.toNumber() < epsilon
+		return Math.abs(expression.toNumber() - this.toNumber()) < epsilon
 	}
 
 	static interpret(number) {
@@ -596,6 +596,7 @@ Integer.type = 'Integer'
 Integer.defaultSO = { ...Constant.defaultSO }
 Integer.zero = new Integer(0)
 Integer.one = new Integer(1)
+Integer.two = new Integer(2)
 Integer.minusOne = new Integer(-1)
 module.exports.Integer = Integer
 
@@ -671,7 +672,7 @@ class ExpressionList extends Expression {
 	}
 
 	isNegative() {
-		return firstOf(exponent.terms).isNegative()
+		return firstOf(this.terms).isNegative()
 	}
 
 	// applyToElement takes a function and applies it to a specified elements in this ExpressionList. The indexArray can be a single index or an array of indices.
@@ -798,7 +799,7 @@ class Sum extends ExpressionList {
 					return true
 				})
 				if (number !== 0)
-					terms.unshift(Constant.toNumber(number))
+					terms.unshift(Constant.interpret(number))
 			}
 		}
 
@@ -973,7 +974,7 @@ class Product extends ExpressionList {
 				return true
 			})
 			if (number !== 1)
-				terms.unshift(Constant.toNumber(number))
+				terms.unshift(Constant.interpret(number))
 		}
 
 		// Check for useless elements.
@@ -1123,7 +1124,7 @@ class Function extends Expression {
 		// Call the constructor. After all, we need access to static variables.
 		super()
 		if (args.length > this.constructor.args.length)
-			throw new Error(`Invalid function input: too many parameters were provided. The function "${this.type}" only has ${this.constructor.args.length} parameters, yet received ${args.length} parameters.`)
+			throw new Error(`Invalid function input: too many parameters were provided. The function "${this.type}" only has ${this.constructor.args.length} parameter${this.constructor.args.length === 1 ? '' : 's'}, yet received ${args.length} parameter${args.length === 1 ? '' : 's'}.`)
 
 		// Set up the SO from the arguments and apply them.
 		const SO = {}
@@ -1533,20 +1534,16 @@ class Ln extends SingleArgumentFunction {
 	}
 
 	getDerivativeBasic(variable) {
-		const arg = this.argument.eliminateFactor() // The factor has no influence on the derivative of the ln.
 		return new Fraction({
-			factor: this.factor,
-			numerator: arg.getDerivative(variable), // Take the derivative according to the chain rule.
-			denominator: arg, // Take 1/argument according to the derivative of ln(x).
+			numerator: this.argument.getDerivative(variable), // Take the derivative according to the chain rule.
+			denominator: this.argument, // Take 1/argument according to the derivative of ln(x).
 		})
 	}
 
 	simplifyBasic(options) {
-		let { factor, argument } = this.simplifyChildren(options)
+		let { argument } = this.simplifyChildren(options)
 
-		// ToDo
-
-		return new Ln({ factor, argument })
+		return new Ln(argument)
 	}
 }
 Ln.type = 'Ln'
