@@ -1,3 +1,6 @@
 module.exports = {
-	asEquation: () => { throw new Error(`asEquation interpreter not implemented yet.`) },
+	strToIO: require('./strToIO'),
+	IOtoFO: require('./IOtoFO'),
+	strToFO: require('./strToFO'),
+	interpret: require('./interpret'),
 }

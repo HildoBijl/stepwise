@@ -35,8 +35,9 @@ export function getInterpretationErrorMessage(error) {
 			return `Er staat een vermenigvuldiging aan het einde van een term.`
 
 		// Advanced function interpretation.
+		case 'UnknownBasicFunction':
 		case 'UnknownAdvancedFunction':
-			return `Er is een onbekende functie aangetroffen.`
+			return `Er is een onbekende functie "${cause}" aangetroffen.`
 
 		// Accent interpretation.
 		case 'UnknownAccent':

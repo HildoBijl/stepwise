@@ -569,6 +569,8 @@ class Constant extends Expression {
 	}
 
 	static interpret(number) {
+		if (!isNumber(number))
+			throw new Error(`Constant interpretation error: tried to interpret the number (Constant) "${number}" but this was not a number.`)
 		return isInt(number) ? new Integer(number) : new Float(number)
 	}
 }
