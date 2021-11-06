@@ -3,5 +3,6 @@ module.exports = {
 	IOtoFO: require('./IOtoFO'),
 	strToFO: require('./strToFO'),
 	interpret: require('./interpret'),
-	...require('./functions')
+	...require('./functions'),
+	...require('./IOsupport'),
 }

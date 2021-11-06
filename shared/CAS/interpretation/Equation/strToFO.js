@@ -1,1 +1,7 @@
-module.exports = () => { throw new Error(`Not implemented yet...`) } // ToDo
+const strToIO = require('./strToIO')
+const IOtoFO = require('./IOtoFO')
+
+function strToFO(str) {
+	return IOtoFO(strToIO(str))
+}
+module.exports = strToFO

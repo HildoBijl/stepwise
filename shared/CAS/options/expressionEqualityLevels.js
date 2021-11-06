@@ -1,4 +1,3 @@
-// Equality options boil down to a few possibilities. If these are not sufficient, considering simplifying expressions before comparing for equality.
 module.exports = {
 	default: 2,
 	exact: 0, // Everything must be exactly the same. So x+y is different from y+x.

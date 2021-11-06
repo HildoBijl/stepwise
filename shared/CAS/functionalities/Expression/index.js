@@ -1,3 +1,5 @@
+const { isObject } = require('./../../../util/objects')
+
 const mainCAS = require('./Expression')
 const functions = require('./functions')
 
@@ -13,14 +15,13 @@ module.exports = {
 	expressionTypes,
 }
 
-// ensureExpressionFromSO takes an object that may be an SO or an actual expression and ensures that it's an expression in functional form. It throws an error otherwise.
-function ensureExpressionFromSO(obj) {
+// ensureExpression is an extended (improved) version of ensureExpression from the main CAS. It takes an object that may be an SO or an actual expression and ensures that it's an expression in functional form. It throws an error otherwise. It does not allow string conversion yet.
+function ensureExpression(expression) {
 	// First try the strict ensureExpression. If that one works, return the result.
-	try {
-		const expressionProcessed = ensureExpressionStrict(expression)
-		if (expressionProcessed instanceof Expression)
-			return expressionProcessed
-	} catch { }
+	let expressionProcessed
+	try { expressionProcessed = mainCAS.ensureExpression(expression) } catch {}
+	if (expressionProcessed instanceof mainCAS.Expression)
+		return expressionProcessed
 
 	// If this is an SO, then it must be an object with a type parameter equal to an expression type.
 	if (!isObject(expression))
@@ -31,6 +32,6 @@ function ensureExpressionFromSO(obj) {
 		throw new Error(`Invalid expression object: received an object that was supposedly an Expression, but its type "${expression.type}" is not known.`)
 
 	// Pass the object to the right constructor.
-	return new expressionTypes[obj.type](obj)
+	return new expressionTypes[expression.type](expression)
 }
-module.exports.ensureExpressionFromSO = ensureExpressionFromSO
+module.exports.ensureExpression = ensureExpression

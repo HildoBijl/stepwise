@@ -1,3 +1,5 @@
+const { isObject } = require('../../../util/objects')
+
 const IOtoFO = require('./IOtoFO')
 
 function interpret(obj) {

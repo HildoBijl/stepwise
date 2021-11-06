@@ -28,7 +28,7 @@ const { isObject, processOptions, filterOptions, getParentClass } = require('../
 const { firstOf, count, sum, product, hasSimpleMatching } = require('../../../util/arrays')
 const { union } = require('../../../util/sets')
 
-const { bracketLevels, simplifyOptions, equalityLevels, epsilon } = require('../../options')
+const { bracketLevels, simplifyOptions, expressionEqualityLevels, epsilon } = require('../../options')
 
 /*
  * Expression: the Expression class is the one which everything inherits from. 
@@ -157,25 +157,25 @@ class Expression {
 
 	// add will add up the given expression to this expression. (As always, the original object remains unchanged.)
 	add(addition, putAtStart = false) {
+		addition = ensureExpression(addition)
 		return new Sum(putAtStart ? [addition, this] : [this, addition]).simplify(simplifyOptions.structureOnly)
 	}
 
 	// subtract will subtract the given expression from this expression.
 	subtract(subtraction, putAtStart = false) {
+		subtraction = ensureExpression(subtraction)
 		return this.add(subtraction.applyMinus(), putAtStart)
 	}
 
 	// multiplyBy will multiply this expression by the given expression. It puts the given expression after the current one: a.multiply(b) = a*b. If the second argument is set to true, this is reversed: a.multiply(b, true) = b*a.
 	multiplyBy(multiplication, putAtStart = false) {
-		multiplication = ensureExpressionStrict(multiplication)
-
-		// Set up the product.
+		multiplication = ensureExpression(multiplication)
 		return new Product(putAtStart ? [multiplication, this] : [this, multiplication]).simplify(simplifyOptions.structureOnly)
 	}
 
 	// divideBy will divide this expression by the given expression.
 	divideBy(division) {
-		division = ensureExpressionStrict(division)
+		division = ensureExpression(division)
 		return new Fraction(this, division).simplify(simplifyOptions.structureOnly)
 	}
 
@@ -186,13 +186,13 @@ class Expression {
 
 	// multiplyNumDenBy takes this object and turns it into a fraction, if it isn't already. Subsequently, it multiplies both the numerator and the denominator with a given expression.
 	multiplyNumDenBy(expression) {
-		expression = ensureExpressionStrict(expression)
+		expression = ensureExpression(expression)
 		return new Fraction(this.multiplyBy(expression), expression)
 	}
 
 	// toPower will take this object and apply the given power.
 	toPower(exponent) {
-		exponent = ensureExpressionStrict(exponent)
+		exponent = ensureExpression(exponent)
 
 		// Set up the power.
 		return new Power(this, exponent).simplify(simplifyOptions.structureOnly)
@@ -295,7 +295,7 @@ class Expression {
 	// substitute applies a substitution, replacing the given variable by the given substitution. The variable must be a variable object, while the substitution must be an instance of Expression.
 	substitute(variable, substitution) {
 		variable = Variable.ensureVariable(variable)
-		substitution = ensureExpressionStrict(substitution)
+		substitution = ensureExpression(substitution)
 		return this.substituteBasic(variable, substitution)
 	}
 
@@ -330,18 +330,18 @@ class Expression {
 	}
 
 	// equals checks if one expression is equal to another. How to do this depends on the equality level given.
-	equals(expression, level = equalityLevels.default) {
+	equals(expression, level = expressionEqualityLevels.default) {
 		// Check the input.
-		expression = ensureExpressionStrict(expression)
-		if (Object.values(equalityLevels).every(equalityLevel => equalityLevel !== level))
+		expression = ensureExpression(expression)
+		if (Object.values(expressionEqualityLevels).every(equalityLevel => equalityLevel !== level))
 			throw new Error(`Invalid expression equality level: could not check for equality. The equality level "${level}" is not known.`)
 
 		// Deal with certain levels centrally.
-		if (level === equalityLevels.equivalent) {
+		if (level === expressionEqualityLevels.equivalent) {
 			// To check equivalence of f(x) and g(x), just take f(x) - g(x) and compare its simplification to zero.
 			const comparison = this.subtract(expression).simplify(simplifyOptions.forAnalysis)
 			return Integer.zero.equalsBasic(comparison)
-		} else if (level === equalityLevels.constantMultiple) {
+		} else if (level === expressionEqualityLevels.constantMultiple) {
 			// To check a constant equivalence of f(x) and g(x), just take f(x)/g(x) and see if the result is a constant number instead of a variable.
 			const comparison = this.divideBy(expression).simplify(simplifyOptions.forAnalysis)
 			return comparison.isNumeric()
@@ -653,7 +653,7 @@ class ExpressionList extends Expression {
 		SO = processOptions(SO, this.constructor.getDefaultSO())
 		if (!Array.isArray(SO.terms))
 			throw new Error(`Invalid terms list: tried to create a ${this.constructor.type}, but the terms parameter was not an array. Its value was "${terms}".`)
-		const terms = SO.terms.map(ensureExpressionStrict)
+		const terms = SO.terms.map(ensureExpression)
 
 		// Handle parent input.
 		super.become(filterOptions(SO, getParentClass(this.constructor).getDefaultSO()))
@@ -711,11 +711,11 @@ class ExpressionList extends Expression {
 			return false
 
 		// For exact equality, check that all arguments with matching indices are equal.
-		if (level === equalityLevels.exact)
+		if (level === expressionEqualityLevels.exact)
 			return this.terms.every((term, index) => term.equalsBasic(expression.terms[index], level))
 
 		// When allowing order changes, check that every term has a matching term somewhere that is equal.
-		if (level === equalityLevels.onlyOrderChanges)
+		if (level === expressionEqualityLevels.onlyOrderChanges)
 			return hasSimpleMatching(this.terms, expression.terms, (a, b) => a.equalsBasic(b, level))
 
 		// Should never happen.
@@ -825,7 +825,7 @@ class Sum extends ExpressionList {
 		if (options.cancelSumTerms) {
 			const skipped = terms.map(_ => false)
 			terms = terms.filter((term1, index1) => {
-				const index = terms.findIndex((term2, index2) => index1 < index2 && !skipped[index1] && !skipped[index2] && term1.equals(term2.applyMinus(), equalityLevels.onlyOrderChanges))
+				const index = terms.findIndex((term2, index2) => index1 < index2 && !skipped[index1] && !skipped[index2] && term1.equals(term2.applyMinus(), expressionEqualityLevels.onlyOrderChanges))
 				if (index !== -1) {
 					skipped[index1] = true
 					skipped[index] = true
@@ -1095,7 +1095,7 @@ class Product extends ExpressionList {
 		const getPowerOf = term => term.isType(Power) ? term.exponent : Integer.one
 		const result = []
 		terms.forEach(term => {
-			const index = result.findIndex(comparisonTerm => getBaseOf(comparisonTerm).equalsBasic(getBaseOf(term), equalityLevels.onlyOrderChanges))
+			const index = result.findIndex(comparisonTerm => getBaseOf(comparisonTerm).equalsBasic(getBaseOf(term), expressionEqualityLevels.onlyOrderChanges))
 			if (index === -1) {
 				result.push(term)
 			} else {
@@ -1149,7 +1149,7 @@ class Function extends Expression {
 
 		// Apply own input.
 		this.constructor.args.forEach(key => {
-			this[key] = ensureExpressionStrict(SO[key])
+			this[key] = ensureExpression(SO[key])
 		})
 	}
 
@@ -1256,7 +1256,7 @@ class Fraction extends Function {
 	}
 
 	multiplyNumDenBy(expression) {
-		expression = ensureExpressionStrict(expression)
+		expression = ensureExpression(expression)
 		return new Fraction(this.numerator.multiplyBy(expression), this.denominator.multiplyBy(expression))
 	}
 
@@ -1556,8 +1556,8 @@ module.exports.Ln = Ln
  * Below are various functions and objects related to Expressions.
  */
 
-// ensureExpressionStrict tries to turn the given expression (possibly a string, object or something) into an Expression. It only does this in a basic way. Basically, it already expects the input to be an Expression object, or perhaps something very basic, like a number 2.5 or a variable string "x_2". If not, an error is thrown. It cannot use the interpreter, since that would result in a cyclic dependency.
-function ensureExpressionStrict(expression) {
+// ensureExpression tries to turn the given expression (possibly a string, object or something) into an Expression. It only does this in a basic way. Basically, it already expects the input to be an Expression object, or perhaps something very basic, like a number 2.5 or a variable string "x_2". If not, an error is thrown. It cannot use the interpreter, since that would result in a cyclic dependency.
+function ensureExpression(expression) {
 	// Check if this is easy to interpret.
 	if (expression instanceof Expression)
 		return expression // All good already!
@@ -1576,7 +1576,7 @@ function ensureExpressionStrict(expression) {
 	// Cannot be interpreted.
 	throw new Error(`Invalid expression: expected an expression object but received an object of type "${typeof expression}" with value "${JSON.stringify(expression)}". Could not process this.`)
 }
-module.exports.ensureExpressionStrict = ensureExpressionStrict
+module.exports.ensureExpression = ensureExpression
 
 // checkSubstitutionParameters takes parameters given for a substitution and checks if they're valid. If so, it does nothing. If not, an error is thrown.
 function checkSubstitutionParameters(variable, substitution) {
