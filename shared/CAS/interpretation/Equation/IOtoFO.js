@@ -1,7 +1,8 @@
 const { Equation } = require('../../functionalities')
 
 const InterpretationError = require('../InterpretationError')
-const { IOtoFO: expressionIOtoFO, getStartCursor, getEndCursor, getSubExpression, moveRight } = require('../Expression')
+const { getStartCursor, getEndCursor, getSubExpression, moveRight } = require('../support')
+const { IOtoFO: expressionIOtoFO } = require('../Expression')
 
 function IOtoFO(value, settings = {}) {
 	// Walk through the expression to find an equals symbol.

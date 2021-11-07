@@ -1,5 +1,6 @@
 const expression = require('./Expression')
 const equation = require('./Equation')
+const support = require('./support')
 
 module.exports = {
 	// Important expression functions.
@@ -13,4 +14,7 @@ module.exports = {
 	equationIOtoFO: equation.IOtoFO,
 	asEquation: equation.strToFO,
 	interpretEquation: equation.interpret,
+
+	// Import supporting functions.
+	...support,
 }

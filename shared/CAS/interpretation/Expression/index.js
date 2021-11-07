@@ -4,5 +4,4 @@ module.exports = {
 	strToFO: require('./strToFO'),
 	interpret: require('./interpret'),
 	...require('./functions'),
-	...require('./IOsupport'),
 }

@@ -1,5 +1,5 @@
-const { isObject } = require('../../../util/objects')
-const { firstOf, lastOf } = require('../../../util/arrays')
+const { isObject } = require('../../util/objects')
+const { firstOf, lastOf } = require('../../util/arrays')
 
 function getEmpty() {
 	return [{ type: 'ExpressionPart', value: '' }]

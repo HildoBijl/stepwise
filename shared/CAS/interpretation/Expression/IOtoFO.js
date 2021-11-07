@@ -6,9 +6,9 @@ const { Expression, Constant, Variable, Sum, Product, Power } = require('../../f
 const { simplifyOptions, defaultInterpretationSettings } = require('../../options')
 
 const InterpretationError = require('../InterpretationError')
+const { isEmpty, getStartCursor, getEndCursor, getSubExpression, moveRight } = require('../support')
 
 const { basicFunctionComponents, advancedFunctionComponents, accents, isFunctionAllowed } = require('./functions')
-const { isEmpty, getStartCursor, getEndCursor, getSubExpression, moveRight } = require('./IOsupport')
 
 function IOtoFO(value, settings = {}) {
 	settings = processOptions(settings, defaultInterpretationSettings)
