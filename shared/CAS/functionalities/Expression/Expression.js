@@ -599,6 +599,14 @@ Integer.defaultSO = { ...Constant.defaultSO }
 Integer.zero = new Integer(0)
 Integer.one = new Integer(1)
 Integer.two = new Integer(2)
+Integer.three = new Integer(3)
+Integer.four = new Integer(4)
+Integer.five = new Integer(5)
+Integer.six = new Integer(6)
+Integer.seven = new Integer(7)
+Integer.eight = new Integer(8)
+Integer.nine = new Integer(9)
+Integer.ten = new Integer(10)
 Integer.minusOne = new Integer(-1)
 module.exports.Integer = Integer
 
@@ -1110,17 +1118,13 @@ Product.defaultSO = ExpressionList.defaultSO
 module.exports.Product = Product
 
 /*
- * Function: an abstract class representing any kind of function with any number of arguments.
+ * Function: an abstract class representing any kind of function with any number of arguments. Each function is assumed to have one "main" argument, which is the first one mentioned.
  */
 
 class Function extends Expression {
 	constructor(...args) {
-		// If no arguments are given, use default values.
-		if (args.length === 0)
-			return super()
-
-		// If one argument is given, which is not an expression, it's probably the SO.
-		if (args.length === 1 && !(args[0] instanceof Expression))
+		// If one argument is given, and it's a non-expression object, it's probably the SO. Apply it in the default way.
+		if (args.length === 1 && isObject(args[0]) && !(args[0] instanceof Expression))
 			return super(args[0])
 
 		// Call the constructor. After all, we need access to static variables.
@@ -1155,22 +1159,30 @@ class Function extends Expression {
 
 	toString() {
 		let result = this.type.toLowerCase()
-		this.constructor.args.forEach(key => {
-			result += `[${this[key].str}]`
+		this.constructor.args.forEach((key, index) => {
+			if (index > 0)
+				result += `[${this[key].str}]`
 		})
+		result += `(${this[firstOf(this.constructor.args)].str})`
 		return result
 	}
 
 	toTex() {
-		let result = `{\\${this.type.toLowerCase()}}`
-		this.constructor.args.forEach(key => {
-			result += `\\left(${this[key].tex}\\right)`
+		let result = `{\\rm ${this.type.toLowerCase()}}`
+		this.constructor.args.forEach((key, index) => {
+			if (index > 0)
+				result += `\\left[${this[key].tex}\\right]`
 		})
+		result += `\\left(${this[key].tex}\\right)`
 		return result
 	}
 
 	requiresBracketsFor(level) {
 		return level === bracketLevels.powers
+	}
+
+	requiresTimesInProduct() {
+		return true
 	}
 
 	getVariableStrings() {

@@ -10,7 +10,7 @@ class Sqrt extends SingleArgumentFunction {
 	}
 
 	toTex() {
-		return this.addFactorToTex(`\\sqrt{${this.argument.tex}}`)
+		return `\\sqrt{${this.argument.tex}}`
 	}
 
 	getDerivativeBasic(variable) {
@@ -39,7 +39,7 @@ class Root extends Function {
 	}
 
 	toTex() {
-		return this.addFactorToTex(`\\sqrt[${this.base.tex}]{${this.argument.tex}}`)
+		return `\\sqrt[${this.base.tex}]{${this.argument.tex}}`
 	}
 
 	getDerivativeBasic(variable) {
@@ -56,5 +56,5 @@ class Root extends Function {
 	}
 }
 Root.type = 'Root'
-Root.args = ['base', 'argument']
+Root.args = ['argument', 'base']
 module.exports.Root = Root
