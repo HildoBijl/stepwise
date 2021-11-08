@@ -36,7 +36,7 @@ const advancedFunctionComponents = {
 		component: Root,
 	},
 }
-module.exports.basicFunctionComponents = basicFunctionComponents
+module.exports.advancedFunctionComponents = advancedFunctionComponents
 module.exports.advancedFunctions = Object.keys(advancedFunctionComponents)
 
 const accents = ['dot', 'hat']

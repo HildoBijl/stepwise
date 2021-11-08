@@ -130,14 +130,10 @@ function findCharacterAtZeroBracketCount(value, cursor, characters, toRight = tr
 			bracketCount += toRight ? 1 : -1
 		else if (nextSymbol === ')')
 			bracketCount += toRight ? -1 : 1
-		
-		// On an encountered function (not a subSup) also adjust the bracket count.
-		if (isObject(nextSymbol) && nextSymbol.type === 'Function' && nextSymbol.name !== 'subSup') {
-			// ToDo: set the below lines back after moving all the expression code to shared. Also incorporate proper processing of functions like log[10](...) that need a net bracket count.
-			// const countNetBrackets = getFuncs(nextSymbol).countNetBrackets
-			// const netBracketCount = countNetBrackets ? countNetBrackets(nextSymbol) : 0
-			// bracketCount += (toRight ? 1 : -1) * netBracketCount
-		}
+
+		// On an encountered function, if there is a parameter after the function, the function counts as a bracket too. Count this as well.
+		if (isObject(nextSymbol) && nextSymbol.type === 'Function' && advancedFunctionComponents[nextSymbol.name].hasParameterAfter)
+			bracketCount += (toRight ? 1 : -1)
 
 		// All good so far! Shift the cursor and check out the next symbol.
 		shiftCursor()

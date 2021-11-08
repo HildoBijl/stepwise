@@ -391,10 +391,10 @@ class Variable extends Expression {
 	toString() {
 		let result = this.symbol
 		if (this.accent)
-			result = `${this.accent}[${result}]`
+			result = `${this.accent}(${result})`
 		if (this.subscript) {
 			if (this.subscript.length > 1)
-				result = `${result}_[${this.subscript}]`
+				result = `${result}_(${this.subscript})`
 			else
 				result = `${result}_${this.subscript}`
 		}
@@ -412,6 +412,10 @@ class Variable extends Expression {
 
 	requiresBracketsFor(level) {
 		return false
+	}
+
+	requiresTimesInProduct() {
+		return !!this.accent // On an accent, use a times.
 	}
 
 	getVariableStrings() {
@@ -1458,6 +1462,10 @@ class Power extends Function {
 
 		// Put them together.
 		return `${baseTex}^{${exponentTex}}`
+	}
+
+	requiresTimesInProduct() {
+		return this.base.requiresTimesInProduct()
 	}
 
 	// invert on powers means make the power negative. So x^2 becomes x^(-2).

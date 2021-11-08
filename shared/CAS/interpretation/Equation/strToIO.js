@@ -1,3 +1,3 @@
-module.exports = () => { throw new Error(`Not implemented yet...`) } // ToDo
+const { strToIO: expressionStrToIO } = require('../Expression')
 
-// ToDo: check str as input.
+module.exports = expressionStrToIO // This works exactly the same as for expressions.
