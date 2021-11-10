@@ -1,5 +1,5 @@
 
-const { Fraction, Ln, Log, Sqrt, Root, Sin, Cos, Tan, Arcsin, Arccos, Arctan} = require('../../functionalities')
+const { Fraction, Ln, Log, Sqrt, Root, Sin, Cos, Tan, Arcsin, Arccos, Arctan} = require('../functionalities')
 
 // Define all the basic and advanced functions and all accents that are recognized.
 const basicFunctionComponents = {

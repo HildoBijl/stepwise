@@ -7,8 +7,7 @@ const { simplifyOptions, defaultInterpretationSettings } = require('../../option
 
 const InterpretationError = require('../InterpretationError')
 const { isEmpty, getStartCursor, getEndCursor, getSubExpression, moveRight } = require('../support')
-
-const { basicFunctionComponents, advancedFunctionComponents, accents, isFunctionAllowed } = require('./functions')
+const { basicFunctionComponents, advancedFunctionComponents, accents, isFunctionAllowed } = require('../functions')
 
 function IOtoFO(value, settings = {}) {
 	settings = processOptions(settings, defaultInterpretationSettings)
@@ -117,7 +116,7 @@ function interpretBrackets(value, settings) {
 	result.push(...getSubExpression(value, lastPosition, end))
 
 	// With brackets taken care of, continue with sums.
-	return interpretSums(result)
+	return interpretSums(result, settings)
 }
 
 // getMatchingBrackets returns an array [{ opening: { part: 0, cursor: 4 }, closing: { part: 2, cursor: 0 } }, ... ] with matching brackets. Brackets inside these brackets are ignored (assuming they match).
@@ -402,7 +401,7 @@ function interpretFunction(element, settings) {
 
 	// Verify the advanced function.
 	if (!isFunctionAllowed(name, settings))
-		throw new InterpretationError(`UnknownAdvancedFunction`, name, `Could not interpret the function "${name}".`)
+		throw new InterpretationError(`UnknownAdvancedFunction`, name, `Could not interpret the function "${name}". It is not allowed for the given settings "${JSON.stringify(settings)}".`)
 	if (!advancedFunctionComponents[name])
 		throw new Error(`Invalid function name: the function "${name}" was allowed by the isFunctionAllowed function, but it does not have a known component.`)
 	if (advancedFunctionComponents[name].hasParameterAfter)

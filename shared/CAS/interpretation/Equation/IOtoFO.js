@@ -1,10 +1,19 @@
+const { processOptions } = require('../../../util/objects')
+
 const { Equation } = require('../../functionalities')
+const { defaultInterpretationSettings } = require('../../options')
 
 const InterpretationError = require('../InterpretationError')
 const { getStartCursor, getEndCursor, getSubExpression, moveRight } = require('../support')
 const { IOtoFO: expressionIOtoFO } = require('../Expression')
 
 function IOtoFO(value, settings = {}) {
+	settings = processOptions(settings, defaultInterpretationSettings)
+	return interpretIO(value, settings)
+}
+module.exports = IOtoFO
+
+function interpretIO(value, settings) {
 	// Walk through the expression to find an equals symbol.
 	let part, cursor
 	value.forEach((element, partIndex) => {
@@ -41,4 +50,3 @@ function IOtoFO(value, settings = {}) {
 		right: expressionIOtoFO(right, settings),
 	})
 }
-module.exports = IOtoFO

@@ -1,6 +1,8 @@
 const { isObject } = require('../../util/objects')
 const { firstOf, lastOf } = require('../../util/arrays')
 
+const { advancedFunctionComponents } = require('./functions')
+
 function getEmpty() {
 	return [{ type: 'ExpressionPart', value: '' }]
 }
@@ -49,23 +51,23 @@ function getSubExpression(value, left, right) {
 module.exports.getSubExpression = getSubExpression
 
 // moveRight takes a cursor position in an expression and moves it one to the right. This is useful if you want to skip over an element.
-function moveRight(position) {
+function moveRight(position, amount = 1) {
 	return {
 		...position,
-		cursor: position.cursor + 1,
+		cursor: position.cursor + amount,
 	}
 }
 module.exports.moveRight = moveRight
 
-// findNextClosingBracket searches in the given Expression value, from the cursor position, for the next closing bracket. It counts the bracket count. So if an opening bracket is encountered, only the position of the second closing bracket is given. This is useful when having a function like "sqrt(2(x+3))". Starting after "sqrt(" the first closing bracket with zero net bracket count is the last bracket.
+// findNextClosingBracket searches in the given Expression value, from the cursor position, for the next closing bracket. It tracks the bracket count. So if an opening bracket is encountered, only the position of the second closing bracket is given. This is useful when having a function like "sqrt(2(x+3))". Starting after "sqrt(" the first closing bracket with zero net bracket count is the last bracket.
 function findNextClosingBracket(value, cursor) {
 	return findCharacterAtZeroBracketCount(value, cursor, ')')
 }
 module.exports.findNextClosingBracket = findNextClosingBracket
 
-// findEndOfTerm takes an Expression value and a cursor position, and searches for the end of the term in the given direction. (Default: toRight = true.) If atLeastOneCharacter is said to "true" (default false) then the first character encountered is ignored. Basically this function searches for the first plus/minus/times/closing-bracket in the given direction when the net bracket count is zero. This is useful when for instance creating a fraction, to know what needs to be placed inside the fraction.
+// findEndOfTerm takes an Expression value and a cursor position, and searches for the end of the term in the given direction. (Default: toRight = true.) If atLeastOneCharacter is set to "true" (default false) then the first character encountered is ignored. Basically this function searches for the first plus/minus/times/closing-bracket in the given direction when the net bracket count is zero. This is useful when for instance creating a fraction, to know what needs to be placed inside the fraction.
 function findEndOfTerm(value, cursor, toRight = true, atLeastOneCharacter = false) {
-	const endOfTermCharacters = ['+', '-', '*', toRight ? ')' : '(']
+	const endOfTermCharacters = ['+', '-', '*', '/', toRight ? ')' : '(']
 	return findCharacterAtZeroBracketCount(value, cursor, endOfTermCharacters, toRight, atLeastOneCharacter)
 }
 module.exports.findEndOfTerm = findEndOfTerm
@@ -78,7 +80,7 @@ function findCharacterAtZeroBracketCount(value, cursor, characters, toRight = tr
 
 	// Define iterators: parameters that will change as we go.
 	let { part: partIterator, cursor: cursorIterator } = cursor
-	let bracketCount = initialBracketCount
+	let bracketCount = 0
 
 	// Define functions that will be needed while iterating.
 	const hasNextSymbol = () => {

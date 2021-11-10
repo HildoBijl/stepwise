@@ -1,31 +1,48 @@
 // This file has all functionalities to turn Expressions, Equations and such from String format to Input Object format. (You can turn String to IO, IO to FO, and FO to String.)
 
 const { getNextSymbol, removeWhitespace } = require('../../../util/strings')
+const { processOptions } = require('../../../util/objects')
 
-function strToIO(str, settings) {
+const { defaultInterpretationSettings } = require('../../options')
+
+const { getStartCursor, getEndCursor, getSubExpression, findEndOfTerm, moveRight } = require('../support')
+
+function strToIO(str, settings = {}) {
+	settings = processOptions(settings, defaultInterpretationSettings)
+
 	// Whitespace is always ignored. Remove it directly to prevent confusion.
 	str = removeWhitespace(str)
 
-	// Start with a single expression part. We'll split it up as we go.
-	let value = [{
+	// Start with a single expression part. Process it as we go.
+	return processExpression([{
 		type: 'ExpressionPart',
 		value: str,
-	}]
-
-	// Check for subscripts and powers.
-	value = value.map(part => processSubSups(part)).flat()
-
-	// Check for fractions.
-	value = processFractions(value)
-
-	// ToDo: extend this further with other function types.
-
-	return value
+	}], settings)
 }
 module.exports = strToIO
 
-// processSubSups takes an ExpressionPart object like { type: 'ExpressionPart', value: 'aF^2_bc' } and turns this into the right input object format, having a SubSup of the form { sub: 'b', sup: '2' } (okay, with proper object types).
-function processSubSups(part) {
+function processExpression(value, settings) {
+	// Check for subscripts and powers.
+	value = processSubSups(value, settings)
+
+	// Check for fractions.
+	value = processFractions(value, settings)
+	// ToDo next: implement fractions.
+
+	// ToDo: include accents and turn them into { type: 'Accent', name: 'hat', alias: 'hat-like', value: 'm' }.
+
+	// ToDo: extend this further with other function types. Like sqrt[3](8).
+
+	return value
+}
+
+// processSubSups takes an Expression value with possible underscores/powers "_" and "^" and processes these symbols. It creates SubSup objects of the form { sub: 'b', sup: '2' } (okay, with proper object types).
+function processSubSups(value, settings) {
+	return value.map(part => processExpressionPartSubSups(part, settings)).flat()
+}
+
+// processExpressionPartSubSups takes an ExpressionPart object like { type: 'ExpressionPart', value: 'aF^2_bc' } and turns this into the right input object format, having a SubSup of the form { sub: 'b', sup: '2' } (okay, with proper object types).
+function processExpressionPartSubSups(part, settings) {
 	// Only process ExpressionParts.
 	if (part.type !== 'ExpressionPart')
 		return part
@@ -64,7 +81,7 @@ function processSubSups(part) {
 			power = strToIO(str[position + 1])
 			position = position + 2
 		}
-		return addType(power)
+		return addExpressionType(power)
 	}
 
 	// Walk through underscores and power symbols and process them appropriately.
@@ -104,17 +121,52 @@ function processSubSups(part) {
 
 // processFractions takes an array of ExpressionParts with possibly other elements in there, and sets up the "frac" functions, just like in the input objects.
 function processFractions(value) {
-	// Walk through the parts of the expression and look for dividing symbols "/".
-	const result = []
-	value.forEach((part, index) => {
-		// if (part.type !== 'ExpressionPart')
+	// Set up a handler that finds the next slash symbol.
+	const getNextSymbol = () => {
+		const part = value.findIndex(part => part.type === 'ExpressionPart' && part.value.indexOf('/') !== -1)
+		return (part === -1 ? null : { part, cursor: value[part].value.indexOf('/') })
+	}
 
-		// ToDo next: process functions through their aliases.
-	})
-	return value // TEMP
+	// While there is a next symbol, apply it.
+	for (let nextSymbol = getNextSymbol(); nextSymbol; nextSymbol = getNextSymbol()) {
+		value = applyFraction(value, nextSymbol)
+	}
+	return value
 }
 
-function addType(value) {
+function applyFraction(value, cursor) {
+	// Define cursors.
+	const start = getStartCursor(value)
+	const beforeSymbol = cursor
+	const afterSymbol = moveRight(cursor)
+	const leftSide = findEndOfTerm(value, beforeSymbol, false)
+	const rightSide = findEndOfTerm(value, afterSymbol, true)
+	const end = getEndCursor(value)
+
+	// Set up the fraction value.
+	const numerator = processExpression(getSubExpression(value, leftSide, beforeSymbol))
+	const denominator = processExpression(getSubExpression(value, afterSymbol, rightSide))
+	const fractionValue = [
+		addExpressionType(numerator),
+		addExpressionType(denominator),
+	]
+
+	// Set up the fraction element.
+	const fractionElement = {
+		type: 'Function',
+		name: 'frac',
+		value: fractionValue,
+	}
+
+	// Build the new Expression value around it.
+	return [
+		...getSubExpression(value, start, leftSide),
+		fractionElement,
+		...getSubExpression(value, rightSide, end),
+	]
+}
+
+function addExpressionType(value) {
 	return {
 		type: 'Expression',
 		value,

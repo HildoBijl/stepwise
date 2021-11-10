@@ -146,8 +146,13 @@ class Expression {
 		return true
 	}
 
-	// requiresTimesInProduct checks whether the string representation requires a times when displayed in a product. For instance, "xy" does not require a times, nor does "5y", but "x2" does, and certainly "52" when meaning "5*2".
-	requiresTimesInProduct() {
+	// requiresTimesBeforeInProduct checks whether the string representation requires a times before the term when displayed in a product. For instance, "xy" does not require a times, nor does "5y", but "x2" does, and certainly "52" when meaning "5*2".
+	requiresTimesBeforeInProduct() {
+		return false
+	}
+
+	// requiresTimesAfterInProduct checks whether the string representation requires a times after the term when displayed in a product.
+	requiresTimesAfterInProduct() {
 		return false
 	}
 
@@ -414,7 +419,7 @@ class Variable extends Expression {
 		return false
 	}
 
-	requiresTimesInProduct() {
+	requiresTimesBeforeInProduct() {
 		return !!this.accent // On an accent, use a times.
 	}
 
@@ -538,7 +543,7 @@ class Constant extends Expression {
 		return this.value >= 0
 	}
 
-	requiresTimesInProduct() {
+	requiresTimesBeforeInProduct() {
 		return true
 	}
 
@@ -913,7 +918,7 @@ module.exports.Sum = Sum
 class Product extends ExpressionList {
 	toString() {
 		const termToString = (term, index) => {
-			const precursor = index > 0 && term.requiresTimesInProduct() ? '*' : ''
+			const precursor = index > 0 && (term.requiresTimesBeforeInProduct() || this.terms[index-1].requiresTimesAfterInProduct()) ? '*' : ''
 			if (term.requiresBracketsFor(bracketLevels.multiplication))
 				return `${precursor}(${term.str})`
 			return `${precursor}${term.str}`
@@ -927,7 +932,7 @@ class Product extends ExpressionList {
 
 	toTex() {
 		const termToTex = (term, index) => {
-			const precursor = index > 0 && term.requiresTimesInProduct() ? ' \\cdot ' : ''
+			const precursor = index > 0 && (term.requiresTimesBeforeInProduct() || this.terms[index-1].requiresTimesAfterInProduct()) ? ' \\cdot ' : ''
 			if (term.requiresBracketsFor(bracketLevels.multiplication))
 				return `${precursor}\\left(${term.tex}\\right)`
 			return `${precursor}${term.tex}`
@@ -944,11 +949,15 @@ class Product extends ExpressionList {
 	}
 
 	requiresPlusInSum() {
-		return this.terms[0].requiresPlusInSum()
+		return firstOf(this.terms).requiresPlusInSum()
 	}
 
-	requiresTimesInProduct() {
-		return this.terms[0].requiresTimesInProduct()
+	requiresTimesBeforeInProduct() {
+		return firstOf(this.terms).requiresTimesBeforeInProduct()
+	}
+
+	requiresTimesAfterInProduct() {
+		return lastOf(this.terms).requiresTimesAfterInProduct()
 	}
 
 	toNumber() {
@@ -1185,7 +1194,11 @@ class Function extends Expression {
 		return level === bracketLevels.powers
 	}
 
-	requiresTimesInProduct() {
+	requiresTimesBeforeInProduct() {
+		return true
+	}
+
+	requiresTimesAfterInProduct() {
 		return true
 	}
 
@@ -1464,8 +1477,12 @@ class Power extends Function {
 		return `${baseTex}^{${exponentTex}}`
 	}
 
-	requiresTimesInProduct() {
-		return this.base.requiresTimesInProduct()
+	requiresTimesBeforeInProduct() {
+		return this.base.requiresTimesBeforeInProduct()
+	}
+
+	requiresTimesAfterInProduct() {
+		return true
 	}
 
 	// invert on powers means make the power negative. So x^2 becomes x^(-2).

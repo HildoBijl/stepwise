@@ -1,6 +1,7 @@
 const expression = require('./Expression')
 const equation = require('./Equation')
 const support = require('./support')
+const functions = require('./functions')
 
 module.exports = {
 	// Important expression functions.
@@ -17,4 +18,5 @@ module.exports = {
 
 	// Import supporting functions.
 	...support,
+	...functions,
 }
