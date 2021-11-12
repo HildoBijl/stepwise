@@ -1,15 +1,11 @@
 const { getRandomInteger, getRandomBoolean } = require('../../../util/random')
 const { getRandomIndices, hasSimpleMatching } = require('../../../util/arrays')
+const { Variable, Sum, Product, Fraction, expressionChecks } = require('../../../CAS')
+
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 const { performCheck } = require('../util/check')
 
-const { checks } = require('../../../inputTypes/Expression')
-const Product = require('../../../inputTypes/Expression/Product')
-const Sum = require('../../../inputTypes/Expression/Sum')
-const Fraction = require('../../../inputTypes/Expression/functions/Fraction')
-const Variable = require('../../../inputTypes/Expression/Variable')
-
-const { equivalent } = checks
+const { equivalent } = expressionChecks
 
 const data = {
 	skill: 'mergeSplitBasicFractions',

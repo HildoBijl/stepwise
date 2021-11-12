@@ -1,13 +1,13 @@
 import React from 'react'
 
 import { selectRandomEmpty } from 'step-wise/util/random'
-import { getEmpty, isEmpty } from 'step-wise/inputTypes/Equation'
-import { interpretEquationValue } from 'step-wise/inputTypes/Expression/interpreter/equations'
+import { equationIOtoFO, support } from 'step-wise/CAS'
 
-import Equation from './support/expressionTypes/Equation'
 import { getInterpretationErrorMessage } from './support/expressionTypes/support/interpretationError'
 
 import ExpressionInput, { validWithVariablesGeneric } from './ExpressionInput'
+
+const { getEmpty, isEmpty, getStartCursor } = support
 
 const equationProps = {
 	placeholder: 'Vergelijking',
@@ -52,7 +52,7 @@ export function nonEmptyAndValid(data) {
 }
 export function validWithVariables(...variables) {
 	// This validation function is special, in the sense that it's a function that returns a validation function. Give it a set of variables that are accepted, and it checks that only those variables are used.
-	return validWithVariablesGeneric(interpretEquationValue, ...variables)
+	return validWithVariablesGeneric(equationIOtoFO, ...variables)
 }
 
 // getEmptyData returns an empty data object, ready to be filled by input.
@@ -60,7 +60,7 @@ export function getEmptyData(settings = {}) {
 	return {
 		type: 'Equation',
 		value: getEmpty(),
-		cursor: Equation.getStartCursor(),
+		cursor: getStartCursor(),
 		settings,
 	}
 }
@@ -73,7 +73,7 @@ export function isValid(value) {
 // getValidityMessage takes an Equation value and checks whether it is valid. If not, it gives a message explaining a problem. If it is valid, nothing is returned.
 export function getValidityMessage(value) {
 	try {
-		interpretEquationValue(value)
+		equationIOtoFO(value)
 	} catch (e) {
 		return getInterpretationErrorMessage(e)
 	}

@@ -1,17 +1,12 @@
 const { getRandomInteger, getRandomBoolean } = require('../../../util/random')
+const { Variable, Integer, Sum, Product, Fraction, expressionChecks, simplifyOptions } = require('../../../CAS')
+
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 const { performCheck } = require('../util/check')
 
-const { Expression, checks } = require('../../../inputTypes/Expression')
-const Sum = require('../../../inputTypes/Expression/Sum')
-const Product = require('../../../inputTypes/Expression/Product')
-const Fraction = require('../../../inputTypes/Expression/functions/Fraction')
-const Integer = require('../../../inputTypes/Expression/Integer')
-const Variable = require('../../../inputTypes/Expression/Variable')
-
 const data = {
 	skill: 'addRemoveFractionFactors',
-	check: (correct, input, { upper, sum }) => input.isType(Fraction) && checks.onlyOrderChanges(sum, input[upper ? 'denominator' : 'numerator']) && checks.equivalent(correct, input),
+	check: (correct, input, { upper, sum }) => input.isType(Fraction) && expressionChecks.onlyOrderChanges(sum, input[upper ? 'denominator' : 'numerator']) && expressionChecks.equivalent(correct, input),
 	availableVariablesLower: ['a', 'b', 'c', 'x', 'y', 't'].map(Variable.ensureVariable),
 	availableVariablesUpper: ['P', 'R', 'I', 'U', 'L'].map(Variable.ensureVariable),
 	usedVariables: ['P', 'x', 'y'],
@@ -43,7 +38,7 @@ function getCorrect(state) {
 	const term = new Product(state.a, P)
 	const product = new Product(state.front ? [term, sum] : [sum, term])
 	const expression = state.upper ? term : new Fraction(Integer.one, term)
-	const ans = expression.multiplyNumDenBy(sum).simplify(Expression.simplifyOptions.removeUseless)
+	const ans = expression.multiplyNumDenBy(sum).simplify(simplifyOptions.removeUseless)
 	return { ...state, variables, sum, term, product, expression, ans }
 }
 

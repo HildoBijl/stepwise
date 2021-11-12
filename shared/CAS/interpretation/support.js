@@ -146,3 +146,12 @@ function findCharacterAtZeroBracketCount(value, cursor, characters, toRight = tr
 	return { part: partIterator, cursor: cursorIterator }
 }
 module.exports.findCharacterAtZeroBracketCount = findCharacterAtZeroBracketCount
+
+// addExpressionType gets an Expression value and wraps it in an object with type Expression. This is useful because inside Expressions many subexpressions have this format.
+function addExpressionType(value) {
+	return {
+		type: 'Expression',
+		value,
+	}
+}
+module.exports.addExpressionType = addExpressionType

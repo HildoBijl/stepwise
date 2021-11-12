@@ -1,4 +1,4 @@
-import InterpretationError from 'step-wise/inputTypes/Expression/interpreter/InterpretationError'
+import { InterpretationError } from 'step-wise/CAS'
 
 export function getInterpretationErrorMessage(error) {
 	// If the error is not an interpretation error, rethrow it.

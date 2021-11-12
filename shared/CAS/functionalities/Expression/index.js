@@ -2,6 +2,7 @@ const { isObject } = require('./../../../util/objects')
 
 const mainCAS = require('./Expression')
 const functions = require('./functions')
+const checks = require('./checks')
 
 // On top of exporting all Expression types, functions and options, also include an "expressionTypes" parameter containing only endpoints of the Expression tree. So it has no abstract classes, but only things that actually occur like Integer, Product, Power, Sin, etcetera.
 const expressionTypes = {
@@ -13,13 +14,14 @@ module.exports = {
 	...mainCAS, // Export all exports from the Expression file. This is the basic CAS functionality.
 	...functions, // Export all functions too. These are add-on functionalities.
 	expressionTypes,
+	expressionChecks: checks,
 }
 
 // ensureExpression is an extended (improved) version of ensureExpression from the main CAS. It takes an object that may be an SO or an actual expression and ensures that it's an expression in functional form. It throws an error otherwise. It does not allow string conversion yet.
 function ensureExpression(expression) {
 	// First try the strict ensureExpression. If that one works, return the result.
 	let expressionProcessed
-	try { expressionProcessed = mainCAS.ensureExpression(expression) } catch {}
+	try { expressionProcessed = mainCAS.ensureExpression(expression) } catch { }
 	if (expressionProcessed instanceof mainCAS.Expression)
 		return expressionProcessed
 

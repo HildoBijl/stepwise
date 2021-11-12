@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { simplifyOptions, equalityLevels } from 'step-wise/inputTypes/Expression'
+import { simplifyOptions, equationEqualityLevels } from 'step-wise/CAS'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
@@ -82,7 +82,7 @@ function getFeedback(exerciseData) {
 		text: (input, { subtract, term }) => <>Als de term {<M>{term}</M>} aan de ene kant {subtract ? 'positief' : 'negatief'} is, dan moet hij aan de andere kant {subtract ? 'negatief' : 'positief'} worden.</>,
 	}
 	const correctEquation = {
-		check: (input, { ans }) => ans.left.subtract(ans.right).equals(input.left.subtract(input.right), equalityLevels.equivalent),
+		check: (input, { ans }) => ans.left.subtract(ans.right).equals(input.left.subtract(input.right), equationEqualityLevels.equivalent),
 		// check: (input, { ans }) => ans.equals(input), // ToDo: put this back once equality checks are in full working order.
 		text: <>De vergelijking klopt wel, maar je hebt niet gedaan wat gevraagd werd.</>,
 	}

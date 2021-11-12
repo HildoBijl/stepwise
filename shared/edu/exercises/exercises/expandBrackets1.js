@@ -1,15 +1,16 @@
 const { getRandomInteger, getRandomBoolean } = require('../../../util/random')
-const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+const { asExpression, simplifyOptions, expressionEqualityLevels, equationEqualityLevels } = require('../../../CAS')
 
-const { Expression } = require('../../../inputTypes/Expression')
-const Product = require('../../../inputTypes/Expression/Product')
-const { asExpression } = require('../../../inputTypes/Expression/interpreter/fromString')
+const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 
 const data = {
 	skill: 'expandBrackets',
 	weight: 2,
 	equalityOptions: {
-		default: Expression.equalityLevels.onlyOrderChanges,
+		default: {
+			equation: equationEqualityLevels.onlyOrderChanges,
+			expression: expressionEqualityLevels.keepSides,
+		},
 	},
 }
 
@@ -29,7 +30,7 @@ function getExpression({ a, b, c, expand }) {
 		.substitute('a', a)
 		.substitute('b', b)
 		.substitute('c', c)
-		.simplify(Expression.simplifyOptions.basicClean)
+		.simplify(simplifyOptions.basicClean)
 }
 
 function getCorrect(state) {
@@ -47,9 +48,9 @@ function getCorrect(state) {
 	let intermediate, ans
 	if (expand) {
 		intermediate = expression.simplify({ expandBrackets: true })
-		ans = intermediate.simplify(Expression.simplifyOptions.basicClean)
+		ans = intermediate.simplify(simplifyOptions.basicClean)
 	} else {
-		intermediate = new Product(terms[0], expression.divideBy(terms[0]).simplify({ splitFractions: true }))
+		intermediate = terms[0].multiplyBy(expression.divideBy(terms[0]).simplify({ splitFractions: true }))
 		ans = expression.pullOutsideBrackets(terms[0])
 	}
 

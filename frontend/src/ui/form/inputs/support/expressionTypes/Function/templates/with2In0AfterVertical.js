@@ -1,13 +1,16 @@
 // This is the template for functions like frac(...)(...) or SubSup which have two parameters that are vertically above each other.
 
-import defaultFunctions from './with1In0After'
-import { getSubExpression, findEndOfTerm } from 'step-wise/inputTypes/Expression/interpreter/support'
+import { support } from 'step-wise/CAS'
 
 import { charElementsToBounds, getClosestElement } from '../../../MathWithCursor'
 
 import { zoomIn, getFuncs, getDataStartCursor, getDataEndCursor, isCursorAtDataStart, isCursorAtDataEnd, isDataEmpty } from '../..'
 import { mergeWithLeft, mergeWithRight } from '../../support/merging'
 import { splitToLeft, splitToRight } from '../../support/splitting'
+
+import defaultFunctions from './with1In0After'
+
+const { getSubExpression, findEndOfTerm, addExpressionType } = support
 
 const allFunctions = {
 	...defaultFunctions,
@@ -32,14 +35,14 @@ function create(expressionData, part, position, name, alias) {
 	const start = getDataStartCursor(expressionData)
 	const beforeAlias = { part, cursor: position }
 	const afterAlias = { part, cursor: position + alias.length }
-	const leftSide = findEndOfTerm({ ...expressionData, cursor: beforeAlias }, false, true)
-	const rightSide = findEndOfTerm({ ...expressionData, cursor: beforeAlias }, true, false)
+	const leftSide = findEndOfTerm(value, beforeAlias, false, true)
+	const rightSide = findEndOfTerm(value, afterAlias, true, false)
 	const end = getDataEndCursor(expressionData)
 
 	// Set up the arguments.
 	const parameters = [
-		{ type: 'Expression', value: getSubExpression(value, leftSide, beforeAlias) },
-		{ type: 'Expression', value: getSubExpression(value, afterAlias, rightSide) },
+		addExpressionType(getSubExpression(value, leftSide, beforeAlias)),
+		addExpressionType(getSubExpression(value, afterAlias, rightSide)),
 	]
 
 	// Set up the element.

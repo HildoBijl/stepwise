@@ -1,18 +1,16 @@
 const { getRandomInteger } = require('../../../util/random')
+const { asExpression, asEquation, equationChecks, simplifyOptions } = require('../../../CAS')
+
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 
-const { Expression } = require('../../../inputTypes/Expression')
-const { Equation } = require('../../../inputTypes/Equation')
-const { asExpression, asEquation } = require('../../../inputTypes/Expression/interpreter/fromString')
+const { onlyOrderChanges } = equationChecks
 
 const data = {
 	skill: 'moveATerm',
 	steps: [null, null],
-	equalityOptions: {
-		default: {
-			expression: Expression.equalityLevels.onlyOrderChanges,
-			equation: Equation.equalityLevels.keepSides,
-		}
+	check: {
+		ans: onlyOrderChanges,
+		intermediate: onlyOrderChanges,
 	},
 }
 
@@ -47,16 +45,16 @@ function getCorrect(state) {
 	const intermediate = equation[subtract ? 'subtract' : 'add'](term)
 
 	// Determine the answer.
-	const ans = intermediate.simplify(Expression.simplifyOptions.basicClean)
+	const ans = intermediate.simplify(simplifyOptions.basicClean)
 	return { ...state, equation, term, left, subtract, intermediate, ans }
 }
 
 function checkInput(state, input, step) {
-	const { intermediate, ans } = getCorrect(state)
+	const correct = getCorrect(state)
 	if (step === 0 || step === 2)
-		return ans.equals(input.ans, data.equalityOptions.default)
+		return performCheck('ans', correct, input, data.check)
 	if (step === 1)
-		return intermediate.equals(input.intermediate, data.equalityOptions.default)
+		return performCheck('intermediate', correct, input, data.check)
 }
 
 module.exports = {

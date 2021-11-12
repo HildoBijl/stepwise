@@ -2,6 +2,7 @@ const expression = require('./Expression')
 const equation = require('./Equation')
 const support = require('./support')
 const functions = require('./functions')
+const InterpretationError = require('./InterpretationError')
 
 module.exports = {
 	// Important expression functions.
@@ -16,7 +17,8 @@ module.exports = {
 	asEquation: equation.strToFO,
 	interpretEquation: equation.interpret,
 
-	// Import supporting functions.
-	...support,
-	...functions,
+	// Export supporting matters as packages.
+	support,
+	functions,
+	InterpretationError,
 }

@@ -17,6 +17,12 @@ module.exports = {
 	expressionTypes: functionalities.expressionTypes,
 	...functionalities.expressionTypes,
 
+	// Export other important CAS functionalities.
+	Expression: functionalities.Expression,
+	expressionChecks: functionalities.expressionChecks,
+	Equation: functionalities.Equation,
+	equationChecks: functionalities.equationChecks,
+
 	// Export all important interpretation functions.
 	...interpretation,
 }

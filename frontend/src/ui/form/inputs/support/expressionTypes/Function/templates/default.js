@@ -1,7 +1,7 @@
 // This is the most general template for settings up equation function objects, like sqrt, log, etcetera. It has default functionalities for most basic cases.
 
 import { firstOf } from 'step-wise/util/arrays'
-import { getSubExpression } from 'step-wise/inputTypes/Expression/interpreter/support'
+import { support } from 'step-wise/CAS'
 
 import { removeCursor } from '../../../Input'
 import { getClosestElement } from '../../../MathWithCursor'
@@ -10,6 +10,8 @@ import { getFuncs, zoomIn, zoomInAt, getDataStartCursor, getDataEndCursor, isCur
 import Expression from '../../Expression'
 import { getKeyPressHandlers } from '../../support/ExpressionSupport'
 import { isCursorKey } from '../../support/acceptsKey'
+
+const { getSubExpression } = support
 
 const allFunctions = {
 	create,

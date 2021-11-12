@@ -1,19 +1,17 @@
 const { getRandomInteger, getRandomBoolean } = require('../../../util/random')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { asExpression, Sum, equationChecks, simplifyOptions } = require('../../../CAS')
 
-const { Expression, getExpressionTypes } = require('../../../inputTypes/Expression')
-const { Sum } = getExpressionTypes()
-const { Equation } = require('../../../inputTypes/Equation')
-const { asExpression } = require('../../../inputTypes/Expression/interpreter/fromString')
+const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { performCheck } = require('../util/check')
+
+const { onlyOrderChanges } = equationChecks
 
 const data = {
 	skill: 'moveATerm',
 	steps: [null, null],
-	equalityOptions: {
-		default: {
-			expression: Expression.equalityLevels.onlyOrderChanges,
-			equation: Equation.equalityLevels.keepSides,
-		}
+	check: {
+		ans: onlyOrderChanges,
+		intermediate: onlyOrderChanges,
 	},
 }
 
@@ -46,7 +44,7 @@ function getEquation(state) {
 	return new Equation({
 		left: new Sum(aLeft ? FA : 0, bLeft ? FB : 0, cLeft ? FC : 0),
 		right: new Sum(aLeft ? 0 : FA, bLeft ? 0 : FB, cLeft ? 0 : FC),
-	}).simplify(Expression.simplifyOptions.removeUseless)
+	}).simplify(simplifyOptions.removeUseless)
 }
 
 function getCorrect(state) {
@@ -66,17 +64,17 @@ function getCorrect(state) {
 	const termAbs = positive ? term : term.applyMinus()
 
 	// Determine the answer.
-	const ans = intermediate.simplify(Expression.simplifyOptions.basicClean)
+	const ans = intermediate.simplify(simplifyOptions.basicClean)
 
 	return { ...state, equation, term, termAbs, positive, left, intermediate, ans }
 }
 
 function checkInput(state, input, step) {
-	const { intermediate, ans } = getCorrect(state)
+	const correct = getCorrect(state)
 	if (step === 0 || step === 2)
-		return ans.equals(input.ans, data.equalityOptions.default)
+		return performCheck('ans', correct, input, data.check)
 	if (step === 1)
-		return intermediate.equals(input.intermediate, data.equalityOptions.default)
+		return performCheck('intermediate', correct, input, data.check)
 }
 
 module.exports = {

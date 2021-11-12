@@ -5,7 +5,7 @@ const { processOptions } = require('../../../util/objects')
 
 const { defaultInterpretationSettings } = require('../../options')
 
-const { getStartCursor, getEndCursor, getSubExpression, findEndOfTerm, moveRight } = require('../support')
+const { getStartCursor, getEndCursor, getSubExpression, findEndOfTerm, moveRight, addExpressionType } = require('../support')
 
 function strToIO(str, settings = {}) {
 	settings = processOptions(settings, defaultInterpretationSettings)
@@ -27,7 +27,6 @@ function processExpression(value, settings) {
 
 	// Check for fractions.
 	value = processFractions(value, settings)
-	// ToDo next: implement fractions.
 
 	// ToDo: include accents and turn them into { type: 'Accent', name: 'hat', alias: 'hat-like', value: 'm' }.
 
@@ -164,13 +163,6 @@ function applyFraction(value, cursor) {
 		fractionElement,
 		...getSubExpression(value, rightSide, end),
 	]
-}
-
-function addExpressionType(value) {
-	return {
-		type: 'Expression',
-		value,
-	}
 }
 
 function getBracketEnd(str, from) {

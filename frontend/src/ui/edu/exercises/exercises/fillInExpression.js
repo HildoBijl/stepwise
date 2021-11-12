@@ -2,9 +2,7 @@ import React from 'react'
 
 import { roundTo } from 'step-wise/util/numbers'
 import { selectRandomCorrect } from 'step-wise/util/random'
-import Expression from 'step-wise/inputTypes/Expression/abstracts/Expression'
-import { interpretExpression } from 'step-wise/inputTypes/Expression/interpreter/expressions'
-
+import { interpretExpression, simplifyOptions } from 'step-wise/CAS'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
@@ -35,11 +33,11 @@ function Problem({ index }) {
 		// console.log(input)
 		// console.log(ans)
 		if (ans) {
-			res = interpretExpression(cleanUp(removeCursor(ans), { ...basicMath, divide: false })).simplify(Expression.simplifyOptions.structureOnly)
+			res = interpretExpression(cleanUp(removeCursor(ans), { ...basicMath, divide: false })).simplify(simplifyOptions.structureOnly)
 			if (res)
 				probleem = false
 
-			resSimp = res.simplify(Expression.simplifyOptions.basicClean)
+			resSimp = res.simplify(simplifyOptions.basicClean)
 			// console.log('Vergelijking: ' + res.str)
 			// console.log('Tex: ' + res.tex)
 			// console.log('Afgeleide: ' + res.getDerivative('x').str)

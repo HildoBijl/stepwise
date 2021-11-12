@@ -1,16 +1,12 @@
 const { getRandomInteger, getRandomBoolean } = require('../../../util/random')
+const { Variable, Product, Fraction, Power, expressionChecks, simplifyOptions } = require('../../../CAS')
+
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 const { performCheck } = require('../util/check')
 
-const { Expression, checks } = require('../../../inputTypes/Expression')
-const Product = require('../../../inputTypes/Expression/Product')
-const Fraction = require('../../../inputTypes/Expression/functions/Fraction')
-const Power = require('../../../inputTypes/Expression/functions/Power')
-const Variable = require('../../../inputTypes/Expression/Variable')
-
 const data = {
 	skill: 'addRemoveFractionFactors',
-	check: checks.onlyOrderChanges,
+	check: expressionChecks.onlyOrderChanges,
 	availableVariables: ['a', 'b', 'c', 'x', 'y', 'P', 'R', 't', 'I', 'U', 'L'].map(Variable.ensureVariable),
 	usedVariables: ['a', 'b', 'x'],
 }
@@ -41,7 +37,7 @@ function getCorrect(state) {
 	const { a, b, x } = variables
 	const square = new Power(x, 2)
 	const expression = new Fraction(new Product(state.flipNumerator ? [square, a] : [a, square]), new Product(state.flipDenominator ? [x, b] : [b, x]))
-	const ans = expression.simplify(Expression.simplifyOptions.basicClean)
+	const ans = expression.simplify(simplifyOptions.basicClean)
 	return { ...state, variables, square, expression, ans }
 }
 

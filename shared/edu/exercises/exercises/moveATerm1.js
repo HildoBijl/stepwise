@@ -1,13 +1,10 @@
 const { getRandomInteger, getRandomBoolean } = require('../../../util/random')
+const { asExpression, asEquation, equationChecks, simplifyOptions } = require('../../../CAS')
+
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { performCheck } = require('../util/check')
 
-// Testing code.
-const { Expression } = require('../../../inputTypes/Expression')
-const { checks } = require('../../../inputTypes/Equation')
-const { asExpression, asEquation } = require('../../../inputTypes/Expression/interpreter/fromString')
-
-const { onlyOrderChanges } = checks
+const { onlyOrderChanges } = equationChecks
 
 const data = {
 	skill: 'moveATerm',
@@ -15,7 +12,7 @@ const data = {
 	check: {
 		ans: onlyOrderChanges,
 		intermediate: onlyOrderChanges,
-	}
+	},
 }
 
 function generateState() {
@@ -46,7 +43,7 @@ function getCorrect(state) {
 	const intermediate = equation.subtract(term)
 
 	// Simplify to the final solution.
-	const ans = intermediate.simplify(Expression.simplifyOptions.basicClean)
+	const ans = intermediate.simplify(simplifyOptions.basicClean)
 	return { ...state, equation, term, termAbs, intermediate, ans }
 }
 

@@ -1,7 +1,6 @@
 import React from 'react'
 
-import { checks } from 'step-wise/inputTypes/Expression'
-import Fraction from 'step-wise/inputTypes/Expression/functions/Fraction'
+import { Fraction, expressionChecks } from 'step-wise/CAS'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
@@ -14,7 +13,7 @@ import SimpleExercise from '../types/SimpleExercise'
 import { getInputFieldFeedback } from '../util/feedback'
 import { noFraction, incorrectExpression } from '../util/feedbackChecks'
 
-const { onlyOrderChanges } = checks
+const { onlyOrderChanges } = expressionChecks
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />

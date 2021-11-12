@@ -1,16 +1,12 @@
 const { getRandomInteger, getRandomBoolean } = require('../../../util/random')
+const { Variable, Product, Fraction, Power, expressionChecks } = require('../../../CAS')
+
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 const { performCheck } = require('../util/check')
 
-const { checks } = require('../../../inputTypes/Expression')
-const Product = require('../../../inputTypes/Expression/Product')
-const Fraction = require('../../../inputTypes/Expression/functions/Fraction')
-const Power = require('../../../inputTypes/Expression/functions/Power')
-const Variable = require('../../../inputTypes/Expression/Variable')
-
 const data = {
 	skill: 'addRemoveFractionFactors',
-	check: checks.onlyOrderChanges,
+	check: expressionChecks.onlyOrderChanges,
 	availableVariables: ['a', 'b', 'c', 'x', 'y', 'P', 'R', 't', 'I', 'U', 'L'].map(Variable.ensureVariable),
 	usedVariables: ['a', 'b', 'x'],
 }

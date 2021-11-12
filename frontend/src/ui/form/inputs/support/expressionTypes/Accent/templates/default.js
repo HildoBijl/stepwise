@@ -1,7 +1,7 @@
 // This is the most general template for settings up accents.
 
 import { removeAtIndex } from 'step-wise/util/strings'
-import { getSubExpression, findEndOfTerm } from 'step-wise/inputTypes/Expression/interpreter/support'
+import { support } from 'step-wise/CAS'
 
 import { getDataStartCursor, getDataEndCursor } from '../../'
 import ExpressionPart, { addStrToData } from '../../ExpressionPart'
@@ -10,6 +10,8 @@ import { keyPressToData as expressionKeyPressToData } from '../../Expression'
 import { isCursorKey } from '../../support/acceptsKey'
 
 import { isAcceptableChar, filterAcceptableChar } from '../'
+
+const { getSubExpression, findEndOfTerm } = support
 
 const { getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd, isEmpty } = ExpressionPart
 

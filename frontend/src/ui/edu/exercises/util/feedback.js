@@ -4,8 +4,7 @@ import { processOptions, deepEquals } from 'step-wise/util/objects'
 import { checkNumberEquality, areNumbersEqual } from 'step-wise/inputTypes/Integer'
 import { Float } from 'step-wise/inputTypes/Float'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
-import { Expression } from 'step-wise/inputTypes/Expression'
-import { Equation } from 'step-wise/inputTypes/Equation'
+import { Expression, Equation } from 'step-wise/CAS'
 
 const defaultComparisonOptions = {
 	equalityOptions: {}, // Options with which to compare equality. Mainly used for comparing numbers/units.

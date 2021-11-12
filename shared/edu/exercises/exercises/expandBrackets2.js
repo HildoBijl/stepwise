@@ -1,67 +1,72 @@
 const { getRandomInteger, getRandomBoolean } = require('../../../util/random')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { asExpression, simplifyOptions, expressionEqualityLevels, equationEqualityLevels } = require('../../../CAS')
 
-// Testing code.
-const { Expression } = require('../../../inputTypes/Expression')
-const { Equation } = require('../../../inputTypes/Equation')
-const { asExpression, asEquation } = require('../../../inputTypes/Expression/interpreter/fromString')
+const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 
 const data = {
-	skill: 'moveATerm',
-	steps: [null, null],
+	skill: 'expandBrackets',
+	weight: 2,
 	equalityOptions: {
 		default: {
-			expression: Expression.equalityLevels.onlyOrderChanges,
-			equation: Equation.equalityLevels.keepSides,
-		}
+			equation: equationEqualityLevels.onlyOrderChanges,
+			expression: expressionEqualityLevels.keepSides,
+		},
 	},
 }
 
 function generateState() {
-	// ax + b = cy
+	// ax*(by+cz) = abxy+acxz.
+	const a = getRandomInteger(-12, 12, [0, 1])
+	const b = getRandomInteger(2, 12)
+	const c = getRandomInteger(-12, 12, [0, 1, b, -b])
 	return {
-		a: getRandomInteger(-12, 12, [0, 1]),
-		b: getRandomInteger(-12, 12, [0]),
-		c: getRandomInteger(-12, 12, [0, 1]),
-		switchLeftRight: getRandomBoolean(),
-		switchXY: getRandomBoolean(),
+		a, b, c,
+		expand: getRandomBoolean(),
 	}
 }
 
-function getEquation({ a, b, c, switchLeftRight, switchXY }) {
-	const equation = asEquation(switchXY ? 'ay+b=cx' : 'ax+b=cy').substitute('a', a).substitute('b', b).substitute('c', c)
-	return switchLeftRight ? equation.flip() : equation
+function getExpression({ a, b, c, expand }) {
+	return asExpression(expand ? 'ax*(by+cz)' : 'abxy+acxz')
+		.substitute('a', a)
+		.substitute('b', b)
+		.substitute('c', c)
+		.simplify(simplifyOptions.basicClean)
 }
 
 function getCorrect(state) {
-	const { a, switchXY } = state
+	const { expand, a, b, c } = state
 
-	// Get the original equation.
-	const equation = getEquation(state)
+	// Get the original expression.
+	const expression = getExpression(state)
+	const terms = [
+		asExpression('ax').substitute('a', a),
+		asExpression('by').substitute('b', b),
+		asExpression('cz').substitute('c', c),
+	]
 
-	// Find the intermediate step.
-	const term = asExpression(switchXY ? 'ay' : 'ax').substitute('a', a)
-	const termAbs = (a < 0 ? term.applyMinus() : term)
-	const intermediate = equation.subtract(term)
+	// Determine the answer.
+	let intermediate, ans
+	if (expand) {
+		intermediate = expression.simplify({ expandBrackets: true })
+		ans = intermediate.simplify(simplifyOptions.basicClean)
+	} else {
+		intermediate = terms[0].multiplyBy(expression.divideBy(terms[0]).simplify({ splitFractions: true }))
+		ans = expression.pullOutsideBrackets(terms[0])
+	}
 
-	// Simplify to the final solution.
-	const ans = intermediate.simplify(Expression.simplifyOptions.basicClean)
-	return { ...state, equation, term, termAbs, intermediate, ans }
+	return { ...state, expression, terms, intermediate, ans }
 }
 
-function checkInput(state, input, step) {
-	const { intermediate, ans } = getCorrect(state)
-	if (step === 0 || step === 2)
-		return ans.equals(input.ans, data.equalityOptions.default)
-	if (step === 1)
-		return intermediate.equals(input.intermediate, data.equalityOptions.default)
+function checkInput(state, input) {
+	const { ans } = getCorrect(state)
+	return ans.equals(input.ans, data.equalityOptions.default)
 }
 
 module.exports = {
 	data,
 	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	getEquation,
+	processAction: getSimpleExerciseProcessor(checkInput, data),
+	getExpression,
 	getCorrect,
 	checkInput,
 }

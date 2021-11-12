@@ -25,7 +25,7 @@ const { decimalSeparator, decimalSeparatorTex } = require('../../../settings')
 
 const { isInt, isNumber, gcd } = require('../../../util/numbers')
 const { isObject, processOptions, filterOptions, getParentClass } = require('../../../util/objects')
-const { firstOf, count, sum, product, hasSimpleMatching } = require('../../../util/arrays')
+const { firstOf, lastOf, count, sum, product, hasSimpleMatching } = require('../../../util/arrays')
 const { union } = require('../../../util/sets')
 
 const { bracketLevels, simplifyOptions, expressionEqualityLevels, epsilon } = require('../../options')
@@ -154,6 +154,16 @@ class Expression {
 	// requiresTimesAfterInProduct checks whether the string representation requires a times after the term when displayed in a product.
 	requiresTimesAfterInProduct() {
 		return false
+	}
+
+	// requiresTimesBeforeInProductTex is the same as requiresTimesBeforeInProduct but then for Tex purposes. Usually it's the same.
+	requiresTimesBeforeInProductTex() {
+		return this.requiresTimesBeforeInProduct()
+	}
+
+	// requiresTimesAfterInProductTex is the same as requiresTimesAfterInProduct but then for Tex purposes. Usually it's the same.
+	requiresTimesAfterInProductTex() {
+		return this.requiresTimesAfterInProduct()
 	}
 
 	/*
@@ -918,7 +928,7 @@ module.exports.Sum = Sum
 class Product extends ExpressionList {
 	toString() {
 		const termToString = (term, index) => {
-			const precursor = index > 0 && (term.requiresTimesBeforeInProduct() || this.terms[index-1].requiresTimesAfterInProduct()) ? '*' : ''
+			const precursor = index > 0 && (term.requiresTimesBeforeInProduct() || this.terms[index - 1].requiresTimesAfterInProduct()) ? '*' : ''
 			if (term.requiresBracketsFor(bracketLevels.multiplication))
 				return `${precursor}(${term.str})`
 			return `${precursor}${term.str}`
@@ -932,7 +942,7 @@ class Product extends ExpressionList {
 
 	toTex() {
 		const termToTex = (term, index) => {
-			const precursor = index > 0 && (term.requiresTimesBeforeInProduct() || this.terms[index-1].requiresTimesAfterInProduct()) ? ' \\cdot ' : ''
+			const precursor = index > 0 && (term.requiresTimesBeforeInProductTex() || this.terms[index - 1].requiresTimesAfterInProductTex()) ? ' \\cdot ' : ''
 			if (term.requiresBracketsFor(bracketLevels.multiplication))
 				return `${precursor}\\left(${term.tex}\\right)`
 			return `${precursor}${term.tex}`
@@ -1483,6 +1493,10 @@ class Power extends Function {
 
 	requiresTimesAfterInProduct() {
 		return true
+	}
+
+	requiresTimesAfterInProductTex() {
+		return false
 	}
 
 	// invert on powers means make the power negative. So x^2 becomes x^(-2).

@@ -1,6 +1,6 @@
 import { insertAtIndex } from 'step-wise/util/strings'
 import { firstOf, lastOf, sum } from 'step-wise/util/arrays'
-import { isEmpty, getEmpty, getIOValueStart as getStartCursor, getIOValueEnd as getEndCursor } from 'step-wise/inputTypes/Expression'
+import { support } from 'step-wise/CAS'
 
 import { addCursor, removeCursor } from '../Input'
 import { getClosestElement } from '../MathWithCursor'
@@ -10,6 +10,8 @@ import ExpressionPart from './ExpressionPart'
 import cleanUp from './support/ExpressionCleanUp'
 import { getKeyPressHandlers } from './support/ExpressionSupport'
 import { isCursorKey } from './support/acceptsKey'
+
+const { isEmpty, getEmpty, getStartCursor, getEndCursor } = support
 
 const allFunctions = {
 	toLatex,

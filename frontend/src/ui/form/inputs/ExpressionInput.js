@@ -4,9 +4,7 @@ import clsx from 'clsx'
 
 import { selectRandomEmpty } from 'step-wise/util/random'
 import { deepEquals, processOptions } from 'step-wise/util/objects'
-import { getEmpty, isEmpty } from 'step-wise/inputTypes/Expression'
-import Variable from 'step-wise/inputTypes/Expression/Variable'
-import { interpretExpressionValue } from 'step-wise/inputTypes/Expression/interpreter/expressions'
+import { Variable, expressionIOtoFO, support } from 'step-wise/CAS'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 
 import { useRefWithValue } from 'util/react'
@@ -20,6 +18,8 @@ import Expression from './support/expressionTypes/Expression'
 import { getInterpretationErrorMessage } from './support/expressionTypes/support/interpretationError'
 import { keys as mathKeys } from '../Keyboard/keyboards/basicMath'
 import { simplifyKey } from '../Keyboard/keyboards/KeyboardLayout'
+
+const { getEmpty, isEmpty, getStartCursor } = support
 
 const keysToCheck = [...mathKeys, ...Object.keys(greekAlphabet)]
 
@@ -134,7 +134,7 @@ export function nonEmptyAndValid(data) {
 }
 export function validWithVariables(...variables) {
 	// This validation function is special, in the sense that it's a function that returns a validation function. Give it a set of variables that are accepted, and it checks that only those variables are used.
-	return validWithVariablesGeneric(interpretExpressionValue, ...variables)
+	return validWithVariablesGeneric(expressionIOtoFO, ...variables)
 }
 export function validWithVariablesGeneric(interpreter, ...variables) {
 	// Check input.
@@ -156,15 +156,15 @@ export function validWithVariablesGeneric(interpreter, ...variables) {
 			return nonEmptyResult
 
 		// Interpret the expression, and give a message on a problem.
-		let equation
+		let expression
 		try {
-			equation = interpreter(data.value)
+			expression = interpreter(data.value)
 		} catch (e) {
 			return getInterpretationErrorMessage(e)
 		}
 
 		// Extract variables.
-		const inputVariables = equation.getVariables()
+		const inputVariables = expression.getVariables()
 		const invalidVariable = inputVariables.find(inputVariable => !variables.some(variable => variable.equals(inputVariable)))
 		if (invalidVariable)
 			return <>Onbekende variabele <M>{invalidVariable}</M>.</>
@@ -176,7 +176,7 @@ export function getEmptyData(settings = {}) {
 	return {
 		type: 'Expression',
 		value: getEmpty(),
-		cursor: Expression.getStartCursor(),
+		cursor: getStartCursor(),
 		settings,
 	}
 }
@@ -207,7 +207,7 @@ export function isValid(value) {
 // getValidityMessage takes an Expression value and checks whether it is valid. If not, it gives a message explaining a problem. If it is valid, nothing is returned.
 export function getValidityMessage(value) {
 	try {
-		interpretExpressionValue(value)
+		expressionIOtoFO(value)
 	} catch (e) {
 		return getInterpretationErrorMessage(e)
 	}

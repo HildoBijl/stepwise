@@ -1,5 +1,5 @@
 import { arraySplice } from 'step-wise/util/arrays'
-import { getSubExpression } from 'step-wise/inputTypes/Expression/interpreter/support'
+import { support } from 'step-wise/CAS'
 
 import defaultFunctions from './templates/with2In0AfterVertical'
 
@@ -9,6 +9,8 @@ import { mergeWithRight } from '../support/merging'
 import { splitToRight } from '../support/splitting'
 import Expression from '../Expression'
 import SubscriptText from './SubscriptText'
+
+const { getSubExpression } = support
 
 const fullExport = {
 	...defaultFunctions,

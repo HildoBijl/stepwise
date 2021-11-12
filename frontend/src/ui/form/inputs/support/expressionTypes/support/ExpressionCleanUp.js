@@ -1,6 +1,5 @@
 import { lastOf } from 'step-wise/util/arrays'
-import { getEmpty } from 'step-wise/inputTypes/Expression'
-import { isFunctionAllowed } from 'step-wise/inputTypes/Expression/interpreter/expressions'
+import { support, functions as CASfunctions } from 'step-wise/CAS'
 
 import { removeCursor } from '../../Input'
 import { getFuncs, zoomIn, zoomInAt } from '../index.js'
@@ -8,6 +7,9 @@ import { getStartCursor } from '../Expression'
 import ExpressionPart from '../ExpressionPart'
 import { functions } from '../Function'
 import { accents } from '../Accent'
+
+const { getEmpty } = support
+const { isFunctionAllowed } = CASfunctions
 
 export default function cleanUp(data, settings) {
 	const hasCursor = !!data.cursor

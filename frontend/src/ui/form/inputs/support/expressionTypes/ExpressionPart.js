@@ -3,7 +3,7 @@ import { isNumber } from 'step-wise/util/numbers'
 import { isLetter, removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
 import { firstOf } from 'step-wise/util/arrays'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
-import { basicFunctions, advancedFunctions, accents } from 'step-wise/inputTypes/Expression/interpreter/expressions'
+import { functions } from 'step-wise/CAS'
 
 import { getClickSide } from 'util/dom'
 
@@ -13,6 +13,8 @@ import { emptyElementChar, emptyElementCharLatex, isCharElementEmpty, getCursorP
 import Expression from './Expression'
 import { getDeepestExpression } from './support/ExpressionSupport'
 import { isCursorKey } from './support/acceptsKey'
+
+const { basicFunctions, advancedFunctions, accents } = functions
 
 const pmSymbols = [
 	{ name: 'pm', symbol: '±' },

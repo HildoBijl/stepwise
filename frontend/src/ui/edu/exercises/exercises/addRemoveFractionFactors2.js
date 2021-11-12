@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Expression, { checks } from 'step-wise/inputTypes/Expression'
+import { simplifyOptions, expressionChecks } from 'step-wise/CAS'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
@@ -13,7 +13,7 @@ import SimpleExercise from '../types/SimpleExercise'
 import { getInputFieldFeedback } from '../util/feedback'
 import { originalExpression, correctExpression, incorrectExpression } from '../util/feedbackChecks'
 
-const { onlyOrderChanges } = checks
+const { onlyOrderChanges } = expressionChecks
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -39,7 +39,7 @@ const Solution = (state) => {
 function getFeedback(exerciseData) {
 	// Define extra checks.
 	const squareDisappeared = {
-		check: (correct, input, { variables, ans }) => onlyOrderChanges(ans.divideBy(variables.x).simplify(Expression.simplifyOptions.basicClean), input),
+		check: (correct, input, { variables, ans }) => onlyOrderChanges(ans.divideBy(variables.x).simplify(simplifyOptions.basicClean), input),
 		text: (correct, input, { square, variables }) => <>Je hebt <M>{square}</M> in z'n geheel weggestreept tegen <M>{variables.x}.</M> Dat mag niet! Onthoud dat <M>{square} = {variables.x} \cdot {variables.x}.</M></>,
 	}
 

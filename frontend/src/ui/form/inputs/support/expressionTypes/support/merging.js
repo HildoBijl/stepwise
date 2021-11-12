@@ -1,8 +1,10 @@
 import { firstOf, lastOf } from 'step-wise/util/arrays'
-import { getSubExpression, findEndOfTerm } from 'step-wise/inputTypes/Expression/interpreter/support'
+import { support } from 'step-wise/CAS'
 
 import { getDataStartCursor, getDataEndCursor } from '../'
 import Expression from '../Expression'
+
+const { getSubExpression, findEndOfTerm } = support
 
 export function mergeWithLeft(expressionValue, partIndex, fromOutside) {
 	const element = expressionValue[partIndex]
@@ -107,12 +109,7 @@ export function getMergeParts(expressionValue, partIndex, toRight, skipFirst) {
 		part: edgeElementIndex,
 		cursor: (toRight ? getDataStartCursor : getDataEndCursor)(expressionValue[edgeElementIndex]),
 	}
-	const dummyExpression = {
-		type: 'Expression',
-		value: expressionValue,
-		cursor: cursorAtEdgeOfElement,
-	}
-	const cursorAtBreak = findEndOfTerm(dummyExpression, toRight, skipFirst)
+	const cursorAtBreak = findEndOfTerm(expressionValue, cursorAtEdgeOfElement, toRight, skipFirst)
 	const cursorAtEnd = toRight ? Expression.getEndCursor(expressionValue) : Expression.getStartCursor(expressionValue)
 
 	// Apply the proper split.

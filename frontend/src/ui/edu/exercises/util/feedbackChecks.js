@@ -1,10 +1,6 @@
 // This file contains various feedback checks that are used more commonly among exercises. They can be loaded in and used directly then.
 
-import { checks as expressionChecks } from 'step-wise/inputTypes/Expression'
-import { checks as equationChecks } from 'step-wise/inputTypes/Equation'
-
-import Sum from 'step-wise/inputTypes/Expression/Sum'
-import Fraction from 'step-wise/inputTypes/Expression/functions/Fraction'
+import { Sum, Fraction, expressionChecks, equationChecks } from 'step-wise/CAS'
 
 const { onlyOrderChanges: onlyExpressionOrderChanges, equivalent: equivalentExpression } = expressionChecks
 const { onlyOrderChanges: onlyEquationOrderChanges, equivalent: equivalentEquation } = equationChecks
