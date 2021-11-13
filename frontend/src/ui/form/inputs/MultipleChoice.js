@@ -6,7 +6,8 @@ import { alpha } from '@material-ui/core/styles/colorManipulator'
 import Box from '@material-ui/core/Box'
 import clsx from 'clsx'
 
-import { numberArray, shuffle, getRandomSubset } from 'step-wise/util/arrays'
+import { numberArray, shuffle } from 'step-wise/util/arrays'
+import { getRandomSubset } from 'step-wise/util/random'
 import { noop } from 'step-wise/util/functions'
 import { equals, isEmpty, getEmpty } from 'step-wise/inputTypes/MultipleChoice'
 

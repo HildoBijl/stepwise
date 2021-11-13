@@ -1,40 +1,26 @@
-const { getRandomInteger } = require('../../../util/random')
-const { Variable, Product, Fraction, expressionChecks } = require('../../../CAS')
+const { asExpression, expressionChecks, simplifyOptions } = require('../../../CAS')
 
+const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 const { performCheck } = require('../util/check')
+
+// a/b = (axy)/(ybx).
+const availableVariables = ['a', 'b', 'c', 'x', 'y', 'P', 'R', 't', 'I', 'U', 'L']
+const usedVariables = ['a', 'b', 'x', 'y']
 
 const data = {
 	skill: 'addRemoveFractionFactors',
 	check: expressionChecks.onlyOrderChanges,
-	availableVariables: ['a', 'b', 'c', 'x', 'y', 'P', 'R', 't', 'I', 'U', 'L'].map(Variable.ensureVariable),
-	usedVariables: ['a', 'b', 'x', 'y'],
 }
 
 function generateState() {
-	// (axy)/(ybx) = a/b.
-	const state = {}
-	const usedIndices = []
-	data.usedVariables.forEach(variable => {
-		state[variable] = getRandomInteger(0, data.availableVariables.length - 1, usedIndices)
-		usedIndices.push(state[variable])
-	})
-	return state
-}
-
-function getVariables(state) {
-	const result = {}
-	data.usedVariables.forEach(variable => {
-		result[variable] = data.availableVariables[state[variable]]
-	})
-	return result
+	return selectRandomVariables(availableVariables, usedVariables)
 }
 
 function getCorrect(state) {
-	const variables = getVariables(state)
-	const { a, b, x, y } = variables
-	const expression = new Fraction(a, b)
-	const factor = new Product(x, y)
+	const variables = filterVariables(state, usedVariables)
+	const expression = asExpression('a/b').substituteVariables(variables)
+	const factor = asExpression('xy').substituteVariables(variables)
 	const ans = expression.multiplyNumDenBy(factor)
 	return { ...state, variables, expression, factor, ans }
 }
@@ -47,7 +33,6 @@ module.exports = {
 	data,
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),
-	getVariables,
 	getCorrect,
 	checkInput,
 }

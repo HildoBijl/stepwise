@@ -342,6 +342,23 @@ class Expression {
 		return this.substituteBasic(variable, substitution)
 	}
 
+	// substituteVariables takes an object with variables, like { a: 2, x: new Sum('y', 1), 'x_2': 'z' } and applies all the substitutions in it.
+	substituteVariables(variableObject) {
+		let result = this
+
+		// First replace all variables by dummy index variables. This prevents subsequent substitutions.
+		Object.keys(variableObject).forEach((key, index) => {
+			result = result.substitute(key, `temporaryDummy_${index}`)
+		})
+
+		// Then replace all dummies with the corresponding variables.
+		Object.keys(variableObject).forEach((key, index) => {
+			result = result.substitute(`temporaryDummy_${index}`, variableObject[key])
+		})
+
+		return result
+	}
+
 	// getDerivative returns the derivative. It includes checking the variable and simplifying the result, unlike getDerivativeBasic which doesn't check the input and only returns a derivative in any form.
 	getDerivative(variable) {
 		variable = this.verifyVariable(variable)

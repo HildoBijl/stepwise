@@ -21,7 +21,6 @@ export default function Exercise() {
 
 const Problem = (state) => {
 	const { variables, expression } = useCorrect(state)
-
 	return <>
 		<Par>Gegeven is de breuk <BM>{expression}.</BM> Voeg boven/onder de breuk zowel een factor <M>{variables.x}</M> als een factor <M>{variables.y}</M> toe.</Par>
 		<InputSpace>

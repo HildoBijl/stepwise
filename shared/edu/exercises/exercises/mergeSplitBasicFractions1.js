@@ -1,5 +1,5 @@
-const { getRandomInteger, getRandomBoolean } = require('../../../util/random')
-const { getRandomIndices, hasSimpleMatching } = require('../../../util/arrays')
+const { hasSimpleMatching } = require('../../../util/arrays')
+const { getRandomInteger, getRandomBoolean, getRandomIndices } = require('../../../util/random')
 const { Variable, Sum, Product, Fraction, expressionChecks } = require('../../../CAS')
 
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')

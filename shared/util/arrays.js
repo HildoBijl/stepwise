@@ -116,25 +116,6 @@ function shuffle(array) {
 }
 module.exports.shuffle = shuffle
 
-// getRandomSubset takes an array like ['A', 'B', 'C', 'D'] and randomly picks num elements out of it. For instance, if num = 2 then it may return ['D', 'B']. If randomOrder is set to true (default) then the order is random. If it is set to false, then the elements will always appear in the same order as in the original array. (Note: for huge arrays and a small subset this function is not optimized for efficiency.)
-function getRandomSubset(array, num, randomOrder = true) {
-	// Check input.
-	array = ensureArray(array)
-	num = ensureInt(num)
-
-	// Create a mapping of the right size and apply it.
-	const mapping = getRandomIndices(array.length, num, randomOrder)
-	return mapping.map(index => array[index])
-}
-module.exports.getRandomSubset = getRandomSubset
-
-// getRandomIndices takes an array length, like 5, and a number of indices that need to be chosen, like 3. It then returns an array with that many randomly chosen indices. Like [4, 0, 3]. If randomOrder is manually set to false, they will appear in order. (So [0, 3, 4] in the example.) Note: the given arrayLength number is an exclusive bound: it itself never appears in the array.
-function getRandomIndices(arrayLength, num = arrayLength, randomOrder = true) {
-	const indices = shuffle(numberArray(0, arrayLength - 1)).slice(0, num)
-	return randomOrder ? indices : indices.sort()
-}
-module.exports.getRandomIndices = getRandomIndices
-
 // count takes an array and a function and checks for how many elements this function returns a truthy value.
 function count(array, fun) {
 	return array.reduce((sum, item) => sum + (fun(item) ? 1 : 0), 0)

@@ -1,4 +1,4 @@
-// Load in the options first.
+// Load in all folders in the right order.
 const options = require('./options')
 const functionalities = require('./functionalities')
 const interpretation = require('./interpretation')
