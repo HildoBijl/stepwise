@@ -20,7 +20,7 @@ class Log extends Function {
 	simplifyBasic(options) {
 		let { base, argument } = this.simplifyChildren(options)
 		
-		if (options.forDerivatives)
+		if (options.toBasicForm)
 			return new Fraction(new Ln(argument), new Ln(base)).simplifyBasic(options)
 
 		return new Log({ base, argument })

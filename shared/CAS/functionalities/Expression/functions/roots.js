@@ -49,7 +49,7 @@ class Root extends Function {
 	simplifyBasic(options) {
 		let { base, argument } = this.simplifyChildren(options)
 
-		if (options.forDerivatives)
+		if (options.toBasicForm)
 			return new Power(argument, new Fraction(1, base)).simplifyBasic(options)
 
 		return new Root({ base, argument })

@@ -71,14 +71,22 @@ function processExpressionPartSubSups(part, settings) {
 	const getSuperscript = () => {
 		let power
 		if (str[position + 1] === '(') { // There is a bracket. Find the next closing bracket with net bracket count zero.
-			const end = getBracketEnd(str, position + 1) // ToDo: figure out how to get closing bracket with supporting functions.
+			const end = getBracketEnd(str, position + 1)
 			if (end === -1)
 				throw new Error(`Invalid superscript. A superscript was opened with a bracket, but no matching closing bracket was found.`)
 			power = strToIO(str.substring(position + 2, end))
 			position = end + 1
-		} else { // There is no bracket. Only take one symbol.
-			power = strToIO(str[position + 1])
-			position = position + 2
+		} else {
+			const numberRegEx = /^-?[0-9.]+/
+			const powerString = str.substring(position + 1)
+			const match = powerString.match(numberRegEx)
+			if (match) { // Check if it is a number, like -2.5.
+				power = strToIO(match[0])
+				position = position + 1 + match[0].length
+			} else { // There is no bracket or number. Only take one symbol.
+				power = strToIO(str[position + 1])
+				position = position + 2
+			}
 		}
 		return addExpressionType(power)
 	}

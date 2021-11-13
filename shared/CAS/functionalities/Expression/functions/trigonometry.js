@@ -83,7 +83,7 @@ class Tan extends SingleArgumentFunction {
 	simplifyBasic(options) {
 		let { argument } = this.simplifyChildren(options)
 
-		if (options.forAnalysis)
+		if (options.toBasicForm)
 			return Fraction(Sin(argument), Cos(argument)).simplify(options)
 
 		return new Tan(argument)

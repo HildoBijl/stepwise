@@ -27,6 +27,8 @@ const { isInt, isNumber, gcd } = require('../../../util/numbers')
 const { isObject, processOptions, filterOptions, getParentClass } = require('../../../util/objects')
 const { firstOf, lastOf, count, sum, product, hasSimpleMatching } = require('../../../util/arrays')
 const { union } = require('../../../util/sets')
+const { repeatWithIndices } = require('../../../util/functions')
+const { binomial } = require('../../../util/combinatorics')
 
 const { bracketLevels, simplifyOptions, expressionEqualityLevels, epsilon } = require('../../options')
 
@@ -263,9 +265,35 @@ class Expression {
 		return !hasVariable
 	}
 
+	// isPolynomial checks if this expression is a polynome.
+	isPolynomial() {
+		return this.recursiveEvery(term => {
+			if (!(term instanceof Function))
+				return true // Not a function. So a base type like a Constant, Variable, Sum or Product.
+			if (term.isType(Fraction))
+				return term.isNumeric() // A fraction. Is it a number, like 2/3 or so?
+			if (term.isType(Power))
+				return term.base.isPolynomial() && term.exponent.isType(Integer) && term.exponent.number >= 0 // A power. Does it have a polynomial base and a non-negative integer power?
+			return false // Other type of function.
+		})
+	}
+
+	// isRational checks if this expression is a rational expression: only polynome and fractions.
+	isRational() {
+		return this.recursiveEvery(term => {
+			if (!(term instanceof Function))
+				return true // Not a function. So a base type like a Constant, Variable, Sum or Product.
+			if (term.isType(Fraction))
+				return true // A fraction. This is always fine.
+			if (term.isType(Power))
+				return term.base.isPolynomial() && term.exponent.isType(Integer) // A power. Does it have a polynomial base and an integer power?
+			return false // Other type of function.
+		})
+	}
+
 	// hasFloat checks if there is a float anywhere in this expression. It affects the way numbers are simplified. For instance, 6/4 becomes 3/2 and stays like that, but 5.5/4 should simply become a new float 1.125.
 	hasFloat() {
-		return this.terms.some(term => term instanceof Float)
+		return this.recursiveSome(term => term instanceof Float)
 	}
 
 	// hasFractions checks if there are fractions inside this term. It does not check this term itself for being a fraction.
@@ -445,10 +473,10 @@ class Variable extends Expression {
 
 	// isPi and isE check if this variable equals the given numbers.
 	isPi() {
-		return this.equals(Variable.pi)
+		return this.equalsBasic(Variable.pi)
 	}
 	isE() {
-		return this.equals(Variable.e)
+		return this.equalsBasic(Variable.e)
 	}
 
 	isNumeric() {
@@ -724,7 +752,7 @@ class ExpressionList extends Expression {
 		return super.recursiveSome(check, includeSelf) || this.terms.some(term => term.recursiveSome(check))
 	}
 
-	recursiveEvery(check) {
+	recursiveEvery(check, includeSelf) {
 		return super.recursiveEvery(check, includeSelf) && this.terms.every(term => term.recursiveEvery(check))
 	}
 
@@ -873,7 +901,7 @@ class Sum extends ExpressionList {
 		// ToDo: Figure out what to do with 2*x + pi*x. Merge it to (2 + pi) or keep it separate?
 
 		// Sort terms.
-		if (options.sortTerms)
+		if (options.sortSums)
 			terms = terms.sort(Sum.order)
 
 		// Return the final result.
@@ -884,10 +912,8 @@ class Sum extends ExpressionList {
 	static order(a, b) {
 		// Define a series of tests. If one of them matches for an element and not for the other, the first element comes first.
 		const tests = [
-			x => x instanceof Constant,
-			x => x.isNumeric(),
-			x => x.isType(Variable),
-			x => x.isType(Product),
+			x => x.isType(Variable) || x.isType(Product),
+			x => x.isNumeric(), // Remaining numbers.
 			x => true, // Remaining cases.
 		]
 
@@ -903,16 +929,53 @@ class Sum extends ExpressionList {
 
 		// If both elements fall in the same case, deal with this case separately.
 		switch (testIndex) {
-			case 0: // Constants.
-				return a.number - b.number // Smaller first.
-			case 1: // Numeric, but not constants.
-			case 2: // Variables.
-				return Variable.order(a, b) // Apply default variable ordering.
-			case 3: // Product.
-				// ToDo: turn this into something sensible.
-				// Perhaps check if it has a function. If so, move it later on. If not, use a default polynomial ordering set-up.
-				return a.terms.length - b.terms.length // Fewer terms first. 
-			case 4: // Remaining.
+			case 0: // Product or variable.
+				// Check which variables there are. Walk through them.
+				const aVariables = a.getVariables()
+				const bVariables = b.getVariables()
+				for (let i = 0; i < aVariables.length; i++) {
+					const aVariable = aVariables[i]
+					const bVariable = bVariables[i]
+
+					// If B does not have a variable anymore, A has more variables. Put A first.
+					if (!bVariable)
+						return -1
+
+					// If the variables are not equal, once has an earlier variable than another. Use Variable comparison to figure out which.
+					if (!aVariable.equalsBasic(bVariable))
+						return Variable.order(aVariable, bVariable)
+
+					// There is the same variable. Find the power.
+					const getPowerInProduct = (variable, product) => {
+						if (product.isType(Variable))
+							return variable.equalsBasic(product) ? Integer.one : Integer.zero
+						const term = product.terms.find(term => term.dependsOn(variable))
+						if (term.isType(Variable))
+							return Integer.one
+						if (term.isType(Power))
+							return term.exponent
+					}
+					const aPower = getPowerInProduct(aVariable, a)
+					const bPower = getPowerInProduct(aVariable, b)
+					if (aPower instanceof Constant) {
+						if (bPower instanceof Constant) {
+							if (!aPower.equalsBasic(bPower))
+								return bPower.toNumber() - aPower.toNumber()
+						} else {
+							return -1 // Since A is a number and B is not, put A first.
+						}
+					} else {
+						if (bPower instanceof Constant)
+							return 1 // Since B is a number and A is not, put B first.
+						return 0 // Both have non-number powers. Cannot determine order.
+					}
+				}
+				if (bVariables.length > aVariables.length)
+					return 1 // Since B has more variables, put B first.
+				return 0 // Seems to be equal terms. Order does not matter.
+			case 1: // Numeric.
+				return b.number - a.number // Larger first.
+			default: // Remaining.
 				return 0 // Doesn't matter for now.
 		}
 	}
@@ -1065,7 +1128,7 @@ class Product extends ExpressionList {
 		}
 
 		// Expand brackets. For this, find the first sum and expand it. Other sums will be expanded recursively through further simplify calls.
-		if (options.expandBrackets) {
+		if (options.expandProductsOfSums) {
 			const sumIndex = terms.findIndex(term => term.isType(Sum))
 			if (sumIndex !== -1) {
 				return new Sum(terms[sumIndex].terms.map(sumTerm => new Product([
@@ -1077,8 +1140,9 @@ class Product extends ExpressionList {
 		}
 
 		// Sort terms.
-		if (options.sortTerms)
+		if (options.sortProducts) {
 			terms = terms.sort(Product.order)
+		}
 
 		// Return the final result.
 		return new Product(terms)
@@ -1090,7 +1154,7 @@ class Product extends ExpressionList {
 		const tests = [
 			x => x instanceof Constant,
 			x => x.isNumeric(),
-			x => x.isType(Variable),
+			x => x.isType(Variable) || x.isType(Power),
 			x => x.isType(Sum),
 			x => true, // Remaining cases.
 		]
@@ -1110,10 +1174,17 @@ class Product extends ExpressionList {
 			case 0: // Constants.
 				return a.number - b.number // Smaller first.
 			case 1: // Numeric, but not constants.
-			case 2: // Variables.
-				return Variable.order(a, b) // Apply default variable ordering.
+			case 2: // Variables or Powers.
+				// If the two terms both only depend on one variable, compare variables.
+				const aVariables = a.getVariables()
+				const bVariables = b.getVariables()
+				if (aVariables.length === 1 && bVariables.length === 1)
+					return Variable.order(aVariables[0], bVariables[0]) // Apply default variable ordering.
+				return 0 // Doesn't matter for now.
 			case 3: // Sum.
-				return a.terms.length - b.terms.length // Fewer terms first.
+				if (a.terms.length !== b.terms.length)
+					return a.terms.length - b.terms.length // Fewer terms first.
+				return 0 // Doesn't matter for now.
 			case 4: // Remaining.
 				return 0 // Doesn't matter for now.
 		}
@@ -1558,7 +1629,46 @@ class Power extends Function {
 			}
 		}
 
-		// ToDo: expand brackets.
+		// Check for negative powers. Reduce x^(-2) to 1/x^2.
+		if (options.removeNegativePowers) {
+			if (this.exponent.isNegative())
+				return new Fraction(Integer.one, new Power(this.base, this.exponent.applyMinus())).simplify(options)
+		}
+
+		// Check for powers of products. Reduce (a*b)^n to a^n*b^n.
+		if (options.expandPowersOfProducts) {
+			if (this.base.isType(Product)) {
+				return new Product(this.base.terms.map(term => new Power(term, this.exponent))).simplify(options)
+			}
+		}
+
+		// Check for powers of sums. Reduce (a+b)^3 to (a^3 + 3a^2b + 3ab^2 + b^3). Only do this for non-negative integer powers.
+		if (options.expandPowersOfSums) {
+			if (this.base.isType(Sum) && this.exponent.isType(Integer) && this.exponent.toNumber() > 1) {
+				const num = this.exponent.toNumber()
+				const term1 = this.base.terms[0]
+				const term2 = new Sum(this.base.terms.slice(1)).simplify(simplifyOptions.structureOnly)
+				const sumTerms = []
+				repeatWithIndices(0, num, (index) => {
+					sumTerms.push(new Product([
+						new Integer(binomial(num, index)),
+						new Power(term1, new Integer(num - index)).simplify(simplifyOptions.structureOnly),
+						new Power(term2, new Integer(index)).simplify(simplifyOptions.structureOnly),
+					]))
+				})
+				return new Sum(sumTerms).simplify(options)
+			}
+		}
+
+		// Check for numbers that can be simplified. Reduce 2^3 to 8.
+		if (options.mergeNumbers) {
+			if (this.base.isNumeric() && this.exponent.isNumeric()) {
+				if (this.base.hasFloat() || this.exponent.hasFloat())
+					return new Float(this.toNumber())
+				if (this.base.isType(Integer) && this.exponent.isType(Integer))
+					return new Integer(this.toNumber())
+			}
+		}
 
 		return new Power({ base, exponent })
 	}
