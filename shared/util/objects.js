@@ -94,7 +94,7 @@ function processOptions(givenOptions, defaultOptions) {
 
 	// Check if the options are in the proper format.
 	if (typeof givenOptions !== 'object')
-		throw new Error(`Invalid options: the options object must be an object, but it had type "${typeof options}".`)
+		throw new Error(`Invalid options: the options object must be an object, but it had type "${typeof givenOptions}".`)
 
 	// Check if there are no non-existent options.
 	Object.keys(givenOptions).forEach(key => {

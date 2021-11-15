@@ -53,7 +53,7 @@ function getFeedback(exerciseData) {
 	}
 	const wrongDenominator = {
 		check: (correct, input) => !equivalent(correct.denominator, input.denominator),
-		text: <>Bij het samenvoegen van breuken blijft de noemer hetzelfde. Dat is bij jouw antwoord niet zo.</>,
+		text: <>Bij het samenvoegen van breuken hoort de noemer hetzelfde te blijven. Dat is bij jouw antwoord niet zo.</>,
 	}
 	const wrongNumerator = {
 		check: (correct, input) => !equivalent(correct.numerator, input.numerator),

@@ -14,9 +14,10 @@ function selectRandomVariables(availableVariables, usedVariables) {
 }
 module.exports.selectRandomVariables = selectRandomVariables
 
-// filterVariables takes a state object, like { a: 'z', b: 'x', otherData: someNumber } and an array of variable strings, like ['a', 'b'], and then filters out all other properties. It also turns the variables into Variable objects. The result will be { a: new Variable('z'), b: new Variable('x') }.
-function filterVariables(state, usedVariables) {
-	const filteredVariables = filterProperties(state, usedVariables) // Filter non-variable properties out.
+// filterVariables takes a state object, like { a: 'z', b: 'x', c: 2, otherData: someRandomObject } and an array of variable strings, like ['a', 'b'], including possibly an extra array of variables like ['c'], and then filters out all other properties. It also attempts to interpret everything. The result will be { a: new Variable('z'), b: new Variable('x'), c: new Integer(2) }.
+function filterVariables(state, usedVariables, constants) {
+	const allVariables = constants ? [...usedVariables, ...constants] : usedVariables
+	const filteredVariables = filterProperties(state, allVariables) // Filter non-variable properties out.
 	return applyToEachParameter(filteredVariables, Variable.ensureVariable) // Ensure all variables are Variable objects.
 }
 module.exports.filterVariables = filterVariables

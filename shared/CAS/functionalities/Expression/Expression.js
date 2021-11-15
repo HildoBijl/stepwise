@@ -53,6 +53,10 @@ class Expression {
 			throw new Error(`Interpretation error: cannot interpret a "${this.constructor.type}" directly. Tip: try the asExpression function on "${SO}".`)
 		}
 
+		// If it's a number, turn it into one.
+		if (typeof SO === 'number')
+			return Constant.interpret(SO)
+
 		// Become the given SO.
 		this.become(SO)
 	}
@@ -296,9 +300,14 @@ class Expression {
 		return this.recursiveSome(term => term instanceof Float)
 	}
 
-	// hasFractions checks if there are fractions inside this term. It does not check this term itself for being a fraction.
-	hasFractions() {
-		return this.recursiveSome(term => term.isType(Fraction), false)
+	// hasFractions checks if there are fractions inside this Expression. It also gives true if the Expression itself is a fraction, unless this is specifically set to be ignored (by passing false).
+	hasFractions(includeSelf = true) {
+		return this.recursiveSome(term => term.isType(Fraction), includeSelf)
+	}
+
+	// hasFractionsWithinFractions checks if there are fractions inside this Expression that have further fractions inside them.
+	hasFractionsWithinFractions() {
+		return this.recursiveSome(term => term.isType(Fraction) && term.hasFractions(false))
 	}
 
 	// verifyVariable is used by functions requiring a variable as input. It checks the given variable. If no variable is given, it tries to figure out which variable was meant.
@@ -342,7 +351,7 @@ class Expression {
 		return this.substituteBasic(variable, substitution)
 	}
 
-	// substituteVariables takes an object with variables, like { a: 2, x: new Sum('y', 1), 'x_2': 'z' } and applies all the substitutions in it.
+	// substituteVariables takes an object with variables, like { a: 2, x: new Sum('y', 1), 'x_2': 'z' } and applies all the substitutions in it. It removes useless elements when they appear.
 	substituteVariables(variableObject) {
 		let result = this
 
@@ -356,7 +365,7 @@ class Expression {
 			result = result.substitute(`temporaryDummy_${index}`, variableObject[key])
 		})
 
-		return result
+		return result.simplify(simplifyOptions.removeUseless)
 	}
 
 	// getDerivative returns the derivative. It includes checking the variable and simplifying the result, unlike getDerivativeBasic which doesn't check the input and only returns a derivative in any form.

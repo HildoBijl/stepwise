@@ -146,7 +146,9 @@ export function validWithVariablesGeneric(interpreter, ...variables) {
 		if (Array.isArray(variables))
 			variables = variables[0]
 	}
-	variables = variables.map(Variable.ensureVariable)
+
+	// Filter out non-variable elements and make sure the rest are variables.
+	variables = variables.filter(term => term.isType(Variable) || (typeof term === 'string')).map(Variable.ensureVariable)
 
 	// Set up a validation function based on these variables.
 	return (data) => {

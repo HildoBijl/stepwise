@@ -1,11 +1,17 @@
 const { hasSimpleMatching } = require('../../../util/arrays')
-const { getRandomInteger, getRandomBoolean, getRandomIndices } = require('../../../util/random')
-const { Variable, Sum, Product, Fraction, expressionChecks } = require('../../../CAS')
+const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../util/random')
+const { asExpression, Sum, Fraction, expressionChecks } = require('../../../CAS')
 
+const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 const { performCheck } = require('../util/check')
 
 const { equivalent } = expressionChecks
+
+// x/(az) + y/(az) = (x+y)/(az).
+const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
+const usedVariables = ['x', 'y', 'z']
+const constants = ['a']
 
 const data = {
 	skill: 'mergeSplitBasicFractions',
@@ -14,42 +20,28 @@ const data = {
 		if (toSplit)
 			return input.isType(Sum) && correct.terms.length === input.terms.length && hasSimpleMatching(correct.terms, input.terms, equivalent)
 		// When the mission is to merge, check for a correct fraction, and for no fractions inside fractions.
-		return input.isType(Fraction) && !input.hasFractions() && equivalent(correct, input)
+		return input.isType(Fraction) && !input.hasFractions(false) && equivalent(correct, input)
 	},
-	variableSets: [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']].map(variableSet => variableSet.map(Variable.ensureVariable)),
-	usedVariables: ['x', 'y', 'z'],
 }
 
 function generateState() {
-	// ax/(cz) + by/(cz) = (ax+by)/(cz).
-	const state = {}
-	state.toSplit = getRandomBoolean() // Should we split? Or merge?
-	state.a = getRandomInteger(2, 12)
-	state.b = getRandomInteger(2, 12, [state.a])
-	state.c = getRandomInteger(2, 12, [state.a, state.b])
-	state.plus = getRandomBoolean()
-	state.variableSet = getRandomInteger(0, 2)
-	state.variables = getRandomIndices(data.variableSets[state.variableSet].length, 3)
-	return state
-}
-
-function getVariables(state) {
-	const result = {}
-	data.usedVariables.forEach((variable, index) => {
-		result[variable] = data.variableSets[state.variableSet][state.variables[index]]
-	})
-	return result
+	const variableSet = selectRandomly(availableVariableSets)
+	return {
+		...selectRandomVariables(variableSet, usedVariables),
+		toSplit: getRandomBoolean(), // Is the question to split the fraction? Or to merge it?
+		plus: getRandomBoolean(), // Is there a plus or a minus sign?
+		a: getRandomInteger(2, 12),
+	}
 }
 
 function getCorrect(state) {
-	const variables = getVariables(state)
-	const { toSplit, a, b, c, plus } = state
-	const { x, y, z } = variables
-	const ax = new Product(a, x)
-	const by = new Product(b, y)
-	const cz = new Product(c, z)
-	const together = ax[plus ? 'add' : 'subtract'](by).divideBy(cz)
-	const split = ax.divideBy(cz)[plus ? 'add' : 'subtract'](by.divideBy(cz))
+	// Extract state variables.
+	const variables = filterVariables(state, usedVariables, constants)
+	const { toSplit, plus } = state
+
+	// Set up expressions to return.
+	const together = asExpression(`(x ${plus ? '+' : '-'} y)/(az)`).substituteVariables(variables)
+	const split = asExpression(`x/(az) ${plus ? '+' : '-'} y/(az)`).substituteVariables(variables)
 	const expression = (toSplit ? together : split)
 	const ans = (toSplit ? split : together)
 	return { ...state, variables, together, split, expression, ans }
@@ -63,7 +55,6 @@ module.exports = {
 	data,
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),
-	getVariables,
 	getCorrect,
 	checkInput,
 }
