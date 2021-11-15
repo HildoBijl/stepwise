@@ -26,15 +26,12 @@ const data = {
 
 function generateState() {
 	const variableSet = selectRandomly(availableVariableSets)
-	const state = {
+	return {
 		...selectRandomVariables(variableSet, usedVariables),
 		toSplit: getRandomBoolean(), // Is the question to split the fraction? Or to merge it?
 		plus: getRandomBoolean(), // Is there a plus or a minus sign?
+		a: getRandomInteger(2, 12),
 	}
-	state.a = getRandomInteger(2, 12)
-	state.b = getRandomInteger(2, 12, [state.a])
-	state.c = getRandomInteger(2, 12, [state.a, state.b])
-	return state
 }
 
 function getCorrect(state) {
