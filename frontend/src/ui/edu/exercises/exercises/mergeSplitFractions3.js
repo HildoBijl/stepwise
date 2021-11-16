@@ -37,7 +37,7 @@ const steps = [
 		Problem: (state) => {
 			const { variables, leftExpression, rightExpression } = useCorrect(state)
 			return <>
-				<Par>We willen zometeen de noemers van de twee breuken gelijk maken. Links is de noemer <M>{leftExpression.denominator}</M> en rechts is de noemer <M>{rightExpression.denominator}</M>. Vind de <strong>kleinst mogelijke veelvoud</strong> van deze twee uitdrukkingen. Schrijf je resultaat zo simpel mogelijk op.</Par>
+				<Par>Vind de <strong>kleinst mogelijke veelvoud</strong> van de twee noemers <M>{leftExpression.denominator}</M> en <M>{rightExpression.denominator}</M>.</Par>
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="denominator" prelabel="Kleinste veelvoud:" label="Vul hier het resultaat in" size="l" settings={basicMath} validate={validWithVariables(Object.values(variables))} />
@@ -72,7 +72,7 @@ const steps = [
 		Problem: (state) => {
 			const { variables, expression } = useCorrect(state)
 			return <>
-				<Par>Voeg de twee gevonden breuken samen tot één breuk.</Par>
+				<Par>Voeg de twee herschreven breuken samen tot één breuk.</Par>
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={basicMath} validate={validWithVariables(Object.values(variables))} />

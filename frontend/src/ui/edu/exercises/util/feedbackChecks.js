@@ -24,7 +24,7 @@ export const incorrectExpression = {
 
 export const noSum = {
 	check: (correct, input) => !input.isType(Sum),
-	text: <>Je moet de breuk schrijven als optelling/aftrekking van termen. Je antwoord is helaas geen optelling/aftrekking.</>,
+	text: <>Je moet je antwoord schrijven als een optelling/aftrekking van termen. Je gegeven antwoord is helaas geen optelling/aftrekking.</>,
 }
 export const sumWithWrongTermsNumber = {
 	check: (correct, input) => correct.terms.length !== input.terms.length,

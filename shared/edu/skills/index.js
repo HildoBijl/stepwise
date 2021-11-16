@@ -55,7 +55,7 @@ const skills = {
 	},
 	mergeSplitFractions: {
 		name: 'Algemene breuken samenvoegen/splitsen',
-		exercises: ['mergeSplitFractions1', 'mergeSplitFractions2', 'mergeSplitFractions3'],
+		exercises: ['mergeSplitFractions1', 'mergeSplitFractions1Reverse', 'mergeSplitFractions2', 'mergeSplitFractions2Reverse', 'mergeSplitFractions3', 'mergeSplitFractions3Reverse'],
 	},
 	// multiplyDivideFractions: {
 	// 	name: 'Breuken vermenigvuldigen/delen',
