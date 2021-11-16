@@ -38,6 +38,15 @@ window.CAS = CAS
 // console.log(a.str)
 // console.log(a.simplify(CAS.simplifyOptions.forAnalysis).str)
 
+// const a = CAS.asExpression('1/x+2/x')
+// const b = CAS.asExpression('3/x')
+// console.log(a.str)
+// console.log(b.str)
+// console.log(a.equals(b))
+// const c = a.subtract(b)
+// console.log(c.str)
+// console.log(c.simplify(CAS.simplifyOptions.forAnalysis).str)
+
 export default function Test() {
 	return (
 		<>

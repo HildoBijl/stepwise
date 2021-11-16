@@ -229,7 +229,7 @@ class Expression {
 		term = ensureExpression(term)
 
 		// Set up the term that remains within brackets.
-		const inner = (new Fraction(this, term)).simplify({ ...simplifyOptions.removeUseless, mergeNumbers: true, reduceFractionNumbers: true, mergeFractionTerms: true, splitFractions: true })
+		const inner = (new Fraction(this, term)).simplify({ ...simplifyOptions.removeUseless, mergeSumNumbers: true, mergeProductNumbers: true, mergeFractionNumbers: true, mergeFractionTerms: true, splitFractions: true })
 
 		// Set up the product that's the final result.
 		return new Product([term, inner])
@@ -410,10 +410,12 @@ class Expression {
 			// To check equivalence of f(x) and g(x), just take f(x) - g(x) and compare its simplification to zero.
 			const comparison = this.subtract(expression).simplify(simplifyOptions.forAnalysis)
 			return Integer.zero.equalsBasic(comparison)
-		} else if (level === expressionEqualityLevels.constantMultiple) {
-			// To check a constant equivalence of f(x) and g(x), just take f(x)/g(x) and see if the result is a constant number instead of a variable.
-			const comparison = this.divideBy(expression).simplify(simplifyOptions.forAnalysis)
-			return comparison.isNumeric()
+		} else if (level === expressionEqualityLevels.integerMultiple || level === expressionEqualityLevels.constantMultiple) {
+			// To check whether f(x) and g(x) are constant or integer multiples of each other, just take g(x)/f(x) and see if the result is an integer or a constant number, instead of a variable.
+			const comparison = expression.divideBy(this).simplify(simplifyOptions.forAnalysis)
+			if (level === expressionEqualityLevels.integerMultiple)
+				return comparison.isType(Integer)
+			return comparison.isNumeric() && !comparison.equalsBasic(Integer.zero)
 		}
 
 		// Pass the remaining levels on to the equalsBasic function of the descendant classes.
@@ -870,7 +872,7 @@ class Sum extends ExpressionList {
 		}
 
 		// If there are at least two constants, merge them together and put them at the start.
-		if (options.mergeNumbers) {
+		if (options.mergeSumNumbers) {
 			const isConstant = term => term instanceof Constant
 			if (count(terms, isConstant) > 1) {
 				let number = 0
@@ -1086,7 +1088,7 @@ class Product extends ExpressionList {
 		}
 
 		// Merge all numbers together and put them at the start.
-		if (options.mergeNumbers) {
+		if (options.mergeProductNumbers) {
 			let number = 1
 			terms = terms.filter(term => {
 				if (term instanceof Constant) {
@@ -1453,7 +1455,7 @@ class Fraction extends Function {
 		}
 
 		// Reduce the numbers in the fraction.
-		if (options.mergeNumbers && options.reduceFractionNumbers) {
+		if (options.mergeFractionNumbers) {
 			// Only do this for fractions of products now. No support for sums (2x+2y)/2 or powers (2x)^2/2 is present.
 
 			// Get the numbers preceding the numerator and denominator.
@@ -1687,7 +1689,7 @@ class Power extends Function {
 		}
 
 		// Check for numbers that can be simplified. Reduce 2^3 to 8.
-		if (options.mergeNumbers) {
+		if (options.mergePowerNumbers) {
 			if (this.base.isNumeric() && this.exponent.isNumeric()) {
 				if (this.base.hasFloat() || this.exponent.hasFloat())
 					return new Float(this.toNumber())

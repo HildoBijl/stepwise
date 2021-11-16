@@ -172,6 +172,6 @@ module.exports.gcd = gcd
 function scm(a, b) {
   a = Math.abs(ensureInt(a))
   b = Math.abs(ensureInt(b))
-  return a*(b/gcm(a,b))
+  return a*(b/gcd(a,b))
 }
 module.exports.scm = scm

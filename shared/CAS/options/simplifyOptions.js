@@ -4,7 +4,8 @@ const noSimplify = { // This is never applied, but only use to verify options gi
 	// The following options are basic ones, usually applied.
 	structure: false, // Simplify the structure of the object in a way that the expression itself does not seem rewritten. For instance, if there is a sum inside a sum, just turn it into one sum. Or if there is a sum of one element, just turn it into said element.
 	removeUseless: false, // Remove useless elements. For instance, a sum with "+0" or a product with "*1" will be simplified.
-	mergeNumbers: false, // Reduce the number of numbers that are used. If there is a product with constants, like 2*x*3*y*4*z, turn it into 24*x*y*z. Or if there is a sum with numbers, like 2+3*x+4, group the numbers together, like 6+3*x.
+	mergeSumNumbers: false, // Reduce the number of numbers that are used in sums. If there is a sum with numbers, like 2+3*x+4, group the numbers together, like 6+3*x.
+	mergeProductNumbers: false, // Reduce the number of numbers that are used in products. If there is a product with constants, like 2*x*3*y*4*z, turn it into 24*x*y*z.
 	cancelSumTerms: false, // Cancel terms in sums. So 2x+3y-2x becoming 3y. Note that this is a more basic version than groupSumTerms, which can group terms.
 
 	// The following relate to Sums/Products.
@@ -13,7 +14,7 @@ const noSimplify = { // This is never applied, but only use to verify options gi
 	expandProductsOfSums: false, // Reduces a*(b+c) to (a*b+a*c).
 
 	// The following options relate to Fractions.
-	reduceFractionNumbers: false, // Reduce the numbers in a fraction by dividing out the GCD. So 18/12 reduces to 3/2. This is only triggered if mergeNumbers is also true.
+	mergeFractionNumbers: false, // Reduce the numbers in a fraction by dividing out the GCD. So 18/12 reduces to 3/2.
 	mergeFractionTerms: false, // Merge terms inside fraction. So (ab)/(bc) becomes a/c and x^2/(ax) becomes x/a. (Note: so far this has not been implemented for sums like (ax+bx)/x yet.)
 	flattenFractions: false, // Turn fractions inside fractions into a single fraction. So (a/b)/(c/d) becomes (ad)/(bc), similarly a/(b/c) becomes (ac)/b and (a/b)/c becomes a/(bc).
 	splitFractions: false, // Split up fractions. So (a+b)/c becomes a/c+b/c.
@@ -21,6 +22,7 @@ const noSimplify = { // This is never applied, but only use to verify options gi
 	mergeFractionSums: false, // Turns sums of fractions into a single fraction. So a/x+b/x becomes (a+b)/x and a/b+c/d becomes (ad+bc)/(bd).
 
 	// The following options relate to Powers.
+	mergePowerNumbers: false, // Reduce the numbers used in powers: turn a power with only numbers into a number.
 	mergeProductTerms: false, // Merge terms in products into powers. So x*x^2 becomes x^3.
 	removePowersWithinPowers: false, // Reduces (a^b)^c to a^(b*c).
 	removeNegativePowers: false, // Turns x^-2 into 1/x^2.
@@ -58,13 +60,15 @@ module.exports.forDerivatives = forDerivatives
 
 const basicClean = {
 	...removeUseless,
-	mergeNumbers: true,
+	mergeSumNumbers: true,
 	cancelSumTerms: true,
-	reduceFractionNumbers: true,
+	mergeProductNumbers: true,
+	mergeProductTerms: true,
+	mergeFractionNumbers: true,
+	mergeFractionTerms: true,
 	flattenFractions: true,
 	mergeFractionProducts: true,
-	mergeProductTerms: true,
-	mergeFractionTerms: true,
+	mergePowerNumbers: true,
 }
 module.exports.basicClean = basicClean
 

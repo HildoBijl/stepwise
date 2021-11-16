@@ -400,10 +400,10 @@ export function getExpressionComparisonFeedback(correctAnswer, inputAnswer, opti
 			return checkResult
 	}
 
-	// No sensible feedback has matched. Give a default message. If possible, keep it equal to an earlier default message.
+	// No sensible feedback has matched. Give a default message.
 	if (isCorrect)
-		return { correct: true, text: text.correct || (prevFeedback && prevFeedback.correct && prevFeedback.text) || selectRandomCorrect() }
-	return { correct: false, text: (prevFeedback && !prevFeedback.correct && prevFeedback.text) || selectRandomIncorrect() }
+		return { correct: true, text: text.correct || selectRandomCorrect() }
+	return { correct: false, text: text.incorrect || selectRandomIncorrect() }
 }
 
 /* getMCFeedback provides a default feedback for multiple choice input fields. Currently this only works for single-input multiple choice and not multi-input. Parameters are:
