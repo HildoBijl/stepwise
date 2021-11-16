@@ -1398,6 +1398,10 @@ class Fraction extends Function {
 		return new Fraction(this.numerator.multiplyBy(expression), this.denominator.multiplyBy(expression))
 	}
 
+	invert() {
+		return new Fraction(this.denominator, this.numerator) // Invert for fractions flips them.
+	}
+
 	getDerivativeBasic(variable) {
 		const terms = []
 

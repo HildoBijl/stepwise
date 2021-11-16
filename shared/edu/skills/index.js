@@ -57,10 +57,10 @@ const skills = {
 		name: 'Algemene breuken samenvoegen/splitsen',
 		exercises: ['mergeSplitFractions1', 'mergeSplitFractions1Reverse', 'mergeSplitFractions2', 'mergeSplitFractions2Reverse', 'mergeSplitFractions3', 'mergeSplitFractions3Reverse'],
 	},
-	// multiplyDivideFractions: {
-	// 	name: 'Breuken vermenigvuldigen/delen',
-	// 	exercises: ['mergeSplitFractionSums1', 'mergeSplitFractionSums2', 'mergeSplitFractionSums3'],
-	// },
+	multiplyDivideFractions: {
+		name: 'Breuken vermenigvuldigen/delen',
+		exercises: ['multiplyDivideFractions1', 'multiplyDivideFractions2', 'multiplyDivideFractions3', 'multiplyDivideFractions4'],
+	},
 	// simplifyFractions: {
 	// 	name: 'Breuken simplificeren',
 	// 	exercises: ['simplifyFractions1', 'simplifyFractions2', 'simplifyFractions3'],

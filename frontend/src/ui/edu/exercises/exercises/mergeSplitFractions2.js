@@ -47,7 +47,7 @@ const steps = [
 		},
 		Solution: (state) => {
 			const { leftExpression, rightExpression, denominator } = useCorrect(state)
-			return <Par>De noemers <M>{leftExpression.denominator}</M> en <M>{rightExpression.denominator}</M> hebben geen gemeenschappelijke factoren. We kunnen ze dus vermenigvuldigen om hun (kleinst mogelijke) veelvoud te vinden. Zo krijgen we <BM>{denominator}.</BM></Par>
+			return <Par>De noemers <M>{leftExpression.denominator}</M> en <M>{rightExpression.denominator}</M> hebben geen gemeenschappelijke factoren. We kunnen ze dus vermenigvuldigen om hun (kleinst mogelijke) gemeenschappelijke veelvoud te vinden. Zo krijgen we <BM>{denominator}.</BM></Par>
 		},
 	},
 	{
