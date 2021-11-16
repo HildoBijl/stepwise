@@ -64,8 +64,8 @@ const steps = [
 			</>
 		},
 		Solution: (state) => {
-			const { leftExpression, rightExpression, leftAns, rightAns } = useCorrect(state)
-			return <Par>Bij de eerste breuk kunnen we boven en onder <M>{leftExpression.numerator}</M> wegdelen. Zo vinden we <BM>{leftExpression} = {leftAns}.</BM> Voor de tweede breuk delen we boven en onder <M>{rightExpression.numerator}</M> weg. Hiermee krijgen we <BM>{rightExpression} = {rightAns}.</BM></Par>
+			const { variables, leftExpression, rightExpression, leftAns, rightAns } = useCorrect(state)
+			return <Par>Bij de eerste breuk kunnen we boven en onder <M>{variables.y}</M> wegdelen. Zo vinden we <BM>{leftExpression} = {leftAns}.</BM> Voor de tweede breuk delen we boven en onder <M>{variables.x}</M> weg. Hiermee krijgen we <BM>{rightExpression} = {rightAns}.</BM></Par>
 		},
 	},
 	{

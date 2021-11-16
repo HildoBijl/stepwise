@@ -1,5 +1,5 @@
 const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../util/random')
-const { asExpression, expressionChecks } = require('../../../CAS')
+const { asExpression, expressionChecks, simplifyOptions } = require('../../../CAS')
 const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
@@ -16,7 +16,7 @@ const constants = ['a', 'b']
 const data = {
 	skill: 'mergeSplitFractions',
 	setup: combinerAnd(combinerRepeat('addRemoveFractionFactors', 2), 'mergeSplitBasicFractions'),
-	steps: [null, ['addRemoveFractionFactors', 'addRemoveFractionFactors'], 'mergeSplitBasicFractions'],
+	steps: ['mergeSplitBasicFractions', ['addRemoveFractionFactors', 'addRemoveFractionFactors'], null],
 	check: {
 		default: onlyOrderChanges,
 	},
@@ -35,20 +35,21 @@ function generateState() {
 function getCorrect(state) {
 	// Extract state variables.
 	const variables = filterVariables(state, usedVariables, constants)
-	const { plus, x, y } = state
+	const { plus } = state
 
 	// Set up the original expression.
-	const leftExpression = asExpression(`a/(xz)`).substituteVariables(variables)
-	const rightExpression = asExpression(`b/(yz)`).substituteVariables(variables)
-	const expression = leftExpression[plus ? 'add' : 'subtract'](rightExpression)
+	const sign = plus ? '+' : '-'
+	const expression = asExpression(`(ay${sign}bx)/(xyz)`).substituteVariables(variables).simplify({ removeUseless: true, mergeProductNumbers: true, sortProducts: true })
+	const leftExpression = asExpression(`(ay)/(xyz)`).substituteVariables(variables).simplify({ removeUseless: true, mergeProductNumbers: true, sortProducts: true })
+	const rightExpression = asExpression(`(bx)/(xyz)`).substituteVariables(variables).simplify({ removeUseless: true, mergeProductNumbers: true, sortProducts: true })
+	const split = leftExpression[plus ? 'add' : 'subtract'](rightExpression)
 
 	// Set up the solution.
-	const denominator = asExpression('xyz').substituteVariables(variables).simplify({ sortProducts: true })
-	const leftAns = leftExpression.multiplyNumDenBy(y).simplify({ removeUseless: true, mergeProductNumbers: true, sortProducts: true })
-	const rightAns = rightExpression.multiplyNumDenBy(x).simplify({ removeUseless: true, mergeProductNumbers: true, sortProducts: true })
-	const ans = leftAns.numerator[plus ? 'add' : 'subtract'](rightAns.numerator).divideBy(denominator)
+	const leftAns = leftExpression.simplify(simplifyOptions.forAnalysis)
+	const rightAns = rightExpression.simplify(simplifyOptions.forAnalysis)
+	const ans = leftAns[plus ? 'add' : 'subtract'](rightAns)
 
-	return { ...state, variables, leftExpression, rightExpression, expression, denominator, leftAns, rightAns, ans }
+	return { ...state, variables, expression, leftExpression, rightExpression, split, leftAns, rightAns, ans }
 }
 
 function checkInput(state, input, step) {
@@ -56,7 +57,7 @@ function checkInput(state, input, step) {
 	if (step === 0 || step === 3)
 		return performCheck('ans', correct, input, data.check)
 	if (step === 1)
-		return performCheck('denominator', correct, input, data.check)
+		return performCheck('split', correct, input, data.check)
 	if (step === 2)
 		return performCheck(['leftAns', 'rightAns'], correct, input, data.check)
 }
