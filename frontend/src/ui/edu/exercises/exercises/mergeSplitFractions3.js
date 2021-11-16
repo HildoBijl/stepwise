@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Integer, simplifyOptions, expressionChecks } from 'step-wise/CAS'
+import { expressionChecks } from 'step-wise/CAS'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
@@ -12,7 +12,7 @@ import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
 
 import { getInputFieldFeedback } from '../util/feedback'
-import { originalExpression, noSum, sumWithWrongTermsNumber, noFraction, hasFractionsWithinFractions, correctExpression, incorrectExpression } from '../util/feedbackChecks'
+import { originalExpression, noFraction, hasFractionsWithinFractions, correctExpression, incorrectExpression } from '../util/feedbackChecks'
 
 const { onlyOrderChanges, equivalent, integerMultiple, constantMultiple } = expressionChecks
 
@@ -46,8 +46,8 @@ const steps = [
 			</>
 		},
 		Solution: (state) => {
-			const { a, b, variables, scmValue, leftExpression, rightExpression, denominator } = useCorrect(state)
-			return <Par>Vanwege <M>{leftExpression.denominator}</M> hebben we een factor <M>{variables.x}</M> nodig, en vanwege <M>{rightExpression.denominator}</M> hebben we een factor <M>{variables.y}</M> nodig. Verder is ook nog een factor <M>{scmValue}</M> nodig. Immers, dit is de kleinste veelvoud van <M>{a}</M> en van <M>{b}.</M> Zo vinden we dus <BM>{denominator}.</BM> Dit is de kleinste veelvoud van zowel <M>{leftExpression.denominator}</M> als <M>{rightExpression.denominator}.</M></Par>
+			const { variables, leftExpression, rightExpression, denominator } = useCorrect(state)
+			return <Par>Vanwege <M>{leftExpression.denominator}</M> hebben we factoren <M>{variables.x}</M> en <M>{variables.z}</M> nodig. Vanwege <M>{rightExpression.denominator}</M> hebben we tevens factoren <M>{variables.y}</M> en <M>{variables.z}</M> nodig. Alles tezamen hebben we dus factoren <M>{variables.x}</M>, <M>{variables.y}</M> en <M>{variables.z}</M> nodig. Zo vinden we de veelvoud <BM>{denominator}.</BM> Dit is de kleinste veelvoud van zowel <M>{leftExpression.denominator}</M> als <M>{rightExpression.denominator}.</M> De factor <M>{variables.z}</M> hoeft dus <strong>niet</strong> dubbel aanwezig te zijn.</Par>
 		},
 	},
 	{
@@ -64,8 +64,8 @@ const steps = [
 			</>
 		},
 		Solution: (state) => {
-			const { leftExpression, rightExpression, leftAns, rightAns } = useCorrect(state)
-			return <Par>Bij de eerste breuk vermenigvuldigen we boven en onder met <M>{leftAns.numerator}.</M> Zo vinden we <BM>{leftExpression} = {leftAns}.</BM> Voor de tweede breuk vermenigvuldigen we boven en onder met <M>{rightAns.numerator}.</M> Hiermee krijgen we <BM>{rightExpression} = {rightAns}.</BM></Par>
+			const { variables, leftExpression, rightExpression, leftAns, rightAns } = useCorrect(state)
+			return <Par>Bij de eerste breuk vermenigvuldigen we boven en onder met <M>{variables.y}.</M> Zo vinden we <BM>{leftExpression} = {leftAns}.</BM> Voor de tweede breuk vermenigvuldigen we boven en onder met <M>{variables.x}.</M> Hiermee krijgen we <BM>{rightExpression} = {rightAns}.</BM></Par>
 		},
 	},
 	{
@@ -140,7 +140,7 @@ function getFeedback(exerciseData) {
 		denominatorWrongFactor,
 		denominatorMissingDependency,
 	]
-	const termChecks = [
+	const fractionChecks = [
 		originalExpression,
 		noFraction,
 		wrongDenominator,
@@ -151,5 +151,5 @@ function getFeedback(exerciseData) {
 	]
 
 	// Determine feedback.
-	return getInputFieldFeedback(['ans', 'denominator', 'leftAns', 'rightAns'], exerciseData, [ansChecks, denominatorChecks, termChecks, termChecks].map(feedbackChecks => ({ feedbackChecks })))
+	return getInputFieldFeedback(['ans', 'denominator', 'leftAns', 'rightAns'], exerciseData, [ansChecks, denominatorChecks, fractionChecks, fractionChecks].map(feedbackChecks => ({ feedbackChecks })))
 }

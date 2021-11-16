@@ -1,4 +1,3 @@
-const { scm } = require('../../../util/numbers')
 const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../util/random')
 const { asExpression, expressionChecks } = require('../../../CAS')
 const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
@@ -9,9 +8,9 @@ const { performCheck } = require('../util/check')
 
 const { onlyOrderChanges } = expressionChecks
 
-// 1/(ax) + 1/(by) = (by + ax)/(abxy).
+// ay/x + bz/y = (ay^2 + bxz)/(xy).
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
-const usedVariables = ['x', 'y']
+const usedVariables = ['x', 'y', 'z']
 const constants = ['a', 'b']
 
 const data = {
@@ -36,21 +35,20 @@ function generateState() {
 function getCorrect(state) {
 	// Extract state variables.
 	const variables = filterVariables(state, usedVariables, constants)
-	const { plus, a, b, x, y } = state
+	const { plus, x, y } = state
 
 	// Set up the original expression.
-	const leftExpression = asExpression(`1/(ax)`).substituteVariables(variables)
-	const rightExpression = asExpression(`1/(by)`).substituteVariables(variables)
+	const leftExpression = asExpression(`(ay)/x`).substituteVariables(variables)
+	const rightExpression = asExpression(`(bz)/y`).substituteVariables(variables)
 	const expression = leftExpression[plus ? 'add' : 'subtract'](rightExpression)
 
 	// Set up the solution.
-	const scmValue = scm(a, b)
-	const denominator = asExpression(`${scmValue}xy`).substituteVariables(variables).simplify({ sortProducts: true })
-	const leftAns = leftExpression.multiplyNumDenBy(scmValue / a).multiplyNumDenBy(y).simplify({ removeUseless: true, mergeProductNumbers: true, sortProducts: true })
-	const rightAns = rightExpression.multiplyNumDenBy(scmValue / b).multiplyNumDenBy(x).simplify({ removeUseless: true, mergeProductNumbers: true, sortProducts: true })
+	const denominator = asExpression('xy').substituteVariables(variables).simplify({ sortProducts: true })
+	const leftAns = leftExpression.multiplyNumDenBy(y).simplify({ removeUseless: true, mergeProductNumbers: true, mergeProductTerms: true, mergeSumNumbers: true, sortProducts: true })
+	const rightAns = rightExpression.multiplyNumDenBy(x).simplify({ removeUseless: true, mergeProductNumbers: true, mergeProductTerms: true, mergeSumNumbers: true, sortProducts: true })
 	const ans = leftAns.numerator[plus ? 'add' : 'subtract'](rightAns.numerator).divideBy(denominator)
 
-	return { ...state, variables, leftExpression, rightExpression, expression, scmValue, denominator, leftAns, rightAns, ans }
+	return { ...state, variables, leftExpression, rightExpression, expression, denominator, leftAns, rightAns, ans }
 }
 
 function checkInput(state, input, step) {
