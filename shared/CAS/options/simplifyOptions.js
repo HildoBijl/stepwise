@@ -65,7 +65,6 @@ const basicClean = {
 	mergeProductNumbers: true,
 	mergeProductTerms: true,
 	mergeFractionNumbers: true,
-	mergeFractionTerms: true,
 	flattenFractions: true,
 	mergeFractionProducts: true,
 	mergePowerNumbers: true,
@@ -76,6 +75,7 @@ const regularClean = {
 	...basicClean,
 	sortProducts: true,
 	sortSums: true,
+	mergeFractionTerms: true,
 	removePowersWithinPowers: true,
 	basicReductions: true,
 }

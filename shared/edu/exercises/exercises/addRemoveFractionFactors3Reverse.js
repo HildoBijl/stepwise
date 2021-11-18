@@ -30,7 +30,7 @@ function getCorrect(state) {
 	const term = new Product(state.a, P)
 	const product = new Product(state.front ? [term, sum] : [sum, term])
 	const expression = state.upper ? term : new Fraction(1, term)
-	const ans = expression.multiplyNumDenBy(sum).simplify(simplifyOptions.removeUseless)
+	const ans = expression.multiplyNumDenBy(sum).removeUseless()
 	return { ...state, variables, sum, term, product, expression, ans }
 }
 

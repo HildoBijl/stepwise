@@ -5,7 +5,7 @@ const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 const { performCheck } = require('../util/check')
 
-const { equivalent } = expressionChecks
+const { equivalent, hasFractionWithinFraction } = expressionChecks
 
 // (x/a)/((y+c)/b) = (bx)/(a(y+c)).
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]

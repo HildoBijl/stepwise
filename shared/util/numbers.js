@@ -155,10 +155,18 @@ function rad2deg(rad) {
 }
 module.exports.rad2deg = rad2deg
 
-// gcd returns the greatest common divider of the two integer numbers.
-function gcd(a, b) {
-  a = Math.abs(ensureInt(a))
-  b = Math.abs(ensureInt(b))
+// gcd returns the greatest common divider of various integer numbers.
+function gcd(...params) {
+  // Check input.
+  params = params.map(number => Math.abs(ensureInt(number)))
+  if (params.length === 1)
+    return params[0]
+  if (params.length > 2)
+    return gcd(gcd(params[0], params[1]), ...params.slice(2))
+
+  // Calculate GCD.
+  a = params[0]
+  b = params[1]
   while (b > 0) {
     const c = b
     b = a % b
@@ -168,10 +176,18 @@ function gcd(a, b) {
 }
 module.exports.gcd = gcd
 
-// gcm returns the smallest common multiple of two integer numbers.
-function scm(a, b) {
-  a = Math.abs(ensureInt(a))
-  b = Math.abs(ensureInt(b))
-  return a*(b/gcd(a,b))
+// gcm returns the smallest common multiple of various integer numbers.
+function scm(...params) {
+  // Check input.
+  params = params.map(number => Math.abs(ensureInt(number)))
+  if (params.length === 1)
+    return params[0]
+  if (params.length > 2)
+    return scm(scm(params[0], params[1]), ...params.slice(2))
+
+  // Calculate SCM.
+  a = params[0]
+  b = params[1]
+  return a * (b / gcd(a, b))
 }
 module.exports.scm = scm

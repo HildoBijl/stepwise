@@ -21,7 +21,7 @@ const Problem = (state) => {
 		<Par>Gegeven is de uitdrukking <BM>{expression}.</BM> Werk de haakjes uit.</Par>
 		<InputSpace>
 			<Par>
-				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={basicMathNoFractions} validate={validWithVariables(Object.values(variables))} />
+				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={basicMathNoFractions} validate={validWithVariables(variables)} />
 			</Par>
 		</InputSpace>
 	</>

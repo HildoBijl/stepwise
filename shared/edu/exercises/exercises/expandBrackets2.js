@@ -44,7 +44,7 @@ function getCorrect(state) {
 
 function checkInput(state, input, step) {
 	const correct = getCorrect(state)
-	if (step === 0 || step === 3)
+	if (step === 0 || step === 2)
 		return performCheck('ans', correct, input, data.check)
 	if (step === 1)
 		return performCheck('intermediate', correct, input, data.check)

@@ -61,10 +61,10 @@ const skills = {
 		name: 'Breuken vermenigvuldigen/delen',
 		exercises: ['multiplyDivideFractions1', 'multiplyDivideFractions2', 'multiplyDivideFractions3', 'multiplyDivideFractions4'],
 	},
-	// simplifyFractions: {
-	// 	name: 'Breuken simplificeren',
-	// 	exercises: ['simplifyFractions1', 'simplifyFractions2', 'simplifyFractions3'],
-	// },
+	simplifyFractions: {
+		name: 'Breuken simplificeren',
+		exercises: ['simplifyFractions1', 'simplifyFractions2', 'simplifyFractions3'],
+	},
 
 	// Basic mathematics: manipulating brackets.
 	expandBrackets: {

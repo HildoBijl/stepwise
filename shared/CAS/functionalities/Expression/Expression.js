@@ -179,7 +179,7 @@ class Expression {
 	// add will add up the given expression to this expression. (As always, the original object remains unchanged.)
 	add(addition, putAtStart = false) {
 		addition = ensureExpression(addition)
-		return new Sum(putAtStart ? [addition, this] : [this, addition]).simplify(simplifyOptions.structureOnly)
+		return new Sum(putAtStart ? [addition, this] : [this, addition]).cleanStructure()
 	}
 
 	// subtract will subtract the given expression from this expression.
@@ -191,18 +191,18 @@ class Expression {
 	// multiplyBy will multiply this expression by the given expression. It puts the given expression after the current one: a.multiply(b) = a*b. If the second argument is set to true, this is reversed: a.multiply(b, true) = b*a.
 	multiplyBy(multiplication, putAtStart = false) {
 		multiplication = ensureExpression(multiplication)
-		return new Product(putAtStart ? [multiplication, this] : [this, multiplication]).simplify(simplifyOptions.structureOnly)
+		return new Product(putAtStart ? [multiplication, this] : [this, multiplication]).cleanStructure()
 	}
 
 	// divideBy will divide this expression by the given expression.
 	divideBy(division) {
 		division = ensureExpression(division)
-		return new Fraction(this, division).simplify(simplifyOptions.structureOnly)
+		return new Fraction(this, division).cleanStructure()
 	}
 
 	// applyMinus will multiply a quantity by -1 and do a few minor simplifications.
 	applyMinus() {
-		return this.multiplyBy(Integer.minusOne, true).simplify(simplifyOptions.removeUseless)
+		return this.multiplyBy(Integer.minusOne, true)
 	}
 
 	// multiplyNumDenBy takes this object and turns it into a fraction, if it isn't already. Subsequently, it multiplies both the numerator and the denominator with a given expression.
@@ -216,7 +216,7 @@ class Expression {
 		exponent = ensureExpression(exponent)
 
 		// Set up the power.
-		return new Power(this, exponent).simplify(simplifyOptions.structureOnly)
+		return new Power(this, exponent).cleanStructure()
 	}
 
 	// invert will apply a power of -1.
@@ -320,16 +320,17 @@ class Expression {
 		let result = this
 
 		// First replace all variables by dummy index variables. This prevents subsequent substitutions.
+		const dummyVariables = Object.keys(variableObject).map((_, index) => new Variable({ symbol: 'TemporaryDummyVariable', subscript: `index${index}` }))
 		Object.keys(variableObject).forEach((key, index) => {
-			result = result.substitute(key, `temporaryDummy_${index}`)
+			result = result.substitute(key, dummyVariables[index])
 		})
 
 		// Then replace all dummies with the corresponding variables.
 		Object.keys(variableObject).forEach((key, index) => {
-			result = result.substitute(`temporaryDummy_${index}`, variableObject[key])
+			result = result.substitute(dummyVariables[index], variableObject[key])
 		})
 
-		return result.simplify(simplifyOptions.removeUseless)
+		return result.cleanStructure()
 	}
 
 	// getDerivative returns the derivative. It includes checking the variable and simplifying the result, unlike getDerivativeBasic which doesn't check the input and only returns a derivative in any form.
@@ -339,7 +340,7 @@ class Expression {
 		// Simplify the variable first. Then take the derivative and simplify that.
 		const simplified = this.simplify(simplifyOptions.forDerivatives)
 		const derivative = simplified.getDerivativeBasic(variable)
-		return derivative.simplify(simplifyOptions.basicClean)
+		return derivative.basicClean()
 	}
 
 	// simplify simplifies an object. It checks the given options and calls simplifyBasic which does not run a check every time.
@@ -372,21 +373,54 @@ class Expression {
 		// Deal with certain levels centrally.
 		if (level === expressionEqualityLevels.equivalent) {
 			// To check equivalence of f(x) and g(x), just take f(x) - g(x) and compare its simplification to zero.
-			const comparison = this.subtract(expression).simplify(simplifyOptions.forAnalysis)
+			const comparison = this.subtract(expression).cleanForAnalysis()
 			return Integer.zero.equalsBasic(comparison)
 		} else if (level === expressionEqualityLevels.integerMultiple || level === expressionEqualityLevels.constantMultiple) {
 			// To check whether f(x) and g(x) are constant or integer multiples of each other, just take g(x)/f(x) and see if the result is an integer or a constant number, instead of a variable.
-			const comparison = expression.divideBy(this).simplify(simplifyOptions.forAnalysis)
+			const comparison = expression.divideBy(this).cleanForAnalysis()
 			if (level === expressionEqualityLevels.integerMultiple)
 				return comparison.isType(Integer)
 			return comparison.isNumeric() && !comparison.equalsBasic(Integer.zero)
 		}
 
 		// Pass the remaining levels on to the equalsBasic function of the descendant classes.
-		const a = this.simplify(simplifyOptions.structureOnly)
-		const b = expression.simplify(simplifyOptions.structureOnly)
+		const a = this.cleanStructure()
+		const b = expression.cleanStructure()
 		return a.equalsBasic(b, level)
 	}
+
+	/*
+	 * Further cleaning methods.
+	 */
+
+	// cleanStructure applies the simplify function with structureOnly options. It cleans up the structure of the Expression.
+	cleanStructure() {
+		return this.simplify(simplifyOptions.structureOnly)
+	}
+
+	// removeUseless applies the simplify function with removeUseless options. It removes useless elements from the expression.
+	removeUseless() {
+		return this.simplify(simplifyOptions.removeUseless)
+	}
+
+	// basicClean applies the simplify function with basicClean options.
+	basicClean() {
+		return this.simplify(simplifyOptions.basicClean)
+	}
+
+	// regularClean applies the simplify function with regularClean options.
+	regularClean() {
+		return this.simplify(simplifyOptions.regularClean)
+	}
+
+	// cleanForAnalysis applies the simplify function with forAnalysis option.
+	cleanForAnalysis() {
+		return this.simplify(simplifyOptions.forAnalysis)
+	}
+
+	/*
+	 * Static methods for inheriting classes.
+	 */
 
 	static getDefaultSO() {
 		return this.defaultSO
@@ -458,7 +492,7 @@ class Variable extends Expression {
 	}
 
 	substituteBasic(variable, substitution) {
-		if (!this.equals(variable))
+		if (!this.equalsBasic(variable))
 			return this // It's a different parameter. No change takes place.
 		return substitution
 	}
@@ -511,7 +545,7 @@ class Variable extends Expression {
 	static interpret(str) {
 		const match = Variable.format.exec(str)
 		if (!match)
-			throw new Error(`Variable interpretation error: tried to interpret a variable "${str}" but could not interpret this string. It should be of the form "x_2", "dot[x]", "x_[av]" or "dot[x]_[av]".`)
+			throw new Error(`Variable interpretation error: tried to interpret a variable "${str}" but could not interpret this string. It should be of the form "x_2", "dot(x)", "x_(av)" or "dot(x)_(av)".`)
 		return new Variable({
 			symbol: match[4] || match[5],
 			subscript: match[8] || match[9],
@@ -535,7 +569,7 @@ class Variable extends Expression {
 }
 Variable.type = 'Variable'
 Variable.defaultSO = { ...Expression.defaultSO, symbol: 'x', subscript: undefined, accent: undefined }
-Variable.format = /^((([a-zA-Z]*)\[([a-zA-Z0-9α-ωΑ-Ω]+)\])|([a-zA-Z0-9α-ωΑ-Ω]+))(_((.)|\[(.*)\]))?$/
+Variable.format = /^((([a-zA-Z]*)\(([a-zA-Z0-9α-ωΑ-Ω]+)\))|([a-zA-Z0-9α-ωΑ-Ω]+))(_((.)|\(([^\(\)])\)))?$/
 Variable.e = new Variable('e')
 Variable.pi = new Variable('π')
 module.exports.Variable = Variable
@@ -814,7 +848,7 @@ class Sum extends ExpressionList {
 	}
 
 	applyMinus() {
-		return new Product(Integer.minusOne, this).simplify(simplifyOptions.removeUseless)
+		return new Product(Integer.minusOne, this).cleanStructure()
 	}
 
 	getDerivativeBasic(variable) {
@@ -855,16 +889,16 @@ class Sum extends ExpressionList {
 		// On a sum of fractions, merge them together. For this, first find the denominator by multiplying all fraction denominators. Then find the numerator by multiplying all terms by the new denominator and simplifying them.
 		if (options.mergeFractionSums) {
 			if (terms.some(term => term.isType(Fraction))) {
-				const denominator = new Product(terms.map(term => term.isType(Fraction) ? term.denominator : Integer.one)).simplify(simplifyOptions.removeUseless)
+				const denominator = new Product(terms.map(term => term.isType(Fraction) ? term.denominator : Integer.one)).removeUseless()
 				const numerator = new Sum(terms.map((term, index) => {
 					if (!term.isType(Fraction))
-						return term.multiplyBy(denominator).simplify(options)
+						return term.multiplyBy(denominator).simplifyBasic(options)
 
 					// Get the product of denominators of all other fractions, and multiply by the numerator.
-					const factor = new Product(terms.map((comparisonTerm, comparisonIndex) => comparisonTerm.isType(Fraction) && index !== comparisonIndex ? comparisonTerm.denominator : Integer.one)).simplify(simplifyOptions.removeUseless)
+					const factor = new Product(terms.map((comparisonTerm, comparisonIndex) => comparisonTerm.isType(Fraction) && index !== comparisonIndex ? comparisonTerm.denominator : Integer.one)).removeUseless()
 					return term.numerator.multiplyBy(factor)
 				}))
-				return new Fraction(numerator, denominator).simplify(options)
+				return new Fraction(numerator, denominator).simplifyBasic(options)
 			}
 		}
 
@@ -872,7 +906,7 @@ class Sum extends ExpressionList {
 		if (options.cancelSumTerms) {
 			const skipped = terms.map(_ => false)
 			terms = terms.filter((term1, index1) => {
-				const index = terms.findIndex((term2, index2) => index1 < index2 && !skipped[index1] && !skipped[index2] && term1.equals(term2.applyMinus(), expressionEqualityLevels.onlyOrderChanges))
+				const index = terms.findIndex((term2, index2) => index1 < index2 && !skipped[index1] && !skipped[index2] && term1.equals(term2.applyMinus().basicClean(), expressionEqualityLevels.onlyOrderChanges))
 				if (index !== -1) {
 					skipped[index1] = true
 					skipped[index] = true
@@ -982,31 +1016,37 @@ module.exports.Sum = Sum
 
 class Product extends ExpressionList {
 	toString() {
-		const termToString = (term, index) => {
-			const precursor = index > 0 && (term.requiresTimesBeforeInProduct() || this.terms[index - 1].requiresTimesAfterInProduct()) ? '*' : ''
-			if (term.requiresBracketsFor(bracketLevels.multiplication))
-				return `${precursor}(${term.str})`
-			return `${precursor}${term.str}`
+		const arrayToString = (array) => {
+			const termToString = (term, index) => {
+				const precursor = index > 0 && (term.requiresTimesBeforeInProduct() || array[index - 1].requiresTimesAfterInProduct()) ? '*' : ''
+				if (term.requiresBracketsFor(bracketLevels.multiplication))
+					return `${precursor}(${term.str})`
+				return `${precursor}${term.str}`
+			}
+			return array.map(termToString).join('')
 		}
 
 		// If the product starts with "-1" then just add a minus instead of "-1*".
 		if (this.terms.length > 1 && this.terms[0].equalsBasic(Integer.minusOne) && !(this.terms[1] instanceof Constant))
-			return '-' + this.terms.slice(1).map(termToString).join('')
-		return this.terms.map(termToString).join('')
+			return '-' + arrayToString(this.terms.slice(1))
+		return arrayToString(this.terms)
 	}
 
 	toTex() {
-		const termToTex = (term, index) => {
-			const precursor = index > 0 && (term.requiresTimesBeforeInProductTex() || this.terms[index - 1].requiresTimesAfterInProductTex()) ? ' \\cdot ' : ''
-			if (term.requiresBracketsFor(bracketLevels.multiplication))
-				return `${precursor}\\left(${term.tex}\\right)`
-			return `${precursor}${term.tex}`
+		const arrayToTex = (array) => {
+			const termToTex = (term, index) => {
+				const precursor = index > 0 && (term.requiresTimesBeforeInProductTex() || this.terms[index - 1].requiresTimesAfterInProductTex()) ? ' \\cdot ' : ''
+				if (term.requiresBracketsFor(bracketLevels.multiplication))
+					return `${precursor}\\left(${term.tex}\\right)`
+				return `${precursor}${term.tex}`
+			}
+			return array.map(termToTex).join('')
 		}
 
 		// If the product starts with "-1" then just add a minus instead of "-1*".
 		if (this.terms.length > 1 && this.terms[0].equalsBasic(Integer.minusOne) && !(this.terms[1] instanceof Constant))
-			return '-' + this.terms.slice(1).map(termToTex).join('')
-		return this.terms.map(termToTex).join('')
+			return '-' + arrayToTex(this.terms.slice(1))
+		return arrayToTex(this.terms)
 	}
 
 	requiresBracketsFor(level) {
@@ -1040,6 +1080,12 @@ class Product extends ExpressionList {
 			}
 		})
 		return new Sum(terms)
+	}
+
+	applyMinus() {
+		if (this.terms[0] instanceof Constant)
+			return new Product([this.terms[0].applyMinus(), ...this.terms.slice(1)])
+		return this.multiplyBy(Integer.minusOne, true).cleanStructure()
 	}
 
 	simplifyBasic(options = {}) {
@@ -1275,6 +1321,10 @@ class Function extends Expression {
 		return true
 	}
 
+	requiresTimesAfterInProductTex() {
+		return false
+	}
+
 	getVariableStrings() {
 		return union(...this.constructor.args.map(key => this[key].getVariableStrings()))
 	}
@@ -1392,7 +1442,7 @@ class Fraction extends Function {
 		}
 
 		// Return the outcome.
-		return new Sum(...terms).simplify(simplifyOptions.removeUseless)
+		return new Sum(...terms).removeUseless()
 	}
 
 	simplifyBasic(options) {
@@ -1418,7 +1468,7 @@ class Fraction extends Function {
 		// Split up fractions having numerator sums.
 		if (options.splitFractions) {
 			if (numerator.isType(Sum)) {
-				return new Sum(numerator.terms.map(term => new Fraction(term, denominator))).simplify(options)
+				return new Sum(numerator.terms.map(term => new Fraction(term, denominator))).simplifyBasic(options)
 			}
 		}
 
@@ -1487,8 +1537,8 @@ class Fraction extends Function {
 				else
 					numeratorTerms.push(term)
 			})
-			numerator = new Product(numeratorTerms).simplify(simplifyOptions.removeUseless)
-			denominator = new Product(denominatorTerms).simplify(simplifyOptions.removeUseless)
+			numerator = new Product(numeratorTerms).removeUseless()
+			denominator = new Product(denominatorTerms).removeUseless()
 		}
 
 		// ToDo: in case of a sum in the numerator/denominator, find the greatest common factor of all terms, and divide up/down by that.
@@ -1558,17 +1608,9 @@ class Power extends Function {
 		return this.base.requiresTimesBeforeInProduct()
 	}
 
-	requiresTimesAfterInProduct() {
-		return true
-	}
-
-	requiresTimesAfterInProductTex() {
-		return false
-	}
-
 	// invert on powers means make the power negative. So x^2 becomes x^(-2).
 	invert() {
-		return new Power(this.base, this.exponent.applyMinus()).simplify(simplifyOptions.removeUseless)
+		return new Power(this.base, this.exponent.applyMinus()).removeUseless()
 	}
 
 	getDerivativeBasic(variable) {
@@ -1620,7 +1662,7 @@ class Power extends Function {
 		// Check for powers within powers. Reduce (a^b)^c to a^(b*c).
 		if (options.removePowersWithinPowers) {
 			if (base.isType(Power)) {
-				exponent = new Product(base.exponent, exponent).simplify(options)
+				exponent = new Product(base.exponent, exponent).simplifyBasic(options)
 				base = base.base
 			}
 		}
@@ -1628,13 +1670,13 @@ class Power extends Function {
 		// Check for negative powers. Reduce x^(-2) to 1/x^2.
 		if (options.removeNegativePowers) {
 			if (this.exponent.isNegative())
-				return new Fraction(Integer.one, new Power(this.base, this.exponent.applyMinus())).simplify(options)
+				return new Fraction(Integer.one, new Power(this.base, this.exponent.applyMinus())).simplifyBasic(options)
 		}
 
 		// Check for powers of products. Reduce (a*b)^n to a^n*b^n.
 		if (options.expandPowersOfProducts) {
 			if (this.base.isType(Product)) {
-				return new Product(this.base.terms.map(term => new Power(term, this.exponent))).simplify(options)
+				return new Product(this.base.terms.map(term => new Power(term, this.exponent))).simplifyBasic(options)
 			}
 		}
 
@@ -1643,16 +1685,16 @@ class Power extends Function {
 			if (this.base.isType(Sum) && this.exponent.isType(Integer) && this.exponent.toNumber() > 1) {
 				const num = this.exponent.toNumber()
 				const term1 = this.base.terms[0]
-				const term2 = new Sum(this.base.terms.slice(1)).simplify(simplifyOptions.structureOnly)
+				const term2 = new Sum(this.base.terms.slice(1)).cleanStructure()
 				const sumTerms = []
 				repeatWithIndices(0, num, (index) => {
 					sumTerms.push(new Product([
 						new Integer(binomial(num, index)),
-						new Power(term1, new Integer(num - index)).simplify(simplifyOptions.structureOnly),
-						new Power(term2, new Integer(index)).simplify(simplifyOptions.structureOnly),
+						new Power(term1, new Integer(num - index)).cleanStructure(),
+						new Power(term2, new Integer(index)).cleanStructure(),
 					]))
 				})
-				return new Sum(sumTerms).simplify(options)
+				return new Sum(sumTerms).simplifyBasic(options)
 			}
 		}
 

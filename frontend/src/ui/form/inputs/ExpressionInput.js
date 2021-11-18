@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
 import { selectRandomEmpty } from 'step-wise/util/random'
-import { deepEquals, processOptions } from 'step-wise/util/objects'
+import { isObject, deepEquals, processOptions } from 'step-wise/util/objects'
 import { Variable, expressionIOtoFO, support } from 'step-wise/CAS'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 
@@ -143,8 +143,10 @@ export function validWithVariablesGeneric(interpreter, ...variables) {
 	if (variables.length === 1) {
 		if (variables[0] === undefined)
 			throw new Error(`Invalid validation variables: when using the validWithVariables function, "undefined" was given as array of variables. This cannot be processed. Please provide actual variables.`)
-		if (Array.isArray(variables))
+		if (Array.isArray(variables[0]))
 			variables = variables[0]
+		if (isObject(variables[0]))
+			variables = Object.values(variables[0])
 	}
 
 	// Filter out non-variable elements and make sure the rest are variables.
@@ -167,7 +169,7 @@ export function validWithVariablesGeneric(interpreter, ...variables) {
 
 		// Extract variables.
 		const inputVariables = expression.getVariables()
-		const invalidVariable = inputVariables.find(inputVariable => !variables.some(variable => variable.equals(inputVariable)))
+		const invalidVariable = inputVariables.find(inputVariable => !variables.some(variable => variable.equalsBasic(inputVariable)))
 		if (invalidVariable)
 			return <>Onbekende variabele <M>{invalidVariable}</M>.</>
 	}

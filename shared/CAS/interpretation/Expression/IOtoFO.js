@@ -237,7 +237,7 @@ function interpretSums(value, settings) {
 		throw new Error(`Sum interpreting error: We wound up with an empty sum, which should never happen.`)
 	if (sumTerms.length === 1)
 		return sumTerms[0]
-	return new Sum(sumTerms).simplify(simplifyOptions.structureOnly)
+	return new Sum(sumTerms).cleanStructure()
 }
 
 // interpretProducts takes a partially interpreted expression without any brackets, pluses or minuses and interprets it.
@@ -293,7 +293,7 @@ function interpretProducts(value, settings) {
 		throw new Error(`Product interpreting error: We wound up with an empty product, which should never happen.`)
 	if (productFactors.length === 1)
 		return productFactors[0]
-	return new Product(productFactors).simplify(simplifyOptions.structureOnly)
+	return new Product(productFactors).cleanStructure()
 }
 
 // interpretRemaining interprets expressions without any brackets, pluses/minuses and times operators.
@@ -303,7 +303,7 @@ function interpretRemaining(value, settings) {
 
 	// Interpret the remaining elements. This needs to be done after the interpreting of strings, in case of SubSups that need merging. Then turn the result into one big product.
 	value = interpretElements(value, settings)
-	return new Product(value).simplify(simplifyOptions.structureOnly)
+	return new Product(value).cleanStructure()
 }
 
 // interpretString takes a string and interprets it, returning an array of elements. For instance, a2.3bc will return [a, 2.3, b, c], where the array elements are constants, variables and such. The string may not have numbers or times operators anymore.

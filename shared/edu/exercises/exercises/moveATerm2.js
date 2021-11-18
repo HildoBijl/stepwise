@@ -44,7 +44,7 @@ function getEquation(state) {
 	return new Equation({
 		left: new Sum(aLeft ? FA : 0, bLeft ? FB : 0, cLeft ? FC : 0),
 		right: new Sum(aLeft ? 0 : FA, bLeft ? 0 : FB, cLeft ? 0 : FC),
-	}).simplify(simplifyOptions.removeUseless)
+	}).removeUseless()
 }
 
 function getCorrect(state) {
