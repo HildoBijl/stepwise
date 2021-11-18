@@ -1,72 +1,51 @@
-const { getRandomInteger, getRandomBoolean } = require('../../../util/random')
-const { asExpression, simplifyOptions, expressionEqualityLevels, equationEqualityLevels } = require('../../../CAS')
+const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../util/random')
+const { asExpression, simplifyOptions, expressionChecks } = require('../../../CAS')
 
+const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+const { performCheck } = require('../util/check')
+
+const { equivalent, hasSumWithinProduct } = expressionChecks
+
+// ax(y+b) = axy + abx.
+const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
+const usedVariables = ['x', 'y']
+const constants = ['a', 'b']
 
 const data = {
 	skill: 'expandBrackets',
 	weight: 2,
-	equalityOptions: {
-		default: {
-			equation: equationEqualityLevels.onlyOrderChanges,
-			expression: expressionEqualityLevels.keepSides,
-		},
-	},
+	check: (correct, input) => !hasSumWithinProduct(input) && equivalent(correct, input),
 }
 
 function generateState() {
-	// ax*(by+cz) = abxy+acxz.
-	const a = getRandomInteger(-12, 12, [0, 1])
-	const b = getRandomInteger(2, 12)
-	const c = getRandomInteger(-12, 12, [0, 1, b, -b])
+	const variableSet = selectRandomly(availableVariableSets)
 	return {
-		a, b, c,
-		expand: getRandomBoolean(),
+		...selectRandomVariables(variableSet, usedVariables),
+		a: getRandomInteger(-6, 6, [0]),
+		b: getRandomInteger(-6, 6, [0]),
+		before: getRandomBoolean(), // Is the sum (the brackets) before or after the factor?
 	}
-}
-
-function getExpression({ a, b, c, expand }) {
-	return asExpression(expand ? 'ax*(by+cz)' : 'abxy+acxz')
-		.substitute('a', a)
-		.substitute('b', b)
-		.substitute('c', c)
-		.simplify(simplifyOptions.basicClean)
 }
 
 function getCorrect(state) {
-	const { expand, a, b, c } = state
-
-	// Get the original expression.
-	const expression = getExpression(state)
-	const terms = [
-		asExpression('ax').substitute('a', a),
-		asExpression('by').substitute('b', b),
-		asExpression('cz').substitute('c', c),
-	]
-
-	// Determine the answer.
-	let intermediate, ans
-	if (expand) {
-		intermediate = expression.simplify({ expandBrackets: true })
-		ans = intermediate.simplify(simplifyOptions.basicClean)
-	} else {
-		intermediate = terms[0].multiplyBy(expression.divideBy(terms[0]).simplify({ splitFractions: true }))
-		ans = expression.pullOutsideBrackets(terms[0])
-	}
-
-	return { ...state, expression, terms, intermediate, ans }
+	// Extract state variables.
+	const variables = filterVariables(state, usedVariables, constants)
+	const factor = asExpression('ax').substituteVariables(variables)
+	const sum = asExpression('y+b').substituteVariables(variables)
+	const expression = factor.multiplyBy(sum, state.before)
+	const ans = expression.simplify(simplifyOptions.forAnalysis)
+	return { ...state, variables, factor, sum, expression, ans }
 }
 
 function checkInput(state, input) {
-	const { ans } = getCorrect(state)
-	return ans.equals(input.ans, data.equalityOptions.default)
+	return performCheck('ans', getCorrect(state), input, data.check)
 }
 
 module.exports = {
 	data,
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),
-	getExpression,
 	getCorrect,
 	checkInput,
 }

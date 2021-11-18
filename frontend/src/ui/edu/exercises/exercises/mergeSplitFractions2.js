@@ -12,7 +12,7 @@ import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
 
 import { getInputFieldFeedback } from '../util/feedback'
-import { originalExpression, noFraction, hasFractionsWithinFractions, correctExpression, incorrectExpression } from '../util/feedbackChecks'
+import { originalExpression, noFraction, hasFractionWithinFraction, correctExpression, incorrectExpression } from '../util/feedbackChecks'
 
 const { onlyOrderChanges, equivalent, integerMultiple, constantMultiple } = expressionChecks
 
@@ -155,7 +155,7 @@ function getFeedback(exerciseData) {
 		wrongDenominator,
 		wrongNumerator,
 		nonsimplifiedNumerator,
-		hasFractionsWithinFractions,
+		hasFractionWithinFraction,
 		correctExpression,
 		incorrectExpression,
 	]

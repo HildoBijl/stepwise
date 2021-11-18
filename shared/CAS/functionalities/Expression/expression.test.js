@@ -1,6 +1,6 @@
 const { expressionTypes } = require('.')
 
-const obligatoryMethods = ['become', 'clone', 'isType', 'toString', 'toTex', 'requiresBracketsFor', 'requiresPlusInSum', 'dependsOn', 'isNumeric', 'toNumber', 'hasFloat', 'hasFractions', 'verifyVariable', 'getVariables', 'getVariableStrings', 'substitute', 'substituteBasic', 'getDerivative', 'getDerivativeBasic', 'simplify', 'simplifyBasic', 'equals', 'equalsBasic']
+const obligatoryMethods = ['become', 'clone', 'isType', 'toString', 'toTex', 'requiresBracketsFor', 'requiresPlusInSum', 'dependsOn', 'isNumeric', 'toNumber', 'hasFloat', 'verifyVariable', 'getVariables', 'getVariableStrings', 'substitute', 'substituteBasic', 'getDerivative', 'getDerivativeBasic', 'simplify', 'simplifyBasic', 'equals', 'equalsBasic']
 
 // Run the tests!
 describe('Check all expression types:', () => {

@@ -239,6 +239,11 @@ const basicMath = {
 	float: false,
 }
 
+const basicMathNoFractions = {
+	...basicMath,
+	divide: false,
+}
+
 const basicMathAndPowers = {
 	...noFunctions,
 	...simpleVariables,
@@ -247,4 +252,4 @@ const basicMathAndPowers = {
 	float: false,
 }
 
-export { noFunctions, noPowers, simpleVariables, basicMath, basicMathAndPowers }
+export { noFunctions, noPowers, simpleVariables, basicMath, basicMathNoFractions, basicMathAndPowers }

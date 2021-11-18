@@ -2,7 +2,7 @@ const { isLetter, getNextSymbol } = require('../../../util/strings')
 const { lastOf } = require('../../../util/arrays')
 const { processOptions } = require('../../../util/objects')
 
-const { Expression, Constant, Variable, Sum, Product, Power } = require('../../functionalities')
+const { Expression, Constant, Integer, Variable, Sum, Product, Power } = require('../../functionalities')
 const { simplifyOptions, defaultInterpretationSettings } = require('../../options')
 
 const InterpretationError = require('../InterpretationError')

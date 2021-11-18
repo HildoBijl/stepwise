@@ -69,7 +69,7 @@ const skills = {
 	// Basic mathematics: manipulating brackets.
 	expandBrackets: {
 		name: 'Haakjes uitwerken',
-		exercises: ['expandBrackets1', 'expandBrackets2', 'expandBrackets3'],
+		exercises: ['expandBrackets1', 'expandBrackets2'],
 	},
 
 	// Basic mathematics: manipulating expressions.

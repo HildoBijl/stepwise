@@ -11,7 +11,7 @@ import { useCorrect } from '../ExerciseContainer'
 import SimpleExercise from '../types/SimpleExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
-import { originalExpression, noSum, sumWithWrongTermsNumber, noFraction, hasFractionsWithinFractions, correctExpression, incorrectExpression } from '../util/feedbackChecks'
+import { originalExpression, noSum, sumWithWrongTermsNumber, wrongFirstTerm, wrongSecondTerm, noFraction, hasFractionWithinFraction, correctExpression, incorrectExpression } from '../util/feedbackChecks'
 
 const { equivalent } = expressionChecks
 
@@ -43,14 +43,6 @@ function getFeedback(exerciseData) {
 	const { state: { toSplit } } = exerciseData
 
 	// Define extra checks.
-	const wrongFirstTerm = {
-		check: (correct, input) => !correct.terms.some(term => equivalent(term, input.terms[0])),
-		text: <>Er lijkt iets mis te zijn met de eerste term van je antwoord.</>,
-	}
-	const wrongSecondTerm = {
-		check: (correct, input) => !correct.terms.some(term => equivalent(term, input.terms[1])),
-		text: <>Er lijkt iets mis te zijn met de tweede term van je antwoord.</>,
-	}
 	const wrongDenominator = {
 		check: (correct, input) => !equivalent(correct.denominator, input.denominator),
 		text: <>Bij het samenvoegen van breuken hoort de noemer hetzelfde te blijven. Dat is bij jouw antwoord niet zo.</>,
@@ -74,7 +66,7 @@ function getFeedback(exerciseData) {
 		noFraction,
 		wrongDenominator,
 		wrongNumerator,
-		hasFractionsWithinFractions,
+		hasFractionWithinFraction,
 		correctExpression,
 		incorrectExpression,
 	]

@@ -5,7 +5,7 @@ const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 const { performCheck } = require('../util/check')
 
-const { equivalent } = expressionChecks
+const { equivalent, hasFractionWithinFraction } = expressionChecks
 
 // a/(x+b) * y * z/c = (ayz)/((x+b)c).
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
@@ -14,7 +14,7 @@ const constants = ['a', 'b', 'c']
 
 const data = {
 	skill: 'multiplyDivideFractions',
-	check: (correct, input) => input.isType(Fraction) && !input.hasFractions(false) && equivalent(correct, input),
+	check: (correct, input) => input.isType(Fraction) && !hasFractionWithinFraction(input) && equivalent(correct, input),
 }
 
 function generateState() {

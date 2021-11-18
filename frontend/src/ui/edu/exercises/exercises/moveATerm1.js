@@ -4,7 +4,7 @@ import { simplifyOptions, equationChecks } from 'step-wise/CAS'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
-import { basicMath } from 'ui/form/inputs/ExpressionInput'
+import { basicMathNoFractions } from 'ui/form/inputs/ExpressionInput'
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form/Status'
 
@@ -29,7 +29,7 @@ const Problem = (state) => {
 		<Par>Gegeven is de vergelijking <BM>{equation}.</BM> Breng de term met <M>{switchXY ? 'y' : 'x'}</M> naar de andere kant van het is-teken. Laat de andere termen op hun plek staan.</Par>
 		<InputSpace>
 			<Par>
-				<EquationInput id="ans" label="Vul hier de vergelijking in" size="s" settings={{ ...basicMath, divide: false, greek: false }} validate={validWithVariables('x', 'y')} />
+				<EquationInput id="ans" label="Vul hier de vergelijking in" size="s" settings={basicMathNoFractions} validate={validWithVariables('x', 'y')} />
 			</Par>
 		</InputSpace>
 	</>
@@ -41,7 +41,7 @@ const steps = [
 			const { a, switchLeftRight, term, termAbs } = useCorrect(state)
 			return <>
 				<Par>We willen iets doen met beide kanten van de vergelijking om {switchLeftRight ? 'rechts' : 'links'} de term <M>{term}</M> weg te krijgen. {a > 0 ? <>Trek hiervoor <M>{termAbs}</M> van beide kanten van de vergelijking af.</> : <>Tel hiervoor <M>{termAbs}</M> bij beide kanten van de vergelijking op.</>} (Streep nog geen termen weg.)</Par>
-				<InputSpace><Par><EquationInput id="intermediate" label="Vul hier de vergelijking in" size="s" settings={{ ...basicMath, divide: false, greek: false }} validate={validWithVariables('x', 'y')} /></Par></InputSpace>
+				<InputSpace><Par><EquationInput id="intermediate" label="Vul hier de vergelijking in" size="s" settings={basicMathNoFractions} validate={validWithVariables('x', 'y')} /></Par></InputSpace>
 			</>
 		},
 		Solution: (state) => {
@@ -54,7 +54,7 @@ const steps = [
 			const { switchLeftRight } = state
 			return <>
 				<Par>Streep aan de {switchLeftRight ? 'rechter' : 'linker'} kant van de vergelijking waar mogelijk termen weg.</Par>
-				<InputSpace><Par><EquationInput id="ans" label="Vul hier de vergelijking in" size="s" settings={{ ...basicMath, divide: false, greek: false }} validate={validWithVariables('x', 'y')} /></Par></InputSpace>
+				<InputSpace><Par><EquationInput id="ans" label="Vul hier de vergelijking in" size="s" settings={basicMathNoFractions} validate={validWithVariables('x', 'y')} /></Par></InputSpace>
 			</>
 		},
 		Solution: (state) => {

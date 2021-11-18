@@ -6,7 +6,7 @@ const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 const { performCheck } = require('../util/check')
 
-const { equivalent } = expressionChecks
+const { equivalent, hasFractionWithinFraction } = expressionChecks
 
 // x/(z+a) + y/(z+a) = (x+y)/(z+a).
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
@@ -20,7 +20,7 @@ const data = {
 		if (toSplit)
 			return input.isType(Sum) && correct.terms.length === input.terms.length && hasSimpleMatching(correct.terms, input.terms, equivalent)
 		// When the mission is to merge, check for a correct fraction, and for no fractions inside fractions.
-		return input.isType(Fraction) && !input.hasFractions(false) && equivalent(correct, input)
+		return input.isType(Fraction) && !hasFractionWithinFraction(input) && equivalent(correct, input)
 	},
 }
 

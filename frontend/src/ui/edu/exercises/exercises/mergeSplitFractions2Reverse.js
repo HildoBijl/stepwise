@@ -12,7 +12,7 @@ import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
 
 import { getInputFieldFeedback } from '../util/feedback'
-import { originalExpression, noSum, sumWithWrongTermsNumber, noFraction, hasFractionsWithinFractions, correctExpression, incorrectExpression } from '../util/feedbackChecks'
+import { originalExpression, noSum, sumWithWrongTermsNumber, wrongFirstTerm, wrongSecondTerm, noFraction, hasFractionWithinFraction, correctExpression, incorrectExpression } from '../util/feedbackChecks'
 
 const { onlyOrderChanges, equivalent } = expressionChecks
 
@@ -89,14 +89,6 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Define ans checks.
-	const wrongFirstTerm = {
-		check: (correct, input) => !correct.terms.some(term => equivalent(term, input.terms[0])),
-		text: <>Er lijkt iets mis te zijn met de eerste term van je antwoord.</>,
-	}
-	const wrongSecondTerm = {
-		check: (correct, input) => !correct.terms.some(term => equivalent(term, input.terms[1])),
-		text: <>Er lijkt iets mis te zijn met de tweede term van je antwoord.</>,
-	}
 	const nonsimplifiedFirstTerm = {
 		check: (correct, input) => !correct.terms.some(term => onlyOrderChanges(term, input.terms[0])),
 		text: <>De eerste term van je antwoord kan nog verder gesimplificeerd worden.</>,
@@ -139,7 +131,7 @@ function getFeedback(exerciseData) {
 	]
 	const fractionChecks = [
 		noFraction,
-		hasFractionsWithinFractions,
+		hasFractionWithinFraction,
 		correctFraction,
 		incorrectFraction,
 	]

@@ -2,7 +2,7 @@
 
 import { Sum, Fraction, expressionChecks, equationChecks } from 'step-wise/CAS'
 
-const { onlyOrderChanges: onlyExpressionOrderChanges, equivalent: equivalentExpression } = expressionChecks
+const { onlyOrderChanges: onlyExpressionOrderChanges, equivalent: equivalentExpression, hasSumWithinProduct: expressionHasSumWithinProduct, hasFractionWithinFraction: expressionhasFractionWithinFraction } = expressionChecks
 const { onlyOrderChanges: onlyEquationOrderChanges, equivalent: equivalentEquation } = equationChecks
 
 /*
@@ -30,12 +30,34 @@ export const sumWithWrongTermsNumber = {
 	check: (correct, input) => correct.terms.length !== input.terms.length,
 	text: (correct, input) => <>Je optelsom moet bestaan uit {correct.terms.length} termen, met een plus of minteken ertussen. Nu heb je {input.terms.length} termen.</>,
 }
+export const wrongFirstTerm = {
+	check: (correct, input) => !correct.terms.some(term => equivalentExpression(term, input.terms[0])),
+	text: <>Er lijkt iets mis te zijn met de eerste term van je antwoord.</>,
+}
+export const wrongSecondTerm = {
+	check: (correct, input) => !correct.terms.some(term => equivalentExpression(term, input.terms[1])),
+	text: <>Er lijkt iets mis te zijn met de tweede term van je antwoord.</>,
+}
+export const wrongThirdTerm = {
+	check: (correct, input) => !correct.terms.some(term => equivalentExpression(term, input.terms[2])),
+	text: <>Er lijkt iets mis te zijn met de derde term van je antwoord.</>,
+}
+export const wrongFourthTerm = {
+	check: (correct, input) => !correct.terms.some(term => equivalentExpression(term, input.terms[3])),
+	text: <>Er lijkt iets mis te zijn met de vierde term van je antwoord.</>,
+}
+
+export const hasSumWithinProduct = {
+	check: (correct, input) => expressionHasSumWithinProduct(input),
+	text: <>Je antwoord heeft onuitgewerkte haakjes.</>,
+}
+
 export const noFraction = {
 	check: (correct, input) => !input.isType(Fraction),
 	text: <>Je resultaat is geen breuk. Er wordt een breuk als antwoord verwacht.</>,
 }
-export const hasFractionsWithinFractions = {
-	check: (correct, input) => input.numerator.recursiveSome(term => term.isType(Fraction)) || input.denominator.recursiveSome(term => term.isType(Fraction)),
+export const hasFractionWithinFraction = {
+	check: (correct, input) => expressionhasFractionWithinFraction(input),
 	text: <>Je antwoord mag geen verdere breuken binnenin een breuk bevatten. Je kunt het nog verder simplificeren.</>,
 }
 

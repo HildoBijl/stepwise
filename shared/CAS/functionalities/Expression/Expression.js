@@ -269,45 +269,9 @@ class Expression {
 		return !hasVariable
 	}
 
-	// isPolynomial checks if this expression is a polynome.
-	isPolynomial() {
-		return this.recursiveEvery(term => {
-			if (!(term instanceof Function))
-				return true // Not a function. So a base type like a Constant, Variable, Sum or Product.
-			if (term.isType(Fraction))
-				return term.isNumeric() // A fraction. Is it a number, like 2/3 or so?
-			if (term.isType(Power))
-				return term.base.isPolynomial() && term.exponent.isType(Integer) && term.exponent.number >= 0 // A power. Does it have a polynomial base and a non-negative integer power?
-			return false // Other type of function.
-		})
-	}
-
-	// isRational checks if this expression is a rational expression: only polynome and fractions.
-	isRational() {
-		return this.recursiveEvery(term => {
-			if (!(term instanceof Function))
-				return true // Not a function. So a base type like a Constant, Variable, Sum or Product.
-			if (term.isType(Fraction))
-				return true // A fraction. This is always fine.
-			if (term.isType(Power))
-				return term.base.isPolynomial() && term.exponent.isType(Integer) // A power. Does it have a polynomial base and an integer power?
-			return false // Other type of function.
-		})
-	}
-
 	// hasFloat checks if there is a float anywhere in this expression. It affects the way numbers are simplified. For instance, 6/4 becomes 3/2 and stays like that, but 5.5/4 should simply become a new float 1.125.
 	hasFloat() {
 		return this.recursiveSome(term => term instanceof Float)
-	}
-
-	// hasFractions checks if there are fractions inside this Expression. It also gives true if the Expression itself is a fraction, unless this is specifically set to be ignored (by passing false).
-	hasFractions(includeSelf = true) {
-		return this.recursiveSome(term => term.isType(Fraction), includeSelf)
-	}
-
-	// hasFractionsWithinFractions checks if there are fractions inside this Expression that have further fractions inside them.
-	hasFractionsWithinFractions() {
-		return this.recursiveSome(term => term.isType(Fraction) && term.hasFractions(false))
 	}
 
 	// verifyVariable is used by functions requiring a variable as input. It checks the given variable. If no variable is given, it tries to figure out which variable was meant.
@@ -850,7 +814,7 @@ class Sum extends ExpressionList {
 	}
 
 	applyMinus() {
-		return new Sum(this.terms.map(term => term.applyMinus()))
+		return new Product(Integer.minusOne, this).simplify(simplifyOptions.removeUseless)
 	}
 
 	getDerivativeBasic(variable) {
