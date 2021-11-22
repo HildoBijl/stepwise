@@ -63,7 +63,7 @@ const skills = {
 	},
 	simplifyFractions: {
 		name: 'Breuken simplificeren',
-		exercises: ['simplifyFractions1', 'simplifyFractions2', 'simplifyFractions3'],
+		exercises: ['simplifyFractions1', 'simplifyFractions2', 'simplifyFractions3', 'simplifyFractions4'],
 	},
 
 	// Basic mathematics: manipulating brackets.
