@@ -1,8 +1,10 @@
 import React from 'react'
 
+import { Sum, Product, Fraction, expressionChecks } from 'step-wise/CAS'
+
 import { M, BM } from 'ui/components/equations'
-import { Par, SubHead } from 'ui/components/containers'
-import ExpressionInput, { basicMathNoFractions, validWithVariables } from 'ui/form/inputs/ExpressionInput'
+import { Par } from 'ui/components/containers'
+import ExpressionInput, { basicMathAndPowers, validWithVariables } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/Status'
 
 import { useCorrect } from '../ExerciseContainer'
@@ -10,7 +12,8 @@ import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
 import { originalExpression, hasSumWithinProduct, sumWithWrongTermsNumber, wrongFirstTerm, wrongSecondTerm, wrongThirdTerm, wrongFourthTerm, correctExpression, incorrectExpression } from '../util/feedbackChecks'
-import { simplifyOptions } from 'step-wise/CAS'
+
+const { onlyOrderChanges, equivalent } = expressionChecks
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -19,10 +22,10 @@ export default function Exercise() {
 const Problem = (state) => {
 	const { variables, expression } = useCorrect(state)
 	return <>
-		<Par>Gegeven is de uitdrukking <BM>{expression}.</BM> Werk alle haakjes uit.</Par>
+		<Par>Gegeven is de uitdrukking <BM>{expression}.</BM> Haal de factor <M>{variables.x}</M> buiten haakjes.</Par>
 		<InputSpace>
 			<Par>
-				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={basicMathNoFractions} validate={validWithVariables(variables)} />
+				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={basicMathAndPowers} validate={validWithVariables(variables)} />
 			</Par>
 		</InputSpace>
 	</>
@@ -31,64 +34,140 @@ const Problem = (state) => {
 const steps = [
 	{
 		Problem: (state) => {
-			const { variables, term1, expressionSubstituted } = useCorrect(state)
+			const { variables, expression } = useCorrect(state)
 			return <>
-				<Par>Vervang de factor <M>\left({term1}\right)</M> even kort voor een andere ongebruikte variabele, bijvoorbeeld <M>{variables.z}.</M> Werk hiervoor de haakjes uit.</Par>
+				<Par>Als we bij een uitdrukking <M>\left[\ldots\right]</M> een factor <M>{variables.x}</M> buiten haakjes willen halen, dan willen we de uitdrukking schrijven als <BM>{variables.x} \cdot \frac(\left[\ldots\right])({variables.x}).</BM> Schrijf dit dus eerst letterlijk op, met op de puntjes de gegeven uitdrukking.</Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="intermediate" prelabel={<M>{expressionSubstituted}=</M>} label="Vul hier het resultaat in" size="l" settings={basicMathNoFractions} validate={validWithVariables(variables)} />
+						<ExpressionInput id="setup" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={basicMathAndPowers} validate={validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
 		},
 		Solution: (state) => {
-			const { variables, term1, term2, expressionSubstituted, intermediate } = useCorrect(state)
-			return <Par>Na het vervangen van <M>\left({term1}\right)</M> voor <M>{variables.z}</M> hebben we <BM>{expressionSubstituted}.</BM> Om de haakjes uit te werken vermenigvuldigen we <M>{variables.z}</M> stuk voor stuk met de termen <M>{term2.terms[0]}</M> en <M>{term2.terms[1]}.</M> Zo krijgen we <BM>{expressionSubstituted.simplify({ expandProductsOfSums: true })}.</BM> Dit kunnen we eventueel makkelijker schrijven als <BM>{intermediate}.</BM></Par>
+			const { setup } = useCorrect(state)
+			return <Par>We schrijven letterlijk op, <BM>{setup}.</BM></Par>
 		},
 	},
 	{
 		Problem: (state) => {
-			const { variables, term1, intermediateSubstituted } = useCorrect(state)
+			const { variables, fraction } = useCorrect(state)
 			return <>
-				<Par>Vervang <M>{variables.z}</M> weer terug voor <M>\left({term1}\right).</M> Werk hiervoor wederom alle haakjes uit.</Par>
+				<Par>Splits de resulterende breuk <BM>{fraction}</BM> op in losse breuken en simplificeer deze zo veel mogelijk.</Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="ans" prelabel={<M>{intermediateSubstituted}=</M>} label="Vul hier het resultaat in" size="l" settings={basicMathNoFractions} validate={validWithVariables(variables)} />
+						<ExpressionInput id="fractionSimplified" prelabel={<M>{fraction}=</M>} label="Vul hier het resultaat in" size="l" settings={basicMathAndPowers} validate={validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
 		},
 		Solution: (state) => {
-			const { variables, expression, term1, term2, intermediateSubstituted, ans } = useCorrect(state)
+			const { variables, fractionSplit, fractionSimplified } = useCorrect(state)
+			return <Par>Als eerste splitsen we de breuk op. Zo krijgen we <BM>{fractionSplit}.</BM> Vervolgens strepen we, waar mogelijk, boven en onder een factor <M>{variables.x}</M> weg. Op één plek is dit niet mogelijk, en daar moeten we de breuk dus laten staan. Zo vinden we <BM>{fractionSimplified}.</BM></Par>
+		},
+	},
+	{
+		Problem: (state) => {
+			const { variables, expression } = useCorrect(state)
 			return <>
-				<Par>Na het terugzetten van <M>{variables.z}</M> voor <M>\left({term1}\right)</M> hebben we <BM>{intermediateSubstituted}.</BM> We werken hiervoor twee maal de haakjes uit. We vermenigvuldigen eerst <M>{term2.terms[0]}</M> stuk voor stuk met <M>{term1.terms[0]}</M> en <M>{term1.terms[1]},</M> en vervolgens vermenigvuldigen we <M>{term2.terms[1]}</M> ook stuk voor stuk met <M>{term1.terms[0]}</M> en <M>{term1.terms[1]}.</M> Op deze wijze krijgen we <BM>{intermediateSubstituted.simplify({ ...simplifyOptions.removeUseless, expandProductsOfSums: true })}.</BM> Dit kan eventueel nog iets netter geschreven worden als <BM>{ans}.</BM></Par>
-				<SubHead>Short-Cut</SubHead>
-				<Par>Eventueel hadden we in de oorspronkelijke uitdrukking <M>{expression}</M> ook <em>elk</em> van de termen links met <em>elk</em> van de termen rechts kunnen vermenigvuldigen. In dat geval hadden we direct gevonden dat <BM>{expression} = {ans}.</BM></Par>
+				<Par>Vul de gesimplificeerde breuk in. Oftewel, schrijf de oorspronkelijke uitdrukking <M>{expression}</M> op als <M>{variables.x} \cdot \left(\ldots\right)</M> met op de puntjes het antwoord van de vorige stap.</Par>
+				<InputSpace>
+					<Par>
+						<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={basicMathAndPowers} validate={validWithVariables(variables)} />
+					</Par>
+				</InputSpace>
+			</>
+		},
+		Solution: (state) => {
+			const { ans } = useCorrect(state)
+			return <>
+				<Par>Als we letterlijk het resultaat van de vorige stap op de puntjes invullen, dan krijgen we <BM>{ans}.</BM></Par>
+			</>
+		},
+	},
+	{
+		Problem: (state) => {
+			const { variables, ans } = useCorrect(state)
+			return <>
+				<Par>Controleer je antwoord: wat krijg je als je de haakjes uitwerkt?</Par>
+				<InputSpace>
+					<Par>
+						<ExpressionInput id="expression" prelabel={<M>{ans}=</M>} label="Vul hier het resultaat in" size="l" settings={basicMathAndPowers} validate={validWithVariables(variables)} />
+					</Par>
+				</InputSpace>
+			</>
+		},
+		Solution: (state) => {
+			const { expression, ans } = useCorrect(state)
+			return <>
+				<Par>Als we de haakjes uitwerken, dan krijgen we <BM>{ans} = {expression}.</BM> Dit is hetzelfde als waar we mee begonnen, en dus klopt het wat we gedaan hebben.</Par>
 			</>
 		},
 	},
 ]
 
 function getFeedback(exerciseData) {
+	// Define ans checks.
+	const outsideBracketsForm = {
+		check: (correct, input, { variables }) => !(input.isType(Product) && input.terms.length === 2 && input.terms.some(term => onlyOrderChanges(variables.x, term)) && input.terms.some(term => term.isType(Sum))),
+		text: (correct, input, { variables }) => <>Je antwoord moet van de vorm <M>{variables.x} \cdot \left(\ldots\right)</M> zijn.</>,
+	}
+	const incorrectExpansion = {
+		check: (correct, input) => !equivalent(correct, input),
+		text: <>Als je de haakjes uitwerkt kom je niet uit op waar je mee begonnen bent. Er is dus iets misgegaan bij het omschrijven.</>,
+	}
+	const correctExpansion = {
+		check: (correct, input) => true,
+		text: <>Dit klopt wel, maar het kan nog simpeler geschreven worden.</>,
+	}
 	const ansChecks = [
+		outsideBracketsForm,
+		incorrectExpansion,
+		correctExpansion,
+	]
+
+	// Define setup checks.
+	const setupForm = {
+		check: (correct, input, { variables }) => !(input.isType(Product) && input.terms.length === 2 && input.terms.some(term => onlyOrderChanges(variables.x, term)) && input.terms.some(term => term.isType(Fraction))),
+		text: (correct, input, { variables }) => <>Je antwoord moet van de vorm <M>{variables.x} \cdot \frac(\left[\ldots\right])({variables.x})</M> zijn.</>,
+	}
+	const fractionForm = {
+		check: (correct, input, { variables }) => !(input.isType(Product) && input.terms.length === 2 && input.terms.some(term => term.isType(Fraction) && onlyOrderChanges(variables.x, term.denominator))),
+		text: (correct, input, { variables }) => <>Je antwoord moet van de vorm <M>{variables.x} \cdot \frac(\left[\ldots\right])({variables.x})</M> zijn. Heb je wel een breuk met noemer <M>{variables.x}</M> ingevoerd?</>,
+	}
+	const correctNumerator = {
+		check: (correct, input, { variables, expression }) => !(input.isType(Product) && input.terms.length === 2 && input.terms.some(term => term.isType(Fraction) && onlyOrderChanges(expression, term.numerator))),
+		text: (correct, input, { expression }) => <>Zorg dat je bovenin de breuk letterlijk de uitdrukking <M>{expression}</M> invoert.</>,
+	}
+	const setupChecks = [
+		setupForm,
+		fractionForm,
+		correctNumerator,
+		incorrectExpression,
+		correctExpression,
+	]
+
+	// Define fraction simplification checks.
+	const fractionSimplifiedChecks = [
 		originalExpression,
-		hasSumWithinProduct,
 		sumWithWrongTermsNumber,
 		wrongFirstTerm,
 		wrongSecondTerm,
 		wrongThirdTerm,
-		wrongFourthTerm,
 		incorrectExpression,
 		correctExpression,
 	]
-	const intermediateChecks = [
+
+	// Define expression checks.
+	const expressionChecks = [
 		originalExpression,
-		hasSumWithinProduct,
 		sumWithWrongTermsNumber,
 		wrongFirstTerm,
 		wrongSecondTerm,
+		wrongThirdTerm,
 		incorrectExpression,
 		correctExpression,
 	]
-	return getInputFieldFeedback(['ans', 'intermediate'], exerciseData, [ansChecks, intermediateChecks].map(feedbackChecks => ({ feedbackChecks })))
+
+	return getInputFieldFeedback(['ans', 'setup', 'fractionSimplified', 'expression'], exerciseData, [ansChecks, setupChecks, fractionSimplifiedChecks, expressionChecks].map(feedbackChecks => ({ feedbackChecks })))
 }

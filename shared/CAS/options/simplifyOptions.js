@@ -20,6 +20,7 @@ const noSimplify = { // This is never applied, but only use to verify options gi
 	splitFractions: false, // Split up fractions. So (a+b)/c becomes a/c+b/c.
 	mergeFractionProducts: false, // Turn products of fractions into single fractions. So a*(b/c) becomes (ab)/c and (a/b)*(c/d) becomes (ac)/(bd).
 	mergeFractionSums: false, // Turns sums of fractions into a single fraction. So a/x+b/x becomes (a+b)/x and a/b+c/d becomes (ad+bc)/(bd).
+	pullMinusBeforeFraction: false, // Turns (-2)/3 into -(2/3). For display purposes this is clearer, but for analysis it's pointless.
 
 	// The following options relate to Powers.
 	mergePowerNumbers: false, // Reduce the numbers used in powers: turn a power with only numbers into a number.
@@ -67,6 +68,7 @@ const basicClean = {
 	mergeFractionNumbers: true,
 	flattenFractions: true,
 	mergeFractionProducts: true,
+	pullMinusBeforeFraction: true,
 	mergePowerNumbers: true,
 }
 module.exports.basicClean = basicClean
@@ -89,6 +91,7 @@ const forAnalysis = {
 	expandPowersOfSums: true,
 	mergeFractionSums: true,
 	toBasicForm: true,
+	pullMinusBeforeFraction: false,
 }
 module.exports.forAnalysis = forAnalysis
 

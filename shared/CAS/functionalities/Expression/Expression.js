@@ -1464,14 +1464,14 @@ class Fraction extends Function {
 				denominator = denominator.numerator
 			}
 		}
-
+		
 		// Split up fractions having numerator sums.
 		if (options.splitFractions) {
 			if (numerator.isType(Sum)) {
 				return new Sum(numerator.terms.map(term => new Fraction(term, denominator))).simplifyBasic(options)
 			}
 		}
-
+		
 		// Reduce the numbers in the fraction.
 		if (options.mergeFractionNumbers) {
 			// Only do this for fractions of products now. No support for sums (2x+2y)/2 or powers (2x)^2/2 is present.
@@ -1515,7 +1515,7 @@ class Fraction extends Function {
 
 			// ToDo: expand this to more generic cases, involving sums, powers, etcetera.
 		}
-
+		
 		// Merge fraction terms.
 		if (options.mergeFractionTerms) {
 			// Set up a terms list of all factors in the numerator and denominators. For denominator factors, add a power of -1 (invert them).
@@ -1540,7 +1540,7 @@ class Fraction extends Function {
 			numerator = new Product(numeratorTerms).removeUseless()
 			denominator = new Product(denominatorTerms).removeUseless()
 		}
-
+		
 		// ToDo: in case of a sum in the numerator/denominator, find the greatest common factor of all terms, and divide up/down by that.
 
 		// Check for useless elements.
@@ -1558,7 +1558,14 @@ class Fraction extends Function {
 				return numerator.applyMinus()
 		}
 
-		return new Fraction({ numerator, denominator })
+		// Check if the minus should be pulled out.
+		if (options.pullMinusBeforeFraction) {
+			if (numerator.isNegative()) {
+				return new Fraction(numerator.applyMinus(), denominator).applyMinus()
+			}
+		}
+
+		return new Fraction(numerator, denominator)
 	}
 
 	// ToDo: equals.
