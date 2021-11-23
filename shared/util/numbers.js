@@ -165,8 +165,8 @@ function gcd(...params) {
     return gcd(gcd(params[0], params[1]), ...params.slice(2))
 
   // Calculate GCD.
-  a = params[0]
-  b = params[1]
+  let a = params[0]
+  let b = params[1]
   while (b > 0) {
     const c = b
     b = a % b
@@ -186,8 +186,8 @@ function scm(...params) {
     return scm(scm(params[0], params[1]), ...params.slice(2))
 
   // Calculate SCM.
-  a = params[0]
-  b = params[1]
+  const a = params[0]
+  const b = params[1]
   return a * (b / gcd(a, b))
 }
 module.exports.scm = scm
