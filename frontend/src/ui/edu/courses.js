@@ -45,6 +45,40 @@ const courses = {
 		]
 	},
 	
+	mathsbasics: {
+		name: 'Wiskunde basisvaardigheden',
+		goals: ['expandBrackets', 'simplifyFractions'],
+		priorKnowledge: [],
+		startingPoints: [
+			'expandBrackets',
+			'addRemoveFractionFactors',
+			'mergeSplitBasicFractions',
+			'multiplyDivideFractions',
+		],
+		blocks: [
+			{
+				name: 'Breuken samenvoegen/splitsen',
+				goals: ['mergeSplitFractions'],
+			},
+			{
+				name: 'Breuken binnen breuken simplificeren',
+				goals: ['simplifyFractions'],
+			},
+			{
+				name: 'Werken met haakjes',
+				goals: ['expandBrackets'],
+			},
+			{
+				name: 'Vergelijkingen omschrijven',
+				goals: [],
+			},
+			{
+				name: 'Lineaire vergelijkingen oplossen',
+				goals: [],
+			},
+		],
+	},
+
 	exactd: {
 		name: 'Exacte Wetenschap D',
 		goals: ['analyseClosedCycle', 'findFridgeTemperatures', 'analyseAirco'],

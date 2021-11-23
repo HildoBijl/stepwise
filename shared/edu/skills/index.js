@@ -55,6 +55,7 @@ const skills = {
 	},
 	mergeSplitFractions: {
 		name: 'Algemene breuken samenvoegen/splitsen',
+		setup: combinerAnd(combinerRepeat('addRemoveFractionFactors', 2), 'mergeSplitBasicFractions'),
 		exercises: ['mergeSplitFractions1', 'mergeSplitFractions1Reverse', 'mergeSplitFractions2', 'mergeSplitFractions2Reverse', 'mergeSplitFractions3', 'mergeSplitFractions3Reverse'],
 	},
 	multiplyDivideFractions: {
@@ -63,6 +64,7 @@ const skills = {
 	},
 	simplifyFractions: {
 		name: 'Breuken simplificeren',
+		setup: combinerAnd('mergeSplitFractions', 'multiplyDivideFractions'),
 		exercises: ['simplifyFractions1', 'simplifyFractions2', 'simplifyFractions3', 'simplifyFractions4'],
 	},
 

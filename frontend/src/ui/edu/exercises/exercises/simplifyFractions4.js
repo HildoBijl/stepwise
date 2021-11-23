@@ -22,7 +22,7 @@ export default function Exercise() {
 const Problem = (state) => {
 	const { variables, expression } = useCorrect(state)
 	return <>
-		<Par>Gegeven is de uitdrukking <BM>{expression}.</BM> Simplificeer dit zo veel als mogelijk.</Par>
+		<Par>Gegeven is de uitdrukking <BM>{expression}.</BM> Schrijf dit als een enkele breuk.</Par>
 		<InputSpace>
 			<Par>
 				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={basicMath} validate={validWithVariables(variables)} />
@@ -76,7 +76,7 @@ const steps = [
 		Problem: (state) => {
 			const { variables, intermediate } = useCorrect(state)
 			return <>
-				<Par>Herschrijf de breuk in de breuk <BM>{intermediate}</BM> als enkele breuk. Maak hem wederom zo simpel mogelijk.</Par>
+				<Par>Herschrijf de breuk in de breuk <BM>{intermediate}</BM> als enkele breuk.</Par>
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="ans" prelabel={<M>{intermediate}=</M>} label="Vul hier het resultaat in" size="l" settings={basicMath} validate={validWithVariables(variables)} />
@@ -95,33 +95,33 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Define checks for ans.
-	const ansCorrectExpression = {
-		check: (correct, input) => equivalent(correct, input),
-		text: <>De uitdrukking klopt wel, maar je kan hem nog verder simplificeren. Zijn er factoren die je boven/onder weg kunt strepen?</>,
-	}
 	const ansChecks = [
 		originalExpression,
 		incorrectExpression,
 		noFraction,
 		hasFractionWithinFraction,
-		ansCorrectExpression,
+		correctExpression,
 	]
 
 	// Define checks for intermediate.
-	const intermediateOriginalExpression = {
-		check: (correct, input, { expression }) => onlyOrderChanges(input, expression.denominator),
+	const numeratorOriginalExpression = {
+		check: (correct, input, { numerator }) => onlyOrderChanges(input, numerator),
+		text: <>Dit is de oorspronkelijke uitdrukking. Je hebt hier nog niets mee gedaan.</>,
+	}
+	const denominatorOriginalExpression = {
+		check: (correct, input, { denominator }) => onlyOrderChanges(input, denominator),
 		text: <>Dit is de oorspronkelijke uitdrukking. Je hebt hier nog niets mee gedaan.</>,
 	}
 	const wrongIntermediateDenominator = {
 		check: (correct, input) => !equivalent(correct.denominator, input.denominator),
-		text: (correct, input, { fraction1, fraction2 }) => <>Je breuk heeft niet de juiste noemer. Is je noemer wel de kleinste veelvoud van <M>{fraction1.denominator}</M> en <M>{fraction2.denominator}?</M></>,
+		text: (correct, input) => <>Je breuk heeft niet de juiste noemer. Hoezo maak je geen breuk met noemer <M>{correct.denominator}?</M> </>,
 	}
 	const wrongIntermediateNumerator = {
 		check: (correct, input) => !equivalent(correct.numerator, input.numerator),
 		text: <>De noemer klopt, maar er gaat iets mis in de teller van je breuk.</>,
 	}
-	const intermediateChecks = [
-		intermediateOriginalExpression,
+	const numeratorChecks = [
+		numeratorOriginalExpression,
 		noFraction,
 		hasFractionWithinFraction,
 		wrongIntermediateDenominator,
@@ -129,6 +129,10 @@ function getFeedback(exerciseData) {
 		incorrectExpression,
 		correctExpression,
 	]
+	const denominatorChecks = [
+		denominatorOriginalExpression,
+		...numeratorChecks.slice(1),
+	]
 
-	return getInputFieldFeedback(['ans', 'numeratorIntermediate', 'denominatorIntermediate'], exerciseData, [ansChecks, intermediateChecks, intermediateChecks].map(feedbackChecks => ({ feedbackChecks })))
+	return getInputFieldFeedback(['ans', 'numeratorIntermediate', 'denominatorIntermediate'], exerciseData, [ansChecks, numeratorChecks, denominatorChecks].map(feedbackChecks => ({ feedbackChecks })))
 }
