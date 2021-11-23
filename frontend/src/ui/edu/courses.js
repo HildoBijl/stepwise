@@ -47,7 +47,7 @@ const courses = {
 	
 	mathsbasics: {
 		name: 'Wiskunde basisvaardigheden',
-		goals: ['expandBrackets', 'simplifyFractions'],
+		goals: ['expandBrackets', 'simplifyFraction'],
 		priorKnowledge: [],
 		startingPoints: [
 			'expandBrackets',
@@ -62,7 +62,7 @@ const courses = {
 			},
 			{
 				name: 'Breuken binnen breuken simplificeren',
-				goals: ['simplifyFractions'],
+				goals: ['simplifyFraction'],
 			},
 			{
 				name: 'Werken met haakjes',

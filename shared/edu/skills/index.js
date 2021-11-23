@@ -62,16 +62,20 @@ const skills = {
 		name: 'Breuken vermenigvuldigen/delen',
 		exercises: ['multiplyDivideFractions1', 'multiplyDivideFractions2', 'multiplyDivideFractions3', 'multiplyDivideFractions4'],
 	},
-	simplifyFractions: {
-		name: 'Breuken simplificeren',
+	simplifyFraction: {
+		name: 'Breuk simplificeren',
 		setup: combinerAnd('mergeSplitFractions', 'multiplyDivideFractions'),
-		exercises: ['simplifyFractions1', 'simplifyFractions2', 'simplifyFractions3', 'simplifyFractions4'],
+		exercises: ['simplifyFraction1', 'simplifyFraction2', 'simplifyFraction3', 'simplifyFraction4'],
 	},
 
 	// Basic mathematics: manipulating brackets.
 	expandBrackets: {
 		name: 'Haakjes uitwerken',
 		exercises: ['expandBrackets1', 'expandBrackets2'],
+	},
+	pullOutOfBrackets: {
+		name: 'Buiten haakjes halen',
+		exercises: ['pullOutOfBrackets1', 'pullOutOfBrackets2', 'pullOutOfBrackets3'],
 	},
 
 	// Basic mathematics: manipulating expressions.
