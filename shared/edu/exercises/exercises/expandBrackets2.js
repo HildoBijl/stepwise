@@ -36,7 +36,7 @@ function getCorrect(state) {
 	const term1 = expression.terms[0]
 	const term2 = expression.terms[1]
 	const expressionSubstituted = asExpression('z(y+b)').substituteVariables(variables)
-	const intermediate = expressionSubstituted.simplify(simplifyOptions.forAnalysis)
+	const intermediate = expressionSubstituted.simplify({ ...simplifyOptions.forAnalysis, sortProducts: false })
 	const intermediateSubstituted = intermediate.substitute(variables.z, term1)
 	const ans = intermediateSubstituted.simplify(simplifyOptions.forAnalysis)
 	return { ...state, variables, expression, term1, term2, expressionSubstituted, intermediate, intermediateSubstituted, ans }
