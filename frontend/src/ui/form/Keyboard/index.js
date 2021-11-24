@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Keyboard({ settings, keyFunction }, ref) {
 	// When the keyboard is opened or closed, remember this in local storage.
-	const [open, setOpen] = useState(!localStorage || localStorage.getItem('keyboardStatus') !== 'closed')
+	const [open, setOpen] = useState(!!localStorage && localStorage.getItem('keyboardStatus') === 'open') // Default closed.
 	const setAndStoreOpen = useCallback((open) => {
 		if (localStorage)
 			localStorage.setItem('keyboardStatus', open ? 'open' : 'closed')
