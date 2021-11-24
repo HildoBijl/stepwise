@@ -15,6 +15,7 @@ const usedVariables = ['w', 'x', 'y', 'z']
 const constants = ['a', 'b', 'c', 'd']
 
 const data = {
+	skill: 'simplifyFraction',
 	setup: combinerAnd(combinerRepeat('mergeSplitFractions', 2), 'multiplyDivideFractions'),
 	steps: ['mergeSplitFractions', 'mergeSplitFractions', 'multiplyDivideFractions'],
 	check: {

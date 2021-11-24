@@ -15,6 +15,7 @@ const usedVariables = ['x', 'y', 'z']
 const constants = ['a', 'b', 'c', 'd']
 
 const data = {
+	skill: 'pullOutOfBrackets',
 	setup: combinerAnd('mergeSplitFractions', 'expandBrackets'),
 	steps: [null, null, 'mergeSplitFractions', null, 'expandBrackets'],
 	check: {
