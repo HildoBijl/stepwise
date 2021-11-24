@@ -47,7 +47,7 @@ const courses = {
 	
 	mathsbasics: {
 		name: 'Wiskunde basisvaardigheden',
-		goals: ['expandBrackets', 'simplifyFraction'],
+		goals: ['simplifyFraction', 'pullOutOfBrackets'],
 		priorKnowledge: [],
 		startingPoints: [
 			'expandBrackets',
@@ -66,7 +66,7 @@ const courses = {
 			},
 			{
 				name: 'Werken met haakjes',
-				goals: ['expandBrackets'],
+				goals: ['pullOutOfBrackets'],
 			},
 			{
 				name: 'Vergelijkingen omschrijven',

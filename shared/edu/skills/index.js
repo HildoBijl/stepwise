@@ -75,6 +75,7 @@ const skills = {
 	},
 	pullOutOfBrackets: {
 		name: 'Buiten haakjes halen',
+		setup: combinerAnd('mergeSplitFractions', 'expandBrackets'),
 		exercises: ['pullOutOfBrackets1', 'pullOutOfBrackets2', 'pullOutOfBrackets3'],
 	},
 
