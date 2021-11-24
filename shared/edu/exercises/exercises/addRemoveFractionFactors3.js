@@ -32,7 +32,7 @@ function getCorrect(state) {
 	const term = new Product(state.a, P)
 	const product = new Product(state.front ? [term, sum] : [sum, term])
 	const expression = new Fraction(...(state.upper ? [product, sum] : [sum, product]))
-	const ans = expression.simplify(simplifyOptions.basicClean)
+	const ans = expression.regularClean()
 	return { ...state, variables, sum, term, product, expression, ans }
 }
 
