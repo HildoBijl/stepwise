@@ -11,7 +11,7 @@ import { useCorrect } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
-import { originalExpression, hasSumWithinProduct, sumWithWrongTermsNumber, wrongFirstTerm, wrongSecondTerm, wrongThirdTerm, wrongFourthTerm, correctExpression, incorrectExpression } from '../util/feedbackChecks'
+import { originalExpression, sumWithWrongTermsNumber, wrongFirstTerm, wrongSecondTerm, wrongThirdTerm, correctExpression, incorrectExpression } from '../util/feedbackChecks'
 
 const { onlyOrderChanges, equivalent } = expressionChecks
 
@@ -89,7 +89,7 @@ const steps = [
 		Problem: (state) => {
 			const { variables, ans } = useCorrect(state)
 			return <>
-				<Par>Controleer je antwoord: wat krijg je als je de haakjes uitwerkt?</Par>
+				<Par>Controleer je antwoord: wat krijg je als je de haakjes uitwerkt en alles weer simplificeert?</Par>
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="expression" prelabel={<M>{ans}=</M>} label="Vul hier het resultaat in" size="l" settings={basicMathAndPowers} validate={validWithVariables(variables)} />

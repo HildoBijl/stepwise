@@ -1,5 +1,5 @@
-const { selectRandomly, getRandomInteger } = require('../../../util/random')
-const { asExpression, expressionChecks, simplifyOptions } = require('../../../CAS')
+const { selectRandomly, getRandomInteger, getRandomIndices } = require('../../../util/random')
+const { asExpression, Sum, expressionChecks, simplifyOptions } = require('../../../CAS')
 const { combinerAnd } = require('../../../skillTracking')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
@@ -28,12 +28,14 @@ function generateState() {
 		a: getRandomInteger(-8, 8, [0]),
 		b: getRandomInteger(-8, 8, [0]),
 		c: getRandomInteger(-8, 8, [0]),
+		order: getRandomIndices(3, 3),
 	}
 }
 
 function getCorrect(state) {
 	const variables = filterVariables(state, usedVariables, constants)
-	const expression = asExpression('ax^2+bx+c').substituteVariables(variables).removeUseless()
+	const terms = ['ax^2', 'bx', 'c'].map(term => asExpression(term).substituteVariables(variables).removeUseless())
+	const expression = new Sum(state.order.map(index => terms[index]))
 	const fraction = expression.divideBy(variables.x)
 	const setup = variables.x.multiplyBy(fraction)
 	const fractionSplit = fraction.simplify({ splitFractions: true, pullMinusBeforeFraction: true })
