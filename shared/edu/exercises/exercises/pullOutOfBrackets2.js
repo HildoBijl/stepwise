@@ -1,3 +1,4 @@
+const { gcd } = require('../../../util/numbers')
 const { selectRandomly, getRandomInteger, getRandomIndices } = require('../../../util/random')
 const { asExpression, Sum, expressionChecks, simplifyOptions } = require('../../../CAS')
 const { combinerAnd } = require('../../../skillTracking')
@@ -8,14 +9,14 @@ const { performCheck } = require('../util/check')
 
 const { onlyOrderChanges } = expressionChecks
 
-// ax^2+bx+c = x*(ax+b+c/x).
+// abxy^2 + acxyz + adxz^2 = ax(by^2 + cyz + dz^2).
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
-const usedVariables = ['x']
-const constants = ['a', 'b', 'c']
+const usedVariables = ['x', 'y', 'z']
+const constants = ['a', 'b', 'c', 'd']
 
 const data = {
 	setup: combinerAnd('mergeSplitFractions', 'expandBrackets'),
-	steps: [null, 'mergeSplitFractions', null, 'expandBrackets'],
+	steps: [null, null, 'mergeSplitFractions', null, 'expandBrackets'],
 	check: {
 		default: onlyOrderChanges,
 	},
@@ -25,34 +26,39 @@ function generateState() {
 	const variableSet = selectRandomly(availableVariableSets)
 	return {
 		...selectRandomVariables(variableSet, usedVariables),
-		a: getRandomInteger(-8, 8, [0]),
-		b: getRandomInteger(-8, 8, [0]),
-		c: getRandomInteger(-8, 8, [0]),
+		a: selectRandomly([2, 3, 5, 7]),
+		b: getRandomInteger(-6, 6, [0]),
+		c: getRandomInteger(-6, 6, [0]),
+		d: getRandomInteger(-6, 6, [0]),
 		order: getRandomIndices(3, 3),
 	}
 }
 
 function getCorrect(state) {
 	const variables = filterVariables(state, usedVariables, constants)
-	const terms = ['ax^2', 'bx', 'c'].map(term => asExpression(term).substituteVariables(variables).removeUseless())
+	const terms = ['abxy^2', 'acxyz', 'adxz^2'].map(term => asExpression(term).substituteVariables(variables).simplify({ ...simplifyOptions.removeUseless, mergeProductNumbers: true, sortProducts: true }))
 	const expression = new Sum(state.order.map(index => terms[index]))
-	const fraction = expression.divideBy(variables.x)
-	const setup = variables.x.multiplyBy(fraction)
+	const gcdValue = state.a * gcd(state.b, state.c, state.d)
+	const factor = asExpression(`${gcdValue}x`).substituteVariables(variables)
+	const fraction = expression.divideBy(factor)
+	const setup = factor.multiplyBy(fraction)
 	const fractionSplit = fraction.simplify({ splitFractions: true, pullMinusBeforeFraction: true })
 	const fractionSimplified = fractionSplit.simplify({ ...simplifyOptions.basicClean, mergeFractionTerms: true })
-	const ans = variables.x.multiplyBy(fractionSimplified)
-	return { ...state, variables, expression, fraction, setup, fractionSplit, fractionSimplified, ans }
+	const ans = factor.multiplyBy(fractionSimplified)
+	return { ...state, variables, expression, gcdValue, factor, fraction, setup, fractionSplit, fractionSimplified, ans }
 }
 
 function checkInput(state, input, step) {
 	const correct = getCorrect(state)
-	if (step === 0 || step === 3)
+	if (step === 0 || step === 4)
 		return performCheck('ans', correct, input, data.check)
 	if (step === 1)
-		return performCheck('setup', correct, input, data.check)
+		return performCheck('factor', correct, input, data.check)
 	if (step === 2)
+		return performCheck('setup', correct, input, data.check)
+	if (step === 3)
 		return performCheck('fractionSimplified', correct, input, data.check)
-	if (step === 4)
+	if (step === 5)
 		return performCheck('expression', correct, input, data.check)
 }
 

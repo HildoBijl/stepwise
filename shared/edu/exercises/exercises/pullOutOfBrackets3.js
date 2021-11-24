@@ -8,9 +8,9 @@ const { performCheck } = require('../util/check')
 
 const { onlyOrderChanges } = expressionChecks
 
-// ax^2+bx+c = x*(ax+b+c/x).
+// axy^2 + bxy + cx^2y = xy(ay + b + cx).
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
-const usedVariables = ['x']
+const usedVariables = ['x', 'y']
 const constants = ['a', 'b', 'c']
 
 const data = {
@@ -34,14 +34,15 @@ function generateState() {
 
 function getCorrect(state) {
 	const variables = filterVariables(state, usedVariables, constants)
-	const terms = ['ax^2', 'bx', 'c'].map(term => asExpression(term).substituteVariables(variables).removeUseless())
-	const expression = new Sum(state.order.map(index => terms[index]))
-	const fraction = expression.divideBy(variables.x)
-	const setup = variables.x.multiplyBy(fraction)
+	const terms = ['axy^2', 'bxy', 'cx^2y'].map(term => asExpression(term).substituteVariables(variables).removeUseless())
+	const factor = asExpression('xy').substituteVariables(variables).simplify({ sortProducts: true })
+	const expression = new Sum(state.order.map(index => terms[index])).simplify({ sortProducts: true })
+	const fraction = expression.divideBy(factor)
+	const setup = factor.multiplyBy(fraction)
 	const fractionSplit = fraction.simplify({ splitFractions: true, pullMinusBeforeFraction: true })
 	const fractionSimplified = fractionSplit.simplify({ ...simplifyOptions.basicClean, mergeFractionTerms: true })
-	const ans = variables.x.multiplyBy(fractionSimplified)
-	return { ...state, variables, expression, fraction, setup, fractionSplit, fractionSimplified, ans }
+	const ans = factor.multiplyBy(fractionSimplified)
+	return { ...state, variables, expression, factor, fraction, setup, fractionSplit, fractionSimplified, ans }
 }
 
 function checkInput(state, input, step) {

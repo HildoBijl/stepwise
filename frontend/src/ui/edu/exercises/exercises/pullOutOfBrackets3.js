@@ -20,9 +20,9 @@ export default function Exercise() {
 }
 
 const Problem = (state) => {
-	const { variables, expression } = useCorrect(state)
+	const { variables, expression, factor } = useCorrect(state)
 	return <>
-		<Par>Gegeven is de uitdrukking <BM>{expression}.</BM> Haal de factor <M>{variables.x}</M> buiten haakjes.</Par>
+		<Par>Gegeven is de uitdrukking <BM>{expression}.</BM> Haal de factor <M>{factor}</M> buiten haakjes.</Par>
 		<InputSpace>
 			<Par>
 				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={basicMathAndPowers} validate={validWithVariables(variables)} />
@@ -34,9 +34,9 @@ const Problem = (state) => {
 const steps = [
 	{
 		Problem: (state) => {
-			const { variables, expression } = useCorrect(state)
+			const { variables, expression, factor } = useCorrect(state)
 			return <>
-				<Par>Als we bij een uitdrukking <M>\left[\ldots\right]</M> een factor <M>{variables.x}</M> buiten haakjes willen halen, dan willen we de uitdrukking schrijven als <BM>{variables.x} \cdot \frac(\left[\ldots\right])({variables.x}).</BM> Schrijf het bovenstaande dus eerst letterlijk op, met op de puntjes de gegeven uitdrukking.</Par>
+				<Par>Als we bij een uitdrukking <M>\left[\ldots\right]</M> een factor <M>{factor}</M> buiten haakjes willen halen, dan willen we de uitdrukking schrijven als <BM>{factor} \cdot \frac(\left[\ldots\right])({factor}).</BM> Schrijf het bovenstaande dus eerst letterlijk op, met op de puntjes de gegeven uitdrukking.</Par>
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="setup" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={basicMathAndPowers} validate={validWithVariables(variables)} />
@@ -63,14 +63,14 @@ const steps = [
 		},
 		Solution: (state) => {
 			const { variables, fractionSplit, fractionSimplified } = useCorrect(state)
-			return <Par>Als eerste splitsen we de breuk op. Zo krijgen we <BM>{fractionSplit}.</BM> Vervolgens strepen we, waar mogelijk, boven en onder een factor <M>{variables.x}</M> weg. Op één plek is dit niet mogelijk, en daar moeten we de breuk dus laten staan. Zo vinden we <BM>{fractionSimplified}.</BM></Par>
+			return <Par>Als eerste splitsen we de breuk op. Zo krijgen we <BM>{fractionSplit}.</BM> Vervolgens strepen we bij alle breuken de variabelen <M>{variables.x}</M> en <M>{variables.y}</M> boven en onder weg. We blijven over met <BM>{fractionSimplified}.</BM></Par>
 		},
 	},
 	{
 		Problem: (state) => {
-			const { variables, expression } = useCorrect(state)
+			const { variables, expression, factor } = useCorrect(state)
 			return <>
-				<Par>Vul de gesimplificeerde breuk in. Oftewel, schrijf de oorspronkelijke uitdrukking <M>{expression}</M> op als <M>{variables.x} \cdot \left(\ldots\right)</M> met op de puntjes het antwoord van de vorige stap.</Par>
+				<Par>Vul de gesimplificeerde breuk in. Oftewel, schrijf de oorspronkelijke uitdrukking <M>{expression}</M> op als <M>{factor} \cdot \left(\ldots\right)</M> met op de puntjes het antwoord van de vorige stap.</Par>
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={basicMathAndPowers} validate={validWithVariables(variables)} />
@@ -109,8 +109,8 @@ const steps = [
 function getFeedback(exerciseData) {
 	// Define ans checks.
 	const outsideBracketsForm = {
-		check: (correct, input, { variables }) => !(input.isType(Product) && input.terms.length === 2 && input.terms.some(term => onlyOrderChanges(variables.x, term)) && input.terms.some(term => term.isType(Sum))),
-		text: (correct, input, { variables }) => <>Je antwoord moet van de vorm <M>{variables.x} \cdot \left(\ldots\right)</M> zijn.</>,
+		check: (correct, input, { variables }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => onlyOrderChanges(variables.x, term)) && input.terms.some(term => onlyOrderChanges(variables.y, term)) && input.terms.some(term => term.isType(Sum))),
+		text: (correct, input, { factor }) => <>Je antwoord moet van de vorm <M>{factor} \cdot \left(\ldots\right)</M> zijn.</>,
 	}
 	const incorrectExpansion = {
 		check: (correct, input) => !equivalent(correct, input),
@@ -128,15 +128,15 @@ function getFeedback(exerciseData) {
 
 	// Define setup checks.
 	const setupForm = {
-		check: (correct, input, { variables }) => !(input.isType(Product) && input.terms.length === 2 && input.terms.some(term => onlyOrderChanges(variables.x, term)) && input.terms.some(term => term.isType(Fraction))),
-		text: (correct, input, { variables }) => <>Je antwoord moet van de vorm <M>{variables.x} \cdot \frac(\left[\ldots\right])({variables.x})</M> zijn.</>,
+		check: (correct, input, { variables }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => onlyOrderChanges(variables.x, term)) && input.terms.some(term => onlyOrderChanges(variables.y, term)) && input.terms.some(term => term.isType(Fraction))),
+		text: (correct, input, { factor }) => <>Je antwoord moet van de vorm <M>{factor} \cdot \frac(\left[\ldots\right])({factor})</M> zijn.</>,
 	}
 	const fractionForm = {
-		check: (correct, input, { variables }) => !(input.isType(Product) && input.terms.length === 2 && input.terms.some(term => term.isType(Fraction) && onlyOrderChanges(variables.x, term.denominator))),
-		text: (correct, input, { variables }) => <>Je antwoord moet van de vorm <M>{variables.x} \cdot \frac(\left[\ldots\right])({variables.x})</M> zijn. Heb je wel een breuk met noemer <M>{variables.x}</M> ingevoerd?</>,
+		check: (correct, input, { factor }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => term.isType(Fraction) && onlyOrderChanges(factor, term.denominator))),
+		text: (correct, input, { factor }) => <>Je antwoord moet van de vorm <M>{factor} \cdot \frac(\left[\ldots\right])({factor})</M> zijn. Heb je wel een breuk met noemer <M>{factor}</M> ingevoerd?</>,
 	}
 	const correctNumerator = {
-		check: (correct, input, { variables, expression }) => !(input.isType(Product) && input.terms.length === 2 && input.terms.some(term => term.isType(Fraction) && onlyOrderChanges(expression, term.numerator))),
+		check: (correct, input, { variables, expression }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => term.isType(Fraction) && onlyOrderChanges(expression, term.numerator))),
 		text: (correct, input, { expression }) => <>Zorg dat je bovenin de breuk letterlijk de uitdrukking <M>{expression}</M> invoert.</>,
 	}
 	const setupChecks = [
