@@ -29,7 +29,7 @@ function generateState() {
 		a: selectRandomly([2, 3, 5, 7]),
 		b: getRandomInteger(-6, 6, [0]),
 		c: getRandomInteger(-6, 6, [0]),
-		d: getRandomInteger(-6, 6, [0]),
+		d: getRandomInteger(1, 6, [0]), // Prevent all variables from being negative, which would lead to a negative factor being pulled out of brackets. That is hard to check.
 		order: getRandomIndices(3, 3),
 	}
 }

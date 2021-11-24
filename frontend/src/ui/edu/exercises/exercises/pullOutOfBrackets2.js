@@ -129,7 +129,7 @@ const steps = [
 function getFeedback(exerciseData) {
 	// Define ans checks.
 	const outsideBracketsForm = {
-		check: (correct, input, { variables, gcdValue }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => onlyOrderChanges(gcdValue, term)) && input.terms.some(term => onlyOrderChanges(variables.x, term)) && input.terms.some(term => term.isType(Sum))),
+		check: (correct, input, { variables, gcdValue }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => term.isNumeric() && term.number === gcdValue) && input.terms.some(term => onlyOrderChanges(variables.x, term)) && input.terms.some(term => term.isType(Sum))),
 		text: (correct, input, { factor }) => <>Je antwoord moet van de vorm <M>{factor} \cdot \left(\ldots\right)</M> zijn.</>,
 	}
 	const incorrectExpansion = {
@@ -171,7 +171,7 @@ function getFeedback(exerciseData) {
 
 	// Define setup checks.
 	const setupForm = {
-		check: (correct, input, { variables, gcdValue }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => onlyOrderChanges(gcdValue, term)) && input.terms.some(term => onlyOrderChanges(variables.x, term)) && input.terms.some(term => term.isType(Fraction))),
+		check: (correct, input, { variables, gcdValue }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => term.isNumeric() && term.number === gcdValue) && input.terms.some(term => onlyOrderChanges(variables.x, term)) && input.terms.some(term => term.isType(Fraction))),
 		text: (correct, input, { factor }) => <>Je antwoord moet van de vorm <M>{factor} \cdot \frac(\left[\ldots\right])({factor})</M> zijn.</>,
 	}
 	const fractionForm = {
