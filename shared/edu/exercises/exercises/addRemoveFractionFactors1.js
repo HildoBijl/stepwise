@@ -20,7 +20,7 @@ function generateState() {
 function getCorrect(state) {
 	const variables = filterVariables(state, usedVariables)
 	const expression = asExpression('(axy)/(ybx)').substituteVariables(variables)
-	const ans = expression.simplify(simplifyOptions.basicClean)
+	const ans = expression.regularClean()
 	return { ...state, variables, expression, ans }
 }
 
