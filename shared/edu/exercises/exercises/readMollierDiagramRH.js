@@ -9,7 +9,7 @@ const data = {
 	skill: 'readMollierDiagram',
 	equalityOptions: {
 		default: {
-			absoluteMargin: 4, // 4 percent margin on the relative humidity.
+			absoluteMargin: 0.04, // 4 percent margin on the relative humidity.
 		},
 	},
 }

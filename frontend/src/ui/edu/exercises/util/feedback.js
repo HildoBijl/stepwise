@@ -472,9 +472,14 @@ export function getMCFeedback(name, exerciseData, options = {}) {
 * The result of this function is a feedback object of the form { correct: false, text: <>Some feedback text.</> }. If no check matches, undefined is returned.
  */
 function getCheckFeedback(feedbackChecks, correctAnswer, inputAnswer, correct, exerciseData) {
+	// Find a matching feedback check if it exists.
+	if (!feedbackChecks)
+		return undefined
 	const matchingFeedbackCheck = feedbackChecks.find(checkObj => checkObj.check(correctAnswer, inputAnswer, correct, exerciseData))
 	if (!matchingFeedbackCheck)
 		return undefined
+
+	// Assemble the feedback.
 	return {
 		correct: matchingFeedbackCheck.correct ? (
 			typeof matchingFeedbackCheck.correct === 'function' ?
