@@ -79,10 +79,10 @@ const skills = {
 	},
 
 	// Basic mathematics: manipulating expressions.
-	moveATerm: {
-		name: 'Een term verplaatsen',
-		exercises: ['moveATerm1', 'moveATerm2', 'moveATerm3'],
-	},
+	// moveATerm: {
+	// 	name: 'Een term verplaatsen',
+	// 	exercises: ['moveATerm1', 'moveATerm2', 'moveATerm3'],
+	// },
 
 	// Basic mathematics: solving equations.
 

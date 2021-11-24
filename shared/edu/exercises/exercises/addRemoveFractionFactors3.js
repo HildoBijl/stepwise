@@ -26,7 +26,8 @@ function generateState() {
 }
 
 function getCorrect(state) {
-	const { P, x, y } = variables = filterVariables(state, usedVariables)
+	const variables = filterVariables(state, usedVariables)
+	const { P, x, y } = variables
 	const sum = new Sum(x, y)
 	const term = new Product(state.a, P)
 	const product = new Product(state.front ? [term, sum] : [sum, term])
