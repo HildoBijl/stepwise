@@ -31,7 +31,7 @@ function generateState() {
 function getCorrect(state) {
 	// Extract state variables.
 	const variables = filterVariables(state, usedVariables, constants)
-	const factor = asExpression('ax').substituteVariables(variables)
+	const factor = asExpression('ax').substituteVariables(variables).removeUseless()
 	const sum = asExpression('y+b').substituteVariables(variables)
 	const expression = factor.multiplyBy(sum, state.before)
 	const ans = expression.simplify(simplifyOptions.forAnalysis)
