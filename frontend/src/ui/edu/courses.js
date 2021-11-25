@@ -55,7 +55,6 @@ const courses = {
 			'mergeSplitBasicFractions',
 			'multiplyDivideFractions',
 			'moveATerm',
-			'multiplyDivideAllTerms',
 		],
 		blocks: [
 			{
