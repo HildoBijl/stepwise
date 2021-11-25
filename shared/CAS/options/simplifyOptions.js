@@ -33,6 +33,9 @@ const noSimplify = { // This is never applied, but only use to verify options gi
 	// The following options relate to Functions.
 	toBasicForm: false, // Turns more complex functions into more basic forms. So sqrt(a) becomes a^(1/2), [a]log(b) will be ln(b)/ln(a), tan(x) will be sin(x)/cos(x) and likewise simplifications ensue.
 
+	// The following options relate to Equations. They do nothing for Expessions.
+	allToLeft: false, // Moves all terms to the left. So will turn "ax+b=cx+d" into "ax+b-(cx+d)=0".
+
 	// ToDo: implement the simplification methods below.
 
 	groupSumTerms: false, // Check inside of sums whether terms can be grouped. For instance, 2*x+3*x can be grouped into (2+3)*x, after which the numbers can be merged to form 5*x.
@@ -101,3 +104,9 @@ const forDisplay = {
 	forDisplay: true,
 }
 module.exports.forDisplay = forDisplay
+
+const expressionForAnalysis = {
+	...forAnalysis,
+	allToLeft: true,
+}
+module.exports.expressionForAnalysis = expressionForAnalysis

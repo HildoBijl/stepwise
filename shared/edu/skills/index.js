@@ -80,12 +80,27 @@ const skills = {
 	},
 
 	// Basic mathematics: manipulating expressions.
-	// moveATerm: {
-	// 	name: 'Een term verplaatsen',
-	// 	exercises: ['moveATerm1', 'moveATerm2', 'moveATerm3'],
-	// },
+	moveATerm: {
+		name: 'Een term verplaatsen',
+		exercises: ['moveATerm1', 'moveATerm2'],
+	},
+	multiplyDivideAllTerms: {
+		name: 'Alle termen vermenigvuldigen/delen',
+		setup: combinerAnd('expandBrackets', 'multiplyDivideFractions', 'mergeSplitFractions'), // ToDo later: change into a picking function.
+		exercises: [],
+	},
 
 	// Basic mathematics: solving equations.
+	solveBasicLinearEquation: {
+		name: 'Basis lineaire vergelijking oplossen',
+		setup: combinerAnd(combinerRepeat('moveATerm', 2), 'pullOutOfBrackets', 'multiplyDivideAllTerms'),
+		exercises: [],
+	},
+	solveGeneralLinearEquation: {
+		name: 'Algemene lineaire vergelijking oplossen',
+		setup: combinerAnd(combinerRepeat(combinerOr('expandBrackets', 'simplifyFraction', 'multiplyDivideAllTerms'), 2), 'solveBasicLinearEquation'),
+		exercises: [],
+	},
 
 	// Physics mathematics: solving float-problems.
 	solveLinearEquation: {

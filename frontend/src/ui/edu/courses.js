@@ -44,16 +44,18 @@ const courses = {
 			},
 		]
 	},
-	
+
 	mathsbasics: {
 		name: 'Wiskunde basisvaardigheden',
-		goals: ['simplifyFraction', 'pullOutOfBrackets'],
+		goals: ['solveGeneralLinearEquation'],
 		priorKnowledge: [],
 		startingPoints: [
 			'expandBrackets',
 			'addRemoveFractionFactors',
 			'mergeSplitBasicFractions',
 			'multiplyDivideFractions',
+			'moveATerm',
+			'multiplyDivideAllTerms',
 		],
 		blocks: [
 			{
@@ -70,11 +72,11 @@ const courses = {
 			},
 			{
 				name: 'Vergelijkingen omschrijven',
-				goals: [],
+				goals: ['moveATerm', 'multiplyDivideAllTerms'],
 			},
 			{
 				name: 'Lineaire vergelijkingen oplossen',
-				goals: [],
+				goals: ['solveGeneralLinearEquation'],
 			},
 		],
 	},

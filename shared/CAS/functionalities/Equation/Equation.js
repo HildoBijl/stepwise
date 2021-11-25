@@ -3,9 +3,9 @@
 const { isObject, processOptions } = require('../../../util/objects')
 const { union } = require('../../../util/sets')
 
-const { expressionEqualityLevels, equationEqualityLevels } = require('../../options')
+const { expressionEqualityLevels, equationEqualityLevels, simplifyOptions } = require('../../options')
 
-const { ensureExpression, Variable } = require('../Expression')
+const { ensureExpression, Variable, Integer } = require('../Expression')
 
 const parts = ['left', 'right']
 
@@ -15,6 +15,10 @@ const defaultEqualityLevels = {
 }
 
 class Equation {
+	/*
+	 * Creation methods.
+	 */
+
 	constructor(left, right) {
 		let SO = { left, right }
 		if (!right && isObject(left))
@@ -35,7 +39,7 @@ class Equation {
 	get SO() {
 		const result = {}
 		parts.forEach(part => {
-			result[part] = this.part.SO
+			result[part] = this[part].SO
 		})
 		return result
 	}
@@ -44,6 +48,10 @@ class Equation {
 	clone() {
 		return new this.constructor(this.SO)
 	}
+
+	/*
+	 * Display methods.
+	 */
 
 	toString() {
 		return `${this.left.str}=${this.right.str}`
@@ -64,6 +72,10 @@ class Equation {
 	get tex() {
 		return this.toTex()
 	}
+
+	/*
+	 * Mathematical operations.
+	 */
 
 	// applyToBothSides takes a function and applies it to both sides of the equation, returning a new equation.
 	applyToBothSides(operation) {
@@ -105,11 +117,19 @@ class Equation {
 		return this.applyToBothSides(part => part.toPower(exponent))
 	}
 
+	/*
+	 * Inspection methods.
+	 */
+
 	// getVariables returns all the variables that are present in this equation, in sorted order.
 	getVariables() {
 		const variableStrings = union(this.left.getVariableStrings(), this.right.getVariableStrings())
 		return Variable.sortVariableStrings(variableStrings)
 	}
+
+	/*
+	 * Manipulation methods.
+	 */
 
 	// substitute applies a substitution, replacing the given variable by the given substitution. The variable must be a variable object, while the substitution must be an instance of Expression.
 	substitute(variable, substitution) {
@@ -123,9 +143,18 @@ class Equation {
 
 	// simplify simplifies this equation, according to the given options.
 	simplify(options = {}) {
-		// ToDo: devise options to simplify equations, on top of simplifying expressions.
+		// Process the given options.
+		if (!options)
+			throw new Error(`Missing simplify options: when simplifying an equation, a simplifying options object must be given.`)
+		options = processOptions(options, simplifyOptions.noSimplify)
 
-		return this.applyToBothSides(part => part.simplify(options))
+		// If all has to be moved to the left, do so. This turns "[left]=[right]" into "[left]-[right]=0".
+		if (options.allToLeft) {
+			return new Equation(this.left.subtract(this.right).simplifyBasic(options), Integer.zero)
+		}
+
+		// Simply pass the simplification on to both parts.
+		return this.applyToBothSides(part => part.simplifyBasic(options))
 	}
 
 	// equals compares of two equations are the same, subject to various options.
@@ -159,6 +188,35 @@ class Equation {
 
 		// Should never get here.
 		throw new Error(`Unexpected equation equality level: did not expect the equation equality level "${levels.equation}". Cannot process this.`)
+	}
+
+	/*
+	 * Further cleaning methods.
+	 */
+
+	// cleanStructure applies the simplify function with structureOnly options. It cleans up the structure of the Expression.
+	cleanStructure() {
+		return this.simplify(simplifyOptions.structureOnly)
+	}
+
+	// removeUseless applies the simplify function with removeUseless options. It removes useless elements from the expression.
+	removeUseless() {
+		return this.simplify(simplifyOptions.removeUseless)
+	}
+
+	// basicClean applies the simplify function with basicClean options.
+	basicClean() {
+		return this.simplify(simplifyOptions.basicClean)
+	}
+
+	// regularClean applies the simplify function with regularClean options.
+	regularClean() {
+		return this.simplify(simplifyOptions.regularClean)
+	}
+
+	// cleanForAnalysis applies the simplify function with expressionForAnalysis option.
+	cleanForAnalysis() {
+		return this.simplify(simplifyOptions.expressionForAnalysis)
 	}
 }
 module.exports.Equation = Equation

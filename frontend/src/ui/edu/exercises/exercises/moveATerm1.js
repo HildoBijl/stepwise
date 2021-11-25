@@ -1,14 +1,14 @@
 import React from 'react'
 
-import { simplifyOptions, equationChecks } from 'step-wise/CAS'
+import { equationChecks } from 'step-wise/CAS'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
-import { basicMathNoFractions } from 'ui/form/inputs/ExpressionInput'
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
+import { basicMathNoFractions } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/Status'
 
-import { useExerciseData, useCorrect } from '../ExerciseContainer'
+import { useCorrect } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
@@ -21,15 +21,12 @@ export default function Exercise() {
 }
 
 const Problem = (state) => {
-	const { shared: { getEquation } } = useExerciseData()
-	const equation = getEquation(state)
-	const { switchXY } = state
-
+	const { variables, variableToMove, equation } = useCorrect(state)
 	return <>
-		<Par>Gegeven is de vergelijking <BM>{equation}.</BM> Breng de term met <M>{switchXY ? 'y' : 'x'}</M> naar de andere kant van het is-teken. Laat de andere termen op hun plek staan.</Par>
+		<Par>Gegeven is de vergelijking <BM>{equation}.</BM> Breng de term met <M>{variableToMove}</M> naar de andere kant van het is-teken. Laat de andere termen op hun plek staan.</Par>
 		<InputSpace>
 			<Par>
-				<EquationInput id="ans" label="Vul hier de vergelijking in" size="s" settings={basicMathNoFractions} validate={validWithVariables('x', 'y')} />
+				<EquationInput id="ans" label="Vul hier de vergelijking in" size="l" settings={basicMathNoFractions} validate={validWithVariables(variables)} />
 			</Par>
 		</InputSpace>
 	</>
@@ -38,54 +35,61 @@ const Problem = (state) => {
 const steps = [
 	{
 		Problem: (state) => {
-			const { a, switchLeftRight, term, termAbs } = useCorrect(state)
+			const { variables, isLeft, isPositive, termToMoveAbs } = useCorrect(state)
 			return <>
-				<Par>We willen iets doen met beide kanten van de vergelijking om {switchLeftRight ? 'rechts' : 'links'} de term <M>{term}</M> weg te krijgen. {a > 0 ? <>Trek hiervoor <M>{termAbs}</M> van beide kanten van de vergelijking af.</> : <>Tel hiervoor <M>{termAbs}</M> bij beide kanten van de vergelijking op.</>} (Streep nog geen termen weg.)</Par>
-				<InputSpace><Par><EquationInput id="intermediate" label="Vul hier de vergelijking in" size="s" settings={basicMathNoFractions} validate={validWithVariables('x', 'y')} /></Par></InputSpace>
+				<Par>We willen iets doen met beide kanten van de vergelijking om {isLeft ? 'links' : 'rechts'} de term <M>{termToMoveAbs}</M> weg te krijgen. {isPositive ? <>Trek hiervoor <M>{termToMoveAbs}</M> van beide kanten van de vergelijking af.</> : <>Tel hiervoor <M>{termToMoveAbs}</M> bij beide kanten van de vergelijking op.</>} (Streep nog geen termen weg.)</Par>
+				<InputSpace>
+					<Par>
+						<EquationInput id="intermediate" label="Vul hier de vergelijking in" size="l" settings={basicMathNoFractions} validate={validWithVariables(variables)} />
+					</Par>
+				</InputSpace>
 			</>
 		},
 		Solution: (state) => {
-			const { a, termAbs, intermediate } = useCorrect(state)
-			return <>Als we <M>{termAbs}</M> {a > 0 ? <>van beide kanten van de vergelijking afhalen</> : <>bij beide kanten van de vergelijking optellen</>} dan krijgen we <BM>{intermediate}.</BM></>
+			const { isPositive, termToMoveAbs, intermediate } = useCorrect(state)
+			return <Par>Als we <M>{termToMoveAbs}</M> {isPositive ? <>van beide kanten van de vergelijking afhalen</> : <>bij beide kanten van de vergelijking optellen</>}, dan krijgen we <BM>{intermediate}.</BM> Omdat we met beide kanten van de vergelijking hetzelfde gedaan hebben (hetzelfde {isPositive ? <>ervan afgehaald</> : <>erbij opgeteld</>} hebben) klopt de vergelijking nog steeds.</Par>
 		},
 	},
 	{
 		Problem: (state) => {
-			const { switchLeftRight } = state
+			const { variables, isLeft } = useCorrect(state)
 			return <>
-				<Par>Streep aan de {switchLeftRight ? 'rechter' : 'linker'} kant van de vergelijking waar mogelijk termen weg.</Par>
-				<InputSpace><Par><EquationInput id="ans" label="Vul hier de vergelijking in" size="s" settings={basicMathNoFractions} validate={validWithVariables('x', 'y')} /></Par></InputSpace>
+				<Par>Streep aan de {isLeft ? 'linker' : 'rechter'} kant van de vergelijking waar mogelijk termen weg.</Par>
+				<InputSpace>
+					<Par>
+						<EquationInput id="ans" label="Vul hier de vergelijking in" size="l" settings={basicMathNoFractions} validate={validWithVariables(variables)} />
+					</Par>
+				</InputSpace>
 			</>
 		},
 		Solution: (state) => {
-			const { a, term, termAbs, ans } = useCorrect(state)
-			return <>Als we ergens eerst <M>{termAbs}</M> {a > 0 ? <>bij optellen en het er vervolgens weer van afhalen</> : <>van afhalen en het er vervolgens weer bij optellen</>}, dan komen we altijd op hetzelfde uit. We hadden het net zo goed niet kunnen doen. De termen <M>{term}</M> en <M>{term.applyMinus()}</M> vallen dus tegen elkaar weg. We blijven over met <BM>{ans}.</BM></>
+			const { isPositive, isLeft, termToMove, termToMoveAbs, ans } = useCorrect(state)
+			return <Par>Als we ergens eerst <M>{termToMoveAbs}</M> {isPositive ? <>bij optellen en het er vervolgens weer van afhalen</> : <>van afhalen en het er vervolgens weer bij optellen</>}, dan komen we altijd op hetzelfde uit. We hadden het net zo goed niet kunnen doen. De termen <M>{termToMove}</M> en <M>{termToMove.applyMinus().removeUseless()}</M> vallen {isLeft ? 'links' : 'rechts'} dus tegen elkaar weg. We blijven over met <BM>{ans}.</BM> Hiermee is de term <M>{termToMoveAbs}</M> van {isLeft ? 'links' : 'rechts'} naar {isLeft ? 'rechts' : 'links'} gehaald. Merk op dat het nu niet meer {isPositive ? <>positief (met plusteken) is maar negatief (met minteken).</> : <>negatief (met minteken) is maar positief (met plusteken).</>}</Par>
 		},
 	},
 ]
 
 function getFeedback(exerciseData) {
-	// Define extra checks.
+	// Define ans checks.
 	const atIntermediateStep = {
 		check: (correct, input, { intermediate }) => onlyOrderChanges(intermediate, input),
-		text: (correct, input, { a }) => <>Je hebt de juiste term {a > 0 ? 'van beide kanten afgehaald' : 'bij beide kanten opgeteld'}, maar vervolgens moet je nog wat wegstrepen.</>
+		text: (correct, input, { isPositive }) => <>Je hebt de juiste term {isPositive > 0 ? 'van beide kanten afgehaald' : 'bij beide kanten opgeteld'}, maar vervolgens moet je nog wat wegstrepen.</>
 	}
-	const wrongSignUsed = {
-		check: (correct, input, { equation, term, switchLeftRight }) => {
-			const addTerm = part => part.add(term).simplify(simplifyOptions.basicClean)
-			const subtractTerm = part => part.subtract(term).simplify(simplifyOptions.basicClean)
-			const falseSolution = equation.applyToLeft(switchLeftRight ? addTerm : subtractTerm).applyToRight(switchLeftRight ? subtractTerm : addTerm)
-			return onlyOrderChanges(falseSolution, input)
-		},
-		text: (correct, input, { a }) => <>Als de term aan de ene kant {a > 0 ? 'positief' : 'negatief'} is, dan moet hij aan de andere kant {a > 0 ? 'negatief' : 'positief'} worden.</>,
+	const wrongSignUsed = { // Check if the user subtracted/added it on one side and did the opposite on the other side.
+		check: (correct, input, { equation, termToMove, isLeft }) => onlyOrderChanges(equation
+			.applyToLeft(side => side[isLeft ? 'subtract' : 'add'](termToMove))
+			.applyToRight(side => side[isLeft ? 'add' : 'subtract'](termToMove))
+			.basicClean()
+			, input),
+			text: (correct, input, { isPositive }) => <>Als de term aan de ene kant {isPositive ? 'positief is (met plusteken)' : 'negatief is (met minteken)'} dan moet hij aan de andere kant {isPositive ? 'negatief worden (met minteken)' : 'positief worden (met plusteken)'}.</>,
 	}
 
 	// Determine feedback.
 	return getInputFieldFeedback([
+		'ans',
 		'intermediate',
-		'ans'
 	], exerciseData, [
-		{ feedbackChecks: [originalEquation, correctEquation, incorrectEquation] },
-		{ feedbackChecks: [originalEquation, atIntermediateStep, wrongSignUsed, correctEquation, incorrectEquation] },
-	])
+		[originalEquation, atIntermediateStep, wrongSignUsed, incorrectEquation, correctEquation],
+		[incorrectEquation, correctEquation],
+	].map(feedbackChecks => ({ feedbackChecks })))
 }

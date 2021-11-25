@@ -1,72 +1,68 @@
-const { getRandomInteger, getRandomBoolean } = require('../../../util/random')
-const { asExpression, Sum, equationChecks, simplifyOptions } = require('../../../CAS')
+const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../util/random')
+const { asExpression, Integer, Equation, equationChecks } = require('../../../CAS')
 
+const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { performCheck } = require('../util/check')
 
 const { onlyOrderChanges } = equationChecks
 
+// ax + by + cz = 0.
+const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
+const usedVariables = ['x', 'y', 'z']
+const constants = ['a', 'b', 'c']
+
 const data = {
 	skill: 'moveATerm',
 	steps: [null, null],
 	check: {
-		ans: onlyOrderChanges,
-		intermediate: onlyOrderChanges,
+		default: onlyOrderChanges,
 	},
 }
 
 function generateState() {
-	// a*F_A + b*F_B + c*F_C = 0, where terms may start on the other side too.
-	const getCoefficient = () => getRandomInteger(-12, 12, [0, 1])
+	const variableSet = selectRandomly(availableVariableSets)
 	return {
-		a: getCoefficient(),
-		b: getCoefficient(),
-		c: getCoefficient(),
-		aLeft: getRandomBoolean(),
-		bLeft: getRandomBoolean(),
-		cLeft: getRandomBoolean(),
-		move: getRandomInteger(0, 2), // Do we move (0) a, (1) b or (2) c?
+		...selectRandomVariables(variableSet, usedVariables),
+		a: getRandomInteger(-12, 12, [0]),
+		b: getRandomInteger(-12, 12, [0]),
+		c: getRandomInteger(-12, 12, [0]),
+		xLeft: getRandomBoolean(),
+		yLeft: getRandomBoolean(),
+		zLeft: getRandomBoolean(),
+		toMove: getRandomInteger(0, 2),
 	}
-}
-
-function getTerms({ a, b, c }) {
-	return {
-		FA: asExpression('aF_A').substitute('a', a),
-		FB: asExpression('bF_B').substitute('b', b),
-		FC: asExpression('cF_C').substitute('c', c),
-	}
-}
-
-function getEquation(state) {
-	const { aLeft, bLeft, cLeft } = state
-	const { FA, FB, FC } = getTerms(state)
-
-	return new Equation({
-		left: new Sum(aLeft ? FA : 0, bLeft ? FB : 0, cLeft ? FC : 0),
-		right: new Sum(aLeft ? 0 : FA, bLeft ? 0 : FB, cLeft ? 0 : FC),
-	}).removeUseless()
 }
 
 function getCorrect(state) {
-	const { a, b, c, aLeft, bLeft, cLeft, move } = state
+	// Extract state variables.
+	const variables = filterVariables(state, usedVariables, constants)
+	const variableToMove = variables[usedVariables[state.toMove]]
+	const isLeft = state[`${usedVariables[state.toMove]}Left`]
+	const isPositive = state[constants[state.toMove]] > 0
 
-	// Determine starting point.
-	const equation = getEquation(state)
+	// Assemble the equation.
+	const terms = []
+	let left = Integer.zero
+	let right = Integer.zero
+	usedVariables.map((variable, index) => {
+		const variablesInTerm = usedVariables.filter((_, varIndex) => index !== varIndex)
+		const term = asExpression(`${constants[index]}(${variablesInTerm[0]}-${variablesInTerm[1]})`).substituteVariables(variables)
+		terms.push(term)
+		if (state[`${variable}Left`])
+			left = left.add(term)
+		else
+			right = right.add(term)
+	})
+	const equation = new Equation(left, right).removeUseless()
 
-	// Determine what to move.
-	const { FA, FB, FC } = getTerms(state)
-	const term = [FA, FB, FC][move]
-	const intermediate = equation.subtract(term)
+	// Set up the solution.
+	const termToMove = terms[state.toMove]
+	const termToMoveAbs = isPositive ? termToMove : termToMove.applyMinus().removeUseless()
+	const intermediate = equation.applyToBothSides(side => side.subtract(termToMove)).removeUseless()
+	const ans = intermediate.basicClean()
 
-	// Determine data for displaying solutions.
-	const positive = [a > 0, b > 0, c > 0][move]
-	const left = [aLeft, bLeft, cLeft][move]
-	const termAbs = positive ? term : term.applyMinus()
-
-	// Determine the answer.
-	const ans = intermediate.simplify(simplifyOptions.basicClean)
-
-	return { ...state, equation, term, termAbs, positive, left, intermediate, ans }
+	return { ...state, variables, variableToMove, equation, termToMove, isPositive, isLeft, termToMoveAbs, intermediate, ans }
 }
 
 function checkInput(state, input, step) {
@@ -81,7 +77,6 @@ module.exports = {
 	data,
 	generateState,
 	processAction: getStepExerciseProcessor(checkInput, data),
-	getEquation,
 	getCorrect,
 	checkInput,
 }
