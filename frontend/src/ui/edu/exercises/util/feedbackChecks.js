@@ -54,7 +54,7 @@ export const hasSumWithinProduct = {
 
 export const noFraction = {
 	check: (correct, input) => !input.isType(Fraction),
-	text: <>Je resultaat is geen breuk. Er wordt een breuk als antwoord verwacht.</>,
+	text: <>Je antwoord is geen breuk. Er wordt een enkele breuk als antwoord verwacht.</>,
 }
 export const hasFractionWithinFraction = {
 	check: (correct, input) => expressionhasFractionWithinFraction(input),
