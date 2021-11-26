@@ -347,9 +347,9 @@ class Expression {
 	simplify(options) {
 		if (!options)
 			throw new Error(`Missing simplify options: when simplifying an expression, a simplifying options object must be given.`)
-		options = processOptions(options, simplifyOptions.noSimplify)
 		if (options.structure === undefined)
-			options.structure = true // Structure is ALWAYS simplified, unless specifically stated otherwise. It's crucial to the functioning of the CAS.
+			options.structure = true // Structure is ALWAYS simplified, unless specifically stated otherwise. (No idea why anyone would do that in the first place.) It's crucial to the functioning of the CAS to keep the structure simple.
+		options = processOptions(options, simplifyOptions.noSimplify)
 		return this.simplifyBasic(options)
 	}
 
@@ -1466,14 +1466,14 @@ class Fraction extends Function {
 				denominator = denominator.numerator
 			}
 		}
-		
+
 		// Split up fractions having numerator sums.
 		if (options.splitFractions) {
 			if (numerator.isType(Sum)) {
 				return new Sum(numerator.terms.map(term => new Fraction(term, denominator))).simplifyBasic(options)
 			}
 		}
-		
+
 		// Reduce the numbers in the fraction.
 		if (options.mergeFractionNumbers) {
 			// Only do this for fractions of products now. No support for sums (2x+2y)/2 or powers (2x)^2/2 is present.
@@ -1517,7 +1517,7 @@ class Fraction extends Function {
 
 			// ToDo: expand this to more generic cases, involving sums, powers, etcetera.
 		}
-		
+
 		// Merge fraction terms.
 		if (options.mergeFractionTerms) {
 			// Set up a terms list of all factors in the numerator and denominators. For denominator factors, add a power of -1 (invert them).
@@ -1542,7 +1542,7 @@ class Fraction extends Function {
 			numerator = new Product(numeratorTerms).removeUseless()
 			denominator = new Product(denominatorTerms).removeUseless()
 		}
-		
+
 		// ToDo: in case of a sum in the numerator/denominator, find the greatest common factor of all terms, and divide up/down by that.
 
 		// Check for useless elements.
