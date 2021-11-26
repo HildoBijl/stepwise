@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { useCurrentOrPrevious } from 'util/react'
 import { M } from 'ui/components/equations'
 
 import KeyboardLayout from './KeyboardLayout'
@@ -11,7 +10,6 @@ const defaultKeys = ['alpha','beta','gamma','delta','epsilon','zeta','eta','thet
 const upperCaseKeys = defaultKeys.map(keyID => keyID[0].toUpperCase() === keyID[0] ? keyID : (keyID[0].toUpperCase() + keyID.slice(1)))
 
 export function Layout({ settings, keyFunction, keySettings }) {
-	settings = useCurrentOrPrevious(settings) // When the settings turn to null, use the previous one for display purposes.
 	const numColumns = 11 // Buttons are two columns.
 	const numRows = 3
 	const keys = ({ shift }) => shift ? upperCaseKeys : defaultKeys

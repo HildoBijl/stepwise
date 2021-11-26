@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper'
 import Container from '@material-ui/core/Container'
 import { Keyboard as KeyboardIcon } from '@material-ui/icons'
 
-import { usePrevious, useEventListener } from 'util/react'
+import { usePrevious, useCurrentOrPrevious, useEventListener } from 'util/react'
 
 import Arrow from 'ui/components/icons/Arrow'
 
@@ -94,7 +94,6 @@ function Keyboard({ settings, keyFunction }, ref) {
 		},
 	}))
 
-
 	// When a different tab is requested by the input field, make sure to show it.
 	const requestedTab = settings && settings.tab
 	useEffect(() => {
@@ -132,6 +131,10 @@ function Keyboard({ settings, keyFunction }, ref) {
 	useEffect(positionKeyboardCB, [positionKeyboardCB, chosenTab]) // Also update the position when the active tab changes.
 	useEventListener('resize', positionKeyboardCB)
 
+	// Determine the settings for the given keyboard layout.
+	let layoutSettings = settings && chosenTab ? settings[chosenTab] : null
+	layoutSettings = useCurrentOrPrevious(layoutSettings) // When the settings turn to null, use the previous one for display purposes.
+
 	return <>
 		<Paper ref={barRef} elevation={12} square={true} className={clsx(classes.keyboardBar, 'keyboardBar')}>
 			<Container maxWidth={theme.appWidth}>
@@ -154,7 +157,7 @@ function Keyboard({ settings, keyFunction }, ref) {
 				</div>
 				<div ref={keyboardRef} className='keyboard'>
 					{Layout ?
-						<Layout settings={settings && chosenTab ? settings[chosenTab] : null} keyFunction={keyFunction} keySettings={settings && settings.keySettings} />
+						<Layout settings={layoutSettings} keyFunction={keyFunction} keySettings={settings && settings.keySettings} />
 						: null}
 				</div>
 			</Container>

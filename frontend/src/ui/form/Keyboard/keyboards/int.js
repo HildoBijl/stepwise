@@ -1,7 +1,6 @@
 import React from 'react'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
-import { useCurrentOrPrevious } from 'util/react'
 import { M } from 'ui/components/equations'
 
 import KeyboardLayout from './KeyboardLayout'
@@ -9,7 +8,6 @@ import KeyboardLayout from './KeyboardLayout'
 export const tab = <M>123</M>
 
 export function Layout({ settings, keyFunction, keySettings }) {
-	settings = useCurrentOrPrevious(settings) // When the settings turn to null, use the previous one for display purposes.
 	const smallScreen = !useMediaQuery(theme => theme.breakpoints.up('sm'))
 	const numColumns = smallScreen ? 7 : (settings.positive ? 13 : 14)
 	const numRows = smallScreen ? 2 : 1

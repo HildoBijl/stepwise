@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { useCurrentOrPrevious } from 'util/react'
 import { M } from 'ui/components/equations'
 
 import KeyboardLayout from './KeyboardLayout'
@@ -11,7 +10,6 @@ const defaultKeys = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'Backspac
 const upperCaseKeys = defaultKeys.map(keyID => keyID.length === 1 ? keyID.toUpperCase() : keyID)
 
 export function Layout({ settings, keyFunction, keySettings }) {
-	settings = useCurrentOrPrevious(settings) // When the settings turn to null, use the previous one for display purposes.
 	const numColumns = 25 // Buttons are two columns.
 	const numRows = 3
 	const keys = ({ shift }) => shift ? upperCaseKeys : defaultKeys

@@ -2,7 +2,6 @@ import React from 'react'
 
 import { numberArray } from 'step-wise/util/arrays'
 
-import { useCurrentOrPrevious } from 'util/react'
 import { M } from 'ui/components/equations'
 
 import KeyboardLayout from './KeyboardLayout'
@@ -18,7 +17,6 @@ const keyGrid = [
 const numbers = numberArray(0, 9)
 
 export function Layout({ settings, keyFunction, keySettings }) {
-	settings = useCurrentOrPrevious(settings) // When the settings turn to null, use the previous one for display purposes.
 	const numColumns = 10
 	const numRows = 4
 
