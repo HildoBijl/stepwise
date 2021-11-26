@@ -348,6 +348,8 @@ class Expression {
 		if (!options)
 			throw new Error(`Missing simplify options: when simplifying an expression, a simplifying options object must be given.`)
 		options = processOptions(options, simplifyOptions.noSimplify)
+		if (options.structure === undefined)
+			options.structure = true // Structure is ALWAYS simplified, unless specifically stated otherwise. It's crucial to the functioning of the CAS.
 		return this.simplifyBasic(options)
 	}
 

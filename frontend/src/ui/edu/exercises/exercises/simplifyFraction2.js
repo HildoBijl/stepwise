@@ -3,7 +3,7 @@ import React from 'react'
 import { expressionChecks } from 'step-wise/CAS'
 
 import { M, BM } from 'ui/components/equations'
-import { Par } from 'ui/components/containers'
+import { Par, SubHead } from 'ui/components/containers'
 import ExpressionInput, { basicMath, validWithVariables } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/Status'
 
@@ -65,9 +65,12 @@ const steps = [
 			</>
 		},
 		Solution: (state) => {
-			const { expressionWithIntermediate, simplifiedExpressionWithIntermediate, ans } = useCorrect(state)
+			const { variables, gcdValue, expression, expressionWithIntermediate, simplifiedExpressionWithIntermediate, ans } = useCorrect(state)
+			const factor = variables.a * variables.b / gcdValue
 			return <>
 				<Par>We hebben een breuk die we delen door een factor. In dit geval kunnen we de noemer ook direct met de factor vermenigvuldigen. Zo krijgen we <BM>{expressionWithIntermediate} = {simplifiedExpressionWithIntermediate} = {ans}.</BM> Dit kan niet nog verder gesimplificeerd worden.</Par>
+				<SubHead>Short-cut</SubHead>
+				<Par>Eventueel hadden we in het begin ook direct de boven- en onderkant van de grote breuk met <M>{factor}</M> kunnen vermenigvuldigen. We hadden dan, na het simplificeren van de breuken bovenin, direct gevonden dat <BM>{expression}={ans}.</BM> Deze short-cut vereist echter inzicht die je alleen via veel oefenen kan krijgen.</Par>
 			</>
 		},
 	},
