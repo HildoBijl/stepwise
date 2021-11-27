@@ -124,10 +124,23 @@ export function getInputFieldFeedback(parameter, exerciseData, extraOptions) {
 	return feedback
 }
 
-// getAllInputFieldsFeedback is a function that tries to give feedback about the provided input in as intelligent a manner as possible. It figures out for itself which fields to give input on.
+// getAllInputFieldsFeedback is a feedback function that tries to give feedback about the provided input in as intelligent a manner as possible. It figures out for itself which fields to give input on.
 export function getAllInputFieldsFeedback(exerciseData) {
-	const inputFields = Object.keys(exerciseData.input)
-	return getInputFieldFeedback(inputFields.length === 1 ? inputFields[0] : inputFields, exerciseData)
+	return getAllInputFieldsFeedbackExcluding([])(exerciseData)
+}
+
+// getAllInputFieldsFeedbackExcluding is a function that takes a list of fields not to give feedback on and returns a feedback function giving feedback on all other input fields.
+export function getAllInputFieldsFeedbackExcluding(excludedFields) {
+	// Ensure the excluded fields are an array.
+	if (!Array.isArray(excludedFields))
+		excludedFields = [excludedFields]
+
+	// Set up and return the feedback function.
+	return (exerciseData) => {
+		// Determine all fields that require feedback and ask for their feedback.
+		const inputFields = Object.keys(exerciseData.input).filter(inputField => !excludedFields.includes(inputField))
+		return getInputFieldFeedback(inputFields.length === 1 ? inputFields[0] : inputFields, exerciseData)
+	}
 }
 
 /* getNumberComparisonFeedback takes two Integers: a correct answer and an input answer. It then compares these and returns a feedback object in the form { correct: true/false, text: 'Some feedback text' }. Various options can be provided within the third parameter:

@@ -10,10 +10,10 @@ import { InputTable } from 'ui/components/misc/InputTable'
 
 import StepExercise from '../types/StepExercise'
 import { useCorrect } from '../ExerciseContainer'
-import { getAllInputFieldsFeedback } from '../util/feedback'
+import { getAllInputFieldsFeedbackExcluding } from '../util/feedback'
 
 export default function Exercise() {
-	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
+	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedbackExcluding('choice')} />
 }
 
 const colHeads = ['Druk', 'Specifiek volume', 'Temperatuur']
