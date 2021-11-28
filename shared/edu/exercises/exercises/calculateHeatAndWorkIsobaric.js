@@ -56,7 +56,7 @@ function generateState() {
 	return { gas, m, T1, T2 }
 }
 
-function getCorrect({ gas, m, T1, T2 }) {
+function getSolution({ gas, m, T1, T2 }) {
 	let { cp, Rs } = gasProperties[gas]
 	cp = cp.simplify()
 	m = m.simplify()
@@ -67,24 +67,24 @@ function getCorrect({ gas, m, T1, T2 }) {
 }
 
 function checkInput(state, input, step, substep) {
-	const correct = getCorrect(state)
+	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return input.process === correct.process
+			return input.process === solution.process
 		case 2:
-			return input.eq === correct.eq
+			return input.eq === solution.eq
 		case 3:
 			switch (substep) {
-				case 1: return checkParameter('cp', correct, input, data.equalityOptions)
-				case 2: return checkParameter('Rs', correct, input, data.equalityOptions)
+				case 1: return checkParameter('cp', solution, input, data.equalityOptions)
+				case 2: return checkParameter('Rs', solution, input, data.equalityOptions)
 			}
 		case 4:
 			switch (substep) {
-				case 1: return checkParameter('m', correct, input, data.equalityOptions)
-				case 2: return checkParameter(['T1', 'T2'], correct, input, data.equalityOptions)
+				case 1: return checkParameter('m', solution, input, data.equalityOptions)
+				case 2: return checkParameter(['T1', 'T2'], solution, input, data.equalityOptions)
 			}
 		default:
-			return checkParameter(['Q', 'W'], correct, input, data.equalityOptions)
+			return checkParameter(['Q', 'W'], solution, input, data.equalityOptions)
 	}
 }
 
@@ -93,5 +93,5 @@ module.exports = {
 	generateState,
 	processAction: getStepExerciseProcessor(checkInput, data),
 	checkInput,
-	getCorrect,
+	getSolution,
 }

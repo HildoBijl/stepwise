@@ -44,7 +44,7 @@ function generateState() {
 	return { p1, T1, p2, T4 }
 }
 
-function getCorrect({ p1, T1, p2, T4 }) {
+function getSolution({ p1, T1, p2, T4 }) {
 	p1 = p1.simplify()
 	T1 = T1.simplify()
 	p2 = p2.simplify()
@@ -63,16 +63,16 @@ function getCorrect({ p1, T1, p2, T4 }) {
 }
 
 function checkInput(state, input, step, substep) {
-	const correct = getCorrect(state)
+	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return checkParameter(['p1', 'v1', 'T1', 'p2', 'v2', 'T2'], correct, input, data.equalityOptions)
+			return checkParameter(['p1', 'v1', 'T1', 'p2', 'v2', 'T2'], solution, input, data.equalityOptions)
 		case 2:
-			return checkParameter(['p4', 'v4', 'T4'], correct, input, data.equalityOptions)
+			return checkParameter(['p4', 'v4', 'T4'], solution, input, data.equalityOptions)
 		case 3:
-			return checkParameter(['p3', 'v3', 'T3'], correct, input, data.equalityOptions)
+			return checkParameter(['p3', 'v3', 'T3'], solution, input, data.equalityOptions)
 		default:
-			return checkParameter(['p1', 'v1', 'T1', 'p2', 'v2', 'T2', 'p3', 'v3', 'T3', 'p4', 'v4', 'T4'], correct, input, data.equalityOptions)
+			return checkParameter(['p1', 'v1', 'T1', 'p2', 'v2', 'T2', 'p3', 'v3', 'T3', 'p4', 'v4', 'T4'], solution, input, data.equalityOptions)
 	}
 }
 
@@ -81,5 +81,5 @@ module.exports = {
 	generateState,
 	processAction: getStepExerciseProcessor(checkInput, data),
 	checkInput,
-	getCorrect,
+	getSolution,
 }

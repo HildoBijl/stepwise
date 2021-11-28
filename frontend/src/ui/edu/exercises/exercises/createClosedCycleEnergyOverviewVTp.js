@@ -62,9 +62,9 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: (state) => {
-			const { shared: { getCycleParameters, getCorrect } } = useExerciseData()
+			const { shared: { getCycleParameters, getSolution } } = useExerciseData()
 			const { m, T1, T2 } = getCycleParameters(state)
-			const { cv, Q12, W12 } = getCorrect(state)
+			const { cv, Q12, W12 } = getSolution(state)
 			return <Par>Bij een isochore stap geldt <M>W_(1-2) = {W12}.</M> We hoeven dus alleen <M>Q_(1-2)</M> te berekenen. Dit gaat het makkelijkst via <BM>Q_(1-2) = mc_v\left(T_2 - T_1\right) = {m.float} \cdot {cv.float} \cdot \left({T2.float} - {T1.float}\right) = {Q12}.</BM> Hiermee is de eerste stap doorgerekend.</Par>
 		},
 	},
@@ -79,9 +79,9 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: (state) => {
-			const { shared: { getCycleParameters, getCorrect } } = useExerciseData()
+			const { shared: { getCycleParameters, getSolution } } = useExerciseData()
 			const { p2, V2, V3 } = getCycleParameters(state)
-			const { Q23, W23 } = getCorrect(state)
+			const { Q23, W23 } = getSolution(state)
 			return <Par>Er zijn wederom meerdere formules om te gebruiken. We vinden <M>Q_(2-3)</M> het makkelijkst via <BM>Q_(2-3) = pV\ln\left(\frac(V_3)(V_2)\right) = {p2.float} \cdot {V2.float} \cdot \ln\left(\frac{V3.float}{V2.float}\right) = {Q23}.</BM> Omdat het een isotherm proces is geldt verder <M>W_(2-3) = Q_(2-3) = {W23}.</M> Hiermee is ook deze stap klaar.</Par>
 		},
 	},
@@ -96,9 +96,9 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: (state) => {
-			const { shared: { getCycleParameters, getCorrect } } = useExerciseData()
+			const { shared: { getCycleParameters, getSolution } } = useExerciseData()
 			const { m, V1, T1, p3, V3, T3 } = getCycleParameters(state)
-			const { cp, Q12, W12, Q23, W23, Q31, W31, Qn, Wn } = getCorrect(state)
+			const { cp, Q12, W12, Q23, W23, Q31, W31, Qn, Wn } = getSolution(state)
 			return <>
 				<Par>Er zijn meerdere formules die we kunnen gebruiken, maar het makkelijkst hier zijn <BM>Q_(3-1) = mc_p\left(T_1-T_3\right) = {m.float} \cdot {cp.float} \cdot \left({T1.float} - {T3.float}\right) = {Q31},</BM> <BM>W_(1-2) = p\left(V_1-V_3\right) = {p3.float} \cdot \left({V1.float} - {V3.float}\right) = {W12}.</BM> Daarmee is alles doorgerekend.</Par>
 				<Par>Als controle kunnen we nog kijken of de energiebalans klopt. De totaal netto toegevoerde warmte is <BM>Q_(netto) = Q_(1-2) + Q_(2-3) + Q_(3-1) = {Q12.float} {Q23.float.texWithPM} {Q31.float.texWithPM} = {Qn}.</BM> Dit moet gelijk zijn aan de totaal netto geleverde arbeid, welke gelijk is aan <BM>W_(netto) = W_(1-2) + W_(2-3) + W_(3-1) = {W12.float} {W23.float.texWithPM} {W31.float.texWithPM} = {Wn}.</BM> We zien dat dit inderdaad gelijk aan elkaar is, dus we hebben geen rekenfout gemaakt. Ook zien we dat het een positief kringproces betreft.</Par>

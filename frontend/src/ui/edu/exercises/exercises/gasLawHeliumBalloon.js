@@ -9,7 +9,7 @@ import { InputSpace } from 'ui/form/Status'
 
 import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -54,7 +54,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { Rs } = useCorrect()
+			const { Rs } = useSolution()
 			return <Par>De specifieke gasconstante van helium is <M>R_s = {Rs}.</M></Par>
 		},
 	},
@@ -66,7 +66,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { p, V, m, Rs, T } = useCorrect()
+			const { p, V, m, Rs, T } = useSolution()
 			return <Par>De gaswet luidt <BM>pV = mR_sT.</BM> Om <M>V</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>p.</M> Het resultaat is <BM>V = \frac(mR_sT)(p) = \frac({m.float} \cdot {Rs.float} \cdot {T.float})({p.float}) = {V}.</BM> Om dit wat intuïtiever te krijgen kunnen we dit nog omrekenen naar liters: het is <M>{V.setUnit('l')}.</M> Dat is grofweg wat we zouden verwachten van een ballon.</Par>
 		},
 	},

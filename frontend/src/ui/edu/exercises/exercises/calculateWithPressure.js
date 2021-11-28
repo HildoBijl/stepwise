@@ -8,7 +8,7 @@ import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getInputFieldFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -32,7 +32,7 @@ function Problem({ p, type }) {
 }
 
 function Solution({ p, type }) {
-	const correctAnswer = useCorrect()
+	const correctAnswer = useSolution()
 
 	switch (type) {
 		case 0:

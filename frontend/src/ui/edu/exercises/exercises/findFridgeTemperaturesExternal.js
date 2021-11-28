@@ -8,7 +8,7 @@ import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -27,7 +27,7 @@ function Problem({ type, Tcond, Tevap, dTcold, dTwarm }) {
 }
 
 function Solution() {
-	const { type, Tcold, Twarm, dTcold, dTwarm, Tevap, Tcond } = useCorrect()
+	const { type, Tcold, Twarm, dTcold, dTwarm, Tevap, Tcond } = useSolution()
 	return <Par>We bekijken eerst de condensor. Deze zit op <M>{Tcond}.</M> In de condensor gaat er warmte uit het koudemiddel (daarom condenseert het) en deze warmte wordt dus geleverd aan de {type === 'heatPump' ? 'huiskamer' : 'keuken'}. Om deze warmte te kunnen leveren moet deze ruimte dus kouder zijn dan de condensor. Zo vinden we
 	<BM>{type === 'heatPump' ? `T_(binnen)` : `T_(keuken)`} = T_c - \Delta T_c = {Tcond.float} - {dTwarm.float} = {Twarm}.</BM>
 	Vervolgens bekijken we de verdamper. Deze zit op <M>{Tevap}.</M> In de verdamper gaat er warmte in het koudemiddel (daarom verdampt het) en deze warmte wordt dus onttrokken aan de {type === 'heatPump' ? 'buitenlucht' : 'te koelen ruimte'}. Om hier warmte aan te kunnen onttrekken moet de temperatuur in de verdamper kouder zijn. Zo vinden we
@@ -37,8 +37,8 @@ function Solution() {
 }
 
 function getFeedback(exerciseData) {
-	const { input, state, shared: { getCorrect, data: { equalityOptions } } } = exerciseData
-	const { type, Tcold, Twarm, dTcold, dTwarm, Tevap, Tcond } = getCorrect(state)
+	const { input, state, shared: { getSolution, data: { equalityOptions } } } = exerciseData
+	const { type, Tcold, Twarm, dTcold, dTwarm, Tevap, Tcond } = getSolution(state)
 	const wrong = {
 		Twarm: Tcond.add(dTwarm),
 		Tcold: Tevap.subtract(dTcold),

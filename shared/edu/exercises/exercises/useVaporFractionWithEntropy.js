@@ -46,7 +46,7 @@ function generateState() {
 	}
 }
 
-function getCorrect({ type, T, p, s }) {
+function getSolution({ type, T, p, s }) {
 	// Use the right value to look up the enthalpy/entropy in the right table.
 	const value = (type === 1 ? T : p)
 	const table = (type === 1 ? withTemperature : withPressure)
@@ -62,14 +62,14 @@ function getCorrect({ type, T, p, s }) {
 }
 
 function checkInput(state, input, step, substep) {
-	const correct = getCorrect(state)
+	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return checkParameter(['hx0', 'hx1', 'sx0', 'sx1'], correct, input, data.equalityOptions)
+			return checkParameter(['hx0', 'hx1', 'sx0', 'sx1'], solution, input, data.equalityOptions)
 		case 2:
-			return checkParameter('x', correct, input, data.equalityOptions)
+			return checkParameter('x', solution, input, data.equalityOptions)
 		default:
-			return checkParameter('h', correct, input, data.equalityOptions)
+			return checkParameter('h', solution, input, data.equalityOptions)
 	}
 }
 
@@ -78,5 +78,5 @@ module.exports = {
 	generateState,
 	processAction: getStepExerciseProcessor(checkInput, data),
 	checkInput,
-	getCorrect,
+	getSolution,
 }

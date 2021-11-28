@@ -2,8 +2,8 @@ const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { combinerAnd } = require('../../../skillTracking')
 const { checkParameter } = require('../util/check')
-const { generateState: generateStateRaw, getCorrect: getCycleParameters } = require('./calculateOpenCycleNspsp')
-const { getCorrect: getEnergyParameters } = require('./createOpenCycleEnergyOverviewNspsp')
+const { generateState: generateStateRaw, getSolution: getCycleParameters } = require('./calculateOpenCycleNspsp')
+const { getSolution: getEnergyParameters } = require('./createOpenCycleEnergyOverviewNspsp')
 
 const data = {
 	skill: 'analyseOpenCycle',
@@ -35,7 +35,7 @@ function generateState() {
 		}),
 	}
 }
-function getCorrect(state) {
+function getSolution(state) {
 	const mdot = state.mdot.simplify()
 	const { Rs, k, p1, v1, T1, p2, v2, T2, p3, v3, T3, p4, v4, T4 } = getCycleParameters(state)
 	const { cv, cp, q12, wt12, q23, wt23, q34, wt34, q41, wt41, qn, wn } = getEnergyParameters(state)
@@ -49,21 +49,21 @@ function getCorrect(state) {
 }
 
 function checkInput(state, input, step, substep) {
-	const correct = getCorrect(state)
+	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return checkParameter(['p1', 'v1', 'T1', 'p2', 'v2', 'T2', 'p3', 'v3', 'T3', 'p4', 'v4', 'T4'], correct, input, data.equalityOptions)
+			return checkParameter(['p1', 'v1', 'T1', 'p2', 'v2', 'T2', 'p3', 'v3', 'T3', 'p4', 'v4', 'T4'], solution, input, data.equalityOptions)
 		case 2:
-			return checkParameter(['q12', 'wt12', 'q23', 'wt23', 'q34', 'wt34', 'q41', 'wt41'], correct, input, data.equalityOptions)
+			return checkParameter(['q12', 'wt12', 'q23', 'wt23', 'q34', 'wt34', 'q41', 'wt41'], solution, input, data.equalityOptions)
 		case 3:
 			switch (substep) {
 				case 1:
-					return checkParameter(['epsilon', 'COP'], correct, input, data.equalityOptions)
+					return checkParameter(['epsilon', 'COP'], solution, input, data.equalityOptions)
 				case 2:
-					return checkParameter(['Ph'], correct, input, data.equalityOptions)
+					return checkParameter(['Ph'], solution, input, data.equalityOptions)
 			}
 		default:
-			return checkParameter(['epsilon', 'COP', 'Ph'], correct, input, data.equalityOptions)
+			return checkParameter(['epsilon', 'COP', 'Ph'], solution, input, data.equalityOptions)
 	}
 }
 
@@ -73,5 +73,5 @@ module.exports = {
 	processAction: getStepExerciseProcessor(checkInput, data),
 	checkInput,
 	getCycleParameters,
-	getCorrect,
+	getSolution,
 }

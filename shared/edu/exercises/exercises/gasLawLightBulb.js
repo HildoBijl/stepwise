@@ -61,7 +61,7 @@ function generateState() {
 	return { V, p, T }
 }
 
-function getCorrect({ p, V, T }) {
+function getSolution({ p, V, T }) {
 	V = V.simplify()
 	p = p.simplify()
 	T = T.simplify()
@@ -70,7 +70,7 @@ function getCorrect({ p, V, T }) {
 }
 
 function checkInput(state, input, step, substep) {
-	const { p, V, m, Rs, T } = getCorrect(state)
+	const { p, V, m, Rs, T } = getSolution(state)
 
 	switch (step) {
 		case 1:
@@ -94,5 +94,5 @@ module.exports = {
 	generateState,
 	processAction: getStepExerciseProcessor(checkInput, data),
 	checkInput,
-	getCorrect,
+	getSolution,
 }

@@ -26,7 +26,7 @@ function generateState() {
 	return { p1, p2, T1, etai }
 }
 
-function getCorrect({ p1, p2, T1, etai }) {
+function getSolution({ p1, p2, T1, etai }) {
 	etai = etai.simplify()
 	const T2p = T1.multiply(p2.divide(p1).float.toPower(1 - 1 / k.number)).setDecimals(0)
 	const wti = cp.multiply(T1.subtract(T2p)).setUnit('J/kg')
@@ -36,16 +36,16 @@ function getCorrect({ p1, p2, T1, etai }) {
 }
 
 function checkInput(state, input, step, substep) {
-	const correct = getCorrect(state)
+	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return checkParameter('T2p', correct, input, data.equalityOptions)
+			return checkParameter('T2p', solution, input, data.equalityOptions)
 		case 2:
-			return checkParameter('wti', correct, input, data.equalityOptions)
+			return checkParameter('wti', solution, input, data.equalityOptions)
 		case 3:
-			return checkParameter('wt', correct, input, data.equalityOptions)
+			return checkParameter('wt', solution, input, data.equalityOptions)
 		default:
-			return checkParameter('T2', correct, input, data.equalityOptions)
+			return checkParameter('T2', solution, input, data.equalityOptions)
 	}
 }
 
@@ -54,5 +54,5 @@ module.exports = {
 	generateState,
 	processAction: getStepExerciseProcessor(checkInput, data),
 	checkInput,
-	getCorrect,
+	getSolution,
 }

@@ -6,7 +6,7 @@ import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import StepExercise from '../types/StepExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -33,7 +33,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { k, p1, p2, T1, T2p } = useCorrect()
+			const { k, p1, p2, T1, T2p } = useSolution()
 			return <Par>Poisson's wet zegt dat in dit geval <BM>\frac(T_1^n)(p_1^(n-1)) = \frac(T_(2')^n)(p_2^(n-1)).</BM> Het oplossen van de theoretische temperatuur <M>T_(2')</M> gaat via
 			<BM>T_(2')^n = T_1^n \frac(p_2^(n-1))(p_1^(n-1)) = T_1^n \left(\frac(p_2)(p_1)\right)^(n-1),</BM>
 				<BM>T_(2') = \left(T_1^n \left(\frac(p_2)(p_1)\right)^(n-1)\right)^(\frac(1)(n)) = T_1 \left(\frac(p_2)(p_1)\right)^(\frac(n-1)(n)) = {T1.float} \left(\frac{p2.float}{p1.float}\right)^(\frac({k}-1)({k})) = {T2p}.</BM>
@@ -50,7 +50,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { cp, T1, T2p, wti } = useCorrect()
+			const { cp, T1, T2p, wti } = useSolution()
 			return <>
 				<Par>Bij de compressor wordt geen warmte toegevoerd, dus <M>q = 0.</M> De technische arbeid volgt vanuit de eerste hoofdwet als
 				<BM>w_t = q - \Delta h = -\Delta h = -c_p \left(T_2 - T_1\right).</BM>
@@ -70,7 +70,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { wt, wti, etai } = useCorrect()
+			const { wt, wti, etai } = useSolution()
 			return <Par>Bij een compressor is de technische arbeid in het theoretische isentrope geval altijd kleiner dan de technische arbeid in werkelijkheid. Het isentrope rendement van een compressor is dus gedefinieerd als
 					<BM>\eta_i = \frac(w_(t_i))(w_t).</BM>
 					Dit oplossen voor <M>w_t</M> geeft
@@ -88,7 +88,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { cp, T1, T2, T2p, wt, etai } = useCorrect()
+			const { cp, T1, T2, T2p, wt, etai } = useSolution()
 			return <>
 				<Par>Voor de werkelijke situatie geldt ook
 					<BM>w_t = -\Delta h = -c_p \left(T_2 - T_1\right).</BM>

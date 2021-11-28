@@ -3,7 +3,7 @@ const { getStepExerciseProcessor } = require('../util/stepExercise')
 const gasProperties = require('../../../data/gasProperties')
 const { combinerRepeat, combinerOr } = require('../../../skillTracking')
 const { checkParameter } = require('../util/check')
-const { generateState, getCorrect: getCycleParametersRaw } = require('./calculateClosedCycleSTST')
+const { generateState, getSolution: getCycleParametersRaw } = require('./calculateClosedCycleSTST')
 
 const data = {
 	skill: 'createClosedCycleEnergyOverview',
@@ -35,7 +35,7 @@ function getCycleParameters(state) {
 	return { m, Rs, k, p1, V1, T1, p2, V2, T2, p3, V3, T3, p4, V4, T4 }
 }
 
-function getCorrect(state) {
+function getSolution(state) {
 	const { m, Rs, V1, T1, V2, T2, V3, T3, V4, T4 } = getCycleParameters(state)
 	let { cv, cp } = gasProperties[state.medium]
 	cv = cv.simplify()
@@ -57,18 +57,18 @@ function getCorrect(state) {
 }
 
 function checkInput(state, input, step, substep) {
-	const correct = getCorrect(state)
+	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return checkParameter(['Q12', 'W12'], correct, input, data.equalityOptions)
+			return checkParameter(['Q12', 'W12'], solution, input, data.equalityOptions)
 		case 2:
-			return checkParameter(['Q23', 'W23'], correct, input, data.equalityOptions)
+			return checkParameter(['Q23', 'W23'], solution, input, data.equalityOptions)
 		case 3:
-			return checkParameter(['Q34', 'W34'], correct, input, data.equalityOptions)
+			return checkParameter(['Q34', 'W34'], solution, input, data.equalityOptions)
 		case 4:
-			return checkParameter(['Q41', 'W41'], correct, input, data.equalityOptions)
+			return checkParameter(['Q41', 'W41'], solution, input, data.equalityOptions)
 		default:
-			return checkParameter(['Q12', 'W12', 'Q23', 'W23', 'Q34', 'W34', 'Q41', 'W41'], correct, input, data.equalityOptions)
+			return checkParameter(['Q12', 'W12', 'Q23', 'W23', 'Q34', 'W34', 'Q41', 'W41'], solution, input, data.equalityOptions)
 	}
 }
 
@@ -78,5 +78,5 @@ module.exports = {
 	processAction: getStepExerciseProcessor(checkInput, data),
 	checkInput,
 	getCycleParameters,
-	getCorrect,
+	getSolution,
 }

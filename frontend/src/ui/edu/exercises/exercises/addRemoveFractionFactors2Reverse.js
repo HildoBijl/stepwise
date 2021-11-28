@@ -7,7 +7,7 @@ import { Par } from 'ui/components/containers'
 import ExpressionInput, { basicMath, validWithVariables } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/Status'
 
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import SimpleExercise from '../types/SimpleExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
@@ -20,7 +20,7 @@ export default function Exercise() {
 }
 
 const Problem = (state) => {
-	const { variables, expression } = useCorrect(state)
+	const { variables, expression } = useSolution(state)
 	return <>
 		<Par>Gegeven is de breuk <BM>{expression}.</BM> Vermenigvuldig zowel de noemer als de teller met een factor <M>{variables.x}.</M> Schrijf het resultaat zo simpel mogelijk op.</Par>
 		<InputSpace>
@@ -32,7 +32,7 @@ const Problem = (state) => {
 }
 
 const Solution = (state) => {
-	const { variables, square, expression, ans } = useCorrect(state)
+	const { variables, square, expression, ans } = useSolution(state)
 	return <Par>We vermenigvuldigen de gegeven breuk boven en onder met de factor <M>{variables.x}.</M> Bovenin de breuk staat al een factor <M>{variables.x}</M>, dus we kunnen daar <M>{variables.x} \cdot {variables.x}</M> simpeler schrijven als <M>{square}.</M> Onderin komt er simpelweg een factor <M>{variables.x}</M> bij. Zo krijgen we <BM>{expression} = {ans}.</BM></Par>
 }
 

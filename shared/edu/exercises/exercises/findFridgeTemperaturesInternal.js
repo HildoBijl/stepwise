@@ -19,11 +19,11 @@ function generateState() {
 }
 
 function checkInput(state, input) {
-	const correct = getCorrect(state)
-	return checkParameter(['Tevap', 'Tcond'], correct, input, data.equalityOptions)
+	const solution = getSolution(state)
+	return checkParameter(['Tevap', 'Tcond'], solution, input, data.equalityOptions)
 }
 
-function getCorrect({ type, Tcold, Twarm, dTcold, dTwarm }) {
+function getSolution({ type, Tcold, Twarm, dTcold, dTwarm }) {
 	const Tevap = Tcold.subtract(dTcold)
 	const Tcond = Twarm.add(dTwarm)
 	return { type, Tcold, Twarm, dTcold, dTwarm, Tevap, Tcond }
@@ -34,5 +34,5 @@ module.exports = {
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),
 	checkInput,
-	getCorrect,
+	getSolution,
 }

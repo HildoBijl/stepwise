@@ -11,7 +11,7 @@ import { InputSpace } from 'ui/form/Status'
 import MollierDiagram from '../../content/diagrams/MollierDiagram'
 
 import SimpleExercise from '../types/SimpleExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -31,7 +31,7 @@ function Problem({ T, RH }) {
 }
 
 function Solution() {
-	const { T, RH, AHmax, AH } = useCorrect()
+	const { T, RH, AHmax, AH } = useSolution()
 	const plotRef = useRef()
 	useInitializer(() => {
 		const plot = plotRef.current

@@ -34,12 +34,12 @@ function generateState() {
 	}
 }
 
-function getCorrect({ a, b, c, d }) {
+function getSolution({ a, b, c, d }) {
 	return (c.multiply(d)).divide(a.multiply(b))
 }
 
 function checkInput(state, { ans }) {
-	return getCorrect(state).equals(ans, data.equalityOptions)
+	return getSolution(state).equals(ans, data.equalityOptions)
 }
 
 module.exports = {
@@ -47,5 +47,5 @@ module.exports = {
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),
 	checkInput,
-	getCorrect,
+	getSolution,
 }

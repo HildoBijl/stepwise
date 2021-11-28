@@ -15,11 +15,11 @@ function generateState() {
 }
 
 function checkInput(state, input) {
-	const correct = getCorrect(state)
-	return checkParameter('Rs', correct, input, data.equalityOptions)
+	const solution = getSolution(state)
+	return checkParameter('Rs', solution, input, data.equalityOptions)
 }
 
-function getCorrect({ medium }) {
+function getSolution({ medium }) {
 	return gasProperties[medium].Rs
 }
 
@@ -28,5 +28,5 @@ module.exports = {
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),
 	checkInput,
-	getCorrect,
+	getSolution,
 }

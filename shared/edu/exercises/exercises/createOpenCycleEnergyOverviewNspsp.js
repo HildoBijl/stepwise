@@ -3,7 +3,7 @@ const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { air } = require('../../../data/gasProperties')
 const { combinerRepeat, combinerOr } = require('../../../skillTracking')
 const { checkParameter } = require('../util/check')
-const { generateState, getCorrect: getCycleParametersRaw } = require('./calculateOpenCycleNspsp')
+const { generateState, getSolution: getCycleParametersRaw } = require('./calculateOpenCycleNspsp')
 
 const data = {
 	skill: 'createOpenCycleEnergyOverview',
@@ -35,7 +35,7 @@ function getCycleParameters(state) {
 	return { k, Rs, p1, v1, T1, p2, v2, T2, p3, v3, T3, p4, v4, T4 }
 }
 
-function getCorrect(state) {
+function getSolution(state) {
 	const { T1, T2, T3, T4 } = getCycleParameters(state)
 	let { cv, cp } = air
 	cv = cv.simplify()
@@ -54,18 +54,18 @@ function getCorrect(state) {
 }
 
 function checkInput(state, input, step, substep) {
-	const correct = getCorrect(state)
+	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return checkParameter(['q12', 'wt12'], correct, input, data.equalityOptions)
+			return checkParameter(['q12', 'wt12'], solution, input, data.equalityOptions)
 		case 2:
-			return checkParameter(['q23', 'wt23'], correct, input, data.equalityOptions)
+			return checkParameter(['q23', 'wt23'], solution, input, data.equalityOptions)
 		case 3:
-			return checkParameter(['q34', 'wt34'], correct, input, data.equalityOptions)
+			return checkParameter(['q34', 'wt34'], solution, input, data.equalityOptions)
 		case 4:
-			return checkParameter(['q41', 'wt41'], correct, input, data.equalityOptions)
+			return checkParameter(['q41', 'wt41'], solution, input, data.equalityOptions)
 		default:
-			return checkParameter(['q12', 'wt12', 'q23', 'wt23', 'q34', 'wt34', 'q41', 'wt41'], correct, input, data.equalityOptions)
+			return checkParameter(['q12', 'wt12', 'q23', 'wt23', 'q34', 'wt34', 'q41', 'wt41'], solution, input, data.equalityOptions)
 	}
 }
 
@@ -75,5 +75,5 @@ module.exports = {
 	processAction: getStepExerciseProcessor(checkInput, data),
 	checkInput,
 	getCycleParameters,
-	getCorrect,
+	getSolution,
 }

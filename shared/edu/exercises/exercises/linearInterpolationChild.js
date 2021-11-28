@@ -59,7 +59,7 @@ function generateState() {
 	}
 }
 
-function getCorrect({ type, h1, h2, W1, W2, h, W }) {
+function getSolution({ type, h1, h2, W1, W2, h, W }) {
 	let x
 	if (type === 1) {
 		x = h.subtract(h1).divide(h2.subtract(h1)).setUnit('')
@@ -72,12 +72,12 @@ function getCorrect({ type, h1, h2, W1, W2, h, W }) {
 }
 
 function checkInput(state, input, step, substep) {
-	const correct = getCorrect(state)
+	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return checkParameter('x', correct, input, data.equalityOptions)
+			return checkParameter('x', solution, input, data.equalityOptions)
 		default:
-			return checkParameter(state.type === 1 ? 'W' : 'h', correct, input, data.equalityOptions)
+			return checkParameter(state.type === 1 ? 'W' : 'h', solution, input, data.equalityOptions)
 	}
 }
 
@@ -86,5 +86,5 @@ module.exports = {
 	generateState,
 	processAction: getStepExerciseProcessor(checkInput, data),
 	checkInput,
-	getCorrect,
+	getSolution,
 }

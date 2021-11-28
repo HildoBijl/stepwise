@@ -7,7 +7,7 @@ import { Par } from 'ui/components/containers'
 import ExpressionInput, { basicMath, validWithVariables } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/Status'
 
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import SimpleExercise from '../types/SimpleExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
@@ -20,7 +20,7 @@ export default function Exercise() {
 }
 
 const Problem = (state) => {
-	const { toSplit, variables, expression } = useCorrect(state)
+	const { toSplit, variables, expression } = useSolution(state)
 	return <>
 		{toSplit ? <Par>Gegeven is de breuk <BM>{expression}.</BM> Splits deze breuk op in twee losse breuken.</Par> : <Par>Gegeven is de uitdrukking <BM>{expression}.</BM> Schrijf dit als één breuk.</Par>}
 		<InputSpace>
@@ -32,7 +32,7 @@ const Problem = (state) => {
 }
 
 const Solution = (state) => {
-	const { toSplit, plus, expression, ans } = useCorrect(state)
+	const { toSplit, plus, expression, ans } = useSolution(state)
 	if (toSplit) {
 		return <Par>Bij een breuk mag je elke term in de teller ook los door de noemer delen. Een eventueel plus/min teken blijft hierbij behouden. Zo vinden we <BM>{expression} = {ans}.</BM></Par>
 	}

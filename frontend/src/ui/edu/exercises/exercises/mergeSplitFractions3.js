@@ -7,7 +7,7 @@ import { Par } from 'ui/components/containers'
 import ExpressionInput, { basicMath, validWithVariables } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/Status'
 
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
 
@@ -21,7 +21,7 @@ export default function Exercise() {
 }
 
 const Problem = (state) => {
-	const { variables, expression } = useCorrect(state)
+	const { variables, expression } = useSolution(state)
 	return <>
 		<Par>Gegeven is de uitdrukking <BM>{expression}.</BM> Schrijf dit als één breuk. Simplificeer je antwoord zo veel mogelijk.</Par>
 		<InputSpace>
@@ -35,7 +35,7 @@ const Problem = (state) => {
 const steps = [
 	{
 		Problem: (state) => {
-			const { variables, leftExpression, rightExpression } = useCorrect(state)
+			const { variables, leftExpression, rightExpression } = useSolution(state)
 			return <>
 				<Par>Vind de <strong>kleinst mogelijke veelvoud</strong> van de twee noemers <M>{leftExpression.denominator}</M> en <M>{rightExpression.denominator}</M>.</Par>
 				<InputSpace>
@@ -46,13 +46,13 @@ const steps = [
 			</>
 		},
 		Solution: (state) => {
-			const { variables, leftExpression, rightExpression, denominator } = useCorrect(state)
+			const { variables, leftExpression, rightExpression, denominator } = useSolution(state)
 			return <Par>Vanwege <M>{leftExpression.denominator}</M> hebben we factoren <M>{variables.x}</M> en <M>{variables.z}</M> nodig. Vanwege <M>{rightExpression.denominator}</M> hebben we tevens factoren <M>{variables.y}</M> en <M>{variables.z}</M> nodig. Alles tezamen hebben we dus factoren <M>{variables.x}</M>, <M>{variables.y}</M> en <M>{variables.z}</M> nodig. Zo vinden we de veelvoud <BM>{denominator}.</BM> Dit is de kleinste veelvoud van zowel <M>{leftExpression.denominator}</M> als <M>{rightExpression.denominator}.</M> De factor <M>{variables.z}</M> hoeft dus <strong>niet</strong> dubbel aanwezig te zijn.</Par>
 		},
 	},
 	{
 		Problem: (state) => {
-			const { variables, leftExpression, rightExpression, denominator } = useCorrect(state)
+			const { variables, leftExpression, rightExpression, denominator } = useSolution(state)
 			return <>
 				<Par>Herschrijf de beide breuken zodat ze <M>{denominator}</M> als noemer hebben.</Par>
 				<InputSpace>
@@ -64,13 +64,13 @@ const steps = [
 			</>
 		},
 		Solution: (state) => {
-			const { variables, leftExpression, rightExpression, leftAns, rightAns } = useCorrect(state)
+			const { variables, leftExpression, rightExpression, leftAns, rightAns } = useSolution(state)
 			return <Par>Bij de eerste breuk vermenigvuldigen we boven en onder met <M>{variables.y}.</M> Zo vinden we <BM>{leftExpression} = {leftAns}.</BM> Voor de tweede breuk vermenigvuldigen we boven en onder met <M>{variables.x}.</M> Hiermee krijgen we <BM>{rightExpression} = {rightAns}.</BM></Par>
 		},
 	},
 	{
 		Problem: (state) => {
-			const { variables, expression } = useCorrect(state)
+			const { variables, expression } = useSolution(state)
 			return <>
 				<Par>Voeg de twee herschreven breuken samen tot één breuk.</Par>
 				<InputSpace>
@@ -81,7 +81,7 @@ const steps = [
 			</>
 		},
 		Solution: (state) => {
-			const { plus, expression, leftAns, rightAns, ans } = useCorrect(state)
+			const { plus, expression, leftAns, rightAns, ans } = useSolution(state)
 			return <Par>Als we alles bij elkaar voegen, dan vinden we <BM>{expression} = {leftAns} {plus ? '+' : '-'} {rightAns} = {ans}.</BM> Hiermee zijn de twee breuken samengevoegd als één breuk.</Par>
 		},
 	},

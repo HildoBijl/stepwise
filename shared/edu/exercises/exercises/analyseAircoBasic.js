@@ -31,7 +31,7 @@ function generateState() {
 	return { T1, T3, T4, startRH }
 }
 
-function getCorrect({ T1, T3, T4, startRH }) {
+function getSolution({ T1, T3, T4, startRH }) {
 	startRH = startRH.simplify()
 	const startAHmax = tableInterpolate(T1, maximumHumidity).setSignificantDigits(2)
 	const startAH = startRH.multiply(startAHmax)
@@ -43,14 +43,14 @@ function getCorrect({ T1, T3, T4, startRH }) {
 }
 
 function checkInput(state, input, step, substep) {
-	const correct = getCorrect(state)
+	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return checkParameter('startAH', correct, input, data.equalityOptions)
+			return checkParameter('startAH', solution, input, data.equalityOptions)
 		case 2:
-			return checkParameter('endAH', correct, input, data.equalityOptions)
+			return checkParameter('endAH', solution, input, data.equalityOptions)
 		default:
-			return checkParameter('endRH', correct, input, data.equalityOptions)
+			return checkParameter('endRH', solution, input, data.equalityOptions)
 	}
 }
 
@@ -59,5 +59,5 @@ module.exports = {
 	generateState,
 	processAction: getStepExerciseProcessor(checkInput, data),
 	checkInput,
-	getCorrect,
+	getSolution,
 }

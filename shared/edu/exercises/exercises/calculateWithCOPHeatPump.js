@@ -21,12 +21,12 @@ function generateState() {
 	return { Pe, Pin }
 }
 
-function getCorrect({ Pe, Pin }) {
+function getSolution({ Pe, Pin }) {
 	return Pin.add(Pe).divide(Pe).setUnit('').setSignificantDigits(2)
 }
 
 function checkInput(state, input, step, substep) {
-	return checkParameter('COP', getCorrect(state), input, data.equalityOptions)
+	return checkParameter('COP', getSolution(state), input, data.equalityOptions)
 }
 
 module.exports = {
@@ -34,5 +34,5 @@ module.exports = {
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),
 	checkInput,
-	getCorrect,
+	getSolution,
 }

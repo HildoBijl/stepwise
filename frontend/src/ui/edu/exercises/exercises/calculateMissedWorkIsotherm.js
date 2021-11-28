@@ -8,7 +8,7 @@ import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import StepExercise from '../types/StepExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -35,7 +35,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { Tw, Tc, Qw, Qc, dSw, dSc, dS } = useCorrect()
+			const { Tw, Tc, Qw, Qc, dSw, dSc, dS } = useSolution()
 			return <>
 				<Par>Als eerste zetten we de temperaturen in Kelvin, volgens <M>T_w = {Tw}</M> en <M>T_k = {Tc}.</M> Hiermee berekenen we de entropieveranderingen van elk vat. Deze zijn
 				<BM>\Delta S_w = \frac(Q_w)(T_w) = \frac{Qw.float}{Tw.float} = {dSw},</BM>
@@ -56,7 +56,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { Q, Tc, Tw, dS, Wm } = useCorrect()
+			const { Q, Tc, Tw, dS, Wm } = useSolution()
 			const eta = new FloatUnit('1.000000000000').subtract(Tc.divide(Tw))
 			return <>
 				<Par>De koudste temperatuur waar in dit probleem warmte geloosd kan worden is <M>T_k = {Tc}.</M> Via de standaard formule voor gemiste arbeid vinden we zo <BM>W_m = T_k \Delta S = {Tc.float} \cdot {dS.float} = {Wm}.</BM></Par>

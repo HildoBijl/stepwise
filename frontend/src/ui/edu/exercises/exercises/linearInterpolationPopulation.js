@@ -9,7 +9,7 @@ import FloatInput from 'ui/form/inputs/FloatInput'
 import { InputSpace } from 'ui/form/Status'
 
 import StepExercise from '../types/StepExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -50,7 +50,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { type, year1, year2, pop1, pop2, x, year, pop } = useCorrect()
+			const { type, year1, year2, pop1, pop2, x, year, pop } = useSolution()
 			return type === 1 ? <>
 				<Par>Stel, we zijn nu in het jaar <M>{year}.</M> Het aantal gepasseerde jaren sinds de eerste meting is <BM>t - t_1 = {year} - {year1} = {year - year1}.</BM> Het totaal aantal jaren tussen de metingen is <BM>t_2 - t_1 = {year2} - {year1} = {year2 - year1}.</BM> Als deel is dit <BM>x = \frac(t - t_1)(t_2 - t_1) = \frac({year} - {year1})({year2} - {year1}) = \frac({year - year1})({year2 - year1}) = {roundTo(x, 2)}.</BM> Dit is dus het deel van de gepasseerde tijd.</Par>
 			</> : <>
@@ -75,7 +75,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { type, year1, year2, pop1, pop2, x, year, pop, yearFloored, popRounded } = useCorrect()
+			const { type, year1, year2, pop1, pop2, x, year, pop, yearFloored, popRounded } = useSolution()
 			return type === 1 ?
 				<Par>We beginnen al op <M>n_1 = {pop1} (\rm\ mensen).</M> Tijdens de gehele periode is de toename <BM>n_2 - n_1 = {pop2} - {pop1} = {pop2 - pop1} (\rm\ mensen).</BM> We hebben slechts een deel <M>x = {roundTo(x, 2)}</M> van deze toename. Dit is een toename van <BM>x \left(n_2 - n_1\right) = {roundTo(x, 2)} \cdot \left({pop2} - {pop1}\right) = {roundTo(x * (pop2 - pop1), 0)} (\rm\ mensen).</BM> De totale hoeveelheid mensen is hiermee <BM>n = n_1 + x\left(n_2 - n_1\right) = {pop1} + {roundTo(x, 2)} \cdot \left({pop2} - {pop1}\right) = {roundTo(pop, 1)} (\rm\ mensen).</BM> Merk op dat het aantal mensen een geheel getal moet zijn, waardoor we dit afronden naar <M>{popRounded} (\rm\ mensen).</M> Als controle kunnen we checken of dit getal wel tussen <M>{pop1}</M> en <M>{pop2}</M> valt. Dat is inderdaad het geval.</Par> :
 				<Par>Het beginjaar is <M>t_1 = {year1} (\rm\ jaar).</M> De gehele periode duurt <BM>t_2 - t_1 = {year2} - {year1} = {year2 - year1} (\rm\ jaar).</BM> Er is slechts een deel <M>x = {roundTo(x, 2)}</M> van deze periode gepasseerd. Dit komt neer op <BM>x \left(t_2 - t_1\right) = {roundTo(x, 2)} \cdot \left({year2} - {year1}\right) = {roundTo(x * (year2 - year1), 1)} (\rm\ jaar).</BM> Het exacte jaartal is hiermee <BM>t = t_1 + x\left(t_2 - t_1\right) = {year1} + {roundTo(x, 2)} \cdot \left({year2} - {year1}\right) = {roundTo(year, 1)}.</BM> Merk op dat alle metingen gedaan zijn op 1 januari (het begin van het jaar) waardoor we het deel achter de komma mogen negeren. Het jaartal is dus simpelweg <M>{yearFloored}.</M> Als controle kunnen we nog checken of dit jaartal inderdaad tussen <M>{year1}</M> en <M>{year2}</M> valt. Dat is inderdaad het geval.</Par>

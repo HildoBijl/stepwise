@@ -7,7 +7,7 @@ import { Par } from 'ui/components/containers'
 import ExpressionInput, { basicMath, validWithVariables } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/Status'
 
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import SimpleExercise from '../types/SimpleExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
@@ -20,7 +20,7 @@ export default function Exercise() {
 }
 
 const Problem = (state) => {
-	const { variables, expression } = useCorrect(state)
+	const { variables, expression } = useSolution(state)
 	return <>
 		<Par>Gegeven is de breuk <BM>{expression}.</BM> Streep gemeenschappelijke factoren in de teller/noemer weg. Simplificeer het resultaat zo veel mogelijk.</Par>
 		<InputSpace>
@@ -32,7 +32,7 @@ const Problem = (state) => {
 }
 
 const Solution = (state) => {
-	const { upper, sum, expression, ans } = useCorrect(state)
+	const { upper, sum, expression, ans } = useSolution(state)
 	if (upper)
 		return <Par>Zowel de teller als de noemer bevat een factor <M>{sum}.</M> Deze kan dus boven en onder weggelaten worden. Als we de noemer door <M>{sum}</M> delen, dan blijft er <M>1</M> over. Zo vinden we <BM>{expression} = \frac({ans})(1).</BM> Delen door <M>1</M> heeft geen effect, waardoor dit simpeler geschreven kan worden als <BM>{expression} = {ans}.</BM></Par>
 	return <Par>Zowel de teller als de noemer bevat een factor <M>{sum}.</M> Deze kan dus boven en onder weggelaten worden. Als we de teller door <M>{sum}</M> delen, dan blijft er <M>1</M> over. Zo vinden we <BM>{expression} = {ans}.</BM> Dit kan niet simpeler geschreven worden.</Par>

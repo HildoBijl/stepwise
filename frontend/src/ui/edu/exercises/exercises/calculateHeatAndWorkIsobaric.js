@@ -8,7 +8,7 @@ import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { Dutch } from 'ui/lang/gases'
 
 import StepExercise from '../types/StepExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -80,7 +80,7 @@ const steps = [
 			</>
 		},
 		Solution: () => {
-			const { gas, cp, Rs } = useCorrect()
+			const { gas, cp, Rs } = useSolution()
 
 			return <Par>Voor {Dutch[gas]} geldt <M>c_p = {cp}</M> en <M>R_s = {Rs}.</M></Par>
 		},
@@ -111,7 +111,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { cp, Rs, m, T1, T2, Q, W } = useCorrect()
+			const { cp, Rs, m, T1, T2, Q, W } = useSolution()
 
 			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we <BM>Q = mc_p\left(T_2-T_1\right) = {m.float} \cdot {cp.float} \cdot \left({T2.float} - {T1.float}\right) = {Q},</BM><BM>W = mR_s\left(T_2-T_1\right) = {m.float} \cdot {Rs.float} \cdot \left({T2.float} - {T1.float}\right) = {W}.</BM> Het is lastig om te controleren of dit logisch is. De richtlijn is dat het aantal Joules bij een proces vaak een stuk groter is (een factor 10 à 100) dan het aantal gram gas. Dit lijkt te kloppen met onze waarden, waardoor de antwoorden logisch lijken.</Par>
 		},

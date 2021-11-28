@@ -66,9 +66,9 @@ export function getPrevProgress(history) {
 	return history[history.length - 2].progress
 }
 
-export function useCorrect() {
+export function useSolution() {
 	const { state, shared } = useExerciseData()
-	if (!shared.getCorrect)
-		throw new Error(`Missing getCorrect function: could not find the getCorrect function in the shared export of the respective exercise.`)
-	return shared.getCorrect(state)
+	if (!shared.getSolution)
+		throw new Error(`Missing getSolution function: could not find the getSolution function in the shared export of the respective exercise.`)
+	return shared.getSolution(state)
 }

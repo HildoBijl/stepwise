@@ -30,7 +30,7 @@ function generateState() {
 	return { q, Qdot }
 }
 
-function getCorrect({ q, Qdot }) {
+function getSolution({ q, Qdot }) {
 	q = q.simplify()
 	Qdot = Qdot.simplify()
 	const mdot = Qdot.divide(q).setUnit('kg/s')
@@ -38,8 +38,8 @@ function getCorrect({ q, Qdot }) {
 }
 
 function checkInput(state, input) {
-	const correct = getCorrect(state)
-	return checkParameter('mdot', correct, input, data.equalityOptions)
+	const solution = getSolution(state)
+	return checkParameter('mdot', solution, input, data.equalityOptions)
 }
 
 module.exports = {
@@ -47,5 +47,5 @@ module.exports = {
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),
 	checkInput,
-	getCorrect,
+	getSolution,
 }

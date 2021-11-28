@@ -21,12 +21,12 @@ function generateState() {
 	return { Ee, Eout }
 }
 
-function getCorrect({ Ee, Eout }) {
+function getSolution({ Ee, Eout }) {
 	return Eout.subtract(Ee).divide(Ee).setUnit('').setSignificantDigits(2)
 }
 
 function checkInput(state, input, step, substep) {
-	return checkParameter('epsilon', getCorrect(state), input, data.equalityOptions)
+	return checkParameter('epsilon', getSolution(state), input, data.equalityOptions)
 }
 
 module.exports = {
@@ -34,5 +34,5 @@ module.exports = {
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),
 	checkInput,
-	getCorrect,
+	getSolution,
 }

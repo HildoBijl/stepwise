@@ -9,7 +9,7 @@ import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getInputFieldFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -32,7 +32,7 @@ function Problem({ m, type, prefix }) {
 }
 
 function Solution({ m, type, prefix }) {
-	const correctAnswer = useCorrect()
+	const correctAnswer = useSolution()
 	const fromPrefix = (type === 2 ? 'k' : prefix)
 	const toPrefix = (type === 2 ? prefix : 'k')
 	const fromName = getPrefixName(fromPrefix)

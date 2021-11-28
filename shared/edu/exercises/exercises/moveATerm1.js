@@ -34,7 +34,7 @@ function generateState() {
 	}
 }
 
-function getCorrect(state) {
+function getSolution(state) {
 	// Extract state variables.
 	const variables = filterVariables(state, usedVariables, constants)
 	const variableToMove = variables[usedVariables[state.toMove]]
@@ -65,17 +65,17 @@ function getCorrect(state) {
 }
 
 function checkInput(state, input, step) {
-	const correct = getCorrect(state)
+	const solution = getSolution(state)
 	if (step === 0 || step === 2)
-		return performCheck('ans', correct, input, data.check)
+		return performCheck('ans', solution, input, data.check)
 	if (step === 1)
-		return performCheck('intermediate', correct, input, data.check)
+		return performCheck('intermediate', solution, input, data.check)
 }
 
 module.exports = {
 	data,
 	generateState,
 	processAction: getStepExerciseProcessor(checkInput, data),
-	getCorrect,
+	getSolution,
 	checkInput,
 }

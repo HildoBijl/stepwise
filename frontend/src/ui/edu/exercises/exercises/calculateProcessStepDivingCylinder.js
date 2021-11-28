@@ -10,7 +10,7 @@ import { InputSpace } from 'ui/form/Status'
 import { InputTable } from 'ui/components/misc/InputTable'
 
 import StepExercise from '../types/StepExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -47,7 +47,7 @@ const steps = [
 		</>,
 		Solution: (state) => {
 			const { m, p1, T1 } = state
-			const { Rs, p1: p1s, V1, T1: T1s } = useCorrect()
+			const { Rs, p1: p1s, V1, T1: T1s } = useSolution()
 			return <>
 				<Par>We gaan de gaswet gebruiken. Hierbij moeten alle waarden in standaard eenheden staan. Dus schrijven we op,<BM>T_1 = {T1.float} + {TConversion.float} = {T1s},</BM><BM>p_1 = {p1} \cdot {pConversion} = {p1s}.</BM> De massa <M>m = {m}</M> staat al in standaard eenheden.</Par>
 				<Par>Ook is de specifieke gasconstante van zuurstof nodig. Deze kunnen we opzoeken als <BM>R_s = {Rs}.</BM></Par>
@@ -80,7 +80,7 @@ const steps = [
 		</>,
 		Solution: (state) => {
 			const { m, p1, T2 } = state
-			const { Rs, T2: T2s, V2, p2 } = useCorrect()
+			const { Rs, T2: T2s, V2, p2 } = useSolution()
 			return <Par>We weten inmiddels dat <BM>V_2 = V_1 = {V2}.</BM> Ook is de eindtemperatuur <M>T_2</M> bekend. In standaard eenheden is deze <BM>T_2 = {T2.float} + {TConversion.float} = {T2s}.</BM> Alleen <M>p_2</M> is nog onbekend. Deze kunnen we vinden via de gaswet <BM>pV = mR_sT.</BM> Als we deze oplossen voor <M>p_2</M> vinden we <BM>p_2 = \frac(mR_sT_2)(V_2) = \frac({m.float} \cdot {Rs.float} \cdot {T2s.float})({V2.float}) = {p2}.</BM> Deze einddruk <M>p_2 = {p2.setUnit('bar').setDecimals(0)}</M> is iets minder dan de begindruk van <M>p_1 = {p1.setUnit('bar').setDecimals(0)}</M> wat logisch is: de afkoeling laat de druk iets afnemen.</Par>
 		},
 	},

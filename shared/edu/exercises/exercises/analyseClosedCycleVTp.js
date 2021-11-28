@@ -1,8 +1,8 @@
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd } = require('../../../skillTracking')
 const { checkParameter } = require('../util/check')
-const { generateState, getCorrect: getCycleParameters } = require('./calculateClosedCycleVTp')
-const { getCorrect: getEnergyParameters } = require('./createClosedCycleEnergyOverviewVTp')
+const { generateState, getSolution: getCycleParameters } = require('./calculateClosedCycleVTp')
+const { getSolution: getEnergyParameters } = require('./createClosedCycleEnergyOverviewVTp')
 
 const data = {
 	skill: 'analyseClosedCycle',
@@ -23,7 +23,7 @@ const data = {
 	},
 }
 
-function getCorrect(state) {
+function getSolution(state) {
 	const { m, Rs, p1, V1, T1, p2, V2, T2, p3, V3, T3 } = getCycleParameters(state)
 	const { cv, cp, Q12, W12, Q23, W23, Q31, W31, Wn } = getEnergyParameters(state)
 
@@ -33,19 +33,19 @@ function getCorrect(state) {
 }
 
 function checkInput(state, input, step, substep) {
-	const correct = getCorrect(state)
+	const solution = getSolution(state)
 	const { choice } = input
 	switch (step) {
 		case 1:
-			return checkParameter(['p1', 'V1', 'T1', 'p2', 'V2', 'T2', 'p3', 'V3', 'T3'], correct, input, data.equalityOptions)
+			return checkParameter(['p1', 'V1', 'T1', 'p2', 'V2', 'T2', 'p3', 'V3', 'T3'], solution, input, data.equalityOptions)
 		case 2:
-			return checkParameter(['Q12', 'W12', 'Q23', 'W23', 'Q31', 'W31'], correct, input, data.equalityOptions)
+			return checkParameter(['Q12', 'W12', 'Q23', 'W23', 'Q31', 'W31'], solution, input, data.equalityOptions)
 		case 3:
 			return choice === 0
 		default:
 			if (choice === 1)
 				return false
-			return checkParameter('eta', correct, input, data.equalityOptions)
+			return checkParameter('eta', solution, input, data.equalityOptions)
 	}
 }
 
@@ -55,5 +55,5 @@ module.exports = {
 	processAction: getStepExerciseProcessor(checkInput, data),
 	checkInput,
 	getCycleParameters,
-	getCorrect,
+	getSolution,
 }

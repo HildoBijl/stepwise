@@ -20,7 +20,7 @@ function generateState() {
 	return { p, type }
 }
 
-function getCorrect({ p, type }) {
+function getSolution({ p, type }) {
 	// Get pressure.
 	const T = tableInterpolate(p, withPressure.boilingTemperature)
 
@@ -34,8 +34,8 @@ function getCorrect({ p, type }) {
 }
 
 function checkInput(state, input) {
-	const correct = getCorrect(state)
-	return checkParameter(['T', 'h', 's'], correct, input, data.equalityOptions)
+	const solution = getSolution(state)
+	return checkParameter(['T', 'h', 's'], solution, input, data.equalityOptions)
 }
 
 module.exports = {
@@ -43,5 +43,5 @@ module.exports = {
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),
 	checkInput,
-	getCorrect,
+	getSolution,
 }

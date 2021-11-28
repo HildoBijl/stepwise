@@ -8,7 +8,7 @@ import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { Dutch } from 'ui/lang/gases'
 
 import StepExercise from '../types/StepExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -79,7 +79,7 @@ const steps = [
 			</>
 		},
 		Solution: () => {
-			const { gas, Rs } = useCorrect()
+			const { gas, Rs } = useSolution()
 
 			return <Par>Voor {Dutch[gas]} geldt <M>R_s = {Rs}.</M></Par>
 		},
@@ -94,7 +94,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { p1, p2, ratio } = useCorrect()
+			const { p1, p2, ratio } = useSolution()
 			return <Par>De gaswet zegt dat <M>pv = R_sT.</M> We weten hier dat <M>R_s</M> en <M>T</M> beiden constant blijven. Dus moet ook <M>pv</M> constant blijven. Er geldt dus <BM>p_1v_1 = p_2v_2.</BM> Hieruit kunnen we de volumeverhouding halen. Deze is het omgekeerde van de drukverhouding. Oftewel, <BM>\frac(v_2)(v_1) = \frac(p_1)(p_2) = \frac{p1.float}{p2.float} = {ratio}.</BM> Dit kunnen we straks in de formule voor <M>q</M> en <M>w_t</M> invullen.</Par>
 		},
 	},
@@ -122,7 +122,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { Rs, T, ratio, q } = useCorrect()
+			const { Rs, T, ratio, q } = useSolution()
 			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we <BM>q = wt = R_sT \ln\left(\frac(v_2)(v_1)\right) = {Rs.float} \cdot {T.float} \cdot \ln\left({ratio.float}\right) = {q}.</BM> Het minteken hier betekent dat er warmte <strong>uit het gas</strong> stroomt, en dat er arbeid <strong>op het gas</strong> wordt verricht. Dit klopt, want we zijn het gas aan het comprimeren, dus dit kost arbeid. Het minteken moet dus zeker wel vermeld worden, want het geeft de richting van deze energiestroom aan.</Par>
 		},
 	},

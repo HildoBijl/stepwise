@@ -12,7 +12,7 @@ import { InputSpace } from 'ui/form/Status'
 import MollierDiagram from '../../content/diagrams/MollierDiagram'
 
 import StepExercise from '../types/StepExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -48,7 +48,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { T1, startRH, startAH } = useCorrect()
+			const { T1, startRH, startAH } = useSolution()
 			const plotRef = useRef()
 			useInitializer(() => {
 				const plot = plotRef.current
@@ -83,7 +83,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { T4, endRH, endAH } = useCorrect()
+			const { T4, endRH, endAH } = useSolution()
 			const plotRef = useRef()
 			useInitializer(() => {
 				const plot = plotRef.current
@@ -118,7 +118,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { T1, T2, T3, T4, startAH, endAH } = useCorrect()
+			const { T1, T2, T3, T4, startAH, endAH } = useSolution()
 			const plotRef = useRef()
 			useInitializer(() => {
 				const plot = plotRef.current
@@ -174,7 +174,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { startAH, endAH, dAH } = useCorrect()
+			const { startAH, endAH, dAH } = useSolution()
 			return <Par>De instromende lucht bevat <M>AH_(in) = {startAH}</M> aan water. De uitstromende lucht bevat <M>AH_(uit) = {endAH}</M> aan water. Dat betekent dat er <BM>\Delta AH = AH_(in) - AH_(uit) = {startAH.float} - {endAH.float} = {dAH}</BM> aan water is "verdwenen". Dit water is gecondenseerd en wordt door de airco afgevoerd.</Par>
 		},
 	},

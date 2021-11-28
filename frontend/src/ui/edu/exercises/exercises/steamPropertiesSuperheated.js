@@ -6,7 +6,7 @@ import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -26,6 +26,6 @@ function Problem({ p, T }) {
 }
 
 function Solution() {
-	const { p, T, h, s } = useCorrect()
+	const { p, T, h, s } = useSolution()
 	return <Par>In de tabellen voor oververhitte stoom kunnen we opzoeken dat bij een druk van <M>{p}</M> en een temperatuur van <M>{T}</M> we een specifieke enthalpie hebben van <M>h = {h}</M> en een specifieke entropie van <M>s = {s}.</M></Par>
 }

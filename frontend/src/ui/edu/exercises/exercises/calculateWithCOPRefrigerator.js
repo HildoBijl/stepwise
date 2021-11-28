@@ -6,7 +6,7 @@ import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInpu
 import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getInputFieldFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -24,7 +24,7 @@ function Problem({ Ee, Eout }) {
 
 function Solution({ Ee, Eout }) {
 	const Ef = Eout.subtract(Ee, true)
-	const epsilon = useCorrect()
+	const epsilon = useSolution()
 
 	return <>
 		<Par>We berekenen de koudefactor via <M>\frac(\rm nuttig)(\rm invoer).</M> Het is hierbij belangrijk om te kijken welke energiestroom daadwerkelijk nuttig is. Dit is <em>niet</em> de warmte die aan de keuken toegevoerd wordt. Immers, het doel is om de koelkast koud te krijgen, en niet om de keuken warm te krijgen.</Par>
@@ -34,9 +34,9 @@ function Solution({ Ee, Eout }) {
 
 function getFeedback(exerciseData) {
 	// Check for a common error.
-	const { input: { epsilon }, state, shared: { getCorrect, data: { equalityOptions } } } = exerciseData
-	const correct = getCorrect(state)
-	if (correct.add(1).equals(epsilon, equalityOptions))
+	const { input: { epsilon }, state, shared: { getSolution, data: { equalityOptions } } } = exerciseData
+	const solution = getSolution(state)
+	if (solution.add(1).equals(epsilon, equalityOptions))
 		return { epsilon: { correct: false, text: 'Bijna! Kijk nog eens goed naar welke energie we echt als "nuttig" zien.' } }
 
 	// Give default feedback.

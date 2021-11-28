@@ -7,7 +7,7 @@ import FloatInput from 'ui/form/inputs/FloatInput'
 import { InputSpace } from 'ui/form/Status'
 
 import StepExercise from '../types/StepExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -48,7 +48,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { type, T1, T2, t1, t2, x, T, t } = useCorrect()
+			const { type, T1, T2, t1, t2, x, T, t } = useSolution()
 			return type === 1 ? <>
 				<Par>
 					De temperatuursstijging ten opzichte van de eerste meting is
@@ -88,7 +88,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { type, T1, T2, t1, t2, x, T, t } = useCorrect()
+			const { type, T1, T2, t1, t2, x, T, t } = useSolution()
 			return type === 1 ?
 				<Par>
 					We zijn op <M>{x.float}</M> deel van de tijdsperiode. De gehele tijdsperiode is

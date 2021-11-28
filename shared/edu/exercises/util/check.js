@@ -11,7 +11,7 @@ function checkParameter(parameter, correct, input, equalityOptions) {
 		else if (!Array.isArray(parameter))
 			currCorrect = correct
 		if (!currCorrect)
-			throw new Error(`Field check error: could not find a correct answer for field "${currParameter}". Make sure it is exported from the getCorrect function. Either the getCorrect function should export an object { param1: ..., param2: ... } or, in case the exercise has only a single answer, the getCorrect function can also export this single answer. In this case the "field" parameter may not be an array.`)
+			throw new Error(`Field check error: could not find a correct answer for field "${currParameter}". Make sure it is exported from the getSolution function. Either the getSolution function should export an object { param1: ..., param2: ... } or, in case the exercise has only a single answer, the getSolution function can also export this single answer. In this case the "field" parameter may not be an array.`)
 
 		// Extract the input.
 		const currInput = input[currParameter]
@@ -57,7 +57,7 @@ function performCheck(parameter, correct, input, check) {
 		else if (!Array.isArray(parameter))
 			currCorrect = correct
 		if (!currCorrect)
-			throw new Error(`Field check error: could not find a correct answer for field "${currParameter}". Make sure it is exported from the getCorrect function. Either the getCorrect function should export an object { param1: ..., param2: ... } or, in case the exercise has only a single answer, the getCorrect function can also export this single answer. In this case the "field" parameter may not be an array.`)
+			throw new Error(`Field check error: could not find a correct answer for field "${currParameter}". Make sure it is exported from the getSolution function. Either the getSolution function should export an object { param1: ..., param2: ... } or, in case the exercise has only a single answer, the getSolution function can also export this single answer. In this case the "field" parameter may not be an array.`)
 
 		// Extract the input.
 		const currInput = input[currParameter]

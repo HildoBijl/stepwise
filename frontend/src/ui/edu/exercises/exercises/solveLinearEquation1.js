@@ -6,7 +6,7 @@ import FloatInput from 'ui/form/inputs/FloatInput'
 import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -23,6 +23,6 @@ function Problem({ a, b }) {
 }
 
 function Solution({ a, b }) {
-	const x = useCorrect()
+	const x = useSolution()
 	return <Par>We beginnen met de vergelijking <BM>{a} \cdot x = {b}.</BM> Als we beide kanten van de vergelijking delen door <M>{a}</M> krijgen we <BM>x = \frac{b}{a} = {x}.</BM> Dit is de oplossing van de opgave.</Par>
 }

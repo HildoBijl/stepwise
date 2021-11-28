@@ -34,12 +34,12 @@ function generateState() {
 	return { m, type, prefix }
 }
 
-function getCorrect({ m, type, prefix }) {
+function getSolution({ m, type, prefix }) {
 	return (type === 2 ? m.setUnit(`${prefix}g`) : m.setUnit('kg'))
 }
 
 function checkInput(state, { ans }) {
-	return getCorrect(state).equals(ans, data.equalityOptions)
+	return getSolution(state).equals(ans, data.equalityOptions)
 }
 
 module.exports = {
@@ -47,5 +47,5 @@ module.exports = {
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),
 	checkInput,
-	getCorrect,
+	getSolution,
 }

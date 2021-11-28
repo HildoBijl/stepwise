@@ -32,15 +32,15 @@ function generateState() {
 	return { T, AH }
 }
 
-function getCorrect({ T, AH }) {
+function getSolution({ T, AH }) {
 	const AHmax = tableInterpolate(T, maximumHumidity).setSignificantDigits(2)
 	const RH = AH.divide(AHmax).setUnit('%').setDecimals(0)
 	return { T, RH, AHmax, AH }
 }
 
 function checkInput(state, input) {
-	const correct = getCorrect(state)
-	return checkParameter(['RH'], correct, input, data.equalityOptions)
+	const solution = getSolution(state)
+	return checkParameter(['RH'], solution, input, data.equalityOptions)
 }
 
 module.exports = {
@@ -48,5 +48,5 @@ module.exports = {
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),
 	checkInput,
-	getCorrect,
+	getSolution,
 }

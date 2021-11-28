@@ -8,7 +8,7 @@ import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import StepExercise from '../types/StepExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -35,7 +35,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { Q, m, q } = useCorrect()
+			const { Q, m, q } = useSolution()
 			const c = new FloatUnit('4186 J/kg * dC')
 			return <Par>De toegevoerde specifieke warmte is de warmte die is toegevoerd per kilogram water. Er is in totaal <M>{Q}</M> toegevoerd aan <M>{m}</M> water. Per kilogram is dit dus <BM>q = \frac(Q)(m) = \frac{Q.float}{m.float} = {q}.</BM> Eventueel kunnen we nog berekenen dat dit overeenkomt met een temperatuurstoename van <BM>\Delta T = \frac(q)(c) = \frac{q.float}{c.float} = {q.divide(c).simplify()},</BM> wat een realistische temperatuurstoename is van water in een CV-ketel.</Par>
 		},
@@ -50,7 +50,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { wt } = useCorrect()
+			const { wt } = useSolution()
 			return <>
 				<Par>Bij een isobaar proces geldt altijd dat de technische arbeid nul is. Oftewel, <M>w_t = {wt}.</M></Par>
 			</>
@@ -66,7 +66,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { q, wt, dh } = useCorrect()
+			const { q, wt, dh } = useSolution()
 			return <>
 				<Par>De eerste hoofdwet voor open systemen zegt direct dat <BM>\Delta h = q - w_t = {q.float} - {wt.float} = {dh}.</BM> De toename in enthalpie is dus exact gelijk aan de toegevoerde warmte, wat logisch is. Immers, je kunt enthalpie zien als een vorm van "inwendige energie" (waar ook rekening gehouden wordt met druk) en als bij gelijke druk warmte aan water wordt toegevoerd, dan gaat al deze warmte als energie in het water zitten.</Par>
 			</>

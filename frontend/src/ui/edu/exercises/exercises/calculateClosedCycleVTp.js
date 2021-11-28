@@ -8,7 +8,7 @@ import { InputTable } from 'ui/components/misc/InputTable'
 import { Dutch } from 'ui/lang/gases'
 
 import StepExercise from '../types/StepExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -47,7 +47,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { m, Rs, p1, V1, T1, p3, V3, T3 } = useCorrect()
+			const { m, Rs, p1, V1, T1, p3, V3, T3 } = useSolution()
 			return <>
 				<Par>In punt 1 hebben we twee van de drie eigenschappen: <M>p_1 = {p1}</M> en <M>T_1 = {T1}.</M> Via de gaswet vinden we <M>V_1</M> als <BM>V_1 = \frac(mR_sT_1)(p_1) = \frac({m.float} \cdot {Rs.float} \cdot {T1.float})({p1.float}) = {V1}.</BM> Zo is punt 1 volledig bekend.</Par>
 				<Par>In punt 3 was al gegeven dat <M>V_3 = {V3}.</M> Omdat proces 3-1 isobaar is geldt verder <BM>p_3 = p_1 = {p3}.</BM> Nu we ook hier twee van de drie eigenschappen weten volgt wederom via de gaswet <M>T_3</M> als <BM>T_3 = \frac(p_3V_3)(mR_s) = \frac({p3.float} \cdot {V3.float})({m.float} \cdot {Rs.float}) = {T3}.</BM> En daarmee is ook punt 3 bekend.</Par>
@@ -62,7 +62,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { m, Rs, p2, V2, T2 } = useCorrect()
+			const { m, Rs, p2, V2, T2 } = useSolution()
 			return <Par>Proces 1-2 is isochoor waardoor geldt <BM>V_2 = V_1 = {V2}.</BM> Net zo is proces 2-3 isotherm waardoor <BM>T_2 = T_3 = {T2}.</BM> Nu twee van de drie eigenschappen in punt 2 bekend zijn vinden we via de gaswet de laatste. Het resultaat is <BM>p_2 = \frac(mR_sT_2)(V_2) = \frac({m.float} \cdot {Rs.float} \cdot {T2.float})({V2.float}) = {p2}.</BM> Hiermee is het gehele proces doorgerekend.</Par>
 		},
 	},

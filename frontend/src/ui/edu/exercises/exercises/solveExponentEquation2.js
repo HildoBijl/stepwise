@@ -6,7 +6,7 @@ import FloatInput from 'ui/form/inputs/FloatInput'
 import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -24,7 +24,7 @@ function Problem({ a, b, p, c }) {
 
 function Solution(state) {
 	const { a, b, p, c } = state
-	const x = useCorrect()
+	const x = useSolution()
 
 	const cMinusA = c.subtract(a, true)
 	const cMinusADivB = cMinusA.divide(b, true)

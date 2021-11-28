@@ -6,7 +6,7 @@ import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInpu
 import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getInputFieldFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -24,7 +24,7 @@ function Problem({ Pe, Pin }) {
 
 function Solution({ Pe, Pin }) {
 	const Pout = Pin.add(Pe, true)
-	const COP = useCorrect()
+	const COP = useSolution()
 	return <>
 		<Par>We berekenen de warmtefactor via <M>\frac(\rm nuttig)(\rm invoer).</M> Het is hierbij belangrijk om te kijken welke energiestroom daadwerkelijk nuttig is. Dit is <em>niet</em> de warmte die uit de buitenlucht onttrokken wordt. Immers, het doel is om het gebouw te verwarmen, en niet om de buitenlucht af te koelen.</Par>
 		<Par>We moeten dus eerst berekenen hoeveel energie er in het gebouw terecht komt. Vanwege behoud van energie geldt <BM>P_(binnen) = P_(elek) + P_(buiten) = {Pe} + {Pin} = {Pout}.</BM> Dit is het verwarmingsvermogen. Hiermee kunnen we de warmtefactor vinden via <BM>\epsilon_w = \frac(\rm nuttig)(\rm invoer) = \frac(P_(binnen))(E_(elek)) = \frac{Pout}{Pe} = {COP}.</BM> Dit betekent dat er <M>{COP}</M> keer meer warmte aan het gebouw afgestaan wordt als dat we aan (elektrische) energie gebruiken.</Par>
@@ -33,9 +33,9 @@ function Solution({ Pe, Pin }) {
 
 function getFeedback(exerciseData) {
 	// Check for a common error.
-	const { input: { COP }, state, shared: { getCorrect, data: { equalityOptions } } } = exerciseData
-	const correct = getCorrect(state)
-	if (correct.subtract(1).equals(COP, equalityOptions))
+	const { input: { COP }, state, shared: { getSolution, data: { equalityOptions } } } = exerciseData
+	const solution = getSolution(state)
+	if (solution.subtract(1).equals(COP, equalityOptions))
 		return { COP: { correct: false, text: 'Bijna! Kijk nog eens goed naar welke energie we echt als "nuttig" zien.' } }
 
 	// Give default feedback.

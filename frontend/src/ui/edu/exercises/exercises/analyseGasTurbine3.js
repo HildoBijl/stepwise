@@ -7,7 +7,7 @@ import { InputSpace } from 'ui/form/Status'
 
 import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -36,7 +36,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { k, p1, T1, p2, T2p } = useCorrect()
+			const { k, p1, T1, p2, T2p } = useSolution()
 			return <>
 				<Par>In punt 1 is al bekend dat <M>p_1 = {p1}</M> en <M>T_1 = {T1}.</M> We bereiken het fictieve punt <M>2'</M> via isentrope compressie. Met <M>p_(2') = p_2 = {p2}</M> vinden we via Poisson's wet
 				<BM>T_(2') = T_1 \left(\frac(p_(2'))(p_1)\right)^(\frac(n-1)(n)) = {T1.float} \cdot \left(\frac{p2.float}{p1.float}\right)^(\frac({k}-1)({k})) = {T2p}.</BM></Par>
@@ -53,7 +53,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { T1, T2, T2p, etai } = useCorrect()
+			const { T1, T2, T2p, etai } = useSolution()
 			return <Par>Bij de compressor heb je vanwege frictie in werkelijkheid meer arbeid nodig dan in de perfecte (isentrope) situatie. Dit isentropisch rendement is dus
 				<BM>\eta_(i_c) = \frac(w_(t_i))(w_t) = \frac(c_p \left(T_(2') - T_1\right))(c_p \left(T_2 - T_1\right)) = \frac(T_(2') - T_1)(T_2 - T_1).</BM>
 				De oplossing voor <M>T_2</M> volgt als
@@ -70,7 +70,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { cp, T2, q23, T3 } = useCorrect()
+			const { cp, T2, q23, T3 } = useSolution()
 			return <Par>In de verbrandingskamer wordt de lucht isobaar verwarmd. De toegevoerde warmte is dus <BM>q_(2-3) = c_p \left(T_3 - T_2\right).</BM> Dit oplossen voor <M>T_3</M> geeft <BM>T_3 = T_2 + \frac(q_(2-3))(c_p) = {T2.float} + \frac{q23.float}{cp.float} = {T3}.</BM></Par>
 		},
 	},
@@ -82,7 +82,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { k, p3, T3, p4, T4p } = useCorrect()
+			const { k, p3, T3, p4, T4p } = useSolution()
 			return <Par>Omdat stap 2-3 isobaar is geldt <M>p_3 = p_2 = {p3}.</M> Net zo geldt voor stap 4-1 dat <M>p_(4') = p_4 = p_1 = {p4}.</M> We kunnen <M>T_(4')</M> nu vinden via Poisson's wet. Het resultaat is
 				<BM>T_(4') = T_3 \left(\frac(p_(4'))(p_3)\right)^(\frac(n-1)(n)) = {T3.float} \cdot \left(\frac{p4.float}{p3.float}\right)^(\frac({k}-1)({k})) = {T4p}.</BM></Par>
 		},
@@ -97,7 +97,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { T3, T4, T4p, etai } = useCorrect()
+			const { T3, T4, T4p, etai } = useSolution()
 			return <Par>Bij de turbine is de formule voor het isentropisch rendement andersom ten opzichte van de compressor: je hebt nu vanwege frictie in werkelijkheid juist minder geleverde arbeid dan in de perfecte (isentrope) situatie. Hier is het isentropisch rendement dus
 				<BM>\eta_(i_t) = \frac(w_t)(w_(t_i)) = \frac(c_p \left(T_4 - T_3\right))(c_p \left(T_(4') - T_3\right)) = \frac(T_4 - T_3)(T_(4') - T_3).</BM>
 				De oplossing voor <M>T_4</M> is
@@ -115,7 +115,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { cp, T1, T2, T3, T4, wt12, wt23, wt34, wt41, wn } = useCorrect()
+			const { cp, T1, T2, T3, T4, wt12, wt23, wt34, wt41, wn } = useSolution()
 			return <Par>
 				De verwarming en afkoeling zijn isobare processen, waardoor daar geen technische arbeid is. Dus <M>w_(t,2-3) = w_(t,4-1) = {wt23}.</M> Bij de compressor is de specifieke technische arbeid, vanuit de eerste hoofdwet,
 				<BM>w_(t,1-2) = -\Delta h = -c_p \left(T_2 - T_1\right) = -{cp.float} \cdot \left({T2.float} - {T1.float}\right) = {wt12}.</BM>
@@ -137,7 +137,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: (state) => {
-			const { P, wn, qin, eta, mdot } = useCorrect()
+			const { P, wn, qin, eta, mdot } = useSolution()
 			return <Par>Er wordt alleen bij stap 2-3 warmte toegevoerd. De toegevoerde warmte is dus al gegeven als <M>q_(toe) = q_(2-3) = {qin}.</M> Hiermee volgt het rendement als
 				<BM>\eta = \frac(\rm nuttig)(\rm invoer) = \frac(w_(netto))(q_(toe)) = \frac{wn.float}{qin.float} = {eta}.</BM>
 				Dit komt neer op <M>{eta.setUnit('%')}</M> wat redelijk normaal is voor een gasturbine. We vinden het asvermogen via

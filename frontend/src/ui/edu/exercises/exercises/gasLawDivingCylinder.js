@@ -9,7 +9,7 @@ import { InputSpace } from 'ui/form/Status'
 
 import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -49,7 +49,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { Rs } = useCorrect()
+			const { Rs } = useSolution()
 			return <Par>De specifieke gasconstante van zuurstof is <M>R_s = {Rs}.</M></Par>
 		},
 	},
@@ -61,7 +61,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { p, V, m, Rs, T } = useCorrect()
+			const { p, V, m, Rs, T } = useSolution()
 			return <Par>De gaswet zegt dat <BM>pV = mR_sT.</BM> Om <M>p</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>V.</M> Het resultaat is <BM>p = \frac(mR_sT)(V) = \frac({m.float} \cdot {Rs.float} \cdot {T.float})({V.float}) = {p}.</BM> Dit is gelijk aan <M>{p.setUnit('bar').setDecimals(0)}</M> wat reëel is voor een duikfles.</Par>
 		},
 	},

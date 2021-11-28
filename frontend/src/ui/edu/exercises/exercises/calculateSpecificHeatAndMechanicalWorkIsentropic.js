@@ -7,7 +7,7 @@ import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInpu
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 
 import StepExercise from '../types/StepExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -78,7 +78,7 @@ const steps = [
 			</>
 		},
 		Solution: () => {
-			const { k } = useCorrect()
+			const { k } = useSolution()
 
 			return <Par>Voor lucht geldt <M>k = {k}.</M></Par>
 		},
@@ -110,7 +110,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { k, p1, p2, v1, v2, q, wt } = useCorrect()
+			const { k, p1, p2, v1, v2, q, wt } = useSolution()
 			const wtUnit = wt.setUnit('kJ/kg').setDecimals(0)
 
 			return <Par>We hoeven alleen maar de formules in te vullen. Er geldt <M>q = {q}</M> omdat dat per definitie zo is bij een isentropisch proces. Verder vinden we <BM>w_t = -\frac(k)(k-1)\left(p_2v_2 - p_1v_1\right) = -\frac({k.number})({k.number}-1)\left({p2.float} \cdot {v2.float} - {p1.float} \cdot {v1.float}\right) = {wt}.</BM> Het is de gewoonte om specifieke technische arbeid te schrijven als <M>w_t = {wtUnit}</M> omdat de grootte vaak enkele honderden <M>{wtUnit.unit}</M> is. Dat is hier ook zo, wat ons vertelt dat het antwoord qua orde van grootte in ieder geval correct is.</Par>

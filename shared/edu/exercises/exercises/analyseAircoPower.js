@@ -38,7 +38,7 @@ function generateState() {
 	return { T1, startRH, T4, endRH, mdot }
 }
 
-function getCorrect({ T1, startRH, T4, endRH, mdot }) {
+function getSolution({ T1, startRH, T4, endRH, mdot }) {
 	// Relative humidity.
 	startRH = startRH.simplify()
 	endRH = endRH.simplify()
@@ -68,14 +68,14 @@ function getCorrect({ T1, startRH, T4, endRH, mdot }) {
 }
 
 function checkInput(state, input, step, substep) {
-	const correct = getCorrect(state)
+	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return checkParameter('T3', correct, input, data.equalityOptions)
+			return checkParameter('T3', solution, input, data.equalityOptions)
 		case 2:
-			return checkParameter(['qcool', 'qheat'], correct, input, data.equalityOptions)
+			return checkParameter(['qcool', 'qheat'], solution, input, data.equalityOptions)
 		default:
-			return checkParameter(['Pcool', 'Pheat'], correct, input, data.equalityOptions)
+			return checkParameter(['Pcool', 'Pheat'], solution, input, data.equalityOptions)
 	}
 }
 
@@ -84,5 +84,5 @@ module.exports = {
 	generateState,
 	processAction: getStepExerciseProcessor(checkInput, data),
 	checkInput,
-	getCorrect,
+	getSolution,
 }

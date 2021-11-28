@@ -60,14 +60,14 @@ function generateState() {
 	return { gas, V2, p1, p2 }
 }
 
-function getCorrect({ gas, V2, p1, p2 }) {
+function getSolution({ gas, V2, p1, p2 }) {
 	const { k } = gasProperties[gas]
 	const V1 = V2.multiply(p2.divide(p1).float.toPower(k.float.invert()))
 	return { gas, k, V1, V2, p1, p2 }
 }
 
 function checkInput(state, input, step, substep) {
-	const { k, V1, V2, p1, p2 } = getCorrect(state)
+	const { k, V1, V2, p1, p2 } = getSolution(state)
 	const eo = data.equalityOptions
 
 	switch (step) {
@@ -94,5 +94,5 @@ module.exports = {
 	generateState,
 	processAction: getStepExerciseProcessor(checkInput, data),
 	checkInput,
-	getCorrect,
+	getSolution,
 }

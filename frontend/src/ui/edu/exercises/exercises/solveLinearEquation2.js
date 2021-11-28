@@ -6,7 +6,7 @@ import FloatInput from 'ui/form/inputs/FloatInput'
 import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -23,7 +23,7 @@ function Problem({ a, b, c, d }) {
 }
 
 function Solution({ a, b, c, d }) {
-	const x = useCorrect()
+	const x = useSolution()
 	const ab = a.multiply(b, true)
 	const cd = c.multiply(d, true)
 	return <Par>Het is hier handig om de vermenigvuldigingen van getallen eerst simpeler op te schrijven. We weten dat <BM>{a} \cdot {b} = {ab},</BM> <BM>{c} \cdot {d} = {cd}.</BM> De vergelijking die we moeten oplossen is dus <BM>{ab} \cdot x = {cd}.</BM> Als we beide kanten van de vergelijking delen door <M>{ab}</M> volgt <BM>x = \frac{cd}{ab} = {x}.</BM></Par>

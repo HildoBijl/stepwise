@@ -5,7 +5,7 @@ import { Par, SubHead } from 'ui/components/containers'
 import ExpressionInput, { basicMathNoFractions, validWithVariables } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/Status'
 
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
@@ -17,7 +17,7 @@ export default function Exercise() {
 }
 
 const Problem = (state) => {
-	const { variables, expression } = useCorrect(state)
+	const { variables, expression } = useSolution(state)
 	return <>
 		<Par>Gegeven is de uitdrukking <BM>{expression}.</BM> Werk alle haakjes uit.</Par>
 		<InputSpace>
@@ -31,7 +31,7 @@ const Problem = (state) => {
 const steps = [
 	{
 		Problem: (state) => {
-			const { variables, term1, expressionSubstituted } = useCorrect(state)
+			const { variables, term1, expressionSubstituted } = useSolution(state)
 			return <>
 				<Par>Vervang de factor <M>\left({term1}\right)</M> even kort voor een andere ongebruikte variabele, bijvoorbeeld <M>{variables.z}.</M> Werk hiervoor de haakjes uit.</Par>
 				<InputSpace>
@@ -42,13 +42,13 @@ const steps = [
 			</>
 		},
 		Solution: (state) => {
-			const { variables, term1, term2, expressionSubstituted, intermediate } = useCorrect(state)
+			const { variables, term1, term2, expressionSubstituted, intermediate } = useSolution(state)
 			return <Par>Na het vervangen van <M>\left({term1}\right)</M> voor <M>{variables.z}</M> hebben we <BM>{expressionSubstituted}.</BM> Om de haakjes uit te werken vermenigvuldigen we <M>{variables.z}</M> stuk voor stuk met de termen <M>{term2.terms[0]}</M> en <M>{term2.terms[1]}.</M> Zo krijgen we <BM>{expressionSubstituted.simplify({ expandProductsOfSums: true })}.</BM> Dit kunnen we eventueel makkelijker schrijven als <BM>{intermediate}.</BM></Par>
 		},
 	},
 	{
 		Problem: (state) => {
-			const { variables, term1, intermediateSubstituted } = useCorrect(state)
+			const { variables, term1, intermediateSubstituted } = useSolution(state)
 			return <>
 				<Par>Vervang <M>{variables.z}</M> weer terug voor <M>\left({term1}\right).</M> Werk hiervoor wederom alle haakjes uit.</Par>
 				<InputSpace>
@@ -59,7 +59,7 @@ const steps = [
 			</>
 		},
 		Solution: (state) => {
-			const { variables, expression, term1, term2, intermediateSubstituted, ans } = useCorrect(state)
+			const { variables, expression, term1, term2, intermediateSubstituted, ans } = useSolution(state)
 			return <>
 				<Par>Na het terugzetten van <M>{variables.z}</M> voor <M>\left({term1}\right)</M> hebben we <BM>{intermediateSubstituted}.</BM> We werken hiervoor twee maal de haakjes uit. We vermenigvuldigen eerst <M>{term2.terms[0]}</M> stuk voor stuk met <M>{term1.terms[0]}</M> en <M>{term1.terms[1]},</M> en vervolgens vermenigvuldigen we <M>{term2.terms[1]}</M> ook stuk voor stuk met <M>{term1.terms[0]}</M> en <M>{term1.terms[1]}.</M> Op deze wijze krijgen we <BM>{intermediateSubstituted.simplify({ ...simplifyOptions.removeUseless, expandProductsOfSums: true })}.</BM> Dit kan eventueel nog iets netter geschreven worden als <BM>{ans}.</BM></Par>
 				<SubHead>Short-Cut</SubHead>

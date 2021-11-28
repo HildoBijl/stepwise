@@ -8,7 +8,7 @@ import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -25,6 +25,6 @@ function Problem({ mdot, P }) {
 }
 
 function Solution() {
-	const { mdot, P, wt } = useCorrect()
+	const { mdot, P, wt } = useSolution()
 	return <Par>We weten dat <M>w_t</M> de arbeid is die <em>per kilogram</em> op de lucht uitgeoefend wordt. Net zo is <M>P</M> de arbeid die <em>per seconde</em> op de lucht uitgeoefend wordt. Om tussen "per kilogram" en "per seconde" heen en weer te rekenen gebruiken we de massastroom. Oftewel, <BM>P = \dot(m)w_t.</BM> Dit oplossen voor <M>w_t</M> geeft <BM>w_t = \frac(P)(\dot(m)) = \frac{P.float}{mdot.float} = {wt} = {wt.setUnit('kJ/kg')}.</BM> Eventueel hadden we het vermogen in <M>{new Unit('kW')}</M> mogen laten staan om gelijk een antwoord in <M>{new Unit('kJ/kg')}</M> te krijgen.</Par>
 }

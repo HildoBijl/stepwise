@@ -7,7 +7,7 @@ import { Par } from 'ui/components/containers'
 import ExpressionInput, { basicMath, validWithVariables } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/Status'
 
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import SimpleExercise from '../types/SimpleExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
@@ -20,7 +20,7 @@ export default function Exercise() {
 }
 
 const Problem = (state) => {
-	const { variables, expression } = useCorrect(state)
+	const { variables, expression } = useSolution(state)
 	return <>
 		<Par>Gegeven is de breuk <BM>{expression}.</BM> Simplificeer deze breuk zo veel mogelijk door gemeenschappelijke factoren in de teller/noemer weg te strepen.</Par>
 		<InputSpace>
@@ -32,7 +32,7 @@ const Problem = (state) => {
 }
 
 const Solution = (state) => {
-	const { variables, expression, ans } = useCorrect(state)
+	const { variables, expression, ans } = useSolution(state)
 	return <Par>Zowel de teller als de noemer bevat een factor <M>{variables.x}.</M> Deze kan dus boven en onder weggelaten worden. Hetzelfde geldt voor de factor <M>{variables.y}</M>: die kan ook weggestreept worden. Er geldt dus <BM>{expression} = {ans}.</BM></Par>
 }
 

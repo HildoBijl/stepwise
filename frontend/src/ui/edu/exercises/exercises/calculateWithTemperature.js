@@ -8,7 +8,7 @@ import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getInputFieldFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -32,7 +32,7 @@ function Problem({ T, type }) {
 }
 
 function Solution({ T, type }) {
-	const correctAnswer = useCorrect()
+	const correctAnswer = useSolution()
 	const solution = [
 		<Par>Om van Kelvin naar graden Celsius te gaan halen we <M>{TConversion.float}</M> ervan af. Hiermee krijgen we, rekening houdend met significante getallen, <BM>T = {T.float} - {TConversion.float} = {correctAnswer}.</BM></Par>,
 		<Par>Dit is een strikvraag. De temperatuur staat al in standaard eenheden (Kelvin). Het antwoord is dus gewoon <M>T = {correctAnswer}.</M></Par>,

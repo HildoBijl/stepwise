@@ -20,7 +20,7 @@ There are various parameters in the `ExerciseData`. These are:
 - `submitting`: a boolean that is set to true when an action has been submitted to the server and we're still waiting for a response.
 - `submitAction`: the function used to submit an action to the server. Just call `submitAction(action)` to send an action to the `progressAction` handler.
 - `startNewExercise`: the function used to start up a new exercise. This can only be called when the exercise is done. Then call `startNewExercise()`. (No input is required.)
-- `shared`: all the objects exported from the `shared` file for this exercise, including `data`, `generateState` and `processAction` but also anything else that's exported, like potentially `getCorrect` and `checkInput`.
+- `shared`: all the objects exported from the `shared` file for this exercise, including `data`, `generateState` and `processAction` but also anything else that's exported, like potentially `getSolution` and `checkInput`.
 
 Using this data, your React component should render the exercise appropriately. It is your responsibility to:
 
@@ -49,12 +49,12 @@ Setting up a `SimpleExercise` yourself is relatively easy. After all, the `Simpl
 - Define a `Problem` React component of the form `(state) => <div>Put the problem here</div>`. So an example is `Problem = ({ a, b }) => <div>Calculate {a} + {b}. [Add an input field]</div>`. How to add input fields is explained below, when discussing forms.
 - Define a `Solution` React component of the form `(state) => <div>Put the solution here</div>`. So an example is `Solution = ({ a, b }) => <div>The solution of {a} + {b} is {a + b}.</div>`.
 
-Quite often the `Problem` only depends on the `state`, so the above set-up works. For the `Solution` it is often useful to have access to more data. In this case, you can import all `ExerciseData` too. For instance, if it is difficult to calculate the solution, and you've already programmed this in a `getCorrect` function in the `shared` file, you can just import it!
+Quite often the `Problem` only depends on the `state`, so the above set-up works. For the `Solution` it is often useful to have access to more data. In this case, you can import all `ExerciseData` too. For instance, if it is difficult to calculate the solution, and you've already programmed this in a `getSolution` function in the `shared` file, you can just import it!
 
 ```javascript
 function Solution(state) {
-	const { shared: { getCorrect } } = useExerciseData()
-	const { a, b, answer } = getCorrect(state)
+	const { shared: { getSolution } } = useExerciseData()
+	const { a, b, answer } = getSolution(state)
 	return <div>The solution of {a} + {b} is {answer}.</div>
 }
 ```
@@ -129,7 +129,7 @@ After a submission is sent to the server and a result comes back, the exercise u
 - `input`: the last `input` that was submitted.
 - `progress`: the most recent `progress` object that was returned from the server, after the given input.
 - `prevProgress`: the previous `progress` object, from before the given input.
-- `shared`: everything defined in the shared file. (Like the `checkInput` function and `getCorrect` function, if exported.)
+- `shared`: everything defined in the shared file. (Like the `checkInput` function and `getSolution` function, if exported.)
 
 The `getFeedback` function can be manually defined! If you want to set up your own `getFeedback` function, then you have to let it return an object. This object can be something like `{ main: false, field1: true, field2: false, field3: { correct: false, text: "Check your unit." } }`. There are a few rules.
 

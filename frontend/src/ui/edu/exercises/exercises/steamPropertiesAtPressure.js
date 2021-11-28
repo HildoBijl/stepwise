@@ -6,7 +6,7 @@ import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -27,6 +27,6 @@ function Problem({ p, type }) {
 }
 
 function Solution() {
-	const { p, type, T, h, s } = useCorrect()
+	const { p, type, T, h, s } = useSolution()
 	return <Par>In de stoomtabellen kunnen we opzoeken dat bij een druk van <M>{p}</M> een kooktemperatuur hoort van <M>{T}.</M> Tevens hebben we te maken met {type === 1 ? `verzadigde vloeistof` : `verzadigde damp`} waarmee we kunnen vinden dat <M>h = {h}</M> en <M>s = {s}.</M></Par>
 }

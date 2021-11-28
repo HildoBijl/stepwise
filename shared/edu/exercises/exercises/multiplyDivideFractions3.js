@@ -26,7 +26,7 @@ function generateState() {
 	}
 }
 
-function getCorrect(state) {
+function getSolution(state) {
 	// Extract state variables.
 	const variables = filterVariables(state, usedVariables, constants)
 	const expression = asExpression('((x+a)/y)/(z+b)').substituteVariables(variables)
@@ -35,13 +35,13 @@ function getCorrect(state) {
 }
 
 function checkInput(state, input) {
-	return performCheck('ans', getCorrect(state), input, data.check)
+	return performCheck('ans', getSolution(state), input, data.check)
 }
 
 module.exports = {
 	data,
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),
-	getCorrect,
+	getSolution,
 	checkInput,
 }

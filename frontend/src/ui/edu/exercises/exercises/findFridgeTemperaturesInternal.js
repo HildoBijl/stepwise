@@ -8,7 +8,7 @@ import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -29,7 +29,7 @@ function Problem({ type, Tcold, Twarm, dTcold, dTwarm }) {
 }
 
 function Solution() {
-	const { type, Tcold, Twarm, dTcold, dTwarm, Tevap, Tcond } = useCorrect()
+	const { type, Tcold, Twarm, dTcold, dTwarm, Tevap, Tcond } = useSolution()
 	if (type === 'heatPump')
 		return <Par>We bekijken eerst het leveren van warmte aan de huiskamer. De huiskamer heeft een temperatuur van <M>{Twarm}.</M> Er wordt warmte geleverd aan de huiskamer, en die warmte komt uit het koudemiddel. Omdat het koudemiddel warmte kwijtraakt, zal het gaan condenseren. We hebben hier dus met de condensor te maken. De temperatuur in deze condensor moet hoger zijn dan de temperatuur in de huiskamer, want alleen dan wordt er warmte overgedragen aan de huiskamer. De temperatuur in de condensor is dus
 			<BM>T_c = T_(huis) + \Delta T_c = {Twarm.float} + {dTwarm.float} = {Tcond}.</BM>
@@ -46,8 +46,8 @@ function Solution() {
 }
 
 function getFeedback(exerciseData) {
-	const { input, state, shared: { getCorrect, data: { equalityOptions } } } = exerciseData
-	const { type, Tcold, Twarm, dTcold, dTwarm, Tevap, Tcond } = getCorrect(state)
+	const { input, state, shared: { getSolution, data: { equalityOptions } } } = exerciseData
+	const { type, Tcold, Twarm, dTcold, dTwarm, Tevap, Tcond } = getSolution(state)
 	const wrong = {
 		Tcond: Twarm.subtract(dTwarm),
 		Tevap: Tcold.add(dTcold),

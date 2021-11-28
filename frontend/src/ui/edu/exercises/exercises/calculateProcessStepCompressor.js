@@ -12,7 +12,7 @@ import { InputTable } from 'ui/components/misc/InputTable'
 import { Dutch } from 'ui/lang/gases'
 
 import StepExercise from '../types/StepExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -50,7 +50,7 @@ const steps = [
 		</>,
 		Solution: (state) => {
 			const { gas, m, T1, V1 } = state
-			const { Rs, m: ms, p1, V1: V1s, T1: T1s } = useCorrect()
+			const { Rs, m: ms, p1, V1: V1s, T1: T1s } = useSolution()
 			return <>
 				<Par>We weten <M>V_1</M> en <M>T_1</M> al. We gaan de gaswet gebruiken om <M>p_1</M> te berekenen. Hierbij moeten alle waarden in standaard eenheden staan. Dus schrijven we op,<BM>V_1 = {V1} \cdot {VConversion} = {V1s},</BM><BM>T_1 = {T1.float} + {TConversion.float} = {T1s},</BM><BM>m = \frac{m}{mConversion} = {ms}.</BM></Par>
 				<Par>Ook is de specifieke gasconstante van {Dutch[gas]} nodig. Deze kunnen we opzoeken als <BM>R_s = {Rs}.</BM></Par>
@@ -105,7 +105,7 @@ const steps = [
 		},
 		Solution: (state) => {
 			const { gas, V1, V2 } = state
-			const { k, p1, p2, T1, T2 } = useCorrect()
+			const { k, p1, p2, T1, T2 } = useSolution()
 			const choice = useInput('choice')
 
 			if (choice === undefined || choice === 0)
@@ -122,7 +122,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { Rs, m, p2, V2, T2 } = useCorrect()
+			const { Rs, m, p2, V2, T2 } = useSolution()
 			const choice = useInput('choice')
 
 			if (choice === undefined || choice === 0)

@@ -9,7 +9,7 @@ import { InputSpace, AntiInputSpace } from 'ui/form/Status'
 import { InputTable } from 'ui/components/misc/InputTable'
 
 import StepExercise from '../types/StepExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedbackExcluding } from '../util/feedback'
 
 export default function Exercise() {
@@ -45,7 +45,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { Rs, p1, v1, T1 } = useCorrect()
+			const { Rs, p1, v1, T1 } = useSolution()
 			return <Par>De gaswet voor open systemen zegt <BM>p_1v_1 = R_sT_1.</BM> De enige onbekende is <M>v_1.</M> Deze vinden we via <BM>v_1 = \frac(R_sT_1)(p_1) = \frac({Rs.float} \cdot {T1.float})({p1.float}) = {v1}.</BM> Dit komt overeen met een dichtheid van <M>{v1.invert()}.</M> Dat is op zich een logisch getal: het is iets hoger dan de normale dichtheid van lucht, omdat de druk ook iets hoger is.</Par>
 		},
 	},
@@ -79,7 +79,7 @@ const steps = [
 			</>
 		},
 		Solution: () => {
-			const { n, p1, p2, v1, v2, T1, T2 } = useCorrect()
+			const { n, p1, p2, v1, v2, T1, T2 } = useSolution()
 			const choice = useInput('choice')
 
 			if (choice === undefined || choice === 0)
@@ -102,7 +102,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { Rs, p2, v2, T2 } = useCorrect()
+			const { Rs, p2, v2, T2 } = useSolution()
 			const choice = useInput('choice')
 
 			if (choice === undefined || choice === 0)

@@ -29,15 +29,15 @@ function generateState() {
 	return { Q, m }
 }
 
-function getCorrect({ Q, m }) {
+function getSolution({ Q, m }) {
 	Q = Q.simplify()
 	q = Q.divide(m).setUnit('J/kg')
 	return { Q, m, q }
 }
 
 function checkInput(state, input) {
-	const correct = getCorrect(state)
-	return checkParameter('q', correct, input, data.equalityOptions)
+	const solution = getSolution(state)
+	return checkParameter('q', solution, input, data.equalityOptions)
 }
 
 module.exports = {
@@ -45,5 +45,5 @@ module.exports = {
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),
 	checkInput,
-	getCorrect,
+	getSolution,
 }

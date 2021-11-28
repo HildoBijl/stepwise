@@ -26,7 +26,7 @@ function generateState() {
 	return { pc, pe, T2 }
 }
 
-function getCorrect({ pc, pe, T2 }) {
+function getSolution({ pc, pe, T2 }) {
 	// Get liquid and vapor points.
 	const hx0 = tableInterpolate(pc, withPressure.enthalpyLiquid)
 	const hx1 = tableInterpolate(pc, withPressure.enthalpyVapor)
@@ -53,20 +53,20 @@ function getCorrect({ pc, pe, T2 }) {
 }
 
 function checkInput(state, input, step, substep) {
-	const correct = getCorrect(state)
+	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return checkParameter('h4', correct, input, data.equalityOptions)
+			return checkParameter('h4', solution, input, data.equalityOptions)
 		case 2:
-			return checkParameter('h1', correct, input, data.equalityOptions)
+			return checkParameter('h1', solution, input, data.equalityOptions)
 		case 3:
-			return checkParameter(['h2', 's2'], correct, input, data.equalityOptions)
+			return checkParameter(['h2', 's2'], solution, input, data.equalityOptions)
 		case 4:
-			return checkParameter('s3', correct, input, data.equalityOptions)
+			return checkParameter('s3', solution, input, data.equalityOptions)
 		case 5:
-			return checkParameter('h3', correct, input, data.equalityOptions)
+			return checkParameter('h3', solution, input, data.equalityOptions)
 		default:
-			return checkParameter(['h1', 'h2', 'h3', 'h4'], correct, input, data.equalityOptions)
+			return checkParameter(['h1', 'h2', 'h3', 'h4'], solution, input, data.equalityOptions)
 	}
 }
 
@@ -75,5 +75,5 @@ module.exports = {
 	generateState,
 	processAction: getStepExerciseProcessor(checkInput, data),
 	checkInput,
-	getCorrect,
+	getSolution,
 }

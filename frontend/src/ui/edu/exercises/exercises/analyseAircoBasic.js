@@ -12,7 +12,7 @@ import { InputSpace } from 'ui/form/Status'
 import MollierDiagram from '../../content/diagrams/MollierDiagram'
 
 import StepExercise from '../types/StepExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -47,7 +47,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { T1, startRH, startAH } = useCorrect()
+			const { T1, startRH, startAH } = useSolution()
 			const plotRef = useRef()
 			useInitializer(() => {
 				const plot = plotRef.current
@@ -82,7 +82,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { T1, T2, T3, startAH, endAH } = useCorrect()
+			const { T1, T2, T3, startAH, endAH } = useSolution()
 			const plotRef = useRef()
 			useInitializer(() => {
 				const plot = plotRef.current
@@ -132,7 +132,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { T1, T2, T3, T4, startAH, endRH, endAH } = useCorrect()
+			const { T1, T2, T3, T4, startAH, endRH, endAH } = useSolution()
 			const plotRef = useRef()
 			useInitializer(() => {
 				const plot = plotRef.current

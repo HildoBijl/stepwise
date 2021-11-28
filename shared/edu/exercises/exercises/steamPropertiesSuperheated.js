@@ -26,15 +26,15 @@ function generateState() {
 	return { p, T }
 }
 
-function getCorrect({ p, T }) {
+function getSolution({ p, T }) {
 	const h = tableInterpolate([p, T], enthalpy)
 	const s = tableInterpolate([p, T], entropy)
 	return { p, T, h, s }
 }
 
 function checkInput(state, input) {
-	const correct = getCorrect(state)
-	return checkParameter(['h', 's'], correct, input, data.equalityOptions)
+	const solution = getSolution(state)
+	return checkParameter(['h', 's'], solution, input, data.equalityOptions)
 }
 
 module.exports = {
@@ -42,5 +42,5 @@ module.exports = {
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),
 	checkInput,
-	getCorrect,
+	getSolution,
 }

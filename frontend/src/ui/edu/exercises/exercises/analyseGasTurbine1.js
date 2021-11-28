@@ -8,7 +8,7 @@ import { InputTable } from 'ui/components/misc/InputTable'
 
 import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -52,7 +52,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { k, p1, T1, p2, T2p, p3, T3, p4, T4p } = useCorrect()
+			const { k, p1, T1, p2, T2p, p3, T3, p4, T4p } = useSolution()
 			return <>
 				<Par>In punt 1 is al bekend dat <M>p_1 = {p1}</M> en <M>T_1 = {T1}.</M> We bereiken het fictieve punt <M>2'</M> via isentrope compressie. Met <M>p_(2') = p_2 = {p2}</M> vinden we
 				<BM>T_(2') = T_1 \left(\frac(p_(2'))(p_1)\right)^(\frac(n-1)(n)) = {T1.float} \cdot \left(\frac{p2.float}{p1.float}\right)^(\frac({k}-1)({k})) = {T2p}.</BM>
@@ -73,7 +73,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { T1, T2, T2p, T3, T4, T4p, etai } = useCorrect()
+			const { T1, T2, T2p, T3, T4, T4p, etai } = useSolution()
 			return <Par>Bij de compressor heb je vanwege frictie in werkelijkheid meer arbeid nodig dan in de perfecte (isentrope) situatie. Dit isentropisch rendement is dus
 				<BM>\eta_(i_c) = \frac(w_(t_i))(w_t) = \frac(c_p \left(T_(2') - T_1\right))(c_p \left(T_2 - T_1\right)) = \frac(T_(2') - T_1)(T_2 - T_1).</BM>
 				De oplossing voor <M>T_2</M> volgt als
@@ -108,7 +108,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { cp, T1, T2, T3, T4, q12, wt12, q23, wt23, q34, wt34, q41, wt41, wn } = useCorrect()
+			const { cp, T1, T2, T3, T4, q12, wt12, q23, wt23, q34, wt34, q41, wt41, wn } = useSolution()
 			return <>
 				<Par>Bij de compressor (stap 1-2) wordt geen warmte toegevoerd waardoor <M>q_(1-2) = {q12}.</M> Vervolgens geldt vanuit de eerste hoofdwet
 				<BM>w_(t,1-2) = -\Delta h = -c_p \left(T_2 - T_1\right) = -{cp.float} \cdot \left({T2.float} - {T1.float}\right) = {wt12}.</BM>
@@ -137,7 +137,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: (state) => {
-			const { P, wn, qin, eta, mdot } = useCorrect()
+			const { P, wn, qin, eta, mdot } = useSolution()
 			return <Par>Er wordt alleen bij stap 2-3 warmte toegevoerd. De toegevoerde warmte is dus <M>q_(toe) = q_(2-3) = {qin}.</M> De netto arbeid is al bekend als <M>w_(netto) = {wn}.</M> Hiermee volgt het rendement als
 				<BM>\eta = \frac(\rm nuttig)(\rm invoer) = \frac(w_(netto))(q_(toe)) = \frac{wn.float}{qin.float} = {eta}.</BM>
 				Dit komt neer op <M>{eta.setUnit('%')}</M> wat redelijk normaal is voor een gasturbine. We vinden de massastroom via de vergelijking <M>P = \dot(m) w_(netto).</M> Het resultaat is

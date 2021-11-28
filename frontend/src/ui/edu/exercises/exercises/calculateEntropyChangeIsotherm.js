@@ -8,7 +8,7 @@ import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import StepExercise from '../types/StepExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -52,7 +52,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { Qc, Tc, dSc } = useCorrect()
+			const { Qc, Tc, dSc } = useSolution()
 			return <>
 				<Par>De ingaande warmtestroom voor het koude vat is <BM>Q_k = Q = {Qc}.</BM> De entropieverandering valt nu direct te berekenen via de definitie van entropie. Immers, de temperatuur is constant. Zo vinden we,
 				<BM>\Delta S_k = \frac(Q_k)(T_k) = \frac{Qc.float}{Tc.float} = {dSc}.</BM>
@@ -70,7 +70,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { Qw, Tw, dSw } = useCorrect()
+			const { Qw, Tw, dSw } = useSolution()
 			return <>
 				<Par>De ingaande warmtestroom voor het warme vat is hier <BM>Q_w = -Q = {Qw}.</BM> Immers, de warmte stroomt uit dit vat, en dus is de warmtestroom voor dit vat negatief. De entropieverandering volgt nu wederom via
 				<BM>\Delta S_w = \frac(Q_w)(T_w) = \frac{Qw.float}{Tw.float} = {dSw}.</BM>
@@ -88,7 +88,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { dSc, dSw, dS } = useCorrect()
+			const { dSc, dSw, dS } = useSolution()
 			return <>
 				<Par>De totale entropieverandering is simpelweg de som van de entropietoenamen op alle plekken. Oftewel, <BM>\Delta S = \Delta S_k + \Delta S_w = {dSc.float} {dSw.float.texWithPM} = {dS}.</BM> Deze waarde is positief, wat volgens de tweede hoofdwet altijd het geval moet zijn.</Par>
 			</>

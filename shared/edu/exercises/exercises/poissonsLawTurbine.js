@@ -54,14 +54,14 @@ function generateState() {
 	return { p1, p2, T1 }
 }
 
-function getCorrect({ p1, p2, T1 }) {
+function getSolution({ p1, p2, T1 }) {
 	const kNum = k.float.number
 	const T2 = T1.multiply(p2.divide(p1).float.toPower((kNum-1)/kNum))
 	return { k, p1, p2, T1, T2 }
 }
 
 function checkInput(state, input, step, substep) {
-	const { k, p1, p2, T1, T2 } = getCorrect(state)
+	const { k, p1, p2, T1, T2 } = getSolution(state)
 	const eo = data.equalityOptions
 
 	switch (step) {
@@ -88,5 +88,5 @@ module.exports = {
 	generateState,
 	processAction: getStepExerciseProcessor(checkInput, data),
 	checkInput,
-	getCorrect,
+	getSolution,
 }

@@ -9,7 +9,7 @@ import { InputSpace } from 'ui/form/Status'
 import { Dutch } from 'ui/lang/gases'
 
 import StepExercise from '../types/StepExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -53,7 +53,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { type, medium, c } = useCorrect()
+			const { type, medium, c } = useSolution()
 			if (type === 0)
 				return <Par>Bij een isobaar proces geldt <M>c = c_p.</M> Verder geldt voor {Dutch[medium]} dat <M>c_p = {c}.</M></Par>
 			if (type === 1)
@@ -71,7 +71,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { type, m, c, T1, T2, dS } = useCorrect()
+			const { type, m, c, T1, T2, dS } = useSolution()
 			if (type === 2)
 				return <Par>De entropieverandering volgt direct uit de formule <BM>\Delta S = m c \ln\left(\frac(T_2)(T_1)\right) = {m.float} \cdot {c.float} \cdot \ln\left(\frac{T2.float}{T1.float}\right) = {dS}.</BM> Dit is logisch: bij een isentroop proces is er geen warmte-uitwisseling, waardoor dan altijd <M>Q = 0</M> geldt, en hiermee dus ook <M>\Delta S = 0.</M></Par>
 			return <>

@@ -6,7 +6,7 @@ import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInpu
 import { InputSpace } from 'ui/form/Status'
 
 import StepExercise from '../types/StepExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -36,7 +36,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { hx0, hx1, sx0, sx1 } = useCorrect()
+			const { hx0, hx1, sx0, sx1 } = useSolution()
 			return <Par>We kunnen in de tabellen opzoeken dat <M>h_(x=0) = {hx0},</M> <M>h_(x=1) = {hx1},</M> <M>s_(x=0) = {sx0},</M> <M>s_(x=1) = {sx1}.</M></Par>
 		},
 	},
@@ -50,7 +50,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { s, sx0, sx1, x } = useCorrect()
+			const { s, sx0, sx1, x } = useSolution()
 			return <Par>We bekijken hoe ver <M>s</M> zit, op het interval van <M>s_(x=0)</M> tot <M>s_(x=1).</M> Dit is op een deel van <BM>x = \frac(s - s_(x=0))(s_(x=1) - s_(x=0)) = \frac({s.float} - {sx0.float})({sx1.float} - {sx0.float}) = {x}.</BM> Dit is ook de dampfractie: het deel van het vloeibare water dat inmiddels in gasvormig stoom is omgezet.</Par>
 		},
 	},
@@ -64,7 +64,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { x, hx0, hx1, h } = useCorrect()
+			const { x, hx0, hx1, h } = useSolution()
 			return <Par>We weten dat de enthalpie op een deel <M>x</M> zit, van <M>h_(x=0)</M> naar <M>h_(x=1).</M> De enthalpie is dus <BM>h = h_(x=0) + x \left(h_(x=1) - h_(x=0)\right) = {hx0.float} + {x.float} \cdot \left({hx1.float} - {hx0.float}\right) = {h}.</BM> Dit is de specifieke enthalpie die we moesten berekenen.</Par>
 		},
 	},

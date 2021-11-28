@@ -24,7 +24,7 @@ function generateState() {
 	return { h1, h2p, h2 }
 }
 
-function getCorrect({ h1, h2p, h2 }) {
+function getSolution({ h1, h2p, h2 }) {
 	const wti = h1.subtract(h2p)
 	const wt = h1.subtract(h2)
 	const etai = wt.divide(wti).setUnit('').setDecimals(3)
@@ -32,12 +32,12 @@ function getCorrect({ h1, h2p, h2 }) {
 }
 
 function checkInput(state, input, step, substep) {
-	const correct = getCorrect(state)
+	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return checkParameter(['wti', 'wt'], correct, input, data.equalityOptions)
+			return checkParameter(['wti', 'wt'], solution, input, data.equalityOptions)
 		default:
-			return checkParameter('etai', correct, input, data.equalityOptions)
+			return checkParameter('etai', solution, input, data.equalityOptions)
 	}
 }
 
@@ -46,5 +46,5 @@ module.exports = {
 	generateState,
 	processAction: getStepExerciseProcessor(checkInput, data),
 	checkInput,
-	getCorrect,
+	getSolution,
 }

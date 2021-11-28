@@ -37,7 +37,7 @@ function generateState() {
 	}
 }
 
-function getCorrect({ type, year1, year2, pop1, pop2, year, pop }) {
+function getSolution({ type, year1, year2, pop1, pop2, year, pop }) {
 	let x, popRounded, yearFloored
 	if (type === 1) {
 		x = (year - year1) / (year2 - year1)
@@ -52,12 +52,12 @@ function getCorrect({ type, year1, year2, pop1, pop2, year, pop }) {
 }
 
 function checkInput(state, input, step, substep) {
-	const correct = getCorrect(state)
+	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return checkParameter('x', correct, input, data.equalityOptions)
+			return checkParameter('x', solution, input, data.equalityOptions)
 		default:
-			return checkParameter(state.type === 1 ? 'pop' : 'year', correct, input, data.equalityOptions)
+			return checkParameter(state.type === 1 ? 'pop' : 'year', solution, input, data.equalityOptions)
 	}
 }
 
@@ -66,5 +66,5 @@ module.exports = {
 	generateState,
 	processAction: getStepExerciseProcessor(checkInput, data),
 	checkInput,
-	getCorrect,
+	getSolution,
 }

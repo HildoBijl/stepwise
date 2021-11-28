@@ -89,13 +89,13 @@ function generateState() {
 	return { index: getRandomInteger(0, expressions.length - 1) }
 }
 
-function getCorrect({ index }) {
+function getSolution({ index }) {
 	return expressions[index]
 }
 
 function checkInput(state, { ans, eq }) {
-	// const correct = getCorrect(state)
-	// return correct.equals(ans, data.equalityOptions)
+	// const solution = getSolution(state)
+	// return solution.equals(ans, data.equalityOptions)
 	console.log(ans)
 	console.log(ans.str)
 	console.log(eq)

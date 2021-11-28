@@ -7,7 +7,7 @@ import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInpu
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 
 import StepExercise from '../types/StepExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -78,7 +78,7 @@ const steps = [
 			</>
 		},
 		Solution: () => {
-			const { k } = useCorrect()
+			const { k } = useSolution()
 
 			return <Par>Voor lucht geldt <M>k = {k}.</M></Par>
 		},
@@ -110,7 +110,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { k, p1, p2, V1, V2, Q, W } = useCorrect()
+			const { k, p1, p2, V1, V2, Q, W } = useSolution()
 
 			return <Par>We hoeven alleen maar de formules in te vullen. Er geldt <M>Q = {Q}</M> omdat dat per definitie zo is bij een isentropisch proces. Verder vinden we <BM>W = -\frac(1)(k-1)\left(p_2V_2 - p_1V_1\right) = -\frac(1)({k.number}-1)\left({p2.float} \cdot {V2.float} - {p1.float} \cdot {V1.float}\right) = {W}.</BM> Dit is een erg grote hoeveelheid arbeid. We hebben hier echter ook te maken met een grote gasturbine die een volle minuut draait. Dit kan dus goed kloppen.</Par>
 		},

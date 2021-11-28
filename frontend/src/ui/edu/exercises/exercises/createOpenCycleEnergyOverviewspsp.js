@@ -64,9 +64,9 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: (state) => {
-			const { shared: { getCycleParameters, getCorrect } } = useExerciseData()
+			const { shared: { getCycleParameters, getSolution } } = useExerciseData()
 			const { T1, T2 } = getCycleParameters(state)
-			const { cp, q12, wt12 } = getCorrect(state)
+			const { cp, q12, wt12 } = getSolution(state)
 			return <Par>Bij een isentroop proces geldt <M>q_(1-2) = {q12}.</M> De technische arbeid volgt vervolgens uit
 			<BM>w_(t,1-2) = -\Delta h = -c_p \left(T_2 - T_1\right) = -{cp.float} \cdot \left({T2.float} - {T1.float}\right) = {wt12}.</BM>
 			Dit is negatief: we moeten zelf arbeid in het gas stoppen. Hiermee is de eerste stap doorgerekend.</Par>
@@ -83,9 +83,9 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: (state) => {
-			const { shared: { getCycleParameters, getCorrect } } = useExerciseData()
+			const { shared: { getCycleParameters, getSolution } } = useExerciseData()
 			const { T2, T3 } = getCycleParameters(state)
-			const { cp, q23, wt23 } = getCorrect(state)
+			const { cp, q23, wt23 } = getSolution(state)
 			return <Par>Bij een isobaar proces is de warmte te vinden als
 			<BM>q_(2-3) = c_p \left(T_3 - T_2\right) = {cp.float} \cdot \left({T3.float} - {T2.float}\right) = {q23}.</BM>
 			Dit is positief: we verwarmen het gas. De technische arbeid bij een isobaar proces is altijd <M>w_(t,2-3) = {wt23}.</M> Zo is ook de tweede stap bekend.</Par>
@@ -102,9 +102,9 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: (state) => {
-			const { shared: { getCycleParameters, getCorrect } } = useExerciseData()
+			const { shared: { getCycleParameters, getSolution } } = useExerciseData()
 			const { T3, T4 } = getCycleParameters(state)
-			const { cp, q34, wt34 } = getCorrect(state)
+			const { cp, q34, wt34 } = getSolution(state)
 			return <Par>Bij een isentroop proces geldt nog steeds <M>q_(3-4) = {q34}.</M> De technische arbeid volgt alweer uit
 			<BM>w_(t,3-4) = -\Delta h = -c_p \left(T_4 - T_3\right) = -{cp.float} \cdot \left({T4.float} - {T3.float}\right) = {wt34}.</BM>
 			Dit is positief: het gas levert arbeid. Hiermee is de eerste stap doorgerekend.</Par>
@@ -121,9 +121,9 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: (state) => {
-			const { shared: { getCycleParameters, getCorrect } } = useExerciseData()
+			const { shared: { getCycleParameters, getSolution } } = useExerciseData()
 			const { T4, T1 } = getCycleParameters(state)
-			const { cp, q12, wt12, q23, wt23, q34, wt34, q41, wt41, qn, wn } = getCorrect(state)
+			const { cp, q12, wt12, q23, wt23, q34, wt34, q41, wt41, qn, wn } = getSolution(state)
 			return <>
 				<Par>Net als bij stap 2-3 geldt hier
 				<BM>q_(4-1) = c_p \left(T_1 - T_4\right) = {cp.float} \cdot \left({T1.float} - {T4.float}\right) = {q41}.</BM>

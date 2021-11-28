@@ -6,7 +6,7 @@ import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import StepExercise from '../types/StepExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -34,7 +34,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { h1, h2p, h2, wti, wt } = useCorrect()
+			const { h1, h2p, h2, wti, wt } = useSolution()
 			return <>
 				<Par>In een turbine wordt geen warmte toegevoerd of afgevoerd, waardoor <M>q = 0.</M> De technische arbeid volgt vanuit de eerste hoofdwet als
 				<BM>w_t = q - \Delta h = -(h_2 - h_1) = h_1 - h_2.</BM>
@@ -56,7 +56,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { wt, wti, etai } = useCorrect()
+			const { wt, wti, etai } = useSolution()
 			return <Par>Het isentropisch rendement is altijd een getal tussen de <M>0</M> en de <M>1.</M> We moeten bij een turbine dus de werkelijke technische arbeid (het kleinere getal) delen door de theoretische technische arbeid (het grotere getal). Zo vinden we <BM>\eta_i = \frac(w_t)(w_(t_i)) = \frac{wt.float}{wti.float} = {etai}.</BM> Een isentropisch rendement van <M>{etai.setUnit('%')}</M> is redelijk reëel voor een turbine.</Par>
 		},
 	},

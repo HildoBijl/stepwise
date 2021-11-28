@@ -62,9 +62,9 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: (state) => {
-			const { shared: { getCycleParameters, getCorrect } } = useExerciseData()
+			const { shared: { getCycleParameters, getSolution } } = useExerciseData()
 			const { p1, V1, V2 } = getCycleParameters(state)
-			const { Q12, W12 } = getCorrect(state)
+			const { Q12, W12 } = getSolution(state)
 			return <Par>Er zijn meerdere manieren om dit uit te rekenen. We kunnen bijvoorbeeld de warmte <M>Q_(1-2)</M> berekenen via <BM>Q_(1-2) = pV\ln\left(\frac(V_2)(V_1)\right) = {p1.float} \cdot {V1.float} \cdot \ln\left(\frac{V2.float}{V1.float}\right) = {Q12}.</BM> Omdat het een isotherm proces is geldt verder <M>W_(1-2) = Q_(1-2) = {W12}.</M> Hiermee is de eerste stap doorgerekend.</Par>
 		},
 	},
@@ -79,9 +79,9 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: (state) => {
-			const { shared: { getCycleParameters, getCorrect } } = useExerciseData()
+			const { shared: { getCycleParameters, getSolution } } = useExerciseData()
 			const { m, T2, T3 } = getCycleParameters(state)
-			const { cv, Q23, W23 } = getCorrect(state)
+			const { cv, Q23, W23 } = getSolution(state)
 			return <Par>Bij een isentroop proces is er per definitie geen warmte toegevoerd. Er geldt dus <M>Q_(2-3) = {Q23}.</M> De arbeid is te berekenen als <BM>W_(2-3) = -mc_v\left(T_3-T_2\right) = -{m.float} \cdot {cv.float} \cdot \left({T3.float} - {T2.float}\right) = {W23}.</BM> Hiermee is ook deze stap klaar.</Par>
 		},
 	},
@@ -96,9 +96,9 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: (state) => {
-			const { shared: { getCycleParameters, getCorrect } } = useExerciseData()
+			const { shared: { getCycleParameters, getSolution } } = useExerciseData()
 			const { m, T1, T3 } = getCycleParameters(state)
-			const { cv, Q12, W12, Q23, W23, Q31, W31, Qn, Wn } = getCorrect(state)
+			const { cv, Q12, W12, Q23, W23, Q31, W31, Qn, Wn } = getSolution(state)
 
 			return <>
 				<Par>Bij een isochore stap geldt <M>W_(3-1) = {W31}.</M> We hoeven dus alleen <M>Q_(3-1)</M> te berekenen. Dit gaat het makkelijkst via <BM>Q_(3-1) = mc_v\left(T_1 - T_3\right) = {m.float} \cdot {cv.float} \cdot \left({T1.float} - {T3.float}\right) = {Q31}.</BM> Daarmee is alles doorgerekend.</Par>

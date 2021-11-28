@@ -33,7 +33,7 @@ function generateState() {
 	}
 }
 
-function getCorrect(state) {
+function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
 	const terms = ['axy^2', 'bxy', 'cx^2y'].map(term => asExpression(term).substituteVariables(variables).removeUseless())
 	const factor = asExpression('xy').substituteVariables(variables).simplify({ sortProducts: true })
@@ -47,21 +47,21 @@ function getCorrect(state) {
 }
 
 function checkInput(state, input, step) {
-	const correct = getCorrect(state)
+	const solution = getSolution(state)
 	if (step === 0 || step === 3)
-		return performCheck('ans', correct, input, data.check)
+		return performCheck('ans', solution, input, data.check)
 	if (step === 1)
-		return performCheck('setup', correct, input, data.check)
+		return performCheck('setup', solution, input, data.check)
 	if (step === 2)
-		return performCheck('fractionSimplified', correct, input, data.check)
+		return performCheck('fractionSimplified', solution, input, data.check)
 	if (step === 4)
-		return performCheck('expression', correct, input, data.check)
+		return performCheck('expression', solution, input, data.check)
 }
 
 module.exports = {
 	data,
 	generateState,
 	processAction: getStepExerciseProcessor(checkInput, data),
-	getCorrect,
+	getSolution,
 	checkInput,
 }

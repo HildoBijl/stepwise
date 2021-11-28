@@ -6,7 +6,7 @@ import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import StepExercise from '../types/StepExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -30,7 +30,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { p1, V1, T1, Rs, m } = useCorrect()
+			const { p1, V1, T1, Rs, m } = useSolution()
 			return <Par>We zetten allereerst de gegevens van het beginpunt in standaard eenheden. Hiermee vinden we <BM>p_1 = {p1},</BM><BM>V_1 = {V1},</BM><BM>T_1 = {T1}.</BM> Vervolgens zoeken we de gasconstante van lucht op. Deze is <BM>R_s = {Rs}.</BM> De gaswet zegt dat <M>pV = mR_sT.</M> We passen dit toe op punt 1: de fietspomp met de hendel omhoog. Om <M>m</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>R_sT.</M> Het resultaat is <BM>m = \frac(p_1V_1)(R_sT_1) = \frac({p1.float} \cdot {V1.float})({Rs.float} \cdot {T1.float}) = {m}.</BM></Par>
 		},
 	},
@@ -42,7 +42,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: (state) => {
-			const { p2, V2, T1, T2, m, Rs } = useCorrect()
+			const { p2, V2, T1, T2, m, Rs } = useSolution()
 			return <>
 				<Par>Als eerste zetten we de eigenschappen van het eindpunt in standaard eenheden: <BM>p_2 = {p2},</BM><BM>V_2 = {V2}.</BM> Vervolgens passen we de gaswet <M>pV = mR_sT</M> toe op punt 2: de fietspomp met de hendel ingedrukt. Om deze wet op te lossen voor de temperatuur <M>T</M> delen we beide kanten van de vergelijking door <M>mR_s.</M> Zo vinden we <BM>T_2 = \frac(p_2V_2)(mR_s) = \frac({p2.float} \cdot {V2.float})({m.float} \cdot {Rs.float}) = {T2}.</BM>Je kunt dit eventueel nog omrekenen naar <M>{T2.setUnit('dC').setDecimals(0)}.</M> Dit is een stuk warmer dan de begintemperatuur van <M>{state.T1}.</M> Zo zien we dat lucht bij compressie best veel kan opwarmen.</Par>
 				<SubHead>Short-cut</SubHead>

@@ -7,7 +7,7 @@ import FloatInput from 'ui/form/inputs/FloatInput'
 import { InputSpace } from 'ui/form/Status'
 
 import StepExercise from '../types/StepExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -48,7 +48,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { type, h1, h2, W1, W2, x, h, W } = useCorrect()
+			const { type, h1, h2, W1, W2, x, h, W } = useSolution()
 			return type === 1 ? <>
 				<Par>
 					De hoogtestijging sinds de eerste meting is
@@ -88,7 +88,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { type, h1, h2, W1, W2, x, h, W } = useCorrect()
+			const { type, h1, h2, W1, W2, x, h, W } = useSolution()
 			return type === 1 ?
 				<Par>
 					We hebben <M>{x.float}</M> deel van de gewichtstoename. De gehele gewichtstoename tussen de twee metingen is

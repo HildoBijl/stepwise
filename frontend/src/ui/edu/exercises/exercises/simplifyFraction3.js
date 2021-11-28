@@ -7,7 +7,7 @@ import { Par, SubHead } from 'ui/components/containers'
 import ExpressionInput, { basicMathAndPowers, validWithVariables } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/Status'
 
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
@@ -20,7 +20,7 @@ export default function Exercise() {
 }
 
 const Problem = (state) => {
-	const { variables, expression } = useCorrect(state)
+	const { variables, expression } = useSolution(state)
 	return <>
 		<Par>Gegeven is de uitdrukking <BM>{expression}.</BM> Herschrijf dit tot een enkele breuk.</Par>
 		<InputSpace>
@@ -34,7 +34,7 @@ const Problem = (state) => {
 const steps = [
 	{
 		Problem: (state) => {
-			const { variables, numerator } = useCorrect(state)
+			const { variables, numerator } = useSolution(state)
 			return <>
 				<Par>Herschrijf de som <BM>{numerator}</BM> als een enkele breuk. Maak deze zo simpel mogelijk.</Par>
 				<InputSpace>
@@ -45,7 +45,7 @@ const steps = [
 			</>
 		},
 		Solution: (state) => {
-			const { term1, fraction1, numerator, term1Intermediate, numeratorSplit, numeratorIntermediate } = useCorrect(state)
+			const { term1, fraction1, numerator, term1Intermediate, numeratorSplit, numeratorIntermediate } = useSolution(state)
 			return <>
 				<Par>Om de teller <M>{numerator}</M> als één breuk te schrijven, moeten we van <M>{term1}</M> eerst een breuk maken met noemer <M>{fraction1.denominator}.</M> Dit kan als we boven en onder vermenigvuldigen met <M>{fraction1.denominator}.</M> Zo krijgen we <BM>{term1} = {term1Intermediate}.</BM> We kunnen de breuken vervolgens samenvoegen als <BM>{numerator} = {numeratorSplit} = {numeratorIntermediate}.</BM></Par>
 			</>
@@ -53,7 +53,7 @@ const steps = [
 	},
 	{
 		Problem: (state) => {
-			const { variables, denominator } = useCorrect(state)
+			const { variables, denominator } = useSolution(state)
 			return <>
 				<Par>Herschrijf de som <BM>{denominator}</BM> als een enkele breuk. Maak deze zo simpel mogelijk.</Par>
 				<InputSpace>
@@ -64,7 +64,7 @@ const steps = [
 			</>
 		},
 		Solution: (state) => {
-			const { term2, fraction2, denominator, term2Intermediate, denominatorSplit, denominatorIntermediate } = useCorrect(state)
+			const { term2, fraction2, denominator, term2Intermediate, denominatorSplit, denominatorIntermediate } = useSolution(state)
 			return <>
 				<Par>Om de noemer <M>{denominator}</M> als één breuk te schrijven, moeten we van <M>{term2}</M> eerst een breuk maken met noemer <M>{fraction2.denominator}.</M> Dit kan als we boven en onder vermenigvuldigen met <M>{fraction2.denominator}.</M> Zo krijgen we <BM>{term2} = {term2Intermediate}.</BM> We kunnen de breuken vervolgens samenvoegen als <BM>{denominator} = {denominatorSplit} = {denominatorIntermediate}.</BM></Par>
 			</>
@@ -72,7 +72,7 @@ const steps = [
 	},
 	{
 		Problem: (state) => {
-			const { variables, intermediate } = useCorrect(state)
+			const { variables, intermediate } = useSolution(state)
 			return <>
 				<Par>Herschrijf de samengestelde breuk <BM>{intermediate}</BM> als enkele breuk.</Par>
 				<InputSpace>
@@ -83,7 +83,7 @@ const steps = [
 			</>
 		},
 		Solution: (state) => {
-			const { variables, expression, intermediate, ans } = useCorrect(state)
+			const { variables, expression, intermediate, ans } = useSolution(state)
 			return <>
 				<Par>We hebben een breuk die we delen door een breuk. Door de regel "delen door een breuk is vermenigvuldigen met het omgekeerde" kunnen we dit schrijven als <BM>{intermediate.numerator.multiplyBy(intermediate.denominator.invert())}.</BM> Als we deze breuken samenvoegen, dan kunnen we dit simplificeren tot <BM>{ans}.</BM> Eventueel kunnen de haakjes nog uitgewerkt worden, maar dat is niet per se nodig hier.</Par>
 				<SubHead>Short-cut</SubHead>

@@ -8,7 +8,7 @@ import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 
 import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -51,7 +51,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { k } = useCorrect()
+			const { k } = useSolution()
 			return <Par>De turbine gebruikt gewone lucht, zoals we dat overal om ons heen hebben. Voor deze lucht geldt <M>k = {k}.</M></Par>
 		},
 	},
@@ -80,7 +80,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { k, p1, p2, T1, T2 } = useCorrect()
+			const { k, p1, p2, T1, T2 } = useSolution()
 			return <Par>Poisson's wet zegt dat <M>\frac(T^n)(p^(n-1))=(\rm constant)</M> waardoor we mogen schrijven, <BM>\frac(T_1^n)(p_1^(n-1)) = \frac(T_2^n)(p_2^(n-1)).</BM> We willen dit oplossen voor <M>T_2.</M> Vermenigvuldigen met <M>p_2^(n-1)</M> geeft <BM>T_2^n = \frac(p_2^(n-1))(p_1^(n-1)) \cdot T_1^n = \left(\frac(p_2)(p_1)\right)^(n-1) \cdot T_1^n.</BM> Om de macht weg te krijgen doen we beide kanten van de vergelijking tot de macht <M>\frac(1)(n)</M> waarmee we uitkomen op <BM>T_2 = \left(\left(\frac(p_2)(p_1)\right)^(n-1) \cdot T_1^n\right)^(\frac(1)(n)) = \left(\frac(p_2)(p_1)\right)^(\frac(n-1)(n)) \cdot T_1 = \left(\frac{p2.float}{p1.float}\right)^(\frac({k.float}-1)({k.float})) \cdot {T1.float} = {T2}.</BM> Ter referentie: dit komt neer op <M>{T2.setUnit('dC').setDecimals(0)}</M>, wat redelijk warm is. Deze hitte is de reden waarom de uitlaat van een vliegtuigmotor vaak zo lijkt te glimmeren.</Par>
 		},
 	},

@@ -30,13 +30,13 @@ function generateState() {
 	return { p, type }
 }
 
-function getCorrect({ p, type }) {
+function getSolution({ p, type }) {
 	p = p.simplify()
 	return (type === 0 ? p.setUnit('bar') : p)
 }
 
 function checkInput(state, { ans }) {
-	return getCorrect(state).equals(ans, data.equalityOptions)
+	return getSolution(state).equals(ans, data.equalityOptions)
 }
 
 module.exports = {
@@ -44,5 +44,5 @@ module.exports = {
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),
 	checkInput,
-	getCorrect,
+	getSolution,
 }

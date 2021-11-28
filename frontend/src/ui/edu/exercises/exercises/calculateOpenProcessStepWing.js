@@ -9,7 +9,7 @@ import { InputSpace, AntiInputSpace } from 'ui/form/Status'
 import { InputTable } from 'ui/components/misc/InputTable'
 
 import StepExercise from '../types/StepExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -45,7 +45,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { rho, v1 } = useCorrect()
+			const { rho, v1 } = useSolution()
 			return <Par>Het specifiek volume volgt vanuit de dichtheid als <BM>v_1 = \frac(1)(\rho) = \frac(1){rho.float} = {v1}.</BM></Par>
 		},
 	},
@@ -57,7 +57,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { Rs, p1, v1, T1 } = useCorrect()
+			const { Rs, p1, v1, T1 } = useSolution()
 			return <Par>De gaswet voor open systemen zegt <BM>p_1v_1 = R_sT_1.</BM> De enige onbekende is <M>T_1.</M> Deze vinden we via <BM>T_1 = \frac(p_1v_1)(R_s) = \frac({p1.float} \cdot {v1.float})({Rs.float}) = {T1}.</BM> Dit is een erg koude temperatuur, maar dat is te verwachten als je op grote hoogte vliegt.</Par>
 		},
 	},
@@ -105,7 +105,7 @@ const steps = [
 			</>
 		},
 		Solution: () => {
-			const { k, p1, p2, v1, v2, T1, T2 } = useCorrect()
+			const { k, p1, p2, v1, v2, T1, T2 } = useSolution()
 			const choice = useInput('choice')
 
 			if (choice === undefined || choice === 0)
@@ -128,7 +128,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { Rs, p2, v2, T2 } = useCorrect()
+			const { Rs, p2, v2, T2 } = useSolution()
 			const choice = useInput('choice')
 
 			if (choice === undefined || choice === 0)

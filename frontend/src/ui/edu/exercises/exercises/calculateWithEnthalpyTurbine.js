@@ -6,7 +6,7 @@ import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import StepExercise from '../types/StepExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -33,7 +33,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { P, mdot, wt } = useCorrect()
+			const { P, mdot, wt } = useSolution()
 			return <Par>Het vermogen is <M>P = {P}.</M> Om van vermogen (arbeid per seconde) naar specifieke arbeid (arbeid per kilogram) te gaan gebruiken we <M>P = \dot(m) w_t.</M> Dit oplossen voor <M>w_t</M> geeft <BM>w_t = \frac(P)(\dot(m)) = \frac{P.float}{mdot.float} = {wt}.</BM> Dit is de specifieke arbeid die de stoom in de turbine levert.</Par>
 		},
 	},
@@ -47,7 +47,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { q } = useCorrect()
+			const { q } = useSolution()
 			return <>
 				<Par>Bij een isentroop proces wordt per definitie geen warmte toegevoerd. Oftewel, <M>q = {q}.</M></Par>
 			</>
@@ -63,7 +63,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { q, wt, dh } = useCorrect()
+			const { q, wt, dh } = useSolution()
 			return <>
 				<Par>De eerste hoofdwet voor open systemen zegt direct dat <BM>\Delta h = q - w_t = {q.float} - {wt.float} = {dh}.</BM> Het minteken is belangrijk: die geeft aan dat de enthalpie afneemt. Dit is logisch: de stoom verricht arbeid en verliest daarmee dus energie. Dit resulteert in een afname van de enthalpie.</Par>
 			</>

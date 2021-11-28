@@ -5,7 +5,7 @@ import { Par } from 'ui/components/containers'
 import ExpressionInput, { basicMath, validWithVariables } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/Status'
 
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import SimpleExercise from '../types/SimpleExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
@@ -16,7 +16,7 @@ export default function Exercise() {
 }
 
 const Problem = (state) => {
-	const { variables, expression } = useCorrect(state)
+	const { variables, expression } = useSolution(state)
 	return <>
 		<Par>Gegeven is de uitdrukking <BM>{expression}.</BM> Schrijf dit als één breuk.</Par>
 		<InputSpace>
@@ -28,7 +28,7 @@ const Problem = (state) => {
 }
 
 const Solution = (state) => {
-	const { expression, ans } = useCorrect(state)
+	const { expression, ans } = useSolution(state)
 	return <>
 		<Par>Het is bij deze opgave belangrijk om te kijken welke breuk voorrang heeft. Kleinere deelstrepen worden eerder uitgevoerd dan grotere deelstrepen, en krijgen dus voorrang. Effectief gezien delen we hier dus de breuk <M>{expression.numerator}</M> door <M>\left({expression.denominator}\right).</M></Par>
 		<Par>Als we een breuk ergens door delen, dan is de regel dat we deze deelfactor er ook bij de noemer (onderin) bij mogen schrijven. Immers, als we bijvoorbeeld <M>1/2</M> taart hebben, en dat nog eens delen door <M>3,</M> dan hebben we <M>\frac(1/2)(3) = \frac(1)(2 \cdot 3) = \frac(1)(6)</M> taart. Volgens deze regel krijgen we <BM>{expression} = {ans}.</BM> Zo is onze samengestelde breuk geschreven als één breuk.</Par>

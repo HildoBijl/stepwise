@@ -8,7 +8,7 @@ import { InputSpace } from 'ui/form/Status'
 import { InputTable } from 'ui/components/misc/InputTable'
 
 import StepExercise from '../types/StepExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -43,7 +43,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { Rs, p1, v1, T1 } = useCorrect()
+			const { Rs, p1, v1, T1 } = useSolution()
 			return <Par>De gaswet voor open systemen zegt <BM>p_1v_1 = R_sT_1.</BM> De enige onbekende is <M>v_1.</M> Deze vinden we via <BM>v_1 = \frac(R_sT_1)(p_1) = \frac({Rs.float} \cdot {T1.float})({p1.float}) = {v1}.</BM> Hiermee is het eerste punt doorgerekend.</Par>
 		},
 	},
@@ -69,7 +69,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { Rs, p2, v2, T2 } = useCorrect()
+			const { Rs, p2, v2, T2 } = useSolution()
 			return <Par>Omdat we met een isobaar proces te maken hebben geldt <M>p_2 = p_1 = {p2}.</M> De enige resterende onbekende waarde is <M>v_2.</M> Deze vinden we via de gaswet, toegepast op punt 2. Oftewel, <BM>p_2 v_2 = R_s T_2.</BM> Dit oplossen voor <M>v_2</M> geeft <BM>v_2 = \frac(R_s T_2)(p_2) = \frac({Rs.float} \cdot {T2.float})({p2.float}) = {v2}.</BM> Dit is een stuk hoger dan voorheen, maar dat is logisch: bij verwarming expandeert lucht over het algemeen.</Par>
 		},
 	},

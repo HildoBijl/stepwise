@@ -10,7 +10,7 @@ import { InputSpace } from 'ui/form/Status'
 import { InputTable } from 'ui/components/misc/InputTable'
 
 import StepExercise from '../types/StepExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -47,7 +47,7 @@ const steps = [
 		</>,
 		Solution: (state) => {
 			const { m, V1, T1 } = state
-			const { Rs, p1, m: ms, V1: V1s, T1: T1s } = useCorrect()
+			const { Rs, p1, m: ms, V1: V1s, T1: T1s } = useSolution()
 			return <>
 				<Par>We gaan de gaswet gebruiken. Hierbij moeten alle waarden in standaard eenheden staan. Dus schrijven we op,<BM>V_1 = {V1} \cdot {VConversion} = {V1s},</BM><BM>T_1 = {T1.float} + {TConversion.float} = {T1s},</BM><BM>m = \frac{m}{mConversion} = {ms}.</BM></Par>
 				<Par>Ook is de specifieke gasconstante van lucht nodig. Deze kunnen we opzoeken als <BM>R_s = {Rs}.</BM></Par>
@@ -68,7 +68,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { p1 } = useCorrect()
+			const { p1 } = useSolution()
 			return <Par>Op het moment is de druk in de ballon <M>{p1.setUnit('bar').setDecimals(2)}.</M> Dit is gelijk aan de atmosferische druk plus nog een klein beetje extra druk die, vanwege de elasticiteit van de ballon, toegevoegd wordt. De ballon "trekt aan" waardoor de lucht nog net ietsje meer samengedrukt wordt. Omdat de elasticiteit van de ballon bij benadering constant blijft, zal deze "extra druk" ook hetzelfde blijven. Kortom: de druk blijft gelijk. Het is (bij benadering) een isobaar proces, waardoor <M>p_2 = p_1.</M></Par>
 		},
 	},
@@ -81,7 +81,7 @@ const steps = [
 		</>,
 		Solution: (state) => {
 			const { V1, T2 } = state
-			const { Rs, m, T2: T2s, V2, p2 } = useCorrect()
+			const { Rs, m, T2: T2s, V2, p2 } = useSolution()
 			return <Par>We weten inmiddels dat <BM>p_2 = p_1 = {p2}.</BM> Ook is de eindtemperatuur <M>T_2</M> bekend. In standaard eenheden is deze <BM>T_2 = {T2.float} + {TConversion.float} = {T2s}.</BM> Alleen <M>V_2</M> is nog onbekend. Deze kunnen we vinden via de gaswet <BM>pV = mR_sT.</BM> Als we deze oplossen voor <M>V_2</M> vinden we <BM>V_2 = \frac(mR_sT_2)(p_2) = \frac({m.float} \cdot {Rs.float} \cdot {T2s.float})({p2.float}) = {V2}.</BM> Dit komt neer op <M>{V2.setUnit('l')}</M> wat een beetje groter is dan het beginvolume van <M>{V1}.</M> Dit klinkt logisch: de ballon zet immers uit.</Par>
 		},
 	},

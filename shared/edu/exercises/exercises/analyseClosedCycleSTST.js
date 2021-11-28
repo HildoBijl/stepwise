@@ -1,8 +1,8 @@
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd } = require('../../../skillTracking')
 const { checkParameter } = require('../util/check')
-const { generateState, getCorrect: getCycleParameters } = require('./calculateClosedCycleSTST')
-const { getCorrect: getEnergyParameters } = require('./createClosedCycleEnergyOverviewSTST')
+const { generateState, getSolution: getCycleParameters } = require('./calculateClosedCycleSTST')
+const { getSolution: getEnergyParameters } = require('./createClosedCycleEnergyOverviewSTST')
 
 const data = {
 	skill: 'analyseClosedCycle',
@@ -23,7 +23,7 @@ const data = {
 	},
 }
 
-function getCorrect(state) {
+function getSolution(state) {
 	const { m, Rs, k, p1, V1, T1, p2, V2, T2, p3, V3, T3, p4, V4, T4 } = getCycleParameters(state)
 	const { cv, cp, Q12, W12, Q23, W23, Q34, W34, Q41, W41, Wn } = getEnergyParameters(state)
 
@@ -34,19 +34,19 @@ function getCorrect(state) {
 }
 
 function checkInput(state, input, step, substep) {
-	const correct = getCorrect(state)
+	const solution = getSolution(state)
 	const { choice } = input
 	switch (step) {
 		case 1:
-			return checkParameter(['p1', 'V1', 'T1', 'p2', 'V2', 'T2', 'p3', 'V3', 'T3', 'p4', 'V4', 'T4'], correct, input, data.equalityOptions)
+			return checkParameter(['p1', 'V1', 'T1', 'p2', 'V2', 'T2', 'p3', 'V3', 'T3', 'p4', 'V4', 'T4'], solution, input, data.equalityOptions)
 		case 2:
-			return checkParameter(['Q12', 'W12', 'Q23', 'W23', 'Q34', 'W34', 'Q41', 'W41'], correct, input, data.equalityOptions)
+			return checkParameter(['Q12', 'W12', 'Q23', 'W23', 'Q34', 'W34', 'Q41', 'W41'], solution, input, data.equalityOptions)
 		case 3:
 			return choice === 1
 		default:
 			if (choice === 0)
 				return false
-			return checkParameter(['epsilon', 'COP'], correct, input, data.equalityOptions)
+			return checkParameter(['epsilon', 'COP'], solution, input, data.equalityOptions)
 	}
 }
 
@@ -56,5 +56,5 @@ module.exports = {
 	processAction: getStepExerciseProcessor(checkInput, data),
 	checkInput,
 	getCycleParameters,
-	getCorrect,
+	getSolution,
 }

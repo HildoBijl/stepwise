@@ -57,7 +57,7 @@ To set up a `SimpleExercise` exercise, follow the following steps.
 
 - Set up the `data` object as usual.
 - Set up a `generateState()` function as usual.
-- (Optional) Set up a `getCorrect(state)` function, which takes the state and calculates a multitude of useful numbers, including the correct answer(s) of the exercise. For the exercise "Calculate `a + b`" this function could be `({ a, b }) => ({ a, b, x: a + b })`.
+- (Optional) Set up a `getSolution(state)` function, which takes the state and calculates a multitude of useful numbers, including the correct answer(s) of the exercise. For the exercise "Calculate `a + b`" this function could be `({ a, b }) => ({ a, b, ans: a + b })`.
 - Set up a `checkInput(state, input)` function, which takes the state and an input, and returns `true` or `false`: is the input correct or not?
 - Use `processAction = getSimpleExerciseProcessor(checkInput, data)` as the `processAction` function. 
 - Assemble all parameters into the export object. (Definitely the obligatory `data`, `generateState` and `processAction`, but usually also the `checkInput` and `processAction`.)

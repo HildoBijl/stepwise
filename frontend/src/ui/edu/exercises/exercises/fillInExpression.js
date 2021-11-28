@@ -10,7 +10,7 @@ import ExpressionInput, { basicMath } from 'ui/form/inputs/ExpressionInput'
 import EquationInput from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form/Status'
 
-// import { useExerciseData, useCorrect } from '../ExerciseContainer'
+// import { useExerciseData, useSolution } from '../ExerciseContainer'
 import { useFormData } from 'ui/form/Form'
 import { removeCursor } from 'ui/form/inputs/support/Input'
 import { cleanUp } from 'ui/form/inputs/support/expressionTypes/Expression'
@@ -71,9 +71,9 @@ function Problem({ index }) {
 }
 
 function Solution({ index }) {
-	// const correct = useCorrect()
+	// const solution = useSolution()
 	return <Par>Hier komt dan het antwoord.</Par>
-	// return <Par>Je typt letterlijk <M>{correct}</M> in het invoerveld.</Par>
+	// return <Par>Je typt letterlijk <M>{solution}</M> in het invoerveld.</Par>
 }
 
 function getFeedback({ state: { constant }, input: { ans }, progress: { solved }, shared: { data: { equalityOptions } } }) {

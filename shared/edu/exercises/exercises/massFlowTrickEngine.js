@@ -30,15 +30,15 @@ function generateState() {
 	return { rho, mdot }
 }
 
-function getCorrect({ rho, mdot }) {
+function getSolution({ rho, mdot }) {
 	const v = rho.invert()
 	const Vdot = mdot.multiply(v).setUnit('m^3/s')
 	return { rho, mdot, v, Vdot }
 }
 
 function checkInput(state, input) {
-	const correct = getCorrect(state)
-	return checkParameter('Vdot', correct, input, data.equalityOptions)
+	const solution = getSolution(state)
+	return checkParameter('Vdot', solution, input, data.equalityOptions)
 }
 
 module.exports = {
@@ -46,5 +46,5 @@ module.exports = {
 	generateState,
 	processAction: getSimpleExerciseProcessor(checkInput, data),
 	checkInput,
-	getCorrect,
+	getSolution,
 }

@@ -9,7 +9,7 @@ import { InputSpace } from 'ui/form/Status'
 
 import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -51,7 +51,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { Rs } = useCorrect()
+			const { Rs } = useSolution()
 			return <Par>De specifieke gasconstante van argon is <M>R_s = {Rs}.</M></Par>
 		},
 	},
@@ -63,7 +63,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { Rs, m, p, V, T } = useCorrect()
+			const { Rs, m, p, V, T } = useSolution()
 			return <Par>De gaswet zegt <BM>pV = mR_sT.</BM> Om <M>m</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>R_sT.</M> Het resultaat is <BM>m = \frac(pV)(R_sT) = \frac({p.float} \cdot {V.float})({Rs.float} \cdot {T.float}) = {m}.</BM></Par>
 		},
 	},

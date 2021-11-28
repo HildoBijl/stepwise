@@ -8,7 +8,7 @@ import { InputTable } from 'ui/components/misc/InputTable'
 
 import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -57,7 +57,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { Rs, k, p1, v1, T1, p2, v2, T2, p3, v3, T3, p4, v4, T4 } = useCorrect()
+			const { Rs, k, p1, v1, T1, p2, v2, T2, p3, v3, T3, p4, v4, T4 } = useSolution()
 			return <>
 				<Par>In punt 1 is al bekend dat <M>p_1 = {p1}</M> en <M>T_1 = {T1}.</M> Voor punt 2 weten we <M>p_2 = {p2}.</M> We vinden <M>T_2</M> via Poisson's wet als
 				<BM>T_2 = T_1 \left(\frac(p_2)(p_1)\right)^(\frac(n-1)(n)) = {T1.float} \cdot \left(\frac{p2.float}{p1.float}\right)^(\frac({k}-1)({k})) = {T2}.</BM>
@@ -95,7 +95,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { cp, T1, T2, T3, T4, q12, wt12, q23, wt23, q34, wt34, q41, wt41, qn, wn } = useCorrect()
+			const { cp, T1, T2, T3, T4, q12, wt12, q23, wt23, q34, wt34, q41, wt41, qn, wn } = useSolution()
 			return <>
 				<Par>Bij de isentrope stap 1-2 geldt <M>q_(1-2) = {q12}</M> en
 				<BM>w_(t,1-2) = -\Delta h = -c_p \left(T_2 - T_1\right) = -{cp.float} \cdot \left({T2.float} - {T1.float}\right) = {wt12}.</BM>
@@ -125,7 +125,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { mdot, wn, qin, qout, epsilon, COP, Ph } = useCorrect()
+			const { mdot, wn, qin, qout, epsilon, COP, Ph } = useSolution()
 			return <>
 				<Par>Er wordt alleen bij stap 4-1 warmte toegevoerd. De toegevoerde warmte is dus <M>q_(toe) = q_(4-1) = {qin}.</M> De netto arbeid is al bekend als <M>w_(netto) = {wn}.</M> Hiermee volgt de koudefactor als
 				<BM>\varepsilon = \frac(\rm nuttig)(\rm invoer) = \frac(q_(toe))(w_(netto)) = \frac{qin.float}{wn.abs().float} = {epsilon}.</BM>

@@ -10,7 +10,7 @@ import { InputTable } from 'ui/components/misc/InputTable'
 import { Dutch } from 'ui/lang/gases'
 
 import StepExercise from '../types/StepExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -72,7 +72,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { m, Rs, k, p1, V1, T1, p2, V2, T2, p3, V3, T3, p4, V4, T4 } = useCorrect()
+			const { m, Rs, k, p1, V1, T1, p2, V2, T2, p3, V3, T3, p4, V4, T4 } = useSolution()
 			return <>
 				<Par>
 					In punt 1 weten we al dat <M>p_1 = {p1}</M> en <M>V_1 = {V1}.</M> Via de gaswet vinden we
@@ -114,7 +114,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { m, cv, V1, T1, p2, V2, T2, T3, V3, p4, V4, T4, Q12, W12, Q23, W23, Q34, W34, Q41, W41, Wn } = useCorrect()
+			const { m, cv, V1, T1, p2, V2, T2, T3, V3, p4, V4, T4, Q12, W12, Q23, W23, Q34, W34, Q41, W41, Wn } = useSolution()
 			return <>
 				<Par>
 					Voor de isentrope stap 1-2 zijn de energiestromen
@@ -160,7 +160,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { Wn, T1, T2, Q23, Qin, epsilon, COP } = useCorrect()
+			const { Wn, T1, T2, Q23, Qin, epsilon, COP } = useSolution()
 			const Qout = Q23.abs()
 			return <Par>De processtappen waarop warmte toegevoerd wordt (<M>Q \gt 0</M>) is alleen stap 4-1. De toegevoerde warmte is dus <M>Q_(toe) = Q_(4-1) = {Qin}.</M> De netto arbeid is al bekend als <M>W_(netto) = {Wn}.</M> Hiermee volgt de koudefactor als
 			<BM>\varepsilon = \frac(\rm nuttig)(\rm invoer) = \frac(Q_(toe))(W_(netto)) = \frac{Qin}{Wn.abs()} = {epsilon}.</BM>

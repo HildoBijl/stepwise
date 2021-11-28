@@ -7,7 +7,7 @@ import { Par, SubHead } from 'ui/components/containers'
 import ExpressionInput, { basicMath, validWithVariables } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/Status'
 
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
@@ -20,7 +20,7 @@ export default function Exercise() {
 }
 
 const Problem = (state) => {
-	const { variables, expression } = useCorrect(state)
+	const { variables, expression } = useSolution(state)
 	return <>
 		<Par>Gegeven is de uitdrukking <BM>{expression}.</BM> Simplificeer dit zo veel als mogelijk.</Par>
 		<InputSpace>
@@ -34,7 +34,7 @@ const Problem = (state) => {
 const steps = [
 	{
 		Problem: (state) => {
-			const { variables, expression } = useCorrect(state)
+			const { variables, expression } = useSolution(state)
 			return <>
 				<Par>Herschrijf de som van breuken <BM>{expression.numerator}</BM> als een enkele breuk. Maak deze zo simpel mogelijk.</Par>
 				<InputSpace>
@@ -45,7 +45,7 @@ const steps = [
 			</>
 		},
 		Solution: (state) => {
-			const { variables, gcdValue, fraction1, fraction2, expression, fraction1Intermediate, fraction2Intermediate, intermediateSplit, intermediate } = useCorrect(state)
+			const { variables, gcdValue, fraction1, fraction2, expression, fraction1Intermediate, fraction2Intermediate, intermediateSplit, intermediate } = useSolution(state)
 			return <>
 				<Par>Om de teller <M>{expression.numerator}</M> als één breuk te schrijven, moeten we eerst de kleinste veelvoud van de twee noemers <M>{fraction1.denominator}</M> en <M>{fraction2.denominator}</M> vinden. Deze kleinste veelvoud is <M>{intermediate.denominator}.</M> Beide breuken moeten dus een noemer <M>{intermediate.denominator}</M> krijgen.</Par>
 				<Par>Voor de eerste breuk vermenigvuldigen we boven en onder met <M>{variables.b / gcdValue}.</M> Zo krijgen we <BM>{fraction1} = {fraction1Intermediate}.</BM> Voor de tweede breuk vermenigvuldigen we boven en onder met <M>{variables.a / gcdValue}.</M> Dit geeft <BM>{fraction2} = {fraction2Intermediate}.</BM> Als we deze breuken samenvoegen, dan vinden we <BM>{expression.numerator} = {intermediateSplit} = {intermediate}.</BM></Par>
@@ -54,7 +54,7 @@ const steps = [
 	},
 	{
 		Problem: (state) => {
-			const { variables, expressionWithIntermediate } = useCorrect(state)
+			const { variables, expressionWithIntermediate } = useSolution(state)
 			return <>
 				<Par>Herschrijf de breuk in de breuk <BM>{expressionWithIntermediate}</BM> als enkele breuk. Maak hem wederom zo simpel mogelijk.</Par>
 				<InputSpace>
@@ -65,7 +65,7 @@ const steps = [
 			</>
 		},
 		Solution: (state) => {
-			const { variables, gcdValue, expression, expressionWithIntermediate, simplifiedExpressionWithIntermediate, ans } = useCorrect(state)
+			const { variables, gcdValue, expression, expressionWithIntermediate, simplifiedExpressionWithIntermediate, ans } = useSolution(state)
 			const factor = variables.a * variables.b / gcdValue
 			return <>
 				<Par>We hebben een breuk die we delen door een factor. In dit geval kunnen we de noemer ook direct met de factor vermenigvuldigen. Zo krijgen we <BM>{expressionWithIntermediate} = {simplifiedExpressionWithIntermediate} = {ans}.</BM> Dit kan niet nog verder gesimplificeerd worden.</Par>

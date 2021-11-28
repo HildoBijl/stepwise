@@ -6,7 +6,7 @@ import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import StepExercise from '../types/StepExercise'
-import { useCorrect } from '../ExerciseContainer'
+import { useSolution } from '../ExerciseContainer'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
@@ -33,7 +33,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { p1, V1, p2, V2, n } = useCorrect()
+			const { p1, V1, p2, V2, n } = useSolution()
 			return <Par>Er is gegeven dat <M>p_1 = {p1},</M> <M>V_1 = {V1},</M> <M>V_2 = {V2}</M> en <M>n = {n}.</M> We vinden <M>p_2</M> via Poisson's wet,
 			<BM>p_1V_1^n = p_2V_2^n,</BM>
 				<BM>p_2 = p_1 \frac(V_1^n)(V_2^n) = p_1 \left(\frac(V_1)(V_2)\right)^n = {p1.float} \cdot \left(\frac{V1.float}{V2.float}\right)^{n} = {p2}.</BM>
@@ -51,7 +51,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { cv, Rs, c, p1, V1, p2, V2, n, Q, W } = useCorrect()
+			const { cv, Rs, c, p1, V1, p2, V2, n, Q, W } = useSolution()
 			return <>
 				<Par>Dit is een algemeen polytroop proces, waardoor het handig is om eerst de soortelijke warmte <M>c</M> horende bij dit proces te berekenen. Deze volgt uit de procescoëfficiënt <M>n={n}</M> als
 				<BM>c = c_v - \frac(R_s)(n-1) = {cv.float} - \frac({Rs.float})({n}-1) = {c}.</BM>
@@ -74,7 +74,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			const { cv, Rs, p1, V1, p2, V2, Q, W, dU } = useCorrect()
+			const { cv, Rs, p1, V1, p2, V2, Q, W, dU } = useSolution()
 			return <>
 				<Par>De eerste hoofdwet zegt dat <M>Q = \Delta U + W.</M> Hieruit volgt direct dat <BM>\Delta U = Q - W = {Q.float} - {W.float} = {dU}.</BM>
 				Omdat het gas arbeid geleverd heeft is het veel energie kwijtgeraakt, wat betekent dat <M>\Delta U</M> negatief is.</Par>
