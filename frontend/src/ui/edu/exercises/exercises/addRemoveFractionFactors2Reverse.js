@@ -11,7 +11,7 @@ import { useCorrect } from '../ExerciseContainer'
 import SimpleExercise from '../types/SimpleExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
-import { originalExpression, noFraction, incorrectExpression } from '../util/feedbackChecks'
+import { originalExpression, noFraction, incorrectExpression } from '../util/feedbackChecks/expression'
 
 const { onlyOrderChanges } = expressionChecks
 

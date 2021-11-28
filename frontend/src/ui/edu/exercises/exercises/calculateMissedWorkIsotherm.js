@@ -61,7 +61,7 @@ const steps = [
 			return <>
 				<Par>De koudste temperatuur waar in dit probleem warmte geloosd kan worden is <M>T_k = {Tc}.</M> Via de standaard formule voor gemiste arbeid vinden we zo <BM>W_m = T_k \Delta S = {Tc.float} \cdot {dS.float} = {Wm}.</BM></Par>
 				<SubHead>Alternatieve oplossing</SubHead>
-				<Par>We hadden dit probleem ook anders op kunnen lossen. De meeste arbeid die we kunnen krijgen, in een proces met maximum temperatuur <M>T_w</M> en minimum temperatuur <M>T_k</M>, volgt vanuit een Carnot-proces. Dit proces heeft een rendement van <BM>\eta_C = 1 - \frac(T_k)(T_w) = 1 - \frac{Tc.float}{Tw.float} = {eta}.</BM> De totale geleverde warmte vanuit het warme vat is <M>Q_(toe) = {Q}.</M> Hiermee had een Carnot-proces dus een arbeid kunnen genereren van <BM>W = \eta_C Q_(toe) = {eta.float} \cdot {Q} = {Wm}.</BM> Dit komt op hetzelfde uit, zoals verwacht.</Par>
+				<Par>We hadden dit probleem ook anders op kunnen lossen. De meeste arbeid die we kunnen krijgen, in een proces met maximum temperatuur <M>T_w</M> en minimum temperatuur <M>T_k</M>, volgt vanuit een Carnot-proces. Dit proces heeft een rendement van <BM>\eta_C = 1 - \frac(T_k)(T_w) = 1 - \frac{Tc.float}{Tw.float} = {eta}.</BM> De totale geleverde warmte vanuit het warme vat is <M>Q_(toe) = {Q}.</M> Hiermee had een Carnot-proces dus een arbeid kunnen genereren van <BM>W = \eta_C Q_(toe) = {eta.float} \cdot {Q.float} = {Wm}.</BM> Dit komt op hetzelfde uit, zoals verwacht.</Par>
 			</>
 		},
 	},

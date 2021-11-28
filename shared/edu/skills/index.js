@@ -87,7 +87,7 @@ const skills = {
 	multiplyDivideAllTerms: {
 		name: 'Alle termen vermenigvuldigen/delen',
 		setup: combinerAnd('expandBrackets', 'multiplyDivideFractions', 'mergeSplitFractions'), // ToDo later: change into a picking function.
-		exercises: [],
+		exercises: ['multiplyDivideAllTerms1', 'multiplyDivideAllTerms2'],
 	},
 
 	// Basic mathematics: solving equations.

@@ -30,7 +30,7 @@ const { union } = require('../../../util/sets')
 const { repeatWithIndices } = require('../../../util/functions')
 const { binomial } = require('../../../util/combinatorics')
 
-const { bracketLevels, simplifyOptions, expressionEqualityLevels, epsilon } = require('../../options')
+const { bracketLevels, simplifyOptions, epsilon } = require('../../options')
 
 /*
  * Expression: the Expression class is the one which everything inherits from. 
@@ -365,30 +365,11 @@ class Expression {
 		return result
 	}
 
-	// equals checks if one expression is equal to another. How to do this depends on the equality level given.
-	equals(expression, level = expressionEqualityLevels.default) {
+	// equals checks if one expression is equal to another. This is only done in a basic way: either they have to be exactly the same, or simple order changes are still allowed (latter is default). For more complex equality checks: simplify expressions first and then compare equality.
+	equals(expression, allowOrderChanges = true) {
 		// Check the input.
 		expression = ensureExpression(expression)
-		if (Object.values(expressionEqualityLevels).every(equalityLevel => equalityLevel !== level))
-			throw new Error(`Invalid expression equality level: could not check for equality. The equality level "${level}" is not known.`)
-
-		// Deal with certain levels centrally.
-		if (level === expressionEqualityLevels.equivalent) {
-			// To check equivalence of f(x) and g(x), just take f(x) - g(x) and compare its simplification to zero.
-			const comparison = this.subtract(expression).cleanForAnalysis()
-			return Integer.zero.equalsBasic(comparison)
-		} else if (level === expressionEqualityLevels.integerMultiple || level === expressionEqualityLevels.constantMultiple) {
-			// To check whether f(x) and g(x) are constant or integer multiples of each other, just take g(x)/f(x) and see if the result is an integer or a constant number, instead of a variable.
-			const comparison = expression.divideBy(this).cleanForAnalysis()
-			if (level === expressionEqualityLevels.integerMultiple)
-				return comparison.isType(Integer)
-			return comparison.isNumeric() && !comparison.equalsBasic(Integer.zero)
-		}
-
-		// Pass the remaining levels on to the equalsBasic function of the descendant classes.
-		const a = this.cleanStructure()
-		const b = expression.cleanStructure()
-		return a.equalsBasic(b, level)
+		return this.cleanStructure().equalsBasic(expression.cleanStructure(), allowOrderChanges)
 	}
 
 	/*
@@ -520,14 +501,14 @@ class Variable extends Expression {
 	}
 
 	getDerivativeBasic(variable) {
-		return this.equals(variable) ? Integer.one : Integer.zero
+		return this.equalsBasic(variable) ? Integer.one : Integer.zero
 	}
 
 	simplifyBasic() {
 		return this // Parameter types don't get any simpler.
 	}
 
-	equalsBasic(expression, level) {
+	equalsBasic(expression) {
 		// Check that the expression is a variable.
 		if (!(expression instanceof Variable))
 			return false
@@ -637,7 +618,7 @@ class Constant extends Expression {
 		return this // You cannot simplify a number. It's as simple as it gets.
 	}
 
-	equalsBasic(expression, level) {
+	equalsBasic(expression) {
 		if (!(expression instanceof Constant))
 			return false
 		return Math.abs(expression.toNumber() - this.toNumber()) < epsilon
@@ -784,7 +765,7 @@ class ExpressionList extends Expression {
 		return super.recursiveEvery(check, includeSelf) && this.terms.every(term => term.recursiveEvery(check))
 	}
 
-	equalsBasic(expression, level) {
+	equalsBasic(expression, allowOrderChanges) {
 		// Check that the list type is equal.
 		if (this.constructor !== expression.constructor)
 			return false
@@ -793,16 +774,12 @@ class ExpressionList extends Expression {
 		if (this.terms.length !== expression.terms.length)
 			return false
 
-		// For exact equality, check that all arguments with matching indices are equal.
-		if (level === expressionEqualityLevels.exact)
-			return this.terms.every((term, index) => term.equalsBasic(expression.terms[index], level))
+		// For exact equality (not allowed order changes) check that all arguments with matching indices are equal.
+		if (!allowOrderChanges)
+			return this.terms.every((term, index) => term.equalsBasic(expression.terms[index], allowOrderChanges))
 
 		// When allowing order changes, check that every term has a matching term somewhere that is equal.
-		if (level === expressionEqualityLevels.onlyOrderChanges)
-			return hasSimpleMatching(this.terms, expression.terms, (a, b) => a.equalsBasic(b, level))
-
-		// Should never happen.
-		throw new Error(`Unexpected expression equality level: did not expect the expression equality level "${level}". Cannot process this.`)
+		return hasSimpleMatching(this.terms, expression.terms, (a, b) => a.equalsBasic(b, allowOrderChanges))
 	}
 }
 ExpressionList.defaultSO = { ...Expression.defaultSO, terms: [] }
@@ -868,7 +845,7 @@ class Sum extends ExpressionList {
 
 		// Filter out zero elements.
 		if (options.removeUseless) {
-			terms = terms.filter(term => !term.equalsBasic(Integer.zero))
+			terms = terms.filter(term => !Integer.zero.equalsBasic(term))
 		}
 
 		// If there are at least two constants, merge them together and put them at the start.
@@ -908,7 +885,7 @@ class Sum extends ExpressionList {
 		if (options.cancelSumTerms) {
 			const skipped = terms.map(_ => false)
 			terms = terms.filter((term1, index1) => {
-				const index = terms.findIndex((term2, index2) => index1 < index2 && !skipped[index1] && !skipped[index2] && term1.equals(term2.applyMinus().basicClean(), expressionEqualityLevels.onlyOrderChanges))
+				const index = terms.findIndex((term2, index2) => index1 < index2 && !skipped[index1] && !skipped[index2] && term1.equalsBasic(term2.applyMinus().basicClean(), true))
 				if (index !== -1) {
 					skipped[index1] = true
 					skipped[index] = true
@@ -969,7 +946,7 @@ class Sum extends ExpressionList {
 					if (!bVariable)
 						return -1
 
-					// If the variables are not equal, once has an earlier variable than another. Use Variable comparison to figure out which.
+					// If the variables are not equal, one has an earlier variable than another. Use Variable comparison to figure out which.
 					if (!aVariable.equalsBasic(bVariable))
 						return Variable.order(aVariable, bVariable)
 
@@ -1029,7 +1006,7 @@ class Product extends ExpressionList {
 		}
 
 		// If the product starts with "-1" then just add a minus instead of "-1*".
-		if (this.terms.length > 1 && this.terms[0].equalsBasic(Integer.minusOne) && !(this.terms[1] instanceof Constant))
+		if (this.terms.length > 1 && Integer.minusOne.equalsBasic(this.terms[0]) && !(this.terms[1] instanceof Constant))
 			return '-' + arrayToString(this.terms.slice(1))
 		return arrayToString(this.terms)
 	}
@@ -1046,7 +1023,7 @@ class Product extends ExpressionList {
 		}
 
 		// If the product starts with "-1" then just add a minus instead of "-1*".
-		if (this.terms.length > 1 && this.terms[0].equalsBasic(Integer.minusOne) && !(this.terms[1] instanceof Constant))
+		if (this.terms.length > 1 && Integer.minusOne.equalsBasic(this.terms[0]) && !(this.terms[1] instanceof Constant))
 			return '-' + arrayToTex(this.terms.slice(1))
 		return arrayToTex(this.terms)
 	}
@@ -1116,14 +1093,14 @@ class Product extends ExpressionList {
 		// Check for useless elements.
 		if (options.removeUseless) {
 			// If there is a zero multiplication, return zero.
-			if (terms.some(term => term.equalsBasic(Integer.zero)))
+			if (terms.some(term => Integer.zero.equalsBasic(term)))
 				return Integer.zero
 
 			// Filter out one elements.
-			terms = terms.filter(term => !term.equalsBasic(Integer.one))
+			terms = terms.filter(term => !Integer.one.equalsBasic(term))
 
 			// Filter out minus one elements. If there's an odd number, check if the first factor is a constant. If so, make it negative. Otherwise add a -1 at the start.
-			const isMinusOne = term => term.equalsBasic(Integer.minusOne)
+			const isMinusOne = term => Integer.minusOne.equalsBasic(term)
 			const minusOneCount = count(terms, isMinusOne)
 			if (minusOneCount > 0)
 				terms = terms.filter(term => !isMinusOne(term))
@@ -1237,7 +1214,7 @@ class Product extends ExpressionList {
 		const getPowerOf = term => term.isType(Power) ? term.exponent : Integer.one
 		const result = []
 		terms.forEach(term => {
-			const index = result.findIndex(comparisonTerm => getBaseOf(comparisonTerm).equalsBasic(getBaseOf(term), expressionEqualityLevels.onlyOrderChanges))
+			const index = result.findIndex(comparisonTerm => getBaseOf(comparisonTerm).equalsBasic(getBaseOf(term), true))
 			if (index === -1) {
 				result.push(term)
 			} else {
@@ -1252,7 +1229,7 @@ Product.defaultSO = ExpressionList.defaultSO
 module.exports.Product = Product
 
 /*
- * Function: an abstract class representing any kind of function with any number of arguments. Each function is assumed to have one "main" argument, which is the first one mentioned.
+ * Function: an abstract class representing any kind of function with any (fixed) number of arguments. Each function is assumed to have one "main" argument, which is the first one mentioned. Other arguments may be optional. Think of log[10](x^2) or sqrt[3](8x^6).
  */
 
 class Function extends Expression {
@@ -1352,13 +1329,13 @@ class Function extends Expression {
 		return new this.constructor(simplifiedChildren)
 	}
 
-	equalsBasic(expression, level) {
+	equalsBasic(expression, allowOrderChanges) {
 		// Check that the function type is equal.
 		if (this.constructor !== expression.constructor)
 			return false
 
 		// Check that all arguments are equal.
-		return this.constructor.args.every(arg => this[arg].equals(expression[arg], level))
+		return this.constructor.args.every(arg => this[arg].equalsBasic(expression[arg], allowOrderChanges))
 	}
 
 	static getDefaultSO() {
@@ -1548,15 +1525,15 @@ class Fraction extends Function {
 		// Check for useless elements.
 		if (options.removeUseless) {
 			// On a zero numerator, ignore the denominator.
-			if (numerator.equalsBasic(Integer.zero))
+			if (Integer.zero.equalsBasic(numerator))
 				return Integer.zero
 
 			// On a one denominator, return the numerator.
-			if (denominator.equalsBasic(Integer.one))
+			if (Integer.one.equalsBasic(denominator))
 				return numerator
 
 			// On a minus one denominator, return minus te numerator.
-			if (denominator.equalsBasic(Integer.minusOne))
+			if (Integer.minusOne.equalsBasic(denominator))
 				return numerator.applyMinus()
 		}
 
@@ -1569,8 +1546,6 @@ class Fraction extends Function {
 
 		return new Fraction(numerator, denominator)
 	}
-
-	// ToDo: equals.
 }
 Fraction.type = 'Fraction'
 Fraction.args = ['numerator', 'denominator']
@@ -1660,11 +1635,11 @@ class Power extends Function {
 		// Check for useless terms.
 		if (options.removeUseless) {
 			// If the power is 0, become 1.
-			if (exponent.equalsBasic(Integer.zero))
+			if (Integer.zero.equalsBasic(exponent))
 				return Integer.one
 
 			// If the power is 1, become the base.
-			if (exponent.equalsBasic(Integer.one))
+			if (Integer.one.equalsBasic(exponent))
 				return base
 		}
 

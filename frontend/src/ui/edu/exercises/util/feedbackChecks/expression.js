@@ -2,11 +2,11 @@
 
 import { Sum, Fraction, expressionChecks, equationChecks } from 'step-wise/CAS'
 
-const { onlyOrderChanges: onlyExpressionOrderChanges, equivalent: equivalentExpression, hasSumWithinProduct: expressionHasSumWithinProduct, hasFractionWithinFraction: expressionhasFractionWithinFraction } = expressionChecks
+const { onlyOrderChanges: onlyExpressionOrderChanges, equivalent: equivalentExpression } = expressionChecks
 const { onlyOrderChanges: onlyEquationOrderChanges, equivalent: equivalentEquation } = equationChecks
 
 /*
- * Expression feedback checks.
+ * Basic checks.
  */
 
 export const originalExpression = {
@@ -21,6 +21,10 @@ export const incorrectExpression = {
 	check: (correct, input) => !equivalentExpression(correct, input),
 	text: <>Deze uitdrukking is niet gelijk aan wat gegeven is. Je hebt bij het omschrijven iets gedaan dat niet mag.</>,
 }
+
+/*
+ * Sum and terms checks.
+ */
 
 export const noSum = {
 	check: (correct, input) => !input.isType(Sum),
@@ -47,8 +51,12 @@ export const wrongFourthTerm = {
 	text: <>Er lijkt iets mis te zijn met de vierde term van je antwoord.</>,
 }
 
+/*
+ * Expression form checks.
+ */
+
 export const hasSumWithinProduct = {
-	check: (correct, input) => expressionHasSumWithinProduct(input),
+	check: (correct, input) => expressionChecks.hasSumWithinProduct(input),
 	text: <>Je antwoord heeft onuitgewerkte haakjes.</>,
 }
 
@@ -57,23 +65,6 @@ export const noFraction = {
 	text: <>Je antwoord is geen breuk. Er wordt een enkele breuk als antwoord verwacht.</>,
 }
 export const hasFractionWithinFraction = {
-	check: (correct, input) => expressionhasFractionWithinFraction(input),
+	check: (correct, input) => expressionChecks.hasFractionWithinFraction(input),
 	text: <>Je antwoord mag geen verdere breuken binnenin een breuk bevatten. Je kunt het nog verder simplificeren.</>,
-}
-
-/*
- * Equation feedback checks.
- */
-
-export const originalEquation = {
-	check: (correct, input, { equation }) => onlyEquationOrderChanges(equation, input),
-	text: <>Dit is de oorspronkelijke vergelijking. Je hebt hier nog niets mee gedaan.</>,
-}
-export const correctEquation = {
-	check: (correct, input) => equivalentEquation(correct, input),
-	text: <>De vergelijking klopt wel, maar je hebt niet gedaan wat gevraagd werd.</>,
-}
-export const incorrectEquation = {
-	check: (correct, input) => !equivalentEquation(correct, input),
-	text: <>Deze vergelijking klopt niet. Je hebt bij het omschrijven iets gedaan dat niet mag.</>,
 }

@@ -3,16 +3,11 @@
 const { isObject, processOptions } = require('../../../util/objects')
 const { union } = require('../../../util/sets')
 
-const { expressionEqualityLevels, equationEqualityLevels, simplifyOptions } = require('../../options')
+const { simplifyOptions } = require('../../options')
 
 const { ensureExpression, Variable, Integer } = require('../Expression')
 
 const parts = ['left', 'right']
-
-const defaultEqualityLevels = {
-	expression: expressionEqualityLevels.default,
-	equation: equationEqualityLevels.default,
-}
 
 class Equation {
 	/*
@@ -127,6 +122,16 @@ class Equation {
 		return Variable.sortVariableStrings(variableStrings)
 	}
 
+	// someSide checks if there is some side for which the given check returns true.
+	someSide(check) {
+		return parts.some(part => check(this[part], part))
+	}
+
+	// everySide checks that for every side the given check returns true.
+	everySide(check) {
+		return parts.every(part => check(this[part], part))
+	}
+
 	/*
 	 * Manipulation methods.
 	 */
@@ -136,8 +141,8 @@ class Equation {
 		return this.applyToBothSides(part => part.substitute(variable, substitution))
 	}
 
-	// flip will switch the left and right sides of the equation.
-	flip() {
+	// switch will switch the left and right sides of the equation.
+	switch() {
 		return new Equation(this.right, this.left)
 	}
 
@@ -146,6 +151,8 @@ class Equation {
 		// Process the given options.
 		if (!options)
 			throw new Error(`Missing simplify options: when simplifying an equation, a simplifying options object must be given.`)
+		if (options.structure === undefined)
+			options.structure = true // Structure is ALWAYS simplified, unless specifically stated otherwise. (No idea why anyone would do that in the first place.) It's crucial to the functioning of the CAS to keep the structure simple.
 		options = processOptions(options, simplifyOptions.noSimplify)
 
 		// If all has to be moved to the left, do so. This turns "[left]=[right]" into "[left]-[right]=0".
@@ -158,36 +165,9 @@ class Equation {
 	}
 
 	// equals compares of two equations are the same, subject to various options.
-	equals(equation, levels = {}) {
-		// Check the input.
+	equals(equation, ...options) {
 		equation = ensureEquation(equation)
-		levels = processOptions(levels, defaultEqualityLevels)
-		if (Object.values(expressionEqualityLevels).every(level => level !== levels.expression))
-			throw new Error(`Invalid expression equality level: could not check for equality. The expression equality level "${level}" is not known.`)
-		if (Object.values(equationEqualityLevels).every(level => level !== levels.equation))
-			throw new Error(`Invalid equation equality level: could not check for equality. The equation equality level "${level}" is not known.`)
-
-		// Define handlers.
-		const checkExpression = (a, b) => a.equals(b, levels.expression)
-		const checkEquation = (a, b) => checkExpression(a.left, b.left) && checkExpression(a.right, b.right)
-
-		// When the equation must keep sides, compare left with left and right with right.
-		if (levels.equation === equationEqualityLevels.keepSides)
-			return checkEquation(this, equation)
-
-		// When sides can switch, check both cases. So compare left/left and right/right, but also check left/right and right/left.
-		if (levels.equation === equationEqualityLevels.allowSwitch)
-			return checkEquation(this, equation) || checkEquation(this, equation.flip())
-
-		// When rewrites are allowed, check if one equation is a constant multiple of another.
-		if (levels.equation === equationEqualityLevels.allowRewrite) {
-			const a = this.left.subtract(this.right)
-			const b = equation.left.subtract(equation.right)
-			return a.equals(b, expressionEqualityLevels.constantMultiple)
-		}
-
-		// Should never get here.
-		throw new Error(`Unexpected equation equality level: did not expect the equation equality level "${levels.equation}". Cannot process this.`)
+		return this.everySide((side, part) => side.equals(equation[part], ...options))
 	}
 
 	/*

@@ -10,8 +10,6 @@ module.exports = {
 
 	// Specifically export important options.
 	simplifyOptions: options.simplifyOptions,
-	expressionEqualityLevels: options.expressionEqualityLevels,
-	equationEqualityLevels: options.equationEqualityLevels,
 
 	// Export expressionTypes, both as separate object (for iterating) and as separate elements (for easy importing).
 	expressionTypes: functionalities.expressionTypes,

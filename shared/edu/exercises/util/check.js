@@ -1,4 +1,3 @@
-const { isInt } = require('../../../util/numbers')
 const { areNumbersEqual } = require('../../../inputTypes/Integer')
 
 // checkParameter is a quick and uniform way to perform an "equals" check for a parameter with the corresponding answer.

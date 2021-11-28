@@ -12,7 +12,7 @@ import { useCorrect } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
-import { originalEquation, correctEquation, incorrectEquation } from '../util/feedbackChecks'
+import { originalEquation, correctEquation, incorrectEquation } from '../util/feedbackChecks/equation'
 
 const { onlyOrderChanges } = equationChecks
 

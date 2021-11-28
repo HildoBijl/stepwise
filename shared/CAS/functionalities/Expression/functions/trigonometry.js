@@ -22,7 +22,7 @@ class Sin extends SingleArgumentFunction {
 
 		// Check for basic reductions.
 		if (options.basicReductions) {
-			if (argument.equalsBasic(Integer.zero))
+			if (Integer.zero.equalsBasic(argument))
 				return Integer.zero
 		}
 
@@ -54,7 +54,7 @@ class Cos extends SingleArgumentFunction {
 
 		// Check for basic reductions.
 		if (options.basicReductions) {
-			if (argument.equalsBasic(Integer.zero))
+			if (Integer.zero.equalsBasic(argument))
 				return Integer.one
 		}
 
