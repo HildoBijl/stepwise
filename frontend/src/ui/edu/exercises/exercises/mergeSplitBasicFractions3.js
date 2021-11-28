@@ -11,7 +11,7 @@ import { useSolution } from '../ExerciseContainer'
 import SimpleExercise from '../types/SimpleExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
-import { originalExpression, noSum, sumWithWrongTermsNumber, wrongFirstTerm, wrongSecondTerm, noFraction, hasFractionWithinFraction, correctExpression, incorrectExpression } from '../util/feedbackChecks/expression'
+import { originalExpression, noSum, sumWithWrongTerms, noFraction, hasFractionWithinFraction, correctExpression, incorrectExpression } from '../util/feedbackChecks/expression'
 
 const { equivalent } = expressionChecks
 
@@ -43,22 +43,15 @@ function getFeedback(exerciseData) {
 	const { state: { toSplit } } = exerciseData
 
 	// Define extra checks.
-	const wrongDenominator = {
-		check: (correct, input) => !equivalent(correct.denominator, input.denominator),
-		text: <>Bij het samenvoegen van breuken hoort de noemer hetzelfde te blijven. Dat is bij jouw antwoord niet zo.</>,
-	}
-	const wrongNumerator = {
-		check: (correct, input) => !equivalent(correct.numerator, input.numerator),
-		text: <>De noemer klopt, maar er gaat iets mis in de teller van je breuk.</>,
-	}
+	const wrongDenominator = (input, correct) => !equivalent(correct.denominator, input.denominator) && <>Bij het samenvoegen van breuken hoort de noemer hetzelfde te blijven. Dat is bij jouw antwoord niet zo.</>
+
+	const wrongNumerator = (input, correct) => !equivalent(correct.numerator, input.numerator) && <>De noemer klopt, maar er gaat iets mis in de teller van je breuk.</>
 
 	// Determine the checks, based on the exercise type.
 	const feedbackChecks = toSplit ? [
 		originalExpression,
 		noSum,
-		sumWithWrongTermsNumber,
-		wrongFirstTerm,
-		wrongSecondTerm,
+		sumWithWrongTerms,
 		correctExpression,
 		incorrectExpression,
 	] : [

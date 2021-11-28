@@ -65,7 +65,7 @@ function hasFractionWithinFraction(input) {
 
 // hasSumWithinProduct checks if there are sums within products, like a*(b+c). It effectively checks whether brackets have been properly expanded.
 function hasSumWithinProduct(input) {
-	input.recursiveSome(term => term.isType(Product) && term.recursiveSome(subTerm => subTerm.isType(Sum)))
+	return input.recursiveSome(term => term.isType(Product) && term.recursiveSome(subTerm => subTerm.isType(Sum)))
 }
 
 // isPolynomial checks if this expression is a polynome: only sums, products and powers with integer exponents. Fractions are only allowed when dividing by a numeric value, like x/2 or y/pi, but not when dividing by variables like y/x.

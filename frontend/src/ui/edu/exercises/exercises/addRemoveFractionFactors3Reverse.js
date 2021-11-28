@@ -40,15 +40,10 @@ const Solution = (state) => {
 
 function getFeedback(exerciseData) {
 	// Define extra checks.
-	const originalExpression = {
-		check: (correct, input, { expression }) => onlyOrderChanges(expression, input),
-		text: (correct, input, { upper }) => <>Dit is de oorspronkelijke uitdrukking. Je hebt er nog geen breuk van gemaakt met de gevraagde {upper ? 'noemer' : 'teller'}.</>,
-	}
-	const wrongPart = {
-		check: (correct, input, { upper, sum }) => input.isType(Fraction) && !onlyOrderChanges(sum, input[upper ? 'denominator' : 'numerator']),
-		text: (correct, input, { upper, sum }) => <>Je antwoord heeft niet <M>{sum}</M> in de {upper ? 'noemer' : 'teller'}.</>,
-	}
+	const originalExpression = (input, correct, { expression, upper }) => onlyOrderChanges(expression, input) && <>Dit is de oorspronkelijke uitdrukking. Je hebt er nog geen breuk van gemaakt met de gevraagde {upper ? 'noemer' : 'teller'}.</>
+	
+	const wrongPart = (input, correct, { upper, sum }) => input.isType(Fraction) && !onlyOrderChanges(sum, input[upper ? 'denominator' : 'numerator']) && <>Je antwoord heeft niet <M>{sum}</M> in de {upper ? 'noemer' : 'teller'}.</>
 
 	// Determine feedback.
-	return getInputFieldFeedback('ans', exerciseData, { feedbackChecks: [originalExpression, noFraction, wrongPart, incorrectExpression], solved: exerciseData.progress.solved })
+	return getInputFieldFeedback('ans', exerciseData, { feedbackChecks: [originalExpression, noFraction, wrongPart, incorrectExpression] })
 }

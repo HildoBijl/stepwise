@@ -106,22 +106,14 @@ function getFeedback(exerciseData) {
 	]
 
 	// Define checks for intermediate.
-	const numeratorOriginalExpression = {
-		check: (correct, input, { numerator }) => onlyOrderChanges(input, numerator),
-		text: <>Dit is de oorspronkelijke uitdrukking. Je hebt hier nog niets mee gedaan.</>,
-	}
-	const denominatorOriginalExpression = {
-		check: (correct, input, { denominator }) => onlyOrderChanges(input, denominator),
-		text: <>Dit is de oorspronkelijke uitdrukking. Je hebt hier nog niets mee gedaan.</>,
-	}
-	const wrongIntermediateDenominator = {
-		check: (correct, input) => !equivalent(correct.denominator, input.denominator),
-		text: (correct, input) => <>Je breuk heeft niet de juiste noemer. Hoezo maak je geen breuk met noemer <M>{correct.denominator}?</M> </>,
-	}
-	const wrongIntermediateNumerator = {
-		check: (correct, input) => !equivalent(correct.numerator, input.numerator),
-		text: <>De noemer klopt, maar er gaat iets mis in de teller van je breuk.</>,
-	}
+	const numeratorOriginalExpression = (input, correct, { numerator }) => onlyOrderChanges(input, numerator) && <>Dit is de oorspronkelijke uitdrukking. Je hebt hier nog niets mee gedaan.</>
+
+	const denominatorOriginalExpression = (input, correct, { denominator }) => onlyOrderChanges(input, denominator) && <>Dit is de oorspronkelijke uitdrukking. Je hebt hier nog niets mee gedaan.</>
+
+	const wrongIntermediateDenominator = (input, correct) => !equivalent(correct.denominator, input.denominator) && <>Je breuk heeft niet de juiste noemer. Hoezo maak je geen breuk met noemer <M>{correct.denominator}?</M></>
+
+	const wrongIntermediateNumerator = (input, correct) => !equivalent(correct.numerator, input.numerator) && <>De noemer klopt, maar er gaat iets mis in de teller van je breuk.</>
+
 	const numeratorChecks = [
 		numeratorOriginalExpression,
 		noFraction,

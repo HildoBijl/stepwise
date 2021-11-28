@@ -1,3 +1,5 @@
+const { ensureString } = require('./strings')
+
 // isObject checks if a variable is an object.
 function isObject(obj) {
 	return typeof obj === 'object' && obj !== null
@@ -140,3 +142,19 @@ function getParentClass(cls) {
 	return Object.getPrototypeOf(cls)
 }
 module.exports.getParentClass = getParentClass
+
+// getPropertyOrDefault takes an object and returns a property of it if it exists. If not, it checks if default exists, assuming useDefaultAsFallback is set to true (default). If neither exists, possibly the object itself is given (default: false), or possibly an error is thrown (default: false), depending on the settings.
+function getPropertyOrDefault(obj, prop, useDefaultAsFallback = true, useSelfAsFallback = false, throwErrorOnMissing = false) {
+	prop = ensureString(prop)
+	if (!obj)
+		return undefined
+	if (obj[prop])
+		return obj[prop]
+	if (useDefaultAsFallback && obj.default)
+		return obj.default
+	if (useSelfAsFallback)
+		return obj
+	if (throwErrorOnMissing)
+		throw new Error(`Missing object property: could not find property "${prop}"`)
+}
+module.exports.getPropertyOrDefault = getPropertyOrDefault

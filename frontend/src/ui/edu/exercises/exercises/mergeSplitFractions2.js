@@ -89,51 +89,29 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Define ans checks.
-	const ansEquivalent = {
-		check: equivalent,
-		text: <>Dit klopt wel, maar je kunt het nog simpeler schrijven.</>
-	}
-	const denominatorCorrect = {
-		check: (correct, input) => onlyOrderChanges(correct.denominator, input.denominator),
-		text: <>De noemer klopt. Er gaat iets mis in de teller van je breuk.</>,
-	}
+	const ansEquivalent = (input, correct) => equivalent(input, correct) && <>Dit klopt wel, maar je kunt het nog simpeler schrijven.</>
+
+	const denominatorCorrect = (input, correct) => onlyOrderChanges(correct.denominator, input.denominator) && <>De noemer klopt. Er gaat iets mis in de teller van je breuk.</>
 
 	// Define denominator checks.
-	const denominatorEquivalent = {
-		check: equivalent,
-		text: <>Technisch correct, maar je kan dit nog makkelijker schrijven.</>
-	}
-	const denominatorNotSmallestMultiple = {
-		check: integerMultiple,
-		text: <>Dit is wel een veelvoud van de twee noemers, maar niet de <strong>kleinste</strong> veelvoud.</>,
-	}
-	const denominatorWrongFactor = {
-		check: constantMultiple,
-		text: <>De variabelen kloppen, maar er gaat iets mis met het getal dat je ingevoerd hebt.</>,
-	}
-	const denominatorMissingDependency = {
-		check: (correct, input, { variables }) => !input.dependsOn(variables.x) || !input.dependsOn(variables.y),
-		text: (correct, input, { variables }) => <>Er zit helemaal geen <M>{input.dependsOn(variables.x) ? variables.y : variables.x}</M> in je antwoord!</>,
+	const denominatorEquivalent = (input, correct, solution, isCorrect) => !isCorrect && equivalent(input, correct) && <>Technisch correct, maar je kan dit nog makkelijker schrijven.</>
+
+	const denominatorNotSmallestMultiple = (input, correct, solution, isCorrect) => !isCorrect && integerMultiple(input, correct) && <>Dit is wel een veelvoud van de twee noemers, maar niet de <strong>kleinste</strong> veelvoud.</>
+
+	const denominatorWrongFactor = (input, correct, solution, isCorrect) => !isCorrect && constantMultiple(input, correct) && <>De variabelen kloppen, maar er gaat iets mis met het getal dat je ingevoerd hebt.</>
+
+	const denominatorMissingDependency = (input, correct, { variables }) => {
+		const missingDependency = ['x', 'y'].find(variable => !input.dependsOn(variables[variable]))
+		if (missingDependency)
+			return <>Er zit helemaal geen <M>{variables[missingDependency]}</M> in je antwoord!</>
 	}
 
 	// Define fraction checks.
-	const wrongDenominator = {
-		check: (correct, input) => !equivalent(correct.denominator, input.denominator),
-		text: (correct, input) => <>Je breuk heeft niet de beoogde noemer <M>{correct.denominator}.</M></>,
-	}
-	const wrongNumerator = {
-		check: (correct, input) => !equivalent(correct.numerator, input.numerator),
-		text: (correct, input) => <>De noemer klopt, maar er gaat iets mis in de teller van je breuk.</>,
-	}
-	const nonsimplifiedNumerator = {
-		check: (correct, input) => {
-			console.log(correct.str)
-			console.log(input.str)
-			console.log(onlyOrderChanges(correct.numerator, input.numerator))
-			return !onlyOrderChanges(correct.numerator, input.numerator)
-		},
-		text: (correct, input) => <>Je kunt de teller van je breuk nog makkelijker schrijven.</>,
-	}
+	const wrongDenominator = (input, correct) => !onlyOrderChanges(correct.denominator, input.denominator) && <>Je breuk heeft niet de beoogde noemer <M>{correct.denominator}.</M></>
+
+	const wrongNumerator = (input, correct) => !equivalent(correct.numerator, input.numerator) && <>De noemer klopt, maar er gaat iets mis in de teller van je breuk.</>
+
+	const nonsimplifiedNumerator = (input, correct) => !onlyOrderChanges(correct.numerator, input.numerator) && <>Je kunt de teller van je breuk nog makkelijker schrijven.</>
 
 	// Assemble the checks for all input fields.
 	const ansChecks = [
@@ -154,8 +132,8 @@ function getFeedback(exerciseData) {
 		noFraction,
 		wrongDenominator,
 		wrongNumerator,
-		nonsimplifiedNumerator,
 		hasFractionWithinFraction,
+		nonsimplifiedNumerator,
 		correctExpression,
 		incorrectExpression,
 	]

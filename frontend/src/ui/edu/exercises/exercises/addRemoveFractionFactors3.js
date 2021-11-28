@@ -40,11 +40,8 @@ const Solution = (state) => {
 
 function getFeedback(exerciseData) {
 	// Define extra checks.
-	const asFraction = {
-		check: (correct, input, { upper, ans }) => upper && onlyOrderChanges(new Fraction(ans, Integer.one), input),
-		text: <>Je hebt goed de termen weggestreept, maar het resultaat kan nog verder gesimplificeerd worden.</>,
-	}
+	const asFraction = (input, correct, { upper, ans }) => upper && onlyOrderChanges(ans.divideBy(Integer.one), input) && <>Je hebt goed de termen weggestreept, maar het resultaat kan nog verder gesimplificeerd worden.</>
 
 	// Determine feedback.
-	return getInputFieldFeedback('ans', exerciseData, { feedbackChecks: [originalExpression, asFraction, correctExpression, incorrectExpression], solved: exerciseData.progress.solved })
+	return getInputFieldFeedback('ans', exerciseData, { feedbackChecks: [originalExpression, asFraction, correctExpression, incorrectExpression] })
 }

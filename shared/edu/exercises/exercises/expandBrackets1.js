@@ -1,5 +1,5 @@
 const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../util/random')
-const { asExpression, simplifyOptions, expressionChecks } = require('../../../CAS')
+const { asExpression, expressionChecks } = require('../../../CAS')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
@@ -15,7 +15,7 @@ const constants = ['a', 'b']
 const data = {
 	skill: 'expandBrackets',
 	weight: 2,
-	check: (correct, input) => !hasSumWithinProduct(input) && equivalent(correct, input),
+	check: (input, correct) => !hasSumWithinProduct(input) && equivalent(input, correct),
 }
 
 function generateState() {
@@ -34,7 +34,7 @@ function getSolution(state) {
 	const factor = asExpression('ax').substituteVariables(variables).removeUseless()
 	const sum = asExpression('y+b').substituteVariables(variables)
 	const expression = factor.multiplyBy(sum, state.before)
-	const ans = expression.simplify(simplifyOptions.forAnalysis)
+	const ans = expression.cleanForAnalysis()
 	return { ...state, variables, factor, sum, expression, ans }
 }
 

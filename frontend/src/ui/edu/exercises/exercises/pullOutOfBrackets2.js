@@ -11,7 +11,7 @@ import { useSolution } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
-import { originalExpression, sumWithWrongTermsNumber, wrongFirstTerm, wrongSecondTerm, wrongThirdTerm, correctExpression, incorrectExpression } from '../util/feedbackChecks/expression'
+import { originalExpression, sumWithUnsimplifiedTerms, correctExpression, incorrectExpression } from '../util/feedbackChecks/expression'
 
 const { onlyOrderChanges, equivalent } = expressionChecks
 
@@ -128,18 +128,12 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Define ans checks.
-	const outsideBracketsForm = {
-		check: (correct, input, { variables, gcdValue }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => term.isNumeric() && term.number === gcdValue) && input.terms.some(term => onlyOrderChanges(variables.x, term)) && input.terms.some(term => term.isType(Sum))),
-		text: (correct, input, { factor }) => <>Je antwoord moet van de vorm <M>{factor} \cdot \left(\ldots\right)</M> zijn.</>,
-	}
-	const incorrectExpansion = {
-		check: (correct, input) => !equivalent(correct, input),
-		text: <>Als je de haakjes uitwerkt kom je niet uit op waar je mee begonnen bent. Er is dus iets misgegaan bij het omschrijven.</>,
-	}
-	const correctExpansion = {
-		check: (correct, input) => true,
-		text: <>Dit klopt wel, maar het kan nog simpeler geschreven worden.</>,
-	}
+	const outsideBracketsForm = (input, correct, { variables, gcdValue, factor }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => term.isNumeric() && term.number === gcdValue) && input.terms.some(term => onlyOrderChanges(variables.x, term)) && input.terms.some(term => term.isType(Sum))) && <>Je antwoord moet van de vorm <M>{factor} \cdot \left(\ldots\right)</M> zijn.</>
+
+	const incorrectExpansion = (input, correct) => !equivalent(input, correct) && <>Als je de haakjes uitwerkt kom je niet uit op waar je mee begonnen bent. Er is dus iets misgegaan bij het omschrijven.</>
+
+	const correctExpansion = (input, correct, solution, isCorrect) => !isCorrect && equivalent(input, correct) && <>Dit klopt wel, maar het kan nog simpeler geschreven worden.</>
+
 	const ansChecks = [
 		outsideBracketsForm,
 		incorrectExpansion,
@@ -147,41 +141,39 @@ function getFeedback(exerciseData) {
 	]
 
 	// Define factor checks.
-	const noNumber = {
-		check: (correct, input) => !(input.isType(Integer) || (input.isType(Product) && input.terms.some(term => term.isType(Integer)))), // It's not an integer nor contains one.
-		text: <>Je antwoord bevat geen getal. De drie gegeven termen hebben echter wel een getal als gemeenschappelijke deler.</>
+	const noNumber = (input) => !input.recursiveSome(term => term.isType(Integer)) && <>Je antwoord bevat geen getal. De drie gegeven termen hebben echter wel een getal als gemeenschappelijke deler.</>
+
+	const noVariable = (input) => input.isNumeric() && <>Je antwoord is alleen een getal. De drie termen hebben echter ook iets met een variabele als gemeenschappelijke factor.</>
+
+	const wrongNumber = (input, correct, { variables, gcdValue }) => {
+		const givenNumber = input.terms.find(term => term.isType(Integer))
+		if (givenNumber && givenNumber.number !== gcdValue)
+			return <>Je hebt <M>{givenNumber}</M> als getal ingevuld, maar dit is niet de grootste gemeenschappelijke deler van de getallen <M>{Math.abs(variables.a * variables.b)}</M>, <M>{Math.abs(variables.a * variables.c)}</M> en <M>{Math.abs(variables.a * variables.d)}</M>.</>
 	}
-	const noVariable = {
-		check: (correct, input) => !input.isType(Product) || input.isNumeric(),
-		text: <>Je antwoord is alleen een getal. De drie termen hebben echter ook iets met een variabele als gemeenschappelijke factor.</>,
+
+	const missingVariable = (input, correct, { variables }) => !input.dependsOn(variables.x) && <>Merk op dat alle termen afhangen van <M>{variables.x}.</M> Dit ontbreekt echter in je antwoord.</>
+
+	const superfluousVariable = (input, correct, { variables }) => {
+		const extraVariable = ['y', 'z'].find(variable => input.dependsOn(variables[variable]))
+		if (extraVariable)
+			return <>Niet alle termen hangen af van <M>{variables[extraVariable]}.</M> Dit is geen gedeelde factor.</>
 	}
-	const wrongNumber = {
-		check: (correct, input, { gcdValue }) => (input.terms.find(term => term.isType(Integer)) || Integer.zero).number !== gcdValue,
-		text: (correct, input, { variables }) => <>Het gegeven getal is niet de grootste gemeenschappelijke deler van <M>{Math.abs(variables.a*variables.b)}</M>, <M>{Math.abs(variables.a*variables.c)}</M> en <M>{Math.abs(variables.a*variables.d)}</M>.</>,
-	}
-	const superfluousVariable = {
-		check: (correct, input, { variables }) => input.dependsOn(variables.y) || input.dependsOn(variables.z),
-		text: (correct, input, { variables }) => <>Niet alle termen hangen af van <M>{input.dependsOn(variables.y) ? variables.y : variables.z}.</M> Dit is geen gedeelde factor.</>,
-	}
-	const missingVariable = {
-		check: (correct, input, { variables }) => !input.dependsOn(variables.x),
-		text: (correct, input, { variables }) => <>Merk op dat alle termen afhangen van <M>{variables.x}.</M> Dit ontbreekt echter in je antwoord.</>,
-	}
-	const factorChecks = [noNumber, noVariable, wrongNumber, superfluousVariable, missingVariable]
+
+	const factorChecks = [
+		noNumber,
+		noVariable,
+		wrongNumber,
+		missingVariable,
+		superfluousVariable,
+	]
 
 	// Define setup checks.
-	const setupForm = {
-		check: (correct, input, { variables, gcdValue }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => term.isNumeric() && term.number === gcdValue) && input.terms.some(term => onlyOrderChanges(variables.x, term)) && input.terms.some(term => term.isType(Fraction))),
-		text: (correct, input, { factor }) => <>Je antwoord moet van de vorm <M>{factor} \cdot \frac(\left[\ldots\right])({factor})</M> zijn.</>,
-	}
-	const fractionForm = {
-		check: (correct, input, { factor }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => term.isType(Fraction) && onlyOrderChanges(factor, term.denominator))),
-		text: (correct, input, { factor }) => <>Je antwoord moet van de vorm <M>{factor} \cdot \frac(\left[\ldots\right])({factor})</M> zijn. Heb je wel een breuk met noemer <M>{factor}</M> ingevoerd?</>,
-	}
-	const correctNumerator = {
-		check: (correct, input, { variables, expression }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => term.isType(Fraction) && onlyOrderChanges(expression, term.numerator))),
-		text: (correct, input, { expression }) => <>Zorg dat je bovenin de breuk letterlijk de uitdrukking <M>{expression}</M> invoert.</>,
-	}
+	const setupForm = (input, correct, { variables, factor, gcdValue }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => term.isNumeric() && term.number === gcdValue) && input.terms.some(term => onlyOrderChanges(variables.x, term)) && input.terms.some(term => term.isType(Fraction))) && <>Je antwoord moet van de vorm <M>{factor} \cdot \frac(\left[\ldots\right])({factor})</M> zijn.</>
+
+	const fractionForm = (input, correct, { variables, factor }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => term.isType(Fraction) && onlyOrderChanges(factor, term.denominator))) && <>Je antwoord moet van de vorm <M>{factor} \cdot \frac(\left[\ldots\right])({factor})</M> zijn. Heb je wel een breuk met noemer <M>{factor}</M> ingevoerd?</>
+
+	const correctNumerator = (input, correct, { expression }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => term.isType(Fraction) && onlyOrderChanges(expression, term.numerator))) && <>Zorg dat je bovenin de breuk letterlijk de uitdrukking <M>{expression}</M> invoert.</>
+
 	const setupChecks = [
 		setupForm,
 		fractionForm,
@@ -193,21 +185,14 @@ function getFeedback(exerciseData) {
 	// Define fraction simplification checks.
 	const fractionSimplifiedChecks = [
 		originalExpression,
-		sumWithWrongTermsNumber,
-		wrongFirstTerm,
-		wrongSecondTerm,
-		wrongThirdTerm,
+		sumWithUnsimplifiedTerms,
 		incorrectExpression,
 		correctExpression,
 	]
 
 	// Define expression checks.
 	const expressionChecks = [
-		originalExpression,
-		sumWithWrongTermsNumber,
-		wrongFirstTerm,
-		wrongSecondTerm,
-		wrongThirdTerm,
+		sumWithUnsimplifiedTerms,
 		incorrectExpression,
 		correctExpression,
 	]

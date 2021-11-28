@@ -12,7 +12,7 @@ import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
 
 import { getInputFieldFeedback } from '../util/feedback'
-import { originalExpression, noSum, sumWithWrongTermsNumber, wrongFirstTerm, wrongSecondTerm, noFraction, hasFractionWithinFraction, correctExpression, incorrectExpression } from '../util/feedbackChecks/expression'
+import { originalExpression, noSum, sumWithWrongTerms, noFraction, hasFractionWithinFraction, correctExpression, incorrectExpression } from '../util/feedbackChecks/expression'
 
 const { onlyOrderChanges, equivalent } = expressionChecks
 
@@ -89,43 +89,33 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Define ans checks.
-	const nonsimplifiedFirstTerm = {
-		check: (correct, input) => !correct.terms.some(term => onlyOrderChanges(term, input.terms[0])),
-		text: <>De eerste term van je antwoord kan nog verder gesimplificeerd worden.</>,
+	const nonsimplifiedTerms = (input, correct) => {
+		const unsimplifiedTerm = input.terms.findIndex(inputTerm => !correct.terms.some(correctTerm => onlyOrderChanges(inputTerm, correctTerm)))
+		if (unsimplifiedTerm !== -1)
+			return [
+				<>De eerste term van je antwoord kan nog verder gesimplificeerd worden.</>,
+				<>De tweede term van je antwoord kan nog verder gesimplificeerd worden.</>,
+			][unsimplifiedTerm]
 	}
-	const nonsimplifiedSecondTerm = {
-		check: (correct, input) => !correct.terms.some(term => onlyOrderChanges(term, input.terms[1])),
-		text: <>De tweede term van je antwoord kan nog verder gesimplificeerd worden.</>,
-	}
-
+	
 	// Define fraction checks.
-	const correctFraction = {
-		check: equivalent,
-		text: (correct, input) => <>De breuk klopt, maar je kunt hem nog makkelijker schrijven.</>,
-	}
-	const incorrectFraction = {
-		check: (correct, input) => !equivalent(correct, input),
-		text: (correct, input) => <>De breuk is niet gelijk aan wat gegeven was. Je hebt iets gedaan dat niet mag.</>,
-	}
+	const correctFraction = (input, correct, solution, isCorrect) => !isCorrect && equivalent(input, correct) && <>De breuk klopt, maar je kunt hem nog makkelijker schrijven.</>
+	
+	const incorrectFraction = (input, correct) => !equivalent(input, correct) && <>De breuk is niet gelijk aan wat gegeven was. Je hebt iets gedaan dat niet mag.</>
 
 	// Assemble the checks for all input fields.
 	const ansChecks = [
 		originalExpression,
 		noSum,
-		sumWithWrongTermsNumber,
-		wrongFirstTerm,
-		wrongSecondTerm,
-		nonsimplifiedFirstTerm,
-		nonsimplifiedSecondTerm,
+		sumWithWrongTerms,
+		nonsimplifiedTerms,
 		correctExpression,
 		incorrectExpression,
 	]
 	const splitChecks = [
 		originalExpression,
 		noSum,
-		sumWithWrongTermsNumber,
-		wrongFirstTerm,
-		wrongSecondTerm,
+		sumWithWrongTerms,
 		correctExpression,
 		incorrectExpression,
 	]

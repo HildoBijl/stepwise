@@ -90,25 +90,25 @@ const steps = [
 function getFeedback(exerciseData) {
 	// Define ans checks.
 	const atIntermediateStep = {
-		check: (correct, input, { intermediate }) => equationOnlyOrderChanges(intermediate, input),
-		text: (correct, input, { isPositive }) => <>Je hebt de juiste term {isPositive > 0 ? 'van beide kanten afgehaald' : 'bij beide kanten opgeteld'}, maar vervolgens moet je nog wat wegstrepen.</>
+		check: (input, correct, { intermediate }) => equationOnlyOrderChanges(intermediate, input),
+		text: (input, correct, { isPositive }) => <>Je hebt de juiste term {isPositive > 0 ? 'van beide kanten afgehaald' : 'bij beide kanten opgeteld'}, maar vervolgens moet je nog wat wegstrepen.</>
 	}
 	const wrongSignUsed = { // Check if the user subtracted/added it on one side and did the opposite on the other side.
-		check: (correct, input, { equation, termToMove, isLeft }) => equationOnlyOrderChanges(equation
+		check: (input, correct, { equation, termToMove, isLeft }) => equationOnlyOrderChanges(equation
 			.applyToLeft(side => side[isLeft ? 'subtract' : 'add'](termToMove))
 			.applyToRight(side => side[isLeft ? 'add' : 'subtract'](termToMove))
 			.basicClean()
 			, input),
-		text: (correct, input, { isPositive }) => <>Als de term aan de ene kant {isPositive ? 'positief is (met plusteken)' : 'negatief is (met minteken)'} dan moet hij aan de andere kant {isPositive ? 'negatief worden (met minteken)' : 'positief worden (met plusteken)'}.</>,
+		text: (input, correct, { isPositive }) => <>Als de term aan de ene kant {isPositive ? 'positief is (met plusteken)' : 'negatief is (met minteken)'} dan moet hij aan de andere kant {isPositive ? 'negatief worden (met minteken)' : 'positief worden (met plusteken)'}.</>,
 	}
 
 	// Define intermediateWithBrackets checks.
 	const formCheck = { // There is a side that's not like [something]*x. (Ignore this if this side is zero.)
-		check: (correct, input, { equation, variables }) => input.someSide((side, part) => !(side.isType(Product) && side.terms.length === 2 && side.terms.some(term => variables.x.equalsBasic(term))) && !correct[part].terms[0].equals(Integer.zero)), // There is a side that's not [something]*x, except when the correct answer is zero.
-		text: (correct, input, { variables }) => <>Beide kanten van de vergelijking moeten van de vorm <M>\left(\ldots\right)\cdot {variables.x}</M> zijn.</>,
+		check: (input, correct, { equation, variables }) => input.someSide((side, part) => !(side.isType(Product) && side.terms.length === 2 && side.terms.some(term => variables.x.equalsBasic(term))) && !correct[part].terms[0].equals(Integer.zero)), // There is a side that's not [something]*x, except when the correct answer is zero.
+		text: (input, correct, { variables }) => <>Beide kanten van de vergelijking moeten van de vorm <M>\left(\ldots\right)\cdot {variables.x}</M> zijn.</>,
 	}
 	const insideBracketCheck = { // There is a side that does not contain the original expression part somewhere. (Ignore this if this side is zero.)
-		check: (correct, input, { equation, variables }) => input.someSide((side, part) => !(side.isType(Product) && side.terms.some(term => expressionOnlyOrderChanges(term, correct[part].terms[0]))) && !correct[part].terms[0].equals(Integer.zero)),
+		check: (input, correct, { equation, variables }) => input.someSide((side, part) => !(side.isType(Product) && side.terms.some(term => expressionOnlyOrderChanges(term, correct[part].terms[0]))) && !correct[part].terms[0].equals(Integer.zero)),
 		text: () => <>Je hebt tussen de haakjes niet letterlijk de delen uit de vorige vergelijking opgenomen.</>,
 	}
 

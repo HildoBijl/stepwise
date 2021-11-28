@@ -9,7 +9,7 @@ import { useSolution } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
-import { originalExpression, hasSumWithinProduct, sumWithWrongTermsNumber, wrongFirstTerm, wrongSecondTerm, wrongThirdTerm, wrongFourthTerm, correctExpression, incorrectExpression } from '../util/feedbackChecks/expression'
+import { originalExpression, hasSumWithinProduct, sumWithWrongTerms, correctExpression, incorrectExpression } from '../util/feedbackChecks/expression'
 import { simplifyOptions } from 'step-wise/CAS'
 
 export default function Exercise() {
@@ -73,20 +73,14 @@ function getFeedback(exerciseData) {
 	const ansChecks = [
 		originalExpression,
 		hasSumWithinProduct,
-		sumWithWrongTermsNumber,
-		wrongFirstTerm,
-		wrongSecondTerm,
-		wrongThirdTerm,
-		wrongFourthTerm,
+		sumWithWrongTerms,
 		incorrectExpression,
 		correctExpression,
 	]
 	const intermediateChecks = [
 		originalExpression,
 		hasSumWithinProduct,
-		sumWithWrongTermsNumber,
-		wrongFirstTerm,
-		wrongSecondTerm,
+		sumWithWrongTerms,
 		incorrectExpression,
 		correctExpression,
 	]

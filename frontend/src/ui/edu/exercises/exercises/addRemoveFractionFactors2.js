@@ -38,10 +38,7 @@ const Solution = (state) => {
 
 function getFeedback(exerciseData) {
 	// Define extra checks.
-	const squareDisappeared = {
-		check: (correct, input, { variables, ans }) => onlyOrderChanges(ans.divideBy(variables.x).simplify(simplifyOptions.basicClean), input),
-		text: (correct, input, { square, variables }) => <>Je hebt <M>{square}</M> in z'n geheel weggestreept tegen <M>{variables.x}.</M> Dat mag niet! Onthoud dat <M>{square} = {variables.x} \cdot {variables.x}.</M></>,
-	}
+	const squareDisappeared = (input, correct, { square, variables, ans }) => onlyOrderChanges(variables.a.divideBy(variables.b), input) && <>Je hebt <M>{square}</M> in z'n geheel weggestreept tegen <M>{variables.x}.</M> Dat mag niet! Onthoud dat <M>{square} = {variables.x} \cdot {variables.x}.</M></>
 
 	// Determine feedback.
 	return getInputFieldFeedback('ans', exerciseData, { feedbackChecks: [originalExpression, squareDisappeared, correctExpression, incorrectExpression] })

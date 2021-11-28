@@ -17,7 +17,7 @@ const data = {
 	setup: combinerRepeat('expandBrackets', 2),
 	steps: ['expandBrackets', 'expandBrackets'],
 	check: {
-		default: (correct, input) => !hasSumWithinProduct(input) && equivalent(correct, input),
+		default: (input, correct) => !hasSumWithinProduct(input) && equivalent(input, correct),
 	},
 }
 
@@ -38,7 +38,7 @@ function getSolution(state) {
 	const expressionSubstituted = asExpression('z(y+b)').substituteVariables(variables)
 	const intermediate = expressionSubstituted.simplify({ ...simplifyOptions.forAnalysis, sortProducts: false })
 	const intermediateSubstituted = intermediate.substitute(variables.z, term1)
-	const ans = intermediateSubstituted.simplify(simplifyOptions.forAnalysis)
+	const ans = intermediateSubstituted.cleanForAnalysis()
 	return { ...state, variables, expression, term1, term2, expressionSubstituted, intermediate, intermediateSubstituted, ans }
 }
 

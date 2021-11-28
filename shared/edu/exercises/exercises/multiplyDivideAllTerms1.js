@@ -16,7 +16,7 @@ const data = {
 	skill: 'multiplyDivideAllTerms',
 	steps: [null, 'expandBrackets', 'addRemoveFractionFactors'],
 	check: {
-		default: (correct, input) => {
+		default: (input, correct) => {
 			console.log('Comparing correct and input')
 			console.log(correct.str)
 			console.log(input.str)

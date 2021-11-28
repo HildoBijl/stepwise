@@ -11,7 +11,7 @@ import { useSolution } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
-import { originalExpression, sumWithWrongTermsNumber, wrongFirstTerm, wrongSecondTerm, wrongThirdTerm, correctExpression, incorrectExpression } from '../util/feedbackChecks/expression'
+import { originalExpression, sumWithUnsimplifiedTerms, correctExpression, incorrectExpression } from '../util/feedbackChecks/expression'
 
 const { onlyOrderChanges, equivalent } = expressionChecks
 
@@ -108,18 +108,12 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Define ans checks.
-	const outsideBracketsForm = {
-		check: (correct, input, { variables }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => onlyOrderChanges(variables.x, term)) && input.terms.some(term => onlyOrderChanges(variables.y, term)) && input.terms.some(term => term.isType(Sum))),
-		text: (correct, input, { factor }) => <>Je antwoord moet van de vorm <M>{factor} \cdot \left(\ldots\right)</M> zijn.</>,
-	}
-	const incorrectExpansion = {
-		check: (correct, input) => !equivalent(correct, input),
-		text: <>Als je de haakjes uitwerkt kom je niet uit op waar je mee begonnen bent. Er is dus iets misgegaan bij het omschrijven.</>,
-	}
-	const correctExpansion = {
-		check: (correct, input) => true,
-		text: <>Dit klopt wel, maar het kan nog simpeler geschreven worden.</>,
-	}
+	const outsideBracketsForm = (input, correct, { variables, factor }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => onlyOrderChanges(variables.x, term)) && input.terms.some(term => onlyOrderChanges(variables.y, term)) && input.terms.some(term => term.isType(Sum))) && <>Je antwoord moet van de vorm <M>{factor} \cdot \left(\ldots\right)</M> zijn.</>
+
+	const incorrectExpansion = (input, correct) => !equivalent(input, correct) && <>Als je de haakjes uitwerkt kom je niet uit op waar je mee begonnen bent. Er is dus iets misgegaan bij het omschrijven.</>
+
+	const correctExpansion = (input, correct, solution, isCorrect) => !isCorrect && equivalent(input, correct) && <>Dit klopt wel, maar het kan nog simpeler geschreven worden.</>
+
 	const ansChecks = [
 		outsideBracketsForm,
 		incorrectExpansion,
@@ -127,18 +121,12 @@ function getFeedback(exerciseData) {
 	]
 
 	// Define setup checks.
-	const setupForm = {
-		check: (correct, input, { variables }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => onlyOrderChanges(variables.x, term)) && input.terms.some(term => onlyOrderChanges(variables.y, term)) && input.terms.some(term => term.isType(Fraction))),
-		text: (correct, input, { factor }) => <>Je antwoord moet van de vorm <M>{factor} \cdot \frac(\left[\ldots\right])({factor})</M> zijn.</>,
-	}
-	const fractionForm = {
-		check: (correct, input, { factor }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => term.isType(Fraction) && onlyOrderChanges(factor, term.denominator))),
-		text: (correct, input, { factor }) => <>Je antwoord moet van de vorm <M>{factor} \cdot \frac(\left[\ldots\right])({factor})</M> zijn. Heb je wel een breuk met noemer <M>{factor}</M> ingevoerd?</>,
-	}
-	const correctNumerator = {
-		check: (correct, input, { variables, expression }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => term.isType(Fraction) && onlyOrderChanges(expression, term.numerator))),
-		text: (correct, input, { expression }) => <>Zorg dat je bovenin de breuk letterlijk de uitdrukking <M>{expression}</M> invoert.</>,
-	}
+	const setupForm = (input, correct, { variables, factor, gcdValue }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => onlyOrderChanges(variables.x, term)) && input.terms.some(term => onlyOrderChanges(variables.y, term)) && input.terms.some(term => term.isType(Fraction))) && <>Je antwoord moet van de vorm <M>{factor} \cdot \frac(\left[\ldots\right])({factor})</M> zijn.</>
+
+	const fractionForm = (input, correct, { variables, factor }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => term.isType(Fraction) && onlyOrderChanges(factor, term.denominator))) && <>Je antwoord moet van de vorm <M>{factor} \cdot \frac(\left[\ldots\right])({factor})</M> zijn. Heb je wel een breuk met noemer <M>{factor}</M> ingevoerd?</>
+
+	const correctNumerator = (input, correct, { expression }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => term.isType(Fraction) && onlyOrderChanges(expression, term.numerator))) && <>Zorg dat je bovenin de breuk letterlijk de uitdrukking <M>{expression}</M> invoert.</>
+
 	const setupChecks = [
 		setupForm,
 		fractionForm,
@@ -150,21 +138,14 @@ function getFeedback(exerciseData) {
 	// Define fraction simplification checks.
 	const fractionSimplifiedChecks = [
 		originalExpression,
-		sumWithWrongTermsNumber,
-		wrongFirstTerm,
-		wrongSecondTerm,
-		wrongThirdTerm,
+		sumWithUnsimplifiedTerms,
 		incorrectExpression,
 		correctExpression,
 	]
 
 	// Define expression checks.
 	const expressionChecks = [
-		originalExpression,
-		sumWithWrongTermsNumber,
-		wrongFirstTerm,
-		wrongSecondTerm,
-		wrongThirdTerm,
+		sumWithUnsimplifiedTerms,
 		incorrectExpression,
 		correctExpression,
 	]

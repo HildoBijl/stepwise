@@ -9,7 +9,7 @@ import { useSolution } from '../ExerciseContainer'
 import SimpleExercise from '../types/SimpleExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
-import { originalExpression, hasSumWithinProduct, correctExpression, incorrectExpression } from '../util/feedbackChecks/expression'
+import { originalExpression, sumWithWrongTerms, hasSumWithinProduct, correctExpression, incorrectExpression } from '../util/feedbackChecks/expression'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -36,8 +36,9 @@ const Solution = (state) => {
 function getFeedback(exerciseData) {
 	const feedbackChecks = [
 		originalExpression,
-		incorrectExpression,
 		hasSumWithinProduct,
+		sumWithWrongTerms,
+		incorrectExpression,
 		correctExpression,
 	]
 	return getInputFieldFeedback('ans', exerciseData, { feedbackChecks })

@@ -72,16 +72,16 @@ const steps = [
 function getFeedback(exerciseData) {
 	// Define ans checks.
 	const atIntermediateStep = {
-		check: (correct, input, { intermediate }) => onlyOrderChanges(intermediate, input),
-		text: (correct, input, { isPositive }) => <>Je hebt de juiste term {isPositive > 0 ? 'van beide kanten afgehaald' : 'bij beide kanten opgeteld'}, maar vervolgens moet je nog wat wegstrepen.</>
+		check: (input, correct, { intermediate }) => onlyOrderChanges(intermediate, input),
+		text: (input, correct, { isPositive }) => <>Je hebt de juiste term {isPositive > 0 ? 'van beide kanten afgehaald' : 'bij beide kanten opgeteld'}, maar vervolgens moet je nog wat wegstrepen.</>
 	}
 	const wrongSignUsed = { // Check if the user subtracted/added it on one side and did the opposite on the other side.
-		check: (correct, input, { equation, termToMove, isLeft }) => onlyOrderChanges(equation
+		check: (input, correct, { equation, termToMove, isLeft }) => onlyOrderChanges(equation
 			.applyToLeft(side => side[isLeft ? 'subtract' : 'add'](termToMove))
 			.applyToRight(side => side[isLeft ? 'add' : 'subtract'](termToMove))
 			.basicClean()
 			, input),
-			text: (correct, input, { isPositive }) => <>Als de term aan de ene kant {isPositive ? 'positief is (met plusteken)' : 'negatief is (met minteken)'} dan moet hij aan de andere kant {isPositive ? 'negatief worden (met minteken)' : 'positief worden (met plusteken)'}.</>,
+			text: (input, correct, { isPositive }) => <>Als de term aan de ene kant {isPositive ? 'positief is (met plusteken)' : 'negatief is (met minteken)'} dan moet hij aan de andere kant {isPositive ? 'negatief worden (met minteken)' : 'positief worden (met plusteken)'}.</>,
 	}
 
 	// Determine feedback.

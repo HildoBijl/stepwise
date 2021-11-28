@@ -77,10 +77,8 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Define checks for ans.
-	const ansCorrectExpression = {
-		check: (correct, input) => equivalent(correct, input),
-		text: <>De uitdrukking klopt wel, maar je kan hem nog verder simplificeren. Zijn er factoren die je boven/onder weg kunt strepen?</>,
-	}
+	const ansCorrectExpression = (input, correct, solution, isCorrect) => !isCorrect && equivalent(input, correct) && <>De uitdrukking klopt wel, maar je kan hem nog verder simplificeren. Zijn er factoren die je boven/onder weg kunt strepen?</>
+
 	const ansChecks = [
 		originalExpression,
 		incorrectExpression,
@@ -90,18 +88,12 @@ function getFeedback(exerciseData) {
 	]
 
 	// Define checks for intermediate.
-	const intermediateOriginalExpression = {
-		check: (correct, input, { expression }) => onlyOrderChanges(input, expression.denominator),
-		text: <>Dit is de oorspronkelijke uitdrukking. Je hebt hier nog niets mee gedaan.</>,
-	}
-	const wrongIntermediateDenominator = {
-		check: (correct, input) => !equivalent(correct.denominator, input.denominator),
-		text: (correct, input, { fraction1, fraction2 }) => <>Je breuk heeft niet de juiste noemer. Is je noemer wel de kleinste veelvoud van <M>{fraction1.denominator}</M> en <M>{fraction2.denominator}?</M></>,
-	}
-	const wrongIntermediateNumerator = {
-		check: (correct, input) => !equivalent(correct.numerator, input.numerator),
-		text: <>De noemer klopt, maar er gaat iets mis in de teller van je breuk.</>,
-	}
+	const intermediateOriginalExpression = (input, correct, { expression }) => onlyOrderChanges(input, expression.denominator) && <>Dit is de oorspronkelijke uitdrukking. Je hebt hier nog niets mee gedaan.</>
+	
+	const wrongIntermediateDenominator = (input, correct, { fraction1, fraction2 }) => !equivalent(correct.denominator, input.denominator) && <>Je breuk heeft niet de juiste noemer. Is je noemer wel de kleinste veelvoud van <M>{fraction1.denominator}</M> en <M>{fraction2.denominator}?</M></>
+
+	const wrongIntermediateNumerator = (input, correct) => !equivalent(correct.numerator, input.numerator) && <>De noemer klopt, maar er gaat iets mis in de teller van je breuk.</>
+	
 	const intermediateChecks = [
 		intermediateOriginalExpression,
 		noFraction,

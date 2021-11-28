@@ -8,28 +8,16 @@ const { onlyOrderChanges: onlyEquationOrderChanges, equivalent: equivalentEquati
  * Basic checks.
  */
 
-export const originalEquation = {
-	check: (correct, input, { equation }) => onlyEquationOrderChanges(equation, input),
-	text: <>Dit is de oorspronkelijke vergelijking. Je hebt hier nog niets mee gedaan.</>,
-}
-export const correctEquation = {
-	check: (correct, input) => equivalentEquation(correct, input),
-	text: <>De vergelijking klopt wel, maar je hebt niet gedaan wat gevraagd werd.</>,
-}
-export const incorrectEquation = {
-	check: (correct, input) => !equivalentEquation(correct, input),
-	text: <>Deze vergelijking klopt niet. Je hebt bij het omschrijven iets gedaan dat niet mag.</>,
-}
+export const originalEquation = (input, correct, { equation }) => onlyEquationOrderChanges(input, equation) && <>Dit is de oorspronkelijke vergelijking. Je hebt hier nog niets mee gedaan.</>
+
+export const correctEquation = (input, correct, solution, isCorrect) => !isCorrect && equivalentEquation(input, correct) && <>De vergelijking klopt wel, maar je hebt niet gedaan wat gevraagd werd.</>
+
+export const incorrectEquation = (input, correct, solution, isCorrect) => !isCorrect && !equivalentEquation(input, correct) && <>Deze vergelijking klopt niet. Je hebt bij het omschrijven iets gedaan dat niet mag.</>
 
 /*
  * Form of equation checks.
  */
 
-export const hasSumWithinProduct = {
-	check: (correct, input) => equationHasSumWithinProduct(input),
-	text: <>Je antwoord heeft onuitgewerkte haakjes.</>,
-}
-export const hasFractionWithinFraction = {
-	check: (correct, input) => equationHasFractionWithinFraction(input),
-	text: <>Je antwoord mag geen verdere breuken binnenin een breuk bevatten. Je kunt het nog verder simplificeren.</>,
-}
+export const hasSumWithinProduct = (input) => equationHasSumWithinProduct(input) && <>Je antwoord heeft onuitgewerkte haakjes.</>
+
+export const hasFractionWithinFraction = (input) => equationHasFractionWithinFraction(input) && <>Je antwoord mag geen verdere breuken binnenin een breuk bevatten. Je kunt het nog verder simplificeren.</>

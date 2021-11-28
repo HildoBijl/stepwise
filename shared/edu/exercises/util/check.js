@@ -1,7 +1,7 @@
 const { areNumbersEqual } = require('../../../inputTypes/Integer')
 
 // checkParameter is a quick and uniform way to perform an "equals" check for a parameter with the corresponding answer.
-function checkParameter(parameter, correct, input, equalityOptions) {
+function checkParameter(parameter, input, correct, equalityOptions) {
 	const parameters = Array.isArray(parameter) ? parameter : [parameter]
 	return parameters.every(currParameter => {
 		// Extract the correct answer.
@@ -47,7 +47,7 @@ function checkParameter(parameter, correct, input, equalityOptions) {
 module.exports.checkParameter = checkParameter
 
 // performCheck takes a parameter string (or array of it) like "ans", an objects with correct answers like { ans: [someObject], ... }, an object with input answers like { ans: [anotherObject], ... } and a check object { ans: someCheckFunction, ... } with check functions. It runs the corresponding check functions and return true or false, indicating whether all checks for all parameters passed. Check functions must be a function of the form (correctParameter, inputParameter) => { ... something returning true or false ... }. The check object may also have a fall-back "default" check function. Or if there is only a single parameter, the check object may also be a check function.
-function performCheck(parameter, correct, input, check) {
+function performCheck(parameter, input, correct, check) {
 	const parameters = Array.isArray(parameter) ? parameter : [parameter]
 	return parameters.every(currParameter => {
 		// Extract the correct answer.

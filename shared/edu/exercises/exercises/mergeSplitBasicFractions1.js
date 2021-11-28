@@ -15,12 +15,12 @@ const constants = ['a', 'b']
 
 const data = {
 	skill: 'mergeSplitBasicFractions',
-	check: (correct, input, { toSplit }) => {
+	check: (input, correct, { toSplit }) => {
 		// When the mission is to split, check for a sum with the right length and for the terms to match.
 		if (toSplit)
 			return input.isType(Sum) && correct.terms.length === input.terms.length && hasSimpleMatching(correct.terms, input.terms, equivalent)
 		// When the mission is to merge, check for a correct fraction, and for no fractions inside fractions.
-		return input.isType(Fraction) && !hasFractionWithinFraction(input) && equivalent(correct, input)
+		return input.isType(Fraction) && !hasFractionWithinFraction(input) && equivalent(input, correct)
 	},
 }
 
@@ -41,8 +41,8 @@ function getSolution(state) {
 	const { toSplit, plus } = state
 
 	// Set up expressions to return.
-	const together = asExpression(`(ax ${plus ? '+' : '-'} by)/z`).substituteVariables(variables)
-	const split = asExpression(`(ax)/z ${plus ? '+' : '-'} (by)/z`).substituteVariables(variables)
+	const together = asExpression(`(ax ${plus ? '+' : '-'} by)/z`).substituteVariables(variables).removeUseless()
+	const split = asExpression(`(ax)/z ${plus ? '+' : '-'} (by)/z`).substituteVariables(variables).removeUseless()
 	const expression = (toSplit ? together : split)
 	const ans = (toSplit ? split : together)
 	return { ...state, variables, together, split, expression, ans }

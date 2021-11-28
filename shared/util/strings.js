@@ -1,3 +1,11 @@
+// ensureString takes a parameter and makes sure it's a string. If not, it throws an error.
+function ensureString(str) {
+	if (typeof str !== 'string')
+		throw new Error(`Invalid parameter: expected a string but received "${JSON.stringify(str)}".`)
+	return str
+}
+module.exports.ensureString = ensureString
+
 // removeAtIndex takes a string and removes the character at the given index. The new string is returned.
 function removeAtIndex(str, ind, len = 1) {
 	return str.slice(0, ind) + str.slice(ind + len)

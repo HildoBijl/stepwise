@@ -38,10 +38,7 @@ const Solution = (state) => {
 
 function getFeedback(exerciseData) {
 	// Define extra checks.
-	const oneVariableAdded = {
-		check: (correct, input, { variables, expression }) => onlyOrderChanges(expression.multiplyNumDenBy(variables.x), input) || onlyOrderChanges(expression.multiplyNumDenBy(variables.y), input),
-		text: <>Goed op weg, maar je hebt slechts één van de twee gevraagde factoren toegevoegd.</>,
-	}
+	const oneVariableAdded = (input, correct, { variables, expression }) => (onlyOrderChanges(expression.multiplyNumDenBy(variables.x), input) || onlyOrderChanges(expression.multiplyNumDenBy(variables.y), input)) && <>Goed op weg, maar je hebt slechts één van de twee gevraagde factoren toegevoegd.</>
 
 	// Determine feedback.
 	return getInputFieldFeedback('ans', exerciseData, { feedbackChecks: [originalExpression, oneVariableAdded, correctExpression, incorrectExpression] })

@@ -45,8 +45,8 @@ function getSolution(state) {
 	const split = leftExpression[plus ? 'add' : 'subtract'](rightExpression)
 
 	// Set up the solution.
-	const leftAns = leftExpression.simplify(simplifyOptions.forAnalysis)
-	const rightAns = rightExpression.simplify(simplifyOptions.forAnalysis)
+	const leftAns = leftExpression.cleanForAnalysis()
+	const rightAns = rightExpression.cleanForAnalysis()
 	const ans = leftAns[plus ? 'add' : 'subtract'](rightAns)
 
 	return { ...state, variables, expression, leftExpression, rightExpression, split, leftAns, rightAns, ans }

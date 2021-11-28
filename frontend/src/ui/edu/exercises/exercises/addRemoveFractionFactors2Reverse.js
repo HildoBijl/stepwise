@@ -38,19 +38,12 @@ const Solution = (state) => {
 
 function getFeedback(exerciseData) {
 	// Define extra checks.
-	const wrongDenominator = {
-		check: (correct, input, { ans }) => !onlyOrderChanges(ans.denominator, input.denominator),
-		text: (correct, input, { variables }) => <>Er is iets mis met je noemer. Hier is geen factor <M>{variables.x}</M> bijgekomen zoals beoogd.</>,
-	}
-	const noSquare = {
-		check: (correct, input, { expression, variables }) => onlyOrderChanges(expression.numerator.multiplyBy(variables.x), input.numerator),
-		text: (correct, input, { variables }) => <>Je kan je antwoord nog simpeler schrijven. Tip: Wat is <M>{variables.x} \cdot {variables.x}</M>?</>
-	}
-	const wrongNumerator = {
-		check: (correct, input, { ans }) => !onlyOrderChanges(ans.numerator, input.numerator),
-		text: (correct, input, { variables }) => <>Er is iets mis met je teller. Hier is geen factor <M>{variables.x}</M> bijgekomen zoals beoogd.</>,
-	}
+	const wrongDenominator = (input, correct, { variables, ans }) => !onlyOrderChanges(ans.denominator, input.denominator) && <>Er is iets mis met je noemer. Hier is geen factor <M>{variables.x}</M> bijgekomen zoals beoogd.</>
+	
+	const noSquare = (input, correct, { expression, variables }) => onlyOrderChanges(expression.numerator.multiplyBy(variables.x), input.numerator) && <>Je kan je antwoord nog simpeler schrijven. Tip: Wat is <M>{variables.x} \cdot {variables.x}</M>?</>
+	
+	const wrongNumerator = (input, correct, { variables, ans }) => !onlyOrderChanges(ans.numerator, input.numerator) && <>Er is iets mis met je teller. Hier is geen factor <M>{variables.x}</M> bijgekomen zoals beoogd.</>
 
 	// Determine feedback.
-	return getInputFieldFeedback('ans', exerciseData, { feedbackChecks: [originalExpression, noFraction, wrongDenominator, noSquare, wrongNumerator, incorrectExpression], solved: exerciseData.progress.solved })
+	return getInputFieldFeedback('ans', exerciseData, { feedbackChecks: [originalExpression, noFraction, wrongDenominator, noSquare, wrongNumerator, incorrectExpression] })
 }
