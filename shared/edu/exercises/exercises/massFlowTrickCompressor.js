@@ -1,6 +1,6 @@
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 
 const data = {
 	skill: 'massFlowTrick',
@@ -39,7 +39,7 @@ function getSolution({ mdot, P }) {
 
 function checkInput(state, input) {
 	const solution = getSolution(state)
-	return checkParameter('wt', solution, input, data.equalityOptions)
+	return performComparison('wt', input, solution, data.equalityOptions)
 }
 
 module.exports = {

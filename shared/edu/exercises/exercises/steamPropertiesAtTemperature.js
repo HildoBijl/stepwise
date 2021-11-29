@@ -1,6 +1,6 @@
 const { getRandomInteger } = require('../../../util/random')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 const { withTemperature } = require('../../../data/steamProperties')
 const { tableInterpolate } = require('../../../util/interpolation')
 
@@ -35,7 +35,7 @@ function getSolution({ T, type }) {
 
 function checkInput(state, input) {
 	const solution = getSolution(state)
-	return checkParameter(['p', 'h', 's'], solution, input, data.equalityOptions)
+	return performComparison(['p', 'h', 's'], input, solution, data.equalityOptions)
 }
 
 module.exports = {

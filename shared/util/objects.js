@@ -144,7 +144,7 @@ function getParentClass(cls) {
 module.exports.getParentClass = getParentClass
 
 // getPropertyOrDefault takes an object and returns a property of it if it exists. If not, it checks if default exists, assuming useDefaultAsFallback is set to true (default). If neither exists, possibly the object itself is given (default: false), or possibly an error is thrown (default: false), depending on the settings.
-function getPropertyOrDefault(obj, prop, useDefaultAsFallback = true, useSelfAsFallback = false, throwErrorOnMissing = false) {
+function getPropertyOrDefault(obj, prop, useDefaultAsFallback = true, useSelfAsFallback = false, throwErrorOnMissing = false, errorMessage) {
 	prop = ensureString(prop)
 	if (!obj)
 		return undefined
@@ -155,6 +155,6 @@ function getPropertyOrDefault(obj, prop, useDefaultAsFallback = true, useSelfAsF
 	if (useSelfAsFallback)
 		return obj
 	if (throwErrorOnMissing)
-		throw new Error(`Missing object property: could not find property "${prop}"`)
+		throw new Error(errorMessage || `Missing object property: could not find property "${prop}".`)
 }
 module.exports.getPropertyOrDefault = getPropertyOrDefault

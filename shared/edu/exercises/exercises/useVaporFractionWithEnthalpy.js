@@ -2,7 +2,7 @@ const { getRandomInteger } = require('../../../util/random')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 const { withTemperature, withPressure } = require('../../../data/steamProperties')
 const { tableInterpolate } = require('../../../util/interpolation')
 
@@ -65,11 +65,11 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return checkParameter(['hx0', 'hx1', 'sx0', 'sx1'], solution, input, data.equalityOptions)
+			return performComparison(['hx0', 'hx1', 'sx0', 'sx1'], input, solution, data.equalityOptions)
 		case 2:
-			return checkParameter('x', solution, input, data.equalityOptions)
+			return performComparison('x', input, solution, data.equalityOptions)
 		default:
-			return checkParameter('s', solution, input, data.equalityOptions)
+			return performComparison('s', input, solution, data.equalityOptions)
 	}
 }
 

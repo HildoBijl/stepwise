@@ -1,6 +1,6 @@
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 const { maximumHumidity } = require('../../../data/moistureProperties')
 const { tableInterpolate } = require('../../../util/interpolation')
 const { firstOf, lastOf } = require('../../../util/arrays')
@@ -40,7 +40,7 @@ function getSolution({ T, RH }) {
 
 function checkInput(state, input) {
 	const solution = getSolution(state)
-	return checkParameter(['AH'], solution, input, data.equalityOptions)
+	return performComparison(['AH'], input, solution, data.equalityOptions)
 }
 
 module.exports = {

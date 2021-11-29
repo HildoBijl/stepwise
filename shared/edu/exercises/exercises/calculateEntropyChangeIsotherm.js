@@ -2,7 +2,7 @@ const { Unit } = require('../../../inputTypes/Unit')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 
 const data = {
 	skill: 'calculateEntropyChange',
@@ -67,13 +67,13 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return checkParameter(['Tw', 'Tc'], solution, input, data.equalityOptions)
+			return performComparison(['Tw', 'Tc'], input, solution, data.equalityOptions)
 		case 2:
-			return checkParameter('dSc', solution, input, data.equalityOptions)
+			return performComparison('dSc', input, solution, data.equalityOptions)
 		case 3:
-			return checkParameter('dSw', solution, input, data.equalityOptions)
+			return performComparison('dSw', input, solution, data.equalityOptions)
 		default:
-			return checkParameter('dS', solution, input, data.equalityOptions)
+			return performComparison('dS', input, solution, data.equalityOptions)
 	}
 }
 

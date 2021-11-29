@@ -1,6 +1,6 @@
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 const { generateState, getSolution: getSolutionPrevious } = require('./calculateEntropyChangeWithProperties')
 
 const data = {
@@ -32,17 +32,17 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return checkParameter('T2', solution, input, data.equalityOptions)
+			return performComparison('T2', input, solution, data.equalityOptions)
 		case 2:
-			return checkParameter('dsIn', solution, input, data.equalityOptions)
+			return performComparison('dsIn', input, solution, data.equalityOptions)
 		case 3:
-			return checkParameter('q', solution, input, data.equalityOptions)
+			return performComparison('q', input, solution, data.equalityOptions)
 		case 4:
-			return checkParameter('dsOut', solution, input, data.equalityOptions)
+			return performComparison('dsOut', input, solution, data.equalityOptions)
 		case 5:
-			return checkParameter('ds', solution, input, data.equalityOptions)
+			return performComparison('ds', input, solution, data.equalityOptions)
 		default:
-			return checkParameter('wm', solution, input, data.equalityOptions)
+			return performComparison('wm', input, solution, data.equalityOptions)
 	}
 }
 

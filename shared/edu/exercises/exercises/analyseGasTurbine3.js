@@ -2,7 +2,7 @@ const { FloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
 const { air: { k, cp } } = require('../../../data/gasProperties')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 const { getCycle } = require('./support/gasTurbineCycle')
 
 const data = {
@@ -76,26 +76,26 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return checkParameter('T2p', solution, input, data.equalityOptions)
+			return performComparison('T2p', input, solution, data.equalityOptions)
 		case 2:
-			return checkParameter('T2', solution, input, data.equalityOptions)
+			return performComparison('T2', input, solution, data.equalityOptions)
 		case 3:
-			return checkParameter('T3', solution, input, data.equalityOptions)
+			return performComparison('T3', input, solution, data.equalityOptions)
 		case 4:
-			return checkParameter('T4p', solution, input, data.equalityOptions)
+			return performComparison('T4p', input, solution, data.equalityOptions)
 		case 5:
-			return checkParameter('T4', solution, input, data.equalityOptions)
+			return performComparison('T4', input, solution, data.equalityOptions)
 		case 6:
-			return checkParameter('wn', solution, input, data.equalityOptions)
+			return performComparison('wn', input, solution, data.equalityOptions)
 		case 7:
 			switch (substep) {
 				case 1:
-					return checkParameter(['eta'], solution, input, data.equalityOptions)
+					return performComparison(['eta'], input, solution, data.equalityOptions)
 				case 2:
-					return checkParameter(['P'], solution, input, data.equalityOptions)
+					return performComparison(['P'], input, solution, data.equalityOptions)
 			}
 		default:
-			return checkParameter(['eta', 'P'], solution, input, data.equalityOptions)
+			return performComparison(['eta', 'P'], input, solution, data.equalityOptions)
 	}
 }
 

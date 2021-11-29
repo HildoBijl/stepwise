@@ -1,6 +1,6 @@
 const { selectRandomly } = require('../../../util/random')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 const { getCycle } = require('./support/fridgeCycle')
 
 const data = {
@@ -20,7 +20,7 @@ function generateState() {
 
 function checkInput(state, input) {
 	const solution = getSolution(state)
-	return checkParameter(['Tevap', 'Tcond'], solution, input, data.equalityOptions)
+	return performComparison(['Tevap', 'Tcond'], input, solution, data.equalityOptions)
 }
 
 function getSolution({ type, Tcold, Twarm, dTcold, dTwarm }) {

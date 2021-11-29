@@ -1,6 +1,6 @@
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 const { generateState, getSolution: getCycleParameters } = require('./calculateClosedCycleSVSV')
 const { getSolution: getEnergyParameters } = require('./createClosedCycleEnergyOverviewSVSV')
 
@@ -38,15 +38,15 @@ function checkInput(state, input, step, substep) {
 	const { choice } = input
 	switch (step) {
 		case 1:
-			return checkParameter(['p1', 'V1', 'T1', 'p2', 'V2', 'T2', 'p3', 'V3', 'T3', 'p4', 'V4', 'T4'], solution, input, data.equalityOptions)
+			return performComparison(['p1', 'V1', 'T1', 'p2', 'V2', 'T2', 'p3', 'V3', 'T3', 'p4', 'V4', 'T4'], input, solution, data.equalityOptions)
 		case 2:
-			return checkParameter(['Q12', 'W12', 'Q23', 'W23', 'Q34', 'W34', 'Q41', 'W41'], solution, input, data.equalityOptions)
+			return performComparison(['Q12', 'W12', 'Q23', 'W23', 'Q34', 'W34', 'Q41', 'W41'], input, solution, data.equalityOptions)
 		case 3:
 			return choice === 0
 		default:
 			if (choice === 1)
 				return false
-			return checkParameter(['eta'], solution, input, data.equalityOptions)
+			return performComparison(['eta'], input, solution, data.equalityOptions)
 	}
 }
 

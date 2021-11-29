@@ -1,6 +1,6 @@
 const { getRandomInteger } = require('../../../inputTypes/Integer')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 
 const data = {
 	skill: 'fillInInteger',
@@ -16,7 +16,7 @@ function getSolution({ x }) {
 }
 
 function checkInput(state, input) {
-	return checkParameter('ans', getSolution(state), input, data.equalityOptions) // Basically returns whether state.ans === input.ans in a very convoluted but generalized way.
+	return performComparison('ans', input, getSolution(state), data.equalityOptions) // Basically returns whether state.ans === input.ans in a very convoluted but generalized way.
 }
 
 module.exports = {

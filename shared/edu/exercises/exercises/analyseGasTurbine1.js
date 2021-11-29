@@ -2,7 +2,7 @@ const { FloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd } = require('../../../skillTracking')
 const { air: { k, cp } } = require('../../../data/gasProperties')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 const { getCycle } = require('./support/gasTurbineCycle')
 
 const data = {
@@ -73,20 +73,20 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return checkParameter(['p1', 'T1', 'p2', 'T2p', 'p3', 'T3', 'p4', 'T4p'], solution, input, data.equalityOptions)
+			return performComparison(['p1', 'T1', 'p2', 'T2p', 'p3', 'T3', 'p4', 'T4p'], input, solution, data.equalityOptions)
 		case 2:
-			return checkParameter(['T2', 'T4'], solution, input, data.equalityOptions)
+			return performComparison(['T2', 'T4'], input, solution, data.equalityOptions)
 		case 3:
-			return checkParameter(['q12', 'wt12', 'q23', 'wt23', 'q34', 'wt34', 'q41', 'wt41'], solution, input, data.equalityOptions)
+			return performComparison(['q12', 'wt12', 'q23', 'wt23', 'q34', 'wt34', 'q41', 'wt41'], input, solution, data.equalityOptions)
 		case 4:
 			switch (substep) {
 				case 1:
-					return checkParameter(['eta'], solution, input, data.equalityOptions)
+					return performComparison(['eta'], input, solution, data.equalityOptions)
 				case 2:
-					return checkParameter(['mdot'], solution, input, data.equalityOptions)
+					return performComparison(['mdot'], input, solution, data.equalityOptions)
 			}
 		default:
-			return checkParameter(['eta', 'mdot'], solution, input, data.equalityOptions)
+			return performComparison(['eta', 'mdot'], input, solution, data.equalityOptions)
 	}
 }
 

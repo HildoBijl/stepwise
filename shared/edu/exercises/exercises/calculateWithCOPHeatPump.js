@@ -1,7 +1,7 @@
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 const { getRandom } = require('../../../util/random')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 
 const data = {
 	skill: 'calculateWithCOP',
@@ -26,7 +26,7 @@ function getSolution({ Pe, Pin }) {
 }
 
 function checkInput(state, input, step, substep) {
-	return checkParameter('COP', getSolution(state), input, data.equalityOptions)
+	return performComparison('COP', input, getSolution(state), data.equalityOptions)
 }
 
 module.exports = {

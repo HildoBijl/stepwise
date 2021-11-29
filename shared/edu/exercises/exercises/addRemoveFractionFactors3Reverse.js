@@ -12,7 +12,7 @@ const usedVariables = ['P', 'x', 'y']
 
 const data = {
 	skill: 'addRemoveFractionFactors',
-	check: (correct, input, { upper, sum }) => input.isType(Fraction) && expressionChecks.onlyOrderChanges(sum, input[upper ? 'denominator' : 'numerator']) && expressionChecks.equivalent(correct, input),
+	check: (input, correct, { upper, sum }) => input.isType(Fraction) && expressionChecks.onlyOrderChanges(sum, input[upper ? 'denominator' : 'numerator']) && expressionChecks.equivalent(input, correct),
 }
 
 function generateState() {
@@ -36,7 +36,7 @@ function getSolution(state) {
 }
 
 function checkInput(state, input) {
-	return performCheck('ans', getSolution(state), input, data.check)
+	return performCheck('ans', input, getSolution(state), data.check)
 }
 
 module.exports = {

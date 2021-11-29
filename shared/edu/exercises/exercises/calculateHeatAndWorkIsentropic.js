@@ -2,7 +2,7 @@ const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { FloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd, combinerOr } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 const { getRandom } = require('../../../util/random')
 const { air: { k } } = require('../../../data/gasProperties')
 
@@ -73,14 +73,14 @@ function checkInput(state, input, step, substep) {
 		case 2:
 			return input.eq === solution.eq
 		case 3:
-			return checkParameter('k', solution, input, data.equalityOptions)
+			return performComparison('k', input, solution, data.equalityOptions)
 		case 4:
 			switch (substep) {
-				case 1: return checkParameter(['V1', 'V2'], solution, input, data.equalityOptions)
-				case 2: return checkParameter(['p1', 'p2'], solution, input, data.equalityOptions)
+				case 1: return performComparison(['V1', 'V2'], input, solution, data.equalityOptions)
+				case 2: return performComparison(['p1', 'p2'], input, solution, data.equalityOptions)
 			}
 		default:
-			return checkParameter(['Q', 'W'], solution, input, data.equalityOptions)
+			return performComparison(['Q', 'W'], input, solution, data.equalityOptions)
 	}
 }
 

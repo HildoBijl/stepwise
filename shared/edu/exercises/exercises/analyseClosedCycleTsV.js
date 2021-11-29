@@ -1,6 +1,6 @@
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 const { generateState, getSolution: getCycleParameters } = require('./calculateClosedCycleTsV')
 const { getSolution: getEnergyParameters } = require('./createClosedCycleEnergyOverviewTsV')
 
@@ -38,15 +38,15 @@ function checkInput(state, input, step, substep) {
 	const { choice } = input
 	switch (step) {
 		case 1:
-			return checkParameter(['p1', 'V1', 'T1', 'p2', 'V2', 'T2', 'p3', 'V3', 'T3'], solution, input, data.equalityOptions)
+			return performComparison(['p1', 'V1', 'T1', 'p2', 'V2', 'T2', 'p3', 'V3', 'T3'], input, solution, data.equalityOptions)
 		case 2:
-			return checkParameter(['Q12', 'W12', 'Q23', 'W23', 'Q31', 'W31'], solution, input, data.equalityOptions)
+			return performComparison(['Q12', 'W12', 'Q23', 'W23', 'Q31', 'W31'], input, solution, data.equalityOptions)
 		case 3:
 			return choice === 1
 		default:
 			if (choice === 0)
 				return false
-			return checkParameter(['epsilon', 'COP'], solution, input, data.equalityOptions)
+			return performComparison(['epsilon', 'COP'], input, solution, data.equalityOptions)
 	}
 }
 

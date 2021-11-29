@@ -48,13 +48,13 @@ function getSolution(state) {
 function checkInput(state, input, step) {
 	const solution = getSolution(state)
 	if (step === 0 || step === 3)
-		return performCheck('ans', solution, input, data.check)
+		return performCheck('ans', input, solution, data.check)
 	if (step === 1)
-		return performCheck('setup', solution, input, data.check)
+		return performCheck('setup', input, solution, data.check)
 	if (step === 2)
-		return performCheck('fractionSimplified', solution, input, data.check)
+		return performCheck('fractionSimplified', input, solution, data.check)
 	if (step === 4)
-		return performCheck('expression', solution, input, data.check)
+		return performCheck('expression', input, solution, data.check)
 }
 
 module.exports = {

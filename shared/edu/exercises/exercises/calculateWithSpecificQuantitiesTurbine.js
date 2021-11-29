@@ -1,6 +1,6 @@
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 
 const data = {
 	skill: 'calculateWithSpecificQuantities',
@@ -38,7 +38,7 @@ function getSolution({ wt, m }) {
 
 function checkInput(state, input) {
 	const solution = getSolution(state)
-	return checkParameter('Wt', solution, input, data.equalityOptions)
+	return performComparison('Wt', input, solution, data.equalityOptions)
 }
 
 module.exports = {

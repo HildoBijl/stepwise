@@ -1,7 +1,7 @@
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { combinerAnd } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 const { generateState: generateStateRaw, getSolution: getCycleParameters } = require('./calculateOpenCycleNspsp')
 const { getSolution: getEnergyParameters } = require('./createOpenCycleEnergyOverviewNspsp')
 
@@ -52,18 +52,18 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return checkParameter(['p1', 'v1', 'T1', 'p2', 'v2', 'T2', 'p3', 'v3', 'T3', 'p4', 'v4', 'T4'], solution, input, data.equalityOptions)
+			return performComparison(['p1', 'v1', 'T1', 'p2', 'v2', 'T2', 'p3', 'v3', 'T3', 'p4', 'v4', 'T4'], input, solution, data.equalityOptions)
 		case 2:
-			return checkParameter(['q12', 'wt12', 'q23', 'wt23', 'q34', 'wt34', 'q41', 'wt41'], solution, input, data.equalityOptions)
+			return performComparison(['q12', 'wt12', 'q23', 'wt23', 'q34', 'wt34', 'q41', 'wt41'], input, solution, data.equalityOptions)
 		case 3:
 			switch (substep) {
 				case 1:
-					return checkParameter(['epsilon', 'COP'], solution, input, data.equalityOptions)
+					return performComparison(['epsilon', 'COP'], input, solution, data.equalityOptions)
 				case 2:
-					return checkParameter(['Ph'], solution, input, data.equalityOptions)
+					return performComparison(['Ph'], input, solution, data.equalityOptions)
 			}
 		default:
-			return checkParameter(['epsilon', 'COP', 'Ph'], solution, input, data.equalityOptions)
+			return performComparison(['epsilon', 'COP', 'Ph'], input, solution, data.equalityOptions)
 	}
 }
 

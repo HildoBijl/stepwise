@@ -2,7 +2,7 @@ const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd } = require('../../../skillTracking')
 const { air: { cp } } = require('../../../data/gasProperties')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 const { tableInterpolate, inverseTableInterpolate } = require('../../../util/interpolation')
 const { getCycle } = require('./support/aircoCycle')
 const { maximumHumidity } = require('../../../data/moistureProperties')
@@ -71,11 +71,11 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return checkParameter('T3', solution, input, data.equalityOptions)
+			return performComparison('T3', input, solution, data.equalityOptions)
 		case 2:
-			return checkParameter(['qcool', 'qheat'], solution, input, data.equalityOptions)
+			return performComparison(['qcool', 'qheat'], input, solution, data.equalityOptions)
 		default:
-			return checkParameter(['Pcool', 'Pheat'], solution, input, data.equalityOptions)
+			return performComparison(['Pcool', 'Pheat'], input, solution, data.equalityOptions)
 	}
 }
 

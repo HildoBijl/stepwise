@@ -1,7 +1,7 @@
 const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd, combinerOr } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 let { air: { cp } } = require('../../../data/gasProperties')
 
 const data = {
@@ -65,11 +65,11 @@ function checkInput(state, input, step, substep) {
 		case 2:
 			return input.eq === solution.eq
 		case 3:
-			return checkParameter('Rs', solution, input, data.equalityOptions)
+			return performComparison('Rs', input, solution, data.equalityOptions)
 		case 4:
-			return checkParameter(['T1', 'T2'], solution, input, data.equalityOptions)
+			return performComparison(['T1', 'T2'], input, solution, data.equalityOptions)
 		default:
-			return checkParameter(['q', 'wt'], solution, input, data.equalityOptions)
+			return performComparison(['q', 'wt'], input, solution, data.equalityOptions)
 	}
 }
 

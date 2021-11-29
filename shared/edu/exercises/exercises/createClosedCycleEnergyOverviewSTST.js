@@ -2,7 +2,7 @@ const { FloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const gasProperties = require('../../../data/gasProperties')
 const { combinerRepeat, combinerOr } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 const { generateState, getSolution: getCycleParametersRaw } = require('./calculateClosedCycleSTST')
 
 const data = {
@@ -60,15 +60,15 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return checkParameter(['Q12', 'W12'], solution, input, data.equalityOptions)
+			return performComparison(['Q12', 'W12'], input, solution, data.equalityOptions)
 		case 2:
-			return checkParameter(['Q23', 'W23'], solution, input, data.equalityOptions)
+			return performComparison(['Q23', 'W23'], input, solution, data.equalityOptions)
 		case 3:
-			return checkParameter(['Q34', 'W34'], solution, input, data.equalityOptions)
+			return performComparison(['Q34', 'W34'], input, solution, data.equalityOptions)
 		case 4:
-			return checkParameter(['Q41', 'W41'], solution, input, data.equalityOptions)
+			return performComparison(['Q41', 'W41'], input, solution, data.equalityOptions)
 		default:
-			return checkParameter(['Q12', 'W12', 'Q23', 'W23', 'Q34', 'W34', 'Q41', 'W41'], solution, input, data.equalityOptions)
+			return performComparison(['Q12', 'W12', 'Q23', 'W23', 'Q34', 'W34', 'Q41', 'W41'], input, solution, data.equalityOptions)
 	}
 }
 

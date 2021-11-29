@@ -1,7 +1,7 @@
 const { getRandom } = require('../../../util/random')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerRepeat } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 const { getRandomInteger } = require('../../../inputTypes/Integer')
 
 const data = {
@@ -55,9 +55,9 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return checkParameter('x', solution, input, data.equalityOptions)
+			return performComparison('x', input, solution, data.equalityOptions)
 		default:
-			return checkParameter(state.type === 1 ? 'pop' : 'year', solution, input, data.equalityOptions)
+			return performComparison(state.type === 1 ? 'pop' : 'year', input, solution, data.equalityOptions)
 	}
 }
 

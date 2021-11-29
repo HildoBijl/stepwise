@@ -1,6 +1,6 @@
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerRepeat } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 const { tableInterpolate, inverseTableInterpolate } = require('../../../util/interpolation')
 const { getCycle } = require('./support/aircoCycle')
 const { maximumHumidity } = require('../../../data/moistureProperties')
@@ -56,15 +56,15 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return checkParameter('startAH', solution, input, data.equalityOptions)
+			return performComparison('startAH', input, solution, data.equalityOptions)
 		case 2:
-			return checkParameter('endAH', solution, input, data.equalityOptions)
+			return performComparison('endAH', input, solution, data.equalityOptions)
 		case 3:
-			return checkParameter('T3', solution, input, data.equalityOptions)
+			return performComparison('T3', input, solution, data.equalityOptions)
 		case 4:
-			return checkParameter('dAH', solution, input, data.equalityOptions)
+			return performComparison('dAH', input, solution, data.equalityOptions)
 		default:
-			return checkParameter(['T3', 'dAH'], solution, input, data.equalityOptions)
+			return performComparison(['T3', 'dAH'], input, solution, data.equalityOptions)
 	}
 }
 

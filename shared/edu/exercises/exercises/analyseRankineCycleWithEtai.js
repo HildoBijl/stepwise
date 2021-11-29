@@ -1,6 +1,6 @@
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 const { getCycle } = require('./support/steamTurbineCycle')
 const { withPressure, enthalpy, entropy } = require('../../../data/steamProperties')
 const { tableInterpolate } = require('../../../util/interpolation')
@@ -83,18 +83,18 @@ function checkInput(state, input, step, substep) {
 	const toCheck = state.type === 1 ? 'P' : 'mdot'
 	switch (step) {
 		case 1:
-			return checkParameter(['h1', 'h2', 'h3p', 'h4'], solution, input, data.equalityOptions)
+			return performComparison(['h1', 'h2', 'h3p', 'h4'], input, solution, data.equalityOptions)
 		case 2:
-			return checkParameter('h3', solution, input, data.equalityOptions)
+			return performComparison('h3', input, solution, data.equalityOptions)
 		case 3:
 			switch (substep) {
 				case 1:
-					return checkParameter('eta', solution, input, data.equalityOptions)
+					return performComparison('eta', input, solution, data.equalityOptions)
 				case 2:
-					return checkParameter(toCheck, solution, input, data.equalityOptions)
+					return performComparison(toCheck, input, solution, data.equalityOptions)
 			}
 		default:
-			return checkParameter(['eta', toCheck], solution, input, data.equalityOptions)
+			return performComparison(['eta', toCheck], input, solution, data.equalityOptions)
 	}
 }
 

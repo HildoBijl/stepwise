@@ -3,7 +3,7 @@ const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { oxygen: { Rs } } = require('../../../data/gasProperties')
 const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 
 const equalityOptions = {
 	default: {
@@ -73,13 +73,13 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return checkParameter(['p1', 'V1', 'T1'], solution, input, data.equalityOptions)
+			return performComparison(['p1', 'V1', 'T1'], input, solution, data.equalityOptions)
 		case 2:
 			return input.process === 1
 		case 3:
-			return checkParameter(['p2', 'V2', 'T2'], solution, input, data.equalityOptions)
+			return performComparison(['p2', 'V2', 'T2'], input, solution, data.equalityOptions)
 		default:
-			return checkParameter(['p1', 'V1', 'T1', 'p2', 'V2', 'T2'], solution, input, data.equalityOptions)
+			return performComparison(['p1', 'V1', 'T1', 'p2', 'V2', 'T2'], input, solution, data.equalityOptions)
 	}
 }
 

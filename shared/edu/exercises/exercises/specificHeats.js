@@ -1,7 +1,7 @@
 const { selectRandomly } = require('../../../util/random')
 const gasProperties = require('../../../data/gasProperties')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 
 const data = {
 	skill: 'specificHeats',
@@ -18,7 +18,7 @@ function generateState() {
 
 function checkInput(state, input) {
 	const solution = getSolution(state)
-	return checkParameter(['cv', 'cp'], solution, input, data.equalityOptions)
+	return performComparison(['cv', 'cp'], input, solution, data.equalityOptions)
 }
 
 function getSolution({ medium }) {

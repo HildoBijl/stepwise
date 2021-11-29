@@ -1,6 +1,6 @@
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 const { getCycle } = require('./support/steamTurbineCycle')
 const { withPressure, enthalpy, entropy } = require('../../../data/steamProperties')
 const { tableInterpolate } = require('../../../util/interpolation')
@@ -56,17 +56,17 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return checkParameter('h4', solution, input, data.equalityOptions)
+			return performComparison('h4', input, solution, data.equalityOptions)
 		case 2:
-			return checkParameter('h1', solution, input, data.equalityOptions)
+			return performComparison('h1', input, solution, data.equalityOptions)
 		case 3:
-			return checkParameter(['h2', 's2'], solution, input, data.equalityOptions)
+			return performComparison(['h2', 's2'], input, solution, data.equalityOptions)
 		case 4:
-			return checkParameter('s3', solution, input, data.equalityOptions)
+			return performComparison('s3', input, solution, data.equalityOptions)
 		case 5:
-			return checkParameter('h3', solution, input, data.equalityOptions)
+			return performComparison('h3', input, solution, data.equalityOptions)
 		default:
-			return checkParameter(['h1', 'h2', 'h3', 'h4'], solution, input, data.equalityOptions)
+			return performComparison(['h1', 'h2', 'h3', 'h4'], input, solution, data.equalityOptions)
 	}
 }
 

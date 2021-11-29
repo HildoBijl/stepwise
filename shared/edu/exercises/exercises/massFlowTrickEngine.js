@@ -1,7 +1,7 @@
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 const { combinerAnd } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 
 const data = {
 	setup: combinerAnd('calculateWithSpecificQuantities', 'massFlowTrick'),
@@ -38,7 +38,7 @@ function getSolution({ rho, mdot }) {
 
 function checkInput(state, input) {
 	const solution = getSolution(state)
-	return checkParameter('Vdot', solution, input, data.equalityOptions)
+	return performComparison('Vdot', input, solution, data.equalityOptions)
 }
 
 module.exports = {

@@ -3,7 +3,7 @@ const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 let { air: { Rs, k, cp } } = require('../../../data/gasProperties')
 const { combinerRepeat } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 
 const data = {
 	skill: 'calculateWithEnthalpy',
@@ -45,9 +45,9 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return checkParameter('dh', solution, input, data.equalityOptions)
+			return performComparison('dh', input, solution, data.equalityOptions)
 		default:
-			return checkParameter('q', solution, input, data.equalityOptions)
+			return performComparison('q', input, solution, data.equalityOptions)
 	}
 }
 

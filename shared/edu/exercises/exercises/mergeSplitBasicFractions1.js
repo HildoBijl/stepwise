@@ -49,7 +49,7 @@ function getSolution(state) {
 }
 
 function checkInput(state, input) {
-	return performCheck('ans', getSolution(state), input, data.check)
+	return performCheck('ans', input, getSolution(state), data.check)
 }
 
 module.exports = {

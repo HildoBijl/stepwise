@@ -71,11 +71,11 @@ function getSolution(state) {
 function checkInput(state, input, step) {
 	const solution = getSolution(state)
 	if (step === 0 || step === 3)
-		return performCheck('ans', solution, input, data.check)
+		return performCheck('ans', input, solution, data.check)
 	if (step === 1)
-		return performCheck('numeratorIntermediate', solution, input, data.check)
+		return performCheck('numeratorIntermediate', input, solution, data.check)
 	if (step === 2)
-		return performCheck('denominatorIntermediate', solution, input, data.check)
+		return performCheck('denominatorIntermediate', input, solution, data.check)
 }
 
 module.exports = {

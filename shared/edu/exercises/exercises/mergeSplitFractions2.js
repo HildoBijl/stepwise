@@ -54,11 +54,11 @@ function getSolution(state) {
 function checkInput(state, input, step) {
 	const solution = getSolution(state)
 	if (step === 0 || step === 3)
-		return performCheck('ans', solution, input, data.check)
+		return performCheck('ans', input, solution, data.check)
 	if (step === 1)
-		return performCheck('denominator', solution, input, data.check)
+		return performCheck('denominator', input, solution, data.check)
 	if (step === 2)
-		return performCheck(['leftAns', 'rightAns'], solution, input, data.check)
+		return performCheck(['leftAns', 'rightAns'], input, solution, data.check)
 }
 
 module.exports = {

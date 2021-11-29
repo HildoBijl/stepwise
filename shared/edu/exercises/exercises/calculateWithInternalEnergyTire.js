@@ -3,7 +3,7 @@ const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 let { air: { Rs, cv } } = require('../../../data/gasProperties')
 const { combinerAnd } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 
 const data = {
 	skill: 'calculateWithInternalEnergy',
@@ -61,11 +61,11 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return checkParameter('m', solution, input, data.equalityOptions)
+			return performComparison('m', input, solution, data.equalityOptions)
 		case 2:
-			return checkParameter('cv', solution, input, data.equalityOptions)
+			return performComparison('cv', input, solution, data.equalityOptions)
 		default:
-			return checkParameter('dU', solution, input, data.equalityOptions)
+			return performComparison('dU', input, solution, data.equalityOptions)
 	}
 }
 

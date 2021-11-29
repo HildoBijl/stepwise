@@ -1,6 +1,6 @@
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
-const { checkParameter } = require('../util/check')
+const { performComparison } = require('../util/check')
 const { air: { k, cp } } = require('../../../data/gasProperties')
 const { getCycle } = require('./support/gasTurbineCycle')
 
@@ -39,13 +39,13 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return checkParameter('T2p', solution, input, data.equalityOptions)
+			return performComparison('T2p', input, solution, data.equalityOptions)
 		case 2:
-			return checkParameter('wti', solution, input, data.equalityOptions)
+			return performComparison('wti', input, solution, data.equalityOptions)
 		case 3:
-			return checkParameter('wt', solution, input, data.equalityOptions)
+			return performComparison('wt', input, solution, data.equalityOptions)
 		default:
-			return checkParameter('T2', solution, input, data.equalityOptions)
+			return performComparison('T2', input, solution, data.equalityOptions)
 	}
 }
 

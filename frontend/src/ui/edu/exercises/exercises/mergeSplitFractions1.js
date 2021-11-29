@@ -89,9 +89,9 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Define ans checks.
-	const ansEquivalent = (input, correct) => equivalent(input, correct) && <>Dit klopt wel, maar je kunt het nog simpeler schrijven.</>
+	const ansEquivalent = (input, correct, solution, isCorrect) => !isCorrect && equivalent(input, correct) && <>Dit klopt wel, maar je kunt het nog simpeler schrijven.</>
 
-	const denominatorCorrect = (input, correct) => onlyOrderChanges(correct.denominator, input.denominator) && <>De noemer klopt. Er gaat iets mis in de teller van je breuk.</>
+	const denominatorCorrect = (input, correct, solution, isCorrect) => !isCorrect && onlyOrderChanges(correct.denominator, input.denominator) && <>De noemer klopt. Er gaat iets mis in de teller van je breuk.</>
 
 	// Define denominator checks.
 	const denominatorEquivalent = (input, correct, solution, isCorrect) => !isCorrect && equivalent(input, correct) && <>Technisch correct, maar je kan dit nog makkelijker schrijven.</>
