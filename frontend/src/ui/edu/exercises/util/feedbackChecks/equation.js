@@ -4,7 +4,7 @@ import { arrayFind } from 'step-wise/util/arrays'
 import { Sum, expressionChecks, equationChecks } from 'step-wise/CAS'
 
 const { onlyElementaryClean: onlyExpressionElementaryClean, equivalent: equivalentExpression } = expressionChecks
-const { onlyOrderChanges: onlyEquationOrderChanges, equivalent: equivalentEquation, hasSumWithinProduct: equationHasSumWithinProduct, hasFractionWithinFraction: equationHasFractionWithinFraction } = equationChecks
+const { onlyOrderChanges: onlyEquationOrderChanges, equivalent: equivalentEquation } = equationChecks
 
 /*
  * Basic checks.
@@ -19,12 +19,8 @@ export const correctEquationWithMessage = (message) => ((input, correct, solutio
 export const correctEquation = correctEquationWithMessage(<>De vergelijking klopt wel, maar je hebt niet gedaan wat gevraagd werd.</>)
 
 /*
- * Form of equation checks.
+ * Sum and terms checks.
  */
-
-export const hasSumWithinProduct = (input, correct, solution, isCorrect) => !isCorrect && equationHasSumWithinProduct(input) && <>Je antwoord heeft onuitgewerkte haakjes.</>
-
-export const hasFractionWithinFraction = (input, correct, solution, isCorrect) => !isCorrect && equationHasFractionWithinFraction(input) && <>Je antwoord mag geen verdere breuken binnenin een breuk bevatten. Je kunt het nog verder simplificeren.</>
 
 // noSum checks whether both sides have a sum or not. If this differs between the input and the correct answer, the problem is noted.
 export const noSum = (input, correct, solution, isCorrect) => {
@@ -72,12 +68,6 @@ export const sumWithWrongTerms = (input, correct, solution, isCorrect) => {
 
 			// Find an input term that is not in the solution.
 			const index = inputSide.terms.findIndex(inputTerm => !correctSide.terms.some(correctTerm => equivalentExpression(inputTerm, correctTerm)))
-			if (index !== -1) {
-				console.log(inputSide.terms[index].str)
-				console.log(correctSide.terms[index].str)
-				window.a = inputSide.terms[index]
-				window.b = correctSide.terms[index]
-			}
 			if (index !== -1)
 				return [
 					<>Er lijkt iets mis te zijn met de eerste term aan de {atLeft ? 'linker' : 'rechter'} kant.</>,
@@ -139,3 +129,13 @@ export const sumWithUnsimplifiedTerms = (input, correct, solution, isCorrect) =>
 	// Check sides for any problem and return the first problem we find.
 	return (arrayFind(['left', 'right'], inspectSide) || {}).value
 }
+
+/*
+ * Form of equation checks.
+ */
+
+export const hasSumWithinProduct = (input, correct, solution, isCorrect) => !isCorrect && equationChecks.hasSumWithinProduct(input) && <>Je antwoord heeft onuitgewerkte haakjes.</>
+
+export const hasSumWithinFraction = (input, correct, solution, isCorrect) => !isCorrect && equationChecks.hasSumWithinFraction(input) && <>Je antwoord heeft nog een niet-opgesplitste breuk.</>
+
+export const hasFractionWithinFraction = (input, correct, solution, isCorrect) => !isCorrect && equationChecks.hasFractionWithinFraction(input) && <>Je antwoord mag geen verdere breuken binnenin een breuk bevatten. Je kunt het nog verder simplificeren.</>

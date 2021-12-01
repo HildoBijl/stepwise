@@ -59,6 +59,16 @@ module.exports = {
  * Checks for properties of expressions.
  */
 
+// hasSumWithinProduct checks if there are sums within products, like a*(b+c). It effectively checks whether brackets have been properly expanded.
+function hasSumWithinProduct(input) {
+	return input.recursiveSome(term => term.isType(Product) && term.recursiveSome(subTerm => subTerm.isType(Sum)))
+}
+
+// hasSumWithinFraction checks if there is a sum within a fraction, like (a+b)/c.
+function hasSumWithinFraction(input) {
+	return input.recursiveSome(term => term.isType(Fraction) && term.recursiveSome(subTerm => subTerm.isType(Sum)))
+}
+
 // hasFraction checks if there is a fraction inside this Expression. It also gives true if the Expression itself is a fraction, unless this is specifically set to be ignored (by passing false).
 function hasFraction(input, includeSelf = true) {
 	return input.recursiveSome(term => term.isType(Fraction), includeSelf)
@@ -67,11 +77,6 @@ function hasFraction(input, includeSelf = true) {
 // hasFractionWithinFraction checks if there are fractions inside this Expression that have further fractions inside them.
 function hasFractionWithinFraction(input) {
 	return input.recursiveSome(term => term.isType(Fraction) && hasFraction(term, false))
-}
-
-// hasSumWithinProduct checks if there are sums within products, like a*(b+c). It effectively checks whether brackets have been properly expanded.
-function hasSumWithinProduct(input) {
-	return input.recursiveSome(term => term.isType(Product) && term.recursiveSome(subTerm => subTerm.isType(Sum)))
 }
 
 // isPolynomial checks if this expression is a polynome: only sums, products and powers with integer exponents. Fractions are only allowed when dividing by a numeric value, like x/2 or y/pi, but not when dividing by variables like y/x.
@@ -102,9 +107,10 @@ function isRational(input) {
 
 module.exports = {
 	...module.exports,
+	hasSumWithinProduct,
+	hasSumWithinFraction,
 	hasFraction,
 	hasFractionWithinFraction,
-	hasSumWithinProduct,
 	isPolynomial,
 	isRational,
 }

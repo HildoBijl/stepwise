@@ -5,18 +5,20 @@ const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { performCheck } = require('../util/check')
 
-const { onlyOrderChanges } = equationChecks
+const { hasSumWithinFraction, onlyElementaryClean, equivalent } = equationChecks
 
-// ax + by + cz = 0.
+// Multiply "ay/x + bz/y + cz/x + dx/z = 0" by x.
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
 const usedVariables = ['x', 'y', 'z']
-const constants = ['a', 'b', 'c']
+const constants = ['a', 'b', 'c', 'd']
 
 const data = {
-	skill: 'moveATerm',
-	steps: [null, null],
+	skill: 'multiplyDivideAllTerms',
+	steps: [null, 'expandBrackets', 'addRemoveFractionFactors'],
 	check: {
-		default: onlyOrderChanges,
+		default: (input, correct) => onlyElementaryClean(input, correct.removeUseless()),
+		intermediateWithBrackets: (input, correct) => onlyElementaryClean(input.removeUseless(), correct.removeUseless()), // This is to avoid "0*x" from being an issue.
+		intermediateWithoutBrackets: (input, correct) => !hasSumWithinFraction(input) && equivalent(input, correct),
 	},
 }
 
@@ -27,28 +29,24 @@ function generateState() {
 		a: getRandomInteger(-12, 12, [0]),
 		b: getRandomInteger(-12, 12, [0]),
 		c: getRandomInteger(-12, 12, [0]),
-		xLeft: getRandomBoolean(),
-		yLeft: getRandomBoolean(),
-		zLeft: getRandomBoolean(),
-		toMove: getRandomInteger(0, 2),
+		d: getRandomInteger(-12, 12, [0]),
+		aLeft: getRandomBoolean(),
+		bLeft: getRandomBoolean(),
+		cLeft: getRandomBoolean(),
+		dLeft: getRandomBoolean(),
 	}
 }
 
 function getSolution(state) {
 	// Extract state variables.
 	const variables = filterVariables(state, usedVariables, constants)
-	const variableToMove = variables[usedVariables[state.toMove]]
-	const isLeft = state[`${usedVariables[state.toMove]}Left`]
-	const isPositive = state[constants[state.toMove]] > 0
 
 	// Assemble the equation.
-	const terms = []
+	const terms = ['ax^2', 'bxz', 'cxy', 'dyz'].map(term => asExpression(term).substituteVariables(variables))
 	let left = Integer.zero
 	let right = Integer.zero
-	usedVariables.map((variable, index) => {
-		const term = asExpression(`${constants[index]}${variable}`).substituteVariables(variables)
-		terms.push(term)
-		if (state[`${variable}Left`])
+	terms.forEach((term, index) => {
+		if (state[`${constants[index]}Left`])
 			left = left.add(term)
 		else
 			right = right.add(term)
@@ -56,20 +54,21 @@ function getSolution(state) {
 	const equation = new Equation(left, right).removeUseless()
 
 	// Set up the solution.
-	const termToMove = terms[state.toMove]
-	const termToMoveAbs = isPositive ? termToMove : termToMove.applyMinus().removeUseless()
-	const intermediate = equation.applyToBothSides(side => side.subtract(termToMove)).removeUseless()
-	const ans = intermediate.basicClean()
+	const intermediateWithBrackets = equation.divideBy(variables.x)
+	const intermediateWithoutBrackets = intermediateWithBrackets.simplify({ splitFractions: true, removeUseless: true })
+	const ans = intermediateWithoutBrackets.simplify({ removeUseless: true, mergeFractionTerms: true, mergeProductTerms: true, mergeSumNumbers: true })
 
-	return { ...state, variables, variableToMove, equation, termToMove, isPositive, isLeft, termToMoveAbs, intermediate, ans }
+	return { ...state, variables, terms, equation, intermediateWithBrackets, intermediateWithoutBrackets, ans }
 }
 
 function checkInput(state, input, step) {
 	const solution = getSolution(state)
-	if (step === 0 || step === 2)
+	if (step === 0 || step === 3)
 		return performCheck('ans', input, solution, data.check)
 	if (step === 1)
-		return performCheck('intermediate', input, solution, data.check)
+		return performCheck('intermediateWithBrackets', input, solution, data.check)
+	if (step === 2)
+		return performCheck('intermediateWithoutBrackets', input, solution, data.check)
 }
 
 module.exports = {

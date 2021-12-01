@@ -76,6 +76,8 @@ export const sumWithUnsimplifiedTerms = (input, correct, solution, isCorrect) =>
 
 export const hasSumWithinProduct = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasSumWithinProduct(input) && <>Je antwoord heeft onuitgewerkte haakjes.</>
 
+export const hasSumWithinFraction = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasSumWithinFraction(input) && <>Je antwoord heeft nog een niet-opgesplitste breuk.</>
+
 export const noFraction = (input, correct, solution, isCorrect) => !isCorrect && !input.isType(Fraction) && <>Je antwoord is geen breuk. Er wordt een enkele breuk als antwoord verwacht.</>
 
 export const hasFractionWithinFraction = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasFractionWithinFraction(input) && <>Je antwoord mag geen verdere breuken binnenin een breuk bevatten. Je kunt het nog verder simplificeren.</>

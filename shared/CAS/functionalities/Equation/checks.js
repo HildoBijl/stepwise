@@ -1,6 +1,6 @@
 const { Sum, expressionChecks } = require('../Expression')
 
-const { equivalent: equivalentExpression, constantMultiple: constantMultipleExpression, hasFractionWithinFraction: expressionHasFractionWithinFraction, hasSumWithinProduct: expressionHasSumWithinProduct } = expressionChecks
+const { equivalent: equivalentExpression, constantMultiple: constantMultipleExpression, hasSumWithinProduct: expressionHasSumWithinProduct, hasSumWithinFraction: expressionHasSumWithinFraction, hasFractionWithinFraction: expressionHasFractionWithinFraction } = expressionChecks
 
 /*
  * Define basic Equation check functions.
@@ -86,11 +86,13 @@ module.exports = {
  * Define checks for properties of Equations. They are often similar to the corresponding checks for Expressions.
  */
 
-const hasFractionWithinFraction = (input) => input.someSide(side => expressionHasFractionWithinFraction(side))
 const hasSumWithinProduct = (input) => input.someSide(side => expressionHasSumWithinProduct(side))
+const hasSumWithinFraction = (input) => input.someSide(side => expressionHasSumWithinFraction(side))
+const hasFractionWithinFraction = (input) => input.someSide(side => expressionHasFractionWithinFraction(side))
 
 module.exports = {
 	...module.exports,
-	hasFractionWithinFraction,
 	hasSumWithinProduct,
+	hasSumWithinFraction,
+	hasFractionWithinFraction,
 }
