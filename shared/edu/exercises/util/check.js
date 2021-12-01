@@ -53,7 +53,7 @@ function performCheck(parameters, input, solution, check) {
 		const currCheck = getPropertyOrDefault(check, currParameter, true, singleParameter, true, `Field check error: could not find a checking function for field "${currParameter}". Make sure that the checks object has a parameter with this name, or otherwise a parameter "default". Only when the "field" parameter is not an array do we potentially take the checks object itself as the check parameter for this field.`)
 
 		// Run the extracted check with the right parameters.
-		return currCheck(currCorrect, currInput, solution)
+		return currCheck(currInput, currCorrect, solution)
 	})
 }
 module.exports.performCheck = performCheck

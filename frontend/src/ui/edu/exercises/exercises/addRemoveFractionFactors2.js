@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { simplifyOptions, expressionChecks } from 'step-wise/CAS'
+import { expressionChecks } from 'step-wise/CAS'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'

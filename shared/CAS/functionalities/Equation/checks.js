@@ -31,11 +31,29 @@ function onlyOrderChangesAndShifts(input, correct) {
 	return onlyOrderChanges(inputSum, correctSum) || onlyOrderChanges(inputSum, correctSumNegative)
 }
 
+// onlyElementaryClean checks if the two sides are equal after an elementary clean. (Order changes are still allowed.)
+function onlyElementaryClean(input, correct) {
+	return onlyOrderChanges(input.elementaryClean(), correct.elementaryClean())
+}
+
+// onlyElementaryCleanAndSwitch also allows side switches.
+function onlyElementaryCleanAndSwitch(input, correct) {
+	return onlyOrderChangesAndSwitch(input.elementaryClean(), correct.elementaryClean())
+}
+
+// onlyElementaryCleanAndShifts allows shifting of terms too.
+function onlyElementaryCleanAndShifts(input, correct) {
+	return onlyOrderChangesAndShifts(input.elementaryClean(), correct.elementaryClean())
+}
+
 module.exports = {
 	exactEqual,
 	onlyOrderChanges,
 	onlyOrderChangesAndSwitch,
 	onlyOrderChangesAndShifts,
+	onlyElementaryClean,
+	onlyElementaryCleanAndSwitch,
+	onlyElementaryCleanAndShifts,
 }
 
 /*

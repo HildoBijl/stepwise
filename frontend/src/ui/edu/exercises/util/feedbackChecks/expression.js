@@ -2,7 +2,7 @@
 
 import { Sum, Fraction, expressionChecks } from 'step-wise/CAS'
 
-const { onlyOrderChanges: onlyExpressionOrderChanges, equivalent: equivalentExpression } = expressionChecks
+const { onlyOrderChanges: onlyExpressionOrderChanges, elementaryClean: onlyExpressionElementaryClean, equivalent: equivalentExpression } = expressionChecks
 
 /*
  * Basic checks.
@@ -10,17 +10,20 @@ const { onlyOrderChanges: onlyExpressionOrderChanges, equivalent: equivalentExpr
 
 export const originalExpression = (input, correct, { expression }) => onlyExpressionOrderChanges(input, expression) && <>Dit is de oorspronkelijke uitdrukking. Je hebt hier nog niets mee gedaan.</>
 
-export const correctExpression = (input, correct, solution, isCorrect) => !isCorrect && equivalentExpression(input, correct) && <>De uitdrukking klopt wel, maar je hebt niet gedaan wat gevraagd is.</>
-
 export const incorrectExpression = (input, correct, solution, isCorrect) => !isCorrect && !equivalentExpression(input, correct) && <>Deze uitdrukking is niet gelijk aan wat gegeven is. Je hebt bij het omschrijven iets gedaan dat niet mag.</>
+
+export const correctExpression = (input, correct, solution, isCorrect) => !isCorrect && equivalentExpression(input, correct) && <>De uitdrukking klopt wel, maar je hebt niet gedaan wat gevraagd is.</>
 
 /*
  * Sum and terms checks.
  */
 
-export const noSum = (input) => !input.isType(Sum) && <>Je moet je antwoord schrijven als een optelling/aftrekking van termen. Je gegeven antwoord is helaas geen optelling/aftrekking.</>
+export const noSum = (input, correct, solution, isCorrect) => !isCorrect && !input.isType(Sum) && <>Je moet je antwoord schrijven als een optelling/aftrekking van termen. Je gegeven antwoord is helaas geen optelling/aftrekking.</>
 
-export const sumWithWrongTerms = (input, correct) => {
+export const sumWithWrongTerms = (input, correct, solution, isCorrect) => {
+	if (isCorrect)
+		return
+
 	// Ensure it's a sum.
 	const noSumResult = noSum(input)
 	if (noSumResult)
@@ -44,14 +47,17 @@ export const sumWithWrongTerms = (input, correct) => {
 		][index]
 }
 
-export const sumWithUnsimplifiedTerms = (input, correct) => {
+export const sumWithUnsimplifiedTerms = (input, correct, solution, isCorrect) => {
+	if (isCorrect)
+		return
+
 	// Run equivalence checks.
 	const sumWithWrongTermsResult = sumWithWrongTerms(input, correct)
 	if (sumWithWrongTermsResult)
 		return sumWithWrongTermsResult
 
-	// Find an input term that is not in the solution for only order changes.
-	const index = input.terms.findIndex(inputTerm => !correct.terms.some(correctTerm => onlyExpressionOrderChanges(inputTerm, correctTerm)))
+	// Find an input term that is not in the solution when checking only for order changes.
+	const index = input.terms.findIndex(inputTerm => !correct.terms.some(correctTerm => onlyExpressionElementaryClean(inputTerm, correctTerm)))
 	if (index !== -1)
 		return [
 			<>Je kunt de eerste term van je antwoord nog verder vereenvoudigen.</>,
@@ -68,8 +74,8 @@ export const sumWithUnsimplifiedTerms = (input, correct) => {
  * Expression form checks.
  */
 
-export const hasSumWithinProduct = (input) => expressionChecks.hasSumWithinProduct(input) && <>Je antwoord heeft onuitgewerkte haakjes.</>
+export const hasSumWithinProduct = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasSumWithinProduct(input) && <>Je antwoord heeft onuitgewerkte haakjes.</>
 
-export const noFraction = (input) => !input.isType(Fraction) && <>Je antwoord is geen breuk. Er wordt een enkele breuk als antwoord verwacht.</>
+export const noFraction = (input, correct, solution, isCorrect) => !isCorrect && !input.isType(Fraction) && <>Je antwoord is geen breuk. Er wordt een enkele breuk als antwoord verwacht.</>
 
-export const hasFractionWithinFraction = (input) => expressionChecks.hasFractionWithinFraction(input) && <>Je antwoord mag geen verdere breuken binnenin een breuk bevatten. Je kunt het nog verder simplificeren.</>
+export const hasFractionWithinFraction = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasFractionWithinFraction(input) && <>Je antwoord mag geen verdere breuken binnenin een breuk bevatten. Je kunt het nog verder simplificeren.</>

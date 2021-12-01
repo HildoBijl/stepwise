@@ -20,7 +20,6 @@ const noSimplify = { // This is never applied, but only use to verify options gi
 	splitFractions: false, // Split up fractions. So (a+b)/c becomes a/c+b/c.
 	mergeFractionProducts: false, // Turn products of fractions into single fractions. So a*(b/c) becomes (ab)/c and (a/b)*(c/d) becomes (ac)/(bd).
 	mergeFractionSums: false, // Turns sums of fractions into a single fraction. So a/x+b/x becomes (a+b)/x and a/b+c/d becomes (ad+bc)/(bd).
-	pullMinusBeforeFraction: false, // Turns (-2)/3 into -(2/3). For display purposes this is clearer, but for analysis it's pointless.
 
 	// The following options relate to Powers.
 	mergePowerNumbers: false, // Reduce the numbers used in powers: turn a power with only numbers into a number.
@@ -38,44 +37,52 @@ const noSimplify = { // This is never applied, but only use to verify options gi
 
 	// ToDo: implement the simplification methods below.
 
+	cleanFractionPolynomials: false, // Check inside fractions whether polynomials can be cancelled. For instance, if you have "(x^2+3x+2)/(x^2-1)", it is equal to "((x+1)(x+2))/((x+1)(x-1))" which would be equal to "(x+2)/(x+1)". Should the system cancel out the joint "x+1" factor?
 	groupSumTerms: false, // Check inside of sums whether terms can be grouped. For instance, 2*x+3*x can be grouped into (2+3)*x, after which the numbers can be merged to form 5*x.
 	basicReductions: false, // Turns sin(arcsin(x)) into x, cos(pi) into -1 and y/y into 1. (Yes, this assumes y is not zero, but this is not a formal mathematical toolbox, so let's go along with it.)
 }
 module.exports.noSimplify = noSimplify
 
-// Now we set up a variety of common combinations of simplify options.
+/*
+ * Now we set up a variety of common combinations of simplify options.
+ */
+
+// structureOnly is a simplification that does nothing to the equation, but only to the structure. This should always be applied, because a wrong equation structure can lead to errors.
 const structureOnly = {
 	...noSimplify,
 	structure: true
 }
 module.exports.structureOnly = structureOnly
 
+// removeUseless removes useless things from equations. Think of adding/subtracting 0 or multiplying/dividing by 1. Stuff that's always required, unless you specifically want to look at how an equation is written.
 const removeUseless = {
 	...structureOnly,
 	removeUseless: true,
 }
 module.exports.removeUseless = removeUseless
 
-const forDerivatives = {
-	...removeUseless,
-	toBasicForm: true,
-}
-module.exports.forDerivatives = forDerivatives
-
-const basicClean = {
-	...removeUseless,
-	mergeSumNumbers: true,
-	cancelSumTerms: true,
-	mergeProductNumbers: true,
-	mergeProductTerms: true,
-	mergeFractionNumbers: true,
-	flattenFractions: true,
+// elementaryClean writes things in such a way that the exact set-up of the equation does not matter for equality. Think of "(2/3)x" or "(2x)/3", or identically "-a/b" or "(-a)/b". It makes these equal.
+const elementaryClean = {
+	...structureOnly,
 	mergeFractionProducts: true,
-	pullMinusBeforeFraction: true,
+	mergeProductNumbers: true, // This is necessary to make "-(2)/(3)" equal to "(-2)/(3)" and not get confused with "((-1)*2)/(3)".
+}
+module.exports.elementaryClean = elementaryClean
+
+// basicClean runs all basic clean-up methods available to starting mathematicians. Numbers like "2*3" are simplified to "6", fractions within fractions are squashed, and products "x*x" are merged into powers.
+const basicClean = {
+	...elementaryClean,
+	removeUseless: true,
+	mergeSumNumbers: true,
+	mergeFractionNumbers: true,
 	mergePowerNumbers: true,
+	cancelSumTerms: true,
+	mergeProductTerms: true,
+	flattenFractions: true,
 }
 module.exports.basicClean = basicClean
 
+// regularClean goes a few steps further than basicClean. It also uses tools taught at the end of high school, running mode advanced fraction simplifications, power reductions and such. Also terms are sorted into a sensible order.
 const regularClean = {
 	...basicClean,
 	sortProducts: true,
@@ -86,6 +93,7 @@ const regularClean = {
 }
 module.exports.regularClean = regularClean
 
+// forAnalysis puts expression, for as much as possible, into a standard form. This subsequently allows for easy comparison.
 const forAnalysis = {
 	...regularClean,
 	expandProductsOfSums: true,
@@ -94,19 +102,19 @@ const forAnalysis = {
 	expandPowersOfSums: true,
 	mergeFractionSums: true,
 	toBasicForm: true,
-	pullMinusBeforeFraction: false,
 }
 module.exports.forAnalysis = forAnalysis
 
-const forDisplay = {
-	...regularClean,
-	mergeFractionProducts: true,
-	forDisplay: true,
+// forDerivatives puts expressions in a form making it easier to take derivatives. Some components (like tan(x)) do not have a derivative specified, but in basic form (sin(x)/cos(x)) derivatives are possible.
+const forDerivatives = {
+	...removeUseless,
+	toBasicForm: true,
 }
-module.exports.forDisplay = forDisplay
+module.exports.forDerivatives = forDerivatives
 
-const expressionForAnalysis = {
+// equationForAnalysis is similar to forAnalysis but then for equations. It also moves all terms to the left of the equation.
+const equationForAnalysis = {
 	...forAnalysis,
 	allToLeft: true,
 }
-module.exports.expressionForAnalysis = expressionForAnalysis
+module.exports.equationForAnalysis = equationForAnalysis

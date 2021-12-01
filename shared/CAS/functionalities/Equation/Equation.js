@@ -39,6 +39,14 @@ class Equation {
 		return result
 	}
 
+	get sides() {
+		const result = {}
+		parts.forEach(part => {
+			result[part] = this[part]
+		})
+		return result
+	}
+
 	// clone will create a clone of this element.
 	clone() {
 		return new this.constructor(this.SO)
@@ -184,6 +192,11 @@ class Equation {
 		return this.simplify(simplifyOptions.removeUseless)
 	}
 
+	// elementaryClean applies the simplify function with elementaryClean options.
+	elementaryClean() {
+		return this.simplify(simplifyOptions.elementaryClean)
+	}
+
 	// basicClean applies the simplify function with basicClean options.
 	basicClean() {
 		return this.simplify(simplifyOptions.basicClean)
@@ -194,9 +207,9 @@ class Equation {
 		return this.simplify(simplifyOptions.regularClean)
 	}
 
-	// cleanForAnalysis applies the simplify function with expressionForAnalysis option.
+	// cleanForAnalysis applies the simplify function with equationForAnalysis option.
 	cleanForAnalysis() {
-		return this.simplify(simplifyOptions.expressionForAnalysis)
+		return this.simplify(simplifyOptions.equationForAnalysis)
 	}
 }
 module.exports.Equation = Equation

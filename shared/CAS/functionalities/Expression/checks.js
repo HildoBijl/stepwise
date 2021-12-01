@@ -24,6 +24,11 @@ module.exports = {
  * More complex Expression equality checks.
  */
 
+// onlyElementaryClean checks if two expressions are equal after an elementary clean. It also allows order changes.
+function onlyElementaryClean(input, correct) {
+	return onlyOrderChanges(input.elementaryClean(), correct.elementaryClean())
+}
+
 // equivalent checks if two expressions f and g are equivalent. It finds f-g, simplifies it and checks if this reduces to zero.
 function equivalent(input, correct) {
 	const comparison = correct.subtract(input).cleanForAnalysis()
@@ -44,6 +49,7 @@ function constantMultiple(input, correct) {
 
 module.exports = {
 	...module.exports,
+	onlyElementaryClean,
 	equivalent,
 	integerMultiple,
 	constantMultiple,

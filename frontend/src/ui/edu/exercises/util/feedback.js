@@ -326,10 +326,14 @@ export function getExpressionComparisonFeedback(inputAnswer, correctAnswer, opti
 
 	// Walk through the feedback checks and see if one fires.
 	const checkResult = getFeedbackCheckResult(feedbackChecks, inputAnswer, correctAnswer, solution, correct, exerciseData)
+	console.log(checkResult)
 	if (checkResult)
 		return { correct, text: checkResult }
 
 	// No sensible feedback has matched. Give a default message.
+	console.log(correct)
+	console.log(text.correct)
+	console.log({ correct, text: text.correct || selectRandomCorrect() })
 	if (correct)
 		return { correct, text: text.correct || selectRandomCorrect() }
 	return { correct, text: text.incorrect || selectRandomIncorrect() }

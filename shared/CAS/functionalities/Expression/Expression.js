@@ -386,6 +386,11 @@ class Expression {
 		return this.simplify(simplifyOptions.removeUseless)
 	}
 
+	// elementaryClean applies the simplify function with elementaryClean options.
+	elementaryClean() {
+		return this.simplify(simplifyOptions.elementaryClean)
+	}
+
 	// basicClean applies the simplify function with basicClean options.
 	basicClean() {
 		return this.simplify(simplifyOptions.basicClean)
@@ -1365,7 +1370,8 @@ class Fraction extends Function {
 
 	toString() {
 		// Get the numerator.
-		let numStr = this.numerator.toString()
+		const useMinus = !this.requiresPlusInSum()
+		let numStr = (useMinus ? this.numerator.applyMinus().removeUseless() : this.numerator).toString()
 		if (this.numerator.requiresBracketsFor(bracketLevels.multiplication))
 			numStr = `(${numStr})`
 
@@ -1375,15 +1381,22 @@ class Fraction extends Function {
 			denStr = `(${denStr})`
 
 		// Put them together.
-		return `${numStr}/${denStr}`
+		return `${useMinus ? '-' : ''}${numStr}/${denStr}`
 	}
 
 	toTex() {
-		return `\\frac{${this.numerator.tex}}{${this.denominator.tex}}`
+		const useMinus = !this.requiresPlusInSum()
+		const numerator = useMinus ? this.numerator.applyMinus().removeUseless() : this.numerator
+		return `${useMinus ? '-' : ''}\\frac{${numerator.tex}}{${this.denominator.tex}}`
 	}
 
 	requiresBracketsFor(level) {
 		return level === bracketLevels.division || level === bracketLevels.powers
+	}
+
+	requiresPlusInSum() {
+		// Sometimes we can pull the minus out of the numerator. For instance, we can display (-2)/(3) as -(2)/(3). In that case, do not use a plus in a sum.
+		return this.numerator.isType(Sum) || this.numerator.requiresPlusInSum()
 	}
 
 	multiplyNumDenBy(expression) {
@@ -1535,13 +1548,6 @@ class Fraction extends Function {
 			// On a minus one denominator, return minus te numerator.
 			if (Integer.minusOne.equalsBasic(denominator))
 				return numerator.applyMinus()
-		}
-
-		// Check if the minus should be pulled out.
-		if (options.pullMinusBeforeFraction) {
-			if (numerator.isNegative()) {
-				return new Fraction(numerator.applyMinus(), denominator).applyMinus()
-			}
 		}
 
 		return new Fraction(numerator, denominator)

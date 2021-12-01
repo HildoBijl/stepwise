@@ -5,7 +5,7 @@ const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { performCheck } = require('../util/check')
 
-const { onlyOrderChanges } = equationChecks
+const { hasSumWithinProduct, onlyElementaryClean, equivalent } = equationChecks
 
 // Multiply "ay/x + bz/y + cz/x + dx/z = 0" by x.
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
@@ -16,12 +16,9 @@ const data = {
 	skill: 'multiplyDivideAllTerms',
 	steps: [null, 'expandBrackets', 'addRemoveFractionFactors'],
 	check: {
-		default: (input, correct) => {
-			console.log('Comparing correct and input')
-			console.log(correct.str)
-			console.log(input.str)
-			return onlyOrderChanges(correct.removeUseless(), input.simplify({ removeUseless: true, pullMinusBeforeFraction: true, mergeFractionProducts: true }))
-		},
+		default: (input, correct) => onlyElementaryClean(input, correct.removeUseless()),
+		intermediateWithBrackets: (input, correct) => onlyElementaryClean(input.removeUseless(), correct.removeUseless()), // This is to avoid "0*x" from being an issue.
+		intermediateWithoutBrackets: (input, correct) => !hasSumWithinProduct(input) && equivalent(input, correct),
 	},
 }
 
@@ -54,12 +51,12 @@ function getSolution(state) {
 		else
 			right = right.add(term)
 	})
-	const equation = new Equation(left, right).removeUseless().simplify({ pullMinusBeforeFraction: true })
+	const equation = new Equation(left, right).removeUseless()
 
 	// Set up the solution.
 	const intermediateWithBrackets = equation.multiplyBy(variables.x)
 	const intermediateWithoutBrackets = intermediateWithBrackets.simplify({ expandProductsOfSums: true, removeUseless: true })
-	const intermediateWithXPulledIn = intermediateWithoutBrackets.simplify({ mergeFractionProducts: true, pullMinusBeforeFraction: true, removeUseless: true })
+	const intermediateWithXPulledIn = intermediateWithoutBrackets.simplify({ mergeFractionProducts: true, removeUseless: true })
 	const ans = intermediateWithXPulledIn.simplify({ removeUseless: true, mergeFractionTerms: true, mergeProductTerms: true, mergeSumNumbers: true })
 
 	return { ...state, variables, terms, equation, intermediateWithBrackets, intermediateWithoutBrackets, intermediateWithXPulledIn, ans }

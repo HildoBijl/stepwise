@@ -1,7 +1,9 @@
 // This file contains various feedback checks that are used more commonly among exercises. They can be loaded in and used directly then.
 
-import { equationChecks } from 'step-wise/CAS'
+import { arrayFind } from 'step-wise/util/arrays'
+import { Sum, expressionChecks, equationChecks } from 'step-wise/CAS'
 
+const { onlyElementaryClean: onlyExpressionElementaryClean, equivalent: equivalentExpression } = expressionChecks
 const { onlyOrderChanges: onlyEquationOrderChanges, equivalent: equivalentEquation, hasSumWithinProduct: equationHasSumWithinProduct, hasFractionWithinFraction: equationHasFractionWithinFraction } = equationChecks
 
 /*
@@ -10,14 +12,130 @@ const { onlyOrderChanges: onlyEquationOrderChanges, equivalent: equivalentEquati
 
 export const originalEquation = (input, correct, { equation }) => onlyEquationOrderChanges(input, equation) && <>Dit is de oorspronkelijke vergelijking. Je hebt hier nog niets mee gedaan.</>
 
-export const correctEquation = (input, correct, solution, isCorrect) => !isCorrect && equivalentEquation(input, correct) && <>De vergelijking klopt wel, maar je hebt niet gedaan wat gevraagd werd.</>
-
 export const incorrectEquation = (input, correct, solution, isCorrect) => !isCorrect && !equivalentEquation(input, correct) && <>Deze vergelijking klopt niet. Je hebt bij het omschrijven iets gedaan dat niet mag.</>
+
+export const correctEquationWithMessage = (message) => ((input, correct, solution, isCorrect, exerciseData) => !isCorrect && equivalentEquation(input, correct) && (typeof message === 'function' ? message(input, correct, solution, isCorrect, exerciseData) : message))
+
+export const correctEquation = correctEquationWithMessage(<>De vergelijking klopt wel, maar je hebt niet gedaan wat gevraagd werd.</>)
 
 /*
  * Form of equation checks.
  */
 
-export const hasSumWithinProduct = (input) => equationHasSumWithinProduct(input) && <>Je antwoord heeft onuitgewerkte haakjes.</>
+export const hasSumWithinProduct = (input, correct, solution, isCorrect) => !isCorrect && equationHasSumWithinProduct(input) && <>Je antwoord heeft onuitgewerkte haakjes.</>
 
-export const hasFractionWithinFraction = (input) => equationHasFractionWithinFraction(input) && <>Je antwoord mag geen verdere breuken binnenin een breuk bevatten. Je kunt het nog verder simplificeren.</>
+export const hasFractionWithinFraction = (input, correct, solution, isCorrect) => !isCorrect && equationHasFractionWithinFraction(input) && <>Je antwoord mag geen verdere breuken binnenin een breuk bevatten. Je kunt het nog verder simplificeren.</>
+
+// noSum checks whether both sides have a sum or not. If this differs between the input and the correct answer, the problem is noted.
+export const noSum = (input, correct, solution, isCorrect) => {
+	if (isCorrect)
+		return
+
+	// Define a handler that inspects a given side (left or right).
+	const inspectSide = (side) => {
+		const correctSide = correct[side]
+		const inputSide = input[side]
+		const atLeft = side === 'left'
+
+		// If the correct answer has a sum ...
+		if (correctSide.isType(Sum) && !inputSide.isType(Sum))
+			return <>Je hebt aan de {atLeft ? 'linker' : 'rechter'} kant slechts een enkele term gegeven. Hier werd een som verwacht: een optelling/aftrekking van termen.</>
+		if (!correctSide.isType(Sum) && inputSide.isType(Sum))
+			return <>Je hebt aan de {atLeft ? 'linker' : 'rechter'} kant een som gezet: een optelling/aftrekking van termen. Hier werd maar één term verwacht.</>
+	}
+
+	// Check sides for any problem and return the first problem we find.
+	return (arrayFind(['left', 'right'], inspectSide) || {}).value
+}
+
+// sumWithWrongTerms checks that both sides have a sum of the same form. It also checks the terms and when they're not equivalent indicates which term has a problem.
+export const sumWithWrongTerms = (input, correct, solution, isCorrect) => {
+	if (isCorrect)
+		return
+
+	// Check earlier simpler cases.
+	const noSumResult = noSum(input, correct)
+	if (noSumResult)
+		return noSumResult
+
+	// Define a handler that inspects a given side (left or right).
+	const inspectSide = (side) => {
+		const correctSide = correct[side]
+		const inputSide = input[side]
+		const atLeft = side === 'left'
+
+		// If the correct answer has a sum ...
+		if (correctSide.isType(Sum)) {
+			// Check that it has the right number of terms.
+			if (correctSide.terms.length !== inputSide.terms.length)
+				return <>De optelsom {atLeft ? 'links' : 'rechts'} van het is-teken heeft slechts {inputSide.terms.length} termen. Er werden er {correctSide.terms.length} verwacht.</>
+
+			// Find an input term that is not in the solution.
+			const index = inputSide.terms.findIndex(inputTerm => !correctSide.terms.some(correctTerm => equivalentExpression(inputTerm, correctTerm)))
+			if (index !== -1) {
+				console.log(inputSide.terms[index].str)
+				console.log(correctSide.terms[index].str)
+				window.a = inputSide.terms[index]
+				window.b = correctSide.terms[index]
+			}
+			if (index !== -1)
+				return [
+					<>Er lijkt iets mis te zijn met de eerste term aan de {atLeft ? 'linker' : 'rechter'} kant.</>,
+					<>Er lijkt iets mis te zijn met de tweede term aan de {atLeft ? 'linker' : 'rechter'} kant.</>,
+					<>Er lijkt iets mis te zijn met de derde term aan de {atLeft ? 'linker' : 'rechter'} kant.</>,
+					<>Er lijkt iets mis te zijn met de vierde term aan de {atLeft ? 'linker' : 'rechter'} kant.</>,
+					<>Er lijkt iets mis te zijn met de vijfde term aan de {atLeft ? 'linker' : 'rechter'} kant.</>,
+					<>Er lijkt iets mis te zijn met de zesde term aan de {atLeft ? 'linker' : 'rechter'} kant.</>,
+					<>Er lijkt iets mis te zijn met term {index + 1} aan de {atLeft ? 'linker' : 'rechter'} kant.</>,
+				][index]
+		} else {
+			// Check that the given terms are the same.
+			if (!equivalentExpression(inputSide, correctSide))
+				return <>Er lijkt iets mis te zijn met de term aan de {atLeft ? 'linker' : 'rechter'} kant.</>
+		}
+	}
+
+	// Check sides for any problem and return the first problem we find.
+	return (arrayFind(['left', 'right'], inspectSide) || {}).value
+}
+
+// sumWithUnsimplifiedTerms checks if the left and right side have the same form. When terms are equivalent but do not match the onlyOrderChanges check, it notes that further simplifications are possible.
+export const sumWithUnsimplifiedTerms = (input, correct, solution, isCorrect) => {
+	if (isCorrect)
+		return
+
+	// Check earlier simpler cases.
+	const sumWithWrongTermsResult = sumWithWrongTerms(input, correct)
+	if (sumWithWrongTermsResult)
+		return sumWithWrongTermsResult
+
+	// Define a handler that inspects a given side (left or right).
+	const inspectSide = (side) => {
+		const correctSide = correct[side]
+		const inputSide = input[side]
+		const atLeft = side === 'left'
+
+		// If the correct answer has a sum ...
+		if (correctSide.isType(Sum)) {
+			// Find an input term that is not in the solution when checking only for order changes.
+			const index = inputSide.terms.findIndex(inputTerm => !correctSide.terms.some(correctTerm => onlyExpressionElementaryClean(inputTerm, correctTerm)))
+			if (index !== -1)
+				return [
+					<>Je kunt de eerste term aan de {atLeft ? 'linker' : 'rechter'} kant nog verder vereenvoudigen.</>,
+					<>Je kunt de tweede term aan de {atLeft ? 'linker' : 'rechter'} kant nog verder vereenvoudigen.</>,
+					<>Je kunt de derde term aan de {atLeft ? 'linker' : 'rechter'} kant nog verder vereenvoudigen.</>,
+					<>Je kunt de vierde term aan de {atLeft ? 'linker' : 'rechter'} kant nog verder vereenvoudigen.</>,
+					<>Je kunt de vijfde term aan de {atLeft ? 'linker' : 'rechter'} kant nog verder vereenvoudigen.</>,
+					<>Je kunt de zesde term aan de {atLeft ? 'linker' : 'rechter'} kant nog verder vereenvoudigen.</>,
+					<>Je kunt term {index + 1} aan de {atLeft ? 'linker' : 'rechter'} kant nog verder vereenvoudigen.</>,
+				][index]
+		} else {
+			// Check that the given terms are the same.
+			if (!onlyExpressionElementaryClean(inputSide, correctSide))
+				return <>Je kunt de {atLeft ? 'linker' : 'rechter'} kant nog verder vereenvoudigen.</>
+		}
+	}
+
+	// Check sides for any problem and return the first problem we find.
+	return (arrayFind(['left', 'right'], inspectSide) || {}).value
+}

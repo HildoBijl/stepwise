@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Integer, Product, expressionChecks, equationChecks } from 'step-wise/CAS'
+import { Sum, Product, expressionChecks } from 'step-wise/CAS'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
@@ -12,10 +12,9 @@ import { useSolution } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
-import { originalEquation, correctEquation, incorrectEquation, hasSumWithinProduct } from '../util/feedbackChecks/equation'
+import { originalEquation, incorrectEquation, correctEquation, correctEquationWithMessage, sumWithWrongTerms, sumWithUnsimplifiedTerms, hasSumWithinProduct } from '../util/feedbackChecks/equation'
 
-const { onlyOrderChanges: expressionOnlyOrderChanges } = expressionChecks
-const { onlyOrderChanges: equationOnlyOrderChanges } = equationChecks
+const { onlyElementaryClean: expressionOnlyElementaryClean } = expressionChecks
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -89,41 +88,22 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Define ans checks.
-	const atIntermediateStep = {
-		check: (input, correct, { intermediate }) => equationOnlyOrderChanges(intermediate, input),
-		text: (input, correct, { isPositive }) => <>Je hebt de juiste term {isPositive > 0 ? 'van beide kanten afgehaald' : 'bij beide kanten opgeteld'}, maar vervolgens moet je nog wat wegstrepen.</>
-	}
-	const wrongSignUsed = { // Check if the user subtracted/added it on one side and did the opposite on the other side.
-		check: (input, correct, { equation, termToMove, isLeft }) => equationOnlyOrderChanges(equation
-			.applyToLeft(side => side[isLeft ? 'subtract' : 'add'](termToMove))
-			.applyToRight(side => side[isLeft ? 'add' : 'subtract'](termToMove))
-			.basicClean()
-			, input),
-		text: (input, correct, { isPositive }) => <>Als de term aan de ene kant {isPositive ? 'positief is (met plusteken)' : 'negatief is (met minteken)'} dan moet hij aan de andere kant {isPositive ? 'negatief worden (met minteken)' : 'positief worden (met plusteken)'}.</>,
-	}
+	const ansCorrectEquation = correctEquationWithMessage(<>Je antwoord klopt, maar je kunt hem nog simpeler schrijven.</>)
 
 	// Define intermediateWithBrackets checks.
-	const formCheck = { // There is a side that's not like [something]*x. (Ignore this if this side is zero.)
-		check: (input, correct, { equation, variables }) => input.someSide((side, part) => !(side.isType(Product) && side.terms.length === 2 && side.terms.some(term => variables.x.equalsBasic(term))) && !correct[part].terms[0].equals(Integer.zero)), // There is a side that's not [something]*x, except when the correct answer is zero.
-		text: (input, correct, { variables }) => <>Beide kanten van de vergelijking moeten van de vorm <M>\left(\ldots\right)\cdot {variables.x}</M> zijn.</>,
-	}
-	const insideBracketCheck = { // There is a side that does not contain the original expression part somewhere. (Ignore this if this side is zero.)
-		check: (input, correct, { equation, variables }) => input.someSide((side, part) => !(side.isType(Product) && side.terms.some(term => expressionOnlyOrderChanges(term, correct[part].terms[0]))) && !correct[part].terms[0].equals(Integer.zero)),
-		text: () => <>Je hebt tussen de haakjes niet letterlijk de delen uit de vorige vergelijking opgenomen.</>,
-	}
-
-	// Determine intermediateWithoutBrackets checks.
-
-	// const TODO
-
+	// There is a side that's not like [something]*x. (Ignore this if this side has zero or one term.)
+	const formCheck = (input, correct, { variables, equation }) => input.someSide((side, part) => equation[part].isType(Sum) && !(side.isType(Product) && side.terms.length === 2 && side.terms.some(term => variables.x.equalsBasic(term)))) && <>Beide kanten van de vergelijking moeten van de vorm <M>\left(\ldots\right)\cdot {variables.x}</M> zijn.</>
+	// There is a side that does not contain the original expression part somewhere. (Ignore this if this side is zero.)
+	const insideBracketCheck = (input, correct, { equation }) => input.someSide((side, part) => equation[part].isType(Sum) && !(side.isType(Product) && side.terms.some(term => expressionOnlyElementaryClean(term, correct[part].terms[0])))) && <>Je hebt tussen de haakjes niet letterlijk de delen uit de vorige vergelijking opgenomen.</>
+	
 	// Determine feedback.
 	return getInputFieldFeedback([
 		'ans',
 		'intermediateWithBrackets',
 		'intermediateWithoutBrackets',
 	], exerciseData, [
-		[originalEquation, incorrectEquation, correctEquation],
+		[originalEquation, sumWithUnsimplifiedTerms, incorrectEquation, ansCorrectEquation],
 		[formCheck, insideBracketCheck, incorrectEquation, correctEquation],
-		[hasSumWithinProduct, incorrectEquation, correctEquation],
+		[hasSumWithinProduct, sumWithWrongTerms, incorrectEquation, correctEquation],
 	].map(feedbackChecks => ({ feedbackChecks })))
 }

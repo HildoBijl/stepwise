@@ -43,7 +43,7 @@ function getSolution(state) {
 	const factor = asExpression(`${gcdValue}x`).substituteVariables(variables)
 	const fraction = expression.divideBy(factor)
 	const setup = factor.multiplyBy(fraction)
-	const fractionSplit = fraction.simplify({ splitFractions: true, pullMinusBeforeFraction: true })
+	const fractionSplit = fraction.simplify({ splitFractions: true })
 	const fractionSimplified = fractionSplit.simplify({ ...simplifyOptions.basicClean, mergeFractionTerms: true })
 	const ans = factor.multiplyBy(fractionSimplified)
 	return { ...state, variables, expression, gcdValue, factor, fraction, setup, fractionSplit, fractionSimplified, ans }

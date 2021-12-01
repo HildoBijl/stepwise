@@ -39,7 +39,7 @@ function getSolution(state) {
 	const expression = new Sum(state.order.map(index => terms[index]))
 	const fraction = expression.divideBy(variables.x)
 	const setup = variables.x.multiplyBy(fraction)
-	const fractionSplit = fraction.simplify({ splitFractions: true, pullMinusBeforeFraction: true })
+	const fractionSplit = fraction.simplify({ splitFractions: true })
 	const fractionSimplified = fractionSplit.simplify({ ...simplifyOptions.basicClean, mergeFractionTerms: true })
 	const ans = variables.x.multiplyBy(fractionSimplified)
 	return { ...state, variables, expression, fraction, setup, fractionSplit, fractionSimplified, ans }
