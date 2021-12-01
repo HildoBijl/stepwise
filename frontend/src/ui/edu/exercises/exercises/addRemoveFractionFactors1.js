@@ -33,12 +33,12 @@ const Problem = (state) => {
 
 const Solution = (state) => {
 	const { variables, expression, ans } = useSolution(state)
-	return <Par>Zowel de teller als de noemer bevat een factor <M>{variables.x}.</M> Deze kan dus boven en onder weggelaten worden. Hetzelfde geldt voor de factor <M>{variables.y}</M>: die kan ook weggestreept worden. Er geldt dus <BM>{expression} = {ans}.</BM></Par>
+	return <Par>Zowel de teller als de noemer bevat een factor <M>{variables.y}.</M> Deze kan dus boven en onder weggelaten worden. Hetzelfde geldt voor de factor <M>{variables.z}</M>: die kan ook weggestreept worden. Er geldt dus <BM>{expression} = {ans}.</BM></Par>
 }
 
 function getFeedback(exerciseData) {
 	// Define extra checks.
-	const oneVariableCancelled =  (input, correct, { variables, ans }) => (onlyOrderChanges(ans.multiplyNumDenBy(variables.x), input) || onlyOrderChanges(ans.multiplyNumDenBy(variables.y), input)) && <>Goed op weg, maar er is nòg een variabele die je weg kunt strepen.</>
+	const oneVariableCancelled =  (input, correct, { variables, ans }) => (onlyOrderChanges(input, ans.multiplyNumDenBy(variables.y)) || onlyOrderChanges(input, ans.multiplyNumDenBy(variables.z))) && <>Goed op weg, maar er is nòg een variabele die je weg kunt strepen.</>
 
 	// Determine feedback.
 	return getInputFieldFeedback('ans', exerciseData, { feedbackChecks: [originalExpression, oneVariableCancelled, correctExpression, incorrectExpression] })

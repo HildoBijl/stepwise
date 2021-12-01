@@ -22,7 +22,7 @@ export default function Exercise() {
 const Problem = (state) => {
 	const { variables, expression } = useSolution(state)
 	return <>
-		<Par>Gegeven is de breuk <BM>{expression}.</BM> Voeg boven/onder de breuk zowel een factor <M>{variables.x}</M> als een factor <M>{variables.y}</M> toe.</Par>
+		<Par>Gegeven is de breuk <BM>{expression}.</BM> Voeg boven/onder de breuk zowel een factor <M>{variables.y}</M> als een factor <M>{variables.z}</M> toe.</Par>
 		<InputSpace>
 			<Par>
 				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={basicMath} validate={validWithVariables(variables)} />
@@ -38,7 +38,7 @@ const Solution = (state) => {
 
 function getFeedback(exerciseData) {
 	// Define extra checks.
-	const oneVariableAdded = (input, correct, { variables, expression }) => (onlyOrderChanges(expression.multiplyNumDenBy(variables.x), input) || onlyOrderChanges(expression.multiplyNumDenBy(variables.y), input)) && <>Goed op weg, maar je hebt slechts één van de twee gevraagde factoren toegevoegd.</>
+	const oneVariableAdded = (input, correct, { variables, expression }) => (onlyOrderChanges(input, expression.multiplyNumDenBy(variables.y)) || onlyOrderChanges(input, expression.multiplyNumDenBy(variables.z))) && <>Goed op weg, maar je hebt slechts één van de twee gevraagde factoren toegevoegd.</>
 
 	// Determine feedback.
 	return getInputFieldFeedback('ans', exerciseData, { feedbackChecks: [originalExpression, oneVariableAdded, correctExpression, incorrectExpression] })

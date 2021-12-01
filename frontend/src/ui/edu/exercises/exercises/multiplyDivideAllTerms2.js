@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Integer, Sum, Product, Fraction, expressionChecks } from 'step-wise/CAS'
+import { Integer, Fraction, expressionChecks } from 'step-wise/CAS'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'

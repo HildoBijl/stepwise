@@ -1,13 +1,14 @@
-const { getRandomBoolean } = require('../../../util/random')
+const { selectRandomly, getRandomBoolean, getRandomInteger } = require('../../../util/random')
 const { asExpression, expressionChecks, simplifyOptions } = require('../../../CAS')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 const { performCheck } = require('../util/check')
 
-// a*x^2/(b*x) = ax/b.
-const availableVariables = ['a', 'b', 'c', 'x', 'y', 'P', 'R', 't', 'I', 'U', 'L']
-const usedVariables = ['a', 'b', 'x']
+// (ayx^2)/(zx) = (ayx)/z.
+const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
+const usedVariables = ['x', 'y', 'z']
+const constants = ['a']
 
 const data = {
 	skill: 'addRemoveFractionFactors',
@@ -15,18 +16,20 @@ const data = {
 }
 
 function generateState() {
+	const variableSet = selectRandomly(availableVariableSets)
 	return {
-		...selectRandomVariables(availableVariables, usedVariables),
+		...selectRandomVariables(variableSet, usedVariables),
+		a: getRandomInteger(2, 12),
 		flipNumerator: getRandomBoolean(),
 		flipDenominator: getRandomBoolean(),
 	}
 }
 
 function getSolution(state) {
-	const variables = filterVariables(state, usedVariables)
+	const variables = filterVariables(state, usedVariables, constants)
 	const square = asExpression('x^2').substituteVariables(variables)
-	const expression = asExpression(`(${state.flipNumerator ? 'x^2a' : 'ax^2'})/(${state.flipDenominator ? 'xb' : 'bx'})`).substituteVariables(variables)
-	const ans = expression.regularClean()
+	const expression = asExpression(`(${state.flipNumerator ? 'ax^2y' : 'ayx^2'})/(${state.flipDenominator ? 'zx' : 'xz'})`).substituteVariables(variables)
+	const ans = expression.simplify({ ...simplifyOptions.basicClean, mergeFractionTerms: true })
 	return { ...state, variables, square, expression, ans }
 }
 
