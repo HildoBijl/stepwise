@@ -6,7 +6,7 @@ const { performComparison } = require('../util/check')
 
 const equalityOptions = {
 	default: {
-		relativeMargin: 0.01,
+		relativeMargin: 0.015,
 		significantDigitMargin: 1,
 	},
 	T: {

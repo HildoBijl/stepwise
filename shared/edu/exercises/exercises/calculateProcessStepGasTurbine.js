@@ -11,7 +11,7 @@ const data = {
 
 	equalityOptions: {
 		default: {
-			relativeMargin: 0.01,
+			relativeMargin: 0.015,
 			significantDigitMargin: 1,
 		},
 	},
