@@ -140,6 +140,12 @@ class Equation {
 		return parts.every(part => check(this[part], part))
 	}
 
+	// findSide checks if there is a side for which the given check returns true and returns that side. It returns undefined if it did not find anything.
+	findSide(check) {
+		const part = parts.find(part => check(this[part], part))
+		return part && this[part]
+	}
+
 	/*
 	 * Manipulation methods.
 	 */
@@ -149,9 +155,19 @@ class Equation {
 		return this.applyToBothSides(part => part.substitute(variable, substitution))
 	}
 
+	// substituteVariables takes an object with variables, like { a: 2, x: new Sum('y', 1), 'x_2': 'z' } and applies all the substitutions in it. It does NOT remove useless elements when they appear, so consider calling "removeUseless" afterwards.
+	substituteVariables(variableObject) {
+		return this.applyToBothSides(part => part.substituteVariables(variableObject))
+	}
+
 	// switch will switch the left and right sides of the equation.
 	switch() {
 		return new Equation(this.right, this.left)
+	}
+
+	// switchAndApplyMinus will switch the left and right sides of the equation and apply a minus sign to both. It effectively moves ALL terms in the equation to the other side. For instance, it turns "2a-3b=4c-5d" into "-4c+5d=-2a+3b". It also runs a basic clean to properly apply the minus everywhere.
+	switchAndApplyMinus() {
+		return this.switch().applyToBothSides(side => side.applyMinus(true))
 	}
 
 	// simplify simplifies this equation, according to the given options.

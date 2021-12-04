@@ -94,7 +94,7 @@ const skills = {
 	solveBasicLinearEquation: {
 		name: 'Basis lineaire vergelijking oplossen',
 		setup: combinerAnd(combinerRepeat('moveATerm', 2), 'pullOutOfBrackets', 'multiplyDivideAllTerms'),
-		exercises: [],
+		exercises: ['solveBasicLinearEquation1', 'solveBasicLinearEquation2', 'solveBasicLinearEquation3'],
 	},
 	solveGeneralLinearEquation: {
 		name: 'Algemene lineaire vergelijking oplossen',

@@ -64,7 +64,7 @@ export const sumWithWrongTerms = (input, correct, solution, isCorrect) => {
 		if (correctSide.isType(Sum)) {
 			// Check that it has the right number of terms.
 			if (correctSide.terms.length !== inputSide.terms.length)
-				return <>De optelsom {atLeft ? 'links' : 'rechts'} van het is-teken heeft slechts {inputSide.terms.length} termen. Er werden er {correctSide.terms.length} verwacht.</>
+				return <>De optelsom {atLeft ? 'links' : 'rechts'} van het is-teken heeft {inputSide.terms.length} termen. Er werden er {correctSide.terms.length} verwacht.</>
 
 			// Find an input term that is not in the solution.
 			const index = inputSide.terms.findIndex(inputTerm => !correctSide.terms.some(correctTerm => equivalentExpression(inputTerm, correctTerm)))

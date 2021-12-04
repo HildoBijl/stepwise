@@ -200,8 +200,8 @@ class Expression {
 		return new Fraction(this, division).cleanStructure()
 	}
 
-	// applyMinus will multiply a quantity by -1 and do a few minor simplifications.
-	applyMinus() {
+	// applyMinus will multiply a quantity by -1 and do a few minor simplifications. If applySpecific is set to true, some Expression types may do a type-specific check. For instance, for a sum, we turn "a-b" either into "-1*(a-b)" (on false) or "-a+b" (on true).
+	applyMinus(applySpecific = false) {
 		return this.multiplyBy(Integer.minusOne, true)
 	}
 
@@ -232,7 +232,7 @@ class Expression {
 		const inner = (new Fraction(this, term)).simplify({ ...simplifyOptions.removeUseless, mergeSumNumbers: true, mergeProductNumbers: true, mergeFractionNumbers: true, mergeFractionTerms: true, splitFractions: true })
 
 		// Set up the product that's the final result.
-		return new Product([term, inner])
+		return new Product(term, inner)
 	}
 
 	/*
@@ -315,7 +315,7 @@ class Expression {
 		return this.substituteBasic(variable, substitution)
 	}
 
-	// substituteVariables takes an object with variables, like { a: 2, x: new Sum('y', 1), 'x_2': 'z' } and applies all the substitutions in it. It removes useless elements when they appear.
+	// substituteVariables takes an object with variables, like { a: 2, x: new Sum('y', 1), 'x_2': 'z' } and applies all the substitutions in it. It does NOT remove useless elements when they appear, so consider calling "removeUseless" afterwards.
 	substituteVariables(variableObject) {
 		let result = this
 
@@ -831,7 +831,9 @@ class Sum extends ExpressionList {
 		return sum(this.terms.map(term => term.toNumber()))
 	}
 
-	applyMinus() {
+	applyMinus(applySpecific = false) {
+		if (applySpecific)
+			return new Sum(this.terms.map(term => term.applyMinus(applySpecific)))
 		return new Product(Integer.minusOne, this).cleanStructure()
 	}
 
@@ -890,7 +892,7 @@ class Sum extends ExpressionList {
 		if (options.cancelSumTerms) {
 			const skipped = terms.map(_ => false)
 			terms = terms.filter((term1, index1) => {
-				const index = terms.findIndex((term2, index2) => index1 < index2 && !skipped[index1] && !skipped[index2] && term1.equalsBasic(term2.applyMinus().basicClean(), true))
+				const index = terms.findIndex((term2, index2) => index1 < index2 && !skipped[index1] && !skipped[index2] && term1.equalsBasic(term2.applyMinus(true).basicClean(), true))
 				if (index !== -1) {
 					skipped[index1] = true
 					skipped[index] = true
@@ -1066,10 +1068,13 @@ class Product extends ExpressionList {
 		return new Sum(terms)
 	}
 
-	applyMinus() {
-		if (this.terms[0] instanceof Constant)
-			return new Product([this.terms[0].applyMinus(), ...this.terms.slice(1)])
-		return this.multiplyBy(Integer.minusOne, true).cleanStructure()
+	applyMinus(applySpecific = false) {
+		if (this.terms[0] instanceof Constant) {
+			if (applySpecific && this.terms[0].equals(Integer.minusOne))
+				return new Product(this.terms.slice(1)).cleanStructure() // Remove the leading -1.
+			return new Product([this.terms[0].applyMinus(), ...this.terms.slice(1)]) // Make the leading number negative.
+		}
+		return this.multiplyBy(Integer.minusOne, true).cleanStructure() // Add a "-1 * ...".
 	}
 
 	simplifyBasic(options = {}) {
@@ -1104,7 +1109,7 @@ class Product extends ExpressionList {
 			// Filter out one elements.
 			terms = terms.filter(term => !Integer.one.equalsBasic(term))
 
-			// Filter out minus one elements. If there's an odd number, check if the first factor is a constant. If so, make it negative. Otherwise add a -1 at the start.
+			// Filter out all "minus one" elements. Count how many there are. If this is an odd number, check if the first factor is a constant. If so, make it negative. Otherwise add a -1 at the start.
 			const isMinusOne = term => Integer.minusOne.equalsBasic(term)
 			const minusOneCount = count(terms, isMinusOne)
 			if (minusOneCount > 0)
@@ -1430,7 +1435,7 @@ class Fraction extends Function {
 					this.denominator,
 					2,
 				),
-			).applyMinus()) // Apply the minus.
+			).applyMinus(true)) // Apply the minus.
 		}
 
 		// Return the outcome.
@@ -1485,8 +1490,8 @@ class Fraction extends Function {
 			// Check special cases.
 			if (divisor === 1) {
 				if (denominatorNumber < 0) {
-					numerator = numerator.applyMinus()
-					denominator = denominator.applyMinus()
+					numerator = numerator.applyMinus(true)
+					denominator = denominator.applyMinus(true)
 				}
 			} else {
 				// Ensure that the denominator has a positive number.
@@ -1600,7 +1605,7 @@ class Power extends Function {
 
 	// invert on powers means make the power negative. So x^2 becomes x^(-2).
 	invert() {
-		return new Power(this.base, this.exponent.applyMinus()).removeUseless()
+		return new Power(this.base, this.exponent.applyMinus(true)).removeUseless()
 	}
 
 	getDerivativeBasic(variable) {
@@ -1660,7 +1665,7 @@ class Power extends Function {
 		// Check for negative powers. Reduce x^(-2) to 1/x^2.
 		if (options.removeNegativePowers) {
 			if (this.exponent.isNegative())
-				return new Fraction(Integer.one, new Power(this.base, this.exponent.applyMinus())).simplifyBasic(options)
+				return new Fraction(Integer.one, new Power(this.base, this.exponent.applyMinus(true))).simplifyBasic(options)
 		}
 
 		// Check for powers of products. Reduce (a*b)^n to a^n*b^n.
