@@ -13,6 +13,7 @@ const constants = ['a', 'b', 'c', 'd']
 
 const data = {
 	skill: 'solveBasicLinearEquation',
+	setup: combinerAnd('expandBrackets', combinerRepeat('moveATerm', 2), 'pullOutOfBrackets', 'multiplyDivideAllTerms'),
 	steps: ['expandBrackets', combinerRepeat('moveATerm', 2), 'pullOutOfBrackets', 'multiplyDivideAllTerms'],
 	check: {
 		ans: expressionChecks.equivalent, // For the final answer allow equivalent answers.
