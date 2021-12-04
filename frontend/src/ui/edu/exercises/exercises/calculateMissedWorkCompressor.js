@@ -51,13 +51,13 @@ const steps = [
 		Solution: () => {
 			const { p1, p2, T1, T2, dsIn, cp, Rs } = useSolution()
 			return <>
-				<Par>De entropieverandering valt te berekenen vanuit de druk en de temperatuur volgens <BM>\Delta s_(binnen) = c_p \ln\left(\frac(T_2)(T_1)\right) - R_s \ln\left(\frac(p_2)(p_1)\right) = {cp.float} \cdot \ln\left(\frac{T2.float}{T1.float}\right) - {Rs.float} \cdot \ln\left(\frac{p2.float}{p1.float}\right) = {dsIn}.</BM> Dit is negatief, wat logisch is: er stroomt een beetje warmte weg naat buiten.</Par>
+				<Par>De entropieverandering valt te berekenen vanuit de druk en de temperatuur volgens <BM>\Delta s_(binnen) = c_p \ln\left(\frac(T_2)(T_1)\right) - R_s \ln\left(\frac(p_2)(p_1)\right) = {cp.float} \cdot \ln\left(\frac{T2.float}{T1.float}\right) - {Rs.float} \cdot \ln\left(\frac{p2.float}{p1.float}\right) = {dsIn}.</BM> Dit is negatief, wat logisch is: er stroomt een beetje warmte weg naar buiten.</Par>
 			</>
 		},
 	},
 	{
 		Problem: () => <>
-			<Par>Bereken de specifieke warmte die wegstroomt naar de omgeving.</Par>
+			<Par>Bereken de specifieke warmte die <em>wegstroomt</em> naar de omgeving.</Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="q" prelabel={<M>q=</M>} label="Specifieke warmte" positive={true} size="s" />
@@ -67,7 +67,7 @@ const steps = [
 		Solution: () => {
 			const { n, T1, T2, cv, Rs, c, q } = useSolution()
 			return <>
-				<Par>Om de afgevoerde specifieke warmte te berekenen, is de soortelijke warmte <M>c</M> van het proces nodig. Deze is gelijk aan <BM>c = c_v - \frac(R_s)(n-1) = {cv.float} - \frac{Rs.float}({n.float} - 1) = {c}.</BM> Hiermee vinden we de specifieke warmte als <BM>q = c \ln\left(\frac(T_2)(T_1)\right) = {c.float} \cdot \ln\left(\frac{T2.float}{T1.float}\right) = {q.multiply(-1)}.</BM> Merk op: dit is de warmte <em>toegevoerd</em> tijdens de compressie. De vraag is echter welke warmte <em>wegstroomt</em>, wat het omgekeerde is. Hierdoor is het juiste antwoord <M>q = {q}.</M></Par>
+				<Par>Om de afgevoerde specifieke warmte te berekenen, is de soortelijke warmte <M>c</M> van het proces nodig. Deze is gelijk aan <BM>c = c_v - \frac(R_s)(n-1) = {cv.float} - \frac{Rs.float}({n.float} - 1) = {c}.</BM> Hiermee vinden we de specifieke warmte als <BM>q = c \left(T_2 - T_1\right) = {c.float} \cdot \left({T2.float} - {T1.float}\right) = {q.multiply(-1)}.</BM> Merk op: dit is de warmte <em>toegevoerd</em> tijdens de compressie. De vraag is echter welke warmte <em>wegstroomt</em>, wat het omgekeerde is. Hierdoor is het juiste antwoord <M>q = {q}.</M></Par>
 			</>
 		},
 	},

@@ -41,7 +41,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: () => {
-			return <Par>Het is een isentroop proces (gegeven) maar ook geen isotherm proces (want de temperatuur neemt toe). Het moet dus een polytroop proces met een bepaalde procescoëfficiënt <M>n.</M></Par>
+			return <Par>Het is niet een isentroop proces (gegeven) maar ook geen isotherm proces (want de temperatuur neemt toe). Daarnaast is de <M>n</M>-waarde niet gelijk aan <M>0</M> (isochoor) of <M>\infty</M> (isobaar). Het enige wat we kunnen zeggen is dat het een polytroop proces is met een bepaalde procescoëfficiënt <M>n.</M></Par>
 		},
 	},
 	{
