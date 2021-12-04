@@ -181,10 +181,16 @@ export function useFieldRegistration(options) {
 	// Focus the field if requested.
 	const [active, activateField, deactivateField] = useFieldActivation(id)
 	useEffect(() => {
-		if (apply && focusRefOnActive && active) {
-			const field = ref.current
-			setTimeout(() => field.focus()) // Delay the focus to ensure it happens after all blurs.
-			return () => field.blur()
+		if (apply && active) {
+			if (focusRefOnActive) {
+				const field = ref.current
+				setTimeout(() => field.focus()) // Delay the focus to ensure it happens after all blurs.
+				return () => field.blur()
+			} else {
+				// Make sure that no other element is still focused. If a button or so happens to be the active element, then we do not want to accidentally trigger it with an enter-like keypress.
+				if (document.activeElement)
+					document.activeElement.blur()
+			}
 		}
 	}, [apply, focusRefOnActive, active, ref])
 
@@ -197,7 +203,7 @@ export function useFieldRegistration(options) {
 	// Return the controllers from useFieldActivation.
 	if (apply)
 		return [active, activateField, deactivateField]
-	
+
 	// On a non-applied input field (like a read-only input field) do not allow activation. Throw an error when an attempt is made.
 	const throwFunction = () => { throw new Error(`Invalid field (de)activation: cannot (de)activate an inactive field "${id}".`) }
 	return [false, throwFunction, throwFunction]

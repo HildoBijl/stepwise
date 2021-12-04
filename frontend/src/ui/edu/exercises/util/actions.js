@@ -32,7 +32,7 @@ export function useSubmitAction() {
 		const lastAction = (historyRef.current.length > 0 && lastOf(historyRef.current).action)
 		if (lastAction && lastAction.type === 'input' && deepEquals(input, lastAction.input))
 			return
-		
+
 		// All checks are fine. Submit the input!
 		return submitAction({ type: 'input', input })
 	}, [inputRef, historyRef, disabledRef, isValid, submitAction])
