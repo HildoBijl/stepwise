@@ -165,9 +165,9 @@ class Equation {
 		return new Equation(this.right, this.left)
 	}
 
-	// switchAndApplyMinus will switch the left and right sides of the equation and apply a minus sign to both. It effectively moves ALL terms in the equation to the other side. For instance, it turns "2a-3b=4c-5d" into "-4c+5d=-2a+3b". It also runs a basic clean to properly apply the minus everywhere.
-	switchAndApplyMinus() {
-		return this.switch().applyToBothSides(side => side.applyMinus(true))
+	// applyMinus applies a minus sign to both sides of the equation.
+	applyMinus(applySpecific) {
+		return this.applyToBothSides(side => side.applyMinus(applySpecific))
 	}
 
 	// simplify simplifies this equation, according to the given options.

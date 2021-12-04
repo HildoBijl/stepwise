@@ -185,7 +185,7 @@ class Expression {
 	// subtract will subtract the given expression from this expression.
 	subtract(subtraction, putAtStart = false) {
 		subtraction = ensureExpression(subtraction)
-		return this.add(subtraction.applyMinus(), putAtStart)
+		return this.add(subtraction.applyMinus(true), putAtStart)
 	}
 
 	// multiplyBy will multiply this expression by the given expression. It puts the given expression after the current one: a.multiply(b) = a*b. If the second argument is set to true, this is reversed: a.multiply(b, true) = b*a.
@@ -200,9 +200,14 @@ class Expression {
 		return new Fraction(this, division).cleanStructure()
 	}
 
-	// applyMinus will multiply a quantity by -1 and do a few minor simplifications. If applySpecific is set to true, some Expression types may do a type-specific check. For instance, for a sum, we turn "a-b" either into "-1*(a-b)" (on false) or "-a+b" (on true).
-	applyMinus(applySpecific = false) {
+	// applyMinus will multiply a quantity by -1 and do a few minor simplifications. If applySpecific is set to true (default), some Expression types may do a type-specific check. For instance, for a sum, we turn "a-b" either into "-1*(a-b)" (on false) or "-a+b" (on true). Otherwise all applyMinus cases are simply the result of a multiplication by "-1".
+	applyMinus(applySpecific = true) {
 		return this.multiplyBy(Integer.minusOne, true)
+	}
+
+	// abs checks if an expression appears to be negative (starts with a minus sign) and if so takes the negative. Note that for equations this is only for display purposes: do not use logics based on this.
+	abs() {
+		return this.isNegative() ? this.applyMinus(true) : this
 	}
 
 	// multiplyNumDenBy takes this object and turns it into a fraction, if it isn't already. Subsequently, it multiplies both the numerator and the denominator with a given expression.
@@ -225,11 +230,11 @@ class Expression {
 	}
 
 	// pullOutsideBrackets will take a term and pull it out of brackets. So if we pull m from "mgh+1/2mv^2+E" then you get "m*(gh+1/2v^2+E/m)".
-	pullOutsideBrackets(term) {
+	pullOutsideBrackets(term, extraSimplifyOptions = {}) {
 		term = ensureExpression(term)
 
 		// Set up the term that remains within brackets.
-		const inner = (new Fraction(this, term)).simplify({ ...simplifyOptions.removeUseless, mergeSumNumbers: true, mergeProductNumbers: true, mergeFractionNumbers: true, mergeFractionTerms: true, splitFractions: true })
+		const inner = (new Fraction(this, term)).simplify({ ...simplifyOptions.removeUseless, mergeSumNumbers: true, mergeProductNumbers: true, mergeFractionNumbers: true, mergeFractionTerms: true, splitFractions: true, ...extraSimplifyOptions })
 
 		// Set up the product that's the final result.
 		return new Product(term, inner)
@@ -831,7 +836,7 @@ class Sum extends ExpressionList {
 		return sum(this.terms.map(term => term.toNumber()))
 	}
 
-	applyMinus(applySpecific = false) {
+	applyMinus(applySpecific = true) {
 		if (applySpecific)
 			return new Sum(this.terms.map(term => term.applyMinus(applySpecific)))
 		return new Product(Integer.minusOne, this).cleanStructure()
@@ -1068,11 +1073,11 @@ class Product extends ExpressionList {
 		return new Sum(terms)
 	}
 
-	applyMinus(applySpecific = false) {
+	applyMinus(applySpecific = true) {
 		if (this.terms[0] instanceof Constant) {
 			if (applySpecific && this.terms[0].equals(Integer.minusOne))
 				return new Product(this.terms.slice(1)).cleanStructure() // Remove the leading -1.
-			return new Product([this.terms[0].applyMinus(), ...this.terms.slice(1)]) // Make the leading number negative.
+			return new Product([this.terms[0].applyMinus(applySpecific), ...this.terms.slice(1)]) // Make the leading number negative.
 		}
 		return this.multiplyBy(Integer.minusOne, true).cleanStructure() // Add a "-1 * ...".
 	}
@@ -1116,7 +1121,7 @@ class Product extends ExpressionList {
 				terms = terms.filter(term => !isMinusOne(term))
 			if (minusOneCount % 2 === 1) {
 				if (terms[0] instanceof Constant) {
-					terms[0] = terms[0].applyMinus()
+					terms[0] = terms[0].applyMinus(false)
 				} else {
 					terms.unshift(Integer.minusOne)
 				}
@@ -1376,7 +1381,7 @@ class Fraction extends Function {
 	toString() {
 		// Get the numerator.
 		const useMinus = !this.requiresPlusInSum()
-		let numStr = (useMinus ? this.numerator.applyMinus().removeUseless() : this.numerator).toString()
+		let numStr = (useMinus ? this.numerator.applyMinus(true).removeUseless() : this.numerator).toString()
 		if (this.numerator.requiresBracketsFor(bracketLevels.multiplication))
 			numStr = `(${numStr})`
 
@@ -1391,7 +1396,7 @@ class Fraction extends Function {
 
 	toTex() {
 		const useMinus = !this.requiresPlusInSum()
-		const numerator = useMinus ? this.numerator.applyMinus().removeUseless() : this.numerator
+		const numerator = useMinus ? this.numerator.applyMinus(true).removeUseless() : this.numerator
 		return `${useMinus ? '-' : ''}\\frac{${numerator.tex}}{${this.denominator.tex}}`
 	}
 
@@ -1552,7 +1557,7 @@ class Fraction extends Function {
 
 			// On a minus one denominator, return minus te numerator.
 			if (Integer.minusOne.equalsBasic(denominator))
-				return numerator.applyMinus()
+				return numerator.applyMinus(false)
 		}
 
 		return new Fraction(numerator, denominator)

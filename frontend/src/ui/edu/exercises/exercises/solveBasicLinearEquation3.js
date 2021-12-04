@@ -13,7 +13,7 @@ import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
 import { incorrectExpression } from '../util/feedbackChecks/expression'
-import { originalEquation, correctEquation, incorrectEquation, sumWithWrongTerms } from '../util/feedbackChecks/equation'
+import { originalEquation, hasSumWithinProduct, correctEquation, incorrectEquation, sumWithWrongTerms } from '../util/feedbackChecks/equation'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -36,6 +36,23 @@ const steps = [
 		Problem: (state) => {
 			const { variables } = useSolution(state)
 			return <>
+				<Par>Werk eerst de haakjes in de vergelijking uit. (Laat de rest onveranderd staan.)</Par>
+				<InputSpace>
+					<Par>
+						<EquationInput id="bracketsExpanded" label="Vul hier de vergelijking in" size="l" settings={basicMath} validate={equationValidWithVariables(variables)} />
+					</Par>
+				</InputSpace>
+			</>
+		},
+		Solution: (state) => {
+			const { equation, bracketsExpanded } = useSolution(state)
+			return <Par>Als we de haakjes uitwerken, vermenigvuldigen we <M>{equation.left.terms[0].terms[0].abs()}</M> en <M>{equation.left.terms[0].terms[1].abs()}</M> los met <M>{equation.left.terms[1]}.</M> Hiermee verandert de vergelijking in <BM>{bracketsExpanded}.</BM></Par>
+		},
+	},
+	{
+		Problem: (state) => {
+			const { variables } = useSolution(state)
+			return <>
 				<Par>Breng alle termen met <M>{variables.x}</M> naar de ene kant van de vergelijking, en alle termen zonder <M>{variables.x}</M> naar de andere kant.</Par>
 				<InputSpace>
 					<Par>
@@ -45,8 +62,8 @@ const steps = [
 			</>
 		},
 		Solution: (state) => {
-			const { variables, equation, termsMoved } = useSolution(state)
-			return <Par>We gaan alle termen met <M>{variables.x}</M> naar links halen, en alle termen zonder <M>{variables.x}</M> naar rechts. Oftewel, we brengen <M>{equation.right.terms[0]}</M> naar links en <M>{equation.left.terms[1]}</M> naar rechts. Zo vinden we <BM>{termsMoved}.</BM></Par>
+			const { variables, bracketsExpanded, termsMoved } = useSolution(state)
+			return <Par>We gaan alle termen met <M>{variables.x}</M> naar links halen, en alle termen zonder <M>{variables.x}</M> naar rechts. Oftewel, we brengen <M>{bracketsExpanded.right.terms[0].abs()}</M> naar links en <M>{bracketsExpanded.left.terms[1].abs()}</M> naar rechts. Zo vinden we <BM>{termsMoved}.</BM></Par>
 		},
 	},
 	{
@@ -115,8 +132,7 @@ function getFeedback(exerciseData) {
 			return <>Je hebt alle termen met <M>{variables.x}</M> wel naar de ene kant gehaald, maar hier staat ook nog een term <M>{termWithoutVariable}</M> bij waar geen <M>{variables.x}</M> in zit.</>
 	}
 	const sumWithWrongTermsAndFlip = (input, correct, solution, isCorrect) => {
-		console.log(correct.switchAndApplyMinus().str)
-		return input.left.dependsOn(solution.variables.x) ? sumWithWrongTerms(input, correct, solution, isCorrect) : sumWithWrongTerms(input, correct.switchAndApplyMinus(), solution, isCorrect)
+		return input.left.dependsOn(solution.variables.x) ? sumWithWrongTerms(input, correct, solution, isCorrect) : sumWithWrongTerms(input, correct.switch().applyMinus(), solution, isCorrect)
 	}
 
 	// Define pulledOut checks.
@@ -124,14 +140,14 @@ function getFeedback(exerciseData) {
 		const sideWithoutVariable = input.findSide(side => !side.dependsOn(variables.x))
 		if (!sideWithoutVariable)
 			return <>Je hebt weer een <M>{variables.x}</M> aan beide kanten van de vergelijking gestopt. Dat was niet de bedoeling.</>
-		if (!expressionChecks.onlyOrderChanges(sideWithoutVariable, correct.right))
+		if (!expressionChecks.onlyOrderChanges(sideWithoutVariable, correct.right) && !expressionChecks.onlyOrderChanges(sideWithoutVariable, correct.right.applyMinus()))
 			return <>De kant zonder <M>{variables.x}</M> moet hetzelfde blijven!</>
 	}
 	const sideWithVariableEqual = (input, correct, { variables }) => {
 		const sideWithVariable = input.findSide(side => side.dependsOn(variables.x))
 		if (!sideWithVariable)
 			return <>Je hebt <M>{variables.x}</M> in z'n geheel laten verdwijnen. Dat was niet de bedoeling.</>
-		if (!expressionChecks.equivalent(sideWithVariable, correct.left))
+		if (!expressionChecks.equivalent(sideWithVariable, correct.left) && !expressionChecks.equivalent(sideWithVariable, correct.left.applyMinus()))
 			return <>De kant met <M>{variables.x}</M> is niet meer gelijk aan wat het hiervoor was. Bij het omschrijven ervan is iets fout gegaan.</>
 		if (!(sideWithVariable.isType(Product) && sideWithVariable.terms.length === 2 && sideWithVariable.terms.some(term => variables.x.equals(term))))
 			return <>Je hebt <M>{variables.x}</M> niet buiten haakjes gehaald. Je moet de kant met <M>{variables.x}</M> schrijven als <M>{variables.x}\cdot\left(\ldots\right),</M> met een zo simpel mogelijke uitdrukking op de puntjes.</>
@@ -140,11 +156,13 @@ function getFeedback(exerciseData) {
 	// Determine feedback.
 	return getInputFieldFeedback([
 		'ans',
+		'bracketsExpanded',
 		'termsMoved',
 		'pulledOut',
 	], exerciseData, [
 		[hasVariable, numeratorAndDenominatorMixedUp, incorrectFraction, incorrectExpression],
-		[originalEquation, variableOnBothSides, termsWithoutVariableInWrongPlace, sumWithWrongTermsAndFlip, incorrectEquation, correctEquation],
+		[originalEquation, hasSumWithinProduct, incorrectEquation, correctEquation],
+		[variableOnBothSides, termsWithoutVariableInWrongPlace, sumWithWrongTermsAndFlip, incorrectEquation, correctEquation],
 		[sideWithoutVariableEqual, sideWithVariableEqual, incorrectEquation, correctEquation],
 	].map(feedbackChecks => ({ feedbackChecks })))
 }
