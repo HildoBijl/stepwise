@@ -47,8 +47,8 @@ function keyPressToData(keyInfo, data, settings, charElements, topParentData, co
 	return defaultFunctions.keyPressToData(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement)
 }
 
-function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {
-	return mergeWithNext ? mergeWithRight(expressionValue, partIndex, fromOutside) : mergeWithLeft(expressionValue, partIndex, fromOutside)
+function merge(data, partIndex, mergeWithNext, fromOutside) {
+	return mergeWithNext ? mergeWithRight(data, partIndex, fromOutside) : mergeWithLeft(data, partIndex, fromOutside)
 }
 
 function split(data) {

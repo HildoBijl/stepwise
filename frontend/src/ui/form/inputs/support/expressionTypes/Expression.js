@@ -165,14 +165,14 @@ export function keyPressToData(keyInfo, data, settings, charElements, topParentD
 			const previousPart = value[cursor.part - 1]
 			const previousPartFuncs = getFuncs(previousPart)
 			if (previousPartFuncs.canMerge && previousPartFuncs.canMerge(previousPart, true, true))
-				return previousPartFuncs.merge(value, cursor.part - 1, true, true)
+				return previousPartFuncs.merge(data, cursor.part - 1, true, true)
 			else
 				return moveLeft()
 		} else { // We are in a special element.
 			const activePart = value[cursor.part]
 			const activePartFuncs = getFuncs(activePart)
 			if (activePartFuncs.canMerge && activePartFuncs.canMerge(activePart, false, false))
-				return activePartFuncs.merge(value, cursor.part, false, false)
+				return activePartFuncs.merge(data, cursor.part, false, false)
 			else
 				return moveLeft()
 		}
@@ -188,14 +188,14 @@ export function keyPressToData(keyInfo, data, settings, charElements, topParentD
 			const nextPart = value[cursor.part + 1]
 			const nextPartFuncs = getFuncs(nextPart)
 			if (nextPartFuncs.canMerge && nextPartFuncs.canMerge(nextPart, false, true))
-				return nextPartFuncs.merge(value, cursor.part + 1, false, true)
+				return nextPartFuncs.merge(data, cursor.part + 1, false, true)
 			else
 				return moveRight()
 		} else { // We are in a special element.
 			const activePart = value[cursor.part]
 			const activePartFuncs = getFuncs(activePart)
 			if (activePartFuncs.canMerge && activePartFuncs.canMerge(activePart, true, false))
-				return activePartFuncs.merge(value, cursor.part, true, false)
+				return activePartFuncs.merge(data, cursor.part, true, false)
 			else
 				return moveRight()
 		}

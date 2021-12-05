@@ -37,7 +37,7 @@ function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
 	const equation = asEquation('x/y + a = bz + cx').substituteVariables(variables).removeUseless()
 
-	// Run the solution.
+	// Find the solution.
 	const termsMoved = equation.subtract(equation.left.terms[1]).subtract(equation.right.terms[1]).simplify({ cancelSumTerms: true })
 	const pulledOut = termsMoved.applyToLeft(left => left.pullOutsideBrackets(variables.x, { flattenFractions: true }))
 	const bracketTerm = pulledOut.left.terms.find(factor => !variables.x.equals(factor))

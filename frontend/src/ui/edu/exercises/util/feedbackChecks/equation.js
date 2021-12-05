@@ -3,6 +3,8 @@
 import { arrayFind } from 'step-wise/util/arrays'
 import { Sum, expressionChecks, equationChecks } from 'step-wise/CAS'
 
+import { M } from 'ui/components/equations'
+
 const { onlyElementaryClean: onlyExpressionElementaryClean, equivalent: equivalentExpression } = expressionChecks
 const { onlyOrderChanges: onlyEquationOrderChanges, equivalent: equivalentEquation } = equationChecks
 
@@ -146,3 +148,5 @@ export const hasSumWithinFraction = (input, correct, solution, isCorrect) => !is
 export const hasFraction = (input, correct, solution, isCorrect) => !isCorrect && equationChecks.hasFraction(input) && <>Je antwoord heeft nog een breuk. Het idee was om alle breuken weg te halen.</>
 
 export const hasFractionWithinFraction = (input, correct, solution, isCorrect) => !isCorrect && equationChecks.hasFractionWithinFraction(input) && <>Je antwoord mag geen verdere breuken binnenin een breuk bevatten. Je kunt het nog verder simplificeren.</>
+
+export const hasFractionWithX = (input, correct, { variables }, isCorrect) => !isCorrect && equationChecks.hasFractionSatisfying(input, fraction => fraction.denominator.dependsOn(variables.x)) && <>Je antwoord heeft nog een breuk met <M>{variables.x}</M> in de noemer. Het idee was om dit juist niet meer te hebben.</>

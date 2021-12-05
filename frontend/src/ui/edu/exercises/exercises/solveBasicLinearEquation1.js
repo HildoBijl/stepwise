@@ -39,7 +39,7 @@ const steps = [
 				<Par>Breng alle termen met <M>{variables.x}</M> naar de ene kant van de vergelijking, en alle termen zonder <M>{variables.x}</M> naar de andere kant.</Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="termsMoved" label="Vul hier de vergelijking in" size="l" settings={basicMath} validate={equationValidWithVariables(variables)} />
+						<EquationInput id="termsMoved" size="l" settings={basicMath} validate={equationValidWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
@@ -56,7 +56,7 @@ const steps = [
 				<Par>Haal <M>{variables.x}</M> buiten haakjes. Laat de rest van de vergelijking onveranderd.</Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="pulledOut" label="Vul hier de vergelijking in" size="l" settings={basicMath} validate={equationValidWithVariables(variables)} />
+						<EquationInput id="pulledOut" size="l" settings={basicMath} validate={equationValidWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>

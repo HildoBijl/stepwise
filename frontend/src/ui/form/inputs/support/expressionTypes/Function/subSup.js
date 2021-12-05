@@ -192,8 +192,8 @@ function canMerge(data, mergeWithNext, fromOutside) {
 	return data.value[1] !== null && mergeWithNext // Only merge the superscript with what comes after.
 }
 
-function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {
-	return mergeWithRight(expressionValue, partIndex, fromOutside)
+function merge(data, partIndex, mergeWithNext, fromOutside) {
+	return mergeWithRight(data, partIndex, fromOutside)
 }
 
 function canSplit(data) {

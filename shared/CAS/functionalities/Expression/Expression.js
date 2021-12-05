@@ -212,7 +212,6 @@ class Expression {
 
 	// multiplyNumDenBy takes this object and turns it into a fraction, if it isn't already. Subsequently, it multiplies both the numerator and the denominator with a given expression.
 	multiplyNumDenBy(expression) {
-		expression = ensureExpression(expression)
 		return new Fraction(this.multiplyBy(expression), expression)
 	}
 
@@ -1409,9 +1408,19 @@ class Fraction extends Function {
 		return this.numerator.isType(Sum) || this.numerator.requiresPlusInSum()
 	}
 
-	multiplyNumDenBy(expression) {
+	applyToBothSides(func) {
+		return new Fraction(func(this.numerator), func(this.denominator))
+	}
+
+	multiplyNumDenBy(expression, putAtStart) {
 		expression = ensureExpression(expression)
-		return new Fraction(this.numerator.multiplyBy(expression), this.denominator.multiplyBy(expression))
+		return this.applyToBothSides(side => side.multiplyBy(expression, putAtStart))
+	}
+
+	applyMinus(applySpecific = true) {
+		if (applySpecific)
+			return new Fraction(this.numerator.applyMinus(applySpecific), this.denominator)
+		return super.applyMinus(applySpecific)
 	}
 
 	invert() {

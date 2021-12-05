@@ -10,7 +10,7 @@ import ExpressionInput, { validWithVariablesGeneric } from './ExpressionInput'
 const { getEmpty, isEmpty, getStartCursor } = support
 
 const equationProps = {
-	placeholder: 'Vergelijking',
+	placeholder: 'Vul hier de vergelijking in',
 	validate: nonEmptyAndValid,
 	initialData: getEmptyData(),
 	isEmpty: data => isEmpty(data.value),

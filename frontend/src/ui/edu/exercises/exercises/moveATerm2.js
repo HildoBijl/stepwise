@@ -26,7 +26,7 @@ const Problem = (state) => {
 		<Par>Gegeven is de vergelijking <BM>{equation}.</BM> Breng de term met <M>\left({termToMove.terms[1]}\right)</M> naar de andere kant van het is-teken. Laat de andere termen onveranderd op hun plek staan.</Par>
 		<InputSpace>
 			<Par>
-				<EquationInput id="ans" label="Vul hier de vergelijking in" size="l" settings={basicMathNoFractions} validate={validWithVariables(variables)} />
+				<EquationInput id="ans" size="l" settings={basicMathNoFractions} validate={validWithVariables(variables)} />
 			</Par>
 		</InputSpace>
 	</>
@@ -40,7 +40,7 @@ const steps = [
 				<Par>We willen iets doen met beide kanten van de vergelijking om {isLeft ? 'links' : 'rechts'} de term <M>{termToMoveAbs}</M> weg te krijgen. {isPositive ? <>Trek hiervoor <M>{termToMoveAbs}</M> van beide kanten van de vergelijking af.</> : <>Tel hiervoor <M>{termToMoveAbs}</M> bij beide kanten van de vergelijking op.</>} (Streep nog geen termen weg.)</Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="intermediate" label="Vul hier de vergelijking in" size="l" settings={basicMathNoFractions} validate={validWithVariables(variables)} />
+						<EquationInput id="intermediate" size="l" settings={basicMathNoFractions} validate={validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
@@ -57,7 +57,7 @@ const steps = [
 				<Par>Streep aan de {isLeft ? 'linker' : 'rechter'} kant van de vergelijking waar mogelijk termen weg.</Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="ans" label="Vul hier de vergelijking in" size="l" settings={basicMathNoFractions} validate={validWithVariables(variables)} />
+						<EquationInput id="ans" size="l" settings={basicMathNoFractions} validate={validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>

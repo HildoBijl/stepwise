@@ -18,7 +18,7 @@ const data = {
 	check: {
 		ans: expressionChecks.equivalent,
 		multiplied: (input, correct) => equationChecks.equivalentSides(input, correct) && !equationChecks.hasFraction(input), // No fractions left.
-		expanded: (input, correct) => equationChecks.equivalentSides(input, correct) && !equationChecks.hasFraction(input) && !equationChecks.hasSumWithinProduct(input), // No fractions and expanded brackets left.
+		expanded: (input, correct) => equationChecks.equivalentSides(input, correct) && !equationChecks.hasFraction(input) && !equationChecks.hasSumWithinProduct(input), // No fractions and no unexpanded brackets left.
 	},
 }
 
@@ -37,7 +37,7 @@ function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
 	const equation = asEquation('(y+b)/(x+c) + a/x = z/x').substituteVariables(variables).removeUseless()
 
-	// Run the solution.
+	// Find the solution.
 	const factor1 = variables.x
 	const factor2 = equation.left.terms[0].denominator
 	const factor = factor1.multiplyBy(factor2)

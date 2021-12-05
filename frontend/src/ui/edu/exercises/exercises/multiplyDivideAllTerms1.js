@@ -26,7 +26,7 @@ const Problem = (state) => {
 		<Par>Gegeven is de vergelijking <BM>{equation}.</BM> Vermenigvuldig alle termen in deze vergelijking met <M>{variables.x}</M> en simplificeer deze termen zoveel mogelijk.</Par>
 		<InputSpace>
 			<Par>
-				<EquationInput id="ans" label="Vul hier de vergelijking in" size="l" settings={basicMathAndPowers} validate={validWithVariables(variables)} />
+				<EquationInput id="ans" size="l" settings={basicMathAndPowers} validate={validWithVariables(variables)} />
 			</Par>
 		</InputSpace>
 	</>
@@ -40,7 +40,7 @@ const steps = [
 				<Par>Vermenigvuldig eerst de linkerkant en de rechterkant allebei met <M>{variables.x}.</M> Oftewel, schrijf de vergelijking als <BM>\left(\ldots\right){variables.x} = \left(\ldots\right){variables.x}</BM> waarbij tussen haakjes de oorspronkelijke linker/rechterkant van de vergelijking staat.</Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="intermediateWithBrackets" label="Vul hier de vergelijking in" size="l" settings={basicMathAndPowers} validate={validWithVariables(variables)} />
+						<EquationInput id="intermediateWithBrackets" size="l" settings={basicMathAndPowers} validate={validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
@@ -57,7 +57,7 @@ const steps = [
 				<Par>Werk de haakjes uit. Je hoeft nog geen verdere simplificaties toe te passen.</Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="intermediateWithoutBrackets" label="Vul hier de vergelijking in" size="l" settings={basicMathAndPowers} validate={validWithVariables(variables)} />
+						<EquationInput id="intermediateWithoutBrackets" size="l" settings={basicMathAndPowers} validate={validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
@@ -74,7 +74,7 @@ const steps = [
 				<Par>Simplificeer alle termen zo veel mogelijk.</Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="ans" label="Vul hier de vergelijking in" size="l" settings={basicMathAndPowers} validate={validWithVariables(variables)} />
+						<EquationInput id="ans" size="l" settings={basicMathAndPowers} validate={validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>

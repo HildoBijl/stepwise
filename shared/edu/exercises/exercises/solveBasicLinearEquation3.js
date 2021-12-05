@@ -38,7 +38,7 @@ function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
 	const equation = asEquation('(ax+bz)y = cx + d').substituteVariables(variables).removeUseless()
 
-	// Run the solution.
+	// Find the solution.
 	const bracketsExpanded = equation.simplify({ expandProductsOfSums: true })
 	const termsMoved = bracketsExpanded.subtract(bracketsExpanded.left.terms[1]).subtract(bracketsExpanded.right.terms[0]).simplify({ cancelSumTerms: true })
 	const pulledOut = termsMoved.applyToLeft(left => left.pullOutsideBrackets(variables.x))

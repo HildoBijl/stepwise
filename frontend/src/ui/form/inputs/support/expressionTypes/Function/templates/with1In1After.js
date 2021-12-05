@@ -20,11 +20,13 @@ function canMerge(data, mergeWithNext, fromOutside) {
 	return true
 }
 
-function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {
+function merge(data, partIndex, mergeWithNext, fromOutside) {
+	const { value } = data
+
 	// If we want to merge with the next, this actually means we should remove this element.
 	if (mergeWithNext)
-		return getFuncs(expressionValue[partIndex]).removeElementFromExpression(expressionValue, partIndex, fromOutside)
-	return mergeWithLeft(expressionValue, partIndex, fromOutside)
+		return getFuncs(value[partIndex]).removeElementFromExpression(value, partIndex, fromOutside)
+	return mergeWithLeft(data, partIndex, fromOutside)
 }
 
 function canSplit(data) {

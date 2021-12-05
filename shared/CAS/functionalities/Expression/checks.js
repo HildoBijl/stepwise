@@ -37,14 +37,28 @@ function equivalent(input, correct) {
 
 // integerMultiple checks if the first argument (input) is an integer multiple of the second argument (correct). It does this by finding input/correct, simplifying it and checking if it reduces to an integer.
 function integerMultiple(input, correct) {
-	const comparison = correct.divideBy(input).invert().cleanForAnalysis() // We use (correct/input)^(-1) instead of (input/correct) because this automatically puts an extra check on input being a proper equation.
+	// Manually check for minus signs.
+	const comparison1 = input.divideBy(correct).cleanForAnalysis()
+	const comparison2 = input.applyMinus().divideBy(correct).cleanForAnalysis()
+	const check = (comparison) => comparison.isType(Integer)
+	return check(comparison1) || check(comparison2)
+
+	// ToDo: put this back later on, when the CAS is complete.
+	const comparison = input.divideBy(correct).cleanForAnalysis()
 	return comparison.isType(Integer)
 }
 
 // constantMultiple checks if the two arguments only differ by a constant ratio, like (2/3) or (pi^2/e). We divide input/correct and check if the simplification reduces to a non-zero numeric value. (If it's zero, then a zero input would be equal to everything, which would not be desirable.)
 function constantMultiple(input, correct) {
-	const comparison = input.divideBy(correct).cleanForAnalysis()
-	return comparison.isNumeric() && !Integer.zero.equalsBasic(comparison)
+	// Manually check for minus signs.
+	const comparison1 = input.divideBy(correct).cleanForAnalysis()
+	const comparison2 = input.applyMinus().divideBy(correct).cleanForAnalysis()
+	const check = (comparison) => comparison.isNumeric() && !Integer.zero.equalsBasic(comparison)
+	return check(comparison1) || check(comparison2)
+
+	// ToDo: put this back later on, when the CAS is complete.
+	// const comparison = input.divideBy(correct).cleanForAnalysis()
+	// return comparison.isNumeric() && !Integer.zero.equalsBasic(comparison)
 }
 
 module.exports = {

@@ -37,7 +37,7 @@ const steps = [
 				<Par>Het lastige is dat de onbekende <M>{variables.x}</M> onderin een breuk staat. Verhelp dit probleem door alle termen met zowel <M>{factor1}</M> als <M>{factor2}</M> te vermenigvuldigen. Streep waar mogelijk factoren in breuken weg.</Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="multiplied" label="Vul hier de vergelijking in" size="l" settings={basicMath} validate={equationValidWithVariables(variables)} />
+						<EquationInput id="multiplied" size="l" settings={basicMath} validate={equationValidWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
@@ -54,7 +54,7 @@ const steps = [
 				<Par>Werk alle haakjes uit.</Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="expanded" label="Vul hier de vergelijking in" size="l" settings={basicMath} validate={equationValidWithVariables(variables)} />
+						<EquationInput id="expanded" size="l" settings={basicMath} validate={equationValidWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>

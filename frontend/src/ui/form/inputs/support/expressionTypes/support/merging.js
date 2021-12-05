@@ -6,18 +6,19 @@ import Expression from '../Expression'
 
 const { getSubExpression, findEndOfTerm } = support
 
-export function mergeWithLeft(expressionValue, partIndex, fromOutside) {
-	const element = expressionValue[partIndex]
+export function mergeWithLeft(data, partIndex, fromOutside) {
+	const { value } = data
+	const element = value[partIndex]
 	const parameter = firstOf(element.value)
 	
 	// Get the part that needs to be pulled in.
-	const { toPullIn, toLeaveBehind, cursorAtBreak } = getMergeParts(expressionValue, partIndex, false, true)
+	const { toPullIn, toLeaveBehind, cursorAtBreak } = getMergeParts(value, partIndex, false, true)
 
 	// If the expression to pull in is empty, and we came from inside, move the cursor outside.
 	if (!fromOutside && Expression.isEmpty(toPullIn)) {
 		return {
-			type: 'Expression',
-			value: expressionValue,
+			...data,
+			value: value,
 			cursor: cursorAtBreak,
 		}
 	}
@@ -42,11 +43,11 @@ export function mergeWithLeft(expressionValue, partIndex, fromOutside) {
 
 	// Set up the complete expression.
 	return {
-		type: 'Expression',
+		...data,
 		value: [
 			...toLeaveBehind, // Keep what is left behind in the Expression.
 			newElement, // Add in the adjusted element.
-			...expressionValue.slice(partIndex + 1), // Keep remaining elements.
+			...value.slice(partIndex + 1), // Keep remaining elements.
 		],
 		cursor: {
 			part: toLeaveBehind.length,
@@ -58,12 +59,13 @@ export function mergeWithLeft(expressionValue, partIndex, fromOutside) {
 	}
 }
 
-export function mergeWithRight(expressionValue, partIndex) {
-	const element = expressionValue[partIndex]
+export function mergeWithRight(data, partIndex) {
+	const { value } = data
+	const element = value[partIndex]
 	const parameter = lastOf(element.value)
 
 	// Get the part that needs to be pulled in.
-	const { toPullIn, toLeaveBehind } = getMergeParts(expressionValue, partIndex, true, true)
+	const { toPullIn, toLeaveBehind } = getMergeParts(value, partIndex, true, true)
 
 	// Set up the new parameter.
 	const newParameter = {
@@ -85,9 +87,9 @@ export function mergeWithRight(expressionValue, partIndex) {
 
 	// Set up the complete expression.
 	return {
-		type: 'Expression',
+		...data,
 		value: [
-			...expressionValue.slice(0, partIndex), // Keep previous expression elements.
+			...value.slice(0, partIndex), // Keep previous expression elements.
 			newElement, // Add in the adjusted element.
 			...toLeaveBehind, // Keep what is left behind in the Expression.
 		],

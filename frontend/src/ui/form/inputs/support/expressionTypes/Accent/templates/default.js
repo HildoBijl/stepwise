@@ -134,14 +134,16 @@ export function canMerge() {
 	return true
 }
 
-export function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {
+export function merge(data, partIndex, mergeWithNext, fromOutside) {
+	const { value } = data
+
 	// If we are from outside, put the cursor inside and process the corresponding keypress.
 	if (fromOutside) {
-		const accentData = expressionValue[partIndex]
+		const accentData = value[partIndex]
 		const accentCursor = (mergeWithNext ? getDataEndCursor : getDataStartCursor)(accentData)
 		const expressionData = {
-			type: 'Expression',
-			value: expressionValue,
+			...data,
+			value: value,
 			cursor: {
 				part: partIndex,
 				cursor: accentCursor,
@@ -152,13 +154,13 @@ export function merge(expressionValue, partIndex, mergeWithNext, fromOutside) {
 	}
 
 	// If we are from inside, put the cursor outside and process the corresponding keypress.
-	const accentData = expressionValue[partIndex]
+	const accentData = value[partIndex]
 	const part = mergeWithNext ? partIndex + 1 : partIndex - 1
-	const elementData = expressionValue[part]
+	const elementData = value[part]
 	const elementCursor = (mergeWithNext ? getDataStartCursor : getDataEndCursor)(elementData)
 	const expressionData = {
-		type: 'Expression',
-		value: expressionValue,
+		...data,
+		value: value,
 		cursor: {
 			part,
 			cursor: elementCursor,

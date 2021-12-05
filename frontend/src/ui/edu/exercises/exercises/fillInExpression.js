@@ -54,7 +54,7 @@ function Problem({ index }) {
 		<InputSpace>
 			<Par>
 				<ExpressionInput id="ans" prelabel={<M>f\left(x\right)=</M>} label="Vul hier de uitdrukking in" size="s" settings={{ ...basicMath, subscript: true }} />
-				<EquationInput id="eq" label="Vul hier de vergelijking in" size="s" settings={{ ...basicMath, divide: false }} />
+				<EquationInput id="eq" size="s" settings={{ ...basicMath, divide: false }} />
 				{/* <ExpressionInput id="y" prelabel={<M>y=</M>} label="Vul hier de uitdrukking in" size="s" /> */}
 			</Par>
 			{
