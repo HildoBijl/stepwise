@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Sum, Product, Fraction, expressionChecks } from 'step-wise/CAS'
+import { Sum, Product, expressionChecks } from 'step-wise/CAS'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
@@ -12,7 +12,7 @@ import { useSolution } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
-import { incorrectExpression } from '../util/feedbackChecks/expression'
+import { hasX, incorrectFraction, incorrectExpression } from '../util/feedbackChecks/expression'
 import { originalEquation, correctEquation, incorrectEquation, sumWithWrongTerms } from '../util/feedbackChecks/equation'
 
 export default function Exercise() {
@@ -86,22 +86,6 @@ const steps = [
 ]
 
 function getFeedback(exerciseData) {
-	// Define ans checks.
-	const hasVariable = (input, correct, { variables }, isCorrect) => !isCorrect && input.dependsOn(variables.x) && <>Je antwoord bevat nog een <M>{variables.x}.</M> Je moet deze vrij maken!</>
-	const numeratorAndDenominatorMixedUp = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.equivalent(input, correct.invert()) && <>Je hebt je breuk verkeerd om ingevuld. Kijk goed wat je waardoor moet delen!</>
-	const incorrectFraction = (input, correct, { variables }, isCorrect) => {
-		if (isCorrect)
-			return
-		input = input.elementaryClean()
-		if (!input.isType(Fraction))
-			return <>De makkelijkse manier om de oplossing te schrijven is als breuk. Het lijkt erop dat je dingen moeilijker opschrijft dan nodig.</>
-		if (!expressionChecks.constantMultiple(input.numerator, correct.numerator))
-			return <>De teller van je breuk is niet wat verwacht werd. Zijn dit wel alle termen zonder <M>{variables.x}?</M></>
-		if (!expressionChecks.constantMultiple(input.denominator, correct.denominator))
-			return <>De noemer van je breuk is niet wat verwacht werd. Heb je <M>{variables.x}</M> wel op de juiste manier buiten haakjes gehaald?</>
-		return <>Je lijkt er een constante vermenigvuldiging naast te zitten.</>
-	}
-
 	// Define termsMoved checks.
 	const variableOnBothSides = (input, correct, { variables }) => input.left.dependsOn(variables.x) && input.right.dependsOn(variables.x) && <>Beide kanten van de vergelijking bevatten nog een <M>{variables.x}.</M> Haal alle termen met <M>{variables.x}</M> naar <em>dezelfde</em> kant.</>
 	const termsWithoutVariableInWrongPlace = (input, correct, { variables }) => {
@@ -142,7 +126,7 @@ function getFeedback(exerciseData) {
 		'termsMoved',
 		'pulledOut',
 	], exerciseData, [
-		[hasVariable, numeratorAndDenominatorMixedUp, incorrectFraction, incorrectExpression],
+		[hasX, incorrectFraction, incorrectExpression],
 		[originalEquation, variableOnBothSides, termsWithoutVariableInWrongPlace, sumWithWrongTermsAndFlip, incorrectEquation, correctEquation],
 		[sideWithoutVariableEqual, sideWithVariableEqual, incorrectEquation, correctEquation],
 	].map(feedbackChecks => ({ feedbackChecks })))

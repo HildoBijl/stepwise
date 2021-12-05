@@ -751,8 +751,8 @@ class ExpressionList extends Expression {
 		return firstOf(this.terms).isNegative()
 	}
 
-	// applyToElement takes a function and applies it to a specified elements in this ExpressionList. The indexArray can be a single index or an array of indices.
-	applyToElement(indexArray, func) {
+	// applyToTerm takes a function and applies it to a specified term in this ExpressionList. The indexArray can be a single index or an array of indices.
+	applyToTerm(indexArray, func) {
 		if (!Array.isArray(indexArray))
 			indexArray = [indexArray]
 		const terms = [...this.terms]
@@ -762,8 +762,8 @@ class ExpressionList extends Expression {
 		return new this.constructor(terms)
 	}
 
-	// applyToElement takes a function and applies it to all elements in this ExpressionList.
-	applyToAllElements(func) {
+	// applyToAllTerms takes a function and applies it to all terms in this ExpressionList.
+	applyToAllTerms(func) {
 		return new this.constructor(this.terms.map(term => func(term)))
 	}
 
@@ -860,7 +860,7 @@ class Sum extends ExpressionList {
 			terms = terms.filter(term => !Integer.zero.equalsBasic(term))
 		}
 
-		// If there are at least two constants, merge them together and put them at the start.
+		// If there are at least two constants, merge them together and put them at the end.
 		if (options.mergeSumNumbers) {
 			const isConstant = term => term instanceof Constant
 			if (count(terms, isConstant) > 1) {
@@ -873,7 +873,7 @@ class Sum extends ExpressionList {
 					return true
 				})
 				if (number !== 0)
-					terms.unshift(Constant.interpret(number))
+					terms.push(Constant.interpret(number))
 			}
 		}
 
@@ -1508,7 +1508,7 @@ class Fraction extends Function {
 					if (term.isType(Integer))
 						return new Integer(term.number / divisor)
 					if (term.isType(Product))
-						return term.applyToElement(0, divideByDivisor)
+						return term.applyToTerm(0, divideByDivisor)
 					throw new Error(`Fraction reduction error: an unexpected case appeared while reducing the numbers inside a fraction.`)
 				}
 				numerator = divideByDivisor(numerator)

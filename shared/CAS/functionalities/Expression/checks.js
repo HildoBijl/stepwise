@@ -74,9 +74,14 @@ function hasFraction(input, includeSelf = true) {
 	return input.recursiveSome(term => term.isType(Fraction), includeSelf)
 }
 
+// hasFractionSatisfying checks if there is a fraction inside this Expression that also satisfies another given check.
+function hasFractionSatisfying(input, check) {
+	return input.recursiveSome(term => term.isType(Fraction) && check(term))
+}
+
 // hasFractionWithinFraction checks if there are fractions inside this Expression that have further fractions inside them.
 function hasFractionWithinFraction(input) {
-	return input.recursiveSome(term => term.isType(Fraction) && hasFraction(term, false))
+	return hasFractionSatisfying(input, fraction => hasFraction(fraction, false))
 }
 
 // isPolynomial checks if this expression is a polynome: only sums, products and powers with integer exponents. Fractions are only allowed when dividing by a numeric value, like x/2 or y/pi, but not when dividing by variables like y/x.
@@ -110,6 +115,7 @@ module.exports = {
 	hasSumWithinProduct,
 	hasSumWithinFraction,
 	hasFraction,
+	hasFractionSatisfying,
 	hasFractionWithinFraction,
 	isPolynomial,
 	isRational,

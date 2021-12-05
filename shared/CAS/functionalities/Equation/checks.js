@@ -1,7 +1,5 @@
 const { Sum, expressionChecks } = require('../Expression')
 
-const { equivalent: equivalentExpression, constantMultiple: constantMultipleExpression, hasSumWithinProduct: expressionHasSumWithinProduct, hasSumWithinFraction: expressionHasSumWithinFraction, hasFractionWithinFraction: expressionHasFractionWithinFraction } = expressionChecks
-
 /*
  * Define basic Equation check functions.
  */
@@ -62,37 +60,41 @@ module.exports = {
 
 // equivalentSides checks if both sides of the equation are equivalent. So "2*2=x^2/x" equals "4=x", but not "x=4".
 function equivalentSides(input, correct) {
-	return correct.everySide((side, part) => equivalentExpression(side, input[part]))
+	return correct.everySide((side, part) => expressionChecks.equivalent(side, input[part]))
 }
 
-// equivalentSidesWithSwitch checks if both sides of the equation are equivalent. So "2*2=x^2/x" equals "4=x" and "x=4". However, "2+3=x" does NOT equal "2=x-3" because this contains interactions between sides.
-function equivalentSidesWithSwitch(input, correct) {
+// equivalentSidesAndSwitch checks if both sides of the equation are equivalent. So "2*2=x^2/x" equals "4=x" and "x=4". However, "2+3=x" does NOT equal "2=x-3" because this contains interactions between sides.
+function equivalentSidesAndSwitch(input, correct) {
 	return equivalentSides(input, correct) || equivalentSides(input, correct.switch())
 }
 
 // equivalent checks if two equations are equivalent with respect to constants. So constant multiples are allowed, but variable multiples are not. In other words, "2x=y" equals "6x=3y", but not "2xz=yz".
 function equivalent(input, correct) {
-	return constantMultipleExpression(input.left.subtract(input.right), correct.left.subtract(correct.right))
+	return expressionChecks.constantMultiple(input.left.subtract(input.right), correct.left.subtract(correct.right))
 }
 
 module.exports = {
 	...module.exports,
 	equivalentSides,
-	equivalentSidesWithSwitch,
+	equivalentSidesAndSwitch,
 	equivalent,
 }
 
 /*
- * Define checks for properties of Equations. They are often similar to the corresponding checks for Expressions.
+ * Define checks for properties of Equations. They are generally identical to the corresponding checks for Expressions.
  */
 
-const hasSumWithinProduct = (input) => input.someSide(side => expressionHasSumWithinProduct(side))
-const hasSumWithinFraction = (input) => input.someSide(side => expressionHasSumWithinFraction(side))
-const hasFractionWithinFraction = (input) => input.someSide(side => expressionHasFractionWithinFraction(side))
+const hasSumWithinProduct = (input) => input.someSide(side => expressionChecks.hasSumWithinProduct(side))
+const hasSumWithinFraction = (input) => input.someSide(side => expressionChecks.hasSumWithinFraction(side))
+const hasFraction = (input) => input.someSide(side => expressionChecks.hasFraction(side))
+const hasFractionSatisfying = (input, check) => input.someSide(side => expressionChecks.hasFractionSatisfying(side, check))
+const hasFractionWithinFraction = (input) => input.someSide(side => expressionChecks.hasFractionWithinFraction(side))
 
 module.exports = {
 	...module.exports,
 	hasSumWithinProduct,
 	hasSumWithinFraction,
+	hasFraction,
+	hasFractionSatisfying,
 	hasFractionWithinFraction,
 }

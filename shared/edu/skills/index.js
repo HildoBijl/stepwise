@@ -98,8 +98,8 @@ const skills = {
 	},
 	solveGeneralLinearEquation: {
 		name: 'Algemene lineaire vergelijking oplossen',
-		setup: combinerAnd(combinerRepeat(combinerOr('expandBrackets', 'simplifyFraction', 'multiplyDivideAllTerms'), 2), 'solveBasicLinearEquation'),
-		exercises: [],
+		setup: combinerAnd('simplifyFraction', 'expandBrackets', 'multiplyDivideAllTerms', 'solveBasicLinearEquation'), // ToDo later: change into a picking function.
+		exercises: ['solveGeneralLinearEquation1', 'solveGeneralLinearEquation2', 'solveGeneralLinearEquation3'],
 	},
 
 	// Physics mathematics: solving float-problems.

@@ -18,7 +18,7 @@ const data = {
 	check: {
 		ans: expressionChecks.equivalent, // For the final answer allow equivalent answers.
 		default: (input, correct) => equationChecks.onlyOrderChangesAndSwitch(input, correct) || equationChecks.onlyOrderChangesAndSwitch(input, correct.applyMinus()), // Allow switches and minus signs.
-		pulledOut: (input, correct) => equationChecks.onlyOrderChangesAndSwitch(input, correct) || equationChecks.onlyOrderChangesAndSwitch(input, correct.applyToRight(side => side.applyMinus()).applyToLeft(side => side.applyToElement(1, factor => factor.applyMinus()))), // Allow switches and minus signs inside the brackets.
+		pulledOut: (input, correct) => equationChecks.onlyOrderChangesAndSwitch(input, correct) || equationChecks.onlyOrderChangesAndSwitch(input, correct.applyToRight(side => side.applyMinus()).applyToLeft(side => side.applyToTerm(1, factor => factor.applyMinus()))), // Allow switches and minus signs inside the brackets.
 	},
 }
 
