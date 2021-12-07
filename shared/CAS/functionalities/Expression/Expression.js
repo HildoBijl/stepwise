@@ -115,6 +115,7 @@ class Expression {
 
 		// Add the type too.
 		result.type = this.type
+		result.color = this.color
 		return result
 	}
 
@@ -132,9 +133,21 @@ class Expression {
 		return this.toString()
 	}
 
-	// tex returns a LaTeX representation of the expression. It calls the toTex method, which must be implemented by child classes.
+	// tex returns a LaTeX representation of the expression. It uses the toTex function.
 	get tex() {
 		return this.toTex()
+	}
+
+	// toTex turns an Expression into LaTeX code. It calls the rawTex function of the inheriting object, and processes this Tex through processTex.
+	toTex() {
+		return this.processTex(this.toRawTex())
+	}
+
+	// processTex applies some post-processing to the Tex, like adding colors.
+	processTex(tex) {
+		if (!this.color)
+			return tex
+		return `\\begingroup \\color(${this.color}) ${tex} \\endgroup `
 	}
 
 	// print will log a string representation of this expression.
@@ -368,9 +381,9 @@ class Expression {
 		const result = {}
 		Object.keys(this.constructor.getDefaultSO()).forEach(key => {
 			if (Array.isArray(this[key]))
-				result[key] = this[key].map(element => element.simplifyBasic(options))
+				result[key] = this[key].map(element => (element instanceof Expression ? element.simplifyBasic(options) : element))
 			else
-				result[key] = this[key].simplifyBasic(options)
+				result[key] = (this[key] instanceof Expression ? this[key].simplifyBasic(options) : this[key])
 		})
 		return result
 	}
@@ -424,7 +437,7 @@ class Expression {
 		return this.defaultSO
 	}
 }
-Expression.defaultSO = {}
+Expression.defaultSO = { color: undefined }
 module.exports.Expression = Expression
 
 /*
@@ -468,7 +481,7 @@ class Variable extends Expression {
 		return result
 	}
 
-	toTex() {
+	toRawTex() {
 		let result = this.symbol
 		if (this.accent)
 			result = `\\${this.accent}{${result}}`
@@ -589,7 +602,7 @@ class Constant extends Expression {
 		return this.toNumber().toString()
 	}
 
-	toTex() {
+	toRawTex() {
 		return this.str.replace('.', decimalSeparatorTex)
 	}
 
@@ -819,7 +832,7 @@ class Sum extends ExpressionList {
 		return result
 	}
 
-	toTex() {
+	toRawTex() {
 		let result = ''
 		this.terms.forEach((term, index) => {
 			// Add a plus when necessary.
@@ -1047,7 +1060,7 @@ class Product extends ExpressionList {
 		return arrayToString(this.terms)
 	}
 
-	toTex() {
+	toRawTex() {
 		const arrayToTex = (array) => {
 			const termToTex = (term, index) => {
 				const precursor = index > 0 && (term.requiresTimesBeforeInProductTex() || this.terms[index - 1].requiresTimesAfterInProductTex()) ? ' \\cdot ' : ''
@@ -1324,7 +1337,7 @@ class Function extends Expression {
 		return result
 	}
 
-	toTex() {
+	toRawTex() {
 		let result = `{\\rm ${this.type.toLowerCase()}}`
 		this.constructor.args.forEach((key, index) => {
 			if (index > 0)
@@ -1425,7 +1438,7 @@ class Fraction extends Function {
 		return `${useMinus ? '-' : ''}${numStr}/${denStr}`
 	}
 
-	toTex() {
+	toRawTex() {
 		const useMinus = !this.requiresPlusInSum()
 		const numerator = useMinus ? this.numerator.applyMinus(true).removeUseless() : this.numerator
 		return `${useMinus ? '-' : ''}\\frac{${numerator.tex}}{${this.denominator.tex}}`
@@ -1706,7 +1719,7 @@ class Power extends Function {
 		return `${baseStr}^${exponentStr}`
 	}
 
-	toTex() {
+	toRawTex() {
 		// Get the base.
 		let baseTex = this.base.tex
 		if (this.base.requiresBracketsFor(bracketLevels.powers))

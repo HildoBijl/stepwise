@@ -9,7 +9,7 @@ class Log extends Function {
 		return Math.log(this.argument.toNumber()) / Math.log(this.base.toNumber())
 	}
 
-	toTex() {
+	toRawTex() {
 		return `{^{${this.base.tex}}}\\!\\log\\left(${this.argument.tex}\\right)`
 	}
 

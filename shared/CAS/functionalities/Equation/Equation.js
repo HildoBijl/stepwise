@@ -68,12 +68,22 @@ class Equation {
 		return this.toString()
 	}
 
-	toTex() {
-		return `${this.left.tex}=${this.right.tex}`
-	}
-
 	get tex() {
 		return this.toTex()
+	}
+	
+	toTex() {
+		return this.processTex(this.toRawTex())
+	}
+
+	processTex(tex) {
+		if (!this.color)
+			return tex
+		return `\\begingroup \\color(${this.color}) ${tex} \\endgroup `
+	}
+
+	toRawTex() {
+		return `${this.left.tex}=${this.right.tex}`
 	}
 
 	/*

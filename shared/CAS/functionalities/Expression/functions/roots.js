@@ -9,7 +9,7 @@ class Sqrt extends SingleArgumentFunction {
 		return Math.sqrt(this.argument.toNumber())
 	}
 
-	toTex() {
+	toRawTex() {
 		return `\\sqrt{${this.argument.tex}}`
 	}
 
@@ -38,7 +38,7 @@ class Root extends Function {
 		return Math.pow(this.argument.toNumber(), 1 / this.base.toNumber())
 	}
 
-	toTex() {
+	toRawTex() {
 		return `\\sqrt[${this.base.tex}]{${this.argument.tex}}`
 	}
 
