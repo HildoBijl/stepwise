@@ -41,14 +41,15 @@ function getSolution(state) {
 	const factor1 = variables.x
 	const factor2 = equation.left.terms[0].denominator
 	const factor = factor1.multiplyBy(factor2)
-	const multiplied = equation.applyToLeft(side => side.applyToAllTerms(term => term.multiplyBy(factor))).applyToRight(side => side.multiplyBy(factor)).simplify({ ...simplifyOptions.basicClean, mergeFractionTerms: true })
+	const multiplied = equation.applyToLeft(side => side.applyToAllTerms(term => term.multiplyBy(factor))).applyToRight(side => side.multiplyBy(factor)).basicClean({ mergeFractionTerms: true })
 	const expanded = multiplied.simplify({ expandProductsOfSums: true, mergeProductNumbers: true })
-	const shifted = expanded.subtract(expanded.left.terms[3]).subtract(expanded.right.terms[0]).basicClean()
+	const merged = expanded.regularClean({ sortProducts: false })
+	const shifted = merged.subtract(expanded.left.terms[3]).subtract(expanded.right.terms[0]).basicClean()
 	const pulledOut = shifted.applyToLeft(side => side.pullOutsideBrackets(variables.x))
 	const bracketFactor = pulledOut.left.terms.find(factor => !variables.x.equals(factor))
 	const ans = pulledOut.right.divideBy(bracketFactor)
 
-	return { ...state, variables, equation, factor1, factor2, factor, multiplied, expanded, shifted, pulledOut, bracketFactor, ans }
+	return { ...state, variables, equation, factor1, factor2, factor, multiplied, expanded, merged, shifted, pulledOut, bracketFactor, ans }
 }
 
 function checkInput(state, input, step) {

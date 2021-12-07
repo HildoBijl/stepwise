@@ -38,14 +38,14 @@ function getSolution(state) {
 	const equation = asEquation('1/(a/w+b/x) = y/z').substituteVariables(variables).removeUseless()
 
 	// Find the solution.
-	const simplified = equation.applyToLeft(side => side.simplify({ ...simplifyOptions.forAnalysis, sortSums: false }))
-	const multiplied = simplified.applyToBothSides(side => side.multiplyBy(simplified.left.denominator).multiplyBy(simplified.right.denominator)).simplify({ ...simplifyOptions.basicClean, mergeFractionTerms: true })
+	const simplified = equation.applyToLeft(side => side.cleanForAnalysis({ sortSums: false }))
+	const multiplied = simplified.applyToBothSides(side => side.multiplyBy(simplified.left.denominator).multiplyBy(simplified.right.denominator)).regularClean()
 	const expanded = multiplied.simplify({ expandProductsOfSums: true, splitFractions: true, mergeProductNumbers: true })
 	const termToMove = expanded.right.terms.find(term => term.dependsOn(variables.x))
-	const shifted = expanded.subtract(termToMove).basicClean()
-	const pulledOut = shifted.applyToLeft(side => side.pullOutsideBrackets(variables.x).simplify({ ...simplifyOptions.regularClean, sortSums: false }))
+	const shifted = expanded.subtract(termToMove).regularClean()
+	const pulledOut = shifted.applyToLeft(side => side.pullOutsideBrackets(variables.x).regularClean())
 	const bracketFactor = pulledOut.left.terms.find(factor => !variables.x.equals(factor))
-	const ans = pulledOut.right.divideBy(bracketFactor)
+	const ans = pulledOut.right.divideBy(bracketFactor).cleanForAnalysis({ sortSums: false })
 
 	return { ...state, variables, equation, simplified, multiplied, expanded, termToMove, shifted, pulledOut, bracketFactor, ans }
 }

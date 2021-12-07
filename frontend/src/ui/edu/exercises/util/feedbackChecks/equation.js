@@ -15,9 +15,6 @@ const { onlyOrderChanges: onlyEquationOrderChanges, equivalent: equivalentEquati
 export const originalEquation = (input, correct, { equation }) => onlyEquationOrderChanges(input, equation) && <>Dit is de oorspronkelijke vergelijking. Je hebt hier nog niets mee gedaan.</>
 
 export const incorrectEquation = (input, correct, solution, isCorrect) => {
-
-	window.i = input
-	window.c = correct
 	return !isCorrect && !equivalentEquation(input, correct) && <>Deze vergelijking klopt niet. Je hebt bij het omschrijven iets gedaan dat niet mag.</>
 }
 

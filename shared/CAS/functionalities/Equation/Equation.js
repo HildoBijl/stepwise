@@ -199,33 +199,33 @@ class Equation {
 	 */
 
 	// cleanStructure applies the simplify function with structureOnly options. It cleans up the structure of the Expression.
-	cleanStructure() {
-		return this.simplify(simplifyOptions.structureOnly)
+	cleanStructure(extraOptions = {}) {
+		return this.simplify({ ...simplifyOptions.structureOnly, ...extraOptions })
 	}
 
 	// removeUseless applies the simplify function with removeUseless options. It removes useless elements from the expression.
-	removeUseless() {
-		return this.simplify(simplifyOptions.removeUseless)
+	removeUseless(extraOptions = {}) {
+		return this.simplify({ ...simplifyOptions.removeUseless, ...extraOptions })
 	}
 
 	// elementaryClean applies the simplify function with elementaryClean options.
-	elementaryClean() {
-		return this.simplify(simplifyOptions.elementaryClean)
+	elementaryClean(extraOptions = {}) {
+		return this.simplify({ ...simplifyOptions.elementaryClean, ...extraOptions })
 	}
 
 	// basicClean applies the simplify function with basicClean options.
-	basicClean() {
-		return this.simplify(simplifyOptions.basicClean)
+	basicClean(extraOptions = {}) {
+		return this.simplify({ ...simplifyOptions.basicClean, ...extraOptions })
 	}
 
 	// regularClean applies the simplify function with regularClean options.
-	regularClean() {
-		return this.simplify(simplifyOptions.regularClean)
+	regularClean(extraOptions = {}) {
+		return this.simplify({ ...simplifyOptions.regularClean, ...extraOptions })
 	}
 
 	// cleanForAnalysis applies the simplify function with equationForAnalysis option.
-	cleanForAnalysis() {
-		return this.simplify(simplifyOptions.equationForAnalysis)
+	cleanForAnalysis(extraOptions = {}) {
+		return this.simplify({ ...simplifyOptions.equationForAnalysis, ...extraOptions })
 	}
 }
 module.exports.Equation = Equation

@@ -6,16 +6,17 @@ const noSimplify = { // This is never applied, but only use to verify options gi
 	removeUseless: false, // Remove useless elements. For instance, a sum with "+0" or a product with "*1" will be simplified.
 	mergeSumNumbers: false, // Reduce the number of numbers that are used in sums. If there is a sum with numbers, like 2+3*x+4, group the numbers together, like 6+3*x.
 	mergeProductNumbers: false, // Reduce the number of numbers that are used in products. If there is a product with constants, like 2*x*3*y*4*z, turn it into 24*x*y*z.
-	cancelSumTerms: false, // Cancel terms in sums. So 2x+3y-2x becoming 3y. Note that this is a more basic version than groupSumTerms, which can group terms.
 
 	// The following relate to Sums/Products.
 	sortSums: false, // Sort the terms inside sums to put simpler terms first and more complex terms later.
 	sortProducts: false, // Sort the terms inside products to put simpler terms first and more complex terms later.
+	cancelSumTerms: false, // Cancel terms in sums. So 2x+3y-2x becoming 3y. Note that this is a more basic version than groupSumTerms, which can group terms, and it's not applied (ignored) if groupSumTerms is applied.
+	groupSumTerms: false, // Check inside of sums whether terms can be grouped. For instance, 2*x+3*x can be grouped into (2+3)*x, after which the numbers can be merged to form 5*x.
 	expandProductsOfSums: false, // Reduces a*(b+c) to (a*b+a*c).
 
 	// The following options relate to Fractions.
 	mergeFractionNumbers: false, // Reduce the numbers in a fraction by dividing out the GCD. So 18/12 reduces to 3/2.
-	mergeFractionTerms: false, // Merge terms inside fraction. So (ab)/(bc) becomes a/c and x^2/(ax) becomes x/a. (Note: so far this has not been implemented for sums like (ax+bx)/x yet.)
+	mergeFractionTerms: false, // Merge terms inside fraction. So (ab)/(bc) becomes a/c and (ax+bx^2)/(cx^3) becomes (a+bx)/(cx^2). Only works when mergeProductTerms is also true.
 	flattenFractions: false, // Turn fractions inside fractions into a single fraction. So (a/b)/(c/d) becomes (ad)/(bc), similarly a/(b/c) becomes (ac)/b and (a/b)/c becomes a/(bc).
 	splitFractions: false, // Split up fractions. So (a+b)/c becomes a/c+b/c.
 	mergeFractionProducts: false, // Turn products of fractions into single fractions. So a*(b/c) becomes (ab)/c and (a/b)*(c/d) becomes (ac)/(bd).
@@ -31,15 +32,14 @@ const noSimplify = { // This is never applied, but only use to verify options gi
 
 	// The following options relate to Functions.
 	toBasicForm: false, // Turns more complex functions into more basic forms. So sqrt(a) becomes a^(1/2), [a]log(b) will be ln(b)/ln(a), tan(x) will be sin(x)/cos(x) and likewise simplifications ensue.
+	basicReductions: false, // Turns sin(arcsin(x)) into x, cos(pi) into -1 and similar.
 
 	// The following options relate to Equations. They do nothing for Expessions.
 	allToLeft: false, // Moves all terms to the left. So will turn "ax+b=cx+d" into "ax+b-(cx+d)=0".
 
 	// ToDo: implement the simplification methods below.
 
-	cleanFractionPolynomials: false, // Check inside fractions whether polynomials can be cancelled. For instance, if you have "(x^2+3x+2)/(x^2-1)", it is equal to "((x+1)(x+2))/((x+1)(x-1))" which would be equal to "(x+2)/(x+1)". Should the system cancel out the joint "x+1" factor?
-	groupSumTerms: false, // Check inside of sums whether terms can be grouped. For instance, 2*x+3*x can be grouped into (2+3)*x, after which the numbers can be merged to form 5*x.
-	basicReductions: false, // Turns sin(arcsin(x)) into x, cos(pi) into -1 and y/y into 1. (Yes, this assumes y is not zero, but this is not a formal mathematical toolbox, so let's go along with it.)
+	cleanFractionPolynomials: false, // Check inside fractions whether polynomials can be cancelled. For instance, if you have "(x^2+3x+2)/(x^2-1)", it is equal to "((x+1)(x+2))/((x+1)(x-1))" which would be equal to "(x+2)/(x+1)". Similar simplifications can be done for fractions of multivariate polynomials.
 }
 module.exports.noSimplify = noSimplify
 
@@ -86,7 +86,7 @@ module.exports.basicClean = basicClean
 const regularClean = {
 	...basicClean,
 	sortProducts: true,
-	sortSums: true,
+	groupSumTerms: true,
 	mergeFractionTerms: true,
 	removePowersWithinPowers: true,
 	basicReductions: true,
@@ -96,6 +96,7 @@ module.exports.regularClean = regularClean
 // forAnalysis puts expression, for as much as possible, into a standard form. This subsequently allows for easy comparison.
 const forAnalysis = {
 	...regularClean,
+	sortSums: true,
 	expandProductsOfSums: true,
 	removeNegativePowers: true,
 	expandPowersOfProducts: true,

@@ -1,6 +1,6 @@
 // This file contains equality checks for expressions. There are placed here, instead of inside the objects, to prevent classes from getting too many methods that always have to be loaded in. On top of that, most equals methods rely on first simplifying expressions to some standard form and then comparing these reductions.
 
-const { Integer, Sum, Product, Fraction } = require('./Expression')
+const { Integer, Sum, Product, Fraction, Power } = require('./Expression')
 
 /*
  * Basic Expression equality checks.
@@ -98,6 +98,11 @@ function hasFractionWithinFraction(input) {
 	return hasFractionSatisfying(input, fraction => hasFraction(fraction, false))
 }
 
+// hasPower checks if there is a power inside this Expression.
+function hasPower(input, includeSelf = true) {
+	return input.recursiveSome(term => term.isType(Power), includeSelf)
+}
+
 // isPolynomial checks if this expression is a polynome: only sums, products and powers with integer exponents. Fractions are only allowed when dividing by a numeric value, like x/2 or y/pi, but not when dividing by variables like y/x.
 function isPolynomial(input) {
 	return input.recursiveEvery(term => {
@@ -131,6 +136,7 @@ module.exports = {
 	hasFraction,
 	hasFractionSatisfying,
 	hasFractionWithinFraction,
+	hasPower,
 	isPolynomial,
 	isRational,
 }

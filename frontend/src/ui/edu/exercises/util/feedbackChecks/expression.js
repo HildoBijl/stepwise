@@ -74,6 +74,8 @@ export const sumWithUnsimplifiedTerms = (input, correct, solution, isCorrect) =>
  * Expression form checks.
  */
 
+export const hasX = (input, correct, { variables }, isCorrect) => !isCorrect && input.dependsOn(variables.x) && <>Je antwoord bevat nog een <M>{variables.x}.</M> Dat was niet de bedoeling!</>
+
 export const hasSumWithinProduct = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasSumWithinProduct(input) && <>Je antwoord heeft onuitgewerkte haakjes.</>
 
 export const hasSumWithinFraction = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasSumWithinFraction(input) && <>Je antwoord heeft nog een niet-opgesplitste breuk.</>
@@ -83,8 +85,6 @@ export const hasFraction = (input, correct, solution, isCorrect) => !isCorrect &
 export const noFraction = (input, correct, solution, isCorrect) => !isCorrect && !input.isType(Fraction) && <>Je antwoord is geen breuk. Er wordt een enkele breuk als antwoord verwacht.</>
 
 export const hasFractionWithinFraction = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasFractionWithinFraction(input) && <>Je antwoord mag geen verdere breuken binnenin een breuk bevatten. Je kunt het nog verder simplificeren.</>
-
-export const hasX = (input, correct, { variables }, isCorrect) => !isCorrect && input.dependsOn(variables.x) && <>Je antwoord bevat nog een <M>{variables.x}.</M> Dat was niet de bedoeling!</>
 
 export const incorrectFraction = (input, correct, { variables }, isCorrect) => {
 	if (isCorrect)
@@ -100,3 +100,5 @@ export const incorrectFraction = (input, correct, { variables }, isCorrect) => {
 		return <>De noemer van je breuk is niet wat verwacht werd. Heb je <M>{variables.x}</M> wel op de juiste manier buiten haakjes gehaald?</>
 	return <>Je lijkt er een constante vermenigvuldiging naast te zitten.</>
 }
+
+export const hasPower = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasPower(input) && <>Je antwoord heeft nog een macht. Je kunt dit simpeler schrijven.</>

@@ -60,8 +60,8 @@ const steps = [
 			</>
 		},
 		Solution: (state) => {
-			const { expanded } = useSolution(state)
-			return <Par>Als we alle haakjes op de normale wijze uitwerken krijgen we <BM>{expanded}.</BM></Par>
+			const { expanded, merged } = useSolution(state)
+			return <Par>Als we alle haakjes op de normale wijze uitwerken krijgen we <BM>{expanded}.</BM> Eventueel kunnen we dit nog wat korter schrijven als <BM>{merged}.</BM></Par>
 		},
 	},
 	{

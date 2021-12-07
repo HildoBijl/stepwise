@@ -96,8 +96,7 @@ const steps = [
 			</>
 		},
 		Solution: (state) => {
-			const solution = useSolution(state)
-			const { variables, termToMove, shifted, pulledOut, bracketFactor, ans } = solution
+			const { variables, termToMove, shifted, pulledOut, bracketFactor, ans } = useSolution(state)
 			return <Par>Voor het oplossen van een lineaire vergelijking brengen we eerst alle termen met <M>{variables.x}</M> naar de ene kant en alle termen zonder <M>{variables.x}</M> naar de andere kant. Oftewel, <M>{termToMove.abs()}</M> gaat naar links, zodat <BM>{shifted}.</BM> Vervolgens brengen we <M>{variables.x}</M> buiten haakjes. Dit zet het bovenstaande om in <BM>{pulledOut}.</BM> We delen tenslotte beide kanten van de vergelijking door <M>{bracketFactor}</M> om <M>{variables.x}</M> op te lossen. Het eindresultaat is <BM>{variables.x} = {ans}.</BM></Par>
 		},
 	},
