@@ -129,6 +129,7 @@ const courses = {
 			'calculateMissedWork',
 			'analyseGasTurbine',
 			'analyseRankineCycle',
+			'analyseCoolingCycle',
 		],
 		priorKnowledge: [
 			'calculateWithPressure',
@@ -149,6 +150,8 @@ const courses = {
 			'calculateWithSpecificQuantities',
 			'massFlowTrick',
 			'lookUpSteamProperties',
+			'findFridgeTemperatures',
+			'lookUpCoolantProperties',
 		],
 		blocks: [
 			{
@@ -177,7 +180,7 @@ const courses = {
 			},
 			{
 				name: 'Koelmachines en warmtepompen',
-				goals: [],
+				goals: ['analyseCoolingCycle'],
 			},
 		],
 	},
@@ -190,6 +193,7 @@ const courses = {
 			'calculateMissedWork',
 			'analyseGasTurbine',
 			'analyseRankineCycle',
+			'analyseCoolingCycle',
 		],
 		priorKnowledge: [
 			'calculateWithPressure',
@@ -209,6 +213,8 @@ const courses = {
 			'calculateWithSpecificQuantities',
 			'massFlowTrick',
 			'lookUpSteamProperties',
+			'findFridgeTemperatures',
+			'lookUpCoolantProperties',
 		],
 		blocks: [
 			{
@@ -241,7 +247,7 @@ const courses = {
 			},
 			{
 				name: 'Koelmachines en warmtepompen',
-				goals: [],
+				goals: ['analyseCoolingCycle'],
 			},
 		],
 	},

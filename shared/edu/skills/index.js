@@ -285,8 +285,22 @@ const skills = {
 	},
 
 	findFridgeTemperatures: {
-		name: 'Koelmachine temperaturen vinden',
+		name: 'Koelmachinetemperaturen vinden',
 		exercises: ['findFridgeTemperaturesInternal', 'findFridgeTemperaturesExternal'],
+	},
+	lookUpCoolantProperties: {
+		name: 'Koelmiddeleigenschappen opzoeken',
+		exercises: [],
+	},
+	createCoolingCycleOverview: {
+		name: 'Overzicht koelcyclus maken',
+		setup: combinerAnd('findFridgeTemperatures', combinerRepeat('lookUpCoolantProperties', 3)),
+		exercises: [],
+	},
+	analyseCoolingCycle: {
+		name: 'Koelcyclus analyseren',
+		setup: combinerAnd('createCoolingCycleOverview', 'useIsentropicEfficiency', 'calculateWithCOP', 'massFlowTrick'),
+		exercises: [],
 	},
 
 	readMollierDiagram: {
