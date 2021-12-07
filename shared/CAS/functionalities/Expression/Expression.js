@@ -1511,7 +1511,16 @@ class Fraction extends Function {
 	}
 
 	simplifyBasic(options) {
-		let { numerator, denominator } = this.simplifyChildren(options)
+		let { numerator, denominator } = this
+
+		// Merge fraction terms BEFORE simplifying children. We don't want to expand brackets just yet.
+		if (options.mergeFractionTerms && options.mergeProductTerms) {
+			({ numerator, denominator } = Fraction.mergeFractionTerms(numerator, denominator, options))
+		}
+
+		// Only now simplify children.
+		numerator = numerator.simplify(options)
+		denominator = denominator.simplify(options)
 
 		// Flatten fractions inside fractions.
 		if (options.flattenFractions) {
@@ -1530,7 +1539,7 @@ class Fraction extends Function {
 			}
 		}
 
-		// Split up fractions having numerator sums.
+		// Split up fractions having sums as numerator.
 		if (options.splitFractions) {
 			if (numerator.isType(Sum)) {
 				return new Sum(numerator.terms.map(term => new Fraction(term, denominator))).simplifyBasic(options)
@@ -1578,7 +1587,7 @@ class Fraction extends Function {
 			}
 		}
 
-		// Merge fraction terms.
+		// Once more try merging fraction terms. Things may have changed after simplifying children.
 		if (options.mergeFractionTerms && options.mergeProductTerms) {
 			({ numerator, denominator } = Fraction.mergeFractionTerms(numerator, denominator, options))
 		}
