@@ -10,7 +10,9 @@ import ExpressionInput, { validWithVariablesGeneric } from './ExpressionInput'
 const { getEmpty, isEmpty, getStartCursor } = support
 
 const equationProps = {
-	placeholder: 'Vul hier de vergelijking in',
+	label: 'Vul hier de vergelijking in',
+	placeholder: '',
+	center: true, // Center equations in their input fields.
 	validate: nonEmptyAndValid,
 	initialData: getEmptyData(),
 	isEmpty: data => isEmpty(data.value),

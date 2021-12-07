@@ -18,7 +18,7 @@ export default function Test() {
 			<Par>Dit is een testpagina. Hij wordt gebruikt om simpele dingen te testen en te kijken hoe ze werken. Vaak staat er willekeurige zooi op.</Par>
 			<Head>Tests</Head>
 			<BM>x=\frac(-b\pm\sqrt[2](b^2-4ac))(2a).</BM>
-			<BM>{eq.cleanForAnalysis()}</BM>
+			<BM>{eq}</BM>
 		</>
 	)
 }

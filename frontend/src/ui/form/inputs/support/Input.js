@@ -103,6 +103,7 @@ const useStyles = makeStyles((theme) => ({
 						flexFlow: 'row nowrap',
 						flex: '0 1 100%',
 						height: '100%',
+						justifyContent: ({ center }) => center ? 'center' : 'flex-start',
 						overflow: 'hidden',
 						whiteSpace: 'nowrap',
 
@@ -241,7 +242,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Input(props) {
 	// Gather properties.
-	let { id, prelabel, label, placeholder, feedbackText, className, size, validate, readOnly, autofocus, persistent } = props // User-defined props that are potentially passed on.
+	let { id, prelabel, label, placeholder, feedbackText, className, size, center, validate, readOnly, autofocus, persistent } = props // User-defined props that are potentially passed on.
 	let { initialData, isEmpty, JSXObject, keyPressToData, mouseClickToCursor, mouseClickToData, getStartCursor, getEndCursor, isCursorAtStart, keyboardSettings, basic, autoResize = false, heightDelta = 0 } = props // Field-defined props that vary per field type.
 
 	// Check properties.
@@ -284,12 +285,13 @@ export default function Input(props) {
 	// Set up necessary effects.
 	useKeyProcessing(processKeyPress, active)
 	useMouseClickProcessing(id, mouseClickToCursor, mouseClickToData, setData, contentsRef, fieldRef, getStartCursor, getEndCursor)
-	useContentSliding(contentsRef, contentsContainerRef)
+	useContentSliding(contentsRef, contentsContainerRef, center)
 	useFieldResizing(contentsRef, prelabelRef, fieldRef, data.value, autoResize, heightDelta)
 
 	// Pass relevant data to the style function.
 	const classes = useStyles({
 		size, // Can be 's', 'm' or 'l'.
+		center, // This is true/false: should content be centered.
 		fieldWidth,
 		contentsContainerWidth,
 		labelWidth,
@@ -417,7 +419,7 @@ function useMouseClickProcessing(fieldId, mouseClickToCursor, mouseClickToData, 
 }
 
 // useContentSlidingEffect sets up an effect for content sliding. It gets references to the contents field and the cursor (if existing). It then positions the contents field within its container (the input field) such that the cursor is appropriately visible.
-function useContentSliding(contentsRef, contentsContainerRef) {
+function useContentSliding(contentsRef, contentsContainerRef, center) {
 	const cursorRef = useCursorRef()
 	const absoluteCursorRef = useAbsoluteCursorRef()
 
@@ -448,10 +450,10 @@ function useContentSliding(contentsRef, contentsContainerRef) {
 		const cutOff = 0.1 // The part of the container at which the contents don't slide yet.
 		const cutOffDistance = cutOff * containerWidth
 		const cursorPos = getCoordinatesOf(cursorElement, contentsElement).x
-		const slidePart = boundTo((cursorPos - cutOffDistance) / (contentsWidth - 2 * cutOffDistance), 0, 1)
+		const slidePart = boundTo((cursorPos - cutOffDistance) / (contentsWidth - 2 * cutOffDistance), 0, 1) - (center ? 0.5 : 0)
 		const translation = -slidePart * (contentsWidth - containerWidth)
 		contentsElement.style.transform = `translateX(${translation}px)`
-	}, [contentsRef, contentsContainerRef, cursorRef, absoluteCursorRef])
+	}, [contentsRef, contentsContainerRef, cursorRef, absoluteCursorRef, center])
 
 	// Apply the function through an effect. Use a setTimeout to ensure that the adjustments are done after the absolute cursor has properly updated its position.
 	useEffect(() => {

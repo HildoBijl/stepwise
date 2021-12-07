@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 export { style }
 
 const defaultProps = {
+	label: 'Vul hier het resultaat in',
 	placeholder: 'Uitdrukking',
 	validate: nonEmptyAndValid,
 	initialData: getEmptyData(),
