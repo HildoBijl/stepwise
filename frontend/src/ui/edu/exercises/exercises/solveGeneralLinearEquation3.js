@@ -36,7 +36,7 @@ const steps = [
 		Problem: (state) => {
 			const { variables } = useSolution(state)
 			return <>
-				<Par>Als eerste zien we aan de linkerkant een breuk binnen een breuk staan. Simplificeer dit zo veel mogelijk. (Laat de rechterkant van de vergelijking onveranderd staan.)</Par>
+				<Par>Als eerste zien we aan de linkerkant een breuk binnen een breuk staan. Simplificeer deze zo veel mogelijk. (Laat de rechterkant van de vergelijking onveranderd staan.)</Par>
 				<InputSpace>
 					<Par>
 						<EquationInput id="simplified" size="l" settings={basicMathAndPowers} validate={equationValidWithVariables(variables)} />
