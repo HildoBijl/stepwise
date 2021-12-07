@@ -53,7 +53,7 @@ const steps = [
 		Problem: (state) => {
 			const { variables } = useSolution(state)
 			return <>
-				<Par>Vergelijkingen zijn een stuk makkelijker op te lossen als er geen breuken in zitten. Vermenigvuldig met de noemers van beide breuken om dit voor elkaar te krijgen.</Par>
+				<Par>Vergelijkingen zijn een stuk makkelijker op te lossen als er geen breuken in zitten. Vermenigvuldig alle termen van de vergelijking met de noemers van beide breuken om dit voor elkaar te krijgen.</Par>
 				<InputSpace>
 					<Par>
 						<EquationInput id="multiplied" size="l" settings={basicMath} validate={equationValidWithVariables(variables)} />
@@ -97,7 +97,6 @@ const steps = [
 		},
 		Solution: (state) => {
 			const solution = useSolution(state)
-			window.s = solution
 			const { variables, termToMove, shifted, pulledOut, bracketFactor, ans } = solution
 			return <Par>Voor het oplossen van een lineaire vergelijking brengen we eerst alle termen met <M>{variables.x}</M> naar de ene kant en alle termen zonder <M>{variables.x}</M> naar de andere kant. Oftewel, <M>{termToMove.abs()}</M> gaat naar links, zodat <BM>{shifted}.</BM> Vervolgens brengen we <M>{variables.x}</M> buiten haakjes. Dit zet het bovenstaande om in <BM>{pulledOut}.</BM> We delen tenslotte beide kanten van de vergelijking door <M>{bracketFactor}</M> om <M>{variables.x}</M> op te lossen. Het eindresultaat is <BM>{variables.x} = {ans}.</BM></Par>
 		},
@@ -112,7 +111,6 @@ function getFeedback(exerciseData) {
 		(input, correct, solution, isCorrect) => correctExpression(input.left, correct.left, solution, isCorrect),
 	]
 
-	window.e = exerciseData
 	// Determine feedback.
 	return getInputFieldFeedback([
 		'ans',

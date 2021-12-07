@@ -6,7 +6,7 @@ const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { performCheck } = require('../util/check')
 
-// 1/(a/w+b/x) = y/z
+// 1/(a/w+b/x) = y/z.
 const availableVariableSets = [['a', 'b', 'c', 'd'], ['w', 'x', 'y', 'z'], ['p', 'q', 'r', 's']]
 const usedVariables = ['w', 'x', 'y', 'z']
 const constants = ['a', 'b']
@@ -16,7 +16,7 @@ const data = {
 	setup: combinerAnd('simplifyFraction', 'multiplyDivideAllTerms', 'expandBrackets', 'solveBasicLinearEquation'),
 	steps: ['simplifyFraction', 'multiplyDivideAllTerms', 'expandBrackets', 'solveBasicLinearEquation'],
 	check: {
-		ans: expressionChecks.equivalent,
+		ans: (input, correct) => !expressionChecks.hasFractionWithinFraction(input) && expressionChecks.equivalent(input, correct),
 		simplified: (input, correct) => expressionChecks.onlyOrderChanges(input.right, correct.right) && !expressionChecks.hasFractionWithinFraction(input.left) && expressionChecks.equivalent(input.left, correct.left),
 		multiplied: (input, correct, { variables }) => equationChecks.equivalentSides(input, correct) && !equationChecks.hasFraction(input), // No fractions.
 		expanded: (input, correct) => equationChecks.equivalentSides(input, correct) && !equationChecks.hasFraction(input) && !equationChecks.hasSumWithinProduct(input), // No fractions and no unexpanded brackets left.

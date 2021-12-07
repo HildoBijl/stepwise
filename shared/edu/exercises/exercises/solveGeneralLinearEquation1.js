@@ -16,7 +16,7 @@ const data = {
 	setup: combinerAnd(combinerRepeat('multiplyDivideAllTerms', 2), combinerRepeat('expandBrackets', 2), 'solveBasicLinearEquation'),
 	steps: [combinerRepeat('multiplyDivideAllTerms', 2), combinerRepeat('expandBrackets', 2), 'solveBasicLinearEquation'],
 	check: {
-		ans: expressionChecks.equivalent,
+		ans: (input, correct) => !expressionChecks.hasFractionWithinFraction(input) && expressionChecks.equivalent(input, correct),
 		multiplied: (input, correct) => equationChecks.equivalentSides(input, correct) && !equationChecks.hasFraction(input), // No fractions left.
 		expanded: (input, correct) => equationChecks.equivalentSides(input, correct) && !equationChecks.hasFraction(input) && !equationChecks.hasSumWithinProduct(input), // No fractions and no unexpanded brackets left.
 	},

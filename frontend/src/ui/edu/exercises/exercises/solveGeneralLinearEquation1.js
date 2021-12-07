@@ -84,7 +84,6 @@ const steps = [
 ]
 
 function getFeedback(exerciseData) {
-	window.e = exerciseData
 	// Determine feedback.
 	return getInputFieldFeedback([
 		'ans',
