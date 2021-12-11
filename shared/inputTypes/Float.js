@@ -6,7 +6,7 @@ const { isObject, processOptions } = require('../util/objects')
 const { getRandom } = require('../util/random')
 const { Integer } = require('./Integer')
 
-const numberFormat = '(-?(\\d+[.,]?\\d*)|(\\d*[.,]?\\d+))'
+const numberFormat = '(-?((\\d+[.,]?\\d*)|(\\d*[.,]?\\d+)))'
 const timesFormat = '(\\s*\\*\\s*)'
 // const tenPowerFormat = '10\\^(?:(?:\\((?<powerWithBrackets>-?\\d+)\\))|(?<powerWithoutBrackets>-?\\d+))' // Firefox doesn't support named capture groups.
 const tenPowerFormat = '(10\\^((\\((-?\\d+)\\))|(-?\\d+)))'
@@ -610,8 +610,8 @@ function stringToSO(str) {
 		throw new Error(`Invalid Float number given: could not parse "${str}". It did not have the required format of "xxx.xxxx * 10^(yy)", or alternatively just "xxx.xxxx" or "10^(yy)". (Brackets are also optional.)`)
 
 	// Extract number data and return it.
-	const numberStr = (match[2] || match[16] || '').replace(',', '.') // Turn a comma into a period. (Dutch vs US formatting.)
-	const power = parseInt(match[9] || match[10] || match[14] || match[15] || 0)
+	const numberStr = (match[2] || match[18] || '').replace(',', '.') // Turn a comma into a period. (Dutch vs US formatting.)
+	const power = parseInt(match[10] || match[11] || match[15] || match[16] || 0)
 
 	// Check a special case: no number string.
 	if (numberStr === '')

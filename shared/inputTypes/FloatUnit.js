@@ -397,7 +397,7 @@ function splitString(str) {
 	// Further process and save the results.
 	return {
 		float: match[2],
-		unit: match[20],
+		unit: match[22],
 	}
 }
 
