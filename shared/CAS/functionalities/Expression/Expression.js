@@ -1578,7 +1578,7 @@ class Fraction extends Function {
 					if (term.isType(Integer))
 						return new Integer(term.number / divisor)
 					if (term.isType(Product))
-						return term.applyToTerm(0, divideTermByDivisor)
+						return term.applyToTerm(0, divideTermByDivisor).simplify(options)
 					throw new Error(`Fraction reduction error: an unexpected case appeared while reducing the numbers inside a fraction.`)
 				}
 				const dividePartByDivisor = (part) => part.isType(Sum) ? part.applyToAllTerms(divideTermByDivisor) : divideTermByDivisor(part)
