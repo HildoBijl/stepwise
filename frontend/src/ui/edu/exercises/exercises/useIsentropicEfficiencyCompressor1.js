@@ -25,7 +25,7 @@ const Problem = ({ p1, p2, T1, T2 }) => <>
 const steps = [
 	{
 		Problem: () => <>
-			<Par>Stel dat de compressor <em>wel</em> isentroop was. Bereken in dit geval de temperatuur van de lucht aan de uitgang van de compressor.</Par>
+			<Par>Stel dat de compressor <em>wel</em> isentroop werkt. Bereken in dit geval de temperatuur van de lucht aan de uitgang van de compressor.</Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="T2p" prelabel={<M>T_(2')=</M>} label="Theoretische temperatuur" size="s" />
@@ -42,7 +42,7 @@ const steps = [
 	},
 	{
 		Problem: () => <>
-			<Par>Bereken de specifieke technische arbeid die de lucht in de compressor levert, zowel voor het theoretische isentrope geval als in werkelijkheid.</Par>
+			<Par>Bereken de specifieke technische arbeid die de compressor op de lucht uitoefent, zowel voor het theoretische isentrope geval als in werkelijkheid. (Merk op: je antwoorden moeten positieve getallen zijn.)</Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="wti" prelabel={<M>w_(t_i)=</M>} label="Theoretische specifieke technische arbeid" size="s" />
@@ -55,9 +55,9 @@ const steps = [
 			return <>
 				<Par>Bij de compressor wordt geen warmte toegevoerd, dus <M>q = 0.</M> De technische arbeid volgt vanuit de eerste hoofdwet als
 					<BM>w_t = q - \Delta h = -\Delta h = -c_p \left(T_2 - T_1\right).</BM>
-					Dit geldt zowel voor het theoretische isentrope geval als voor de werkelijkheid. Zo vinden we
-					<BM>w_(t_i) = -c_p \left(T_(2') - T_1\right) = -{cp.float} \cdot \left({T2p.float} - {T1.float}\right) = {wti},</BM>
-					<BM>w_t = -c_p \left(T_2 - T_1\right) = -{cp.float} \cdot \left({T2.float} - {T1.float}\right) = {wt}.</BM>
+					Dit geldt zowel voor het theoretische isentrope geval als voor de werkelijkheid. Dit is echter de technische arbeid die <em>de lucht op de omgeving (compressor)</em> uitoefent. Voor de arbeid die <em>de compressor op de lucht</em> uitoefent, is het teken omgekeerd: het minteken hierboven valt weg. Zo vinden we
+					<BM>w_(t_i) = c_p \left(T_(2') - T_1\right) = {cp.float} \cdot \left({T2p.float} - {T1.float}\right) = {wti},</BM>
+					<BM>w_t = c_p \left(T_2 - T_1\right) = {cp.float} \cdot \left({T2.float} - {T1.float}\right) = {wt}.</BM>
 					Merk op dat de werkelijke technische arbeid groter is dan de technische arbeid in het optimale geval. Dit is logisch: als er frictie aanwezig is, heeft een compressor meer arbeid nodig.
 				</Par>
 			</>
@@ -75,7 +75,7 @@ const steps = [
 		Solution: () => {
 			const { T1, T2, T2p, wt, wti, etai } = useSolution()
 			return <>
-				<Par>Het isentropisch rendement is altijd een getal tussen de <M>0</M> en de <M>1.</M> We moeten bij een compressor dus de theoretische technische arbeid (het kleinere getal) delen door de werkelijke technische arbeid (het grotere getal). Zo vinden we <BM>\eta_i = \frac(w_(t_i))(w_t) = \frac{wti.float}{wt.float} = {etai}.</BM> Een isentropisch rendement van <M>{etai.setUnit('%')}</M> is redelijk reëel voor een compressor.</Par>
+				<Par>Het isentropisch rendement is altijd een getal tussen de <M>0</M> en de <M>1.</M> We moeten bij een compressor dus de theoretische technische arbeid (het kleinere getal) delen door de werkelijke technische arbeid (het grotere getal). Zo vinden we <BM>\eta_i = \frac(w_(t_i))(w_t) = \frac{wti.float}{wt.float} = {etai}.</BM> Merk op dat een eventueel minteken in de waarden van <M>w_(t_i)</M> en <M>w_t</M> hier geen effect gehad zou hebben. Ook geldt dat een isentropisch rendement van <M>{etai.setUnit('%')}</M> redelijk reëel is voor een compressor.</Par>
 				<SubHead>Short-cut</SubHead>
 				<Par>We hadden eventueel ook het isentropisch rendement gelijk vanuit de temperaturen kunnen berekenen via
 					<BM>\eta_i = \frac(w_(t_i))(w_t) = \frac(c_p \left(T_(2') - T_1\right))(c_p \left(T_2 - T_1\right)) = \frac(T_(2') - T_1)(T_2 - T_1) = \frac({T2p.float} - {T1.float})({T2.float} - {T1.float}) = {etai}.</BM>

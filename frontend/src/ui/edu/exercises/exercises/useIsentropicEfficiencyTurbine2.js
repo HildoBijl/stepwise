@@ -14,7 +14,7 @@ export default function Exercise() {
 }
 
 const Problem = ({ h1, h2p, etai }) => <>
-	<Par>Een turbine in een stoominstallatie gebruikt stoom om arbeid te genereren. Dit gebeurt niet isentroop. Bij een isentroop zou de specifieke enthalpie dalen van <M>{h1}</M> naar <M>{h2p}.</M> Nu is er echter een isentropisch rendement van <M>{etai}</M> van toepassing. Bereken in dit geval de specifieke enthalpie die de stoom werkelijk heeft bij het verlaten van de turbine.</Par>
+	<Par>Een turbine in een stoominstallatie gebruikt stoom om arbeid te genereren. Dit gebeurt niet isentroop. Bij een isentroop proces zou de specifieke enthalpie van de stoom dalen van <M>{h1}</M> naar <M>{h2p}.</M> Nu is er echter een isentropisch rendement van <M>{etai}</M> van toepassing. Bereken in dit geval de specifieke enthalpie die de stoom werkelijk heeft bij het verlaten van de turbine.</Par>
 	<InputSpace>
 		<Par>
 			<FloatUnitInput id="h2" prelabel={<M>h_2 =</M>} label="Specifieke enthalpie na turbine" size="s" />
@@ -36,7 +36,7 @@ const steps = [
 			const { h1, h2p, wti } = useSolution()
 			return <>
 				<Par>In een turbine wordt geen warmte toegevoerd of afgevoerd, waardoor <M>q = 0.</M> De technische arbeid volgt vanuit de eerste hoofdwet als
-				<BM>w_t = q - \Delta h = -(h_2 - h_1) = h_1 - h_2.</BM>
+				<BM>w_t = q - \Delta h = -\left(h_2 - h_1\right) = h_1 - h_2.</BM>
 				Dit geldt zowel voor het theoretische isentrope geval als voor de werkelijkheid. Voor het theoretische geval vinden we zo
 				<BM>w_(t_i) = h_1 - h_(2') = {h1.float} - {h2p.float} = {wti}.</BM>
 				</Par>

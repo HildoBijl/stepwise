@@ -25,7 +25,7 @@ const Problem = ({ P, mdot }) => <>
 const steps = [
 	{
 		Problem: () => <>
-			<Par>Bereken via de gegeven getallen de specifieke arbeid die het stoom levert.</Par>
+			<Par>Bereken via de gegeven getallen de specifieke arbeid die de stoom levert.</Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="wt" prelabel={<M>w_t=</M>} label="Geleverde specifieke arbeid" size="s" />

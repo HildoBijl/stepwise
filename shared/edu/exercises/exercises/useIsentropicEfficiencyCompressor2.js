@@ -29,9 +29,9 @@ function generateState() {
 function getSolution({ p1, p2, T1, etai }) {
 	etai = etai.simplify()
 	const T2p = T1.multiply(p2.divide(p1).float.toPower(1 - 1 / k.number)).setDecimals(0)
-	const wti = cp.multiply(T1.subtract(T2p)).setUnit('J/kg')
+	const wti = cp.multiply(T2p.subtract(T1)).setUnit('J/kg')
 	const wt = wti.divide(etai).setUnit('J/kg')
-	const T2 = T1.subtract(wt.divide(cp)).setUnit('K').setDecimals(0)
+	const T2 = T1.add(wt.divide(cp)).setUnit('K').setDecimals(0)
 	return { k, cp, p1, p2, T1, T2, T2p, wt, wti, etai }
 }
 
