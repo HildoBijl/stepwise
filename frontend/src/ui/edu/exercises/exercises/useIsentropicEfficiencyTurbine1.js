@@ -2,7 +2,7 @@ import React from 'react'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
-import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
+import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import StepExercise from '../types/StepExercise'
@@ -17,7 +17,7 @@ const Problem = ({ h1, h2p, h2 }) => <>
 	<Par>Een turbine in een stoominstallatie gebruikt stoom om arbeid te genereren. Bij dit proces daalt de specifieke enthalpie van de stoom van <M>{h1}</M> naar <M>{h2}.</M> De turbine werkt niet isentropisch: als deze wel isentropisch zou werken zou de enthalpie dalen tot <M>{h2p}.</M> Bereken het isentropisch rendement van de turbine.</Par>
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="etai" prelabel={<M>\eta_i =</M>} label="Isentropisch rendement" size="s" />
+			<FloatUnitInput id="etai" prelabel={<M>\eta_i =</M>} label="Isentropisch rendement" size="s" validate={validNumberAndUnit} />
 		</Par>
 	</InputSpace>
 </>
@@ -37,11 +37,11 @@ const steps = [
 			const { h1, h2p, h2, wti, wt } = useSolution()
 			return <>
 				<Par>In een turbine wordt geen warmte toegevoerd of afgevoerd, waardoor <M>q = 0.</M> De technische arbeid volgt vanuit de eerste hoofdwet als
-				<BM>w_t = q - \Delta h = -(h_2 - h_1) = h_1 - h_2.</BM>
-				Dit geldt zowel voor het theoretische isentrope geval als voor de werkelijkheid. Zo vinden we
-				<BM>w_(t_i) = h_1 - h_(2') = {h1.float} - {h2p.float} = {wti},</BM>
+					<BM>w_t = q - \Delta h = -(h_2 - h_1) = h_1 - h_2.</BM>
+					Dit geldt zowel voor het theoretische isentrope geval als voor de werkelijkheid. Zo vinden we
+					<BM>w_(t_i) = h_1 - h_(2') = {h1.float} - {h2p.float} = {wti},</BM>
 					<BM>w_t = h_1 - h_2 = {h1.float} - {h2.float} = {wt}.</BM>
-				Merk op dat de werkelijke technische arbeid kleiner is dan de technische arbeid in het optimale geval. Dit is logisch: als er frictie aanwezig is, levert een turbine minder arbeid.
+					Merk op dat de werkelijke technische arbeid kleiner is dan de technische arbeid in het optimale geval. Dit is logisch: als er frictie aanwezig is, levert een turbine minder arbeid.
 				</Par>
 			</>
 		},
@@ -51,7 +51,7 @@ const steps = [
 			<Par>Bereken het isentropisch rendement door de theoretische isentrope situatie met de werkelijkheid te vergelijken.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="etai" prelabel={<M>\eta_i =</M>} label="Isentropisch rendement" size="s" />
+					<FloatUnitInput id="etai" prelabel={<M>\eta_i =</M>} label="Isentropisch rendement" size="s" validate={validNumberAndUnit} />
 				</Par>
 			</InputSpace>
 		</>,
