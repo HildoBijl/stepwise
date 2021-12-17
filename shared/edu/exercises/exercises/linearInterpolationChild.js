@@ -62,10 +62,10 @@ function generateState() {
 function getSolution({ type, h1, h2, W1, W2, h, W }) {
 	let x
 	if (type === 1) {
-		x = h.subtract(h1).divide(h2.subtract(h1)).setUnit('')
+		x = h.subtract(h1).divide(h2.subtract(h1)).float
 		W = W1.add((W2.subtract(W1)).multiply(x)).roundToPrecision()
 	} else {
-		x = W.subtract(W1).divide(W2.subtract(W1)).setUnit('')
+		x = W.subtract(W1).divide(W2.subtract(W1)).float
 		h = h1.add((h2.subtract(h1)).multiply(x)).roundToPrecision()
 	}
 	return { type, h1, h2, W1, W2, x, h, W }
