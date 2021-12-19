@@ -285,16 +285,16 @@ const skills = {
 	},
 
 	findFridgeTemperatures: {
-		name: 'Koelmachinetemperaturen vinden',
+		name: 'Koelmachinetemperaturen bepalen',
 		exercises: ['findFridgeTemperaturesInternal', 'findFridgeTemperaturesExternal'],
 	},
-	lookUpCoolantProperties: {
-		name: 'Koelmiddeleigenschappen opzoeken',
+	determineCoolantProcesses: {
+		name: 'Koelmiddelprocessen bepalen',
 		exercises: [],
 	},
 	createCoolingCycleOverview: {
 		name: 'Overzicht koelcyclus maken',
-		setup: combinerAnd('findFridgeTemperatures', combinerRepeat('lookUpCoolantProperties', 3)),
+		setup: combinerAnd('findFridgeTemperatures', combinerRepeat('determineCoolantProcesses', 3)),
 		exercises: [],
 	},
 	analyseCoolingCycle: {

@@ -151,7 +151,7 @@ const courses = {
 			'massFlowTrick',
 			'lookUpSteamProperties',
 			'findFridgeTemperatures',
-			'lookUpCoolantProperties',
+			'determineCoolantProcesses',
 		],
 		blocks: [
 			{
@@ -214,7 +214,7 @@ const courses = {
 			'massFlowTrick',
 			'lookUpSteamProperties',
 			'findFridgeTemperatures',
-			'lookUpCoolantProperties',
+			'determineCoolantProcesses',
 		],
 		blocks: [
 			{
