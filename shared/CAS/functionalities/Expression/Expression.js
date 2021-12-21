@@ -1515,12 +1515,14 @@ class Fraction extends Function {
 
 		// Merge fraction terms BEFORE simplifying children. We don't want to expand brackets just yet.
 		if (options.mergeFractionTerms && options.mergeProductTerms) {
-			({ numerator, denominator } = Fraction.mergeFractionTerms(numerator, denominator, options))
+			numerator = numerator.simplify({ mergeProductTerms: true })
+			denominator = denominator.simplify({ mergeProductTerms: true })
+			;({ numerator, denominator } = Fraction.mergeFractionTerms(numerator, denominator, options))
 		}
 
 		// Only now simplify children.
-		numerator = numerator.simplify(options)
-		denominator = denominator.simplify(options)
+		numerator = numerator.simplifyBasic(options)
+		denominator = denominator.simplifyBasic(options)
 
 		// Flatten fractions inside fractions.
 		if (options.flattenFractions) {
