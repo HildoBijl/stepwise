@@ -288,13 +288,13 @@ const skills = {
 		name: 'Koelmachinetemperaturen bepalen',
 		exercises: ['findFridgeTemperaturesInternal', 'findFridgeTemperaturesExternal'],
 	},
-	determineCoolantProcesses: {
+	determineRefrigerantProcesses: {
 		name: 'Koelmiddelprocessen bepalen',
-		exercises: [],
+		exercises: ['determineRefrigerantProcessesIsobaric', 'determineRefrigerantProcessesIsentropic'],
 	},
 	createCoolingCycleOverview: {
 		name: 'Overzicht koelcyclus maken',
-		setup: combinerAnd('findFridgeTemperatures', combinerRepeat('determineCoolantProcesses', 3)),
+		setup: combinerAnd('findFridgeTemperatures', combinerRepeat('determineRefrigerantProcesses', 3)),
 		exercises: [],
 	},
 	analyseCoolingCycle: {

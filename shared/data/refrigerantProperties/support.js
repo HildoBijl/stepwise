@@ -28,6 +28,8 @@ function getUnitLabel(unit) {
 function getBoilingTemperature(pressure, data) {
 	if (!isObject(data) || !data.boilingData)
 		throw new Error(`Invalid refrigerant data: the given data was not data exported from a refrigerant properties file.`)
+	if (!(pressure instanceof FloatUnit) || !unitsSimilar(pressure.unit, pressureUnit))
+		throw new Error(`Invalid pressure given: could not turn the given parameter into a pressure. The value given was "${pressure}".`)
 	return columnTableInterpolate(pressure, 'pressure', data.boilingData, 'temperature')
 }
 module.exports.getBoilingTemperature = getBoilingTemperature
@@ -36,18 +38,20 @@ module.exports.getBoilingTemperature = getBoilingTemperature
 function getBoilingPressure(temperature, data) {
 	if (!isObject(data) || !data.boilingData)
 		throw new Error(`Invalid refrigerant data: the given data was not data exported from a refrigerant properties file.`)
+	if (!(temperature instanceof FloatUnit) || !unitsSimilar(temperature.unit, temperatureUnit))
+		throw new Error(`Invalid temperature given: could not turn the given parameter into a temperature. The value given was "${temperature}".`)
 	return columnTableInterpolate(temperature, 'temperature', data.boilingData, 'pressure')
 }
 module.exports.getBoilingPressure = getBoilingPressure
 
 // isBoiling takes a pressure and enthalpy and checks if the resulting point is in the boiling region.
 function isBoiling(pressure, enthalpy, data) {
-	return getState(pressure, enthalpy, data) === 'vapor'
+	return getPhase(pressure, enthalpy, data) === 'vapor'
 }
 module.exports.isBoiling = isBoiling
 
-// getState returns the state of a refrigerant with given pressure and enthalpy. The outcome is a string being either 'liquid', 'vapor' or 'gas'.
-function getState(pressure, enthalpy, data) {
+// getPhase returns the phase of a refrigerant with given pressure and enthalpy. The outcome is a string being either 'liquid', 'vapor' or 'gas'.
+function getPhase(pressure, enthalpy, data) {
 	const { enthalpyLiquid, enthalpyVapor } = columnTableInterpolate(pressure, 'pressure', data.boilingData, ['enthalpyLiquid', 'enthalpyVapor'])
 	if (enthalpy.compare(enthalpyLiquid) <= 0)
 		return 'liquid'
@@ -55,7 +59,7 @@ function getState(pressure, enthalpy, data) {
 		return 'gas'
 	return 'vapor'
 }
-module.exports.getState = getState
+module.exports.getPhase = getPhase
 
 // getLiquidLineProperties gives the properties of a refrigerant at the liquid line, given any property.
 function getLiquidLineProperties(parameter, data) {
@@ -78,7 +82,7 @@ function getLineProperties(parameter, data, liquidLine = true) {
 	// Deal with easy cases first.
 	const label = getUnitLabel(parameter.unit)
 	if (label === 'pressure' || label === 'temperature')
-		return { ...getVaporProperties(parameter, liquidLine ? 0 : 1, data), state: liquidLine ? 'liquid' : 'gas' }
+		return { ...getVaporProperties(parameter, liquidLine ? 0 : 1, data), phase: liquidLine ? 'liquid' : 'gas' }
 
 	// We must interpolate.
 	const addendum = liquidLine ? 'Liquid' : 'Vapor'
@@ -89,7 +93,7 @@ function getLineProperties(parameter, data, liquidLine = true) {
 		temperature: pointData.temperature,
 		enthalpy: pointData[`enthalpy${addendum}`],
 		entropy: pointData[`entropy${addendum}`],
-		state: liquidLine ? 'liquid' : 'gas',
+		phase: liquidLine ? 'liquid' : 'gas',
 	}
 }
 module.exports.getLineProperties = getLineProperties
@@ -116,7 +120,7 @@ function getVaporProperties(parameter, vaporFraction, data) {
 	}
 
 	// Use the pressure to find the relevant properties.
-	const result = { state: 'vapor', temperature, pressure, vaporFraction }
+	const result = { phase: 'vapor', temperature, pressure, vaporFraction }
 	const parameters = ['enthalpy', 'entropy']
 	parameters.forEach(parameter => {
 		const names = [`${parameter}Liquid`, `${parameter}Vapor`]
@@ -155,12 +159,12 @@ function getProperties(pressure, parameter, data) {
 		}
 	}
 
-	// Check the state that we have.
-	let state
+	// Check the phase that we have.
+	let phase
 	if (label === 'temperature')
-		state = parameter.compare(boilingProperties['temperature']) <= 0 ? 'liquid' : 'gas'
+		phase = parameter.compare(boilingProperties['temperature']) <= 0 ? 'liquid' : 'gas'
 	else
-		state = parameter.compare(boilingProperties[`${label}Liquid`]) <= 0 ? 'liquid' : 'gas'
+		phase = parameter.compare(boilingProperties[`${label}Liquid`]) <= 0 ? 'liquid' : 'gas'
 
 	// Find the two closest tables through a binary search.
 	const fullTable = data.dataByPressure
@@ -175,19 +179,19 @@ function getProperties(pressure, parameter, data) {
 		labels.forEach(currLabel => {
 			result[currLabel] = closestTables[tableIndex][currLabel][index]
 		})
-		result.state = getState(result.pressure, result.enthalpy, data)
+		result.phase = getPhase(result.pressure, result.enthalpy, data)
 		return result
 	}))
 
-	// Walk through the points again. If any of them has the wrong state, then errors will ensue. Check for this and, when it happens, find an alternative point on the nearest line based on the temperature. (We cannot use the enthalpy here, since the line does not have a purely ascending enthalpy.)
+	// Walk through the points again. If any of them has the wrong phase, then errors will ensue. Check for this and, when it happens, find an alternative point on the nearest line based on the temperature. (We cannot use the enthalpy here, since the line does not have a purely ascending enthalpy.)
 	const closestValuesProcessed = closestValues.map((valueArray, tableIndex) => valueArray.map((values, rowIndex) => {
-		// If the state matches, it all checks out.
-		if (values.state === state)
+		// If the phase matches, it all checks out.
+		if (values.phase === phase)
 			return values
 
 		// Get the temperature from the other pressure table and use that to find a point on the respective line.
 		const temperature = closestValues[1 - tableIndex][rowIndex].temperature
-		return getLineProperties(temperature, data, state === 'liquid')
+		return getLineProperties(temperature, data, phase === 'liquid')
 	}))
 
 	// We have the four closest points. First interpolate between them for the given parameter, reducing it to a range of two points.
@@ -202,7 +206,7 @@ function getProperties(pressure, parameter, data) {
 	})
 
 	// Next interpolate between these two points, with respect to the pressure. Do this for all properties to be found.
-	const result = { pressure, state }
+	const result = { pressure, phase }
 	const part = getPart(pressure, valuesAtParameter.map(value => value.pressure)).setUnit('')
 	labels.forEach(currLabel => {
 		if (label === currLabel)
