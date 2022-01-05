@@ -243,7 +243,7 @@ class Unit {
 	equals(x, options = {}) {
 		// If constructors don't match, no comparison is possible.
 		if (this.constructor !== x.constructor)
-			throw new Error(`Invalid comparison: cannot compare an object of type "${this.type || 'unknown'}" with an object of type "${x.type || 'unknown'}".`)
+			throw new Error(`Invalid comparison: cannot compare an object of type "${this.constructor.name || 'unknown'}" with an object of type "${x.constructor.name || 'unknown'}".`)
 
 		// Fill out any missing options with defaults.
 		options = processOptions(options, Unit.defaultEqualityOptions)
@@ -368,6 +368,14 @@ function equalityTypeToSimplifyOptions(type) {
 	throw new Error(`Invalid unit equals type: received "${type}" which is not a known type.`)
 }
 module.exports.equalityTypeToSimplifyOptions = equalityTypeToSimplifyOptions
+
+// unitsSimilar checks if units are similar enough to be turned into each other.
+function unitsSimilar(a, b) {
+	if (!(a instanceof Unit) || !(b instanceof Unit))
+		throw new Error(`Invalid Unit: the function unitsSimilar was called and given an input that was not a unit.`)
+	return a.equals(b, { type: Unit.equalityTypes.free, checkSize: false })
+}
+module.exports.unitsSimilar = unitsSimilar
 
 // splitUnitString takes a unit like "m * kg / N^2 * m^2" and splits it up into an object { num: "m * kg", den: "N^2 * m^2" } with numerator and denominator strings.
 function splitUnitString(str) {

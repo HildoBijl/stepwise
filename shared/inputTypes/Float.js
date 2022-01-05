@@ -610,7 +610,7 @@ function stringToSO(str) {
 		throw new Error(`Invalid Float number given: could not parse "${str}". It did not have the required format of "xxx.xxxx * 10^(yy)", or alternatively just "xxx.xxxx" or "10^(yy)". (Brackets are also optional.)`)
 
 	// Extract number data and return it.
-	const numberStr = (match[2] || match[18] || '').replace(',', '.') // Turn a comma into a period. (Dutch vs US formatting.)
+	const numberStr = (match[2] || match[17] || '').replace(',', '.') // Turn a comma into a period. (Dutch vs US formatting.)
 	const power = parseInt(match[10] || match[11] || match[15] || match[16] || 0)
 
 	// Check a special case: no number string.

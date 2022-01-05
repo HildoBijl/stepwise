@@ -1,7 +1,9 @@
-// isNumber checks if a given parameter is a number. Strings of numbers are allowed.
+// isNumber checks if a given parameter is a number. Strings of numbers are allowed. Number-like objects are not.
 function isNumber(value) {
   // Check boundary cases.
   if (typeof value === 'string' && value.trim() === '')
+    return false
+  if (typeof value === 'object')
     return false
 
   // Go for the default comparison.
