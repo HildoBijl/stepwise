@@ -172,7 +172,7 @@ const courses = {
 			},
 			{
 				name: 'Dampen en diagrammen',
-				goals: ['useVaporFraction'],
+				goals: ['useVaporFraction', 'determineRefrigerantProcesses'],
 			},
 			{
 				name: 'Stoomturbines',
@@ -239,7 +239,7 @@ const courses = {
 			},
 			{
 				name: 'Dampen en diagrammen',
-				goals: ['useVaporFraction'],
+				goals: ['useVaporFraction', 'determineRefrigerantProcesses'],
 			},
 			{
 				name: 'Stoomturbines',
