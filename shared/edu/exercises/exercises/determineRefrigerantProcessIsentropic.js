@@ -71,7 +71,7 @@ function getSolution({ refrigerant, phase1, T1, x1, p1, p2 }) {
 		x1: point1.vaporFraction && point1.vaporFraction.setDecimals(2),
 		h1: point1.enthalpy.setDecimals(0),
 		s1: point1.entropy.setDecimals(2),
-		phase2,
+		phase2: point2.phase,
 		p2: point2.pressure.setSignificantDigits(2),
 		T2: point2.temperature.setDecimals(0),
 		x2: point2.vaporFraction && point2.vaporFraction.setDecimals(2),

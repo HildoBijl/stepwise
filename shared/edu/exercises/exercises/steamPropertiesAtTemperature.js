@@ -25,10 +25,10 @@ function getSolution({ T, type }) {
 	const p = tableInterpolate(T, withTemperature.boilingPressure)
 
 	// Get enthalpy.
-	h = tableInterpolate(T, type === 1 ? withTemperature.enthalpyLiquid : withTemperature.enthalpyVapor)
+	const h = tableInterpolate(T, type === 1 ? withTemperature.enthalpyLiquid : withTemperature.enthalpyVapor)
 
 	// Get entropy.
-	s = tableInterpolate(T, type === 1 ? withTemperature.entropyLiquid : withTemperature.entropyVapor)
+	const s = tableInterpolate(T, type === 1 ? withTemperature.entropyLiquid : withTemperature.entropyVapor)
 
 	return { T, type, p, h, s }
 }

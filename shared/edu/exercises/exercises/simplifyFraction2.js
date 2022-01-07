@@ -41,14 +41,14 @@ function getSolution(state) {
 	const numerator = fraction1[state.plus ? 'add' : 'subtract'](fraction2)
 	const denominator = asExpression('cz').substituteVariables(variables)
 	const expression = numerator.divideBy(denominator)
-	const gcdValue = gcd(variables.a, variables.b)
-	const fraction1Intermediate = fraction1.multiplyNumDenBy(variables.b / gcdValue).simplify({ mergeProductNumbers: true })
-	const fraction2Intermediate = fraction2.multiplyNumDenBy(variables.a / gcdValue).simplify({ mergeProductNumbers: true })
+	const gcdValue = gcd(state.a, state.b)
+	const fraction1Intermediate = fraction1.multiplyNumDenBy(state.b / gcdValue).simplify({ mergeProductNumbers: true })
+	const fraction2Intermediate = fraction2.multiplyNumDenBy(state.a / gcdValue).simplify({ mergeProductNumbers: true })
 	const intermediateSplit = fraction1Intermediate[state.plus ? 'add' : 'subtract'](fraction2Intermediate)
 	const intermediate = fraction1Intermediate.numerator[state.plus ? 'add' : 'subtract'](fraction2Intermediate.numerator).divideBy(fraction1Intermediate.denominator)
 	const expressionWithIntermediate = intermediate.divideBy(denominator)
 	const simplifiedExpressionWithIntermediate = intermediate.numerator.divideBy(intermediate.denominator.multiplyBy(denominator))
-	const ans = asExpression(`(${variables.b / gcdValue}x ${state.plus ? '+' : '-'} ${variables.a / gcdValue}y)/(${variables.a * variables.b * variables.c / gcdValue}z)`).substituteVariables(variables).simplify({ ...simplifyOptions.forAnalysis, sortSums: false })
+	const ans = asExpression(`(${state.b / gcdValue}x ${state.plus ? '+' : '-'} ${state.a / gcdValue}y)/(${state.a * state.b * state.c / gcdValue}z)`).substituteVariables(variables).simplify({ ...simplifyOptions.forAnalysis, sortSums: false })
 	return { ...state, variables, gcdValue, fraction1, fraction2, numerator, denominator, expression, fraction1Intermediate, fraction2Intermediate, intermediateSplit, intermediate, expressionWithIntermediate, simplifiedExpressionWithIntermediate, ans }
 }
 

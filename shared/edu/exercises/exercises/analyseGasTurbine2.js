@@ -46,7 +46,7 @@ function getSolution({ p1, T1, p2, T2, T3, mdot }) {
 	const T4p = T3.divide(Math.pow(ratio, 1 - 1 / k.number)).setDecimals(0)
 
 	// Isentropic efficiency.
-	etai = T2p.subtract(T1).divide(T2.subtract(T1)).setUnit('')
+	const etai = T2p.subtract(T1).divide(T2.subtract(T1)).setUnit('')
 	const T4 = T3.add(T4p.subtract(T3).multiply(etai)).setDecimals(0)
 
 	// Heat and work.

@@ -31,7 +31,7 @@ function generateState() {
 
 function getSolution({ Q, m }) {
 	Q = Q.simplify()
-	q = Q.divide(m).setUnit('J/kg')
+	const q = Q.divide(m).setUnit('J/kg')
 	return { Q, m, q }
 }
 

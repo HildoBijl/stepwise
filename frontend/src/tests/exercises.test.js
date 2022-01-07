@@ -24,14 +24,16 @@ describe('Check all exercises:', () => {
 				const Exercise = (await import(`../ui/edu/exercises/exercises/${exerciseId}`)).default
 
 				// Emulate the ExerciseContainer.
+				const state = shared.generateState()
 				const exerciseData = {
-					state: shared.generateState(),
+					state,
 					history: [],
 					progress: {},
 					submitting: false,
 					submitAction: noop, // (action) => submitAction(action, shared.processAction),
 					startNewExercise: noop,
 					shared: shared,
+					solution: shared.getSolution && shared.getSolution(state),
 				}
 				expect(() => render(
 					<ThemeProvider theme={theme}>

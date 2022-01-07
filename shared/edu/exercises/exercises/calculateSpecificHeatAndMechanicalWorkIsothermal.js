@@ -63,7 +63,7 @@ function generateState() {
 function getSolution({ gas, T, p1, p2 }) {
 	let { Rs } = gasProperties[gas]
 	T = T.simplify()
-	ratio = p1.divide(p2).simplify()
+	const ratio = p1.divide(p2).simplify()
 	const q = Rs.multiply(T).multiply(Math.log(ratio.number)).setUnit('J/kg')
 	const wt = q
 	return { gas, process: 2, eq: 5, Rs, ratio, T, p1, p2, q, wt }

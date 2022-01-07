@@ -19,8 +19,8 @@ const data = {
 
 function getSolution({ Q, m }) {
 	Q = Q.simplify()
-	q = Q.divide(m).setUnit('kJ/kg')
-	wt = new FloatUnit('0 kJ/kg')
+	const q = Q.divide(m).setUnit('kJ/kg')
+	const wt = new FloatUnit('0 kJ/kg')
 	const dh = q.subtract(wt)
 	return { Q, m, q, wt, dh }
 }
