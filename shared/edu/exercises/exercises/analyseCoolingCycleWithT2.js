@@ -43,7 +43,7 @@ function generateState() {
 	pCond = pCond.setUnit('bar').setSignificantDigits(2).roundToPrecision()
 	dTSuperheating = dTSuperheating.setDecimals(0).roundToPrecision()
 	dTSubcooling = dTSubcooling.setDecimals(0).roundToPrecision()
-	T2 = point2.temperature.setDecimals(0).roundToPrecision()
+	const T2 = point2.temperature.setDecimals(0).roundToPrecision()
 	mdot = mdot.setUnit('g/s').setDecimals(0).roundToPrecision()
 	return { refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling, T2, mdot }
 }
