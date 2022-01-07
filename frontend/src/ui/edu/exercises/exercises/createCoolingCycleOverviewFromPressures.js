@@ -76,7 +76,7 @@ const steps = [
 	},
 	{
 		Problem: ({ pEvap }) => <>
-			<Par>Bepaal tenslotte de specifieke enthalpie in punt 4, na expansie tot <M>{pEvap}.</M></Par>
+			<Par>Bepaal ten slotte de specifieke enthalpie in punt 4, na expansie tot <M>{pEvap}.</M></Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="h4" prelabel={<M>h_4 =</M>} label="Specifieke enthalpie in punt 4" size="s" />

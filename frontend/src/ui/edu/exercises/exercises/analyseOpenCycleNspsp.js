@@ -17,7 +17,7 @@ export default function Exercise() {
 
 const Problem = ({ p1, T1, p2, T4, mdot }) => {
 	return <>
-		<Par>Een hoeveelheid lucht in een geïmproviseerde warmtepomp doorloopt continu een Braytoncyclus in negatieve richting. Bij aanvang (punt 1) heeft de lucht een druk van <M>{p1}</M> en een temperatuur van <M>{T1}.</M> Na een isentrope compressie is de druk <M>{p2}.</M> Vervolgens wordt de lucht isobaar afgekoeld. Dit is de stap waarbij warmte afgestaan wordt. De volgende stap is een isentrope expansie tot <M>{T4}.</M> Hierbij wordt ook arbeid teruggewonnen. Tenslotte wordt de lucht weer isobaar verwarmd tot de begintoestand. (In werkelijkheid wordt de lucht uitgestoten en wordt nieuwe lucht aangezogen, maar dat is hier niet relevant.)</Par>
+		<Par>Een hoeveelheid lucht in een geïmproviseerde warmtepomp doorloopt continu een Braytoncyclus in negatieve richting. Bij aanvang (punt 1) heeft de lucht een druk van <M>{p1}</M> en een temperatuur van <M>{T1}.</M> Na een isentrope compressie is de druk <M>{p2}.</M> Vervolgens wordt de lucht isobaar afgekoeld. Dit is de stap waarbij warmte afgestaan wordt. De volgende stap is een isentrope expansie tot <M>{T4}.</M> Hierbij wordt ook arbeid teruggewonnen. Ten slotte wordt de lucht weer isobaar verwarmd tot de begintoestand. (In werkelijkheid wordt de lucht uitgestoten en wordt nieuwe lucht aangezogen, maar dat is hier niet relevant.)</Par>
 		<Par>Bepaal voor dit proces de koudefactor en de warmtefactor. Bepaal ook het verwarmingsvermogen <M>P_(warm)</M>, gegeven een massastroom lucht van <M>{mdot}.</M></Par>
 		<InputSpace>
 			<Par>

@@ -63,7 +63,7 @@ const steps = [
 		</>,
 		Solution: () => {
 			const { medium, Rs, k, p2, v2, p3, v3, T3 } = useSolution()
-			return <Par>We weten dat <M>p_3 = p_1 = {p3}.</M> Proces 2-3 is isentroop, waardoor ook geldt, <BM>p_2v_2^n = p_3v_3^n.</BM> Bij het isentrope proces geldt <M>n = k</M> en voor {Dutch[medium]} geldt <M>k = {k}.</M> De oplossing voor <M>v_3</M> vinden we vervolgens via <BM>v_3^n = \frac(p_2)(p_3) \cdot v_2^n,</BM><BM>v_3 = \left(\frac(p_2)(p_3) \cdot v_2^n\right)^(\frac(1)(n)) = \left(\frac(p_2)(p_3)\right)^(\frac(1)(n)) \cdot v_2 = \left(\frac{p2.float}{p3.float}\right)^(\frac(1)({k})) \cdot {v2.float} = {v3}.</BM> Tenslotte volgt <M>T_3</M> via de gaswet (of eventueel Poisson's wet) als <BM>T_3 = \frac(p_3v_3)(R_s) = \frac({p3.float} \cdot {v3.float})({Rs.float}) = {T3}.</BM> Hiermee is het gehele proces doorgerekend.</Par>
+			return <Par>We weten dat <M>p_3 = p_1 = {p3}.</M> Proces 2-3 is isentroop, waardoor ook geldt, <BM>p_2v_2^n = p_3v_3^n.</BM> Bij het isentrope proces geldt <M>n = k</M> en voor {Dutch[medium]} geldt <M>k = {k}.</M> De oplossing voor <M>v_3</M> vinden we vervolgens via <BM>v_3^n = \frac(p_2)(p_3) \cdot v_2^n,</BM><BM>v_3 = \left(\frac(p_2)(p_3) \cdot v_2^n\right)^(\frac(1)(n)) = \left(\frac(p_2)(p_3)\right)^(\frac(1)(n)) \cdot v_2 = \left(\frac{p2.float}{p3.float}\right)^(\frac(1)({k})) \cdot {v2.float} = {v3}.</BM> Ten slotte volgt <M>T_3</M> via de gaswet (of eventueel Poisson's wet) als <BM>T_3 = \frac(p_3v_3)(R_s) = \frac({p3.float} \cdot {v3.float})({Rs.float}) = {T3}.</BM> Hiermee is het gehele proces doorgerekend.</Par>
 		},
 	},
 ]

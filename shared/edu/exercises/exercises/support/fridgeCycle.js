@@ -4,20 +4,20 @@ const refrigerantProperties = require('../../../../data/refrigerantProperties')
 
 function getTemperatures() {
 	const TCold = getRandomFloatUnit({
-		min: 1,
-		max: 8,
+		min: -4,
+		max: 6,
 		unit: 'dC',
 		decimals: 0,
 	})
 	const TWarm = getRandomFloatUnit({
 		min: 18,
-		max: 25,
+		max: 28,
 		unit: 'dC',
 		decimals: 0,
 	})
 	const dTCold = getRandomFloatUnit({
-		min: 4,
-		max: 12,
+		min: 6,
+		max: 16,
 		unit: 'dC',
 		decimals: 0,
 	})
@@ -65,10 +65,11 @@ module.exports.getBasicCycle = getBasicCycle
 
 function getCycle() {
 	const basicCycle = getBasicCycle()
-	const { point1, point2: point2p, point3, point4 } = basicCycle
+	const { refrigerant, pCond, point1, point2: point2p, point3, point4 } = basicCycle
+	const refrigerantData = refrigerantProperties[refrigerant]
 
 	// Determine and apply isentropic efficiency.
-	const etai = getRandomFloatUnit({ min: 0.85, max: 0.98, unit: '' })
+	const etai = getRandomFloatUnit({ min: 0.7, max: 0.85, unit: '' })
 	const wtp = point2p.enthalpy.subtract(point1.enthalpy)
 	const wt = wtp.divide(etai)
 	const h2 = point1.enthalpy.add(wt)
@@ -82,9 +83,9 @@ function getCycle() {
 
 	// Determine and apply mass flow.
 	const mdot = getRandomFloatUnit({ min: 20, max: 200, unit: 'g/s', decimals: -1 }).setDecimals(0)
-	const P = mdot.multiplyBy(wt).setUnit('kW')
+	const P = mdot.multiply(wt).setUnit('kW')
 
 	// Assemble all data.
-	return { ...basicCycle, point2, point2p, epsilon, wt, qin, qout, COP, mdot, P }
+	return { ...basicCycle, point2, point2p, epsilon, wt, wtp, etai, qin, qout, epsilon, COP, mdot, P }
 }
 module.exports.getCycle = getCycle

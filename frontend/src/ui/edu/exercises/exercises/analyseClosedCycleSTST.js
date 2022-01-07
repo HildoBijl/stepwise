@@ -85,7 +85,7 @@ const steps = [
 					<BM>V_4 = \frac(mR_sT_4)(p_4) = \frac({m.float} \cdot {Rs.float} \cdot {T4.float})({p4.float}) = {V4}.</BM>
 					Voor punt 3 geldt <M>T_3 = T_2 = {T3}</M> (isotherm proces). Proces 3-4 is isentroop, zodat we via <M>T_3V_3^(n-1) = T_4V_4^(n-1)</M> kunnen vinden dat
 					<BM>V_3 = \left(\frac(T_4)(T_3)\right)^(\frac(1)(n-1)) V_4 = \left(\frac{T4.float}{T3.float}\right)^(\frac(1)({k}-1)) \cdot {V4.float} = {V3}.</BM>
-					Tenslotte volgt via de gaswet <M>p_3</M> als
+					Ten slotte volgt via de gaswet <M>p_3</M> als
 					<BM>p_3 = \frac(mR_sT_3)(V_3) = \frac({m.float} \cdot {Rs.float} \cdot {T3.float})({V3.float}) = {p3}.</BM> Daarmee zijn alle eigenschappen bekend.
 				</Par>
 			</>
@@ -125,7 +125,7 @@ const steps = [
 					Voor de isentrope stap 3-4 geldt
 					<BM>Q_(3-4) = {Q34},</BM>
 					<BM>W_(3-4) = -mc_v\left(T_4-T_3\right) = -{m.float} \cdot {cv.float} \cdot \left({T4.float} - {T3.float}\right) = {W34}.</BM>
-					Tenslotte vinden we voor de isotherme stap 4-1,
+					Ten slotte vinden we voor de isotherme stap 4-1,
 					<BM>Q_(4-1) = W_(4-1) = pV\ln\left(\frac(V_1)(V_4)\right) = {p4.float} \cdot {V4.float} \cdot \ln\left(\frac{V1.float}{V4.float}\right) = {Q41}.</BM>
 				</Par>
 				<Par>

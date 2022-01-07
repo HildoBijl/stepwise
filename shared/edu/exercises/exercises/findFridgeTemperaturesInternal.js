@@ -14,7 +14,7 @@ const data = {
 
 function generateState() {
 	const type = selectRandomly(['fridge', 'heatPump'])
-	let { TCold, TWarm, dTCold, dTWarm } = getCycle()
+	let { TCold, TWarm, dTCold, dTWarm } = getTemperatures()
 	return { type, TCold, TWarm, dTCold, dTWarm }
 }
 

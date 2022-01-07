@@ -32,7 +32,7 @@ const fields = [[
 ]]
 
 const Problem = ({ medium, m, p1, T1, V3 }) => <>
-	<Par>We voeren een kringproces uit met <M>{m}</M> {Dutch[medium]}. Bij aanvang (punt 1) heeft dit gas een druk van <M>{p1}</M> en een temperatuur van <M>{T1}.</M> De eerste stap is een isochore opwarming. Vervolgens wordt het gas isotherm geëxpandeerd tot <M>{V3}.</M> We koelen het gas tenslotte isobaar af tot we weer bij het beginpunt zijn. Bereken de gaseigenschappen voor elk punt in dit kringproces.</Par>
+	<Par>We voeren een kringproces uit met <M>{m}</M> {Dutch[medium]}. Bij aanvang (punt 1) heeft dit gas een druk van <M>{p1}</M> en een temperatuur van <M>{T1}.</M> De eerste stap is een isochore opwarming. Vervolgens wordt het gas isotherm geëxpandeerd tot <M>{V3}.</M> We koelen het gas ten slotte isobaar af tot we weer bij het beginpunt zijn. Bereken de gaseigenschappen voor elk punt in dit kringproces.</Par>
 	<InputSpace>
 		<InputTable {...{ colHeads, rowHeads, fields }} />
 	</InputSpace>

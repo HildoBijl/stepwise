@@ -108,7 +108,7 @@ const steps = [
 	},
 	{
 		Problem: () => <>
-			<Par>Tenslotte is er stap 4-1. Hier wordt het gas <strong>isotherm</strong> geëxpandeerd. Bereken met behulp van de gegeven waarden de toegevoerde warmte en de door het gas geleverde arbeid.</Par>
+			<Par>Ten slotte is er stap 4-1. Hier wordt het gas <strong>isotherm</strong> geëxpandeerd. Bereken met behulp van de gegeven waarden de toegevoerde warmte en de door het gas geleverde arbeid.</Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="Q41" prelabel={<M>Q_(4-1) =</M>} label="Warmte" size="s" />

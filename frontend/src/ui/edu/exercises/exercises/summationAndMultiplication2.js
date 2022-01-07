@@ -36,6 +36,6 @@ const steps = [
 			<Par>Bereken <M>{a * b} + {c * d}.</M></Par>
 			<InputSpace><Par><IntegerInput id="ans" prelabel={<M>{a * b} + {c * d} =</M>} label="Antwoord" size="s" /></Par></InputSpace>
 		</>,
-		Solution: ({ a, b, c, d }) => <Par>Tenslotte tellen we alles bij elkaar op. Hiermee vinden we het eindantwoord <M>{a * b} + {c * d} = {a * b + c * d}.</M></Par>,
+		Solution: ({ a, b, c, d }) => <Par>Ten slotte tellen we alles bij elkaar op. Hiermee vinden we het eindantwoord <M>{a * b} + {c * d} = {a * b + c * d}.</M></Par>,
 	},
 ]

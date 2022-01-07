@@ -35,7 +35,7 @@ const fields = [[
 ]]
 
 const Problem = ({ p1, V1, T1, p2, p3 }) => <>
-	<Par>We bekijken een viertaktmotor die een Otto-cyclus uitvoert. Eerst zuigt de motor <M>{V1}</M> lucht aan op <M>{p1}</M> en <M>{T1}</M> (punt 1). Bij het omhoog gaan van de zuiger wordt deze lucht isentropisch gecomprimeerd tot <M>{p2}.</M> Vervolgens vindt de verbranding plaats, die de druk isochoor verder ophoogt tot <M>{p3}.</M> Hierna wordt de zuiger isentropisch weer terug omlaag geduwd tot het beginvolume. Tenslotte wordt de lucht uitgestoten en wordt weer verse lucht aangezogen. (Je kunt deze stap zien als "isochore koeling".) Bereken de gaseigenschappen voor elk punt in dit kringproces.</Par>
+	<Par>We bekijken een viertaktmotor die een Otto-cyclus uitvoert. Eerst zuigt de motor <M>{V1}</M> lucht aan op <M>{p1}</M> en <M>{T1}</M> (punt 1). Bij het omhoog gaan van de zuiger wordt deze lucht isentropisch gecomprimeerd tot <M>{p2}.</M> Vervolgens vindt de verbranding plaats, die de druk isochoor verder ophoogt tot <M>{p3}.</M> Hierna wordt de zuiger isentropisch weer terug omlaag geduwd tot het beginvolume. Ten slotte wordt de lucht uitgestoten en wordt weer verse lucht aangezogen. (Je kunt deze stap zien als "isochore koeling".) Bereken de gaseigenschappen voor elk punt in dit kringproces.</Par>
 	<InputSpace>
 		<InputTable {...{ colHeads, rowHeads, fields }} />
 	</InputSpace>
@@ -95,7 +95,7 @@ const steps = [
 				Omdat proces 4-1 isotherm is geldt <M>V_4 = V_1 = {V4}.</M> Proces 3-4 is isentroop, wat betekent dat we Poisson's wet moeten gebruiken. Via <M>p_3V_3^n = p_4V_4^n</M> vinden we zo
 				<BM>V_4^n = \frac(p_3)(p_4) V_3^n,</BM>
 				<BM>V_4 = \left(\frac(p_3)(p_4) V_3^n\right)^(\frac(1)(n)) = \left(\frac(p_3)(p_4)\right)^(\frac(1)(n)) V_3 = \left(\frac{p3.float}{p4.float}\right)^(\frac{1}{k}) \cdot {V3.float} = {V4}.</BM>
-				Tenslotte volgt via de gaswet <M>T_4</M> als
+				Ten slotte volgt via de gaswet <M>T_4</M> als
 				<BM>T_4 = \frac(p_4V_4)(mR_s) = \frac({p4.float} \cdot {V4.float})({m.float} \cdot {Rs.float}) = {T4}.</BM>
 				En zo is het probleem volledig opgelost.
 			</Par>

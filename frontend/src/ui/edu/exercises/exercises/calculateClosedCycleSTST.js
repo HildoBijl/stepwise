@@ -94,7 +94,7 @@ const steps = [
 				Omdat proces 2-3 isotherm is geldt <M>T_3 = T_2 = {T3}.</M> Proces 3-4 is isentroop, wat betekent dat we Poisson's wet moeten gebruiken. Dit gaat het makkelijkst via <M>T_3V_3^(n-1) = T_4V_4^(n-1).</M> Dit oplossen voor <M>V_3</M> geeft
 				<BM>V_3^(n-1) = \frac(T_4)(T_3) V_4^(n-1),</BM>
 				<BM>V_3 = \left(\frac(T_4)(T_3) V_4^(n-1)\right)^(\frac(1)(n-1)) = \left(\frac(T_4)(T_3)\right)^(\frac(1)(n-1)) V_4 = \left(\frac{T4.float}{T3.float}\right)^(\frac(1)({k}-1)) \cdot {V4.float} = {V3}.</BM>
-				Tenslotte volgt via de gaswet <M>p_3</M> als
+				Ten slotte volgt via de gaswet <M>p_3</M> als
 				<BM>p_3 = \frac(mR_sT_3)(V_3) = \frac({m.float} \cdot {Rs.float} \cdot {T3.float})({V3.float}) = {p3}.</BM>
 				En zo is het probleem volledig opgelost.
 			</Par>

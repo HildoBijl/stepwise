@@ -87,7 +87,7 @@ const steps = [
 		Solution: (state) => {
 			const { variables, expression, gcdValue, intermediateFlipped, intermediateMerged, ans } = useSolution(state)
 			return <>
-				<Par>We hebben een breuk die we delen door een breuk. Door de regel "delen door een breuk is vermenigvuldigen met het omgekeerde" kunnen we dit schrijven als <BM>{intermediateFlipped}.</BM> Deze twee breuken kunnen vervolgens samengevoegd worden tot <BM>{intermediateMerged}.</BM> Dit kan tenslotte nog wat simpeler/netter geschreven worden als <BM>{ans}.</BM></Par>
+				<Par>We hebben een breuk die we delen door een breuk. Door de regel "delen door een breuk is vermenigvuldigen met het omgekeerde" kunnen we dit schrijven als <BM>{intermediateFlipped}.</BM> Deze twee breuken kunnen vervolgens samengevoegd worden tot <BM>{intermediateMerged}.</BM> Dit kan ten slotte nog wat simpeler/netter geschreven worden als <BM>{ans}.</BM></Par>
 				<SubHead>Short-cut</SubHead>
 				<Par>We hadden deze opgave ook op kunnen lossen door de boven- en onderkant van de breuk met <M>{variables.w.multiplyBy(variables.x).multiplyBy(variables.y).multiplyBy(variables.z).divideBy(gcdValue).regularClean()}</M> te vermenigvuldigen. Na het wegstrepen van factoren vinden we dan direct dat <BM>{expression}={ans.simplify({ expandProductsOfSums: true, sortProducts: true })}.</BM> Deze short-cut vereist echter inzicht die je alleen via veel oefenen kan krijgen.</Par>
 			</>

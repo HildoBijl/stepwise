@@ -15,7 +15,7 @@ export default function Exercise() {
 
 const Problem = ({ pc, pe, T2 }) => {
 	return <>
-		<Par>Een stoomturbine gebruikt een Rankine-cyclus. Hierbij wordt het water eerst met een pomp gecomprimeerd naar <M>{pe}</M> (punt 1). De bijbehorende pomparbeid mag worden verwaarloosd. Op deze druk wordt het water verwarmd, verdampt en oververhit tot <M>{T2}</M> (punt 2). Van hieruit gaat de stoom in de turbine. Via isentrope expansie wordt de druk teruggebracht tot <M>{pc}</M> (punt 3). Tenslotte wordt de stoom isobaar gecondenseerd tot water, tot de vloeistoflijn bereikt wordt (punt 4). Vanaf hier begint alles opnieuw. Vind voor deze ideale Rankine-cyclus de specifieke enthalpie van de stoom/het water in elk punt.</Par>
+		<Par>Een stoomturbine gebruikt een Rankine-cyclus. Hierbij wordt het water eerst met een pomp gecomprimeerd naar <M>{pe}</M> (punt 1). De bijbehorende pomparbeid mag worden verwaarloosd. Op deze druk wordt het water verwarmd, verdampt en oververhit tot <M>{T2}</M> (punt 2). Van hieruit gaat de stoom in de turbine. Via isentrope expansie wordt de druk teruggebracht tot <M>{pc}</M> (punt 3). Ten slotte wordt de stoom isobaar gecondenseerd tot water, tot de vloeistoflijn bereikt wordt (punt 4). Vanaf hier begint alles opnieuw. Vind voor deze ideale Rankine-cyclus de specifieke enthalpie van de stoom/het water in elk punt.</Par>
 		<InputSpace>
 			<Par>
 				<FloatUnitInput id="h1" prelabel={<M>h_1 =</M>} label="Specifieke enthalpie in punt 1" size="s" />

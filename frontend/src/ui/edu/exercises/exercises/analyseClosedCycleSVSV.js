@@ -19,7 +19,7 @@ export default function Exercise() {
 const Problem = ({ p1, V1, T1, p2, p3 }) => {
 	const choice = useInput('choice')
 	return <>
-		<Par>We bekijken een viertaktmotor die een Otto-cyclus uitvoert. Eerst zuigt de motor <M>{V1}</M> lucht aan op <M>{p1}</M> en <M>{T1}</M> (punt 1). Bij het omhoog gaan van de zuiger wordt deze lucht isentropisch gecomprimeerd tot <M>{p2}.</M> Vervolgens vindt de verbranding plaats, die de druk isochoor verder ophoogt tot <M>{p3}.</M> Hierna wordt de zuiger isentropisch weer terug omlaag geduwd tot het beginvolume. Tenslotte wordt de lucht uitgestoten en wordt weer verse lucht aangezogen. (Je kunt deze stap zien als "isochore koeling".)</Par>
+		<Par>We bekijken een viertaktmotor die een Otto-cyclus uitvoert. Eerst zuigt de motor <M>{V1}</M> lucht aan op <M>{p1}</M> en <M>{T1}</M> (punt 1). Bij het omhoog gaan van de zuiger wordt deze lucht isentropisch gecomprimeerd tot <M>{p2}.</M> Vervolgens vindt de verbranding plaats, die de druk isochoor verder ophoogt tot <M>{p3}.</M> Hierna wordt de zuiger isentropisch weer terug omlaag geduwd tot het beginvolume. Ten slotte wordt de lucht uitgestoten en wordt weer verse lucht aangezogen. (Je kunt deze stap zien als "isochore koeling".)</Par>
 		<Par>Bepaal of dit een positief of negatief kringproces is en bereken de betreffende factor(en).</Par>
 		<InputSpace>
 			<MultipleChoice id="choice" choices={[
@@ -84,7 +84,7 @@ const steps = [
 					<BM>T_3 = \frac(p_3V_3)(mR_s) = \frac({p3.float} \cdot {V3.float})({m.float} \cdot {Rs.float}) = {T3}.</BM>
 					Voor punt 4 geldt <M>V_4 = V_1 = {V4}</M> (isochoor proces). Verder is proces 3-4 isentroop, waardoor we via <M>p_3V_3^n = p_4V_4^n</M> kunnen vinden dat
 					<BM>V_4 = \left(\frac(p_3)(p_4)\right)^(\frac(1)(n)) V_3 = \left(\frac{p3.float}{p4.float}\right)^(\frac{1}{k}) \cdot {V3.float} = {V4}.</BM>
-					Tenslotte volgt via de gaswet <M>T_4</M> als
+					Ten slotte volgt via de gaswet <M>T_4</M> als
 					<BM>T_4 = \frac(p_4V_4)(mR_s) = \frac({p4.float} \cdot {V4.float})({m.float} \cdot {Rs.float}) = {T4}.</BM>
 					Daarmee zijn alle eigenschappen bekend.
 				</Par>
@@ -126,7 +126,7 @@ const steps = [
 					Voor de isentrope stap 3-4 geldt
 					<BM>Q_(3-4) = {Q34},</BM>
 					<BM>W_(3-4) = -mc_v\left(T_4-T_3\right) = -{m.float} \cdot {cv.float} \cdot \left({T4.float} - {T3.float}\right) = {W34}.</BM>
-					Tenslotte vinden we voor de isochore stap 4-1,
+					Ten slotte vinden we voor de isochore stap 4-1,
 					<BM>Q_(4-1) = mc_v \left(T_1 - T_4\right) = {m.float} \cdot {cv.float} \cdot \left({T1.float} - {T4.float}\right) = {Q41},</BM>
 					<BM>W_(4-1) = {W41}.</BM>
 				</Par>

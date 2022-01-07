@@ -41,8 +41,8 @@ const steps = [
 		Solution: () => {
 			const { TCold, TWarm, dTCold, dTWarm, TEvap, TCond } = useSolution()
 			return <>
-				<Par>De verdamper onttrekt warmte uit de te koelen ruimte van <M>{TCold}.</M> De verdamper moet dus kouder zijn om warmte te onttrekken, en wel <M>{dTCold}.</M> Zo vinden we dat de verdamper werkt op <M>{TEvap}.</M></Par>
-				<Par>De condensor loost warmte in de omgeving, die een temperatuur heeft van <M>{TWarm}.</M> De condensor moet dus warmer zijn om warmte te kunnen lozen, en wel <M>{dTWarm}.</M> Zo vinden we dat de condensor werkt op <M>{TCond}.</M></Par>
+				<Par>De verdamper onttrekt warmte uit de te koelen ruimte van <M>{TCold}.</M> De verdamper moet dus kouder zijn om warmte te onttrekken, en wel <M>{dTCold}.</M> Zo vinden we dat de verdamper werkt op <M>T_v = {TEvap}.</M></Par>
+				<Par>De condensor loost warmte in de omgeving, die een temperatuur heeft van <M>{TWarm}.</M> De condensor moet dus warmer zijn om warmte te kunnen lozen, en wel <M>{dTWarm}.</M> Zo vinden we dat de condensor werkt op <M>T_c = {TCond}.</M></Par>
 			</>
 		},
 	},
@@ -94,7 +94,7 @@ const steps = [
 	},
 	{
 		Problem: ({ pEvap }) => <>
-			<Par>Bepaal tenslotte de specifieke enthalpie in punt 4, na expansie tot <M>{pEvap}.</M></Par>
+			<Par>Bepaal ten slotte de specifieke enthalpie in punt 4, na expansie tot <M>{pEvap}.</M></Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="h4" prelabel={<M>h_4 =</M>} label="Specifieke enthalpie in punt 4" size="s" />
