@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext, useEffect, useRef } from 'react'
+import React, { useState, createContext, useContext, useEffect, useRef, useMemo } from 'react'
 
 import { setIOtoFO } from 'step-wise/inputTypes'
 
@@ -26,18 +26,24 @@ export default function ExerciseContainer({ exercise, submitting, submitAction, 
 	}
 	useEffect(reload, [exerciseId])
 
+	// If there is a solution for this exercise, calculate and include it.
+	const stateFO = useMemo(() => setIOtoFO(state), [state])
+	const { getSolution } = ExerciseShared.current || {}
+	const solution = useMemo(() => getSolution && getSolution(stateFO), [getSolution, stateFO])
+
 	if (loading)
 		return <LoadingNote text="Loading exercise component" />
 
 	// Set up data for the exercise and put it in a context around the exercise.
 	const exerciseData = {
-		state: setIOtoFO(state),
+		state: stateFO,
 		history: exercise.history,
 		progress: getLastProgress(exercise.history),
 		submitting,
 		submitAction: (action) => submitAction(action, ExerciseShared.current.processAction), // Incorporate the processAction function for Stranger-mode and for optimistic responses.
 		startNewExercise,
 		shared: ExerciseShared.current,
+		solution,
 	}
 
 	const Exercise = ExerciseLocal.current
@@ -67,8 +73,8 @@ export function getPrevProgress(history) {
 }
 
 export function useSolution() {
-	const { state, shared } = useExerciseData()
-	if (!shared.getSolution)
+	const { solution } = useExerciseData()
+	if (!solution)
 		throw new Error(`Missing getSolution function: could not find the getSolution function in the shared export of the respective exercise.`)
-	return shared.getSolution(state)
+	return solution
 }

@@ -288,19 +288,19 @@ const skills = {
 		name: 'Koelmachinetemperaturen bepalen',
 		exercises: ['findFridgeTemperaturesInternal', 'findFridgeTemperaturesExternal'],
 	},
-	determineRefrigerantProcesses: {
-		name: 'Koelmiddelprocessen bepalen',
-		exercises: ['determineRefrigerantProcessesIsobaric', 'determineRefrigerantProcessesIsentropic'],
+	determineRefrigerantProcess: {
+		name: 'Koelmiddelproces bepalen',
+		exercises: ['determineRefrigerantProcessIsobaric', 'determineRefrigerantProcessIsentropic'],
 	},
 	createCoolingCycleOverview: {
 		name: 'Overzicht koelcyclus maken',
-		setup: combinerAnd('findFridgeTemperatures', combinerRepeat('determineRefrigerantProcesses', 3)),
-		exercises: [],
+		setup: combinerAnd('findFridgeTemperatures', combinerRepeat('determineRefrigerantProcess', 3)),
+		exercises: ['createCoolingCycleOverviewFromPressures', 'createCoolingCycleOverviewFromTemperatures'],
 	},
 	analyseCoolingCycle: {
 		name: 'Koelcyclus analyseren',
 		setup: combinerAnd('createCoolingCycleOverview', 'useIsentropicEfficiency', 'calculateWithCOP', 'massFlowTrick'),
-		exercises: [],
+		exercises: ['analyseCoolingCycleWithEtai', 'analyseCoolingCycleWithT2'],
 	},
 
 	readMollierDiagram: {

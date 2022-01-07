@@ -14,19 +14,19 @@ const data = {
 
 function generateState() {
 	const type = selectRandomly(['fridge', 'heatPump'])
-	let { Tcond, Tevap, dTcold, dTwarm } = getCycle()
-	return { type, Tcond, Tevap, dTcold, dTwarm }
+	let { TCond, TEvap, dTCold, dTWarm } = getCycle()
+	return { type, TCond, TEvap, dTCold, dTWarm }
 }
 
 function checkInput(state, input) {
 	const solution = getSolution(state)
-	return performComparison(['Tcold', 'Twarm'], input, solution, data.equalityOptions)
+	return performComparison(['TCold', 'TWarm'], input, solution, data.equalityOptions)
 }
 
-function getSolution({ type, Tcond, Tevap, dTcold, dTwarm }) {
-	const Twarm = Tcond.subtract(dTwarm)
-	const Tcold = Tevap.add(dTcold)
-	return { type, Tcold, Twarm, dTcold, dTwarm, Tevap, Tcond }
+function getSolution({ type, TCond, TEvap, dTCold, dTWarm }) {
+	const TWarm = TCond.subtract(dTWarm)
+	const TCold = TEvap.add(dTCold)
+	return { type, TCold, TWarm, dTCold, dTWarm, TEvap, TCond }
 }
 
 module.exports = {

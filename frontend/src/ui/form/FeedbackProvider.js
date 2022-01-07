@@ -19,16 +19,17 @@ const FeedbackContext = createContext(null)
 export default function FeedbackProvider({ children, getFeedback }) {
 	const [feedback, setFeedback] = useState({})
 	const [feedbackInput, setFeedbackInput] = useState({})
-	const { state, progress, history, shared } = useExerciseData()
+	const exerciseData = useExerciseData()
+	const { history } = exerciseData
 	const prevProgress = getPrevProgress(history)
 
 	// Set up an updateFeedback handler.
-	const dataRef = useRefWithValue({ getFeedback, state, progress, prevProgress, shared, feedback, feedbackInput })
+	const dataRef = useRefWithValue({ ...exerciseData, getFeedback, prevProgress, feedback, feedbackInput })
 	const updateFeedback = useCallback((input) => {
-		const { getFeedback, state, progress, prevProgress, shared, feedback, feedbackInput } = dataRef.current
+		const { getFeedback, prevProgress, feedback, feedbackInput } = dataRef.current
 		setFeedbackInput(input)
 		if (getFeedback) {
-			const newFeedback = getFeedback({ state, input: setIOtoFO(input), progress, prevProgress, shared, prevFeedback: feedback, prevInput: setIOtoFO(feedbackInput) })
+			const newFeedback = getFeedback({ ...dataRef.current, input: setIOtoFO(input), prevProgress, prevFeedback: feedback, prevInput: setIOtoFO(feedbackInput) })
 			if (!newFeedback)
 				throw new Error(`Invalid feedback: a feedback was returned which it not an object. Instead, we received "${newFeedback}". Possibly the getFeedback function forgot to return anything sensible?`)
 			setFeedback(newFeedback)

@@ -1,36 +1,37 @@
+const { selectRandomly } = require('../../../../util/random')
 const { getRandomFloatUnit } = require('../../../../inputTypes/FloatUnit')
 const refrigerantProperties = require('../../../../data/refrigerantProperties')
 
 function getTemperatures() {
-	const Tcold = getRandomFloatUnit({
+	const TCold = getRandomFloatUnit({
 		min: 1,
 		max: 8,
 		unit: 'dC',
 		decimals: 0,
 	})
-	const Twarm = getRandomFloatUnit({
+	const TWarm = getRandomFloatUnit({
 		min: 18,
 		max: 25,
 		unit: 'dC',
 		decimals: 0,
 	})
-	const dTcold = getRandomFloatUnit({
+	const dTCold = getRandomFloatUnit({
 		min: 4,
 		max: 12,
 		unit: 'dC',
 		decimals: 0,
 	})
-	const dTwarm = getRandomFloatUnit({
+	const dTWarm = getRandomFloatUnit({
 		min: 6,
 		max: 16,
 		unit: 'dC',
 		decimals: 0,
 	})
 
-	const Tevap = Tcold.subtract(dTcold)
-	const Tcond = Twarm.add(dTwarm)
+	const TEvap = TCold.subtract(dTCold)
+	const TCond = TWarm.add(dTWarm)
 
-	return { Tcold, Twarm, dTcold, dTwarm, Tevap, Tcond }
+	return { TCold, TWarm, dTCold, dTWarm, TEvap, TCond }
 }
 module.exports.getTemperatures = getTemperatures
 
@@ -41,15 +42,15 @@ function getBasicCycle() {
 
 	// Determine temperatures.
 	const temperatures = getTemperatures()
-	const { Tevap, Tcond } = temperatures
+	const { TEvap, TCond } = temperatures
 	const dTSuperheating = getRandomFloatUnit({ min: 4, max: 12, unit: 'dC', decimals: 0 })
 	const dTSubcooling = getRandomFloatUnit({ min: 4, max: 12, unit: 'dC', decimals: 0 })
-	const T1 = Tevap.add(dTSuperheating)
-	const T3 = Tcond.subtract(dTSubcooling)
+	const T1 = TEvap.add(dTSuperheating)
+	const T3 = TCond.subtract(dTSubcooling)
 
 	// Determine pressures.
-	const pEvap = refrigerantProperties.getBoilingPressure(Tevap, refrigerantData)
-	const pCond = refrigerantProperties.getBoilingPressure(Tcond, refrigerantData)
+	const pEvap = refrigerantProperties.getBoilingPressure(TEvap, refrigerantData)
+	const pCond = refrigerantProperties.getBoilingPressure(TCond, refrigerantData)
 
 	// Determine the relevant points.
 	const point1 = refrigerantProperties.getProperties(pEvap, T1, refrigerantData)
@@ -58,7 +59,7 @@ function getBasicCycle() {
 	const point4 = refrigerantProperties.getProperties(pEvap, point3.enthalpy, refrigerantData)
 
 	// Export everything together.
-	return { ...temperatures, pEvap, pCond, dTSuperheating, dTSubcooling, point1, point2, point3, point4 }
+	return { ...temperatures, refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling, point1, point2, point3, point4 }
 }
 module.exports.getBasicCycle = getBasicCycle
 

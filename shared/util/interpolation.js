@@ -104,15 +104,10 @@ function gridInterpolate(input, outputSeries, ...inputSeries) {
 			throw new Error(`Grid interpolate error: too many parameters. We received a total of ${inputSeries.length + 2} parameters for the grid interpolate function, for a simple one-dimensional problem. A maximum of 3 parameters is expected.`)
 		inputSeries = inputSeries[0]
 
-		// Ensure the input series is an array of ascending numbers.
+		// Ensure the input series is an array.
 		inputSeries = inputSeries
 		if (!Array.isArray(inputSeries))
 			throw new Error(`Interpolate error: the input series was not an array. Instead, we received "${JSON.stringify(inputSeries)}".`)
-		inputSeries = inputSeries.map(value => ensureNumberLike(value))
-		inputSeries.forEach((value, index) => {
-			if (index > 0 && (isNumber(value) ? inputSeries[index - 1] >= value : inputSeries[index - 1].compare(value) >= 0))
-				throw new Error(`Grid interpolate error: the input series must be an ascending array of numbers, but this is not the case.`)
-		})
 
 		// Ensure the output series is an array with numbers.
 		if (!Array.isArray(outputSeries))

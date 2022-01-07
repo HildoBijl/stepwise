@@ -5,7 +5,7 @@ const { performComparison } = require('../util/check')
 const refrigerantProperties = require('../../../data/refrigerantProperties')
 
 const data = {
-	skill: 'determineRefrigerantProcesses',
+	skill: 'determineRefrigerantProcess',
 	equalityOptions: {
 		default: {
 			absoluteMargin: 4000, // J/kg*K.

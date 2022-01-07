@@ -32,7 +32,7 @@ function BlankExerciseInner({ exerciseId }) {
 			ExerciseShared.current = importedModule.default
 			setLoading(false)
 		}).catch((err) => {
-			console.log(err) // ToDo later: properly process errors.
+			console.error(err) // ToDo later: properly process errors.
 			setError(true)
 		})
 	}

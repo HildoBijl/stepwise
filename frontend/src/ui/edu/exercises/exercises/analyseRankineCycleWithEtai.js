@@ -17,7 +17,6 @@ export default function Exercise() {
 const Problem = ({ type, pc, pe, T2, etai, mdot, P }) => {
 	return <>
 		<Par>Een stoomturbine gebruikt een Rankine-cyclus. Hierbij wordt het water eerst met een pomp gecomprimeerd naar <M>{pe}</M> (punt 1). De bijbehorende pomparbeid mag worden verwaarloosd. Op deze druk wordt het water verwarmd, verdampt en oververhit tot <M>{T2}</M> (punt 2). Van hieruit gaat de stoom in de turbine, waar het expandeert tot een druk van <M>{pc}</M> (punt 3). Het isentropisch rendement van de turbine is <M>{etai}.</M> Tenslotte wordt de stoom isobaar gecondenseerd tot water, tot de vloeistoflijn bereikt wordt (punt 4). Vanaf hier begint alles opnieuw. De stoomturbine heeft een {type === 1 ? <>massadebiet van <M>{mdot}.</M></> : <>geleverd vermogen van <M>{P}.</M></>} Bereken voor deze Rankine-cyclus het rendement en {type === 1 ? `het geleverde vermogen` : `het massadebiet`}.</Par>
-		<Par></Par>
 		<InputSpace>
 			<Par>
 				<FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={validNumberAndUnit} />

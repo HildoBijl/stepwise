@@ -61,16 +61,15 @@ export function getInputFieldFeedback(parameters, exerciseData, extraOptions) {
 	}
 
 	// Extract parameters and check that they are suitable.
-	const { state, input, shared, prevInput, prevFeedback } = exerciseData
-	const { data, getSolution } = shared
+	const { input, shared, prevInput, prevFeedback, solution } = exerciseData
+	const { data } = shared
 	if (!data)
 		throw new Error(`Default feedback error: could not find a "data" parameter in the shared file.`)
-	if (!getSolution || typeof getSolution !== 'function')
+	if (!solution)
 		throw new Error(`Default feedback error: could not find a "getSolution" function exported from the shared file.`)
 
 	// Extract the way in which the answers are checked.
 	const { equalityOptions, check } = data
-	const solution = getSolution(state)
 
 	// Walk through the parameters and incorporate feedback.
 	const feedback = {}

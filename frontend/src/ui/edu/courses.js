@@ -151,7 +151,7 @@ const courses = {
 			'massFlowTrick',
 			'lookUpSteamProperties',
 			'findFridgeTemperatures',
-			'determineRefrigerantProcesses',
+			'determineRefrigerantProcess',
 		],
 		blocks: [
 			{
@@ -172,7 +172,7 @@ const courses = {
 			},
 			{
 				name: 'Dampen en diagrammen',
-				goals: ['useVaporFraction', 'determineRefrigerantProcesses'],
+				goals: ['useVaporFraction', 'determineRefrigerantProcess'],
 			},
 			{
 				name: 'Stoomturbines',
@@ -214,7 +214,7 @@ const courses = {
 			'massFlowTrick',
 			'lookUpSteamProperties',
 			'findFridgeTemperatures',
-			'determineRefrigerantProcesses',
+			'determineRefrigerantProcess',
 		],
 		blocks: [
 			{
@@ -239,7 +239,7 @@ const courses = {
 			},
 			{
 				name: 'Dampen en diagrammen',
-				goals: ['useVaporFraction', 'determineRefrigerantProcesses'],
+				goals: ['useVaporFraction', 'determineRefrigerantProcess'],
 			},
 			{
 				name: 'Stoomturbines',
