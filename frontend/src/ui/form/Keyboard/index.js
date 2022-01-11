@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback, forwardRef, useImperativeHandle } from 'react'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 import clsx from 'clsx'
 
 import { useTheme, makeStyles } from '@material-ui/core/styles'
@@ -59,13 +60,16 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function Keyboard({ settings, keyFunction }, ref) {
-	// When the keyboard is opened or closed, remember this in local storage.
-	const [open, setOpen] = useState(!!localStorage && localStorage.getItem('keyboardStatus') === 'open') // Default closed.
+	// Manage the keyboard status: open or closed. Take into account what is remembered in local storage and what the screen size is (smartphones or not).
+	const defaultOpen = useMediaQuery('(max-width:800px)') // Open by default on smartphones, but not on bigger screens.
+	const storedStatus = (localStorage && localStorage.getItem('keyboardStatus')) || undefined
+	const [open, setOpen] = useState(storedStatus ? storedStatus === 'open' : defaultOpen)
 	const setAndStoreOpen = useCallback((open) => {
 		if (localStorage)
 			localStorage.setItem('keyboardStatus', open ? 'open' : 'closed')
 		setOpen(open)
 	}, [setOpen])
+	useEffect(() => {	setOpen(storedStatus ? storedStatus === 'open' : defaultOpen)	}, [storedStatus, defaultOpen]) // When the media query changes (which it can do upon loading) update the keyboardOpen parameter.
 
 	let [chosenTab, setChosenTab] = useState()
 	const previousSettings = usePrevious(settings)
