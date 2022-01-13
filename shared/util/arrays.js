@@ -207,3 +207,20 @@ function hasSimpleMatching(arr1, arr2, matching) {
 	})
 }
 module.exports.hasSimpleMatching = hasSimpleMatching
+
+// sortByIndices takes two arrays, one with values ['a', 'b', 'c'] and one with numbers like [8, 2, 4]. It sorts the number array like [2, 4, 8] but returns the array with corresponding values ['b', 'c', 'a'].
+function sortByIndices(values, numbers) {
+	// Check the input.
+	if (!Array.isArray(values) || !Array.isArray(numbers))
+		throw new Error(`Invalid parameter: expected arrays but received parameters of type "${typeof values}" and "${typeof numbers}".`)
+	if (values.length !== numbers.length)
+		throw new Error(`Invalid input: expected two arrays of equal length, but the values array was of length ${values.length} while the indices array was of length ${numbers.length}.`)
+	numbers = numbers.map(ensureNumber)
+
+	// Create an array with merged objects and sort it. Then extract the values from it.
+	return values
+		.map((value, index) => ({ value, number: numbers[index] }))
+		.sort((a, b) => a.number - b.number)
+		.map(obj => obj.value)
+}
+module.exports.sortByIndices = sortByIndices

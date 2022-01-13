@@ -17,7 +17,6 @@ export default function CourseProvider({ children }) {
 	// Analyse the course for the specific user.
 	const skillsData = useSkillsData(overview.all)
 	const analysis = getAnalysis(overview, skillsData)
-
 	return (
 		<CourseContext.Provider value={{courseId, course, overview, skillsData, analysis}}>
 			{children}

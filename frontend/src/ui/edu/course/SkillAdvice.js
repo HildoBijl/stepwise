@@ -46,14 +46,14 @@ function SkillNotification() {
 
 		case 0: // This skill is already mastered. Show a recommendation.
 			if (recommendation === strFreePractice)
-				return <NotificationBar type="info">Je beheerst deze vaardigheid al goed! Als je effectief wilt oefenen voor <Link to={paths.course({ courseId })}>{course.name}</Link>, dan kun je beter bezig gaan met de <Link to={paths.freePractice({ courseId })}>vrij-oefenen-modus</Link>.</NotificationBar>
-			return <NotificationBar type="info">Je beheerst deze vaardigheid al goed! Als je effectief wilt oefenen voor <Link to={paths.course({ courseId })}>{course.name}</Link>, dan kun je beter bezig gaan met <Link to={paths.courseSkill({ courseId, skillId: recommendation })}>{skills[recommendation].name}</Link>.</NotificationBar>
+				return <NotificationBar type="info">Je beheerst deze vaardigheid al goed! Het is effectiever voor de cursus <Link to={paths.course({ courseId })}>{course.name}</Link> om met de <Link to={paths.freePractice({ courseId })}>vrij-oefenen-modus</Link> bezig te gaan.</NotificationBar>
+			return <NotificationBar type="info">Je beheerst deze vaardigheid al goed! Het is effectiever voor de cursus <Link to={paths.course({ courseId })}>{course.name}</Link> als je <Link to={paths.courseSkill({ courseId, skillId: recommendation })}>{skills[recommendation].name}</Link> oefent.</NotificationBar>
 
 		case 1: // This skill is reasonable to practice. Don't show a warning.
 			return null
 
 		case 2: // This skill is not mastered. Find a prior skill that requires practice. If there is none, this is a good skill to practice.
-			return <NotificationBar type="warning">{skillId === undefined ? 'Je bent nog niet toe aan vrij oefenen op het eindniveau.' : 'Je zit nog niet op het niveau van deze vaardigheid.'} Het is handiger om eerst <Link to={paths.courseSkill({ courseId, skillId: recommendation })}>{skills[recommendation].name}</Link> te oefenen.</NotificationBar>
+			return <NotificationBar type="warning">{skillId === undefined ? 'Je bent nog niet toe aan vrij oefenen op het eindniveau.' : 'Je hebt nog niet alle voorkennis voor deze vaardigheid.'} Het is handiger om eerst <Link to={paths.courseSkill({ courseId, skillId: recommendation })}>{skills[recommendation].name}</Link> te oefenen.</NotificationBar>
 
 		default:
 			throw new Error(`Impossible case.`)
@@ -205,8 +205,8 @@ export function useSkillAdvice() {
 		case undefined: // This skill is not part of the course.
 			return {}
 
-		case 0: // This skill is already mastered. Show a recommendation.
-			return { type: 0, recommendation: analysis.recommendation }
+		case 0: // This skill is already mastered. Show a recommendation, ideally based on the current skill, but otherwise the general course recommendation.
+			return { type: 0, recommendation: findNextSkillToPractice(skillId, analysis.practiceNeeded) || analysis.recommendation }
 
 		case 1: // This skill is reasonable to practice. Don't show a warning.
 			return { type: 1 }
@@ -217,20 +217,32 @@ export function useSkillAdvice() {
 				return { type: 1 }
 			return { type: 2, recommendation }
 
-		default:
-			throw new Error(`Impossible case.`)
+		default: // Impossible to reach.
+			throw new Error(`Invalid practice needed index: a practice needed index was given that was not among the available options.`)
 	}
 }
 
-// findPriorSkillToPractice takes a skillId and a practiceNeeded object and determines which prior skill requires 
-function findPriorSkillToPractice(skillId, practiceNeeded) {
-	// Walk through prior skills to see if one requires practice.
-	const recommendation = skills[skillId].prerequisites.find(prerequisiteId => practiceNeeded[prerequisiteId] === 2)
+// findPriorSkillToPractice takes a skillId and a practiceNeeded object, and determines which prior skill should be practiced before the current skill. For this, it walks through the prerequisites and checks if any of them require work. This is done recursively. With "require work" we mean that practiceNeeded equals 2. If the includeDoubtfulCases parameter is set to true, also practiceNeeded equaling 1 is included.
+function findPriorSkillToPractice(skillId, practiceNeeded, includeDoubtfulCases = false) {
+	// Find the first prior skill that requires work.
+	const recommendation = skills[skillId].prerequisites.find(prerequisiteId => practiceNeeded[prerequisiteId] === 2 || (includeDoubtfulCases && practiceNeeded[prerequisiteId] === 1))
 
-	// If none requires practice, return that we best practice the current skill.
+	// If no prior skill requires work, return that we best practice the current skill.
 	if (!recommendation)
 		return skillId
 
-	// If there is one that requires practice, recursively search further.
-	return findPriorSkillToPractice(recommendation, practiceNeeded)
+	// If there is one that requires practice, recursively search further from it.
+	return findPriorSkillToPractice(recommendation, practiceNeeded, includeDoubtfulCases)
+}
+
+// findNextSkillToPractice takes a skillId and a practiceNeeded object and determines which next skill should be practice upon completion of the current skill. For this, it studies the continuation skills and sees if any require work. (Or even continuations of those continuations, if the continuations are done already.) It then also checks their children, to see if any of those still require works. The most suitable option (that is, the first in the general skills list) is returned. If nothing suitable is found, undefined is returned.
+function findNextSkillToPractice(skillId, practiceNeeded) {
+	// Find the first continuation within the course that still requires practice. If there is none, do a depth-first search on the continuations of the continuations, to see if anything suitable pops up.
+	const continuations = skills[skillId].continuations.filter(continuationId => practiceNeeded[continuationId] !== undefined)
+	let recommendation = continuations.find(continuationId => (practiceNeeded[continuationId] === 1 || practiceNeeded[continuationId] === 2))
+	if (!recommendation)
+		return continuations.find(continuationId => findNextSkillToPractice(continuationId, practiceNeeded))
+
+	// For the given recommendation, check child skills. If any of them require work, recommend that one instead.
+	return findPriorSkillToPractice(recommendation, practiceNeeded, true)
 }
