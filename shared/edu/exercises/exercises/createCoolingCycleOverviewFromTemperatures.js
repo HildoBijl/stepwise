@@ -3,7 +3,6 @@ const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
 const { performComparison } = require('../util/check')
 const { getBasicCycle } = require('./support/fridgeCycle')
 const refrigerantProperties = require('../../../data/refrigerantProperties')
-const { tableInterpolate } = require('../../../util/interpolation')
 
 const data = {
 	skill: 'createCoolingCycleOverview',
