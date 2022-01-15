@@ -1,8 +1,8 @@
 /* Drawing is the parent component of every drawing made, either through SVG or Canvas. It is generally used inside other components to make specific types of plots, figures or similar.
- * When Drawing is given a ref, it places in this ref an object { svg: ..., canvas: ... } with references to the respective DOM elements. Note that the option useCanvas needs to be set to true if a Canvas is desired.
+ * When Drawing is given a ref, it places in this ref an object { svg: ..., canvas: ... } with references to the respective DOM elements. Note that the option useCanvas needs to be set to true if a Canvas is desired. useSVG is by default set to true, but can be turned off.
  */
 
-import React, { useRef, forwardRef, useImperativeHandle, useEffect } from 'react'
+import React, { useRef, forwardRef, useImperativeHandle, useState, useEffect } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -51,6 +51,7 @@ function Drawing(options, ref) {
 	if (!options.useSVG && !options.useCanvas)
 		throw new Error('Drawing render error: cannot generate a plot without either an SVG or a canvas.')
 	const classes = useStyles()
+	const [defs, setDefs] = useState([])
 
 	// Set up refs and make them accessible to any implementing component.
 	const figureRef = useRef()
@@ -77,6 +78,17 @@ function Drawing(options, ref) {
 		get height() {
 			return drawingRef.current.height
 		},
+
+		// Through addDef and removeDef child elements can add definitions to the SVG element. The functions support single element additions/removals or arrays to add/remove.
+		addDef(def) {
+			def = Array.isArray(def) ? def : [def]
+			setDefs([...defs, ...def])
+		},
+		removeDef(def) {
+			def = Array.isArray(def) ? def : [def]
+			setDefs(defs.filter(currDef => !def.includes(currDef)))
+		},
+
 		placeText(text, options) {
 			return placeText(drawingRef.current, text, options)
 		},
@@ -112,6 +124,7 @@ function Drawing(options, ref) {
 						<mask id="noOverflow">
 							<rect x="0" y="0" width={options.width} height={options.height} fill="#fff" />
 						</mask>
+						{defs}
 					</defs>
 				</svg>
 			) : null}
@@ -147,12 +160,12 @@ const defaultPlaceTextOptions = {
 }
 function placeText(drawing, text, options = {}) {
 	options = processOptions(options, defaultPlaceTextOptions)
-	const alpha = deg2rad(options.rotate)
+	const rotate = deg2rad(options.rotate)
 	drawing.gText.append('text')
 		.attr('text-anchor', options.textAnchor)
 		.attr('transform', `rotate(${options.rotate})`)
-		.attr('x', options.x * Math.cos(alpha) + options.y * Math.sin(alpha))
-		.attr('y', -options.x * Math.sin(alpha) + options.y * Math.cos(alpha))
+		.attr('x', options.x * Math.cos(rotate) + options.y * Math.sin(rotate))
+		.attr('y', -options.x * Math.sin(rotate) + options.y * Math.cos(rotate))
 		.text(text)
 }
 
@@ -165,4 +178,11 @@ function getPointFromEvent(drawing, event) {
 		x: (eventProcessed.clientX - rect.left) / rect.width * drawing.width,
 		y: (eventProcessed.clientY - rect.top) / rect.height * drawing.height,
 	}
+}
+
+// applyStyle takes an object and applies the corresponding style object to it.
+export function applyStyle(obj, style = {}) {
+	Object.keys(style).forEach(key => {
+		obj.style(key, style[key])
+	})
 }

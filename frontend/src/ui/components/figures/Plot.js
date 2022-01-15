@@ -13,7 +13,7 @@ import { processOptions, filterOptions } from 'step-wise/util/objects'
 
 import { useEventListener } from 'util/react'
 
-import Drawing, { defaultOptions as drawingDefaultOptions } from './Drawing'
+import Drawing, { defaultOptions as drawingDefaultOptions, applyStyle } from './Drawing'
 
 const defaultOptions = {
 	...drawingDefaultOptions,
@@ -211,13 +211,6 @@ function drawCircle(plot, circle) {
 
 	// Apply style.
 	applyStyle(shape, circle.style)
-}
-
-// ToDo: put this function somewhere more central.
-function applyStyle(obj, style = {}) {
-	Object.keys(style).forEach(key => {
-		obj.style(key, style[key])
-	})
 }
 
 function getCoordsFromEvent(plot, event) {
