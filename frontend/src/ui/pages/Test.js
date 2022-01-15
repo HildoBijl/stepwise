@@ -32,6 +32,12 @@ export default function Test() {
 	useEffect(() => {
 		const diagram = diagramRef.current
 
+		// Draw distances.
+		diagram.drawDistance({
+			start: new Vector(100, 320),
+			end: new Vector(700, 320),
+		})
+
 		// Draw forces.
 		const xValues = [100, 200, 300, 400, 500, 600, 700]
 		xValues.forEach(x => diagram.drawForce({ start: new Vector(x, 100), vector: new Vector(0, 100) }))
