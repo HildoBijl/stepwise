@@ -45,10 +45,19 @@ export default function Test() {
 		xValues.forEach(x => diagram.drawForce({ start: new Vector(x, 100), vector: new Vector(0, 100) }, { color: 'red' }))
 
 		// Draw moments.
-		diagram.drawMoment({ position: new Vector(150, 250), clockwise: true }, { size: 3, radius: 30 })
-		diagram.drawMoment({ position: new Vector(300, 250) }, { size: 8, radius: 50, color: 'green' })
-		diagram.drawMoment({ position: new Vector(450, 250) }, { size: 5, radius: 30, color: 'blue' })
-		diagram.drawMoment({ position: new Vector(600, 250) }, { size: 5, radius: 50, color: 'orange', opening: Math.PI / 2 })
+		diagram.drawMoment({ position: new Vector(150, 250), clockwise: true }, { size: 3, radius: 30, color: 'brown' })
+		diagram.drawMoment({ position: new Vector(550, 250) })
+		diagram.drawMoment({ position: new Vector(150, 350) }, { color: 'darkred' })
+
+		// Draw beam.
+		diagram.drawBeam([
+			new Vector(150, 350),
+			new Vector(350, 350),
+			new Vector(350, 400),
+			new Vector(450, 400),
+			new Vector(550, 350),
+			new Vector(650, 350),
+		])
 	}, [diagramRef])
 
 	return (

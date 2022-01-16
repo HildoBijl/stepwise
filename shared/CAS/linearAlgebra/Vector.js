@@ -109,6 +109,17 @@ class Vector {
 		return new Vector(this.coordinates.map(value => value * number))
 	}
 
+	// divide will divide the vector by a scalar.
+	divide(number) {
+		number = ensureNumber(number)
+		return this.multiply(1 / number)
+	}
+
+	// unitVector will return the unit vector in the given direction.
+	unitVector() {
+		return this.divide(this.magnitude)
+	}
+
 	// shorten will shorten the vector by a set amount while keeping its direction. If the distance is larger than the magnitude of this vector, the zero vector (of same dimension) is returned.
 	shorten(distance) {
 		distance = ensureNumber(distance)
@@ -125,6 +136,8 @@ class Vector {
 	/*
 	 * Comparison methods.
 	 */
+
+	// equals runs an exact equality check on two vectors.
 	equals(vector) {
 		return this.dimension === vector.dimension && this.coordinates.every((value, index) => value === vector.getCoordinate(index))
 	}
@@ -133,7 +146,7 @@ class Vector {
 	 * Static methods.
 	 */
 
-	// fromCoordinates allows for an object like { x: 2, y: 4 } and possibly with z too.
+	// fromCoordinates allows for an object like { x: 2, y: 4 } and possibly with z too to be turned into a Vector.
 	static fromCoordinates(coordinates) {
 		if (typeof coordinates !== 'object')
 			throw new Error(`Invalid coordinates: expected an object with coordinates but received an input of type "${coordinates}".`)

@@ -41,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
 				fill: 'black',
 				'stroke-width': 0,
 			},
+			'& .beamLine': {
+				fill: 'none',
+			},
 		},
 	},
 }))
@@ -57,23 +60,23 @@ export function EngineeringDiagram(options, ref) {
 			return diagramRef.current.drawing
 		},
 
-		// Arrow drawing functions.
+		// Line/arrow drawing functions.
 		drawLine(line, style) {
-			return drawLine(diagramRef.current, line, style)
+			return drawLine(diagramRef.current.groups.lines, line, style)
 		},
 		drawDistance(distance, style) {
-			return drawDistance(diagramRef.current, distance, style)
+			return drawDistance(diagramRef.current.groups.distances, distance, style)
 		},
 		drawForce(force, options) {
-			return drawForce(diagramRef.current, force, options)
+			return drawForce(diagramRef.current.groups.forces, force, options)
 		},
 		drawMoment(moment, options) {
-			return drawMoment(diagramRef.current, moment, options)
+			return drawMoment(diagramRef.current.groups.moments, moment, options)
 		},
 
-		// Shape drawing functions.
-		clearShapes() { // TODO: Do we need to keep this?
-			return diagramRef.current.gShapes.selectAll('*').remove()
+		// Structure drawing functions.
+		drawBeam(points, options) {
+			return drawBeam(diagramRef.current.groups.beams, points, options)
 		},
 	}))
 
@@ -104,29 +107,33 @@ function initialize(drawing) {
 	])
 
 	// Build up the SVG with the most important containers.
-	const gLines = d3svg.append('g').attr('class', 'lines')
-	const gDistances = d3svg.append('g').attr('class', 'distances')
-	const gForces = d3svg.append('g').attr('class', 'forces')
-	const gMoments = d3svg.append('g').attr('class', 'moments')
-	const gShapes = d3svg.append('g').attr('class', 'shapes').attr('mask', 'url(#noOverflow)')
+	const groups = {
+		lines: d3svg.append('g').attr('class', 'lines'),
+		distances: d3svg.append('g').attr('class', 'distances'),
+		forces: d3svg.append('g').attr('class', 'forces'),
+		moments: d3svg.append('g').attr('class', 'moments'),
+		beams: d3svg.append('g').attr('class', 'beams'),
+	}
 
 	// Store all containers and draw the plot for as much as we can.
-	return { ...defaultPlotProperties, drawing, gLines, gDistances, gForces, gMoments, gShapes }
+	return { ...defaultPlotProperties, drawing, groups }
 }
 
 /*
- * Below are various arrow drawing functions.
+ * Below are various line/arrow drawing functions.
  */
 
 // drawLine draws a line from the given lineData (a start-vector-end combination) and an optional style object.
-function drawLine(diagram, lineData, style = {}, container = diagram.gLines) {
+function drawLine(container, points, style = {}) {
 	// Process the input.
-	const { start, end } = ensureSVE(lineData)
+	if (!Array.isArray(points))
+		throw new Error(`Invalid line points: expected an array of points but received a parameter of type "${typeof points}".`)
+	points = points.map(point => ensureVector(point, 2))
 
 	// Set up the line and shape it.
 	const path = container
 		.append('path')
-		.attr('d', line()([[start.x, start.y], [end.x, end.y]]))
+		.attr('d', line()(points.map(point => [point.x, point.y])))
 		.attr('class', 'line')
 
 	// Apply style.
@@ -134,14 +141,15 @@ function drawLine(diagram, lineData, style = {}, container = diagram.gLines) {
 }
 
 // drawDistance draws a distance spread. It must be an object with a start, vector and end parameter (well, two out of these three) given in Vector form.
-function drawDistance(diagram, distance, style = {}, container = diagram.gDistances) {
-	return drawLine(diagram, distance, style, container).attr('class', 'distance')
+function drawDistance(container, distance, style = {}) {
+	distance = ensureSVE(distance)
+	return drawLine(container, [distance.start, distance.end], style).attr('class', 'distance')
 }
 
 // drawForce draws a force vector. It must be an object with a start, vector and end parameter (well, two out of these three) given in Vector form.
-function drawForce(diagram, force, options = {}, container = diagram.gForces) {
+function drawForce(container, force, options = {}) {
 	// Check input.
-	force = ensureSVE(force)
+	const { start, vector, end } = ensureSVE(force)
 	let { size, color, style } = processOptions(options, defaultForceOptions)
 	size = ensureNumber(size)
 
@@ -150,23 +158,43 @@ function drawForce(diagram, force, options = {}, container = diagram.gForces) {
 	applyStyle(container, style)
 
 	// Draw a line for the force. Make sure to shorten the force a bit so its ending falls inside the arrow head.
-	const forceShortened = ensureSVE({ start: force.start, vector: force.vector.shorten(size) })
-	drawLine(diagram, forceShortened, { stroke: color, 'stroke-width': size }, group).attr('class', 'forceLine')
+	const vectorShortened = vector.shorten(size)
+	const endShortened = start.add(vectorShortened)
+	drawLine(group, [start, endShortened], { stroke: color, 'stroke-width': size }).attr('class', 'forceLine')
 
 	// Draw the arrow head with the proper orientation.
-	drawArrowHead(group, force.end, force.vector.argument, size, { fill: color })
+	drawArrowHead(group, end, vector.argument, size, { fill: color })
 
 	// All done! Return the result.
 	return group
 }
 const defaultForceOptions = {
-	size: 5,
+	size: 4,
 	color: 'black',
 	style: {},
 }
 
+// drawArrowHead draws an arrowhead in the given container at the given position and with the given angle. It can also be sized up and styled further.
+function drawArrowHead(container, position, angle = 0, size = defaultArrowHeadSize, style = {}) {
+	// Check input.
+	position = ensureVector(position, 2)
+	angle = ensureNumber(angle)
+	size = ensureNumber(size)
+
+	// Draw the arrow head shape and position it.
+	const arrowHead = container
+		.append('polygon')
+		.attr('points', '0 0, -24 -12, -16 0, -24 12')
+		.attr('class', 'arrowHead')
+		.attr('transform', `translate(${position.x}, ${position.y}) rotate(${angle * 180 / Math.PI}) scale(${size / defaultArrowHeadSize})`)
+
+	// Add any potentially given style.
+	return applyStyle(arrowHead, style)
+}
+const defaultArrowHeadSize = defaultForceOptions.size
+
 // drawMoment draws a moment vector. The moment must have a position property (a Vector) and a clockwise property (boolean), both mandatory. The options (all optional) include the color, the size (thickness of the line), the radius, the opening (the angle where the opening is in the moment arrow, by default being 0 which means to the right) and the spread (how large the circle arc is). The options can also contain an extra style parameter to be applied.
-function drawMoment(diagram, moment, options = {}, container = diagram.gMoments) {
+function drawMoment(container, moment, options = {}) {
 	// Check input.
 	let { position, clockwise } = processOptions(moment, defaultMoment)
 	position = ensureVector(position, 2)
@@ -211,24 +239,44 @@ const defaultMomentOptions = {
 	arrowHeadDelta: 2.5, // The angle of the arrow head is manually adjusted to make it look OK. This factor is responsible. Increase or decrease it at will.
 }
 
-// drawArrowHead draws an arrowhead in the given container at the given position and with the given angle. It can also be sized up and styled further.
-function drawArrowHead(container, position, angle = 0, size = defaultArrowHeadSize, style = {}) {
+/*
+ * Below are drawing functions for structures.
+ */
+
+function drawBeam(container, points, options = {}) {
 	// Check input.
-	position = ensureVector(position, 2)
-	angle = ensureNumber(angle)
+	if (!Array.isArray(points))
+		throw new Error(`Invalid beam points: expected an array of points but received a parameter of type "${typeof points}".`)
+	points = points.map(point => ensureVector(point, 2))
+	let { size, strutSize, color, style } = processOptions(options, defaultBeamOptions)
 	size = ensureNumber(size)
+	strutSize = ensureNumber(strutSize)
 
-	// Draw the arrow head shape and position it.
-	const arrowHead = container
-		.append('polygon')
-		.attr('points', '0 0, -30 -15, -20 0, -30 15')
-		.attr('class', 'arrowHead')
-		.attr('transform', `translate(${position.x}, ${position.y}) rotate(${angle * 180 / Math.PI}) scale(${size / defaultArrowHeadSize})`)
+	// Make a group.
+	const group = container.append('g').attr('class', 'beam')
+	applyStyle(container, style)
 
-	// Add any potentially given style.
-	return applyStyle(arrowHead, style)
+	// Draw the corner struts.
+	points.forEach((point, index) => {
+		if (index === 0 || index === points.length - 1)
+			return
+		const prev = points[index - 1].subtract(point).unitVector().multiply(strutSize).add(point)
+		const next = points[index + 1].subtract(point).unitVector().multiply(strutSize).add(point)
+		drawLine(group, [prev, point, next], { fill: color, 'stroke-width': 0 })
+	})
+
+	// Draw a line for the beam.
+	drawLine(group, points, { stroke: color, 'stroke-width': size }).attr('class', 'beamLine')
+
+	// All done! Return the result.
+	return group
 }
-const defaultArrowHeadSize = defaultForceOptions.size
+const defaultBeamOptions = {
+	size: 6,
+	strutSize: 15,
+	color: 'black',
+	style: {},
+}
 
 /*
  * Below are various supporting functions.
