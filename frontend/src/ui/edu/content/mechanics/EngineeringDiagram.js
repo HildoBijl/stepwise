@@ -8,7 +8,7 @@ import { line } from 'd3-shape'
 
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureBoolean, processOptions, filterOptions } from 'step-wise/util/objects'
-import { ensureVector } from 'step-wise/CAS/linearAlgebra/Vector'
+import { Vector, ensureVector, ensureSVE } from 'step-wise/CAS/linearAlgebra/Vector'
 
 import Drawing, { defaultOptions as drawingDefaultOptions, applyStyle } from '../../../components/figures/Drawing'
 
@@ -22,20 +22,24 @@ const defaultPlotProperties = {}
 const useStyles = makeStyles((theme) => ({
 	engineeringDiagram: {
 		'& svg': {
-			'& .distance': {
+			'& .line, & .distance': {
 				fill: 'none',
 				stroke: 'black',
 				'stroke-width': 1,
 			},
-			'& .force': {
-				fill: 'none',
-				stroke: 'black',
-				'stroke-width': 3,
+			'& .distance': {
+				'marker-start': 'url(#distanceArrowHead)',
+				'marker-end': 'url(#distanceArrowHead)',
 			},
-			'& .moment': {
+			'& .forceLine': {
 				fill: 'none',
-				stroke: 'black',
-				'stroke-width': 3,
+			},
+			'& .momentLine': {
+				fill: 'none',
+			},
+			'& .arrowHead': {
+				fill: 'black',
+				'stroke-width': 0,
 			},
 		},
 	},
@@ -54,14 +58,17 @@ export function EngineeringDiagram(options, ref) {
 		},
 
 		// Arrow drawing functions.
-		drawDistance(distance) {
-			return drawDistance(diagramRef.current, distance)
+		drawLine(line, style) {
+			return drawLine(diagramRef.current, line, style)
 		},
-		drawForce(force) {
-			return drawForce(diagramRef.current, force)
+		drawDistance(distance, style) {
+			return drawDistance(diagramRef.current, distance, style)
 		},
-		drawMoment(moment) {
-			return drawMoment(diagramRef.current, moment)
+		drawForce(force, options) {
+			return drawForce(diagramRef.current, force, options)
+		},
+		drawMoment(moment, options) {
+			return drawMoment(diagramRef.current, moment, options)
 		},
 
 		// Shape drawing functions.
@@ -89,145 +96,153 @@ function initialize(drawing) {
 	// Add definitions for markers. For the definition, assume the line points to the right and ends at refX, refY.
 	drawing.addDef([
 		<marker id="distanceArrowHead" key="distanceArrowHead" markerWidth="16" markerHeight="16" refX="16" refY="8" orient="auto-start-reverse">
-		<polygon points="16 8, 0 0, 10 8, 0 16" />
+			<polygon points="16 8, 0 0, 10 8, 0 16" />
 		</marker>,
 		<marker id="forceArrowHead" key="forceArrowHead" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto-start-reverse">
-		<polygon points="8 4, 0 0, 2 4, 0 8" />
+			<polygon points="8 4, 0 0, 2 4, 0 8" />
 		</marker>
 	])
 
 	// Build up the SVG with the most important containers.
+	const gLines = d3svg.append('g').attr('class', 'lines')
 	const gDistances = d3svg.append('g').attr('class', 'distances')
 	const gForces = d3svg.append('g').attr('class', 'forces')
 	const gMoments = d3svg.append('g').attr('class', 'moments')
 	const gShapes = d3svg.append('g').attr('class', 'shapes').attr('mask', 'url(#noOverflow)')
 
 	// Store all containers and draw the plot for as much as we can.
-	return { ...defaultPlotProperties, drawing, gDistances, gForces, gMoments, gShapes }
+	return { ...defaultPlotProperties, drawing, gLines, gDistances, gForces, gMoments, gShapes }
 }
 
 /*
  * Below are various arrow drawing functions.
  */
 
-// drawDistance draws a distance spread. It must be an object with a start, vector and end parameter (well, two out of these three) given in Vector form.
-function drawDistance(diagram, distance, style = {}) {
+// drawLine draws a line from the given lineData (a start-vector-end combination) and an optional style object.
+function drawLine(diagram, lineData, style = {}, container = diagram.gLines) {
 	// Process the input.
-	const { start, end } = processStartEndCombination(distance)
+	const { start, end } = ensureSVE(lineData)
 
 	// Set up the line and shape it.
-	const path = diagram.gDistances
+	const path = container
 		.append('path')
 		.attr('d', line()([[start.x, start.y], [end.x, end.y]]))
-		.attr('class', 'distance')
-		.attr('marker-start', 'url(#distanceArrowHead)')
-		.attr('marker-end', 'url(#distanceArrowHead)')
+		.attr('class', 'line')
 
 	// Apply style.
-	applyStyle(path, style)
+	return applyStyle(path, style)
+}
+
+// drawDistance draws a distance spread. It must be an object with a start, vector and end parameter (well, two out of these three) given in Vector form.
+function drawDistance(diagram, distance, style = {}, container = diagram.gDistances) {
+	return drawLine(diagram, distance, style, container).attr('class', 'distance')
 }
 
 // drawForce draws a force vector. It must be an object with a start, vector and end parameter (well, two out of these three) given in Vector form.
-function drawForce(diagram, force, style = {}) {
-	// Process the input.
-	const { start, end } = processStartEndCombination(force)
+function drawForce(diagram, force, options = {}, container = diagram.gForces) {
+	// Check input.
+	force = ensureSVE(force)
+	let { size, color, style } = processOptions(options, defaultForceOptions)
+	size = ensureNumber(size)
 
-	// Set up the line and shape it.
-	const path = diagram.gForces
-		.append('path')
-		.attr('d', line()([[start.x, start.y], [end.x, end.y]]))
-		.attr('class', 'force')
-		.attr('marker-end', 'url(#forceArrowHead)')
+	// Make a group.
+	const group = container.append('g').attr('class', 'force')
+	applyStyle(container, style)
 
-	// Apply style.
-	applyStyle(path, style)
+	// Draw a line for the force. Make sure to shorten the force a bit so its ending falls inside the arrow head.
+	const forceShortened = ensureSVE({ start: force.start, vector: force.vector.shorten(size) })
+	drawLine(diagram, forceShortened, { stroke: color, 'stroke-width': size }, group).attr('class', 'forceLine')
+
+	// Draw the arrow head with the proper orientation.
+	drawArrowHead(group, force.end, force.vector.argument, size, { fill: color })
+
+	// All done! Return the result.
+	return group
+}
+const defaultForceOptions = {
+	size: 5,
+	color: 'black',
+	style: {},
 }
 
-// drawMoment draws a moment vector. Options include the position (mandatory; a Vector), clockwise (boolean), opening (the angle where the opening is in the moment arrow, by default being 0 which means to the right), the radius and the spread (how large the circle arc is).
-function drawMoment(diagram, moment, style = {}) {
-	// Extract and check the input.
-	moment = processOptions(moment, defaultMoment)
-	const position = ensureVector(moment.position)
-	const clockwise = ensureBoolean(moment.clockwise)
-	const opening = ensureNumber(moment.opening)
-	const radius = ensureNumber(moment.radius)
-	const spread = ensureNumber(moment.spread)
-	const arrowHeadDeltaProduct = ensureNumber(moment.arrowHeadDeltaProduct)
+// drawMoment draws a moment vector. The moment must have a position property (a Vector) and a clockwise property (boolean), both mandatory. The options (all optional) include the color, the size (thickness of the line), the radius, the opening (the angle where the opening is in the moment arrow, by default being 0 which means to the right) and the spread (how large the circle arc is). The options can also contain an extra style parameter to be applied.
+function drawMoment(diagram, moment, options = {}, container = diagram.gMoments) {
+	// Check input.
+	let { position, clockwise } = processOptions(moment, defaultMoment)
+	position = ensureVector(position, 2)
+	clockwise = ensureBoolean(clockwise)
+	let { size, color, style, opening, radius, spread, arrowHeadDelta } = processOptions(options, defaultMomentOptions)
+	size = ensureNumber(size)
+	radius = ensureNumber(radius)
+	opening = ensureNumber(opening)
+	spread = ensureNumber(spread)
+	arrowHeadDelta = ensureNumber(arrowHeadDelta)
 
-	// Set up the path for the moment arc.
-	const factor = (clockwise ? -1 : 1)
+	// Make a group.
+	const group = container.append('g').attr('class', 'moment')
+	applyStyle(container, style)
+
+	// Draw an arc for the moment.
+	const factor = (clockwise ? 1 : -1)
 	const startAngle = opening + factor * (2 * Math.PI - spread) / 2
 	const endAngle = startAngle + factor * spread
-	const arcPath = getArcPath(position.x, position.y, radius, startAngle, endAngle)
+	const endAngleShortened = endAngle - 2 * factor * size / radius // Shorten the line to prevent passing by the arrow head.
+	const arcPath = getArcPath(position, radius, startAngle, endAngleShortened)
+	const path = group.append('path').attr('d', arcPath).attr('class', 'momentLine')
+	applyStyle(path, { stroke: color, 'stroke-width': size })
 
-	// Add a tiny straight line to properly angle the arrow head.
-	const epsilon = 0.001
-	const arrowHeadAngle = endAngle - factor * arrowHeadDeltaProduct / radius
-	const arrowHeadAddition = `l${-epsilon * factor * Math.sin(arrowHeadAngle)} ${-epsilon * factor * Math.cos(arrowHeadAngle)}`
+	// Draw the arrow head with the proper orientation.
+	const arrowHeadAngle = endAngle + factor * (Math.PI / 2 - arrowHeadDelta * size / radius)
+	const arrowHeadPosition = position.add(Vector.fromPolar(radius, endAngle))
+	drawArrowHead(group, arrowHeadPosition, arrowHeadAngle, size, { fill: color })
 
-	// Create the path in SVG.
-	const path = diagram.gMoments
-		.append('path')
-		.attr('d', arcPath + arrowHeadAddition)
-		.attr('class', 'moment')
-		.attr('marker-end', 'url(#forceArrowHead)')
-
-	// Apply style.
-	applyStyle(path, style)
+	// All done! Return the result.
+	return group
 }
 const defaultMoment = {
 	position: undefined,
 	clockwise: false,
-	opening: 0, // The position of the opening in radians, measured counterclockwise from left.
-	radius: 30,
-	spread: 3 / 2 * Math.PI, // Which angle (part of the circle) is drawn? Usually we take three quarters of a circle.
-	arrowHeadDeltaProduct: 10, // The angle of the arrow head is manually adjusted to make it look OK. This is done such that [adjustmentAngle] * [radius] equals a certain amount. That is this amount. Increase or decrease for more/less angle adjustment.
 }
+const defaultMomentOptions = {
+	...defaultForceOptions,
+	radius: 30,
+	opening: 0, // The position of the opening in radians, measured clockwise from left.
+	spread: 3 / 2 * Math.PI, // Which angle (part of the circle) is drawn? Usually we take three quarters of a circle.
+	arrowHeadDelta: 2.5, // The angle of the arrow head is manually adjusted to make it look OK. This factor is responsible. Increase or decrease it at will.
+}
+
+// drawArrowHead draws an arrowhead in the given container at the given position and with the given angle. It can also be sized up and styled further.
+function drawArrowHead(container, position, angle = 0, size = defaultArrowHeadSize, style = {}) {
+	// Check input.
+	position = ensureVector(position, 2)
+	angle = ensureNumber(angle)
+	size = ensureNumber(size)
+
+	// Draw the arrow head shape and position it.
+	const arrowHead = container
+		.append('polygon')
+		.attr('points', '0 0, -30 -15, -20 0, -30 15')
+		.attr('class', 'arrowHead')
+		.attr('transform', `translate(${position.x}, ${position.y}) rotate(${angle * 180 / Math.PI}) scale(${size / defaultArrowHeadSize})`)
+
+	// Add any potentially given style.
+	return applyStyle(arrowHead, style)
+}
+const defaultArrowHeadSize = defaultForceOptions.size
 
 /*
  * Below are various supporting functions.
  */
 
-// processStartEndCombination takes an object with a start, vector and/or end property (always two out of these three) and finds the remaining one. The result is returned. A thorough check is also performed whether the parameters are indeed present.
-function processStartEndCombination(data) {
-	data = processOptions(data, defaultStartEndCombination)
-	let start, vector, end
-	if (!data.end) {
-		start = ensureVector(data.start, 2)
-		vector = ensureVector(data.vector, 2)
-		end = start.add(vector)
-	} else if (!data.start) {
-		end = ensureVector(data.end, 2)
-		vector = ensureVector(data.vector, 2)
-		start = end.subtract(vector)
-	} else {
-		start = ensureVector(data.start, 2)
-		end = ensureVector(data.end, 2)
-		vector = end.subtract(start)
-	}
-	return { start, vector, end }
-}
-const defaultStartEndCombination = {
-	start: undefined,
-	vector: undefined,
-	end: undefined,
-}
-
-// getArcPath takes a circle center (x,y), a radius, a start angle and an end angle, and gives the SVG path string that makes this path. For angles, the right is taken as zero and counterclockwise is taken as positive.
-function getArcPath(x, y, radius, startAngle, endAngle) {
+// getArcPath takes a circle center (a Vector), a radius, a start angle and an end angle, and gives the SVG path string that makes this path. For angles, the right is taken as zero and clockwise is taken as positive.
+function getArcPath(center, radius, startAngle, endAngle) {
 	// Determine arc start and end.
-	const start = {
-		x: x + radius * Math.cos(startAngle),
-		y: y - radius * Math.sin(startAngle),
-	}
-	const end = {
-		x: x + radius * Math.cos(endAngle),
-		y: y - radius * Math.sin(endAngle),
-	}
+	const start = center.add(Vector.fromPolar(radius, startAngle))
+	const end = center.add(Vector.fromPolar(radius, endAngle))
 
 	// Determine the flags needed by SVG.
 	const largeArcFlag = Math.abs(endAngle - startAngle) <= Math.PI ? '0' : '1'
-	const sweepFlag = endAngle > startAngle ? '0' : '1'
+	const sweepFlag = endAngle < startAngle ? '0' : '1'
 
 	// Set up the path.
 	return `M${start.x} ${start.y} A${radius} ${radius} 0 ${largeArcFlag} ${sweepFlag} ${end.x} ${end.y}`

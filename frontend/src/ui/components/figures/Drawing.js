@@ -180,9 +180,10 @@ function getPointFromEvent(drawing, event) {
 	}
 }
 
-// applyStyle takes an object and applies the corresponding style object to it.
+// applyStyle takes an object and applies the corresponding style object to it. It returns the given object.
 export function applyStyle(obj, style = {}) {
 	Object.keys(style).forEach(key => {
 		obj.style(key, style[key])
 	})
+	return obj
 }

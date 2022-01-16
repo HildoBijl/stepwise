@@ -38,14 +38,17 @@ export default function Test() {
 			end: new Vector(700, 320),
 		})
 
+		const testVector = new Vector(0, 100)
+		console.log(`Vector is ${testVector} with magnitude ${testVector.magnitude} and argument ${testVector.argument}`)
 		// Draw forces.
 		const xValues = [100, 200, 300, 400, 500, 600, 700]
-		xValues.forEach(x => diagram.drawForce({ start: new Vector(x, 100), vector: new Vector(0, 100) }))
+		xValues.forEach(x => diagram.drawForce({ start: new Vector(x, 100), vector: new Vector(0, 100) }, { color: 'red' }))
 
 		// Draw moments.
-		diagram.drawMoment({ position: new Vector(200, 250), clockwise: true })
-		diagram.drawMoment({ position: new Vector(400, 250) })
-		diagram.drawMoment({ position: new Vector(600, 250), opening: Math.PI / 2 })
+		diagram.drawMoment({ position: new Vector(150, 250), clockwise: true }, { size: 3, radius: 30 })
+		diagram.drawMoment({ position: new Vector(300, 250) }, { size: 8, radius: 50, color: 'green' })
+		diagram.drawMoment({ position: new Vector(450, 250) }, { size: 5, radius: 30, color: 'blue' })
+		diagram.drawMoment({ position: new Vector(600, 250) }, { size: 5, radius: 50, color: 'orange', opening: Math.PI / 2 })
 	}, [diagramRef])
 
 	return (
