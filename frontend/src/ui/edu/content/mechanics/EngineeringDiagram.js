@@ -126,8 +126,8 @@ function initialize(drawing) {
 
 	// Add definitions for markers. For the definition, assume the line points to the right and ends at refX, refY.
 	drawing.addDef([
-		<marker id="distanceArrowHead" key="distanceArrowHead" markerWidth="16" markerHeight="16" refX="16" refY="8" orient="auto-start-reverse">
-			<polygon points="16 8, 0 0, 10 8, 0 16" />
+		<marker id="distanceArrowHead" key="distanceArrowHead" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
+			<path d="M0 0 L12 6 L0 12" stroke="black" strokeWidth="1" fill="none" />
 		</marker>,
 		<marker id="forceArrowHead" key="forceArrowHead" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto-start-reverse">
 			<polygon points="8 4, 0 0, 2 4, 0 8" />
