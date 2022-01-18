@@ -32,32 +32,30 @@ export default function Test() {
 	useEffect(() => {
 		const diagram = diagramRef.current
 
-		// Draw distances.
-		diagram.drawDistance({
-			start: new Vector(100, 320),
-			end: new Vector(700, 320),
-		})
-
-		const testVector = new Vector(0, 100)
-		console.log(`Vector is ${testVector} with magnitude ${testVector.magnitude} and argument ${testVector.argument}`)
-		// Draw forces.
-		const xValues = [100, 200, 300, 400, 500, 600, 700]
-		xValues.forEach(x => diagram.drawForce({ start: new Vector(x, 100), vector: new Vector(0, 100) }, { color: 'red' }))
-
-		// Draw moments.
-		diagram.drawMoment({ position: new Vector(150, 250), clockwise: true }, { size: 3, radius: 30, color: 'brown' })
-		diagram.drawMoment({ position: new Vector(550, 250) })
-		diagram.drawMoment({ position: new Vector(150, 350) }, { color: 'darkred' })
-
 		// Draw beam.
 		diagram.drawBeam([
-			new Vector(150, 350),
-			new Vector(350, 350),
-			new Vector(350, 400),
-			new Vector(450, 400),
-			new Vector(550, 350),
-			new Vector(650, 350),
+			new Vector(150, 150),
+			new Vector(350, 150),
+			new Vector(350, 200),
+			new Vector(450, 200),
+			new Vector(550, 150),
+			new Vector(650, 150),
 		])
+
+		// Draw distances.
+		diagram.drawDistance({
+			start: new Vector(150, 250),
+			end: new Vector(650, 250),
+		})
+
+		// Draw forces.
+		diagram.drawForce({ vector: new Vector(0, 100), end: new Vector(250, 150) }, { color: 'darkred' })
+		diagram.drawForce({ vector: new Vector(0, 100), end: new Vector(500, 175) }, { color: 'darkred' })
+
+		// Draw moments.
+		diagram.drawMoment({ position: new Vector(150, 150) }, { color: 'darkred' })
+		diagram.drawMoment({ position: new Vector(450, 200), clockwise: true }, { color: 'darkred' })
+
 	}, [diagramRef])
 
 	return (

@@ -44,6 +44,9 @@ const useStyles = makeStyles((theme) => ({
 			'& .beamLine': {
 				fill: 'none',
 			},
+			'& .beamStrut': {
+				'stroke-width': 0,
+			},
 		},
 	},
 }))
@@ -108,11 +111,11 @@ function initialize(drawing) {
 
 	// Build up the SVG with the most important containers.
 	const groups = {
+		beams: d3svg.append('g').attr('class', 'beams'),
 		lines: d3svg.append('g').attr('class', 'lines'),
 		distances: d3svg.append('g').attr('class', 'distances'),
 		forces: d3svg.append('g').attr('class', 'forces'),
 		moments: d3svg.append('g').attr('class', 'moments'),
-		beams: d3svg.append('g').attr('class', 'beams'),
 	}
 
 	// Store all containers and draw the plot for as much as we can.
@@ -248,9 +251,10 @@ function drawBeam(container, points, options = {}) {
 	if (!Array.isArray(points))
 		throw new Error(`Invalid beam points: expected an array of points but received a parameter of type "${typeof points}".`)
 	points = points.map(point => ensureVector(point, 2))
-	let { size, strutSize, color, style } = processOptions(options, defaultBeamOptions)
+	let { size, strutSize, strutOpacity, color, style } = processOptions(options, defaultBeamOptions)
 	size = ensureNumber(size)
 	strutSize = ensureNumber(strutSize)
+	strutOpacity = ensureNumber(strutOpacity)
 
 	// Make a group.
 	const group = container.append('g').attr('class', 'beam')
@@ -258,11 +262,11 @@ function drawBeam(container, points, options = {}) {
 
 	// Draw the corner struts.
 	points.forEach((point, index) => {
-		if (index === 0 || index === points.length - 1)
-			return
-		const prev = points[index - 1].subtract(point).unitVector().multiply(strutSize).add(point)
-		const next = points[index + 1].subtract(point).unitVector().multiply(strutSize).add(point)
-		drawLine(group, [prev, point, next], { fill: color, 'stroke-width': 0 })
+		if (index > 0 && index < points.length - 1) {
+			const prev = points[index - 1].subtract(point).unitVector().multiply(strutSize).add(point)
+			const next = points[index + 1].subtract(point).unitVector().multiply(strutSize).add(point)
+			drawLine(group, [prev, point, next], { fill: color, opacity: strutOpacity }).attr('class', 'beamStrut')
+		}
 	})
 
 	// Draw a line for the beam.
@@ -274,6 +278,7 @@ function drawBeam(container, points, options = {}) {
 const defaultBeamOptions = {
 	size: 6,
 	strutSize: 15,
+	strutOpacity: 0.75,
 	color: 'black',
 	style: {},
 }
