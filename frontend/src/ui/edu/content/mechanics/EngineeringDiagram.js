@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { line } from 'd3-shape'
 
 import { ensureNumber } from 'step-wise/util/numbers'
-import { ensureBoolean, processOptions, filterOptions } from 'step-wise/util/objects'
+import { ensureBoolean, ensureObject, processOptions, filterOptions } from 'step-wise/util/objects'
 import { Vector, ensureVector, ensureSVE } from 'step-wise/CAS/linearAlgebra/Vector'
 
 import Drawing, { defaultOptions as drawingDefaultOptions, applyStyle } from '../../../components/figures/Drawing'
@@ -47,6 +47,11 @@ const useStyles = makeStyles((theme) => ({
 			'& .beamStrut': {
 				'stroke-width': 0,
 			},
+			'& .supportTriangle': {
+				stroke: 'black',
+				'stroke-width': 2,
+				fill: 'white',
+			},
 		},
 	},
 }))
@@ -81,6 +86,12 @@ export function EngineeringDiagram(options, ref) {
 		drawBeam(points, options) {
 			return drawBeam(diagramRef.current.groups.beams, points, options)
 		},
+		drawHinge(position, options) {
+			return drawHinge(diagramRef.current.groups.connections, position, options)
+		},
+		drawHingeSupport(position, options) {
+			return drawHingeSupport(diagramRef.current.groups.supports, position, options)
+		},
 	}))
 
 	// Initialize the diagram object once the drawing is loaded.
@@ -112,6 +123,8 @@ function initialize(drawing) {
 	// Build up the SVG with the most important containers.
 	const groups = {
 		beams: d3svg.append('g').attr('class', 'beams'),
+		supports: d3svg.append('g').attr('class', 'supports'),
+		connections: d3svg.append('g').attr('class', 'connections'),
 		lines: d3svg.append('g').attr('class', 'lines'),
 		distances: d3svg.append('g').attr('class', 'distances'),
 		forces: d3svg.append('g').attr('class', 'forces'),
@@ -236,9 +249,9 @@ const defaultMoment = {
 }
 const defaultMomentOptions = {
 	...defaultForceOptions,
-	radius: 30,
+	radius: 25,
 	opening: 0, // The position of the opening in radians, measured clockwise from left.
-	spread: 3 / 2 * Math.PI, // Which angle (part of the circle) is drawn? Usually we take three quarters of a circle.
+	spread: 7 / 4 * Math.PI, // Which angle (part of the circle) is drawn? Usually we take three quarters of a circle.
 	arrowHeadDelta: 2.5, // The angle of the arrow head is manually adjusted to make it look OK. This factor is responsible. Increase or decrease it at will.
 }
 
@@ -276,11 +289,91 @@ function drawBeam(container, points, options = {}) {
 	return group
 }
 const defaultBeamOptions = {
-	size: 6,
-	strutSize: 15,
+	size: 4,
+	strutSize: 12,
 	strutOpacity: 0.75,
 	color: 'black',
 	style: {},
+}
+
+function drawHinge(container, position, options = {}) {
+	// Check input.
+	position = ensureVector(position, 2)
+	let { radius, style } = processOptions(options, defaultHingeOptions)
+	radius = ensureNumber(radius)
+	style = ensureObject(style)
+
+	// Set up the circle and shape it.
+	const path = container
+		.append('circle')
+		.attr('cx', position.x)
+		.attr('cy', position.y)
+		.attr('r', radius)
+		.attr('class', 'hinge')
+
+	// Apply style.
+	return applyStyle(path, { ...defaultHingeOptions.style, ...style })
+}
+const defaultHingeOptions = {
+	radius: 6,
+	style: {
+		stroke: 'black',
+		'stroke-width': 2,
+		fill: 'white',
+	},
+}
+
+function drawHingeSupport(container, position, options = {}) {
+	// Check input.
+	position = ensureVector(position, 2)
+	let { angle, height, width, groundHeight, groundWidth, groundOpacity, color, thickness } = processOptions(options, defaultHingeSupportOptions)
+	angle = ensureNumber(angle)
+	height = ensureNumber(height)
+	width = ensureNumber(width)
+	groundHeight = ensureNumber(groundHeight)
+	groundWidth = ensureNumber(groundWidth)
+	groundOpacity = ensureNumber(groundOpacity)
+	thickness = ensureNumber(thickness)
+
+	// Make a group and position it appropriately.
+	const group = container
+		.append('g')
+		.attr('transform', `translate(${position.x}, ${position.y}) rotate(${angle * 180 / Math.PI - 90})`)
+		.attr('class', 'support')
+		.attr('class', 'hingeSupport')
+
+	// Draw the support triangle. Coordinates are for the ninety degree angle, below the hinge.
+	group.append('polygon')
+		.attr('points', `0 0, ${-width / 2} ${height}, ${width / 2} ${height}`)
+		.attr('class', 'supportTriangle')
+		.style('stroke', color)
+		.style('stroke-width', thickness)
+
+	// Draw the ground, with first the filled rectangle and then the ground line.
+	group.append('rect')
+		.attr('height', groundHeight)
+		.attr('width', groundWidth)
+		.attr('opacity', groundOpacity)
+		.attr('y', height)
+		.attr('x', -groundWidth / 2)
+		.style('fill', color)
+	drawLine(group, [new Vector(-groundWidth / 2, height), new Vector(groundWidth / 2, height)], { stroke: color, 'stroke-width': thickness })
+
+	// Draw the hinge on top of it all.
+	drawHinge(group, new Vector(0, 0), { style: { stroke: color, 'stroke-width': thickness } })
+
+	// All done! Return the result.
+	return group
+}
+const defaultHingeSupportOptions = {
+	angle: Math.PI / 2,
+	height: 20,
+	width: 30,
+	groundHeight: 10,
+	groundWidth: 50,
+	groundOpacity: 0.4,
+	color: 'black',
+	thickness: 2,
 }
 
 /*

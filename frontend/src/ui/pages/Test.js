@@ -42,6 +42,13 @@ export default function Test() {
 			new Vector(650, 150),
 		])
 
+		// Draw hinges.
+		diagram.drawHinge(new Vector(450, 200))
+
+		// Draw supports.
+		diagram.drawHingeSupport(new Vector(150, 150), { angle: Math.PI })
+		diagram.drawHingeSupport(new Vector(550, 150), { angle: 3 / 2 * Math.PI })
+
 		// Draw distances.
 		diagram.drawDistance({
 			start: new Vector(150, 250),
@@ -50,12 +57,11 @@ export default function Test() {
 
 		// Draw forces.
 		diagram.drawForce({ vector: new Vector(0, 100), end: new Vector(250, 150) }, { color: 'darkred' })
-		diagram.drawForce({ vector: new Vector(0, 100), end: new Vector(500, 175) }, { color: 'darkred' })
+		diagram.drawForce({ vector: new Vector(0, 100), end: new Vector(500, 175) }, { color: 'darkblue' })
 
 		// Draw moments.
-		diagram.drawMoment({ position: new Vector(150, 150) }, { color: 'darkred' })
-		diagram.drawMoment({ position: new Vector(450, 200), clockwise: true }, { color: 'darkred' })
-
+		diagram.drawMoment({ position: new Vector(350, 150) }, { color: 'darkblue' })
+		diagram.drawMoment({ position: new Vector(650, 150), clockwise: true }, { color: 'darkred', opening: Math.PI })
 	}, [diagramRef])
 
 	return (
