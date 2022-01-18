@@ -38,16 +38,20 @@ export default function Test() {
 			new Vector(350, 150),
 			new Vector(350, 200),
 			new Vector(450, 200),
+		])
+		diagram.drawBeam([
+			new Vector(450, 200),
 			new Vector(550, 150),
 			new Vector(650, 150),
-		])
+		], { color: 'darkgreen' })
 
 		// Draw hinges.
-		diagram.drawHinge(new Vector(450, 200))
+		diagram.drawHinge(new Vector(450, 200), { color: 'darkred' })
 
 		// Draw supports.
-		diagram.drawHingeSupport(new Vector(150, 150), { angle: Math.PI })
-		diagram.drawHingeSupport(new Vector(550, 150), { angle: 3 / 2 * Math.PI })
+		diagram.drawRollerSupport(new Vector(150, 150), { angle: Math.PI })
+		// diagram.drawRollerHingeSupport(new Vector(550, 150), { angle: 3 / 2 * Math.PI, color: 'darkgreen' })
+		diagram.drawHingeSupport(new Vector(650, 150), { angle: 1 / 4 * Math.PI, color: 'darkgreen' })
 
 		// Draw distances.
 		diagram.drawDistance({
@@ -61,7 +65,7 @@ export default function Test() {
 
 		// Draw moments.
 		diagram.drawMoment({ position: new Vector(350, 150) }, { color: 'darkblue' })
-		diagram.drawMoment({ position: new Vector(650, 150), clockwise: true }, { color: 'darkred', opening: Math.PI })
+		diagram.drawMoment({ position: new Vector(550, 150), clockwise: true }, { color: 'darkred', opening: Math.PI })
 	}, [diagramRef])
 
 	return (
