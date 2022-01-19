@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 
 import { Par, Head } from 'ui/components/containers'
-import { BM } from 'ui/components/equations'
+import { M, BM } from 'ui/components/equations'
 
 import EngineeringDiagram from 'ui/edu/content/mechanics/EngineeringDiagram'
 
@@ -32,40 +32,52 @@ export default function Test() {
 	useEffect(() => {
 		const diagram = diagramRef.current
 
-		// Draw beam.
+		// Draw beams.
 		diagram.drawBeam([
-			new Vector(150, 150),
-			new Vector(350, 150),
+			new Vector(150, 100),
+			new Vector(350, 100),
 			new Vector(350, 200),
 			new Vector(450, 200),
 		])
 		diagram.drawBeam([
 			new Vector(450, 200),
-			new Vector(550, 150),
-			new Vector(650, 150),
+			new Vector(550, 100),
+			new Vector(650, 100),
 		], { color: 'darkgreen' })
 
 		// Draw hinges.
 		diagram.drawHinge(new Vector(450, 200), { color: 'darkred' })
 
 		// Draw supports.
-		diagram.drawRollerSupport(new Vector(150, 150), { angle: Math.PI })
-		// diagram.drawRollerHingeSupport(new Vector(550, 150), { angle: 3 / 2 * Math.PI, color: 'darkgreen' })
-		diagram.drawHingeSupport(new Vector(650, 150), { angle: 1 / 4 * Math.PI, color: 'darkgreen' })
+		diagram.drawRollerSupport(new Vector(150, 100), { angle: Math.PI })
+		diagram.drawHingeSupport(new Vector(650, 100), { angle: 1 / 4 * Math.PI, color: 'darkgreen' })
 
 		// Draw distances.
 		diagram.drawDistance({
 			start: new Vector(150, 250),
+			end: new Vector(450, 250),
+		})
+		diagram.drawDistance({
+			start: new Vector(450, 250),
 			end: new Vector(650, 250),
+		})
+		diagram.drawDistance({
+			start: new Vector(720, 100),
+			end: new Vector(720, 200),
 		})
 
 		// Draw forces.
-		diagram.drawForce({ vector: new Vector(0, 100), end: new Vector(250, 150) }, { color: 'darkred' })
-		diagram.drawForce({ vector: new Vector(0, 100), end: new Vector(500, 175) }, { color: 'darkblue' })
+		diagram.drawForce({ vector: new Vector(0, 100), end: new Vector(250, 100) }, { color: 'darkred' })
+		diagram.drawForce({ vector: new Vector(0, 100), end: new Vector(450, 200) }, { color: 'darkblue' })
 
 		// Draw moments.
-		diagram.drawMoment({ position: new Vector(350, 150) }, { color: 'darkblue' })
-		diagram.drawMoment({ position: new Vector(550, 150), clockwise: true }, { color: 'darkred', opening: Math.PI })
+		diagram.drawMoment({ position: new Vector(350, 100) }, { color: 'darkblue', opening: Math.PI })
+		diagram.drawMoment({ position: new Vector(550, 100), clockwise: true }, { color: 'darkred' })
+
+		// Draw text.
+		diagram.drawing.placeElement(<M>L_1 = 6\ (\rm m)</M>, { x: 300, y: 250, horizontalAnchor: 0.5, verticalAnchor: 1, scale: 1.2 })
+		diagram.drawing.placeElement(<M>L_2 = 4\ (\rm m)</M>, { x: 550, y: 250, horizontalAnchor: 0.5, verticalAnchor: 1, scale: 1.2 })
+		diagram.drawing.placeElement(<M>h = 1\ (\rm m)</M>, { x: 720, y: 150, horizontalAnchor: 0.5, verticalAnchor: 1, scale: 1.2, rotate: 90 })
 	}, [diagramRef])
 
 	return (
@@ -74,7 +86,7 @@ export default function Test() {
 			<Head>Tests</Head>
 			<BM>x=\frac(-b\pm\sqrt[2](b^2-4ac))(2a).</BM>
 			<BM>{eq}</BM>
-			<EngineeringDiagram ref={diagramRef} maxWidth={500} width={800} height={400} />
+			<EngineeringDiagram ref={diagramRef} maxWidth={800} width={800} height={400} />
 		</>
 	)
 }
