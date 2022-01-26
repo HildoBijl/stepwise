@@ -23,6 +23,7 @@ const defaultOptions = {
 	useSVG: true,
 	useCanvas: false,
 	svgContents: undefined, // JSX elements that need to be placed directly into the SVG container.
+	svgDefs: undefined, // JSX elements that are placed in the defs part of the SVG container.
 }
 delete defaultOptions.aspectRatio // We override the aspect ratio based on the width and height of the viewport.
 export { defaultOptions }
@@ -63,7 +64,6 @@ function Drawing(options, ref) {
 		throw new Error('Drawing render error: cannot generate a plot without either an SVG or a canvas.')
 	const classes = useStyles()
 	const [elementsData, setElementsData] = useState([])
-	const [defs, setDefs] = useState([])
 	const positionedElementsRef = useRef()
 
 	// Set up refs and make them accessible to any implementing component.
@@ -90,16 +90,6 @@ function Drawing(options, ref) {
 		},
 		get height() {
 			return drawingRef.current.height
-		},
-
-		// Through addDef and removeDef child elements can add definitions to the SVG element. The functions support single element additions/removals or arrays to add/remove.
-		addDef(def) {
-			def = Array.isArray(def) ? def : [def]
-			setDefs(defs => [...defs, ...def])
-		},
-		removeDef(def) {
-			def = Array.isArray(def) ? def : [def]
-			setDefs(defs => defs.filter(currDef => !def.includes(currDef)))
 		},
 
 		// Through placeElement and removeElement child elements can add extra React objects to the SVG element.
@@ -155,7 +145,7 @@ function Drawing(options, ref) {
 						<mask id="noOverflow">
 							<rect x="0" y="0" width={options.width} height={options.height} fill="#fff" />
 						</mask>
-						{defs}
+						{options.svgDefs}
 					</defs>
 					{options.svgContents}
 				</svg>
