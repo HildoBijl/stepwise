@@ -22,6 +22,7 @@ const defaultOptions = {
 	height: 600, // Viewport height.
 	useSVG: true,
 	useCanvas: false,
+	svgContents: undefined, // JSX elements that need to be placed directly into the SVG container.
 }
 delete defaultOptions.aspectRatio // We override the aspect ratio based on the width and height of the viewport.
 export { defaultOptions }
@@ -156,6 +157,7 @@ function Drawing(options, ref) {
 						</mask>
 						{defs}
 					</defs>
+					{options.svgContents}
 				</svg>
 			) : null}
 			{options.useCanvas ? <canvas ref={canvasRef} width={options.width} height={options.height} /> : null}

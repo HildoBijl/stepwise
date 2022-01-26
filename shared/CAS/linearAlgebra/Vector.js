@@ -178,6 +178,8 @@ class Vector {
 		})
 	}
 }
+Vector.zero2D = new Vector(0, 0)
+Vector.zero3D = new Vector(0, 0, 0)
 module.exports.Vector = Vector
 
 // ensureVector takes an object and ensures it's a vector. If the dimension is given, it also ensures it's a vector of the given dimension. Possibly the vector may be a plain object like {x: 2, y: 3} in which case this function tries to turn it into a vector object.
