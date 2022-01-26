@@ -2,16 +2,18 @@
  * When Drawing is given a ref, it places in this ref an object { svg: ..., canvas: ... } with references to the respective DOM elements. Note that the option useCanvas needs to be set to true if a Canvas is desired. useSVG is by default set to true, but can be turned off.
  */
 
-import React, { useRef, forwardRef, useImperativeHandle, useState, useEffect, useLayoutEffect } from 'react'
+import React, { createContext, useContext, useRef, forwardRef, useImperativeHandle, useState, useEffect, useLayoutEffect } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { select } from 'd3-selection'
 
-import { processOptions, filterOptions } from 'step-wise/util/objects'
+import { ensureNumber } from 'step-wise/util/numbers'
+import { ensureObject, processOptions, filterOptions } from 'step-wise/util/objects'
 import { deg2rad } from 'step-wise/util/numbers'
+import { Vector, ensureVector } from 'step-wise/CAS/linearAlgebra/Vector'
 
-import { useEventListener } from 'util/react'
+import { ensureReactElement, useEventListener, useEqualRefOnEquality } from 'util/react'
 import { notSelectable } from 'ui/theme'
 
 import Figure, { defaultOptions as figureDefaultOptions } from './Figure'
@@ -24,9 +26,13 @@ const defaultOptions = {
 	useCanvas: false,
 	svgContents: undefined, // JSX elements that need to be placed directly into the SVG container.
 	svgDefs: undefined, // JSX elements that are placed in the defs part of the SVG container.
+	positionedElements: undefined, // JSX elements inside a PositionedElement container.
 }
 delete defaultOptions.aspectRatio // We override the aspect ratio based on the width and height of the viewport.
 export { defaultOptions }
+
+// Set up a context so elements inside the drawing can ask for the drawing.
+const DrawingContext = createContext(null)
 
 const useStyles = makeStyles((theme) => ({
 	drawing: {
@@ -138,23 +144,26 @@ function Drawing(options, ref) {
 	const canvasRef = useRef()
 	options.className = clsx('drawing', classes.drawing, options.className)
 	return (
-		<Figure ref={figureRef} {...filterOptions(options, figureDefaultOptions)}>
-			{options.useSVG ? (
-				<svg ref={svgRef} viewBox={`0 0 ${options.width} ${options.height}`}>
-					<defs>
-						<mask id="noOverflow">
-							<rect x="0" y="0" width={options.width} height={options.height} fill="#fff" />
-						</mask>
-						{options.svgDefs}
-					</defs>
-					{options.svgContents}
-				</svg>
-			) : null}
-			{options.useCanvas ? <canvas ref={canvasRef} width={options.width} height={options.height} /> : null}
-			<div ref={positionedElementsRef}>
-				{elementsData.map((currElement, index) => <div key={index} className="positionedElement">{currElement.element}</div>)}
-			</div>
-		</Figure>
+		<DrawingContext.Provider value={drawingRef.current}>
+			<Figure ref={figureRef} {...filterOptions(options, figureDefaultOptions)}>
+				{options.useSVG ? (
+					<svg ref={svgRef} viewBox={`0 0 ${options.width} ${options.height}`}>
+						<defs>
+							<mask id="noOverflow">
+								<rect x="0" y="0" width={options.width} height={options.height} fill="#fff" />
+							</mask>
+							{options.svgDefs}
+						</defs>
+						{options.svgContents}
+					</svg>
+				) : null}
+				{options.useCanvas ? <canvas ref={canvasRef} width={options.width} height={options.height} /> : null}
+				<div ref={positionedElementsRef}>
+					{elementsData.map((currElement, index) => <div key={index} className="positionedElement">{currElement.element}</div>)}
+					{options.positionedElements}
+				</div>
+			</Figure>
+		</DrawingContext.Provider>
 	)
 }
 export default forwardRef(Drawing)
@@ -176,6 +185,12 @@ function initialize(figure, svg, canvas) {
 	// Store everything in the drawing ref.
 	return { figure, svg, d3svg, gText, canvas, context }
 }
+
+// Get the data out of the context.
+export function useDrawingContext() {
+	return useContext(DrawingContext)
+}
+
 
 // placeElements places elements onto a drawing subject to the given elements data (an array with { element: [...], options: {...} } form).
 function placeElements(drawing, elementsData, positionedElements) {
@@ -245,4 +260,57 @@ export function applyStyle(obj, style = {}) {
 		obj.style(key, style[key])
 	})
 	return obj
+}
+
+// PositionedElement allows for the positioning of elements onto the drawing.
+export function PositionedElement(props) {
+	// Check input.
+	let { children, position, rotate, scale, anchor, style } = processOptions(props, defaultPositionedElement)
+	children = ensureReactElement(children)
+	position = ensureVector(position, 2)
+	rotate = ensureNumber(rotate)
+	scale = ensureNumber(scale)
+	anchor = ensureVector(anchor, 2)
+	style = ensureObject(style)
+
+	// Make sure the vector references remain consistent.
+	position = useEqualRefOnEquality(position)
+	anchor = useEqualRefOnEquality(anchor)
+
+	// Extract the drawing from the context.
+	const drawing = useDrawingContext()
+
+	// Use a layout effect to properly position the element.
+	const ref = useRef()
+	useLayoutEffect(() => {
+		// Can we do anything?
+		const element = ref.current
+		if (!element || !drawing || !drawing.figure || !drawing.figure.inner)
+			return
+
+		// Calculate the scale at which the figure is drawn.
+		const figureRect = drawing.figure.inner.getBoundingClientRect()
+		const figureScale = figureRect.width / drawing.width
+
+		// Position the element accordingly.
+		element.style.transformOrigin = `${anchor.x * 100}% ${anchor.y * 100}%`
+		element.style.transform = `
+			translate(${-anchor.x * 100}%, ${-anchor.y * 100}%)
+			scale(${figureScale})
+			translate(${position.x}px, ${position.y}px)
+			scale(${scale})
+			rotate(${rotate * 180 / Math.PI}deg)
+		`
+	}, [drawing, children, position, rotate, scale, anchor])
+
+	// Render the children.
+	return <div className="positionedElement" style={style} ref={ref}>{children}</div>
+}
+const defaultPositionedElement = {
+	children: null,
+	position: Vector.zero2D,
+	rotate: 0, // Radians.
+	scale: 1,
+	anchor: new Vector(0.5, 0.5), // Use 0 for left/top and 1 for right/bottom.
+	style: {},
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import KaTeX from 'katex'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
@@ -43,11 +43,15 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
+// Math takes an equation content (often LaTeX or an object that can be Texified) and turns it into an equation. It uses memoization to prevent rerendering equations all the time.
 function Math({ children, displayMode }) {
 	const classes = useStyles({ displayMode })
 	const latex = preprocess(children, true)
-	const html = KaTeX.renderToString(latex, { displayMode, throwOnError: true })
-	return <span className={clsx(classes.equation, 'equation')} dangerouslySetInnerHTML={{ __html: html }} />
+	const result = useMemo(() => {
+		const html = KaTeX.renderToString(latex, { displayMode, throwOnError: true })
+		return <span className={clsx(classes.equation, 'equation')} dangerouslySetInnerHTML={{ __html: html }} />
+	}, [classes, latex, displayMode])
+	return result
 }
 
 function preprocess(latex, advanced = false) {

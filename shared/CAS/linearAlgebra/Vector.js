@@ -139,7 +139,7 @@ class Vector {
 
 	// equals runs an exact equality check on two vectors.
 	equals(vector) {
-		return this.dimension === vector.dimension && this.coordinates.every((value, index) => value === vector.getCoordinate(index))
+		return vector instanceof Vector && this.dimension === vector.dimension && this.coordinates.every((value, index) => value === vector.getCoordinate(index))
 	}
 
 	/*

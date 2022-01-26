@@ -1,4 +1,4 @@
-// Plot is the parent component of every plot made. It gives options to generate various kinds of plots.
+// An Engineering Diagram allows for the easy creation of structural drawings. It can easily draw forces, moments, beams, hinges, supports and more.
 
 import React, { Fragment, forwardRef } from 'react'
 import clsx from 'clsx'
@@ -18,7 +18,8 @@ const defaultOptions = {
 	width: drawingDefaultOptions.width,
 	height: drawingDefaultOptions.height,
 	maxWidth: drawingDefaultOptions.maxWidth,
-	parts: {},
+	parts: null,
+	elements: null,
 }
 export { defaultOptions }
 
@@ -73,6 +74,7 @@ export function EngineeringDiagram(options, ref) {
 	// Add SVG objects to the diagram, based on the provided parts.
 	options.svgContents = options.parts && renderData(options.parts)
 	options.svgDefs = <EngineeringDiagramDefs />
+	options.positionedElements = options.elements
 
 	// Render the drawing.
 	options.className = clsx('engineeringDiagram', classes.engineeringDiagram, options.className)

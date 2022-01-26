@@ -1,7 +1,14 @@
-import { useState, useRef, useEffect, useReducer, useCallback } from 'react'
+import { isValidElement, useState, useRef, useEffect, useReducer, useCallback } from 'react'
 
 import { getCounterNumber } from 'step-wise/util/numbers'
 import { ensureConsistency } from 'step-wise/util/objects'
+
+// ensureReactElement ensures that the given parameter is a React-type element. If not, it throws an error. On success it returns the element.
+export function ensureReactElement(element) {
+	if (!isValidElement(element))
+		throw new Error(`Invalid React element: expected a valid React element but received something of type "${typeof element}".`)
+	return element
+}
 
 // usePrevious remembers a value from the previous render.
 export function usePrevious(value) {
@@ -18,10 +25,18 @@ export function useCurrentOrPrevious(value) {
 	return value || previousValue
 }
 
-// useConsistentValue will check if the given value is the same as previously. If the reference changes, but a deepEquals check still results in the same object, the same reference will be maintained. 
+// useConsistentValue will check if the given value is the same as previously. If the reference changes, but a deepEquals check still results in the same object, the same reference will be maintained.
 export function useConsistentValue(value) {
 	const ref = useRef()
 	ref.current = ensureConsistency(value, ref.current)
+	return ref.current
+}
+
+// useEqualRefOnEquality will check if a value equals its previous value. If so, the reference is maintained.
+export function useEqualRefOnEquality(value, equalityCheck = (a, b) => a && a.equals(b)) {
+	const ref = useRef()
+	if (value !== ref.current && !equalityCheck(value, ref.current))
+		ref.current = value
 	return ref.current
 }
 
