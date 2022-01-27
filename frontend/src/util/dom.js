@@ -1,7 +1,17 @@
+import { Vector } from 'step-wise/CAS/linearAlgebra/Vector'
+
 // resetFocus takes a field, removes the focus and restores it. This is useful to work around the Android auto-suggest option, preventing it from taking place.
 export function resetFocus(field) {
 	field.blur()
 	field.focus()
+}
+
+// getEventPosition takes an event and gives the coordinates (client) at which it happens. It does this by return a vector to said point. On a touch event, it extracts the first touch.
+export function getEventPosition(evt) {
+	const obj = (evt.touches && evt.touches[0]) || evt
+	if (obj.clientX === undefined || obj.clientY === undefined)
+		return null
+	return new Vector([obj.clientX, obj.clientY])
 }
 
 // getCoordinatesOf gives the coordinates of an element within a certain parent of it. This parent can be multiple layers up, but must at some point be an offset parent.

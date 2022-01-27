@@ -76,26 +76,36 @@ function Drawing(options, ref) {
 	const figureRef = useRef()
 	const drawingRef = useRef()
 	useImperativeHandle(ref, () => ({
-		get figure() {
-			return drawingRef.current.figure
-		},
-		get svg() {
-			return drawingRef.current.svg
-		},
-		get d3svg() {
-			return drawingRef.current.d3svg
-		},
-		get canvas() {
-			return drawingRef.canvas.svg
-		},
-		get context() {
-			return drawingRef.current.context
-		},
-		get width() {
-			return drawingRef.current.width
-		},
-		get height() {
-			return drawingRef.current.height
+		// Basic getters.
+		get figure() { return drawingRef.current.figure },
+		get svg() { return drawingRef.current.svg },
+		get d3svg() { return drawingRef.current.d3svg },
+		get canvas() { return drawingRef.canvas.svg },
+		get context() { return drawingRef.current.context },
+		get width() { return drawingRef.current.width },
+		get height() { return drawingRef.current.height },
+
+		// Position functions.
+		getPosition(clientCoordinates, figureRect) {
+			// If no clientCoordinates have been given, we cannot do anything.
+			if (!clientCoordinates)
+				return null
+
+			// If no figure rectangle has been provided, find it. (It can be already provided for efficiency.)
+			const drawing = drawingRef.current
+			if (!figureRect) {
+				const figureInner = drawing.figure && drawing.figure.inner
+				if (!figureInner)
+					return null
+				figureRect = figureInner.getBoundingClientRect()
+			}
+
+			// Calculate the position.
+			clientCoordinates = ensureVector(clientCoordinates, 2)
+			return new Vector([
+				(clientCoordinates.x - figureRect.x) * drawing.width / figureRect.width,
+				(clientCoordinates.y - figureRect.y) * drawing.height / figureRect.height,
+			])
 		},
 		isInside(position) {
 			if (!position)
@@ -332,8 +342,5 @@ export function useDrawingMousePosition(drawingRef) {
 		return null
 
 	// Calculate relative position and scale it.
-	return {
-		x: (mousePosition.x - figureRect.x) * drawing.width / figureRect.width,
-		y: (mousePosition.y - figureRect.y) * drawing.height / figureRect.height,
-	}
+	return drawing.getPosition(mousePosition, figureRect)
 }

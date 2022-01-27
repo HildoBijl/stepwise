@@ -3,6 +3,8 @@ import { isValidElement, useState, useRef, useEffect, useReducer, useCallback } 
 import { getCounterNumber } from 'step-wise/util/numbers'
 import { ensureConsistency } from 'step-wise/util/objects'
 
+import { getEventPosition } from 'util/dom'
+
 // ensureReactElement ensures that the given parameter is a React-type element. If not, it throws an error. On success it returns the element.
 export function ensureReactElement(element) {
 	if (!isValidElement(element))
@@ -117,9 +119,10 @@ export function useEventListener(eventName, handler, elements = window) {
 export function useMousePosition() {
 	// Track the position of the mouse.
 	const [position, setPosition] = useState(null)
-	useEventListener('mousemove', (evt) => {
-		setPosition({ x: evt.clientX, y: evt.clientY })
-	})
+	const storePosition = (evt) => { setPosition(getEventPosition(evt)) }
+	useEventListener('mousemove', storePosition)
+	useEventListener('touchstart', storePosition)
+	useEventListener('touchmove', storePosition)
 	return position
 }
 
