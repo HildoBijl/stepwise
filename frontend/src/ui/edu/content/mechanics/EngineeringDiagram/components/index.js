@@ -1,5 +1,5 @@
 // The index file determines what is exported from this folder.
-export { PositionedGroup } from './groups'
+export { Group } from './groups'
 export { Line, Distance } from './shapes'
 export { Force, Moment } from './loads'
 export { Beam, Hinge } from './structuralComponents'

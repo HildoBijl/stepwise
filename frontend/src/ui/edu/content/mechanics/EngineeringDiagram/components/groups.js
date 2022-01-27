@@ -10,10 +10,10 @@ export const defaultObject = {
 	style: {},
 }
 
-// PositionedGroup sets up a groups with a given position, rotation and scale. (In that order: it's first translated, then rotated and then scaled.)
-export function PositionedGroup(props) {
+// Group sets up a groups with a given position, rotation and scale. (In that order: it's first translated, then rotated and then scaled.)
+export function Group(props) {
 	// Check input.
-	const { position, rotate, scale, className, style, children } = processOptions(props, defaultPositionedGroup)
+	const { position, rotate, scale, className, style, children } = processOptions(props, defaultGroup)
 
 	// Set up the group with the right transform property.
 	return <g className={className} style={{
@@ -21,12 +21,10 @@ export function PositionedGroup(props) {
 		transform: `translate(${position.x}px, ${position.y}px) rotate(${rotate * 180 / Math.PI}deg) scale(${scale}) ${style.transform || ''}`,
 	}}>{children}</g>
 }
-const defaultPositionedGroup = {
+const defaultGroup = {
 	...defaultObject,
 	position: Vector.zero2D,
 	rotate: 0,
 	scale: 1,
-	className: '',
-	style: {},
 	children: null,
 }

@@ -5,7 +5,7 @@ import { ensureString } from 'step-wise/util/strings'
 import { ensureBoolean, ensureObject, processOptions } from 'step-wise/util/objects'
 import { Vector, ensureVector, ensureSVE } from 'step-wise/CAS/linearAlgebra/Vector'
 
-import { defaultObject, PositionedGroup } from './groups'
+import { defaultObject, Group } from './groups'
 import { Line, Arc } from './shapes'
 
 // ArrowHead draws an arrowhead in the given container at the given position and with the given angle. It can also be sized up and styled further.
@@ -49,10 +49,10 @@ export function Force(props) {
 	color = ensureString(color)
 
 	// Draw a horizontal force ending in (0, 0) and transform it to position it.
-	return <PositionedGroup position={end} rotate={vector.argument} {...{ className, style }}>
+	return <Group position={end} rotate={vector.argument} {...{ className, style }}>
 		<Line points={[new Vector(-vector.magnitude, 0), new Vector(-size, 0)]} className="forceLine" style={{ stroke: color, strokeWidth: size }} />
 		<ArrowHead size={size} style={{ fill: color }} />
-	</PositionedGroup>
+	</Group>
 }
 export const defaultForce = {
 	...defaultObject,
@@ -84,7 +84,7 @@ export function Moment(props) {
 	const endAngleShortened = endAngle - 2 * factor * size / radius // Shorten the line to prevent passing by the arrow head.
 
 	// Draw a horizontal moment around (0, 0) and transform it to position it.
-	return <PositionedGroup rotate={opening} {...{ position, className, style }}>
+	return <Group rotate={opening} {...{ position, className, style }}>
 		<Arc radius={radius} startAngle={startAngle} endAngle={endAngleShortened} className="momentLine" style={{ stroke: color, strokeWidth: size }} />
 		<ArrowHead
 			position={Vector.fromPolar(radius, endAngle)}
@@ -92,7 +92,7 @@ export function Moment(props) {
 			size={size}
 			style={{ fill: color }}
 		/>
-	</PositionedGroup>
+	</Group>
 }
 export const defaultMoment = {
 	...defaultObject,

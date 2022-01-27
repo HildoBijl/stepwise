@@ -116,9 +116,3 @@ export function renderData(data) {
 	// Render the requested component.
 	return <Component {...data} />
 }
-
-// Group takes a group object and turns all parameters of the object (apart from its type "group" and a potential group className and style) into SVG children of this group. Note that this set-up is more powerful than using an array to create a group, because it allows the same object to be linked to the same React key to prevent references from shifting. In practice it's not used much, since the same can be obtained by manually defining keys in React.
-export function Group(props) {
-	const keys = Object.keys(props).filter(key => !['type', 'style', 'className'].includes(key))
-	return <g className={props.className} style={props.style}>{keys.map(key => <Fragment key={key}>{renderData[props[key]]}</Fragment>)}</g>
-}

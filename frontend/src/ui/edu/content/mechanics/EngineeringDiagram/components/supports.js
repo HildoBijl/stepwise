@@ -6,7 +6,7 @@ import { ensureObject, processOptions } from 'step-wise/util/objects'
 import { numberArray } from 'step-wise/util/arrays'
 import { Vector, ensureVector } from 'step-wise/CAS/linearAlgebra/Vector'
 
-import { defaultObject, PositionedGroup } from './groups'
+import { defaultObject, Group } from './groups'
 import { Line } from './shapes'
 import { defaultBeam, Hinge, defaultHinge } from './structuralComponents'
 
@@ -39,10 +39,10 @@ export function FixedSupport(props) {
 	style = ensureObject(style)
 
 	// Make a group and position it appropriately.
-	return <PositionedGroup rotate={angle - Math.PI / 2} {...{ position, className, style }}>
+	return <Group rotate={angle - Math.PI / 2} {...{ position, className, style }}>
 		<SupportBlock position={new Vector(0, height * positionFactor)} {...{ color, width, height }} />
 		<Ground position={new Vector(0, height * (1 / 2 + positionFactor))} {...{ color, thickness, ...groundOptions }} />
-	</PositionedGroup>
+	</Group>
 }
 export const defaultFixedSupport = {
 	...defaultSupport,
@@ -66,11 +66,11 @@ export function HingeSupport(props) {
 	style = ensureObject(style)
 
 	// Make a group and position it appropriately.
-	return <PositionedGroup rotate={angle - Math.PI / 2} {...{ position, className, style }}>
+	return <Group rotate={angle - Math.PI / 2} {...{ position, className, style }}>
 		<SupportTriangle {...{ color, thickness, width, height }} />
 		<Ground position={new Vector(0, height)} {...{ color, thickness, ...groundOptions }} />
 		<Hinge {...{ color, thickness }} />
-	</PositionedGroup>
+	</Group>
 }
 export const defaultHingeSupport = {
 	...defaultSupport,
@@ -96,11 +96,11 @@ export function RollerSupport(props) {
 	style = ensureObject(style)
 
 	// Make a group and position it appropriately.
-	return <PositionedGroup rotate={angle - Math.PI / 2} {...{ position, className, style }}>
+	return <Group rotate={angle - Math.PI / 2} {...{ position, className, style }}>
 		<SupportBlock position={new Vector(0, height * positionFactor)} {...{ color, height, width }} />
 		<Ground position={new Vector(0, height * (1 / 2 + positionFactor) + 2 * wheelRadius + thickness / 2)} {...{ color, thickness, ...groundOptions }} />
 		<Wheels position={new Vector(0, height * (1 / 2 + positionFactor) + wheelRadius)} {...{ color, numWheels, wheelRadius, ...wheelsOptions }} />
-	</PositionedGroup>
+	</Group>
 }
 export const defaultRollerSupport = {
 	...defaultFixedSupport,
@@ -126,12 +126,12 @@ export function RollerHingeSupport(props) {
 	style = ensureObject(style)
 
 	// Make a group and position it appropriately.
-	return <PositionedGroup rotate={angle - Math.PI / 2} {...{ position, className, style }}>
+	return <Group rotate={angle - Math.PI / 2} {...{ position, className, style }}>
 		<SupportTriangle {...{ color, width, height }} />
 		<Ground position={new Vector(0, height + 2 * wheelRadius + thickness)} {...{ color, thickness, ...groundOptions }} />
 		<Wheels position={new Vector(0, height + wheelRadius + thickness / 2)} {...{ color, numWheels, wheelRadius, ...wheelsOptions }} />
 		<Hinge {...{ color, thickness }} />
-	</PositionedGroup>
+	</Group>
 }
 export const defaultRollerHingeSupport = {
 	...defaultHingeSupport,
@@ -156,10 +156,10 @@ export function Ground(props) {
 	className = ensureString(className)
 	style = ensureObject(style)
 
-	return <PositionedGroup {...{ position, className, style }}>
+	return <Group {...{ position, className, style }}>
 		<rect className="groundRectangle" x={-width / 2} y={0} width={width} height={height} style={{ fill: color, opacity: rectangleOpacity }} />
 		<Line className="groundLine" points={[new Vector(-width / 2, 0), new Vector(width / 2, 0)]} style={{ stroke: color, strokeWidth: thickness }} />
-	</PositionedGroup >
+	</Group >
 }
 export const defaultGround = {
 	...defaultObject,
@@ -230,7 +230,7 @@ export function Wheels(props) {
 	style = ensureObject(style)
 
 	// Draw a group with the right number of wheels (circles).
-	return <PositionedGroup {...{ position, className, style }}>
+	return <Group {...{ position, className, style }}>
 		{numberArray(0, numWheels - 1).map(index => <circle
 			key={index}
 			cx={(2 * index + 1 - numWheels) * wheelRadius}
@@ -239,7 +239,7 @@ export function Wheels(props) {
 			className="wheel"
 			style={{ fill: color, ...wheelStyle }}
 		/>)}
-	</PositionedGroup>
+	</Group>
 }
 export const defaultWheels = {
 	...defaultObject,
