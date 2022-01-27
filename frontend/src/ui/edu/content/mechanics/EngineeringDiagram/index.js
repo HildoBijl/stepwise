@@ -13,14 +13,14 @@ import * as components from './components'
 export { PositionedElement } from 'ui/components/figures/Drawing'
 export * from './components'
 
-const defaultOptions = {
+export const defaultOptions = {
 	width: drawingDefaultOptions.width,
 	height: drawingDefaultOptions.height,
 	maxWidth: drawingDefaultOptions.maxWidth,
 	parts: null,
 	elements: null,
+	className: '',
 }
-export { defaultOptions }
 
 const useStyles = makeStyles((theme) => ({
 	engineeringDiagram: {

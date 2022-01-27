@@ -47,7 +47,7 @@ export function useCounter(initialValue = 0) {
 }
 
 // useRefWithValue is used to directly store a value in a ref. This is useful when you have use-only functions in a useEffect function: plug them in a ref, apply the ref in the useEffect function and the function isn't triggered so much.
-export function useRefWithValue(value, initialValue) {
+export function useRefWithValue(value, initialValue = value) {
 	const ref = useRef(initialValue)
 	ref.current = value
 	return ref
@@ -111,6 +111,54 @@ export function useEventListener(eventName, handler, elements = window) {
 			processedElements.forEach(element => element.removeEventListener(eventName, redirectingHandler))
 		}
 	}, [eventName, elements]) // Reregister only when the event type or the listening objects change.
+}
+
+// useMousePosition returns the position of the mouse in client coordinates.
+export function useMousePosition() {
+	// Track the position of the mouse.
+	const [position, setPosition] = useState(null)
+	useEventListener('mousemove', (evt) => {
+		setPosition({ x: evt.clientX, y: evt.clientY })
+	})
+	return position
+}
+
+// useMousePositionRelative returns the position of the mouse in client coordinates relative to a given element reference. In case anything is not known yet, null is returned.
+export function useMousePositionRelative(element) {
+	// Acquire all data.
+	const mousePosition = useMousePosition()
+	const elementRect = useBoundingClientRect(element)
+
+	// Combine data where possible.
+	if (!mousePosition || !elementRect)
+		return null
+	return { x: mousePosition.x - elementRect.x, y: mousePosition.y - elementRect.y }
+}
+
+// useBoundingClientRect takes an element and tracks the BoundingClientRect. It only updates it on changes to the element and on scrolls, improving efficiency.
+export function useBoundingClientRect(element) {
+	const [rect, setRect] = useState(null)
+
+	// Create a handler that updates the rect.
+	const updateElementPosition = useCallback(() => {
+		if (element)
+			setRect(element.getBoundingClientRect())
+	}, [element, setRect])
+
+	// Listen for updates to the rect.
+	useEffect(() => updateElementPosition(), [element, updateElementPosition]) // Changes in the rectangle.
+	useEventListener('scroll', updateElementPosition) // Scrolling.
+	useEventListener('resize', updateElementPosition) // Window resize.
+
+	// On a first run the rect may not be known yet. Calculate it directly.
+	if (element && !rect) {
+		const actualRect = element.getBoundingClientRect()
+		setRect(actualRect)
+		return actualRect
+	}
+
+	// Normal case: return the rectangle.
+	return rect
 }
 
 // useForceUpdate gives you a force update function, which is useful in some extreme cases.

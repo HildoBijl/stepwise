@@ -13,7 +13,7 @@ import { ensureObject, processOptions, filterOptions } from 'step-wise/util/obje
 import { deg2rad } from 'step-wise/util/numbers'
 import { Vector, ensureVector } from 'step-wise/CAS/linearAlgebra/Vector'
 
-import { ensureReactElement, useEventListener, useEqualRefOnEquality } from 'util/react'
+import { ensureReactElement, useEventListener, useEqualRefOnEquality, useMousePosition, useBoundingClientRect } from 'util/react'
 import { notSelectable } from 'ui/theme'
 
 import Figure, { defaultOptions as figureDefaultOptions } from './Figure'
@@ -96,6 +96,11 @@ function Drawing(options, ref) {
 		},
 		get height() {
 			return drawingRef.current.height
+		},
+		isInside(position) {
+			if (!position)
+				return false
+			return position.x >= 0 && position.x <= drawingRef.current.width && position.y >= 0 && position.y <= drawingRef.current.height
 		},
 
 		// Through placeElement and removeElement child elements can add extra React objects to the SVG element.
@@ -313,4 +318,22 @@ const defaultPositionedElement = {
 	scale: 1,
 	anchor: new Vector(0.5, 0.5), // Use 0 for left/top and 1 for right/bottom.
 	style: {},
+}
+
+// useDrawingMousePosition tracks the position of the mouse and gives the coordinates with respect to mouse coordinates. This is of the form { x: 100, y: 200 }. The function must be provided with a reference to the drawing.
+export function useDrawingMousePosition(drawingRef) {
+	const drawing = drawingRef && drawingRef.current
+	const figureInner = drawing && drawing.figure && drawing.figure.inner
+
+	// Acquire data. Return null on missing data.
+	const mousePosition = useMousePosition()
+	const figureRect = useBoundingClientRect(figureInner)
+	if (!mousePosition || !figureRect)
+		return null
+
+	// Calculate relative position and scale it.
+	return {
+		x: (mousePosition.x - figureRect.x) * drawing.width / figureRect.width,
+		y: (mousePosition.y - figureRect.y) * drawing.height / figureRect.height,
+	}
 }

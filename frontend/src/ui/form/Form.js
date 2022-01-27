@@ -128,7 +128,7 @@ export function useFormData() {
 
 /* useFormParameter gives a tuple [value, setValue] for a single input parameter with the given id. An options object may be passed along with the options:
  * - initialValue: the initial value of the parameter.
- * - subscribe (default false): whether we should note that a React object is controlling this. (Should be true for setters, false (default) for readerrs.) If the number of subscribers drops to zero, then the field is cleared.
+ * - subscribe (default false): whether we should note that a React object is controlling this. (Should be true for setters, false (default) for readers.) If the number of subscribers drops to zero, then the field is cleared.
  * - persistent (default false): should the parameter stay (true) or be cleared (false) when the last subscriber unsubscribes from listening for this parameter?
  */
 const defaultUseFormParameterOptions = {
