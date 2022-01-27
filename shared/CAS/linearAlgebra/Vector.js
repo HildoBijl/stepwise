@@ -203,6 +203,14 @@ function ensureVector(vector, dimension) {
 }
 module.exports.ensureVector = ensureVector
 
+// ensureVectorArray ensures that we have an array of vectors. It turns the result into vectors if they're not vectors yet, like an array of coordinates [200, 300] or an object { x: 200, y: 300 }.
+function ensureVectorArray(vectors, dimension) {
+	if (!Array.isArray(vectors))
+		throw new Error(`Invalid vector array: expected an array of vectors or vector-like objects (arrays or objects with coordinates) but received a parameter of type "${typeof vectors}".`)
+		return vectors.map(vector => ensureVector(vector, dimension))
+}
+module.exports.ensureVectorArray = ensureVectorArray
+
 // ensureSVE ensures that a parameter is an object with a start, vector and end property. At least two of the three must be given and the third is then automatically determined. The result is returned.
 function ensureSVE(sve) {
 	sve = processOptions(sve, defaultSVE)

@@ -10,6 +10,7 @@ import Drawing, { defaultOptions as drawingDefaultOptions } from 'ui/components/
 
 import * as components from './components'
 
+export { PositionedElement } from 'ui/components/figures/Drawing'
 export * from './components'
 
 const defaultOptions = {

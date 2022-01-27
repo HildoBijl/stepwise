@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureString } from 'step-wise/util/strings'
 import { ensureObject, processOptions, filterOptions } from 'step-wise/util/objects'
-import { Vector, ensureVector, ensureSVE } from 'step-wise/CAS/linearAlgebra/Vector'
+import { Vector, ensureVector, ensureVectorArray, ensureSVE } from 'step-wise/CAS/linearAlgebra/Vector'
 
 import { defaultObject } from './groups'
 
@@ -12,9 +12,7 @@ import { defaultObject } from './groups'
 export function Line(props) {
 	// Process the input.
 	let { points, className, style } = processOptions(props, defaultLine)
-	if (!Array.isArray(points))
-		throw new Error(`Invalid line points: expected an array of points but received a parameter of type "${typeof points}".`)
-	points = points.map(point => ensureVector(point, 2))
+	points = ensureVectorArray(points, 2)
 	className = ensureString(className)
 	style = ensureObject(style)
 
@@ -29,7 +27,7 @@ export const defaultLine = {
 }
 
 // getLinePath takes an array of points and turns it into an SVG line string.
-function getLinePath(points) {
+export function getLinePath(points) {
 	return `M${points.map(point => `${point.x} ${point.y}`).join(' L')}`
 }
 

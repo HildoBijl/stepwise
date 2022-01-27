@@ -3,11 +3,9 @@ import React, { useEffect, useState } from 'react'
 import { Par, Head } from 'ui/components/containers'
 import { M, BM } from 'ui/components/equations'
 
-import { PositionedElement } from 'ui/components/figures/Drawing'
-import EngineeringDiagram, { Distance, Force, Moment, Beam, Hinge, FixedSupport, HingeSupport, RollerSupport, RollerHingeSupport } from 'ui/edu/content/mechanics/EngineeringDiagram'
+import EngineeringDiagram, { PositionedElement, Distance, Force, Moment, Beam, Hinge, FixedSupport, HingeSupport, RollerSupport, RollerHingeSupport } from 'ui/edu/content/mechanics/EngineeringDiagram'
 
 import CAS from 'step-wise/CAS'
-import { Vector } from 'step-wise/CAS/linearAlgebra'
 
 import { Float } from 'step-wise/inputTypes/Float'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
@@ -36,29 +34,29 @@ export default function Test() {
 	}, [setX])
 
 	const parts = <>
-		<Beam points={[new Vector(150, 100), new Vector(350, 100), new Vector(350, 200), new Vector(450, 200)]} />,
-		<Beam points={[new Vector(450, 200), new Vector(550, 100), new Vector(650, 100)]} color="darkgreen" />,
+		<Beam points={[[150, 100], [350, 100], [350, 200], [450, 200]]} />,
+		<Beam points={[[450, 200], [550, 100], [650, 100]]} color="darkgreen" />,
 
-		<Hinge position={new Vector(450, 200)} color="darkred" />,
+		<Hinge position={[450, 200]} color="darkred" />,
 
-		<RollerSupport position={new Vector(150, 100)} angle={Math.PI} />,
-		<HingeSupport position={new Vector(650, 100)} angle={Math.PI / 4 * (1 + Math.sin(x / 20))} color="darkgreen" />,
+		<RollerSupport position={[150, 100]} angle={Math.PI} />,
+		<HingeSupport position={[650, 100]} angle={Math.PI / 4 * (1 + Math.sin(x / 20))} color="darkgreen" />,
 
-		<Distance points={{ start: new Vector(150, 250), end: new Vector(450, 250) }} />,
-		<Distance points={{ start: new Vector(450, 250), end: new Vector(650, 250) }} />,
-		<Distance points={{ start: new Vector(720, 100), end: new Vector(720, 200) }} />,
+		<Distance points={{ start: [150, 250], end: [450, 250] }} />,
+		<Distance points={{ start: [450, 250], end: [650, 250] }} />,
+		<Distance points={{ start: [720, 100], end: [720, 200] }} />,
 
-		<Force points={{ vector: new Vector(0, 100), end: new Vector(250 + 50 * Math.sin(x / 20), 100) }} color="darkred" />,
-		<Force points={{ vector: new Vector(0, 150), end: new Vector(450, 200) }} color="darkblue" />,
+		<Force points={{ vector: [0, 100], end: [250 + 50 * Math.sin(x / 20), 100] }} color="darkred" />,
+		<Force points={{ vector: [0, 150], end: [450, 200] }} color="darkblue" />,
 
-		<Moment position={new Vector(350, 100)} color="darkblue" opening={Math.PI - x / 100} />,
-		<Moment position={new Vector(550, 100)} color="darkred" clockwise={true} />,
+		<Moment position={[350, 100]} color="darkblue" opening={Math.PI - x / 100} />,
+		<Moment position={[550, 100]} color="darkred" clockwise={true} />,
 	</>
 
 	const elements = <>
-		<PositionedElement position={new Vector(300 + 20*Math.sin(x/30), 250)} anchor={new Vector(0.5, 1)} scale={1.2} ><M>L_1 = 3\ (\rm m)</M></PositionedElement>
-		<PositionedElement position={new Vector(550 + 20*Math.sin(x/40), 250)} anchor={new Vector(0.5, 1)} scale={1.2}><M>L_2 = 2\ (\rm m)</M></PositionedElement>
-		<PositionedElement position={new Vector(720, 150)} anchor={new Vector(0.5, 1)} scale={1.2} rotate={Math.PI / 2}><M>h = 1\ (\rm m)</M></PositionedElement>
+		<PositionedElement position={[300 + 20 * Math.sin(x / 30), 250]} anchor={[0.5, 1]} scale={1.2} ><M>L_1 = 3\ (\rm m)</M></PositionedElement>
+		<PositionedElement position={[550 + 20 * Math.sin(x / 40), 250]} anchor={[0.5, 1]} scale={1.2}><M>L_2 = 2\ (\rm m)</M></PositionedElement>
+		<PositionedElement position={[720, 150]} anchor={[0.5, 1]} scale={1.2} rotate={Math.PI / 2}><M>h = 1\ (\rm m)</M></PositionedElement>
 	</>
 
 	return (

@@ -3,7 +3,7 @@ import React from 'react'
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureString } from 'step-wise/util/strings'
 import { ensureObject, processOptions } from 'step-wise/util/objects'
-import { Vector, ensureVector } from 'step-wise/CAS/linearAlgebra/Vector'
+import { Vector, ensureVector, ensureVectorArray } from 'step-wise/CAS/linearAlgebra/Vector'
 
 import { defaultObject } from './groups'
 import { Line, defaultLine } from './shapes'
@@ -11,6 +11,7 @@ import { Line, defaultLine } from './shapes'
 export function Beam(props) {
 	// Check input.
 	let { points, thickness, strutSize, strutOpacity, color, lineStyle, strutStyle, className, style } = processOptions(props, defaultBeam)
+	points = ensureVectorArray(points, 2)
 	thickness = ensureNumber(thickness)
 	strutSize = ensureNumber(strutSize)
 	strutOpacity = ensureNumber(strutOpacity)
