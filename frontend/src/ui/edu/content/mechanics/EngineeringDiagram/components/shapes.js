@@ -6,7 +6,7 @@ import { ensureString } from 'step-wise/util/strings'
 import { ensureObject, processOptions, filterOptions } from 'step-wise/util/objects'
 import { Vector, ensureVector, ensureSVE } from 'step-wise/CAS/linearAlgebra/Vector'
 
-import { defaultObject } from './loader'
+import { defaultObject } from './groups'
 
 // Line draws a line from the given points array and an optional style object.
 export function Line(props) {

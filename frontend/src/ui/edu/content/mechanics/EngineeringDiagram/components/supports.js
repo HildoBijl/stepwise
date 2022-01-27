@@ -6,7 +6,9 @@ import { ensureObject, processOptions } from 'step-wise/util/objects'
 import { numberArray } from 'step-wise/util/arrays'
 import { Vector, ensureVector } from 'step-wise/CAS/linearAlgebra/Vector'
 
-import { defaultObject, PositionedGroup, Line, defaultBeam, Hinge, defaultHinge } from './loader'
+import { defaultObject, PositionedGroup } from './groups'
+import { Line } from './shapes'
+import { defaultBeam, Hinge, defaultHinge } from './structuralComponents'
 
 /*
  * Part 1 of this file contains all the actual structural supports.

@@ -5,7 +5,8 @@ import { ensureString } from 'step-wise/util/strings'
 import { ensureObject, processOptions } from 'step-wise/util/objects'
 import { Vector, ensureVector } from 'step-wise/CAS/linearAlgebra/Vector'
 
-import { defaultObject, Line, defaultLine } from './loader'
+import { defaultObject } from './groups'
+import { Line, defaultLine } from './shapes'
 
 export function Beam(props) {
 	// Check input.
