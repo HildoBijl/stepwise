@@ -1,14 +1,14 @@
 // A PositionedVector is a combination of three vectors: start, vector, end. Always it holds that start + vector = end, so effectively two of the three define the full PositionedVector object. This is useful when you have a Vector somewhere in space. The properties of this object are (unsurprisingly) "start", "vector" and "end".
 
 const { processOptions } = require('../../util/objects')
-const { ensureVector } = require('./Vector') // TODO: PUT BACK TO CENTRAL FUNCTION.
+const { ensureVector } = require('./Vector')
+const { Line } = require('./Line')
 
 const defaultPositionedVector = {
 	start: undefined,
 	vector: undefined,
 	end: undefined,
 }
-const cannotChangeError = 'Invalid command: cannot adjust the properties of a PositionedVector. If needed, you must create a new PositionedVector.'
 
 class PositionedVector {
 	/*
@@ -16,6 +16,15 @@ class PositionedVector {
 	 */
 
 	constructor(positionedVector) {
+		// Check the input type.
+		if (typeof positionedVector !== 'object')
+			throw new Error(`Invalid PositionedVector value: expected to receive some kind of object, but instead received something of type "${typeof positionedVector}".`)
+
+		// Check if it already is a PositionedVector.
+		if (positionedVector instanceof PositionedVector)
+			return positionedVector
+
+		// Process the PositionedVector.
 		positionedVector = processOptions(positionedVector, defaultPositionedVector)
 		if (!positionedVector.end) {
 			this.start = ensureVector(positionedVector.start)
@@ -30,7 +39,7 @@ class PositionedVector {
 			this.end = ensureVector(positionedVector.end, this.start.dimension)
 			this.vector = this.end.subtract(this.start)
 			if (positionedVector.vector && !this.vector.equals(positionedVector.vector))
-				throw new Error(`Invalid start-vector-end combination: the given vector "${positionedVector.vector}" is not the difference between the start "${start}" and the end "${end}".`)
+				throw new Error(`Invalid PositionedVector: the given vector "${positionedVector.vector}" is not the difference between the start "${start}" and the end "${end}".`)
 		}
 	}
 
@@ -53,7 +62,11 @@ class PositionedVector {
 	}
 
 	toString() {
-		return `{ start: ${this.start}, vector: ${this.vector}, end: ${this.end} }`
+		return `PositionedVector({ start: ${this.start}, vector: ${this.vector}, end: ${this.end} })`
+	}
+
+	get line() {
+		return new Line({ start: this.start, direction: this.vector })
 	}
 
 	/*
@@ -65,11 +78,22 @@ class PositionedVector {
 		return this.start.equals(positionedVector.start) && this.vector.equals(positionedVector.vector)
 	}
 
-	// equalLine checks if two Positioned Vectors have an equal line.
-	// ToDo
+	// alongEqualLine checks if the two positioned vectors are along the same line.
+	alongEqualLine(positionedVector, requireSameDirection) {
+		positionedVector = ensurePositionedVector(positionedVector)
 
-	// equalLineAndDirection checks if two Positioned Vectors have an equal line with equal direction.
-	// ToDo
+		// Check for zero vectors.
+		if (positionedVector.squaredMagnitude === 0) {
+			if (this.vector.squaredMagnitude === 0)
+				return true
+			return this.line.isPointOnLine(positionedVector.start)
+		}
+		if (this.vector.squaredMagnitude === 0)
+			return positionedVector.alongEqualLine(this, requireSameDirection)
+
+		// Compare lines.
+		return this.line.equals(positionedVector.line, requireSameDirection)
+	}
 
 	/*
 	 * Static methods.
@@ -81,18 +105,14 @@ module.exports.PositionedVector = PositionedVector
 
 // ensurePositionedVector ensures that the given parameter is a PositionedVector object. If not, it tries to turn it into one, or throws an error upon failure. Optionally, a dimension may be given which is then checked too.
 function ensurePositionedVector(positionedVector, dimension) {
-	// Check the input type.
-	if (typeof positionedVector !== 'object')
-		throw new Error(`Invalid PositionedVector object: expected to receive some kind of object, but instead received something of type "${typeof positionedVector}".`)
-
-	// Try to turn it into a Positioned Vector.
-	positionedVector = (positionedVector instanceof PositionedVector ? positionedVector : new PositionedVector(positionedVector))
+	// Ensure that we have a PositionedVector.
+	positionedVector = new PositionedVector(positionedVector)
 
 	// If a required dimension is specified, check this.
 	if (dimension !== undefined && positionedVector.dimension !== dimension)
 		throw new Error(`Invalid PositionedVector dimension: expected a PositionedVector of dimension ${dimension} but received one of dimension ${positionedVector.dimension}.`)
 
-	// All in order. Return the vector.
+	// All in order.
 	return positionedVector
 }
 module.exports.ensurePositionedVector = ensurePositionedVector

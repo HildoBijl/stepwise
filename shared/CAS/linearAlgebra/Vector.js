@@ -1,7 +1,6 @@
 // A Vector is a combination of coordinates. It can be entered as an array [2, 3, 4] or an object { x: 2, y: 3, z: 4 }. It can be of any dimension. Various methods like the magnitude are available.
 
-const { ensureNumber } = require('../../util/numbers')
-const { processOptions } = require('../../util/objects')
+const { ensureNumber, isNumber } = require('../../util/numbers')
 
 class Vector {
 	/*
@@ -9,12 +8,27 @@ class Vector {
 	 */
 
 	constructor(...args) {
-		// Allow array inputs too.
+		// Check for empty input.
+		if (args.length === 0)
+			throw new Error(`Invalid Vector: the Vector constructor was called without input. For the zero vector, use Vector.zero2D or Vector.zero3D.`)
+
+		// Check if the sole input is an array. In that case, examine that array.
 		if (args.length === 1 && Array.isArray(args[0]))
 			args = args[0]
 
-		// Check and store the input.
-		this.coordinates = args.map(value => ensureNumber(value))
+		// On an array of numbers, process the numbers.
+		if (args.length > 1 || isNumber(args[0])) {
+			this.coordinates = args.map(value => ensureNumber(value))
+			return
+		}
+
+		// On an object, try to process it.
+		const vector = args[0]
+		if (typeof vector !== 'object')
+			throw new Error(`Invalid Vector: expected an array of coordinates or some other Vector-like object but received something of type "${vector}".`)
+		if (vector instanceof Vector)
+			return vector
+		return Vector.fromCoordinates(vector)
 	}
 
 	/*
@@ -73,6 +87,10 @@ class Vector {
 		return Math.sqrt(this.squaredMagnitude)
 	}
 
+	get unitVector() {
+		return this.normalize()
+	}
+
 	// argument gives the argument of a 2D vector (and 2D only) in radians, measured counterclockwise from the rightmost point.
 	get argument() {
 		if (this.dimension !== 2)
@@ -117,9 +135,12 @@ class Vector {
 		return this.multiply(1 / number)
 	}
 
-	// unitVector will return the unit vector in the given direction.
-	unitVector() {
-		return this.divide(this.magnitude)
+	// normalize will return the unit vector in the given direction, effectively normalizing the vector.
+	normalize() {
+		const magnitude = this.magnitude
+		if (magnitude === 0)
+			throw new Error(`Invalid normalize call: cannot normalize the zero vector.`)
+		return this.divide(magnitude)
 	}
 
 	// shorten will shorten the vector by a set amount while keeping its direction. If the distance is larger than the magnitude of this vector, the zero vector (of same dimension) is returned.
@@ -128,11 +149,22 @@ class Vector {
 		return this.multiply(Math.max(0, 1 - distance / this.magnitude))
 	}
 
+	// dotProduct gives the dot product between this vector and another.
 	dotProduct(vector) {
 		vector = ensureVector(vector)
 		if (vector.dimension !== this.dimension)
 			throw new Error(`Invalid vector: tried to take the dot product between a vector of dimension "${this.dimension}" and one of dimension "${vector.dimension}". This cannot be calculated.`)
 		return this.coordinates.reduce((sum, value, index) => sum + value * vector.getCoordinate(index), 0)
+	}
+
+	// getProjectionOn gets the component of a given vector along another given vector: its projection onto this vector.
+	getProjectionOn(vector) {
+		return vector.multiply(this.dotProduct(vector) / vector.squaredMagnitude)
+	}
+
+	// getPerpendicularComponent gets the perpendicular component of the given vector with respect to another vector. 
+	getPerpendicularComponent(vector) {
+		return this.subtract(this.getProjectionOn(vector))
 	}
 
 	/*
@@ -156,6 +188,8 @@ class Vector {
 		// Check how many parameters there are.
 		const parameters = ['x', 'y', 'z']
 		const parameterCount = parameters.findIndex(parameter => coordinates[parameter] === undefined)
+		if (parameterCount === 0)
+			throw new Error(`Invalid coordinates: expected an object with coordinates "x", "y", ... but the x-parameter is already missing.`)
 		if (parameterCount === -1)
 			parameterCount = parameters.length
 		if (Object.keys(coordinates).length !== parameterCount)
@@ -186,21 +220,14 @@ module.exports.Vector = Vector
 
 // ensureVector takes an object and ensures it's a vector. If the dimension is given, it also ensures it's a vector of the given dimension. Possibly the vector may be a plain object like {x: 2, y: 3} in which case this function tries to turn it into a vector object.
 function ensureVector(vector, dimension) {
-	// If it is not a vector, try to turn it into one.
-	if (!(vector instanceof Vector)) {
-		if (Array.isArray(vector))
-			vector = new Vector(vector)
-		else if (typeof vector === 'object' && vector.x !== undefined)
-			vector = Vector.fromCoordinates(vector)
-		else
-			throw new Error(`Invalid Vector: expected a Vector but received an object of type "${typeof vector}".`)
-	}
+	// Ensure that we have a Vector.
+	vector = new Vector(vector)
 
 	// If a required dimension is specified, check this.
 	if (dimension !== undefined && vector.dimension !== dimension)
 		throw new Error(`Invalid Vector dimension: expected a vector of dimension ${dimension} but received a vector of dimension ${vector.dimension}.`)
 
-	// All in order. Return the vector.
+	// All in order.
 	return vector
 }
 module.exports.ensureVector = ensureVector

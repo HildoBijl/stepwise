@@ -23,7 +23,7 @@ function Problem({ x }) {
 	return <>
 		<Par>Gegeven is de onderstaande structuur.</Par>
 		<EngineeringDiagram {...diagramSettings} svgContents={<Schematics opacity={1} />} htmlContents={<Elements />} />
-		<Par>Teken voor de gehele balk het Vrijlichaamschema/Schematisch diagram.</Par>
+		<Par>Teken voor het balkonderdeel rechts het Vrijlichaamschema/Schematisch diagram.</Par>
 		<InputSpace>
 			<FBDInput id="beam" {...diagramSettings} svgContents={<Schematics opacity={0.1} />} htmlContents={<Elements />} />
 		</InputSpace>

@@ -25,8 +25,8 @@ export function Beam(props) {
 	const struts = points.map((point, index) => {
 		if (index === 0 || index === points.length - 1)
 			return null
-		const prev = points[index - 1].subtract(point).unitVector().multiply(strutSize).add(point)
-		const next = points[index + 1].subtract(point).unitVector().multiply(strutSize).add(point)
+		const prev = points[index - 1].subtract(point).normalize().multiply(strutSize).add(point)
+		const next = points[index + 1].subtract(point).normalize().multiply(strutSize).add(point)
 		return <Line key={index} points={[point, next, prev, point]} className="beamStrut" style={{ fill: color, opacity: strutOpacity, ...strutStyle }} />
 	})
 
