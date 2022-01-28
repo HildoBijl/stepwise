@@ -30,7 +30,7 @@ export default function Test() {
 	const svgContents = <>
 		<Group style={{ opacity: 0.6 + 0.4 * Math.sin(x / 50) }}>
 			<Beam points={[[150, 100], [350, 100], [350, 200], [450, 200]]} />
-			<Force points={{ vector: [0, 80], end: [250 + 50 * Math.sin(x / 20), 100] }} color="darkred" />
+			<Force positionedVector={{ vector: [0, 80], end: [250 + 50 * Math.sin(x / 20), 100] }} color="darkred" />
 			<Moment position={[350, 100]} color="darkblue" opening={Math.PI - x / 100} />
 			<RollerSupport position={[150, 100]} angle={Math.PI} />
 		</Group>
@@ -42,11 +42,11 @@ export default function Test() {
 		</Group>
 
 		<Hinge position={[450, 200]} color="darkred" />
-		<Force points={{ vector: [0, 150], end: [450, 200] }} color="darkblue" />
+		<Force positionedVector={{ vector: [0, 150], end: [450, 200] }} color="darkblue" />
 
-		<Distance points={{ start: [150, 250], end: [450, 250] }} />
-		<Distance points={{ start: [450, 250], end: [650, 250] }} />
-		<Distance points={{ start: [720, 100], end: [720, 200] }} />
+		<Distance positionedVector={{ start: [150, 250], end: [450, 250] }} />
+		<Distance positionedVector={{ start: [450, 250], end: [650, 250] }} />
+		<Distance positionedVector={{ start: [720, 100], end: [720, 200] }} />
 	</>
 
 	const htmlContents = <>

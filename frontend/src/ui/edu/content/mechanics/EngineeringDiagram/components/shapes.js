@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureString } from 'step-wise/util/strings'
 import { ensureObject, processOptions, filterOptions } from 'step-wise/util/objects'
-import { Vector, ensureVector, ensureVectorArray, ensureSVE } from 'step-wise/CAS/linearAlgebra/Vector'
+import { Vector, ensureVector, ensureVectorArray, ensurePositionedVector } from 'step-wise/CAS/linearAlgebra'
 
 import { defaultObject } from './groups'
 
@@ -68,14 +68,14 @@ export function getArcPath(center, radius, startAngle, endAngle) {
 	return `M${start.x} ${start.y} A${radius} ${radius} 0 ${largeArcFlag} ${sweepFlag} ${end.x} ${end.y}`
 }
 
-// Distance renders a distance spread. The given distance object must have a "points" parameter, which is an SVE object: an object with a start, vector and/or end (two out of the three). It assumes the arrow heads will be added through the distance class and the SVG style definitions.
+// Distance renders a distance spread. The given distance object must have a "positionedVector" parameter, which is a PositionedVector object: an object with a start, vector and/or end (two out of the three). It assumes the arrow heads will be added through the distance class and the SVG style definitions.
 export function Distance(props) {
-	let { points, className } = processOptions(props, defaultDistance)
-	points = ensureSVE(points)
-	return <Line {...filterOptions(props, defaultLine)} points={[points.start, points.end]} className={clsx(className, 'distance')} />
+	let { positionedVector, className } = processOptions(props, defaultDistance)
+	positionedVector = ensurePositionedVector(positionedVector)
+	return <Line {...filterOptions(props, defaultLine)} points={[positionedVector.start, positionedVector.end]} className={clsx(className, 'distance')} />
 }
 const defaultDistance = {
 	...defaultObject,
-	points: null,
+	positionedVector: null,
 	className: 'distance',
 }

@@ -1,3 +1,5 @@
+// A Vector is a combination of coordinates. It can be entered as an array [2, 3, 4] or an object { x: 2, y: 3, z: 4 }. It can be of any dimension. Various methods like the magnitude are available.
+
 const { ensureNumber } = require('../../util/numbers')
 const { processOptions } = require('../../util/objects')
 
@@ -191,12 +193,12 @@ function ensureVector(vector, dimension) {
 		else if (typeof vector === 'object' && vector.x !== undefined)
 			vector = Vector.fromCoordinates(vector)
 		else
-			throw new Error(`Invalid vector: expected a vector but received an object of type "${typeof vector}".`)
+			throw new Error(`Invalid Vector: expected a Vector but received an object of type "${typeof vector}".`)
 	}
 
 	// If a required dimension is specified, check this.
 	if (dimension !== undefined && vector.dimension !== dimension)
-		throw new Error(`Invalid vector dimension: expected a vector of dimension ${dimension} but received a vector of dimension ${vector.dimension}.`)
+		throw new Error(`Invalid Vector dimension: expected a vector of dimension ${dimension} but received a vector of dimension ${vector.dimension}.`)
 
 	// All in order. Return the vector.
 	return vector
@@ -206,35 +208,7 @@ module.exports.ensureVector = ensureVector
 // ensureVectorArray ensures that we have an array of vectors. It turns the result into vectors if they're not vectors yet, like an array of coordinates [200, 300] or an object { x: 200, y: 300 }.
 function ensureVectorArray(vectors, dimension) {
 	if (!Array.isArray(vectors))
-		throw new Error(`Invalid vector array: expected an array of vectors or vector-like objects (arrays or objects with coordinates) but received a parameter of type "${typeof vectors}".`)
-		return vectors.map(vector => ensureVector(vector, dimension))
+		throw new Error(`Invalid Vector array: expected an array of vectors or vector-like objects (arrays or objects with coordinates) but received a parameter of type "${typeof vectors}".`)
+	return vectors.map(vector => ensureVector(vector, dimension))
 }
 module.exports.ensureVectorArray = ensureVectorArray
-
-// ensureSVE ensures that a parameter is an object with a start, vector and end property. At least two of the three must be given and the third is then automatically determined. The result is returned.
-function ensureSVE(sve) {
-	sve = processOptions(sve, defaultSVE)
-	let start, vector, end
-	if (!sve.end) {
-		start = ensureVector(sve.start, 2)
-		vector = ensureVector(sve.vector, 2)
-		end = start.add(vector)
-	} else if (!sve.start) {
-		end = ensureVector(sve.end, 2)
-		vector = ensureVector(sve.vector, 2)
-		start = end.subtract(vector)
-	} else {
-		start = ensureVector(sve.start, 2)
-		end = ensureVector(sve.end, 2)
-		vector = end.subtract(start)
-		if (sve.vector && !vector.equals(sve.vector))
-			throw new Error(`Invalid start-vector-end combination: the given vector "${sve.vector}" is not the difference between the start "${start}" and the end "${end}".`)
-	}
-	return { start, vector, end }
-}
-const defaultSVE = {
-	start: undefined,
-	vector: undefined,
-	end: undefined,
-}
-module.exports.ensureSVE = ensureSVE

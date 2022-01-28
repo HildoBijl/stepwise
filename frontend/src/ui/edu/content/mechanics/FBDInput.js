@@ -8,7 +8,7 @@ import { alpha } from '@material-ui/core/styles/colorManipulator'
 import { ensureString } from 'step-wise/util/strings'
 import { processOptions, filterOptions } from 'step-wise/util/objects'
 import { noop } from 'step-wise/util/functions'
-import { Vector } from 'step-wise/CAS/linearAlgebra/Vector'
+import { PositionedVector } from 'step-wise/CAS/linearAlgebra'
 
 import { getEventPosition } from 'util/dom'
 import { useRefWithValue, useEventListener } from 'util/react'
@@ -85,7 +85,7 @@ function FBDInputUnforwarded(options, ref) {
 		if (mouseDownPosition) {
 			const finalPosition = diagramRef.current.getPosition(getEventPosition(evt)) || mousePosition
 			if (finalPosition)
-				setData(data => ({ ...data, forces: [...data.forces, { start: mouseDownPosition, end: mousePosition }] }))
+				setData(data => ({ ...data, forces: [...data.forces, new PositionedVector({ start: mouseDownPosition, end: mousePosition })] }))
 		}
 		setMouseDownPosition(undefined)
 	}
@@ -97,8 +97,8 @@ function FBDInputUnforwarded(options, ref) {
 	if (diagram) {
 		options.svgContents = <>
 			{options.svgContents}
-			{data.forces.map((force, index) => <Force key={index} points={force} />)}
-			{mousePosition && mouseDownPosition ? <Force points={{ start: mouseDownPosition, end: mousePosition }} /> : null}
+			{data.forces.map((force, index) => <Force key={index} positionedVector={force} />)}
+			{mousePosition && mouseDownPosition ? <Force positionedVector={{ start: mouseDownPosition, end: mousePosition }} /> : null}
 		</>
 	}
 

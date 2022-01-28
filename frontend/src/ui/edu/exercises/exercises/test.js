@@ -34,7 +34,7 @@ function Schematics({ opacity }) {
 	return <>
 		<Group style={{ opacity }}>
 			<Beam points={[[150, 100], [350, 100], [350, 200], [450, 200]]} />
-			<Force points={{ vector: [0, 80], end: [250, 100] }} color="darkred" />
+			<Force positionedVector={{ vector: [0, 80], end: [250, 100] }} color="darkred" />
 			<Moment position={[350, 100]} color="darkblue" opening={Math.PI} />
 			<RollerSupport position={[150, 100]} angle={Math.PI} />
 		</Group>
@@ -46,11 +46,11 @@ function Schematics({ opacity }) {
 		</Group>
 
 		<Hinge position={[450, 200]} color="darkred" style={{ opacity }} />
-		<Force points={{ vector: [0, 150], end: [450, 200] }} color="darkblue" />
+		<Force positionedVector={{ vector: [0, 150], end: [450, 200] }} color="darkblue" />
 
-		<Distance points={{ start: [150, 250], end: [450, 250] }} />
-		<Distance points={{ start: [450, 250], end: [650, 250] }} />
-		<Distance points={{ start: [720, 100], end: [720, 200] }} />
+		<Distance positionedVector={{ start: [150, 250], end: [450, 250] }} />
+		<Distance positionedVector={{ start: [450, 250], end: [650, 250] }} />
+		<Distance positionedVector={{ start: [720, 100], end: [720, 200] }} />
 	</>
 }
 

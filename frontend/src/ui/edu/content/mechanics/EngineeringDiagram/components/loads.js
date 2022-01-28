@@ -3,7 +3,7 @@ import React from 'react'
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureString } from 'step-wise/util/strings'
 import { ensureBoolean, ensureObject, processOptions } from 'step-wise/util/objects'
-import { Vector, ensureVector, ensureSVE } from 'step-wise/CAS/linearAlgebra/Vector'
+import { Vector, ensureVector, ensurePositionedVector } from 'step-wise/CAS/linearAlgebra'
 
 import { defaultObject, Group } from './groups'
 import { Line, Arc } from './shapes'
@@ -40,11 +40,11 @@ const defaultArrowHead = {
 	className: 'arrowHead',
 }
 
-// Force draws a force vector. It must have a points parameter (an SVE object), can have a size and a color.
+// Force draws a force vector. It must have a positionedVector parameter (a PositionedVector object), can have a size and a color.
 export function Force(props) {
 	// Check input.
-	let { points, size, color, className, style } = processOptions(props, defaultForce)
-	const { vector, end } = ensureSVE(points)
+	let { positionedVector, size, color, className, style } = processOptions(props, defaultForce)
+	const { vector, end } = ensurePositionedVector(positionedVector)
 	size = ensureNumber(size)
 	color = ensureString(color)
 
@@ -56,7 +56,7 @@ export function Force(props) {
 }
 export const defaultForce = {
 	...defaultObject,
-	points: null,
+	positionedVector: null,
 	size: defaultArrowHead.size,
 	color: defaultArrowHead.color,
 	className: 'force',
