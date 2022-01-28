@@ -16,7 +16,7 @@ import { useFieldRegistration } from 'ui/form/FieldController'
 import { useDrawingMousePosition } from 'ui/components/figures/Drawing'
 import { notSelectable } from 'ui/theme'
 
-import EngineeringDiagram, { defaultOptions as engineeringDiagramDefaultOptions, Line, Distance, Hinge, Force } from './EngineeringDiagram'
+import EngineeringDiagram, { defaultOptions as engineeringDiagramDefaultOptions, Force } from './EngineeringDiagram'
 
 export const defaultOptions = {
 	...engineeringDiagramDefaultOptions,
@@ -68,20 +68,8 @@ function FBDInputUnforwarded(options, ref) {
 	// Connect to the form to control the input data.
 	// const [data, setData] = useFormParameter(id, { initialValue, subscribe: true, persistent })
 
-	// Track the mouse position.
+	// Track the mouse position. On a mouse down start dragging, and on a mouse up end it.
 	const mousePosition = useDrawingMousePosition(diagramRef)
-
-	// const [points, setPoints] = useState([])
-	// useEventListener('click', (evt) => {
-	// 	const position = diagramRef.current.getPosition([evt.clientX, evt.clientY])
-	// 	if (diagram.isInside(position))
-	// 		setPoints(points => [...points, position])
-	// })
-	// options.parts = <>
-	// 	{options.parts}
-	// 	{points.map((point, index) => <Hinge key={index} position={point} />)}
-	// </>
-
 	const [mouseDownPosition, setMouseDownPosition] = useState()
 	const [forces, setForces] = useState([])
 	const startDrawing = (evt) => {
@@ -99,15 +87,14 @@ function FBDInputUnforwarded(options, ref) {
 		}
 		setMouseDownPosition(undefined)
 	}
-
 	useEventListener('mousedown', startDrawing, figureInner)
 	useEventListener('touchstart', startDrawing, figureInner)
 	useEventListener('mouseup', endDrawing)
 	useEventListener('touchend', endDrawing)
 
 	if (diagram) {
-		options.parts = <>
-			{options.parts}
+		options.svgContents = <>
+			{options.svgContents}
 			{forces.map((force, index) => <Force key={index} points={force} />)}
 			{mousePosition && mouseDownPosition ? <Force points={{ start: mouseDownPosition, end: mousePosition }} /> : null}
 		</>

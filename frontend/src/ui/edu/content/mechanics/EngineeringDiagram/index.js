@@ -17,8 +17,8 @@ export const defaultOptions = {
 	width: drawingDefaultOptions.width,
 	height: drawingDefaultOptions.height,
 	maxWidth: drawingDefaultOptions.maxWidth,
-	parts: null,
-	elements: null,
+	svgContents: null,
+	htmlContents: null,
 	className: '',
 }
 
@@ -71,9 +71,8 @@ function EngineeringDiagramUnforwared(options, ref) {
 	const classes = useStyles()
 
 	// Add SVG objects to the diagram, based on the provided parts.
-	options.svgContents = options.parts && renderData(options.parts)
 	options.svgDefs = <EngineeringDiagramDefs />
-	options.positionedElements = options.elements
+	options.svgContents = options.svgContents && renderData(options.svgContents)
 
 	// Render the drawing.
 	options.className = clsx('engineeringDiagram', classes.engineeringDiagram, options.className)
@@ -94,7 +93,7 @@ function EngineeringDiagramDefs() {
 	</>
 }
 
-// renderData takes a data object and distributes it over the various rendering functions.
+// renderData takes a data object, checks its "type" parameter, and based on that tries to render it into the right component for the Engineering Diagram.
 export function renderData(data) {
 	// For arrays make a group out of all individual elements.
 	if (Array.isArray(data))

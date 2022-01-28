@@ -2,6 +2,10 @@ const { getCombinerSkills, combinerAnd, combinerOr, combinerRepeat } = require('
 
 const skills = {
 	// Testing exercises.
+	test: {
+		name: 'Testopgave',
+		exercises: ['test'],
+	},
 	fillInInteger: {
 		name: 'Geheel getal invullen',
 		exercises: ['fillInInteger'],

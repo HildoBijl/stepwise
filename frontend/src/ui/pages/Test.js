@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Par, Head } from 'ui/components/containers'
 import { M, BM } from 'ui/components/equations'
 
-import EngineeringDiagram, { PositionedElement, Group, Distance, Force, Moment, Beam, Hinge, FixedSupport, HingeSupport, RollerSupport, RollerHingeSupport } from 'ui/edu/content/mechanics/EngineeringDiagram'
+import { PositionedElement, Group, Distance, Force, Moment, Beam, Hinge, HingeSupport, RollerSupport } from 'ui/edu/content/mechanics/EngineeringDiagram'
 import FBDInput from 'ui/edu/content/mechanics/FBDInput'
 
 import CAS from 'step-wise/CAS'
@@ -29,12 +29,12 @@ export default function Test() {
 	eq.color = '4488ff'
 
 	const [x, setX] = useState(0)
-	// useEffect(() => {
-	// 	const interval = setInterval(() => setX(x => x + 1), 10)
-	// 	return () => clearInterval(interval)
-	// }, [setX])
+	useEffect(() => {
+		const interval = setInterval(() => setX(x => x + 1), 10)
+		return () => clearInterval(interval)
+	}, [setX])
 
-	const parts = <>
+	const svgContents = <>
 		<Group style={{ opacity: 0.6 + 0.4 * Math.sin(x / 50) }}>
 			<Beam points={[[150, 100], [350, 100], [350, 200], [450, 200]]} />
 			<Force points={{ vector: [0, 80], end: [250 + 50 * Math.sin(x / 20), 100] }} color="darkred" />
@@ -56,7 +56,7 @@ export default function Test() {
 		<Distance points={{ start: [720, 100], end: [720, 200] }} />
 	</>
 
-	const elements = <>
+	const htmlContents = <>
 		<PositionedElement position={[300 + 20 * Math.sin(x / 30), 250]} anchor={[0.5, 1]} scale={1.2} ><M>L_1 = 3\ (\rm m)</M></PositionedElement>
 		<PositionedElement position={[550 + 20 * Math.sin(x / 40), 250]} anchor={[0.5, 1]} scale={1.2}><M>L_2 = 2\ (\rm m)</M></PositionedElement>
 		<PositionedElement position={[720, 150]} anchor={[0.5, 1]} scale={1.2} rotate={Math.PI / 2}><M>h = 1\ (\rm m)</M></PositionedElement>
@@ -74,9 +74,9 @@ export default function Test() {
 				id="beam"
 				maxWidth={800}
 				width={800}
-				height={400}
-				parts={parts}
-				elements={elements}
+				height={300}
+				svgContents={svgContents}
+				htmlContents={htmlContents}
 			/>
 		</>
 	)

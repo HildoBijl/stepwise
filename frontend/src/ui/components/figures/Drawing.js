@@ -2,7 +2,7 @@
  * When Drawing is given a ref, it places in this ref an object { svg: ..., canvas: ... } with references to the respective DOM elements. Note that the option useCanvas needs to be set to true if a Canvas is desired. useSVG is by default set to true, but can be turned off.
  */
 
-import React, { createContext, useContext, useRef, forwardRef, useImperativeHandle, useState, useEffect, useLayoutEffect } from 'react'
+import React, { createContext, useContext, useRef, forwardRef, useImperativeHandle, useEffect, useLayoutEffect } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -13,7 +13,7 @@ import { ensureObject, processOptions, filterOptions } from 'step-wise/util/obje
 import { deg2rad } from 'step-wise/util/numbers'
 import { Vector, ensureVector } from 'step-wise/CAS/linearAlgebra/Vector'
 
-import { ensureReactElement, useEventListener, useEqualRefOnEquality, useMousePosition, useBoundingClientRect } from 'util/react'
+import { ensureReactElement, useEqualRefOnEquality, useMousePosition, useBoundingClientRect } from 'util/react'
 import { notSelectable } from 'ui/theme'
 
 import Figure, { defaultOptions as figureDefaultOptions } from './Figure'
@@ -26,7 +26,7 @@ const defaultOptions = {
 	useCanvas: false,
 	svgContents: undefined, // JSX elements that need to be placed directly into the SVG container.
 	svgDefs: undefined, // JSX elements that are placed in the defs part of the SVG container.
-	positionedElements: undefined, // JSX elements inside a PositionedElement container.
+	htmlContents: undefined, // JSX elements for regular HTML, often inside a PositionedElement container.
 }
 delete defaultOptions.aspectRatio // We override the aspect ratio based on the width and height of the viewport.
 export { defaultOptions }
@@ -69,8 +69,7 @@ function Drawing(options, ref) {
 	if (!options.useSVG && !options.useCanvas)
 		throw new Error('Drawing render error: cannot generate a plot without either an SVG or a canvas.')
 	const classes = useStyles()
-	const [elementsData, setElementsData] = useState([])
-	const positionedElementsRef = useRef()
+	const htmlContentsRef = useRef()
 
 	// Set up refs and make them accessible to any implementing component.
 	const figureRef = useRef()
@@ -113,14 +112,6 @@ function Drawing(options, ref) {
 			return position.x >= 0 && position.x <= drawingRef.current.width && position.y >= 0 && position.y <= drawingRef.current.height
 		},
 
-		// Through placeElement and removeElement child elements can add extra React objects to the SVG element.
-		placeElement(element, options = {}) {
-			setElementsData(elementsData => [...elementsData, { element, options }])
-		},
-		removeElement(element) {
-			setElementsData(elementsData => elementsData.filter(currElement => element !== currElement.element))
-		},
-
 		placeText(text, options) {
 			return placeText(drawingRef.current, text, options)
 		},
@@ -144,16 +135,6 @@ function Drawing(options, ref) {
 		drawingRef.current.height = parseFloat(options.height)
 	}, [options.width, options.height])
 
-	// Place elements that need to be placed.
-	useLayoutEffect(() => {
-		placeElements(drawingRef.current, elementsData, positionedElementsRef.current.children)
-	}, [drawingRef, elementsData, positionedElementsRef])
-
-	// Also replace elements on window resizes.
-	useEventListener('resize', () => {
-		placeElements(drawingRef.current, elementsData, positionedElementsRef.current.children)
-	})
-
 	// Render figure with SVG and Canvas properly placed.
 	const svgRef = useRef()
 	const canvasRef = useRef()
@@ -173,9 +154,8 @@ function Drawing(options, ref) {
 					</svg>
 				) : null}
 				{options.useCanvas ? <canvas ref={canvasRef} width={options.width} height={options.height} /> : null}
-				<div ref={positionedElementsRef}>
-					{elementsData.map((currElement, index) => <div key={index} className="positionedElement">{currElement.element}</div>)}
-					{options.positionedElements}
+				<div ref={htmlContentsRef}>
+					{options.htmlContents}
 				</div>
 			</Figure>
 		</DrawingContext.Provider>
@@ -204,40 +184,6 @@ function initialize(figure, svg, canvas) {
 // Get the data out of the context.
 export function useDrawingContext() {
 	return useContext(DrawingContext)
-}
-
-
-// placeElements places elements onto a drawing subject to the given elements data (an array with { element: [...], options: {...} } form).
-function placeElements(drawing, elementsData, positionedElements) {
-	// Can we place elements?
-	if (!drawing || elementsData.length === 0)
-		return
-
-	// Calculate the scale at which the figure is drawn.
-	const figureRect = drawing.figure.inner.getBoundingClientRect()
-	const figureScale = figureRect.width / drawing.width
-
-	// Walk through all positioned elements and place them accordingly.
-	elementsData.forEach((elementData, index) => {
-		const domElement = positionedElements[index]
-		const { x, y, scale, rotate, horizontalAnchor, verticalAnchor } = processOptions(elementData.options, defaultPlaceElementOptions)
-		domElement.style.transformOrigin = `${horizontalAnchor * 100}% ${verticalAnchor * 100}%`
-		domElement.style.transform = `
-			translate(${-horizontalAnchor * 100}%, ${-verticalAnchor * 100}%)
-			scale(${figureScale})
-			translate(${x}px, ${y}px)
-			scale(${scale})
-			rotate(${rotate}deg)
-		`
-	})
-}
-const defaultPlaceElementOptions = {
-	x: 0,
-	y: 0,
-	scale: 1,
-	rotate: 0, // Degrees.
-	horizontalAnchor: 0.5, // Middle. 0 is left and 1 is right.
-	verticalAnchor: 0.5, // Middle. 0 is top and 1 is bottom.
 }
 
 // placeText places a given text into the SVG element.
