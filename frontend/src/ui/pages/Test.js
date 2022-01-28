@@ -3,24 +3,17 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Par, Head } from 'ui/components/containers'
 import { M, BM } from 'ui/components/equations'
 
-import { PositionedElement, Group, Distance, Force, Moment, Beam, Hinge, HingeSupport, RollerSupport } from 'ui/edu/content/mechanics/EngineeringDiagram'
-import FBDInput from 'ui/edu/content/mechanics/FBDInput'
+import EngineeringDiagram, { PositionedElement, Group, Distance, Force, Moment, Beam, Hinge, HingeSupport, RollerSupport } from 'ui/edu/content/mechanics/EngineeringDiagram'
 
 import CAS from 'step-wise/CAS'
 
 import { Float } from 'step-wise/inputTypes/Float'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
-// import { columnTableInterpolate } from 'step-wise/util/interpolation'
-// import stuff from 'step-wise/data/refrigerantProperties/R134A'
-// import { getProperties } from 'step-wise/data/refrigerantProperties/support'
-// import refr from 'step-wise/data/refrigerantProperties'
 
 window.CAS = CAS
 
 window.Float = Float
 window.FloatUnit = FloatUnit
-
-
 
 export default function Test() {
 	const eq = CAS.asEquation('E=mc^2')
@@ -69,9 +62,8 @@ export default function Test() {
 			<Head>Tests</Head>
 			<BM>x=\frac(-b\pm\sqrt[2](b^2-4ac))(2a).</BM>
 			<BM>{eq}</BM>
-			<FBDInput
+			<EngineeringDiagram
 				ref={ref}
-				id="beam"
 				maxWidth={800}
 				width={800}
 				height={300}

@@ -12,7 +12,9 @@ import { Vector } from 'step-wise/CAS/linearAlgebra/Vector'
 
 import { getEventPosition } from 'util/dom'
 import { useRefWithValue, useEventListener } from 'util/react'
+import { useFormParameter } from 'ui/form/Form'
 import { useFieldRegistration } from 'ui/form/FieldController'
+import { useFieldFeedback } from 'ui/form/FeedbackProvider'
 import { useDrawingMousePosition } from 'ui/components/figures/Drawing'
 import { notSelectable } from 'ui/theme'
 
@@ -21,7 +23,7 @@ import EngineeringDiagram, { defaultOptions as engineeringDiagramDefaultOptions,
 export const defaultOptions = {
 	...engineeringDiagramDefaultOptions,
 	id: undefined,
-	initialValue: {},
+	initialValue: { forces: [], moments: [] }, // ToDo: put this initial FBD value in a central place.
 	readOnly: undefined,
 	autofocus: false,
 	persistent: false,
@@ -46,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 function FBDInputUnforwarded(options, ref) {
 	// Check input.
 	options = processOptions(options, defaultOptions)
-	let { id, initialValue, readOnly, autofocus, persistent, validate } = options
+	let { id, initialValue, readOnly, autofocus, persistent, validate } = processOptions(options, defaultOptions)
 	id = ensureString(id, true)
 
 	// Sort out the various references.
@@ -66,12 +68,12 @@ function FBDInputUnforwarded(options, ref) {
 	useEventListener('mousedown', (evt) => figureInnerRef.current.contains(evt.target) ? activateField() : deactivateField())
 
 	// Connect to the form to control the input data.
-	// const [data, setData] = useFormParameter(id, { initialValue, subscribe: true, persistent })
+	const [data, setData] = useFormParameter(id, { initialValue, subscribe: true, persistent })
+	const { feedback } = useFieldFeedback({ fieldId: id, validate })
 
 	// Track the mouse position. On a mouse down start dragging, and on a mouse up end it.
 	const mousePosition = useDrawingMousePosition(diagramRef)
 	const [mouseDownPosition, setMouseDownPosition] = useState()
-	const [forces, setForces] = useState([])
 	const startDrawing = (evt) => {
 		if (!apply)
 			return
@@ -83,7 +85,7 @@ function FBDInputUnforwarded(options, ref) {
 		if (mouseDownPosition) {
 			const finalPosition = diagramRef.current.getPosition(getEventPosition(evt)) || mousePosition
 			if (finalPosition)
-				setForces(forces => [...forces, { start: mouseDownPosition, end: mousePosition }])
+				setData(data => ({ ...data, forces: [...data.forces, { start: mouseDownPosition, end: mousePosition }] }))
 		}
 		setMouseDownPosition(undefined)
 	}
@@ -95,7 +97,7 @@ function FBDInputUnforwarded(options, ref) {
 	if (diagram) {
 		options.svgContents = <>
 			{options.svgContents}
-			{forces.map((force, index) => <Force key={index} points={force} />)}
+			{data.forces.map((force, index) => <Force key={index} points={force} />)}
 			{mousePosition && mouseDownPosition ? <Force points={{ start: mouseDownPosition, end: mousePosition }} /> : null}
 		</>
 	}
