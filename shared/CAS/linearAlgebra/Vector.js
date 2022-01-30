@@ -106,12 +106,16 @@ class Vector {
 		return `[${this.coordinates.join(', ')}]`
 	}
 
+	isZero() {
+		return this.squaredMagnitude === 0
+	}
+
 	/*
 	 * Manipulation methods.
 	 */
 
 	reverse() {
-		return new Vector(this.coordinates.map(value => -value))
+		return this.multiply(-1)
 	}
 
 	add(vector) {

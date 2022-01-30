@@ -27,7 +27,7 @@ class Line {
 		this.start = ensureVector(line.start)
 		this.direction = ensureVector(line.direction, this.start.dimension)
 		if (this.direction.magnitude === 0)
-			throw new Error(`Invalid Line direction: cannot accept a direction with zero magnitude.`)
+			throw new Error(`Invalid Line direction: cannot accept a direction Vector with zero magnitude.`)
 	}
 
 	/*
@@ -68,6 +68,14 @@ class Line {
 		return `Line({ start: ${this.start}, direction: ${this.vector} })`
 	}
 
+	normalize() {
+		return new Line({ start: this.perpendicularVector, direction: this.normalizedDirection })
+	}
+
+	reverse() {
+		return new Line({ start: this.start, direction: this.direction.reverse() })
+	}
+
 	/*
 	 * Comparison methods.
 	 */
@@ -82,7 +90,7 @@ class Line {
 
 		// Check the directions of the lines.
 		const dotProduct = this.normalizedDirection.dotProduct(line.normalizedDirection)
-		return requireSameDirection ? dotProduct === 1 : Math.abs(dotProduct) === 1
+		return (requireSameDirection ? dotProduct : Math.abs(dotProduct)) === 1
 	}
 
 	// isPointOnLine checks if a given point (Vector) is on the given line. 

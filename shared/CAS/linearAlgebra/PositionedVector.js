@@ -66,7 +66,12 @@ class PositionedVector {
 	}
 
 	get line() {
-		return new Line({ start: this.start, direction: this.vector })
+		if (this.vector.squaredMagnitude)
+			return new Line({ start: this.start, direction: this.vector })
+	}
+
+	reverse() {
+		return new PositionedVector({ start: this.end, end: this.start })
 	}
 
 	/*
@@ -74,25 +79,48 @@ class PositionedVector {
 	 */
 
 	// equals runs an exact equality check on the full set-up.
-	equals(positionedVector) {
-		return this.start.equals(positionedVector.start) && this.vector.equals(positionedVector.vector)
+	equals(positionedVector, allowReverse = false) {
+		if (this.start.equals(positionedVector.start) && this.end.equals(positionedVector.end))
+			return true
+		if (allowReverse && this.start.equals(positionedVector.end) && this.end.equals(positionedVector.start))
+			return true
+		return false
 	}
 
-	// alongEqualLine checks if the two positioned vectors are along the same line.
-	alongEqualLine(positionedVector, requireSameDirection) {
+	// alongEqualLine checks if the two Positioned Vectors are along the same line. (Special case: two zero positioned vectors are always along the same line.)
+	alongEqualLine(positionedVector, requireSameDirection, requireMatchingPoint = false) {
 		positionedVector = ensurePositionedVector(positionedVector)
 
-		// Check for zero vectors.
-		if (positionedVector.squaredMagnitude === 0) {
-			if (this.vector.squaredMagnitude === 0)
+		// Check for an extra requirement.
+		if (requireMatchingPoint && !this.hasMatchingPoint(positionedVector))
+			return false
+
+		// Check for zero vectors. If they are not around, take the line and check if the other PositionedVector is along it.
+		if (positionedVector.isZero()) {
+			if (this.vector.isZero())
 				return true
-			return this.line.isPointOnLine(positionedVector.start)
+			return positionedVector.isAlongLine(this.line, requireSameDirection)
 		}
-		if (this.vector.squaredMagnitude === 0)
-			return positionedVector.alongEqualLine(this, requireSameDirection)
+		return this.isAlongLine(positionedVector.line, requireSameDirection)
+	}
+
+	// isAlongLine checks if this positioned vector is along the given Line.
+	isAlongLine(line, requireSameDirection = false) {
+		line = ensureLine(line)
+
+		// Check for a zero vector, meaning this PositionedVector is a point. If so, there is no direction, so the direction is off anyway. If that's not important, check if the point is on the line.
+		if (this.isZero())
+			return !requireSameDirection && line.isPointOnLine(this.start)
 
 		// Compare lines.
-		return this.line.equals(positionedVector.line, requireSameDirection)
+		return this.line.equals(line, requireSameDirection)
+	}
+
+	// hasMatchingPoint checks if the two positioned vectors have a point (start or end) in common, checking all four combinations.
+	hasMatchingPoint(positionedVector) {
+		positionedVector = ensurePositionedVector(positionedVector)
+		const points = ['start', 'end']
+		return points.some(point1 => points.some(point2 => this[point1].equals(positionedVector[point2])))
 	}
 
 	/*
