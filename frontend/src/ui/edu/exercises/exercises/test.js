@@ -24,6 +24,10 @@ const diagramSettings = {
 	width: 800,
 	height: 300,
 }
+const A = new Vector(150, 100)
+const B = new Vector(450, 200)
+const C = new Vector(650, 200)
+const snappers = [A, B, C, Line.fromPoints(A, B)]
 
 function Problem({ x }) {
 	return <>
@@ -31,7 +35,7 @@ function Problem({ x }) {
 		<EngineeringDiagram {...diagramSettings} svgContents={<Schematics opacity={1} />} htmlContents={<Elements />} />
 		<Par>Teken voor het balkonderdeel rechts het Vrijlichaamschema/Schematisch diagram.</Par>
 		<InputSpace>
-			<FBDInput id="beam" {...diagramSettings} svgContents={<Schematics opacity={0.1} />} htmlContents={<Elements />} />
+			<FBDInput id="beam" {...diagramSettings} svgContents={<Schematics opacity={0.1} />} htmlContents={<Elements />} snappers={snappers} />
 		</InputSpace>
 	</>
 }

@@ -133,6 +133,12 @@ function hasDuplicates(array, equals = (a, b) => a === b) {
 }
 module.exports.hasDuplicates = hasDuplicates
 
+// filterDuplicates removes all duplicates from an array. Optionally, an equals function can be specified.
+function filterDuplicates(array, equals = (a, b) => a === b) {
+	return array.filter((value, index) => !array.some((otherValue, otherIndex) => otherIndex < index && equals(value, otherValue)))
+}
+module.exports.filterDuplicates = filterDuplicates
+
 // flattenFully flattens an array until it has no arrays left.
 function flattenFully(array) {
 	while (array.some(element => Array.isArray(element)))

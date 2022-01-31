@@ -1,17 +1,20 @@
 // The FBDInput is an input field for Free Body Diagrams. It takes 
 
-import React, { forwardRef, useRef, useState, useImperativeHandle } from 'react'
+import React, { forwardRef, useRef, useState, useMemo, useImperativeHandle } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import { alpha } from '@material-ui/core/styles/colorManipulator'
 
+import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureString } from 'step-wise/util/strings'
+import { ensureArray, filterDuplicates } from 'step-wise/util/arrays'
 import { processOptions, filterOptions } from 'step-wise/util/objects'
 import { noop } from 'step-wise/util/functions'
-import { Line, PositionedVector } from 'step-wise/CAS/linearAlgebra'
+import { Vector, Line, PositionedVector } from 'step-wise/CAS/linearAlgebra'
 
 import { getEventPosition } from 'util/dom'
 import { useRefWithValue, useEventListener } from 'util/react'
+import { useDrawingInputTools } from 'ui/components/figures/DrawingInput'
 import { useFormParameter } from 'ui/form/Form'
 import { useFieldRegistration } from 'ui/form/FieldController'
 import { useFieldFeedback } from 'ui/form/FeedbackProvider'
@@ -24,6 +27,8 @@ export const defaultOptions = {
 	...engineeringDiagramDefaultOptions,
 	id: undefined,
 	initialValue: { forces: [], moments: [] }, // ToDo: put this initial FBD value in a central place.
+	snappers: [], // ToDo: make a DrawingInput that has a snapping system.
+	snappingDistance: 10,
 	readOnly: undefined,
 	autofocus: false,
 	persistent: false,
@@ -48,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 function FBDInputUnforwarded(options, ref) {
 	// Check input.
 	options = processOptions(options, defaultOptions)
-	let { id, initialValue, readOnly, autofocus, persistent, validate } = processOptions(options, defaultOptions)
+	let { id, initialValue, snappers, snappingDistance, readOnly, autofocus, persistent, validate } = processOptions(options, defaultOptions)
 	id = ensureString(id, true)
 
 	// Sort out the various references.
@@ -57,6 +62,9 @@ function FBDInputUnforwarded(options, ref) {
 	useImperativeHandle(ref, () => diagramRef.current) // Reference from here passed on to children.
 	const figureInner = diagramRef.current && diagramRef.current.figure && diagramRef.current.figure.inner
 	const figureInnerRef = useRefWithValue(figureInner) // Reference to the DOM element, needed for field registration.
+
+	// Set up and monitor a snapping lines array.
+	const { className: drawingInputClassName, mousePosition, snappedMousePosition, snappedLines, snappedLinesSvg, snapMarker, snapper } = useDrawingInputTools(diagramRef, options)
 
 	// Determine the status of this input field.
 	// const { done } = useStatus()
@@ -72,20 +80,20 @@ function FBDInputUnforwarded(options, ref) {
 	const { feedback } = useFieldFeedback({ fieldId: id, validate })
 
 	// Track the mouse position. On a mouse down start dragging, and on a mouse up end it.
-	const mousePosition = useDrawingMousePosition(diagramRef)
 	const [mouseDownPosition, setMouseDownPosition] = useState()
 	const startDrawing = (evt) => {
 		if (!apply)
 			return
 		if (mouseDownPosition)
 			return setMouseDownPosition(undefined) // Second touch! Cancel drawing to prevent confusion.
-		setMouseDownPosition(diagramRef.current.getPosition(getEventPosition(evt)))
+		const point = diagramRef.current.getPosition(getEventPosition(evt))
+		const snappedPoint = snapper(point).snappedMousePosition
+		setMouseDownPosition(snappedPoint)
 	}
 	const endDrawing = (evt) => {
 		if (mouseDownPosition) {
-			const finalPosition = diagramRef.current.getPosition(getEventPosition(evt)) || mousePosition
-			if (finalPosition)
-				setData(data => ({ ...data, forces: [...data.forces, new PositionedVector({ start: mouseDownPosition, end: mousePosition })] }))
+			if (snappedMousePosition)
+				setData(data => ({ ...data, forces: [...data.forces, new PositionedVector({ start: mouseDownPosition, end: snappedMousePosition })] }))
 		}
 		setMouseDownPosition(undefined)
 	}
@@ -94,27 +102,19 @@ function FBDInputUnforwarded(options, ref) {
 	useEventListener('mouseup', endDrawing)
 	useEventListener('touchend', endDrawing)
 
-	// Figure out horizontal and vertical lines through the mouse position.
-	let hor, ver
-	if (diagram && mousePosition && diagram.isInside(mousePosition)) {
-		const bounds = diagram.bounds
-		hor = bounds.getLinePartWithin(Line.getHorizontalThrough(mousePosition))
-		ver = bounds.getLinePartWithin(Line.getVerticalThrough(mousePosition))
-	}
-
 	if (diagram) {
 		options.svgContents = <>
-			{hor ? <SvgLine points={[hor.start, hor.end]} /> : null}
-			{ver ? <SvgLine points={[ver.start, ver.end]} /> : null}
+			{snappedLinesSvg}
 			{options.svgContents}
 			{data.forces.map((force, index) => <Force key={index} positionedVector={force} />)}
-			{mousePosition && mouseDownPosition ? <Force positionedVector={{ start: mouseDownPosition, end: mousePosition }} /> : null}
+			{snappedMousePosition && mouseDownPosition ? <Force positionedVector={{ start: mouseDownPosition, end: snappedMousePosition }} /> : null}
+			{snapMarker}
 		</>
 	}
 
 	// Render the Engineering Diagram with the proper styling.
 	const classes = useStyles()
-	options.className = clsx('FBDInput', classes.FBDInput, options.className, { active })
+	options.className = clsx('FBDInput', classes.FBDInput, drawingInputClassName, options.className, { active })
 	return <EngineeringDiagram ref={diagramRef} {...filterOptions(options, engineeringDiagramDefaultOptions)} />
 }
 export const FBDInput = forwardRef(FBDInputUnforwarded)

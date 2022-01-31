@@ -1,5 +1,6 @@
 // A Vector is a combination of coordinates. It can be entered as an array [2, 3, 4] or an object { x: 2, y: 3, z: 4 }. It can be of any dimension. Various methods like the magnitude are available.
 
+const { compareNumbers } = require('../numeric')
 const { ensureInt, ensureNumber, isNumber } = require('../../util/numbers')
 
 class Vector {
@@ -107,7 +108,7 @@ class Vector {
 	}
 
 	isZero() {
-		return this.squaredMagnitude === 0
+		return compareNumbers(this.squaredMagnitude, 0)
 	}
 
 	/*
@@ -142,7 +143,7 @@ class Vector {
 	// normalize will return the unit vector in the given direction, effectively normalizing the vector.
 	normalize() {
 		const magnitude = this.magnitude
-		if (magnitude === 0)
+		if (compareNumbers(magnitude, 0))
 			throw new Error(`Invalid normalize call: cannot normalize the zero vector.`)
 		return this.divide(magnitude)
 	}
@@ -161,6 +162,17 @@ class Vector {
 		return this.coordinates.reduce((sum, value, index) => sum + value * vector.getCoordinate(index), 0)
 	}
 
+	// distanceTo gives the distance to a given point.
+	distanceTo(vector) {
+		return Math.sqrt(this.squaredDistanceTo(vector))
+	}
+
+	// squaredDistanceTo gives the squared distance to a given point.
+	squaredDistanceTo(vector) {
+		vector = ensureVector(vector, this.dimension)
+		return this.subtract(vector).squaredMagnitude
+	}
+
 	// getProjectionOn gets the component of a given vector along another given vector: its projection onto this vector.
 	getProjectionOn(vector) {
 		return vector.multiply(this.dotProduct(vector) / vector.squaredMagnitude)
@@ -177,7 +189,7 @@ class Vector {
 
 	// equals runs an exact equality check on two vectors.
 	equals(vector) {
-		return vector instanceof Vector && this.dimension === vector.dimension && this.coordinates.every((value, index) => value === vector.getCoordinate(index))
+		return vector instanceof Vector && this.dimension === vector.dimension && this.coordinates.every((value, index) => compareNumbers(value, vector.getCoordinate(index)))
 	}
 
 	/*

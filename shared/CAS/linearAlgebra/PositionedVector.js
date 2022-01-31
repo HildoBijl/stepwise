@@ -1,5 +1,6 @@
 // A PositionedVector is a combination of three vectors: start, vector, end. Always it holds that start + vector = end, so effectively two of the three define the full PositionedVector object. This is useful when you have a Vector somewhere in space. The properties of this object are (unsurprisingly) "start", "vector" and "end".
 
+const { compareNumbers } = require('../numeric')
 const { processOptions } = require('../../util/objects')
 const { repeat } = require('../../util/functions')
 
@@ -90,7 +91,7 @@ class PositionedVector {
 		let lower, upper
 		repeat(this.dimension, axis => {
 			// Special case: if the line is parallel to this axis, check if the given coordinate falls within the rectangle.
-			if (line.direction.getCoordinate(axis) === 0) {
+			if (compareNumbers(line.direction.getCoordinate(axis), 0)) {
 				const coordinate = line.start.getCoordinate(axis)
 				const bounds = ['start', 'end'].map(label => this[label].getCoordinate(axis)).sort()
 				if (coordinate < bounds[0] || coordinate > bounds[1]) {
@@ -157,7 +158,7 @@ class PositionedVector {
 
 		// Check for a zero vector, meaning this PositionedVector is a point. If so, there is no direction, so the direction is off anyway. If that's not important, check if the point is on the line.
 		if (this.vector.isZero())
-			return !requireSameDirection && line.isPointOnLine(this.start)
+			return !requireSameDirection && line.containsPoint(this.start)
 
 		// Compare lines.
 		return this.line.equals(line, requireSameDirection)

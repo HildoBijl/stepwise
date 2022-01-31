@@ -1,6 +1,6 @@
 // A Line is a line inside a (possibly multi-dimensional) space. It is like a PositionedVector, but then it has no magnitude. It's all about the position and the direction.
 
-const { epsilon } = require('../options')
+const { compareNumbers } = require('../numeric')
 const { ensureInt, ensureNumber } = require('../../util/numbers')
 const { processOptions } = require('../../util/objects')
 const { Vector, ensureVector } = require('./Vector')
@@ -33,7 +33,7 @@ class Line {
 			start = line.start
 			direction = line.direction
 		}
-		
+
 		// Check that the given parameters are valid and of equal dimension, and store them.
 		this.start = ensureVector(start)
 		this.direction = ensureVector(direction, this.start.dimension)
@@ -46,7 +46,7 @@ class Line {
 	 */
 
 	get perpendicularVector() {
-		this.start = this.start.getPerpendicularComponent(this.direction)
+		return this.start.getPerpendicularComponent(this.direction)
 	}
 
 	get normalizedDirection() {
@@ -91,13 +91,13 @@ class Line {
 	 * Manipulation and computation methods.
 	 */
 
-	// isPointOnLine checks if a given point (Vector) is on the given line. 
-	isPointOnLine(vector) {
+	// containsPoint checks if a given point (Vector) is on the given line. 
+	containsPoint(vector) {
 		vector = ensureVector(vector, this.dimension)
 
 		// Find the vector relative to the line's start and check if it's in the right direction.
 		const relativeVector = vector.subtract(this.start)
-		return relativeVector.magnitude === 0 || Math.abs(this.normalizedDirection.dotProduct(relativeVector.normalize())) === 1
+		return relativeVector.isZero() || compareNumbers(Math.abs(this.normalizedDirection.dotProduct(relativeVector.normalize())), 1)
 	}
 
 	// getClosestPoint finds the closest point on the line, with respect to the given vector.
@@ -149,7 +149,7 @@ class Line {
 			throw new Error(`Invalid axis: the axis (${axis}) cannot be higher than the dimension (${this.dimension}) of the line.`)
 
 		// Check if the line is parallel to this axis.
-		if (this.direction.getCoordinate(axis) === 0)
+		if (compareNumbers(this.direction.getCoordinate(axis), 0))
 			throw new Error(`Invalid getPointWithCoordinate call: the line is parallel to the given axis (${axis}), so no intersecting point can be computed.`)
 
 		// Find the factor by which we must multiply the direction Vector.
@@ -178,7 +178,7 @@ class Line {
 		const d1 = this.direction
 		const d2 = line.direction
 		const determinant = d1.x * d2.y - d2.x * d1.y
-		if (Math.abs(determinant) < epsilon)
+		if (compareNumbers(determinant, 0))
 			return null
 
 		// Find the factors a and b required to satisfy s1 + a*d1 = s2 + b*d2.
@@ -186,7 +186,7 @@ class Line {
 		const a = (delta.x * d2.y - delta.y * d2.x) / determinant
 		// const b = (delta.x * d1.y - delta.y * d1.x) / determinant
 		const intersection = this.start.add(this.direction.multiply(a))
-		return this.isPointOnLine(intersection) ? intersection : null
+		return this.containsPoint(intersection) ? intersection : null
 	}
 
 	/*
@@ -203,12 +203,19 @@ class Line {
 
 		// Check the directions of the lines.
 		const dotProduct = this.normalizedDirection.dotProduct(line.normalizedDirection)
-		return (requireSameDirection ? dotProduct : Math.abs(dotProduct)) === 1
+		return compareNumbers(requireSameDirection ? dotProduct : Math.abs(dotProduct), 1)
 	}
 
 	/*
 	 * Static methods.
 	 */
+
+	// fromPoints gets a line that goes through two points (Vectors).
+	static fromPoints(point1, point2) {
+		point1 = ensureVector(point1)
+		point2 = ensureVector(point2, point1.dimension)
+		return new Line(point1, point2.subtract(point1))
+	}
 
 	// fromAngleAndDistance creates a 2D line with the given angle (argument) and the given distance from the origin. It is assumed that, after traveling the given distance, we turn a hard left to go into the given angle. So (Math.PI/2, 3) lets us go three steps to the right before we go straight up. Similarly, (Math.PI*3/2, 4) lets us go four steps to the left before going straight down.
 	static fromAngleAndDistance(angle, distance) {

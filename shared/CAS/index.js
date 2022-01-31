@@ -1,5 +1,6 @@
 // Load in all folders in the right order.
 const options = require('./options')
+const numeric = require('./numeric')
 const functionalities = require('./functionalities')
 const interpretation = require('./interpretation')
 
@@ -7,6 +8,7 @@ const interpretation = require('./interpretation')
 module.exports = {
 	// Export all options as an options object.
 	options: { ...options },
+	numeric: { ...numeric },
 
 	// Specifically export important options.
 	simplifyOptions: options.simplifyOptions,
