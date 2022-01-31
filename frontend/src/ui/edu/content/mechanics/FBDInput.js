@@ -8,7 +8,7 @@ import { alpha } from '@material-ui/core/styles/colorManipulator'
 import { ensureString } from 'step-wise/util/strings'
 import { processOptions, filterOptions } from 'step-wise/util/objects'
 import { noop } from 'step-wise/util/functions'
-import { PositionedVector } from 'step-wise/CAS/linearAlgebra'
+import { Line, PositionedVector } from 'step-wise/CAS/linearAlgebra'
 
 import { getEventPosition } from 'util/dom'
 import { useRefWithValue, useEventListener } from 'util/react'
@@ -18,7 +18,7 @@ import { useFieldFeedback } from 'ui/form/FeedbackProvider'
 import { useDrawingMousePosition } from 'ui/components/figures/Drawing'
 import { notSelectable } from 'ui/theme'
 
-import EngineeringDiagram, { defaultOptions as engineeringDiagramDefaultOptions, Force } from './EngineeringDiagram'
+import EngineeringDiagram, { defaultOptions as engineeringDiagramDefaultOptions, Force, Line as SvgLine } from './EngineeringDiagram'
 
 export const defaultOptions = {
 	...engineeringDiagramDefaultOptions,
@@ -94,8 +94,18 @@ function FBDInputUnforwarded(options, ref) {
 	useEventListener('mouseup', endDrawing)
 	useEventListener('touchend', endDrawing)
 
+	// Figure out horizontal and vertical lines through the mouse position.
+	let hor, ver
+	if (diagram && mousePosition && diagram.isInside(mousePosition)) {
+		const bounds = diagram.bounds
+		hor = bounds.getLinePartWithin(Line.getHorizontalThrough(mousePosition))
+		ver = bounds.getLinePartWithin(Line.getVerticalThrough(mousePosition))
+	}
+
 	if (diagram) {
 		options.svgContents = <>
+			{hor ? <SvgLine points={[hor.start, hor.end]} /> : null}
+			{ver ? <SvgLine points={[ver.start, ver.end]} /> : null}
 			{options.svgContents}
 			{data.forces.map((force, index) => <Force key={index} positionedVector={force} />)}
 			{mousePosition && mouseDownPosition ? <Force positionedVector={{ start: mouseDownPosition, end: mousePosition }} /> : null}

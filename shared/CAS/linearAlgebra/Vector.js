@@ -1,6 +1,6 @@
 // A Vector is a combination of coordinates. It can be entered as an array [2, 3, 4] or an object { x: 2, y: 3, z: 4 }. It can be of any dimension. Various methods like the magnitude are available.
 
-const { ensureNumber, isNumber } = require('../../util/numbers')
+const { ensureInt, ensureNumber, isNumber } = require('../../util/numbers')
 
 class Vector {
 	/*
@@ -10,7 +10,7 @@ class Vector {
 	constructor(...args) {
 		// Check for empty input.
 		if (args.length === 0)
-			throw new Error(`Invalid Vector: the Vector constructor was called without input. For the zero vector, use Vector.zero2D or Vector.zero3D.`)
+			throw new Error(`Invalid Vector: the Vector constructor was called without input. For the zero vector, use Vector.zero or Vector['3D'].zero.`)
 
 		// Check if the sole input is an array. In that case, examine that array.
 		if (args.length === 1 && Array.isArray(args[0]))
@@ -184,6 +184,25 @@ class Vector {
 	 * Static methods.
 	 */
 
+	// getZero returns the zero vector for the given dimension.
+	static getZero(dimension) {
+		dimension = ensureInt(dimension, true)
+		return new Vector(new Array(dimension).fill(0))
+	}
+
+	// getUnitVector returns the unit vector along the given axis (0 for x, 1 for y, etcetera) for the given dimension.
+	static getUnitVector(axis, dimension) {
+		axis = ensureInt(dimension, true)
+		dimension = ensureInt(dimension, true)
+		if (axis >= dimension)
+			throw new Error(`Invalid axis: cannot have an axis (${axis}) equal to or larger than the dimension (${dimension}).`)
+
+		// Assemble the unit vector.
+		const coordinates = new Array(dimension).fill(0)
+		coordinates[axis] = 1
+		return new Vector(coordinates)
+	}
+
 	// fromCoordinates allows for an object like { x: 2, y: 4 } and possibly with z too to be turned into a Vector.
 	static fromCoordinates(coordinates) {
 		if (typeof coordinates !== 'object')
@@ -218,8 +237,15 @@ class Vector {
 		})
 	}
 }
-Vector.zero2D = new Vector(0, 0)
-Vector.zero3D = new Vector(0, 0, 0)
+Vector.zero = new Vector(0, 0)
+Vector.i = new Vector(1, 0)
+Vector.j = new Vector(0, 1)
+Vector['3D'] = {
+	zero: new Vector(0, 0, 0),
+	i: new Vector(1, 0, 0),
+	j: new Vector(0, 1, 0),
+	k: new Vector(0, 0, 1),
+}
 module.exports.Vector = Vector
 
 // ensureVector takes an object and ensures it's a vector. If the dimension is given, it also ensures it's a vector of the given dimension. Possibly the vector may be a plain object like {x: 2, y: 3} in which case this function tries to turn it into a vector object.

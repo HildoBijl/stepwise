@@ -23,7 +23,7 @@ export function Group(props) {
 }
 const defaultGroup = {
 	...defaultObject,
-	position: Vector.zero2D,
+	position: Vector.zero,
 	rotate: 0,
 	scale: 1,
 	children: null,

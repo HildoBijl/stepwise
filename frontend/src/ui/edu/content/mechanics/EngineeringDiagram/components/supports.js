@@ -17,7 +17,7 @@ import { defaultBeam, Hinge, defaultHinge } from './structuralComponents'
 // The defaultSupport is unherited by each of the default support objects.
 export const defaultSupport = {
 	...defaultObject,
-	position: Vector.zero2D,
+	position: Vector.zero,
 	angle: Math.PI / 2,
 	color: defaultBeam.color,
 	thickness: defaultHinge.thickness,
@@ -163,7 +163,7 @@ export function Ground(props) {
 }
 export const defaultGround = {
 	...defaultObject,
-	position: Vector.zero2D,
+	position: Vector.zero,
 	thickness: defaultHinge.thickness,
 	color: defaultHinge.color,
 	rectangleOpacity: 0.4,
@@ -187,7 +187,7 @@ export function SupportBlock(props) {
 }
 export const defaultSupportBlock = {
 	...defaultObject,
-	position: Vector.zero2D,
+	position: Vector.zero,
 	color: defaultBeam.color,
 	width: defaultFixedSupport.width,
 	height: defaultFixedSupport.height,
@@ -210,7 +210,7 @@ export function SupportTriangle(props) {
 }
 export const defaultSupportTriangle = {
 	...defaultObject,
-	position: Vector.zero2D,
+	position: Vector.zero,
 	color: defaultHinge.color,
 	thickness: defaultHinge.thickness,
 	width: 32,
@@ -243,7 +243,7 @@ export function Wheels(props) {
 }
 export const defaultWheels = {
 	...defaultObject,
-	position: Vector.zero2D,
+	position: Vector.zero,
 	color: defaultHinge.color,
 	numWheels: defaultRollerSupport.numWheels,
 	wheelRadius: defaultRollerSupport.wheelRadius,

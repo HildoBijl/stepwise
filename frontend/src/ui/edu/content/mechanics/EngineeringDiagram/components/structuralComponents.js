@@ -62,7 +62,7 @@ export function Hinge(props) {
 }
 export const defaultHinge = {
 	...defaultObject,
-	position: Vector.zero2D,
+	position: Vector.zero,
 	radius: 6,
 	thickness: 2,
 	color: defaultBeam.color,

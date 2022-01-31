@@ -47,7 +47,7 @@ export function Arc(props) {
 }
 export const defaultArc = {
 	...defaultObject,
-	position: Vector.zero2D,
+	position: Vector.zero,
 	radius: 50,
 	startAngle: 0,
 	endAngle: Math.PI,

@@ -9,6 +9,12 @@ import SimpleExercise from '../types/SimpleExercise'
 import EngineeringDiagram, { Group, Beam, Force, Moment, RollerSupport, HingeSupport, Hinge, Distance, PositionedElement } from 'ui/edu/content/mechanics/EngineeringDiagram'
 import FBDInput from 'ui/edu/content/mechanics/FBDInput'
 
+import { Vector, Line, PositionedVector } from 'step-wise/CAS/linearAlgebra'
+
+window.Vector = Vector
+window.Line = Line
+window.PositionedVector = PositionedVector
+
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
 }

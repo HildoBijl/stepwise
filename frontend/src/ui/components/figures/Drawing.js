@@ -11,7 +11,7 @@ import { select } from 'd3-selection'
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureObject, processOptions, filterOptions } from 'step-wise/util/objects'
 import { deg2rad } from 'step-wise/util/numbers'
-import { Vector, ensureVector } from 'step-wise/CAS/linearAlgebra/Vector'
+import { Vector, ensureVector, PositionedVector } from 'step-wise/CAS/linearAlgebra'
 
 import { ensureReactElement, useEqualRefOnEquality, useMousePosition, useBoundingClientRect } from 'util/react'
 import { notSelectable } from 'ui/theme'
@@ -83,6 +83,7 @@ function Drawing(options, ref) {
 		get context() { return drawingRef.current.context },
 		get width() { return drawingRef.current.width },
 		get height() { return drawingRef.current.height },
+		get bounds() { return new PositionedVector({ start: [0, 0], end: [drawingRef.current.width, drawingRef.current.height] }) },
 
 		// Position functions.
 		getPosition(clientCoordinates, figureRect) {
@@ -269,7 +270,7 @@ export function PositionedElement(props) {
 }
 const defaultPositionedElement = {
 	children: null,
-	position: Vector.zero2D,
+	position: Vector.zero,
 	rotate: 0, // Radians.
 	scale: 1,
 	anchor: new Vector(0.5, 0.5), // Use 0 for left/top and 1 for right/bottom.

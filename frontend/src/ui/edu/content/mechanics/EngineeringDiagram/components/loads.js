@@ -33,7 +33,7 @@ export function ArrowHead(props) {
 }
 const defaultArrowHead = {
 	...defaultObject,
-	position: Vector.zero2D,
+	position: Vector.zero,
 	angle: 0,
 	size: 4,
 	color: 'black',
