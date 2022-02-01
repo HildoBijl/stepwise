@@ -33,12 +33,10 @@ export const defaultOptions = {
 const useStyles = makeStyles((theme) => ({
 	engineeringDiagram: {
 		'& svg': {
-			'& .line, & .distance': {
+			'& .distance': {
 				fill: 'none',
 				stroke: 'black',
 				'stroke-width': 1,
-			},
-			'& .distance': {
 				'marker-start': 'url(#distanceArrowHead)',
 				'marker-end': 'url(#distanceArrowHead)',
 			},

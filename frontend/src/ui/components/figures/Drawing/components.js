@@ -55,6 +55,56 @@ export function getLinePath(points) {
 	return `M${points.map(point => `${point.x} ${point.y}`).join(' L')}`
 }
 
+export function Circle(props) {
+	// Process the input.
+	let { center, radius, className, style } = processOptions(props, defaultCircle)
+	center = ensureVector(center, 2)
+	radius = ensureNumber(radius, true)
+	className = ensureString(className)
+	style = ensureObject(style)
+
+	// Set up the circle.
+	return <circle cx={center.x} cy={center.y} r={radius} className={className} style={style} />
+}
+export const defaultCircle = {
+	...defaultObject,
+	center: null,
+	radius: 10,
+}
+
+export function Rectangle(props) {
+	// Process the input.
+	let { dimensions, className, style } = processOptions(props, defaultRectangle)
+	dimensions = ensurePositionedVector(dimensions, 2)
+	className = ensureString(className)
+	style = ensureObject(style)
+
+	// Set up the circle.
+	const { start, vector, end } = dimensions
+	return <rect x={Math.min(start.x, end.x)} y={Math.min(start.y, end.y)} width={Math.abs(vector.x)} height={Math.abs(vector.y)} className={className} style={style} />
+}
+export const defaultRectangle = {
+	...defaultObject,
+	dimensions: null, // A PositionedVector.
+}
+
+export function Square(props) {
+	// Process the input.
+	let { center, side, className, style } = processOptions(props, defaultSquare)
+	center = ensureVector(center, 2)
+	side = ensureNumber(side, true)
+	className = ensureString(className)
+	style = ensureObject(style)
+
+	// Set up the circle.
+	return <rect x={center.x - side / 2} y={center.y - side / 2} width={side} height={side} className={className} style={style} />
+}
+export const defaultSquare = {
+	...defaultObject,
+	center: null, // A Vector.
+	side: 10,
+}
+
 // Arc draws an arc (part of a circle) from a given position (center) with a given radius, startAngle and endAngle. Angles are measured in radians with the rightmost point being zero, clockwise positive.
 export function Arc(props) {
 	// Check input.
@@ -103,5 +153,3 @@ const defaultDistance = {
 	positionedVector: null,
 	className: 'distance',
 }
-
-// ToDo next: add circle, square, rectangle.

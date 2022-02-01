@@ -12,9 +12,9 @@ import { Vector, Line, PositionedVector } from 'step-wise/CAS/linearAlgebra'
 import { notSelectable } from 'ui/theme'
 
 import { useMousePosition } from './Drawing'
-import { Line as SvgLine } from './components'
+import { Line as SvgLine, Square } from './components'
 
-const snapMarkerRadius = 5
+const snapMarkerSize = 6
 
 const useStyles = makeStyles((theme) => ({
 	DrawingInput: {
@@ -53,13 +53,15 @@ export function useAsDrawingInput(drawingRef, { snappers, snappingDistance }) {
 	const className = clsx(classes.DrawingInput, 'drawingInput')
 
 	// Track and possibly snap the mouse position.
+	const drawing = drawingRef.current
 	const mousePosition = useMousePosition(drawingRef)
 	const snappingLines = useSnappingLines(snappers)
-	const snapResult = snapMousePosition(mousePosition, snappingLines, snappingDistance)
+	const mouseInDrawing = drawing ? drawing.isInside(mousePosition) : false
+	const snapResult = snapMousePosition(mouseInDrawing ? mousePosition : null, snappingLines, snappingDistance)
 	const snapper = (point) => snapMousePosition(point, snappingLines, snappingDistance)
 
 	// Return all data.
-	return { className, mousePosition, snappingLines, ...snapResult, snapper }
+	return { className, mousePosition, mouseInDrawing, snappingLines, ...snapResult, snapper }
 }
 
 // useSnappingLines takes a snappers array and determines the snapping lines from it. It only recalculates on a change and filters duplicates.
@@ -117,7 +119,7 @@ function snapMousePosition(mousePosition, snappingLines, snappingDistance) {
 export function getSnapSvg(snappedMousePosition, snapLines, drawingRef, lineStyle = {}, markerStyle = {}) {
 	const bounds = drawingRef && drawingRef.current && drawingRef.current.bounds
 	return {
-		marker: snapLines.length > 0 ? <circle className='snapMarker' cx={snappedMousePosition.x} cy={snappedMousePosition.y} r={snapMarkerRadius} style={markerStyle} /> : null,
+		marker: snapLines.length > 0 ? <Square center={snappedMousePosition} side={snapMarkerSize} className="snapMarker" style={markerStyle} /> : null,
 		lines: bounds ? snapLines.map((line, index) => {
 			const linePart = bounds.getLinePartWithin(line)
 			return <SvgLine key={index} className="snapLine" points={[linePart.start, linePart.end]} style={lineStyle} />

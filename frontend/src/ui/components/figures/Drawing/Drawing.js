@@ -42,6 +42,12 @@ const useStyles = makeStyles((theme) => ({
 			overflow: 'visible',
 			width: '100%',
 			zIndex: 2,
+
+			'& .line': {
+				fill: 'none',
+				stroke: 'black',
+				'stroke-width': 1,
+			},
 		},
 
 		'& canvas': {
