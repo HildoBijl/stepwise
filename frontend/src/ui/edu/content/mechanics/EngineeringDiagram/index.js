@@ -6,12 +6,20 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import { isObject, processOptions, filterOptions } from 'step-wise/util/objects'
 
-import Drawing, { defaultOptions as drawingDefaultOptions } from 'ui/components/figures/Drawing'
+import Drawing, { defaultOptions as drawingDefaultOptions, components as drawingComponents } from 'ui/components/figures/Drawing'
 
-import * as components from './components'
+import * as engineeringComponents from './components'
 
+// Re-export the Positioned Element for easy importing.
 export { PositionedElement } from 'ui/components/figures/Drawing'
+
+// Export all components from the Drawing and from the Engineering set, both separately and as components object.
+export * from 'ui/components/figures/Drawing/components'
 export * from './components'
+export const components = {
+	...drawingComponents,
+	...engineeringComponents,
+}
 
 export const defaultOptions = {
 	width: drawingDefaultOptions.width,
@@ -108,7 +116,7 @@ export function renderData(data) {
 		return data
 
 	// Make sure it's a known component type.
-	const Component = components[data.type]
+	const Component = engineeringComponents[data.type]
 	if (!Component)
 		throw new Error(`Invalid Engineering Diagram data: received an object with type property "${data.type}". Could not render this.`)
 

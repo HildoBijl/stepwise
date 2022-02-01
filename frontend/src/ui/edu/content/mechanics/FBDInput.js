@@ -1,27 +1,24 @@
 // The FBDInput is an input field for Free Body Diagrams. It takes 
 
-import React, { forwardRef, useRef, useState, useMemo, useImperativeHandle } from 'react'
+import React, { forwardRef, useRef, useState, useImperativeHandle } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import { alpha } from '@material-ui/core/styles/colorManipulator'
 
-import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureString } from 'step-wise/util/strings'
-import { ensureArray, filterDuplicates } from 'step-wise/util/arrays'
 import { processOptions, filterOptions } from 'step-wise/util/objects'
 import { noop } from 'step-wise/util/functions'
-import { Vector, Line, PositionedVector } from 'step-wise/CAS/linearAlgebra'
+import { PositionedVector } from 'step-wise/CAS/linearAlgebra'
 
 import { getEventPosition } from 'util/dom'
 import { useRefWithValue, useEventListener } from 'util/react'
-import { useDrawingInputTools } from 'ui/components/figures/DrawingInput'
+import { notSelectable } from 'ui/theme'
+import { useAsDrawingInput, getSnapSvg } from 'ui/components/figures/Drawing'
 import { useFormParameter } from 'ui/form/Form'
 import { useFieldRegistration } from 'ui/form/FieldController'
 import { useFieldFeedback } from 'ui/form/FeedbackProvider'
-import { useDrawingMousePosition } from 'ui/components/figures/Drawing'
-import { notSelectable } from 'ui/theme'
 
-import EngineeringDiagram, { defaultOptions as engineeringDiagramDefaultOptions, Force, Line as SvgLine } from './EngineeringDiagram'
+import EngineeringDiagram, { defaultOptions as engineeringDiagramDefaultOptions, Force } from './EngineeringDiagram'
 
 export const defaultOptions = {
 	...engineeringDiagramDefaultOptions,
@@ -53,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 function FBDInputUnforwarded(options, ref) {
 	// Check input.
 	options = processOptions(options, defaultOptions)
-	let { id, initialValue, snappers, snappingDistance, readOnly, autofocus, persistent, validate } = processOptions(options, defaultOptions)
+	let { id, initialValue, readOnly, autofocus, persistent, validate } = processOptions(options, defaultOptions)
 	id = ensureString(id, true)
 
 	// Sort out the various references.
@@ -64,7 +61,8 @@ function FBDInputUnforwarded(options, ref) {
 	const figureInnerRef = useRefWithValue(figureInner) // Reference to the DOM element, needed for field registration.
 
 	// Set up and monitor a snapping lines array.
-	const { className: drawingInputClassName, mousePosition, snappedMousePosition, snappedLines, snappedLinesSvg, snapMarker, snapper } = useDrawingInputTools(diagramRef, options)
+	const { className: drawingInputClassName, snappedMousePosition, snapLines, snapper } = useAsDrawingInput(diagramRef, options)
+	const snapSvg = getSnapSvg(snappedMousePosition, snapLines, diagramRef)
 
 	// Determine the status of this input field.
 	// const { done } = useStatus()
@@ -104,11 +102,11 @@ function FBDInputUnforwarded(options, ref) {
 
 	if (diagram) {
 		options.svgContents = <>
-			{snappedLinesSvg}
+			{snapSvg.lines}
 			{options.svgContents}
 			{data.forces.map((force, index) => <Force key={index} positionedVector={force} />)}
 			{snappedMousePosition && mouseDownPosition ? <Force positionedVector={{ start: mouseDownPosition, end: snappedMousePosition }} /> : null}
-			{snapMarker}
+			{snapSvg.marker}
 		</>
 	}
 

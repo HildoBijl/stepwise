@@ -5,8 +5,9 @@ import { ensureString } from 'step-wise/util/strings'
 import { ensureBoolean, ensureObject, processOptions } from 'step-wise/util/objects'
 import { Vector, ensureVector, ensurePositionedVector } from 'step-wise/CAS/linearAlgebra'
 
-import { defaultObject, Group } from './groups'
-import { Line, Arc } from './shapes'
+import { components as drawingComponents } from 'ui/components/figures/Drawing'
+
+const { defaultObject, Group, Line, Arc } = drawingComponents
 
 // ArrowHead draws an arrowhead in the given container at the given position and with the given angle. It can also be sized up and styled further.
 export function ArrowHead(props) {

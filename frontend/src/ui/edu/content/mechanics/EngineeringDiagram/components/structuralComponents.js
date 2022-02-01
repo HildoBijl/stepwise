@@ -3,10 +3,11 @@ import React from 'react'
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureString } from 'step-wise/util/strings'
 import { ensureObject, processOptions } from 'step-wise/util/objects'
-import { Vector, ensureVector, ensureVectorArray } from 'step-wise/CAS/linearAlgebra/Vector'
+import { Vector, ensureVector, ensureVectorArray } from 'step-wise/CAS/linearAlgebra'
 
-import { defaultObject } from './groups'
-import { Line, defaultLine } from './shapes'
+import { components as drawingComponents } from 'ui/components/figures/Drawing'
+
+const { defaultObject, Line, defaultLine } = drawingComponents
 
 export function Beam(props) {
 	// Check input.

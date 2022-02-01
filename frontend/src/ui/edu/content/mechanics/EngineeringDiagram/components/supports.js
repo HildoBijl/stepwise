@@ -6,9 +6,10 @@ import { ensureObject, processOptions } from 'step-wise/util/objects'
 import { numberArray } from 'step-wise/util/arrays'
 import { Vector, ensureVector } from 'step-wise/CAS/linearAlgebra/Vector'
 
-import { defaultObject, Group } from './groups'
-import { Line } from './shapes'
+import { components as drawingComponents } from 'ui/components/figures/Drawing'
 import { defaultBeam, Hinge, defaultHinge } from './structuralComponents'
+
+const { defaultObject, Group, Line } = drawingComponents
 
 /*
  * Part 1 of this file contains all the actual structural supports.

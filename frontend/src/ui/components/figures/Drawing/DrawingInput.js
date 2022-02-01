@@ -1,4 +1,4 @@
-// Within a drawing, you can make use of useDrawingInputTools to get some useful tools for DrawingInputs.
+// Within a drawing, you can make use of useAsDrawingInput to get some useful tools for DrawingInputs.
 
 import { useMemo } from 'react'
 import clsx from 'clsx'
@@ -9,10 +9,10 @@ import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureArray, numberArray, filterDuplicates, sortByIndices } from 'step-wise/util/arrays'
 import { Vector, Line, PositionedVector } from 'step-wise/CAS/linearAlgebra'
 
-import { useDrawingMousePosition } from 'ui/components/figures/Drawing'
 import { notSelectable } from 'ui/theme'
 
-import { Line as SvgLine } from 'ui/edu/content/mechanics/EngineeringDiagram/components/shapes' // ToDo: put this in a sensible place. Getting cyclic imports here.
+import { useMousePosition } from './Drawing'
+import { Line as SvgLine } from './components'
 
 const snapMarkerRadius = 5
 
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export function useDrawingInputTools(drawingRef, { snappers, snappingDistance }) {
+export function useAsDrawingInput(drawingRef, { snappers, snappingDistance }) {
 	snappers = ensureArray(snappers)
 	snappingDistance = ensureNumber(snappingDistance, true)
 
@@ -53,17 +53,17 @@ export function useDrawingInputTools(drawingRef, { snappers, snappingDistance })
 	const className = clsx(classes.DrawingInput, 'drawingInput')
 
 	// Track and possibly snap the mouse position.
-	const mousePosition = useDrawingMousePosition(drawingRef)
+	const mousePosition = useMousePosition(drawingRef)
 	const snappingLines = useSnappingLines(snappers)
-	const snapResult = snapMousePosition(mousePosition, snappingLines, snappingDistance, drawingRef)
-	const snapper = (point) => snapMousePosition(point, snappingLines, snappingDistance, drawingRef)
+	const snapResult = snapMousePosition(mousePosition, snappingLines, snappingDistance)
+	const snapper = (point) => snapMousePosition(point, snappingLines, snappingDistance)
 
 	// Return all data.
-	return { className, mousePosition, ...snapResult, snappingLines, snapper }
+	return { className, mousePosition, snappingLines, ...snapResult, snapper }
 }
 
 // useSnappingLines takes a snappers array and determines the snapping lines from it. It only recalculates on a change and filters duplicates.
-export function useSnappingLines(snappers) {
+function useSnappingLines(snappers) {
 	return useMemo(() => {
 		const snappingLines = []
 		snappers.forEach(snapper => {
@@ -82,17 +82,11 @@ export function useSnappingLines(snappers) {
 	}, [snappers])
 }
 
-// willMouseSnap determines if the mouse is close enough to any snapping line to snap to it.
-export function willMouseSnap(mousePosition, snappingLines, snappingDistance) {
-	const squaredSnappingDistance = snappingDistance ** 2
-	return snappingLines.some(line => line.getSquaredDistanceFrom(mousePosition) <= squaredSnappingDistance)
-}
-
 // snapMousePosition will calculate the position of the mouse after it's snapped to the nearest snapping line.
-export function snapMousePosition(mousePosition, snappingLines, snappingDistance, drawingRef) {
+function snapMousePosition(mousePosition, snappingLines, snappingDistance) {
 	// Check that a mouse position exists.
 	if (!mousePosition)
-		return { mousePosition, snappedLines: [], isMouseSnapped: false }
+		return { snappedMousePosition: mousePosition, snapLines: [], isMouseSnapped: false }
 
 	// Get all the lines that fall within snapping distance.
 	const squaredSnappingDistance = snappingDistance ** 2
@@ -114,17 +108,19 @@ export function snapMousePosition(mousePosition, snappingLines, snappingDistance
 	if (snapLines.length === 1)
 		snappedMousePosition = snapLines[0].getClosestPoint(mousePosition)
 	const isMouseSnapped = snapLines.length > 0
-	const snapMarker = isMouseSnapped ? <circle className='snapMarker' cx={snappedMousePosition.x} cy={snappedMousePosition.y} r={snapMarkerRadius} /> : null
-
-	// Set up SVG for the snapping lines.
-	const bounds = drawingRef.current && drawingRef.current.bounds
-	const snapLinesSvg = snapLines.map((line, index) => {
-		if (!bounds)
-			return null
-		const linePart = bounds.getLinePartWithin(line)
-		return <SvgLine key={index} className="snapLine" points={[linePart.start, linePart.end]} />
-	})
 
 	// Return the outcome.
-	return { snappedMousePosition, snappedLines: snapLines, snappedLinesSvg: snapLinesSvg, snapMarker, isMouseSnapped }
+	return { snappedMousePosition, snapLines, isMouseSnapped }
+}
+
+// getSnapSvg takes a snapped mouse position and snap lines, and returns SVG to show the marker and the lines.
+export function getSnapSvg(snappedMousePosition, snapLines, drawingRef, lineStyle = {}, markerStyle = {}) {
+	const bounds = drawingRef && drawingRef.current && drawingRef.current.bounds
+	return {
+		marker: snapLines.length > 0 ? <circle className='snapMarker' cx={snappedMousePosition.x} cy={snappedMousePosition.y} r={snapMarkerRadius} style={markerStyle} /> : null,
+		lines: bounds ? snapLines.map((line, index) => {
+			const linePart = bounds.getLinePartWithin(line)
+			return <SvgLine key={index} className="snapLine" points={[linePart.start, linePart.end]} style={lineStyle} />
+		}) : [],
+	}
 }

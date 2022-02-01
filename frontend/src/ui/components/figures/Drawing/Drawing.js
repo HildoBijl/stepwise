@@ -13,10 +13,10 @@ import { ensureObject, processOptions, filterOptions } from 'step-wise/util/obje
 import { deg2rad } from 'step-wise/util/numbers'
 import { Vector, ensureVector, PositionedVector } from 'step-wise/CAS/linearAlgebra'
 
-import { ensureReactElement, useEqualRefOnEquality, useMousePosition, useBoundingClientRect } from 'util/react'
+import { ensureReactElement, useEqualRefOnEquality, useMousePosition as useClientMousePosition, useBoundingClientRect } from 'util/react'
 import { notSelectable } from 'ui/theme'
 
-import Figure, { defaultOptions as figureDefaultOptions } from './Figure'
+import Figure, { defaultOptions as figureDefaultOptions } from '../Figure'
 
 const defaultOptions = {
 	...figureDefaultOptions, // Includes a maxWidth option to set the maximum width of the figure.
@@ -277,17 +277,17 @@ const defaultPositionedElement = {
 	style: {},
 }
 
-// useDrawingMousePosition tracks the position of the mouse and gives the coordinates with respect to mouse coordinates. This is of the form { x: 100, y: 200 }. The function must be provided with a reference to the drawing.
-export function useDrawingMousePosition(drawingRef) {
+// useMousePosition tracks the position of the mouse and gives the coordinates with respect to mouse coordinates. This is of the form { x: 100, y: 200 }. The function must be provided with a reference to the drawing.
+export function useMousePosition(drawingRef) {
 	const drawing = drawingRef && drawingRef.current
 	const figureInner = drawing && drawing.figure && drawing.figure.inner
 
 	// Acquire data. Return null on missing data.
-	const mousePosition = useMousePosition()
+	const clientMousePosition = useClientMousePosition()
 	const figureRect = useBoundingClientRect(figureInner)
-	if (!mousePosition || !figureRect)
+	if (!clientMousePosition || !figureRect)
 		return null
 
 	// Calculate relative position and scale it.
-	return drawing.getPosition(mousePosition, figureRect)
+	return drawing.getPosition(clientMousePosition, figureRect)
 }
