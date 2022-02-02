@@ -6,23 +6,24 @@ import { makeStyles } from '@material-ui/core/styles'
 import { alpha } from '@material-ui/core/styles/colorManipulator'
 
 import { processOptions, filterOptions } from 'step-wise/util/objects'
-import { noop } from 'step-wise/util/functions'
 import { PositionedVector } from 'step-wise/CAS/linearAlgebra'
 
 import { getEventPosition } from 'util/dom'
-import { useRefWithValue, useEventListener } from 'util/react'
+import { useEventListener } from 'util/react'
 import { notSelectable } from 'ui/theme'
 import { useAsDrawingInput, defaultDrawingInputOptions, addSnapSvg } from 'ui/components/figures/Drawing'
 
-import EngineeringDiagram, { defaultEngineeringDiagramOptions, Force } from './EngineeringDiagram'
+import EngineeringDiagram, { defaultEngineeringDiagramOptions, renderData } from './EngineeringDiagram'
+
+// Define some settings.
+const clickMarkerSize = 6
+const minimumDragDistance = 12
+const maximumMomentDistance = 50
 
 export const defaultFBDInputOptions = {
 	...defaultEngineeringDiagramOptions,
 	...defaultDrawingInputOptions,
-	id: undefined,
-	initialData: { type: 'FBD', forces: [], moments: [] }, // ToDo: put this initial FBD value in a central place.
-	autofocus: false,
-	validate: noop,
+	initialData: { type: 'FreeBodyDiagram', loads: [] }, // ToDo: put this initial FBD value in a central place.
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -52,15 +53,18 @@ function FBDInputUnforwarded(options, ref) {
 	const {
 		readOnly, active,
 		data, setData,
-		className, snappedMousePosition, snapLines, snapper,
+		className, mousePosition, snappedMousePosition, isMouseSnapped, snapLines, snapper,
 	} = useAsDrawingInput({
 		...filterOptions(options, defaultDrawingInputOptions),
 		element: container,
 		drawingRef,
 	})
 
-	// Track the mouse position. On a mouse down start dragging, and on a mouse up end it.
+	// Determine what object results from dragging.
 	const [mouseDownPosition, setMouseDownPosition] = useState()
+	const dragObject = dragToObject(mouseDownPosition, snappedMousePosition, mousePosition, isMouseSnapped)
+
+	// Track the mouse position. On a mouse down start dragging, and on a mouse up end it.
 	const startDrawing = (evt) => {
 		if (readOnly)
 			return
@@ -71,9 +75,10 @@ function FBDInputUnforwarded(options, ref) {
 		setMouseDownPosition(snappedPoint)
 	}
 	const endDrawing = () => {
-		if (mouseDownPosition) {
-			if (snappedMousePosition)
-				setData(data => ({ ...data, forces: [...data.forces, new PositionedVector({ start: mouseDownPosition, end: snappedMousePosition })] }))
+		if (mouseDownPosition && snappedMousePosition) {
+			let dragObjects = Array.isArray(dragObject) ? dragObject : [dragObject]
+			dragObjects = dragObjects.filter(obj => obj.type === 'Force' || obj.type === 'Moment')
+			setData(data => ({ ...data, loads: [...data.loads, ...dragObjects] }))
 		}
 		setMouseDownPosition(undefined)
 	}
@@ -85,8 +90,8 @@ function FBDInputUnforwarded(options, ref) {
 	// Add all drawings.
 	options.svgContents = <>
 		{options.svgContents}
-		{data.forces.map((force, index) => <Force key={index} positionedVector={force} />)}
-		{snappedMousePosition && mouseDownPosition ? <Force positionedVector={{ start: mouseDownPosition, end: snappedMousePosition }} /> : null}
+		{renderData(data.loads)}
+		{dragObject && renderData(dragObject)}
 	</>
 
 	// Add snap lines.
@@ -99,3 +104,25 @@ function FBDInputUnforwarded(options, ref) {
 }
 export const FBDInput = forwardRef(FBDInputUnforwarded)
 export default FBDInput
+
+function dragToObject(mouseDownPosition, snappedMousePosition, mousePosition, isMouseSnapped) {
+	// On missing data return null.
+	if (!mouseDownPosition || !mousePosition || !snappedMousePosition)
+		return null
+
+	// On a very short vector return a marker.
+	const vector = mousePosition.subtract(mouseDownPosition)
+	const snappedVector = snappedMousePosition.subtract(mouseDownPosition)
+	if (snappedVector.squaredMagnitude <= minimumDragDistance ** 2)
+		return { type: 'Square', center: mouseDownPosition, side: clickMarkerSize, className: 'dragMarker' }
+
+	// On a short distance return a moment.
+	if (snappedVector.squaredMagnitude <= maximumMomentDistance ** 2) {
+		const angle = vector.argument
+		const opening = Math.round(angle / (Math.PI / 2)) * (Math.PI / 2)
+		return { type: 'Moment', position: mouseDownPosition, opening, clockwise: angle < opening }
+	}
+
+	// Otherwise return a Force.
+	return { type: 'Force', positionedVector: new PositionedVector({ start: mouseDownPosition, end: snappedMousePosition }) }
+}

@@ -100,7 +100,7 @@ export const defaultMoment = {
 	position: null,
 	clockwise: false,
 	size: defaultForce.size,
-	color: defaultForce.size,
+	color: defaultForce.color,
 	radius: 25,
 	opening: 0, // The position of the opening in radians, measured clockwise from right.
 	spread: 7 / 4 * Math.PI, // Which angle (part of the circle) is drawn?

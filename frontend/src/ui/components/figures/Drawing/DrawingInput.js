@@ -47,6 +47,11 @@ const useStyles = makeStyles((theme) => ({
 				strokeWidth: 2,
 				opacity: 0.4,
 			},
+			'& .dragMarker': {
+				fill: 'none',
+				stroke: theme.palette.text.primary,
+				strokeWidth: 2,
+			},
 		},
 	},
 }))

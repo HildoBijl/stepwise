@@ -114,7 +114,7 @@ export function renderData(data) {
 		return data
 
 	// Make sure it's a known component type.
-	const Component = engineeringComponents[data.type]
+	const Component = components[data.type]
 	if (!Component)
 		throw new Error(`Invalid Engineering Diagram data: received an object with type property "${data.type}". Could not render this.`)
 
