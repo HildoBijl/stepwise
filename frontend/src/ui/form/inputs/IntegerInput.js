@@ -6,7 +6,7 @@ import { selectRandomEmpty, selectRandomNegative } from 'step-wise/util/random'
 import { removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
 import { getEmpty, isEmpty, IOtoFO } from 'step-wise/inputTypes/Integer'
 
-import Input, { CharString, getClickPosition } from './support/Input'
+import FieldInput, { CharString, getClickPosition } from './support/FieldInput'
 
 const defaultProps = {
 	basic: true, // To get the basic character layout.
@@ -36,7 +36,7 @@ export default function IntegerInput(props) {
 		className: clsx(props.className, 'integerInput'),
 	}
 
-	return <Input {...mergedProps} />
+	return <FieldInput {...mergedProps} />
 }
 
 // These are validation functions.

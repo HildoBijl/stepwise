@@ -9,7 +9,7 @@ import { getEmpty, process } from 'step-wise/inputTypes/Unit/UnitElement'
 import { units } from 'step-wise/inputTypes/Unit/units'
 import { prefixes } from 'step-wise/inputTypes/Unit/prefixes'
 
-import { CharString, getClickPosition } from './Input'
+import { CharString, getClickPosition } from './FieldInput'
 
 // UnitElement takes an input data object and shows the corresponding contents as JSX render.
 export function UnitElement({ type, value, cursor }) {

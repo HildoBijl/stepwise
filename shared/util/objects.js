@@ -88,8 +88,8 @@ function applyToEachParameter(obj, func) {
 }
 module.exports.applyToEachParameter = applyToEachParameter
 
-// processOptions is used to process an options object given to a function. It adds the given default options and checks if no non-existing options have been given. It returns a copy.
-function processOptions(givenOptions, defaultOptions) {
+// processOptions is used to process an options object given to a function. It adds the given default options and checks if no non-existing options have been given. On a non-existing option it throws an error, unless filterStrangers is set to true, in which case these options are merely removed. The result is a copied object: original objects are not altered.
+function processOptions(givenOptions, defaultOptions, filterStrangers = false) {
 	// Check if the default options were given.
 	if (!defaultOptions || typeof defaultOptions !== 'object')
 		throw new Error(`Invalid defaultOptions: no or an invalid defaultOptions object was given.`)
@@ -99,10 +99,14 @@ function processOptions(givenOptions, defaultOptions) {
 		throw new Error(`Invalid options: the options object must be an object, but it had type "${typeof givenOptions}".`)
 
 	// Check if there are no non-existent options.
-	Object.keys(givenOptions).forEach(key => {
-		if (!defaultOptions.hasOwnProperty(key))
-			throw new Error(`Invalid option: an option "${key}" was given, but this was not among the available options.`)
-	})
+	if (filterStrangers) {
+		givenOptions = filterOptions(givenOptions, defaultOptions)
+	} else {
+		Object.keys(givenOptions).forEach(key => {
+			if (!defaultOptions.hasOwnProperty(key))
+				throw new Error(`Invalid option: an option "${key}" was given, but this was not among the available options.`)
+		})
+	}
 
 	// Merge the defaults with the given options.
 	return { ...defaultOptions, ...givenOptions }

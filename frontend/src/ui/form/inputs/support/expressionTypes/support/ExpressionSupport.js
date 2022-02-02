@@ -1,6 +1,6 @@
 import { arraySplice } from 'step-wise/util/arrays'
 
-import { removeCursor } from '../../Input'
+import { removeCursor } from '../../FieldInput'
 import { getFuncs, zoomIn } from '../index.js'
 
 // getKeyPressHandlers returns a couple of handlers useful for key presses. It returns { passOn, moveLeft, moveRight } where passOn passes on the call to the active child element, moveLeft moves the cursor an element to the left and moveRight moves the cursor an element to the right.

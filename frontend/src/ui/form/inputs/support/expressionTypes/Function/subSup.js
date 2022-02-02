@@ -3,7 +3,7 @@ import { support } from 'step-wise/CAS'
 
 import defaultFunctions from './templates/with2In0AfterVertical'
 
-import { removeCursor } from '../../Input'
+import { removeCursor } from '../../FieldInput'
 import { getFuncs, getDataStartCursor, getDataEndCursor, isDataEmpty } from '../'
 import { mergeWithRight } from '../support/merging'
 import { splitToRight } from '../support/splitting'

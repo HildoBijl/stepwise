@@ -3,7 +3,7 @@ import { useTheme } from '@material-ui/core/styles'
 
 import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
 import { noop } from 'step-wise/util/functions'
-import { deepEquals } from 'step-wise/util/objects'
+import { deepEquals, processOptions } from 'step-wise/util/objects'
 import { setIOtoFO } from 'step-wise/inputTypes'
 import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 
@@ -11,8 +11,8 @@ import { useRefWithValue } from 'util/react'
 import { getIcon, getFeedbackColor } from 'ui/theme'
 import { useExerciseData, getPrevProgress } from 'ui/edu/exercises/ExerciseContainer'
 
-import { removeCursor } from './inputs/support/Input'
-import { useFormParameter, useFieldValidation } from './Form'
+import { removeCursor } from './inputs/support/FieldInput'
+import { useInput, useFieldValidation } from './Form'
 
 const FeedbackContext = createContext(null)
 
@@ -63,7 +63,7 @@ export function useParameterFeedback(id) {
 }
 
 /* useFieldFeedback examines results from validation and feedback to give an indication to the user about the most relevant feedback. It gets a processed object with options:
- * - fieldId (obligatory): the id of the field we want to get the feedback of.
+ * - id (obligatory): the id of the field we want to get the feedback of.
  * - subFields (default []): the ids of the subfields whose feedback should also be processed.
  * - validate (default noop): the validation function that must be applied for the field.
  * - feedbackText (default ''): a default feedback text if nothing is found from validation/feedback. Note that validation/feedback text take precedence over this fallback text.
@@ -73,10 +73,13 @@ export function useParameterFeedback(id) {
  * - Icon: an icon if the type corresponds to an Icon, and null otherwise.
  * - color: the color that corresponds to the type, taken from the theme palette.
  */
-export function useFieldFeedback({ fieldId, subFields = [], validate = noop, feedbackText = '' }) {
-	let [input] = useFormParameter(fieldId)
-	let { validation, validationInput } = useFieldValidation(fieldId, validate)
-	let { feedback, feedbackInput } = useParameterFeedback(fieldId)
+export function useFieldFeedback(options) {
+	const { id, subFields, validate, feedbackText } = processOptions(options, defaultFieldFeedbackOptions)
+
+	// Gather data.
+	let input = useInput(id, true)
+	let { validation, validationInput } = useFieldValidation(id, validate)
+	let { feedback, feedbackInput } = useParameterFeedback(id)
 	const staticFeedbackText = useStaticFeedbackText(feedback, feedbackInput)
 	const theme = useTheme()
 
@@ -105,6 +108,12 @@ export function useFieldFeedback({ fieldId, subFields = [], validate = noop, fee
 
 	// No particular feedback found. Return default.
 	return addInput(getDefaultFeedback(feedbackText, theme), feedbackInput)
+}
+export const defaultFieldFeedbackOptions = {
+	id: undefined,
+	subFields: [],
+	validate: noop,
+	feedbackText: '',
 }
 
 // useMainFeedback gives the feedback object for the "main" item.

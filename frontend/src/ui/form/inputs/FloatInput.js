@@ -7,7 +7,7 @@ import { selectRandomEmpty, selectRandomNegative } from 'step-wise/util/random'
 import { removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
 import { getEmpty, isEmpty, IOtoFO } from 'step-wise/inputTypes/Float'
 
-import Input, { CharString, getClickPosition } from './support/Input'
+import FieldInput, { CharString, getClickPosition } from './support/FieldInput'
 
 const style = (theme) => ({
 	'& .tenPowerContainer': {
@@ -50,7 +50,7 @@ export default function FloatInput(props) {
 		className: clsx(props.className, classes.floatInput, 'floatInput'),
 	}
 
-	return <Input {...mergedProps} />
+	return <FieldInput {...mergedProps} />
 }
 
 // These are validation functions.

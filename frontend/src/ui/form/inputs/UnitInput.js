@@ -10,7 +10,7 @@ import { getEmpty, isEmpty } from 'step-wise/inputTypes/Unit/Unit'
 import { getEmpty as getEmptyUnitArray, isEmpty as isUnitArrayEmpty } from 'step-wise/inputTypes/Unit/UnitArray'
 import { isEmpty as isUnitElementEmpty } from 'step-wise/inputTypes/Unit/UnitElement'
 
-import Input, { checkCursor } from './support/Input'
+import FieldInput, { checkCursor } from './support/FieldInput'
 import { UnitArray, keyPressToData as unitArrayKeyPressToData, mouseClickToCursor as unitArrayMouseClickToCursor, getStartCursor as getUnitArrayStartCursor, getEndCursor as getUnitArrayEndCursor, isCursorAtStart as isCursorAtUnitArrayStart, isCursorAtEnd as isCursorAtUnitArrayEnd, mergeElements, splitElement, getCursorFromOffset as getUnitArrayCursorFromOffset } from './support/UnitArray'
 import { getStartCursor as getUnitElementStartCursor, getEndCursor as getUnitElementEndCursor, isCursorAtStart as isCursorAtUnitElementStart } from './support/UnitElement'
 
@@ -147,7 +147,7 @@ export default function UnitInput(props) {
 		className: clsx(props.className, classes.unitInput, 'unitInput'),
 	}
 
-	return <Input {...mergedProps} />
+	return <FieldInput {...mergedProps} />
 }
 
 // These are validation functions.

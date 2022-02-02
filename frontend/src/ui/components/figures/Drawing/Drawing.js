@@ -284,13 +284,12 @@ const defaultPositionedElement = {
 }
 
 // useMousePosition tracks the position of the mouse and gives the coordinates with respect to mouse coordinates. This is of the form { x: 100, y: 200 }. The function must be provided with a reference to the drawing.
-export function useMousePosition(drawingRef) {
-	const drawing = drawingRef && drawingRef.current
-	const figureInner = drawing && drawing.figure && drawing.figure.inner
-
-	// Acquire data. Return null on missing data.
+export function useMousePosition(drawing) {
+	// Acquire data.
 	const clientMousePosition = useClientMousePosition()
-	const figureRect = useBoundingClientRect(figureInner)
+	const figureRect = useBoundingClientRect(drawing && drawing.figure && drawing.figure.inner)
+
+	// Return null on missing data.
 	if (!clientMousePosition || !figureRect)
 		return null
 

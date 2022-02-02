@@ -34,7 +34,7 @@
  * In addition to the above functions, certain element types may have extra functionalities, but naturally this varies per element type.
  */
 
-import { addCursor } from '../Input'
+import { addCursor } from '../FieldInput'
 
 import Expression from './Expression'
 import ExpressionPart from './ExpressionPart'

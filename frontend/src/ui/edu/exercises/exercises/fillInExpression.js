@@ -12,7 +12,7 @@ import { InputSpace } from 'ui/form/Status'
 
 // import { useExerciseData, useSolution } from '../ExerciseContainer'
 import { useFormData } from 'ui/form/Form'
-import { removeCursor } from 'ui/form/inputs/support/Input'
+import { removeCursor } from 'ui/form/inputs/support/FieldInput'
 import { cleanUp } from 'ui/form/inputs/support/expressionTypes/Expression'
 import { getInterpretationErrorMessage } from 'ui/form/inputs/support/expressionTypes/support/interpretationError'
 

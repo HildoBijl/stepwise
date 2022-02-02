@@ -197,3 +197,20 @@ export function useWidthTracker(fieldRef, forceUpdateOnChange = true) {
 
 	return fieldWidthRef.current
 }
+
+// getHTMLElement will take an HTML element or a ref to one and ensures that it returns an HTML element, or null if it cannot find one.
+export function getHTMLElement(obj) {
+	if (obj instanceof HTMLElement)
+		return obj
+	if (obj && obj.current instanceof HTMLElement)
+		return obj.current
+	return null
+}
+
+// ensureHTMLElement will take an HTML element or a ref to one and ensures that it returns an HTML element. It throws an error if it cannot find one.
+export function ensureHTMLElement(obj) {
+	const result = getHTMLElement(obj)
+	if (!result)
+		throw new Error(`Invalid HTML Element: could not find an HTML element in the given object. Its type was "${typeof obj}".`)
+	return result
+}

@@ -7,6 +7,7 @@ import Box from '@material-ui/core/Box'
 import clsx from 'clsx'
 
 import { numberArray, shuffle } from 'step-wise/util/arrays'
+import { processOptions, filterOptions } from 'step-wise/util/objects'
 import { getRandomSubset } from 'step-wise/util/random'
 import { noop } from 'step-wise/util/functions'
 import { equals, isEmpty, getEmpty } from 'step-wise/inputTypes/MultipleChoice'
@@ -14,9 +15,7 @@ import { equals, isEmpty, getEmpty } from 'step-wise/inputTypes/MultipleChoice'
 import { notSelectable } from 'ui/theme'
 import FeedbackBlock from 'ui/components/misc/FeedbackBlock'
 
-import { useFormParameter } from '../Form'
-import { useStatus } from '../Status'
-import { useFieldFeedback } from '../FeedbackProvider'
+import { useAsInput, defaultInputOptions } from '../inputs/support/Input'
 
 // Set up style.
 const style = (theme) => ({
@@ -103,20 +102,28 @@ const useOptionStyle = makeStyles((theme) => ({
  * - randomOrder (default false): should we show the choices in a random order? Behind the scenes the original order is still used: this only relates to how it is shown to the user.
  * Changing options while the object is already rendered is currently not supported.
  */
-export default function MultipleChoice({ id, choices = [], validate = nonEmpty, multiple = false, readOnly, pick, include, randomOrder = false, persistent }) {
-	const [input, setInput] = useFormParameter(id, { initialValue: getEmptyData(multiple), subscribe: true, persistent })
-	const { feedback, feedbackInput } = useFieldFeedback({ fieldId: id, subFields: numberArray(0, choices.length - 1), validate })
-	const { done } = useStatus()
-	readOnly = (readOnly === undefined ? done : readOnly)
+export default function MultipleChoice(options) {
+	options = processOptions(options, defaultMultipleChoiceOptions)
+	let { choices, multiple, pick, include, randomOrder } = options
+
+	// Register as an input field.
+	const { readOnly, data, setData, feedback, feedbackInput } = useAsInput({
+		...filterOptions(options, defaultInputOptions),
+		useFocusRegistration: false, // Tabbing does not focus MultipleChoice elements.
+		initialData: getEmptyData(multiple),
+		subFields: numberArray(0, choices.length - 1),
+	})
+
+	// Set up important elements and properties.
 	const Element = multiple ? Checkbox : Radio
 	const classes = useStyles()
 	const mappingRef = useRef()
 
 	// Extract input data.
-	if (input.value.multiple !== multiple)
+	if (data.value.multiple !== multiple)
 		throw new Error(`MultipleChoice error: changing the "multiple" property during operation is not supported.`)
-	const { value: { selection } } = input
-	const setSelection = (selection) => setInput(input => ({ ...input, value: { ...input.value, selection } }))
+	const { value: { selection } } = data
+	const setSelection = (selection) => setData(input => ({ ...input, value: { ...input.value, selection } }))
 
 	// Set up a function that can give us a mapping.
 	const numChoices = choices.length
@@ -152,7 +159,7 @@ export default function MultipleChoice({ id, choices = [], validate = nonEmpty, 
 
 	// Determine if feedback text is shown: only if there is feedback and if the feedbackInput equals the current input.
 	const isFeedbackText = feedback !== undefined && !!feedback.text
-	const inputEqualToFeedbackInput = feedbackInput && equals(input.value, feedbackInput.value)
+	const inputEqualToFeedbackInput = feedbackInput && equals(data.value, feedbackInput.value)
 	const showFeedbackText = isFeedbackText && inputEqualToFeedbackInput
 
 	// Set up output.
@@ -165,6 +172,16 @@ export default function MultipleChoice({ id, choices = [], validate = nonEmpty, 
 		</ul>
 		{showFeedbackText ? <FeedbackBlock {...feedback} /> : null}
 	</>
+}
+export const defaultMultipleChoiceOptions = {
+	...defaultInputOptions,
+	validate: nonEmpty,
+	
+	choices: [],
+	multiple: false,
+	pick: undefined,
+	include: [],
+	randomOrder: false,
 }
 
 // A choice is a single item from the list.

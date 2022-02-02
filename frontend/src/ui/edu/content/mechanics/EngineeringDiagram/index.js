@@ -21,7 +21,7 @@ export const components = {
 	...engineeringComponents,
 }
 
-export const defaultOptions = {
+export const defaultEngineeringDiagramOptions = {
 	width: drawingDefaultOptions.width,
 	height: drawingDefaultOptions.height,
 	maxWidth: drawingDefaultOptions.maxWidth,
@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function EngineeringDiagramUnforwared(options, ref) {
-	options = processOptions(options, defaultOptions)
+	options = processOptions(options, defaultEngineeringDiagramOptions)
 	const classes = useStyles()
 
 	// Add SVG objects to the diagram, based on the provided parts.

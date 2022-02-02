@@ -3,7 +3,7 @@ import React, { useRef, useState, useCallback, useEffect, createContext, useCont
 import { mod } from 'step-wise/util/numbers'
 import { processOptions } from 'step-wise/util/objects'
 
-import { useEventListener, useRefWithValue } from 'util/react'
+import { useEventListener, useRefWithValue, getHTMLElement, ensureHTMLElement } from 'util/react'
 
 import Keyboard from './Keyboard'
 import useKeyboardHandlers from './Keyboard/handlers'
@@ -28,10 +28,10 @@ export default function FieldController({ children }) {
 	// activate will activate the field with the given ID, while deactivate deactivates it (but only when it's active, otherwise do nothing).
 	const activate = useCallback((id) => {
 		const index = tabOrder.current.indexOf(id)
-		if (index === -1)
-			return // Field isn't registered.
+		if (index === -1 || index === tabIndexRef.current)
+			return // Field isn't registered or is already active.
 		setTabIndex(index)
-	}, [tabOrder, setTabIndex])
+	}, [tabOrder, tabIndexRef, setTabIndex])
 	const deactivate = useCallback((id) => {
 		const index = tabOrder.current.indexOf(id)
 		if (index === -1)
@@ -59,10 +59,10 @@ export default function FieldController({ children }) {
 	}, [controllerRef, fieldTracker, tabOrder, setTabIndex])
 
 	// registerElement adds an input field to the tab order, and unregisterElement removes it again.
-	const registerElement = useCallback((id, ref, manualIndex, useTabbing, autofocus) => {
+	const registerElement = useCallback((id, element, manualIndex, useTabbing, autofocus, focusOnClick) => {
 		if (fieldTracker.current[id])
 			throw new Error(`Field registration error: an input field with ID "${id}" is already registered.`)
-		fieldTracker.current[id] = { id, ref, manualIndex, useTabbing }
+		fieldTracker.current[id] = { id, element, manualIndex, useTabbing, focusOnClick }
 		updateTabOrder()
 		if (autofocus)
 			activate(id)
@@ -89,8 +89,9 @@ export default function FieldController({ children }) {
 	}, [tabIndexRef])
 
 	// Set up various other trivial handlers.
-	const isActive = useCallback((id) => tabOrder.current[tabIndexRef.current] === id, [tabOrder, tabIndexRef])
 	const blur = useCallback(() => setTabIndex(-1), [setTabIndex])
+	const getActiveFieldId = useCallback((id) => tabOrder.current[tabIndexRef.current], [tabOrder, tabIndexRef])
+	const isActive = useCallback((id) => getActiveFieldId() === id, [getActiveFieldId])
 
 	// Set up keyboard state and handlers.
 	const { keyboardSettings, keyFunction, storeKeyboard } = useKeyboardHandlers(fieldTracker, tabOrder, tabIndexRef)
@@ -99,6 +100,8 @@ export default function FieldController({ children }) {
 	// Set up listeners.
 	const keyDownHandler = useCallback((evt) => handleKeyPress(evt, tabbingOnRef.current, incrementTabIndex, decrementTabIndex), [tabbingOnRef, incrementTabIndex, decrementTabIndex])
 	useEventListener('keydown', keyDownHandler)
+	const mouseDownHandler = useCallback((evt) => handleMouseDown(evt, fieldTracker, keyboardRef, getActiveFieldId, activate, blur), [fieldTracker, keyboardRef, getActiveFieldId, activate, blur])
+	useEventListener('mousedown', mouseDownHandler)
 
 	// Gather context data.
 	const data = {
@@ -112,11 +115,13 @@ export default function FieldController({ children }) {
 		tabIndex,
 		incrementTabIndex,
 		decrementTabIndex,
-		blur,
 
 		activate,
 		activateFirst,
 		deactivate,
+		blur,
+
+		getActiveFieldId,
 		isActive,
 
 		keyboardSettings, // The currently active keyboard settings.
@@ -148,23 +153,22 @@ export function useFieldActivation(id) {
 	return [active, activateField, deactivateField]
 }
 
-// useFieldRegistration allows any input field to input field to register to the FieldController. Just write `const [active, activate, deactivate] = useFieldRegistration({ id: 'fieldId', ref: refUsedForElement, ... (other options) ... })`. There are the following options.
-const defaultFieldControlOptions = {
+// useFieldRegistration allows any input field to input field to register to the FieldController. Just write `const [active, activate, deactivate] = useFieldRegistration({ id: 'fieldId', element: refUsedForElement, ... (other options) ... })`. There are the following options.
+export const defaultFieldControlOptions = {
 	id: undefined, // [Mandatory] A unique string related to the field.
-	ref: undefined, // [Mandatory] A React reference to a DOM object representing the field. It's use to determine tabbing order.
+	element: undefined, // [Mandatory] The DOM object or a React reference to one representing the field. It's use to determine tabbing order.
 	apply: true, // By setting this to false, the field is unregistered. This allows you to unregister fields without needing a conditional hook.
 	useTabbing: true, // Should this object be part of the tabbing order?
 	manualIndex: 0, // This index is used to sort the elements for the tabbing. On a tie in the manual index the order on the page will be used.
 	autofocus: false, // When true, puts the focus on this field when it mounts. Make sure to only apply this for one input field, or the last-rendered-object gets the focus, which is usually quite arbitrary.
+	focusOnClick: true, // When true, whenever a click is done on the field, it is activated. Similarly, if a click is made outside of the field when it is not active, it is deactivated.
 	focusRefOnActive: false, // When true, the ref DOM object is focused with obj.focus() whenever the field becomes active.
 	keyboard: undefined, // A keyboard object describing all the details of what keyboard should be shown when this field is active. When undefined, no keyboard is shown. For details, see the Keyboard component and its handlers.
 }
 export function useFieldRegistration(options) {
 	// Process input.
-	const { id, ref, apply, useTabbing, manualIndex, autofocus, focusRefOnActive, keyboard } = processOptions(options, defaultFieldControlOptions)
-	if (!id || typeof id !== 'string')
-		throw new Error(`Field registration error: could not register an input field to the field controller. No valid ID is was given. The ID has type ${typeof id}.`)
-	if (!ref)
+	const { id, element, apply, useTabbing, manualIndex, autofocus, focusOnClick, focusRefOnActive, keyboard } = processOptions(options, defaultFieldControlOptions)
+	if (apply && !element)
 		throw new Error(`Field registration error: no ref was given pointing to a DOM object representing the field.`)
 
 	// Get the required handlers.
@@ -173,17 +177,17 @@ export function useFieldRegistration(options) {
 	// Make sure the field is registered for tabbing.
 	useEffect(() => {
 		if (apply) {
-			registerElement(id, ref, manualIndex, useTabbing, autofocus)
+			registerElement(id, element, manualIndex, useTabbing, autofocus, focusOnClick)
 			return () => unregisterElement(id)
 		}
-	}, [apply, id, ref, manualIndex, useTabbing, autofocus, registerElement, unregisterElement])
+	}, [apply, id, element, manualIndex, useTabbing, autofocus, focusOnClick, registerElement, unregisterElement])
 
 	// Focus the field if requested.
 	const [active, activateField, deactivateField] = useFieldActivation(id)
 	useEffect(() => {
 		if (apply && active) {
 			if (focusRefOnActive) {
-				const field = ref.current
+				const field = ensureHTMLElement(element)
 				setTimeout(() => field.focus()) // Delay the focus to ensure it happens after all blurs.
 				return () => field.blur()
 			} else {
@@ -192,7 +196,7 @@ export function useFieldRegistration(options) {
 					document.activeElement.blur()
 			}
 		}
-	}, [apply, focusRefOnActive, active, ref])
+	}, [apply, focusRefOnActive, active, element])
 
 	// Apply the given keyboard.
 	useEffect(() => {
@@ -222,7 +226,7 @@ function getTabOrder(controller, fields) {
 		const field = fields[id]
 		if (!field.useTabbing)
 			return
-		const number = tags.indexOf(field.ref.current)
+		const number = tags.indexOf(getHTMLElement(field.element))
 		if (number !== -1)
 			elementNumbers.push({ id, number, manualIndex: field.manualIndex })
 	})
@@ -242,6 +246,24 @@ function handleKeyPress(evt, tabbingOn, incrementTabIndex, decrementTabIndex) {
 		else
 			incrementTabIndex()
 	}
+}
+
+// handleMouseClick processes a click. It checks if it clicked on an input field or not, and updates the focus accordingly.
+function handleMouseDown(evt, fieldTracker, keyboardRef, getActiveFieldId, activate, blur) {
+	// Ignore clicks on the keyboard.
+	if (keyboardRef.current.contains(evt.target))
+		return
+
+	// If the click was on a field that should focus on a click, apply the focus.
+	fieldTracker = fieldTracker.current
+	const clickedFieldId = Object.keys(fieldTracker).find(id => ensureHTMLElement(fieldTracker[id].element).contains(evt.target))
+	if (clickedFieldId)
+		return activate(clickedFieldId)
+
+	// If a field is active that focuses/defocuses on clicks, defocus (blur).
+	const activeFieldId = getActiveFieldId()
+	if (activeFieldId && fieldTracker[activeFieldId].focusOnClick)
+		return blur()
 }
 
 // useKeyboardRef and useKeyboard expose the keyboard API to input fields. The useKeyboardRef is more useful for input fields that need a static reference.

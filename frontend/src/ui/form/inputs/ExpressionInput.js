@@ -12,7 +12,7 @@ import { M } from 'ui/components/equations'
 
 import { useAbsoluteCursorRef } from '../Form'
 
-import Input from './support/Input'
+import FieldInput from './support/FieldInput'
 import MathWithCursor, { MathWithCursorProvider, useMathWithCursorContext, mouseClickToCursor as generalMouseClickToCursor } from './support/MathWithCursor'
 import Expression from './support/expressionTypes/Expression'
 import { getInterpretationErrorMessage } from './support/expressionTypes/support/interpretationError'
@@ -112,7 +112,7 @@ function ExpressionInputInner(props) {
 		className: clsx(props.className, classes.expressionInput, 'expressionInput'),
 	}
 
-	return <Input {...mergedProps} />
+	return <FieldInput {...mergedProps} />
 }
 
 // These are validation functions.

@@ -7,14 +7,21 @@ import { alpha } from '@material-ui/core/styles/colorManipulator'
 
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureArray, numberArray, filterDuplicates, sortByIndices } from 'step-wise/util/arrays'
+import { processOptions, filterOptions } from 'step-wise/util/objects'
 import { Vector, Line, PositionedVector } from 'step-wise/CAS/linearAlgebra'
 
 import { notSelectable } from 'ui/theme'
+import { useAsInput, defaultInputOptions } from 'ui/form/inputs/support/Input'
 
 import { useMousePosition } from './Drawing'
 import { Line as SvgLine, Square } from './components'
 
-const snapMarkerSize = 6
+export const defaultDrawingInputOptions = {
+	...defaultInputOptions,
+	drawingRef: null,
+	snappers: [],
+	snappingDistance: 10,
+}
 
 const useStyles = makeStyles((theme) => ({
 	DrawingInput: {
@@ -44,24 +51,40 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export function useAsDrawingInput(drawingRef, { snappers, snappingDistance }) {
-	snappers = ensureArray(snappers)
-	snappingDistance = ensureNumber(snappingDistance, true)
+export function useAsDrawingInput(options) {
+	options = processOptions(options, defaultDrawingInputOptions)
+	const drawing = options.drawingRef && options.drawingRef.current
+
+	// Register as a regular input field.
+	const inputFieldData = useAsInput(filterOptions(options, defaultInputOptions))
 
 	// Determine styling of the object.
 	const classes = useStyles()
-	const className = clsx(classes.DrawingInput, 'drawingInput')
+	const className = clsx(inputFieldData.className, classes.DrawingInput, 'drawingInput')
 
 	// Track and possibly snap the mouse position.
-	const drawing = drawingRef.current
-	const mousePosition = useMousePosition(drawingRef)
-	const snappingLines = useSnappingLines(snappers)
-	const mouseInDrawing = drawing ? drawing.isInside(mousePosition) : false
-	const snapResult = snapMousePosition(mouseInDrawing ? mousePosition : null, snappingLines, snappingDistance)
-	const snapper = (point) => snapMousePosition(point, snappingLines, snappingDistance)
+	let { snappers, snappingDistance } = options
+	snappers = ensureArray(snappers)
+	snappingDistance = ensureNumber(snappingDistance, true)
+	const mouseData = useMouseSnapping(drawing, snappers, snappingDistance)
 
 	// Return all data.
-	return { className, mousePosition, mouseInDrawing, snappingLines, ...snapResult, snapper }
+	return { ...inputFieldData, className, ...mouseData }
+}
+
+// useMouseSnapping wraps all the snapping functionalities into one hook. It takes a drawing, a set of snappers and a snapping distance and takes care of all the mouse functionalities.
+function useMouseSnapping(drawing, snappers, snappingDistance) {
+	// Process the current mouse position.
+	const mousePosition = useMousePosition(drawing)
+	const mouseInDrawing = drawing ? drawing.isInside(mousePosition) : false
+
+	// Extract snapping lines and set up a snapper based on it.
+	const snappingLines = useSnappingLines(snappers)
+	const snapper = (point) => snapMousePosition(point, snappingLines, snappingDistance)
+	const snapResult = snapper(mouseInDrawing ? mousePosition : null)
+
+	// Return all data.
+	return { mousePosition, mouseInDrawing, snappingLines, snapper, ...snapResult }
 }
 
 // useSnappingLines takes a snappers array and determines the snapping lines from it. It only recalculates on a change and filters duplicates.
@@ -116,7 +139,7 @@ function snapMousePosition(mousePosition, snappingLines, snappingDistance) {
 }
 
 // getSnapSvg takes a snapped mouse position and snap lines, and returns SVG to show the marker and the lines.
-export function getSnapSvg(snappedMousePosition, snapLines, drawingRef, lineStyle = {}, markerStyle = {}) {
+export function getSnapSvg(snappedMousePosition, snapLines, drawingRef, lineStyle = {}, markerStyle = {}, snapMarkerSize = 6) {
 	const bounds = drawingRef && drawingRef.current && drawingRef.current.bounds
 	return {
 		marker: snapLines.length > 0 ? <Square center={snappedMousePosition} side={snapMarkerSize} className="snapMarker" style={markerStyle} /> : null,
@@ -125,4 +148,19 @@ export function getSnapSvg(snappedMousePosition, snapLines, drawingRef, lineStyl
 			return <SvgLine key={index} className="snapLine" points={[linePart.start, linePart.end]} style={lineStyle} />
 		}) : [],
 	}
+}
+
+// addSnapSvg takes SVG elements and adds snap lines to it.
+export function addSnapSvg(svgContents, snappedMousePosition, snapLines, drawingRef) {
+	// If the drawing is not there yet, don't add lines.
+	if (!drawingRef || !drawingRef.current)
+		return svgContents
+
+	// Get the lines and marker and display them in the right order.
+	const snapSvg = getSnapSvg(snappedMousePosition, snapLines, drawingRef)
+	return <>
+		{snapSvg.lines}
+		{svgContents}
+		{snapSvg.marker}
+	</>
 }

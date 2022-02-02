@@ -31,7 +31,7 @@ export default function Menu({ className, titleCollapsed }) {
 
 	// Include the menu button in the tabbing.
 	const menuButtonRef = useRef()
-	useFieldRegistration({ id: 'menuButton', ref: menuButtonRef, focusRefOnActive: true, manualIndex: 1 }) // Put the tab index at the end.
+	useFieldRegistration({ id: 'menuButton', element: menuButtonRef, focusRefOnActive: true, manualIndex: 1 }) // Put the tab index at the end.
 
 	// Deactivate the usual tab control when the menu is open.
 	const { turnTabbingOn, turnTabbingOff } = useFieldControllerContext()

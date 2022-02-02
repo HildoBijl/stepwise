@@ -5,7 +5,7 @@ Many exercise types automatically wrap everything in a `Form` component. This co
 
 ## Accessing a single field
 
-Most often, you will only want to access the value of a single input field. Suppose that you want to both read and write some value, as if you have created your own input field. In this case, first import `useFormParameter` into your exercise using `import { useFormParameter } from '../../form/Form'`. Then use this function in your React object using `const [value, setValue] = useFormParameter('fieldName')`. This allows you to set the value in the input object.
+Most often, you will only want to access the value of a single input field. Suppose that you want to both read and write some value, as if you have created your own input field. In this case, first import `useFormParameter` into your exercise using `import { useFormParameter } from '../../form/Form'`. Then use this function in your React object using `const [value, setValue] = useFormParameter({ id: 'someFieldId' })`. This allows you to set the value in the input object.
 
 If you only want to read (and not write) the value of an already existing input field, then it's better to import `useInput` instead. You use it through `const someParameter = useInput('someFieldId')`. An added benefit is that this will turn the parameter from a plain-text parameter (like "314.159 * 10^(-2)") to one with improved functionality. (It is transformed from an input object to a functional object.)
 

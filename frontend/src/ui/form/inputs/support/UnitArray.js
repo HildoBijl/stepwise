@@ -10,7 +10,7 @@ import { getEmpty, isEmpty } from 'step-wise/inputTypes/Unit/UnitArray'
 
 import { getClickSide } from 'util/dom'
 
-import { checkCursor } from './Input'
+import { checkCursor } from './FieldInput'
 import { UnitElement, keyPressToData as unitElementKeyPressToData, mouseClickToCursor as unitElementMouseClickToCursor, getStartCursor as getUnitElementStartCursor, getEndCursor as getUnitElementEndCursor, isCursorAtStart as isCursorAtUnitElementStart, isCursorAtEnd as isCursorAtUnitElementEnd } from './UnitElement'
 
 // UnitArray takes an input data object and shows the corresponding contents as JSX render.

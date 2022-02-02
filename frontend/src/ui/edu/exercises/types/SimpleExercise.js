@@ -31,10 +31,10 @@ function Contents({ Problem, Solution }) {
 	const { feedbackInput } = useFeedback()
 	const { activateFirst } = useFieldControllerContext()
 
-	// Upon loading, or on history updates, focus on the first field.
+	// Upon loading, or on history updates, focus on the first field. (Delay to ensure all fields are registered.)
 	useEffect(() => {
 		if (!progress.done)
-			activateFirst()
+			setTimeout(activateFirst)
 	}, [Problem, progress, history, activateFirst])
 
 	// Determine what to show.

@@ -2,7 +2,7 @@ import { insertAtIndex } from 'step-wise/util/strings'
 import { firstOf, lastOf, sum } from 'step-wise/util/arrays'
 import { support } from 'step-wise/CAS'
 
-import { addCursor, removeCursor } from '../Input'
+import { addCursor, removeCursor } from '../FieldInput'
 import { getClosestElement } from '../MathWithCursor'
 import { getFuncs, zoomIn, getDataStartCursor, getDataEndCursor, isCursorAtDataStart, isCursorAtDataEnd, dataAcceptsKey } from './index.js'
 import ExpressionPart from './ExpressionPart'
