@@ -11,9 +11,9 @@ class FloatUnit {
 	// The constructor must either get an object { float: ..., unit: ... } or a string which can be split up into a float and a unit.
 
 	constructor(input = {}) {
-		// If we have a type FloatUnit, just copy it.
+		// If we have a type FloatUnit, just use it.
 		if (isObject(input) && input.constructor === FloatUnit)
-			return this.become(input)
+			return input
 
 		// If we have a type Float, add it without a unit.
 		if (isObject(input) && input.constructor === Float)
@@ -31,15 +31,6 @@ class FloatUnit {
 		// Save the input.
 		this._float = new Float(input.float)
 		this._unit = new Unit(input.unit)
-	}
-
-	// become turns this object into a clone of the given object.
-	become(param) {
-		if (!isObject(param) || param.constructor !== FloatUnit)
-			throw new Error(`Invalid input: a FloatUnit element cannot become the given object. This object has type "${typeof param}".`)
-		this._float = param.float.clone()
-		this._unit = param.unit.clone()
-		return this
 	}
 
 	get float() {
@@ -101,7 +92,7 @@ class FloatUnit {
 	makeExact() {
 		return new FloatUnit({
 			float: this.float.makeExact(),
-			unit: this.unit.clone(),
+			unit: this.unit,
 		})
 	}
 
@@ -109,7 +100,7 @@ class FloatUnit {
 	adjustSignificantDigits(delta) {
 		return new FloatUnit({
 			float: this.float.adjustSignificantDigits(delta),
-			unit: this.unit.clone(),
+			unit: this.unit,
 		})
 	}
 
@@ -117,7 +108,7 @@ class FloatUnit {
 	setSignificantDigits(significantDigits) {
 		return new FloatUnit({
 			float: this.float.setSignificantDigits(significantDigits),
-			unit: this.unit.clone(),
+			unit: this.unit,
 		})
 	}
 
@@ -130,7 +121,7 @@ class FloatUnit {
 	setDecimals(decimals) {
 		return new FloatUnit({
 			float: this.float.setDecimals(decimals),
-			unit: this.unit.clone(),
+			unit: this.unit,
 		})
 	}
 
@@ -169,10 +160,7 @@ class FloatUnit {
 			float = float.subtract({ number: simplificationResults.difference })
 
 		// Set up the result and return it.
-		return new FloatUnit({
-			float,
-			unit: unit.clone(),
-		})
+		return new FloatUnit({ float, unit })
 	}
 
 	// compare receives a FloatUnit object and checks which one is bigger. If this object is bigger than 1 is returned. If the other one is bigger, -1 is returned. If the size is equal, 0 is given.
@@ -265,7 +253,7 @@ class FloatUnit {
 	applyMinus() {
 		return new FloatUnit({
 			float: this.float.applyMinus(),
-			unit: this.unit.clone(),
+			unit: this.unit,
 		})
 	}
 
@@ -360,7 +348,7 @@ class FloatUnit {
 	roundToPrecision() {
 		return new FloatUnit({
 			float: this.float.roundToPrecision(),
-			unit: this.unit.clone(),
+			unit: this.unit,
 		})
 	}
 }

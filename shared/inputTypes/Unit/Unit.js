@@ -11,9 +11,9 @@ class Unit {
 	// The constructor input is either a string like "mg^3 * kl / ns^2 * °C^2", or an object with a "num" and a "den" property. In this latter case these properties should either be unit strings like "mg^3 * kl" or arrays of something the UnitElement constructor takes.
 
 	constructor(input = {}) {
-		// If we have a type Unit, just copy it.
+		// If we have a type Unit, use it.
 		if (isObject(input) && input.constructor === Unit)
-			return this.become(input)
+			return input
 
 		// If we have a string, split it up into an object first.
 		if (typeof input === 'string')
@@ -25,15 +25,6 @@ class Unit {
 		// Deal with each part separately.
 		this._num = getUnitArrayFO(input.num)
 		this._den = getUnitArrayFO(input.den)
-	}
-
-	// become turns this object into a clone of the given object.
-	become(param) {
-		if (!isObject(param) || param.constructor !== Unit)
-			throw new Error(`Invalid input: a Unit element cannot become the given object. This object has type "${typeof param}".`)
-		this._num = param.num.map(unitElement => unitElement.clone())
-		this._den = param.den.map(unitElement => unitElement.clone())
-		return this
 	}
 
 	// num returns an array of unit elements in the numerator. Be careful with this: don't adjust them directly.
@@ -125,7 +116,7 @@ class Unit {
 		// If we need to do nothing, return the result.
 		let data = { simplification: this, difference: 0, factor: 1, power: 0 }
 		if (options.type === Unit.simplifyTypes.doNothing && !options.clean) {
-			data.simplification = this.clone()
+			data.simplification = this
 			return data
 		}
 
@@ -281,25 +272,22 @@ class Unit {
 	// Invert turns this unit into 1/this unit. So it flips the numerator and the denominator.  It does not adjust this object but returns a copy.
 	invert() {
 		return new Unit({
-			num: this.den.map(unitElement => unitElement.clone()),
-			den: this.num.map(unitElement => unitElement.clone()),
+			num: this.den,
+			den: this.num,
 		})
 	}
 
 	// multiply will multiply this unit by the given unit. So kg/s multiplied by s/N will become kg * s / s * N. (Simplification is not automatically done.) It does not adjust this object but returns a copy.
 	multiply(unit) {
 		return new Unit({
-			num: [...this.num.map(unitElement => unitElement.clone()), ...unit.num.map(unitElement => unitElement.clone())],
-			den: [...this.den.map(unitElement => unitElement.clone()), ...unit.den.map(unitElement => unitElement.clone())],
+			num: [...this.num, ...unit.num],
+			den: [...this.den, ...unit.den],
 		})
 	}
 
 	// divide will divide this unit by the given unit. So (m^3/s) / (kg/s) will become (m^3 * s) / (s * kg). No simplification is performed. It does not adjust this object but returns a copy.
 	divide(unit) {
-		return new Unit({
-			num: [...this.num.map(unitElement => unitElement.clone()), ...unit.den.map(unitElement => unitElement.clone())],
-			den: [...this.den.map(unitElement => unitElement.clone()), ...unit.num.map(unitElement => unitElement.clone())],
-		})
+		return this.multiply(unit.invert())
 	}
 
 	// toPower will take this unit to the given power. So (m/s^2)^3 will become (m^3/s^6). It does not adjust this object but returns a copy.

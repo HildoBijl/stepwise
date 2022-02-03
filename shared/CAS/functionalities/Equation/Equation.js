@@ -15,9 +15,14 @@ class Equation {
 	 */
 
 	constructor(left, right) {
-		let SO = { left, right }
-		if (!right && isObject(left))
-			SO = left
+		// Check if we have one or two parameters. Either way, merge it into one parameter.
+		const obj = (right === undefined && isObject(left)) ? left : { left, right }
+
+		// If we have an Equation, just use it.
+		if (obj.constructor === Equation)
+			return obj
+		
+		// Set all the properties.
 		this.become(SO)
 	}
 

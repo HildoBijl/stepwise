@@ -46,6 +46,10 @@ class Expression {
 		if (this.constructor === Expression)
 			throw new TypeError(`Abstract class "Expression" may not be instantiated directly.`)
 
+		// If it's a child class, use it.
+		if (SO instanceof Expression)
+			return SO
+
 		// If it's a string, try to interpret it.
 		if (typeof SO === 'string') {
 			if (this.constructor.interpret)
@@ -1517,7 +1521,7 @@ class Fraction extends Function {
 		if (options.mergeFractionTerms && options.mergeProductTerms) {
 			numerator = numerator.simplify({ mergeProductTerms: true })
 			denominator = denominator.simplify({ mergeProductTerms: true })
-			;({ numerator, denominator } = Fraction.mergeFractionTerms(numerator, denominator, options))
+				; ({ numerator, denominator } = Fraction.mergeFractionTerms(numerator, denominator, options))
 		}
 
 		// Only now simplify children.

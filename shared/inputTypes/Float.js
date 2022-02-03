@@ -34,9 +34,9 @@ class Float {
 		 * power (default undefined): the power that is used when displaying the number. A number like 1234.56 with power 2 will be displayed as 12.3456 * 10^2. Keeping undefined means we'll just make our own best guess as how we should display this number. This is better, as a number like 1200 with two significant digits will be displayed like "1.2" with undefined power, but "1200" (wrong) with zero power.
 	 */
 	constructor(input = {}) {
-		// If we have a type Float, just copy it.
+		// If we have a type Float, just use it.
 		if (isObject(input) && input.constructor === Float)
-			return this.become(input)
+			return input
 
 		// If we have an integer type, extract the number.
 		if (input.constructor === Integer)
@@ -65,16 +65,6 @@ class Float {
 		if (input.power !== undefined && !isInt(input.power))
 			throw new Error(`Invalid input: a Float number should as parameter receive an object with an integer as power parameter. Instead it received "${JSON.stringify(input)}".`)
 		this._power = typeof input.power === 'string' ? parseInt(input.power) : input.power
-	}
-
-	// become turns this object into a clone of the given object.
-	become(param) {
-		if (!isObject(param) || param.constructor !== Float)
-			throw new Error(`Invalid input: a Float element cannot become the given object. This object has type "${typeof param}".`)
-		this._number = param.number
-		this._significantDigits = param.significantDigits
-		this._power = param.power
-		return this
 	}
 
 	// number returns the float number as a number. So it's not 314.159 * 10^(-2) but it's 3.14159.
