@@ -1,7 +1,7 @@
-const strToIO = require('./strToIO')
-const IOtoFO = require('./IOtoFO')
+const strToSI = require('./strToSI')
+const SItoFO = require('./SItoFO')
 
 function strToFO(str, settings) {
-	return IOtoFO(strToIO(str, settings), settings)
+	return SItoFO(strToSI(str, settings), settings)
 }
 module.exports = strToFO

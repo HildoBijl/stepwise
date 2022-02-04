@@ -29,7 +29,7 @@ const B = new Vector(450, 200)
 const C = new Vector(650, 200)
 const snappers = [A, B, C, Line.fromPoints(A, B)]
 
-function Problem({ x }) {
+function Problem(state) {
 	return <>
 		<Par>Gegeven is de onderstaande structuur.</Par>
 		<EngineeringDiagram {...diagramSettings} svgContents={<Schematics opacity={1} />} htmlContents={<Elements />} />

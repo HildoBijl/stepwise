@@ -128,7 +128,7 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Define ans checks.
-	const outsideBracketsForm = (input, correct, { variables, gcdValue, factor }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => term.isNumeric() && term.number === gcdValue) && input.terms.some(term => onlyOrderChanges(variables.x, term)) && input.terms.some(term => term.isType(Sum))) && <>Je antwoord moet van de vorm <M>{factor} \cdot \left(\ldots\right)</M> zijn.</>
+	const outsideBracketsForm = (input, correct, { variables, gcdValue, factor }) => !(input.isSubtype(Product) && input.terms.length === 3 && input.terms.some(term => term.isNumeric() && term.number === gcdValue) && input.terms.some(term => onlyOrderChanges(variables.x, term)) && input.terms.some(term => term.isSubtype(Sum))) && <>Je antwoord moet van de vorm <M>{factor} \cdot \left(\ldots\right)</M> zijn.</>
 
 	const incorrectExpansion = (input, correct) => !equivalent(input, correct) && <>Als je de haakjes uitwerkt kom je niet uit op waar je mee begonnen bent. Er is dus iets misgegaan bij het omschrijven.</>
 
@@ -141,12 +141,12 @@ function getFeedback(exerciseData) {
 	]
 
 	// Define factor checks.
-	const noNumber = (input) => !input.recursiveSome(term => term.isType(Integer)) && <>Je antwoord bevat geen getal. De drie gegeven termen hebben echter wel een getal als gemeenschappelijke deler.</>
+	const noNumber = (input) => !input.recursiveSome(term => term.isSubtype(Integer)) && <>Je antwoord bevat geen getal. De drie gegeven termen hebben echter wel een getal als gemeenschappelijke deler.</>
 
 	const noVariable = (input) => input.isNumeric() && <>Je antwoord is alleen een getal. De drie termen hebben echter ook iets met een variabele als gemeenschappelijke factor.</>
 
 	const wrongNumber = (input, correct, { variables, gcdValue }) => {
-		const givenNumber = input.terms.find(term => term.isType(Integer))
+		const givenNumber = input.terms.find(term => term.isSubtype(Integer))
 		if (givenNumber && givenNumber.number !== gcdValue)
 			return <>Je hebt <M>{givenNumber}</M> als getal ingevuld, maar dit is niet de grootste gemeenschappelijke deler van de getallen <M>{Math.abs(variables.a * variables.b)}</M>, <M>{Math.abs(variables.a * variables.c)}</M> en <M>{Math.abs(variables.a * variables.d)}</M>.</>
 	}
@@ -168,11 +168,11 @@ function getFeedback(exerciseData) {
 	]
 
 	// Define setup checks.
-	const setupForm = (input, correct, { variables, factor, gcdValue }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => term.isNumeric() && term.number === gcdValue) && input.terms.some(term => onlyOrderChanges(variables.x, term)) && input.terms.some(term => term.isType(Fraction))) && <>Je antwoord moet van de vorm <M>{factor} \cdot \frac(\left[\ldots\right])({factor})</M> zijn.</>
+	const setupForm = (input, correct, { variables, factor, gcdValue }) => !(input.isSubtype(Product) && input.terms.length === 3 && input.terms.some(term => term.isNumeric() && term.number === gcdValue) && input.terms.some(term => onlyOrderChanges(variables.x, term)) && input.terms.some(term => term.isSubtype(Fraction))) && <>Je antwoord moet van de vorm <M>{factor} \cdot \frac(\left[\ldots\right])({factor})</M> zijn.</>
 
-	const fractionForm = (input, correct, { variables, factor }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => term.isType(Fraction) && onlyOrderChanges(factor, term.denominator))) && <>Je antwoord moet van de vorm <M>{factor} \cdot \frac(\left[\ldots\right])({factor})</M> zijn. Heb je wel een breuk met noemer <M>{factor}</M> ingevoerd?</>
+	const fractionForm = (input, correct, { variables, factor }) => !(input.isSubtype(Product) && input.terms.length === 3 && input.terms.some(term => term.isSubtype(Fraction) && onlyOrderChanges(factor, term.denominator))) && <>Je antwoord moet van de vorm <M>{factor} \cdot \frac(\left[\ldots\right])({factor})</M> zijn. Heb je wel een breuk met noemer <M>{factor}</M> ingevoerd?</>
 
-	const correctNumerator = (input, correct, { expression }) => !(input.isType(Product) && input.terms.length === 3 && input.terms.some(term => term.isType(Fraction) && onlyOrderChanges(expression, term.numerator))) && <>Zorg dat je bovenin de breuk letterlijk de uitdrukking <M>{expression}</M> invoert.</>
+	const correctNumerator = (input, correct, { expression }) => !(input.isSubtype(Product) && input.terms.length === 3 && input.terms.some(term => term.isSubtype(Fraction) && onlyOrderChanges(expression, term.numerator))) && <>Zorg dat je bovenin de breuk letterlijk de uitdrukking <M>{expression}</M> invoert.</>
 
 	const setupChecks = [
 		setupForm,

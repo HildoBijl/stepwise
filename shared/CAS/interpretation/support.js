@@ -24,7 +24,7 @@ function getEndCursor(value = getEmpty()) {
 }
 module.exports.getEndCursor = getEndCursor
 
-// getSubExpression gets an expression array (the IO value) and returns the expression between the left and the right cursor. The right cursor MUST be to the right (or equal to) the left cursor. Both cursors must be in an ExpressionPart (string) part of the expression array. The returned value is a value-array too.
+// getSubExpression gets an expression array (the SI/FI value) and returns the expression between the left and the right cursor. The right cursor MUST be to the right (or equal to) the left cursor. Both cursors must be in an ExpressionPart (string) part of the expression array. The returned value is a value-array too.
 function getSubExpression(value, left, right) {
 	// Is one of the cursors missing? Use the start/end.
 	if (!left)

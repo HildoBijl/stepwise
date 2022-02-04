@@ -92,9 +92,9 @@ function getFeedback(exerciseData) {
 
 	// Define intermediateWithBrackets checks.
 	// There is a side that's not like [something]/x. (Ignore this if this side has zero or one term.)
-	const formCheck = (input, correct, { variables, equation }) => input.someSide((side, part) => !Integer.zero.equals(equation[part]) && (!side.isType(Fraction) || !variables.x.equals(side.denominator))) && <>Beide kanten van de vergelijking moeten van de vorm <M>\frac(\ldots)({variables.x})</M> zijn.</>
+	const formCheck = (input, correct, { variables, equation }) => input.someSide((side, part) => !Integer.zero.equals(equation[part]) && (!side.isSubtype(Fraction) || !variables.x.equals(side.denominator))) && <>Beide kanten van de vergelijking moeten van de vorm <M>\frac(\ldots)({variables.x})</M> zijn.</>
 	// There is a side that does not contain the original expression part in the numerator. (Ignore this if this side is zero.)
-	const insideBracketCheck = (input, correct, { equation }) => input.someSide((side, part) => !Integer.zero.equals(equation[part]) && (!side.isType(Fraction) || !expressionOnlyElementaryClean(side.numerator, equation[part]))) && <>Je hebt in de tellers van de breuken niet letterlijk de delen uit de vorige vergelijking opgenomen.</>
+	const insideBracketCheck = (input, correct, { equation }) => input.someSide((side, part) => !Integer.zero.equals(equation[part]) && (!side.isSubtype(Fraction) || !expressionOnlyElementaryClean(side.numerator, equation[part]))) && <>Je hebt in de tellers van de breuken niet letterlijk de delen uit de vorige vergelijking opgenomen.</>
 
 	// Determine feedback.
 	return getInputFieldFeedback([

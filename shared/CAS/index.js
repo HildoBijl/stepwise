@@ -13,9 +13,9 @@ module.exports = {
 	// Specifically export important options.
 	simplifyOptions: options.simplifyOptions,
 
-	// Export expressionTypes, both as separate object (for iterating) and as separate elements (for easy importing).
-	expressionTypes: functionalities.expressionTypes,
-	...functionalities.expressionTypes,
+	// Export expressionSubtypes, both as separate object (for iterating) and as separate elements (for easy importing).
+	expressionSubtypes: functionalities.expressionSubtypes,
+	...functionalities.expressionSubtypes,
 
 	// Export other important CAS functionalities.
 	Expression: functionalities.Expression,

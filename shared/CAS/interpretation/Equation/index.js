@@ -1,6 +1,7 @@
 module.exports = {
-	strToIO: require('./strToIO'),
-	IOtoFO: require('./IOtoFO'),
+	strToSI: require('./strToSI'),
+	SItoFO: require('./SItoFO'),
+	SOtoFO: require('./SOtoFO'),
 	strToFO: require('./strToFO'),
 	interpret: require('./interpret'),
 }

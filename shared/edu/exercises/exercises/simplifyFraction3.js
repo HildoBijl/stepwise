@@ -18,7 +18,7 @@ const data = {
 	setup: combinerAnd(combinerRepeat('mergeSplitFractions', 2), 'multiplyDivideFractions'),
 	steps: ['mergeSplitFractions', 'mergeSplitFractions', 'multiplyDivideFractions'],
 	check: {
-		default: (input, correct) => input.isType(Fraction) && !hasFractionWithinFraction(input) && equivalent(input, correct),
+		default: (input, correct) => input.isSubtype(Fraction) && !hasFractionWithinFraction(input) && equivalent(input, correct),
 	},
 }
 

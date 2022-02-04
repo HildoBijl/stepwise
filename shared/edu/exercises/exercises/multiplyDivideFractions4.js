@@ -14,7 +14,7 @@ const constants = ['a', 'b']
 
 const data = {
 	skill: 'multiplyDivideFractions',
-	check: (input, correct) => input.isType(Fraction) && !hasFractionWithinFraction(input) && equivalent(input, correct),
+	check: (input, correct) => input.isSubtype(Fraction) && !hasFractionWithinFraction(input) && equivalent(input, correct),
 }
 
 function generateState() {

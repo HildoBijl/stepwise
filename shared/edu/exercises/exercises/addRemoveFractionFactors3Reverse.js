@@ -12,7 +12,7 @@ const constants = ['a']
 
 const data = {
 	skill: 'addRemoveFractionFactors',
-	check: (input, correct, { upper, sum }) => input.isType(Fraction) && expressionChecks.onlyOrderChanges(sum, input[upper ? 'denominator' : 'numerator']) && expressionChecks.equivalent(input, correct),
+	check: (input, correct, { upper, sum }) => input.isSubtype(Fraction) && expressionChecks.onlyOrderChanges(sum, input[upper ? 'denominator' : 'numerator']) && expressionChecks.equivalent(input, correct),
 }
 
 function generateState() {

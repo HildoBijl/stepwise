@@ -3,6 +3,7 @@ const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 const { performComparison } = require('../util/check')
 
 const { Vector } = require('../../../CAS/linearAlgebra')
+const { asExpression, asEquation } = require('../../../CAS')
 
 const data = {
 	skill: 'test',
@@ -10,8 +11,12 @@ const data = {
 }
 
 function generateState() {
+	const eq = asEquation('2x=5sin(y)')
+	const ex = asExpression('cos(z)')
 	return {
 		someParameter: new Vector([100, 200]),
+		someExpression: ex,
+		someEquation: eq,
 	}
 }
 

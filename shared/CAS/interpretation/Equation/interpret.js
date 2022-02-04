@@ -1,6 +1,6 @@
 const { isObject } = require('../../../util/objects')
 
-const IOtoFO = require('./IOtoFO')
+const SItoFO = require('./SItoFO')
 
 function interpret(obj) {
 	// Check the type.
@@ -10,7 +10,7 @@ function interpret(obj) {
 		throw new Error(`Interpreting error: the equation interpret function was called on an object of type "${obj.type}". This must be an Equation type.`)
 
 	// Interpret the value.
-	return IOtoFO(obj.value, obj.settings)
+	return SItoFO(obj.value, obj.settings)
 }
 module.exports = interpret
 

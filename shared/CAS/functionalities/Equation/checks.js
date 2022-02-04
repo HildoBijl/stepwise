@@ -21,7 +21,7 @@ function onlyOrderChangesAndSwitch(input, correct) {
 
 // onlyOrderChangesAndShifts checks if two equations are equal, where terms may be shifted from one side to the other. Switching sides completely (effectively taking the negative of the equation) is also allowed. So "a+b=c+d" equals "a+b-c=d" and also "d=a+b-c". To figure this out, all terms are brought to one side and the resulting expressions are checked for equality allowing order changes.
 function onlyOrderChangesAndShifts(input, correct) {
-	const getTerms = (side) => side.isType(Sum) ? side.terms : [side]
+	const getTerms = (side) => side.isSubtype(Sum) ? side.terms : [side]
 	const gatherTerms = (equation) => [...getTerms(equation.left), ...getTerms(equation.right).map(term => term.applyMinus())]
 	const inputSum = new Sum(...gatherTerms(input)).removeUseless()
 	const correctSum = new Sum(...gatherTerms(correct)).removeUseless()

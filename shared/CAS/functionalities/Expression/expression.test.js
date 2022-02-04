@@ -1,12 +1,12 @@
-const { expressionTypes } = require('.')
+const { expressionSubtypes } = require('.')
 
-const obligatoryMethods = ['become', 'clone', 'isType', 'toString', 'toRawTex', 'requiresBracketsFor', 'requiresPlusInSum', 'dependsOn', 'isNumeric', 'toNumber', 'hasFloat', 'verifyVariable', 'getVariables', 'getVariableStrings', 'substitute', 'substituteBasic', 'getDerivative', 'getDerivativeBasic', 'simplify', 'simplifyBasic', 'equals', 'equalsBasic']
+const obligatoryMethods = ['become', 'isSubtype', 'toString', 'toRawTex', 'requiresBracketsFor', 'requiresPlusInSum', 'dependsOn', 'isNumeric', 'toNumber', 'hasFloat', 'verifyVariable', 'getVariables', 'getVariableStrings', 'substitute', 'substituteBasic', 'getDerivative', 'getDerivativeBasic', 'simplify', 'simplifyBasic', 'equals', 'equalsBasic']
 
 // Run the tests!
 describe('Check all expression types:', () => {
-	Object.keys(expressionTypes).forEach(type => {
+	Object.keys(expressionSubtypes).forEach(type => {
 		describe(type, () => {
-			const ExpressionType = expressionTypes[type]
+			const ExpressionType = expressionSubtypes[type]
 			it('exists', () => {
 				expect(ExpressionType).not.toBe(undefined)
 			})

@@ -16,11 +16,11 @@ class Equation {
 
 	constructor(left, right) {
 		// Check if we have one or two parameters. Either way, merge it into one parameter.
-		const obj = (right === undefined && isObject(left)) ? left : { left, right }
+		const SO = (right === undefined && isObject(left)) ? left : { left, right }
 
 		// If we have an Equation, just use it.
-		if (obj.constructor === Equation)
-			return obj
+		if (SO.constructor === Equation)
+			return SO
 		
 		// Set all the properties.
 		this.become(SO)
@@ -33,6 +33,11 @@ class Equation {
 				throw new Error(`Invalid equation part: tried to create an equation, but the "${part}" part was not given.`)
 			this[part] = ensureExpression(SO[part])
 		})
+	}
+
+	// type always returns Equation.
+	get type() {
+		return 'Equation'
 	}
 
 	// SO returns a storage object version of this object. 

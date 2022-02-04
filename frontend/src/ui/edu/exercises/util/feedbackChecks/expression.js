@@ -18,7 +18,7 @@ export const correctExpression = (input, correct, solution, isCorrect) => !isCor
  * Sum and terms checks.
  */
 
-export const noSum = (input, correct, solution, isCorrect) => !isCorrect && !input.isType(Sum) && <>Je moet je antwoord schrijven als een optelling/aftrekking van termen. Je gegeven antwoord is helaas geen optelling/aftrekking.</>
+export const noSum = (input, correct, solution, isCorrect) => !isCorrect && !input.isSubtype(Sum) && <>Je moet je antwoord schrijven als een optelling/aftrekking van termen. Je gegeven antwoord is helaas geen optelling/aftrekking.</>
 
 export const sumWithWrongTerms = (input, correct, solution, isCorrect) => {
 	if (isCorrect)
@@ -82,7 +82,7 @@ export const hasSumWithinFraction = (input, correct, solution, isCorrect) => !is
 
 export const hasFraction = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasFraction(input) && <>Je antwoord heeft nog een breuk. Het idee was om alle breuken weg te halen.</>
 
-export const noFraction = (input, correct, solution, isCorrect) => !isCorrect && !input.isType(Fraction) && <>Je antwoord is geen breuk. Er wordt een enkele breuk als antwoord verwacht.</>
+export const noFraction = (input, correct, solution, isCorrect) => !isCorrect && !input.isSubtype(Fraction) && <>Je antwoord is geen breuk. Er wordt een enkele breuk als antwoord verwacht.</>
 
 export const hasFractionWithinFraction = (input, correct, solution, isCorrect) => !isCorrect && expressionChecks.hasFractionWithinFraction(input) && <>Je antwoord mag geen verdere breuken binnenin een breuk bevatten. Je kunt het nog verder simplificeren.</>
 
@@ -90,7 +90,7 @@ export const incorrectFraction = (input, correct, { variables }, isCorrect) => {
 	if (isCorrect)
 		return
 	input = input.elementaryClean()
-	if (!input.isType(Fraction))
+	if (!input.isSubtype(Fraction))
 		return <>Hmm ... er was eigenlijk een breuk als antwoord verwacht.</>
 	if (expressionChecks.equivalent(input, correct.invert()))
 		return <>Je hebt je breuk verkeerd om ingevuld. Kijk goed wat je waardoor moet delen!</>

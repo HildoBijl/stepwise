@@ -18,9 +18,9 @@ const data = {
 	check: (input, correct, { toSplit }) => {
 		// When the mission is to split, check for a sum with the right length and for the terms to match.
 		if (toSplit)
-			return input.isType(Sum) && correct.terms.length === input.terms.length && hasSimpleMatching(correct.terms, input.terms, equivalent)
+			return input.isSubtype(Sum) && correct.terms.length === input.terms.length && hasSimpleMatching(correct.terms, input.terms, equivalent)
 		// When the mission is to merge, check for a correct fraction, and for no fractions inside fractions.
-		return input.isType(Fraction) && !hasFractionWithinFraction(input) && equivalent(input, correct)
+		return input.isSubtype(Fraction) && !hasFractionWithinFraction(input) && equivalent(input, correct)
 	},
 }
 

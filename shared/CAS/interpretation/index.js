@@ -6,14 +6,16 @@ const InterpretationError = require('./InterpretationError')
 
 module.exports = {
 	// Important expression functions.
-	expressionStrToIO: expression.strToIO,
-	expressionIOtoFO: expression.IOtoFO,
+	expressionStrToSI: expression.strToSI,
+	expressionSItoFO: expression.SItoFO,
+	expressionSOtoFO: expression.SOtoFO,
 	asExpression: expression.strToFO,
 	interpretExpression: expression.interpret,
 
 	// Important equation functions.
-	equationStrToIO: equation.strToIO,
-	equationIOtoFO: equation.IOtoFO,
+	equationStrToSI: equation.strToSI,
+	equationSItoFO: equation.SItoFO,
+	equationSOtoFO: equation.SOtoFO,
 	asEquation: equation.strToFO,
 	interpretEquation: equation.interpret,
 

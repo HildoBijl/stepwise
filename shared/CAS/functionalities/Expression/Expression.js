@@ -24,7 +24,7 @@
 const { decimalSeparator, decimalSeparatorTex } = require('../../../settings')
 
 const { isInt, isNumber, gcd } = require('../../../util/numbers')
-const { isObject, processOptions, filterOptions, getParentClass } = require('../../../util/objects')
+const { isObject, isBasicObject, processOptions, filterOptions, getParentClass } = require('../../../util/objects')
 const { firstOf, lastOf, count, sum, product, hasSimpleMatching } = require('../../../util/arrays')
 const { union } = require('../../../util/sets')
 const { repeatWithIndices } = require('../../../util/functions')
@@ -67,39 +67,44 @@ class Expression {
 
 	// become will turn the current object into one having the data of the SO.
 	become(SO) {
-		SO = this.checkAndRemoveType(SO)
+		SO = this.checkAndRemoveSubtype(SO)
 		SO = processOptions(SO, this.constructor.getDefaultSO())
 		Object.keys(SO).forEach(key => {
 			this[key] = SO[key]
 		})
 	}
 
-	// checkAndRemoveType checks if the given SO has a type. If so, it is checked and subsequently removed. (If not, this function does nothing.) The resulting SO is returned.
-	checkAndRemoveType(SO) {
-		// If there is no type, just return the same SO unchanged.
-		if (!SO.type)
+	// checkAndRemoveSubtype checks if the given SO has a subtype like "Variable" or "Fraction" or so. If so, it is checked and subsequently removed. (If not, this function does nothing.) The resulting SO is returned.
+	checkAndRemoveSubtype(SO) {
+		// If there is no subtype, just return the same SO unchanged.
+		if (!SO.subtype)
 			return SO
 
-		// There is a type. Check it.
-		if (SO.type !== this.type)
-			throw new Error(`Invalid Expression creation: tried to create an Expression of type "${this.type}" but the given Storage Object has type "${SO.type}".`)
+		// There is a subtype. Check it.
+		if (SO.subtype !== this.subtype)
+			throw new Error(`Invalid Expression creation: tried to create an Expression of subtype "${this.subtype}" but the given Storage Object has subtype "${SO.subtype}".`)
 
 		// Clone the SO (shallowly) to not change the original and remove the type.
 		SO = { ...SO }
-		delete SO.type
+		delete SO.subtype
 		return SO
 	}
 
-	// type returns the type of an expression. This is the name of the constructor.
+	// type returns always "Expression" for expression types.
 	get type() {
+		return 'Expression'
+	}
+
+	// subtype returns the exact type of the expression, which is the name of the constructor.
+	get subtype() {
 		return this.constructor.type
 	}
 
-	// isType(type) checks if the given object is of the given type. The type given can be either a string like "Product" or a constructor Product. It may not be an Expression-like object itself: use isType(someProduct.type) then for comparison.
-	isType(type) {
-		if (typeof type === 'string')
-			return this.type === type
-		return this.constructor === type
+	// isSubtype checks if the given object is of the given subtype. The subtype given can be either a string like "Product" or a constructor Product. It may not be an Expression-like object itself: use isSubtype(someProduct.subtype) then for comparison.
+	isSubtype(subtype) {
+		if (typeof subtype === 'string')
+			return this.subtype === subtype
+		return this.constructor === subtype
 	}
 
 	// SO returns a storage object version of this object. It does this recursively, turning children into SOs too.
@@ -119,8 +124,8 @@ class Expression {
 				result[key] = value
 		})
 
-		// Add the type too.
-		result.type = this.type
+		// Add the subtype too. This is needed to reinterpret it.
+		result.subtype = this.subtype
 		return result
 	}
 
@@ -450,7 +455,7 @@ class Variable extends Expression {
 	become(SO) {
 		// Check own input.
 		const defaultSO = this.constructor.getDefaultSO()
-		SO = this.checkAndRemoveType(SO)
+		SO = this.checkAndRemoveSubtype(SO)
 		SO = processOptions(SO, defaultSO)
 		parts.forEach(part => {
 			if (typeof SO[part] !== 'string' && typeof SO[part] !== typeof this.constructor.defaultSO[part])
@@ -741,7 +746,7 @@ class ExpressionList extends Expression {
 
 	become(SO) {
 		// Check own input.
-		SO = this.checkAndRemoveType(SO)
+		SO = this.checkAndRemoveSubtype(SO)
 		SO = processOptions(SO, this.constructor.getDefaultSO())
 		if (!Array.isArray(SO.terms))
 			throw new Error(`Invalid terms list: tried to create a ${this.constructor.type}, but the terms parameter was not an array. Its value was "${terms}".`)
@@ -870,7 +875,7 @@ class Sum extends ExpressionList {
 
 		// Flatten sums inside this sum.
 		if (options.structure) {
-			terms = terms.map(term => term.isType(Sum) ? term.terms : term).flat()
+			terms = terms.map(term => term.isSubtype(Sum) ? term.terms : term).flat()
 		}
 
 		// Filter out zero elements.
@@ -897,14 +902,14 @@ class Sum extends ExpressionList {
 
 		// On a sum of fractions, merge them together. For this, first find the denominator by multiplying all fraction denominators. Then find the numerator by multiplying all terms by the new denominator and simplifying them.
 		if (options.mergeFractionSums) {
-			if (terms.some(term => term.isType(Fraction))) {
-				const denominator = new Product(terms.map(term => term.isType(Fraction) ? term.denominator : Integer.one)).removeUseless()
+			if (terms.some(term => term.isSubtype(Fraction))) {
+				const denominator = new Product(terms.map(term => term.isSubtype(Fraction) ? term.denominator : Integer.one)).removeUseless()
 				const numerator = new Sum(terms.map((term, index) => {
-					if (!term.isType(Fraction))
+					if (!term.isSubtype(Fraction))
 						return term.multiplyBy(denominator).simplifyBasic(options)
 
 					// Get the product of denominators of all other fractions, and multiply by the numerator.
-					const factor = new Product(terms.map((comparisonTerm, comparisonIndex) => comparisonTerm.isType(Fraction) && index !== comparisonIndex ? comparisonTerm.denominator : Integer.one)).removeUseless()
+					const factor = new Product(terms.map((comparisonTerm, comparisonIndex) => comparisonTerm.isSubtype(Fraction) && index !== comparisonIndex ? comparisonTerm.denominator : Integer.one)).removeUseless()
 					return term.numerator.multiplyBy(factor)
 				}))
 				return new Fraction(numerator, denominator).simplifyBasic(options)
@@ -963,7 +968,7 @@ class Sum extends ExpressionList {
 	static order(a, b) {
 		// Define a series of tests. If one of them matches for an element and not for the other, the first element comes first.
 		const tests = [
-			x => x.isType(Variable) || x.isType(Product) || x.isType(Power),
+			x => x.isSubtype(Variable) || x.isSubtype(Product) || x.isSubtype(Power),
 			x => x.isNumeric(), // Remaining numbers.
 			x => true, // Remaining cases.
 		]
@@ -998,14 +1003,14 @@ class Sum extends ExpressionList {
 
 					// There is the same variable. Find the power.
 					const getPowerInProduct = (variable, product) => {
-						if (product.isType(Variable))
+						if (product.isSubtype(Variable))
 							return variable.equalsBasic(product) ? Integer.one : Integer.zero
-						if (product.isType(Power))
+						if (product.isSubtype(Power))
 							return product.exponent
 						const term = product.terms.find(term => term.dependsOn(variable))
-						if (term.isType(Variable))
+						if (term.isSubtype(Variable))
 							return Integer.one
-						if (term.isType(Power))
+						if (term.isSubtype(Power))
 							return term.exponent
 					}
 					const aPower = getPowerInProduct(aVariable, a)
@@ -1132,7 +1137,7 @@ class Product extends ExpressionList {
 
 		// Flatten products inside this product.
 		if (options.structure) {
-			terms = terms.map(term => term.isType(Product) ? term.terms : term).flat()
+			terms = terms.map(term => term.isSubtype(Product) ? term.terms : term).flat()
 		}
 
 		// Merge all numbers together and put them at the start.
@@ -1188,11 +1193,11 @@ class Product extends ExpressionList {
 
 		// If there is a fraction anywhere in this product, turn this product into a merged fraction. So a*(b/c) becomes (a*b)/c and similar.
 		if (options.mergeFractionProducts) {
-			if (terms.some(term => term.isType(Fraction))) {
+			if (terms.some(term => term.isSubtype(Fraction))) {
 				const numeratorTerms = []
 				const denominatorTerms = []
 				terms.forEach(term => {
-					if (term.isType(Fraction)) {
+					if (term.isSubtype(Fraction)) {
 						numeratorTerms.push(term.numerator)
 						denominatorTerms.push(term.denominator)
 					} else {
@@ -1205,7 +1210,7 @@ class Product extends ExpressionList {
 
 		// Expand brackets. For this, find the first sum and expand it. Other sums will be expanded recursively through further simplify calls.
 		if (options.expandProductsOfSums) {
-			const sumIndex = terms.findIndex(term => term.isType(Sum))
+			const sumIndex = terms.findIndex(term => term.isSubtype(Sum))
 			if (sumIndex !== -1) {
 				return new Sum(terms[sumIndex].terms.map(sumTerm => new Product([
 					...terms.slice(0, sumIndex),
@@ -1230,8 +1235,8 @@ class Product extends ExpressionList {
 		const tests = [
 			x => x instanceof Constant,
 			x => x.isNumeric(),
-			x => x.isType(Variable) || x.isType(Power),
-			x => x.isType(Sum),
+			x => x.isSubtype(Variable) || x.isSubtype(Power),
+			x => x.isSubtype(Sum),
 			x => true, // Remaining cases.
 		]
 
@@ -1269,8 +1274,8 @@ class Product extends ExpressionList {
 	// mergeProductTerms takes a list of terms and merges the ones with equal base. So 2*x*a*x^2 becomes 2*x^3*a.
 	static mergeProductTerms(terms, options) {
 		// Walk through the terms and see if any matches (the base of) an earlier term. If not, add the term. If so, add up the powers.
-		const getBaseOf = term => term.isType(Power) ? term.base : term
-		const getPowerOf = term => term.isType(Power) ? term.exponent : Integer.one
+		const getBaseOf = term => term.isSubtype(Power) ? term.base : term
+		const getPowerOf = term => term.isSubtype(Power) ? term.exponent : Integer.one
 		const result = []
 		terms.forEach(term => {
 			const index = result.findIndex(comparisonTerm => getBaseOf(comparisonTerm).equalsBasic(getBaseOf(term), true))
@@ -1315,7 +1320,7 @@ class Function extends Expression {
 
 	become(SO) {
 		// Check own input.
-		SO = this.checkAndRemoveType(SO)
+		SO = this.checkAndRemoveSubtype(SO)
 		SO = processOptions(SO, this.constructor.getDefaultSO())
 
 		// Handle parent input.
@@ -1450,7 +1455,7 @@ class Fraction extends Function {
 
 	requiresPlusInSum() {
 		// Sometimes we can pull the minus out of the numerator. For instance, we can display (-2)/(3) as -(2)/(3). In that case, do not use a plus in a sum.
-		return this.numerator.isType(Sum) || this.numerator.requiresPlusInSum()
+		return this.numerator.isSubtype(Sum) || this.numerator.requiresPlusInSum()
 	}
 
 	applyToBothSides(func) {
@@ -1526,8 +1531,8 @@ class Fraction extends Function {
 
 		// Flatten fractions inside fractions.
 		if (options.flattenFractions) {
-			if (numerator.isType(Fraction)) {
-				if (denominator.isType(Fraction)) { // (a/b)/(c/d) => (ad)/(bc)
+			if (numerator.isSubtype(Fraction)) {
+				if (denominator.isSubtype(Fraction)) { // (a/b)/(c/d) => (ad)/(bc)
 					const oldDenominator = denominator
 					denominator = new Product([numerator.denominator, denominator.numerator]).simplifyBasic(options)
 					numerator = new Product([numerator.numerator, oldDenominator.denominator]).simplifyBasic(options)
@@ -1535,7 +1540,7 @@ class Fraction extends Function {
 					denominator = new Product([numerator.denominator, denominator]).simplifyBasic(options)
 					numerator = numerator.numerator
 				}
-			} else if (denominator.isType(Fraction)) { // a/(b/c) => (ac)/b
+			} else if (denominator.isSubtype(Fraction)) { // a/(b/c) => (ac)/b
 				numerator = new Product([numerator, denominator.denominator]).simplifyBasic(options)
 				denominator = denominator.numerator
 			}
@@ -1543,7 +1548,7 @@ class Fraction extends Function {
 
 		// Split up fractions having sums as numerator.
 		if (options.splitFractions) {
-			if (numerator.isType(Sum)) {
+			if (numerator.isSubtype(Sum)) {
 				return new Sum(numerator.terms.map(term => new Fraction(term, denominator))).simplifyBasic(options)
 			}
 		}
@@ -1551,14 +1556,14 @@ class Fraction extends Function {
 		// Reduce the numbers in the fraction.
 		if (options.mergeFractionNumbers) {
 			// Gather all terms to get the GCD of.
-			const getTerms = (part) => part.isType(Sum) ? part.terms : [part]
+			const getTerms = (part) => part.isSubtype(Sum) ? part.terms : [part]
 			const terms = [...getTerms(numerator), ...getTerms(denominator)]
 
 			// Walk through the terms, get their preceding numbers, and find the GCD we should divide through.
 			const extractNumber = (term) => {
-				if (term.isType(Integer))
+				if (term.isSubtype(Integer))
 					return term.number
-				if (term.isType(Product))
+				if (term.isSubtype(Product))
 					return extractNumber(term.terms[0])
 				return 1 // Also for floats. In that case just don't divide by any number.
 			}
@@ -1577,13 +1582,13 @@ class Fraction extends Function {
 			} else {
 				// Divide elements by the divisor.
 				const divideTermByDivisor = (term) => {
-					if (term.isType(Integer))
+					if (term.isSubtype(Integer))
 						return new Integer(term.number / divisor)
-					if (term.isType(Product))
+					if (term.isSubtype(Product))
 						return term.applyToTerm(0, divideTermByDivisor).simplify(options)
 					throw new Error(`Fraction reduction error: an unexpected case appeared while reducing the numbers inside a fraction.`)
 				}
-				const dividePartByDivisor = (part) => part.isType(Sum) ? part.applyToAllTerms(divideTermByDivisor) : divideTermByDivisor(part)
+				const dividePartByDivisor = (part) => part.isSubtype(Sum) ? part.applyToAllTerms(divideTermByDivisor) : divideTermByDivisor(part)
 				numerator = dividePartByDivisor(numerator)
 				denominator = dividePartByDivisor(denominator)
 			}
@@ -1618,15 +1623,15 @@ class Fraction extends Function {
 			return { numerator: Integer.one, denominator: Integer.one }
 
 		// Gather all terms to get the GCD of.
-		const getTerms = (part) => part.isType(Sum) ? part.terms : [part]
+		const getTerms = (part) => part.isSubtype(Sum) ? part.terms : [part]
 		const numeratorTerms = getTerms(numerator)
 		const denominatorTerms = getTerms(denominator)
 
 		// Define handlers that can extract an array of factors from a term.
-		const getBase = (factor) => factor.isType(Power) ? factor.base : factor
-		const getPower = (factor) => factor.isType(Power) ? factor.exponent : Integer.one
+		const getBase = (factor) => factor.isSubtype(Power) ? factor.base : factor
+		const getPower = (factor) => factor.isSubtype(Power) ? factor.exponent : Integer.one
 		const getBaseAndPower = (factor) => ({ base: getBase(factor), power: getPower(factor) })
-		const getFactors = (term) => term.isType(Product) ? term.terms.map(getBaseAndPower) : [getBaseAndPower(term)]
+		const getFactors = (term) => term.isSubtype(Product) ? term.terms.map(getBaseAndPower) : [getBaseAndPower(term)]
 		const getFilteredFactors = (term) => getFactors(term).filter(({ base, power }) => !base.isNumeric() && power.isNumeric()) // Only process factors with a variable base and numeric power.
 
 		// Walk through the terms and find all joint factors.
@@ -1671,7 +1676,7 @@ class Fraction extends Function {
 			// Reassemble the term based on the factors.
 			return new Product(factors.map(factor => new Power(factor.base, factor.power))).simplify(options)
 		}
-		const removeFactorsFromPart = (part, factorsToRemove) => part.isType(Sum) ? part.applyToAllTerms(term => removeFactorsFromTerm(term, factorsToRemove)) : removeFactorsFromTerm(part, factorsToRemove)
+		const removeFactorsFromPart = (part, factorsToRemove) => part.isSubtype(Sum) ? part.applyToAllTerms(term => removeFactorsFromTerm(term, factorsToRemove)) : removeFactorsFromTerm(part, factorsToRemove)
 
 		// Check special cases: the entire numerator is in the denominator GCD or vice versa.
 		const denominatorFactorWithNumerator = denominatorGcd.find(factor => factor.base.equals(numerator, true))
@@ -1800,7 +1805,7 @@ class Power extends Function {
 
 		// Check for powers within powers. Reduce (a^b)^c to a^(b*c).
 		if (options.removePowersWithinPowers) {
-			if (base.isType(Power)) {
+			if (base.isSubtype(Power)) {
 				exponent = new Product(base.exponent, exponent).simplifyBasic(options)
 				base = base.base
 			}
@@ -1814,14 +1819,14 @@ class Power extends Function {
 
 		// Check for powers of products. Reduce (a*b)^n to a^n*b^n.
 		if (options.expandPowersOfProducts) {
-			if (this.base.isType(Product)) {
+			if (this.base.isSubtype(Product)) {
 				return new Product(this.base.terms.map(term => new Power(term, this.exponent))).simplifyBasic(options)
 			}
 		}
 
 		// Check for powers of sums. Reduce (a+b)^3 to (a^3 + 3a^2b + 3ab^2 + b^3). Only do this for non-negative integer powers.
 		if (options.expandPowersOfSums) {
-			if (this.base.isType(Sum) && this.exponent.isType(Integer) && this.exponent.toNumber() > 1) {
+			if (this.base.isSubtype(Sum) && this.exponent.isSubtype(Integer) && this.exponent.toNumber() > 1) {
 				const num = this.exponent.toNumber()
 				const term1 = this.base.terms[0]
 				const term2 = new Sum(this.base.terms.slice(1)).cleanStructure()
@@ -1842,7 +1847,7 @@ class Power extends Function {
 			if (this.base.isNumeric() && this.exponent.isNumeric()) {
 				if (this.base.hasFloat() || this.exponent.hasFloat())
 					return new Float(this.toNumber())
-				if (this.base.isType(Integer) && this.exponent.isType(Integer))
+				if (this.base.isSubtype(Integer) && this.exponent.isSubtype(Integer))
 					return new Integer(this.toNumber())
 			}
 		}
@@ -1911,8 +1916,12 @@ function ensureExpression(expression) {
 		}
 	}
 
+	// Check if this is an SO. If so, turn it into an FO.
+	if (isBasicObject(expression) && expressionSubtypes[expression.subtype])
+		return new expressionSubtypes[expression.subtype](expression)
+
 	// Cannot be interpreted.
-	throw new Error(`Invalid expression: expected an expression object but received an object of type "${typeof expression}" with value "${JSON.stringify(expression)}". Could not process this.`)
+	throw new Error(`Invalid Expression: expected an expression object but received a parameter of type "${typeof expression}" with value "${JSON.stringify(expression)}". Could not process this.`)
 }
 module.exports.ensureExpression = ensureExpression
 
@@ -1928,4 +1937,5 @@ function checkSubstitutionParameters(variable, substitution) {
 }
 module.exports.checkSubstitutionParameters = checkSubstitutionParameters
 
-module.exports.expressionTypes = { Variable, Integer, Float, Sum, Product, Fraction, Power, Ln }
+const expressionSubtypes = { Variable, Integer, Float, Sum, Product, Fraction, Power, Ln }
+module.exports.expressionSubtypes = expressionSubtypes

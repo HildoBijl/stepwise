@@ -1,8 +1,8 @@
 const { isObject, isBasicObject, applyToEachParameter, deepEquals } = require('../util/objects')
 
-const oldTypes = ['String', 'Boolean', 'Integer', 'Float', 'Unit', 'FloatUnit', 'MultipleChoice', 'Expression', 'Equation'] // ToDo: remove these old types after the overhaul.
+const oldTypes = ['String', 'Boolean', 'Integer', 'Float', 'Unit', 'FloatUnit', 'MultipleChoice'] // ToDo: remove these old types after the overhaul.
 
-const types = ['Vector', 'PositionedVector'] // ToDo: system overhaul in which all types become new and have SItoFO, FOtoSI, SOtoFO and FOtoSO.
+const types = ['Expression', 'Equation', 'Vector', 'PositionedVector'] // ToDo: system overhaul in which all types become new and have SItoFO, FOtoSI, SOtoFO and FOtoSO.
 
 // ToDo: clean up this file. Only toSO and toFO should stay.
 
@@ -135,17 +135,17 @@ function toFO(data, useSI = false) {
 		return null
 
 	// If the type is known, interpret it.
-	const { type, value } = data
+	const { type, value, settings } = data
 	if (types.includes(type)) {
 		const funcs = require(`./${type}`)
 		const func = funcs[useSI ? 'SItoFO' : 'SOtoFO'] || funcs.SOtoFO
 		if (func)
-			return func(value, data)
+			return func(value, settings)
 	}
 
 	// ToDo: remove this at some point. If the old type is known, use the old method.
 	if (oldTypes.includes(type))
-		return require(`./${type}`).IOtoFO(data.value, data.settings)
+		return require(`./${type}`).IOtoFO(value, settings)
 
 	// If there is no known type, or the type does not have the appropriate function, walk through the parameters one by one and interpret them.
 	return applyToEachParameter(data, data => toFO(data, useSI))

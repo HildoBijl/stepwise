@@ -92,9 +92,9 @@ function getFeedback(exerciseData) {
 
 	// Define intermediateWithBrackets checks.
 	// There is a side that's not like [something]*x. (Ignore this if this side has zero or one term.)
-	const formCheck = (input, correct, { variables, equation }) => input.someSide((side, part) => equation[part].isType(Sum) && !(side.isType(Product) && side.terms.length === 2 && side.terms.some(term => variables.x.equalsBasic(term)))) && <>Beide kanten van de vergelijking moeten van de vorm <M>\left(\ldots\right)\cdot {variables.x}</M> zijn.</>
+	const formCheck = (input, correct, { variables, equation }) => input.someSide((side, part) => equation[part].isSubtype(Sum) && !(side.isSubtype(Product) && side.terms.length === 2 && side.terms.some(term => variables.x.equalsBasic(term)))) && <>Beide kanten van de vergelijking moeten van de vorm <M>\left(\ldots\right)\cdot {variables.x}</M> zijn.</>
 	// There is a side that does not contain the original expression part somewhere. (Ignore this if this side is zero.)
-	const insideBracketCheck = (input, correct, { equation }) => input.someSide((side, part) => equation[part].isType(Sum) && !(side.isType(Product) && side.terms.some(term => expressionOnlyElementaryClean(term, correct[part].terms[0])))) && <>Je hebt tussen de haakjes niet letterlijk de delen uit de vorige vergelijking opgenomen.</>
+	const insideBracketCheck = (input, correct, { equation }) => input.someSide((side, part) => equation[part].isSubtype(Sum) && !(side.isSubtype(Product) && side.terms.some(term => expressionOnlyElementaryClean(term, correct[part].terms[0])))) && <>Je hebt tussen de haakjes niet letterlijk de delen uit de vorige vergelijking opgenomen.</>
 	
 	// Determine feedback.
 	return getInputFieldFeedback([

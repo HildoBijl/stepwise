@@ -38,9 +38,9 @@ export const noSum = (input, correct, solution, isCorrect) => {
 		const atLeft = side === 'left'
 
 		// If the correct answer has a sum ...
-		if (correctSide.isType(Sum) && !inputSide.isType(Sum))
+		if (correctSide.isSubtype(Sum) && !inputSide.isSubtype(Sum))
 			return <>Je hebt aan de {atLeft ? 'linker' : 'rechter'} kant slechts een enkele term gegeven. Hier werd een som verwacht: een optelling/aftrekking van termen.</>
-		if (!correctSide.isType(Sum) && inputSide.isType(Sum))
+		if (!correctSide.isSubtype(Sum) && inputSide.isSubtype(Sum))
 			return <>Je hebt aan de {atLeft ? 'linker' : 'rechter'} kant een som gezet: een optelling/aftrekking van termen. Hier werd maar één term verwacht.</>
 	}
 
@@ -65,7 +65,7 @@ export const sumWithWrongTerms = (input, correct, solution, isCorrect) => {
 		const atLeft = side === 'left'
 
 		// If the correct answer has a sum ...
-		if (correctSide.isType(Sum)) {
+		if (correctSide.isSubtype(Sum)) {
 			// Check that it has the right number of terms.
 			if (correctSide.terms.length !== inputSide.terms.length)
 				return <>De optelsom {atLeft ? 'links' : 'rechts'} van het is-teken heeft {inputSide.terms.length} termen. Er werden er {correctSide.terms.length} verwacht.</>
@@ -110,7 +110,7 @@ export const sumWithUnsimplifiedTerms = (input, correct, solution, isCorrect) =>
 		const atLeft = side === 'left'
 
 		// If the correct answer has a sum ...
-		if (correctSide.isType(Sum)) {
+		if (correctSide.isSubtype(Sum)) {
 			// Find an input term that is not in the solution when checking only for order changes.
 			const index = inputSide.terms.findIndex(inputTerm => !correctSide.terms.some(correctTerm => onlyExpressionElementaryClean(inputTerm, correctTerm)))
 			if (index !== -1)

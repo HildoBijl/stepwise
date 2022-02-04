@@ -2,20 +2,20 @@ const { isLetter, getNextSymbol } = require('../../../util/strings')
 const { lastOf } = require('../../../util/arrays')
 const { processOptions } = require('../../../util/objects')
 
-const { Expression, Constant, Integer, Variable, Sum, Product, Power } = require('../../functionalities')
-const { simplifyOptions, defaultInterpretationSettings } = require('../../options')
+const { Expression, Constant, Variable, Sum, Product, Power } = require('../../functionalities')
+const { defaultInterpretationSettings } = require('../../options')
 
 const InterpretationError = require('../InterpretationError')
 const { isEmpty, getStartCursor, getEndCursor, getSubExpression, moveRight } = require('../support')
 const { basicFunctionComponents, advancedFunctionComponents, accents, isFunctionAllowed } = require('../functions')
 
-function IOtoFO(value, settings = {}) {
+function SItoFO(value, settings = {}) {
 	settings = processOptions(settings, defaultInterpretationSettings)
-	return interpretIO(value, settings)
+	return interpretSI(value, settings)
 }
-module.exports = IOtoFO
+module.exports = SItoFO
 
-function interpretIO(value, settings) {
+function interpretSI(value, settings) {
 	// Check special cases.
 	if (isEmpty(value))
 		throw new InterpretationError('EmptyExpression', '', `Could not interpret the Expression due to it being empty.`)
@@ -60,10 +60,10 @@ function interpretBrackets(value, settings) {
 			// Interpret the advanced function.
 			const { name, value: internalArguments } = value[opening.part]
 			const shiftedOpening = { part: opening.part + 1, cursor: 0 }
-			const externalArgument = interpretIO(getSubExpression(value, shiftedOpening, closing))
+			const externalArgument = interpretSI(getSubExpression(value, shiftedOpening, closing))
 			const Component = advancedFunctionComponents[name].component
 			result.push(new Component(
-				...internalArguments.map(expression => interpretIO(expression.value, settings)),
+				...internalArguments.map(expression => interpretSI(expression.value, settings)),
 				externalArgument
 			))
 
@@ -74,7 +74,7 @@ function interpretBrackets(value, settings) {
 		// Interpret the part between brackets.
 		const shiftedOpening = moveRight(opening)
 		const partBetweenBrackets = getSubExpression(value, shiftedOpening, closing)
-		const interpretedExpression = interpretIO(partBetweenBrackets, settings)
+		const interpretedExpression = interpretSI(partBetweenBrackets, settings)
 
 		// When there is no special function, find the letters prior to the bracket. These may be the function name for a basic or custom function.
 		const str = value[end.part].value
@@ -368,7 +368,7 @@ function interpretElements(value, settings) {
 	return result
 }
 
-// incorporateSubSup takes a SubSup IO element and a results array and tries to incorporate the SubSup into the given result array. It does this by adjusting the result array. It does not return anything.
+// incorporateSubSup takes a SubSup SI element and a results array and tries to incorporate the SubSup into the given result array. It does this by adjusting the result array. It does not return anything.
 function incorporateSubSup(element, result, settings) {
 	const [sub, sup] = element.value
 	const previousTerm = lastOf(result)
@@ -390,7 +390,7 @@ function incorporateSubSup(element, result, settings) {
 			throw new InterpretationError(`MisplacedSuperscript`, '', `Could not interpret the superscript due to a missing term prior to it.`)
 
 		// Interpret the exponent and apply it in a power.
-		const exponent = interpretIO(sup.value, settings)
+		const exponent = interpretSI(sup.value, settings)
 		result[result.length - 1] = new Power(previousTerm, exponent)
 	}
 }
@@ -409,7 +409,7 @@ function interpretFunction(element, settings) {
 
 	// Process the arguments and assemble the function.
 	const Component = advancedFunctionComponents[name].component
-	const valueInterpreted = value.map(arg => interpretIO(arg.value, settings))
+	const valueInterpreted = value.map(arg => interpretSI(arg.value, settings))
 	return new Component(...valueInterpreted)
 }
 

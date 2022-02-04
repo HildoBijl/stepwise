@@ -4,7 +4,7 @@ import clsx from 'clsx'
 
 import { selectRandomEmpty } from 'step-wise/util/random'
 import { isObject, deepEquals, processOptions } from 'step-wise/util/objects'
-import { Variable, expressionIOtoFO, support } from 'step-wise/CAS'
+import { Variable, expressionSItoFO, support } from 'step-wise/CAS'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 
 import { useRefWithValue } from 'util/react'
@@ -135,7 +135,7 @@ export function nonEmptyAndValid(data) {
 }
 export function validWithVariables(...variables) {
 	// This validation function is special, in the sense that it's a function that returns a validation function. Give it a set of variables that are accepted, and it checks that only those variables are used.
-	return validWithVariablesGeneric(expressionIOtoFO, ...variables)
+	return validWithVariablesGeneric(expressionSItoFO, ...variables)
 }
 export function validWithVariablesGeneric(interpreter, ...variables) {
 	// Check input.
@@ -151,7 +151,7 @@ export function validWithVariablesGeneric(interpreter, ...variables) {
 	}
 
 	// Filter out non-variable elements and make sure the rest are variables.
-	variables = variables.filter(term => term.isType(Variable) || (typeof term === 'string')).map(Variable.ensureVariable)
+	variables = variables.filter(term => term.isSubtype(Variable) || (typeof term === 'string')).map(Variable.ensureVariable)
 
 	// Set up a validation function based on these variables.
 	return (data) => {
@@ -212,7 +212,7 @@ export function isValid(value) {
 // getValidityMessage takes an Expression value and checks whether it is valid. If not, it gives a message explaining a problem. If it is valid, nothing is returned.
 export function getValidityMessage(value) {
 	try {
-		expressionIOtoFO(value)
+		expressionSItoFO(value)
 	} catch (e) {
 		return getInterpretationErrorMessage(e)
 	}

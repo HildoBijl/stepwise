@@ -109,7 +109,7 @@ function getFeedback(exerciseData) {
 		const sideWithVariable = input.findSide(side => side.dependsOn(variables.x))
 		if (!sideWithVariable)
 			return <>Je antwoord bevat helemaal geen <M>{variables.x}.</M> Waar is die heen?</>
-		if (!sideWithVariable.isType(Sum))
+		if (!sideWithVariable.isSubtype(Sum))
 			return <>Er zijn meerdere termen met <M>{variables.x}.</M> Je lijkt er maar één te hebben.</>
 		const termWithoutVariable = sideWithVariable.terms.find(term => !term.dependsOn(variables.x))
 		if (termWithoutVariable)
@@ -133,7 +133,7 @@ function getFeedback(exerciseData) {
 			return <>Je hebt <M>{variables.x}</M> in z'n geheel laten verdwijnen. Dat was niet de bedoeling.</>
 		if (!expressionChecks.equivalent(sideWithVariable, correct.left) && !expressionChecks.equivalent(sideWithVariable, correct.left.applyMinus()))
 			return <>De kant met <M>{variables.x}</M> is niet meer gelijk aan wat het hiervoor was. Bij het omschrijven ervan is iets fout gegaan.</>
-		if (!(sideWithVariable.isType(Product) && sideWithVariable.terms.length === 2 && sideWithVariable.terms.some(term => variables.x.equals(term))))
+		if (!(sideWithVariable.isSubtype(Product) && sideWithVariable.terms.length === 2 && sideWithVariable.terms.some(term => variables.x.equals(term))))
 			return <>Je hebt <M>{variables.x}</M> niet buiten haakjes gehaald. Je moet de kant met <M>{variables.x}</M> schrijven als <M>{variables.x}\cdot\left(\ldots\right),</M> met een zo simpel mogelijke uitdrukking op de puntjes.</>
 	}
 

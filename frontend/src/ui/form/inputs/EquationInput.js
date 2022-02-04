@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { selectRandomEmpty } from 'step-wise/util/random'
-import { equationIOtoFO, support } from 'step-wise/CAS'
+import { equationSItoFO, support } from 'step-wise/CAS'
 
 import { getInterpretationErrorMessage } from './support/expressionTypes/support/interpretationError'
 
@@ -54,7 +54,7 @@ export function nonEmptyAndValid(data) {
 }
 export function validWithVariables(...variables) {
 	// This validation function is special, in the sense that it's a function that returns a validation function. Give it a set of variables that are accepted, and it checks that only those variables are used.
-	return validWithVariablesGeneric(equationIOtoFO, ...variables)
+	return validWithVariablesGeneric(equationSItoFO, ...variables)
 }
 
 // getEmptyData returns an empty data object, ready to be filled by input.
@@ -75,7 +75,7 @@ export function isValid(value) {
 // getValidityMessage takes an Equation value and checks whether it is valid. If not, it gives a message explaining a problem. If it is valid, nothing is returned.
 export function getValidityMessage(value) {
 	try {
-		equationIOtoFO(value)
+		equationSItoFO(value)
 	} catch (e) {
 		return getInterpretationErrorMessage(e)
 	}

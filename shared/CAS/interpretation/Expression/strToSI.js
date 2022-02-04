@@ -1,4 +1,4 @@
-// This file has all functionalities to turn Expressions, Equations and such from String format to Input Object format. (You can turn String to IO, IO to FO, and FO to String.)
+// This file has all functionalities to turn Expressions, Equations and such from String format to Input Object format. (You can turn String to SI, SI to FO, and FO to String.)
 
 const { getNextSymbol, removeWhitespace } = require('../../../util/strings')
 const { processOptions } = require('../../../util/objects')
@@ -7,7 +7,7 @@ const { defaultInterpretationSettings } = require('../../options')
 
 const { getStartCursor, getEndCursor, getSubExpression, findEndOfTerm, moveRight, addExpressionType } = require('../support')
 
-function strToIO(str, settings = {}) {
+function strToSI(str, settings = {}) {
 	settings = processOptions(settings, defaultInterpretationSettings)
 
 	// Whitespace is always ignored. Remove it directly to prevent confusion.
@@ -19,7 +19,7 @@ function strToIO(str, settings = {}) {
 		value: str,
 	}], settings)
 }
-module.exports = strToIO
+module.exports = strToSI
 
 function processExpression(value, settings) {
 	// Check for subscripts and powers.
@@ -74,17 +74,17 @@ function processExpressionPartSubSups(part, settings) {
 			const end = getBracketEnd(str, position + 1)
 			if (end === -1)
 				throw new Error(`Invalid superscript. A superscript was opened with a bracket, but no matching closing bracket was found.`)
-			power = strToIO(str.substring(position + 2, end))
+			power = strToSI(str.substring(position + 2, end))
 			position = end + 1
 		} else {
 			const numberRegEx = /^-?[0-9.]+/
 			const powerString = str.substring(position + 1)
 			const match = powerString.match(numberRegEx)
 			if (match) { // Check if it is a number, like -2.5.
-				power = strToIO(match[0])
+				power = strToSI(match[0])
 				position = position + 1 + match[0].length
 			} else { // There is no bracket or number. Only take one symbol.
-				power = strToIO(str[position + 1])
+				power = strToSI(str[position + 1])
 				position = position + 2
 			}
 		}

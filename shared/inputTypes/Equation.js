@@ -2,7 +2,7 @@
 
 const { isObject, deepEquals } = require('../util/objects')
 
-const { Equation, ensureEquation, equationStrToIO, equationIOtoFO, support } = require('../CAS')
+const { Equation, ensureEquation, equationStrToSI, equationSItoFO, equationSOtoFO, support } = require('../CAS')
 
 const { getEmpty, isEmpty } = support
 
@@ -14,11 +14,11 @@ module.exports.isFOofType = isFOofType
 
 function FOtoIO(equation) {
 	equation = ensureEquation(equation)
-	return equationStrToIO(equation.str)
+	return equationStrToSI(equation.str)
 }
 module.exports.FOtoIO = FOtoIO
 
-module.exports.IOtoFO = equationIOtoFO
+module.exports.IOtoFO = equationSItoFO
 
 module.exports.getEmpty = getEmpty
 
@@ -28,3 +28,9 @@ function equals(a, b) {
 	return deepEquals(a, b)
 }
 module.exports.equals = equals
+
+// ToDo: remove the above and keep the below after the overhaul.
+
+module.exports.SOtoFO = (SO) => equationSOtoFO(SO)
+module.exports.SItoFO = (value, settings) => equationSItoFO(value, settings)
+module.exports.FOtoSI = (equation) => equationStrToSI(equation.str)

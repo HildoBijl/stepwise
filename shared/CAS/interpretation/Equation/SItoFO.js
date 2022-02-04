@@ -5,15 +5,15 @@ const { defaultInterpretationSettings } = require('../../options')
 
 const InterpretationError = require('../InterpretationError')
 const { getStartCursor, getEndCursor, getSubExpression, moveRight } = require('../support')
-const { IOtoFO: expressionIOtoFO } = require('../Expression')
+const { SItoFO: expressionSItoFO } = require('../Expression')
 
-function IOtoFO(value, settings = {}) {
+function SItoFO(value, settings = {}) {
 	settings = processOptions(settings, defaultInterpretationSettings)
-	return interpretIO(value, settings)
+	return interpretSI(value, settings)
 }
-module.exports = IOtoFO
+module.exports = SItoFO
 
-function interpretIO(value, settings) {
+function interpretSI(value, settings) {
 	// Walk through the expression to find an equals symbol.
 	let part, cursor
 	value.forEach((element, partIndex) => {
@@ -46,7 +46,7 @@ function interpretIO(value, settings) {
 	const left = getSubExpression(value, start, equalsPosition)
 	const right = getSubExpression(value, moveRight(equalsPosition), end)
 	return new Equation({
-		left: expressionIOtoFO(left, settings),
-		right: expressionIOtoFO(right, settings),
+		left: expressionSItoFO(left, settings),
+		right: expressionSItoFO(right, settings),
 	})
 }
