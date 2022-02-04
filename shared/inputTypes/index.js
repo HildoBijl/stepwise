@@ -1,8 +1,13 @@
 const { isObject, isBasicObject, applyToEachParameter, deepEquals } = require('../util/objects')
 
-const oldTypes = ['Float', 'Unit', 'FloatUnit'] // ToDo: remove these old types after the overhaul.
+const oldTypes = ['Unit', 'FloatUnit'] // ToDo: remove these old types after the overhaul.
 
-const types = ['Boolean', 'String', 'Integer', 'MultipleChoice', 'Expression', 'Equation', 'Vector', 'PositionedVector']
+const types = [
+	'Boolean', 'String', 'MultipleChoice', // Basic types. Must be removed after legacy data is deleted.
+	'Integer', 'Float', // Number- and physics-based types.
+	'Expression', 'Equation', // Expression-based types.
+	'Vector', 'PositionedVector', // Object-based types.
+]
 // ToDo: remove Boolean, String and MultipleChoice and the corresponding file after the overhaul.
 
 // ToDo: clean up this file. Only toSO and toFO should stay.
@@ -102,28 +107,6 @@ function equals(a, b) {
 	return require(`./${a.type}`).equals(a.value, b.value)
 }
 module.exports.equals = equals
-
-// inputSetsEqual checks if two input sets are equal. For instance, the set { x: { type: "Integer", value: "-42" }, y: { type: "Integer", value: "12" } }. It does this by calling the equals function for each parameter.
-function inputSetsEqual(a, b) {
-	// Check for non-object types.
-	if (!isObject(a) || !isObject(b))
-		throw new Error(`Invalid input set: tried to compare two input sets, but one of them wasn't an object. Tried to compare "${JSON.stringify(a)}" with "${JSON.stringify(b)}".`)
-
-	// Check number of keys.
-	const keys1 = Object.keys(a)
-	const keys2 = Object.keys(b)
-	if (keys1.length !== keys2.length)
-		return false
-
-	// Merge keys and check new length.
-	const keys = [...new Set([...keys1, ...keys2])]
-	if (keys.length !== keys1.length)
-		return false
-
-	// Walk through keys and check equality.
-	return keys.every(key => equals(a[key], b[key]))
-}
-module.exports.inputSetsEqual = inputSetsEqual
 
 // toFO takes a data object, which may be an SO, and tries to interpret it into functional components. It does so recursively for child parameters. It attempts to find which type it is and use the corresponding SOtoFO function (or SItoFO function if the useSI flag is set to true).
 function toFO(data, useSI = false) {

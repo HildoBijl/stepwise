@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react'
 
-import { inputSetsEqual } from 'step-wise/inputTypes'
+import { deepEquals } from 'step-wise/util/objects'
 
 import VerticalAdjuster from 'ui/components/layout/VerticalAdjuster'
 import { useFormData } from 'ui/form/Form'
@@ -40,7 +40,7 @@ function Contents({ Problem, Solution }) {
 	// Determine what to show.
 	const hasSubmissions = history.some(event => event.action.type === 'input') // Has there been an input action?
 	const showInputSpace = !progress.done || hasSubmissions
-	const showMainFeedback = showInputSpace && (progress.done || inputSetsEqual(input, feedbackInput))
+	const showMainFeedback = showInputSpace && (progress.done || deepEquals(input, feedbackInput))
 
 	return <>
 		<ProblemContainer>

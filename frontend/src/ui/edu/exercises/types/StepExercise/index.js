@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 
 import { numberArray } from 'step-wise/util/arrays'
-import { inputSetsEqual } from 'step-wise/inputTypes'
+import { deepEquals } from 'step-wise/util/objects'
 import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
 
 import VerticalAdjuster from 'ui/components/layout/VerticalAdjuster'
@@ -43,7 +43,7 @@ function Contents({ Problem: MainProblem, steps }) {
 
 	// Determine what to show.
 	const showInputSpace = !progress.split
-	const showMainFeedback = showInputSpace && (progress.solved || progress.split || inputSetsEqual(input, feedbackInput))
+	const showMainFeedback = showInputSpace && (progress.solved || progress.split || deepEquals(input, feedbackInput))
 
 	return <>
 		<ProblemContainer>

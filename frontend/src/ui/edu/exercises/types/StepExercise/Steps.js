@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { inputSetsEqual } from 'step-wise/inputTypes'
+import { deepEquals } from 'step-wise/util/objects'
 import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
 
 import VerticalAdjuster from 'ui/components/layout/VerticalAdjuster'
@@ -31,7 +31,7 @@ export function Step({ step, Problem, Solution, forceDisplay }) {
 	// If this step has had a submission, or is still active, show the input space.
 	const hasSubmissions = history.some((event, index) => (event.action.type === 'input' && index > 0 && history[index - 1].progress.step === step))
 	const showInputSpace = !stepProgress.done || hasSubmissions
-	const showMainFeedback = showInputSpace && (stepProgress.done || inputSetsEqual(input, feedbackInput))
+	const showMainFeedback = showInputSpace && (stepProgress.done || deepEquals(input, feedbackInput))
 
 	return <>
 		<ProblemContainer display={display} step={step}>

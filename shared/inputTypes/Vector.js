@@ -2,4 +2,4 @@
 
 const { Vector } = require('../CAS/linearAlgebra')
 
-module.exports.SOtoFO = obj => new Vector(obj)
+module.exports.SOtoFO = SO => new Vector(SO)

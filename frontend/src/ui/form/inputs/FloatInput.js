@@ -5,10 +5,20 @@ import clsx from 'clsx'
 import { isNumber } from 'step-wise/util/numbers'
 import { selectRandomEmpty, selectRandomNegative } from 'step-wise/util/random'
 import { removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
-import { getEmpty, isEmpty, IOtoFO } from 'step-wise/inputTypes/Float'
+import { IOtoFO } from 'step-wise/inputTypes/Float'
 
 import FieldInput, { CharString, getClickPosition } from './support/FieldInput'
 
+// Define various trivial objects and functions.
+export const emptyData = { type: 'Float', value: { number: '', power: '' } }
+export const isEmpty = value => value.number === '' && value.power === ''
+export const getStartCursor = () => ({ part: 'number', cursor: 0 })
+export const getEndCursor = ({ number, power }, cursor) => (power !== '' || (cursor && cursor.part === 'power')) ? { part: 'power', cursor: power.length } : { part: 'number', cursor: number.length }
+export const isCursorAtStart = (_, cursor) => cursor.part === 'number' && cursor.cursor === 0
+export const isCursorAtEnd = ({ number, power }, cursor) => (cursor.part === 'power') ? (cursor.cursor === power.length) : (power === '' && cursor.cursor === number.length)
+export const isValid = ({ number }) => number.replace(/[.-]/g, '').length > 0 // It should have a number somewhere in it.
+
+// Define styles.
 const style = (theme) => ({
 	'& .tenPowerContainer': {
 		// color: theme.palette.info.main,
@@ -25,7 +35,7 @@ const defaultProps = {
 	positive: false,
 	allowPower: true,
 	validate: nonEmpty,
-	initialData: getEmptyData(),
+	initialData: emptyData,
 	isEmpty: data => isEmpty(data.value),
 	JSXObject: Float,
 	keyboardSettings: dataToKeyboardSettings,
@@ -103,15 +113,6 @@ export function Float({ type, value, cursor }) {
 			</span>
 		</span>}
 	</>
-}
-
-// getEmptyData returns an empty data object, ready to be filled by input.
-export function getEmptyData() {
-	return {
-		type: 'Float',
-		value: getEmpty(),
-		cursor: getStartCursor(),
-	}
 }
 
 // dataToKeyboardSettings takes a data object and determines what keyboard settings are appropriate.
@@ -258,34 +259,4 @@ export function mouseClickToCursor(evt, data, contentsElement) {
 
 	// Most likely we never get here. Just in case, keep the cursor as it.
 	return data.cursor
-}
-
-// getStartCursor gives the cursor position at the start.
-export function getStartCursor(value = getEmpty(), cursor = null) {
-	return { part: 'number', cursor: 0 }
-}
-
-// getEndCursor gives the cursor position at the end.
-export function getEndCursor(value = getEmpty(), cursor = null) {
-	const { number, power } = value
-	if (power !== '' || (cursor && cursor.part === 'power'))
-		return { part: 'power', cursor: power.length }
-	return { part: 'number', cursor: number.length }
-}
-
-// isCursorAtStart returns a boolean: is the cursor at the start?
-export function isCursorAtStart(value, cursor) {
-	return cursor.part === 'number' && cursor.cursor === 0
-}
-
-// isCursorAtEnd returns a boolean: is the cursor at the end?
-export function isCursorAtEnd(value, cursor) {
-	if (cursor.part === 'power')
-		return cursor.cursor === value.power.length
-	return value.power === '' && cursor.cursor === value.number.length
-}
-
-// isValid checks if a float IO is valid.
-export function isValid(value) {
-	return value.number.replace(/[.-]/g, '').length > 0 // It should have a number somewhere in it.
 }

@@ -57,7 +57,7 @@ export default function Form({ children }) {
 			setInput((input) => {
 				if (input[id] !== undefined)
 					return input
-				return { ...input, [id]: (typeof initialData === 'function' ? initialData() : initialData) }
+				return { ...input, [id]: initialData }
 			})
 		}
 	}, [setSubscriptions, setInput])
@@ -172,27 +172,27 @@ export function useFormParameter(options = {}) {
 	// Define custom handlers.
 	const setData = useCallback(data => setParameter(id, data), [id, setParameter])
 
-	// Subscribe upon mountain and unsubscribe upon unmounting. This also applies the initial data, if given.
+	// Subscribe upon mounting and unsubscribe upon unmounting. This also applies the initial data, if given.
 	const initialDataRef = useRefWithValue(initialData)
 	useEffect(() => {
-		subscribe(id, initialDataRef.current)
+		subscribe(id, functionalize(initialDataRef.current))
 		return () => unsubscribe(id, persistent) // Upon unmounting, remove the parameter.
-	}, [id, persistent, subscribe, unsubscribe, initialDataRef])
+	}, [id, persistent, subscribe, unsubscribe, initialDataRef, functionalize])
 
 	// Upon a history change, try to fill empty fields with previously submitted values. This is mainly useful upon page reloads for logged-in users to fill up the form. For regular page usage it often does not have an effect, unless later on a field is reused which was submitted in a previous input submission.
 	useEffect(() => {
 		const lastInput = getLastInput(history)
 		if (lastInput && lastInput[id]) {
 			setData(data => {
-				// If there already was data, then keep it.
-				if (!deepEquals(initialDataRef.current, data))
+				// If the data has been changed since the initial data provision, keep the new data.
+				if (!deepEquals(initialDataRef.current, clean(data)))
 					return data
 
-				// Functionalize the data from the history.
+				// Use the data from the history, after functionalizing it.
 				return functionalize(lastInput[id])
 			})
 		}
-	}, [id, history, setData, initialDataRef, functionalize])
+	}, [id, history, setData, initialDataRef, clean, functionalize])
 
 	// Return the required tuple.
 	if (!(id in input))

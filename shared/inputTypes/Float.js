@@ -67,6 +67,19 @@ class Float {
 		this._power = typeof input.power === 'string' ? parseInt(input.power) : input.power
 	}
 
+	get type() {
+		return 'Float'
+	}
+
+	// SO returns a storage object representation of this float number that can be interpreted again.
+	get SO() {
+		return {
+			number: this.number,
+			significantDigits: this.significantDigits,
+			power: this.power,
+		}
+	}
+
 	// number returns the float number as a number. So it's not 314.159 * 10^(-2) but it's 3.14159.
 	get number() {
 		return this._number
@@ -164,7 +177,7 @@ class Float {
 		return (this.number < 0 || this.hasVisiblePower() ? `\\left(${this.tex}\\right)` : this.tex)
 	}
 
-	// getDisplayPower returns the power with which we want to display the number. If the power is known, it is returned. Otherwise we intelligently determine one.
+	// getDisplayPower returns the power with which we want to display the number. If the power is known, it is returned. Otherwise we intelligently determine one. It is returned as an integer number (not a string).
 	getDisplayPower() {
 		// If the power is set, just return that.
 		if (this._power !== undefined)
@@ -202,15 +215,6 @@ class Float {
 
 		// All done!
 		return str
-	}
-
-	// SO returns a storage object representation of this float number that can be interpreted again.
-	get SO() {
-		return {
-			number: this.number,
-			significantDigits: this.significantDigits,
-			power: this.power,
-		}
 	}
 
 	set significantDigits(significantDigits) {
@@ -624,27 +628,9 @@ function numberToSO(number) {
 }
 module.exports.numberToSO = numberToSO
 
-// The following functions are obligatory functions.
-function isFOofType(float) {
-	return isObject(float) && float.constructor === Float
-}
-module.exports.isFOofType = isFOofType
+// The functions below describe how to transfer between various data types, other than the standard ways in which this is done.
 
-function FOtoIO(float) {
-	// Check if we have a Float object already. If not, turn it into one. (Or die trying.)
-	if (float.constructor !== Float)
-		float = new Float(float)
-
-	// Find a way to display the float.
-	const power = float.getDisplayPower()
-	return {
-		number: float.getDisplayNumber(power),
-		power: power === 0 ? '' : power.toString(),
-	}
-}
-module.exports.FOtoIO = FOtoIO
-
-function IOtoFO({ number, power }) {
+module.exports.SItoFO = ({ number, power }) => {
 	// Grab the number and the power. Take into account a few boundary cases.
 	number = (number === '' || number === '-' || number === '.' || number === '-.' ? '0' : number)
 	power = (power === '' || power === '-' ? 0 : parseInt(power))
@@ -656,19 +642,20 @@ function IOtoFO({ number, power }) {
 		power,
 	})
 }
-module.exports.IOtoFO = IOtoFO
 
-function getEmpty() {
-	return { number: '', power: '' }
+module.exports.FOtoSI = (float) => {
+	const power = float.getDisplayPower()
+	return {
+		number: float.getDisplayNumber(power),
+		power: power === 0 ? '' : power.toString(),
+	}
 }
-module.exports.getEmpty = getEmpty
 
-function isEmpty(obj) {
-	return obj.number === '' && obj.power === ''
-}
-module.exports.isEmpty = isEmpty
+module.exports.SOtoFO = SO => {
+	// Legacy: if the number is a string, it's actually an SI. ToDo: remove this once the overhaul is done and exercise data has been deleted.
+	if (typeof SO.number === 'string')
+		return module.exports.SItoFO(SO)
 
-function equals(a, b) {
-	return IOtoFO(a).equals(IOtoFO(b))
+	// The regular way of getting the FO.
+	return new Float(SO)
 }
-module.exports.equals = equals
