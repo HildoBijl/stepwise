@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { alpha } from '@material-ui/core/styles/colorManipulator'
 
 import { processOptions, filterOptions } from 'step-wise/util/objects'
+import { toFO, toSO } from 'step-wise/inputTypes'
 import { PositionedVector } from 'step-wise/CAS/linearAlgebra'
 
 import { getEventPosition } from 'util/dom'
@@ -23,7 +24,7 @@ const maximumMomentDistance = 50
 export const defaultFBDInputOptions = {
 	...defaultEngineeringDiagramOptions,
 	...defaultDrawingInputOptions,
-	initialData: { type: 'FreeBodyDiagram', loads: [] }, // ToDo: put this initial FBD value in a central place.
+	initialData: { loads: [], selection: [] },
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -58,6 +59,8 @@ function FBDInputUnforwarded(options, ref) {
 		...filterOptions(options, defaultDrawingInputOptions),
 		element: container,
 		drawingRef,
+		clean: FItoSI,
+		functionalize: SItoFI,
 	})
 
 	// Determine what object results from dragging.
@@ -125,4 +128,15 @@ function dragToObject(mouseDownPosition, snappedMousePosition, mousePosition, is
 
 	// Otherwise return a Force.
 	return { type: 'Force', positionedVector: new PositionedVector({ start: mouseDownPosition, end: snappedMousePosition }) }
+}
+
+function SItoFI(data) {
+	return {
+		loads: toFO(data),
+		selection: [],
+	}
+}
+
+function FItoSI(data) {
+	return toSO(data.loads)
 }

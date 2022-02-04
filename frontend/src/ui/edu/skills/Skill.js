@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { noop } from 'step-wise/util/functions'
-import { setIOtoFO, setFOtoIO } from 'step-wise/inputTypes'
+import { toFO, toSO } from 'step-wise/inputTypes'
 import skills from 'step-wise/edu/skills'
 import { processSkillId } from 'step-wise/edu/skills/util'
 import { getNewExercise } from 'step-wise/edu/exercises/util/selection'
@@ -91,7 +91,7 @@ function SkillForStranger() {
 			const newExercise = await getNewExercise(skillId)
 			const exercise = { // Emulate the exercise object that we otherwise get from the server.
 				exerciseId: newExercise.exerciseId,
-				state: setFOtoIO(newExercise.state), // The state should be in input format, as if it came from the database.
+				state: toSO(newExercise.state), // The state should be in storage format, as if it came from the database.
 				id: uuidv4(), // Just generate a random one.
 				active: true,
 				progress: {},
@@ -109,7 +109,7 @@ function SkillForStranger() {
 
 	// On a submit handle the process as would happen on the server: find the new progress and incorporate it into the exercise data and its history.
 	const submitAction = useCallback((action, processAction) => {
-		const progress = processAction({ action, state: setIOtoFO(exercise.state), progress: exercise.progress, history: exercise.history, updateSkills: noop })
+		const progress = processAction({ action, state: toFO(exercise.state), progress: exercise.progress, history: exercise.history, updateSkills: noop })
 		setExercise({
 			...exercise,
 			active: exercise.active && !progress.done,

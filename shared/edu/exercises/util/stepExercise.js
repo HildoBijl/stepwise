@@ -1,4 +1,4 @@
-const { setIOtoFO } = require('../../../inputTypes')
+const { toFO } = require('../../../inputTypes')
 const { ensureInt } = require('../../../util/numbers')
 
 // getStepExerciseProcessor takes a checkInput function that checks the input for a StepExercise and returns a processAction function.
@@ -13,7 +13,7 @@ function getStepExerciseProcessor(checkInput, data) {
 			case 'input':
 				// Are we in the main problem?
 				if (!progress.split) {
-					const correct = checkInput(state, setIOtoFO(action.input), 0, 0)
+					const correct = checkInput(state, toFO(action.input, true), 0, 0)
 					if (correct) {
 						updateSkills(data.skill, true)
 						updateSkills(data.setup, true)
@@ -34,7 +34,7 @@ function getStepExerciseProcessor(checkInput, data) {
 						const substep = index + 1
 						if (stepProgress[substep])
 							return // Already solved before.
-						const correct = checkInput(state, setIOtoFO(action.input), step, substep)
+						const correct = checkInput(state, toFO(action.input, true), step, substep)
 						stepProgress[substep] = correct
 						updateSkills(subskill, correct)
 					})
@@ -46,7 +46,7 @@ function getStepExerciseProcessor(checkInput, data) {
 						return { ...progress, [step]: stepProgress }
 				} else {
 					// No substeps; just a regular step. Check it and update skills/progress accordingly.
-					const correct = checkInput(state, setIOtoFO(action.input), step, 0)
+					const correct = checkInput(state, toFO(action.input, true), step, 0)
 					updateSkills(skill, correct)
 					if (correct)
 						return nextStep({ ...progress, [step]: { solved: true, done: true } }, numSteps)

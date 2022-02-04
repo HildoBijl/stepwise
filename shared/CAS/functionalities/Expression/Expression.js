@@ -114,18 +114,14 @@ class Expression {
 		// Walk through all properties and process them.
 		const result = {}
 		Object.keys(this.constructor.getDefaultSO()).forEach(key => {
-			result[key] = processProp(this[key])
+			const value = processProp(this[key])
+			if (value !== undefined)
+				result[key] = value
 		})
 
 		// Add the type too.
 		result.type = this.type
-		result.color = this.color
 		return result
-	}
-
-	// clone will create a clone of this element.
-	clone() {
-		return new this.constructor(this.SO)
 	}
 
 	/*

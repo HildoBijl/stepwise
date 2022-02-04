@@ -9,6 +9,8 @@ import { useFormParameter, defaultUseFormParameterOptions } from 'ui/form/Form'
 import { useFieldRegistration, defaultFieldControlOptions } from 'ui/form/FieldController'
 import { useFieldFeedback, defaultFieldFeedbackOptions } from 'ui/form/FeedbackProvider'
 
+const bannedInputIds = ['id', 'type', 'value', 'cursor', 'SO']
+
 /* useAsInput can be used inside an input field and does various things.
  * - Extract the status of this input field from the Status context.
  * - Connecting it to the Form for input data storage.
@@ -22,6 +24,8 @@ export function useAsInput(options) {
 	// Process and check basic properties.
 	let { id } = options
 	id = ensureString(id)
+	if (bannedInputIds.includes(id))
+		throw new Error(`Disallowed input ID used: the ID "${id}" is a reserved keyword and is not allowed as an ID for an input field.`)
 
 	// Find the status of the Exercise block: are we done with this part of the exercise? Based on this, determine if we should make it read-only.
 	let { readOnly } = options
@@ -55,6 +59,8 @@ export const defaultInputOptions = {
 	// For Form data registration.
 	initialData: undefined,
 	persistent: undefined,
+	clean: undefined,
+	functionalize: undefined,
 
 	// For focus and tabbing.
 	useFocusRegistration: true,

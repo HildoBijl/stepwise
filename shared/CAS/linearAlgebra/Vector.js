@@ -32,6 +32,14 @@ class Vector {
 		return Vector.fromCoordinates(vector)
 	}
 
+	get SO() {
+		return this.coordinates
+	}
+
+	get type() {
+		return this.constructor.type
+	}
+
 	/*
 	 * Getting and setting coordinates.
 	 */
@@ -249,6 +257,7 @@ class Vector {
 		})
 	}
 }
+Vector.type = 'Vector'
 Vector.zero = new Vector(0, 0)
 Vector.i = new Vector(1, 0)
 Vector.j = new Vector(0, 1)

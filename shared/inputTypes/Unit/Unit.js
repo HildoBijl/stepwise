@@ -71,11 +71,6 @@ class Unit {
 		}
 	}
 
-	// clone provides a clone of this object.
-	clone() {
-		return new this.constructor(this.SO)
-	}
-
 	// isValid returns whether we have a valid unit (true or false). So whether all unit elements in this unit are valid unit elements: whether they have been recognized.
 	isValid() {
 		return this._num.every(unitElement => unitElement.isValid()) && this._den.every(unitElement => unitElement.isValid())

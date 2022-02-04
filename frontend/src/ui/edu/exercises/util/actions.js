@@ -6,15 +6,13 @@ import { lastOf } from 'step-wise/util/arrays'
 
 import { useRefWithValue } from 'util/react'
 import { useFormData } from 'ui/form/Form'
-import { removeCursors } from 'ui/form/inputs/support/FieldInput'
 
 import { useExerciseData } from '../ExerciseContainer'
 
 export function useSubmitAction() {
 	const { submitting, submitAction, history } = useExerciseData()
-	const { input, isValid } = useFormData()
+	const { getCleanInput, isValid } = useFormData()
 
-	const inputRef = useRefWithValue(input)
 	const historyRef = useRefWithValue(history)
 	const disabledRef = useRefWithValue(submitting)
 
@@ -22,20 +20,20 @@ export function useSubmitAction() {
 		// Check if we're enabled. (This is not the case if we're still submitting.)
 		if (disabledRef.current)
 			return
-
+		
 		// Check if the input has validated.
 		if (!isValid())
 			return
 
 		// Check if the input is the same as for the previous action.
-		const input = removeCursors(inputRef.current)
+		const input = getCleanInput()
 		const lastAction = (historyRef.current.length > 0 && lastOf(historyRef.current).action)
 		if (lastAction && lastAction.type === 'input' && deepEquals(input, lastAction.input))
 			return
 
 		// All checks are fine. Submit the input!
 		return submitAction({ type: 'input', input })
-	}, [inputRef, historyRef, disabledRef, isValid, submitAction])
+	}, [getCleanInput, isValid, historyRef, disabledRef, submitAction])
 }
 
 export function useGiveUpAction() {

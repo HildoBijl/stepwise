@@ -102,11 +102,6 @@ class UnitElement {
 		}
 	}
 
-	// clone provides a clone of this unit element.
-	clone() {
-		return new this.constructor(this.SO)
-	}
-
 	// hasPrefix returns true/false: does the UnitElement have a prefix?
 	hasPrefix() {
 		return !!this._prefix

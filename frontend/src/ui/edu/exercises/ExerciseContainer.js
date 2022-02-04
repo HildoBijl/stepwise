@@ -1,6 +1,6 @@
 import React, { useState, createContext, useContext, useEffect, useRef, useMemo } from 'react'
 
-import { setIOtoFO } from 'step-wise/inputTypes'
+import { toFO } from 'step-wise/inputTypes'
 
 import LoadingNote from 'ui/components/flow/LoadingNote'
 import ErrorBoundary from 'ui/components/flow/ErrorBoundary'
@@ -27,7 +27,7 @@ export default function ExerciseContainer({ exercise, submitting, submitAction, 
 	useEffect(reload, [exerciseId])
 
 	// If there is a solution for this exercise, calculate and include it.
-	const stateFO = useMemo(() => setIOtoFO(state), [state])
+	const stateFO = useMemo(() => toFO(state), [state])
 	const { getSolution } = ExerciseShared.current || {}
 	const solution = useMemo(() => getSolution && getSolution(stateFO), [getSolution, stateFO])
 

@@ -4,7 +4,7 @@ import { useTheme } from '@material-ui/core/styles'
 import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
 import { noop } from 'step-wise/util/functions'
 import { deepEquals, processOptions } from 'step-wise/util/objects'
-import { setIOtoFO } from 'step-wise/inputTypes'
+import { toFO } from 'step-wise/inputTypes'
 import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 
 import { useRefWithValue } from 'util/react'
@@ -29,7 +29,7 @@ export default function FeedbackProvider({ children, getFeedback }) {
 		const { getFeedback, prevProgress, feedback, feedbackInput } = dataRef.current
 		setFeedbackInput(input)
 		if (getFeedback) {
-			const newFeedback = getFeedback({ ...dataRef.current, input: setIOtoFO(input), prevProgress, prevFeedback: feedback, prevInput: setIOtoFO(feedbackInput) })
+			const newFeedback = getFeedback({ ...dataRef.current, input: toFO(input, true), prevProgress, prevFeedback: feedback, prevInput: toFO(feedbackInput, true) })
 			if (!newFeedback)
 				throw new Error(`Invalid feedback: a feedback was returned which it not an object. Instead, we received "${newFeedback}". Possibly the getFeedback function forgot to return anything sensible?`)
 			setFeedback(newFeedback)

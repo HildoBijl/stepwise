@@ -3,6 +3,9 @@ const { ensureInt } = require('./numbers')
 function noop() { }
 module.exports.noop = noop
 
+function passOn(x) { return x }
+module.exports.passOn = passOn
+
 // repeat will repeat the given function the given number of times. The function is passed the index (0, 1, ..., (times-1)) as parameter. Negative times will throw an error.
 function repeat(times, func) {
 	repeatWithIndices(0, times - 1, func)

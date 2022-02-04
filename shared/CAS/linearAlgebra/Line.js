@@ -41,6 +41,17 @@ class Line {
 			throw new Error(`Invalid Line direction: cannot accept a direction Vector with zero magnitude.`)
 	}
 
+	get SO() {
+		return {
+			start: this.start.SO,
+			direction: this.direction.SO,
+		}
+	}
+
+	get type() {
+		return this.constructor.type
+	}
+
 	/*
 	 * Getting and setting.
 	 */
@@ -246,6 +257,7 @@ class Line {
 		return Line.getAxisLineThrough(point, 1)
 	}
 }
+Line.type = 'Line'
 module.exports.Line = Line
 
 // ensureLine turns the given line parameter into a Line object or dies trying. It can optionally also check for the given dimension.

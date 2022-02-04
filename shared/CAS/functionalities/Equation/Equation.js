@@ -52,11 +52,6 @@ class Equation {
 		return result
 	}
 
-	// clone will create a clone of this element.
-	clone() {
-		return new this.constructor(this.SO)
-	}
-
 	/*
 	 * Display methods.
 	 */

@@ -46,6 +46,17 @@ class PositionedVector {
 		}
 	}
 
+	get SO() {
+		return {
+			start: this.start.SO,
+			end: this.end.SO,
+		}
+	}
+
+	get type() {
+		return this.constructor.type
+	}
+
 	/*
 	 * Getting and setting.
 	 */
@@ -177,6 +188,7 @@ class PositionedVector {
 
 	// None yet.
 }
+PositionedVector.type = 'PositionedVector'
 module.exports.PositionedVector = PositionedVector
 
 // ensurePositionedVector ensures that the given parameter is a PositionedVector object. If not, it tries to turn it into one, or throws an error upon failure. Optionally, a dimension may be given which is then checked too.

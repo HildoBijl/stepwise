@@ -213,11 +213,6 @@ class Float {
 		}
 	}
 
-	// clone provides a clone of this object.
-	clone() {
-		return new this.constructor(this.SO)
-	}
-
 	set significantDigits(significantDigits) {
 		if (!isInt(significantDigits) || significantDigits < 0)
 			throw new Error(`Invalid significantDigits: the number of significant digits should be a non-negative integer, but "${significantDigits}" was given.`)

@@ -6,6 +6,12 @@ function isObject(obj) {
 }
 module.exports.isObject = isObject
 
+// isBasicObject checks if a variable is a simple object made through {...}. So not one through a constructor with various methods.
+function isBasicObject(obj) {
+	return isObject(obj) && obj.constructor === Object
+}
+module.exports.isBasicObject = isBasicObject
+
 // ensureObject makes sure an object is an object and otherwise throws an error.
 function ensureObject(obj) {
 	if (!isObject(obj))
@@ -78,11 +84,13 @@ function ensureConsistency(newValue, oldValue) {
 }
 module.exports.ensureConsistency = ensureConsistency
 
-// applyToEachParameter takes an object with multiple parameters, like { a: 2, b: 3 }, and applies a function like (x) => 2*x to each parameter. It returns a new object (the old one is unchanged) with the result, like { a: 4, b: 6 }.
+// applyToEachParameter takes an object with multiple parameters, like { a: 2, b: 3 }, and applies a function like (x, key) => 2*x to each parameter. It returns a new object (the old one is unchanged) with the result, like { a: 4, b: 6 }. It can also receive an array, in which case it returns an array (just like array map).
 function applyToEachParameter(obj, func) {
+	if (Array.isArray(obj))
+		return obj.map(func)
 	const result = {}
 	Object.keys(obj).forEach(key => {
-		result[key] = func(obj[key])
+		result[key] = func(obj[key], key)
 	})
 	return result
 }
