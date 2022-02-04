@@ -1,9 +1,9 @@
 const { isObject, isBasicObject, applyToEachParameter, deepEquals } = require('../util/objects')
 
-const oldTypes = ['String', 'Boolean', 'Integer', 'Float', 'Unit', 'FloatUnit'] // ToDo: remove these old types after the overhaul.
+const oldTypes = ['Float', 'Unit', 'FloatUnit'] // ToDo: remove these old types after the overhaul.
 
-const types = ['MultipleChoice', 'Expression', 'Equation', 'Vector', 'PositionedVector']
-// ToDo: remove MultipleChoice and the corresponding file after the overhaul.
+const types = ['Boolean', 'String', 'Integer', 'MultipleChoice', 'Expression', 'Equation', 'Vector', 'PositionedVector']
+// ToDo: remove Boolean, String and MultipleChoice and the corresponding file after the overhaul.
 
 // ToDo: clean up this file. Only toSO and toFO should stay.
 

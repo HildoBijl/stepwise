@@ -1,4 +1,4 @@
-const { isInt, isNumber } = require('../util/numbers')
+const { isNumber } = require('../util/numbers')
 const { processOptions } = require('../util/objects')
 const { getRandomInteger } = require('../util/random')
 
@@ -66,36 +66,11 @@ function texWithBrackets(int) {
 }
 module.exports.texWithBrackets = texWithBrackets
 
-function isFOofType(int) {
-	return typeof int === 'number' && isInt(int)
-}
-module.exports.isFOofType = isFOofType
+// ToDo: figure out what to do with the functions above.
 
-function FOtoIO(int) {
-	return int.toString()
-}
-module.exports.FOtoIO = FOtoIO
+// An Integer coming from an input field is stored as a string. In this way we can remember what exactly the user put in.
 
-function IOtoFO(value) {
-	if (value === '' || value === '-')
-		return 0
-	return parseInt(value)
-}
-module.exports.IOtoFO = IOtoFO
+module.exports.SItoFO = (value) => (value === '' || value === '-') ? 0 : parseInt(value)
 
-function getEmpty() {
-	return ''
-}
-module.exports.getEmpty = getEmpty
-
-function isEmpty(value) {
-	if (typeof value !== 'string')
-		throw new Error(`Invalid type: expected a string but received "${JSON.stringify(value)}".`)
-	return value === ''
-}
-module.exports.isEmpty = isEmpty
-
-function equals(a, b) {
-	return IOtoFO(a) === IOtoFO(b)
-}
-module.exports.equals = equals
+// ToDo: remove the below function after the overhaul and after deleting user entries.
+module.exports.SOtoFO = module.exports.SItoFO

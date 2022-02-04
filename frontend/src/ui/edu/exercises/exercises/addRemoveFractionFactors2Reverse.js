@@ -22,7 +22,7 @@ export default function Exercise() {
 const Problem = (state) => {
 	const { variables, expression } = useSolution(state)
 	return <>
-		<Par>Gegeven is de breuk <BM>{expression}.</BM> Vermenigvuldig zowel de noemer als de teller met een factor <M>{variables.x}.</M> Schrijf het resultaat zo simpel mogelijk op.</Par>
+		<Par>Gegeven is de breuk <BM>{expression}.</BM> Vermenigvuldig zowel de noemer als de teller met een factor <M>{variables.x}.</M> Schrijf de teller en noemer zo simpel mogelijk op.</Par>
 		<InputSpace>
 			<Par>
 				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={{ ...basicMath, power: true }} validate={validWithVariables(variables)} />

@@ -1,33 +1,4 @@
-const { getRandomBoolean } = require('../util/random')
+// This is a legacy type. In the past Booleans were stored as { type: 'Boolean', value: false } but this was overkill. The function below turns these old types into a simple boolean.
+// ToDo: remove this file as well as the corresponding data type after the major overhaul and after clearing out all old exercise data.
 
-module.exports.getRandomBoolean = getRandomBoolean // Exports this function here too, for uniformity's sake.
-
-function isFOofType(bool) {
-	return typeof bool === 'boolean'
-}
-module.exports.isFOofType = isFOofType
-
-function FOtoIO(bool) {
-	return bool
-}
-module.exports.FOtoIO = FOtoIO
-
-function IOtoFO(bool) {
-	return bool
-}
-module.exports.IOtoFO = IOtoFO
-
-function getEmpty() {
-	return false
-}
-module.exports.getEmpty = getEmpty
-
-function isEmpty(value) {
-	return false // Never empty.
-}
-module.exports.isEmpty = isEmpty
-
-function equals(a, b) {
-	return IOtoFO(a) === IOtoFO(b)
-}
-module.exports.equals = equals
+module.exports.SOtoFO = SI => SI

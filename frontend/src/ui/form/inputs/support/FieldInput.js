@@ -243,7 +243,7 @@ const useStyles = makeStyles((theme) => ({
 export default function FieldInput(options) {
 	// Gather properties.
 	let { prelabel, label, placeholder, className, size, center } = options // User-defined props that are potentially passed on.
-	let { isEmpty, JSXObject, keyPressToData, mouseClickToCursor, mouseClickToData, getStartCursor, getEndCursor, isCursorAtStart, keyboardSettings, basic, autoResize = false, heightDelta = 0 } = options // Field-defined props that vary per field type.
+	let { isEmpty, JSXObject, keyPressToData, mouseClickToCursor, mouseClickToData, getStartCursor, getEndCursor, isCursorAtStart, clean, functionalize, keyboardSettings, basic, autoResize = false, heightDelta = 0 } = options // Field-defined props that vary per field type.
 
 	// Set up refs.
 	const prelabelRef = useRef()
@@ -264,17 +264,14 @@ export default function FieldInput(options) {
 	} : false // When no settings are provided, no keyboard needs to be shown.
 
 	// Connect as an input.
+	const addCursor = useAddCursorFunction(getEndCursor)
 	const { id, readOnly, data, setData, active, feedback } = useAsInput({
 		...filterOptions(options, defaultInputOptions),
 		element: fieldRef,
 		keyboard,
+		clean: clean || removeCursor,
+		functionalize: functionalize || addCursor,
 	})
-
-	// Ensure that there is a cursor. This may be missing when the form just got previously submitted data from the server.
-	useEffect(() => {
-		if (data && data.cursor === undefined)
-			setData({ ...data, cursor: getEndCursor(data.value, data.cursor) })
-	}, [data, setData, getEndCursor])
 
 	// Set up necessary effects.
 	const processKeyPress = useCallback(keyInfo => setData(data => keyPressToData(keyInfo, data, contentsRef.current)), [setData, keyPressToData, contentsRef])
@@ -508,6 +505,18 @@ export function removeCursor(input) {
 // removeCursors applies removeCursor to all elements in an input set.
 export function removeCursors(inputSet) {
 	return applyToEachParameter(inputSet, removeCursor)
+}
+
+// useAddCursorFunction takes a cursor positioning function like getEndCursor and uses it to set up a function adding a cursor to an element.
+export function useAddCursorFunction(getCursor, keepCursorWhenExisting = true) {
+	return useCallback((data) => getAddCursorFunction(getCursor, keepCursorWhenExisting)(data), [getCursor, keepCursorWhenExisting])
+}
+export function getAddCursorFunction(getCursor, keepCursorWhenExisting = true) {
+	return (data) => {
+		if (data.cursor !== undefined && keepCursorWhenExisting)
+			return data
+		return { ...data, cursor: getCursor(data.value, data.cursor) }
+	}
 }
 
 // getClickPosition checks, for all char children of the given element, where was clicked. This number (cursor index) is returned. 

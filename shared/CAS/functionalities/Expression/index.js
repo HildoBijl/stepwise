@@ -35,6 +35,7 @@ function ensureExpression(expression) {
 module.exports.ensureExpression = ensureExpression
 
 function SOtoFO(SO, loose = false) {
+	console.log(SO)
 	// Check special cases.
 	if (!isBasicObject(SO)) {
 		// For the first object, this is not allowed.

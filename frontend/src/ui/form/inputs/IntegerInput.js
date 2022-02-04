@@ -4,16 +4,25 @@ import clsx from 'clsx'
 import { isNumber } from 'step-wise/util/numbers'
 import { selectRandomEmpty, selectRandomNegative } from 'step-wise/util/random'
 import { removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
-import { getEmpty, isEmpty, IOtoFO } from 'step-wise/inputTypes/Integer'
+import { SItoFO } from 'step-wise/inputTypes/Integer'
 
 import FieldInput, { CharString, getClickPosition } from './support/FieldInput'
+
+// Define various trivial objects and functions.
+export const emptyData = { type: 'Integer', value: '' }
+export const isEmpty = value => value === ''
+export const getStartCursor = () => 0
+export const getEndCursor = value => value ? value.length : 0
+export const isCursorAtStart = (_, cursor) => cursor === 0
+export const isCursorAtEnd = (value, cursor) => cursor === value.length
+export const mouseClickToCursor = (evt, _, contentsElement) => getClickPosition(evt, contentsElement)
 
 const defaultProps = {
 	basic: true, // To get the basic character layout.
 	placeholder: 'Geheel getal',
 	positive: false,
 	validate: nonEmpty,
-	initialData: getEmptyData(),
+	initialData: emptyData,
 	isEmpty: data => isEmpty(data.value),
 	JSXObject: Integer,
 	keyboardSettings: dataToKeyboardSettings,
@@ -56,7 +65,7 @@ export function positive(data) {
 		return nonEmptyValidation
 
 	// If it's negative note it.
-	const integer = IOtoFO(data.value)
+	const integer = SItoFO(data.value)
 	if (integer < 0)
 		return selectRandomNegative()
 }
@@ -66,10 +75,6 @@ export function Integer({ type, value, cursor }) {
 	if (type !== 'Integer')
 		throw new Error(`Invalid type: tried to get the contents of an Integer field but got data for a type "${type}" field.`)
 	return <CharString str={value} cursor={cursor} />
-}
-
-export function getEmptyData() {
-	return { type: 'Integer', value: getEmpty(), cursor: 0 }
 }
 
 // dataToKeyboardSettings takes a data object and determines what keyboard settings are appropriate.
@@ -143,29 +148,3 @@ export function keyPressToData(keyInfo, data, positive) {
 	return data
 }
 
-// mouseClickToCursor takes an event object like a "click" (but possibly also a drag) and, for the given field, returns the cursor object related to the click.
-export function mouseClickToCursor(evt, data, contentsElement) {
-	return getClickPosition(evt, contentsElement)
-}
-
-// getStartCursor gives the cursor position at the start.
-export function getStartCursor(value) {
-	return 0
-}
-
-// getEndCursor gives the cursor position at the end.
-export function getEndCursor(value) {
-	if (!value)
-		return 0
-	return value.length
-}
-
-// isCursorAtStart returns a boolean: is the cursor at the start?
-export function isCursorAtStart(value, cursor) {
-	return cursor === 0
-}
-
-// isCursorAtEnd returns a boolean: is the cursor at the end?
-export function isCursorAtEnd(value, cursor) {
-	return cursor === value.length
-}

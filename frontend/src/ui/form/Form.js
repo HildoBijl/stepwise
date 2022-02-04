@@ -1,5 +1,4 @@
-import React, { createContext, useState, useContext, useRef, useCallback, useEffect } from
-	'react'
+import React, { createContext, useState, useContext, useRef, useCallback, useEffect } from 'react'
 
 import { processOptions, deepEquals, ensureConsistency, applyToEachParameter } from 'step-wise/util/objects'
 import { passOn } from 'step-wise/util/functions'
@@ -153,7 +152,7 @@ export function useFormData() {
  * - initialData: the initial data for the given field.
  * - persistent (default false): should the parameter stay (true) or be cleared (false) when the last subscriber unsubscribes from listening for this parameter?
  * - clean: turn a functional input object (possibly with cursors, selections and such) into a clean input object (ready to be stored into the database).
- * - functionalize: turn a clean input object (without cursors and such) into a functional input object (possibly with cursors).
+ * - functionalize: turn a clean input object (without cursors and without anything functional) into a functional input object (possibly with cursors or functionali components).
  */
 export const defaultUseFormParameterOptions = {
 	id: undefined,
@@ -208,7 +207,7 @@ export function useInput(id, useSI = false) {
 	// Define a handler to get the right value.
 	const getInputParameter = (id) => {
 		const SI = getCleanInputParameter(id)
-		return useSI ? SI : toFO(SI)
+		return useSI ? SI : toFO(SI, true)
 	}
 
 	// Depending on if we have an array of IDs or just one, process accordingly.

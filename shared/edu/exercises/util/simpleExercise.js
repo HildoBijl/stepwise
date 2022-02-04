@@ -8,7 +8,7 @@ function getSimpleExerciseProcessor(checkInput, data) {
 
 		switch (action.type) {
 			case 'input':
-				const correct = checkInput(state, toFO(action.input))
+				const correct = checkInput(state, toFO(action.input, true))
 				if (correct) {
 					updateSkills(data.skill, true) // Correctly solved.
 					updateSkills(data.setup, true)
