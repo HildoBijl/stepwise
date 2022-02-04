@@ -7,11 +7,10 @@ import Box from '@material-ui/core/Box'
 import clsx from 'clsx'
 
 import { numberArray, shuffle } from 'step-wise/util/arrays'
-import { processOptions, filterOptions } from 'step-wise/util/objects'
+import { processOptions, filterOptions, deepEquals } from 'step-wise/util/objects'
 import { getRandomSubset } from 'step-wise/util/random'
-import { noop } from 'step-wise/util/functions'
-import { equals, isEmpty, getEmpty } from 'step-wise/inputTypes/MultipleChoice'
 
+import { useRefWithValue } from 'util/react'
 import { notSelectable } from 'ui/theme'
 import FeedbackBlock from 'ui/components/misc/FeedbackBlock'
 
@@ -107,23 +106,18 @@ export default function MultipleChoice(options) {
 	let { choices, multiple, pick, include, randomOrder } = options
 
 	// Register as an input field.
-	const { readOnly, data, setData, feedback, feedbackInput } = useAsInput({
+	const { readOnly, data: selection, setData: setSelection, feedback, feedbackInput } = useAsInput({
 		...filterOptions(options, defaultInputOptions),
 		useFocusRegistration: false, // Tabbing does not focus MultipleChoice elements.
 		initialData: getEmptyData(multiple),
 		subFields: numberArray(0, choices.length - 1),
 	})
+	const selectionRef = useRefWithValue(selection)
 
 	// Set up important elements and properties.
 	const Element = multiple ? Checkbox : Radio
 	const classes = useStyles()
 	const mappingRef = useRef()
-
-	// Extract input data.
-	if (data.value.multiple !== multiple)
-		throw new Error(`MultipleChoice error: changing the "multiple" property during operation is not supported.`)
-	const { value: { selection } } = data
-	const setSelection = (selection) => setData(input => ({ ...input, value: { ...input.value, selection } }))
 
 	// Set up a function that can give us a mapping.
 	const numChoices = choices.length
@@ -146,20 +140,14 @@ export default function MultipleChoice(options) {
 	const mapping = mappingRef.current
 
 	// Set up handlers to change selections.
-	const isChecked = (index) => selection.includes(index)
-	const activateItem = readOnly ? noop : (multiple ?
-		((index) => isChecked(index) ? undefined : setSelection([...selection, index])) :
-		((index) => isChecked(index) ? undefined : setSelection([index]))
-	)
-	const deactivateItem = readOnly ? noop : (multiple ?
-		((index) => isChecked(index) ? setSelection(selection.filter(item => item !== index)) : undefined) :
-		((index) => isChecked(index) ? setSelection([]) : undefined)
-	)
-	const toggleItem = (index) => (isChecked(index) ? deactivateItem(index) : activateItem(index))
+	const isChecked = useCallback((index) => multiple ? selectionRef.current.includes(index) : selectionRef.current === index, [multiple, selectionRef])
+	const activateItem = useCallback((index) => !readOnly && (multiple ? setSelection(selection => [...selection, index]) : setSelection(index)), [readOnly, multiple, setSelection])
+	const deactivateItem = useCallback((index) => !readOnly && (multiple ? setSelection(selection => selection.filter(item => item !== index)) : setSelection(undefined)), [readOnly, multiple, setSelection])
+	const toggleItem = useCallback((index) => isChecked(index) ? deactivateItem(index) : activateItem(index), [isChecked, activateItem, deactivateItem])
 
 	// Determine if feedback text is shown: only if there is feedback and if the feedbackInput equals the current input.
 	const isFeedbackText = feedback !== undefined && !!feedback.text
-	const inputEqualToFeedbackInput = feedbackInput && equals(data.value, feedbackInput.value)
+	const inputEqualToFeedbackInput = deepEquals(selection, feedbackInput)
 	const showFeedbackText = isFeedbackText && inputEqualToFeedbackInput
 
 	// Set up output.
@@ -176,7 +164,7 @@ export default function MultipleChoice(options) {
 export const defaultMultipleChoiceOptions = {
 	...defaultInputOptions,
 	validate: nonEmpty,
-	
+
 	choices: [],
 	multiple: false,
 	pick: undefined,
@@ -203,13 +191,16 @@ function Choice({ checked, activate, deactivate, toggle, Element, feedback, read
 
 // These are validation functions.
 export function nonEmpty(input) {
-	if (isEmpty(input.value))
+	if (isEmpty(input))
 		return 'Je hebt nog niets geselecteerd.'
 }
 
+function isEmpty(input) {
+	if (Array.isArray(input))
+		return input.length === 0
+	return input === undefined
+}
+
 function getEmptyData(multiple) {
-	return {
-		type: 'MultipleChoice',
-		value: getEmpty(multiple),
-	}
+	return multiple ? [] : undefined
 }

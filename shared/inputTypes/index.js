@@ -1,8 +1,9 @@
 const { isObject, isBasicObject, applyToEachParameter, deepEquals } = require('../util/objects')
 
-const oldTypes = ['String', 'Boolean', 'Integer', 'Float', 'Unit', 'FloatUnit', 'MultipleChoice'] // ToDo: remove these old types after the overhaul.
+const oldTypes = ['String', 'Boolean', 'Integer', 'Float', 'Unit', 'FloatUnit'] // ToDo: remove these old types after the overhaul.
 
-const types = ['Expression', 'Equation', 'Vector', 'PositionedVector'] // ToDo: system overhaul in which all types become new and have SItoFO, FOtoSI, SOtoFO and FOtoSO.
+const types = ['MultipleChoice', 'Expression', 'Equation', 'Vector', 'PositionedVector']
+// ToDo: remove MultipleChoice and the corresponding file after the overhaul.
 
 // ToDo: clean up this file. Only toSO and toFO should stay.
 
@@ -143,7 +144,8 @@ function toFO(data, useSI = false) {
 			return func(value, settings)
 	}
 
-	// ToDo: remove this at some point. If the old type is known, use the old method.
+	// ToDo: remove this after the overhaul.
+	// If the old type is known, use the old method.
 	if (oldTypes.includes(type))
 		return require(`./${type}`).IOtoFO(value, settings)
 
@@ -166,7 +168,8 @@ function toSO(obj, useSI = false) {
 	if (isBasicObject(obj) || Array.isArray(obj))
 		return applyToEachParameter(obj, obj => toSO(obj, useSI))
 
-	// ToDo: remove after overhaul. Check if it is one of the old types and process it accordingly.
+	// ToDo: remove this after the overhaul.
+	// Check if it is one of the old types and process it accordingly.
 	const oldType = oldTypes.find(type => require(`./${type}`).isFOofType(obj))
 	if (oldType)
 		return { type: oldType, value: require(`./${oldType}`).FOtoIO(obj) }

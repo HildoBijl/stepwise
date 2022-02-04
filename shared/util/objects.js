@@ -36,7 +36,7 @@ function deepEquals(a, b) {
 
 	// Check for arrays.
 	if (Array.isArray(a) && Array.isArray(b))
-		return a.length === b.length && a.every((val, index) => deepEquals(val, b[index]))
+		return a.length === b.length && a.every((value, index) => deepEquals(value, b[index]))
 
 	// Check for non-object types.
 	if (!isObject(a) || !isObject(b))
