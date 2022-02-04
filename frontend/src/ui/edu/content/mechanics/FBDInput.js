@@ -24,7 +24,7 @@ const maximumMomentDistance = 50
 export const defaultFBDInputOptions = {
 	...defaultEngineeringDiagramOptions,
 	...defaultDrawingInputOptions,
-	initialData: { loads: [], selection: [] },
+	initialData: [],
 }
 
 const useStyles = makeStyles((theme) => ({

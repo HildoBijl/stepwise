@@ -196,7 +196,7 @@ export function useFormParameter(options = {}) {
 
 	// Return the required tuple.
 	if (!(id in input))
-		return [initialData, setData]
+		return [functionalize(initialData), setData]
 	return [input[id], setData]
 }
 
