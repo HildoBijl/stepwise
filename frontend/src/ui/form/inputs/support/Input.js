@@ -61,6 +61,7 @@ export const defaultInputOptions = {
 	persistent: undefined,
 	clean: undefined,
 	functionalize: undefined,
+	equals: undefined,
 
 	// For focus and tabbing.
 	useFocusRegistration: true,

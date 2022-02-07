@@ -4,14 +4,23 @@ import React, { Fragment } from 'react'
 
 import { isNumber } from 'step-wise/util/numbers'
 import { isLetter } from 'step-wise/util/strings'
-import { lastOf, arraySplice } from 'step-wise/util/arrays'
-import { getEmpty as getEmptyUnitElement, isEmpty as isUnitElementEmpty, process as processUnitElement } from 'step-wise/inputTypes/Unit/UnitElement'
-import { getEmpty, isEmpty } from 'step-wise/inputTypes/Unit/UnitArray'
+import { firstOf, lastOf, arraySplice } from 'step-wise/util/arrays'
 
 import { getClickSide } from 'util/dom'
 
 import { checkCursor } from './FieldInput'
-import { UnitElement, keyPressToData as unitElementKeyPressToData, mouseClickToCursor as unitElementMouseClickToCursor, getStartCursor as getUnitElementStartCursor, getEndCursor as getUnitElementEndCursor, isCursorAtStart as isCursorAtUnitElementStart, isCursorAtEnd as isCursorAtUnitElementEnd } from './UnitElement'
+import { UnitElement, keyPressToData as unitElementKeyPressToData, mouseClickToCursor as unitElementMouseClickToCursor, emptyUnitElement, isEmpty as isUnitElementEmpty, getStartCursor as getUnitElementStartCursor, getEndCursor as getUnitElementEndCursor, isCursorAtStart as isCursorAtUnitElementStart, isCursorAtEnd as isCursorAtUnitElementEnd, isValid as isUnitElementValid, clean as cleanUnitElement, functionalize as functionalizeUnitElement, processUnitElement } from './UnitElement'
+
+// Define various trivial objects and functions.
+export const emptyUnitArray = [emptyUnitElement]
+export const isEmpty = value => value.length === 0 || (value.length === 1 && isUnitElementEmpty(firstOf(value)))
+export const getStartCursor = (value, cursor) => ({ part: 0, cursor: getUnitElementStartCursor(firstOf(value), cursor && cursor.part === 0 && cursor.cursor) })
+export const getEndCursor = (value, cursor) => ({ part: value.length - 1, cursor: getUnitElementEndCursor(lastOf(value), cursor && cursor.part === value.length - 1 && cursor.cursor) })
+export const isCursorAtStart = (value, cursor) => cursor && cursor.part === 0 && isCursorAtUnitElementStart(firstOf(value), cursor.cursor)
+export const isCursorAtEnd = (value, cursor) => cursor && cursor.part === value.length - 1 && isCursorAtUnitElementEnd(lastOf(value), cursor.cursor)
+export const isValid = value => isEmpty(value) || value.every(unitElement => isUnitElementValid(unitElement))
+export const clean = value => isEmpty(value) ? undefined : value.map(cleanUnitElement)
+export const functionalize = value => value ? value.map(functionalizeUnitElement) : emptyUnitArray
 
 // UnitArray takes an input data object and shows the corresponding contents as JSX render.
 export function UnitArray({ type, value, cursor }) {
@@ -30,15 +39,6 @@ export function UnitArray({ type, value, cursor }) {
 			<UnitElement {...{ type: 'UnitElement', value: unitElement, cursor: cursor && cursor.part === index && cursor.cursor }} />
 		</Fragment>
 	))
-}
-
-// getEmptyData returns an empty data object, ready to be filled by input.
-export function getEmptyData() {
-	return {
-		type: 'UnitArray',
-		value: getEmpty(),
-		cursor: getStartCursor(),
-	}
 }
 
 // keyPressToData takes a keyInfo event and a data object and returns a new data object.
@@ -113,7 +113,7 @@ export function keyPressToData(keyInfo, data) {
 					}
 				return { // Add a new empty element and move the cursor to it.
 					...data,
-					value: arraySplice(value, cursor.part + 1, 0, getEmptyUnitElement()),
+					value: arraySplice(value, cursor.part + 1, 0, emptyUnitElement),
 					cursor: { part: cursor.part + 1, cursor: getUnitElementStartCursor() },
 				}
 			}
@@ -153,7 +153,7 @@ export function keyPressToData(keyInfo, data) {
 			}
 		}
 	}
-	
+
 	// Unknown key. Try to pass it on.
 	return passOn()
 }
@@ -190,32 +190,6 @@ export function mouseClickToCursor(evt, data, unitArrayElement) {
 
 	// We shouldn't get here, but if we do just keep the cursor as is.
 	return cursor
-}
-
-// getStartCursor gives the cursor position at the start.
-export function getStartCursor(value, cursor) {
-	const part = 0
-	const unitElement = value && value[part]
-	const unitElementCursor = cursor && cursor.part === part && cursor.cursor
-	return { part, cursor: getUnitElementStartCursor(unitElement, unitElementCursor) }
-}
-
-// getEndCursor gives the cursor position at the end.
-export function getEndCursor(value, cursor) {
-	const part = value.length - 1
-	const unitElement = value[part]
-	const unitElementCursor = cursor && cursor.part === part && cursor.cursor
-	return { part, cursor: getUnitElementEndCursor(unitElement, unitElementCursor) }
-}
-
-// isCursorAtStart returns a boolean: is the cursor at the start?
-export function isCursorAtStart(value, cursor) {
-	return cursor.part === 0 && isCursorAtUnitElementStart(value[0], cursor.cursor)
-}
-
-// isCursorAtEnd returns a boolean: is the cursor at the end?
-export function isCursorAtEnd(value, cursor) {
-	return cursor.part === value.length - 1 && isCursorAtUnitElementEnd(lastOf(value), cursor.cursor)
 }
 
 // mergeElements takes a unitArray and merges two unit elements together at the given index. (The index points to the first of the two.) When the first unit doesn't have a power or the second unit doesn't have a text, everything can be merged smoothly. If not, either the left power is cut (default) or the right text is cut (when cutRight set to true). The cursor is put in-between as much as possible. It returns an object of the form { value, cursor }.

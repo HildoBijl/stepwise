@@ -1,10 +1,10 @@
 const { isObject, isBasicObject, applyToEachParameter, deepEquals } = require('../util/objects')
 
-const oldTypes = ['Unit', 'FloatUnit'] // ToDo: remove these old types after the overhaul.
+const oldTypes = ['FloatUnit'] // ToDo: remove these old types after the overhaul.
 
 const types = [
 	'Boolean', 'String', 'MultipleChoice', // Basic types. Must be removed after legacy data is deleted.
-	'Integer', 'Float', // Number- and physics-based types.
+	'Integer', 'Float', 'Unit', // Number- and physics-based types.
 	'Expression', 'Equation', // Expression-based types.
 	'Vector', 'PositionedVector', // Object-based types.
 ]

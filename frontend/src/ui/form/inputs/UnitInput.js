@@ -3,16 +3,52 @@ import { makeStyles } from '@material-ui/core/styles'
 import { alpha } from '@material-ui/core/styles/colorManipulator'
 import clsx from 'clsx'
 
-import { repeat } from 'step-wise/util/functions'
 import { lastOf, arraySplice } from 'step-wise/util/arrays'
+import { applyToEachParameter, keysToObject } from 'step-wise/util/objects'
+import { repeat } from 'step-wise/util/functions'
 import { selectRandomEmpty, selectRandomInvalidUnit } from 'step-wise/util/random'
-import { getEmpty, isEmpty } from 'step-wise/inputTypes/Unit/Unit'
-import { getEmpty as getEmptyUnitArray, isEmpty as isUnitArrayEmpty } from 'step-wise/inputTypes/Unit/UnitArray'
-import { isEmpty as isUnitElementEmpty } from 'step-wise/inputTypes/Unit/UnitElement'
 
-import FieldInput, { checkCursor } from './support/FieldInput'
-import { UnitArray, keyPressToData as unitArrayKeyPressToData, mouseClickToCursor as unitArrayMouseClickToCursor, getStartCursor as getUnitArrayStartCursor, getEndCursor as getUnitArrayEndCursor, isCursorAtStart as isCursorAtUnitArrayStart, isCursorAtEnd as isCursorAtUnitArrayEnd, mergeElements, splitElement, getCursorFromOffset as getUnitArrayCursorFromOffset } from './support/UnitArray'
-import { getStartCursor as getUnitElementStartCursor, getEndCursor as getUnitElementEndCursor, isCursorAtStart as isCursorAtUnitElementStart } from './support/UnitElement'
+import FieldInput, { checkCursor, removeCursor } from './support/FieldInput'
+import { UnitArray, keyPressToData as unitArrayKeyPressToData, mouseClickToCursor as unitArrayMouseClickToCursor, emptyUnitArray, isEmpty as isUnitArrayEmpty, getStartCursor as getUnitArrayStartCursor, getEndCursor as getUnitArrayEndCursor, isCursorAtStart as isCursorAtUnitArrayStart, isCursorAtEnd as isCursorAtUnitArrayEnd, isValid as isUnitArrayValid, mergeElements, splitElement, getCursorFromOffset as getUnitArrayCursorFromOffset, clean as cleanUnitArray, functionalize as functionalizeUnitArray } from './support/UnitArray'
+import { isEmpty as isUnitElementEmpty, getStartCursor as getUnitElementStartCursor, getEndCursor as getUnitElementEndCursor, isCursorAtStart as isCursorAtUnitElementStart } from './support/UnitElement'
+
+// Define various trivial objects and functions.
+export const emptyUnit = {}
+export const parts = ['num', 'den']
+export const emptyData = { type: 'Unit', value: emptyUnit }
+export const isEmpty = value => isUnitArrayEmpty(value.num) && isUnitArrayEmpty(value.den)
+export const isDenominatorVisible = (value, cursor) => !isUnitArrayEmpty(value.den) || (cursor && cursor.part === 'den')
+export const getStartCursor = ({ num }, cursor) => ({ part: 'num', cursor: getUnitArrayStartCursor(num, cursor && cursor.part === 'num' && cursor.cursor) })
+export const getEndCursor = (value, cursor) => {
+	const part = isDenominatorVisible(value, cursor) ? 'den' : 'num'
+	return { part, cursor: getUnitArrayEndCursor(value[part], cursor && cursor.part === part && cursor.cursor) }
+}
+export const isCursorAtStart = (value, cursor) => cursor.part === 'num' && isCursorAtUnitArrayStart(value.num, cursor.cursor)
+export const isCursorAtEnd = (value, cursor) => isDenominatorVisible(value, cursor) ? (cursor.part === 'den' && isCursorAtUnitArrayEnd(value.den, cursor.cursor)) : (cursor.part === 'num' && isCursorAtUnitArrayEnd(value.num, cursor.cursor))
+export const isValid = (value) => parts.every(part => isUnitArrayValid(value[part]))
+export const clean = value => applyToEachParameter(value, cleanUnitArray)
+export const functionalize = value => keysToObject(parts, part => functionalizeUnitArray(value[part]))
+
+const defaultProps = {
+	basic: true, // To get the basic character layout.
+	placeholder: 'Eenheid',
+	validate: nonEmptyAndValid,
+	initialData: emptyData,
+	isEmpty: data => isEmpty(data.value),
+	JSXObject: Unit,
+	keyboardSettings: dataToKeyboardSettings,
+	keyPressToData,
+	mouseClickToCursor,
+	getStartCursor,
+	getEndCursor,
+	isCursorAtStart,
+	isCursorAtEnd,
+	clean: data => removeCursor({ ...data, value: clean(data.value) }),
+	functionalize: data => {
+		const value = functionalize(data.value)
+		return { ...data, value, cursor: getEndCursor(value) }
+	},
+}
 
 const style = (theme) => ({
 	'&.filler-1': {
@@ -122,22 +158,6 @@ const useStyles = makeStyles((theme) => ({
 }))
 export { style }
 
-const defaultProps = {
-	basic: true, // To get the basic character layout.
-	placeholder: 'Eenheid',
-	validate: nonEmptyAndValid,
-	initialData: getEmptyData(),
-	isEmpty: data => isEmpty(data.value),
-	JSXObject: Unit,
-	keyboardSettings: dataToKeyboardSettings,
-	keyPressToData,
-	mouseClickToCursor,
-	getStartCursor,
-	getEndCursor,
-	isCursorAtStart,
-	isCursorAtEnd,
-}
-
 export default function UnitInput(props) {
 	// Gather all relevant data.
 	const classes = useStyles()
@@ -208,14 +228,6 @@ function Part({ part, value, cursor }) {
 	return <UnitArray {...{ type: 'UnitArray', value: value[part], cursor: cursor && cursor.part === part && cursor.cursor }} />
 }
 
-export function getEmptyData() {
-	return {
-		type: 'Unit',
-		value: getEmpty(),
-		cursor: getStartCursor(),
-	}
-}
-
 // dataToKeyboardSettings takes a data object and determines what keyboard settings are appropriate.
 export function dataToKeyboardSettings(data) {
 	const { value: unit, cursor: unitCursor } = data
@@ -227,7 +239,7 @@ export function dataToKeyboardSettings(data) {
 		const unitArrayCursor = unitCursor.cursor
 		const unitElement = unitArray[unitArrayCursor.part]
 		const unitElementCursor = unitArrayCursor.cursor
-	
+
 		// Determine which keys to disable.
 		keySettings = {
 			Backspace: !isCursorAtStart(unit, unitCursor),
@@ -344,7 +356,7 @@ export function keyPressToData(keyInfo, data, contentsElement) {
 	if ((key === '-' || key === 'Minus') && unitElementCursor.part === 'power') {
 		const partA = cursor.part
 		const partB = partA === 'num' ? 'den' : 'num'
-		const unitArrayA = unitArray.length === 1 ? getEmptyUnitArray() : arraySplice(unitArray, unitArrayCursor.part, 1)
+		const unitArrayA = unitArray.length === 1 ? emptyUnitArray : arraySplice(unitArray, unitArrayCursor.part, 1)
 		const unitArrayB = isUnitArrayEmpty(value[partB]) ? [unitElement] : [...value[partB], unitElement]
 		return {
 			...data,
@@ -380,8 +392,8 @@ export function keyPressToData(keyInfo, data, contentsElement) {
 			...(isUnitArrayEmpty(unitBeforeSplit.num) ? [] : unitBeforeSplit.num),
 			...(isUnitArrayEmpty(unitBeforeSplit.den) ? [] : unitBeforeSplit.den),
 		]
-		const newNum = (divideAt === 0 ? getEmptyUnitArray() : mergedUnitArray.slice(0, divideAt))
-		const newDen = (divideAt === mergedUnitArray.length ? getEmptyUnitArray() : mergedUnitArray.slice(divideAt))
+		const newNum = (divideAt === 0 ? emptyUnitArray : mergedUnitArray.slice(0, divideAt))
+		const newDen = (divideAt === mergedUnitArray.length ? emptyUnitArray : mergedUnitArray.slice(divideAt))
 		return {
 			...data,
 			value: { num: newNum, den: newDen },
@@ -413,42 +425,6 @@ export function mouseClickToCursor(evt, data, contentsElement) {
 	return cursor
 }
 
-// getStartCursor gives the cursor position at the start.
-export function getStartCursor(value = getEmpty(), cursor = null) {
-	const unitArrayCursor = cursor && cursor.part === 'num' && cursor.cursor
-	return { part: 'num', cursor: getUnitArrayStartCursor(value.num, unitArrayCursor) }
-}
-
-// getEndCursor gives the cursor position at the end.
-export function getEndCursor(value = getEmpty(), cursor = null) {
-	const part = isDenominatorVisible(value, cursor) ? 'den' : 'num'
-	const unitArrayCursor = cursor && cursor.part === part && cursor.cursor
-	return { part, cursor: getUnitArrayEndCursor(value[part], unitArrayCursor) }
-}
-
-// isCursorAtStart returns a boolean: is the cursor at the start?
-export function isCursorAtStart(value, cursor) {
-	return cursor.part === 'num' && isCursorAtUnitArrayStart(value.num, cursor.cursor)
-}
-
-// isCursorAtEnd returns a boolean: is the cursor at the end?
-export function isCursorAtEnd(value, cursor) {
-	if (isDenominatorVisible(value, cursor))
-		return cursor.part === 'den' && isCursorAtUnitArrayEnd(value.den, cursor.cursor)
-	return isCursorAtUnitArrayEnd(value.num, cursor.cursor)
-}
-
-// isValid checks if a unit IO is valid.
-export function isValid(value) {
-	const { num, den } = value
-	return [num, den].every(unitArray => isUnitArrayEmpty(unitArray) || unitArray.every(unitElement => !unitElement.invalid))
-}
-
-// isDenominatorVisible decides if the denominator should be visible or not when displaying the unit.
-export function isDenominatorVisible(value, cursor) {
-	return !isUnitArrayEmpty(value.den) || (cursor && cursor.part === 'den')
-}
-
 // mergeNumeratorAndDenominator merges the numerator and denominator and puts the cursor in-between. If putCursorOnTheRight is set to false (default true) then the cursor is put at the end of the previous numerator, and otherwise at the start of the previous denominator. It returns an object of the form { value, cursor }.
 function mergeNumeratorAndDenominator(value, putCursorOnTheRight = true) {
 	// Determine the numerator and the cursor in case we do not merge unit elements.
@@ -467,7 +443,7 @@ function mergeNumeratorAndDenominator(value, putCursorOnTheRight = true) {
 
 	// Return the result.
 	return {
-		value: { num: newNumerator, den: getEmptyUnitArray() },
+		value: { num: newNumerator, den: emptyUnitArray },
 		cursor: { part: 'num', cursor: newNumeratorCursor },
 	}
 }

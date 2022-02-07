@@ -1,11 +1,14 @@
 // Unit represents any unit a physical quantity may have. For example mg^3 * kl / ns^2 * °C^2.
 
 const { ensureInt } = require('../../util/numbers')
-const { isObject, deepEquals, processOptions } = require('../../util/objects')
+const { isObject, deepEquals, keysToObject, processOptions } = require('../../util/objects')
 const { UnitElement } = require('./UnitElement')
-const { getUnitArrayFO, FOtoIO: unitArrayFOtoIO, IOtoFO: unitArrayIOtoFO, getEmpty: getEmptyUnitArray, isEmpty: isUnitArrayEmpty } = require('./UnitArray')
+const { getUnitArrayFO } = require('./UnitArray')
 
 const unitColor = '#044488' // The color in which units are printed within Tex. It cannot be imported from the theme because this file is in the shared directory.
+
+const defaultUnit = { num: [], den: [] }
+const parts = Object.keys(defaultUnit)
 
 class Unit {
 	// The constructor input is either a string like "mg^3 * kl / ns^2 * °C^2", or an object with a "num" and a "den" property. In this latter case these properties should either be unit strings like "mg^3 * kl" or arrays of something the UnitElement constructor takes.
@@ -20,11 +23,20 @@ class Unit {
 			input = splitUnitString(input)
 
 		// Include default values.
-		input = processOptions(input, { num: [], den: [] })
+		input = processOptions(input, defaultUnit)
 
 		// Deal with each part separately.
 		this._num = getUnitArrayFO(input.num)
 		this._den = getUnitArrayFO(input.den)
+	}
+
+	// SO returns a storage object representation of this unit that can be interpreted again.
+	get SO() {
+		return keysToObject(parts, part => this[part].length === 0 ? undefined : this[part].map(unitElement => unitElement.SO))
+	}
+
+	get type() {
+		return 'Unit'
 	}
 
 	// num returns an array of unit elements in the numerator. Be careful with this: don't adjust them directly.
@@ -61,14 +73,6 @@ class Unit {
 		if (str.length === 0)
 			return ''
 		return `{\\color{${unitColor}}${str}}`
-	}
-
-	// SO returns a storage object representation of this unit that can be interpreted again.
-	get SO() {
-		return {
-			num: this.num.map(unitElement => unitElement.SO),
-			den: this.den.map(unitElement => unitElement.SO),
-		}
 	}
 
 	// isValid returns whether we have a valid unit (true or false). So whether all unit elements in this unit are valid unit elements: whether they have been recognized.
@@ -378,47 +382,8 @@ function splitUnitString(str) {
 }
 module.exports.splitUnitString = splitUnitString
 
-// The following functions are obligatory functions.
-function isFOofType(unit) {
-	return isObject(unit) && unit.constructor === Unit
-}
-module.exports.isFOofType = isFOofType
+// The functions below describe how to transfer between various data types, other than the standard ways in which this is done.
 
-function FOtoIO(unit) {
-	// Check if we have a Unit object already. If not, turn it into one. (Or die trying.)
-	if (unit.constructor !== Unit)
-		unit = new Unit(unit)
-
-	// Walk through all the elements and convert them to the right format.
-	return {
-		num: unitArrayFOtoIO(unit.num),
-		den: unitArrayFOtoIO(unit.den),
-	}
+module.exports.SOtoFO = (obj) => {
+	return new Unit(obj)
 }
-module.exports.FOtoIO = FOtoIO
-
-function IOtoFO(value) {
-	return new Unit({
-		num: unitArrayIOtoFO(value.num),
-		den: unitArrayIOtoFO(value.den),
-	})
-}
-module.exports.IOtoFO = IOtoFO
-
-function getEmpty() {
-	return {
-		num: getEmptyUnitArray(),
-		den: getEmptyUnitArray(),
-	}
-}
-module.exports.getEmpty = getEmpty
-
-function isEmpty(value) {
-	return isUnitArrayEmpty(value.num) && isUnitArrayEmpty(value.den)
-}
-module.exports.isEmpty = isEmpty
-
-function equals(a, b) {
-	return IOtoFO(a).equals(IOtoFO(b))
-}
-module.exports.equals = equals

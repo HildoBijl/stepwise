@@ -20,8 +20,7 @@ export default function Form({ children }) {
 	const [validationInput, setValidationInput] = useState({})
 
 	// Define refs. We use refs along with state parameters to allow callback functions to remain constant.
-	const validationFunctionsRef = useRef({})
-	const cleanFunctionsRef = useRefWithValue({})
+	const functionsRef = useRef({})
 	const inputRef = useRefWithValue(input)
 	const validationRef = useRefWithValue(validation)
 	const cursorRef = useRef()
@@ -85,54 +84,60 @@ export default function Form({ children }) {
 
 	const clearForm = useCallback(() => setInput({}), [])
 
-	// Define the cleaning set-up, allowing functional input (FI) parameters to be turned into stored input (SI) parameters.
-	const saveCleanFunction = useCallback((id, clean) => {
-		if (clean)
-			cleanFunctionsRef.current[id] = clean
+	// saveFieldFunction stores field functions like validate, clean, functionalize, equals, etcetera. You can set one through saveFieldFunction or multiple at the same time through saveFieldFunctions. Set it to a falsy value to remove one.
+	const saveFieldFunction = useCallback((id, name, func) => {
+		if (!functionsRef.current[id])
+			functionsRef.current[id] = {}
+		if (func)
+			functionsRef.current[id][name] = func
 		else
-			delete cleanFunctionsRef.current[id]
-	}, [cleanFunctionsRef])
+			delete functionsRef.current[id][name]
+	}, [functionsRef])
+	const saveFieldFunctions = useCallback((id, funcs) => {
+		Object.keys(funcs).forEach(key => saveFieldFunction(id, key, funcs[key]))
+	}, [saveFieldFunction])
+	const getFieldFunction = useCallback((id, name) => functionsRef.current[id] && functionsRef.current[id][name], [functionsRef])
 
-	const getCleanInput = useCallback(() => {
+	// These functions allow us to easily get input in various forms.
+	const getInputFI = useCallback(() => inputRef.current, [inputRef])
+	const getInputParameterFI = useCallback((id) => inputRef.current[id], [inputRef])
+	const getInputSI = useCallback(() => {
 		return applyToEachParameter(inputRef.current, (input, id) => {
-			const clean = cleanFunctionsRef.current[id]
+			const clean = functionsRef.current[id].clean
 			return input !== undefined && clean ? clean(input) : input
 		})
-	}, [inputRef, cleanFunctionsRef])
-
-	const getCleanInputParameter = useCallback((id) => {
+	}, [inputRef, functionsRef])
+	const getInputParameterSI = useCallback((id) => {
 		const input = inputRef.current[id]
-		const clean = cleanFunctionsRef.current[id]
+		const clean = functionsRef.current[id].clean
 		return input !== undefined && clean ? clean(input) : input
-	}, [inputRef, cleanFunctionsRef])
+	}, [inputRef, functionsRef])
+	const getInputFO = useCallback(() => toFO(getInputSI(), true), [getInputSI])
+	const getInputParameterFO = useCallback((id) => toFO(getInputParameterSI(id), true), [getInputParameterSI])
 
 	// Define validation handlers.
 	const isValid = useCallback((check = true) => {
 		if (!check)
 			return isValidationValid(validationRef.current)
 		const validation = {}
-		const input = getCleanInput()
-		Object.keys(validationFunctionsRef.current).forEach(id => {
-			const validate = validationFunctionsRef.current[id]
-			const result = validate(input)
-			if (result)
-				validation[id] = result
+		const inputFI = getInputFI()
+		const inputSI = getInputSI()
+		Object.keys(inputFI).forEach(id => { // Walk through all validation functions and run them.
+			const validate = getFieldFunction(id, 'validate')
+			if (validate) {
+				const result = validate(inputFI[id], inputFI) // Call validation function with functional input for that field and complete functional input as extra parameter if needed.
+				if (result)
+					validation[id] = result
+			}
 		})
 		setValidation(validation)
-		setValidationInput(input)
+		setValidationInput(inputSI) // Always store and compare SIs.
 		activateFirst(Object.keys(validation)) // Put the cursor in the first non-valid field.
 		return isValidationValid(validation)
-	}, [getCleanInput, validationRef, validationFunctionsRef, setValidation, activateFirst])
-
-	const saveValidationFunction = useCallback((id, validate) => {
-		if (validate)
-			validationFunctionsRef.current[id] = validate
-		else
-			delete validationFunctionsRef.current[id]
-	}, [validationFunctionsRef])
+	}, [validationRef, getInputFI, getInputSI, getFieldFunction, setValidation, activateFirst])
 
 	return (
-		<FormContext.Provider value={{ input, setParameter, deleteParameter, subscribe, unsubscribe, setParameters, clearForm, validation, validationInput, isValid, saveValidationFunction, cursorRef, absoluteCursorRef, saveCleanFunction, getCleanInput, getCleanInputParameter }}>
+		<FormContext.Provider value={{ input, setParameter, deleteParameter, subscribe, unsubscribe, setParameters, clearForm, validation, validationInput, isValid, saveFieldFunction, saveFieldFunctions, getFieldFunction, getInputFI, getInputParameterFI, getInputSI, getInputParameterSI, getInputFO, getInputParameterFO, cursorRef, absoluteCursorRef }}>
 			<form onSubmit={(evt) => evt.preventDefault()}>
 				{children}
 			</form>
@@ -153,6 +158,7 @@ export function useFormData() {
  * - persistent (default false): should the parameter stay (true) or be cleared (false) when the last subscriber unsubscribes from listening for this parameter?
  * - clean: turn a functional input object (possibly with cursors, selections and such) into a clean input object (ready to be stored into the database).
  * - functionalize: turn a clean input object (without cursors and without anything functional) into a functional input object (possibly with cursors or functionali components).
+ * - equals: a function that checks if two Stored Input (SI) data objects are considered equal. It is used to check if the same feedback should still be shown. By default this is deepEquals.
  */
 export const defaultUseFormParameterOptions = {
 	id: undefined,
@@ -160,14 +166,15 @@ export const defaultUseFormParameterOptions = {
 	persistent: false,
 	clean: passOn,
 	functionalize: passOn,
+	equals: deepEquals,
 }
 export function useFormParameter(options = {}) {
-	const { input, setParameter, subscribe, unsubscribe, saveCleanFunction } = useFormData()
+	const { input, setParameter, subscribe, unsubscribe, saveFieldFunctions, getFieldFunction } = useFormData()
 	const { history } = useExerciseData()
-	const { id, initialData, persistent, clean, functionalize } = processOptions(options, defaultUseFormParameterOptions)
+	const { id, initialData, persistent, clean, functionalize, equals } = processOptions(options, defaultUseFormParameterOptions)
 
 	// Save the clean function for when it's needed.
-	saveCleanFunction(id, clean)
+	saveFieldFunctions(id, { clean, functionalize, equals })
 
 	// Define custom handlers.
 	const setData = useCallback(data => setParameter(id, data), [id, setParameter])
@@ -185,14 +192,14 @@ export function useFormParameter(options = {}) {
 		if (lastInput && lastInput[id]) {
 			setData(data => {
 				// If the data has been changed since the initial data provision, keep the new data.
-				if (!deepEquals(initialDataRef.current, clean(data)))
+				if (!equals(clean(data), initialDataRef.current))
 					return data
 
 				// Use the data from the history, after functionalizing it.
 				return functionalize(lastInput[id])
 			})
 		}
-	}, [id, history, setData, initialDataRef, clean, functionalize])
+	}, [id, history, setData, initialDataRef, clean, functionalize, equals, getFieldFunction])
 
 	// Return the required tuple.
 	if (!(id in input))
@@ -200,30 +207,26 @@ export function useFormParameter(options = {}) {
 	return [input[id], setData]
 }
 
-// useInput only returns a certain input parameter. It gives the FO (functional object), unless it specifically is asked by setting the second useSI parameter to true. It's mainly used by exercises. The id may be an array, in which case also an array is returned.
-export function useInput(id, useSI = false) {
-	const { getCleanInputParameter } = useFormData()
+// useInput only returns a certain input parameter. It gives the FO (functional object), unless it specifically is asked by setting the second useFI parameter to true, in which case the FI (functional input) object is returned. It's mainly used by exercises. The id may be an array, in which case also an array is returned.
+export function useInput(id, useFI = false) {
+	const { getInputParameter, getInputParameterFO } = useFormData()
 
 	// Define a handler to get the right value.
-	const getInputParameter = (id) => {
-		const SI = getCleanInputParameter(id)
-		return useSI ? SI : toFO(SI, true)
-	}
+	const getParameter = useFI ? getInputParameter : getInputParameterFO
 
 	// Depending on if we have an array of IDs or just one, process accordingly.
 	if (Array.isArray(id))
-		return id.map(currId => getInputParameter(currId))
-	return getInputParameter(id)
+		return id.map(currId => getParameter(currId))
+	return getParameter(id)
 }
 
 // useFieldValidation takes a field id and a validation function. On a form submit this validation function is called and the result is given in the resulting parameter.
 export function useFieldValidation(id, validate) {
-	const { validation, validationInput, saveValidationFunction } = useFormData()
+	const { validation, validationInput, saveFieldFunction } = useFormData()
 	useEffect(() => {
-		const fieldValidate = (input) => validate(input[id])
-		saveValidationFunction(id, fieldValidate)
-		return () => saveValidationFunction(id, null)
-	}, [id, validate, saveValidationFunction])
+		saveFieldFunction(id, 'validate', validate)
+		return () => saveFieldFunction(id, 'validate', undefined)
+	}, [id, validate, saveFieldFunction])
 	return { validation: validation[id], validationInput: validationInput[id] }
 }
 

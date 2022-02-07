@@ -5,11 +5,24 @@ import clsx from 'clsx'
 
 import { isNumber } from 'step-wise/util/numbers'
 import { removeAtIndex, insertAtIndex, isLetter } from 'step-wise/util/strings'
-import { getEmpty, process } from 'step-wise/inputTypes/Unit/UnitElement'
+import { keysToObject } from 'step-wise/util/objects'
 import { units } from 'step-wise/inputTypes/Unit/units'
 import { prefixes } from 'step-wise/inputTypes/Unit/prefixes'
+import { interpretPrefixAndBaseUnitStr } from 'step-wise/inputTypes/Unit/UnitElement'
 
 import { CharString, getClickPosition } from './FieldInput'
+
+// Define various trivial objects and functions.
+export const emptyUnitElement = { prefix: '', unit: '', power: '' }
+export const parts = Object.keys(emptyUnitElement)
+export const isEmpty = value => value.prefix === '' && value.unit === '' && value.power === ''
+export const getStartCursor = () => ({ part: 'text', cursor: 0 })
+export const getEndCursor = ({ prefix, unit, power }, cursor) => (power !== '' || (cursor && cursor.part === 'power')) ? { part: 'power', cursor: power.length } : { part: 'text', cursor: prefix.length + unit.length }
+export const isCursorAtStart = (_, cursor) => cursor && cursor.part === 'text' && cursor.cursor === 0
+export const isCursorAtEnd = ({ prefix, unit, power }, cursor) => cursor && ((cursor.part === 'power' && cursor.cursor === power.length) || (power === '' && cursor.cursor === prefix.length + unit.length))
+export const isValid = value => value.unitObj && (value.prefix === '' || !!value.prefixObj)
+export const clean = value => isEmpty(value) ? undefined : keysToObject(parts, part => value[part] || undefined)
+export const functionalize = ({ prefix = '', unit = '', power = '' }) => processUnitElement({ text: prefix + unit, power }).value
 
 // UnitElement takes an input data object and shows the corresponding contents as JSX render.
 export function UnitElement({ type, value, cursor }) {
@@ -19,8 +32,9 @@ export function UnitElement({ type, value, cursor }) {
 
 	// Set up the visuals in the right way.
 	const useFiller = (value.prefix === '' && value.unit === '' && (!cursor || cursor.part !== 'text'))
+	const valid = isValid(value)
 	return (
-		<span className={clsx('unitElement', { valid: !value.invalid, invalid: value.invalid })}>
+		<span className={clsx('unitElement', { valid, invalid: !valid })}>
 			<span className="prefix">
 				<CharString str={value.prefix} cursor={cursor && cursor.part === 'text' && cursor.cursor <= value.prefix.length && cursor.cursor} />
 			</span>
@@ -35,15 +49,6 @@ export function UnitElement({ type, value, cursor }) {
 			</span>
 		</span>
 	)
-}
-
-// getEmptyData returns an empty data object, ready to be filled by input.
-export function getEmptyData() {
-	return {
-		type: 'UnitElement',
-		value: getEmpty(),
-		cursor: getStartCursor(),
-	}
 }
 
 // keyPressToData takes a keyInfo event and a data object and returns a new data object.
@@ -83,10 +88,10 @@ export function keyPressToData(keyInfo, data) {
 			return data // Do nothing.
 		if (cursor.part === 'power') { // Cursor is in the power.
 			if (cursor.cursor === 0) // Cursor is at the start of the power.
-				return { ...data, ...process({ text: removeAtIndex(prefix + unit, prefix.length + unit.length - 1), power }, { part: 'text', cursor: Math.max(prefix.length + unit.length - 1, 0) }) } // Remove the last character of the text.
+				return { ...data, ...processUnitElement({ text: removeAtIndex(prefix + unit, prefix.length + unit.length - 1), power }, { part: 'text', cursor: Math.max(prefix.length + unit.length - 1, 0) }) } // Remove the last character of the text.
 			return { ...data, value: { ...value, power: removeAtIndex(power, cursor.cursor - 1) }, cursor: { ...cursor, cursor: cursor.cursor - 1 } } // Remove the previous character from the power.
 		}
-		return { ...data, ...process({ text: removeAtIndex(prefix + unit, cursor.cursor - 1), power }, { ...cursor, cursor: cursor.cursor - 1 }) } // Remove the previous character from the text.
+		return { ...data, ...processUnitElement({ text: removeAtIndex(prefix + unit, cursor.cursor - 1), power }, { ...cursor, cursor: cursor.cursor - 1 }) } // Remove the previous character from the text.
 	}
 	if (key === 'Delete') {
 		if (isCursorAtEnd(value, cursor)) // Cursor is at the end.
@@ -94,7 +99,7 @@ export function keyPressToData(keyInfo, data) {
 		if (cursor.part === 'text') { // Cursor is in the text.
 			if (cursor.cursor === prefix.length + unit.length) // Cursor is at the end of the text.
 				return { ...data, value: { ...value, power: removeAtIndex(power, 0) }, cursor: { part: 'power', cursor: 0 } } // Remove the first character from the power.
-			return { ...data, ...process({ text: removeAtIndex(prefix + unit, cursor.cursor), power }, cursor) } // Remove the upcoming character from the text.
+			return { ...data, ...processUnitElement({ text: removeAtIndex(prefix + unit, cursor.cursor), power }, cursor) } // Remove the upcoming character from the text.
 		}
 		return { ...data, value: { ...value, [cursor.part]: removeAtIndex(power, cursor.cursor) } } // Remove the upcoming character from the power.
 	}
@@ -107,7 +112,7 @@ export function keyPressToData(keyInfo, data) {
 	// For letters and base units add them to the unit.
 	if (isLetter(key) || Object.keys(units).includes(key) || Object.keys(prefixes).includes(key)) {
 		const addAt = cursor.part === 'text' ? cursor.cursor : prefix.length + unit.length
-		return { ...data, ...process({ text: insertAtIndex(prefix + unit, addAt, key), power }, { part: 'text', cursor: addAt + key.length }) }
+		return { ...data, ...processUnitElement({ text: insertAtIndex(prefix + unit, addAt, key), power }, { part: 'text', cursor: addAt + key.length }) }
 	}
 
 	// For numbers add them to the power.
@@ -148,32 +153,36 @@ export function mouseClickToCursor(evt, data, unitElementElement) {
 	return cursor
 }
 
-// getStartCursor gives the cursor position at the start.
-export function getStartCursor() {
-	return { part: 'text', cursor: 0 }
-}
+// processUnitElement takes a simple unit element value of the form { text: 'kOhm', power: '2' } and optionally also a cursor { part: 'text', cursor: 4 }. It processes it into an object that can be displayed. So you get { value: { prefix: 'k', unit: 'Ω', power: '2', prefixObj: {obj}, unitObj: {obj} }, cursor: { part: 'text', cursor: 2 } }. If found, the references to the prefix and unit objects are also added.
+export function processUnitElement(value, cursor) {
+	const { text, power } = value
+	const { prefix, unit } = interpretPrefixAndBaseUnitStr(text)
 
-// getEndCursor gives the cursor position at the end.
-export function getEndCursor(value = getEmpty(), cursor) {
-	const { prefix, unit, power } = value
-	if (power !== '' || (cursor && cursor.part === 'power'))
-		return { part: 'power', cursor: power.length }
-	return { part: 'text', cursor: prefix.length + unit.length }
-}
+	// Determine if the cursor needs to shift.
+	if (cursor && cursor.part === 'text') {
+		if (cursor.cursor > 0 && cursor.cursor <= prefix.original.length) { // Was the cursor in the prefix?
+			if (prefix.original.length !== prefix.str.length) // Did the prefix length change?
+				cursor = { ...cursor, cursor: prefix.str.length } // Put the cursor at the end of the adjusted part.
+		} else if (cursor.cursor > prefix.original.length) { // The cursor was in the unit.
+			if (unit.original.length !== unit.str.length) // Did the unit length change?
+				cursor = { ...cursor, cursor: prefix.str.length + unit.str.length } // Put the cursor at the end of the adjusted part.
+			else if (prefix.original.length !== prefix.str.length) // Did the prefix length change?
+				cursor = { ...cursor, cursor: cursor.cursor - (prefix.original.length - prefix.str.length) } // Shift the cursor to the left by how much the prefix shortened.
+		}
+	}
 
-// isCursorAtStart returns a boolean: is the cursor at the start?
-export function isCursorAtStart(value, cursor) {
-	if (!cursor)
-		return false
-	return cursor.part === 'text' && cursor.cursor === 0
-}
-
-// isCursorAtEnd returns a boolean: is the cursor at the end?
-export function isCursorAtEnd(value, cursor) {
-	const { prefix, unit, power } = value
-	if (!cursor)
-		return false
-	if (cursor.part === 'power')
-		return cursor.cursor === power.length
-	return power === '' && cursor.cursor === prefix.length + unit.length
+	// Return all required data.
+	const processedValue = {
+		prefix: prefix.str,
+		unit: unit.str,
+		power,
+	}
+	if (prefix.obj)
+		processedValue.prefixObj = prefix.obj
+	if (unit.obj)
+		processedValue.unitObj = unit.obj
+	return {
+		value: processedValue,
+		cursor,
+	}
 }

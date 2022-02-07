@@ -3,7 +3,7 @@ import { useTheme } from '@material-ui/core/styles'
 
 import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
 import { noop } from 'step-wise/util/functions'
-import { deepEquals, processOptions } from 'step-wise/util/objects'
+import { processOptions } from 'step-wise/util/objects'
 import { toFO } from 'step-wise/inputTypes'
 import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 
@@ -11,8 +11,7 @@ import { useRefWithValue } from 'util/react'
 import { getIcon, getFeedbackColor } from 'ui/theme'
 import { useExerciseData, getPrevProgress } from 'ui/edu/exercises/ExerciseContainer'
 
-import { removeCursor } from './inputs/support/FieldInput'
-import { useInput, useFieldValidation } from './Form'
+import { useFormData, useFieldValidation } from './Form'
 
 const FeedbackContext = createContext(null)
 
@@ -77,23 +76,20 @@ export function useFieldFeedback(options) {
 	const { id, subFields, validate, feedbackText } = processOptions(options, defaultFieldFeedbackOptions)
 
 	// Gather data.
-	let input = useInput(id, true)
+	const theme = useTheme()
+	const { getInputParameterSI, getFieldFunction } = useFormData()
 	let { validation, validationInput } = useFieldValidation(id, validate)
 	let { feedback, feedbackInput } = useParameterFeedback(id)
 	const staticFeedbackText = useStaticFeedbackText(feedback, feedbackInput)
-	const theme = useTheme()
 
-	// Remove potential cursors for a proper comparison.
-	input = removeCursor(input)
-	validationInput = removeCursor(validationInput)
-	feedbackInput = removeCursor(feedbackInput)
-
-	// Check for validation problems.
-	if (validation !== undefined && deepEquals(input, validationInput))
+	// Check for validation problems. Use the FI for this.
+	const input = getInputParameterSI(id)
+	const equals = getFieldFunction(id, 'equals')
+	if (validation !== undefined && equals(input, validationInput))
 		return addInput(addIconAndColor({ type: 'warning', text: validation || feedbackText }, theme), validationInput)
 
-	// Check for feedback.
-	if (feedback !== undefined && deepEquals(input, feedbackInput)) {
+	// Validation is fine. Check for regular feedback.
+	if (feedback !== undefined && equals(input, feedbackInput)) {
 		// Get the feedback object for the main field.
 		const feedbackObject = processFeedback(feedback, staticFeedbackText || feedbackText, theme) || {}
 

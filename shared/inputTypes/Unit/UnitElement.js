@@ -1,45 +1,75 @@
 // UnitElement represents a single term in a Unit. Something like km^3, mV^2 or even m°C^2, but not a composed unit like m/s. Only positive powers are allowed, because negative powers are fixed within the Unit class. Zero powers are also not allowed (pointless anyway).
 
 const { isInt, ensureInt } = require('../../util/numbers')
-const { isObject, processOptions } = require('../../util/objects')
+const { keysToObject, processOptions } = require('../../util/objects')
+const { Prefix } = require('./Prefix')
+const { BaseUnit } = require('./BaseUnit')
 const { prefixes, findPrefix } = require('./prefixes')
 const { specialUnitSymbols, findUnit } = require('./units')
 
 // const inputFormat = RegExp(`^(?<unitText>[a-zA-Z${specialUnitSymbols.join('')}]+)(?:\\^(?<power>\\d+))?$`) // Firefox doesn't support named capture groups.
 const inputFormat = RegExp(`^([a-zA-Z${specialUnitSymbols.join('')}]+)(\\^(\\d+))?$`)
 
+const defaultUnitElement = { prefix: '', unit: '', power: 1 }
+const parts = Object.keys(defaultUnitElement)
+
 class UnitElement {
 	// The constructor input can be of the form string or SO. A string is like "km^3" and a Storage Object is of the form { prefix: 'mu', unit: 'm', power: 2 }. All parameters in this form are optional. Defaults are empty string for the prefix and unit and 1 for the power.
 
 	constructor(input = {}) {
+		// If we already have a UnitElement, use it.
+		if (input instanceof UnitElement)
+			return input
+
 		// If we have a string, turn it to an object.
 		if (typeof input === 'string')
-			input = stringToSO(input)
+			input = interpretStr(input)
 
 		// Include default values.
-		input = processOptions(input, { prefix: '', unit: '', power: 1, invalid: undefined })
+		const { prefix, unit, power } = processOptions(input, defaultUnitElement)
 
 		// Process the prefix.
-		if (typeof input.prefix !== 'string')
-			throw new Error(`Invalid prefix given: only prefixes of type string are allowed, but the prefix given was of type "${typeof input.prefix}".`)
-		if (input.prefix.length > 0) {
-			this._prefix = findPrefix(input.prefix)
-			if (!this._prefix)
-				throw new Error(`Unknown prefix given: did not recognize prefix "${input.prefix}".`)
+		if (prefix instanceof Prefix || prefix === null) {
+			this._prefix = prefix
+		} else {
+			if (typeof prefix !== 'string')
+				throw new Error(`Invalid prefix given: only prefixes of type string are allowed, but the prefix given was of type "${typeof prefix}".`)
+			if (prefix.length > 0) {
+				this._prefix = findPrefix(prefix)
+				if (!this._prefix)
+					throw new Error(`Unknown prefix given: did not recognize prefix "${prefix}".`)
+			}
 		}
 
 		// Process the unit.
-		if (typeof input.unit !== 'string')
-			throw new Error(`Invalid unit given: only units of type string are allowed, but the unit given was of type "${typeof input.unit}".`)
-		this._unit = findUnit(input.unit) || input.unit // Try to turn it into a known unit object. If this fails, keep the string.
+		if (unit instanceof BaseUnit || unit === null) {
+			this._unit = unit
+		} else {
+			if (typeof input.unit !== 'string')
+				throw new Error(`Invalid unit given: only units of type string are allowed, but the unit given was of type "${typeof unit}".`)
+			this._unit = findUnit(unit) || unit // Try to turn it into a known unit object. If this fails, keep the string.
+		}
 
 		// Process the power.
-		if (input.power === '')
+		if (power === '')
 			this._power = 1
-		else if (!isInt(input.power) || input.power <= 0)
-			throw new Error(`Invalid power given: no non-positive powers are allowed for units, but received "${input.power}".`)
+		else if (!isInt(power) || power <= 0)
+			throw new Error(`Invalid power given: no non-positive powers are allowed for units, but received "${power}".`)
 		else
-			this._power = parseInt(input.power)
+			this._power = parseInt(power)
+	}
+
+	// SO gives a storage object representation, containing only the relevant data. It has no attached methods, like this class.
+	get SO() {
+		return keysToObject(parts, part => {
+			if (part === 'power')
+				return this.power === 1 ? undefined : this.power
+			return this[`${part}String`] || undefined
+		})
+	}
+
+	get type() {
+		return 'UnitElement'
 	}
 
 	get prefix() {
@@ -93,15 +123,6 @@ class UnitElement {
 		return `{\\rm ${tex}}`
 	}
 
-	// SO gives a storage object representation, containing only the relevant data. It has no attached methods, like this class.
-	get SO() {
-		return {
-			prefix: this.prefixString,
-			unit: this.unitString,
-			power: this.power,
-		}
-	}
-
 	// hasPrefix returns true/false: does the UnitElement have a prefix?
 	hasPrefix() {
 		return !!this._prefix
@@ -148,8 +169,8 @@ class UnitElement {
 }
 module.exports.UnitElement = UnitElement
 
-// stringToSO turns a string representation of a unit element to an object representation. So it turns "km^2" into { prefix: "k", unit: "m", power: 2 }.
-function stringToSO(str) {
+// interpretStr turns a string representation of a unit element to an object that can easily be interpreted. So it turns "km^2" into { prefix: "k", unit: "m", power: 2 }. It uses object references to prefixes/base units where possible.
+function interpretStr(str) {
 	// An empty string is allowed. If we have this, just use default properties.
 	str = str.trim()
 	if (str === '')
@@ -161,50 +182,17 @@ function stringToSO(str) {
 		throw new Error(`Invalid UnitElement string given: could not parse "${str}".`)
 
 	// Turn the outcome into an object.
-	const processedData = interpretUnitString(match[1])
+	const processedData = interpretPrefixAndBaseUnitStr(match[1])
 	return {
-		prefix: processedData.prefix.str,
-		unit: processedData.unit.str,
+		prefix: processedData.prefix.obj,
+		unit: processedData.unit.obj,
 		power: match[3] || 1,
 	}
 }
-module.exports.stringToSO = stringToSO
+module.exports.interpretStr = interpretStr
 
-// process takes a simple unit element value of the form { text: 'kOhm', power: '2' } and optionally also a cursor { part: 'text', cursor: 4 }. It processes it into an object that can be displayed. So you get { value: { prefix: 'k', unit: 'Ω', power: '2' }, cursor: { part: 'text', cursor: 2 } }. If it is invalid, the flag "invalid" will be added and set to true.
-function process(value, cursor) {
-	const { text, power } = value
-	const { prefix, unit, valid } = interpretUnitString(text)
-
-	// Determine if the cursor needs to shift.
-	if (cursor && cursor.part === 'text') {
-		if (cursor.cursor > 0 && cursor.cursor <= prefix.original.length) { // Was the cursor in the prefix?
-			if (prefix.original.length !== prefix.str.length) // Did the prefix length change?
-				cursor = { ...cursor, cursor: prefix.str.length } // Put the cursor at the end of the adjusted part.
-		} else if (cursor.cursor > prefix.original.length) { // The cursor was in the unit.
-			if (unit.original.length !== unit.str.length) // Did the unit length change?
-				cursor = { ...cursor, cursor: prefix.str.length + unit.str.length } // Put the cursor at the end of the adjusted part.
-			else if (prefix.original.length !== prefix.str.length) // Did the prefix length change?
-				cursor = { ...cursor, cursor: cursor.cursor - (prefix.original.length - prefix.str.length) } // Shift the cursor to the left by how much the prefix shortened.
-		}
-	}
-
-	// Return all required data.
-	const processedValue = {
-		prefix: prefix.str,
-		unit: unit.str,
-		power,
-	}
-	if (!valid)
-		processedValue.invalid = true
-	return {
-		value: processedValue,
-		cursor,
-	}
-}
-module.exports.process = process
-
-// interpretUnitString interpets a text as a unit with prefix. It returns an object of the form { prefix: { obj, str, original }, unit: { obj, str, original }, valid }. The obj will be a functional prefix or unit object, or null if nothing is found. The original parameter will be the original string from which this was found. The str parameter is the processed string for the prefix or unit (so μ instead of mu, or Ω instead of Ohm). It equals the original if nothing is found. The parameter valid will be a boolean.
-function interpretUnitString(text) {
+// interpretPrefixAndBaseUnitStr interpets a text as a unit with prefix. It returns an object of the form { prefix: { obj, str, original }, unit: { obj, str, original }, valid }. The obj will be a functional prefix or unit object, or null if nothing is found. The original parameter will be the original string from which this was found. The str parameter is the processed string for the prefix or unit (so μ instead of mu, or Ω instead of Ohm). It equals the original if nothing is found. The parameter valid will be a boolean.
+function interpretPrefixAndBaseUnitStr(text) {
 	// Try to find the unit directly from the string.
 	let unit = findUnit(text)
 	if (unit)
@@ -241,56 +229,4 @@ function interpretUnitString(text) {
 		valid,
 	}
 }
-module.exports.interpretUnitString = interpretUnitString
-
-// The following functions are obligatory functions.
-function isFOofType(param) {
-	return isObject(param) && param.constructor === UnitElement
-}
-module.exports.isFOofType = isFOofType
-
-function FOtoIO(param) {
-	// Check if we have a UnitElement object already. If not, turn it into one. (Or die trying.)
-	if (param.constructor !== UnitElement)
-		param = new UnitElement(param)
-
-	// Find a way to display the unit element.
-	const result = {
-		prefix: param.prefixString,
-		unit: param.unitString,
-		power: param.power === 1 ? '' : param.power.toString(),
-	}
-	if (!param.isValid())
-		result.invalid = true
-	return result
-}
-module.exports.FOtoIO = FOtoIO
-
-function IOtoFO(value) {
-	// Grab the number and the power. Take into account a few boundary cases.
-	let { prefix, unit, power } = value
-	power = (power === '' || power === '-' ? 1 : parseInt(power))
-
-	// Set up a unit element with the given properties.
-	return new UnitElement({
-		prefix,
-		unit,
-		power,
-	})
-}
-module.exports.IOtoFO = IOtoFO
-
-function getEmpty() {
-	return { prefix: '', unit: '', power: '', invalid: true }
-}
-module.exports.getEmpty = getEmpty
-
-function isEmpty(value) {
-	return value.prefix === '' && value.unit === '' && value.power === ''
-}
-module.exports.isEmpty = isEmpty
-
-function equals(a, b) {
-	throw new Error(`The equals method is not implemented for unit elements.`)
-}
-module.exports.equals = equals
+module.exports.interpretPrefixAndBaseUnitStr = interpretPrefixAndBaseUnitStr

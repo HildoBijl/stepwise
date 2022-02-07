@@ -84,17 +84,25 @@ function ensureConsistency(newValue, oldValue) {
 }
 module.exports.ensureConsistency = ensureConsistency
 
-// applyToEachParameter takes an object with multiple parameters, like { a: 2, b: 3 }, and applies a function like (x, key) => 2*x to each parameter. It returns a new object (the old one is unchanged) with the result, like { a: 4, b: 6 }. It can also receive an array, in which case it returns an array (just like array map).
+// applyToEachParameter takes an object with multiple parameters, like { a: 2, b: 3 }, and applies a function like (x, key) => 2*x to each parameter. It returns a new object (the old one is unchanged) with the result, like { a: 4, b: 6 }. It can also receive an array, in which case it returns an array (just like array map). In both cases undefined values are always filtered out.
 function applyToEachParameter(obj, func) {
 	if (Array.isArray(obj))
-		return obj.map(func)
+		return obj.map(func).filter(value => value !== undefined)
+	return keysToObject(Object.keys(obj), key => func(obj[key], key))
+}
+module.exports.applyToEachParameter = applyToEachParameter
+
+// keysToObject takes an array of keys like ['num', 'den'] and applies a function for each of these keys. The result is stored in an object like { num: func('num'), den: func('den') }. If the result is undefined, it is not stored in the object.
+function keysToObject(keys, func) {
 	const result = {}
-	Object.keys(obj).forEach(key => {
-		result[key] = func(obj[key], key)
+	keys.forEach(key => {
+		const funcResult = func(key)
+		if (funcResult !== undefined)
+			result[key] = funcResult
 	})
 	return result
 }
-module.exports.applyToEachParameter = applyToEachParameter
+module.exports.keysToObject = keysToObject
 
 // processOptions is used to process an options object given to a function. It adds the given default options and checks if no non-existing options have been given. On a non-existing option it throws an error, unless filterStrangers is set to true, in which case these options are merely removed. The result is a copied object: original objects are not altered.
 function processOptions(givenOptions, defaultOptions, filterStrangers = false) {
