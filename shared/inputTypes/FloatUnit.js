@@ -1,8 +1,8 @@
 // The FloatUnit class represents a combination of a floating point number and a unit. An example is "9.81 m / s^2". It can be given a string, or an object of the form { float: ..., unit: ... } where the dots are valid float and unit representations.
 
 const { isObject, processOptions, filterOptions } = require('../util/objects')
-const { Float, floatFormat, getRandomFloat, getRandomExponentialFloat, FOtoIO: floatFOtoIO, IOtoFO: floatIOtoFO, getEmpty: getEmptyFloat, isEmpty: isFloatEmpty } = require('./Float')
-const { Unit, equalityTypeToSimplifyOptions, FOtoIO: unitFOtoIO, IOtoFO: unitIOtoFO, getEmpty: getEmptyUnit, isEmpty: isUnitEmpty } = require('./Unit')
+const { Float, floatFormat, getRandomFloat, getRandomExponentialFloat, SItoFO: floatSItoFO, FOtoSI: floatFOtoSI, SOtoFO: floatSOtoFO } = require('./Float')
+const { Unit, equalityTypeToSimplifyOptions, SItoFO: unitSItoFO, FOtoSI: unitFOtoSI, SOtoFO: unitSOtoFO } = require('./Unit')
 
 // const inputFormat = new RegExp(`^(?<float>${floatFormat})(?<unit>.*)$`) // Firefox doesn't support named capture groups.
 const inputFormat = new RegExp(`^(${floatFormat}(.*))$`)
@@ -31,6 +31,18 @@ class FloatUnit {
 		// Save the input.
 		this._float = new Float(input.float)
 		this._unit = new Unit(input.unit)
+	}
+
+	// SO returns a storage representation of this object that can be interpreted again.
+	get SO() {
+		return {
+			float: this.float.SO,
+			unit: this.unit.SO,
+		}
+	}
+
+	get type() {
+		return 'FloatUnit'
 	}
 
 	get float() {
@@ -68,14 +80,6 @@ class FloatUnit {
 		const float = this._float.texWithPM
 		const unit = this._unit.tex
 		return float + (float.length > 0 && unit.length > 0 ? '\\ ' : '') + unit
-	}
-
-	// SO returns a storage representation of this object that can be interpreted again.
-	get SO() {
-		return {
-			float: this.float.SO,
-			unit: this.unit.SO,
-		}
 	}
 
 	// isValid returns whether we have a valid unit (true or false). So whether all unit elements in this unit are valid unit elements: whether they have been recognized. (The Float is always valid.)
@@ -402,44 +406,24 @@ function getRandomExponentialFloatUnit(options) {
 }
 module.exports.getRandomExponentialFloatUnit = getRandomExponentialFloatUnit
 
-// The following functions are obligatory functions.
-function isFOofType(floatUnit) {
-	return isObject(floatUnit) && floatUnit.constructor === FloatUnit
-}
-module.exports.isFOofType = isFOofType
+// The functions below describe how to transfer between various data types, other than the standard ways in which this is done.
 
-function FOtoIO(floatUnit) {
-	// Check if we have a FloatUnit object already. If not, turn it into one. (Or die trying.)
-	if (floatUnit.constructor !== FloatUnit)
-		floatUnit = new FloatUnit(floatUnit)
-
-	// Find a way to display the FloatUnit.
-	return {
-		float: floatFOtoIO(floatUnit.float),
-		unit: unitFOtoIO(floatUnit.unit),
-	}
-}
-module.exports.FOtoIO = FOtoIO
-
-function IOtoFO(value) {
+module.exports.SItoFO = ({ float, unit }) => {
 	return new FloatUnit({
-		float: floatIOtoFO(value.float),
-		unit: unitIOtoFO(value.unit),
+		float: floatSItoFO(float || {}),
+		unit: unitSItoFO(unit || {}),
 	})
 }
-module.exports.IOtoFO = IOtoFO
 
-function getEmpty() {
-	return { float: getEmptyFloat(), unit: getEmptyUnit() }
-}
-module.exports.getEmpty = getEmpty
+module.exports.FOtoSI = FO => ({
+	float: floatFOtoSI(FO.float),
+	unit: unitFOtoSI(FO.unit),
+})
 
-function isEmpty(value) {
-	return isFloatEmpty(value.float) && isUnitEmpty(value.unit)
+module.exports.SOtoFO = SO => {
+	// Input object legacy: use the individual SOtoFO functions. If the old data types are removed, a simple "return new FloatUnit(SO)" would suffice.
+	return new FloatUnit({
+		float: floatSOtoFO(SO.float),
+		unit: unitSOtoFO(SO.unit),
+	})
 }
-module.exports.isEmpty = isEmpty
-
-function equals(a, b) {
-	return IOtoFO(a).equals(IOtoFO(b))
-}
-module.exports.equals = equals

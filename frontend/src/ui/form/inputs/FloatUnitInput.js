@@ -6,17 +6,58 @@ import { isNumber } from 'step-wise/util/numbers'
 import { isLetter } from 'step-wise/util/strings'
 import { selectRandomly, selectRandomEmpty } from 'step-wise/util/random'
 
-import { getEmpty, isEmpty } from 'step-wise/inputTypes/FloatUnit'
-import { isEmpty as isFloatEmpty, isValid as isFloatValid } from 'step-wise/inputTypes/Float'
-import { isEmpty as isUnitEmpty, isValid as isUnitValid } from 'step-wise/inputTypes/Unit'
 import { units } from 'step-wise/inputTypes/Unit/units'
 import { prefixes } from 'step-wise/inputTypes/Unit/prefixes'
 
 import { getClickSide } from 'util/dom'
 
 import FieldInput, { checkCursor } from './support/FieldInput'
-import { style as floatStyle, nonEmpty as floatNonEmpty, Float, dataToKeyboardSettings as floatDataToKeyboardSettings, keyPressToData as floatKeyPressToData, mouseClickToCursor as floatMouseClickToCursor, getStartCursor as getFloatStartCursor, getEndCursor as getFloatEndCursor, isCursorAtStart as isCursorAtFloatStart, isCursorAtEnd as isCursorAtFloatEnd } from './FloatInput'
-import { style as unitStyle, valid as unitValid, Unit, dataToKeyboardSettings as unitDataToKeyboardSettings, keyPressToData as unitKeyPressToData, mouseClickToCursor as unitMouseClickToCursor, getStartCursor as getUnitStartCursor, getEndCursor as getUnitEndCursor, isCursorAtStart as isCursorAtUnitStart, isCursorAtEnd as isCursorAtUnitEnd } from './UnitInput'
+import { style as floatStyle, nonEmpty as floatNonEmpty, Float, dataToKeyboardSettings as floatDataToKeyboardSettings, keyPressToData as floatKeyPressToData, mouseClickToCursor as floatMouseClickToCursor, emptyFloat, isEmpty as isFloatEmpty, getStartCursor as getFloatStartCursor, getEndCursor as getFloatEndCursor, isCursorAtStart as isCursorAtFloatStart, isCursorAtEnd as isCursorAtFloatEnd, isValid as isFloatValid, clean as cleanFloat, functionalize as functionalizeFloat } from './FloatInput'
+import { style as unitStyle, valid as unitValid, Unit, dataToKeyboardSettings as unitDataToKeyboardSettings, keyPressToData as unitKeyPressToData, mouseClickToCursor as unitMouseClickToCursor, emptyUnit, isEmpty as isUnitEmpty, getStartCursor as getUnitStartCursor, getEndCursor as getUnitEndCursor, isCursorAtStart as isCursorAtUnitStart, isCursorAtEnd as isCursorAtUnitEnd, isValid as isUnitValid, clean as cleanUnit, functionalize as functionalizeUnit } from './UnitInput'
+
+// Define various trivial objects and functions.
+export const emptyFloatUnit = {}
+export const parts = ['float', 'unit']
+export const emptyData = { type: 'FloatUnit', value: emptyFloatUnit }
+export const isEmpty = ({ float, unit }) => isFloatEmpty(float) && isUnitEmpty(unit)
+export const isUnitVisible = ({ unit }, cursor) => !isUnitEmpty(unit) || (cursor && cursor.part === 'unit')
+export const getStartCursor = (value, cursor) => ({ part: 'float', cursor: getFloatStartCursor(value.float, cursor && cursor.part === 'float' && cursor.cursor) })
+export const getEndCursor = (value, cursor) => {
+	const part = isUnitVisible(value, cursor) ? 'unit' : 'float'
+	return { part, cursor: (part === 'float' ? getFloatEndCursor : getUnitEndCursor)(value[part], cursor && cursor.part === part && cursor.cursor) }
+}
+export const isCursorAtStart = ({ float }, cursor) => cursor.part === 'float' && isCursorAtFloatStart(float, cursor.cursor)
+export const isCursorAtEnd = (value, cursor) => isUnitVisible(value, cursor) ? (cursor.part === 'unit' && isCursorAtUnitEnd(value.unit, cursor.cursor)) : isCursorAtFloatEnd(value.float, cursor.cursor)
+export const isValid = ({ float, unit }) => isFloatValid(float) && isUnitValid(unit)
+export const getFloatData = ({ value, cursor }) => ({ type: 'Float', value: value.float, cursor: cursor && cursor.part === 'float' && cursor.cursor })
+export const getUnitData = ({ value, cursor }) => ({ type: 'Unit', value: value.unit, cursor: cursor && cursor.part === 'unit' && cursor.cursor })
+export const clean = ({ float, unit }) => {
+	const result = {}
+	if (!isFloatEmpty(float))
+		result.float = cleanFloat(float)
+	if (!isUnitEmpty(unit))
+		result.unit = cleanUnit(unit)
+	return result
+}
+export const functionalize = ({ float, unit }) => ({ float: functionalizeFloat(float || emptyFloat), unit: functionalizeUnit(unit || emptyUnit) })
+
+const defaultProps = {
+	basic: true, // To get the basic character layout.
+	placeholder: 'Getal met eenheid',
+	validate: validNumberAndNonEmptyUnit,
+	initialData: emptyData,
+	isEmpty: data => isEmpty(data.value),
+	JSXObject: FloatUnit,
+	keyboardSettings: dataToKeyboardSettings,
+	keyPressToData,
+	mouseClickToCursor,
+	getStartCursor,
+	getEndCursor,
+	isCursorAtStart,
+	isCursorAtEnd,
+	clean,
+	functionalize,
+}
 
 const style = (theme) => ({
 	'& .float': {
@@ -33,22 +74,6 @@ const useStyles = makeStyles((theme) => ({
 	floatUnitInput: style(theme)
 }))
 export { style }
-
-const defaultProps = {
-	basic: true, // To get the basic character layout.
-	placeholder: 'Getal met eenheid',
-	validate: validNumberAndNonEmptyUnit,
-	initialData: getEmptyData(),
-	isEmpty: data => isEmpty(data.value),
-	JSXObject: FloatUnit,
-	keyboardSettings: dataToKeyboardSettings,
-	keyPressToData,
-	mouseClickToCursor,
-	getStartCursor,
-	getEndCursor,
-	isCursorAtStart,
-	isCursorAtEnd,
-}
 
 export default function FloatUnitInput(props) {
 	// Gather all relevant data.
@@ -136,14 +161,6 @@ export function FloatUnit(data) {
 				</>
 			) : null}
 	</>
-}
-
-export function getEmptyData() {
-	return {
-		type: 'FloatUnit',
-		value: getEmpty(),
-		cursor: getStartCursor(),
-	}
 }
 
 // dataToKeyboardSettings takes a data object and determines what keyboard settings are appropriate.
@@ -324,60 +341,4 @@ export function mouseClickToCursor(evt, data, contentsElement) {
 		newCursor = cursor.cursor
 	}
 	return checkCursor(newCursor) && { part, cursor: newCursor }
-}
-
-// getStartCursor gives the cursor position at the start.
-export function getStartCursor(value = getEmpty(), cursor = null) {
-	return { part: 'float', cursor: getFloatStartCursor(value.float, cursor && cursor.part === 'float' && cursor.cursor) }
-}
-
-// getEndCursor gives the cursor position at the end.
-export function getEndCursor(value = getEmpty(), cursor = null) {
-	const part = isUnitVisible(value, cursor) ? 'unit' : 'float'
-	if (part === 'float')
-		return { part, cursor: getFloatEndCursor(value[part], cursor && cursor.part === part && cursor.cursor) }
-	return { part, cursor: getUnitEndCursor(value[part], cursor && cursor.part === part && cursor.cursor) }
-}
-
-// isCursorAtStart returns a boolean: is the cursor at the start?
-export function isCursorAtStart(value, cursor) {
-	return cursor.part === 'float' && isCursorAtFloatStart(value.float, cursor.cursor)
-}
-
-// isCursorAtEnd returns a boolean: is the cursor at the end?
-export function isCursorAtEnd(value, cursor) {
-	if (isUnitVisible(value, cursor))
-		return cursor.part === 'unit' && isCursorAtUnitEnd(value.unit, cursor.cursor)
-	return isCursorAtFloatEnd(value.float, cursor.cursor)
-}
-
-// isValid checks if a FloatUnit IO is valid.
-export function isValid(value) {
-	const { float, unit } = value
-	return isFloatValid(float) && isUnitValid(unit)
-}
-
-// isUnitVisible decides if the unit should be visible or not.
-export function isUnitVisible(value, cursor) {
-	return !isUnitEmpty(value.unit) || (cursor && cursor.part === 'unit')
-}
-
-// getFloatData gives a Float type of data object from a FloatUnit type of data object.
-export function getFloatData(data) {
-	const { value, cursor } = data
-	return {
-		type: 'Float',
-		value: value.float,
-		cursor: cursor && cursor.part === 'float' && cursor.cursor,
-	}
-}
-
-// getUnitData gives a Unit type of data object from a FloatUnit type of data object.
-export function getUnitData(data) {
-	const { value, cursor } = data
-	return {
-		type: 'Unit',
-		value: value.unit,
-		cursor: cursor && cursor.part === 'unit' && cursor.cursor,
-	}
 }

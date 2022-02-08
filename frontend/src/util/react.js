@@ -73,6 +73,12 @@ export function useInitializer(func) {
 	useEffect(() => funcRef.current(), [funcRef])
 }
 
+// useLookupCallback is like useCallback(func, []) but then can have dependencies without giving warnings. It's a constant-reference function that just looks up which function is registered to it whenever it's called.
+export function useLookupCallback(func) {
+	const funcRef = useRefWithValue(func)
+	return useCallback((...args) => funcRef.current(...args), [funcRef])
+}
+
 // useMountedRef returns whether the object is mounted, through a reference object. This allows for pass-by-reference.
 export function useMountedRef() {
 	const mountedRef = useRef(false)
@@ -100,10 +106,7 @@ export function useUniqueNumber() {
 // useEventListener sets up event listeners for the given elements, executing the given handler. It ensures to efficiently deal with registering and unregistering listeners. The element parameter can be a DOM object or an array of DOM objects. It is allowed to insert ref objects whose "current" parameter is a DOM object.
 export function useEventListener(eventName, handler, elements = window) {
 	// If the handler changes, remember it within the ref. This allows us to change the handler without having to reregister listeners.
-	const handlerRef = useRef() // This ref will store the handler function.
-	useEffect(() => {
-		handlerRef.current = handler
-	}, [handler])
+	const handlerRef = useRefWithValue(handler)
 
 	// Set up the listeners using another effect.
 	useEffect(() => {
@@ -124,7 +127,7 @@ export function useEventListener(eventName, handler, elements = window) {
 		return () => {
 			processedElements.forEach(element => element.removeEventListener(eventName, redirectingHandler))
 		}
-	}, [eventName, elements]) // Reregister only when the event type or the listening objects change.
+	}, [eventName, elements, handlerRef]) // Reregister only when the event type or the listening objects change.
 }
 
 // useMousePosition returns the position of the mouse in client coordinates.

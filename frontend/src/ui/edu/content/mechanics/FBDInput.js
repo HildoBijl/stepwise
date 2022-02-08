@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { alpha } from '@material-ui/core/styles/colorManipulator'
 
 import { processOptions, filterOptions } from 'step-wise/util/objects'
+import { hasSimpleDeepEqualsMatching } from 'step-wise/util/arrays'
 import { toFO, toSO } from 'step-wise/inputTypes'
 import { PositionedVector } from 'step-wise/CAS/linearAlgebra'
 
@@ -61,6 +62,7 @@ function FBDInputUnforwarded(options, ref) {
 		drawingRef,
 		clean: FItoSI,
 		functionalize: SItoFI,
+		equals: hasSimpleDeepEqualsMatching,
 	})
 
 	// Determine what object results from dragging.

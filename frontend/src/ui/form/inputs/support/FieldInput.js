@@ -9,10 +9,10 @@ import { isObject, filterOptions, applyToEachParameter } from 'step-wise/util/ob
 import { isNumber, boundTo } from 'step-wise/util/numbers'
 
 import { getCoordinatesOf, preventDefaultOnKeys, getClickSide } from 'util/dom'
-import { useEventListener, useWidthTracker } from 'util/react'
+import { useLookupCallback, useEventListener, useWidthTracker } from 'util/react'
 import { notSelectable } from 'ui/theme'
 import { latexMinus } from 'ui/components/equations'
-import { useCursorRef, useAbsoluteCursorRef } from 'ui/form/Form'
+import { defaultUseFormParameterOptions, useCursorRef, useAbsoluteCursorRef } from 'ui/form/Form'
 import { useSubmitAction } from 'ui/edu/exercises/util/actions'
 
 import { useAsInput, defaultInputOptions } from './Input'
@@ -264,13 +264,14 @@ export default function FieldInput(options) {
 	} : false // When no settings are provided, no keyboard needs to be shown.
 
 	// Connect as an input.
-	const addCursor = useAddCursorFunction(getEndCursor)
+	const defaultClean = useDefaultDataCleanFunction(clean || defaultUseFormParameterOptions.clean)
+	const defaultFunctionalize = useDefaultDataFunctionalizeFunction(functionalize || defaultUseFormParameterOptions.functionalize, getEndCursor)
 	const { id, readOnly, data, setData, active, feedback } = useAsInput({
 		...filterOptions(options, defaultInputOptions),
 		element: fieldRef,
 		keyboard,
-		clean: clean || removeCursor,
-		functionalize: functionalize || addCursor,
+		clean: defaultClean,
+		functionalize: defaultFunctionalize,
 	})
 
 	// Set up necessary effects.
@@ -507,16 +508,15 @@ export function removeCursors(inputSet) {
 	return applyToEachParameter(inputSet, removeCursor)
 }
 
-// useAddCursorFunction takes a cursor positioning function like getEndCursor and uses it to set up a function adding a cursor to an element.
-export function useAddCursorFunction(getCursor, keepCursorWhenExisting = true) {
-	return useCallback((data) => getAddCursorFunction(getCursor, keepCursorWhenExisting)(data), [getCursor, keepCursorWhenExisting])
+// The default clean and functionalize functions remove/add a cursor on the right place, in addition to running the given clean/functionalize function on the value property.
+export function useDefaultDataCleanFunction(clean) {
+	return useLookupCallback(data => removeCursor({ ...data, value: clean(data.value) }))
 }
-export function getAddCursorFunction(getCursor, keepCursorWhenExisting = true) {
-	return (data) => {
-		if (data.cursor !== undefined && keepCursorWhenExisting)
-			return data
-		return { ...data, cursor: getCursor(data.value, data.cursor) }
-	}
+export function useDefaultDataFunctionalizeFunction(functionalize, getEndCursor) {
+	return useLookupCallback(data => {
+		const value = functionalize(data.value)
+		return { ...data, value, cursor: getEndCursor(value) }
+	})
 }
 
 // getClickPosition checks, for all char children of the given element, where was clicked. This number (cursor index) is returned. 

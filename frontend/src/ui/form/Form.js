@@ -103,15 +103,15 @@ export default function Form({ children }) {
 	const getInputParameterFI = useCallback((id) => inputRef.current[id], [inputRef])
 	const getInputSI = useCallback(() => {
 		return applyToEachParameter(inputRef.current, (input, id) => {
-			const clean = functionsRef.current[id].clean
+			const clean = getFieldFunction(id, 'clean')
 			return input !== undefined && clean ? clean(input) : input
 		})
-	}, [inputRef, functionsRef])
+	}, [inputRef, getFieldFunction])
 	const getInputParameterSI = useCallback((id) => {
 		const input = inputRef.current[id]
-		const clean = functionsRef.current[id].clean
+		const clean = getFieldFunction(id, 'clean')
 		return input !== undefined && clean ? clean(input) : input
-	}, [inputRef, functionsRef])
+	}, [inputRef, getFieldFunction])
 	const getInputFO = useCallback(() => toFO(getInputSI(), true), [getInputSI])
 	const getInputParameterFO = useCallback((id) => toFO(getInputParameterSI(id), true), [getInputParameterSI])
 

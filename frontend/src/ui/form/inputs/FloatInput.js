@@ -5,29 +5,23 @@ import clsx from 'clsx'
 import { isNumber } from 'step-wise/util/numbers'
 import { selectRandomEmpty, selectRandomNegative } from 'step-wise/util/random'
 import { removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
-import { IOtoFO } from 'step-wise/inputTypes/Float'
+import { applyToEachParameter, keysToObject } from 'step-wise/util/objects'
+import { SItoFO } from 'step-wise/inputTypes/Float'
 
 import FieldInput, { CharString, getClickPosition } from './support/FieldInput'
 
 // Define various trivial objects and functions.
-export const emptyData = { type: 'Float', value: { number: '', power: '' } }
+export const emptyFloat = {}
+export const parts = ['number', 'power']
+export const emptyData = { type: 'Float', value: emptyFloat }
 export const isEmpty = value => value.number === '' && value.power === ''
 export const getStartCursor = () => ({ part: 'number', cursor: 0 })
 export const getEndCursor = ({ number, power }, cursor) => (power !== '' || (cursor && cursor.part === 'power')) ? { part: 'power', cursor: power.length } : { part: 'number', cursor: number.length }
 export const isCursorAtStart = (_, cursor) => cursor.part === 'number' && cursor.cursor === 0
 export const isCursorAtEnd = ({ number, power }, cursor) => (cursor.part === 'power') ? (cursor.cursor === power.length) : (power === '' && cursor.cursor === number.length)
 export const isValid = ({ number }) => number.replace(/[.-]/g, '').length > 0 // It should have a number somewhere in it.
-
-// Define styles.
-const style = (theme) => ({
-	'& .tenPowerContainer': {
-		// color: theme.palette.info.main,
-	},
-})
-const useStyles = makeStyles((theme) => ({
-	floatInput: style(theme),
-}))
-export { style }
+export const clean = value => applyToEachParameter(value, param => param || undefined) // Remove empty strings.
+export const functionalize = value => keysToObject(parts, part => value[part] || '') // Add empty strings.
 
 const defaultProps = {
 	basic: true, // To get the basic character layout.
@@ -45,7 +39,20 @@ const defaultProps = {
 	getEndCursor,
 	isCursorAtStart,
 	isCursorAtEnd,
+	clean,
+	functionalize,
 }
+
+// Define styles.
+const style = (theme) => ({
+	'& .tenPowerContainer': {
+		// color: theme.palette.info.main,
+	},
+})
+const useStyles = makeStyles((theme) => ({
+	floatInput: style(theme),
+}))
+export { style }
 
 export default function FloatInput(props) {
 	// Gather all relevant data.
@@ -87,7 +94,7 @@ export function positive(data) {
 		return nonEmptyValidation
 
 	// If it's negative note it.
-	const float = IOtoFO(data.value)
+	const float = SItoFO(clean(data.value))
 	if (float.number < 0)
 		return selectRandomNegative()
 }

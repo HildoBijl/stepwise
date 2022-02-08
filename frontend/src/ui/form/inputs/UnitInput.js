@@ -8,7 +8,7 @@ import { applyToEachParameter, keysToObject } from 'step-wise/util/objects'
 import { repeat } from 'step-wise/util/functions'
 import { selectRandomEmpty, selectRandomInvalidUnit } from 'step-wise/util/random'
 
-import FieldInput, { checkCursor, removeCursor } from './support/FieldInput'
+import FieldInput, { checkCursor } from './support/FieldInput'
 import { UnitArray, keyPressToData as unitArrayKeyPressToData, mouseClickToCursor as unitArrayMouseClickToCursor, emptyUnitArray, isEmpty as isUnitArrayEmpty, getStartCursor as getUnitArrayStartCursor, getEndCursor as getUnitArrayEndCursor, isCursorAtStart as isCursorAtUnitArrayStart, isCursorAtEnd as isCursorAtUnitArrayEnd, isValid as isUnitArrayValid, mergeElements, splitElement, getCursorFromOffset as getUnitArrayCursorFromOffset, clean as cleanUnitArray, functionalize as functionalizeUnitArray } from './support/UnitArray'
 import { isEmpty as isUnitElementEmpty, getStartCursor as getUnitElementStartCursor, getEndCursor as getUnitElementEndCursor, isCursorAtStart as isCursorAtUnitElementStart } from './support/UnitElement'
 
@@ -16,7 +16,7 @@ import { isEmpty as isUnitElementEmpty, getStartCursor as getUnitElementStartCur
 export const emptyUnit = {}
 export const parts = ['num', 'den']
 export const emptyData = { type: 'Unit', value: emptyUnit }
-export const isEmpty = value => isUnitArrayEmpty(value.num) && isUnitArrayEmpty(value.den)
+export const isEmpty = ({ num, den }) => isUnitArrayEmpty(num) && isUnitArrayEmpty(den)
 export const isDenominatorVisible = (value, cursor) => !isUnitArrayEmpty(value.den) || (cursor && cursor.part === 'den')
 export const getStartCursor = ({ num }, cursor) => ({ part: 'num', cursor: getUnitArrayStartCursor(num, cursor && cursor.part === 'num' && cursor.cursor) })
 export const getEndCursor = (value, cursor) => {
@@ -43,11 +43,8 @@ const defaultProps = {
 	getEndCursor,
 	isCursorAtStart,
 	isCursorAtEnd,
-	clean: data => removeCursor({ ...data, value: clean(data.value) }),
-	functionalize: data => {
-		const value = functionalize(data.value)
-		return { ...data, value, cursor: getEndCursor(value) }
-	},
+	clean,
+	functionalize,
 }
 
 const style = (theme) => ({

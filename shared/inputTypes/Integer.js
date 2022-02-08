@@ -48,29 +48,9 @@ function checkNumberEquality(a, b, options = {}) {
 }
 module.exports.checkNumberEquality = checkNumberEquality
 
-// tex turns a given integer into code for LaTeX.
-function tex(int) {
-	return int.toString()
-}
-module.exports.tex = tex
-
-// texWithPM will return latex code but then with a plus or minus prior to the number, so it can be used as a term in an equation. For "5" it will return "+5", for "-5" it will return "-5" and for "0" it returns "+0".
-function texWithPM(int) {
-	return (int < 0 ? '' : '+') + tex(int)
-}
-module.exports.texWithPM = texWithPM
-
-// texWithBrackets will return latex code, but then with brackets if this is a negative number.
-function texWithBrackets(int) {
-	return (int < 0 ? `\\left(${tex(int)}\\right)` : tex(int))
-}
-module.exports.texWithBrackets = texWithBrackets
-
-// ToDo: figure out what to do with the functions above.
-
-// An Integer coming from an input field is stored as a string. In this way we can remember what exactly the user put in.
+// An Integer coming from an input field is stored as a string. In this way we can remember what exactly the user put in. It is transformed into an integer on the SItoFO transformation.
 
 module.exports.SItoFO = (value) => (value === '' || value === '-') ? 0 : parseInt(value)
 
-// ToDo: remove the below function after the overhaul and after deleting user entries.
+// Input object legacy: the integer used to be stored inside an object, even for the state. The function below unpacks it. It can be removed once the old exercise data is deleted.
 module.exports.SOtoFO = module.exports.SItoFO

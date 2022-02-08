@@ -67,10 +67,6 @@ class Float {
 		this._power = typeof input.power === 'string' ? parseInt(input.power) : input.power
 	}
 
-	get type() {
-		return 'Float'
-	}
-
 	// SO returns a storage object representation of this float number that can be interpreted again.
 	get SO() {
 		return {
@@ -78,6 +74,10 @@ class Float {
 			significantDigits: this.significantDigits,
 			power: this.power,
 		}
+	}
+
+	get type() {
+		return 'Float'
 	}
 
 	// number returns the float number as a number. So it's not 314.159 * 10^(-2) but it's 3.14159.
@@ -632,8 +632,8 @@ module.exports.numberToSO = numberToSO
 
 module.exports.SItoFO = ({ number, power }) => {
 	// Grab the number and the power. Take into account a few boundary cases.
-	number = (number === '' || number === '-' || number === '.' || number === '-.' ? '0' : number)
-	power = (power === '' || power === '-' ? 0 : parseInt(power))
+	number = (number === undefined || number === '' || number === '-' || number === '.' || number === '-.' ? '0' : number)
+	power = (power === undefined || power === '' || power === '-' ? 0 : parseInt(power))
 
 	// Set up a float with the given properties.
 	return new Float({
@@ -652,7 +652,7 @@ module.exports.FOtoSI = (float) => {
 }
 
 module.exports.SOtoFO = SO => {
-	// Legacy: if the number is a string, it's actually an SI. ToDo: remove this once the overhaul is done and exercise data has been deleted.
+	// Input object legacy: if the number is a string, the SO actually an SI. This is the old way of storing floats from the state.
 	if (typeof SO.number === 'string')
 		return module.exports.SItoFO(SO)
 

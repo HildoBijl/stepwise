@@ -1,4 +1,5 @@
 const { ensureInt, ensureNumber } = require('./numbers')
+const { deepEquals } = require('./objects')
 
 // ensureArray checks whether a variable is an array and throws an error if not. If all is fine, the same parameter is returned.
 function ensureArray(array) {
@@ -213,6 +214,12 @@ function hasSimpleMatching(arr1, arr2, matching) {
 	})
 }
 module.exports.hasSimpleMatching = hasSimpleMatching
+
+// hasSimpleDeepEqualsMatching checks if two arrays can match their elements with one another through a deepEquals matching: every element in one array must be deepEqual to an element in the other array.
+function hasSimpleDeepEqualsMatching(arr1, arr2) {
+	return hasSimpleMatching(arr1, arr2, deepEquals)
+}
+module.exports.hasSimpleDeepEqualsMatching = hasSimpleDeepEqualsMatching
 
 // sortByIndices takes two arrays, one with values ['a', 'b', 'c'] and one with numbers like [8, 2, 4]. It sorts the number array like [2, 4, 8] but returns the array with corresponding values ['b', 'c', 'a'].
 function sortByIndices(values, numbers) {

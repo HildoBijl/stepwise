@@ -387,3 +387,4 @@ module.exports.splitUnitString = splitUnitString
 module.exports.SOtoFO = (obj) => {
 	return new Unit(obj)
 }
+module.exports.SItoFO = module.exports.SOtoFO // For units SI and SO are the same.

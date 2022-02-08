@@ -9,6 +9,7 @@ import clsx from 'clsx'
 import { numberArray, shuffle } from 'step-wise/util/arrays'
 import { processOptions, filterOptions, deepEquals } from 'step-wise/util/objects'
 import { getRandomSubset } from 'step-wise/util/random'
+import { SItoFO } from 'step-wise/inputTypes/MultipleChoice'
 
 import { useRefWithValue, useImmutableValue } from 'util/react'
 import { notSelectable } from 'ui/theme'
@@ -112,6 +113,7 @@ export default function MultipleChoice(options) {
 		useFocusRegistration: false, // Tabbing does not focus MultipleChoice elements.
 		initialData: getEmptyData(multiple),
 		subFields: numberArray(0, choices.length - 1),
+		functionalize,
 	})
 	const selectionRef = useRefWithValue(selection)
 
@@ -188,6 +190,13 @@ function Choice({ checked, activate, deactivate, toggle, Element, feedback, read
 		</Box>
 		{feedbackText ? <Box className={clsx('feedback', classes.feedback)}>{feedbackText}</Box> : null}
 	</>
+}
+
+// Input object legacy: in the past the multiple choice input was stored as object. It must be transformed back to make it usable. After old inputs have been removed, this whole thing can be deleted: the default functionalize function is appropriate then.
+function functionalize(data) {
+	if (data && data.type === 'MultipleChoice')
+		return SItoFO(data.value)
+	return data // Regular case.
 }
 
 // These are validation functions.

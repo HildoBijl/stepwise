@@ -44,7 +44,7 @@ function getFeedback({ state: { constant }, input: { ans }, progress: { solved }
 	const c = constants[constant]
 	if (!c.unit.equals(ans.unit, { checkSize: false }))
 		return { ans: { correct, text: 'Je eenheid klopt niet. Kijk daar eerst eens naar.' } }
-	if (c.equals(ans, { relativeMargin: 10*equalityOptions.relativeMargin }))
+	if (c.equals(ans, { relativeMargin: 10 * equalityOptions.relativeMargin }))
 		return { ans: { correct, text: 'Je zit er net naast! Voer het iets nauwkeuriger in.' } }
 	return { ans: { correct, text: 'Je eenheid klopt, maar je getal nog niet.' } }
 }
