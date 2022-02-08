@@ -1,19 +1,16 @@
 // The FBDInput is an input field for Free Body Diagrams. It takes 
 
 import React, { forwardRef, useRef, useState, useImperativeHandle } from 'react'
-import clsx from 'clsx'
-import { makeStyles } from '@material-ui/core/styles'
-import { alpha } from '@material-ui/core/styles/colorManipulator'
 
 import { processOptions, filterOptions } from 'step-wise/util/objects'
 import { hasSimpleDeepEqualsMatching } from 'step-wise/util/arrays'
+import { selectRandomEmpty } from 'step-wise/util/random'
 import { toFO, toSO } from 'step-wise/inputTypes'
 import { PositionedVector } from 'step-wise/CAS/linearAlgebra'
 
 import { getEventPosition } from 'util/dom'
 import { useEventListener } from 'util/react'
-import { notSelectable } from 'ui/theme'
-import { useAsDrawingInput, defaultDrawingInputOptions, addSnapSvg } from 'ui/components/figures/Drawing'
+import { DrawingInput, useAsDrawingInput, defaultDrawingInputOptions, addSnapSvg, addFeedbackIcon } from 'ui/components/figures/Drawing'
 
 import EngineeringDiagram, { defaultEngineeringDiagramOptions, renderData } from './EngineeringDiagram'
 
@@ -26,22 +23,8 @@ export const defaultFBDInputOptions = {
 	...defaultEngineeringDiagramOptions,
 	...defaultDrawingInputOptions,
 	initialData: [],
+	validate: nonEmpty,
 }
-
-const useStyles = makeStyles((theme) => ({
-	FBDInput: {
-		'& .figureInner': {
-			borderRadius: '1rem',
-			cursor: 'pointer',
-			...notSelectable,
-			transition: `background ${theme.transitions.duration.standard}ms`,
-			touchAction: 'none',
-		},
-		'&.active .figureInner, & .figureInner:hover': {
-			background: alpha(theme.palette.primary.main, 0.05),
-		},
-	},
-}))
 
 function FBDInputUnforwarded(options, ref) {
 	options = processOptions(options, defaultFBDInputOptions)
@@ -52,18 +35,20 @@ function FBDInputUnforwarded(options, ref) {
 	const container = drawingRef.current && drawingRef.current.figure && drawingRef.current.figure.inner
 
 	// Connect this field as a drawing input field.
-	const {
-		readOnly, active,
-		data, setData,
-		className, mousePosition, snappedMousePosition, isMouseSnapped, snapLines, snapper,
-	} = useAsDrawingInput({
+	const inputData = useAsDrawingInput({
 		...filterOptions(options, defaultDrawingInputOptions),
 		element: container,
 		drawingRef,
-		clean: FItoSI,
-		functionalize: SItoFI,
+		clean,
+		functionalize,
 		equals: hasSimpleDeepEqualsMatching,
 	})
+	const {
+		readOnly,
+		data, setData,
+		mousePosition, snappedMousePosition, isMouseSnapped, snapLines, snapper,
+		feedback,
+	} = inputData
 
 	// Determine what object results from dragging.
 	const [mouseDownPosition, setMouseDownPosition] = useState()
@@ -99,13 +84,14 @@ function FBDInputUnforwarded(options, ref) {
 		{dragObject && renderData(dragObject)}
 	</>
 
-	// Add snap lines.
+	// Add snap lines and a feedback icon.
 	options.svgContents = addSnapSvg(options.svgContents, snappedMousePosition, snapLines, drawingRef)
+	options.htmlContents = addFeedbackIcon(options.htmlContents, feedback, drawingRef, 1.2)
 
 	// Render the Engineering Diagram with the proper styling.
-	const classes = useStyles()
-	options.className = clsx(className, 'FBDInput', classes.FBDInput, options.className, { active })
-	return <EngineeringDiagram ref={drawingRef} {...filterOptions(options, defaultEngineeringDiagramOptions)} />
+	return <DrawingInput inputData={inputData} options={options} className="FBDInput">
+		<EngineeringDiagram ref={drawingRef} {...filterOptions(options, defaultEngineeringDiagramOptions)} />
+	</DrawingInput>
 }
 export const FBDInput = forwardRef(FBDInputUnforwarded)
 export default FBDInput
@@ -132,13 +118,21 @@ function dragToObject(mouseDownPosition, snappedMousePosition, mousePosition, is
 	return { type: 'Force', positionedVector: new PositionedVector({ start: mouseDownPosition, end: snappedMousePosition }) }
 }
 
-function SItoFI(data) {
+// These are validation functions.
+export function nonEmpty(data) {
+	if (data.loads.length === 0)
+		return selectRandomEmpty()
+}
+
+// These are functions transforming between object types.
+
+export function clean(data) {
+	return toSO(data.loads)
+}
+
+export function functionalize(data) {
 	return {
 		loads: toFO(data),
 		selection: [],
 	}
-}
-
-function FItoSI(data) {
-	return toSO(data.loads)
 }
