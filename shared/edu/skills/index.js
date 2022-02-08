@@ -4,7 +4,7 @@ const skills = {
 	// Testing exercises.
 	test: {
 		name: 'Testopgave',
-		exercises: ['test'],
+		exercises: ['testExercise'],
 	},
 	fillInInteger: {
 		name: 'Geheel getal invullen',
