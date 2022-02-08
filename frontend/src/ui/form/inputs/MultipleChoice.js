@@ -10,7 +10,7 @@ import { numberArray, shuffle } from 'step-wise/util/arrays'
 import { processOptions, filterOptions, deepEquals } from 'step-wise/util/objects'
 import { getRandomSubset } from 'step-wise/util/random'
 
-import { useRefWithValue } from 'util/react'
+import { useRefWithValue, useImmutableValue } from 'util/react'
 import { notSelectable } from 'ui/theme'
 import FeedbackBlock from 'ui/components/misc/FeedbackBlock'
 
@@ -104,6 +104,7 @@ const useOptionStyle = makeStyles((theme) => ({
 export default function MultipleChoice(options) {
 	options = processOptions(options, defaultMultipleChoiceOptions)
 	let { choices, multiple, pick, include, randomOrder } = options
+	multiple = useImmutableValue(multiple) // Ensure that "multiple" does not change.
 
 	// Register as an input field.
 	const { readOnly, data: selection, setData: setSelection, feedback, feedbackInput } = useAsInput({

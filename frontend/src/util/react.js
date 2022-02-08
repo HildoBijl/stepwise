@@ -34,6 +34,18 @@ export function useConsistentValue(value) {
 	return ref.current
 }
 
+// useImmutableValue will ensure that the given property remains exactly the same. If it changes, an error is thrown. It's also not allowed to be undefined. This is useful for properties that are not allowed to change.
+export function useImmutableValue(value) {
+	const ref = useRef(undefined)
+	if (value === undefined)
+		throw new Error(`Invalid property value: undefined is not allowed for this property.`)
+	if (ref.current === undefined)
+		ref.current = value
+	if (value !== ref.current)
+		throw new Error(`Unallowed property change: the given property is not allowed to change value. However, it changed from "${ref.current}" to "${value}".`)
+	return value // Return the value for potential chaining.
+}
+
 // useEqualRefOnEquality will check if a value equals its previous value. If so, the reference is maintained.
 export function useEqualRefOnEquality(value, equalityCheck = (a, b) => a && a.equals(b)) {
 	const ref = useRef()
