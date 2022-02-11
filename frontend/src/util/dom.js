@@ -1,3 +1,4 @@
+import { keysToObject } from 'step-wise/util/objects'
 import { Vector } from 'step-wise/CAS/linearAlgebra/Vector'
 
 // resetFocus takes a field, removes the focus and restores it. This is useful to work around the Android auto-suggest option, preventing it from taking place.
@@ -63,4 +64,9 @@ export function preventDefaultOnKeys(evt, keys) {
 	keys = Array.isArray(keys) ? keys : [keys]
 	if (keys.includes(evt.key))
 		evt.preventDefault()
+}
+
+// getUtilKeys gets the utility keys (shift, ctrl, alt) status from an event.
+export function getUtilKeys(evt) {
+	return keysToObject(['shift', 'ctrl', 'alt'], key => evt[`${key}Key`])
 }

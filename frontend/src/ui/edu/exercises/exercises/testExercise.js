@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
+
 import { M } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import { InputSpace } from 'ui/form/Status'
@@ -77,19 +79,10 @@ function Solution() {
 }
 
 function getFeedback({ state, input, progress }) {
-	return {} // ToDo
-
-	// const { x } = state
+	// const { } = state
 	// const { ans } = input
-	// const correct = progress.solved || false
-	// if (correct)
-	// 	return { ans: { correct, text: selectRandomCorrect() } }
-	// return {
-	// 	ans: {
-	// 		correct,
-	// 		text: Math.abs(x) === Math.abs(ans) ? (
-	// 			ans > 0 ? 'Je bent het minteken vergeten.' : 'Probeer het minteken te verwijderen.'
-	// 		) : selectRandomIncorrect()
-	// 	}
-	// }
+	const correct = progress.solved || false
+	if (correct)
+		return { beam: { correct, text: selectRandomCorrect() } }
+	return { beam: { correct, text: selectRandomIncorrect() } }
 }

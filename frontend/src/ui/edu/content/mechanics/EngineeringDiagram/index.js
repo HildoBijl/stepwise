@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import { isObject, processOptions, filterOptions } from 'step-wise/util/objects'
 
-import Drawing, { defaultOptions as drawingDefaultOptions, components as drawingComponents } from 'ui/components/figures/Drawing'
+import Drawing, { defaultDrawingInputOptions, components as drawingComponents } from 'ui/components/figures/Drawing'
 
 import * as engineeringComponents from './components'
 
@@ -22,9 +22,9 @@ export const components = {
 }
 
 export const defaultEngineeringDiagramOptions = {
-	width: drawingDefaultOptions.width,
-	height: drawingDefaultOptions.height,
-	maxWidth: drawingDefaultOptions.maxWidth,
+	width: defaultDrawingInputOptions.width,
+	height: defaultDrawingInputOptions.height,
+	maxWidth: defaultDrawingInputOptions.maxWidth,
 	svgContents: null,
 	htmlContents: null,
 	className: '',
@@ -82,7 +82,7 @@ function EngineeringDiagramUnforwared(options, ref) {
 
 	// Render the drawing.
 	options.className = clsx('engineeringDiagram', classes.engineeringDiagram, options.className)
-	return <Drawing ref={ref} {...filterOptions(options, drawingDefaultOptions)} />
+	return <Drawing ref={ref} {...filterOptions(options, defaultDrawingInputOptions)} />
 }
 export const EngineeringDiagram = forwardRef(EngineeringDiagramUnforwared)
 export default EngineeringDiagram

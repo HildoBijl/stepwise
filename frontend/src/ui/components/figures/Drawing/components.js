@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureString } from 'step-wise/util/strings'
 import { ensureObject, processOptions, filterOptions } from 'step-wise/util/objects'
-import { Vector, ensureVector, ensureVectorArray, ensurePositionedVector } from 'step-wise/CAS/linearAlgebra'
+import { Vector, ensureVector, ensureVectorArray, ensurePositionedVector, ensureRectangle as ensureRectangleShape } from 'step-wise/CAS/linearAlgebra'
 
 // These are the parameters inherited by all object types.
 export const defaultObject = {
@@ -75,7 +75,7 @@ export const defaultCircle = {
 export function Rectangle(props) {
 	// Process the input.
 	let { dimensions, className, style } = processOptions(props, defaultRectangle)
-	dimensions = ensurePositionedVector(dimensions, 2)
+	dimensions = ensureRectangleShape(dimensions, 2)
 	className = ensureString(className)
 	style = ensureObject(style)
 

@@ -71,16 +71,12 @@ function ensureConsistency(newValue, oldValue) {
 		return newValue
 	}
 
-	// Then check for non-objects. For non-objects there's no such thing as reference inequality, so just return the value.
-	if (!isObject(newValue) || !isObject(oldValue))
+	// Then check for non-objects or non-basic objects. For non-objects there's no such thing as reference inequality, so just return the value.
+	if (!isBasicObject(newValue) || !isBasicObject(oldValue))
 		return newValue
 
 	// We have an object. Assemble the new object.
-	const newObject = {}
-	Object.keys(newValue).forEach(key => {
-		newObject[key] = ensureConsistency(newValue[key], oldValue[key])
-	})
-	return newObject
+	return applyToEachParameter(newValue, (parameter, key) => ensureConsistency(parameter, oldValue[key]))
 }
 module.exports.ensureConsistency = ensureConsistency
 

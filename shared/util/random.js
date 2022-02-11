@@ -58,7 +58,7 @@ module.exports.selectRandomly = selectRandomly
 // getRandomIndices takes an array length, like 5, and a number of indices that need to be chosen, like 3. It then returns an array with that many randomly chosen indices. Like [4, 0, 3]. If randomOrder is manually set to false, they will appear in order. (So [0, 3, 4] in the example.) Note: the given arrayLength number is an exclusive bound: it itself never appears in the array.
 function getRandomIndices(arrayLength, num = arrayLength, randomOrder = true) {
 	const indices = shuffle(numberArray(0, arrayLength - 1)).slice(0, num)
-	return randomOrder ? indices : indices.sort()
+	return randomOrder ? indices : indices.sort((a, b) => a - b)
 }
 module.exports.getRandomIndices = getRandomIndices
 
