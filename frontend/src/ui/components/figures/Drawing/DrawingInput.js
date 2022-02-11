@@ -205,9 +205,10 @@ function snapMousePosition(mousePosition, snappingLines, snappingDistance) {
 	if (snapLines.length === 1)
 		snappedMousePosition = snapLines[0].getClosestPoint(mousePosition)
 	const isMouseSnapped = snapLines.length > 0
+	const isMouseSnappedTwice = snapLines.length > 1
 
 	// Return the outcome.
-	return { snappedMousePosition, snapLines, isMouseSnapped }
+	return { snappedMousePosition, snapLines, isMouseSnapped, isMouseSnappedTwice }
 }
 
 // getSnapSvg takes a snapped mouse position and snap lines, and returns SVG to show the marker and the lines.

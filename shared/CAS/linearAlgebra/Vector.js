@@ -150,10 +150,15 @@ class Vector {
 
 	// normalize will return the unit vector in the given direction, effectively normalizing the vector.
 	normalize() {
-		const magnitude = this.magnitude
+		return this.setMagnitude(1)
+	}
+
+	setMagnitude(magnitude) {
+		magnitude = ensureNumber(magnitude)
+		const ownMagnitude = this.magnitude
 		if (compareNumbers(magnitude, 0))
-			throw new Error(`Invalid normalize call: cannot normalize the zero vector.`)
-		return this.divide(magnitude)
+			throw new Error(`Invalid setMagnitude call: cannot set the magnitude of the zero vector.`)
+		return this.multiply(magnitude / ownMagnitude)
 	}
 
 	// shorten will shorten the vector by a set amount while keeping its direction. If the distance is larger than the magnitude of this vector, the zero vector (of same dimension) is returned.
