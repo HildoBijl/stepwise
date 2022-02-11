@@ -1,12 +1,12 @@
 // Within a drawing, you can make use of useAsDrawingInput to get some useful tools for DrawingInputs.
 
-import { useMemo } from 'react'
+import React, { forwardRef, useMemo } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureArray, numberArray, filterDuplicates, sortByIndices } from 'step-wise/util/arrays'
-import { processOptions, filterOptions } from 'step-wise/util/objects'
+import { processOptions, filterOptions, filterProperties } from 'step-wise/util/objects'
 import { Vector, Line, PositionedVector } from 'step-wise/CAS/linearAlgebra'
 
 import { notSelectable } from 'ui/theme'
@@ -96,9 +96,10 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 // The DrawingInput wrapper needs to be used to add the right classes and to properly position potential feedback.
-export function DrawingInput({ inputData, options = {}, children, className }) {
+export function DrawingInputUnforwarded({ Drawing, drawingProperties, className, inputData, options = {} }, drawingRef) {
+	const { active, readOnly, snappedMousePosition, snapLines, feedback } = inputData
+
 	// Determine styling of the object.
-	const { active, readOnly, feedback } = inputData
 	const classes = useStyles({
 		maxWidth: options.maxWidth,
 		active,
@@ -110,12 +111,20 @@ export function DrawingInput({ inputData, options = {}, children, className }) {
 	})
 	className = clsx(options.className, className, inputData.className, classes.DrawingInput, 'drawingInput', { active })
 
+	// Add snap lines and a feedback icon.
+	options.svgContents = addSnapSvg(options.svgContents, snappedMousePosition, snapLines, drawingRef)
+	options.htmlContents = addFeedbackIcon(options.htmlContents, feedback, drawingRef, 1.2)
+
 	// Show the drawing and the feedback box.
+	if (drawingProperties)
+		options = filterProperties(options, drawingProperties)
 	return <div className={className}>
-		<div className="drawing">{children}</div>
+		<div className="drawing"><Drawing ref={drawingRef} {...options} /></div>
 		<div className="feedbackText">{feedback && feedback.text}</div>
 	</div>
 }
+export const DrawingInput = forwardRef(DrawingInputUnforwarded)
+export default DrawingInput
 
 // The useAsDrawingInput hook can be used by implementing components to get all data about the field. Its data (known as inputData) should be fed to the DrawingInput component.
 export function useAsDrawingInput(options) {

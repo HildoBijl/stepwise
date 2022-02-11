@@ -89,6 +89,12 @@ export function useMountedRef() {
 	return mountedRef
 }
 
+// useEnsureRef takes a ref object that comes in and assume that it actually is a ref. This is useful when using forwardref and wanting to make sure you get an actual ref.
+export function useEnsureRef(ref) {
+	const backupRef = useRef()
+	return ref || backupRef
+}
+
 // useMounted returns whether the object is mounted by giving a boolean.
 export function useMounted() {
 	const mountedRef = useMountedRef()

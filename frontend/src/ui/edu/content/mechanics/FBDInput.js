@@ -9,8 +9,8 @@ import { toFO, toSO } from 'step-wise/inputTypes'
 import { PositionedVector } from 'step-wise/CAS/linearAlgebra'
 
 import { getEventPosition } from 'util/dom'
-import { useEventListener } from 'util/react'
-import { DrawingInput, useAsDrawingInput, defaultDrawingInputOptions, addSnapSvg, addFeedbackIcon } from 'ui/components/figures/Drawing'
+import { useEventListener, useEnsureRef } from 'util/react'
+import { DrawingInput, useAsDrawingInput, defaultDrawingInputOptions } from 'ui/components/figures/Drawing'
 
 import EngineeringDiagram, { defaultEngineeringDiagramOptions, renderData } from './EngineeringDiagram'
 
@@ -26,15 +26,16 @@ export const defaultFBDInputOptions = {
 	validate: nonEmpty,
 }
 
-function FBDInputUnforwarded(options, ref) {
+function FBDInputUnforwarded(options, drawingRef) {
 	options = processOptions(options, defaultFBDInputOptions)
 
-	// Sort out the various references.
-	const drawingRef = useRef()
-	useImperativeHandle(ref, () => drawingRef.current)
+	// Sort out references.
+	drawingRef = useEnsureRef(drawingRef)
 	const container = drawingRef.current && drawingRef.current.figure && drawingRef.current.figure.inner
 
 	// Connect this field as a drawing input field.
+	console.log(drawingRef)
+	console.log(drawingRef)
 	const inputData = useAsDrawingInput({
 		...filterOptions(options, defaultDrawingInputOptions),
 		element: container,
@@ -46,8 +47,7 @@ function FBDInputUnforwarded(options, ref) {
 	const {
 		readOnly,
 		data, setData,
-		mousePosition, snappedMousePosition, isMouseSnapped, snapLines, snapper,
-		feedback,
+		mousePosition, snappedMousePosition, isMouseSnapped, snapper,
 	} = inputData
 
 	// Determine what object results from dragging.
@@ -84,14 +84,8 @@ function FBDInputUnforwarded(options, ref) {
 		{dragObject && renderData(dragObject)}
 	</>
 
-	// Add snap lines and a feedback icon.
-	options.svgContents = addSnapSvg(options.svgContents, snappedMousePosition, snapLines, drawingRef)
-	options.htmlContents = addFeedbackIcon(options.htmlContents, feedback, drawingRef, 1.2)
-
 	// Render the Engineering Diagram with the proper styling.
-	return <DrawingInput inputData={inputData} options={options} className="FBDInput">
-		<EngineeringDiagram ref={drawingRef} {...filterOptions(options, defaultEngineeringDiagramOptions)} />
-	</DrawingInput>
+	return <DrawingInput ref={drawingRef} Drawing={EngineeringDiagram} drawingProperties={Object.keys(defaultEngineeringDiagramOptions)} className="FBDInput" inputData={inputData} options={options} />
 }
 export const FBDInput = forwardRef(FBDInputUnforwarded)
 export default FBDInput
