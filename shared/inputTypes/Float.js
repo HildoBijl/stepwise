@@ -71,7 +71,7 @@ class Float {
 	get SO() {
 		return {
 			number: this.number,
-			significantDigits: this.significantDigits,
+			significantDigits: this.significantDigits === defaultParameters.significantDigits ? undefined : this.significantDigits,
 			power: this.power,
 		}
 	}
