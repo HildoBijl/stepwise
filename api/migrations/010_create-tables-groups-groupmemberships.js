@@ -46,7 +46,10 @@ module.exports = {
 				onUpdate: 'cascade',
 				onDelete: 'cascade',
 			},
-			// TODO Question: Should `online` be a property of the group membership, or rather of the user as a whole?
+			active: {
+				type: DataTypes.BOOLEAN,
+				allowNull: true,
+			},
 			createdAt: {
 				type: DataTypes.DATE,
 				allowNull: false,

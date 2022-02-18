@@ -8,14 +8,14 @@ const schema = gql`
 
 	extend type Mutation {
 		createGroup: Group!
-		deleteGroup(code: String!): Boolean!
 		joinGroup(code: String!): Group!
 		leaveGroup(code: String!): Boolean!
 	}
 
 	type Member {
-		id: ID!
 		name: String
+		givenName: String
+		familyName: String
 	}
 
 	type Group {

@@ -12,8 +12,6 @@ module.exports = (sequelize) => {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
-		// TODO Question: Shall we capture `createdBy` as meta-data?
-		// TODO Question: Should groups have names/titles, to help students identify them more easily?
 		createdAt: {
 			type: DataTypes.DATE,
 			allowNull: false,
