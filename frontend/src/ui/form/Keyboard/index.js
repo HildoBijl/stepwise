@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback, forwardRef, useImperativeHandle } from 'react'
+import React, { useState, useRef, useEffect, useLayoutEffect, useCallback, forwardRef, useImperativeHandle } from 'react'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import clsx from 'clsx'
 
@@ -132,7 +132,7 @@ function Keyboard({ settings, keyFunction }, ref) {
 
 	// Position the keyboard properly.
 	const positionKeyboardCB = useCallback(() => { setTimeout(() => positionKeyboard(barRef, tabsRef, keyboardRef, fillerRef, active, open)) }, [barRef, tabsRef, keyboardRef, fillerRef, active, open]) // Use a time-out to ensure this happens after all resizing, rendering and media queries are finished.
-	useEffect(positionKeyboardCB, [positionKeyboardCB, chosenTab]) // Also update the position when the active tab changes.
+	useLayoutEffect(positionKeyboardCB, [positionKeyboardCB, chosenTab]) // Also update the position when the active tab changes.
 	useEventListener('resize', positionKeyboardCB)
 
 	// Determine the settings for the given keyboard layout.
@@ -184,7 +184,7 @@ function positionKeyboard(barRef, tabsRef, keyboardRef, fillerRef, active, open)
 	// Check if the keyboard finished rendering. If not (and the height is still small) we should wait for a bit.
 	const threshold = 40
 	clearTimeout(positionKeyboardTimeout) // Prevent an older setting from applying.
-	if (keyboardHeight < threshold) {
+	if (active && keyboardHeight < threshold) {
 		const waitTime = 10 // Milliseconds
 		positionKeyboardTimeout = setTimeout(() => positionKeyboard(barRef, tabsRef, keyboardRef, fillerRef, active, open), waitTime)
 		return
