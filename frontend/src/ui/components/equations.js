@@ -39,7 +39,7 @@ export { zeroWidthSpace, zeroWidthSpaceRegExp }
 
 const useStyles = makeStyles((theme) => ({
 	equation: {
-		fontSize: ({ displayMode }) => displayMode ? '1em' : '0.9em',
+		fontSize: ({ displayMode }) => displayMode ? '1.1em' : '0.95em',
 	},
 }))
 
