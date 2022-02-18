@@ -144,7 +144,7 @@ const style = (theme) => ({
 
 			'& .divider': {
 				background: theme.palette.info.main,
-				height: '0.5px',
+				height: '1px',
 				width: '100%',
 			},
 		},

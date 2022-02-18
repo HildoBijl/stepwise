@@ -15,7 +15,7 @@ const useStyles = makeStyles(() => ({
 			height: '50%',
 			position: 'absolute',
 			top: '23%',
-			width: '0.5px',
+			width: '1px',
 		},
 	},
 	
