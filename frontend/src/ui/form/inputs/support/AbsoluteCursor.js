@@ -9,7 +9,7 @@ const useStyles = makeStyles(() => ({
 		animation: '$cursor 1s linear infinite',
 		background: '#000',
 		position: 'absolute',
-		width: '0.5px',
+		width: '1px',
 	},
 
 	cursorPositioned: (properties) => ({

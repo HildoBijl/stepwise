@@ -73,14 +73,14 @@ export default function FieldController({ children }) {
 	}, [fieldTracker, updateTabOrder])
 
 	// incrementTabIndex and decrementTabIndex adjust the tab index, shifting it one up or down.
-	const incrementTabIndex = useCallback((id) => {
+	const incrementTabIndex = useCallback(() => {
 		if (tabOrder.current.length === 0)
 			return setTabIndex(-1)
 		if (tabOrder.current.length === 1)
 			return setTabIndex(tabIndex => (tabIndex === 0 ? -1 : 0))
 		setTabIndex(mod(tabIndexRef.current + 1, tabOrder.current.length))
 	}, [tabIndexRef])
-	const decrementTabIndex = useCallback((id) => {
+	const decrementTabIndex = useCallback(() => {
 		if (tabOrder.current.length === 0)
 			return setTabIndex(-1)
 		if (tabOrder.current.length === 1)

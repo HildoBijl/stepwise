@@ -18,21 +18,23 @@ const data = {
 			accuracyFactor: 2,
 		},
 		V1: {
-			relativeMargin: 0.01,
+			relativeMargin: 0.001,
+			significantDigitMargin: 1,
 			checkUnitSize: true,
 		},
 		V2: {
-			relativeMargin: 0.01,
+			relativeMargin: 0.001,
+			significantDigitMargin: 1,
 			checkUnitSize: true,
 		},
 		p1: {
-			absoluteMargin: 0.2,
-			significantDigitMargin: 2,
+			relativeMargin: 0.001,
+			significantDigitMargin: 1,
 			checkUnitSize: true,
 		},
 		p2: {
-			absoluteMargin: 0.2,
-			significantDigitMargin: 2,
+			relativeMargin: 0.001,
+			significantDigitMargin: 1,
 			checkUnitSize: true,
 		},
 	},
@@ -52,7 +54,7 @@ function generateState() {
 
 	// Determine corresponding pressures.
 	const p2 = new FloatUnit('1.0 bar')
-	const p1 = p2.multiply(Math.pow(V2.number / V1.number, k)).setDecimals(1)
+	const p1 = p2.multiply(Math.pow(V2.number / V1.number, k)).setDecimals(1).roundToPrecision()
 
 	return { p1, p2, V1, V2 }
 }
