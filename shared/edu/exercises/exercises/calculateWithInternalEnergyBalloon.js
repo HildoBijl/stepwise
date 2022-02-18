@@ -32,7 +32,7 @@ function generateState() {
 		significantDigits: 2,
 		unit: 'l',
 	})
-	const V2 = V1.multiply(factor)
+	const V2 = V1.multiply(factor).roundToPrecision()
 	return { p, V1, V2 }
 }
 
