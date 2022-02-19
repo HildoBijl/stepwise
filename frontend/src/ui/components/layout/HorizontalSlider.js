@@ -152,9 +152,9 @@ export default function HorizontalSlider({ children, sliderInside = false, paddi
 	useEventListener('mouseup', endSliding)
 
 	// Set up event listeners for touch.
-	useEventListener('touchstart', startDragging, outerRef)
-	useEventListener('touchmove', updateDragging)
-	useEventListener('touchend', endDragging)
+	useEventListener('touchstart', startDragging, outerRef, { passive: true })
+	useEventListener('touchmove', updateDragging, { passive: true })
+	useEventListener('touchend', endDragging, { passive: true })
 
 	// On a window-resize rerender the scrollbar.
 	const forceUpdate = useForceUpdate()

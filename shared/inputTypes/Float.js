@@ -507,7 +507,7 @@ function getRandomFloat(options) {
 	const result = processFloat(number, options)
 
 	// Check if it's in the prevent list.
-	if (options.prevent) {
+	if (options.prevent !== undefined) {
 		const prevent = Array.isArray(options.prevent) ? options.prevent : [options.prevent]
 		if (prevent.includes(result.number))
 			return getRandomFloat(options)
@@ -532,7 +532,7 @@ function getRandomExponentialFloat(options) {
 	const result = processFloat(number, options)
 
 	// Check if it's in the prevent list.
-	if (options.prevent) {
+	if (options.prevent !== undefined) {
 		const prevent = Array.isArray(options.prevent) ? options.prevent : [options.prevent]
 		if (prevent.includes(result.number))
 			return getRandomExponentialFloat(options)

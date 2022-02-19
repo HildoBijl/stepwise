@@ -13,10 +13,10 @@ import { processOptions, filterOptions } from 'step-wise/util/objects'
 
 import { useEventListener } from 'util/react'
 
-import Drawing, { defaultDrawingInputOptions, applyStyle } from './Drawing'
+import Drawing, { defaultDrawingOptions, applyStyle } from './Drawing'
 
 export const defaultPlotOptions = {
-	...defaultDrawingInputOptions,
+	...defaultDrawingOptions,
 }
 
 const defaultPlotProperties = {}
@@ -93,12 +93,12 @@ export function Plot(options, ref) {
 	useEventListener('touchmove', (evt) => {
 		applyHoverLines(evt)
 		evt.preventDefault() // Prevent smartphone scrolling.
-	}, target)
+	}, target, { passive: true })
 	useEventListener('mouseleave', clearHoverLines, target)
 
 	// Render the drawing.
 	options.className = clsx('plot', classes.plot, options.className)
-	return <Drawing ref={drawingRef} {...filterOptions(options, defaultDrawingInputOptions)} />
+	return <Drawing ref={drawingRef} {...filterOptions(options, defaultDrawingOptions)} />
 }
 export default forwardRef(Plot)
 
