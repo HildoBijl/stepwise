@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureString } from 'step-wise/util/strings'
@@ -7,9 +7,9 @@ import { Vector, ensureVector, ensureVectorArray } from 'step-wise/CAS/linearAlg
 
 import { components as drawingComponents } from 'ui/components/figures/Drawing'
 
-const { defaultObject, Line, defaultLine } = drawingComponents
+const { defaultObject, useRefWithEventHandlers, Group, Line, defaultLine, Circle } = drawingComponents
 
-export function Beam(props) {
+export const Beam = forwardRef((props, ref) => {
 	// Check input.
 	let { points, thickness, strutSize, strutOpacity, color, lineStyle, strutStyle, className, style } = processOptions(props, defaultBeam)
 	points = ensureVectorArray(points, 2)
@@ -21,6 +21,7 @@ export function Beam(props) {
 	strutStyle = ensureObject(strutStyle)
 	className = ensureString(className)
 	style = ensureObject(style)
+	ref = useRefWithEventHandlers(props, ref)
 
 	// Render the struts.
 	const struts = points.map((point, index) => {
@@ -32,14 +33,14 @@ export function Beam(props) {
 	})
 
 	// Assemble the beam.
-	return <g className={className} style={style}>
+	return <Group {...{ ref, className, style }}>
 		{struts}
 		<Line points={points} className="beamLine" style={{ stroke: color, strokeWidth: thickness, ...lineStyle }} />
-	</g>
-}
+	</Group>
+})
 export const defaultBeam = {
 	...defaultLine,
-	thickness: 4,
+	thickness: 6,
 	strutSize: 12,
 	strutOpacity: 0.75,
 	color: 'black',
@@ -48,7 +49,7 @@ export const defaultBeam = {
 	className: 'beam',
 }
 
-export function Hinge(props) {
+export const Hinge = forwardRef((props, ref) => {
 	// Check input.
 	let { position, radius, thickness, color, className, style } = processOptions(props, defaultHinge)
 	position = ensureVector(position, 2)
@@ -57,10 +58,11 @@ export function Hinge(props) {
 	color = ensureString(color)
 	className = ensureString(className)
 	style = ensureObject(style)
+	ref = useRefWithEventHandlers(props, ref)
 
 	// Set up the circle.
-	return <circle cx={position.x} cy={position.y} r={radius} className={className} style={{ stroke: color, strokeWidth: thickness, ...style }} />
-}
+	return <Circle {...{ ref, center: position, radius, className, style: { stroke: color, strokeWidth: thickness, ...style } }} />
+})
 export const defaultHinge = {
 	...defaultObject,
 	position: Vector.zero,

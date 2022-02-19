@@ -109,10 +109,12 @@ export function useUniqueNumber() {
 	return ref.current
 }
 
-// useEventListener sets up event listeners for the given elements, executing the given handler. It ensures to efficiently deal with registering and unregistering listeners. The element parameter can be a DOM object or an array of DOM objects. It is allowed to insert ref objects whose "current" parameter is a DOM object.
-export function useEventListener(eventName, handler, elements = window) {
+// useEventListener sets up event listeners for the given elements, executing the given handler. It ensures to efficiently deal with registering and unregistering listeners. The element parameter can be a DOM object or an array of DOM objects. It is allowed to insert ref objects whose "current" parameter is a DOM object. In addition, the eventName attribute may be an array. The handler may be a single function (in which case it's used for all eventNames) or an array with equal length as the eventName array.
+export function useEventListener(eventName, handler, elements = window, options = {}) {
 	// If the handler changes, remember it within the ref. This allows us to change the handler without having to reregister listeners.
 	const handlerRef = useRefWithValue(handler)
+	eventName = ensureConsistency(eventName)
+	options = ensureConsistency(options)
 
 	// Set up the listeners using another effect.
 	useEffect(() => {
@@ -128,12 +130,31 @@ export function useEventListener(eventName, handler, elements = window) {
 		}).filter(element => element) // Throw out non-existing elements or elements without an event listener.
 
 		// Add and remove event listeners.
-		const redirectingHandler = (evt) => handlerRef.current(evt)
-		processedElements.forEach(element => element.addEventListener(eventName, redirectingHandler))
+		const eventNames = Array.isArray(eventName) ? eventName : [eventName]
+		const handler = handlerRef.current
+		const redirectingHandlers = eventNames.map((eventName, index) => {
+			const currHandler = Array.isArray(handler) ? handler[index] : handler
+			const redirectingHandler = (evt) => currHandler(evt)
+			processedElements.forEach(element => element.addEventListener(eventName, redirectingHandler, options))
+			return redirectingHandler
+		})
 		return () => {
-			processedElements.forEach(element => element.removeEventListener(eventName, redirectingHandler))
+			eventNames.forEach((eventName, index) => {
+				processedElements.forEach(element => element.removeEventListener(eventName, redirectingHandlers[index]))
+			})
 		}
-	}, [eventName, elements, handlerRef]) // Reregister only when the event type or the listening objects change.
+	}, [eventName, elements, handlerRef, options]) // Reregister only when the event type or the listening objects change.
+}
+
+// useEventListeners takes an object like { mouseenter: (evt) => {...}, mouseleave: (evt) => {...} } and applies event listeners to it.
+export function useEventListeners(handlers, elements, options) {
+	useEventListener(Object.keys(handlers), Object.values(handlers), elements, options)
+}
+
+// useRefWithEventListeners takes an object like { mouseenter: (evt) => {...}, mouseleave: (evt) => {...} } and returns a ref. If the ref is coupled to a DOM object, this DOM object listens to the relevant events.
+export function useRefWithEventListeners(handlers) {
+	const ref = useRef()
+	useEventListener(Object.keys(handlers), Object.values(handlers), ref)
 }
 
 // useMousePosition returns the position of the mouse in client coordinates.
@@ -141,9 +162,7 @@ export function useMousePosition() {
 	// Track the position of the mouse.
 	const [position, setPosition] = useState(null)
 	const storePosition = (evt) => { setPosition(getEventPosition(evt)) }
-	useEventListener('mousemove', storePosition)
-	useEventListener('touchstart', storePosition)
-	useEventListener('touchmove', storePosition)
+	useEventListener(['mousemove', 'touchstart', 'touchmove'], storePosition)
 	return position
 }
 

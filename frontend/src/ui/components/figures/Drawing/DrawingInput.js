@@ -31,6 +31,7 @@ export const defaultDrawingInputOptions = {
 	drawingRef: null,
 	feedbackIconScale: 1.2,
 	snappers: [],
+	applySnapping: true,
 	snappingDistance: 10,
 	startDrag: undefined,
 	endDrag: undefined,
@@ -125,7 +126,7 @@ export function useAsDrawingInput(options) {
 	options = processOptions(options, defaultDrawingInputOptions)
 	const drawing = options.drawingRef && options.drawingRef.current
 	const container = drawing && drawing.figure && drawing.figure.inner
-	let { snappers, snappingDistance, startSelection, processSelection } = options
+	let { snappers, applySnapping, snappingDistance, startSelection, processSelection } = options
 
 	// Define required states.
 	const [mouseDownData, setMouseDownData] = useState()
@@ -137,7 +138,7 @@ export function useAsDrawingInput(options) {
 	// Track and possibly snap the mouse position.
 	snappers = ensureArray(snappers)
 	snappingDistance = ensureNumber(snappingDistance, true)
-	const mouseData = useMouseSnapping(drawing, snappers, snappingDistance)
+	const mouseData = useMouseSnapping(drawing, snappers, snappingDistance, applySnapping)
 	const { snapper } = mouseData
 
 	// Set up the selection rectangle.
@@ -166,10 +167,8 @@ export function useAsDrawingInput(options) {
 			options.endDrag(mouseDownData, mouseUpData)
 		setMouseDownData(undefined)
 	}
-	useEventListener('mousedown', startDrag, container)
-	useEventListener('touchstart', startDrag, container)
-	useEventListener('mouseup', endDrag)
-	useEventListener('touchend', endDrag)
+	useEventListener(['mousedown', 'touchstart'], startDrag, container, { passive: false })
+	useEventListener(['mouseup', 'touchend'], endDrag)
 
 	// Return all data.
 	return { ...inputData, mouseData, mouseDownData, selectionRectangle }
@@ -212,14 +211,14 @@ export const DrawingInput = forwardRef(DrawingInputUnforwarded)
 export default DrawingInput
 
 // useMouseSnapping wraps all the snapping functionalities into one hook. It takes a drawing, a set of snappers and a snapping distance and takes care of all the mouse functionalities.
-function useMouseSnapping(drawing, snappers, snappingDistance) {
+function useMouseSnapping(drawing, snappers, snappingDistance, applySnapping) {
 	// Process the current mouse position.
 	const mousePosition = useMousePosition(drawing)
 	const mouseInDrawing = drawing ? drawing.isInside(mousePosition) : false
 
 	// Extract snapping lines and set up a snapper based on it.
 	const snappingLines = useSnappingLines(snappers)
-	const snapper = (point) => snapMousePosition(point, snappingLines, snappingDistance)
+	const snapper = (point) => snapMousePosition(point, snappingLines, snappingDistance, applySnapping)
 	const snapResult = snapper(mousePosition)
 
 	// Return all data.
@@ -247,9 +246,9 @@ function useSnappingLines(snappers) {
 }
 
 // snapMousePosition will calculate the position of the mouse after it's snapped to the nearest snapping line.
-function snapMousePosition(position, snappingLines, snappingDistance) {
-	// Check that a mouse position exists.
-	if (!position)
+function snapMousePosition(position, snappingLines, snappingDistance, applySnapping) {
+	// If there is no mouse position or no snapping should be applied, give a default response.
+	if (!position || !applySnapping)
 		return { position, snappedPosition: position, snapLines: [], isSnapped: false, isSnappedTwice: false }
 
 	// Get all the lines that fall within snapping distance.

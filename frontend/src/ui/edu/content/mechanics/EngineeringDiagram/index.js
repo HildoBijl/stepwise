@@ -2,7 +2,7 @@
 
 import React, { Fragment, forwardRef } from 'react'
 import clsx from 'clsx'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 
 import { isObject, processOptions, filterOptions } from 'step-wise/util/objects'
 
@@ -40,11 +40,15 @@ const useStyles = makeStyles((theme) => ({
 				'marker-start': 'url(#distanceArrowHead)',
 				'marker-end': 'url(#distanceArrowHead)',
 			},
-			'& .forceLine': {
-				fill: 'none',
+			'& .force': {
+				'& .forceLine': {
+					fill: 'none',
+				},
 			},
-			'& .momentLine': {
-				fill: 'none',
+			'& .moment': {
+				'& .momentLine': {
+					fill: 'none',
+				},
 			},
 			'& .arrowHead': {
 				fill: 'black',
@@ -89,13 +93,27 @@ export default EngineeringDiagram
 
 // EngineeringDiagramDefs are SVG defs needed inside the SVG. We put them into the Drawing.
 function EngineeringDiagramDefs() {
+	const theme = useTheme()
 	return <>
 		<marker id="distanceArrowHead" key="distanceArrowHead" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
 			<path d="M0 0 L12 6 L0 12" stroke="black" strokeWidth="1" fill="none" />
-		</marker>,
+		</marker>
 		<marker id="forceArrowHead" key="forceArrowHead" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto-start-reverse">
 			<polygon points="8 4, 0 0, 2 4, 0 8" />
 		</marker>
+		{[0, 0.4, 1.4, 1].map((value, index) => <filter key={index} id={`selectionFilter${index}`}>
+			<feGaussianBlur stdDeviation="3" in="SourceGraphic" result="Blur" />
+			<feComposite operator="out" in="Blur" in2="SourceGraphic" result="OuterBlur" />
+			<feComponentTransfer in="OuterBlur" result="OuterBlurFaded">
+				<feFuncA type="linear" slope={value} />
+			</feComponentTransfer>
+			<feFlood width="100%" height="100%" floodColor={theme.palette.primary.main} result="Color" />
+			<feComposite operator="in" in="Color" in2="OuterBlurFaded" result="Glow" />
+			<feMerge>
+				<feMergeNode in="Glow" />
+				<feMergeNode in="SourceGraphic" />
+			</feMerge>
+		</filter>)}
 	</>
 }
 

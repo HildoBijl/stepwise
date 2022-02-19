@@ -1,10 +1,10 @@
 // The FBDInput is an input field for Free Body Diagrams. It takes 
 
-import React, { forwardRef, useCallback, useMemo } from 'react'
+import React, { forwardRef, useCallback, useMemo, useState } from 'react'
 import clsx from 'clsx'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
-import { processOptions, filterOptions } from 'step-wise/util/objects'
+import { processOptions, filterOptions, applyToEachParameter } from 'step-wise/util/objects'
 import { hasSimpleDeepEqualsMatching } from 'step-wise/util/arrays'
 import { selectRandomEmpty } from 'step-wise/util/random'
 import { toFO, toSO } from 'step-wise/inputTypes'
@@ -64,6 +64,9 @@ function FBDInputUnforwarded(options, drawingRef) {
 			setData(data => [...data, dragObject])
 	}
 
+	// Track the hover status.
+	const [hoverIndex, setHoverIndex] = useState()
+
 	// Connect this field as a drawing input field.
 	const inputData = useAsDrawingInput({
 		...filterOptions(options, defaultDrawingInputOptions),
@@ -72,6 +75,7 @@ function FBDInputUnforwarded(options, drawingRef) {
 		clean,
 		functionalize,
 		equals: hasSimpleDeepEqualsMatching,
+		applySnapping: hoverIndex === undefined, // On hovering prevent snapping.
 	})
 	const {
 		active,
@@ -83,17 +87,34 @@ function FBDInputUnforwarded(options, drawingRef) {
 	const keyDownHandler = useCallback((evt) => active && handleKeyPress(evt, setData), [setData, active])
 	useEventListener('keydown', keyDownHandler)
 
+	// Deal with mouse enters/leaves.
+	const mouseHandlers = useMemo(() => ({
+		mouseenter: (hoverIndex) => setHoverIndex(hoverIndex),
+		mouseleave: () => setHoverIndex(undefined),
+		mousedown: (hoverIndex, evt) => {
+			evt.stopPropagation() // Prevent a drag start.
+			setData(data => {
+				// When the shift key is selected, or when no other loads are selected, flip the selection of the chosen load. Maintain object continuity wherever possible.
+				if (evt.shiftKey || !data.some((load, index) => (index !== hoverIndex && load.selected)))
+					return data.map((load, index) => index === hoverIndex ? { ...load, selected: !load.selected } : load)
+
+				// In other cases, make sure that only the chosen load is selected.
+				return data.map((load, index) => (load.selected === (index === hoverIndex)) ? load : { ...load, selected: !load.selected })
+			})
+		},
+	}), [setData])
+
 	// Sort out styles.
 	const classes = useStyles({ isSnapped: mouseData.isSnapped })
 	const className = clsx(options.className, classes.FBDInput, 'FBDInput')
 
 	// Add all drawn loads.
 	const dragObject = getDragObject(mouseDownData, mouseData, options)
-	const styledLoads = useMemo(() => data.map(load => styleLoad(load, theme)), [data, theme])
+	const styledLoads = useMemo(() => data.map((load, index) => styleLoad(index, { ...load, hovering: index === hoverIndex }, theme, mouseHandlers)), [data, hoverIndex, theme, mouseHandlers])
 	options.svgContents = <>
 		{options.svgContents}
 		{renderData(styledLoads)}
-		{dragObject && renderData(styleLoad(dragObject, theme))}
+		{dragObject && renderData(styleLoad(undefined, dragObject, theme))}
 	</>
 
 	// Render the Engineering Diagram with the proper styling.
@@ -149,12 +170,29 @@ function doesLoadTouchRectangle(load, rectangle) {
 	}
 }
 
-function styleLoad(load, theme) {
+function styleLoad(index, load, theme, mouseHandlers = {}) {
 	load = { ...load }
-	if (load.type === 'Force' || load.type === 'Moment')
-		load.color = load.selected ? theme.palette.secondary.main : theme.palette.secondary.light
+	if (load.type === 'Force' || load.type === 'Moment') {
+		const hoverStatus = getHoverStatus(load.selected, load.hovering)
+		load = {
+			...load,
+			color: theme.palette.secondary.main,
+			style: {
+				filter: `url(#selectionFilter${hoverStatus})`,
+				cursor: 'pointer',
+			},
+			...applyToEachParameter(mouseHandlers, handler => (evt) => handler(index, evt)),
+		}
+	}
 	delete load.selected
+	delete load.hovering
 	return load
+}
+
+function getHoverStatus(selected, hovering) {
+	if (selected)
+		return hovering ? 2 : 3
+	return hovering ? 1 : 0
 }
 
 function handleKeyPress(evt, setData) {
