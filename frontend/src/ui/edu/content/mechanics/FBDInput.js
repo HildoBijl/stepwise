@@ -61,7 +61,7 @@ function FBDInputUnforwarded(options, drawingRef) {
 	options.endDrag = (downState, upState) => {
 		const dragObject = getDragObject(downState, upState, options)
 		if (dragObject && ['Force', 'Moment'].includes(dragObject.type))
-			setData(data => [...data, dragObject])
+			setData(data => [...data, { ...dragObject, selected: true }])
 	}
 
 	// Track the hover status.
@@ -80,8 +80,13 @@ function FBDInputUnforwarded(options, drawingRef) {
 	const {
 		active,
 		data, setData,
-		mouseData, mouseDownData,
+		mouseData, mouseDownData, selectionRectangle,
 	} = inputData
+
+	// Handle deletions.
+	const deleteSelection = useCallback(() => setData(data => data.filter(load => !load.selected)), [setData])
+	const hasSelectedLoad = data.some(load => load.selected)
+	options.onDelete = hasSelectedLoad ? deleteSelection : undefined
 
 	// Deal with key presses.
 	const keyDownHandler = useCallback((evt) => active && handleKeyPress(evt, setData), [setData, active])
@@ -110,7 +115,7 @@ function FBDInputUnforwarded(options, drawingRef) {
 
 	// Add all drawn loads.
 	const dragObject = getDragObject(mouseDownData, mouseData, options)
-	const styledLoads = useMemo(() => data.map((load, index) => styleLoad(index, { ...load, hovering: index === hoverIndex }, theme, mouseHandlers)), [data, hoverIndex, theme, mouseHandlers])
+	const styledLoads = useMemo(() => data.map((load, index) => styleLoad(index, { ...load, hovering: index === hoverIndex }, theme, mouseHandlers, selectionRectangle)), [data, hoverIndex, theme, mouseHandlers, selectionRectangle])
 	options.svgContents = <>
 		{options.svgContents}
 		{renderData(styledLoads)}
@@ -141,16 +146,16 @@ function getDragObject(downData, upData, options) {
 	if (allowMoments && snappedVector.squaredMagnitude <= maximumMomentDistance ** 2) {
 		const angle = vector.argument
 		const opening = Math.round(angle / (Math.PI / 2)) * (Math.PI / 2)
-		return { type: 'Moment', position: downData.snappedPosition, opening, clockwise: angle < opening, selected: true }
+		return { type: 'Moment', position: downData.snappedPosition, opening, clockwise: angle < opening }
 	}
 
 	// Otherwise return a Force. How to do this depends on if a fixed length has been set.
 	if (!forceLength)
-		return { type: 'Force', positionedVector: new PositionedVector({ start: downData.snappedPosition, end: upData.snappedPosition }), selected: true }
+		return { type: 'Force', positionedVector: new PositionedVector({ start: downData.snappedPosition, end: upData.snappedPosition }) }
 	snappedVector = snappedVector.setMagnitude(forceLength)
 	if (upData.isSnappedTwice)
-		return { type: 'Force', positionedVector: new PositionedVector({ vector: snappedVector, end: upData.snappedPosition }), selected: true }
-	return { type: 'Force', positionedVector: new PositionedVector({ vector: snappedVector, start: downData.snappedPosition }), selected: true }
+		return { type: 'Force', positionedVector: new PositionedVector({ vector: snappedVector, end: upData.snappedPosition }) }
+	return { type: 'Force', positionedVector: new PositionedVector({ vector: snappedVector, start: downData.snappedPosition }) }
 }
 
 // These are validation functions.
@@ -170,10 +175,11 @@ function doesLoadTouchRectangle(load, rectangle) {
 	}
 }
 
-function styleLoad(index, load, theme, mouseHandlers = {}) {
+function styleLoad(index, load, theme, mouseHandlers = {}, selectionRectangle) {
 	load = { ...load }
 	if (load.type === 'Force' || load.type === 'Moment') {
-		const hoverStatus = getHoverStatus(load.selected, load.hovering)
+		const inSelectionRectangle = selectionRectangle && doesLoadTouchRectangle(load, selectionRectangle)
+		const hoverStatus = getHoverStatus(load.selected, load.hovering, inSelectionRectangle)
 		load = {
 			...load,
 			color: theme.palette.secondary.main,
@@ -189,10 +195,10 @@ function styleLoad(index, load, theme, mouseHandlers = {}) {
 	return load
 }
 
-function getHoverStatus(selected, hovering) {
+function getHoverStatus(selected, hovering, inSelectionRectangle) {
 	if (selected)
-		return hovering ? 2 : 3
-	return hovering ? 1 : 0
+		return hovering || inSelectionRectangle ? 2 : 3
+	return hovering || inSelectionRectangle ? 1 : 0
 }
 
 function handleKeyPress(evt, setData) {

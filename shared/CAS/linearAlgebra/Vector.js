@@ -148,6 +148,12 @@ class Vector {
 		return this.multiply(1 / number)
 	}
 
+	// interpolate will take a vector and interpolate between the vectors. 0 means this vector is kept and 1 means the other vector is used. Default is 0.5.
+	interpolate(vector, factor = 0.5) {
+		vector = ensureVector(vector, this.dimension)
+		return this.multiply(1 - factor).add(vector.multiply(factor))
+	}
+
 	// normalize will return the unit vector in the given direction, effectively normalizing the vector.
 	normalize() {
 		return this.setMagnitude(1)

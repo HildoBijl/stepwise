@@ -4,6 +4,7 @@ import React, { forwardRef, useMemo, useState } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import { alpha } from '@material-ui/core/styles/colorManipulator'
+import { Delete } from '@material-ui/icons'
 
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureArray, numberArray, filterDuplicates, sortByIndices } from 'step-wise/util/arrays'
@@ -38,6 +39,7 @@ export const defaultDrawingInputOptions = {
 	startSelection: startSelectionOptions.noSnap,
 	processSelection: undefined,
 	stopSnapOnSelection: true,
+	onDelete: undefined,
 }
 
 // Field definitions.
@@ -101,11 +103,24 @@ const useStyles = makeStyles((theme) => ({
 
 				// Selection style.
 				'& .selectionRectangle': {
-					fill: alpha(theme.palette.primary.main, 0.2),
+					fill: alpha(theme.palette.primary.main, 0.05),
 					stroke: theme.palette.primary.main,
-					strokeWidth: 1,
-					opacity: 0.4,
+					strokeWidth: 0.5,
+					strokeDasharray: '4 2',
+					opacity: 0.7,
 				},
+			},
+		},
+
+		'& .deleteButton': {
+			background: 'rgba(0, 0, 0, 0.1)',
+			borderRadius: '10rem',
+			cursor: 'pointer',
+			opacity: 0.7,
+			padding: '0.3rem',
+			'&:hover': {
+				// background: 'rgba(0, 0, 0, 0.1)',
+				opacity: 1,
 			},
 		},
 
@@ -178,7 +193,7 @@ export function useAsDrawingInput(options) {
 export function DrawingInputUnforwarded({ Drawing, drawingProperties, className, inputData, options = {} }, drawingRef) {
 	const drawingOptions = drawingProperties ? filterProperties(options, drawingProperties) : options
 	options = processOptions(options, defaultDrawingInputOptions, true)
-	let { maxWidth, stopSnapOnSelection, feedbackIconScale } = options
+	let { maxWidth, stopSnapOnSelection, feedbackIconScale, onDelete } = options
 	const { active, readOnly, mouseData, feedback, selectionRectangle } = inputData
 	const drawing = drawingRef && drawingRef.current
 
@@ -200,6 +215,14 @@ export function DrawingInputUnforwarded({ Drawing, drawingProperties, className,
 	if (!selectionRectangle || !stopSnapOnSelection)
 		svgContents = addSnapSvg(svgContents, mouseData, drawing)
 	htmlContents = addFeedbackIcon(htmlContents, feedback, drawing, feedbackIconScale)
+
+	// When an onDelete function is given, show a Garbage icon.
+	if (onDelete) {
+		htmlContents = <>
+			{htmlContents}
+			<PositionedElement anchor={[1, 1]} position={[drawing.width - 10, drawing.height - 10]} scale={1.5} ><DeleteButton onMouseDown={onDelete} /></PositionedElement>
+		</>
+	}
 
 	// Show the drawing and the feedback box.
 	return <div className={className}>
@@ -360,4 +383,9 @@ function addSelectionRectangle(svgContents, selectionRectangle) {
 		{svgContents}
 		<SvgRectangle className="selectionRectangle" dimensions={selectionRectangle} />
 	</> : svgContents
+}
+
+// DeleteButton is a button of a garbage bin icon.
+function DeleteButton(props) {
+	return <div className="deleteButton" {...props}><Delete /></div>
 }
