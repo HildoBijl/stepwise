@@ -1,8 +1,8 @@
 // The FBDInput is an input field for Free Body Diagrams. It takes 
 
-import React, { forwardRef, useCallback, useMemo, useState } from 'react'
+import React, { forwardRef, useCallback, useMemo, useState, useEffect } from 'react'
 import clsx from 'clsx'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 
 import { processOptions, filterOptions, applyToEachParameter } from 'step-wise/util/objects'
 import { hasSimpleDeepEqualsMatching } from 'step-wise/util/arrays'
@@ -13,7 +13,7 @@ import { PositionedVector } from 'step-wise/CAS/linearAlgebra'
 import { useEnsureRef, useEventListener } from 'util/react'
 import { DrawingInput, useAsDrawingInput, defaultDrawingInputOptions } from 'ui/components/figures/Drawing'
 
-import EngineeringDiagram, { defaultEngineeringDiagramOptions, renderData } from './EngineeringDiagram'
+import EngineeringDiagram, { defaultEngineeringDiagramOptions, renderData, loadColors } from './EngineeringDiagram'
 import { defaultMoment } from './EngineeringDiagram/components/loads'
 
 export const defaultFBDInputOptions = {
@@ -32,14 +32,13 @@ const useStyles = makeStyles((theme) => ({
 	FBDInput: {
 		'& .drawing': {
 			'& .figureInner': {
-				cursor: ({ isSnapped }) => isSnapped ? 'pointer' : 'crosshair',
+				cursor: ({ isSnapped, readOnly }) => readOnly ? 'default' : (isSnapped ? 'pointer' : 'crosshair'),
 			},
 		},
 	},
 }))
 
 function FBDInputUnforwarded(options, drawingRef) {
-	const theme = useTheme()
 	options = processOptions(options, defaultFBDInputOptions)
 
 	// Sort out references.
@@ -78,26 +77,33 @@ function FBDInputUnforwarded(options, drawingRef) {
 		applySnapping: hoverIndex === undefined, // On hovering prevent snapping.
 	})
 	const {
-		active,
+		readOnly, active, activateField,
 		data, setData,
 		mouseData, mouseDownData, selectionRectangle,
 	} = inputData
 
+	// On becoming inactive, deselect all loads.
+	useEffect(() => {
+		if (!active)
+			setData(data => data.some(load => load.selected) ? data.map(load => load.selected ? { ...load, selected: false } : load) : data)
+	}, [active, setData])
+
 	// Handle deletions.
 	const deleteSelection = useCallback(() => setData(data => data.filter(load => !load.selected)), [setData])
 	const hasSelectedLoad = data.some(load => load.selected)
-	options.onDelete = hasSelectedLoad ? deleteSelection : undefined
+	options.onDelete = !readOnly && hasSelectedLoad ? deleteSelection : undefined
 
 	// Deal with key presses.
 	const keyDownHandler = useCallback((evt) => active && handleKeyPress(evt, setData), [setData, active])
 	useEventListener('keydown', keyDownHandler)
 
 	// Deal with mouse enters/leaves.
-	const mouseHandlers = useMemo(() => ({
+	const mouseHandlers = useMemo(() => readOnly ? {} : {
 		mouseenter: (hoverIndex) => setHoverIndex(hoverIndex),
 		mouseleave: () => setHoverIndex(undefined),
 		mousedown: (hoverIndex, evt) => {
 			evt.stopPropagation() // Prevent a drag start.
+			activateField() // Activate the field if not already active.
 			setData(data => {
 				// When the shift key is selected, or when no other loads are selected, flip the selection of the chosen load. Maintain object continuity wherever possible.
 				if (evt.shiftKey || !data.some((load, index) => (index !== hoverIndex && load.selected)))
@@ -107,19 +113,19 @@ function FBDInputUnforwarded(options, drawingRef) {
 				return data.map((load, index) => (load.selected === (index === hoverIndex)) ? load : { ...load, selected: !load.selected })
 			})
 		},
-	}), [setData])
+	}, [readOnly, setData, activateField])
 
 	// Sort out styles.
-	const classes = useStyles({ isSnapped: mouseData.isSnapped })
+	const classes = useStyles({ isSnapped: mouseData.isSnapped, readOnly })
 	const className = clsx(options.className, classes.FBDInput, 'FBDInput')
 
 	// Add all drawn loads.
 	const dragObject = getDragObject(mouseDownData, mouseData, options)
-	const styledLoads = useMemo(() => data.map((load, index) => styleLoad(index, { ...load, hovering: index === hoverIndex }, theme, mouseHandlers, selectionRectangle)), [data, hoverIndex, theme, mouseHandlers, selectionRectangle])
+	const styledLoads = useMemo(() => data.map((load, index) => styleLoad(index, { ...load, hovering: index === hoverIndex }, readOnly, mouseHandlers, selectionRectangle)), [data, hoverIndex, readOnly, mouseHandlers, selectionRectangle])
 	options.svgContents = <>
 		{options.svgContents}
 		{renderData(styledLoads)}
-		{dragObject && renderData(styleLoad(undefined, dragObject, theme))}
+		{dragObject && renderData(styleLoad(undefined, dragObject, readOnly))}
 	</>
 
 	// Render the Engineering Diagram with the proper styling.
@@ -130,15 +136,22 @@ export const FBDInput = forwardRef(FBDInputUnforwarded)
 export default FBDInput
 
 function getDragObject(downData, upData, options) {
-	// Don't draw if the mouse is not down or is not snapped. ToDo: remove this after selecting thingy.
+	// Don't draw if the mouse is not down or is not snapped.
 	if (!downData || !downData.isSnapped)
 		return null
 
 	const { clickMarkerSize, minimumDragDistance, maximumMomentDistance, allowMoments, forceLength } = options
+	let snappedVector = upData.snappedPosition.subtract(downData.snappedPosition)
+
+	// On a double snap, always give a force.
+	if (upData.isSnappedTwice && !snappedVector.isZero()) {
+		if (forceLength)
+			snappedVector = snappedVector.setMagnitude(forceLength)
+		return { type: 'Force', positionedVector: new PositionedVector({ vector: snappedVector, end: upData.snappedPosition }) }
+	}
 
 	// On a very short vector return a marker.
 	const vector = upData.position.subtract(downData.snappedPosition)
-	let snappedVector = upData.snappedPosition.subtract(downData.snappedPosition)
 	if (snappedVector.squaredMagnitude <= minimumDragDistance ** 2)
 		return { type: 'Square', center: downData.snappedPosition, side: clickMarkerSize, className: 'dragMarker' }
 
@@ -150,12 +163,9 @@ function getDragObject(downData, upData, options) {
 	}
 
 	// Otherwise return a Force. How to do this depends on if a fixed length has been set.
-	if (!forceLength)
-		return { type: 'Force', positionedVector: new PositionedVector({ start: downData.snappedPosition, end: upData.snappedPosition }) }
-	snappedVector = snappedVector.setMagnitude(forceLength)
-	if (upData.isSnappedTwice)
-		return { type: 'Force', positionedVector: new PositionedVector({ vector: snappedVector, end: upData.snappedPosition }) }
-	return { type: 'Force', positionedVector: new PositionedVector({ vector: snappedVector, start: downData.snappedPosition }) }
+	if (forceLength)
+		snappedVector = snappedVector.setMagnitude(forceLength)
+	return { type: 'Force', positionedVector: new PositionedVector({ start: downData.snappedPosition, vector: snappedVector }) }
 }
 
 // These are validation functions.
@@ -175,15 +185,15 @@ function doesLoadTouchRectangle(load, rectangle) {
 	}
 }
 
-function styleLoad(index, load, theme, mouseHandlers = {}, selectionRectangle) {
+function styleLoad(index, load, readOnly, mouseHandlers = {}, selectionRectangle) {
 	load = { ...load }
 	if (load.type === 'Force' || load.type === 'Moment') {
 		const inSelectionRectangle = selectionRectangle && doesLoadTouchRectangle(load, selectionRectangle)
 		const hoverStatus = getHoverStatus(load.selected, load.hovering, inSelectionRectangle)
 		load = {
 			...load,
-			color: theme.palette.secondary.main,
-			style: {
+			color: loadColors.input,
+			style: readOnly ? {} : {
 				filter: `url(#selectionFilter${hoverStatus})`,
 				cursor: 'pointer',
 			},
@@ -210,6 +220,12 @@ function handleKeyPress(evt, setData) {
 	if (evt.key === 'a' && evt.ctrlKey) {
 		evt.preventDefault()
 		return setData(data => data.map(load => ({ ...load, selected: true })))
+	}
+
+	// On an escape or ctrl+d deselect all.
+	if (evt.key === 'Escape' || (evt.key === 'd' && evt.ctrlKey)) {
+		evt.preventDefault()
+		return setData(data => data.map(load => ({ ...load, selected: false })))
 	}
 }
 

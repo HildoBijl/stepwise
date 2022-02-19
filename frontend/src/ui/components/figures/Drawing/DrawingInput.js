@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
 				border: ({ feedbackColor }) => `${border}em solid ${feedbackColor || theme.palette.text.secondary}`,
 				borderRadius: '0.5rem',
 				boxShadow: ({ active, feedbackColor }) => active ? `0 0 ${glowRadius}em 0 ${feedbackColor || theme.palette.text.secondary}` : 'none',
-				cursor: 'pointer',
+				cursor: ({ readOnly }) => readOnly ? 'default' : 'pointer',
 				...notSelectable,
 				transition: `border ${theme.transitions.duration.standard}ms`,
 				touchAction: 'none',
@@ -103,7 +103,7 @@ const useStyles = makeStyles((theme) => ({
 
 				// Selection style.
 				'& .selectionRectangle': {
-					fill: alpha(theme.palette.primary.main, 0.05),
+					fill: alpha(theme.palette.primary.main, 0.03),
 					stroke: theme.palette.primary.main,
 					strokeWidth: 0.5,
 					strokeDasharray: '4 2',
@@ -153,7 +153,7 @@ export function useAsDrawingInput(options) {
 	// Track and possibly snap the mouse position.
 	snappers = ensureArray(snappers)
 	snappingDistance = ensureNumber(snappingDistance, true)
-	const mouseData = useMouseSnapping(drawing, snappers, snappingDistance, applySnapping)
+	const mouseData = useMouseSnapping(drawing, snappers, snappingDistance, applySnapping && !readOnly)
 	const { snapper } = mouseData
 
 	// Set up the selection rectangle.
@@ -344,7 +344,7 @@ export function addFeedbackIcon(htmlContents, feedback, drawing, scale = 1) {
 		return htmlContents
 	return <>
 		{htmlContents}
-		<PositionedElement anchor={[1, 0]} position={[drawing.width - 10, 6]} scale={scale} ><feedback.Icon className="icon" /></PositionedElement>
+		<PositionedElement anchor={[1, 0]} position={[drawing.width - 8, 6]} scale={scale} ><feedback.Icon className="icon" /></PositionedElement>
 	</>
 }
 

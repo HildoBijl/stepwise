@@ -4,7 +4,9 @@ import React, { Fragment, forwardRef } from 'react'
 import clsx from 'clsx'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
-import { isObject, processOptions, filterOptions } from 'step-wise/util/objects'
+import { isObject, processOptions, filterOptions, applyToEachParameter } from 'step-wise/util/objects'
+
+import { toCSS } from 'util/colors'
 
 import { themeColor, secondaryColor, feedbackColors } from 'ui/theme'
 import Drawing, { defaultDrawingInputOptions, components as drawingComponents } from 'ui/components/figures/Drawing'
@@ -23,12 +25,12 @@ export const components = {
 }
 
 export const loadColors = {
-	input: secondaryColor,
-	external: '#000000',
+	input: toCSS(secondaryColor),
+	external: '#5e0b0b',
 	reaction: '#043870',
 	section: '#902dba',
-	feedback: feedbackColors,
-	glow: themeColor, // On selection.
+	feedback: applyToEachParameter(feedbackColors, toCSS),
+	glow: toCSS(themeColor), // On selection.
 }
 
 export const defaultEngineeringDiagramOptions = {

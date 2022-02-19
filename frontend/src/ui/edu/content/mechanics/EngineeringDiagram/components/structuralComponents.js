@@ -7,7 +7,7 @@ import { Vector, ensureVector, ensureVectorArray } from 'step-wise/CAS/linearAlg
 
 import { components as drawingComponents } from 'ui/components/figures/Drawing'
 
-const { defaultObject, useRefWithEventHandlers, Group, Line, defaultLine, Circle } = drawingComponents
+const { defaultObject, useRefWithEventHandlers, Group, Line, defaultLine, Circle, Arc } = drawingComponents
 
 export const Beam = forwardRef((props, ref) => {
 	// Check input.
@@ -70,4 +70,26 @@ export const defaultHinge = {
 	thickness: 2,
 	color: defaultBeam.color,
 	className: 'hinge',
+}
+
+export const HalfHinge = forwardRef((props, ref) => {
+	// Check input.
+	let { position, radius, thickness, color, angle, className, style } = processOptions(props, defaultHalfHinge)
+	position = ensureVector(position, 2)
+	radius = ensureNumber(radius)
+	thickness = ensureNumber(thickness)
+	color = ensureString(color)
+	angle = ensureNumber(angle)
+	className = ensureString(className)
+	style = ensureObject(style)
+	ref = useRefWithEventHandlers(props, ref)
+
+	// Set up the arc.
+	const startAngle = angle - Math.PI / 2
+	const endAngle = angle + Math.PI / 2
+	return <Arc {...{ ref, center: position, radius, startAngle, endAngle, className, style: { stroke: color, strokeWidth: thickness, ...style } }} />
+})
+export const defaultHalfHinge = {
+	...defaultHinge,
+	angle: Math.PI / 2,
 }

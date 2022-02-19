@@ -132,8 +132,8 @@ export const defaultSquare = {
 // Arc draws an arc (part of a circle) from a given position (center) with a given radius, startAngle and endAngle. Angles are measured in radians with the rightmost point being zero, clockwise positive.
 export const Arc = forwardRef((props, ref) => {
 	// Check input.
-	let { position, radius, startAngle, endAngle, className, style } = processOptions(props, defaultArc)
-	position = ensureVector(position, 2)
+	let { center, radius, startAngle, endAngle, className, style } = processOptions(props, defaultArc)
+	center = ensureVector(center, 2)
 	radius = ensureNumber(radius)
 	startAngle = ensureNumber(startAngle)
 	endAngle = ensureNumber(endAngle)
@@ -142,11 +142,11 @@ export const Arc = forwardRef((props, ref) => {
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Draw the arc.
-	return <path ref={ref} className={className} style={style} d={getArcPath(position, radius, startAngle, endAngle)} {...filterEventHandlers(props)} />
+	return <path ref={ref} className={className} style={style} d={getArcPath(center, radius, startAngle, endAngle)} {...filterEventHandlers(props)} />
 })
 export const defaultArc = {
 	...defaultObject,
-	position: Vector.zero,
+	center: Vector.zero,
 	radius: 50,
 	startAngle: 0,
 	endAngle: Math.PI,

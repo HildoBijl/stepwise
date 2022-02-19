@@ -9,24 +9,29 @@ const data = {
 function generateState() {
 	return {
 		l1: getRandomInteger(3, 6),
-		l2: getRandomInteger(1, 2),
-		h: getRandomInteger(1, 3),
+		l2: getRandomInteger(2, 4),
+		h: getRandomInteger(2, 4),
 	}
 }
 
 function getSolution(state) {
 	const { l1, l2, h } = state
+	const scale = 80
+	const margin = 100
+	const marginTop = 40
+	const shift = 60
 	const diagramSettings = {
-		maxWidth: 600,
-		width: 100 * (l1 + l2 + 1),
-		height: 100 * (h + 1),
+		maxWidth: scale * (l1 + l2) + 2 * margin,
+		width: scale * (l1 + l2) + 2 * margin,
+		height: scale * h + margin + marginTop,
 	}
-	const A = new Vector(50, 50 + 100 * h)
-	const B = new Vector(A.x + 100 * l1, A.y)
-	const C = new Vector(B.x + 100 * l2, B.y)
-	const D = new Vector(C.x, C.y - 100 * h)
+	const A = new Vector(margin, marginTop + scale * h)
+	const B = new Vector(A.x + scale * l1, A.y)
+	const C = new Vector(B.x + scale * l2, B.y)
+	const D = new Vector(C.x, C.y - scale * h)
 	const points = { A, B, C, D }
-	return { ...state, diagramSettings, points }
+
+	return { ...state, diagramSettings, scale, margin, shift, points }
 }
 
 function checkInput(state, input) {

@@ -7,7 +7,7 @@ import { numberArray } from 'step-wise/util/arrays'
 import { Vector, ensureVector } from 'step-wise/CAS/linearAlgebra/Vector'
 
 import { components as drawingComponents } from 'ui/components/figures/Drawing'
-import { defaultBeam, Hinge, defaultHinge } from './structuralComponents'
+import { defaultBeam, Hinge, defaultHinge, HalfHinge } from './structuralComponents'
 
 const { defaultObject, useRefWithEventHandlers, Group, Line } = drawingComponents
 
@@ -81,6 +81,33 @@ export const defaultHingeSupport = {
 	height: 20,
 }
 
+export const HalfHingeSupport = forwardRef((props, ref) => {
+	// Check input.
+	let { position, angle, color, thickness, groundOptions, width, height, shift, className, style } = processOptions(props, defaultHalfHingeSupport)
+	position = ensureVector(position, 2)
+	angle = ensureNumber(angle)
+	color = ensureString(color)
+	thickness = ensureNumber(thickness)
+	groundOptions = ensureObject(groundOptions)
+	width = ensureNumber(width)
+	height = ensureNumber(height)
+	shift = ensureNumber(shift)
+	className = ensureString(className)
+	style = ensureObject(style)
+	ref = useRefWithEventHandlers(props, ref)
+
+	// Make a group and position it appropriately.
+	return <Group ref={ref} rotate={angle - Math.PI / 2} {...{ position, className, style }}>
+		<SupportTriangle {...{ color, thickness, width, height, position: new Vector(0, shift) }} />
+		<Ground position={new Vector(0, shift + height)} {...{ color, thickness, ...groundOptions }} />
+		<HalfHinge {...{ color, thickness, position: new Vector(0, shift) }} />
+	</Group>
+})
+export const defaultHalfHingeSupport = {
+	...defaultHingeSupport,
+	shift: defaultBeam.thickness / 2,
+}
+
 export const RollerSupport = forwardRef((props, ref) => {
 	// Check input.
 	let { position, angle, color, thickness, groundOptions, width, height, positionFactor, numWheels, wheelRadius, wheelsOptions, className, style } = processOptions(props, defaultRollerSupport)
@@ -144,6 +171,38 @@ export const defaultRollerHingeSupport = {
 	wheelRadius: defaultRollerSupport.wheelRadius,
 	wheelsOptions: {},
 }
+
+export const RollerHalfHingeSupport = forwardRef((props, ref) => {
+	// Check input.
+	let { position, angle, color, thickness, groundOptions, width, height, numWheels, wheelRadius, wheelsOptions, shift, className, style } = processOptions(props, defaultRollerHalfHingeSupport)
+	position = ensureVector(position, 2)
+	angle = ensureNumber(angle)
+	color = ensureString(color)
+	thickness = ensureNumber(thickness)
+	groundOptions = ensureObject(groundOptions)
+	width = ensureNumber(width)
+	height = ensureNumber(height)
+	numWheels = ensureInt(numWheels, true, true)
+	wheelRadius = ensureNumber(wheelRadius)
+	wheelsOptions = ensureObject(wheelsOptions)
+	shift = ensureNumber(shift)
+	className = ensureString(className)
+	style = ensureObject(style)
+	ref = useRefWithEventHandlers(props, ref)
+
+	// Make a group and position it appropriately.
+	return <Group ref={ref} rotate={angle - Math.PI / 2} {...{ position, className, style }}>
+		<SupportTriangle {...{ color, width, height, position: new Vector(0, shift) }} />
+		<Ground position={new Vector(0, shift + height + 2 * wheelRadius + thickness)} {...{ color, thickness, ...groundOptions }} />
+		<Wheels position={new Vector(0, shift + height + wheelRadius + thickness / 2)} {...{ color, numWheels, wheelRadius, ...wheelsOptions }} />
+		<HalfHinge {...{ color, thickness, position: new Vector(0, shift) }} />
+	</Group>
+})
+export const defaultRollerHalfHingeSupport = {
+	...defaultRollerHingeSupport,
+	shift: defaultHalfHingeSupport.shift,
+}
+
 
 /*
  * Part 2 of this file contains parts needed to draw the structural supports, like the Ground, Wheels and such.
