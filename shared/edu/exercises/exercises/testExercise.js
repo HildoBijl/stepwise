@@ -16,7 +16,7 @@ function generateState() {
 
 function getSolution(state) {
 	const { l1, l2, h } = state
-	const scale = 80
+	const scale = 70
 	const margin = 100
 	const marginTop = 40
 	const shift = 60

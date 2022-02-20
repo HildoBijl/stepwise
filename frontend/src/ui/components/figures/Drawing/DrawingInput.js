@@ -119,8 +119,10 @@ const useStyles = makeStyles((theme) => ({
 			opacity: 0.7,
 			padding: '0.3rem',
 			'&:hover': {
-				// background: 'rgba(0, 0, 0, 0.1)',
 				opacity: 1,
+			},
+			'& svg': {
+				width: 'auto',
 			},
 		},
 

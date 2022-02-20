@@ -22,7 +22,7 @@ const data = {
 function generateState() {
 	const medium = selectRandomly(['air', 'argon', 'carbonMonoxide', 'helium', 'hydrogen', 'methane', 'nitrogen', 'oxygen'])
 	const T1 = getRandomFloatUnit({
-		min: 0,
+		min: 1,
 		max: 30,
 		decimals: 0,
 		unit: 'dC',

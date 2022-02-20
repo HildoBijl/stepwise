@@ -32,7 +32,7 @@ function generateState() {
 		unit: 'cm^3',
 	}).setDecimals(0)
 	const T1 = getRandomFloatUnit({
-		min: 0,
+		min: 1,
 		max: 30,
 		decimals: 0,
 		unit: 'dC',
