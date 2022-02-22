@@ -2,7 +2,7 @@
  * When Drawing is given a ref, it places in this ref an object { svg: ..., canvas: ... } with references to the respective DOM elements. Note that the option useCanvas needs to be set to true if a Canvas is desired. useSVG is by default set to true, but can be turned off.
  */
 
-import React, { createContext, useContext, useRef, forwardRef, useImperativeHandle, useEffect, useLayoutEffect } from 'react'
+import React, { createContext, useContext, useRef, forwardRef, useImperativeHandle, useCallback, useEffect, useLayoutEffect } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -13,7 +13,7 @@ import { ensureObject, processOptions, filterOptions } from 'step-wise/util/obje
 import { deg2rad } from 'step-wise/util/numbers'
 import { Vector, ensureVector, Rectangle } from 'step-wise/CAS/linearAlgebra'
 
-import { ensureReactElement, useEqualRefOnEquality, useMousePosition as useClientMousePosition, useBoundingClientRect } from 'util/react'
+import { ensureReactElement, useEqualRefOnEquality, useMousePosition as useClientMousePosition, useBoundingClientRect, useEventListener } from 'util/react'
 import { notSelectable } from 'ui/theme'
 
 import Figure, { defaultOptions as figureDefaultOptions } from '../Figure'
@@ -255,9 +255,9 @@ export function PositionedElement(props) {
 	// Extract the drawing from the context.
 	const drawing = useDrawingContext()
 
-	// Use a layout effect to properly position the element.
+	// Define a handler that positions the element accordingly.
 	const ref = useRef()
-	useLayoutEffect(() => {
+	const updateElementPosition = useCallback(() => {
 		// Can we do anything?
 		const element = ref.current
 		if (!element || !drawing || !drawing.figure || !drawing.figure.inner)
@@ -276,7 +276,11 @@ export function PositionedElement(props) {
 			scale(${scale})
 			rotate(${rotate * 180 / Math.PI}deg)
 		`
-	}, [drawing, children, position, rotate, scale, anchor])
+	}, [ref, drawing, position, rotate, scale, anchor])
+
+	// Properly position the element on a change of settings, a change of contents or on a window resize.
+	useLayoutEffect(updateElementPosition, [updateElementPosition, children])
+	useEventListener('resize', updateElementPosition) // Window resize.
 
 	// Render the children.
 	return <div className="positionedElement" style={style} ref={ref}>{children}</div>

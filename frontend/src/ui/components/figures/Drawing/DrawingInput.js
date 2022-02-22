@@ -222,7 +222,7 @@ export function DrawingInputUnforwarded({ Drawing, drawingProperties, className,
 	if (onDelete) {
 		htmlContents = <>
 			{htmlContents}
-			<PositionedElement anchor={[1, 1]} position={[drawing.width - 10, drawing.height - 10]} scale={1.5} ><DeleteButton onMouseDown={onDelete} /></PositionedElement>
+			<PositionedElement anchor={[1, 1]} position={[drawing.width - 10, drawing.height - 10]} scale={1.5} ><DeleteButton onMouseDown={onDelete} onTouchStart={onDelete} /></PositionedElement>
 		</>
 	}
 

@@ -89,12 +89,15 @@ function FBDInputUnforwarded(options, drawingRef) {
 	}, [active, setData])
 
 	// Handle deletions.
-	const deleteSelection = useCallback(() => setData(data => data.filter(load => !load.selected)), [setData])
+	const deleteSelection = useCallback(() => {
+		setData(data => data.filter(load => !load.selected))
+		setHoverIndex(undefined) // Ensure we don't remember a hover over a deleted arrow.
+	}, [setData])
 	const hasSelectedLoad = data.some(load => load.selected)
 	options.onDelete = !readOnly && hasSelectedLoad ? deleteSelection : undefined
 
 	// Deal with key presses.
-	const keyDownHandler = useCallback((evt) => active && handleKeyPress(evt, setData), [setData, active])
+	const keyDownHandler = useCallback((evt) => active && handleKeyPress(evt, setData, deleteSelection), [setData, active, deleteSelection])
 	useEventListener('keydown', keyDownHandler)
 
 	// Deal with mouse enters/leaves.
@@ -211,10 +214,12 @@ function getHoverStatus(selected, hovering, inSelectionRectangle) {
 	return hovering || inSelectionRectangle ? 1 : 0
 }
 
-function handleKeyPress(evt, setData) {
+function handleKeyPress(evt, setData, deleteSelection) {
 	// On a delete remove all selected loads.
-	if (evt.key === 'Delete' || evt.key === 'Backspace')
-		return setData(data => data.filter(load => !load.selected))
+	if (evt.key === 'Delete' || evt.key === 'Backspace') {
+		evt.preventDefault()
+		return deleteSelection()
+	}
 
 	// On ctrl+a select all.
 	if (evt.key === 'a' && evt.ctrlKey) {

@@ -9,7 +9,7 @@ export function resetFocus(field) {
 
 // getEventPosition takes an event and gives the coordinates (client) at which it happens. It does this by return a vector to said point. On a touch event, it extracts the first touch.
 export function getEventPosition(evt) {
-	const obj = (evt.touches && evt.touches[0]) || evt
+	const obj = (evt.touches && evt.touches[0]) || (evt.changedTouches && evt.changedTouches[0]) || evt
 	if (obj.clientX === undefined || obj.clientY === undefined)
 		return null
 	return new Vector([obj.clientX, obj.clientY])
