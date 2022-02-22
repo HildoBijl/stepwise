@@ -94,7 +94,7 @@ describe('submitExerciseAction', () => {
 
 		// Start a new exercise and check that we can start it.
 		const { data: { startExercise: secondExercise }, errors: secondExerciseErrors } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id exerciseId state active}}` })
-		expect(errors).toBeUndefined()
+		expect(secondExerciseErrors).toBeUndefined()
 		expect(secondExercise).toMatchObject({ active: true })
 
 		// Check that the right exercise is active.
