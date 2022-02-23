@@ -79,7 +79,7 @@ function FBDInputUnforwarded(options, drawingRef) {
 	const {
 		readOnly, active, activateField,
 		data, setData,
-		mouseData, mouseDownData, selectionRectangle,
+		mouseData, mouseDownData, selectionRectangle, cancelDrag,
 	} = inputData
 
 	// On becoming inactive, deselect all loads.
@@ -106,6 +106,8 @@ function FBDInputUnforwarded(options, drawingRef) {
 		mouseleave: () => setHoverIndex(undefined),
 		mousedown: (hoverIndex, evt) => {
 			evt.stopPropagation() // Prevent a drag start.
+			setHoverIndex(undefined) // Cancel any remaining hover (useful for touch devices).
+			cancelDrag() // Cancel a dragging effect, to prevent that a (tiny) rectangle will be processed resulting in a deselect.
 			activateField() // Activate the field if not already active.
 			setData(data => {
 				// When the shift key is selected, or when no other loads are selected, flip the selection of the chosen load. Maintain object continuity wherever possible.
@@ -116,7 +118,7 @@ function FBDInputUnforwarded(options, drawingRef) {
 				return data.map((load, index) => (load.selected === (index === hoverIndex)) ? load : { ...load, selected: !load.selected })
 			})
 		},
-	}, [readOnly, setData, activateField])
+	}, [readOnly, setData, activateField, cancelDrag])
 
 	// Sort out styles.
 	const classes = useStyles({ isSnapped: mouseData.isSnapped, readOnly })
@@ -140,7 +142,7 @@ export default FBDInput
 
 function getDragObject(downData, upData, options) {
 	// Don't draw if the mouse is not down or is not snapped.
-	if (!downData || !downData.isSnapped)
+	if (!downData || !downData.isSnapped || !upData || !upData.position)
 		return null
 
 	const { clickMarkerSize, minimumDragDistance, maximumMomentDistance, allowMoments, forceLength } = options

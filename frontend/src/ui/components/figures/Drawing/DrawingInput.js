@@ -1,6 +1,6 @@
 // Within a drawing, you can make use of useAsDrawingInput to get some useful tools for DrawingInputs.
 
-import React, { forwardRef, useMemo, useState } from 'react'
+import React, { forwardRef, useMemo, useState, useCallback } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import { alpha } from '@material-ui/core/styles/colorManipulator'
@@ -33,7 +33,7 @@ export const defaultDrawingInputOptions = {
 	feedbackIconScale: 1.2,
 	snappers: [],
 	applySnapping: true,
-	snappingDistance: 10,
+	snappingDistance: 15,
 	startDrag: undefined,
 	endDrag: undefined,
 	startSelection: startSelectionOptions.noSnap,
@@ -159,8 +159,13 @@ export function useAsDrawingInput(options) {
 	const { snapper } = mouseData
 
 	// Set up the selection rectangle.
-	const isSelecting = !!processSelection && shouldBeSelecting(mouseDownData, startSelection)
+	const isSelecting = !!processSelection && shouldBeSelecting(mouseDownData, startSelection) && mouseData && mouseData.position
 	const selectionRectangle = isSelecting ? getSelectionRectangle(mouseDownData, mouseData, drawing) : undefined
+
+	// Set up handler functions.
+	const cancelDrag = useCallback(() => {
+		setMouseDownData(undefined)
+	}, [setMouseDownData])
 
 	// Monitor the mouse going down and up.
 	const startDrag = (evt) => {
@@ -188,7 +193,7 @@ export function useAsDrawingInput(options) {
 	useEventListener(['mouseup', 'touchend'], endDrag)
 
 	// Return all data.
-	return { ...inputData, mouseData, mouseDownData, selectionRectangle }
+	return { ...inputData, mouseData, mouseDownData, selectionRectangle, cancelDrag }
 }
 
 // The DrawingInput wrapper needs to be used to add the right classes and to properly position potential feedback.
