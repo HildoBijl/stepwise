@@ -33,7 +33,7 @@ export const defaultDrawingInputOptions = {
 	feedbackIconScale: 1.2,
 	snappers: [],
 	applySnapping: true,
-	snappingDistance: 15,
+	snappingDistance: 20,
 	startDrag: undefined,
 	endDrag: undefined,
 	startSelection: startSelectionOptions.noSnap,

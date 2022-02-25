@@ -3,7 +3,7 @@ import { useTheme } from '@material-ui/core/styles'
 
 import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
 import { noop } from 'step-wise/util/functions'
-import { processOptions } from 'step-wise/util/objects'
+import { isBasicObject, processOptions } from 'step-wise/util/objects'
 import { toFO } from 'step-wise/inputTypes'
 import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 
@@ -85,8 +85,12 @@ export function useFieldFeedback(options) {
 	// Check for validation problems. Use the FI for this.
 	const input = getInputParameterSI(id)
 	const equals = getFieldFunction(id, 'equals')
-	if (validation !== undefined && equals(input, validationInput))
+	if (validation !== undefined && equals(input, validationInput)) {
+		// The validation can parameter can be a string or React object: apply that as text. It can also be a basic object, in which case we copy it entirely.
+		if (isBasicObject(validation))
+			return addInput(addIconAndColor({ type: 'warning', ...validation }, theme), validationInput)
 		return addInput(addIconAndColor({ type: 'warning', text: validation || feedbackText }, theme), validationInput)
+	}
 
 	// Validation is fine. Check for regular feedback.
 	if (feedback !== undefined && equals(input, feedbackInput)) {

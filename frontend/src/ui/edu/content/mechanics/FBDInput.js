@@ -20,7 +20,7 @@ export const defaultFBDInputOptions = {
 	...defaultEngineeringDiagramOptions,
 	...defaultDrawingInputOptions,
 	initialData: [],
-	validate: nonEmpty,
+	validate: nonEmptyNoDoubles,
 	clickMarkerSize: 6,
 	minimumDragDistance: 12,
 	forceLength: 80, // The lengths of force vectors. Set to something falsy to make sure they have varying lengths.
@@ -80,6 +80,7 @@ function FBDInputUnforwarded(options, drawingRef) {
 		readOnly, active, activateField,
 		data, setData,
 		mouseData, mouseDownData, selectionRectangle, cancelDrag,
+		feedback,
 	} = inputData
 
 	// On becoming inactive, deselect all loads.
@@ -126,7 +127,7 @@ function FBDInputUnforwarded(options, drawingRef) {
 
 	// Add all drawn loads.
 	const dragObject = getDragObject(mouseDownData, mouseData, options)
-	const styledLoads = useMemo(() => data.map((load, index) => styleLoad(index, { ...load, hovering: index === hoverIndex }, readOnly, mouseHandlers, selectionRectangle)), [data, hoverIndex, readOnly, mouseHandlers, selectionRectangle])
+	const styledLoads = useMemo(() => data.map((load, index) => styleLoad(index, { ...load, hovering: index === hoverIndex }, readOnly, mouseHandlers, selectionRectangle, feedback)), [data, hoverIndex, readOnly, mouseHandlers, selectionRectangle, feedback])
 	options.svgContents = <>
 		{options.svgContents}
 		{renderData(styledLoads)}
@@ -178,6 +179,65 @@ export function nonEmpty(data) {
 	if (data.length === 0)
 		return selectRandomEmpty()
 }
+export function nonEmptyNoDoubles(data) {
+	// Check for empty.
+	const nonEmptyValidation = nonEmpty(data)
+	if (nonEmptyValidation)
+		return nonEmptyValidation
+
+	// Check for doubles.
+	const getEqualLoadIndex = (index) => data.findIndex((load, loadIndex) => index !== loadIndex && areLoadsEqual(data[index], load))
+	const doubleLoadIndex = data.findIndex((_, index) => getEqualLoadIndex(index) !== -1)
+	if (doubleLoadIndex !== -1) {
+		const otherIndex = getEqualLoadIndex(doubleLoadIndex)
+		return {
+			text: 'Sommige belastingen zijn dubbel getekend. Zorg dat alle belastingen uniek zijn.',
+			affectedLoads: [data[doubleLoadIndex], data[otherIndex]],
+		}
+	}
+}
+export function allConnectedToPoints(points) {
+	return (data) => {
+		// Check basic problems.
+		const nonEmptyNoDoublesValidation = nonEmptyNoDoubles(data)
+		if (nonEmptyNoDoublesValidation)
+			return nonEmptyNoDoublesValidation
+
+		// Find a non-connected load.
+		const unconnectedLoads = data.filter(load => !Object.values(points).some(point => isLoadAtPoint(load, point)))
+		if (unconnectedLoads.length > 0) {
+			return {
+				text: `${(unconnectedLoads.length === 1 ? 'Er is een belasting die niet gekoppeld is aan een bekend punt.' : 'Er zijn belastingen die niet gekoppeld zijn aan een bekend punt.')} Dit kan dus nooit een correct antwoord zijn.`,
+				affectedLoads: unconnectedLoads,
+			}
+		}
+	}
+}
+
+function areLoadsEqual(load1, load2) {
+	if (load1.type !== load2.type)
+		return false
+
+	switch (load1.type) {
+		case 'Force':
+			return load1.positionedVector.equals(load2.positionedVector)
+		case 'Moment':
+			return load1.position.equals(load2.position)
+		default:
+			throw new Error(`Unknown load type: could not compare loads of type "${load1.type}" since this type is unknown.`)
+	}
+}
+
+function isLoadAtPoint(load, point) {
+	switch (load.type) {
+		case 'Force':
+			return load.positionedVector.hasPoint(point)
+		case 'Moment':
+			return load.position.equals(point)
+		default:
+			throw new Error(`Unknown load type: did not recognize the load type "${load.type}".`)
+	}
+}
 
 function doesLoadTouchRectangle(load, rectangle) {
 	switch (load.type) {
@@ -190,8 +250,10 @@ function doesLoadTouchRectangle(load, rectangle) {
 	}
 }
 
-function styleLoad(index, load, readOnly, mouseHandlers = {}, selectionRectangle) {
+function styleLoad(index, load, readOnly, mouseHandlers = {}, selectionRectangle, feedback) {
 	load = { ...load }
+
+	// Only style actual loads and not selection markers.
 	if (load.type === 'Force' || load.type === 'Moment') {
 		const inSelectionRectangle = selectionRectangle && doesLoadTouchRectangle(load, selectionRectangle)
 		const hoverStatus = getHoverStatus(load.selected, load.hovering, inSelectionRectangle)
@@ -204,7 +266,13 @@ function styleLoad(index, load, readOnly, mouseHandlers = {}, selectionRectangle
 			},
 			...applyToEachParameter(mouseHandlers, handler => (evt) => handler(index, evt)),
 		}
+
+		// On feedback apply the specific color.
+		if (feedback && feedback.affectedLoads && feedback.affectedLoads.some(affectedLoad => areLoadsEqual(load, affectedLoad)))
+			load.color = feedback.color
 	}
+
+	// Remove selection/hovering data.
 	delete load.selected
 	delete load.hovering
 	return load

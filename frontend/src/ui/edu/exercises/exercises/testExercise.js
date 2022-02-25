@@ -8,7 +8,7 @@ import { Par } from 'ui/components/containers'
 import { InputSpace } from 'ui/form/Status'
 
 import EngineeringDiagram, { loadColors, Group, Beam, Force, Moment, HingeSupport, RollerHalfHingeSupport, Distance, PositionedElement } from 'ui/edu/content/mechanics/EngineeringDiagram'
-import FBDInput from 'ui/edu/content/mechanics/FBDInput'
+import FBDInput, { allConnectedToPoints } from 'ui/edu/content/mechanics/FBDInput'
 
 import { useSolution } from '../ExerciseContainer'
 import SimpleExercise from '../types/SimpleExercise'
@@ -31,7 +31,7 @@ function Problem(state) {
 		<EngineeringDiagram {...diagramSettings} svgContents={<Schematics data={solution} />} htmlContents={<Elements data={solution} />} />
 		<Par>Teken het vrijlichaamschema/schematisch diagram.</Par>
 		<InputSpace>
-			<FBDInput id="beam" {...diagramSettings} svgContents={<Schematics data={solution} showSupports={false} showLoads={false} />} htmlContents={<Elements data={solution} />} snappers={Object.values(points)} />
+			<FBDInput id="beam" {...diagramSettings} svgContents={<Schematics data={solution} showSupports={false} showLoads={false} />} htmlContents={<Elements data={solution} />} snappers={Object.values(points)} validate={allConnectedToPoints(points)} />
 		</InputSpace>
 	</>
 }

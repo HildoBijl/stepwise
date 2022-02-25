@@ -11,6 +11,8 @@ const defaultPositionedVector = {
 	end: undefined,
 }
 
+const pointNames = ['start', 'end']
+
 class PositionedVector {
 	/*
 	 * Creation methods.
@@ -134,11 +136,16 @@ class PositionedVector {
 		return this.line.equals(line, requireSameDirection)
 	}
 
+	// hasPoint checks if this PositionedVector has one of its endpoints at the given point.
+	hasPoint(point) {
+		point = ensureVector(point, this.dimension)
+		return pointNames.some(pointName => this[pointName].equals(point))
+	}
+
 	// hasMatchingPoint checks if the two positioned vectors have a point (start or end) in common, checking all four combinations.
 	hasMatchingPoint(positionedVector) {
-		positionedVector = ensurePositionedVector(positionedVector)
-		const points = ['start', 'end']
-		return points.some(point1 => points.some(point2 => this[point1].equals(positionedVector[point2])))
+		positionedVector = ensurePositionedVector(positionedVector, this.dimension)
+		return pointNames.some(pointName => this.hasPoint(positionedVector[pointName]))
 	}
 
 	/*
