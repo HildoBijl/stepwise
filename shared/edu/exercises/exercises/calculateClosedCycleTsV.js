@@ -28,7 +28,7 @@ function generateState() {
 		unit: 'm^3',
 	})
 	const T1 = getRandomFloatUnit({
-		min: 0,
+		min: 1,
 		max: 30,
 		decimals: 0,
 		unit: 'dC',

@@ -41,7 +41,7 @@ function generateState() {
 		unit: 'g',
 	})
 	const T1 = getRandomFloatUnit({
-		min: 0,
+		min: 1,
 		max: 10,
 		decimals: 0,
 		unit: 'dC',

@@ -2,7 +2,7 @@
  * When Drawing is given a ref, it places in this ref an object { svg: ..., canvas: ... } with references to the respective DOM elements. Note that the option useCanvas needs to be set to true if a Canvas is desired. useSVG is by default set to true, but can be turned off.
  */
 
-import React, { createContext, useContext, useRef, forwardRef, useImperativeHandle, useEffect, useLayoutEffect } from 'react'
+import React, { createContext, useContext, useRef, forwardRef, useImperativeHandle, useCallback, useEffect, useLayoutEffect } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -11,14 +11,14 @@ import { select } from 'd3-selection'
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureObject, processOptions, filterOptions } from 'step-wise/util/objects'
 import { deg2rad } from 'step-wise/util/numbers'
-import { Vector, ensureVector, PositionedVector } from 'step-wise/CAS/linearAlgebra'
+import { Vector, ensureVector, Rectangle } from 'step-wise/CAS/linearAlgebra'
 
-import { ensureReactElement, useEqualRefOnEquality, useMousePosition as useClientMousePosition, useBoundingClientRect } from 'util/react'
+import { ensureReactElement, useEqualRefOnEquality, useMousePosition as useClientMousePosition, useBoundingClientRect, useEventListener } from 'util/react'
 import { notSelectable } from 'ui/theme'
 
 import Figure, { defaultOptions as figureDefaultOptions } from '../Figure'
 
-const defaultOptions = {
+const defaultDrawingOptions = {
 	...figureDefaultOptions, // Includes a maxWidth option to set the maximum width of the figure.
 	width: 800, // Viewport width.
 	height: 600, // Viewport height.
@@ -28,8 +28,8 @@ const defaultOptions = {
 	svgDefs: undefined, // JSX elements that are placed in the defs part of the SVG container.
 	htmlContents: undefined, // JSX elements for regular HTML, often inside a PositionedElement container.
 }
-delete defaultOptions.aspectRatio // We override the aspect ratio based on the width and height of the viewport.
-export { defaultOptions }
+delete defaultDrawingOptions.aspectRatio // We override the aspect ratio based on the width and height of the viewport.
+export { defaultDrawingOptions }
 
 // Set up a context so elements inside the drawing can ask for the drawing.
 const DrawingContext = createContext(null)
@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Drawing(options, ref) {
 	// Process, calculate and check options and style.
-	options = processOptions(options, defaultOptions)
+	options = processOptions(options, defaultDrawingOptions)
 	options.aspectRatio = options.height / options.width
 	if (!options.useSVG && !options.useCanvas)
 		throw new Error('Drawing render error: cannot generate a plot without either an SVG or a canvas.')
@@ -89,7 +89,7 @@ function Drawing(options, ref) {
 		get context() { return drawingRef.current.context },
 		get width() { return drawingRef.current.width },
 		get height() { return drawingRef.current.height },
-		get bounds() { return new PositionedVector({ start: [0, 0], end: [drawingRef.current.width, drawingRef.current.height] }) },
+		get bounds() { return new Rectangle({ start: [0, 0], end: [drawingRef.current.width, drawingRef.current.height] }) },
 
 		// Position functions.
 		getPosition(clientCoordinates, figureRect) {
@@ -117,6 +117,13 @@ function Drawing(options, ref) {
 			if (!position)
 				return false
 			return position.x >= 0 && position.x <= drawingRef.current.width && position.y >= 0 && position.y <= drawingRef.current.height
+		},
+		applyBounds(position) {
+			const { width, height } = drawingRef.current
+			return new Vector({
+				x: position.x < 0 ? 0 : (position.x > width ? width : position.x),
+				y: position.y < 0 ? 0 : (position.y > height ? height : position.y),
+			})
 		},
 
 		placeText(text, options) {
@@ -248,9 +255,9 @@ export function PositionedElement(props) {
 	// Extract the drawing from the context.
 	const drawing = useDrawingContext()
 
-	// Use a layout effect to properly position the element.
+	// Define a handler that positions the element accordingly.
 	const ref = useRef()
-	useLayoutEffect(() => {
+	const updateElementPosition = useCallback(() => {
 		// Can we do anything?
 		const element = ref.current
 		if (!element || !drawing || !drawing.figure || !drawing.figure.inner)
@@ -269,7 +276,11 @@ export function PositionedElement(props) {
 			scale(${scale})
 			rotate(${rotate * 180 / Math.PI}deg)
 		`
-	}, [drawing, children, position, rotate, scale, anchor])
+	}, [ref, drawing, position, rotate, scale, anchor])
+
+	// Properly position the element on a change of settings, a change of contents or on a window resize.
+	useLayoutEffect(updateElementPosition, [updateElementPosition, children])
+	useEventListener('resize', updateElementPosition) // Window resize.
 
 	// Render the children.
 	return <div className="positionedElement" style={style} ref={ref}>{children}</div>

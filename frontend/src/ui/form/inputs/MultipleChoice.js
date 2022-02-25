@@ -134,7 +134,7 @@ export default function MultipleChoice(options) {
 			const numExtra = Math.max(pick - includeArray.length, 0) // How many should we still pick?
 			newMapping = [...includeArray, ...getRandomSubset(nonIncluded, numExtra)]
 		}
-		return randomOrder ? shuffle(newMapping) : newMapping.sort()
+		return randomOrder ? shuffle(newMapping) : newMapping.sort((a, b) => a - b)
 	}, [numChoices, pick, include, randomOrder])
 
 	// If the mapping is not appropriate, generate new one.

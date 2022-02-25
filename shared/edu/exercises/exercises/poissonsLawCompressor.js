@@ -12,7 +12,7 @@ const data = {
 
 	equalityOptions: {
 		V2: {
-			absoluteMargin: 0.001,
+			absoluteMargin: 0.001, // Standard units, in m^3.
 			significantDigitMargin: 1,
 		},
 		p1: {

@@ -4,7 +4,7 @@ import { expressionChecks } from 'step-wise/CAS'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
-import ExpressionInput, { basicMath, validWithVariables } from 'ui/form/inputs/ExpressionInput'
+import ExpressionInput, { basicMathAndPowers, validWithVariables } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/Status'
 
 import { useSolution } from '../ExerciseContainer'
@@ -25,7 +25,7 @@ const Problem = (state) => {
 		<Par>Gegeven is de breuk <BM>{expression}.</BM> Simplificeer deze breuk zo veel mogelijk door gemeenschappelijke factoren in de teller/noemer weg te strepen.</Par>
 		<InputSpace>
 			<Par>
-				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={basicMath} validate={validWithVariables(variables)} />
+				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={{ ...basicMathAndPowers, power: true }} validate={validWithVariables(variables)} />
 			</Par>
 		</InputSpace>
 	</>
@@ -38,7 +38,7 @@ const Solution = (state) => {
 
 function getFeedback(exerciseData) {
 	// Define extra checks.
-	const oneVariableCancelled =  (input, correct, { variables, ans }) => (onlyOrderChanges(input, ans.multiplyNumDenBy(variables.y)) || onlyOrderChanges(input, ans.multiplyNumDenBy(variables.z))) && <>Goed op weg, maar er is nòg een variabele die je weg kunt strepen.</>
+	const oneVariableCancelled = (input, correct, { variables, ans }) => (onlyOrderChanges(input, ans.multiplyNumDenBy(variables.y)) || onlyOrderChanges(input, ans.multiplyNumDenBy(variables.z))) && <>Goed op weg, maar er is nòg een variabele die je weg kunt strepen.</>
 
 	// Determine feedback.
 	return getInputFieldFeedback('ans', exerciseData, { feedbackChecks: [originalExpression, oneVariableCancelled, correctExpression, incorrectExpression] })

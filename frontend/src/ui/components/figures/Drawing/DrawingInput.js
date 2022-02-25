@@ -1,25 +1,45 @@
 // Within a drawing, you can make use of useAsDrawingInput to get some useful tools for DrawingInputs.
 
-import { useMemo } from 'react'
+import React, { forwardRef, useMemo, useState, useCallback } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
+import { alpha } from '@material-ui/core/styles/colorManipulator'
+import { Delete } from '@material-ui/icons'
 
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureArray, numberArray, filterDuplicates, sortByIndices } from 'step-wise/util/arrays'
-import { processOptions, filterOptions } from 'step-wise/util/objects'
-import { Vector, Line, PositionedVector } from 'step-wise/CAS/linearAlgebra'
+import { processOptions, filterOptions, filterProperties } from 'step-wise/util/objects'
+import { Vector, Line, PositionedVector, Rectangle } from 'step-wise/CAS/linearAlgebra'
 
+import { getEventPosition, getUtilKeys } from 'util/dom'
+import { useEventListener } from 'util/react'
 import { notSelectable } from 'ui/theme'
 import { useAsInput, defaultInputOptions } from 'ui/form/inputs/support/Input'
 
-import { useMousePosition, PositionedElement } from './Drawing'
-import { Line as SvgLine, Square } from './components'
+import { defaultDrawingOptions, useMousePosition, PositionedElement } from './Drawing'
+import { Line as SvgLine, Square, Rectangle as SvgRectangle } from './components'
+
+export const startSelectionOptions = {
+	never: 0,
+	noDoubleSnap: 1,
+	noSnap: 2,
+	always: 3,
+}
 
 export const defaultDrawingInputOptions = {
 	...defaultInputOptions,
+	...defaultDrawingOptions,
 	drawingRef: null,
+	feedbackIconScale: 1.2,
 	snappers: [],
-	snappingDistance: 10,
+	applySnapping: true,
+	snappingDistance: 15,
+	startDrag: undefined,
+	endDrag: undefined,
+	startSelection: startSelectionOptions.noSnap,
+	processSelection: undefined,
+	stopSnapOnSelection: true,
+	onDelete: undefined,
 }
 
 // Field definitions.
@@ -48,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
 				border: ({ feedbackColor }) => `${border}em solid ${feedbackColor || theme.palette.text.secondary}`,
 				borderRadius: '0.5rem',
 				boxShadow: ({ active, feedbackColor }) => active ? `0 0 ${glowRadius}em 0 ${feedbackColor || theme.palette.text.secondary}` : 'none',
-				cursor: 'pointer',
+				cursor: ({ readOnly }) => readOnly ? 'default' : 'pointer',
 				...notSelectable,
 				transition: `border ${theme.transitions.duration.standard}ms`,
 				touchAction: 'none',
@@ -62,8 +82,8 @@ const useStyles = makeStyles((theme) => ({
 				},
 			},
 
-			// Snapping system style.
 			'& svg': {
+				// Snapping system style.
 				'& .snapLine': {
 					stroke: theme.palette.primary.main,
 					strokeWidth: 1,
@@ -77,9 +97,32 @@ const useStyles = makeStyles((theme) => ({
 				},
 				'& .dragMarker': {
 					fill: 'none',
-					stroke: theme.palette.text.primary,
+					stroke: theme.palette.secondary.dark,
 					strokeWidth: 2,
 				},
+
+				// Selection style.
+				'& .selectionRectangle': {
+					fill: alpha(theme.palette.primary.main, 0.03),
+					stroke: theme.palette.primary.main,
+					strokeWidth: 0.5,
+					strokeDasharray: '4 2',
+					opacity: 0.7,
+				},
+			},
+		},
+
+		'& .deleteButton': {
+			background: 'rgba(0, 0, 0, 0.1)',
+			borderRadius: '10rem',
+			cursor: 'pointer',
+			opacity: 0.7,
+			padding: '0.3rem',
+			'&:hover': {
+				opacity: 1,
+			},
+			'& svg': {
+				width: 'auto',
 			},
 		},
 
@@ -95,12 +138,75 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
+// The useAsDrawingInput hook can be used by implementing components to get all data about the field. Its data (known as inputData) should be fed to the DrawingInput component.
+export function useAsDrawingInput(options) {
+	options = processOptions(options, defaultDrawingInputOptions)
+	const drawing = options.drawingRef && options.drawingRef.current
+	const container = drawing && drawing.figure && drawing.figure.inner
+	let { snappers, applySnapping, snappingDistance, startSelection, processSelection } = options
+
+	// Define required states.
+	const [mouseDownData, setMouseDownData] = useState()
+
+	// Register as a regular input field.
+	const inputData = useAsInput(filterOptions(options, defaultInputOptions))
+	const { readOnly } = inputData
+
+	// Track and possibly snap the mouse position.
+	snappers = ensureArray(snappers)
+	snappingDistance = ensureNumber(snappingDistance, true)
+	const mouseData = useMouseSnapping(drawing, snappers, snappingDistance, applySnapping && !readOnly)
+	const { snapper } = mouseData
+
+	// Set up the selection rectangle.
+	const isSelecting = !!processSelection && shouldBeSelecting(mouseDownData, startSelection) && mouseData && mouseData.position
+	const selectionRectangle = isSelecting ? getSelectionRectangle(mouseDownData, mouseData, drawing) : undefined
+
+	// Set up handler functions.
+	const cancelDrag = useCallback(() => {
+		setMouseDownData(undefined)
+	}, [setMouseDownData])
+
+	// Monitor the mouse going down and up.
+	const startDrag = (evt) => {
+		if (readOnly)
+			return
+		if (mouseDownData)
+			return setMouseDownData(undefined) // Second touch! Cancel drawing to prevent confusion.
+		const newMouseDownData = getMouseData(evt, snapper, drawing)
+		const isSelecting = shouldBeSelecting(newMouseDownData, startSelection)
+		if (!isSelecting && options.startDrag)
+			options.startDrag(newMouseDownData)
+		setMouseDownData(newMouseDownData)
+	}
+	const endDrag = (evt) => {
+		if (readOnly || !mouseDownData)
+			return
+		const mouseUpData = getMouseData(evt, snapper, drawing)
+		if (isSelecting && options.processSelection)
+			options.processSelection(getSelectionRectangle(mouseDownData, mouseUpData, drawing), mouseUpData.utilKeys)
+		if (!isSelecting && options.endDrag)
+			options.endDrag(mouseDownData, mouseUpData)
+		setMouseDownData(undefined)
+	}
+	useEventListener(['mousedown', 'touchstart'], startDrag, container, { passive: false })
+	useEventListener(['mouseup', 'touchend'], endDrag)
+
+	// Return all data.
+	return { ...inputData, mouseData, mouseDownData, selectionRectangle, cancelDrag }
+}
+
 // The DrawingInput wrapper needs to be used to add the right classes and to properly position potential feedback.
-export function DrawingInput({ inputData, options = {}, children, className }) {
+export function DrawingInputUnforwarded({ Drawing, drawingProperties, className, inputData, options = {} }, drawingRef) {
+	const drawingOptions = drawingProperties ? filterProperties(options, drawingProperties) : options
+	options = processOptions(options, defaultDrawingInputOptions, true)
+	let { maxWidth, stopSnapOnSelection, feedbackIconScale, onDelete } = options
+	const { active, readOnly, mouseData, feedback, selectionRectangle } = inputData
+	const drawing = drawingRef && drawingRef.current
+
 	// Determine styling of the object.
-	const { active, readOnly, feedback } = inputData
 	const classes = useStyles({
-		maxWidth: options.maxWidth,
+		maxWidth,
 		active,
 		readOnly,
 
@@ -110,41 +216,40 @@ export function DrawingInput({ inputData, options = {}, children, className }) {
 	})
 	className = clsx(options.className, className, inputData.className, classes.DrawingInput, 'drawingInput', { active })
 
+	// Add snap lines and a feedback icon.
+	let { svgContents, htmlContents } = drawingOptions
+	svgContents = addSelectionRectangle(svgContents, selectionRectangle, drawing)
+	if (!selectionRectangle || !stopSnapOnSelection)
+		svgContents = addSnapSvg(svgContents, mouseData, drawing)
+	htmlContents = addFeedbackIcon(htmlContents, feedback, drawing, feedbackIconScale)
+
+	// When an onDelete function is given, show a Garbage icon.
+	if (onDelete) {
+		htmlContents = <>
+			{htmlContents}
+			<PositionedElement anchor={[1, 1]} position={[drawing.width - 10, drawing.height - 10]} scale={1.5} ><DeleteButton onMouseDown={onDelete} onTouchStart={onDelete} /></PositionedElement>
+		</>
+	}
+
 	// Show the drawing and the feedback box.
 	return <div className={className}>
-		<div className="drawing">{children}</div>
+		<div className="drawing"><Drawing ref={drawingRef} {...{ ...drawingOptions, svgContents, htmlContents }} /></div>
 		<div className="feedbackText">{feedback && feedback.text}</div>
 	</div>
 }
-
-// The useAsDrawingInput hook can be used by implementing components to get all data about the field. Its data (known as inputData) should be fed to the DrawingInput component.
-export function useAsDrawingInput(options) {
-	options = processOptions(options, defaultDrawingInputOptions)
-	const drawing = options.drawingRef && options.drawingRef.current
-
-	// Register as a regular input field.
-	const inputData = useAsInput(filterOptions(options, defaultInputOptions))
-
-	// Track and possibly snap the mouse position.
-	let { snappers, snappingDistance } = options
-	snappers = ensureArray(snappers)
-	snappingDistance = ensureNumber(snappingDistance, true)
-	const mouseData = useMouseSnapping(drawing, snappers, snappingDistance)
-
-	// Return all data.
-	return { ...inputData, ...mouseData }
-}
+export const DrawingInput = forwardRef(DrawingInputUnforwarded)
+export default DrawingInput
 
 // useMouseSnapping wraps all the snapping functionalities into one hook. It takes a drawing, a set of snappers and a snapping distance and takes care of all the mouse functionalities.
-function useMouseSnapping(drawing, snappers, snappingDistance) {
+function useMouseSnapping(drawing, snappers, snappingDistance, applySnapping) {
 	// Process the current mouse position.
 	const mousePosition = useMousePosition(drawing)
 	const mouseInDrawing = drawing ? drawing.isInside(mousePosition) : false
 
 	// Extract snapping lines and set up a snapper based on it.
 	const snappingLines = useSnappingLines(snappers)
-	const snapper = (point) => snapMousePosition(point, snappingLines, snappingDistance)
-	const snapResult = snapper(mouseInDrawing ? mousePosition : null)
+	const snapper = (point) => snapMousePosition(point, snappingLines, snappingDistance, applySnapping)
+	const snapResult = snapper(mousePosition)
 
 	// Return all data.
 	return { mousePosition, mouseInDrawing, snappingLines, snapper, ...snapResult }
@@ -171,56 +276,68 @@ function useSnappingLines(snappers) {
 }
 
 // snapMousePosition will calculate the position of the mouse after it's snapped to the nearest snapping line.
-function snapMousePosition(mousePosition, snappingLines, snappingDistance) {
-	// Check that a mouse position exists.
-	if (!mousePosition)
-		return { snappedMousePosition: mousePosition, snapLines: [], isMouseSnapped: false }
+function snapMousePosition(position, snappingLines, snappingDistance, applySnapping) {
+	// If there is no mouse position or no snapping should be applied, give a default response.
+	if (!position || !applySnapping)
+		return { position, snappedPosition: position, snapLines: [], isSnapped: false, isSnappedTwice: false }
 
 	// Get all the lines that fall within snapping distance.
 	const squaredSnappingDistance = snappingDistance ** 2
-	const snappingLineSquaredDistances = snappingLines.map(line => line.getSquaredDistanceFrom(mousePosition)) // Calculate the squared distances.
+	const snappingLineSquaredDistances = snappingLines.map(line => line.getSquaredDistanceFrom(position)) // Calculate the squared distances.
 	const selectedLines = numberArray(0, snappingLines.length - 1).filter(index => snappingLineSquaredDistances[index] <= squaredSnappingDistance) // Filter out all lines that are too far, and store the indices of the selected lines.
 	let snapLines = sortByIndices(selectedLines.map(index => snappingLines[index]), selectedLines.map(index => snappingLineSquaredDistances[index])) // Sort by distance.
 
 	// Depending on how many snap lines there are, snap the mouse position accordingly.
-	let snappedMousePosition = mousePosition
+	let snappedPosition = position
 	if (snapLines.length > 1) { // Multiple lines. Find the intersection and check that it's close enough to the mouse point.
 		const intersection = snapLines[0].getIntersection(snapLines[1])
-		if (intersection.squaredDistanceTo(mousePosition) <= squaredSnappingDistance) {
-			snappedMousePosition = intersection
-			snapLines = snapLines.filter(line => line.containsPoint(snappedMousePosition)) // Get rid of all snapping lines that don't go through this point.
+		if (intersection.squaredDistanceTo(position) <= squaredSnappingDistance) {
+			snappedPosition = intersection
+			snapLines = snapLines.filter(line => line.containsPoint(snappedPosition)) // Get rid of all snapping lines that don't go through this point.
 		} else {
 			snapLines = snapLines.slice(0, 1) // The snap position is too far from the mouse position. Only take the closest line and use that.
 		}
 	}
 	if (snapLines.length === 1)
-		snappedMousePosition = snapLines[0].getClosestPoint(mousePosition)
-	const isMouseSnapped = snapLines.length > 0
+		snappedPosition = snapLines[0].getClosestPoint(position)
+	const isSnapped = snapLines.length > 0
+	const isSnappedTwice = snapLines.length > 1
 
 	// Return the outcome.
-	return { snappedMousePosition, snapLines, isMouseSnapped }
+	return { position, snappedPosition, snapLines, isSnapped, isSnappedTwice }
+}
+
+export function getMouseData(evt, snapper, drawing) {
+	return { ...snapper(drawing.getPosition(getEventPosition(evt))), utilKeys: getUtilKeys(evt) }
 }
 
 // getSnapSvg takes a snapped mouse position and snap lines, and returns SVG to show the marker and the lines.
-export function getSnapSvg(snappedMousePosition, snapLines, drawingRef, lineStyle = {}, markerStyle = {}, snapMarkerSize = 6) {
-	const bounds = drawingRef && drawingRef.current && drawingRef.current.bounds
+export function getSnapSvg(mouseData, drawing, lineStyle = {}, markerStyle = {}, snapMarkerSize = 6) {
+	const { position, snappedPosition, snapLines } = mouseData
+	const bounds = drawing && drawing.bounds
+
+	// Don't show things when the mouse is outside the drawing.
+	if (!drawing.isInside(position))
+		return {}
+
+	// Show the snap marker and lines.
 	return {
-		marker: snapLines.length > 0 ? <Square center={snappedMousePosition} side={snapMarkerSize} className="snapMarker" style={markerStyle} /> : null,
+		marker: snapLines.length > 0 ? <Square center={snappedPosition} side={snapMarkerSize} className="snapMarker" style={markerStyle} /> : null,
 		lines: bounds ? snapLines.map((line, index) => {
-			const linePart = bounds.getLinePartWithin(line)
+			const linePart = bounds.getLinePart(line)
 			return <SvgLine key={index} className="snapLine" points={[linePart.start, linePart.end]} style={lineStyle} />
 		}) : [],
 	}
 }
 
 // addSnapSvg takes SVG elements and adds snap lines to it.
-export function addSnapSvg(svgContents, snappedMousePosition, snapLines, drawingRef) {
+export function addSnapSvg(svgContents, mouseData, drawing) {
 	// If the drawing is not there yet, don't add lines.
-	if (!drawingRef || !drawingRef.current)
+	if (!drawing)
 		return svgContents
 
 	// Get the lines and marker and display them in the right order.
-	const snapSvg = getSnapSvg(snappedMousePosition, snapLines, drawingRef)
+	const snapSvg = getSnapSvg(mouseData, drawing)
 	return <>
 		{snapSvg.lines}
 		{svgContents}
@@ -229,11 +346,53 @@ export function addSnapSvg(svgContents, snappedMousePosition, snapLines, drawing
 }
 
 // addFeedbackIcon takes HTML elements and adds a feedback icon to it.
-export function addFeedbackIcon(htmlContents, feedback, drawingRef, scale = 1) {
+export function addFeedbackIcon(htmlContents, feedback, drawing, scale = 1) {
 	if (!feedback || !feedback.Icon)
 		return htmlContents
 	return <>
 		{htmlContents}
-		<PositionedElement anchor={[1, 0]} position={[drawingRef.current.width - 10, 6]} scale={scale} ><feedback.Icon className="icon" /></PositionedElement>
+		<PositionedElement anchor={[1, 0]} position={[drawing.width - 8, 6]} scale={scale} ><feedback.Icon className="icon" /></PositionedElement>
 	</>
+}
+
+// shouldBeSelecting gets mouseDownData and startSelection options and determines if we're selecting.
+function shouldBeSelecting(mouseDownData, startSelection) {
+	// Don't start selecting if the mouse didn't go down.
+	if (!mouseDownData)
+		return false
+
+	// Check the settings.
+	switch (startSelection) {
+		case startSelectionOptions.never:
+			return false
+		case startSelectionOptions.noDoubleSnap:
+			return !mouseDownData.isSnappedTwice
+		case startSelectionOptions.noSnap:
+			return !mouseDownData.isSnapped
+		case startSelectionOptions.always:
+			return true
+		default:
+			throw new Error(`Invalid startSelection setting: received a setting of "${startSelection}" for startSelection on a DrawingInput, but this was not among the valid options.`)
+	}
+}
+
+// getSelectionRectangle returns the selection rectangle based on two mouse data objects.
+function getSelectionRectangle(downData, upData, drawing) {
+	return new Rectangle({
+		start: drawing.applyBounds(downData.position),
+		end: drawing.applyBounds(upData.position),
+	})
+}
+
+// addSelectionRectangle takes an svgContents object and adds a selection rectangle on top of it.
+function addSelectionRectangle(svgContents, selectionRectangle) {
+	return selectionRectangle ? <>
+		{svgContents}
+		<SvgRectangle className="selectionRectangle" dimensions={selectionRectangle} />
+	</> : svgContents
+}
+
+// DeleteButton is a button of a garbage bin icon.
+function DeleteButton(props) {
+	return <div className="deleteButton" {...props}><Delete /></div>
 }

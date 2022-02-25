@@ -2,7 +2,7 @@
 
 const { decimalSeparator } = require('../settings')
 const { isInt, ensureInt, isNumber, ensureNumber, roundToDigits, roundTo } = require('../util/numbers')
-const { isObject, processOptions } = require('../util/objects')
+const { isObject, processOptions, keysToObject } = require('../util/objects')
 const { getRandom } = require('../util/random')
 const { Integer } = require('./Integer')
 
@@ -69,11 +69,7 @@ class Float {
 
 	// SO returns a storage object representation of this float number that can be interpreted again.
 	get SO() {
-		return {
-			number: this.number,
-			significantDigits: this.significantDigits,
-			power: this.power,
-		}
+		return keysToObject(Object.keys(defaultParameters), key => this[key] === defaultParameters[key] ? undefined : this[key])
 	}
 
 	get type() {
@@ -511,7 +507,7 @@ function getRandomFloat(options) {
 	const result = processFloat(number, options)
 
 	// Check if it's in the prevent list.
-	if (options.prevent) {
+	if (options.prevent !== undefined) {
 		const prevent = Array.isArray(options.prevent) ? options.prevent : [options.prevent]
 		if (prevent.includes(result.number))
 			return getRandomFloat(options)
@@ -536,7 +532,7 @@ function getRandomExponentialFloat(options) {
 	const result = processFloat(number, options)
 
 	// Check if it's in the prevent list.
-	if (options.prevent) {
+	if (options.prevent !== undefined) {
 		const prevent = Array.isArray(options.prevent) ? options.prevent : [options.prevent]
 		if (prevent.includes(result.number))
 			return getRandomExponentialFloat(options)

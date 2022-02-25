@@ -53,6 +53,11 @@ function getRoutes(user = null) {
 			component: pages.Test,
 			name: 'Testpagina',
 		},
+		'collaboration': {
+			id: 'collaboration',
+			component: pages.Collaboration,
+			name: 'Samen oefenen',
+		},
 	}
 
 	// Determine the type of users.

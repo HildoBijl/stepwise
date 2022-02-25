@@ -2,11 +2,14 @@
 
 import React, { Fragment, forwardRef } from 'react'
 import clsx from 'clsx'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 
-import { isObject, processOptions, filterOptions } from 'step-wise/util/objects'
+import { isObject, processOptions, filterOptions, applyToEachParameter } from 'step-wise/util/objects'
 
-import Drawing, { defaultOptions as drawingDefaultOptions, components as drawingComponents } from 'ui/components/figures/Drawing'
+import { toCSS } from 'util/colors'
+
+import { themeColor, secondaryColor, feedbackColors } from 'ui/theme'
+import Drawing, { defaultDrawingInputOptions, components as drawingComponents } from 'ui/components/figures/Drawing'
 
 import * as engineeringComponents from './components'
 
@@ -21,10 +24,19 @@ export const components = {
 	...engineeringComponents,
 }
 
+export const loadColors = {
+	input: toCSS(secondaryColor),
+	external: '#5e0b0b',
+	reaction: '#043870',
+	section: '#902dba',
+	feedback: applyToEachParameter(feedbackColors, toCSS),
+	glow: toCSS(themeColor), // On selection.
+}
+
 export const defaultEngineeringDiagramOptions = {
-	width: drawingDefaultOptions.width,
-	height: drawingDefaultOptions.height,
-	maxWidth: drawingDefaultOptions.maxWidth,
+	width: defaultDrawingInputOptions.width,
+	height: defaultDrawingInputOptions.height,
+	maxWidth: defaultDrawingInputOptions.maxWidth,
 	svgContents: null,
 	htmlContents: null,
 	className: '',
@@ -40,11 +52,15 @@ const useStyles = makeStyles((theme) => ({
 				'marker-start': 'url(#distanceArrowHead)',
 				'marker-end': 'url(#distanceArrowHead)',
 			},
-			'& .forceLine': {
-				fill: 'none',
+			'& .force': {
+				'& .forceLine': {
+					fill: 'none',
+				},
 			},
-			'& .momentLine': {
-				fill: 'none',
+			'& .moment': {
+				'& .momentLine': {
+					fill: 'none',
+				},
 			},
 			'& .arrowHead': {
 				fill: 'black',
@@ -82,20 +98,34 @@ function EngineeringDiagramUnforwared(options, ref) {
 
 	// Render the drawing.
 	options.className = clsx('engineeringDiagram', classes.engineeringDiagram, options.className)
-	return <Drawing ref={ref} {...filterOptions(options, drawingDefaultOptions)} />
+	return <Drawing ref={ref} {...filterOptions(options, defaultDrawingInputOptions)} />
 }
 export const EngineeringDiagram = forwardRef(EngineeringDiagramUnforwared)
 export default EngineeringDiagram
 
 // EngineeringDiagramDefs are SVG defs needed inside the SVG. We put them into the Drawing.
 function EngineeringDiagramDefs() {
+	const theme = useTheme()
 	return <>
 		<marker id="distanceArrowHead" key="distanceArrowHead" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
 			<path d="M0 0 L12 6 L0 12" stroke="black" strokeWidth="1" fill="none" />
-		</marker>,
+		</marker>
 		<marker id="forceArrowHead" key="forceArrowHead" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto-start-reverse">
 			<polygon points="8 4, 0 0, 2 4, 0 8" />
 		</marker>
+		{[0, 0.6, 1.6, 1].map((value, index) => <filter key={index} id={`selectionFilter${index}`}>
+			<feGaussianBlur stdDeviation="3" in="SourceGraphic" result="Blur" />
+			<feComposite operator="out" in="Blur" in2="SourceGraphic" result="OuterBlur" />
+			<feComponentTransfer in="OuterBlur" result="OuterBlurFaded">
+				<feFuncA type="linear" slope={value} />
+			</feComponentTransfer>
+			<feFlood width="100%" height="100%" floodColor={theme.palette.primary.main} result="Color" />
+			<feComposite operator="in" in="Color" in2="OuterBlurFaded" result="Glow" />
+			<feMerge>
+				<feMergeNode in="Glow" />
+				<feMergeNode in="SourceGraphic" />
+			</feMerge>
+		</filter>)}
 	</>
 }
 

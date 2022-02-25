@@ -65,7 +65,7 @@ function checkInput(state, input, step, substep) {
 		case 2:
 			return input.eq === solution.eq
 		case 3:
-			return performComparison('Rs', input, solution, data.equalityOptions)
+			return performComparison('cp', input, solution, data.equalityOptions)
 		case 4:
 			return performComparison(['T1', 'T2'], input, solution, data.equalityOptions)
 		default:

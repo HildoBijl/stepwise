@@ -1,3 +1,4 @@
+import { keysToObject } from 'step-wise/util/objects'
 import { Vector } from 'step-wise/CAS/linearAlgebra/Vector'
 
 // resetFocus takes a field, removes the focus and restores it. This is useful to work around the Android auto-suggest option, preventing it from taking place.
@@ -8,7 +9,7 @@ export function resetFocus(field) {
 
 // getEventPosition takes an event and gives the coordinates (client) at which it happens. It does this by return a vector to said point. On a touch event, it extracts the first touch.
 export function getEventPosition(evt) {
-	const obj = (evt.touches && evt.touches[0]) || evt
+	const obj = (evt.touches && evt.touches[0]) || (evt.changedTouches && evt.changedTouches[0]) || evt
 	if (obj.clientX === undefined || obj.clientY === undefined)
 		return null
 	return new Vector([obj.clientX, obj.clientY])
@@ -63,4 +64,9 @@ export function preventDefaultOnKeys(evt, keys) {
 	keys = Array.isArray(keys) ? keys : [keys]
 	if (keys.includes(evt.key))
 		evt.preventDefault()
+}
+
+// getUtilKeys gets the utility keys (shift, ctrl, alt) status from an event.
+export function getUtilKeys(evt) {
+	return keysToObject(['shift', 'ctrl', 'alt'], key => evt[`${key}Key`])
 }

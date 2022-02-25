@@ -1,6 +1,6 @@
 // The SimpleExercise is an Exercise that cannot be split. It's just one question and a function that checks whether the input is right or wrong. It must be passed a Problem and Solution component. Optional is a getFeedback parameter to extract feedback from input.
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import { deepEquals } from 'step-wise/util/objects'
 
@@ -30,11 +30,13 @@ function Contents({ Problem, Solution }) {
 	const { input } = useFormData()
 	const { feedbackInput } = useFeedback()
 	const { activateFirst } = useFieldControllerContext()
+	const timeoutIndexRef = useRef()
 
 	// Upon loading, or on history updates, focus on the first field. (Delay to ensure all fields are registered.)
 	useEffect(() => {
+		clearTimeout(timeoutIndexRef.current)
 		if (!progress.done)
-			setTimeout(activateFirst)
+			timeoutIndexRef.current = setTimeout(activateFirst)
 	}, [Problem, progress, history, activateFirst])
 
 	// Determine what to show.

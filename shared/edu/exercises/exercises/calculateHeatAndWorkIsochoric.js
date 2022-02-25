@@ -18,17 +18,17 @@ const data = {
 			accuracyFactor: 2,
 		},
 		V: {
-			relativeMargin: 0.01,
+			relativeMargin: 0.001,
 			significantDigitMargin: 1,
 			checkUnitSize: true,
 		},
 		p1: {
-			relativeMargin: 0.01,
+			relativeMargin: 0.001,
 			significantDigitMargin: 1,
 			checkUnitSize: true,
 		},
 		p2: {
-			relativeMargin: 0.01,
+			relativeMargin: 0.001,
 			significantDigitMargin: 1,
 			checkUnitSize: true,
 		},
