@@ -19,5 +19,5 @@ export * from './rendering'
 export default EngineeringDiagram
 export * from './EngineeringDiagram'
 
-// Re-export the Positioned Element for easy importing.
-export { PositionedElement } from 'ui/components/figures/Drawing'
+// Re-export the Positioned Element and Label for easy importing.
+export { PositionedElement, Label } from 'ui/components/figures/Drawing'

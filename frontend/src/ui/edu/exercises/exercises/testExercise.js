@@ -6,7 +6,7 @@ import { M } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import { InputSpace } from 'ui/form/Status'
 
-import EngineeringDiagram, { Group, Beam, HingeSupport, RollerHalfHingeSupport, Distance, PositionedElement, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
+import EngineeringDiagram, { Group, Beam, HingeSupport, RollerHalfHingeSupport, Distance, PositionedElement, Label, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
 import FBDInput, { allConnectedToPoints, getFBDFeedback, loadTypes } from 'ui/edu/content/mechanics/FBDInput'
 
 import { useSolution } from '../ExerciseContainer'
@@ -57,6 +57,10 @@ function Schematics({ data, showSupports = true, showLoads = true }) {
 function Elements({ data }) {
 	const { l1, l2, h, points, shift } = data
 	return <>
+		<Label position={points.A} angle={Math.PI * 5 / 4} distance={5}><M>A</M></Label>
+		<Label position={points.B} angle={Math.PI * 3 / 2} distance={2}><M>B</M></Label>
+		<Label position={points.C} angle={0}><M>C</M></Label>
+		<Label position={points.D} angle={0}><M>D</M></Label>
 		<PositionedElement position={points.A.interpolate(points.B).add([0, shift])} anchor={[0.5, 1]} scale={1} ><M>l_1 = {l1}\ (\rm m)</M></PositionedElement>
 		<PositionedElement position={points.B.interpolate(points.C).add([0, shift])} anchor={[0.5, 1]} scale={1}><M>l_2 = {l2}\ (\rm m)</M></PositionedElement>
 		<PositionedElement position={points.C.interpolate(points.D).add([shift, 0])} anchor={[0.5, 1]} scale={1} rotate={Math.PI / 2}><M>h = {h}\ (\rm m)</M></PositionedElement>
@@ -66,7 +70,7 @@ function Elements({ data }) {
 function Solution(state) {
 	const solution = useSolution(state)
 	const { diagramSettings, beam } = solution
-	
+
 	const Solution = <>
 		<Schematics data={solution} showSupports={false} />
 		<Group>{render(beam.filter(load => load.source !== loadTypes.external))}</Group>

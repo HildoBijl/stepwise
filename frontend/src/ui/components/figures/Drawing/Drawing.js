@@ -294,6 +294,49 @@ const defaultPositionedElement = {
 	style: {},
 }
 
+// Label sets a label at a certain point. To set it up, give the point, the angle at which the label should be positioned, and the distance from said point. Optionally, the anchor point can be included too.
+export function Label(props) {
+	// Check input.
+	let { children, position, distance, angle, anchor } = processOptions(props, defaultLabel)
+	children = ensureReactElement(children)
+	position = ensureVector(position, 2)
+	distance = ensureNumber(distance)
+	angle = ensureNumber(angle)
+	anchor = anchor === undefined ? getAnchorFromAngle(angle + Math.PI) : ensureVector(anchor, 2)
+
+	// Find the position shift and apply it.
+	const delta = Vector.fromPolar(distance, angle)
+	return <PositionedElement position={position.add(delta)} anchor={anchor}>{children}</PositionedElement>
+}
+const defaultLabel = {
+	children: null,
+	position: Vector.zero,
+	distance: 6,
+	angle: -Math.PI * 3 / 4,
+	anchor: undefined,
+}
+
+function getAnchorFromAngle(angle) {
+	const processCoordinate = (angle) => {
+		// Prepare the angle.
+		angle = angle % (2 * Math.PI)
+		if (angle < 0)
+			angle += 2 * Math.PI
+
+		// Check various cases.
+		if (angle <= Math.PI / 4)
+			return 1
+		if (angle < Math.PI * 3 / 4)
+			return 0.5 - 0.5 * Math.tan(angle - Math.PI / 2)
+		if (angle <= Math.PI * 5 / 4)
+			return 0
+		if (angle <= Math.PI * 7 / 4)
+			return 0.5 + 0.5 * Math.tan(angle - Math.PI * 3 / 2)
+		return 1
+	}
+	return new Vector(processCoordinate(angle), processCoordinate(angle - Math.PI / 2))
+}
+
 // useMousePosition tracks the position of the mouse and gives the coordinates with respect to mouse coordinates. This is of the form { x: 100, y: 200 }. The function must be provided with a reference to the drawing.
 export function useMousePosition(drawing) {
 	// Acquire data.
