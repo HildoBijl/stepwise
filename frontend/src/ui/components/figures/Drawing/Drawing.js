@@ -139,7 +139,7 @@ function Drawing(options, ref) {
 
 	// Initialize the SVG element once the drawing is loaded.
 	useEffect(() => {
-		if (figureRef.current && !drawingRef.current)
+		if (figureRef.current)
 			drawingRef.current = initialize(figureRef.current, svgRef.current, canvasRef.current)
 	}, [figureRef, drawingRef])
 
@@ -344,7 +344,7 @@ export function useMousePosition(drawing) {
 	const figureRect = useBoundingClientRect(drawing && drawing.figure && drawing.figure.inner)
 
 	// Return null on missing data.
-	if (!clientMousePosition || !figureRect)
+	if (!clientMousePosition || !figureRect || figureRect.width === 0 || figureRect.height === 0)
 		return null
 
 	// Calculate relative position and scale it.
