@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react'
 
+import { defaultMomentRadius, defaultMomentOpening } from 'step-wise/settings/engineeringMechanics'
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureString } from 'step-wise/util/strings'
 import { ensureBoolean, ensureObject, processOptions } from 'step-wise/util/objects'
@@ -105,8 +106,8 @@ export const defaultMoment = {
 	clockwise: false,
 	size: defaultForce.size,
 	color: defaultForce.color,
-	radius: 25,
-	opening: 0, // The position of the opening in radians, measured clockwise from right.
+	radius: defaultMomentRadius,
+	opening: defaultMomentOpening, // The position of the opening in radians, measured clockwise from right.
 	spread: 7 / 4 * Math.PI, // Which angle (part of the circle) is drawn?
 	arrowHeadDelta: 2.5, // The angle of the arrow head is manually adjusted to make it look OK. This factor is responsible. Increase or decrease it at will.
 	className: 'moment',

@@ -94,6 +94,11 @@ class PositionedVector {
 		return new PositionedVector({ start: this.end, end: this.start })
 	}
 
+	// round takes all coordinates and rounds them to the nearest value.
+	round() {
+		return new PositionedVector({ start: this.start.round(), end: this.end.round() })
+	}
+
 	/*
 	 * Comparison methods.
 	 */
@@ -116,7 +121,7 @@ class PositionedVector {
 			return false
 
 		// Check for zero vectors. If they are not around, take the line and check if the other PositionedVector is along it.
-		if (positionedVector.isZero()) {
+		if (positionedVector.vector.isZero()) {
 			if (this.vector.isZero())
 				return true
 			return positionedVector.isAlongLine(this.line, requireSameDirection)

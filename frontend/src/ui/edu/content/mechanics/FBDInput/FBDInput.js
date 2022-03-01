@@ -4,17 +4,19 @@ import React, { forwardRef, useCallback, useMemo, useState, useEffect } from 're
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 
+import { defaultForceLength } from 'step-wise/settings/engineeringMechanics'
 import { processOptions, filterOptions, applyToEachParameter } from 'step-wise/util/objects'
 import { hasSimpleDeepEqualsMatching } from 'step-wise/util/arrays'
-import { selectRandomEmpty } from 'step-wise/util/random'
-import { toFO, toSO } from 'step-wise/inputTypes'
-import { PositionedVector } from 'step-wise/CAS/linearAlgebra'
+import { Vector, PositionedVector } from 'step-wise/CAS/linearAlgebra'
+import { areLoadsEqual, doesLoadTouchRectangle } from 'step-wise/edu/exercises/util/engineeringMechanics'
 
 import { useEnsureRef, useEventListener } from 'util/react'
 import { DrawingInput, useAsDrawingInput, defaultDrawingInputOptions } from 'ui/components/figures/Drawing'
 
-import EngineeringDiagram, { defaultEngineeringDiagramOptions, renderData, loadColors } from './EngineeringDiagram'
-import { defaultMoment } from './EngineeringDiagram/components/loads'
+import EngineeringDiagram, { defaultEngineeringDiagramOptions, renderData, loadColors } from '../EngineeringDiagram'
+
+import { clean, functionalize } from './support'
+import { nonEmptyNoDoubles } from './validation'
 
 export const defaultFBDInputOptions = {
 	...defaultEngineeringDiagramOptions,
@@ -23,7 +25,7 @@ export const defaultFBDInputOptions = {
 	validate: nonEmptyNoDoubles,
 	clickMarkerSize: 6,
 	minimumDragDistance: 12,
-	forceLength: 80, // The lengths of force vectors. Set to something falsy to make sure they have varying lengths.
+	forceLength: defaultForceLength, // The lengths of force vectors. Set to something falsy to make sure they have varying lengths.
 	allowMoments: true,
 	maximumMomentDistance: 50,
 }
@@ -174,82 +176,6 @@ function getDragObject(downData, upData, options) {
 	return { type: 'Force', positionedVector: new PositionedVector({ start: downData.snappedPosition, vector: snappedVector }) }
 }
 
-// These are validation functions.
-export function nonEmpty(data) {
-	if (data.length === 0)
-		return selectRandomEmpty()
-}
-export function nonEmptyNoDoubles(data) {
-	// Check for empty.
-	const nonEmptyValidation = nonEmpty(data)
-	if (nonEmptyValidation)
-		return nonEmptyValidation
-
-	// Check for doubles.
-	const getEqualLoadIndex = (index) => data.findIndex((load, loadIndex) => index !== loadIndex && areLoadsEqual(data[index], load))
-	const doubleLoadIndex = data.findIndex((_, index) => getEqualLoadIndex(index) !== -1)
-	if (doubleLoadIndex !== -1) {
-		const otherIndex = getEqualLoadIndex(doubleLoadIndex)
-		return {
-			text: 'Sommige belastingen zijn dubbel getekend. Zorg dat alle belastingen uniek zijn.',
-			affectedLoads: [data[doubleLoadIndex], data[otherIndex]],
-		}
-	}
-}
-export function allConnectedToPoints(points) {
-	return (data) => {
-		// Check basic problems.
-		const nonEmptyNoDoublesValidation = nonEmptyNoDoubles(data)
-		if (nonEmptyNoDoublesValidation)
-			return nonEmptyNoDoublesValidation
-
-		// Find a non-connected load.
-		const unconnectedLoads = data.filter(load => !Object.values(points).some(point => isLoadAtPoint(load, point)))
-		if (unconnectedLoads.length > 0) {
-			return {
-				text: `${(unconnectedLoads.length === 1 ? 'Er is een belasting die niet gekoppeld is aan een bekend punt.' : 'Er zijn belastingen die niet gekoppeld zijn aan een bekend punt.')} Dit kan dus nooit een correct antwoord zijn.`,
-				affectedLoads: unconnectedLoads,
-			}
-		}
-	}
-}
-
-function areLoadsEqual(load1, load2) {
-	if (load1.type !== load2.type)
-		return false
-
-	switch (load1.type) {
-		case 'Force':
-			return load1.positionedVector.equals(load2.positionedVector)
-		case 'Moment':
-			return load1.position.equals(load2.position)
-		default:
-			throw new Error(`Unknown load type: could not compare loads of type "${load1.type}" since this type is unknown.`)
-	}
-}
-
-function isLoadAtPoint(load, point) {
-	switch (load.type) {
-		case 'Force':
-			return load.positionedVector.hasPoint(point)
-		case 'Moment':
-			return load.position.equals(point)
-		default:
-			throw new Error(`Unknown load type: did not recognize the load type "${load.type}".`)
-	}
-}
-
-function doesLoadTouchRectangle(load, rectangle) {
-	switch (load.type) {
-		case 'Force':
-			return rectangle.touchesPositionedVector(load.positionedVector)
-		case 'Moment':
-			return rectangle.touchesCircle(load.position, defaultMoment.radius)
-		default:
-			throw new Error(`Unknown load type: did not recognize the load type "${load.type}". Cannot process the selection.`)
-	}
-}
-
 function styleLoad(index, load, readOnly, mouseHandlers = {}, selectionRectangle, feedback) {
 	load = { ...load }
 
@@ -304,17 +230,5 @@ function handleKeyPress(evt, setData, deleteSelection) {
 	}
 }
 
-// These are functions transforming between object types.
-
-// clean will remove all selection data from the FBD input. It then turns the items into SOs.
-export function clean(data) {
-	return toSO(data.map(load => {
-		load = { ...load }
-		delete load.selected
-		return load
-	}))
-}
-
-export function functionalize(data) {
-	return toFO(data).map(load => ({ ...load, selected: false }))
-}
+// getDefaultForceVector can take an angle and directly give a force vector with the given angle.
+export const getDefaultForceVector = (angle) => Vector.fromPolar(defaultFBDInputOptions.forceLength, angle)

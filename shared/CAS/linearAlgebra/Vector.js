@@ -167,6 +167,11 @@ class Vector {
 		return this.multiply(magnitude / ownMagnitude)
 	}
 
+	// round will take all coordinates and round them to the nearest integer.
+	round() {
+		return new Vector(this.coordinates.map(value => Math.round(value)))
+	}
+
 	// shorten will shorten the vector by a set amount while keeping its direction. If the distance is larger than the magnitude of this vector, the zero vector (of same dimension) is returned.
 	shorten(distance) {
 		distance = ensureNumber(distance)

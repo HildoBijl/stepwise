@@ -1,4 +1,4 @@
-import { decimalSeparator, decimalSeparatorTex } from 'step-wise/settings'
+import { decimalSeparator, decimalSeparatorTex } from 'step-wise/settings/numbers'
 import { isNumber } from 'step-wise/util/numbers'
 import { isLetter, removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
 import { firstOf } from 'step-wise/util/arrays'

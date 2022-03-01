@@ -21,7 +21,7 @@
  * - Plug everything in one file. It works. It prevents problems. It's what's done below.
  */
 
-const { decimalSeparator, decimalSeparatorTex } = require('../../../settings')
+const { decimalSeparator, decimalSeparatorTex } = require('../../../settings/numbers')
 
 const { isInt, isNumber, gcd } = require('../../../util/numbers')
 const { isObject, isBasicObject, processOptions, filterOptions, getParentClass } = require('../../../util/objects')

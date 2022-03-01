@@ -4,7 +4,7 @@ import React, { useRef, useEffect, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { decimalSeparator } from 'step-wise/settings'
+import { decimalSeparator } from 'step-wise/settings/numbers'
 import { isObject, filterOptions, applyToEachParameter } from 'step-wise/util/objects'
 import { isNumber, boundTo } from 'step-wise/util/numbers'
 
