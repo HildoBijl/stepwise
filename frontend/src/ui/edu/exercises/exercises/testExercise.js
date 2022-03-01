@@ -1,14 +1,13 @@
 import React from 'react'
 
-import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
 import { Vector, Line, PositionedVector } from 'step-wise/CAS/linearAlgebra'
 
 import { M } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import { InputSpace } from 'ui/form/Status'
 
-import EngineeringDiagram, { loadColors, Group, Beam, Force, Moment, HingeSupport, RollerHalfHingeSupport, Distance, PositionedElement } from 'ui/edu/content/mechanics/EngineeringDiagram'
-import FBDInput, { allConnectedToPoints } from 'ui/edu/content/mechanics/FBDInput'
+import EngineeringDiagram, { Group, Beam, HingeSupport, RollerHalfHingeSupport, Distance, PositionedElement, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
+import FBDInput, { allConnectedToPoints, getFBDFeedback, loadTypes } from 'ui/edu/content/mechanics/FBDInput'
 
 import { useSolution } from '../ExerciseContainer'
 import SimpleExercise from '../types/SimpleExercise'
@@ -20,7 +19,6 @@ window.PositionedVector = PositionedVector
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
 }
-
 
 function Problem(state) {
 	const solution = useSolution(state)
@@ -37,7 +35,7 @@ function Problem(state) {
 }
 
 function Schematics({ data, showSupports = true, showLoads = true }) {
-	const { points, shift } = data
+	const { points, shift, beam } = data
 	return <>
 		<Beam points={Object.values(points)} />
 
@@ -47,8 +45,7 @@ function Schematics({ data, showSupports = true, showLoads = true }) {
 		</Group>
 
 		<Group style={{ opacity: showLoads ? 1 : 0.1 }}>
-			<Moment position={points.C} color={loadColors.external} opening={Math.PI} />
-			<Force positionedVector={{ vector: [80, 0], end: points.D }} color={loadColors.external} />
+			{render(beam.filter(load => load.source === loadTypes.external))}
 		</Group>
 
 		<Distance positionedVector={{ start: points.A.add([0, shift]), end: points.B.add([0, shift]) }} />
@@ -68,15 +65,11 @@ function Elements({ data }) {
 
 function Solution(state) {
 	const solution = useSolution(state)
-	const { diagramSettings, points } = solution
-
+	const { diagramSettings, beam } = solution
+	
 	const Solution = <>
 		<Schematics data={solution} showSupports={false} />
-		<Group>
-			<Force positionedVector={{ vector: [80, 0], end: points.A }} color={loadColors.reaction} />
-			<Force positionedVector={{ vector: [0, -80], end: points.A }} color={loadColors.reaction} />
-			<Force positionedVector={{ vector: [0, -80], end: points.B }} color={loadColors.reaction} />
-		</Group>
+		<Group>{render(beam.filter(load => load.source !== loadTypes.external))}</Group>
 	</>
 
 	return <>
@@ -85,11 +78,9 @@ function Solution(state) {
 	</>
 }
 
-function getFeedback({ state, input, progress }) {
-	// const { } = state
-	// const { ans } = input
-	const correct = progress.solved || false
-	if (correct)
-		return { beam: { correct, text: selectRandomCorrect() } }
-	return { beam: { correct, text: selectRandomIncorrect() } }
+function getFeedback({ state, input, progress, shared }) {
+	const { getSolution, data } = shared
+	const solution = getSolution(state)
+	const { beam, points } = solution
+	return { beam: getFBDFeedback(input.beam, beam, data.equalityOptions, points) }
 }

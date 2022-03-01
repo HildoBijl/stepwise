@@ -13,7 +13,7 @@ import { areLoadsEqual, doesLoadTouchRectangle } from 'step-wise/edu/exercises/u
 import { useEnsureRef, useEventListener } from 'util/react'
 import { DrawingInput, useAsDrawingInput, defaultDrawingInputOptions } from 'ui/components/figures/Drawing'
 
-import EngineeringDiagram, { defaultEngineeringDiagramOptions, renderData, loadColors } from '../EngineeringDiagram'
+import EngineeringDiagram, { defaultEngineeringDiagramOptions, render, loadColors } from '../EngineeringDiagram'
 
 import { clean, functionalize } from './support'
 import { nonEmptyNoDoubles } from './validation'
@@ -132,8 +132,8 @@ function FBDInputUnforwarded(options, drawingRef) {
 	const styledLoads = useMemo(() => data.map((load, index) => styleLoad(index, { ...load, hovering: index === hoverIndex }, readOnly, mouseHandlers, selectionRectangle, feedback)), [data, hoverIndex, readOnly, mouseHandlers, selectionRectangle, feedback])
 	options.svgContents = <>
 		{options.svgContents}
-		{renderData(styledLoads)}
-		{dragObject && renderData(styleLoad(undefined, dragObject, readOnly))}
+		{render(styledLoads)}
+		{dragObject && render(styleLoad(undefined, dragObject, readOnly))}
 	</>
 
 	// Render the Engineering Diagram with the proper styling.

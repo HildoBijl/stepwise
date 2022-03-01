@@ -2,6 +2,7 @@ const { defaultForceLength, defaultMomentRadius, defaultMomentOpening } = requir
 
 const { ensureBoolean, processOptions } = require('../../../util/objects')
 const { ensureNumber } = require('../../../util/numbers')
+const { compareNumbers } = require('../../../CAS/numeric')
 const { Vector, ensureVector } = require('../../../CAS/linearAlgebra')
 
 /*
@@ -9,10 +10,10 @@ const { Vector, ensureVector } = require('../../../CAS/linearAlgebra')
  */
 
 const loadTypes = {
-	input: 'Input',
-	external: 'External',
-	reaction: 'Reaction',
-	internal: 'Internal',
+	input: 'input',
+	external: 'external',
+	reaction: 'reaction',
+	section: 'section',
 }
 module.exports.loadTypes = loadTypes
 
@@ -100,7 +101,7 @@ function areLoadsEqual(input, solution, options = {}) {
 			const inputPV = input.positionedVector
 
 			// Check the magnitude.
-			if (options.requireSameMagnitude && solutionPV.vector.squaredMagnitude !== inputPV.vector.squaredMagnitude)
+			if (options.requireSameMagnitude && !solutionPV.vector.isEqualMagnitude(inputPV.vector))
 				return false
 
 			// Check zero vectors.
@@ -130,11 +131,11 @@ function areLoadsEqual(input, solution, options = {}) {
 				return false
 
 			// Check the magnitude.
-			if (options.requireSameMagnitude && (solution.radius === undefined ? defaultMomentRadius : solution.radius) !== (input.radius === undefined ? defaultMomentRadius : input.radius))
+			if (options.requireSameMagnitude && !compareNumbers(solution.radius === undefined ? defaultMomentRadius : solution.radius, input.radius === undefined ? defaultMomentRadius : input.radius))
 				return false
 
 			// Check the orientation.
-			if (options.requireSameOrientation && (solution.opening === undefined ? defaultMomentOpening : solution.opening) !== (input.opening === undefined ? defaultMomentOpening : input.opening))
+			if (options.requireSameOrientation && !compareNumbers(solution.opening === undefined ? defaultMomentOpening : solution.opening, input.opening === undefined ? defaultMomentOpening : input.opening))
 				return false
 
 			// All in order.
@@ -174,15 +175,34 @@ module.exports.doesLoadTouchRectangle = doesLoadTouchRectangle
  * Below are various checking functions for sets of loads.
  */
 
-// getMatchingLoads takes a solution array of loads and for each load matches the input loads that correspond to it. The result is an array of arrays. The equality options can be an object (used for all loads) or an array with same length as the number of solution loads, in which case the corresponding equality options are picked from the array.
-function getMatchingLoads(input, solution, options) {
-	return solution.map((solutionLoad, index) => input.filter(inputLoad => areLoadsEqual(inputLoad, solutionLoad, Array.isArray(options) ? options[index] : options)))
+// getLoadMatching takes two arrays of loads (input and solution) and checks which ones correspond to each other, given the equality options. If the equality options are an array, it is assumed this array corresponds to the solution array of loads. It returns an object { input: [...], solution: [...] } where inside the arrays are arrays of all loads matching to the corresponding load.
+function getLoadMatching(input, solution, equalityOptions) {
+	const inputMatching = input.map(_ => [])
+	const solutionMatching = solution.map(_ => [])
+	solution.forEach((solutionLoad, solutionIndex) => {
+		input.forEach((inputLoad, inputIndex) => {
+			const currEqualityOptions = Array.isArray(equalityOptions) ? equalityOptions[solutionIndex] : equalityOptions
+			if (areLoadsEqual(inputLoad, solutionLoad, currEqualityOptions)) {
+				inputMatching[inputIndex].push(solutionLoad)
+				solutionMatching[solutionIndex].push(inputLoad)
+			}
+		})
+	})
+	return {
+		input: inputMatching,
+		solution: solutionMatching,
+	}
 }
-module.exports.getMatchingLoads = getMatchingLoads
+module.exports.getLoadMatching = getLoadMatching
 
 // areLoadsMatching checks if two sets of loads are matching, given the equality options. That is, if for every solution load there is a corresponding input load.
 function areLoadsMatching(input, solution, options) {
-	const match = getMatchingLoads(input, solution, options)
-	return match.every(matchingLoads => matchingLoads.length === 1)
+	return isMatchingComplete(getLoadMatching(input, solution, options))
 }
 module.exports.areLoadsMatching = areLoadsMatching
+
+// isMatchingComplete takes a matching and checks if all the loads in each set are matched.
+function isMatchingComplete(matching) {
+	return matching.solution.every(matches => matches.length === 1) && matching.input.every(matches => matches.length === 1)
+}
+module.exports.isMatchingComplete = isMatchingComplete

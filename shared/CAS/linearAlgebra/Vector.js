@@ -216,6 +216,12 @@ class Vector {
 		return vector instanceof Vector && this.dimension === vector.dimension && this.coordinates.every((value, index) => compareNumbers(value, vector.getCoordinate(index)))
 	}
 
+	// isEqualMagnitude checks if two vectors have equal magnitude.
+	isEqualMagnitude(vector) {
+		vector = ensureVector(vector, this.dimension)
+		return compareNumbers(this.squaredMagnitude, vector.squaredMagnitude)
+	}
+
 	/*
 	 * Static methods.
 	 */

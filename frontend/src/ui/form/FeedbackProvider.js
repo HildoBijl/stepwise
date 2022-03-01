@@ -170,6 +170,7 @@ function processFeedback(feedback, staticFeedbackText, theme) {
 
 	// If the feedback is more detailed, show that too.
 	return addIconAndColor({
+		...feedback,
 		type: feedback.type || (feedback.correct !== undefined && (feedback.correct ? 'success' : 'error')) || 'normal',
 		text: feedback.text || '',
 	}, theme)
