@@ -22,7 +22,7 @@ export default function Exercise() {
 const Problem = (state) => {
 	const { variables, expression } = useSolution(state)
 	return <>
-		<Par>Gegeven is de uitdrukking <BM>{expression}.</BM> Haal de factor <M>{variables.x}</M> buiten haakjes.</Par>
+		<Par>Gegeven is de uitdrukking <BM>{expression}.</BM> Haal de factor <M>{variables.x}</M> buiten haakjes voor de <em>gehele</em> uitdrukking.</Par>
 		<InputSpace>
 			<Par>
 				<ExpressionInput id="ans" prelabel={<M>{expression}=</M>} label="Vul hier het resultaat in" size="l" settings={basicMathAndPowers} validate={validWithVariables(variables)} />
