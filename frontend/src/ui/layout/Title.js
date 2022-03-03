@@ -6,6 +6,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import { ArrowRight as Arrow } from '@material-ui/icons'
 import clsx from 'clsx'
 
+import { resolveFunctions } from 'step-wise/util/functions'
+
 import { useEventListener, useRefWithValue } from 'util/react'
 import { useRoute, usePaths } from 'ui/routing'
 import { websiteName } from 'ui/settings'
@@ -41,7 +43,7 @@ export default function Title({ className, setTitleCollapsed }) {
 	const partialTitleRef = useRef()
 
 	// Extract the title that needs to be shown.
-	const title = (typeof route.name === 'function' ? route.name() : route.name)
+	const title = resolveFunctions(route.name)
 	const titleRef = useRefWithValue(title)
 
 	// Define a handler that will adjust what is shown in the title to match the page size.
@@ -108,7 +110,7 @@ function Breadcrumb({ route, first }) {
 	const paths = usePaths()
 	const { params } = useRouteMatch()
 
-	const pageName = (typeof route.name === 'function' ? route.name() : route.name)
+	const pageName = resolveFunctions(route.name)
 	if (first) {
 		const tabTitle = `${pageName} | ${websiteName}`
 		return <span>{pageName}<Helmet><title>{tabTitle}</title></Helmet></span>

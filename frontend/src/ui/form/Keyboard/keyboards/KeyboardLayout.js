@@ -2,6 +2,8 @@ import React, { useState, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
+import { resolveFunctions } from 'step-wise/util/functions'
+
 import { useWidthTracker } from 'util/react'
 
 import KeyButton from './KeyButton'
@@ -9,8 +11,7 @@ import KeyButton from './KeyButton'
 const useStyles = makeStyles((theme) => ({
 	keyboardLayout: ({ rowHeight, numColumns, numRows, settings, styles, maxWidth }) => {
 		// Process and include extra styles.
-		if (typeof styles === 'function')
-			styles = styles({ rowHeight, numColumns, numRows, settings })
+		styles = resolveFunctions(styles, { rowHeight, numColumns, numRows, settings })
 		if (!styles || typeof styles !== 'object')
 			styles = {}
 
@@ -42,8 +43,7 @@ export default function KeyboardLayout({ settings, keyFunction, keySettings = {}
 	const [buttonClickFunction, properties] = useButtonClickFunction(keyFunction)
 
 	// Check which keys are needed.
-	if (typeof keys === 'function')
-		keys = keys(properties)
+	keys = resolveFunctions(keys, properties)
 
 	return (
 		<div ref={keyboardLayoutRef} className={clsx(classes.keyboardLayout, 'keyboardLayout')}>

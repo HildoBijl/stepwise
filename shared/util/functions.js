@@ -1,4 +1,5 @@
 const { ensureInt } = require('./numbers')
+const { isBasicObject, applyToEachParameter } = require('./objects')
 
 function noop() { }
 module.exports.noop = noop
@@ -28,3 +29,16 @@ function repeatWithIndices(min, max, func) {
 	arr.forEach((_, index) => func(index + min))
 }
 module.exports.repeatWithIndices = repeatWithIndices
+
+// resolveFunctions takes an array/object (or even a function or basic parameter) and recursively checks if there are functions in it. If so, those functions are executed, with the given parameters. Additionally, undefined values are filtered out.
+function resolveFunctions(param, ...args) {
+	const resolve = (value) => {
+		if (typeof value === 'function')
+			return value(...args)
+		if (Array.isArray(value) || isBasicObject(value))
+			return applyToEachParameter(value, resolve)
+		return value
+	}
+	return resolve(param)
+}
+module.exports.resolveFunctions = resolveFunctions

@@ -2,6 +2,7 @@
 
 import { ensureString } from 'step-wise/util/strings'
 import { filterOptions, processOptions } from 'step-wise/util/objects'
+import { resolveFunctions } from 'step-wise/util/functions'
 
 import { getHTMLElement } from 'util/react'
 import { useStatus } from 'ui/form/Status'
@@ -40,7 +41,7 @@ export function useAsInput(options) {
 	const [active, activateField, deactivateField] = useFieldRegistration({
 		...filterOptions(options, defaultFieldControlOptions),
 		apply: useFocusRegistration && !readOnly && !!getHTMLElement(options.element), // Only apply when the element has loaded.
-		keyboard: typeof keyboard === 'function' ? keyboard(data) : keyboard, // The keyboard settings may depend on the data.
+		keyboard: resolveFunctions(keyboard, data), // The keyboard settings may depend on the data.
 	})
 
 	// Get feedback from the Feedback Provider.

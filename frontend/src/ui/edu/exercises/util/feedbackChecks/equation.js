@@ -1,6 +1,7 @@
 // This file contains various feedback checks that are used more commonly among exercises. They can be loaded in and used directly then.
 
 import { arrayFind } from 'step-wise/util/arrays'
+import { resolveFunctions } from 'step-wise/util/functions'
 import { Sum, expressionChecks, equationChecks } from 'step-wise/CAS'
 
 import { M } from 'ui/components/equations'
@@ -18,7 +19,7 @@ export const incorrectEquation = (input, correct, solution, isCorrect) => {
 	return !isCorrect && !equivalentEquation(input, correct) && <>Deze vergelijking klopt niet. Je hebt bij het omschrijven iets gedaan dat niet mag.</>
 }
 
-export const correctEquationWithMessage = (message) => ((input, correct, solution, isCorrect, exerciseData) => !isCorrect && equivalentEquation(input, correct) && (typeof message === 'function' ? message(input, correct, solution, isCorrect, exerciseData) : message))
+export const correctEquationWithMessage = (message) => ((input, correct, solution, isCorrect, exerciseData) => !isCorrect && equivalentEquation(input, correct) && resolveFunctions(message, input, correct, solution, isCorrect, exerciseData))
 
 export const correctEquation = correctEquationWithMessage(<>De vergelijking klopt wel, maar je hebt niet gedaan wat gevraagd werd.</>)
 

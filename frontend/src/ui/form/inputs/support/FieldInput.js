@@ -7,6 +7,7 @@ import clsx from 'clsx'
 import { decimalSeparator } from 'step-wise/settings/numbers'
 import { isObject, filterOptions, applyToEachParameter } from 'step-wise/util/objects'
 import { isNumber, boundTo } from 'step-wise/util/numbers'
+import { resolveFunctions } from 'step-wise/util/functions'
 
 import { getCoordinatesOf, preventDefaultOnKeys, getClickSide } from 'util/dom'
 import { useLookupCallback, useEventListener, useWidthTracker } from 'util/react'
@@ -260,7 +261,7 @@ export default function FieldInput(options) {
 	// Define keyboard settings.
 	const keyboard = (data) => data && data.cursor !== undefined && keyboardSettings ? {
 		keyFunction: (keyInfo) => processKeyPress(keyInfo),
-		settings: typeof keyboardSettings === 'function' ? keyboardSettings(data) : keyboardSettings, // keyboardSettings may depend on the data.
+		settings: resolveFunctions(keyboardSettings, data), // keyboardSettings may depend on the data.
 	} : false // When no settings are provided, no keyboard needs to be shown.
 
 	// Connect as an input.

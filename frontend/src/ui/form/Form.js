@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext, useRef, useCallback, useEffect } from 'react'
 
 import { processOptions, deepEquals, ensureConsistency, applyToEachParameter } from 'step-wise/util/objects'
-import { passOn } from 'step-wise/util/functions'
+import { passOn, resolveFunctions } from 'step-wise/util/functions'
 import { toFO } from 'step-wise/inputTypes'
 import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 
@@ -34,7 +34,7 @@ export default function Form({ children }) {
 	const setParameter = useCallback((id, data) => {
 		setInput((input) => {
 			const oldData = input[id]
-			const newData = typeof data === 'function' ? data(oldData) : data
+			const newData = resolveFunctions(data, oldData)
 			return {
 				...input,
 				[id]: ensureConsistency(newData, oldData),
