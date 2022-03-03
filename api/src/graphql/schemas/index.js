@@ -5,6 +5,7 @@ const schemaKeys = [
 	'Skill',
 	'Exercise',
 	'Event',
+	'Group',
 ]
 
 const linkSchema = gql`

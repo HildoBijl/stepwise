@@ -6,6 +6,7 @@ const modelKeys = [
 	'UserSkill',
 	'ExerciseSample',
 	'ExerciseEvent',
+	'Group',
 ]
 
 class Database {

@@ -46,6 +46,7 @@ module.exports = (sequelize) => {
   User.associate = models => {
 		User.hasMany(models.UserSkill, { as: 'skills', onDelete: 'CASCADE' })
 		User.hasMany(models.SurfConextProfile, { onDelete: 'CASCADE' })
+	  	User.belongsToMany(models.Group, { as: 'groups', through: 'groupMemberships' })
   }
 
   return User

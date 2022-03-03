@@ -16,18 +16,16 @@ function createApollo(database) {
 			 * Beware: this doesn’t guarantee you that the user still exists in the DB!
 			 */
 			getCurrentUserId: () => {
-				if (!req.session.principal || !req.session.principal.id)
-					throw new AuthenticationError('No user is logged in.')
-				return req.session.principal.id
+				const principal = getPrincipalOrThrow(req)
+				return principal.id
 			},
 
 			/**
 			 * Returns the currently logged in user object, or throws an error otherwise.
 			 */
 			getCurrentUser: async () => {
-				if (!req.session.principal || !req.session.principal.id)
-					throw new AuthenticationError('No user is logged in.')
-				const user = await database.User.findByPk(req.session.principal.id)
+				const principal = getPrincipalOrThrow(req)
+				const user = await database.User.findByPk(principal.id)
 				if (!user) {
 					throw new AuthenticationError('No such user in the system.')
 				}
@@ -35,12 +33,19 @@ function createApollo(database) {
 			},
 
 			/**
-			 * Returns a boolean: is the user an admin.
+			 * Throws an error, if the user is not logged in.
+			 * Note: this doesn’t check whether the user still exists in the DB!
+			 */
+			ensureLoggedIn: () => {
+				getPrincipalOrThrow(req) // Just call this for the check
+			},
+
+			/**
+			 * Throws an error, if the user is not an admin.
 			 */
 			ensureAdmin: async () => {
-				if (!req.session.principal)
-					throw new AuthenticationError('No user is logged in.')
-				const user = await database.User.findByPk(req.session.principal.id)
+				const principal = getPrincipalOrThrow(req)
+				const user = await database.User.findByPk(principal.id)
 				if (user.role !== 'admin')
 					throw new AuthenticationError('No admin rights.')
 			}
@@ -51,6 +56,16 @@ function createApollo(database) {
 			}
 		}
 	})
+}
+
+/**
+ * Returns the principal object or throws an error.
+ */
+function getPrincipalOrThrow(request) {
+	if (!request.session.principal || !request.session.principal.id) {
+		throw new AuthenticationError('No user is logged in.')
+	}
+	return request.session.principal
 }
 
 module.exports = {
