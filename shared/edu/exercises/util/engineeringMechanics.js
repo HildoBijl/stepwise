@@ -1,7 +1,8 @@
 const { defaultForceLength, defaultMomentRadius, defaultMomentOpening } = require('../../../settings/engineeringMechanics')
 
-const { ensureBoolean, processOptions } = require('../../../util/objects')
 const { ensureNumber } = require('../../../util/numbers')
+const { ensureBoolean, processOptions } = require('../../../util/objects')
+const { resolveFunctions } = require('../../../util/functions')
 const { compareNumbers } = require('../../../CAS/numeric')
 const { Vector, ensureVector } = require('../../../CAS/linearAlgebra')
 
@@ -69,30 +70,32 @@ module.exports.defaultEqualityOptions = defaultEqualityOptions
 // For FBD Inputs we require a very loose equality. Vectors may be flipped, shifted, resized, etcetera. They do must have one point in common.
 const FBDEqualityOptions = {
 	Force: {
-		requireSameDirection: false,
+		requireSameDirection: (_, solution) => solution.source === loadTypes.external, // Do require the same direction for external loads. Otherwise don't.
 		requireSameMagnitude: false,
 		requireMatchingPoints: 1,
 		requireNonZero: true,
 	},
 	Moment: {
 		requireSamePosition: true,
-		requireSameDirection: false,
+		requireSameDirection: (_, solution) => solution.source === loadTypes.external,
 		requireSameMagnitude: false,
 		requireSameOrientation: false,
 	}
 }
 module.exports.FBDEqualityOptions = FBDEqualityOptions
 
-function areLoadsEqual(input, solution, options = {}) {
+function areLoadsEqual(input, solution, equalityOptions = {}) {
+	equalityOptions = resolveFunctions(equalityOptions, input, solution)
+
 	// On unequal types the loads are not equal.
 	if (solution.type !== input.type)
 		return false
 	const type = solution.type
 
 	// Extract options for this particular load, if given.
-	if (options[type])
-		options = options[type]
-	options = processOptions(options, defaultEqualityOptions[type])
+	if (equalityOptions[type])
+		equalityOptions = equalityOptions[type]
+	equalityOptions = processOptions(equalityOptions, defaultEqualityOptions[type])
 
 	// Check all relevant load types.
 	switch (type) {
@@ -101,21 +104,21 @@ function areLoadsEqual(input, solution, options = {}) {
 			const inputPV = input.positionedVector
 
 			// Check the magnitude.
-			if (options.requireSameMagnitude && !solutionPV.vector.isEqualMagnitude(inputPV.vector))
+			if (equalityOptions.requireSameMagnitude && !solutionPV.vector.isEqualMagnitude(inputPV.vector))
 				return false
 
 			// Check zero vectors.
-			if (options.requireNonZero && (solutionPV.vector.isZero() || inputPV.vector.isZero()))
+			if (equalityOptions.requireNonZero && (solutionPV.vector.isZero() || inputPV.vector.isZero()))
 				return false
 
 			// Check line and direction.
-			if (!solutionPV.alongEqualLine(inputPV, options.requireSameDirection))
+			if (!solutionPV.alongEqualLine(inputPV, equalityOptions.requireSameDirection))
 				return false
 
 			// Check matching points.
-			if (options.requireMatchingPoints === 1 && !solutionPV.hasMatchingPoint(inputPV))
+			if (equalityOptions.requireMatchingPoints === 1 && !solutionPV.hasMatchingPoint(inputPV))
 				return false
-			if (options.requireMatchingPoints === 2 && !solutionPV.equals(inputPV) && !solutionPV.reverse().equals(inputPV))
+			if (equalityOptions.requireMatchingPoints === 2 && !solutionPV.equals(inputPV) && !solutionPV.reverse().equals(inputPV))
 				return false
 
 			// All in order.
@@ -123,19 +126,19 @@ function areLoadsEqual(input, solution, options = {}) {
 
 		case 'Moment':
 			// The moment must be at the same position.
-			if (options.requireSamePosition && !solution.position.equals(input.position))
+			if (equalityOptions.requireSamePosition && !solution.position.equals(input.position))
 				return false
 
 			// Check the direction.
-			if (options.requireSameDirection && solution.clockwise !== input.clockwise)
+			if (equalityOptions.requireSameDirection && solution.clockwise !== input.clockwise)
 				return false
 
 			// Check the magnitude.
-			if (options.requireSameMagnitude && !compareNumbers(solution.radius === undefined ? defaultMomentRadius : solution.radius, input.radius === undefined ? defaultMomentRadius : input.radius))
+			if (equalityOptions.requireSameMagnitude && !compareNumbers(solution.radius === undefined ? defaultMomentRadius : solution.radius, input.radius === undefined ? defaultMomentRadius : input.radius))
 				return false
 
 			// Check the orientation.
-			if (options.requireSameOrientation && !compareNumbers(solution.opening === undefined ? defaultMomentOpening : solution.opening, input.opening === undefined ? defaultMomentOpening : input.opening))
+			if (equalityOptions.requireSameOrientation && !compareNumbers(solution.opening === undefined ? defaultMomentOpening : solution.opening, input.opening === undefined ? defaultMomentOpening : input.opening))
 				return false
 
 			// All in order.
