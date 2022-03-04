@@ -194,7 +194,7 @@ export function useBoundingClientRect(element) {
 	useEventListener('resize', updateElementPosition) // Window resize.
 
 	// On a first run the rect may not be known yet. Calculate it directly.
-	if (element && (!rect || (rect.width === 0 && rect.height === 0))) {
+	if (element && !rect) {
 		const actualRect = element.getBoundingClientRect()
 		setRect(actualRect)
 		return actualRect
