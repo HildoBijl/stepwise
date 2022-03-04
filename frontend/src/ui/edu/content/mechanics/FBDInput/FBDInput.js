@@ -15,7 +15,7 @@ import { DrawingInput, useAsDrawingInput, defaultDrawingInputOptions } from 'ui/
 
 import EngineeringDiagram, { defaultEngineeringDiagramOptions, render, loadColors } from '../EngineeringDiagram'
 
-import { clean, functionalize } from './support'
+import { clean, functionalize, flipLoad } from './support'
 import { nonEmptyNoDoubles } from './validation'
 
 export const defaultFBDInputOptions = {
@@ -226,6 +226,11 @@ function handleKeyPress(evt, setData, deleteSelection) {
 	if (evt.key === 'Escape' || (evt.key === 'd' && evt.ctrlKey)) {
 		evt.preventDefault()
 		return setData(data => data.map(load => ({ ...load, selected: false })))
+	}
+
+	// On a flip, flip all selected arrows.
+	if (evt.key === 'f' || evt.key === 'r' || evt.key === 'd') {
+		return setData(data => data.map(load => load.selected ? flipLoad(load) : load))
 	}
 }
 
