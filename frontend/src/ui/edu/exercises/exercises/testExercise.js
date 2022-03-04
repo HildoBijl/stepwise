@@ -39,14 +39,14 @@ function Schematics({ data, showSupports = true, showLoads = true }) {
 	return <>
 		<Beam points={Object.values(points)} />
 
-		<Group style={{ opacity: showSupports ? 1 : 0.1 }}>
+		<Group style={{ opacity: showSupports ? 1 : 0.05 }}>
 			<HingeSupport position={points.A} />
 			<RollerHalfHingeSupport position={points.B} />
 		</Group>
 
-		<Group style={{ opacity: showLoads ? 1 : 0.1 }}>
+		{showLoads ? <Group>
 			{render(beam.filter(load => load.source === loadTypes.external))}
-		</Group>
+		</Group> : null}
 
 		<Distance positionedVector={{ start: points.A.add([0, shift]), end: points.B.add([0, shift]) }} />
 		<Distance positionedVector={{ start: points.B.add([0, shift]), end: points.C.add([0, shift]) }} />
