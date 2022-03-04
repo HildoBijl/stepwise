@@ -12,7 +12,7 @@ import { processOptions, filterOptions, filterProperties } from 'step-wise/util/
 import { Vector, Line, PositionedVector, Rectangle } from 'step-wise/CAS/linearAlgebra'
 
 import { getEventPosition, getUtilKeys } from 'util/dom'
-import { useEventListener } from 'util/react'
+import { useEventListener, useConsistentValue } from 'util/react'
 import { notSelectable } from 'ui/theme'
 import { useAsInput, defaultInputOptions } from 'ui/form/inputs/support/Input'
 
@@ -248,7 +248,7 @@ function useMouseSnapping(drawing, snappers, snappingDistance, applySnapping) {
 
 	// Extract snapping lines and set up a snapper based on it.
 	const snappingLines = useSnappingLines(snappers)
-	const snapper = (point) => snapMousePosition(point, snappingLines, snappingDistance, applySnapping)
+	const snapper = useCallback((point) => snapMousePosition(point, snappingLines, snappingDistance, applySnapping), [snappingLines, snappingDistance, applySnapping])
 	const snapResult = snapper(mousePosition)
 
 	// Return all data.
@@ -257,6 +257,7 @@ function useMouseSnapping(drawing, snappers, snappingDistance, applySnapping) {
 
 // useSnappingLines takes a snappers array and determines the snapping lines from it. It only recalculates on a change and filters duplicates.
 function useSnappingLines(snappers) {
+	snappers = useConsistentValue(snappers)
 	return useMemo(() => {
 		const snappingLines = []
 		snappers.forEach(snapper => {

@@ -64,19 +64,12 @@ function ensureConsistency(newValue, oldValue) {
 	if (deepEquals(newValue, oldValue))
 		return oldValue
 
-	// There is no deepEquals. Walk through the object to see if children can be kept consistent. First check for arrays.
-	if (Array.isArray(newValue)) {
-		if (Array.isArray(oldValue))
-			return newValue.map((item, index) => ensureConsistency(item, oldValue[index]))
-		return newValue
-	}
+	// deepEquals gives false. Something is different. For arrays/basic objects try to at least keep child parameters the same.
+	if ((Array.isArray(newValue) && Array.isArray(oldValue)) || (isBasicObject(newValue) && isBasicObject(oldValue)))
+		return applyToEachParameter(newValue, (parameter, index) => ensureConsistency(parameter, oldValue[index]))
 
-	// Then check for non-objects or non-basic objects. For non-objects there's no such thing as reference inequality, so just return the value.
-	if (!isBasicObject(newValue) || !isBasicObject(oldValue))
-		return newValue
-
-	// We have an object. Assemble the new object.
-	return applyToEachParameter(newValue, (parameter, key) => ensureConsistency(parameter, oldValue[key]))
+	// For simple parameter types or complex objects there's not much we can do.
+	return newValue
 }
 module.exports.ensureConsistency = ensureConsistency
 

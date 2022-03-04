@@ -204,12 +204,10 @@ export function useFieldRegistration(options) {
 			storeKeyboard(id, keyboard)
 	}, [apply, id, keyboard, storeKeyboard])
 
-	// Return the controllers from useFieldActivation.
+	// On a non-applied input field (like a read-only input field) do not allow activation. Throw an error when an attempt is made.
+	const throwFunction = useCallback(() => { throw new Error(`Invalid field (de)activation: cannot (de)activate an inactive field "${id}".`) }, [id])
 	if (apply)
 		return [active, activateField, deactivateField]
-
-	// On a non-applied input field (like a read-only input field) do not allow activation. Throw an error when an attempt is made.
-	const throwFunction = () => { throw new Error(`Invalid field (de)activation: cannot (de)activate an inactive field "${id}".`) }
 	return [false, throwFunction, throwFunction]
 }
 

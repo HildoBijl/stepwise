@@ -76,6 +76,8 @@ function Drawing(options, ref) {
 		throw new Error('Drawing render error: cannot generate a plot without either an SVG or a canvas.')
 	const classes = useStyles()
 	const htmlContentsRef = useRef()
+	const svgRef = useRef()
+	const canvasRef = useRef()
 
 	// Set up refs and make them accessible to any implementing component.
 	const figureRef = useRef()
@@ -150,8 +152,6 @@ function Drawing(options, ref) {
 	}, [options.width, options.height])
 
 	// Render figure with SVG and Canvas properly placed.
-	const svgRef = useRef()
-	const canvasRef = useRef()
 	options.className = clsx('drawing', classes.drawing, options.className)
 	return (
 		<DrawingContext.Provider value={drawingRef.current}>

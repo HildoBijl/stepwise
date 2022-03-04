@@ -1,5 +1,5 @@
 const { ensureInt } = require('./numbers')
-const { isBasicObject, applyToEachParameter } = require('./objects')
+const { isBasicObject, applyToEachParameter, ensureConsistency } = require('./objects')
 
 function noop() { }
 module.exports.noop = noop
@@ -39,6 +39,6 @@ function resolveFunctions(param, ...args) {
 			return applyToEachParameter(value, resolve)
 		return value
 	}
-	return resolve(param)
+	return ensureConsistency(resolve(param), param)
 }
 module.exports.resolveFunctions = resolveFunctions

@@ -137,8 +137,7 @@ function FBDInputUnforwarded(options, drawingRef) {
 	</>
 
 	// Render the Engineering Diagram with the proper styling.
-	return <DrawingInput ref={drawingRef} Drawing={EngineeringDiagram} drawingProperties={Object.keys(defaultEngineeringDiagramOptions)
-	} className={className} inputData={inputData} options={options} />
+	return <DrawingInput ref={drawingRef} Drawing={EngineeringDiagram} drawingProperties={Object.keys(defaultEngineeringDiagramOptions)} className={className} inputData={inputData} options={options} />
 }
 export const FBDInput = forwardRef(FBDInputUnforwarded)
 export default FBDInput
