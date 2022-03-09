@@ -20,14 +20,29 @@ const defaultConfig = Object.freeze({
 const sequelize = createSequelize(true)
 const database = new Database(sequelize)
 
+class PubSubMock {
+	constructor() {
+		this.eventCount = {}
+	}
+
+	publish(eventId) {
+		if (this.eventCount[eventId] === undefined) {
+			this.eventCount[eventId] = 0
+		}
+		this.eventCount[eventId] += 1
+	}
+}
+
 class Client {
 	constructor() {
+		this._pubsub = new PubSubMock()
 		this._server = createServer({
 			database: database,
 			config: defaultConfig,
 			sessionStore: undefined,
 			surfConextClient: new SurfConextMock.MockClient(),
 			googleClient: new GoogleMock.MockClient(),
+			pubsub: this._pubsub,
 		})
 		this._cookies = {}
 	}
@@ -92,6 +107,10 @@ class Client {
 			.expect(200)
 		this._storeCookies(response)
 		return response.body
+	}
+
+	countEvents(eventId) {
+		return this._pubsub.eventCount[eventId] || 0
 	}
 }
 

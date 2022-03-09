@@ -1,4 +1,5 @@
 const express = require('express')
+const http = require('http')
 const { createApollo } = require('./apollo')
 const session = require('express-session')
 const cors = require('cors')
@@ -23,6 +24,8 @@ const createServer = ({
 	sessionStore,
 	surfConextClient,
 	googleClient,
+	pubsub,
+	devAuthPortal,
 }) => {
 	const configValidationError = configValidationSchema.validate(config).error
 	if (configValidationError) {
@@ -55,7 +58,7 @@ const createServer = ({
 	app.use(cors(corsOptions))
 
 	// Apollo / GraphQL
-	const apollo = createApollo(database)
+	const apollo = createApollo(database, pubsub)
 	apollo.applyMiddleware({ app, cors: corsOptions, path: '/graphql' })
 
 	// Authentication Endpoints
@@ -66,7 +69,16 @@ const createServer = ({
 	)
 
 	app.set('trust proxy', true)
-	return app
+
+	// Development auth portal
+	if (devAuthPortal) {
+		app.get(devAuthPortal.path, devAuthPortal.directory)
+	}
+
+	// Create HTTP server
+	const httpServer = http.createServer(app)
+	apollo.installSubscriptionHandlers(httpServer)
+	return httpServer
 }
 
 module.exports = {

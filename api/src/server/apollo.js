@@ -1,7 +1,7 @@
 const { ApolloServer, AuthenticationError } = require('apollo-server-express')
 const { typeDefs, resolvers } = require('../graphql')
 
-function createApollo(database) {
+function createApollo(database, pubsub) {
 	return new ApolloServer({
 		typeDefs,
 		resolvers,
@@ -10,6 +10,11 @@ function createApollo(database) {
 			 * All database models
 			 */
 			db: database,
+
+			/**
+			 * The event bus for subscriptions
+			 */
+			pubsub: pubsub,
 
 			/**
 			 * Returns the id of the currently logged in user, or throws an error otherwise.

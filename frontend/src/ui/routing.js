@@ -56,7 +56,14 @@ function getRoutes(user = null) {
 		'collaboration': {
 			id: 'collaboration',
 			component: pages.Collaboration,
-			name: 'Samen oefenen',
+			name: 'My Groups',
+			children: {
+				':groupCode': {
+					id: 'group',
+					component: pages.Group,
+					name: 'Group',
+				},
+			},
 		},
 	}
 
@@ -216,7 +223,7 @@ function getPaths(routes) {
 	return fillPaths(routes)
 }
 
-// insertParametersIntoPath takes a path and tries to put the given parameters into it. Like a path "course/:courseId" and a parameters-object { courseId: 'someId' }. If there is a parameter in the path and not a corresponding parameter in the parameters-object, an error is thrown (but not the other way around). 
+// insertParametersIntoPath takes a path and tries to put the given parameters into it. Like a path "course/:courseId" and a parameters-object { courseId: 'someId' }. If there is a parameter in the path and not a corresponding parameter in the parameters-object, an error is thrown (but not the other way around).
 function insertParametersIntoPath(parameters = {}, path = '/') {
 	// Insert all given parameters into the given path.
 	Object.keys(parameters).forEach(key => {
