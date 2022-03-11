@@ -10,7 +10,7 @@ import { SubscriptionClient } from 'subscriptions-transport-ws'
 // The websocket link, for subscriptions.
 const wsLink = new WebSocketLink(
 	new SubscriptionClient(
-		`${process.env.REACT_APP_API_ADDRESS}/graphql`.replace(/https?/, 'ws'),
+		`${process.env.REACT_APP_API_ADDRESS}/graphql`.replace('http', 'ws'),
 		{},
 	)
 )
