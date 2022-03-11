@@ -1,8 +1,8 @@
 // Within a drawing, you can make use of useAsDrawingInput to get some useful tools for DrawingInputs.
 
-import React, { forwardRef, useMemo, useState, useCallback } from 'react'
+import React, { forwardRef, useMemo, useState, useCallback, createContext, useContext } from 'react'
 import clsx from 'clsx'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { alpha } from '@material-ui/core/styles/colorManipulator'
 import { Delete } from '@material-ui/icons'
 
@@ -233,12 +233,28 @@ export function DrawingInputUnforwarded({ Drawing, drawingProperties, className,
 
 	// Show the drawing and the feedback box.
 	return <div className={className}>
-		<div className="drawing"><Drawing ref={drawingRef} {...{ ...drawingOptions, svgContents, htmlContents }} /></div>
+		<IsInDrawingInputContext.Provider value={true}>
+			<div className="drawing">
+				<Drawing ref={drawingRef} {...{ ...drawingOptions, svgContents, htmlContents }} />
+			</div>
+		</IsInDrawingInputContext.Provider>
 		<div className="feedbackText">{feedback && feedback.text}</div>
 	</div>
 }
 export const DrawingInput = forwardRef(DrawingInputUnforwarded)
 export default DrawingInput
+
+// useIsInDrawingInput returns true or false: is the given element inside of a DrawingInput.
+const IsInDrawingInputContext = createContext(false)
+export function useIsInDrawingInput() {
+	const isInDrawingInput = useContext(IsInDrawingInputContext)
+	return !!isInDrawingInput
+}
+export function useCurrentBackgroundColor() {
+	const inDrawingInput = useIsInDrawingInput()
+	const theme = useTheme()
+	return inDrawingInput ? theme.palette.inputBackground.main : theme.palette.background.main
+}
 
 // useMouseSnapping wraps all the snapping functionalities into one hook. It takes a drawing, a set of snappers and a snapping distance and takes care of all the mouse functionalities.
 function useMouseSnapping(drawing, snappers, snappingDistance, applySnapping) {
