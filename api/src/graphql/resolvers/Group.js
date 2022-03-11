@@ -1,8 +1,16 @@
 const { findGroupByCode, createRandomCode } = require('../util/Group')
 const { UniqueConstraintError } = require('sequelize')
-const { ForbiddenError } = require('apollo-server-express')
+const { ForbiddenError, withFilter } = require('apollo-server-express')
+
+const EVENT = {
+	GROUP_UPDATED: 'GROUP_UPDATED',
+}
 
 const resolvers = {
+	Group: {
+		members: group => group.getMembers(),
+	},
+
 	Query: {
 		myGroups: async (_source, _args, { getCurrentUserId, db }) => {
 			const userWithGroups = await db.User.findByPk(getCurrentUserId(), {
@@ -59,16 +67,18 @@ const resolvers = {
 			return group
 		},
 
-		joinGroup: async (_source, { code }, { getCurrentUserId, db }) => {
+		joinGroup: async (_source, { code }, { getCurrentUserId, db, pubsub }) => {
 			const userId = getCurrentUserId()
 
 			const group = await findGroupByCode(db, code)
 			await group.addMember(userId)
 
+			await pubsub.publish(EVENT.GROUP_UPDATED, { groupUpdated: group })
+
 			return group
 		},
 
-		leaveGroup: async (_source, { code }, { getCurrentUserId, db }) => {
+		leaveGroup: async (_source, { code }, { getCurrentUserId, db, pubsub }) => {
 			const userId = getCurrentUserId()
 
 			const group = await findGroupByCode(db, code)
@@ -80,9 +90,20 @@ const resolvers = {
 				await group.destroy()
 			}
 
+			await pubsub.publish(EVENT.GROUP_UPDATED, { groupUpdated: group })
+
 			return true
 		},
 	},
+
+	Subscription: {
+		groupUpdated: {
+			subscribe: withFilter(
+				(_source, _args, { pubsub }) => pubsub.asyncIterator([EVENT.GROUP_UPDATED]),
+				({ groupUpdated }, { code }) => groupUpdated.code === code,
+			),
+		}
+	}
 }
 
 module.exports = resolvers

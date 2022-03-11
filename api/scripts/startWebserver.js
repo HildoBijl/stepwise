@@ -3,6 +3,7 @@ const { createServer } = require('../src/server')
 const { Database } = require('../src/database')
 const { createRedisStore, createSurfConext, createSequelize, createGoogleClient } = require('./init')
 const SurfConextMock = require('../src/server/surfConext/devmock')
+const { PubSub } = require('apollo-server-express')
 
 const surfConextClient = process.env.NODE_ENV === 'production' ?
 	createSurfConext() : new SurfConextMock.MockClient()
@@ -32,11 +33,12 @@ sequelize.authenticate()
 			sessionStore,
 			surfConextClient,
 			googleClient,
+			pubsub: new PubSub(),
+			devAuthPortal: process.env.NODE_ENV === 'development' ? {
+				path: SurfConextMock.DIRECTORY_PATH,
+				directory: SurfConextMock.userDirectory,
+			} : null,
 		})
-
-		if (process.env.NODE_ENV === 'development') {
-			server.get(SurfConextMock.DIRECTORY_PATH, SurfConextMock.userDirectory)
-		}
 
 		server.listen(process.env.PORT, () => {
 			console.log(`Server listening on port ${process.env.PORT}`)
