@@ -45,7 +45,7 @@ const GROUP_UPDATED = gql`
 
 export function useGroupSubscription(code, subscribeToMore) {
 	useEffect(() => {
-		subscribeToMore({
+		const unsubscribe = subscribeToMore({
 			document: GROUP_UPDATED,
 			variables: { code },
 			updateQuery: (prev, { subscriptionData }) => {
@@ -59,5 +59,6 @@ export function useGroupSubscription(code, subscribeToMore) {
 				return { group: res }
 			}
 		})
+		return () => unsubscribe()
 	}, [code, subscribeToMore])
 }
