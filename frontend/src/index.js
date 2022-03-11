@@ -6,18 +6,19 @@ import { getMainDefinition } from '@apollo/client/utilities'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import { WebSocketLink } from '@apollo/client/link/ws'
 import { SubscriptionClient } from 'subscriptions-transport-ws'
+import { graphqlAddress, graphqlWebsocketAddress } from './ui/settings'
 
 // The websocket link, for subscriptions.
 const wsLink = new WebSocketLink(
 	new SubscriptionClient(
-		`${process.env.REACT_APP_API_ADDRESS}/graphql`.replace('http', 'ws'),
+		graphqlWebsocketAddress,
 		{},
 	)
 )
 
 // The HTTP link, for regular queries/mutations.
 const httpLink = createHttpLink({
-	uri: `${process.env.REACT_APP_API_ADDRESS}/graphql`,
+	uri: graphqlAddress,
 	credentials: 'include',
 })
 
