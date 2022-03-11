@@ -3,8 +3,9 @@ const { defaultForceLength, defaultMomentRadius, defaultMomentOpening } = requir
 const { ensureNumber } = require('../../../util/numbers')
 const { ensureBoolean, processOptions } = require('../../../util/objects')
 const { resolveFunctions } = require('../../../util/functions')
+
 const { compareNumbers } = require('../../../CAS/numeric')
-const { Vector, ensureVector } = require('../../../CAS/linearAlgebra')
+const { Vector, ensureVector, PositionedVector } = require('../../../CAS/linearAlgebra')
 
 /*
  * Define load types.

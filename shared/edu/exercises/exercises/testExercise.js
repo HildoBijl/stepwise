@@ -1,4 +1,5 @@
 const { getRandomInteger } = require('../../../inputTypes/Integer')
+const { Vector } = require('../../../CAS/linearAlgebra')
 
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 const { loadTypes, getDefaultForce, getDefaultMoment, FBDEqualityOptions, areLoadsMatching } = require('../util/engineeringMechanics')
