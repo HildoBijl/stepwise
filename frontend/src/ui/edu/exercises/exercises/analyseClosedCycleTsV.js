@@ -20,7 +20,7 @@ export default function Exercise() {
 const Problem = ({ medium, p1, V1, T1, p2 }) => {
 	const choice = useInput('choice')
 	return <>
-		<Par>We voeren een kringproces uit met een vaste hoeveelheid {Dutch[medium]}. Bij aanvang (punt 1) heeft dit gas een druk van <M>{p1}</M>, een volume van <M>{V1}</M> en een temperatuur van <M>{T1}.</M> We comprimeren dit gas isotherm tot <M>{p2}.</M> Vervolgens laten we het isentroop expanderen tot de begindruk. Van hieruit warmt het gas isochoor op tot het beginpunt.</Par>
+		<Par>We voeren een kringproces uit met een vaste hoeveelheid {Dutch[medium]}. Bij aanvang (punt 1) heeft dit gas een druk van <M>{p1}</M>, een volume van <M>{V1}</M> en een temperatuur van <M>{T1}.</M> We comprimeren dit gas isotherm tot <M>{p2}.</M> Vervolgens laten we het isentroop expanderen tot het beginvolume. Van hieruit warmt het gas weer op tot het beginpunt.</Par>
 		<Par>Bepaal of dit een positief of negatief kringproces is en bereken de betreffende factor(en).</Par>
 		<InputSpace>
 			<MultipleChoice id="choice" choices={[
