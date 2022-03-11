@@ -128,6 +128,8 @@ describe('joining groups', () => {
 			{name: 'Larry Learner'},
 		])
 
+		expect(client.countEvents('GROUP_UPDATED')).toStrictEqual(1)
+
 		const {data: {myGroups}, errors: getErrors} = await client.graphql(
 			{query: `{myGroups{code, members{name}}}`}
 		)
@@ -189,10 +191,14 @@ describe('leaving groups', () => {
 
 		await client.graphql({query: `mutation {joinGroup(code: "${GROUP_CODE_PYHSICS}"){code}}`})
 
+		expect(client.countEvents('GROUP_UPDATED')).toStrictEqual(1)
+
 		const { errors: leaveErrors } = await client.graphql({
 			query: `mutation {leaveGroup(code: "${GROUP_CODE_PYHSICS}")}`
 		})
 		expect(leaveErrors).toBeUndefined()
+
+		expect(client.countEvents('GROUP_UPDATED')).toStrictEqual(2)
 
 		const {data: {myGroups}, errors: getErrors } = await client.graphql({query: `{myGroups{code}}`})
 		expect(getErrors).toBeUndefined()

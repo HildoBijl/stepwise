@@ -12,6 +12,10 @@ const schema = gql`
 		leaveGroup(code: String!): Boolean!
 	}
 
+	extend type Subscription {
+		groupUpdated(code: String!): Group
+	}
+
 	type Member {
 		name: String
 		givenName: String
