@@ -1,10 +1,16 @@
 const express = require('express')
 const http = require('http')
-const { createApollo } = require('./apollo')
+const { createApolloContext } = require('./apollo')
 const session = require('express-session')
 const cors = require('cors')
 const Joi = require('@hapi/joi')
 const { createAuthRouter } = require('./auth')
+const { typeDefs, resolvers } = require('../graphql')
+const { ApolloServer } = require('apollo-server-express')
+const { makeExecutableSchema } = require('@graphql-tools/schema')
+const { ApolloServerPluginDrainHttpServer, ApolloServerPluginLandingPageGraphQLPlayground, ApolloServerPluginLandingPageDisabled } = require('apollo-server-core')
+const { execute, subscribe } = require('graphql')
+const { SubscriptionServer } = require('subscriptions-transport-ws')
 
 const configValidationSchema = Joi.object({
 	sslEnabled: Joi.boolean().required(),
@@ -18,7 +24,7 @@ const configValidationSchema = Joi.object({
 	corsUrls: Joi.array().items(Joi.string().uri()),
 })
 
-const createServer = ({
+const createServer = async ({
 	config,
 	database,
 	sessionStore,
@@ -32,8 +38,13 @@ const createServer = ({
 		throw configValidationError
 	}
 
-	const app = express()
+	const corsOptions = {
+		origin: config.corsUrls,
+		credentials: true,
+	}
 
+	// Basic server setup
+	const app = express()
 	app.use(session({
 		name: 'session.id',
 		store: sessionStore,
@@ -50,16 +61,11 @@ const createServer = ({
 		},
 		principal: null,
 	}))
-
-	const corsOptions = {
-		origin: config.corsUrls,
-		credentials: true,
-	}
+	app.set('trust proxy', true)
 	app.use(cors(corsOptions))
 
-	// Apollo / GraphQL
-	const apollo = createApollo(database, pubsub)
-	apollo.applyMiddleware({ app, cors: corsOptions, path: '/graphql' })
+	// Create HTTP server
+	const httpServer = http.createServer(app)
 
 	// Authentication Endpoints
 	app.use('/auth', createAuthRouter(
@@ -68,16 +74,57 @@ const createServer = ({
 		{ surfConextClient, googleClient })
 	)
 
-	app.set('trust proxy', true)
-
 	// Development auth portal
 	if (devAuthPortal) {
 		app.get(devAuthPortal.path, devAuthPortal.directory)
 	}
 
-	// Create HTTP server
-	const httpServer = http.createServer(app)
-	apollo.installSubscriptionHandlers(httpServer)
+	// Apollo / GraphQL
+	const schema = makeExecutableSchema({ typeDefs, resolvers })
+	const subscriptionServer = SubscriptionServer.create({
+		schema,
+		execute,
+		subscribe,
+		onConnect() {
+			return {database, pubsub}
+		},
+	}, {
+		server: httpServer,
+		path: '/graphql',
+	})
+	const apolloServer = new ApolloServer({
+		schema,
+		context: createApolloContext(database, pubsub),
+		plugins: [
+			// Shutdown HTTP server
+			ApolloServerPluginDrainHttpServer({ httpServer }),
+
+			// Shutdown for the WebSocket server
+			{
+				async serverWillStart() {
+					return {
+						async drainServer() {
+							subscriptionServer.close()
+						}
+					}
+				}
+			},
+
+			// Playground (only in development)
+			!!devAuthPortal ? ApolloServerPluginLandingPageGraphQLPlayground({
+				settings: {
+					'request.credentials': 'same-origin'
+				}
+			}) : ApolloServerPluginLandingPageDisabled(),
+		],
+	})
+	await apolloServer.start()
+	apolloServer.applyMiddleware({
+		app,
+		cors: corsOptions,
+		path: '/graphql'
+	})
+
 	return httpServer
 }
 

@@ -1,6 +1,7 @@
 const { findGroupByCode, createRandomCode } = require('../util/Group')
 const { UniqueConstraintError } = require('sequelize')
-const { ForbiddenError, withFilter } = require('apollo-server-express')
+const { withFilter } = require('graphql-subscriptions')
+const { ForbiddenError } = require('apollo-server-express')
 
 const EVENT = {
 	GROUP_UPDATED: 'GROUP_UPDATED',

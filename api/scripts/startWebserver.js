@@ -3,7 +3,7 @@ const { createServer } = require('../src/server')
 const { Database } = require('../src/database')
 const { createRedisStore, createSurfConext, createSequelize, createGoogleClient } = require('./init')
 const SurfConextMock = require('../src/server/surfConext/devmock')
-const { PubSub } = require('apollo-server-express')
+const { PubSub } = require('graphql-subscriptions')
 
 const surfConextClient = process.env.NODE_ENV === 'production' ?
 	createSurfConext() : new SurfConextMock.MockClient()
@@ -26,8 +26,8 @@ const sequelize = createSequelize()
 
 sequelize.authenticate()
 	.then(() => new Database(sequelize))
-	.then(database => {
-		const server = createServer({
+	.then(async database => {
+		const server = await createServer({
 			config,
 			database,
 			sessionStore,
