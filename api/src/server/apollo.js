@@ -64,5 +64,5 @@ function getPrincipalOrThrow(request) {
 }
 
 module.exports = {
-	createApolloContext
+	createApolloContext, getPrincipalOrThrow
 }
