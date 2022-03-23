@@ -27,7 +27,7 @@ export default function SimpleExercise(props) {
 
 function Contents({ Problem, Solution }) {
 	const { state, progress, history } = useExerciseData()
-	const { input } = useFormData()
+	const { getInputSI } = useFormData()
 	const { feedbackInput } = useFeedback()
 	const { activateFirst } = useFieldControllerContext()
 	const timeoutIndexRef = useRef()
@@ -42,7 +42,7 @@ function Contents({ Problem, Solution }) {
 	// Determine what to show.
 	const hasSubmissions = history.some(event => event.action.type === 'input') // Has there been an input action?
 	const showInputSpace = !progress.done || hasSubmissions
-	const showMainFeedback = showInputSpace && (progress.done || deepEquals(input, feedbackInput))
+	const showMainFeedback = showInputSpace && (progress.done || deepEquals(getInputSI(), feedbackInput))
 
 	return <>
 		<ProblemContainer>
