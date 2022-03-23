@@ -1,4 +1,4 @@
-const { AuthenticationError, UserInputError } = require('apollo-server-express')
+const { UserInputError } = require('apollo-server-express')
 
 const skills = require('step-wise/edu/skills')
 const SkillData = require('step-wise/edu/skills/SkillData')

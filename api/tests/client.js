@@ -34,16 +34,9 @@ class PubSubMock {
 }
 
 class Client {
-	constructor() {
-		this._pubsub = new PubSubMock()
-		this._server = createServer({
-			database: database,
-			config: defaultConfig,
-			sessionStore: undefined,
-			surfConextClient: new SurfConextMock.MockClient(),
-			googleClient: new GoogleMock.MockClient(),
-			pubsub: this._pubsub,
-		})
+	constructor(server, pubsub) {
+		this._pubsub = pubsub
+		this._server = server
 		this._cookies = {}
 	}
 
@@ -119,7 +112,16 @@ const createClient = async (seedingProcedure = noop) => {
 	const umzug = createUmzug(sequelize)
 	await umzug.up()
 	await seedingProcedure(database)
-	return new Client()
+	const pubsub = new PubSubMock()
+	const server = await createServer({
+		database: database,
+		config: defaultConfig,
+		sessionStore: undefined,
+		surfConextClient: new SurfConextMock.MockClient(),
+		googleClient: new GoogleMock.MockClient(),
+		pubsub: pubsub,
+	})
+	return new Client(server, pubsub)
 }
 
 // Teardown Jest

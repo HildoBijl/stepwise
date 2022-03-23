@@ -2,12 +2,12 @@ const { createServer } = require('../../src/server/index')
 const { defaultConfig } = require('../client')
 
 describe('config', () => {
-	it('accepts well-formed configuration', () => {
-		expect(() => createServer({
+	it('accepts well-formed configuration', async () => {
+		expect(async () => await createServer({
 			config: defaultConfig
 		})).not.toThrow()
 
-		expect(() => createServer({
+		expect(async () => await createServer({
 			config: {
 				sslEnabled: false,
 				sessionSecret: '12345678901234567890',
@@ -19,47 +19,47 @@ describe('config', () => {
 		})).not.toThrow()
 	})
 
-	it('rejects malformed configuration', () => {
-		expect(() => createServer({
+	it('rejects malformed configuration', async () => {
+		expect(async () => await createServer({
 			config: {
 				...defaultConfig,
 				sessionSecret: '12345', // too short
 			}
-		})).toThrow('sessionSecret')
+		})).rejects.toThrow('sessionSecret')
 
-		expect(() => createServer({
+		expect(async () => await createServer({
 			config: {
 				...defaultConfig,
 				sessionMaxAgeMillis: 'abc', // wrong type
 			}
-		})).toThrow('sessionMaxAgeMillis')
+		})).rejects.toThrow('sessionMaxAgeMillis')
 
-		expect(() => createServer({
+		expect(async () => await createServer({
 			config: {
 				...defaultConfig,
 				homepageUrl: 'www.example.org', // wrong format
 			}
-		})).toThrow('homepageUrl')
+		})).rejects.toThrow('homepageUrl')
 
-		expect(() => createServer({
+		expect(async () => await createServer({
 			config: {
 				...defaultConfig,
 				apiDomain: 'foo', // not a domain
 			}
-		})).toThrow('apiDomain')
+		})).rejects.toThrow('apiDomain')
 
-		expect(() => createServer({
+		expect(async () => await createServer({
 			config: {
 				...defaultConfig,
 				corsUrls: ['example.org'], // wrong format
 			}
-		})).toThrow('corsUrls')
+		})).rejects.toThrow('corsUrls')
 
-		expect(() => createServer({
+		expect(async () => await createServer({
 			config: {
 				...defaultConfig,
 				sslEnabled: undefined, // absent
 			}
-		})).toThrow('sslEnabled')
+		})).rejects.toThrow('sslEnabled')
 	})
 })

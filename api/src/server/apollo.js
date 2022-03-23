@@ -1,64 +1,54 @@
-const { ApolloServer, AuthenticationError } = require('apollo-server-express')
-const { typeDefs, resolvers } = require('../graphql')
+const { AuthenticationError } = require('apollo-server-express')
 
-function createApollo(database, pubsub) {
-	return new ApolloServer({
-		typeDefs,
-		resolvers,
-		context: ({ req }) => ({
-			/**
-			 * All database models
-			 */
-			db: database,
+function createApolloContext(database, pubsub) {
+	return ({ req }) => ({
+		/**
+		 * All database models
+		 */
+		db: database,
 
-			/**
-			 * The event bus for subscriptions
-			 */
-			pubsub: pubsub,
+		/**
+		 * The event bus for subscriptions
+		 */
+		pubsub: pubsub,
 
-			/**
-			 * Returns the id of the currently logged in user, or throws an error otherwise.
-			 * Beware: this doesn’t guarantee you that the user still exists in the DB!
-			 */
-			getCurrentUserId: () => {
-				const principal = getPrincipalOrThrow(req)
-				return principal.id
-			},
+		/**
+		 * Returns the id of the currently logged in user, or throws an error otherwise.
+		 * Beware: this doesn’t guarantee you that the user still exists in the DB!
+		 */
+		getCurrentUserId: () => {
+			const principal = getPrincipalOrThrow(req)
+			return principal.id
+		},
 
-			/**
-			 * Returns the currently logged in user object, or throws an error otherwise.
-			 */
-			getCurrentUser: async () => {
-				const principal = getPrincipalOrThrow(req)
-				const user = await database.User.findByPk(principal.id)
-				if (!user) {
-					throw new AuthenticationError('No such user in the system.')
-				}
-				return user
-			},
-
-			/**
-			 * Throws an error, if the user is not logged in.
-			 * Note: this doesn’t check whether the user still exists in the DB!
-			 */
-			ensureLoggedIn: () => {
-				getPrincipalOrThrow(req) // Just call this for the check
-			},
-
-			/**
-			 * Throws an error, if the user is not an admin.
-			 */
-			ensureAdmin: async () => {
-				const principal = getPrincipalOrThrow(req)
-				const user = await database.User.findByPk(principal.id)
-				if (user.role !== 'admin')
-					throw new AuthenticationError('No admin rights.')
+		/**
+		 * Returns the currently logged in user object, or throws an error otherwise.
+		 */
+		getCurrentUser: async () => {
+			const principal = getPrincipalOrThrow(req)
+			const user = await database.User.findByPk(principal.id)
+			if (!user) {
+				throw new AuthenticationError('No such user in the system.')
 			}
-		}),
-		playground: {
-			settings: {
-				'request.credentials': 'same-origin'
-			}
+			return user
+		},
+
+		/**
+		 * Throws an error, if the user is not logged in.
+		 * Note: this doesn’t check whether the user still exists in the DB!
+		 */
+		ensureLoggedIn: () => {
+			getPrincipalOrThrow(req) // Just call this for the check
+		},
+
+		/**
+		 * Throws an error, if the user is not an admin.
+		 */
+		ensureAdmin: async () => {
+			const principal = getPrincipalOrThrow(req)
+			const user = await database.User.findByPk(principal.id)
+			if (user.role !== 'admin')
+				throw new AuthenticationError('No admin rights.')
 		}
 	})
 }
@@ -74,5 +64,5 @@ function getPrincipalOrThrow(request) {
 }
 
 module.exports = {
-	createApollo
+	createApolloContext
 }
