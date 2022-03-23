@@ -1,4 +1,4 @@
-const { EmailAddressResolver, DateTimeResolver, JSONObjectResolver } = require('graphql-scalars')
+const { EmailAddressResolver, DateTimeResolver, JSONResolver } = require('graphql-scalars')
 
 const resolverKeys = [
 	'User',
@@ -11,7 +11,7 @@ const resolverKeys = [
 const scalarResolvers = {
 	EmailAddress: EmailAddressResolver,
 	DateTime: DateTimeResolver,
-	JSON: JSONObjectResolver,
+	JSON: JSONResolver,
 }
 
 // Put all resolvers into one big array and export it.
