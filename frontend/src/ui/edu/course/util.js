@@ -64,7 +64,7 @@ export function getAnalysis(overview, skillsData) {
 	const practiceNeeded = getPracticeNeeded(overview, skillsData)
 
 	// Check if there are still undefined practiceNeeded. Then not all data is loaded yet. Return undefined as recommendation.
-	if (overview.all.find(skillId => practiceNeeded[skillId] === undefined))
+	if (overview.all.some(skillId => practiceNeeded[skillId] === undefined))
 		return { practiceNeeded }
 
 	// Check for possible recommendations: first for work needed in prior knowledge and then for work needed in the course skills.

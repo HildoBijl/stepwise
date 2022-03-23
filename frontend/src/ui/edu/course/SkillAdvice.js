@@ -32,12 +32,16 @@ function SkillNotification() {
 
 	// First check if the skill is part of the course.
 	if (skillId && !overview.all.includes(skillId)) {
-		if (analysis.recommendation === undefined)
+		if (recommendation === undefined)
 			return <NotificationBar type="warning">De vaardigheid die je nu probeert te oefenen is niet onderdeel van de cursus <Link to={paths.course({ courseId })}>{course.name}</Link>.</NotificationBar>
-		if (analysis.recommendation === strFreePractice)
+		if (recommendation === strFreePractice)
 			return <NotificationBar type="warning">De vaardigheid die je nu probeert te oefenen is geen onderdeel van de cursus <Link to={paths.course({ courseId })}>{course.name}</Link>. Als je wilt oefenen voor deze cursus, dan kun je het beste naar de <Link to={paths.freePractice({ courseId })}>vrij-oefenen-modus</Link> gaan.</NotificationBar>
-		return <NotificationBar type="warning">De vaardigheid die je nu probeert te oefenen is niet onderdeel van de cursus <Link to={paths.course({ courseId })}>{course.name}</Link>. Als je wilt oefenen voor deze cursus, dan kun je beter bezig gaan met <Link to={paths.courseSkill({ courseId, skillId: analysis.recommendation })}>{skills[analysis.recommendation].name}</Link>.</NotificationBar>
+		return <NotificationBar type="warning">De vaardigheid die je nu probeert te oefenen is niet onderdeel van de cursus <Link to={paths.course({ courseId })}>{course.name}</Link>. Als je wilt oefenen voor deze cursus, dan kun je beter bezig gaan met <Link to={paths.courseSkill({ courseId, skillId: recommendation })}>{skills[analysis.recommendation].name}</Link>.</NotificationBar>
 	}
+
+	// Check if there is a recommendation. If not, not all data is loaded yet.
+	if (!recommendation)
+		return null
 
 	// Based on the advice received, generate a notification.
 	switch (adviceType) {
@@ -132,7 +136,7 @@ function useSkillModal() {
 	const classes = useStyles()
 	const paths = usePaths()
 	const history = useHistory()
-	const { courseId, course } = useCourseData()
+	const { courseId, course, skillsDataLoaded } = useCourseData()
 	const skillId = useSkillId()
 	const { useModal, closeModal } = useModalContext()
 	const { type: adviceType, recommendation } = useSkillAdvice()
@@ -143,47 +147,50 @@ function useSkillModal() {
 		history.push(recommendation === strFreePractice ? paths.freePractice({ courseId }) : paths.courseSkill({ courseId, skillId: recommendation }))
 	}
 
-	// Determine the contents to show in the modal.
+	// Determine the contents to show in the modal. (If there is no recommendation, don't do anything yet. We don't have all data yet.)
 	let contents = <div />
-	if (adviceType === 0) {
-		const message = recommendation === strFreePractice ?
-			<>Je beheerst nu <Link to={paths.courseSkill({ courseId, skillId })} onClick={closeModal}>{skills[skillId].name}</Link>, en daarmee alle vaardigheden van <Link to={paths.course({ courseId })} onClick={closeModal}>{course.name}</Link>! Je kunt nog verder oefenen in de <Link to={paths.freePractice({ courseId })} onClick={closeModal}>vrij-oefenen-modus</Link>.</> :
-			<>Je beheerst nu <Link to={paths.courseSkill({ courseId, skillId })} onClick={closeModal}>{skills[skillId].name}</Link>! Tijd om verder te gaan met het volgende onderwerp: <Link to={paths.courseSkill({ courseId, skillId: recommendation })} onClick={closeModal}>{skills[recommendation].name}</Link>.</>
-		contents = (
-			<div className={clsx(classes.skillModal, 'masteryModal')}>
-				<div className="title">Geweldig!</div>
-				<div className="icon"><SuccessIcon /></div>
-				<div className="message">{message}</div>
-				<div className="buttons">
-					<Button variant="contained" className="button" startIcon={<DownArrow />} onClick={closeModal} color="secondary">Blijf nog even</Button>
-					<Button variant="contained" className="button" endIcon={<RightArrow />} onClick={goToRecommendation} color="primary">Ga verder</Button>
+	if (skillsDataLoaded) {
+		if (adviceType === 0) {
+			const message = recommendation === strFreePractice ?
+				<>Je beheerst nu <Link to={paths.courseSkill({ courseId, skillId })} onClick={closeModal}>{skills[skillId].name}</Link>, en daarmee alle vaardigheden van <Link to={paths.course({ courseId })} onClick={closeModal}>{course.name}</Link>! Je kunt nog verder oefenen in de <Link to={paths.freePractice({ courseId })} onClick={closeModal}>vrij-oefenen-modus</Link>.</> :
+				<>Je beheerst nu <Link to={paths.courseSkill({ courseId, skillId })} onClick={closeModal}>{skills[skillId].name}</Link>! Tijd om verder te gaan met het volgende onderwerp: <Link to={paths.courseSkill({ courseId, skillId: recommendation })} onClick={closeModal}>{skills[recommendation].name}</Link>.</>
+			contents = (
+				<div className={clsx(classes.skillModal, 'masteryModal')}>
+					<div className="title">Geweldig!</div>
+					<div className="icon"><SuccessIcon /></div>
+					<div className="message">{message}</div>
+					<div className="buttons">
+						<Button variant="contained" className="button" startIcon={<DownArrow />} onClick={closeModal} color="secondary">Blijf nog even</Button>
+						<Button variant="contained" className="button" endIcon={<RightArrow />} onClick={goToRecommendation} color="primary">Ga verder</Button>
+					</div>
 				</div>
-			</div>
-		)
-	}
-	if (adviceType === 2) {
-		contents = (
-			<div className={clsx(classes.skillModal, 'repeatModal')}>
-				<div className="title">Wacht even ...</div>
-				<div className="icon"><InfoIcon /></div>
-				<div className="message">Het lijkt erop dat je de sub-vaardigheid <Link to={paths.courseSkill({ courseId, skillId: recommendation })} onClick={closeModal}>{skills[recommendation].name}</Link> nog niet voldoende beheerst. Het is handig om hier eerst los wat mee te oefenen.</div>
-				<div className="message">Maak je geen zorgen: je opgave blijft bewaard en je kunt altijd nog terugkomen.</div>
-				<div className="buttons">
-					<Button variant="contained" className="button" startIcon={<div className="rotate"><RightArrow /></div>} onClick={goToRecommendation} color="primary">Ga een stapje terug</Button>
-					<Button variant="contained" className="button" endIcon={<DownArrow />} onClick={closeModal} color="secondary">Blijf nog even</Button>
+			)
+		}
+		if (adviceType === 2) {
+			contents = (
+				<div className={clsx(classes.skillModal, 'repeatModal')}>
+					<div className="title">Wacht even ...</div>
+					<div className="icon"><InfoIcon /></div>
+					<div className="message">Het lijkt erop dat je de sub-vaardigheid <Link to={paths.courseSkill({ courseId, skillId: recommendation })} onClick={closeModal}>{skills[recommendation].name}</Link> nog niet voldoende beheerst. Het is handig om hier eerst los wat mee te oefenen.</div>
+					<div className="message">Maak je geen zorgen: je opgave blijft bewaard en je kunt altijd nog terugkomen.</div>
+					<div className="buttons">
+						<Button variant="contained" className="button" startIcon={<div className="rotate"><RightArrow /></div>} onClick={goToRecommendation} color="primary">Ga een stapje terug</Button>
+						<Button variant="contained" className="button" endIcon={<DownArrow />} onClick={closeModal} color="secondary">Blijf nog even</Button>
+					</div>
 				</div>
-			</div>
-		)
+			)
+		}
 	}
 	const [, setShowModal] = useModal(contents)
 
-	// Use an effect to show a modal when the advice changes.
+	// Use an effect to show a modal when the advice changes. But only do this when we previously already had good data and suddenly the advice type changes while staying at the same skill.
 	const previousAdviceType = usePrevious(adviceType)
 	const previousSkillId = usePrevious(skillId)
+	const previousSkillsDataLoaded = usePrevious(skillsDataLoaded)
 	useEffect(() => {
-		if (previousSkillId === skillId && previousAdviceType === 1 && (adviceType === 0 || adviceType === 2))
+		if (previousSkillsDataLoaded && previousSkillId === skillId && previousAdviceType === 1 && (adviceType === 0 || adviceType === 2))
 			setShowModal(true)
-	}, [adviceType, previousAdviceType, skillId, previousSkillId, setShowModal])
+	}, [previousSkillsDataLoaded, adviceType, previousAdviceType, skillId, previousSkillId, setShowModal])
 }
 
 // useSkillAdvice returns an object { type: 0/1/2, recommendation: 'someSkillId' } that is used to determine whether the user should be sent to another skill. The types match with isPracticeNeeded: 0 means "all fine", 1 means "OK, but could be better" and 2 means "wrong". The recommendation is based on the current skillId: it's not always the course recommendation. For instance, if a prerequisite of the given skill is good to practice, it recommends that one.
