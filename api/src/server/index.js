@@ -1,6 +1,6 @@
 const express = require('express')
 const http = require('http')
-const { createApolloContext } = require('./apollo')
+const { createApolloContext, getPrincipalOrThrow } = require('./apollo')
 const session = require('express-session')
 const cors = require('cors')
 const Joi = require('@hapi/joi')
@@ -45,7 +45,7 @@ const createServer = async ({
 
 	// Basic server setup
 	const app = express()
-	app.use(session({
+	const processSession = session({
 		name: 'session.id',
 		store: sessionStore,
 		secret: config.sessionSecret,
@@ -60,7 +60,8 @@ const createServer = async ({
 			maxAge: config.sessionMaxAgeMillis,
 		},
 		principal: null,
-	}))
+	})
+	app.use(processSession)
 	app.set('trust proxy', true)
 	app.use(cors(corsOptions))
 
@@ -80,13 +81,23 @@ const createServer = async ({
 	}
 
 	// Apollo / GraphQL
+	const contextProvider = createApolloContext(database, pubsub)
 	const schema = makeExecutableSchema({ typeDefs, resolvers })
 	const subscriptionServer = SubscriptionServer.create({
 		schema,
 		execute,
 		subscribe,
-		onConnect() {
-			return {database, pubsub}
+		async onConnect(_, ws) {
+			// Attach session object to upgrade request
+			const upgradeReqWithSession = await new Promise((res) => {
+				processSession(ws.upgradeReq, {}, () => {
+					res(ws.upgradeReq)
+				})
+			})
+			// Ensure that only logged-in users can connect to the socket
+			getPrincipalOrThrow(upgradeReqWithSession)
+			// Return the context at connection time to the socket
+			return contextProvider(upgradeReqWithSession)
 		},
 	}, {
 		server: httpServer,
@@ -94,7 +105,7 @@ const createServer = async ({
 	})
 	const apolloServer = new ApolloServer({
 		schema,
-		context: createApolloContext(database, pubsub),
+		context: contextProvider,
 		plugins: [
 			// Shutdown HTTP server
 			ApolloServerPluginDrainHttpServer({ httpServer }),
