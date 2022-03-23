@@ -12,7 +12,9 @@ import { graphqlAddress, graphqlWebsocketAddress } from './ui/settings'
 const wsLink = new WebSocketLink(
 	new SubscriptionClient(
 		graphqlWebsocketAddress,
-		{},
+		{
+			reconnect: true,
+		},
 	)
 )
 
