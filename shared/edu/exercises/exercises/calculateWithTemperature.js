@@ -26,7 +26,7 @@ function generateState() {
 		unit: 'K',
 	})
 	if (type >= 2)
-		T = T.setUnit('dC').roundToPrevision()
+		T = T.setUnit('dC').roundToPrecision()
 	return { T, type }
 }
 

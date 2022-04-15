@@ -27,7 +27,7 @@ function generateState() {
 		decimals: 0,
 		unit: 'dC',
 	})
-	const T2 = T1.simplify().multiply(Math.pow(pressureRatio, 1 - 1 / k.number)).setUnit('dC').roundToPrevision()
+	const T2 = T1.simplify().multiply(Math.pow(pressureRatio, 1 - 1 / k.number)).setUnit('dC').roundToPrecision()
 	const wt = Rs.multiply(-n / (n - 1)).multiply(T2.subtract(T1)).setUnit('kJ/kg')
 
 	return { T1, T2, wt }
