@@ -10,6 +10,14 @@ const data = {
 	steps: ['findFridgeTemperatures', 'determineRefrigerantProcess', 'determineRefrigerantProcess', 'determineRefrigerantProcess', null],
 
 	equalityOptions: {
+		TEvap: {
+			absoluteMargin: 1, // K
+			significantDigitMargin: 1,
+		},
+		TCond: {
+			absoluteMargin: 1, // K
+			significantDigitMargin: 1,
+		},
 		default: {
 			absoluteMargin: 4000, // J/kg*K.
 			significantDigitMargin: 2,
