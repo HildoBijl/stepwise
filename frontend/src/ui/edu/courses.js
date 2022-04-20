@@ -103,20 +103,32 @@ const courses = {
 		],
 		blocks: [
 			{
-				name: 'Een processtap doorrekenen',
+				name: 'Gaseigenschappen en de gaswet',
+				goals: ['gasLaw'],
+			},
+			{
+				name: 'Processen en Poisson\'s wet',
 				goals: ['calculateProcessStep'],
 			},
 			{
-				name: 'Arbeid en warmte berekenen',
+				name: 'Arbeid en warmte',
 				goals: ['calculateWithInternalEnergy'],
 			},
 			{
-				name: 'Een kringproces doorrekenen',
+				name: 'Kringprocessen: doorrekenen',
+				goals: ['calculateClosedCycle', 'createClosedCycleEnergyOverview'],
+			},
+			{
+				name: 'Kringprocessen: energie en rendement',
 				goals: ['analyseClosedCycle'],
 			},
 			{
-				name: `Koelmachines en airco's`,
-				goals: ['findFridgeTemperatures', 'analyseAirco'],
+				name: `Stoomturbines en koelmachines`,
+				goals: ['findFridgeTemperatures'],
+			},
+			{
+				name: `Luchtvochtigheid en airco's`,
+				goals: ['analyseAirco'],
 			},
 		],
 	},
