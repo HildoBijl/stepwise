@@ -10,7 +10,7 @@ const equalityOptions = {
 		significantDigitMargin: 1,
 	},
 	T: {
-		absoluteMargin: 0.2,
+		absoluteMargin: 0.7,
 		significantDigitMargin: 1,
 	},
 }

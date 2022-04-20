@@ -14,11 +14,11 @@ const data = {
 			relativeMargin: 0.02,
 		},
 		T1: {
-			absoluteMargin: 0.2,
+			absoluteMargin: 0.7,
 			significantDigitMargin: 2,
 		},
 		T2: {
-			absoluteMargin: 0.2,
+			absoluteMargin: 0.7,
 			significantDigitMargin: 2,
 		},
 		q: {

@@ -11,7 +11,7 @@ const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 const data = {
 	skill: 'calculateWithTemperature',
 	equalityOptions: {
-		absoluteMargin: 0.2,
+		absoluteMargin: 0.7,
 		significantDigitMargin: 1,
 		unitCheck: Unit.equalityTypes.sameUnits,
 	},

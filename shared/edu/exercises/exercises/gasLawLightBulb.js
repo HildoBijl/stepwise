@@ -21,7 +21,7 @@ const data = {
 			unitCheck: Unit.equalityTypes.exact,
 		},
 		T: {
-			absoluteMargin: 0.2,
+			absoluteMargin: 0.7,
 			significantDigitMargin: 1,
 			unitCheck: Unit.equalityTypes.exact,
 		},

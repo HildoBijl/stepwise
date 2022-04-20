@@ -16,12 +16,12 @@ const data = {
 			accuracyFactor: 2,
 		},
 		Tw: {
-			absoluteMargin: 0.2,
+			absoluteMargin: 0.7,
 			significantDigitMargin: 1,
 			unitCheck: Unit.equalityTypes.exact,
 		},
 		Tc: {
-			absoluteMargin: 0.2,
+			absoluteMargin: 0.7,
 			significantDigitMargin: 1,
 			unitCheck: Unit.equalityTypes.exact,
 		},

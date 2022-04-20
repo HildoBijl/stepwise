@@ -19,7 +19,7 @@ const data = {
 			relativeMargin: 0.01,
 		},
 		T: {
-			absoluteMargin: 0.2,
+			absoluteMargin: 0.7,
 			significantDigitMargin: 2,
 			unitCheck: Unit.equalityTypes.exact,
 		},
