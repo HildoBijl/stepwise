@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Sum, Product, expressionChecks } from 'step-wise/CAS'
+import { Sum, Product, expressionComparisons } from 'step-wise/CAS'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
@@ -14,6 +14,8 @@ import StepExercise from '../types/StepExercise'
 import { getInputFieldFeedback } from '../util/feedback'
 import { hasX, incorrectFraction, incorrectExpression } from '../util/feedbackChecks/expression'
 import { originalEquation, hasSumWithinProduct, correctEquation, incorrectEquation, sumWithWrongTerms } from '../util/feedbackChecks/equation'
+
+const { onlyOrderChanges, equivalent } = expressionComparisons
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -124,14 +126,14 @@ function getFeedback(exerciseData) {
 		const sideWithoutVariable = input.findSide(side => !side.dependsOn(variables.x))
 		if (!sideWithoutVariable)
 			return <>Je hebt weer een <M>{variables.x}</M> aan beide kanten van de vergelijking gestopt. Dat was niet de bedoeling.</>
-		if (!expressionChecks.onlyOrderChanges(sideWithoutVariable, correct.right) && !expressionChecks.onlyOrderChanges(sideWithoutVariable, correct.right.applyMinus()))
+		if (!onlyOrderChanges(sideWithoutVariable, correct.right) && !onlyOrderChanges(sideWithoutVariable, correct.right.applyMinus()))
 			return <>De kant zonder <M>{variables.x}</M> moet hetzelfde blijven!</>
 	}
 	const sideWithVariableEqual = (input, correct, { variables }) => {
 		const sideWithVariable = input.findSide(side => side.dependsOn(variables.x))
 		if (!sideWithVariable)
 			return <>Je hebt <M>{variables.x}</M> in z'n geheel laten verdwijnen. Dat was niet de bedoeling.</>
-		if (!expressionChecks.equivalent(sideWithVariable, correct.left) && !expressionChecks.equivalent(sideWithVariable, correct.left.applyMinus()))
+		if (!equivalent(sideWithVariable, correct.left) && !equivalent(sideWithVariable, correct.left.applyMinus()))
 			return <>De kant met <M>{variables.x}</M> is niet meer gelijk aan wat het hiervoor was. Bij het omschrijven ervan is iets fout gegaan.</>
 		if (!(sideWithVariable.isSubtype(Product) && sideWithVariable.terms.length === 2 && sideWithVariable.terms.some(term => variables.x.equals(term))))
 			return <>Je hebt <M>{variables.x}</M> niet buiten haakjes gehaald. Je moet de kant met <M>{variables.x}</M> schrijven als <M>{variables.x}\cdot\left(\ldots\right),</M> met een zo simpel mogelijke uitdrukking op de puntjes.</>

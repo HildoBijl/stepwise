@@ -1,12 +1,12 @@
 const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../util/random')
-const { asExpression, expressionChecks } = require('../../../CAS')
+const { asExpression, expressionComparisons } = require('../../../CAS')
 const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { performCheck } = require('../util/check')
+const { performComparison } = require('../util/comparison')
 
-const { onlyOrderChanges } = expressionChecks
+const { onlyOrderChanges } = expressionComparisons
 
 // a/(xz) + b/(yz) = (ay+bx)/(xyz).
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
@@ -17,7 +17,7 @@ const data = {
 	skill: 'mergeSplitFractions',
 	setup: combinerAnd(combinerRepeat('addRemoveFractionFactors', 2), 'mergeSplitBasicFractions'),
 	steps: [null, ['addRemoveFractionFactors', 'addRemoveFractionFactors'], 'mergeSplitBasicFractions'],
-	check: {
+	comparison: {
 		default: onlyOrderChanges,
 	},
 }
@@ -54,11 +54,11 @@ function getSolution(state) {
 function checkInput(state, input, step) {
 	const solution = getSolution(state)
 	if (step === 0 || step === 3)
-		return performCheck('ans', input, solution, data.check)
+		return performComparison('ans', input, solution, data.comparison)
 	if (step === 1)
-		return performCheck('denominator', input, solution, data.check)
+		return performComparison('denominator', input, solution, data.comparison)
 	if (step === 2)
-		return performCheck(['leftAns', 'rightAns'], input, solution, data.check)
+		return performComparison(['leftAns', 'rightAns'], input, solution, data.comparison)
 }
 
 module.exports = {

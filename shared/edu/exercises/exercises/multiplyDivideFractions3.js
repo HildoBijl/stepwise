@@ -1,11 +1,12 @@
 const { selectRandomly, getRandomInteger } = require('../../../util/random')
-const { asExpression, Fraction, expressionChecks } = require('../../../CAS')
+const { asExpression, Fraction, expressionComparisons, expressionChecks } = require('../../../CAS')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { performCheck } = require('../util/check')
+const { performComparison } = require('../util/comparison')
 
-const { equivalent, hasFractionWithinFraction } = expressionChecks
+const { equivalent } = expressionComparisons
+const { hasFractionWithinFraction } = expressionChecks
 
 // ((x+a)/y)/(z+b) = (x+a)/(y(z+b)).
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
@@ -14,7 +15,7 @@ const constants = ['a', 'b']
 
 const data = {
 	skill: 'multiplyDivideFractions',
-	check: (input, correct) => input.isSubtype(Fraction) && !hasFractionWithinFraction(input) && equivalent(input, correct),
+	comparison: (input, correct) => input.isSubtype(Fraction) && !hasFractionWithinFraction(input) && equivalent(input, correct),
 }
 
 function generateState() {
@@ -35,7 +36,7 @@ function getSolution(state) {
 }
 
 function checkInput(state, input) {
-	return performCheck('ans', input, getSolution(state), data.check)
+	return performComparison('ans', input, getSolution(state), data.comparison)
 }
 
 module.exports = {

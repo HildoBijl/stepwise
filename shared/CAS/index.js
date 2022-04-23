@@ -19,8 +19,10 @@ module.exports = {
 
 	// Export other important CAS functionalities.
 	Expression: functionalities.Expression,
+	expressionComparisons: functionalities.expressionComparisons,
 	expressionChecks: functionalities.expressionChecks,
 	Equation: functionalities.Equation,
+	equationComparisons: functionalities.equationComparisons,
 	equationChecks: functionalities.equationChecks,
 
 	// Export all important interpretation functions.

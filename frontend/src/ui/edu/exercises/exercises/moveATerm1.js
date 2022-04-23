@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { equationChecks } from 'step-wise/CAS'
+import { equationComparisons } from 'step-wise/CAS'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
@@ -14,7 +14,7 @@ import StepExercise from '../types/StepExercise'
 import { getInputFieldFeedback } from '../util/feedback'
 import { originalEquation, correctEquation, incorrectEquation } from '../util/feedbackChecks/equation'
 
-const { onlyOrderChanges } = equationChecks
+const { onlyOrderChanges } = equationComparisons
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />

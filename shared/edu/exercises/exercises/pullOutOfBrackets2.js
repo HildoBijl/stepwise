@@ -1,13 +1,13 @@
 const { gcd } = require('../../../util/numbers')
 const { selectRandomly, getRandomInteger, getRandomIndices } = require('../../../util/random')
-const { asExpression, Sum, expressionChecks, simplifyOptions } = require('../../../CAS')
+const { asExpression, Sum, expressionComparisons, simplifyOptions } = require('../../../CAS')
 const { combinerAnd } = require('../../../skillTracking')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { performCheck } = require('../util/check')
+const { performComparison } = require('../util/comparison')
 
-const { onlyOrderChanges } = expressionChecks
+const { onlyOrderChanges } = expressionComparisons
 
 // abxy^2 + acxyz + adxz^2 = ax(by^2 + cyz + dz^2).
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
@@ -18,7 +18,7 @@ const data = {
 	skill: 'pullOutOfBrackets',
 	setup: combinerAnd('mergeSplitFractions', 'expandBrackets'),
 	steps: [null, null, 'mergeSplitFractions', null, 'expandBrackets'],
-	check: {
+	comparison: {
 		default: onlyOrderChanges,
 	},
 }
@@ -52,15 +52,15 @@ function getSolution(state) {
 function checkInput(state, input, step) {
 	const solution = getSolution(state)
 	if (step === 0 || step === 4)
-		return performCheck('ans', input, solution, data.check)
+		return performComparison('ans', input, solution, data.comparison)
 	if (step === 1)
-		return performCheck('factor', input, solution, data.check)
+		return performComparison('factor', input, solution, data.comparison)
 	if (step === 2)
-		return performCheck('setup', input, solution, data.check)
+		return performComparison('setup', input, solution, data.comparison)
 	if (step === 3)
-		return performCheck('fractionSimplified', input, solution, data.check)
+		return performComparison('fractionSimplified', input, solution, data.comparison)
 	if (step === 5)
-		return performCheck('expression', input, solution, data.check)
+		return performComparison('expression', input, solution, data.comparison)
 }
 
 module.exports = {

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Integer, Sum, Product, Fraction, expressionChecks } from 'step-wise/CAS'
+import { Integer, Sum, Product, Fraction, expressionComparisons } from 'step-wise/CAS'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
@@ -13,7 +13,7 @@ import StepExercise from '../types/StepExercise'
 import { getInputFieldFeedback } from '../util/feedback'
 import { originalExpression, sumWithUnsimplifiedTerms, correctExpression, incorrectExpression } from '../util/feedbackChecks/expression'
 
-const { onlyOrderChanges, equivalent } = expressionChecks
+const { onlyOrderChanges, equivalent } = expressionComparisons
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -191,11 +191,11 @@ function getFeedback(exerciseData) {
 	]
 
 	// Define expression checks.
-	const expressionChecks = [
+	const expressionComparisons = [
 		sumWithUnsimplifiedTerms,
 		incorrectExpression,
 		correctExpression,
 	]
 
-	return getInputFieldFeedback(['ans', 'factor', 'setup', 'fractionSimplified', 'expression'], exerciseData, [ansChecks, factorChecks, setupChecks, fractionSimplifiedChecks, expressionChecks].map(feedbackChecks => ({ feedbackChecks })))
+	return getInputFieldFeedback(['ans', 'factor', 'setup', 'fractionSimplified', 'expression'], exerciseData, [ansChecks, factorChecks, setupChecks, fractionSimplifiedChecks, expressionComparisons].map(feedbackChecks => ({ feedbackChecks })))
 }

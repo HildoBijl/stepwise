@@ -1,11 +1,12 @@
 const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../util/random')
-const { asExpression, Integer, Equation, equationChecks } = require('../../../CAS')
+const { asExpression, Integer, Equation, equationComparisons, equationChecks } = require('../../../CAS')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { performCheck } = require('../util/check')
+const { performComparison } = require('../util/comparison')
 
-const { hasSumWithinProduct, onlyElementaryClean, equivalent } = equationChecks
+const { onlyElementaryClean, equivalent } = equationComparisons
+const { hasSumWithinProduct } = equationChecks
 
 // Multiply "ay/x + bz/y + cz/x + dx/z = 0" by x.
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
@@ -15,7 +16,7 @@ const constants = ['a', 'b', 'c', 'd']
 const data = {
 	skill: 'multiplyDivideAllTerms',
 	steps: [null, 'expandBrackets', 'addRemoveFractionFactors'],
-	check: {
+	comparison: {
 		default: (input, correct) => onlyElementaryClean(input, correct.removeUseless()),
 		intermediateWithBrackets: (input, correct) => onlyElementaryClean(input.removeUseless(), correct.removeUseless()), // This is to avoid "0*x" from being an issue.
 		intermediateWithoutBrackets: (input, correct) => !hasSumWithinProduct(input) && equivalent(input, correct),
@@ -65,11 +66,11 @@ function getSolution(state) {
 function checkInput(state, input, step) {
 	const solution = getSolution(state)
 	if (step === 0 || step === 3)
-		return performCheck('ans', input, solution, data.check)
+		return performComparison('ans', input, solution, data.comparison)
 	if (step === 1)
-		return performCheck('intermediateWithBrackets', input, solution, data.check)
+		return performComparison('intermediateWithBrackets', input, solution, data.comparison)
 	if (step === 2)
-		return performCheck('intermediateWithoutBrackets', input, solution, data.check)
+		return performComparison('intermediateWithoutBrackets', input, solution, data.comparison)
 }
 
 module.exports = {

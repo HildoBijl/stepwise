@@ -3,7 +3,7 @@ const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit
 const { getRandomInteger, selectRandomly } = require('../../../util/random')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd } = require('../../../skillTracking')
-const { performComparison } = require('../util/check')
+const { performComparison } = require('../util/comparison')
 const gasProperties = require('../../../data/gasProperties')
 
 const data = {

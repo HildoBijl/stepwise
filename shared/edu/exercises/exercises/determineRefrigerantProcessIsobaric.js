@@ -1,7 +1,7 @@
 const { selectRandomly, getRandomBoolean } = require('../../../util/random')
 const { getRandomFloatUnit, getRandomExponentialFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { performComparison } = require('../util/check')
+const { performComparison } = require('../util/comparison')
 const refrigerantProperties = require('../../../data/refrigerantProperties')
 
 const data = {

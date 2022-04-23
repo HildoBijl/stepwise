@@ -1,13 +1,14 @@
 const { gcd } = require('../../../util/numbers')
 const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../util/random')
-const { asExpression, Fraction, expressionChecks, simplifyOptions } = require('../../../CAS')
+const { asExpression, Fraction, expressionComparisons, expressionChecks, simplifyOptions } = require('../../../CAS')
 const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { performCheck } = require('../util/check')
+const { performComparison } = require('../util/comparison')
 
-const { hasFractionWithinFraction, equivalent } = expressionChecks
+const { equivalent } = expressionComparisons
+const { hasFractionWithinFraction } = expressionChecks
 
 // (a/w + b/x)/(c/y + d/z).
 const availableVariableSets = [['a', 'b', 'c', 'd'], ['w', 'x', 'y', 'z'], ['p', 'q', 'r', 's']]
@@ -18,7 +19,7 @@ const data = {
 	skill: 'simplifyFraction',
 	setup: combinerAnd(combinerRepeat('mergeSplitFractions', 2), 'multiplyDivideFractions'),
 	steps: ['mergeSplitFractions', 'mergeSplitFractions', 'multiplyDivideFractions'],
-	check: {
+	comparison: {
 		default: (input, correct) => input.isSubtype(Fraction) && !hasFractionWithinFraction(input) && equivalent(input, correct),
 	},
 }
@@ -71,11 +72,11 @@ function getSolution(state) {
 function checkInput(state, input, step) {
 	const solution = getSolution(state)
 	if (step === 0 || step === 3)
-		return performCheck('ans', input, solution, data.check)
+		return performComparison('ans', input, solution, data.comparison)
 	if (step === 1)
-		return performCheck('numeratorIntermediate', input, solution, data.check)
+		return performComparison('numeratorIntermediate', input, solution, data.comparison)
 	if (step === 2)
-		return performCheck('denominatorIntermediate', input, solution, data.check)
+		return performComparison('denominatorIntermediate', input, solution, data.comparison)
 }
 
 module.exports = {

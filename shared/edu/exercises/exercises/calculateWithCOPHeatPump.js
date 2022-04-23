@@ -1,7 +1,7 @@
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 const { getRandom } = require('../../../util/random')
-const { performComparison } = require('../util/check')
+const { performComparison } = require('../util/comparison')
 
 const data = {
 	skill: 'calculateWithCOP',

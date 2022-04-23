@@ -2,7 +2,7 @@ const { FloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const gasProperties = require('../../../data/gasProperties')
 const { combinerRepeat, combinerOr } = require('../../../skillTracking')
-const { performComparison } = require('../util/check')
+const { performComparison } = require('../util/comparison')
 const { generateState, getSolution: getCycleParametersRaw } = require('./calculateOpenCycleTsp')
 
 const data = {

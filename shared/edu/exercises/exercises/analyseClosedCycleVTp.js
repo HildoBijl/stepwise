@@ -1,6 +1,6 @@
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd } = require('../../../skillTracking')
-const { performComparison } = require('../util/check')
+const { performComparison } = require('../util/comparison')
 const { generateState, getSolution: getCycleParameters } = require('./calculateClosedCycleVTp')
 const { getSolution: getEnergyParameters } = require('./createClosedCycleEnergyOverviewVTp')
 

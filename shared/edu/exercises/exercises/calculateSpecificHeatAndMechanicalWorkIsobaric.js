@@ -1,7 +1,7 @@
 const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd, combinerOr } = require('../../../skillTracking')
-const { performComparison } = require('../util/check')
+const { performComparison } = require('../util/comparison')
 let { air: { cp } } = require('../../../data/gasProperties')
 
 const data = {

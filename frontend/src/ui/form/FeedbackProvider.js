@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback, useEffect } from 'react'
+import React, { createContext, useContext, useState, useCallback, useEffect, isValidElement } from 'react'
 import { useTheme } from '@material-ui/core/styles'
 
 import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
@@ -87,7 +87,7 @@ export function useFieldFeedback(options) {
 	const equals = getFieldFunction(id, 'equals')
 	if (validation !== undefined && equals(input, validationInput)) {
 		// The validation can parameter can be a string or React object: apply that as text. It can also be a basic object, in which case we copy it entirely.
-		if (isBasicObject(validation))
+		if (isBasicObject(validation) && !isValidElement(validation))
 			return addInput(addIconAndColor({ type: 'warning', ...validation }, theme), validationInput)
 		return addInput(addIconAndColor({ type: 'warning', text: validation || feedbackText }, theme), validationInput)
 	}

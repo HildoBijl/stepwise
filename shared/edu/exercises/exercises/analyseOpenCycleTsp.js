@@ -1,7 +1,7 @@
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { combinerAnd } = require('../../../skillTracking')
-const { performComparison } = require('../util/check')
+const { performComparison } = require('../util/comparison')
 const { generateState: generateStateRaw, getSolution: getCycleParameters } = require('./calculateOpenCycleTsp')
 const { getSolution: getEnergyParameters } = require('./createOpenCycleEnergyOverviewTsp')
 

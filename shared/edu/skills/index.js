@@ -6,6 +6,12 @@ const skills = {
 		name: 'Testopgave',
 		exercises: ['testExercise'],
 	},
+	demo: {
+		name: 'Demo-opgave',
+		exercises: ['demoExercise'],
+	},
+
+	// Tutorial exercises.
 	fillInInteger: {
 		name: 'Geheel getal invullen',
 		exercises: ['fillInInteger'],

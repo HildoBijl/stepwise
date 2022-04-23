@@ -1,9 +1,9 @@
 const { selectRandomly, getRandomBoolean, getRandomInteger } = require('../../../util/random')
-const { Sum, Product, Fraction, expressionChecks } = require('../../../CAS')
+const { Sum, Product, Fraction, expressionComparisons } = require('../../../CAS')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { performCheck } = require('../util/check')
+const { performComparison } = require('../util/comparison')
 
 // az(x+y)/(x+y) or (x+y)/(az(x+y)).
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
@@ -12,7 +12,7 @@ const constants = ['a']
 
 const data = {
 	skill: 'addRemoveFractionFactors',
-	check: expressionChecks.onlyOrderChanges,
+	comparison: expressionComparisons.onlyOrderChanges,
 }
 
 function generateState() {
@@ -37,7 +37,7 @@ function getSolution(state) {
 }
 
 function checkInput(state, input) {
-	return performCheck('ans', input, getSolution(state), data.check)
+	return performComparison('ans', input, getSolution(state), data.comparison)
 }
 
 module.exports = {

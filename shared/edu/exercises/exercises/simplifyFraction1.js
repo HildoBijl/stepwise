@@ -5,7 +5,7 @@ const { combinerAnd } = require('../../../skillTracking')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { performCheck } = require('../util/check')
+const { performComparison } = require('../util/comparison')
 
 const { onlyOrderChanges } = expressionChecks
 
@@ -18,7 +18,7 @@ const data = {
 	skill: 'simplifyFraction',
 	setup: combinerAnd('mergeSplitFractions', 'multiplyDivideFractions'),
 	steps: ['mergeSplitFractions', 'multiplyDivideFractions'],
-	check: {
+	comparison: {
 		default: onlyOrderChanges,
 	},
 }
@@ -54,9 +54,9 @@ function getSolution(state) {
 function checkInput(state, input, step) {
 	const solution = getSolution(state)
 	if (step === 0 || step === 2)
-		return performCheck('ans', input, solution, data.check)
+		return performComparison('ans', input, solution, data.comparison)
 	if (step === 1)
-		return performCheck('intermediate', input, solution, data.check)
+		return performComparison('intermediate', input, solution, data.comparison)
 }
 
 module.exports = {

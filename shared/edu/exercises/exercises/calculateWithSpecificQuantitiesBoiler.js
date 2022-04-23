@@ -1,6 +1,6 @@
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { performComparison } = require('../util/check')
+const { performComparison } = require('../util/comparison')
 
 const data = {
 	skill: 'calculateWithSpecificQuantities',

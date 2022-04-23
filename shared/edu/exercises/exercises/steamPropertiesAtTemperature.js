@@ -1,6 +1,6 @@
 const { getRandomInteger } = require('../../../util/random')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { performComparison } = require('../util/check')
+const { performComparison } = require('../util/comparison')
 const { withTemperature } = require('../../../data/steamProperties')
 const { tableInterpolate } = require('../../../util/interpolation')
 

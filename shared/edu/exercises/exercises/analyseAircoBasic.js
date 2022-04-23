@@ -1,6 +1,6 @@
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerRepeat } = require('../../../skillTracking')
-const { performComparison } = require('../util/check')
+const { performComparison } = require('../util/comparison')
 const { tableInterpolate, inverseTableInterpolate } = require('../../../util/interpolation')
 const { getCycle } = require('./support/aircoCycle')
 const { maximumHumidity } = require('../../../data/moistureProperties')

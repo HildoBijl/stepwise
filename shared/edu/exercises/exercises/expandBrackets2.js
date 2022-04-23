@@ -1,12 +1,13 @@
 const { selectRandomly, getRandomInteger } = require('../../../util/random')
-const { asExpression, simplifyOptions, expressionChecks } = require('../../../CAS')
+const { asExpression, simplifyOptions, expressionComparisons, expressionChecks } = require('../../../CAS')
 const { combinerRepeat } = require('../../../skillTracking')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { performCheck } = require('../util/check')
+const { performComparison } = require('../util/comparison')
 
-const { hasSumWithinProduct, equivalent } = expressionChecks
+const { equivalent } = expressionComparisons
+const { hasSumWithinProduct } = expressionChecks
 
 // (x+a)(y+b) = xy + ay + xb + ab.
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
@@ -16,7 +17,7 @@ const constants = ['a', 'b']
 const data = {
 	setup: combinerRepeat('expandBrackets', 2),
 	steps: ['expandBrackets', 'expandBrackets'],
-	check: {
+	comparison: {
 		default: (input, correct) => !hasSumWithinProduct(input) && equivalent(input, correct),
 	},
 }
@@ -45,9 +46,9 @@ function getSolution(state) {
 function checkInput(state, input, step) {
 	const solution = getSolution(state)
 	if (step === 0 || step === 2)
-		return performCheck('ans', input, solution, data.check)
+		return performComparison('ans', input, solution, data.comparison)
 	if (step === 1)
-		return performCheck('intermediate', input, solution, data.check)
+		return performComparison('intermediate', input, solution, data.check)
 }
 
 module.exports = {

@@ -1,11 +1,11 @@
 const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../util/random')
-const { asExpression, Integer, Equation, equationChecks } = require('../../../CAS')
+const { asExpression, Integer, Equation, equationComparisons } = require('../../../CAS')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { performCheck } = require('../util/check')
+const { performComparison } = require('../util/comparison')
 
-const { onlyOrderChanges } = equationChecks
+const { onlyOrderChanges } = equationComparisons
 
 // ax + by + cz = 0.
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
@@ -15,7 +15,7 @@ const constants = ['a', 'b', 'c']
 const data = {
 	skill: 'moveATerm',
 	steps: [null, null],
-	check: {
+	comparison: {
 		default: onlyOrderChanges,
 	},
 }
@@ -68,9 +68,9 @@ function getSolution(state) {
 function checkInput(state, input, step) {
 	const solution = getSolution(state)
 	if (step === 0 || step === 2)
-		return performCheck('ans', input, solution, data.check)
+		return performComparison('ans', input, solution, data.comparison)
 	if (step === 1)
-		return performCheck('intermediate', input, solution, data.check)
+		return performComparison('intermediate', input, solution, data.comparison)
 }
 
 module.exports = {

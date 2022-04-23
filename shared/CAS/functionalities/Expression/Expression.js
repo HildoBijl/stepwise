@@ -1892,7 +1892,6 @@ class Ln extends SingleArgumentFunction {
 	}
 }
 Ln.type = 'Ln'
-Ln.args = SingleArgumentFunction.args
 module.exports.Ln = Ln
 
 /*

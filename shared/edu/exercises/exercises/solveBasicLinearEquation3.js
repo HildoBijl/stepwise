@@ -1,10 +1,10 @@
 const { selectRandomly, getRandomInteger } = require('../../../util/random')
-const { asEquation, expressionChecks, equationChecks } = require('../../../CAS')
+const { asEquation, expressionComparisons, equationComparisons } = require('../../../CAS')
 const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { performCheck } = require('../util/check')
+const { performComparison } = require('../util/comparison')
 
 // (ax+bz)y = cx + d.
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
@@ -15,10 +15,10 @@ const data = {
 	skill: 'solveBasicLinearEquation',
 	setup: combinerAnd('expandBrackets', combinerRepeat('moveATerm', 2), 'pullOutOfBrackets', 'multiplyDivideAllTerms'),
 	steps: ['expandBrackets', combinerRepeat('moveATerm', 2), 'pullOutOfBrackets', 'multiplyDivideAllTerms'],
-	check: {
-		ans: expressionChecks.equivalent, // For the final answer allow equivalent answers.
-		default: (input, correct) => equationChecks.onlyOrderChangesAndSwitch(input, correct) || equationChecks.onlyOrderChangesAndSwitch(input, correct.applyMinus()), // Allow switches and minus signs.
-		pulledOut: (input, correct) => equationChecks.onlyOrderChangesAndSwitch(input, correct) || equationChecks.onlyOrderChangesAndSwitch(input, correct.applyToRight(side => side.applyMinus()).applyToLeft(side => side.applyToTerm(1, factor => factor.applyMinus()))), // Allow switches and minus signs inside the brackets.
+	comparison: {
+		ans: expressionComparisons.equivalent, // For the final answer allow equivalent answers.
+		default: (input, correct) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.applyMinus()), // Allow switches and minus signs.
+		pulledOut: (input, correct) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.applyToRight(side => side.applyMinus()).applyToLeft(side => side.applyToTerm(1, factor => factor.applyMinus()))), // Allow switches and minus signs inside the brackets.
 	},
 }
 
@@ -51,13 +51,13 @@ function getSolution(state) {
 function checkInput(state, input, step) {
 	const solution = getSolution(state)
 	if (step === 0 || step === 4)
-		return performCheck(['ans'], input, solution, data.check)
+		return performComparison(['ans'], input, solution, data.comparison)
 	if (step === 1)
-		return performCheck(['bracketsExpanded'], input, solution, data.check)
+		return performComparison(['bracketsExpanded'], input, solution, data.comparison)
 	if (step === 2)
-		return performCheck(['termsMoved'], input, solution, data.check)
+		return performComparison(['termsMoved'], input, solution, data.comparison)
 	if (step === 3)
-		return performCheck(['pulledOut'], input, solution, data.check)
+		return performComparison(['pulledOut'], input, solution, data.comparison)
 }
 
 module.exports = {

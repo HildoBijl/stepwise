@@ -1,11 +1,12 @@
 const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../util/random')
-const { asExpression, expressionChecks } = require('../../../CAS')
+const { asExpression, expressionComparisons, expressionChecks } = require('../../../CAS')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { performCheck } = require('../util/check')
+const { performComparison } = require('../util/comparison')
 
-const { equivalent, hasSumWithinProduct } = expressionChecks
+const { equivalent } = expressionComparisons
+const { hasSumWithinProduct } = expressionChecks
 
 // ax(y+b) = axy + abx.
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
@@ -15,7 +16,7 @@ const constants = ['a', 'b']
 const data = {
 	skill: 'expandBrackets',
 	weight: 2,
-	check: (input, correct) => !hasSumWithinProduct(input) && equivalent(input, correct),
+	comparison: (input, correct) => !hasSumWithinProduct(input) && equivalent(input, correct),
 }
 
 function generateState() {
@@ -39,7 +40,7 @@ function getSolution(state) {
 }
 
 function checkInput(state, input) {
-	return performCheck('ans', input, getSolution(state), data.check)
+	return performComparison('ans', input, getSolution(state), data.comparison)
 }
 
 module.exports = {

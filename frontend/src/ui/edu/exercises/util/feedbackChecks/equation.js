@@ -2,24 +2,21 @@
 
 import { arrayFind } from 'step-wise/util/arrays'
 import { resolveFunctions } from 'step-wise/util/functions'
-import { Sum, expressionChecks, equationChecks } from 'step-wise/CAS'
+import { Sum, expressionComparisons, equationComparisons, equationChecks } from 'step-wise/CAS'
 
 import { M } from 'ui/components/equations'
-
-const { onlyElementaryClean: onlyExpressionElementaryClean, equivalent: equivalentExpression } = expressionChecks
-const { onlyOrderChanges: onlyEquationOrderChanges, equivalent: equivalentEquation } = equationChecks
 
 /*
  * Basic checks.
  */
 
-export const originalEquation = (input, correct, { equation }) => onlyEquationOrderChanges(input, equation) && <>Dit is de oorspronkelijke vergelijking. Je hebt hier nog niets mee gedaan.</>
+export const originalEquation = (input, correct, { equation }) => equationComparisons.onlyOrderChanges(input, equation) && <>Dit is de oorspronkelijke vergelijking. Je hebt hier nog niets mee gedaan.</>
 
 export const incorrectEquation = (input, correct, solution, isCorrect) => {
-	return !isCorrect && !equivalentEquation(input, correct) && <>Deze vergelijking klopt niet. Je hebt bij het omschrijven iets gedaan dat niet mag.</>
+	return !isCorrect && !equationComparisons.equivalent(input, correct) && <>Deze vergelijking klopt niet. Je hebt bij het omschrijven iets gedaan dat niet mag.</>
 }
 
-export const correctEquationWithMessage = (message) => ((input, correct, solution, isCorrect, exerciseData) => !isCorrect && equivalentEquation(input, correct) && resolveFunctions(message, input, correct, solution, isCorrect, exerciseData))
+export const correctEquationWithMessage = (message) => ((input, correct, solution, isCorrect, exerciseData) => !isCorrect && equationComparisons.equation(input, correct) && resolveFunctions(message, input, correct, solution, isCorrect, exerciseData))
 
 export const correctEquation = correctEquationWithMessage(<>De vergelijking klopt wel, maar je hebt niet gedaan wat gevraagd werd.</>)
 
@@ -72,7 +69,7 @@ export const sumWithWrongTerms = (input, correct, solution, isCorrect) => {
 				return <>De optelsom {atLeft ? 'links' : 'rechts'} van het is-teken heeft {inputSide.terms.length} termen. Er werden er {correctSide.terms.length} verwacht.</>
 
 			// Find an input term that is not in the solution.
-			const index = inputSide.terms.findIndex(inputTerm => !correctSide.terms.some(correctTerm => equivalentExpression(inputTerm, correctTerm)))
+			const index = inputSide.terms.findIndex(inputTerm => !correctSide.terms.some(correctTerm => expressionComparisons.equivalent(inputTerm, correctTerm)))
 			if (index !== -1)
 				return [
 					<>Er lijkt iets mis te zijn met de eerste term aan de {atLeft ? 'linker' : 'rechter'} kant.</>,
@@ -85,7 +82,7 @@ export const sumWithWrongTerms = (input, correct, solution, isCorrect) => {
 				][index]
 		} else {
 			// Check that the given terms are the same.
-			if (!equivalentExpression(inputSide, correctSide))
+			if (!expressionComparisons.equivalent(inputSide, correctSide))
 				return <>Er lijkt iets mis te zijn met de term aan de {atLeft ? 'linker' : 'rechter'} kant.</>
 		}
 	}
@@ -113,7 +110,7 @@ export const sumWithUnsimplifiedTerms = (input, correct, solution, isCorrect) =>
 		// If the correct answer has a sum ...
 		if (correctSide.isSubtype(Sum)) {
 			// Find an input term that is not in the solution when checking only for order changes.
-			const index = inputSide.terms.findIndex(inputTerm => !correctSide.terms.some(correctTerm => onlyExpressionElementaryClean(inputTerm, correctTerm)))
+			const index = inputSide.terms.findIndex(inputTerm => !correctSide.terms.some(correctTerm => expressionComparisons.onlyElementaryClean(inputTerm, correctTerm)))
 			if (index !== -1)
 				return [
 					<>Je kunt de eerste term aan de {atLeft ? 'linker' : 'rechter'} kant nog verder vereenvoudigen.</>,
@@ -126,7 +123,7 @@ export const sumWithUnsimplifiedTerms = (input, correct, solution, isCorrect) =>
 				][index]
 		} else {
 			// Check that the given terms are the same.
-			if (!onlyExpressionElementaryClean(inputSide, correctSide))
+			if (!expressionComparisons.onlyElementaryClean(inputSide, correctSide))
 				return <>Je kunt de {atLeft ? 'linker' : 'rechter'} kant nog verder vereenvoudigen.</>
 		}
 	}

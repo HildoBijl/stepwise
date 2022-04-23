@@ -1,10 +1,10 @@
 const { selectRandomly, getRandomInteger } = require('../../../util/random')
-const { asEquation, expressionChecks, equationChecks, simplifyOptions } = require('../../../CAS')
+const { asEquation, expressionComparisons, expressionChecks, equationComparisons, equationChecks } = require('../../../CAS')
 const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { performCheck } = require('../util/check')
+const { performComparison } = require('../util/comparison')
 
 // (y+b)/(x+c) + a/x = z/x.
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
@@ -15,10 +15,10 @@ const data = {
 	skill: 'solveGeneralLinearEquation',
 	setup: combinerAnd(combinerRepeat('multiplyDivideAllTerms', 2), combinerRepeat('expandBrackets', 2), 'solveBasicLinearEquation'),
 	steps: [combinerRepeat('multiplyDivideAllTerms', 2), combinerRepeat('expandBrackets', 2), 'solveBasicLinearEquation'],
-	check: {
-		ans: (input, correct) => !expressionChecks.hasFractionWithinFraction(input) && expressionChecks.equivalent(input, correct),
-		multiplied: (input, correct) => equationChecks.equivalentSides(input, correct) && !equationChecks.hasFraction(input), // No fractions left.
-		expanded: (input, correct) => equationChecks.equivalentSides(input, correct) && !equationChecks.hasFraction(input) && !equationChecks.hasSumWithinProduct(input), // No fractions and no unexpanded brackets left.
+	comparison: {
+		ans: (input, correct) => !expressionChecks.hasFractionWithinFraction(input) && expressionComparisons.equivalent(input, correct),
+		multiplied: (input, correct) => equationComparisons.equivalentSides(input, correct) && !equationChecks.hasFraction(input), // No fractions left.
+		expanded: (input, correct) => equationComparisons.equivalentSides(input, correct) && !equationChecks.hasFraction(input) && !equationChecks.hasSumWithinProduct(input), // No fractions and no unexpanded brackets left.
 	},
 }
 
@@ -55,11 +55,11 @@ function getSolution(state) {
 function checkInput(state, input, step) {
 	const solution = getSolution(state)
 	if (step === 0 || step === 3)
-		return performCheck(['ans'], input, solution, data.check)
+		return performComparison(['ans'], input, solution, data.comparison)
 	if (step === 1)
-		return performCheck(['multiplied'], input, solution, data.check)
+		return performComparison(['multiplied'], input, solution, data.comparison)
 	if (step === 2)
-		return performCheck(['expanded'], input, solution, data.check)
+		return performComparison(['expanded'], input, solution, data.comparison)
 }
 
 module.exports = {

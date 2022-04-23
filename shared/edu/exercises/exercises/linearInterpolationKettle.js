@@ -1,6 +1,6 @@
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerRepeat } = require('../../../skillTracking')
-const { performComparison } = require('../util/check')
+const { performComparison } = require('../util/comparison')
 const { getRandomInteger } = require('../../../inputTypes/Integer')
 const { getRandomFloat } = require('../../../inputTypes/Float')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')

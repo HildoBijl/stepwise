@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { expressionChecks } from 'step-wise/CAS'
+import { expressionComparisons } from 'step-wise/CAS'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
@@ -104,7 +104,7 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	const simplifiedChecks = [
-		(input, correct) => !expressionChecks.onlyOrderChanges(input.right, correct.right) && <>Laat de rechter kant van de vergelijking onveranderd!</>,
+		(input, correct) => !expressionComparisons.onlyOrderChanges(input.right, correct.right) && <>Laat de rechter kant van de vergelijking onveranderd!</>,
 		(input, correct, solution, isCorrect) => hasFractionWithinFraction(input.left, correct.left, solution, isCorrect),
 		(input, correct, solution, isCorrect) => incorrectExpression(input.left, correct.left, solution, isCorrect),
 		(input, correct, solution, isCorrect) => correctExpression(input.left, correct.left, solution, isCorrect),

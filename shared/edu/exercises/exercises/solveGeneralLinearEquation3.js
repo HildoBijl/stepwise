@@ -1,10 +1,10 @@
 const { selectRandomly, getRandomInteger } = require('../../../util/random')
-const { asEquation, expressionChecks, equationChecks, simplifyOptions } = require('../../../CAS')
+const { asEquation, expressionComparisons, expressionChecks, equationComparisons, equationChecks } = require('../../../CAS')
 const { combinerAnd } = require('../../../skillTracking')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { performCheck } = require('../util/check')
+const { performComparison } = require('../util/comparison')
 
 // (ax-x^2/y)/(bx^2) = cz.
 const availableVariableSets = [['a', 'b', 'c'], ['w', 'x', 'y'], ['p', 'q', 'r']]
@@ -15,10 +15,10 @@ const data = {
 	skill: 'solveGeneralLinearEquation',
 	setup: combinerAnd('simplifyFraction', 'multiplyDivideAllTerms', 'solveBasicLinearEquation'),
 	steps: ['simplifyFraction', 'multiplyDivideAllTerms', 'solveBasicLinearEquation'],
-	check: {
-		ans: (input, correct) => !expressionChecks.hasFractionWithinFraction(input) && expressionChecks.equivalent(input, correct),
-		simplified: (input, correct) => expressionChecks.onlyOrderChanges(input.right, correct.right) && !expressionChecks.hasFractionWithinFraction(input.left) && !expressionChecks.hasPower(input.left) && expressionChecks.equivalent(input.left, correct.left),
-		multiplied: (input, correct) => !equationChecks.hasFraction(input) && (equationChecks.equivalentSides(input, correct) || equationChecks.equivalentSides(input, correct.applyMinus())),
+	comparison: {
+		ans: (input, correct) => !expressionChecks.hasFractionWithinFraction(input) && expressionComparisons.equivalent(input, correct),
+		simplified: (input, correct) => expressionComparisons.onlyOrderChanges(input.right, correct.right) && !expressionChecks.hasFractionWithinFraction(input.left) && !expressionChecks.hasPower(input.left) && expressionComparisons.equivalent(input.left, correct.left),
+		multiplied: (input, correct) => !equationChecks.hasFraction(input) && (equationComparisons.equivalentSides(input, correct) || equationComparisons.equivalentSides(input, correct.applyMinus())),
 	},
 }
 
@@ -51,11 +51,11 @@ function getSolution(state) {
 function checkInput(state, input, step) {
 	const solution = getSolution(state)
 	if (step === 0 || step === 3)
-		return performCheck(['ans'], input, solution, data.check)
+		return performComparison(['ans'], input, solution, data.comparison)
 	if (step === 1)
-		return performCheck(['simplified'], input, solution, data.check)
+		return performComparison(['simplified'], input, solution, data.comparison)
 	if (step === 2)
-		return performCheck(['multiplied'], input, solution, data.check)
+		return performComparison(['multiplied'], input, solution, data.comparison)
 }
 
 module.exports = {

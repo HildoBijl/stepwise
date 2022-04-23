@@ -2,7 +2,7 @@ const { FloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
 const { air: { k, cp } } = require('../../../data/gasProperties')
-const { performComparison } = require('../util/check')
+const { performComparison } = require('../util/comparison')
 const { getCycle } = require('./support/gasTurbineCycle')
 
 const data = {

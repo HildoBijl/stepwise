@@ -82,7 +82,7 @@ const basicClean = {
 }
 module.exports.basicClean = basicClean
 
-// regularClean goes a few steps further than basicClean. It also uses tools taught at the end of high school, running mode advanced fraction simplifications, power reductions and such. Also terms are sorted into a sensible order.
+// regularClean goes a few steps further than basicClean. It also uses tools taught at the end of high school, running more advanced fraction simplifications, power reductions and such. Also terms are sorted into a sensible order.
 const regularClean = {
 	...basicClean,
 	sortProducts: true,

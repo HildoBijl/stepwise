@@ -1,7 +1,7 @@
 const { selectRandomly } = require('../../../util/random')
 const gasProperties = require('../../../data/gasProperties')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { performComparison } = require('../util/check')
+const { performComparison } = require('../util/comparison')
 
 const data = {
 	skill: 'specificHeatRatio',

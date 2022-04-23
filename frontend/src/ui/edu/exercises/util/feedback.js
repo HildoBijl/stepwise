@@ -9,7 +9,7 @@ import { Expression, Equation } from 'step-wise/CAS'
 const defaultComparisonOptions = {
 	// These are options automatically added, based on exerciseData.
 	equalityOptions: {}, // Options with which to compare equality. Mainly used for comparing numbers/units.
-	check: undefined, // A check function that will be used to check for correctness. Mainly used for comparing expressions/equations.
+	comparison: undefined, // A comparison function that will be used to check for correctness. Mainly used for comparing expressions/equations.
 	prevInput: undefined,
 	prevFeedback: undefined,
 	solution: {}, // This will contain the full "solution" object returned from the getSolution function. 
@@ -69,7 +69,7 @@ export function getInputFieldFeedback(parameters, exerciseData, extraOptions) {
 		throw new Error(`Default feedback error: could not find a "getSolution" function exported from the shared file.`)
 
 	// Extract the way in which the answers are checked.
-	const { equalityOptions, check } = data
+	const { equalityOptions, comparison } = data
 
 	// Walk through the parameters and incorporate feedback.
 	const feedback = {}
@@ -93,11 +93,11 @@ export function getInputFieldFeedback(parameters, exerciseData, extraOptions) {
 		// Get the correct answer and other data to check the answer.
 		const correctAnswer = getPropertyOrDefault(solution, currParameter, false, singleParameter, true)
 		const currEqualityOptions = getPropertyOrDefault(equalityOptions, currParameter, true, singleParameter, false)
-		const currCheck = getPropertyOrDefault(check, currParameter, true, singleParameter, false)
+		const currComparison = getPropertyOrDefault(comparison, currParameter, true, singleParameter, false)
 		const currExtraOptions = (extraOptions && extraOptions[index]) || {}
 
 		// Assemble the options for the comparison.
-		const options = { equalityOptions: currEqualityOptions, check: currCheck, prevInput: prevInput[currParameter], prevFeedback: prevFeedback[currParameter], solution, ...currExtraOptions }
+		const options = { equalityOptions: currEqualityOptions, comparison: currComparison, prevInput: prevInput[currParameter], prevFeedback: prevFeedback[currParameter], solution, ...currExtraOptions }
 
 		// Call the comparison function for the correct parameter type. First check if it's a pure number.
 		const isInputANumber = inputAnswer.constructor === (0).constructor
@@ -316,12 +316,12 @@ function getFloatComparisonFeedbackTextFromComparison(comparison, options) {
 // getExpressionComparisonFeedback attempts to get feedback for expressions. (It works also for equations.) It does this solely based on the feedbackChecks provided. If none of them fire, a generic message is given.
 export function getExpressionComparisonFeedback(inputAnswer, correctAnswer, options, exerciseData) {
 	options = processOptions(options, defaultComparisonOptions)
-	const { check, text, solution, feedbackChecks } = options
+	const { comparison, text, solution, feedbackChecks } = options
 
 	// Do default comparison and check equality.
-	if (!check)
-		throw new Error(`Missing check function: no check was provided to determine the correctness of the parameter. Keep in mind: when using the getFeedback function on expressions/equations, you must define a check function for each parameter in the shared data object. (Or provide a default one for all.)`)
-	const correct = check(inputAnswer, correctAnswer, solution)
+	if (!comparison)
+		throw new Error(`Missing comparison function: no comparison was provided to determine the correctness of the parameter. Keep in mind: when using the getFeedback function on expressions/equations, you must define a comparison function for each parameter in the shared data object. (Or provide a default one for all.)`)
+	const correct = comparison(inputAnswer, correctAnswer, solution)
 
 	// Walk through the feedback checks and see if one fires.
 	const checkResult = getFeedbackCheckResult(feedbackChecks, inputAnswer, correctAnswer, solution, correct, exerciseData)

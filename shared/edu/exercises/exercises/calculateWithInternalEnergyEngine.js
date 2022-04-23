@@ -4,7 +4,7 @@ const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 let { air: { Rs, cv } } = require('../../../data/gasProperties')
 const { combinerAnd } = require('../../../skillTracking')
-const { performComparison } = require('../util/check')
+const { performComparison } = require('../util/comparison')
 
 const data = {
 	skill: 'calculateWithInternalEnergy',
