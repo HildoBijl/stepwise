@@ -22,6 +22,18 @@ class Sqrt extends SingleArgumentFunction {
 
 	simplifyBasic(options) {
 		let { argument } = this.simplifyChildren(options)
+
+		// Check for basic reductions.
+		if (options.basicReductions) {
+			// If the argument is zero, turn it into zero.
+			if (Integer.zero.equalsBasic(argument))
+				return Integer.zero
+		}
+
+		// For analysis reduce to a power.
+		if (options.toBasicForm)
+			return new Power(argument, new Fraction(1, 2)).simplifyBasic(options)
+
 		return new Sqrt(argument)
 	}
 }
@@ -48,6 +60,14 @@ class Root extends Function {
 	simplifyBasic(options) {
 		let { base, argument } = this.simplifyChildren(options)
 
+		// Check for basic reductions.
+		if (options.basicReductions) {
+			// If the argument is zero, turn it into zero.
+			if (Integer.zero.equalsBasic(argument))
+				return Integer.zero
+		}
+
+		// For analysis reduce to a power.
 		if (options.toBasicForm)
 			return new Power(argument, new Fraction(1, base)).simplifyBasic(options)
 

@@ -19,6 +19,7 @@ A few systems span more than just one directory. If you want to learn more about
 - **[The input system.](shared/inputTypes/)** Step-Wise uses a manually programmed system for inputs, allowing us to have very intuitive input fields as well as easy processing of the provided data. 
 - **[Skill tracking.](shared/skillTracking)** For every skill, the app tracks/estimates the chance that a student will correctly apply this skill in an upcoming exercise. This always gives us up-to-date data on the student progress.
 - **[Course system and skill recommendation.](frontend/src/ui/edu/course/)** In most universities, subjects are grouped into a "course". Each course then has various "chapters". To accommodate this, Step-Wise also has a course system working in exactly the same way. Within courses, the Step-Wise system intelligently recommends students which skills to practice.
+- **[Computer Algebra System (CAS)](shared/CAS)** To evaluate and check mathematical relations, Step-Wise has developed its own Javascript-based CAS.
 
 When developing Step-Wise, we adhere to a few [principles](philosophy.md). These principles may help you understand some of the design decisions made in the app. 
 

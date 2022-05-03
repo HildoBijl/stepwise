@@ -1305,7 +1305,7 @@ class Function extends Expression {
 		// Call the constructor. After all, we need access to static variables.
 		super()
 		if (args.length > this.constructor.args.length)
-			throw new Error(`Invalid function input: too many parameters were provided. The function "${this.type}" only has ${this.constructor.args.length} parameter${this.constructor.args.length === 1 ? '' : 's'}, yet received ${args.length} parameter${args.length === 1 ? '' : 's'}.`)
+			throw new Error(`Invalid function input: too many parameters were provided. The function "${this.subtype}" only has ${this.constructor.args.length} parameter${this.constructor.args.length === 1 ? '' : 's'}, yet received ${args.length} parameter${args.length === 1 ? '' : 's'}.`)
 
 		// Set up the SO from the arguments and apply them.
 		const SO = {}
@@ -1333,7 +1333,7 @@ class Function extends Expression {
 	}
 
 	toString() {
-		let result = this.type.toLowerCase()
+		let result = this.subtype.toLowerCase()
 		this.constructor.args.forEach((key, index) => {
 			if (index > 0)
 				result += `[${this[key].str}]`
@@ -1343,7 +1343,7 @@ class Function extends Expression {
 	}
 
 	toRawTex() {
-		let result = `{\\rm ${this.type.toLowerCase()}}`
+		let result = `{\\rm ${this.subtype.toLowerCase()}}`
 		this.constructor.args.forEach((key, index) => {
 			if (index > 0)
 				result += `\\left[${this[key].tex}\\right]`
@@ -1878,6 +1878,10 @@ class Ln extends SingleArgumentFunction {
 		return Math.log(this.argument.toNumber())
 	}
 
+	toRawTex() {
+		return `\\ln\\left(${this.argument.tex}\\right)`
+	}
+
 	getDerivativeBasic(variable) {
 		return new Fraction({
 			numerator: this.argument.getDerivative(variable), // Take the derivative according to the chain rule.
@@ -1887,6 +1891,17 @@ class Ln extends SingleArgumentFunction {
 
 	simplifyBasic(options) {
 		let { argument } = this.simplifyChildren(options)
+
+		// Check for basic reductions.
+		if (options.basicReductions) {
+			// If the argument is one, turn it into zero.
+			if (Integer.one.equalsBasic(argument))
+				return Integer.zero
+
+			// If the argument equals the base, turn it into one.
+			if (Variable.e.equalsBasic(argument))
+				return Integer.one
+		}
 
 		return new Ln(argument)
 	}

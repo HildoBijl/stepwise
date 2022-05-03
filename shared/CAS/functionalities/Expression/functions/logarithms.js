@@ -20,10 +20,22 @@ class Log extends Function {
 	simplifyBasic(options) {
 		let { base, argument } = this.simplifyChildren(options)
 		
+		// Check for basic reductions.
+		if (options.basicReductions) {
+			// If the argument is one, turn it into zero.
+			if (Integer.one.equalsBasic(argument))
+				return Integer.zero
+
+			// If the argument equals the base, turn it into one.
+			if (base.equalsBasic(argument))
+				return Integer.one
+		}
+
+		// For analysis reduce to only natural logarithms.
 		if (options.toBasicForm)
 			return new Fraction(new Ln(argument), new Ln(base)).simplifyBasic(options)
 
-		return new Log({ base, argument })
+		return new Log(base, argument)
 	}
 
 	static getDefaultSO() {

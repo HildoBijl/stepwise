@@ -1,5 +1,8 @@
-const { SingleArgumentFunction, Integer, Sum, Product, Fraction, Power } = require('../Expression')
+const { Variable, SingleArgumentFunction, Integer, Sum, Product, Fraction, Power } = require('../Expression')
 const { Sqrt } = require('./roots')
+
+const halfPi = Variable.pi.divideBy(2)
+const twoPi = Variable.pi.multiplyBy(2)
 
 /*
  * Sine
@@ -22,8 +25,15 @@ class Sin extends SingleArgumentFunction {
 
 		// Check for basic reductions.
 		if (options.basicReductions) {
-			if (Integer.zero.equalsBasic(argument))
-				return Integer.zero
+			// Check for cases of 0, 1 or -1.
+			if (argument.isNumeric()) {
+				if (argument.divideBy(Variable.pi).cleanForAnalysis().isSubtype(Integer))
+					return Integer.zero
+				if (argument.subtract(halfPi).divideBy(twoPi).cleanForAnalysis().isSubtype(Integer))
+					return Integer.one
+				if (argument.add(halfPi).divideBy(twoPi).cleanForAnalysis().isSubtype(Integer))
+					return Integer.one
+			}
 		}
 
 		return new Sin(argument)
@@ -52,10 +62,21 @@ class Cos extends SingleArgumentFunction {
 	simplifyBasic(options) {
 		let { argument } = this.simplifyChildren(options)
 
+		// For analysis, reduce to a sine with a phase shift.
+		if (options.forAnalysis)
+			return new Sin(argument.add(halfPi)).simplifyBasic(options)
+
 		// Check for basic reductions.
 		if (options.basicReductions) {
-			if (Integer.zero.equalsBasic(argument))
-				return Integer.one
+			// Check for cases of 0, 1 or -1.
+			if (argument.isNumeric()) {
+				if (argument.add(halfPi).divideBy(Variable.pi).cleanForAnalysis().isSubtype(Integer))
+					return Integer.zero
+				if (argument.divideBy(twoPi).cleanForAnalysis().isSubtype(Integer))
+					return Integer.one
+				if (argument.add(Variable.pi).divideBy(twoPi).cleanForAnalysis().isSubtype(Integer))
+					return Integer.one
+			}
 		}
 
 		return new Cos(argument)
@@ -83,6 +104,7 @@ class Tan extends SingleArgumentFunction {
 	simplifyBasic(options) {
 		let { argument } = this.simplifyChildren(options)
 
+		// For analysis reduce to sines and cosines.
 		if (options.toBasicForm)
 			return Fraction(Sin(argument), Cos(argument)).simplify(options)
 

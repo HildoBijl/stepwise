@@ -13,5 +13,3 @@ function interpret(obj) {
 	return SItoFO(obj.value, obj.settings)
 }
 module.exports = interpret
-
-
