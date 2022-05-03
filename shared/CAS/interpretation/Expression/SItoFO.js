@@ -30,7 +30,7 @@ function interpretSI(value, settings) {
 	return interpretBrackets(value, settings)
 }
 
-// interpretBrackets interprets everything related to brackets. This includes both regular brackets 2*(3+4), brackets with simple functions sin(2*x) and brackets for advanced functions with a parameter after it like [10]log(2*x).
+// interpretBrackets interprets everything related to brackets. This includes both regular brackets 2*(3+4), brackets with simple functions sin(2*x) and brackets for advanced functions with a parameter after it like log[10](2*x).
 function interpretBrackets(value, settings) {
 	const bracketSets = getMatchingBrackets(value)
 	const result = []
@@ -50,6 +50,7 @@ function interpretBrackets(value, settings) {
 			result.push(...getSubExpression(value, start, end))
 
 			// Verify the advanced function.
+			const { name, value: internalArguments } = value[opening.part]
 			if (!isFunctionAllowed(name, settings))
 				throw new InterpretationError(`UnknownAdvancedFunction`, name, `Could not interpret the function "${name}".`)
 			if (!advancedFunctionComponents[name])
@@ -58,7 +59,6 @@ function interpretBrackets(value, settings) {
 				throw new Error(`Invalid function processing: tried to process a function "${name}" as a function with a parameter after, but this function does not have a parameter afterwards.`)
 
 			// Interpret the advanced function.
-			const { name, value: internalArguments } = value[opening.part]
 			const shiftedOpening = { part: opening.part + 1, cursor: 0 }
 			const externalArgument = interpretSI(getSubExpression(value, shiftedOpening, closing))
 			const Component = advancedFunctionComponents[name].component
@@ -139,7 +139,7 @@ function getMatchingBrackets(value) {
 
 	// Walk through the expression parts, keeping track of opening brackets.
 	value.forEach((element, part) => {
-		// On a function with a parameter afterwards, like [10]log(, note the opening bracket.
+		// On a function with a parameter afterwards, like log[10](, note the opening bracket.
 		if (element.type === 'Function') {
 			const { name } = element
 			if (advancedFunctionComponents[name].hasParameterAfter)
@@ -395,7 +395,7 @@ function incorporateSubSup(element, result, settings) {
 	}
 }
 
-// interpretFunction interprets a function object. This only works for functions that do not have a parameter afterwards, like [10]log(...).
+// interpretFunction interprets a function object. This only works for functions that do not have a parameter afterwards, like log[10](...).
 function interpretFunction(element, settings) {
 	const { name, value } = element
 

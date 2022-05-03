@@ -28,6 +28,8 @@ Transforming between strings, SI and FO is a tad bit more complex. Transformatio
 
 It often happens that you immediately want to go from a string to an FO. In that case use `asExpression` or `asEquation`, which calls `StrToSI` and `SItoFO` sequentially.
 
+When inputting equations, there is on top of the SI also a *Functional Input (FI)* object. This object has extra data, like cursors, interpretation settings and potentially more.
+
 ## Dealing with errors
 
 When interpreting (generally SI to FO) errors may occur. Invalid strings like `2//3` or `2+` or similar may be given. In this case, an `InterpretationError` is thrown. Every such error has the following properties.

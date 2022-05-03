@@ -70,7 +70,8 @@ class Expression {
 		SO = this.checkAndRemoveSubtype(SO)
 		SO = processOptions(SO, this.constructor.getDefaultSO())
 		Object.keys(SO).forEach(key => {
-			this[key] = SO[key]
+			if (SO[key] !== undefined)
+				this[key] = SO[key]
 		})
 	}
 
@@ -1348,7 +1349,7 @@ class Function extends Expression {
 			if (index > 0)
 				result += `\\left[${this[key].tex}\\right]`
 		})
-		result += `\\left(${this[key].tex}\\right)`
+		result += `\\!\\left(${this[firstOf(this.constructor.args)].tex}\\right)`
 		return result
 	}
 
