@@ -1,11 +1,13 @@
 // This file has all functionalities to turn Expressions, Equations and such from String format to Input Object format. (You can turn String to SI, SI to FO, and FO to String.)
 
-const { getNextSymbol, removeWhitespace } = require('../../../util/strings')
+const { getNextSymbol, removeWhitespace, isLetter } = require('../../../util/strings')
 const { processOptions } = require('../../../util/objects')
+const { repeat } = require('../../../util/functions')
 
 const { defaultInterpretationSettings } = require('../../options')
 
-const { getStartCursor, getEndCursor, getSubExpression, findEndOfTerm, moveRight, addExpressionType } = require('../support')
+const { getEmpty, getStartCursor, getEndCursor, squareBrackets, getSubExpression, findEndOfTerm, moveLeft, moveRight, getMatchingBrackets, findCharacterAtZeroBracketCount, mergeAdjacentExpressionParts, addExpressionType } = require('../support')
+const { advancedFunctionComponents, accents, isFunctionAllowed } = require('../functions')
 
 function strToSI(str, settings = {}) {
 	settings = processOptions(settings, defaultInterpretationSettings)
@@ -22,17 +24,126 @@ function strToSI(str, settings = {}) {
 module.exports = strToSI
 
 function processExpression(value, settings) {
+	// Check for advanced functions like log(100) or log[10](100) and for accents like dot(x).
+	value = processFunctionsAndAccents(value, settings)
+
 	// Check for subscripts and powers.
 	value = processSubSups(value, settings)
 
 	// Check for fractions.
 	value = processFractions(value, settings)
 
-	// ToDo: include accents and turn them into { type: 'Accent', name: 'hat', alias: 'hat-like', value: 'm' }.
-
-	// ToDo: extend this further with other function types. Like sqrt[3](8).
-
+	// All done!
 	return value
+}
+
+// processFunctionsAndAccents takes an array of ExpressionParts. If there is a string like "log(100)" or "log[10](100)" it is turned into an advanced function { type: 'Function', name: 'log', alias: 'log(', value: [{...}, {...}] }. Similarly, strings like "dot(x)" are turned into accents like { type: 'Accent', name: 'dot', alias: 'dot(', value: "x" }.
+function processFunctionsAndAccents(value, settings) {
+	const bracketSets = getMatchingBrackets(value)
+	const result = []
+
+	// Walk through the matching brackets and add each part accordingly.
+	let lastPosition = getStartCursor(value)
+	bracketSets.forEach(bracketSet => {
+		const { opening, closing } = bracketSet
+
+		// If the opening bracket has already been processed, ignore it.
+		if (value[opening.part].type !== 'ExpressionPart')
+			return
+
+		// If the opening bracket is a square bracket, ignore it.
+		if (value[opening.part].value[opening.cursor] === '[')
+			return
+
+		// Retrieve any potential optional arguments between square brackets.
+		let end = { ...opening }
+		let arguments = []
+		while (value[end.part].type === 'ExpressionPart' && end.cursor > 0 && value[end.part].value[end.cursor - 1] === ']') {
+			end = moveLeft(end)
+			const start = findCharacterAtZeroBracketCount(value, end, '[', false, false, squareBrackets)
+			arguments.push(getSubExpression(value, start, end))
+			end = moveLeft(start)
+		}
+		arguments = arguments.reverse().map(argument => addExpressionType(processExpression(argument, settings)))
+
+		// Retrieve the function name by looking for the first non-letter character.
+		const str = value[end.part].value
+		let movingCursor = end.cursor
+		while (movingCursor > 0 && isLetter(str[movingCursor - 1]))
+			movingCursor--
+		const functionName = str.substring(movingCursor, end.cursor)
+		end.cursor = movingCursor
+
+		// If the function name corresponds to an acceptable advanced function, apply it.
+		if (advancedFunctionComponents[functionName] && isFunctionAllowed(functionName, settings)) {
+			// Check the number of arguments and fill it up if there are too few.
+			const numOptionalArguments = advancedFunctionComponents[functionName].numArguments - 1
+			if (arguments.length > numOptionalArguments)
+				throw new Error(`Invalid optional parameters: tried to interpret a "${functionName}" function but received ${arguments.length} optional parameter${arguments.length === 1 ? '' : 's'}. The maximum allowed number for this function is ${numOptionalArguments}.`)
+			repeat(numOptionalArguments - arguments.length, () => arguments.push(addExpressionType(getEmpty())))
+
+			// Add the part prior to the function.
+			result.push(...getSubExpression(value, lastPosition, end))
+
+			// Get the part between brackets.
+			const partBetweenBrackets = getSubExpression(value, moveRight(opening), closing)
+
+			// Set up the function. If it needs to pull a parameter inside, like "root[3](dot(x))", then do so first.
+			const func = advancedFunctionComponents[functionName]
+			if (!func.hasParameterAfter)
+				arguments.push(...processFunctionsAndAccents(partBetweenBrackets, settings))
+			result.push({
+				type: 'Function',
+				name: functionName,
+				alias: `${functionName}(`,
+				value: arguments,
+			})
+
+			// If the part between brackets has not been pulled inside, like for "log[10](dot(x))", process it separately.
+			if (func.hasParameterAfter)
+				result.push(...processFunctionsAndAccents(partBetweenBrackets, settings))
+
+			// Shift the cursor accordingly. When the parameter between brackets has been pulled inside, also skip past the closing bracket.
+			return lastPosition = func.hasParameterAfter ? closing : moveRight(closing)
+		}
+
+		// If the function name corresponds to an accent, apply it.
+		if (settings.accents && accents.includes(functionName)) {
+			// Ensure that there are no optional arguments.
+			if (arguments.length > 0)
+				throw new Error(`Interpretation error: received an accent named "${functionName}" but this was followed by ${arguments.length === 1 ? `an optional parameter` : `${arguments.length} optional parameters`}. Accents cannot have optional parameters. They should be of the form "dot(x)".`)
+
+			// Add the part prior to the accent.
+			result.push(...getSubExpression(value, lastPosition, end))
+
+			// Add the accent itself and shift the cursor.
+			if (opening.part !== closing.part)
+				throw new Error(`Invalid expression accent: received an accent with a parameter between brackets that did not have pure text.`)
+			const str = value[opening.part].value
+			result.push({
+				type: 'Accent',
+				name: functionName,
+				alias: `${functionName}(`,
+				value: str.substring(opening.cursor + 1, closing.cursor),
+			})
+			return lastPosition = moveRight(closing)
+		}
+
+		// No known advanced function or accent. If there were optional arguments, throw an error.
+		if (arguments.length > 0)
+			throw new Error(`Invalid expression: found square brackets but could not recognize the function with name "${functionName}". This function does not support optional parameters.`)
+
+		// We most likely have a basic function like "sin(x+2)" or a multiplication like "x(x+2)". Process the part between brackets separately.
+		result.push(...getSubExpression(value, lastPosition, moveRight(opening)))
+		const partBetweenBrackets = processFunctionsAndAccents(getSubExpression(value, moveRight(opening), closing), settings)
+		result.push(...partBetweenBrackets)
+		return lastPosition = closing
+	})
+
+	// Add the remaining part of the expression.
+	const end = getEndCursor(value)
+	result.push(...getSubExpression(value, lastPosition, end))
+	return mergeAdjacentExpressionParts(result)
 }
 
 // processSubSups takes an Expression value with possible underscores/powers "_" and "^" and processes these symbols. It creates SubSup objects of the form { sub: 'b', sup: '2' } (okay, with proper object types).
@@ -127,7 +238,7 @@ function processExpressionPartSubSups(part, settings) {
 }
 
 // processFractions takes an array of ExpressionParts with possibly other elements in there, and sets up the "frac" functions, just like in the input objects.
-function processFractions(value) {
+function processFractions(value, settings) {
 	// Set up a handler that finds the next slash symbol.
 	const getNextSymbol = () => {
 		const part = value.findIndex(part => part.type === 'ExpressionPart' && part.value.indexOf('/') !== -1)
@@ -136,12 +247,12 @@ function processFractions(value) {
 
 	// While there is a next symbol, apply it.
 	for (let nextSymbol = getNextSymbol(); nextSymbol; nextSymbol = getNextSymbol()) {
-		value = applyFraction(value, nextSymbol)
+		value = applyFraction(value, nextSymbol, settings)
 	}
 	return value
 }
 
-function applyFraction(value, cursor) {
+function applyFraction(value, cursor, settings) {
 	// Define cursors.
 	const start = getStartCursor(value)
 	const beforeSymbol = cursor
@@ -151,8 +262,8 @@ function applyFraction(value, cursor) {
 	const end = getEndCursor(value)
 
 	// Set up the fraction value.
-	const numerator = processExpression(getSubExpression(value, leftSide, beforeSymbol))
-	const denominator = processExpression(getSubExpression(value, afterSymbol, rightSide))
+	const numerator = processExpression(getSubExpression(value, leftSide, beforeSymbol), settings)
+	const denominator = processExpression(getSubExpression(value, afterSymbol, rightSide), settings)
 	const fractionValue = [
 		addExpressionType(numerator),
 		addExpressionType(denominator),
@@ -173,6 +284,7 @@ function applyFraction(value, cursor) {
 	]
 }
 
+// ToDo: document this function. And how much is it needed? It's currently only used in processSubSup? Possible move it to support? Or use one of the support functions?
 function getBracketEnd(str, from) {
 	if (str[from] !== '(')
 		throw new Error(`Invalid getBracketEnd call: this function can only be called on a string where the start index points to an opening bracket. The matching closing bracket is then found. But this index did not point to an opening bracket. Values given were str="${str}" and from="${from}".`)

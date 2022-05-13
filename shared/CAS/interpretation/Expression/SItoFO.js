@@ -6,7 +6,7 @@ const { Expression, Constant, Variable, Sum, Product, Power } = require('../../f
 const { defaultInterpretationSettings } = require('../../options')
 
 const InterpretationError = require('../InterpretationError')
-const { isEmpty, getStartCursor, getEndCursor, getSubExpression, moveRight } = require('../support')
+const { isEmpty, getStartCursor, getEndCursor, getSubExpression, moveRight, getMatchingBrackets } = require('../support')
 const { basicFunctionComponents, advancedFunctionComponents, accents, isFunctionAllowed } = require('../functions')
 
 function SItoFO(value, settings = {}) {
@@ -41,13 +41,12 @@ function interpretBrackets(value, settings) {
 		const { opening, closing } = bracketSet
 
 		// If the opening bracket is due to an advanced function, interpret the part before it and the function itself directly.
-		const start = lastPosition
 		const end = { ...opening }
 		if (value[opening.part].type === 'Function') {
 			// Interpret the part prior to the function.
 			end.part--
 			end.cursor = value[end.part].length
-			result.push(...getSubExpression(value, start, end))
+			result.push(...getSubExpression(value, lastPosition, end))
 
 			// Verify the advanced function.
 			const { name, value: internalArguments } = value[opening.part]
@@ -60,11 +59,11 @@ function interpretBrackets(value, settings) {
 
 			// Interpret the advanced function.
 			const shiftedOpening = { part: opening.part + 1, cursor: 0 }
-			const externalArgument = interpretSI(getSubExpression(value, shiftedOpening, closing))
+			const externalArgument = interpretSI(getSubExpression(value, shiftedOpening, closing), settings)
 			const Component = advancedFunctionComponents[name].component
 			result.push(new Component(
+				externalArgument,
 				...internalArguments.map(expression => interpretSI(expression.value, settings)),
-				externalArgument
 			))
 
 			// Finally shift the position to after the closing bracket.
@@ -72,8 +71,7 @@ function interpretBrackets(value, settings) {
 		}
 
 		// Interpret the part between brackets.
-		const shiftedOpening = moveRight(opening)
-		const partBetweenBrackets = getSubExpression(value, shiftedOpening, closing)
+		const partBetweenBrackets = getSubExpression(value, moveRight(opening), closing)
 		const interpretedExpression = interpretSI(partBetweenBrackets, settings)
 
 		// When there is no special function, find the letters prior to the bracket. These may be the function name for a basic or custom function.
@@ -87,11 +85,9 @@ function interpretBrackets(value, settings) {
 		if (isFunctionAllowed(functionName, settings)) {
 			// Add the part prior to the brackets and prior to the function name.
 			end.cursor -= functionName.length
-			result.push(...getSubExpression(value, start, end))
+			result.push(...getSubExpression(value, lastPosition, end))
 
 			// Verify the basic function.
-			if (!isFunctionAllowed(functionName, settings))
-				throw new InterpretationError(`UnknownBasicFunction`, functionName, `Could not interpret the function "${functionName}".`)
 			if (!basicFunctionComponents[functionName])
 				throw new Error(`Invalid function name: the function "${functionName}" was allowed by the isFunctionAllowed function, but it does not have a known component.`)
 
@@ -106,7 +102,7 @@ function interpretBrackets(value, settings) {
 		}
 
 		// It is a regular bracket. Just add the part prior to the brackets and the part inside the brackets, and we're done.
-		result.push(...getSubExpression(value, start, end))
+		result.push(...getSubExpression(value, lastPosition, end))
 		result.push(interpretedExpression)
 		return lastPosition = moveRight(closing)
 	})
@@ -117,59 +113,6 @@ function interpretBrackets(value, settings) {
 
 	// With brackets taken care of, continue with sums.
 	return interpretSums(result, settings)
-}
-
-// getMatchingBrackets returns an array [{ opening: { part: 0, cursor: 4 }, closing: { part: 2, cursor: 0 } }, ... ] with matching brackets. Brackets inside these brackets are ignored (assuming they match).
-function getMatchingBrackets(value) {
-	// Set up a bracket list that will be filled.
-	const brackets = []
-	let level = 0
-	const noteOpeningBracket = (position) => {
-		if (level === 0)
-			brackets.push({ opening: position })
-		level++
-	}
-	const noteClosingBracket = (position) => {
-		if (level === 0)
-			throw new InterpretationError('UnmatchedClosingBracket', position, `Could not interpret the expression due to a missing opening bracket.`)
-		if (level === 1)
-			lastOf(brackets).closing = position
-		level--
-	}
-
-	// Walk through the expression parts, keeping track of opening brackets.
-	value.forEach((element, part) => {
-		// On a function with a parameter afterwards, like log[10](, note the opening bracket.
-		if (element.type === 'Function') {
-			const { name } = element
-			if (advancedFunctionComponents[name].hasParameterAfter)
-				noteOpeningBracket({ part })
-		}
-
-		// With the above checked, only expression parts can have relevant brackets. Ignore other element types.
-		if (element.type !== 'ExpressionPart')
-			return
-
-		// Walk through the brackets in this expression part.
-		const str = element.value
-		const getNextBracket = (fromPosition = -1) => getNextSymbol(str, ['(', ')'], fromPosition + 1)
-		for (let nextBracket = getNextBracket(); nextBracket !== -1; nextBracket = getNextBracket(nextBracket)) {
-			const bracketPosition = { part, cursor: nextBracket }
-			if (str[nextBracket] === '(')
-				noteOpeningBracket(bracketPosition)
-			else
-				noteClosingBracket(bracketPosition)
-		}
-	})
-
-	// Check that all brackets have been closed.
-	if (level > 0) {
-		const bracketPosition = lastOf(brackets).opening
-		throw new InterpretationError('UnmatchedOpeningBracket', bracketPosition, `Could not interpret the expression part due to a missing closing bracket.`)
-	}
-
-	// All good. Return the result.
-	return brackets
 }
 
 // interpretSums interprets pluses and minuses. It assumes there are no brackets left.
@@ -395,7 +338,7 @@ function incorporateSubSup(element, result, settings) {
 	}
 }
 
-// interpretFunction interprets a function object. This only works for functions that do not have a parameter afterwards, like log[10](...).
+// interpretFunction interprets a function object. This only works for functions like "root[3](8)" that do not have a parameter afterwards, and not for functions like log[10](...) that do.
 function interpretFunction(element, settings) {
 	const { name, value } = element
 

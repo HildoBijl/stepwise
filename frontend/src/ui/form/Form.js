@@ -122,6 +122,7 @@ export default function Form({ children }) {
 		const validation = {}
 		const inputFI = getInputFI()
 		const inputSI = getInputSI()
+		console.log(inputSI)
 		Object.keys(inputFI).forEach(id => { // Walk through all validation functions and run them.
 			const validate = getFieldFunction(id, 'validate')
 			if (validate) {

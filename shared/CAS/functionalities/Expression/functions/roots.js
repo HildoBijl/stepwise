@@ -41,7 +41,7 @@ Sqrt.type = 'Sqrt'
 module.exports.Sqrt = Sqrt
 
 /*
- * Cosine
+ * Root
  */
 
 class Root extends Function {
@@ -71,7 +71,7 @@ class Root extends Function {
 		if (options.toBasicForm)
 			return new Power(argument, new Fraction(1, base)).simplifyBasic(options)
 
-		return new Root({ base, argument })
+		return new Root({ argument, base })
 	}
 }
 Root.type = 'Root'

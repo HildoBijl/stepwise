@@ -18,8 +18,8 @@ class Log extends Function {
 	}
 
 	simplifyBasic(options) {
-		let { base, argument } = this.simplifyChildren(options)
-		
+		let { argument, base } = this.simplifyChildren(options)
+
 		// Check for basic reductions.
 		if (options.basicReductions) {
 			// If the argument is one, turn it into zero.
@@ -35,7 +35,7 @@ class Log extends Function {
 		if (options.toBasicForm)
 			return new Fraction(new Ln(argument), new Ln(base)).simplifyBasic(options)
 
-		return new Log(base, argument)
+		return new Log({ argument, base })
 	}
 
 	static getDefaultSO() {

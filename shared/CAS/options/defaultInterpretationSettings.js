@@ -1,5 +1,6 @@
 // The interpretation settings determine what is and isn't allowed during interpretation. They are usually derived from the input field settings. These are the default values.
 module.exports = {
+	accents: true, // Are accents allowed?
 	divide: true, // Are fractions allowed?
 	power: true, // Are powers allowed?
 	subscript: true, // Are subscripts of variables allowed?

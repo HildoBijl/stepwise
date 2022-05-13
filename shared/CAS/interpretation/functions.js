@@ -1,5 +1,5 @@
 
-const { Fraction, Ln, Log, Sqrt, Root, Sin, Cos, Tan, Arcsin, Arccos, Arctan} = require('../functionalities')
+const { Fraction, Ln, Log, Sqrt, Root, Sin, Cos, Tan, Arcsin, Arccos, Arctan } = require('../functionalities')
 
 // Define all the basic and advanced functions and all accents that are recognized.
 const basicFunctionComponents = {
@@ -20,20 +20,25 @@ module.exports.basicFunctions = Object.keys(basicFunctionComponents)
 const advancedFunctionComponents = {
 	frac: {
 		component: Fraction,
+		numArguments: 2,
 	},
 	subSup: {
 		// Does not have a component. It's interpreted separately.
 		hasParameterAfter: false,
+		numArguments: 2,
 	},
 	log: {
 		component: Log,
 		hasParameterAfter: true,
+		numArguments: 2,
 	},
 	sqrt: {
 		component: Sqrt,
+		numArguments: 1,
 	},
 	root: {
 		component: Root,
+		numArguments: 2,
 	},
 }
 module.exports.advancedFunctionComponents = advancedFunctionComponents

@@ -1,7 +1,9 @@
+const { getNextSymbol } = require('../../util/strings')
 const { isObject } = require('../../util/objects')
 const { firstOf, lastOf } = require('../../util/arrays')
 
 const { advancedFunctionComponents } = require('./functions')
+const InterpretationError = require('./InterpretationError')
 
 function getEmpty() {
 	return [{ type: 'ExpressionPart', value: '' }]
@@ -23,6 +25,12 @@ function getEndCursor(value = getEmpty()) {
 	return { part: value.length - 1, cursor: lastOf(value).value.length }
 }
 module.exports.getEndCursor = getEndCursor
+
+// Define various sets of brackets, used by functions searching for bracket starts/endings.
+const roundBrackets = ['(', ')']
+module.exports.roundBrackets = roundBrackets
+const squareBrackets = ['[', ']']
+module.exports.squareBrackets = squareBrackets
 
 // getSubExpression gets an expression array (the SI/FI value) and returns the expression between the left and the right cursor. The right cursor MUST be to the right (or equal to) the left cursor. Both cursors must be in an ExpressionPart (string) part of the expression array. The returned value is a value-array too.
 function getSubExpression(value, left, right) {
@@ -50,7 +58,16 @@ function getSubExpression(value, left, right) {
 }
 module.exports.getSubExpression = getSubExpression
 
-// moveRight takes a cursor position in an expression and moves it one to the right. This is useful if you want to skip over an element.
+// moveLeft takes a cursor position in an expression and moves it one to the left. It does this without doing any checks on the expression to see if this is possible.
+function moveLeft(position, amount = 1) {
+	return {
+		...position,
+		cursor: position.cursor - amount,
+	}
+}
+module.exports.moveLeft = moveLeft
+
+// moveRight takes a cursor position in an expression and moves it one to the right. It does this without doing any checks on the expression to see if this is possible.
 function moveRight(position, amount = 1) {
 	return {
 		...position,
@@ -72,11 +89,13 @@ function findEndOfTerm(value, cursor, toRight = true, atLeastOneCharacter = fals
 }
 module.exports.findEndOfTerm = findEndOfTerm
 
-// findCharacterAtZeroBracketCount walks through an Expression value, from the given cursor position, and looks for certain characters, stopping when one is found when the net bracket count is zero or lower. (The characters parameter may be a character like "+" or an array like ["+","-"].) This traversing is done in the given direction. (Default: toRight = true.) If skipFirst is set to true (default false) then the first character (even if it is a searched-for character) is not considered. It IS taken into account for the next bracket count though. If the net bracket count becomes negative (there is a closing bracket too many) then the traversing continues; unless of course the closing bracket is part of the characters array. If nothing is found, the start/end position (depending on direction) of the expression is given.
-function findCharacterAtZeroBracketCount(value, cursor, characters, toRight = true, skipFirst = false) {
-	// Process input.
-	if (!Array.isArray(characters))
-		characters = [characters]
+// findCharacterAtZeroBracketCount walks through an Expression value, from the given cursor position, and looks for certain characters, stopping when one is found when the net bracket count is zero or lower. (The characters parameter may be a character like "+" or an array like ["+","-"] or even a function that checks if it is a wanted character.) This traversing is done in the given direction. (Default: toRight = true.) If skipFirst is set to true (default false) then the first character (even if it is a searched-for character) is not considered. It IS taken into account for the next bracket count though. If the net bracket count becomes negative (there is a closing bracket too many) then the traversing continues; unless of course the closing bracket is part of the characters array. If nothing is found, the start/end position (depending on direction) of the expression is given.
+function findCharacterAtZeroBracketCount(value, cursor, isWantedCharacter, toRight = true, skipFirst = false, brackets = roundBrackets) {
+	// Process input. Ensure that isWantedCharacter is a function.
+	if (typeof isWantedCharacter !== 'function') {
+		const characters = Array.isArray(isWantedCharacter) ? isWantedCharacter : [isWantedCharacter]
+		isWantedCharacter = (char) => characters.includes(char)
+	}
 
 	// Define iterators: parameters that will change as we go.
 	let { part: partIterator, cursor: cursorIterator } = cursor
@@ -124,17 +143,17 @@ function findCharacterAtZeroBracketCount(value, cursor, characters, toRight = tr
 		const nextSymbol = getNextSymbol()
 
 		// On a breaking character, return the current cursor position. 
-		if (bracketCount <= 0 && characters.includes(nextSymbol) && (!skipFirst || !first))
+		if (bracketCount <= 0 && isWantedCharacter(nextSymbol) && (!skipFirst || !first))
 			return { part: partIterator, cursor: cursorIterator }
 
 		// On a bracket, adjust the bracket count.
-		if (nextSymbol === '(')
+		if (nextSymbol === brackets[0])
 			bracketCount += toRight ? 1 : -1
-		else if (nextSymbol === ')')
+		else if (nextSymbol === brackets[1])
 			bracketCount += toRight ? -1 : 1
 
 		// On an encountered function, if there is a parameter after the function, the function counts as a bracket too. Count this as well.
-		if (isObject(nextSymbol) && nextSymbol.type === 'Function' && advancedFunctionComponents[nextSymbol.name].hasParameterAfter)
+		if (isObject(nextSymbol) && nextSymbol.type === 'Function' && advancedFunctionComponents[nextSymbol.name].hasParameterAfter && brackets[0] === '(')
 			bracketCount += (toRight ? 1 : -1)
 
 		// All good so far! Shift the cursor and check out the next symbol.
@@ -146,6 +165,74 @@ function findCharacterAtZeroBracketCount(value, cursor, characters, toRight = tr
 	return { part: partIterator, cursor: cursorIterator }
 }
 module.exports.findCharacterAtZeroBracketCount = findCharacterAtZeroBracketCount
+
+// getMatchingBrackets takes an object in (partial) SI format and returns an array [{ opening: { part: 0, cursor: 4 }, closing: { part: 2, cursor: 0 } }, ... ] with matching brackets. Brackets inside these brackets are ignored (assuming they match).
+function getMatchingBrackets(value) {
+	// Set up a bracket list that will be filled.
+	const brackets = []
+	let level = 0
+	const noteOpeningBracket = (position) => {
+		if (level === 0)
+			brackets.push({ opening: position })
+		level++
+	}
+	const noteClosingBracket = (position) => {
+		if (level === 0)
+			throw new InterpretationError('UnmatchedClosingBracket', position, `Could not interpret the expression due to a missing opening bracket.`)
+		if (level === 1)
+			lastOf(brackets).closing = position
+		level--
+	}
+
+	// Walk through the expression parts, keeping track of opening brackets.
+	value.forEach((element, part) => {
+		// On a function with a parameter afterwards, like log[10](, note the opening bracket.
+		if (element.type === 'Function') {
+			const { name } = element
+			if (advancedFunctionComponents[name].hasParameterAfter)
+				noteOpeningBracket({ part })
+		}
+
+		// With the above checked, only expression parts can have relevant brackets. Ignore other element types.
+		if (element.type !== 'ExpressionPart')
+			return
+
+		// Walk through the brackets in this expression part.
+		const str = element.value
+		const getNextBracket = (fromPosition = -1) => getNextSymbol(str, ['(', ')', '[', ']'], fromPosition + 1)
+		for (let nextBracket = getNextBracket(); nextBracket !== -1; nextBracket = getNextBracket(nextBracket)) {
+			const bracketPosition = { part, cursor: nextBracket }
+			if (str[nextBracket] === '(' || str[nextBracket] === '[')
+				noteOpeningBracket(bracketPosition)
+			else
+				noteClosingBracket(bracketPosition)
+		}
+	})
+
+	// Check that all brackets have been closed.
+	if (level > 0) {
+		const bracketPosition = lastOf(brackets).opening
+		throw new InterpretationError('UnmatchedOpeningBracket', bracketPosition, `Could not interpret the expression part due to a missing closing bracket.`)
+	}
+
+	// All good. Return the result.
+	return brackets
+}
+module.exports.getMatchingBrackets = getMatchingBrackets
+
+// mergeAdjacentExpressionParts takes an Expression value array like [{ type: 'ExpressionPart', value: "..."}, {...}, {...}] and merges adjacent ExpressionPart types into a single one.
+function mergeAdjacentExpressionParts(value) {
+	const result = []
+	value.forEach(part => {
+		const lastPart = lastOf(result)
+		if (part.type === 'ExpressionPart' && lastPart && lastPart.type === 'ExpressionPart')
+			result[result.length-1] = { ...lastPart, value: `${lastPart.value}${part.value}` }
+		else
+			result.push(part)
+	})
+	return result
+}
+module.exports.mergeAdjacentExpressionParts = mergeAdjacentExpressionParts
 
 // addExpressionType gets an Expression value and wraps it in an object with type Expression. This is useful because inside Expressions many subexpressions have this format.
 function addExpressionType(value) {
