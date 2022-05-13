@@ -6,7 +6,8 @@ const { Expression, Constant, Variable, Sum, Product, Power } = require('../../f
 const { defaultInterpretationSettings } = require('../../options')
 
 const InterpretationError = require('../InterpretationError')
-const { isEmpty, getStartCursor, getEndCursor, getSubExpression, moveRight, getMatchingBrackets } = require('../support')
+const { isEmpty, getStartCursor, getEndCursor, getSubExpression, moveRight } = require('../support')
+const { getMatchingBrackets } = require('../characterLocalization')
 const { basicFunctionComponents, advancedFunctionComponents, accents, isFunctionAllowed } = require('../functions')
 
 function SItoFO(value, settings = {}) {

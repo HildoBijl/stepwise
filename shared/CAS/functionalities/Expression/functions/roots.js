@@ -1,4 +1,4 @@
-const { SingleArgumentFunction, Function, Fraction, Power, simplifyOptions } = require('../Expression')
+const { Integer, SingleArgumentFunction, Function, Fraction, Power, simplifyOptions } = require('../Expression')
 
 /*
  * Sqrt
@@ -72,6 +72,13 @@ class Root extends Function {
 			return new Power(argument, new Fraction(1, base)).simplifyBasic(options)
 
 		return new Root({ argument, base })
+	}
+
+	static getDefaultSO() {
+		return {
+			argument: Integer.one,
+			base: Integer.two,
+		}
 	}
 }
 Root.type = 'Root'

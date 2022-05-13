@@ -2,7 +2,8 @@
 	"name": "step-wise",
 	"version": "1.0.0",
 	"scripts": {
-		"test": "jest .*\\.test\\.js"
+		"test": "jest .*\\.test\\.js",
+		"test:watch": "jest --watch .*\\.test\\.js"
 	},
 	"dependencies": {},
 	"devDependencies": {

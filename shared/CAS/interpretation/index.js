@@ -2,6 +2,7 @@ const expression = require('./Expression')
 const equation = require('./Equation')
 const support = require('./support')
 const functions = require('./functions')
+const characterLocalization = require('./characterLocalization')
 const InterpretationError = require('./InterpretationError')
 
 module.exports = {
@@ -20,7 +21,10 @@ module.exports = {
 	interpretEquation: equation.interpret,
 
 	// Export supporting matters as packages.
-	support,
+	support: {
+		...support,
+		...characterLocalization,
+	},
 	functions,
 	InterpretationError,
 }

@@ -2,11 +2,11 @@
 
 const { getNextSymbol, removeWhitespace, isLetter } = require('../../../util/strings')
 const { processOptions } = require('../../../util/objects')
-const { repeat } = require('../../../util/functions')
 
 const { defaultInterpretationSettings } = require('../../options')
 
-const { getEmpty, getStartCursor, getEndCursor, squareBrackets, getSubExpression, findEndOfTerm, moveLeft, moveRight, getMatchingBrackets, findCharacterAtZeroBracketCount, mergeAdjacentExpressionParts, addExpressionType } = require('../support')
+const { getStartCursor, getEndCursor, getSubExpression, moveLeft, moveRight, mergeAdjacentExpressionParts, addExpressionType } = require('../support')
+const { squareBrackets, findEndOfTerm, getMatchingBrackets, findCharacterAtZeroBracketCount } = require('../characterLocalization')
 const { advancedFunctionComponents, accents, isFunctionAllowed } = require('../functions')
 
 function strToSI(str, settings = {}) {
@@ -57,14 +57,14 @@ function processFunctionsAndAccents(value, settings) {
 
 		// Retrieve any potential optional arguments between square brackets.
 		let end = { ...opening }
-		let arguments = []
+		let optionalArguments = []
 		while (value[end.part].type === 'ExpressionPart' && end.cursor > 0 && value[end.part].value[end.cursor - 1] === ']') {
 			end = moveLeft(end)
 			const start = findCharacterAtZeroBracketCount(value, end, '[', false, false, squareBrackets)
-			arguments.push(getSubExpression(value, start, end))
+			optionalArguments.push(getSubExpression(value, start, end))
 			end = moveLeft(start)
 		}
-		arguments = arguments.reverse().map(argument => addExpressionType(processExpression(argument, settings)))
+		optionalArguments = optionalArguments.reverse().map(argument => addExpressionType(processExpression(argument, settings)))
 
 		// Retrieve the function name by looking for the first non-letter character.
 		const str = value[end.part].value
@@ -76,11 +76,12 @@ function processFunctionsAndAccents(value, settings) {
 
 		// If the function name corresponds to an acceptable advanced function, apply it.
 		if (advancedFunctionComponents[functionName] && isFunctionAllowed(functionName, settings)) {
-			// Check the number of arguments and fill it up if there are too few.
-			const numOptionalArguments = advancedFunctionComponents[functionName].numArguments - 1
-			if (arguments.length > numOptionalArguments)
-				throw new Error(`Invalid optional parameters: tried to interpret a "${functionName}" function but received ${arguments.length} optional parameter${arguments.length === 1 ? '' : 's'}. The maximum allowed number for this function is ${numOptionalArguments}.`)
-			repeat(numOptionalArguments - arguments.length, () => arguments.push(addExpressionType(getEmpty())))
+			// Check the number of arguments and fill it up with defaults if there are too few.
+			const defaultOptionalArguments = advancedFunctionComponents[functionName].defaultArguments.slice(1)
+			const numOptionalArguments = defaultOptionalArguments.length
+			if (optionalArguments.length > numOptionalArguments)
+				throw new Error(`Invalid optional parameters: tried to interpret a "${functionName}" function but received ${optionalArguments.length} optional parameter${optionalArguments.length === 1 ? '' : 's'}. The maximum allowed number for this function is ${numOptionalArguments}.`)
+			optionalArguments = defaultOptionalArguments.map((value, index) => optionalArguments[index] || value)
 
 			// Add the part prior to the function.
 			result.push(...getSubExpression(value, lastPosition, end))
@@ -91,12 +92,12 @@ function processFunctionsAndAccents(value, settings) {
 			// Set up the function. If it needs to pull a parameter inside, like "root[3](dot(x))", then do so first.
 			const func = advancedFunctionComponents[functionName]
 			if (!func.hasParameterAfter)
-				arguments.push(...processFunctionsAndAccents(partBetweenBrackets, settings))
+				optionalArguments = [addExpressionType(processExpression(partBetweenBrackets, settings)), ...optionalArguments]
 			result.push({
 				type: 'Function',
 				name: functionName,
 				alias: `${functionName}(`,
-				value: arguments,
+				value: optionalArguments,
 			})
 
 			// If the part between brackets has not been pulled inside, like for "log[10](dot(x))", process it separately.
@@ -110,8 +111,8 @@ function processFunctionsAndAccents(value, settings) {
 		// If the function name corresponds to an accent, apply it.
 		if (settings.accents && accents.includes(functionName)) {
 			// Ensure that there are no optional arguments.
-			if (arguments.length > 0)
-				throw new Error(`Interpretation error: received an accent named "${functionName}" but this was followed by ${arguments.length === 1 ? `an optional parameter` : `${arguments.length} optional parameters`}. Accents cannot have optional parameters. They should be of the form "dot(x)".`)
+			if (optionalArguments.length > 0)
+				throw new Error(`Interpretation error: received an accent named "${functionName}" but this was followed by ${optionalArguments.length === 1 ? `an optional parameter` : `${arguments.length} optional parameters`}. Accents cannot have optional parameters. They should be of the form "dot(x)".`)
 
 			// Add the part prior to the accent.
 			result.push(...getSubExpression(value, lastPosition, end))
@@ -130,7 +131,7 @@ function processFunctionsAndAccents(value, settings) {
 		}
 
 		// No known advanced function or accent. If there were optional arguments, throw an error.
-		if (arguments.length > 0)
+		if (optionalArguments.length > 0)
 			throw new Error(`Invalid expression: found square brackets but could not recognize the function with name "${functionName}". This function does not support optional parameters.`)
 
 		// We most likely have a basic function like "sin(x+2)" or a multiplication like "x(x+2)". Process the part between brackets separately.

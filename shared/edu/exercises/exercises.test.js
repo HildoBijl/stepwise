@@ -24,6 +24,9 @@ describe('Check all exercises:', () => {
 			try {
 				exercise = require(`./exercises/${exerciseId}`)
 			} catch (e) {
+				console.log(e)
+				console.log(e.message)
+				throw (e)
 				it('has a shared file', () => fail())
 			}
 			if (!exercise)

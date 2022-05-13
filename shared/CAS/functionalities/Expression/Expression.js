@@ -44,7 +44,7 @@ class Expression {
 	constructor(SO = {}) {
 		// This class may not be instantiated.
 		if (this.constructor === Expression)
-			throw new TypeError(`Abstract class "Expression" may not be instantiated directly.`)
+			throw new Error(`Abstract class "Expression" may not be instantiated directly.`)
 
 		// If it's a child class, use it.
 		if (SO instanceof Expression)
@@ -305,7 +305,7 @@ class Expression {
 			if (variables.length === 0)
 				variable = 'x' // Default.
 			else if (variables.length > 1)
-				throw new TypeError(`No variable was given. Also, the given expression depends on multiple variables, so no default variable could be extracted. The expression is "${this.toString()}".`)
+				throw new Error(`Invalid derivative request: no variable was given. The given expression depends on multiple variables, so no default variable could be extracted. The expression is "${this.toString()}".`)
 			else
 				variable = variables[0] // If the expression only depends on one variable, just assume that one was meant.
 		}
@@ -601,7 +601,7 @@ class Constant extends Expression {
 
 		// This class may not be instantiated.
 		if (this.constructor === Constant)
-			throw new TypeError(`Abstract class "Constant" may not be instantiated directly.`)
+			throw new Error(`Abstract class "Constant" may not be instantiated directly.`)
 	}
 
 	toString() {
@@ -1944,11 +1944,11 @@ module.exports.ensureExpression = ensureExpression
 function checkSubstitutionParameters(variable, substitution) {
 	// Check if the variable is indeed a variable.
 	if (!(variable instanceof Variable))
-		throw new TypeError(`Invalid substitution: when substituting, the given "variable" must be a variable object. The current given variable was "${variable}".`)
+		throw new Error(`Invalid substitution: when substituting, the given "variable" must be a variable object. The current given variable was "${variable}".`)
 
 	// Check if the subsitution is an expression.
 	if (!(substitution instanceof Expression))
-		throw new TypeError(`Invalid substitution: when substituting, an Expression should be given to substitute with. Instead, the substitution given was "${substitution}".`)
+		throw new Error(`Invalid substitution: when substituting, an Expression should be given to substitute with. Instead, the substitution given was "${substitution}".`)
 }
 module.exports.checkSubstitutionParameters = checkSubstitutionParameters
 
