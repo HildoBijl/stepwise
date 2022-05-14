@@ -4,7 +4,7 @@ import { defaultMomentRadius, defaultMomentOpening } from 'step-wise/settings/en
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureString } from 'step-wise/util/strings'
 import { ensureBoolean, ensureObject, processOptions } from 'step-wise/util/objects'
-import { Vector, ensureVector, ensurePositionedVector } from 'step-wise/CAS/linearAlgebra'
+import { Vector, ensureVector, ensurePositionedVector } from 'step-wise/geometry'
 
 import { components as drawingComponents } from 'ui/components/figures/Drawing'
 

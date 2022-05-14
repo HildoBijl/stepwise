@@ -1,8 +1,7 @@
 // The Rectangle represents a rectangle shape in space. It is based on the PositionedVector which denotes its position, but it adds functionalities on top like bounding coordinates and more.
 
-const { compareNumbers } = require('../numeric')
-const { ensureNumber } = require('../../util/numbers')
-const { repeat } = require('../../util/functions')
+const { ensureNumber, compareNumbers } = require('../util/numbers')
+const { repeat } = require('../util/functions')
 
 const { ensureVector } = require('./Vector')
 const { ensurePositionedVector } = require('./PositionedVector')

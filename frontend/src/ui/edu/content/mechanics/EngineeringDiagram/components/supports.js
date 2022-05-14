@@ -4,7 +4,7 @@ import { ensureInt, ensureNumber } from 'step-wise/util/numbers'
 import { ensureString } from 'step-wise/util/strings'
 import { ensureObject, processOptions } from 'step-wise/util/objects'
 import { numberArray } from 'step-wise/util/arrays'
-import { Vector, ensureVector } from 'step-wise/CAS/linearAlgebra/Vector'
+import { Vector, ensureVector } from 'step-wise/geometry/Vector'
 
 import { components as drawingComponents } from 'ui/components/figures/Drawing'
 import { defaultBeam, Hinge, defaultHinge, HalfHinge } from './structuralComponents'

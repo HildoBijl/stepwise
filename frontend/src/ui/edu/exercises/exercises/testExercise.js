@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Vector, Line, PositionedVector } from 'step-wise/CAS/linearAlgebra'
+import { Vector, Line, PositionedVector } from 'step-wise/geometry'
 
 import { M } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'

@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureString } from 'step-wise/util/strings'
 import { ensureObject, processOptions, filterOptions, filterProperties } from 'step-wise/util/objects'
-import { Vector, ensureVector, ensureVectorArray, ensurePositionedVector, ensureRectangle as ensureRectangleShape } from 'step-wise/CAS/linearAlgebra'
+import { Vector, ensureVector, ensureVectorArray, ensurePositionedVector, ensureRectangle as ensureRectangleShape } from 'step-wise/geometry'
 
 import { useEnsureRef, useEventListeners } from 'util/react'
 

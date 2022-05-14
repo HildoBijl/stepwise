@@ -3,7 +3,7 @@ import React, { forwardRef } from 'react'
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureString } from 'step-wise/util/strings'
 import { ensureObject, processOptions } from 'step-wise/util/objects'
-import { Vector, ensureVector, ensureVectorArray } from 'step-wise/CAS/linearAlgebra'
+import { Vector, ensureVector, ensureVectorArray } from 'step-wise/geometry'
 
 import { components as drawingComponents } from 'ui/components/figures/Drawing'
 

@@ -23,14 +23,14 @@
 
 const { decimalSeparator, decimalSeparatorTex } = require('../../../settings/numbers')
 
-const { isInt, isNumber, gcd } = require('../../../util/numbers')
+const { isInt, isNumber, gcd, compareNumbers } = require('../../../util/numbers')
 const { isObject, isBasicObject, processOptions, filterOptions, getParentClass } = require('../../../util/objects')
 const { firstOf, lastOf, count, sum, product, hasSimpleMatching } = require('../../../util/arrays')
 const { union } = require('../../../util/sets')
 const { repeatWithIndices } = require('../../../util/functions')
 const { binomial } = require('../../../util/combinatorics')
 
-const { bracketLevels, simplifyOptions, epsilon } = require('../../options')
+const { bracketLevels, simplifyOptions } = require('../../options')
 
 /*
  * Expression: the Expression class is the one which everything inherits from. 
@@ -322,7 +322,7 @@ class Expression {
 
 	get number() {
 		const number = this.toNumber()
-		if (Math.abs(number) < epsilon)
+		if (compareNumbers(number, 0))
 			return 0
 		return number
 	}
@@ -655,7 +655,7 @@ class Constant extends Expression {
 	equalsBasic(expression) {
 		if (!(expression instanceof Constant))
 			return false
-		return Math.abs(expression.toNumber() - this.toNumber()) < epsilon
+		return compareNumbers(expression.toNumber(), this.toNumber())
 	}
 
 	static interpret(number) {
@@ -1019,7 +1019,7 @@ class Sum extends ExpressionList {
 					if (aPower.isNumeric()) {
 						if (bPower.isNumeric()) {
 							const difference = bPower.toNumber() - aPower.toNumber()
-							if (Math.abs(difference) > epsilon)
+							if (!compareNumbers(difference, 0))
 								return difference // Put highest power first.
 						} else {
 							return -1 // Since A-power is a number and B-power is not, put A first.

@@ -9,7 +9,7 @@ import { Delete } from '@material-ui/icons'
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureArray, numberArray, filterDuplicates, sortByIndices } from 'step-wise/util/arrays'
 import { processOptions, filterOptions, filterProperties } from 'step-wise/util/objects'
-import { Vector, Line, PositionedVector, Rectangle } from 'step-wise/CAS/linearAlgebra'
+import { Vector, Line, PositionedVector, Rectangle } from 'step-wise/geometry'
 
 import { getEventPosition, getUtilKeys } from 'util/dom'
 import { useEventListener, useConsistentValue } from 'util/react'

@@ -1,11 +1,10 @@
 const { defaultForceLength, defaultMomentRadius, defaultMomentOpening } = require('../../../settings/engineeringMechanics')
 
-const { ensureNumber } = require('../../../util/numbers')
+const { ensureNumber, compareNumbers } = require('../../../util/numbers')
 const { ensureBoolean, processOptions } = require('../../../util/objects')
 const { resolveFunctions } = require('../../../util/functions')
 
-const { compareNumbers } = require('../../../CAS/numeric')
-const { Vector, ensureVector, PositionedVector } = require('../../../CAS/linearAlgebra')
+const { Vector, ensureVector, PositionedVector } = require('../../../geometry')
 
 /*
  * Define load types.

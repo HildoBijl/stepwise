@@ -11,7 +11,7 @@ import { select } from 'd3-selection'
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureObject, processOptions, filterOptions } from 'step-wise/util/objects'
 import { deg2rad } from 'step-wise/util/numbers'
-import { Vector, ensureVector, Rectangle } from 'step-wise/CAS/linearAlgebra'
+import { Vector, ensureVector, Rectangle } from 'step-wise/geometry'
 
 import { ensureReactElement, useEqualRefOnEquality, useMousePosition as useClientMousePosition, useBoundingClientRect, useEventListener } from 'util/react'
 import { notSelectable } from 'ui/theme'

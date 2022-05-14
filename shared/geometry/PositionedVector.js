@@ -1,6 +1,6 @@
 // A PositionedVector is a combination of three vectors: start, vector, end. Always it holds that start + vector = end, so effectively two of the three define the full PositionedVector object. This is useful when you have a Vector somewhere in space. The properties of this object are (unsurprisingly) "start", "vector" and "end".
 
-const { processOptions } = require('../../util/objects')
+const { processOptions } = require('../util/objects')
 
 const { ensureVector } = require('./Vector')
 const { Line, ensureLine } = require('./Line')

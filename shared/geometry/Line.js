@@ -1,8 +1,7 @@
 // A Line is a line inside a (possibly multi-dimensional) space. It is like a PositionedVector, but then it has no magnitude. It's all about the position and the direction.
 
-const { compareNumbers } = require('../numeric')
-const { ensureInt, ensureNumber } = require('../../util/numbers')
-const { processOptions } = require('../../util/objects')
+const { ensureInt, ensureNumber, compareNumbers } = require('../util/numbers')
+const { processOptions } = require('../util/objects')
 const { Vector, ensureVector } = require('./Vector')
 
 const defaultLine = {
