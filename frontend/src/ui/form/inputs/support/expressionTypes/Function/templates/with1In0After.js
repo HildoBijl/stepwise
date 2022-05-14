@@ -9,7 +9,7 @@ import { splitToRight } from '../../support/splitting'
 
 import defaultFunctions from './default'
 
-const { getSubExpression, findEndOfTerm } = support
+const { getSubExpression, findNextClosingBracket } = support
 
 const allFunctions = {
 	...defaultFunctions,
@@ -31,18 +31,18 @@ function create(expressionData, part, position, name, alias) {
 	const start = getDataStartCursor(expressionData)
 	const beforeAlias = { part, cursor: position }
 	const afterAlias = { part, cursor: position + alias.length }
-	const endOfTerm = findEndOfTerm({ ...expressionData, cursor: afterAlias }, true, false, 1, true)
+	const endOfTerm = findNextClosingBracket(value, afterAlias)
 	const end = getDataEndCursor(expressionData)
 
 	// Check if we had a bracket at the end of the term.
-	let endOfTermWithoutBracket = endOfTerm
-	if (endOfTerm.cursor > 0 && value[endOfTerm.part].value[endOfTerm.cursor - 1] === ')')
-		endOfTermWithoutBracket = { ...endOfTerm, cursor: endOfTerm.cursor - 1 }
+	let endOfTermAfterBracket = endOfTerm
+	if (endOfTerm.cursor > 0 && value[endOfTerm.part].value[endOfTerm.cursor] === ')')
+	endOfTermAfterBracket = { ...endOfTerm, cursor: endOfTerm.cursor + 1 }
 
 	// Set up the new function element. 
 	const parameter = {
 		type: 'Expression',
-		value: getSubExpression(value, afterAlias, endOfTermWithoutBracket),
+		value: getSubExpression(value, afterAlias, endOfTerm),
 	}
 	const functionElement = {
 		type: 'Function',
@@ -56,7 +56,7 @@ function create(expressionData, part, position, name, alias) {
 	value = [
 		...getSubExpression(value, start, beforeAlias),
 		functionElement,
-		...getSubExpression(value, endOfTerm, end),
+		...getSubExpression(value, endOfTermAfterBracket, end),
 	]
 	return {
 		...expressionData,
