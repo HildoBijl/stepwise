@@ -65,11 +65,11 @@ module.exports.epsilon = epsilon
 
 // compareNumbers checks for two numbers if they are close enough (within margin epsilon, absolutely or relatively) to be considered equal.
 module.exports.compareNumbers = (a, b) => {
-	if (Math.abs(a - b) < epsilon)
-		return true
-	if (Math.abs(b) > epsilon && Math.abs(a - b)/b < epsilon)
-		return true
-	return false
+  if (Math.abs(a - b) < epsilon)
+    return true
+  if (Math.abs(b) > epsilon && Math.abs((a - b) / b) < epsilon)
+    return true
+  return false
 }
 
 // mod is a modulus function which (unlike its built-in counterpart) is guaranteed to give a number between 0 (inclusive) and n (exclusive).
