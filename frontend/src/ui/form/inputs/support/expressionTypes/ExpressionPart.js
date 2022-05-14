@@ -245,7 +245,7 @@ export function keyPressToData(keyInfo, data, settings, charElements, topParentD
 	// On mathematical functions, add the words and then add the bracket.
 	if (basicFunctions.includes(key) || accents.includes(key) || advancedFunctions.includes(key)) {
 		const dataWithKey = addStrToData(key, data)
-		return keyPressToData({ key: '(' }, dataWithKey, charElements, topParentData, contentsElement, cursorElement)
+		return keyPressToData({ key: '(' }, dataWithKey, settings, charElements, topParentData, contentsElement, cursorElement)
 	}
 
 	// Unknown character.

@@ -11,7 +11,7 @@ import { isCursorKey } from '../../support/acceptsKey'
 
 import { isAcceptableChar, filterAcceptableChar } from '../'
 
-const { getSubExpression, findEndOfTerm } = support
+const { getSubExpression, findNextClosingBracket } = support
 
 const { getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd, isEmpty } = ExpressionPart
 
@@ -36,18 +36,15 @@ export function create(expressionData, part, position, name, alias) {
 	const start = getDataStartCursor(expressionData)
 	const beforeAlias = { part, cursor: position }
 	const afterAlias = { part, cursor: positionAfter }
-	let rightEdge = afterAlias
+	const endOfTerm = findNextClosingBracket(value, afterAlias)
 	const end = getDataEndCursor(expressionData)
 
-	// Check if there is a bracket after the alias.
+	// Check if there is a bracket after the alias. If not, leave the accent empty.
 	let parameter = ''
-	const endOfTerm = findEndOfTerm({
-		...expressionData,
-		cursor: { part, cursor: positionAfter }
-	}, true, false, 1)
-	if (part === endOfTerm.part && expressionPart.value[endOfTerm.cursor - 1] === ')') {
-		parameter = expressionPart.value.substring(positionAfter, endOfTerm.cursor - 1)
-		rightEdge = { part, cursor: endOfTerm.cursor }
+	let continueFrom = afterAlias
+	if (endOfTerm.cursor > 0 && value[endOfTerm.part].value[endOfTerm.cursor] === ')') {
+		parameter = expressionPart.value.substring(positionAfter, endOfTerm.cursor)
+		continueFrom = { ...endOfTerm, cursor: endOfTerm.cursor + 1 }
 	}
 
 	// Set up the new function element.
@@ -60,7 +57,7 @@ export function create(expressionData, part, position, name, alias) {
 
 	// Build the new Expression around it.
 	const expressionBefore = getSubExpression(value, start, beforeAlias)
-	const expressionAfter = getSubExpression(value, rightEdge, end)
+	const expressionAfter = getSubExpression(value, continueFrom, end)
 	value = [
 		...expressionBefore,
 		accentElement,

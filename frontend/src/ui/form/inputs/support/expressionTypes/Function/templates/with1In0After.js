@@ -34,10 +34,10 @@ function create(expressionData, part, position, name, alias) {
 	const endOfTerm = findNextClosingBracket(value, afterAlias)
 	const end = getDataEndCursor(expressionData)
 
-	// Check if we had a bracket at the end of the term.
+	// Check if there is a bracket at the end of the term. If not, put everything in the function.
 	let endOfTermAfterBracket = endOfTerm
 	if (endOfTerm.cursor > 0 && value[endOfTerm.part].value[endOfTerm.cursor] === ')')
-	endOfTermAfterBracket = { ...endOfTerm, cursor: endOfTerm.cursor + 1 }
+		endOfTermAfterBracket = { ...endOfTerm, cursor: endOfTerm.cursor + 1 }
 
 	// Set up the new function element. 
 	const parameter = {
