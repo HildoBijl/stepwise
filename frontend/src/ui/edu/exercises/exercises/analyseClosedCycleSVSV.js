@@ -83,7 +83,7 @@ const steps = [
 					In punt 3 weten we dat <M>p_3 = {p3}</M> en <M>V_3 = V_2 = {V3}</M> (isochoor proces). Via de gaswet volgt
 					<BM>T_3 = \frac(p_3V_3)(mR_s) = \frac({p3.float} \cdot {V3.float})({m.float} \cdot {Rs.float}) = {T3}.</BM>
 					Voor punt 4 geldt <M>V_4 = V_1 = {V4}</M> (isochoor proces). Verder is proces 3-4 isentroop, waardoor we via <M>p_3V_3^n = p_4V_4^n</M> kunnen vinden dat
-					<BM>V_4 = \left(\frac(p_3)(p_4)\right)^(\frac(1)(n)) V_3 = \left(\frac{p3.float}{p4.float}\right)^(\frac{1}{k}) \cdot {V3.float} = {V4}.</BM>
+					<BM>p_4 = p_3 \left(\frac(V_3)(V_4)\right)^n = {p3.float} \cdot \left(\frac{V3.float}{V4.float}\right)^{k} = {p4}.</BM>
 					Ten slotte volgt via de gaswet <M>T_4</M> als
 					<BM>T_4 = \frac(p_4V_4)(mR_s) = \frac({p4.float} \cdot {V4.float})({m.float} \cdot {Rs.float}) = {T4}.</BM>
 					Daarmee zijn alle eigenschappen bekend.

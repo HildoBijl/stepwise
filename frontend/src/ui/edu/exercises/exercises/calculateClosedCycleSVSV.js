@@ -93,8 +93,7 @@ const steps = [
 			const { m, Rs, k, p3, V3, p4, V4, T4 } = useSolution()
 			return <Par>
 				Omdat proces 4-1 isotherm is geldt <M>V_4 = V_1 = {V4}.</M> Proces 3-4 is isentroop, wat betekent dat we Poisson's wet moeten gebruiken. Via <M>p_3V_3^n = p_4V_4^n</M> vinden we zo
-				<BM>V_4^n = \frac(p_3)(p_4) V_3^n,</BM>
-				<BM>V_4 = \left(\frac(p_3)(p_4) V_3^n\right)^(\frac(1)(n)) = \left(\frac(p_3)(p_4)\right)^(\frac(1)(n)) V_3 = \left(\frac{p3.float}{p4.float}\right)^(\frac{1}{k}) \cdot {V3.float} = {V4}.</BM>
+				<BM>p_4 = p_3 \frac(V_3^n)(V_4^n) = p_3 \left(\frac(V_3)(V_4)\right)^n = {p3.float} \cdot \left(\frac{V3.float}{V4.float}\right)^{k} = {p4}.</BM>
 				Ten slotte volgt via de gaswet <M>T_4</M> als
 				<BM>T_4 = \frac(p_4V_4)(mR_s) = \frac({p4.float} \cdot {V4.float})({m.float} \cdot {Rs.float}) = {T4}.</BM>
 				En zo is het probleem volledig opgelost.
