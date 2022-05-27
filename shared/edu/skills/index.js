@@ -51,7 +51,9 @@ const skills = {
 	 * - Manipulating fractions.
 	 * - Manipulating brackets.
 	 * - Manipulating expressions.
-	 * - Solving equations.
+	 * - Solving linear equations.
+	 * - Solving quadratic equations.
+	 * - Solving systems of linear equations.
 	 */
 
 	// Basic mathematics: manipulating fractions.
@@ -100,7 +102,7 @@ const skills = {
 		exercises: ['multiplyDivideAllTerms1', 'multiplyDivideAllTerms2'],
 	},
 
-	// Basic mathematics: solving equations.
+	// Basic mathematics: solving linear equations.
 	solveBasicLinearEquation: {
 		name: 'Basis lineaire vergelijking oplossen',
 		setup: combinerAnd(combinerRepeat('moveATerm', 2), 'pullOutOfBrackets', 'multiplyDivideAllTerms'),
@@ -111,6 +113,40 @@ const skills = {
 		setup: combinerAnd('simplifyFraction', 'expandBrackets', 'multiplyDivideAllTerms', 'solveBasicLinearEquation'), // ToDo later: change into a picking function.
 		exercises: ['solveGeneralLinearEquation1', 'solveGeneralLinearEquation2', 'solveGeneralLinearEquation3'],
 	},
+
+	// Basic mathematics: solving quadratic equations.
+	applySquareRoot: {
+		name: 'Wortel toepassen',
+		exercises: [],
+	},
+	applyQuadraticFormula: {
+		name: 'Wortelformule toepassen',
+		exercises: [],
+	},
+	solveQuadraticEquation: {
+		name: 'Kwadratische vergelijking oplossen',
+		setup: combinerAnd('moveATerm', 'multiplyDivideAllTerms', 'applyQuadraticFormula'),
+		exercises: [],
+	},
+
+	// Basic mathematics: solving systems of linear equations.
+	solveBasicSystemOfLinearEquations: {
+		name: 'Basis stelsel van lineaire vergelijkingen oplossen',
+		setup: combinerRepeat('solveBasicLinearEquation', 2),
+		exercises: ['solveBasicSystemOfLinearEquations1'],
+	},
+	solveGeneralSystemOfEquations: {
+		name: 'Algemene stelsel van lineaire vergelijkingen oplossen',
+		setup: combinerAnd('solveBasicLinearEquation', 'solveGeneralLinearEquation'),
+		exercises: [],
+	},
+
+	/*
+	 * Basic physics.
+	 * - Physics mathematics: solving float-problems.
+	 * - Working with units.
+	 * - Thermodynamics.
+	 */
 
 	// Physics mathematics: solving float-problems.
 	solveLinearEquation: {

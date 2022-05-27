@@ -1,8 +1,6 @@
 import React from 'react'
 
-import { expressionComparisons } from 'step-wise/CAS'
-
-import { M, BM } from 'ui/components/equations'
+import { M } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import ExpressionInput from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/Status'

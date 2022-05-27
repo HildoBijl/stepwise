@@ -133,6 +133,18 @@ export function nonEmptyAndValid(data) {
 	if (validityResult)
 		return validityResult
 }
+export function validAndNumeric(data) {
+	// Check if there is a valid input.
+	const nonEmptyAndValidResult = nonEmptyAndValid(data)
+	if (nonEmptyAndValidResult)
+		return nonEmptyAndValidResult
+
+		// Ensure that there are no variables.
+		const { value } = data
+		const exp = expressionSItoFO(value)
+		if (!exp.isNumeric())
+			return <>Dit is geen getal.</>
+}
 export function validWithVariables(...variables) {
 	// This validation function is special, in the sense that it's a function that returns a validation function. Give it a set of variables that are accepted, and it checks that only those variables are used.
 	return validWithVariablesGeneric(expressionSItoFO, ...variables)
