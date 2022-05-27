@@ -2,7 +2,7 @@ import React from 'react'
 
 import { temperature as TConversion } from 'step-wise/data/conversions'
 
-import { M, BM } from 'ui/components/equations'
+import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
@@ -37,8 +37,10 @@ const steps = [
 		</>,
 		Solution: ({ Tw, Tc }) => {
 			return <Par>We moeten temperaturen gebruiken in Kelvin. Het omzetten gaat via
-				<BM>T_w = {Tw.float} + {TConversion.float} = {Tw.simplify()},</BM>
-				<BM>T_k = {Tc.float} + {TConversion.float} = {Tc.simplify()}.</BM>
+				<BMList>
+					<BMPart>T_w = {Tw.float} + {TConversion.float} = {Tw.simplify()},</BMPart>
+					<BMPart>T_k = {Tc.float} + {TConversion.float} = {Tc.simplify()}.</BMPart>
+				</BMList>
 			</Par>
 		},
 	},
@@ -55,8 +57,8 @@ const steps = [
 			const { Qc, Tc, dSc } = useSolution()
 			return <>
 				<Par>De ingaande warmtestroom voor het koude vat is <BM>Q_k = Q = {Qc}.</BM> De entropieverandering valt nu direct te berekenen via de definitie van entropie. Immers, de temperatuur is constant. Zo vinden we,
-				<BM>\Delta S_k = \frac(Q_k)(T_k) = \frac{Qc.float}{Tc.float} = {dSc}.</BM>
-				Omdat we de warmtestroom in <M>{Qc.unit}</M> hebben ingevoerd, is de eenheid van de entropieverandering ook <M>{dSc.unit}.</M></Par>
+					<BM>\Delta S_k = \frac(Q_k)(T_k) = \frac{Qc.float}{Tc.float} = {dSc}.</BM>
+					Omdat we de warmtestroom in <M>{Qc.unit}</M> hebben ingevoerd, is de eenheid van de entropieverandering ook <M>{dSc.unit}.</M></Par>
 			</>
 		},
 	},
@@ -73,7 +75,7 @@ const steps = [
 			const { Qw, Tw, dSw } = useSolution()
 			return <>
 				<Par>De ingaande warmtestroom voor het warme vat is hier <BM>Q_w = -Q = {Qw}.</BM> Immers, de warmte stroomt uit dit vat, en dus is de warmtestroom voor dit vat negatief. De entropieverandering volgt nu wederom via
-				<BM>\Delta S_w = \frac(Q_w)(T_w) = \frac{Qw.float}{Tw.float} = {dSw}.</BM>
+					<BM>\Delta S_w = \frac(Q_w)(T_w) = \frac{Qw.float}{Tw.float} = {dSw}.</BM>
 				</Par>
 			</>
 		},

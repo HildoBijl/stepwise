@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
+import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
@@ -55,10 +55,10 @@ const steps = [
 			const { k, p1, T1, p2, T2p, p3, T3, p4, T4p } = useSolution()
 			return <>
 				<Par>In punt 1 is al bekend dat <M>p_1 = {p1}</M> en <M>T_1 = {T1}.</M> We bereiken het fictieve punt <M>2'</M> via isentrope compressie. Met <M>p_(2') = p_2 = {p2}</M> vinden we
-				<BM>T_(2') = T_1 \left(\frac(p_(2'))(p_1)\right)^(\frac(n-1)(n)) = {T1.float} \cdot \left(\frac{p2.float}{p1.float}\right)^(\frac({k}-1)({k})) = {T2p}.</BM>
-				Voor punt 3 is gegeven dat <M>T_3 = {T3}</M> en omdat stap 2-3 isobaar is geldt ook <M>p_3 = p_2 = {p3}.</M> Stap 4-1 is ook isobaar, waardoor <M>p_(4') = p_4 = p_1 = {p4}.</M> We vinden <M>T_(4')</M> wederom via Poisson's wet als
-				<BM>T_(4') = T_3 \left(\frac(p_(4'))(p_3)\right)^(\frac(n-1)(n)) = {T3.float} \cdot \left(\frac{p4.float}{p3.float}\right)^(\frac({k}-1)({k})) = {T4p}.</BM>
-				Hiermee is overal de druk en de temperatuur bekend.</Par>
+					<BM>T_(2') = T_1 \left(\frac(p_(2'))(p_1)\right)^(\frac(n-1)(n)) = {T1.float} \cdot \left(\frac{p2.float}{p1.float}\right)^(\frac({k}-1)({k})) = {T2p}.</BM>
+					Voor punt 3 is gegeven dat <M>T_3 = {T3}</M> en omdat stap 2-3 isobaar is geldt ook <M>p_3 = p_2 = {p3}.</M> Stap 4-1 is ook isobaar, waardoor <M>p_(4') = p_4 = p_1 = {p4}.</M> We vinden <M>T_(4')</M> wederom via Poisson's wet als
+					<BM>T_(4') = T_3 \left(\frac(p_(4'))(p_3)\right)^(\frac(n-1)(n)) = {T3.float} \cdot \left(\frac{p4.float}{p3.float}\right)^(\frac({k}-1)({k})) = {T4p}.</BM>
+					Hiermee is overal de druk en de temperatuur bekend.</Par>
 			</>
 		},
 	},
@@ -111,18 +111,20 @@ const steps = [
 			const { cp, T1, T2, T3, T4, q12, wt12, q23, wt23, q34, wt34, q41, wt41, wn } = useSolution()
 			return <>
 				<Par>Bij de compressor (stap 1-2) wordt geen warmte toegevoerd waardoor <M>q_(1-2) = {q12}.</M> Vervolgens geldt vanuit de eerste hoofdwet
-				<BM>w_(t,1-2) = -\Delta h = -c_p \left(T_2 - T_1\right) = -{cp.float} \cdot \left({T2.float} - {T1.float}\right) = {wt12}.</BM>
-				Bij de isobare stap 2-3 geldt <M>w_(t,2-3) = {wt23}</M> en
-				<BM>q_(2-3) = c_p \left(T_3 - T_2\right) = {cp.float} \cdot \left({T3.float} - {T2.float}\right) = {q23}.</BM>
-				Bij de turbine (stap 3-4) wordt geen warmte toegevoerd waardoor <M>q_(3-4) = {q34}.</M> Vervolgens geldt vanuit de eerste hoofdwet
-				<BM>w_(t,3-4) = -\Delta h = -c_p \left(T_4 - T_3\right) = -{cp.float} \cdot \left({T4.float} - {T3.float}\right) = {wt34}.</BM>
-				Bij de isobare stap 4-1 geldt <M>w_(t,4-1) = {wt41}</M> en
-				<BM>q_(4-1) = c_p \left(T_1 - T_4\right) = {cp.float} \cdot \left({T1.float} - {T4.float}\right) = {q41}.</BM>
-				Zo zijn alle energiestromen bekend.</Par>
+					<BM>w_(t,1-2) = -\Delta h = -c_p \left(T_2 - T_1\right) = -{cp.float} \cdot \left({T2.float} - {T1.float}\right) = {wt12}.</BM>
+					Bij de isobare stap 2-3 geldt <M>w_(t,2-3) = {wt23}</M> en
+					<BM>q_(2-3) = c_p \left(T_3 - T_2\right) = {cp.float} \cdot \left({T3.float} - {T2.float}\right) = {q23}.</BM>
+					Bij de turbine (stap 3-4) wordt geen warmte toegevoerd waardoor <M>q_(3-4) = {q34}.</M> Vervolgens geldt vanuit de eerste hoofdwet
+					<BM>w_(t,3-4) = -\Delta h = -c_p \left(T_4 - T_3\right) = -{cp.float} \cdot \left({T4.float} - {T3.float}\right) = {wt34}.</BM>
+					Bij de isobare stap 4-1 geldt <M>w_(t,4-1) = {wt41}</M> en
+					<BM>q_(4-1) = c_p \left(T_1 - T_4\right) = {cp.float} \cdot \left({T1.float} - {T4.float}\right) = {q41}.</BM>
+					Zo zijn alle energiestromen bekend.</Par>
 				<Par>Als check controleren we de energiebalans. Zo vinden we
-				<BM>q_(netto) = q_(1-2) + q_(2-3) + q_(3-4) + q_(4-1) = {q12.float} {q23.float.texWithPM} {q34.float.texWithPM} {q41.float.texWithPM} = {wn},</BM>
-					<BM>w_(netto) = w_(t,1-2) + w_(t,2-3) + w_(t,3-4) + w_(t,4-1) = {wt12.float} {wt23.float.texWithPM} {wt34.float.texWithPM} {wt41.float.texWithPM} = {wn}.</BM>
-				Deze waarden zijn gelijk aan elkaar, dus we hebben geen rekenfout gemaakt.</Par>
+					<BMList>
+						<BMPart>q_(netto) = q_(1-2) + q_(2-3) + q_(3-4) + q_(4-1) = {q12.float} {q23.float.texWithPM} {q34.float.texWithPM} {q41.float.texWithPM} = {wn},</BMPart>
+						<BMPart>w_(netto) = w_(t,1-2) + w_(t,2-3) + w_(t,3-4) + w_(t,4-1) = {wt12.float} {wt23.float.texWithPM} {wt34.float.texWithPM} {wt41.float.texWithPM} = {wn}.</BMPart>
+					</BMList>
+					Deze waarden zijn gelijk aan elkaar, dus we hebben geen rekenfout gemaakt.</Par>
 			</>
 		},
 	},

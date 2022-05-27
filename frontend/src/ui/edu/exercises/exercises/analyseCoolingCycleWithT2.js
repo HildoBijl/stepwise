@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
+import { M, BMList, BMPart } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
@@ -65,16 +65,25 @@ const steps = [
 			const { h1, h2p, h2, h3, h4, wt, wtp, qin, qout, epsilon, COP, etai, mdot, P } = useSolution()
 			return <Par>
 				Als eerste schrijven we alle warmtestormen op. De toegevoerde en afgevoerde warmte zijn
-				<BM>q_(toe) = h_1 - h_4 = {h1.float} - {h4.float} = {qin},</BM>
-				<BM>q_(af) = h_2 - h_3 = {h2.float} - {h3.float} = {qout}.</BM> De technische arbeid in de compressor is, in zowel het ideale (isentropische) geval als het werkelijke geval, gelijk aan
-				<BM>w_(t') = h_(2') - h_1 = {h2p.float} - {h1.float} = {wtp},</BM>
-				<BM>w_t = h_2 - h_1 = {h2.float} - {h1.float} = {wt}.</BM>
+				<BMList>
+					<BMPart>q_(toe) = h_1 - h_4 = {h1.float} - {h4.float} = {qin},</BMPart>
+					<BMPart>q_(af) = h_2 - h_3 = {h2.float} - {h3.float} = {qout}.</BMPart>
+				</BMList>
+				De technische arbeid in de compressor is, in zowel het ideale (isentropische) geval als het werkelijke geval, gelijk aan
+				<BMList>
+					<BMPart>w_(t') = h_(2') - h_1 = {h2p.float} - {h1.float} = {wtp},</BMPart>
+					<BMPart>w_t = h_2 - h_1 = {h2.float} - {h1.float} = {wt}.</BMPart>
+				</BMList>
 				Met deze waarden kunnen we alles berekenen. Als eerste zijn de koudefactor en warmtefactor gegeven door
-				<BM>\epsilon = \frac(q_(in))(w_t) = \frac{qin.float}{wt.float} = {epsilon},</BM>
-				<BM>\epsilon_w = \frac(q_(out))(w_t) = \frac{qout.float}{wt.float} = {COP}.</BM>
+				<BMList>
+					<BMPart>\epsilon = \frac(q_(in))(w_t) = \frac{qin.float}{wt.float} = {epsilon},</BMPart>
+					<BMPart>\epsilon_w = \frac(q_(out))(w_t) = \frac{qout.float}{wt.float} = {COP}.</BMPart>
+				</BMList>
 				Hiernaast zijn het isentropisch rendement en het vermogen van de compressor gelijk aan
-				<BM>\eta_i = \frac(w_(t'))(w_t) = \frac{wtp.float}{wt.float} = {etai},</BM>
-				<BM>P = \dot(m)w_t = {mdot.float} \cdot {wt.float} = {P}.</BM>
+				<BMList>
+					<BMPart>\eta_i = \frac(w_(t'))(w_t) = \frac{wtp.float}{wt.float} = {etai},</BMPart>
+					<BMPart>P = \dot(m)w_t = {mdot.float} \cdot {wt.float} = {P}.</BMPart>
+				</BMList>
 				Hiermee zijn all gevraagde waarden gevonden.
 			</Par>
 		},

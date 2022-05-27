@@ -2,7 +2,7 @@ import React from 'react'
 
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 
-import { M, BM } from 'ui/components/equations'
+import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par, SubHead } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
@@ -38,11 +38,13 @@ const steps = [
 			const { Tw, Tc, Qw, Qc, dSw, dSc, dS } = useSolution()
 			return <>
 				<Par>Als eerste zetten we de temperaturen in Kelvin, volgens <M>T_w = {Tw}</M> en <M>T_k = {Tc}.</M> Hiermee berekenen we de entropieveranderingen van elk vat. Deze zijn
-				<BM>\Delta S_w = \frac(Q_w)(T_w) = \frac{Qw.float}{Tw.float} = {dSw},</BM>
-				<BM>\Delta S_k = \frac(Q_k)(T_k) = \frac{Qc.float}{Tc.float} = {dSc}.</BM>
-				Merk op dat we een uitgaande warmtestroom negatief rekenen. De totale entropieverandering is hiermee
-				<BM>\Delta S = \Delta S_w + \Delta S_k = {dSw.float} {dSc.float.texWithPM} = {dS}.</BM>
-				Dit is positief, zoals de tweede hoofdwet vereist.</Par>
+					<BMList>
+						<BMPart>\Delta S_w = \frac(Q_w)(T_w) = \frac{Qw.float}{Tw.float} = {dSw},</BMPart>
+						<BMPart>\Delta S_k = \frac(Q_k)(T_k) = \frac{Qc.float}{Tc.float} = {dSc}.</BMPart>
+					</BMList>
+					Merk op dat we een uitgaande warmtestroom negatief rekenen. De totale entropieverandering is hiermee
+					<BM>\Delta S = \Delta S_w + \Delta S_k = {dSw.float} {dSc.float.texWithPM} = {dS}.</BM>
+					Dit is positief, zoals de tweede hoofdwet vereist.</Par>
 			</>
 		},
 	},

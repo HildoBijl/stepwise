@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
+import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par, List, Table } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
@@ -100,7 +100,12 @@ const steps = [
 			const { m, V1, T1, p3, V3, T3 } = getCycleParameters(state)
 			const { cp, Q12, W12, Q23, W23, Q31, W31, Qn, Wn } = getSolution(state)
 			return <>
-				<Par>Er zijn meerdere formules die we kunnen gebruiken, maar het makkelijkst hier zijn <BM>Q_(3-1) = mc_p\left(T_1-T_3\right) = {m.float} \cdot {cp.float} \cdot \left({T1.float} - {T3.float}\right) = {Q31},</BM> <BM>W_(1-2) = p\left(V_1-V_3\right) = {p3.float} \cdot \left({V1.float} - {V3.float}\right) = {W12}.</BM> Daarmee is alles doorgerekend.</Par>
+				<Par>Er zijn meerdere formules die we kunnen gebruiken, maar het makkelijkst hier zijn
+					<BMList>
+						<BMPart>Q_(3-1) = mc_p\left(T_1-T_3\right) = {m.float} \cdot {cp.float} \cdot \left({T1.float} - {T3.float}\right) = {Q31},</BMPart>
+						<BMPart>W_(1-2) = p\left(V_1-V_3\right) = {p3.float} \cdot \left({V1.float} - {V3.float}\right) = {W12}.</BMPart>
+					</BMList>
+					Daarmee is alles doorgerekend.</Par>
 				<Par>Als controle kunnen we nog kijken of de energiebalans klopt. De totaal netto toegevoerde warmte is <BM>Q_(netto) = Q_(1-2) + Q_(2-3) + Q_(3-1) = {Q12.float} {Q23.float.texWithPM} {Q31.float.texWithPM} = {Qn}.</BM> Dit moet gelijk zijn aan de totaal netto geleverde arbeid, welke gelijk is aan <BM>W_(netto) = W_(1-2) + W_(2-3) + W_(3-1) = {W12.float} {W23.float.texWithPM} {W31.float.texWithPM} = {Wn}.</BM> We zien dat dit inderdaad gelijk aan elkaar is, dus we hebben geen rekenfout gemaakt. Ook zien we dat het een positief kringproces betreft.</Par>
 			</>
 		},

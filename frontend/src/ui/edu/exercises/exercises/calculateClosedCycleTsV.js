@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
+import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par, SubHead } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
@@ -51,7 +51,12 @@ const steps = [
 			return <>
 				<Par>In punt 1 hebben we drie eigenschappen, maar we weten de massa van het gas niet. Het is handig om deze eerst te vinden. Voor {Dutch[medium]} geldt <M>R_s = {Rs}.</M> Via de gaswet volgt <M>m</M> als <BM>m = \frac(p_1V_1)(R_sT_1) = \frac({p1.float} \cdot {V1.float})({Rs.float} \cdot {T1.float}) = {m}.</BM> Nu dit bekend is kunnen we naar punt 2 kijken. We weten al dat <M>p_2 = {p2}.</M> Omdat proces 1-2 een isotherm proces is geldt verder <BM>T_2 = T_1 = {T2}.</BM> Via de gaswet volgt <M>V_2</M> als <BM>V_2 = \frac(mR_sT_2)(p_2) = \frac({m.float} \cdot {Rs.float} \cdot {T2.float})({p2.float}) = {V2}.</BM> Daarmee is punt 2 volledig bekend.</Par>
 				<SubHead>Short-cut</SubHead>
-				<Par>We hadden ook kunnen gebruiken dat, bij een isotherm proces, <M>pV</M> constant blijft. (Immers, <M>mR_sT</M> blijft ook constant.) We vinden dan <M>V_2</M> direct via <BM>p_1V_1 = p_2V_2,</BM><BM>V_2 = \frac(p_1)(p_2)\cdot V_1 = \frac{p1.float}{p2.float} \cdot {V1.float} = {V2}.</BM> De massa berekenen was hierbij niet eens nodig geweest.</Par>
+				<Par>We hadden ook kunnen gebruiken dat, bij een isotherm proces, <M>pV</M> constant blijft. (Immers, <M>mR_sT</M> blijft ook constant.) We vinden dan <M>V_2</M> direct via
+					<BMList>
+						<BMPart>p_1V_1 = p_2V_2,</BMPart>
+						<BMPart>V_2 = \frac(p_1)(p_2)\cdot V_1 = \frac{p1.float}{p2.float} \cdot {V1.float} = {V2}.</BMPart>
+					</BMList>
+					De massa berekenen was hierbij niet eens nodig geweest.</Par>
 			</>
 		},
 	},

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
+import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
@@ -43,8 +43,10 @@ const steps = [
 			const { TCold, TWarm, dTCold, dTWarm, TEvap, TCond, pEvap, pCond, dTSuperheating, dTSubcooling, T1, T3, h1, h2p, h3, h4, s1 } = useSolution()
 			return <>
 				<Par>We vinden eerst de temperaturen in de verdamper en de condensor als
-					<BM>T_v = {TCold.float} - {dTCold.float} = {TEvap},</BM>
-					<BM>T_c = {TWarm.float} + {dTWarm.float} = {TCond}.</BM>
+					<BMList>
+						<BMPart>T_v = {TCold.float} - {dTCold.float} = {TEvap},</BMPart>
+						<BMPart>T_c = {TWarm.float} + {dTWarm.float} = {TCond}.</BMPart>
+					</BMList>
 					De bijbehorende verdamperdruk en condensordruk zijn op te zoeken als <M>p_v = {pEvap}</M> en <M>p_c = {pCond}.</M>
 				</Par>
 				<Par>Vervolgens lopen we alle punten door. Om punt <M>1</M> te vinden gaan we op <M>{pEvap}</M> naar rechts tot we <M>{dTSuperheating}</M> voorbij de damplijn zijn. Bij de temperatuur van <M>{T1}</M> vinden we <M>h_1 = {h1}.</M> Voor punt <M>2'</M> volgen we de isentrope lijnen bij <M>s = {s1}</M> tot de druk van <M>{pCond}.</M> Hier zien we dat <M>h_(2') = {h2p}.</M> Voor punt <M>3</M> gaan we naar links tot <M>{dTSubcooling}</M> voorbij de vloeistoflijn. Dit is bij een temperatuur van <M>{T3}</M> en de specifieke enthalpie is hier <M>h_3 = {h3}.</M> Ten slotte is er punt <M>4</M>. Hiervoor gaan we recht omlaag tot <M>{pEvap}.</M> Uiteraard geldt <M>h_4 = h_3 = {h4}.</M> Hiermee is de ideale cyclus rond.</Par>
@@ -80,7 +82,17 @@ const steps = [
 		</>,
 		Solution: () => {
 			const { h1, h2, h3, h4, wt, qin, qout, epsilon, COP, mdot, P } = useSolution()
-			return <Par>De toegevoerde en afgevoerde warmte zijn <BM>q_(toe) = h_1 - h_4 = {h1.float} - {h4.float} = {qin},</BM><BM>q_(af) = h_2 - h_3 = {h2.float} - {h3.float} = {qout}.</BM> Ook was al bekend dat <M>w_t = {wt}</M> en <M>P = {P}.</M> Hiermee kunnen we alle benodigde waarden direct berekenen. We vinden <BM>\epsilon = \frac(q_(in))(w_t) = \frac{qin.float}{wt.float} = {epsilon},</BM><BM>\epsilon_w = \frac(q_(out))(w_t) = \frac{qout.float}{wt.float} = {COP},</BM><BM>\dot(m) = \frac(P)(w_t) = \frac{P.float}{wt.float} = {mdot}.</BM> Hiermee zijn all gevraagde waarden gevonden.</Par>
+			return <Par>De toegevoerde en afgevoerde warmte zijn
+				<BMList>
+					<BMPart>q_(toe) = h_1 - h_4 = {h1.float} - {h4.float} = {qin},</BMPart>
+					<BMPart>q_(af) = h_2 - h_3 = {h2.float} - {h3.float} = {qout}.</BMPart>
+				</BMList>
+				Ook was al bekend dat <M>w_t = {wt}</M> en <M>P = {P}.</M> Hiermee kunnen we alle benodigde waarden direct berekenen. We vinden
+				<BMList>
+					<BMPart>\epsilon = \frac(q_(in))(w_t) = \frac{qin.float}{wt.float} = {epsilon},</BMPart>
+					<BMPart>\epsilon_w = \frac(q_(out))(w_t) = \frac{qout.float}{wt.float} = {COP},</BMPart>
+					<BMPart>\dot(m) = \frac(P)(w_t) = \frac{P.float}{wt.float} = {mdot}.</BMPart>
+				</BMList>Hiermee zijn all gevraagde waarden gevonden.</Par>
 		},
 	},
 ]

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
+import { M, BMList, BMPart } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import { InputSpace } from 'ui/form/Status'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
@@ -113,7 +113,12 @@ const steps = [
 		Solution: () => {
 			const { cp, Rs, m, T1, T2, Q, W } = useSolution()
 
-			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we <BM>Q = mc_p\left(T_2-T_1\right) = {m.float} \cdot {cp.float} \cdot \left({T2.float} - {T1.float}\right) = {Q},</BM><BM>W = mR_s\left(T_2-T_1\right) = {m.float} \cdot {Rs.float} \cdot \left({T2.float} - {T1.float}\right) = {W}.</BM> Het is lastig om te controleren of dit logisch is. De richtlijn is dat het aantal Joules bij een proces vaak een stuk groter is (een factor 10 à 100) dan het aantal gram gas. Dit lijkt te kloppen met onze waarden, waardoor de antwoorden logisch lijken.</Par>
+			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we
+				<BMList>
+					<BMPart>Q = mc_p\left(T_2-T_1\right) = {m.float} \cdot {cp.float} \cdot \left({T2.float} - {T1.float}\right) = {Q},</BMPart>
+					<BMPart>W = mR_s\left(T_2-T_1\right) = {m.float} \cdot {Rs.float} \cdot \left({T2.float} - {T1.float}\right) = {W}.</BMPart>
+				</BMList>
+				Het is lastig om te controleren of dit logisch is. De richtlijn is dat het aantal Joules bij een proces vaak een stuk groter is (een factor 10 à 100) dan het aantal gram gas. Dit lijkt te kloppen met onze waarden, waardoor de antwoorden logisch lijken.</Par>
 		},
 	},
 ]

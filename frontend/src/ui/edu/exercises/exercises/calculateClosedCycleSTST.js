@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
+import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
@@ -60,8 +60,10 @@ const steps = [
 				</Par>
 				<Par>
 					In punt 2 was al gegeven dat <M>p_2 = {p2}.</M> Omdat proces 1-2 isentroop is geldt hierbij <M>n = k</M> en voor {Dutch[medium]} geldt <M>k = {k}.</M> Via Poisson's wet <M>p_1V_1^n = p_2V_2^n</M> vinden we zo
-					<BM>V_2^n = \frac(p_1)(p_2) V_1^n,</BM>
-					<BM>V_2 = \left(\frac(p_1)(p_2) V_1^n\right)^(\frac(1)(n)) = \left(\frac(p_1)(p_2)\right)^(\frac(1)(n)) V_1 = \left(\frac{p1.float}{p2.float}\right)^(\frac{1}{k}) \cdot {V1.float} = {V2}.</BM>
+					<BMList>
+						<BMPart>V_2^n = \frac(p_1)(p_2) V_1^n,</BMPart>
+						<BMPart>V_2 = \left(\frac(p_1)(p_2) V_1^n\right)^(\frac(1)(n)) = \left(\frac(p_1)(p_2)\right)^(\frac(1)(n)) V_1 = \left(\frac{p1.float}{p2.float}\right)^(\frac{1}{k}) \cdot {V1.float} = {V2}.</BMPart>
+					</BMList>
 					De temperatuur <M>T_2</M> volgt via de gaswet als
 					<BM>T_2 = \frac(p_2V_2)(mR_s) = \frac({p2.float} \cdot {V2.float})({m.float} \cdot {Rs.float}) = {T2}.</BM>
 					Hiermee is ook punt 2 doorgerekend.
@@ -92,8 +94,10 @@ const steps = [
 			const { m, Rs, k, p3, V3, T3, V4, T4 } = useSolution()
 			return <Par>
 				Omdat proces 2-3 isotherm is geldt <M>T_3 = T_2 = {T3}.</M> Proces 3-4 is isentroop, wat betekent dat we Poisson's wet moeten gebruiken. Dit gaat het makkelijkst via <M>T_3V_3^(n-1) = T_4V_4^(n-1).</M> Dit oplossen voor <M>V_3</M> geeft
-				<BM>V_3^(n-1) = \frac(T_4)(T_3) V_4^(n-1),</BM>
-				<BM>V_3 = \left(\frac(T_4)(T_3) V_4^(n-1)\right)^(\frac(1)(n-1)) = \left(\frac(T_4)(T_3)\right)^(\frac(1)(n-1)) V_4 = \left(\frac{T4.float}{T3.float}\right)^(\frac(1)({k}-1)) \cdot {V4.float} = {V3}.</BM>
+				<BMList>
+					<BMPart>V_3^(n-1) = \frac(T_4)(T_3) V_4^(n-1),</BMPart>
+					<BMPart>V_3 = \left(\frac(T_4)(T_3) V_4^(n-1)\right)^(\frac(1)(n-1)) = \left(\frac(T_4)(T_3)\right)^(\frac(1)(n-1)) V_4 = \left(\frac{T4.float}{T3.float}\right)^(\frac(1)({k}-1)) \cdot {V4.float} = {V3}.</BMPart>
+				</BMList>
 				Ten slotte volgt via de gaswet <M>p_3</M> als
 				<BM>p_3 = \frac(mR_sT_3)(V_3) = \frac({m.float} \cdot {Rs.float} \cdot {T3.float})({V3.float}) = {p3}.</BM>
 				En zo is het probleem volledig opgelost.

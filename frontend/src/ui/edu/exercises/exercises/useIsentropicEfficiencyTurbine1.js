@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
+import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
@@ -39,8 +39,10 @@ const steps = [
 				<Par>In een turbine wordt geen warmte toegevoerd of afgevoerd, waardoor <M>q = 0.</M> De technische arbeid volgt vanuit de eerste hoofdwet als
 					<BM>w_t = q - \Delta h = -\left(h_2 - h_1\right) = h_1 - h_2.</BM>
 					Dit geldt zowel voor het theoretische isentrope geval als voor de werkelijkheid. Zo vinden we
-					<BM>w_(t_i) = h_1 - h_(2') = {h1.float} - {h2p.float} = {wti},</BM>
-					<BM>w_t = h_1 - h_2 = {h1.float} - {h2.float} = {wt}.</BM>
+					<BMList>
+						<BMPart>w_(t_i) = h_1 - h_(2') = {h1.float} - {h2p.float} = {wti},</BMPart>
+						<BMPart>w_t = h_1 - h_2 = {h1.float} - {h2.float} = {wt}.</BMPart>
+					</BMList>
 					Merk op dat de werkelijke technische arbeid kleiner is dan de technische arbeid in het optimale geval. Dit is logisch: als er frictie aanwezig is, levert een turbine minder arbeid.
 				</Par>
 			</>

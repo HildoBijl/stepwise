@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
+import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par, SubHead } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
@@ -56,15 +56,19 @@ const steps = [
 					In punt 1 is alles bekend behalve de massa. Het is dus handig om hieruit de massa te berekenen. Via de gaswet vinden we
 					<BM>m = \frac(p_1V_1)(R_sT_1) = \frac({p1.float} \cdot {p2.float})({Rs.float} \cdot {T1.float}) = {m}.</BM>
 					In punt 2 was al gegeven dat <M>p_2 = {p2}.</M> Omdat proces 1-2 isentroop is geldt hierbij <M>n = k</M> en voor lucht geldt <M>k = {k}.</M> Via Poisson's wet <M>p_1V_1^n = p_2V_2^n</M> vinden we zo
-					<BM>V_2^n = \frac(p_1)(p_2) V_1^n,</BM>
-					<BM>V_2 = \left(\frac(p_1)(p_2) V_1^n\right)^(\frac(1)(n)) = \left(\frac(p_1)(p_2)\right)^(\frac(1)(n)) V_1 = \left(\frac{p1.float}{p2.float}\right)^(\frac{1}{k}) \cdot {V1.float} = {V2}.</BM>
+					<BMList>
+						<BMPart>V_2^n = \frac(p_1)(p_2) V_1^n,</BMPart>
+						<BMPart>V_2 = \left(\frac(p_1)(p_2) V_1^n\right)^(\frac(1)(n)) = \left(\frac(p_1)(p_2)\right)^(\frac(1)(n)) V_1 = \left(\frac{p1.float}{p2.float}\right)^(\frac{1}{k}) \cdot {V1.float} = {V2}.</BMPart>
+					</BMList>
 					De temperatuur <M>T_2</M> volgt via de gaswet als
 					<BM>T_2 = \frac(p_2V_2)(mR_s) = \frac({p2.float} \cdot {V2.float})({m.float} \cdot {Rs.float}) = {T2}.</BM>
 					Hiermee is ook punt 2 doorgerekend.
 					<SubHead>Short-cut</SubHead>
 					We konden <M>T_2</M> ook vinden met de kennis dat <M>\frac(pV)(T)</M> constant blijft. Oftewel,
-					<BM>\frac(p_1V_1)(T_1) = \frac(p_2V_2)(T_2),</BM>
-					<BM>T_2 = \frac(p_1)(p_2) \cdot \frac(V_1)(V_2) \cdot T_1 = \frac{p1.float}{p2.float} \cdot \frac{V1.float}{V2.float} \cdot {T1.float} = {T2}.</BM>
+					<BMList>
+						<BMPart>\frac(p_1V_1)(T_1) = \frac(p_2V_2)(T_2),</BMPart>
+						<BMPart>T_2 = \frac(p_1)(p_2) \cdot \frac(V_1)(V_2) \cdot T_1 = \frac{p1.float}{p2.float} \cdot \frac{V1.float}{V2.float} \cdot {T1.float} = {T2}.</BMPart>
+					</BMList>
 					Het voordeel is dat we nu de massa van het gas niet hoefden te berekenen. Desondanks is de massa bij de latere stappen ook handig (hoewel deze short-cut daar ook werkt) dus is het mooi dat we deze nu weten.
 				</Par>
 			</>

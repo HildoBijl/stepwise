@@ -2,7 +2,7 @@ import React from 'react'
 
 import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
 
-import { M, BM } from 'ui/components/equations'
+import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import ExpressionInput, { validAndNumeric as expressionValidAndNumeric, validWithVariables as expressionValidWithVariables, basicMath } from 'ui/form/inputs/ExpressionInput'
 import EquationInput, { validWithVariables as equationValidWithVariables } from 'ui/form/inputs/EquationInput'
@@ -20,7 +20,7 @@ export default function Exercise() {
 const Problem = (state) => {
 	const { variables, eq1, eq2 } = useSolution(state)
 	return <>
-		<Par>Gegeven is het stelsel van vergelijkingen <BM>{eq1},</BM><BM>{eq2}.</BM> Los dit stelsel op voor <M>{variables.x}</M> en <M>{variables.y}.</M></Par>
+		<Par>Gegeven is het stelsel van vergelijkingen <BMList><BMPart>{eq1},</BMPart><BMPart>{eq2}.</BMPart></BMList> Los dit stelsel op voor <M>{variables.x}</M> en <M>{variables.y}.</M></Par>
 		<InputSpace>
 			<Par>
 				<ExpressionInput id="x" prelabel={<M>{variables.x}=</M>} label="Vul hier het resultaat in" size="s" settings={basicMath} validate={expressionValidAndNumeric} />
@@ -96,7 +96,7 @@ const steps = [
 		},
 		Solution: (state) => {
 			const { variables, eq1, eq2, eq1Solution, x, y } = useSolution(state)
-			return <Par>Eerder vonden we al dat <BM>{variables.x} = {eq1Solution}.</BM> Als we hier <M>{variables.y} = {y}</M> invullen krijgen we <BM>{variables.x} = {eq1Solution.substitute(variables.y, y)} = {x}.</BM> De oplossing van het stelsel van vergelijkingen is dus ook <M>{variables.x} = {x}</M> en <M>{variables.y} = {y}.</M> Als controle kunnen we deze waarden in de oorspronkelijke vergelijkingen invullen om te controleren dat de oplossing klopt. We schrijven dan <BM>{eq1.substitute(variables.x, x).substitute(variables.y, y)},</BM><BM>{eq2.substitute(variables.x, x).substitute(variables.y, y)}.</BM> En inderdaad, beide vergelijkingen kloppen.</Par>
+			return <Par>Eerder vonden we al dat <BM>{variables.x} = {eq1Solution}.</BM> Als we hier <M>{variables.y} = {y}</M> invullen krijgen we <BM>{variables.x} = {eq1Solution.substitute(variables.y, y)} = {x}.</BM> De oplossing van het stelsel van vergelijkingen is dus ook <M>{variables.x} = {x}</M> en <M>{variables.y} = {y}.</M> Als controle kunnen we deze waarden in de oorspronkelijke vergelijkingen invullen om te controleren dat de oplossing klopt. We schrijven dan <BMList><BMPart>{eq1.substitute(variables.x, x).substitute(variables.y, y)},</BMPart><BMPart>{eq2.substitute(variables.x, x).substitute(variables.y, y)}.</BMPart></BMList> En inderdaad, beide vergelijkingen kloppen.</Par>
 		},
 	},
 ]

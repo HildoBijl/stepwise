@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
+import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
@@ -95,7 +95,12 @@ const steps = [
 			const { m, cv, p1, V1, T1, V2, T2, T3, Q12, W12, Q23, W23, Q31, W31, Wn } = useSolution()
 			return <>
 				<Par>Voor de isotherme stap 1-2 zijn de energiestromen <BM>Q_(1-2) = W_(1-2) = pV\ln\left(\frac(V_2)(V_1)\right) = {p1.float} \cdot {V1.float} \cdot \ln\left(\frac{V2.float}{V1.float}\right) = {Q12}.</BM> Voor de isentrope stap 2-3 geldt <M>Q_(2-3) = {Q23}</M> en <BM>W_(2-3) = -mc_v\left(T_3-T_2\right) = -{m.float} \cdot {cv.float} \cdot \left({T3.float} - {T2.float}\right) = {W23}.</BM> Ten slotte heeft de isochore stap 3-1 <BM>Q_(3-1) = mc_v\left(T_1 - T_3\right) = {m.float} \cdot {cv.float} \cdot \left({T1.float} - {T3.float}\right) = {Q31}</BM> en <M>W_(3-1) = {W31}.</M></Par>
-				<Par>Als check controleren we de energiebalans. Zo vinden we <BM>Q_(netto) = Q_(1-2) + Q_(2-3) + Q_(3-1) = {Q12.float} {Q23.float.texWithPM} {Q31.float.texWithPM} = {Wn},</BM> <BM>W_(netto) = W_(1-2) + W_(2-3) + W_(3-1) = {W12.float} {W23.float.texWithPM} {W31.float.texWithPM} = {Wn}.</BM> Deze waarden zijn gelijk aan elkaar, dus hebben we geen rekenfout gemaakt.</Par>
+				<Par>Als check controleren we de energiebalans. Zo vinden we
+					<BMList>
+						<BMPart>Q_(netto) = Q_(1-2) + Q_(2-3) + Q_(3-1) = {Q12.float} {Q23.float.texWithPM} {Q31.float.texWithPM} = {Wn},</BMPart>
+						<BMPart>W_(netto) = W_(1-2) + W_(2-3) + W_(3-1) = {W12.float} {W23.float.texWithPM} {W31.float.texWithPM} = {Wn}.</BMPart>
+					</BMList>
+					Deze waarden zijn gelijk aan elkaar, dus hebben we geen rekenfout gemaakt.</Par>
 			</>
 		},
 	},
@@ -125,10 +130,10 @@ const steps = [
 			const { Wn, Q12, Qin, epsilon, COP } = useSolution()
 			const Qout = Q12.abs()
 			return <Par>De processtappen waarop warmte toegevoerd wordt (<M>Q \gt 0</M>) is alleen stap 3-1. De toegevoerde warmte is dus <M>Q_(toe) = Q_(3-1) = {Qin}.</M> De netto arbeid is al bekend als <M>W_(netto) = {Wn}.</M> Hiermee volgt de koudefactor als
-			<BM>\varepsilon = \frac(\rm nuttig)(\rm invoer) = \frac(Q_(toe))(W_(netto)) = \frac{Qin}{Wn.abs()} = {epsilon}.</BM>
-			Voor de warmtefactor moeten we kijken naar de stappen waarop warmte afgevoerd wordt. Dit is alleen stap 1-2. De afgevoerde warmte is dus <M>Q_(af) = Q_(1-2) = {Qout}.</M> (We negeren hier het minteken omdat we al in woorden zeggen dat dit afgevoerde warmte is.) Dit zorgt voor een warmtefactor van
-			<BM>\varepsilon_w = \frac(\rm nuttig)(\rm invoer) = \frac(Q_(af))(W_(netto)) = \frac{Qout}{Wn.abs()} = {COP}.</BM>
-			Of we hadden kunnen gebruiken dat de warmtefactor altijd één hoger is dan de koudefactor. Dat was hier sneller geweest. Bovenstaande factoren zijn overigens niet bepaald hoog. Het is immers ook geen heel efficiënt kringproces.</Par>
+				<BM>\varepsilon = \frac(\rm nuttig)(\rm invoer) = \frac(Q_(toe))(W_(netto)) = \frac{Qin}{Wn.abs()} = {epsilon}.</BM>
+				Voor de warmtefactor moeten we kijken naar de stappen waarop warmte afgevoerd wordt. Dit is alleen stap 1-2. De afgevoerde warmte is dus <M>Q_(af) = Q_(1-2) = {Qout}.</M> (We negeren hier het minteken omdat we al in woorden zeggen dat dit afgevoerde warmte is.) Dit zorgt voor een warmtefactor van
+				<BM>\varepsilon_w = \frac(\rm nuttig)(\rm invoer) = \frac(Q_(af))(W_(netto)) = \frac{Qout}{Wn.abs()} = {COP}.</BM>
+				Of we hadden kunnen gebruiken dat de warmtefactor altijd één hoger is dan de koudefactor. Dat was hier sneller geweest. Bovenstaande factoren zijn overigens niet bepaald hoog. Het is immers ook geen heel efficiënt kringproces.</Par>
 		},
 	},
 ]

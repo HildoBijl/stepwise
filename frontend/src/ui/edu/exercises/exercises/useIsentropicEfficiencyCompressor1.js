@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
+import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par, SubHead } from 'ui/components/containers'
 import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
@@ -35,8 +35,10 @@ const steps = [
 		Solution: () => {
 			const { k, p1, p2, T1, T2p } = useSolution()
 			return <Par>Poisson's wet zegt dat in dit geval <BM>\frac(T_1^n)(p_1^(n-1)) = \frac(T_(2')^n)(p_2^(n-1)).</BM> Het oplossen van de theoretische temperatuur <M>T_(2')</M> gaat via
-				<BM>T_(2')^n = T_1^n \frac(p_2^(n-1))(p_1^(n-1)) = T_1^n \left(\frac(p_2)(p_1)\right)^(n-1),</BM>
-				<BM>T_(2') = \left(T_1^n \left(\frac(p_2)(p_1)\right)^(n-1)\right)^(\frac(1)(n)) = T_1 \left(\frac(p_2)(p_1)\right)^(\frac(n-1)(n)) = {T1.float} \left(\frac{p2.float}{p1.float}\right)^(\frac({k}-1)({k})) = {T2p}.</BM>
+				<BMList>
+					<BMPart>T_(2')^n = T_1^n \frac(p_2^(n-1))(p_1^(n-1)) = T_1^n \left(\frac(p_2)(p_1)\right)^(n-1),</BMPart>
+					<BMPart>T_(2') = \left(T_1^n \left(\frac(p_2)(p_1)\right)^(n-1)\right)^(\frac(1)(n)) = T_1 \left(\frac(p_2)(p_1)\right)^(\frac(n-1)(n)) = {T1.float} \left(\frac{p2.float}{p1.float}\right)^(\frac({k}-1)({k})) = {T2p}.</BMPart>
+				</BMList>
 				Dit is de temperatuur na de compressor als de compressor isentroop zou werken.</Par>
 		},
 	},
@@ -56,8 +58,10 @@ const steps = [
 				<Par>Bij de compressor wordt geen warmte toegevoerd, dus <M>q = 0.</M> De technische arbeid volgt vanuit de eerste hoofdwet als
 					<BM>w_t = q - \Delta h = -\Delta h = -c_p \left(T_2 - T_1\right).</BM>
 					Dit geldt zowel voor het theoretische isentrope geval als voor de werkelijkheid. Dit is echter de technische arbeid die <em>de lucht op de omgeving (compressor)</em> uitoefent. Voor de arbeid die <em>de compressor op de lucht</em> uitoefent, is het teken omgekeerd: het minteken hierboven valt weg. Zo vinden we
-					<BM>w_(t_i) = c_p \left(T_(2') - T_1\right) = {cp.float} \cdot \left({T2p.float} - {T1.float}\right) = {wti},</BM>
-					<BM>w_t = c_p \left(T_2 - T_1\right) = {cp.float} \cdot \left({T2.float} - {T1.float}\right) = {wt}.</BM>
+					<BMList>
+						<BMPart>w_(t_i) = c_p \left(T_(2') - T_1\right) = {cp.float} \cdot \left({T2p.float} - {T1.float}\right) = {wti},</BMPart>
+						<BMPart>w_t = c_p \left(T_2 - T_1\right) = {cp.float} \cdot \left({T2.float} - {T1.float}\right) = {wt}.</BMPart>
+					</BMList>
 					Merk op dat de werkelijke technische arbeid groter is dan de technische arbeid in het optimale geval. Dit is logisch: als er frictie aanwezig is, heeft een compressor meer arbeid nodig.
 				</Par>
 			</>

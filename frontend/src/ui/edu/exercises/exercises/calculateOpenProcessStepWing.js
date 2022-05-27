@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
+import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
@@ -110,14 +110,18 @@ const steps = [
 
 			if (choice === undefined || choice === 0)
 				return <Par>We gaan via Poisson's wet het specifieke volume berekenen. We weten al de druk in de begin- en eindsituatie, waardoor we de wet moeten pakken met zowel <M>p</M> als <M>v.</M> Poisson's wet zegt dat <BM>p_1v_1^n = p_2v_2^n.</BM> Hierbij geldt bij een isentroop proces met lucht dat <M>n = k = {k}.</M> De oplossing voor <M>v_2</M> volgt via
-				<BM>v_2^n = \frac(p_1)(p_2) v_1^n,</BM>
-					<BM>v_2 = \left(\frac(p_1)(p_2) v_1^n\right)^(\frac(1)(n)) = \left(\frac(p_1)(p_2)\right)^(\frac(1)(n)) v_1 = \left(\frac{p1.float}{p2.float}\right)^(\frac(1){k.float}) \cdot {v1.float} = {v2}.</BM>
-				Dit is een stuk hoger dan voorheen. Dat is ook logisch: de lucht wordt uitgerekt bovenop de vleugel, en daardoor is daar de druk lager en het specifiek volume hoger.</Par>
+					<BMList>
+						<BMPart>v_2^n = \frac(p_1)(p_2) v_1^n,</BMPart>
+						<BMPart>v_2 = \left(\frac(p_1)(p_2) v_1^n\right)^(\frac(1)(n)) = \left(\frac(p_1)(p_2)\right)^(\frac(1)(n)) v_1 = \left(\frac{p1.float}{p2.float}\right)^(\frac(1){k.float}) \cdot {v1.float} = {v2}.</BMPart>
+					</BMList>
+					Dit is een stuk hoger dan voorheen. Dat is ook logisch: de lucht wordt uitgerekt bovenop de vleugel, en daardoor is daar de druk lager en het specifiek volume hoger.</Par>
 
 			return <Par>We gaan via Poisson's wet de temperatuur berekenen. We weten al het volume in de begin- en eindsituatie, waardoor we de wet moeten pakken met zowel <M>p</M> als <M>T.</M> Zo vinden we dat <BM>\frac(T_1^n)(p_1^(n-1)) = \frac(T_2^n)(p_2^(n-1)).</BM> Hierbij geldt bij een isentroop proces met lucht dat <M>n = k = {k}.</M> De oplossing voor <M>T_2</M> volgt via
-			<BM>T_2^n = T_1^n \frac(p_2^(n-1))(p_1^(n-1)) = T_1^n \left(\frac(p_2)(p_1)\right)^(n-1),</BM>
-				<BM>T_2 = \left(T_1^n \left(\frac(p_2)(p_1)\right)^(n-1)\right)^(\frac(1)(n)) = T_1 \left(\frac(p_2)(p_1)\right)^(\frac(n-1)(n)) = {T1.float} \cdot \left(\frac{p2.float}{p1.float}\right)^(\frac({k.float}-1)({k.float})) = {T2}.</BM>
-			Dit is een stuk kouder dan de temperatuur hiervoor. Op zich is dat logisch: de lucht wordt uitgerekt bovenop de vleugel, en expansie laat de temperatuur doorgaans dalen.</Par>
+				<BMList>
+					<BMPart>T_2^n = T_1^n \frac(p_2^(n-1))(p_1^(n-1)) = T_1^n \left(\frac(p_2)(p_1)\right)^(n-1),</BMPart>
+					<BMPart>T_2 = \left(T_1^n \left(\frac(p_2)(p_1)\right)^(n-1)\right)^(\frac(1)(n)) = T_1 \left(\frac(p_2)(p_1)\right)^(\frac(n-1)(n)) = {T1.float} \cdot \left(\frac{p2.float}{p1.float}\right)^(\frac({k.float}-1)({k.float})) = {T2}.</BMPart>
+				</BMList>
+				Dit is een stuk kouder dan de temperatuur hiervoor. Op zich is dat logisch: de lucht wordt uitgerekt bovenop de vleugel, en expansie laat de temperatuur doorgaans dalen.</Par>
 		},
 	},
 	{

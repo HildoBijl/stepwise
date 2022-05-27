@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
+import { M, BMList, BMPart } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import { InputSpace } from 'ui/form/Status'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
@@ -111,7 +111,12 @@ const steps = [
 			const { cp, T1, T2, q, wt } = useSolution()
 			const qUnit = q.setUnit('kJ/kg')
 
-			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we <BM>q = c_p\left(T_2-T_1\right) = {cp.float} \cdot \left({T2.float} - {T1.float}\right) = {q},</BM><BM>w_t = {wt}.</BM> Het is de gewoonte om de specifieke warmte te schrijven als <M>q = {qUnit}</M>, omdat we vaak waarden van enkele honderden <M>{qUnit.unit}</M> hebben. Dat is hier ook het geval, dus qua orde van grootte is dit een logische waarde.</Par>
+			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we
+				<BMList>
+					<BMPart>q = c_p\left(T_2-T_1\right) = {cp.float} \cdot \left({T2.float} - {T1.float}\right) = {q},</BMPart>
+					<BMPart>w_t = {wt}.</BMPart>
+				</BMList>
+				Het is de gewoonte om de specifieke warmte te schrijven als <M>q = {qUnit}</M>, omdat we vaak waarden van enkele honderden <M>{qUnit.unit}</M> hebben. Dat is hier ook het geval, dus qua orde van grootte is dit een logische waarde.</Par>
 		},
 	},
 ]

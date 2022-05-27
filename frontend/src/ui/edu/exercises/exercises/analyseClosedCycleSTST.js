@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
+import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par, SubHead } from 'ui/components/containers'
 import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
@@ -118,20 +118,26 @@ const steps = [
 			return <>
 				<Par>
 					Voor de isentrope stap 1-2 zijn de energiestromen
-					<BM>Q_(1-2) = {Q12},</BM>
-					<BM>W_(1-2) = -mc_v\left(T_2-T_1\right) = -{m.float} \cdot {cv.float} \cdot \left({T2.float} - {T1.float}\right) = {W12}.</BM>
+					<BMList>
+						<BMPart>Q_(1-2) = {Q12},</BMPart>
+						<BMPart>W_(1-2) = -mc_v\left(T_2-T_1\right) = -{m.float} \cdot {cv.float} \cdot \left({T2.float} - {T1.float}\right) = {W12}.</BMPart>
+					</BMList>
 					Voor de isotherme stap 2-3 hebben we
 					<BM>Q_(2-3) = W_(2-3) = pV\ln\left(\frac(V_3)(V_2)\right) = {p2.float} \cdot {V2.float} \cdot \ln\left(\frac{V3.float}{V2.float}\right) = {Q23}.</BM>
 					Voor de isentrope stap 3-4 geldt
-					<BM>Q_(3-4) = {Q34},</BM>
-					<BM>W_(3-4) = -mc_v\left(T_4-T_3\right) = -{m.float} \cdot {cv.float} \cdot \left({T4.float} - {T3.float}\right) = {W34}.</BM>
+					<BMList>
+						<BMPart>Q_(3-4) = {Q34},</BMPart>
+						<BMPart>W_(3-4) = -mc_v\left(T_4-T_3\right) = -{m.float} \cdot {cv.float} \cdot \left({T4.float} - {T3.float}\right) = {W34}.</BMPart>
+					</BMList>
 					Ten slotte vinden we voor de isotherme stap 4-1,
 					<BM>Q_(4-1) = W_(4-1) = pV\ln\left(\frac(V_1)(V_4)\right) = {p4.float} \cdot {V4.float} \cdot \ln\left(\frac{V1.float}{V4.float}\right) = {Q41}.</BM>
 				</Par>
 				<Par>
 					Als check controleren we de energiebalans. Zo zien we
-					<BM>Q_(netto) = Q_(1-2) + Q_(2-3) + Q_(3-4) + Q_(4-1) = {Q12.float} {Q23.float.texWithPM} {Q34.float.texWithPM} {Q41.float.texWithPM} = {Wn},</BM>
-					<BM>W_(netto) = W_(1-2) + W_(2-3) + W_(3-4) + W_(4-1) = {W12.float} {W23.float.texWithPM} {W34.float.texWithPM} {W41.float.texWithPM} = {Wn}.</BM>
+					<BMList>
+						<BMPart>Q_(netto) = Q_(1-2) + Q_(2-3) + Q_(3-4) + Q_(4-1) = {Q12.float} {Q23.float.texWithPM} {Q34.float.texWithPM} {Q41.float.texWithPM} = {Wn},</BMPart>
+						<BMPart>W_(netto) = W_(1-2) + W_(2-3) + W_(3-4) + W_(4-1) = {W12.float} {W23.float.texWithPM} {W34.float.texWithPM} {W41.float.texWithPM} = {Wn}.</BMPart>
+					</BMList>
 					Deze waarden zijn gelijk aan elkaar, dus hebben we geen rekenfout gemaakt.
 				</Par>
 			</>
@@ -163,15 +169,17 @@ const steps = [
 			const { Wn, T1, T2, Q23, Qin, epsilon, COP } = useSolution()
 			const Qout = Q23.abs()
 			return <Par>De processtappen waarop warmte toegevoerd wordt (<M>Q \gt 0</M>) is alleen stap 4-1. De toegevoerde warmte is dus <M>Q_(toe) = Q_(4-1) = {Qin}.</M> De netto arbeid is al bekend als <M>W_(netto) = {Wn}.</M> Hiermee volgt de koudefactor als
-			<BM>\varepsilon = \frac(\rm nuttig)(\rm invoer) = \frac(Q_(toe))(W_(netto)) = \frac{Qin}{Wn.abs()} = {epsilon}.</BM>
-			Voor de warmtefactor moeten we kijken naar de stappen waarop warmte afgevoerd wordt. Dit is alleen stap 2-3. De afgevoerde warmte is dus <M>Q_(af) = Q_(2-3) = {Qout}.</M> (We negeren hier het minteken omdat we al in woorden zeggen dat dit afgevoerde warmte is.) Dit zorgt voor een warmtefactor van
-			<BM>\varepsilon_w = \frac(\rm nuttig)(\rm invoer) = \frac(Q_(af))(W_(netto)) = \frac{Qout}{Wn.abs()} = {COP}.</BM>
-			Of we hadden kunnen gebruiken dat de warmtefactor altijd één hoger is dan de koudefactor. Dat was hier sneller geweest.
-			<SubHead>Short-cut</SubHead>
-			Merk op dat dit een Carnot-proces is. Voor een Carnot-proces kunnen we ook de koudefactor en warmtefactor vinden via
-			<BM>\varepsilon_C = \frac(T_(min))(T_(max) - T_(min)) = \frac({T1.float})({T2.float} - {T1.float}) = {epsilon},</BM>
-				<BM>\varepsilon_(w_C) = \frac(T_(max))(T_(max) - T_(min)) = \frac({T2.float})({T2.float} - {T1.float}) = {COP}.</BM>
-			Dit was een stuk sneller geweest. Deze short-cut werkt echter alleen voor Carnot-processen, en kan dus niet altijd toegepast worden.</Par>
+				<BM>\varepsilon = \frac(\rm nuttig)(\rm invoer) = \frac(Q_(toe))(W_(netto)) = \frac{Qin}{Wn.abs()} = {epsilon}.</BM>
+				Voor de warmtefactor moeten we kijken naar de stappen waarop warmte afgevoerd wordt. Dit is alleen stap 2-3. De afgevoerde warmte is dus <M>Q_(af) = Q_(2-3) = {Qout}.</M> (We negeren hier het minteken omdat we al in woorden zeggen dat dit afgevoerde warmte is.) Dit zorgt voor een warmtefactor van
+				<BM>\varepsilon_w = \frac(\rm nuttig)(\rm invoer) = \frac(Q_(af))(W_(netto)) = \frac{Qout}{Wn.abs()} = {COP}.</BM>
+				Of we hadden kunnen gebruiken dat de warmtefactor altijd één hoger is dan de koudefactor. Dat was hier sneller geweest.
+				<SubHead>Short-cut</SubHead>
+				Merk op dat dit een Carnot-proces is. Voor een Carnot-proces kunnen we ook de koudefactor en warmtefactor vinden via
+				<BMList>
+					<BMPart>\varepsilon_C = \frac(T_(min))(T_(max) - T_(min)) = \frac({T1.float})({T2.float} - {T1.float}) = {epsilon},</BMPart>
+					<BMPart>\varepsilon_(w_C) = \frac(T_(max))(T_(max) - T_(min)) = \frac({T2.float})({T2.float} - {T1.float}) = {COP}.</BMPart>
+				</BMList>
+				Dit was een stuk sneller geweest. Deze short-cut werkt echter alleen voor Carnot-processen, en kan dus niet altijd toegepast worden.</Par>
 		},
 	},
 ]

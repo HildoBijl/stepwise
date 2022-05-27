@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
+import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par, SubHead } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
@@ -31,7 +31,13 @@ const steps = [
 		</>,
 		Solution: () => {
 			const { p1, V1, T1, Rs, m } = useSolution()
-			return <Par>We zetten allereerst de gegevens van het beginpunt in standaard eenheden. Hiermee vinden we <BM>p_1 = {p1},</BM><BM>V_1 = {V1},</BM><BM>T_1 = {T1}.</BM> Vervolgens zoeken we de gasconstante van lucht op. Deze is <BM>R_s = {Rs}.</BM> De gaswet zegt dat <M>pV = mR_sT.</M> We passen dit toe op punt 1: de fietspomp met de hendel omhoog. Om <M>m</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>R_sT.</M> Het resultaat is <BM>m = \frac(p_1V_1)(R_sT_1) = \frac({p1.float} \cdot {V1.float})({Rs.float} \cdot {T1.float}) = {m}.</BM></Par>
+			return <Par>We zetten allereerst de gegevens van het beginpunt in standaard eenheden. Hiermee vinden we
+				<BMList>
+					<BMPart>p_1 = {p1},</BMPart>
+					<BMPart>V_1 = {V1},</BMPart>
+					<BMPart>T_1 = {T1}.</BMPart>
+				</BMList>
+				Vervolgens zoeken we de gasconstante van lucht op. Deze is <BM>R_s = {Rs}.</BM> De gaswet zegt dat <M>pV = mR_sT.</M> We passen dit toe op punt 1: de fietspomp met de hendel omhoog. Om <M>m</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>R_sT.</M> Het resultaat is <BM>m = \frac(p_1V_1)(R_sT_1) = \frac({p1.float} \cdot {V1.float})({Rs.float} \cdot {T1.float}) = {m}.</BM></Par>
 		},
 	},
 	{
@@ -44,7 +50,11 @@ const steps = [
 		Solution: (state) => {
 			const { p2, V2, T1, T2, m, Rs } = useSolution()
 			return <>
-				<Par>Als eerste zetten we de eigenschappen van het eindpunt in standaard eenheden: <BM>p_2 = {p2},</BM><BM>V_2 = {V2}.</BM> Vervolgens passen we de gaswet <M>pV = mR_sT</M> toe op punt 2: de fietspomp met de hendel ingedrukt. Om deze wet op te lossen voor de temperatuur <M>T</M> delen we beide kanten van de vergelijking door <M>mR_s.</M> Zo vinden we <BM>T_2 = \frac(p_2V_2)(mR_s) = \frac({p2.float} \cdot {V2.float})({m.float} \cdot {Rs.float}) = {T2}.</BM>Je kunt dit eventueel nog omrekenen naar <M>{T2.setUnit('dC').setDecimals(0)}.</M> Dit is een stuk warmer dan de begintemperatuur van <M>{state.T1}.</M> Zo zien we dat lucht bij compressie best veel kan opwarmen.</Par>
+				<Par>Als eerste zetten we de eigenschappen van het eindpunt in standaard eenheden: <BMList>
+					<BMPart>p_2 = {p2},</BMPart>
+					<BMPart>V_2 = {V2}.</BMPart>
+				</BMList>
+					Vervolgens passen we de gaswet <M>pV = mR_sT</M> toe op punt 2: de fietspomp met de hendel ingedrukt. Om deze wet op te lossen voor de temperatuur <M>T</M> delen we beide kanten van de vergelijking door <M>mR_s.</M> Zo vinden we <BM>T_2 = \frac(p_2V_2)(mR_s) = \frac({p2.float} \cdot {V2.float})({m.float} \cdot {Rs.float}) = {T2}.</BM>Je kunt dit eventueel nog omrekenen naar <M>{T2.setUnit('dC').setDecimals(0)}.</M> Dit is een stuk warmer dan de begintemperatuur van <M>{state.T1}.</M> Zo zien we dat lucht bij compressie best veel kan opwarmen.</Par>
 				<SubHead>Short-cut</SubHead>
 				<Par>We hadden dit gehele probleem ook in één keer op kunnen lossen door de dubbele gaswet toe te passen, <BM>\frac(p_1V_1)(T_1) = \frac(p_2V_2)(T_2).</BM> Als we deze vergelijking oplossen voor <M>T_2</M> vinden we direct <BM>T_2 = T_1 \cdot \frac(p_2)(p_1) \cdot \frac(V_2)(V_1) = {T1.float} \cdot \frac{state.p2.float}{state.p1.float} \cdot \frac{state.V2.float}{state.V1.float} = {T2}.</BM> Merk op dat we hier zelfs de druk in bar kunnen invullen en het volume in liters, omdat de conversiefactoren toch tegen elkaar weggedeeld worden. De temperatuur moet wel zeker in Kelvin en niet in graden Celsius.</Par>
 			</>

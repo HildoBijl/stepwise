@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
+import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
@@ -34,9 +34,12 @@ const steps = [
 		</>,
 		Solution: () => {
 			const { n, p1, p2, T1, T2 } = useSolution()
-			return <Par>Poisson's wet zegt dat <BM>\frac(T_1^n)(p_1^(n-1)) = \frac(T_2^n)(p_2^(n-1)).</BM> Hierbij moet <M>T_1 = {T1}</M> uiteraard in Kelvin staan. Het bovenstaande oplossen voor <M>T_2</M> gaat via <BM>T_2^n = T_1^n \frac(p_2^(n-1))(p_1^(n-1)) = T_1^n \left(\frac(p_2)(p_1)\right)^(n-1),</BM>
-				<BM>T_2 = \left(T_1^n \left(\frac(p_2)(p_1)\right)^(n-1)\right)^(\frac(1)(n)) = T_1 \left(\frac(p_2)(p_1)\right)^(\frac(n-1)(n)) = {T1.float} \left(\frac{p2.float}{p1.float}\right)^(\frac({n}-1)({n})) = {T2}.</BM>
-			Merk op dat we de druk in <M>{p1.unit}</M> mogen laten staan, omdat we met een drukverhouding rekenen.</Par>
+			return <Par>Poisson's wet zegt dat <BM>\frac(T_1^n)(p_1^(n-1)) = \frac(T_2^n)(p_2^(n-1)).</BM> Hierbij moet <M>T_1 = {T1}</M> uiteraard in Kelvin staan. Het bovenstaande oplossen voor <M>T_2</M> gaat via
+				<BMList>
+					<BMPart>T_2^n = T_1^n \frac(p_2^(n-1))(p_1^(n-1)) = T_1^n \left(\frac(p_2)(p_1)\right)^(n-1),</BMPart>
+					<BMPart>T_2 = \left(T_1^n \left(\frac(p_2)(p_1)\right)^(n-1)\right)^(\frac(1)(n)) = T_1 \left(\frac(p_2)(p_1)\right)^(\frac(n-1)(n)) = {T1.float} \left(\frac{p2.float}{p1.float}\right)^(\frac({n}-1)({n})) = {T2}.</BMPart>
+				</BMList>
+				Merk op dat we de druk in <M>{p1.unit}</M> mogen laten staan, omdat we met een drukverhouding rekenen.</Par>
 		},
 	},
 	{

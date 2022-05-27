@@ -2,7 +2,7 @@ import React from 'react'
 
 import { temperature as TConversion, pressure as pConversion } from 'step-wise/data/conversions'
 
-import { M, BM } from 'ui/components/equations'
+import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
@@ -49,7 +49,12 @@ const steps = [
 			const { m, p1, T1 } = state
 			const { Rs, p1: p1s, V1, T1: T1s } = useSolution()
 			return <>
-				<Par>We gaan de gaswet gebruiken. Hierbij moeten alle waarden in standaard eenheden staan. Dus schrijven we op,<BM>T_1 = {T1.float} + {TConversion.float} = {T1s},</BM><BM>p_1 = {p1} \cdot {pConversion} = {p1s}.</BM> De massa <M>m = {m}</M> staat al in standaard eenheden.</Par>
+				<Par>We gaan de gaswet gebruiken. Hierbij moeten alle waarden in standaard eenheden staan. Dus schrijven we op,
+					<BMList>
+						<BMPart>T_1 = {T1.float} + {TConversion.float} = {T1s},</BMPart>
+						<BMPart>p_1 = {p1} \cdot {pConversion} = {p1s}.</BMPart>
+					</BMList>
+					De massa <M>m = {m}</M> staat al in standaard eenheden.</Par>
 				<Par>Ook is de specifieke gasconstante van zuurstof nodig. Deze kunnen we opzoeken als <BM>R_s = {Rs}.</BM></Par>
 				<Par>De gaswet zegt dat <BM>pV = mR_sT.</BM> Dit toepassen op punt 1 en oplossen voor <M>V_1</M> geeft <BM>V_1 = \frac(mR_sT_1)(p_1) = \frac({m.float} \cdot {Rs.float} \cdot {T1s.float})({p1s.float}) = {V1}.</BM> Dit komt neer op <M>V_1 = {V1.setUnit('l')}</M>, wat een realistische grootte van een duikfles is. Hiermee zijn alle gaseigenschappen van de duikfles op de boot bekend.</Par>
 			</>

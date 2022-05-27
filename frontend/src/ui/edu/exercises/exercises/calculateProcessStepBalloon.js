@@ -2,7 +2,7 @@ import React from 'react'
 
 import { temperature as TConversion, massGram as mConversion, volumeLiter as VConversion } from 'step-wise/data/conversions'
 
-import { M, BM } from 'ui/components/equations'
+import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
@@ -49,7 +49,13 @@ const steps = [
 			const { m, V1, T1 } = state
 			const { Rs, p1, m: ms, V1: V1s, T1: T1s } = useSolution()
 			return <>
-				<Par>We gaan de gaswet gebruiken. Hierbij moeten alle waarden in standaard eenheden staan. Dus schrijven we op,<BM>V_1 = {V1} \cdot {VConversion} = {V1s},</BM><BM>T_1 = {T1.float} + {TConversion.float} = {T1s},</BM><BM>m = \frac{m}{mConversion} = {ms}.</BM></Par>
+				<Par>We gaan de gaswet gebruiken. Hierbij moeten alle waarden in standaard eenheden staan. Dus schrijven we op,
+					<BMList>
+						<BMPart>V_1 = {V1} \cdot {VConversion} = {V1s},</BMPart>
+						<BMPart>T_1 = {T1.float} + {TConversion.float} = {T1s},</BMPart>
+						<BMPart>m = \frac{m}{mConversion} = {ms}.</BMPart>
+					</BMList>
+				</Par>
 				<Par>Ook is de specifieke gasconstante van lucht nodig. Deze kunnen we opzoeken als <BM>R_s = {Rs}.</BM></Par>
 				<Par>De gaswet zegt dat <BM>pV = mR_sT.</BM> Dit toepassen op punt 1 en oplossen voor <M>p_1</M> geeft <BM>p_1 = \frac(mR_sT_1)(V_1) = \frac({ms.float} \cdot {Rs.float} \cdot {T1s.float})({V1s.float}) = {p1}.</BM> Onafgerond was dit antwoord <M>p_1 = {p1.setUnit('bar').setDecimals(2)}</M>, wat net iets hoger is dan de atmosferische druk. Dit is logisch: een ballon trekt wel een klein beetje extra op de lucht die erin zit, waardoor de druk ietsje hoger is dan atmosferische druk, maar een ballon is relatief flexibel, dus deze overdruk is minimaal.</Par>
 			</>

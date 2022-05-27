@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
+import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
@@ -54,14 +54,18 @@ const steps = [
 			const { k, Rs, p1, v1, T1, p2, v2, T2 } = useSolution()
 			return <>
 				<Par>We kunnen <M>T_2</M> vinden via Poisson's wet. Deze wet zegt dat
-				<BM>\frac(T_1^n)(p_1^(n-1)) = \frac(T_2^n)(p_2^(n-1)).</BM>
-				Hierbij geldt bij een isentroop proces met lucht dat <M>n = k = {k}.</M> Het bovenstaande oplossen voor <M>T_2</M> kan via
-				<BM>T_2^n = T_1^n \frac(p_2^(n-1))(p_1^(n-1)) = T_1^n \left(\frac(p_2)(p_1)\right)^(n-1),</BM>
-				<BM>T_2 = \left(T_1^n \left(\frac(p_2)(p_1)\right)^(n-1)\right)^(1/n) = T_1 \left(\frac(p_2)(p_1)\right)^(\frac(n-1)(n)) = {T1.float} \cdot \left(\frac{p2.float}{p1.float}\right)^(\frac({k}-1)({k})) = {T2}.</BM>
-				De specifieke volumen <M>v_1</M> en <M>v_2</M> volgen beiden via de gaswet als
-				<BM>v_1 = \frac(R_sT_1)(p_1) = \frac({Rs.float} \cdot {T1.float})({p1.float}) = {v1},</BM>
-				<BM>v_2 = \frac(R_sT_2)(p_2) = \frac({Rs.float} \cdot {T2.float})({p2.float}) = {v2}.</BM>
-				Daarmee is de eerste stap helemaal doorgerekend.</Par>
+					<BM>\frac(T_1^n)(p_1^(n-1)) = \frac(T_2^n)(p_2^(n-1)).</BM>
+					Hierbij geldt bij een isentroop proces met lucht dat <M>n = k = {k}.</M> Het bovenstaande oplossen voor <M>T_2</M> kan via
+					<BMList>
+						<BMPart>T_2^n = T_1^n \frac(p_2^(n-1))(p_1^(n-1)) = T_1^n \left(\frac(p_2)(p_1)\right)^(n-1),</BMPart>
+						<BMPart>T_2 = \left(T_1^n \left(\frac(p_2)(p_1)\right)^(n-1)\right)^(1/n) = T_1 \left(\frac(p_2)(p_1)\right)^(\frac(n-1)(n)) = {T1.float} \cdot \left(\frac{p2.float}{p1.float}\right)^(\frac({k}-1)({k})) = {T2}.</BMPart>
+					</BMList>
+					De specifieke volumen <M>v_1</M> en <M>v_2</M> volgen beiden via de gaswet als
+					<BMList>
+						<BMPart>v_1 = \frac(R_sT_1)(p_1) = \frac({Rs.float} \cdot {T1.float})({p1.float}) = {v1},</BMPart>
+						<BMPart>v_2 = \frac(R_sT_2)(p_2) = \frac({Rs.float} \cdot {T2.float})({p2.float}) = {v2}.</BMPart>
+					</BMList>
+					Daarmee is de eerste stap helemaal doorgerekend.</Par>
 			</>
 		},
 	},
@@ -75,8 +79,8 @@ const steps = [
 		Solution: () => {
 			const { Rs, p3, v3, T3 } = useSolution()
 			return <Par>We weten dat <M>p_3 = p_2 = {p3}</M> en <M>T_3 = {T3}.</M> Het specifieke volume volgt via de gaswet als
-			<BM>v_3 = \frac(R_sT_3)(p_3) = \frac({Rs.float} \cdot {T3.float})({p3.float}) = {v3}.</BM>
-			Zo is ook punt drie bekend.
+				<BM>v_3 = \frac(R_sT_3)(p_3) = \frac({Rs.float} \cdot {T3.float})({p3.float}) = {v3}.</BM>
+				Zo is ook punt drie bekend.
 			</Par>
 		},
 	},
@@ -90,10 +94,10 @@ const steps = [
 		Solution: () => {
 			const { k, Rs, T3, p3, p4, v4, T4 } = useSolution()
 			return <Par>Omdat stap 4-1 isobaar is geldt <M>p_4 = p_1 = {p4}.</M> De temperatuur <M>T_4</M> volgt vanuit Poisson's wet. Identiek aan hoe we <M>T_2</M> vonden geldt hier
-			<BM>T_4 = T_3 \left(\frac(p_4)(p_3)\right)^(\frac(n-1)(n)) = {T3.float} \cdot \left(\frac{p4.float}{p3.float}\right)^(\frac({k}-1)({k})) = {T4}.</BM>
-			Het specifieke volume <M>v_4</M> volgt wederom vanuit de gaswet als
-			<BM>v_4 = \frac(R_sT_4)(p_4) = \frac({Rs.float} \cdot {T4.float})({p4.float}) = {v4}.</BM>
-			Hiermee zijn alle eigenschappen bekend.
+				<BM>T_4 = T_3 \left(\frac(p_4)(p_3)\right)^(\frac(n-1)(n)) = {T3.float} \cdot \left(\frac{p4.float}{p3.float}\right)^(\frac({k}-1)({k})) = {T4}.</BM>
+				Het specifieke volume <M>v_4</M> volgt wederom vanuit de gaswet als
+				<BM>v_4 = \frac(R_sT_4)(p_4) = \frac({Rs.float} \cdot {T4.float})({p4.float}) = {v4}.</BM>
+				Hiermee zijn alle eigenschappen bekend.
 			</Par>
 		},
 	},

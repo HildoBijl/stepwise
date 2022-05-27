@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
+import { M, BMList, BMPart } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import { InputSpace } from 'ui/form/Status'
 import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
@@ -110,7 +110,12 @@ const steps = [
 		</>,
 		Solution: () => {
 			const { k, V, p1, p2, Q, W } = useSolution()
-			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we <BM>Q = \frac(1)(k-1) V \left(p_2 - p_1\right) = \frac(1)({k.float}-1) \cdot {V.float} \cdot \left({p2.float} - {p1.float}\right) = {Q},</BM><BM>W = {W}.</BM> Dit is een grote hoeveelheid warmte, maar de druktoename is ook significant, dus dit lijkt logisch.</Par>
+			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we
+				<BMList>
+					<BMPart>Q = \frac(1)(k-1) V \left(p_2 - p_1\right) = \frac(1)({k.float}-1) \cdot {V.float} \cdot \left({p2.float} - {p1.float}\right) = {Q},</BMPart>
+					<BMPart>W = {W}.</BMPart>
+				</BMList>
+				Dit is een grote hoeveelheid warmte, maar de druktoename is ook significant, dus dit lijkt logisch.</Par>
 		},
 	},
 ]

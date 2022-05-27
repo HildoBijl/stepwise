@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
+import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par, SubHead } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
@@ -31,7 +31,13 @@ const steps = [
 		</>,
 		Solution: () => {
 			const { p1, V1, T1, Rs, m } = useSolution()
-			return <Par>We zetten allereerst de gegevens van het beginpunt in standaard eenheden. Hiermee vinden we <BM>p_1 = {p1},</BM><BM>V_1 = {V1},</BM><BM>T_1 = {T1}.</BM> Vervolgens zoeken we de gasconstante van helium op. Deze is <BM>R_s = {Rs}.</BM> De gaswet zegt dat <M>pV = mR_sT.</M> We passen dit toe op punt 1: de weerballon op de grond. Om <M>m</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>R_sT.</M> Het resultaat is <BM>m = \frac(p_1V_1)(R_sT_1) = \frac({p1.float} \cdot {V1.float})({Rs.float} \cdot {T1.float}) = {m}.</BM></Par>
+			return <Par>We zetten allereerst de gegevens van het beginpunt in standaard eenheden. Hiermee vinden we
+				<BMList>
+					<BMPart>p_1 = {p1},</BMPart>
+					<BMPart>V_1 = {V1},</BMPart>
+					<BMPart>T_1 = {T1}.</BMPart>
+				</BMList>
+				Vervolgens zoeken we de gasconstante van helium op. Deze is <BM>R_s = {Rs}.</BM> De gaswet zegt dat <M>pV = mR_sT.</M> We passen dit toe op punt 1: de weerballon op de grond. Om <M>m</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>R_sT.</M> Het resultaat is <BM>m = \frac(p_1V_1)(R_sT_1) = \frac({p1.float} \cdot {V1.float})({Rs.float} \cdot {T1.float}) = {m}.</BM></Par>
 		},
 	},
 	{
@@ -44,7 +50,12 @@ const steps = [
 		Solution: (state) => {
 			const { p1, p2, V2, V1, T2, m, Rs } = useSolution()
 			return <>
-				<Par>Als eerste zetten we de eigenschappen van het eindpunt in standaard eenheden: <BM>p_2 = {p2},</BM><BM>T_2 = {T2}.</BM> Vervolgens passen we de gaswet <M>pV = mR_sT</M> toe op punt 2: de weerballon hoog in de lucht. Om deze wet op te lossen voor het volume <M>V</M> delen we beide kanten van de vergelijking door <M>p.</M> Zo vinden we <BM>V_2 = \frac(mR_sT_2)(p_2) = \frac({m.float} \cdot {Rs.float} \cdot {T2.float})({p2.float}) = {V2}.</BM> Dit is een stuk groter dan voorheen, maar dat is logisch gezien de erg lage druk hoog in de lucht.</Par>
+				<Par>Als eerste zetten we de eigenschappen van het eindpunt in standaard eenheden:
+					<BMList>
+						<BMPart>p_2 = {p2},</BMPart>
+						<BMPart>T_2 = {T2}.</BMPart>
+					</BMList>
+					Vervolgens passen we de gaswet <M>pV = mR_sT</M> toe op punt 2: de weerballon hoog in de lucht. Om deze wet op te lossen voor het volume <M>V</M> delen we beide kanten van de vergelijking door <M>p.</M> Zo vinden we <BM>V_2 = \frac(mR_sT_2)(p_2) = \frac({m.float} \cdot {Rs.float} \cdot {T2.float})({p2.float}) = {V2}.</BM> Dit is een stuk groter dan voorheen, maar dat is logisch gezien de erg lage druk hoog in de lucht.</Par>
 				<SubHead>Short-cut</SubHead>
 				<Par>We hadden dit gehele probleem ook in één keer op kunnen lossen door de dubbele gaswet toe te passen, <BM>\frac(p_1V_1)(T_1) = \frac(p_2V_2)(T_2).</BM> Als we deze vergelijking oplossen voor <M>V_2</M> vinden we direct <BM>V_2 = V_1 \cdot \frac(p_1)(p_2) \cdot \frac(T_2)(T_1) = {V1.float} \cdot \frac{p1.float}{p2.float} \cdot \frac{state.T2.float}{state.T1.float} = {V2}.</BM> Merk op dat we hier zelfs de druk in bar hadden kunnen invullen, omdat de conversiefactoren toch tegen elkaar weggedeeld worden. De temperatuur moet wel zeker in Kelvin en niet in graden Celsius.</Par>
 			</>

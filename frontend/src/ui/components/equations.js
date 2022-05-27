@@ -14,7 +14,7 @@ export function M(props) {
 export function BM(props) {
 	return (
 		<HorizontalSlider sliderInside={true} padding={12}>
-			<Math displayMode={true} {...props} />
+			<RBM {...props} />
 		</HorizontalSlider>
 	)
 }
@@ -22,6 +22,20 @@ export function BM(props) {
 // Raw block math: no horizontal slider around it.
 export function RBM(props) {
 	return <Math displayMode={true} {...props} />
+}
+
+// A list of block math equations.
+export function BMList(props) {
+	return (
+		<HorizontalSlider sliderInside={true} padding={12}>
+			{props.children}
+		</HorizontalSlider>
+	)
+}
+
+// A list of block math equations.
+export function BMPart(props) {
+	return RBM(props)
 }
 
 const latexMinus = '−'

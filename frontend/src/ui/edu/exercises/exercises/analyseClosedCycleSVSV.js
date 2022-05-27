@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
+import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par, SubHead } from 'ui/components/containers'
 import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
@@ -118,22 +118,32 @@ const steps = [
 			return <>
 				<Par>
 					Voor de isentrope stap 1-2 zijn de energiestromen
-					<BM>Q_(1-2) = {Q12},</BM>
-					<BM>W_(1-2) = -mc_v\left(T_2-T_1\right) = -{m.float} \cdot {cv.float} \cdot \left({T2.float} - {T1.float}\right) = {W12}.</BM>
+					<BMList>
+						<BMPart>Q_(1-2) = {Q12},</BMPart>
+						<BMPart>W_(1-2) = -mc_v\left(T_2-T_1\right) = -{m.float} \cdot {cv.float} \cdot \left({T2.float} - {T1.float}\right) = {W12}.</BMPart>
+					</BMList>
 					Voor de isochore stap 2-3 hebben we
-					<BM>Q_(2-3) = mc_v \left(T_3 - T_2\right) = {m.float} \cdot {cv.float} \cdot \left({T3.float} - {T2.float}\right) = {Q23},</BM>
-					<BM>W_(2-3) = {W23}.</BM>
+					<BMList>
+						<BMPart>Q_(2-3) = mc_v \left(T_3 - T_2\right) = {m.float} \cdot {cv.float} \cdot \left({T3.float} - {T2.float}\right) = {Q23},</BMPart>
+						<BMPart>W_(2-3) = {W23}.</BMPart>
+					</BMList>
 					Voor de isentrope stap 3-4 geldt
-					<BM>Q_(3-4) = {Q34},</BM>
-					<BM>W_(3-4) = -mc_v\left(T_4-T_3\right) = -{m.float} \cdot {cv.float} \cdot \left({T4.float} - {T3.float}\right) = {W34}.</BM>
+					<BMList>
+						<BMPart>Q_(3-4) = {Q34},</BMPart>
+						<BMPart>W_(3-4) = -mc_v\left(T_4-T_3\right) = -{m.float} \cdot {cv.float} \cdot \left({T4.float} - {T3.float}\right) = {W34}.</BMPart>
+					</BMList>
 					Ten slotte vinden we voor de isochore stap 4-1,
-					<BM>Q_(4-1) = mc_v \left(T_1 - T_4\right) = {m.float} \cdot {cv.float} \cdot \left({T1.float} - {T4.float}\right) = {Q41},</BM>
-					<BM>W_(4-1) = {W41}.</BM>
+					<BMList>
+						<BMPart>Q_(4-1) = mc_v \left(T_1 - T_4\right) = {m.float} \cdot {cv.float} \cdot \left({T1.float} - {T4.float}\right) = {Q41},</BMPart>
+						<BMPart>W_(4-1) = {W41}.</BMPart>
+					</BMList>
 				</Par>
 				<Par>
 					Als check controleren we de energiebalans. Zo zien we
-					<BM>Q_(netto) = Q_(1-2) + Q_(2-3) + Q_(3-4) + Q_(4-1) = {Q12.float} {Q23.float.texWithPM} {Q34.float.texWithPM} {Q41.float.texWithPM} = {Wn},</BM>
-					<BM>W_(netto) = W_(1-2) + W_(2-3) + W_(3-4) + W_(4-1) = {W12.float} {W23.float.texWithPM} {W34.float.texWithPM} {W41.float.texWithPM} = {Wn}.</BM>
+					<BMList>
+						<BMPart>Q_(netto) = Q_(1-2) + Q_(2-3) + Q_(3-4) + Q_(4-1) = {Q12.float} {Q23.float.texWithPM} {Q34.float.texWithPM} {Q41.float.texWithPM} = {Wn},</BMPart>
+						<BMPart>W_(netto) = W_(1-2) + W_(2-3) + W_(3-4) + W_(4-1) = {W12.float} {W23.float.texWithPM} {W34.float.texWithPM} {W41.float.texWithPM} = {Wn}.</BMPart>
+					</BMList>
 					Deze waarden zijn gelijk aan elkaar, dus hebben we geen rekenfout gemaakt.
 				</Par>
 			</>

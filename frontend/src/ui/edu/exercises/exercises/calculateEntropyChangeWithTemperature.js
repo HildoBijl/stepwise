@@ -2,7 +2,7 @@ import React from 'react'
 
 import { temperature as TConversion } from 'step-wise/data/conversions'
 
-import { M, BM } from 'ui/components/equations'
+import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
@@ -38,8 +38,10 @@ const steps = [
 		</>,
 		Solution: ({ T1, T2 }) => {
 			return <Par>We moeten temperaturen gebruiken in Kelvin. Het omzetten gaat via
-				<BM>T_1 = {T1.float} + {TConversion.float} = {T1.simplify()},</BM>
-				<BM>T_2 = {T1.float} + {TConversion.float} = {T2.simplify()}.</BM>
+				<BMList>
+					<BMPart>T_1 = {T1.float} + {TConversion.float} = {T1.simplify()},</BMPart>
+					<BMPart>T_2 = {T1.float} + {TConversion.float} = {T2.simplify()}.</BMPart>
+				</BMList>
 			</Par>
 		},
 	},

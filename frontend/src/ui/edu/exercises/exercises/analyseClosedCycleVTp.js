@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
+import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
@@ -70,7 +70,12 @@ const steps = [
 		Solution: () => {
 			const { m, Rs, p1, V1, T1, p2, V2, T2, p3, V3, T3 } = useSolution()
 			return <>
-				<Par>In punt 1 is al gegeven dat <M>p_1 = {p1}</M> en <M>T_1 = {T1}.</M> Het volume <M>V_1</M> volgt via de gaswet als <BM>V_1 = \frac(mR_sT_1)(p_1) = \frac({m.float} \cdot {Rs.float} \cdot {T1.float})({p1.float}) = {V1}.</BM> In punt 3 was al gegeven dat <M>V_3 = {V3}.</M> Omdat proces 3-1 isobaar is geldt verder <BM>p_3 = p_1 = {p3}.</BM> Via de gaswet volgt <M>T_3</M> als <BM>T_3 = \frac(p_3V_3)(mR_s) = \frac({p3.float} \cdot {V3.float})({m.float} \cdot {Rs.float}) = {T3}.</BM> In punt 2 weten we, omdat proces 1-2 isochoor is en proces 2-3 isotherm is, dat <BM>V_2 = V_1 = {V2},</BM> <BM>T_2 = T_3 = {T2}.</BM> De gaswet geeft ten slotte <BM>p_2 = \frac(mR_sT_2)(V_2) = \frac({m.float} \cdot {Rs.float} \cdot {T2.float})({V2.float}) = {p2}.</BM> Daarmee zijn alle eigenschappen bekend.</Par>
+				<Par>In punt 1 is al gegeven dat <M>p_1 = {p1}</M> en <M>T_1 = {T1}.</M> Het volume <M>V_1</M> volgt via de gaswet als <BM>V_1 = \frac(mR_sT_1)(p_1) = \frac({m.float} \cdot {Rs.float} \cdot {T1.float})({p1.float}) = {V1}.</BM> In punt 3 was al gegeven dat <M>V_3 = {V3}.</M> Omdat proces 3-1 isobaar is geldt verder <BM>p_3 = p_1 = {p3}.</BM> Via de gaswet volgt <M>T_3</M> als <BM>T_3 = \frac(p_3V_3)(mR_s) = \frac({p3.float} \cdot {V3.float})({m.float} \cdot {Rs.float}) = {T3}.</BM> In punt 2 weten we, omdat proces 1-2 isochoor is en proces 2-3 isotherm is, dat
+					<BMList>
+						<BMPart>V_2 = V_1 = {V2},</BMPart>
+						<BMPart>T_2 = T_3 = {T2}.</BMPart>
+					</BMList>
+					De gaswet geeft ten slotte <BM>p_2 = \frac(mR_sT_2)(V_2) = \frac({m.float} \cdot {Rs.float} \cdot {T2.float})({V2.float}) = {p2}.</BM> Daarmee zijn alle eigenschappen bekend.</Par>
 			</>
 		},
 	},
@@ -96,12 +101,22 @@ const steps = [
 		Solution: () => {
 			const { m, cv, cp, p1, V1, T1, p2, V2, T2, V3, T3, Q12, W12, Q23, W23, Q31, W31, Wn } = useSolution()
 			return <Par>Voor de isochore stap 1-2 zijn de energiestromen
-				<BM>Q_(1-2) = mc_v\left(T_2 - T_1\right) = {m.float} \cdot {cv.float} \cdot \left({T2.float} - {T1.float}\right) = {Q12},</BM>
-				<BM>W_(1-2) = {W12}.</BM>
+				<BMList>
+					<BMPart>Q_(1-2) = mc_v\left(T_2 - T_1\right) = {m.float} \cdot {cv.float} \cdot \left({T2.float} - {T1.float}\right) = {Q12},</BMPart>
+					<BMPart>W_(1-2) = {W12}.</BMPart>
+				</BMList>
 				Voor de isotherme stap 2-3 geldt <BM>Q_(2-3) = W_(2-3) = pV\ln\left(\frac(V_3)(V_2)\right) = {p2.float} \cdot {V2.float} \cdot \ln\left(\frac{V3.float}{V2.float}\right) = {Q23}.</BM>
 				De isobare stap 3-1 heeft ten slotte
-				<BM>Q_(3-1) = mc_p\left(T_1 - T_3\right) = {m.float} \cdot {cp.float} \cdot \left({T1.float} - {T3.float}\right) = {Q31},</BM> <BM>W_(3-1) = p\left(V_1 - V_3\right) = {p1.float} \cdot \left({V1.float} - {V3.float}\right) = {W31}.</BM>
-				Als check controleren we de energiebalans. Zo vinden we <BM>Q_(netto) = Q_(1-2) + Q_(2-3) + Q_(3-1) = {Q12.float} {Q23.float.texWithPM} {Q31.float.texWithPM} = {Wn},</BM> <BM>W_(netto) = W_(1-2) + W_(2-3) + W_(3-1) = {W12.float} {W23.float.texWithPM} {W31.float.texWithPM} = {Wn}.</BM> Deze waarden zijn gelijk aan elkaar, dus hebben we geen rekenfout gemaakt.</Par>
+				<BMList>
+					<BMPart>Q_(3-1) = mc_p\left(T_1 - T_3\right) = {m.float} \cdot {cp.float} \cdot \left({T1.float} - {T3.float}\right) = {Q31},</BMPart>
+					<BMPart>W_(3-1) = p\left(V_1 - V_3\right) = {p1.float} \cdot \left({V1.float} - {V3.float}\right) = {W31}.</BMPart>
+				</BMList>
+				Als check controleren we de energiebalans. Zo vinden we
+				<BMList>
+					<BMPart>Q_(netto) = Q_(1-2) + Q_(2-3) + Q_(3-1) = {Q12.float} {Q23.float.texWithPM} {Q31.float.texWithPM} = {Wn},</BMPart>
+					<BMPart>W_(netto) = W_(1-2) + W_(2-3) + W_(3-1) = {W12.float} {W23.float.texWithPM} {W31.float.texWithPM} = {Wn}.</BMPart>
+				</BMList>
+				Deze waarden zijn gelijk aan elkaar, dus hebben we geen rekenfout gemaakt.</Par>
 		},
 	},
 	{
@@ -128,10 +143,10 @@ const steps = [
 		Solution: () => {
 			const { Q12, Q23, Wn, Qin, eta } = useSolution()
 			return <Par>De processtappen waarop warmte toegevoerd wordt (<M>Q \gt 0</M>) zijn stappen 1-2 en 2-3. De toegevoerde warmte is dus
-			<BM>Q_(toe) = Q_(1-2) + Q_(2-3) = {Q12} + {Q23} = {Qin}.</BM>
-			De netto arbeid is al bekend als <M>W_(netto) = {Wn}.</M> Hiermee volgt het rendement als
-			<BM>\eta = \frac(\rm nuttig)(\rm invoer) = \frac(W_(netto))(Q_(toe)) = \frac{Wn}{Qin} = {eta} = {eta.setUnit('%')}.</BM>
-			Dit is niet een al te hoog rendement, maar dat valt te verwachten van zo'n onhandig proces.</Par>
+				<BM>Q_(toe) = Q_(1-2) + Q_(2-3) = {Q12} + {Q23} = {Qin}.</BM>
+				De netto arbeid is al bekend als <M>W_(netto) = {Wn}.</M> Hiermee volgt het rendement als
+				<BM>\eta = \frac(\rm nuttig)(\rm invoer) = \frac(W_(netto))(Q_(toe)) = \frac{Wn}{Qin} = {eta} = {eta.setUnit('%')}.</BM>
+				Dit is niet een al te hoog rendement, maar dat valt te verwachten van zo'n onhandig proces.</Par>
 		},
 	},
 ]
