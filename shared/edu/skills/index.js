@@ -135,10 +135,10 @@ const skills = {
 		setup: combinerRepeat('solveBasicLinearEquation', 2),
 		exercises: ['solveBasicSystemOfLinearEquations1'],
 	},
-	solveGeneralSystemOfEquations: {
-		name: 'Algemene stelsel van lineaire vergelijkingen oplossen',
+	solveGeneralSystemOfLinearEquations: {
+		name: 'Algemeen stelsel van lineaire vergelijkingen oplossen',
 		setup: combinerAnd('solveBasicLinearEquation', 'solveGeneralLinearEquation'),
-		exercises: [],
+		exercises: ['solveGeneralSystemOfLinearEquations1', 'solveGeneralSystemOfLinearEquations2'],
 	},
 
 	/*
