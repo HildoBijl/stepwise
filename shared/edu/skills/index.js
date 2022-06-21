@@ -115,19 +115,19 @@ const skills = {
 	},
 
 	// Basic mathematics: solving quadratic equations.
-	applySquareRoot: {
-		name: 'Wortel toepassen',
-		exercises: [],
-	},
+	// applySquareRoot: {
+	// 	name: 'Wortel toepassen',
+	// 	exercises: [],
+	// },
 	applyQuadraticFormula: {
 		name: 'Wortelformule toepassen',
-		exercises: [],
+		exercises: ['applyQuadraticFormulaNoSolutions', 'applyQuadraticFormulaOneSolution', 'applyQuadraticFormulaTwoIntegerSolutions', 'applyQuadraticFormulaTwoRandomSolutions'],
 	},
-	solveQuadraticEquation: {
-		name: 'Kwadratische vergelijking oplossen',
-		setup: combinerAnd('moveATerm', 'multiplyDivideAllTerms', 'applyQuadraticFormula'),
-		exercises: [],
-	},
+	// solveQuadraticEquation: {
+	// 	name: 'Kwadratische vergelijking oplossen',
+	// 	setup: combinerAnd('moveATerm', 'multiplyDivideAllTerms', 'applyQuadraticFormula'),
+	// 	exercises: [],
+	// },
 
 	// Basic mathematics: solving systems of linear equations.
 	solveBasicSystemOfLinearEquations: {

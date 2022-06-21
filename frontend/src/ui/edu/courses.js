@@ -80,8 +80,52 @@ const courses = {
 		],
 	},
 
+	exactawiskunde: {
+		name: 'Exacte Wetenschap A - Wiskunde',
+		goals: ['solveGeneralLinearEquation', 'solveGeneralSystemOfLinearEquations', 'applyQuadraticFormula'],
+		priorKnowledge: [],
+		startingPoints: [
+			'expandBrackets',
+			'addRemoveFractionFactors',
+			'mergeSplitBasicFractions',
+			'multiplyDivideFractions',
+			'moveATerm',
+			'applyQuadraticFormula',
+		],
+		blocks: [
+			{
+				name: 'Basisregels',
+				goals: ['expandBrackets', 'simplifyFraction'],
+			},
+			{
+				name: 'Lineaire vergelijkingen',
+				goals: ['pullOutOfBrackets', 'solveGeneralLinearEquation'],
+			},
+			{
+				name: 'Hoeken en afstanden',
+				goals: [],
+			},
+			{
+				name: 'Stelsels van vergelijkingen',
+				goals: ['solveBasicSystemOfLinearEquations', 'solveGeneralSystemOfLinearEquations'],
+			},
+			{
+				name: 'Kwadratische vergelijkingen',
+				goals: ['applyQuadraticFormula'],
+			},
+			{
+				name: 'Driehoeken doorrekenen',
+				goals: [],
+			},
+			{
+				name: 'Oppervlakten en volumes',
+				goals: [],
+			},
+		],
+	},
+
 	exactd: {
-		name: 'Exacte Wetenschap D',
+		name: 'Exacte Wetenschap D - Natuurkunde',
 		goals: ['analyseClosedCycle', 'findFridgeTemperatures', 'analyseAirco'],
 		priorKnowledge: [
 			'calculateWithPressure',
