@@ -1,60 +1,68 @@
 const { selectRandomly, getRandomInteger } = require('../../../util/random')
-const { asEquation, expressionComparisons, equationComparisons } = require('../../../CAS')
-const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
+const { applyToEachParameter } = require('../../../util/objects')
+const { asExpression, asEquation, Integer, expressionComparisons } = require('../../../CAS')
 
-const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
+const { filterVariables } = require('../util/CASsupport')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { performComparison } = require('../util/comparison')
+const { performComparison, performListComparison } = require('../util/comparison')
 
-// ax + by = cxy + dz.
-const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
-const usedVariables = ['x', 'y', 'z']
-const constants = ['a', 'b', 'c', 'd']
+// a*x^2 + b*x + c = 0.
+const variableSet = ['x', 'y', 'z']
+const constants = ['a', 'b', 'c']
 
 const data = {
-	skill: 'solveBasicLinearEquation',
-	setup: combinerAnd(combinerRepeat('moveATerm', 2), 'pullOutOfBrackets', 'multiplyDivideAllTerms'),
-	steps: [combinerRepeat('moveATerm', 2), 'pullOutOfBrackets', 'multiplyDivideAllTerms'],
+	skill: 'applyQuadraticFormula',
+	steps: [null, null, null, null],
 	comparison: {
-		ans: expressionComparisons.equivalent, // For the final answer allow equivalent answers.
-		default: (input, correct) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.applyMinus()), // Allow switches and minus signs.
-		pulledOut: (input, correct) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.applyToRight(side => side.applyMinus()).applyToLeft(side => side.applyToTerm(1, factor => factor.applyMinus()))), // Allow switches and minus signs inside the brackets.
+		default: expressionComparisons.equalNumber,
 	},
 }
 
 function generateState() {
-	const variableSet = selectRandomly(availableVariableSets)
+	const a = getRandomInteger(-6, 6, [0])
+	const x1 = getRandomInteger(-12, 12)
+	const x2 = getRandomInteger(-12, 12, [x1])
+	const b = -a * (x1 + x2)
+	const c = a * x1 * x2
+
 	return {
-		...selectRandomVariables(variableSet, usedVariables),
-		a: getRandomInteger(-12, 12, [0]),
-		b: getRandomInteger(-12, 12, [0]),
-		c: getRandomInteger(-12, 12, [0]),
-		d: getRandomInteger(-12, 12, [0]),
+		x: selectRandomly(variableSet),
+		a: new Integer(a),
+		b: new Integer(b),
+		c: new Integer(c),
 	}
 }
 
 function getSolution(state) {
 	// Extract state variables.
-	const variables = filterVariables(state, usedVariables, constants)
-	const equation = asEquation('ax + by = cxy + dz').substituteVariables(variables).removeUseless()
+	const variables = filterVariables(state, ['x'], constants)
+	const equation = asEquation('ax^2+bx+c=0').substituteVariables(variables).removeUseless()
 
-	// Find the solution.
-	const termsMoved = equation.subtract(equation.left.terms[1]).subtract(equation.right.terms[0]).simplify({ cancelSumTerms: true })
-	const pulledOut = termsMoved.applyToLeft(left => left.pullOutsideBrackets(variables.x))
-	const bracketTerm = pulledOut.left.terms.find(factor => !variables.x.equals(factor))
-	const ans = termsMoved.right.divideBy(bracketTerm)
+	// Set up expressions.
+	const expressions = {}
+	expressions.D = asExpression('b^2 - 4ac').substituteVariables(variables)
+	expressions.x1 = asExpression('(-b-sqrt(D))/(2a)').substituteVariables({ ...variables, D: expressions.D })
+	expressions.x2 = asExpression('(-b+sqrt(D))/(2a)').substituteVariables({ ...variables, D: expressions.D })
 
-	return { ...state, variables, equation, termsMoved, pulledOut, bracketTerm, ans }
+	// Find values for the expressions and store those numbers.
+	const numSolutions = 2
+	const values = applyToEachParameter(expressions, expression => expression.cleanForAnalysis())
+	const equationInFactors = asEquation(`a(x-x_1)(x-x_2)=0`).substituteVariables({ ...variables, 'x_1': values.x1, 'x_2': values.x2 }).removeUseless()
+	return { ...state, equation, expressions, ...values, numSolutions, equationInFactors }
 }
 
 function checkInput(state, input, step) {
 	const solution = getSolution(state)
-	if (step === 0 || step === 3)
-		return performComparison(['ans'], input, solution, data.comparison)
+	if (step === 0)
+		return input.numSolutions === solution.numSolutions && performListComparison(['x1', 'x2'], input, solution, data.comparison)
 	if (step === 1)
-		return performComparison(['termsMoved'], input, solution, data.comparison)
+		return performComparison(['a', 'b', 'c'], input, solution, data.comparison)
 	if (step === 2)
-		return performComparison(['pulledOut'], input, solution, data.comparison)
+		return performComparison(['D'], input, solution, data.comparison)
+	if (step === 3)
+		return input.numSolutions === solution.numSolutions
+	if (step === 4)
+		return performListComparison(['x1', 'x2'], input, solution, data.comparison)
 }
 
 module.exports = {

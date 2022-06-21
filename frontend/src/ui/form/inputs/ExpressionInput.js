@@ -262,7 +262,6 @@ const basicMathNoFractions = {
 const basicMathAndPowers = {
 	...noFunctions,
 	...simpleVariables,
-	root: false,
 	greek: false,
 	float: false,
 }

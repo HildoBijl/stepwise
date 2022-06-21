@@ -5,6 +5,7 @@ import { checkNumberEquality, areNumbersEqual } from 'step-wise/inputTypes/Integ
 import { Float } from 'step-wise/inputTypes/Float'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 import { Expression, Equation } from 'step-wise/CAS'
+import { performComparison } from 'step-wise/edu/exercises/util/comparison'
 
 const defaultComparisonOptions = {
 	// These are options automatically added, based on exerciseData.
@@ -349,15 +350,12 @@ export function getExpressionComparisonFeedback(inputAnswer, correctAnswer, opti
  * The object returned is of the form { [name]: { 0: { correct: false, text: 'Wrong!' }, 1: { correct: true } } }
  */
 export function getMCFeedback(name, exerciseData, options = {}) {
-	const { input, state, progress, shared } = exerciseData
+	const { input, progress, solution } = exerciseData
 	let { correct, done, step, substep, text, correctText, incorrectText } = options
 
 	// Attempt to get correct answer if not given.
-	if (correct === undefined) {
-		const { getSolution } = shared
-		if (getSolution)
-			correct = getSolution(state)[name]
-	}
+	if (correct === undefined)
+		correct = solution[name]
 
 	// Attempt to determine "done".
 	if (done === undefined) {
@@ -407,4 +405,38 @@ function getFeedbackCheckResult(feedbackChecks, inputAnswer, correctAnswer, solu
 	// Find the first feedback check to return something truthy and return the resulting value.
 	const result = arrayFind(feedbackChecks, (check) => check(inputAnswer, correctAnswer, solution, isCorrect, exerciseData))
 	return result && result.value
+}
+
+/* getInputFieldListFeedback gets an array of parameters and attempts to give feedback for the respective input fields. The main difference is that the fields may not have to be in the same order as the fields in the solution field.
+The extra options given must be a single object that holds for every parameter, or it is an array coupled to the solution indices. */
+export function getInputFieldListFeedback(parameters, exerciseData, extraOptions = {}) {
+	// Extract parameters and check that they are suitable.
+	const { input, shared, solution } = exerciseData
+	const { data } = shared
+	if (!data)
+		throw new Error(`Default feedback error: could not find a "data" parameter in the shared file.`)
+	if (!solution)
+		throw new Error(`Default feedback error: could not find a "getSolution" function exported from the shared file.`)
+
+	// Extract the way in which the answers are compared.
+	const { equalityOptions, comparison } = data
+	const doValuesMatch = (inputParameter, solutionParameter) => input[inputParameter] !== undefined && performComparison([solutionParameter], { [solutionParameter]: input[inputParameter] }, { [solutionParameter]: solution[solutionParameter] }, { ...(equalityOptions || {}), ...(comparison || {}) })
+
+	// Walk through the parameters and incorporate feedback.
+	const feedback = {}
+	const matched = parameters.map(() => false)
+	parameters.forEach(inputParameter => { // For every element, find a matching partner.
+		const index = parameters.findIndex((solutionParameter, index) => (!matched[index] && doValuesMatch(inputParameter, solutionParameter)))
+		if (index !== -1) {
+			matched[index] = true
+			feedback[inputParameter] = { correct: true, text: extraOptions.correct || selectRandomCorrect() }
+		} else {
+			// If there is no unmatched partner, check if there potentially is an already matched partner.
+			if (parameters.find((solutionParameter, solutionIndex) => (matched[solutionIndex] && doValuesMatch(inputParameter, solutionParameter))))
+				feedback[inputParameter] = { correct: false, text: extraOptions.usedValue || <>Deze waarde is al gelijk aan een eerder gegeven oplossing.</> }
+			else
+				feedback[inputParameter] = { correct: false, text: extraOptions.wrongValue || selectRandomIncorrect() }
+		}
+	})
+	return feedback
 }

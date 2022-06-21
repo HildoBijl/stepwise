@@ -1,3 +1,4 @@
+const { hasSimpleMatching } = require('../../../util/arrays')
 const { isBasicObject, getPropertyOrDefault } = require('../../../util/objects')
 
 const { areNumbersEqual } = require('../../../inputTypes/Integer')
@@ -56,3 +57,9 @@ function performComparison(parameters, input, solution, comparisonOrEqualityOpti
 	})
 }
 module.exports.performComparison = performComparison
+
+// performListComparison does the same as performComparison, but it works for lists in which each element may match an element from another list. For instance, if the user needs to give the first three prime numbers and gives [5,2,3] then this is still an OK answer.
+function performListComparison(parameters, input, solution, comparisonOrEqualityOptions) {
+	return hasSimpleMatching(parameters, parameters, (inputParameter, solutionParameter) => performComparison([solutionParameter], { [solutionParameter]: input[inputParameter] }, { [solutionParameter]: solution[solutionParameter] }, comparisonOrEqualityOptions))
+}
+module.exports.performListComparison = performListComparison
