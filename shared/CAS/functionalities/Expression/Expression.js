@@ -23,7 +23,8 @@
 
 const { decimalSeparator, decimalSeparatorTex } = require('../../../settings/numbers')
 
-const { isInt, isNumber, gcd, compareNumbers } = require('../../../util/numbers')
+const { isInt, isNumber, compareNumbers } = require('../../../util/numbers')
+const { gcd } = require('../../../util/maths')
 const { isObject, isBasicObject, processOptions, filterOptions, getParentClass } = require('../../../util/objects')
 const { firstOf, lastOf, count, sum, product, hasSimpleMatching } = require('../../../util/arrays')
 const { union } = require('../../../util/sets')
@@ -1802,6 +1803,10 @@ class Power extends Function {
 			// If the power is 1, become the base.
 			if (Integer.one.equalsBasic(exponent))
 				return base
+
+			// If the base is 1, become 1.
+			if (Integer.one.equalsBasic(base))
+				return Integer.one
 		}
 
 		// Check for powers within powers. Reduce (a^b)^c to a^(b*c).

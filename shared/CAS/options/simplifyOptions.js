@@ -29,6 +29,7 @@ const noSimplify = { // This is never applied, but only use to verify options gi
 	removeNegativePowers: false, // Turns x^-2 into 1/x^2.
 	expandPowersOfProducts: false, // Reduces (a*b)^n to a^n*b^n.
 	expandPowersOfSums: false, // Reduces (a+b)^3 to (a^3 + 3*a^2*b + 3*a*b^2 + b^3). Only works on integer powers.
+	pullFactorsOutOfRoots: false, // Reduces sqrt(20) to 2*sqrt(5) and sqrt(a^3b^4c^5) to ab^2c^2*sqrt(ac).
 
 	// The following options relate to Functions.
 	toBasicForm: false, // Turns more complex functions into more basic forms. So sqrt(a) becomes a^(1/2), [a]log(b) will be ln(b)/ln(a), tan(x) will be sin(x)/cos(x) and likewise simplifications ensue.
@@ -90,6 +91,7 @@ const regularClean = {
 	mergeFractionTerms: true,
 	removePowersWithinPowers: true,
 	basicReductions: true,
+	pullFactorsOutOfRoots: true,
 }
 module.exports.regularClean = regularClean
 

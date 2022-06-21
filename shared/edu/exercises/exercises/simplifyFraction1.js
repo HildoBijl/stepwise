@@ -1,4 +1,4 @@
-const { gcd } = require('../../../util/numbers')
+const { gcd } = require('../../../util/maths')
 const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../util/random')
 const { asExpression, simplifyOptions, expressionChecks } = require('../../../CAS')
 const { combinerAnd } = require('../../../skillTracking')

@@ -1,4 +1,6 @@
-const { Integer, SingleArgumentFunction, Function, Fraction, Power, simplifyOptions } = require('../Expression')
+const { getLargestPowerFactor } = require('../../../../util/maths')
+
+const { Integer, SingleArgumentFunction, Product, Function, Fraction, Power, simplifyOptions } = require('../Expression')
 
 /*
  * Sqrt
@@ -28,6 +30,53 @@ class Sqrt extends SingleArgumentFunction {
 			// If the argument is zero, turn it into zero.
 			if (Integer.zero.equalsBasic(argument))
 				return Integer.zero
+
+			// If the argument is 1, become 1.
+			if (Integer.one.equalsBasic(argument))
+				return Integer.one
+		}
+
+		// Pull factors out of roots, like turning sqrt(20) to 2*sqrt(5) and sqrt(a^3b^4c^5) to ab^2c^2*sqrt(ac).
+		if (options.pullFactorsOutOfRoots) {
+			// If the argument is a product, integer or power, then we can possibly pull out factors.
+			let terms
+			if (argument.isSubtype(Product))
+				terms = argument.terms
+			if (argument.isSubtype(Integer) || argument.isSubtype(Power))
+				terms = [argument]
+
+			// Gather all pulled terms.
+			const power = 2
+			const pulledTerms = []
+			if (terms) {
+				terms = terms.map(term => {
+					// For an integer, pull out the largest power factor.
+					if (term.isSubtype(Integer) && term.value !== 0) {
+						const largestPowerFactor = getLargestPowerFactor(Math.abs(term.value), power)
+						if (largestPowerFactor > 1) {
+							pulledTerms.push(new Integer(largestPowerFactor ** (1 / power)))
+							return new Integer(term.value / largestPowerFactor)
+						}
+					}
+
+					// For a power, check if the power can be reduced.
+					if (term.isSubtype(Power) && term.exponent.isSubtype(Integer) && Math.abs(term.exponent.value) >= power) {
+						const remainingExponent = term.exponent.value % power
+						const pulledOutExponent = (term.exponent.value - remainingExponent) / power
+						pulledTerms.push(new Power(term.base, new Integer(pulledOutExponent)))
+						return new Power(term.base, new Integer(remainingExponent))
+					}
+
+					// Nothing can be found. Keep the term as is.
+					return term
+				})
+			}
+
+			// When terms have been pulled, assemble everything.
+			if (pulledTerms.length > 0) {
+				pulledTerms.push(new Sqrt(new Product(terms)))
+				return new Product(pulledTerms).simplifyBasic(options)
+			}
 		}
 
 		// For analysis reduce to a power.
