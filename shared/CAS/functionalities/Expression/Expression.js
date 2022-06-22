@@ -1711,6 +1711,8 @@ class Fraction extends Function {
 }
 Fraction.type = 'Fraction'
 Fraction.args = ['numerator', 'denominator']
+Fraction.obligatory = [true, true]
+Fraction.hasMainArgumentLast = false
 module.exports.Fraction = Fraction
 
 /*
@@ -1819,23 +1821,23 @@ class Power extends Function {
 
 		// Check for negative powers. Reduce x^(-2) to 1/x^2.
 		if (options.removeNegativePowers) {
-			if (this.exponent.isNegative())
-				return new Fraction(Integer.one, new Power(this.base, this.exponent.applyMinus(true))).simplifyBasic(options)
+			if (exponent.isNegative())
+				return new Fraction(Integer.one, new Power(base, exponent.applyMinus(true))).simplifyBasic(options)
 		}
 
 		// Check for powers of products. Reduce (a*b)^n to a^n*b^n.
 		if (options.expandPowersOfProducts) {
 			if (this.base.isSubtype(Product)) {
-				return new Product(this.base.terms.map(term => new Power(term, this.exponent))).simplifyBasic(options)
+				return new Product(base.terms.map(term => new Power(term, exponent))).simplifyBasic(options)
 			}
 		}
 
 		// Check for powers of sums. Reduce (a+b)^3 to (a^3 + 3a^2b + 3ab^2 + b^3). Only do this for non-negative integer powers.
 		if (options.expandPowersOfSums) {
-			if (this.base.isSubtype(Sum) && this.exponent.isSubtype(Integer) && this.exponent.toNumber() > 1) {
-				const num = this.exponent.toNumber()
-				const term1 = this.base.terms[0]
-				const term2 = new Sum(this.base.terms.slice(1)).cleanStructure()
+			if (base.isSubtype(Sum) && exponent.isSubtype(Integer) && exponent.toNumber() > 1) {
+				const num = exponent.toNumber()
+				const term1 = base.terms[0]
+				const term2 = new Sum(base.terms.slice(1)).cleanStructure()
 				const sumTerms = []
 				repeatWithIndices(0, num, (index) => {
 					sumTerms.push(new Product([
@@ -1850,10 +1852,10 @@ class Power extends Function {
 
 		// Check for numbers that can be simplified. Reduce 2^3 to 8.
 		if (options.mergePowerNumbers) {
-			if (this.base.isNumeric() && this.exponent.isNumeric()) {
-				if (this.base.hasFloat() || this.exponent.hasFloat())
+			if (base.isNumeric() && exponent.isNumeric()) {
+				if (base.hasFloat() || exponent.hasFloat())
 					return new Float(this.toNumber())
-				if (this.base.isSubtype(Integer) && this.exponent.isSubtype(Integer))
+				if (base.isSubtype(Integer) && exponent.isSubtype(Integer))
 					return new Integer(this.toNumber())
 			}
 		}

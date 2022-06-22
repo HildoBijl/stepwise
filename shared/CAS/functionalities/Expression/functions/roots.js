@@ -87,6 +87,7 @@ class Sqrt extends SingleArgumentFunction {
 	}
 }
 Sqrt.type = 'Sqrt'
+Sqrt.hasMainArgumentLast = true
 module.exports.Sqrt = Sqrt
 
 /*
@@ -132,4 +133,6 @@ class Root extends Function {
 }
 Root.type = 'Root'
 Root.args = ['argument', 'base']
+Root.obligatory = [true, false]
+Root.hasMainArgumentLast = true
 module.exports.Root = Root

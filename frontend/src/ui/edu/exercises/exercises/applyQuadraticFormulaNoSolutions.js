@@ -1,34 +1,39 @@
 import React from 'react'
 
-import { Sum, Product, expressionComparisons } from 'step-wise/CAS'
+import { numberArray } from 'step-wise/util/arrays'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
-import ExpressionInput, { validWithVariables as expressionValidWithVariables, basicMath } from 'ui/form/inputs/ExpressionInput'
-import EquationInput, { validWithVariables as equationValidWithVariables } from 'ui/form/inputs/EquationInput'
+import ExpressionInput, { validAndNumeric, basicMathAndPowers } from 'ui/form/inputs/ExpressionInput'
+import MultipleChoice from 'ui/form/inputs/MultipleChoice'
+import { useInput } from 'ui/form/Form'
 import { InputSpace } from 'ui/form/Status'
 
 import { useSolution } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 
-import { getInputFieldFeedback } from '../util/feedback'
-import { hasX, incorrectFraction, incorrectExpression } from '../util/feedbackChecks/expression'
-import { originalEquation, correctEquation, incorrectEquation, sumWithWrongTerms } from '../util/feedbackChecks/equation'
-
-const { onlyOrderChanges, equivalent } = expressionComparisons
+import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
 const Problem = (state) => {
-	const { variables, equation } = useSolution(state)
+	const { x, equation } = useSolution(state)
+	const numSolutions = useInput('numSolutions')
 	return <>
-		<Par>Gegeven is de vergelijking <BM>{equation}.</BM> Los deze op voor <M>{variables.x}.</M></Par>
+		<Par>Gegeven is de vergelijking <BM>{equation}.</BM> Vind alle (reëele) oplossingen voor <M>{x}.</M> Geef je antwoorden zo gesimplificeerd mogelijk, in wiskundige notatie.</Par>
 		<InputSpace>
-			<Par>
-				<ExpressionInput id="ans" prelabel={<M>{variables.x}=</M>} label="Vul hier het resultaat in" size="l" settings={basicMath} validate={expressionValidWithVariables(variables)} />
-			</Par>
+			<MultipleChoice id="numSolutions" choices={[
+				<>Er zijn geen oplossingen voor <M>{x}</M>.</>,
+				<>Er is <M>1</M> oplossing voor <M>{x}</M>.</>,
+				<>Er zijn <M>2</M> oplossingen voor <M>{x}</M>.</>,
+				<>Er zijn <M>3</M> oplossingen voor <M>{x}</M>.</>,
+			]} />
+			{numSolutions ? <Par>
+				{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`x${index}`} prelabel={<M>{x}_{index}=</M>} label={`Vul hier antwoord ${index} in`} size="s" settings={basicMathAndPowers} validate={validAndNumeric} persistent={true} />
+				)}
+			</Par> : null}
 		</InputSpace>
 	</>
 }
@@ -36,100 +41,71 @@ const Problem = (state) => {
 const steps = [
 	{
 		Problem: (state) => {
-			const { variables } = useSolution(state)
+			const { x } = useSolution(state)
 			return <>
-				<Par>Breng alle termen met <M>{variables.x}</M> naar de ene kant van de vergelijking, en alle termen zonder <M>{variables.x}</M> naar de andere kant.</Par>
+				<Par>De vergelijking staat al in de standaardvorm <M>a{x}^2 + b{x} + c = 0.</M> Bepaal hieruit de waarden van <M>a</M>, <M>b</M> en <M>c.</M></Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="termsMoved" size="l" settings={basicMath} validate={equationValidWithVariables(variables)} />
+						<ExpressionInput id="a" prelabel={<M>a=</M>} label="Vul hier het resultaat in" size="s" settings={basicMathAndPowers} validate={validAndNumeric} />
+						<ExpressionInput id="b" prelabel={<M>b=</M>} label="Vul hier het resultaat in" size="s" settings={basicMathAndPowers} validate={validAndNumeric} />
+						<ExpressionInput id="c" prelabel={<M>c=</M>} label="Vul hier het resultaat in" size="s" settings={basicMathAndPowers} validate={validAndNumeric} />
 					</Par>
 				</InputSpace>
 			</>
 		},
 		Solution: (state) => {
-			const { variables, equation, termsMoved } = useSolution(state)
-			return <Par>We gaan alle termen met <M>{variables.x}</M> naar links halen, en alle termen zonder <M>{variables.x}</M> naar rechts. Oftewel, we brengen <M>{equation.right.terms[0].abs()}</M> naar links en <M>{equation.left.terms[1].abs()}</M> naar rechts. Zo vinden we <BM>{termsMoved}.</BM></Par>
+			const { x, a, b, c } = useSolution(state)
+			return <Par>Voor de <M>{x}^2</M> staat <M>{a}</M> waardoor <M>a={a}.</M> Voor de <M>{x}</M> staat <M>{b}</M> waardoor <M>b={b}.</M> {c === 0 ? <>Verder is er geen constante in de vergelijking, waardoor <M>c=0.</M></> : <>Verder is de constante in de vergelijking <M>{c}</M> waardoor <M>c={c}.</M></>}</Par>
 		},
 	},
 	{
 		Problem: (state) => {
-			const { variables } = useSolution(state)
 			return <>
-				<Par>Haal <M>{variables.x}</M> buiten haakjes. Laat de rest van de vergelijking onveranderd.</Par>
+				<Par>Bepaal de discriminant <M>D = b^2 - 4ac.</M></Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="pulledOut" size="l" settings={basicMath} validate={equationValidWithVariables(variables)} />
+						<ExpressionInput id="D" prelabel={<M>D=</M>} label="Vul hier het resultaat in" size="s" settings={basicMathAndPowers} validate={validAndNumeric} />
 					</Par>
 				</InputSpace>
 			</>
 		},
 		Solution: (state) => {
-			const { variables, termsMoved, bracketTerm, pulledOut } = useSolution(state)
-			return <Par>Om <M>{variables.x}</M> buiten haakjes te halen, moeten we <M>{termsMoved.left}</M> schrijven als <M>{variables.x}\cdot\left(\ldots\right).</M> We zien hiermee dat er tussen haakjes <M>{bracketTerm}</M> moet staan. Zo herschrijven we de vergelijking als <BM>{pulledOut}.</BM></Par>
+			const { expressionD, D } = useSolution(state)
+			return <Par>We berekenen <BM>D = b^2 - 4ac = {expressionD} = {D}.</BM></Par>
 		},
 	},
 	{
 		Problem: (state) => {
-			const { variables } = useSolution(state)
+			const { x } = useSolution(state)
 			return <>
-				<Par>Deel beide kanten van de vergelijking door de term tussen haakjes, om zo <M>{variables.x}</M> op te lossen.</Par>
+				<Par>Bepaal vanuit de discriminant hoeveel oplossingen de vergelijking heeft.</Par>
 				<InputSpace>
-					<Par>
-						<ExpressionInput id="ans" prelabel={<M>{variables.x}=</M>} label="Vul hier het resultaat in" size="l" settings={basicMath} validate={expressionValidWithVariables(variables)} />
-					</Par>
+					<MultipleChoice id="numSolutions" choices={[
+						<>Er zijn geen oplossingen voor <M>{x}</M>.</>,
+						<>Er is <M>1</M> oplossing voor <M>{x}</M>.</>,
+						<>Er zijn <M>2</M> oplossingen voor <M>{x}</M>.</>,
+						<>Er zijn <M>3</M> oplossingen voor <M>{x}</M>.</>,
+					]} />
 				</InputSpace>
 			</>
 		},
 		Solution: (state) => {
-			const { variables, bracketTerm, ans } = useSolution(state)
-			return <Par>Als we beide kanten van de vergelijking delen door <M>{bracketTerm},</M> dan valt links de term tussen haakjes weg. We houden alleen <M>{variables.x}</M> over, en hebben dus <M>{variables.x}</M> vrij gemaakt! Het eindresultaat is <BM>{variables.x} = {ans}.</BM> Uiteraard kan dit antwoord ook anders geschreven worden, maar kleine variaties in schrijfwijze zijn hier niet belangrijk.</Par>
+			const { D, x } = useSolution(state)
+			return <Par>De discriminant is <M>D={D}.</M> Omdat <M>D &lt; 0</M> geldt dat er geen (reëele) oplossingen zijn voor <M>{x}.</M> We hoeven deze niet-bestaande oplossingen dus ook niet te bepalen.</Par>
 		},
 	},
 ]
 
 function getFeedback(exerciseData) {
-	// Define termsMoved checks.
-	const variableOnBothSides = (input, correct, { variables }) => input.left.dependsOn(variables.x) && input.right.dependsOn(variables.x) && <>Beide kanten van de vergelijking bevatten nog een <M>{variables.x}.</M> Haal alle termen met <M>{variables.x}</M> naar <em>dezelfde</em> kant.</>
-	const termsWithoutVariableInWrongPlace = (input, correct, { variables }) => {
-		const sideWithVariable = input.findSide(side => side.dependsOn(variables.x))
-		if (!sideWithVariable)
-			return <>Je antwoord bevat helemaal geen <M>{variables.x}.</M> Waar is die heen?</>
-		if (!sideWithVariable.isSubtype(Sum))
-			return <>Er zijn meerdere termen met <M>{variables.x}.</M> Je lijkt er maar één te hebben.</>
-		const termWithoutVariable = sideWithVariable.terms.find(term => !term.dependsOn(variables.x))
-		if (termWithoutVariable)
-			return <>Je hebt alle termen met <M>{variables.x}</M> wel naar de ene kant gehaald, maar hier staat ook nog een term <M>{termWithoutVariable}</M> bij waar geen <M>{variables.x}</M> in zit.</>
+	return {
+		...getMCFeedback('numSolutions', exerciseData, {
+			text: [
+				<>Klopt helemaal! De discriminant <M>D = b^2 - 4ac</M> is immers kleiner dan nul.</>,
+				<>Dit klopt niet. Dit is het geval als de discriminant <M>D = b^2 - 4ac</M> gelijk aan nul is.</>,
+				<>Dit klopt niet. Dit is het geval als de discriminant <M>D = b^2 - 4ac</M> groter dan nul is.</>,
+				<>Nee, dit kan niet. Een kwadratische vergelijking heeft nooit meer dan twee oplossingen.</>,
+			],
+		}),
+		...getInputFieldFeedback(['a', 'b', 'c', 'D'], exerciseData),
 	}
-	const sumWithWrongTermsAndFlip = (input, correct, solution, isCorrect) => {
-		return input.left.dependsOn(solution.variables.x) ? sumWithWrongTerms(input, correct, solution, isCorrect) : sumWithWrongTerms(input, correct.switch().applyMinus(), solution, isCorrect)
-	}
-
-	// Define pulledOut checks.
-	const sideWithoutVariableEqual = (input, correct, { variables }) => {
-		const sideWithoutVariable = input.findSide(side => !side.dependsOn(variables.x))
-		if (!sideWithoutVariable)
-			return <>Je hebt weer een <M>{variables.x}</M> aan beide kanten van de vergelijking gestopt. Dat was niet de bedoeling.</>
-		if (!onlyOrderChanges(sideWithoutVariable, correct.right) && !onlyOrderChanges(sideWithoutVariable, correct.right.applyMinus()))
-			return <>De kant zonder <M>{variables.x}</M> moet hetzelfde blijven!</>
-	}
-	const sideWithVariableEqual = (input, correct, { variables }) => {
-		const sideWithVariable = input.findSide(side => side.dependsOn(variables.x))
-		if (!sideWithVariable)
-			return <>Je hebt <M>{variables.x}</M> in z'n geheel laten verdwijnen. Dat was niet de bedoeling.</>
-		if (!equivalent(sideWithVariable, correct.left) && !equivalent(sideWithVariable, correct.left.applyMinus()))
-			return <>De kant met <M>{variables.x}</M> is niet meer gelijk aan wat het hiervoor was. Bij het omschrijven ervan is iets fout gegaan.</>
-		if (!(sideWithVariable.isSubtype(Product) && sideWithVariable.terms.length === 2 && sideWithVariable.terms.some(term => variables.x.equals(term))))
-			return <>Je hebt <M>{variables.x}</M> niet buiten haakjes gehaald. Je moet de kant met <M>{variables.x}</M> schrijven als <M>{variables.x}\cdot\left(\ldots\right),</M> met een zo simpel mogelijke uitdrukking op de puntjes.</>
-	}
-
-	// Determine feedback.
-	return getInputFieldFeedback([
-		'ans',
-		'termsMoved',
-		'pulledOut',
-	], exerciseData, [
-		[hasX, incorrectFraction, incorrectExpression],
-		[originalEquation, variableOnBothSides, termsWithoutVariableInWrongPlace, sumWithWrongTermsAndFlip, incorrectEquation, correctEquation],
-		[sideWithoutVariableEqual, sideWithVariableEqual, incorrectEquation, correctEquation],
-	].map(feedbackChecks => ({ feedbackChecks })))
 }

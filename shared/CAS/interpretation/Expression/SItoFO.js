@@ -351,9 +351,21 @@ function interpretFunction(element, settings) {
 	if (advancedFunctionComponents[name].hasParameterAfter)
 		throw new Error(`Invalid function processing: tried to process a function "${name}" as a parameterless function, but this function has a parameter afterwards.`)
 
-	// Process the arguments and assemble the function.
+	// If the component has its main argument last, like root[3](8), then bring this last argument to the front, as expected by the CAS.
 	const Component = advancedFunctionComponents[name].component
-	const valueInterpreted = value.map(arg => interpretSI(arg.value, settings))
+	const valueShifted = Component.hasMainArgumentLast ? [lastOf(value), ...value.slice(0, -1)] : value
+
+	// Process the arguments. If an argument is missing, and if it's specifically mentioned that it's not obligatory, use a default value.
+	const valueInterpreted = valueShifted.map((arg, index) => {
+		if (isEmpty(arg.value) && Component.obligatory && !Component.obligatory[index]) {
+			const defaultArgs = Component.getDefaultSO()
+			const argName = Component.args[index]
+			return defaultArgs[argName]
+		}
+		return interpretSI(arg.value, settings)
+	})
+
+	// Assemble the function.
 	return new Component(...valueInterpreted)
 }
 
