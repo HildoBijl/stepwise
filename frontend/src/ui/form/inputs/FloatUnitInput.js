@@ -4,12 +4,12 @@ import clsx from 'clsx'
 
 import { isNumber } from 'step-wise/util/numbers'
 import { isLetter } from 'step-wise/util/strings'
-import { selectRandomly, selectRandomEmpty } from 'step-wise/util/random'
 
 import { units } from 'step-wise/inputTypes/Unit/units'
 import { prefixes } from 'step-wise/inputTypes/Unit/prefixes'
 
 import { getClickSide } from 'util/dom'
+import { selectRandomEmpty, selectRandomMissingNumber, selectRandomMissingUnit } from 'util/feedbackMessages'
 
 import FieldInput, { checkCursor } from './support/FieldInput'
 import { style as floatStyle, nonEmpty as floatNonEmpty, Float, dataToKeyboardSettings as floatDataToKeyboardSettings, keyPressToData as floatKeyPressToData, mouseClickToCursor as floatMouseClickToCursor, emptyFloat, isEmpty as isFloatEmpty, getStartCursor as getFloatStartCursor, getEndCursor as getFloatEndCursor, isCursorAtStart as isCursorAtFloatStart, isCursorAtEnd as isCursorAtFloatEnd, isValid as isFloatValid, clean as cleanFloat, functionalize as functionalizeFloat } from './FloatInput'
@@ -99,12 +99,7 @@ export function nonEmpty(data) { // Something must have been filled in.
 export function validNumberAndUnit(data) { // The number and unit must be valid. A missing unit is OK.
 	// Check float. First check if it's empty and give a message dedicated to the number. Then check for other edge cases.
 	if (isFloatEmpty(data.value.unit))
-		return selectRandomly([
-			'Je hebt geen getal ingevuld.',
-			'Het getal ontbreekt.',
-			'Vergeet niet een getal in te vullen!',
-			'Waar is het getal?',
-		])
+		return selectRandomMissingNumber()
 	const floatNonEmptyResult = floatNonEmpty(getFloatData(data))
 	if (floatNonEmptyResult)
 		return floatNonEmptyResult
@@ -120,12 +115,7 @@ export function validNumberAndNonEmptyUnit(data) { // The number and unit must b
 		return validNumberAndUnitResult
 
 	if (isUnitEmpty(data.value.unit))
-		return selectRandomly([
-			'Je hebt geen eenheid ingevuld.',
-			'De eenheid ontbreekt.',
-			'Vergeet niet een eenheid in te vullen!',
-			'Waar is de eenheid?',
-		])
+		return selectRandomMissingUnit()
 }
 
 // FloatUnit takes an input data object and shows the corresponding contents as JSX render.

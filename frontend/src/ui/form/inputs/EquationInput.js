@@ -1,7 +1,8 @@
 import React from 'react'
 
-import { selectRandomEmpty } from 'step-wise/util/random'
 import { equationSItoFO, support } from 'step-wise/CAS'
+
+import { selectRandomEmpty } from 'util/feedbackMessages'
 
 import { getInterpretationErrorMessage } from './support/expressionTypes/support/interpretationError'
 

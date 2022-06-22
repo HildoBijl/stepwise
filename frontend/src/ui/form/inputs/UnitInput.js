@@ -6,7 +6,8 @@ import clsx from 'clsx'
 import { lastOf, arraySplice } from 'step-wise/util/arrays'
 import { applyToEachParameter, keysToObject } from 'step-wise/util/objects'
 import { repeat } from 'step-wise/util/functions'
-import { selectRandomEmpty, selectRandomInvalidUnit } from 'step-wise/util/random'
+
+import { selectRandomEmpty, selectRandomInvalidUnit } from 'util/feedbackMessages'
 
 import FieldInput, { checkCursor } from './support/FieldInput'
 import { UnitArray, keyPressToData as unitArrayKeyPressToData, mouseClickToCursor as unitArrayMouseClickToCursor, emptyUnitArray, isEmpty as isUnitArrayEmpty, getStartCursor as getUnitArrayStartCursor, getEndCursor as getUnitArrayEndCursor, isCursorAtStart as isCursorAtUnitArrayStart, isCursorAtEnd as isCursorAtUnitArrayEnd, isValid as isUnitArrayValid, mergeElements, splitElement, getCursorFromOffset as getUnitArrayCursorFromOffset, clean as cleanUnitArray, functionalize as functionalizeUnitArray } from './support/UnitArray'

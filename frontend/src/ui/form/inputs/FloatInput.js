@@ -3,10 +3,11 @@ import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
 import { isNumber } from 'step-wise/util/numbers'
-import { selectRandomEmpty, selectRandomNegative } from 'step-wise/util/random'
 import { removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
 import { applyToEachParameter, keysToObject } from 'step-wise/util/objects'
 import { SItoFO } from 'step-wise/inputTypes/Float'
+
+import { selectRandomEmpty, selectRandomNegative } from 'util/feedbackMessages'
 
 import FieldInput, { CharString, getClickPosition } from './support/FieldInput'
 

@@ -2,12 +2,13 @@ import React, { useCallback, useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { selectRandomEmpty } from 'step-wise/util/random'
 import { isObject, deepEquals, processOptions } from 'step-wise/util/objects'
 import { Variable, expressionSItoFO, support } from 'step-wise/CAS'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 
 import { useRefWithValue } from 'util/react'
+import { selectRandomEmpty } from 'util/feedbackMessages'
+
 import { M } from 'ui/components/equations'
 
 import { useAbsoluteCursorRef } from '../Form'

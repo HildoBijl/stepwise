@@ -1,7 +1,8 @@
 import React from 'react'
 
-import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
 import { expressionComparisons } from 'step-wise/CAS'
+
+import { selectRandomCorrect, selectRandomIncorrect } from 'util/feedbackMessages'
 
 import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'

@@ -1,7 +1,8 @@
 import React from 'react'
 
-import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
 import { Unit } from 'step-wise/inputTypes/Unit'
+
+import { selectRandomCorrect, selectRandomIncorrect } from 'util/feedbackMessages'
 
 import { M } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'

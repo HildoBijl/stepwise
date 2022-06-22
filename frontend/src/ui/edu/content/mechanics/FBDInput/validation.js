@@ -1,5 +1,6 @@
-import { selectRandomEmpty } from 'step-wise/util/random'
 import { areLoadsEqual, isLoadAtPoint } from 'step-wise/edu/exercises/util/engineeringMechanics'
+
+import { selectRandomEmpty } from 'util/feedbackMessages'
 
 // These are validation functions.
 export function nonEmpty(data) {

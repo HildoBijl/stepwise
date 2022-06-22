@@ -1,8 +1,9 @@
 import React from 'react'
 
 import { roundTo } from 'step-wise/util/numbers'
-import { selectRandomCorrect } from 'step-wise/util/random'
 import { interpretExpression, simplifyOptions } from 'step-wise/CAS'
+
+import { selectRandomCorrect } from 'util/feedbackMessages'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'

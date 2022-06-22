@@ -1,8 +1,8 @@
-import { selectRandomCorrect } from 'step-wise/util/random'
 
 import { getLoadMatching } from 'step-wise/edu/exercises/util/engineeringMechanics'
 
 import { getCountingWord } from 'util/language'
+import { selectRandomCorrect } from 'util/feedbackMessages'
 
 export function getFBDFeedback(input, solution, comparison, points) {
 	// Set up a matching of loads, so we can give feedback on it.

@@ -1,13 +1,14 @@
 import React, { createContext, useContext, useState, useCallback, useEffect, isValidElement } from 'react'
 import { useTheme } from '@material-ui/core/styles'
 
-import { selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
 import { noop } from 'step-wise/util/functions'
 import { isBasicObject, processOptions } from 'step-wise/util/objects'
 import { toFO } from 'step-wise/inputTypes'
 import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 
 import { useRefWithValue } from 'util/react'
+import { selectRandomCorrect, selectRandomIncorrect } from 'util/feedbackMessages'
+
 import { getIcon, getFeedbackColor } from 'ui/theme'
 import { useExerciseData, getPrevProgress } from 'ui/edu/exercises/ExerciseContainer'
 

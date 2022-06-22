@@ -2,9 +2,10 @@ import React from 'react'
 import clsx from 'clsx'
 
 import { isNumber } from 'step-wise/util/numbers'
-import { selectRandomEmpty, selectRandomNegative } from 'step-wise/util/random'
 import { removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
 import { SItoFO } from 'step-wise/inputTypes/Integer'
+
+import { selectRandomEmpty, selectRandomNegative } from 'util/feedbackMessages'
 
 import FieldInput, { CharString, getClickPosition } from './support/FieldInput'
 

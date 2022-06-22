@@ -1,11 +1,12 @@
 import { arrayFind } from 'step-wise/util/arrays'
-import { selectRandomly, selectRandomCorrect, selectRandomIncorrect, selectRandomDuplicate } from 'step-wise/util/random'
 import { processOptions, deepEquals, getPropertyOrDefault } from 'step-wise/util/objects'
 import { checkNumberEquality, areNumbersEqual } from 'step-wise/inputTypes/Integer'
 import { Float } from 'step-wise/inputTypes/Float'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 import { Expression, Equation } from 'step-wise/CAS'
 import { performIndividualListComparison } from 'step-wise/edu/exercises/util/comparison'
+
+import { selectRandomCorrect, selectRandomIncorrect, selectRandomIncorrectUnit, selectRandomDuplicate } from 'util/feedbackMessages'
 
 const defaultOptions = {
 	// These are options automatically added, based on exerciseData.
@@ -235,12 +236,7 @@ export function getFloatUnitComparisonFeedback(inputAnswer, correctAnswer, optio
 	if (!equalityData.unitOK)
 		return {
 			correct,
-			text: text.unit || selectRandomly([
-				'Je eenheid klopt niet. Kijk daar eerst eens naar.',
-				'Er zit een fout in je eenheid. Verbeter die eerst.',
-				'Incorrecte eenheid. Welke eenheid moet je antwoord hebben?',
-				'Oops, je eenheid zit ernaast. Check die even.',
-			])
+			text: text.unit || selectRandomIncorrectUnit()
 		}
 
 	// Check sign.

@@ -1,7 +1,8 @@
 import React from 'react'
 
-import { selectRandomCorrect } from 'step-wise/util/random'
 import * as constants from 'step-wise/data/constants'
+
+import { selectRandomCorrect } from 'util/feedbackMessages'
 
 import { M } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
