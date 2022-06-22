@@ -150,3 +150,15 @@ function selectRandomInvalidUnit() {
 	])
 }
 module.exports.selectRandomInvalidUnit = selectRandomInvalidUnit
+
+// selectRandomDuplicate gives a random text that an answer has already been provided.
+function selectRandomDuplicate() {
+	return selectRandomly([
+		'Deze waarde is al gelijk aan een eerder gegeven oplossing.',
+		'Nee, deze oplossing had je al gegeven.',
+		'Je hebt deze oplossing al eerder ingevuld.',
+		'Dit is geen unieke oplossing.',
+		'Oops, je hebt deze al eerder ingevuld.',
+	])
+}
+module.exports.selectRandomDuplicate = selectRandomDuplicate

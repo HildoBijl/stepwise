@@ -42,7 +42,7 @@ function Solution({ unit }) {
 	return <Par>Je klikt op het invoervak en typt <M>{unit}</M> in.<ul><li>Als vermenigvuldigingsteken kun je de ster "*" gebruiken of de punt ".". Ook de spatie werkt als short-cut.</li><li>Als deelteken gebruik je de slash "/" of de pijl omlaag.</li><li>Voor machten kun je eventueel het machtteken "^" gebruiken maar dit is niet per se nodig: direct getallen invoeren werkt ook.</li></ul></Par>
 }
 
-function getFeedback({ state: { unit }, input: { ans }, progress: { solved }, shared: { data: { equalityOptions } } }) {
+function getFeedback({ state: { unit }, input: { ans }, progress: { solved }, shared: { data: { comparison } } }) {
 	const correct = !!solved
 	if (correct)
 		return { ans: { correct, text: selectRandomCorrect() } }

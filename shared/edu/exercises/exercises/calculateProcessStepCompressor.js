@@ -10,7 +10,7 @@ const data = {
 	setup: combinerAnd(combinerRepeat('gasLaw', 2), 'recognizeProcessTypes', 'poissonsLaw'),
 	steps: ['gasLaw', 'recognizeProcessTypes', 'poissonsLaw', 'gasLaw'],
 
-	equalityOptions: {
+	comparison: {
 		default: {
 			relativeMargin: 0.015,
 			significantDigitMargin: 1,
@@ -66,16 +66,16 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return performComparison(['p1', 'V1', 'T1'], input, solution, data.equalityOptions)
+			return performComparison(['p1', 'V1', 'T1'], input, solution, data.comparison)
 		case 2:
 			return input.process === 3
 		case 3:
 			const choice = input.choice || 0
-			return performComparison(choice === 0 ? 'p2' : 'T2', input, solution, data.equalityOptions)
+			return performComparison(choice === 0 ? 'p2' : 'T2', input, solution, data.comparison)
 		case 4:
-			return performComparison(['p2', 'V2', 'T2'], input, solution, data.equalityOptions)
+			return performComparison(['p2', 'V2', 'T2'], input, solution, data.comparison)
 		default:
-			return performComparison(['p1', 'V1', 'T1', 'p2', 'V2', 'T2'], input, solution, data.equalityOptions)
+			return performComparison(['p1', 'V1', 'T1', 'p2', 'V2', 'T2'], input, solution, data.comparison)
 	}
 }
 

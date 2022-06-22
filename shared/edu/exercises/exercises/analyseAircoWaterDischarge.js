@@ -10,7 +10,7 @@ const data = {
 	setup: combinerRepeat('readMollierDiagram', 3),
 	steps: ['readMollierDiagram', 'readMollierDiagram', 'readMollierDiagram', null],
 
-	equalityOptions: {
+	comparison: {
 		default: { // AH
 			absoluteMargin: .001, // In standard units, so kg/kg.
 			significantDigitMargin: 1,
@@ -56,15 +56,15 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return performComparison('startAH', input, solution, data.equalityOptions)
+			return performComparison('startAH', input, solution, data.comparison)
 		case 2:
-			return performComparison('endAH', input, solution, data.equalityOptions)
+			return performComparison('endAH', input, solution, data.comparison)
 		case 3:
-			return performComparison('T3', input, solution, data.equalityOptions)
+			return performComparison('T3', input, solution, data.comparison)
 		case 4:
-			return performComparison('dAH', input, solution, data.equalityOptions)
+			return performComparison('dAH', input, solution, data.comparison)
 		default:
-			return performComparison(['T3', 'dAH'], input, solution, data.equalityOptions)
+			return performComparison(['T3', 'dAH'], input, solution, data.comparison)
 	}
 }
 

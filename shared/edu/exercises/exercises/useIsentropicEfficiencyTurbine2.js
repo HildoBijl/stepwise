@@ -8,7 +8,7 @@ const data = {
 	setup: combinerAnd(combinerRepeat('calculateWithEnthalpy', 2), 'solveLinearEquation'),
 	steps: ['calculateWithEnthalpy', 'solveLinearEquation', 'calculateWithEnthalpy'],
 
-	equalityOptions: {
+	comparison: {
 		default: {
 			relativeMargin: 0.01,
 			significantDigitMargin: 1,
@@ -36,11 +36,11 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return performComparison('wti', input, solution, data.equalityOptions)
+			return performComparison('wti', input, solution, data.comparison)
 		case 2:
-			return performComparison('wt', input, solution, data.equalityOptions)
+			return performComparison('wt', input, solution, data.comparison)
 		default:
-			return performComparison('h2', input, solution, data.equalityOptions)
+			return performComparison('h2', input, solution, data.comparison)
 	}
 }
 

@@ -236,7 +236,7 @@ class Unit {
 			throw new Error(`Invalid comparison: cannot compare an object of type "${this.constructor.name || 'unknown'}" with an object of type "${x.constructor.name || 'unknown'}".`)
 
 		// Fill out any missing options with defaults.
-		options = processOptions(options, Unit.defaultEqualityOptions)
+		options = processOptions(options, Unit.defaultComparison)
 
 		// Set up easier names.
 		let a = this
@@ -323,7 +323,7 @@ Unit.equalityTypes = {
 	sameUnits: 2,
 	free: 3,
 }
-Unit.defaultEqualityOptions = {
+Unit.defaultComparison = {
 	type: Unit.equalityTypes.free,
 	checkSize: true,
 }

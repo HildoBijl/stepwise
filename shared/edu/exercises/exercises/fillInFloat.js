@@ -1,10 +1,11 @@
 const { getRandomInteger } = require('../../../inputTypes/Integer')
 const { getRandomExponentialFloat } = require('../../../inputTypes/Float')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+const { performComparison } = require('../util/comparison')
 
 const data = {
 	skill: 'fillInFloat',
-	equalityOptions: { relativeMargin: 0.0001 },
+	comparison: { relativeMargin: 0.0001 },
 }
 
 function generateState() {
@@ -18,8 +19,13 @@ function generateState() {
 	}
 }
 
-function checkInput({ x }, { ans }) {
-	return x.equals(ans, data.equalityOptions)
+function getSolution({ x }) {
+	return { ans: x }
+}
+
+function checkInput(state, input) {
+	const solution = getSolution(state)
+	return performComparison('ans', input, solution, data.comparison)
 }
 
 module.exports = {

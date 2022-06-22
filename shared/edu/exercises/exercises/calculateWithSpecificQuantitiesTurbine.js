@@ -4,7 +4,7 @@ const { performComparison } = require('../util/comparison')
 
 const data = {
 	skill: 'calculateWithSpecificQuantities',
-	equalityOptions: {
+	comparison: {
 		default: {
 			relativeMargin: 0.01,
 			significantDigitMargin: 1,
@@ -38,7 +38,7 @@ function getSolution({ wt, m }) {
 
 function checkInput(state, input) {
 	const solution = getSolution(state)
-	return performComparison('Wt', input, solution, data.equalityOptions)
+	return performComparison('Wt', input, solution, data.comparison)
 }
 
 module.exports = {

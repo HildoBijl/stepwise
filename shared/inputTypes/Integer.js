@@ -4,13 +4,13 @@ const { getRandomInteger } = require('../util/random')
 
 module.exports.getRandomInteger = getRandomInteger // Exports this function here too, for uniformity's sake.
 
-// The below default equality options are used when comparing integers through the areNumbersEqual or checkNumberEquality functions.
-const defaultEqualityOptions = {
+// The below default comparison options are used when comparing integers through the areNumbersEqual or checkNumberEquality functions.
+const defaultComparison = {
 	absoluteMargin: 0,
 	relativeMargin: 0,
 	accuracyFactor: 1,
 }
-module.exports.defaultEqualityOptions = defaultEqualityOptions
+module.exports.defaultComparison = defaultComparison
 
 // areNumbersEqual does a more thorough number equality check where various options are possible. Note that the numbers may not even need to be integers. If the correct answer is 23.4, then you can give an absoluteMargin of 1 to ensure both 23 and 24 are considered equal.
 function areNumbersEqual(a, b, options = {}) {
@@ -21,7 +21,7 @@ module.exports.areNumbersEqual = areNumbersEqual
 // checkNumberEquality does a thorough equality check on the numbers, giving reasons on why they may be unequal. Note that the second number (b) is considered a "correct" one and is used as basis for the comparison. The first (a) is considered "input".
 function checkNumberEquality(a, b, options = {}) {
 	// Check the options.
-	options = processOptions(options, defaultEqualityOptions)
+	options = processOptions(options, defaultComparison)
 	if (!isNumber(options.absoluteMargin) || options.absoluteMargin < 0)
 		throw new Error(`Invalid options: the parameter absoluteMargin must be a non-negative number but "${options.absoluteMargin}" was given.`)
 	if (!isNumber(options.relativeMargin) || options.relativeMargin < 0)

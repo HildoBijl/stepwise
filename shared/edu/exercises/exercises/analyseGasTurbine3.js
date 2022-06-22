@@ -10,7 +10,7 @@ const data = {
 	setup: combinerAnd(combinerRepeat('poissonsLaw', 2), combinerRepeat('useIsentropicEfficiency', 2), combinerRepeat('calculateSpecificHeatAndMechanicalWork', 2), 'calculateWithEfficiency', 'massFlowTrick'),
 	steps: ['poissonsLaw', 'useIsentropicEfficiency', 'calculateSpecificHeatAndMechanicalWork', 'poissonsLaw', 'useIsentropicEfficiency', 'calculateSpecificHeatAndMechanicalWork', ['calculateWithEfficiency', 'massFlowTrick']],
 
-	equalityOptions: {
+	comparison: {
 		default: {
 			relativeMargin: 0.01,
 			significantDigitMargin: 1,
@@ -76,26 +76,26 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return performComparison('T2p', input, solution, data.equalityOptions)
+			return performComparison('T2p', input, solution, data.comparison)
 		case 2:
-			return performComparison('T2', input, solution, data.equalityOptions)
+			return performComparison('T2', input, solution, data.comparison)
 		case 3:
-			return performComparison('T3', input, solution, data.equalityOptions)
+			return performComparison('T3', input, solution, data.comparison)
 		case 4:
-			return performComparison('T4p', input, solution, data.equalityOptions)
+			return performComparison('T4p', input, solution, data.comparison)
 		case 5:
-			return performComparison('T4', input, solution, data.equalityOptions)
+			return performComparison('T4', input, solution, data.comparison)
 		case 6:
-			return performComparison('wn', input, solution, data.equalityOptions)
+			return performComparison('wn', input, solution, data.comparison)
 		case 7:
 			switch (substep) {
 				case 1:
-					return performComparison(['eta'], input, solution, data.equalityOptions)
+					return performComparison(['eta'], input, solution, data.comparison)
 				case 2:
-					return performComparison(['P'], input, solution, data.equalityOptions)
+					return performComparison(['P'], input, solution, data.comparison)
 			}
 		default:
-			return performComparison(['eta', 'P'], input, solution, data.equalityOptions)
+			return performComparison(['eta', 'P'], input, solution, data.comparison)
 	}
 }
 

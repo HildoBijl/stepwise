@@ -7,7 +7,7 @@ const { firstOf, lastOf } = require('../../../util/arrays')
 
 const data = {
 	skill: 'readMollierDiagram',
-	equalityOptions: {
+	comparison: {
 		default: {
 			absoluteMargin: 0.0005, // In standard units: kg/kg.
 		},
@@ -40,7 +40,7 @@ function getSolution({ T, RH }) {
 
 function checkInput(state, input) {
 	const solution = getSolution(state)
-	return performComparison(['AH'], input, solution, data.equalityOptions)
+	return performComparison(['AH'], input, solution, data.comparison)
 }
 
 module.exports = {

@@ -198,19 +198,19 @@ class FloatUnit {
 			throw new Error(`Invalid comparison: cannot compare a number of type "${this.constructor.name || 'unknown'}" with a number of type "${x.constructor.name || 'unknown'}".`)
 
 		// Fill out any missing options with defaults.
-		options = processOptions(options, FloatUnit.defaultEqualityOptions)
+		options = processOptions(options, FloatUnit.defaultComparison)
 
 		// Set up easier names.
 		let a = this
 		let b = x
 
 		// Ensure validity of both FloatUnits and deal with it if they are not valid.
-		const floatEqualityOptions = filterOptions(options, Float.defaultEqualityOptions)
+		const floatComparison = filterOptions(options, Float.defaultComparison)
 		const handleInvalidResult = (unitOK) => {
-			const floatComparison = a.float.checkEquality(b.float, floatEqualityOptions)
-			const numberOK = floatComparison.result
+			const floatEqualityData = a.float.checkEquality(b.float, floatComparison)
+			const numberOK = floatEqualityData.result
 			return {
-				...floatComparison,
+				...floatEqualityData,
 				result: unitOK && numberOK,
 				unitOK,
 				numberOK,
@@ -236,15 +236,15 @@ class FloatUnit {
 		b = b.simplify(simplifyOptions)
 
 		// Compare the floats and the units.
-		const floatComparison = a.float.checkEquality(b.float, floatEqualityOptions) // This is an object.
-		const unitComparison = a.unit.str === b.unit.str // This is just a boolean. Note that the units have already been simplified, so a direct string comparison is possible.
+		const floatEqualityData = a.float.checkEquality(b.float, floatComparison) // This is an object.
+		const unitEqualityData = a.unit.str === b.unit.str // This is just a boolean. Note that the units have already been simplified, so a direct string comparison is possible.
 
 		// Assemble the result.
 		return {
-			...floatComparison,
-			result: floatComparison.result && unitComparison,
-			numberOK: floatComparison.result,
-			unitOK: unitComparison
+			...floatEqualityData,
+			result: floatEqualityData.result && unitEqualityData,
+			numberOK: floatEqualityData.result,
+			unitOK: unitEqualityData
 		}
 	}
 
@@ -360,12 +360,12 @@ FloatUnit.equalityTypes = {
 	sameUnits: 2,
 	free: 3,
 }
-FloatUnit.defaultEqualityOptions = {
-	absoluteMargin: Float.defaultEqualityOptions.absoluteMargin,
-	relativeMargin: Float.defaultEqualityOptions.relativeMargin,
-	accuracyFactor: Float.defaultEqualityOptions.accuracyFactor,
-	significantDigitMargin: Float.defaultEqualityOptions.significantDigitMargin,
-	unitCheck: Unit.defaultEqualityOptions.type,
+FloatUnit.defaultComparison = {
+	absoluteMargin: Float.defaultComparison.absoluteMargin,
+	relativeMargin: Float.defaultComparison.relativeMargin,
+	accuracyFactor: Float.defaultComparison.accuracyFactor,
+	significantDigitMargin: Float.defaultComparison.significantDigitMargin,
+	unitCheck: Unit.defaultComparison.type,
 	checkUnitSize: false,
 }
 

@@ -9,7 +9,7 @@ const data = {
 	setup: combinerAnd('recognizeProcessTypes', 'specificHeats', combinerOr('calculateWithMass', 'calculateWithTemperature', 'calculateWithSpecificQuantities')),
 	steps: ['recognizeProcessTypes', null, 'specificHeats', 'calculateWithTemperature', 'calculateWithSpecificQuantities'],
 
-	equalityOptions: {
+	comparison: {
 		cp: {
 			relativeMargin: 0.02,
 		},
@@ -65,11 +65,11 @@ function checkInput(state, input, step, substep) {
 		case 2:
 			return input.eq === solution.eq
 		case 3:
-			return performComparison('cp', input, solution, data.equalityOptions)
+			return performComparison('cp', input, solution, data.comparison)
 		case 4:
-			return performComparison(['T1', 'T2'], input, solution, data.equalityOptions)
+			return performComparison(['T1', 'T2'], input, solution, data.comparison)
 		default:
-			return performComparison(['q', 'wt'], input, solution, data.equalityOptions)
+			return performComparison(['q', 'wt'], input, solution, data.comparison)
 	}
 }
 

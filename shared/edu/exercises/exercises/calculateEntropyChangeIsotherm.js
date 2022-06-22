@@ -9,7 +9,7 @@ const data = {
 	setup: combinerAnd('calculateWithTemperature', combinerRepeat('solveLinearEquation', 2)),
 	steps: ['calculateWithTemperature', 'solveLinearEquation', 'solveLinearEquation', null],
 
-	equalityOptions: {
+	comparison: {
 		default: {
 			relativeMargin: 0.01,
 			significantDigitMargin: 1,
@@ -67,13 +67,13 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return performComparison(['Tw', 'Tc'], input, solution, data.equalityOptions)
+			return performComparison(['Tw', 'Tc'], input, solution, data.comparison)
 		case 2:
-			return performComparison('dSc', input, solution, data.equalityOptions)
+			return performComparison('dSc', input, solution, data.comparison)
 		case 3:
-			return performComparison('dSw', input, solution, data.equalityOptions)
+			return performComparison('dSw', input, solution, data.comparison)
 		default:
-			return performComparison('dS', input, solution, data.equalityOptions)
+			return performComparison('dS', input, solution, data.comparison)
 	}
 }
 

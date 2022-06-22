@@ -5,7 +5,7 @@ const { getTemperatures } = require('./support/fridgeCycle')
 
 const data = {
 	skill: 'findFridgeTemperatures',
-	equalityOptions: {
+	comparison: {
 		default: {
 			significantDigitMargin: 1,
 		},
@@ -20,7 +20,7 @@ function generateState() {
 
 function checkInput(state, input) {
 	const solution = getSolution(state)
-	return performComparison(['TEvap', 'TCond'], input, solution, data.equalityOptions)
+	return performComparison(['TEvap', 'TCond'], input, solution, data.comparison)
 }
 
 function getSolution({ type, TCold, TWarm, dTCold, dTWarm }) {

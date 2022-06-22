@@ -308,7 +308,7 @@ class Float {
 			throw new Error(`Invalid comparison: cannot compare a number of type "${this.constructor.name || 'unknown'}" with a number of type "${x.constructor.name || 'unknown'}".`)
 
 		// Check the options.
-		options = processOptions(options, Float.defaultEqualityOptions)
+		options = processOptions(options, Float.defaultComparison)
 		if (options.absoluteMargin !== 'auto' && (!isNumber(options.absoluteMargin) || options.absoluteMargin < 0))
 			throw new Error(`Invalid options: the parameter absoluteMargin must be a non-negative number (or 'auto') but "${options.absoluteMargin}" was given.`)
 		if (!isNumber(options.relativeMargin) || options.relativeMargin < 0)
@@ -481,7 +481,7 @@ class Float {
 }
 module.exports.Float = Float
 
-Float.defaultEqualityOptions = {
+Float.defaultComparison = {
 	absoluteMargin: 'auto',
 	relativeMargin: 0.000001,
 	accuracyFactor: 1,

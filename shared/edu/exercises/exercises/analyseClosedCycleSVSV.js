@@ -9,7 +9,7 @@ const data = {
 	setup: combinerAnd('calculateClosedCycle', 'createClosedCycleEnergyOverview', 'calculateWithEfficiency'),
 	steps: ['calculateClosedCycle', 'createClosedCycleEnergyOverview', null, 'calculateWithEfficiency'],
 
-	equalityOptions: {
+	comparison: {
 		default: {
 			relativeMargin: 0.01,
 			significantDigitMargin: 1,
@@ -38,15 +38,15 @@ function checkInput(state, input, step, substep) {
 	const { choice } = input
 	switch (step) {
 		case 1:
-			return performComparison(['p1', 'V1', 'T1', 'p2', 'V2', 'T2', 'p3', 'V3', 'T3', 'p4', 'V4', 'T4'], input, solution, data.equalityOptions)
+			return performComparison(['p1', 'V1', 'T1', 'p2', 'V2', 'T2', 'p3', 'V3', 'T3', 'p4', 'V4', 'T4'], input, solution, data.comparison)
 		case 2:
-			return performComparison(['Q12', 'W12', 'Q23', 'W23', 'Q34', 'W34', 'Q41', 'W41'], input, solution, data.equalityOptions)
+			return performComparison(['Q12', 'W12', 'Q23', 'W23', 'Q34', 'W34', 'Q41', 'W41'], input, solution, data.comparison)
 		case 3:
 			return choice === 0
 		default:
 			if (choice === 1)
 				return false
-			return performComparison(['eta'], input, solution, data.equalityOptions)
+			return performComparison(['eta'], input, solution, data.comparison)
 	}
 }
 

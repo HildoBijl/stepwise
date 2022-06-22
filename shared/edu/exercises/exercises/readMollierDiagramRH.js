@@ -7,7 +7,7 @@ const { firstOf, lastOf } = require('../../../util/arrays')
 
 const data = {
 	skill: 'readMollierDiagram',
-	equalityOptions: {
+	comparison: {
 		default: {
 			absoluteMargin: 0.04, // 4 percent margin on the relative humidity.
 		},
@@ -40,7 +40,7 @@ function getSolution({ T, AH }) {
 
 function checkInput(state, input) {
 	const solution = getSolution(state)
-	return performComparison(['RH'], input, solution, data.equalityOptions)
+	return performComparison(['RH'], input, solution, data.comparison)
 }
 
 module.exports = {

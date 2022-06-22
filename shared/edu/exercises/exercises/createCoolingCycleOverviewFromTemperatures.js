@@ -9,7 +9,7 @@ const data = {
 	setup: combinerAnd('findFridgeTemperatures', combinerRepeat('determineRefrigerantProcess', 3)),
 	steps: ['findFridgeTemperatures', 'determineRefrigerantProcess', 'determineRefrigerantProcess', 'determineRefrigerantProcess', null],
 
-	equalityOptions: {
+	comparison: {
 		TEvap: {
 			absoluteMargin: 1, // K
 			significantDigitMargin: 1,
@@ -69,17 +69,17 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return performComparison(['TEvap', 'TCond'], input, solution, data.equalityOptions)
+			return performComparison(['TEvap', 'TCond'], input, solution, data.comparison)
 		case 2:
-			return performComparison('h1', input, solution, data.equalityOptions)
+			return performComparison('h1', input, solution, data.comparison)
 		case 3:
-			return performComparison('h2', input, solution, data.equalityOptions)
+			return performComparison('h2', input, solution, data.comparison)
 		case 4:
-			return performComparison('h3', input, solution, data.equalityOptions)
+			return performComparison('h3', input, solution, data.comparison)
 		case 5:
-			return performComparison('h4', input, solution, data.equalityOptions)
+			return performComparison('h4', input, solution, data.comparison)
 		default:
-			return performComparison(['h1', 'h2', 'h3', 'h4'], input, solution, data.equalityOptions)
+			return performComparison(['h1', 'h2', 'h3', 'h4'], input, solution, data.comparison)
 	}
 }
 

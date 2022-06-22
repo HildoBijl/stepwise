@@ -9,7 +9,7 @@ const data = {
 	setup: combinerRepeat('gasLaw', 2),
 	steps: ['gasLaw', 'gasLaw'],
 
-	equalityOptions: {
+	comparison: {
 		relativeMargin: 0.01,
 		significantDigitMargin: 1,
 	},
@@ -65,9 +65,9 @@ function checkInput(state, input, step, substep) {
 
 	switch (step) {
 		case 1:
-			return m.equals(input.m, data.equalityOptions)
+			return m.equals(input.m, data.comparison)
 		default:
-			return T2.equals(input.T2, data.equalityOptions)
+			return T2.equals(input.T2, data.comparison)
 	}
 }
 

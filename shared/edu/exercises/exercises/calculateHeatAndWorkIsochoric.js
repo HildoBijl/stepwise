@@ -11,7 +11,7 @@ const data = {
 	setup: combinerAnd('recognizeProcessTypes', 'specificHeatRatio', combinerOr('calculateWithVolume', 'calculateWithPressure')),
 	steps: ['recognizeProcessTypes', null, 'specificHeatRatio', ['calculateWithVolume', 'calculateWithPressure'], 'solveLinearEquation'],
 
-	equalityOptions: {
+	comparison: {
 		default: {
 			relativeMargin: 0.015,
 			significantDigitMargin: 2,
@@ -77,14 +77,14 @@ function checkInput(state, input, step, substep) {
 		case 2:
 			return input.eq === solution.eq
 		case 3:
-			return performComparison('k', input, solution, data.equalityOptions)
+			return performComparison('k', input, solution, data.comparison)
 		case 4:
 			switch (substep) {
-				case 1: return performComparison('V', input, solution, data.equalityOptions)
-				case 2: return performComparison(['p1', 'p2'], input, solution, data.equalityOptions)
+				case 1: return performComparison('V', input, solution, data.comparison)
+				case 2: return performComparison(['p1', 'p2'], input, solution, data.comparison)
 			}
 		default:
-			return performComparison(['Q', 'W'], input, solution, data.equalityOptions)
+			return performComparison(['Q', 'W'], input, solution, data.comparison)
 	}
 }
 

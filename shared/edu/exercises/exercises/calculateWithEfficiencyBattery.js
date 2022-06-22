@@ -4,7 +4,7 @@ const { performComparison } = require('../util/comparison')
 
 const data = {
 	skill: 'calculateWithEfficiency',
-	equalityOptions: { significantDigitMargin: 1 },
+	comparison: { significantDigitMargin: 1 },
 }
 
 function generateState() {
@@ -30,7 +30,7 @@ function getSolution({ E, Ein }) {
 }
 
 function checkInput(state, input, step, substep) {
-	return performComparison('eta', input, getSolution(state), data.equalityOptions)
+	return performComparison('eta', input, getSolution(state), data.comparison)
 }
 
 module.exports = {

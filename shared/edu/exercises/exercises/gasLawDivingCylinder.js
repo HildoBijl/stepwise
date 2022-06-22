@@ -10,7 +10,7 @@ const data = {
 	setup: combinerAnd('calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature', 'specificGasConstant', 'solveLinearEquation'),
 	steps: [['calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature'], 'specificGasConstant', 'solveLinearEquation'],
 
-	equalityOptions: {
+	comparison: {
 		V: {
 			relativeMargin: 0.001,
 			significantDigitMargin: 1,
@@ -78,16 +78,16 @@ function checkInput(state, input, step, substep) {
 		case 1:
 			switch (substep) {
 				case 1:
-					return V.equals(input.V, data.equalityOptions.V)
+					return V.equals(input.V, data.comparison.V)
 				case 2:
-					return m.equals(input.m, data.equalityOptions.m)
+					return m.equals(input.m, data.comparison.m)
 				case 3:
-					return T.equals(input.T, data.equalityOptions.T)
+					return T.equals(input.T, data.comparison.T)
 			}
 		case 2:
-			return Rs.equals(input.Rs, data.equalityOptions.Rs)
+			return Rs.equals(input.Rs, data.comparison.Rs)
 		default:
-			return p.equals(input.p, data.equalityOptions.p)
+			return p.equals(input.p, data.comparison.p)
 	}
 }
 

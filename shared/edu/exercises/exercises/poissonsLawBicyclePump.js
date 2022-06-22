@@ -10,7 +10,7 @@ const data = {
 	setup: combinerAnd('calculateWithTemperature', 'calculateWithVolume', 'solveLinearEquation'),
 	steps: [['calculateWithTemperature', null, 'calculateWithVolume'], null, 'solveLinearEquation'],
 
-	equalityOptions: {
+	comparison: {
 		V1: {
 			relativeMargin: 0.001,
 			significantDigitMargin: 1,
@@ -68,7 +68,7 @@ function getSolution({ n, T1, V1, V2 }) {
 
 function checkInput(state, input, step, substep) {
 	const { T1, T2, V1, V2 } = getSolution(state)
-	const eo = data.equalityOptions
+	const eo = data.comparison
 
 	switch (step) {
 		case 1:

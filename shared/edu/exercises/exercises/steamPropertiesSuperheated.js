@@ -7,7 +7,7 @@ const { tableInterpolate } = require('../../../util/interpolation')
 const data = {
 	skill: 'lookUpSteamProperties',
 	weight: 2,
-	equalityOptions: {
+	comparison: {
 		default: {
 			relativeMargin: 0.001,
 		},
@@ -34,7 +34,7 @@ function getSolution({ p, T }) {
 
 function checkInput(state, input) {
 	const solution = getSolution(state)
-	return performComparison(['h', 's'], input, solution, data.equalityOptions)
+	return performComparison(['h', 's'], input, solution, data.comparison)
 }
 
 module.exports = {

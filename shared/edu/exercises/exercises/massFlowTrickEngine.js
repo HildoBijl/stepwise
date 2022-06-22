@@ -5,7 +5,7 @@ const { performComparison } = require('../util/comparison')
 
 const data = {
 	setup: combinerAnd('calculateWithSpecificQuantities', 'massFlowTrick'),
-	equalityOptions: {
+	comparison: {
 		default: {
 			relativeMargin: 0.01,
 			significantDigitMargin: 1,
@@ -38,7 +38,7 @@ function getSolution({ rho, mdot }) {
 
 function checkInput(state, input) {
 	const solution = getSolution(state)
-	return performComparison('Vdot', input, solution, data.equalityOptions)
+	return performComparison('Vdot', input, solution, data.comparison)
 }
 
 module.exports = {

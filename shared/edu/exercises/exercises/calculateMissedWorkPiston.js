@@ -10,7 +10,7 @@ const data = {
 	setup: combinerAnd(combinerRepeat('calculateEntropyChange', 2), 'solveLinearEquation'),
 	steps: ['calculateEntropyChange', 'calculateEntropyChange', null, 'solveLinearEquation'],
 
-	equalityOptions: {
+	comparison: {
 		default: {
 			relativeMargin: 0.01,
 			significantDigitMargin: 1,
@@ -72,13 +72,13 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return performComparison('dS12p', input, solution, data.equalityOptions)
+			return performComparison('dS12p', input, solution, data.comparison)
 		case 2:
-			return performComparison('dS2p2', input, solution, data.equalityOptions)
+			return performComparison('dS2p2', input, solution, data.comparison)
 		case 3:
-			return performComparison('dS', input, solution, data.equalityOptions)
+			return performComparison('dS', input, solution, data.comparison)
 		default:
-			return performComparison('Wm', input, solution, data.equalityOptions)
+			return performComparison('Wm', input, solution, data.comparison)
 	}
 }
 

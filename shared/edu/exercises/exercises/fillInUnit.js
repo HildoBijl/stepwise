@@ -1,10 +1,11 @@
 const { selectRandomly } = require('../../../util/random')
 const { Unit } = require('../../../inputTypes/Unit')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+const { performComparison } = require('../util/comparison')
 
 const data = {
 	skill: 'fillInUnit',
-	equalityOptions: {
+	comparison: {
 		type: Unit.equalityTypes.exact,
 	}
 }
@@ -21,8 +22,13 @@ function generateState() {
 	 ]) }
 }
 
-function checkInput({ unit }, { ans }) {
-	return unit.equals(ans, data.equalityOptions)
+function getSolution({ unit }) {
+	return { ans: unit }
+}
+
+function checkInput(state, input) {
+	const solution = getSolution(state)
+	return performComparison('ans', input, solution, data.comparison)
 }
 
 module.exports = {

@@ -9,7 +9,7 @@ const data = {
 	setup: combinerAnd('calculateWithPressure', 'specificHeatRatio', 'solveExponentEquation'),
 	steps: [[null, null, 'calculateWithPressure'], 'specificHeatRatio', null, 'solveExponentEquation'],
 
-	equalityOptions: {
+	comparison: {
 		T1: {
 			absoluteMargin: 0.7,
 			significantDigitMargin: 2,
@@ -62,7 +62,7 @@ function getSolution({ p1, p2, T1 }) {
 
 function checkInput(state, input, step, substep) {
 	const { k, p1, p2, T1, T2 } = getSolution(state)
-	const eo = data.equalityOptions
+	const eo = data.comparison
 
 	switch (step) {
 		case 1:

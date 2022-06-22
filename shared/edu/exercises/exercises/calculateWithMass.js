@@ -3,6 +3,7 @@ const { getRandomExponentialFloatUnit } = require('../../../inputTypes/FloatUnit
 const { Unit } = require('../../../inputTypes/Unit')
 const { selectRandomly } = require('../../../util/random')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+const { performComparison } = require('../util/comparison')
 
 // Type 0: from (mu/m/./M)g to kg.
 // Type 1: from (mu/m/./M)g to SI (so kg: which it may already be in).
@@ -10,7 +11,7 @@ const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 
 const data = {
 	skill: 'calculateWithMass',
-	equalityOptions: {
+	comparison: {
 		relativeMargin: 0.001,
 		significantDigitMargin: 0,
 		unitCheck: Unit.equalityTypes.exact,
@@ -38,8 +39,9 @@ function getSolution({ m, type, prefix }) {
 	return (type === 2 ? m.setUnit(`${prefix}g`) : m.setUnit('kg'))
 }
 
-function checkInput(state, { ans }) {
-	return getSolution(state).equals(ans, data.equalityOptions)
+function checkInput(state, input) {
+	const solution = getSolution(state)
+	return performComparison('ans', input, solution, data.comparison)
 }
 
 module.exports = {

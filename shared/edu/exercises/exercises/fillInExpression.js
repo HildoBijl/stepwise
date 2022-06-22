@@ -74,7 +74,7 @@ const { getExpressionTypes } = require('../../../inputTypes/Expression')
 
 const data = {
 	skill: 'fillInExpression',
-	equalityOptions: {
+	comparison: {
 		// TODO
 	},
 }
@@ -95,7 +95,7 @@ function getSolution({ index }) {
 
 function checkInput(state, { ans, eq }) {
 	// const solution = getSolution(state)
-	// return solution.equals(ans, data.equalityOptions)
+	// return solution.equals(ans, data.comparison)
 	console.log(ans)
 	console.log(ans.str)
 	console.log(eq)

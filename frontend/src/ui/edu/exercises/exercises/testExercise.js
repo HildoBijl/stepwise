@@ -88,5 +88,5 @@ function getFeedback({ state, input, progress, shared }) {
 	const { getSolution, data } = shared
 	const solution = getSolution(state)
 	const { beam, points } = solution
-	return { beam: getFBDFeedback(input.beam, beam, data.equalityOptions, points) }
+	return { beam: getFBDFeedback(input.beam, beam, data.comparison, points) }
 }

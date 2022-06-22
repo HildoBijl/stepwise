@@ -10,7 +10,7 @@ const data = {
 	setup: combinerAnd('calculateWithPressure', 'specificHeatRatio', 'solveExponentEquation'),
 	steps: [[null, 'calculateWithPressure', null], 'specificHeatRatio', null, 'solveExponentEquation'],
 
-	equalityOptions: {
+	comparison: {
 		V2: {
 			absoluteMargin: 0.001, // Standard units, in m^3.
 			significantDigitMargin: 1,
@@ -68,7 +68,7 @@ function getSolution({ gas, V2, p1, p2 }) {
 
 function checkInput(state, input, step, substep) {
 	const { k, V1, V2, p1, p2 } = getSolution(state)
-	const eo = data.equalityOptions
+	const eo = data.comparison
 
 	switch (step) {
 		case 1:

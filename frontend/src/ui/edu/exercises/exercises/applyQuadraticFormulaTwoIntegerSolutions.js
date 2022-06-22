@@ -76,7 +76,7 @@ const steps = [
 	},
 	{
 		Problem: (state) => {
-			const { D, x } = useSolution(state)
+			const { x } = useSolution(state)
 			return <>
 				<Par>Bepaal vanuit de discriminant hoeveel oplossingen de vergelijking heeft.</Par>
 				<InputSpace>

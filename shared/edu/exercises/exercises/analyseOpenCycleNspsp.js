@@ -10,7 +10,7 @@ const data = {
 	setup: combinerAnd('calculateOpenCycle', 'createOpenCycleEnergyOverview', 'calculateWithCOP', 'massFlowTrick'),
 	steps: ['calculateOpenCycle', 'createOpenCycleEnergyOverview', ['calculateWithCOP', 'massFlowTrick']],
 
-	equalityOptions: {
+	comparison: {
 		default: {
 			relativeMargin: 0.01,
 			significantDigitMargin: 1,
@@ -52,18 +52,18 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return performComparison(['p1', 'v1', 'T1', 'p2', 'v2', 'T2', 'p3', 'v3', 'T3', 'p4', 'v4', 'T4'], input, solution, data.equalityOptions)
+			return performComparison(['p1', 'v1', 'T1', 'p2', 'v2', 'T2', 'p3', 'v3', 'T3', 'p4', 'v4', 'T4'], input, solution, data.comparison)
 		case 2:
-			return performComparison(['q12', 'wt12', 'q23', 'wt23', 'q34', 'wt34', 'q41', 'wt41'], input, solution, data.equalityOptions)
+			return performComparison(['q12', 'wt12', 'q23', 'wt23', 'q34', 'wt34', 'q41', 'wt41'], input, solution, data.comparison)
 		case 3:
 			switch (substep) {
 				case 1:
-					return performComparison(['epsilon', 'COP'], input, solution, data.equalityOptions)
+					return performComparison(['epsilon', 'COP'], input, solution, data.comparison)
 				case 2:
-					return performComparison(['Ph'], input, solution, data.equalityOptions)
+					return performComparison(['Ph'], input, solution, data.comparison)
 			}
 		default:
-			return performComparison(['epsilon', 'COP', 'Ph'], input, solution, data.equalityOptions)
+			return performComparison(['epsilon', 'COP', 'Ph'], input, solution, data.comparison)
 	}
 }
 

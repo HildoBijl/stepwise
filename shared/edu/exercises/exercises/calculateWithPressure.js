@@ -2,6 +2,7 @@ const { getRandomInteger } = require('../../../inputTypes/Integer')
 const { getRandomExponentialFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Unit } = require('../../../inputTypes/Unit')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+const { performComparison } = require('../util/comparison')
 
 // Type 0: from Pa to bar.
 // Type 1: from Pa to SI (so Pa: which it already is in).
@@ -10,7 +11,7 @@ const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 
 const data = {
 	skill: 'calculateWithPressure',
-	equalityOptions: {
+	comparison: {
 		relativeMargin: 0.001,
 		significantDigitMargin: 0,
 		unitCheck: Unit.equalityTypes.sameUnits,
@@ -35,8 +36,9 @@ function getSolution({ p, type }) {
 	return (type === 0 ? p.setUnit('bar') : p)
 }
 
-function checkInput(state, { ans }) {
-	return getSolution(state).equals(ans, data.equalityOptions)
+function checkInput(state, input) {
+	const solution = getSolution(state)
+	return performComparison('ans', input, solution, data.comparison)
 }
 
 module.exports = {

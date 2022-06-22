@@ -4,9 +4,9 @@ import { getLoadMatching } from 'step-wise/edu/exercises/util/engineeringMechani
 
 import { getCountingWord } from 'util/language'
 
-export function getFBDFeedback(input, solution, equalityOptions, points) {
+export function getFBDFeedback(input, solution, comparison, points) {
 	// Set up a matching of loads, so we can give feedback on it.
-	const matching = getLoadMatching(input, solution, equalityOptions)
+	const matching = getLoadMatching(input, solution, comparison)
 
 	// Check if any input loads are not matched.
 	const unmatchedInputLoads = input.filter((_, index) => matching.input[index].length === 0)

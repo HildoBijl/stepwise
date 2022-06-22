@@ -51,7 +51,7 @@ module.exports.getDefaultMoment = (position, clockwise, opening = defaultMomentO
  */
 
 // By default we require strict equality: everything equal.
-const defaultEqualityOptions = {
+const defaultComparison = {
 	Force: {
 		requireSameDirection: true,
 		requireSameMagnitude: true,
@@ -65,10 +65,10 @@ const defaultEqualityOptions = {
 		requireSameOrientation: true, // Should the opening position also be the same?
 	},
 }
-module.exports.defaultEqualityOptions = defaultEqualityOptions
+module.exports.defaultComparison = defaultComparison
 
 // For FBD Inputs we require a very loose equality. Vectors may be flipped, shifted, resized, etcetera. They do must have one point in common.
-const FBDEqualityOptions = {
+const FBDComparison = {
 	Force: {
 		requireSameDirection: (_, solution) => solution.source === loadTypes.external, // Do require the same direction for external loads. Otherwise don't.
 		requireSameMagnitude: false,
@@ -82,10 +82,10 @@ const FBDEqualityOptions = {
 		requireSameOrientation: false,
 	}
 }
-module.exports.FBDEqualityOptions = FBDEqualityOptions
+module.exports.FBDComparison = FBDComparison
 
-function areLoadsEqual(input, solution, equalityOptions = {}) {
-	equalityOptions = resolveFunctions(equalityOptions, input, solution)
+function areLoadsEqual(input, solution, comparison = {}) {
+	comparison = resolveFunctions(comparison, input, solution)
 
 	// On unequal types the loads are not equal.
 	if (solution.type !== input.type)
@@ -93,9 +93,9 @@ function areLoadsEqual(input, solution, equalityOptions = {}) {
 	const type = solution.type
 
 	// Extract options for this particular load, if given.
-	if (equalityOptions[type])
-		equalityOptions = equalityOptions[type]
-	equalityOptions = processOptions(equalityOptions, defaultEqualityOptions[type])
+	if (comparison[type])
+		comparison = comparison[type]
+	comparison = processOptions(comparison, defaultComparison[type])
 
 	// Check all relevant load types.
 	switch (type) {
@@ -104,21 +104,21 @@ function areLoadsEqual(input, solution, equalityOptions = {}) {
 			const inputPV = input.positionedVector
 
 			// Check the magnitude.
-			if (equalityOptions.requireSameMagnitude && !solutionPV.vector.isEqualMagnitude(inputPV.vector))
+			if (comparison.requireSameMagnitude && !solutionPV.vector.isEqualMagnitude(inputPV.vector))
 				return false
 
 			// Check zero vectors.
-			if (equalityOptions.requireNonZero && (solutionPV.vector.isZero() || inputPV.vector.isZero()))
+			if (comparison.requireNonZero && (solutionPV.vector.isZero() || inputPV.vector.isZero()))
 				return false
 
 			// Check line and direction.
-			if (!solutionPV.alongEqualLine(inputPV, equalityOptions.requireSameDirection))
+			if (!solutionPV.alongEqualLine(inputPV, comparison.requireSameDirection))
 				return false
 
 			// Check matching points.
-			if (equalityOptions.requireMatchingPoints === 1 && !solutionPV.hasMatchingPoint(inputPV))
+			if (comparison.requireMatchingPoints === 1 && !solutionPV.hasMatchingPoint(inputPV))
 				return false
-			if (equalityOptions.requireMatchingPoints === 2 && !solutionPV.equals(inputPV) && !solutionPV.reverse().equals(inputPV))
+			if (comparison.requireMatchingPoints === 2 && !solutionPV.equals(inputPV) && !solutionPV.reverse().equals(inputPV))
 				return false
 
 			// All in order.
@@ -126,19 +126,19 @@ function areLoadsEqual(input, solution, equalityOptions = {}) {
 
 		case 'Moment':
 			// The moment must be at the same position.
-			if (equalityOptions.requireSamePosition && !solution.position.equals(input.position))
+			if (comparison.requireSamePosition && !solution.position.equals(input.position))
 				return false
 
 			// Check the direction.
-			if (equalityOptions.requireSameDirection && solution.clockwise !== input.clockwise)
+			if (comparison.requireSameDirection && solution.clockwise !== input.clockwise)
 				return false
 
 			// Check the magnitude.
-			if (equalityOptions.requireSameMagnitude && !compareNumbers(solution.radius === undefined ? defaultMomentRadius : solution.radius, input.radius === undefined ? defaultMomentRadius : input.radius))
+			if (comparison.requireSameMagnitude && !compareNumbers(solution.radius === undefined ? defaultMomentRadius : solution.radius, input.radius === undefined ? defaultMomentRadius : input.radius))
 				return false
 
 			// Check the orientation.
-			if (equalityOptions.requireSameOrientation && !compareNumbers(solution.opening === undefined ? defaultMomentOpening : solution.opening, input.opening === undefined ? defaultMomentOpening : input.opening))
+			if (comparison.requireSameOrientation && !compareNumbers(solution.opening === undefined ? defaultMomentOpening : solution.opening, input.opening === undefined ? defaultMomentOpening : input.opening))
 				return false
 
 			// All in order.
@@ -178,14 +178,14 @@ module.exports.doesLoadTouchRectangle = doesLoadTouchRectangle
  * Below are various checking functions for sets of loads.
  */
 
-// getLoadMatching takes two arrays of loads (input and solution) and checks which ones correspond to each other, given the equality options. If the equality options are an array, it is assumed this array corresponds to the solution array of loads. It returns an object { input: [...], solution: [...] } where inside the arrays are arrays of all loads matching to the corresponding load.
-function getLoadMatching(input, solution, equalityOptions) {
+// getLoadMatching takes two arrays of loads (input and solution) and checks which ones correspond to each other, given the comparison options. If the comparison options are an array, it is assumed this array corresponds to the solution array of loads. It returns an object { input: [...], solution: [...] } where inside the arrays are arrays of all loads matching to the corresponding load.
+function getLoadMatching(input, solution, comparison) {
 	const inputMatching = input.map(_ => [])
 	const solutionMatching = solution.map(_ => [])
 	solution.forEach((solutionLoad, solutionIndex) => {
 		input.forEach((inputLoad, inputIndex) => {
-			const currEqualityOptions = Array.isArray(equalityOptions) ? equalityOptions[solutionIndex] : equalityOptions
-			if (areLoadsEqual(inputLoad, solutionLoad, currEqualityOptions)) {
+			const currComparison = Array.isArray(comparison) ? comparison[solutionIndex] : comparison
+			if (areLoadsEqual(inputLoad, solutionLoad, currComparison)) {
 				inputMatching[inputIndex].push(solutionLoad)
 				solutionMatching[solutionIndex].push(inputLoad)
 			}
@@ -198,7 +198,7 @@ function getLoadMatching(input, solution, equalityOptions) {
 }
 module.exports.getLoadMatching = getLoadMatching
 
-// areLoadsMatching checks if two sets of loads are matching, given the equality options. That is, if for every solution load there is a corresponding input load.
+// areLoadsMatching checks if two sets of loads are matching, given the comparison options. That is, if for every solution load there is a corresponding input load.
 function areLoadsMatching(input, solution, options) {
 	return isMatchingComplete(getLoadMatching(input, solution, options))
 }

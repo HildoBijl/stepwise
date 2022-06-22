@@ -8,7 +8,7 @@ const data = {
 	setup: combinerAnd('poissonsLaw', combinerRepeat('calculateEntropyChange', 2), 'solveLinearEquation'),
 	steps: ['poissonsLaw', 'calculateEntropyChange', 'calculateSpecificHeatAndMechanicalWork', 'calculateEntropyChange', null, 'solveLinearEquation'],
 
-	equalityOptions: {
+	comparison: {
 		default: {
 			relativeMargin: 0.01,
 			significantDigitMargin: 1,
@@ -32,17 +32,17 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return performComparison('T2', input, solution, data.equalityOptions)
+			return performComparison('T2', input, solution, data.comparison)
 		case 2:
-			return performComparison('dsIn', input, solution, data.equalityOptions)
+			return performComparison('dsIn', input, solution, data.comparison)
 		case 3:
-			return performComparison('q', input, solution, data.equalityOptions)
+			return performComparison('q', input, solution, data.comparison)
 		case 4:
-			return performComparison('dsOut', input, solution, data.equalityOptions)
+			return performComparison('dsOut', input, solution, data.comparison)
 		case 5:
-			return performComparison('ds', input, solution, data.equalityOptions)
+			return performComparison('ds', input, solution, data.comparison)
 		default:
-			return performComparison('wm', input, solution, data.equalityOptions)
+			return performComparison('wm', input, solution, data.comparison)
 	}
 }
 

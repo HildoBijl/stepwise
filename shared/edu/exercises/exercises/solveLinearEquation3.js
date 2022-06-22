@@ -3,7 +3,7 @@ const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 
 const data = {
 	skill: 'solveLinearEquation',
-	equalityOptions: { significantDigitMargin: 1 },
+	comparison: { significantDigitMargin: 1 },
 }
 
 function generateState() {
@@ -40,7 +40,7 @@ function getSolution({ a, b, c, d }) {
 }
 
 function checkInput(state, { ans }) {
-	return getSolution(state).equals(ans, data.equalityOptions)
+	return getSolution(state).equals(ans, data.comparison)
 }
 
 module.exports = {

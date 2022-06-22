@@ -12,7 +12,7 @@ const data = {
 	steps: ['calculateWithTemperature', 'specificHeats', 'solveLinearEquation'],
 	weight: 2,
 
-	equalityOptions: {
+	comparison: {
 		default: {
 			relativeMargin: 0.015,
 			significantDigitMargin: 1,
@@ -73,11 +73,11 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return performComparison(['T1', 'T2'], input, solution, data.equalityOptions)
+			return performComparison(['T1', 'T2'], input, solution, data.comparison)
 		case 2:
-			return performComparison('c', input, solution, data.equalityOptions)
+			return performComparison('c', input, solution, data.comparison)
 		default:
-			return performComparison('dS', input, solution, data.equalityOptions)
+			return performComparison('dS', input, solution, data.comparison)
 	}
 }
 

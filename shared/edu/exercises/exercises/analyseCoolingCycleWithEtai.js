@@ -4,11 +4,11 @@ const { performComparison } = require('../util/comparison')
 const { getCycle } = require('./support/fridgeCycle')
 const refrigerantProperties = require('../../../data/refrigerantProperties')
 
-const hEqualityOptions = {
+const hComparison = {
 	absoluteMargin: 4000, // J/kg*K.
 	significantDigitMargin: 2,
 }
-const factorEqualityOptions = {
+const factorComparison = {
 	absoluteMargin: 0.3,
 	relativeMargin: 0.05,
 	significantDigitMargin: 2,
@@ -18,14 +18,14 @@ const data = {
 	setup: combinerAnd('createCoolingCycleOverview', 'useIsentropicEfficiency', 'calculateWithCOP', 'massFlowTrick'),
 	steps: ['createCoolingCycleOverview', 'useIsentropicEfficiency', ['calculateWithCOP', 'massFlowTrick']],
 
-	equalityOptions: {
-		h1: hEqualityOptions,
-		h2p: hEqualityOptions,
-		h2: hEqualityOptions,
-		h3: hEqualityOptions,
-		h4: hEqualityOptions,
-		epsilon: factorEqualityOptions,
-		COP: factorEqualityOptions,
+	comparison: {
+		h1: hComparison,
+		h2p: hComparison,
+		h2: hComparison,
+		h3: hComparison,
+		h4: hComparison,
+		epsilon: factorComparison,
+		COP: factorComparison,
 		mdot: {
 			relativeMargin: 0.1,
 			significantDigitMargin: 2,
@@ -92,18 +92,18 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return performComparison(['h1', 'h2p', 'h3', 'h4'], input, solution, data.equalityOptions)
+			return performComparison(['h1', 'h2p', 'h3', 'h4'], input, solution, data.comparison)
 		case 2:
-			return performComparison('h2', input, solution, data.equalityOptions)
+			return performComparison('h2', input, solution, data.comparison)
 		case 3:
 			switch (substep) {
 				case 1:
-					return performComparison(['epsilon', 'COP'], input, solution, data.equalityOptions)
+					return performComparison(['epsilon', 'COP'], input, solution, data.comparison)
 				case 2:
-					return performComparison('mdot', input, solution, data.equalityOptions)
+					return performComparison('mdot', input, solution, data.comparison)
 			}
 		default:
-			return performComparison(['epsilon', 'COP', 'mdot'], input, solution, data.equalityOptions)
+			return performComparison(['epsilon', 'COP', 'mdot'], input, solution, data.comparison)
 	}
 }
 

@@ -5,7 +5,7 @@ const { oxygen: { Rs } } = require('../../../data/gasProperties')
 const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
 const { performComparison } = require('../util/comparison')
 
-const equalityOptions = {
+const comparison = {
 	default: {
 		relativeMargin: 0.015,
 		significantDigitMargin: 1,
@@ -21,10 +21,10 @@ const data = {
 	setup: combinerAnd(combinerRepeat('gasLaw', 2), 'recognizeProcessTypes'),
 	steps: ['gasLaw', 'recognizeProcessTypes', 'gasLaw'],
 
-	equalityOptions: {
-		default: equalityOptions.default,
-		T1: equalityOptions.T,
-		T2: equalityOptions.T,
+	comparison: {
+		default: comparison.default,
+		T1: comparison.T,
+		T2: comparison.T,
 	},
 }
 
@@ -73,13 +73,13 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return performComparison(['p1', 'V1', 'T1'], input, solution, data.equalityOptions)
+			return performComparison(['p1', 'V1', 'T1'], input, solution, data.comparison)
 		case 2:
 			return input.process === 1
 		case 3:
-			return performComparison(['p2', 'V2', 'T2'], input, solution, data.equalityOptions)
+			return performComparison(['p2', 'V2', 'T2'], input, solution, data.comparison)
 		default:
-			return performComparison(['p1', 'V1', 'T1', 'p2', 'V2', 'T2'], input, solution, data.equalityOptions)
+			return performComparison(['p1', 'V1', 'T1', 'p2', 'V2', 'T2'], input, solution, data.comparison)
 	}
 }
 

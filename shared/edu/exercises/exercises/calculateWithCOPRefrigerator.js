@@ -5,7 +5,7 @@ const { performComparison } = require('../util/comparison')
 
 const data = {
 	skill: 'calculateWithCOP',
-	equalityOptions: { significantDigitMargin: 1 },
+	comparison: { significantDigitMargin: 1 },
 }
 
 function generateState() {
@@ -26,7 +26,7 @@ function getSolution({ Ee, Eout }) {
 }
 
 function checkInput(state, input, step, substep) {
-	return performComparison('epsilon', input, getSolution(state), data.equalityOptions)
+	return performComparison('epsilon', input, getSolution(state), data.comparison)
 }
 
 module.exports = {

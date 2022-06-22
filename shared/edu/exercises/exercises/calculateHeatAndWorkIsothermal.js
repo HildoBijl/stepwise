@@ -11,7 +11,7 @@ const data = {
 	setup: combinerAnd('recognizeProcessTypes', 'specificGasConstant', 'gasLaw', combinerOr('calculateWithMass', 'calculateWithTemperature')),
 	steps: ['recognizeProcessTypes', null, 'specificGasConstant', 'gasLaw', ['calculateWithMass', 'calculateWithTemperature'], 'solveLinearEquation'],
 
-	equalityOptions: {
+	comparison: {
 		default: {
 			relativeMargin: 0.01,
 			significantDigitMargin: 2,
@@ -77,16 +77,16 @@ function checkInput(state, input, step, substep) {
 		case 2:
 			return input.eq === solution.eq
 		case 3:
-			return performComparison('Rs', input, solution, data.equalityOptions)
+			return performComparison('Rs', input, solution, data.comparison)
 		case 4:
-			return performComparison('ratio', input, solution, data.equalityOptions)
+			return performComparison('ratio', input, solution, data.comparison)
 		case 5:
 			switch (substep) {
-				case 1: return performComparison('m', input, solution, data.equalityOptions)
-				case 2: return performComparison('T', input, solution, data.equalityOptions)
+				case 1: return performComparison('m', input, solution, data.comparison)
+				case 2: return performComparison('T', input, solution, data.comparison)
 			}
 		default:
-			return performComparison(['Q', 'W'], input, solution, data.equalityOptions)
+			return performComparison(['Q', 'W'], input, solution, data.comparison)
 	}
 }
 

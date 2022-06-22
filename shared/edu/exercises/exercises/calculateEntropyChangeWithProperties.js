@@ -9,7 +9,7 @@ const data = {
 	setup: combinerAnd('calculateWithTemperature', 'specificGasConstant', 'specificHeats', 'solveLinearEquation'),
 	steps: ['calculateWithTemperature', ['specificGasConstant', 'specificHeats'], 'solveLinearEquation'],
 
-	equalityOptions: {
+	comparison: {
 		default: {
 			relativeMargin: 0.01,
 			significantDigitMargin: 1,
@@ -60,16 +60,16 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return performComparison('T2', input, solution, data.equalityOptions)
+			return performComparison('T2', input, solution, data.comparison)
 		case 2:
 			switch (substep) {
 				case 1:
-					return performComparison('Rs', input, solution, data.equalityOptions)
+					return performComparison('Rs', input, solution, data.comparison)
 				case 2:
-					return performComparison('cp', input, solution, data.equalityOptions)
+					return performComparison('cp', input, solution, data.comparison)
 			}
 		default:
-			return performComparison('ds', input, solution, data.equalityOptions)
+			return performComparison('ds', input, solution, data.comparison)
 	}
 }
 

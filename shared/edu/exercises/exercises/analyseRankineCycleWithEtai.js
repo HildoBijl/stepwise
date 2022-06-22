@@ -11,7 +11,7 @@ const data = {
 	setup: combinerAnd('createRankineCycleOverview', 'useIsentropicEfficiency', 'calculateWithEfficiency', 'massFlowTrick'),
 	steps: ['createRankineCycleOverview', 'useIsentropicEfficiency', ['calculateWithEfficiency', 'massFlowTrick']],
 
-	equalityOptions: {
+	comparison: {
 		default: {
 			relativeMargin: 0.01,
 			significantDigitMargin: 2,
@@ -83,18 +83,18 @@ function checkInput(state, input, step, substep) {
 	const toCheck = state.type === 1 ? 'P' : 'mdot'
 	switch (step) {
 		case 1:
-			return performComparison(['h1', 'h2', 'h3p', 'h4'], input, solution, data.equalityOptions)
+			return performComparison(['h1', 'h2', 'h3p', 'h4'], input, solution, data.comparison)
 		case 2:
-			return performComparison('h3', input, solution, data.equalityOptions)
+			return performComparison('h3', input, solution, data.comparison)
 		case 3:
 			switch (substep) {
 				case 1:
-					return performComparison('eta', input, solution, data.equalityOptions)
+					return performComparison('eta', input, solution, data.comparison)
 				case 2:
-					return performComparison(toCheck, input, solution, data.equalityOptions)
+					return performComparison(toCheck, input, solution, data.comparison)
 			}
 		default:
-			return performComparison(['eta', toCheck], input, solution, data.equalityOptions)
+			return performComparison(['eta', toCheck], input, solution, data.comparison)
 	}
 }
 

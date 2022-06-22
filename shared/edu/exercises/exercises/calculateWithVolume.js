@@ -3,6 +3,7 @@ const { getRandomExponentialFloatUnit } = require('../../../inputTypes/FloatUnit
 const { Unit } = require('../../../inputTypes/Unit')
 const { selectRandomly } = require('../../../util/random')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+const { performComparison } = require('../util/comparison')
 
 // Type 0: from (c/d/.)m^3 to liter.
 // Type 1: from (c/d/.)m^3 to SI (so m^3: which it may already be in).
@@ -11,7 +12,7 @@ const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 
 const data = {
 	skill: 'calculateWithVolume',
-	equalityOptions: {
+	comparison: {
 		relativeMargin: 0.001,
 		significantDigitMargin: 0,
 		unitCheck: Unit.equalityTypes.exact,
@@ -42,8 +43,9 @@ function getSolution({ V, type }) {
 	return (type === 0 ? V.setUnit('l') : V)
 }
 
-function checkInput(state, { ans }) {
-	return getSolution(state).equals(ans, data.equalityOptions)
+function checkInput(state, input) {
+	const solution = getSolution(state)
+	return performComparison('ans', input, solution, data.comparison)
 }
 
 module.exports = {

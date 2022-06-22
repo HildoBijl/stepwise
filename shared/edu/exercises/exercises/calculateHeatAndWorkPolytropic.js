@@ -11,7 +11,7 @@ const data = {
 	setup: combinerAnd('recognizeProcessTypes', combinerOr('specificGasConstant', 'specificHeats'), combinerOr('calculateWithMass', 'calculateWithTemperature')),
 	steps: ['recognizeProcessTypes', null, ['specificGasConstant', 'specificHeats'], null, ['calculateWithMass', 'calculateWithTemperature'], 'solveLinearEquation'],
 
-	equalityOptions: {
+	comparison: {
 		m: {
 			relativeMargin: 0.001,
 			unitCheck: Unit.equalityTypes.exact,
@@ -94,18 +94,18 @@ function checkInput(state, input, step, substep) {
 			return input.eq === solution.eq
 		case 3:
 			switch (substep) {
-				case 1: return performComparison('Rs', input, solution, data.equalityOptions)
-				case 2: return performComparison('cv', input, solution, data.equalityOptions)
+				case 1: return performComparison('Rs', input, solution, data.comparison)
+				case 2: return performComparison('cv', input, solution, data.comparison)
 			}
 		case 4:
-				return performComparison('c', input, solution, data.equalityOptions)
+				return performComparison('c', input, solution, data.comparison)
 		case 5:
 			switch (substep) {
-				case 1: return performComparison('m', input, solution, data.equalityOptions)
-				case 2: return performComparison(['T1','T2'], input, solution, data.equalityOptions)
+				case 1: return performComparison('m', input, solution, data.comparison)
+				case 2: return performComparison(['T1','T2'], input, solution, data.comparison)
 			}
 		default:
-			return performComparison(['Q', 'W'], input, solution, data.equalityOptions)
+			return performComparison(['Q', 'W'], input, solution, data.comparison)
 	}
 }
 

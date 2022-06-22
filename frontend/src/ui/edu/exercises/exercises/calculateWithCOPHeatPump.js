@@ -33,9 +33,9 @@ function Solution({ Pe, Pin }) {
 
 function getFeedback(exerciseData) {
 	// Check for a common error.
-	const { input: { COP }, state, shared: { getSolution, data: { equalityOptions } } } = exerciseData
+	const { input: { COP }, state, shared: { getSolution, data: { comparison } } } = exerciseData
 	const solution = getSolution(state)
-	if (solution.subtract(1).equals(COP, equalityOptions))
+	if (solution.subtract(1).equals(COP, comparison))
 		return { COP: { correct: false, text: 'Bijna! Kijk nog eens goed naar welke energie we echt als "nuttig" zien.' } }
 
 	// Give default feedback.

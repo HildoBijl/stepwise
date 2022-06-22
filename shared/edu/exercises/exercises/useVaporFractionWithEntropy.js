@@ -11,7 +11,7 @@ const data = {
 	setup: combinerAnd('lookUpSteamProperties', 'linearInterpolation'),
 	steps: ['lookUpSteamProperties', 'linearInterpolation', 'linearInterpolation'],
 
-	equalityOptions: {
+	comparison: {
 		default: {
 			relativeMargin: 0.001,
 		},
@@ -65,11 +65,11 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return performComparison(['hx0', 'hx1', 'sx0', 'sx1'], input, solution, data.equalityOptions)
+			return performComparison(['hx0', 'hx1', 'sx0', 'sx1'], input, solution, data.comparison)
 		case 2:
-			return performComparison('x', input, solution, data.equalityOptions)
+			return performComparison('x', input, solution, data.comparison)
 		default:
-			return performComparison('h', input, solution, data.equalityOptions)
+			return performComparison('h', input, solution, data.comparison)
 	}
 }
 

@@ -9,7 +9,7 @@ const data = {
 	setup: combinerRepeat('calculateOpenProcessStep', 3),
 	steps: ['calculateOpenProcessStep', 'calculateOpenProcessStep', 'calculateOpenProcessStep'],
 
-	equalityOptions: {
+	comparison: {
 		default: {
 			relativeMargin: 0.015,
 			significantDigitMargin: 1,
@@ -66,13 +66,13 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return performComparison(['p1', 'v1', 'T1', 'p2', 'v2', 'T2'], input, solution, data.equalityOptions)
+			return performComparison(['p1', 'v1', 'T1', 'p2', 'v2', 'T2'], input, solution, data.comparison)
 		case 2:
-			return performComparison(['p4', 'v4', 'T4'], input, solution, data.equalityOptions)
+			return performComparison(['p4', 'v4', 'T4'], input, solution, data.comparison)
 		case 3:
-			return performComparison(['p3', 'v3', 'T3'], input, solution, data.equalityOptions)
+			return performComparison(['p3', 'v3', 'T3'], input, solution, data.comparison)
 		default:
-			return performComparison(['p1', 'v1', 'T1', 'p2', 'v2', 'T2', 'p3', 'v3', 'T3', 'p4', 'v4', 'T4'], input, solution, data.equalityOptions)
+			return performComparison(['p1', 'v1', 'T1', 'p2', 'v2', 'T2', 'p3', 'v3', 'T3', 'p4', 'v4', 'T4'], input, solution, data.comparison)
 	}
 }
 

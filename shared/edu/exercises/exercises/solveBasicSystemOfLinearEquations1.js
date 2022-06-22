@@ -20,7 +20,7 @@ const data = {
 		eq1Solution: expressionComparisons.equivalent,
 		eq2Substituted: equationComparisons.equivalent,
 	},
-	equalityOptions: {
+	comparison: {
 		x: {},
 		y: {},
 	},
@@ -72,15 +72,15 @@ function getSolution(state) {
 function checkInput(state, input, step) {
 	const solution = getSolution(state)
 	if (step === 0)
-		return performComparison(['x', 'y'], input, solution, data.equalityOptions)
+		return performComparison(['x', 'y'], input, solution, data.comparison)
 	if (step === 1)
 		return performComparison(['eq1Solution'], input, solution, data.comparison)
 	if (step === 2)
 		return performComparison(['eq2Substituted'], input, solution, data.comparison)
 	if (step === 3)
-		return performComparison(['y'], input, solution, data.equalityOptions)
+		return performComparison(['y'], input, solution, data.comparison)
 	if (step === 4)
-		return performComparison(['x'], input, solution, data.equalityOptions)
+		return performComparison(['x'], input, solution, data.comparison)
 }
 
 module.exports = {

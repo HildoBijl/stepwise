@@ -103,7 +103,7 @@ const getFeedback = (exerciseData) => {
 	}
 
 	// If p1 and p2 have different units, then note this.
-	if (input.p1 && input.p2 && !input.p1.unit.equals(input.p2.unit, data.equalityOptions.pUnit)) {
+	if (input.p1 && input.p2 && !input.p1.unit.equals(input.p2.unit, data.comparison.pUnit)) {
 		const addedFeedback = { correct: false, text: <span>De eenheden van <M>p_1</M> en <M>p_2</M> moeten gelijk zijn.</span> }
 		feedback.p1 = addedFeedback
 		feedback.p2 = addedFeedback

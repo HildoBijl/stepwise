@@ -11,7 +11,7 @@ const data = {
 	setup: combinerAnd('recognizeProcessTypes', 'specificGasConstant', 'gasLaw', 'calculateWithTemperature', 'calculateWithSpecificQuantities'),
 	steps: ['recognizeProcessTypes', null, 'specificGasConstant', 'gasLaw', 'calculateWithTemperature', 'calculateWithSpecificQuantities'],
 
-	equalityOptions: {
+	comparison: {
 		Rs: {
 			relativeMargin: 0.015,
 		},
@@ -77,13 +77,13 @@ function checkInput(state, input, step, substep) {
 		case 2:
 			return input.eq === solution.eq
 		case 3:
-			return performComparison('Rs', input, solution, data.equalityOptions)
+			return performComparison('Rs', input, solution, data.comparison)
 		case 4:
-			return performComparison('ratio', input, solution, data.equalityOptions)
+			return performComparison('ratio', input, solution, data.comparison)
 		case 5:
-			return performComparison('T', input, solution, data.equalityOptions)
+			return performComparison('T', input, solution, data.comparison)
 		default:
-			return performComparison(['q', 'wt'], input, solution, data.equalityOptions)
+			return performComparison(['q', 'wt'], input, solution, data.comparison)
 	}
 }
 

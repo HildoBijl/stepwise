@@ -10,7 +10,7 @@ const data = {
 	setup: combinerAnd('calculateHeatAndWork', 'solveLinearEquation'),
 	steps: ['calculateHeatAndWork', 'solveLinearEquation'],
 
-	equalityOptions: {
+	comparison: {
 		default: {
 			relativeMargin: 0.01,
 			significantDigitMargin: 1,
@@ -50,9 +50,9 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return performComparison(['Q', 'W'], input, solution, data.equalityOptions)
+			return performComparison(['Q', 'W'], input, solution, data.comparison)
 		default:
-			return performComparison('dU', input, solution, data.equalityOptions)
+			return performComparison('dU', input, solution, data.comparison)
 	}
 }
 

@@ -9,7 +9,7 @@ const data = {
 	setup: combinerAnd('poissonsLaw', combinerRepeat('calculateSpecificHeatAndMechanicalWork', 2), 'solveLinearEquation'),
 	steps: ['poissonsLaw', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation', 'calculateSpecificHeatAndMechanicalWork'],
 
-	equalityOptions: {
+	comparison: {
 		default: {
 			relativeMargin: 0.01,
 			significantDigitMargin: 1,
@@ -39,13 +39,13 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return performComparison('T2p', input, solution, data.equalityOptions)
+			return performComparison('T2p', input, solution, data.comparison)
 		case 2:
-			return performComparison('wti', input, solution, data.equalityOptions)
+			return performComparison('wti', input, solution, data.comparison)
 		case 3:
-			return performComparison('wt', input, solution, data.equalityOptions)
+			return performComparison('wt', input, solution, data.comparison)
 		default:
-			return performComparison('T2', input, solution, data.equalityOptions)
+			return performComparison('T2', input, solution, data.comparison)
 	}
 }
 

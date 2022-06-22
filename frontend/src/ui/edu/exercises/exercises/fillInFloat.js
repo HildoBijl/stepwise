@@ -26,19 +26,19 @@ function Solution({ x }) {
 	return <Par>Je klikt op het invoervak en typt <M>{x}</M> in. {x.power !== 0 ? 'Voor de tienmacht gebruik je het keer-teken "*". Je hoeft dan de "10" niet zelf te typen: dat snapt het invoerveld vanzelf. Eventueel is de shortcut "e" (vanuit de wetenschappelijke notatie) ook mogelijk.' : ''}</Par>
 }
 
-function getFeedback({ state: { x }, input: { ans }, progress: { solved }, shared: { data: { equalityOptions } } }) {
+function getFeedback({ state: { x }, input: { ans }, progress: { solved }, shared: { data: { comparison } } }) {
 	const correct = !!solved
 	if (correct)
 		return { ans: { correct, text: selectRandomCorrect() } }
 
-	const comparison = ans.checkEquality(x, equalityOptions)
+	const equalityData = ans.checkEquality(x, comparison)
 	return {
 		ans: {
 			correct,
-			text: comparison.magnitude !== 'OK' ?
+			text: equalityData.magnitude !== 'OK' ?
 				'Je hebt het verkeerde getal ingevoerd.' :
-				comparison.numSignificantDigits !== 'OK' ?
-					`Je hebt ${comparison.numSignificantDigits === 'TooSmall' ? 'te weinig' : 'te veel'} significante getallen.` : selectRandomIncorrect()
+				equalityData.numSignificantDigits !== 'OK' ?
+					`Je hebt ${equalityData.numSignificantDigits === 'TooSmall' ? 'te weinig' : 'te veel'} significante getallen.` : selectRandomIncorrect()
 		}
 	}
 }

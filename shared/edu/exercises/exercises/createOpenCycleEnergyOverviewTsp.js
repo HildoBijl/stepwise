@@ -10,7 +10,7 @@ const data = {
 	setup: combinerRepeat('calculateSpecificHeatAndMechanicalWork', 3),
 	steps: ['calculateSpecificHeatAndMechanicalWork', 'calculateSpecificHeatAndMechanicalWork', combinerOr('calculateSpecificHeatAndMechanicalWork', 'calculateWithEnthalpy')],
 
-	equalityOptions: {
+	comparison: {
 		default: {
 			relativeMargin: 0.02,
 			significantDigitMargin: 1,
@@ -52,13 +52,13 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return performComparison(['q12', 'wt12'], input, solution, data.equalityOptions)
+			return performComparison(['q12', 'wt12'], input, solution, data.comparison)
 		case 2:
-			return performComparison(['q23', 'wt23'], input, solution, data.equalityOptions)
+			return performComparison(['q23', 'wt23'], input, solution, data.comparison)
 		case 3:
-			return performComparison(['q31', 'wt31'], input, solution, data.equalityOptions)
+			return performComparison(['q31', 'wt31'], input, solution, data.comparison)
 		default:
-			return performComparison(['q12', 'wt12', 'q23', 'wt23', 'q31', 'wt31'], input, solution, data.equalityOptions)
+			return performComparison(['q12', 'wt12', 'q23', 'wt23', 'q31', 'wt31'], input, solution, data.comparison)
 	}
 }
 

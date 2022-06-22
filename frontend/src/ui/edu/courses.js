@@ -82,7 +82,7 @@ const courses = {
 
 	exactawiskunde: {
 		name: 'Exacte Wetenschap A - Wiskunde',
-		goals: ['solveGeneralLinearEquation', 'solveGeneralSystemOfLinearEquations', 'applyQuadraticFormula'],
+		goals: ['solveBasicSystemOfLinearEquations', 'solveGeneralSystemOfLinearEquations', 'applyQuadraticFormula'],
 		priorKnowledge: [],
 		startingPoints: [
 			'expandBrackets',
@@ -99,7 +99,7 @@ const courses = {
 			},
 			{
 				name: 'Lineaire vergelijkingen',
-				goals: ['pullOutOfBrackets', 'solveGeneralLinearEquation'],
+				goals: ['solveGeneralLinearEquation'],
 			},
 			{
 				name: 'Hoeken en afstanden',

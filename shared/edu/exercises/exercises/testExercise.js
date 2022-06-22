@@ -2,13 +2,13 @@ const { getRandomInteger } = require('../../../inputTypes/Integer')
 const { Vector } = require('../../../geometry')
 
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { loadTypes, getDefaultForce, getDefaultMoment, FBDEqualityOptions, areLoadsMatching } = require('../util/engineeringMechanics')
+const { loadTypes, getDefaultForce, getDefaultMoment, FBDComparison, areLoadsMatching } = require('../util/engineeringMechanics')
 
 const { reaction, external } = loadTypes
 
 const data = {
 	skill: 'test',
-	equalityOptions: FBDEqualityOptions,
+	comparison: FBDComparison,
 }
 
 function generateState() {
@@ -49,7 +49,7 @@ function getSolution(state) {
 
 function checkInput(state, input) {
 	const solution = getSolution(state)
-	return areLoadsMatching(input.beam, solution.beam, data.equalityOptions)
+	return areLoadsMatching(input.beam, solution.beam, data.comparison)
 }
 
 module.exports = {

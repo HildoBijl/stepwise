@@ -8,7 +8,7 @@ const data = {
 	setup: combinerAnd('massFlowTrick', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation'),
 	steps: ['massFlowTrick', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation'],
 
-	equalityOptions: {
+	comparison: {
 		default: {
 			relativeMargin: 0.01,
 			significantDigitMargin: 1,
@@ -45,11 +45,11 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return performComparison('wt', input, solution, data.equalityOptions)
+			return performComparison('wt', input, solution, data.comparison)
 		case 2:
-			return performComparison('q', input, solution, data.equalityOptions)
+			return performComparison('q', input, solution, data.comparison)
 		default:
-			return performComparison('dh', input, solution, data.equalityOptions)
+			return performComparison('dh', input, solution, data.comparison)
 	}
 }
 

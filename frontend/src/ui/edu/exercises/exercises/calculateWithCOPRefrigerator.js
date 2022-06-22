@@ -34,9 +34,9 @@ function Solution({ Ee, Eout }) {
 
 function getFeedback(exerciseData) {
 	// Check for a common error.
-	const { input: { epsilon }, state, shared: { getSolution, data: { equalityOptions } } } = exerciseData
+	const { input: { epsilon }, state, shared: { getSolution, data: { comparison } } } = exerciseData
 	const solution = getSolution(state)
-	if (solution.add(1).equals(epsilon, equalityOptions))
+	if (solution.add(1).equals(epsilon, comparison))
 		return { epsilon: { correct: false, text: 'Bijna! Kijk nog eens goed naar welke energie we echt als "nuttig" zien.' } }
 
 	// Give default feedback.

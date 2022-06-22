@@ -76,7 +76,7 @@ function Solution({ index }) {
 	// return <Par>Je typt letterlijk <M>{solution}</M> in het invoerveld.</Par>
 }
 
-function getFeedback({ state: { constant }, input: { ans }, progress: { solved }, shared: { data: { equalityOptions } } }) {
+function getFeedback({ state: { constant }, input: { ans }, progress: { solved }, shared: { data: { comparison } } }) {
 	const correct = !!solved
 	if (correct)
 		return { ans: { correct, text: selectRandomCorrect() } }

@@ -9,7 +9,7 @@ const data = {
 	setup: combinerRepeat('solveLinearEquation', 2),
 	steps: ['solveLinearEquation', 'solveLinearEquation'],
 
-	equalityOptions: {
+	comparison: {
 		default: {
 			absoluteMargin: 1,
 		},
@@ -55,9 +55,9 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return performComparison('x', input, solution, data.equalityOptions)
+			return performComparison('x', input, solution, data.comparison)
 		default:
-			return performComparison(state.type === 1 ? 'pop' : 'year', input, solution, data.equalityOptions)
+			return performComparison(state.type === 1 ? 'pop' : 'year', input, solution, data.comparison)
 	}
 }
 

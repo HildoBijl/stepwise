@@ -10,7 +10,7 @@ const data = {
 	setup: combinerAnd('gasLaw', 'specificHeats', 'solveLinearEquation'),
 	steps: ['gasLaw', 'specificHeats', 'solveLinearEquation'],
 
-	equalityOptions: {
+	comparison: {
 		default: {
 			relativeMargin: 0.01,
 			significantDigitMargin: 1,
@@ -61,11 +61,11 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return performComparison('m', input, solution, data.equalityOptions)
+			return performComparison('m', input, solution, data.comparison)
 		case 2:
-			return performComparison('cv', input, solution, data.equalityOptions)
+			return performComparison('cv', input, solution, data.comparison)
 		default:
-			return performComparison('dU', input, solution, data.equalityOptions)
+			return performComparison('dU', input, solution, data.comparison)
 	}
 }
 

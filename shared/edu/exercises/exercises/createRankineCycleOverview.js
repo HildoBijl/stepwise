@@ -10,7 +10,7 @@ const data = {
 	setup: combinerAnd(combinerRepeat('lookUpSteamProperties', 2), 'recognizeProcessTypes', 'useVaporFraction'),
 	steps: ['lookUpSteamProperties', null, 'lookUpSteamProperties', 'recognizeProcessTypes', 'useVaporFraction'],
 
-	equalityOptions: {
+	comparison: {
 		default: {
 			relativeMargin: 0.002,
 			significantDigitMargin: 2,
@@ -56,17 +56,17 @@ function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
-			return performComparison('h4', input, solution, data.equalityOptions)
+			return performComparison('h4', input, solution, data.comparison)
 		case 2:
-			return performComparison('h1', input, solution, data.equalityOptions)
+			return performComparison('h1', input, solution, data.comparison)
 		case 3:
-			return performComparison(['h2', 's2'], input, solution, data.equalityOptions)
+			return performComparison(['h2', 's2'], input, solution, data.comparison)
 		case 4:
-			return performComparison('s3', input, solution, data.equalityOptions)
+			return performComparison('s3', input, solution, data.comparison)
 		case 5:
-			return performComparison('h3', input, solution, data.equalityOptions)
+			return performComparison('h3', input, solution, data.comparison)
 		default:
-			return performComparison(['h1', 'h2', 'h3', 'h4'], input, solution, data.equalityOptions)
+			return performComparison(['h1', 'h2', 'h3', 'h4'], input, solution, data.comparison)
 	}
 }
 

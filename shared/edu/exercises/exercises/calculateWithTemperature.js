@@ -2,6 +2,7 @@ const { getRandomInteger } = require('../../../inputTypes/Integer')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Unit } = require('../../../inputTypes/Unit')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+const { performComparison } = require('../util/comparison')
 
 // Type 0: from K to °C.
 // Type 1: from K to SI (so K: which it already is in).
@@ -10,7 +11,7 @@ const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 
 const data = {
 	skill: 'calculateWithTemperature',
-	equalityOptions: {
+	comparison: {
 		absoluteMargin: 0.7,
 		significantDigitMargin: 1,
 		unitCheck: Unit.equalityTypes.sameUnits,
@@ -35,8 +36,9 @@ function getSolution({ T, type }) {
 	return (type === 0 ? T.setUnit('dC') : T)
 }
 
-function checkInput(state, { ans }) {
-	return getSolution(state).equals(ans, data.equalityOptions)
+function checkInput(state, input) {
+	const solution = getSolution(state)
+	return performComparison('ans', input, solution, data.comparison)
 }
 
 module.exports = {

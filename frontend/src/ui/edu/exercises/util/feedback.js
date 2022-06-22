@@ -1,23 +1,22 @@
 import { arrayFind } from 'step-wise/util/arrays'
-import { selectRandomly, selectRandomCorrect, selectRandomIncorrect } from 'step-wise/util/random'
+import { selectRandomly, selectRandomCorrect, selectRandomIncorrect, selectRandomDuplicate } from 'step-wise/util/random'
 import { processOptions, deepEquals, getPropertyOrDefault } from 'step-wise/util/objects'
 import { checkNumberEquality, areNumbersEqual } from 'step-wise/inputTypes/Integer'
 import { Float } from 'step-wise/inputTypes/Float'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 import { Expression, Equation } from 'step-wise/CAS'
-import { performComparison } from 'step-wise/edu/exercises/util/comparison'
+import { performIndividualListComparison } from 'step-wise/edu/exercises/util/comparison'
 
-const defaultComparisonOptions = {
+const defaultOptions = {
 	// These are options automatically added, based on exerciseData.
-	equalityOptions: {}, // Options with which to compare equality. Mainly used for comparing numbers/units.
-	comparison: undefined, // A comparison function that will be used to check for correctness. Mainly used for comparing expressions/equations.
+	comparison: undefined, // A comparison function or object that will be used to check for correctness.
 	prevInput: undefined,
 	prevFeedback: undefined,
 	solution: {}, // This will contain the full "solution" object returned from the getSolution function. 
 
 	// These are options that can be manually added.
 	text: {}, // The text to use in various cases.
-	feedbackChecks: [], // Extra checks that can be performed to give specific feedback to the user based on the provided input. All feedback checks are of the form (input, correct, solution, isCorrect, exerciseData) => <>SomeMessage</>. Here "correct" is the correct answer (obtained from the solution) and isCorrect is true/false, indicating whether it was graded to be equal. The first check that returns something truthy will be used.
+	feedbackChecks: [], // Extra checks that can be performed to give specific feedback to the user based on the provided input. All feedback checks are of the form (currInput, currSolution, solution, isCorrect, exerciseData) => <>SomeMessage</>. Here "currSolution" refers to the solution for this parameter, while "solution" is the full solution object returned from the getSolution function. isCorrect is true/false, indicating whether it was graded to be equal. The first check that returns something truthy will be used.
 }
 
 const accuracyFactorForNearHits = 4
@@ -44,33 +43,28 @@ export function getAllInputFieldsFeedbackExcluding(excludedFields) {
 /* getInputFieldFeedback takes an array of parameter names (like ['p1', 'p2', 'V1', 'V2']) and provides feedback on these parameters. It is also possible to give a single parameter 'p1'. The function has three input arguments.
  * - parameters: an array of IDs.
  * - exerciseData: the full exerciseData object. This contains:
- *   x input: this is used to extract the given answers from. 
- *   x getSolution: this is used to get the correct answers.
- *   x data: from the shared file. This may contain "equalityOptions" for Float/FloatUnit comparisons, or "check" for Expression/Equation comparison.
- * - options: an array of options per parameter.
- * If the parameters array is a single string, the extraOptions may also be a single object. That is, this function also works for single parameters.
+ *   x state: the state of the exercise.
+ *   x input: what the user provided.
+ *   x progress: the progress made so far.
+ *   x shared: the data from the shared file of the exercise.
+ *   x solution: if the shared file has a getSolution function, this is called on the state and the corresponding solution is added.
+ *   x more ... run a console.log to see what else is available.
+ * - options: an array of extra options per parameter. This is on top of what the feedback function already adds by default. See the defaultOptions object above.
+ * If the parameters array is a single string, the options may also be a single object. That is, this function also works for single parameters.
  * 
- * The outcome of this function is a feedback object for each respective parameter. So { p1: { correct: false, text: 'Nope!' }, p2: { ... } }.
+ * The outcome of this function is a feedback object for each respective parameter. So { x1: { correct: false, text: 'Nope!' }, x2: { ... } }.
  */
-export function getInputFieldFeedback(parameters, exerciseData, extraOptions) {
+export function getInputFieldFeedback(parameters, exerciseData, options) {
 	// Check if we have one or multiple parameters.
 	let singleParameter = false
 	if (!Array.isArray(parameters)) {
 		singleParameter = true
 		parameters = [parameters]
-		extraOptions = [extraOptions]
+		options = [options]
 	}
 
 	// Extract parameters and check that they are suitable.
-	const { input, shared, prevInput, prevFeedback, solution } = exerciseData
-	const { data } = shared
-	if (!data)
-		throw new Error(`Default feedback error: could not find a "data" parameter in the shared file.`)
-	if (!solution)
-		throw new Error(`Default feedback error: could not find a "getSolution" function exported from the shared file.`)
-
-	// Extract the way in which the answers are checked.
-	const { equalityOptions, comparison } = data
+	const { input, prevInput, prevFeedback, solution, comparison } = extractComparisonFromExerciseData(exerciseData)
 
 	// Walk through the parameters and incorporate feedback.
 	const feedback = {}
@@ -80,63 +74,60 @@ export function getInputFieldFeedback(parameters, exerciseData, extraOptions) {
 			return
 
 		// Get the input.
-		const inputAnswer = input[currParameter]
-		if (inputAnswer === undefined)
+		const currInput = input[currParameter]
+		if (currInput === undefined)
 			return // No input has been given yet.
 
 		// If we had exactly the same input before, return the same feedback.
 		const prevInputAnswer = prevInput[currParameter]
-		if (prevInputAnswer !== undefined && (inputAnswer === prevInputAnswer || deepEquals(inputAnswer.SO, prevInputAnswer.SO))) {
+		if (prevInputAnswer !== undefined && (currInput === prevInputAnswer || deepEquals(currInput.SO, prevInputAnswer.SO))) {
 			feedback[currParameter] = prevFeedback[currParameter]
 			return
 		}
 
 		// Get the correct answer and other data to check the answer.
-		const correctAnswer = getPropertyOrDefault(solution, currParameter, false, singleParameter, true)
-		const currEqualityOptions = getPropertyOrDefault(equalityOptions, currParameter, true, singleParameter, false)
+		const currSolution = getPropertyOrDefault(solution, currParameter, false, singleParameter, true)
 		const currComparison = getPropertyOrDefault(comparison, currParameter, true, singleParameter, false)
-		const currExtraOptions = (extraOptions && extraOptions[index]) || {}
+		const currExtraOptions = (options && options[index]) || {}
 
 		// Assemble the options for the comparison.
-		const options = { equalityOptions: currEqualityOptions, comparison: currComparison, prevInput: prevInput[currParameter], prevFeedback: prevFeedback[currParameter], solution, ...currExtraOptions }
+		const currOptions = { comparison: currComparison, prevInput: prevInput[currParameter], prevFeedback: prevFeedback[currParameter], solution, ...currExtraOptions }
 
-		// Call the comparison function for the correct parameter type. First check if it's a pure number.
-		const isInputANumber = inputAnswer.constructor === (0).constructor
-		const isCorrectANumber = correctAnswer.constructor === (0).constructor
-		if (isInputANumber || isCorrectANumber) {
-			const inputAsNumber = (isInputANumber ? inputAnswer : inputAnswer.number)
-			const correctAsNumber = (isCorrectANumber ? correctAnswer : correctAnswer.number)
-			feedback[currParameter] = getNumberComparisonFeedback(correctAsNumber, inputAsNumber, options, exerciseData)
-			return
-		}
-
-		// It's not a pure number. Try various other parameter types.
-		if (inputAnswer.constructor === Float) {
-			feedback[currParameter] = getFloatComparisonFeedback(inputAnswer, correctAnswer, options, exerciseData)
-			return
-		}
-		if (inputAnswer.constructor === FloatUnit) {
-			feedback[currParameter] = getFloatUnitComparisonFeedback(inputAnswer, correctAnswer, options, exerciseData)
-			return
-		}
-		if (inputAnswer instanceof Expression) {
-			feedback[currParameter] = getExpressionComparisonFeedback(inputAnswer, correctAnswer, options, exerciseData)
-			return
-		}
-		if (inputAnswer.constructor === Equation) {
-			feedback[currParameter] = getExpressionComparisonFeedback(inputAnswer, correctAnswer, options, exerciseData) // Deal with Equations in the same way as Expressions.
-			return
-		}
-
-		throw new Error(`Default feedback error: could not determine the type of parameter "${currParameter}". No comparison could be made.`)
+		// Extract the feedback and save it.
+		feedback[currParameter] = getIndividualInputFieldFeedback(currParameter, currInput, currSolution, currOptions, exerciseData)
 	})
 
 	// All done! Return feedback.
 	return feedback
 }
 
+// getIndividualInputFieldFeedback extracts feedback for a single input parameter. It checks which type it is and calls the appropriate function.
+function getIndividualInputFieldFeedback(currParameter, currInput, currSolution, currOptions, exerciseData) {
+	// For a pure number call the number comparison feedback.
+	const isInputANumber = currInput.constructor === (0).constructor
+	const isCorrectANumber = currSolution.constructor === (0).constructor
+	if (isInputANumber || isCorrectANumber) {
+		const inputAsNumber = (isInputANumber ? currInput : currInput.number)
+		const correctAsNumber = (isCorrectANumber ? currSolution : currSolution.number)
+		return getNumberComparisonFeedback(correctAsNumber, inputAsNumber, currOptions, exerciseData)
+	}
+
+	// It's not a pure number. Try various other parameter types.
+	if (currInput.constructor === Float)
+		return getFloatComparisonFeedback(currInput, currSolution, currOptions, exerciseData)
+	if (currInput.constructor === FloatUnit)
+		return getFloatUnitComparisonFeedback(currInput, currSolution, currOptions, exerciseData)
+	if (currInput instanceof Expression)
+		return getExpressionComparisonFeedback(currInput, currSolution, currOptions, exerciseData)
+	if (currInput.constructor === Equation)
+		return getExpressionComparisonFeedback(currInput, currSolution, currOptions, exerciseData) // Deal with Equations in the same way as Expressions.
+
+	// No clue what kind of type we have.
+	throw new Error(`Default feedback error: could not determine the type of parameter "${currParameter}". No comparison could be made.`)
+}
+
 /* getNumberComparisonFeedback takes two Integers: a correct answer and an input answer. It then compares these and returns a feedback object in the form { correct: true/false, text: 'Some feedback text' }. Various options can be provided within the third parameter:
- * - equalityOptions: an object detailing how the comparison must be performed.
+ * - comparison: an object with options detailing how the comparison must be performed.
  * - checks: an array of feedback checks.
  * - text: an object with text for certain cases. It's the message if ...
  *   x correct: if it's correct.
@@ -148,12 +139,12 @@ export function getInputFieldFeedback(parameters, exerciseData, extraOptions) {
  *   x incorrect: if it's wrong for some unknown reason.
  */
 export function getNumberComparisonFeedback(inputAnswer, correctAnswer, options, exerciseData) {
-	options = processOptions(options, defaultComparisonOptions)
-	const { equalityOptions, text, prevFeedback, solution, checks } = options
+	options = processOptions(options, defaultOptions)
+	const { comparison, text, prevFeedback, solution, checks } = options
 
 	// Do default comparison and check equality.
-	const comparison = checkNumberEquality(inputAnswer, correctAnswer, equalityOptions)
-	const correct = comparison.result
+	const equalityData = checkNumberEquality(inputAnswer, correctAnswer, comparison)
+	const correct = equalityData.result
 
 	// Walk through the feedback checks and see if one fires.
 	const checkResult = getFeedbackCheckResult(checks, inputAnswer, correctAnswer, solution, correct, exerciseData)
@@ -169,15 +160,15 @@ export function getNumberComparisonFeedback(inputAnswer, correctAnswer, options,
 		return { correct, text: text.sign || 'Je antwoord heeft niet het juiste teken. Controleer plussen en minnen.' }
 
 	// Check for a near-hit.
-	if (areNumbersEqual(inputAnswer, correctAnswer, { ...equalityOptions, accuracyFactor: (equalityOptions.accuracyFactor || 1) * accuracyFactorForNearHits }))
+	if (areNumbersEqual(inputAnswer, correctAnswer, { ...comparison, accuracyFactor: (comparison.accuracyFactor || 1) * accuracyFactorForNearHits }))
 		return { correct, text: text.near || 'Je zit erg in de buurt! Maak je antwoord iets nauwkeuriger.' }
 
 	// Check for default integer comparison elements.
-	return { correct, text: getNumberComparisonFeedbackTextFromComparison(comparison, { ...options, answerSign: Math.sign(correctAnswer.number), inputSign: Math.sign(inputAnswer.number) }) }
+	return { correct, text: getNumberComparisonFeedbackTextFromComparison(equalityData, { ...options, answerSign: Math.sign(correctAnswer.number), inputSign: Math.sign(inputAnswer.number) }) }
 }
 
 /* getFloatComparisonFeedback takes two Floats: a correct answer and an input answer. It then compares these and returns a feedback object in the form { correct: true/false, text: 'Some feedback text' }. Various options can be provided within the third parameter:
- * - equalityOptions: an object detailing how the comparison must be performed.
+ * - comparison: an object with options detailing how the comparison must be performed.
  * - text: an object with text for certain cases. It's the message if ...
  *   x correct: if it's correct.
  *   x sign: if it's incorrect due to the sign of the answer.
@@ -194,12 +185,12 @@ export function getNumberComparisonFeedback(inputAnswer, correctAnswer, options,
  *   x incorrect: if it's wrong for some unknown reason.
  */
 export function getFloatComparisonFeedback(inputAnswer, correctAnswer, options, exerciseData) {
-	options = processOptions(options, defaultComparisonOptions)
-	const { equalityOptions, text, prevFeedback, solution, checks } = options
+	options = processOptions(options, defaultOptions)
+	const { comparison, text, prevFeedback, solution, checks } = options
 
 	// Do default comparison and check equality.
-	const comparison = correctAnswer.checkEquality(inputAnswer, equalityOptions)
-	const correct = comparison.result
+	const equalityData = correctAnswer.checkEquality(inputAnswer, comparison)
+	const correct = equalityData.result
 
 	// Walk through the feedback checks and see if one fires.
 	const checkResult = getFeedbackCheckResult(checks, inputAnswer, correctAnswer, solution, correct, exerciseData)
@@ -215,21 +206,21 @@ export function getFloatComparisonFeedback(inputAnswer, correctAnswer, options, 
 		return { correct, text: text.sign || 'Je antwoord heeft niet het juiste teken. Controleer plussen en minnen.' }
 
 	// Check for a near-hit.
-	if (correctAnswer.equals(inputAnswer, { ...equalityOptions, accuracyFactor: (equalityOptions.accuracyFactor || 1) * accuracyFactorForNearHits }))
+	if (correctAnswer.equals(inputAnswer, { ...comparison, accuracyFactor: (comparison.accuracyFactor || 1) * accuracyFactorForNearHits }))
 		return { correct, text: text.near || 'Je zit erg in de buurt! Maak je antwoord iets nauwkeuriger.' }
 
 	// Check for default float comparison elements.
-	return { correct, text: getFloatComparisonFeedbackTextFromComparison(comparison, { ...options, answerSign: Math.sign(correctAnswer.number), inputSign: Math.sign(inputAnswer.number) }) }
+	return { correct, text: getFloatComparisonFeedbackTextFromComparison(equalityData, { ...options, answerSign: Math.sign(correctAnswer.number), inputSign: Math.sign(inputAnswer.number) }) }
 }
 
 // getFloatUnitComparisonFeedback is identical to getFloatComparisonFeedback, but then with two main differences: it uses FloatUnits, and it can also be provided a "unit" error message text in case the unit is wrong.
 export function getFloatUnitComparisonFeedback(inputAnswer, correctAnswer, options, exerciseData) {
-	options = processOptions(options, defaultComparisonOptions)
-	const { equalityOptions, text, prevFeedback, solution, checks } = options
+	options = processOptions(options, defaultOptions)
+	const { comparison, text, prevFeedback, solution, checks } = options
 
 	// Do default comparison and check equality.
-	const comparison = correctAnswer.checkEquality(inputAnswer, equalityOptions)
-	const correct = comparison.result
+	const equalityData = correctAnswer.checkEquality(inputAnswer, comparison)
+	const correct = equalityData.result
 
 	// Walk through the feedback checks and see if one fires.
 	const checkResult = getFeedbackCheckResult(checks, inputAnswer, correctAnswer, solution, correct, exerciseData)
@@ -241,7 +232,7 @@ export function getFloatUnitComparisonFeedback(inputAnswer, correctAnswer, optio
 		return { correct, text: (prevFeedback && prevFeedback.correct && prevFeedback.text) || selectRandomCorrect() }
 
 	// Check unit.
-	if (!comparison.unitOK)
+	if (!equalityData.unitOK)
 		return {
 			correct,
 			text: text.unit || selectRandomly([
@@ -257,11 +248,11 @@ export function getFloatUnitComparisonFeedback(inputAnswer, correctAnswer, optio
 		return { correct, text: text.sign || 'Je antwoord heeft niet het juiste teken. Controleer plussen en minnen.' }
 
 	// Check for a near-hit.
-	if (correctAnswer.equals(inputAnswer, { ...equalityOptions, accuracyFactor: accuracyFactorForNearHits }))
+	if (correctAnswer.equals(inputAnswer, { ...comparison, accuracyFactor: accuracyFactorForNearHits }))
 		return { correct, text: text.near || 'Je zit erg in de buurt! Maak je antwoord iets nauwkeuriger.' }
 
 	// Check for default float comparison elements.
-	return { correct, text: getFloatComparisonFeedbackTextFromComparison(comparison, { ...options, answerSign: Math.sign(correctAnswer.float.number), inputSign: Math.sign(inputAnswer.float.number) }) }
+	return { correct, text: getFloatComparisonFeedbackTextFromComparison(equalityData, { ...options, answerSign: Math.sign(correctAnswer.float.number), inputSign: Math.sign(inputAnswer.float.number) }) }
 }
 
 // The functions below give feedback text based on a comparison result from a checkEquality function.
@@ -285,7 +276,9 @@ function getNumberComparisonFeedbackTextFromComparison(comparison, options) {
 				return options.tooSmall || options.wrongValue || 'Je antwoord is te klein.'
 		}
 	}
+
 	// No problem found. Return nothing to indicate it's not the common faults that took place here.
+	return
 }
 
 function getFloatComparisonFeedbackTextFromComparison(comparison, options) {
@@ -316,12 +309,12 @@ function getFloatComparisonFeedbackTextFromComparison(comparison, options) {
 
 // getExpressionComparisonFeedback attempts to get feedback for expressions. (It works also for equations.) It does this solely based on the feedbackChecks provided. If none of them fire, a generic message is given.
 export function getExpressionComparisonFeedback(inputAnswer, correctAnswer, options, exerciseData) {
-	options = processOptions(options, defaultComparisonOptions)
+	options = processOptions(options, defaultOptions)
 	const { comparison, text, solution, feedbackChecks } = options
 
 	// Do default comparison and check equality.
-	if (!comparison)
-		throw new Error(`Missing comparison function: no comparison was provided to determine the correctness of the parameter. Keep in mind: when using the getFeedback function on expressions/equations, you must define a comparison function for each parameter in the shared data object. (Or provide a default one for all.)`)
+	if (!comparison || typeof comparison !== 'function')
+		throw new Error(`Missing comparison function: no comparison function was provided to determine the correctness of the parameter. Keep in mind: when using the getFeedback function on expressions/equations, you must define a comparison function for each parameter in the shared data object. (Or provide a default one for all.)`)
 	const correct = comparison(inputAnswer, correctAnswer, solution)
 
 	// Walk through the feedback checks and see if one fires.
@@ -410,33 +403,50 @@ function getFeedbackCheckResult(feedbackChecks, inputAnswer, correctAnswer, solu
 /* getInputFieldListFeedback gets an array of parameters and attempts to give feedback for the respective input fields. The main difference is that the fields may not have to be in the same order as the fields in the solution field.
 The extra options given must be a single object that holds for every parameter, or it is an array coupled to the solution indices. */
 export function getInputFieldListFeedback(parameters, exerciseData, extraOptions = {}) {
-	// Extract parameters and check that they are suitable.
-	const { input, shared, solution } = exerciseData
-	const { data } = shared
-	if (!data)
-		throw new Error(`Default feedback error: could not find a "data" parameter in the shared file.`)
-	if (!solution)
-		throw new Error(`Default feedback error: could not find a "getSolution" function exported from the shared file.`)
+	// Extract parameters and check that they are suitable.	
+	const { input, solution, comparison } = extractComparisonFromExerciseData(exerciseData)
 
-	// Extract the way in which the answers are compared.
-	const { equalityOptions, comparison } = data
-	const doValuesMatch = (inputParameter, solutionParameter) => input[inputParameter] !== undefined && performComparison([solutionParameter], { [solutionParameter]: input[inputParameter] }, { [solutionParameter]: solution[solutionParameter] }, { ...(equalityOptions || {}), ...(comparison || {}) })
+	// Define the way in which the answers are compared.
+	const doValuesMatch = (inputParameter, solutionParameter) => performIndividualListComparison(inputParameter, solutionParameter, input, solution, comparison)
 
-	// Walk through the parameters and incorporate feedback.
+	// Walk through the parameters and try to find each one a matching partner. Incorporate feedback based on what is found.
 	const feedback = {}
 	const matched = parameters.map(() => false)
-	parameters.forEach(inputParameter => { // For every element, find a matching partner.
+	parameters.forEach(inputParameter => {
+		// Is there an unmatched corresponding partner?
 		const index = parameters.findIndex((solutionParameter, index) => (!matched[index] && doValuesMatch(inputParameter, solutionParameter)))
 		if (index !== -1) {
+			// There is a corresponding partner. Register match and give correct feedback.
 			matched[index] = true
 			feedback[inputParameter] = { correct: true, text: extraOptions.correct || selectRandomCorrect() }
 		} else {
-			// If there is no unmatched partner, check if there potentially is an already matched partner.
+			// If there is no unmatched corresponding partner, check if there potentially is an earlier matched corresponding partner. If so, note the duplicate. Otherwise it's just plain wrong.
 			if (parameters.find((solutionParameter, solutionIndex) => (matched[solutionIndex] && doValuesMatch(inputParameter, solutionParameter))))
-				feedback[inputParameter] = { correct: false, text: extraOptions.usedValue || <>Deze waarde is al gelijk aan een eerder gegeven oplossing.</> }
+				feedback[inputParameter] = { correct: false, text: extraOptions.usedValue || selectRandomDuplicate() }
 			else
 				feedback[inputParameter] = { correct: false, text: extraOptions.wrongValue || selectRandomIncorrect() }
 		}
 	})
 	return feedback
+}
+
+// extractComparisonFromExerciseData extracts shared data and the comparison method from the exercise data, assuring it's present. It also returns all other properties from the exerciseData, to allow easy variable definitions.
+function extractComparisonFromExerciseData(exerciseData) {
+	// Ensure there is a solution.
+	const { shared, solution } = exerciseData
+	if (!solution)
+		throw new Error(`Default feedback error: could not find a "getSolution" function exported from the shared file.`)
+
+	// Get the data out of the shared file.
+	const { data } = shared
+	if (!data)
+		throw new Error(`Default feedback error: could not find a "data" parameter in the shared file.`)
+
+	// Get the comparison method out of the data.
+	const { comparison } = data
+	if (!comparison)
+		throw new Error(`Default feedback error: could not find a "comparison" parameter in the shared data that can be used to compare fields with.`)
+
+	// All checks are done. Return the result.
+	return { ...exerciseData, data, comparison }
 }

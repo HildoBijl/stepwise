@@ -6,7 +6,7 @@ const refrigerantProperties = require('../../../data/refrigerantProperties')
 
 const data = {
 	skill: 'determineRefrigerantProcess',
-	equalityOptions: {
+	comparison: {
 		default: {
 			absoluteMargin: 4000, // J/kg*K.
 			significantDigitMargin: 2,
@@ -83,7 +83,7 @@ function getSolution({ refrigerant, phase1, T1, x1, p1, phase2, x2, T2 }) {
 
 function checkInput(state, input) {
 	const solution = getSolution(state)
-	return performComparison(['h1', 'h2'], input, solution, data.equalityOptions)
+	return performComparison(['h1', 'h2'], input, solution, data.comparison)
 }
 
 module.exports = {

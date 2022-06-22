@@ -4,7 +4,7 @@ const { performComparison } = require('../util/comparison')
 
 const data = {
 	skill: 'fillInInteger',
-	equalityOptions: {},
+	comparison: {},
 }
 
 function generateState() {
@@ -16,7 +16,8 @@ function getSolution({ x }) {
 }
 
 function checkInput(state, input) {
-	return performComparison('ans', input, getSolution(state), data.equalityOptions) // Basically returns whether state.ans === input.ans in a very convoluted but generalized way.
+	const solution = getSolution(state)
+	return performComparison('ans', input, solution, data.comparison) // Basically returns whether state.ans === input.ans in convoluted but generalized way.
 }
 
 module.exports = {
