@@ -108,12 +108,12 @@ const steps = [
 			</>
 		},
 		Solution: (state) => {
-			const { x, a, b, D, expressions, x1, x2, equationInFactors } = useSolution(state)
+			const { x, a, b, D, x1, x2, equationInFactors } = useSolution(state)
 			const sqrtD = Math.sqrt(D)
 			return <Par>
-				De twee oplossingen volgen via <BM>{x} = \frac(-b \pm \sqrt(b^2 - 4ac))(2a) = \frac(-{b > 0 ? b : `(${b})`} \pm \sqrt({expressions.D}))(2 \cdot {a}) = \frac({-b} \pm {sqrtD})({2 * a}).</BM> De oplossingen zijn dus <BMList><BMPart>x_1 = \frac({-b} - {sqrtD})({2 * a}) = {x1},</BMPart><BMPart>x_2 = \frac({-b} + {sqrtD})({2 * a}) = {x2}.</BMPart></BMList> Om te controleren of dit klopt, kunnen we de vergelijking eventueel ook nog schrijven als
+				De twee oplossingen volgen via <BM>{x} = \frac(-b \pm \sqrt(D))(2a) = \frac(-{b > 0 ? b : `(${b})`} \pm \sqrt({D}))(2 \cdot {a}) = \frac({-b} \pm {sqrtD})({2 * a}).</BM> De oplossingen zijn dus <BMList><BMPart>x_1 = \frac({-b} - {sqrtD})({2 * a}) = {x1},</BMPart><BMPart>x_2 = \frac({-b} + {sqrtD})({2 * a}) = {x2}.</BMPart></BMList> Om te controleren of dit klopt, kunnen we de vergelijking eventueel ook nog schrijven als
 				<BM>a\left(x-x_1\right)\left(x-x_2\right) = {equationInFactors}.</BM>
-				Dit komt overeen met de oorspronkelijke vergelijking, dus onze oplossingen kloppen.
+				Dit komt overeen met de oorspronkelijke vergelijking, dus de gevonden oplossingen kloppen.
 			</Par>
 		},
 	},
@@ -130,6 +130,6 @@ function getFeedback(exerciseData) {
 			],
 		}),
 		...getInputFieldFeedback(['a', 'b', 'c', 'D'], exerciseData),
-		...getInputFieldListFeedback(['x1', 'x2'], exerciseData)
+		...getInputFieldListFeedback(['x1', 'x2'], exerciseData),
 	}
 }

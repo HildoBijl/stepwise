@@ -50,18 +50,18 @@ export function getAllInputFieldsFeedbackExcluding(excludedFields) {
  *   x shared: the data from the shared file of the exercise.
  *   x solution: if the shared file has a getSolution function, this is called on the state and the corresponding solution is added.
  *   x more ... run a console.log to see what else is available.
- * - options: an array of extra options per parameter. This is on top of what the feedback function already adds by default. See the defaultOptions object above.
+ * - extraOptions: an array of extra options per parameter. This is on top of what the feedback function already adds by default. See the defaultOptions object above.
  * If the parameters array is a single string, the options may also be a single object. That is, this function also works for single parameters.
  * 
  * The outcome of this function is a feedback object for each respective parameter. So { x1: { correct: false, text: 'Nope!' }, x2: { ... } }.
  */
-export function getInputFieldFeedback(parameters, exerciseData, options) {
+export function getInputFieldFeedback(parameters, exerciseData, extraOptions = []) {
 	// Check if we have one or multiple parameters.
 	let singleParameter = false
 	if (!Array.isArray(parameters)) {
 		singleParameter = true
 		parameters = [parameters]
-		options = [options]
+		extraOptions = [extraOptions]
 	}
 
 	// Extract parameters and check that they are suitable.
@@ -89,7 +89,7 @@ export function getInputFieldFeedback(parameters, exerciseData, options) {
 		// Get the correct answer and other data to check the answer.
 		const currSolution = getPropertyOrDefault(solution, currParameter, false, singleParameter, true)
 		const currComparison = getPropertyOrDefault(comparison, currParameter, true, singleParameter, false)
-		const currExtraOptions = (options && options[index]) || {}
+		const currExtraOptions = extraOptions[index] || {}
 
 		// Assemble the options for the comparison.
 		const currOptions = { comparison: currComparison, prevInput: prevInput[currParameter], prevFeedback: prevFeedback[currParameter], solution, ...currExtraOptions }
@@ -397,8 +397,8 @@ function getFeedbackCheckResult(feedbackChecks, inputAnswer, correctAnswer, solu
 }
 
 /* getInputFieldListFeedback gets an array of parameters and attempts to give feedback for the respective input fields. The main difference is that the fields may not have to be in the same order as the fields in the solution field.
-The extra options given must be a single object that holds for every parameter, or it is an array coupled to the solution indices. */
-export function getInputFieldListFeedback(parameters, exerciseData, extraOptions = {}) {
+The extra options given can be an array with options for each parameter, or it can be single object that holds for every parameter. It may contain specific text to give on a "correct", a "wrongValue" case or a "usedValue" case. */
+export function getInputFieldListFeedback(parameters, exerciseData, extraOptions = []) {
 	// Extract parameters and check that they are suitable.	
 	const { input, solution, comparison } = extractComparisonFromExerciseData(exerciseData)
 
@@ -408,19 +408,21 @@ export function getInputFieldListFeedback(parameters, exerciseData, extraOptions
 	// Walk through the parameters and try to find each one a matching partner. Incorporate feedback based on what is found.
 	const feedback = {}
 	const matched = parameters.map(() => false)
-	parameters.forEach(inputParameter => {
+	parameters.forEach((inputParameter, inputIndex) => {
+		const currExtraOptions = Array.isArray(extraOptions) ? (extraOptions[inputIndex] || {}) : extraOptions
+
 		// Is there an unmatched corresponding partner?
-		const index = parameters.findIndex((solutionParameter, index) => (!matched[index] && doValuesMatch(inputParameter, solutionParameter)))
-		if (index !== -1) {
+		const solutionIndex = parameters.findIndex((solutionParameter, index) => (!matched[index] && doValuesMatch(inputParameter, solutionParameter)))
+		if (solutionIndex !== -1) {
 			// There is a corresponding partner. Register match and give correct feedback.
-			matched[index] = true
-			feedback[inputParameter] = { correct: true, text: extraOptions.correct || selectRandomCorrect() }
+			matched[solutionIndex] = true
+			feedback[inputParameter] = { correct: true, text: currExtraOptions.correct || selectRandomCorrect() }
 		} else {
 			// If there is no unmatched corresponding partner, check if there potentially is an earlier matched corresponding partner. If so, note the duplicate. Otherwise it's just plain wrong.
 			if (parameters.find((solutionParameter, solutionIndex) => (matched[solutionIndex] && doValuesMatch(inputParameter, solutionParameter))))
-				feedback[inputParameter] = { correct: false, text: extraOptions.usedValue || selectRandomDuplicate() }
+				feedback[inputParameter] = { correct: false, text: currExtraOptions.usedValue || selectRandomDuplicate() }
 			else
-				feedback[inputParameter] = { correct: false, text: extraOptions.wrongValue || selectRandomIncorrect() }
+				feedback[inputParameter] = { correct: false, text: currExtraOptions.wrongValue || selectRandomIncorrect() }
 		}
 	})
 	return feedback
