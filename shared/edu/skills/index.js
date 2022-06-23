@@ -47,7 +47,7 @@ const skills = {
 	},
 
 	/*
-	 * Basic mathematics.
+	 * Basic algebra.
 	 * - Manipulating fractions.
 	 * - Manipulating brackets.
 	 * - Manipulating expressions.
@@ -56,7 +56,7 @@ const skills = {
 	 * - Solving systems of linear equations.
 	 */
 
-	// Basic mathematics: manipulating fractions.
+	// Basic algebra: manipulating fractions.
 	addRemoveFractionFactors: {
 		name: 'Breukfactoren toevoegen/wegstrepen',
 		exercises: ['addRemoveFractionFactors1', 'addRemoveFractionFactors1Reverse', 'addRemoveFractionFactors2', 'addRemoveFractionFactors2Reverse', 'addRemoveFractionFactors3', 'addRemoveFractionFactors3Reverse'],
@@ -80,7 +80,7 @@ const skills = {
 		exercises: ['simplifyFraction1', 'simplifyFraction2', 'simplifyFraction3', 'simplifyFraction4'],
 	},
 
-	// Basic mathematics: manipulating brackets.
+	// Basic algebra: manipulating brackets.
 	expandBrackets: {
 		name: 'Haakjes uitwerken',
 		exercises: ['expandBrackets1', 'expandBrackets2'],
@@ -91,7 +91,7 @@ const skills = {
 		exercises: ['pullOutOfBrackets1', 'pullOutOfBrackets2', 'pullOutOfBrackets3'],
 	},
 
-	// Basic mathematics: manipulating expressions.
+	// Basic algebra: manipulating expressions.
 	moveATerm: {
 		name: 'Een term verplaatsen',
 		exercises: ['moveATerm1', 'moveATerm2'],
@@ -102,7 +102,7 @@ const skills = {
 		exercises: ['multiplyDivideAllTerms1', 'multiplyDivideAllTerms2'],
 	},
 
-	// Basic mathematics: solving linear equations.
+	// Basic algebra: solving linear equations.
 	solveBasicLinearEquation: {
 		name: 'Basis lineaire vergelijking oplossen',
 		setup: combinerAnd(combinerRepeat('moveATerm', 2), 'pullOutOfBrackets', 'multiplyDivideAllTerms'),
@@ -114,7 +114,7 @@ const skills = {
 		exercises: ['solveGeneralLinearEquation1', 'solveGeneralLinearEquation2', 'solveGeneralLinearEquation3'],
 	},
 
-	// Basic mathematics: solving quadratic equations.
+	// Basic algebra: solving quadratic equations.
 	// applySquareRoot: {
 	// 	name: 'Wortel toepassen',
 	// 	exercises: [],
@@ -123,13 +123,18 @@ const skills = {
 		name: 'Wortelformule toepassen',
 		exercises: ['applyQuadraticFormulaNoSolutions', 'applyQuadraticFormulaOneSolution', 'applyQuadraticFormulaTwoIntegerSolutions', 'applyQuadraticFormulaTwoRandomSolutions'],
 	},
-	// solveQuadraticEquation: {
-	// 	name: 'Kwadratische vergelijking oplossen',
-	// 	setup: combinerAnd('moveATerm', 'multiplyDivideAllTerms', 'applyQuadraticFormula'),
+	// solveBasicQuadraticEquation: {
+	// 	name: 'Basis kwadratische vergelijking oplossen',
+	// 	setup: combinerAnd('moveATerm', 'multiplyDivideAllTerms', 'applyQuadraticFormula', 'applySquareRoot'),
+	// 	exercises: [],
+	// },
+	// solveGeneralQuadraticEquation: {
+	// 	name: 'Algemene kwadratische vergelijking oplossen',
+	// 	setup: combinerAnd('moveATerm', 'multiplyDivideAllTerms', 'applyQuadraticFormula', 'applySquareRoot'),
 	// 	exercises: [],
 	// },
 
-	// Basic mathematics: solving systems of linear equations.
+	// Basic algebra: solving systems of linear equations.
 	solveBasicSystemOfLinearEquations: {
 		name: 'Basis stelsel van lineaire vergelijkingen oplossen',
 		setup: combinerRepeat('solveBasicLinearEquation', 2),
@@ -140,6 +145,25 @@ const skills = {
 		setup: combinerAnd('solveBasicLinearEquation', 'solveGeneralLinearEquation'),
 		exercises: ['solveGeneralSystemOfLinearEquations1', 'solveGeneralSystemOfLinearEquations2'],
 	},
+
+	/*
+	 * Basic geometry.
+	 * - Angles and distances.
+	 * - General triangles.
+	 * - Areas and volumes.
+	 */
+
+	// Basic geometry: angles and distances.
+	determineAngles: {
+		name: 'Hoeken bepalen',
+		exercises: ['determineAnglesTriangleX', 'determineAnglesTriangleZ', 'determineAnglesCircleSymmetry'],
+	},
+
+	// Basic geometry: general triangles.
+	// ToDo
+
+	// Basic geometry: areas and volumes.
+	// ToDo
 
 	/*
 	 * Basic physics.
