@@ -40,7 +40,7 @@ function getSolution(state) {
 	const equation = asEquation('ax^2+bx+c=0').substituteVariables(variables).removeUseless()
 
 	// Set up expressions.
-	expressionD = asExpression('b^2 - 4ac').substituteVariables(variables)
+	const expressionD = asExpression('b^2 - 4ac').substituteVariables(variables)
 
 	// Find values for the expressions and store those numbers.
 	const D = expressionD.regularClean()
