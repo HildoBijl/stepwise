@@ -92,7 +92,7 @@ function processFunctionsAndAccents(value, settings) {
 			// Set up the function. If it needs to pull a parameter inside, like "root[3](dot(x))", then do so first.
 			const func = advancedFunctionComponents[functionName]
 			if (!func.hasParameterAfter)
-				optionalArguments = [addExpressionType(processExpression(partBetweenBrackets, settings)), ...optionalArguments]
+				optionalArguments = [...optionalArguments, addExpressionType(processExpression(partBetweenBrackets, settings))]
 			result.push({
 				type: 'Function',
 				name: functionName,
