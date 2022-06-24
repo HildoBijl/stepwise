@@ -1,7 +1,8 @@
 // This file contains equality checks for expressions. There are placed here, instead of inside the objects, to prevent classes from getting too many methods that always have to be loaded in. On top of that, most equals methods rely on first simplifying expressions to some standard form and then comparing these reductions.
 
+const { isNumber, compareNumbers } = require('../../../util/numbers')
+
 const { Integer } = require('./Expression')
-const { compareNumbers } = require('../../../util/numbers')
 
 /*
  * Basic Expression equality checks.
@@ -17,7 +18,16 @@ function onlyOrderChanges(input, correct) {
 }
 // equalNumber compares two expressions to check if they're both numbers that are equal.
 function equalNumber(input, correct) {
-	return input.isNumeric() && correct.isNumeric() && compareNumbers(input.number, correct.number)
+	// Check for non-numeric cases.
+	if (!isNumber(input) && !input.isNumeric())
+		return false
+	if (!isNumber(correct) && !correct.isNumeric())
+		return false
+
+	// Extract and compare numbers.
+	const inputNumber = isNumber(input) ? input : input.number
+	const correctNumber = isNumber(correct) ? correct : correct.number
+	return compareNumbers(inputNumber, correctNumber)
 }
 
 module.exports = {

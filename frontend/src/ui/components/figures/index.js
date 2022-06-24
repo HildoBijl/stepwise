@@ -1,3 +1,7 @@
 export { default as Figure } from './Figure'
 export { default as Drawing } from './Drawing'
+export { DrawingInput, useAsDrawingInput } from './Drawing'
+export { PositionedElement, Label } from './Drawing'
+export { components } from './Drawing'
 export { default as Plot } from './Plot'
+export * from './util'

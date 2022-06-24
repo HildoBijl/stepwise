@@ -1,4 +1,4 @@
-const { isNumber } = require('../util/numbers')
+const { isNumber, epsilon } = require('../util/numbers')
 const { processOptions } = require('../util/objects')
 const { getRandomInteger } = require('../util/random')
 
@@ -6,8 +6,8 @@ module.exports.getRandomInteger = getRandomInteger // Exports this function here
 
 // The below default comparison options are used when comparing integers through the areNumbersEqual or checkNumberEquality functions.
 const defaultComparison = {
-	absoluteMargin: 0,
-	relativeMargin: 0,
+	absoluteMargin: epsilon,
+	relativeMargin: epsilon,
 	accuracyFactor: 1,
 }
 module.exports.defaultComparison = defaultComparison
@@ -41,7 +41,7 @@ function checkNumberEquality(a, b, options = {}) {
 		result.magnitude = 'OK'
 	} else { // No equality.
 		result.result = false
-		result.magnitude = (b < a ? 'TooSmall' : 'TooLarge')
+		result.magnitude = (a < b ? 'TooSmall' : 'TooLarge')
 	}
 
 	return result

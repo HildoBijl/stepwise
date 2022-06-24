@@ -1,5 +1,6 @@
 const { hasSimpleMatching } = require('../../../util/arrays')
 const { isBasicObject, getPropertyOrDefault } = require('../../../util/objects')
+const { Expression } = require('../../../CAS')
 
 const { areNumbersEqual } = require('../../../inputTypes/Integer')
 
@@ -61,12 +62,15 @@ function performIndividualComparison(currParameter, currInput, currSolution, cur
 		throw new Error(`Invalid comparison parameter: when performing a comparison, some comparison function or comparison options parameter must be given. The received parameter, however, was not a function or basic object. Instead, its value was "${currComparison}".`)
 
 	// If the parameters are pure numbers, compare them using number comparison.
-	const isInputANumber = currInput.constructor === (0).constructor
-	const isSolutionANumber = currSolution.constructor === (0).constructor
-	if (isInputANumber || isSolutionANumber) {
-		const currInputAsNumber = (isInputANumber ? currInput : currInput.number)
-		const currSolutionAsNumber = (isSolutionANumber ? currSolution : currSolution.number)
-		return areNumbersEqual(currSolutionAsNumber, currInputAsNumber, currComparison)
+	if (currSolution instanceof Expression && currSolution.isNumeric())
+		currSolution = currSolution.number
+	if (typeof currSolution === 'number') {
+		if (currInput instanceof Expression) {
+			if (!currInput.isNumeric())
+				return false
+			currInput = currInput.number
+		}
+		return areNumbersEqual(currInput, currSolution, currComparison)
 	}
 
 	// We have an object-based parameter. Use the built-in equals function of the solution.
@@ -74,6 +78,7 @@ function performIndividualComparison(currParameter, currInput, currSolution, cur
 		throw new Error(`Invalid parameter comparison: the given solution of parameter "${currParameter}" does not have an equals function, and hence cannot be compared to the input value. The parameter value was "${currSolution}".`)
 	return currSolution.equals(currInput, currComparison)
 }
+module.exports.performIndividualComparison = performIndividualComparison
 
 // performListComparison does the same as performComparison, but it works for lists in which each element may match an element from another list. For instance, if the user needs to give the first three prime numbers and gives [5,2,3] then this is still an OK answer. The comparison method can be specified for each solution field, or as a single comparison method for all fields.
 function performListComparison(parameters, input, solution, comparison) {

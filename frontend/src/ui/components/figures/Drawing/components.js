@@ -3,7 +3,7 @@ import clsx from 'clsx'
 
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureString } from 'step-wise/util/strings'
-import { ensureObject, processOptions, filterOptions, filterProperties } from 'step-wise/util/objects'
+import { ensureBoolean, ensureObject, processOptions, filterOptions, filterProperties } from 'step-wise/util/objects'
 import { Vector, ensureVector, ensureVectorArray, ensurePositionedVector, ensureRectangle as ensureRectangleShape } from 'step-wise/geometry'
 
 import { useEnsureRef, useEventListeners } from 'util/react'
@@ -55,26 +55,33 @@ const defaultGroup = {
 // Line draws a line from the given points array and an optional style object.
 export const Line = forwardRef((props, ref) => {
 	// Process the input.
-	let { points, className, style } = processOptions(props, defaultLine)
+	let { points, close, className, style } = processOptions(props, defaultLine)
 	points = ensureVectorArray(points, 2)
+	close = ensureBoolean(close)
 	className = ensureString(className)
 	style = ensureObject(style)
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Set up the line.
-	const path = getLinePath(points)
+	const path = getLinePath(points, close)
 	return <path ref={ref} className={className} style={style} d={path} {...filterEventHandlers(props)} />
 })
 export const defaultLine = {
 	...defaultObject,
 	className: 'line',
 	points: [],
+	close: false,
 }
 
 // getLinePath takes an array of points and turns it into an SVG line string.
-export function getLinePath(points) {
-	return `M${points.map(point => `${point.x} ${point.y}`).join(' L')}`
+export function getLinePath(points, close) {
+	return `M${points.map(point => `${point.x} ${point.y}`).join(' L')}${close ? ' Z' : ''}`
 }
+
+// Polygon draws a polygon. It is effectively a closed Line.
+export const Polygon = forwardRef((props, ref) => {
+	return <Line {...props} close={true} />
+})
 
 export const Circle = forwardRef((props, ref) => {
 	// Process the input.
@@ -171,14 +178,45 @@ export function getArcPath(center, radius, startAngle, endAngle) {
 export const Distance = forwardRef((props, ref) => {
 	// Process the input.
 	let { positionedVector, className } = processOptions(props, defaultDistance)
-	positionedVector = ensurePositionedVector(positionedVector)
+	positionedVector = ensurePositionedVector(positionedVector, 2)
+	className = ensureString(className)
 	ref = useRefWithEventHandlers(props, ref)
 
-	// Render the line with the appropriate style.
-	return <Line ref={ref} {...filterOptions(props, defaultLine)} points={[positionedVector.start, positionedVector.end]} className={clsx(className, 'distance')} />
+	// Render the line with the appropriate style. Enfore that the className is used, because this adds the arrow spread.
+	return <Line ref={ref} {...filterOptions(props, defaultLine)} points={[positionedVector.start, positionedVector.end]} className={clsx(className, className === defaultDistance.className ? '' : defaultDistance.className)} />
 })
 const defaultDistance = {
 	...defaultObject,
 	positionedVector: null,
 	className: 'distance',
+}
+
+// RightAngle renders a right-angle marker of two lines. It expects three points that form said angle, in which the middle one is the one at which the angle should be drawn. Also a size parameter can be given.
+export const RightAngle = forwardRef((props, ref) => {
+	// Process the input.
+	let { points, size } = processOptions(props, defaultRightAngle)
+	points = ensureVectorArray(points, 2)
+	if (points.length !== 3)
+		throw new Error(`Invalid RightAngle points: expected exactly three points, of which the middle one is the given corner, but received ${points.length} points.`)
+	size = ensureNumber(size)
+	ref = useRefWithEventHandlers(props, ref)
+
+	// Determine the shape of the right angle.
+	const point = points[1]
+	const vector1 = points[0].subtract(point).normalize()
+	const vector2 = points[2].subtract(point).normalize()
+	const anglePoints = [
+		point.add(vector1.multiply(size)),
+		point.add(vector1.multiply(size)).add(vector2.multiply(size)),
+		point.add(vector2.multiply(size)),
+	]
+
+	// Render the line with the appropriate style.
+	return <Line ref={ref} {...filterOptions(props, defaultLine)} points={anglePoints} />
+})
+const defaultRightAngle = {
+	...defaultObject,
+	points: [],
+	className: 'rightAngle',
+	size: 12,
 }

@@ -115,3 +115,14 @@ export function selectRandomDuplicate() {
 		'Oops, je hebt deze al eerder ingevuld.',
 	])
 }
+
+// selectRandomNonNumeric gives a random text that an answer is not numeric.
+export function selectRandomNonNumeric() {
+	return selectRandomly([
+		'Deze waarde is geen getal.',
+		'Er staat nog een variabele in.',
+		'Je hebt iets ingevuld dat geen getal is.',
+		'Dit is niet iets wat een getal kan worden.',
+		'Oops, ik kan hier geen getal van maken..',
+	])
+}

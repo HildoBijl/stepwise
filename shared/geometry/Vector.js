@@ -207,6 +207,63 @@ class Vector {
 	}
 
 	/*
+	 * Transformation methods.
+	 */
+
+	// transform applies a transformation matrix (an array of arrays, like [[1,0],[0,1]]) to a vector. This transformation is done as seen from the given vector position (default the zero position). 
+	transform(matrix, relativeTo) {
+		// Check the input.
+		if (!Array.isArray(matrix) || matrix.length !== this.dimension || matrix.some(row => !Array.isArray(row) || row.length !== this.dimension || row.some(element => !isNumber(element))))
+			throw new Error(`Invalid transformation matrix: did not receive a matrix (an array with row arrays) of size ${this.dimension}. Instead, received "${matrix}".`)
+		relativeTo = ensureVector(relativeTo, this.dimension, true)
+
+		// Apply the matrix to the vector.
+		const relativeVector = this.subtract(relativeTo)
+		const transformedVector = new Vector(matrix.map(row => relativeVector.dotProduct(new Vector(row))))
+		return relativeTo.add(transformedVector)
+	}
+
+	// scale will scale the point according to the given scales. When a single number is given, this is just like multiply. When an array of numbers is given, with equal length as the dimension, then a different scale can be applied to each dimension.
+	scale(scales, relativeTo) {
+		// Check the input.
+		if (!Array.isArray(scales))
+			scales = this.coordinates.map(_ => scales)
+		scales = scales.map(scale => ensureNumber(scale))
+
+		// Apply the respective transformation matrix.
+		const matrix = scales.map((scale, rowIndex) => scales.map((_, colIndex) => rowIndex === colIndex ? scale : 0))
+		return this.transform(matrix, relativeTo)
+	}
+
+	// rotate will rotate the point according to the given angle. When an extra vector is given, the rotation is done according to the given point. This only works in 2D.
+	rotate(rotation, relativeTo) {
+		// Check the input and situation.
+		if (this.dimension !== 2)
+			throw new Error(`Invalid rotate call: tried to rotate a ${this.dimension}D vector, but rotation is only possible in 2D.`)
+		rotation = ensureNumber(rotation)
+
+		// Apply the respective transformation matrix.
+		const matrix = [
+			[Math.cos(rotation), -Math.sin(rotation)],
+			[Math.sin(rotation), Math.cos(rotation)],
+		]
+		return this.transform(matrix, relativeTo)
+	}
+
+	// reflect will reflect a point along the given direction. Yes, ALONG. So to flip across the vertical axis, reflect ALONG the horizontal axis, and hence give [1, 0] as vector. This function also works for higher dimensions. By default, reflection is done along the x-axis.
+	reflect(direction, relativeTo) {
+		// Check the input.
+		if (direction === undefined)
+			direction = Vector.getUnitVector(0, this.dimension)
+		direction = ensureVector(direction, this.dimension, undefined, true)
+
+		// Apply the respective transformation matrix I - 2*v*v^T/|v|^2.
+		direction = direction.normalize()
+		const matrix = direction.coordinates.map((rowElement, rowIndex) => direction.coordinates.map((colElement, colIndex) => (rowIndex === colIndex ? 1 : 0) - 2 * rowElement * colElement))
+		return this.transform(matrix, relativeTo)
+	}
+
+	/*
 	 * Comparison methods.
 	 */
 
@@ -233,7 +290,7 @@ class Vector {
 
 	// getUnitVector returns the unit vector along the given axis (0 for x, 1 for y, etcetera) for the given dimension.
 	static getUnitVector(axis, dimension) {
-		axis = ensureInt(dimension, true)
+		axis = ensureInt(axis, true)
 		dimension = ensureInt(dimension, true)
 		if (axis >= dimension)
 			throw new Error(`Invalid axis: cannot have an axis (${axis}) equal to or larger than the dimension (${dimension}).`)
@@ -291,13 +348,25 @@ Vector['3D'] = {
 module.exports.Vector = Vector
 
 // ensureVector takes an object and ensures it's a vector. If the dimension is given, it also ensures it's a vector of the given dimension. Possibly the vector may be a plain object like {x: 2, y: 3} in which case this function tries to turn it into a vector object.
-function ensureVector(vector, dimension) {
+function ensureVector(vector, dimension, useDefaultZero = false, preventZero = false) {
+	// Check the settings.
+	if (useDefaultZero && preventZero)
+		throw new Error(`Invalid ensureVector settings: you have set "useDefaultZero" to true but "preventZero" also to true. That's a contradiction in itself.`)
+
+	// Check if the vector is undefined and we need to use zero as default.
+	if (useDefaultZero && vector === undefined)
+		return Vector.getZero(dimension)
+
 	// Ensure that we have a Vector.
 	vector = new Vector(vector)
 
 	// If a required dimension is specified, check this.
 	if (dimension !== undefined && vector.dimension !== dimension)
 		throw new Error(`Invalid Vector dimension: expected a vector of dimension ${dimension} but received a vector of dimension ${vector.dimension}.`)
+
+	// Check for zero.
+	if (preventZero && vector.isZero())
+		throw new Error(`Invalid Vector: received a zero vector (dimension ${this.dimension}) but this is not allowed.`)
 
 	// All in order.
 	return vector

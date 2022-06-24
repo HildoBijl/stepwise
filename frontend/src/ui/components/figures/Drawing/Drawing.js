@@ -13,7 +13,7 @@ import { ensureObject, processOptions, filterOptions } from 'step-wise/util/obje
 import { deg2rad } from 'step-wise/util/numbers'
 import { Vector, ensureVector, Rectangle } from 'step-wise/geometry'
 
-import { ensureReactElement, useEqualRefOnEquality, useMousePosition as useClientMousePosition, useBoundingClientRect, useEventListener } from 'util/react'
+import { ensureReactElement, useEqualRefOnEquality, useMousePosition as useClientMousePosition, useBoundingClientRect, useEventListener, useForceUpdate } from 'util/react'
 import { notSelectable } from 'ui/theme'
 
 import Figure, { defaultOptions as figureDefaultOptions } from '../Figure'
@@ -140,10 +140,13 @@ function Drawing(options, ref) {
 	}))
 
 	// Initialize the SVG element once the drawing is loaded.
+	const forceUpdate = useForceUpdate()
 	useEffect(() => {
-		if (figureRef.current)
+		if (figureRef.current) {
 			drawingRef.current = initialize(figureRef.current, svgRef.current, canvasRef.current)
-	}, [figureRef, drawingRef])
+			forceUpdate() // A forced update is needed to ensure the new ref is applied into the DrawingContext.
+		}
+	}, [figureRef, drawingRef, forceUpdate])
 
 	// Make sure the width and height are always up-to-date.
 	useEffect(() => {
@@ -281,6 +284,7 @@ export function PositionedElement(props) {
 	// Properly position the element on a change of settings, a change of contents or on a window resize.
 	useLayoutEffect(updateElementPosition, [updateElementPosition, children])
 	useEventListener('resize', updateElementPosition) // Window resize.
+	useEffect(updateElementPosition, [updateElementPosition, drawing])
 
 	// Render the children.
 	return <div className="positionedElement" style={style} ref={ref}>{children}</div>
