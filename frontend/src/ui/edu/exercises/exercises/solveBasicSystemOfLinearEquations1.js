@@ -169,10 +169,5 @@ function getFeedback(exerciseData) {
 	}
 
 	// Determine feedback.
-	return getInputFieldFeedback([
-		'eq1Solution',
-		'eq2Substituted',
-		'x',
-		'y',
-	], exerciseData)
+	return getInputFieldFeedback(['eq1Solution', 'eq2Substituted', 'x', 'y'], exerciseData)
 }

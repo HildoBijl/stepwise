@@ -17,12 +17,9 @@ const data = {
 	setup: combinerRepeat('solveBasicLinearEquation', 2),
 	steps: ['solveBasicLinearEquation', null, 'solveBasicLinearEquation', null],
 	comparison: {
+		default: {},
 		eq1Solution: expressionComparisons.equivalent,
 		eq2Substituted: equationComparisons.equivalent,
-	},
-	comparison: {
-		x: {},
-		y: {},
 	},
 }
 
