@@ -108,7 +108,7 @@ function ExerciseFigure({ solution, showAlpha = 0, showBeta = 0, showGamma = 0 }
 
 	// Process points.
 	const rotatedPoints = rotateAndReflect(rawPoints, rotation, reflect)
-	const { points, width, height } = scaleToBounds(rotatedPoints, maxWidth, maxHeight, rotation, reflect)
+	const { points, width, height } = scaleToBounds(rotatedPoints, maxWidth, maxHeight)
 	const { middle, right, topRight, left, bottomLeft } = points
 
 	// Render the figure.

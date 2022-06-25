@@ -132,6 +132,7 @@ class Vector {
 	}
 
 	subtract(vector) {
+		vector = ensureVector(vector, this.dimension)
 		return this.add(vector.reverse())
 	}
 

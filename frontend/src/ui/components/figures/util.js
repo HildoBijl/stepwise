@@ -21,8 +21,15 @@ export function rotateAndReflect(points, rotation = 0, reflect = true, relativeT
 	})
 }
 
-// scaleToBounds gets a set of 2D points (an object or array) and scales all the points such that they exactly fit within maxWidth and maxHeight (whichever bound if more narrow). As a result, an object is returned with parameters "points" (the result), "width" (the resulting width) and "height" (the resulting height). At least one of "width" and "height" equals its maximum value.
-export function scaleToBounds(points, maxWidth, maxHeight) {
+// scaleToBounds gets a set of 2D points (an object or array) and scales all the points such that they exactly fit within maxWidth and maxHeight (whichever bound if more narrow). Optionally extra margins can be included, either by giving a number (when equal for x and y) or by giving an array of two numbers [marginX, marginY]. As a result, an object is returned with parameters "points" (the result), "width" (the resulting width) and "height" (the resulting height). At least one of "width" and "height" equals its maximum value.
+export function scaleToBounds(points, maxWidth, maxHeight, margin = 0) {
+	// Check the input.
+	maxWidth = ensureNumber(maxWidth)
+	maxHeight = ensureNumber(maxHeight)
+	if (!Array.isArray(margin))
+		margin = [margin, margin]
+	margin.forEach(marginNumber => ensureNumber(marginNumber))
+
 	// First find the bounds of the points.
 	let minX, maxX, minY, maxY
 	applyToEachParameter(points, point => {
@@ -38,17 +45,18 @@ export function scaleToBounds(points, maxWidth, maxHeight) {
 	})
 
 	// Determine the scale and shift. If no valid scale is found, do not scale points.
-	let scale = Math.min(maxWidth / (maxX - minX), maxHeight / (maxY - minY))
+	let scale = Math.min((maxWidth - 2 * margin[0]) / (maxX - minX), (maxHeight - 2 * margin[1]) / (maxY - minY))
 	if (Math.abs(scale) === Infinity)
 		scale = 1
-	const shift = new Vector(minX, minY)
+	const shift1 = new Vector(minX, minY)
+	const shift2 = new Vector(margin[0], margin[1])
 
 	// Apply the scale and shift.
 	return {
 		scale,
-		points: applyToEachParameter(points, point => point.subtract(shift).multiply(scale)),
-		width: (maxX - minX) * scale,
-		height: (maxY - minY) * scale,
+		points: applyToEachParameter(points, point => point.subtract(shift1).multiply(scale).add(shift2)),
+		width: (maxX - minX) * scale + 2 * margin[0],
+		height: (maxY - minY) * scale + 2 * margin[1],
 	}
 }
 

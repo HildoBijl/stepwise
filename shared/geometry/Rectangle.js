@@ -4,7 +4,7 @@ const { ensureNumber, compareNumbers } = require('../util/numbers')
 const { repeat } = require('../util/functions')
 
 const { ensureVector } = require('./Vector')
-const { ensurePositionedVector } = require('./PositionedVector')
+const { PositionedVector, ensurePositionedVector } = require('./PositionedVector')
 const { Line, ensureLine } = require('./Line')
 
 class Rectangle {

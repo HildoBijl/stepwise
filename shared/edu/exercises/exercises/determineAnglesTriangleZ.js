@@ -6,7 +6,7 @@ const { performComparison } = require('../util/comparison')
 
 const variableSet = ['α', 'β', 'γ']
 const usedVariables = ['alpha', 'beta', 'gamma']
-const constants = ['a', 'b']
+const constants = ['a', 'b', 'c']
 
 const data = {
 	skill: 'determineAngles',
@@ -18,11 +18,13 @@ const data = {
 
 function generateState() {
 	const limit = 30
-	const alpha = getRandomInteger(limit/5, (90-limit)/5) * 5 // This is the angle in the X.
+	const alpha = getRandomInteger(limit / 5, 80 / 5) * 5 // This is the angle in the Z.
+	const a = getRandomInteger(limit / 5, (180 - limit - alpha) / 5) * 5
 	return {
 		...selectRandomVariables(variableSet, usedVariables),
-		a: 90 - alpha,
-		b: getRandomInteger(10, (180 - limit - alpha) / 5) * 5,
+		a,
+		b: 180 - alpha - a,
+		c: getRandomInteger(limit / 5, (180 - limit - alpha) / 5) * 5,
 		rotation: getRandom(0, 2 * Math.PI),
 		reflect: getRandomBoolean(),
 	}
@@ -30,10 +32,10 @@ function generateState() {
 
 function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
-	const { a, b } = state
-	const alpha = 90 - a
+	const { a, b, c } = state
+	const alpha = 180 - a - b
 	const beta = alpha
-	const gamma = 180 - b - beta
+	const gamma = 180 - c - beta
 	return { ...state, variables, alpha, beta, gamma }
 }
 

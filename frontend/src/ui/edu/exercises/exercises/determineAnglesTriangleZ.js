@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Vector } from 'step-wise/geometry'
+import { Vector, Line, Rectangle } from 'step-wise/geometry'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
@@ -14,7 +14,7 @@ import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
 
-const { Polygon, RightAngle } = components
+const { Polygon, Line: LineComponent } = components
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -25,7 +25,7 @@ const Problem = (state) => {
 	const { variables } = solution
 
 	return <>
-		<Par>Gegeven de onderstaande figuur, bereken hoek <M>{variables.gamma}</M> in graden.</Par>
+		<Par>Twee parallelle lijnen (dikgedrukt) omsluiten twee driehoeken. Bereken hoek <M>{variables.gamma}</M> in graden.</Par>
 		<ExerciseFigure solution={solution} showGamma={1} />
 		<InputSpace>
 			<ExpressionInput id="gamma" prelabel={<M>{variables.gamma}=</M>} size="s" settings={basicMath} validate={validAndNumeric} />
@@ -48,7 +48,7 @@ const steps = [
 		},
 		Solution: (state) => {
 			const { variables, a, alpha } = useSolution(state)
-			return <Par>De som van de hoeken van een driehoek is <M>180^\circ.</M> Dit geeft de vergelijking <BM>{variables.alpha} + 90^\circ + {a}^\circ = 180^\circ.</BM> Dit oplossen voor <M>{variables.alpha}</M> resulteert in <BM>{variables.alpha} = 180^\circ - 90^\circ - {a}^\circ = {alpha}^\circ.</BM></Par>
+			return <Par>De som van de hoeken van een driehoek is <M>180^\circ.</M> Voor de blauwe driehoek geeft dit de vergelijking <BM>{variables.alpha} + 90^\circ + {a}^\circ = 180^\circ.</BM> Dit oplossen voor <M>{variables.alpha}</M> resulteert in <BM>{variables.alpha} = 180^\circ - 90^\circ - {a}^\circ = {alpha}^\circ.</BM></Par>
 		},
 	},
 	{
@@ -67,7 +67,7 @@ const steps = [
 		},
 		Solution: (state) => {
 			const { variables, beta } = useSolution(state)
-			return <Par>Vanuit het principe van X-hoeken zien we dat <BM>{variables.beta} = {variables.alpha} = {beta}^\circ.</BM></Par>
+			return <Par>Vanuit het principe van Z-hoeken zien we dat <BM>{variables.beta} = {variables.alpha} = {beta}^\circ.</BM></Par>
 		},
 	},
 	{
@@ -86,7 +86,7 @@ const steps = [
 		},
 		Solution: (state) => {
 			const { variables, b, beta, gamma } = useSolution(state)
-			return <Par>De som van de hoeken van een driehoek is <M>180^\circ.</M> Dit geeft de vergelijking <BM>{variables.gamma} + {variables.beta} + {b}^\circ = 180^\circ.</BM> Dit oplossen voor <M>{variables.gamma}</M> resulteert in <BM>{variables.gamma} = 180^\circ - {variables.beta} - {b}^\circ = 180^\circ - {beta}^\circ - {b}^\circ = {gamma}^\circ.</BM></Par>
+			return <Par>De som van de hoeken van een driehoek is <M>180^\circ.</M> Voor de rode driehoek geeft dit de vergelijking <BM>{variables.gamma} + {beta} + {b}^\circ = 180^\circ.</BM> Dit oplossen voor <M>{variables.gamma}</M> resulteert in <BM>{variables.gamma} = 180^\circ - {beta}^\circ - {b}^\circ = {gamma}^\circ.</BM></Par>
 		},
 	},
 ]
@@ -97,7 +97,7 @@ function getFeedback(exerciseData) {
 
 function ExerciseFigure({ solution, showAlpha = 0, showBeta = 0, showGamma = 0 }) {
 	const rawPoints = getPoints(solution)
-	const { variables, rotation, reflect, a, b, alpha, beta, gamma } = solution
+	const { variables, rotation, reflect, a, b, c, alpha, beta, gamma } = solution
 
 	// Define settings.
 	const maxWidth = 360
@@ -105,45 +105,50 @@ function ExerciseFigure({ solution, showAlpha = 0, showBeta = 0, showGamma = 0 }
 	const labelScale = 1.3
 	const labelLetterSize = 14
 	const labelNumberSize = 20
+	const figureMargin = 20
 
 	// Process points.
 	const rotatedPoints = rotateAndReflect(rawPoints, rotation, reflect)
-	const { points, width, height } = scaleToBounds(rotatedPoints, maxWidth, maxHeight, rotation, reflect)
-	const { middle, right, topRight, left, bottomLeft } = points
+	const { points, width, height } = scaleToBounds(rotatedPoints, maxWidth, maxHeight, figureMargin)
+	const { bottomLeft, bottomRight, topLeft, topRight } = points
+
+	// Define data for drawing the two parallel lines.
+	const bounds = new Rectangle({ start: Vector.getZero(2), end: new Vector(width, height) })
+	const linePoints = [[bottomLeft, bottomRight], [topLeft, topRight]]
 
 	// Render the figure.
 	return <Drawing maxWidth={width} width={width} height={height} svgContents={
 		<>
-			<Polygon points={[left, bottomLeft, middle]} style={{ fill: '#ff8899' }} />
-			<Polygon points={[right, topRight, middle]} style={{ fill: '#88aaff' }} />
-			<RightAngle points={[middle, right, topRight]} />
+			<Polygon points={[topLeft, bottomLeft, topRight]} style={{ fill: '#ff8899' }} />
+			<Polygon points={[bottomLeft, topRight, bottomRight]} style={{ fill: '#88aaff' }} />
+			{linePoints.map((points, index) => {
+				const line = Line.fromPoints(...points)
+				const linePart = bounds.getLinePart(line)
+				return <LineComponent key={index} points={[linePart.start, linePart.end]} style={{ strokeWidth: 2 }} />
+			})}
 		</>
 	} htmlContents={
 		<>
-			{showAlpha === 0 ? null : <PositionedElement position={getCornerLabelPosition([right, middle, topRight], labelLetterSize)} scale={labelScale}>{showAlpha === 1 ? <M>{variables.alpha}</M> : <M>{alpha}^\circ</M>}</PositionedElement>}
-			{showBeta === 0 ? null : <PositionedElement position={getCornerLabelPosition([left, middle, bottomLeft], labelLetterSize)} scale={labelScale}>{showBeta === 1 ? <M>{variables.beta}</M> : <M>{beta}^\circ</M>}</PositionedElement>}
-			{showGamma === 0 ? null : <PositionedElement position={getCornerLabelPosition([left, bottomLeft, middle], labelLetterSize)} scale={labelScale}>{showGamma === 1 ? <M>{variables.gamma}</M> : <M>{gamma}^\circ</M>}</PositionedElement>}
+			{showAlpha === 0 ? null : <PositionedElement position={getCornerLabelPosition([topRight, bottomLeft, bottomRight], labelLetterSize)} scale={labelScale}>{showAlpha === 1 ? <M>{variables.alpha}</M> : <M>{alpha}^\circ</M>}</PositionedElement>}
+			{showBeta === 0 ? null : <PositionedElement position={getCornerLabelPosition([bottomLeft, topRight, topLeft], labelLetterSize)} scale={labelScale}>{showBeta === 1 ? <M>{variables.beta}</M> : <M>{beta}^\circ</M>}</PositionedElement>}
+			{showGamma === 0 ? null : <PositionedElement position={getCornerLabelPosition([topRight, topLeft, bottomLeft], labelLetterSize)} scale={labelScale}>{showGamma === 1 ? <M>{variables.gamma}</M> : <M>{gamma}^\circ</M>}</PositionedElement>}
 
-			<PositionedElement position={getCornerLabelPosition([right, topRight, middle], labelNumberSize)} scale={labelScale}><M>{a}^\circ</M></PositionedElement>
-			<PositionedElement position={getCornerLabelPosition([bottomLeft, left, middle], labelNumberSize)} scale={labelScale}><M>{b}^\circ</M></PositionedElement>
+			<PositionedElement position={getCornerLabelPosition([bottomLeft, bottomRight, topRight], labelNumberSize)} scale={labelScale}><M>{a}^\circ</M></PositionedElement>
+			<PositionedElement position={getCornerLabelPosition([bottomLeft, topRight, bottomRight], labelNumberSize)} scale={labelScale}><M>{b}^\circ</M></PositionedElement>
+			<PositionedElement position={getCornerLabelPosition([topLeft, bottomLeft, topRight], labelNumberSize)} scale={labelScale}><M>{c}^\circ</M></PositionedElement>
 		</>
 	} />
 }
 
 function getPoints(solution) {
-	const { b, alpha, beta, gamma } = solution
+	const { a, b, c, alpha, gamma } = solution
 
-	// Determine points in the drawing. First do the right triangle.
-	const middle = new Vector(0, 0)
+	// Determine points in the drawing.
+	const bottomLeft = new Vector(0, 0)
 	const topRight = Vector.fromPolar(1, -alpha * Math.PI / 180)
-	const right = new Vector(topRight.x, 0)
-
-	// Then do the left triangle.
-	const horizontalDistance = (gamma >= b ? 1 : Math.sin(gamma * Math.PI / 180) / Math.sin(b * Math.PI / 180))
-	const diagonalDistance = (gamma <= b ? 1 : Math.sin(b * Math.PI / 180) / Math.sin(gamma * Math.PI / 180))
-	const left = new Vector(-horizontalDistance, 0)
-	const bottomLeft = Vector.fromPolar(diagonalDistance, Math.PI - beta * Math.PI / 180)
+	const bottomRight = new Vector(Math.sin(b * Math.PI / 180) / Math.sin(a * Math.PI / 180), 0)
+	const topLeft = topRight.subtract(new Vector(Math.sin(c * Math.PI / 180) / Math.sin(gamma * Math.PI / 180), 0))
 
 	// Return everything together.
-	return { middle, right, topRight, left, bottomLeft }
+	return { bottomLeft, bottomRight, topLeft, topRight }
 }
