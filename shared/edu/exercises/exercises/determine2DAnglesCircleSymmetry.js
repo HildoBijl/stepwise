@@ -4,13 +4,13 @@ const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
 
-const variableSet = ['α', 'β', 'γ']
-const usedVariables = ['alpha', 'beta', 'gamma']
-const constants = ['a', 'b']
+const variableSet = ['α', 'β', 'γ', 'δ']
+const usedVariables = ['alpha', 'beta', 'gamma', 'delta']
+const constants = ['a']
 
 const data = {
-	skill: 'determineAngles',
-	steps: [null, null, null],
+	skill: 'determine2DAngles',
+	steps: [null, null, null, null],
 	comparison: {
 		default: {},
 	},
@@ -18,11 +18,10 @@ const data = {
 
 function generateState() {
 	const limit = 30
-	const alpha = getRandomInteger(limit/5, (90-limit)/5) * 5 // This is the angle in the X.
+	const twoAlpha = getRandomInteger(Math.ceil(limit / 4), Math.floor((90 - limit) / 4)) * 4 // This is the angle between the lines.
 	return {
 		...selectRandomVariables(variableSet, usedVariables),
-		a: 90 - alpha,
-		b: getRandomInteger(10, (180 - limit - alpha) / 5) * 5,
+		a: 90 - twoAlpha / 2,
 		rotation: getRandom(0, 2 * Math.PI),
 		reflect: getRandomBoolean(),
 	}
@@ -30,21 +29,24 @@ function generateState() {
 
 function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
-	const { a, b } = state
-	const alpha = 90 - a
-	const beta = alpha
-	const gamma = 180 - b - beta
-	return { ...state, variables, alpha, beta, gamma }
+	const { a } = state
+	const alpha = 90
+	const beta = 90 - a
+	const gamma = beta
+	const delta = 180 - 90 - gamma - beta
+	return { ...state, variables, alpha, beta, gamma, delta }
 }
 
 function checkInput(state, input, step) {
 	const solution = getSolution(state)
-	if (step === 0 || step === 3)
-		return performComparison('gamma', input, solution, data.comparison)
+	if (step === 0 || step === 4)
+		return performComparison('delta', input, solution, data.comparison)
 	if (step === 1)
 		return performComparison('alpha', input, solution, data.comparison)
 	if (step === 2)
 		return performComparison('beta', input, solution, data.comparison)
+	if (step === 3)
+		return performComparison('gamma', input, solution, data.comparison)
 }
 
 module.exports = {

@@ -82,7 +82,7 @@ const courses = {
 
 	exactawiskunde: {
 		name: 'Exacte Wetenschap A - Wiskunde',
-		goals: ['solveBasicSystemOfLinearEquations', 'solveGeneralSystemOfLinearEquations', 'applyQuadraticFormula'],
+		goals: ['solveBasicSystemOfLinearEquations', 'determine2DDistances', 'solveGeneralSystemOfLinearEquations', 'applyQuadraticFormula'],
 		priorKnowledge: [],
 		startingPoints: [
 			'expandBrackets',
@@ -91,6 +91,10 @@ const courses = {
 			'multiplyDivideFractions',
 			'moveATerm',
 			'applyQuadraticFormula',
+			'determine2DAngles',
+			'applyPythagoras',
+			'applySinCosTan',
+			'applySimilarTriangles',
 		],
 		blocks: [
 			{
@@ -103,7 +107,7 @@ const courses = {
 			},
 			{
 				name: 'Hoeken en afstanden',
-				goals: [],
+				goals: ['determine2DDistances'],
 			},
 			{
 				name: 'Stelsels van vergelijkingen',

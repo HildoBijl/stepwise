@@ -154,9 +154,22 @@ const skills = {
 	 */
 
 	// Basic geometry: angles and distances.
-	determineAngles: {
-		name: 'Hoeken bepalen',
-		exercises: ['determineAnglesTriangleX', 'determineAnglesTriangleZ', 'determineAnglesCircleSymmetry'],
+	determine2DAngles: {
+		name: '2D hoeken bepalen',
+		exercises: ['determine2DAnglesTriangleX', 'determine2DAnglesTriangleZ', 'determine2DAnglesCircleSymmetry'],
+	},
+	applyPythagoras: {
+		name: 'De stelling van Pythagoras toepassen',
+	},
+	applySinCosTan: {
+		name: 'Sinus/cosinus/tangens toepassen',
+	},
+	applySimilarTriangles: {
+		name: 'Gelijkvormige driehoeken toepassen',
+	},
+	determine2DDistances: {
+		name: '2D afstanden bepalen',
+		setup: combinerAnd('determine2DAngles', combinerOr('applyPythagoras', 'applySinCosTan', 'applySimilarTriangles')), // ToDo later: change into a picking function.
 	},
 
 	// Basic geometry: general triangles.

@@ -68,6 +68,17 @@ class Rectangle {
 		return new Line(this.start, this.vector)
 	}
 
+	get width() {
+		if (this.dimension !== 2)
+			throw new Error(`Invalid width request: cannot give the width of a ${this.dimension}D rectangle. This is only possible for 2D rectangles.`)
+		return this.getSize(0)
+	}
+	get height() {
+		if (this.dimension !== 2)
+			throw new Error(`Invalid height request: cannot give the height of a ${this.dimension}D rectangle. This is only possible for 2D rectangles.`)
+		return this.getSize(1)
+	}
+
 	// getBound gives the bounds of this rectangle along a certain axis. It is sorted to ensure the lower value is mentioned first.
 	getBound(axis) {
 		return ['start', 'end'].map(label => this[label].getCoordinate(axis)).sort((a, b) => a - b)
@@ -76,6 +87,17 @@ class Rectangle {
 	// bounds gives an array of bounds along each axis, with the minimum and the maximum value in a form [[xmin, xmax], [ymin, ymax], ...].
 	get bounds() {
 		return numberArray(0, this.dimension - 1).map(axis => this.getBound(axis))
+	}
+
+	// getSize gives the size of this rectangle along a certain axis.
+	getSize(axis) {
+		const bound = this.getBound(axis)
+		return bound[1] - bound[0]
+	}
+
+	// size gives an array of sizes along each axis.
+	get size() {
+		return numberArray(0, this.dimension - 1).map(axis => this.getSize(axis))
 	}
 
 	/*

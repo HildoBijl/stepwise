@@ -9,7 +9,7 @@ const usedVariables = ['alpha', 'beta', 'gamma']
 const constants = ['a', 'b', 'c']
 
 const data = {
-	skill: 'determineAngles',
+	skill: 'determine2DAngles',
 	steps: [null, null, null],
 	comparison: {
 		default: {},

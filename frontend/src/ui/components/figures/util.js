@@ -2,7 +2,7 @@
 
 import { ensureNumber } from 'step-wise/util/numbers'
 import { isBasicObject, applyToEachParameter } from 'step-wise/util/objects'
-import { Vector, ensureVector, ensureVectorArray } from 'step-wise/geometry'
+import { Vector, ensureVector, ensureVectorArray, Rectangle } from 'step-wise/geometry'
 
 // rotateAndReflect rotates all points along the given angle (in radians) and reflects it to (unless the second parameter is set to false). This is useful to randomize figures. Upon the transformation, the reflection is done first and then the rotation.
 export function rotateAndReflect(points, rotation = 0, reflect = true, relativeTo) {
@@ -21,7 +21,7 @@ export function rotateAndReflect(points, rotation = 0, reflect = true, relativeT
 	})
 }
 
-// scaleToBounds gets a set of 2D points (an object or array) and scales all the points such that they exactly fit within maxWidth and maxHeight (whichever bound if more narrow). Optionally extra margins can be included, either by giving a number (when equal for x and y) or by giving an array of two numbers [marginX, marginY]. As a result, an object is returned with parameters "points" (the result), "width" (the resulting width) and "height" (the resulting height). At least one of "width" and "height" equals its maximum value.
+// scaleToBounds gets a set of 2D points (an object or array) and scales all the points such that they exactly fit within maxWidth and maxHeight (whichever bound if more narrow). Optionally extra margins can be included, either by giving a number (when equal for x and y) or by giving an array of two numbers [marginX, marginY]. As a result, an object is returned with parameters "points" (the result), "bounds" (a Rectangle indicating the bounds), "scale" (the scale applied) and "transform" (a function that transforms future points). At least one of "width" and "height" equals its maximum value, taking into account margins.
 export function scaleToBounds(points, maxWidth, maxHeight, margin = 0) {
 	// Check the input.
 	maxWidth = ensureNumber(maxWidth)
@@ -50,13 +50,19 @@ export function scaleToBounds(points, maxWidth, maxHeight, margin = 0) {
 		scale = 1
 	const shift1 = new Vector(minX, minY)
 	const shift2 = new Vector(margin[0], margin[1])
+	const transform = point => point.subtract(shift1).multiply(scale).add(shift2)
+
+	// Return a Rectangle indicating the bounds.
+	const width = (maxX - minX) * scale + 2 * margin[0]
+	const height = (maxY - minY) * scale + 2 * margin[1]
+	const bounds = new Rectangle({ start: new Vector(0, 0), end: new Vector(width, height) })
 
 	// Apply the scale and shift.
 	return {
+		points: applyToEachParameter(points, transform),
 		scale,
-		points: applyToEachParameter(points, point => point.subtract(shift1).multiply(scale).add(shift2)),
-		width: (maxX - minX) * scale + 2 * margin[0],
-		height: (maxY - minY) * scale + 2 * margin[1],
+		bounds,
+		transform,
 	}
 }
 

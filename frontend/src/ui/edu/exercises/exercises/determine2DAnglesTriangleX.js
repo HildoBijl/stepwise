@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Vector } from 'step-wise/geometry'
+import { Vector, Line } from 'step-wise/geometry'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
@@ -14,7 +14,7 @@ import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
 
-const { Polygon, RightAngle } = components
+const { Line: LineComponent, Polygon, RightAngle } = components
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -25,7 +25,7 @@ const Problem = (state) => {
 	const { variables } = solution
 
 	return <>
-		<Par>Gegeven de onderstaande figuur, bereken hoek <M>{variables.gamma}</M> in graden.</Par>
+		<Par>Twee kruisende lijnen begrenzen twee driehoeken. Bereken hoek <M>{variables.gamma}</M> in graden.</Par>
 		<ExerciseFigure solution={solution} showGamma={1} />
 		<InputSpace>
 			<ExpressionInput id="gamma" prelabel={<M>{variables.gamma}=</M>} size="s" settings={basicMath} validate={validAndNumeric} />
@@ -105,17 +105,26 @@ function ExerciseFigure({ solution, showAlpha = 0, showBeta = 0, showGamma = 0 }
 	const labelScale = 1.3
 	const labelLetterSize = 14
 	const labelNumberSize = 20
+	const figureMargin = 20
 
 	// Process points.
 	const rotatedPoints = rotateAndReflect(rawPoints, rotation, reflect)
-	const { points, width, height } = scaleToBounds(rotatedPoints, maxWidth, maxHeight)
+	const { points, bounds } = scaleToBounds(rotatedPoints, maxWidth, maxHeight, figureMargin)
 	const { middle, right, topRight, left, bottomLeft } = points
 
+	// Define data for drawing the two crossing lines.
+	const linePoints = [[left, right], [bottomLeft, topRight]]
+
 	// Render the figure.
-	return <Drawing maxWidth={width} width={width} height={height} svgContents={
+	return <Drawing maxWidth={bounds.width} width={bounds.width} height={bounds.height} svgContents={
 		<>
-			<Polygon points={[left, bottomLeft, middle]} style={{ fill: '#ff8899' }} />
-			<Polygon points={[right, topRight, middle]} style={{ fill: '#88aaff' }} />
+			<Polygon points={[right, topRight, middle]} style={{ fill: '#aaccff' }} />
+			<Polygon points={[left, bottomLeft, middle]} style={{ fill: '#ffaabb' }} />
+			{linePoints.map((points, index) => {
+				const line = Line.fromPoints(...points)
+				const linePart = bounds.getLinePart(line)
+				return <LineComponent key={index} points={[linePart.start, linePart.end]} style={{ strokeWidth: 2 }} />
+			})}
 			<RightAngle points={[middle, right, topRight]} />
 		</>
 	} htmlContents={
