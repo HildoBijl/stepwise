@@ -36,7 +36,7 @@ const DrawingContext = createContext(null)
 
 const useStyles = makeStyles((theme) => ({
 	drawing: {
-		'& svg': {
+		'& > svg': {
 			display: 'block',
 			...notSelectable,
 			overflow: 'visible',
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 			},
 		},
 
-		'& canvas': {
+		'& > canvas': {
 			height: '100%',
 			...notSelectable,
 			width: '100%',
