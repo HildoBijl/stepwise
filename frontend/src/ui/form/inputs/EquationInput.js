@@ -8,7 +8,7 @@ import { getInterpretationErrorMessage } from './support/expressionTypes/support
 
 import ExpressionInput, { validWithVariablesGeneric } from './ExpressionInput'
 
-const { getEmpty, isEmpty, getStartCursor } = support
+const { getEmpty, isEmpty } = support
 
 const equationProps = {
 	label: 'Vul hier de vergelijking in',
@@ -63,7 +63,6 @@ export function getEmptyData(settings = {}) {
 	return {
 		type: 'Equation',
 		value: getEmpty(),
-		cursor: getStartCursor(),
 		settings,
 	}
 }

@@ -191,7 +191,7 @@ export function useFormParameter(options = {}) {
 		const lastInput = getLastInput(history)
 		if (lastInput && lastInput[id]) {
 			setData(data => {
-				// If the data has been changed since the initial data provision, keep the new data.
+				// If the data has been changed since the initial data provision, keep the data the user just entered.
 				if (!equals(clean(data), initialDataRef.current))
 					return data
 

@@ -101,7 +101,7 @@ function ExerciseFigure({ solution, showAlpha = 0, showBeta = 0, showGamma = 0 }
 
 	// Define settings.
 	const maxWidth = 360
-	const maxHeight = 300
+	const maxHeight = 360
 	const labelScale = 1.3
 	const labelLetterSize = 14
 	const labelNumberSize = 20

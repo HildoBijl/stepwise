@@ -20,7 +20,7 @@ import { getInterpretationErrorMessage } from './support/expressionTypes/support
 import { keys as mathKeys } from '../Keyboard/keyboards/basicMath'
 import { simplifyKey } from '../Keyboard/keyboards/KeyboardLayout'
 
-const { getEmpty, isEmpty, getStartCursor } = support
+const { getEmpty, isEmpty } = support
 
 const keysToCheck = [...mathKeys, ...Object.keys(greekAlphabet)]
 
@@ -194,7 +194,6 @@ export function getEmptyData(settings = {}) {
 	return {
 		type: 'Expression',
 		value: getEmpty(),
-		cursor: getStartCursor(),
 		settings,
 	}
 }
