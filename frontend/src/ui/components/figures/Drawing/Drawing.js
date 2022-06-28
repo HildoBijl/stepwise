@@ -35,28 +35,30 @@ export { defaultDrawingOptions }
 const DrawingContext = createContext(null)
 
 const useStyles = makeStyles((theme) => ({
-	drawing: {
-		'& > svg': {
-			display: 'block',
-			...notSelectable,
-			overflow: 'visible',
-			width: '100%',
-			zIndex: 2,
+	drawing: {},
 
-			'& .line': {
-				fill: 'none',
-				stroke: 'black',
-				'stroke-width': 1,
-			},
+	drawingSVG: {
+		display: 'block',
+		...notSelectable,
+		overflow: 'visible',
+		width: '100%',
+		zIndex: 2,
+
+		'& .line': {
+			fill: 'none',
+			stroke: 'black',
+			'stroke-width': 1,
 		},
+	},
 
-		'& > canvas': {
-			height: '100%',
-			...notSelectable,
-			width: '100%',
-			zIndex: 1,
-		},
+	drawingCanvas: {
+		height: '100%',
+		...notSelectable,
+		width: '100%',
+		zIndex: 1,
+	},
 
+	drawingHtmlContainer: {
 		'& .positionedElement': {
 			left: 0,
 			...notSelectable,
@@ -160,7 +162,7 @@ function Drawing(options, ref) {
 		<DrawingContext.Provider value={drawingRef.current}>
 			<Figure ref={figureRef} {...filterOptions(options, figureDefaultOptions)}>
 				{options.useSVG ? (
-					<svg ref={svgRef} viewBox={`0 0 ${options.width} ${options.height}`}>
+					<svg ref={svgRef} className={classes.drawingSVG} viewBox={`0 0 ${options.width} ${options.height}`}>
 						<defs>
 							<mask id="noOverflow">
 								<rect x="0" y="0" width={options.width} height={options.height} fill="#fff" />
@@ -170,8 +172,8 @@ function Drawing(options, ref) {
 						{options.svgContents}
 					</svg>
 				) : null}
-				{options.useCanvas ? <canvas ref={canvasRef} width={options.width} height={options.height} /> : null}
-				<div ref={htmlContentsRef}>
+				{options.useCanvas ? <canvas ref={canvasRef} className={classes.drawingCanvas} width={options.width} height={options.height} /> : null}
+				<div ref={htmlContentsRef} className={classes.drawingHtmlContainer}>
 					{options.htmlContents}
 				</div>
 			</Figure>

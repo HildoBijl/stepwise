@@ -21,14 +21,28 @@ export function rotateAndReflect(points, rotation = 0, reflect = true, relativeT
 	})
 }
 
-// scaleToBounds gets a set of 2D points (an object or array) and scales all the points such that they exactly fit within maxWidth and maxHeight (whichever bound if more narrow). Optionally extra margins can be included, either by giving a number (when equal for x and y) or by giving an array of two numbers [marginX, marginY]. As a result, an object is returned with parameters "points" (the result), "bounds" (a Rectangle indicating the bounds), "scale" (the scale applied) and "transform" (a function that transforms future points). At least one of "width" and "height" equals its maximum value, taking into account margins.
+/* scaleToBounds gets a set of 2D points (an object or array) and scales all the points such that they exactly fit within maxWidth and maxHeight (whichever bound if more narrow). Optionally extra margins can be included, either by giving a number (when equal for x and y) or by giving an array of two numbers [marginX, marginY] or by giving an array of arrays [[marginLeft, marginRight], [marginTop, marginBottom]].
+ *
+ * As a result, an object is returned with parameters:
+ * - points: the result.
+ * - bounds: a Rectangle object indicating the bounds.
+ * - scale: the scale factor applied.
+ * - transform: a function that transforms future points.
+ * - inverseTransform: the inverse function of the transform function.
+ * Of the given bounds Rectangle, at least one the "width" and "height" properties equals its maximum value, after taking into account margins.
+ */
 export function scaleToBounds(points, maxWidth, maxHeight, margin = 0) {
 	// Check the input.
 	maxWidth = ensureNumber(maxWidth)
 	maxHeight = ensureNumber(maxHeight)
 	if (!Array.isArray(margin))
 		margin = [margin, margin]
-	margin.forEach(marginNumber => ensureNumber(marginNumber))
+	margin = margin.map(directionMargin => {
+		if (!Array.isArray(directionMargin))
+			directionMargin = [directionMargin, directionMargin]
+		directionMargin.forEach(marginNumber => ensureNumber(marginNumber))
+		return directionMargin
+	})
 
 	// First find the bounds of the points.
 	let minX, maxX, minY, maxY
@@ -45,16 +59,17 @@ export function scaleToBounds(points, maxWidth, maxHeight, margin = 0) {
 	})
 
 	// Determine the scale and shift. If no valid scale is found, do not scale points.
-	let scale = Math.min((maxWidth - 2 * margin[0]) / (maxX - minX), (maxHeight - 2 * margin[1]) / (maxY - minY))
+	let scale = Math.min((maxWidth - margin[0][0] - margin[0][1]) / (maxX - minX), (maxHeight - margin[1][0] - margin[1][1]) / (maxY - minY))
 	if (Math.abs(scale) === Infinity)
 		scale = 1
 	const shift1 = new Vector(minX, minY)
-	const shift2 = new Vector(margin[0], margin[1])
+	const shift2 = new Vector(margin[0][0], margin[1][0])
 	const transform = point => point.subtract(shift1).multiply(scale).add(shift2)
+	const inverseTransform = point => point.subtract(shift2).divide(scale).add(shift1)
 
 	// Return a Rectangle indicating the bounds.
-	const width = (maxX - minX) * scale + 2 * margin[0]
-	const height = (maxY - minY) * scale + 2 * margin[1]
+	const width = (maxX - minX) * scale + margin[0][0] + margin[0][1]
+	const height = (maxY - minY) * scale + margin[1][0] + margin[1][1]
 	const bounds = new Rectangle({ start: new Vector(0, 0), end: new Vector(width, height) })
 
 	// Apply the scale and shift.
@@ -63,6 +78,7 @@ export function scaleToBounds(points, maxWidth, maxHeight, margin = 0) {
 		scale,
 		bounds,
 		transform,
+		inverseTransform,
 	}
 }
 

@@ -25,7 +25,7 @@ const Problem = (state) => {
 	const { a, variables } = solution
 
 	return <>
-		<Par>Twee kruisende lijnen raken allebei aan een cirkel. De gegeven hoek bij het middelpunt van de cirkel is <M>{a}^\circ.</M> Bereken hoek <M>{variables.delta}</M> in graden.</Par>
+		<Par>Twee kruisende lijnen raken een cirkel aan weerszijden. De gegeven hoek bij het middelpunt van de cirkel is <M>{a}^\circ.</M> Bereken hoek <M>{variables.delta}</M> in graden.</Par>
 		<ExerciseFigure solution={solution} showDelta={1} />
 		<InputSpace>
 			<ExpressionInput id="delta" prelabel={<M>{variables.delta}=</M>} size="s" settings={basicMath} validate={validAndNumeric} />
