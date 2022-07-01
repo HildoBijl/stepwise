@@ -5,6 +5,7 @@ import { Vector, Line, PositionedVector } from 'step-wise/geometry'
 import { M } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import { InputSpace } from 'ui/form/Status'
+import { scaleToBounds } from 'ui/components/figures'
 import { useCurrentBackgroundColor } from 'ui/components/figures/Drawing'
 
 import EngineeringDiagram, { Group, Beam, HingeSupport, RollerHalfHingeSupport, Distance, PositionedElement, Label, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
@@ -23,20 +24,44 @@ export default function Exercise() {
 
 function Problem(state) {
 	const solution = useSolution(state)
-	const { diagramSettings, points } = solution
+	const { points, loads } = solution
 
 	return <>
 		<Par>Gegeven is de onderstaande balk met externe belasting.</Par>
-		<EngineeringDiagram {...diagramSettings} svgContents={<Schematics data={solution} />} htmlContents={<Elements data={solution} />} />
+		<Diagram isInputField={false} {...{ points, loads }} />
 		<Par>Teken het vrijlichaamschema/schematisch diagram.</Par>
-		<InputSpace>
-			<FBDInput id="beam" {...diagramSettings} svgContents={<Schematics data={solution} showSupports={false} showLoads={false} />} htmlContents={<Elements data={solution} />} snappers={Object.values(points)} validate={allConnectedToPoints(points)} />
-		</InputSpace>
+		{/* <InputSpace>
+			<FBDInput id="loads" {...diagramSettings} svgContents={<Schematics data={solution} showSupports={false} showLoads={false} />} htmlContents={<Elements data={solution} />} snappers={Object.values(points)} validate={allConnectedToPoints(points)} />
+		</InputSpace> */}
 	</>
 }
 
-function Schematics({ data, showSupports = true, showLoads = true }) {
-	const { points, shift, beam } = data
+function Diagram({ isInputField = false, points: rawPoints, loads }) {
+	// Define settings.
+	const maxScale = 70
+	const margin = [100, [40, 100]]
+
+	// Process points.
+	const { points, bounds, transform, inverseTransform } = scaleToBounds(rawPoints, { maxScale, margin })
+	const { A, B, C, D } = points
+
+	const sizeProperties = {
+		maxWidth: bounds.width,
+		width: bounds.width,
+		height: bounds.height,
+	}
+
+
+	const schematics = <Schematics points={points} loads={loads} showSupports={!isInputField} showLoads={!isInputField} />
+	const elements = <Elements points={points} loads={loads} />
+
+	return isInputField ?
+		<FBDInput id="loads" {...sizeProperties} svgContents={schematics} htmlContents={elements} snappers={Object.values(points)} validate={allConnectedToPoints(points)} /> :
+		<EngineeringDiagram {...sizeProperties} svgContents={schematics} htmlContents={elements} />
+}
+
+function Schematics({ points, loads, showSupports = true, showLoads = true }) {
+	console.log(points)
 	return <>
 		<Beam points={Object.values(points)} />
 
@@ -46,27 +71,27 @@ function Schematics({ data, showSupports = true, showLoads = true }) {
 		</Group>
 
 		{showLoads ? <Group>
-			{render(beam.filter(load => load.source === loadTypes.external))}
+			{render(loads.filter(load => load.source === loadTypes.external))}
 		</Group> : null}
 
-		<Distance positionedVector={{ start: points.A.add([0, shift]), end: points.B.add([0, shift]) }} />
+		{/* <Distance positionedVector={{ start: points.A.add([0, shift]), end: points.B.add([0, shift]) }} />
 		<Distance positionedVector={{ start: points.B.add([0, shift]), end: points.C.add([0, shift]) }} />
-		<Distance positionedVector={{ start: points.C.add([shift, 0]), end: points.D.add([shift, 0]) }} />
+		<Distance positionedVector={{ start: points.C.add([shift, 0]), end: points.D.add([shift, 0]) }} /> */}
 	</>
 }
 
-function Elements({ data }) {
-	const { l1, l2, h, points, shift } = data
-	const background = useCurrentBackgroundColor()
-	return <>
-		<Label position={points.A} angle={Math.PI * 5 / 4} distance={5}><M>A</M></Label>
-		<Label position={points.B} angle={Math.PI * 3 / 2} distance={2}><M>B</M></Label>
-		<Label position={points.C} angle={0}><M>C</M></Label>
-		<Label position={points.D} angle={0}><M>D</M></Label>
-		<PositionedElement position={points.A.interpolate(points.B).add([0, shift])} anchor={[0.5, 0.5]} scale={1} style={{ background, padding: '0.3rem' }}><M>l_1 = {l1}\ (\rm m)</M></PositionedElement>
-		<PositionedElement position={points.B.interpolate(points.C).add([0, shift])} anchor={[0.5, 0.5]} scale={1} style={{ background, padding: '0.3rem' }}><M>l_2 = {l2}\ (\rm m)</M></PositionedElement>
-		<PositionedElement position={points.C.interpolate(points.D).add([shift, 0])} anchor={[0.5, 0.5]} scale={1} rotate={Math.PI / 2} style={{ background, padding: '0.3rem' }}><M>h = {h}\ (\rm m)</M></PositionedElement>
-	</>
+function Elements({ points, loads }) {
+	return null
+	// const background = useCurrentBackgroundColor()
+	// return <>
+	// 	<Label position={points.A} angle={Math.PI * 5 / 4} distance={5}><M>A</M></Label>
+	// 	<Label position={points.B} angle={Math.PI * 3 / 2} distance={2}><M>B</M></Label>
+	// 	<Label position={points.C} angle={0}><M>C</M></Label>
+	// 	<Label position={points.D} angle={0}><M>D</M></Label>
+	// 	<PositionedElement position={points.A.interpolate(points.B).add([0, shift])} anchor={[0.5, 0.5]} scale={1} style={{ background, padding: '0.3rem' }}><M>l_1 = {l1}\ (\rm m)</M></PositionedElement>
+	// 	<PositionedElement position={points.B.interpolate(points.C).add([0, shift])} anchor={[0.5, 0.5]} scale={1} style={{ background, padding: '0.3rem' }}><M>l_2 = {l2}\ (\rm m)</M></PositionedElement>
+	// 	<PositionedElement position={points.C.interpolate(points.D).add([shift, 0])} anchor={[0.5, 0.5]} scale={1} rotate={Math.PI / 2} style={{ background, padding: '0.3rem' }}><M>h = {h}\ (\rm m)</M></PositionedElement>
+	// </>
 }
 
 function Solution(state) {

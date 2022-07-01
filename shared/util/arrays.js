@@ -10,9 +10,9 @@ function ensureArray(array) {
 module.exports.ensureArray = ensureArray
 
 // ensureNumberArray checks whether a variable is an array filled with numbers. It can be given the same extra options as ensureNumber.
-function ensureNumberArray(array, positive, nonzero) {
+function ensureNumberArray(array, ...args) {
 	array = ensureArray(array)
-	array = array.map(v => ensureNumber(v, positive, nonzero))
+	array = array.map(v => ensureNumber(v, ...args))
 	return array
 }
 module.exports.ensureNumberArray = ensureNumberArray

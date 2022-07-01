@@ -105,11 +105,11 @@ function ExerciseFigure({ solution, showAlpha = 0, showBeta = 0, showGamma = 0 }
 	const labelScale = 1.3
 	const labelLetterSize = 14
 	const labelNumberSize = 20
-	const figureMargin = 20
+	const margin = 20
 
 	// Process points.
 	const rotatedPoints = rotateAndReflect(rawPoints, rotation, reflect)
-	const { points, bounds } = scaleToBounds(rotatedPoints, maxWidth, maxHeight, figureMargin)
+	const { points, bounds } = scaleToBounds(rotatedPoints, { maxWidth, maxHeight, margin })
 	const { bottomLeft, bottomRight, topLeft, topRight } = points
 
 	// Define data for drawing the two parallel lines.

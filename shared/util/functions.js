@@ -7,6 +7,13 @@ module.exports.noop = noop
 function passOn(x) { return x }
 module.exports.passOn = passOn
 
+function ensureFunction(func) {
+	if (typeof func !== 'function')
+		throw new Error(`Input error: expected a function but received an input of type "${typeof func}".`)
+	return func
+}
+module.exports.ensureFunction = ensureFunction
+
 // repeat will repeat the given function the given number of times. The function is passed the index (0, 1, ..., (times-1)) as parameter. Negative times will throw an error.
 function repeat(times, func) {
 	repeatWithIndices(0, times - 1, func)

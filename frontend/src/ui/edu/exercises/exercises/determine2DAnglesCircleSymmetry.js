@@ -124,11 +124,11 @@ function ExerciseFigure({ solution, showAlpha = 0, showBeta = 0, showGamma = 0, 
 	const labelScale = 1.3
 	const labelLetterSize = 14
 	const labelNumberSize = 20
-	const figureMargin = 0
+	const margin = 0
 
 	// Process points.
 	const rotatedPoints = rotateAndReflect(rawPoints, rotation, reflect)
-	const { points, bounds } = scaleToBounds(rotatedPoints, maxWidth, maxHeight, figureMargin)
+	const { points, bounds } = scaleToBounds(rotatedPoints, { maxWidth, maxHeight, margin })
 	const { top, center, right, bottom } = points
 	const radius = top.subtract(center).magnitude
 

@@ -3,4 +3,6 @@ module.exports = {
 	...require('./Line'),
 	...require('./PositionedVector'),
 	...require('./Rectangle'),
+	...require('./Matrix'),
+	...require('./Transformation'),
 }

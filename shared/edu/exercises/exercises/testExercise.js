@@ -21,22 +21,16 @@ function generateState() {
 
 function getSolution(state) {
 	const { l1, l2, h } = state
-	const scale = 70
-	const margin = 100
-	const marginTop = 40
-	const shift = 60
-	const diagramSettings = {
-		maxWidth: scale * (l1 + l2) + 2 * margin,
-		width: scale * (l1 + l2) + 2 * margin,
-		height: scale * h + margin + marginTop,
-	}
-	const A = new Vector(margin, marginTop + scale * h)
-	const B = new Vector(A.x + scale * l1, A.y)
-	const C = new Vector(B.x + scale * l2, B.y)
-	const D = new Vector(C.x, C.y - scale * h)
+
+	// Define points.
+	const A = new Vector(0, 0)
+	const B = new Vector(l1, 0)
+	const C = new Vector(l1 + l2, 0)
+	const D = new Vector(l1 + l2, -h)
 	const points = { A, B, C, D }
 
-	const beam = [
+	// Define loads.
+	const loads = [
 		getDefaultForce(A, 0, reaction),
 		getDefaultForce(A, -Math.PI / 2, reaction),
 		getDefaultForce(B, -Math.PI / 2, reaction),
@@ -44,12 +38,12 @@ function getSolution(state) {
 		getDefaultForce(D, 0, external),
 	]
 
-	return { ...state, diagramSettings, scale, margin, shift, points, beam }
+	return { ...state, points, loads }
 }
 
 function checkInput(state, input) {
 	const solution = getSolution(state)
-	return areLoadsMatching(input.beam, solution.beam, data.comparison)
+	return areLoadsMatching(input.loads, solution.loads, data.comparison)
 }
 
 module.exports = {

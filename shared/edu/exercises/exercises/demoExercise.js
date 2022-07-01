@@ -1,26 +1,46 @@
-const { getRandomInteger } = require('../../../inputTypes/Integer')
-const { asExpression, expressionComparisons } = require('../../../CAS')
+const { getRandomBoolean, getRandomInteger } = require('../../../util/random')
+const { Vector } = require('../../../geometry')
 
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { performComparison } = require('../util/comparison')
+const { loadTypes, getDefaultForce, getDefaultMoment, FBDComparison, areLoadsMatching } = require('../util/engineeringMechanics')
+
+const { reaction, external } = loadTypes
 
 const data = {
-	skill: 'demo',
-	comparison: expressionComparisons.onlyOrderChanges,
+	skill: 'test',
+	comparison: FBDComparison,
 }
 
 function generateState() {
 	return {
-		x: getRandomInteger(2, 6),
+		l1: getRandomInteger(2, 4),
+		l2: getRandomInteger(2, 4),
+		theta: getRandomInteger(30, 80),
+		fixA: getRandomBoolean(),
 	}
 }
 
 function getSolution(state) {
-	return { ...state, ans: asExpression(`sin(${state.x}x)`) }
+	const { l1, l2, theta, fixA } = state
+
+	const A = new Vector(0, 0)
+	const B = new Vector(l1, 0)
+	const C = new Vector(l1 + l2, 0)
+	const points = { A, B, C }
+
+	const loads = [
+		getDefaultForce(fixA ? A : C, 0, reaction),
+		getDefaultForce(A, -Math.PI / 2, reaction),
+		getDefaultForce(B, (90 - theta) * Math.PI / 180, external),
+		getDefaultForce(C, -Math.PI / 2, reaction),
+	]
+
+	return { ...state, points, loads }
 }
 
 function checkInput(state, input) {
-	return performComparison('ans', input, getSolution(state), data.comparison)
+	const solution = getSolution(state)
+	return areLoadsMatching(input.beam, solution.beam, data.comparison)
 }
 
 module.exports = {

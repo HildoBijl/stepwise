@@ -1,7 +1,7 @@
 // This util file contains various useful functions supporting figures, drawings, plots, etcetera. Because they are not connected to any of these objects specifically, the functions are put here.
 
 import { ensureNumber } from 'step-wise/util/numbers'
-import { isBasicObject, applyToEachParameter } from 'step-wise/util/objects'
+import { isBasicObject, applyToEachParameter, processOptions } from 'step-wise/util/objects'
 import { Vector, ensureVector, ensureVectorArray, Rectangle } from 'step-wise/geometry'
 
 // rotateAndReflect rotates all points along the given angle (in radians) and reflects it to (unless the second parameter is set to false). This is useful to randomize figures. Upon the transformation, the reflection is done first and then the rotation.
@@ -21,7 +21,12 @@ export function rotateAndReflect(points, rotation = 0, reflect = true, relativeT
 	})
 }
 
-/* scaleToBounds gets a set of 2D points (an object or array) and scales all the points such that they exactly fit within maxWidth and maxHeight (whichever bound if more narrow). Optionally extra margins can be included, either by giving a number (when equal for x and y) or by giving an array of two numbers [marginX, marginY] or by giving an array of arrays [[marginLeft, marginRight], [marginTop, marginBottom]].
+/* scaleToBounds gets a set of 2D points (an object or array) and scales all the points such that they exactly fit within the required limits. These limits are set in the options object. This object can have the following parameters.
+ * - margin (default 0): the margin that will be applied around the points. These can be set either by giving a number (when equal for x and y) or by giving an array of two numbers [marginX, marginY] or by giving an array of arrays [[marginLeft, marginRight], [marginTop, marginBottom]].
+ * - maxWidth (default Infinity): the maximum width that will be applied (taking into account margins).
+ * - maxHeight (default Infinity): identical but then for the height.
+ * - maxScale (default Infinity): the maximum scale that will be applied.
+ * Whichever of all the given maxima is the most stringent will be applied.
  *
  * As a result, an object is returned with parameters:
  * - points: the result.
@@ -31,10 +36,14 @@ export function rotateAndReflect(points, rotation = 0, reflect = true, relativeT
  * - inverseTransform: the inverse function of the transform function.
  * Of the given bounds Rectangle, at least one the "width" and "height" properties equals its maximum value, after taking into account margins.
  */
-export function scaleToBounds(points, maxWidth, maxHeight, margin = 0) {
+export function scaleToBounds(points, options = {}) {
 	// Check the input.
+	if (options.maxWidth === undefined && options.maxHeight === undefined && options.maxScale === undefined)
+		throw new Error(`Invalid scaleToBounds options: one maximum must be set. Cannot apply bounds if there are no limits defined.`)
+	let { maxWidth, maxHeight, maxScale, margin } = processOptions(options, defaultScaleToBoundsOptions)
 	maxWidth = ensureNumber(maxWidth)
 	maxHeight = ensureNumber(maxHeight)
+	maxScale = ensureNumber(maxScale)
 	if (!Array.isArray(margin))
 		margin = [margin, margin]
 	margin = margin.map(directionMargin => {
@@ -59,7 +68,7 @@ export function scaleToBounds(points, maxWidth, maxHeight, margin = 0) {
 	})
 
 	// Determine the scale and shift. If no valid scale is found, do not scale points.
-	let scale = Math.min((maxWidth - margin[0][0] - margin[0][1]) / (maxX - minX), (maxHeight - margin[1][0] - margin[1][1]) / (maxY - minY))
+	let scale = Math.min(maxScale, (maxWidth - margin[0][0] - margin[0][1]) / (maxX - minX), (maxHeight - margin[1][0] - margin[1][1]) / (maxY - minY))
 	if (Math.abs(scale) === Infinity)
 		scale = 1
 	const shift1 = new Vector(minX, minY)
@@ -80,6 +89,12 @@ export function scaleToBounds(points, maxWidth, maxHeight, margin = 0) {
 		transform,
 		inverseTransform,
 	}
+}
+const defaultScaleToBoundsOptions = {
+	maxWidth: Infinity,
+	maxHeight: Infinity,
+	maxScale: Infinity,
+	margin: 0,
 }
 
 // getCornerLabelPosition takes an array of three points describing a corner, and a distance parameter, and returns the position where the corner label should be positioned.
