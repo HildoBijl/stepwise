@@ -4,8 +4,8 @@ const { ensureInt, ensureNumber } = require('../util/numbers')
 const { ensureNumberArray } = require('../util/arrays')
 const { isBasicObject } = require('../util/objects')
 
-const { ensureVector } = require('./Vector')
-const { ensureMatrix } = require('./Matrix')
+const { Vector, ensureVector } = require('./Vector')
+const { Matrix, ensureMatrix } = require('./Matrix')
 
 class Transformation {
 	/*
@@ -16,12 +16,19 @@ class Transformation {
 		// If there is only one argument, it could be an SO or just a matrix.
 		let matrix, vector
 		if (args.length === 1) {
+			if (args[0] instanceof Transformation)
+				return args[0]
 			if (isBasicObject(args[0])) {
 				matrix = args[0].matrix
 				vector = args[0].vector
 			} else {
 				matrix = args[0]
 			}
+		} else if(args.length === 2) {
+			matrix = args[0]
+			vector = args[1]
+		} else {
+			throw new Error(`Invalid Transformation input: received ${args.length} parameters, but only a Matrix and optionally a Vector are expected.`)
 		}
 
 		// Check and store the input.
@@ -136,15 +143,13 @@ class Transformation {
 			[Math.cos(rotation), -Math.sin(rotation)],
 			[Math.sin(rotation), Math.cos(rotation)],
 		]
-		const vector = Vector.getZero(2)
+		const vector = Vector.zero
 		return new Transformation(matrix, vector).getRelativeTo(relativeTo)
 	}
 
 	// getReflection returns a transformation that will reflect a point along the given direction. Yes, ALONG. So to flip across the vertical axis, reflect ALONG the horizontal axis, and hence give [1, 0] as vector. This also works for higher dimensions. By default, reflection is done along the x-axis.
 	static getReflection(direction, relativeTo) {
-		if (direction === undefined)
-			direction = Vector.getUnitVector(0, this.dimension)
-		direction = ensureVector(direction, this.dimension, undefined, true)
+		direction = ensureVector(direction, undefined, undefined, true)
 
 		// Apply the respective transformation matrix I - 2*v*v^T/|v|^2.
 		direction = direction.normalize()

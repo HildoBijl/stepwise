@@ -23,7 +23,7 @@ function generateState() {
 		...selectRandomVariables(variableSet, usedVariables),
 		a: 90 - twoAlpha / 2,
 		rotation: getRandom(0, 2 * Math.PI),
-		reflect: getRandomBoolean(),
+		reflection: getRandomBoolean(),
 	}
 }
 

@@ -12,7 +12,7 @@ export function getEventPosition(evt) {
 	const obj = (evt.touches && evt.touches[0]) || (evt.changedTouches && evt.changedTouches[0]) || evt
 	if (obj.clientX === undefined || obj.clientY === undefined)
 		return null
-	return new Vector([obj.clientX, obj.clientY])
+	return new Vector(obj.clientX, obj.clientY)
 }
 
 // getCoordinatesOf gives the coordinates of an element within a certain parent of it. This parent can be multiple layers up, but must at some point be an offset parent.

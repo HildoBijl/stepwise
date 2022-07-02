@@ -34,6 +34,14 @@ export function useConsistentValue(value) {
 	return ref.current
 }
 
+// useEqualRefOnEquality will check if a value equals its previous value. If so, the reference is maintained. The difference between useConsistentValue and this function is that this has its own equality check.
+export function useEqualRefOnEquality(value, equalityCheck = (a, b) => a && a.equals(b)) {
+	const ref = useRef()
+	if (value !== ref.current && !equalityCheck(value, ref.current))
+		ref.current = value
+	return ref.current
+}
+
 // useImmutableValue will ensure that the given property remains exactly the same. If it changes, an error is thrown. It's also not allowed to be undefined. This is useful for properties that are not allowed to change.
 export function useImmutableValue(value) {
 	const ref = useRef(undefined)
@@ -44,14 +52,6 @@ export function useImmutableValue(value) {
 	if (value !== ref.current)
 		throw new Error(`Unallowed property change: the given property is not allowed to change value. However, it changed from "${ref.current}" to "${value}".`)
 	return value // Return the value for potential chaining.
-}
-
-// useEqualRefOnEquality will check if a value equals its previous value. If so, the reference is maintained.
-export function useEqualRefOnEquality(value, equalityCheck = (a, b) => a && a.equals(b)) {
-	const ref = useRef()
-	if (value !== ref.current && !equalityCheck(value, ref.current))
-		ref.current = value
-	return ref.current
 }
 
 // useCounter is a function that returns [counter, increment], where counter is an integer and increment is a function that, when called, increments said counter.

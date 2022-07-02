@@ -1,28 +1,27 @@
 /* Drawing is the parent component of every drawing made, either through SVG or Canvas. It is generally used inside other components to make specific types of plots, figures or similar.
- * When Drawing is given a ref, it places in this ref an object { svg: ..., canvas: ... } with references to the respective DOM elements. Note that the option useCanvas needs to be set to true if a Canvas is desired. useSVG is by default set to true, but can be turned off.
+ * When Drawing is given a ref, it places in this ref an object { svg: ..., canvas: ... } with references to the respective DOM elements. Note that the option useCanvas needs to be set to true if a Canvas is desired. Whether to use SVG is determined by whether svgContents are given.
  */
 
-import React, { createContext, useContext, useRef, forwardRef, useImperativeHandle, useCallback, useEffect, useLayoutEffect } from 'react'
+import React, { useRef, forwardRef, useImperativeHandle, useEffect } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { select } from 'd3-selection'
 
-import { ensureNumber } from 'step-wise/util/numbers'
-import { ensureObject, processOptions, filterOptions } from 'step-wise/util/objects'
+import { processOptions, filterOptions } from 'step-wise/util/objects'
 import { deg2rad } from 'step-wise/util/numbers'
-import { Vector, ensureVector, Rectangle } from 'step-wise/geometry'
+import { Vector, ensureVector } from 'step-wise/geometry'
 
-import { ensureReactElement, useEqualRefOnEquality, useMousePosition as useClientMousePosition, useBoundingClientRect, useEventListener, useForceUpdate } from 'util/react'
+import { useMousePosition as useClientMousePosition, useBoundingClientRect, useForceUpdate } from 'util/react'
 import { notSelectable } from 'ui/theme'
 
 import Figure, { defaultOptions as figureDefaultOptions } from '../Figure'
 
+import { DrawingContext } from './DrawingContext'
+
 const defaultDrawingOptions = {
-	...figureDefaultOptions, // Includes a maxWidth option to set the maximum width of the figure.
-	width: 800, // Viewport width.
-	height: 600, // Viewport height.
-	useSVG: true,
+	...figureDefaultOptions, // Includes a maxWidth option to set the maximum width of the figure. This can also be a function of the drawing bounds.
+	transformationSettings: undefined, // An object containing data on figure bounds and a transformation that is applied to get from drawing coordinates to graphical coordinates.
 	useCanvas: false,
 	svgContents: undefined, // JSX elements that need to be placed directly into the SVG container.
 	svgDefs: undefined, // JSX elements that are placed in the defs part of the SVG container.
@@ -30,9 +29,6 @@ const defaultDrawingOptions = {
 }
 delete defaultDrawingOptions.aspectRatio // We override the aspect ratio based on the width and height of the viewport.
 export { defaultDrawingOptions }
-
-// Set up a context so elements inside the drawing can ask for the drawing.
-const DrawingContext = createContext(null)
 
 const useStyles = makeStyles((theme) => ({
 	drawing: {},
@@ -71,15 +67,30 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function Drawing(options, ref) {
-	// Process, calculate and check options and style.
+	// Process and check the options.
 	options = processOptions(options, defaultDrawingOptions)
-	options.aspectRatio = options.height / options.width
-	if (!options.useSVG && !options.useCanvas)
-		throw new Error('Drawing render error: cannot generate a plot without either an SVG or a canvas.')
+	const { transformationSettings } = options
+	if (!transformationSettings)
+		throw new Error(`Drawing render error: no transformation settings are given. Use any of the "use[...]TransformationSettings" functions from the transformation utility file to get transformation settings.`)
+	if (!options.svgContents && !options.useCanvas)
+		throw new Error('Drawing render error: cannot generate a drawing without either an SVG or a canvas present. Add either svgContents or set useCanvas to true.')
+
+	// Set up styles and references.
 	const classes = useStyles()
 	const htmlContentsRef = useRef()
 	const svgRef = useRef()
 	const canvasRef = useRef()
+
+	// Determine figure size parameters to use for rendering.
+	const { bounds } = transformationSettings
+	console.log(Object.values(transformationSettings.points).map(point => point.str))
+	const { width, height } = bounds
+	options.aspectRatio = height / width // This must be passed on to the Figure object.
+	if (typeof options.maxWidth === 'function') {
+		console.log(bounds.str)
+		console.log(options.maxWidth(bounds))
+		options.maxWidth = options.maxWidth(bounds)
+	}
 
 	// Set up refs and make them accessible to any implementing component.
 	const figureRef = useRef()
@@ -89,45 +100,54 @@ function Drawing(options, ref) {
 		get figure() { return drawingRef.current.figure },
 		get svg() { return drawingRef.current.svg },
 		get d3svg() { return drawingRef.current.d3svg },
-		get canvas() { return drawingRef.canvas.svg },
+		get canvas() { return drawingRef.current.canvas },
 		get context() { return drawingRef.current.context },
-		get width() { return drawingRef.current.width },
-		get height() { return drawingRef.current.height },
-		get bounds() { return new Rectangle({ start: [0, 0], end: [drawingRef.current.width, drawingRef.current.height] }) },
+		get width() { return drawingRef.current.transformationSettings.bounds.width },
+		get height() { return drawingRef.current.transformationSettings.bounds.height },
+		get bounds() { return drawingRef.current.transformationSettings.bounds },
+		get transformation() { return drawingRef.current.transformationSettings.transformation },
+		get inverseTransformation() { return drawingRef.current.transformationSettings.inverseTransformation },
+		get scale() { return drawingRef.current.transformationSettings.scale },
 
-		// Position functions.
-		getPosition(clientCoordinates, figureRect) {
-			// If no clientCoordinates have been given, we cannot do anything.
-			if (!clientCoordinates)
-				return null
-
-			// If no figure rectangle has been provided, find it. (It can be already provided for efficiency.)
-			const drawing = drawingRef.current
-			if (!figureRect) {
-				const figureInner = drawing.figure && drawing.figure.inner
-				if (!figureInner)
-					return null
-				figureRect = figureInner.getBoundingClientRect()
-			}
-
-			// Calculate the position.
-			clientCoordinates = ensureVector(clientCoordinates, 2)
-			return new Vector([
-				(clientCoordinates.x - figureRect.x) * drawing.width / figureRect.width,
-				(clientCoordinates.y - figureRect.y) * drawing.height / figureRect.height,
-			])
+		// Coordinate manipulation functions. Note the distinction between client points, graphical points and drawing points, all in different coordinate systems.
+		getGraphicalCoordinates(cPoint, figureRect) {
+			return getGraphicalCoordinates(cPoint, drawingRef.current, figureRect)
 		},
-		isInside(position) {
-			if (!position)
+		getDrawingCoordinates(cPoint, figureRect) {
+			const gPoint = getGraphicalCoordinates(cPoint, drawingRef.current, figureRect)
+			const inverseTransformation = drawingRef.current.transformationSettings.inverseTransformation
+			return gPoint && inverseTransformation.apply(gPoint)
+		},
+		getPointFromEvent(event) {
+			const cPoint = getClientCoordinatesFromEvent(event)
+			const gPoint = getGraphicalCoordinates(cPoint, drawingRef.current)
+			const inverseTransformation = drawingRef.current.transformationSettings.inverseTransformation
+			return gPoint && inverseTransformation.apply(gPoint)
+		},
+		isInside(gPoint) {
+			if (!gPoint)
 				return false
-			return position.x >= 0 && position.x <= drawingRef.current.width && position.y >= 0 && position.y <= drawingRef.current.height
+			return gPoint.x >= 0 && gPoint.x <= drawingRef.current.width && gPoint.y >= 0 && gPoint.y <= drawingRef.current.height
 		},
-		applyBounds(position) {
+		applyBounds(gPoint) {
 			const { width, height } = drawingRef.current
 			return new Vector({
-				x: position.x < 0 ? 0 : (position.x > width ? width : position.x),
-				y: position.y < 0 ? 0 : (position.y > height ? height : position.y),
+				x: gPoint.x < 0 ? 0 : (gPoint.x > width ? width : gPoint.x),
+				y: gPoint.y < 0 ? 0 : (gPoint.y > height ? height : gPoint.y),
 			})
+		},
+
+		getBounds() {
+			return drawingRef.current.bounds
+		},
+		getTransformation() {
+			return drawingRef.current.transformation
+		},
+		getInverseTransformation() {
+			return drawingRef.current.inverseTransformation
+		},
+		getScale() {
+			return drawingRef.current.scale
 		},
 
 		placeText(text, options) {
@@ -135,9 +155,6 @@ function Drawing(options, ref) {
 		},
 		clearText() {
 			return drawingRef.current.gText.selectAll('*').remove()
-		},
-		getPointFromEvent(event) {
-			return getPointFromEvent(drawingRef.current, event)
 		},
 	}))
 
@@ -148,31 +165,30 @@ function Drawing(options, ref) {
 			drawingRef.current = initialize(figureRef.current, svgRef.current, canvasRef.current)
 			forceUpdate() // A forced update is needed to ensure the new ref is applied into the DrawingContext.
 		}
-	}, [figureRef, drawingRef, forceUpdate])
+	}, [figureRef, svgRef, drawingRef, forceUpdate])
 
-	// Make sure the width and height are always up-to-date.
+	// Make sure the transformation settings are always up-to-date.
 	useEffect(() => {
-		drawingRef.current.width = parseFloat(options.width)
-		drawingRef.current.height = parseFloat(options.height)
-	}, [options.width, options.height])
+		drawingRef.current.transformationSettings = transformationSettings
+	}, [transformationSettings])
 
 	// Render figure with SVG and Canvas properly placed.
 	options.className = clsx('drawing', classes.drawing, options.className)
 	return (
 		<DrawingContext.Provider value={drawingRef.current}>
 			<Figure ref={figureRef} {...filterOptions(options, figureDefaultOptions)}>
-				{options.useSVG ? (
-					<svg ref={svgRef} className={classes.drawingSVG} viewBox={`0 0 ${options.width} ${options.height}`}>
+				{options.svgContents ? (
+					<svg ref={svgRef} className={classes.drawingSVG} viewBox={`0 0 ${width} ${height}`}>
 						<defs>
 							<mask id="noOverflow">
-								<rect x="0" y="0" width={options.width} height={options.height} fill="#fff" />
+								<rect x="0" y="0" width={width} height={height} fill="#fff" />
 							</mask>
 							{options.svgDefs}
 						</defs>
 						{options.svgContents}
 					</svg>
 				) : null}
-				{options.useCanvas ? <canvas ref={canvasRef} className={classes.drawingCanvas} width={options.width} height={options.height} /> : null}
+				{options.useCanvas ? <canvas ref={canvasRef} className={classes.drawingCanvas} width={width} height={height} /> : null}
 				<div ref={htmlContentsRef} className={classes.drawingHtmlContainer}>
 					{options.htmlContents}
 				</div>
@@ -182,7 +198,7 @@ function Drawing(options, ref) {
 }
 export default forwardRef(Drawing)
 
-function initialize(figure, svg, canvas) {
+function initialize(figure, svg, canvas, transformationSettings) {
 	// Build up the SVG with the most important containers.
 	let d3svg, gText
 	if (svg) {
@@ -197,23 +213,52 @@ function initialize(figure, svg, canvas) {
 	}
 
 	// Store everything in the drawing ref.
-	return { figure, svg, d3svg, gText, canvas, context }
+	return { figure, svg, d3svg, gText, canvas, context, transformationSettings }
 }
 
-// Get the data out of the context.
-export function useDrawingContext() {
-	return useContext(DrawingContext)
+/*
+ * Positioning functions.
+ */
+
+// getGraphicalCoordinates takes client coordinates and transforms them to graphical coordinates. It may be provided with a figureRect, but if it's not present, then it's recalculated based on the references in the drawing.
+function getGraphicalCoordinates(clientCoordinates, drawing, figureRect) {
+	// If no clientCoordinates have been given, we cannot do anything.
+	if (!clientCoordinates)
+		return null
+
+	// If no figure rectangle has been provided, find it. (It can be already provided for efficiency.)
+	if (!figureRect) {
+		const figureInner = drawing.figure && drawing.figure.inner
+		if (!figureInner)
+			return null
+		figureRect = figureInner.getBoundingClientRect()
+	}
+
+	// Calculate the position.
+	clientCoordinates = ensureVector(clientCoordinates, 2)
+	return new Vector([
+		(clientCoordinates.x - figureRect.x) * drawing.width / figureRect.width,
+		(clientCoordinates.y - figureRect.y) * drawing.height / figureRect.height,
+	])
+}
+
+// getClientCoordinatesFromEvent returns the point in SVG/Canvas coordinates based on an event.
+function getClientCoordinatesFromEvent(event) {
+	const eventProcessed = ((event.touches && event.touches[0]) || event)
+	return new Vector({ x: eventProcessed.clientX, y: eventProcessed.clientY })
 }
 
 // placeText places a given text into the SVG element.
 function placeText(drawing, text, options = {}) {
 	options = processOptions(options, defaultPlaceTextOptions)
 	const rotate = deg2rad(options.rotate)
+	const dPoint = new Vector(options.x, options.y)
+	const gPoint = drawing.transformation.apply(dPoint)
 	drawing.gText.append('text')
 		.attr('text-anchor', options.textAnchor)
 		.attr('transform', `rotate(${options.rotate})`)
-		.attr('x', options.x * Math.cos(rotate) + options.y * Math.sin(rotate))
-		.attr('y', -options.x * Math.sin(rotate) + options.y * Math.cos(rotate))
+		.attr('x', gPoint.x * Math.cos(rotate) + gPoint.y * Math.sin(rotate))
+		.attr('y', -gPoint.x * Math.sin(rotate) + gPoint.y * Math.cos(rotate))
 		.text(text)
 }
 const defaultPlaceTextOptions = {
@@ -221,17 +266,6 @@ const defaultPlaceTextOptions = {
 	x: 0,
 	y: 0,
 	rotate: 0, // Degrees.
-}
-
-// getPointFromEvent returns the point in SVG/Canvas coordinates based on an event.
-function getPointFromEvent(drawing, event) {
-	const innerFigure = drawing.figure.inner
-	const rect = innerFigure.getBoundingClientRect()
-	const eventProcessed = ((event.touches && event.touches[0]) || event)
-	return {
-		x: (eventProcessed.clientX - rect.left) / rect.width * drawing.width,
-		y: (eventProcessed.clientY - rect.top) / rect.height * drawing.height,
-	}
 }
 
 // applyStyle takes an object and applies the corresponding style object to it. It returns the given object.
@@ -242,108 +276,7 @@ export function applyStyle(obj, style = {}) {
 	return obj
 }
 
-// PositionedElement allows for the positioning of elements onto the drawing.
-export function PositionedElement(props) {
-	// Check input.
-	let { children, position, rotate, scale, anchor, style } = processOptions(props, defaultPositionedElement)
-	children = ensureReactElement(children)
-	position = ensureVector(position, 2)
-	rotate = ensureNumber(rotate)
-	scale = ensureNumber(scale)
-	anchor = ensureVector(anchor, 2)
-	style = ensureObject(style)
-
-	// Make sure the vector references remain consistent.
-	position = useEqualRefOnEquality(position)
-	anchor = useEqualRefOnEquality(anchor)
-
-	// Extract the drawing from the context.
-	const drawing = useDrawingContext()
-
-	// Define a handler that positions the element accordingly.
-	const ref = useRef()
-	const updateElementPosition = useCallback(() => {
-		// Can we do anything?
-		const element = ref.current
-		if (!element || !drawing || !drawing.figure || !drawing.figure.inner)
-			return
-
-		// Calculate the scale at which the figure is drawn.
-		const figureRect = drawing.figure.inner.getBoundingClientRect()
-		const figureScale = figureRect.width / drawing.width
-
-		// Position the element accordingly.
-		element.style.transformOrigin = `${anchor.x * 100}% ${anchor.y * 100}%`
-		element.style.transform = `
-			translate(${-anchor.x * 100}%, ${-anchor.y * 100}%)
-			scale(${figureScale})
-			translate(${position.x}px, ${position.y}px)
-			scale(${scale})
-			rotate(${rotate * 180 / Math.PI}deg)
-		`
-	}, [ref, drawing, position, rotate, scale, anchor])
-
-	// Properly position the element on a change of settings, a change of contents or on a window resize.
-	useLayoutEffect(updateElementPosition, [updateElementPosition, children])
-	useEventListener('resize', updateElementPosition) // Window resize.
-	useEffect(updateElementPosition, [updateElementPosition, drawing])
-
-	// Render the children.
-	return <div className="positionedElement" style={style} ref={ref}>{children}</div>
-}
-const defaultPositionedElement = {
-	children: null,
-	position: Vector.zero,
-	rotate: 0, // Radians.
-	scale: 1,
-	anchor: new Vector(0.5, 0.5), // Use 0 for left/top and 1 for right/bottom.
-	style: {},
-}
-
-// Label sets a label at a certain point. To set it up, give the point, the angle at which the label should be positioned, and the distance from said point. Optionally, the anchor point can be included too.
-export function Label(props) {
-	// Check input.
-	let { children, position, distance, angle, anchor } = processOptions(props, defaultLabel)
-	children = ensureReactElement(children)
-	position = ensureVector(position, 2)
-	distance = ensureNumber(distance)
-	angle = ensureNumber(angle)
-	anchor = anchor === undefined ? getAnchorFromAngle(angle + Math.PI) : ensureVector(anchor, 2)
-
-	// Find the position shift and apply it.
-	const delta = Vector.fromPolar(distance, angle)
-	return <PositionedElement position={position.add(delta)} anchor={anchor}>{children}</PositionedElement>
-}
-const defaultLabel = {
-	children: null,
-	position: Vector.zero,
-	distance: 6,
-	angle: -Math.PI * 3 / 4,
-	anchor: undefined,
-}
-
-function getAnchorFromAngle(angle) {
-	const processCoordinate = (angle) => {
-		// Prepare the angle.
-		angle = angle % (2 * Math.PI)
-		if (angle < 0)
-			angle += 2 * Math.PI
-
-		// Check various cases.
-		if (angle <= Math.PI / 4)
-			return 1
-		if (angle < Math.PI * 3 / 4)
-			return 0.5 - 0.5 * Math.tan(angle - Math.PI / 2)
-		if (angle <= Math.PI * 5 / 4)
-			return 0
-		if (angle <= Math.PI * 7 / 4)
-			return 0.5 + 0.5 * Math.tan(angle - Math.PI * 3 / 2)
-		return 1
-	}
-	return new Vector(processCoordinate(angle), processCoordinate(angle - Math.PI / 2))
-}
-
-// useMousePosition tracks the position of the mouse and gives the coordinates with respect to mouse coordinates. This is of the form { x: 100, y: 200 }. The function must be provided with a reference to the drawing.
+// useMousePosition tracks the position of the mouse and gives the location in drawing coordinates. This is of the form { x: 3.5, y: -2.5 }. The function must be provided with a reference to the drawing.
 export function useMousePosition(drawing) {
 	// Acquire data.
 	const clientMousePosition = useClientMousePosition()
@@ -354,5 +287,5 @@ export function useMousePosition(drawing) {
 		return null
 
 	// Calculate relative position and scale it.
-	return drawing.getPosition(clientMousePosition, figureRect)
+	return drawing.getDrawingCoordinates(clientMousePosition, figureRect)
 }

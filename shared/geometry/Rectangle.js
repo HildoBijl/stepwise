@@ -1,6 +1,7 @@
 // The Rectangle represents a rectangle shape in space. It is based on the PositionedVector which denotes its position, but it adds functionalities on top like bounding coordinates and more.
 
 const { ensureNumber, compareNumbers } = require('../util/numbers')
+const { numberArray } = require('../util/arrays')
 const { repeat } = require('../util/functions')
 
 const { ensureVector } = require('./Vector')
@@ -79,19 +80,19 @@ class Rectangle {
 		return this.getSize(1)
 	}
 
-	// getBound gives the bounds of this rectangle along a certain axis. It is sorted to ensure the lower value is mentioned first.
-	getBound(axis) {
+	// getBounds gives the bounds of this rectangle along a certain axis. It is sorted to ensure the lower value is mentioned first.
+	getBounds(axis) {
 		return ['start', 'end'].map(label => this[label].getCoordinate(axis)).sort((a, b) => a - b)
 	}
 
 	// bounds gives an array of bounds along each axis, with the minimum and the maximum value in a form [[xmin, xmax], [ymin, ymax], ...].
 	get bounds() {
-		return numberArray(0, this.dimension - 1).map(axis => this.getBound(axis))
+		return numberArray(0, this.dimension - 1).map(axis => this.getBounds(axis))
 	}
 
 	// getSize gives the size of this rectangle along a certain axis.
 	getSize(axis) {
-		const bound = this.getBound(axis)
+		const bound = this.getBounds(axis)
 		return bound[1] - bound[0]
 	}
 
@@ -104,12 +105,17 @@ class Rectangle {
 	 * Manipulation and calculation methods.
 	 */
 
+	// transform applies the given transformation.
+	transform(transformation) {
+		return new Rectangle(this.positionedVector.transform(transformation))
+	}
+
 	// isInside checks if a vector (a point) falls within the rectangle.
 	isInside(vector) {
 		vector = ensureVector(vector, this.dimension)
 		return numberArray(0, this.dimension - 1).every(axis => {
 			const vectorCoordinate = vector.getCoordinate(axis)
-			const [min, max] = this.getBound(axis)
+			const [min, max] = this.getBounds(axis)
 			return vectorCoordinate >= min && vectorCoordinate <= max
 		})
 	}
@@ -118,7 +124,7 @@ class Rectangle {
 	applyBounds(vector) {
 		vector = ensureVector(vector, this.dimension)
 		return new Vector(vector.coordinates.map((coordinate, axis) => {
-			const [min, max] = this.getBound(axis)
+			const [min, max] = this.getBounds(axis)
 			return coordinate < min ? min : (coordinate > max ? max : coordinate)
 		}))
 	}
@@ -127,7 +133,7 @@ class Rectangle {
 	putOnNearestBound(vector) {
 		vector = ensureVector(vector, this.dimension)
 		return new Vector(vector.coordinates.map((coordinate, axis) => {
-			const [min, max] = this.getBound(axis)
+			const [min, max] = this.getBounds(axis)
 			return (Math.abs(coordinate - min) <= Math.abs(coordinate - max)) ? min : max
 		}))
 	}
@@ -137,7 +143,7 @@ class Rectangle {
 		return this[toBounds ? 'putOnNearestBound' : 'applyBounds'](vector).subtract(vector).magnitude
 	}
 
-	// getLinePartFactors takes a line. It checks wich part of the line is within the rectangle. For this, it gives the lower and upper factor of the points on the line. If the line does not fall within the rectangle, null is returned.
+	// getLinePartFactors takes a line. It checks wich part of the line is within the rectangle. For this, it gives the lower and upper factor of the points on the line. If the line does not fall within the rectangle, undefined is returned.
 	getLinePartFactors(line) {
 		line = ensureLine(line, this.dimension)
 
@@ -147,7 +153,7 @@ class Rectangle {
 			// Special case: if the line is parallel to this axis, check if the given coordinate falls within the rectangle.
 			if (compareNumbers(line.direction.getCoordinate(axis), 0)) {
 				const coordinate = line.start.getCoordinate(axis)
-				const bounds = this.getBound(axis)
+				const bounds = this.getBounds(axis)
 				if (coordinate < bounds[0] || coordinate > bounds[1]) {
 					lower = Infinity
 					upper = -Infinity
@@ -167,7 +173,7 @@ class Rectangle {
 
 		// Check if the lower and upper limits are still sensible.
 		if (upper < lower)
-			return null
+			return undefined
 		return [lower, upper]
 	}
 

@@ -5,7 +5,7 @@ import { Vector, Line } from 'step-wise/geometry'
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import { Drawing } from 'ui/components/figures'
-import { components, PositionedElement, rotateAndReflect, scaleToBounds, getCornerLabelPosition } from 'ui/components/figures'
+import { components, CornerLabel, useRotationReflectionTransformation, useScaleToBoundsTransformationSettings } from 'ui/components/figures'
 import ExpressionInput, { validAndNumeric, basicMath } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/Status'
 
@@ -14,7 +14,7 @@ import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
 
-const { Circle, Line: LineComponent, RightAngle } = components
+const { Circle, BoundedLine, Line: LineComponent, RightAngle } = components
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -25,7 +25,7 @@ const Problem = (state) => {
 	const { a, variables } = solution
 
 	return <>
-		<Par>Twee kruisende lijnen raken een cirkel aan weerszijden. De gegeven hoek bij het middelpunt van de cirkel is <M>{a}^\circ.</M> Bereken hoek <M>{variables.delta}</M> in graden.</Par>
+		<Par>Twee kruisende lijnen raken een cirkel aan weerszijden. We tekenen een lijn vanaf het ene raakpunt door het middelpunt van de cirkel. De gegeven hoek bij het middelpunt van de cirkel is <M>{a}^\circ.</M> Bereken hoek <M>{variables.delta}</M> in graden.</Par>
 		<ExerciseFigure solution={solution} showDelta={1} />
 		<InputSpace>
 			<ExpressionInput id="delta" prelabel={<M>{variables.delta}=</M>} size="s" settings={basicMath} validate={validAndNumeric} />
@@ -115,48 +115,44 @@ function getFeedback(exerciseData) {
 }
 
 function ExerciseFigure({ solution, showAlpha = 0, showBeta = 0, showGamma = 0, showDelta = 0 }) {
-	const rawPoints = getPoints(solution)
-	const { variables, rotation, reflect, a, beta, gamma, delta } = solution
-
-	// Define settings.
-	const maxWidth = 360
-	const maxHeight = 360
-	const labelScale = 1.3
-	const labelLetterSize = 14
-	const labelNumberSize = 20
-	const margin = 0
-
-	// Process points.
-	const rotatedPoints = rotateAndReflect(rawPoints, rotation, reflect)
-	const { points, bounds } = scaleToBounds(rotatedPoints, { maxWidth, maxHeight, margin })
+	const points = getPoints(solution)
 	const { top, center, right, bottom } = points
+	const { variables, rotation, reflection, a, beta, gamma, delta } = solution
 	const radius = top.subtract(center).magnitude
 
-	// Define data for drawing the two crossing lines.
-	const linePoints = [[top, right], [bottom, right]]
+	// Define settings.
+	const size = 300
+	const labelLetterSize = 22
+	const labelNumberSize = 30
+
+	// Define the transformation.
+	const pretransformation = useRotationReflectionTransformation(rotation, reflection)
+	const transformationSettings = useScaleToBoundsTransformationSettings(points, {
+		pretransformation,
+		maxWidth: size,
+		maxHeight: size,
+		margin: 20,
+	})
 
 	// Render the figure.
-	return <Drawing maxWidth={bounds.width} width={bounds.width} height={bounds.height} svgContents={
+	return <Drawing transformationSettings={transformationSettings} maxWidth={bounds => bounds.width} svgContents={
 		<>
 			<Circle center={center} radius={radius} style={{ fill: '#aaccff', stroke: '#888888' }} />
 			<LineComponent points={[top, bottom]} />
 			<LineComponent points={[right, center]} />
-			{linePoints.map((points, index) => {
-				const line = Line.fromPoints(...points)
-				const linePart = bounds.getLinePart(line)
-				return <LineComponent key={index} points={[linePart.start, linePart.end]} style={{ strokeWidth: 2 }} />
-			})}
+			<BoundedLine line={Line.fromPoints(top, right)} style={{ strokeWidth: 2 }} />
+			<BoundedLine line={Line.fromPoints(bottom, right)} style={{ strokeWidth: 2 }} />
 			{showAlpha === 2 ? <RightAngle points={[center, top, right]} /> : null}
 			<Circle center={center} radius={radius / 40} style={{ fill: 'black' }} />
 		</>
 	} htmlContents={
 		<>
-			{showAlpha === 1 ? <PositionedElement position={getCornerLabelPosition([center, top, right], labelLetterSize)} scale={labelScale}><M>{variables.alpha}</M></PositionedElement> : null}
-			{showBeta === 0 ? null : <PositionedElement position={getCornerLabelPosition([top, right, center], labelLetterSize)} scale={labelScale}>{showBeta === 1 ? <M>{variables.beta}</M> : <M>{beta}^\circ</M>}</PositionedElement>}
-			{showGamma === 0 ? null : <PositionedElement position={getCornerLabelPosition([bottom, right, center], labelLetterSize)} scale={labelScale}>{showGamma === 1 ? <M>{variables.gamma}</M> : <M>{gamma}^\circ</M>}</PositionedElement>}
-			{showDelta === 0 ? null : <PositionedElement position={getCornerLabelPosition([right, bottom, top], labelLetterSize)} scale={labelScale}>{showDelta === 1 ? <M>{variables.delta}</M> : <M>{delta}^\circ</M>}</PositionedElement>}
+			{showAlpha === 1 ? <CornerLabel points={[center, top, right]} graphicalSize={labelLetterSize}><M>{variables.alpha}</M></CornerLabel> : null}
+			{showBeta === 0 ? null : <CornerLabel points={[top, right, center]} graphicalSize={showBeta === 1 ? labelLetterSize : labelNumberSize}>{showBeta === 1 ? <M>{variables.beta}</M> : <M>{beta}^\circ</M>}</CornerLabel>}
+			{showGamma === 0 ? null : <CornerLabel points={[bottom, right, center]} graphicalSize={showGamma === 1 ? labelLetterSize : labelNumberSize}>{showGamma === 1 ? <M>{variables.gamma}</M> : <M>{gamma}^\circ</M>}</CornerLabel>}
+			{showDelta === 0 ? null : <CornerLabel points={[right, bottom, top]} graphicalSize={showDelta === 1 ? labelLetterSize : labelNumberSize}>{showDelta === 1 ? <M>{variables.delta}</M> : <M>{delta}^\circ</M>}</CornerLabel>}
 
-			<PositionedElement position={getCornerLabelPosition([right, center, top], labelNumberSize)} scale={labelScale}><M>{a}^\circ</M></PositionedElement>
+			<CornerLabel points={[right, center, top]} graphicalSize={labelNumberSize}><M>{a}^\circ</M></CornerLabel>
 		</>
 	} />
 }

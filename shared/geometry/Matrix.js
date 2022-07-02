@@ -141,17 +141,17 @@ class Matrix {
 		return this.matrix.reduce((D, row, rowIndex) => D + row[0] * this.getSubMatrix(rowIndex, 0).determinant * (rowIndex % 2 === 0 ? 1 : -1), 0)
 	}
 
-	// getSubMatrix returns a matrix without the given row and column. It also returns it as seen from the indicated element. For instance, if you have the matrix [[00,01,02],[10,11,12],[20,21,22]] and you ask for the subMatrix as seen from element (1,1) (the middle element) then you get [[22,20],[02,00]]. In other words, the element to the right-bottom fo the indicated element will be the top-left element of the resulting subMatrix.
+	// getSubMatrix returns a matrix without the given row and column.
 	getSubMatrix(rowIndex, colIndex) {
 		// Check input.
 		rowIndex = this.ensureValidRowIndex(rowIndex)
 		colIndex = this.ensureValidColIndex(colIndex)
 
 		// Assemble the subMatrix.
-		return new Matrix(numberArray(1, this.height - 1).map(rowAddition => {
-			const currRowIndex = (rowIndex + rowAddition) % this.height
-			return numberArray(1, this.width - 1).map(colAddition => {
-				const currColIndex = (colIndex + colAddition) % this.width
+		return new Matrix(numberArray(0, this.height - 2).map(currRowIndex => {
+			currRowIndex += (currRowIndex < rowIndex ? 0 : 1)
+			return numberArray(0, this.width - 2).map(currColIndex => {
+				currColIndex += (currColIndex < colIndex ? 0 : 1)
 				return this.get(currRowIndex, currColIndex)
 			})
 		}))
@@ -285,9 +285,9 @@ class Matrix {
 
 		// Apply matrix multiplication.
 		if (multiplication instanceof Matrix) {
-			if (this.width !== matrix.height)
+			if (this.width !== multiplication.height)
 				throw new Error(`Invalid Matrix multiplication: dimensions did not match. This matrix has width ${this.width} while the multiplied matrix has height ${this.height}.`)
-			return new Matrix(this.mapRows(row => matrix.mapColumns(col => new Vector(row).dotProduct(new Vector(col)))))
+			return new Matrix(this.mapRows(row => multiplication.mapColumns(col => new Vector(row).dotProduct(new Vector(col)))))
 		}
 
 		throw new Error(`Code error: reached a point in the code that should never be reached. There is a programming error.`)
@@ -340,7 +340,7 @@ class Matrix {
 	// getDiagonal returns the diagonal (square) matrix with the given numbers (an array) along its diagonal.
 	static getDiagonal(diagonal) {
 		diagonal = ensureNumberArray(diagonal)
-		return Matrix.getZero(height, width).map((_, rowIndex, colIndex) => (rowIndex === colIndex ? diagonal[rowIndex] : 0))
+		return Matrix.getZero(diagonal.length, diagonal.length).map((_, rowIndex, colIndex) => (rowIndex === colIndex ? diagonal[rowIndex] : 0))
 	}
 }
 Matrix.type = 'Matrix'

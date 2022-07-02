@@ -5,7 +5,7 @@ import { Vector, Line } from 'step-wise/geometry'
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import { Drawing } from 'ui/components/figures'
-import { components, PositionedElement, rotateAndReflect, scaleToBounds, getCornerLabelPosition } from 'ui/components/figures'
+import { components, CornerLabel, useRotationReflectionTransformation, useScaleToBoundsTransformationSettings } from 'ui/components/figures'
 import ExpressionInput, { validAndNumeric, basicMath } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/Status'
 
@@ -14,7 +14,7 @@ import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
 
-const { Polygon, Line: LineComponent } = components
+const { Polygon, BoundedLine } = components
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -96,45 +96,41 @@ function getFeedback(exerciseData) {
 }
 
 function ExerciseFigure({ solution, showAlpha = 0, showBeta = 0, showGamma = 0 }) {
-	const rawPoints = getPoints(solution)
-	const { variables, rotation, reflect, a, b, c, alpha, beta, gamma } = solution
+	const points = getPoints(solution)
+	const { bottomLeft, bottomRight, topLeft, topRight } = points
+	const { variables, rotation, reflection, a, b, c, alpha, beta, gamma } = solution
 
 	// Define settings.
-	const maxWidth = 360
-	const maxHeight = 360
-	const labelScale = 1.3
-	const labelLetterSize = 14
-	const labelNumberSize = 20
-	const margin = 20
+	const size = 300
+	const labelLetterSize = 22
+	const labelNumberSize = 30
 
-	// Process points.
-	const rotatedPoints = rotateAndReflect(rawPoints, rotation, reflect)
-	const { points, bounds } = scaleToBounds(rotatedPoints, { maxWidth, maxHeight, margin })
-	const { bottomLeft, bottomRight, topLeft, topRight } = points
-
-	// Define data for drawing the two parallel lines.
-	const linePoints = [[bottomLeft, bottomRight], [topLeft, topRight]]
+	// Define the transformation.
+	const pretransformation = useRotationReflectionTransformation(rotation, reflection)
+	const transformationSettings = useScaleToBoundsTransformationSettings(points, {
+		pretransformation,
+		maxWidth: size,
+		maxHeight: size,
+		margin: 20,
+	})
 
 	// Render the figure.
-	return <Drawing maxWidth={bounds.width} width={bounds.width} height={bounds.height} svgContents={
+	return <Drawing transformationSettings={transformationSettings} maxWidth={bounds => bounds.width} svgContents={
 		<>
 			<Polygon points={[bottomLeft, topRight, bottomRight]} style={{ fill: '#aaccff' }} />
 			<Polygon points={[topLeft, bottomLeft, topRight]} style={{ fill: '#ffaabb' }} />
-			{linePoints.map((points, index) => {
-				const line = Line.fromPoints(...points)
-				const linePart = bounds.getLinePart(line)
-				return <LineComponent key={index} points={[linePart.start, linePart.end]} style={{ strokeWidth: 2 }} />
-			})}
+			<BoundedLine line={Line.fromPoints(bottomLeft, bottomRight)} style={{ strokeWidth: 2 }} />
+			<BoundedLine line={Line.fromPoints(topLeft, topRight)} style={{ strokeWidth: 2 }} />
 		</>
 	} htmlContents={
 		<>
-			{showAlpha === 0 ? null : <PositionedElement position={getCornerLabelPosition([topRight, bottomLeft, bottomRight], labelLetterSize)} scale={labelScale}>{showAlpha === 1 ? <M>{variables.alpha}</M> : <M>{alpha}^\circ</M>}</PositionedElement>}
-			{showBeta === 0 ? null : <PositionedElement position={getCornerLabelPosition([bottomLeft, topRight, topLeft], labelLetterSize)} scale={labelScale}>{showBeta === 1 ? <M>{variables.beta}</M> : <M>{beta}^\circ</M>}</PositionedElement>}
-			{showGamma === 0 ? null : <PositionedElement position={getCornerLabelPosition([topRight, topLeft, bottomLeft], labelLetterSize)} scale={labelScale}>{showGamma === 1 ? <M>{variables.gamma}</M> : <M>{gamma}^\circ</M>}</PositionedElement>}
+			{showAlpha === 0 ? null : <CornerLabel points={[topRight, bottomLeft, bottomRight]} graphicalSize={showAlpha === 1 ? labelLetterSize : labelNumberSize}>{showAlpha === 1 ? <M>{variables.alpha}</M> : <M>{alpha}^\circ</M>}</CornerLabel>}
+			{showBeta === 0 ? null : <CornerLabel points={[bottomLeft, topRight, topLeft]} graphicalSize={showBeta === 1 ? labelLetterSize : labelNumberSize}>{showBeta === 1 ? <M>{variables.beta}</M> : <M>{beta}^\circ</M>}</CornerLabel>}
+			{showGamma === 0 ? null : <CornerLabel points={[topRight, topLeft, bottomLeft]} graphicalSize={showGamma === 1 ? labelLetterSize : labelNumberSize}>{showGamma === 1 ? <M>{variables.gamma}</M> : <M>{gamma}^\circ</M>}</CornerLabel>}
 
-			<PositionedElement position={getCornerLabelPosition([bottomLeft, bottomRight, topRight], labelNumberSize)} scale={labelScale}><M>{a}^\circ</M></PositionedElement>
-			<PositionedElement position={getCornerLabelPosition([bottomLeft, topRight, bottomRight], labelNumberSize)} scale={labelScale}><M>{b}^\circ</M></PositionedElement>
-			<PositionedElement position={getCornerLabelPosition([topLeft, bottomLeft, topRight], labelNumberSize)} scale={labelScale}><M>{c}^\circ</M></PositionedElement>
+			<CornerLabel points={[bottomLeft, bottomRight, topRight]} graphicalSize={labelNumberSize}><M>{a}^\circ</M></CornerLabel>
+			<CornerLabel points={[bottomLeft, topRight, bottomRight]} graphicalSize={labelNumberSize}><M>{b}^\circ</M></CornerLabel>
+			<CornerLabel points={[topLeft, bottomLeft, topRight]} graphicalSize={labelNumberSize}><M>{c}^\circ</M></CornerLabel>
 		</>
 	} />
 }

@@ -4,6 +4,7 @@ const { processOptions } = require('../util/objects')
 
 const { ensureVector } = require('./Vector')
 const { Line, ensureLine } = require('./Line')
+const { ensureTransformation } = require('./Transformation')
 
 const defaultPositionedVector = {
 	start: undefined,
@@ -97,6 +98,15 @@ class PositionedVector {
 	// round takes all coordinates and rounds them to the nearest value.
 	round() {
 		return new PositionedVector({ start: this.start.round(), end: this.end.round() })
+	}
+
+	// transform applies a given transformation.
+	transform(transformation) {
+		transformation = ensureTransformation(transformation, this.dimension)
+		return new PositionedVector({
+			start: transformation.apply(this.start),
+			end: transformation.apply(this.end),
+		})
 	}
 
 	/*

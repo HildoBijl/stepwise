@@ -16,6 +16,7 @@ export { defaultOptions }
 
 const useStyles = makeStyles((theme) => ({
 	figure: {
+		boxSizing: 'content-box',
 		margin: '1.2rem auto',
 		maxWidth: ({ maxWidth }) => maxWidth !== undefined ? `${maxWidth}px` : '',
 		padding: '0 1.2rem', // To make sure possible labels outside the SVG aren't cut off by the slider.

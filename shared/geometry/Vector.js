@@ -381,3 +381,12 @@ function ensureVectorArray(vectors, dimension) {
 	return vectors.map(vector => ensureVector(vector, dimension))
 }
 module.exports.ensureVectorArray = ensureVectorArray
+
+// ensureCorner checks that the given parameter is an array of three 2D vectors, also known as a corner.
+function ensureCorner(points, dimension = 2) {
+	points = ensureVectorArray(points, dimension)
+	if (points.length !== 3)
+		throw new Error(`Invalid points array: expected an array of three vectors denoting a corner, but received one with ${points.length} vectors. Cannot process this.`)
+	return points
+}
+module.exports.ensureCorner = ensureCorner

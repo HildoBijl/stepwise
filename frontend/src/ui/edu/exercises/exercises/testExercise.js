@@ -5,7 +5,6 @@ import { Vector, Line, PositionedVector } from 'step-wise/geometry'
 import { M } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import { InputSpace } from 'ui/form/Status'
-import { scaleToBounds } from 'ui/components/figures'
 import { useCurrentBackgroundColor } from 'ui/components/figures/Drawing'
 
 import EngineeringDiagram, { Group, Beam, HingeSupport, RollerHalfHingeSupport, Distance, PositionedElement, Label, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
@@ -17,6 +16,8 @@ import SimpleExercise from '../types/SimpleExercise'
 window.Vector = Vector
 window.Line = Line
 window.PositionedVector = PositionedVector
+
+const scaleToBounds = () => null // ToDo: remove
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />

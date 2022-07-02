@@ -16,7 +16,8 @@ import { useEventListener, useConsistentValue } from 'util/react'
 import { notSelectable } from 'ui/theme'
 import { useAsInput, defaultInputOptions } from 'ui/form/inputs/support/Input'
 
-import { defaultDrawingOptions, useMousePosition, PositionedElement } from './Drawing'
+import { defaultDrawingOptions, useMousePosition } from './Drawing'
+import { PositionedElement } from './PositionedElement'
 import { Line as SvgLine, Square, Rectangle as SvgRectangle } from './components'
 
 export const startSelectionOptions = {

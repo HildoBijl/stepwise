@@ -73,6 +73,10 @@ class Line {
 		return this.perpendicularVector.magnitude
 	}
 
+	get secondPoint() {
+		return this.start.add(this.direction)
+	}
+
 	/*
 	 * Derived properties.
 	 */
@@ -100,6 +104,11 @@ class Line {
 	/*
 	 * Manipulation and computation methods.
 	 */
+
+	// transform will apply the given transformation.
+	transform(transformation) {
+		return Line.fromPoints(transformation.apply(this.start), transformation.apply(this.secondPoint))
+	}
 
 	// containsPoint checks if a given point (Vector) is on the given line. 
 	containsPoint(vector) {
