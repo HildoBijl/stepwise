@@ -135,26 +135,22 @@ function ExerciseFigure({ solution, showAlpha = 0, showBeta = 0, showGamma = 0, 
 	})
 
 	// Render the figure.
-	return <Drawing transformationSettings={transformationSettings} maxWidth={bounds => bounds.width} svgContents={
-		<>
-			<Circle center={center} radius={radius} style={{ fill: '#aaccff', stroke: '#888888' }} />
-			<LineComponent points={[top, bottom]} />
-			<LineComponent points={[right, center]} />
-			<BoundedLine line={Line.fromPoints(top, right)} style={{ strokeWidth: 2 }} />
-			<BoundedLine line={Line.fromPoints(bottom, right)} style={{ strokeWidth: 2 }} />
-			{showAlpha === 2 ? <RightAngle points={[center, top, right]} /> : null}
-			<Circle center={center} radius={radius / 40} style={{ fill: 'black' }} />
-		</>
-	} htmlContents={
-		<>
-			{showAlpha === 1 ? <CornerLabel points={[center, top, right]} graphicalSize={labelLetterSize}><M>{variables.alpha}</M></CornerLabel> : null}
-			{showBeta === 0 ? null : <CornerLabel points={[top, right, center]} graphicalSize={showBeta === 1 ? labelLetterSize : labelNumberSize}>{showBeta === 1 ? <M>{variables.beta}</M> : <M>{beta}^\circ</M>}</CornerLabel>}
-			{showGamma === 0 ? null : <CornerLabel points={[bottom, right, center]} graphicalSize={showGamma === 1 ? labelLetterSize : labelNumberSize}>{showGamma === 1 ? <M>{variables.gamma}</M> : <M>{gamma}^\circ</M>}</CornerLabel>}
-			{showDelta === 0 ? null : <CornerLabel points={[right, bottom, top]} graphicalSize={showDelta === 1 ? labelLetterSize : labelNumberSize}>{showDelta === 1 ? <M>{variables.delta}</M> : <M>{delta}^\circ</M>}</CornerLabel>}
+	return <Drawing transformationSettings={transformationSettings} maxWidth={bounds => bounds.width} svgContents={<>
+		<Circle center={center} radius={radius} style={{ fill: '#aaccff', stroke: '#888888' }} />
+		<LineComponent points={[top, bottom]} />
+		<LineComponent points={[right, center]} />
+		<BoundedLine line={Line.fromPoints(top, right)} style={{ strokeWidth: 2 }} />
+		<BoundedLine line={Line.fromPoints(bottom, right)} style={{ strokeWidth: 2 }} />
+		{showAlpha === 2 ? <RightAngle points={[center, top, right]} /> : null}
+		<Circle center={center} radius={radius / 40} style={{ fill: 'black' }} />
+	</>} htmlContents={<>
+		{showAlpha === 1 ? <CornerLabel points={[center, top, right]} graphicalSize={labelLetterSize}><M>{variables.alpha}</M></CornerLabel> : null}
+		{showBeta === 0 ? null : <CornerLabel points={[top, right, center]} graphicalSize={showBeta === 1 ? labelLetterSize : labelNumberSize}>{showBeta === 1 ? <M>{variables.beta}</M> : <M>{beta}^\circ</M>}</CornerLabel>}
+		{showGamma === 0 ? null : <CornerLabel points={[bottom, right, center]} graphicalSize={showGamma === 1 ? labelLetterSize : labelNumberSize}>{showGamma === 1 ? <M>{variables.gamma}</M> : <M>{gamma}^\circ</M>}</CornerLabel>}
+		{showDelta === 0 ? null : <CornerLabel points={[right, bottom, top]} graphicalSize={showDelta === 1 ? labelLetterSize : labelNumberSize}>{showDelta === 1 ? <M>{variables.delta}</M> : <M>{delta}^\circ</M>}</CornerLabel>}
 
-			<CornerLabel points={[right, center, top]} graphicalSize={labelNumberSize}><M>{a}^\circ</M></CornerLabel>
-		</>
-	} />
+		<CornerLabel points={[right, center, top]} graphicalSize={labelNumberSize}><M>{a}^\circ</M></CornerLabel>
+	</>} />
 }
 
 function getPoints(solution) {

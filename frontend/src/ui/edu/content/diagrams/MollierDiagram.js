@@ -6,6 +6,7 @@ import { maximumHumidity } from 'step-wise/data/moistureProperties'
 import { tableInterpolate } from 'step-wise/util/interpolation'
 
 import { Plot } from 'ui/components/figures'
+import { useIdentityTransformationSettings } from 'ui/components/figures'
 
 // Set up the lines for the diagram.
 const temperatureRange = maximumHumidity.headers[0]
@@ -54,6 +55,8 @@ function MollierDiagram({ maxWidth }, ref) {
 		})
 	}, [plotRef])
 
-	return <Plot ref={plotRef} maxWidth={maxWidth} width="600" height="450" />
+	const transformationSettings = useIdentityTransformationSettings(600, 450, [])
+
+	return <Plot ref={plotRef} transformationSettings={transformationSettings} maxWidth={maxWidth} />
 }
 export default forwardRef(MollierDiagram)

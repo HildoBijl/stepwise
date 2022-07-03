@@ -8,7 +8,7 @@
  * - transformation: the transformation from drawing coordinates to graphical coordinates. This transformation can always be requested for the inverse.
  * - bounds: a Rectangle object indicating the bounds of the graphical coordinates. It always has its top at (0,0).
  * - scale: an array [scaleX, scaleY] that is applied in the x- and y-directions.
- * - points: the points that were provided in drawing coordinates transformed to graphical coordinates.
+ * - points: the points that were provided in drawing coordinates transformed to graphical coordinates. This is only returned when actually provided.
  * This data is then generally passed on to a Drawing component (or extension of it) to properly position child objects. Functions attempt to get reference stability to prevent constant updates of child components.
  */
 
@@ -16,7 +16,7 @@ import { useMemo } from 'react'
 
 import { ensureNumber, ensureInt } from 'step-wise/util/numbers'
 import { ensureBoolean, applyToEachParameter, processOptions } from 'step-wise/util/objects'
-import { Vector, ensureVector, Rectangle, Transformation, ensureTransformation } from 'step-wise/geometry'
+import { Vector, ensureVector, Rectangle, ensureRectangle, Transformation, ensureTransformation } from 'step-wise/geometry'
 
 import { useConsistentValue } from 'util/react'
 
@@ -163,6 +163,61 @@ const defaultScaleToBoundsOptions = {
 	maxHeight: Infinity,
 	maxScale: Infinity,
 	uniform: true, // Scale uniformly for x and y?
+	margin: 0,
+	pretransformation: Transformation.getIdentity(2),
+}
+
+// useDefinedBoundsTransformationSettings takes a set of points and scales them to fit within the given bounds. If only a width or a height is given, the scaling is done uniformly. If they are both given, the scaling is done non-uniformly. Optionally, a pointBounds parameter (a Rectangle) can be provided, in which case this rectangle is scaled to the given width/height and not the points bounds.
+export function useDefinedBoundsTransformationSettings(points, options = {}) {
+	// Ensure consistent input.
+	points = useConsistentValue(points)
+	options = useConsistentValue(options)
+
+	// Wrap the function in a useMemo for reference equality.
+	const definedBoundsOptions = useMemo(() => {
+		// Check the input.
+		let { width, height, pointBounds, margin, pretransformation } = processOptions(options, defaultDefinedBoundsOptions)
+		width = ensureNumber(width)
+		height = ensureNumber(height)
+		margin = ensureMargin(margin)
+		pretransformation = ensureTransformation(pretransformation)
+
+		// Ensure that either a width or height is defined.
+		if (width === undefined && height === undefined)
+			throw new Error(`Invalid DefinedBounds options: expected either a width or a height (or both) to be defined, but no bounds were given.`)
+		if (width !== undefined)
+			width = ensureNumber(width, true)
+		if (height !== undefined)
+			height = ensureNumber(height, true)
+
+		// Determine the point bounds, unless these have been given already.
+		if (pointBounds === undefined) {
+			const transformedPoints = applyToEachParameter(points, point => pretransformation.apply(point))
+			pointBounds = getBoundingRectangle(transformedPoints)
+		} else {
+			pointBounds = ensureRectangle(pointBounds, 2)
+		}
+
+		// Use the bounds to determine the scale.
+		let scale
+		if (width !== undefined && height !== undefined)
+			scale = [(width - margin[0][0] - margin[0][1]) / pointBounds.width, (height - margin[1][0] - margin[1][1]) / pointBounds.height]
+		else if (width !== undefined)
+			scale = ensureScale((height - margin[1][0] - margin[1][1]) / pointBounds.height)
+		else
+			scale = ensureScale((width - margin[0][0] - margin[0][1]) / pointBounds.width)
+
+		// Apply the calculated scale.
+		return { scale, margin, pretransformation }
+	}, [points, options])
+
+	// Pass on to the scaleAndShift transformer.
+	return useScaleAndShiftTransformationSettings(points, definedBoundsOptions)
+}
+const defaultDefinedBoundsOptions = {
+	width: undefined,
+	height: undefined,
+	pointBounds: undefined,
 	margin: 0,
 	pretransformation: Transformation.getIdentity(2),
 }

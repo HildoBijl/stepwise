@@ -1,5 +1,5 @@
 /* Drawing is the parent component of every drawing made, either through SVG or Canvas. It is generally used inside other components to make specific types of plots, figures or similar.
- * When Drawing is given a ref, it places in this ref an object { svg: ..., canvas: ... } with references to the respective DOM elements. Note that the option useCanvas needs to be set to true if a Canvas is desired. Whether to use SVG is determined by whether svgContents are given.
+ * When Drawing is given a ref, it places in this ref an object { svg: ..., canvas: ... } with references to the respective DOM elements. Note that the option useCanvas needs to be set to true if a Canvas is desired. The option useSvg is by default true.
  */
 
 import React, { useRef, forwardRef, useImperativeHandle, useEffect } from 'react'
@@ -22,6 +22,7 @@ import { DrawingContext } from './DrawingContext'
 const defaultDrawingOptions = {
 	...figureDefaultOptions, // Includes a maxWidth option to set the maximum width of the figure. This can also be a function of the drawing bounds.
 	transformationSettings: undefined, // An object containing data on figure bounds and a transformation that is applied to get from drawing coordinates to graphical coordinates.
+	useSvg: true,
 	useCanvas: false,
 	svgContents: undefined, // JSX elements that need to be placed directly into the SVG container.
 	svgDefs: undefined, // JSX elements that are placed in the defs part of the SVG container.
@@ -72,8 +73,8 @@ function Drawing(options, ref) {
 	const { transformationSettings } = options
 	if (!transformationSettings)
 		throw new Error(`Drawing render error: no transformation settings are given. Use any of the "use[...]TransformationSettings" functions from the transformation utility file to get transformation settings.`)
-	if (!options.svgContents && !options.useCanvas)
-		throw new Error('Drawing render error: cannot generate a drawing without either an SVG or a canvas present. Add either svgContents or set useCanvas to true.')
+	if (!options.useSvg && !options.useCanvas)
+		throw new Error('Drawing render error: cannot generate a drawing without either an SVG or a canvas present. Either useSvg or useCanvas must be set to true.')
 
 	// Set up styles and references.
 	const classes = useStyles()
@@ -83,14 +84,10 @@ function Drawing(options, ref) {
 
 	// Determine figure size parameters to use for rendering.
 	const { bounds } = transformationSettings
-	console.log(Object.values(transformationSettings.points).map(point => point.str))
 	const { width, height } = bounds
 	options.aspectRatio = height / width // This must be passed on to the Figure object.
-	if (typeof options.maxWidth === 'function') {
-		console.log(bounds.str)
-		console.log(options.maxWidth(bounds))
+	if (typeof options.maxWidth === 'function')
 		options.maxWidth = options.maxWidth(bounds)
-	}
 
 	// Set up refs and make them accessible to any implementing component.
 	const figureRef = useRef()
@@ -177,7 +174,7 @@ function Drawing(options, ref) {
 	return (
 		<DrawingContext.Provider value={drawingRef.current}>
 			<Figure ref={figureRef} {...filterOptions(options, figureDefaultOptions)}>
-				{options.svgContents ? (
+				{options.useSvg ? (
 					<svg ref={svgRef} className={classes.drawingSVG} viewBox={`0 0 ${width} ${height}`}>
 						<defs>
 							<mask id="noOverflow">
@@ -237,8 +234,8 @@ function getGraphicalCoordinates(clientCoordinates, drawing, figureRect) {
 	// Calculate the position.
 	clientCoordinates = ensureVector(clientCoordinates, 2)
 	return new Vector([
-		(clientCoordinates.x - figureRect.x) * drawing.width / figureRect.width,
-		(clientCoordinates.y - figureRect.y) * drawing.height / figureRect.height,
+		(clientCoordinates.x - figureRect.x) * drawing.transformationSettings.bounds.width / figureRect.width,
+		(clientCoordinates.y - figureRect.y) * drawing.transformationSettings.bounds.height / figureRect.height,
 	])
 }
 
@@ -253,7 +250,7 @@ function placeText(drawing, text, options = {}) {
 	options = processOptions(options, defaultPlaceTextOptions)
 	const rotate = deg2rad(options.rotate)
 	const dPoint = new Vector(options.x, options.y)
-	const gPoint = drawing.transformation.apply(dPoint)
+	const gPoint = drawing.transformationSettings.transformation.apply(dPoint)
 	drawing.gText.append('text')
 		.attr('text-anchor', options.textAnchor)
 		.attr('transform', `rotate(${options.rotate})`)
