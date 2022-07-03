@@ -6,7 +6,7 @@ import { ensureObject, processOptions } from 'step-wise/util/objects'
 import { numberArray } from 'step-wise/util/arrays'
 import { Vector, ensureVector } from 'step-wise/geometry/Vector'
 
-import { components as drawingComponents } from 'ui/components/figures/Drawing'
+import { components as drawingComponents, useTransformedOrGraphicalValue } from 'ui/components/figures'
 import { defaultBeam, Hinge, defaultHinge, HalfHinge } from './structuralComponents'
 
 const { defaultObject, useRefWithEventHandlers, Group, Line } = drawingComponents
@@ -19,6 +19,7 @@ const { defaultObject, useRefWithEventHandlers, Group, Line } = drawingComponent
 export const defaultSupport = {
 	...defaultObject,
 	position: Vector.zero,
+	graphicalPosition: Vector.zero,
 	angle: Math.PI / 2,
 	color: defaultBeam.color,
 	thickness: defaultHinge.thickness,
@@ -27,8 +28,7 @@ export const defaultSupport = {
 
 export const FixedSupport = forwardRef((props, ref) => {
 	// Check input.
-	let { position, angle, color, thickness, groundOptions, width, height, positionFactor, className, style } = processOptions(props, defaultFixedSupport)
-	position = ensureVector(position, 2)
+	let { position, graphicalPosition, angle, color, thickness, groundOptions, width, height, positionFactor, className, style } = processOptions(props, defaultFixedSupport)
 	angle = ensureNumber(angle)
 	color = ensureString(color)
 	thickness = ensureNumber(thickness)
@@ -36,12 +36,10 @@ export const FixedSupport = forwardRef((props, ref) => {
 	width = ensureNumber(width)
 	height = ensureNumber(height)
 	positionFactor = ensureNumber(positionFactor)
-	className = ensureString(className)
-	style = ensureObject(style)
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Make a group and position it appropriately.
-	return <Group ref={ref} rotate={angle - Math.PI / 2} {...{ position, className, style }}>
+	return <Group ref={ref} rotate={angle - Math.PI / 2} {...{ position, graphicalPosition, className, style }}>
 		<SupportBlock position={new Vector(0, height * positionFactor)} {...{ color, width, height }} />
 		<Ground position={new Vector(0, height * (1 / 2 + positionFactor))} {...{ color, thickness, ...groundOptions }} />
 	</Group>
@@ -56,22 +54,19 @@ export const defaultFixedSupport = {
 
 export const HingeSupport = forwardRef((props, ref) => {
 	// Check input.
-	let { position, angle, color, thickness, groundOptions, width, height, className, style } = processOptions(props, defaultHingeSupport)
-	position = ensureVector(position, 2)
+	let { position, graphicalPosition, angle, color, thickness, groundOptions, width, height, className, style } = processOptions(props, defaultHingeSupport)
 	angle = ensureNumber(angle)
 	color = ensureString(color)
 	thickness = ensureNumber(thickness)
 	groundOptions = ensureObject(groundOptions)
 	width = ensureNumber(width)
 	height = ensureNumber(height)
-	className = ensureString(className)
-	style = ensureObject(style)
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Make a group and position it appropriately.
-	return <Group ref={ref} rotate={angle - Math.PI / 2} {...{ position, className, style }}>
+	return <Group ref={ref} rotate={angle - Math.PI / 2} {...{ position, graphicalPosition, className, style }}>
 		<SupportTriangle {...{ color, thickness, width, height }} />
-		<Ground position={new Vector(0, height)} {...{ color, thickness, ...groundOptions }} />
+		<Ground graphicalPosition={new Vector(0, height)} {...{ color, thickness, ...groundOptions }} />
 		<Hinge {...{ color, thickness }} />
 	</Group>
 })
@@ -83,8 +78,7 @@ export const defaultHingeSupport = {
 
 export const HalfHingeSupport = forwardRef((props, ref) => {
 	// Check input.
-	let { position, angle, color, thickness, groundOptions, width, height, shift, className, style } = processOptions(props, defaultHalfHingeSupport)
-	position = ensureVector(position, 2)
+	let { position, graphicalPosition, angle, color, thickness, groundOptions, width, height, shift, className, style } = processOptions(props, defaultHalfHingeSupport)
 	angle = ensureNumber(angle)
 	color = ensureString(color)
 	thickness = ensureNumber(thickness)
@@ -97,10 +91,10 @@ export const HalfHingeSupport = forwardRef((props, ref) => {
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Make a group and position it appropriately.
-	return <Group ref={ref} rotate={angle - Math.PI / 2} {...{ position, className, style }}>
-		<SupportTriangle {...{ color, thickness, width, height, position: new Vector(0, shift) }} />
-		<Ground position={new Vector(0, shift + height)} {...{ color, thickness, ...groundOptions }} />
-		<HalfHinge {...{ color, thickness, position: new Vector(0, shift) }} />
+	return <Group ref={ref} rotate={angle - Math.PI / 2} {...{ position, graphicalPosition, className, style }}>
+		<SupportTriangle {...{ color, thickness, width, height, graphicalPosition: new Vector(0, shift) }} />
+		<Ground graphicalPosition={new Vector(0, shift + height)} {...{ color, thickness, ...groundOptions }} />
+		<HalfHinge {...{ color, thickness, graphicalPosition: new Vector(0, shift) }} />
 	</Group>
 })
 export const defaultHalfHingeSupport = {
@@ -110,8 +104,7 @@ export const defaultHalfHingeSupport = {
 
 export const RollerSupport = forwardRef((props, ref) => {
 	// Check input.
-	let { position, angle, color, thickness, groundOptions, width, height, positionFactor, numWheels, wheelRadius, wheelsOptions, className, style } = processOptions(props, defaultRollerSupport)
-	position = ensureVector(position, 2)
+	let { position, graphicalPosition, angle, color, thickness, groundOptions, width, height, positionFactor, numWheels, wheelRadius, wheelsOptions, className, style } = processOptions(props, defaultRollerSupport)
 	angle = ensureNumber(angle)
 	color = ensureString(color)
 	thickness = ensureNumber(thickness)
@@ -122,15 +115,13 @@ export const RollerSupport = forwardRef((props, ref) => {
 	numWheels = ensureInt(numWheels, true, true)
 	wheelRadius = ensureNumber(wheelRadius)
 	wheelsOptions = ensureObject(wheelsOptions)
-	className = ensureString(className)
-	style = ensureObject(style)
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Make a group and position it appropriately.
-	return <Group ref={ref} rotate={angle - Math.PI / 2} {...{ position, className, style }}>
-		<SupportBlock position={new Vector(0, height * positionFactor)} {...{ color, height, width }} />
-		<Ground position={new Vector(0, height * (1 / 2 + positionFactor) + 2 * wheelRadius + thickness / 2)} {...{ color, thickness, ...groundOptions }} />
-		<Wheels position={new Vector(0, height * (1 / 2 + positionFactor) + wheelRadius)} {...{ color, numWheels, wheelRadius, ...wheelsOptions }} />
+	return <Group ref={ref} rotate={angle - Math.PI / 2} {...{ position, graphicalPosition, className, style }}>
+		<SupportBlock graphicalPosition={new Vector(0, height * positionFactor)} {...{ color, height, width }} />
+		<Ground graphicalPosition={new Vector(0, height * (1 / 2 + positionFactor) + 2 * wheelRadius + thickness / 2)} {...{ color, thickness, ...groundOptions }} />
+		<Wheels graphicalPosition={new Vector(0, height * (1 / 2 + positionFactor) + wheelRadius)} {...{ color, numWheels, wheelRadius, ...wheelsOptions }} />
 	</Group>
 })
 export const defaultRollerSupport = {
@@ -142,8 +133,7 @@ export const defaultRollerSupport = {
 
 export const RollerHingeSupport = forwardRef((props, ref) => {
 	// Check input.
-	let { position, angle, color, thickness, groundOptions, width, height, numWheels, wheelRadius, wheelsOptions, className, style } = processOptions(props, defaultRollerHingeSupport)
-	position = ensureVector(position, 2)
+	let { position, graphicalPosition, angle, color, thickness, groundOptions, width, height, numWheels, wheelRadius, wheelsOptions, className, style } = processOptions(props, defaultRollerHingeSupport)
 	angle = ensureNumber(angle)
 	color = ensureString(color)
 	thickness = ensureNumber(thickness)
@@ -153,15 +143,13 @@ export const RollerHingeSupport = forwardRef((props, ref) => {
 	numWheels = ensureInt(numWheels, true, true)
 	wheelRadius = ensureNumber(wheelRadius)
 	wheelsOptions = ensureObject(wheelsOptions)
-	className = ensureString(className)
-	style = ensureObject(style)
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Make a group and position it appropriately.
-	return <Group ref={ref} rotate={angle - Math.PI / 2} {...{ position, className, style }}>
+	return <Group ref={ref} rotate={angle - Math.PI / 2} {...{ position, graphicalPosition, className, style }}>
 		<SupportTriangle {...{ color, width, height }} />
-		<Ground position={new Vector(0, height + 2 * wheelRadius + thickness)} {...{ color, thickness, ...groundOptions }} />
-		<Wheels position={new Vector(0, height + wheelRadius + thickness / 2)} {...{ color, numWheels, wheelRadius, ...wheelsOptions }} />
+		<Ground graphicalPosition={new Vector(0, height + 2 * wheelRadius + thickness)} {...{ color, thickness, ...groundOptions }} />
+		<Wheels graphicalPosition={new Vector(0, height + wheelRadius + thickness / 2)} {...{ color, numWheels, wheelRadius, ...wheelsOptions }} />
 		<Hinge {...{ color, thickness }} />
 	</Group>
 })
@@ -174,8 +162,7 @@ export const defaultRollerHingeSupport = {
 
 export const RollerHalfHingeSupport = forwardRef((props, ref) => {
 	// Check input.
-	let { position, angle, color, thickness, groundOptions, width, height, numWheels, wheelRadius, wheelsOptions, shift, className, style } = processOptions(props, defaultRollerHalfHingeSupport)
-	position = ensureVector(position, 2)
+	let { position, graphicalPosition, angle, color, thickness, groundOptions, width, height, numWheels, wheelRadius, wheelsOptions, shift, className, style } = processOptions(props, defaultRollerHalfHingeSupport)
 	angle = ensureNumber(angle)
 	color = ensureString(color)
 	thickness = ensureNumber(thickness)
@@ -186,16 +173,14 @@ export const RollerHalfHingeSupport = forwardRef((props, ref) => {
 	wheelRadius = ensureNumber(wheelRadius)
 	wheelsOptions = ensureObject(wheelsOptions)
 	shift = ensureNumber(shift)
-	className = ensureString(className)
-	style = ensureObject(style)
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Make a group and position it appropriately.
-	return <Group ref={ref} rotate={angle - Math.PI / 2} {...{ position, className, style }}>
-		<SupportTriangle {...{ color, width, height, position: new Vector(0, shift) }} />
-		<Ground position={new Vector(0, shift + height + 2 * wheelRadius + thickness)} {...{ color, thickness, ...groundOptions }} />
-		<Wheels position={new Vector(0, shift + height + wheelRadius + thickness / 2)} {...{ color, numWheels, wheelRadius, ...wheelsOptions }} />
-		<HalfHinge {...{ color, thickness, position: new Vector(0, shift) }} />
+	return <Group ref={ref} rotate={angle - Math.PI / 2} {...{ position, graphicalPosition, className, style }}>
+		<SupportTriangle {...{ color, width, height, graphicalPosition: new Vector(0, shift) }} />
+		<Ground graphicalPosition={new Vector(0, shift + height + 2 * wheelRadius + thickness)} {...{ color, thickness, ...groundOptions }} />
+		<Wheels graphicalPosition={new Vector(0, shift + height + wheelRadius + thickness / 2)} {...{ color, numWheels, wheelRadius, ...wheelsOptions }} />
+		<HalfHinge {...{ color, thickness, graphicalPosition: new Vector(0, shift) }} />
 	</Group>
 })
 export const defaultRollerHalfHingeSupport = {
@@ -210,25 +195,23 @@ export const defaultRollerHalfHingeSupport = {
 
 export const Ground = forwardRef((props, ref) => {
 	// Check input.
-	let { position, thickness, color, rectangleOpacity, width, height, className, style } = processOptions(props, defaultGround)
-	position = ensureVector(position, 2)
+	let { position, graphicalPosition, thickness, color, rectangleOpacity, width, height, className, style } = processOptions(props, defaultGround)
 	thickness = ensureNumber(thickness)
 	color = ensureString(color)
 	rectangleOpacity = ensureNumber(rectangleOpacity)
 	width = ensureNumber(width)
 	height = ensureNumber(height)
-	className = ensureString(className)
-	style = ensureObject(style)
 	ref = useRefWithEventHandlers(props, ref)
 
-	return <Group {...{ ref, position, className, style }}>
+	return <Group {...{ ref, position, graphicalPosition, className, style }}>
 		<rect className="groundRectangle" x={-width / 2} y={0} width={width} height={height} style={{ fill: color, opacity: rectangleOpacity }} />
-		<Line className="groundLine" points={[new Vector(-width / 2, 0), new Vector(width / 2, 0)]} style={{ stroke: color, strokeWidth: thickness }} />
+		<Line className="groundLine" graphicalPoints={[new Vector(-width / 2, 0), new Vector(width / 2, 0)]} style={{ stroke: color, strokeWidth: thickness }} />
 	</Group >
 })
 export const defaultGround = {
 	...defaultObject,
-	position: Vector.zero,
+	position: undefined,
+	graphicalPosition: Vector.zero,
 	thickness: defaultHinge.thickness,
 	color: defaultHinge.color,
 	rectangleOpacity: 0.4,
@@ -239,8 +222,8 @@ export const defaultGround = {
 
 export const SupportBlock = forwardRef((props, ref) => {
 	// Check input.
-	let { position, color, width, height, className, style } = processOptions(props, defaultSupportBlock)
-	position = ensureVector(position, 2)
+	let { position, graphicalPosition, color, width, height, className, style } = processOptions(props, defaultSupportBlock)
+	position = ensureVector(useTransformedOrGraphicalValue(position, graphicalPosition), 2)
 	color = ensureString(color)
 	width = ensureNumber(width)
 	height = ensureNumber(height)
@@ -253,7 +236,8 @@ export const SupportBlock = forwardRef((props, ref) => {
 })
 export const defaultSupportBlock = {
 	...defaultObject,
-	position: Vector.zero,
+	position: undefined,
+	graphicalPosition: Vector.zero,
 	color: defaultBeam.color,
 	width: defaultFixedSupport.width,
 	height: defaultFixedSupport.height,
@@ -262,8 +246,8 @@ export const defaultSupportBlock = {
 
 export const SupportTriangle = forwardRef((props, ref) => {
 	// Check input.
-	let { position, color, thickness, width, height, className, style } = processOptions(props, defaultSupportTriangle)
-	position = ensureVector(position, 2)
+	let { position, graphicalPosition, color, thickness, width, height, className, style } = processOptions(props, defaultSupportTriangle)
+	position = ensureVector(useTransformedOrGraphicalValue(position, graphicalPosition), 2)
 	color = ensureString(color)
 	thickness = ensureNumber(thickness)
 	width = ensureNumber(width)
@@ -277,7 +261,8 @@ export const SupportTriangle = forwardRef((props, ref) => {
 })
 export const defaultSupportTriangle = {
 	...defaultObject,
-	position: Vector.zero,
+	position: undefined,
+	graphicalPosition: Vector.zero,
 	color: defaultHinge.color,
 	thickness: defaultHinge.thickness,
 	width: 32,
@@ -287,18 +272,15 @@ export const defaultSupportTriangle = {
 
 export const Wheels = forwardRef((props, ref) => {
 	// Check input.
-	let { position, color, numWheels, wheelRadius, wheelStyle, className, style } = processOptions(props, defaultWheels)
-	position = ensureVector(position, 2)
+	let { position, graphicalPosition, color, numWheels, wheelRadius, wheelStyle, className, style } = processOptions(props, defaultWheels)
 	color = ensureString(color)
 	numWheels = ensureInt(numWheels, true, true)
 	wheelRadius = ensureNumber(wheelRadius)
 	wheelStyle = ensureObject(wheelStyle)
-	className = ensureString(className)
-	style = ensureObject(style)
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Draw a group with the right number of wheels (circles).
-	return <Group {...{ ref, position, className, style }}>
+	return <Group {...{ ref, position, graphicalPosition, className, style }}>
 		{numberArray(0, numWheels - 1).map(index => <circle
 			key={index}
 			cx={(2 * index + 1 - numWheels) * wheelRadius}
@@ -311,7 +293,8 @@ export const Wheels = forwardRef((props, ref) => {
 })
 export const defaultWheels = {
 	...defaultObject,
-	position: Vector.zero,
+	position: undefined,
+	graphicalPosition: Vector.zero,
 	color: defaultHinge.color,
 	numWheels: defaultRollerSupport.numWheels,
 	wheelRadius: defaultRollerSupport.wheelRadius,

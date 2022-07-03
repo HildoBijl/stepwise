@@ -369,7 +369,7 @@ export function addFeedbackIcon(htmlContents, feedback, drawing, scale = 1) {
 		return htmlContents
 	return <>
 		{htmlContents}
-		<PositionedElement anchor={[1, 0]} position={[drawing.width - 8, 6]} scale={scale} ><feedback.Icon className="icon" /></PositionedElement>
+		<PositionedElement anchor={[1, 0]} position={[drawing.transformationSettings.bounds.width - 8, 6]} scale={scale} ><feedback.Icon className="icon" /></PositionedElement>
 	</>
 }
 

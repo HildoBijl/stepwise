@@ -2,19 +2,14 @@ import React, { Fragment, forwardRef } from 'react'
 import clsx from 'clsx'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 
-import { processOptions, filterOptions } from 'step-wise/util/objects'
+import { processOptions, filterOptions, filterProperties } from 'step-wise/util/objects'
 
-import Drawing, { defaultDrawingInputOptions } from 'ui/components/figures/Drawing'
+import Drawing, { defaultDrawingOptions } from 'ui/components/figures/Drawing'
 
 import { render } from './rendering'
 
 export const defaultEngineeringDiagramOptions = {
-	width: defaultDrawingInputOptions.width,
-	height: defaultDrawingInputOptions.height,
-	maxWidth: defaultDrawingInputOptions.maxWidth,
-	svgContents: null,
-	htmlContents: null,
-	className: '',
+	...filterProperties(defaultDrawingOptions, ['transformationSettings', 'maxWidth', 'svgContents', 'htmlContents', 'className'], false),
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -73,7 +68,7 @@ function EngineeringDiagramUnforwared(options, ref) {
 
 	// Render the drawing.
 	options.className = clsx('engineeringDiagram', classes.engineeringDiagram, options.className)
-	return <Drawing ref={ref} {...filterOptions(options, defaultDrawingInputOptions)} />
+	return <Drawing ref={ref} {...filterOptions(options, defaultDrawingOptions)} />
 }
 export const EngineeringDiagram = forwardRef(EngineeringDiagramUnforwared)
 export default EngineeringDiagram

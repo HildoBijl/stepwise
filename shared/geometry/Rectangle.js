@@ -106,8 +106,8 @@ class Rectangle {
 	 */
 
 	// transform applies the given transformation.
-	transform(transformation) {
-		return new Rectangle(this.positionedVector.transform(transformation))
+	transform(transformation, ...args) {
+		return new Rectangle(this.positionedVector.transform(transformation, ...args))
 	}
 
 	// isInside checks if a vector (a point) falls within the rectangle.

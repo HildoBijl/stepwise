@@ -5,7 +5,7 @@ import { createContext, useContext } from 'react'
 import { isNumber } from 'step-wise/util/numbers'
 import { applyToEachParameter } from 'step-wise/util/objects'
 
-import { Vector, Transformation, Rectangle } from 'step-wise/geometry'
+import { Vector, Transformation } from 'step-wise/geometry'
 
 // Set up a context so elements inside the drawing can ask for the drawing.
 export const DrawingContext = createContext(null)
@@ -22,7 +22,7 @@ export function useBounds() {
 }
 
 // useTransformation receives a vector, an array of vectors or a basic object with only vectors, and applies the transformation from the drawing to all these vectors.
-export function useTransformation(points) {
+export function useTransformation(points, preventShift) {
 	// Extract the transformation.
 	const drawing = useDrawingContext()
 	const transformation = (drawing?.transformationSettings?.transformation) || Transformation.getIdentity(2)
@@ -35,11 +35,11 @@ export function useTransformation(points) {
 
 		// If the points parameter is a single vector, apply it.
 		if (points instanceof Vector)
-			return transformation.apply(points)
+			return transformation.apply(points, preventShift)
 
 		// If the parameter has a transform function, apply it.
 		if (typeof points.transform === 'function')
-			return points.transform(transformation)
+			return points.transform(transformation, preventShift)
 
 		// Apply the transformation to each element of the given array/object.
 		return applyToEachParameter(points, point => applyTransformation(point))
@@ -75,21 +75,17 @@ export function useScaling(numbers) {
 }
 
 // useTransformedOrGraphicalValue takes two values: a (set of) points in drawing coordinates and a (set of) points in graphical coordinates. If the first one is defined, it is scaled and used. Otherwise the second is used. If both fail, the third value given (the default) will be used.
-export function useTransformedOrGraphicalValue(drawingPoints, graphicalPoints, defaultPoints) {
-	const transformedPoints = useTransformation(drawingPoints)
+export function useTransformedOrGraphicalValue(drawingPoints, graphicalPoints, preventShift = false) {
+	const transformedPoints = useTransformation(drawingPoints, preventShift)
 	if (drawingPoints)
 		return transformedPoints
-	if (graphicalPoints)
-		return graphicalPoints
-	return defaultPoints
+	return graphicalPoints
 }
 
 // useScaledOrGraphicalValue takes two numbers: a size in drawing coordinates and a size in graphical coordinates. If the first one is defined, it is scaled and used. Otherwise the second is used. If both fail, the third value given (the default) will be used.
-export function useScaledOrGraphicalValue(drawingSize, graphicalSize, defaultValue) {
+export function useScaledOrGraphicalValue(drawingSize, graphicalSize) {
 	const scaledSize = useScaling(drawingSize)
 	if (drawingSize !== undefined)
 		return scaledSize
-	if (graphicalSize !== undefined)
-		return graphicalSize
-	return defaultValue
+	return graphicalSize
 }

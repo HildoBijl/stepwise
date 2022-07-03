@@ -24,7 +24,7 @@ class Transformation {
 			} else {
 				matrix = args[0]
 			}
-		} else if(args.length === 2) {
+		} else if (args.length === 2) {
 			matrix = args[0]
 			vector = args[1]
 		} else {
@@ -90,14 +90,12 @@ class Transformation {
 		return new Transformation(matrix, vector)
 	}
 
-	apply(vector, relativeTo) {
+	apply(vector, preventShift = false) {
 		vector = ensureVector(vector, this.dimension)
-
-		// Determine which transformation to use.
-		const transformation = relativeTo ? this.getRelativeTo(relativeTo) : this
-
-		// Apply the transformation.
-		return transformation.matrix.multiply(vector).add(transformation.vector)
+		const transformedWithoutShift = this.matrix.multiply(vector)
+		if (preventShift)
+			return transformedWithoutShift
+		return transformedWithoutShift.add(this.vector)
 	}
 
 	// getRelativeTo returns a new transformation that is the current transformation but then relative to the given vector. So for instance, suppose that the current transformation is rotation around the origin. If we ask for a rotation relative to (2,3), then the rotation will be done around this given point (2,3).

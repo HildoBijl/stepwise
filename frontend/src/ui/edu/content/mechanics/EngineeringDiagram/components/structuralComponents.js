@@ -3,16 +3,16 @@ import React, { forwardRef } from 'react'
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureString } from 'step-wise/util/strings'
 import { ensureObject, processOptions } from 'step-wise/util/objects'
-import { Vector, ensureVector, ensureVectorArray } from 'step-wise/geometry'
+import { Vector, ensureVectorArray } from 'step-wise/geometry'
 
-import { components as drawingComponents } from 'ui/components/figures/Drawing'
+import { components as drawingComponents, useTransformedOrGraphicalValue } from 'ui/components/figures'
 
-const { defaultObject, useRefWithEventHandlers, Group, Line, defaultLine, Circle, Arc } = drawingComponents
+const { defaultObject, useRefWithEventHandlers, Group, Line, defaultLine, Polygon, Circle, Arc } = drawingComponents
 
 export const Beam = forwardRef((props, ref) => {
 	// Check input.
-	let { points, thickness, strutSize, strutOpacity, color, lineStyle, strutStyle, className, style } = processOptions(props, defaultBeam)
-	points = ensureVectorArray(points, 2)
+	let { points, graphicalPoints, thickness, strutSize, strutOpacity, color, lineStyle, strutStyle, className, style } = processOptions(props, defaultBeam)
+	points = ensureVectorArray(useTransformedOrGraphicalValue(points, graphicalPoints), 2)
 	thickness = ensureNumber(thickness)
 	strutSize = ensureNumber(strutSize)
 	strutOpacity = ensureNumber(strutOpacity)
@@ -29,13 +29,13 @@ export const Beam = forwardRef((props, ref) => {
 			return null
 		const prev = points[index - 1].subtract(point).normalize().multiply(strutSize).add(point)
 		const next = points[index + 1].subtract(point).normalize().multiply(strutSize).add(point)
-		return <Line key={index} points={[point, next, prev, point]} className="beamStrut" style={{ fill: color, opacity: strutOpacity, ...strutStyle }} />
+		return <Polygon key={index} graphicalPoints={[point, next, prev]} className="beamStrut" style={{ fill: color, opacity: strutOpacity, ...strutStyle }} />
 	})
 
 	// Assemble the beam.
 	return <Group {...{ ref, className, style }}>
 		{struts}
-		<Line points={points} className="beamLine" style={{ stroke: color, strokeWidth: thickness, ...lineStyle }} />
+		<Line graphicalPoints={points} className="beamLine" style={{ stroke: color, strokeWidth: thickness, ...lineStyle }} />
 	</Group>
 })
 export const defaultBeam = {
@@ -51,22 +51,21 @@ export const defaultBeam = {
 
 export const Hinge = forwardRef((props, ref) => {
 	// Check input.
-	let { position, radius, thickness, color, className, style } = processOptions(props, defaultHinge)
-	position = ensureVector(position, 2)
-	radius = ensureNumber(radius)
+	let { position, graphicalPosition, radius, graphicalRadius, thickness, color, className, style } = processOptions(props, defaultHinge)
 	thickness = ensureNumber(thickness)
 	color = ensureString(color)
-	className = ensureString(className)
 	style = ensureObject(style)
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Set up the circle.
-	return <Circle {...{ ref, center: position, radius, className, style: { stroke: color, strokeWidth: thickness, ...style } }} />
+	return <Circle {...{ ref, center: position, graphicalCenter: graphicalPosition, radius, graphicalRadius, className, style: { stroke: color, strokeWidth: thickness, ...style } }} />
 })
 export const defaultHinge = {
 	...defaultObject,
-	position: Vector.zero,
-	radius: 6,
+	position: undefined,
+	graphicalPosition: Vector.zero,
+	radius: undefined,
+	graphicalRadius: 6,
 	thickness: 2,
 	color: defaultBeam.color,
 	className: 'hinge',
@@ -74,20 +73,17 @@ export const defaultHinge = {
 
 export const HalfHinge = forwardRef((props, ref) => {
 	// Check input.
-	let { position, radius, thickness, color, angle, className, style } = processOptions(props, defaultHalfHinge)
-	position = ensureVector(position, 2)
-	radius = ensureNumber(radius)
+	let { position, graphicalPosition, radius, graphicalRadius, thickness, color, angle, className, style } = processOptions(props, defaultHalfHinge)
 	thickness = ensureNumber(thickness)
 	color = ensureString(color)
 	angle = ensureNumber(angle)
-	className = ensureString(className)
 	style = ensureObject(style)
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Set up the arc.
 	const startAngle = angle - Math.PI / 2
 	const endAngle = angle + Math.PI / 2
-	return <Arc {...{ ref, center: position, radius, startAngle, endAngle, className, style: { stroke: color, strokeWidth: thickness, ...style } }} />
+	return <Arc {...{ ref, center: position, graphicalCenter: graphicalPosition, radius, graphicalRadius, startAngle, endAngle, className, style: { stroke: color, strokeWidth: thickness, ...style } }} />
 })
 export const defaultHalfHinge = {
 	...defaultHinge,

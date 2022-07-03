@@ -106,8 +106,8 @@ class Line {
 	 */
 
 	// transform will apply the given transformation.
-	transform(transformation) {
-		return Line.fromPoints(transformation.apply(this.start), transformation.apply(this.secondPoint))
+	transform(transformation, ...args) {
+		return Line.fromPoints(transformation.apply(this.start, ...args), transformation.apply(this.secondPoint, ...args))
 	}
 
 	// containsPoint checks if a given point (Vector) is on the given line. 

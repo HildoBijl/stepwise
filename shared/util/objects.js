@@ -119,16 +119,16 @@ function processOptions(givenOptions, defaultOptions, filterStrangers = false) {
 module.exports.processOptions = processOptions
 
 // filterOptions takes two options objects and filters the properties of the first based on what's in the second. This is useful if only some of the properties need to be passed on to a child object.
-function filterOptions(allOptions, allowedOptions) {
-	return filterProperties(allOptions, Object.keys(allowedOptions))
+function filterOptions(allOptions, allowedOptions, removeUndefined) {
+	return filterProperties(allOptions, Object.keys(allowedOptions), removeUndefined)
 }
 module.exports.filterOptions = filterOptions
 
 // filterProperties filters the properties of an object based on the given arrays of keys. Only properties that are in the given array will be kept, and others will be removed. The original object is not adjusted: a new object is returned.
-function filterProperties(obj, allowedKeys) {
+function filterProperties(obj, allowedKeys, removeUndefined = true) {
 	const res = {}
 	allowedKeys.forEach(key => {
-		if (obj[key] !== undefined)
+		if (!removeUndefined || obj[key] !== undefined)
 			res[key] = obj[key]
 	})
 	return res

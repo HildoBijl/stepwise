@@ -101,12 +101,20 @@ class PositionedVector {
 	}
 
 	// transform applies a given transformation.
-	transform(transformation) {
+	transform(transformation, ...args) {
 		transformation = ensureTransformation(transformation, this.dimension)
 		return new PositionedVector({
-			start: transformation.apply(this.start),
-			end: transformation.apply(this.end),
+			start: transformation.apply(this.start, ...args),
+			end: transformation.apply(this.end, ...args),
 		})
+	}
+
+	// add and subtract will add/subtract a vector to the start and end vectors of the PositionedVector, effectively shifting the positioned vector.
+	add(vector) {
+		return new PositionedVector({ start: this.start.add(vector), end: this.end.add(vector) })
+	}
+	subtract(vector) {
+		return new PositionedVector({ start: this.start.subtract(vector), end: this.end.subtract(vector) })
 	}
 
 	/*
