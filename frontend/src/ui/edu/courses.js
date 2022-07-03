@@ -82,7 +82,7 @@ const courses = {
 
 	exactawiskunde: {
 		name: 'Exacte Wetenschap A - Wiskunde',
-		goals: ['solveBasicSystemOfLinearEquations', 'determine2DDistances', 'solveGeneralSystemOfLinearEquations', 'applyQuadraticFormula'],
+		goals: ['solveBasicSystemOfLinearEquations', 'solveGeneralSystemOfLinearEquations', 'applyQuadraticFormula', 'calculateTriangle', 'calculate3DShape'],
 		priorKnowledge: [],
 		startingPoints: [
 			'expandBrackets',
@@ -95,6 +95,8 @@ const courses = {
 			'applyPythagoras',
 			'applySinCosTan',
 			'applySimilarTriangles',
+			'calculateTriangle',
+			'calculate2DShape',
 		],
 		blocks: [
 			{
@@ -119,11 +121,11 @@ const courses = {
 			},
 			{
 				name: 'Driehoeken doorrekenen',
-				goals: [],
+				goals: ['calculateTriangle'],
 			},
 			{
 				name: 'Oppervlakten en volumes',
-				goals: [],
+				goals: ['calculate3DShape'],
 			},
 		],
 	},

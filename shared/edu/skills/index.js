@@ -173,10 +173,19 @@ const skills = {
 	},
 
 	// Basic geometry: general triangles.
-	// ToDo
+	calculateTriangle: {
+		name: 'Driehoek doorrekenen',
+		// ToDo later: set up an appropriate set-up by picking from solveBasicLinearEquation and solveBasicQuadraticEquation.
+	},
 
 	// Basic geometry: areas and volumes.
-	// ToDo
+	calculate2DShape: {
+		name: '2D vorm doorrekenen',
+	},
+	calculate3DShape: {
+		name: '3D vorm doorrekenen',
+		setup: combinerAnd('determine2DDistances', 'calculate2DShape'),
+	},
 
 	/*
 	 * Basic physics.
