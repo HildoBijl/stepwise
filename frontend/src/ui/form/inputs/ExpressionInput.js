@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { isObject, deepEquals, processOptions } from 'step-wise/util/objects'
+import { isBasicObject, deepEquals, processOptions } from 'step-wise/util/objects'
 import { Variable, expressionSItoFO, support } from 'step-wise/CAS'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 
@@ -159,12 +159,12 @@ export function validWithVariablesGeneric(interpreter, ...variables) {
 			throw new Error(`Invalid validation variables: when using the validWithVariables function, "undefined" was given as array of variables. This cannot be processed. Please provide actual variables.`)
 		if (Array.isArray(variables[0]))
 			variables = variables[0]
-		if (isObject(variables[0]))
+		if (isBasicObject(variables[0]))
 			variables = Object.values(variables[0])
 	}
 
 	// Filter out non-variable elements and make sure the rest are variables.
-	variables = variables.filter(term => term.isSubtype(Variable) || (typeof term === 'string')).map(Variable.ensureVariable)
+	variables = variables.filter(term => (term instanceof Variable) || (typeof term === 'string')).map(Variable.ensureVariable)
 
 	// Set up a validation function based on these variables.
 	return (data) => {

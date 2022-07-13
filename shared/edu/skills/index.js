@@ -158,10 +158,11 @@ const skills = {
 		name: '2D hoeken bepalen',
 		exercises: ['determine2DAnglesTriangleX', 'determine2DAnglesTriangleZ', 'determine2DAnglesCircleSymmetry'],
 	},
-	applyPythagoras: {
+	applyPythagoreanTheorem: {
 		name: 'De stelling van Pythagoras toepassen',
+		exercises: ['applyPythagoreanTheoremGeneral'],
 	},
-	applySinCosTan: {
+	applySineCosineTangent: {
 		name: 'Sinus/cosinus/tangens toepassen',
 	},
 	applySimilarTriangles: {
@@ -169,7 +170,7 @@ const skills = {
 	},
 	determine2DDistances: {
 		name: '2D afstanden bepalen',
-		setup: combinerAnd('determine2DAngles', combinerOr('applyPythagoras', 'applySinCosTan', 'applySimilarTriangles')), // ToDo later: change into a picking function.
+		setup: combinerAnd('determine2DAngles', combinerOr('applyPythagoreanTheorem', 'applySineCosineTangent', 'applySimilarTriangles')), // ToDo later: change into a picking function.
 	},
 
 	// Basic geometry: general triangles.

@@ -375,18 +375,17 @@ function ensureVector(vector, dimension, useDefaultZero = false, preventZero = f
 module.exports.ensureVector = ensureVector
 
 // ensureVectorArray ensures that we have an array of vectors. It turns the result into vectors if they're not vectors yet, like an array of coordinates [200, 300] or an object { x: 200, y: 300 }.
-function ensureVectorArray(vectors, dimension) {
+function ensureVectorArray(vectors, dimension, numElements) {
 	if (!Array.isArray(vectors))
 		throw new Error(`Invalid Vector array: expected an array of vectors or vector-like objects (arrays or objects with coordinates) but received a parameter of type "${typeof vectors}".`)
+	if (numElements !== undefined && vectors.length !== numElements)
+		throw new Error(`Invalid Vector array: expected an array with ${numElements} vectors, but the array had ${vectors.length} elements instead.`)
 	return vectors.map(vector => ensureVector(vector, dimension))
 }
 module.exports.ensureVectorArray = ensureVectorArray
 
 // ensureCorner checks that the given parameter is an array of three 2D vectors, also known as a corner.
 function ensureCorner(points, dimension = 2) {
-	points = ensureVectorArray(points, dimension)
-	if (points.length !== 3)
-		throw new Error(`Invalid points array: expected an array of three vectors denoting a corner, but received one with ${points.length} vectors. Cannot process this.`)
-	return points
+	return ensureVectorArray(points, dimension, 3)
 }
 module.exports.ensureCorner = ensureCorner

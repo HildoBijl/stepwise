@@ -3,7 +3,7 @@ import React, { useRef, useCallback, useEffect, useLayoutEffect } from 'react'
 
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureObject, processOptions, filterOptions, removeProperties } from 'step-wise/util/objects'
-import { Vector, ensureVector, ensureCorner } from 'step-wise/geometry'
+import { Vector, ensureVector, ensureVectorArray, ensureCorner } from 'step-wise/geometry'
 
 import { ensureReactElement, useEqualRefOnEquality, useEventListener } from 'util/react'
 
@@ -137,4 +137,30 @@ const defaultCornerLabel = {
 	graphicalPoints: [Vector.i, Vector.zero, Vector.j],
 	size: undefined,
 	graphicalSize: 30,
+}
+
+// LineLabel is a label that is placed along a line, between two points. To define it, we need two points defining the line. We also need a third point "oppositeTo" which the label should be placed opposite to. 
+export function LineLabel(props) {
+	// Check input.
+	let { children, points, graphicalPoints, oppositeTo, graphicalOppositeTo } = processOptions(props, defaultLineLabel)
+	children = ensureReactElement(children)
+	points = ensureVectorArray(useTransformedOrGraphicalValue(points, graphicalPoints), 2, 2)
+	oppositeTo = ensureVector(useTransformedOrGraphicalValue(oppositeTo, graphicalOppositeTo))
+
+	// Determine the angle.
+	const delta = points[1].subtract(points[0])
+	const relative = oppositeTo.subtract(points[0])
+	const sign = Math.sign(delta.y * relative.x - delta.x * relative.y) // Cross product.
+	const angle = delta.argument + sign * Math.PI / 2
+
+	// Set up the PositionedElement.
+	const position = points[0].interpolate(points[1])
+	return <Label {...filterOptions(props, defaultLabel)} graphicalPosition={position} angle={angle}>{children}</Label>
+}
+const defaultLineLabel = {
+	...removeProperties(defaultLabel, ['position', 'graphicalPosition']),
+	points: undefined,
+	graphicalPoints: [Vector.i, Vector.zero],
+	oppositeTo: undefined,
+	graphicalOppositeTo: undefined,
 }

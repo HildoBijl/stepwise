@@ -30,9 +30,9 @@ function Problem(state) {
 		<Par>Gegeven is de onderstaande balk met externe belasting.</Par>
 		<Diagram isInputField={false} {...solution} />
 		<Par>Teken het vrijlichaamschema/schematisch diagram.</Par>
-		{/* <InputSpace>
-			<FBDInput id="loads" {...diagramSettings} svgContents={<Schematics data={solution} showSupports={false} showLoads={false} />} htmlContents={<Elements data={solution} />} snappers={Object.values(points)} validate={allConnectedToPoints(points)} />
-		</InputSpace> */}
+		<InputSpace>
+			<Diagram isInputField={true} {...solution} />
+		</InputSpace>
 	</>
 }
 
