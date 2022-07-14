@@ -15,8 +15,8 @@ const data = {
 	steps: [null, null, null, null],
 	comparison: {
 		default: {},
-		equation1: equationComparisons.equivalent,
-		equation2: equationComparisons.equivalent,
+		equation1: (input, correct) => equationComparisons.equivalent(input, correct) || equationComparisons.equivalent(input.invert(), correct),
+		equation2: (input, correct) => equationComparisons.equivalent(input, correct) || equationComparisons.equivalent(input.invert(), correct),
 	},
 }
 

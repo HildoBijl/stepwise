@@ -21,7 +21,7 @@ class Equation {
 		// If we have an Equation, just use it.
 		if (SO.constructor === Equation)
 			return SO
-		
+
 		// Set all the properties.
 		this.become(SO)
 	}
@@ -76,7 +76,7 @@ class Equation {
 	get tex() {
 		return this.toTex()
 	}
-	
+
 	toTex() {
 		return this.processTex(this.toRawTex())
 	}
@@ -133,6 +133,11 @@ class Equation {
 	// toPower will take both sides and put it to the given power.
 	toPower(exponent) {
 		return this.applyToBothSides(part => part.toPower(exponent))
+	}
+
+	// invert will take both sides and invert them.
+	invert() {
+		return this.applyToBothSides(part => part.invert())
 	}
 
 	/*
