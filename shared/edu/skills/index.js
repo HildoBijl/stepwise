@@ -167,6 +167,7 @@ const skills = {
 	},
 	applySimilarTriangles: {
 		name: 'Gelijkvormige driehoeken toepassen',
+		exercises: ['applySimilarTrianglesGeneral'],
 	},
 	determine2DDistances: {
 		name: '2D afstanden bepalen',

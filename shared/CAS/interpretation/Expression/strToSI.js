@@ -12,6 +12,10 @@ const { advancedFunctionComponents, accents, isFunctionAllowed } = require('../f
 function strToSI(str, settings = {}) {
 	settings = processOptions(settings, defaultInterpretationSettings)
 
+	// Check for non-string entries.
+	if (typeof str !== 'string')
+		str = str.toString()
+
 	// Whitespace is always ignored. Remove it directly to prevent confusion.
 	str = removeWhitespace(str)
 

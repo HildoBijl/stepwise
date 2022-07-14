@@ -7,12 +7,20 @@ const { Integer, SingleArgumentFunction, Product, Function, Fraction, Power, sim
  */
 
 class Sqrt extends SingleArgumentFunction {
+	get base() {
+		return Integer.two // The square root always has base 2.
+	}
+
 	toNumber() {
 		return Math.sqrt(this.argument.toNumber())
 	}
 
 	toRawTex() {
 		return `\\sqrt{${this.argument.tex}}`
+	}
+
+	requiresTimesBeforeInProduct() {
+		return false
 	}
 
 	getDerivativeBasic(variable) {
@@ -101,6 +109,10 @@ class Root extends Function {
 
 	toRawTex() {
 		return `\\sqrt[${this.base.tex}]{${this.argument.tex}}`
+	}
+
+	requiresTimesBeforeInProduct() {
+		return false
 	}
 
 	getDerivativeBasic(variable) {

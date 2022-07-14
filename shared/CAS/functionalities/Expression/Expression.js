@@ -587,7 +587,7 @@ class Variable extends Expression {
 }
 Variable.type = 'Variable'
 Variable.defaultSO = { ...Expression.defaultSO, symbol: 'x', subscript: undefined, accent: undefined }
-Variable.format = /^((([a-zA-Z]*)\(([a-zA-Z0-9α-ωΑ-Ω]+)\))|([a-zA-Z0-9α-ωΑ-Ω]+))(_((.)|\(([^\(\)])\)))?$/
+Variable.format = /^((([a-zA-Z]*)\(([a-zA-Z0-9α-ωΑ-Ω])\))|([a-zA-Z0-9α-ωΑ-Ω]))(_?((.+)|\(([^\(\)]+)\)))?$/
 Variable.e = new Variable('e')
 Variable.pi = new Variable('π')
 module.exports.Variable = Variable
@@ -1850,13 +1850,21 @@ class Power extends Function {
 			}
 		}
 
+		// Check for powers of roots. Turn sqrt(4)^3 into sqrt(4^3) and root[3](4)^2 into root[3](4^2).
+		if (options.pullPowersIntoRoots) {
+			if (base.isSubtype('Sqrt'))
+				return new base.constructor(new Power(base.argument, exponent)).simplifyBasic(options)
+			if (base.isSubtype('Root'))
+				return new base.constructor(new Power(base.argument, exponent), base.base).simplifyBasic(options)
+		}
+
 		// Check for numbers that can be simplified. Reduce 2^3 to 8.
 		if (options.mergePowerNumbers) {
 			if (base.isNumeric() && exponent.isNumeric()) {
 				if (base.hasFloat() || exponent.hasFloat())
-					return new Float(this.toNumber())
+					return new Float(base.number ** exponent.number)
 				if (base.isSubtype(Integer) && exponent.isSubtype(Integer))
-					return new Integer(this.toNumber())
+					return new Integer(base.number ** exponent.number)
 			}
 		}
 
