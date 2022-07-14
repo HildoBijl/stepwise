@@ -1,6 +1,6 @@
 // The Rectangle represents a rectangle shape in space. It is based on the PositionedVector which denotes its position, but it adds functionalities on top like bounding coordinates and more.
 
-const { ensureNumber, compareNumbers } = require('../util/numbers')
+const { ensureNumber, compareNumbers, boundTo } = require('../util/numbers')
 const { numberArray } = require('../util/arrays')
 const { repeat } = require('../util/functions')
 
@@ -123,10 +123,7 @@ class Rectangle {
 	// applyBounds will make sure that a given vector falls within the rectangle. It returns a new vector that is guaranteed to lie within the rectangle. If a coordinate falls outside of the range, it is brought inside.
 	applyBounds(vector) {
 		vector = ensureVector(vector, this.dimension)
-		return new Vector(vector.coordinates.map((coordinate, axis) => {
-			const [min, max] = this.getBounds(axis)
-			return coordinate < min ? min : (coordinate > max ? max : coordinate)
-		}))
+		return new Vector(vector.coordinates.map((coordinate, axis) => boundTo(coordinate, ...this.getBounds(axis))))
 	}
 
 	// putOnNearestBound will take a given vector and return the closest point on the rectangle edge. This differs from applyBounds because, if the point is inside the rectangle, this function does return something different. On a tie, the smallest coordinate is chosen.
@@ -138,8 +135,8 @@ class Rectangle {
 		}))
 	}
 
-	// distanceTo returns the distance of a point to this rectangle. A point inside the rectangle always has distance zero, unless toBounds is set to true, in which case the distance to the nearest bound is taken.
-	distanceTo(vector, toBounds = false) {
+	// getDistanceTo returns the distance of a point to this rectangle. A point inside the rectangle always has distance zero, unless toBounds is set to true, in which case the distance to the nearest bound is taken.
+	getDistanceTo(vector, toBounds = false) {
 		return this[toBounds ? 'putOnNearestBound' : 'applyBounds'](vector).subtract(vector).magnitude
 	}
 
@@ -205,8 +202,8 @@ class Rectangle {
 		center = ensureVector(center, this.dimension)
 		radius = ensureNumber(radius, true)
 		return contains ?
-			this.isInside(center) && this.distanceTo(center, true) >= radius :
-			this.distanceTo(center) <= radius
+			this.isInside(center) && this.getDistanceTo(center, true) >= radius :
+			this.getDistanceTo(center) <= radius
 	}
 
 	/*

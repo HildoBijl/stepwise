@@ -36,14 +36,15 @@ function Problem(state) {
 	</>
 }
 
-function Diagram({ isInputField = false, ...solution }) {
+function Diagram({ isInputField = false, showSolution = false, ...solution }) {
 	const { points, loads } = solution
 
 	// Define the transformation.
 	const transformationSettings = useScaleAndShiftTransformationSettings(points, { scale: 70, margin: [100, [40, 100]] })
 
 	// Get all the required components.
-	const schematics = <Schematics {...solution} showSupports={!isInputField} showLoads={!isInputField} />
+	const loadsToDisplay = isInputField ? [] : (showSolution ? loads : loads.filter(load => load.source === loadTypes.external))
+	const schematics = <Schematics {...solution} showSupports={!isInputField} loads={loadsToDisplay} />
 	const elements = <Elements {...solution} />
 
 	// Set up either a diagram or an input field with said diagram.
@@ -52,7 +53,7 @@ function Diagram({ isInputField = false, ...solution }) {
 		<EngineeringDiagram transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} maxWidth={bounds => bounds.width} />
 }
 
-function Schematics({ points, loads, showSupports = true, showLoads = true }) {
+function Schematics({ points, loads, showSupports = true }) {
 	return <>
 		<Beam points={Object.values(points)} />
 
@@ -61,9 +62,7 @@ function Schematics({ points, loads, showSupports = true, showLoads = true }) {
 			<RollerHalfHingeSupport position={points.B} />
 		</Group>
 
-		{showLoads ? <Group>
-			{render(loads.filter(load => load.source === loadTypes.external))}
-		</Group> : null}
+		<Group>{render(loads)}</Group>
 
 		<Distance positionedVector={{ start: points.A, end: points.B }} graphicalShift={new Vector(0, distanceShift)} />
 		<Distance positionedVector={{ start: points.B, end: points.C }} graphicalShift={new Vector(0, distanceShift)} />
@@ -87,22 +86,16 @@ function Elements({ points, h, l1, l2 }) {
 
 function Solution(state) {
 	const solution = useSolution(state)
-	const { diagramSettings, beam } = solution
-
-	const Solution = <>
-		<Schematics data={solution} showSupports={false} />
-		<Group>{render(beam.filter(load => load.source !== loadTypes.external))}</Group>
-	</>
 
 	return <>
 		<Par>Aan de linkerkant zit een vast scharnier. Een vast scharnier kan horizontale en verticale reactiekrachten geven. Halverwege zit een rollend scharnier. Deze kan alleen reactiekrachten geven loodrecht op het oppervlak. Samen met de externe belastingen geeft dat het volgende vrijlichaamschema.</Par>
-		<EngineeringDiagram {...diagramSettings} svgContents={Solution} htmlContents={<Elements data={solution} />} />
+		<Diagram showSolution={true} {...solution} />
 	</>
 }
 
 function getFeedback({ state, input, progress, shared }) {
 	const { getSolution, data } = shared
 	const solution = getSolution(state)
-	const { beam, points } = solution
-	return { beam: getFBDFeedback(input.beam, beam, data.comparison, points) }
+	const { loads, points } = solution
+	return { loads: getFBDFeedback(input.loads, loads, data.comparison, points) }
 }

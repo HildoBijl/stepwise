@@ -186,13 +186,13 @@ class Vector {
 		return this.coordinates.reduce((sum, value, index) => sum + value * vector.getCoordinate(index), 0)
 	}
 
-	// distanceTo gives the distance to a given point.
-	distanceTo(vector) {
-		return Math.sqrt(this.squaredDistanceTo(vector))
+	// getDistanceTo gives the distance to a given point.
+	getDistanceTo(vector) {
+		return Math.sqrt(this.getSquaredDistanceTo(vector))
 	}
 
-	// squaredDistanceTo gives the squared distance to a given point.
-	squaredDistanceTo(vector) {
+	// getSquaredDistanceTo gives the squared distance to a given point.
+	getSquaredDistanceTo(vector) {
 		vector = ensureVector(vector, this.dimension)
 		return this.subtract(vector).squaredMagnitude
 	}

@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureString } from 'step-wise/util/strings'
 import { ensureBoolean, ensureObject, processOptions, filterOptions, filterProperties, removeProperties } from 'step-wise/util/objects'
-import { Vector, ensureVector, ensureVectorArray, ensureCorner, PositionedVector, ensurePositionedVector, Rectangle as RectangleShape, ensureRectangle as ensureRectangleShape, Line as LineShape, ensureLine as ensureLineShape } from 'step-wise/geometry'
+import { Vector, ensureVector, ensureVectorArray, ensureCorner, PositionedVector, ensurePositionedVector, Rectangle as GeometryRectangle, ensureRectangle as ensureGeometryRectangle, Line as GeometryLine, ensureLine as ensureGeometryLine } from 'step-wise/geometry'
 
 import { useEnsureRef, useEventListeners } from 'util/react'
 
@@ -111,7 +111,7 @@ export const defaultCircle = {
 export const Rectangle = forwardRef((props, ref) => {
 	// Process the input.
 	let { dimensions, graphicalDimensions, className, style } = processOptions(props, defaultRectangle)
-	dimensions = ensureRectangleShape(useTransformedOrGraphicalValue(dimensions, graphicalDimensions), 2)
+	dimensions = ensureGeometryRectangle(useTransformedOrGraphicalValue(dimensions, graphicalDimensions), 2)
 	className = ensureString(className)
 	style = ensureObject(style)
 	ref = useRefWithEventHandlers(props, ref)
@@ -123,7 +123,7 @@ export const Rectangle = forwardRef((props, ref) => {
 export const defaultRectangle = {
 	...defaultObject,
 	dimensions: undefined, // A PositionedVector.
-	graphicalDimensions: new RectangleShape({ start: Vector.zero, end: new Vector(100, 50) }),
+	graphicalDimensions: new GeometryRectangle({ start: Vector.zero, end: new Vector(100, 50) }),
 }
 
 export const Square = forwardRef((props, ref) => {
@@ -212,7 +212,7 @@ const defaultDistance = {
 export const BoundedLine = forwardRef((props, ref) => {
 	// Process the input.
 	let { line, graphicalLine } = processOptions(props, defaultBoundedLine)
-	line = ensureLineShape(useTransformedOrGraphicalValue(line, graphicalLine), 2)
+	line = ensureGeometryLine(useTransformedOrGraphicalValue(line, graphicalLine), 2)
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Set up the line part and display it.
@@ -223,7 +223,7 @@ export const BoundedLine = forwardRef((props, ref) => {
 const defaultBoundedLine = {
 	...defaultObject,
 	line: undefined,
-	graphicalLine: LineShape.fromPoints(Vector.zero, Vector.i),
+	graphicalLine: GeometryLine.fromPoints(Vector.zero, Vector.i),
 	className: 'line',
 }
 

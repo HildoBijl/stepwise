@@ -14,7 +14,7 @@
 
 import { useMemo } from 'react'
 
-import { ensureNumber, ensureInt } from 'step-wise/util/numbers'
+import { isNumber, ensureNumber, ensureInt } from 'step-wise/util/numbers'
 import { ensureBoolean, applyToEachParameter, processOptions } from 'step-wise/util/objects'
 import { Vector, ensureVector, Rectangle, ensureRectangle, Transformation, ensureTransformation } from 'step-wise/geometry'
 
@@ -79,18 +79,21 @@ export function useScaleAndShiftTransformationSettings(points, options = {}) {
 
 		// Set up the full transformation and determine the final bounds including both margins.
 		const transformation = pretransformation.chain(scaleTransformation).chain(shiftTransformation)
-		const bounds = new Rectangle({
+		const graphicalBounds = new Rectangle({
 			start: new Vector(0, 0),
 			end: new Vector(...currBounds.size.map((length, axis) => length + margin[axis][0] + margin[axis][1])),
 		})
+		const inverseTransformation = transformation.inverse
+		const bounds = graphicalBounds.transform(inverseTransformation)
 
 		// Return all data.
 		return {
 			points: transformedPoints,
 			scale,
 			bounds,
+			graphicalBounds,
 			transformation,
-			inverseTransformation: transformation.inverse,
+			inverseTransformation,
 		}
 	}, [points, options])
 }
@@ -265,4 +268,24 @@ export function useRotationReflectionTransformation(rotation = 0, reflection = t
 			transformation = Transformation.getReflection(Vector.getUnitVector(0, 2)).chain(transformation)
 		return transformation.getRelativeTo(relativeTo)
 	}, [rotation, reflection, relativeTo])
+}
+
+// applyTransformation takes a set of Vectors (an array, a basic object or just a Vector itself) and applies the given transformation to all of them. It can also be done recursively, with arrays of arrays or similar.
+export function applyTransformation(points, transformation, preventShift) {
+	transformation = ensureTransformation(transformation)
+
+	// On undefined do nothing.
+	if (points === undefined)
+		return undefined
+
+	// If the points parameter is a single vector, apply it.
+	if (points instanceof Vector || (Array.isArray(points) && points.every(element => isNumber(element))))
+		return transformation.apply(points, preventShift)
+
+	// If the parameter has a transform function, apply it.
+	if (typeof points.transform === 'function')
+		return points.transform(transformation, preventShift)
+
+	// Apply the transformation to each element of the given array/object.
+	return applyToEachParameter(points, point => applyTransformation(point, transformation, preventShift))
 }

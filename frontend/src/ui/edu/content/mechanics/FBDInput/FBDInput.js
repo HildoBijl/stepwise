@@ -147,23 +147,27 @@ function getDragObject(downData, upData, options) {
 	if (!downData || !downData.isSnapped || !upData || !upData.position)
 		return null
 
+	// Extract options.
 	const { clickMarkerSize, minimumDragDistance, maximumMomentDistance, allowMoments, forceLength } = options
+
+	// Calculate the resulting drag vector in various forms.
+	const vector = upData.position.subtract(downData.snappedPosition)
 	let snappedVector = upData.snappedPosition.subtract(downData.snappedPosition)
+	let graphicalSnappedVector = upData.graphicalSnappedPosition.subtract(downData.graphicalSnappedPosition)
 
 	// On a double snap, always give a force.
-	if (upData.isSnappedTwice && !snappedVector.isZero()) {
+	if (upData.isSnappedTwice && !graphicalSnappedVector.isZero()) {
 		if (forceLength)
 			snappedVector = snappedVector.setMagnitude(forceLength)
 		return { type: 'Force', positionedVector: new PositionedVector({ vector: snappedVector, end: upData.snappedPosition }) }
 	}
 
 	// On a very short vector return a marker.
-	const vector = upData.position.subtract(downData.snappedPosition)
-	if (snappedVector.squaredMagnitude <= minimumDragDistance ** 2)
-		return { type: 'Square', center: downData.snappedPosition, side: clickMarkerSize, className: 'dragMarker' }
+	if (graphicalSnappedVector.squaredMagnitude <= minimumDragDistance ** 2)
+		return { type: 'Square', center: downData.snappedPosition, graphicalSide: clickMarkerSize, className: 'dragMarker' }
 
 	// On a short distance return a moment.
-	if (allowMoments && snappedVector.squaredMagnitude <= maximumMomentDistance ** 2) {
+	if (allowMoments && graphicalSnappedVector.squaredMagnitude <= maximumMomentDistance ** 2) {
 		const angle = vector.argument
 		const opening = Math.round(angle / (Math.PI / 2)) * (Math.PI / 2)
 		return { type: 'Moment', position: downData.snappedPosition, opening, clockwise: angle < opening }

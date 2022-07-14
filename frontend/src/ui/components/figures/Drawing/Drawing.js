@@ -8,8 +8,9 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import { select } from 'd3-selection'
 
-import { processOptions, filterOptions } from 'step-wise/util/objects'
 import { deg2rad } from 'step-wise/util/numbers'
+import { processOptions, filterOptions } from 'step-wise/util/objects'
+import { resolveFunctions } from 'step-wise/util/functions'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
 import { useMousePosition as useClientMousePosition, useBoundingClientRect, useForceUpdate } from 'util/react'
@@ -83,11 +84,10 @@ function Drawing(options, ref) {
 	const canvasRef = useRef()
 
 	// Determine figure size parameters to use for rendering.
-	const { bounds } = transformationSettings
-	const { width, height } = bounds
+	const { graphicalBounds } = transformationSettings
+	const { width, height } = graphicalBounds
 	options.aspectRatio = height / width // This must be passed on to the Figure object.
-	if (typeof options.maxWidth === 'function')
-		options.maxWidth = options.maxWidth(bounds)
+	options.maxWidth = resolveFunctions(options.maxWidth, graphicalBounds)
 
 	// Set up refs and make them accessible to any implementing component.
 	const figureRef = useRef()
@@ -99,12 +99,14 @@ function Drawing(options, ref) {
 		get d3svg() { return drawingRef.current.d3svg },
 		get canvas() { return drawingRef.current.canvas },
 		get context() { return drawingRef.current.context },
-		get width() { return drawingRef.current.transformationSettings.bounds.width },
-		get height() { return drawingRef.current.transformationSettings.bounds.height },
+		get width() { return drawingRef.current.transformationSettings.graphicalBounds.width },
+		get height() { return drawingRef.current.transformationSettings.graphicalBounds.height },
 		get bounds() { return drawingRef.current.transformationSettings.bounds },
+		get graphicalBounds() { return drawingRef.current.transformationSettings.graphicalBounds },
 		get transformation() { return drawingRef.current.transformationSettings.transformation },
 		get inverseTransformation() { return drawingRef.current.transformationSettings.inverseTransformation },
 		get scale() { return drawingRef.current.transformationSettings.scale },
+		get transformationSettings() { return drawingRef.current.transformationSettings },
 
 		// Coordinate manipulation functions. Note the distinction between client points, graphical points and drawing points, all in different coordinate systems.
 		getGraphicalCoordinates(cPoint, figureRect) {
@@ -121,30 +123,13 @@ function Drawing(options, ref) {
 			const inverseTransformation = drawingRef.current.transformationSettings.inverseTransformation
 			return gPoint && inverseTransformation.apply(gPoint)
 		},
-		isInside(gPoint) {
-			if (!gPoint)
+		isInside(dPoint) {
+			if (!dPoint)
 				return false
-			return gPoint.x >= 0 && gPoint.x <= drawingRef.current.width && gPoint.y >= 0 && gPoint.y <= drawingRef.current.height
+			return drawingRef.current.transformationSettings.bounds.isInside(dPoint)
 		},
-		applyBounds(gPoint) {
-			const { width, height } = drawingRef.current
-			return new Vector({
-				x: gPoint.x < 0 ? 0 : (gPoint.x > width ? width : gPoint.x),
-				y: gPoint.y < 0 ? 0 : (gPoint.y > height ? height : gPoint.y),
-			})
-		},
-
-		getBounds() {
-			return drawingRef.current.bounds
-		},
-		getTransformation() {
-			return drawingRef.current.transformation
-		},
-		getInverseTransformation() {
-			return drawingRef.current.inverseTransformation
-		},
-		getScale() {
-			return drawingRef.current.scale
+		applyBounds(dPoint) {
+			return drawingRef.current.transformationSettings.bounds.applyBounds(dPoint)
 		},
 
 		placeText(text, options) {
@@ -234,8 +219,8 @@ function getGraphicalCoordinates(clientCoordinates, drawing, figureRect) {
 	// Calculate the position.
 	clientCoordinates = ensureVector(clientCoordinates, 2)
 	return new Vector([
-		(clientCoordinates.x - figureRect.x) * drawing.transformationSettings.bounds.width / figureRect.width,
-		(clientCoordinates.y - figureRect.y) * drawing.transformationSettings.bounds.height / figureRect.height,
+		(clientCoordinates.x - figureRect.x) * drawing.transformationSettings.graphicalBounds.width / figureRect.width,
+		(clientCoordinates.y - figureRect.y) * drawing.transformationSettings.graphicalBounds.height / figureRect.height,
 	])
 }
 
@@ -273,16 +258,26 @@ export function applyStyle(obj, style = {}) {
 	return obj
 }
 
-// useMousePosition tracks the position of the mouse and gives the location in drawing coordinates. This is of the form { x: 3.5, y: -2.5 }. The function must be provided with a reference to the drawing.
-export function useMousePosition(drawing) {
+// useGraphicalMousePosition tracks the position of the mouse in graphical coordinates. This is of the from {x: 120, y: 90 }. The function must be provided with a reference to the drawing.
+export function useGraphicalMousePosition(drawing) {
 	// Acquire data.
 	const clientMousePosition = useClientMousePosition()
 	const figureRect = useBoundingClientRect(drawing && drawing.figure && drawing.figure.inner)
 
-	// Return null on missing data.
+	// Return undefined on missing data.
 	if (!clientMousePosition || !figureRect || figureRect.width === 0 || figureRect.height === 0)
-		return null
+		return undefined
 
-	// Calculate relative position and scale it.
-	return drawing.getDrawingCoordinates(clientMousePosition, figureRect)
+	// Calculate the position in graphical coordinates.
+	return getGraphicalCoordinates(clientMousePosition, drawing, figureRect)
+}
+
+// useMousePosition tracks the position of the mouse and gives the location in drawing coordinates. This is of the form { x: 3.5, y: -2.5 }. The function must be provided with a reference to the drawing.
+export function useMousePosition(drawing) {
+	// Acquire the position in graphical coordinates.
+	const graphicalMousePosition = useGraphicalMousePosition(drawing)
+
+	// Transform to drawing coordinates.
+	const inverseTransformation = drawing.transformationSettings.inverseTransformation
+	return graphicalMousePosition && inverseTransformation.apply(graphicalMousePosition)
 }

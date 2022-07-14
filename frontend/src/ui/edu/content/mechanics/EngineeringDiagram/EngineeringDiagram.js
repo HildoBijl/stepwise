@@ -63,7 +63,7 @@ function EngineeringDiagramUnforwared(options, ref) {
 	const classes = useStyles()
 
 	// Add SVG objects to the diagram, based on the provided parts.
-	options.svgDefs = <EngineeringDiagramDefs />
+	options.svgDefs = options.svgDefs ? <>{options.svgDefs}<EngineeringDiagramDefs /></> : <EngineeringDiagramDefs />
 	options.svgContents = options.svgContents && render(options.svgContents)
 
 	// Render the drawing.

@@ -1,6 +1,6 @@
 const { selectRandomly, getRandom, getRandomBoolean, getRandomInteger } = require('../../../util/random')
 
-const { asExpression, asEquation, expressionComparisons, equationComparisons, Variable, Integer } = require('../../../CAS')
+const { asExpression, asEquation, equationComparisons, Variable, Integer } = require('../../../CAS')
 
 const { selectRandomVariables } = require('../util/CASsupport')
 const { getStepExerciseProcessor } = require('../util/stepExercise')

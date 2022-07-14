@@ -34,12 +34,12 @@ export function PositionedElement(props) {
 	const updateElementPosition = useCallback(() => {
 		// Can we do anything?
 		const element = ref.current
-		if (!element || !drawing || !drawing.figure || !drawing.figure.inner || !drawing.transformationSettings || !drawing.transformationSettings.bounds)
+		if (!element || !drawing || !drawing.figure || !drawing.figure.inner || !drawing.transformationSettings || !drawing.transformationSettings.graphicalBounds)
 			return
 
 		// Calculate the scale at which the figure is drawn.
 		const figureRect = drawing.figure.inner.getBoundingClientRect()
-		const figureScale = figureRect.width / drawing.transformationSettings.bounds.width
+		const figureScale = figureRect.width / drawing.transformationSettings.graphicalBounds.width
 
 		// Position the element accordingly.
 		element.style.transformOrigin = `${anchor.x * 100}% ${anchor.y * 100}%`

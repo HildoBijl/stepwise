@@ -9,6 +9,7 @@ import { Delete } from '@material-ui/icons'
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureArray, numberArray, filterDuplicates, sortByIndices } from 'step-wise/util/arrays'
 import { processOptions, filterOptions, filterProperties } from 'step-wise/util/objects'
+import { resolveFunctions } from 'step-wise/util/functions'
 import { Vector, Line, PositionedVector, Rectangle } from 'step-wise/geometry'
 
 import { getEventPosition, getUtilKeys } from 'util/dom'
@@ -16,9 +17,10 @@ import { useEventListener, useConsistentValue } from 'util/react'
 import { notSelectable } from 'ui/theme'
 import { useAsInput, defaultInputOptions } from 'ui/form/inputs/support/Input'
 
-import { defaultDrawingOptions, useMousePosition } from './Drawing'
+import { defaultDrawingOptions, useGraphicalMousePosition } from './Drawing'
 import { PositionedElement } from './PositionedElement'
 import { Line as SvgLine, Square, Rectangle as SvgRectangle } from './components'
+import { applyTransformation } from './transformation'
 
 export const startSelectionOptions = {
 	never: 0,
@@ -84,6 +86,8 @@ const useStyles = makeStyles((theme) => ({
 			},
 
 			'& svg': {
+				display: 'block',
+
 				// Snapping system style.
 				'& .snapLine': {
 					stroke: theme.palette.primary.main,
@@ -142,8 +146,8 @@ const useStyles = makeStyles((theme) => ({
 // The useAsDrawingInput hook can be used by implementing components to get all data about the field. Its data (known as inputData) should be fed to the DrawingInput component.
 export function useAsDrawingInput(options) {
 	options = processOptions(options, defaultDrawingInputOptions)
-	const drawing = options.drawingRef && options.drawingRef.current
-	const container = drawing && drawing.figure && drawing.figure.inner
+	const drawing = options.drawingRef?.current
+	const container = drawing?.figure?.inner
 	let { snappers, applySnapping, snappingDistance, startSelection, processSelection } = options
 
 	// Define required states.
@@ -201,9 +205,10 @@ export function useAsDrawingInput(options) {
 export function DrawingInputUnforwarded({ Drawing, drawingProperties, className, inputData, options = {} }, drawingRef) {
 	const drawingOptions = drawingProperties ? filterProperties(options, drawingProperties) : options
 	options = processOptions(options, defaultDrawingInputOptions, true)
-	let { maxWidth, stopSnapOnSelection, feedbackIconScale, onDelete } = options
+	let { maxWidth, stopSnapOnSelection, feedbackIconScale, onDelete, transformationSettings } = options
 	const { active, readOnly, mouseData, feedback, selectionRectangle } = inputData
 	const drawing = drawingRef && drawingRef.current
+	maxWidth = resolveFunctions(maxWidth, transformationSettings.graphicalBounds)
 
 	// Determine styling of the object.
 	const classes = useStyles({
@@ -228,7 +233,7 @@ export function DrawingInputUnforwarded({ Drawing, drawingProperties, className,
 	if (onDelete) {
 		htmlContents = <>
 			{htmlContents}
-			<PositionedElement anchor={[1, 1]} position={[drawing.width - 10, drawing.height - 10]} scale={1.5} ><DeleteButton onMouseDown={onDelete} onTouchStart={onDelete} /></PositionedElement>
+			<PositionedElement anchor={[1, 1]} graphicalPosition={[drawing.width - 10, drawing.height - 10]} scale={1.5} ><DeleteButton onMouseDown={onDelete} onTouchStart={onDelete} /></PositionedElement>
 		</>
 	}
 
@@ -259,24 +264,38 @@ export function useCurrentBackgroundColor() {
 
 // useMouseSnapping wraps all the snapping functionalities into one hook. It takes a drawing, a set of snappers and a snapping distance and takes care of all the mouse functionalities.
 function useMouseSnapping(drawing, snappers, snappingDistance, applySnapping) {
-	// Process the current mouse position.
-	const mousePosition = useMousePosition(drawing)
-	const mouseInDrawing = drawing ? drawing.isInside(mousePosition) : false
+	// Retrieve the current mouse position in both coordinate systems.
+	const graphicalPosition = useGraphicalMousePosition(drawing)
+	const inverseTransformation = drawing?.transformationSettings?.inverseTransformation
+	const position = inverseTransformation && graphicalPosition && inverseTransformation.apply(graphicalPosition)
 
-	// Extract snapping lines and set up a snapper based on it.
-	const snappingLines = useSnappingLines(snappers)
-	const snapper = useCallback((point) => snapMousePosition(point, snappingLines, snappingDistance, applySnapping), [snappingLines, snappingDistance, applySnapping])
-	const snapResult = snapper(mousePosition)
+	// Get the snapping lines in both coordinate systems.
+	const transformation = drawing?.transformationSettings?.transformation
+	const { snappingLines, graphicalSnappingLines } = useSnappingLines(snappers, transformation)
+
+	// Set up a snapper function.
+	const snapper = useCallback((position) => snapMousePosition(position, snappingLines, graphicalSnappingLines, transformation, inverseTransformation, snappingDistance, applySnapping), [snappingLines, graphicalSnappingLines, transformation, inverseTransformation, snappingDistance, applySnapping])
+
+	// If there is insufficient data, return a default outcome.
+	if (!drawing || !drawing.transformationSettings || !graphicalPosition)
+		return { mouseInDrawing: false, snappingLines, graphicalSnappingLines, snapper: () => emptySnapMousePositionResponse, ...emptySnapMousePositionResponse }
 
 	// Return all data.
-	return { mousePosition, mouseInDrawing, snappingLines, snapper, ...snapResult }
+	const mouseInDrawing = drawing && drawing.transformationSettings.graphicalBounds.isInside(graphicalPosition)
+	const snapResult = snapper(position)
+	return { mouseInDrawing, snappingLines, graphicalSnappingLines, snapper, ...snapResult }
 }
 
 // useSnappingLines takes a snappers array and determines the snapping lines from it. It only recalculates on a change and filters duplicates.
-function useSnappingLines(snappers) {
+function useSnappingLines(snappers, transformation) {
 	snappers = useConsistentValue(snappers)
 	return useMemo(() => {
-		const snappingLines = []
+		// If no transformation is known yet, return empty arrays.
+		if (!transformation)
+			return { snappingLines: [], graphicalSnappingLines: [] }
+
+		// Determine the snapping lines from the given snappers.
+		let snappingLines = []
 		snappers.forEach(snapper => {
 			if (snapper instanceof Line) {
 				snappingLines.push(snapper)
@@ -289,44 +308,59 @@ function useSnappingLines(snappers) {
 				throw new Error(`Invalid snapper: received a snapper with unexpected type. Make sure it is a vector, line or other allowed type.`)
 			}
 		})
-		return filterDuplicates(snappingLines, (a, b) => a.equals(b))
-	}, [snappers])
+
+		// Ensure there are no duplicate snapping lines.
+		snappingLines = filterDuplicates(snappingLines, (a, b) => a.equals(b))
+
+		// Transform snapping lines to graphical coordinates.
+		const graphicalSnappingLines = applyTransformation(snappingLines, transformation)
+		return { snappingLines, graphicalSnappingLines }
+	}, [snappers, transformation])
 }
 
-// snapMousePosition will calculate the position of the mouse after it's snapped to the nearest snapping line.
-function snapMousePosition(position, snappingLines, snappingDistance, applySnapping) {
-	// If there is no mouse position or no snapping should be applied, give a default response.
-	if (!position || !applySnapping)
-		return { position, snappedPosition: position, snapLines: [], isSnapped: false, isSnappedTwice: false }
+// snapMousePosition will calculate the position of the mouse after it's snapped to the nearest snapping line. For this, it's turned to graphical coordinates, snapped to the appropriate graphicalSnappingLine, and subsequently transformed back.
+function snapMousePosition(position, snappingLines, graphicalSnappingLines, transformation, inverseTransformation, snappingDistance, applySnapping) {
+	// If there is no position, then nothing can be done.
+	if (!position)
+		return emptySnapMousePositionResponse
 
-	// Get all the lines that fall within snapping distance.
+	// If no snapping should be applied, keep the given position.
+	const graphicalPosition = transformation.apply(position)
+	if (!applySnapping)
+		return { ...emptySnapMousePositionResponse, position, snappedPosition: position, graphicalPosition, graphicalSnappedPosition: graphicalPosition }
+
+	// Get all the lines that fall (in graphical coordinates) within snapping distance of the given point.
 	const squaredSnappingDistance = snappingDistance ** 2
-	const snappingLineSquaredDistances = snappingLines.map(line => line.getSquaredDistanceFrom(position)) // Calculate the squared distances.
-	const selectedLines = numberArray(0, snappingLines.length - 1).filter(index => snappingLineSquaredDistances[index] <= squaredSnappingDistance) // Filter out all lines that are too far, and store the indices of the selected lines.
-	let snapLines = sortByIndices(selectedLines.map(index => snappingLines[index]), selectedLines.map(index => snappingLineSquaredDistances[index])) // Sort by distance.
+	const snappingLineSquaredDistances = graphicalSnappingLines.map(line => line.getSquaredDistanceFrom(graphicalPosition)) // Calculate the squared distances.
+	let selectedLines = numberArray(0, snappingLines.length - 1).filter(index => snappingLineSquaredDistances[index] <= squaredSnappingDistance) // Filter out all lines that are too far, and store the indices of the selected lines.
+	selectedLines = sortByIndices(selectedLines, selectedLines.map(index => snappingLineSquaredDistances[index])) // Sort by distance.
 
 	// Depending on how many snap lines there are, snap the mouse position accordingly.
-	let snappedPosition = position
-	if (snapLines.length > 1) { // Multiple lines. Find the intersection and check that it's close enough to the mouse point.
-		const intersection = snapLines[0].getIntersection(snapLines[1])
-		if (intersection.squaredDistanceTo(position) <= squaredSnappingDistance) {
-			snappedPosition = intersection
-			snapLines = snapLines.filter(line => line.containsPoint(snappedPosition)) // Get rid of all snapping lines that don't go through this point.
+	let graphicalSnappedPosition = graphicalPosition
+	if (selectedLines.length > 1) { // Multiple lines. Find the intersection and check that it's close enough to the mouse point.
+		const intersection = graphicalSnappingLines[selectedLines[0]].getIntersection(graphicalSnappingLines[selectedLines[1]])
+		if (intersection.getSquaredDistanceTo(graphicalPosition) <= squaredSnappingDistance) {
+			graphicalSnappedPosition = intersection
+			selectedLines = selectedLines.filter(index => graphicalSnappingLines[index].containsPoint(intersection)) // Get rid of all snapping lines that don't go through this point.
 		} else {
-			snapLines = snapLines.slice(0, 1) // The snap position is too far from the mouse position. Only take the closest line and use that.
+			selectedLines = [selectedLines[0]] // The snap position is too far from the mouse position. Only take the closest line and use that.
 		}
 	}
-	if (snapLines.length === 1)
-		snappedPosition = snapLines[0].getClosestPoint(position)
+	if (selectedLines.length === 1)
+		graphicalSnappedPosition = graphicalSnappingLines[selectedLines[0]].getClosestPoint(graphicalPosition)
+	const snappedPosition = inverseTransformation.apply(graphicalSnappedPosition)
+	const snapLines = selectedLines.map(index => snappingLines[index])
+	const graphicalSnapLines = selectedLines.map(index => graphicalSnappingLines[index])
 	const isSnapped = snapLines.length > 0
 	const isSnappedTwice = snapLines.length > 1
 
 	// Return the outcome.
-	return { position, snappedPosition, snapLines, isSnapped, isSnappedTwice }
+	return { position, snappedPosition, graphicalPosition, graphicalSnappedPosition, snapLines, graphicalSnapLines, isSnapped, isSnappedTwice }
 }
+const emptySnapMousePositionResponse = { position: undefined, snappedPosition: undefined, graphicalPosition: undefined, graphicalSnappedPosition: undefined, snapLines: [], graphicalSnapLines: [], isSnapped: false, isSnappedTwice: false }
 
 export function getMouseData(evt, snapper, drawing) {
-	return { ...snapper(drawing.getPosition(getEventPosition(evt))), utilKeys: getUtilKeys(evt) }
+	return { ...snapper(drawing.getDrawingCoordinates(getEventPosition(evt))), utilKeys: getUtilKeys(evt) }
 }
 
 // getSnapSvg takes a snapped mouse position and snap lines, and returns SVG to show the marker and the lines.
@@ -340,7 +374,7 @@ export function getSnapSvg(mouseData, drawing, lineStyle = {}, markerStyle = {},
 
 	// Show the snap marker and lines.
 	return {
-		marker: snapLines.length > 0 ? <Square center={snappedPosition} side={snapMarkerSize} className="snapMarker" style={markerStyle} /> : null,
+		marker: snapLines.length > 0 ? <Square center={snappedPosition} graphicalSide={snapMarkerSize} className="snapMarker" style={markerStyle} /> : null,
 		lines: bounds ? snapLines.map((line, index) => {
 			const linePart = bounds.getLinePart(line)
 			return <SvgLine key={index} className="snapLine" points={[linePart.start, linePart.end]} style={lineStyle} />
@@ -369,7 +403,7 @@ export function addFeedbackIcon(htmlContents, feedback, drawing, scale = 1) {
 		return htmlContents
 	return <>
 		{htmlContents}
-		<PositionedElement anchor={[1, 0]} position={[drawing.transformationSettings.bounds.width - 8, 6]} scale={scale} ><feedback.Icon className="icon" /></PositionedElement>
+		<PositionedElement anchor={[1, 0]} graphicalPosition={[drawing.width - 8, 6]} scale={scale} ><feedback.Icon className="icon" /></PositionedElement>
 	</>
 }
 

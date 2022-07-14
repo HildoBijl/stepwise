@@ -5,7 +5,9 @@ import { createContext, useContext } from 'react'
 import { isNumber } from 'step-wise/util/numbers'
 import { applyToEachParameter } from 'step-wise/util/objects'
 
-import { Vector, Transformation } from 'step-wise/geometry'
+import { Transformation } from 'step-wise/geometry'
+
+import { applyTransformation } from './transformation'
 
 // Set up a context so elements inside the drawing can ask for the drawing.
 export const DrawingContext = createContext(null)
@@ -21,32 +23,20 @@ export function useBounds() {
 	return drawing?.transformationSettings?.bounds
 }
 
+// Get specifically the graphicalBounds from the drawing context.
+export function useGraphicalBounds() {
+	const drawing = useDrawingContext()
+	return drawing?.transformationSettings?.graphicalBounds
+}
+
 // useTransformation receives a vector, an array of vectors or a basic object with only vectors, and applies the transformation from the drawing to all these vectors.
 export function useTransformation(points, preventShift) {
 	// Extract the transformation.
 	const drawing = useDrawingContext()
 	const transformation = (drawing?.transformationSettings?.transformation) || Transformation.getIdentity(2)
 
-	// Define a (recursive) transformation function.
-	const applyTransformation = points => {
-		// On undefined do nothing.
-		if (points === undefined)
-			return undefined
-
-		// If the points parameter is a single vector, apply it.
-		if (points instanceof Vector)
-			return transformation.apply(points, preventShift)
-
-		// If the parameter has a transform function, apply it.
-		if (typeof points.transform === 'function')
-			return points.transform(transformation, preventShift)
-
-		// Apply the transformation to each element of the given array/object.
-		return applyToEachParameter(points, point => applyTransformation(point))
-	}
-
-	// Run the transformation.
-	return applyTransformation(points)
+	// Apply the transformation.
+	return applyTransformation(points, transformation, preventShift)
 }
 
 // useScaling receives a number, an array of numbers or a basic object with only number properties, and multiplies these numbers by the scale.
