@@ -40,13 +40,15 @@ export function getBoundingRectangle(points) {
 // useIdentityTransformationSettings returns transformation settings that do absolutely nothing. The transformation is the identity, and the bounds are set up using the given width and height.
 export function useIdentityTransformationSettings(width, height, points) {
 	points = useConsistentValue(points)
+	const bounds = useMemo(() => new Rectangle({ start: new Vector(0, 0), end: new Vector(width, height) }), [width, height])
 	return useMemo(() => ({
-		bounds: new Rectangle({ start: new Vector(0, 0), end: new Vector(width, height) }),
+		points,
+		scale: [1, 1],
+		bounds,
+		graphicalBounds: bounds,
 		transformation: Transformation.getIdentity(2),
 		inverseTransformation: Transformation.getIdentity(2),
-		scale: [1, 1],
-		points,
-	}), [width, height, points])
+	}), [bounds, points])
 }
 
 /* useScaleAndShiftTransformationSettings takes a set of points, and scales them by a certain factor. It then shifts them such that they fit within a certain margin. Options include:

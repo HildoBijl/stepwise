@@ -149,8 +149,6 @@ function getFeedback(exerciseData) {
 
 		// If it's incorrect, figure out if one of the numbers was still correct.
 		const result = {}
-		console.log(input.x)
-		console.log(solution.x)
 		result.x = (input.x.value === solution.x) ? {
 			type: 'success',
 			text: <>Deze waarde voor <M>{variables.x}</M> klopt, maar samen met de foute waarde voor <M>{variables.y}</M> is het geen correcte combinatie.</>,

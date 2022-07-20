@@ -113,7 +113,6 @@ function ExerciseFigure({ solution, showAlpha = 0, showBeta = 0, showGamma = 0 }
 		maxHeight: size,
 		margin: 20,
 	})
-	console.log(transformationSettings)
 
 	// Render the figure.
 	return <Drawing transformationSettings={transformationSettings} maxWidth={bounds => bounds.width} svgContents={<>

@@ -113,7 +113,7 @@ function processFunctionsAndAccents(value, settings) {
 		}
 
 		// If the function name corresponds to an accent, apply it.
-		if (settings.accents && accents.includes(functionName)) {
+		if (settings.accent && accents.includes(functionName)) {
 			// Ensure that there are no optional arguments.
 			if (optionalArguments.length > 0)
 				throw new Error(`Interpretation error: received an accent named "${functionName}" but this was followed by ${optionalArguments.length === 1 ? `an optional parameter` : `${arguments.length} optional parameters`}. Accents cannot have optional parameters. They should be of the form "dot(x)".`)

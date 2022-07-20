@@ -70,7 +70,7 @@ function getSolution(state) {
 	const ans2 = ans2Raw.regularClean()
 
 	// Define the right variables.
-	let x, y
+	let x, y, z
 	if (given === 0) {
 		x = b
 		y = c
