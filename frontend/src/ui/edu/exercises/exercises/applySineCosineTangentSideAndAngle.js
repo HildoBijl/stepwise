@@ -8,7 +8,7 @@ import { Par } from 'ui/components/containers'
 import { Drawing } from 'ui/components/figures'
 import { components, CornerLabel, LineLabel, useRotationReflectionTransformation, useScaleToBoundsTransformationSettings } from 'ui/components/figures'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
-import ExpressionInput, { validAndNumeric, basicTrigonometry } from 'ui/form/inputs/ExpressionInput'
+import ExpressionInput, { validAndNumeric, basicTrigonometryInDegrees } from 'ui/form/inputs/ExpressionInput'
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form/Status'
 
@@ -35,7 +35,7 @@ const Problem = (state) => {
 		<Par>Gegeven is de onderstaande driehoek met zijde <M>{x}</M> en hoek <M>{beta}^\circ.</M> Bereken de onbekende zijde <M>{y}.</M> Werk in graden en geef je antwoord in wiskundige notatie.</Par>
 		<ExerciseFigure state={state} solution={solution} />
 		<InputSpace>
-			<ExpressionInput id="ans" prelabel={<M>{y}=</M>} size="s" settings={{ ...basicTrigonometry, useDegrees: true }} validate={validAndNumeric} />
+			<ExpressionInput id="ans" prelabel={<M>{y}=</M>} size="s" settings={basicTrigonometryInDegrees} validate={validAndNumeric} />
 		</InputSpace>
 	</>
 }
@@ -61,7 +61,7 @@ const steps = [
 			return <>
 				<Par>Pas de betreffende regel letterlijk toe op de gegeven driehoek met onbekende zijde <M>{y}.</M> Noteer de vergelijking.</Par>
 				<InputSpace>
-					<EquationInput id="equation" settings={{ ...basicTrigonometry, useDegrees: true }} validate={validWithVariables(y)} />
+					<EquationInput id="equation" settings={basicTrigonometryInDegrees} validate={validWithVariables(y)} />
 				</InputSpace>
 			</>
 		},
@@ -77,7 +77,7 @@ const steps = [
 				<Par>Los de vergelijking op voor <M>{y}.</M> Gebruik wiskundige notatie: je mag eventuele functies als sin/cos/tan in je antwoord laten staan.</Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="ans" prelabel={<M>{y}=</M>} size="s" settings={{ ...basicTrigonometry, useDegrees: true }} validate={validAndNumeric} />
+						<ExpressionInput id="ans" prelabel={<M>{y}=</M>} size="s" settings={basicTrigonometryInDegrees} validate={validAndNumeric} />
 					</Par>
 				</InputSpace>
 			</>

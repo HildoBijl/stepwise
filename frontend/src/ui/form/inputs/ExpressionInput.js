@@ -258,4 +258,9 @@ const basicTrigonometry = {
 	root: true,
 }
 
-export { noFunctions, noPowers, simpleVariables, basicMath, basicMathNoFractions, basicMathAndPowers, basicTrigonometry }
+const basicTrigonometryInDegrees = {
+	...basicTrigonometry,
+	useDegrees: true,
+}
+
+export { noFunctions, noPowers, simpleVariables, basicMath, basicMathNoFractions, basicMathAndPowers, basicTrigonometry, basicTrigonometryInDegrees }

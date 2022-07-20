@@ -8,7 +8,7 @@ import { Par } from 'ui/components/containers'
 import { Drawing } from 'ui/components/figures'
 import { components, CornerLabel, LineLabel, useRotationReflectionTransformation, useScaleToBoundsTransformationSettings } from 'ui/components/figures'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
-import ExpressionInput, { validAndNumeric, basicTrigonometry } from 'ui/form/inputs/ExpressionInput'
+import ExpressionInput, { validAndNumeric, basicTrigonometryInDegrees } from 'ui/form/inputs/ExpressionInput'
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form/Status'
 
@@ -35,7 +35,7 @@ const Problem = (state) => {
 		<Par>Gegeven is de onderstaande driehoek met zijden <M>{notGiven === 0 ? b : a}</M> en <M>{notGiven === 2 ? b : c}.</M> Bereken de hoek <M>{state.beta}.</M> Werk in graden en geef je antwoord in wiskundige notatie.</Par>
 		<ExerciseFigure state={state} solution={solution} />
 		<InputSpace>
-			<ExpressionInput id="ans" prelabel={<M>{state.beta}=</M>} size="s" settings={{ ...basicTrigonometry, useDegrees: true }} validate={validAndNumeric} />
+			<ExpressionInput id="ans" prelabel={<M>{state.beta}=</M>} size="s" settings={basicTrigonometryInDegrees} validate={validAndNumeric} />
 		</InputSpace>
 	</>
 }
@@ -60,7 +60,7 @@ const steps = [
 			return <>
 				<Par>Pas de betreffende regel letterlijk toe op de gegeven driehoek met hoek <M>{state.beta}.</M> Noteer de vergelijking.</Par>
 				<InputSpace>
-					<EquationInput id="equation" settings={{ ...basicTrigonometry, useDegrees: true }} validate={validWithVariables(state.beta)} />
+					<EquationInput id="equation" settings={basicTrigonometryInDegrees} validate={validWithVariables(state.beta)} />
 				</InputSpace>
 			</>
 		},
@@ -76,7 +76,7 @@ const steps = [
 				<Par>Los de vergelijking op voor <M>{beta}.</M> Gebruik wiskundige notatie: je mag eventuele functies als sin/cos/tan in je antwoord laten staan.</Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="ans" prelabel={<M>{beta}=</M>} size="s" settings={{ ...basicTrigonometry, useDegrees: true }} validate={validAndNumeric} />
+						<ExpressionInput id="ans" prelabel={<M>{beta}=</M>} size="s" settings={basicTrigonometryInDegrees} validate={validAndNumeric} />
 					</Par>
 				</InputSpace>
 			</>
