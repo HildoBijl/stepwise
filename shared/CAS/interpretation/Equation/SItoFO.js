@@ -1,14 +1,14 @@
-const { processOptions } = require('../../../util/objects')
+const { processOptions, filterOptions } = require('../../../util/objects')
 
 const { Equation } = require('../../functionalities')
-const { defaultInterpretationSettings } = require('../../options')
+const { defaultFieldSettings, defaultExpressionSettings } = require('../../options')
 
 const InterpretationError = require('../InterpretationError')
 const { getStartCursor, getEndCursor, getSubExpression, moveRight } = require('../support')
 const { SItoFO: expressionSItoFO } = require('../Expression')
 
 function SItoFO(value, settings = {}) {
-	settings = processOptions(settings, defaultInterpretationSettings)
+	settings = processOptions(settings, defaultFieldSettings)
 	return interpretSI(value, settings)
 }
 module.exports = SItoFO
@@ -45,8 +45,11 @@ function interpretSI(value, settings) {
 	const end = getEndCursor(value)
 	const left = getSubExpression(value, start, equalsPosition)
 	const right = getSubExpression(value, moveRight(equalsPosition), end)
-	return new Equation({
+	const equation = new Equation({
 		left: expressionSItoFO(left, settings),
 		right: expressionSItoFO(right, settings),
 	})
+
+	// Apply any extra settings related to the Expression to it.
+	return equation.applySettings(filterOptions(settings, defaultExpressionSettings))
 }

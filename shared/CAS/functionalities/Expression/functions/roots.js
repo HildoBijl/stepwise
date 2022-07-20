@@ -19,7 +19,7 @@ class Sqrt extends SingleArgumentFunction {
 		return `\\sqrt{${this.argument.tex}}`
 	}
 
-	requiresTimesBeforeInProduct() {
+	requiresTimesBeforeInProductTex() {
 		return false
 	}
 
@@ -96,6 +96,9 @@ class Sqrt extends SingleArgumentFunction {
 }
 Sqrt.type = 'Sqrt'
 Sqrt.hasMainArgumentLast = true
+Sqrt.two = new Sqrt(Integer.two)
+Sqrt.three = new Sqrt(Integer.three)
+Sqrt.five = new Sqrt(Integer.five)
 module.exports.Sqrt = Sqrt
 
 /*
@@ -111,7 +114,7 @@ class Root extends Function {
 		return `\\sqrt[${this.base.tex}]{${this.argument.tex}}`
 	}
 
-	requiresTimesBeforeInProduct() {
+	requiresTimesBeforeInProductTex() {
 		return false
 	}
 

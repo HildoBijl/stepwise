@@ -1,5 +1,10 @@
 const { Integer, Sum, Product, Fraction, Power } = require('./Expression')
 
+// isInteger checks if the given quantity reduces to an integer.
+function isInteger(input) {
+	return input.isNumeric() && input.cleanForAnalysis().isSubtype(Integer)
+}
+
 // hasSumWithinProduct checks if there are sums within products, like a*(b+c). It effectively checks whether brackets have been properly expanded.
 function hasSumWithinProduct(input) {
 	return input.recursiveSome(term => term.isSubtype(Product) && term.recursiveSome(subTerm => subTerm.isSubtype(Sum)))
@@ -58,6 +63,7 @@ function isRational(input) {
 
 module.exports = {
 	...module.exports,
+	isInteger,
 	hasSumWithinProduct,
 	hasSumWithinFraction,
 	hasFraction,

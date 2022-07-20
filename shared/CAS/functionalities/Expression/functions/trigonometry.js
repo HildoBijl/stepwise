@@ -1,8 +1,15 @@
+const { deg2rad, rad2deg } = require('../../../../util/numbers')
+
 const { Variable, SingleArgumentFunction, Integer, Sum, Product, Fraction, Power } = require('../Expression')
+const { isInteger } = require('../checks')
+const { equivalent } = require('../comparisons')
+
 const { Sqrt } = require('./roots')
 
 const halfPi = Variable.pi.divideBy(2)
 const twoPi = Variable.pi.multiplyBy(2)
+const r2dFactor = new Integer(180).divideBy(Variable.pi)
+const d2rFactor = Variable.pi.divideBy(180)
 
 /*
  * Sine
@@ -10,13 +17,14 @@ const twoPi = Variable.pi.multiplyBy(2)
 
 class Sin extends SingleArgumentFunction {
 	toNumber() {
-		return Math.sin(this.argument.toNumber())
+		return Math.sin(this.useDegrees ? deg2rad(this.argument.toNumber()) : this.argument.toNumber())
 	}
 
 	getDerivativeBasic(variable) {
 		return new Product(
-			new Cos(this.argument),
+			new Cos(this.argument).applySettingsToSelf(this.settings),
 			this.argument.getDerivative(variable), // Apply the chain rule.
+			this.useDegrees ? d2rFactor : 1, // When using degrees add a compensation factor.
 		)
 	}
 
@@ -25,21 +33,37 @@ class Sin extends SingleArgumentFunction {
 
 		// Check for basic reductions.
 		if (options.basicReductions) {
-			// Check for cases of 0, 1 or -1.
 			if (argument.isNumeric()) {
-				if (argument.divideBy(Variable.pi).cleanForAnalysis().isSubtype(Integer))
-					return Integer.zero
-				if (argument.subtract(halfPi).divideBy(twoPi).cleanForAnalysis().isSubtype(Integer))
-					return Integer.one
-				if (argument.add(halfPi).divideBy(twoPi).cleanForAnalysis().isSubtype(Integer))
-					return Integer.one
+				// Check for cases of 0, 1 or -1.
+				const argumentAsPart = argument.divideBy(this.useDegrees ? 360 : twoPi).cleanForAnalysis()
+				if (isInteger(argumentAsPart.multiplyBy(Integer.two)))
+					return Integer.zero.simplify(options)
+				if (isInteger(argumentAsPart.subtract(Fraction.quarter)))
+					return Integer.one.simplify(options)
+				if (isInteger(argumentAsPart.add(Fraction.quarter)))
+					return Integer.minusOne.simplify(options)
+
+				// Check for cases of 1/2, 1/2*sqrt(2) and 1/2*sqrt(3).
+				if (isInteger(argumentAsPart.subtract(new Fraction(1, 12))) || isInteger(argumentAsPart.subtract(new Fraction(5, 12))))
+					return Fraction.half
+				if (isInteger(argumentAsPart.add(new Fraction(1, 12))) || isInteger(argumentAsPart.add(new Fraction(5, 12))))
+					return Fraction.half.applyMinus()
+				if (isInteger(argumentAsPart.subtract(new Fraction(1, 8))) || isInteger(argumentAsPart.subtract(new Fraction(3, 8))))
+					return Fraction.half.multiplyBy(Sqrt.two).simplify(options)
+				if (isInteger(argumentAsPart.add(new Fraction(1, 8))) || isInteger(argumentAsPart.add(new Fraction(3, 8))))
+					return Fraction.half.applyMinus().multiplyBy(Sqrt.two).simplify(options)
+				if (isInteger(argumentAsPart.subtract(new Fraction(1, 6))) || isInteger(argumentAsPart.subtract(new Fraction(1, 3))))
+					return Fraction.half.multiplyBy(Sqrt.three).simplify(options)
+				if (isInteger(argumentAsPart.add(new Fraction(1, 6))) || isInteger(argumentAsPart.add(new Fraction(1, 3))))
+					return Fraction.half.applyMinus().multiplyBy(Sqrt.three).simplify(options)
 			}
 		}
 
-		return new Sin(argument)
+		return new Sin(argument).applySettingsToSelf(this.settings)
 	}
 }
 Sin.type = 'Sin'
+Sin.availableSettings = ['useDegrees']
 module.exports.Sin = Sin
 
 /*
@@ -48,14 +72,15 @@ module.exports.Sin = Sin
 
 class Cos extends SingleArgumentFunction {
 	toNumber() {
-		return Math.cos(this.argument.toNumber())
+		return Math.cos(this.useDegrees ? deg2rad(this.argument.toNumber()) : this.argument.toNumber())
 	}
 
 	getDerivativeBasic(variable) {
 		return new Product(
 			Integer.minusOne,
-			new Sin(this.argument),
+			new Sin(this.argument).applySettingsToSelf(this.settings),
 			this.argument.getDerivative(variable), // Apply the chain rule.
+			this.useDegrees ? d2rFactor : 1, // When using degrees add a compensation factor.
 		)
 	}
 
@@ -64,25 +89,41 @@ class Cos extends SingleArgumentFunction {
 
 		// For analysis, reduce to a sine with a phase shift.
 		if (options.forAnalysis)
-			return new Sin(argument.add(halfPi)).simplifyBasic(options)
+			return new Sin(argument.add(this.useDegrees ? 90 : halfPi)).simplifyBasic(options)
 
 		// Check for basic reductions.
 		if (options.basicReductions) {
-			// Check for cases of 0, 1 or -1.
 			if (argument.isNumeric()) {
-				if (argument.add(halfPi).divideBy(Variable.pi).cleanForAnalysis().isSubtype(Integer))
-					return Integer.zero
-				if (argument.divideBy(twoPi).cleanForAnalysis().isSubtype(Integer))
-					return Integer.one
-				if (argument.add(Variable.pi).divideBy(twoPi).cleanForAnalysis().isSubtype(Integer))
-					return Integer.one
+				// Check for cases of 0, 1 or -1.
+				const argumentAsPart = argument.divideBy(this.useDegrees ? 360 : twoPi).cleanForAnalysis()
+				if (isInteger(argumentAsPart.add(Fraction.quarter).multiplyBy(Integer.two)))
+					return Integer.zero.simplify(options)
+				if (isInteger(argumentAsPart))
+					return Integer.one.simplify(options)
+				if (isInteger(argumentAsPart.add(Fraction.half)))
+					return Integer.minusOne.simplify(options)
+
+				// Check for cases of 1/2, 1/2*sqrt(2) and 1/2*sqrt(3).
+				if (isInteger(argumentAsPart.add(new Fraction(1, 12))) || isInteger(argumentAsPart.subtract(new Fraction(1, 12))))
+					return Fraction.half.multiplyBy(Sqrt.three).simplify(options)
+				if (isInteger(argumentAsPart.add(new Fraction(5, 12))) || isInteger(argumentAsPart.subtract(new Fraction(5, 12))))
+					return Fraction.half.applyMinus().multiplyBy(Sqrt.three).simplify(options)
+				if (isInteger(argumentAsPart.add(new Fraction(1, 8))) || isInteger(argumentAsPart.subtract(new Fraction(1, 8))))
+					return Fraction.half.multiplyBy(Sqrt.two).simplify(options)
+				if (isInteger(argumentAsPart.add(new Fraction(3, 8))) || isInteger(argumentAsPart.subtract(new Fraction(3, 8))))
+					return Fraction.half.applyMinus().multiplyBy(Sqrt.two).simplify(options)
+				if (isInteger(argumentAsPart.add(new Fraction(1, 6))) || isInteger(argumentAsPart.subtract(new Fraction(1, 6))))
+					return Fraction.half.simplify(options)
+				if (isInteger(argumentAsPart.add(new Fraction(1, 3))) || isInteger(argumentAsPart.subtract(new Fraction(1, 3))))
+					return Fraction.half.applyMinus().simplify(options)
 			}
 		}
 
-		return new Cos(argument)
+		return new Cos(argument).applySettingsToSelf(this.settings)
 	}
 }
 Cos.type = 'Cos'
+Cos.availableSettings = ['useDegrees']
 module.exports.Cos = Cos
 
 /*
@@ -91,27 +132,63 @@ module.exports.Cos = Cos
 
 class Tan extends SingleArgumentFunction {
 	toNumber() {
-		return Math.tan(this.argument.toNumber())
+		return Math.tan(this.useDegrees ? deg2rad(this.argument.toNumber()) : this.argument.toNumber())
 	}
 
 	getDerivativeBasic(variable) {
 		return new Fraction({
-			numerator: this.argument.getDerivative(variable), // Apply the chain rule.
-			denominator: new Power(new Cos(this.argument), Integer.two), // Use 1/cos(arg)^2.
+			numerator: new Product(
+				this.argument.getDerivative(variable), // Apply the chain rule.
+				this.useDegrees ? d2rFactor : 1, // When using degrees add a compensation factor.
+			),
+			denominator: new Power(new Cos(this.argument).applySettingsToSelf(this.settings), Integer.two), // Use 1/cos(arg)^2.
 		})
 	}
 
 	simplifyBasic(options) {
 		let { argument } = this.simplifyChildren(options)
 
+		// Check for basic reductions.
+		if (options.basicReductions) {
+			if (argument.isNumeric()) {
+				// Check for cases of multiples of 90 degrees.
+				const argumentAsPart = argument.divideBy(this.useDegrees ? 360 : twoPi).cleanForAnalysis()
+				const argumentAsHalfPart = argumentAsPart.multiplyBy(Integer.two).cleanForAnalysis()
+				if (isInteger(argumentAsHalfPart))
+					return Integer.zero.simplify(options)
+				if (isInteger(argumentAsPart.subtract(Fraction.quarter)))
+					return Variable.infinity.simplify(options)
+				if (isInteger(argumentAsPart.add(Fraction.quarter)))
+					return Variable.minusInfinity.simplify(options)
+
+				// Check for cases of 30, 45 and 60 degrees, and variations of these.
+				if (isInteger(argumentAsHalfPart.subtract(new Fraction(1, 6))))
+					return new Fraction(Integer.one, Sqrt.three).simplify(options)
+				if (isInteger(argumentAsHalfPart.subtract(new Fraction(1, 4))))
+					return Integer.one.simplify(options)
+				if (isInteger(argumentAsHalfPart.subtract(new Fraction(1, 3))))
+					return Sqrt.three.simplify(options)
+				if (isInteger(argumentAsHalfPart.subtract(new Fraction(2, 6))))
+					return Sqrt.three.applyMinus().simplify(options)
+				if (isInteger(argumentAsHalfPart.subtract(new Fraction(3, 4))))
+					return Integer.minusOne.simplify(options)
+				if (isInteger(argumentAsHalfPart.subtract(new Fraction(5, 6))))
+					return new Fraction(Integer.minusOne, Sqrt.three).simplify(options)
+			}
+		}
+
 		// For analysis reduce to sines and cosines.
 		if (options.toBasicForm)
-			return Fraction(Sin(argument), Cos(argument)).simplify(options)
+			return new Fraction(
+				new Sin(argument).applySettingsToSelf(this.settings),
+				new Cos(argument).applySettingsToSelf(this.settings),
+			).simplify(options)
 
-		return new Tan(argument)
+		return new Tan(argument).applySettingsToSelf(this.settings)
 	}
 }
 Tan.type = 'Tan'
+Tan.availableSettings = ['useDegrees']
 module.exports.Tan = Tan
 
 /*
@@ -120,23 +197,57 @@ module.exports.Tan = Tan
 
 class Arcsin extends SingleArgumentFunction {
 	toNumber() {
-		return Math.asin(this.argument.toNumber())
+		const result = Math.asin(this.argument.toNumber())
+		return this.useDegrees ? rad2deg(result) : result
 	}
 
 	getDerivativeBasic(variable) {
 		return new Fraction({
 			numerator: this.argument.getDerivative(variable), // Apply the chain rule.
 			denominator: new Sqrt(new Sum([Integer.one, new Power(this.argument, Integer.two).applyMinus()])), // Apply 1/sqrt(1 - arg^2).
-		})
+		}).multiplyBy(this.useDegrees ? r2dFactor : 1) // When using degrees add a compensation factor.
 	}
 
 	simplifyBasic(options) {
 		let { argument } = this.simplifyChildren(options)
 
-		return new Arcsin(argument)
+		// Check for basic reductions.
+		if (options.basicReductions) {
+			if (argument.isNumeric()) {
+				const processResult = (result) => (this.useDegrees ? new Integer(result) : d2rFactor.multiplyBy(result)).simplify(options)
+
+				// Check for cases of -1, 0 and 1.
+				const cleanedArgument = argument.cleanForAnalysis()
+				if (equivalent(cleanedArgument, Integer.minusOne))
+					return processResult(-90)
+				if (equivalent(cleanedArgument, Integer.zero))
+					return Integer.zero
+				if (equivalent(cleanedArgument, Integer.one))
+					return processResult(90)
+
+				// Check for cases of 30/45/60 degree angles and similar.
+				const doubleArgument = cleanedArgument.multiplyBy(Integer.two).cleanForAnalysis()
+				const minusDoubleArgument = doubleArgument.applyMinus()
+				if (equivalent(minusDoubleArgument, Sqrt.three))
+					return processResult(-60)
+				if (equivalent(minusDoubleArgument, Sqrt.two))
+					return processResult(-45)
+				if (equivalent(minusDoubleArgument, Integer.one))
+					return processResult(-30)
+				if (equivalent(doubleArgument, Integer.one))
+					return processResult(30)
+				if (equivalent(doubleArgument, Sqrt.two))
+					return processResult(45)
+				if (equivalent(doubleArgument, Sqrt.three))
+					return processResult(60)
+			}
+		}
+
+		return new Arcsin(argument).applySettingsToSelf(this.settings)
 	}
 }
 Arcsin.type = 'Arcsin'
+Arcsin.availableSettings = ['useDegrees']
 module.exports.Arcsin = Arcsin
 
 /*
@@ -145,23 +256,57 @@ module.exports.Arcsin = Arcsin
 
 class Arccos extends SingleArgumentFunction {
 	toNumber() {
-		return Math.acos(this.argument.toNumber())
+		const result = Math.acos(this.argument.toNumber())
+		return this.useDegrees ? rad2deg(result) : result
 	}
 
 	getDerivativeBasic(variable) {
 		return new Fraction({
 			numerator: this.argument.getDerivative(variable).applyMinus(), // Apply the chain rule with a minus sign.
 			denominator: new Sqrt(new Sum([Integer.one, new Power(this.argument, Integer.two).applyMinus()])), // Apply 1/sqrt(1 - arg^2).
-		})
+		}).multiplyBy(this.useDegrees ? r2dFactor : 1) // When using degrees add a compensation factor.
 	}
 
 	simplifyBasic(options) {
 		let { argument } = this.simplifyChildren(options)
 
-		return new Arccos(argument)
+		// Check for basic reductions.
+		if (options.basicReductions) {
+			if (argument.isNumeric()) {
+				const processResult = (result) => (this.useDegrees ? new Integer(result) : d2rFactor.multiplyBy(result)).simplify(options)
+
+				// Check for cases of -1, 0 and 1.
+				const cleanedArgument = argument.cleanForAnalysis()
+				if (equivalent(cleanedArgument, Integer.minusOne))
+					return processResult(180)
+				if (equivalent(cleanedArgument, Integer.zero))
+					return processResult(90)
+				if (equivalent(cleanedArgument, Integer.one))
+					return Integer.zero
+
+				// Check for cases of 30/45/60 degree angles and similar.
+				const doubleArgument = cleanedArgument.multiplyBy(Integer.two).cleanForAnalysis()
+				const minusDoubleArgument = doubleArgument.applyMinus()
+				if (equivalent(doubleArgument, Sqrt.three))
+					return processResult(30)
+				if (equivalent(doubleArgument, Sqrt.two))
+					return processResult(45)
+				if (equivalent(doubleArgument, Integer.one))
+					return processResult(60)
+				if (equivalent(minusDoubleArgument, Integer.one))
+					return processResult(120)
+				if (equivalent(minusDoubleArgument, Sqrt.two))
+					return processResult(135)
+				if (equivalent(minusDoubleArgument, Sqrt.three))
+					return processResult(150)
+			}
+		}
+
+		return new Arccos(argument).applySettingsToSelf(this.settings)
 	}
 }
 Arccos.type = 'Arccos'
+Arccos.availableSettings = ['useDegrees']
 module.exports.Arccos = Arccos
 
 /*
@@ -170,21 +315,55 @@ module.exports.Arccos = Arccos
 
 class Arctan extends SingleArgumentFunction {
 	toNumber() {
-		return Math.atan(this.argument.toNumber())
+		const result = Math.atan(this.argument.toNumber())
+		return this.useDegrees ? rad2deg(result) : result
 	}
 
 	getDerivativeBasic(variable) {
 		return new Fraction({
 			numerator: this.argument.getDerivative(variable), // Apply the chain rule.
 			denominator: new Sum([Integer.one, new Power(this.argument, Integer.two)]), // Apply 1/(1 + arg^2).
-		})
+		}).multiplyBy(this.useDegrees ? r2dFactor : 1) // When using degrees add a compensation factor.
 	}
 
 	simplifyBasic(options) {
 		let { argument } = this.simplifyChildren(options)
 
-		return new Arctan(argument)
+		// Check for basic reductions.
+		if (options.basicReductions) {
+			if (argument.isNumeric()) {
+				const processResult = (result) => (this.useDegrees ? new Integer(result) : d2rFactor.multiplyBy(result)).simplify(options)
+
+				// Check for cases of -infinity, 0 and infinity.
+				const cleanedArgument = argument.cleanForAnalysis()
+				if (equivalent(cleanedArgument, Variable.minusInfinity))
+					return processResult(-90)
+				if (equivalent(cleanedArgument, Integer.minusOne))
+					return Integer.zero
+				if (equivalent(cleanedArgument, Variable.infinity))
+					return processResult(90)
+
+				// Check for cases of 30/45/60 degree angles and similar.
+				const minusArgument = cleanedArgument.applyMinus()
+				const oneOverSqrtThree = new Fraction(1, Sqrt.three)
+				if (equivalent(minusArgument, Sqrt.three))
+					return processResult(-60)
+				if (equivalent(minusArgument, Integer.one))
+					return processResult(-45)
+				if (equivalent(minusArgument, oneOverSqrtThree))
+					return processResult(-30)
+				if (equivalent(cleanedArgument, oneOverSqrtThree))
+					return processResult(30)
+				if (equivalent(cleanedArgument, Integer.one))
+					return processResult(45)
+				if (equivalent(cleanedArgument, Sqrt.three))
+					return processResult(60)
+			}
+		}
+
+		return new Arctan(argument).applySettingsToSelf(this.settings)
 	}
 }
 Arctan.type = 'Arctan'
+Arctan.availableSettings = ['useDegrees']
 module.exports.Arctan = Arctan

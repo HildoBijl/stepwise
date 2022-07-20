@@ -27,6 +27,7 @@ const autoReplaceSymbols = [
 const autoReplaceSymbolsWithoutGreek = [
 	...pmSymbols,
 	{ name: 'pi', symbol: 'π' },
+	{ name: 'inf', symbol: '∞' },
 ]
 
 const allFunctions = {

@@ -164,6 +164,7 @@ const skills = {
 	},
 	applySineCosineTangent: {
 		name: 'Sinus/cosinus/tangens toepassen',
+		exercises: ['applySineCosineTangentTwoSides', 'applySineCosineTangentSideAndAngle'],
 	},
 	applySimilarTriangles: {
 		name: 'Gelijkvormige driehoeken toepassen',

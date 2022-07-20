@@ -2,8 +2,9 @@ import React, { useCallback, useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { isBasicObject, deepEquals, processOptions } from 'step-wise/util/objects'
+import { isBasicObject, deepEquals, processOptions, filterOptions, removeEqualProperties } from 'step-wise/util/objects'
 import { Variable, expressionSItoFO, support } from 'step-wise/CAS'
+import { defaultInterpretationSettings, defaultExpressionSettings } from 'step-wise/CAS/options'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 
 import { useRefWithValue } from 'util/react'
@@ -19,9 +20,11 @@ import Expression from './support/expressionTypes/Expression'
 import { getInterpretationErrorMessage } from './support/expressionTypes/support/interpretationError'
 import { keys as mathKeys } from '../Keyboard/keyboards/basicMath'
 import { simplifyKey } from '../Keyboard/keyboards/KeyboardLayout'
+import { defaultFieldSettings } from 'step-wise/CAS/options'
 
 const { getEmpty, isEmpty } = support
 
+const jointFieldSettings = { ...defaultInterpretationSettings, ...defaultExpressionSettings }
 const keysToCheck = [...mathKeys, ...Object.keys(greekAlphabet)]
 
 const style = (theme) => ({
@@ -49,24 +52,6 @@ const defaultProps = {
 	settings: {}, // The settings object specifying what is allowed.
 }
 
-const defaultSettings = {
-	float: true,
-	plus: true,
-	minus: true,
-	times: true,
-	divide: true,
-	brackets: true,
-	power: true,
-	subscript: true,
-	trigonometry: true,
-	root: true,
-	logarithm: true,
-	accent: true,
-	greek: true,
-	equals: false, // Are equals signs allowed in ExpressionParts?
-	customFunctions: false, // Should we interpret f(x+2) as f*(x+2) (false, default) or as a custom function f with argument x+2 (true)?
-}
-
 export default function ExpressionInput(props) {
 	// Wrap the ExpressionInput in a provider for the MathWithCursorProvider, so we can access its context.
 	return (
@@ -78,12 +63,12 @@ export default function ExpressionInput(props) {
 
 function ExpressionInputInner(props) {
 	// Process the field settings, and use them to determine the keyboard settings function and expression interpreter settings.
-	const settings = useMemo(() => processOptions(props.settings || {}, defaultSettings), [props.settings])
+	const settings = useMemo(() => processOptions(props.settings || {}, defaultFieldSettings), [props.settings])
+	const interpretationSettings = useMemo(() => removeEqualProperties(filterOptions(settings, jointFieldSettings), jointFieldSettings), [settings])
 	const settingsRef = useRefWithValue(settings)
 	const keyboardSettings = useCallback((data) => dataToKeyboardSettings(data, settingsRef.current), [settingsRef])
-	const interpreterSettings = (settings.customFunctions ? { customFunctions: true } : {})
 	const initialData = {
-		...getEmptyData(interpreterSettings),
+		...getEmptyData(interpretationSettings),
 		...props.initialData,
 	}
 
@@ -140,11 +125,11 @@ export function validAndNumeric(data) {
 	if (nonEmptyAndValidResult)
 		return nonEmptyAndValidResult
 
-		// Ensure that there are no variables.
-		const { value } = data
-		const exp = expressionSItoFO(value)
-		if (!exp.isNumeric())
-			return <>Dit is geen getal.</>
+	// Ensure that there are no variables.
+	const { value } = data
+	const exp = expressionSItoFO(value)
+	if (!exp.isNumeric())
+		return <>Dit is geen getal.</>
 }
 export function validWithVariables(...variables) {
 	// This validation function is special, in the sense that it's a function that returns a validation function. Give it a set of variables that are accepted, and it checks that only those variables are used.
@@ -266,4 +251,11 @@ const basicMathAndPowers = {
 	float: false,
 }
 
-export { noFunctions, noPowers, simpleVariables, basicMath, basicMathNoFractions, basicMathAndPowers }
+const basicTrigonometry = {
+	...basicMath,
+	trigonometry: true,
+	greek: true,
+	root: true,
+}
+
+export { noFunctions, noPowers, simpleVariables, basicMath, basicMathNoFractions, basicMathAndPowers, basicTrigonometry }

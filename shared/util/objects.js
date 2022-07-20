@@ -42,6 +42,10 @@ function deepEquals(a, b) {
 	if (!isObject(a) || !isObject(b))
 		return a === b
 
+	// Check constructor.
+	if (a.constructor !== b.constructor)
+		return false
+
 	// Check number of keys.
 	const keys1 = Object.keys(a)
 	const keys2 = Object.keys(b)
@@ -77,7 +81,9 @@ module.exports.ensureConsistency = ensureConsistency
 function applyToEachParameter(obj, func) {
 	if (Array.isArray(obj))
 		return obj.map(func).filter(value => value !== undefined)
-	return keysToObject(Object.keys(obj), key => func(obj[key], key))
+	if (isObject(obj))
+		return keysToObject(Object.keys(obj), key => func(obj[key], key))
+	throw new Error(`Invalid applyToEachParameter call: received a call with as input something of type "${typeof obj}". Could not process this. Only objects and arrays are allowed.`)
 }
 module.exports.applyToEachParameter = applyToEachParameter
 
@@ -113,8 +119,13 @@ function processOptions(givenOptions, defaultOptions, filterStrangers = false) {
 		})
 	}
 
-	// Merge the defaults with the given options.
-	return { ...defaultOptions, ...givenOptions }
+	// Add all defaults on top of the given option.
+	const result = { ...givenOptions }
+	Object.keys(defaultOptions).forEach(key => {
+		if (givenOptions[key] === undefined && defaultOptions[key] !== undefined)
+			result[key] = defaultOptions[key]
+	})
+	return result
 }
 module.exports.processOptions = processOptions
 
@@ -145,6 +156,12 @@ function removeProperties(obj, keysToRemove) {
 	return res
 }
 module.exports.removeProperties = removeProperties
+
+// removeEqualProperties takes two objects and returns a shallow copy of the first one, from which all properties that are equal to the property of the second object have been removed.
+function removeEqualProperties(obj, comparison) {
+	return applyToEachParameter(obj, (value, key) => value === comparison[key] ? undefined : value)
+}
+module.exports.removeEqualProperties = removeEqualProperties
 
 // getParentClass takes a class and extracts its parent class.
 function getParentClass(cls) {

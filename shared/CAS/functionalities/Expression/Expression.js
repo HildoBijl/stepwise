@@ -24,14 +24,15 @@
 const { decimalSeparator, decimalSeparatorTex } = require('../../../settings/numbers')
 
 const { isInt, isNumber, compareNumbers } = require('../../../util/numbers')
-const { gcd } = require('../../../util/maths')
-const { isObject, isBasicObject, processOptions, filterOptions, getParentClass } = require('../../../util/objects')
-const { firstOf, lastOf, count, sum, product, hasSimpleMatching } = require('../../../util/arrays')
+const { ensureString } = require('../../../util/strings')
+const { isObject, isBasicObject, deepEquals, processOptions, filterOptions, removeProperties, keysToObject, getParentClass } = require('../../../util/objects')
+const { firstOf, lastOf, count, sum, product, arrayFind, hasSimpleMatching } = require('../../../util/arrays')
 const { union } = require('../../../util/sets')
 const { repeatWithIndices } = require('../../../util/functions')
+const { gcd } = require('../../../util/maths')
 const { binomial } = require('../../../util/combinatorics')
 
-const { bracketLevels, simplifyOptions } = require('../../options')
+const { bracketLevels, defaultExpressionSettings, simplifyOptions } = require('../../options')
 
 /*
  * Expression: the Expression class is the one which everything inherits from. 
@@ -62,18 +63,29 @@ class Expression {
 		if (typeof SO === 'number')
 			return Constant.interpret(SO)
 
-		// Become the given SO.
-		this.become(SO)
+		// Apply the SO.
+		return this.become(SO)
 	}
 
 	// become will turn the current object into one having the data of the SO.
 	become(SO) {
+		// Remove type and settings when present.
 		SO = this.checkAndRemoveSubtype(SO)
+
+		// Check what is given in the SO, and extract settings.
 		SO = processOptions(SO, this.constructor.getDefaultSO())
+		const settings = SO.settings
+		delete SO.settings
+
+		// Process all the parameters given in the SO.
 		Object.keys(SO).forEach(key => {
 			if (SO[key] !== undefined)
 				this[key] = SO[key]
 		})
+
+		// Reapply the settings, if present.
+		if (settings)
+			this.applySettingsToSelf(processOptions(settings, defaultExpressionSettings))
 	}
 
 	// checkAndRemoveSubtype checks if the given SO has a subtype like "Variable" or "Fraction" or so. If so, it is checked and subsequently removed. (If not, this function does nothing.) The resulting SO is returned.
@@ -87,9 +99,7 @@ class Expression {
 			throw new Error(`Invalid Expression creation: tried to create an Expression of subtype "${this.subtype}" but the given Storage Object has subtype "${SO.subtype}".`)
 
 		// Clone the SO (shallowly) to not change the original and remove the type.
-		SO = { ...SO }
-		delete SO.subtype
-		return SO
+		return removeProperties(SO, 'subtype')
 	}
 
 	// type returns always "Expression" for expression types.
@@ -102,15 +112,31 @@ class Expression {
 		return this.constructor.type
 	}
 
-	// isSubtype checks if the given object is of the given subtype. The subtype given can be either a string like "Product" or a constructor Product. It may not be an Expression-like object itself: use isSubtype(someProduct.subtype) then for comparison.
+	// isSubtype checks if the given object is of the given subtype. The subtype given can be either a string like "Product", an Expression object (like a Product) or a constructor (like the Product constructor).
 	isSubtype(subtype) {
 		if (typeof subtype === 'string')
 			return this.subtype === subtype
+		if (subtype instanceof Expression)
+			return this.subtype === subtype.subtype
 		return this.constructor === subtype
+	}
+
+	// settings returns the settings applied to this Expression.
+	get settings() {
+		return keysToObject(this.constructor.availableSettings || [], key => this[key])
 	}
 
 	// SO returns a storage object version of this object. It does this recursively, turning children into SOs too.
 	get SO() {
+		return this.getSO(false)
+	}
+
+	// shallowSO returns a storage object version of this object whose parameters may still be functional objects. This is useful for shallow clones.
+	get shallowSO() {
+		return this.getSO(true)
+	}
+
+	getSO(shallow = false) {
 		// Set up a handler that recursively turns properties into SOs.
 		const processProp = (prop) => {
 			if (Array.isArray(prop))
@@ -121,14 +147,70 @@ class Expression {
 		// Walk through all properties and process them.
 		const result = {}
 		Object.keys(this.constructor.getDefaultSO()).forEach(key => {
-			const value = processProp(this[key])
+			const value = shallow ? this[key] : processProp(this[key]) // Apply recursion when needed.
 			if (value !== undefined)
 				result[key] = value
 		})
 
-		// Add the subtype too. This is needed to reinterpret it.
+		// Add the subtype and settings. This is needed to reinterpret it.
 		result.subtype = this.subtype
+		const settings = this.settings
+		if (Object.keys(settings).length > 0)
+			result.settings = settings
 		return result
+	}
+
+	// clone returns a shallow clone of this object. It only creates a new shell of the given constructor, but all its parameters remain equal.
+	get clone() {
+		return new this.constructor(this.shallowSO)
+	}
+
+	// deepClone returns a deep clone of this object. For basic types this equals a shallow clone.
+	get deepClone() {
+		return new this.constructor(this.SO)
+	}
+
+	// applySettings will take a set of expression settings and apply them to all parts of this Expression. It returns shallow clones, not changing the original object.
+	applySettings(settings) {
+		settings = processOptions(settings, defaultExpressionSettings)
+		if (Object.keys(settings).length === 0)
+			return this
+		return this.applyToEvery(expression => expression.applySettingsBasic(settings))
+	}
+
+	// applySettingsBasic will apply the given settings (already pre-checked) to this expression. It returns a shallow clone, not changing the original object. (Or it returns itself when no changes are made.)
+	applySettingsBasic(settings) {
+		// If this subtype does not have available settings, or if there are no applicable settings, do nothing: return itself.
+		if (!this.constructor.availableSettings)
+			return this
+		if (this.constructor.availableSettings.every(name => settings[name] === undefined))
+			return this
+
+		// There are available settings. Apply them.
+		return this.clone.applySettingsToSelf(settings)
+	}
+
+	// applySettingsToSelf applies settings to this Expression object. It changes the object and returns itself.
+	applySettingsToSelf(settings) {
+		return this.applySpecificSettingsToSelf(this.constructor.availableSettings, settings)
+	}
+
+	// applySpecificSettingsToSelf takes a string or array of strings with setting names (like "useDegrees") and a settings object. It then specifically applies only the given setting names from the given settings object, storing them into the object, and ignores all other settings.
+	applySpecificSettingsToSelf(names = [], settings = {}) {
+		// Ensure that the setting names are an array of strings.
+		names = Array.isArray(names) ? names : [names]
+		names = names.map(name => ensureString(name))
+
+		// If all the given settings are already set, do nothing.
+		if (names.every(name => settings[name] === undefined || this[name] === settings[name]))
+			return this
+
+		// Apply the given settings.
+		names.forEach(name => {
+			if (settings[name] !== undefined)
+				this[name] = settings[name]
+		})
+		return this
 	}
 
 	/*
@@ -271,6 +353,16 @@ class Expression {
 	// recursiveEvery runs a function on this expression term and on all of its children. If it turns up as false anywhere, false is returned. Otherwise true is given. Optionally, includeSelf can be set to false to not include this term itself.
 	recursiveEvery(check, includeSelf = true) {
 		return !includeSelf || check(this)
+	}
+
+	// find runs a function on this expression term and on all of its children, trying to find an Expression that returns true on the function. The first found occurence is returned. If nothing is found, undefined is returned.
+	find(check, includeSelf = true) {
+		return includeSelf && check(this) ? this : undefined
+	}
+
+	// applyToEvery runs a function on this expression term and on all of its children. If nothing changes, the same object is returned for reference inequality.
+	applyToEvery(func, includeSelf = true) {
+		return includeSelf ? func(this) : this
 	}
 
 	// isNegative takes an expression and checks if it can be considered to be negative. For numbers this is trivial. For expressions it is mostly semantic: it only checks if it starts with a minus sign.
@@ -444,14 +536,14 @@ class Expression {
 		return this.defaultSO
 	}
 }
-Expression.defaultSO = { color: undefined }
+Expression.defaultSO = { settings: {}, color: undefined }
 module.exports.Expression = Expression
 
 /*
  * Variable: a class representing a mathematical variable, like "x", "dot(m)" or "hat(x)_{2,5}". It has a symbol (the letter, usually a single character) and optionally a subscript (a string) and accent (a pre-specified string).
  */
 
-const parts = ['symbol', 'subscript', 'accent']
+const variableParts = ['symbol', 'subscript', 'accent']
 
 class Variable extends Expression {
 	become(SO) {
@@ -459,7 +551,7 @@ class Variable extends Expression {
 		const defaultSO = this.constructor.getDefaultSO()
 		SO = this.checkAndRemoveSubtype(SO)
 		SO = processOptions(SO, defaultSO)
-		parts.forEach(part => {
+		variableParts.forEach(part => {
 			if (typeof SO[part] !== 'string' && typeof SO[part] !== typeof this.constructor.defaultSO[part])
 				throw new Error(`Invalid variable ${part}: the ${part} must be a string but received "${SO[part]}".`)
 		})
@@ -470,7 +562,7 @@ class Variable extends Expression {
 		super.become(filterOptions(SO, getParentClass(this.constructor).getDefaultSO()))
 
 		// Apply own input.
-		parts.forEach(part => {
+		variableParts.forEach(part => {
 			this[part] = SO[part]
 		})
 	}
@@ -522,9 +614,12 @@ class Variable extends Expression {
 	isE() {
 		return this.equalsBasic(Variable.e)
 	}
+	isInfinity() {
+		return this.equalsBasic(Variable.infinity)
+	}
 
 	isNumeric() {
-		return this.isPi() || this.isE()
+		return this.isPi() || this.isE() || this.isInfinity()
 	}
 
 	toNumber() {
@@ -532,6 +627,8 @@ class Variable extends Expression {
 			return Math.PI
 		if (this.isE())
 			return Math.E
+		if (this.isInfinity())
+			return Infinity
 		throw new Error(`Invalid toNumber call: cannot turn the given expression into a number because it depends on the variable "${this.str}". Tip: check if the expression is numeric through exp.isNumeric() before asking for the number.`)
 	}
 
@@ -549,7 +646,7 @@ class Variable extends Expression {
 			return false
 
 		// Check all parts of the Variable.
-		return parts.every(part => this[part] === expression[part])
+		return variableParts.every(part => this[part] === expression[part])
 	}
 
 	// ensureVariable ensures that the given variable is a variable.
@@ -587,9 +684,10 @@ class Variable extends Expression {
 }
 Variable.type = 'Variable'
 Variable.defaultSO = { ...Expression.defaultSO, symbol: 'x', subscript: undefined, accent: undefined }
-Variable.format = /^((([a-zA-Z]*)\(([a-zA-Z0-9α-ωΑ-Ω])\))|([a-zA-Z0-9α-ωΑ-Ω]))(_?((.+)|\(([^\(\)]+)\)))?$/
+Variable.format = /^((([a-zA-Z]*)\(([a-zA-Z0-9α-ωΑ-Ω∞])\))|([a-zA-Z0-9α-ωΑ-Ω∞]))(_?((.+)|\(([^\(\)]+)\)))?$/
 Variable.e = new Variable('e')
 Variable.pi = new Variable('π')
+Variable.infinity = new Variable('∞')
 module.exports.Variable = Variable
 
 /*
@@ -761,6 +859,14 @@ class ExpressionList extends Expression {
 		this.terms = terms
 	}
 
+	get clone() {
+		return new this.constructor(this.terms).applySettingsToSelf(this.settings)
+	}
+
+	get deepClone() {
+		return new this.constructor(this.terms.map(term => term.deepClone)).applySettingstoSelf(this.settings)
+	}
+
 	getVariableStrings() {
 		return union(...this.terms.map(term => term.getVariableStrings()))
 	}
@@ -789,15 +895,26 @@ class ExpressionList extends Expression {
 
 	// applyToAllTerms takes a function and applies it to all terms in this ExpressionList.
 	applyToAllTerms(func) {
-		return new this.constructor(this.terms.map(term => func(term)))
+		return this.applyToEvery(func, false)
 	}
 
-	recursiveSome(check, includeSelf) {
-		return super.recursiveSome(check, includeSelf) || this.terms.some(term => term.recursiveSome(check))
+	recursiveSome(check, includeSelf = true) {
+		return super.recursiveSome(check, includeSelf) || this.terms.some(term => term.recursiveSome(check, true))
 	}
 
-	recursiveEvery(check, includeSelf) {
-		return super.recursiveEvery(check, includeSelf) && this.terms.every(term => term.recursiveEvery(check))
+	recursiveEvery(check, includeSelf = true) {
+		return super.recursiveEvery(check, includeSelf) && this.terms.every(term => term.recursiveEvery(check, true))
+	}
+
+	find(check, includeSelf = true) {
+		return super.find(check, includeSelf) || arrayFind(this.terms, term => term.find(check))?.value
+	}
+
+	applyToEvery(func, includeSelf = true) {
+		// When the new terms all equal the old terms, keep the same object. Otherwise create a new one.
+		const terms = this.terms.map(term => func(term))
+		const obj = this.terms.every((term, index) => term === terms[index]) ? this : new this.constructor({ ...this.shallowSO, terms })
+		return includeSelf ? func(obj) : obj
 	}
 
 	equalsBasic(expression, allowOrderChanges) {
@@ -987,7 +1104,7 @@ class Sum extends ExpressionList {
 
 		// If both elements fall in the same case, deal with this case separately.
 		switch (testIndex) {
-			case 0: // Product or variable.
+			case 0: // Product, power or variable.
 				// Check which variables there are. Walk through them.
 				const aVariables = a.getVariables()
 				const bVariables = b.getVariables()
@@ -1014,6 +1131,7 @@ class Sum extends ExpressionList {
 							return Integer.one
 						if (term.isSubtype(Power))
 							return term.exponent
+						return Variable.Infinity // A function or so. Treat as infinite power.
 					}
 					const aPower = getPowerInProduct(aVariable, a)
 					const bPower = getPowerInProduct(aVariable, b)
@@ -1334,6 +1452,18 @@ class Function extends Expression {
 		})
 	}
 
+	get clone() {
+		return new this.constructor(...this.args).applySettingsToSelf(this.settings)
+	}
+
+	get deepClone() {
+		return new this.constructor(...this.args.map(arg => arg.deepClone)).applySettingsToSelf(this.settings)
+	}
+
+	get args() {
+		return this.constructor.args.map(key => this[key])
+	}
+
 	toString() {
 		let result = this.subtype.toLowerCase()
 		this.constructor.args.forEach((key, index) => {
@@ -1374,12 +1504,23 @@ class Function extends Expression {
 		return union(...this.constructor.args.map(key => this[key].getVariableStrings()))
 	}
 
-	recursiveSome(check, includeSelf) {
+	recursiveSome(check, includeSelf = true) {
 		return super.recursiveSome(check, includeSelf) || this.constructor.args.some(key => this[key].recursiveSome(check))
 	}
 
-	recursiveEvery(check, includeSelf) {
+	recursiveEvery(check, includeSelf = true) {
 		return super.recursiveEvery(check, includeSelf) && this.constructor.args.every(key => this[key].recursiveEvery(check))
+	}
+
+	find(check, includeSelf = true) {
+		return super.find(check, includeSelf) || arrayFind(this.constructor.args, key => this[key].find(check))?.value
+	}
+
+	applyToEvery(func, includeSelf = true) {
+		// When the new arguments all equal the old arguments, keep the same object. Otherwise create a new one.
+		const SO = keysToObject(this.constructor.args, key => func(this[key]))
+		const obj = (Object.keys(SO).every(key => SO[key] === this[key])) ? this : new this.constructor({ ...SO, settings: this.settings })
+		return includeSelf ? func(obj) : obj
 	}
 
 	substituteBasic(variable, substitution) {
@@ -1387,12 +1528,15 @@ class Function extends Expression {
 		this.constructor.args.forEach(key => {
 			newSO[key] = this[key].substitute(variable, substitution)
 		})
+		newSO.settings = this.settings
 		return new this.constructor(newSO)
 	}
 
 	simplifyBasic(options) {
-		const simplifiedChildren = this.simplifyChildren(options)
-		return new this.constructor(simplifiedChildren)
+		return new this.constructor({
+			...this.simplifyChildren(options),
+			settings: this.settings,
+		})
 	}
 
 	equalsBasic(expression, allowOrderChanges) {
@@ -1401,7 +1545,15 @@ class Function extends Expression {
 			return false
 
 		// Check that all arguments are equal.
-		return this.constructor.args.every(arg => this[arg].equalsBasic(expression[arg], allowOrderChanges))
+		if (!this.constructor.args.every(arg => this[arg].equalsBasic(expression[arg], allowOrderChanges)))
+			return false
+
+		// Check that the settings are equal.
+		if (!deepEquals(this.settings, expression.settings))
+			return false
+
+		// No differences found!
+		return true
 	}
 
 	static getDefaultSO() {
@@ -1524,7 +1676,9 @@ class Fraction extends Function {
 		if (options.mergeFractionTerms && options.mergeProductTerms) {
 			numerator = numerator.simplify({ mergeProductTerms: true })
 			denominator = denominator.simplify({ mergeProductTerms: true })
-				; ({ numerator, denominator } = Fraction.mergeFractionTerms(numerator, denominator, options))
+			const mergeResult = Fraction.mergeFractionTerms(numerator, denominator, options)
+			numerator = mergeResult.numerator
+			denominator = mergeResult.denominator
 		}
 
 		// Only now simplify children.
@@ -1713,6 +1867,9 @@ Fraction.type = 'Fraction'
 Fraction.args = ['numerator', 'denominator']
 Fraction.obligatory = [true, true]
 Fraction.hasMainArgumentLast = false
+Fraction.half = new Fraction(Integer.one, Integer.two)
+Fraction.third = new Fraction(Integer.one, Integer.three)
+Fraction.quarter = new Fraction(Integer.one, Integer.four)
 module.exports.Fraction = Fraction
 
 /*
@@ -1929,7 +2086,7 @@ module.exports.Ln = Ln
  * Below are various functions and objects related to Expressions.
  */
 
-// ensureExpression tries to turn the given expression (possibly a string, object or something) into an Expression. It only does this in a basic way. Basically, it already expects the input to be an Expression object, or perhaps something very basic, like a number 2.5 or a variable string "x_2". If not, an error is thrown. It cannot use the interpreter, since that would result in a cyclic dependency.
+// ensureExpression tries to turn the given expression (possibly a string, object or something) into an Expression. It only does this in a basic way, with only the basic CAS components (variables, sums, products, powers, and that's about it). Basically, it already expects the input to be an Expression object, or perhaps something very basic, like a number 2.5 or a variable string "x_2". If not, an error is thrown. It cannot use the interpreter, since that would result in a cyclic dependency.
 function ensureExpression(expression) {
 	// Check if this is easy to interpret.
 	if (expression instanceof Expression)
@@ -1967,5 +2124,9 @@ function checkSubstitutionParameters(variable, substitution) {
 }
 module.exports.checkSubstitutionParameters = checkSubstitutionParameters
 
+// Remaining definitions.
+Variable.minusInfinity = Variable.infinity.applyMinus() // Put it here, after the definition of integers and products.
+
+// Exports.
 const expressionSubtypes = { Variable, Integer, Float, Sum, Product, Fraction, Power, Ln }
 module.exports.expressionSubtypes = expressionSubtypes

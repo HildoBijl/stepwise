@@ -1,9 +1,9 @@
 const { isLetter, getNextSymbol } = require('../../../util/strings')
 const { lastOf } = require('../../../util/arrays')
-const { processOptions } = require('../../../util/objects')
+const { processOptions, filterOptions } = require('../../../util/objects')
 
 const { Expression, Constant, Variable, Sum, Product, Power } = require('../../functionalities')
-const { defaultInterpretationSettings } = require('../../options')
+const { defaultFieldSettings, defaultExpressionSettings } = require('../../options')
 
 const InterpretationError = require('../InterpretationError')
 const { isEmpty, getStartCursor, getEndCursor, getSubExpression, moveRight } = require('../support')
@@ -11,7 +11,7 @@ const { getMatchingBrackets } = require('../characterLocalization')
 const { basicFunctionComponents, advancedFunctionComponents, accents, isFunctionAllowed } = require('../functions')
 
 function SItoFO(value, settings = {}) {
-	settings = processOptions(settings, defaultInterpretationSettings)
+	settings = processOptions(settings, defaultFieldSettings)
 	return interpretSI(value, settings)
 }
 module.exports = SItoFO
@@ -28,7 +28,10 @@ function interpretSI(value, settings) {
 	 * - Interpret remaining matters. Think of turning "2x" into "product(2, x)", turning functions without a parameter after it like "sqrt(y)" into an actual function, and processing subscripts/superscripts, incorporating them into the parameter prior to them.
 	 * Each step calls the next one, so only the first step is activated here.
 	 */
-	return interpretBrackets(value, settings)
+	const obj = interpretBrackets(value, settings)
+
+	// Apply any extra settings related to the Expression to it.
+	return obj.applySettings(filterOptions(settings, defaultExpressionSettings))
 }
 
 // interpretBrackets interprets everything related to brackets. This includes both regular brackets 2*(3+4), brackets with simple functions sin(2*x) and brackets for advanced functions with a parameter after it like log[10](2*x).
@@ -251,7 +254,7 @@ function interpretRemaining(value, settings) {
 }
 
 // interpretString takes a string and interprets it, returning an array of elements. For instance, a2.3bc will return [a, 2.3, b, c], where the array elements are constants, variables and such. The string may not have numbers or times operators anymore.
-const regInvalidSymbols = new RegExp(`[^a-zα-ω0-9.]`, 'i')
+const regInvalidSymbols = new RegExp(`[^a-zα-ω0-9.∞]`, 'i')
 const regSingleDecimalSeparator = new RegExp(`(([^0-9]\\.[^0-9])|(^\\.[^0-9])|([^0-9]\\.$))`) // Period without any numbers.
 const regMultipleDecimalSeparator = new RegExp(`\\.[0-9]*\\.`) // Number with two periods.
 function interpretString(str, settings) {
@@ -272,7 +275,7 @@ function interpretString(str, settings) {
 	let lastLetter = -1
 	const terms = []
 	for (let i = 0; i < str.length; i++) {
-		if (isLetter(str[i])) {
+		if (isLetter(str[i]) || str[i] === '∞') {
 			if (lastLetter < i - 1)
 				terms.push(Constant.interpret(str.substring(lastLetter + 1, i)))
 			terms.push(new Variable(str[i]))

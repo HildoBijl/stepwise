@@ -3,14 +3,14 @@
 const { getNextSymbol, removeWhitespace, isLetter } = require('../../../util/strings')
 const { processOptions } = require('../../../util/objects')
 
-const { defaultInterpretationSettings } = require('../../options')
+const { defaultFieldSettings } = require('../../options')
 
 const { getStartCursor, getEndCursor, getSubExpression, moveLeft, moveRight, mergeAdjacentExpressionParts, addExpressionType } = require('../support')
 const { squareBrackets, findEndOfTerm, getMatchingBrackets, findCharacterAtZeroBracketCount } = require('../characterLocalization')
 const { advancedFunctionComponents, accents, isFunctionAllowed } = require('../functions')
 
 function strToSI(str, settings = {}) {
-	settings = processOptions(settings, defaultInterpretationSettings)
+	settings = processOptions(settings, defaultFieldSettings)
 
 	// Check for non-string entries.
 	if (typeof str !== 'string')

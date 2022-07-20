@@ -43,7 +43,7 @@ export default function ExerciseButtons({ stepwise }) {
 	const submitButtonRef = useRef(), giveUpButtonRef = useRef(), startNewExerciseButtonRef = useRef()
 	useFieldRegistration({ id: 'submitButton', element: submitButtonRef, apply: !progress.done, focusRefOnActive: true })
 	useFieldRegistration({ id: 'giveUpButton', element: giveUpButtonRef, apply: !progress.done, focusRefOnActive: true })
-	useFieldRegistration({ id: 'startNewExerciseButton', element: startNewExerciseButtonRef, apply: progress.done, focusRefOnActive: true })
+	useFieldRegistration({ id: 'startNewExerciseButton', element: startNewExerciseButtonRef, apply: !!progress.done, focusRefOnActive: true })
 
 	// Set up a warning Modal for when the user gives up a step exercise without even trying.
 	const [, setModalOpen] = useModal(<PictureConfirmation

@@ -195,7 +195,7 @@ export function getNumberComparisonFeedback(currInput, currSolution, options, ob
 	const inputSign = Math.sign(getNumber(currInput))
 	const solutionSign = Math.sign(getNumber(currSolution))
 	if (inputSign * solutionSign === -1)
-		return text.sign || 'Je antwoord heeft niet het juiste teken. Controleer plussen en minnen.' 
+		return text.sign || 'Je antwoord heeft niet het juiste teken. Controleer plussen en minnen.'
 
 	// Check for a near-hit.
 	if (isEqual(currInput, currSolution, accuracyFactorForNearHits))

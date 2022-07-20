@@ -57,7 +57,7 @@ const steps = [
 			const solution = useSolution(state)
 			const { x } = solution
 			return <>
-				<Par>Los deze vergelijking eerst op voor <M>{x}.</M></Par>
+				<Par>Los deze vergelijking op voor <M>{x}.</M></Par>
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="ans1" prelabel={<M>{x}=</M>} size="s" settings={basicMathAndPowers} validate={validAndNumeric} />
@@ -91,7 +91,7 @@ const steps = [
 			const solution = useSolution(state)
 			const { y } = solution
 			return <>
-				<Par>Los deze vergelijking eerst op voor <M>{y}.</M></Par>
+				<Par>Los deze vergelijking op voor <M>{y}.</M></Par>
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="ans2" prelabel={<M>{y}=</M>} size="s" settings={basicMathAndPowers} validate={validAndNumeric} />

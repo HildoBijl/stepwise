@@ -1,9 +1,9 @@
 // An Equation is an input type containing two expressions with an equals sign in-between.
 
-const { isObject, processOptions } = require('../../../util/objects')
+const { isObject, processOptions, keysToObject } = require('../../../util/objects')
 const { union } = require('../../../util/sets')
 
-const { simplifyOptions } = require('../../options')
+const { simplifyOptions, defaultExpressionSettings } = require('../../options')
 
 const { ensureExpression, Variable, Integer } = require('../Expression')
 
@@ -42,19 +42,45 @@ class Equation {
 
 	// SO returns a storage object version of this object. 
 	get SO() {
+		return this.getSO(false)
+	}
+
+	get shallowSO() {
+		return this.getSO(true)
+	}
+
+	getSO(shallow) {
 		const result = {}
 		parts.forEach(part => {
-			result[part] = this[part].SO
+			result[part] = this[part].getSO(shallow)
 		})
 		return result
 	}
 
 	get sides() {
-		const result = {}
-		parts.forEach(part => {
-			result[part] = this[part]
-		})
-		return result
+		return keysToObject(parts, part => this[part])
+	}
+
+	get clone() {
+		return new Equation(this.sides)
+	}
+
+	get deepClone() {
+		const sides = keysToObject(parts, part => this[part].deepClone)
+		return new Equation(sides)
+	}
+
+	// applySettings will take a set of expression settings and apply them to all parts of this Equation.
+	applySettings(settings) {
+		settings = processOptions(settings, defaultExpressionSettings)
+		if (Object.keys(settings).length === 0)
+			return this
+		return this.applySettingsBasic(settings)
+	}
+
+	// applySettingsBasic will apply the given settings (already pre-checked) to this expression.
+	applySettingsBasic(settings) {
+		return this.applyToBothSides(expression => expression.applySettingsBasic(settings))
 	}
 
 	/*
