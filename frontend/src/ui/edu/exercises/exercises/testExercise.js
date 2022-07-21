@@ -27,7 +27,7 @@ function Problem() {
 	return <>
 		<Par>Gegeven is de onderstaande balk met externe belasting.</Par>
 		<Diagram isInputField={false} />
-		<Par>Teken het vrijlichaamschema/schematisch diagram.</Par>
+		<Par>Teken het vrijlichaamsschema/schematisch diagram.</Par>
 		<InputSpace>
 			<Diagram isInputField={true} />
 		</InputSpace>
@@ -86,7 +86,7 @@ function Elements({ points, h, l1, l2 }) {
 
 function Solution() {
 	return <>
-		<Par>Aan de linkerkant zit een vast scharnier. Een vast scharnier kan horizontale en verticale reactiekrachten geven. Halverwege zit een rollend scharnier. Deze kan alleen reactiekrachten geven loodrecht op het oppervlak. Samen met de externe belastingen geeft dat het volgende vrijlichaamschema.</Par>
+		<Par>Aan de linkerkant zit een vast scharnier. Een vast scharnier kan horizontale en verticale reactiekrachten geven. Halverwege zit een rollend scharnier. Deze kan alleen reactiekrachten geven loodrecht op het oppervlak. Samen met de externe belastingen geeft dat het volgende vrijlichaamsschema.</Par>
 		<Diagram showSolution={true} />
 	</>
 }

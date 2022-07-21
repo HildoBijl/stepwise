@@ -228,7 +228,7 @@ function sortByIndices(values, numbers) {
 		throw new Error(`Invalid parameter: expected arrays but received parameters of type "${typeof values}" and "${typeof numbers}".`)
 	if (values.length !== numbers.length)
 		throw new Error(`Invalid input: expected two arrays of equal length, but the values array was of length ${values.length} while the indices array was of length ${numbers.length}.`)
-	numbers = numbers.map(ensureNumber)
+	numbers = numbers.map(number => ensureNumber(number))
 
 	// Create an array with merged objects and sort it. Then extract the values from it.
 	return values

@@ -28,7 +28,7 @@ function Problem() {
 	return <>
 		<Par>Gegeven is de onderstaande balk met externe belasting.</Par>
 		<Diagram isInputField={false} />
-		<Par>Teken het vrijlichaamschema/schematisch diagram.</Par>
+		<Par>Teken het vrijlichaamsschema/schematisch diagram.</Par>
 		<InputSpace>
 			<Diagram isInputField={true} />
 		</InputSpace>
@@ -54,13 +54,13 @@ function Diagram({ isInputField = false, showSolution = false }) {
 		<EngineeringDiagram transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} maxWidth={bounds => bounds.width} />
 }
 
-function Schematics({ points, loads, showSupports = true }) {
+function Schematics({ points, loads, fixA, showSupports = true }) {
 	return <>
 		<Beam points={Object.values(points)} />
 
 		<Group style={{ opacity: showSupports ? 1 : 0.05 }}>
-			<HingeSupport position={points.A} />
-			<RollerHingeSupport position={points.C} />
+			<HingeSupport position={points[fixA ? 'A' : 'C']} />
+			<RollerHingeSupport position={points[fixA ? 'C' : 'A']} />
 		</Group>
 
 		<Group>{render(loads)}</Group>
@@ -83,9 +83,9 @@ function Elements({ l1, l2, points }) {
 	</>
 }
 
-function Solution() {
+function Solution({ fixA }) {
 	return <>
-		<Par>Aan de linkerkant zit een vast scharnier. Een vast scharnier kan horizontale en verticale reactiekrachten geven. Halverwege zit een rollend scharnier. Deze kan alleen reactiekrachten geven loodrecht op het oppervlak. Samen met de externe belastingen geeft dat het volgende vrijlichaamschema.</Par>
+		<Par>Aan de linkerkant zit een {fixA ? 'vast' : 'rollend'} scharnier. Deze kan {fixA ? 'horizontale en verticale' : 'alleen verticale'} reactiekrachten geven. Aan de rechterkant zit een {fixA ? 'rollend' : 'vast'} scharnier. Deze kan {fixA ? 'alleen verticale' : 'horizontale en verticale'} reactiekrachten geven. Samen met de externe belasting geeft dat het volgende vrijlichaamsschema.</Par>
 		<Diagram showSolution={true} />
 	</>
 }
