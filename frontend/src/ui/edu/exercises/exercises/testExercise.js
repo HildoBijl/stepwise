@@ -23,20 +23,19 @@ export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
 }
 
-function Problem(state) {
-	const solution = useSolution(state)
-
+function Problem() {
 	return <>
 		<Par>Gegeven is de onderstaande balk met externe belasting.</Par>
-		<Diagram isInputField={false} {...solution} />
+		<Diagram isInputField={false} />
 		<Par>Teken het vrijlichaamschema/schematisch diagram.</Par>
 		<InputSpace>
-			<Diagram isInputField={true} {...solution} />
+			<Diagram isInputField={true} />
 		</InputSpace>
 	</>
 }
 
-function Diagram({ isInputField = false, showSolution = false, ...solution }) {
+function Diagram({ isInputField = false, showSolution = false }) {
+	const solution = useSolution()
 	const { points, loads } = solution
 
 	// Define the transformation.
@@ -73,6 +72,7 @@ function Schematics({ points, loads, showSupports = true }) {
 function Elements({ points, h, l1, l2 }) {
 	const background = useCurrentBackgroundColor()
 	const distanceLabelStyle = { background, padding: '0.3rem' }
+	
 	return <>
 		<Label position={points.A} angle={Math.PI * 5 / 4} graphicalDistance={5}><M>A</M></Label>
 		<Label position={points.B} angle={Math.PI * 3 / 2} graphicalDistance={2}><M>B</M></Label>
@@ -84,16 +84,14 @@ function Elements({ points, h, l1, l2 }) {
 	</>
 }
 
-function Solution(state) {
-	const solution = useSolution(state)
-
+function Solution() {
 	return <>
 		<Par>Aan de linkerkant zit een vast scharnier. Een vast scharnier kan horizontale en verticale reactiekrachten geven. Halverwege zit een rollend scharnier. Deze kan alleen reactiekrachten geven loodrecht op het oppervlak. Samen met de externe belastingen geeft dat het volgende vrijlichaamschema.</Par>
-		<Diagram showSolution={true} {...solution} />
+		<Diagram showSolution={true} />
 	</>
 }
 
-function getFeedback({ state, input, progress, shared }) {
+function getFeedback({ state, input, shared }) {
 	const { getSolution, data } = shared
 	const solution = getSolution(state)
 	const { loads, points } = solution

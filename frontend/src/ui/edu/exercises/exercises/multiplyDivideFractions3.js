@@ -15,8 +15,8 @@ export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const { variables, expression } = useSolution(state)
+const Problem = () => {
+	const { variables, expression } = useSolution()
 	return <>
 		<Par>Gegeven is de uitdrukking <BM>{expression}.</BM> Schrijf dit als één breuk.</Par>
 		<InputSpace>
@@ -27,8 +27,8 @@ const Problem = (state) => {
 	</>
 }
 
-const Solution = (state) => {
-	const { expression, ans } = useSolution(state)
+const Solution = () => {
+	const { expression, ans } = useSolution()
 	return <>
 		<Par>Het is bij deze opgave belangrijk om te kijken welke breuk voorrang heeft. Kleinere deelstrepen worden eerder uitgevoerd dan grotere deelstrepen, en krijgen dus voorrang. Effectief gezien delen we hier dus de breuk <M>{expression.numerator}</M> door <M>\left({expression.denominator}\right).</M></Par>
 		<Par>Als we een breuk ergens door delen, dan is de regel dat we deze deelfactor er ook bij de noemer (onderin) bij mogen schrijven. Immers, als we bijvoorbeeld <M>1/2</M> taart hebben, en dat nog eens delen door <M>3,</M> dan hebben we <M>\frac(1/2)(3) = \frac(1)(2 \cdot 3) = \frac(1)(6)</M> taart. Volgens deze regel krijgen we <BM>{expression} = {ans}.</BM> Zo is onze samengestelde breuk geschreven als één breuk.</Par>

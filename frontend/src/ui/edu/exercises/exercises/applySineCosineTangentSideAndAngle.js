@@ -12,7 +12,7 @@ import ExpressionInput, { validAndNumeric, basicTrigonometryInDegrees } from 'ui
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form/Status'
 
-import { useSolution } from '../ExerciseContainer'
+import { useSolution, useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
@@ -27,13 +27,12 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const solution = useSolution(state)
-	const { x, beta, y } = solution
+const Problem = () => {
+	const { x, beta, y } = useSolution()
 
 	return <>
 		<Par>Gegeven is de onderstaande driehoek met zijde <M>{x}</M> en hoek <M>{beta}^\circ.</M> Bereken de onbekende zijde <M>{y}.</M> Werk in graden en geef je antwoord in wiskundige notatie.</Par>
-		<ExerciseFigure state={state} solution={solution} />
+		<ExerciseFigure />
 		<InputSpace>
 			<ExpressionInput id="ans" prelabel={<M>{y}=</M>} size="s" settings={basicTrigonometryInDegrees} validate={validAndNumeric} />
 		</InputSpace>
@@ -42,7 +41,7 @@ const Problem = (state) => {
 
 const steps = [
 	{
-		Problem: (state) => {
+		Problem: () => {
 			return <>
 				<Par>Bekijk, vanuit de hoek gezien, welke zijden gegeven/gevraagd zijn. Bepaal hiermee de te gebruiken regel.</Par>
 				<InputSpace>
@@ -50,8 +49,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { notGiven, rule } = useSolution(state)
+		Solution: () => {
+			const { notGiven, rule } = useSolution()
 			return <Par>Vanuit de hoek gezien zijn de {notGiven === 1 ? sides[0] : sides[1]} en de {notGiven === 2 ? sides[0] : sides[1]} zijden gegeven/gevraagd. Dit betekent dat {ruleNames[rule]} van toepassing is en we dus de {funcNames[rule]} gaan gebruiken.</Par>
 		},
 	},
@@ -65,8 +64,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { known, requested, rule, x, y, beta, equation } = useSolution(state)
+		Solution: () => {
+			const { known, requested, rule, x, y, beta, equation } = useSolution()
 			return <Par>We gebruiken {ruleNames[rule]}. De {sides[known]} zijde is <M>{x}</M> en de {sides[requested]} zijde is <M>{y}.</M> Met de hoek van <M>{beta}^\circ</M> zegt de {ruleNames[rule]}-regel nu direct dat <BM>{equation}.</BM></Par>
 		},
 	},
@@ -82,8 +81,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { y, ansRaw, ans, canSimplifyAns } = useSolution(state)
+		Solution: () => {
+			const { y, ansRaw, ans, canSimplifyAns } = useSolution()
 			return <Par>Het herschrijven van de breuk geeft direct de oplossing <BM>{y}={ansRaw}.</BM>{canSimplifyAns ? <>Dit kan eventueel (niet verplicht) nog verder vereenvoudigd worden tot <BM>{y} = {ans}.</BM></> : null}</Par>
 		},
 	},
@@ -120,7 +119,8 @@ function getFeedback(exerciseData) {
 	}
 }
 
-function ExerciseFigure({ state, solution }) {
+function ExerciseFigure() {
+	const { state, solution } = useExerciseData()
 	const points = getPoints(solution)
 	const pointsInSideOrder = [2, 0, 1].map(index => points[index])
 	const { rotation, reflection, known, x, requested, y } = solution
@@ -133,7 +133,7 @@ function ExerciseFigure({ state, solution }) {
 		maxHeight: 300,
 		margin: 20,
 	})
-	const labelSize = 30
+	const labelSize = 34
 
 	// Render the figure.
 	return <Drawing transformationSettings={transformationSettings} maxWidth={bounds => bounds.width} svgContents={<>

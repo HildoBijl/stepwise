@@ -12,7 +12,7 @@ import ExpressionInput, { validAndNumeric, basicTrigonometryInDegrees } from 'ui
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form/Status'
 
-import { useSolution } from '../ExerciseContainer'
+import { useSolution, useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
@@ -28,21 +28,21 @@ export default function Exercise() {
 }
 
 const Problem = (state) => {
-	const solution = useSolution(state)
-	const { a, b, c, notGiven } = solution
+	const { beta } = state
+	const { a, b, c, notGiven } = useSolution()
 
 	return <>
-		<Par>Gegeven is de onderstaande driehoek met zijden <M>{notGiven === 0 ? b : a}</M> en <M>{notGiven === 2 ? b : c}.</M> Bereken de hoek <M>{state.beta}.</M> Werk in graden en geef je antwoord in wiskundige notatie.</Par>
-		<ExerciseFigure state={state} solution={solution} />
+		<Par>Gegeven is de onderstaande driehoek met zijden <M>{notGiven === 0 ? b : a}</M> en <M>{notGiven === 2 ? b : c}.</M> Bereken de hoek <M>{beta}.</M> Werk in graden en geef je antwoord in wiskundige notatie.</Par>
+		<ExerciseFigure />
 		<InputSpace>
-			<ExpressionInput id="ans" prelabel={<M>{state.beta}=</M>} size="s" settings={basicTrigonometryInDegrees} validate={validAndNumeric} />
+			<ExpressionInput id="ans" prelabel={<M>{beta}=</M>} size="s" settings={basicTrigonometryInDegrees} validate={validAndNumeric} />
 		</InputSpace>
 	</>
 }
 
 const steps = [
 	{
-		Problem: (state) => {
+		Problem: () => {
 			return <>
 				<Par>Bekijk, vanuit de hoek gezien, welke zijden gegeven zijn. Bepaal hiermee de te gebruiken regel.</Par>
 				<InputSpace>
@@ -50,22 +50,23 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { notGiven, rule } = useSolution(state)
+		Solution: () => {
+			const { notGiven, rule } = useSolution()
 			return <Par>Vanuit de hoek gezien zijn de {notGiven === 1 ? sides[0] : sides[1]} en de {notGiven === 2 ? sides[0] : sides[1]} zijden gegeven. Dit betekent dat {ruleNames[rule]} van toepassing is en we dus de {funcNames[rule]} gaan gebruiken.</Par>
 		},
 	},
 	{
 		Problem: (state) => {
+			const { beta } = state
 			return <>
 				<Par>Pas de betreffende regel letterlijk toe op de gegeven driehoek met hoek <M>{state.beta}.</M> Noteer de vergelijking.</Par>
 				<InputSpace>
-					<EquationInput id="equation" settings={basicTrigonometryInDegrees} validate={validWithVariables(state.beta)} />
+					<EquationInput id="equation" settings={basicTrigonometryInDegrees} validate={validWithVariables(beta)} />
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { notGiven, rule, a, b, c, equation } = useSolution(state)
+		Solution: () => {
+			const { notGiven, rule, a, b, c, equation } = useSolution()
 			return <Par>We gebruiken {ruleNames[rule]}. De {notGiven === 1 ? <>{sides[0]} zijde is <M>{a}</M></> : <>{sides[1]} zijde is <M>{b}</M></>} en de {notGiven === 2 ? <>{sides[0]} zijde is <M>{a}.</M></> : <>{sides[2]} zijde is <M>{c}.</M></>} De {ruleNames[rule]}-regel zegt nu direct dat <BM>{equation}.</BM></Par>
 		},
 	},
@@ -82,8 +83,9 @@ const steps = [
 			</>
 		},
 		Solution: (state) => {
-			const { rule, ansRaw, ans, canSimplifyAns } = useSolution(state)
-			return <Par>Om <M>{state.beta}</M> op te lossen nemen we van beide kanten de omgekeerde {funcNames[rule]} (de arc{funcNames[rule]}). Hiermee krijgen we <BM>{state.beta} = {ansRaw}.</BM>{canSimplifyAns ? <>Dit kan eventueel (niet verplicht) nog verder vereenvoudigd worden tot <BM>{state.beta} = {ans}{ans.isSubtype('Integer') ? `^\\circ` : ``}.</BM></> : null}</Par>
+			const { beta } = state
+			const { rule, ansRaw, ans, canSimplifyAns } = useSolution()
+			return <Par>Om <M>{beta}</M> op te lossen nemen we van beide kanten de omgekeerde {funcNames[rule]} (de arc{funcNames[rule]}). Hiermee krijgen we <BM>{beta} = {ansRaw}.</BM>{canSimplifyAns ? <>Dit kan eventueel (niet verplicht) nog verder vereenvoudigd worden tot <BM>{beta} = {ans}{ans.isSubtype('Integer') ? `^\\circ` : ``}.</BM></> : null}</Par>
 		},
 	},
 ]
@@ -114,7 +116,8 @@ function getFeedback(exerciseData) {
 	}
 }
 
-function ExerciseFigure({ state, solution }) {
+function ExerciseFigure() {
+	const { state, solution } = useExerciseData()
 	const points = getPoints(solution)
 	const { rotation, reflection, a, b, c, notGiven } = solution
 
@@ -126,7 +129,7 @@ function ExerciseFigure({ state, solution }) {
 		maxHeight: 300,
 		margin: 20,
 	})
-	const labelSize = 22
+	const labelSize = 26
 
 	// Render the figure.
 	return <Drawing transformationSettings={transformationSettings} maxWidth={bounds => bounds.width} svgContents={<>

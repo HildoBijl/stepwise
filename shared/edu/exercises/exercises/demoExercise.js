@@ -1,3 +1,4 @@
+const { deg2rad } = require('../../../util/numbers')
 const { getRandomBoolean, getRandomInteger } = require('../../../util/random')
 const { Vector } = require('../../../geometry')
 
@@ -31,7 +32,7 @@ function getSolution(state) {
 	const loads = [
 		getDefaultForce(fixA ? A : C, 0, reaction),
 		getDefaultForce(A, -Math.PI / 2, reaction),
-		getDefaultForce(B, (90 - theta) * Math.PI / 180, external),
+		getDefaultForce(B, deg2rad(theta), external),
 		getDefaultForce(C, -Math.PI / 2, reaction),
 	]
 
@@ -40,7 +41,7 @@ function getSolution(state) {
 
 function checkInput(state, input) {
 	const solution = getSolution(state)
-	return areLoadsMatching(input.beam, solution.beam, data.comparison)
+	return areLoadsMatching(input.loads, solution.loads, data.comparison)
 }
 
 module.exports = {

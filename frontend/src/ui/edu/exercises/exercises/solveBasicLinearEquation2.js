@@ -21,8 +21,8 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const { variables, equation } = useSolution(state)
+const Problem = () => {
+	const { variables, equation } = useSolution()
 	return <>
 		<Par>Gegeven is de vergelijking <BM>{equation}.</BM> Los deze op voor <M>{variables.x}.</M></Par>
 		<InputSpace>
@@ -35,8 +35,8 @@ const Problem = (state) => {
 
 const steps = [
 	{
-		Problem: (state) => {
-			const { variables } = useSolution(state)
+		Problem: () => {
+			const { variables } = useSolution()
 			return <>
 				<Par>Breng alle termen met <M>{variables.x}</M> naar de ene kant van de vergelijking, en alle termen zonder <M>{variables.x}</M> naar de andere kant.</Par>
 				<InputSpace>
@@ -46,14 +46,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { variables, equation, termsMoved } = useSolution(state)
+		Solution: () => {
+			const { variables, equation, termsMoved } = useSolution()
 			return <Par>We gaan alle termen met <M>{variables.x}</M> naar links halen, en alle termen zonder <M>{variables.x}</M> naar rechts. Oftewel, we brengen <M>{equation.right.terms[1].abs()}</M> naar links en <M>{equation.left.terms[1].abs()}</M> naar rechts. Zo vinden we <BM>{termsMoved}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { variables } = useSolution(state)
+		Problem: () => {
+			const { variables } = useSolution()
 			return <>
 				<Par>Haal <M>{variables.x}</M> buiten haakjes. Laat de rest van de vergelijking onveranderd.</Par>
 				<InputSpace>
@@ -63,14 +63,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { variables, termsMoved, bracketTerm, pulledOut } = useSolution(state)
+		Solution: () => {
+			const { variables, termsMoved, bracketTerm, pulledOut } = useSolution()
 			return <Par>Om <M>{variables.x}</M> buiten haakjes te halen, moeten we <M>{termsMoved.left}</M> schrijven als <M>{variables.x}\cdot\left(\ldots\right).</M> We zien hiermee dat er tussen haakjes <M>{bracketTerm}</M> moet staan. Zo herschrijven we de vergelijking als <BM>{pulledOut}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { variables } = useSolution(state)
+		Problem: () => {
+			const { variables } = useSolution()
 			return <>
 				<Par>Deel beide kanten van de vergelijking door de term tussen haakjes, om zo <M>{variables.x}</M> op te lossen.</Par>
 				<InputSpace>
@@ -80,8 +80,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { variables, bracketTerm, ans, ansCleaned } = useSolution(state)
+		Solution: () => {
+			const { variables, bracketTerm, ans, ansCleaned } = useSolution()
 			return <Par>Als we beide kanten van de vergelijking delen door <M>{bracketTerm},</M> dan valt links de term tussen haakjes weg. We houden alleen <M>{variables.x}</M> over, en hebben dus <M>{variables.x}</M> vrij gemaakt! Het eindresultaat is <BM>{variables.x} = {ans}.</BM> Eventueel kan dit nog makkelijker geschreven worden als <BM>{variables.x} = {ansCleaned}</BM> maar dat is niet per se nodig hier.</Par>
 		},
 	},

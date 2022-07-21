@@ -19,8 +19,8 @@ export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const { variables, expression } = useSolution(state)
+const Problem = () => {
+	const { variables, expression } = useSolution()
 	return <>
 		<Par>Gegeven is de breuk <BM>{expression}.</BM> Vermenigvuldig zowel de noemer als de teller met een factor <M>{variables.x}.</M> Schrijf de teller en noemer zo simpel mogelijk op.</Par>
 		<InputSpace>
@@ -31,8 +31,8 @@ const Problem = (state) => {
 	</>
 }
 
-const Solution = (state) => {
-	const { variables, square, expression, ans } = useSolution(state)
+const Solution = () => {
+	const { variables, square, expression, ans } = useSolution()
 	return <Par>We vermenigvuldigen de gegeven breuk boven en onder met de factor <M>{variables.x}.</M> Bovenin de breuk staat al een factor <M>{variables.x}</M>, dus we kunnen daar <M>{variables.x} \cdot {variables.x}</M> simpeler schrijven als <M>{square}.</M> Onderin komt er simpelweg een factor <M>{variables.x}</M> bij. Zo krijgen we <BM>{expression} = {ans}.</BM></Par>
 }
 

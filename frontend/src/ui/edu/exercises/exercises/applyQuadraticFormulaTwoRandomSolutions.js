@@ -18,8 +18,8 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const { x, equation } = useSolution(state)
+const Problem = () => {
+	const { x, equation } = useSolution()
 	const numSolutions = useInput('numSolutions')
 	return <>
 		<Par>Gegeven is de vergelijking <BM>{equation}.</BM> Vind alle (reëele) oplossingen voor <M>{x}.</M> Geef je antwoorden zo gesimplificeerd mogelijk, in wiskundige notatie.</Par>
@@ -41,8 +41,8 @@ const Problem = (state) => {
 
 const steps = [
 	{
-		Problem: (state) => {
-			const { x } = useSolution(state)
+		Problem: () => {
+			const { x } = useSolution()
 			return <>
 				<Par>De vergelijking staat al in de standaardvorm <M>a{x}^2 + b{x} + c = 0.</M> Bepaal hieruit de waarden van <M>a</M>, <M>b</M> en <M>c.</M></Par>
 				<InputSpace>
@@ -54,13 +54,13 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { x, a, b, c } = useSolution(state)
+		Solution: () => {
+			const { x, a, b, c } = useSolution()
 			return <Par>Voor de <M>{x}^2</M> staat <M>{a}</M> waardoor <M>a={a}.</M> Voor de <M>{x}</M> staat <M>{b}</M> waardoor <M>b={b}.</M> {c === 0 ? <>Verder is er geen constante in de vergelijking, waardoor <M>c=0.</M></> : <>Verder is de constante in de vergelijking <M>{c}</M> waardoor <M>c={c}.</M></>}</Par>
 		},
 	},
 	{
-		Problem: (state) => {
+		Problem: () => {
 			return <>
 				<Par>Bepaal de discriminant <M>D = b^2 - 4ac.</M></Par>
 				<InputSpace>
@@ -70,14 +70,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { expressions, D } = useSolution(state)
+		Solution: () => {
+			const { expressions, D } = useSolution()
 			return <Par>We berekenen <BM>D = b^2 - 4ac = {expressions.D} = {D}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { x } = useSolution(state)
+		Problem: () => {
+			const { x } = useSolution()
 			return <>
 				<Par>Bepaal vanuit de discriminant hoeveel oplossingen de vergelijking heeft.</Par>
 				<InputSpace>
@@ -90,14 +90,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { D, x } = useSolution(state)
+		Solution: () => {
+			const { D, x } = useSolution()
 			return <Par>De discriminant is <M>D={D}.</M> Omdat <M>D &gt; 0</M> geldt dat er twee oplossingen zijn voor <M>{x}.</M></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { x } = useSolution(state)
+		Problem: () => {
+			const { x } = useSolution()
 			return <>
 				<Par>Gebruik de wortelformule (ABC-formule) om de twee oplossingen voor <M>{x}</M> te vinden.</Par>
 				<InputSpace>
@@ -108,8 +108,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { x, a, b, D, x1, x2, sqrtD } = useSolution(state)
+		Solution: () => {
+			const { x, a, b, D, x1, x2, sqrtD } = useSolution()
 			return <Par>
 				De twee oplossingen volgen via
 				<BM>{x} = \frac(-b \pm \sqrt(D))(2a) = \frac(-{b.number > 0 ? b : `\\left(${b}\\right)`} \pm \sqrt({D}))(2 \cdot {a}) = \frac({-b} \pm {sqrtD})({2 * a}).</BM>

@@ -20,13 +20,11 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const solution = useSolution(state)
-	const { variables } = solution
-
+const Problem = () => {
+	const { variables } = useSolution()
 	return <>
 		<Par>Twee parallelle lijnen omsluiten twee driehoeken. Bereken hoek <M>{variables.gamma}</M> in graden.</Par>
-		<ExerciseFigure solution={solution} showGamma={1} />
+		<ExerciseFigure showGamma={1} />
 		<InputSpace>
 			<ExpressionInput id="gamma" prelabel={<M>{variables.gamma}=</M>} size="s" settings={basicMath} validate={validAndNumeric} />
 		</InputSpace>
@@ -35,29 +33,27 @@ const Problem = (state) => {
 
 const steps = [
 	{
-		Problem: (state) => {
-			const solution = useSolution(state)
-			const { variables } = solution
+		Problem: () => {
+			const { variables } = useSolution()
 			return <>
 				<Par>Bepaal de hoek <M>{variables.alpha}</M> uit de onderstaande figuur.</Par>
-				<ExerciseFigure solution={solution} showAlpha={1} />
+				<ExerciseFigure showAlpha={1} />
 				<InputSpace>
 					<ExpressionInput id="alpha" prelabel={<M>{variables.alpha}=</M>} size="s" settings={basicMath} validate={validAndNumeric} />
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { variables, a, alpha } = useSolution(state)
+		Solution: () => {
+			const { variables, a, alpha } = useSolution()
 			return <Par>De som van de hoeken van een driehoek is <M>180^\circ.</M> Voor de blauwe driehoek geeft dit de vergelijking <BM>{variables.alpha} + 90^\circ + {a}^\circ = 180^\circ.</BM> Dit oplossen voor <M>{variables.alpha}</M> resulteert in <BM>{variables.alpha} = 180^\circ - 90^\circ - {a}^\circ = {alpha}^\circ.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const solution = useSolution(state)
-			const { variables } = solution
+		Problem: () => {
+			const { variables } = useSolution()
 			return <>
 				<Par>Bepaal de hoek <M>{variables.beta}</M> uit de onderstaande figuur.</Par>
-				<ExerciseFigure solution={solution} showAlpha={2} showBeta={1} />
+				<ExerciseFigure showAlpha={2} showBeta={1} />
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="beta" prelabel={<M>{variables.beta}=</M>} size="s" settings={basicMath} validate={validAndNumeric} />
@@ -65,18 +61,17 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { variables, beta } = useSolution(state)
+		Solution: () => {
+			const { variables, beta } = useSolution()
 			return <Par>Vanuit het principe van Z-hoeken zien we dat <BM>{variables.beta} = {variables.alpha} = {beta}^\circ.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const solution = useSolution(state)
-			const { variables } = solution
+		Problem: () => {
+			const { variables } = useSolution()
 			return <>
 				<Par>Bepaal de hoek <M>{variables.gamma}</M> uit de onderstaande figuur.</Par>
-				<ExerciseFigure solution={solution} showAlpha={2} showBeta={2} showGamma={1} />
+				<ExerciseFigure showAlpha={2} showBeta={2} showGamma={1} />
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="gamma" prelabel={<M>{variables.gamma}=</M>} size="s" settings={basicMath} validate={validAndNumeric} />
@@ -84,8 +79,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { variables, b, beta, gamma } = useSolution(state)
+		Solution: () => {
+			const { variables, b, beta, gamma } = useSolution()
 			return <Par>De som van de hoeken van een driehoek is <M>180^\circ.</M> Voor de rode driehoek geeft dit de vergelijking <BM>{variables.gamma} + {beta} + {b}^\circ = 180^\circ.</BM> Dit oplossen voor <M>{variables.gamma}</M> resulteert in <BM>{variables.gamma} = 180^\circ - {beta}^\circ - {b}^\circ = {gamma}^\circ.</BM></Par>
 		},
 	},
@@ -95,7 +90,8 @@ function getFeedback(exerciseData) {
 	return getInputFieldFeedback(['alpha', 'beta', 'gamma'], exerciseData)
 }
 
-function ExerciseFigure({ solution, showAlpha = 0, showBeta = 0, showGamma = 0 }) {
+function ExerciseFigure({ showAlpha = 0, showBeta = 0, showGamma = 0 }) {
+	const solution = useSolution()
 	const points = getPoints(solution)
 	const { bottomLeft, bottomRight, topLeft, topRight } = points
 	const { variables, rotation, reflection, a, b, c, alpha, beta, gamma } = solution

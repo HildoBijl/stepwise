@@ -20,8 +20,8 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const { variables, equation } = useSolution(state)
+const Problem = () => {
+	const { variables, equation } = useSolution()
 	return <>
 		<Par>Gegeven is de vergelijking <BM>{equation}.</BM> Vermenigvuldig alle termen in deze vergelijking met <M>{variables.x}</M> en simplificeer deze termen zoveel mogelijk.</Par>
 		<InputSpace>
@@ -34,8 +34,8 @@ const Problem = (state) => {
 
 const steps = [
 	{
-		Problem: (state) => {
-			const { variables } = useSolution(state)
+		Problem: () => {
+			const { variables } = useSolution()
 			return <>
 				<Par>Vermenigvuldig eerst de linkerkant en de rechterkant allebei met <M>{variables.x}.</M> Oftewel, schrijf de vergelijking als <BM>\left(\ldots\right){variables.x} = \left(\ldots\right){variables.x}</BM> waarbij tussen haakjes de oorspronkelijke linker/rechterkant van de vergelijking staat.</Par>
 				<InputSpace>
@@ -45,14 +45,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { variables, equation } = useSolution(state)
+		Solution: () => {
+			const { variables, equation } = useSolution()
 			return <Par>We schrijven letterlijk op, <BM>\left({equation.left}\right){variables.x} = \left({equation.right}\right){variables.x}.</BM> Merk op dat, omdat we met beide kanten van de vergelijking hetzelfde doen, de vergelijking nog steeds klopt.</Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { variables } = useSolution(state)
+		Problem: () => {
+			const { variables } = useSolution()
 			return <>
 				<Par>Werk de haakjes uit. Je hoeft nog geen verdere simplificaties toe te passen.</Par>
 				<InputSpace>
@@ -62,14 +62,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { variables, intermediateWithoutBrackets } = useSolution(state)
+		Solution: () => {
+			const { variables, intermediateWithoutBrackets } = useSolution()
 			return <Par>We werken de haakjes uit door elke term afzonderlijk met <M>{variables.x}</M> te vermenigvuldigen. Het resultaat is <BM>{intermediateWithoutBrackets}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { variables } = useSolution(state)
+		Problem: () => {
+			const { variables } = useSolution()
 			return <>
 				<Par>Simplificeer alle termen zo veel mogelijk.</Par>
 				<InputSpace>
@@ -79,8 +79,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { variables, intermediateWithXPulledIn, ans } = useSolution(state)
+		Solution: () => {
+			const { variables, intermediateWithXPulledIn, ans } = useSolution()
 			return <Par>Bij elke term brengen we <M>{variables.x}</M> binnenin de breuk. Hij komt dan bovenin te staan, als <BM>{intermediateWithXPulledIn}.</BM> Als <M>{variables.x}</M> boven en onder in de breuk staat strepen we dit tegen elkaar weg. Ook vervangen we <M>{variables.x} \cdot {variables.x}</M> voor <M>{variables.x}^2.</M> Het eindresultaat is <BM>{ans}.</BM> Dit kan niet nog simpeler geschreven worden.</Par>
 		},
 	},

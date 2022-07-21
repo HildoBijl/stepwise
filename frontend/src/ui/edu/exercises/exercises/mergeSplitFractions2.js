@@ -20,8 +20,8 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const { variables, expression } = useSolution(state)
+const Problem = () => {
+	const { variables, expression } = useSolution()
 	return <>
 		<Par>Gegeven is de uitdrukking <BM>{expression}.</BM> Schrijf dit als één breuk. Simplificeer je antwoord zo veel mogelijk.</Par>
 		<InputSpace>
@@ -34,8 +34,8 @@ const Problem = (state) => {
 
 const steps = [
 	{
-		Problem: (state) => {
-			const { variables, leftExpression, rightExpression } = useSolution(state)
+		Problem: () => {
+			const { variables, leftExpression, rightExpression } = useSolution()
 			return <>
 				<Par>Vind de <strong>kleinst mogelijke veelvoud</strong> van de twee noemers <M>{leftExpression.denominator}</M> en <M>{rightExpression.denominator}</M>.</Par>
 				<InputSpace>
@@ -45,14 +45,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { leftExpression, rightExpression, denominator } = useSolution(state)
+		Solution: () => {
+			const { leftExpression, rightExpression, denominator } = useSolution()
 			return <Par>De noemers <M>{leftExpression.denominator}</M> en <M>{rightExpression.denominator}</M> hebben geen gemeenschappelijke factoren. We kunnen ze dus vermenigvuldigen om hun (kleinst mogelijke) gemeenschappelijke veelvoud te vinden. Zo krijgen we <BM>{denominator}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { variables, leftExpression, rightExpression, denominator } = useSolution(state)
+		Problem: () => {
+			const { variables, leftExpression, rightExpression, denominator } = useSolution()
 			return <>
 				<Par>Herschrijf de beide breuken zodat ze <M>{denominator}</M> als noemer hebben.</Par>
 				<InputSpace>
@@ -63,14 +63,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { leftExpression, rightExpression, leftAns, rightAns } = useSolution(state)
+		Solution: () => {
+			const { leftExpression, rightExpression, leftAns, rightAns } = useSolution()
 			return <Par>Bij de eerste breuk vermenigvuldigen we boven en onder met <M>{rightExpression.denominator}.</M> Zo vinden we <BM>{leftExpression} = {leftAns}.</BM> Voor de tweede breuk vermenigvuldigen we boven en onder met <M>{leftExpression.denominator}.</M> Hiermee krijgen we <BM>{rightExpression} = {rightAns}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { variables, expression } = useSolution(state)
+		Problem: () => {
+			const { variables, expression } = useSolution()
 			return <>
 				<Par>Voeg de twee herschreven breuken samen tot één breuk.</Par>
 				<InputSpace>
@@ -80,8 +80,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { plus, expression, leftAns, rightAns, ans } = useSolution(state)
+		Solution: () => {
+			const { plus, expression, leftAns, rightAns, ans } = useSolution()
 			return <Par>Als we alles bij elkaar voegen, dan vinden we <BM>{expression} = {leftAns} {plus ? '+' : '-'} {rightAns} = {ans}.</BM> Hiermee zijn de twee breuken samengevoegd als één breuk.</Par>
 		},
 	},

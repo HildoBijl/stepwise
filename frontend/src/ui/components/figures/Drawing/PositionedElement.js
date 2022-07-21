@@ -2,7 +2,7 @@
 import React, { useRef, useCallback, useEffect, useLayoutEffect } from 'react'
 
 import { ensureNumber } from 'step-wise/util/numbers'
-import { ensureObject, processOptions, filterOptions, removeProperties } from 'step-wise/util/objects'
+import { ensureBoolean, ensureObject, processOptions, filterOptions, removeProperties } from 'step-wise/util/objects'
 import { Vector, ensureVector, ensureVectorArray, ensureCorner } from 'step-wise/geometry'
 
 import { ensureReactElement, useEqualRefOnEquality, useEventListener } from 'util/react'
@@ -12,14 +12,19 @@ import { useDrawingContext, useTransformedOrGraphicalValue, useScaledOrGraphical
 // PositionedElement allows for the positioning of elements onto the drawing.
 export function PositionedElement(props) {
 	// Check input.
-	let { children, position, graphicalPosition, shift, graphicalShift, rotate, scale, anchor, style } = processOptions(props, defaultPositionedElement)
+	let { children, position, graphicalPosition, shift, graphicalShift, rotate, scale, anchor, ignoreMouse, style } = processOptions(props, defaultPositionedElement)
 	children = ensureReactElement(children)
 	position = ensureVector(useTransformedOrGraphicalValue(position, graphicalPosition), 2)
 	shift = ensureVector(useTransformedOrGraphicalValue(shift, graphicalShift), 2)
 	rotate = ensureNumber(rotate)
 	scale = ensureNumber(scale)
 	anchor = ensureVector(anchor, 2)
-	style = ensureObject(style)
+	ignoreMouse = ensureBoolean(ignoreMouse)
+	style = { ...defaultPositionedElement.style, ...ensureObject(style) }
+
+	// Check if mouse events should be ignore.
+	if (ignoreMouse)
+		style.pointerEvents = 'none'
 
 	// Make sure the vector references remain consistent.
 	position = position.add(shift)
@@ -69,6 +74,7 @@ const defaultPositionedElement = {
 	rotate: 0, // Radians.
 	scale: 1,
 	anchor: new Vector(0.5, 0.5), // Use 0 for left/top and 1 for right/bottom.
+	ignoreMouse: true,
 	style: {},
 }
 

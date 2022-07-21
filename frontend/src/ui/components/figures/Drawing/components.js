@@ -8,7 +8,7 @@ import { Vector, ensureVector, ensureVectorArray, ensureCorner, PositionedVector
 
 import { useEnsureRef, useEventListeners } from 'util/react'
 
-import { useBounds, useTransformedOrGraphicalValue, useScaledOrGraphicalValue } from './DrawingContext'
+import { useGraphicalBounds, useTransformedOrGraphicalValue, useScaledOrGraphicalValue } from './DrawingContext'
 
 // Define event handlers that objects can use.
 export const defaultEventHandlers = {}
@@ -216,7 +216,7 @@ export const BoundedLine = forwardRef((props, ref) => {
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Set up the line part and display it.
-	const bounds = useBounds()
+	const bounds = useGraphicalBounds()
 	const linePart = bounds?.getLinePart(line)
 	return linePart ? <Line ref={ref} {...filterOptions(props, defaultLine)} graphicalPoints={[linePart.start, linePart.end]} /> : null
 })

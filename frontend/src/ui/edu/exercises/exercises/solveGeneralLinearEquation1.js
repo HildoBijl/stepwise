@@ -17,8 +17,8 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const { variables, equation } = useSolution(state)
+const Problem = () => {
+	const { variables, equation } = useSolution()
 	return <>
 		<Par>Gegeven is de vergelijking <BM>{equation}.</BM> Los deze op voor <M>{variables.x}.</M> Simplificeer je antwoord zo veel mogelijk.</Par>
 		<InputSpace>
@@ -31,8 +31,8 @@ const Problem = (state) => {
 
 const steps = [
 	{
-		Problem: (state) => {
-			const { variables, factor1, factor2 } = useSolution(state)
+		Problem: () => {
+			const { variables, factor1, factor2 } = useSolution()
 			return <>
 				<Par>Het lastige is dat de onbekende <M>{variables.x}</M> onderin een breuk staat. Verhelp dit probleem door alle termen met zowel <M>{factor1}</M> als <M>{factor2}</M> te vermenigvuldigen. Streep waar mogelijk factoren in breuken weg.</Par>
 				<InputSpace>
@@ -42,14 +42,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { factor1, factor2, multiplied } = useSolution(state)
+		Solution: () => {
+			const { factor1, factor2, multiplied } = useSolution()
 			return <Par>We vermenigvuldigen alle termen met zowel <M>{factor1}</M> als <M>{factor2}.</M> Bij de eerste term links valt <M>{factor2}</M> onderin de breuk weg, en vermenigvuldigen we het restant met <M>{factor1}.</M> Bij de andere twee termen valt juist <M>{factor1}</M> weg en wordt het restant vermenigvuldigd met <M>{factor2}.</M> Het resultaat is dan <BM>{multiplied}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { variables } = useSolution(state)
+		Problem: () => {
+			const { variables } = useSolution()
 			return <>
 				<Par>Werk alle haakjes uit.</Par>
 				<InputSpace>
@@ -59,14 +59,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { expanded, merged } = useSolution(state)
+		Solution: () => {
+			const { expanded, merged } = useSolution()
 			return <Par>Als we alle haakjes op de normale wijze uitwerken krijgen we <BM>{expanded}.</BM> Eventueel kunnen we dit nog wat korter schrijven als <BM>{merged}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { variables } = useSolution(state)
+		Problem: () => {
+			const { variables } = useSolution()
 			return <>
 				<Par>Het resultaat is een lineaire vergelijking. Los deze op de normale wijze op.</Par>
 				<InputSpace>
@@ -76,8 +76,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { variables, expanded, shifted, pulledOut, bracketFactor, ans } = useSolution(state)
+		Solution: () => {
+			const { variables, expanded, shifted, pulledOut, bracketFactor, ans } = useSolution()
 			return <Par>Voor het oplossen van een lineaire vergelijking brengen we eerst alle termen met <M>{variables.x}</M> naar de ene kant en alle termen zonder <M>{variables.x}</M> naar de andere kant. Oftewel, <M>{expanded.right.terms[0].abs()}</M> gaat naar links en <M>{expanded.left.terms[3].abs()}</M> gaat naar rechts. Zo vinden we <BM>{shifted}.</BM> Vervolgens brengen we <M>{variables.x}</M> buiten haakjes. Dit zet het bovenstaande om in <BM>{pulledOut}.</BM> We delen ten slotte beide kanten van de vergelijking door <M>{bracketFactor}</M> om <M>{variables.x}</M> op te lossen. Het eindresultaat is <BM>{variables.x} = {ans}.</BM></Par>
 		},
 	},

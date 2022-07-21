@@ -19,8 +19,8 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const { variables, expression } = useSolution(state)
+const Problem = () => {
+	const { variables, expression } = useSolution()
 	return <>
 		<Par>Gegeven is de uitdrukking <BM>{expression}.</BM> Haal de factor <M>{variables.x}</M> buiten haakjes voor de <em>gehele</em> uitdrukking.</Par>
 		<InputSpace>
@@ -33,8 +33,8 @@ const Problem = (state) => {
 
 const steps = [
 	{
-		Problem: (state) => {
-			const { variables, expression } = useSolution(state)
+		Problem: () => {
+			const { variables, expression } = useSolution()
 			return <>
 				<Par>Als we bij een uitdrukking <M>\left[\ldots\right]</M> een factor <M>{variables.x}</M> buiten haakjes willen halen, dan willen we de uitdrukking schrijven als <BM>{variables.x} \cdot \frac(\left[\ldots\right])({variables.x}).</BM> Schrijf het bovenstaande dus eerst letterlijk op, met op de puntjes de gegeven uitdrukking.</Par>
 				<InputSpace>
@@ -44,14 +44,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { setup } = useSolution(state)
+		Solution: () => {
+			const { setup } = useSolution()
 			return <Par>We schrijven letterlijk op, <BM>{setup}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { variables, fraction } = useSolution(state)
+		Problem: () => {
+			const { variables, fraction } = useSolution()
 			return <>
 				<Par>Splits de resulterende breuk <BM>{fraction}</BM> op in losse breuken en simplificeer deze zo veel mogelijk.</Par>
 				<InputSpace>
@@ -61,14 +61,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { variables, fractionSplit, fractionSimplified } = useSolution(state)
+		Solution: () => {
+			const { variables, fractionSplit, fractionSimplified } = useSolution()
 			return <Par>Als eerste splitsen we de breuk op. Zo krijgen we <BM>{fractionSplit}.</BM> Vervolgens strepen we, waar mogelijk, boven en onder een factor <M>{variables.x}</M> weg. Op één plek is dit niet mogelijk, en daar moeten we de breuk dus laten staan. Zo vinden we <BM>{fractionSimplified}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { variables, expression } = useSolution(state)
+		Problem: () => {
+			const { variables, expression } = useSolution()
 			return <>
 				<Par>Vul de gesimplificeerde breuk in. Oftewel, schrijf de oorspronkelijke uitdrukking <M>{expression}</M> op als <M>{variables.x} \cdot \left(\ldots\right)</M> met op de puntjes het antwoord van de vorige stap.</Par>
 				<InputSpace>
@@ -78,16 +78,16 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { ans } = useSolution(state)
+		Solution: () => {
+			const { ans } = useSolution()
 			return <>
 				<Par>Als we letterlijk het resultaat van de vorige stap op de puntjes invullen, dan krijgen we <BM>{ans}.</BM></Par>
 			</>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { variables, ans } = useSolution(state)
+		Problem: () => {
+			const { variables, ans } = useSolution()
 			return <>
 				<Par>Controleer je antwoord: wat krijg je als je de haakjes uitwerkt en alles weer simplificeert?</Par>
 				<InputSpace>
@@ -97,8 +97,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { expression, ans } = useSolution(state)
+		Solution: () => {
+			const { expression, ans } = useSolution()
 			return <>
 				<Par>Als we de haakjes uitwerken, dan krijgen we <BM>{ans} = {expression}.</BM> Dit is hetzelfde als waar we mee begonnen, en dus klopt het wat we gedaan hebben.</Par>
 			</>

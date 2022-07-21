@@ -20,8 +20,8 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const { variables, equation } = useSolution(state)
+const Problem = () => {
+	const { variables, equation } = useSolution()
 	return <>
 		<Par>Gegeven is de vergelijking <BM>{equation}.</BM> Deel alle termen in deze vergelijking door <M>{variables.x}</M> en simplificeer deze termen zoveel mogelijk.</Par>
 		<InputSpace>
@@ -34,8 +34,8 @@ const Problem = (state) => {
 
 const steps = [
 	{
-		Problem: (state) => {
-			const { variables } = useSolution(state)
+		Problem: () => {
+			const { variables } = useSolution()
 			return <>
 				<Par>Deel eerst de linkerkant en de rechterkant allebei door <M>{variables.x}.</M> Oftewel, schrijf de vergelijking als <BM>\frac(\left[\ldots\right])({variables.x}) = \frac(\left[\ldots\right])({variables.x})</BM> waarbij in plaats van <M>\left[\ldots\right]</M> de oorspronkelijke linker/rechterkant van de vergelijking staat.</Par>
 				<InputSpace>
@@ -45,14 +45,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { variables, equation } = useSolution(state)
+		Solution: () => {
+			const { variables, equation } = useSolution()
 			return <Par>We schrijven letterlijk op, <BM>\frac({equation.left})({variables.x}) = \frac({equation.right})({variables.x}).</BM> Merk op dat, omdat we met beide kanten van de vergelijking hetzelfde doen, de vergelijking nog steeds klopt.</Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { variables } = useSolution(state)
+		Problem: () => {
+			const { variables } = useSolution()
 			return <>
 				<Par>Splits de breuken links/rechts op in losse breuken. Je hoeft nog geen verdere simplificaties toe te passen.</Par>
 				<InputSpace>
@@ -62,14 +62,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { variables, intermediateWithoutBrackets } = useSolution(state)
+		Solution: () => {
+			const { variables, intermediateWithoutBrackets } = useSolution()
 			return <Par>We splitsen de breuk op door elke term afzonderlijk door <M>{variables.x}</M> te delen. Het resultaat is <BM>{intermediateWithoutBrackets}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { variables } = useSolution(state)
+		Problem: () => {
+			const { variables } = useSolution()
 			return <>
 				<Par>Simplificeer alle termen zo veel mogelijk.</Par>
 				<InputSpace>
@@ -79,8 +79,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { variables, ans } = useSolution(state)
+		Solution: () => {
+			const { variables, ans } = useSolution()
 			return <Par>Bij termen waar zowel boven als onder een <M>{variables.x}</M> staat strepen we deze weg. Bij één term staat er boven <M>{variables.x}^2.</M> Omdat <M>{variables.x}^2 = {variables.x} \cdot {variables.x}</M> valt er hier maar één factor <M>{variables.x}</M> weg, en blijft er boven nog <M>{variables.x}</M> over. Het eindresultaat is <BM>{ans}.</BM> Dit kan niet nog simpeler geschreven worden.</Par>
 		},
 	},

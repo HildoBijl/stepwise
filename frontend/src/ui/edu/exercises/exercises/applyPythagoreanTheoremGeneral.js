@@ -10,7 +10,7 @@ import ExpressionInput, { validAndNumeric, basicMathAndPowers } from 'ui/form/in
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form/Status'
 
-import { useSolution } from '../ExerciseContainer'
+import { useSolution, useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
@@ -22,7 +22,7 @@ export default function Exercise() {
 }
 
 const Problem = (state) => {
-	const solution = useSolution(state)
+	const solution = useSolution()
 	const { x } = solution
 
 	return <>
@@ -36,24 +36,27 @@ const Problem = (state) => {
 
 const steps = [
 	{
-		Problem: (state) => {
-			const solution = useSolution(state)
+		Problem: () => {
+			const { state, solution } = useExerciseData()
+			const { a, b, c } = state
 			const { x } = solution
 			return <>
-				<Par>Stel via de stelling van Pythagoras een vergelijking op voor de zijden van de driehoek.</Par>
+				<Par>Stel via de stelling van Pythagoras een vergelijking op voor de zijden van de driehoek. Gebruik de waarden <M>{a},</M> <M>{b}</M> en <M>{c}.</M></Par>
 				<InputSpace>
 					<EquationInput id="equation" settings={basicMathAndPowers} validate={validWithVariables(x)} />
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { equation } = useSolution(state)
-			return <Par>We hebben hier rechte zijden <M>{state.a}</M> en <M>{state.b}</M> en schuine zijde <M>{state.c}.</M> De stelling van Pythagoras zegt nu direct dat <BM>{equation}.</BM></Par>
+		Solution: () => {
+			const { state, solution } = useExerciseData()
+			const { a, b, c } = state
+			const { equation } = solution
+			return <Par>We hebben hier rechte zijden <M>{a}</M> en <M>{b}</M> en schuine zijde <M>{c}.</M> De stelling van Pythagoras zegt nu direct dat <BM>{equation}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const solution = useSolution(state)
+		Problem: () => {
+			const solution = useSolution()
 			const { x } = solution
 			return <>
 				<Par>Los deze vergelijking eerst op voor <M>{x}^2.</M></Par>
@@ -64,14 +67,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { x, ansSquared, ansSquaredSimplified } = useSolution(state)
+		Solution: () => {
+			const { x, ansSquared, ansSquaredSimplified } = useSolution()
 			return <Par>We kunnen direct vinden dat <BM>{x}^2 = {ansSquared}.</BM> Dit kan vervolgens nog vereenvoudigd worden tot <BM>{x}^2 = {ansSquaredSimplified}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const solution = useSolution(state)
+		Problem: () => {
+			const solution = useSolution()
 			const { x } = solution
 			return <>
 				<Par>Bepaal vanuit <M>{x}^2</M> de waarde van <M>{x}.</M></Par>
@@ -82,8 +85,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { x, ansRaw, ans, ansCanBeSimplified } = useSolution(state)
+		Solution: () => {
+			const { x, ansRaw, ans, ansCanBeSimplified } = useSolution()
 			return <Par>We nemen van beide kanten van de vergelijking de wortel. Zo vinden we <BM>{x} = {ansRaw}.</BM> Merk op dat, omdat we weten dat de gevraagde afstand positief is, we hier geen <M>\pm</M> bij hoeven te plaatsen. {ansCanBeSimplified ? <>Eventueel kan het bovenstaande nog vereenvoudigd worden tot <BM>{x} = {ans}.</BM></> : <>Het bovenstaande kan niet nog verder vereenvoudigd worden.</>}</Par>
 		},
 	},

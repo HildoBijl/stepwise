@@ -244,6 +244,15 @@ class Line {
 		)
 	}
 
+	// fromPointAndAngle returns a line from the given point in the direction of the given angle. This only works for 2D points.
+	static fromPointAndAngle(point, angle) {
+		point = ensureVector(point, 2)
+		return new Line(
+			point,
+			Vector.fromPolar(1, angle),
+		)
+	}
+
 	// getAxisLineThrough takes a Vector (a point in space) and an axis (0 for x-axis, 1 for y-axis, etcetera) and gets the line through the given point along the given axis.
 	static getAxisLineThrough(point, axis) {
 		point = ensureVector(point)

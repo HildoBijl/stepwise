@@ -19,8 +19,8 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const { variables, equation } = useSolution(state)
+const Problem = () => {
+	const { variables, equation } = useSolution()
 	return <>
 		<Par>Gegeven is de vergelijking <BM>{equation}.</BM> Los deze op voor <M>{variables.x}.</M> Simplificeer je antwoord zo veel mogelijk.</Par>
 		<InputSpace>
@@ -33,8 +33,8 @@ const Problem = (state) => {
 
 const steps = [
 	{
-		Problem: (state) => {
-			const { variables } = useSolution(state)
+		Problem: () => {
+			const { variables } = useSolution()
 			return <>
 				<Par>Als eerste zien we aan de linkerkant een breuk binnen een breuk staan. Simplificeer dit tot een enkele breuk. (Laat de rechterkant van de vergelijking onveranderd staan.)</Par>
 				<InputSpace>
@@ -44,14 +44,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { variables, equation, simplified } = useSolution(state)
+		Solution: () => {
+			const { variables, equation, simplified } = useSolution()
 			return <Par>We kunnen de breuk in een breuk vereenvoudigen door boven en onder met zowel <M>{variables.w}</M> als <M>{variables.x}</M> te vermenigvuldigen. Hiermee reduceert de breuk tot <BM>{equation.left} = {simplified.left}.</BM> Als we dit invullen in de vergelijking, dan kunnen we hem schrijven als <BM>{simplified}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { variables } = useSolution(state)
+		Problem: () => {
+			const { variables } = useSolution()
 			return <>
 				<Par>Vergelijkingen zijn een stuk makkelijker op te lossen als er geen breuken in zitten. Vermenigvuldig alle termen van de vergelijking met de noemers van beide breuken om dit voor elkaar te krijgen.</Par>
 				<InputSpace>
@@ -61,14 +61,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { simplified, multiplied } = useSolution(state)
+		Solution: () => {
+			const { simplified, multiplied } = useSolution()
 			return <Par>We vermenigvuldigen beide kanten van de vergelijking met <M>{simplified.left.denominator}</M> en met <M>{simplified.right.denominator}.</M> Nadat we factoren wegstrepen blijven we over met <BM>{multiplied}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { variables } = useSolution(state)
+		Problem: () => {
+			const { variables } = useSolution()
 			return <>
 				<Par>Werk alle haakjes uit.</Par>
 				<InputSpace>
@@ -78,14 +78,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { expanded } = useSolution(state)
+		Solution: () => {
+			const { expanded } = useSolution()
 			return <Par>Als we alles opsplitsen in losse termen, dan krijgen we <BM>{expanded}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { variables } = useSolution(state)
+		Problem: () => {
+			const { variables } = useSolution()
 			return <>
 				<Par>Het resultaat is een lineaire vergelijking. Los deze op de normale wijze op voor <M>{variables.x}.</M></Par>
 				<InputSpace>
@@ -95,8 +95,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { variables, termToMove, shifted, pulledOut, bracketFactor, ans } = useSolution(state)
+		Solution: () => {
+			const { variables, termToMove, shifted, pulledOut, bracketFactor, ans } = useSolution()
 			return <Par>Voor het oplossen van een lineaire vergelijking brengen we eerst alle termen met <M>{variables.x}</M> naar de ene kant en alle termen zonder <M>{variables.x}</M> naar de andere kant. Oftewel, <M>{termToMove.abs()}</M> gaat naar links, zodat <BM>{shifted}.</BM> Vervolgens brengen we <M>{variables.x}</M> buiten haakjes. Dit zet het bovenstaande om in <BM>{pulledOut}.</BM> We delen ten slotte beide kanten van de vergelijking door <M>{bracketFactor}</M> om <M>{variables.x}</M> op te lossen. Het eindresultaat is <BM>{variables.x} = {ans}.</BM></Par>
 		},
 	},

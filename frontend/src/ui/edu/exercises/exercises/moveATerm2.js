@@ -20,8 +20,8 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const { variables, termToMove, equation } = useSolution(state)
+const Problem = () => {
+	const { variables, termToMove, equation } = useSolution()
 	return <>
 		<Par>Gegeven is de vergelijking <BM>{equation}.</BM> Breng de term met <M>\left({termToMove.terms[1]}\right)</M> naar de andere kant van het is-teken. Laat de andere termen onveranderd op hun plek staan.</Par>
 		<InputSpace>
@@ -34,8 +34,8 @@ const Problem = (state) => {
 
 const steps = [
 	{
-		Problem: (state) => {
-			const { variables, isLeft, isPositive, termToMoveAbs } = useSolution(state)
+		Problem: () => {
+			const { variables, isLeft, isPositive, termToMoveAbs } = useSolution()
 			return <>
 				<Par>We willen iets doen met beide kanten van de vergelijking om {isLeft ? 'links' : 'rechts'} de term <M>{termToMoveAbs}</M> weg te krijgen. {isPositive ? <>Trek hiervoor <M>{termToMoveAbs}</M> van beide kanten van de vergelijking af.</> : <>Tel hiervoor <M>{termToMoveAbs}</M> bij beide kanten van de vergelijking op.</>} (Streep nog geen termen weg.)</Par>
 				<InputSpace>
@@ -45,14 +45,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { isPositive, termToMoveAbs, intermediate } = useSolution(state)
+		Solution: () => {
+			const { isPositive, termToMoveAbs, intermediate } = useSolution()
 			return <Par>Als we <M>{termToMoveAbs}</M> {isPositive ? <>van beide kanten van de vergelijking afhalen</> : <>bij beide kanten van de vergelijking optellen</>}, dan krijgen we <BM>{intermediate}.</BM> Omdat we met beide kanten van de vergelijking hetzelfde gedaan hebben (hetzelfde {isPositive ? <>ervan afgehaald</> : <>erbij opgeteld</>} hebben) klopt de vergelijking nog steeds.</Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { variables, isLeft } = useSolution(state)
+		Problem: () => {
+			const { variables, isLeft } = useSolution()
 			return <>
 				<Par>Streep aan de {isLeft ? 'linker' : 'rechter'} kant van de vergelijking waar mogelijk termen weg.</Par>
 				<InputSpace>
@@ -62,8 +62,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { isPositive, isLeft, termToMove, termToMoveAbs, ans } = useSolution(state)
+		Solution: () => {
+			const { isPositive, isLeft, termToMove, termToMoveAbs, ans } = useSolution()
 			return <Par>Als we ergens eerst <M>{termToMoveAbs}</M> {isPositive ? <>bij optellen en het er vervolgens weer van afhalen</> : <>van afhalen en het er vervolgens weer bij optellen</>}, dan komen we altijd op hetzelfde uit. We hadden het net zo goed niet kunnen doen. De termen <M>{termToMove}</M> en <M>{termToMove.applyMinus().removeUseless()}</M> vallen {isLeft ? 'links' : 'rechts'} dus tegen elkaar weg. We blijven over met <BM>{ans}.</BM> Hiermee is de term <M>{termToMoveAbs}</M> van {isLeft ? 'links' : 'rechts'} naar {isLeft ? 'rechts' : 'links'} gehaald. Merk op dat het nu niet meer {isPositive ? <>positief (met plusteken) is maar negatief (met minteken).</> : <>negatief (met minteken) is maar positief (met plusteken).</>}</Par>
 		},
 	},

@@ -10,7 +10,7 @@ import ExpressionInput, { validAndNumeric, basicMathAndPowers } from 'ui/form/in
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form/Status'
 
-import { useSolution } from '../ExerciseContainer'
+import { useSolution, useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
@@ -21,13 +21,13 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const solution = useSolution(state)
+const Problem = () => {
+	const solution = useSolution()
 	const { La, Lb, Lc, x, y, z } = solution
 
 	return <>
 		<Par>De onderstaande driehoek met zijde <M>{z}</M> is gelijkvormig met een <M>\left({La},{Lb},{Lc}\right)</M> driehoek. Vind de onbekende zijden <M>{x}</M> en <M>{y}.</M></Par>
-		<ExerciseFigure state={state} solution={solution} />
+		<ExerciseFigure />
 		<InputSpace>
 			<ExpressionInput id="ans1" prelabel={<M>{x}=</M>} size="s" settings={basicMathAndPowers} validate={validAndNumeric} />
 			<ExpressionInput id="ans2" prelabel={<M>{y}=</M>} size="s" settings={basicMathAndPowers} validate={validAndNumeric} />
@@ -37,9 +37,8 @@ const Problem = (state) => {
 
 const steps = [
 	{
-		Problem: (state) => {
-			const solution = useSolution(state)
-			const { x, z } = solution
+		Problem: () => {
+			const { x, z } = useSolution()
 			return <>
 				<Par>Bekijk als eerste zijde <M>{x}.</M> Stel een vergelijking op waar zowel de bekende zijde <M>{z}</M> als de onbekende zijde <M>{x}</M> in voorkomen.</Par>
 				<InputSpace>
@@ -47,15 +46,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { x, z, equation1 } = useSolution(state)
+		Solution: () => {
+			const { x, z, equation1 } = useSolution()
 			return <Par>Gelijkvormigheid betekent dat de verhouding tussen corresponderende zijden constant is. Als we kijken naar de zijden met <M>{z}</M> en <M>{x},</M> dan volgt <BM>{equation1}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const solution = useSolution(state)
-			const { x } = solution
+		Problem: () => {
+			const { x } = useSolution()
 			return <>
 				<Par>Los deze vergelijking op voor <M>{x}.</M></Par>
 				<InputSpace>
@@ -65,15 +63,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { x, ans1Raw, ans1 } = useSolution(state)
+		Solution: () => {
+			const { x, ans1Raw, ans1 } = useSolution()
 			return <Par>De oplossing volgt direct als <BM>{x} = {ans1Raw} = {ans1}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const solution = useSolution(state)
-			const { y, z } = solution
+		Problem: () => {
+			const { y, z } = useSolution()
 			return <>
 				<Par>Bekijk vervolgens zijde <M>{y}.</M> Stel een vergelijking op waar zowel de bekende zijde <M>{z}</M> als de onbekende zijde <M>{y}</M> in voorkomen.</Par>
 				<InputSpace>
@@ -81,15 +78,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { y, z, equation2 } = useSolution(state)
+		Solution: () => {
+			const { y, z, equation2 } = useSolution()
 			return <Par>Gelijkvormigheid betekent dat de verhouding tussen corresponderende zijden constant is. Als we kijken naar de zijden met <M>{z}</M> en <M>{y},</M> dan volgt <BM>{equation2}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const solution = useSolution(state)
-			const { y } = solution
+		Problem: () => {
+			const { y } = useSolution()
 			return <>
 				<Par>Los deze vergelijking op voor <M>{y}.</M></Par>
 				<InputSpace>
@@ -99,8 +95,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { y, ans2Raw, ans2 } = useSolution(state)
+		Solution: () => {
+			const { y, ans2Raw, ans2 } = useSolution()
 			return <Par>De oplossing volgt direct als <BM>{y} = {ans2Raw} = {ans2}.</BM></Par>
 		},
 	},
@@ -110,7 +106,8 @@ function getFeedback(exerciseData) {
 	return getInputFieldFeedback(['equation1', 'ans1', 'equation2', 'ans2'], exerciseData)
 }
 
-function ExerciseFigure({ state, solution }) {
+function ExerciseFigure() {
+	const { state, solution } = useExerciseData()
 	const { triangle1, triangle2 } = getPoints(solution)
 	const { rotation, reflection, La, Lb, Lc } = solution
 

@@ -15,8 +15,8 @@ export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const { variables, expression } = useSolution(state)
+const Problem = () => {
+	const { variables, expression } = useSolution()
 	return <>
 		<Par>Gegeven is de uitdrukking <BM>{expression}.</BM> Schrijf dit als één breuk.</Par>
 		<InputSpace>
@@ -27,8 +27,8 @@ const Problem = (state) => {
 	</>
 }
 
-const Solution = (state) => {
-	const { expression, ans } = useSolution(state)
+const Solution = () => {
+	const { expression, ans } = useSolution()
 	return <>
 		<Par>Het is bij deze opgave belangrijk om te kijken welke breuk voorrang heeft. Kleinere deelstrepen worden eerder uitgevoerd dan grotere deelstrepen, en krijgen dus voorrang. Effectief gezien delen we hier dus de breuk <M>{expression.numerator}</M> door de breuk <M>{expression.denominator}.</M></Par>
 		<Par>Als we delen door een breuk, dan zegt de regel, "Delen door een breuk is vermenigvuldigen met het omgekeerde." Volgens deze regel zien we dat <BM>{expression} = {expression.numerator.multiplyBy(expression.denominator.invert())}.</BM> Deze breuken kunnen we vervolgens samenvoegen volgens de regels van breukvermenigvuldigingen: vermenigvuldig los de tellers (bovenin) bij elkaar en de noemers (onderin) bij elkaar. Hiermee vinden we het resultaat <BM>{ans}.</BM> Eventueel kunnen we dit nog iets netter schrijven als <BM>{ans.regularClean()}.</BM></Par>

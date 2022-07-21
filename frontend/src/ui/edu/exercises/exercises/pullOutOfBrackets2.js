@@ -19,8 +19,8 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const { variables, expression } = useSolution(state)
+const Problem = () => {
+	const { variables, expression } = useSolution()
 	return <>
 		<Par>Gegeven is de uitdrukking <BM>{expression}.</BM> Haal de grootste gemeenschappelijke factor van de drie bovenstaande termen buiten haakjes.</Par>
 		<InputSpace>
@@ -33,8 +33,8 @@ const Problem = (state) => {
 
 const steps = [
 	{
-		Problem: (state) => {
-			const { variables } = useSolution(state)
+		Problem: () => {
+			const { variables } = useSolution()
 			return <>
 				<Par>Bepaal de grootste gemeenschappelijke factor van de drie bovenstaande termen.</Par>
 				<InputSpace>
@@ -44,8 +44,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { variables, expression, gcdValue, factor } = useSolution(state)
+		Solution: () => {
+			const { variables, expression, gcdValue, factor } = useSolution()
 			return <>
 				<Par>Als eerste kijken we naar de getallen. De grootste gemeenschappelijke factor van de getallen <M>{Math.abs(expression.terms[0].terms[0].number)}</M>, <M>{Math.abs(expression.terms[1].terms[0].number)}</M> en <M>{Math.abs(expression.terms[2].terms[0].number)}</M> is <M>{gcdValue}.</M> Deze factor moeten we dus zeker buiten haakjes gaan halen.</Par>
 				<Par>Vervolgens moeten we ook naar de variabelen kijken. We zien dat alleen <M>{variables.x}</M> in alle termen voorkomt. Dit is dus ook een gemeenschappelijke factor die we buiten haakjes kunnen halen. Samengevat is de grootste gemeenschappelijke factor <M>{factor}.</M></Par>
@@ -53,8 +53,8 @@ const steps = [
 		},
 	},
 	{
-		Problem: (state) => {
-			const { variables, expression, factor } = useSolution(state)
+		Problem: () => {
+			const { variables, expression, factor } = useSolution()
 			return <>
 				<Par>Als we bij een uitdrukking <M>\left[\ldots\right]</M> een factor <M>{factor}</M> buiten haakjes willen halen, dan willen we de uitdrukking schrijven als <BM>{factor} \cdot \frac(\left[\ldots\right])({factor}).</BM> Schrijf het bovenstaande dus eerst letterlijk op, met op de puntjes de gegeven uitdrukking.</Par>
 				<InputSpace>
@@ -64,14 +64,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { setup } = useSolution(state)
+		Solution: () => {
+			const { setup } = useSolution()
 			return <Par>We schrijven letterlijk op, <BM>{setup}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { variables, fraction } = useSolution(state)
+		Problem: () => {
+			const { variables, fraction } = useSolution()
 			return <>
 				<Par>Splits de resulterende breuk <BM>{fraction}</BM> op in losse breuken en simplificeer deze zo veel mogelijk.</Par>
 				<InputSpace>
@@ -81,14 +81,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { variables, gcdValue, fractionSplit, fractionSimplified } = useSolution(state)
+		Solution: () => {
+			const { variables, gcdValue, fractionSplit, fractionSimplified } = useSolution()
 			return <Par>Als eerste splitsen we de breuk op. Zo krijgen we <BM>{fractionSplit}.</BM> Vervolgens strepen we bij alle breuken boven en onder de factoren <M>{gcdValue}</M> en <M>{variables.x}</M> weg. We blijven over met <BM>{fractionSimplified}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { variables, expression, factor } = useSolution(state)
+		Problem: () => {
+			const { variables, expression, factor } = useSolution()
 			return <>
 				<Par>Vul de gesimplificeerde breuk in. Oftewel, schrijf de oorspronkelijke uitdrukking <M>{expression}</M> op als <M>{factor} \cdot \left(\ldots\right)</M> met op de puntjes het antwoord van de vorige stap.</Par>
 				<InputSpace>
@@ -98,16 +98,16 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { ans } = useSolution(state)
+		Solution: () => {
+			const { ans } = useSolution()
 			return <>
 				<Par>Als we letterlijk het resultaat van de vorige stap op de puntjes invullen, dan krijgen we <BM>{ans}.</BM></Par>
 			</>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { variables, ans } = useSolution(state)
+		Problem: () => {
+			const { variables, ans } = useSolution()
 			return <>
 				<Par>Controleer je antwoord: wat krijg je als je de haakjes uitwerkt en alles weer simplificeert?</Par>
 				<InputSpace>
@@ -117,8 +117,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { expression, ans } = useSolution(state)
+		Solution: () => {
+			const { expression, ans } = useSolution()
 			return <>
 				<Par>Als we de haakjes uitwerken, dan krijgen we <BM>{ans} = {expression}.</BM> Dit is hetzelfde als waar we mee begonnen, en dus klopt het wat we gedaan hebben.</Par>
 			</>

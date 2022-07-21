@@ -20,8 +20,8 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const { variables, expression } = useSolution(state)
+const Problem = () => {
+	const { variables, expression } = useSolution()
 	return <>
 		<Par>Gegeven is de breuk <BM>{expression}.</BM> Splits deze breuk op in twee losse breuken en simplificeer deze zo veel mogelijk.</Par>
 		<InputSpace>
@@ -34,8 +34,8 @@ const Problem = (state) => {
 
 const steps = [
 	{
-		Problem: (state) => {
-			const { plus, variables, expression } = useSolution(state)
+		Problem: () => {
+			const { plus, variables, expression } = useSolution()
 			return <>
 				<Par>Splits de breuk op in twee losse breuken met een {plus ? 'plus' : 'min'}teken ertussen. (Pas nog geen verdere simplificaties toe.)</Par>
 				<InputSpace>
@@ -45,14 +45,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { plus, expression, leftExpression, rightExpression } = useSolution(state)
+		Solution: () => {
+			const { plus, expression, leftExpression, rightExpression } = useSolution()
 			return <Par>Als we een breuk opsplitsen, dan blijft de noemer (de onderkant) hetzelfde bij beide breuken. Alleen de teller (de bovenkant) wordt opgeplitst. Zo vinden we <BM>{expression} = {leftExpression} {plus ? '+' : '-'} {rightExpression}.</BM> Hiermee is de breuk opgeplitst in twee breuken die we nog verder kunnen simplificeren.</Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { variables, leftExpression, rightExpression } = useSolution(state)
+		Problem: () => {
+			const { variables, leftExpression, rightExpression } = useSolution()
 			return <>
 				<Par>Simplificeer de beide breuken zo veel mogelijk. Streep hiervoor factoren weg die in zowel de teller als de noemer voorkomen.</Par>
 				<InputSpace>
@@ -63,14 +63,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { variables, leftExpression, rightExpression, leftAns, rightAns } = useSolution(state)
+		Solution: () => {
+			const { variables, leftExpression, rightExpression, leftAns, rightAns } = useSolution()
 			return <Par>Bij de eerste breuk kunnen we boven en onder <M>{variables.y}</M> wegdelen. Zo vinden we <BM>{leftExpression} = {leftAns}.</BM> Voor de tweede breuk delen we boven en onder <M>{variables.x}</M> weg. Hiermee krijgen we <BM>{rightExpression} = {rightAns}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { plus, variables, expression } = useSolution(state)
+		Problem: () => {
+			const { plus, variables, expression } = useSolution()
 			return <>
 				<Par>Schrijf de twee gesimplificeerde breuken samen op in één uitdrukking, met uiteraard wederom een {plus ? 'plus' : 'min'}teken ertussen.</Par>
 				<InputSpace>
@@ -80,8 +80,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { plus, expression, leftExpression, rightExpression, ans } = useSolution(state)
+		Solution: () => {
+			const { plus, expression, leftExpression, rightExpression, ans } = useSolution()
 			return <Par>Het eindresultaat van de twee breuken samen is <BM>{expression} = {leftExpression} {plus ? '+' : '-'} {rightExpression} = {ans}.</BM> Dit is zo simpel als we deze breuken kunnen schrijven.</Par>
 		},
 	},

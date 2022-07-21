@@ -19,8 +19,8 @@ export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const { toSplit, variables, expression } = useSolution(state)
+const Problem = () => {
+	const { toSplit, variables, expression } = useSolution()
 	return <>
 		{toSplit ? <Par>Gegeven is de breuk <BM>{expression}.</BM> Splits deze breuk op in twee losse breuken.</Par> : <Par>Gegeven is de uitdrukking <BM>{expression}.</BM> Schrijf dit als één breuk.</Par>}
 		<InputSpace>
@@ -31,8 +31,8 @@ const Problem = (state) => {
 	</>
 }
 
-const Solution = (state) => {
-	const { toSplit, plus, expression, ans } = useSolution(state)
+const Solution = () => {
+	const { toSplit, plus, expression, ans } = useSolution()
 	if (toSplit) {
 		return <Par>Bij een breuk mag je elke term in de teller ook los door de noemer delen. Een eventueel plus/min teken blijft hierbij behouden. Zo vinden we <BM>{expression} = {ans}.</BM></Par>
 	}

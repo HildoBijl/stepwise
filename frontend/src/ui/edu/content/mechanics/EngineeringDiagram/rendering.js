@@ -17,7 +17,7 @@ const components = {
 
 export const loadColors = {
 	input: toCSS(secondaryColor),
-	external: '#5e0b0b',
+	external: '#8e0b0b',
 	reaction: '#043870',
 	section: '#902dba',
 	feedback: applyToEachParameter(feedbackColors, toCSS),

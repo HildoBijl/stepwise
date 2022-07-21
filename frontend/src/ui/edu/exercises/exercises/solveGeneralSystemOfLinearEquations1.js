@@ -19,8 +19,8 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const { variables, eq1, eq2 } = useSolution(state)
+const Problem = () => {
+	const { variables, eq1, eq2 } = useSolution()
 	return <>
 		<Par>
 			Gegeven is het stelsel van vergelijkingen
@@ -41,8 +41,8 @@ const Problem = (state) => {
 
 const steps = [
 	{
-		Problem: (state) => {
-			const { variables, eq1 } = useSolution(state)
+		Problem: () => {
+			const { variables, eq1 } = useSolution()
 			return <>
 				<Par>Los de eerstgenoemde vergelijking <M>{eq1}</M> op voor <M>{variables.x}.</M></Par>
 				<InputSpace>
@@ -52,14 +52,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { variables, eq1Solution } = useSolution(state)
+		Solution: () => {
+			const { variables, eq1Solution } = useSolution()
 			return <Par>We brengen alle termen zonder <M>{variables.x}</M> naar rechts en delen vervolgens door <M>{variables.a}.</M> De oplossing volgt als <BM>{variables.x} = {eq1Solution}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { variables, eq2 } = useSolution(state)
+		Problem: () => {
+			const { variables, eq2 } = useSolution()
 			return <>
 				<Par>Vul letterlijk je oplossing voor <M>{variables.x}</M> in de tweede vergelijking <M>{eq2}</M> in.</Par>
 				<InputSpace>
@@ -69,14 +69,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { variables, eq1Solution, eq2Substituted } = useSolution(state)
+		Solution: () => {
+			const { variables, eq1Solution, eq2Substituted } = useSolution()
 			return <Par>We vervangen elke <M>{variables.x}</M> voor <M>{eq1Solution},</M> waarbij we waar nodig gebruik maken van haakjes. Het resultaat is <BM>{eq2Substituted}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { variables } = useSolution(state)
+		Problem: () => {
+			const { variables } = useSolution()
 			return <>
 				<Par>Los de nieuwe vergelijking op voor <M>{variables.y}.</M></Par>
 				<InputSpace>
@@ -86,8 +86,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { variables, eq2SubstitutedStep1, eq2SubstitutedStep2, eq2SubstitutedStep3, eq2SubstitutedStep4, y } = useSolution(state)
+		Solution: () => {
+			const { variables, eq2SubstitutedStep1, eq2SubstitutedStep2, eq2SubstitutedStep3, eq2SubstitutedStep4, y } = useSolution()
 			return <Par>
 				We werken eerst de breuk weg: we vermenigvuldigen alle termen met <M>{variables.a}.</M> Hiermee krijgen we
 				<BM>{eq2SubstitutedStep1}.</BM>
@@ -103,8 +103,8 @@ const steps = [
 		},
 	},
 	{
-		Problem: (state) => {
-			const { variables } = useSolution(state)
+		Problem: () => {
+			const { variables } = useSolution()
 			return <>
 				<Par>Vul de gevonden waarde voor <M>{variables.y}</M> in de oplossing voor <M>{variables.x}</M> in.</Par>
 				<InputSpace>
@@ -114,8 +114,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { variables, eq1, eq2, eq1Solution, x, xRaw, y } = useSolution(state)
+		Solution: () => {
+			const { variables, eq1, eq2, eq1Solution, x, xRaw, y } = useSolution()
 			return <Par>
 				Eerder vonden we al dat
 				<BM>{variables.x} = {eq1Solution}.</BM>

@@ -20,13 +20,11 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const solution = useSolution(state)
-	const { a, variables } = solution
-
+const Problem = () => {
+	const { a, variables } = useSolution()
 	return <>
 		<Par>Twee kruisende lijnen raken een cirkel aan weerszijden. We tekenen een lijn vanaf het ene raakpunt door het middelpunt van de cirkel. De gegeven hoek bij het middelpunt van de cirkel is <M>{a}^\circ.</M> Bereken hoek <M>{variables.delta}</M> in graden.</Par>
-		<ExerciseFigure solution={solution} showDelta={1} />
+		<ExerciseFigure showDelta={1} />
 		<InputSpace>
 			<ExpressionInput id="delta" prelabel={<M>{variables.delta}=</M>} size="s" settings={basicMath} validate={validAndNumeric} />
 		</InputSpace>
@@ -35,29 +33,27 @@ const Problem = (state) => {
 
 const steps = [
 	{
-		Problem: (state) => {
-			const solution = useSolution(state)
-			const { variables } = solution
+		Problem: () => {
+			const { variables } = useSolution()
 			return <>
 				<Par>Bepaal de hoek <M>{variables.alpha}</M> uit de onderstaande figuur.</Par>
-				<ExerciseFigure solution={solution} showAlpha={1} />
+				<ExerciseFigure showAlpha={1} />
 				<InputSpace>
 					<ExpressionInput id="alpha" prelabel={<M>{variables.alpha}=</M>} size="s" settings={basicMath} validate={validAndNumeric} />
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { variables, alpha } = useSolution(state)
+		Solution: () => {
+			const { variables, alpha } = useSolution()
 			return <Par>Een raaklijn op een cirkel staat altijd loodrecht ten opzichte van de straal. Deze hoek moet dus <M>{variables.alpha} = {alpha}^\circ</M> zijn.</Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const solution = useSolution(state)
-			const { variables } = solution
+		Problem: () => {
+			const { variables } = useSolution()
 			return <>
 				<Par>Bepaal de hoek <M>{variables.beta}</M> uit de onderstaande figuur.</Par>
-				<ExerciseFigure solution={solution} showAlpha={2} showBeta={1} />
+				<ExerciseFigure showAlpha={2} showBeta={1} />
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="beta" prelabel={<M>{variables.beta}=</M>} size="s" settings={basicMath} validate={validAndNumeric} />
@@ -65,18 +61,17 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { variables, a, beta } = useSolution(state)
+		Solution: () => {
+			const { variables, a, beta } = useSolution()
 			return <Par>De som van de hoeken van een driehoek is <M>180^\circ.</M> Dit geeft de vergelijking <M>{a}^\circ + 90^\circ + {variables.beta} = 180^\circ.</M> Dit oplossen voor <M>{variables.beta}</M> resulteert in <BM>{variables.beta} = 180^\circ - {a}^\circ - 90^\circ = {beta}^\circ.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const solution = useSolution(state)
-			const { variables } = solution
+		Problem: () => {
+			const { variables } = useSolution()
 			return <>
 				<Par>Bepaal de hoek <M>{variables.gamma}</M> uit de onderstaande figuur.</Par>
-				<ExerciseFigure solution={solution} showAlpha={2} showBeta={2} showGamma={1} />
+				<ExerciseFigure showAlpha={2} showBeta={2} showGamma={1} />
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="gamma" prelabel={<M>{variables.gamma}=</M>} size="s" settings={basicMath} validate={validAndNumeric} />
@@ -84,18 +79,17 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { variables, gamma } = useSolution(state)
+		Solution: () => {
+			const { variables, gamma } = useSolution()
 			return <Par>Dit kunnen we bepalen vanuit symmetrie. Vanaf het middelpunt van de cirkel gezien zijn de twee raaklijnen identiek (slechts gespiegeld) en dus is de hoek tussen de betreffende lijnen ook hetzelfde. Er geldt dus dat <BM>{variables.gamma} = {variables.beta} = {gamma}^\circ.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const solution = useSolution(state)
-			const { variables } = solution
+		Problem: () => {
+			const { variables } = useSolution()
 			return <>
 				<Par>Bepaal de hoek <M>{variables.delta}</M> uit de onderstaande figuur.</Par>
-				<ExerciseFigure solution={solution} showAlpha={2} showBeta={2} showGamma={2} showDelta={1} />
+				<ExerciseFigure showAlpha={2} showBeta={2} showGamma={2} showDelta={1} />
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="delta" prelabel={<M>{variables.delta}=</M>} size="s" settings={basicMath} validate={validAndNumeric} />
@@ -103,8 +97,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { variables, beta, gamma, delta } = useSolution(state)
+		Solution: () => {
+			const { variables, beta, gamma, delta } = useSolution()
 			return <Par>De som van de hoeken van een driehoek is <M>180^\circ.</M> Voor de grote driehoek met hoek <M>{variables.delta}</M> geeft dit de vergelijking <BM>{variables.delta} + 90^\circ + {beta}^\circ + {gamma}^\circ = 180^\circ.</BM> Dit oplossen voor <M>{variables.delta}</M> resulteert in <BM>{variables.delta} = 180^\circ - 90^\circ - {beta}^\circ - {gamma}^\circ = {delta}^\circ.</BM></Par>
 		},
 	},
@@ -114,7 +108,8 @@ function getFeedback(exerciseData) {
 	return getInputFieldFeedback(['alpha', 'beta', 'gamma', 'delta'], exerciseData)
 }
 
-function ExerciseFigure({ solution, showAlpha = 0, showBeta = 0, showGamma = 0, showDelta = 0 }) {
+function ExerciseFigure({ showAlpha = 0, showBeta = 0, showGamma = 0, showDelta = 0 }) {
+	const solution = useSolution()
 	const points = getPoints(solution)
 	const { top, center, right, bottom } = points
 	const { variables, rotation, reflection, a, beta, gamma, delta } = solution

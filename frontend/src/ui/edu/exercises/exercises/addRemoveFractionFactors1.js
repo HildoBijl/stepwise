@@ -19,8 +19,8 @@ export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const { variables, expression } = useSolution(state)
+const Problem = () => {
+	const { variables, expression } = useSolution()
 	return <>
 		<Par>Gegeven is de breuk <BM>{expression}.</BM> Simplificeer deze breuk zo veel mogelijk door gemeenschappelijke factoren in de teller/noemer weg te strepen.</Par>
 		<InputSpace>
@@ -31,8 +31,8 @@ const Problem = (state) => {
 	</>
 }
 
-const Solution = (state) => {
-	const { variables, expression, ans } = useSolution(state)
+const Solution = () => {
+	const { variables, expression, ans } = useSolution()
 	return <Par>Zowel de teller als de noemer bevat een factor <M>{variables.y}.</M> Deze kan dus boven en onder weggelaten worden. Hetzelfde geldt voor de factor <M>{variables.z}</M>: die kan ook weggestreept worden. Er geldt dus <BM>{expression} = {ans}.</BM></Par>
 }
 
