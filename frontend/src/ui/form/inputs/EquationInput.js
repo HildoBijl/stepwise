@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { isEmptyObject } from 'step-wise/util/objects'
 import { equationSItoFO, support } from 'step-wise/CAS'
 
 import { selectRandomEmpty } from 'util/feedbackMessages'
@@ -60,11 +61,13 @@ export function validWithVariables(...variables) {
 
 // getEmptyData returns an empty data object, ready to be filled by input.
 export function getEmptyData(settings = {}) {
-	return {
-		type: 'Equation',
+	const result = {
+		type: 'Expression',
 		value: getEmpty(),
-		settings,
 	}
+	if (!isEmptyObject(settings))
+		result.settings = settings
+	return result
 }
 
 // isValid checks if this IO is valid.

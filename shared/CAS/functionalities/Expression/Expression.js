@@ -25,7 +25,7 @@ const { decimalSeparator, decimalSeparatorTex } = require('../../../settings/num
 
 const { isInt, isNumber, compareNumbers } = require('../../../util/numbers')
 const { ensureString } = require('../../../util/strings')
-const { isObject, isBasicObject, deepEquals, processOptions, filterOptions, removeProperties, keysToObject, getParentClass } = require('../../../util/objects')
+const { isObject, isBasicObject, isEmptyObject, deepEquals, processOptions, filterOptions, removeProperties, keysToObject, getParentClass } = require('../../../util/objects')
 const { firstOf, lastOf, count, sum, product, arrayFind, hasSimpleMatching } = require('../../../util/arrays')
 const { union } = require('../../../util/sets')
 const { repeatWithIndices } = require('../../../util/functions')
@@ -155,7 +155,7 @@ class Expression {
 		// Add the subtype and settings. This is needed to reinterpret it.
 		result.subtype = this.subtype
 		const settings = this.settings
-		if (Object.keys(settings).length > 0)
+		if (!isEmptyObject(settings))
 			result.settings = settings
 		return result
 	}
@@ -173,7 +173,7 @@ class Expression {
 	// applySettings will take a set of expression settings and apply them to all parts of this Expression. It returns shallow clones, not changing the original object.
 	applySettings(settings) {
 		settings = processOptions(settings, defaultExpressionSettings)
-		if (Object.keys(settings).length === 0)
+		if (isEmptyObject(settings))
 			return this
 		return this.applyToEvery(expression => expression.applySettingsBasic(settings))
 	}

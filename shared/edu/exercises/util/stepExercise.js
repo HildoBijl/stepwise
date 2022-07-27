@@ -13,6 +13,8 @@ function getStepExerciseProcessor(checkInput, data) {
 			case 'input':
 				// Are we in the main problem?
 				if (!progress.split) {
+					console.log(state)
+					console.log(action.input)
 					const correct = checkInput(state, toFO(action.input, true), 0, 0)
 					if (correct) {
 						updateSkills(data.skill, true)

@@ -4,7 +4,7 @@ const { Equation } = require('../../functionalities')
 const { defaultFieldSettings, defaultExpressionSettings } = require('../../options')
 
 const InterpretationError = require('../InterpretationError')
-const { getStartCursor, getEndCursor, getSubExpression, moveRight } = require('../support')
+const { isEmpty, getStartCursor, getEndCursor, getSubExpression, moveRight } = require('../support')
 const { SItoFO: expressionSItoFO } = require('../Expression')
 
 function SItoFO(value, settings = {}) {
@@ -14,6 +14,10 @@ function SItoFO(value, settings = {}) {
 module.exports = SItoFO
 
 function interpretSI(value, settings) {
+	// On an empty equation, return undefined. Nothing is known.
+	if (isEmpty(value))
+		return undefined
+
 	// Walk through the expression to find an equals symbol.
 	let part, cursor
 	value.forEach((element, partIndex) => {

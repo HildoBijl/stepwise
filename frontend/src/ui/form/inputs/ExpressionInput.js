@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { isBasicObject, deepEquals, processOptions, filterOptions, removeEqualProperties } from 'step-wise/util/objects'
+import { isBasicObject, isEmptyObject, deepEquals, processOptions, filterOptions, removeEqualProperties } from 'step-wise/util/objects'
 import { Variable, expressionSItoFO, support } from 'step-wise/CAS'
 import { defaultInterpretationSettings, defaultExpressionSettings } from 'step-wise/CAS/options'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
@@ -176,11 +176,13 @@ export function validWithVariablesGeneric(interpreter, ...variables) {
 
 // getEmptyData returns an empty data object, ready to be filled by input.
 export function getEmptyData(settings = {}) {
-	return {
+	const result = {
 		type: 'Expression',
 		value: getEmpty(),
-		settings,
 	}
+	if (!isEmptyObject(settings))
+		result.settings = settings
+	return result
 }
 
 // dataToKeyboardSettings takes a data object and determines what keyboard settings are appropriate.

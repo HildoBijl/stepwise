@@ -17,9 +17,9 @@ function SItoFO(value, settings = {}) {
 module.exports = SItoFO
 
 function interpretSI(value, settings) {
-	// Check special cases.
+	// On an empty expression, return undefined. Nothing is known.
 	if (isEmpty(value))
-		throw new InterpretationError('EmptyExpression', '', `Could not interpret the Expression due to it being empty.`)
+		return undefined
 
 	/* Apply the various interpretation steps. There are four steps.
 	 * - Interpret brackets, including functions with parameters after them. Think of splitting "2x*5sin(3+4)" into parts "2x*5" and a sine function with "3+4" within.

@@ -31,7 +31,7 @@ const Problem = () => {
 				<>Er zijn <M>3</M> oplossingen voor <M>{x}</M>.</>,
 			]} />
 			{numSolutions ? <Par>
-				{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`x${index}`} prelabel={<M>{x}_{index}=</M>} label={`Vul hier antwoord ${index} in`} size="s" settings={basicMathAndPowers} validate={validAndNumeric} persistent={true} />
+				{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`x${index}`} prelabel={<M>{x}_{index}=</M>} label={`Vul hier antwoord ${index} in`} size="s" settings={basicMathAndPowers} validate={validAndNumeric} />
 				)}
 			</Par> : null}
 		</InputSpace>

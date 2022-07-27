@@ -1,6 +1,6 @@
 // An Equation is an input type containing two expressions with an equals sign in-between.
 
-const { isObject, processOptions, keysToObject } = require('../../../util/objects')
+const { isObject, isEmptyObject, processOptions, keysToObject } = require('../../../util/objects')
 const { union } = require('../../../util/sets')
 
 const { simplifyOptions, defaultExpressionSettings } = require('../../options')
@@ -73,7 +73,7 @@ class Equation {
 	// applySettings will take a set of expression settings and apply them to all parts of this Equation.
 	applySettings(settings) {
 		settings = processOptions(settings, defaultExpressionSettings)
-		if (Object.keys(settings).length === 0)
+		if (isEmptyObject(settings))
 			return this
 		return this.applySettingsBasic(settings)
 	}

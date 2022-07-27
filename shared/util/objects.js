@@ -12,6 +12,12 @@ function isBasicObject(obj) {
 }
 module.exports.isBasicObject = isBasicObject
 
+// isEmptyObject checks if the object equals {}.
+function isEmptyObject(obj) {
+	return isBasicObject(obj) && Object.keys(obj).length === 0
+}
+module.exports.isEmptyObject = isEmptyObject
+
 // ensureObject makes sure an object is an object and otherwise throws an error.
 function ensureObject(obj) {
 	if (!isObject(obj))
