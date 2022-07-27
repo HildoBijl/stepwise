@@ -8,7 +8,7 @@ import { InputSpace } from 'ui/form/Status'
 import { useCurrentBackgroundColor, useScaleAndShiftTransformationSettings } from 'ui/components/figures/Drawing'
 
 import EngineeringDiagram, { Group, Beam, HingeSupport, RollerHalfHingeSupport, Distance, PositionedElement, Label, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
-import FBDInput, { allConnectedToPoints, getFBDFeedback, loadTypes } from 'ui/edu/content/mechanics/FBDInput'
+import FBDInput, { allConnectedToPoints, getFBDFeedback, loadSources } from 'ui/edu/content/mechanics/FBDInput'
 
 import { useSolution } from '../ExerciseContainer'
 import SimpleExercise from '../types/SimpleExercise'
@@ -42,7 +42,7 @@ function Diagram({ isInputField = false, showSolution = false }) {
 	const transformationSettings = useScaleAndShiftTransformationSettings(points, { scale: 70, margin: [100, [40, 100]] })
 
 	// Get all the required components.
-	const loadsToDisplay = isInputField ? [] : (showSolution ? loads : loads.filter(load => load.source === loadTypes.external))
+	const loadsToDisplay = isInputField ? [] : (showSolution ? loads : loads.filter(load => load.source === loadSources.external))
 	const schematics = <Schematics {...solution} showSupports={!isInputField} loads={loadsToDisplay} />
 	const elements = <Elements {...solution} />
 

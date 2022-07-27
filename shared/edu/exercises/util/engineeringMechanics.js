@@ -11,21 +11,31 @@ const { Vector, ensureVector, PositionedVector } = require('../../../geometry')
  */
 
 const loadTypes = {
+	force: 'Force',
+	moment: 'Moment',
+}
+module.exports.loadTypes = loadTypes
+
+/*
+ * Define load sources.
+ */
+
+const loadSources = {
 	input: 'input',
 	external: 'external',
 	reaction: 'reaction',
 	section: 'section',
 }
-module.exports.loadTypes = loadTypes
+module.exports.loadSources = loadSources
 
-const ensureLoadType = (loadType) => {
-	if (typeof loadType !== 'string')
-		throw new Error(`Invalid load type: expected a string but received something of type "${typeof loadType}".`)
-	if (!Object.values(loadTypes).includes(loadType))
-		throw new Error(`Invalid load type: did not recognize the load type "${loadType}".`)
-	return loadType
+const ensureLoadSource = (loadSource) => {
+	if (typeof loadSource !== 'string')
+		throw new Error(`Invalid load source: expected a string but received something of type "${typeof loadSource}".`)
+	if (!Object.values(loadSources).includes(loadSource))
+		throw new Error(`Invalid load source: did not recognize the load source "${loadSource}".`)
+	return loadSource
 }
-module.exports.ensureLoadType = ensureLoadType
+module.exports.ensureLoadSource = ensureLoadSource
 
 /*
  * Set up default getters.
@@ -36,14 +46,14 @@ const defaultSource = 'External'
 module.exports.getDefaultForce = (end, angle = 0, source = defaultSource, forceLength = defaultForceLength) => ({
 	type: 'Force',
 	positionedVector: new PositionedVector({ vector: Vector.fromPolar(ensureNumber(forceLength), ensureNumber(angle)), end: ensureVector(end, 2) }),
-	source: ensureLoadType(source),
+	source: ensureLoadSource(source),
 })
 module.exports.getDefaultMoment = (position, clockwise, opening = defaultMomentOpening, source = defaultSource) => ({
 	type: 'Moment',
 	position: ensureVector(position, 2),
 	clockwise: ensureBoolean(clockwise),
 	opening: ensureNumber(opening) === undefined ? defaultMomentOpening : opening,
-	source: ensureLoadType(source),
+	source: ensureLoadSource(source),
 })
 
 /*
@@ -70,14 +80,14 @@ module.exports.defaultComparison = defaultComparison
 // For FBD Inputs we require a very loose equality. Vectors may be flipped, shifted, resized, etcetera. They do must have one point in common.
 const FBDComparison = {
 	Force: {
-		requireSameDirection: (_, solution) => solution.source === loadTypes.external, // Do require the same direction for external loads. Otherwise don't.
+		requireSameDirection: (_, solution) => solution.source === loadSources.external, // Do require the same direction for external loads. Otherwise don't.
 		requireSameMagnitude: false,
 		requireMatchingPoints: 1,
 		requireNonZero: true,
 	},
 	Moment: {
 		requireSamePosition: true,
-		requireSameDirection: (_, solution) => solution.source === loadTypes.external,
+		requireSameDirection: (_, solution) => solution.source === loadSources.external,
 		requireSameMagnitude: false,
 		requireSameOrientation: false,
 	}

@@ -279,6 +279,13 @@ class Vector {
 		return compareNumbers(this.squaredMagnitude, vector.squaredMagnitude)
 	}
 
+	// isEqualDirection checks if two vectors have equal direction. When allowFlip is set to true, then an exactly opposite direction also results in true.
+	isEqualDirection(vector, allowFlip = false) {
+		vector = ensureVector(vector, this.dimension)
+		const dotProduct = this.dotProduct(vector)
+		return compareNumbers(allowFlip ? Math.abs(dotProduct) : dotProduct, this.magnitude * vector.magnitude)
+	}
+
 	/*
 	 * Static methods.
 	 */

@@ -3,9 +3,9 @@ const { getRandomBoolean, getRandomInteger } = require('../../../util/random')
 const { Vector } = require('../../../geometry')
 
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { loadTypes, getDefaultForce, getDefaultMoment, FBDComparison, areLoadsMatching } = require('../util/engineeringMechanics')
+const { loadSources, getDefaultForce, getDefaultMoment, FBDComparison, areLoadsMatching } = require('../util/engineeringMechanics')
 
-const { reaction, external } = loadTypes
+const { reaction, external } = loadSources
 
 const data = {
 	skill: 'test',
