@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useRef, useCallback, useEffect } from 'react'
 
-import { processOptions, deepEquals, ensureConsistency, applyToEachParameter } from 'step-wise/util/objects'
+import { processOptions, filterProperties, deepEquals, ensureConsistency, applyToEachParameter } from 'step-wise/util/objects'
 import { passOn, resolveFunctions } from 'step-wise/util/functions'
 import { toFO } from 'step-wise/inputTypes'
 import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
@@ -15,13 +15,14 @@ const FormContext = createContext(null)
 export default function Form({ children }) {
 	// Define states.
 	const [input, setInput] = useState({})
-	const [, setSubscriptions] = useState({})
+	const [subscriptions, setSubscriptions] = useState({})
 	const [validation, setValidation] = useState({})
 	const [validationInput, setValidationInput] = useState({})
 
 	// Define refs. We use refs along with state parameters to allow callback functions to remain constant.
 	const functionsRef = useRef({})
 	const inputRef = useRefWithValue(input)
+	const subscriptionsRef = useRefWithValue(subscriptions)
 	const validationRef = useRefWithValue(validation)
 	const cursorRef = useRef()
 	const absoluteCursorRef = useRef()
@@ -78,6 +79,12 @@ export default function Form({ children }) {
 		}, 0)
 	}, [mountedRef, setSubscriptions, deleteParameter])
 
+	// getSubscribedFields returns an array of fields that have an active subscription. Persistent fields that are not visible are filtered out.
+	const getSubscribedFields = useCallback(() => {
+		const subscriptions = subscriptionsRef.current
+		return Object.keys(subscriptions).filter(id => subscriptions[id] > 0)
+	}, [subscriptionsRef])
+
 	const setParameters = useCallback((newInput, override = false) => {
 		setInput((input) => (override ? { ...newInput } : { ...input, ...newInput }))
 	}, [])
@@ -99,20 +106,23 @@ export default function Form({ children }) {
 	const getFieldFunction = useCallback((id, name) => functionsRef.current[id] && functionsRef.current[id][name], [functionsRef])
 
 	// These functions allow us to easily get input in various forms.
-	const getInputFI = useCallback(() => inputRef.current, [inputRef])
+	const getInputFI = useCallback((filterUnsubscribed = true) => filterUnsubscribed ? filterProperties(inputRef.current, getSubscribedFields()) : inputRef.current, [inputRef, getSubscribedFields])
 	const getInputParameterFI = useCallback((id) => inputRef.current[id], [inputRef])
-	const getInputSI = useCallback(() => {
+	const getInputSI = useCallback((filterUnsubscribed = true) => {
+		const subscriptions = subscriptionsRef.current
 		return applyToEachParameter(inputRef.current, (input, id) => {
+			if (filterUnsubscribed && subscriptions[id] === 0)
+				return undefined // Remove non-visible fields when required.
 			const clean = getFieldFunction(id, 'clean')
 			return input !== undefined && clean ? clean(input) : input
 		})
-	}, [inputRef, getFieldFunction])
+	}, [inputRef, subscriptionsRef, getFieldFunction])
 	const getInputParameterSI = useCallback((id) => {
 		const input = inputRef.current[id]
 		const clean = getFieldFunction(id, 'clean')
 		return input !== undefined && clean ? clean(input) : input
 	}, [inputRef, getFieldFunction])
-	const getInputFO = useCallback(() => toFO(getInputSI(), true), [getInputSI])
+	const getInputFO = useCallback((filterUnsubscribed) => toFO(getInputSI(filterUnsubscribed), true), [getInputSI])
 	const getInputParameterFO = useCallback((id) => toFO(getInputParameterSI(id), true), [getInputParameterSI])
 
 	// Define validation handlers.
@@ -137,7 +147,7 @@ export default function Form({ children }) {
 	}, [validationRef, getInputFI, getInputSI, getFieldFunction, setValidation, activateFirst])
 
 	return (
-		<FormContext.Provider value={{ input, setParameter, deleteParameter, subscribe, unsubscribe, setParameters, clearForm, validation, validationInput, isValid, saveFieldFunction, saveFieldFunctions, getFieldFunction, getInputFI, getInputParameterFI, getInputSI, getInputParameterSI, getInputFO, getInputParameterFO, cursorRef, absoluteCursorRef }}>
+		<FormContext.Provider value={{ input, setParameter, deleteParameter, subscribe, unsubscribe, subscriptions, getSubscribedFields, setParameters, clearForm, validation, validationInput, isValid, saveFieldFunction, saveFieldFunctions, getFieldFunction, getInputFI, getInputParameterFI, getInputSI, getInputParameterSI, getInputFO, getInputParameterFO, cursorRef, absoluteCursorRef }}>
 			<form onSubmit={(evt) => evt.preventDefault()}>
 				{children}
 			</form>
