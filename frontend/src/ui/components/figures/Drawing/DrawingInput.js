@@ -36,7 +36,7 @@ export const defaultDrawingInputOptions = {
 	feedbackIconScale: 1.2,
 	snappers: [],
 	applySnapping: true,
-	snappingDistance: 20,
+	snappingDistance: 24,
 	startDrag: undefined,
 	endDrag: undefined,
 	startSelection: startSelectionOptions.noSnap,
@@ -276,12 +276,12 @@ function useMouseSnapping(drawing, snappers, snappingDistance, applySnapping) {
 	// Set up a snapper function.
 	const snapper = useCallback((position) => snapMousePosition(position, snappingLines, graphicalSnappingLines, transformation, inverseTransformation, snappingDistance, applySnapping), [snappingLines, graphicalSnappingLines, transformation, inverseTransformation, snappingDistance, applySnapping])
 
-	// If there is insufficient data, return a default outcome.
-	if (!drawing || !drawing.transformationSettings || !graphicalPosition)
+	// If no drawing data is available, return a default outcome.
+	if (!drawing || !drawing.transformationSettings)
 		return { mouseInDrawing: false, snappingLines, graphicalSnappingLines, snapper: () => emptySnapMousePositionResponse, ...emptySnapMousePositionResponse }
 
 	// Return all data.
-	const mouseInDrawing = drawing && drawing.transformationSettings.graphicalBounds.isInside(graphicalPosition)
+	const mouseInDrawing = drawing && position && drawing.transformationSettings.graphicalBounds.isInside(position)
 	const snapResult = snapper(position)
 	return { mouseInDrawing, snappingLines, graphicalSnappingLines, snapper, ...snapResult }
 }

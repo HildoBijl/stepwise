@@ -27,7 +27,7 @@ export const defaultFBDInputOptions = {
 	minimumDragDistance: 12,
 	forceLength: defaultForceLength, // The lengths of force vectors. Set to something falsy to make sure they have varying lengths.
 	allowMoments: true,
-	maximumMomentDistance: 50,
+	maximumMomentDistance: 60,
 }
 
 const useStyles = makeStyles((theme) => ({
