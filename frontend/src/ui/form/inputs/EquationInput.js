@@ -62,7 +62,7 @@ export function validWithVariables(...variables) {
 // getEmptyData returns an empty data object, ready to be filled by input.
 export function getEmptyData(settings = {}) {
 	const result = {
-		type: 'Expression',
+		type: 'Equation',
 		value: getEmpty(),
 	}
 	if (!isEmptyObject(settings))

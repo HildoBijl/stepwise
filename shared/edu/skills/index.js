@@ -115,24 +115,24 @@ const skills = {
 	},
 
 	// Basic algebra: solving quadratic equations.
-	// applySquareRoot: {
-	// 	name: 'Wortel toepassen',
-	// 	exercises: [],
-	// },
+	applySquareRoot: {
+		name: 'Wortel toepassen',
+		exercises: [], // ToDo
+	},
 	applyQuadraticFormula: {
 		name: 'Wortelformule toepassen',
 		exercises: ['applyQuadraticFormulaNoSolutions', 'applyQuadraticFormulaOneSolution', 'applyQuadraticFormulaTwoIntegerSolutions', 'applyQuadraticFormulaTwoRandomSolutions'],
 	},
-	// solveBasicQuadraticEquation: {
-	// 	name: 'Basis kwadratische vergelijking oplossen',
-	// 	setup: combinerAnd('moveATerm', 'multiplyDivideAllTerms', 'applyQuadraticFormula', 'applySquareRoot'),
-	// 	exercises: [],
-	// },
-	// solveGeneralQuadraticEquation: {
-	// 	name: 'Algemene kwadratische vergelijking oplossen',
-	// 	setup: combinerAnd('moveATerm', 'multiplyDivideAllTerms', 'applyQuadraticFormula', 'applySquareRoot'),
-	// 	exercises: [],
-	// },
+	solveBasicQuadraticEquation: {
+		name: 'Basis kwadratische vergelijking oplossen',
+		setup: combinerAnd('moveATerm', 'multiplyDivideAllTerms', 'applyQuadraticFormula', 'applySquareRoot'),
+		exercises: [], // ToDo
+	},
+	solveGeneralQuadraticEquation: {
+		name: 'Algemene kwadratische vergelijking oplossen',
+		setup: combinerAnd('moveATerm', 'multiplyDivideAllTerms', 'applyQuadraticFormula', 'applySquareRoot'),
+		exercises: [], // ToDo
+	},
 
 	// Basic algebra: solving systems of linear equations.
 	solveBasicSystemOfLinearEquations: {
@@ -172,22 +172,26 @@ const skills = {
 	},
 	determine2DDistances: {
 		name: '2D afstanden bepalen',
-		setup: combinerAnd('determine2DAngles', combinerOr('applyPythagoreanTheorem', 'applySineCosineTangent', 'applySimilarTriangles')), // ToDo later: change into a picking function.
+		setup: combinerAnd('determine2DAngles', combinerRepeat(combinerOr('applyPythagoreanTheorem', 'applySineCosineTangent', 'applySimilarTriangles'), 2)), // ToDo later: change into a picking function.
+		exercises: [], // ToDo
 	},
 
 	// Basic geometry: general triangles.
 	calculateTriangle: {
 		name: 'Driehoek doorrekenen',
-		// ToDo later: set up an appropriate set-up by picking from solveBasicLinearEquation and solveBasicQuadraticEquation.
+		setup: combinerAnd(combinerOr('determine2DAngles', 'applySineCosineTangent'), combinerOr('solveBasicLinearEquation', 'solveBasicQuadraticEquation')), // ToDo later: change into a picking function.
+		exercises: ['calculateTriangleASAS', 'calculateTriangleSSAA', 'calculateTriangleASSA', 'calculateTriangleSASS', 'calculateTriangleSSAS', 'calculateTriangleSASA'], // ToDo
 	},
 
 	// Basic geometry: areas and volumes.
 	calculate2DShape: {
 		name: '2D vorm doorrekenen',
+		exercises: [], // ToDo
 	},
 	calculate3DShape: {
 		name: '3D vorm doorrekenen',
 		setup: combinerAnd('determine2DDistances', 'calculate2DShape'),
+		exercises: [], // ToDo
 	},
 
 	/*

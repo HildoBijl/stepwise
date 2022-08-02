@@ -12,9 +12,11 @@ import { M } from 'ui/components/equations'
 
 export const originalEquation = (input, correct, { equation }) => equationComparisons.onlyOrderChanges(input, equation) && <>Dit is de oorspronkelijke vergelijking. Je hebt hier nog niets mee gedaan.</>
 
-export const incorrectEquation = (input, correct, solution, isCorrect) => {
-	return !isCorrect && !equationComparisons.equivalent(input, correct) && <>Deze vergelijking klopt niet. Je hebt bij het omschrijven iets gedaan dat niet mag.</>
-}
+export const incorrectEquation = (input, correct, solution, isCorrect) => !isCorrect && !equationComparisons.equivalent(input, correct) && <>Deze vergelijking klopt niet. Je hebt bij het omschrijven iets gedaan dat niet mag.</>
+
+export const hasIncorrectLeftSide = (input, correct, solution, isCorrect) => !isCorrect && !expressionComparisons.equivalent(input.left, correct.left) && !expressionComparisons.equivalent(input.left, correct.right) && <>De linkerkant van de vergelijking is niet wat verwacht werd.</>
+export const hasIncorrectRightSide = (input, correct, solution, isCorrect) => !isCorrect && !expressionComparisons.equivalent(input.right, correct.right) && !expressionComparisons.equivalent(input.right, correct.left) && <>De rechterkant van de vergelijking is niet wat verwacht werd.</>
+export const hasIncorrectSide = (...args) => hasIncorrectLeftSide(...args) || hasIncorrectRightSide(...args)
 
 export const correctEquationWithMessage = (message) => ((input, correct, solution, isCorrect, exerciseData) => !isCorrect && equationComparisons.equation(input, correct) && resolveFunctions(message, input, correct, solution, isCorrect, exerciseData))
 
