@@ -129,7 +129,7 @@ const steps = [
 		},
 		Solution: (state) => {
 			const { aRaw, equation } = useSolution()
-			return <Par>Om <M>{state.a}</M> te vinden vermenigvuldigen we beide kanten van de vergelijking met <M>{equation.left.denominator}.</M> Zo vinden we <BM>{state.a} = {aRaw}.</BM> Hiermee is de gevraagde zijde berekend. Het zou overeen komen met een waarde van <M>{state.a} \approx {new Float(roundToDigits(aRaw.number, 3))}^\circ</M> wat lijkt te kloppen met de afbeelding.</Par>
+			return <Par>Om <M>{state.a}</M> te vinden vermenigvuldigen we beide kanten van de vergelijking met <M>{equation.left.denominator}.</M> Zo vinden we <BM>{state.a} = {aRaw}.</BM> Hiermee is de gevraagde zijde berekend. Het zou overeen komen met een waarde van <M>{state.a} \approx {new Float(roundToDigits(aRaw.number, 3))}</M> wat lijkt te kloppen met de afbeelding.</Par>
 		},
 	},
 ]

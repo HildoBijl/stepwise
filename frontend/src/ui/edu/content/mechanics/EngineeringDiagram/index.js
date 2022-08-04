@@ -12,12 +12,12 @@ export const components = {
 	...engineeringComponents,
 }
 
+// Reexport all PositionedElements (and corresponding Labels).
+export * from 'ui/components/figures/Drawing/PositionedElement'
+
 // Export all from rendering.
 export * from './rendering'
 
 // Export everything (including the default export) from EngineeringDiagram.
 export default EngineeringDiagram
 export * from './EngineeringDiagram'
-
-// Re-export the Positioned Element and Label for easy importing.
-export { PositionedElement, Label } from 'ui/components/figures/Drawing'

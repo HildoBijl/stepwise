@@ -39,8 +39,8 @@ function getSolution(state) {
 	]
 
 	const prenamedLoads = [
-		{ load: loads[0], name: 'M' },
-		{ load: loads[1], name: 'P' },
+		{ variable: 'M', load: loads[0] },
+		{ variable: 'P', load: loads[1] },
 	]
 
 	return { ...state, points, loads, prenamedLoads }

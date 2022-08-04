@@ -1,7 +1,9 @@
 import { selectRandomly } from 'step-wise/util/random'
 
 // selectRandomCorrect gives a random correct text.
-export function selectRandomCorrect() {
+export function selectRandomCorrect(withWrapper = false) {
+	if (withWrapper)
+		return { correct: false, text: selectRandomIncorrect() }
 	return selectRandomly([
 		'Dat is goed!',
 		'Indrukwekkend gedaan.',
@@ -23,7 +25,9 @@ export function selectRandomCorrect() {
 }
 
 // selectRandomIncorrect gives a random incorrect text.
-export function selectRandomIncorrect() {
+export function selectRandomIncorrect(withWrapper = false) {
+	if (withWrapper)
+		return { correct: false, text: selectRandomIncorrect() }
 	return selectRandomly([
 		'Dat is niet de juiste oplossing.',
 		'Helaas, dat klopt niet.',

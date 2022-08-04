@@ -2,6 +2,8 @@ const { compareNumbers, mod } = require('../../../../util/numbers')
 const { processOptions } = require('../../../../util/objects')
 const { resolveFunctions } = require('../../../../util/functions')
 
+const { getCurrentInputSolutionAndComparison } = require('../comparison')
+
 const { defaultMomentRadius, defaultMomentOpening, loadTypes, loadSources } = require('./definitions')
 
 /*
@@ -157,8 +159,8 @@ function getLoadMatching(input, solution, comparison) {
 module.exports.getLoadMatching = getLoadMatching
 
 // areLoadsMatching checks if two sets of loads are matching, given the comparison options. That is, if for every solution load there is a corresponding input load.
-function areLoadsMatching(input, solution, options) {
-	return isMatchingComplete(getLoadMatching(input, solution, options))
+function areLoadsMatching(input, solution, comparison) {
+	return isMatchingComplete(getLoadMatching(input, solution, comparison))
 }
 module.exports.areLoadsMatching = areLoadsMatching
 
@@ -167,3 +169,23 @@ function isMatchingComplete(matching) {
 	return matching.solution.every(matches => matches.length === 1) && matching.input.every(matches => matches.length === 1)
 }
 module.exports.isMatchingComplete = isMatchingComplete
+
+// performLoadsComparison is very similar to the performComparison function, but then for loads.
+function performLoadsComparison(parameters, input, solution, comparison) {
+	// Check if there is a single-parameter case or a multi-parameter case. Adjust accordingly.
+	let singleParameterCase = false
+	if (!Array.isArray(parameters)) {
+		singleParameterCase = true
+		parameters = [parameters]
+	}
+
+	// Walk through the parameters and perform a comparison.
+	return parameters.every(currParameter => {
+		// Extract the current input, solution and comparison method.
+		const { currInput, currSolution, currComparison } = getCurrentInputSolutionAndComparison(currParameter, input, solution, comparison, singleParameterCase)
+
+		// Perform the comparison for this individual parameter.
+		return areLoadsMatching(currInput, currSolution, currComparison)
+	})
+}
+module.exports.performLoadsComparison = performLoadsComparison

@@ -10,9 +10,9 @@ const { areLoadsEqual, isLoadAtPoint } = require('./comparison')
  * getLoadNames takes a set of loads and points and comes up with names for the loads, based on the points. Provided are:
  * - loads: and array [{...}] of loads.
  * - points: an object { 'A': new Vector(...), 'C': new Vector(...) } with points and their names as keys.
- * - prenamedLoads: an array of loads that already have a name, and should be named accordingly. Something like [{ load: {...}, name: 'P_A', point: 'A' }].
+ * - prenamedLoads: an array of loads that already have a name, and should be named accordingly. Something like [{ load: {...}, variable: 'P_A', point: 'A' }].
  * - comparison: the comparison method that determines if loads are equal. This is what is used to compare the given loads to the prenamed loads.
- * The result of the naming is an object of the form [{ load: {...}, name: new Variable('F_(A,x)'), point: 'A' }, ...].
+ * The result of the naming is an object of the form [{ load: {...}, variable: new Variable('F_(Ax)'), point: 'A' }, ...].
  */
 function getLoadNames(loads, points, prenamedLoads, comparison) {
 	// If there are no loads yet, return nothing.
@@ -30,7 +30,7 @@ function getLoadNames(loads, points, prenamedLoads, comparison) {
 			named[index] = true
 			result.push({
 				load: loads[index],
-				name: prenamedLoad.name,
+				variable: Variable.ensureVariable(prenamedLoad.variable),
 				point: prenamedLoad.point || getLoadPoint(prenamedLoad.load, points),
 				prenamed: true,
 			})
@@ -78,26 +78,26 @@ module.exports.getLoadNamesForPoint = getLoadNamesForPoint
 function getForceNamesForPoint(forces, point, pointName) {
 	// On a single force just name it F_A.
 	if (forces.length === 1)
-		return [{ load: forces[0], name: new Variable(pointName ? `F_${pointName}` : `F`), point: point || forces[0].positionedVector.start }]
+		return [{ load: forces[0], variable: new Variable(pointName ? `F_${pointName}` : `F`), point: point || forces[0].positionedVector.start }]
 
 	// On two forces that are horizontal and vertical, use F_{Ax} and F_{Ay}.
 	if (forces.length === 2 && pointName) {
 		if (forces[0].positionedVector.vector.isEqualDirection(Vector.i, true) && forces[1].positionedVector.vector.isEqualDirection(Vector.j, true)) {
 			return [
-				{ load: forces[0], name: new Variable(`F_${pointName}x`), point: point || forces[0].positionedVector.start },
-				{ load: forces[1], name: new Variable(`F_${pointName}y`), point: point || forces[1].positionedVector.start },
+				{ load: forces[0], variable: new Variable(`F_${pointName}x`), point: point || forces[0].positionedVector.start },
+				{ load: forces[1], variable: new Variable(`F_${pointName}y`), point: point || forces[1].positionedVector.start },
 			]
 		} else if (forces[0].positionedVector.vector.isEqualDirection(Vector.j, true) && forces[1].positionedVector.vector.isEqualDirection(Vector.i, true)) {
 			return [
-				{ load: forces[1], name: new Variable(`F_${pointName}x`), point: point || forces[1].positionedVector.start },
-				{ load: forces[0], name: new Variable(`F_${pointName}y`), point: point || forces[0].positionedVector.start },
+				{ load: forces[1], variable: new Variable(`F_${pointName}x`), point: point || forces[1].positionedVector.start },
+				{ load: forces[0], variable: new Variable(`F_${pointName}y`), point: point || forces[0].positionedVector.start },
 			]
 		}
 	}
 
 	// On multiple forces, sort them by vector argument, and then use F_{A1}, F_{A2}, and so forth.
 	forces = sortByIndices(forces, forces.map(force => force.positionedVector.vector.argument))
-	return forces.map((force, index) => ({ load: force, name: new Variable(pointName ? `F_${pointName}${index + 1}` : `F_${index + 1}`), point: point || force.positionedVector.start }))
+	return forces.map((force, index) => ({ load: force, variable: new Variable(pointName ? `F_${pointName}${index + 1}` : `F_${index + 1}`), point: point || force.positionedVector.start }))
 }
 module.exports.getForceNamesForPoint = getForceNamesForPoint
 
@@ -105,12 +105,12 @@ module.exports.getForceNamesForPoint = getForceNamesForPoint
 function getMomentNamesForPoint(moments, point, pointName) {
 	// On a single moment just name it M_A.
 	if (moments.length === 1)
-		return [{ load: moments[0], name: new Variable(pointName ? `M_${pointName}` : `M`), point: point || moments[0].position }]
+		return [{ load: moments[0], variable: new Variable(pointName ? `M_${pointName}` : `M`), point: point || moments[0].position }]
 
 	// Otherwise sort them, first by whether they're clockwise or counter-clockwise, and then by opening angle.
 	const momentsByDirection = [moments.filter(moment => moment.clockwise),
 	moments.filter(moment => !moment.clockwise)]
 	moments = momentsByDirection.map(momentsList => sortByIndices(momentsList, momentsList.map(moment => mod(moment.opening, 2 * Math.PI)))).flat()
-	return moments.map((moment, index) => ({ load: moment, name: new Variable(pointName ? `M_${pointName}${index + 1}` : `M_${index + 1}`), point: point || moment.position }))
+	return moments.map((moment, index) => ({ load: moment, variable: new Variable(pointName ? `M_${pointName}${index + 1}` : `M_${index + 1}`), point: point || moment.position }))
 }
 module.exports.getMomentNamesForPoint = getMomentNamesForPoint

@@ -589,6 +589,11 @@ class Variable extends Expression {
 		return result
 	}
 
+	// The name of a variable is a simple string without underscores or brackets or anything like it, to be used for defining variables after. Think of something like FAx for F_(Ax) or dotm for dot(m).
+	get name() {
+		return `${this.accent || ''}${this.symbol}${this.subscript || ''}`
+	}
+
 	requiresBracketsFor(level) {
 		return false
 	}

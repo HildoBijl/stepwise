@@ -27,10 +27,7 @@ export const defaultFBDInputOptions = {
 	forceLength: defaultForceLength, // The lengths of force vectors. Set to something falsy to make sure they have varying lengths.
 	allowMoments: true,
 	maximumMomentDistance: 60,
-	showLoadNames: true,
-	points: {},
-	prenamedLoads: [],
-	loadComparison: {},
+	getLoadNames: undefined,
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -140,10 +137,9 @@ function FBDInputUnforwarded(options, drawingRef) {
 	</>
 
 	// When load names need to be displayed, add these load names.
-	if (options.showLoadNames) {
-		const { points, prenamedLoads, loadComparison } = options
+	if (options.getLoadNames) {
 		const loads = dragObject && Object.values(loadTypes).includes(dragObject.type) ? [...data, dragObject] : data
-		const loadNames = getLoadNames(loads, points, prenamedLoads, loadComparison)
+		const loadNames = options.getLoadNames(loads)
 		options.htmlContents = <>
 			{options.htmlContents}
 			{loadNames.map((loadName, index) => <LoadLabel key={index} {...loadName} />)}

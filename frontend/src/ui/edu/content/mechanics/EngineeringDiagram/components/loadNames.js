@@ -12,10 +12,10 @@ const forceGraphicalDistance = 2
 const momentGraphicalDistance = 4
 const momentAngleDeviation = Math.PI / 12
 
-export function LoadLabel({ load, name, point }) {
+export function LoadLabel({ load, variable, point }) {
 	// Check the input.
 	load = ensureLoad(load)
-	name = Variable.ensureVariable(name)
+	variable = Variable.ensureVariable(variable)
 	point = ensureVector(point, 2)
 
 	// Set up the Label based on the load type.
@@ -23,9 +23,9 @@ export function LoadLabel({ load, name, point }) {
 		// For a force, either put the label at the start or at the end, depending on which point it is connected to.
 		case loadTypes.force:
 			if (load.positionedVector.end.equals(point))
-				return <Label position={load.positionedVector.start} angle={load.positionedVector.vector.argument - Math.PI} {...{ graphicalDistance: forceGraphicalDistance }}><M>{name}</M></Label>
+				return <Label position={load.positionedVector.start} angle={load.positionedVector.vector.argument - Math.PI} {...{ graphicalDistance: forceGraphicalDistance }}><M>{variable}</M></Label>
 			else
-				return <Label position={load.positionedVector.end} angle={load.positionedVector.vector.argument} {...{ graphicalDistance: forceGraphicalDistance }}><M>{name}</M></Label>
+				return <Label position={load.positionedVector.end} angle={load.positionedVector.vector.argument} {...{ graphicalDistance: forceGraphicalDistance }}><M>{variable}</M></Label>
 
 		// For a moment, put the label near the moment arrow.
 		case loadTypes.moment:
@@ -36,11 +36,11 @@ export function LoadLabel({ load, name, point }) {
 			// An important question is whether the radius is known. If so, we can determine the exact endpoint and displace the label from there.
 			if (radius !== undefined) {
 				const point = position.add(Vector.fromPolar(radius, angle))
-				return <Label position={point} {...{ angle, graphicalDistance: momentGraphicalDistance }}><M>{name}</M></Label>
+				return <Label position={point} {...{ angle, graphicalDistance: momentGraphicalDistance }}><M>{variable}</M></Label>
 			}
 
 			// If the radius is not known, we must fully work in graphical coordinates.
-			return <Label position={position} {...{ angle }} graphicalDistance={graphicalRadius + momentGraphicalDistance}><M>{name}</M></Label>
+			return <Label position={position} {...{ angle }} graphicalDistance={graphicalRadius + momentGraphicalDistance}><M>{variable}</M></Label>
 
 		default:
 			throw new Error(`Invalid load type: cannot display a load label for a load of type "${load.type}".`)

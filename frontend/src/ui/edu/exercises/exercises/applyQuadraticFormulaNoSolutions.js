@@ -2,6 +2,7 @@ import React from 'react'
 
 import { numberArray } from 'step-wise/util/arrays'
 
+import { selectRandomIncorrect } from 'util/feedbackMessages'
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import ExpressionInput, { validAndNumeric, basicMathAndPowers } from 'ui/form/inputs/ExpressionInput'
@@ -107,5 +108,7 @@ function getFeedback(exerciseData) {
 			],
 		}),
 		...getInputFieldFeedback(['a', 'b', 'c', 'D'], exerciseData),
+		x1: selectRandomIncorrect(true),
+		x2: selectRandomIncorrect(true),
 	}
 }

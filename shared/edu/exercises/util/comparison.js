@@ -50,6 +50,7 @@ function getCurrentInputSolutionAndComparison(currParameter, input, solution, co
 	// Gather and return the results.
 	return { currInput, currSolution, currComparison }
 }
+module.exports.getCurrentInputSolutionAndComparison = getCurrentInputSolutionAndComparison
 
 // performIndividualComparison performs a comparison for a single parameter given its individual value and solution.
 function performIndividualComparison(currParameter, currInput, currSolution, currComparison, solution) {
