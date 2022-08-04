@@ -258,6 +258,7 @@ const basicTrigonometry = {
 	trigonometry: true,
 	greek: true,
 	root: true,
+	power: true,
 }
 
 const basicTrigonometryInDegrees = {

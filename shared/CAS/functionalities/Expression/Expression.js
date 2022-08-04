@@ -361,7 +361,7 @@ class Expression {
 	}
 
 	// applyToEvery runs a function on this expression term and on all of its children. If nothing changes, the same object is returned for reference inequality.
-	applyToEvery(func, includeSelf = true) {
+	applyToEvery(func, includeSelf = true, recursive = true) {
 		return includeSelf ? func(this) : this
 	}
 
@@ -895,7 +895,7 @@ class ExpressionList extends Expression {
 
 	// applyToAllTerms takes a function and applies it to all terms in this ExpressionList.
 	applyToAllTerms(func) {
-		return this.applyToEvery(func, false)
+		return this.applyToEvery(func, false, false)
 	}
 
 	recursiveSome(check, includeSelf = true) {
@@ -910,9 +910,9 @@ class ExpressionList extends Expression {
 		return super.find(check, includeSelf) || arrayFind(this.terms, term => term.find(check))?.value
 	}
 
-	applyToEvery(func, includeSelf = true) {
+	applyToEvery(func, includeSelf = true, recursive = true) {
 		// When the new terms all equal the old terms, keep the same object. Otherwise create a new one.
-		const terms = this.terms.map(term => func(term))
+		const terms = this.terms.map(term => recursive ? term.applyToEvery(func, true, true) : func(term))
 		const obj = this.terms.every((term, index) => term === terms[index]) ? this : new this.constructor({ ...this.shallowSO, terms })
 		return includeSelf ? func(obj) : obj
 	}
@@ -1131,10 +1131,10 @@ class Sum extends ExpressionList {
 							return Integer.one
 						if (term.isSubtype(Power))
 							return term.exponent
-						return Variable.Infinity // A function or so. Treat as infinite power.
+						return Variable.infinity // A function or so. Treat as infinite power.
 					}
 					const aPower = getPowerInProduct(aVariable, a)
-					const bPower = getPowerInProduct(aVariable, b)
+					const bPower = getPowerInProduct(bVariable, b)
 					if (aPower.isNumeric()) {
 						if (bPower.isNumeric()) {
 							const difference = bPower.toNumber() - aPower.toNumber()
@@ -1464,8 +1464,12 @@ class Function extends Expression {
 		return this.constructor.args.map(key => this[key])
 	}
 
+	get name() {
+		return this.subtype.toLowerCase()
+	}
+
 	toString() {
-		let result = this.subtype.toLowerCase()
+		let result = this.name
 		this.constructor.args.forEach((key, index) => {
 			if (index > 0)
 				result += `[${this[key].str}]`
@@ -1475,7 +1479,7 @@ class Function extends Expression {
 	}
 
 	toRawTex() {
-		let result = `{\\rm ${this.subtype.toLowerCase()}}`
+		let result = `{\\rm ${this.name}}`
 		this.constructor.args.forEach((key, index) => {
 			if (index > 0)
 				result += `\\left[${this[key].tex}\\right]`
@@ -1516,9 +1520,9 @@ class Function extends Expression {
 		return super.find(check, includeSelf) || arrayFind(this.constructor.args, key => this[key].find(check))?.value
 	}
 
-	applyToEvery(func, includeSelf = true) {
+	applyToEvery(func, includeSelf = true, recursive = true) {
 		// When the new arguments all equal the old arguments, keep the same object. Otherwise create a new one.
-		const SO = keysToObject(this.constructor.args, key => func(this[key]))
+		const SO = keysToObject(this.constructor.args, key => recursive ? this[key].applyToEvery(func, true, true) : func(this[key]))
 		const obj = (Object.keys(SO).every(key => SO[key] === this[key])) ? this : new this.constructor({ ...SO, settings: this.settings })
 		return includeSelf ? func(obj) : obj
 	}

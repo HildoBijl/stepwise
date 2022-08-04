@@ -180,7 +180,7 @@ const skills = {
 	calculateTriangle: {
 		name: 'Driehoek doorrekenen',
 		setup: combinerAnd(combinerOr('determine2DAngles', 'applySineCosineTangent'), combinerOr('solveBasicLinearEquation', 'solveBasicQuadraticEquation')), // ToDo later: change into a picking function.
-		exercises: ['calculateTriangleASAS', 'calculateTriangleSSAA', 'calculateTriangleASSA', 'calculateTriangleSASS', 'calculateTriangleSSAS', 'calculateTriangleSASA'], // ToDo
+		exercises: ['calculateTriangleASAS', 'calculateTriangleSSAA', 'calculateTriangleASSA', 'calculateTriangleSASS', 'calculateTriangleSSAS', 'calculateTriangleSASA', 'calculateTriangleSSSA'],
 	},
 
 	// Basic geometry: areas and volumes.

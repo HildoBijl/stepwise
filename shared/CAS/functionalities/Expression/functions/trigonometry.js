@@ -196,6 +196,10 @@ module.exports.Tan = Tan
  */
 
 class Arcsin extends SingleArgumentFunction {
+	get name() {
+		return 'asin'
+	}
+
 	toNumber() {
 		const result = Math.asin(this.argument.toNumber())
 		return this.useDegrees ? rad2deg(result) : result
@@ -255,6 +259,10 @@ module.exports.Arcsin = Arcsin
  */
 
 class Arccos extends SingleArgumentFunction {
+	get name() {
+		return 'acos'
+	}
+
 	toNumber() {
 		const result = Math.acos(this.argument.toNumber())
 		return this.useDegrees ? rad2deg(result) : result
@@ -314,6 +322,10 @@ module.exports.Arccos = Arccos
  */
 
 class Arctan extends SingleArgumentFunction {
+	get name() {
+		return 'atan'
+	}
+
 	toNumber() {
 		const result = Math.atan(this.argument.toNumber())
 		return this.useDegrees ? rad2deg(result) : result

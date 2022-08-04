@@ -116,11 +116,11 @@ async function getExerciseSuccessRates(exerciseIds, getSkillsData) {
 	})
 
 	// Walk through the exercises to calculate success rates (expected values).
-	const successRates = exerciseDatas.map((exerciseData, i) => {
-		// If there is only a skill (basic exercise) or a setup (joint exercise) then use that to estimate the success rate.
+	const successRates = exerciseDatas.map((exerciseData) => {
+		// If there is only a skill (basic exercise) or only a setup (joint exercise) then use that to estimate the success rate.
 		if (!exerciseData.skill || !exerciseData.setup)
 			return getCombinerEV(dataSet, getDifficulty(exerciseData))
-			
+
 		// If there are both a skill and a setup parameter, combine this knowledge.
 		const inference = infer(dataSet, exerciseData.setup, inferenceOrder)
 		const mergedCoefficients = merge(inference, dataSet[exerciseData.skill])

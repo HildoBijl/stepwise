@@ -2,6 +2,7 @@ import React from 'react'
 
 import { deg2rad, roundToDigits } from 'step-wise/util/numbers'
 import { numberArray } from 'step-wise/util/arrays'
+import { Integer } from 'step-wise/CAS'
 import { Vector } from 'step-wise/geometry'
 import { Float } from 'step-wise/inputTypes/Float'
 
@@ -30,10 +31,10 @@ export default function Exercise() {
 }
 
 const Problem = (state) => {
-	const { α, β, a, c } = state
+	const { α, a, b, c } = state
 	const numSolutions = useInput('numSolutions')
 	return <>
-		<Par>Gegeven is een driehoek met hoeken van <M>{α}^\circ</M> en <M>{β}^\circ.</M> De zijde tussen deze hoeken is <M>{c}</M>. Bereken de lengte van de zijde <M>{a}.</M> Vind alle mogelijke oplossingen en geef je antwoord in wiskundige notatie.</Par>
+		<Par>Gegeven is een driehoek met zijden van <M>{b}</M> en <M>{c}.</M> De hoek tussen deze zijden is <M>{α}^\circ.</M> Bereken de lengte <M>{a}</M> van de resterende zijde. Vind alle mogelijke oplossingen en geef je antwoord in wiskundige notatie.</Par>
 		<ExerciseFigure />
 		<InputSpace>
 			<MultipleChoice id="numSolutions" choices={[
@@ -52,45 +53,30 @@ const steps = [
 	{
 		Problem: () => {
 			return <>
-				<Par>Bereken de resterende hoek <M>γ</M> van de driehoek. Geef je antwoord in graden.</Par>
-				<ExerciseFigure showGamma={true} />
-				<InputSpace>
-					<ExpressionInput id="γ" prelabel={<M>γ=</M>} size="m" settings={basicTrigonometryInDegrees} validate={validAndNumeric} />
-				</InputSpace>
-			</>
-		},
-		Solution: () => {
-			const { α, β, γ } = useSolution()
-			return <Par>De som van de hoeken van een driehoek is altijd <M>180^\circ</M> waardoor <BM>{α}^\circ + {β}^\circ + γ = 180^\circ.</BM> De oplossing voor <M>γ</M> is <BM>γ = 180^\circ - {α}^\circ - {β}^\circ = {γ}^\circ.</BM></Par>
-		},
-	},
-	{
-		Problem: () => {
-			return <>
 				<Par>Bepaal welke regel we hier toe kunnen passen.</Par>
 				<InputSpace>
-					<MultipleChoice id="rule" choices={ruleNames.map((ruleName) => <>Gebruik de {ruleName}.</>)} />
+					<MultipleChoice id="rule" choices={ruleNames.map((ruleName, index) => <>Gebruik de {ruleName}.</>)} />
 				</InputSpace>
 			</>
 		},
 		Solution: () => {
-			return <Par>Er zijn bij dit probleem slechts twee zijden betrokken. De derde zijde weten we niet en hoeven we ook niet te weten. Dit betekent dat we de sinusregel nodig hebben.</Par>
+			return <Par>Er zijn bij dit probleem drie zijden betrokken: twee bekende en één onbekende zijden. Verder is er maar één gegeven hoek. Dit betekent dat de cosinusregel hier direct de resterende zijde kan geven.</Par>
 		},
 	},
 	{
 		Problem: (state) => {
-			const { a, c } = state
+			const { α, a } = state
 			return <>
-				<Par>Pas de betreffende regel letterlijk toe, gebruik makend van de zijden <M>{a}</M> en <M>{c}.</M> Noteer de vergelijking.</Par>
+				<Par>Pas de betreffende regel letterlijk toe, gebruik makend van de hoek van <M>{α}^\circ.</M> Noteer de vergelijking.</Par>
 				<InputSpace>
 					<EquationInput id="equation" settings={basicTrigonometryInDegrees} validate={validWithVariables(a)} />
 				</InputSpace>
 			</>
 		},
 		Solution: (state) => {
-			const { a, c } = state
-			const { α, γ, equation } = useSolution()
-			return <Par>We passen de sinusregel toe op zijden <M>{a}</M> en <M>{c}.</M> Tegenover zijde <M>{a}</M> is de hoek <M>{α}^\circ.</M> Tegenover zijde <M>{c}</M> is de hoek <M>{γ}^\circ.</M> De sinusregel zegt nu dat <BM>{equation}.</BM></Par>
+			const { α, a, b, c } = state
+			const { equationRaw, equation } = useSolution()
+			return <Par>We passen de cosinusregel toe, gezien vanuit de hoek van <M>{α}^\circ.</M> Tegenover deze hoek staat zijde <M>{a}.</M> De andere zijden zijn <M>{b}</M> en <M>{c}.</M> De cosinusregel zegt nu dat <BM>{equationRaw}.</BM> Eventueel kunnen we dit nog eenvoudiger schrijven als <BM>{equation}.</BM></Par>
 		},
 	},
 	{
@@ -111,7 +97,7 @@ const steps = [
 			const { a } = state
 			return <>
 				<Par>Meetkundig kunnen we zien dat er maar één mogelijke driehoek is die aan de gegevens voldoet. Immers, als we vanaf de bekende zijde de gegeven hoeken tekenen, en de lijnen doortrekken, dan krijgen we exact één snijpunt. Er is dus maar één driehoek die aan de gegeven waarden voldoet.</Par>
-				<Par>Rekenkundig kunnen we ook zien dat er maar één oplossing is. Om <M>{a}</M> te vinden hoeven we geen sinus om te keren of een kwadratische vergelijking op te lossen. We hebben slechts een lineaire vergelijking in <M>{a}.</M> Er is dus exact één oplossing voor <M>{a}.</M></Par>
+				<Par>Rekenkundig kunnen we ook zien dat er maar één oplossing is. Om <M>{a}</M> te vinden moeten we een kwadraat omkeren. Dit geeft normaliter ook een tweede (negatieve) oplossing, maar een negatieve afstand is hier niet van toepassing, en dus is er maar één passende oplossing voor <M>{a}.</M></Par>
 			</>
 		},
 	},
@@ -128,8 +114,8 @@ const steps = [
 			</>
 		},
 		Solution: (state) => {
-			const { aRaw, equation } = useSolution()
-			return <Par>Om <M>{state.a}</M> te vinden vermenigvuldigen we beide kanten van de vergelijking met <M>{equation.left.denominator}.</M> Zo vinden we <BM>{state.a} = {aRaw}.</BM> Hiermee is de gevraagde zijde berekend. Het zou overeen komen met een waarde van <M>{state.a} \approx {new Float(roundToDigits(aRaw.number, 3))}^\circ</M> wat lijkt te kloppen met de afbeelding.</Par>
+			const { α, aRaw } = useSolution()
+			return <Par>Om <M>{state.a}</M> te vinden nemen we van beide kanten van de vergelijking de wortel. Een plus/minus is hier niet nodig, omdat een negatieve afstand niet correct kan zijn. (Dit zou de afstand zijn als we de driehoek bij de hoek van <M>{α}^\circ</M> spiegelen.) Het resultaat is <BM>{state.a} = {aRaw}.</BM> Hiermee is de gevraagde zijde berekend. Het zou overeen komen met een afstand van <M>{state.a} \approx {new Float(roundToDigits(aRaw.number, 3))}</M> wat lijkt te kloppen met de afbeelding.</Par>
 		},
 	},
 ]
@@ -137,8 +123,8 @@ const steps = [
 function getFeedback(exerciseData) {
 	// Determine MC feedback text in various cases.
 	const ruleText = [
-		<>Klopt. Er zijn slechts twee zijden betrokken, dus is de sinusregel de regel die we willen gebruiken.</>,
-		<>Nee. De cosinusregel is alleen te gebruiken indien je drie betrokken zijden hebt. Die hebben we hier niet.</>
+		<>Nee. Er zijn drie zijden betrokken en slechts één hoek, en dus is de sinusregel hier niet handig om te gebruiken. Dan moeten er minimaal twee betrokken hoeken zijn.</>,
+		<>Ja! Er zijn immers drie zijden betrokken bij ons probleem: twee bekende en één onbekende.</>
 	]
 	const numSolutionsText = [
 		<>Nee. Er is zeker wel een driehoek die voldoet aan de gegeven waarden. Deze is immers bij de opgave getekend.</>,
@@ -147,20 +133,20 @@ function getFeedback(exerciseData) {
 	]
 
 	// Set up feedback checks for the equation field.
-	const someSideNoFraction = (input, correct, solution, isCorrect) => !isCorrect && (!input.left.isSubtype('Fraction') || !input.right.isSubtype('Fraction')) && <>De sinusregel heeft aan beide kanten van de vergelijking een breuk. Dat is nu niet het geval.</>
-	const equationChecks = [someSideNoFraction, hasIncorrectSide]
+	const leftSideNoSquare = (input, correct, solution, isCorrect) => !isCorrect && (!input.left.isSubtype('Power') || !input.left.exponent.equals(Integer.two)) && <>De cosinusregel heeft aan de linkerkant een kwadraat. Dat is bij jouw vergelijking niet het geval.</>
+	const equationChecks = [leftSideNoSquare, hasIncorrectSide]
 
 	return {
 		...getMCFeedback('rule', exerciseData, { text: ruleText }),
 		...getMCFeedback('numSolutions', exerciseData, { text: numSolutionsText }),
-		...getInputFieldFeedback(['γ', 'equation', 'a'], exerciseData, [[], equationChecks, []].map(feedbackChecks => ({ feedbackChecks }))),
+		...getInputFieldFeedback(['equation', 'a'], exerciseData, [equationChecks, []].map(feedbackChecks => ({ feedbackChecks }))),
 	}
 }
 
-function ExerciseFigure({ showGamma }) {
+function ExerciseFigure() {
 	const { state, solution } = useExerciseData()
 	const points = getPoints(solution)
-	const { rotation, reflection, α, β, a, c } = state
+	const { rotation, reflection, α, a, b, c } = state
 
 	// Define the transformation.
 	const pretransformation = useRotationReflectionTransformation(rotation, reflection)
@@ -178,9 +164,8 @@ function ExerciseFigure({ showGamma }) {
 	</>} htmlContents={<>
 		<LineLabel points={[points[0], points[1]]} oppositeTo={points[2]}><M>{c}</M></LineLabel>
 		<LineLabel points={[points[1], points[2]]} oppositeTo={points[0]}><M>{a}</M></LineLabel>
+		<LineLabel points={[points[2], points[0]]} oppositeTo={points[1]}><M>{b}</M></LineLabel>
 		<CornerLabel points={[points[2], points[0], points[1]]} graphicalSize={labelSize}><M>{α}^\circ</M></CornerLabel>
-		<CornerLabel points={[points[0], points[1], points[2]]} graphicalSize={labelSize}><M>{β}^\circ</M></CornerLabel>
-		{showGamma ? <CornerLabel points={[points[1], points[2], points[0]]} graphicalSize={labelSize}><M>γ</M></CornerLabel> : null}
 	</>} />
 }
 

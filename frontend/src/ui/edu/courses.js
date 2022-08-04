@@ -82,7 +82,7 @@ const courses = {
 
 	exactawiskunde: {
 		name: 'Exacte Wetenschap A - Wiskunde',
-		goals: ['solveBasicSystemOfLinearEquations', 'solveGeneralSystemOfLinearEquations', 'applyQuadraticFormula', 'calculateTriangle', 'calculate3DShape'],
+		goals: ['solveBasicSystemOfLinearEquations', 'solveGeneralSystemOfLinearEquations', 'solveBasicQuadraticEquation', 'solveGeneralQuadraticEquation', 'calculateTriangle', 'calculate3DShape'],
 		priorKnowledge: [],
 		startingPoints: [
 			'expandBrackets',
@@ -90,6 +90,7 @@ const courses = {
 			'mergeSplitBasicFractions',
 			'multiplyDivideFractions',
 			'moveATerm',
+			'applySquareRoot',
 			'applyQuadraticFormula',
 			'determine2DAngles',
 			'applyPythagoreanTheorem',
@@ -117,7 +118,7 @@ const courses = {
 			},
 			{
 				name: 'Kwadratische vergelijkingen',
-				goals: ['applyQuadraticFormula'],
+				goals: ['solveBasicQuadraticEquation', 'solveGeneralQuadraticEquation'],
 			},
 			{
 				name: 'Driehoeken doorrekenen',
