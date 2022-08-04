@@ -1,14 +1,15 @@
 const { deg2rad } = require('../../../util/numbers')
 const { getRandomBoolean, getRandomInteger } = require('../../../util/random')
 const { Vector } = require('../../../geometry')
+const { Variable } = require('../../../CAS')
 
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { loadSources, getDefaultForce, getDefaultMoment, FBDComparison, areLoadsMatching } = require('../util/engineeringMechanics')
+const { loadSources, getDefaultForce, FBDComparison, areLoadsMatching } = require('../util/engineeringMechanics')
 
 const { reaction, external } = loadSources
 
 const data = {
-	skill: 'test',
+	skill: 'demo',
 	comparison: FBDComparison,
 }
 
@@ -30,13 +31,14 @@ function getSolution(state) {
 	const points = { A, B, C }
 
 	const loads = [
-		getDefaultForce(fixA ? A : C, 0, reaction),
-		getDefaultForce(A, -Math.PI / 2, reaction),
 		getDefaultForce(B, deg2rad(theta), external),
+		getDefaultForce(fixA ? A : C, Math.PI, reaction, fixA),
+		getDefaultForce(A, -Math.PI / 2, reaction),
 		getDefaultForce(C, -Math.PI / 2, reaction),
 	]
+	const prenamedLoads = [{ name: new Variable('P'), load: loads[0] }]
 
-	return { ...state, points, loads }
+	return { ...state, points, loads, prenamedLoads, comparison: data.comparison }
 }
 
 function checkInput(state, input) {

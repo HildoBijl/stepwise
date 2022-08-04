@@ -4,16 +4,15 @@ import React, { forwardRef, useCallback, useMemo, useState, useEffect } from 're
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { defaultForceLength } from 'step-wise/settings/engineeringMechanics'
 import { processOptions, filterOptions, applyToEachParameter } from 'step-wise/util/objects'
 import { hasSimpleDeepEqualsMatching } from 'step-wise/util/arrays'
 import { Vector, PositionedVector } from 'step-wise/geometry'
-import { areLoadsEqual, doesLoadTouchRectangle } from 'step-wise/edu/exercises/util/engineeringMechanics'
+import { defaultForceLength, loadTypes, areLoadsEqual, doesLoadTouchRectangle, getLoadNames } from 'step-wise/edu/exercises/util/engineeringMechanics'
 
 import { useEnsureRef, useEventListener } from 'util/react'
 import { DrawingInput, useAsDrawingInput, defaultDrawingInputOptions } from 'ui/components/figures/Drawing'
 
-import EngineeringDiagram, { defaultEngineeringDiagramOptions, render, loadColors } from '../EngineeringDiagram'
+import EngineeringDiagram, { defaultEngineeringDiagramOptions, render, loadColors, LoadLabel } from '../EngineeringDiagram'
 
 import { clean, functionalize, flipLoad } from './support'
 import { nonEmptyNoDoubles } from './validation'
@@ -28,6 +27,10 @@ export const defaultFBDInputOptions = {
 	forceLength: defaultForceLength, // The lengths of force vectors. Set to something falsy to make sure they have varying lengths.
 	allowMoments: true,
 	maximumMomentDistance: 60,
+	showLoadNames: true,
+	points: {},
+	prenamedLoads: [],
+	loadComparison: {},
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -61,7 +64,7 @@ function FBDInputUnforwarded(options, drawingRef) {
 	}
 	options.endDrag = (downState, upState) => {
 		const dragObject = getDragObject(downState, upState, options)
-		if (dragObject && ['Force', 'Moment'].includes(dragObject.type))
+		if (dragObject && Object.values(loadTypes).includes(dragObject.type))
 			setData(data => [...data, { ...dragObject, selected: true }])
 	}
 
@@ -136,6 +139,17 @@ function FBDInputUnforwarded(options, drawingRef) {
 		{dragObject && render(styleLoad(undefined, dragObject, readOnly))}
 	</>
 
+	// When load names need to be displayed, add these load names.
+	if (options.showLoadNames) {
+		const { points, prenamedLoads, loadComparison } = options
+		const loads = dragObject && Object.values(loadTypes).includes(dragObject.type) ? [...data, dragObject] : data
+		const loadNames = getLoadNames(loads, points, prenamedLoads, loadComparison)
+		options.htmlContents = <>
+			{options.htmlContents}
+			{loadNames.map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
+		</>
+	}
+
 	// Render the Engineering Diagram with the proper styling.
 	return <DrawingInput ref={drawingRef} Drawing={EngineeringDiagram} drawingProperties={Object.keys(defaultEngineeringDiagramOptions)} className={className} inputData={inputData} options={options} />
 }
@@ -159,7 +173,7 @@ function getDragObject(downData, upData, options) {
 	if (upData.isSnappedTwice && !graphicalSnappedVector.isZero()) {
 		if (forceLength)
 			snappedVector = snappedVector.setMagnitude(forceLength)
-		return { type: 'Force', positionedVector: new PositionedVector({ vector: snappedVector, end: upData.snappedPosition }) }
+		return { type: loadTypes.force, positionedVector: new PositionedVector({ vector: snappedVector, end: upData.snappedPosition }) }
 	}
 
 	// On a very short vector return a marker.
@@ -170,20 +184,20 @@ function getDragObject(downData, upData, options) {
 	if (allowMoments && graphicalSnappedVector.squaredMagnitude <= maximumMomentDistance ** 2) {
 		const angle = vector.argument
 		const opening = Math.round(angle / (Math.PI / 2)) * (Math.PI / 2)
-		return { type: 'Moment', position: downData.snappedPosition, opening, clockwise: angle < opening }
+		return { type: loadTypes.moment, position: downData.snappedPosition, opening, clockwise: angle < opening }
 	}
 
 	// Otherwise return a Force. How to do this depends on if a fixed length has been set.
 	if (forceLength)
 		snappedVector = snappedVector.setMagnitude(forceLength)
-	return { type: 'Force', positionedVector: new PositionedVector({ start: downData.snappedPosition, vector: snappedVector }) }
+	return { type: loadTypes.force, positionedVector: new PositionedVector({ start: downData.snappedPosition, vector: snappedVector }) }
 }
 
 function styleLoad(index, load, readOnly, mouseHandlers = {}, selectionRectangle, feedback) {
 	load = { ...load }
 
 	// Only style actual loads and not selection markers.
-	if (load.type === 'Force' || load.type === 'Moment') {
+	if (Object.values(loadTypes).includes(load.type)) {
 		const inSelectionRectangle = selectionRectangle && doesLoadTouchRectangle(load, selectionRectangle)
 		const hoverStatus = getHoverStatus(load.selected, load.hovering, inSelectionRectangle)
 		load = {

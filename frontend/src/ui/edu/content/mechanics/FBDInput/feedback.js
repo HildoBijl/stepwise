@@ -1,5 +1,5 @@
 
-import { getLoadMatching } from 'step-wise/edu/exercises/util/engineeringMechanics'
+import { loadTypes, getLoadMatching } from 'step-wise/edu/exercises/util/engineeringMechanics'
 
 import { getCountingWord } from 'util/language'
 import { selectRandomCorrect } from 'util/feedbackMessages'
@@ -51,9 +51,9 @@ export function findRelatedPoint(load, points) {
 // isConnectedToPoint checks if a load is connected to a given point.
 export function isConnectedToPoint(load, point) {
 	switch (load.type) {
-		case 'Force':
+		case loadTypes.force:
 			return load.positionedVector.hasPoint(point)
-		case 'Moment':
+		case loadTypes.moment:
 			return load.position.equals(point)
 		default:
 			throw new Error(`Invalid load type: did not recognize a load of type "${load.type}".`)

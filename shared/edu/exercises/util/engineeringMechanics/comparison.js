@@ -1,60 +1,8 @@
-const { defaultForceLength, defaultMomentRadius, defaultMomentOpening } = require('../../../settings/engineeringMechanics')
+const { compareNumbers, mod } = require('../../../../util/numbers')
+const { processOptions } = require('../../../../util/objects')
+const { resolveFunctions } = require('../../../../util/functions')
 
-const { ensureNumber, compareNumbers } = require('../../../util/numbers')
-const { ensureBoolean, processOptions } = require('../../../util/objects')
-const { resolveFunctions } = require('../../../util/functions')
-
-const { Vector, ensureVector, PositionedVector } = require('../../../geometry')
-
-/*
- * Define load types.
- */
-
-const loadTypes = {
-	force: 'Force',
-	moment: 'Moment',
-}
-module.exports.loadTypes = loadTypes
-
-/*
- * Define load sources.
- */
-
-const loadSources = {
-	input: 'input',
-	external: 'external',
-	reaction: 'reaction',
-	section: 'section',
-}
-module.exports.loadSources = loadSources
-
-const ensureLoadSource = (loadSource) => {
-	if (typeof loadSource !== 'string')
-		throw new Error(`Invalid load source: expected a string but received something of type "${typeof loadSource}".`)
-	if (!Object.values(loadSources).includes(loadSource))
-		throw new Error(`Invalid load source: did not recognize the load source "${loadSource}".`)
-	return loadSource
-}
-module.exports.ensureLoadSource = ensureLoadSource
-
-/*
- * Set up default getters.
- */
-
-// Get functionalities for default loads.
-const defaultSource = 'External'
-module.exports.getDefaultForce = (end, angle = 0, source = defaultSource, forceLength = defaultForceLength) => ({
-	type: 'Force',
-	positionedVector: new PositionedVector({ vector: Vector.fromPolar(ensureNumber(forceLength), ensureNumber(angle)), end: ensureVector(end, 2) }),
-	source: ensureLoadSource(source),
-})
-module.exports.getDefaultMoment = (position, clockwise, opening = defaultMomentOpening, source = defaultSource) => ({
-	type: 'Moment',
-	position: ensureVector(position, 2),
-	clockwise: ensureBoolean(clockwise),
-	opening: ensureNumber(opening) === undefined ? defaultMomentOpening : opening,
-	source: ensureLoadSource(source),
-})
+const { defaultMomentRadius, defaultMomentOpening, loadTypes, loadSources } = require('./definitions')
 
 /*
  * Below are various checks
@@ -109,7 +57,7 @@ function areLoadsEqual(input, solution, comparison = {}) {
 
 	// Check all relevant load types.
 	switch (type) {
-		case 'Force':
+		case loadTypes.force:
 			const solutionPV = solution.positionedVector
 			const inputPV = input.positionedVector
 
@@ -134,7 +82,7 @@ function areLoadsEqual(input, solution, comparison = {}) {
 			// All in order.
 			return true
 
-		case 'Moment':
+		case loadTypes.moment:
 			// The moment must be at the same position.
 			if (comparison.requireSamePosition && !solution.position.equals(input.position))
 				return false
@@ -148,7 +96,7 @@ function areLoadsEqual(input, solution, comparison = {}) {
 				return false
 
 			// Check the orientation.
-			if (comparison.requireSameOrientation && !compareNumbers(solution.opening === undefined ? defaultMomentOpening : solution.opening, input.opening === undefined ? defaultMomentOpening : input.opening))
+			if (comparison.requireSameOrientation && !compareNumbers(solution.opening === undefined ? defaultMomentOpening : mod(solution.opening, 2 * Math.PI), input.opening === undefined ? defaultMomentOpening : mod(input.opening, 2 * Math.PI)))
 				return false
 
 			// All in order.
@@ -162,9 +110,9 @@ module.exports.areLoadsEqual = areLoadsEqual
 
 function isLoadAtPoint(load, point) {
 	switch (load.type) {
-		case 'Force':
+		case loadTypes.force:
 			return load.positionedVector.hasPoint(point)
-		case 'Moment':
+		case loadTypes.moment:
 			return load.position.equals(point)
 		default:
 			throw new Error(`Unknown load type: did not recognize the load type "${load.type}".`)
@@ -174,9 +122,9 @@ module.exports.isLoadAtPoint = isLoadAtPoint
 
 function doesLoadTouchRectangle(load, rectangle) {
 	switch (load.type) {
-		case 'Force':
+		case loadTypes.force:
 			return rectangle.touchesPositionedVector(load.positionedVector)
-		case 'Moment':
+		case loadTypes.moment:
 			return rectangle.touchesCircle(load.position, load.radius === undefined ? defaultMomentRadius : load.radius)
 		default:
 			throw new Error(`Unknown load type: did not recognize the load type "${load.type}". Cannot process the selection.`)

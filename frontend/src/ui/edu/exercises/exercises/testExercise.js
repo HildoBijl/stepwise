@@ -7,8 +7,8 @@ import { Par } from 'ui/components/containers'
 import { InputSpace } from 'ui/form/Status'
 import { useCurrentBackgroundColor, useScaleAndShiftTransformationSettings } from 'ui/components/figures/Drawing'
 
-import EngineeringDiagram, { Group, Beam, HingeSupport, RollerHalfHingeSupport, Distance, PositionedElement, Label, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
-import FBDInput, { allConnectedToPoints, getFBDFeedback, loadSources } from 'ui/edu/content/mechanics/FBDInput'
+import EngineeringDiagram, { Group, Beam, HingeSupport, RollerHalfHingeSupport, Distance, PositionedElement, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
+import FBDInput, { allConnectedToPoints, getFBDFeedback, loadSources, FBDComparison, getLoadNames } from 'ui/edu/content/mechanics/FBDInput'
 
 import { useSolution } from '../ExerciseContainer'
 import SimpleExercise from '../types/SimpleExercise'
@@ -36,19 +36,19 @@ function Problem() {
 
 function Diagram({ isInputField = false, showSolution = false }) {
 	const solution = useSolution()
-	const { points, loads } = solution
+	const { points, loads, prenamedLoads } = solution
 
 	// Define the transformation.
-	const transformationSettings = useScaleAndShiftTransformationSettings(points, { scale: 70, margin: [100, [40, 100]] })
+	const transformationSettings = useScaleAndShiftTransformationSettings(points, { scale: 70, margin: [120, [40, 120]] })
 
 	// Get all the required components.
 	const loadsToDisplay = isInputField ? [] : (showSolution ? loads : loads.filter(load => load.source === loadSources.external))
 	const schematics = <Schematics {...solution} showSupports={!isInputField} loads={loadsToDisplay} />
-	const elements = <Elements {...solution} />
+	const elements = <Elements {...solution} loads={loadsToDisplay} />
 
 	// Set up either a diagram or an input field with said diagram.
 	return isInputField ?
-		<FBDInput id="loads" transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} snappers={Object.values(points)} validate={allConnectedToPoints(points)} maxWidth={bounds => bounds.width} /> :
+		<FBDInput id="loads" transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} snappers={Object.values(points)} validate={allConnectedToPoints(points)} maxWidth={bounds => bounds.width} points={points} prenamedLoads={prenamedLoads} loadComparison={FBDComparison} /> :
 		<EngineeringDiagram transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} maxWidth={bounds => bounds.width} />
 }
 
@@ -69,10 +69,11 @@ function Schematics({ points, loads, showSupports = true }) {
 	</>
 }
 
-function Elements({ points, h, l1, l2 }) {
+function Elements({ points, loads, prenamedLoads, h, l1, l2 }) {
 	const background = useCurrentBackgroundColor()
 	const distanceLabelStyle = { background, padding: '0.3rem' }
-	
+	const loadNames = getLoadNames(loads, points, prenamedLoads, FBDComparison)
+
 	return <>
 		<Label position={points.A} angle={Math.PI * 5 / 4} graphicalDistance={5}><M>A</M></Label>
 		<Label position={points.B} angle={Math.PI * 3 / 2} graphicalDistance={2}><M>B</M></Label>
@@ -81,6 +82,7 @@ function Elements({ points, h, l1, l2 }) {
 		<PositionedElement position={points.A.interpolate(points.B)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}\ (\rm m)</M></PositionedElement>
 		<PositionedElement position={points.B.interpolate(points.C)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_2 = {l2}\ (\rm m)</M></PositionedElement>
 		<PositionedElement position={points.C.interpolate(points.D)} graphicalShift={new Vector(distanceShift, 0)} anchor={[0.5, 0.5]} rotate={Math.PI / 2} style={distanceLabelStyle}><M>h = {h}\ (\rm m)</M></PositionedElement>
+		{loadNames.map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
 	</>
 }
 

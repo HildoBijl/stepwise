@@ -125,12 +125,12 @@ const skills = {
 	},
 	solveBasicQuadraticEquation: {
 		name: 'Basis kwadratische vergelijking oplossen',
-		setup: combinerAnd('moveATerm', 'multiplyDivideAllTerms', 'applyQuadraticFormula', 'applySquareRoot'),
+		setup: combinerAnd('moveATerm', 'multiplyDivideAllTerms', 'applySquareRoot', 'applyQuadraticFormula'),
 		exercises: [], // ToDo
 	},
 	solveGeneralQuadraticEquation: {
 		name: 'Algemene kwadratische vergelijking oplossen',
-		setup: combinerAnd('moveATerm', 'multiplyDivideAllTerms', 'applyQuadraticFormula', 'applySquareRoot'),
+		setup: combinerAnd('moveATerm', 'multiplyDivideAllTerms', 'applySquareRoot', 'applyQuadraticFormula'),
 		exercises: [], // ToDo
 	},
 

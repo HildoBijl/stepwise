@@ -31,14 +31,19 @@ function getSolution(state) {
 
 	// Define loads.
 	const loads = [
+		getDefaultMoment(C, false, Math.PI, external),
+		getDefaultForce(D, 0, external),
 		getDefaultForce(A, 0, reaction),
 		getDefaultForce(A, -Math.PI / 2, reaction),
 		getDefaultForce(B, -Math.PI / 2, reaction),
-		getDefaultMoment(C, false, Math.PI, external),
-		getDefaultForce(D, 0, external),
 	]
 
-	return { ...state, points, loads }
+	const prenamedLoads = [
+		{ load: loads[0], name: 'M' },
+		{ load: loads[1], name: 'P' },
+	]
+
+	return { ...state, points, loads, prenamedLoads }
 }
 
 function checkInput(state, input) {

@@ -1,4 +1,5 @@
 import { toFO, toSO } from 'step-wise/inputTypes'
+import { loadTypes } from 'step-wise/edu/exercises/util/engineeringMechanics'
 
 // These are functions transforming between object types.
 
@@ -21,9 +22,9 @@ export function functionalize(data) {
 // flipLoad flips the direction of the load around.
 export function flipLoad(load) {
 	switch (load.type) {
-		case 'Force':
+		case loadTypes.force:
 			return { ...load, positionedVector: load.positionedVector.reverse() }
-		case 'Moment':
+		case loadTypes.moment:
 			return { ...load, clockwise: !load.clockwise }
 		default:
 			throw new Error(`Invalid load type: did not recognize a load of type "${load.type}".`)
