@@ -49,6 +49,12 @@ describe('Check all exercises:', () => {
 				assertSkillCombiner(getDifficulty(exercise.data))
 			})
 
+			if (exercise.getSolution) {
+				it('does not have both a getSolution and getStaticSolution function', () => {
+					expect(exercise.getStaticSolution).toBe(undefined)
+				})
+			}
+
 			if (exercise.data.steps) {
 				it('has steps properly defined', () => {
 					const { steps } = exercise.data

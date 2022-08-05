@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useRef, useCallback, useEffect } from 'react'
 
-import { processOptions, filterProperties, deepEquals, ensureConsistency, applyToEachParameter } from 'step-wise/util/objects'
+import { processOptions, filterProperties, deepEquals, ensureConsistency, applyToEachParameter, keysToObject } from 'step-wise/util/objects'
 import { passOn, resolveFunctions } from 'step-wise/util/functions'
 import { toFO } from 'step-wise/inputTypes'
 import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
@@ -217,17 +217,32 @@ export function useFormParameter(options = {}) {
 	return [input[id], setData]
 }
 
-// useInput only returns a certain input parameter. It gives the FO (functional object), unless it specifically is asked by setting the second useFI parameter to true, in which case the FI (functional input) object is returned. It's mainly used by exercises. The id may be an array, in which case also an array is returned.
-export function useInput(id, useFI = false) {
-	const { getInputParameter, getInputParameterFO } = useFormData()
+// useInput only returns a certain input parameter. It gives the FO (functional object), unless it specifically is asked by setting the second useFI parameter to true, in which case the FI (functional input) object is returned. It's mainly used by exercises. The ids property may be a string or an array, in which case also an array is returned. Optionally, it may be undefined/falsy, in which case all fields are given.
+export function useInput(ids, useFI = false) {
+	const { getInputFI, getInputFO, getInputParameter, getInputParameterFO } = useFormData()
 
-	// Define a handler to get the right value.
-	const getParameter = useFI ? getInputParameter : getInputParameterFO
+	// If no id has been given, return everything.
+	if (!ids)
+		return Object.values((useFI ? getInputFI : getInputFO)())
 
 	// Depending on if we have an array of IDs or just one, process accordingly.
-	if (Array.isArray(id))
-		return id.map(currId => getParameter(currId))
-	return getParameter(id)
+	const getParameter = useFI ? getInputParameter : getInputParameterFO
+	if (Array.isArray(ids))
+		return ids.map(currId => getParameter(currId))
+	return getParameter(ids)
+}
+
+// useInputObject provides a full input object. (Contrary to useInput which provides an array).
+export function useInputObject(ids, useFI = false) {
+	const { getInputFI, getInputFO, getInputParameter, getInputParameterFO } = useFormData()
+
+	// If no id has been given, return everything.
+	if (!ids)
+		return (useFI ? getInputFI : getInputFO)()
+		
+	// Turn each id into the right object.
+	const getParameter = useFI ? getInputParameter : getInputParameterFO
+	return keysToObject(Array.isArray(ids) ? ids : [ids], id => getParameter(id))
 }
 
 // useFieldValidation takes a field id and a validation function. On a form submit this validation function is called and the result is given in the resulting parameter.

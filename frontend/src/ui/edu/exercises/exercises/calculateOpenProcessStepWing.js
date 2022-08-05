@@ -9,7 +9,7 @@ import { InputSpace, AntiInputSpace } from 'ui/form/Status'
 import { InputTable } from 'ui/components/misc/InputTable'
 
 import StepExercise from '../types/StepExercise'
-import { useSolution } from '../ExerciseContainer'
+import { useSolution } from '../util/SolutionProvider'
 import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {

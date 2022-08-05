@@ -5,7 +5,7 @@ import { Par } from 'ui/components/containers'
 import ExpressionInput, { basicMathNoFractions, validWithVariables } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/Status'
 
-import { useSolution } from '../ExerciseContainer'
+import { useSolution } from '../util/SolutionProvider'
 import SimpleExercise from '../types/SimpleExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'

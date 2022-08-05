@@ -6,7 +6,7 @@ import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInpu
 import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
-import { useSolution } from '../ExerciseContainer'
+import { useSolution } from '../util/SolutionProvider'
 import { getInputFieldFeedback } from '../util/feedback'
 
 export default function Exercise() {

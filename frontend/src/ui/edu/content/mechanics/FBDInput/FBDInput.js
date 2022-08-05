@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { processOptions, filterOptions, applyToEachParameter } from 'step-wise/util/objects'
 import { hasSimpleDeepEqualsMatching } from 'step-wise/util/arrays'
 import { Vector, PositionedVector } from 'step-wise/geometry'
-import { defaultForceLength, loadTypes, areLoadsEqual, doesLoadTouchRectangle, getLoadNames } from 'step-wise/edu/exercises/util/engineeringMechanics'
+import { defaultForceLength, loadTypes, areLoadsEqual, doesLoadTouchRectangle } from 'step-wise/edu/exercises/util/engineeringMechanics'
 
 import { useEnsureRef, useEventListener } from 'util/react'
 import { DrawingInput, useAsDrawingInput, defaultDrawingInputOptions } from 'ui/components/figures/Drawing'

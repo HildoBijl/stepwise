@@ -26,10 +26,8 @@ export default function ExerciseContainer({ exercise, submitting, submitAction, 
 	}
 	useEffect(reload, [exerciseId])
 
-	// If there is a solution for this exercise, calculate and include it.
+	// Assemble the state as Functional Object.
 	const stateFO = useMemo(() => toFO(state), [state])
-	const { getSolution } = ExerciseShared.current || {}
-	const solution = useMemo(() => getSolution && getSolution(stateFO), [getSolution, stateFO])
 
 	if (loading)
 		return <LoadingNote text="Loading exercise component" />
@@ -43,7 +41,6 @@ export default function ExerciseContainer({ exercise, submitting, submitAction, 
 		submitAction: (action) => submitAction(action, ExerciseShared.current.processAction), // Incorporate the processAction function for Stranger-mode and for optimistic responses.
 		startNewExercise,
 		shared: ExerciseShared.current,
-		solution,
 	}
 
 	const Exercise = ExerciseLocal.current
@@ -70,11 +67,4 @@ export function getPrevProgress(history) {
 	if (history.length <= 1)
 		return {}
 	return history[history.length - 2].progress
-}
-
-export function useSolution() {
-	const { solution } = useExerciseData()
-	if (!solution)
-		throw new Error(`Missing getSolution function: could not find the getSolution function in the shared export of the respective exercise.`)
-	return solution
 }

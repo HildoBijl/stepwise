@@ -1,6 +1,9 @@
 const { toFO } = require('../../../inputTypes')
 const { ensureInt } = require('../../../util/numbers')
 
+const { assembleSolution } = require('./simpleExercise')
+module.exports.assembleSolution = assembleSolution
+
 // getStepExerciseProcessor takes a checkInput function that checks the input for a StepExercise and returns a processAction function.
 function getStepExerciseProcessor(checkInput, data) {
 	const numSteps = data.steps.length

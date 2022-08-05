@@ -6,7 +6,7 @@ import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import StepExercise from '../types/StepExercise'
-import { useSolution } from '../ExerciseContainer'
+import { useSolution } from '../util/SolutionProvider'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {

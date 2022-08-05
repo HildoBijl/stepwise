@@ -13,7 +13,7 @@ import { useCurrentBackgroundColor, useScaleAndShiftTransformationSettings } fro
 import EngineeringDiagram, { Group, Beam, HingeSupport, RollerHingeSupport, Distance, PositionedElement, Label, CornerLabel, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
 import FBDInput, { allConnectedToPoints, getFBDFeedback, loadSources, performLoadsComparison } from 'ui/edu/content/mechanics/FBDInput'
 
-import { useSolution } from '../ExerciseContainer'
+import { useSolution } from '../util/SolutionProvider'
 import SimpleExercise from '../types/SimpleExercise'
 import { getInputFieldFeedback } from '../util/feedback'
 
@@ -28,7 +28,8 @@ export default function Exercise() {
 }
 
 function Problem() {
-	const { P, theta, getLoadNames } = useSolution()
+	const solution = useSolution()
+	const { P, theta, getLoadNames } = solution
 	const inputLoads = useInput('loads')
 	const loadNames = getLoadNames(inputLoads).filter(load => !load.prenamed)
 
@@ -100,7 +101,10 @@ function Elements({ theta, l1, l2, points, loads, getLoadNames }) {
 }
 
 function Solution() {
-	const { l1, l2, theta, fixA, Px, Py, loadValues } = useSolution()
+	const solution = useSolution()
+	console.log(solution)
+	const { l1, l2, theta, fixA, Px, Py, loadValues, directionIndices } = useSolution()
+	console.log(directionIndices)
 	return <>
 		<Par>
 			Als eerste tekenen we het vrijlichaamsschema. Aan de linkerkant zit een {fixA ? 'vast' : 'rollend'} scharnier. Deze kan {fixA ? 'horizontale en verticale' : 'alleen verticale'} reactiekrachten geven. Aan de rechterkant zit een {fixA ? 'rollend' : 'vast'} scharnier. Deze kan {fixA ? 'alleen verticale' : 'horizontale en verticale'} reactiekrachten geven. Samen met de externe belasting geeft dat het volgende vrijlichaamsschema. De richtingen zijn zo gekozen dat de krachten positief worden. Ze mogen ook de andere kant op getekend worden, maar dan worden de berekende krachten negatief.
@@ -130,17 +134,20 @@ function Solution() {
 }
 
 function getFeedback(exerciseData) {
-	const { input, solution, shared } = exerciseData
-	const { loads, points, loadValues } = solution
+	return {}
+	// ToDo: figure out how to get the solution into the getFeedback function. Because the feedbackProvider does not know what a solution is. So how do we get it there?
 
-	// On an incorrect FBD only give feedback on the FBD.
-	const loadsFeedback = getFBDFeedback(input.loads, loads, shared.data.comparison.loads, points)
-	if (!performLoadsComparison('loads', input, solution, shared.data.comparison))
-		return { loads: loadsFeedback }
+	// const { input, solution, shared } = exerciseData
+	// const { loads, points, loadValues } = solution
 
-	// Give full feedback.
-	return {
-		loads: loadsFeedback,
-		...getInputFieldFeedback(Object.keys(loadValues), exerciseData)
-	}
+	// // On an incorrect FBD only give feedback on the FBD.
+	// const loadsFeedback = getFBDFeedback(input.loads, loads, shared.data.comparison.loads, points)
+	// if (!performLoadsComparison('loads', input, solution, shared.data.comparison))
+	// 	return { loads: loadsFeedback }
+
+	// // Give full feedback.
+	// return {
+	// 	loads: loadsFeedback,
+	// 	...getInputFieldFeedback(Object.keys(loadValues), exerciseData)
+	// }
 }

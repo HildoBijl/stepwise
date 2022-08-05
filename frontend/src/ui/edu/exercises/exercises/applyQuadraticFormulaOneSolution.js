@@ -10,7 +10,7 @@ import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { useInput } from 'ui/form/Form'
 import { InputSpace } from 'ui/form/Status'
 
-import { useSolution } from '../ExerciseContainer'
+import { useSolution } from '../util/SolutionProvider'
 import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'

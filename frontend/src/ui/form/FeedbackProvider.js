@@ -17,6 +17,7 @@ import { useFormData, useFieldValidation } from './Form'
 const FeedbackContext = createContext(null)
 
 export default function FeedbackProvider({ children, getFeedback }) {
+	// ToDo next: clean up the feedback provider. Make sure it does not know anything about exercises, but merely receives extra information through its properties. See the corresponding email.
 	const [feedback, setFeedback] = useState({})
 	const [feedbackInput, setFeedbackInput] = useState({})
 	const exerciseData = useExerciseData()

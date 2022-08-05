@@ -10,7 +10,7 @@ import ExpressionInput, { validAndNumeric, basicMathAndPowers } from 'ui/form/in
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form/Status'
 
-import { useSolution, useExerciseData } from '../ExerciseContainer'
+import { useSolution } from '../util/SolutionProvider'
 import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
@@ -36,10 +36,9 @@ const Problem = (state) => {
 
 const steps = [
 	{
-		Problem: () => {
-			const { state, solution } = useExerciseData()
+		Problem: (state) => {
 			const { a, b, c } = state
-			const { x } = solution
+			const { x } = useSolution()
 			return <>
 				<Par>Stel via de stelling van Pythagoras een vergelijking op voor de zijden van de driehoek. Gebruik de waarden <M>{a},</M> <M>{b}</M> en <M>{c}.</M></Par>
 				<InputSpace>
@@ -47,17 +46,15 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { state, solution } = useExerciseData()
+		Solution: (state) => {
 			const { a, b, c } = state
-			const { equation } = solution
+			const { equation } = useSolution()
 			return <Par>We hebben hier rechte zijden <M>{a}</M> en <M>{b}</M> en schuine zijde <M>{c}.</M> De stelling van Pythagoras zegt nu direct dat <BM>{equation}.</BM></Par>
 		},
 	},
 	{
 		Problem: () => {
-			const solution = useSolution()
-			const { x } = solution
+			const { x } = useSolution()
 			return <>
 				<Par>Los deze vergelijking eerst op voor <M>{x}^2.</M></Par>
 				<InputSpace>
@@ -74,8 +71,7 @@ const steps = [
 	},
 	{
 		Problem: () => {
-			const solution = useSolution()
-			const { x } = solution
+			const { x } = useSolution()
 			return <>
 				<Par>Bepaal vanuit <M>{x}^2</M> de waarde van <M>{x}.</M></Par>
 				<InputSpace>

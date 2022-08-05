@@ -14,7 +14,8 @@ import ExpressionInput, { validAndNumeric, validWithVariables, basicTrigonometry
 import { useInput } from 'ui/form/Form'
 import { InputSpace } from 'ui/form/Status'
 
-import { useSolution, useExerciseData } from '../ExerciseContainer'
+import { useExerciseData } from '../ExerciseContainer'
+import { useSolution } from '../util/SolutionProvider'
 import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
@@ -126,7 +127,8 @@ function getFeedback(exerciseData) {
 }
 
 function ExerciseFigure({ showa, showβ }) {
-	const { state, solution } = useExerciseData()
+	const { state } = useExerciseData()
+	const solution = useSolution()
 	const points = getPoints(solution)
 	const { rotation, reflection, α, β, a, b, c } = state
 

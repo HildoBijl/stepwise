@@ -16,7 +16,8 @@ import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
 import { useInput } from 'ui/form/Form'
 import { InputSpace } from 'ui/form/Status'
 
-import { useSolution, useExerciseData } from '../ExerciseContainer'
+import { useExerciseData } from '../ExerciseContainer'
+import { useSolution } from '../util/SolutionProvider'
 import StepExercise from '../types/StepExercise'
 import { hasIncorrectSide } from '../util/feedbackChecks/equation'
 
@@ -156,7 +157,8 @@ function getFeedback(exerciseData) {
 }
 
 function ExerciseFigure({ useAlternative }) {
-	const { state, solution } = useExerciseData()
+	const { state } = useExerciseData()
+	const solution = useSolution()
 	const points = getPoints(solution, useAlternative)
 	const { rotation, reflection, α, a, b, c } = state
 

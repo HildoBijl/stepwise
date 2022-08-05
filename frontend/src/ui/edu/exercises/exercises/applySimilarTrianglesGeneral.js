@@ -10,7 +10,8 @@ import ExpressionInput, { validAndNumeric, basicMathAndPowers } from 'ui/form/in
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form/Status'
 
-import { useSolution, useExerciseData } from '../ExerciseContainer'
+import { useExerciseData } from '../ExerciseContainer'
+import { useSolution } from '../util/SolutionProvider'
 import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
@@ -107,7 +108,8 @@ function getFeedback(exerciseData) {
 }
 
 function ExerciseFigure() {
-	const { state, solution } = useExerciseData()
+	const { state } = useExerciseData()
+	const solution = useSolution()
 	const { triangle1, triangle2 } = getPoints(solution)
 	const { rotation, reflection, La, Lb, Lc } = solution
 
