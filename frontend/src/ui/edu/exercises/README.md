@@ -123,12 +123,11 @@ Very simply put, a validation function could be `newValidateFunction = (num) => 
 
 The `ExerciseWrapper` also wraps your exercise in a `FeedbackProvider`. Let's take a look at what this does.
 
-After a submission is sent to the server and a result comes back, the exercise updates its `history`. When this happens, the `FeedbackProvider` checks the last input and aims to provide feedback on this. It calls the provided `getFeedback` function like `getFeedback({ state, input, progress, prevProgress, shared })`. The given parameters are as follows.
+After a submission is sent to the server and a result comes back, the exercise updates its `history`. When this happens, the `FeedbackProvider` checks the last input and aims to provide feedback on this. It calls the provided `getFeedback` function like `getFeedback({ state, input, progress, shared })`. The given parameters are as follows.
 
 - `state`: the exercise `state`.
 - `input`: the last `input` that was submitted.
 - `progress`: the most recent `progress` object that was returned from the server, after the given input.
-- `prevProgress`: the previous `progress` object, from before the given input.
 - `shared`: everything defined in the shared file. (Like the `checkInput` function and `getSolution` function, if exported.)
 
 The `getFeedback` function can be manually defined! If you want to set up your own `getFeedback` function, then you have to let it return an object. This object can be something like `{ main: false, field1: true, field2: false, field3: { correct: false, text: "Check your unit." } }`. There are a few rules.

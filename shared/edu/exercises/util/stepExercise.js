@@ -1,8 +1,12 @@
 const { toFO } = require('../../../inputTypes')
 const { ensureInt } = require('../../../util/numbers')
 
-const { assembleSolution } = require('./simpleExercise')
-module.exports.assembleSolution = assembleSolution
+const { assembleSolution, getLastProgress, getPreviousProgress } = require('./simpleExercise')
+module.exports = {
+	assembleSolution,
+	getLastProgress,
+	getPreviousProgress,
+}
 
 // getStepExerciseProcessor takes a checkInput function that checks the input for a StepExercise and returns a processAction function.
 function getStepExerciseProcessor(checkInput, data) {
@@ -73,9 +77,9 @@ function getStepExerciseProcessor(checkInput, data) {
 				// Give up on a step? If no input has been submitted for this step, then downgrade it.
 				const eventAtStepWithInput = history.find((event, index) => {
 					const action = event.action
-					const prevProgress = (index === 0 ? {} : history[index - 1].progress)
-					const prevStep = getStep(prevProgress)
-					return step === prevStep && action.type === 'input'
+					const previousProgress = (index === 0 ? {} : history[index - 1].progress)
+					const previousStep = getStep(previousProgress)
+					return step === previousStep && action.type === 'input'
 				})
 				if (!eventAtStepWithInput) {
 					// Check if there are substeps which we should treat one by one, or just one step.

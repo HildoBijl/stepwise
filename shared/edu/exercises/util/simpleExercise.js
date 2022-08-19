@@ -45,6 +45,22 @@ function getLastInput(history) {
 }
 module.exports.getLastInput = getLastInput
 
+// getLastProgress returns the last progress object from the history array.
+function getLastProgress(history) {
+	if (history.length === 0)
+		return {}
+	return history[history.length - 1].progress
+}
+module.exports.getLastProgress = getLastProgress
+
+// getPreviousProgress returns the second-to-last progress object from the history array.
+function getPreviousProgress(history) {
+	if (history.length <= 1)
+		return {}
+	return history[history.length - 2].progress
+}
+module.exports.getPreviousProgress = getPreviousProgress
+
 // assembleSolution takes an object with dependency data and assembles a solution object from it.
 function assembleSolution(dependencyData, state, input) {
 	const { getSolution, getStaticSolution, getInputDependency, dependentFields, getDynamicSolution } = dependencyData

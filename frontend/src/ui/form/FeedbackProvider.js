@@ -2,50 +2,50 @@ import React, { createContext, useContext, useState, useCallback, useEffect, isV
 import { useTheme } from '@material-ui/core/styles'
 
 import { noop } from 'step-wise/util/functions'
-import { isBasicObject, processOptions } from 'step-wise/util/objects'
+import { isBasicObject, processOptions, deepEquals } from 'step-wise/util/objects'
 import { toFO } from 'step-wise/inputTypes'
-import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 
 import { useRefWithValue } from 'util/react'
 import { selectRandomCorrect, selectRandomIncorrect } from 'util/feedbackMessages'
 
 import { getIcon, getFeedbackColor } from 'ui/theme'
-import { useExerciseData, getPrevProgress } from 'ui/edu/exercises/ExerciseContainer'
 
 import { useFormData, useFieldValidation } from './Form'
 
 const FeedbackContext = createContext(null)
 
-export default function FeedbackProvider({ children, getFeedback }) {
-	// ToDo next: clean up the feedback provider. Make sure it does not know anything about exercises, but merely receives extra information through its properties. See the corresponding email.
+export default function FeedbackProvider({ children, getFeedback, input, data = {} }) {
 	const [feedback, setFeedback] = useState({})
 	const [feedbackInput, setFeedbackInput] = useState({})
-	const exerciseData = useExerciseData()
-	const { history } = exerciseData
-	const prevProgress = getPrevProgress(history)
 
 	// Set up an updateFeedback handler.
-	const dataRef = useRefWithValue({ ...exerciseData, getFeedback, prevProgress, feedback, feedbackInput })
+	const dataRef = useRefWithValue({ ...data, feedback, feedbackInput })
 	const updateFeedback = useCallback((input) => {
-		const { getFeedback, prevProgress, feedback, feedbackInput } = dataRef.current
-		setFeedbackInput(input)
+		// Compare the new input with the previous input. When they are equal, do not evaluate. Otherwise store this new input.
+		const { feedback, feedbackInput } = dataRef.current
+		if (deepEquals(input, feedbackInput))
+			return
+			setFeedbackInput(input)
+
+		// If there is a getFeedback function, call it with the given data, input, previous feedback and previous input. Make sure all input (which is given as SI) is in FO.
 		if (getFeedback) {
-			const newFeedback = getFeedback({ ...dataRef.current, input: toFO(input, true), prevProgress, prevFeedback: feedback, prevInput: toFO(feedbackInput, true) })
-			if (!newFeedback)
-				throw new Error(`Invalid feedback: a feedback was returned which it not an object. Instead, we received "${newFeedback}". Possibly the getFeedback function forgot to return anything sensible?`)
+			const inputFO = toFO(input, true)
+			const previousInputFO = toFO(feedbackInput, true)
+			const newFeedback = getFeedback({ ...dataRef.current, input: inputFO, previousFeedback: feedback, previousInput: previousInputFO })
+			if (!newFeedback || !isBasicObject(feedback))
+				throw new Error(`Invalid feedback: a feedback was returned which is not an object. Instead, we received "${newFeedback}". Possibly the getFeedback function forgot to return anything sensible?`)
 			setFeedback(newFeedback)
 		}
-	}, [setFeedback, setFeedbackInput, dataRef])
+	}, [getFeedback, setFeedback, setFeedbackInput, dataRef])
 
-	// After an input action is fully processed, update potential feedback.
+	// When the input to be given feedback on changes, update the feedback.
 	useEffect(() => {
-		const lastInput = getLastInput(history)
-		if (lastInput)
-			updateFeedback(lastInput)
-	}, [history, updateFeedback])
+		if (input)
+			updateFeedback(input)
+	}, [input, updateFeedback])
 
 	// Wrap a provider around the contents.
-	return <FeedbackContext.Provider value={{ feedback, feedbackInput, updateFeedback }}>{children}</FeedbackContext.Provider>
+	return <FeedbackContext.Provider value={{ feedback, feedbackInput }}>{children}</FeedbackContext.Provider>
 }
 
 export function useFeedback() {

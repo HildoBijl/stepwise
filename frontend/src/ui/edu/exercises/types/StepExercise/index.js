@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 
 import { numberArray } from 'step-wise/util/arrays'
 import { deepEquals } from 'step-wise/util/objects'
-import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
+import { getStep, getPreviousProgress } from 'step-wise/edu/exercises/util/stepExercise'
 
 import VerticalAdjuster from 'ui/components/layout/VerticalAdjuster'
 import { useFormData } from 'ui/form/Form'
@@ -18,6 +18,7 @@ import ProblemContainer from '../../util/ProblemContainer'
 import MainFeedback from '../../util/MainFeedback'
 import SolutionContainer from '../../util/SolutionContainer'
 import ExerciseButtons from '../../util/ExerciseButtons'
+
 import Steps from './Steps'
 
 export default function StepExercise(props) {
@@ -61,7 +62,7 @@ function Contents({ Problem: MainProblem, steps }) {
 	</>
 }
 
-function stepExerciseGetFeedback({ state, input, progress, prevProgress, shared }) {
+function stepExerciseGetFeedback({ state, input, progress, history, shared }) {
 	const feedback = {}
 	if (!shared.checkInput)
 		return feedback
@@ -73,7 +74,8 @@ function stepExerciseGetFeedback({ state, input, progress, prevProgress, shared 
 	}
 
 	// We're split! Find the step the user was at during his last action. Provide feedback until that step.
-	const step = getStep(prevProgress)
+	const previousProgress = getPreviousProgress(history)
+	const step = getStep(previousProgress)
 	if (step > 0) {
 		numberArray(1, step).forEach(index => {
 			feedback[index] = { main: shared.checkInput(state, input, index) }

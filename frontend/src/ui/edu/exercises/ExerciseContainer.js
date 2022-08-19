@@ -1,6 +1,7 @@
 import React, { useState, createContext, useContext, useEffect, useRef, useMemo } from 'react'
 
 import { toFO } from 'step-wise/inputTypes'
+import { getLastProgress } from 'step-wise/edu/exercises/util/simpleExercise'
 
 import LoadingNote from 'ui/components/flow/LoadingNote'
 import ErrorBoundary from 'ui/components/flow/ErrorBoundary'
@@ -55,16 +56,4 @@ export default function ExerciseContainer({ exercise, submitting, submitAction, 
 
 export function useExerciseData() {
 	return useContext(ExerciseContext)
-}
-
-export function getLastProgress(history) {
-	if (history.length === 0)
-		return {}
-	return history[history.length - 1].progress
-}
-
-export function getPrevProgress(history) {
-	if (history.length <= 1)
-		return {}
-	return history[history.length - 2].progress
 }

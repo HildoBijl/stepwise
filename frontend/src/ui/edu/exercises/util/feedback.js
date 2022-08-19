@@ -15,8 +15,8 @@ const defaultOptions = {
 
 	// These are options automatically added, based on exerciseData.
 	comparison: undefined, // A comparison function or object that will be used to check for correctness.
-	prevInput: undefined,
-	prevFeedback: undefined,
+	previousInput: undefined,
+	previousFeedback: undefined,
 	solution: {}, // This will contain the full "solution" object returned from the getSolution function. 
 }
 
@@ -66,7 +66,7 @@ export function getInputFieldFeedback(parameters, exerciseData, extraOptions) {
 	}
 
 	// Extract parameters and check that they are suitable.
-	const { input, prevInput, prevFeedback, solution, comparison } = extractComparisonFromExerciseData(exerciseData)
+	const { input, previousInput, previousFeedback, solution, comparison } = extractComparisonFromExerciseData(exerciseData)
 
 	// Walk through the parameters and incorporate feedback.
 	const feedback = {}
@@ -81,9 +81,9 @@ export function getInputFieldFeedback(parameters, exerciseData, extraOptions) {
 			return // No input has been given yet.
 
 		// If we have exactly the same input before, return the same feedback.
-		const prevInputAnswer = prevInput[currParameter]
-		if (prevInputAnswer !== undefined && (currInput === prevInputAnswer || deepEquals(currInput.SO, prevInputAnswer.SO))) {
-			feedback[currParameter] = prevFeedback[currParameter]
+		const previousInputAnswer = previousInput[currParameter]
+		if (previousInputAnswer !== undefined && (currInput === previousInputAnswer || deepEquals(currInput.SO, previousInputAnswer.SO))) {
+			feedback[currParameter] = previousFeedback[currParameter]
 			return
 		}
 
@@ -93,7 +93,7 @@ export function getInputFieldFeedback(parameters, exerciseData, extraOptions) {
 		const currExtraOptions = (extraOptions && extraOptions[index]) || {}
 
 		// Assemble the options for the comparison.
-		const currOptions = { comparison: currComparison, prevInput: prevInput[currParameter], prevFeedback: prevFeedback[currParameter], solution, ...currExtraOptions }
+		const currOptions = { comparison: currComparison, previousInput: previousInput[currParameter], previousFeedback: previousFeedback[currParameter], solution, ...currExtraOptions }
 
 		// Extract the feedback and save it.
 		feedback[currParameter] = getIndividualInputFieldFeedback(currParameter, currInput, currSolution, currOptions, exerciseData)
@@ -106,7 +106,7 @@ export function getInputFieldFeedback(parameters, exerciseData, extraOptions) {
 // getIndividualInputFieldFeedback extracts feedback for a single input parameter. It checks which type it is and calls the appropriate function.
 function getIndividualInputFieldFeedback(currParameter, currInput, currSolution, currOptions, exerciseData) {
 	// Determine if the field is correct. Do this in the same way as the comparison function from the shared directory.
-	const { comparison, solution, prevInput, prevFeedback, feedbackChecks, text } = processOptions(currOptions, defaultOptions)
+	const { comparison, solution, previousInput, previousFeedback, feedbackChecks, text } = processOptions(currOptions, defaultOptions)
 	const correct = performIndividualComparison(currParameter, currInput, currSolution, comparison, solution)
 
 	// Walk through the feedback checks and see if one fires.
@@ -115,8 +115,8 @@ function getIndividualInputFieldFeedback(currParameter, currInput, currSolution,
 		return { correct, text: checkResult }
 
 	// Check if the input is the same as before. If so, keep the feedback.
-	if (deepEquals(currInput, prevInput))
-		return prevFeedback
+	if (deepEquals(currInput, previousInput))
+		return previousFeedback
 
 	// If the comparison method is a function, there are no checks we can do. Go for a default approach.
 	if (typeof comparison === 'function') {
@@ -169,7 +169,7 @@ function getIndividualInputFieldFeedback(currParameter, currInput, currSolution,
  *   x incorrect: if it's wrong for some unknown reason.
  */
 export function getNumberComparisonFeedback(currInput, currSolution, options, objectBased, getNumber = (x => x)) {
-	const { comparison, text, prevFeedback } = processOptions(options, defaultOptions)
+	const { comparison, text, previousFeedback } = processOptions(options, defaultOptions)
 
 	// How to get equality data and equality depends on whether this is object-based (like with a Float) or number-based (like with regular numbers).
 	const equalityData = objectBased ?
@@ -184,7 +184,7 @@ export function getNumberComparisonFeedback(currInput, currSolution, options, ob
 	if (correct) {
 		if (!isEqual(currInput, currSolution, accuracyFactorForMarginWarnings))
 			return text.marginWarning || 'Je zit nog binnen de marge, maar het kan nauwkeuriger.'
-		return text.correct || (prevFeedback && prevFeedback.correct && prevFeedback.text) || selectRandomCorrect()
+		return text.correct || (previousFeedback && previousFeedback.correct && previousFeedback.text) || selectRandomCorrect()
 	}
 
 	// Check the unit (when needed).
