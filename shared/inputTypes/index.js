@@ -12,7 +12,7 @@ const types = [
 function toFO(data, useSI = false) {
 	// Check special cases.
 	if (typeof data === 'function')
-		throw new Error(`Invalid Storage Object: no function is allowed in such objects.`)
+		throw new Error(`Invalid ${useSI ? 'Input' : 'Storage'} Object: no function is allowed in such objects.`)
 	if (typeof data !== 'object')
 		return data // Basic type.
 	if (data === null)

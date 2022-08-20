@@ -41,7 +41,7 @@ function getLastInput(history) {
 		if (history[i].action.type === 'input')
 			return history[i].action.input
 	}
-	return null
+	return undefined
 }
 module.exports.getLastInput = getLastInput
 

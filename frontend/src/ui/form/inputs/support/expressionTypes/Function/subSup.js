@@ -4,7 +4,7 @@ import { support } from 'step-wise/CAS'
 import defaultFunctions from './templates/with2In0AfterVertical'
 
 import { removeCursor } from '../../FieldInput'
-import { getFuncs, getDataStartCursor, getDataEndCursor, isDataEmpty } from '../'
+import { getFuncs, getFIStartCursor, getFIEndCursor, isFIEmpty } from '../'
 import { mergeWithRight } from '../support/merging'
 import { splitToRight } from '../support/splitting'
 import Expression from '../Expression'
@@ -20,7 +20,7 @@ const fullExport = {
 	isUpFirst,
 	getInitial,
 	acceptsKey,
-	keyPressToData,
+	keyPressToFI,
 	cleanUp,
 	canMerge,
 	merge,
@@ -29,8 +29,8 @@ const fullExport = {
 }
 export default fullExport
 
-function create(expressionData, part, position, name, alias) {
-	let { value } = expressionData
+function create(expressionFI, part, position, name, alias) {
+	let { value } = expressionFI
 	const element = value[part]
 	const applySubscript = alias === '_'
 
@@ -43,17 +43,17 @@ function create(expressionData, part, position, name, alias) {
 		subSupPart = part + 1
 	if (subSupPart !== undefined) {
 		const expressionWithoutAlias = {
-			...removeCursor(expressionData),
+			...removeCursor(expressionFI),
 			value: arraySplice(value, part, 1, { ...element, value: element.value.replace(alias, '') }),
 		}
 		return moveCursorToSubSup(expressionWithoutAlias, subSupPart, applySubscript, subSupPart > part)
 	}
 
 	// A new SubSup needs to be created. Define cursors.
-	const start = getDataStartCursor(expressionData)
+	const start = getFIStartCursor(expressionFI)
 	const beforeAlias = { part, cursor: position }
 	const afterAlias = { part, cursor: position + alias.length }
-	const end = getDataEndCursor(expressionData)
+	const end = getFIEndCursor(expressionFI)
 
 	// Set up the element.
 	const functionElement = {
@@ -72,7 +72,7 @@ function create(expressionData, part, position, name, alias) {
 		...expressionAfter,
 	]
 	return {
-		...expressionData,
+		...expressionFI,
 		value,
 		cursor: {
 			part: value.indexOf(functionElement),
@@ -81,8 +81,8 @@ function create(expressionData, part, position, name, alias) {
 	}
 }
 
-function moveCursorToSubSup(expressionData, part, toSubscript, atStart) {
-	let { value } = expressionData
+function moveCursorToSubSup(expressionFI, part, toSubscript, atStart) {
+	let { value } = expressionFI
 
 	// First check if the respective part (subscript or superscript) still needs to be added.
 	let element = value[part]
@@ -100,20 +100,20 @@ function moveCursorToSubSup(expressionData, part, toSubscript, atStart) {
 		part,
 		cursor: {
 			part: elementPart,
-			cursor: (atStart ? getDataStartCursor : getDataEndCursor)(element.value[elementPart]),
+			cursor: (atStart ? getFIStartCursor : getFIEndCursor)(element.value[elementPart]),
 		},
 	}
 
 	// Set up the resulting expression.
 	return {
-		...expressionData,
+		...expressionFI,
 		value,
 		cursor,
 	}
 }
 
-function toLatex(data, options) {
-	const { value } = data
+function toLatex(FI, options) {
+	const { value } = FI
 	const [subLatex, supLatex] = value.map(element => element && getFuncs(element).toLatex(element, options))
 	return {
 		latex: (subLatex ? `_{${subLatex.latex}}` : ``) + (supLatex ? `^{${supLatex.latex}}` : ``),
@@ -147,59 +147,59 @@ function getEmptySup() {
 	return { type: 'Expression', value: Expression.getEmpty() }
 }
 
-function acceptsKey(keyInfo, data, settings) {
+function acceptsKey(keyInfo, FI, settings) {
 	const { key } = keyInfo
-	const { cursor } = data
+	const { cursor } = FI
 	if ((key === '^' || key === 'Power') && cursor.part === 0)
 		return true
-	return defaultFunctions.acceptsKey(keyInfo, data, settings)
+	return defaultFunctions.acceptsKey(keyInfo, FI, settings)
 }
 
-function keyPressToData(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement) {
-	const { value, cursor } = data
+function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, contentsElement, cursorElement) {
+	const { value, cursor } = FI
 	const { key } = keyInfo
 
 	// For a power button when inside the subscript, go to the end of the superscript.
 	if ((key === '^' || key === 'Power') && cursor.part === 0) {
 		const newValue = value[1] ? value : [value[0], getEmptySup()] // If there is no superscript yet, add an empty one.
 		return {
-			...data,
+			...FI,
 			value: newValue,
 			cursor: {
 				part: 1,
-				cursor: getDataEndCursor(newValue[1]),
+				cursor: getFIEndCursor(newValue[1]),
 			},
 		}
 	}
 
 	// Process the key as usual.
-	return defaultFunctions.keyPressToData(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement)
+	return defaultFunctions.keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, contentsElement, cursorElement)
 }
 
-function cleanUp(data, settings) {
+function cleanUp(FI, settings) {
 	// First clean up in the default way.
-	data = defaultFunctions.cleanUp(data, settings)
+	FI = defaultFunctions.cleanUp(FI, settings)
 
 	// Then remove empty parts. Keep parts that are not empty or have a cursor in them.
-	const { cursor, value } = data
+	const { cursor, value } = FI
 	return {
-		...data,
-		value: value.map((element, part) => element && (!isDataEmpty(element) || (cursor && cursor.part === part)) ? element : null),
+		...FI,
+		value: value.map((element, part) => element && (!isFIEmpty(element) || (cursor && cursor.part === part)) ? element : null),
 	}
 }
 
-function canMerge(data, mergeWithNext, fromOutside) {
-	return data.value[1] !== null && mergeWithNext // Only merge the superscript with what comes after.
+function canMerge(FI, mergeWithNext, fromOutside) {
+	return FI.value[1] !== null && mergeWithNext // Only merge the superscript with what comes after.
 }
 
-function merge(data, partIndex, mergeWithNext, fromOutside) {
-	return mergeWithRight(data, partIndex, fromOutside)
+function merge(FI, partIndex, mergeWithNext, fromOutside) {
+	return mergeWithRight(FI, partIndex, fromOutside)
 }
 
-function canSplit(data) {
-	return data.cursor.part === 1 // In the superscript.
+function canSplit(FI) {
+	return FI.cursor.part === 1 // In the superscript.
 }
 
-function split(data) {
-	return splitToRight(data)
+function split(FI) {
+	return splitToRight(FI)
 }

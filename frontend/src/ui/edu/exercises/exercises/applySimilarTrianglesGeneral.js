@@ -6,7 +6,7 @@ import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import { Drawing } from 'ui/components/figures'
 import { components, LineLabel, useRotationReflectionTransformation, useScaleToBoundsTransformationSettings } from 'ui/components/figures'
-import ExpressionInput, { validAndNumeric, basicMathAndPowers } from 'ui/form/inputs/ExpressionInput'
+import ExpressionInput, { numeric, basicMathAndPowers } from 'ui/form/inputs/ExpressionInput'
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form/Status'
 
@@ -30,8 +30,8 @@ const Problem = () => {
 		<Par>De onderstaande driehoek met zijde <M>{z}</M> is gelijkvormig met een <M>\left({La},{Lb},{Lc}\right)</M> driehoek. Vind de onbekende zijden <M>{x}</M> en <M>{y}.</M></Par>
 		<ExerciseFigure />
 		<InputSpace>
-			<ExpressionInput id="ans1" prelabel={<M>{x}=</M>} size="s" settings={basicMathAndPowers} validate={validAndNumeric} />
-			<ExpressionInput id="ans2" prelabel={<M>{y}=</M>} size="s" settings={basicMathAndPowers} validate={validAndNumeric} />
+			<ExpressionInput id="ans1" prelabel={<M>{x}=</M>} size="s" settings={basicMathAndPowers} validate={numeric} />
+			<ExpressionInput id="ans2" prelabel={<M>{y}=</M>} size="s" settings={basicMathAndPowers} validate={numeric} />
 		</InputSpace>
 	</>
 }
@@ -59,7 +59,7 @@ const steps = [
 				<Par>Los deze vergelijking op voor <M>{x}.</M></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="ans1" prelabel={<M>{x}=</M>} size="s" settings={basicMathAndPowers} validate={validAndNumeric} />
+						<ExpressionInput id="ans1" prelabel={<M>{x}=</M>} size="s" settings={basicMathAndPowers} validate={numeric} />
 					</Par>
 				</InputSpace>
 			</>
@@ -91,7 +91,7 @@ const steps = [
 				<Par>Los deze vergelijking op voor <M>{y}.</M></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="ans2" prelabel={<M>{y}=</M>} size="s" settings={basicMathAndPowers} validate={validAndNumeric} />
+						<ExpressionInput id="ans2" prelabel={<M>{y}=</M>} size="s" settings={basicMathAndPowers} validate={numeric} />
 					</Par>
 				</InputSpace>
 			</>

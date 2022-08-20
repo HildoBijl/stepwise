@@ -6,7 +6,7 @@ import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import { Drawing } from 'ui/components/figures'
 import { components, LineLabel, useRotationReflectionTransformation, useScaleToBoundsTransformationSettings } from 'ui/components/figures'
-import ExpressionInput, { validAndNumeric, basicMathAndPowers } from 'ui/form/inputs/ExpressionInput'
+import ExpressionInput, { numeric, basicMathAndPowers } from 'ui/form/inputs/ExpressionInput'
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form/Status'
 
@@ -29,7 +29,7 @@ const Problem = (state) => {
 		<Par>Gegeven is de onderstaande driehoek. Vind de onbekende zijde <M>{x}.</M></Par>
 		<ExerciseFigure state={state} solution={solution} />
 		<InputSpace>
-			<ExpressionInput id="ans" prelabel={<M>{x}=</M>} size="s" settings={basicMathAndPowers} validate={validAndNumeric} />
+			<ExpressionInput id="ans" prelabel={<M>{x}=</M>} size="s" settings={basicMathAndPowers} validate={numeric} />
 		</InputSpace>
 	</>
 }
@@ -59,7 +59,7 @@ const steps = [
 				<Par>Los deze vergelijking eerst op voor <M>{x}^2.</M></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="ansSquared" prelabel={<M>{x}^2=</M>} size="s" settings={basicMathAndPowers} validate={validAndNumeric} />
+						<ExpressionInput id="ansSquared" prelabel={<M>{x}^2=</M>} size="s" settings={basicMathAndPowers} validate={numeric} />
 					</Par>
 				</InputSpace>
 			</>
@@ -76,7 +76,7 @@ const steps = [
 				<Par>Bepaal vanuit <M>{x}^2</M> de waarde van <M>{x}.</M></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="ans" prelabel={<M>{x}=</M>} size="s" settings={basicMathAndPowers} validate={validAndNumeric} />
+						<ExpressionInput id="ans" prelabel={<M>{x}=</M>} size="s" settings={basicMathAndPowers} validate={numeric} />
 					</Par>
 				</InputSpace>
 			</>

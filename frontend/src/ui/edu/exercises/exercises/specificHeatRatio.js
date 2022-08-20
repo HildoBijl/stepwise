@@ -4,7 +4,7 @@ import * as gasProperties from 'step-wise/data/gasProperties'
 
 import { M } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
-import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
+import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 import { English, Dutch } from 'ui/lang/gases'
 
@@ -19,7 +19,7 @@ function Problem({ medium }) {
 	return <>
 		<Par>Zoek de <M>k</M>-waarde (de verhouding van soortelijke warmten) van <strong>{Dutch[medium]}</strong> op. Voer je antwoord zo nauwkeurig mogelijk in.</Par>
 		<InputSpace>
-			<Par><FloatUnitInput id="k" prelabel={<M>k =</M>} label={<span><M>k</M>-waarde</span>} size="s" validate={validNumberAndUnit} /></Par>
+			<Par><FloatUnitInput id="k" prelabel={<M>k =</M>} label={<span><M>k</M>-waarde</span>} size="s" validate={any} /></Par>
 		</InputSpace>
 	</>
 }

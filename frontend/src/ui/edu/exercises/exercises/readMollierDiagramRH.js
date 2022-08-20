@@ -3,7 +3,7 @@ import React, { useRef } from 'react'
 import { useInitializer } from 'util/react'
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
-import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
+import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import MollierDiagram from '../../content/diagrams/MollierDiagram'
@@ -22,7 +22,7 @@ function Problem({ T, AH }) {
 		<MollierDiagram maxWidth="500" />
 		<InputSpace>
 			<Par>
-				<FloatUnitInput id="RH" prelabel={<M>RV =</M>} label="Relatieve luchtvochtigheid" size="s" validate={validNumberAndUnit} />
+				<FloatUnitInput id="RH" prelabel={<M>RV =</M>} label="Relatieve luchtvochtigheid" size="s" validate={any} />
 			</Par>
 		</InputSpace>
 	</>

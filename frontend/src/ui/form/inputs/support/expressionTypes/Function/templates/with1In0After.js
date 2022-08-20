@@ -3,7 +3,7 @@
 import { lastOf } from 'step-wise/util/arrays'
 import { support } from 'step-wise/CAS'
 
-import { getFuncs, getDataStartCursor, getDataEndCursor, isDataEmpty } from '../..'
+import { getFuncs, getFIStartCursor, getFIEndCursor, isFIEmpty } from '../..'
 import { mergeWithRight } from '../../support/merging'
 import { splitToRight } from '../../support/splitting'
 
@@ -24,15 +24,15 @@ const allFunctions = {
 }
 export default allFunctions
 
-function create(expressionData, part, position, name, alias) {
-	let { value } = expressionData
+function create(expressionFI, part, position, name, alias) {
+	let { value } = expressionFI
 
 	// Define cursors.
-	const start = getDataStartCursor(expressionData)
+	const start = getFIStartCursor(expressionFI)
 	const beforeAlias = { part, cursor: position }
 	const afterAlias = { part, cursor: position + alias.length }
 	const endOfTerm = findNextClosingBracket(value, afterAlias)
-	const end = getDataEndCursor(expressionData)
+	const end = getFIEndCursor(expressionFI)
 
 	// Check if there is a bracket at the end of the term. If not, put everything in the function.
 	let endOfTermAfterBracket = endOfTerm
@@ -59,7 +59,7 @@ function create(expressionData, part, position, name, alias) {
 		...getSubExpression(value, endOfTermAfterBracket, end),
 	]
 	return {
-		...expressionData,
+		...expressionFI,
 		value,
 		cursor: {
 			part: value.indexOf(functionElement),
@@ -73,31 +73,31 @@ function getInitial(alias, parameter) {
 }
 
 function getInitialCursor(element) {
-	return getDataStartCursor(element)
+	return getFIStartCursor(element)
 }
 
-function canMerge(data, mergeWithNext, fromOutside) {
+function canMerge(FI, mergeWithNext, fromOutside) {
 	return true
 }
 
-function merge(data, partIndex, mergeWithNext, fromOutside) {
-	const { value } = data
+function merge(FI, partIndex, mergeWithNext, fromOutside) {
+	const { value } = FI
 	// If we want to merge with what came before, this actually means we must remove the element.
 	if (!mergeWithNext)
 		return getFuncs(value[partIndex]).removeElementFromExpression(value, partIndex, !fromOutside)
-	return mergeWithRight(data, partIndex, fromOutside)
+	return mergeWithRight(FI, partIndex, fromOutside)
 }
 
-function canSplit(data) {
+function canSplit(FI) {
 	return true
 }
 
-function split(data) {
-	return splitToRight(data)
+function split(FI) {
+	return splitToRight(FI)
 }
 
-function removeElement(data, withBackspace) {
-	const { alias, value } = data
+function removeElement(FI, withBackspace) {
+	const { alias, value } = FI
 	const parameter = lastOf(value) // Use lastOf to allow inheritance for multi-parameter functions.
 
 	// Figure out what remains of the alias and wrap it around the parameter.
@@ -107,7 +107,7 @@ function removeElement(data, withBackspace) {
 	}
 	const rightInsertion = {
 		type: 'ExpressionPart',
-		value: isDataEmpty(parameter) ? '' : ')', // When not empty, add a closing bracket.
+		value: isFIEmpty(parameter) ? '' : ')', // When not empty, add a closing bracket.
 	}
 	return {
 		type: 'Expression',
@@ -118,7 +118,7 @@ function removeElement(data, withBackspace) {
 		],
 		cursor: {
 			part: 0,
-			cursor: (withBackspace ? getDataEndCursor : getDataStartCursor)(leftInsertion),
+			cursor: (withBackspace ? getFIEndCursor : getFIStartCursor)(leftInsertion),
 		},
 	}
 }

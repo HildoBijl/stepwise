@@ -4,7 +4,7 @@ import { support } from 'step-wise/CAS'
 
 import { addCursor, removeCursor } from '../FieldInput'
 import { getClosestElement } from '../MathWithCursor'
-import { getFuncs, zoomIn, getDataStartCursor, getDataEndCursor, isCursorAtDataStart, isCursorAtDataEnd, dataAcceptsKey } from './index.js'
+import { getFuncs, zoomIn, getFIStartCursor, getFIEndCursor, isCursorAtFIStart, isCursorAtFIEnd, FIAcceptsKey } from './index.js'
 import ExpressionPart from './ExpressionPart'
 
 import cleanUp from './support/ExpressionCleanUp'
@@ -17,7 +17,7 @@ const allFunctions = {
 	toLatex,
 	getCursorProperties,
 	acceptsKey,
-	keyPressToData,
+	keyPressToFI,
 	canMoveCursorVertically,
 	charElementClickToCursor,
 	coordinatesToCursor,
@@ -34,8 +34,8 @@ const allFunctions = {
 export default allFunctions
 export { getStartCursor, getEndCursor }
 
-export function toLatex(data) {
-	let { value } = data
+export function toLatex(FI) {
+	let { value } = FI
 
 	// Get the Latex of each individual element. For this, assemble the options properly.
 	const latexAndCharsPerElement = value.map((element, index) => {
@@ -81,29 +81,29 @@ export function toLatex(data) {
 	return { latex, chars }
 }
 
-export function getCursorProperties(data, charElements, container) {
-	const activeElement = zoomIn(data)
-	return getFuncs(activeElement).getCursorProperties(activeElement, charElements[data.cursor.part], container)
+export function getCursorProperties(FI, charElements, container) {
+	const activeElement = zoomIn(FI)
+	return getFuncs(activeElement).getCursorProperties(activeElement, charElements[FI.cursor.part], container)
 }
 
-export function acceptsKey(keyInfo, data, settings) {
+export function acceptsKey(keyInfo, FI, settings) {
 	const { key, ctrl, alt } = keyInfo
-	const { cursor, value } = data
-	const activeElementData = zoomIn(data)
-	const activeElementFuncs = getFuncs(activeElementData)
+	const { cursor, value } = FI
+	const activeElementFI = zoomIn(FI)
+	const activeElementFuncs = getFuncs(activeElementFI)
 
 	// Ignore ctrl/alt keys.
 	if (ctrl || alt)
 		return false
 
 	// Check for cursor keys.
-	if (isCursorKey(keyInfo, data))
+	if (isCursorKey(keyInfo, FI))
 		return true
 
 	// Check for the spacebar.
 	if (key === ' ' || key === 'Spacebar') {
-		if (activeElementFuncs.canSplit && activeElementFuncs.canSplit(activeElementData)) {
-			const parameter = zoomIn(activeElementData)
+		if (activeElementFuncs.canSplit && activeElementFuncs.canSplit(activeElementFI)) {
+			const parameter = zoomIn(activeElementFI)
 			const parameterFuncs = getFuncs(parameter)
 			if (!(parameterFuncs.canSplit && parameterFuncs.canSplit(parameter))) {
 				if (zoomIn(parameter).type === 'ExpressionPart') {
@@ -114,88 +114,88 @@ export function acceptsKey(keyInfo, data, settings) {
 	}
 
 	// Check for invalid keys inside accents that are shifted to the neighbouring element.
-	if (activeElementData.type === 'Accent') {
-		if (!dataAcceptsKey(keyInfo, activeElementData, settings)) {
-			if (isCursorAtDataStart(activeElementData) && dataAcceptsKey(keyInfo, value[cursor.part - 1], settings))
+	if (activeElementFI.type === 'Accent') {
+		if (!FIAcceptsKey(keyInfo, activeElementFI, settings)) {
+			if (isCursorAtFIStart(activeElementFI) && FIAcceptsKey(keyInfo, value[cursor.part - 1], settings))
 				return true
-			if (isCursorAtDataEnd(activeElementData) && dataAcceptsKey(keyInfo, value[cursor.part + 1], settings))
+			if (isCursorAtFIEnd(activeElementFI) && FIAcceptsKey(keyInfo, value[cursor.part + 1], settings))
 				return true
 		}
 	}
 
 	// Check the child element.
-	return dataAcceptsKey(keyInfo, zoomIn(data), settings)
+	return FIAcceptsKey(keyInfo, zoomIn(FI), settings)
 }
 
-export function keyPressToData(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement) {
+export function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, contentsElement, cursorElement) {
 	const { key } = keyInfo
-	const { value, cursor } = data
-	const activeElementData = zoomIn(data)
-	const activeElementFuncs = getFuncs(activeElementData)
+	const { value, cursor } = FI
+	const activeElementFI = zoomIn(FI)
+	const activeElementFuncs = getFuncs(activeElementFI)
 
 	// Verify the key.
-	if (!acceptsKey(keyInfo, data, settings))
-		return data
+	if (!acceptsKey(keyInfo, FI, settings))
+		return FI
 
-	const { passOn, moveLeft, moveRight } = getKeyPressHandlers(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement)
+	const { passOn, moveLeft, moveRight } = getKeyPressHandlers(keyInfo, FI, settings, charElements, topParentFI, contentsElement, cursorElement)
 
 	// For left/right-arrows, adjust the cursor.
-	if (key === 'ArrowLeft' && cursor.part > 0 && (isCursorAtDataStart(activeElementData) || (activeElementFuncs.canMoveCursorOutside && activeElementFuncs.canMoveCursorOutside(activeElementData, false))))
+	if (key === 'ArrowLeft' && cursor.part > 0 && (isCursorAtFIStart(activeElementFI) || (activeElementFuncs.canMoveCursorOutside && activeElementFuncs.canMoveCursorOutside(activeElementFI, false))))
 		return moveLeft()
-	if (key === 'ArrowRight' && cursor.part < value.length - 1 && (isCursorAtDataEnd(activeElementData) || (activeElementFuncs.canMoveCursorOutside && activeElementFuncs.canMoveCursorOutside(activeElementData, true))))
+	if (key === 'ArrowRight' && cursor.part < value.length - 1 && (isCursorAtFIEnd(activeElementFI) || (activeElementFuncs.canMoveCursorOutside && activeElementFuncs.canMoveCursorOutside(activeElementFI, true))))
 		return moveRight()
 
 	// For the home/end, move to the start/end of this expression, but only if the cursor is already at the start of said element or a child of said element. (If not, pass the call on to let the part itself handle it.)
 	if (key === 'Home') {
-		if (activeElementData.type === 'ExpressionPart' || activeElementData.type === 'Accent' || isCursorAtDataStart(activeElementData) || isCursorAtDataStart(zoomIn(activeElementData)))
-			return { ...data, cursor: getStartCursor(value) }
+		if (activeElementFI.type === 'ExpressionPart' || activeElementFI.type === 'Accent' || isCursorAtFIStart(activeElementFI) || isCursorAtFIStart(zoomIn(activeElementFI)))
+			return { ...FI, cursor: getStartCursor(value) }
 	}
 	if (key === 'End') {
-		if (activeElementData.type === 'ExpressionPart' || activeElementData.type === 'Accent' || isCursorAtDataEnd(activeElementData) || isCursorAtDataEnd(zoomIn(activeElementData)))
-			return { ...data, cursor: getEndCursor(value) }
+		if (activeElementFI.type === 'ExpressionPart' || activeElementFI.type === 'Accent' || isCursorAtFIEnd(activeElementFI) || isCursorAtFIEnd(zoomIn(activeElementFI)))
+			return { ...FI, cursor: getEndCursor(value) }
 	}
 
 	// When the cursor is at the start of an element and a backspace is pressed, merge elements appropriately.
-	if (key === 'Backspace' && isCursorAtDataStart(activeElementData)) {
-		if (isCursorAtDataStart(data))
-			return data // Cannot remove anything.
+	if (key === 'Backspace' && isCursorAtFIStart(activeElementFI)) {
+		if (isCursorAtFIStart(FI))
+			return FI // Cannot remove anything.
 
 		// Are we in an expression part?
-		if (activeElementData.type === 'ExpressionPart') {
+		if (activeElementFI.type === 'ExpressionPart') {
 			const previousPart = value[cursor.part - 1]
 			const previousPartFuncs = getFuncs(previousPart)
 			if (previousPartFuncs.canMerge && previousPartFuncs.canMerge(previousPart, true, true))
-				return previousPartFuncs.merge(data, cursor.part - 1, true, true)
+				return previousPartFuncs.merge(FI, cursor.part - 1, true, true)
 			else
 				return moveLeft()
 		} else { // We are in a special element.
 			const activePart = value[cursor.part]
 			const activePartFuncs = getFuncs(activePart)
 			if (activePartFuncs.canMerge && activePartFuncs.canMerge(activePart, false, false))
-				return activePartFuncs.merge(data, cursor.part, false, false)
+				return activePartFuncs.merge(FI, cursor.part, false, false)
 			else
 				return moveLeft()
 		}
 	}
 
 	// When the cursor is at the end of an element and a delete is pressed, merge elements appropriately.
-	if (key === 'Delete' && isCursorAtDataEnd(activeElementData)) {
-		if (isCursorAtDataEnd(data))
-			return data // Cannot delete anything.
+	if (key === 'Delete' && isCursorAtFIEnd(activeElementFI)) {
+		if (isCursorAtFIEnd(FI))
+			return FI // Cannot delete anything.
 
 		// Are we in an expression part?
-		if (activeElementData.type === 'ExpressionPart') {
+		if (activeElementFI.type === 'ExpressionPart') {
 			const nextPart = value[cursor.part + 1]
 			const nextPartFuncs = getFuncs(nextPart)
 			if (nextPartFuncs.canMerge && nextPartFuncs.canMerge(nextPart, false, true))
-				return nextPartFuncs.merge(data, cursor.part + 1, false, true)
+				return nextPartFuncs.merge(FI, cursor.part + 1, false, true)
 			else
 				return moveRight()
 		} else { // We are in a special element.
 			const activePart = value[cursor.part]
 			const activePartFuncs = getFuncs(activePart)
 			if (activePartFuncs.canMerge && activePartFuncs.canMerge(activePart, true, false))
-				return activePartFuncs.merge(data, cursor.part, true, false)
+				return activePartFuncs.merge(FI, cursor.part, true, false)
 			else
 				return moveRight()
 		}
@@ -203,14 +203,14 @@ export function keyPressToData(keyInfo, data, settings, charElements, topParentD
 
 	// When the spacebar is pressed, try to split up the element. Only do this when the active element indicates its child can be split, the said child (parameter) cannot be split itself, and the cursor is in an ExpressionPart of said child.
 	if (key === ' ' || key === 'Spacebar') {
-		if (activeElementFuncs.canSplit && activeElementFuncs.canSplit(activeElementData)) {
-			const parameter = zoomIn(activeElementData)
+		if (activeElementFuncs.canSplit && activeElementFuncs.canSplit(activeElementFI)) {
+			const parameter = zoomIn(activeElementFI)
 			const parameterFuncs = getFuncs(parameter)
 			if (!(parameterFuncs.canSplit && parameterFuncs.canSplit(parameter))) {
 				if (zoomIn(parameter).type === 'ExpressionPart') {
-					const split = activeElementFuncs.split(activeElementData)
+					const split = activeElementFuncs.split(activeElementFI)
 					return {
-						...data,
+						...FI,
 						value: [
 							...value.slice(0, cursor.part),
 							removeCursor(split),
@@ -227,32 +227,32 @@ export function keyPressToData(keyInfo, data, settings, charElements, topParentD
 	}
 
 	// Check if the cursor is at the start/end of an accent that doesn't accept the key, while the ExpressionPart neighbour does accept the key. In that case, move the cursor first to the ExpressionPart and process appropriately.
-	if (activeElementData.type === 'Accent') {
-		if (!dataAcceptsKey(keyInfo, activeElementData, settings)) {
+	if (activeElementFI.type === 'Accent') {
+		if (!FIAcceptsKey(keyInfo, activeElementFI, settings)) {
 			// Check if we're near the previous part and if that accepts it.
 			const previousPart = value[cursor.part - 1]
-			if (isCursorAtDataStart(activeElementData) && dataAcceptsKey(keyInfo, previousPart, settings)) {
+			if (isCursorAtFIStart(activeElementFI) && FIAcceptsKey(keyInfo, previousPart, settings)) {
 				const newExpression = {
-					...data,
+					...FI,
 					cursor: {
 						part: cursor.part - 1,
-						cursor: getDataEndCursor(previousPart),
+						cursor: getFIEndCursor(previousPart),
 					},
 				}
-				return keyPressToData(keyInfo, newExpression, settings, charElements, newExpression, contentsElement, cursorElement)
+				return keyPressToFI(keyInfo, newExpression, settings, charElements, newExpression, contentsElement, cursorElement)
 			}
 
 			// Check if we're near the next part and if that accepts it.
 			const nextPart = value[cursor.part + 1]
-			if (isCursorAtDataEnd(activeElementData) && dataAcceptsKey(keyInfo, nextPart, settings)) {
+			if (isCursorAtFIEnd(activeElementFI) && FIAcceptsKey(keyInfo, nextPart, settings)) {
 				const newExpression = {
-					...data,
+					...FI,
 					cursor: {
 						part: cursor.part + 1,
-						cursor: getDataStartCursor(nextPart),
+						cursor: getFIStartCursor(nextPart),
 					},
 				}
-				return keyPressToData(keyInfo, newExpression, settings, charElements, newExpression, contentsElement, cursorElement)
+				return keyPressToFI(keyInfo, newExpression, settings, charElements, newExpression, contentsElement, cursorElement)
 			}
 		}
 	}
@@ -261,15 +261,15 @@ export function keyPressToData(keyInfo, data, settings, charElements, topParentD
 	return passOn()
 }
 
-export function canMoveCursorVertically(data, up) {
-	const activeElementData = zoomIn(data)
-	const canMoveCursorVertically = getFuncs(activeElementData).canMoveCursorVertically
-	return canMoveCursorVertically ? canMoveCursorVertically(activeElementData, up) : false
+export function canMoveCursorVertically(FI, up) {
+	const activeElementFI = zoomIn(FI)
+	const canMoveCursorVertically = getFuncs(activeElementFI).canMoveCursorVertically
+	return canMoveCursorVertically ? canMoveCursorVertically(activeElementFI, up) : false
 }
 
-export function charElementClickToCursor(evt, data, trace, charElements, equationElement) {
+export function charElementClickToCursor(evt, FI, trace, charElements, equationElement) {
 	// Pass it on to the respective element.
-	const { value } = data
+	const { value } = FI
 	const part = firstOf(trace)
 	const newCursor = getFuncs(value[part]).charElementClickToCursor(evt, value[part], trace.slice(1), charElements[part], equationElement)
 	return newCursor === null ? null : {
@@ -278,9 +278,9 @@ export function charElementClickToCursor(evt, data, trace, charElements, equatio
 	}
 }
 
-export function coordinatesToCursor(coordinates, boundsData, data, charElements, contentsElement) {
+export function coordinatesToCursor(coordinates, boundsData, FI, charElements, contentsElement) {
 	const part = getClosestElement(coordinates, boundsData)
-	const element = data.value[part]
+	const element = FI.value[part]
 	return {
 		part,
 		cursor: getFuncs(element).coordinatesToCursor(coordinates, boundsData.parts[part], element, charElements[part], contentsElement)
@@ -288,18 +288,18 @@ export function coordinatesToCursor(coordinates, boundsData, data, charElements,
 }
 
 export function isCursorAtStart(value, cursor) {
-	return cursor.part === 0 && isCursorAtDataStart(addCursor(firstOf(value), cursor.cursor))
+	return cursor.part === 0 && isCursorAtFIStart(addCursor(firstOf(value), cursor.cursor))
 }
 
 export function isCursorAtEnd(value, cursor) {
-	return cursor.part === value.length - 1 && isCursorAtDataEnd(addCursor(lastOf(value), cursor.cursor))
+	return cursor.part === value.length - 1 && isCursorAtFIEnd(addCursor(lastOf(value), cursor.cursor))
 }
 
 export { getEmpty, isEmpty, cleanUp }
 
 // countNetBrackets counts the net number of opening minus closing brackets in a certain part of the expression. If relativeToCursor is 0, it's for the full expression. For -1 it's prior to the cursor and for 1 it's after the cursor. When the cursor is used, we assume it's in an ExpressionPart element.
-export function countNetBrackets(data, relativeToCursor = 0) {
-	const { value, cursor } = data
+export function countNetBrackets(FI, relativeToCursor = 0) {
+	const { value, cursor } = FI
 
 	// When we don't care about the cursor, we just sum everything up.
 	if (relativeToCursor === 0) {
@@ -320,7 +320,7 @@ export function countNetBrackets(data, relativeToCursor = 0) {
 		const countNetBrackets = getFuncs(element).countNetBrackets
 		return countNetBrackets ? countNetBrackets(element, 0) : 0
 	}))
-	const netBracketsInCurrentPart = ExpressionPart.countNetBrackets(zoomIn(data), relativeToCursor)
+	const netBracketsInCurrentPart = ExpressionPart.countNetBrackets(zoomIn(FI), relativeToCursor)
 	return netBracketsInPreviousParts + netBracketsInCurrentPart
 }
 
@@ -371,8 +371,8 @@ function processExpressionPartBrackets(arr) {
 }
 
 // canSplit asks the child element whether it can split.
-export function canSplit(data) {
-	const activeElementData = zoomIn(data)
-	const canSplit = getFuncs(activeElementData).canSplit
-	return canSplit && canSplit(activeElementData)
+export function canSplit(FI) {
+	const activeElementFI = zoomIn(FI)
+	const canSplit = getFuncs(activeElementFI).canSplit
+	return canSplit && canSplit(activeElementFI)
 }

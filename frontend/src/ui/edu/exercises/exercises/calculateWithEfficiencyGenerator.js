@@ -4,7 +4,7 @@ import { Unit } from 'step-wise/inputTypes/Unit'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
-import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
+import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
@@ -19,7 +19,7 @@ function Problem({ P, Pin }) {
 	return <>
 		<Par>Een generator levert een elektrisch vermogen van <M>{P}.</M> De warmte geleverd door de verbrande brandstof is <M>{Pin}.</M> Wat is het rendement van de generator?</Par>
 		<InputSpace>
-			<Par><FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={validNumberAndUnit} /></Par>
+			<Par><FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={any} /></Par>
 		</InputSpace>
 	</>
 }

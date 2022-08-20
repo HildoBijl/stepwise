@@ -2,7 +2,7 @@ import React from 'react'
 
 import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
-import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
+import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import StepExercise from '../types/StepExercise'
@@ -19,8 +19,8 @@ const Problem = ({ type, pc, pe, T2, x3, mdot, P }) => {
 		<Par>Een stoomturbine gebruikt een Rankine-cyclus. Hierbij wordt het water eerst met een pomp gecomprimeerd naar <M>{pe}</M> (punt 1). De bijbehorende pomparbeid mag worden verwaarloosd. Op deze druk wordt het water verwarmd, verdampt en oververhit tot <M>{T2}</M> (punt 2). Van hieruit gaat de stoom in de turbine, waar het expandeert tot een druk van <M>{pc}</M> (punt 3). De stoomturbine werkt niet isentroop, maar wel is bekend dat de dampfractie na deze expansie <M>{x3}</M> is. Ten slotte wordt de stoom isobaar gecondenseerd tot water, tot de vloeistoflijn bereikt wordt (punt 4). Vanaf hier begint alles opnieuw. De stoomturbine heeft een {type === 1 ? <>massadebiet van <M>{mdot}.</M></> : <>geleverd vermogen van <M>{P}.</M></>} Bereken het isentropisch rendement van de turbine, en het (thermodynamisch) rendement en {type === 1 ? `het geleverde vermogen` : `het massadebiet`} van de gehele Rankine-cyclus.</Par>
 		<InputSpace>
 			<Par>
-				<FloatUnitInput id="etai" prelabel={<M>\eta_i =</M>} label="Isentropisch rendement" size="s" validate={validNumberAndUnit} />
-				<FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Thermodynamisch rendement" size="s" validate={validNumberAndUnit} />
+				<FloatUnitInput id="etai" prelabel={<M>\eta_i =</M>} label="Isentropisch rendement" size="s" validate={any} />
+				<FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Thermodynamisch rendement" size="s" validate={any} />
 				{type === 1 ?
 					<FloatUnitInput id="P" prelabel={<M>P =</M>} label="Geleverd vermogen" size="s" /> :
 					<FloatUnitInput id="mdot" prelabel={<M>\dot(m) =</M>} label="Massadebiet" size="s" />}
@@ -73,8 +73,8 @@ const steps = [
 			<Par>Bereken met behulp van de enthalpie-waarden het isentropisch rendement van de turbine en het (thermodynamisch) rendement van de cyclus. {type === 1 ? `Gebruik ook het massadebiet om het geleverde vermogen te berekenen.` : `Gebruik ook het geleverde vermogen om het massadebiet te berekenen.`}</Par>
 			<InputSpace>
 				<Par>
-					<Substep ss={1}><FloatUnitInput id="etai" prelabel={<M>\eta_i =</M>} label="Isentropisch rendement" size="s" validate={validNumberAndUnit} /></Substep>
-					<Substep ss={2}><FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={validNumberAndUnit} /></Substep>
+					<Substep ss={1}><FloatUnitInput id="etai" prelabel={<M>\eta_i =</M>} label="Isentropisch rendement" size="s" validate={any} /></Substep>
+					<Substep ss={2}><FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={any} /></Substep>
 					<Substep ss={3}>{type === 1 ?
 						<FloatUnitInput id="P" prelabel={<M>P =</M>} label="Geleverd vermogen" size="s" /> :
 						<FloatUnitInput id="mdot" prelabel={<M>\dot(m) =</M>} label="Massadebiet" size="s" />}</Substep>

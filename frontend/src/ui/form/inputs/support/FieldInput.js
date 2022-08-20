@@ -244,7 +244,7 @@ const useStyles = makeStyles((theme) => ({
 export default function FieldInput(options) {
 	// Gather properties.
 	let { prelabel, label, placeholder, className, size, center } = options // User-defined props that are potentially passed on.
-	let { isEmpty, JSXObject, keyPressToData, mouseClickToCursor, mouseClickToData, getStartCursor, getEndCursor, isCursorAtStart, clean, functionalize, keyboardSettings, basic, autoResize = false, heightDelta = 0 } = options // Field-defined props that vary per field type.
+	let { isEmpty, JSXObject, keyPressToFI, mouseClickToCursor, mouseClickToFI, getStartCursor, getEndCursor, isCursorAtStart, clean, functionalize, keyboardSettings, basic, autoResize = false, heightDelta = 0 } = options // Field-defined props that vary per field type.
 
 	// Set up refs.
 	const prelabelRef = useRef()
@@ -259,15 +259,15 @@ export default function FieldInput(options) {
 	const labelWidth = useWidthTracker(labelRef)
 
 	// Define keyboard settings.
-	const keyboard = (data) => data && data.cursor !== undefined && keyboardSettings ? {
+	const keyboard = (FI) => FI && FI.cursor !== undefined && keyboardSettings ? {
 		keyFunction: (keyInfo) => processKeyPress(keyInfo),
-		settings: resolveFunctions(keyboardSettings, data), // keyboardSettings may depend on the data.
+		settings: resolveFunctions(keyboardSettings, FI), // keyboardSettings may depend on the FI.
 	} : false // When no settings are provided, no keyboard needs to be shown.
 
-	// Connect as an input.
-	const defaultClean = useDefaultDataCleanFunction(clean || defaultUseFormParameterOptions.clean)
-	const defaultFunctionalize = useDefaultDataFunctionalizeFunction(functionalize || defaultUseFormParameterOptions.functionalize, getEndCursor)
-	const { id, readOnly, data, setData, active, feedback } = useAsInput({
+	// Connect as an input. For this, turn the field-defined clean/functionalize functions (which work on the VALUE for easy access) into regular clean/functionalize functions (which work on the FI) that automatically add/remove the cursor.
+	const defaultClean = useDefaultCleanFunction(clean || defaultUseFormParameterOptions.clean)
+	const defaultFunctionalize = useDefaultFunctionalizeFunction(functionalize || defaultUseFormParameterOptions.functionalize, getEndCursor)
+	const { id, readOnly, FI, setFI, active, feedback } = useAsInput({
 		...filterOptions(options, defaultInputOptions),
 		element: fieldRef,
 		keyboard,
@@ -276,14 +276,14 @@ export default function FieldInput(options) {
 	})
 
 	// Set up necessary effects.
-	const processKeyPress = useCallback(keyInfo => setData(data => keyPressToData(keyInfo, data, contentsRef.current)), [setData, keyPressToData, contentsRef])
+	const processKeyPress = useCallback(keyInfo => setFI(FI => keyPressToFI(keyInfo, FI, contentsRef.current)), [setFI, keyPressToFI, contentsRef])
 	useKeyProcessing(processKeyPress, active)
-	useMouseClickProcessing(id, mouseClickToCursor, mouseClickToData, setData, contentsRef, fieldRef, getStartCursor, getEndCursor)
+	useMouseClickProcessing(id, mouseClickToCursor, mouseClickToFI, setFI, contentsRef, fieldRef, getStartCursor, getEndCursor)
 	useContentSliding(contentsRef, contentsContainerRef, center)
-	useFieldResizing(contentsRef, prelabelRef, fieldRef, data.value, autoResize, heightDelta)
+	useFieldResizing(contentsRef, prelabelRef, fieldRef, FI.value, autoResize, heightDelta)
 
 	// Pass relevant data to the style function.
-	const empty = isEmpty(data) && (!data.cursor || isCursorAtStart(data.value, data.cursor))
+	const empty = isEmpty(FI) && (!FI.cursor || isCursorAtStart(FI.value, FI.cursor))
 	const classes = useStyles({
 		size, // Can be 's', 'm' or 'l'.
 		center, // This is true/false: should content be centered.
@@ -308,7 +308,7 @@ export default function FieldInput(options) {
 
 	// Render the input field and its contents.
 	const Icon = feedback && feedback.Icon
-	const cursor = active ? data.cursor : null
+	const cursor = active ? FI.cursor : null
 	return (
 		<div className={clsx(classes.input, className)}>
 			<div className="prelabel" ref={prelabelRef}>
@@ -320,7 +320,7 @@ export default function FieldInput(options) {
 						<div className="contentsInnerContainer" ref={contentsContainerRef}>
 							<span ref={contentsRef} className={clsx(classes.contents, { [classes.basicContents]: basic })}>
 								{basic ? null : <AbsoluteCursor active={active} />}
-								<JSXObject {...data} cursor={cursor} contentsRef={contentsRef} />
+								<JSXObject {...FI} cursor={cursor} contentsRef={contentsRef} />
 							</span>
 							<span className="placeholder">{placeholder}</span>
 						</div>
@@ -341,7 +341,7 @@ export default function FieldInput(options) {
 	)
 }
 
-// useKeyProcessing uses an effect to listen for key presses. It gets a key press processing function, which should have as arguments a keyInfo object, a data object and (optionally) a contentsElement object, and should return a new data object. This function makes sure that the given processKeyPress function is called.
+// useKeyProcessing uses an effect to listen for key presses. It gets a key press processing function, which should have as arguments a keyInfo object, an FI object and (optionally) a contentsElement object, and should return a new FI object. This function makes sure that the given processKeyPress function is called.
 function useKeyProcessing(processKeyPress, apply = true) {
 	const submit = useSubmitAction()
 	const keyDownHandler = useCallback(evt => {
@@ -354,22 +354,22 @@ function useKeyProcessing(processKeyPress, apply = true) {
 	useEventListener('keydown', keyDownHandler, listeningObject)
 }
 
-// useMouseClickProcessing sets up listeners for mouse clicks and calls the processing function accordingly. The mouseClickToData must be a function which receives an event, the input data, a contents object and a field object, and uses that to determine the new cursor position.
-function useMouseClickProcessing(fieldId, mouseClickToCursor, mouseClickToData, setData, contentsRef, fieldRef, getStartCursor, getEndCursor) {
+// useMouseClickProcessing sets up listeners for mouse clicks and calls the processing function accordingly. The mouseClickToFI must be a function which receives an event, the input FI, a contents object and a field object, and uses that to determine the new cursor position.
+function useMouseClickProcessing(fieldId, mouseClickToCursor, mouseClickToFI, setFI, contentsRef, fieldRef, getStartCursor, getEndCursor) {
 	const cursorRef = useCursorRef()
 
-	// If no mouseClickToData function has been provided, but a mouseClickToCursor function has been provided, establish an own mouseClickToData function.
-	if (!mouseClickToData && mouseClickToCursor) {
-		mouseClickToData = (evt, data, contentsElement, fieldElement) => {
-			const cursor = mouseClickToCursor(evt, data, contentsElement, fieldElement)
-			return checkCursor(cursor) ? { ...data, cursor } : data
+	// If no mouseClickToFI function has been provided, but a mouseClickToCursor function has been provided, establish an own mouseClickToFI function.
+	if (!mouseClickToFI && mouseClickToCursor) {
+		mouseClickToFI = (evt, FI, contentsElement, fieldElement) => {
+			const cursor = mouseClickToCursor(evt, FI, contentsElement, fieldElement)
+			return checkCursor(cursor) ? { ...FI, cursor } : FI
 		}
 	}
 
 	// Set up the click handler.
 	const mouseClickHandler = useCallback(evt => {
 		// Check various cases that are the same for all input fields.
-		if (!mouseClickToData)
+		if (!mouseClickToFI)
 			return // If no process function is present, do nothing.
 		if (cursorRef.current && cursorRef.current.contains(evt.target))
 			return // If the cursor was clicked, keep everything as is.
@@ -381,15 +381,15 @@ function useMouseClickProcessing(fieldId, mouseClickToCursor, mouseClickToData, 
 			const contentsCoords = getCoordinatesOf(contentsRef.current, fieldRef.current)
 			const contentsWidth = contentsRef.current.offsetWidth
 			if (clickCoords.x <= contentsCoords.x)
-				setData(data => ({ ...data, cursor: getStartCursor(data && data.value, data && data.cursor) })) // Left
+				setFI(FI => ({ ...FI, cursor: getStartCursor(FI && FI.value, FI && FI.cursor) })) // Left
 			else if (clickCoords.x >= contentsCoords.x + contentsWidth)
-				setData(data => ({ ...data, cursor: getEndCursor(data && data.value, data && data.cursor) })) // Right
+				setFI(FI => ({ ...FI, cursor: getEndCursor(FI && FI.value, FI && FI.cursor) })) // Right
 			return
 		}
 
 		// We have a field-dependent case. Check the cursor position within the contents and apply it.
-		setData((data) => mouseClickToData(evt, data, contentsRef.current, fieldRef.current))
-	}, [mouseClickToData, contentsRef, fieldRef, cursorRef, setData, getStartCursor, getEndCursor])
+		setFI(FI => mouseClickToFI(evt, FI, contentsRef.current, fieldRef.current))
+	}, [mouseClickToFI, contentsRef, fieldRef, cursorRef, setFI, getStartCursor, getEndCursor])
 
 	// Listen to mouse downs on the field.
 	useEventListener('mousedown', mouseClickHandler, fieldRef)
@@ -475,10 +475,10 @@ function submitOnEnter(evt, submit) {
 		submit()
 }
 
-// addCursor will add the given cursor to the given data object.
-export function addCursor(data, cursor) {
+// addCursor will add the given cursor to the given FI object.
+export function addCursor(FI, cursor) {
 	return {
-		...data,
+		...FI,
 		cursor,
 	}
 }
@@ -510,13 +510,13 @@ export function removeCursors(inputSet) {
 }
 
 // The default clean and functionalize functions remove/add a cursor on the right place, in addition to running the given clean/functionalize function on the value property.
-export function useDefaultDataCleanFunction(clean) {
-	return useLookupCallback(data => removeCursor({ ...data, value: clean(data.value) }))
+export function useDefaultCleanFunction(clean) {
+	return useLookupCallback(FI => removeCursor({ ...FI, value: clean(FI.value) }))
 }
-export function useDefaultDataFunctionalizeFunction(functionalize, getEndCursor) {
-	return useLookupCallback(data => {
-		const value = functionalize(data.value)
-		return { ...data, value, cursor: getEndCursor(value) }
+export function useDefaultFunctionalizeFunction(functionalize, getEndCursor) {
+	return useLookupCallback(FI => {
+		const value = functionalize(FI.value)
+		return { ...FI, value, cursor: getEndCursor(value) }
 	})
 }
 

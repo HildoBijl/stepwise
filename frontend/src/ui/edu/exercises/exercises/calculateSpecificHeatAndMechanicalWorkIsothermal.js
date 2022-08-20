@@ -3,7 +3,7 @@ import React from 'react'
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import { InputSpace } from 'ui/form/Status'
-import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
+import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { Dutch } from 'ui/lang/gases'
 
@@ -89,7 +89,7 @@ const steps = [
 			<Par>In de formule staat ook de verhouding <M>v_2/v_1.</M> Bereken deze verhouding. Gebruik hiervoor eventueel de gaswet, wetende dat de temperatuur constant blijft.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="ratio" prelabel={<M>\frac(v_2)(v_1) =</M>} label="Volumeverhouding" size="s" validate={validNumberAndUnit} />
+					<FloatUnitInput id="ratio" prelabel={<M>\frac(v_2)(v_1) =</M>} label="Volumeverhouding" size="s" validate={any} />
 				</Par>
 			</InputSpace>
 		</>,

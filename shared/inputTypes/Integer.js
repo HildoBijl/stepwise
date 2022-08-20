@@ -1,6 +1,7 @@
 const { isNumber, epsilon } = require('../util/numbers')
 const { processOptions } = require('../util/objects')
 const { getRandomInteger } = require('../util/random')
+const { InterpretationError } = require('../util/errors')
 
 module.exports.getRandomInteger = getRandomInteger // Exports this function here too, for uniformity's sake.
 
@@ -49,8 +50,13 @@ function checkNumberEquality(a, b, options = {}) {
 module.exports.checkNumberEquality = checkNumberEquality
 
 // An Integer coming from an input field is stored as a string. In this way we can remember what exactly the user put in. It is transformed into an integer on the SItoFO transformation.
-
-module.exports.SItoFO = (value) => (value === '' || value === '-') ? 0 : parseInt(value)
+module.exports.SItoFO = (value) => {
+	if (value === '')
+		throw new InterpretationError(`Empty`, undefined, 'Could not interpret an empty string into a number.')
+	if (value === '-')
+		throw new InterpretationError(`MinusSign`, undefined, 'Could not interpret a number consisting of only a minus sign.')
+	return parseInt(value)
+}
 
 // Input object legacy: the integer used to be stored inside an object, even for the state. The function below unpacks it. It can be removed once the old exercise data is deleted.
 module.exports.SOtoFO = module.exports.SItoFO

@@ -4,7 +4,7 @@ import { support } from 'step-wise/CAS'
 
 import { charElementsToBounds, getClosestElement } from '../../../MathWithCursor'
 
-import { zoomIn, getFuncs, getDataStartCursor, getDataEndCursor, isCursorAtDataStart, isCursorAtDataEnd, isDataEmpty } from '../..'
+import { zoomIn, getFuncs, getFIStartCursor, getFIEndCursor, isCursorAtFIStart, isCursorAtFIEnd, isFIEmpty } from '../..'
 import { mergeWithLeft, mergeWithRight } from '../../support/merging'
 import { splitToLeft, splitToRight } from '../../support/splitting'
 
@@ -17,7 +17,7 @@ const allFunctions = {
 	create,
 	getInitial,
 	getInitialCursor,
-	keyPressToData,
+	keyPressToFI,
 	canMoveCursorVertically,
 	canMoveCursorOutside,
 	coordinatesToCursor,
@@ -28,16 +28,16 @@ const allFunctions = {
 }
 export default allFunctions
 
-function create(expressionData, part, position, name, alias) {
-	let { value } = expressionData
+function create(expressionFI, part, position, name, alias) {
+	let { value } = expressionFI
 
 	// Define cursors.
-	const start = getDataStartCursor(expressionData)
+	const start = getFIStartCursor(expressionFI)
 	const beforeAlias = { part, cursor: position }
 	const afterAlias = { part, cursor: position + alias.length }
 	const leftSide = findEndOfTerm(value, beforeAlias, false, true)
 	const rightSide = findEndOfTerm(value, afterAlias, true, false)
-	const end = getDataEndCursor(expressionData)
+	const end = getFIEndCursor(expressionFI)
 
 	// Set up the arguments.
 	const parameters = [
@@ -60,7 +60,7 @@ function create(expressionData, part, position, name, alias) {
 		...getSubExpression(value, rightSide, end),
 	]
 	return {
-		...expressionData,
+		...expressionFI,
 		value,
 		cursor: {
 			part: value.indexOf(functionElement),
@@ -76,33 +76,33 @@ function getInitial(alias, parameters) {
 function getInitialCursor(element) {
 	// Find the first part that exists.
 	const part = element.value.findIndex(elementPart => !!elementPart)
-	return { part, cursor: getDataStartCursor(element.value[part]) }
+	return { part, cursor: getFIStartCursor(element.value[part]) }
 }
 
-function keyPressToData(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement) {
-	const funcs = getFuncs(data)
+function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, contentsElement, cursorElement) {
+	const funcs = getFuncs(FI)
 	const { key } = keyInfo
-	const activeElementData = zoomIn(data)
-	const activeElementFuncs = getFuncs(activeElementData)
+	const activeElementFI = zoomIn(FI)
+	const activeElementFuncs = getFuncs(activeElementFI)
 
 	// For up/down arrows, check if we can/need to move up.
 	if (key === 'ArrowUp' || key === 'ArrowDown') {
 		const up = key === 'ArrowUp'
 
 		// Only process this if we can move up/down but the child cannot. (Otherwise automatically pass it on to the child.)
-		const canMoveCursorVertically = funcs.canMoveCursorVertically && funcs.canMoveCursorVertically(data, up)
-		const canChildMoveCursorVertically = activeElementFuncs.canMoveCursorVertically && activeElementFuncs.canMoveCursorVertically(activeElementData, up)
+		const canMoveCursorVertically = funcs.canMoveCursorVertically && funcs.canMoveCursorVertically(FI, up)
+		const canChildMoveCursorVertically = activeElementFuncs.canMoveCursorVertically && activeElementFuncs.canMoveCursorVertically(activeElementFI, up)
 		if (canMoveCursorVertically && !canChildMoveCursorVertically) {
 			// Use the current cursor coordinates to get the appropriate cursor position.
 			const upFirst = funcs.isUpFirst()
 			const part = up === upFirst ? 0 : 1
-			const element = data.value[part]
+			const element = FI.value[part]
 			const partCharElements = charElements[funcs.valuePartToCharPart(part)]
 			const boundsData = charElementsToBounds(partCharElements)
 			const cursorRect = cursorElement.getBoundingClientRect()
 			const cursorMiddle = { x: (cursorRect.left + cursorRect.right) / 2, y: (cursorRect.top + cursorRect.bottom) / 2 }
 			return {
-				...data,
+				...FI,
 				cursor: {
 					part,
 					cursor: getFuncs(element).coordinatesToCursor(cursorMiddle, boundsData, element, partCharElements, contentsElement),
@@ -112,28 +112,28 @@ function keyPressToData(keyInfo, data, settings, charElements, topParentData, co
 	}
 
 	// Process the key as usual.
-	return defaultFunctions.keyPressToData(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement)
+	return defaultFunctions.keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, contentsElement, cursorElement)
 }
 
-function canMoveCursorVertically(data, up) {
+function canMoveCursorVertically(FI, up) {
 	// Check if we can move vertically in this part.
-	const upFirst = getFuncs(data).isUpFirst()
-	const { value, cursor } = data
+	const upFirst = getFuncs(FI).isUpFirst()
+	const { value, cursor } = FI
 	if ((cursor.part === 0 && up !== upFirst && value[1]) || (cursor.part === 1 && up === upFirst && value[0]))
 		return true
 
 	// Check if the child allows us to move vertically.
-	return defaultFunctions.canMoveCursorVertically(data, up)
+	return defaultFunctions.canMoveCursorVertically(FI, up)
 }
 
-function canMoveCursorOutside(data, toRight) {
-	return toRight ? isCursorAtDataEnd(zoomIn(data)) : isCursorAtDataStart(zoomIn(data))
+function canMoveCursorOutside(FI, toRight) {
+	return toRight ? isCursorAtFIEnd(zoomIn(FI)) : isCursorAtFIStart(zoomIn(FI))
 }
 
-function coordinatesToCursor(coordinates, boundsData, data, charElements, contentsElement) {
+function coordinatesToCursor(coordinates, boundsData, FI, charElements, contentsElement) {
 	const charPart = getClosestElement(coordinates, boundsData, false)
-	const part = getFuncs(data).charPartToValuePart(charPart)
-	const element = data.value[part]
+	const part = getFuncs(FI).charPartToValuePart(charPart)
+	const element = FI.value[part]
 	const newCursor = getFuncs(element).coordinatesToCursor(coordinates, boundsData.parts[charPart], element, charElements[charPart], contentsElement)
 	return newCursor === null ? null : {
 		part,
@@ -141,24 +141,24 @@ function coordinatesToCursor(coordinates, boundsData, data, charElements, conten
 	}
 }
 
-function merge(data, partIndex, mergeWithNext, fromOutside) {
-	return mergeWithNext ? mergeWithRight(data, partIndex, fromOutside) : mergeWithLeft(data, partIndex, fromOutside)
+function merge(FI, partIndex, mergeWithNext, fromOutside) {
+	return mergeWithNext ? mergeWithRight(FI, partIndex, fromOutside) : mergeWithLeft(FI, partIndex, fromOutside)
 }
 
-function split(data) {
-	const { cursor } = data
-	return cursor.part === 0 ? splitToLeft(data) : splitToRight(data)
+function split(FI) {
+	const { cursor } = FI
+	return cursor.part === 0 ? splitToLeft(FI) : splitToRight(FI)
 }
 
-function shouldRemove(data) {
-	return data.value.every(element => !element || isDataEmpty(element))
+function shouldRemove(FI) {
+	return FI.value.every(element => !element || isFIEmpty(element))
 }
 
-function removeElement(data) {
-	const [num, den] = data.value
+function removeElement(FI) {
+	const [num, den] = FI.value
 	return {
 		type: 'Expression',
 		value: [num, den],
-		cursor: { part: 1, cursor: getDataStartCursor(den) },
+		cursor: { part: 1, cursor: getFIStartCursor(den) },
 	}
 }

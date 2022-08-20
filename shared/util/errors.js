@@ -12,4 +12,4 @@ class InterpretationError extends Error {
 		this.cause = cause
 	}
 }
-module.exports = InterpretationError
+module.exports.InterpretationError = InterpretationError

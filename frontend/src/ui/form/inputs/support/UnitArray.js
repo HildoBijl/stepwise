@@ -9,7 +9,7 @@ import { firstOf, lastOf, arraySplice } from 'step-wise/util/arrays'
 import { getClickSide } from 'util/dom'
 
 import { checkCursor } from './FieldInput'
-import { UnitElement, keyPressToData as unitElementKeyPressToData, mouseClickToCursor as unitElementMouseClickToCursor, emptyUnitElement, isEmpty as isUnitElementEmpty, getStartCursor as getUnitElementStartCursor, getEndCursor as getUnitElementEndCursor, isCursorAtStart as isCursorAtUnitElementStart, isCursorAtEnd as isCursorAtUnitElementEnd, isValid as isUnitElementValid, clean as cleanUnitElement, functionalize as functionalizeUnitElement, processUnitElement } from './UnitElement'
+import { UnitElement, keyPressToFI as unitElementKeyPressToFI, mouseClickToCursor as unitElementMouseClickToCursor, emptyUnitElement, isEmpty as isUnitElementEmpty, getStartCursor as getUnitElementStartCursor, getEndCursor as getUnitElementEndCursor, isCursorAtStart as isCursorAtUnitElementStart, isCursorAtEnd as isCursorAtUnitElementEnd, isValid as isUnitElementValid, clean as cleanUnitElement, functionalize as functionalizeUnitElement, processUnitElement } from './UnitElement'
 
 // Define various trivial objects and functions.
 export const emptyUnitArray = [emptyUnitElement]
@@ -22,11 +22,11 @@ export const isValid = value => isEmpty(value) || value.every(unitElement => isU
 export const clean = value => isEmpty(value) ? undefined : value.map(cleanUnitElement)
 export const functionalize = value => value ? value.map(functionalizeUnitElement) : emptyUnitArray
 
-// UnitArray takes an input data object and shows the corresponding contents as JSX render.
+// UnitArray takes an FI object and shows the corresponding contents as JSX render.
 export function UnitArray({ type, value, cursor }) {
 	// Check input.
 	if (type !== 'UnitArray')
-		throw new Error(`Invalid type: tried to get the contents of a UnitArray field but got data for a type "${type}" field.`)
+		throw new Error(`Invalid type: tried to get the contents of a UnitArray field but got an FI with type "${type}".`)
 
 	// Check if anything should be shown.
 	if (isEmpty(value) && !cursor)
@@ -41,11 +41,11 @@ export function UnitArray({ type, value, cursor }) {
 	))
 }
 
-// keyPressToData takes a keyInfo event and a data object and returns a new data object.
-export function keyPressToData(keyInfo, data) {
+// keyPressToFI takes a keyInfo event and an FI object and returns a new FI object.
+export function keyPressToFI(keyInfo, FI) {
 	// Extract given data.
 	const { key, ctrl, alt } = keyInfo
-	const { value, cursor } = data
+	const { value, cursor } = FI
 
 	// Check where the cursor is currently at.
 	const unitElement = value[cursor.part]
@@ -53,52 +53,50 @@ export function keyPressToData(keyInfo, data) {
 
 	// Set up a pass-on function.
 	const passOn = () => {
-		const oldUnitElementData = {
+		const oldUnitElementFI = {
 			type: 'UnitElement',
 			value: unitElement,
 			cursor: unitElementCursor,
 		}
-		const newUnitElementData = unitElementKeyPressToData(keyInfo, oldUnitElementData)
+		const newUnitElementFI = unitElementKeyPressToFI(keyInfo, oldUnitElementFI)
 		return {
-			...data,
-			value: arraySplice(value, cursor.part, 1, newUnitElementData.value),
+			...FI,
+			value: arraySplice(value, cursor.part, 1, newUnitElementFI.value),
 			cursor: {
 				part: cursor.part,
-				cursor: newUnitElementData.cursor,
+				cursor: newUnitElementFI.cursor,
 			}
 		}
 	}
 
 	// Ignore ctrl/alt keys.
 	if (ctrl || alt)
-		return data
+		return FI
 
 	// For left/right-arrows, home and end, adjust the cursor.
 	if (key === 'ArrowLeft') {
 		if (cursor.part > 0 && isCursorAtUnitElementStart(unitElement, unitElementCursor)) // Cursor is at the start of an element.
-			return { ...data, cursor: { part: cursor.part - 1, cursor: getUnitElementEndCursor(value[cursor.part - 1]) } } // Move to the end of the previous one.
+			return { ...FI, cursor: { part: cursor.part - 1, cursor: getUnitElementEndCursor(value[cursor.part - 1]) } } // Move to the end of the previous one.
 	}
 	if (key === 'ArrowRight') {
 		if (isCursorAtUnitElementEnd(unitElement, unitElementCursor)) {
 			if (cursor.part < value.length - 1) // Is there still another unit element? If so, go there.
-				return { ...data, cursor: { part: cursor.part + 1, cursor: getUnitElementStartCursor(value[cursor.part + 1]) } }
-			// else if (!isUnitElementEmpty(unitElement)) // If not, and if we're not in an empty element, add a new empty element and move the cursor to it.
-			// 	return { ...data, value: [...value, getEmptyUnitElement()], cursor: { part: cursor.part + 1, cursor: getUnitElementStartCursor() } }
+				return { ...FI, cursor: { part: cursor.part + 1, cursor: getUnitElementStartCursor(value[cursor.part + 1]) } }
 		}
 	}
 	if (key === 'Home')
-		return { ...data, cursor: getStartCursor(value, cursor) }
+		return { ...FI, cursor: getStartCursor(value, cursor) }
 	if (key === 'End')
-		return { ...data, cursor: getEndCursor(value, cursor) }
+		return { ...FI, cursor: getEndCursor(value, cursor) }
 
 	// For backspace/delete, potentially merge unit elements.
 	if (key === 'Backspace') {
 		if (!isCursorAtStart(value, cursor) && isCursorAtUnitElementStart(unitElement, unitElementCursor)) // Cursor is at start of a unit element, but not the first.
-			return { ...data, ...mergeElements(value, cursor.part - 1, false) } // Merge it with the previous element.
+			return { ...FI, ...mergeElements(value, cursor.part - 1, false) } // Merge it with the previous element.
 	}
 	if (key === 'Delete') {
 		if (!isCursorAtEnd(value, cursor) && isCursorAtUnitElementEnd(unitElement, unitElementCursor)) // Cursor is at end of unit element, but not the last.
-			return { ...data, ...mergeElements(value, cursor.part, true) } // Merge it with the next element.
+			return { ...FI, ...mergeElements(value, cursor.part, true) } // Merge it with the next element.
 	}
 
 	// For a multiplication "*" (or a space) split up elements.
@@ -108,17 +106,17 @@ export function keyPressToData(keyInfo, data) {
 				const nextUnitElement = value[cursor.part + 1]
 				if (nextUnitElement && isUnitElementEmpty(nextUnitElement)) // If the next element is empty, just go there without changing anything.
 					return {
-						...data,
+						...FI,
 						cursor: { part: cursor.part + 1, cursor: getUnitElementStartCursor(nextUnitElement) },
 					}
 				return { // Add a new empty element and move the cursor to it.
-					...data,
+					...FI,
 					value: arraySplice(value, cursor.part + 1, 0, emptyUnitElement),
 					cursor: { part: cursor.part + 1, cursor: getUnitElementStartCursor() },
 				}
 			}
 			return { // Split the unit element up into two.
-				...data,
+				...FI,
 				value: splitElement(value, cursor),
 				cursor: { part: cursor.part + 1, cursor: { part: 'text', cursor: 0 } },
 			}
@@ -131,7 +129,7 @@ export function keyPressToData(keyInfo, data) {
 			const element1 = { ...unitElement, power: unitElement.power.slice(0, unitElementCursor.cursor) }
 			const element2 = processUnitElement({ text: key, power: unitElement.power.slice(unitElementCursor.cursor) }).value
 			return {
-				...data,
+				...FI,
 				value: arraySplice(value, cursor.part, 1, element1, element2),
 				cursor: { part: cursor.part + 1, cursor: { part: 'text', cursor: element2.prefix.length + element2.unit.length } },
 			}
@@ -142,11 +140,11 @@ export function keyPressToData(keyInfo, data) {
 	if (isNumber(key) || key === '^' || key === 'Power') {
 		if (unitElementCursor.part === 'text') {
 			if (unitElementCursor.cursor === 0 && unitElement.prefix.length + unitElement.unit.length > 0) // If the cursor is at the start of a unit element with text, do nothing. Don't pass on.
-				return { ...data }
+				return { ...FI }
 			if (unitElementCursor.cursor < unitElement.prefix.length + unitElement.unit.length) {
 				const toAdd = isNumber(key) ? key : ''
 				return {
-					...data,
+					...FI,
 					value: splitElement(value, cursor, toAdd),
 					cursor: { part: cursor.part, cursor: { part: 'power', cursor: toAdd.length } },
 				} // Split the unit element up into two.
@@ -159,8 +157,8 @@ export function keyPressToData(keyInfo, data) {
 }
 
 // mouseClickToCursor takes an event object like a "click" (but possibly also a drag) and, for the given field, returns the cursor object related to the click.
-export function mouseClickToCursor(evt, data, unitArrayElement) {
-	const { value, cursor } = data
+export function mouseClickToCursor(evt, FI, unitArrayElement) {
+	const { value, cursor } = FI
 
 	// If we clicked on whitespace around the unit array, put the cursor on the start/end.
 	if (evt.target === unitArrayElement)
@@ -170,8 +168,8 @@ export function mouseClickToCursor(evt, data, unitArrayElement) {
 	const unitElementElements = [...unitArrayElement.getElementsByClassName('unitElement')]
 	const unitElementIndex = unitElementElements.findIndex(unitElementElement => unitElementElement.contains(evt.target))
 	if (unitElementIndex !== -1) {
-		const unitElementData = { type: 'UnitElement', value: value[unitElementIndex], cursor: cursor && cursor.part === unitElementIndex && cursor.cursor }
-		const newCursor = unitElementMouseClickToCursor(evt, unitElementData, unitElementElements[unitElementIndex])
+		const unitElementFI = { type: 'UnitElement', value: value[unitElementIndex], cursor: cursor && cursor.part === unitElementIndex && cursor.cursor }
+		const newCursor = unitElementMouseClickToCursor(evt, unitElementFI, unitElementElements[unitElementIndex])
 		return checkCursor(newCursor) && { part: unitElementIndex, cursor: newCursor }
 	}
 

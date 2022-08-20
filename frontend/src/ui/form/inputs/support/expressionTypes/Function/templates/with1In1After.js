@@ -1,6 +1,6 @@
 // This is the template for functions like log[10](...) which have a parameter inside their expression and not a parameter after (which is contained in an ExpressionPart of the parent Expression.)
 
-import { getFuncs, zoomIn, isCursorAtDataStart } from '../..'
+import { getFuncs, zoomIn, isCursorAtFIStart } from '../..'
 import { mergeWithLeft } from '../../support/merging'
 import { splitToLeft } from '../../support/splitting'
 
@@ -16,27 +16,27 @@ const allFunctions = {
 }
 export default allFunctions
 
-function canMerge(data, mergeWithNext, fromOutside) {
+function canMerge(FI, mergeWithNext, fromOutside) {
 	return true
 }
 
-function merge(data, partIndex, mergeWithNext, fromOutside) {
-	const { value } = data
+function merge(FI, partIndex, mergeWithNext, fromOutside) {
+	const { value } = FI
 
 	// If we want to merge with the next, this actually means we should remove this element.
 	if (mergeWithNext)
 		return getFuncs(value[partIndex]).removeElementFromExpression(value, partIndex, fromOutside)
-	return mergeWithLeft(data, partIndex, fromOutside)
+	return mergeWithLeft(FI, partIndex, fromOutside)
 }
 
-function canSplit(data) {
-	return !isCursorAtDataStart(zoomIn(data))
+function canSplit(FI) {
+	return !isCursorAtFIStart(zoomIn(FI))
 }
 
-function split(data) {
-	return splitToLeft(data)
+function split(FI) {
+	return splitToLeft(FI)
 }
 
-function countNetBrackets(data) {
+function countNetBrackets(FI) {
 	return 1
 }

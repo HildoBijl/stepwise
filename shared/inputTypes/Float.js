@@ -4,6 +4,8 @@ const { decimalSeparator } = require('../settings/numbers')
 const { isInt, ensureInt, isNumber, ensureNumber, roundToDigits, roundTo } = require('../util/numbers')
 const { isObject, processOptions, keysToObject } = require('../util/objects')
 const { getRandom } = require('../util/random')
+const { InterpretationError } = require('../util/errors')
+
 const { Integer } = require('./Integer')
 
 const numberFormat = '(-?((\\d+[.,]?\\d*)|(\\d*[.,]?\\d+)))'
@@ -626,14 +628,22 @@ module.exports.numberToSO = numberToSO
 
 // The functions below describe how to transfer between various data types, other than the standard ways in which this is done.
 
-module.exports.SItoFO = ({ number, power }) => {
-	// Grab the number and the power. Take into account a few boundary cases.
-	number = (number === undefined || number === '' || number === '-' || number === '.' || number === '-.' ? '0' : number)
-	power = (power === undefined || power === '' || power === '-' ? 0 : parseInt(power))
+module.exports.SItoFO = (value) => {
+	const { number, power } = value
+
+	// Check for boundary cases.
+	if (number === '')
+		throw new InterpretationError(`Empty`, undefined, 'Could not interpret an empty string into a number.')
+	if (number === '-' || number === '-.')
+		throw new InterpretationError(`MinusSign`, undefined, 'Could not interpret a number consisting of only a minus sign.')
+	if (number === '.')
+		throw new InterpretationError(`DecimalSeparator`, undefined, 'Could not interpret a number consisting of only a decimal separator.')
+	if (power === '-')
+		throw new InterpretationError(`DecimalSeparator`, undefined, 'Could not interpret a number consisting of only a decimal separator.')
 
 	// Set up a float with the given properties.
 	return new Float({
-		number: parseFloat(number) * Math.pow(10, power),
+		number: parseFloat(number) * Math.pow(10, power || 0),
 		significantDigits: getSignificantDigits(number),
 		power,
 	})

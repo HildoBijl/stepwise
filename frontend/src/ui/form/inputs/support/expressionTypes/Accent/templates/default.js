@@ -3,9 +3,9 @@
 import { removeAtIndex } from 'step-wise/util/strings'
 import { support } from 'step-wise/CAS'
 
-import { getDataStartCursor, getDataEndCursor } from '../../'
-import ExpressionPart, { addStrToData } from '../../ExpressionPart'
-import { keyPressToData as expressionKeyPressToData } from '../../Expression'
+import { getFIStartCursor, getFIEndCursor } from '../../'
+import ExpressionPart, { addStrToFI } from '../../ExpressionPart'
+import { keyPressToFI as expressionKeyPressToFI } from '../../Expression'
 
 import { isCursorKey } from '../../support/acceptsKey'
 
@@ -20,24 +20,24 @@ const allFunctions = {
 	create,
 	toLatex,
 	acceptsKey,
-	keyPressToData,
+	keyPressToFI,
 	shouldRemove,
 	canMerge,
 	merge,
 }
 export default allFunctions
 
-export function create(expressionData, part, position, name, alias) {
-	let { value } = expressionData
+export function create(expressionFI, part, position, name, alias) {
+	let { value } = expressionFI
 	const expressionPart = value[part]
 	const positionAfter = position + alias.length
 
 	// Define cursors.
-	const start = getDataStartCursor(expressionData)
+	const start = getFIStartCursor(expressionFI)
 	const beforeAlias = { part, cursor: position }
 	const afterAlias = { part, cursor: positionAfter }
 	const endOfTerm = findNextClosingBracket(value, afterAlias)
-	const end = getDataEndCursor(expressionData)
+	const end = getFIEndCursor(expressionFI)
 
 	// Check if there is a bracket after the alias. If not, leave the accent empty.
 	let parameter = ''
@@ -64,82 +64,82 @@ export function create(expressionData, part, position, name, alias) {
 		...expressionAfter,
 	]
 	return {
-		...expressionData,
+		...expressionFI,
 		value,
 		cursor: {
 			part: value.indexOf(accentElement),
-			cursor: getDataStartCursor(accentElement),
+			cursor: getFIStartCursor(accentElement),
 		},
 	}
 }
 
-export function toLatex(data) {
-	throw new Error(`Missing function error: the accent component "${data && data.name}" has not implemented the toLatex function.`)
+export function toLatex(FI) {
+	throw new Error(`Missing function error: the accent component "${FI?.name}" has not implemented the toLatex function.`)
 }
 
-export function acceptsKey(keyInfo, data, settings) {
+export function acceptsKey(keyInfo, FI, settings) {
 	const { key } = keyInfo
-	return isCursorKey(keyInfo, data) || isAcceptableChar(key)
+	return isCursorKey(keyInfo, FI) || isAcceptableChar(key)
 }
 
-export function keyPressToData(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement) {
+export function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, contentsElement, cursorElement) {
 	const { key } = keyInfo
-	const { value, cursor } = data
+	const { value, cursor } = FI
 
 	// Verify the key.
-	if (!acceptsKey(keyInfo, data, settings))
-		return data
+	if (!acceptsKey(keyInfo, FI, settings))
+		return FI
 
 	// For left/right-arrows, home and end, adjust the cursor.
 	if (key === 'ArrowLeft')
-		return { ...data, cursor: Math.max(cursor - 1, 0) }
+		return { ...FI, cursor: Math.max(cursor - 1, 0) }
 	if (key === 'ArrowRight')
-		return { ...data, cursor: Math.min(cursor + 1, value.length) }
+		return { ...FI, cursor: Math.min(cursor + 1, value.length) }
 	if (key === 'Home')
-		return { ...data, cursor: getStartCursor(value) }
+		return { ...FI, cursor: getStartCursor(value) }
 	if (key === 'End')
-		return { ...data, cursor: getEndCursor(value) }
+		return { ...FI, cursor: getEndCursor(value) }
 
 	// For backspace/delete, remove the appropriate symbol.
 	if (key === 'Backspace' && !isCursorAtStart(value, cursor)) {
 		return {
-			...data,
+			...FI,
 			value: removeAtIndex(value, cursor - 1),
 			cursor: cursor - 1,
 		}
 	}
 	if (key === 'Delete' && !isCursorAtEnd(value, cursor)) {
 		return {
-			...data,
+			...FI,
 			value: removeAtIndex(value, cursor),
 		}
 	}
 
 	// Check for additions.
 	if (isAcceptableChar(key))
-		return addStrToData(key, data)
+		return addStrToFI(key, FI)
 
 	// Unknown character.
 	throw new Error(`Unknown character processing: received the key "${key}" which got accepted, but did not know how to process this.`)
 }
 
-export function shouldRemove(data) {
-	return isEmpty(data.value)
+export function shouldRemove(FI) {
+	return isEmpty(FI.value)
 }
 
 export function canMerge() {
 	return true
 }
 
-export function merge(data, partIndex, mergeWithNext, fromOutside) {
-	const { value } = data
+export function merge(FI, partIndex, mergeWithNext, fromOutside) {
+	const { value } = FI
 
 	// If we are from outside, put the cursor inside and process the corresponding keypress.
 	if (fromOutside) {
-		const accentData = value[partIndex]
-		const accentCursor = (mergeWithNext ? getDataEndCursor : getDataStartCursor)(accentData)
-		const expressionData = {
-			...data,
+		const accentFI = value[partIndex]
+		const accentCursor = (mergeWithNext ? getFIEndCursor : getFIStartCursor)(accentFI)
+		const expressionFI = {
+			...FI,
 			value: value,
 			cursor: {
 				part: partIndex,
@@ -147,16 +147,16 @@ export function merge(data, partIndex, mergeWithNext, fromOutside) {
 			}
 		}
 		const keyInfo = { key: mergeWithNext ? 'Backspace' : 'Delete' }
-		return expressionKeyPressToData(keyInfo, expressionData)
+		return expressionKeyPressToFI(keyInfo, expressionFI)
 	}
 
 	// If we are from inside, put the cursor outside and process the corresponding keypress.
-	const accentData = value[partIndex]
+	const accentFI = value[partIndex]
 	const part = mergeWithNext ? partIndex + 1 : partIndex - 1
-	const elementData = value[part]
-	const elementCursor = (mergeWithNext ? getDataStartCursor : getDataEndCursor)(elementData)
-	const expressionData = {
-		...data,
+	const elementFI = value[part]
+	const elementCursor = (mergeWithNext ? getFIStartCursor : getFIEndCursor)(elementFI)
+	const expressionFI = {
+		...FI,
 		value: value,
 		cursor: {
 			part,
@@ -165,10 +165,10 @@ export function merge(data, partIndex, mergeWithNext, fromOutside) {
 	}
 
 	// Run an extra check: if the accent is empty, just remove the accent. Not the character prior to it.
-	if (isEmpty(accentData.value))
-		return expressionData // By moving the cursor, the element will get automatically removed by the clean-up.
+	if (isEmpty(accentFI.value))
+		return expressionFI // By moving the cursor, the element will get automatically removed by the clean-up.
 
 	// No exception cases. Apply the key as planned.
 	const keyInfo = { key: mergeWithNext ? 'Delete' : 'Backspace' }
-	return expressionKeyPressToData(keyInfo, expressionData)
+	return expressionKeyPressToFI(keyInfo, expressionFI)
 }

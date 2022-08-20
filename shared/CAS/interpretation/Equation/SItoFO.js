@@ -1,9 +1,9 @@
 const { processOptions, filterOptions } = require('../../../util/objects')
+const { InterpretationError } = require('../../../util/errors')
 
 const { Equation } = require('../../functionalities')
 const { defaultFieldSettings, defaultExpressionSettings } = require('../../options')
 
-const InterpretationError = require('../InterpretationError')
 const { isEmpty, getStartCursor, getEndCursor, getSubExpression, moveRight } = require('../support')
 const { SItoFO: expressionSItoFO } = require('../Expression')
 
@@ -16,7 +16,7 @@ module.exports = SItoFO
 function interpretSI(value, settings) {
 	// On an empty equation, return undefined. Nothing is known.
 	if (isEmpty(value))
-		return undefined
+		throw new InterpretationError('EmptyEquation', undefined, `Could not interpret an empty Equation.`)
 
 	// Walk through the expression to find an equals symbol.
 	let part, cursor

@@ -10,7 +10,7 @@ import { Par } from 'ui/components/containers'
 import { Drawing } from 'ui/components/figures'
 import { components, CornerLabel, LineLabel, useRotationReflectionTransformation, useScaleToBoundsTransformationSettings } from 'ui/components/figures'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
-import ExpressionInput, { validAndNumeric, validWithVariables, basicTrigonometryInDegrees } from 'ui/form/inputs/ExpressionInput'
+import ExpressionInput, { numeric, validWithVariables, basicTrigonometryInDegrees } from 'ui/form/inputs/ExpressionInput'
 import { useInput } from 'ui/form/Form'
 import { InputSpace } from 'ui/form/Status'
 
@@ -39,7 +39,7 @@ const Problem = (state) => {
 				<>Er zijn twee oplossingen voor <M>{β}</M>.</>,
 			]} />
 			{numSolutions ? <Par>
-				{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`β${numSolutions > 1 ? index : ''}`} prelabel={<M>{β}{numSolutions > 1 ? `_${index}` : ''}=</M>} size="m" settings={basicTrigonometryInDegrees} validate={validAndNumeric} persistent={true} />)}
+				{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`β${numSolutions > 1 ? index : ''}`} prelabel={<M>{β}{numSolutions > 1 ? `_${index}` : ''}=</M>} size="m" settings={basicTrigonometryInDegrees} validate={numeric} persistent={true} />)}
 			</Par> : null}
 		</InputSpace>
 	</>
@@ -60,7 +60,7 @@ const steps = [
 						<>Er zijn twee oplossingen voor <M>{a}</M>.</>,
 					]} />
 					{numSolutions ? <Par>
-						{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`a${numSolutions > 1 ? index : ''}`} prelabel={<M>{a}{numSolutions > 1 ? `_${index}` : ''}=</M>} size="m" settings={basicTrigonometryInDegrees} validate={validAndNumeric} persistent={true} />)}
+						{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`a${numSolutions > 1 ? index : ''}`} prelabel={<M>{a}{numSolutions > 1 ? `_${index}` : ''}=</M>} size="m" settings={basicTrigonometryInDegrees} validate={numeric} persistent={true} />)}
 					</Par> : null}
 				</InputSpace>
 			</>

@@ -2,6 +2,7 @@
 
 const { ensureInt } = require('../../util/numbers')
 const { isObject, deepEquals, keysToObject, processOptions } = require('../../util/objects')
+const { InterpretationError } = require('../../util/errors')
 const { UnitElement } = require('./UnitElement')
 const { getUnitArrayFO } = require('./UnitArray')
 
@@ -75,9 +76,19 @@ class Unit {
 		return `{\\color{${unitColor}}${str}}`
 	}
 
+	// isEmpty checks whether the unit is empty or not.
+	isEmpty() {
+		return this._num.length === 0 && this._den.length === 0
+	}
+
 	// isValid returns whether we have a valid unit (true or false). So whether all unit elements in this unit are valid unit elements: whether they have been recognized.
 	isValid() {
-		return this._num.every(unitElement => unitElement.isValid()) && this._den.every(unitElement => unitElement.isValid())
+		return this.getInvalidUnitElement() === undefined
+	}
+
+	// getInvalid returns a unitElement that is invalid, or undefined if all are valid.
+	getInvalidUnitElement() {
+		return this._num.find(unitElement => !unitElement.isValid()) || this._den.find(unitElement => !unitElement.isValid())
 	}
 
 	// isInStandardUnits returns whether the unit only uses standard units.
@@ -384,7 +395,11 @@ module.exports.splitUnitString = splitUnitString
 
 // The functions below describe how to transfer between various data types, other than the standard ways in which this is done.
 
-module.exports.SOtoFO = (obj) => {
-	return new Unit(obj)
+module.exports.SOtoFO = (SO) => {
+	const unit = new Unit(SO)
+	const invalidUnitElement = unit.getInvalidUnitElement()
+	if (invalidUnitElement !== undefined)
+		throw new InterpretationError(`InvalidUnit`, invalidUnitElement, 'Received a unit with invalid/unrecognized unit elements.')
+	return unit
 }
 module.exports.SItoFO = module.exports.SOtoFO // For units SI and SO are the same.

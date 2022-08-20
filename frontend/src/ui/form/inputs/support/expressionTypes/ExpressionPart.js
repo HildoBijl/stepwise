@@ -34,7 +34,7 @@ const allFunctions = {
 	toLatex,
 	getCursorProperties,
 	acceptsKey,
-	keyPressToData,
+	keyPressToFI,
 	charElementClickToCursor,
 	coordinatesToCursor,
 	getStartCursor,
@@ -49,15 +49,15 @@ const allFunctions = {
 }
 export default allFunctions
 
-export function toLatex(data, options = {}) {
+export function toLatex(FI, options = {}) {
 	return {
-		latex: getLatex(data, options),
-		chars: getLatexChars(data, options),
+		latex: getLatex(FI, options),
+		chars: getLatexChars(FI, options),
 	}
 }
 
-function getLatex(data, options) {
-	const { value } = data
+function getLatex(FI, options) {
+	const { value } = FI
 	const { index, beforeSubSupWithBrackets } = options
 
 	// Check for empty ExpressionParts.
@@ -91,8 +91,8 @@ function getLatex(data, options) {
 	return latex
 }
 
-function getLatexChars(data) {
-	let { value } = data
+function getLatexChars(FI) {
+	let { value } = FI
 	if (value === '')
 		return emptyElementChar.split('')
 
@@ -102,13 +102,13 @@ function getLatexChars(data) {
 	return value.split('')
 }
 
-function getCursorProperties(data, charElements, container) {
-	const { cursor } = data
+function getCursorProperties(FI, charElements, container) {
+	const { cursor } = FI
 	return getCursorPropertiesFromElements(charElements[cursor - 1], charElements[cursor], container)
 }
 
-export function acceptsKey(keyInfo, data, settings) {
-	if (isCursorKey(keyInfo, data))
+export function acceptsKey(keyInfo, FI, settings) {
+	if (isCursorKey(keyInfo, FI))
 		return true
 
 	const { key } = keyInfo
@@ -149,30 +149,30 @@ export function acceptsKey(keyInfo, data, settings) {
 	return false
 }
 
-export function keyPressToData(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement) {
+export function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, contentsElement, cursorElement) {
 	const { key } = keyInfo
-	const { value, cursor } = data
+	const { value, cursor } = FI
 
 	// Verify the key.
-	if (!acceptsKey(keyInfo, data, settings))
-		return data
+	if (!acceptsKey(keyInfo, FI, settings))
+		return FI
 
 	// For left/right-arrows, home and end, adjust the cursor.
 	if (key === 'ArrowLeft')
-		return { ...data, cursor: Math.max(cursor - 1, 0) } // Move one position to the left.
+		return { ...FI, cursor: Math.max(cursor - 1, 0) } // Move one position to the left.
 	if (key === 'ArrowRight')
-		return { ...data, cursor: Math.min(cursor + 1, value.length) } // Move the cursor one position to the right.
+		return { ...FI, cursor: Math.min(cursor + 1, value.length) } // Move the cursor one position to the right.
 	if (key === 'Home')
-		return { ...data, cursor: getStartCursor(value) }
+		return { ...FI, cursor: getStartCursor(value) }
 	if (key === 'End')
-		return { ...data, cursor: getEndCursor(value) }
+		return { ...FI, cursor: getEndCursor(value) }
 
 	// For backspace/delete, remove the appropriate symbol.
 	if (key === 'Backspace' && !isCursorAtStart(value, cursor)) {
 		// Check if we are removing an opening bracket and there's a closing bracket on the other side of the cursor too.
 		if (value[cursor - 1] === '(' && value[cursor] === ')') {
 			return {
-				...data,
+				...FI,
 				value: removeAtIndex(value, cursor - 1, 2),
 				cursor: cursor - 1,
 			}
@@ -180,27 +180,27 @@ export function keyPressToData(keyInfo, data, settings, charElements, topParentD
 
 		// Normal case.
 		return {
-			...data,
+			...FI,
 			value: removeAtIndex(value, cursor - 1),
 			cursor: cursor - 1,
 		}
 	}
 	if (key === 'Delete' && !isCursorAtEnd(value, cursor)) {
 		return {
-			...data, // Keep cursor as is.
+			...FI, // Keep cursor as is.
 			value: removeAtIndex(value, cursor),
 		}
 	}
 
 	// For brackets, check if we need to apply a bracket trick. For the opening bracket add a closing bracket, and for the closing bracket skip over it.
 	if (key === '(') {
-		const parentExpressionData = getDeepestExpression(topParentData)
-		const netBracketsBefore = Expression.countNetBrackets(parentExpressionData, -1)
-		const netBracketsAfter = Expression.countNetBrackets(parentExpressionData, 1)
+		const parentExpressionFI = getDeepestExpression(topParentFI)
+		const netBracketsBefore = Expression.countNetBrackets(parentExpressionFI, -1)
+		const netBracketsAfter = Expression.countNetBrackets(parentExpressionFI, 1)
 		if (netBracketsBefore < -netBracketsAfter)
-			return addStrToData(key, data) // There already is a closing bracket too much after the cursor. Just add an opening bracket.
+			return addStrToFI(key, FI) // There already is a closing bracket too much after the cursor. Just add an opening bracket.
 		return { // There are not sufficient opening brackets after the cursor. Add a closing bracket and put the cursor in-between.
-			...data,
+			...FI,
 			value: insertAtIndex(value, cursor, '()'),
 			cursor: cursor + 1,
 		}
@@ -208,66 +208,66 @@ export function keyPressToData(keyInfo, data, settings, charElements, topParentD
 	if (key === ')') {
 		// If we are not in front of a closing bracket, just add one.
 		if (value[cursor] !== ')')
-			return addStrToData(key, data)
+			return addStrToFI(key, FI)
 
 		// We are in front of a closing bracket. Should we override it?
-		const parentExpressionData = getDeepestExpression(topParentData)
-		const netBracketsBefore = Expression.countNetBrackets(parentExpressionData, -1)
-		const netBracketsAfter = Expression.countNetBrackets(parentExpressionData, 1)
+		const parentExpressionFI = getDeepestExpression(topParentFI)
+		const netBracketsBefore = Expression.countNetBrackets(parentExpressionFI, -1)
+		const netBracketsAfter = Expression.countNetBrackets(parentExpressionFI, 1)
 		if (netBracketsBefore > -netBracketsAfter)
-			return addStrToData(key, data) // There are too many opening brackets. Add a closing bracket.
-		return { ...data, cursor: cursor + 1 } // There are insufficient opening brackets to warrant a closing bracket. Overwrite it, effectively moving the cursor one to the right.
+			return addStrToFI(key, FI) // There are too many opening brackets. Add a closing bracket.
+		return { ...FI, cursor: cursor + 1 } // There are insufficient opening brackets to warrant a closing bracket. Overwrite it, effectively moving the cursor one to the right.
 	}
 
 	// Check for additions.
 	if (isLetter(key) || isNumber(key)) // Letters and numbers.
-		return addStrToData(key, data)
+		return addStrToFI(key, FI)
 	if (key === '+') // Plus.
-		return addStrToData('+', data)
+		return addStrToFI('+', FI)
 	if (key === '-') // Minus.
-		return addStrToData('-', data)
+		return addStrToFI('-', FI)
 	if (key === '*') // Times.
-		return addStrToData('*', data)
+		return addStrToFI('*', FI)
 	if (key === '.' || key === ',') // Period.
-		return addStrToData('.', data)
+		return addStrToFI('.', FI)
 	if (key === '/') // Fraction. Will be auto-replaced.
-		return addStrToData('/', data)
+		return addStrToFI('/', FI)
 	if (key === '_') // Will be auto-replaced by a SubSup.
-		return addStrToData('_', data)
+		return addStrToFI('_', FI)
 	if (key === '^') // Will be auto-replaced by a SubSup.
-		return addStrToData('^', data)
+		return addStrToFI('^', FI)
 	if (key === 'pi')
-		return addStrToData(key, data)
+		return addStrToFI(key, FI)
 	if (greekAlphabet[key] !== undefined)
-		return addStrToData(greekAlphabet[key].symbol, data)
+		return addStrToFI(greekAlphabet[key].symbol, FI)
 	if (key === '=')
-		return addStrToData(key, data)
+		return addStrToFI(key, FI)
 
 	// On mathematical functions, add the words and then add the bracket.
 	if (basicFunctions.includes(key) || accents.includes(key) || advancedFunctions.includes(key)) {
-		const dataWithKey = addStrToData(key, data)
-		return keyPressToData({ key: '(' }, dataWithKey, settings, charElements, topParentData, contentsElement, cursorElement)
+		const FIWithKey = addStrToFI(key, FI)
+		return keyPressToFI({ key: '(' }, FIWithKey, settings, charElements, topParentFI, contentsElement, cursorElement)
 	}
 
 	// Unknown character.
 	throw new Error(`Unknown character processing: received the key "${key}" which got accepted, but did not know how to process this.`)
 }
 
-// addStrToData adds a string into the data object, at the position of the cursor. It returns the new data object, with the cursor moved accordingly.
-export function addStrToData(str, data) {
-	const { value, cursor } = data
+// addStrToFI adds a string into the FI object, at the position of the cursor. It returns the new FI object, with the cursor moved accordingly.
+export function addStrToFI(str, FI) {
+	const { value, cursor } = FI
 	return {
-		...data,
+		...FI,
 		value: insertAtIndex(value, cursor, str),
 		cursor: cursor + str.length,
 	}
 }
 
-export function charElementClickToCursor(evt, data, trace, charElements, equationElement) {
+export function charElementClickToCursor(evt, FI, trace, charElements, equationElement) {
 	return firstOf(trace) + getClickSide(evt)
 }
 
-export function coordinatesToCursor(coordinates, boundsData, data, charElements, contentsElement) {
+export function coordinatesToCursor(coordinates, boundsData, FI, charElements, contentsElement) {
 	// Extract which character was closest to the click.
 	const part = getClosestElement(coordinates, boundsData)
 
@@ -306,22 +306,22 @@ export function isEmpty(value) {
 	return value.length === 0
 }
 
-export function shouldRemove(data) {
-	return isEmpty(data.value)
+export function shouldRemove(FI) {
+	return isEmpty(FI.value)
 }
 
-export function countNetBrackets(data, relativeToCursor) {
-	const { value, cursor } = data
+export function countNetBrackets(FI, relativeToCursor) {
+	const { value, cursor } = FI
 	const valuePart = relativeToCursor === 0 ? value : (relativeToCursor === -1 ? value.substring(0, cursor) : value.substring(cursor))
 	return valuePart.split('(').length - valuePart.split(')').length
 }
 
-export function cleanUp(data, settings) {
-	return applyAutoReplace(data, settings)
+export function cleanUp(FI, settings) {
+	return applyAutoReplace(FI, settings)
 }
 
-export function applyAutoReplace(data, settings) {
-	let { value, cursor } = data
+export function applyAutoReplace(FI, settings) {
+	let { value, cursor } = FI
 	const hasCursor = !!cursor || cursor === 0
 
 	// Apply an auto-replace on all auto-replace symbols. For each symbol, replace all instances and shift the cursor along accordingly.
@@ -342,5 +342,5 @@ export function applyAutoReplace(data, settings) {
 		}
 	})
 
-	return found ? (hasCursor ? { ...data, value, cursor } : { ...data, value }) : data
+	return found ? (hasCursor ? { ...FI, value, cursor } : { ...FI, value }) : FI
 }

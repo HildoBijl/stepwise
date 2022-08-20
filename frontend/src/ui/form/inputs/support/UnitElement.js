@@ -24,11 +24,11 @@ export const isValid = value => value.unitObj && (value.prefix === '' || !!value
 export const clean = value => isEmpty(value) ? undefined : keysToObject(parts, part => value[part] || undefined)
 export const functionalize = ({ prefix = '', unit = '', power = '' }) => processUnitElement({ text: prefix + unit, power }).value
 
-// UnitElement takes an input data object and shows the corresponding contents as JSX render.
+// UnitElement takes an FI object and shows the corresponding contents as JSX render.
 export function UnitElement({ type, value, cursor }) {
 	// Check input.
 	if (type !== 'UnitElement')
-		throw new Error(`Invalid type: tried to get the contents of a UnitElement field but got data for a type "${type}" field.`)
+		throw new Error(`Invalid type: tried to get the contents of a UnitElement field but got an FI with type "${type}".`)
 
 	// Set up the visuals in the right way.
 	const useFiller = (value.prefix === '' && value.unit === '' && (!cursor || cursor.part !== 'text'))
@@ -51,16 +51,16 @@ export function UnitElement({ type, value, cursor }) {
 	)
 }
 
-// keyPressToData takes a keyInfo event and a data object and returns a new data object.
-export function keyPressToData(keyInfo, data) {
+// keyPressToFI takes a keyInfo event and an FI object and returns a new FI object.
+export function keyPressToFI(keyInfo, FI) {
 	// Let's walk through a large variety of cases and see what's up.
 	let { key, ctrl, alt } = keyInfo
-	const { value, cursor } = data
+	const { value, cursor } = FI
 	const { prefix, unit, power } = value
 
 	// Ignore ctrl/alt keys.
 	if (ctrl || alt)
-		return data
+		return FI
 
 	// The meter key counts as an m.
 	if (key === 'Meter')
@@ -69,65 +69,65 @@ export function keyPressToData(keyInfo, data) {
 	// For left/right-arrows, home and end, adjust the cursor.
 	if (key === 'ArrowLeft') {
 		if (cursor.part === 'power' && cursor.cursor === 0) // Cursor is at the start of the power.
-			return { ...data, cursor: { part: 'text', cursor: prefix.length + unit.length } } // Move to the end of the text.
-		return { ...data, cursor: { ...cursor, cursor: Math.max(cursor.cursor - 1, 0) } } // Move one position to the left.
+			return { ...FI, cursor: { part: 'text', cursor: prefix.length + unit.length } } // Move to the end of the text.
+		return { ...FI, cursor: { ...cursor, cursor: Math.max(cursor.cursor - 1, 0) } } // Move one position to the left.
 	}
 	if (key === 'ArrowRight') {
 		if (cursor.part === 'text' && cursor.cursor === prefix.length + unit.length && power !== '') // Cursor is at the end of the text and there is a power.
-			return { ...data, cursor: { part: 'power', cursor: 0 } } // Move to the start of said power.
-		return { ...data, cursor: { ...cursor, cursor: Math.min(cursor.cursor + 1, cursor.part === 'text' ? prefix.length + unit.length : power.length) } } // Move the cursor one position to the right.
+			return { ...FI, cursor: { part: 'power', cursor: 0 } } // Move to the start of said power.
+		return { ...FI, cursor: { ...cursor, cursor: Math.min(cursor.cursor + 1, cursor.part === 'text' ? prefix.length + unit.length : power.length) } } // Move the cursor one position to the right.
 	}
 	if (key === 'Home')
-		return { ...data, cursor: getStartCursor(value, cursor) }
+		return { ...FI, cursor: getStartCursor(value, cursor) }
 	if (key === 'End')
-		return { ...data, cursor: getEndCursor(value, cursor) }
+		return { ...FI, cursor: getEndCursor(value, cursor) }
 
 	// For backspace/delete, delete the appropriate symbol.
 	if (key === 'Backspace') {
 		if (isCursorAtStart(value, cursor)) // Cursor is at the start of the text.
-			return data // Do nothing.
+			return FI // Do nothing.
 		if (cursor.part === 'power') { // Cursor is in the power.
 			if (cursor.cursor === 0) // Cursor is at the start of the power.
-				return { ...data, ...processUnitElement({ text: removeAtIndex(prefix + unit, prefix.length + unit.length - 1), power }, { part: 'text', cursor: Math.max(prefix.length + unit.length - 1, 0) }) } // Remove the last character of the text.
-			return { ...data, value: { ...value, power: removeAtIndex(power, cursor.cursor - 1) }, cursor: { ...cursor, cursor: cursor.cursor - 1 } } // Remove the previous character from the power.
+				return { ...FI, ...processUnitElement({ text: removeAtIndex(prefix + unit, prefix.length + unit.length - 1), power }, { part: 'text', cursor: Math.max(prefix.length + unit.length - 1, 0) }) } // Remove the last character of the text.
+			return { ...FI, value: { ...value, power: removeAtIndex(power, cursor.cursor - 1) }, cursor: { ...cursor, cursor: cursor.cursor - 1 } } // Remove the previous character from the power.
 		}
-		return { ...data, ...processUnitElement({ text: removeAtIndex(prefix + unit, cursor.cursor - 1), power }, { ...cursor, cursor: cursor.cursor - 1 }) } // Remove the previous character from the text.
+		return { ...FI, ...processUnitElement({ text: removeAtIndex(prefix + unit, cursor.cursor - 1), power }, { ...cursor, cursor: cursor.cursor - 1 }) } // Remove the previous character from the text.
 	}
 	if (key === 'Delete') {
 		if (isCursorAtEnd(value, cursor)) // Cursor is at the end.
-			return data // Do nothing.
+			return FI // Do nothing.
 		if (cursor.part === 'text') { // Cursor is in the text.
 			if (cursor.cursor === prefix.length + unit.length) // Cursor is at the end of the text.
-				return { ...data, value: { ...value, power: removeAtIndex(power, 0) }, cursor: { part: 'power', cursor: 0 } } // Remove the first character from the power.
-			return { ...data, ...processUnitElement({ text: removeAtIndex(prefix + unit, cursor.cursor), power }, cursor) } // Remove the upcoming character from the text.
+				return { ...FI, value: { ...value, power: removeAtIndex(power, 0) }, cursor: { part: 'power', cursor: 0 } } // Remove the first character from the power.
+			return { ...FI, ...processUnitElement({ text: removeAtIndex(prefix + unit, cursor.cursor), power }, cursor) } // Remove the upcoming character from the text.
 		}
-		return { ...data, value: { ...value, [cursor.part]: removeAtIndex(power, cursor.cursor) } } // Remove the upcoming character from the power.
+		return { ...FI, value: { ...value, [cursor.part]: removeAtIndex(power, cursor.cursor) } } // Remove the upcoming character from the power.
 	}
 
 	// For a power symbol move the cursor to the start of the power.
 	if ((key === '^' || key === 'Power') && cursor.part === 'text') {
-		return { ...data, cursor: { part: 'power', cursor: 0 } }
+		return { ...FI, cursor: { part: 'power', cursor: 0 } }
 	}
 
 	// For letters and base units add them to the unit.
 	if (isLetter(key) || Object.keys(units).includes(key) || Object.keys(prefixes).includes(key)) {
 		const addAt = cursor.part === 'text' ? cursor.cursor : prefix.length + unit.length
-		return { ...data, ...processUnitElement({ text: insertAtIndex(prefix + unit, addAt, key), power }, { part: 'text', cursor: addAt + key.length }) }
+		return { ...FI, ...processUnitElement({ text: insertAtIndex(prefix + unit, addAt, key), power }, { part: 'text', cursor: addAt + key.length }) }
 	}
 
 	// For numbers add them to the power.
 	if (isNumber(key)) {
 		const addAt = cursor.part === 'power' ? cursor.cursor : 0
-		return { ...data, value: { ...value, power: insertAtIndex(power, addAt, key) }, cursor: { part: 'power', cursor: addAt + 1 } }
+		return { ...FI, value: { ...value, power: insertAtIndex(power, addAt, key) }, cursor: { part: 'power', cursor: addAt + 1 } }
 	}
 
 	// Nothing sensible found. Don't make any changes.
-	return data
+	return FI
 }
 
 // mouseClickToCursor takes an event object like a "click" (but possibly also a drag) and, for the given field, returns the cursor object related to the click.
-export function mouseClickToCursor(evt, data, unitElementElement) {
-	const { value, cursor } = data
+export function mouseClickToCursor(evt, FI, unitElementElement) {
+	const { value, cursor } = FI
 
 	// Did we click on a filler?
 	const fillers = [...unitElementElement.getElementsByClassName('filler')]
@@ -171,7 +171,7 @@ export function processUnitElement(value, cursor) {
 		}
 	}
 
-	// Return all required data.
+	// Return the required FI.
 	const processedValue = {
 		prefix: prefix.str,
 		unit: unit.str,

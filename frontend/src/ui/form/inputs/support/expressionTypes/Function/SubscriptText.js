@@ -6,7 +6,7 @@ import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 import { latexMinus } from 'ui/components/equations'
 
 import { emptyElementChar, emptyElementCharLatex } from '../../MathWithCursor'
-import ExpressionPart, { addStrToData } from '../ExpressionPart'
+import ExpressionPart, { addStrToFI } from '../ExpressionPart'
 import { isCursorKey } from '../support/acceptsKey'
 
 const { getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd } = ExpressionPart
@@ -15,24 +15,24 @@ const allFunctions = {
 	...ExpressionPart,
 	toLatex,
 	acceptsKey,
-	keyPressToData,
+	keyPressToFI,
 }
 export default allFunctions
 
-export function toLatex(data, options = {}) {
+export function toLatex(FI, options = {}) {
 	return {
-		latex: getLatex(data, options),
-		chars: getLatexChars(data, options),
+		latex: getLatex(FI, options),
+		chars: getLatexChars(FI, options),
 	}
 }
 
-function getLatex(data) {
-	const { value } = data
+function getLatex(FI) {
+	const { value } = FI
 	return value === '' ? emptyElementCharLatex : `{\\rm ${value}}`
 }
 
-function getLatexChars(data) {
-	let { value } = data
+function getLatexChars(FI) {
+	let { value } = FI
 	if (value === '')
 		return emptyElementChar.split('')
 
@@ -41,8 +41,8 @@ function getLatexChars(data) {
 	return value.split('')
 }
 
-export function acceptsKey(keyInfo, data, settings) {
-	if (isCursorKey(keyInfo, data, settings))
+export function acceptsKey(keyInfo, FI, settings) {
+	if (isCursorKey(keyInfo, FI, settings))
 		return true
 
 	const { key } = keyInfo
@@ -65,54 +65,54 @@ export function acceptsKey(keyInfo, data, settings) {
 	return false
 }
 
-export function keyPressToData(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement) {
+export function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, contentsElement, cursorElement) {
 	const { key } = keyInfo
-	const { value, cursor } = data
+	const { value, cursor } = FI
 
 	// Verify the key.
-	if (!acceptsKey(keyInfo, data, settings))
-		return data
+	if (!acceptsKey(keyInfo, FI, settings))
+		return FI
 
 	// For left/right-arrows, home and end, adjust the cursor.
 	if (key === 'ArrowLeft')
-		return { ...data, cursor: Math.max(cursor - 1, 0) }
+		return { ...FI, cursor: Math.max(cursor - 1, 0) }
 	if (key === 'ArrowRight')
-		return { ...data, cursor: Math.min(cursor + 1, value.length) }
+		return { ...FI, cursor: Math.min(cursor + 1, value.length) }
 	if (key === 'Home')
-		return { ...data, cursor: getStartCursor(value) }
+		return { ...FI, cursor: getStartCursor(value) }
 	if (key === 'End')
-		return { ...data, cursor: getEndCursor(value) }
+		return { ...FI, cursor: getEndCursor(value) }
 
 	// For backspace/delete, remove the appropriate symbol.
 	if (key === 'Backspace' && !isCursorAtStart(value, cursor)) {
 		return {
-			...data,
+			...FI,
 			value: removeAtIndex(value, cursor - 1),
 			cursor: cursor - 1,
 		}
 	}
 	if (key === 'Delete' && !isCursorAtEnd(value, cursor)) {
 		return {
-			...data,
+			...FI,
 			value: removeAtIndex(value, cursor),
 		}
 	}
 
 	// Check for additions.
 	if (isLetter(key) || isNumber(key)) // Letters and numbers.
-		return addStrToData(key, data)
+		return addStrToFI(key, FI)
 	if (key === '.' || key === ',') // Basic symbols.
-		return addStrToData(key, data)
+		return addStrToFI(key, FI)
 	if (key === '+') // Plus.
-		return addStrToData('+', data)
+		return addStrToFI('+', FI)
 	if (key === '-') // Minus.
-		return addStrToData('-', data)
+		return addStrToFI('-', FI)
 	if (key === '*') // Times.
-		return addStrToData('*', data)
+		return addStrToFI('*', FI)
 	if (key === '=') // Equals.
-		return addStrToData('=', data)
+		return addStrToFI('=', FI)
 	if (greekAlphabet[key] !== undefined)
-		return addStrToData(greekAlphabet[key].symbol, data)
+		return addStrToFI(greekAlphabet[key].symbol, FI)
 
 	// Unknown character.
 	throw new Error(`Unknown character processing: received the key "${key}" which got accepted, but did not know how to process this.`)

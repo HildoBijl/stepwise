@@ -11,8 +11,13 @@ import SolutionProvider, { useSolution } from './SolutionProvider'
 
 // ExerciseWrapper wraps an exercise in a Form and getFeedback function, providing support functionalities to exercises.
 export default function ExerciseWrapper({ getFeedback, children }) {
+	// Check based on the last input action what the initial form data should be.
+	const exerciseData = useExerciseData()
+	const lastSubmittedInput = getLastInput(exerciseData.history)
+
+	// Render all components together in the right dependency hierarchy.
 	return (
-		<Form>
+		<Form initialInput={lastSubmittedInput}>
 			<SolutionProvider>
 				<FeedbackWrapper getFeedback={getFeedback}>
 					{children}

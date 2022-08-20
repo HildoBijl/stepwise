@@ -5,7 +5,7 @@ import { numberArray } from 'step-wise/util/arrays'
 import { selectRandomIncorrect } from 'util/feedbackMessages'
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
-import ExpressionInput, { validAndNumeric, basicMathAndPowers } from 'ui/form/inputs/ExpressionInput'
+import ExpressionInput, { numeric, basicMathAndPowers } from 'ui/form/inputs/ExpressionInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { useInput } from 'ui/form/Form'
 import { InputSpace } from 'ui/form/Status'
@@ -32,7 +32,7 @@ const Problem = () => {
 				<>Er zijn <M>3</M> oplossingen voor <M>{x}</M>.</>,
 			]} />
 			{numSolutions ? <Par>
-				{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`x${index}`} prelabel={<M>{x}_{index}=</M>} label={`Vul hier antwoord ${index} in`} size="s" settings={basicMathAndPowers} validate={validAndNumeric} persistent={true} />
+				{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`x${index}`} prelabel={<M>{x}_{index}=</M>} label={`Vul hier antwoord ${index} in`} size="s" settings={basicMathAndPowers} validate={numeric} persistent={true} />
 				)}
 			</Par> : null}
 		</InputSpace>
@@ -47,9 +47,9 @@ const steps = [
 				<Par>De vergelijking staat al in de standaardvorm <M>a{x}^2 + b{x} + c = 0.</M> Bepaal hieruit de waarden van <M>a</M>, <M>b</M> en <M>c.</M></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="a" prelabel={<M>a=</M>} label="Vul hier het resultaat in" size="s" settings={basicMathAndPowers} validate={validAndNumeric} />
-						<ExpressionInput id="b" prelabel={<M>b=</M>} label="Vul hier het resultaat in" size="s" settings={basicMathAndPowers} validate={validAndNumeric} />
-						<ExpressionInput id="c" prelabel={<M>c=</M>} label="Vul hier het resultaat in" size="s" settings={basicMathAndPowers} validate={validAndNumeric} />
+						<ExpressionInput id="a" prelabel={<M>a=</M>} label="Vul hier het resultaat in" size="s" settings={basicMathAndPowers} validate={numeric} />
+						<ExpressionInput id="b" prelabel={<M>b=</M>} label="Vul hier het resultaat in" size="s" settings={basicMathAndPowers} validate={numeric} />
+						<ExpressionInput id="c" prelabel={<M>c=</M>} label="Vul hier het resultaat in" size="s" settings={basicMathAndPowers} validate={numeric} />
 					</Par>
 				</InputSpace>
 			</>
@@ -65,7 +65,7 @@ const steps = [
 				<Par>Bepaal de discriminant <M>D = b^2 - 4ac.</M></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="D" prelabel={<M>D=</M>} label="Vul hier het resultaat in" size="s" settings={basicMathAndPowers} validate={validAndNumeric} />
+						<ExpressionInput id="D" prelabel={<M>D=</M>} label="Vul hier het resultaat in" size="s" settings={basicMathAndPowers} validate={numeric} />
 					</Par>
 				</InputSpace>
 			</>

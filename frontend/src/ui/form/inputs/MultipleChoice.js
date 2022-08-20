@@ -93,7 +93,7 @@ const useOptionStyle = makeStyles((theme) => ({
 
 /* This is the MultipleChoice component, used for making multiple-choice questions. It has a variety of properties to be set.
  * - choices (default empty array): the options to display.
- * - id (obligatory): a string indicating what Form id to store the data under. This data always takes the form of an array with the indices of the chosen options. For instance, [0, 3] if the first and fourth option are selected.
+ * - id (obligatory): a string indicating what Form id to store the data under. This data is a number (or undefined) when "multiple" is false or an array when "multiple" is true.
  * - validate (default nonEmpty): a validation function. Default is that at least one option should be chosen.
  * - multiple (default false): are multiple choices allowed? If set to true, checkboxes are used instead of radio buttons.
  * - readOnly (default undefined): can the value still be changed? If left undefined, the exercise status is checked and only when the exercise is not done can the value be changed. If this option is defined, it overwrites this.
@@ -108,10 +108,10 @@ export default function MultipleChoice(options) {
 	multiple = useImmutableValue(multiple) // Ensure that "multiple" does not change.
 
 	// Register as an input field.
-	const { readOnly, data: selection, setData: setSelection, feedback, feedbackInput } = useAsInput({
+	const { readOnly, FI: selection, setFI: setSelection, feedback, feedbackInput } = useAsInput({
 		...filterOptions(options, defaultInputOptions),
 		useFocusRegistration: false, // Tabbing does not focus MultipleChoice elements.
-		initialData: getEmptyData(multiple),
+		initialSI: getEmptySI(multiple),
 		subFields: numberArray(0, choices.length - 1),
 		functionalize,
 	})
@@ -200,6 +200,7 @@ function functionalize(data) {
 }
 
 // These are validation functions.
+export function any() { }
 export function nonEmpty(input) {
 	if (isEmpty(input))
 		return 'Je hebt nog niets geselecteerd.'
@@ -211,6 +212,6 @@ function isEmpty(input) {
 	return input === undefined
 }
 
-function getEmptyData(multiple) {
+function getEmptySI(multiple) {
 	return multiple ? [] : undefined
 }

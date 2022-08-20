@@ -4,7 +4,7 @@ import { Unit } from 'step-wise/inputTypes/Unit'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
-import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
+import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
@@ -19,7 +19,7 @@ function Problem({ E, Ein }) {
 	return <>
 		<Par>Een elektrische auto heeft een batterij die <M>{E}</M> op kan slaan. We laden deze batterij volledig op, van "helemaal leeg" naar "helemaal vol". Na afloop blijkt dat we <M>{Ein}</M> aan elektriciteit verbruikt hebben. Bereken het rendement van het oplaadproces.</Par>
 		<InputSpace>
-			<Par><FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={validNumberAndUnit} /></Par>
+			<Par><FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={any} /></Par>
 		</InputSpace>
 	</>
 }

@@ -10,13 +10,13 @@ import { repeat } from 'step-wise/util/functions'
 import { selectRandomEmpty, selectRandomInvalidUnit } from 'util/feedbackMessages'
 
 import FieldInput, { checkCursor } from './support/FieldInput'
-import { UnitArray, keyPressToData as unitArrayKeyPressToData, mouseClickToCursor as unitArrayMouseClickToCursor, emptyUnitArray, isEmpty as isUnitArrayEmpty, getStartCursor as getUnitArrayStartCursor, getEndCursor as getUnitArrayEndCursor, isCursorAtStart as isCursorAtUnitArrayStart, isCursorAtEnd as isCursorAtUnitArrayEnd, isValid as isUnitArrayValid, mergeElements, splitElement, getCursorFromOffset as getUnitArrayCursorFromOffset, clean as cleanUnitArray, functionalize as functionalizeUnitArray } from './support/UnitArray'
+import { UnitArray, keyPressToFI as unitArrayKeyPressToFI, mouseClickToCursor as unitArrayMouseClickToCursor, emptyUnitArray, isEmpty as isUnitArrayEmpty, getStartCursor as getUnitArrayStartCursor, getEndCursor as getUnitArrayEndCursor, isCursorAtStart as isCursorAtUnitArrayStart, isCursorAtEnd as isCursorAtUnitArrayEnd, isValid as isUnitArrayValid, mergeElements, splitElement, getCursorFromOffset as getUnitArrayCursorFromOffset, clean as cleanUnitArray, functionalize as functionalizeUnitArray } from './support/UnitArray'
 import { isEmpty as isUnitElementEmpty, getStartCursor as getUnitElementStartCursor, getEndCursor as getUnitElementEndCursor, isCursorAtStart as isCursorAtUnitElementStart } from './support/UnitElement'
 
 // Define various trivial objects and functions.
 export const emptyUnit = {}
 export const parts = ['num', 'den']
-export const emptyData = { type: 'Unit', value: emptyUnit }
+export const emptySI = { type: 'Unit', value: emptyUnit }
 export const isEmpty = ({ num, den }) => isUnitArrayEmpty(num) && isUnitArrayEmpty(den)
 export const isDenominatorVisible = (value, cursor) => !isUnitArrayEmpty(value.den) || (cursor && cursor.part === 'den')
 export const getStartCursor = ({ num }, cursor) => ({ part: 'num', cursor: getUnitArrayStartCursor(num, cursor && cursor.part === 'num' && cursor.cursor) })
@@ -33,12 +33,12 @@ export const functionalize = value => keysToObject(parts, part => functionalizeU
 const defaultProps = {
 	basic: true, // To get the basic character layout.
 	placeholder: 'Eenheid',
-	validate: nonEmptyAndValid,
-	initialData: emptyData,
-	isEmpty: data => isEmpty(data.value),
+	validate: nonEmpty,
+	initialSI: emptySI,
+	isEmpty: FI => isEmpty(FI.value),
 	JSXObject: Unit,
-	keyboardSettings: dataToKeyboardSettings,
-	keyPressToData,
+	keyboardSettings: FIToKeyboardSettings,
+	keyPressToFI,
 	mouseClickToCursor,
 	getStartCursor,
 	getEndCursor,
@@ -46,6 +46,7 @@ const defaultProps = {
 	isCursorAtEnd,
 	clean,
 	functionalize,
+	errorToMessage,
 }
 
 const style = (theme) => ({
@@ -169,29 +170,17 @@ export default function UnitInput(props) {
 }
 
 // These are validation functions.
-export function nonEmpty(data) {
-	if (isEmpty(data.value))
+export function any() { }
+export function nonEmpty(unit) {
+	if (unit.isEmpty())
 		return selectRandomEmpty()
 }
-export function valid(data) {
-	if (!isValid(data.value))
-		return selectRandomInvalidUnit()
-}
-export function nonEmptyAndValid(data) {
-	const nonEmptyValidation = nonEmpty(data)
-	if (nonEmptyValidation)
-		return nonEmptyValidation
 
-	const validValidation = valid(data)
-	if (validValidation)
-		return validValidation
-}
-
-// Unit takes an input data object and shows the corresponding contents as JSX render.
+// Unit takes an FI object and shows the corresponding contents as JSX render.
 export function Unit({ type, value, cursor }) {
 	// Check input.
 	if (type !== 'Unit')
-		throw new Error(`Invalid type: tried to get the contents of a Unit field but got data for a type "${type}" field.`)
+		throw new Error(`Invalid type: tried to get the contents of a Unit field but got an FI with type "${type}".`)
 
 	// Check if anything should be shown.
 	if (isEmpty(value) && !cursor)
@@ -226,9 +215,9 @@ function Part({ part, value, cursor }) {
 	return <UnitArray {...{ type: 'UnitArray', value: value[part], cursor: cursor && cursor.part === part && cursor.cursor }} />
 }
 
-// dataToKeyboardSettings takes a data object and determines what keyboard settings are appropriate.
-export function dataToKeyboardSettings(data) {
-	const { value: unit, cursor: unitCursor } = data
+// FIToKeyboardSettings takes an FI object and determines what keyboard settings are appropriate.
+export function FIToKeyboardSettings(FI) {
+	const { value: unit, cursor: unitCursor } = FI
 
 	let keySettings = {}
 	if (unitCursor) {
@@ -262,11 +251,11 @@ export function dataToKeyboardSettings(data) {
 	}
 }
 
-// keyPressToData takes a keyInfo event and a data object and returns a new data object.
-export function keyPressToData(keyInfo, data, contentsElement) {
+// keyPressToFI takes a keyInfo event and an FI object and returns a new FI object.
+export function keyPressToFI(keyInfo, FI, contentsElement) {
 	// Extract given data.
 	const { key, ctrl, alt } = keyInfo
-	const { value, cursor } = data
+	const { value, cursor } = FI
 	const { num, den } = value
 
 	// Check where the cursor is currently at.
@@ -277,77 +266,77 @@ export function keyPressToData(keyInfo, data, contentsElement) {
 
 	// Set up a pass-on function.
 	const passOn = () => {
-		const oldUnitArrayData = {
+		const oldUnitArrayFI = {
 			type: 'UnitArray',
 			value: unitArray,
 			cursor: unitArrayCursor,
 		}
-		const newUnitArrayData = unitArrayKeyPressToData(keyInfo, oldUnitArrayData)
+		const newUnitArrayFI = unitArrayKeyPressToFI(keyInfo, oldUnitArrayFI)
 		return {
-			...data,
+			...FI,
 			value: {
 				...value,
-				[cursor.part]: newUnitArrayData.value,
+				[cursor.part]: newUnitArrayFI.value,
 			},
 			cursor: {
 				part: cursor.part,
-				cursor: newUnitArrayData.cursor,
+				cursor: newUnitArrayFI.cursor,
 			}
 		}
 	}
 
 	// Ignore ctrl/alt keys.
 	if (ctrl || alt)
-		return data
+		return FI
 
 	// For left/right-arrows, home and end, adjust the cursor.
 	if (key === 'ArrowLeft') {
 		// If we're at the start of the denominator, move to the end of the numerator.
 		if (cursor.part === 'den' && isCursorAtUnitArrayStart(den, unitArrayCursor))
-			return { ...data, cursor: { part: 'num', cursor: getUnitArrayEndCursor(num) } }
+			return { ...FI, cursor: { part: 'num', cursor: getUnitArrayEndCursor(num) } }
 	}
 	if (key === 'ArrowRight') {
 		// If we're at the end of the numerator, move to the start of the denominator if it exists.
 		if (cursor.part === 'num' && isCursorAtUnitArrayEnd(num, unitArrayCursor) && !isUnitArrayEmpty(den))
-			return { ...data, cursor: { part: 'den', cursor: getUnitArrayStartCursor(den) } }
+			return { ...FI, cursor: { part: 'den', cursor: getUnitArrayStartCursor(den) } }
 	}
 	if (key === 'Home') {
 		// If we're at the start of the denominator, move to the start of the numerator. Otherwise move to home within the unit array.
 		if (cursor.part === 'den' && isCursorAtUnitArrayStart(den, unitArrayCursor))
-			return { ...data, cursor: { part: 'num', cursor: getUnitArrayStartCursor(num) } }
+			return { ...FI, cursor: { part: 'num', cursor: getUnitArrayStartCursor(num) } }
 	}
 	if (key === 'End') {
 		// If we're at the end of the numerator, move to the end of the denominator. Otherwise move to the end within the unit array.
 		if (cursor.part === 'num' && isCursorAtUnitArrayEnd(num, unitArrayCursor) && !isUnitArrayEmpty(den))
-			return { ...data, cursor: { part: 'den', cursor: getUnitArrayEndCursor(den) } }
+			return { ...FI, cursor: { part: 'den', cursor: getUnitArrayEndCursor(den) } }
 	}
 	if (key === 'ArrowDown' && cursor.part === 'num') {
 		// If there is no denominator yet, put the cursor there.
 		if (isUnitArrayEmpty(den))
-			return { ...data, cursor: { part: 'den', cursor: getUnitArrayStartCursor(den) } }
+			return { ...FI, cursor: { part: 'den', cursor: getUnitArrayStartCursor(den) } }
 
 		// Find the position of the cursor and use it to determine the new cursor.
 		const cursorOffset = contentsElement.getElementsByClassName('cursorContainer')[0].offsetLeft
-		return { ...data, cursor: { part: 'den', cursor: getUnitArrayCursorFromOffset(den, contentsElement.getElementsByClassName('den')[0], cursorOffset) } }
+		return { ...FI, cursor: { part: 'den', cursor: getUnitArrayCursorFromOffset(den, contentsElement.getElementsByClassName('den')[0], cursorOffset) } }
 	}
 	if (key === 'ArrowUp' && cursor.part === 'den') {
 		// If there is no numerator, put the cursor at its start.
 		if (isUnitArrayEmpty(num))
-			return { ...data, cursor: { part: 'num', cursor: getUnitArrayStartCursor(num) } }
+			return { ...FI, cursor: { part: 'num', cursor: getUnitArrayStartCursor(num) } }
 
 		// Find the position of the cursor and use it to determine the new cursor.
 		const cursorOffset = contentsElement.getElementsByClassName('cursorContainer')[0].offsetLeft
-		return { ...data, cursor: { part: 'num', cursor: getUnitArrayCursorFromOffset(num, contentsElement.getElementsByClassName('num')[0], cursorOffset) } }
+		return { ...FI, cursor: { part: 'num', cursor: getUnitArrayCursorFromOffset(num, contentsElement.getElementsByClassName('num')[0], cursorOffset) } }
 	}
 
 	// For backspace/delete, delete the appropriate symbol.
 	if (key === 'Backspace') {
 		if (cursor.part === 'den' && isCursorAtUnitArrayStart(unitArray, unitArrayCursor)) // Cursor is at the start of the denominator.
-			return { ...data, ...mergeNumeratorAndDenominator(value, true) } // Merge the numerator and denominator in the appropriate way.
+			return { ...FI, ...mergeNumeratorAndDenominator(value, true) } // Merge the numerator and denominator in the appropriate way.
 	}
 	if (key === 'Delete') {
 		if (cursor.part === 'num' && isCursorAtUnitArrayEnd(unitArray, unitArrayCursor) && isDenominatorVisible(value, cursor)) // Cursor is at the end of the numerator.
-			return { ...data, ...mergeNumeratorAndDenominator(value, false) } // Merge the numerator and denominator in the appropriate way.
+			return { ...FI, ...mergeNumeratorAndDenominator(value, false) } // Merge the numerator and denominator in the appropriate way.
 	}
 
 	// For the minus sign, if we're in a power, throw the unit to the other unit array.
@@ -357,7 +346,7 @@ export function keyPressToData(keyInfo, data, contentsElement) {
 		const unitArrayA = unitArray.length === 1 ? emptyUnitArray : arraySplice(unitArray, unitArrayCursor.part, 1)
 		const unitArrayB = isUnitArrayEmpty(value[partB]) ? [unitElement] : [...value[partB], unitElement]
 		return {
-			...data,
+			...FI,
 			value: { [partA]: unitArrayA, [partB]: unitArrayB },
 			cursor: { part: partB, cursor: { part: unitArrayB.length - 1, cursor: unitElementCursor } },
 		}
@@ -393,7 +382,7 @@ export function keyPressToData(keyInfo, data, contentsElement) {
 		const newNum = (divideAt === 0 ? emptyUnitArray : mergedUnitArray.slice(0, divideAt))
 		const newDen = (divideAt === mergedUnitArray.length ? emptyUnitArray : mergedUnitArray.slice(divideAt))
 		return {
-			...data,
+			...FI,
 			value: { num: newNum, den: newDen },
 			cursor: { part: 'den', cursor: getUnitArrayStartCursor(newDen) },
 		}
@@ -404,8 +393,8 @@ export function keyPressToData(keyInfo, data, contentsElement) {
 }
 
 // mouseClickToCursor takes an event object like a "click" (but possibly also a drag) and, for the given field, returns the cursor object related to the click.
-export function mouseClickToCursor(evt, data, contentsElement) {
-	const { value, cursor } = data
+export function mouseClickToCursor(evt, FI, contentsElement) {
+	const { value, cursor } = FI
 
 	// Check on which part was clicked.
 	let unitArrayElement
@@ -414,8 +403,8 @@ export function mouseClickToCursor(evt, data, contentsElement) {
 		return unitArrayElement && unitArrayElement.contains(evt.target)
 	})
 	if (unitArrayElement) {
-		const unitArrayData = { type: 'UnitArray', value: value[part], cursor: cursor && cursor.part === part && cursor.cursor }
-		const newCursor = unitArrayMouseClickToCursor(evt, unitArrayData, unitArrayElement)
+		const unitArrayFI = { type: 'UnitArray', value: value[part], cursor: cursor && cursor.part === part && cursor.cursor }
+		const newCursor = unitArrayMouseClickToCursor(evt, unitArrayFI, unitArrayElement)
 		return checkCursor(newCursor) && { part, cursor: newCursor }
 	}
 
@@ -443,5 +432,13 @@ function mergeNumeratorAndDenominator(value, putCursorOnTheRight = true) {
 	return {
 		value: { num: newNumerator, den: emptyUnitArray },
 		cursor: { part: 'num', cursor: newNumeratorCursor },
+	}
+}
+
+// errorToMessage turns an error during interpretation into a message to be displayed.
+export function errorToMessage(error) {
+	switch (error.code) {
+		case 'InvalidUnit': return selectRandomInvalidUnit()
+		default: throw new Error(`Invalid error code: cannot determine what went wrong with the interpretation. The error code "${error.code}" is not known.`)
 	}
 }

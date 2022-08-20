@@ -11,34 +11,34 @@ import { accents } from '../Accent'
 const { getEmpty } = support
 const { isFunctionAllowed } = CASfunctions
 
-export default function cleanUp(data, settings) {
-	const hasCursor = !!data.cursor
+export default function cleanUp(FI, settings) {
+	const hasCursor = !!FI.cursor
 
 	// Step 1 is to clean up all the elements individually.
-	data = cleanUpElements(data, settings)
+	FI = cleanUpElements(FI, settings)
 
 	// Step 2 is to flatten all expressions inside of the expression array.
-	data = flattenExpressionArray(data)
+	FI = flattenExpressionArray(FI)
 
 	// Step 3 is to remove all unnecessary elements.
-	data = removeUnnecessaryElements(data)
+	FI = removeUnnecessaryElements(FI)
 
 	// Step 4 is to ensure that the expression consists of alternating ExpressionParts (even indices) and alternating other parts (odd indices).
-	data = alternateExpressionParts(data, settings)
+	FI = alternateExpressionParts(FI, settings)
 
 	// Step 5 is to auto-replace functions. The auto-replace on ExpressionPart level for symbols (Greek alphabet, plus-minus, ...) was already done by cleaning them (and running an extra cleaning upon merging) but this concerns expression-wide auto-replace like functions (root, log, ...) and accents (dot, hat, ...).
-	data = applyAutoReplace(data, settings)
+	FI = applyAutoReplace(FI, settings)
 
 	// Return the result with or without a cursor.
-	return hasCursor ? data : removeCursor(data)
+	return hasCursor ? FI : removeCursor(FI)
 }
 
-// cleanUpElements will take an expression data object and walk through all children, calling the cleanUp function for them. It adjusts the cursor along when needed.
-function cleanUpElements(data, settings) {
-	const { value, cursor } = data
+// cleanUpElements will take an expression FI object and walk through all children, calling the cleanUp function for them. It adjusts the cursor along when needed.
+function cleanUpElements(FI, settings) {
+	const { value, cursor } = FI
 	let newCursor = null
 	const newValue = value.map((_, part) => {
-		const newElementUncleaned = zoomInAt(data, part)
+		const newElementUncleaned = zoomInAt(FI, part)
 		const cleanUp = getFuncs(newElementUncleaned).cleanUp
 		const newElement = cleanUp ? cleanUp(newElementUncleaned, settings) : newElementUncleaned
 		if (cursor && cursor.part === part)
@@ -46,19 +46,19 @@ function cleanUpElements(data, settings) {
 		return removeCursor(newElement)
 	})
 	return {
-		...data,
+		...FI,
 		value: newValue,
 		cursor: newCursor,
 	}
 }
 
-// flattenExpressionArray will take an expression data object and walk through the array. If there is an expression as an element, this expression is expanded. So an expression like ['a*', ['b','c'], '+d'] will be flattened to a single array. Flattening is done recursively. The cursor will be kept on the same place in the respective element.
-function flattenExpressionArray(data) {
-	const { value, cursor } = data
+// flattenExpressionArray will take an expression FI object and walk through the array. If there is an expression as an element, this expression is expanded. So an expression like ['a*', ['b','c'], '+d'] will be flattened to a single array. Flattening is done recursively. The cursor will be kept on the same place in the respective element.
+function flattenExpressionArray(FI) {
+	const { value, cursor } = FI
 
 	// If there is no cursor, just flatten the arrays.
 	if (!cursor)
-		return { ...data, value: flattenExpressionArraysFromValue(value) }
+		return { ...FI, value: flattenExpressionArraysFromValue(value) }
 
 	// There is a cursor. Find the element the cursor is in, so we can track it later on.
 	let valueIterator = value
@@ -80,7 +80,7 @@ function flattenExpressionArray(data) {
 	}
 
 	return {
-		...data,
+		...FI,
 		value: newValue,
 		cursor: newCursor,
 	}
@@ -90,8 +90,8 @@ function flattenExpressionArraysFromValue(value) {
 	return value.map(element => element.type === 'Expression' ? flattenExpressionArraysFromValue(element.value) : element).flat()
 }
 
-function removeUnnecessaryElements(data) {
-	const { value, cursor } = data
+function removeUnnecessaryElements(FI) {
+	const { value, cursor } = FI
 	const activeElement = cursor && value[cursor.part]
 	const filteredValue = value.filter((element, index) => { // Remove pointless object.
 		if (cursor && cursor.part === index)
@@ -102,7 +102,7 @@ function removeUnnecessaryElements(data) {
 		return !funcs.shouldRemove(element) // Let the object decide.
 	})
 	return {
-		...data,
+		...FI,
 		value: filteredValue,
 		cursor: cursor && {
 			...cursor,
@@ -111,8 +111,8 @@ function removeUnnecessaryElements(data) {
 	}
 }
 
-function alternateExpressionParts(data, settings) {
-	const { value, cursor } = data
+function alternateExpressionParts(FI, settings) {
+	const { value, cursor } = FI
 
 	// Check a special case.
 	if (value.length === 0)
@@ -160,21 +160,21 @@ function alternateExpressionParts(data, settings) {
 		newValue.push({ type: 'ExpressionPart', value: ExpressionPart.getEmpty() })
 
 	return {
-		...data,
+		...FI,
 		value: newValue,
 		cursor: newCursor,
 	}
 }
 
-function applyAutoReplace(data, settings) {
+function applyAutoReplace(FI, settings) {
 	// Check if the cursor is in an expression part. If not, don't apply auto-replace.
-	const { cursor } = data
+	const { cursor } = FI
 	if (!cursor)
-		return data
-	const activeElementData = zoomIn(data)
-	if (activeElementData.type !== 'ExpressionPart')
-		return data
-	const expressionPartValue = activeElementData.value
+		return FI
+	const activeElementFI = zoomIn(FI)
+	if (activeElementFI.type !== 'ExpressionPart')
+		return FI
+	const expressionPartValue = activeElementFI.value
 
 	// Set up a handler to apply auto-replace with.
 	const checkAutoReplaceFor = (name, funcs) => {
@@ -182,7 +182,7 @@ function applyAutoReplace(data, settings) {
 		aliases.forEach(alias => {
 			const position = expressionPartValue.indexOf(alias)
 			if (position !== -1)
-				data = create(data, cursor.part, position, name, alias)
+				FI = create(FI, cursor.part, position, name, alias)
 		})
 	}
 
@@ -190,5 +190,5 @@ function applyAutoReplace(data, settings) {
 	Object.keys(functions).forEach(name => isFunctionAllowed(name, settings) && checkAutoReplaceFor(name, functions[name]))
 	Object.keys(accents).forEach(name => settings.accent && checkAutoReplaceFor(name, accents[name]))
 
-	return data
+	return FI
 }

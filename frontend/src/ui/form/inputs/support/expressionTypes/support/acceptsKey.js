@@ -1,36 +1,36 @@
-import { isCursorAtDataStart, isCursorAtDataEnd, canMoveDataCursorVertically } from '../'
+import { isCursorAtFIStart, isCursorAtFIEnd, canMoveFICursorVertically } from '../'
 
-export function isHorizontalMovementKey(keyInfo, data) {
+export function isHorizontalMovementKey(keyInfo, FI) {
 	const { key } = keyInfo
-	if ((key === 'ArrowLeft' || key === 'Home') && !isCursorAtDataStart(data))
+	if ((key === 'ArrowLeft' || key === 'Home') && !isCursorAtFIStart(FI))
 		return true
-	if ((key === 'ArrowRight' || key === 'End') && !isCursorAtDataEnd(data))
+	if ((key === 'ArrowRight' || key === 'End') && !isCursorAtFIEnd(FI))
 		return true
 	return false
 }
 
-export function isVerticalMovementKey(keyInfo, data) {
+export function isVerticalMovementKey(keyInfo, FI) {
 	const { key } = keyInfo
-	if (key === 'ArrowUp' && canMoveDataCursorVertically(data, true))
+	if (key === 'ArrowUp' && canMoveFICursorVertically(FI, true))
 		return true
-	if (key === 'ArrowDown' && canMoveDataCursorVertically(data, false))
+	if (key === 'ArrowDown' && canMoveFICursorVertically(FI, false))
 		return true
 	return false
 }
 
-export function isRemovalKey(keyInfo, data) {
+export function isRemovalKey(keyInfo, FI) {
 	const { key } = keyInfo
-	if ((key === 'Backspace') && !isCursorAtDataStart(data))
+	if ((key === 'Backspace') && !isCursorAtFIStart(FI))
 		return true
-	if ((key === 'Delete') && !isCursorAtDataEnd(data))
+	if ((key === 'Delete') && !isCursorAtFIEnd(FI))
 		return true
 	return false
 }
 
-export function isCursorKey(keyInfo, data) {
+export function isCursorKey(keyInfo, FI) {
 	return (
-		isHorizontalMovementKey(keyInfo, data) ||
-		isVerticalMovementKey(keyInfo, data) ||
-		isRemovalKey(keyInfo, data)
+		isHorizontalMovementKey(keyInfo, FI) ||
+		isVerticalMovementKey(keyInfo, FI) ||
+		isRemovalKey(keyInfo, FI)
 	)
 }

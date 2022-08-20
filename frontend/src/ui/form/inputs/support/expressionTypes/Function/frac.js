@@ -1,6 +1,6 @@
 import defaultFunctions from './templates/with2In0AfterVertical'
 
-import { zoomIn, getFuncs, getDataStartCursor, isCursorAtDataStart, isCursorAtDataEnd } from '../'
+import { zoomIn, getFuncs, getFIStartCursor, isCursorAtFIStart, isCursorAtFIEnd } from '../'
 
 const fullExport = {
 	...defaultFunctions,
@@ -10,12 +10,12 @@ const fullExport = {
 	charPartToValuePart,
 	valuePartToCharPart,
 	getInitialCursor,
-	keyPressToData,
+	keyPressToFI,
 }
 export default fullExport
 
-function toLatex(data, options) {
-	const { value } = data
+function toLatex(FI, options) {
+	const { value } = FI
 	const [numLatex, denLatex] = value.map(element => getFuncs(element).toLatex(element, options))
 
 	return {
@@ -38,19 +38,19 @@ function isUpFirst() {
 
 function getInitialCursor(element) {
 	const part = 1
-	return { part, cursor: getDataStartCursor(element.value[part]) }
+	return { part, cursor: getFIStartCursor(element.value[part]) }
 }
 
-function keyPressToData(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement) {
+function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, contentsElement, cursorElement) {
 	const { key } = keyInfo
-	const activeElementData = zoomIn(data)
+	const activeElementFI = zoomIn(FI)
 
 	// Handle backspace/delete: remove the fraction when necessary.
-	if (key === 'Backspace' && isCursorAtDataStart(activeElementData) && !isCursorAtDataStart(data))
-		return getFuncs(data).removeElement(data, true)
-	if (key === 'Delete' && isCursorAtDataEnd(activeElementData) && !isCursorAtDataEnd(data))
-		return getFuncs(data).removeElement(data, false)
+	if (key === 'Backspace' && isCursorAtFIStart(activeElementFI) && !isCursorAtFIStart(FI))
+		return getFuncs(FI).removeElement(FI, true)
+	if (key === 'Delete' && isCursorAtFIEnd(activeElementFI) && !isCursorAtFIEnd(FI))
+		return getFuncs(FI).removeElement(FI, false)
 
 	// Process the key as usual.
-	return defaultFunctions.keyPressToData(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement)
+	return defaultFunctions.keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, contentsElement, cursorElement)
 }

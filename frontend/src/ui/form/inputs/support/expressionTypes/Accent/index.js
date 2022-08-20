@@ -10,24 +10,24 @@ const accents = {
 }
 export { accents }
 
-// getFuncs takes a data object and returns an object with all the functions for that data type.
-export function getFuncs(data) {
-	// Check if functions exist for this data type.
-	const funcs = getFuncsOf(data.name)
+// getFuncs takes an FI object and returns an object with all the functions for that FI type.
+export function getFuncs(FI) {
+	// Check if functions exist for this FI type.
+	const funcs = getFuncsOf(FI.name)
 
 	// Check if the functions require us to iterate deeper.
 	if (funcs.getFuncs)
-		return funcs.getFuncs(data)
+		return funcs.getFuncs(FI)
 
 	// All normal.
 	return funcs
 }
 
 // getFuncsOf takes a function name and returns the functions for said function.
-export function getFuncsOf(name) {
-	const funcs = accents[name]
+export function getFuncsOf(FI) {
+	const funcs = accents[FI]
 	if (!funcs)
-		throw new Error(`Invalid data type: cannot find functions for accent name "${name}".`)
+		throw new Error(`Invalid FI type: cannot find functions for accent name "${FI}".`)
 	return funcs
 }
 

@@ -1,7 +1,7 @@
 import { firstOf, lastOf } from 'step-wise/util/arrays'
 import { support } from 'step-wise/CAS'
 
-import { getDataStartCursor, getDataEndCursor } from '../'
+import { getFIStartCursor, getFIEndCursor } from '../'
 import Expression from '../Expression'
 
 const { getSubExpression, findEndOfTerm } = support
@@ -97,7 +97,7 @@ export function mergeWithRight(data, partIndex) {
 			part: partIndex,
 			cursor: {
 				part: element.value.length - 1,
-				cursor: getDataEndCursor(parameter), // Put the cursor at the end of the previous parameter.
+				cursor: getFIEndCursor(parameter), // Put the cursor at the end of the previous parameter.
 			},
 		},
 	}
@@ -109,7 +109,7 @@ export function getMergeParts(expressionValue, partIndex, toRight, skipFirst) {
 	const edgeElementIndex = partIndex + (toRight ? 1 : -1)
 	const cursorAtEdgeOfElement = {
 		part: edgeElementIndex,
-		cursor: (toRight ? getDataStartCursor : getDataEndCursor)(expressionValue[edgeElementIndex]),
+		cursor: (toRight ? getFIStartCursor : getFIEndCursor)(expressionValue[edgeElementIndex]),
 	}
 	const cursorAtBreak = findEndOfTerm(expressionValue, cursorAtEdgeOfElement, toRight, skipFirst)
 	const cursorAtEnd = toRight ? Expression.getEndCursor(expressionValue) : Expression.getStartCursor(expressionValue)

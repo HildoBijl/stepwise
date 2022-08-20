@@ -6,7 +6,7 @@ import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import { Drawing } from 'ui/components/figures'
 import { components, CornerLabel, useRotationReflectionTransformation, useScaleToBoundsTransformationSettings } from 'ui/components/figures'
-import ExpressionInput, { validAndNumeric, basicMath } from 'ui/form/inputs/ExpressionInput'
+import ExpressionInput, { numeric, basicMath } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/Status'
 
 import { useSolution } from '../util/SolutionProvider'
@@ -26,7 +26,7 @@ const Problem = () => {
 		<Par>Twee kruisende lijnen raken een cirkel aan weerszijden. We tekenen een lijn vanaf het ene raakpunt door het middelpunt van de cirkel. De gegeven hoek bij het middelpunt van de cirkel is <M>{a}^\circ.</M> Bereken hoek <M>{variables.delta}</M> in graden.</Par>
 		<ExerciseFigure showDelta={1} />
 		<InputSpace>
-			<ExpressionInput id="delta" prelabel={<M>{variables.delta}=</M>} size="s" settings={basicMath} validate={validAndNumeric} />
+			<ExpressionInput id="delta" prelabel={<M>{variables.delta}=</M>} size="s" settings={basicMath} validate={numeric} />
 		</InputSpace>
 	</>
 }
@@ -39,7 +39,7 @@ const steps = [
 				<Par>Bepaal de hoek <M>{variables.alpha}</M> uit de onderstaande figuur.</Par>
 				<ExerciseFigure showAlpha={1} />
 				<InputSpace>
-					<ExpressionInput id="alpha" prelabel={<M>{variables.alpha}=</M>} size="s" settings={basicMath} validate={validAndNumeric} />
+					<ExpressionInput id="alpha" prelabel={<M>{variables.alpha}=</M>} size="s" settings={basicMath} validate={numeric} />
 				</InputSpace>
 			</>
 		},
@@ -56,7 +56,7 @@ const steps = [
 				<ExerciseFigure showAlpha={2} showBeta={1} />
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="beta" prelabel={<M>{variables.beta}=</M>} size="s" settings={basicMath} validate={validAndNumeric} />
+						<ExpressionInput id="beta" prelabel={<M>{variables.beta}=</M>} size="s" settings={basicMath} validate={numeric} />
 					</Par>
 				</InputSpace>
 			</>
@@ -74,7 +74,7 @@ const steps = [
 				<ExerciseFigure showAlpha={2} showBeta={2} showGamma={1} />
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="gamma" prelabel={<M>{variables.gamma}=</M>} size="s" settings={basicMath} validate={validAndNumeric} />
+						<ExpressionInput id="gamma" prelabel={<M>{variables.gamma}=</M>} size="s" settings={basicMath} validate={numeric} />
 					</Par>
 				</InputSpace>
 			</>
@@ -92,7 +92,7 @@ const steps = [
 				<ExerciseFigure showAlpha={2} showBeta={2} showGamma={2} showDelta={1} />
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="delta" prelabel={<M>{variables.delta}=</M>} size="s" settings={basicMath} validate={validAndNumeric} />
+						<ExpressionInput id="delta" prelabel={<M>{variables.delta}=</M>} size="s" settings={basicMath} validate={numeric} />
 					</Par>
 				</InputSpace>
 			</>

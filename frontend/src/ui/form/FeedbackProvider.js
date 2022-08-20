@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState, useCallback, useEffect, isValidElement } from 'react'
 import { useTheme } from '@material-ui/core/styles'
 
-import { noop } from 'step-wise/util/functions'
 import { isBasicObject, processOptions, deepEquals } from 'step-wise/util/objects'
 import { toFO } from 'step-wise/inputTypes'
 
@@ -25,14 +24,14 @@ export default function FeedbackProvider({ children, getFeedback, input, data = 
 		const { feedback, feedbackInput } = dataRef.current
 		if (deepEquals(input, feedbackInput))
 			return
-			setFeedbackInput(input)
+		setFeedbackInput(input)
 
 		// If there is a getFeedback function, call it with the given data, input, previous feedback and previous input. Make sure all input (which is given as SI) is in FO.
 		if (getFeedback) {
 			const inputFO = toFO(input, true)
 			const previousInputFO = toFO(feedbackInput, true)
 			const newFeedback = getFeedback({ ...dataRef.current, input: inputFO, previousFeedback: feedback, previousInput: previousInputFO })
-			if (!newFeedback || !isBasicObject(feedback))
+			if (!newFeedback || !isBasicObject(newFeedback))
 				throw new Error(`Invalid feedback: a feedback was returned which is not an object. Instead, we received "${newFeedback}". Possibly the getFeedback function forgot to return anything sensible?`)
 			setFeedback(newFeedback)
 		}
@@ -66,7 +65,6 @@ export function useParameterFeedback(id) {
 /* useFieldFeedback examines results from validation and feedback to give an indication to the user about the most relevant feedback. It gets a processed object with options:
  * - id (obligatory): the id of the field we want to get the feedback of.
  * - subFields (default []): the ids of the subfields whose feedback should also be processed.
- * - validate (default noop): the validation function that must be applied for the field.
  * - feedbackText (default ''): a default feedback text if nothing is found from validation/feedback. Note that validation/feedback text take precedence over this fallback text.
  * An object is returned of the format { feedback, feedbackInput }. The feedback parameter has the following parameters.
  * - type: 'normal', 'warning', 'info', 'success', 'error' or so.
@@ -75,23 +73,27 @@ export function useParameterFeedback(id) {
  * - color: the color that corresponds to the type, taken from the theme palette.
  */
 export function useFieldFeedback(options) {
-	const { id, subFields, validate, feedbackText } = processOptions(options, defaultFieldFeedbackOptions)
+	const { id, subFields, feedbackText } = processOptions(options, defaultFieldFeedbackOptions)
 
 	// Gather data.
 	const theme = useTheme()
-	const { getInputParameterSI, getFieldFunction } = useFormData()
-	let { validation, validationInput } = useFieldValidation(id, validate)
+	const { getInputParameterSI, getField } = useFormData()
+	let { result: validationResult, input: validationInput } = useFieldValidation(id)
 	let { feedback, feedbackInput } = useParameterFeedback(id)
 	const staticFeedbackText = useStaticFeedbackText(feedback, feedbackInput)
 
-	// Check for validation problems. Use the FI for this.
+	// Check if the field exists.
 	const input = getInputParameterSI(id)
-	const equals = getFieldFunction(id, 'equals')
-	if (validation !== undefined && equals(input, validationInput)) {
-		// The validation can parameter can be a string or React object: apply that as text. It can also be a basic object, in which case we copy it entirely.
-		if (isBasicObject(validation) && !isValidElement(validation))
-			return addInput(addIconAndColor({ type: 'warning', ...validation }, theme), validationInput)
-		return addInput(addIconAndColor({ type: 'warning', text: validation || feedbackText }, theme), validationInput)
+	if (input === undefined)
+		return addInput(getDefaultFeedback(feedbackText, theme), input) // No feedback can be determined yet.
+
+	// Check for validation problems.
+	const equals = getField(id).equals
+	if (validationResult !== undefined && equals(input, validationInput)) {
+		// If the validation result is a full object, use that directly. Most of the time it is only text (or a React element) in which case this is used as text.
+		if (isBasicObject(validationResult) && !isValidElement(validationResult))
+			return addInput(addIconAndColor({ type: 'warning', ...validationResult }, theme), validationInput)
+		return addInput(addIconAndColor({ type: 'warning', text: validationResult || feedbackText }, theme), validationInput)
 	}
 
 	// Validation is fine. Check for regular feedback.
@@ -114,7 +116,6 @@ export function useFieldFeedback(options) {
 export const defaultFieldFeedbackOptions = {
 	id: undefined,
 	subFields: [],
-	validate: noop,
 	feedbackText: '',
 }
 

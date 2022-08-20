@@ -3,12 +3,11 @@ import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
 import { isBasicObject, isEmptyObject, deepEquals, processOptions, filterOptions, removeEqualProperties } from 'step-wise/util/objects'
-import { Variable, expressionSItoFO, support } from 'step-wise/CAS'
+import { Variable, support } from 'step-wise/CAS'
 import { defaultInterpretationSettings, defaultExpressionSettings } from 'step-wise/CAS/options'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 
 import { useRefWithValue } from 'util/react'
-import { selectRandomEmpty } from 'util/feedbackMessages'
 
 import { M } from 'ui/components/equations'
 
@@ -17,7 +16,6 @@ import { useAbsoluteCursorRef } from '../Form'
 import FieldInput from './support/FieldInput'
 import MathWithCursor, { MathWithCursorProvider, useMathWithCursorContext, mouseClickToCursor as generalMouseClickToCursor } from './support/MathWithCursor'
 import Expression from './support/expressionTypes/Expression'
-import { getInterpretationErrorMessage } from './support/expressionTypes/support/interpretationError'
 import { keys as mathKeys } from '../Keyboard/keyboards/basicMath'
 import { simplifyKey } from '../Keyboard/keyboards/KeyboardLayout'
 import { defaultFieldSettings } from 'step-wise/CAS/options'
@@ -38,15 +36,16 @@ export { style }
 const defaultProps = {
 	label: 'Vul hier het resultaat in',
 	placeholder: 'Uitdrukking',
-	validate: nonEmptyAndValid,
-	initialData: getEmptyData(),
-	isEmpty: data => isEmpty(data.value),
+	validate: undefined,
+	initialSI: getEmptySI(),
+	isEmpty: FI => isEmpty(FI.value),
 	JSXObject: MathWithCursor,
-	keyboardSettings: dataToKeyboardSettings,
+	keyboardSettings: FIToKeyboardSettings,
 	getStartCursor: Expression.getStartCursor,
 	getEndCursor: Expression.getEndCursor,
 	isCursorAtStart: Expression.isCursorAtStart,
 	isCursorAtEnd: Expression.isCursorAtEnd,
+	errorToMessage,
 	autoResize: true, // Resize the field height to the height of the contents (the equation).
 	heightDelta: -10, // Equations always have some margin, and we want less for the input field.
 	settings: {}, // The settings object specifying what is allowed.
@@ -66,24 +65,24 @@ function ExpressionInputInner(props) {
 	const settings = useMemo(() => processOptions(props.settings || {}, defaultFieldSettings), [props.settings])
 	const interpretationSettings = useMemo(() => removeEqualProperties(filterOptions(settings, jointFieldSettings), jointFieldSettings), [settings])
 	const settingsRef = useRefWithValue(settings)
-	const keyboardSettings = useCallback((data) => dataToKeyboardSettings(data, settingsRef.current), [settingsRef])
-	const initialData = {
-		...getEmptyData(interpretationSettings),
-		...props.initialData,
+	const keyboardSettings = useCallback(FI => FIToKeyboardSettings(FI, settingsRef.current), [settingsRef])
+	const initialSI = {
+		...getEmptySI(interpretationSettings),
+		...props.initialSI,
 	}
 
-	// Get the charElements and use this to set up proper keyPressToData and mouseClickToCursor functions.
+	// Get the charElements and use this to set up proper keyPressToFI and mouseClickToCursor functions.
 	const { charElementsRef } = useMathWithCursorContext()
 	const cursorRef = useAbsoluteCursorRef()
-	const keyPressToData = useCallback((keyInfo, data, contentsElement) => {
+	const keyPressToFI = useCallback((keyInfo, FI, contentsElement) => {
 		const charElements = charElementsRef.current
-		const newData = Expression.keyPressToData(keyInfo, data, settingsRef.current, charElements, data, contentsElement, (cursorRef.current && cursorRef.current.element))
-		return newData === data || deepEquals(data, newData) ? data : Expression.cleanUp(newData, settingsRef.current)
+		const newFI = Expression.keyPressToFI(keyInfo, FI, settingsRef.current, charElements, FI, contentsElement, (cursorRef.current && cursorRef.current.element))
+		return newFI === FI || deepEquals(FI, newFI) ? FI : Expression.cleanUp(newFI, settingsRef.current)
 	}, [charElementsRef, cursorRef, settingsRef])
-	const mouseClickToData = useCallback((evt, data, contentsElement) => {
+	const mouseClickToFI = useCallback((evt, FI, contentsElement) => {
 		const charElements = charElementsRef.current
-		const newData = { ...data, cursor: generalMouseClickToCursor(evt, data, charElements, contentsElement) }
-		return newData === data || deepEquals(data, newData) ? data : Expression.cleanUp(newData, settingsRef.current)
+		const newFI = { ...FI, cursor: generalMouseClickToCursor(evt, FI, charElements, contentsElement) }
+		return newFI === FI || deepEquals(FI, newFI) ? FI : Expression.cleanUp(newFI, settingsRef.current)
 	}, [charElementsRef, settingsRef])
 
 	// Gather all relevant data.
@@ -92,9 +91,9 @@ function ExpressionInputInner(props) {
 		...defaultProps,
 		...props,
 		keyboardSettings,
-		initialData,
-		keyPressToData,
-		mouseClickToData,
+		initialSI,
+		keyPressToFI,
+		mouseClickToFI,
 		className: clsx(props.className, classes.expressionInput, 'expressionInput'),
 	}
 
@@ -102,40 +101,12 @@ function ExpressionInputInner(props) {
 }
 
 // These are validation functions.
-export function nonEmpty(data) {
-	const { value } = data
-	if (isEmpty(value))
-		return selectRandomEmpty()
-}
-export function nonEmptyAndValid(data) {
-	// Check if it's empty first.
-	const nonEmptyResult = nonEmpty(data)
-	if (nonEmptyResult)
-		return nonEmptyResult
-
-	// Interpret it and see if there are problems.
-	const { value } = data
-	const validityResult = getValidityMessage(value)
-	if (validityResult)
-		return validityResult
-}
-export function validAndNumeric(data) {
-	// Check if there is a valid input.
-	const nonEmptyAndValidResult = nonEmptyAndValid(data)
-	if (nonEmptyAndValidResult)
-		return nonEmptyAndValidResult
-
-	// Ensure that there are no variables.
-	const { value } = data
-	const exp = expressionSItoFO(value)
-	if (!exp.isNumeric())
+export function numeric(expression) {
+	if (!expression.isNumeric())
 		return <>Dit is geen getal.</>
 }
+// validWithVariables is a validation-function-generating function. Give it a set of variables that are accepted, and it checks that only those variables are used.
 export function validWithVariables(...variables) {
-	// This validation function is special, in the sense that it's a function that returns a validation function. Give it a set of variables that are accepted, and it checks that only those variables are used.
-	return validWithVariablesGeneric(expressionSItoFO, ...variables)
-}
-export function validWithVariablesGeneric(interpreter, ...variables) {
 	// Check input.
 	if (variables.length === 0)
 		throw new Error(`Invalid validation function: when using the validWithVariables validation function, a list of variables must be provided. If there are no variables, then use the nonEmptyAndValid validation function.`)
@@ -152,21 +123,7 @@ export function validWithVariablesGeneric(interpreter, ...variables) {
 	variables = variables.filter(term => (term instanceof Variable) || (typeof term === 'string')).map(Variable.ensureVariable)
 
 	// Set up a validation function based on these variables.
-	return (data) => {
-		// Check if it's empty first.
-		const nonEmptyResult = nonEmpty(data)
-		if (nonEmptyResult)
-			return nonEmptyResult
-
-		// Interpret the expression, and give a message on a problem.
-		let expression
-		try {
-			expression = interpreter(data.value)
-		} catch (e) {
-			return getInterpretationErrorMessage(e)
-		}
-
-		// Extract variables.
+	return (expression) => {
 		const inputVariables = expression.getVariables()
 		const invalidVariable = inputVariables.find(inputVariable => !variables.some(variable => variable.equalsBasic(inputVariable)))
 		if (invalidVariable)
@@ -174,8 +131,8 @@ export function validWithVariablesGeneric(interpreter, ...variables) {
 	}
 }
 
-// getEmptyData returns an empty data object, ready to be filled by input.
-export function getEmptyData(settings = {}) {
+// getEmptySI returns an empty SI object, ready to be filled by input.
+export function getEmptySI(settings = {}) {
 	const result = {
 		type: 'Expression',
 		value: getEmpty(),
@@ -185,13 +142,13 @@ export function getEmptyData(settings = {}) {
 	return result
 }
 
-// dataToKeyboardSettings takes a data object and determines what keyboard settings are appropriate.
-export function dataToKeyboardSettings(data, settings) {
+// FIToKeyboardSettings takes an FI object and determines what keyboard settings are appropriate.
+export function FIToKeyboardSettings(FI, settings) {
 	// Determine which keys to disable based on the position.
 	const keySettings = {}
 	keysToCheck.forEach(keyboardKey => {
 		const key = simplifyKey(keyboardKey)
-		keySettings[keyboardKey] = Expression.acceptsKey({ key }, data, settings)
+		keySettings[keyboardKey] = Expression.acceptsKey({ key }, FI, settings)
 	})
 
 	// Pass on settings.
@@ -203,17 +160,64 @@ export function dataToKeyboardSettings(data, settings) {
 	}
 }
 
-// isValid checks if this IO is valid.
-export function isValid(value) {
-	return getValidityMessage(value) === undefined
-}
+// errorToMessage turns an error during interpretation into a message to be displayed.
+export function errorToMessage(error) {
+	const { code, cause } = error
+	switch (code) {
+		// Special cases.
+		case 'EmptyExpression':
+			return `Er mist een (deel van een) uitdrukking.`
 
-// getValidityMessage takes an Expression value and checks whether it is valid. If not, it gives a message explaining a problem. If it is valid, nothing is returned.
-export function getValidityMessage(value) {
-	try {
-		expressionSItoFO(value)
-	} catch (e) {
-		return getInterpretationErrorMessage(e)
+		// Bracket interpretation.
+		case 'UnmatchedClosingBracket':
+			return `Er is een sluitend haakje zonder bijbehorend openingshaakje.`
+		case 'UnmatchedOpeningBracket':
+			return `Er is een openend haakje zonder bijbehorend sluitingshaakje.`
+
+		// Sum interpretation.
+		case 'PlusAtStart':
+			return `Er staat een plus aan het begin.`
+		case 'DoublePlusMinus':
+			return `Er zijn twee plussen/minnen na elkaar.`
+		case 'PlusMinusAtEnd':
+			return `Er staat een ${cause === '+' ? 'plus' : 'min'} aan het eind.`
+
+		// Product interpretation.
+		case 'TimesAtStart':
+			return `Er staat een vermenigvuldiging aan het begin van een term.`
+		case 'DoubleTimes':
+			return `Er staan twee vermenigvuldigingen na elkaar.`
+		case 'TimesAtEnd':
+			return `Er staat een vermenigvuldiging aan het einde van een term.`
+
+		// Advanced function interpretation.
+		case 'UnknownBasicFunction':
+		case 'UnknownAdvancedFunction':
+			return `Er is een onbekende functie "${cause}" aangetroffen.`
+
+		// Accent interpretation.
+		case 'UnknownAccent':
+			return `Onbekend accent "${cause}".`
+		case 'EmptyAccent':
+			return `Er is een leeg accent.`
+		case 'TooLongAccent':
+			return `Er is een accent met meer dan één teken: "${cause}".`
+
+		// String interpretation.
+		case 'InvalidSymbol':
+			return `Onverwacht symbool "${cause}".`
+		case 'SingleDecimalSeparator':
+			return `Er is een komma zonder getallen eromheen.`
+		case 'MultipleDecimalSeparator':
+			return `Er is een getal met meerdere komma's.`
+
+		// Subscript/superscript interpretation.
+		case 'MisplacedSubscript':
+			return `Er is een subscript "${cause}" zonder variabele ervoor.`
+		case 'MisplacedSuperscript':
+			return `Er is een macht zonder term ervoor.`
+
+		default: return
 	}
 }
 

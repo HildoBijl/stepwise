@@ -10,7 +10,7 @@ import { useExerciseData } from '../ExerciseContainer'
 
 export function useSubmitAction() {
 	const { submitting, submitAction, history } = useExerciseData()
-	const { getInputSI, isValid, getFieldFunction } = useFormData()
+	const { getInputSI, isValid, getField } = useFormData()
 
 	const historyRef = useRefWithValue(history)
 	const disabledRef = useRefWithValue(submitting)
@@ -29,13 +29,13 @@ export function useSubmitAction() {
 		const lastAction = (historyRef.current.length > 0 && lastOf(historyRef.current).action)
 		if (lastAction && lastAction.type === 'input') {
 			const fieldIds = Object.keys(input)
-			if (fieldIds.length === Object.keys(lastAction.input).length && fieldIds.every(id => getFieldFunction(id, 'equals')(input[id], lastAction.input[id])))
+			if (fieldIds.length === Object.keys(lastAction.input).length && fieldIds.every(id => getField(id).equals(input[id], lastAction.input[id])))
 				return
 		}
 
 		// All checks are fine. Submit the input!
 		return submitAction({ type: 'input', input })
-	}, [getInputSI, isValid, historyRef, disabledRef, getFieldFunction, submitAction])
+	}, [getInputSI, isValid, historyRef, disabledRef, getField, submitAction])
 }
 
 export function useGiveUpAction() {

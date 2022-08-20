@@ -15,7 +15,6 @@ import { InputSpace } from 'ui/form/Status'
 import { useFormData } from 'ui/form/Form'
 import { removeCursor } from 'ui/form/inputs/support/FieldInput'
 import { cleanUp } from 'ui/form/inputs/support/expressionTypes/Expression'
-import { getInterpretationErrorMessage } from 'ui/form/inputs/support/expressionTypes/support/interpretationError'
 
 import SimpleExercise from '../types/SimpleExercise'
 
@@ -46,7 +45,8 @@ function Problem({ index }) {
 			// console.log(res.str)
 		}
 	} catch (e) {
-		probleem = <>Probleem: {getInterpretationErrorMessage(e)}</>
+		probleem = <>Probleem!</>
+		console.log(e)
 		// console.log(eq)
 	}
 

@@ -2,7 +2,7 @@ import React from 'react'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
-import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
+import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import SimpleExercise from '../types/SimpleExercise'
@@ -17,7 +17,7 @@ function Problem({ Pe, Pin }) {
 	return <>
 		<Par>We gebruiken een warmtepomp om een gebouw te verwarmen. De warmtepomp gebruikt <M>{Pe}</M> aan elektriciteit en onttrekt hiermee <M>{Pin}</M> warmte aan de buitenlucht. Bereken de warmtefactor (COP) van de warmtepomp.</Par>
 		<InputSpace>
-			<Par><FloatUnitInput id="COP" prelabel={<M>\epsilon_w =</M>} label="Warmtefactor" size="s" validate={validNumberAndUnit} /></Par>
+			<Par><FloatUnitInput id="COP" prelabel={<M>\epsilon_w =</M>} label="Warmtefactor" size="s" validate={any} /></Par>
 		</InputSpace>
 	</>
 }

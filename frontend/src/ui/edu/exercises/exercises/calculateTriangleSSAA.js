@@ -10,7 +10,7 @@ import { Par } from 'ui/components/containers'
 import { Drawing } from 'ui/components/figures'
 import { components, CornerLabel, LineLabel, useRotationReflectionTransformation, useScaleToBoundsTransformationSettings } from 'ui/components/figures'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
-import ExpressionInput, { validAndNumeric, basicTrigonometryInDegrees } from 'ui/form/inputs/ExpressionInput'
+import ExpressionInput, { numeric, basicTrigonometryInDegrees } from 'ui/form/inputs/ExpressionInput'
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
 import { useInput } from 'ui/form/Form'
 import { InputSpace } from 'ui/form/Status'
@@ -43,7 +43,7 @@ const Problem = (state) => {
 				<>Er zijn twee oplossingen voor <M>{γ}</M>.</>,
 			]} />
 			{numSolutions ? <Par>
-				{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`γ${numSolutions > 1 ? index : ''}`} prelabel={<M>{γ}{numSolutions > 1 ? `_${index}` : ''}=</M>} size="m" settings={basicTrigonometryInDegrees} validate={validAndNumeric} persistent={true} />)}
+				{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`γ${numSolutions > 1 ? index : ''}`} prelabel={<M>{γ}{numSolutions > 1 ? `_${index}` : ''}=</M>} size="m" settings={basicTrigonometryInDegrees} validate={numeric} persistent={true} />)}
 			</Par> : null}
 		</InputSpace>
 	</>
@@ -108,8 +108,8 @@ const steps = [
 				<Par>Los de vergelijking op voor <M>{γ}.</M> Gebruik wiskundige notatie: je mag eventuele functies als sin/cos/tan in je antwoord laten staan.</Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="γ1" prelabel={<M>{γ}_1=</M>} size="m" settings={basicTrigonometryInDegrees} validate={validAndNumeric} />
-						<ExpressionInput id="γ2" prelabel={<M>{γ}_2=</M>} size="m" settings={basicTrigonometryInDegrees} validate={validAndNumeric} />
+						<ExpressionInput id="γ1" prelabel={<M>{γ}_1=</M>} size="m" settings={basicTrigonometryInDegrees} validate={numeric} />
+						<ExpressionInput id="γ2" prelabel={<M>{γ}_2=</M>} size="m" settings={basicTrigonometryInDegrees} validate={numeric} />
 					</Par>
 				</InputSpace>
 			</>

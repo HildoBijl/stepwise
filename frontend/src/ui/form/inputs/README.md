@@ -46,6 +46,7 @@ The given integers correspond to the chosen option, where counting starts from `
 
 #### Validation functions
 
+- `any`: Any submission (also with zero answers) is fine.
 - `nonEmpty`: (Default) Checks whether at least one value has been chosen.
 
 
@@ -61,7 +62,7 @@ Gives an integer, in javascript's regular form. Like `8`.
 
 #### Validation functions
 
-- `nonEmpty`: (Default) Checks whether something has been entered.
+- `any`: (Default) Checks whether something has been entered.
 - `positive`: Checks whether a positive number or 0 has been entered. In this case it may be better to not even allow negative numbers.
 
 
@@ -94,7 +95,7 @@ See the `Float` source code in the `shared` directory for details on this.
 
 #### Validation functions
 
-- `nonEmpty`: (Default) Checks whether something has been entered.
+- `any`: (Default) Checks whether something has been entered.
 - `positive`: Checks whether a positive number or 0 has been entered. In this case it may be better to not even allow negative numbers.
 
 
@@ -128,9 +129,8 @@ There are no options.
 
 #### Validation functions
 
-- `nonEmpty`: Checks whether something has been entered. (But it may be a senseless unit.) So `abcdef` passes but an empty string does not.
-- `valid`: Checks whether a valid unit has been entered. (But no unit is also valid.) So an empty string or `kg * m` passes, but `abcdef` does not.
-- `nonEmptyAndValid`: (Default) Checks whether a non-empty valid unit has been entered. An empty string and `abcdef` both fail but `kg * m` passes.
+- `any`: Checks whether a valid unit has been entered. (But no unit is also valid.) So an empty string or `kg * m` passes, but `abcdef` does not.
+- `nonEmpty`: (Default) Checks whether a non-empty valid unit has been entered. An empty string and `abcdef` both fail but `kg * m` passes.
 
 
 ### FloatUnitInput
@@ -166,9 +166,8 @@ The options are identical to the Float field.
 
 #### Validation functions
 
-- `nonEmpty`: Checks whether something (anything) has been entered.
-- `validNumberAndUnit`: Checks whether a proper number and (possibly empty but valid) unit have been entered.
-- `validNumberAndNonEmptyUnit`: Checks whether a proper number and non-empty valid unit have been entered.
+- `any`: Checks whether a proper number and (possibly empty but valid) unit have been entered.
+- `nonEmptyUnit`: Checks whether a proper number and non-empty valid unit have been entered.
 
 
 ## New fields
@@ -177,12 +176,12 @@ When you want to create extra input fields, there are a LOT of things you need t
 
 - `placeholder`: What is the default placeholder?
 - `validate`: What is the default validation function?
-- `initialData`: What is the initial data object? It is generally of the form `{ type: 'Float', value: { number: '314.159', power: '-2' }, cursor: { part: 'number', cursor: 4 } }`, where value and cursor can be very deep objects, if needed.
-- `isEmpty`: Gets a data object and checks whether it's empty. Is used to check if the placeholder should be shown.
-- `JSXObject`: Gets a `data` object expanded as its properties and renders JSX to be shown in the field contents.
-- `keyboardSettings`: The settings that need to be applied for the site-based keyboard. It can be a function, receiving a `data` object and returning said keyboard settings.
-- `keyPressToData`: Gets `(keyInfo, data, contentsElement, fieldElement)` and needs to return, based on this information, the adjusted `data` object. Note: this includes both the `value` and the `cursor`.
-- `mouseClickToCursor`: Gets `(evt, data, contentsElement)` and needs to return, based on this information, an adjusted `cursor` object.
+- `initialSI`: What is the initial SI object? It is generally of the form `{ type: 'Float', value: { number: '314.159', power: '-2' }, cursor: { part: 'number', cursor: 4 } }`, where value and cursor can be very deep objects, if needed.
+- `isEmpty`: Gets an FI object and checks whether it's empty. Is used to check if the placeholder should be shown.
+- `JSXObject`: Gets an `FI` object expanded as its properties and renders JSX to be shown in the field contents.
+- `keyboardSettings`: The settings that need to be applied for the site-based keyboard. It can be a function, receiving an `FI` object and returning said keyboard settings.
+- `keyPressToFI`: Gets `(keyInfo, FI, contentsElement, fieldElement)` and needs to return, based on this information, the adjusted `FI` object. Note: this includes both the `value` and the `cursor`.
+- `mouseClickToCursor`: Gets `(evt, FI, contentsElement)` and needs to return, based on this information, an adjusted `cursor` object.
 - `getStartCursor`: Gets `(value, cursor)` and needs to determine what the leftmost (home) position of the `cursor` would be.
 - `getEndCursor`: Gets `(value, cursor)` and needs to determine what the rightmost (end) position of the `cursor` would be.
 - `isCursorAtStart`: Gets `(value, cursor)` and checks whether the cursor is at the start. Returns a boolean.

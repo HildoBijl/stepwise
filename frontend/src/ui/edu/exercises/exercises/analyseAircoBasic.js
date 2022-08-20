@@ -6,7 +6,7 @@ import { maximumHumidity } from 'step-wise/data/moistureProperties'
 import { useInitializer } from 'util/react'
 import { M } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
-import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
+import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import MollierDiagram from '../../content/diagrams/MollierDiagram'
@@ -24,7 +24,7 @@ const Problem = ({ T1, T3, T4, startRH }) => <>
 	<MollierDiagram maxWidth="500" />
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="endRH" prelabel={<M>RV_(uit) =</M>} label="Relatieve luchtvochtigheid" size="s" validate={validNumberAndUnit} />
+			<FloatUnitInput id="endRH" prelabel={<M>RV_(uit) =</M>} label="Relatieve luchtvochtigheid" size="s" validate={any} />
 		</Par>
 	</InputSpace>
 </>
@@ -127,7 +127,7 @@ const steps = [
 			<Par>Vervolgens wordt de lucht opgewarmd tot <M>{T4}.</M> Bepaal de relatieve luchtvochtigheid na afloop.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="endRH" prelabel={<M>RV_(uit) =</M>} label="Relatieve luchtvochtigheid" size="s" validate={validNumberAndUnit} />
+					<FloatUnitInput id="endRH" prelabel={<M>RV_(uit) =</M>} label="Relatieve luchtvochtigheid" size="s" validate={any} />
 				</Par>
 			</InputSpace>
 		</>,

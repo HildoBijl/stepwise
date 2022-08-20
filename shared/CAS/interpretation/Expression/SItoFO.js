@@ -1,11 +1,11 @@
 const { isLetter, getNextSymbol } = require('../../../util/strings')
 const { lastOf } = require('../../../util/arrays')
 const { processOptions, filterOptions } = require('../../../util/objects')
+const { InterpretationError } = require('../../../util/errors')
 
 const { Expression, Constant, Variable, Sum, Product, Power } = require('../../functionalities')
 const { defaultFieldSettings, defaultExpressionSettings } = require('../../options')
 
-const InterpretationError = require('../InterpretationError')
 const { isEmpty, getStartCursor, getEndCursor, getSubExpression, moveRight } = require('../support')
 const { getMatchingBrackets } = require('../characterLocalization')
 const { basicFunctionComponents, advancedFunctionComponents, accents, isFunctionAllowed } = require('../functions')
@@ -17,9 +17,9 @@ function SItoFO(value, settings = {}) {
 module.exports = SItoFO
 
 function interpretSI(value, settings) {
-	// On an empty expression, return undefined. Nothing is known.
+	// On an empty expression, throw an error. Nothing is known.
 	if (isEmpty(value))
-		return undefined
+		throw new InterpretationError('EmptyExpression', undefined, `Could not interpret an empty Expression.`)
 
 	/* Apply the various interpretation steps. There are four steps.
 	 * - Interpret brackets, including functions with parameters after them. Think of splitting "2x*5sin(3+4)" into parts "2x*5" and a sine function with "3+4" within.

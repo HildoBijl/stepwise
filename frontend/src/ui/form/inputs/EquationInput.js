@@ -1,13 +1,9 @@
 import React from 'react'
 
 import { isEmptyObject } from 'step-wise/util/objects'
-import { equationSItoFO, support } from 'step-wise/CAS'
+import { support } from 'step-wise/CAS'
 
-import { selectRandomEmpty } from 'util/feedbackMessages'
-
-import { getInterpretationErrorMessage } from './support/expressionTypes/support/interpretationError'
-
-import ExpressionInput, { validWithVariablesGeneric } from './ExpressionInput'
+import ExpressionInput, { numeric as expressionNumeric, validWithVariables, errorToMessage as expressionErrorToMessage } from './ExpressionInput'
 
 const { getEmpty, isEmpty } = support
 
@@ -15,9 +11,9 @@ const equationProps = {
 	label: 'Vul hier de vergelijking in',
 	placeholder: '',
 	center: true, // Center equations in their input fields.
-	validate: nonEmptyAndValid,
-	initialData: getEmptyData(),
-	isEmpty: data => isEmpty(data.value),
+	initialSI: getEmptySI(),
+	isEmpty: FI => isEmpty(FI.value),
+	errorToMessage,
 }
 
 export default function EquationInput(props) {
@@ -37,30 +33,13 @@ export default function EquationInput(props) {
 }
 
 // These are validation functions.
-export function nonEmpty(data) {
-	const { value } = data
-	if (isEmpty(value))
-		return selectRandomEmpty()
+export function numeric(equation) {
+	return expressionNumeric(equation.left) || expressionNumeric(equation.right)
 }
-export function nonEmptyAndValid(data) {
-	// Check if it's empty first.
-	const nonEmptyResult = nonEmpty(data)
-	if (nonEmptyResult)
-		return nonEmptyResult
-
-	// Interpret it and see if there are problems.
-	const { value } = data
-	const validityResult = getValidityMessage(value)
-	if (validityResult)
-		return validityResult
-}
-export function validWithVariables(...variables) {
-	// This validation function is special, in the sense that it's a function that returns a validation function. Give it a set of variables that are accepted, and it checks that only those variables are used.
-	return validWithVariablesGeneric(equationSItoFO, ...variables)
-}
+export { validWithVariables } // This is the same as for Expressions.
 
 // getEmptyData returns an empty data object, ready to be filled by input.
-export function getEmptyData(settings = {}) {
+export function getEmptySI(settings = {}) {
 	const result = {
 		type: 'Equation',
 		value: getEmpty(),
@@ -70,16 +49,18 @@ export function getEmptyData(settings = {}) {
 	return result
 }
 
-// isValid checks if this IO is valid.
-export function isValid(value) {
-	return getValidityMessage(value) === undefined
-}
+// errorToMessage turns an error during interpretation into a message to be displayed.
+export function errorToMessage(error) {
+	switch (error.code) {
+		// Equation interpretation.
+		case 'EmptyEquation':
+			return `Er is geen vergelijking ingevuld.`
+		case 'MultipleEqualsSigns':
+			return `De vergelijking heeft meerdere "=" tekens.`
+		case 'MissingEqualsSign':
+			return `De vergelijking heeft geen "=" teken.`
 
-// getValidityMessage takes an Equation value and checks whether it is valid. If not, it gives a message explaining a problem. If it is valid, nothing is returned.
-export function getValidityMessage(value) {
-	try {
-		equationSItoFO(value)
-	} catch (e) {
-		return getInterpretationErrorMessage(e)
+		// Expression interpretation.
+		default: return expressionErrorToMessage(error)
 	}
 }

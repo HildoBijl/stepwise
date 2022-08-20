@@ -1,9 +1,9 @@
 const { getNextSymbol } = require('../../util/strings')
 const { isObject } = require('../../util/objects')
 const { lastOf } = require('../../util/arrays')
+const { InterpretationError } = require('../../util/errors')
 
 const { advancedFunctionComponents } = require('./functions')
-const InterpretationError = require('./InterpretationError')
 
 // Define various sets of brackets, used by functions searching for bracket starts/endings.
 const roundBrackets = ['(', ')']

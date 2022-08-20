@@ -2,7 +2,7 @@ import React from 'react'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
-import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
+import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/Status'
 
 import StepExercise from '../types/StepExercise'
@@ -45,7 +45,7 @@ const steps = [
 			<Par>Gegeven de specifieke entropie en de zojuist opgezochte waarden <M>s_(x=0)</M> en <M>s_(x=1),</M> bereken de dampfractie.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="x" prelabel={<M>x =</M>} label="Dampfractie" size="s" validate={validNumberAndUnit} />
+					<FloatUnitInput id="x" prelabel={<M>x =</M>} label="Dampfractie" size="s" validate={any} />
 				</Par>
 			</InputSpace>
 		</>,

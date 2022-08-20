@@ -34,21 +34,21 @@ export function useAsInput(options) {
 	readOnly = (readOnly === undefined ? done : readOnly) // If read-only is manually specified, use that instead.
 
 	// Connect to the Form for input data storage.
-	const [data, setData] = useFormParameter(filterOptions(options, defaultUseFormParameterOptions))
+	const [FI, setFI] = useFormParameter(filterOptions(options, defaultUseFormParameterOptions))
 
 	// Register the field for tabbing at the field controller.
 	const { useFocusRegistration, keyboard } = options
 	const [active, activateField, deactivateField] = useFieldRegistration({
 		...filterOptions(options, defaultFieldControlOptions),
 		apply: useFocusRegistration && !readOnly && !!getHTMLElement(options.element), // Only apply when the element has loaded.
-		keyboard: resolveFunctions(keyboard, data), // The keyboard settings may depend on the data.
+		keyboard: resolveFunctions(keyboard, FI), // The keyboard settings may depend on the data.
 	})
 
 	// Get feedback from the Feedback Provider.
 	const { feedback, feedbackInput } = useFieldFeedback(filterOptions(options, defaultFieldFeedbackOptions))
 
 	// Return all data as one large object.
-	return { id, done, readOnly, data, setData, active, activateField, deactivateField, feedback, feedbackInput }
+	return { id, done, readOnly, FI, setFI, active, activateField, deactivateField, feedback, feedbackInput }
 }
 export const defaultInputOptions = {
 	// General.
@@ -58,11 +58,7 @@ export const defaultInputOptions = {
 	readOnly: undefined,
 
 	// For Form data registration.
-	initialData: undefined,
-	persistent: undefined,
-	clean: undefined,
-	functionalize: undefined,
-	equals: undefined,
+	...defaultUseFormParameterOptions,
 
 	// For focus and tabbing.
 	useFocusRegistration: true,
@@ -72,7 +68,5 @@ export const defaultInputOptions = {
 	focusOnClick: undefined,
 
 	// For feedback.
-	subFields: undefined,
-	validate: undefined,
-	feedbackText: undefined,
+	...defaultFieldFeedbackOptions,
 }

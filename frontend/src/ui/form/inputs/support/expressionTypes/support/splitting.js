@@ -1,7 +1,7 @@
 import { firstOf } from 'step-wise/util/arrays'
 
 import { removeCursor } from '../../FieldInput'
-import { zoomIn, getDataStartCursor } from '../'
+import { zoomIn, getFIStartCursor } from '../'
 
 // splitToLeft takes an element data object and splits it at the cursor position. It returns an expression representing the resulting split.
 export function splitToLeft(data) {
@@ -32,7 +32,7 @@ export function splitToLeft(data) {
 		],
 		cursor: {
 			part: split.left.length,
-			cursor: getDataStartCursor(newElement),
+			cursor: getFIStartCursor(newElement),
 		},
 	}
 }
@@ -66,7 +66,7 @@ export function splitToRight(data) {
 		],
 		cursor: {
 			part: 1,
-			cursor: getDataStartCursor(firstOf(split.right)),
+			cursor: getFIStartCursor(firstOf(split.right)),
 		},
 	}
 }

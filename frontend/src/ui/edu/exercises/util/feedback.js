@@ -82,7 +82,7 @@ export function getInputFieldFeedback(parameters, exerciseData, extraOptions) {
 
 		// If we have exactly the same input before, return the same feedback.
 		const previousInputAnswer = previousInput[currParameter]
-		if (previousInputAnswer !== undefined && (currInput === previousInputAnswer || deepEquals(currInput.SO, previousInputAnswer.SO))) {
+		if (previousInputAnswer !== undefined && (currInput === previousInputAnswer || (currInput.SO !== undefined && deepEquals(currInput.SO, previousInputAnswer.SO)))) {
 			feedback[currParameter] = previousFeedback[currParameter]
 			return
 		}

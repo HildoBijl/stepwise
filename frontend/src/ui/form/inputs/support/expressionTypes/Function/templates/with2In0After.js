@@ -1,6 +1,6 @@
 // This is the template for functions like root(...) which have a parameter after their term but also have a parameter earlier, like root[3](8).
 
-import { getFuncs, zoomIn, getDataStartCursor, isCursorAtDataStart, isCursorAtDataEnd } from '../..'
+import { getFuncs, zoomIn, getFIStartCursor, isCursorAtFIStart, isCursorAtFIEnd } from '../..'
 import { mergeWithLeft, mergeWithRight } from '../../support/merging'
 import { splitToLeft, splitToRight } from '../../support/splitting'
 
@@ -10,7 +10,7 @@ const allFunctions = {
 	...defaultFunctions,
 	getInitial,
 	getInitialCursor,
-	keyPressToData,
+	keyPressToFI,
 	merge,
 	split,
 }
@@ -30,28 +30,28 @@ function getInitial(alias, parameter) {
 }
 
 function getInitialCursor(element) {
-	return { part: 1, cursor: getDataStartCursor(element.value[1]) }
+	return { part: 1, cursor: getFIStartCursor(element.value[1]) }
 }
 
-function keyPressToData(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement) {
+function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, contentsElement, cursorElement) {
 	const { key } = keyInfo
-	const activeElementData = zoomIn(data)
+	const activeElementFI = zoomIn(FI)
 
 	// When the cursor is at the start of an element and a backspace is pressed, or at the end of an element and a delete is pressed remove this element.
-	if (key === 'Backspace' && isCursorAtDataStart(activeElementData) && !isCursorAtDataStart(data))
-		return getFuncs(data).removeElement(data, true)
-	if (key === 'Delete' && isCursorAtDataEnd(activeElementData) && !isCursorAtDataEnd(data))
-		return getFuncs(data).removeElement(data, false)
+	if (key === 'Backspace' && isCursorAtFIStart(activeElementFI) && !isCursorAtFIStart(FI))
+		return getFuncs(FI).removeElement(FI, true)
+	if (key === 'Delete' && isCursorAtFIEnd(activeElementFI) && !isCursorAtFIEnd(FI))
+		return getFuncs(FI).removeElement(FI, false)
 
 	// Process the key as usual.
-	return defaultFunctions.keyPressToData(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement)
+	return defaultFunctions.keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, contentsElement, cursorElement)
 }
 
-function merge(data, partIndex, mergeWithNext, fromOutside) {
-	return mergeWithNext ? mergeWithRight(data, partIndex, fromOutside) : mergeWithLeft(data, partIndex, fromOutside)
+function merge(FI, partIndex, mergeWithNext, fromOutside) {
+	return mergeWithNext ? mergeWithRight(FI, partIndex, fromOutside) : mergeWithLeft(FI, partIndex, fromOutside)
 }
 
-function split(data) {
-	const { cursor } = data
-	return cursor.part === 0 ? splitToLeft(data) : splitToRight(data)
+function split(FI) {
+	const { cursor } = FI
+	return cursor.part === 0 ? splitToLeft(FI) : splitToRight(FI)
 }

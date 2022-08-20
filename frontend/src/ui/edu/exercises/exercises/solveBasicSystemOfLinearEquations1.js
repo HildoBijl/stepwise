@@ -4,7 +4,7 @@ import { selectRandomCorrect, selectRandomIncorrect } from 'util/feedbackMessage
 
 import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
-import ExpressionInput, { validAndNumeric as expressionValidAndNumeric, validWithVariables as expressionValidWithVariables, basicMath } from 'ui/form/inputs/ExpressionInput'
+import ExpressionInput, { numeric as expressionnumeric, validWithVariables as expressionValidWithVariables, basicMath } from 'ui/form/inputs/ExpressionInput'
 import EquationInput, { validWithVariables as equationValidWithVariables } from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form/Status'
 
@@ -23,8 +23,8 @@ const Problem = () => {
 		<Par>Gegeven is het stelsel van vergelijkingen <BMList><BMPart>{eq1},</BMPart><BMPart>{eq2}.</BMPart></BMList> Los dit stelsel op voor <M>{variables.x}</M> en <M>{variables.y}.</M></Par>
 		<InputSpace>
 			<Par>
-				<ExpressionInput id="x" prelabel={<M>{variables.x}=</M>} label="Vul hier het resultaat in" size="s" settings={basicMath} validate={expressionValidAndNumeric} />
-				<ExpressionInput id="y" prelabel={<M>{variables.y}=</M>} label="Vul hier het resultaat in" size="s" settings={basicMath} validate={expressionValidAndNumeric} />
+				<ExpressionInput id="x" prelabel={<M>{variables.x}=</M>} label="Vul hier het resultaat in" size="s" settings={basicMath} validate={expressionnumeric} />
+				<ExpressionInput id="y" prelabel={<M>{variables.y}=</M>} label="Vul hier het resultaat in" size="s" settings={basicMath} validate={expressionnumeric} />
 			</Par>
 		</InputSpace>
 	</>
@@ -78,7 +78,7 @@ const steps = [
 				<Par>Los de nieuwe vergelijking op voor <M>{variables.y}.</M></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="y" prelabel={<M>{variables.y}=</M>} label="Vul hier het resultaat in" size="s" settings={basicMath} validate={expressionValidAndNumeric} />
+						<ExpressionInput id="y" prelabel={<M>{variables.y}=</M>} label="Vul hier het resultaat in" size="s" settings={basicMath} validate={expressionnumeric} />
 					</Par>
 				</InputSpace>
 			</>
@@ -104,7 +104,7 @@ const steps = [
 				<Par>Vul de gevonden waarde voor <M>{variables.y}</M> in de oplossing voor <M>{variables.x}</M> in.</Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="x" prelabel={<M>{variables.x}=</M>} label="Vul hier het resultaat in" size="s" settings={basicMath} validate={expressionValidAndNumeric} />
+						<ExpressionInput id="x" prelabel={<M>{variables.x}=</M>} label="Vul hier het resultaat in" size="s" settings={basicMath} validate={expressionnumeric} />
 					</Par>
 				</InputSpace>
 			</>

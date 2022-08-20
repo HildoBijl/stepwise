@@ -2,7 +2,7 @@ import React from 'react'
 
 import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par, SubHead } from 'ui/components/containers'
-import FloatUnitInput, { validNumberAndUnit } from 'ui/form/inputs/FloatUnitInput'
+import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { useInput } from 'ui/form/Form'
 import { InputSpace } from 'ui/form/Status'
@@ -29,14 +29,14 @@ const Problem = ({ p1, V1, T1, p2, p3 }) => {
 			{choice === 0 ? <>
 				<Par>Wat is in dat geval het rendement?</Par>
 				<Par>
-					<FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={validNumberAndUnit} />
+					<FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={any} />
 				</Par>
 			</> : null}
 			{choice === 1 ? <>
 				<Par>Wat zijn in dat geval de koudefactor en de warmtefactor?</Par>
 				<Par>
-					<FloatUnitInput id="epsilon" prelabel={<M>\varepsilon =</M>} label="Koudefactor" size="s" validate={validNumberAndUnit} />
-					<FloatUnitInput id="COP" prelabel={<M>\varepsilon_w =</M>} label="Warmtefactor" size="s" validate={validNumberAndUnit} />
+					<FloatUnitInput id="epsilon" prelabel={<M>\varepsilon =</M>} label="Koudefactor" size="s" validate={any} />
+					<FloatUnitInput id="COP" prelabel={<M>\varepsilon_w =</M>} label="Warmtefactor" size="s" validate={any} />
 				</Par>
 			</> : null}
 		</InputSpace>
@@ -166,7 +166,7 @@ const steps = [
 			<Par>Bereken, gebaseerd op de energiestromen, het rendement.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={validNumberAndUnit} />
+					<FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={any} />
 				</Par>
 			</InputSpace>
 		</>,

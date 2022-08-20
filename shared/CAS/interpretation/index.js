@@ -3,7 +3,6 @@ const equation = require('./Equation')
 const support = require('./support')
 const functions = require('./functions')
 const characterLocalization = require('./characterLocalization')
-const InterpretationError = require('./InterpretationError')
 
 module.exports = {
 	// Important expression functions.
@@ -26,5 +25,4 @@ module.exports = {
 		...characterLocalization,
 	},
 	functions,
-	InterpretationError,
 }

@@ -6,7 +6,7 @@ import { support } from 'step-wise/CAS'
 import { removeCursor } from '../../../FieldInput'
 import { getClosestElement } from '../../../MathWithCursor'
 
-import { getFuncs, zoomIn, zoomInAt, getDataStartCursor, getDataEndCursor, isCursorAtDataStart, isCursorAtDataEnd, isDataEmpty, dataAcceptsKey } from '../../'
+import { getFuncs, zoomIn, zoomInAt, getFIStartCursor, getFIEndCursor, isCursorAtFIStart, isCursorAtFIEnd, isFIEmpty, FIAcceptsKey } from '../../'
 import Expression from '../../Expression'
 import { getKeyPressHandlers } from '../../support/ExpressionSupport'
 import { isCursorKey } from '../../support/acceptsKey'
@@ -22,7 +22,7 @@ const allFunctions = {
 	valuePartToCharPart,
 	getCursorProperties,
 	acceptsKey,
-	keyPressToData,
+	keyPressToFI,
 	canMoveCursorVertically,
 	charElementClickToCursor,
 	coordinatesToCursor,
@@ -38,20 +38,20 @@ const allFunctions = {
 }
 export default allFunctions
 
-export function create(expressionData, part, position, name, alias) {
+export function create(expressionFI, part, position, name, alias) {
 	// Set up the new function element.
 	const functionElement = { type: 'Function', name, alias }
 	const funcs = getFuncs(functionElement)
 	functionElement.value = funcs.getInitial(alias)
 
 	// Define cursors.
-	const start = getDataStartCursor(expressionData)
+	const start = getFIStartCursor(expressionFI)
 	const beforeAlias = { part, cursor: position }
 	const afterAlias = { part, cursor: position + alias.length }
-	const end = getDataEndCursor(expressionData)
+	const end = getFIEndCursor(expressionFI)
 
 	// Build the new Expression around it.
-	let { value } = expressionData
+	let { value } = expressionFI
 	const expressionBefore = getSubExpression(value, start, beforeAlias)
 	const expressionAfter = getSubExpression(value, afterAlias, end)
 	value = [
@@ -60,11 +60,11 @@ export function create(expressionData, part, position, name, alias) {
 		...expressionAfter,
 	]
 	return {
-		...expressionData,
+		...expressionFI,
 		value,
 		cursor: {
 			part: value.indexOf(functionElement) + 1,
-			cursor: getDataStartCursor(firstOf(expressionAfter)),
+			cursor: getFIStartCursor(firstOf(expressionAfter)),
 		},
 	}
 }
@@ -77,8 +77,8 @@ export function getInitialCursor(element) {
 	return getFuncs(element).getStartCursor(element.value)
 }
 
-export function toLatex(data) {
-	throw new Error(`Missing function error: the function component "${data && data.name}" has not implemented the toLatex function.`)
+export function toLatex(FI) {
+	throw new Error(`Missing function error: the function component "${FI && FI.name}" has not implemented the toLatex function.`)
 }
 
 export function charPartToValuePart(part) {
@@ -89,57 +89,57 @@ export function valuePartToCharPart(part) {
 	return part
 }
 
-export function getCursorProperties(data, charElements, container) {
-	const { cursor } = data
-	const activeElementData = zoomIn(data)
-	const valuePartToCharPart = getFuncs(data).valuePartToCharPart
+export function getCursorProperties(FI, charElements, container) {
+	const { cursor } = FI
+	const activeElementFI = zoomIn(FI)
+	const valuePartToCharPart = getFuncs(FI).valuePartToCharPart
 	const charPart = valuePartToCharPart ? valuePartToCharPart(cursor.part) : cursor.part
-	return getFuncs(activeElementData).getCursorProperties(activeElementData, charElements[charPart], container)
+	return getFuncs(activeElementFI).getCursorProperties(activeElementFI, charElements[charPart], container)
 }
 
-export function acceptsKey(keyInfo, data, settings) {
-	if (isCursorKey(keyInfo, data))
+export function acceptsKey(keyInfo, FI, settings) {
+	if (isCursorKey(keyInfo, FI))
 		return true
-	return dataAcceptsKey(keyInfo, zoomIn(data), settings)
+	return FIAcceptsKey(keyInfo, zoomIn(FI), settings)
 }
 
-export function keyPressToData(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement) {
+export function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, contentsElement, cursorElement) {
 	const { key } = keyInfo
-	const { value, cursor } = data
-	const activeElementData = zoomIn(data)
+	const { value, cursor } = FI
+	const activeElementFI = zoomIn(FI)
 
 	// Verify the key.
-	if (!acceptsKey(keyInfo, data, settings))
-		return data
+	if (!acceptsKey(keyInfo, FI, settings))
+		return FI
 
-	const { passOn, moveLeft, moveRight } = getKeyPressHandlers(keyInfo, data, settings, charElements, topParentData, contentsElement, cursorElement)
+	const { passOn, moveLeft, moveRight } = getKeyPressHandlers(keyInfo, FI, settings, charElements, topParentFI, contentsElement, cursorElement)
 
 	// For left/right-arrows, adjust the cursor.
-	if (key === 'ArrowLeft' && cursor.part > 0 && isCursorAtDataStart(activeElementData))
+	if (key === 'ArrowLeft' && cursor.part > 0 && isCursorAtFIStart(activeElementFI))
 		return moveLeft()
-	if (key === 'ArrowRight' && cursor.part < value.length - 1 && isCursorAtDataEnd(activeElementData))
+	if (key === 'ArrowRight' && cursor.part < value.length - 1 && isCursorAtFIEnd(activeElementFI))
 		return moveRight()
 
 	// When the cursor is at the start of an element and a backspace is pressed, or at the end of an element and a delete is pressed, move the cursor too.
-	if (key === 'Backspace' && isCursorAtDataStart(activeElementData) && !isCursorAtStart(value, cursor))
+	if (key === 'Backspace' && isCursorAtFIStart(activeElementFI) && !isCursorAtStart(value, cursor))
 		return moveLeft()
-	if (key === 'Delete' && isCursorAtDataEnd(activeElementData) && !isCursorAtEnd(value, cursor))
+	if (key === 'Delete' && isCursorAtFIEnd(activeElementFI) && !isCursorAtEnd(value, cursor))
 		return moveRight()
 
 	// Pass on to the appropriate child element.
 	return passOn()
 }
 
-export function canMoveCursorVertically(data, up) {
-	const activeElementData = zoomIn(data)
-	const canMoveCursorVertically = getFuncs(activeElementData).canMoveCursorVertically
-	return canMoveCursorVertically ? canMoveCursorVertically(activeElementData, up) : false
+export function canMoveCursorVertically(FI, up) {
+	const activeElementFI = zoomIn(FI)
+	const canMoveCursorVertically = getFuncs(activeElementFI).canMoveCursorVertically
+	return canMoveCursorVertically ? canMoveCursorVertically(activeElementFI, up) : false
 }
 
-export function charElementClickToCursor(evt, data, trace, charElements, equationElement) {
+export function charElementClickToCursor(evt, FI, trace, charElements, equationElement) {
 	const charPart = firstOf(trace)
-	const part = getFuncs(data).charPartToValuePart(charPart)
-	const element = data.value[part]
+	const part = getFuncs(FI).charPartToValuePart(charPart)
+	const element = FI.value[part]
 
 	// If no element can be traced, then most likely the user clicked on the function name. Return null to indicate we cannot use the element to trace the cursor position.
 	if (!element)
@@ -153,10 +153,10 @@ export function charElementClickToCursor(evt, data, trace, charElements, equatio
 	}
 }
 
-export function coordinatesToCursor(coordinates, boundsData, data, charElements, contentsElement) {
+export function coordinatesToCursor(coordinates, boundsData, FI, charElements, contentsElement) {
 	const charPart = getClosestElement(coordinates, boundsData)
-	const part = getFuncs(data).charPartToValuePart(charPart)
-	const element = data.value[part]
+	const part = getFuncs(FI).charPartToValuePart(charPart)
+	const element = FI.value[part]
 	const newCursor = getFuncs(element).coordinatesToCursor(coordinates, boundsData.parts[charPart], element, charElements[charPart], contentsElement)
 	return newCursor === null ? null : {
 		part,
@@ -172,24 +172,24 @@ export function getFirstParameterIndex(value, backwards) {
 
 export function getStartCursor(value) {
 	const part = getFirstParameterIndex(value)
-	return { part, cursor: getDataStartCursor(value[part]) }
+	return { part, cursor: getFIStartCursor(value[part]) }
 }
 
 export function getEndCursor(value) {
 	const part = getFirstParameterIndex(value, true)
-	return { part, cursor: getDataEndCursor(value[part]) }
+	return { part, cursor: getFIEndCursor(value[part]) }
 }
 
 export function isCursorAtStart(value, cursor) {
 	const part = getFirstParameterIndex(value)
-	const data = { type: 'Function', value, cursor }
-	return cursor.part === part && isCursorAtDataStart(zoomIn(data))
+	const FI = { type: 'Function', value, cursor }
+	return cursor.part === part && isCursorAtFIStart(zoomIn(FI))
 }
 
 export function isCursorAtEnd(value, cursor) {
 	const part = getFirstParameterIndex(value, true)
-	const data = { type: 'Function', value, cursor }
-	return cursor.part === part && isCursorAtDataEnd(zoomIn(data))
+	const FI = { type: 'Function', value, cursor }
+	return cursor.part === part && isCursorAtFIEnd(zoomIn(FI))
 }
 
 export function getEmpty(numParameters = 1) {
@@ -197,17 +197,17 @@ export function getEmpty(numParameters = 1) {
 }
 
 export function isEmpty(value) {
-	return value.every(element => isDataEmpty(element))
+	return value.every(element => isFIEmpty(element))
 }
 
-export function cleanUp(data, settings) {
-	const { value, cursor } = data
+export function cleanUp(FI, settings) {
+	const { value, cursor } = FI
 
 	// Clean up the parts individually, keeping track of the cursor.
 	let newCursor = null
 	const newValue = value.map((_, part) => {
 		// Extract the element.
-		const element = zoomInAt(data, part)
+		const element = zoomInAt(FI, part)
 		if (element === null)
 			return element
 
@@ -223,7 +223,7 @@ export function cleanUp(data, settings) {
 
 	// Assemble everything.
 	return {
-		...data,
+		...FI,
 		value: newValue,
 		cursor: newCursor,
 	}
@@ -259,8 +259,8 @@ export function removeElementFromExpression(expressionValue, partIndex, withBack
 	}
 }
 
-export function removeElement(data, withBackspace) {
-	const { alias } = data
+export function removeElement(FI, withBackspace) {
+	const { alias } = FI
 	return {
 		type: 'ExpressionPart',
 		value: withBackspace ? alias.slice(0, -1) : alias.slice(1),

@@ -93,7 +93,7 @@ The `SimpleExercise` and `StepExercise` wrap each exercise in an `ExerciseWrappe
 
 #### Forms and input fields
 
-The `ExerciseWrapper` wraps the exercise in a `Form` component. This allows you to use a variety of input fields. For instance, you can write `<IntegerInput name="ans" />`. This does three things.
+The `ExerciseWrapper` wraps the exercise in a `Form` component. This allows you to use a variety of input fields. For instance, you can write `<IntegerInput id="ans" />`. This does three things.
 
 - It places a nicely formatted input field in the exercise that only accepts integers.
 - It stores the entered number within the `Form` under the name `ans`.
@@ -108,7 +108,7 @@ When a student submits an exercise, first the input is *validated* by the form. 
 
 When the validation fails, no submission to the API/server is made. Nothing is stored and no mastery scores are updated. Instead, any input field which failed validation will give a warning to the student. 
 
-You can define which validation to perform through the validation function. Just add it to the field like `<IntegerInput name="ans" validate={positive} />` if you for example want to ensure that the student fills in positive values. (Sidenote: in this case it's better to just use `<IntegerInput name="ans" positive={true} />` to ensure no negative number can be filled in in the first place. But hey, it's an example.) 
+You can define which validation to perform through the validation function. Just add it to the field like `<IntegerInput id="ans" validate={positive} />` if you for example want to ensure that the student fills in positive values. (Sidenote: in this case it's better to just use `<IntegerInput id="ans" positive={true} />` to ensure no negative number can be filled in in the first place. But hey, it's an example.) 
 
 Every type of input field has a couple of own validation functions. (One of them is default; often a non-empty check.) However, you can also define your own validation functions! A validation function should satisfy the following rules.
 
