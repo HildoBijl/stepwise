@@ -1,12 +1,9 @@
-import React from 'react'
-import clsx from 'clsx'
-
 import { isNumber } from 'step-wise/util/numbers'
 import { removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
 
-import { selectRandomEmpty, selectRandomNegative } from 'util/feedbackMessages'
+import { selectRandomEmpty } from 'util/feedbackMessages'
 
-import FieldInput, { CharString, getClickPosition } from './support/FieldInput'
+import { getClickPosition } from '../support/FieldInput'
 
 // Define various trivial objects and functions.
 export const emptySI = { type: 'Integer', value: '' }
@@ -17,53 +14,8 @@ export const isCursorAtStart = (_, cursor) => cursor === 0
 export const isCursorAtEnd = (value, cursor) => cursor === value.length
 export const mouseClickToCursor = (evt, _, contentsElement) => getClickPosition(evt, contentsElement)
 
-const defaultProps = {
-	basic: true, // To get the basic character layout.
-	placeholder: 'Geheel getal',
-	positive: false,
-	validate: undefined,
-	initialSI: emptySI,
-	isEmpty: SI => isEmpty(SI.value),
-	JSXObject: Integer,
-	keyboardSettings: FIToKeyboardSettings,
-	keyPressToFI,
-	mouseClickToCursor,
-	getStartCursor,
-	getEndCursor,
-	isCursorAtStart,
-	isCursorAtEnd,
-	errorToMessage,
-}
-
-export default function IntegerInput(props) {
-	// Gather all relevant data.
-	const positive = props.positive !== undefined ? props.positive : defaultProps.positive
-	const mergedProps = {
-		...defaultProps,
-		keyPressToFI: (keyInfo, FI) => keyPressToFI(keyInfo, FI, positive),
-		keyboardSettings: (FI) => FIToKeyboardSettings(FI, positive),
-		...props,
-		className: clsx(props.className, 'integerInput'),
-	}
-
-	return <FieldInput {...mergedProps} />
-}
-
-// These are validation functions.
-export function positive(number) {
-	if (number < 0)
-		return selectRandomNegative()
-}
-
-// Integer takes an FI object and shows the corresponding contents as JSX render.
-export function Integer({ type, value, cursor }) {
-	if (type !== 'Integer')
-		throw new Error(`Invalid type: tried to get the contents of an Integer field but got an FI with type "${type}".`)
-	return <CharString str={value} cursor={cursor} />
-}
-
 // FIToKeyboardSettings takes an FI object and determines what keyboard settings are appropriate.
-function FIToKeyboardSettings(FI, positive = false) {
+export function FIToKeyboardSettings(FI, positive = false) {
 	const { value, cursor } = FI
 
 	// Determine which keys to disable.
