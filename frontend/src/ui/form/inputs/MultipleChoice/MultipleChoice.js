@@ -9,13 +9,15 @@ import clsx from 'clsx'
 import { numberArray, shuffle } from 'step-wise/util/arrays'
 import { processOptions, filterOptions, deepEquals } from 'step-wise/util/objects'
 import { getRandomSubset } from 'step-wise/util/random'
-import { SItoFO } from 'step-wise/inputTypes/MultipleChoice'
 
 import { useRefWithValue, useImmutableValue } from 'util/react'
 import { notSelectable } from 'ui/theme'
 import FeedbackBlock from 'ui/components/misc/FeedbackBlock'
 
-import { useAsInput, defaultInputOptions } from '../inputs/support/Input'
+import { useAsInput, defaultInputOptions } from '../support/Input'
+
+import { getEmptySI, functionalize } from './support'
+import { nonEmpty } from './validation'
 
 // Set up style.
 const style = (theme) => ({
@@ -190,28 +192,4 @@ function Choice({ checked, activate, deactivate, toggle, Element, feedback, read
 		</Box>
 		{feedbackText ? <Box className={clsx('feedback', classes.feedback)}>{feedbackText}</Box> : null}
 	</>
-}
-
-// Input object legacy: in the past the multiple choice input was stored as object. It must be transformed back to make it usable. After old inputs have been removed, this whole thing can be deleted: the default functionalize function is appropriate then.
-function functionalize(data) {
-	if (data && data.type === 'MultipleChoice')
-		return SItoFO(data.value)
-	return data // Regular case.
-}
-
-// These are validation functions.
-export function any() { }
-export function nonEmpty(input) {
-	if (isEmpty(input))
-		return 'Je hebt nog niets geselecteerd.'
-}
-
-function isEmpty(input) {
-	if (Array.isArray(input))
-		return input.length === 0
-	return input === undefined
-}
-
-function getEmptySI(multiple) {
-	return multiple ? [] : undefined
 }
