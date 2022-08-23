@@ -1,4 +1,4 @@
 export * from './support'
 export * from './validation'
-export * from './FloatInput'
-export { default } from './FloatInput'
+export * from './rendering'
+export { default } from './rendering'

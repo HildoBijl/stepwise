@@ -1,2 +1,2 @@
 export * from './support'
-export { default } from './UnitArray'
+export { default } from './rendering'

@@ -1,3 +1,3 @@
 export * from './support'
 export * from './validation'
-export { default } from './MultipleChoice'
+export { default } from './rendering'
