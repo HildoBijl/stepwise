@@ -9,8 +9,8 @@ const fullExport = {
 }
 export default fullExport
 
-function toLatex(data, options) {
-	const { value } = data
+function toLatex(FI, options) {
+	const { value } = FI
 	const [parameter] = value
 	const parameterLatex = getFuncs(parameter).toLatex(parameter, options)
 	return {
