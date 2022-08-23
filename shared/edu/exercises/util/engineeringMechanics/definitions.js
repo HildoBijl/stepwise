@@ -1,6 +1,6 @@
 const { ensureNumber } = require('../../../../util/numbers')
 const { ensureBoolean, isBasicObject } = require('../../../../util/objects')
-const { ensureVector, ensurePositionedVector } = require('../../../../geometry')
+const { ensureVector, ensureSpan } = require('../../../../geometry')
 
 /*
  * Define default values.
@@ -59,7 +59,7 @@ module.exports.ensureLoadSource = ensureLoadSource
 const defaultSource = loadSources.external
 module.exports.getDefaultForce = (end, angle = 0, source = defaultSource, atStart = false, forceLength = defaultForceLength) => ({
 	type: 'Force',
-	positionedVector: new PositionedVector({ vector: Vector.fromPolar(ensureNumber(forceLength), ensureNumber(angle)), [atStart ? 'start' : 'end']: ensureVector(end, 2) }),
+	span: new Span({ vector: Vector.fromPolar(ensureNumber(forceLength), ensureNumber(angle)), [atStart ? 'start' : 'end']: ensureVector(end, 2) }),
 	source: ensureLoadSource(source),
 })
 module.exports.getDefaultMoment = (position, clockwise, opening = defaultMomentOpening, source = defaultSource) => ({
@@ -100,7 +100,7 @@ function ensureForce(load) {
 		throw new Error(`Invalid force: expected a basic object, but recieved something of type "${typeof load}".`)
 	if (load.type !== loadTypes.force)
 		throw new Error(`Invalid force: a force must have a type "${loadTypes.force}".`)
-	load.positionedVector = ensurePositionedVector(load.positionedVector, 2)
+	load.span = ensureSpan(load.span, 2)
 	return load
 }
 module.exports.ensureForce = ensureForce

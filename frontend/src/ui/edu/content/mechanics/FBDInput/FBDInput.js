@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import { processOptions, filterOptions, applyToEachParameter } from 'step-wise/util/objects'
 import { hasSimpleDeepEqualsMatching } from 'step-wise/util/arrays'
-import { Vector, PositionedVector } from 'step-wise/geometry'
+import { Vector, Span } from 'step-wise/geometry'
 import { defaultForceLength, loadTypes, areLoadsEqual, doesLoadTouchRectangle } from 'step-wise/edu/exercises/util/engineeringMechanics'
 
 import { useEnsureRef, useEventListener } from 'util/react'
@@ -169,7 +169,7 @@ function getDragObject(downData, upData, options) {
 	if (upData.isSnappedTwice && !graphicalSnappedVector.isZero()) {
 		if (forceLength)
 			snappedVector = snappedVector.setMagnitude(forceLength)
-		return { type: loadTypes.force, positionedVector: new PositionedVector({ vector: snappedVector, end: upData.snappedPosition }) }
+		return { type: loadTypes.force, span: new Span({ vector: snappedVector, end: upData.snappedPosition }) }
 	}
 
 	// On a very short vector return a marker.
@@ -186,7 +186,7 @@ function getDragObject(downData, upData, options) {
 	// Otherwise return a Force. How to do this depends on if a fixed length has been set.
 	if (forceLength)
 		snappedVector = snappedVector.setMagnitude(forceLength)
-	return { type: loadTypes.force, positionedVector: new PositionedVector({ start: downData.snappedPosition, vector: snappedVector }) }
+	return { type: loadTypes.force, span: new Span({ start: downData.snappedPosition, vector: snappedVector }) }
 }
 
 function styleLoad(index, load, readOnly, mouseHandlers = {}, selectionRectangle, feedback) {

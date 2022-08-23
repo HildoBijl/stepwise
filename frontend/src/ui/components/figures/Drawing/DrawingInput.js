@@ -10,7 +10,7 @@ import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureArray, numberArray, filterDuplicates, sortByIndices } from 'step-wise/util/arrays'
 import { processOptions, filterOptions, filterProperties } from 'step-wise/util/objects'
 import { resolveFunctions } from 'step-wise/util/functions'
-import { Vector, Line, PositionedVector, Rectangle } from 'step-wise/geometry'
+import { Vector, Line, Span, Rectangle } from 'step-wise/geometry'
 
 import { getEventPosition, getUtilKeys } from 'util/dom'
 import { useEventListener, useConsistentValue } from 'util/react'
@@ -302,7 +302,7 @@ function useSnappingLines(snappers, transformation) {
 			} else if (snapper instanceof Vector) {
 				snappingLines.push(Line.getHorizontalThrough(snapper))
 				snappingLines.push(Line.getVerticalThrough(snapper))
-			} else if (snapper instanceof PositionedVector) {
+			} else if (snapper instanceof Span) {
 				snappingLines.push(snapper.line)
 			} else {
 				throw new Error(`Invalid snapper: received a snapper with unexpected type. Make sure it is a vector, line or other allowed type.`)

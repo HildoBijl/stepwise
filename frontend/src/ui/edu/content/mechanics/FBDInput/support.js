@@ -23,7 +23,7 @@ export function functionalize(SI) {
 export function flipLoad(load) {
 	switch (load.type) {
 		case loadTypes.force:
-			return { ...load, positionedVector: load.positionedVector.reverse() }
+			return { ...load, span: load.span.reverse() }
 		case loadTypes.moment:
 			return { ...load, clockwise: !load.clockwise }
 		default:

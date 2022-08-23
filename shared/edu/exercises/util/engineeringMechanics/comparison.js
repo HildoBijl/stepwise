@@ -60,8 +60,8 @@ function areLoadsEqual(input, solution, comparison = {}) {
 	// Check all relevant load types.
 	switch (type) {
 		case loadTypes.force:
-			const solutionPV = solution.positionedVector
-			const inputPV = input.positionedVector
+			const solutionPV = solution.span
+			const inputPV = input.span
 
 			// Check the magnitude.
 			if (comparison.requireSameMagnitude && !solutionPV.vector.isEqualMagnitude(inputPV.vector))
@@ -113,7 +113,7 @@ module.exports.areLoadsEqual = areLoadsEqual
 function isLoadAtPoint(load, point) {
 	switch (load.type) {
 		case loadTypes.force:
-			return load.positionedVector.hasPoint(point)
+			return load.span.hasPoint(point)
 		case loadTypes.moment:
 			return load.position.equals(point)
 		default:
@@ -125,7 +125,7 @@ module.exports.isLoadAtPoint = isLoadAtPoint
 function doesLoadTouchRectangle(load, rectangle) {
 	switch (load.type) {
 		case loadTypes.force:
-			return rectangle.touchesPositionedVector(load.positionedVector)
+			return rectangle.touchesSpan(load.span)
 		case loadTypes.moment:
 			return rectangle.touchesCircle(load.position, load.radius === undefined ? defaultMomentRadius : load.radius)
 		default:

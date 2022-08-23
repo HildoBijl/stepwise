@@ -1,7 +1,7 @@
 module.exports = {
 	...require('./Vector'),
 	...require('./Line'),
-	...require('./PositionedVector'),
+	...require('./Span'),
 	...require('./Rectangle'),
 	...require('./Matrix'),
 	...require('./Transformation'),

@@ -52,7 +52,7 @@ export function findRelatedPoint(load, points) {
 export function isConnectedToPoint(load, point) {
 	switch (load.type) {
 		case loadTypes.force:
-			return load.positionedVector.hasPoint(point)
+			return load.span.hasPoint(point)
 		case loadTypes.moment:
 			return load.position.equals(point)
 		default:

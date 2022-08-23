@@ -4,7 +4,7 @@ import { defaultMomentRadius, defaultGraphicalMomentRadius, defaultMomentOpening
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureString } from 'step-wise/util/strings'
 import { ensureBoolean, ensureObject, processOptions } from 'step-wise/util/objects'
-import { Vector, ensureVector, ensurePositionedVector } from 'step-wise/geometry'
+import { Vector, ensureVector, ensureSpan } from 'step-wise/geometry'
 
 import { components as drawingComponents, useScaledOrGraphicalValue, useTransformedOrGraphicalValue } from 'ui/components/figures'
 
@@ -45,11 +45,11 @@ const defaultArrowHead = {
 	className: 'arrowHead',
 }
 
-// Force draws a force vector. It must have a positionedVector parameter (a PositionedVector object), can have a size and a color.
+// Force draws a force vector. It must have a span parameter (a Span object), can have a size and a color.
 export const Force = forwardRef((props, ref) => {
 	// Check input.
-	let { positionedVector, graphicalPositionedVector, size, color, className, style } = processOptions(props, defaultForce)
-	const { vector, end } = ensurePositionedVector(useTransformedOrGraphicalValue(positionedVector, graphicalPositionedVector), 2)
+	let { span, graphicalSpan, size, color, className, style } = processOptions(props, defaultForce)
+	const { vector, end } = ensureSpan(useTransformedOrGraphicalValue(span, graphicalSpan), 2)
 	size = ensureNumber(size)
 	color = ensureString(color)
 	ref = useRefWithEventHandlers(props, ref)
@@ -62,8 +62,8 @@ export const Force = forwardRef((props, ref) => {
 })
 export const defaultForce = {
 	...defaultObject,
-	positionedVector: undefined,
-	graphicalPositionedVector: undefined,
+	span: undefined,
+	graphicalSpan: undefined,
 	size: defaultArrowHead.size,
 	color: defaultArrowHead.color,
 	className: 'force',

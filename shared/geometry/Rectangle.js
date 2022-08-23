@@ -1,11 +1,11 @@
-// The Rectangle represents a rectangle shape in space. It is based on the PositionedVector which denotes its position, but it adds functionalities on top like bounding coordinates and more.
+// The Rectangle represents a rectangle shape in space. It is based on the Span which denotes its position, but it adds functionalities on top like bounding coordinates and more.
 
 const { ensureNumber, compareNumbers, boundTo } = require('../util/numbers')
 const { numberArray } = require('../util/arrays')
 const { repeat } = require('../util/functions')
 
 const { ensureVector } = require('./Vector')
-const { PositionedVector, ensurePositionedVector } = require('./PositionedVector')
+const { Span, ensureSpan } = require('./Span')
 const { Line, ensureLine } = require('./Line')
 
 class Rectangle {
@@ -18,11 +18,11 @@ class Rectangle {
 			return rectangle
 
 		// Turn the data into a Positioned Vector.
-		this.positionedVector = ensurePositionedVector(rectangle)
+		this.span = ensureSpan(rectangle)
 	}
 
 	get SO() {
-		return this.positionedVector.SO
+		return this.span.SO
 	}
 
 	get type() {
@@ -34,15 +34,15 @@ class Rectangle {
 	 */
 
 	get start() {
-		return this.positionedVector.start
+		return this.span.start
 	}
 
 	get vector() {
-		return this.positionedVector.vector
+		return this.span.vector
 	}
 
 	get end() {
-		return this.positionedVector.end
+		return this.span.end
 	}
 
 	// No functions.
@@ -52,7 +52,7 @@ class Rectangle {
 	 */
 
 	get dimension() {
-		return this.positionedVector.dimension
+		return this.span.dimension
 	}
 
 	get str() {
@@ -65,7 +65,7 @@ class Rectangle {
 
 	get line() {
 		if (this.vector.isZero())
-			throw new Error(`Invalid line request: cannot give the line of a PositionedVector with zero magnitude.`)
+			throw new Error(`Invalid line request: cannot give the line of a Span with zero magnitude.`)
 		return new Line(this.start, this.vector)
 	}
 
@@ -107,7 +107,7 @@ class Rectangle {
 
 	// transform applies the given transformation.
 	transform(transformation, ...args) {
-		return new Rectangle(this.positionedVector.transform(transformation, ...args))
+		return new Rectangle(this.span.transform(transformation, ...args))
 	}
 
 	// isInside checks if a vector (a point) falls within the rectangle.
@@ -174,19 +174,19 @@ class Rectangle {
 		return [lower, upper]
 	}
 
-	// getLinePart takes a line. It considers the current (this) PositionedVector as a rectangle (with start and end as corners, diagonally across) and checks which part of the line is inside the rectangle. It returns that part as a PositionedVector. It returns null on a line that's outside the given rectangle.
+	// getLinePart takes a line. It considers the current (this) Span as a rectangle (with start and end as corners, diagonally across) and checks which part of the line is inside the rectangle. It returns that part as a Span. It returns null on a line that's outside the given rectangle.
 	getLinePart(line) {
 		const linePartFactors = this.getLinePartFactors(line)
-		return linePartFactors && new PositionedVector({
+		return linePartFactors && new Span({
 			start: line.getPointWithFactor(linePartFactors[0]),
 			end: line.getPointWithFactor(linePartFactors[1]),
 		})
 	}
 
-	// touchesPositionedVector checks if a part of the positionedVector falls within or touches this rectangle.
-	touchesPositionedVector(positionedVector, contains = false) {
+	// touchesSpan checks if a part of the span falls within or touches this rectangle.
+	touchesSpan(span, contains = false) {
 		// Examine the line through the positioned vector. If it doesn't go through the rectangle, return false.
-		const linePartFactors = this.getLinePartFactors(positionedVector.line)
+		const linePartFactors = this.getLinePartFactors(span.line)
 		if (!linePartFactors)
 			return false
 
@@ -213,7 +213,7 @@ class Rectangle {
 	// equals runs an exact equality check on the full set-up.
 	equals(rectangle) {
 		rectangle = ensureRectangle(rectangle)
-		return this.positionedVector.equals(rectangle.positionedVector)
+		return this.span.equals(rectangle.span)
 	}
 
 	/*

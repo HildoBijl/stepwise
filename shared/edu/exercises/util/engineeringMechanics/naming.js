@@ -78,26 +78,26 @@ module.exports.getLoadNamesForPoint = getLoadNamesForPoint
 function getForceNamesForPoint(forces, point, pointName) {
 	// On a single force just name it F_A.
 	if (forces.length === 1)
-		return [{ load: forces[0], variable: new Variable(pointName ? `F_${pointName}` : `F`), point: point || forces[0].positionedVector.start }]
+		return [{ load: forces[0], variable: new Variable(pointName ? `F_${pointName}` : `F`), point: point || forces[0].span.start }]
 
 	// On two forces that are horizontal and vertical, use F_{Ax} and F_{Ay}.
 	if (forces.length === 2 && pointName) {
-		if (forces[0].positionedVector.vector.isEqualDirection(Vector.i, true) && forces[1].positionedVector.vector.isEqualDirection(Vector.j, true)) {
+		if (forces[0].span.vector.isEqualDirection(Vector.i, true) && forces[1].span.vector.isEqualDirection(Vector.j, true)) {
 			return [
-				{ load: forces[0], variable: new Variable(`F_${pointName}x`), point: point || forces[0].positionedVector.start },
-				{ load: forces[1], variable: new Variable(`F_${pointName}y`), point: point || forces[1].positionedVector.start },
+				{ load: forces[0], variable: new Variable(`F_${pointName}x`), point: point || forces[0].span.start },
+				{ load: forces[1], variable: new Variable(`F_${pointName}y`), point: point || forces[1].span.start },
 			]
-		} else if (forces[0].positionedVector.vector.isEqualDirection(Vector.j, true) && forces[1].positionedVector.vector.isEqualDirection(Vector.i, true)) {
+		} else if (forces[0].span.vector.isEqualDirection(Vector.j, true) && forces[1].span.vector.isEqualDirection(Vector.i, true)) {
 			return [
-				{ load: forces[1], variable: new Variable(`F_${pointName}x`), point: point || forces[1].positionedVector.start },
-				{ load: forces[0], variable: new Variable(`F_${pointName}y`), point: point || forces[0].positionedVector.start },
+				{ load: forces[1], variable: new Variable(`F_${pointName}x`), point: point || forces[1].span.start },
+				{ load: forces[0], variable: new Variable(`F_${pointName}y`), point: point || forces[0].span.start },
 			]
 		}
 	}
 
 	// On multiple forces, sort them by vector argument, and then use F_{A1}, F_{A2}, and so forth.
-	forces = sortByIndices(forces, forces.map(force => force.positionedVector.vector.argument))
-	return forces.map((force, index) => ({ load: force, variable: new Variable(pointName ? `F_${pointName}${index + 1}` : `F_${index + 1}`), point: point || force.positionedVector.start }))
+	forces = sortByIndices(forces, forces.map(force => force.span.vector.argument))
+	return forces.map((force, index) => ({ load: force, variable: new Variable(pointName ? `F_${pointName}${index + 1}` : `F_${index + 1}`), point: point || force.span.start }))
 }
 module.exports.getForceNamesForPoint = getForceNamesForPoint
 

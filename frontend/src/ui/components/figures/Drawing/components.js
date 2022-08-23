@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureString } from 'step-wise/util/strings'
 import { ensureBoolean, ensureObject, processOptions, filterOptions, filterProperties, removeProperties } from 'step-wise/util/objects'
-import { Vector, ensureVector, ensureVectorArray, ensureCorner, PositionedVector, ensurePositionedVector, Rectangle as GeometryRectangle, ensureRectangle as ensureGeometryRectangle, Line as GeometryLine, ensureLine as ensureGeometryLine } from 'step-wise/geometry'
+import { Vector, ensureVector, ensureVectorArray, ensureCorner, Span, ensureSpan, Rectangle as GeometryRectangle, ensureRectangle as ensureGeometryRectangle, Line as GeometryLine, ensureLine as ensureGeometryLine } from 'step-wise/geometry'
 
 import { useEnsureRef, useEventListeners } from 'util/react'
 
@@ -122,7 +122,7 @@ export const Rectangle = forwardRef((props, ref) => {
 })
 export const defaultRectangle = {
 	...defaultObject,
-	dimensions: undefined, // A PositionedVector.
+	dimensions: undefined, // A Span.
 	graphicalDimensions: new GeometryRectangle({ start: Vector.zero, end: new Vector(100, 50) }),
 }
 
@@ -186,23 +186,23 @@ export function getArcPath(center, radius, startAngle, endAngle) {
 	return `M${start.x} ${start.y} A${radius} ${radius} 0 ${largeArcFlag} ${sweepFlag} ${end.x} ${end.y}`
 }
 
-// Distance renders a distance spread. The given distance object must have a "positionedVector" parameter, which is a PositionedVector object: an object with a start, vector and/or end (two out of the three). It assumes the arrow heads will be added through the distance class and the SVG style definitions.
+// Distance renders a distance spread. The given distance object must have a "span" parameter, which is a Span object: an object with a start, vector and/or end (two out of the three). It assumes the arrow heads will be added through the distance class and the SVG style definitions.
 export const Distance = forwardRef((props, ref) => {
 	// Process the input.
-	let { positionedVector, graphicalPositionedVector, shift, graphicalShift, className } = processOptions(props, defaultDistance)
-	positionedVector = ensurePositionedVector(useTransformedOrGraphicalValue(positionedVector, graphicalPositionedVector), 2)
+	let { span, graphicalSpan, shift, graphicalShift, className } = processOptions(props, defaultDistance)
+	span = ensureSpan(useTransformedOrGraphicalValue(span, graphicalSpan), 2)
 	shift = ensureVector(useTransformedOrGraphicalValue(shift, graphicalShift, true), 2)
 	className = ensureString(className)
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Render the line with the appropriate style. Enfore that the className is used, because this adds the arrow spread.
-	positionedVector = positionedVector.add(shift)
-	return <Line ref={ref} {...filterOptions(props, defaultLine)} graphicalPoints={[positionedVector.start, positionedVector.end]} className={clsx(className, className === defaultDistance.className ? '' : defaultDistance.className)} />
+	span = span.add(shift)
+	return <Line ref={ref} {...filterOptions(props, defaultLine)} graphicalPoints={[span.start, span.end]} className={clsx(className, className === defaultDistance.className ? '' : defaultDistance.className)} />
 })
 const defaultDistance = {
 	...defaultObject,
-	positionedVector: undefined,
-	graphicalPositionedVector: new PositionedVector({ start: Vector.zero, end: new Vector(100, 0) }),
+	span: undefined,
+	graphicalSpan: new Span({ start: Vector.zero, end: new Vector(100, 0) }),
 	shift: undefined,
 	graphicalShift: Vector.zero,
 	className: 'distance',

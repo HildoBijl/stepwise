@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { deg2rad } from 'step-wise/util/numbers'
-import { Vector, Line, PositionedVector } from 'step-wise/geometry'
+import { Vector, Line, Span } from 'step-wise/geometry'
 
 import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
@@ -19,7 +19,7 @@ import { getInputFieldFeedback } from '../util/feedback'
 
 window.Vector = Vector
 window.Line = Line
-window.PositionedVector = PositionedVector
+window.Span = Span
 
 const distanceShift = 60
 
@@ -78,15 +78,15 @@ function Schematics({ points, loads, fixA, showSupports = true }) {
 
 		<Group>{render(loads)}</Group>
 
-		<Distance positionedVector={{ start: points.A, end: points.B }} graphicalShift={new Vector(0, distanceShift)} />
-		<Distance positionedVector={{ start: points.B, end: points.C }} graphicalShift={new Vector(0, distanceShift)} />
+		<Distance span={{ start: points.A, end: points.B }} graphicalShift={new Vector(0, distanceShift)} />
+		<Distance span={{ start: points.B, end: points.C }} graphicalShift={new Vector(0, distanceShift)} />
 	</>
 }
 
 function Elements({ theta, l1, l2, points, loads, getLoadNames }) {
 	const background = useCurrentBackgroundColor()
 	const distanceLabelStyle = { background, padding: '0.3rem' }
-	const externalForce = loads[0]?.positionedVector
+	const externalForce = loads[0]?.span
 	const loadNames = getLoadNames(loads)
 
 	return <>

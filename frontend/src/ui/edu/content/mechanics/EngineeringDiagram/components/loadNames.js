@@ -22,10 +22,10 @@ export function LoadLabel({ load, variable, point }) {
 	switch (load.type) {
 		// For a force, either put the label at the start or at the end, depending on which point it is connected to.
 		case loadTypes.force:
-			if (load.positionedVector.end.equals(point))
-				return <Label position={load.positionedVector.start} angle={load.positionedVector.vector.argument - Math.PI} {...{ graphicalDistance: forceGraphicalDistance }}><M>{variable}</M></Label>
+			if (load.span.end.equals(point))
+				return <Label position={load.span.start} angle={load.span.vector.argument - Math.PI} {...{ graphicalDistance: forceGraphicalDistance }}><M>{variable}</M></Label>
 			else
-				return <Label position={load.positionedVector.end} angle={load.positionedVector.vector.argument} {...{ graphicalDistance: forceGraphicalDistance }}><M>{variable}</M></Label>
+				return <Label position={load.span.end} angle={load.span.vector.argument} {...{ graphicalDistance: forceGraphicalDistance }}><M>{variable}</M></Label>
 
 		// For a moment, put the label near the moment arrow.
 		case loadTypes.moment:
