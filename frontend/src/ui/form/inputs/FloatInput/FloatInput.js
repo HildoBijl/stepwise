@@ -56,12 +56,6 @@ export default function FloatInput(props) {
 	return <FieldInput {...mergedProps} />
 }
 
-// These are validation functions.
-export function positive(float) {
-	if (float.number < 0)
-		return selectRandomNegative()
-}
-
 // Float takes an input FI object and shows the corresponding contents as JSX render.
 export function Float({ type, value, cursor }) {
 	// Check input.

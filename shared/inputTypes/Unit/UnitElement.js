@@ -49,7 +49,7 @@ class UnitElement {
 		if (unit instanceof BaseUnit || unit === null) {
 			this._unit = unit
 		} else {
-			if (typeof input.unit !== 'string')
+			if (typeof input.unit !== 'string' && input.unit !== undefined)
 				throw new Error(`Invalid unit given: only units of type string are allowed, but the unit given was of type "${typeof unit}".`)
 			this._unit = findUnit(unit) || unit // Try to turn it into a known unit object. If this fails, keep the string.
 		}

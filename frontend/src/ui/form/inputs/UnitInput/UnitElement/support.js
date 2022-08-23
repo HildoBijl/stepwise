@@ -1,8 +1,3 @@
-// UnitElement represents a single unit element like "km^3", but not a combined one like "N * m" or "m / s". It is not an input field but its functionality is used by other input fields.
-
-import React from 'react'
-import clsx from 'clsx'
-
 import { isNumber } from 'step-wise/util/numbers'
 import { removeAtIndex, insertAtIndex, isLetter } from 'step-wise/util/strings'
 import { keysToObject } from 'step-wise/util/objects'
@@ -10,7 +5,7 @@ import { units } from 'step-wise/inputTypes/Unit/units'
 import { prefixes } from 'step-wise/inputTypes/Unit/prefixes'
 import { interpretPrefixAndBaseUnitStr } from 'step-wise/inputTypes/Unit/UnitElement'
 
-import { CharString, getClickPosition } from './FieldInput'
+import { getClickPosition } from '../../support/FieldInput'
 
 // Define various trivial objects and functions.
 export const emptyUnitElement = { prefix: '', unit: '', power: '' }
@@ -23,33 +18,6 @@ export const isCursorAtEnd = ({ prefix, unit, power }, cursor) => cursor && ((cu
 export const isValid = value => value.unitObj && (value.prefix === '' || !!value.prefixObj)
 export const clean = value => isEmpty(value) ? undefined : keysToObject(parts, part => value[part] || undefined)
 export const functionalize = ({ prefix = '', unit = '', power = '' }) => processUnitElement({ text: prefix + unit, power }).value
-
-// UnitElement takes an FI object and shows the corresponding contents as JSX render.
-export function UnitElement({ type, value, cursor }) {
-	// Check input.
-	if (type !== 'UnitElement')
-		throw new Error(`Invalid type: tried to get the contents of a UnitElement field but got an FI with type "${type}".`)
-
-	// Set up the visuals in the right way.
-	const useFiller = (value.prefix === '' && value.unit === '' && (!cursor || cursor.part !== 'text'))
-	const valid = isValid(value)
-	return (
-		<span className={clsx('unitElement', { valid, invalid: !valid })}>
-			<span className="prefix">
-				<CharString str={value.prefix} cursor={cursor && cursor.part === 'text' && cursor.cursor <= value.prefix.length && cursor.cursor} />
-			</span>
-			<span className="baseUnit">
-				{useFiller ?
-					<span className={clsx('char', 'filler', 'filler-qm')} key='filler'>?</span> :
-					<CharString str={value.unit} cursor={cursor && cursor.part === 'text' && cursor.cursor > value.prefix.length && cursor.cursor <= value.prefix.length + value.unit.length && cursor.cursor - value.prefix.length} />
-				}
-			</span>
-			<span className="power">
-				<CharString str={value.power} cursor={cursor && cursor.part === 'power' && cursor.cursor} />
-			</span>
-		</span>
-	)
-}
 
 // keyPressToFI takes a keyInfo event and an FI object and returns a new FI object.
 export function keyPressToFI(keyInfo, FI) {
