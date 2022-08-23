@@ -3,7 +3,7 @@ import React from 'react'
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import ExpressionInput, { basicMath, validWithVariables } from 'ui/form/inputs/ExpressionInput'
-import { InputSpace } from 'ui/form/Status'
+import { InputSpace } from 'ui/form/FormPart'
 
 import { useSolution } from '../util/SolutionProvider'
 import SimpleExercise from '../types/SimpleExercise'

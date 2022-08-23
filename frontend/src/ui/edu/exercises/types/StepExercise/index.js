@@ -9,7 +9,7 @@ import { getStep, getPreviousProgress } from 'step-wise/edu/exercises/util/stepE
 import VerticalAdjuster from 'ui/components/layout/VerticalAdjuster'
 import { useFormData } from 'ui/form/Form'
 import { useFeedback } from 'ui/form/FeedbackProvider'
-import Status from 'ui/form/Status'
+import FormPart from 'ui/form/FormPart'
 import { useFieldControllerContext } from 'ui/form/FieldController'
 
 import { useExerciseData } from '../../ExerciseContainer'
@@ -43,17 +43,18 @@ function Contents({ Problem: MainProblem, steps }) {
 	}, [MainProblem, progress, history, activateFirst])
 
 	// Determine what to show.
+	const doneWithMainProblem = progress.done || progress.split
 	const showInputSpace = !progress.split
 	const input = getInputSI()
 	const showMainFeedback = showInputSpace && (progress.solved || progress.split || deepEquals(input, feedbackInput))
 
 	return <>
 		<ProblemContainer>
-			<Status showInputSpace={showInputSpace} done={progress.done || progress.split}>
+			<FormPart readOnly={doneWithMainProblem} showInputSpace={showInputSpace} showHints={!doneWithMainProblem}>
 				<VerticalAdjuster>
 					<MainProblem {...state} />
 				</VerticalAdjuster>
-			</Status>
+			</FormPart>
 			<MainFeedback display={showMainFeedback} />
 		</ProblemContainer>
 		{!expandSolution ? <SolutionContainer display={!!progress.done && !progress.split} onClick={() => setExpandSolution(true)} rotateIcon={false} /> : null}{/* This is a clickable dummy to expand the solution after the main problem has been solved directly. */}

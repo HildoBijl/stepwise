@@ -3,7 +3,7 @@ import React from 'react'
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
-import { InputSpace } from 'ui/form/Status'
+import { InputSpace } from 'ui/form/FormPart'
 import { InputTable } from 'ui/components/misc/InputTable'
 import { Dutch } from 'ui/lang/gases'
 

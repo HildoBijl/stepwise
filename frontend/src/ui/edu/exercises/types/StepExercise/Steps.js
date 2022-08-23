@@ -6,7 +6,7 @@ import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
 import VerticalAdjuster from 'ui/components/layout/VerticalAdjuster'
 import { useFormData } from 'ui/form/Form'
 import { useFeedback } from 'ui/form/FeedbackProvider'
-import Status from 'ui/form/Status'
+import FormPart from 'ui/form/FormPart'
 
 import { useExerciseData } from '../../ExerciseContainer'
 import ProblemContainer from '../../util/ProblemContainer'
@@ -30,16 +30,17 @@ export function Step({ step, Problem, Solution, forceDisplay }) {
 
 	// If this step has had a submission, or is still active, show the input space.
 	const hasSubmissions = history.some((event, index) => (event.action.type === 'input' && index > 0 && history[index - 1].progress.step === step))
+	const doneWithStep = stepProgress.done
 	const showInputSpace = !stepProgress.done || hasSubmissions
 	const showMainFeedback = showInputSpace && (stepProgress.done || deepEquals(input, feedbackInput))
 
 	return <>
 		<ProblemContainer display={display} step={step}>
-			<Status showInputSpace={showInputSpace} done={stepProgress.done}>
+			<FormPart readOnly={doneWithStep} showInputSpace={showInputSpace} showHints={!doneWithStep}>
 				<VerticalAdjuster>
 					<Problem {...state} />
 				</VerticalAdjuster>
-			</Status>
+			</FormPart>
 			<MainFeedback display={showMainFeedback} step={step} />
 		</ProblemContainer>
 		<SolutionContainer display={!!stepProgress.done} initialExpand={forceDisplay || !stepProgress.solved}>

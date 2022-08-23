@@ -5,7 +5,7 @@ import * as gasProperties from 'step-wise/data/gasProperties'
 import { M } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
-import { InputSpace } from 'ui/form/Status'
+import { InputSpace } from 'ui/form/FormPart'
 import { English, Dutch } from 'ui/lang/gases'
 
 import SimpleExercise from '../types/SimpleExercise'

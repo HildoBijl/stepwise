@@ -4,7 +4,7 @@ import { temperature as TConversion, volumeLiter as VConversion, massGram as mCo
 
 import { M, BM, BMList, BMPart } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
-import { AntiInputSpace, InputSpace } from 'ui/form/Status'
+import { AntiInputSpace, InputSpace } from 'ui/form/FormPart'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { useInput } from 'ui/form/Form'

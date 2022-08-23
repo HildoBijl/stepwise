@@ -6,7 +6,7 @@ import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import IntegerInput from 'ui/form/inputs/IntegerInput'
 import FloatInput from 'ui/form/inputs/FloatInput'
-import { InputSpace } from 'ui/form/Status'
+import { InputSpace } from 'ui/form/FormPart'
 
 import StepExercise from '../types/StepExercise'
 import { useSolution } from '../util/SolutionProvider'

@@ -99,7 +99,7 @@ The `ExerciseWrapper` wraps the exercise in a `Form` component. This allows you 
 - It stores the entered number within the `Form` under the name `ans`.
 - When submitting the exercise, the `input` object will have a parameter `ans` containing the entered number.
 
-There is a large variety of [input components](../../form/inputs/). The `Form` component itself also provides you with a ton of possibilities. You can read about them in the [form documentation](../../form/).
+There is a large variety of [input components](ui/form/inputs/). The `Form` component itself also provides you with a ton of possibilities. You can read about them in the [form documentation](ui/form/).
 
 
 #### Validation of input
@@ -144,14 +144,14 @@ If you do not specify a `getFeedback` function yourself, the `SimpleExercise` an
 Very often, you'll want to provide feedback to parameters in a default way. For instance, for `FloatUnit` parameters, you want to first check the unit, if that matches check the number, and so forth. In this case the `getInputFieldFeedback` function comes in very handy! You might see it at various example exercises.
 
 
-### InputSpace
+### InputSpace and AntiInputSpace
 
 Most problems have a question, like "Solve `3*x = 18`" including an input field where the student can insert an answer. This will look something like "x = [ .... ]". When a student just gives up on an exercise, without inserting anything, it would be more clean to hide the input field. This can be achieved by putting the input field in an `InputSpace` wrapper. 
 
-To do so, first import it using `import { InputSpace } from '../../form/Status'`. Then, in your Problem component, use it like `Problem = ({a, b}) => <><Par>Solve {a}*x = {b}.</Par><InputSpace><Par><IntegerInput id="ans" label="x" /></Par></InputSpace></>`. Everything in this input space is then hidden whenever an input space is not required. All the other text is always visible.
+To do so, first import it using `import { InputSpace } from 'ui/form/FormPart'`. Then, in your Problem component, use it like `Problem = ({a, b}) => <><Par>Solve {a}*x = {b}.</Par><InputSpace><Par><IntegerInput id="ans" label="x" /></Par></InputSpace></>`. Everything in this input space is then hidden whenever an input space is not required. All the other text is always visible.
 
 If you want to put a replacement text in place of the input space, then it's also possible to use the `AntiInputSpace` wrapper, imported in the same way. The contents of this one are only visible when the input space is *not* visible.
 
-### WhenDone and WhenNotDone
+### Hint and AntiHint
 
-Sometimes you may want to show a hint for a question, which may be hidden when the exercise is done. (Whether a submissions has been done or not.) In this case you can use `import { WhenDone, whenNotDone } from '../../form/Status'` to import these conainers. Then, in your Problem component, use it like `Problem = ({a, b}) => <><Par>Solve {a}*x = {b}.</Par><InputSpace><Par><IntegerInput id="ans" label="x" /></Par></InputSpace><WhenNotDone><Par>Hint: divide {b} by {a}.</Par></WhenNotDone></>`.
+Sometimes you may want to show a hint for a question, which may be hidden when the exercise is done. (Whether a submissions has been done or not.) In this case you can use `import { Hint, AntiHint } from 'ui/form/FormPart'` to import these conainers. Then, in your Problem component, use it like `Problem = ({a, b}) => <><Par>Solve {a}*x = {b}.</Par><InputSpace><Par><IntegerInput id="ans" label="x" /></Par></InputSpace><Hint><Par>Hint: divide {b} by {a}.</Par></Hint></>`.

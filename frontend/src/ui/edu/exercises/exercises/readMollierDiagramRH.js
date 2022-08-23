@@ -4,7 +4,7 @@ import { useInitializer } from 'util/react'
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
-import { InputSpace } from 'ui/form/Status'
+import { InputSpace } from 'ui/form/FormPart'
 
 import MollierDiagram from '../../content/diagrams/MollierDiagram'
 

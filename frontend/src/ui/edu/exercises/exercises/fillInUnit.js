@@ -7,7 +7,7 @@ import { selectRandomCorrect, selectRandomIncorrect } from 'util/feedbackMessage
 import { M } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import UnitInput from 'ui/form/inputs/UnitInput'
-import { InputSpace, WhenNotDone } from 'ui/form/Status'
+import { InputSpace, Hint } from 'ui/form/FormPart'
 
 import SimpleExercise from '../types/SimpleExercise'
 
@@ -29,7 +29,7 @@ function Problem({ unit }) {
 		<InputSpace>
 			<Par><UnitInput id="ans" prelabel={<M>{unit} =</M>} label="Vul hier de eenheid in" size="s" /></Par>
 		</InputSpace>
-		{hint ? <WhenNotDone>{hint}</WhenNotDone> : null}
+		{hint ? <Hint>{hint}</Hint> : null}
 	</>
 }
 

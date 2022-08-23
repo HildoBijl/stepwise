@@ -3,7 +3,7 @@ import React from 'react'
 import { M } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import IntegerInput from 'ui/form/inputs/IntegerInput'
-import { InputSpace } from 'ui/form/Status'
+import { InputSpace } from 'ui/form/FormPart'
 
 import StepExercise from '../types/StepExercise'
 

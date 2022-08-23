@@ -13,7 +13,7 @@ import { components, CornerLabel, LineLabel, useRotationReflectionTransformation
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import ExpressionInput, { numeric, basicTrigonometryInDegrees } from 'ui/form/inputs/ExpressionInput'
 import { useInput } from 'ui/form/Form'
-import { InputSpace } from 'ui/form/Status'
+import { InputSpace } from 'ui/form/FormPart'
 
 import { useExerciseData } from '../ExerciseContainer'
 import { useSolution } from '../util/SolutionProvider'

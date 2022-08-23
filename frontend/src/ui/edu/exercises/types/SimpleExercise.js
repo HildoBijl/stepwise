@@ -7,7 +7,7 @@ import { deepEquals } from 'step-wise/util/objects'
 import VerticalAdjuster from 'ui/components/layout/VerticalAdjuster'
 import { useFormData } from 'ui/form/Form'
 import { useFeedback } from 'ui/form/FeedbackProvider'
-import Status from 'ui/form/Status'
+import FormPart from 'ui/form/FormPart'
 import { useFieldControllerContext } from 'ui/form/FieldController'
 
 import { useExerciseData } from '../ExerciseContainer'
@@ -46,11 +46,11 @@ function Contents({ Problem, Solution }) {
 
 	return <>
 		<ProblemContainer>
-			<Status showInputSpace={showInputSpace} done={progress.done}>
+			<FormPart readOnly={progress.done} showInputSpace={showInputSpace} showHints={!progress.done}>
 				<VerticalAdjuster>
 					<Problem {...state} />
 				</VerticalAdjuster>
-			</Status>
+			</FormPart>
 			<MainFeedback display={showMainFeedback} />
 		</ProblemContainer>
 		<SolutionContainer display={!!progress.done} initialExpand={!progress.solved}>

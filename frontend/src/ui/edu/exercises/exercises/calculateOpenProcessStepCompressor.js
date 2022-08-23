@@ -5,7 +5,7 @@ import { Par } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { useInput } from 'ui/form/Form'
-import { InputSpace, AntiInputSpace } from 'ui/form/Status'
+import { InputSpace, AntiInputSpace } from 'ui/form/FormPart'
 import { InputTable } from 'ui/components/misc/InputTable'
 
 import StepExercise from '../types/StepExercise'

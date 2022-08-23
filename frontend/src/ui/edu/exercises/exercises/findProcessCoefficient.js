@@ -5,7 +5,7 @@ import { selectRandomCorrect } from 'util/feedbackMessages'
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
-import { InputSpace } from 'ui/form/Status'
+import { InputSpace } from 'ui/form/FormPart'
 
 import SimpleExercise from '../types/SimpleExercise'
 import { getMCFeedback } from '../util/feedback'

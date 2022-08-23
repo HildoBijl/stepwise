@@ -4,7 +4,7 @@ import { Vector, Line, PositionedVector } from 'step-wise/geometry'
 
 import { M } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
-import { InputSpace } from 'ui/form/Status'
+import { InputSpace } from 'ui/form/FormPart'
 import { useCurrentBackgroundColor, useScaleAndShiftTransformationSettings } from 'ui/components/figures/Drawing'
 
 import EngineeringDiagram, { Group, Beam, HingeSupport, RollerHalfHingeSupport, Distance, PositionedElement, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'

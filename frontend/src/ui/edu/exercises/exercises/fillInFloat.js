@@ -5,7 +5,7 @@ import { selectRandomCorrect, selectRandomIncorrect } from 'util/feedbackMessage
 import { M } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatInput from 'ui/form/inputs/FloatInput'
-import { InputSpace } from 'ui/form/Status'
+import { InputSpace } from 'ui/form/FormPart'
 
 import SimpleExercise from '../types/SimpleExercise'
 

@@ -5,7 +5,7 @@ import { filterOptions, processOptions } from 'step-wise/util/objects'
 import { resolveFunctions } from 'step-wise/util/functions'
 
 import { getHTMLElement } from 'util/react'
-import { useStatus } from 'ui/form/Status'
+import { useFormPartSettings } from 'ui/form/FormPart'
 import { useFormParameter, defaultUseFormParameterOptions } from 'ui/form/Form'
 import { useFieldRegistration, defaultFieldControlOptions } from 'ui/form/FieldController'
 import { useFieldFeedback, defaultFieldFeedbackOptions } from 'ui/form/FeedbackProvider'
@@ -30,8 +30,8 @@ export function useAsInput(options) {
 
 	// Find the status of the Exercise block: are we done with this part of the exercise? Based on this, determine if we should make it read-only.
 	let { readOnly } = options
-	const { done } = useStatus()
-	readOnly = (readOnly === undefined ? done : readOnly) // If read-only is manually specified, use that instead.
+	const { readOnly: readOnlySetting } = useFormPartSettings()
+	readOnly = (readOnly === undefined ? readOnlySetting : readOnly) // If read-only is manually specified, use that instead.
 
 	// Connect to the Form for input data storage.
 	const [FI, setFI] = useFormParameter(filterOptions(options, defaultUseFormParameterOptions))
@@ -48,7 +48,7 @@ export function useAsInput(options) {
 	const { feedback, feedbackInput } = useFieldFeedback(filterOptions(options, defaultFieldFeedbackOptions))
 
 	// Return all data as one large object.
-	return { id, done, readOnly, FI, setFI, active, activateField, deactivateField, feedback, feedbackInput }
+	return { id, readOnly, FI, setFI, active, activateField, deactivateField, feedback, feedbackInput }
 }
 export const defaultInputOptions = {
 	// General.

@@ -3,7 +3,7 @@ import React from 'react'
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatInput from 'ui/form/inputs/FloatInput'
-import { InputSpace } from 'ui/form/Status'
+import { InputSpace } from 'ui/form/FormPart'
 
 import SimpleExercise from '../types/SimpleExercise'
 import { useSolution } from '../util/SolutionProvider'

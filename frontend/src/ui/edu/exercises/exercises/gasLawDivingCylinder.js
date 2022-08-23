@@ -5,7 +5,7 @@ import { temperature as TConversion, volumeLiter as VConversion } from 'step-wis
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
-import { InputSpace } from 'ui/form/Status'
+import { InputSpace } from 'ui/form/FormPart'
 
 import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
