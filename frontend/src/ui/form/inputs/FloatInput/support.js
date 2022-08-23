@@ -1,15 +1,10 @@
-import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import clsx from 'clsx'
-
 import { isNumber } from 'step-wise/util/numbers'
 import { removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
 import { applyToEachParameter, keysToObject } from 'step-wise/util/objects'
 
-import { errorToMessage as integerErrorToMessage } from './IntegerInput'
-import { selectRandomNegative } from 'util/feedbackMessages'
+import { errorToMessage as integerErrorToMessage } from '../IntegerInput'
 
-import FieldInput, { CharString, getClickPosition } from './support/FieldInput'
+import { getClickPosition } from '../support/FieldInput'
 
 // Define various trivial objects and functions.
 export const emptyFloat = {}
@@ -23,83 +18,6 @@ export const isCursorAtEnd = ({ number, power }, cursor) => (cursor.part === 'po
 export const isValid = ({ number }) => number.replace(/[.-]/g, '').length > 0 // It should have a number somewhere in it.
 export const clean = value => applyToEachParameter(value, param => param || undefined) // Remove empty strings.
 export const functionalize = value => keysToObject(parts, part => value[part] || '') // Add empty strings.
-
-const defaultProps = {
-	basic: true, // To get the basic character layout.
-	placeholder: 'Kommagetal',
-	positive: false,
-	allowPower: true,
-	validate: undefined,
-	initialSI: emptySI,
-	isEmpty: SI => isEmpty(SI.value),
-	JSXObject: Float,
-	keyboardSettings: FIToKeyboardSettings,
-	keyPressToFI,
-	mouseClickToCursor,
-	getStartCursor,
-	getEndCursor,
-	isCursorAtStart,
-	isCursorAtEnd,
-	clean,
-	functionalize,
-	errorToMessage,
-}
-
-// Define styles.
-const style = (theme) => ({
-	'& .tenPowerContainer': {
-		// color: theme.palette.info.main,
-	},
-})
-const useStyles = makeStyles((theme) => ({
-	floatInput: style(theme),
-}))
-export { style }
-
-export default function FloatInput(props) {
-	// Gather all relevant data.
-	const classes = useStyles()
-	const positive = props.positive !== undefined ? props.positive : defaultProps.positive
-	const allowPower = props.allowPower !== undefined ? props.allowPower : defaultProps.allowPower
-	const mergedProps = {
-		...defaultProps,
-		keyPressToFI: (keyInfo, FI, contentsElement) => keyPressToFI(keyInfo, FI, contentsElement, positive, allowPower),
-		keyboardSettings: (FI) => FIToKeyboardSettings(FI, positive, allowPower),
-		...props,
-		className: clsx(props.className, classes.floatInput, 'floatInput'),
-	}
-
-	return <FieldInput {...mergedProps} />
-}
-
-// These are validation functions.
-export function positive(float) {
-	if (float.number < 0)
-		return selectRandomNegative()
-}
-
-// Float takes an input FI object and shows the corresponding contents as JSX render.
-export function Float({ type, value, cursor }) {
-	// Check input.
-	if (type !== 'Float')
-		throw new Error(`Invalid type: tried to get the contents of a Float field but got an FI with type "${type}".`)
-
-	// Set up the output.
-	const { number, power } = value
-	const showPower = power !== '' || (cursor && cursor.part === 'power')
-	return <>
-		<span className="number">
-			<CharString str={number} cursor={cursor && cursor.part === 'number' && cursor.cursor} />
-		</span>
-		{!showPower ? null : <span className="tenPowerContainer">
-			<span className="char times">⋅</span>
-			<span className="char ten">10</span>
-			<span className="power">
-				<CharString str={power} cursor={cursor && cursor.part === 'power' && cursor.cursor} />
-			</span>
-		</span>}
-	</>
-}
 
 // FIToKeyboardSettings takes an FI object and determines what keyboard settings are appropriate.
 export function FIToKeyboardSettings(FI, positive = false, allowPower = true) {
@@ -134,7 +52,7 @@ export function FIToKeyboardSettings(FI, positive = false, allowPower = true) {
 }
 
 // keyPressToFI takes a keyInfo event and an FI object and returns a new FI object.
-export function keyPressToFI(keyInfo, FI, contentsElement, positive = defaultProps.positive, allowPower = defaultProps.allowPower) {
+export function keyPressToFI(keyInfo, FI, contentsElement, positive = false, allowPower = true) {
 	// Let's walk through a large variety of cases and see what's up.
 	const { key, ctrl, alt } = keyInfo
 	const { value, cursor } = FI
