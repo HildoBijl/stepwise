@@ -632,7 +632,7 @@ module.exports.SItoFO = (value) => {
 	const { number, power } = value
 
 	// Check for boundary cases.
-	if (number === '')
+	if (number === '' || number === undefined)
 		throw new InterpretationError(`Empty`, undefined, 'Could not interpret an empty string into a number.')
 	if (number === '-' || number === '-.')
 		throw new InterpretationError(`MinusSign`, undefined, 'Could not interpret a number consisting of only a minus sign.')

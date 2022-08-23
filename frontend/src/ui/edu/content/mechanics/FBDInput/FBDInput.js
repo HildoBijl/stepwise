@@ -20,7 +20,7 @@ import { nonEmptyNoDoubles } from './validation'
 export const defaultFBDInputOptions = {
 	...defaultEngineeringDiagramOptions,
 	...defaultDrawingInputOptions,
-	initialData: [],
+	initialSI: [],
 	validate: nonEmptyNoDoubles,
 	clickMarkerSize: 6,
 	minimumDragDistance: 12,
@@ -49,7 +49,7 @@ function FBDInputUnforwarded(options, drawingRef) {
 
 	// When a selection ends, process the selected objects.
 	options.processSelection = (selectionRectangle, utilKeys) => {
-		setData(data => data.map(load => ({
+		setFI(FI => FI.map(load => ({
 			...load,
 			selected: doesLoadTouchRectangle(load, selectionRectangle) || (utilKeys.shift && load.selected),
 		})))
@@ -57,12 +57,12 @@ function FBDInputUnforwarded(options, drawingRef) {
 
 	// When a draw starts, deselect all. When a drag ends, add a load.
 	options.startDrag = () => {
-		setData(data => data.map(load => ({ ...load, selected: false })))
+		setFI(FI => FI.map(load => ({ ...load, selected: false })))
 	}
 	options.endDrag = (downState, upState) => {
 		const dragObject = getDragObject(downState, upState, options)
 		if (dragObject && Object.values(loadTypes).includes(dragObject.type))
-			setData(data => [...data, { ...dragObject, selected: true }])
+			setFI(FI => [...FI, { ...dragObject, selected: true }])
 	}
 
 	// Track the hover status.
@@ -80,7 +80,7 @@ function FBDInputUnforwarded(options, drawingRef) {
 	})
 	const {
 		readOnly, active, activateField,
-		data, setData,
+		FI, setFI,
 		mouseData, mouseDownData, selectionRectangle, cancelDrag,
 		feedback,
 	} = inputData
@@ -88,19 +88,19 @@ function FBDInputUnforwarded(options, drawingRef) {
 	// On becoming inactive, deselect all loads.
 	useEffect(() => {
 		if (!active)
-			setData(data => data.some(load => load.selected) ? data.map(load => load.selected ? { ...load, selected: false } : load) : data)
-	}, [active, setData])
+			setFI(FI => FI.some(load => load.selected) ? FI.map(load => load.selected ? { ...load, selected: false } : load) : FI)
+	}, [active, setFI])
 
 	// Handle deletions.
 	const deleteSelection = useCallback(() => {
-		setData(data => data.filter(load => !load.selected))
+		setFI(FI => FI.filter(load => !load.selected))
 		setHoverIndex(undefined) // Ensure we don't remember a hover over a deleted arrow.
-	}, [setData])
-	const hasSelectedLoad = data.some(load => load.selected)
+	}, [setFI])
+	const hasSelectedLoad = FI.some(load => load.selected)
 	options.onDelete = !readOnly && hasSelectedLoad ? deleteSelection : undefined
 
 	// Deal with key presses.
-	const keyDownHandler = useCallback((evt) => active && handleKeyPress(evt, setData, deleteSelection), [setData, active, deleteSelection])
+	const keyDownHandler = useCallback((evt) => active && handleKeyPress(evt, setFI, deleteSelection), [setFI, active, deleteSelection])
 	useEventListener('keydown', keyDownHandler)
 
 	// Deal with mouse enters/leaves.
@@ -112,16 +112,16 @@ function FBDInputUnforwarded(options, drawingRef) {
 			setHoverIndex(undefined) // Cancel any remaining hover (useful for touch devices).
 			cancelDrag() // Cancel a dragging effect, to prevent that a (tiny) rectangle will be processed resulting in a deselect.
 			activateField() // Activate the field if not already active.
-			setData(data => {
+			setFI(FI => {
 				// When the shift key is selected, or when no other loads are selected, flip the selection of the chosen load. Maintain object continuity wherever possible.
-				if (evt.shiftKey || !data.some((load, index) => (index !== hoverIndex && load.selected)))
-					return data.map((load, index) => index === hoverIndex ? { ...load, selected: !load.selected } : load)
+				if (evt.shiftKey || !FI.some((load, index) => (index !== hoverIndex && load.selected)))
+					return FI.map((load, index) => index === hoverIndex ? { ...load, selected: !load.selected } : load)
 
 				// In other cases, make sure that only the chosen load is selected.
-				return data.map((load, index) => (load.selected === (index === hoverIndex)) ? load : { ...load, selected: !load.selected })
+				return FI.map((load, index) => (load.selected === (index === hoverIndex)) ? load : { ...load, selected: !load.selected })
 			})
 		},
-	}, [readOnly, setData, activateField, cancelDrag])
+	}, [readOnly, setFI, activateField, cancelDrag])
 
 	// Sort out styles.
 	const classes = useStyles({ isSnapped: mouseData.isSnapped, readOnly })
@@ -129,7 +129,7 @@ function FBDInputUnforwarded(options, drawingRef) {
 
 	// Add all drawn loads.
 	const dragObject = getDragObject(mouseDownData, mouseData, options)
-	const styledLoads = useMemo(() => data.map((load, index) => styleLoad(index, { ...load, hovering: index === hoverIndex }, readOnly, mouseHandlers, selectionRectangle, feedback)), [data, hoverIndex, readOnly, mouseHandlers, selectionRectangle, feedback])
+	const styledLoads = useMemo(() => FI.map((load, index) => styleLoad(index, { ...load, hovering: index === hoverIndex }, readOnly, mouseHandlers, selectionRectangle, feedback)), [FI, hoverIndex, readOnly, mouseHandlers, selectionRectangle, feedback])
 	options.svgContents = <>
 		{options.svgContents}
 		{render(styledLoads)}
@@ -138,7 +138,7 @@ function FBDInputUnforwarded(options, drawingRef) {
 
 	// When load names need to be displayed, add these load names.
 	if (options.getLoadNames) {
-		const loads = dragObject && Object.values(loadTypes).includes(dragObject.type) ? [...data, dragObject] : data
+		const loads = dragObject && Object.values(loadTypes).includes(dragObject.type) ? [...FI, dragObject] : FI
 		const loadNames = options.getLoadNames(loads)
 		options.htmlContents = <>
 			{options.htmlContents}
@@ -223,7 +223,7 @@ function getHoverStatus(selected, hovering, inSelectionRectangle) {
 	return hovering || inSelectionRectangle ? 1 : 0
 }
 
-function handleKeyPress(evt, setData, deleteSelection) {
+function handleKeyPress(evt, setFI, deleteSelection) {
 	// On a delete remove all selected loads.
 	if (evt.key === 'Delete' || evt.key === 'Backspace') {
 		evt.preventDefault()
@@ -233,18 +233,18 @@ function handleKeyPress(evt, setData, deleteSelection) {
 	// On ctrl+a select all.
 	if (evt.key === 'a' && evt.ctrlKey) {
 		evt.preventDefault()
-		return setData(data => data.map(load => ({ ...load, selected: true })))
+		return setFI(FI => FI.map(load => ({ ...load, selected: true })))
 	}
 
 	// On an escape or ctrl+d deselect all.
 	if (evt.key === 'Escape' || (evt.key === 'd' && evt.ctrlKey)) {
 		evt.preventDefault()
-		return setData(data => data.map(load => ({ ...load, selected: false })))
+		return setFI(FI => FI.map(load => ({ ...load, selected: false })))
 	}
 
 	// On a flip, flip all selected arrows.
 	if (evt.key === 'f' || evt.key === 'r' || evt.key === 'd') {
-		return setData(data => data.map(load => load.selected ? flipLoad(load) : load))
+		return setFI(FI => FI.map(load => load.selected ? flipLoad(load) : load))
 	}
 }
 

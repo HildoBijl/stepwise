@@ -4,8 +4,8 @@ import { loadTypes } from 'step-wise/edu/exercises/util/engineeringMechanics'
 // These are functions transforming between object types.
 
 // clean will remove all selection data from the FBD input. It then turns the items into SOs.
-export function clean(data) {
-	return toSO(data.map(load => {
+export function clean(FI) {
+	return toSO(FI.map(load => {
 		load = { ...load }
 		delete load.selected
 		return load
@@ -13,8 +13,8 @@ export function clean(data) {
 }
 
 // functionalize will add selection data to the FBD Input.
-export function functionalize(data) {
-	return toFO(data).map(load => ({ ...load, selected: false }))
+export function functionalize(SI) {
+	return toFO(SI).map(load => ({ ...load, selected: false }))
 }
 
 // These are functions manipulating loads.

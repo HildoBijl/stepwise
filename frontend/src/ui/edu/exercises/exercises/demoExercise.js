@@ -102,9 +102,7 @@ function Elements({ theta, l1, l2, points, loads, getLoadNames }) {
 
 function Solution() {
 	const solution = useSolution()
-	console.log(solution)
 	const { l1, l2, theta, fixA, Px, Py, loadValues, directionIndices } = useSolution()
-	console.log(directionIndices)
 	return <>
 		<Par>
 			Als eerste tekenen we het vrijlichaamsschema. Aan de linkerkant zit een {fixA ? 'vast' : 'rollend'} scharnier. Deze kan {fixA ? 'horizontale en verticale' : 'alleen verticale'} reactiekrachten geven. Aan de rechterkant zit een {fixA ? 'rollend' : 'vast'} scharnier. Deze kan {fixA ? 'alleen verticale' : 'horizontale en verticale'} reactiekrachten geven. Samen met de externe belasting geeft dat het volgende vrijlichaamsschema. De richtingen zijn zo gekozen dat de krachten positief worden. Ze mogen ook de andere kant op getekend worden, maar dan worden de berekende krachten negatief.
@@ -134,20 +132,20 @@ function Solution() {
 }
 
 function getFeedback(exerciseData) {
-	return {}
-	// ToDo: figure out how to get the solution into the getFeedback function. Because the feedbackProvider does not know what a solution is. So how do we get it there?
+	console.log(exerciseData)
+	// ToDo: Adjust solution function to directions. Then adjust written solution too using directionIndices.
 
-	// const { input, solution, shared } = exerciseData
-	// const { loads, points, loadValues } = solution
+	const { input, solution, shared } = exerciseData
+	const { loads, points, loadValues } = solution
 
-	// // On an incorrect FBD only give feedback on the FBD.
-	// const loadsFeedback = getFBDFeedback(input.loads, loads, shared.data.comparison.loads, points)
-	// if (!performLoadsComparison('loads', input, solution, shared.data.comparison))
-	// 	return { loads: loadsFeedback }
+	// On an incorrect FBD only give feedback on the FBD.
+	const loadsFeedback = getFBDFeedback(input.loads, loads, shared.data.comparison.loads, points)
+	if (!performLoadsComparison('loads', input, solution, shared.data.comparison))
+		return { loads: loadsFeedback }
 
-	// // Give full feedback.
-	// return {
-	// 	loads: loadsFeedback,
-	// 	...getInputFieldFeedback(Object.keys(loadValues), exerciseData)
-	// }
+	// Give full feedback.
+	return {
+		loads: loadsFeedback,
+		...getInputFieldFeedback(Object.keys(loadValues), exerciseData)
+	}
 }
