@@ -2,8 +2,6 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { selectRandomNegative } from 'util/feedbackMessages'
-
 import FieldInput, { CharString } from '../support/FieldInput'
 
 import { emptySI, isEmpty, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd, clean, functionalize, mouseClickToCursor, FIToKeyboardSettings, keyPressToFI, errorToMessage } from './support'

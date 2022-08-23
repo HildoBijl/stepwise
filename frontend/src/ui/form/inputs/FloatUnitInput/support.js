@@ -1,7 +1,3 @@
-import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import clsx from 'clsx'
-
 import { isNumber } from 'step-wise/util/numbers'
 import { isLetter } from 'step-wise/util/strings'
 
@@ -10,9 +6,9 @@ import { prefixes } from 'step-wise/inputTypes/Unit/prefixes'
 
 import { getClickSide } from 'util/dom'
 
-import FieldInput, { checkCursor } from './support/FieldInput'
-import { style as floatStyle, Float, FIToKeyboardSettings as floatFIToKeyboardSettings, keyPressToFI as floatKeyPressToFI, mouseClickToCursor as floatMouseClickToCursor, emptyFloat, isEmpty as isFloatEmpty, getStartCursor as getFloatStartCursor, getEndCursor as getFloatEndCursor, isCursorAtStart as isCursorAtFloatStart, isCursorAtEnd as isCursorAtFloatEnd, isValid as isFloatValid, clean as cleanFloat, functionalize as functionalizeFloat, errorToMessage as floatErrorToMessage } from './FloatInput'
-import { style as unitStyle, nonEmpty, Unit, FIToKeyboardSettings as unitFIToKeyboardSettings, keyPressToFI as unitKeyPressToFI, mouseClickToCursor as unitMouseClickToCursor, emptyUnit, isEmpty as isUnitEmpty, getStartCursor as getUnitStartCursor, getEndCursor as getUnitEndCursor, isCursorAtStart as isCursorAtUnitStart, isCursorAtEnd as isCursorAtUnitEnd, isValid as isUnitValid, clean as cleanUnit, functionalize as functionalizeUnit, errorToMessage as unitErrorToMessage } from './UnitInput'
+import { checkCursor } from '../support/FieldInput'
+import { FIToKeyboardSettings as floatFIToKeyboardSettings, keyPressToFI as floatKeyPressToFI, mouseClickToCursor as floatMouseClickToCursor, emptyFloat, isEmpty as isFloatEmpty, getStartCursor as getFloatStartCursor, getEndCursor as getFloatEndCursor, isCursorAtStart as isCursorAtFloatStart, isCursorAtEnd as isCursorAtFloatEnd, isValid as isFloatValid, clean as cleanFloat, functionalize as functionalizeFloat, errorToMessage as floatErrorToMessage } from '../FloatInput'
+import { FIToKeyboardSettings as unitFIToKeyboardSettings, keyPressToFI as unitKeyPressToFI, mouseClickToCursor as unitMouseClickToCursor, emptyUnit, isEmpty as isUnitEmpty, getStartCursor as getUnitStartCursor, getEndCursor as getUnitEndCursor, isCursorAtStart as isCursorAtUnitStart, isCursorAtEnd as isCursorAtUnitEnd, isValid as isUnitValid, clean as cleanUnit, functionalize as functionalizeUnit, errorToMessage as unitErrorToMessage } from '../UnitInput'
 
 // Define various trivial objects and functions.
 export const emptyFloatUnit = {}
@@ -39,98 +35,6 @@ export const clean = ({ float, unit }) => {
 	return result
 }
 export const functionalize = ({ float, unit }) => ({ float: functionalizeFloat(float || emptyFloat), unit: functionalizeUnit(unit || emptyUnit) })
-
-const defaultProps = {
-	basic: true, // To get the basic character layout.
-	placeholder: 'Getal met eenheid',
-	validate: nonEmptyUnit,
-	initialSI: emptySI,
-	isEmpty: FI => isEmpty(FI.value),
-	JSXObject: FloatUnit,
-	keyboardSettings: FIToKeyboardSettings,
-	keyPressToFI: keyPressToFI,
-	mouseClickToCursor,
-	getStartCursor,
-	getEndCursor,
-	isCursorAtStart,
-	isCursorAtEnd,
-	clean,
-	functionalize,
-	errorToMessage,
-}
-
-const style = (theme) => ({
-	'& .float': {
-		...floatStyle(theme),
-	},
-	'& .spacer.unitSpacer': {
-		width: '0.3em',
-	},
-	'& .unit': {
-		...unitStyle(theme),
-	},
-})
-const useStyles = makeStyles((theme) => ({
-	floatUnitInput: style(theme)
-}))
-export { style }
-
-export default function FloatUnitInput(props) {
-	// Gather all relevant data.
-	const classes = useStyles()
-	const positive = props.positive !== undefined ? props.positive : defaultProps.positive
-	const allowPower = props.allowPower !== undefined ? props.allowPower : defaultProps.allowPower
-	const mergedProps = {
-		...defaultProps,
-		keyPressToFI: (keyInfo, FI, contentsElement) => keyPressToFI(keyInfo, FI, contentsElement, positive, allowPower),
-		keyboardSettings: (FI) => FIToKeyboardSettings(FI, positive, allowPower),
-		...props,
-		className: clsx(props.className, classes.floatUnitInput, 'floatUnitInput'),
-	}
-
-	return <FieldInput {...mergedProps} />
-}
-
-// These are validation functions.
-export function any() { }
-export function nonEmptyUnit(floatUnit) {
-	return nonEmpty(floatUnit.unit)
-}
-
-// FloatUnit takes an FI object and shows the corresponding contents as JSX render.
-export function FloatUnit(FI) {
-	const { type, value, cursor } = FI
-	const { float } = value
-
-	// Check input.
-	if (type !== 'FloatUnit')
-		throw new Error(`Invalid type: tried to get the contents of a FloatUnit field but got an FI with type "${type}".`)
-
-	// Check if anything should be shown.
-	if (isEmpty(value) && !cursor)
-		return null
-
-	// Show the FloatUnit.
-	const showFloatFiller = isFloatEmpty(float) && (!cursor || cursor.part !== 'float')
-	return <>
-		<span className="float">
-			{
-				showFloatFiller ?
-					<span className="char filler">?</span> :
-					<Float {...getFloatFI(FI)} />
-			}
-		</span>
-		{
-			isUnitVisible(value, cursor) ? (
-				<>
-					<span className="spacer unitSpacer" />
-					<span className="unit">
-						<Unit {...getUnitFI(FI)} />
-					</span>
-				</>
-			) : null}
-	</>
-}
 
 // FIToKeyboardSettings takes an FI object and determines what keyboard settings are appropriate.
 export function FIToKeyboardSettings(FI, positive = false, allowPower = true) {
