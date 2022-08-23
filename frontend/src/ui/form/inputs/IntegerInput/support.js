@@ -90,6 +90,6 @@ export function errorToMessage(error) {
 	switch (error.code) {
 		case 'Empty': return selectRandomEmpty()
 		case 'MinusSign': return 'Alleen een min-teken is geen getal.'
-		default: throw error //new Error(`Invalid error code: cannot determine what went wrong with the interpretation. The error code "${error.code}" is not known.`)
+		default: return
 	}
 }

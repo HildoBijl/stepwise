@@ -249,6 +249,6 @@ function mergeNumeratorAndDenominator(value, putCursorOnTheRight = true) {
 export function errorToMessage(error) {
 	switch (error.code) {
 		case 'InvalidUnit': return selectRandomInvalidUnit()
-		default: throw new Error(`Invalid error code: cannot determine what went wrong with the interpretation. The error code "${error.code}" is not known.`)
+		default: return
 	}
 }
