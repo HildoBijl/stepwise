@@ -51,22 +51,22 @@ class Float {
 			input = numberToSO(input)
 
 		// Include default values.
-		input = processOptions(input, defaultParameters)
+		const { number, significantDigits, power } = processOptions(input, defaultParameters)
 
 		// Process the number.
-		if (!isNumber(input.number))
+		if (!isNumber(number))
 			throw new Error(`Invalid input: a Float number should as parameter receive an object with a numeric number parameter. Instead it received "${JSON.stringify(input)}".`)
-		this._number = parseFloat(input.number)
+		this._number = parseFloat(number)
 
 		// Process the significant digits.
-		if (!isInt(input.significantDigits) || input.significantDigits < 0)
+		if (!isInt(significantDigits) || significantDigits < 0)
 			throw new Error(`Invalid input: a Float number should as parameter receive an object with a non-negative integer as significantDigits parameter. Instead it received "${JSON.stringify(input)}".`)
-		this._significantDigits = input.significantDigits
+		this._significantDigits = significantDigits
 
 		// Process the power.
-		if (input.power !== undefined && !isInt(input.power))
+		if (power !== undefined && !isInt(power))
 			throw new Error(`Invalid input: a Float number should as parameter receive an object with an integer as power parameter. Instead it received "${JSON.stringify(input)}".`)
-		this._power = typeof input.power === 'string' ? parseInt(input.power) : input.power
+		this._power = typeof power === 'string' ? parseInt(power) : power
 	}
 
 	// SO returns a storage object representation of this float number that can be interpreted again.
@@ -661,6 +661,10 @@ module.exports.SOtoFO = SO => {
 	// Input object legacy: if the number is a string, the SO actually an SI. This is the old way of storing floats from the state.
 	if (typeof SO.number === 'string')
 		return module.exports.SItoFO(SO)
+
+	// Input object legacy: if the power is an empty string, turn it into undefined.
+	if (SO.power === '')
+		SO = { ...SO, power: undefined }
 
 	// The regular way of getting the FO.
 	return new Float(SO)
