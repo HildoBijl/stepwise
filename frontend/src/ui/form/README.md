@@ -3,35 +3,35 @@
 Many exercise types automatically wrap everything in a `Form` component. This component offers a lot of useful benefits. Most importantly, any `Input` field inside the `Form` uses the `Form` functionalities (like the React Context) to store its values. See the [input fields](inputs/) for more information on those. However, you can also use those functionalities manually!
 
 
-## Accessing a single field
+## Accessing existing input field values live
 
-Most often, you will only want to access the value of a single input field. Suppose that you want to both read and write some value, as if you have created your own input field. In this case, first import `useFormParameter` into your exercise using `import { useFormParameter } from '../../form/Form'`. Then use this function in your React object using `const [value, setValue] = useFormParameter({ id: 'someFieldId' })`. This allows you to set the value in the input object.
+Suppose you have a `Form` with various input fields inside. How can you use existing input field values live in React components? To do so, use one of the following hooks. (All hooks are imported from `ui/form/Form`.)
 
-If you only want to read (and not write) the value of an already existing input field, then it's better to import `useInput` instead. You use it through `const someParameter = useInput('someFieldId')`. An added benefit is that this will turn the parameter from a plain-text parameter (like "314.159 * 10^(-2)") to one with improved functionality. (It is transformed from an input object to a functional object.)
+- `useInput`: use as `const someValue = useInput('someId')`, or `const [value1, value2] = useInput(['id1', 'id2'])`. So either provide a single ID or an array of IDs. The resulting values are fully functional (FO type).
+- `useInputObject`: use as `const { id1, id2 } = useInputObject(['id1','id2'])`. So this is the same as the above, except that an object is returned containing the requested input values.
 
-Using these tricks, you should be able to make any exercise you like. If you want to create your own input fields, then things get more complicated. Then you may need to import the full `Form` Context.
+
+## Form data formats
+
+When accessing further form data you must know about the various data format used in Step-Wise.
+- When values are entered into the form, the field parameters are in `Functional Input (FI)` form. The FI parameters have data like cursors, selections and such in it. An example is `{ type: 'Float', value: { number: '3', power: 2' }, cursor: { ... } }`.
+- When the values are submitted to the server and stored in the database, then the FI-parameters are cleaned. What results is a `Stored Input (SI)` parameter. This is a basic object containing all relevant data on the input, but nothing about cursors, selections, etcetera. It is also not functional in any way. An example is `{ type: 'Float', value: { number: '3', power: 2' }, cursor: { ... } }`.
+- When the values are interpreted, we get `Functional Object (FO)` parameters. These are objects that have lots of methods that are useful to interact with them. For instance, a `Float` field may return something like `new Float(3, 2)`. 
 
 
-## Accessing the Form Context
+## Accessing further Form possibilities
 
-If you are writing an exercise and want to access the `Form` Context, do the following.
+The `Form` has a ton of other possibilities. To use them, you have to access the form context through `const formData, = useFormData()` as hook. The `formData` parameter has access to a ton of data and functionalities. It has the following parameters that are useful (and a few more).
 
-- Add `import { useFormData } from '../../form/Form'` on top of your file.
-- Add `const { input, validation, ... } = useFormData()` within your React component, where you replace the accessed data by whatever you need to access.
+- `getInputFO()`: returns an object with all input field values in FO format.
+- `getInputParameterFO(id)`: returns the FO value for the given field ID.
+- `getInputSI()`: returns an object with all input field values in SI format.
+- `getInputParameterSI(id)`: returns the SI value for the given field ID.
+- `getInputFI()`: returns an object with all input field values in FI format.
+- `getInputParameterFI(id)`: returns the FI value for the given field ID.
 
-That's all! The `Form` Context does contain a large amount of data. First of all, there are the following parameters related to *input*.
+- `isValid(check = true)`: when called, it checks whether all fields have a valid input. This also calls any validation functions that may have been specified. The result is cached: if `check` is set to false the last cached result is used and no check is run.
+- `validation`: an object of the form `{ result: { [id1]: 'Field is empty!' }, input: { [id1]: { someSIValue }, [id2]: { someSIValue }}}`. This can be used to get the validation error messages. This value is also cached and is refreshed on an `isValid` call.
 
-- `input`: all the input data of all fields put together into one object. It could look like `{x: { type: 'Integer', value: '-42' }, y: { ... } }`.
-- `setParameter(name, value)`: will store the value in the given input parameter. So you can use `setParameter('x', { type: 'Integer', value: '-42' })`.
-- `deleteParameter(name)`: will delete an input parameter. So you may use `deleteParameter('x')`.
-- `setParameters(newInput, override = false)`: will set the `newInput` object as the new input. It will merge with the old object, unless override is set to true, in which case the old input will be thrown out entirely.
-- `clearForm()`: deletes all input and sets the `input` object back to `{}`.
-
-In addition, the `Form` is also responsible for validation. Validation is the quick check which a form does before submitting, to find obvious errors which the student may have made. Think of a student who left a field blank or forgot a unit. The following parameters can be accessed related to *validation*.
-
-- `validation`: an object with validation data. It could be an object like `{ x: "This number must be positive!", y: undefined }`. In this example `y` has a falsy validation and is hence valid, while `x` has a message as validation and is hence invalid.
-- `validationInput`: the input for which the validation was last executed.
-- `isValid`: the function that validates the input. Returns `true` or `false`. It also updates the `validation` object and sets the `validationInput` to the current input.
-- `saveValidationFunction(name, validate)`: remembers a validation function to call whenever a validation is executed. If `validate` is not given, the validation function with said name is actually removed. Note that this validation function will be given the full `input` object upon being called.
-
-However, if you are going to create your own input fields, it's best to examine currently existing input fields to see how they have been made. That will get you started faster. Be prepared: creating your own input fields can be a hassle. You might want to start with either the `MultipleChoice` or the `IntegerInput` field.
+- `getFields()`: returns a list of all the field IDs that are known in the form.
+- `getSubscribedFields()`: returns a list of all the subscribed field IDs that are in the form. So if an input field is not rendered anymore, but its value was persistent, it will still appear in the `getFields` list but not in the `getSubscribedFields` list.

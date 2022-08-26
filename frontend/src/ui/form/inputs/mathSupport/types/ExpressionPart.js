@@ -10,6 +10,7 @@ import { getClickSide } from 'util/dom'
 import { latexMinus } from 'ui/components/equations'
 
 import { emptyElementChar, emptyElementCharLatex, isCharElementEmpty, getCursorPropertiesFromElements, getClosestElement } from '../MathWithCursor'
+
 import Expression from './Expression'
 import { getDeepestExpression } from './support/ExpressionSupport'
 import { isCursorKey } from './support/acceptsKey'

@@ -1,6 +1,6 @@
 import { firstOf } from 'step-wise/util/arrays'
 
-import { removeCursor } from '../../FieldInput'
+import { removeCursor } from '../../../support/FieldInput'
 import { zoomIn, getFIStartCursor } from '../'
 
 // splitToLeft takes an element data object and splits it at the cursor position. It returns an expression representing the resulting split.

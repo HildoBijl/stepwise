@@ -1,13 +1,15 @@
 import { arraySplice } from 'step-wise/util/arrays'
 import { support } from 'step-wise/CAS'
 
-import defaultFunctions from './templates/with2In0AfterVertical'
 
-import { removeCursor } from '../../FieldInput'
+import { removeCursor } from '../../../support/FieldInput'
+
 import { getFuncs, getFIStartCursor, getFIEndCursor, isFIEmpty } from '../'
 import { mergeWithRight } from '../support/merging'
 import { splitToRight } from '../support/splitting'
 import Expression from '../Expression'
+
+import defaultFunctions from './templates/with2In0AfterVertical'
 import SubscriptText from './SubscriptText'
 
 const { getSubExpression } = support

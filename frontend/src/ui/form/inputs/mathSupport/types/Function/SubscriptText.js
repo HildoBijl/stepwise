@@ -6,6 +6,7 @@ import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 import { latexMinus } from 'ui/components/equations'
 
 import { emptyElementChar, emptyElementCharLatex } from '../../MathWithCursor'
+
 import ExpressionPart, { addStrToFI } from '../ExpressionPart'
 import { isCursorKey } from '../support/acceptsKey'
 

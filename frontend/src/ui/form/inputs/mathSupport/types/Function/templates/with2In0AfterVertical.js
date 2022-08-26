@@ -2,7 +2,7 @@
 
 import { support } from 'step-wise/CAS'
 
-import { charElementsToBounds, getClosestElement } from '../../../MathWithCursor'
+import { charElementsToBounds, getClosestElement } from '../../../../mathSupport/MathWithCursor'
 
 import { zoomIn, getFuncs, getFIStartCursor, getFIEndCursor, isCursorAtFIStart, isCursorAtFIEnd, isFIEmpty } from '../..'
 import { mergeWithLeft, mergeWithRight } from '../../support/merging'

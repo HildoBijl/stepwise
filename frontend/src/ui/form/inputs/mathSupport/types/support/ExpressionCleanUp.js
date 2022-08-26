@@ -1,8 +1,8 @@
 import { lastOf } from 'step-wise/util/arrays'
 import { support, functions as CASfunctions } from 'step-wise/CAS'
 
-import { removeCursor } from '../../FieldInput'
-import { getFuncs, zoomIn, zoomInAt } from '../index.js'
+import { removeCursor } from '../../../support/FieldInput'
+import { getFuncs, zoomIn, zoomInAt } from '..'
 import { getStartCursor } from '../Expression'
 import ExpressionPart from '../ExpressionPart'
 import { functions } from '../Function'

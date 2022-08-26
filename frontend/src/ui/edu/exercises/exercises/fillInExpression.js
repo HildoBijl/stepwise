@@ -14,7 +14,7 @@ import { InputSpace } from 'ui/form/FormPart'
 // import { useExerciseData, useSolution } from '../ExerciseContainer'
 import { useFormData } from 'ui/form/Form'
 import { removeCursor } from 'ui/form/inputs/support/FieldInput'
-import { cleanUp } from 'ui/form/inputs/support/expressionTypes/Expression'
+import { cleanUp } from 'ui/form/inputs/mathSupport/types/Expression'
 
 import SimpleExercise from '../types/SimpleExercise'
 

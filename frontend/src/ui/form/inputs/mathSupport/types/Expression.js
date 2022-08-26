@@ -2,14 +2,14 @@ import { insertAtIndex } from 'step-wise/util/strings'
 import { firstOf, lastOf, sum } from 'step-wise/util/arrays'
 import { support } from 'step-wise/CAS'
 
-import { addCursor, removeCursor } from '../FieldInput'
+import { addCursor, removeCursor } from '../../support/FieldInput'
 import { getClosestElement } from '../MathWithCursor'
-import { getFuncs, zoomIn, getFIStartCursor, getFIEndCursor, isCursorAtFIStart, isCursorAtFIEnd, FIAcceptsKey } from './index.js'
-import ExpressionPart from './ExpressionPart'
 
 import cleanUp from './support/ExpressionCleanUp'
 import { getKeyPressHandlers } from './support/ExpressionSupport'
 import { isCursorKey } from './support/acceptsKey'
+import { getFuncs, zoomIn, getFIStartCursor, getFIEndCursor, isCursorAtFIStart, isCursorAtFIEnd, FIAcceptsKey } from './index.js'
+import ExpressionPart from './ExpressionPart'
 
 const { isEmpty, getEmpty, getStartCursor, getEndCursor } = support
 

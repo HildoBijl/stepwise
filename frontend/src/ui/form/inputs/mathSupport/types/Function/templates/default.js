@@ -3,7 +3,8 @@
 import { firstOf } from 'step-wise/util/arrays'
 import { support } from 'step-wise/CAS'
 
-import { removeCursor } from '../../../FieldInput'
+import { removeCursor } from '../../../../support/FieldInput'
+
 import { getClosestElement } from '../../../MathWithCursor'
 
 import { getFuncs, zoomIn, zoomInAt, getFIStartCursor, getFIEndCursor, isCursorAtFIStart, isCursorAtFIEnd, isFIEmpty, FIAcceptsKey } from '../../'

@@ -8,7 +8,7 @@ import { RBM, zeroWidthSpaceRegExp } from 'ui/components/equations'
 
 import { useAbsoluteCursorRef } from '../../Form'
 
-import { getFuncs } from './expressionTypes'
+import { getFuncs } from './types'
 
 // We use this character to put in empty elements, instead of leaving them empty. By having this char, we can find the respective element afterwards.
 const emptyElementChar = '‘'

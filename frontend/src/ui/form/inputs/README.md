@@ -5,7 +5,7 @@ There is a variety of input fields that you can use at problems. Each of them gi
 
 ## General usage
 
-In general, if you want to use an input field named `SomeInput`, then you first have to import it. Do this using `import SomeInput from '../../form/inputs/SomeInput'`. Then you can apply it using `<SomeInput id="x" />`. The `id` parameter is obligatory and it needs to be unique within your problem. The corresponding value is automatically passed along to the input object.
+In general, if you want to use an input field named `SomeInput`, then you first have to import it. Do this using `import SomeInput from 'ui/form/inputs/SomeInput'`. Then you can apply it using `<SomeInput id="x" />`. The `id` parameter is obligatory and it needs to be unique within your problem. The corresponding value is automatically passed along to the input object.
 
 Fields have several options that you can add (next to `id`). We will list the general options applicable to all fields here. Some fields have more options.
 
@@ -14,7 +14,7 @@ Fields have several options that you can add (next to `id`). We will list the ge
 - `prelabel`: The text that is shown to the left of the input field.
 - `feedbackText`: If present, this is shown underneath the input field. Usually this is not set directly but follows from a feedback function of the exercise.
 - `size`: Can be `s`, `m` or `l`. The result depends on the size of the screen: smartphones work differenly than desktop screens.
-- `validate`: A validation function, which needs to be imported from the same file as the input field. Check the input fields to see their validation functions. Each field has its own default, but an empty (noop) function `() => {}` can be passed to cancel this.
+- `validate`: A validation function, which needs to be imported from the same file as the input field. Check the input fields to see their validation functions. Each field has its own default, which is often the noop function `() => {}` that returns undefined, meaning no validation is done apart from checking if the input can be interpreted at all.
 - `readOnly`: The field cannot be changed.
 - `autoFocus`: When set to true, the field is automatically activated on loading. This is not often used, since most exercises already automatically focus on the first field upon loading, so input fields do not need to activate itself.
 
@@ -170,9 +170,43 @@ The options are identical to the Float field.
 - `nonEmptyUnit`: Checks whether a proper number and non-empty valid unit have been entered.
 
 
+### ExpressionInput
+
+#### Return type
+
+The return type is an `Expression` object from the Step-Wise CAS. See the [CAS documentation](../../../../../shared/CAS/) in the `shared` directory for further details.
+
+#### Options
+
+The options are the following.
+
+- `settings`: What is allowed to be inserted into the field? See the [settings](./ExpressionInput/settings.js) file for details.
+
+#### Validation functions
+
+- `any`: Only checks if the Expression makes sense (can be interpreted).
+- `numeric`: Checks whether the Expression can reduce to a number, and hence has no variables.
+- `validWithVariables`: This is a validation-function-generating function. Give it a list of variables, like `validWithVariables(['x', 'y'])`, and it checks whether the given Expression only depends on the given variables (and on nothing else).
+
+
+### EquationInput
+
+The `EquationInput` field works mostly identically to the `ExpressionInput` field, but it gives an `Equation` object from the Step-Wise CAS. For the rest, it works identically.
+
+
 ## New fields
 
-When you want to create extra input fields, there are a LOT of things you need to define. This includes:
+When you want to create your own input fields, there are various options.
+
+### General input fields
+
+All the input fields use the `useAsInput` hook, defined in [Input.js](./support/Input.js). This hook receives a ton of information about the input field, and subsequently makes sure the input field is correctly registered in the `Form`, in the `FieldController` and for the `feedback` system. See the respective file to see what kind of options can be included.
+
+Want an example of how the `useAsInput` hook works? Check out the [MultipleChoice](./MultipleChoice/rendering.js) input field.
+
+### FieldInput
+
+The `FieldInput` component is used by all inputs that have a text field. It sets up the text field, adds cursor control, arranges a keyboard, and so forth. To allow the `FieldInput` component to do this, it needs a large amount of data.
 
 - `placeholder`: What is the default placeholder?
 - `validate`: What is the default validation function?
@@ -187,4 +221,4 @@ When you want to create extra input fields, there are a LOT of things you need t
 - `isCursorAtStart`: Gets `(value, cursor)` and checks whether the cursor is at the start. Returns a boolean.
 - `isCursorAtEnd`: Gets `(value, cursor)` and checks whether the cursor is at the end. Returns a boolean.
 
-If all these things are defined, then you basically have your input element ready. Although some CSS styling might also be wise. Just copy another input field to see how things are done there and adjust accordingly.
+If all these things are defined, then you basically have your input element ready. Although some CSS styling might also be wise. Just copy another input field to see how things are done there and adjust accordingly. The [IntegerInput](./IntegerInput/rendering.js) is a good place to start, as it is one of the more basic types.

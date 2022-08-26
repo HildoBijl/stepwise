@@ -1,6 +1,6 @@
-import defaultFunctions from './templates/with2In0AfterVertical'
-
 import { zoomIn, getFuncs, getFIStartCursor, isCursorAtFIStart, isCursorAtFIEnd } from '../'
+
+import defaultFunctions from './templates/with2In0AfterVertical'
 
 const fullExport = {
 	...defaultFunctions,

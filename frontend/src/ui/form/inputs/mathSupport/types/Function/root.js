@@ -1,7 +1,6 @@
-import { getFuncs } from '../'
+import { getFuncs, isFIEmpty } from '../'
 
 import defaultFunctions from './templates/with2In0After'
-import { isFIEmpty } from '../index'
 
 const fullExport = {
 	...defaultFunctions,
