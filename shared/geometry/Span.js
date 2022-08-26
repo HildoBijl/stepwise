@@ -109,7 +109,7 @@ class Span {
 		})
 	}
 
-	// add and subtract will add/subtract a vector to the start and end vectors of the Span, effectively shifting the positioned vector.
+	// add and subtract will add/subtract a vector to the start and end vectors of the Span, effectively shifting the span.
 	add(vector) {
 		return new Span({ start: this.start.add(vector), end: this.end.add(vector) })
 	}
@@ -130,7 +130,7 @@ class Span {
 		return false
 	}
 
-	// alongEqualLine checks if the two Positioned Vectors are along the same line. (Special case: two zero positioned vectors are always along the same line.)
+	// alongEqualLine checks if the two Spans are along the same line. (Special case: two zero Spans are always along the same line.)
 	alongEqualLine(span, requireSameDirection, requireMatchingPoint = false) {
 		span = ensureSpan(span)
 
@@ -147,7 +147,7 @@ class Span {
 		return this.isAlongLine(span.line, requireSameDirection)
 	}
 
-	// isAlongLine checks if this positioned vector is along the given Line.
+	// isAlongLine checks if this Span is along the given Line.
 	isAlongLine(line, requireSameDirection = false) {
 		line = ensureLine(line)
 
@@ -165,7 +165,7 @@ class Span {
 		return pointNames.some(pointName => this[pointName].equals(point))
 	}
 
-	// hasMatchingPoint checks if the two positioned vectors have a point (start or end) in common, checking all four combinations.
+	// hasMatchingPoint checks if the two Spans have a point (start or end) in common, checking all four combinations.
 	hasMatchingPoint(span) {
 		span = ensureSpan(span, this.dimension)
 		return pointNames.some(pointName => this.hasPoint(span[pointName]))

@@ -17,7 +17,7 @@ class Rectangle {
 		if (rectangle instanceof Rectangle)
 			return rectangle
 
-		// Turn the data into a Positioned Vector.
+		// Turn the data into a Span.
 		this.span = ensureSpan(rectangle)
 	}
 
@@ -185,7 +185,7 @@ class Rectangle {
 
 	// touchesSpan checks if a part of the span falls within or touches this rectangle.
 	touchesSpan(span, contains = false) {
-		// Examine the line through the positioned vector. If it doesn't go through the rectangle, return false.
+		// Examine the line through the span. If it doesn't go through the rectangle, return false.
 		const linePartFactors = this.getLinePartFactors(span.line)
 		if (!linePartFactors)
 			return false
