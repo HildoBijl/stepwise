@@ -60,25 +60,22 @@ function areLoadsEqual(input, solution, comparison = {}) {
 	// Check all relevant load types.
 	switch (type) {
 		case loadTypes.force:
-			const solutionPV = solution.span
-			const inputPV = input.span
-
 			// Check the magnitude.
-			if (comparison.requireSameMagnitude && !solutionPV.vector.isEqualMagnitude(inputPV.vector))
+			if (comparison.requireSameMagnitude && !solution.span.vector.isEqualMagnitude(input.span.vector))
 				return false
 
 			// Check zero vectors.
-			if (comparison.requireNonZero && (solutionPV.vector.isZero() || inputPV.vector.isZero()))
+			if (comparison.requireNonZero && (solution.span.vector.isZero() || input.span.vector.isZero()))
 				return false
 
 			// Check line and direction.
-			if (!solutionPV.alongEqualLine(inputPV, comparison.requireSameDirection))
+			if (!solution.span.alongEqualLine(input.span, comparison.requireSameDirection))
 				return false
 
 			// Check matching points.
-			if (comparison.requireMatchingPoints === 1 && !solutionPV.hasMatchingPoint(inputPV))
+			if (comparison.requireMatchingPoints === 1 && !solution.span.hasMatchingPoint(input.span))
 				return false
-			if (comparison.requireMatchingPoints === 2 && !solutionPV.equals(inputPV) && !solutionPV.reverse().equals(inputPV))
+			if (comparison.requireMatchingPoints === 2 && !solution.span.equals(input.span) && !solution.span.reverse().equals(input.span))
 				return false
 
 			// All in order.
@@ -109,6 +106,25 @@ function areLoadsEqual(input, solution, comparison = {}) {
 	}
 }
 module.exports.areLoadsEqual = areLoadsEqual
+
+// areLoadsEqualDirection checks for two loads of EQUAL TYPE whether they have the same direction. If the loads are not of equal type, an error is thrown.
+function areLoadsEqualDirection(input, solution) {
+	// Check the input.
+	if (input.type !== solution.type)
+		throw new Error(`Invalid load comparison: tried to check whether two loads have equal direction, but received types "${input.type}" and "${solution.type}". These types cannot be compared.`)
+
+	switch (input.type) {
+		case loadTypes.force:
+			return solution.span.vector.isEqualDirection(input.span.vector)
+
+		case loadTypes.moment:
+			return solution.clockwise !== input.clockwise
+
+		default:
+			throw new Error(`Unknown load type: could not compare loads of type "${input.type}" since this type is unknown.`)
+	}
+}
+module.exports.areLoadsEqualDirection = areLoadsEqualDirection
 
 function isLoadAtPoint(load, point) {
 	switch (load.type) {
@@ -169,6 +185,16 @@ function isMatchingComplete(matching) {
 	return matching.solution.every(matches => matches.length === 1) && matching.input.every(matches => matches.length === 1)
 }
 module.exports.isMatchingComplete = isMatchingComplete
+
+// getDirectionIndicators takes a set of vectors and a corresponding load matching (it must be complete; otherwise an error is thrown) and returns an array with indicators (true or false) whether the directions of the loads are the same.
+function getDirectionIndicators(solution, matching) {
+	return matching.solution.map((matchingLoads, index) => {
+		if (matchingLoads.length !== 1)
+			throw new Error(`Invalid direction indicators request: tried to get direction indicators for a load matching that is not complete. This request cannot be satisfied.`)
+		return areLoadsEqualDirection(matchingLoads[0], solution[index])
+	})
+}
+module.exports.getDirectionIndicators = getDirectionIndicators
 
 // performLoadsComparison is very similar to the performComparison function, but then for loads.
 function performLoadsComparison(parameters, input, solution, comparison) {

@@ -93,17 +93,23 @@ function applyToEachParameter(obj, func) {
 }
 module.exports.applyToEachParameter = applyToEachParameter
 
-// keysToObject takes an array of keys like ['num', 'den'] and applies a function for each of these keys. The result is stored in an object like { num: func('num'), den: func('den') }. If the result is undefined, it is not stored in the object.
+// keysToObject takes an array of keys like ['num', 'den'] and applies a function func(key, index) for each of these keys. The result is stored in an object like { num: func('num'), den: func('den') }. If the result is undefined, it is not stored in the object.
 function keysToObject(keys, func) {
 	const result = {}
-	keys.forEach(key => {
-		const funcResult = func(key)
+	keys.forEach((key, index) => {
+		const funcResult = func(key, index)
 		if (funcResult !== undefined)
 			result[key] = funcResult
 	})
 	return result
 }
 module.exports.keysToObject = keysToObject
+
+// arraysToObject takes two arrays of equal length, one with keys and the other with values, and turns it into a basic object.
+function arraysToObject(keys, values) {
+	return keysToObject(keys, (_, index) => values[index])
+}
+module.exports.arraysToObject = arraysToObject
 
 // processOptions is used to process an options object given to a function. It adds the given default options and checks if no non-existing options have been given. On a non-existing option it throws an error, unless filterStrangers is set to true, in which case these options are merely removed. The result is a copied object: original objects are not altered.
 function processOptions(givenOptions, defaultOptions, filterStrangers = false) {

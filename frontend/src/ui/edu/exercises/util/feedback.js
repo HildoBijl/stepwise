@@ -149,14 +149,14 @@ function getIndividualInputFieldFeedback(currParameter, currInput, currSolution,
 	throw new Error(`Default feedback error: could not set up specific feedback for parameter "${currParameter}". Its type does not support automatic feedback. You can use a comparison function for comparison, and then feedback checks for specific feedback.`)
 }
 
-/* getNumberComparisonFeedback takes two numbers: an input answer and a solution answer. It then compares these and returns a feedback object in the form { correct: true/false, text: 'Some feedback text' }. Various options can be provided within the third parameter:
+/*    takes two numbers: an input answer and a solution answer. It then compares these and returns a feedback object in the form { correct: true/false, text: 'Some feedback text' }. Various options can be provided within the third parameter:
  * - comparison: an object with options detailing how the comparison must be performed.
  * - text: an object with text for certain cases. It's the message if ...
  *   x correct: if it's correct.
  *   x marginWarning: if it's within margin (so correct) but is close to being wrong.
  *   x sign: if it's incorrect due to the sign of the answer.
  *   x near: if it's near the answer.
- *   x unit: if the unit is faulty. 
+ *   x unit: if the unit is faulty.
  *   x tooLarge: if it's too high.
  *   x tooSmall: if it's too low.
  *   x wrongValue: a placeholder for both tooHigh and tooLow.

@@ -48,7 +48,7 @@ function Problem() {
 	</>
 }
 
-function Diagram({ isInputField = false, showSolution = false }) {
+function Diagram({ isInputField = false, showSupports = true, showSolution = false }) {
 	const solution = useSolution()
 	const { theta, points, loads, getLoadNames } = solution
 
@@ -57,7 +57,7 @@ function Diagram({ isInputField = false, showSolution = false }) {
 
 	// Get all the required components.
 	const loadsToDisplay = isInputField ? [] : (showSolution ? loads : loads.filter(load => load.source === loadSources.external))
-	const schematics = <Schematics {...solution} showSupports={!isInputField} loads={loadsToDisplay} />
+	const schematics = <Schematics {...solution} showSupports={showSupports} loads={loadsToDisplay} />
 	const elements = <Elements {...solution} loads={loadsToDisplay} />
 
 	// Set up either a diagram or an input field with said diagram.
@@ -101,13 +101,12 @@ function Elements({ theta, l1, l2, points, loads, getLoadNames }) {
 }
 
 function Solution() {
-	const solution = useSolution()
-	const { l1, l2, theta, fixA, Px, Py, loadValues, directionIndices } = useSolution()
+	const { l1, l2, theta, fixA, Px, Py, loadValues, directionIndices, hasAdjustedSolution } = useSolution()
 	return <>
 		<Par>
-			Als eerste tekenen we het vrijlichaamsschema. Aan de linkerkant zit een {fixA ? 'vast' : 'rollend'} scharnier. Deze kan {fixA ? 'horizontale en verticale' : 'alleen verticale'} reactiekrachten geven. Aan de rechterkant zit een {fixA ? 'rollend' : 'vast'} scharnier. Deze kan {fixA ? 'alleen verticale' : 'horizontale en verticale'} reactiekrachten geven. Samen met de externe belasting geeft dat het volgende vrijlichaamsschema. De richtingen zijn zo gekozen dat de krachten positief worden. Ze mogen ook de andere kant op getekend worden, maar dan worden de berekende krachten negatief.
+			Als eerste tekenen we het vrijlichaamsschema. Aan de linkerkant zit een {fixA ? 'vast' : 'rollend'} scharnier. Deze kan {fixA ? 'horizontale en verticale' : 'alleen verticale'} reactiekrachten geven. Aan de rechterkant zit een {fixA ? 'rollend' : 'vast'} scharnier. Deze kan {fixA ? 'alleen verticale' : 'horizontale en verticale'} reactiekrachten geven. Samen met de externe belasting geeft dat het volgende vrijlichaamsschema. {hasAdjustedSolution ? <>Merk op dat dit conform jouw getekende diagram is. De reactiekrachten mogen ook andersom, indien gewenst.</> : <>De richtingen zijn zo gekozen dat de krachten positief worden. Ze mogen ook de andere kant op getekend worden, maar dan worden de berekende krachten negatief.</>}
 		</Par>
-		<Diagram showSolution={true} />
+		<Diagram showSolution={true} showSupports={false} />
 		<Par>
 			Vervolgens berekenen we de onbekende reactiekrachten. We kunnen <M>P</M> ontbinden via
 			<BMList>
@@ -115,28 +114,25 @@ function Solution() {
 				<BMPart>P_y = P \cdot \sin\left({theta}^\circ\right) = {Py}.</BMPart>
 			</BMList>
 			Als we de som van de krachten in horizontale richting bekijken, dan krijgen we de vergelijking
-			<BM>\overset(+)(\rightarrow) \!\! \Sigma F_x = 0 \! : P_x - F_({fixA ? 'A' : 'C'}x) = 0.</BM>
+			<BM>\overset(+)(\rightarrow) \!\! \Sigma F_x = 0 \! : \,\,\, P_x {directionIndices[1] ? '-' : '+'} F_({fixA ? 'A' : 'C'}x) = 0.</BM>
 			De oplossing volgt als
-			<BM>F_({fixA ? 'A' : 'C'}x) = P_x = {Px}.</BM>
+			<BM>F_({fixA ? 'A' : 'C'}x) = {directionIndices[1] ? '' : '-'} P_x = {loadValues[1]}.</BM>
 			Via de som van de momenten kunnen we één van de verticale krachten vinden. Momenten om <M>A</M> geeft bijvoorbeeld
-			<BM>\circlearrowleft \!\! ^+ \Sigma M_A = 0 \! : -{l1} P_y + {l1 + l2} F_({fixA ? 'C' : 'Cy'}) = 0.</BM>
+			<BM>\circlearrowleft \!\! ^+ \Sigma M_A = 0 \! : \,\,\, -{l1} P_y {directionIndices[3] ? '+' : '-'} {l1 + l2} F_({fixA ? 'C' : 'Cy'}) = 0.</BM>
 			De oplossing hiervan volgt als
-			<BM>F_({fixA ? 'C' : 'Cy'}) = \frac({l1})({l1 + l2}) P_y = \frac({l1})({l1 + l2}) \cdot {Py.float} = {loadValues[fixA ? 'FC' : 'FCy']}.</BM>
+			<BM>F_({fixA ? 'C' : 'Cy'}) = {directionIndices[3] ? '' : '-'} \frac({l1})({l1 + l2}) P_y = {directionIndices[3] ? '' : '-'} \frac({l1})({l1 + l2}) \cdot {Py.float} = {loadValues[3]}.</BM>
 			Als we tenslotte de som van de krachten in verticale richting bekijken, dan krijgen we de vergelijking
-			<BM>(\scriptsize +) \!\! \uparrow \! \Sigma F_y = 0 \! : F_({fixA ? 'Ay' : 'A'}) + F_({fixA ? 'C' : 'Cy'}) - P_y = 0.</BM>
+			<BM>(\scriptsize +) \!\! \uparrow \! \Sigma F_y = 0 \! : \,\,\, {directionIndices[2] ? '' : '-'} F_({fixA ? 'Ay' : 'A'}) {directionIndices[3] ? '+' : '-'} F_({fixA ? 'C' : 'Cy'}) - P_y = 0.</BM>
 			Hieruit vinden we
-			<BM>F_({fixA ? 'Ay' : 'A'}) = P_y - F_({fixA ? 'C' : 'Cy'}) = {Py.float} - {loadValues[fixA ? 'FC' : 'FCy'].float} = {loadValues[fixA ? 'FAy' : 'FA']}.</BM>
+			<BM>F_({fixA ? 'Ay' : 'A'}) = {directionIndices[2] ? '' : '-'} P_y {directionIndices[2] === directionIndices[3] ? '-' : '+'} F_({fixA ? 'C' : 'Cy'}) = {directionIndices[2] ? '' : '-'} {Py.float} {directionIndices[2] === directionIndices[3] ? '-' : '+'} {loadValues[3].float.texWithBrackets} = {loadValues[2]}.</BM>
 			Hiermee zijn alle reactiekrachten berekend.
 		</Par>
 	</>
 }
 
 function getFeedback(exerciseData) {
-	console.log(exerciseData)
-	// ToDo: Adjust solution function to directions. Then adjust written solution too using directionIndices.
-
 	const { input, solution, shared } = exerciseData
-	const { loads, points, loadValues } = solution
+	const { loads, points, loadsToCheck } = solution
 
 	// On an incorrect FBD only give feedback on the FBD.
 	const loadsFeedback = getFBDFeedback(input.loads, loads, shared.data.comparison.loads, points)
@@ -146,6 +142,6 @@ function getFeedback(exerciseData) {
 	// Give full feedback.
 	return {
 		loads: loadsFeedback,
-		...getInputFieldFeedback(Object.keys(loadValues), exerciseData)
+		...getInputFieldFeedback(loadsToCheck, exerciseData)
 	}
 }
