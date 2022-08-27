@@ -36,7 +36,7 @@ function Problem() {
 
 function Diagram({ isInputField = false, showSolution = false }) {
 	const solution = useSolution()
-	const { points, loads, prenamedLoads } = solution
+	const { points, loads } = solution
 
 	// Define the transformation.
 	const transformationSettings = useScaleAndShiftTransformationSettings(points, { scale: 70, margin: [120, [40, 120]] })
@@ -48,7 +48,7 @@ function Diagram({ isInputField = false, showSolution = false }) {
 
 	// Set up either a diagram or an input field with said diagram.
 	return isInputField ?
-		<FBDInput id="loads" transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} snappers={Object.values(points)} validate={allConnectedToPoints(points)} maxWidth={bounds => bounds.width} points={points} prenamedLoads={prenamedLoads} loadComparison={FBDComparison} /> :
+		<FBDInput id="loads" transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} snappers={Object.values(points)} validate={allConnectedToPoints(points)} maxWidth={bounds => bounds.width} /> :
 		<EngineeringDiagram transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} maxWidth={bounds => bounds.width} />
 }
 
