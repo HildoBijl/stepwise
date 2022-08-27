@@ -12,15 +12,7 @@ export { accents }
 
 // getFuncs takes an FI object and returns an object with all the functions for that FI type.
 export function getFuncs(FI) {
-	// Check if functions exist for this FI type.
-	const funcs = getFuncsOf(FI.name)
-
-	// Check if the functions require us to iterate deeper.
-	if (funcs.getFuncs)
-		return funcs.getFuncs(FI)
-
-	// All normal.
-	return funcs
+	return getFuncsOf(FI.name)
 }
 
 // getFuncsOf takes a function name and returns the functions for said function.

@@ -5,7 +5,7 @@ import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 import { keys as mathKeys } from '../../Keyboard/keyboards/basicMath'
 import { simplifyKey } from '../../Keyboard/keyboards/KeyboardLayout'
 
-import expressionFunctions from '../mathSupport/types/Expression'
+import { expressionFunctions } from '../mathSupport'
 
 const { getEmpty } = support
 

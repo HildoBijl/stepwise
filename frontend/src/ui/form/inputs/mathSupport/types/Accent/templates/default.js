@@ -3,13 +3,13 @@
 import { removeAtIndex } from 'step-wise/util/strings'
 import { support } from 'step-wise/CAS'
 
-import { getFIStartCursor, getFIEndCursor } from '../../'
+import { getFIStartCursor, getFIEndCursor } from '../..'
 import ExpressionPart, { addStrToFI } from '../../ExpressionPart'
 import { keyPressToFI as expressionKeyPressToFI } from '../../Expression'
 
 import { isCursorKey } from '../../support/acceptsKey'
 
-import { isAcceptableChar, filterAcceptableChar } from '../'
+import { isAcceptableChar, filterAcceptableChar } from '..'
 
 const { getSubExpression, findNextClosingBracket } = support
 

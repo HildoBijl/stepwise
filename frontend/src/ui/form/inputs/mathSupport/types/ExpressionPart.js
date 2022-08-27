@@ -50,6 +50,10 @@ const allFunctions = {
 }
 export default allFunctions
 
+export function getFuncs() {
+	return allFunctions
+}
+
 export function toLatex(FI, options = {}) {
 	return {
 		latex: getLatex(FI, options),

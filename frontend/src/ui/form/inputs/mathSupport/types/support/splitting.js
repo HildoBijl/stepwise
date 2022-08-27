@@ -1,12 +1,15 @@
 import { firstOf } from 'step-wise/util/arrays'
 
 import { removeCursor } from '../../../support/FieldInput'
-import { zoomIn, getFIStartCursor } from '../'
+
+import { getFIStartCursor } from '..'
+
+import { zoomIn } from './zooming'
 
 // splitToLeft takes an element data object and splits it at the cursor position. It returns an expression representing the resulting split.
-export function splitToLeft(data) {
-	const { value } = data
-	const split = splitAtCursor(zoomIn(data))
+export function splitToLeft(FI) {
+	const { value } = FI
+	const split = splitAtCursor(zoomIn(FI))
 
 	// Set up the new parameter.
 	const newParameter = {
@@ -16,7 +19,7 @@ export function splitToLeft(data) {
 
 	// Set up the new element.
 	const newElement = {
-		...removeCursor(data),
+		...removeCursor(FI),
 		value: [
 			newParameter,
 			...value.slice(1),
@@ -38,9 +41,9 @@ export function splitToLeft(data) {
 }
 
 // splitToRight is identical to splitToLeft, but then the split is performed to the right.
-export function splitToRight(data) {
-	const { value } = data
-	const split = splitAtCursor(zoomIn(data))
+export function splitToRight(FI) {
+	const { value } = FI
+	const split = splitAtCursor(zoomIn(FI))
 
 	// Set up the new parameter.
 	const newParameter = {
@@ -50,7 +53,7 @@ export function splitToRight(data) {
 
 	// Set up the new element.
 	const newElement = {
-		...removeCursor(data),
+		...removeCursor(FI),
 		value: [
 			...value.slice(0, -1),
 			newParameter,
@@ -72,9 +75,9 @@ export function splitToRight(data) {
 }
 
 // splitAtCursor takes an expression with a cursor in an expression part and splits it up into two expressions. It returns an object { left: ..., right ... } where each parameter is an expression value (so an array).
-export function splitAtCursor(data) {
-	const { value, cursor } = data
-	const activeElementData = zoomIn(data)
+export function splitAtCursor(FI) {
+	const { value, cursor } = FI
+	const activeElementData = zoomIn(FI)
 	if (activeElementData.type !== 'ExpressionPart')
 		throw new Error(`Invalid splitAtCursor call: tried to split an expression up along the cursor, but this was not possible. The cursor was not in a directly descending ExpressionPart.`)
 

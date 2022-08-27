@@ -5,20 +5,25 @@ import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 
 import { latexMinus } from 'ui/components/equations'
 
-import { emptyElementChar, emptyElementCharLatex } from '../../MathWithCursor'
+import { emptyElementChar, emptyElementCharLatex } from '../..'
 
-import ExpressionPart, { addStrToFI } from '../ExpressionPart'
-import { isCursorKey } from '../support/acceptsKey'
+import expressionPartFunctions, { addStrToFI } from '../ExpressionPart'
+import { isCursorKey } from '../support'
 
-const { getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd } = ExpressionPart
+const { getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd } = expressionPartFunctions
 
 const allFunctions = {
-	...ExpressionPart,
+	...expressionPartFunctions,
 	toLatex,
 	acceptsKey,
 	keyPressToFI,
 }
 export default allFunctions
+
+// getFuncs takes an FI object and returns an object with all the functions for that FI type.
+export function getFuncs() {
+	return allFunctions
+}
 
 export function toLatex(FI, options = {}) {
 	return {

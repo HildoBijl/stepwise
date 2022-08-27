@@ -1,7 +1,7 @@
 import { isEmptyObject } from 'step-wise/util/objects'
 import { getEmpty } from 'step-wise/CAS/interpretation/support'
 
-import { errorToMessage as expressionErrorToMessage } from './ExpressionInput'
+import { errorToMessage as expressionErrorToMessage } from '../ExpressionInput'
 
 // getEmptyData returns an empty data object, ready to be filled by input.
 export function getEmptySI(settings = {}) {

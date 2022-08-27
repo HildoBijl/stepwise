@@ -46,7 +46,7 @@ function getSolution(state) {
 	const equation2Raw = asEquation('b^2 = c^2 + a^2 - 2*c*a*cos(β)', { useDegrees: true }).substituteVariables(variables)
 	const equation2 = equation2Raw.regularClean()
 	const intermediateEquation = asEquation('cos(β) = (c^2 + a^2 - b^2)/(2*c*a)', { useDegrees: true }).substituteVariables(variables).regularClean()
-	βRaw = new Arccos(intermediateEquation.right).applySettings({ useDegrees: true })
+	const βRaw = new Arccos(intermediateEquation.right).applySettings({ useDegrees: true })
 	β = asExpression('acos((c-b*cos(α))/a)', { useDegrees: true }).substituteVariables({ ...variables, a }).regularClean()
 
 	return { ...state, variables, numSolutions, equation1Raw, equation1, aRaw, a, equation2Raw, equation2, intermediateEquation, βRaw, β }

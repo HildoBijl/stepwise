@@ -1,4 +1,4 @@
-import { getFuncs } from '../'
+import { getFIFuncs } from '..'
 
 import defaultFunctions from './templates/with1In0After'
 
@@ -12,7 +12,7 @@ export default fullExport
 function toLatex(FI, options) {
 	const { value } = FI
 	const [parameter] = value
-	const parameterLatex = getFuncs(parameter).toLatex(parameter, options)
+	const parameterLatex = getFIFuncs(parameter).toLatex(parameter, options)
 	return {
 		latex: `\\sqrt{${parameterLatex.latex}\\,}`,
 		chars: [parameterLatex.chars],

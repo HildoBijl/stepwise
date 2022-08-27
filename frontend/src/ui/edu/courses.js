@@ -82,7 +82,7 @@ const courses = {
 
 	exactawiskunde: {
 		name: 'Exacte Wetenschap A - Wiskunde',
-		goals: ['solveBasicSystemOfLinearEquations', 'solveGeneralSystemOfLinearEquations', 'solveBasicQuadraticEquation', 'solveGeneralQuadraticEquation', 'calculateTriangle', 'calculate3DShape'],
+		goals: ['solveBasicSystemOfLinearEquations', 'solveGeneralSystemOfLinearEquations', 'solveGeneralQuadraticEquation', 'calculateTriangle', 'calculate3DShape'],
 		priorKnowledge: [],
 		startingPoints: [
 			'expandBrackets',
@@ -96,7 +96,6 @@ const courses = {
 			'applyPythagoreanTheorem',
 			'applySineCosineTangent',
 			'applySimilarTriangles',
-			'calculateTriangle',
 			'calculate2DShape',
 		],
 		blocks: [

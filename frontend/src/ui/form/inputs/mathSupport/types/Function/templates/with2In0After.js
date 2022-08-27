@@ -1,8 +1,7 @@
 // This is the template for functions like root(...) which have a parameter after their term but also have a parameter earlier, like root[3](8).
 
-import { getFuncs, zoomIn, getFIStartCursor, isCursorAtFIStart, isCursorAtFIEnd } from '../..'
-import { mergeWithLeft, mergeWithRight } from '../../support/merging'
-import { splitToLeft, splitToRight } from '../../support/splitting'
+import { getFIFuncs, getFIStartCursor, isCursorAtFIStart, isCursorAtFIEnd, zoomIn } from '../..'
+import { mergeWithLeft, mergeWithRight, splitToLeft, splitToRight } from '../../support'
 
 import defaultFunctions from './with1In0After'
 
@@ -39,9 +38,9 @@ function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, contents
 
 	// When the cursor is at the start of an element and a backspace is pressed, or at the end of an element and a delete is pressed remove this element.
 	if (key === 'Backspace' && isCursorAtFIStart(activeElementFI) && !isCursorAtFIStart(FI))
-		return getFuncs(FI).removeElement(FI, true)
+		return getFIFuncs(FI).removeElement(FI, true)
 	if (key === 'Delete' && isCursorAtFIEnd(activeElementFI) && !isCursorAtFIEnd(FI))
-		return getFuncs(FI).removeElement(FI, false)
+		return getFIFuncs(FI).removeElement(FI, false)
 
 	// Process the key as usual.
 	return defaultFunctions.keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, contentsElement, cursorElement)

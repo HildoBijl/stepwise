@@ -1,4 +1,4 @@
-import { zoomIn, getFuncs, getFIStartCursor, isCursorAtFIStart, isCursorAtFIEnd } from '../'
+import { zoomIn, getFIFuncs, getFIStartCursor, isCursorAtFIStart, isCursorAtFIEnd } from '..'
 
 import defaultFunctions from './templates/with2In0AfterVertical'
 
@@ -16,7 +16,7 @@ export default fullExport
 
 function toLatex(FI, options) {
 	const { value } = FI
-	const [numLatex, denLatex] = value.map(element => getFuncs(element).toLatex(element, options))
+	const [numLatex, denLatex] = value.map(element => getFIFuncs(element).toLatex(element, options))
 
 	return {
 		latex: `\\frac{${numLatex.latex}}{${denLatex.latex}}`,
@@ -47,9 +47,9 @@ function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, contents
 
 	// Handle backspace/delete: remove the fraction when necessary.
 	if (key === 'Backspace' && isCursorAtFIStart(activeElementFI) && !isCursorAtFIStart(FI))
-		return getFuncs(FI).removeElement(FI, true)
+		return getFIFuncs(FI).removeElement(FI, true)
 	if (key === 'Delete' && isCursorAtFIEnd(activeElementFI) && !isCursorAtFIEnd(FI))
-		return getFuncs(FI).removeElement(FI, false)
+		return getFIFuncs(FI).removeElement(FI, false)
 
 	// Process the key as usual.
 	return defaultFunctions.keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, contentsElement, cursorElement)

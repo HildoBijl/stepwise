@@ -2,7 +2,7 @@ import React from 'react'
 
 import { isEmpty } from 'step-wise/CAS/interpretation/support'
 
-import ExpressionInput from './ExpressionInput'
+import ExpressionInput from '../ExpressionInput'
 
 import { getEmptySI, errorToMessage } from './support'
 

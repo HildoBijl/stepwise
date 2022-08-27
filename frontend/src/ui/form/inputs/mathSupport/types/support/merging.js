@@ -1,13 +1,12 @@
 import { firstOf, lastOf } from 'step-wise/util/arrays'
 import { support } from 'step-wise/CAS'
 
-import { getFIStartCursor, getFIEndCursor } from '../'
-import Expression from '../Expression'
+import { expressionFunctions, getFIStartCursor, getFIEndCursor } from '..'
 
 const { getSubExpression, findEndOfTerm } = support
 
-export function mergeWithLeft(data, partIndex, fromOutside) {
-	const { value } = data
+export function mergeWithLeft(FI, partIndex, fromOutside) {
+	const { value } = FI
 	const element = value[partIndex]
 	const parameter = firstOf(element.value)
 	
@@ -15,9 +14,9 @@ export function mergeWithLeft(data, partIndex, fromOutside) {
 	const { toPullIn, toLeaveBehind, cursorAtBreak } = getMergeParts(value, partIndex, false, true)
 
 	// If the expression to pull in is empty, and we came from inside, move the cursor outside.
-	if (!fromOutside && Expression.isEmpty(toPullIn)) {
+	if (!fromOutside && expressionFunctions.isEmpty(toPullIn)) {
 		return {
-			...data,
+			...FI,
 			value: value,
 			cursor: cursorAtBreak,
 		}
@@ -43,7 +42,7 @@ export function mergeWithLeft(data, partIndex, fromOutside) {
 
 	// Set up the complete expression.
 	return {
-		...data,
+		...FI,
 		value: [
 			...toLeaveBehind, // Keep what is left behind in the Expression.
 			newElement, // Add in the adjusted element.
@@ -53,14 +52,14 @@ export function mergeWithLeft(data, partIndex, fromOutside) {
 			part: toLeaveBehind.length,
 			cursor: {
 				part: 0,
-				cursor: Expression.getEndCursor(toPullIn), // Put the cursor at the end of the pulled-in expression.
+				cursor: expressionFunctions.getEndCursor(toPullIn), // Put the cursor at the end of the pulled-in expression.
 			},
 		},
 	}
 }
 
-export function mergeWithRight(data, partIndex) {
-	const { value } = data
+export function mergeWithRight(FI, partIndex) {
+	const { value } = FI
 	const element = value[partIndex]
 	const parameter = lastOf(element.value)
 
@@ -87,7 +86,7 @@ export function mergeWithRight(data, partIndex) {
 
 	// Set up the complete expression.
 	return {
-		...data,
+		...FI,
 		value: [
 			...value.slice(0, partIndex), // Keep previous expression elements.
 			newElement, // Add in the adjusted element.
@@ -112,7 +111,7 @@ export function getMergeParts(expressionValue, partIndex, toRight, skipFirst) {
 		cursor: (toRight ? getFIStartCursor : getFIEndCursor)(expressionValue[edgeElementIndex]),
 	}
 	const cursorAtBreak = findEndOfTerm(expressionValue, cursorAtEdgeOfElement, toRight, skipFirst)
-	const cursorAtEnd = toRight ? Expression.getEndCursor(expressionValue) : Expression.getStartCursor(expressionValue)
+	const cursorAtEnd = toRight ? expressionFunctions.getEndCursor(expressionValue) : expressionFunctions.getStartCursor(expressionValue)
 
 	// Apply the proper split.
 	const toPullIn = toRight ?

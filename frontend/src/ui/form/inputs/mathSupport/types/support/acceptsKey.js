@@ -1,4 +1,4 @@
-import { isCursorAtFIStart, isCursorAtFIEnd, canMoveFICursorVertically } from '../'
+import { isCursorAtFIStart, isCursorAtFIEnd, canMoveFICursorVertically } from '..'
 
 export function isHorizontalMovementKey(keyInfo, FI) {
 	const { key } = keyInfo

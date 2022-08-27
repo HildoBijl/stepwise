@@ -2,11 +2,10 @@
 
 import { support } from 'step-wise/CAS'
 
-import { charElementsToBounds, getClosestElement } from '../../../../mathSupport/MathWithCursor'
+import { charElementsToBounds, getClosestElement } from '../../..'
 
-import { zoomIn, getFuncs, getFIStartCursor, getFIEndCursor, isCursorAtFIStart, isCursorAtFIEnd, isFIEmpty } from '../..'
-import { mergeWithLeft, mergeWithRight } from '../../support/merging'
-import { splitToLeft, splitToRight } from '../../support/splitting'
+import { getFIFuncs, getFIStartCursor, getFIEndCursor, isCursorAtFIStart, isCursorAtFIEnd, isFIEmpty, zoomIn } from '../..'
+import { mergeWithLeft, mergeWithRight, splitToLeft, splitToRight } from '../../support'
 
 import defaultFunctions from './with1In0After'
 
@@ -50,7 +49,7 @@ function create(expressionFI, part, position, name, alias) {
 		type: 'Function',
 		name,
 	}
-	const funcs = getFuncs(functionElement)
+	const funcs = getFIFuncs(functionElement)
 	functionElement.value = funcs.getInitial(alias, parameters)
 
 	// Build the new Expression around it.
@@ -80,10 +79,10 @@ function getInitialCursor(element) {
 }
 
 function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, contentsElement, cursorElement) {
-	const funcs = getFuncs(FI)
+	const funcs = getFIFuncs(FI)
 	const { key } = keyInfo
 	const activeElementFI = zoomIn(FI)
-	const activeElementFuncs = getFuncs(activeElementFI)
+	const activeElementFuncs = getFIFuncs(activeElementFI)
 
 	// For up/down arrows, check if we can/need to move up.
 	if (key === 'ArrowUp' || key === 'ArrowDown') {
@@ -105,7 +104,7 @@ function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, contents
 				...FI,
 				cursor: {
 					part,
-					cursor: getFuncs(element).coordinatesToCursor(cursorMiddle, boundsData, element, partCharElements, contentsElement),
+					cursor: getFIFuncs(element).coordinatesToCursor(cursorMiddle, boundsData, element, partCharElements, contentsElement),
 				}
 			}
 		}
@@ -117,7 +116,7 @@ function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, contents
 
 function canMoveCursorVertically(FI, up) {
 	// Check if we can move vertically in this part.
-	const upFirst = getFuncs(FI).isUpFirst()
+	const upFirst = getFIFuncs(FI).isUpFirst()
 	const { value, cursor } = FI
 	if ((cursor.part === 0 && up !== upFirst && value[1]) || (cursor.part === 1 && up === upFirst && value[0]))
 		return true
@@ -132,9 +131,9 @@ function canMoveCursorOutside(FI, toRight) {
 
 function coordinatesToCursor(coordinates, boundsData, FI, charElements, contentsElement) {
 	const charPart = getClosestElement(coordinates, boundsData, false)
-	const part = getFuncs(FI).charPartToValuePart(charPart)
+	const part = getFIFuncs(FI).charPartToValuePart(charPart)
 	const element = FI.value[part]
-	const newCursor = getFuncs(element).coordinatesToCursor(coordinates, boundsData.parts[charPart], element, charElements[charPart], contentsElement)
+	const newCursor = getFIFuncs(element).coordinatesToCursor(coordinates, boundsData.parts[charPart], element, charElements[charPart], contentsElement)
 	return newCursor === null ? null : {
 		part,
 		cursor: newCursor,

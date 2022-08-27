@@ -11,8 +11,7 @@ import { useRefWithValue } from 'util/react'
 import { useAbsoluteCursorRef } from '../../Form'
 
 import FieldInput from '../support/FieldInput'
-import MathWithCursor, { MathWithCursorProvider, useMathWithCursorContext, mouseClickToCursor as generalMouseClickToCursor } from '../mathSupport/MathWithCursor'
-import expressionFunctions from '../mathSupport/types/Expression'
+import { expressionFunctions, MathWithCursor, MathWithCursorProvider, useMathWithCursorContext, mouseClickToCursor as generalMouseClickToCursor } from '../mathSupport'
 
 import { getEmptySI, FIToKeyboardSettings, errorToMessage } from './support'
 

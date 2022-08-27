@@ -1,4 +1,4 @@
-import { getFuncs } from '../'
+import { getFIFuncs } from '..'
 
 import defaultFunctions from './templates/with1In1After'
 
@@ -13,7 +13,7 @@ export default fullExport
 function toLatex(FI, options) {
 	const { value } = FI
 	const [parameter] = value
-	const parameterLatex = getFuncs(parameter).toLatex(parameter, options)
+	const parameterLatex = getFIFuncs(parameter).toLatex(parameter, options)
 	const nameCharsArray = 'log('.split('')
 	nameCharsArray.include = false // Make sure that the name cannot be clicked on for cursor positioning.
 	return {

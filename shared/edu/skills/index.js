@@ -28,10 +28,6 @@ const skills = {
 		name: 'Constanten opzoeken',
 		exercises: ['lookUpConstant'],
 	},
-	fillInExpression: {
-		name: 'Uitdrukking invoeren',
-		exercises: ['fillInExpression'],
-	},
 	summation: {
 		name: 'Optellen',
 		exercises: ['summation1'],

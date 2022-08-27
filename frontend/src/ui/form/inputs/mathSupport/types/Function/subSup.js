@@ -4,13 +4,12 @@ import { support } from 'step-wise/CAS'
 
 import { removeCursor } from '../../../support/FieldInput'
 
-import { getFuncs, getFIStartCursor, getFIEndCursor, isFIEmpty } from '../'
-import { mergeWithRight } from '../support/merging'
-import { splitToRight } from '../support/splitting'
-import Expression from '../Expression'
+import { getFIFuncs, getFIStartCursor, getFIEndCursor, isFIEmpty } from '..'
+import { mergeWithRight, splitToRight } from '../support'
+import expressionFunctions from '../Expression'
 
 import defaultFunctions from './templates/with2In0AfterVertical'
-import SubscriptText from './SubscriptText'
+import subscriptTextFunctions from './SubscriptText'
 
 const { getSubExpression } = support
 
@@ -62,7 +61,7 @@ function create(expressionFI, part, position, name, alias) {
 		type: 'Function',
 		name: 'subSup',
 	}
-	const funcs = getFuncs(functionElement)
+	const funcs = getFIFuncs(functionElement)
 	functionElement.value = funcs.getInitial(alias)
 
 	// Build the expression around it.
@@ -116,7 +115,7 @@ function moveCursorToSubSup(expressionFI, part, toSubscript, atStart) {
 
 function toLatex(FI, options) {
 	const { value } = FI
-	const [subLatex, supLatex] = value.map(element => element && getFuncs(element).toLatex(element, options))
+	const [subLatex, supLatex] = value.map(element => element && getFIFuncs(element).toLatex(element, options))
 	return {
 		latex: (subLatex ? `_{${subLatex.latex}}` : ``) + (supLatex ? `^{${supLatex.latex}}` : ``),
 		chars: [subLatex ? subLatex.chars : [], supLatex ? supLatex.chars : []],
@@ -142,11 +141,11 @@ function getInitial(alias) {
 }
 
 function getEmptySub() {
-	return { type: 'SubscriptText', value: SubscriptText.getEmpty() }
+	return { type: 'SubscriptText', value: subscriptTextFunctions.getEmpty() }
 }
 
 function getEmptySup() {
-	return { type: 'Expression', value: Expression.getEmpty() }
+	return { type: 'Expression', value: expressionFunctions.getEmpty() }
 }
 
 function acceptsKey(keyInfo, FI, settings) {

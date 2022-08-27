@@ -2,11 +2,14 @@ import { lastOf } from 'step-wise/util/arrays'
 import { support, functions as CASfunctions } from 'step-wise/CAS'
 
 import { removeCursor } from '../../../support/FieldInput'
-import { getFuncs, zoomIn, zoomInAt } from '..'
-import { getStartCursor } from '../Expression'
-import ExpressionPart from '../ExpressionPart'
+
+import { getFIFuncs } from '..'
+import expressionFunctions from '../Expression'
+import expressionPartFunctions from '../ExpressionPart'
 import { functions } from '../Function'
 import { accents } from '../Accent'
+
+import { zoomIn, zoomInAt } from './zooming'
 
 const { getEmpty } = support
 const { isFunctionAllowed } = CASfunctions
@@ -39,7 +42,7 @@ function cleanUpElements(FI, settings) {
 	let newCursor = null
 	const newValue = value.map((_, part) => {
 		const newElementUncleaned = zoomInAt(FI, part)
-		const cleanUp = getFuncs(newElementUncleaned).cleanUp
+		const cleanUp = getFIFuncs(newElementUncleaned).cleanUp
 		const newElement = cleanUp ? cleanUp(newElementUncleaned, settings) : newElementUncleaned
 		if (cursor && cursor.part === part)
 			newCursor = { part, cursor: newElement.cursor }
@@ -96,7 +99,7 @@ function removeUnnecessaryElements(FI) {
 	const filteredValue = value.filter((element, index) => { // Remove pointless object.
 		if (cursor && cursor.part === index)
 			return true // The cursor is in here. Keep it.
-		const funcs = getFuncs(element)
+		const funcs = getFIFuncs(element)
 		if (!funcs.shouldRemove)
 			return true // No removal function specified. Keep it.
 		return !funcs.shouldRemove(element) // Let the object decide.
@@ -116,14 +119,14 @@ function alternateExpressionParts(FI, settings) {
 
 	// Check a special case.
 	if (value.length === 0)
-		return { type: 'Expression', value: getEmpty(), cursor: getStartCursor() }
+		return { type: 'Expression', value: getEmpty(), cursor: expressionFunctions.getStartCursor() }
 
 	// Set up result parameters.
 	const newValue = []
 	let newCursor = null // Will be assigned once we get to the element the cursor points to.
 
 	// Ensure an expression part at the start.
-	newValue.push({ type: 'ExpressionPart', value: ExpressionPart.getEmpty() })
+	newValue.push({ type: 'ExpressionPart', value: expressionPartFunctions.getEmpty() })
 
 	// Walk through all elements and add them one by one in the appropriate way.
 	value.forEach((element, index) => {
@@ -135,7 +138,7 @@ function alternateExpressionParts(FI, settings) {
 				jointCursor = lastAddedElement.value.length + cursor.cursor
 			if (newCursor && newCursor.part === newValue.length - 1)
 				jointCursor = newCursor.cursor
-			const newExpressionPart = ExpressionPart.cleanUp({
+			const newExpressionPart = expressionPartFunctions.cleanUp({
 				...lastAddedElement,
 				value: lastAddedElement.value + element.value,
 				cursor: jointCursor,
@@ -146,7 +149,7 @@ function alternateExpressionParts(FI, settings) {
 		} else {
 			// If there are two special parts in a row, add an empty ExpressionPart in-between.
 			if (element.type !== 'ExpressionPart' && lastAddedElement.type !== 'ExpressionPart')
-				newValue.push({ type: 'ExpressionPart', value: ExpressionPart.getEmpty() })
+				newValue.push({ type: 'ExpressionPart', value: expressionPartFunctions.getEmpty() })
 
 			// Add the new part and keep the cursor on it if needed.
 			newValue.push(element)
@@ -157,7 +160,7 @@ function alternateExpressionParts(FI, settings) {
 
 	// Ensure an expression part at the end.
 	if (lastOf(newValue).type !== 'ExpressionPart')
-		newValue.push({ type: 'ExpressionPart', value: ExpressionPart.getEmpty() })
+		newValue.push({ type: 'ExpressionPart', value: expressionPartFunctions.getEmpty() })
 
 	return {
 		...FI,

@@ -3,9 +3,8 @@
 import { lastOf } from 'step-wise/util/arrays'
 import { support } from 'step-wise/CAS'
 
-import { getFuncs, getFIStartCursor, getFIEndCursor, isFIEmpty } from '../..'
-import { mergeWithRight } from '../../support/merging'
-import { splitToRight } from '../../support/splitting'
+import { getFIFuncs, getFIStartCursor, getFIEndCursor, isFIEmpty } from '../..'
+import { mergeWithRight, splitToRight } from '../../support'
 
 import defaultFunctions from './default'
 
@@ -49,7 +48,7 @@ function create(expressionFI, part, position, name, alias) {
 		name,
 		alias,
 	}
-	const funcs = getFuncs(functionElement)
+	const funcs = getFIFuncs(functionElement)
 	functionElement.value = funcs.getInitial(alias, parameter)
 
 	// Build the new Expression around it.
@@ -84,7 +83,7 @@ function merge(FI, partIndex, mergeWithNext, fromOutside) {
 	const { value } = FI
 	// If we want to merge with what came before, this actually means we must remove the element.
 	if (!mergeWithNext)
-		return getFuncs(value[partIndex]).removeElementFromExpression(value, partIndex, !fromOutside)
+		return getFIFuncs(value[partIndex]).removeElementFromExpression(value, partIndex, !fromOutside)
 	return mergeWithRight(FI, partIndex, fromOutside)
 }
 

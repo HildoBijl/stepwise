@@ -1,4 +1,4 @@
-const { asExpression, expressionSubtypes, expressionComparisons } = require('../../')
+const { asExpression, expressionSubtypes, expressionComparisons } = require('../..')
 
 const { Variable, Integer, Ln, Log, Root } = expressionSubtypes
 

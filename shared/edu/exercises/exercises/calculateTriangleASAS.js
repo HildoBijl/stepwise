@@ -53,7 +53,7 @@ function getSolution(state) {
 	const aRaw = asExpression('c*sin(α)/sin(γ)', { useDegrees: true }).substituteVariables(variables)
 	a = aRaw.regularClean()
 	const bRaw = asExpression('c*sin(β)/sin(γ)', { useDegrees: true }).substituteVariables(variables)
-	b = bRaw.regularClean()
+	const b = bRaw.regularClean()
 
 	return { ...state, γRaw, γ, rule, numSolutions, equation, aRaw, a, bRaw, b }
 }

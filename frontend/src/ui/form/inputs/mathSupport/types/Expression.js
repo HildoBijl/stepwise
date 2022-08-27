@@ -8,7 +8,7 @@ import { getClosestElement } from '../MathWithCursor'
 import cleanUp from './support/ExpressionCleanUp'
 import { getKeyPressHandlers } from './support/ExpressionSupport'
 import { isCursorKey } from './support/acceptsKey'
-import { getFuncs, zoomIn, getFIStartCursor, getFIEndCursor, isCursorAtFIStart, isCursorAtFIEnd, FIAcceptsKey } from './index.js'
+import { getFIFuncs, zoomIn, getFIStartCursor, getFIEndCursor, isCursorAtFIStart, isCursorAtFIEnd, FIAcceptsKey } from './index.js'
 import ExpressionPart from './ExpressionPart'
 
 const { isEmpty, getEmpty, getStartCursor, getEndCursor } = support
@@ -34,6 +34,10 @@ const allFunctions = {
 export default allFunctions
 export { getStartCursor, getEndCursor }
 
+export function getFuncs() {
+	return allFunctions
+}
+
 export function toLatex(FI) {
 	let { value } = FI
 
@@ -46,12 +50,12 @@ export function toLatex(FI) {
 		if (element.type === 'ExpressionPart' && nextElement && nextElement.type === 'SubSup' && value[index + 2].value[0] === '(') {
 			// The superscript must also be empty or be "-1" for an inverse.
 			const sup = nextElement.value.sup
-			if (!sup || getFuncs(sup).isEmpty(sup) || (sup.value.length === 1 && sup.value[0].value === '-1'))
+			if (!sup || getFIFuncs(sup).isEmpty(sup) || (sup.value.length === 1 && sup.value[0].value === '-1'))
 				beforeSubSupWithBrackets = true
 		}
 
 		// Make the call with the right options.
-		return getFuncs(element).toLatex(element, { index, beforeSubSupWithBrackets })
+		return getFIFuncs(element).toLatex(element, { index, beforeSubSupWithBrackets })
 	})
 
 	// We now have an array with latex and chars mixed. Let's extract the latex and the chars.
@@ -83,14 +87,14 @@ export function toLatex(FI) {
 
 export function getCursorProperties(FI, charElements, container) {
 	const activeElement = zoomIn(FI)
-	return getFuncs(activeElement).getCursorProperties(activeElement, charElements[FI.cursor.part], container)
+	return getFIFuncs(activeElement).getCursorProperties(activeElement, charElements[FI.cursor.part], container)
 }
 
 export function acceptsKey(keyInfo, FI, settings) {
 	const { key, ctrl, alt } = keyInfo
 	const { cursor, value } = FI
 	const activeElementFI = zoomIn(FI)
-	const activeElementFuncs = getFuncs(activeElementFI)
+	const activeElementFuncs = getFIFuncs(activeElementFI)
 
 	// Ignore ctrl/alt keys.
 	if (ctrl || alt)
@@ -104,7 +108,7 @@ export function acceptsKey(keyInfo, FI, settings) {
 	if (key === ' ' || key === 'Spacebar') {
 		if (activeElementFuncs.canSplit && activeElementFuncs.canSplit(activeElementFI)) {
 			const parameter = zoomIn(activeElementFI)
-			const parameterFuncs = getFuncs(parameter)
+			const parameterFuncs = getFIFuncs(parameter)
 			if (!(parameterFuncs.canSplit && parameterFuncs.canSplit(parameter))) {
 				if (zoomIn(parameter).type === 'ExpressionPart') {
 					return true
@@ -131,7 +135,7 @@ export function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, c
 	const { key } = keyInfo
 	const { value, cursor } = FI
 	const activeElementFI = zoomIn(FI)
-	const activeElementFuncs = getFuncs(activeElementFI)
+	const activeElementFuncs = getFIFuncs(activeElementFI)
 
 	// Verify the key.
 	if (!acceptsKey(keyInfo, FI, settings))
@@ -163,14 +167,14 @@ export function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, c
 		// Are we in an expression part?
 		if (activeElementFI.type === 'ExpressionPart') {
 			const previousPart = value[cursor.part - 1]
-			const previousPartFuncs = getFuncs(previousPart)
+			const previousPartFuncs = getFIFuncs(previousPart)
 			if (previousPartFuncs.canMerge && previousPartFuncs.canMerge(previousPart, true, true))
 				return previousPartFuncs.merge(FI, cursor.part - 1, true, true)
 			else
 				return moveLeft()
 		} else { // We are in a special element.
 			const activePart = value[cursor.part]
-			const activePartFuncs = getFuncs(activePart)
+			const activePartFuncs = getFIFuncs(activePart)
 			if (activePartFuncs.canMerge && activePartFuncs.canMerge(activePart, false, false))
 				return activePartFuncs.merge(FI, cursor.part, false, false)
 			else
@@ -186,14 +190,14 @@ export function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, c
 		// Are we in an expression part?
 		if (activeElementFI.type === 'ExpressionPart') {
 			const nextPart = value[cursor.part + 1]
-			const nextPartFuncs = getFuncs(nextPart)
+			const nextPartFuncs = getFIFuncs(nextPart)
 			if (nextPartFuncs.canMerge && nextPartFuncs.canMerge(nextPart, false, true))
 				return nextPartFuncs.merge(FI, cursor.part + 1, false, true)
 			else
 				return moveRight()
 		} else { // We are in a special element.
 			const activePart = value[cursor.part]
-			const activePartFuncs = getFuncs(activePart)
+			const activePartFuncs = getFIFuncs(activePart)
 			if (activePartFuncs.canMerge && activePartFuncs.canMerge(activePart, true, false))
 				return activePartFuncs.merge(FI, cursor.part, true, false)
 			else
@@ -205,7 +209,7 @@ export function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, c
 	if (key === ' ' || key === 'Spacebar') {
 		if (activeElementFuncs.canSplit && activeElementFuncs.canSplit(activeElementFI)) {
 			const parameter = zoomIn(activeElementFI)
-			const parameterFuncs = getFuncs(parameter)
+			const parameterFuncs = getFIFuncs(parameter)
 			if (!(parameterFuncs.canSplit && parameterFuncs.canSplit(parameter))) {
 				if (zoomIn(parameter).type === 'ExpressionPart') {
 					const split = activeElementFuncs.split(activeElementFI)
@@ -263,7 +267,7 @@ export function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, c
 
 export function canMoveCursorVertically(FI, up) {
 	const activeElementFI = zoomIn(FI)
-	const canMoveCursorVertically = getFuncs(activeElementFI).canMoveCursorVertically
+	const canMoveCursorVertically = getFIFuncs(activeElementFI).canMoveCursorVertically
 	return canMoveCursorVertically ? canMoveCursorVertically(activeElementFI, up) : false
 }
 
@@ -271,7 +275,7 @@ export function charElementClickToCursor(evt, FI, trace, charElements, equationE
 	// Pass it on to the respective element.
 	const { value } = FI
 	const part = firstOf(trace)
-	const newCursor = getFuncs(value[part]).charElementClickToCursor(evt, value[part], trace.slice(1), charElements[part], equationElement)
+	const newCursor = getFIFuncs(value[part]).charElementClickToCursor(evt, value[part], trace.slice(1), charElements[part], equationElement)
 	return newCursor === null ? null : {
 		part,
 		cursor: newCursor,
@@ -283,7 +287,7 @@ export function coordinatesToCursor(coordinates, boundsData, FI, charElements, c
 	const element = FI.value[part]
 	return {
 		part,
-		cursor: getFuncs(element).coordinatesToCursor(coordinates, boundsData.parts[part], element, charElements[part], contentsElement)
+		cursor: getFIFuncs(element).coordinatesToCursor(coordinates, boundsData.parts[part], element, charElements[part], contentsElement)
 	}
 }
 
@@ -304,7 +308,7 @@ export function countNetBrackets(FI, relativeToCursor = 0) {
 	// When we don't care about the cursor, we just sum everything up.
 	if (relativeToCursor === 0) {
 		return sum(value.map(element => {
-			const funcs = getFuncs(element)
+			const funcs = getFIFuncs(element)
 			const countNetBrackets = funcs.countNetBrackets
 			return countNetBrackets ? countNetBrackets(element, relativeToCursor) : 0
 		}))
@@ -317,7 +321,7 @@ export function countNetBrackets(FI, relativeToCursor = 0) {
 	// Find the right range and add up for that range, also taking into account the element itself.
 	const arrayPart = (relativeToCursor === -1 ? value.slice(0, cursor.part) : value.slice(cursor.part + 1))
 	const netBracketsInPreviousParts = sum(arrayPart.map(element => {
-		const countNetBrackets = getFuncs(element).countNetBrackets
+		const countNetBrackets = getFIFuncs(element).countNetBrackets
 		return countNetBrackets ? countNetBrackets(element, 0) : 0
 	}))
 	const netBracketsInCurrentPart = ExpressionPart.countNetBrackets(zoomIn(FI), relativeToCursor)
@@ -373,6 +377,6 @@ function processExpressionPartBrackets(arr) {
 // canSplit asks the child element whether it can split.
 export function canSplit(FI) {
 	const activeElementFI = zoomIn(FI)
-	const canSplit = getFuncs(activeElementFI).canSplit
+	const canSplit = getFIFuncs(activeElementFI).canSplit
 	return canSplit && canSplit(activeElementFI)
 }

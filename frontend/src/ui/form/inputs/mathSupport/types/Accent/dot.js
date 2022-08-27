@@ -1,6 +1,6 @@
 import defaultFunctions from './templates/default'
 
-import { emptyElementChar, emptyElementCharLatex } from '../../../mathSupport/MathWithCursor'
+import { emptyElementChar, emptyElementCharLatex } from '../../../mathSupport'
 
 const fullExport = {
 	...defaultFunctions,
