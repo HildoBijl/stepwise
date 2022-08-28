@@ -1,6 +1,6 @@
 const { ensureNumber } = require('../../../../util/numbers')
 const { ensureBoolean, isBasicObject } = require('../../../../util/objects')
-const { ensureVector, ensureSpan } = require('../../../../geometry')
+const { Vector, ensureVector, Span, ensureSpan } = require('../../../../geometry')
 
 /*
  * Define default values.

@@ -217,6 +217,8 @@ module.exports.hasSimpleMatching = hasSimpleMatching
 
 // hasSimpleDeepEqualsMatching checks if two arrays can match their elements with one another through a deepEquals matching: every element in one array must be deepEqual to an element in the other array.
 function hasSimpleDeepEqualsMatching(arr1, arr2) {
+	if (!Array.isArray(arr1) || !Array.isArray(arr2))
+		return false
 	return hasSimpleMatching(arr1, arr2, deepEquals)
 }
 module.exports.hasSimpleDeepEqualsMatching = hasSimpleDeepEqualsMatching
