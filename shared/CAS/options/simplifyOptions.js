@@ -97,8 +97,8 @@ const regularClean = {
 }
 module.exports.regularClean = regularClean
 
-// forAnalysis puts expression, for as much as possible, into a standard form. This subsequently allows for easy comparison.
-const forAnalysis = {
+// advancedClean goes even further than basicClean, applying further reductions to fractions and powers.
+const advancedClean = {
 	...regularClean,
 	sortSums: true,
 	expandProductsOfSums: true,
@@ -106,6 +106,12 @@ const forAnalysis = {
 	expandPowersOfProducts: true,
 	expandPowersOfSums: true,
 	mergeFractionSums: true,
+}
+module.exports.advancedClean = advancedClean
+
+// forAnalysis puts expression, for as much as possible, into a standard form. This subsequently allows for easy comparison.
+const forAnalysis = {
+	...regularClean,
 	toBasicForm: true,
 }
 module.exports.forAnalysis = forAnalysis

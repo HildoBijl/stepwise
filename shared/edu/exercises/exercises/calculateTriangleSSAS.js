@@ -43,15 +43,15 @@ function getSolution(state) {
 	// Define solution method data.
 	const rule = 1 // Use the cosine rule.
 	const equationRaw = asEquation('a^2 = b^2 + c^2 - 2*c*b*cos(α)', { useDegrees: true }).substituteVariables(variables)
-	const equation = equationRaw.regularClean()
-	const equationInStandardForm = equation.applyToBothSides(side => side.subtract(equation.left)).switch().regularClean()
+	const equation = equationRaw.advancedClean()
+	const equationInStandardForm = equation.applyToBothSides(side => side.subtract(equation.left)).switch().advancedClean()
 	const numSolutions = 2
 
 	// Determine the solution.
 	const b1Raw = asExpression('c*cos(α) + sqrt((c*cos(α))^2 - (c^2-a^2))', { useDegrees: true }).substituteVariables(variables)
-	const b1 = b1Raw.regularClean({ expandPowersOfProducts: true })
+	const b1 = b1Raw.advancedClean()
 	const b2Raw = asExpression('c*cos(α) - sqrt((c*cos(α))^2 - (c^2-a^2))', { useDegrees: true }).substituteVariables(variables)
-	const b2 = b2Raw.regularClean({ expandPowersOfProducts: true })
+	const b2 = b2Raw.advancedClean()
 
 	return { ...state, variables, rule, equationRaw, equation, equationInStandardForm, numSolutions, b1Raw, b1, b2Raw, b2 }
 }

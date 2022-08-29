@@ -523,6 +523,11 @@ class Expression {
 		return this.simplify({ ...simplifyOptions.regularClean, ...extraOptions })
 	}
 
+	// advancedClean applies the simplify function with advancedClean options.
+	advancedClean(extraOptions = {}) {
+		return this.simplify({ ...simplifyOptions.advancedClean, ...extraOptions })
+	}
+
 	// cleanForAnalysis applies the simplify function with forAnalysis option.
 	cleanForAnalysis(extraOptions = {}) {
 		return this.simplify({ ...simplifyOptions.forAnalysis, ...extraOptions })
@@ -1055,8 +1060,9 @@ class Sum extends ExpressionList {
 			})
 
 			// If some terms have been merged, update the terms array to include the merged parts. Also clean up the merged constants, but not grouping them anymore to prevent infinite loops.
-			if (terms.length > newTerms.length)
+			if (terms.length > newTerms.length) {
 				terms = newTerms.map(({ variablePart, constantPart }) => constantPart.simplify({ ...options, groupSumTerms: false }).multiplyBy(variablePart).removeUseless()).filter(term => !Integer.zero.equalsBasic(term))
+			}
 		}
 
 		// Find equal terms to cancel out. For this, walk through the terms, and try to match them with a negative counterpart. Upon finding a pair, skip both.
@@ -1671,7 +1677,7 @@ class Fraction extends Function {
 
 	getConstantAndVariablePart() {
 		const numeratorParts = this.numerator.getConstantAndVariablePart()
-		const denominatorParts = this.numerator.getConstantAndVariablePart()
+		const denominatorParts = this.denominator.getConstantAndVariablePart()
 		return {
 			constantPart: new Fraction(numeratorParts.constantPart, denominatorParts.constantPart).removeUseless(),
 			variablePart: new Fraction(numeratorParts.variablePart, denominatorParts.variablePart).removeUseless(),
@@ -1991,11 +1997,12 @@ class Power extends Function {
 				return new Fraction(Integer.one, new Power(base, exponent.applyMinus(true))).simplifyBasic(options)
 		}
 
-		// Check for powers of products. Reduce (a*b)^n to a^n*b^n.
+		// Check for powers of products. Reduce (a*b)^n to a^n*b^n. Same with fraction (a/b)^n.
 		if (options.expandPowersOfProducts) {
-			if (this.base.isSubtype(Product)) {
+			if (base.isSubtype(Product))
 				return new Product(base.terms.map(term => new Power(term, exponent))).simplifyBasic(options)
-			}
+			if (base.isSubtype(Fraction))
+				return new Fraction(new Power(base.numerator, exponent), new Power(base.denominator, exponent)).simplifyBasic(options)
 		}
 
 		// Check for powers of sums. Reduce (a+b)^3 to (a^3 + 3a^2b + 3ab^2 + b^3). Only do this for non-negative integer powers.

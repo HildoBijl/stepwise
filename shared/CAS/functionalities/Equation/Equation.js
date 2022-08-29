@@ -269,6 +269,11 @@ class Equation {
 		return this.simplify({ ...simplifyOptions.regularClean, ...extraOptions })
 	}
 
+	// advancedClean applies the simplify function with advancedClean options.
+	advancedClean(extraOptions = {}) {
+		return this.simplify({ ...simplifyOptions.advancedClean, ...extraOptions })
+	}
+
 	// cleanForAnalysis applies the simplify function with equationForAnalysis option.
 	cleanForAnalysis(extraOptions = {}) {
 		return this.simplify({ ...simplifyOptions.equationForAnalysis, ...extraOptions })
