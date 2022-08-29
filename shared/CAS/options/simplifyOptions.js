@@ -111,7 +111,7 @@ module.exports.advancedClean = advancedClean
 
 // forAnalysis puts expression, for as much as possible, into a standard form. This subsequently allows for easy comparison.
 const forAnalysis = {
-	...regularClean,
+	...advancedClean,
 	toBasicForm: true,
 }
 module.exports.forAnalysis = forAnalysis
