@@ -71,8 +71,11 @@ function getStaticSolution(state) {
 
 // The input dependency is the direction indicators: an array of true/false whether the force should be in the expected direction.
 function getInputDependency(input, solution) {
+	const defaultDependency = new Array(solution.loads.length).fill(true)
+	if (!input.loads)
+		return defaultDependency
 	const matching = getLoadMatching(input.loads, solution.loads, data.comparison.loads)
-	return isMatchingComplete(matching) ? getDirectionIndicators(solution.loads, matching) : new Array(solution.loads.length).fill(true)
+	return isMatchingComplete(matching) ? getDirectionIndicators(solution.loads, matching) : defaultDependency
 }
 
 function getDynamicSolution(directionIndices, solution, state) {
@@ -87,7 +90,6 @@ const dependencyData = { getStaticSolution, getInputDependency, dependentFields:
 
 function checkInput(state, input) {
 	const solution = assembleSolution(dependencyData, state, input)
-	console.log(solution)
 	return performLoadsComparison('loads', input, solution, data.comparison) && performComparison(solution.loadsToCheck, input, solution, data.comparison)
 }
 

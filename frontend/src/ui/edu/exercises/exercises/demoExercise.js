@@ -38,7 +38,7 @@ function Problem() {
 		<Diagram isInputField={false} />
 		<Par>Teken het vrijlichaamsschema/schematisch diagram.&nbsp;
 			<InputSpace>
-				<Diagram isInputField={true} />
+				<Diagram isInputField={true} showSupports={false} />
 			</InputSpace>
 			Bereken hierin de onbekende reactiekrachten/momenten.
 			<InputSpace>

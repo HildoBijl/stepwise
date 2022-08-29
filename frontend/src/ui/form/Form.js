@@ -245,27 +245,27 @@ export function useFormParameter(options = {}) {
 
 // useInput only returns a certain input parameter. It gives the FO (functional object), unless it specifically is asked by setting the second useFI parameter to true, in which case the FI (functional input) object is returned. It's mainly used by exercises. The ids property may be a string or an array, in which case also an array is returned. Optionally, it may be undefined/falsy, in which case all fields are given.
 export function useInput(ids, useFI = false) {
-	const { getInputFI, getInputFO, getInputParameter, getInputParameterFO } = useFormData()
+	const { getInputFI, getInputFO, getInputParameterFI, getInputParameterFO } = useFormData()
 
 	// If no id has been given, return everything.
 	if (ids === undefined)
 		return Object.values((useFI ? getInputFI : getInputFO)())
 
 	// Depending on if we have an array of IDs or just one, process accordingly.
-	const getParameter = useFI ? getInputParameter : getInputParameterFO
+	const getParameter = useFI ? getInputParameterFI : getInputParameterFO
 	return Array.isArray(ids) ? ids.map(currId => getParameter(currId)) : getParameter(ids)
 }
 
 // useInputObject provides a full input object. (Contrary to useInput which provides an array).
 export function useInputObject(ids, useFI = false) {
-	const { getInputFI, getInputFO, getInputParameter, getInputParameterFO } = useFormData()
+	const { getInputFI, getInputFO, getInputParameterFI, getInputParameterFO } = useFormData()
 
 	// If no id has been given, return everything.
 	if (ids === undefined)
 		return (useFI ? getInputFI : getInputFO)()
 
 	// Turn each id into the right object.
-	const getParameter = useFI ? getInputParameter : getInputParameterFO
+	const getParameter = useFI ? getInputParameterFI : getInputParameterFO
 	return keysToObject(Array.isArray(ids) ? ids : [ids], id => getParameter(id))
 }
 

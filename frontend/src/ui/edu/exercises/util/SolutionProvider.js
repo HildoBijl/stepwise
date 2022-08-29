@@ -1,7 +1,5 @@
 import React, { createContext, useContext, useMemo } from 'react'
 
-import { isEmptyObject } from 'step-wise/util/objects'
-
 import { useConsistentValue } from 'util/react'
 import { useExerciseData } from 'ui/edu/exercises/ExerciseContainer'
 import { useInputObject } from 'ui/form/Form'
@@ -24,8 +22,6 @@ export default function SolutionProvider({ children }) {
 	const inputDependencyRecalculated = useMemo(() => {
 		if (!getDynamicSolution)
 			return undefined // No need to get an input dependency.
-		if (isEmptyObject(input))
-			return undefined // No input known yet; cannot get the dependency. Don't make the call.
 		if (!getInputDependency)
 			return input // Default value on mission input dependency function.
 		return getInputDependency(input, staticSolution)
