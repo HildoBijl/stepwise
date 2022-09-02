@@ -154,7 +154,7 @@ class Unit {
 						data.difference += unitAdjustments.difference || 0
 						data.factor *= Math.pow(unitAdjustments.factor, unitElement.power) || 1
 						data.power += unitAdjustments.power * unitElement.power || 0
-						result = result.multiply(new Unit(unitAdjustments.unit).toPower(unitElement.power))
+						result = result.multiply(new Unit(unitAdjustments.unit).toPower(unitElement.power), false)
 					}
 				})
 				data.simplification.den.forEach(unitElement => {
@@ -165,7 +165,7 @@ class Unit {
 						data.difference -= unitAdjustments.difference || 0
 						data.factor /= Math.pow(unitAdjustments.factor, unitElement.power) || 1
 						data.power -= unitAdjustments.power * unitElement.power || 0
-						result = result.divide(new Unit(unitAdjustments.unit).toPower(unitElement.power))
+						result = result.divide(new Unit(unitAdjustments.unit).toPower(unitElement.power), false)
 					}
 				})
 				data.simplification = result
@@ -181,14 +181,14 @@ class Unit {
 						if (unitElement.unit.base) {
 							result.num.push(unitElement)
 						} else {
-							result = result.multiply(new Unit(unitElement.unit.toBase).toPower(unitElement.power))
+							result = result.multiply(new Unit(unitElement.unit.toBase).toPower(unitElement.power), false)
 						}
 					})
 					data.simplification.den.forEach(unitElement => {
 						if (unitElement.unit.base) {
 							result.den.push(unitElement)
 						} else {
-							result = result.divide(new Unit(unitElement.unit.toBase).toPower(unitElement.power))
+							result = result.divide(new Unit(unitElement.unit.toBase).toPower(unitElement.power), false)
 						}
 					})
 					data.simplification = result
@@ -288,16 +288,17 @@ class Unit {
 	}
 
 	// multiply will multiply this unit by the given unit. So kg/s multiplied by s/N will become kg * s / s * N. (Simplification is not automatically done.) It does not adjust this object but returns a copy.
-	multiply(unit) {
-		return new Unit({
+	multiply(unit, simplify = true) {
+		const result = new Unit({
 			num: [...this.num, ...unit.num],
 			den: [...this.den, ...unit.den],
 		})
+		return simplify ? result.simplify({ type: 0, clean: true }) : result
 	}
 
 	// divide will divide this unit by the given unit. So (m^3/s) / (kg/s) will become (m^3 * s) / (s * kg). No simplification is performed. It does not adjust this object but returns a copy.
-	divide(unit) {
-		return this.multiply(unit.invert())
+	divide(unit, simplify) {
+		return this.multiply(unit.invert(), simplify)
 	}
 
 	// toPower will take this unit to the given power. So (m/s^2)^3 will become (m^3/s^6). It does not adjust this object but returns a copy.

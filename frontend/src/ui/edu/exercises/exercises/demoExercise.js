@@ -71,7 +71,7 @@ function Schematics({ points, loads, fixA, showSupports = true }) {
 	return <>
 		<Beam points={Object.values(points)} />
 
-		<Group style={{ opacity: showSupports ? 1 : 0.05 }}>
+		<Group style={{ opacity: showSupports ? 1 : 0.1 }}>
 			<HingeSupport position={points[fixA ? 'A' : 'C']} />
 			<RollerHingeSupport position={points[fixA ? 'C' : 'A']} />
 		</Group>
@@ -94,14 +94,14 @@ function Elements({ theta, l1, l2, points, loads, getLoadNames }) {
 		<Label position={points.B} angle={Math.PI / 2} graphicalDistance={3}><M>B</M></Label>
 		<Label position={points.C} angle={-Math.PI / 4} graphicalDistance={5}><M>C</M></Label>
 		{externalForce ? <CornerLabel points={[externalForce.start, externalForce.end, points.A]} graphicalSize={36}><M>{theta}^\circ</M></CornerLabel> : null}
-		<PositionedElement position={points.A.interpolate(points.B)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>{l1}\ (\rm m)</M></PositionedElement>
-		<PositionedElement position={points.B.interpolate(points.C)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>{l2}\ (\rm m)</M></PositionedElement>
+		<PositionedElement position={points.A.interpolate(points.B)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>{l1}</M></PositionedElement>
+		<PositionedElement position={points.B.interpolate(points.C)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>{l2}</M></PositionedElement>
 		{loadNames.map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
 	</>
 }
 
 function Solution() {
-	const { l1, l2, theta, fixA, Px, Py, loadValues, directionIndices, hasAdjustedSolution } = useSolution()
+	const { l1, l2, l, theta, fixA, Px, Py, loadValues, directionIndices, hasAdjustedSolution } = useSolution()
 	return <>
 		<Par>
 			Als eerste tekenen we het vrijlichaamsschema. Aan de linkerkant zit een {fixA ? 'vast' : 'rollend'} scharnier. Deze kan {fixA ? 'horizontale en verticale' : 'alleen verticale'} reactiekrachten geven. Aan de rechterkant zit een {fixA ? 'rollend' : 'vast'} scharnier. Deze kan {fixA ? 'alleen verticale' : 'horizontale en verticale'} reactiekrachten geven. Samen met de externe belasting geeft dat het volgende vrijlichaamsschema. {hasAdjustedSolution ? <>Merk op dat dit conform jouw getekende diagram is. De reactiekrachten mogen ook andersom, indien gewenst.</> : <>De richtingen zijn zo gekozen dat de krachten positief worden. Ze mogen ook de andere kant op getekend worden, maar dan worden de berekende krachten negatief.</>}
@@ -118,9 +118,9 @@ function Solution() {
 			De oplossing volgt als
 			<BM>F_({fixA ? 'A' : 'C'}x) = {directionIndices[1] ? '' : '-'} P_x = {loadValues[1]}.</BM>
 			Via de som van de momenten kunnen we één van de verticale krachten vinden. Momenten om <M>A</M> geeft bijvoorbeeld
-			<BM>\circlearrowleft \!\! ^+ \Sigma M_A = 0 \! : \,\,\, -{l1} P_y {directionIndices[3] ? '+' : '-'} {l1 + l2} F_({fixA ? 'C' : 'Cy'}) = 0.</BM>
+			<BM>\circlearrowleft \!\! ^+ \Sigma M_A = 0 \! : \,\,\, -{l1.float} \cdot P_y {directionIndices[3] ? '+' : '-'} {l.float} \cdot F_({fixA ? 'C' : 'Cy'}) = 0.</BM>
 			De oplossing hiervan volgt als
-			<BM>F_({fixA ? 'C' : 'Cy'}) = {directionIndices[3] ? '' : '-'} \frac({l1})({l1 + l2}) P_y = {directionIndices[3] ? '' : '-'} \frac({l1})({l1 + l2}) \cdot {Py.float} = {loadValues[3]}.</BM>
+			<BM>F_({fixA ? 'C' : 'Cy'}) = {directionIndices[3] ? '' : '-'} \frac({l1.float})({l.float}) P_y = {directionIndices[3] ? '' : '-'} \frac({l1.float})({l.float}) \cdot {Py.float} = {loadValues[3]}.</BM>
 			Als we tenslotte de som van de krachten in verticale richting bekijken, dan krijgen we de vergelijking
 			<BM>(\scriptsize +) \!\! \uparrow \! \Sigma F_y = 0 \! : \,\,\, {directionIndices[2] ? '' : '-'} F_({fixA ? 'Ay' : 'A'}) {directionIndices[3] ? '+' : '-'} F_({fixA ? 'C' : 'Cy'}) - P_y = 0.</BM>
 			Hieruit vinden we

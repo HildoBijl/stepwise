@@ -24,8 +24,8 @@ const data = {
 
 function generateState() {
 	return {
-		l1: getRandomInteger(2, 4),
-		l2: getRandomInteger(2, 4),
+		l1: getRandomFloatUnit({ min: 2, max: 8, significantDigits: 1, unit: 'm' }).setSignificantDigits(2),
+		l2: getRandomFloatUnit({ min: 2, max: 8, significantDigits: 1, unit: 'm' }).setSignificantDigits(2),
 		theta: getRandomInteger(6, 16) * 5,
 		P: getRandomFloatUnit({ min: 2, max: 8, significantDigits: 1, unit: 'kN' }).setSignificantDigits(2),
 		fixA: getRandomBoolean(),
@@ -34,11 +34,12 @@ function generateState() {
 
 function getStaticSolution(state) {
 	const { l1, l2, theta, P, fixA } = state
+	const l = l1.add(l2)
 
 	// Define points.
 	const A = new Vector(0, 0)
-	const B = new Vector(l1, 0)
-	const C = new Vector(l1 + l2, 0)
+	const B = new Vector(l1.number, 0)
+	const C = new Vector(l.number, 0)
 	const points = { A, B, C }
 
 	// Define loads.
@@ -59,12 +60,12 @@ function getStaticSolution(state) {
 	const loadValues = [
 		P,
 		Px,
-		Py.multiply(l2 / (l1 + l2)),
-		Py.multiply(l1 / (l1 + l2)),
+		Py.multiply(l2.divide(l)),
+		Py.multiply(l1.divide(l)),
 	]
 
 	return {
-		...state, points, loads, loadNames, loadVariables, prenamedLoads, loadsToCheck, Px, Py, loadValues,
+		...state, l, points, loads, loadNames, loadVariables, prenamedLoads, loadsToCheck, Px, Py, loadValues,
 		getLoadNames: loads => getLoadNames(loads, points, prenamedLoads, data.comparison.loads),
 	}
 }
