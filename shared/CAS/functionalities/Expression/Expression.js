@@ -590,7 +590,7 @@ class Variable extends Expression {
 		if (this.accent)
 			result = `\\${this.accent}{${result}}`
 		if (this.subscript)
-			result = `${result}_{\\rm ${this.subscript}}`
+			result = `${result}_{${this.subscript}}`
 		return result
 	}
 
