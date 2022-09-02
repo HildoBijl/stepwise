@@ -12,6 +12,7 @@ import { useCurrentBackgroundColor, useScaleAndShiftTransformationSettings } fro
 
 import EngineeringDiagram, { Group, Beam, HingeSupport, RollerHingeSupport, Distance, PositionedElement, Label, CornerLabel, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
 import FBDInput, { allConnectedToPoints, getFBDFeedback, loadSources, performLoadsComparison } from 'ui/edu/content/mechanics/FBDInput'
+import { sumOfForces, sumOfMoments } from 'ui/edu/content/mechanics/latex'
 
 import { useSolution } from '../util/SolutionProvider'
 import SimpleExercise from '../types/SimpleExercise'
@@ -101,7 +102,7 @@ function Elements({ theta, l1, l2, points, loads, getLoadNames }) {
 }
 
 function Solution() {
-	const { l1, l2, l, theta, fixA, Px, Py, loadValues, directionIndices, hasAdjustedSolution } = useSolution()
+	const { l1, l, theta, fixA, Px, Py, loadValues, directionIndices, hasAdjustedSolution } = useSolution()
 	return <>
 		<Par>
 			Als eerste tekenen we het vrijlichaamsschema. Aan de linkerkant zit een {fixA ? 'vast' : 'rollend'} scharnier. Deze kan {fixA ? 'horizontale en verticale' : 'alleen verticale'} reactiekrachten geven. Aan de rechterkant zit een {fixA ? 'rollend' : 'vast'} scharnier. Deze kan {fixA ? 'alleen verticale' : 'horizontale en verticale'} reactiekrachten geven. Samen met de externe belasting geeft dat het volgende vrijlichaamsschema. {hasAdjustedSolution ? <>Merk op dat dit conform jouw getekende diagram is. De reactiekrachten mogen ook andersom, indien gewenst.</> : <>De richtingen zijn zo gekozen dat de krachten positief worden. Ze mogen ook de andere kant op getekend worden, maar dan worden de berekende krachten negatief.</>}
@@ -114,15 +115,15 @@ function Solution() {
 				<BMPart>P_y = P \cdot \sin\left({theta}^\circ\right) = {Py}.</BMPart>
 			</BMList>
 			Als we de som van de krachten in horizontale richting bekijken, dan krijgen we de vergelijking
-			<BM>\overset(+)(\rightarrow) \!\! \Sigma F_x = 0 \! : \,\,\, P_x {directionIndices[1] ? '-' : '+'} F_({fixA ? 'A' : 'C'}x) = 0.</BM>
+			<BM>{sumOfForces(false)} P_x {directionIndices[1] ? '-' : '+'} F_({fixA ? 'A' : 'C'}x) = 0.</BM>
 			De oplossing volgt als
 			<BM>F_({fixA ? 'A' : 'C'}x) = {directionIndices[1] ? '' : '-'} P_x = {loadValues[1]}.</BM>
 			Via de som van de momenten kunnen we één van de verticale krachten vinden. Momenten om <M>A</M> geeft bijvoorbeeld
-			<BM>\circlearrowleft \!\! ^+ \Sigma M_A = 0 \! : \,\,\, -{l1.float} \cdot P_y {directionIndices[3] ? '+' : '-'} {l.float} \cdot F_({fixA ? 'C' : 'Cy'}) = 0.</BM>
+			<BM>{sumOfMoments('A')} -{l1.float} \cdot P_y {directionIndices[3] ? '+' : '-'} {l.float} \cdot F_({fixA ? 'C' : 'Cy'}) = 0.</BM>
 			De oplossing hiervan volgt als
 			<BM>F_({fixA ? 'C' : 'Cy'}) = {directionIndices[3] ? '' : '-'} \frac({l1.float})({l.float}) P_y = {directionIndices[3] ? '' : '-'} \frac({l1.float})({l.float}) \cdot {Py.float} = {loadValues[3]}.</BM>
 			Als we tenslotte de som van de krachten in verticale richting bekijken, dan krijgen we de vergelijking
-			<BM>(\scriptsize +) \!\! \uparrow \! \Sigma F_y = 0 \! : \,\,\, {directionIndices[2] ? '' : '-'} F_({fixA ? 'Ay' : 'A'}) {directionIndices[3] ? '+' : '-'} F_({fixA ? 'C' : 'Cy'}) - P_y = 0.</BM>
+			<BM>{sumOfForces(true)} {directionIndices[2] ? '' : '-'} F_({fixA ? 'Ay' : 'A'}) {directionIndices[3] ? '+' : '-'} F_({fixA ? 'C' : 'Cy'}) - P_y = 0.</BM>
 			Hieruit vinden we
 			<BM>F_({fixA ? 'Ay' : 'A'}) = {directionIndices[2] ? '' : '-'} P_y {directionIndices[2] === directionIndices[3] ? '-' : '+'} F_({fixA ? 'C' : 'Cy'}) = {directionIndices[2] ? '' : '-'} {Py.float} {directionIndices[2] === directionIndices[3] ? '-' : '+'} {loadValues[3].float.texWithBrackets} = {loadValues[2]}.</BM>
 			Hiermee zijn alle reactiekrachten berekend.
