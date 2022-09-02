@@ -95,21 +95,21 @@ function Elements({ theta, l1, l2, points, loads, getLoadNames }) {
 		<Label position={points.B} angle={Math.PI / 2} graphicalDistance={3}><M>B</M></Label>
 		<Label position={points.C} angle={-Math.PI / 4} graphicalDistance={5}><M>C</M></Label>
 		{externalForce ? <CornerLabel points={[externalForce.start, externalForce.end, points.A]} graphicalSize={36}><M>{theta}^\circ</M></CornerLabel> : null}
-		<PositionedElement position={points.A.interpolate(points.B)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>{l1}</M></PositionedElement>
-		<PositionedElement position={points.B.interpolate(points.C)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>{l2}</M></PositionedElement>
+		<PositionedElement position={points.A.interpolate(points.B)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}</M></PositionedElement>
+		<PositionedElement position={points.B.interpolate(points.C)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_2 = {l2}</M></PositionedElement>
 		{loadNames.map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
 	</>
 }
 
 function Solution() {
-	const { l1, l, theta, fixA, Px, Py, loadValues, directionIndices, hasAdjustedSolution } = useSolution()
+	const { l1, l2, theta, fixA, Px, Py, loadValues, directionIndices, hasAdjustedSolution } = useSolution()
 	return <>
 		<Par>
 			Als eerste tekenen we het vrijlichaamsschema. Aan de linkerkant zit een {fixA ? 'vast' : 'rollend'} scharnier. Deze kan {fixA ? 'horizontale en verticale' : 'alleen verticale'} reactiekrachten geven. Aan de rechterkant zit een {fixA ? 'rollend' : 'vast'} scharnier. Deze kan {fixA ? 'alleen verticale' : 'horizontale en verticale'} reactiekrachten geven. Samen met de externe belasting geeft dat het volgende vrijlichaamsschema. {hasAdjustedSolution ? <>Merk op dat dit conform jouw getekende diagram is. De reactiekrachten mogen ook andersom, indien gewenst.</> : <>De richtingen zijn zo gekozen dat de krachten positief worden. Ze mogen ook de andere kant op getekend worden, maar dan worden de berekende krachten negatief.</>}
 		</Par>
 		<Diagram showSolution={true} showSupports={false} />
 		<Par>
-			Vervolgens berekenen we de onbekende reactiekrachten. We kunnen <M>P</M> ontbinden via
+			Vervolgens berekenen we de onbekende reactiekrachten.	We kunnen <M>P</M> ontbinden via
 			<BMList>
 				<BMPart>P_x = P \cdot \cos\left({theta}^\circ\right) = {Px},</BMPart>
 				<BMPart>P_y = P \cdot \sin\left({theta}^\circ\right) = {Py}.</BMPart>
@@ -119,9 +119,9 @@ function Solution() {
 			De oplossing volgt als
 			<BM>F_({fixA ? 'A' : 'C'}x) = {directionIndices[1] ? '' : '-'} P_x = {loadValues[1]}.</BM>
 			Via de som van de momenten kunnen we één van de verticale krachten vinden. Momenten om <M>A</M> geeft bijvoorbeeld
-			<BM>{sumOfMoments('A')} -{l1.float} \cdot P_y {directionIndices[3] ? '+' : '-'} {l.float} \cdot F_({fixA ? 'C' : 'Cy'}) = 0.</BM>
+			<BM>{sumOfMoments('A')} -l_1 P_y {directionIndices[3] ? '+' : '-'} \left(l_1 + l_2\right) F_({fixA ? 'C' : 'Cy'}) = 0.</BM>
 			De oplossing hiervan volgt als
-			<BM>F_({fixA ? 'C' : 'Cy'}) = {directionIndices[3] ? '' : '-'} \frac({l1.float})({l.float}) P_y = {directionIndices[3] ? '' : '-'} \frac({l1.float})({l.float}) \cdot {Py.float} = {loadValues[3]}.</BM>
+			<BM>F_({fixA ? 'C' : 'Cy'}) = {directionIndices[3] ? '' : '-'} \frac(l_1)(l_1 + l_2) P_y = {directionIndices[3] ? '' : '-'} \frac({l1.float})({l1.float} + {l2.float}) \cdot {Py.float} = {loadValues[3]}.</BM>
 			Als we tenslotte de som van de krachten in verticale richting bekijken, dan krijgen we de vergelijking
 			<BM>{sumOfForces(true)} {directionIndices[2] ? '' : '-'} F_({fixA ? 'Ay' : 'A'}) {directionIndices[3] ? '+' : '-'} F_({fixA ? 'C' : 'Cy'}) - P_y = 0.</BM>
 			Hieruit vinden we
