@@ -281,7 +281,7 @@ export function applyTransformation(points, transformation, preventShift) {
 		return undefined
 
 	// If the points parameter is a single vector, apply it.
-	if (points instanceof Vector || (Array.isArray(points) && points.every(element => isNumber(element))))
+	if (points instanceof Vector || (Array.isArray(points) && points.length > 2 && points.every(element => isNumber(element))))
 		return transformation.apply(points, preventShift)
 
 	// If the parameter has a transform function, apply it.

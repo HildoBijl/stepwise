@@ -191,6 +191,21 @@ const skills = {
 	},
 
 	/*
+	 * Engineering mechanics.
+	 * - Calculating support reactions for point masses.
+	 * - Calculating support reactions for beams.
+	 */
+
+	// Calculating support reactions for point masses.
+	// ToDo
+
+	// Calculating support reactions for beams.
+	schematizeSupport: {
+		name: 'Bevestiging schematiseren',
+		exercises: ['schematizeFixedSupport', 'schematizeRollerSupport', 'schematizeHingeSupport', 'schematizeRollerHingeSupport'],
+	},
+
+	/*
 	 * Basic physics.
 	 * - Physics mathematics: solving float-problems.
 	 * - Working with units.

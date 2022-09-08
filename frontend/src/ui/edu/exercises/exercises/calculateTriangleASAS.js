@@ -34,7 +34,7 @@ const Problem = (state) => {
 	const { α, β, a, c } = state
 	const numSolutions = useInput('numSolutions')
 	return <>
-		<Par>Gegeven is een driehoek met hoeken van <M>{α}^\circ</M> en <M>{β}^\circ.</M> De zijde tussen deze hoeken is <M>{c}</M>. Bereken de lengte van de zijde <M>{a}.</M> Vind alle mogelijke oplossingen en geef je antwoord in wiskundige notatie.</Par>
+		<Par>Gegeven is een driehoek met hoeken van <M>{α}^\circ</M> en <M>{β}^\circ.</M> De zijde tussen deze hoeken is <M>{c}</M>. Bereken de lengte van de zijde <M>{a}</M> tegenover de hoek van <M>{α}^\circ.</M> Vind alle mogelijke oplossingen en geef je antwoord in wiskundige notatie.</Par>
 		<ExerciseFigure />
 		<InputSpace>
 			<MultipleChoice id="numSolutions" choices={[
