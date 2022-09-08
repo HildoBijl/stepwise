@@ -629,7 +629,7 @@ module.exports.numberToSO = numberToSO
 // The functions below describe how to transfer between various data types, other than the standard ways in which this is done.
 
 module.exports.SItoFO = (value) => {
-	const { number, power } = value
+	let { number, power } = value
 
 	// Check for boundary cases.
 	if (number === '' || number === undefined)
@@ -640,6 +640,10 @@ module.exports.SItoFO = (value) => {
 		throw new InterpretationError(`DecimalSeparator`, undefined, 'Could not interpret a number consisting of only a decimal separator.')
 	if (power === '-')
 		throw new InterpretationError(`DecimalSeparator`, undefined, 'Could not interpret a number consisting of only a decimal separator.')
+
+	// Input object legacy: in older data formats an empty power was stored as an empty string. Convert this.
+	if (power === '')
+		power = undefined
 
 	// Set up a float with the given properties.
 	return new Float({
