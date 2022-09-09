@@ -108,9 +108,9 @@ function initialize(drawing) {
 
 	// Build up the SVG with the most important containers.
 	const gAxes = d3svg.append('g').attr('class', 'axis')
-	const gLines = d3svg.append('g').attr('class', 'lines').attr('mask', 'url(#noOverflow)')
-	const gShapes = d3svg.append('g').attr('class', 'shapes').attr('mask', 'url(#noOverflow)')
-	const gHoverLines = d3svg.append('g').attr('class', 'hoverLines').attr('mask', 'url(#noOverflow)')
+	const gLines = d3svg.append('g').attr('class', 'lines').attr('clip-path', 'url(#noOverflow)')
+	const gShapes = d3svg.append('g').attr('class', 'shapes').attr('clip-path', 'url(#noOverflow)')
+	const gHoverLines = d3svg.append('g').attr('class', 'hoverLines').attr('clip-path', 'url(#noOverflow)')
 
 	// Store all containers and draw the plot for as much as we can.
 	return { ...defaultPlotProperties, drawing, gAxes, gLines, gShapes, gHoverLines }

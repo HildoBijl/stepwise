@@ -16,7 +16,7 @@ function generateState() {
 	// Determine the angles and check if they match the conditions.
 	return {
 		wallRotation: getRandomInteger(0, 11) * 30,
-		beamRotation: getRandomInteger(-2, 2) * 30,
+		beamRotation: getRandomInteger(-1, 1) * 30,
 	}
 }
 

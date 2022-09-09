@@ -32,10 +32,11 @@ export const defaultObject = {
 // Group sets up a groups with a given position, rotation and scale. (In that order: it's first translated, then rotated and then scaled.)
 export const Group = forwardRef((props, ref) => {
 	// Process the input.
-	let { position, graphicalPosition, rotate, scale, className, style, children } = processOptions(props, defaultGroup)
+	let { position, graphicalPosition, rotate, scale, overflow, className, style, children } = processOptions(props, defaultGroup)
 	position = ensureVector(useTransformedOrGraphicalValue(position, graphicalPosition), 2)
 	rotate = ensureNumber(rotate)
 	scale = ensureNumber(scale)
+	overflow = ensureBoolean(overflow)
 	className = ensureString(className)
 	style = ensureObject(style)
 	ref = useRefWithEventHandlers(props, ref)
@@ -43,6 +44,7 @@ export const Group = forwardRef((props, ref) => {
 	// Set up the group with the right transform property.
 	return <g ref={ref} className={className} style={{
 		...style,
+		clipPath: overflow ? '' : 'url(#noOverflow)',
 		transform: `translate(${position.x}px, ${position.y}px) rotate(${rotate * 180 / Math.PI}deg) scale(${scale}) ${style.transform || ''}`,
 	}}>{children}</g>
 })
@@ -52,6 +54,7 @@ const defaultGroup = {
 	graphicalPosition: Vector.zero,
 	rotate: 0,
 	scale: 1,
+	overflow: true,
 	children: null,
 }
 

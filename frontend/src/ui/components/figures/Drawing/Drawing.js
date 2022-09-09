@@ -162,9 +162,9 @@ function Drawing(options, ref) {
 				{options.useSvg ? (
 					<svg ref={svgRef} className={classes.drawingSVG} viewBox={`0 0 ${width} ${height}`}>
 						<defs>
-							<mask id="noOverflow">
-								<rect x="0" y="0" width={width} height={height} fill="#fff" />
-							</mask>
+							<clipPath id="noOverflow">
+								<rect x="0" y="0" width={width} height={height} fill="#fff" rx={7} />
+							</clipPath>
 							{options.svgDefs}
 						</defs>
 						{options.svgContents}

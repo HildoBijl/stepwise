@@ -40,8 +40,8 @@ export const FixedSupport = forwardRef((props, ref) => {
 
 	// Make a group and position it appropriately.
 	return <Group ref={ref} rotate={angle - Math.PI / 2} {...{ position, graphicalPosition, className, style }}>
-		<SupportBlock position={new Vector(0, height * positionFactor)} {...{ color, width, height }} />
-		<Ground position={new Vector(0, height * (1 / 2 + positionFactor))} {...{ color, thickness, ...groundOptions }} />
+		<SupportBlock graphicalPosition={new Vector(0, height * positionFactor)} {...{ color, width, height }} />
+		<Ground graphicalPosition={new Vector(0, height * (1 / 2 + positionFactor))} {...{ color, thickness, ...groundOptions }} />
 	</Group>
 })
 export const defaultFixedSupport = {

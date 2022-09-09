@@ -15,7 +15,7 @@ import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
 import { useInput } from 'ui/form/Form'
 import { InputSpace } from 'ui/form/FormPart'
 
-import EngineeringDiagram, { Group, Beam, HingeSupport, RollerHingeSupport, Distance, PositionedElement, Label, CornerLabel, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
+import EngineeringDiagram, { Group, Beam, FixedSupport, RollerHingeSupport, Distance, PositionedElement, Label, CornerLabel, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
 import FBDInput, { allConnectedToPoints, getFBDFeedback, loadSources, performLoadsComparison } from 'ui/edu/content/mechanics/FBDInput'
 
 import { useExerciseData } from '../ExerciseContainer'
@@ -159,10 +159,12 @@ function Schematics({ points, loads, fixA, showSupports = true }) {
 
 	// ToDo next: apply mask to group.
 	return <>
-		<Beam points={[Vector.zero, Vector.fromPolar(10, deg2rad(wallRotation + beamRotation + 180))]} />
+		<Group overflow={false}>
+			<Beam points={[Vector.zero, Vector.fromPolar(3, deg2rad(wallRotation + beamRotation + 180))]} />
+		</Group>
 
 		<Group style={{ opacity: showSupports ? 1 : 0.1 }}>
-			<HingeSupport position={points[0]} angle={deg2rad(wallRotation)} />
+			<FixedSupport position={points[0]} angle={deg2rad(wallRotation)} />
 		</Group>
 
 		<Group>{render(loads)}</Group>
