@@ -148,7 +148,7 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 	const elements = <Elements {...solution} loads={loadsToDisplay} />
 
 	// Set up either a diagram or an input field with said diagram.
-	const snappers = [] //[...Object.values(points), Line.fromPointAndAngle(points.B, deg2rad(theta))]
+	const snappers = Object.values(points)
 	return isInputField ?
 		<FBDInput id="loads" transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} snappers={snappers} validate={allConnectedToPoints(points)} maxWidth={bounds => bounds.width} /> :
 		<EngineeringDiagram transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} maxWidth={bounds => bounds.width} />

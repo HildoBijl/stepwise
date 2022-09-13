@@ -4,7 +4,7 @@ const { ensureNumber, compareNumbers, boundTo } = require('../util/numbers')
 const { numberArray } = require('../util/arrays')
 const { repeat } = require('../util/functions')
 
-const { ensureVector } = require('./Vector')
+const { Vector, ensureVector } = require('./Vector')
 const { Span, ensureSpan } = require('./Span')
 const { Line, ensureLine } = require('./Line')
 
