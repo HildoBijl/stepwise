@@ -1,13 +1,13 @@
 const { gcd } = require('../../../util/maths')
 const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../util/random')
-const { asExpression, simplifyOptions, expressionChecks } = require('../../../CAS')
+const { asExpression, expressionComparisons, simplifyOptions } = require('../../../CAS')
 const { combinerAnd } = require('../../../skillTracking')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
 
-const { onlyOrderChanges } = expressionChecks
+const { onlyOrderChanges } = expressionComparisons
 
 // (c/x)/(a/x^2 + b/(xy)) = (cxy)/(ay+bx).
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
