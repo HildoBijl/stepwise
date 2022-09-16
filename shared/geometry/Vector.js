@@ -279,11 +279,17 @@ class Vector {
 		return compareNumbers(this.squaredMagnitude, vector.squaredMagnitude)
 	}
 
-	// isEqualDirection checks if two vectors have equal direction. When allowFlip is set to true, then an exactly opposite direction also results in true.
-	isEqualDirection(vector, allowFlip = false) {
+	// isEqualDirection checks if two vectors have equal direction. When allowReverse is set to true, then an exactly opposite direction also results in true.
+	isEqualDirection(vector, allowReverse = false) {
 		vector = ensureVector(vector, this.dimension)
 		const dotProduct = this.dotProduct(vector)
-		return compareNumbers(allowFlip ? Math.abs(dotProduct) : dotProduct, this.magnitude * vector.magnitude)
+		return compareNumbers(allowReverse ? Math.abs(dotProduct) : dotProduct, this.magnitude * vector.magnitude)
+	}
+
+	// isPerpendicular checks if two vectors are perpendicular with respect to each other.
+	isPerpendicular(vector) {
+		vector = ensureVector(vector, this.dimension)
+		return compareNumbers(this.dotProduct(vector), 0)
 	}
 
 	/*

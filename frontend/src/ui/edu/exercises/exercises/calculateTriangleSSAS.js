@@ -136,7 +136,7 @@ function getFeedback(exerciseData) {
 	// Determine MC feedback text in various cases.
 	const ruleText = [
 		<>Nee. Er zijn drie zijden betrokken en slechts één hoek, en dus is de sinusregel hier niet handig om te gebruiken. Dan moeten er minimaal twee betrokken hoeken zijn.</>,
-		<>Ja! Er zijn immers drie zijden betrokken bij ons probleem: twee bekende en één onbekende.</>
+		<>Ja! Er zijn immers drie zijden betrokken bij ons probleem: twee bekende en één onbekende.</>,
 	]
 	const numSolutionsText = [
 		<>Nee. Er is zeker wel een driehoek die voldoet aan de gegeven waarden. Deze is immers bij de opgave getekend.</>,

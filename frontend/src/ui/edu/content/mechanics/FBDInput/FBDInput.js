@@ -7,14 +7,14 @@ import { makeStyles } from '@material-ui/core/styles'
 import { processOptions, filterOptions, applyToEachParameter } from 'step-wise/util/objects'
 import { hasSimpleDeepEqualsMatching } from 'step-wise/util/arrays'
 import { Vector, Span } from 'step-wise/geometry'
-import { defaultForceLength, loadTypes, areLoadsEqual, doesLoadTouchRectangle } from 'step-wise/edu/exercises/util/engineeringMechanics'
+import { defaultForceLength, loadTypes, areLoadsEqual, doesLoadTouchRectangle, reverseLoad } from 'step-wise/edu/exercises/util/engineeringMechanics'
 
 import { useEnsureRef, useEventListener } from 'util/react'
 import { DrawingInput, useAsDrawingInput, defaultDrawingInputOptions } from 'ui/components/figures/Drawing'
 
 import EngineeringDiagram, { defaultEngineeringDiagramOptions, render, loadColors, LoadLabel } from '../EngineeringDiagram'
 
-import { clean, functionalize, flipLoad } from './support'
+import { clean, functionalize } from './support'
 import { nonEmptyNoDoubles } from './validation'
 
 export const defaultFBDInputOptions = {
@@ -179,7 +179,7 @@ function getDragObject(downData, upData, options) {
 	// On a short distance return a moment.
 	if (allowMoments && graphicalSnappedVector.squaredMagnitude <= maximumMomentDistance ** 2) {
 		const angle = vector.argument
-		const opening = Math.round(angle / (Math.PI / 2)) * (Math.PI / 2)
+		const opening = snappedVector.argument
 		return { type: loadTypes.moment, position: downData.snappedPosition, opening, clockwise: angle < opening }
 	}
 
@@ -242,9 +242,9 @@ function handleKeyPress(evt, setFI, deleteSelection) {
 		return setFI(FI => FI.map(load => ({ ...load, selected: false })))
 	}
 
-	// On a flip, flip all selected arrows.
+	// On a reverse, reverse all selected arrows.
 	if (evt.key === 'f' || evt.key === 'r' || evt.key === 'd') {
-		return setFI(FI => FI.map(load => load.selected ? flipLoad(load) : load))
+		return setFI(FI => FI.map(load => load.selected ? reverseLoad(load) : load))
 	}
 }
 

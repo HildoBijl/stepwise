@@ -14,8 +14,8 @@ import EngineeringDiagram, { Group, Beam, HingeSupport, RollerHingeSupport, Dist
 import FBDInput, { allConnectedToPoints, getFBDFeedback, loadSources, performLoadsComparison } from 'ui/edu/content/mechanics/FBDInput'
 import { sumOfForces, sumOfMoments } from 'ui/edu/content/mechanics/latex'
 
-import { useSolution } from '../util/SolutionProvider'
 import SimpleExercise from '../types/SimpleExercise'
+import { useSolution } from '../util/SolutionProvider'
 import { getInputFieldFeedback } from '../util/feedback'
 
 window.Vector = Vector

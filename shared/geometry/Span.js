@@ -132,7 +132,7 @@ class Span {
 
 	// alongEqualLine checks if the two Spans are along the same line. (Special case: two zero Spans are always along the same line.)
 	alongEqualLine(span, requireSameDirection, requireMatchingPoint = false) {
-		span = ensureSpan(span)
+		span = ensureSpan(span, this.dimension)
 
 		// Check for an extra requirement.
 		if (requireMatchingPoint && !this.hasMatchingPoint(span))
@@ -147,9 +147,15 @@ class Span {
 		return this.isAlongLine(span.line, requireSameDirection)
 	}
 
+	// isPerpendicular checks if this Span is perpendicular to the given Span. Only the direction of the vector is considered.
+	isPerpendicular(span) {
+		span = ensureSpan(span, this.dimension)
+		return this.vector.isPerpendicular(span.vector)
+	}
+
 	// isAlongLine checks if this Span is along the given Line.
 	isAlongLine(line, requireSameDirection = false) {
-		line = ensureLine(line)
+		line = ensureLine(line, this.dimension)
 
 		// Check for a zero vector, meaning this Span is a point. If so, there is no direction, so the direction is off anyway. If that's not important, check if the point is on the line.
 		if (this.vector.isZero())

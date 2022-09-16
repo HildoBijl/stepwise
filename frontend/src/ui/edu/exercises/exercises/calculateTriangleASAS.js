@@ -139,7 +139,7 @@ function getFeedback(exerciseData) {
 	// Determine MC feedback text in various cases.
 	const ruleText = [
 		<>Klopt. Er zijn slechts twee zijden betrokken, dus is de sinusregel de regel die we willen gebruiken.</>,
-		<>Nee. De cosinusregel is alleen te gebruiken indien je drie betrokken zijden hebt. Die hebben we hier niet.</>
+		<>Nee. De cosinusregel is alleen te gebruiken indien je drie betrokken zijden hebt. Die hebben we hier niet.</>,
 	]
 	const numSolutionsText = [
 		<>Nee. Er is zeker wel een driehoek die voldoet aan de gegeven waarden. Deze is immers bij de opgave getekend.</>,

@@ -1,31 +1,20 @@
 import React from 'react'
 
-import { deg2rad, roundToDigits } from 'step-wise/util/numbers'
-import { numberArray } from 'step-wise/util/arrays'
-import { Vector } from 'step-wise/geometry'
-import { Float } from 'step-wise/inputTypes/Float'
+import { deg2rad } from 'step-wise/util/numbers'
+import { Vector, Line } from 'step-wise/geometry'
 
-import { M, BM } from 'ui/components/equations'
+import { selectRandomCorrect } from 'util/feedbackMessages'
 import { Par } from 'ui/components/containers'
-import { Drawing } from 'ui/components/figures'
-import { components, LineLabel, useScaleAndShiftTransformationSettings, useRotationReflectionTransformation, useScaleToBoundsTransformationSettings } from 'ui/components/figures'
+import { useScaleAndShiftTransformationSettings } from 'ui/components/figures'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
-import ExpressionInput, { numeric, basicTrigonometryInDegrees } from 'ui/form/inputs/ExpressionInput'
-import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
-import { useInput } from 'ui/form/Form'
 import { InputSpace } from 'ui/form/FormPart'
 
-import EngineeringDiagram, { Group, Beam, FixedSupport, RollerHingeSupport, Distance, PositionedElement, Label, CornerLabel, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
-import FBDInput, { allConnectedToPoints, getFBDFeedback, loadSources, performLoadsComparison } from 'ui/edu/content/mechanics/FBDInput'
+import EngineeringDiagram, { Group, Beam, FixedSupport, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
+import FBDInput, { allConnectedToPoints, loadTypes } from 'ui/edu/content/mechanics/FBDInput'
 
-import { useExerciseData } from '../ExerciseContainer'
-import { useSolution } from '../util/SolutionProvider'
 import StepExercise from '../types/StepExercise'
-import { hasIncorrectSide } from '../util/feedbackChecks/equation'
-
+import { useSolution } from '../util/SolutionProvider'
 import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
-
-const { Polygon } = components
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -48,131 +37,151 @@ const steps = [
 			return <>
 				<Par>Bepaal of je een reactiekracht loodrecht op het muuroppervlak moet tekenen.</Par>
 				<InputSpace>
-					<MultipleChoice id="part1" choices={[
-						<>Ja. Een inklemming voorkomt beweging loodrecht op de muur. Dus is er een reactiekracht die die beweging voorkomt.</>,
-						<>Ja. Een inklemming laat beweging loodrecht op de muur toe. Dus is er een reactiekracht die die beweging voorkomt.</>,
-						<>Nee. Een inklemming voorkomt beweging loodrecht op de muur. Dus kan er geen reactiekracht zijn die die beweging voorkomt.</>,
+					<MultipleChoice id="forcePerpendicular" choices={[
+						<>Ja. Een inklemming voorkomt beweging loodrecht op de muur. Dus er is een reactiekracht die die beweging voorkomt.</>,
+						<>Ja. Een inklemming laat beweging loodrecht op de muur toe. Dus er is een reactiekracht die die beweging veroorzaakt.</>,
+						<>Nee. Een inklemming voorkomt beweging loodrecht op de muur. Dus kan er geen reactiekracht zijn die een eventuele beweging veroorzaakt.</>,
 						<>Nee. Een inklemming laat beweging loodrecht op de muur toe. Dus kan er geen reactiekracht zijn die die beweging voorkomt.</>,
 					]} />
 				</InputSpace>
 			</>
 		},
 		Solution: () => {
-			return <Par>ToDo</Par>
+			return <Par>Een inklemming voorkomt beweging loodrecht op de muur. Dus er is een reactiekracht die die beweging voorkomt.</Par>
 		},
 	},
 	{
 		Problem: () => {
 			return <>
-				<Par>Bepaal of je een reactiekracht loodrecht op het muuroppervlak moet tekenen.</Par>
+				<Par>Bepaal of je een reactiekracht parallel aan het muuroppervlak moet tekenen.</Par>
 				<InputSpace>
-					<MultipleChoice id="part1" choices={[
-						<>Ja. Een inklemming voorkomt beweging loodrecht op de muur. Dus is er een reactiekracht die die beweging voorkomt.</>,
-						<>Ja. Een inklemming laat beweging loodrecht op de muur toe. Dus is er een reactiekracht die die beweging voorkomt.</>,
-						<>Nee. Een inklemming voorkomt beweging loodrecht op de muur. Dus kan er geen reactiekracht zijn die die beweging voorkomt.</>,
-						<>Nee. Een inklemming laat beweging loodrecht op de muur toe. Dus kan er geen reactiekracht zijn die die beweging voorkomt.</>,
+					<MultipleChoice id="forceParallel" choices={[
+						<>Ja. Een inklemming voorkomt beweging parallel aan de muur. Dus er is een reactiekracht die die beweging voorkomt.</>,
+						<>Ja. Een inklemming laat beweging parallel aan de muur toe. Dus er is een reactiekracht die die beweging veroorzaakt.</>,
+						<>Nee. Een inklemming voorkomt beweging parallel aan de muur. Dus kan er geen reactiekracht zijn die een eventuele beweging veroorzaakt.</>,
+						<>Nee. Een inklemming laat beweging parallel aan de muur toe. Dus kan er geen reactiekracht zijn die die beweging voorkomt.</>,
 					]} />
 				</InputSpace>
 			</>
 		},
 		Solution: () => {
-			return <Par>ToDo</Par>
+			return <Par>Een inklemming voorkomt beweging parallel aan de muur. Dus er is een reactiekracht die die beweging voorkomt.</Par>
 		},
 	},
 	{
 		Problem: () => {
 			return <>
-				<Par>Bepaal of je een reactiekracht loodrecht op het muuroppervlak moet tekenen.</Par>
+				<Par>Bepaal of je een reactiemoment moet tekenen.</Par>
 				<InputSpace>
-					<MultipleChoice id="part1" choices={[
-						<>Ja. Een inklemming voorkomt beweging loodrecht op de muur. Dus is er een reactiekracht die die beweging voorkomt.</>,
-						<>Ja. Een inklemming laat beweging loodrecht op de muur toe. Dus is er een reactiekracht die die beweging veroorzaakt.</>,
-						<>Nee. Een inklemming voorkomt beweging loodrecht op de muur. Er is dus geen reactiekracht om de beweging te veroorzaken.</>,
-						<>Nee. Een inklemming laat beweging loodrecht op de muur toe. Er is dus geen reactiekracht om de beweging te voorkomen.</>,
+					<MultipleChoice id="moment" choices={[
+						<>Ja. Een inklemming voorkomt een draaibeweging. Dus er is een reactiemoment dat die draaiing voorkomt.</>,
+						<>Ja. Een inklemming laat een draaibeweging toe. Dus er is een reactiemoment dat die draaiing veroorzaakt.</>,
+						<>Nee. Een inklemming voorkomt een draaibeweging. Er is dus geen reactiemoment om een eventuele draaiing te veroorzaken.</>,
+						<>Nee. Een inklemming laat een draaibeweging toe. Er is dus geen reactiemoment om de draaiing te voorkomen.</>,
 					]} />
 				</InputSpace>
 			</>
 		},
 		Solution: () => {
-			return <Par>ToDo</Par>
+			return <Par>Een inklemming voorkomt een draaibeweging. Dus er is een reactiemoment dat die draaiing voorkomt.</Par>
 		},
 	},
 	{
 		Problem: () => {
 			return <>
-				<Par>ToDo</Par>
+				<Par>Teken in het diagram een reactiekracht loodrecht op de muur, een reactiekracht parallel aan de muur en een reactiemoment.</Par>
+				<InputSpace>
+					<Diagram isInputField={true} showSupports={false} />
+				</InputSpace>
 			</>
 		},
 		Solution: () => {
-			return <Par>ToDo</Par>
+			return <>
+				<Par>Het uiteindelijke diagram is als volgt.</Par>
+				<Diagram isInputField={false} showSupports={false} showSolution={true} />
+				<Par>Er zijn ook andere mogelijke oplossingen die OK zijn. Denk aan een horizontale en een verticale kracht, of een kracht langs de balk en een kracht loodrecht op de balk. Zolang er twee reactiekrachten (niet in dezelfde richting, en bij sterke voorkeur loodrecht op elkaar) en één reactiemoment zijn is het werkbaar.</Par>
+			</>
 		},
 	},
 ]
 
 function getFeedback(exerciseData) {
-	// ToDo
-	return {}
+	// Determine MC feedback text in various cases.
+	const forcePerpendicularText = [
+		<>{selectRandomCorrect()}</>,
+		<>Nee. Hoezo zou de balk kunnen bewegen?</>,
+		<>Nee. Hoe zou een reactiekracht een beweging kunnen veroorzaken?</>,
+		<>Nee. Hoezo zou de balk kunnen bewegen?</>,
+	]
+	const forceParallelText = forcePerpendicularText
+	const momentText = [
+		<>{selectRandomCorrect()}</>,
+		<>Nee. Hoezo zou de balk kunnen draaien?</>,
+		<>Nee. Hoe zou een reactiekracht een draaiing kunnen veroorzaken?</>,
+		<>Nee. Hoezo zou de balk kunnen draaien?</>,
+	]
 
-	// // Determine MC feedback text in various cases.
-	// const ruleText = [
-	// 	<>Klopt. Er zijn slechts twee zijden betrokken, dus is de sinusregel de regel die we willen gebruiken.</>,
-	// 	<>Nee. De cosinusregel is alleen te gebruiken indien je drie betrokken zijden hebt. Die hebben we hier niet.</>
-	// ]
-	// const numSolutionsText = [
-	// 	<>Nee. Er is zeker wel een driehoek die voldoet aan de gegeven waarden. Deze is immers bij de opgave getekend.</>,
-	// 	<>Inderdaad. Er is één driehoek die aan de gegeven waarden voldoet.</>,
-	// 	<>Nee, er zijn geen twee driehoeken die aan de gegeven waarden voldoen. Als je vanaf de gegeven zijde de lijnen met de gegeven hoeken tekent, dan is er maar één snijpunt mogelijk.</>,
-	// ]
+	// Set up feedback checks for the loads field.
+	const wrongNumberOfForces = input => {
+		const forces = input.filter(load => load.type === loadTypes.force)
+		return forces.length !== 2 && <>Je hebt wat te {forces.length > 2 ? 'veel' : 'weinig'} krachten getekend.</>
+	}
+	const forcesAlongSameLine = input => {
+		const forces = input.filter(load => load.type === loadTypes.force)
+		return forces[0].span.alongEqualLine(forces[1].span) && <>Je twee krachten liggen langs dezelfde lijn. Dat maakt één ervan overbodig.</>
+	}
+	const wrongNumberOfMoments = input => {
+		const moments = input.filter(load => load.type === loadTypes.moment)
+		return moments.length !== 1 && (moments.length > 1 ? <>Je hebt wat te veel momenten getekend.</> : <>Is er nog een moment nodig?</>)
+	}
+	const nonPerpendicular = input => {
+		const forces = input.filter(load => load.type === loadTypes.force)
+		return !forces[0].span.isPerpendicular(forces[1].span) && <>Technisch klopt het, maar het is veel handiger om je twee krachten loodrecht op elkaar te tekenen.</>
+	}
+	const loadsChecks = [wrongNumberOfForces, forcesAlongSameLine, wrongNumberOfMoments, nonPerpendicular]
 
-	// // Set up feedback checks for the equation field.
-	// const someSideNoFraction = (input, correct, solution, isCorrect) => !isCorrect && (!input.left.isSubtype('Fraction') || !input.right.isSubtype('Fraction')) && <>De sinusregel heeft aan beide kanten van de vergelijking een breuk. Dat is nu niet het geval.</>
-	// const equationChecks = [someSideNoFraction, hasIncorrectSide]
-
-	// return {
-	// 	...getMCFeedback('rule', exerciseData, { text: ruleText }),
-	// 	...getMCFeedback('numSolutions', exerciseData, { text: numSolutionsText }),
-	// 	...getInputFieldFeedback(['γ', 'equation', 'a'], exerciseData, [[], equationChecks, []].map(feedbackChecks => ({ feedbackChecks }))),
-	// }
+	return {
+		...getMCFeedback('forcePerpendicular', exerciseData, { text: forcePerpendicularText }),
+		...getMCFeedback('forceParallel', exerciseData, { text: forceParallelText }),
+		...getMCFeedback('moment', exerciseData, { text: momentText }),
+		...getInputFieldFeedback('loads', exerciseData, { feedbackChecks: loadsChecks }),
+	}
 }
 
 function Diagram({ isInputField = false, showSupports = true, showSolution = false }) {
 	const solution = useSolution()
-	const { points, wallRotation, beamRotation } = solution
+	const { wallRotation, beamRotation, points, loads } = solution
 
 	// Define the transformation.
-	const transformationSettings = useScaleAndShiftTransformationSettings(points, { scale: 70, margin: 120 })
+	const transformationSettings = useScaleAndShiftTransformationSettings(points, { scale: 70, margin: 100 })
 
 	// Get all the required components.
-	const loadsToDisplay = [] // isInputField ? [] : (showSolution ? loads : loads.filter(load => load.source === loadSources.external))
+	const loadsToDisplay = showSolution ? loads : []
 	const schematics = <Schematics {...solution} showSupports={showSupports} loads={loadsToDisplay} />
 	const elements = <Elements {...solution} loads={loadsToDisplay} />
 
 	// Set up either a diagram or an input field with said diagram.
-	const snappers = Object.values(points)
+	const A = points[0]
+	const snappers = [A, Line.fromPointAndAngle(A, deg2rad(wallRotation)), Line.fromPointAndAngle(A, deg2rad(wallRotation + 90)), Line.fromPointAndAngle(A, deg2rad(wallRotation + beamRotation)), Line.fromPointAndAngle(A, deg2rad(wallRotation + beamRotation + 90))]
 	return isInputField ?
 		<FBDInput id="loads" transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} snappers={snappers} validate={allConnectedToPoints(points)} maxWidth={bounds => bounds.width} /> :
 		<EngineeringDiagram transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} maxWidth={bounds => bounds.width} />
 }
 
-function Schematics({ points, loads, fixA, showSupports = true }) {
+function Schematics({ points, loads, showSupports = true }) {
 	const { wallRotation, beamRotation } = useSolution()
 
-	// ToDo next: apply mask to group.
 	return <>
 		<Group overflow={false}>
-			<Beam points={[Vector.zero, Vector.fromPolar(3, deg2rad(wallRotation + beamRotation + 180))]} />
+			<Beam points={[Vector.zero, Vector.fromPolar(3, deg2rad(wallRotation + beamRotation))]} />
 		</Group>
 
-		<Group style={{ opacity: showSupports ? 1 : 0.1 }}>
-			<FixedSupport position={points[0]} angle={deg2rad(wallRotation)} />
-		</Group>
+		<FixedSupport position={points[0]} angle={deg2rad(wallRotation + 180)} style={{ opacity: showSupports ? 1 : 0.1 }} />
 
 		<Group>{render(loads)}</Group>
 	</>
 }
 
-function Elements({ }) {
-	return <>
-
-	</>
+function Elements() {
+	return <></>
 }

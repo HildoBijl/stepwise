@@ -214,7 +214,7 @@ class Line {
 
 	// equals runs an exact equality check on the full set-up.
 	equals(line, requireSameDirection = false) {
-		line = ensureLine(line)
+		line = ensureLine(line, this.dimension)
 
 		// Check the starting point of the lines.
 		if (!this.perpendicularVector.equals(line.perpendicularVector))
@@ -223,6 +223,12 @@ class Line {
 		// Check the directions of the lines.
 		const dotProduct = this.normalizedDirection.dotProduct(line.normalizedDirection)
 		return compareNumbers(requireSameDirection ? dotProduct : Math.abs(dotProduct), 1)
+	}
+
+	// isPerpendicular checks if the lines are perpendicular. (They do not have to intersect.)
+	isPerpendicular(line) {
+		line = ensureLine(line, this.dimension)
+		return this.direction.isPerpendicular(line.direction)
 	}
 
 	/*
