@@ -1,6 +1,6 @@
 // Within a drawing, you can make use of useAsDrawingInput to get some useful tools for DrawingInputs.
 
-import React, { forwardRef, useMemo, useState, useCallback, createContext, useContext } from 'react'
+import React, { forwardRef, useMemo, useState, useCallback, createContext, useContext, useEffect, useRef } from 'react'
 import clsx from 'clsx'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { alpha } from '@material-ui/core/styles/colorManipulator'
@@ -8,7 +8,7 @@ import { Delete } from '@material-ui/icons'
 
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureArray, numberArray, filterDuplicates, sortByIndices } from 'step-wise/util/arrays'
-import { processOptions, filterOptions, filterProperties } from 'step-wise/util/objects'
+import { processOptions, filterOptions, filterProperties, removeProperties } from 'step-wise/util/objects'
 import { resolveFunctions } from 'step-wise/util/functions'
 import { Vector, Line, Span, Rectangle } from 'step-wise/geometry'
 
@@ -209,6 +209,7 @@ export function DrawingInputUnforwarded({ Drawing, drawingProperties, className,
 	const { active, readOnly, mouseData, feedback, selectionRectangle } = inputData
 	const drawing = drawingRef && drawingRef.current
 	maxWidth = resolveFunctions(maxWidth, transformationSettings.graphicalBounds)
+	let { svgContents, htmlContents } = drawingOptions
 
 	// Determine styling of the object.
 	const classes = useStyles({
@@ -222,20 +223,31 @@ export function DrawingInputUnforwarded({ Drawing, drawingProperties, className,
 	})
 	className = clsx(options.className, className, inputData.className, classes.DrawingInput, 'drawingInput', { active })
 
-	// Add snap lines and a feedback icon.
-	let { svgContents, htmlContents } = drawingOptions
-	svgContents = addSelectionRectangle(svgContents, selectionRectangle, drawing)
-	if (!selectionRectangle || !stopSnapOnSelection)
-		svgContents = addSnapSvg(svgContents, mouseData, drawing)
-	htmlContents = addFeedbackIcon(htmlContents, feedback, drawing, feedbackIconScale)
-
-	// When an onDelete function is given, show a Garbage icon.
-	if (onDelete) {
+	// When an onDelete function is given, show a Garbage icon. Also track the mouse position, whether it's over the button or not, to prevent snapping. And prevent the click from processing when it happens.
+	const [isOverDeleteButton, setIsOverDeleteButton] = useState(false)
+	const onDeleteWithStopPropagation = useMemo(() => onDelete && ((evt) => {
+		evt.stopPropagation()
+		onDelete(evt)
+	}), [onDelete])
+	if (onDeleteWithStopPropagation) {
 		htmlContents = <>
 			{htmlContents}
-			<PositionedElement anchor={[1, 1]} graphicalPosition={[drawing.width - 10, drawing.height - 10]} scale={1.5} ignoreMouse={false} ><DeleteButton onMouseDown={onDelete} onTouchStart={onDelete} /></PositionedElement>
+			<PositionedElement anchor={[1, 1]} graphicalPosition={[drawing.width - 10, drawing.height - 10]} scale={1.5} ignoreMouse={false} ><DeleteButton onDelete={onDeleteWithStopPropagation} onMouseEnter={() => setIsOverDeleteButton(true)} onMouseLeave={() => setIsOverDeleteButton(false)} /></PositionedElement>
 		</>
 	}
+	useEffect(() => {
+		if (!onDelete)
+			setIsOverDeleteButton(false)
+	}, [onDelete, setIsOverDeleteButton])
+
+	// Add snap lines when the mouse is not over a button.
+	const isOverButton = isOverDeleteButton
+	svgContents = addSelectionRectangle(svgContents, selectionRectangle, drawing)
+	if ((!selectionRectangle || !stopSnapOnSelection) && !isOverButton)
+		svgContents = addSnapSvg(svgContents, mouseData, drawing)
+
+	// Add a feedback icon when appropriate.
+	htmlContents = addFeedbackIcon(htmlContents, feedback, drawing, feedbackIconScale)
 
 	// Show the drawing and the feedback box.
 	return <div className={className}>
@@ -446,5 +458,7 @@ function addSelectionRectangle(svgContents, selectionRectangle) {
 
 // DeleteButton is a button of a garbage bin icon.
 function DeleteButton(props) {
-	return <div className="deleteButton" {...props}><Delete /></div>
+	const ref = useRef()
+	useEventListener(['mousedown', 'touchstart'], props.onDelete, ref)
+	return <div ref={ref} className="deleteButton" {...removeProperties(props, 'onDelete')}><Delete /></div>
 }
