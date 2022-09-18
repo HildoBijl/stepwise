@@ -128,11 +128,11 @@ function getFeedback(exerciseData) {
 	}
 	const forcesAlongSameLine = input => {
 		const forces = input.filter(load => load.type === loadTypes.force)
-		return forces[0].span.alongEqualLine(forces[1].span) && <>Je twee krachten liggen langs dezelfde lijn. Dat maakt één ervan overbodig.</>
+		return forces[0].span.alongEqualLine(forces[1].span) && { text: <>Je twee krachten liggen langs dezelfde lijn. Dat maakt één ervan overbodig.</>, affectedLoads: forces }
 	}
 	const wrongNumberOfMoments = input => {
 		const moments = input.filter(load => load.type === loadTypes.moment)
-		return moments.length !== 0 && (moments.length > 1 ? <>Zijn de getekende momenten wel nodig?</> : <>Is het getekende moment wel nodig?</>)
+		return moments.length !== 0 && { text: (moments.length > 1 ? <>Zijn de getekende momenten wel nodig?</> : <>Is het getekende moment wel nodig?</>), affectedLoads: moments }
 	}
 	const nonPerpendicular = input => {
 		const forces = input.filter(load => load.type === loadTypes.force)

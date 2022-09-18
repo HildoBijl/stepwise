@@ -1,5 +1,7 @@
+import { isValidElement } from 'react'
+
 import { arrayFind } from 'step-wise/util/arrays'
-import { processOptions, deepEquals, getPropertyOrDefault } from 'step-wise/util/objects'
+import { isBasicObject, processOptions, deepEquals, getPropertyOrDefault } from 'step-wise/util/objects'
 import { checkNumberEquality, areNumbersEqual } from 'step-wise/inputTypes/Integer'
 import { Float } from 'step-wise/inputTypes/Float'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
@@ -18,6 +20,9 @@ const defaultOptions = {
 	previousInput: undefined,
 	previousFeedback: undefined,
 	solution: {}, // This will contain the full "solution" object returned from the getSolution function. 
+
+	// These are remaining options.
+	feedbackFunction: undefined, // When not given, an attempt is made based on types to figure this out.
 }
 
 const accuracyFactorForNearHits = 4
@@ -106,20 +111,27 @@ export function getInputFieldFeedback(parameters, exerciseData, extraOptions) {
 // getIndividualInputFieldFeedback extracts feedback for a single input parameter. It checks which type it is and calls the appropriate function.
 function getIndividualInputFieldFeedback(currParameter, currInput, currSolution, currOptions, exerciseData) {
 	// Determine if the field is correct. Do this in the same way as the comparison function from the shared directory.
-	const { comparison, solution, previousInput, previousFeedback, feedbackChecks, text } = processOptions(currOptions, defaultOptions)
+	const { comparison, solution, previousInput, previousFeedback, feedbackChecks, text, feedbackFunction } = processOptions(currOptions, defaultOptions)
 	const correct = performIndividualComparison(currParameter, currInput, currSolution, comparison, solution)
 
 	// Walk through the feedback checks and see if one fires.
 	const checkResult = getFeedbackCheckResult(feedbackChecks, currInput, currSolution, solution, correct, exerciseData)
 	if (checkResult)
-		return { correct, text: checkResult }
+		return isBasicObject(checkResult) && !isValidElement(checkResult) ? { correct, ...checkResult } : { correct, text: checkResult }
 
 	// Check if the input is the same as before. If so, keep the feedback.
 	if (deepEquals(currInput, previousInput))
 		return previousFeedback
 
-	// If the comparison method is a function, there are no checks we can do. Go for a default approach.
+	// If a feedback function has been provided, then apply it.
+	if (feedbackFunction) {
+		const feedback = feedbackFunction(currInput, currSolution, currOptions)
+		return isBasicObject(feedback) ? { correct, ...feedback } : { correct, text: feedback }
+	}
+
+	// No feedback function is provided. Perhaps we can determine it on our own, based on comparison options. Although if there are no comparison options, this will not work. Then go for a default approach.
 	if (typeof comparison === 'function') {
+		console.log('Fucntion received')
 		if (correct)
 			return { correct, text: text.correct || selectRandomCorrect() }
 		return { correct, text: text.incorrect || selectRandomIncorrect() }
@@ -290,7 +302,7 @@ export function getInputFieldListFeedback(parameters, exerciseData, extraOptions
 }
 
 /* getMCFeedback provides a default feedback for multiple choice input fields. Currently this only works for single-input multiple choice and not multi-input. Parameters are:
- * - name: the name of the field.
+ * - parameter: the parameter name (ID) of the field.
  * - exerciseData: all the data for the exercise in the standard format.
  * - options: an object with options.
  * The options object can contain the following.
@@ -303,13 +315,13 @@ export function getInputFieldListFeedback(parameters, exerciseData, extraOptions
  * - incorrectText: the text that is used upon an incorrect answer, if no text is given.
  * The object returned is of the form { [name]: { 0: { correct: false, text: 'Wrong!' }, 1: { correct: true } } }
  */
-export function getMCFeedback(name, exerciseData, options = {}) {
+export function getMCFeedback(parameter, exerciseData, options = {}) {
 	const { input, progress, solution } = exerciseData
 	let { correct, done, step, substep, text, correctText, incorrectText } = options
 
 	// Attempt to get correct answer if not given.
 	if (correct === undefined)
-		correct = solution[name]
+		correct = solution[parameter]
 
 	// Attempt to determine "done".
 	if (done === undefined) {
@@ -329,7 +341,7 @@ export function getMCFeedback(name, exerciseData, options = {}) {
 		feedback[correct] = true
 
 	// If there is an input, show the feedback on this input.
-	const currInput = input[name]
+	const currInput = input[parameter]
 	if (currInput !== undefined) {
 		const isCorrect = correct === currInput
 		let feedbackText = Array.isArray(text) ? text[currInput] : text
@@ -342,7 +354,7 @@ export function getMCFeedback(name, exerciseData, options = {}) {
 	}
 
 	// Return result in appropriate format.
-	return { [name]: feedback }
+	return { [parameter]: feedback }
 }
 
 // extractComparisonFromExerciseData extracts shared data and the comparison method from the exercise data, assuring it's present. It also returns all other properties from the exerciseData, to allow easy variable definitions.

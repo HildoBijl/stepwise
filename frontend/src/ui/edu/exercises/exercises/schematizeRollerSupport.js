@@ -10,7 +10,7 @@ import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { InputSpace } from 'ui/form/FormPart'
 
 import EngineeringDiagram, { Group, Beam, RollerSupport, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
-import FBDInput, { allConnectedToPoints, loadTypes, areLoadsEqual, FBDComparison } from 'ui/edu/content/mechanics/FBDInput'
+import FBDInput, { allConnectedToPoints, loadTypes, areLoadsEqual, getFBDFeedbackFunction, FBDComparison } from 'ui/edu/content/mechanics/FBDInput'
 
 import StepExercise from '../types/StepExercise'
 import { useSolution } from '../util/SolutionProvider'
@@ -133,7 +133,7 @@ function getFeedback(exerciseData) {
 	}
 	const forcesAlongSameLine = (input, correct) => {
 		const forces = input.filter(load => load.type === loadTypes.force)
-		return !areLoadsEqual(forces[0], correct[0], FBDComparison) && <>De getekende reactiekracht heeft niet de juiste richting.</>
+		return !areLoadsEqual(forces[0], correct[0], FBDComparison) && { text: <>De getekende reactiekracht heeft niet de juiste richting.</>, affectedLoads: forces }
 	}
 	const wrongNumberOfMoments = input => {
 		const moments = input.filter(load => load.type === loadTypes.moment)
@@ -145,7 +145,7 @@ function getFeedback(exerciseData) {
 		...getMCFeedback('forcePerpendicular', exerciseData, { text: forcePerpendicularText }),
 		...getMCFeedback('forceParallel', exerciseData, { text: forceParallelText }),
 		...getMCFeedback('moment', exerciseData, { text: momentText }),
-		...getInputFieldFeedback('loads', exerciseData, { feedbackChecks: loadsChecks }),
+		...getInputFieldFeedback('loads', exerciseData, { feedbackChecks: loadsChecks, feedbackFunction: getFBDFeedbackFunction(FBDComparison) }),
 	}
 }
 

@@ -4,9 +4,16 @@ import { loadTypes, getLoadMatching } from 'step-wise/edu/exercises/util/enginee
 import { getCountingWord } from 'util/language'
 import { selectRandomCorrect } from 'util/feedbackMessages'
 
-export function getFBDFeedback(input, solution, comparison, points) {
+// getFBDFeedbackFunction returns a feedback function to give feedback on Free Body Diagram inputs. It requires comparison options and a set of points to refer to when naming a point.
+export function getFBDFeedbackFunction(comparison, points = {}) {
+	return (input, solution) => getFBDFeedback(input, solution, comparison, points)
+}
+
+// getFBDFeedback takes an input FBD and a solution FBD and compares them to extract feedback. It requires the comparison options too, as well as an object { A: new Vector(...), ... } whose names the feedback may refer to.
+export function getFBDFeedback(input, solution, comparison, points = {}) {
 	// Set up a matching of loads, so we can give feedback on it.
 	const matching = getLoadMatching(input, solution, comparison)
+	console.log(matching)
 
 	// Check if any input loads are not matched.
 	const unmatchedInputLoads = input.filter((_, index) => matching.input[index].length === 0)
@@ -35,7 +42,9 @@ export function getFBDFeedback(input, solution, comparison, points) {
 		const pointName = findRelatedPoint(missingLoads[0], points)
 		return {
 			correct: false,
-			text: `${missingLoads.length === 1 ? `Er is nog een ontbrekende pijl. Kijk eens goed naar punt ${pointName}.` : `Er zijn nog ontbrekende pijlen. Kijk eerst eens goed naar punt ${pointName}.`}`,
+			text: pointName ?
+				(`${missingLoads.length === 1 ? `Er is nog een ontbrekende pijl. Kijk eens goed naar punt ${pointName}.` : `Er zijn nog ontbrekende pijlen. Kijk eerst eens goed naar punt ${pointName}.`}`) :
+				(`${missingLoads.length === 1 ? `Er is nog een ontbrekende pijl.` : `Er zijn nog ontbrekende pijlen.`}`),
 		}
 	}
 

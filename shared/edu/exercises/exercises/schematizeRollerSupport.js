@@ -4,7 +4,7 @@ const { Vector } = require('../../../geometry/Vector')
 
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
-const { loadSources, loadTypes, getDefaultForce, getDefaultMoment, isLoadAtPoint, areLoadsEqual, FBDComparison } = require('../util/engineeringMechanics')
+const { loadSources, getDefaultForce, getDefaultMoment, areLoadsMatching, FBDComparison } = require('../util/engineeringMechanics')
 
 const { reaction } = loadSources
 
@@ -12,7 +12,7 @@ const data = {
 	skill: 'schematizeSupport',
 	steps: [null, null, null, null],
 	comparison: {
-		loads: checkRollerSupport,
+		loads: (input, correct) => areLoadsMatching(input, correct, FBDComparison),
 		default: {},
 	},
 }
@@ -35,7 +35,7 @@ function getSolution(state) {
 			getDefaultMoment(A, true, deg2rad(wallRotation + beamRotation), reaction),
 		],
 		forcePerpendicular: 0,
-		forceParallel: 0,
+		forceParallel: 3,
 		moment: 0,
 	}
 }
@@ -52,35 +52,6 @@ function checkInput(state, input, step) {
 		return performComparison('moment', input, solution, data.comparison)
 	if (step === 4)
 		return performComparison('loads', input, solution, data.comparison)
-}
-
-function checkRollerSupport(input, _, solution) {
-	const { points, loads } = solution
-	const [force, moment] = loads
-	const A = points[0]
-
-	// Check that there are two loads all connected to point A.
-	if (input.length !== 2)
-		return false
-	if (input.some(load => !isLoadAtPoint(load, A)))
-		return false
-
-	// Check that there is one force equaling the solution.
-	const forces = input.filter(load => load.type === loadTypes.force)
-	if (forces.length !== 1)
-		return false
-	if (!areLoadsEqual(forces[0], force, FBDComparison))
-		return false
-
-	// Check that there is one moment equaling the solution.
-	const moments = input.filter(load => load.type === loadTypes.moment)
-	if (moments.length !== 1)
-		return false
-	if (!areLoadsEqual(moments[0], moment, FBDComparison))
-		return false
-
-	// All in order.
-	return true
 }
 
 module.exports = {
