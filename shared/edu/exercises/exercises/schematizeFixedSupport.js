@@ -9,7 +9,7 @@ const { loadSources, loadTypes, getDefaultForce, getDefaultMoment, isLoadAtPoint
 const { reaction } = loadSources
 
 const data = {
-	skill: 'schematizeFixedSupport',
+	skill: 'schematizeSupport',
 	steps: [null, null, null, null],
 	comparison: {
 		loads: checkFixedSupport,
@@ -18,7 +18,6 @@ const data = {
 }
 
 function generateState() {
-	// Determine the angles and check if they match the conditions.
 	return {
 		wallRotation: getRandomInteger(0, 11) * 30,
 		beamRotation: getRandomInteger(-1, 1) * 30,
@@ -34,7 +33,7 @@ function getSolution(state) {
 		loads: [
 			getDefaultForce(A, deg2rad(wallRotation), reaction),
 			getDefaultForce(A, deg2rad(wallRotation + 90), reaction),
-			getDefaultMoment(A, true, deg2rad(wallRotation + beamRotation), reaction)
+			getDefaultMoment(A, true, deg2rad(wallRotation + beamRotation), reaction),
 		],
 		forcePerpendicular: 0,
 		forceParallel: 0,

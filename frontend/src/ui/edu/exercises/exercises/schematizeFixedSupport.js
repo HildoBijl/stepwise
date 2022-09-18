@@ -99,7 +99,7 @@ const steps = [
 			return <>
 				<Par>Het uiteindelijke diagram is als volgt.</Par>
 				<Diagram isInputField={false} showSupports={false} showSolution={true} />
-				<Par>Er zijn ook andere mogelijke oplossingen die OK zijn. Denk aan een horizontale en een verticale kracht, of een kracht langs de balk en een kracht loodrecht op de balk. Zolang er twee reactiekrachten (niet in dezelfde richting, en bij sterke voorkeur loodrecht op elkaar) en één reactiemoment zijn is het werkbaar.</Par>
+				<Par>Er zijn ook andere oplossingen die OK zijn. Denk aan een horizontale en een verticale kracht, of een kracht langs de balk en een kracht loodrecht op de balk. Ook is het niet van invloed of een krachtenpijl begint of juist eindigt in het betreffende punt. Zolang er twee reactiekrachten (niet in dezelfde richting, en bij sterke voorkeur loodrecht op elkaar) en één reactiemoment zijn is het werkbaar.</Par>
 			</>
 		},
 	},
@@ -117,7 +117,7 @@ function getFeedback(exerciseData) {
 	const momentText = [
 		<>{selectRandomCorrect()}</>,
 		<>Nee. Hoezo zou de balk kunnen draaien?</>,
-		<>Nee. Hoe zou een reactiekracht een draaiing kunnen veroorzaken?</>,
+		<>Nee. Hoe zou een reactiemoment een draaiing kunnen veroorzaken?</>,
 		<>Nee. Hoezo zou de balk kunnen draaien?</>,
 	]
 
@@ -136,7 +136,7 @@ function getFeedback(exerciseData) {
 	}
 	const nonPerpendicular = input => {
 		const forces = input.filter(load => load.type === loadTypes.force)
-		return !forces[0].span.isPerpendicular(forces[1].span) && <>Technisch klopt het, maar het is veel handiger om je twee krachten loodrecht op elkaar te tekenen.</>
+		return !forces[0].span.isPerpendicular(forces[1].span) && <>In theorie is dit werkbaar, maar het is veel handiger om je twee krachten loodrecht op elkaar te tekenen.</>
 	}
 	const loadsChecks = [wrongNumberOfForces, forcesAlongSameLine, wrongNumberOfMoments, nonPerpendicular]
 
