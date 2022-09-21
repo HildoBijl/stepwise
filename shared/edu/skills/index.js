@@ -204,6 +204,11 @@ const skills = {
 		name: 'Bevestiging schematiseren',
 		exercises: ['schematizeFixedSupport', 'schematizeRollerSupport', 'schematizeHingeSupport', 'schematizeRollerHingeSupport'],
 	},
+	drawFreeBodyDiagram: {
+		name: 'Vrijlichaamschema tekenen',
+		setup: combinerRepeat('schematizeSupport', 2),
+		exercises: ['drawFreeBodyDiagram1'],
+	},
 
 	/*
 	 * Basic physics.

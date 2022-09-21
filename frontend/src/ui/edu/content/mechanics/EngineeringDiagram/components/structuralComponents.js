@@ -27,6 +27,8 @@ export const Beam = forwardRef((props, ref) => {
 	const struts = points.map((point, index) => {
 		if (index === 0 || index === points.length - 1)
 			return null
+		if (point.equals(points[index - 1]) || point.equals(points[index + 1]))
+			return null
 		const prev = points[index - 1].subtract(point).normalize().multiply(strutSize).add(point)
 		const next = points[index + 1].subtract(point).normalize().multiply(strutSize).add(point)
 		return <Polygon key={index} graphicalPoints={[point, next, prev]} className="beamStrut" style={{ fill: color, opacity: strutOpacity, ...strutStyle }} />
