@@ -158,19 +158,18 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 
 	// Get all the required components.
 	const loadsToDisplay = showSolution ? loads : []
-	const schematics = <Schematics {...solution} showSupports={showSupports} loads={loadsToDisplay} />
-	const elements = <Elements {...solution} loads={loadsToDisplay} />
+	const schematics = <Schematics showSupports={showSupports} loads={loadsToDisplay} />
 
 	// Set up either a diagram or an input field with said diagram.
 	const A = points[0]
 	const snappers = [A, Line.fromPointAndAngle(A, deg2rad(wallRotation)), Line.fromPointAndAngle(A, deg2rad(wallRotation + 90)), Line.fromPointAndAngle(A, deg2rad(wallRotation + beamRotation)), Line.fromPointAndAngle(A, deg2rad(wallRotation + beamRotation + 90))]
 	return isInputField ?
-		<FBDInput id="loads" transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} snappers={snappers} validate={allConnectedToPoints(points)} maxWidth={bounds => bounds.width} /> :
-		<EngineeringDiagram transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} maxWidth={bounds => bounds.width} />
+		<FBDInput id="loads" transformationSettings={transformationSettings} svgContents={schematics} snappers={snappers} validate={allConnectedToPoints(points)} maxWidth={bounds => bounds.width} /> :
+		<EngineeringDiagram transformationSettings={transformationSettings} svgContents={schematics} maxWidth={bounds => bounds.width} />
 }
 
-function Schematics({ points, loads, showSupports = true }) {
-	const { wallRotation, beamRotation } = useSolution()
+function Schematics({ loads, showSupports = true }) {
+	const { points, wallRotation, beamRotation } = useSolution()
 
 	return <>
 		<Group overflow={false}>
@@ -181,8 +180,4 @@ function Schematics({ points, loads, showSupports = true }) {
 
 		<Group>{render(loads)}</Group>
 	</>
-}
-
-function Elements() {
-	return <></>
 }
