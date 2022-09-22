@@ -4,7 +4,7 @@ const { Vector } = require('../../../geometry/Vector')
 
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
-const { loadSources, getDefaultForce, getDefaultMoment } = require('../util/engineeringMechanics')
+const { loadSources, areLoadsMatching, FBDComparison, getDefaultForce, getDefaultMoment } = require('../util/engineeringMechanics')
 
 const { reaction, external } = loadSources
 
@@ -25,10 +25,9 @@ function generateState() {
 	]
 
 	// Determine the support types.
-	const supportTypes = [
-		getRandomInteger(0, 3),
-		getRandomInteger(0, 3),
-	]
+	const support1 = getRandomInteger(0, 3)
+	const support2 = getRandomInteger(0, 3, [support1]) // Ensure they're different.
+	const supportTypes = [support1, support2]
 
 	// Determine the load properties.
 	const loadPositionIndex = getRandomInteger(distances[0] === 0 ? 1 : 0, distances[2] === 0 ? 1 : 2) // 0 is left, 1 is middle, 2 is right.
@@ -55,6 +54,8 @@ function getSolution(state) {
 	const B = A.add(new Vector(distances[1], 0))
 	const right = B.add(new Vector(distances[2], 0))
 	const points = [left, A, B, right]
+	const isAEnd = left.equals(A)
+	const isBEnd = right.equals(B)
 
 	// Determine the external load location.
 	const loadPositionIndex = (loadProperties.position === 0 ? 0 : (loadProperties.position === right.x ? 2 : 1))
@@ -64,23 +65,23 @@ function getSolution(state) {
 
 	// Determine the external load.
 	const externalLoad = loadProperties.isForce ?
-		getDefaultForce(loadPoint, loadProperties.isPositiveDirection ? Math.PI / 2 : Math.PI * 2, external) :
+		getDefaultForce(loadPoint, loadProperties.isPositiveDirection ? Math.PI / 2 : -Math.PI / 2, external) :
 		getDefaultMoment(loadPoint, loadProperties.isPositiveDirection, loadPositionIndex === 0 ? 0 : Math.PI, external)
 
 	// Determine the solution.
-	loadsLeft = getReactionLoads(supportTypes[0], A)
-	loadsRight = getReactionLoads(supportTypes[1], B)
+	loadsLeft = getReactionLoads(supportTypes[0], A, isAEnd, true)
+	loadsRight = getReactionLoads(supportTypes[1], B, isBEnd, !isBEnd)
 	const loads = [...loadsLeft, ...loadsRight, externalLoad]
 
 	// Assemble everything.
-	return { ...state, left, A, B, right, points, loadPositionIndex, loadPoint, externalLoad, loadsLeft, loadsRight, loads }
+	return { ...state, left, A, B, right, points, isAEnd, isBEnd, loadPositionIndex, loadPoint, externalLoad, loadsLeft, loadsRight, loads }
 }
 
-function getReactionLoads(supportType, point = Vector.zero, angle = 0, clockwise = true, opening = 0) {
+function getReactionLoads(supportType, point = Vector.zero, rotated = false, toRight = true, clockwise = true) {
 	// Define the possible loads.
-	const horizontal = getDefaultForce(point, angle, reaction)
-	const vertical = getDefaultForce(point, angle - Math.PI / 2, reaction)
-	const moment = getDefaultMoment(point, clockwise, opening + angle, reaction)
+	const horizontal = getDefaultForce(point, toRight ? 0 : Math.PI, reaction)
+	const vertical = getDefaultForce(point, -Math.PI / 2, reaction)
+	const moment = getDefaultMoment(point, toRight, toRight ? 0 : Math.PI, reaction)
 
 	// Return the right loads.
 	switch (supportType) {
@@ -89,9 +90,9 @@ function getReactionLoads(supportType, point = Vector.zero, angle = 0, clockwise
 		case 1: // Hinge.
 			return [horizontal, vertical]
 		case 2: // Roller.
-			return [vertical, moment]
+			return [rotated ? horizontal : vertical, moment]
 		case 3: // RollerHinge.
-			return [vertical]
+			return [rotated ? horizontal : vertical]
 		default:
 			throw new Error(`Invalid support type: could not get the reaction loads of the support with type ${supportType}.`)
 	}

@@ -4,6 +4,7 @@ import React, { forwardRef, useCallback, useMemo, useState, useEffect } from 're
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 
+import { mod } from 'step-wise/util/numbers'
 import { processOptions, filterOptions, applyToEachParameter } from 'step-wise/util/objects'
 import { hasSimpleDeepEqualsMatching } from 'step-wise/util/arrays'
 import { Vector, Span } from 'step-wise/geometry'
@@ -180,7 +181,7 @@ function getDragObject(downData, upData, options) {
 	if (allowMoments && graphicalSnappedVector.squaredMagnitude <= maximumMomentDistance ** 2) {
 		const angle = vector.argument
 		const opening = snappedVector.argument
-		return { type: loadTypes.moment, position: downData.snappedPosition, opening, clockwise: angle < opening }
+		return { type: loadTypes.moment, position: downData.snappedPosition, opening, clockwise: mod(angle - opening, 2 * Math.PI) > Math.PI }
 	}
 
 	// Otherwise return a Force. How to do this depends on if a fixed length has been set.

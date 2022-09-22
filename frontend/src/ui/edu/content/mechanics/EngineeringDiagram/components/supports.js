@@ -28,7 +28,7 @@ export const defaultSupport = {
 
 export const FixedSupport = forwardRef((props, ref) => {
 	// Check input.
-	let { position, graphicalPosition, angle, color, thickness, groundOptions, width, height, positionFactor, className, style } = processOptions(props, defaultFixedSupport)
+	let { position, graphicalPosition, shift, angle, color, thickness, groundOptions, width, height, positionFactor, className, style } = processOptions(props, defaultFixedSupport)
 	angle = ensureNumber(angle)
 	color = ensureString(color)
 	thickness = ensureNumber(thickness)
@@ -51,6 +51,10 @@ export const defaultFixedSupport = {
 	positionFactor: 1 / 6, // The position factor determines how much above the middle of the rectangle the incoming beam is positioned, as a part of the full rectangle height.
 	className: 'support fixedSupport',
 }
+
+export const AdjacentFixedSupport = forwardRef((props, ref) => {
+	return <FixedSupport ref={ref} {...props} positionFactor={1} />
+})
 
 export const HingeSupport = forwardRef((props, ref) => {
 	// Check input.
@@ -86,8 +90,6 @@ export const HalfHingeSupport = forwardRef((props, ref) => {
 	width = ensureNumber(width)
 	height = ensureNumber(height)
 	shift = ensureNumber(shift)
-	className = ensureString(className)
-	style = ensureObject(style)
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Make a group and position it appropriately.
@@ -130,6 +132,10 @@ export const defaultRollerSupport = {
 	wheelRadius: 4,
 	wheelsOptions: {},
 }
+
+export const AdjacentRollerSupport = forwardRef((props, ref) => {
+	return <RollerSupport ref={ref} {...props} positionFactor={1} />
+})
 
 export const RollerHingeSupport = forwardRef((props, ref) => {
 	// Check input.

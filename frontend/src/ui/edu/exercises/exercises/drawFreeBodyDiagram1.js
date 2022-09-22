@@ -11,8 +11,8 @@ import { useCurrentBackgroundColor, useScaleAndShiftTransformationSettings } fro
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { InputSpace } from 'ui/form/FormPart'
 
-import EngineeringDiagram, { Group, PositionedElement, Distance, Beam, FixedSupport, HingeSupport, RollerSupport, RollerHingeSupport, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
-import FBDInput, { allConnectedToPoints, loadTypes } from 'ui/edu/content/mechanics/FBDInput'
+import EngineeringDiagram, { Group, PositionedElement, Distance, Beam, FixedSupport, AdjacentFixedSupport, HingeSupport, HalfHingeSupport, RollerSupport, AdjacentRollerSupport, RollerHingeSupport, RollerHalfHingeSupport, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
+import FBDInput, { allConnectedToPoints, loadTypes, loadSources } from 'ui/edu/content/mechanics/FBDInput'
 
 import StepExercise from '../types/StepExercise'
 import { useSolution } from '../util/SolutionProvider'
@@ -25,7 +25,8 @@ export default function Exercise() {
 }
 
 const supportNames = ['inklemming', 'scharnierverbinding', 'schuifverbinding', 'scharnierende schuifverbinding']
-const supportObjects = [FixedSupport, HingeSupport, RollerSupport, RollerHingeSupport]
+const endSupportObjects = [FixedSupport, HingeSupport, RollerSupport, RollerHingeSupport]
+const midSupportObjects = [AdjacentFixedSupport, HalfHingeSupport, AdjacentRollerSupport, RollerHalfHingeSupport]
 
 const Problem = (state) => {
 	const { supportTypes } = useSolution()
@@ -34,9 +35,9 @@ const Problem = (state) => {
 		<Diagram isInputField={false} />
 		<Par>Teken het vrijlichaamsschema/schematisch diagram.</Par>
 		<InputSpace>
-			<Par>ToDo</Par>
-			{/* <Diagram isInputField={true} showSupports={false} /> */}
+			<Diagram isInputField={true} showSupports={false} />
 		</InputSpace>
+		<Diagram showSolution={true} showSupports={false} />
 	</>
 }
 
@@ -51,7 +52,11 @@ const steps = [
 			</>
 		},
 		Solution: () => {
-			return <Par>ToDo</Par>
+			return <>
+				<Par>ToDo</Par>
+				<Diagram showSolution={true} showSupports={false} />
+				<Par>ToDo</Par>
+			</>
 		},
 	},
 	{
@@ -77,7 +82,11 @@ const steps = [
 			</>
 		},
 		Solution: () => {
-			return <Par>ToDo</Par>
+			return <>
+				<Par>ToDo</Par>
+				<Diagram showSolution={true} showSupports={false} />
+				<Par>ToDo</Par>
+			</>
 		},
 	},
 ]
@@ -133,33 +142,33 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 	const { distances, supportTypes, loadProperties, left, A, B, right, points, loadPositionIndex, loadPoint, externalLoad, loadsLeft, loadsRight, loads } = solution
 
 	// Define the transformation.
-	const transformationSettings = useScaleAndShiftTransformationSettings(points, { scale: 70, margin: [80, [40, 100]] })
+	const transformationSettings = useScaleAndShiftTransformationSettings(points, { scale: 70, margin: [80, [80, 100]] })
 
 	// Get all the required components.
-	const loadsToDisplay = showSolution ? loads : [externalLoad]
+	const loadsToDisplay = isInputField ? [] : (showSolution ? loads : loads.filter(load => load.source === loadSources.external))
 	const schematics = <Schematics loads={loadsToDisplay} showSupports={showSupports} />
 	const elements = <Elements loads={loadsToDisplay} />
 
 	// Set up either a diagram or an input field with said diagram.
-	const snappers = [A, B, loadPoint]
+	const snappers = points
 	return isInputField ?
 		<FBDInput id="loads" transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} snappers={snappers} validate={allConnectedToPoints(points)} maxWidth={bounds => bounds.width} /> :
 		<EngineeringDiagram transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} maxWidth={bounds => bounds.width} />
 }
 
 function Schematics({ loads, showSupports = true }) {
-	const { distances, supportTypes, loadProperties, left, A, B, right, points, loadPositionIndex, loadPoint, externalLoad, loadsLeft, loadsRight } = useSolution()
+	const { distances, supportTypes, loadProperties, left, A, B, right, points, isAEnd, isBEnd, loadPositionIndex, loadPoint, externalLoad, loadsLeft, loadsRight } = useSolution()
 
-	const SupportLeft = supportObjects[supportTypes[0]]
-	const SupportRight = supportObjects[supportTypes[1]]
+	const SupportLeft = (isAEnd ? endSupportObjects : midSupportObjects)[supportTypes[0]]
+	const SupportRight = (isBEnd ? endSupportObjects : midSupportObjects)[supportTypes[1]]
 
 	return <>
 		<Group overflow={false}>
 			<Beam points={points} />
 		</Group>
 
-		<SupportLeft position={A} angle={left.equals(A) ? Math.PI : Math.PI / 2} style={{ opacity: showSupports ? 1 : 0.1 }} />
-		<SupportRight position={B} angle={right.equals(B) ? 0 : Math.PI / 2} style={{ opacity: showSupports ? 1 : 0.1 }} />
+		<SupportLeft position={A} angle={isAEnd ? Math.PI : Math.PI / 2} style={{ opacity: showSupports ? 1 : 0.1 }} />
+		<SupportRight position={B} angle={isBEnd ? 0 : Math.PI / 2} style={{ opacity: showSupports ? 1 : 0.1 }} />
 
 		<Group>
 			{points.map((point, index) => {
@@ -184,7 +193,7 @@ function Elements() {
 			const prev = points[index - 1]
 			if (index === 0 || prev.equals(point))
 				return null
-			return <PositionedElement position={point.interpolate(prev)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>{new FloatUnit(`${point.x - prev.x}m`)}</M></PositionedElement>
+			return <PositionedElement key={index} position={point.interpolate(prev)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>{new FloatUnit(`${point.x - prev.x}m`)}</M></PositionedElement>
 		})}
 	</>
 }
