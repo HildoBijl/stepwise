@@ -47,9 +47,9 @@ export default function SolutionProvider({ children }) {
 }
 
 // useSolution is the hook used by exercises to extract the solution from the provider.
-export function useSolution() {
+export function useSolution(throwOnMissing = true) {
 	const solution = useContext(SolutionContext)
-	if (solution === undefined)
+	if (solution === undefined && throwOnMissing)
 		throw new Error(`Missing getSolution function: could not find the getSolution or getStaticSolution function in the shared export of the respective exercise.`)
 	return solution
 }

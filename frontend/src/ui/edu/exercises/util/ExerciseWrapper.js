@@ -30,8 +30,8 @@ export default function ExerciseWrapper({ getFeedback, children }) {
 function FeedbackWrapper({ getFeedback, children }) {
 	// Extract all the data needed by the FeedbackProvider.
 	const exerciseData = useExerciseData()
-	const solution = useSolution()
-	const data = useMemo(() => ({ ...exerciseData, solution }), [exerciseData, solution])
+	const solution = useSolution(false)
+	const data = useMemo(() => solution === undefined ? exerciseData : ({ ...exerciseData, solution }), [exerciseData, solution])
 
 	// Determine the input that needs to be evaluated by the FeedbackProvider. When it changes, the feedback is adjusted.
 	const feedbackInput = getLastInput(exerciseData.history)
