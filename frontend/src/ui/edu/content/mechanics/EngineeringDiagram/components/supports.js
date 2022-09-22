@@ -28,7 +28,7 @@ export const defaultSupport = {
 
 export const FixedSupport = forwardRef((props, ref) => {
 	// Check input.
-	let { position, graphicalPosition, shift, angle, color, thickness, groundOptions, width, height, positionFactor, className, style } = processOptions(props, defaultFixedSupport)
+	let { position, graphicalPosition, angle, color, thickness, groundOptions, width, height, positionFactor, className, style } = processOptions(props, defaultFixedSupport)
 	angle = ensureNumber(angle)
 	color = ensureString(color)
 	thickness = ensureNumber(thickness)

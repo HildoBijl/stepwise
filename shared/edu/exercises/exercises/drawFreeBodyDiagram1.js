@@ -1,4 +1,3 @@
-const { deg2rad } = require('../../../util/numbers')
 const { getRandomBoolean, getRandomInteger } = require('../../../util/random')
 const { Vector } = require('../../../geometry/Vector')
 

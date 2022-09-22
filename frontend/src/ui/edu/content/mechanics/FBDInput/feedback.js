@@ -13,7 +13,6 @@ export function getFBDFeedbackFunction(comparison, points = {}) {
 export function getFBDFeedback(input, solution, comparison, points = {}) {
 	// Set up a matching of loads, so we can give feedback on it.
 	const matching = getLoadMatching(input, solution, comparison)
-	console.log(matching)
 
 	// Check if any input loads are not matched.
 	const unmatchedInputLoads = input.filter((_, index) => matching.input[index].length === 0)

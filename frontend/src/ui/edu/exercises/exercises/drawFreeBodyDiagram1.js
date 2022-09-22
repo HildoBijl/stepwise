@@ -1,22 +1,21 @@
 import React from 'react'
 
-import { deg2rad } from 'step-wise/util/numbers'
-import { Vector, Line } from 'step-wise/geometry'
+import { Vector } from 'step-wise/geometry'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 
+import { getCountingWord } from 'util/language'
 import { selectRandomCorrect } from 'util/feedbackMessages'
 import { Par } from 'ui/components/containers'
-import { M, BM, BMList, BMPart } from 'ui/components/equations'
+import { M } from 'ui/components/equations'
 import { useCurrentBackgroundColor, useScaleAndShiftTransformationSettings } from 'ui/components/figures'
-import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { InputSpace } from 'ui/form/FormPart'
 
 import EngineeringDiagram, { Group, PositionedElement, Distance, Beam, FixedSupport, AdjacentFixedSupport, HingeSupport, HalfHingeSupport, RollerSupport, AdjacentRollerSupport, RollerHingeSupport, RollerHalfHingeSupport, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
-import FBDInput, { allConnectedToPoints, loadTypes, loadSources } from 'ui/edu/content/mechanics/FBDInput'
+import FBDInput, { allConnectedToPoints, loadSources, getFBDFeedback, FBDComparison, getLoadMatching, isLoadAtPoint } from 'ui/edu/content/mechanics/FBDInput'
 
 import StepExercise from '../types/StepExercise'
 import { useSolution } from '../util/SolutionProvider'
-import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
+import { getInputFieldFeedback } from '../util/feedback'
 
 const distanceShift = 70
 
@@ -29,9 +28,9 @@ const endSupportObjects = [FixedSupport, HingeSupport, RollerSupport, RollerHing
 const midSupportObjects = [AdjacentFixedSupport, HalfHingeSupport, AdjacentRollerSupport, RollerHalfHingeSupport]
 
 const Problem = (state) => {
-	const { supportTypes } = useSolution()
+	const { supportTypes, loadProperties } = useSolution()
 	return <>
-		<Par>Een balk is op twee punten bevestigd: links met een {supportNames[supportTypes[0]]} en rechts met een {supportNames[supportTypes[1]]}.</Par>
+		<Par>Een balk is op twee punten bevestigd: links met een {supportNames[supportTypes[0]]} en rechts met een {supportNames[supportTypes[1]]}. Deze balk wordt van buitenaf belast met een {loadProperties.isForce ? 'kracht' : 'moment'}.</Par>
 		<Diagram isInputField={false} />
 		<Par>Teken het vrijlichaamsschema/schematisch diagram.</Par>
 		<InputSpace>
@@ -92,7 +91,12 @@ const steps = [
 ]
 
 function getFeedback(exerciseData) {
-	return {}
+	const { input, solution } = exerciseData
+
+	return {
+		loads: getCustomFBDFeedback(input.loads, solution.loads, FBDComparison, solution.A, solution.B)
+	}
+
 
 	// ToDo
 	// // Determine MC feedback text in various cases.
@@ -137,9 +141,49 @@ function getFeedback(exerciseData) {
 	// }
 }
 
+function getCustomFBDFeedback(input, solution, comparison, A, B) {
+	// Derive feedback on the loads. This is custom feedback, so no function is called for it. It is determined straight from the matching.
+	const matching = getLoadMatching(input, solution, comparison)
+
+	// Check if any input loads are not matched.
+	const unmatchedInputLoads = input.filter((_, index) => matching.input[index].length === 0)
+	if (unmatchedInputLoads.length > 0) {
+		return {
+			correct: false,
+			text: unmatchedInputLoads.length === 1 ? 'Er is een pijl getekend die niet aanwezig hoort te zijn. Kijk daar eerst naar.' : `Er zijn ${getCountingWord(unmatchedInputLoads.length)} pijlen getekend die niet aanwezig horen te zijn. Kijk daar eerst naar.`,
+			affectedLoads: unmatchedInputLoads,
+		}
+	}
+
+	// Check if any solution load is matched to multiple input loads.
+	const doubleInputLoads = matching.solution.filter(matches => matches.length > 1)
+	if (doubleInputLoads.length >= 1) {
+		return {
+			correct: false,
+			text: `${doubleInputLoads.length === 1 ? `Er is een set` : `Er zijn ${getCountingWord(doubleInputLoads.length)} sets`} pijlen die op hetzelfde neerkomen. Haal overbodige pijlen weg.`,
+			affectedLoads: doubleInputLoads.flat(),
+		}
+	}
+
+	// Check if solution loads are not matched.
+	const missingLoads = solution.filter((_, index) => matching.solution[index].length === 0)
+	if (missingLoads.length >= 1) {
+		// Try to find a point matching a missing arrow.
+		const isAtA = isLoadAtPoint(missingLoads[0], A)
+		const isAtB = isLoadAtPoint(missingLoads[0], B)
+		const description = (isAtA ? 'linker' : 'rechter')
+		if (isAtA || isAtB)
+			return { correct: false, text: `${missingLoads.length === 1 ? `Er is nog een ontbrekende pijl. Kijk eens goed naar de ${description} bevestiging.` : `Er zijn nog ontbrekende pijlen. Kijk eerst eens goed naar de ${description} bevestiging.`}`, }
+		return { correct: false, text: `Vergeet de externe belasting niet mee te nemen.` }
+	}
+
+	// All is correct!
+	return { correct: true, text: selectRandomCorrect() }
+}
+
 function Diagram({ isInputField = false, showSupports = true, showSolution = false }) {
 	const solution = useSolution()
-	const { distances, supportTypes, loadProperties, left, A, B, right, points, loadPositionIndex, loadPoint, externalLoad, loadsLeft, loadsRight, loads } = solution
+	const { points, loads } = solution
 
 	// Define the transformation.
 	const transformationSettings = useScaleAndShiftTransformationSettings(points, { scale: 70, margin: [80, [80, 100]] })
