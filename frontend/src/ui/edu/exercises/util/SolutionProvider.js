@@ -36,7 +36,11 @@ export default function SolutionProvider({ children }) {
 	}, [getDynamicSolution, inputDependency, staticSolution, state])
 
 	// Assemble the full solution.
-	const solution = useMemo(() => ({ ...(staticSolution || {}), ...(dynamicSolution || {}) }), [staticSolution, dynamicSolution])
+	const solution = useMemo(() => {
+		if (dynamicSolution === undefined)
+			return staticSolution
+		return ({ ...(staticSolution || {}), ...(dynamicSolution || {}) })
+	}, [staticSolution, dynamicSolution])
 
 	// Wrap a provider around the contents.
 	return <SolutionContext.Provider value={solution}>{children}</SolutionContext.Provider>
