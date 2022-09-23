@@ -36,16 +36,20 @@ export default function SolutionProvider({ children }) {
 	}, [getDynamicSolution, inputDependency, staticSolution, state])
 
 	// Assemble the full solution.
-	const solution = useMemo(() => ({ ...(staticSolution || {}), ...(dynamicSolution || {}) }), [staticSolution, dynamicSolution])
+	const solution = useMemo(() => {
+		if (dynamicSolution === undefined)
+			return staticSolution
+		return ({ ...(staticSolution || {}), ...(dynamicSolution || {}) })
+	}, [staticSolution, dynamicSolution])
 
 	// Wrap a provider around the contents.
 	return <SolutionContext.Provider value={solution}>{children}</SolutionContext.Provider>
 }
 
 // useSolution is the hook used by exercises to extract the solution from the provider.
-export function useSolution() {
+export function useSolution(throwOnMissing = true) {
 	const solution = useContext(SolutionContext)
-	if (solution === undefined)
+	if (solution === undefined && throwOnMissing)
 		throw new Error(`Missing getSolution function: could not find the getSolution or getStaticSolution function in the shared export of the respective exercise.`)
 	return solution
 }

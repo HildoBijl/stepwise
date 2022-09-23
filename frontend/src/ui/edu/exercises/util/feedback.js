@@ -1,12 +1,12 @@
 import { isValidElement } from 'react'
 
 import { arrayFind } from 'step-wise/util/arrays'
-import { isBasicObject, processOptions, deepEquals, getPropertyOrDefault } from 'step-wise/util/objects'
+import { isBasicObject, processOptions, deepEquals } from 'step-wise/util/objects'
 import { checkNumberEquality, areNumbersEqual } from 'step-wise/inputTypes/Integer'
 import { Float } from 'step-wise/inputTypes/Float'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 import { Expression } from 'step-wise/CAS'
-import { performIndividualComparison, performIndividualListComparison } from 'step-wise/edu/exercises/util/comparison'
+import { performIndividualComparison, performIndividualListComparison, getCurrentInputSolutionAndComparison } from 'step-wise/edu/exercises/util/comparison'
 
 import { selectRandomCorrect, selectRandomIncorrect, selectRandomIncorrectUnit, selectRandomDuplicate, selectRandomNonNumeric } from 'util/feedbackMessages'
 
@@ -63,9 +63,9 @@ export function getAllInputFieldsFeedbackExcluding(excludedFields) {
  */
 export function getInputFieldFeedback(parameters, exerciseData, extraOptions) {
 	// Check if we have one or multiple parameters.
-	let singleParameter = false
+	let singleParameterCase = false
 	if (!Array.isArray(parameters)) {
-		singleParameter = true
+		singleParameterCase = true
 		parameters = [parameters]
 		extraOptions = [extraOptions]
 	}
@@ -80,8 +80,11 @@ export function getInputFieldFeedback(parameters, exerciseData, extraOptions) {
 		if (currParameter === null)
 			return
 
-		// Get the input.
-		const currInput = input[currParameter]
+		// Get the input, solution and comparison method.
+		const { currInput, currSolution, currComparison } = getCurrentInputSolutionAndComparison(currParameter, input, solution, comparison, singleParameterCase)
+		const currExtraOptions = (extraOptions && extraOptions[index]) || {}
+
+		// On no input, do not give feedback.
 		if (currInput === undefined)
 			return // No input has been given yet.
 
@@ -91,11 +94,6 @@ export function getInputFieldFeedback(parameters, exerciseData, extraOptions) {
 			feedback[currParameter] = previousFeedback[currParameter]
 			return
 		}
-
-		// Get the correct answer and other data to check the answer.
-		const currSolution = getPropertyOrDefault(solution, currParameter, false, singleParameter, true)
-		const currComparison = getPropertyOrDefault(comparison, currParameter, true, singleParameter, false)
-		const currExtraOptions = (extraOptions && extraOptions[index]) || {}
 
 		// Assemble the options for the comparison.
 		const currOptions = { comparison: currComparison, previousInput: previousInput[currParameter], previousFeedback: previousFeedback[currParameter], solution, ...currExtraOptions }
@@ -131,7 +129,6 @@ function getIndividualInputFieldFeedback(currParameter, currInput, currSolution,
 
 	// No feedback function is provided. Perhaps we can determine it on our own, based on comparison options. Although if there are no comparison options, this will not work. Then go for a default approach.
 	if (typeof comparison === 'function') {
-		console.log('Fucntion received')
 		if (correct)
 			return { correct, text: text.correct || selectRandomCorrect() }
 		return { correct, text: text.incorrect || selectRandomIncorrect() }
