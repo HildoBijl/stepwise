@@ -47,7 +47,7 @@ export default function LinkBar({ className }) {
 
 	return (
 		<div className={clsx(className, classes.list)}>
-			<Typography variant="h5"><Link to={paths.about()}>Over Step-Wise</Link></Typography>
+			<Typography variant="h5"><Link to={paths.info()}>Over Step-Wise</Link></Typography>
 			<Typography variant="h5"><Link to={paths.feedback()}>Feedback</Link></Typography>
 		</div>
 	)
