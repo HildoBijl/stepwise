@@ -11,7 +11,7 @@ import { useFieldRegistration, useFieldControllerContext } from 'ui/form/FieldCo
 
 import MenuLink from './MenuLink'
 
-const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent) // To fix the SwipeableDrawer on iOS.
+const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.userAgent.includes("Mac") && "ontouchend" in document) // To fix the SwipeableDrawer on iOS.
 
 const useStyles = makeStyles((theme) => ({
 	menu: {
