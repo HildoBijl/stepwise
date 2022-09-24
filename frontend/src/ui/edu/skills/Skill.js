@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { useRouteMatch } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -11,6 +11,7 @@ import { getNewExercise } from 'step-wise/edu/exercises/util/selection'
 
 import { useUserResults } from 'api/user'
 import { useSkillQuery, useStartExerciseMutation, useSubmitExerciseActionMutation } from 'api/skill'
+import { TitleItem } from 'ui/layout/Title'
 import LoadingNote from 'ui/components/flow/LoadingNote'
 import ErrorNote from 'ui/components/flow/ErrorNote'
 
@@ -133,14 +134,10 @@ function SkillForStranger() {
 	return <ExerciseContainer key={exercise.startedOn} exercise={exercise} skillId={skillId} submitting={false} submitAction={submitAction} startNewExercise={startNewExercise} />
 }
 
-export function useSkillTitle() {
-	const { params } = useRouteMatch()
-	const skillId = processSkillId(params.skillId) // ToDo later: add error handling if skill ID is not known.
+export function SkillName() {
+	const skillId = useSkillId() // ToDo later: add error handling if skill ID is not known.
 	const skill = skills[skillId]
-
-	if (!skill)
-		return 'Unknown skill'
-	return skill.name
+	return <TitleItem name={skill?.name || 'Unknown skill'} />
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -160,8 +157,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export function SkillIndicator() {
-	const { params } = useRouteMatch()
-	const { skillId } = params
+	const { skillId } = useParams()
 	const skill = useSkillData(skillId)
 	const classes = useStyles()
 
@@ -174,6 +170,6 @@ export function SkillIndicator() {
 
 // useSkillId returns the skill ID extracted from the URL. If this skill ID does not exist, it throws an error.
 export function useSkillId() {
-	const { params } = useRouteMatch()
-	return processSkillId(params.skillId)
+	const { skillId } = useParams()
+	return processSkillId(skillId)
 }

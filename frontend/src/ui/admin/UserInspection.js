@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { useRouteMatch } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -9,12 +9,13 @@ import SkillData from 'step-wise/edu/skills/SkillData'
 import { includePrerequisites, processSkill, getDefaultSkillData } from 'step-wise/edu/skills/util'
 
 import { useUserQuery } from 'api/admin'
+import { TitleItem } from 'ui/layout/Title'
 import { Par } from 'ui/components/containers'
 import SkillFlask from 'ui/edu/skills/SkillFlask'
 import HorizontalSlider from 'ui/components/layout/HorizontalSlider'
 
 export default function UserInspection() {
-	const { params } = useRouteMatch()
+	const params = useParams()
 	const res = useUserQuery(params && params.userId)
 
 	// Check if data has loaded properly.
@@ -85,13 +86,21 @@ function UserInspectionItem({ skillData }) {
 	</>
 }
 
-export function useUserInspectionTitle() {
-	const { params } = useRouteMatch()
+export function UserInspectionTitle() {
+	const params = useParams()
 	const res = useUserQuery(params && params.userId)
+	const name = getUserNameFromQueryResult(res)
+	return <TitleItem name={name} />
+}
+
+function getUserNameFromQueryResult(res) {
+	// Check if the query was successful.
 	if (res.loading)
 		return 'Even wachten...'
 	if (res.error || !res.data)
 		return 'Oops...'
+
+	// Check if the user exists.
 	const user = res.data.user
 	if (!user)
 		return 'Onbekende gebruiker'

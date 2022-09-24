@@ -2,7 +2,7 @@
  * When Drawing is given a ref, it places in this ref an object { svg: ..., canvas: ... } with references to the respective DOM elements. Note that the option useCanvas needs to be set to true if a Canvas is desired. The option useSvg is by default true.
  */
 
-import React, { useRef, forwardRef, useImperativeHandle, useEffect } from 'react'
+import React, { useRef, forwardRef, useImperativeHandle, useEffect, useId } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -78,6 +78,7 @@ function Drawing(options, ref) {
 		throw new Error('Drawing render error: cannot generate a drawing without either an SVG or a canvas present. Either useSvg or useCanvas must be set to true.')
 
 	// Set up styles and references.
+	const id = useId()
 	const classes = useStyles()
 	const htmlContentsRef = useRef()
 	const svgRef = useRef()
@@ -144,10 +145,10 @@ function Drawing(options, ref) {
 	const forceUpdate = useForceUpdate()
 	useEffect(() => {
 		if (figureRef.current) {
-			drawingRef.current = initialize(figureRef.current, svgRef.current, canvasRef.current)
+			drawingRef.current = initialize(id, figureRef.current, svgRef.current, canvasRef.current)
 			forceUpdate() // A forced update is needed to ensure the new ref is applied into the DrawingContext.
 		}
-	}, [figureRef, svgRef, drawingRef, forceUpdate])
+	}, [id, figureRef, svgRef, drawingRef, forceUpdate])
 
 	// Make sure the transformation settings are always up-to-date.
 	useEffect(() => {
@@ -162,7 +163,7 @@ function Drawing(options, ref) {
 				{options.useSvg ? (
 					<svg ref={svgRef} className={classes.drawingSVG} viewBox={`0 0 ${width} ${height}`}>
 						<defs>
-							<clipPath id="noOverflow">
+							<clipPath id={`noOverflow${id}`}>
 								<rect x="0" y="0" width={width} height={height} fill="#fff" rx={7} />
 							</clipPath>
 							{options.svgDefs}
@@ -180,7 +181,7 @@ function Drawing(options, ref) {
 }
 export default forwardRef(Drawing)
 
-function initialize(figure, svg, canvas, transformationSettings) {
+function initialize(id, figure, svg, canvas, transformationSettings) {
 	// Build up the SVG with the most important containers.
 	let d3svg, gText
 	if (svg) {
@@ -195,7 +196,7 @@ function initialize(figure, svg, canvas, transformationSettings) {
 	}
 
 	// Store everything in the drawing ref.
-	return { figure, svg, d3svg, gText, canvas, context, transformationSettings }
+	return { id, figure, svg, d3svg, gText, canvas, context, transformationSettings }
 }
 
 /*

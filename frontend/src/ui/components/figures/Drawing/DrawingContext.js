@@ -17,6 +17,12 @@ export function useDrawingContext() {
 	return useContext(DrawingContext)
 }
 
+// Get the ID of the surrounding drawing.
+export function useDrawingId() {
+	const drawing = useDrawingContext()
+	return drawing.id
+}
+
 // Get specifically the bounds from the drawing context.
 export function useBounds() {
 	const drawing = useDrawingContext()

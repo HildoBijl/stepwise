@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
@@ -135,7 +135,7 @@ const useStyles = makeStyles((theme) => ({
 function useSkillModal() {
 	const classes = useStyles()
 	const paths = usePaths()
-	const history = useHistory()
+	const navigate = useNavigate()
 	const { courseId, course, skillsDataLoaded } = useCourseData()
 	const skillId = useSkillId()
 	const { useModal, closeModal } = useModalContext()
@@ -144,7 +144,7 @@ function useSkillModal() {
 	// Set up handlers.
 	const goToRecommendation = () => {
 		closeModal()
-		history.push(recommendation === strFreePractice ? paths.freePractice({ courseId }) : paths.courseSkill({ courseId, skillId: recommendation }))
+		navigate(recommendation === strFreePractice ? paths.freePractice({ courseId }) : paths.courseSkill({ courseId, skillId: recommendation }))
 	}
 
 	// Determine the contents to show in the modal. (If there is no recommendation, don't do anything yet. We don't have all data yet.)

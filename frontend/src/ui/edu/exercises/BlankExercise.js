@@ -1,20 +1,20 @@
 // This component can be given an exerciseId. It then displays a sample of this exercise without connecting to any database whatsoever. It is unconnected.
 
 import React, { useEffect, useState, useRef, useCallback } from 'react'
-import { useRouteMatch } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
 import { toFO, toSO } from 'step-wise/inputTypes'
 import { noop } from 'step-wise/util/functions'
 
+import { TitleItem } from 'ui/layout/Title'
 import LoadingNote from 'ui/components/flow/LoadingNote'
 import ErrorNote from 'ui/components/flow/ErrorNote'
 
 import ExerciseContainer from './ExerciseContainer'
 
 export default function BlankExercise() {
-	const { params } = useRouteMatch()
-	const exerciseId = params.exerciseId
+	const { exerciseId } = useParams()
 	if (!exerciseId)
 		return <ErrorNote text="Er is geen opgave in de URL opgegeven." />
 	return <BlankExerciseInner exerciseId={exerciseId} />
@@ -80,11 +80,7 @@ function BlankExerciseInner({ exerciseId }) {
 	return <ExerciseContainer key={exercise.startedOn} exercise={exercise} submitting={false} submitAction={submitAction} startNewExercise={startNewExercise} />
 }
 
-export function useExerciseId() {
-	const { params } = useRouteMatch()
-	const exerciseId = params.exerciseId
-	if (!exerciseId)
-		return '???'
-	return exerciseId
-
+export function ExerciseName() {
+	const { exerciseId } = useParams()
+	return <TitleItem name={exerciseId} />
 }

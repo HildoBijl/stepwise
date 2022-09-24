@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import clsx from 'clsx'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { alpha } from '@material-ui/core/styles/colorManipulator'
 import Box from '@material-ui/core/Box'
@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Tile({ course, skillsTotal, skillsDone, recommendation }) {
 	const paths = usePaths()
 	const [buttonHover, setButtonHover] = useState(false)
-	const history = useHistory()
+	const navigate = useNavigate()
 	const classes = useStyles({ buttonHover })
 
 	// Set up recommendation tooltip.
@@ -95,9 +95,9 @@ export default function Tile({ course, skillsTotal, skillsDone, recommendation }
 	const goToRecommendation = (evt) => {
 		evt.preventDefault() // Prevent the tile link from working.
 		if (recommendation === strFreePractice)
-			history.push(paths.freePractice({ courseId: course.id }))
+			navigate(paths.freePractice({ courseId: course.id }))
 		else if (recommendation)
-			history.push(paths.courseSkill({ courseId: course.id, skillId: recommendation }))
+			navigate(paths.courseSkill({ courseId: course.id, skillId: recommendation }))
 	}
 
 	return (

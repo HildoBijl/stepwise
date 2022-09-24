@@ -1,8 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { useRouteMatch } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
+
+import { TitleItem } from 'ui/layout/Title'
 
 import courses from '../courses'
 
@@ -155,9 +157,9 @@ function PortraitCourse({ course, overview, analysis, activeBlock, toggleActiveB
 	)
 }
 
-export function useCourseName() {
-	const { params } = useRouteMatch()
-	const { courseId } = params
+export function CourseName() {
+	const { courseId } = useParams()
+	console.log(courseId)
 	const course = courses[courseId.toLowerCase()]
-	return course ? course.name : 'Onbekende cursus'
+	return <TitleItem name={course ? course.name : 'Onbekende cursus'} />
 }

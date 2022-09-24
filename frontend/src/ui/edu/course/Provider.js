@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react'
-import { useRouteMatch } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 import { useSkillsData } from '../skills/SkillCacher'
 import courses from '../courses'
@@ -9,8 +9,7 @@ import { getOverview, getAnalysis } from './util'
 const CourseContext = createContext(null)
 export default function CourseProvider({ children }) {
 	// Examine the requested course.
-	const { params } = useRouteMatch()
-	const { courseId } = params
+	const { courseId } = useParams()
 	const course = courses[courseId.toLowerCase()]
 	const overview = getOverview(course)
 

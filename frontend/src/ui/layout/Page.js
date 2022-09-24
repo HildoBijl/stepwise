@@ -28,7 +28,7 @@ export default function Page() {
 
 	// Iterate over all parents to provide all Providers.
 	let route = useRoute()
-	while (route !== null) {
+	while (route !== undefined) {
 		if (route.Provider)
 			result = <route.Provider>{result}</route.Provider>
 		route = route.parent

@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom/client'
 import App from './ui/layout/App'
 import { ApolloClient, InMemoryCache, createHttpLink, split } from '@apollo/client'
 import { getMainDefinition } from '@apollo/client/utilities'
@@ -33,7 +33,7 @@ const apolloClient = new ApolloClient({
 				definition.kind === 'OperationDefinition' &&
 				definition.operation === 'subscription'
 			)
-  		},
+		},
 		wsLink,
 		httpLink,
 	),
@@ -41,7 +41,8 @@ const apolloClient = new ApolloClient({
 })
 
 // React. Do not use strict mode to prevent Material UI from bugging out.
-ReactDOM.render(<App apolloClient={apolloClient} />, document.getElementById('root'))
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(<App apolloClient={apolloClient} />)
 
 // Service worker.
 serviceWorkerRegistration.register()

@@ -18,18 +18,35 @@ import { useSolution } from '../util/SolutionProvider'
 import { getInputFieldFeedback } from '../util/feedback'
 
 const distanceShift = 70
+const supportNames = ['inklemming', 'scharnierverbinding', 'schuifverbinding', 'scharnierende schuifverbinding']
+const supportExplanation = [
+	<>De bevestiging is een inklemming: deze voorkomt beweging loodrecht op de muur, parallel aan de muur en draaiing. Dus zijn er reactiekrachten loodrecht op de muur en parallel aan de muur en is er een reactiemoment.</>,
+	<>De bevestiging is een scharnierbevestiging: deze voorkomt beweging loodrecht op de muur en parallel aan de muur, maar laat draaiing toe. Dus zijn er reactiekrachten loodrecht op de muur en parallel aan de muur, maar is er geen reactiemoment.</>,
+	<>De bevestiging is een schuifverbinding: deze voorkomt beweging loodrecht op de muur, maar laat beweging parallel aan de muur toe. Er is dus een reactiekracht loodrecht op de muur, maar geen reactiekracht parallel aan de muur. Omdat deze verbinding draaiing voorkomt is er wel een reactiemoment.</>,
+	<>De bevestiging is een scharnierende schuifverbinding: deze voorkomt beweging loodrecht op de muur, maar laat beweging parallel aan de muur toe. Er is dus een reactiekracht loodrecht op de muur, maar geen reactiekracht parallel aan de muur. Omdat deze verbinding draaiing toelaat is er geen reactiemoment.</>,
+]
+const endSupportObjects = [FixedSupport, HingeSupport, RollerSupport, RollerHingeSupport]
+const midSupportObjects = [AdjacentFixedSupport, HalfHingeSupport, AdjacentRollerSupport, RollerHalfHingeSupport]
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const supportNames = ['inklemming', 'scharnierverbinding', 'schuifverbinding', 'scharnierende schuifverbinding']
-const endSupportObjects = [FixedSupport, HingeSupport, RollerSupport, RollerHingeSupport]
-const midSupportObjects = [AdjacentFixedSupport, HalfHingeSupport, AdjacentRollerSupport, RollerHalfHingeSupport]
-
 const Problem = (state) => {
-	const { supportTypes, loadProperties } = useSolution()
+	const { supportTypes, loadProperties, A } = useSolution()
 	return <>
+		<div style={{ width: '200px', height: '200px' }}>
+			<svg viewBox="0 0 100 100" style={{ width: '100%', display: 'block', zIndex: 2, overflow: 'visible', userSelect: 'none' }}>
+				<defs>
+					<clipPath id="test">
+						<rect x="20" y="20" width="60" height="60" rx="10" />
+					</clipPath>
+				</defs>
+				<g style={{ clipPath: 'url("#test")', transform: 'translate(0px, 0px) rotate(0deg) scale(1)' }}>
+					<rect x="-100" y="-100" width="400" height="400" fill="red" />
+				</g>
+			</svg>
+		</div>
 		<Par>Een balk is op twee punten bevestigd: links met een {supportNames[supportTypes[0]]} en rechts met een {supportNames[supportTypes[1]]}. Deze balk wordt van buitenaf belast met een {loadProperties.isForce ? 'kracht' : 'moment'}.</Par>
 		<Diagram isInputField={false} />
 		<Par>Teken het vrijlichaamsschema/schematisch diagram.</Par>
@@ -43,48 +60,54 @@ const Problem = (state) => {
 const steps = [
 	{
 		Problem: () => {
+			const { A } = useSolution()
 			return <>
-				<Par>ToDo</Par>
+				<Par>Schematiseer de bevestiging links: teken de bijbehorende reactiekrachten/momenten.</Par>
 				<InputSpace>
-					<Par>ToDo</Par>
+					<Diagram isInputField={true} showSupports={false} zoom={A} />
 				</InputSpace>
 			</>
 		},
 		Solution: () => {
+			const { A, supportTypes } = useSolution()
 			return <>
-				<Par>ToDo</Par>
-				<Diagram showSolution={true} showSupports={false} />
-				<Par>ToDo</Par>
+				<Par>{supportExplanation[supportTypes[0]]} Hiermee vinden we de onderstaande schematisering.</Par>
+				<Diagram showSolution={true} showSupports={false} zoom={A} />
+			</>
+		},
+	},
+	{
+		Problem: () => {
+			const { B } = useSolution()
+			return <>
+				<Par>Schematiseer de bevestiging rechts: teken de bijbehorende reactiekrachten/momenten.</Par>
+				<InputSpace>
+					<Diagram isInputField={true} showSupports={false} zoom={B} />
+				</InputSpace>
+			</>
+		},
+		Solution: () => {
+			const { B, supportTypes } = useSolution()
+			return <>
+				<Par>{supportExplanation[supportTypes[1]]} Hiermee vinden we de onderstaande schematisering.</Par>
+				<Diagram showSolution={true} showSupports={false} zoom={B} />
 			</>
 		},
 	},
 	{
 		Problem: () => {
 			return <>
-				<Par>ToDo</Par>
+				<Par>Teken de schematisering links, de schematisering rechts en de externe belasting allemaal in één figuur.</Par>
 				<InputSpace>
-					<Par>ToDo</Par>
-				</InputSpace>
-			</>
-		},
-		Solution: () => {
-			return <Par>ToDo</Par>
-		},
-	},
-	{
-		Problem: () => {
-			return <>
-				<Par>ToDo</Par>
-				<InputSpace>
-					<Par>ToDo</Par>
+					<Diagram isInputField={true} showSupports={false} />
 				</InputSpace>
 			</>
 		},
 		Solution: () => {
 			return <>
-				<Par>ToDo</Par>
+				<Par>We tekenen de schematisering van de twee bevestigingen (richting maakt niet uit) en de externe belasting (richting maakt wel uit) in één figuur. Zo krijgen we het onderstaande.</Par>
 				<Diagram showSolution={true} showSupports={false} />
-				<Par>ToDo</Par>
+				<Par>Merk op dat je in een vrijlichaamsschema/schematisch diagram de bevestigingen normaliter <em>niet</em> tekent, maar afstanden die relevant zijn <em>wel</em>.</Par>
 			</>
 		},
 	},
@@ -181,17 +204,19 @@ function getCustomFBDFeedback(input, solution, comparison, A, B) {
 	return { correct: true, text: selectRandomCorrect() }
 }
 
-function Diagram({ isInputField = false, showSupports = true, showSolution = false }) {
+function Diagram({ isInputField = false, showSupports = true, showSolution = false, zoom = undefined }) {
 	const solution = useSolution()
 	const { points, loads } = solution
 
 	// Define the transformation.
-	const transformationSettings = useScaleAndShiftTransformationSettings(points, { scale: 70, margin: [80, [80, 100]] })
+	const transformationSettings = useScaleAndShiftTransformationSettings(zoom || points, { scale: 70, margin: [80, [80, 100]] })
 
 	// Get all the required components.
-	const loadsToDisplay = isInputField ? [] : (showSolution ? loads : loads.filter(load => load.source === loadSources.external))
-	const schematics = <Schematics loads={loadsToDisplay} showSupports={showSupports} />
-	const elements = <Elements loads={loadsToDisplay} />
+	let loadsToDisplay = isInputField ? [] : (showSolution ? loads : loads.filter(load => load.source === loadSources.external))
+	if (zoom)
+		loadsToDisplay = loadsToDisplay.filter(load => isLoadAtPoint(load, zoom))
+	const schematics = <Schematics loads={loadsToDisplay} showSupports={showSupports} zoom={zoom} />
+	const elements = <Elements zoom={zoom} />
 
 	// Set up either a diagram or an input field with said diagram.
 	const snappers = points
@@ -200,7 +225,7 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 		<EngineeringDiagram transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} maxWidth={bounds => bounds.width} />
 }
 
-function Schematics({ loads, showSupports = true }) {
+function Schematics({ loads, showSupports = true, zoom }) {
 	const { distances, supportTypes, loadProperties, left, A, B, right, points, isAEnd, isBEnd, loadPositionIndex, loadPoint, externalLoad, loadsLeft, loadsRight } = useSolution()
 
 	const SupportLeft = (isAEnd ? endSupportObjects : midSupportObjects)[supportTypes[0]]
@@ -211,11 +236,13 @@ function Schematics({ loads, showSupports = true }) {
 			<Beam points={points} />
 		</Group>
 
-		<SupportLeft position={A} angle={isAEnd ? Math.PI : Math.PI / 2} style={{ opacity: showSupports ? 1 : 0.1 }} />
-		<SupportRight position={B} angle={isBEnd ? 0 : Math.PI / 2} style={{ opacity: showSupports ? 1 : 0.1 }} />
+		{!zoom || zoom.equals(A) ? <SupportLeft position={A} angle={isAEnd ? Math.PI : Math.PI / 2} style={{ opacity: showSupports ? 1 : 0.1 }} /> : null}
+		{!zoom || zoom.equals(B) ? <SupportRight position={B} angle={isBEnd ? 0 : Math.PI / 2} style={{ opacity: showSupports ? 1 : 0.1 }} /> : null}
 
 		<Group>
 			{points.map((point, index) => {
+				if (zoom)
+					return null
 				const prev = points[index - 1]
 				if (index === 0 || prev.equals(point))
 					return null
@@ -227,13 +254,15 @@ function Schematics({ loads, showSupports = true }) {
 	</>
 }
 
-function Elements() {
+function Elements({ zoom }) {
 	const { points } = useSolution()
 	const background = useCurrentBackgroundColor()
 	const distanceLabelStyle = { background, padding: '0.3rem' }
 
 	return <>
 		{points.map((point, index) => {
+			if (zoom)
+				return null
 			const prev = points[index - 1]
 			if (index === 0 || prev.equals(point))
 				return null

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
@@ -323,7 +323,7 @@ const errorCode2Message = {
 function LoginError() {
 	const [errorMessage, setErrorMessage] = useState('')
 	const location = useLocation()
-	const history = useHistory()
+	const navigate = useNavigate()
 
 	useEffect(() => {
 		const queryParams = new URLSearchParams(location.search)
@@ -331,11 +331,9 @@ function LoginError() {
 			const code = queryParams.get('error')
 			setErrorMessage(errorCode2Message[code] || "Er ging iets mis bij het inloggen. Probeer het later nog eens.")
 			queryParams.delete('error')
-			history.replace({
-				search: queryParams.toString(),
-			})
+			navigate.replace({ search: queryParams.toString() }, { replace: true })
 		}
-	}, [location, history])
+	}, [location, navigate])
 
 	return errorMessage && (
 		<Alert severity="error">

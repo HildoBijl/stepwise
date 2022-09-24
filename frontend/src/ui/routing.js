@@ -1,27 +1,27 @@
 import { createContext, useContext, useMemo } from 'react'
-import { useRouteMatch } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 import { useUser } from 'api/user'
 import { isAdmin } from 'api/admin'
 
 import * as pages from 'ui/pages'
-import UserInspection, { useUserInspectionTitle } from 'ui/admin/UserInspection'
+import UserInspection, { UserInspectionTitle } from 'ui/admin/UserInspection'
 import UserOverview from 'ui/admin/UserOverview'
 
-import Skill, { useSkillTitle, SkillIndicator } from 'ui/edu/skills/Skill'
-import BlankExercise, { useExerciseId } from 'ui/edu/exercises/BlankExercise'
+import Skill, { SkillName, SkillIndicator } from 'ui/edu/skills/Skill'
+import BlankExercise, { ExerciseName } from 'ui/edu/exercises/BlankExercise'
 import Courses from 'ui/edu/courses/Courses'
-import Course, { useCourseName } from 'ui/edu/course/Course'
+import Course, { CourseName } from 'ui/edu/course/Course'
 import CourseProvider from 'ui/edu/course/Provider'
 import SkillAdvice from 'ui/edu/course/SkillAdvice'
 import FreePractice from 'ui/edu/course/FreePractice'
 
 // Set up a route context object through which child elements can access the current route.
-const RouteContext = createContext(null)
+const RouteContext = createContext(undefined)
 export { RouteContext }
 
 // getRoutes sets up a routes object based on the user. This routes object contains the whole site structure. The object keys appear in the URL, so can be language-dependent. The "id" is used in scripts when creating links so should be English. The "name" is shown on the page.
-function getRoutes(user = null) {
+function getRoutes(user = undefined) {
 	// These are pages that are accessible for non-users and users.
 	let routes = {
 		'feedback': {
@@ -30,7 +30,7 @@ function getRoutes(user = null) {
 			name: 'Feedback',
 		},
 		'info': {
-			id: 'about',
+			id: 'info',
 			component: pages.About,
 			name: 'Over Step-Wise',
 			children: {
@@ -44,7 +44,7 @@ function getRoutes(user = null) {
 		'vaardigheid/:skillId': {
 			id: 'skill',
 			component: Skill,
-			name: useSkillTitle,
+			name: <SkillName />,
 			recommendLogIn: true,
 			Indicator: SkillIndicator,
 		},
@@ -72,8 +72,14 @@ function getRoutes(user = null) {
 		// For non-logged-in users add log-in options.
 		routes = {
 			...routes,
-			'': { // Note that the '' path must be last.
+			'': {
 				id: 'home',
+				component: pages.Home,
+				name: 'Home',
+				fullPage: true,
+			},
+			'*': { // Note that the '*' path must be last.
+				id: 'notFound',
 				component: pages.Home,
 				name: 'Home',
 				fullPage: true,
@@ -92,14 +98,14 @@ function getRoutes(user = null) {
 						'vaardigheid/:skillId': {
 							id: 'skillInspection',
 							component: Skill,
-							name: useSkillTitle,
+							name: <SkillName />,
 							recommendLogIn: true,
 							Indicator: SkillIndicator,
 						},
 						'opgave/:exerciseId': {
 							id: 'exerciseInspection',
 							component: BlankExercise,
-							name: useExerciseId,
+							name: <ExerciseName />,
 						},
 					},
 				},
@@ -111,7 +117,7 @@ function getRoutes(user = null) {
 						'user/:userId': {
 							id: 'userInspection',
 							component: UserInspection,
-							name: useUserInspectionTitle,
+							name: <UserInspectionTitle />,
 						},
 					},
 				},
@@ -131,7 +137,7 @@ function getRoutes(user = null) {
 				component: pages.LogOut,
 				name: 'Uitloggen...'
 			},
-			'': { // Note that the '' path must be last.
+			'': {
 				id: 'courses',
 				component: Courses,
 				name: 'Cursussen',
@@ -139,13 +145,13 @@ function getRoutes(user = null) {
 					'cursus/:courseId': {
 						id: 'course',
 						component: Course,
-						name: useCourseName,
+						name: <CourseName />,
 						Provider: CourseProvider,
 						children: {
 							'vaardigheid/:skillId': {
 								id: 'courseSkill',
 								component: Skill,
-								name: useSkillTitle,
+								name: <SkillName />,
 								Indicator: SkillIndicator,
 								Notification: SkillAdvice,
 							},
@@ -158,6 +164,11 @@ function getRoutes(user = null) {
 						},
 					},
 				},
+			},
+			'*': { // Note that the '*' path must be last.
+				id: 'notFound',
+				component: Courses,
+				name: 'Cursussen',
 			},
 		}
 	}
@@ -186,7 +197,7 @@ export function usePaths() {
 }
 
 // processRoutes takes a routes object and automatically add paths (like '/courses/:courseId/deadlines') and parent objects, and ensures all names are react objects.
-function processRoutes(routes, initialPath = '', parent = null) {
+function processRoutes(routes, initialPath = '', parent = undefined) {
 	// Walk through all the routes, processing them one by one.
 	Object.keys(routes).forEach(key => {
 		const route = routes[key]
@@ -241,7 +252,7 @@ function insertParametersIntoPath(parameters = {}, path = '/') {
 // useParentPath takes the current route and finds the path towards the parent.
 export function useParentPath() {
 	const route = useRoute()
-	const { params } = useRouteMatch()
+	const params = useParams()
 	if (!route.parent)
 		return '/'
 	return insertParametersIntoPath(params, route.parent.path)

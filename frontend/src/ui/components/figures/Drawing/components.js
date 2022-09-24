@@ -8,7 +8,7 @@ import { Vector, ensureVector, ensureVectorArray, ensureCorner, Span, ensureSpan
 
 import { useEnsureRef, useEventListeners } from 'util/react'
 
-import { useGraphicalBounds, useTransformedOrGraphicalValue, useScaledOrGraphicalValue } from './DrawingContext'
+import { useDrawingId, useGraphicalBounds, useTransformedOrGraphicalValue, useScaledOrGraphicalValue } from './DrawingContext'
 
 // Define event handlers that objects can use.
 export const defaultEventHandlers = {}
@@ -42,9 +42,10 @@ export const Group = forwardRef((props, ref) => {
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Set up the group with the right transform property.
+	const drawingId = useDrawingId()
 	return <g ref={ref} className={className} style={{
 		...style,
-		clipPath: overflow ? '' : 'url(#noOverflow)',
+		clipPath: overflow ? '' : `url(#noOverflow${drawingId})`,
 		transform: `translate(${position.x}px, ${position.y}px) rotate(${rotate * 180 / Math.PI}deg) scale(${scale}) ${style.transform || ''}`,
 	}}>{children}</g>
 })

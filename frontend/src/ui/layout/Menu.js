@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { SwipeableDrawer, List, Divider, IconButton, useMediaQuery } from '@material-ui/core'
 import { Menu as MenuIcon, ArrowBack, Home, MenuBook, Feedback, Info, ExitToApp, Policy, SupervisorAccount, Settings } from '@material-ui/icons'
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Menu({ className, titleCollapsed }) {
 	const classes = useStyles()
 	const [open, setOpen] = useState(false)
-	const history = useHistory()
+	const navigate = useNavigate()
 	const paths = usePaths()
 	const user = useUser()
 	const theme = useTheme()
@@ -47,7 +47,7 @@ export default function Menu({ className, titleCollapsed }) {
 			if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift'))
 				return // Don't close as usual on a keypress.
 			if (event && event.type === 'keydown' && event.key === 'Enter')
-				history.push(event.target.pathname) // Go to the respective page.
+				navigate(event.target.pathname) // Go to the respective page.
 
 			// Process the opening/closing.
 			setOpen(open)
@@ -55,7 +55,7 @@ export default function Menu({ className, titleCollapsed }) {
 
 		// Define buttons common to logged-in and non-logged-in users.
 		const commonButtons = <>
-			<MenuLink path={paths.about()} text='Over Step-Wise' icon={Info} />
+			<MenuLink path={paths.info()} text='Over Step-Wise' icon={Info} />
 			<MenuLink path={paths.feedback()} text='Feedback' icon={Feedback} />
 		</>
 
@@ -92,7 +92,7 @@ export default function Menu({ className, titleCollapsed }) {
 			</SwipeableDrawer>
 		</>
 	} else {
-		const goToParent = () => history.push(parentPath)
+		const goToParent = () => navigate(parentPath)
 		return (
 			<IconButton edge="start" className={className} color="inherit" aria-label="menu" onClick={goToParent} ref={menuButtonRef}>
 				<ArrowBack />
