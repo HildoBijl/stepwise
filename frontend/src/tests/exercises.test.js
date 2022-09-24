@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import { ThemeProvider } from '@material-ui/core/styles'
+import ResizeObserver from 'resize-observer-polyfill'
 
 import { getAllExercises } from 'step-wise/edu/exercises/util/selection'
 import { noop } from 'step-wise/util/functions'
@@ -9,6 +10,9 @@ import theme from 'ui/theme'
 import FieldController from 'ui/form/FieldController'
 import ModalManager from 'ui/components/Modal/ModalManager'
 import { ExerciseContext } from 'ui/edu/exercises/ExerciseContainer'
+
+// Polyfill the react-resize-detector.
+window.ResizeObserver = ResizeObserver
 
 describe('Check all exercises:', () => {
 	const exercises = getAllExercises()
