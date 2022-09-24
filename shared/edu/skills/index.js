@@ -205,7 +205,7 @@ const skills = {
 		exercises: ['schematizeFixedSupport', 'schematizeRollerSupport', 'schematizeHingeSupport', 'schematizeRollerHingeSupport'],
 	},
 	drawFreeBodyDiagram: {
-		name: 'Vrijlichaamschema tekenen',
+		name: 'Vrijlichaamsschema tekenen',
 		setup: combinerRepeat('schematizeSupport', 2),
 		exercises: ['drawFreeBodyDiagram1'],
 	},

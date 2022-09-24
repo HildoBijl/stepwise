@@ -41,7 +41,6 @@ const Problem = (state) => {
 		<InputSpace>
 			<Diagram id="loads" isInputField={true} showSupports={false} />
 		</InputSpace>
-		<Diagram showSolution={true} showSupports={false} />
 	</>
 }
 
