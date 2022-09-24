@@ -68,8 +68,8 @@ function getSolution(state) {
 		getDefaultMoment(loadPoint, loadProperties.isPositiveDirection, loadPositionIndex === 0 ? 0 : Math.PI, external)
 
 	// Determine the solution.
-	loadsLeft = getReactionLoads(supportTypes[0], A, isAEnd, true)
-	loadsRight = getReactionLoads(supportTypes[1], B, isBEnd, !isBEnd)
+	const loadsLeft = getReactionLoads(supportTypes[0], A, isAEnd, true)
+	const loadsRight = getReactionLoads(supportTypes[1], B, isBEnd, !isBEnd)
 	const loads = [...loadsLeft, ...loadsRight, externalLoad]
 
 	// Assemble everything.

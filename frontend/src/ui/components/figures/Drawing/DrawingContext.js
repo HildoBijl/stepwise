@@ -20,7 +20,7 @@ export function useDrawingContext() {
 // Get the ID of the surrounding drawing.
 export function useDrawingId() {
 	const drawing = useDrawingContext()
-	return drawing.id
+	return drawing?.id
 }
 
 // Get specifically the bounds from the drawing context.

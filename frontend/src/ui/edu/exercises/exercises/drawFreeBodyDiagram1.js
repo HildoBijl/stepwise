@@ -33,25 +33,13 @@ export default function Exercise() {
 }
 
 const Problem = (state) => {
-	const { supportTypes, loadProperties, A } = useSolution()
+	const { supportTypes, loadProperties } = useSolution()
 	return <>
-		<div style={{ width: '200px', height: '200px' }}>
-			<svg viewBox="0 0 100 100" style={{ width: '100%', display: 'block', zIndex: 2, overflow: 'visible', userSelect: 'none' }}>
-				<defs>
-					<clipPath id="test">
-						<rect x="20" y="20" width="60" height="60" rx="10" />
-					</clipPath>
-				</defs>
-				<g style={{ clipPath: 'url("#test")', transform: 'translate(0px, 0px) rotate(0deg) scale(1)' }}>
-					<rect x="-100" y="-100" width="400" height="400" fill="red" />
-				</g>
-			</svg>
-		</div>
 		<Par>Een balk is op twee punten bevestigd: links met een {supportNames[supportTypes[0]]} en rechts met een {supportNames[supportTypes[1]]}. Deze balk wordt van buitenaf belast met een {loadProperties.isForce ? 'kracht' : 'moment'}.</Par>
 		<Diagram isInputField={false} />
 		<Par>Teken het vrijlichaamsschema/schematisch diagram.</Par>
 		<InputSpace>
-			<Diagram isInputField={true} showSupports={false} />
+			<Diagram id="loads" isInputField={true} showSupports={false} />
 		</InputSpace>
 		<Diagram showSolution={true} showSupports={false} />
 	</>
@@ -64,7 +52,7 @@ const steps = [
 			return <>
 				<Par>Schematiseer de bevestiging links: teken de bijbehorende reactiekrachten/momenten.</Par>
 				<InputSpace>
-					<Diagram isInputField={true} showSupports={false} zoom={A} />
+					<Diagram id="loadsLeft" isInputField={true} showSupports={false} zoom={A} />
 				</InputSpace>
 			</>
 		},
@@ -82,7 +70,7 @@ const steps = [
 			return <>
 				<Par>Schematiseer de bevestiging rechts: teken de bijbehorende reactiekrachten/momenten.</Par>
 				<InputSpace>
-					<Diagram isInputField={true} showSupports={false} zoom={B} />
+					<Diagram id="loadsRight" isInputField={true} showSupports={false} zoom={B} />
 				</InputSpace>
 			</>
 		},
@@ -99,7 +87,7 @@ const steps = [
 			return <>
 				<Par>Teken de schematisering links, de schematisering rechts en de externe belasting allemaal in één figuur.</Par>
 				<InputSpace>
-					<Diagram isInputField={true} showSupports={false} />
+					<Diagram id="loads" isInputField={true} showSupports={false} />
 				</InputSpace>
 			</>
 		},
@@ -117,51 +105,9 @@ function getFeedback(exerciseData) {
 	const { input, solution } = exerciseData
 
 	return {
-		loads: getCustomFBDFeedback(input.loads, solution.loads, FBDComparison, solution.A, solution.B)
+		loads: input.loads && getCustomFBDFeedback(input.loads, solution.loads, FBDComparison, solution.A, solution.B),
+		...getInputFieldFeedback(['loadsLeft', 'loadsRight'], exerciseData, { feedbackFunction: (input, solution) => getFBDFeedback(input, solution, FBDComparison) }),
 	}
-
-
-	// ToDo
-	// // Determine MC feedback text in various cases.
-	// const forcePerpendicularText = [
-	// 	<>{selectRandomCorrect()}</>,
-	// 	<>Nee. Hoezo zou de balk kunnen bewegen?</>,
-	// 	<>Nee. Hoe zou een reactiekracht een beweging kunnen veroorzaken?</>,
-	// 	<>Nee. Hoezo zou de balk kunnen bewegen?</>,
-	// ]
-	// const forceParallelText = forcePerpendicularText
-	// const momentText = [
-	// 	<>{selectRandomCorrect()}</>,
-	// 	<>Nee. Hoezo zou de balk kunnen draaien?</>,
-	// 	<>Nee. Hoe zou een reactiemoment een draaiing kunnen veroorzaken?</>,
-	// 	<>Nee. Hoezo zou de balk kunnen draaien?</>,
-	// ]
-
-	// // Set up feedback checks for the loads field.
-	// const wrongNumberOfForces = input => {
-	// 	const forces = input.filter(load => load.type === loadTypes.force)
-	// 	return forces.length !== 2 && <>Je hebt wat te {forces.length > 2 ? 'veel' : 'weinig'} krachten getekend.</>
-	// }
-	// const forcesAlongSameLine = input => {
-	// 	const forces = input.filter(load => load.type === loadTypes.force)
-	// 	return forces[0].span.alongEqualLine(forces[1].span) && { text: <>Je twee krachten liggen langs dezelfde lijn. Dat maakt één ervan overbodig.</>, affectedLoads: forces }
-	// }
-	// const wrongNumberOfMoments = input => {
-	// 	const moments = input.filter(load => load.type === loadTypes.moment)
-	// 	return moments.length !== 1 && (moments.length > 1 ? <>Je hebt wat te veel momenten getekend.</> : <>Is er nog een moment nodig?</>)
-	// }
-	// const nonPerpendicular = input => {
-	// 	const forces = input.filter(load => load.type === loadTypes.force)
-	// 	return !forces[0].span.isPerpendicular(forces[1].span) && <>In theorie is dit werkbaar, maar het is veel handiger om je twee krachten loodrecht op elkaar te tekenen.</>
-	// }
-	// const loadsChecks = [wrongNumberOfForces, forcesAlongSameLine, wrongNumberOfMoments, nonPerpendicular]
-
-	// return {
-	// 	...getMCFeedback('forcePerpendicular', exerciseData, { text: forcePerpendicularText }),
-	// 	...getMCFeedback('forceParallel', exerciseData, { text: forceParallelText }),
-	// 	...getMCFeedback('moment', exerciseData, { text: momentText }),
-	// 	...getInputFieldFeedback('loads', exerciseData, { feedbackChecks: loadsChecks }),
-	// }
 }
 
 function getCustomFBDFeedback(input, solution, comparison, A, B) {
@@ -204,7 +150,7 @@ function getCustomFBDFeedback(input, solution, comparison, A, B) {
 	return { correct: true, text: selectRandomCorrect() }
 }
 
-function Diagram({ isInputField = false, showSupports = true, showSolution = false, zoom = undefined }) {
+function Diagram({ isInputField = false, id, showSupports = true, showSolution = false, zoom = undefined }) {
 	const solution = useSolution()
 	const { points, loads } = solution
 
@@ -221,12 +167,12 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 	// Set up either a diagram or an input field with said diagram.
 	const snappers = points
 	return isInputField ?
-		<FBDInput id="loads" transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} snappers={snappers} validate={allConnectedToPoints(points)} maxWidth={bounds => bounds.width} /> :
+		<FBDInput id={id} transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} snappers={snappers} validate={allConnectedToPoints(points)} maxWidth={bounds => bounds.width} /> :
 		<EngineeringDiagram transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} maxWidth={bounds => bounds.width} />
 }
 
 function Schematics({ loads, showSupports = true, zoom }) {
-	const { distances, supportTypes, loadProperties, left, A, B, right, points, isAEnd, isBEnd, loadPositionIndex, loadPoint, externalLoad, loadsLeft, loadsRight } = useSolution()
+	const { supportTypes, A, B, points, isAEnd, isBEnd } = useSolution()
 
 	const SupportLeft = (isAEnd ? endSupportObjects : midSupportObjects)[supportTypes[0]]
 	const SupportRight = (isBEnd ? endSupportObjects : midSupportObjects)[supportTypes[1]]
