@@ -76,8 +76,10 @@ export function getInputFieldFeedback(parameters, exerciseData, extraOptions) {
 	// Walk through the parameters and incorporate feedback.
 	const feedback = {}
 	parameters.forEach((currParameter, index) => {
-		// Ignore null parameters.
+		// Ignore null parameters and undefined input values.
 		if (currParameter === null)
+			return
+		if (input[currParameter] === undefined)
 			return
 
 		// Get the input, solution and comparison method.
