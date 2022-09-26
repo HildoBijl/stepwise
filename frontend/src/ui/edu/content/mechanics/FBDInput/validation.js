@@ -19,7 +19,7 @@ export function nonEmptyNoDoubles(data) {
 	if (doubleLoadIndex !== -1) {
 		const otherIndex = getEqualLoadIndex(doubleLoadIndex)
 		return {
-			text: 'Sommige belastingen zijn dubbel getekend. Zorg dat alle belastingen uniek zijn.',
+			text: 'Sommige pijlen zijn dubbel getekend. Zorg dat alle pijlen uniek zijn.',
 			affectedLoads: [data[doubleLoadIndex], data[otherIndex]],
 		}
 	}
@@ -35,7 +35,7 @@ export function allConnectedToPoints(points) {
 		const unconnectedLoads = data.filter(load => !Object.values(points).some(point => isLoadAtPoint(load, point)))
 		if (unconnectedLoads.length > 0) {
 			return {
-				text: `${(unconnectedLoads.length === 1 ? 'Er is een belasting die niet gekoppeld is aan een bekend punt.' : 'Er zijn belastingen die niet gekoppeld zijn aan een bekend punt.')} Dit kan dus nooit een correct antwoord zijn.`,
+				text: `${(unconnectedLoads.length === 1 ? 'Er is een pijl die niet gekoppeld is aan een bekend punt.' : 'Er zijn pijlen die niet gekoppeld zijn aan een bekend punt.')} Dit kan dus nooit een correct antwoord zijn.`,
 				affectedLoads: unconnectedLoads,
 			}
 		}

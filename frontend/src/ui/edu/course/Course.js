@@ -159,7 +159,6 @@ function PortraitCourse({ course, overview, analysis, activeBlock, toggleActiveB
 
 export function CourseName() {
 	const { courseId } = useParams()
-	console.log(courseId)
 	const course = courses[courseId.toLowerCase()]
 	return <TitleItem name={course ? course.name : 'Onbekende cursus'} />
 }
