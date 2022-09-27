@@ -5,7 +5,7 @@ import { isObject, applyToEachParameter } from 'step-wise/util/objects'
 
 import { toCSS } from 'util/colors'
 
-import { themeColor, secondaryColor, feedbackColors } from 'ui/theme'
+import { themeColor, feedbackColors } from 'ui/theme'
 import { components as drawingComponents } from 'ui/components/figures/Drawing'
 
 import * as engineeringComponents from './components'
@@ -16,7 +16,7 @@ const components = {
 }
 
 export const loadColors = {
-	input: toCSS(secondaryColor),
+	input: '#b1a304',
 	external: '#8e0b0b',
 	reaction: '#043870',
 	section: '#902dba',
