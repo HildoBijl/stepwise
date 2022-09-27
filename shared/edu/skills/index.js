@@ -209,6 +209,15 @@ const skills = {
 		setup: combinerRepeat('schematizeSupport', 2),
 		exercises: ['drawFreeBodyDiagram1'],
 	},
+	calculateForceOrMoment: {
+		name: 'Kracht of moment berekenen',
+		exercises: [],
+	},
+	calculateBasicSupportReactions: {
+		name: 'Basis reactiekrachten berekenen',
+		setup: combinerAnd('drawFreeBodyDiagram', combinerRepeat('calculateForceOrMoment', 2)),
+		exercises: ['calculateBasicSupportReactionsDiagonalSupport', 'calculateBasicSupportReactionsDiagonalBeam', 'calculateBasicSupportReactionsFixedWithDiagonalLoad', 'calculateBasicSupportReactionsFixedWithElevatedLoad'],
+	},
 
 	/*
 	 * Basic physics.

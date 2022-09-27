@@ -17,13 +17,16 @@ export default function ExerciseContainer({ exercise, submitting, submitAction, 
 	const ExerciseShared = useRef({})
 	const reload = () => {
 		setLoading(true)
-		Promise.all([import(`./exercises/${exerciseId}`), import(`step-wise/edu/exercises/exercises/${exerciseId}`)]).then(importedModules => {
+		Promise.all([import(`./exercises/${exerciseId}.js`), import(`step-wise/edu/exercises/exercises/${exerciseId}.js`)]).then(importedModules => {
 			const [localModule, sharedModule] = importedModules
 			ExerciseLocal.current = localModule.default
 			ExerciseShared.current = sharedModule.default
 			setLoading(false)
+		}).catch((err) => {
+			console.error('Exercise failed to load.')
+			console.error(err) // ToDo later: properly process errors.
+			throw err
 		})
-		// ToDo later: set up error handling for when components fail to load.
 	}
 	useEffect(reload, [exerciseId])
 
