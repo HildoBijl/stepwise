@@ -90,9 +90,9 @@ export function getInputFieldFeedback(parameters, exerciseData, extraOptions) {
 		if (currInput === undefined)
 			return // No input has been given yet.
 
-		// If we have exactly the same input before, return the same feedback.
+		// If we have exactly the same input before, and there already was feedback earlier, use that.
 		const previousInputAnswer = previousInput[currParameter]
-		if (previousInputAnswer !== undefined && (currInput === previousInputAnswer || (currInput.SO !== undefined && deepEquals(currInput.SO, previousInputAnswer.SO)))) {
+		if (previousInputAnswer !== undefined && (currInput === previousInputAnswer || (currInput.SO !== undefined && deepEquals(currInput.SO, previousInputAnswer.SO))) && previousFeedback[currParameter] !== undefined) {
 			feedback[currParameter] = previousFeedback[currParameter]
 			return
 		}
@@ -120,7 +120,7 @@ function getIndividualInputFieldFeedback(currParameter, currInput, currSolution,
 		return isBasicObject(checkResult) && !isValidElement(checkResult) ? { correct, ...checkResult } : { correct, text: checkResult }
 
 	// Check if the input is the same as before. If so, keep the feedback.
-	if (deepEquals(currInput, previousInput))
+	if (deepEquals(currInput, previousInput) && previousFeedback !== undefined)
 		return previousFeedback
 
 	// If a feedback function has been provided, then apply it.

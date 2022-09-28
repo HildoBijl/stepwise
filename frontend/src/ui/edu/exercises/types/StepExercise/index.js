@@ -21,6 +21,8 @@ import ExerciseButtons from '../../util/ExerciseButtons'
 
 import Steps from './Steps'
 
+export { getStep, getPreviousProgress }
+
 export default function StepExercise(props) {
 	return (
 		<ExerciseWrapper getFeedback={props.getFeedback || stepExerciseGetFeedback}>

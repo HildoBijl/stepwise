@@ -411,7 +411,7 @@ export function addSnapSvg(svgContents, mouseData, drawing) {
 
 // addFeedbackIcon takes HTML elements and adds a feedback icon to it.
 export function addFeedbackIcon(htmlContents, feedback, drawing, scale = 1) {
-	if (!feedback || !feedback.Icon)
+	if (!feedback || !feedback.Icon || !drawing)
 		return htmlContents
 	return <>
 		{htmlContents}

@@ -118,7 +118,7 @@ function areLoadsEqualDirection(input, solution) {
 			return solution.span.vector.isEqualDirection(input.span.vector)
 
 		case loadTypes.moment:
-			return solution.clockwise !== input.clockwise
+			return solution.clockwise === input.clockwise
 
 		default:
 			throw new Error(`Unknown load type: could not compare loads of type "${input.type}" since this type is unknown.`)

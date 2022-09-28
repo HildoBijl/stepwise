@@ -192,12 +192,23 @@ const skills = {
 
 	/*
 	 * Engineering mechanics.
+	 * - Skills for 2D point masses.
 	 * - Calculating support reactions for point masses.
+	 * - Skills for 2D situations with rotation.
 	 * - Calculating support reactions for beams.
 	 */
 
+	// Skills for 2D point masses.
+	// ToDo
+
 	// Calculating support reactions for point masses.
 	// ToDo
+
+	// Skills for 2D situations with rotation.
+	calculateForceOrMoment: {
+		name: 'Kracht of moment berekenen',
+		exercises: [],
+	},
 
 	// Calculating support reactions for beams.
 	schematizeSupport: {
@@ -208,10 +219,6 @@ const skills = {
 		name: 'Vrijlichaamsschema tekenen',
 		setup: combinerRepeat('schematizeSupport', 2),
 		exercises: ['drawFreeBodyDiagram1'],
-	},
-	calculateForceOrMoment: {
-		name: 'Kracht of moment berekenen',
-		exercises: [],
 	},
 	calculateBasicSupportReactions: {
 		name: 'Basis reactiekrachten berekenen',
