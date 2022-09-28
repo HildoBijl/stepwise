@@ -25,9 +25,9 @@ const data = {
 
 function generateState() {
 	return {
-		l1: getRandomFloatUnit({ min: 4, max: 8, significantDigits: 1, unit: 'm' }).setSignificantDigits(2),
-		l2: getRandomFloatUnit({ min: 2, max: 4, significantDigits: 1, unit: 'm' }).setSignificantDigits(2),
-		P: getRandomFloatUnit({ min: 2, max: 8, significantDigits: 1, unit: 'kN' }).setSignificantDigits(2),
+		l1: getRandomFloatUnit({ min: 4, max: 8, decimals: 0, unit: 'm' }).setSignificantDigits(2),
+		l2: getRandomFloatUnit({ min: 2, max: 4, decimals: 0, unit: 'm' }).setSignificantDigits(2),
+		P: getRandomFloatUnit({ min: 2, max: 8, decimals: 0, unit: 'kN' }).setSignificantDigits(2),
 	}
 }
 

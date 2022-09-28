@@ -1,73 +1,71 @@
+const { deg2rad } = require('../../../util/numbers')
 const { arraysToObject } = require('../../../util/objects')
-const { getRandomBoolean } = require('../../../util/random')
-const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
+const { getRandomInteger } = require('../../../util/random')
+const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Vector } = require('../../../geometry')
 const { Variable } = require('../../../CAS')
 
 const { getStepExerciseProcessor, assembleSolution } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
-const { loadSources, getDefaultForce, getDefaultMoment, FBDComparison, getLoadNames, getLoadMatching, isMatchingComplete, getDirectionIndicators, performLoadsComparison, reverseLoad } = require('../util/engineeringMechanics')
+const { loadSources, getDefaultForce, FBDComparison, getLoadNames, getLoadMatching, isMatchingComplete, getDirectionIndicators, performLoadsComparison, reverseLoad } = require('../util/engineeringMechanics')
 
 const { reaction, external } = loadSources
 
 const data = {
 	skill: 'calculateBasicSupportReactions',
-	steps: ['drawFreeBodyDiagram', null, 'calculateForceOrMoment', 'calculateForceOrMoment'],
+	steps: ['drawFreeBodyDiagram', 'calculateForceOrMoment', 'calculateForceOrMoment', null],
 	comparison: {
 		default: {
 			relativeMargin: 0.01,
 			significantDigitMargin: 1,
 		},
-		FAx: {}, // Default.
 		loads: FBDComparison,
 	},
 }
 
 function generateState() {
 	return {
-		l1: getRandomFloatUnit({ min: 2, max: 5, significantDigits: 1, unit: 'm' }).setSignificantDigits(2),
-		l2: getRandomFloatUnit({ min: 2, max: 5, significantDigits: 1, unit: 'm' }).setSignificantDigits(2),
-		l3: getRandomFloatUnit({ min: 2, max: 5, significantDigits: 1, unit: 'm' }).setSignificantDigits(2),
-		M: getRandomFloatUnit({ min: 2, max: 8, significantDigits: 1, unit: 'kN*m' }).setSignificantDigits(2),
-		clockwise: getRandomBoolean(),
+		l1: getRandomFloatUnit({ min: 2, max: 7, decimals: 0, unit: 'm' }).setSignificantDigits(2),
+		l2: getRandomFloatUnit({ min: 2, max: 7, decimals: 0, unit: 'm' }).setSignificantDigits(2),
+		P: getRandomFloatUnit({ min: 2, max: 8, decimals: 0, unit: 'kN' }).setSignificantDigits(2),
+		angle: getRandomInteger(4, 14) * 5,
 	}
 }
 
 function getStaticSolution(state) {
-	const { l1, l2, l3, M, clockwise } = state
+	const { l1, l2, P, angle } = state
 	const l = l1.add(l2)
+	const angleRad = deg2rad(angle)
 
 	// Define points.
 	const A = new Vector(0, 0)
-	const C = new Vector(l.number, -l3.number)
-	const B = A.interpolate(C, l1.number / l.number)
+	const B = new Vector(l1.number, 0)
+	const C = new Vector(l.number, 0)
 	const points = { A, B, C }
-	const Bx = new Vector(B.x, A.y)
-	const Cx = new Vector(C.x, A.y)
-	const angle = Math.atan2(l3.number, l.number)
+	const anglePoints = [Vector.fromPolar(1, -angleRad), Vector.zero, Vector.fromPolar(1, 0)]
 
 	// Define loads.
 	const loads = [
-		getDefaultMoment(B, clockwise, -angle, external),
+		getDefaultForce(B, Math.PI / 2, external),
 		getDefaultForce(A, 0, reaction),
-		getDefaultForce(A, (clockwise ? 1 : -1) * Math.PI / 2, reaction, !clockwise),
-		getDefaultForce(C, (clockwise ? -1 : 1) * Math.PI / 2, reaction, !clockwise),
+		getDefaultForce(A, -Math.PI / 2, reaction),
+		getDefaultForce(C, -Math.PI / 2 - angleRad, reaction),
 	]
-	const loadNames = ['M', 'FAx', 'FAy', 'FC']
+	const loadNames = ['P', 'FAx', 'FAy', 'FC']
 	const loadVariables = loadNames.map(Variable.ensureVariable)
 	const prenamedLoads = [{ load: loads[0], variable: loadVariables[0] }]
 	const loadsToCheck = loadNames.slice(1, 4)
 
 	// Calculate solution values.
-	const loadValues = [
-		M,
-		new FloatUnit('0 kN'),
-		M.divide(l),
-		M.divide(l),
-	]
+	const FCy = P.multiply(l1.number / l.number)
+	const FC = FCy.divide(Math.cos(angleRad))
+	const FCx = FCy.multiply(Math.tan(angleRad))
+	const FAx = FCx
+	const FAy = P.subtract(FCy)
+	const loadValues = [P, FAx, FAy, FC]
 
 	return {
-		...state, points, l, Bx, Cx, angle, loads, loadNames, loadVariables, prenamedLoads, loadsToCheck, loadValues,
+		...state, points, l, angleRad, anglePoints, loads, loadNames, loadVariables, prenamedLoads, loadsToCheck, loadValues,
 		getLoadNames: loads => getLoadNames(loads, points, prenamedLoads, data.comparison.loads),
 	}
 }
@@ -88,7 +86,13 @@ function getDynamicSolution(directionIndices, solution, state) {
 	const loads = solution.loads.map((load, index) => directionIndices[index] ? load : reverseLoad(load))
 	const loadValues = solution.loadValues.map((value, index) => directionIndices[index] ? value : value.applyMinus())
 	const loadValuesObj = arraysToObject(solution.loadNames, loadValues)
-	return { directionIndices, hasAdjustedSolution, loads, loadValues, ...loadValuesObj }
+
+	// Recalculate components of FC.
+	const [, FAx, FAy, FC] = loadValues
+	const FCx = FC.multiply(Math.sin(solution.angleRad))
+	const FCy = FC.multiply(Math.cos(solution.angleRad))
+
+	return { directionIndices, hasAdjustedSolution, loads, loadValues, ...loadValuesObj, FAx, FAy, FC, FCx, FCy }
 }
 
 const dependencyData = { getStaticSolution, getInputDependency, dependentFields: ['loads'], getDynamicSolution }
@@ -100,11 +104,11 @@ function checkInput(state, input, step) {
 	if (step === 1)
 		return performLoadsComparison('loads', input, solution, data.comparison)
 	if (step === 2)
-		return performComparison('FAx', input, solution, data.comparison)
-	if (step === 3)
 		return performComparison('FC', input, solution, data.comparison)
-	if (step === 4)
+	if (step === 3)
 		return performComparison('FAy', input, solution, data.comparison)
+	if (step === 4)
+		return performComparison('FAx', input, solution, data.comparison)
 }
 
 module.exports = {

@@ -25,10 +25,10 @@ const data = {
 
 function generateState() {
 	return {
-		l1: getRandomFloatUnit({ min: 2, max: 5, significantDigits: 1, unit: 'm' }).setSignificantDigits(2),
-		l2: getRandomFloatUnit({ min: 2, max: 5, significantDigits: 1, unit: 'm' }).setSignificantDigits(2),
-		l3: getRandomFloatUnit({ min: 2, max: 5, significantDigits: 1, unit: 'm' }).setSignificantDigits(2),
-		M: getRandomFloatUnit({ min: 2, max: 8, significantDigits: 1, unit: 'kN*m' }).setSignificantDigits(2),
+		l1: getRandomFloatUnit({ min: 2, max: 5, decimals: 0, unit: 'm' }).setSignificantDigits(2),
+		l2: getRandomFloatUnit({ min: 2, max: 5, decimals: 0, unit: 'm' }).setSignificantDigits(2),
+		l3: getRandomFloatUnit({ min: 2, max: 5, decimals: 0, unit: 'm' }).setSignificantDigits(2),
+		M: getRandomFloatUnit({ min: 5, max: 30, decimals: 0, unit: 'kN*m' }).setSignificantDigits(2),
 		clockwise: getRandomBoolean(),
 	}
 }
