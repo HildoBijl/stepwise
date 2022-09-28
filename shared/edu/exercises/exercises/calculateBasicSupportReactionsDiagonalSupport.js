@@ -1,6 +1,6 @@
-const { deg2rad } = require('../../../util/numbers')
 const { arraysToObject } = require('../../../util/objects')
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
+const { getRandomBoolean } = require('../../../util/random')
+const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Vector } = require('../../../geometry')
 const { Variable } = require('../../../CAS')
 
@@ -12,56 +12,62 @@ const { reaction, external } = loadSources
 
 const data = {
 	skill: 'calculateBasicSupportReactions',
-	steps: ['drawFreeBodyDiagram', 'calculateForceOrMoment', null, 'calculateForceOrMoment'],
+	steps: ['drawFreeBodyDiagram', null, 'calculateForceOrMoment', 'calculateForceOrMoment'],
 	comparison: {
 		default: {
 			relativeMargin: 0.01,
 			significantDigitMargin: 1,
 		},
-		FAy: {}, // Default.
+		FAx: {}, // Default.
 		loads: FBDComparison,
 	},
 }
 
 function generateState() {
 	return {
-		l1: getRandomFloatUnit({ min: 4, max: 8, significantDigits: 1, unit: 'm' }).setSignificantDigits(2),
-		l2: getRandomFloatUnit({ min: 2, max: 4, significantDigits: 1, unit: 'm' }).setSignificantDigits(2),
-		P: getRandomFloatUnit({ min: 2, max: 8, significantDigits: 1, unit: 'kN' }).setSignificantDigits(2),
+		l1: getRandomFloatUnit({ min: 2, max: 5, significantDigits: 1, unit: 'm' }).setSignificantDigits(2),
+		l2: getRandomFloatUnit({ min: 2, max: 5, significantDigits: 1, unit: 'm' }).setSignificantDigits(2),
+		l3: getRandomFloatUnit({ min: 2, max: 5, significantDigits: 1, unit: 'm' }).setSignificantDigits(2),
+		M: getRandomFloatUnit({ min: 2, max: 8, significantDigits: 1, unit: 'kN*m' }).setSignificantDigits(2),
+		clockwise: getRandomBoolean(),
 	}
 }
 
 function getStaticSolution(state) {
-	const { l1, l2, P } = state
+	const { l1, l2, l3, M, clockwise } = state
+	const l = l1.add(l2)
 
 	// Define points.
 	const A = new Vector(0, 0)
-	const B = new Vector(l1.number, 0)
-	const C = new Vector(l1.number, -l2.number)
+	const C = new Vector(l.number, -l3.number)
+	const B = A.interpolate(C, l1.number / l.number)
 	const points = { A, B, C }
+	const Bx = new Vector(B.x, A.y)
+	const Cx = new Vector(C.x, A.y)
+	const angle = Math.atan2(l3.number, l.number)
 
 	// Define loads.
 	const loads = [
-		getDefaultForce(C, 0, external),
-		getDefaultForce(A, Math.PI, reaction, true),
-		getDefaultForce(A, -Math.PI / 2, reaction),
-		getDefaultMoment(A, false, 0, reaction),
+		getDefaultMoment(B, clockwise, -angle, external),
+		getDefaultForce(A, 0, reaction),
+		getDefaultForce(A, (clockwise ? 1 : -1) * Math.PI / 2, reaction, !clockwise),
+		getDefaultForce(C, (clockwise ? -1 : 1) * Math.PI / 2, reaction, !clockwise),
 	]
-	const loadNames = ['P', 'FAx', 'FAy', 'MA']
+	const loadNames = ['M', 'FAx', 'FAy', 'FC']
 	const loadVariables = loadNames.map(Variable.ensureVariable)
 	const prenamedLoads = [{ load: loads[0], variable: loadVariables[0] }]
 	const loadsToCheck = loadNames.slice(1, 4)
 
 	// Calculate solution values.
 	const loadValues = [
-		P,
-		P,
-		P.multiply(0),
-		P.multiply(l2),
+		M,
+		new FloatUnit('0 kN'),
+		M.divide(l),
+		M.divide(l),
 	]
 
 	return {
-		...state, points, loads, loadNames, loadVariables, prenamedLoads, loadsToCheck, loadValues,
+		...state, points, l, Bx, Cx, angle, loads, loadNames, loadVariables, prenamedLoads, loadsToCheck, loadValues,
 		getLoadNames: loads => getLoadNames(loads, points, prenamedLoads, data.comparison.loads),
 	}
 }
@@ -96,9 +102,9 @@ function checkInput(state, input, step) {
 	if (step === 2)
 		return performComparison('FAx', input, solution, data.comparison)
 	if (step === 3)
-		return performComparison('FAy', input, solution, data.comparison)
+		return performComparison('FC', input, solution, data.comparison)
 	if (step === 4)
-		return performComparison('MA', input, solution, data.comparison)
+		return performComparison('FAy', input, solution, data.comparison)
 }
 
 module.exports = {

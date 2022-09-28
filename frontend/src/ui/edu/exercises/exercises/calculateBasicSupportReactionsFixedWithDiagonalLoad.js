@@ -74,8 +74,8 @@ const steps = [
 		},
 		Solution: () => {
 			const { loadVariables, loadValues, directionIndices } = useSolution()
-			const [_, vFAx, vFAy, vMA] = loadVariables
-			const [P, FAx, FAy, MA] = loadValues
+			const [, vFAx, vFAy, vMA] = loadVariables
+			const [, FAx, ,] = loadValues
 
 			return <>
 				<Par>
@@ -100,8 +100,8 @@ const steps = [
 		},
 		Solution: () => {
 			const { loadVariables, loadValues, directionIndices } = useSolution()
-			const [_, vFAx, vFAy, vMA] = loadVariables
-			const [P, FAx, FAy, MA] = loadValues
+			const [, vFAx, vFAy, vMA] = loadVariables
+			const [, , FAy,] = loadValues
 
 			return <>
 				<Par>
@@ -125,15 +125,16 @@ const steps = [
 		},
 		Solution: () => {
 			const { loadVariables, loadValues, directionIndices, l2 } = useSolution()
-			const [_, vFAx, vFAy, vMA] = loadVariables
-			const [P, FAx, FAy, MA] = loadValues
+			const [, vFAx, vFAy, vMA] = loadVariables
+			const [P, , , MA] = loadValues
 
 			return <>
 				<Par>
 					Om <M>{vMA}</M> te vinden bekijken we de som van de momenten om punt <M>A.</M> In dit geval hebben <M>{vFAx}</M> en <M>{vFAy}</M> geen invloed. Dit geeft ons de evenwichtsvergelijking
 					<BM>{sumOfMoments('A', false)} P l_2 {directionIndices[3] ? '-' : '+'} {vMA} = 0.</BM>
 					De oplossing volgt als
-					<BM>{vMA} = {directionIndices[1] ? '' : '-'} P l_2 ={directionIndices[1] ? '' : '-'} {P.float} \cdot {l2.float} = {MA}.</BM>
+					<BM>{vMA} = {directionIndices[3] ? '' : '-'} P l_2 = {directionIndices[3] ? '' : '-'} {P.float} \cdot {l2.float} = {MA}.</BM>
+					Hiermee zijn alle reactiekrachten/momenten bekend.
 				</Par>
 			</>
 		},
