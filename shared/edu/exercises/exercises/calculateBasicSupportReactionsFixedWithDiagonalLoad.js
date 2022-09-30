@@ -1,5 +1,6 @@
 const { deg2rad } = require('../../../util/numbers')
 const { arraysToObject } = require('../../../util/objects')
+const { getRandomInteger } = require('../../../util/random')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Vector } = require('../../../geometry')
 const { Variable } = require('../../../CAS')
@@ -18,7 +19,6 @@ const data = {
 			relativeMargin: 0.01,
 			significantDigitMargin: 1,
 		},
-		FAy: {}, // Default.
 		loads: FBDComparison,
 	},
 }
@@ -28,21 +28,23 @@ function generateState() {
 		l1: getRandomFloatUnit({ min: 4, max: 8, decimals: 0, unit: 'm' }).setSignificantDigits(2),
 		l2: getRandomFloatUnit({ min: 2, max: 4, decimals: 0, unit: 'm' }).setSignificantDigits(2),
 		P: getRandomFloatUnit({ min: 2, max: 8, decimals: 0, unit: 'kN' }).setSignificantDigits(2),
+		angle: getRandomInteger(6, 16) * 5,
 	}
 }
 
 function getStaticSolution(state) {
-	const { l1, l2, P } = state
+	const { l1, l2, P, angle } = state
+	const angleRad = deg2rad(angle)
 
 	// Define points.
 	const A = new Vector(0, 0)
 	const B = new Vector(l1.number, 0)
-	const C = new Vector(l1.number, -l2.number)
+	const C = new Vector(l1.number + l2.number, 0)
 	const points = { A, B, C }
 
 	// Define loads.
 	const loads = [
-		getDefaultForce(C, 0, external),
+		getDefaultForce(B, angleRad, external),
 		getDefaultForce(A, Math.PI, reaction, true),
 		getDefaultForce(A, -Math.PI / 2, reaction),
 		getDefaultMoment(A, false, 0, reaction),
@@ -53,15 +55,15 @@ function getStaticSolution(state) {
 	const loadsToCheck = loadNames.slice(1, 4)
 
 	// Calculate solution values.
-	const loadValues = [
-		P,
-		P,
-		P.multiply(0),
-		P.multiply(l2),
-	]
+	const Px = P.multiply(Math.cos(angleRad))
+	const Py = P.multiply(Math.sin(angleRad))
+	const FAx = Px
+	const FAy = Py
+	const MA = Py.multiply(l1)
+	const loadValues = [P, FAx, FAy, MA]
 
 	return {
-		...state, points, loads, loadNames, loadVariables, prenamedLoads, loadsToCheck, loadValues,
+		...state, angleRad, points, loads, Px, Py, loadNames, loadVariables, prenamedLoads, loadsToCheck, loadValues,
 		getLoadNames: loads => getLoadNames(loads, points, prenamedLoads, data.comparison.loads),
 	}
 }
@@ -82,7 +84,10 @@ function getDynamicSolution(directionIndices, solution, state) {
 	const loads = solution.loads.map((load, index) => directionIndices[index] ? load : reverseLoad(load))
 	const loadValues = solution.loadValues.map((value, index) => directionIndices[index] ? value : value.applyMinus())
 	const loadValuesObj = arraysToObject(solution.loadNames, loadValues)
-	return { directionIndices, hasAdjustedSolution, loads, loadValues, ...loadValuesObj }
+
+	// Adjust the forces according to the arrows drawn by the user.
+	const [, FAx, FAy, MA] = loadValues
+	return { directionIndices, hasAdjustedSolution, loads, FAx, FAy, MA, loadValues, ...loadValuesObj }
 }
 
 const dependencyData = { getStaticSolution, getInputDependency, dependentFields: ['loads'], getDynamicSolution }

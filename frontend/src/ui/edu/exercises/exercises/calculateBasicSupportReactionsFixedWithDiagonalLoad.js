@@ -1,12 +1,13 @@
 import React from 'react'
 
-import { Vector } from 'step-wise/geometry'
+import { Vector, Line } from 'step-wise/geometry'
 
 import { M, BM } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import { InputSpace } from 'ui/form/FormPart'
 import { useInput } from 'ui/form/Form'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
+import { CornerLabel } from 'ui/components/figures'
 import { useCurrentBackgroundColor, useScaleAndShiftTransformationSettings } from 'ui/components/figures/Drawing'
 
 import EngineeringDiagram, { Group, Beam, FixedSupport, Distance, PositionedElement, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
@@ -24,12 +25,12 @@ export default function Exercise() {
 }
 
 const Problem = (state) => {
-	const { P, getLoadNames } = useSolution()
+	const { P, angle, getLoadNames, FAx, FAy, MA } = useSolution()
 	const inputLoads = useInput('loads')
 	const loadNames = getLoadNames(inputLoads).filter(load => !load.prenamed)
 
 	return <>
-		<Par>Een balk is aan een muur ingeklemd en belast met een kracht van <M>P = {P}.</M></Par>
+		<Par><M>{FAx}</M> : <M>{FAy}</M> : <M>{MA}</M> : Een balk is aan een muur ingeklemd en belast met een kracht van <M>P = {P}.</M> De kracht heeft een hoek van <M>{angle}^\circ</M> ten opzichte van de horizontaal.</Par>
 		<Diagram isInputField={false} />
 		<Par>Teken het vrijlichaamsschema/schematisch diagram.</Par>
 		<InputSpace>
@@ -73,16 +74,17 @@ const steps = [
 			</>
 		},
 		Solution: () => {
-			const { loadVariables, loadValues, directionIndices } = useSolution()
+			const { loadVariables, directionIndices, angle, P, Px, FAx } = useSolution()
 			const [, vFAx, vFAy, vMA] = loadVariables
-			const [, FAx, ,] = loadValues
 
 			return <>
 				<Par>
 					Om <M>{vFAx}</M> te vinden bekijken we de som van de krachten in de horizontale richting. In dit geval hebben <M>{vFAy}</M> en <M>{vMA}</M> geen invloed. Dit geeft ons de evenwichtsvergelijking
-					<BM>{sumOfForces(false)} P {directionIndices[1] ? '-' : '+'} {vFAx} = 0.</BM>
-					De oplossing volgt als
-					<BM>{vFAx} = {directionIndices[1] ? '' : '-'} P = {FAx}.</BM>
+					<BM>{sumOfForces(false)} P_x {directionIndices[1] ? '-' : '+'} {vFAx} = 0.</BM>
+					Hierbij is de horizontale component <M>P_x</M> gelijk aan
+					<BM>P_x = P \cos\left({angle}\right) = {P.float} \cdot \cos\left({angle}\right) = {Px}.</BM>
+					Als we de evenwichtsvergelijking oplossen voor <M>{vFAx}</M> krijgen we
+					<BM>{vFAx} = {directionIndices[1] ? '' : '-'} P_x = {FAx}.</BM>
 				</Par>
 			</>
 		},
@@ -99,15 +101,17 @@ const steps = [
 			</>
 		},
 		Solution: () => {
-			const { loadVariables, loadValues, directionIndices } = useSolution()
+			const { loadVariables, directionIndices, angle, P, Py, FAy } = useSolution()
 			const [, vFAx, vFAy, vMA] = loadVariables
-			const [, , FAy,] = loadValues
 
 			return <>
 				<Par>
 					Om <M>{vFAy}</M> te vinden bekijken we de som van de krachten in de verticale richting. In dit geval hebben <M>{vFAx}</M> en <M>{vMA}</M> geen invloed. Dit geeft ons de evenwichtsvergelijking
-					<BM>{sumOfForces(true)} {directionIndices[2] ? '' : '+'} {vFAy} = 0.</BM>
-					Dit vertelt direct dat <M>{vFAy} = {FAy}.</M>
+					<BM>{sumOfForces(true)} {directionIndices[2] ? '' : '-'} {vFAy} - P_y = 0.</BM>
+					Hierbij is de verticale component <M>P_y</M> gelijk aan
+					<BM>P_y = P \sin\left({angle}\right) = {P.float} \cdot \sin\left({angle}\right) = {Py}.</BM>
+					Als we de evenwichtsvergelijking oplossen voor <M>{vFAy}</M> krijgen we
+					<BM>{vFAy} = {directionIndices[2] ? '' : '-'} P_y = {FAy}.</BM>
 				</Par>
 			</>
 		},
@@ -124,16 +128,15 @@ const steps = [
 			</>
 		},
 		Solution: () => {
-			const { loadVariables, loadValues, directionIndices, l2 } = useSolution()
+			const { loadVariables, directionIndices, l1, Py, MA } = useSolution()
 			const [, vFAx, vFAy, vMA] = loadVariables
-			const [P, , , MA] = loadValues
 
 			return <>
 				<Par>
 					Om <M>{vMA}</M> te vinden bekijken we de som van de momenten om punt <M>A.</M> In dit geval hebben <M>{vFAx}</M> en <M>{vFAy}</M> geen invloed. Dit geeft ons de evenwichtsvergelijking
-					<BM>{sumOfMoments('A', false)} P l_2 {directionIndices[3] ? '-' : '+'} {vMA} = 0.</BM>
+					<BM>{sumOfMoments('A', false)} P_y l_1 {directionIndices[3] ? '-' : '+'} {vMA} = 0.</BM>
 					De oplossing volgt als
-					<BM>{vMA} = {directionIndices[3] ? '' : '-'} P l_2 = {directionIndices[3] ? '' : '-'} {P.float} \cdot {l2.float} = {MA}.</BM>
+					<BM>{vMA} = {directionIndices[3] ? '' : '-'} P_y l_1 = {directionIndices[3] ? '' : '-'} {Py.float} \cdot {l1.float} = {MA}.</BM>
 					Hiermee zijn alle reactiekrachten/momenten bekend.
 				</Par>
 			</>
@@ -143,10 +146,10 @@ const steps = [
 
 function Diagram({ isInputField = false, showSupports = true, showSolution = false }) {
 	const solution = useSolution()
-	const { points, loads, getLoadNames } = solution
+	const { points, loads, getLoadNames, angleRad } = solution
 
 	// Define the transformation.
-	const transformationSettings = useScaleAndShiftTransformationSettings(points, { scale: 70, margin: [100, [60, 100]] })
+	const transformationSettings = useScaleAndShiftTransformationSettings(points, { scale: 70, margin: [[120, 80], [90, 110]] })
 
 	// Get all the required components.
 	const loadsToDisplay = isInputField ? [] : (showSolution ? loads : loads.filter(load => load.source === loadSources.external))
@@ -154,15 +157,17 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 	const elements = <Elements {...solution} loads={loadsToDisplay} />
 
 	// Set up either a diagram or an input field with said diagram.
-	const snappers = Object.values(points)
+	const snappers = [...Object.values(points), Line.fromPointAndAngle(points.B, angleRad)]
 	return isInputField ?
 		<FBDInput id="loads" transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} snappers={snappers} validate={allConnectedToPoints(points)} maxWidth={bounds => bounds.width} getLoadNames={getLoadNames} /> :
 		<EngineeringDiagram transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} maxWidth={bounds => bounds.width} />
 }
 
 function Schematics({ points, loads, showSupports = true }) {
+	const { A, B, C } = points
+
 	return <>
-		<Beam points={Object.values(points)} />
+		<Beam points={[A, C]} />
 
 		<Group style={{ opacity: showSupports ? 1 : 0.1 }}>
 			<FixedSupport position={points.A} angle={Math.PI} />
@@ -170,22 +175,25 @@ function Schematics({ points, loads, showSupports = true }) {
 
 		<Group>{render(loads)}</Group>
 
-		<Distance span={{ start: points.A, end: points.B }} graphicalShift={new Vector(0, distanceShift)} />
-		<Distance span={{ start: points.B, end: points.C }} graphicalShift={new Vector(distanceShift, 0)} />
+		<Distance span={{ start: A, end: B }} graphicalShift={new Vector(0, distanceShift)} />
+		<Distance span={{ start: B, end: C }} graphicalShift={new Vector(0, distanceShift)} />
 	</>
 }
 
-function Elements({ l1, l2, points, loads, getLoadNames }) {
+function Elements({ l1, l2, angle, points, loads, getLoadNames }) {
 	const background = useCurrentBackgroundColor()
 	const distanceLabelStyle = { background, padding: '0.3rem' }
 	const loadNames = getLoadNames(loads)
+	const { A, B, C } = points
+	const externalLoad = loads.find(load => load.source === loadSources.external)
 
 	return <>
-		<Label position={points.A} angle={Math.PI / 4} graphicalDistance={7}><M>A</M></Label>
-		<Label position={points.B} angle={Math.PI / 4} graphicalDistance={5}><M>B</M></Label>
-		<Label position={points.C} angle={0} graphicalDistance={8}><M>C</M></Label>
-		<PositionedElement position={points.A.interpolate(points.B)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}</M></PositionedElement>
-		<PositionedElement position={points.B.interpolate(points.C)} graphicalShift={new Vector(distanceShift, 0)} rotate={Math.PI / 2} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_2 = {l2}</M></PositionedElement>
+		<Label position={A} angle={Math.PI / 4} graphicalDistance={7}><M>A</M></Label>
+		<Label position={B} angle={Math.PI / 2} graphicalDistance={4}><M>B</M></Label>
+		<Label position={C} angle={0} graphicalDistance={6}><M>C</M></Label>
+		<PositionedElement position={A.interpolate(B)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}</M></PositionedElement>
+		<PositionedElement position={B.interpolate(C)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_2 = {l2}</M></PositionedElement>
+		{externalLoad ? <CornerLabel points={[externalLoad.span.start, B, A]} graphicalSize={32}><M>{angle}^\circ</M></CornerLabel> : null}
 		{loadNames.map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
 	</>
 }

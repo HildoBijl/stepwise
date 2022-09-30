@@ -106,7 +106,7 @@ const steps = [
 			return <>
 				<Par>
 					Om <M>{vFAy}</M> te vinden bekijken we de som van de krachten in de verticale richting. In dit geval hebben <M>{vFAx}</M> en <M>{vMA}</M> geen invloed. Dit geeft ons de evenwichtsvergelijking
-					<BM>{sumOfForces(true)} {directionIndices[2] ? '' : '+'} {vFAy} = 0.</BM>
+					<BM>{sumOfForces(true)} {directionIndices[2] ? '' : '-'} {vFAy} = 0.</BM>
 					Dit vertelt direct dat <M>{vFAy} = {FAy}.</M>
 				</Par>
 			</>
