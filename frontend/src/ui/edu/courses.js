@@ -135,7 +135,7 @@ const courses = {
 		goals: ['calculateBasicSupportReactions'],
 		priorKnowledge: [],
 		startingPoints: [
-			'schematizeSupportReaction',
+			'schematizeSupport',
 			'calculateForceOrMoment',
 		],
 		blocks: [
