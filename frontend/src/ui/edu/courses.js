@@ -130,6 +130,26 @@ const courses = {
 		],
 	},
 
+	exactastatica: {
+		name: 'Exacte Wetenschap A - Statica basics',
+		goals: ['calculateBasicSupportReactions'],
+		priorKnowledge: [],
+		startingPoints: [
+			'schematizeSupportReaction',
+			'calculateForceOrMoment',
+		],
+		blocks: [
+			{
+				name: 'Vrijlichaamsschema tekenen',
+				goals: ['drawFreeBodyDiagram'],
+			},
+			{
+				name: 'Reactiekrachten berekenen',
+				goals: ['calculateBasicSupportReactions'],
+			}
+		],
+	},
+
 	exactd: {
 		name: 'Exacte Wetenschap D - Natuurkunde',
 		goals: ['analyseClosedCycle', 'findFridgeTemperatures', 'analyseAirco'],

@@ -25,12 +25,12 @@ export default function Exercise() {
 }
 
 const Problem = (state) => {
-	const { P, angle, getLoadNames, FAx, FAy, MA } = useSolution()
+	const { P, angle, getLoadNames } = useSolution()
 	const inputLoads = useInput('loads')
 	const loadNames = getLoadNames(inputLoads).filter(load => !load.prenamed)
 
 	return <>
-		<Par><M>{FAx}</M> : <M>{FAy}</M> : <M>{MA}</M> : Een balk is aan een muur ingeklemd en belast met een kracht van <M>P = {P}.</M> De kracht heeft een hoek van <M>{angle}^\circ</M> ten opzichte van de horizontaal.</Par>
+		<Par>Een balk is aan een muur ingeklemd en belast met een kracht van <M>P = {P}.</M> De kracht heeft een hoek van <M>{angle}^\circ</M> ten opzichte van de horizontaal.</Par>
 		<Diagram isInputField={false} />
 		<Par>Teken het vrijlichaamsschema/schematisch diagram.</Par>
 		<InputSpace>

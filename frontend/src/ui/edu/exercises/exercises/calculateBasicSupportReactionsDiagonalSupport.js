@@ -26,12 +26,12 @@ export default function Exercise() {
 }
 
 const Problem = (state) => {
-	const { P, getLoadNames, FAx, FAy, FC } = useSolution()
+	const { P, getLoadNames } = useSolution()
 	const inputLoads = useInput('loads')
 	const loadNames = getLoadNames(inputLoads).filter(load => !load.prenamed)
 
 	return <>
-		<Par><M>{FAx}</M> : <M>{FAy}</M> : <M>{FC}</M> : Een balk is links met een scharnier en rechts met een scharnierende schuifverbinding bevestigd. Hij wordt belast met een kracht van <M>P = {P}.</M></Par>
+		<Par>Een balk is links met een scharnier en rechts met een scharnierende schuifverbinding bevestigd. Hij wordt belast met een kracht van <M>P = {P}.</M></Par>
 		<Diagram isInputField={false} />
 		<Par>Teken het vrijlichaamsschema/schematisch diagram.</Par>
 		<InputSpace>
