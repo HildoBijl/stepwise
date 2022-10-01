@@ -156,8 +156,8 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 	// Set up either a diagram or an input field with said diagram.
 	const snappers = Object.values(points)
 	return isInputField ?
-		<FBDInput id="loads" transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} snappers={snappers} validate={allConnectedToPoints(points)} maxWidth={bounds => bounds.width} getLoadNames={getLoadNames} /> :
-		<EngineeringDiagram transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} maxWidth={bounds => bounds.width} />
+		<FBDInput id="loads" transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} snappers={snappers} validate={allConnectedToPoints(points)} getLoadNames={getLoadNames} /> :
+		<EngineeringDiagram transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} />
 }
 
 function Schematics({ points, loads, showSupports = true }) {

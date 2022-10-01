@@ -134,7 +134,7 @@ function ExerciseFigure() {
 	const labelSize = 26
 
 	// Render the figure.
-	return <Drawing transformationSettings={transformationSettings} maxWidth={bounds => bounds.width} svgContents={<>
+	return <Drawing transformationSettings={transformationSettings} svgContents={<>
 		<Polygon points={points} style={{ fill: '#aaccff' }} />
 		<RightAngle points={points} />
 	</>} htmlContents={<>

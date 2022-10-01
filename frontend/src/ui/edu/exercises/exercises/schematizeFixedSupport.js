@@ -163,8 +163,8 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 	const A = points[0]
 	const snappers = [A, Line.fromPointAndAngle(A, deg2rad(wallRotation)), Line.fromPointAndAngle(A, deg2rad(wallRotation + 90)), Line.fromPointAndAngle(A, deg2rad(wallRotation + beamRotation)), Line.fromPointAndAngle(A, deg2rad(wallRotation + beamRotation + 90))]
 	return isInputField ?
-		<FBDInput id="loads" transformationSettings={transformationSettings} svgContents={schematics} snappers={snappers} validate={allConnectedToPoints(points)} maxWidth={bounds => bounds.width} /> :
-		<EngineeringDiagram transformationSettings={transformationSettings} svgContents={schematics} maxWidth={bounds => bounds.width} />
+		<FBDInput id="loads" transformationSettings={transformationSettings} svgContents={schematics} snappers={snappers} validate={allConnectedToPoints(points)} /> :
+		<EngineeringDiagram transformationSettings={transformationSettings} svgContents={schematics} />
 }
 
 function Schematics({ loads, showSupports = true }) {

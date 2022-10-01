@@ -111,7 +111,7 @@ function ExerciseFigure({ showAlpha = 0, showBeta = 0, showGamma = 0 }) {
 	})
 
 	// Render the figure.
-	return <Drawing transformationSettings={transformationSettings} maxWidth={bounds => bounds.width} svgContents={<>
+	return <Drawing transformationSettings={transformationSettings} svgContents={<>
 		<Polygon points={[right, topRight, middle]} style={{ fill: '#aaccff' }} />
 		<Polygon points={[left, bottomLeft, middle]} style={{ fill: '#ffaabb' }} />
 		<BoundedLine line={Line.fromPoints(left, right)} style={{ strokeWidth: 2 }} />

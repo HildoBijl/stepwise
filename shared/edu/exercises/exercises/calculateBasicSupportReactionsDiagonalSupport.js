@@ -13,6 +13,7 @@ const { reaction, external } = loadSources
 
 const data = {
 	skill: 'calculateBasicSupportReactions',
+	setup: combinerAnd('drawFreeBodyDiagram', combinerRepeat('calculateForceOrMoment', 2)),
 	steps: ['drawFreeBodyDiagram', 'calculateForceOrMoment', 'calculateForceOrMoment', null],
 	comparison: {
 		default: {

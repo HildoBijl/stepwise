@@ -130,7 +130,7 @@ function ExerciseFigure({ showAlpha = 0, showBeta = 0, showGamma = 0, showDelta 
 	})
 
 	// Render the figure.
-	return <Drawing transformationSettings={transformationSettings} maxWidth={bounds => bounds.width} svgContents={<>
+	return <Drawing transformationSettings={transformationSettings} svgContents={<>
 		<Circle center={center} radius={radius} style={{ fill: '#aaccff', stroke: '#888888' }} />
 		<LineComponent points={[top, bottom]} />
 		<LineComponent points={[right, center]} />

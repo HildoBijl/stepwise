@@ -25,7 +25,7 @@ class Vector {
 		// On an object, try to process it.
 		const vector = args[0]
 		if (typeof vector !== 'object')
-			throw new Error(`Invalid Vector: expected an array of coordinates or some other Vector-like object but received something of type "${vector}".`)
+			throw new Error(`Invalid Vector: expected an array of coordinates or some other Vector-like object but received something of type "${typeof vector}".`)
 		if (vector instanceof Vector)
 			return vector
 		return Vector.fromCoordinates(vector)

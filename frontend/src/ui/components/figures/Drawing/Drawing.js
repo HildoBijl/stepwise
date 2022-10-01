@@ -21,7 +21,8 @@ import Figure, { defaultOptions as figureDefaultOptions } from '../Figure'
 import { DrawingContext } from './DrawingContext'
 
 const defaultDrawingOptions = {
-	...figureDefaultOptions, // Includes a maxWidth option to set the maximum width of the figure. This can also be a function of the drawing bounds.
+	...figureDefaultOptions,
+	maxWidth: bounds => bounds.width, // Override the default maxWidth (undefined, meaning full width) to the bounds. Set to "fill" to always fill the available page width.
 	transformationSettings: undefined, // An object containing data on figure bounds and a transformation that is applied to get from drawing coordinates to graphical coordinates.
 	useSvg: true,
 	useCanvas: false,
@@ -88,7 +89,7 @@ function Drawing(options, ref) {
 	const { graphicalBounds } = transformationSettings
 	const { width, height } = graphicalBounds
 	options.aspectRatio = height / width // This must be passed on to the Figure object.
-	options.maxWidth = resolveFunctions(options.maxWidth, graphicalBounds)
+	options.maxWidth = options.maxWidth === 'fill' ? undefined : resolveFunctions(options.maxWidth, graphicalBounds)
 
 	// Set up refs and make them accessible to any implementing component.
 	const figureRef = useRef()

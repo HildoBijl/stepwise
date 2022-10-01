@@ -8,7 +8,7 @@ const skills = {
 	},
 	demo: {
 		name: 'Demo-opgave',
-		exercises: ['demoExercise', 'demo2'],
+		exercises: ['demoExercise'],
 	},
 
 	// Tutorial exercises.

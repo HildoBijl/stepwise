@@ -135,7 +135,7 @@ function ExerciseFigure({ useAlternative, showγ }) {
 	const labelSize = 30
 
 	// Render the figure.
-	return <Drawing transformationSettings={transformationSettings} maxWidth={bounds => bounds.width} svgContents={<>
+	return <Drawing transformationSettings={transformationSettings} svgContents={<>
 		<Polygon points={points} style={{ fill: '#aaccff' }} />
 	</>} htmlContents={<>
 		<LineLabel points={[points[1], points[2]]} oppositeTo={points[0]}><M>{a}</M></LineLabel>
