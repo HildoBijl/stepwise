@@ -9,7 +9,7 @@ import { Par } from 'ui/components/containers'
 import { InputSpace } from 'ui/form/FormPart'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
-import { CornerLabel, Circle, Rectangle as SvgRectangle } from 'ui/components/figures'
+import { CornerLabel, Circle, Rectangle as SvgRectangle, Line } from 'ui/components/figures'
 import { useCurrentBackgroundColor, useScaleAndShiftTransformationSettings } from 'ui/components/figures/Drawing'
 
 import EngineeringDiagram, { Group, Beam, FixedSupport, Distance, PositionedElement, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
@@ -63,6 +63,7 @@ const steps = [
 		Problem: () => {
 			return <>
 				<Par>Pas krachtenevenwicht in de verticale richting toe om de verticale component <M>F_(Ay)</M> te berekenen.</Par>
+				<Diagram decompose={true} />
 				<InputSpace>
 					<FloatUnitInput id="FAy" prelabel={<M>F_(Ay)=</M>} size="s" />
 				</InputSpace>
@@ -98,33 +99,35 @@ const steps = [
 	},
 ]
 
-function Diagram({ isInputField = false, showSupports = true, showSolution = false }) {
+function Diagram({ decompose = false }) {
 	const transformationSettings = useScaleAndShiftTransformationSettings([Vector.zero, new Vector(4, 4)], { scale: 50, margin: 70 })
-	return <EngineeringDiagram transformationSettings={transformationSettings} svgContents={<Schematics />} htmlContents={<Elements />} />
+	return <EngineeringDiagram transformationSettings={transformationSettings} svgContents={<Schematics decompose={decompose} />} htmlContents={<Elements decompose={decompose} />} />
 }
 
-function Schematics() {
-	const { loads } = useSolution()
+function Schematics({ decompose }) {
+	const { loads, decomposedLoads } = useSolution()
 	const grid = numberArray(0, 4).map(x => numberArray(0, 4).map(y => new Vector(x, y))).flat()
 	const rectangle = new Rectangle({ start: new Vector(-rectangleMargin, -rectangleMargin), end: new Vector(4 + rectangleMargin, 4 + rectangleMargin) })
+	const diagonalLoad = loads[0]
 
 	return <>
-		<SvgRectangle dimensions={rectangle} cornerRadius={0.2} style={{ fill: '#aaccff', strokeWidth: 1, stroke: '#555' }} />
-		<Group>{grid.map((point, index) => <Circle key={index} center={point} graphicalRadius={3} />)}</Group>
-		<Group>{render(loads)}</Group>
+		<SvgRectangle dimensions={rectangle} cornerRadius={0.2} style={{ fill: '#aaccff', strokeWidth: 1, stroke: '#777' }} />
+		<Group>{grid.map((point, index) => <Circle key={index} center={point} graphicalRadius={3} style={{ fill: '#777' }} />)}</Group>
+		{decompose ? null : <Line points={[diagonalLoad.span.end, new Vector(diagonalLoad.span.end.x, diagonalLoad.span.start.y)]} style={{ stroke: '#777' }} />}
+		<Group>{render(decompose ? decomposedLoads : loads)}</Group>
 		<Distance span={{ start: new Vector(4, 0), end: new Vector(4, 1) }} graphicalShift={new Vector(distanceShift, 0)} />
 	</>
 }
 
-function Elements() {
-	const { points, loads, loadNames, angle, up } = useSolution()
-	const [A, B, C, D] = points
+function Elements({ decompose }) {
+	const { points, loads, loadNames, decomposedLoadNames, angle, up } = useSolution()
+	const A = points[0]
 	const diagonalLoad = loads[0]
 
 	return <>
 		<PositionedElement position={new Vector(4, 0.5)} graphicalShift={new Vector(distanceShift + 6, 0)} anchor={[0, 0.5]}><M>{new FloatUnit('1 m')}</M></PositionedElement>
-		<CornerLabel points={[diagonalLoad.span.start, A, new Vector(A.x, up ? -1 : 5)]} graphicalSize={28}><M>{angle}^\circ</M></CornerLabel>
-		{loadNames.map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
+		{decompose ? null : <CornerLabel points={[diagonalLoad.span.start, A, new Vector(A.x, up ? -1 : 5)]} graphicalSize={28}><M>{angle}^\circ</M></CornerLabel>}
+		{(decompose ? decomposedLoadNames : loadNames).map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
 	</>
 }
 

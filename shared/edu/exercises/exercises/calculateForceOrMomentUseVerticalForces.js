@@ -7,7 +7,7 @@ const { Vector } = require('../../../geometry')
 
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
-const { loadSources, getDefaultForce } = require('../util/engineeringMechanics')
+const { loadSources, getDefaultForce, decomposeForce } = require('../util/engineeringMechanics')
 
 const { reaction, external, input } = loadSources
 
@@ -46,7 +46,7 @@ function getSolution(state) {
 	const angleRad = deg2rad(angle)
 	const method = 1
 
-	// Define loads.
+	// Define loads and their names.
 	const forceLength = 1.25
 	const loads = [
 		getDefaultForce(A, (up ? 1 : -1) * Math.PI / 2 - angleRad, input, undefined, forceLength),
@@ -54,16 +54,23 @@ function getSolution(state) {
 		getDefaultForce(C, Math.PI, reaction, undefined, forceLength),
 		getDefaultForce(D, (up ? -1 : 1) * Math.PI / 2, external, undefined, forceLength),
 	]
-
-	// Define load names.
 	const pointNames = ['A', 'B', 'C', 'D']
-	const loadNames = loads.map((load, index) => ({ load, variable: new Variable(`F_${pointNames[index]}`), point: points[index] }))
+	const loadNames = loads.map((load, index) => ({ load, variable: new Variable(`F_(${pointNames[index]})`), point: points[index] }))
+
+	// Decompose load and attach names.
+	let decomposedLoads = loads.map(load => decomposeForce(load))
+	let decomposedLoadNames = decomposedLoads.map((load, index) => Array.isArray(load) ? [
+		{ load: load[0], variable: new Variable(`F_(${pointNames[index]}x)`), point: points[index] },
+		{ load: load[1], variable: new Variable(`F_(${pointNames[index]}y)`), point: points[index] },
+	] : ({ load, variable: new Variable(`F_(${pointNames[index]})`), point: points[index] }))
+	decomposedLoads = decomposedLoads.flat()
+	decomposedLoadNames = decomposedLoadNames.flat()
 
 	// Calculate solution values.
 	const FAy = FD
 	const FA = FAy.divide(Math.cos(angleRad))
 
-	return { ...state, points, A, B, C, D, angleRad, method, loads, loadNames, FAy, FA }
+	return { ...state, points, A, B, C, D, angleRad, method, loads, loadNames, decomposedLoads, decomposedLoadNames, FAy, FA }
 }
 
 function checkInput(state, input, step) {
