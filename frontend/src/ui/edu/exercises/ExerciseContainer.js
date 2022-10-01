@@ -17,7 +17,7 @@ export default function ExerciseContainer({ exercise, submitting, submitAction, 
 	const ExerciseShared = useRef({})
 	const reload = () => {
 		setLoading(true)
-		Promise.all([import(`./exercises/${exerciseId}.js`), import(`step-wise/edu/exercises/exercises/${exerciseId}.js`)]).then(importedModules => {
+		Promise.all([import(/* webpackMode: "lazy-once" */ `./exercises/${exerciseId}`), import(/* webpackMode: "lazy-once" */ `step-wise/edu/exercises/exercises/${exerciseId}`)]).then(importedModules => {
 			const [localModule, sharedModule] = importedModules
 			ExerciseLocal.current = localModule.default
 			ExerciseShared.current = sharedModule.default
