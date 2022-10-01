@@ -8,7 +8,7 @@ const skills = {
 	},
 	demo: {
 		name: 'Demo-opgave',
-		exercises: ['demoExercise'],
+		exercises: ['demoExercise', 'demo2'],
 	},
 
 	// Tutorial exercises.
@@ -207,7 +207,7 @@ const skills = {
 	// Skills for 2D situations with rotation.
 	calculateForceOrMoment: {
 		name: 'Kracht of moment berekenen',
-		exercises: [],
+		exercises: ['calculateForceOrMomentUseVerticalForces', 'calculateForceOrMomentUseHorizontalForces', 'calculateForceOrMomentUseDiagonalForces', 'calculateForceOrMomentUseMomentsWithOnlyForces', 'calculateForceOrMomentUseMomentsWithMomentAsked', 'calculateForceOrMomentUseMomentsWithMomentGiven'],
 	},
 
 	// Calculating support reactions for beams.

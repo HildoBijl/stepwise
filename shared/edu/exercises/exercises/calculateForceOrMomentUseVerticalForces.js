@@ -1,3 +1,4 @@
+const { deg2rad } = require('../../../util/numbers')
 const { arraysToObject } = require('../../../util/objects')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Vector } = require('../../../geometry')
