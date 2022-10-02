@@ -182,8 +182,30 @@ class Vector {
 	dotProduct(vector) {
 		vector = ensureVector(vector)
 		if (vector.dimension !== this.dimension)
-			throw new Error(`Invalid vector: tried to take the dot product between a vector of dimension "${this.dimension}" and one of dimension "${vector.dimension}". This cannot be calculated.`)
+			throw new Error(`Invalid vector: tried to take the dot product between a vector of dimension ${this.dimension} and one of dimension ${vector.dimension}. This cannot be calculated.`)
 		return this.coordinates.reduce((sum, value, index) => sum + value * vector.getCoordinate(index), 0)
+	}
+
+	// crossProduct gives the cross product between this vector and another. It can only be used on three-dimensional vectors. An extra case is for two-dimensional vectors, in which case the z-component of the result is returned as number.
+	crossProduct(vector) {
+		vector = ensureVector(vector)
+		if (this.dimension !== vector.dimension)
+			throw new Error(`Invalid vector: tried to take the cross product between a vector of dimension ${this.dimension} and one of dimension ${vector.dimension}. This cannot be calculated.`)
+		if (this.dimension !== 2 && this.dimension !== 3)
+			throw new Error(`Invalid crossProduct call: can only ask for a cross product on three-dimensional vectors. Two-dimensional vectors may also be possible, in which the z-component is used. However, the vector has dimension ${this.dimension}.`)
+
+		// Deal with the two-dimensional case.
+		const a = this.coordinates
+		const b = vector.coordinates
+		if (this.dimension === 2)
+			return a[0] * b[1] - a[1] * b[0]
+
+		// Deal with the three-dimensional case.
+		return new Vector([
+			a[1] * b[2] - a[2] * b[1],
+			a[2] * b[0] - a[0] * b[2],
+			a[0] * b[1] - a[1] * b[0],
+		])
 	}
 
 	// getDistanceTo gives the distance to a given point.
