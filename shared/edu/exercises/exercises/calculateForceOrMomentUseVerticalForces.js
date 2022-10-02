@@ -7,7 +7,7 @@ const { Vector } = require('../../../geometry')
 
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
-const { loadSources, getDefaultForce, decomposeForce } = require('../util/engineeringMechanics')
+const { loadSources, loadTypes, getDefaultForce, decomposeForce } = require('../util/engineeringMechanics')
 
 const { reaction, external, input } = loadSources
 
@@ -55,14 +55,14 @@ function getSolution(state) {
 		getDefaultForce(D, (up ? -1 : 1) * Math.PI / 2, external, undefined, forceLength),
 	]
 	const pointNames = ['A', 'B', 'C', 'D']
-	const loadNames = loads.map((load, index) => ({ load, variable: new Variable(`F_(${pointNames[index]})`), point: points[index] }))
+	const loadNames = loads.map((load, index) => ({ load, variable: new Variable(`${load.type === loadTypes.moment ? 'M' : 'F'}_(${pointNames[index]})`), point: points[index] }))
 
 	// Decompose load and attach names.
 	let decomposedLoads = loads.map(load => decomposeForce(load))
 	let decomposedLoadNames = decomposedLoads.map((load, index) => Array.isArray(load) ? [
 		{ load: load[0], variable: new Variable(`F_(${pointNames[index]}x)`), point: points[index] },
 		{ load: load[1], variable: new Variable(`F_(${pointNames[index]}y)`), point: points[index] },
-	] : ({ load, variable: new Variable(`F_(${pointNames[index]})`), point: points[index] }))
+	] : ({ load, variable: new Variable(`${load.type === loadTypes.moment ? 'M' : 'F'}_(${pointNames[index]})`), point: points[index] }))
 	decomposedLoads = decomposedLoads.flat()
 	decomposedLoadNames = decomposedLoadNames.flat()
 

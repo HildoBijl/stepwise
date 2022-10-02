@@ -61,7 +61,7 @@ const steps = [
 	{
 		Problem: () => {
 			return <>
-				<Par>Bereken via ontbinding de componenten <M>F_(Dx)</M> en <M>F_(Dy)</M> van de kracht <M>F_D.</M></Par>
+			<Par>Ontbind de kracht <M>F_D</M> in de componenten <M>F_(Dx)</M> en <M>F_(Dy).</M></Par>
 				<Diagram decompose={true} />
 				<InputSpace>
 					<FloatUnitInput id="FDx" prelabel={<M>F_(Dx)=</M>} size="s" />
@@ -83,7 +83,7 @@ const steps = [
 	{
 		Problem: () => {
 			return <>
-				<Par>Definieer punt <M>E</M> als het snijpunt van de werklijnen van krachten <M>F_B</M> en <M>F_C.</M> Pas momentenevenwicht toe om dit punt.</Par>
+				<Par>Definieer punt <M>E</M> als het snijpunt van de werklijnen van krachten <M>F_B</M> en <M>F_C.</M> Pas momentenevenwicht om dit punt toe om <M>F_A</M> te berekenen.</Par>
 				<Diagram decompose={true} showIntersection={true} />
 				<InputSpace>
 					<FloatUnitInput id="FA" prelabel={<M>F_A=</M>} size="s" />

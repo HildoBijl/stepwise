@@ -62,7 +62,7 @@ function getSolution(state) {
 	let decomposedLoadNames = decomposedLoads.map((load, index) => Array.isArray(load) ? [
 		{ load: load[0], variable: new Variable(`F_(${pointNames[index]}x)`), point: points[index] },
 		{ load: load[1], variable: new Variable(`F_(${pointNames[index]}y)`), point: points[index] },
-	] : ({ load, variable: new Variable(`F_(${pointNames[index]})`), point: points[index] }))
+	] : ({ load, variable: new Variable(`${load.type === loadTypes.moment ? 'M' : 'F'}_(${pointNames[index]})`), point: points[index] }))
 	decomposedLoads = decomposedLoads.flat()
 	decomposedLoadNames = decomposedLoadNames.flat()
 

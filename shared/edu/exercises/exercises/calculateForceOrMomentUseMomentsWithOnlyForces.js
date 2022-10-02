@@ -7,7 +7,7 @@ const { Vector } = require('../../../geometry')
 
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
-const { loadSources, getDefaultForce, decomposeForce } = require('../util/engineeringMechanics')
+const { loadSources, loadTypes, getDefaultForce, decomposeForce } = require('../util/engineeringMechanics')
 
 const { reaction, external, input } = loadSources
 
@@ -37,7 +37,7 @@ function generateState() {
 		return generateState()
 	if (points[0].x === points[1].x || points[0].y === points[2].y) // The asked force potentially passes through the intersection.
 		return generateState()
-	if (points[3].x === points[1].x || points[3].y === points[2].y) // The unknown force has a component passing through the intersection.
+	if (points[3].x === points[1].x || points[3].y === points[2].y) // The given force has a component passing through the intersection.
 		return generateState()
 
 	// Assemble the state.
@@ -73,14 +73,14 @@ function getSolution(state) {
 		getDefaultForce(D, (up ? -1 : 1) * Math.PI / 2 + (right === up ? 1 : -1) * angleRad, external, undefined, forceLength),
 	]
 	const pointNames = ['A', 'B', 'C', 'D']
-	const loadNames = loads.map((load, index) => ({ load, variable: new Variable(`F_(${pointNames[index]})`), point: points[index] }))
+	const loadNames = loads.map((load, index) => ({ load, variable: new Variable(`${load.type === loadTypes.moment ? 'M' : 'F'}_(${pointNames[index]})`), point: points[index] }))
 
 	// Decompose load and attach names.
 	let decomposedLoads = loads.map(load => decomposeForce(load))
 	let decomposedLoadNames = decomposedLoads.map((load, index) => Array.isArray(load) ? [
 		{ load: load[0], variable: new Variable(`F_(${pointNames[index]}x)`), point: points[index] },
 		{ load: load[1], variable: new Variable(`F_(${pointNames[index]}y)`), point: points[index] },
-	] : ({ load, variable: new Variable(`F_(${pointNames[index]})`), point: points[index] }))
+	] : ({ load, variable: new Variable(`${load.type === loadTypes.moment ? 'M' : 'F'}_(${pointNames[index]})`), point: points[index] }))
 	decomposedLoads = decomposedLoads.flat()
 	decomposedLoadNames = decomposedLoadNames.flat()
 
