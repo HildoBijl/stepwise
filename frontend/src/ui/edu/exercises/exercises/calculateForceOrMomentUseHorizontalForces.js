@@ -30,7 +30,7 @@ const Problem = (state) => {
 	const { angle, FD } = useSolution()
 
 	return <>
-		<Par>Een voorwerp wordt volgens onderstaande wijze met drie krachten en een moment belast. Het voorwerp staat stil. De diagonale kracht <M>F_D</M> heeft een hoek van <M>{angle}^\circ</M> ten opzichte van de verticaal, en de grootte is <M>F_D = {FD}.</M> Bereken de horizontale kracht <M>F_A.</M></Par>
+		<Par>Een voorwerp wordt volgens onderstaande wijze met drie krachten en een moment belast. Het voorwerp staat stil. De diagonale kracht <M>F_D</M> (rood) heeft een hoek van <M>{angle}^\circ</M> ten opzichte van de verticaal, en de grootte is <M>F_D = {FD}.</M> Bereken de horizontale kracht <M>F_A</M> (geel).</Par>
 		<Diagram />
 		<InputSpace>
 			<FloatUnitInput id="FA" prelabel={<M>F_A=</M>} size="s" />

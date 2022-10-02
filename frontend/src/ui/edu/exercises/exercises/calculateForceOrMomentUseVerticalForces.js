@@ -30,7 +30,7 @@ const Problem = (state) => {
 	const { angle, FD } = useSolution()
 
 	return <>
-		<Par>Een voorwerp wordt volgens onderstaande wijze met vier krachten belast. Het voorwerp staat stil. De verticale kracht heeft een grootte van <M>F_D = {FD}.</M> De diagonale kracht <M>F_A</M> heeft een hoek van <M>{angle}^\circ</M> ten opzichte van de verticaal. Bereken <M>F_A.</M></Par>
+		<Par>Een voorwerp wordt volgens onderstaande wijze met vier krachten belast. Het voorwerp staat stil. De verticale kracht (rood) heeft een grootte van <M>F_D = {FD}.</M> De diagonale kracht <M>F_A</M> (geel) heeft een hoek van <M>{angle}^\circ</M> ten opzichte van de verticaal. Bereken <M>F_A.</M></Par>
 		<Diagram />
 		<InputSpace>
 			<FloatUnitInput id="FA" prelabel={<M>F_A=</M>} size="s" />
