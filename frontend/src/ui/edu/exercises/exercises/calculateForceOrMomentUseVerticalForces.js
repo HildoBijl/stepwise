@@ -10,13 +10,12 @@ import { InputSpace } from 'ui/form/FormPart'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { CornerLabel, Circle, Rectangle as SvgRectangle, Line } from 'ui/components/figures'
-import { useCurrentBackgroundColor, useScaleAndShiftTransformationSettings } from 'ui/components/figures/Drawing'
+import { useScaleAndShiftTransformationSettings } from 'ui/components/figures/Drawing'
 
-import EngineeringDiagram, { Group, Beam, FixedSupport, Distance, PositionedElement, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
-import FBDInput, { allConnectedToPoints, getFBDFeedback, loadSources, performLoadsComparison } from 'ui/edu/content/mechanics/FBDInput'
+import EngineeringDiagram, { Group, Distance, PositionedElement, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
 import { sumOfForces } from 'ui/edu/content/mechanics/latex'
 
-import StepExercise, { getStep } from '../types/StepExercise'
+import StepExercise from '../types/StepExercise'
 import { useSolution } from '../util/SolutionProvider'
 import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
 
@@ -31,7 +30,7 @@ const Problem = (state) => {
 	const { angle, FD } = useSolution()
 
 	return <>
-		<Par>Een voorwerp wordt belast door vier krachten. Het voorwerp staat stil. De verticale kracht is bekend als <M>F_D = {FD}.</M> De diagonale kracht <M>F_A</M> heeft een hoek van <M>{angle}^\circ</M> ten opzichte van de verticaal. Bereken <M>F_A.</M></Par>
+		<Par>Een voorwerp wordt volgens onderstaande wijze met vier krachten belast. Het voorwerp staat stil. De verticale kracht heeft een grootte van <M>F_D = {FD}.</M> De diagonale kracht <M>F_A</M> heeft een hoek van <M>{angle}^\circ</M> ten opzichte van de verticaal. Bereken <M>F_A.</M></Par>
 		<Diagram />
 		<InputSpace>
 			<FloatUnitInput id="FA" prelabel={<M>F_A=</M>} size="s" />
@@ -108,25 +107,26 @@ function Schematics({ decompose }) {
 	const { loads, decomposedLoads } = useSolution()
 	const grid = numberArray(0, 4).map(x => numberArray(0, 4).map(y => new Vector(x, y))).flat()
 	const rectangle = new Rectangle({ start: new Vector(-rectangleMargin, -rectangleMargin), end: new Vector(4 + rectangleMargin, 4 + rectangleMargin) })
-	const diagonalLoad = loads[0]
+	const span = loads[0].span
+	const lineEndpoint = new Vector(span.end.x, span.start.y)
 
 	return <>
 		<SvgRectangle dimensions={rectangle} cornerRadius={0.2} style={{ fill: '#aaccff', strokeWidth: 1, stroke: '#777' }} />
 		<Group>{grid.map((point, index) => <Circle key={index} center={point} graphicalRadius={3} style={{ fill: '#777' }} />)}</Group>
-		{decompose ? null : <Line points={[diagonalLoad.span.end, new Vector(diagonalLoad.span.end.x, diagonalLoad.span.start.y)]} style={{ stroke: '#777' }} />}
+		{decompose ? null : <Line points={[span.end, lineEndpoint]} style={{ stroke: '#777' }} />}
 		<Group>{render(decompose ? decomposedLoads : loads)}</Group>
 		<Distance span={{ start: new Vector(4, 0), end: new Vector(4, 1) }} graphicalShift={new Vector(distanceShift, 0)} />
 	</>
 }
 
 function Elements({ decompose }) {
-	const { points, loads, loadNames, decomposedLoadNames, angle, up } = useSolution()
-	const A = points[0]
-	const diagonalLoad = loads[0]
+	const { loads, loadNames, decomposedLoadNames, angle } = useSolution()
+	const span = loads[0].span
+	const lineEndpoint = new Vector(span.end.x, span.start.y)
 
 	return <>
 		<PositionedElement position={new Vector(4, 0.5)} graphicalShift={new Vector(distanceShift + 6, 0)} anchor={[0, 0.5]}><M>{new FloatUnit('1 m')}</M></PositionedElement>
-		{decompose ? null : <CornerLabel points={[diagonalLoad.span.start, A, new Vector(A.x, up ? -1 : 5)]} graphicalSize={28}><M>{angle}^\circ</M></CornerLabel>}
+		{decompose ? null : <CornerLabel points={[span.start, span.end, lineEndpoint]} graphicalSize={28}><M>{angle}^\circ</M></CornerLabel>}
 		{(decompose ? decomposedLoadNames : loadNames).map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
 	</>
 }

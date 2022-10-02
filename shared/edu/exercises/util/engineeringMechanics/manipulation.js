@@ -20,7 +20,7 @@ module.exports.reverseLoad = reverseLoad
 function decomposeForce(load, toEnd = true) {
 	// Check that it's a diagonal force. If not, do nothing with it.
 	if (load.type !== loadTypes.force)
-		return loads
+		return load
 	if (compareNumbers(load.span.vector.x, 0) || compareNumbers(load.span.vector.y, 0))
 		return load
 
