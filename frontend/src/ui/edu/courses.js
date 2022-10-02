@@ -81,7 +81,7 @@ const courses = {
 	},
 
 	exactawiskunde: {
-		name: 'Exacte Wetenschap A - Wiskunde',
+		name: 'Exacte Wetenschap A: Wiskunde',
 		goals: ['solveBasicSystemOfLinearEquations', 'solveGeneralSystemOfLinearEquations', 'solveGeneralQuadraticEquation', 'calculateTriangle', 'calculate3DShape'],
 		priorKnowledge: [],
 		startingPoints: [
@@ -131,11 +131,11 @@ const courses = {
 	},
 
 	exactastatica: {
-		name: 'Exacte Wetenschap A - Statica basics',
+		name: 'Exacte Wetenschap A: Statica basisvaardigheden',
 		goals: ['calculateBasicSupportReactions'],
 		priorKnowledge: [],
 		startingPoints: [
-			'schematizeSupportReaction',
+			'schematizeSupport',
 			'calculateForceOrMoment',
 		],
 		blocks: [
@@ -151,7 +151,7 @@ const courses = {
 	},
 
 	exactd: {
-		name: 'Exacte Wetenschap D - Natuurkunde',
+		name: 'Exacte Wetenschap D: Natuurkunde',
 		goals: ['analyseClosedCycle', 'findFridgeTemperatures', 'analyseAirco'],
 		priorKnowledge: [
 			'calculateWithPressure',
