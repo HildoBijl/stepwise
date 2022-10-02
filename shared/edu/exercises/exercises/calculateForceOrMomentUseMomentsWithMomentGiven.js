@@ -1,6 +1,6 @@
 const { deg2rad } = require('../../../util/numbers')
 const { getRandomBoolean, getRandomInteger } = require('../../../util/random')
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
+const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Variable } = require('../../../CAS')
 const { Vector } = require('../../../geometry')
 
@@ -12,7 +12,7 @@ const { reaction, external, input } = loadSources
 
 const data = {
 	skill: 'calculateForceOrMoment',
-	steps: [null, null, null],
+	steps: [null, null, null], // ToDo later: add steps, once they have been implemented.
 	comparison: {
 		default: {
 			relativeMargin: 0.01,

@@ -4,6 +4,7 @@ const { getRandomInteger } = require('../../../util/random')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Vector } = require('../../../geometry')
 const { Variable } = require('../../../CAS')
+const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
 
 const { getStepExerciseProcessor, assembleSolution } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')

@@ -13,7 +13,7 @@ const { reaction, external, input } = loadSources
 
 const data = {
 	skill: 'calculateForceOrMoment',
-	steps: [null, null, null],
+	steps: [null, null, null], // ToDo later: add steps, once they have been implemented.
 	comparison: {
 		default: {
 			relativeMargin: 0.01,
