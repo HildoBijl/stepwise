@@ -27,7 +27,7 @@ function generateState() {
 	})
 	let enthalpies = [
 		getRandomFloatUnit({ min: 150, max: 300, unit: 'kJ/kg' }),
-		getRandomFloatUnit({ min: 350, max: 500, unit: 'kJ/kg' })
+		getRandomFloatUnit({ min: 350, max: 500, unit: 'kJ/kg' }),
 	]
 	const switchPoints = getRandomBoolean()
 	if (switchPoints)
@@ -49,6 +49,13 @@ function generateState() {
 		state.x2 = points[1].vaporFraction.setDecimals(2).roundToPrecision()
 	else
 		state.T2 = points[1].temperature.setDecimals(0).roundToPrecision()
+
+	// Check if a solution can be generated. If not, redo.
+	try {
+		getSolution(state)
+	} catch(e) {
+		return generateState()
+	}
 
 	// All done!
 	return state
