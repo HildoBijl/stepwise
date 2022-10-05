@@ -82,7 +82,7 @@ const steps = [
 					Om <M>F_C</M> te vinden bekijken we de som van de momenten om punt <M>A.</M> In dit geval hebben <M>F_(Ax)</M> en <M>F_(Ay)</M> geen invloed. Als we <M>F_C</M> ook ontbinden in componenten <M>F_(Cx)</M> en <M>F_(Cy)</M>, dan geeft dit de evenwichtsvergelijking
 					<BM>{sumOfMoments('A', false)} P l_1 {directionIndices[3] ? '-' : '+'} F_(Cy) \left(l_1 + l_2\right) = 0.</BM>
 					De oplossing voor <M>F_(Cy)</M> volgt als
-					<BM>F_(Cy) = {directionIndices[3] ? '' : '-'} \frac(P l_1)(\left(l_1 + l_2\right)) = {directionIndices[3] ? '' : '-'} \frac({P.float} \cdot {l1.float})(\left({l1.float} + {l2.float}\right)) = {FCy}.</BM>
+					<BM>F_(Cy) = {directionIndices[3] ? '' : '-'} \frac(P l_1)(l_1 + l_2) = {directionIndices[3] ? '' : '-'} \frac({P.float} \cdot {l1.float})({l1.float} + {l2.float}) = {FCy}.</BM>
 					Via het ontbinden van krachten volgt <M>F_C</M> als
 					<BM>F_C = \frac(F_(Cy))(\sin\left({angle}\right)) = \frac({FCy.float})(\sin\left({angle}\right)) = {FC}.</BM>
 				</Par>
