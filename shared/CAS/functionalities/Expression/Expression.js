@@ -1360,6 +1360,23 @@ class Product extends ExpressionList {
 		return new Product(terms)
 	}
 
+	equalsBasic(expression, allowOrderChanges) {
+		// Run a default equality check.
+		if (super.equalsBasic(expression, allowOrderChanges))
+			return true
+
+		// It may happen that "-2x" and "-x2" (which is interpreted as "(-1)*x*2") are not considered equal while they should be. So check separately for that.
+		if (allowOrderChanges) {
+			if (this.constructor === expression.constructor) {
+				if (this.terms[0].isNumeric() && this.terms[0].number < 0 && expression.terms[0].isNumeric() && expression.terms[0].number < 0)
+					return this.applyMinus(true).equalsBasic(expression.applyMinus(true), allowOrderChanges) || this.applyMinus(false).equalsBasic(expression.applyMinus(false), allowOrderChanges)
+			}
+		}
+
+		// No equality reason found.
+		return false
+	}
+
 	// order determines the sorting order. It takes two terms and returns a value larger than 0 if b must be before a.
 	static order(a, b) {
 		// Define a series of tests. If one of them matches for an element and not for the other, the first element comes first.
