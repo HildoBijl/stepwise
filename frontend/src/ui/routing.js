@@ -58,7 +58,7 @@ function getRoutes(user = undefined) {
 			component: pages.Collaboration,
 			name: 'My Groups',
 			children: {
-				':groupCode': {
+				':code': {
 					id: 'group',
 					component: pages.Group,
 					name: 'Group',

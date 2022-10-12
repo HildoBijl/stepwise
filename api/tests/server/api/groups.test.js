@@ -48,20 +48,20 @@ describe('groups', () => {
 		const client = await createClient(seed)
 		await client.loginSurfConext(STUDENT_LARRY_SURFSUB)
 
-		const lowercaseGroupCode = GROUP_CODE_PYHSICS.toLowerCase()
+		const lowercaseCode = GROUP_CODE_PYHSICS.toLowerCase()
 
 		const {data: {joinGroup} } = await client.graphql({
-			query: `mutation {joinGroup(code: "${lowercaseGroupCode}"){code}}`
+			query: `mutation {joinGroup(code: "${lowercaseCode}"){code}}`
 		})
 		expect(joinGroup).toStrictEqual({code: GROUP_CODE_PYHSICS})
 
 		const {data: {group} } = await client.graphql({
-			query: `{group(code: "${lowercaseGroupCode}"){code}}`
+			query: `{group(code: "${lowercaseCode}"){code}}`
 		})
 		expect(group).toStrictEqual({code: GROUP_CODE_PYHSICS})
 
 		const { errors: leaveErrors } = await client.graphql({
-			query: `mutation {leaveGroup(code: "${lowercaseGroupCode}")}`
+			query: `mutation {leaveGroup(code: "${lowercaseCode}")}`
 		})
 		expect(leaveErrors).toBeUndefined()
 	})
@@ -78,10 +78,10 @@ describe('creating groups', () => {
 		expect(createErrors).toBeUndefined()
 		expect(createGroup.code).toMatch(/[A-Z0-9]{4}/)
 
-		const newGroupCode = createGroup.code
+		const newCode = createGroup.code
 
 		const {data: {group}, errors: groupErrors} = await client.graphql({
-			query: `{group(code: "${newGroupCode}"){members{name, givenName, familyName}}}`
+			query: `{group(code: "${newCode}"){members{name, givenName, familyName}}}`
 		})
 		expect(groupErrors).toBeUndefined()
 		expect(group.members).toStrictEqual([

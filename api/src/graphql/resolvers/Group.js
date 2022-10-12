@@ -30,9 +30,8 @@ const resolvers = {
 
 			const group = await findGroupByCode(db, code)
 			const members = await group.getMembers()
-			if (!members.find(m => m.id === userId)) {
+			if (!members.find(m => m.id === userId))
 				throw new ForbiddenError('Only members can see group data.')
-			}
 
 			return group
 		},
@@ -43,23 +42,19 @@ const resolvers = {
 			const userId = getCurrentUserId()
 
 			const group = await (async () => {
-				// Create a new group with a random code. The code may already exist
-				// in the database, so we have re-try until it eventually succeeds.
-				// Even though a collision is not very likely, we still bail out at some
-				// point, otherwise the server would be blocked completely.
+				// Create a new group with a random code. The code may already exist in the database, so we have re-try until it eventually succeeds. Even though a collision is not very likely, we still bail out at some point, otherwise the server would be blocked completely.
 				for (let i = 10; i > 0; --i) {
 					try {
 						return await db.Group.create({
 							code: createRandomCode(),
 						})
-					} catch(e) {
-						if (e instanceof UniqueConstraintError) {
+					} catch (e) {
+						if (e instanceof UniqueConstraintError)
 							continue // Try again...
-						}
 						throw e
 					}
 				}
-				throw new Error('Cannot create new group with unique code')
+				throw new Error('Cannot create new group with unique code.')
 			})()
 
 			// The creator automatically joins the group.
@@ -72,6 +67,7 @@ const resolvers = {
 			const userId = getCurrentUserId()
 
 			const group = await findGroupByCode(db, code)
+			console.log(group)
 			await group.addMember(userId)
 
 			await pubsub.publish(EVENT.GROUP_UPDATED, { groupUpdated: group })
@@ -87,9 +83,8 @@ const resolvers = {
 
 			// After the last member has left, the group is deleted altogether.
 			const members = await group.getMembers()
-			if (members.length === 0) {
+			if (members.length === 0)
 				await group.destroy()
-			}
 
 			await pubsub.publish(EVENT.GROUP_UPDATED, { groupUpdated: group })
 
