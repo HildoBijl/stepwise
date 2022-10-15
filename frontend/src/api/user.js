@@ -8,6 +8,7 @@ function useUserQuery() {
 const ME = gql`
 	{
 		me {
+			id
 			name
 			email
 			givenName
@@ -42,6 +43,12 @@ export function useUserResults() {
 export function useUser() {
 	const res = useUserResults()
 	return (res && res.data && res.data.me) || null
+}
+
+// Only get the user ID.
+export function useUserId() {
+	const user = useUser()
+	return user?.id
 }
 
 // Check if user data is done loading.

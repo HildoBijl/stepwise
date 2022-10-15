@@ -1,7 +1,8 @@
 const { DataTypes } = require('sequelize')
+const GroupMembership  = require('./GroupMembership')
 
 module.exports = (sequelize) => {
-  const User = sequelize.define('user', {
+	const User = sequelize.define('user', {
 		id: {
 			type: DataTypes.UUID,
 			defaultValue: DataTypes.UUIDV4,
@@ -43,11 +44,11 @@ module.exports = (sequelize) => {
 		},
 	})
 
-  User.associate = models => {
+	User.associate = models => {
 		User.hasMany(models.UserSkill, { as: 'skills', onDelete: 'CASCADE' })
 		User.hasMany(models.SurfConextProfile, { onDelete: 'CASCADE' })
-	  	User.belongsToMany(models.Group, { as: 'groups', through: 'groupMemberships' })
-  }
+		User.belongsToMany(models.Group, { as: 'groups', through: GroupMembership(sequelize) })
+	}
 
-  return User
+	return User
 }

@@ -3,6 +3,7 @@ const { gql } = require('apollo-server-express')
 const schema = gql`
 	extend type Query {
 		myGroups: [Group]
+		myActiveGroup: Group
 		group(code: String!): Group
 	}
 
@@ -10,6 +11,8 @@ const schema = gql`
 		createGroup: Group!
 		joinGroup(code: String!): Group!
 		leaveGroup(code: String!): Boolean!
+		activateGroup(code: String!): Group!
+		deactivateGroup(code: String!): Group!
 	}
 
 	extend type Subscription {
@@ -17,15 +20,18 @@ const schema = gql`
 	}
 
 	type Member {
+		id: ID!
 		name: String
 		givenName: String
 		familyName: String
+		active: Boolean
 	}
 
 	type Group {
 		id: ID!
 		code: String!
 		members: [Member]
+		active: Boolean
 	}
 `
 

@@ -40,7 +40,7 @@ For group practice there is another set of tables.
 To track group registration and activity there are these tables.
 
 - `groups` representing a group of student. Every group is uniquely identified by a brief `code`.
-- `groupMemberships` providing the n-to-n link between `users` and `groups`. It tracks which users are in which groups. An extra parameter is the `online` parameter, showing whether the user is online now.
+- `groupMemberships` providing the n-to-n link between `users` and `groups`. It tracks which users are in which groups. An extra parameter is the `active` parameter, showing whether the user is active in the group now.
 
 ### Group exercises
 

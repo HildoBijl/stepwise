@@ -53,18 +53,6 @@ function getRoutes(user = undefined) {
 			component: pages.Test,
 			name: 'Testpagina',
 		},
-		'collaboration': {
-			id: 'collaboration',
-			component: pages.Collaboration,
-			name: 'My Groups',
-			children: {
-				':code': {
-					id: 'group',
-					component: pages.Group,
-					name: 'Group',
-				},
-			},
-		},
 	}
 
 	// Determine the type of users.
@@ -136,6 +124,18 @@ function getRoutes(user = undefined) {
 				id: 'logOut',
 				component: pages.LogOut,
 				name: 'Uitloggen...'
+			},
+			'groups': {
+				id: 'groups',
+				component: pages.Groups,
+				name: 'Samenwerken',
+				children: {
+					':code': {
+						id: 'group',
+						component: pages.Group,
+						name: 'Group',
+					},
+				},
 			},
 			'': {
 				id: 'courses',

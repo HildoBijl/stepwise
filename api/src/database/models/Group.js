@@ -1,4 +1,5 @@
 const { DataTypes } = require('sequelize')
+const GroupMembership = require('./GroupMembership')
 
 module.exports = (sequelize) => {
 	const Group = sequelize.define('group', {
@@ -23,7 +24,7 @@ module.exports = (sequelize) => {
 	})
 
 	Group.associate = models => {
-		Group.belongsToMany(models.User, { as: 'members', through: 'groupMemberships' })
+		Group.belongsToMany(models.User, { as: 'members', through: GroupMembership(sequelize) })
 	}
 
 	return Group
