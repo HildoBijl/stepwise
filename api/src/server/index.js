@@ -87,17 +87,21 @@ const createServer = async ({
 		schema,
 		execute,
 		subscribe,
-		async onConnect(_, ws) {
+		async onConnect(connectionParams, webSocket, context) {
 			// Attach session object to upgrade request
 			const upgradeReqWithSession = await new Promise((res) => {
-				processSession(ws.upgradeReq, {}, () => {
-					res(ws.upgradeReq)
+				processSession(webSocket.upgradeReq, {}, () => {
+					res(webSocket.upgradeReq)
 				})
 			})
 			// Ensure that only logged-in users can connect to the socket
 			getPrincipalOrThrow(upgradeReqWithSession)
 			// Return the context at connection time to the socket
-			return contextProvider(upgradeReqWithSession)
+			return contextProvider({ req: upgradeReqWithSession })
+		},
+		async onDisconnect(webSocket, context) {
+			// data = await context.initPromise
+			// user = await data.getCurrentUser(context.request)
 		},
 	}, {
 		server: httpServer,

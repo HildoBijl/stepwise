@@ -9,14 +9,13 @@ import { SubscriptionClient } from 'subscriptions-transport-ws'
 import { graphqlAddress, graphqlWebsocketAddress } from './ui/settings'
 
 // The websocket link, for subscriptions.
-const wsLink = new WebSocketLink(
-	new SubscriptionClient(
-		graphqlWebsocketAddress,
-		{
-			reconnect: true,
-		},
-	)
+const wsClient = new SubscriptionClient(
+	graphqlWebsocketAddress,
+	{
+		reconnect: true,
+	},
 )
+const wsLink = new WebSocketLink(wsClient)
 
 // The HTTP link, for regular queries/mutations.
 const httpLink = createHttpLink({
