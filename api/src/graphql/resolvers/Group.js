@@ -1,74 +1,50 @@
-const { findGroupByCode, createRandomCode } = require('../util/Group')
 const { UniqueConstraintError } = require('sequelize')
-const { withFilter } = require('graphql-subscriptions')
 const { ForbiddenError, UserInputError } = require('apollo-server-express')
 
-const EVENT = {
-	GROUP_UPDATED: 'GROUP_UPDATED',
-}
+const { getSubscription } = require('../util/subscriptions')
+const { events, getUserGroups, getUserGroupsAndDeactivate, getGroup, createRandomCode } = require('../util/Group')
 
 const resolvers = {
 	Group: {
-		members: async group => {
-			const members = await group.getMembers()
-			return members.map(member => {
-				member.active = member.groupMembership.active
-				return member
-			})
-		},
-		active: group => group.groupMembership.active,
+		members: group => group.getMembers()
+	},
+
+	Member: {
+		groupId: member => member.groupMembership.groupId, // This is needed for efficient caching.
+		userId: member => member.id,
+		active: member => member.groupMembership.active,
 	},
 
 	Query: {
-		myGroups: async (_source, _args, { getCurrentUserId, db }) => {
-			const userWithGroups = await db.User.findByPk(getCurrentUserId(), {
-				include: {
-					association: 'groups',
-					include: {
-						association: 'members',
-					}
-				},
-			})
-			return userWithGroups?.groups
+		myGroups: async (_source, _args, { db, getCurrentUserId }) => {
+			return await getUserGroups(db, getCurrentUserId())
 		},
 
-		myActiveGroup: async (_source, _args, { getCurrentUserId, db }) => {
-			// Load all groups and find the active one.
-			const userWithGroups = await db.User.findByPk(getCurrentUserId(), {
-				include: {
-					association: 'groups',
-					include: {
-						association: 'members',
-					}
-				},
-			})
-			return userWithGroups?.groups?.find(group => group.groupMembership.active)
+		myActiveGroup: async (_source, _args, { db, getCurrentUserId }) => {
+			// Load all groups and find the active one. (Yes, a bit inefficient, but the number of groups is always small.)
+			const groups = await getUserGroups(db, getCurrentUserId())
+			return groups.find(group => group.groupMembership.active)
 		},
 
 		group: async (_source, { code }, { getCurrentUserId, db }) => {
+			// Load the group with the given code.
 			const userId = getCurrentUserId()
-			const group = await findGroupByCode(db, code)
+			const group = await getGroup(db, code)
 
-			// Retrieve the membership of the current user and check it.
+			// Check that the user is allowed to see the group.
 			const members = await group.getMembers()
 			const member = members.find(member => member.id === userId)
 			if (!member)
-				throw new ForbiddenError('Only members can see group data.')
+				throw new ForbiddenError('Failed to load group data: only members have access.')
 
-			// Set membership within the group too.
-			group.groupMembership = member.groupMembership
 			return group
 		},
 	},
 
 	Mutation: {
-		createGroup: async (_source, _args, { db, getCurrentUserId }) => {
-			const userId = getCurrentUserId()
-
-			// ToDo: deactivate the user from other groups.
-
+		createGroup: async (_source, _args, { db, pubsub, getCurrentUserId }) => {
+			// Create a new group with a random code. The code may already exist in the database, so we have re-try until it eventually succeeds. Even though a collision is not very likely, we still bail out at some point, otherwise the server would be blocked completely.
 			const group = await (async () => {
-				// Create a new group with a random code. The code may already exist in the database, so we have re-try until it eventually succeeds. Even though a collision is not very likely, we still bail out at some point, otherwise the server would be blocked completely.
 				for (let i = 10; i > 0; --i) {
 					try {
 						return await db.Group.create({
@@ -80,103 +56,99 @@ const resolvers = {
 						throw e
 					}
 				}
-				throw new Error('Cannot create new group with unique code.')
+				throw new Error('Failed to create group: not enough unique codes remaining.')
 			})()
 
+			// Deactivate the user from other groups.
+			const userId = getCurrentUserId()
+			await getUserGroupsAndDeactivate(db, pubsub, userId)
+
 			// The creator automatically joins the group.
-			group.groupMembership = await group.addMember(userId, { through: { active: true } })
+			const member = await group.addMember(userId, { through: { active: true } })
+			await pubsub.publish(events.groupUpdated, { updatedGroup: group, userId })
+
 			return group
 		},
 
 		joinGroup: async (_source, { code }, { getCurrentUserId, db, pubsub }) => {
+			// Deactivate the user from other groups.
 			const userId = getCurrentUserId()
+			const groups = await getUserGroupsAndDeactivate(db, pubsub, userId)
+			if (groups.find(group => group.code === code))
+				throw new UserInputError(`Failed to join group: user is already a member of group "${code}".`)
 
-			const group = await findGroupByCode(db, code)
-			const newGroupMemberships = await group.addMember(userId, { through: { active: true } })
-			group.groupMembership = newGroupMemberships[0]
-
-			await pubsub.publish(EVENT.GROUP_UPDATED, { groupUpdated: group })
+			// Load the group and add the user.
+			const group = await getGroup(db, code)
+			await group.addMember(userId, { through: { active: true } })
+			await pubsub.publish(events.groupUpdated, { updatedGroup: group, userId })
 
 			return group
 		},
 
 		leaveGroup: async (_source, { code }, { getCurrentUserId, db, pubsub }) => {
+			// Load the group and remove the user.
 			const userId = getCurrentUserId()
-
-			const group = await findGroupByCode(db, code)
+			const group = await getGroup(db, code)
 			await group.removeMember(userId)
+			await pubsub.publish(events.groupUpdated, { updatedGroup: group, userId })
 
-			// After the last member has left, the group is deleted altogether.
+			// When the group is left empty, remove it.
 			const members = await group.getMembers()
 			if (members.length === 0)
 				await group.destroy()
 
-			await pubsub.publish(EVENT.GROUP_UPDATED, { groupUpdated: group })
-
 			return true
 		},
 
-		activateGroup: async (_source, { code }, { getCurrentUserId, db, pubsub }) => {
-			// Load all groups and find the one with the given code.
+		activateGroup: async (_source, { code }, { db, pubsub, getCurrentUserId }) => {
+			// Deactivate the user from other groups.
 			const userId = getCurrentUserId()
-			const userWithGroups = await db.User.findByPk(userId, {
-				include: {
-					association: 'groups',
-					include: {
-						association: 'members',
-					}
-				},
-			})
-			const groups = userWithGroups?.groups
-			if (!groups)
-				throw new UserInputError('User does not have groups.')
-			const group = userWithGroups.groups.find(group => group.code === code)
+			const groups = await getUserGroupsAndDeactivate(db, pubsub, userId, code)
+
+			// Extract the given group.
+			const group = groups.find(group => group.code === code)
 			if (!group)
-				throw new UserInputError('User is not in the given group.')
+				throw new UserInputError(`Failed to activate group: user is not a member of group "${code}".`)
 
-			// Deactivate all other groups. (Usually not needed.)
-			await Promise.all(groups.map(async group => {
-				if (group.code !== code) {
-					const membership = group.members.find(member => member.id === userId).groupMembership
-					if (membership && membership.active) {
-						await membership.update({ active: false })
-						await pubsub.publish(EVENT.GROUP_UPDATED, { groupUpdated: group })
-					}
-				}
-			}))
-
-			// Activate given group.
+			// Activate the given group.
 			const membership = group.members.find(member => member.id === userId).groupMembership
 			if (membership && !membership.active) {
 				await membership.update({ active: true })
-				await pubsub.publish(EVENT.GROUP_UPDATED, { groupUpdated: group })
+				await pubsub.publish(events.groupUpdated, { updatedGroup: group })
 			}
 			return group
 		},
 
-		deactivateGroup: async (_source, { code }, { getCurrentUserId, db, pubsub }) => {
-			// Find the current user as a member of a group.
+		deactivateGroup: async (_source, { code }, { db, pubsub, getCurrentUserId }) => {
+			// Load the group and check the user's membership.
 			const userId = getCurrentUserId()
-			const group = await findGroupByCode(db, code)
+			const group = await getGroup(db, code)
 			const member = group.members.find(member => member.id === userId)
+			if (!member)
+				throw new Error(`Failed to deactivate group: user is not a member of group "${code}".`)
 
-			// If the user is a part of the group, set group membership to false.
-			const membership = member?.groupMembership
+			// Deactivate the user within the group.
+			const membership = member.groupMembership
 			if (membership && membership.active) {
-				membership.update({ active: false })
-				await pubsub.publish(EVENT.GROUP_UPDATED, { groupUpdated: group })
+				await membership.update({ active: false })
+				await pubsub.publish(events.groupUpdated, { updatedGroup: group })
 			}
 			return group
 		},
 	},
 
 	Subscription: {
-		groupUpdated: {
-			subscribe: withFilter(
-				(_source, _args, { pubsub }) => pubsub.asyncIterator([EVENT.GROUP_UPDATED]),
-				({ groupUpdated }, { code }) => groupUpdated.code === code,
-			),
-		}
+		...getSubscription('groupUpdate', [events.groupUpdated], ({ updatedGroup }, { code }) => {
+			// Only pass on when the code matches.
+			if (updatedGroup.code === code)
+				return updatedGroup
+		}),
+		...getSubscription('myGroupsUpdate', [events.groupUpdated], ({ updatedGroup, userId: eventUserId }, _args, { getCurrentUserId }) => {
+			// Only pass on the updated group when the user is a member.
+			const userId = getCurrentUserId()
+			if (userId === eventUserId || (updatedGroup.members && updatedGroup.members.some(member => member.id === userId)))
+				return updatedGroup
+		}),
 	}
 }
 

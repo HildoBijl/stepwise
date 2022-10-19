@@ -16,11 +16,13 @@ const schema = gql`
 	}
 
 	extend type Subscription {
-		groupUpdated(code: String!): Group
+		groupUpdate(code: String!): Group
+		myGroupsUpdate: Group
 	}
 
 	type Member {
-		id: ID!
+		groupId: ID!
+		userId: ID!
 		name: String
 		givenName: String
 		familyName: String
@@ -31,7 +33,6 @@ const schema = gql`
 		id: ID!
 		code: String!
 		members: [Member]
-		active: Boolean
 	}
 `
 

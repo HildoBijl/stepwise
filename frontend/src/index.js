@@ -36,7 +36,24 @@ const apolloClient = new ApolloClient({
 		wsLink,
 		httpLink,
 	),
-	cache: new InMemoryCache(),
+	cache: new InMemoryCache({
+		typePolicies: {
+			Group: {
+				keyFields: ['code'],
+				fields: {
+					members: { merge: false },
+				},
+			},
+			Member: { keyFields: ['groupId', 'userId'] },
+			Query: {
+				fields: {
+					myGroups: {
+						merge: false,
+					}
+				}
+			}
+		},
+	}),
 })
 
 // React. Do not use strict mode to prevent Material UI from bugging out.
