@@ -2,9 +2,9 @@ const { gql } = require('apollo-server-express')
 
 const schema = gql`
 	extend type Query {
-		myGroups: [Group]
-		myActiveGroup: Group
 		group(code: String!): Group
+		myActiveGroup: Group
+		myGroups: [Group]
 	}
 
 	extend type Mutation {
@@ -17,6 +17,7 @@ const schema = gql`
 
 	extend type Subscription {
 		groupUpdate(code: String!): Group
+		myActiveGroupUpdate: Group
 		myGroupsUpdate: Group
 	}
 

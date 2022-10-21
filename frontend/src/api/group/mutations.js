@@ -4,7 +4,7 @@ import { useMutation } from '@apollo/client'
 import { useUserId } from 'api/user'
 
 import { groupParameters, addGroupToList, removeGroupFromList } from './util'
-import { GROUP, MY_GROUPS } from './queries'
+import { GROUP, MY_ACTIVE_GROUP, MY_GROUPS } from './queries'
 
 // CreateGroup creates a new group and makes the user a member.
 export function useCreateGroupMutation() {
@@ -33,6 +33,19 @@ const CREATE_GROUP = gql`
 export function useJoinGroupMutation() {
 	const [joinGroup, res] = useMutation(JOIN_GROUP, {
 		update: (cache, { data: { joinGroup: updatedGroup } }) => {
+			// Update Group.
+			cache.writeQuery({
+				query: GROUP,
+				variables: { code: updatedGroup.code },
+				data: { group: updatedGroup },
+			})
+
+			// Update MyActiveGroup.
+			cache.writeQuery({
+				query: MY_ACTIVE_GROUP,
+				data: { myActiveGroup: updatedGroup },
+			})
+
 			// Update MyGroups.
 			const myGroups = cache.readQuery({ query: MY_GROUPS })?.myGroups
 			if (myGroups) {
@@ -41,13 +54,6 @@ export function useJoinGroupMutation() {
 					data: { myGroups: addGroupToList(updatedGroup, myGroups) },
 				})
 			}
-
-			// Update Group.
-			cache.writeQuery({
-				query: GROUP,
-				variables: { code: updatedGroup.code },
-				data: { group: updatedGroup },
-			})
 		},
 	})
 	const joinGroupWithCode = (code) => {
@@ -71,15 +77,6 @@ export function useLeaveGroupMutation(code) {
 	return useMutation(LEAVE_GROUP, {
 		variables: { code },
 		update: (cache) => {
-			// Update MyGroups.
-			const myGroups = cache.readQuery({ query: MY_GROUPS })?.myGroups
-			if (myGroups && myGroups.some(group => group.code === code)) {
-				cache.writeQuery({
-					query: MY_GROUPS,
-					data: { myGroups: removeGroupFromList(code, myGroups) },
-				})
-			}
-
 			// Update Group.
 			const group = cache.readQuery({ query: GROUP, variables: { code } })?.group
 			if (group) {
@@ -92,6 +89,24 @@ export function useLeaveGroupMutation(code) {
 							members: group.members.filter(member => member.userId !== userId),
 						},
 					},
+				})
+			}
+
+			// Update MyActiveGroup.
+			const myActiveGroup = cache.readQuery({ query: MY_ACTIVE_GROUP })?.myActiveGroup
+			if (myActiveGroup && myActiveGroup.code === code) {
+				cache.writeQuery({
+					query: MY_ACTIVE_GROUP,
+					data: { myActiveGroup: null },
+				})
+			}
+
+			// Update MyGroups.
+			const myGroups = cache.readQuery({ query: MY_GROUPS })?.myGroups
+			if (myGroups && myGroups.some(group => group.code === code)) {
+				cache.writeQuery({
+					query: MY_GROUPS,
+					data: { myGroups: removeGroupFromList(code, myGroups) },
 				})
 			}
 		},
@@ -109,6 +124,19 @@ export function useActivateGroupMutation(code) {
 	return useMutation(ACTIVATE_GROUP, {
 		variables: { code },
 		update: (cache, { data: { activateGroup: updatedGroup } }) => {
+			// Update Group.
+			cache.writeQuery({
+				query: GROUP,
+				variables: { code: updatedGroup.code },
+				data: { group: updatedGroup },
+			})
+
+			// Update MyActiveGroup.
+			cache.writeQuery({
+				query: MY_ACTIVE_GROUP,
+				data: { myActiveGroup: updatedGroup },
+			})
+
 			// Update MyGroups.
 			const myGroups = cache.readQuery({ query: MY_GROUPS })?.myGroups
 			if (myGroups) {
@@ -117,13 +145,6 @@ export function useActivateGroupMutation(code) {
 					data: { myGroups: addGroupToList(updatedGroup, myGroups) },
 				})
 			}
-
-			// Update Group.
-			cache.writeQuery({
-				query: GROUP,
-				variables: { code: updatedGroup.code },
-				data: { group: updatedGroup },
-			})
 		},
 	})
 }
@@ -141,6 +162,20 @@ export function useDeactivateGroupMutation(code) {
 	return useMutation(DEACTIVATE_GROUP, {
 		variables: { code },
 		update: (cache, { data: { deactivateGroup: updatedGroup } }) => {
+			// Update Group.
+			cache.writeQuery({
+				query: GROUP,
+				variables: { code: updatedGroup.code },
+				data: { group: updatedGroup },
+			})
+
+			// Update MyActiveGroup.
+			cache.writeQuery({
+				query: MY_ACTIVE_GROUP,
+				data: { myActiveGroup: null },
+			})
+
+			// Update MyGroups.
 			const myGroups = cache.readQuery({ query: MY_GROUPS })?.myGroups
 			if (myGroups) {
 				cache.writeQuery({

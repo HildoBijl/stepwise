@@ -65,7 +65,7 @@ const resolvers = {
 
 			// The creator automatically joins the group.
 			const member = await group.addMember(userId, { through: { active: true } })
-			await pubsub.publish(events.groupUpdated, { updatedGroup: group, userId })
+			await pubsub.publish(events.groupUpdated, { updatedGroup: group, userId, action: 'create' })
 
 			return group
 		},
@@ -80,7 +80,7 @@ const resolvers = {
 			// Load the group and add the user.
 			const group = await getGroup(db, code)
 			await group.addMember(userId, { through: { active: true } })
-			await pubsub.publish(events.groupUpdated, { updatedGroup: group, userId })
+			await pubsub.publish(events.groupUpdated, { updatedGroup: group, userId, action: 'join' })
 
 			return group
 		},
@@ -90,7 +90,7 @@ const resolvers = {
 			const userId = getCurrentUserId()
 			const group = await getGroup(db, code)
 			await group.removeMember(userId)
-			await pubsub.publish(events.groupUpdated, { updatedGroup: group, userId })
+			await pubsub.publish(events.groupUpdated, { updatedGroup: group, userId, action: 'leave' })
 
 			// When the group is left empty, remove it.
 			const members = await group.getMembers()
@@ -114,7 +114,7 @@ const resolvers = {
 			const membership = group.members.find(member => member.id === userId).groupMembership
 			if (membership && !membership.active) {
 				await membership.update({ active: true })
-				await pubsub.publish(events.groupUpdated, { updatedGroup: group })
+				await pubsub.publish(events.groupUpdated, { updatedGroup: group, userId, action: 'activate' })
 			}
 			return group
 		},
@@ -131,7 +131,7 @@ const resolvers = {
 			const membership = member.groupMembership
 			if (membership && membership.active) {
 				await membership.update({ active: false })
-				await pubsub.publish(events.groupUpdated, { updatedGroup: group })
+				await pubsub.publish(events.groupUpdated, { updatedGroup: group, userId, action: 'deactivate' })
 			}
 			return group
 		},
@@ -142,6 +142,17 @@ const resolvers = {
 			// Only pass on when the code matches.
 			if (updatedGroup.code === code)
 				return updatedGroup
+		}),
+		...getSubscription('myActiveGroupUpdate', [events.groupUpdated], ({ updatedGroup, userId: eventUserId, action }, _args, { getCurrentUserId }) => {
+			// If the user is active in this group, 
+			const userId = getCurrentUserId()
+			const member = updatedGroup.members && updatedGroup.members.find(member => member.id === userId)
+			if (!member)
+				return // If the user is not a member, ignore this.
+			if (member.groupMembership.active)
+				return updatedGroup // If the user is active in the group, send an update on this group.
+			if (userId === eventUserId && action === 'deactivate')
+				return updatedGroup // If the user just deactivated, also send the group. Then the client can decide what to do with it.
 		}),
 		...getSubscription('myGroupsUpdate', [events.groupUpdated], ({ updatedGroup, userId: eventUserId }, _args, { getCurrentUserId }) => {
 			// Only pass on the updated group when the user is a member.

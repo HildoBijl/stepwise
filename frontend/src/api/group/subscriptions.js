@@ -36,6 +36,42 @@ const GROUP_UPDATED = gql`
 	}
 `
 
+// MyActiveGroupSubscription subscribes to all updates on the MyActiveGroup query.
+export function useMyActiveGroupSubscription(subscribeToMore) {
+	const userId = useUserId()
+	useEffect(() => {
+		const unsubscribe = subscribeToMore({
+			document: MY_ACTIVE_GROUP_UPDATED,
+			updateQuery: ({ myActiveGroup }, { subscriptionData }) => {
+				const updatedGroup = subscriptionData?.data?.myActiveGroupUpdate
+				if (!updatedGroup)
+					return { myActiveGroup }
+
+				// If the updated group has the user as active, apply it.
+				const member = updatedGroup.members && updatedGroup.members.find(member => member.userId === userId)
+				if (member && member.active)
+					return { myActiveGroup: updatedGroup }
+
+				// The user is not an active member. Check if the previous group has him active. In that case, it may happen that the activation of a new group came faster than the deactivation of the previous group.
+				const currentMember = myActiveGroup && myActiveGroup.members && myActiveGroup.members.find(member => member.userId === userId)
+				if (currentMember && currentMember.active)
+					return { myActiveGroup }
+
+				// No idea in which group the user is active.
+				return { myActiveGroup: null }
+			}
+		})
+		return () => unsubscribe()
+	}, [userId, subscribeToMore])
+}
+const MY_ACTIVE_GROUP_UPDATED = gql`
+	subscription myActiveGroupUpdate {
+		myActiveGroupUpdate {
+			${groupParameters}
+		}
+	}
+`
+
 // MyGroupsSubscription subscribes to all the user's groups and updates on new data.
 export function useMyGroupsSubscription(subscribeToMore) {
 	const userId = useUserId()

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 
 import { useUserId } from 'api/user'
+import { useActiveGroup } from 'api/group'
 import { usePaths } from 'ui/routing'
 import { Par } from 'ui/components/containers'
 import { useMyGroupsQuery, useGroupQuery, useCreateGroupMutation, useJoinGroupMutation, useLeaveGroupMutation, useActivateGroupMutation, useDeactivateGroupMutation, useGroupSubscription, useMyGroupsSubscription } from 'api/group'
@@ -20,6 +21,10 @@ export default function Groups() {
 
 	// Set up a state tracking the input field.
 	const [code, setCode] = useState('')
+
+	// Test stuff.
+	const myActiveGroup = useActiveGroup()
+	console.log(myActiveGroup)
 
 	// Deal with data loading issues.
 	if (error)

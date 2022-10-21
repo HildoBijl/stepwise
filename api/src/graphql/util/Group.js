@@ -42,7 +42,7 @@ async function getUserGroupsAndDeactivate(db, pubsub, userId, exceptionGroupCode
 			const membership = group.members.find(member => member.id === userId).groupMembership
 			if (membership && membership.active) {
 				await membership.update({ active: false })
-				await pubsub.publish(events.groupUpdated, { updatedGroup: group, userId })
+				await pubsub.publish(events.groupUpdated, { updatedGroup: group, userId, action: 'deactivate' })
 			}
 		}
 	}))
