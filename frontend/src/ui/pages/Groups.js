@@ -24,7 +24,6 @@ export default function Groups() {
 
 	// Test stuff.
 	const myActiveGroup = useActiveGroup()
-	console.log(myActiveGroup)
 
 	// Deal with data loading issues.
 	if (error)
@@ -48,6 +47,7 @@ export default function Groups() {
 		<Par>You can <Link onClick={() => createGroup()}>Create a group</Link>.</Par>
 		<Par>Or fill in a code below and then <Link onClick={() => joinGroup(code)} to={paths.group({ code })}>Join the group</Link>.</Par>
 		<input type="text" value={code} onChange={evt => setCode(evt.target.value)} />
+		<Par>Currently active group: {myActiveGroup ? myActiveGroup.code : 'none'}</Par>
 	</>
 }
 
