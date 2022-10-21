@@ -1,0 +1,72 @@
+import { useEffect } from 'react'
+import { gql } from '@apollo/client'
+
+import { useUserId } from 'api/user'
+
+import { groupParameters } from './util'
+
+// GroupSubscription subscribes to the given group and updates on new data.
+export function useGroupSubscription(code, subscribeToMore) {
+	const userId = useUserId()
+	useEffect(() => {
+		const unsubscribe = subscribeToMore({
+			document: GROUP_UPDATED,
+			variables: { code },
+			updateQuery: (prev, { subscriptionData }) => {
+				const updatedGroup = subscriptionData?.data?.groupUpdate
+				if (!updatedGroup)
+					return prev
+
+				// If the user is not a member anymore, remove this group.
+				if (!updatedGroup.members.some(member => member.userId === userId))
+					return { group: null }
+
+				// Update the group with its new data.
+				return { group: { ...prev.group, ...updatedGroup } }
+			}
+		})
+		return () => unsubscribe()
+	}, [userId, code, subscribeToMore])
+}
+const GROUP_UPDATED = gql`
+	subscription groupUpdate($code: String!) {
+		groupUpdate(code: $code) {
+			${groupParameters}
+		}
+	}
+`
+
+// MyGroupsSubscription subscribes to all the user's groups and updates on new data.
+export function useMyGroupsSubscription(subscribeToMore) {
+	const userId = useUserId()
+	useEffect(() => {
+		const unsubscribe = subscribeToMore({
+			document: MY_GROUPS_UPDATED,
+			updateQuery: ({ myGroups }, { subscriptionData }) => {
+				const updatedGroup = subscriptionData?.data?.myGroupsUpdate
+				if (!updatedGroup)
+					return { myGroups }
+
+				// If the group exists, replace it. Otherwise add it.
+				if (myGroups.some(group => group.code === updatedGroup.code))
+					myGroups = myGroups.map(group => group.code === updatedGroup.code ? updatedGroup : group)
+				else
+					myGroups = [...myGroups, updatedGroup]
+
+				// If the group does not have the user in it, filter it out.
+				if (!updatedGroup.members.some(member => member.userId === userId))
+					myGroups = myGroups.filter(group => group.code !== updatedGroup.code)
+
+				return { myGroups }
+			}
+		})
+		return () => unsubscribe()
+	}, [userId, subscribeToMore])
+}
+const MY_GROUPS_UPDATED = gql`
+	subscription myGroupsUpdate {
+		myGroupsUpdate {
+			${groupParameters}
+		}
+	}
+`

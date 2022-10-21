@@ -4,6 +4,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import { ApolloProvider } from '@apollo/client'
 
 import { UserProvider } from 'api/user'
+import { ActiveGroupProvider } from 'api/group'
 import theme from 'ui/theme'
 import SkillCacher from 'ui/edu/skills/SkillCacher'
 
@@ -21,9 +22,11 @@ function App() {
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
 				<UserProvider>
-					<SkillCacher>
-						<Routing />
-					</SkillCacher>
+					<ActiveGroupProvider>
+						<SkillCacher>
+							<Routing />
+						</SkillCacher>
+					</ActiveGroupProvider>
 				</UserProvider>
 			</ThemeProvider>
 		</div>
