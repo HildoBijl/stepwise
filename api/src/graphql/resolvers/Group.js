@@ -73,9 +73,16 @@ const resolvers = {
 		joinGroup: async (_source, { code }, { getCurrentUserId, db, pubsub }) => {
 			// Deactivate the user from other groups.
 			const userId = getCurrentUserId()
-			const groups = await getUserGroupsAndDeactivate(db, pubsub, userId)
-			if (groups.find(group => group.code === code))
-				throw new UserInputError(`Failed to join group: user is already a member of group "${code}".`)
+			const groups = await getUserGroupsAndDeactivate(db, pubsub, userId, code)
+
+			// If the user is already a member of the group, simply activate the membership.
+			const existingGroup = groups.find(group => group.code === code)
+			const existingMembership = existingGroup && existingGroup.members && existingGroup.members.find(member => member.id === userId).groupMembership
+			if (existingMembership) {
+				await existingMembership.update({ active: true })
+				await pubsub.publish(events.groupUpdated, { updatedGroup: existingGroup, userId, action: 'activate' })
+				return existingGroup
+			}
 
 			// Load the group and add the user.
 			const group = await getGroup(db, code)
