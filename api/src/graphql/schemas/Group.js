@@ -28,6 +28,7 @@ const schema = gql`
 		givenName: String
 		familyName: String
 		active: Boolean
+		lastActivity: DateTime!
 	}
 
 	type Group {

@@ -224,7 +224,7 @@ function hasSimpleDeepEqualsMatching(arr1, arr2) {
 module.exports.hasSimpleDeepEqualsMatching = hasSimpleDeepEqualsMatching
 
 // sortByIndices takes two arrays, one with values ['a', 'b', 'c'] and one with numbers like [8, 2, 4]. It sorts the number array like [2, 4, 8] but returns the array with corresponding values ['b', 'c', 'a'].
-function sortByIndices(values, numbers) {
+function sortByIndices(values, numbers, ascending = true) {
 	// Check the input.
 	if (!Array.isArray(values) || !Array.isArray(numbers))
 		throw new Error(`Invalid parameter: expected arrays but received parameters of type "${typeof values}" and "${typeof numbers}".`)
@@ -235,7 +235,7 @@ function sortByIndices(values, numbers) {
 	// Create an array with merged objects and sort it. Then extract the values from it.
 	return values
 		.map((value, index) => ({ value, number: numbers[index] }))
-		.sort((a, b) => a.number - b.number)
+		.sort((a, b) => ascending ? a.number - b.number : b.number - a.number)
 		.map(obj => obj.value)
 }
 module.exports.sortByIndices = sortByIndices

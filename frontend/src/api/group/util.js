@@ -8,6 +8,7 @@ export const groupParameters = `
 		givenName
 		familyName
 		active
+		lastActivity
 	}
 `
 

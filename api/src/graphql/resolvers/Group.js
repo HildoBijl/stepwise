@@ -6,13 +6,14 @@ const { events, getUserGroups, getUserGroupsAndDeactivate, getGroup, createRando
 
 const resolvers = {
 	Group: {
-		members: group => group.getMembers()
+		members: group => group.getMembers(),
 	},
 
 	Member: {
 		groupId: member => member.groupMembership.groupId, // This is needed for efficient caching.
 		userId: member => member.id,
 		active: member => member.groupMembership.active,
+		lastActivity: member => member.groupMembership.updatedAt,
 	},
 
 	Query: {
