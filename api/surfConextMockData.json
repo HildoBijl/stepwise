@@ -16,9 +16,9 @@
 	},
 	{
 		"sub": "1111111111111111111111111111111111111111",
-		"name": null,
-		"given_name": null,
-		"family_name": null,
+		"name": "Step Brother",
+		"given_name": "Step",
+		"family_name": "Brother",
 		"email": "foo@example.org",
 		"schac_home_organization": null,
 		"eduperson_affiliation": null,
