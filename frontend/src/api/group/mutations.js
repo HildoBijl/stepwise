@@ -120,7 +120,7 @@ const LEAVE_GROUP = gql`
 
 // ActivateGroup will make a user active within the current group.
 export function useActivateGroupMutation(code) {
-	code = code.toUpperCase()
+	code = code && code.toUpperCase()
 	return useMutation(ACTIVATE_GROUP, {
 		variables: { code },
 		update: (cache, { data: { activateGroup: updatedGroup } }) => {
@@ -156,11 +156,9 @@ const ACTIVATE_GROUP = gql`
 	}
 `
 
-// DeactivateGroup will make a user active within the current group.
-export function useDeactivateGroupMutation(code) {
-	code = code.toUpperCase()
+// DeactivateGroup will make a user inactive from any group in which they may be active.
+export function useDeactivateGroupMutation() {
 	return useMutation(DEACTIVATE_GROUP, {
-		variables: { code },
 		update: (cache, { data: { deactivateGroup: updatedGroup } }) => {
 			// Update Group.
 			cache.writeQuery({
@@ -187,8 +185,8 @@ export function useDeactivateGroupMutation(code) {
 	})
 }
 const DEACTIVATE_GROUP = gql`
-	mutation deactivateGroup($code: String!) {
-		deactivateGroup(code: $code) {
+	mutation deactivateGroup {
+		deactivateGroup {
 			${groupParameters}
 		}
 	}

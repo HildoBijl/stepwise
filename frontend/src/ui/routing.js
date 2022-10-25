@@ -132,8 +132,8 @@ function getRoutes(user = undefined) {
 				children: {
 					':code': {
 						id: 'group',
-						component: pages.Group,
-						name: 'Group',
+						component: pages.Groups,
+						name: 'Groep activeren',
 					},
 				},
 			},

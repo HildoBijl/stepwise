@@ -126,21 +126,21 @@ const resolvers = {
 			return group
 		},
 
-		deactivateGroup: async (_source, { code }, { db, pubsub, getCurrentUserId }) => {
-			// Load the group and check the user's membership.
+		deactivateGroup: async (_source, _args, { db, pubsub, getCurrentUserId }) => {
+			// Load all groups and ensure that they are all inactive.
 			const userId = getCurrentUserId()
-			const group = await getGroup(db, code)
-			const member = group.members.find(member => member.id === userId)
-			if (!member)
-				throw new Error(`Failed to deactivate group: user is not a member of group "${code}".`)
+			const groups = await getUserGroups(db, userId)
+			const deactivatedGroups = await Promise.all(groups.map(async group => {
+				const membership = group.members.find(member => member.id === userId).groupMembership
+				if (membership && membership.active) {
+					await membership.update({ active: false })
+					await pubsub.publish(events.groupUpdated, { updatedGroup: group, userId, action: 'deactivate' })
+					return group
+				}
+			}))
 
-			// Deactivate the user within the group.
-			const membership = member.groupMembership
-			if (membership && membership.active) {
-				await membership.update({ active: false })
-				await pubsub.publish(events.groupUpdated, { updatedGroup: group, userId, action: 'deactivate' })
-			}
-			return group
+			// Check if there is one that deactivated and return that.
+			return deactivatedGroups.find(group => !!group)
 		},
 	},
 

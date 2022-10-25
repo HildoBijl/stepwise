@@ -12,7 +12,7 @@ const schema = gql`
 		joinGroup(code: String!): Group!
 		leaveGroup(code: String!): Boolean!
 		activateGroup(code: String!): Group!
-		deactivateGroup(code: String!): Group!
+		deactivateGroup: Group
 	}
 
 	extend type Subscription {
