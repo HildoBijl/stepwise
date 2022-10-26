@@ -166,5 +166,5 @@ const helperText = {
 }
 
 function isValidCode(code) {
-	return typeof code === 'string' && code.match(/^[a-zA-Z0-9]{4,4}$/g)
+	return typeof code === 'string' && code.match(/^[A-Z0-9]{4}$/g)
 }

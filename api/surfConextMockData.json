@@ -16,9 +16,9 @@
 	},
 	{
 		"sub": "1111111111111111111111111111111111111111",
-		"name": "Step Brother",
-		"given_name": "Step",
-		"family_name": "Brother",
+		"name": null,
+		"given_name": null,
+		"family_name": null,
 		"email": "foo@example.org",
 		"schac_home_organization": null,
 		"eduperson_affiliation": null,
@@ -33,6 +33,17 @@
 		"email": "r.feynman@mit.edu",
 		"schac_home_organization": "mit.edu",
 		"eduperson_affiliation": ["teacher"],
+		"locale": null,
+		"schac_personal_unique_code": null
+	},
+	{
+		"sub": "3333333333333333333333333333333333333333",
+		"name": "Step Brother",
+		"given_name": "Step",
+		"family_name": "Brother",
+		"email": "step@brother.com",
+		"schac_home_organization": null,
+		"eduperson_affiliation": null,
 		"locale": null,
 		"schac_personal_unique_code": null
 	}
