@@ -125,7 +125,7 @@ function getRoutes(user = undefined) {
 				component: pages.LogOut,
 				name: 'Uitloggen...'
 			},
-			'groups': {
+			'groepen': {
 				id: 'groups',
 				component: pages.Groups,
 				name: 'Samenwerken',
