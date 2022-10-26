@@ -5,6 +5,8 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Container from '@material-ui/core/Container'
 
+import GroupIndicator from 'ui/pages/Groups/Indicator'
+
 import Menu from './Menu'
 import Title from './Title'
 
@@ -32,6 +34,7 @@ export default function Header({ routes, Indicator }) {
 					<Menu className={classes.menuButton} titleCollapsed={titleCollapsed} />
 					<Title className={classes.title} setTitleCollapsed={setTitleCollapsed} />
 					{Indicator ? <Indicator /> : null}
+					<GroupIndicator />
 				</Toolbar>
 			</Container>
 		</AppBar>

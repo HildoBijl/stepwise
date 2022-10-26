@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useMemo } from 'react'
-import { Link, useParams, useNavigate } from 'react-router-dom'
-import TextField from '@material-ui/core/TextField'
+import React, { useEffect, useMemo } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 
 import { sortByIndices } from 'step-wise/util/arrays'
 
 import { useUserId } from 'api/user'
 import { usePaths } from 'ui/routing'
-import { Head, Par } from 'ui/components/containers'
-import { useMyGroupsQuery, useCreateGroupMutation, useJoinGroupMutation, useActivateGroupMutation, useMyGroupsSubscription } from 'api/group'
+import { Par } from 'ui/components/containers'
+import { useMyGroupsQuery, useActivateGroupMutation, useMyGroupsSubscription } from 'api/group'
 
 import JoinGroupConditions from './JoinGroupConditions'
 import ActiveGroup from './ActiveGroup'
