@@ -9,8 +9,9 @@ import { useMyActiveGroupSubscription } from './subscriptions'
 // Put the query results in a context, so there's a single source of truth.
 const GroupContext = createContext(null)
 export function ActiveGroupProvider({ children }) {
-	const result = useMyActiveGroupQuery()
-	useMyActiveGroupSubscription(result.subscribeToMore)
+	const userId = useUserId()
+	const result = useMyActiveGroupQuery(!!userId)
+	useMyActiveGroupSubscription(result.subscribeToMore, !!userId)
 
 	return (
 		<GroupContext.Provider value={result}>

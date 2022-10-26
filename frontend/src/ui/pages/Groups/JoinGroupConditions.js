@@ -18,7 +18,7 @@ export default function JoinGroupConditions({ code }) {
 		<Par>
 			Je staat op het punt om lid te worden van de samenwerkingsgroep {code.toUpperCase()}. Je kan dan:
 			<List items={groupPossibilities} />
-			Alle huidige en toekomstige leden van deze samenwerkingsgroep kunnen dit uiteraard ook. Je kunt een samenwerkingsgroep altijd weer verlaten en/of vergeten. Bij het vergeten worden al je sporen uit de samenwerkingsgroep gewist.
+			Alle huidige en toekomstige leden van deze samenwerkingsgroep kunnen dit uiteraard ook. Je kunt een samenwerkingsgroep altijd verlaten en/of vergeten. Als je een samenwerkingsgroep vergeet, dan worden al je sporen uit de samenwerkingsgroep permanent gewist.
 		</Par>
 		<Par>
 			<Button

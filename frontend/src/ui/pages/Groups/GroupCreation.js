@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 
 import { usePaths } from 'ui/routing'
-import { useGroupExistsQuery, useCreateGroupMutation, useJoinGroupMutation } from 'api/group'
+import { useGroupExistsQuery, useCreateGroupMutation } from 'api/group'
 
 const useStyles = makeStyles((theme) => ({
 	groupCreation: {
@@ -21,11 +21,10 @@ const useStyles = makeStyles((theme) => ({
 			flexFlow: 'column nowrap',
 		},
 
-
 		'& > div': {
 			borderRadius: '0.6rem',
 			margin: '0 0.6rem',
-			padding: '0.8rem',
+			padding: '1rem 0.6rem',
 			textAlign: 'center',
 			width: '50%',
 
@@ -54,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 
 				'& input': {
 					fontSize: '1.5rem',
-					letterSpacing: '0.5rem',
+					letterSpacing: '0.3rem',
 					width: '12rem',
 				},
 			},
@@ -96,8 +95,7 @@ function JoinGroup() {
 	const [problem, setProblem] = useState(problems.allOK)
 
 	// If a code has been submitted, check its value.
-	const codeToCheck = isValidCode(submittedCode) ? submittedCode : ''
-	const { data, loading } = useGroupExistsQuery(codeToCheck)
+	const { data, loading } = useGroupExistsQuery(submittedCode, isValidCode(submittedCode))
 
 	// Set up a submission handler.
 	const submit = (evt) => {

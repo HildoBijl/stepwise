@@ -17,9 +17,9 @@ export const GROUP = gql`
 `
 
 // GroupExists returns whether the group with the given code already exists.
-export function useGroupExistsQuery(code) {
+export function useGroupExistsQuery(code, apply = true) {
 	code = code.toUpperCase()
-	return useQuery(GROUP_EXISTS, { variables: { code } })
+	return useQuery(GROUP_EXISTS, { variables: { code }, skip: !apply })
 }
 export const GROUP_EXISTS = gql`
 	query groupExists($code: String!) {
@@ -28,8 +28,8 @@ export const GROUP_EXISTS = gql`
 `
 
 // MyActiveGroup returns the active group of the user, or null if the user is not active in any group.
-export function useMyActiveGroupQuery() {
-	return useQuery(MY_ACTIVE_GROUP)
+export function useMyActiveGroupQuery(apply = true) {
+	return useQuery(MY_ACTIVE_GROUP, { skip: !apply })
 }
 export const MY_ACTIVE_GROUP = gql`
 	{

@@ -37,9 +37,11 @@ const GROUP_UPDATED = gql`
 `
 
 // MyActiveGroupSubscription subscribes to all updates on the MyActiveGroup query.
-export function useMyActiveGroupSubscription(subscribeToMore) {
+export function useMyActiveGroupSubscription(subscribeToMore, apply = true) {
 	const userId = useUserId()
 	useEffect(() => {
+		if (!apply)
+			return
 		const unsubscribe = subscribeToMore({
 			document: MY_ACTIVE_GROUP_UPDATED,
 			updateQuery: ({ myActiveGroup }, { subscriptionData }) => {
@@ -62,7 +64,7 @@ export function useMyActiveGroupSubscription(subscribeToMore) {
 			}
 		})
 		return () => unsubscribe()
-	}, [userId, subscribeToMore])
+	}, [apply, userId, subscribeToMore])
 }
 const MY_ACTIVE_GROUP_UPDATED = gql`
 	subscription myActiveGroupUpdate {
