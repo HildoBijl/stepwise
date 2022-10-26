@@ -3,6 +3,7 @@ const { gql } = require('apollo-server-express')
 const schema = gql`
 	extend type Query {
 		group(code: String!): Group
+		groupExists(code: String!): Boolean!
 		myActiveGroup: Group
 		myGroups: [Group]
 	}

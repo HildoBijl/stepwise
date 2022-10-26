@@ -1,6 +1,7 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Button from '@material-ui/core/Button'
 import { ExitToApp } from '@material-ui/icons'
 
@@ -32,6 +33,7 @@ export default function ActiveGroup({ group }) {
 	const paths = usePaths()
 	const [deactivateGroup] = useDeactivateGroupMutation()
 	const otherMembers = useOtherMembers(group.members)
+	const wideScreen = useMediaQuery('(min-width:600px)')
 
 	// Set up a leave button.
 	const leaveButton = <Button
@@ -39,9 +41,9 @@ export default function ActiveGroup({ group }) {
 		variant="contained"
 		size="small"
 		color="secondary"
-		endIcon={<ExitToApp />}
+		endIcon={wideScreen ? <ExitToApp /> : null}
 		onClick={deactivateGroup}
-	>Verlaat deze groep</Button>
+	>{wideScreen ? 'Verlaat deze groep' : <ExitToApp />}</Button>
 
 	return <>
 		<Head>Je actieve groep: <Link to={paths.group({ code: group.code })}>{group.code}</Link></Head>
@@ -65,7 +67,7 @@ function CodeShareConditions({ group }) {
 		<Par>
 			Elke persoon die de code invoert krijgt toegang tot de samenwerkingsgroep. Dit omvat:
 			<List items={groupPossibilities} />
-			Je kunt een samenwerkingsgroep altijd verlaten en/of vergeten. Als je een samenwerkingsgroep vergeet, dan worden al je sporen uit deze samenwerkingsgroep gewist.
+			Je kunt een samenwerkingsgroep altijd verlaten en/of vergeten. Als je een samenwerkingsgroep vergeet, dan worden al je sporen uit deze samenwerkingsgroep permanent gewist.
 		</Par>
 	</>
 }

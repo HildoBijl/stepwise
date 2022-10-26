@@ -21,6 +21,15 @@ const resolvers = {
 			return await getUserGroups(db, getCurrentUserId())
 		},
 
+		groupExists: async (_source, { code }, { db }) => {
+			try {
+				await getGroup(db, code)
+				return true
+			} catch {
+				return false
+			}
+		},
+
 		myActiveGroup: async (_source, _args, { db, getCurrentUserId }) => {
 			// Load all groups and find the active one. (Yes, a bit inefficient, but the number of groups is always small.)
 			const groups = await getUserGroups(db, getCurrentUserId())

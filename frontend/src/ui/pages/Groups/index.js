@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
+import TextField from '@material-ui/core/TextField'
 
 import { sortByIndices } from 'step-wise/util/arrays'
 
@@ -53,12 +54,12 @@ export default function Groups() {
 
 	// If a code has been provided to join a group, and this group is not already joined, show a join confirmation screen.
 	if (code && !myGroups.find(group => group.code === code))
-		return console.log(myGroups) || console.log(myGroups.find(group => group.code === group)) || <JoinGroupConditions code={code} />
+		return <JoinGroupConditions code={code} />
 
 	// Render the component as usual.
 	return <>
 		{activeGroup ? <ActiveGroup group={activeGroup} /> : null}
 		{otherGroups.length > 0 ? <OtherGroups groups={otherGroups} hasActiveGroup={!!activeGroup} /> : null}
-		<GroupCreation />
+		{activeGroup ? null : <GroupCreation />}
 	</>
 }

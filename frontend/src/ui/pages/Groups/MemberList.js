@@ -15,9 +15,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function MemberList({ members }) {
+export default function MemberList({ members, className }) {
 	const classes = useStyles()
-	return <div className={clsx(classes.memberList, 'memberList')}>
+	return <div className={clsx(classes.memberList, 'memberList', className)}>
 		{members.map(member => <Member key={member.userId} member={member} />)}
 	</div>
 }
