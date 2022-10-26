@@ -69,7 +69,7 @@ function GroupIndicatorInternal({ group }) {
 
 	// Render the indicator.
 	const classes = useStyles({ lastEvent })
-	return <Tooltip title={<span>{activeMembers.length === 0 ? `Er zijn nog geen anderen aanwezig.` : `Je werkt samen met ${nameString}.`}</span>} arrow>
+	return <Tooltip title={<span>{numActiveMembers <= 1 ? `Er zijn nog geen anderen aanwezig.` : `Je werkt samen met ${nameString}.`}</span>} arrow>
 		<div className={clsx(classes.groupIndicator, 'groupIndicator')} onClick={() => navigate(paths.groups({ code: activeGroup.code }))}>
 			<div className="contents">{activeMembers.length}</div>
 		</div>
