@@ -133,7 +133,7 @@ function getRoutes(user = undefined) {
 					':code': {
 						id: 'group',
 						component: pages.Groups,
-						name: 'Groep activeren',
+						name: 'Meedoen met groep',
 					},
 				},
 			},

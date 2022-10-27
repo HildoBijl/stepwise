@@ -10,7 +10,20 @@ import { GROUP, MY_ACTIVE_GROUP, MY_GROUPS } from './queries'
 export function useCreateGroupMutation() {
 	return useMutation(CREATE_GROUP, {
 		update: (cache, { data: { createGroup: newGroup } }) => {
-			// Update MyGroups. (No need to update Group, since no one follows it yet.)
+			// Update Group.
+			cache.writeQuery({
+				query: GROUP,
+				variables: { code: newGroup.code },
+				data: { group: newGroup },
+			})
+
+			// Update MyActiveGroup.
+			cache.writeQuery({
+				query: MY_ACTIVE_GROUP,
+				data: { myActiveGroup: newGroup },
+			})
+
+			// Update MyGroups.
 			const myGroups = cache.readQuery({ query: MY_GROUPS })?.myGroups
 			if (myGroups) {
 				cache.writeQuery({
