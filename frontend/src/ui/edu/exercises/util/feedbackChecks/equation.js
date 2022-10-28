@@ -18,7 +18,7 @@ export const hasIncorrectLeftSide = (input, correct, solution, isCorrect) => !is
 export const hasIncorrectRightSide = (input, correct, solution, isCorrect) => !isCorrect && !expressionComparisons.equivalent(input.right, correct.right) && !expressionComparisons.equivalent(input.right, correct.left) && <>De rechterkant van de vergelijking is niet wat verwacht werd.</>
 export const hasIncorrectSide = (...args) => hasIncorrectLeftSide(...args) || hasIncorrectRightSide(...args)
 
-export const correctEquationWithMessage = (message) => ((input, correct, solution, isCorrect, exerciseData) => !isCorrect && equationComparisons.equation(input, correct) && resolveFunctions(message, input, correct, solution, isCorrect, exerciseData))
+export const correctEquationWithMessage = (message) => ((input, correct, solution, isCorrect, exerciseData) => !isCorrect && equationComparisons.equivalent(input, correct) && resolveFunctions(message, input, correct, solution, isCorrect, exerciseData))
 
 export const correctEquation = correctEquationWithMessage(<>De vergelijking klopt wel, maar je hebt niet gedaan wat gevraagd werd.</>)
 
