@@ -19,6 +19,10 @@ const resolvers = {
 		},
 		history: exercise => exercise.events || [],
 	},
+	
+	Event: {
+		performedAt: event => event.createdAt,
+	},
 
 	Mutation: {
 		startExercise: async (_source, { skillId }, { db, getCurrentUserId }) => {

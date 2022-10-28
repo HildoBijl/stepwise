@@ -22,6 +22,13 @@ const schema = gql`
 		updatedExercise: Exercise!
 		adjustedSkills: [SkillWithoutExercises]!
 	}
+	
+	type Event {
+		id: ID!
+		action: JSON!
+		progress: JSON!
+		performedAt: DateTime!
+	}
 `
 
 module.exports = schema

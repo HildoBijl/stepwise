@@ -4,7 +4,6 @@ const resolverKeys = [
 	'User',
 	'Skill',
 	'Exercise',
-	'Event',
 	'Group',
 ]
 
