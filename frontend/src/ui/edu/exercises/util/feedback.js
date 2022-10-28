@@ -84,7 +84,7 @@ export function getInputFieldFeedback(parameters, exerciseData, extraOptions) {
 
 		// Get the input, solution and comparison method.
 		const { currInput, currSolution, currComparison } = getCurrentInputSolutionAndComparison(currParameter, input, solution, comparison, singleParameterCase)
-		const currExtraOptions = (extraOptions && extraOptions[index]) || extraOptions || {}
+		const currExtraOptions = (Array.isArray(extraOptions) ? extraOptions[index] : extraOptions) || {}
 
 		// On no input, do not give feedback.
 		if (currInput === undefined)
