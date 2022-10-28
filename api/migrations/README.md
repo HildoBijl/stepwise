@@ -16,16 +16,17 @@ Run and thoroughly test the migration locally.
 For verifying that the `down` migration correctly restores the previous state, you can compare the database structure before and after:
 
 ```
-pg_dump --schema-only stepwise --file before.sql
+pg_dump --file before.sql --username=postgres --schema-only postgres
 npm run db:migrate up
 npm run db:migrate down
-pg_dump --schema-only stepwise --file after.sql
-diff before.sql after.sql
+pg_dump --file after.sql --username=postgres --schema-only postgres
+diff before.sql after.sql // For Mac.
+fc before.sql after.sql // For Windows.
 ```
 
 (You also need to pass your database credentials to `pg_dump`.)
 
-When the `diff` command produces empty output, it means that the structure is exactly the same as before.
+When the `diff` of `fc` command produces empty output, it means that the structure is exactly the same as before. Do remember to remove the dumps instead of committing them.
 
 ## Applying in production
 
