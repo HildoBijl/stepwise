@@ -1,25 +1,16 @@
-const { DataTypes } = require('sequelize')
-
-const modelKeys = [
-	'User',
-	'SurfConextProfile',
-	'UserSkill',
-	'ExerciseSample',
-	'ExerciseEvent',
-	'Group',
-]
+const models = require('./models')
 
 class Database {
 	constructor(sequelize) {
 		this._sequelize = sequelize
 
 		// Import all the models.
-		modelKeys.forEach(key => {
-			this[key] = require(`./models/${key}`)(sequelize)
+		Object.keys(models).forEach(key => {
+			this[key] = models[key](sequelize)
 		})
 
 		// Make associations.
-		modelKeys.forEach(key => {
+		Object.keys(models).forEach(key => {
 			if (this[key].associate)
 				this[key].associate(this)
 		})
