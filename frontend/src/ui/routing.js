@@ -130,6 +130,11 @@ function getRoutes(user = undefined) {
 				component: pages.Groups,
 				name: 'Samenwerken',
 				children: {
+					'nieuw': {
+						id: 'newGroup',
+						component: pages.NewGroup,
+						name: 'Nieuwe samenwerkingsgroep',
+					},
 					':code': {
 						id: 'group',
 						component: pages.Groups,

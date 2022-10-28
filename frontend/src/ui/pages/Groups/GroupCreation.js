@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 
 import { usePaths } from 'ui/routing'
-import { useGroupExistsQuery, useCreateGroupMutation } from 'api/group'
+import { useGroupExistsQuery } from 'api/group'
 
 const useStyles = makeStyles((theme) => ({
 	groupCreation: {
@@ -70,7 +70,8 @@ export default function GroupCreation() {
 }
 
 function CreateGroup() {
-	const [createGroup] = useCreateGroupMutation()
+	const paths = usePaths()
+	const navigate = useNavigate()
 	return <Paper className="block" elevation={3}>
 		<h1>Nieuwe samenwerkingsgroep</h1>
 		<p>Maak een groepscode/link aan.</p>
@@ -80,7 +81,7 @@ function CreateGroup() {
 			className="createButton"
 			variant="contained"
 			color="primary"
-			onClick={createGroup}
+			onClick={() => navigate(paths.newGroup())}
 		>Maak nieuwe samenwerkingsgroep</Button>
 	</Paper>
 }

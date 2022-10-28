@@ -6,10 +6,10 @@ import Button from '@material-ui/core/Button'
 import { ExitToApp } from '@material-ui/icons'
 
 import { usePaths } from 'ui/routing'
-import { Head, Par, List } from 'ui/components/containers'
+import { Head } from 'ui/components/containers'
 import { useDeactivateGroupMutation } from 'api/group'
 
-import { groupPossibilities, useOtherMembers } from './util'
+import { useOtherMembers } from './util'
 import MemberList from './MemberList'
 
 const useStyles = makeStyles((theme) => ({
@@ -18,12 +18,15 @@ const useStyles = makeStyles((theme) => ({
 		flexFlow: 'row nowrap',
 		alignItems: 'center',
 
-		'& .memberList': {
+		'& .memberList, & .emptyNote': {
 			flexGrow: 1,
+			flexShrink: 1,
 		},
 
-		'& .deactivateButton': {
+		'& .buttonContainer': {
 			flexGrow: 0,
+			flexShrink: 0,
+			marginLeft: '0.75rem',
 		},
 	},
 }))
@@ -35,9 +38,9 @@ export default function ActiveGroup({ group }) {
 	const otherMembers = useOtherMembers(group.members)
 	const wideScreen = useMediaQuery('(min-width:600px)')
 
-	// Set up a leave button.
-	const leaveButton = <Button
-		className="leaveButton"
+	// Set up a deactivate button.
+	const deactivateButton = <Button
+		className="deactivateButton"
 		variant="contained"
 		size="small"
 		color="secondary"
@@ -47,27 +50,10 @@ export default function ActiveGroup({ group }) {
 
 	return <>
 		<Head>Je actieve groep: <Link to={paths.group({ code: group.code })}>{group.code}</Link></Head>
-		{otherMembers.length === 0 ?
-			<>
-				<CodeShareConditions group={group} />
-				{leaveButton}
-			</> :
-			<div className={classes.memberListContainer}>
-				<MemberList members={otherMembers} />
-				{leaveButton}
-			</div>}
-	</>
-}
-
-function CodeShareConditions({ group }) {
-	const paths = usePaths()
-	return <>
-		<Par>Je zit nu in de samenwerkingsgroep <Link to={paths.group({ code: group.code })}>{group.code}</Link>. Je bent nog de enige in deze groep. Deel de samenwerkingscode of de <Link to={paths.group({ code: group.code })}>link</Link> met je studiegenoten om met hen samen te werken.</Par>
-
-		<Par>
-			Elke persoon die de code invoert krijgt toegang tot de samenwerkingsgroep. Dit omvat:
-			<List items={groupPossibilities} />
-			Je kunt een samenwerkingsgroep altijd verlaten en/of vergeten. Als je een samenwerkingsgroep vergeet, dan worden al je sporen uit deze samenwerkingsgroep permanent gewist.
-		</Par>
+		<div className={classes.memberListContainer}>
+			{otherMembers.length === 0 ? <div className="emptyNote">Er zit nog niemand anders in groep <Link to={paths.group({ code: group.code })}>{group.code}</Link>
+				. Deel de code/<Link to={paths.group({ code: group.code })}>link</Link> met je studiegenoten om samen te kunnen oefenen.</div> : <MemberList members={otherMembers} />}
+			<div className="buttonContainer">{deactivateButton}</div>
+		</div>
 	</>
 }
