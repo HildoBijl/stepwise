@@ -17,9 +17,9 @@ const schema = gql`
 	}
 
 	extend type Subscription {
-		groupUpdate(code: String!): Group
-		myActiveGroupUpdate: Group
-		myGroupsUpdate: Group
+		groupUpdate(code: String!): Group!
+		myActiveGroupUpdate: Group!
+		myGroupsUpdate: Group!
 	}
 
 	type Member {

@@ -1,6 +1,10 @@
 const { gql } = require('apollo-server-express')
 
 const schema = gql`
+	extend type Query {
+		activeGroupExercises(code: String!): [GroupExercise]!
+	}
+
 	extend type Mutation {
 		startGroupExercise(skillId: String!): Exercise!
 		submitGroupExerciseAction(skillId: String!, action: JSON!): Exercise!
@@ -8,6 +12,10 @@ const schema = gql`
 		resolveGroupExerciseAction(skillId: String!): Exercise!
 	}
 
+	extend type Subscription {
+		activeGroupExercisesUpdate(code: String!): GroupExercise!
+	}
+	
 	type GroupExercise {
 		id: ID!
 		skillId: String!
@@ -28,7 +36,7 @@ const schema = gql`
 
 	type GroupExerciseAction {
 		id: ID!
-		user: User!
+		user: Member!
 		action: JSON!
 		performedAt: DateTime!
 	}
