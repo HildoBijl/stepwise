@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize')
 
 module.exports = (sequelize) => {
-	const ExerciseEvent = sequelize.define('exerciseEvent', {
+	const GroupExerciseAction = sequelize.define('groupExerciseAction', {
 		id: {
 			type: DataTypes.UUID,
 			defaultValue: DataTypes.UUIDV4,
@@ -12,15 +12,12 @@ module.exports = (sequelize) => {
 			type: DataTypes.JSON,
 			allowNull: false,
 		},
-		progress: {
-			type: DataTypes.JSON,
-			allowNull: false,
-		},
 	})
 
-	ExerciseEvent.associate = models => {
-		ExerciseEvent.belongsTo(models.ExerciseSample)
+	GroupExerciseAction.associate = models => {
+		GroupExerciseAction.belongsTo(models.User)
+		GroupExerciseAction.belongsTo(models.GroupExerciseEvent)
 	}
 
-	return ExerciseEvent
+	return GroupExerciseAction
 }
