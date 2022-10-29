@@ -18,6 +18,10 @@ module.exports = {
 				onUpdate: 'cascade',
 				onDelete: 'cascade',
 			},
+			skillId: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
 			exerciseId: {
 				type: DataTypes.STRING,
 				allowNull: false,
