@@ -5,6 +5,7 @@ const resolverKeys = [
 	'Skill',
 	'Exercise',
 	'Group',
+	'GroupExercise',
 ]
 
 const scalarResolvers = {

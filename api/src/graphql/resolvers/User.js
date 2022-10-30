@@ -1,6 +1,7 @@
+const { UserInputError } = require('apollo-server-express')
+
 const { checkSkillIds } = require('../util/Skill')
 const { getUser, getAllUsers } = require('../util/User')
-const { AuthenticationError } = require('apollo-server-express')
 
 const CURRENT_PRIVACY_POLICY_VERSION = 1;
 
@@ -41,7 +42,7 @@ const resolvers = {
 		shutdownAccount: async (_source, { confirmEmail }, { getCurrentUser }) => {
 			const user = await getCurrentUser()
 			if (user.email !== confirmEmail) {
-				throw new Error('The confirmation email does not match.')
+				throw new UserInputError('The confirmation email does not match.')
 			}
 			// The database is configured to cascade the deletion, so this
 			// will also delete all associated user data.
@@ -54,7 +55,7 @@ const resolvers = {
 		me: async (_source, _args, { getCurrentUser }) => {
 			try {
 				return await getCurrentUser()
-			} catch (AuthenticationError) {
+			} catch (err) {
 				return null
 			}
 		},

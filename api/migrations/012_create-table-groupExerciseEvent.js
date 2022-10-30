@@ -20,7 +20,7 @@ module.exports = {
 			},
 			progress: {
 				type: DataTypes.JSON,
-				allowNull: false,
+				allowNull: true,
 			},
 			createdAt: {
 				type: DataTypes.DATE,

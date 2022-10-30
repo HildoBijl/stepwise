@@ -10,7 +10,7 @@ module.exports = (sequelize) => {
 		},
 		progress: {
 			type: DataTypes.JSON,
-			allowNull: false,
+			allowNull: true, // Null indicates the event has not been resolved yet.
 		},
 	})
 

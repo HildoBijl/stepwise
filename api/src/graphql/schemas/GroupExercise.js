@@ -6,10 +6,10 @@ const schema = gql`
 	}
 
 	extend type Mutation {
-		startGroupExercise(skillId: String!): Exercise!
-		submitGroupExerciseAction(skillId: String!, action: JSON!): Exercise!
-		cancelGroupExerciseAction(skillId: String!): Exercise!
-		resolveGroupExerciseAction(skillId: String!): Exercise!
+		startGroupExercise(code: String!, skillId: String!): GroupExercise!
+		submitGroupAction(code: String!, skillId: String!, action: JSON!): GroupExercise!
+		cancelGroupAction(code: String!, skillId: String!): GroupExercise!
+		resolveGroupEvent(code: String!, skillId: String!): GroupExercise!
 	}
 
 	extend type Subscription {
@@ -23,20 +23,20 @@ const schema = gql`
 		state: JSON!
 		active: Boolean!
 		startedOn: DateTime!
-		progress: JSON!
+		progress: JSON
 		history: [GroupEvent]!
 	}
 	
 	type GroupEvent {
 		id: ID!
-		progress: JSON!
-		actions: [GroupExerciseAction]!
+		progress: JSON
 		performedAt: DateTime!
+		actions: [GroupAction]!
 	}
 
-	type GroupExerciseAction {
+	type GroupAction {
 		id: ID!
-		user: Member!
+		userId: ID!
 		action: JSON!
 		performedAt: DateTime!
 	}

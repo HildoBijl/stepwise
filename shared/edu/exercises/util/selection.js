@@ -42,6 +42,23 @@ async function selectExercise(skillId, getSkillsData) {
 }
 module.exports.selectExercise = selectExercise
 
+// selectRandomExercise takes a skillId and picks an exercise completely randomly. It does not take into account skill data. It does take into account exercise weights.
+function selectRandomExercise(skillId) {
+	// Load the exercises for the given skill.
+	const skill = skills[skillId]
+	if (!skill)
+		throw new Error(`Could not select an exercise: the skillId "${skillId}" is unknown.`)
+	const exerciseIds = skill.exercises
+	if (exerciseIds.length === 0)
+		throw new Error(`Invalid request: cannot get an exercise for skill "${skillId}". This skill has no exercises yet.`)
+
+	// Select an exercise based on the weights.
+	const exerciseDatas = exerciseIds.map(exerciseId => require(`../exercises/${exerciseId}`).data)
+	const weights = exerciseDatas.map(exerciseData => (isNumber(exerciseData.weight) ? Math.abs(exerciseData.weight) : 1))
+	return selectRandomly(exerciseIds, weights)
+}
+module.exports.selectRandomExercise = selectRandomExercise
+
 // getSelectionRates takes an array of exercise success rates and returns an array of probabilities (likelihoods) with which they should be selected.
 function getSelectionRates(successRates, weights) {
 	// Check input.
@@ -65,16 +82,29 @@ function getSelectionRates(successRates, weights) {
 }
 module.exports.getSelectionRates = getSelectionRates
 
-// getNewExercise takes a skillId and returns a set of exercise data of the form { id: 'linearEquations', state: { a: 3, b: 12 } }. The state is given in functional format.
+// getNewExercise takes a skillId and returns a set of exercise data of the form { exerciseId: 'linearEquations', state: { a: 3, b: 12 } }. The state is given in functional format.
 async function getNewExercise(skillId, getSkillData) {
 	const exerciseId = await selectExercise(skillId, getSkillData)
+	return getExercise(exerciseId)
+}
+module.exports.getNewExercise = getNewExercise
+
+// getNewRandomExercise is identical to getNewExercise, but then select the exercise randomly, not taking into account any skill data.
+function getNewRandomExercise(skillId) {
+	const exerciseId = selectRandomExercise(skillId)
+	return getExercise(exerciseId)
+}
+module.exports.getNewRandomExercise = getNewRandomExercise
+
+// getExercise takes an exerciseId and sets up an exercise (a state) for that exercise. It returns an object with both the exerciseId and the state.
+function getExercise(exerciseId) {
 	const { generateState } = require(`../exercises/${exerciseId}`)
 	return {
 		exerciseId,
 		state: generateState(),
 	}
 }
-module.exports.getNewExercise = getNewExercise
+module.exports.getExercise = getExercise
 
 // getAllExercises walks through all the skills and returns an array (without duplicates) of all the exercise ids. It's useful for testing purposes.
 function getAllExercises() {

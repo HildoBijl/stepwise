@@ -25,6 +25,7 @@ module.exports = (sequelize) => {
 
 	Group.associate = models => {
 		Group.belongsToMany(models.User, { as: 'members', through: GroupMembership(sequelize) })
+		Group.hasMany(models.GroupExerciseSample, { as: 'exercises' })
 	}
 
 	return Group
