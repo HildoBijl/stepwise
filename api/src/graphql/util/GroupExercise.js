@@ -1,10 +1,26 @@
 const { UserInputError, ForbiddenError } = require('apollo-server-express')
 
-const { getLastEvent, getExerciseProgress } = require('./Exercise')
+const { findOptimum } = require('step-wise/util/arrays')
 
-// These functions are the same as for the regular exercises.
-module.exports.getLastGroupEvent = getLastEvent
-module.exports.getGroupExerciseProgress = getExerciseProgress
+// getLastResolvedGroupEvent takes an exercise and finds the latest event in it that is resolved (and hence has a progress parameter). It filters out the unresolved event to which new actions are coupled.
+function getLastResolvedGroupEvent(exercise) {
+	const events = (exercise.events || []).filter(event => event.progress !== null)
+	return findOptimum(events, (a, b) => a.updatedAt > b.updatedAt) || null
+}
+module.exports.getLastResolvedGroupEvent = getLastResolvedGroupEvent
+
+// getUnresolvedGroupEvent takes an exercise and finds the unresolved event from it. It returns null when it cannot find it. (Should never happen.)
+function getUnresolvedGroupEvent(exercise) {
+	return (exercise.events || []).find(event => event.progress === null) || null
+}
+module.exports.getUnresolvedGroupEvent = getUnresolvedGroupEvent
+
+// getGroupExerciseProgress retrieves the current progress from an exercise.
+function getGroupExerciseProgress(exercise) {
+	const lastEvent = getLastResolvedGroupEvent(exercise)
+	return (lastEvent === null ? {} : lastEvent.progress) // Note that {} is the default initial progress.
+}
+module.exports.getGroupExerciseProgress = getGroupExerciseProgress
 
 // verifyGroupAccess checks if the group exists and has a member with the given userId.
 function verifyGroupAccess(group, userId) {

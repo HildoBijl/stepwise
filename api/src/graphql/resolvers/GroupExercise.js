@@ -81,9 +81,77 @@ const resolvers = {
 			// ToDo: pubsub event.
 			return exercise
 		},
-		cancelGroupAction: async (_source, { skillId, action }, { db, getCurrentUserId }) => {
+
+		cancelGroupAction: async (_source, { code, skillId }, { db, getCurrentUserId }) => {
+			// Load and verify data.
+			const userId = getCurrentUserId()
+			const group = await getGroupWithActiveSkillExercise(code, skillId, db)
+			verifyGroupAccess(group, userId)
+			const exercise = group.exercises[0]
+			if (!exercise)
+				throw new UserInputError(`Could not cancel group action. The group ${group.code} does not have an active exercise.`)
+			const activeEvent = exercise.events.find(event => event.progress === null)
+			if (!activeEvent)
+				throw new UserInputError(`Could not cancel group action. The group ${group.code} does not have an active event.`)
+
+			// Load in the user action and delete it if it exists.
+			const userAction = activeEvent.actions && activeEvent.actions.find(action => action.userId === userId)
+			if (userAction) {
+				userAction.destroy()
+				activeEvent.actions = activeEvent.actions.filter(action => action.id !== userAction.id)
+			}
+
+			// Return the exercise as result.
+			// ToDo: pubsub event.
+			return exercise
 		},
-		resolveGroupEvent: async (_source, { skillId, action }, { db, getCurrentUserId }) => {
+
+		resolveGroupEvent: async (_source, { code, skillId }, { db, getCurrentUserId }) => {
+			// Load and verify data.
+			const userId = getCurrentUserId()
+			const group = await getGroupWithActiveSkillExercise(code, skillId, db)
+			verifyGroupAccess(group, userId)
+			const exercise = group.exercises[0]
+			if (!exercise)
+				throw new UserInputError(`Could not resolve group event. The group ${group.code} does not have an active exercise.`)
+			const activeEvent = exercise.events.find(event => event.progress === null)
+			if (!activeEvent)
+				throw new UserInputError(`Could not resolve group event. The group ${group.code} does not have an active event.`)
+
+			// Check if it can be submitted. This is only when at least two active members are present and all active members have submitted.
+			const activeMembers = group.members.filter(member => member.groupMembership.active)
+			if (activeMembers.length < 2)
+				throw new UserInputError(`Could not resolve group event. The group ${group.code} does not have sufficient users present.`)
+			if (activeMembers.some(member => !activeEvent.actions.some(action => action.userId === member.id)))
+				throw new UserInputError(`Could not resolve group event. Not every active user in group ${group.code} has submitted an action.`)
+
+			// Define how to update skills data.
+			const updateSkills = () => { } // ToDo later
+
+			// Check the exercise, getting an updated progress. Store this and prepare for a new event.
+			const state = toFO(exercise.state)
+			const actions = activeEvent.actions.map(action => ({ ...action.action, userId: action.userId }))
+			const previousProgress = getGroupExerciseProgress(exercise)
+			const { processAction } = require(`step-wise/edu/exercises/exercises/${exercise.exerciseId}`)
+			const progress = processAction({ actions, state, progress: previousProgress, history: exercise.events, updateSkills })
+
+			// Store the progress in the active event. If the exercise is done, note this. If not, prepare for future submissions.
+			await activeEvent.update({ progress })
+			activeEvent.progress = progress
+			if (progress.done) {
+				await exercise.update({ active: false })
+				exercise.active = false
+			} else {
+				const newActiveEvent = await exercise.createEvent({ progress: null })
+				newActiveEvent.actions = []
+				exercise.events = [...exercise.events, newActiveEvent]
+			}
+
+			// ToDo later: update skill data. See the Exercise file for how to set it up.
+
+			// Return the exercise as a result.
+			// ToDo: pubsub
+			return exercise
 		},
 	},
 }

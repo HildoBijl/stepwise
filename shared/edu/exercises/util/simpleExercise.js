@@ -3,37 +3,71 @@ const { toFO } = require('../../../inputTypes')
 
 // getSimpleExerciseProcessor takes a checkInput function that checks the input for a SimpleExercise and returns a processAction function.
 function getSimpleExerciseProcessor(checkInput, data) {
-	return ({ progress, action, state, history, updateSkills }) => {
-		if (progress.done)
-			return progress // Weird ... we're already done.
+	return (submissionData) => {
+		if (submissionData.progress.done)
+			return submissionData.progress // Weird ... we're already done.
 
-		switch (action.type) {
-			case 'input':
-				const correct = checkInput(state, toFO(action.input, true))
-				if (correct) {
-					updateSkills(data.skill, true) // Correctly solved.
-					updateSkills(data.setup, true)
-					return { solved: true, done: true }
-				} else {
-					updateSkills(data.skill, false) // Incorrectly solved.
-					updateSkills(data.setup, false)
-					return {}
-				}
-
-			case 'giveUp':
-				// When there have been no attempts yet, downgrade too.
-				if (history.length === 0) {
-					updateSkills(data.skill, false)
-					updateSkills(data.setup, false)
-				}
-				return { givenUp: true, done: true }
-
-			default:
-				throw new Error(`Invalid action type: the action type "${action.type}" is unknown and cannot be processed.`)
-		}
+		// How to process this depends on if we're in a group (multiple actions) or as have a single user (a single action).
+		if (submissionData.actions)
+			return processGroupAction({ checkInput, data, ...submissionData })
+		return processUserAction({ checkInput, data, ...submissionData })
 	}
 }
 module.exports.getSimpleExerciseProcessor = getSimpleExerciseProcessor
+
+// processUserAction is the processor for a single user and not a group.
+function processUserAction({ checkInput, data, progress, action, state, history, updateSkills }) {
+	switch (action.type) {
+		case 'input':
+			const correct = checkInput(state, toFO(action.input, true))
+			if (correct) {
+				updateSkills(data.skill, true) // Correctly solved.
+				updateSkills(data.setup, true)
+				return { solved: true, done: true }
+			} else {
+				updateSkills(data.skill, false) // Incorrectly solved.
+				updateSkills(data.setup, false)
+				return {}
+			}
+
+		case 'giveUp':
+			// When there have been no attempts yet, downgrade too.
+			if (history.length === 0) {
+				updateSkills(data.skill, false)
+				updateSkills(data.setup, false)
+			}
+			return { givenUp: true, done: true }
+
+		default:
+			throw new Error(`Invalid action type: the action type "${action.type}" is unknown and cannot be processed.`)
+	}
+}
+
+// processGroupAction is the processor for a group of users.
+function processGroupAction({ checkInput, data, progress, actions, state, history, updateSkills }) {
+	// Check for all the input actions whether they are correct.
+	const correct = actions.map(action => action.type === 'input' && checkInput(state, toFO(action.input, true)))
+
+	// If any of the submissions is correct, or if all gave up, then the exercise is done. Give everyone a skill update.
+	const someCorrect = correct.some(isCorrect => isCorrect)
+	const allGaveUp = actions.every(action => action.type === 'giveUp')
+	if (someCorrect || allGaveUp) {
+		actions.forEach((action, index) => {
+			updateSkills(data.skill, correct[index], action.userId)
+			updateSkills(data.setup, correct[index], action.userId)
+		})
+		return { [someCorrect ? 'solved' : 'givenUp']: true, done: true }
+	}
+
+	// No one had it right, but at least there were submissions. Give skill updates to wrong submissions and leave the exercise open.
+	actions.forEach((action, index) => {
+		if (action.type === 'input') {
+			updateSkills(data.skill, correct[index], action.userId)
+			updateSkills(data.setup, correct[index], action.userId)
+		}
+	})
+	return {}
+}
 
 // getLastInput takes a history object and returns the last given input.
 function getLastInput(history) {
