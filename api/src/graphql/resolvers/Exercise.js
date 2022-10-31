@@ -43,7 +43,7 @@ const resolvers = {
 			const skillUpdates = []
 			const updateSkills = (skill, correct) => {
 				if (skill)
-					skillUpdates.push({ skill, correct })
+					skillUpdates.push({ skill, correct, userId })
 			}
 
 			// Update the progress parameter.

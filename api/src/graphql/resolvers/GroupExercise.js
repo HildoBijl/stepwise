@@ -43,6 +43,7 @@ const resolvers = {
 			const newExercise = await getNewRandomExercise(skillId)
 			const exercise = await group.createExercise({ skillId, exerciseId: newExercise.exerciseId, state: toSO(newExercise.state), active: true })
 			const activeEvent = await exercise.createEvent({ progress: null })
+			activeEvent.actions = []
 			exercise.events = [activeEvent]
 
 			// Return the exercise as result.
@@ -126,7 +127,7 @@ const resolvers = {
 				throw new UserInputError(`Could not resolve group event. Not every active user in group ${group.code} has submitted an action.`)
 
 			// Define how to update skills data.
-			const updateSkills = () => { } // ToDo later
+			const updateSkills = (...args) => { } // ToDo later
 
 			// Check the exercise, getting an updated progress. Store this and prepare for a new event.
 			const state = toFO(exercise.state)

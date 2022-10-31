@@ -10,96 +10,195 @@ module.exports = {
 
 // getStepExerciseProcessor takes a checkInput function that checks the input for a StepExercise and returns a processAction function.
 function getStepExerciseProcessor(checkInput, data) {
-	const numSteps = data.steps.length
-	return ({ progress, action, state, history, updateSkills }) => {
-		if (progress.done)
-			return progress // Weird ... we're already done.
+	return (submissionData) => {
+		if (submissionData.progress.done)
+			return submissionData.progress // Weird ... we're already done.
 
-		const step = getStep(progress)
-		switch (action.type) {
-			case 'input':
-				// Are we in the main problem?
-				if (!progress.split) {
-					const correct = checkInput(state, toFO(action.input, true), 0, 0)
-					if (correct) {
-						updateSkills(data.skill, true)
-						updateSkills(data.setup, true)
-						return { solved: true, done: true }
-					} else {
-						updateSkills(data.skill, false)
-						updateSkills(data.setup, false)
-						return progress // Nothing changed.
-					}
-				}
-
-				// We're at a step. But are there substeps too?
-				const skill = data.steps[step - 1]
-				if (Array.isArray(skill)) {
-					// There are substeps. Walk through them and, if they haven't been solved, check them one by one.
-					const stepProgress = { ...progress[step] }
-					skill.forEach((subskill, index) => {
-						const substep = index + 1
-						if (stepProgress[substep])
-							return // Already solved before.
-						const correct = checkInput(state, toFO(action.input, true), step, substep)
-						stepProgress[substep] = correct
-						updateSkills(subskill, correct)
-					})
-
-					// If all substeps are solved, go to the next step. Otherwise stay.
-					if (skill.every((_, index) => stepProgress[index + 1]))
-						return nextStep({ ...progress, [step]: { ...stepProgress, solved: true, done: true } }, numSteps)
-					else
-						return { ...progress, [step]: stepProgress }
-				} else {
-					// No substeps; just a regular step. Check it and update skills/progress accordingly.
-					const correct = checkInput(state, toFO(action.input, true), step, 0)
-					updateSkills(skill, correct)
-					if (correct)
-						return nextStep({ ...progress, [step]: { solved: true, done: true } }, numSteps)
-					else
-						return progress // Nothing changed.
-				}
-
-			case 'giveUp':
-				// Give up on the main problem? Then split.
-				if (!progress.split) {
-					if (history.length === 0) { // If no input has been submitted for this step, then downgrade it.
-						// Don't penalize subskills when it can be avoided: apparently the student didn't know the steps. But when the exercise is not connected to a skill, then do penalize subskills.
-						if (data.skill)
-							updateSkills(data.skill, false)
-						else
-							updateSkills(data.setup, false)
-					}
-					return nextStep({ split: true, step: 0 })
-				}
-
-				// Give up on a step? If no input has been submitted for this step, then downgrade it.
-				const eventAtStepWithInput = history.find((event, index) => {
-					const action = event.action
-					const previousProgress = (index === 0 ? {} : history[index - 1].progress)
-					const previousStep = getStep(previousProgress)
-					return step === previousStep && action.type === 'input'
-				})
-				if (!eventAtStepWithInput) {
-					// Check if there are substeps which we should treat one by one, or just one step.
-					const skill = data.steps[step - 1]
-					if (Array.isArray(skill)) {
-						skill.forEach(subskill => updateSkills(subskill, false))
-					} else {
-						updateSkills(skill, false)
-					}
-				}
-
-				// Set up the new progress and return it.
-				return nextStep({ ...progress, [step]: { ...progress[step], givenUp: true, done: true } }, numSteps)
-
-			default:
-				throw new Error(`Invalid action type: the action type "${action.type}" is unknown and cannot be processed.`)
-		}
+		// How to process this depends on if we're in a group (multiple actions) or as have a single user (a single action).
+		if (submissionData.actions)
+			return processGroupActions({ checkInput, data, ...submissionData })
+		return processUserAction({ checkInput, data, ...submissionData })
 	}
 }
 module.exports.getStepExerciseProcessor = getStepExerciseProcessor
+
+// processUserAction is the processor for a single user and not a group.
+function processUserAction(submissionData) {
+	return processGroupActions({
+		...submissionData,
+		actions: [submissionData.action],
+	})
+}
+module.exports.processUserAction = processUserAction
+
+// processGroupActions is the processor for a single user and not a group.
+function processGroupActions(submissionData) {
+	if (submissionData.progress.split)
+		return processStepActions(submissionData)
+	return processMainProblemActions(submissionData)
+}
+module.exports.processGroupActions = processGroupActions
+
+function processMainProblemActions({ checkInput, data, progress, actions, state, history, updateSkills }) {
+	// Determine whether the individual users got the solution correct.
+	const correct = actions.map(action => action.type === 'input' && checkInput(state, toFO(action.input, true), 0, 0))
+	const someCorrect = correct.some(isCorrect => isCorrect)
+	const allGaveUp = actions.every(action => action.type === 'giveUp')
+	const isDone = someCorrect || allGaveUp
+
+	// Run the skill updates.
+	actions.forEach((action, index) => {
+		switch (action.type) {
+			case 'input': // On an input, update the skills.
+				updateSkills(data.skill, correct[index], action.userId)
+				updateSkills(data.setup, correct[index], action.userId)
+				return
+			case 'giveUp': // On a give-up, only update skills when the exercise is done and the user still hasn't tried anything. And then only update the skill (or the set-up, if the skill is not present), because the user seemingly hasn't even tried the steps.
+				if (isDone && !hasPreviousInput(history, action.userId, 0))
+					updateSkills(data.skill || data.setup, false, action.userId)
+				return
+			default:
+				throw new Error(`Invalid action type: the action type "${action.type}" is unknown and cannot be processed.`)
+		}
+	})
+
+	// Determine the new progress.
+	if (someCorrect)
+		return { solved: true, done: true }
+	if (allGaveUp)
+		return nextStep({ split: true, step: 0 })
+	return progress // Nothing changed.
+}
+module.exports.processMainProblemActions = processMainProblemActions
+
+function processStepActions(submissionData) {
+	const { data, progress } = submissionData
+	const step = getStep(progress)
+
+	// Determine if it is a step with substeps and process accordingly.
+	const skill = data.steps[step - 1]
+	if (Array.isArray(skill))
+		return processStepWithSubstepsActions(submissionData)
+	return processStepWithoutSubstepsActions(submissionData)
+}
+module.exports.processStepActions = processStepActions
+
+function processStepWithoutSubstepsActions({ checkInput, data, progress, actions, state, history, updateSkills }) {
+	// Determine whether the individual users got the solution correct.
+	const step = getStep(progress)
+	const correct = actions.map(action => action.type === 'input' && checkInput(state, toFO(action.input, true), step, 0))
+	const someCorrect = correct.some(isCorrect => isCorrect)
+	const allGaveUp = actions.every(action => action.type === 'giveUp')
+	const isDone = someCorrect || allGaveUp
+
+	// Run the skill updates for the skill of this step.
+	const skill = data.steps[step - 1]
+	actions.forEach((action, index) => {
+		switch (action.type) {
+			case 'input':
+				return updateSkills(skill, correct[index], action.userId)
+			case 'giveUp':
+				if (isDone && !hasPreviousInput(history, action.userId, step))
+					updateSkills(skill, false, action.userId)
+				return
+			default:
+				throw new Error(`Invalid action type: the action type "${action.type}" is unknown and cannot be processed.`)
+		}
+	})
+
+	// Determine the new progress.
+	const numSteps = data.steps.length
+	if (someCorrect)
+		return nextStep({ ...progress, [step]: { solved: true, done: true } }, numSteps)
+	if (allGaveUp)
+		return nextStep({ ...progress, [step]: { ...progress[step], givenUp: true, done: true } }, numSteps)
+	return progress // Nothing changed.
+}
+module.exports.processStepWithoutSubstepsActions = processStepWithoutSubstepsActions
+
+function processStepWithSubstepsActions({ checkInput, data, progress, actions, state, history, updateSkills }) {
+	const step = getStep(progress)
+	const skill = data.steps[step - 1]
+	const allGaveUp = actions.every(action => action.type === 'giveUp')
+
+	// We must have subskills (or this function won't be called) so walk through them and process them one by one.
+	const stepProgress = { ...progress[step] }
+	skill.forEach((subskill, index) => {
+		// If the substep was already solved, ignore it.
+		const substep = index + 1
+		if (stepProgress[substep])
+			return
+
+		// Determine whether the individual users got the solution correct.
+		const correct = actions.map(action => action.type === 'input' && checkInput(state, toFO(action.input, true), step, substep))
+		const someCorrect = correct.some(isCorrect => isCorrect)
+		const isDone = someCorrect || allGaveUp
+
+		// Run the skill updates for the skill of this step.
+		actions.forEach((action, index) => {
+			switch (action.type) {
+				case 'input':
+					return updateSkills(subskill, correct[index], action.userId)
+				case 'giveUp':
+					if (isDone && !hasPreviousInput(history, action.userId, step))
+						updateSkills(subskill, false, action.userId)
+					return
+				default:
+					throw new Error(`Invalid action type: the action type "${action.type}" is unknown and cannot be processed.`)
+			}
+		})
+
+		// Update the step progress.
+		stepProgress[substep] = someCorrect
+	})
+
+	// Determine the new progress, given the step progress.
+	const numSteps = data.steps.length
+	const everySubstepSolved = skill.every((_, index) => stepProgress[index + 1])
+	if (everySubstepSolved)
+		return nextStep({ ...progress, [step]: { ...stepProgress, solved: true, done: true } }, numSteps)
+	if (allGaveUp)
+		return nextStep({ ...progress, [step]: { ...progress[step], givenUp: true, done: true } }, numSteps)
+	return { ...progress, [step]: stepProgress }
+}
+module.exports.processStepWithSubstepsActions = processStepWithSubstepsActions
+
+// getLastInput takes a history object and returns the last given input at the given step. If step is undefined, any step will do.
+function getLastInput(history, userId, step) {
+	for (let index = history.length - 1; index >= 0; index--) {
+		// Determine the action of the user in this piece of the history. This depends on whether it's an individual or a group exercise. If it's not an input, ignore this history event.
+		let userAction
+		if (userId && history[index].actions)
+			userAction = history[index].actions.find(action => action.userId === userId)?.action
+		else if (!userId && history[index].action)
+			userAction = history[index].action
+		else
+			throw new Error(`Invalid getLastInput case. Cannot determine if it is for a user or for a group.`)
+		if (!userAction || userAction.type !== 'input')
+			continue // No input action.
+
+		// Determine the previous progress. If it's not at the right step, ignore this history event.
+		if (step !== undefined) {
+			const previousProgress = index === 0 ? {} : history[index - 1].progress
+			const previousStep = getStep(previousProgress)
+			if (step !== previousStep)
+				continue // Not at the right step.
+		}
+
+		// All conditions match. Returns the given action.
+		return userAction.input
+	}
+
+	// Nothing found: return undefined.
+	return undefined
+}
+module.exports.getLastInput = getLastInput
+
+// hasPreviousInput takes a history object and checks if a user has made a previous input at the given step.
+function hasPreviousInput(history, userId, step) {
+	return !!getLastInput(history, userId, step)
+}
+module.exports.hasPreviousInput = hasPreviousInput
 
 // getStep takes a progress object and returns the step which this problem is at.
 function getStep(progress) {

@@ -9,57 +9,40 @@ function getSimpleExerciseProcessor(checkInput, data) {
 
 		// How to process this depends on if we're in a group (multiple actions) or as have a single user (a single action).
 		if (submissionData.actions)
-			return processGroupAction({ checkInput, data, ...submissionData })
+			return processGroupActions({ checkInput, data, ...submissionData })
 		return processUserAction({ checkInput, data, ...submissionData })
 	}
 }
 module.exports.getSimpleExerciseProcessor = getSimpleExerciseProcessor
 
 // processUserAction is the processor for a single user and not a group.
-function processUserAction({ checkInput, data, progress, action, state, history, updateSkills }) {
-	switch (action.type) {
-		case 'input':
-			const correct = checkInput(state, toFO(action.input, true))
-			if (correct) {
-				updateSkills(data.skill, true) // Correctly solved.
-				updateSkills(data.setup, true)
-				return { solved: true, done: true }
-			} else {
-				updateSkills(data.skill, false) // Incorrectly solved.
-				updateSkills(data.setup, false)
-				return {}
-			}
-
-		case 'giveUp':
-			// When there have been no attempts yet, downgrade too.
-			if (history.length === 0) {
-				updateSkills(data.skill, false)
-				updateSkills(data.setup, false)
-			}
-			return { givenUp: true, done: true }
-
-		default:
-			throw new Error(`Invalid action type: the action type "${action.type}" is unknown and cannot be processed.`)
-	}
+function processUserAction(submissionData) {
+	return processGroupActions({
+		...submissionData,
+		actions: [submissionData.action],
+	})
 }
+module.exports.processUserAction = processUserAction
 
 // processGroupAction is the processor for a group of users.
-function processGroupAction({ checkInput, data, progress, actions, state, history, updateSkills }) {
+function processGroupActions({ checkInput, data, progress, actions, state, history, updateSkills }) {
 	// Check for all the input actions whether they are correct.
 	const correct = actions.map(action => action.type === 'input' && checkInput(state, toFO(action.input, true)))
 
-	// If any of the submissions is correct, or if all gave up, then the exercise is done. Give everyone a skill update.
+	// If any of the submissions is correct, or if all gave up, then the exercise is done. Give everyone a skill update. (One exception: if a user gave up and has made a previous submission, then no skill update is done.)
 	const someCorrect = correct.some(isCorrect => isCorrect)
 	const allGaveUp = actions.every(action => action.type === 'giveUp')
 	if (someCorrect || allGaveUp) {
 		actions.forEach((action, index) => {
-			updateSkills(data.skill, correct[index], action.userId)
-			updateSkills(data.setup, correct[index], action.userId)
+			if (action.type === 'input' || !hasPreviousInput(history, action.userId)) {
+				updateSkills(data.skill, correct[index], action.userId)
+				updateSkills(data.setup, correct[index], action.userId)
+			}
 		})
 		return { [someCorrect ? 'solved' : 'givenUp']: true, done: true }
 	}
 
-	// No one had it right, but at least there were submissions. Give skill updates to wrong submissions and leave the exercise open.
+	// No one had it right, but at least there were submissions. Give skill updates to wrong submissions (not to those who gave up) and leave the exercise open.
 	actions.forEach((action, index) => {
 		if (action.type === 'input') {
 			updateSkills(data.skill, correct[index], action.userId)
@@ -68,16 +51,35 @@ function processGroupAction({ checkInput, data, progress, actions, state, histor
 	})
 	return {}
 }
+module.exports.processGroupActions = processGroupActions
 
 // getLastInput takes a history object and returns the last given input.
-function getLastInput(history) {
-	for (let i = history.length - 1; i >= 0; i--) {
-		if (history[i].action.type === 'input')
-			return history[i].action.input
+function getLastInput(history, userId) {
+	for (let index = history.length - 1; index >= 0; index--) {
+		// Determine the action of the user in this piece of the history. This depends on whether it's an individual or a group exercise.
+		let userAction
+		if (userId && history[index].actions)
+			userAction = history[index].actions.find(action => action.userId === userId)?.action
+		else if (!userId && history[index].action)
+			userAction = history[index].action
+		else
+			throw new Error(`Invalid getLastInput case. Cannot determine if it is for a user or for a group.`)
+
+		// If it is an input action, return it.
+		if (userAction && userAction.type === 'input')
+			return userAction.input
 	}
+
+	// Nothing found: return undefined.
 	return undefined
 }
 module.exports.getLastInput = getLastInput
+
+// hasPreviousInput takes a history object and checks if a user has made a previous input.
+function hasPreviousInput(history, userId) {
+	return !!getLastInput(history, userId)
+}
+module.exports.hasPreviousInput = hasPreviousInput
 
 // getLastProgress returns the last progress object from the history array.
 function getLastProgress(history) {
