@@ -9,12 +9,7 @@ export function useStartGroupExerciseMutation(code, skillId) {
 	return useMutation(START_GROUP_EXERCISE, {
 		variables: { code, skillId },
 		update: (cache, { data: { startGroupExercise: newExercise } }) => {
-			const activeGroupExercises = cache.readQuery({ query: ACTIVE_GROUP_EXERCISES, variables: { code } })?.activeGroupExercises
-			cache.writeQuery({
-				query: ACTIVE_GROUP_EXERCISES,
-				variables: { code },
-				data: { activeGroupExercises: [...activeGroupExercises, newExercise] },
-			})
+			updateExerciseInCache(cache, code, skillId, newExercise)
 		},
 	})
 }
@@ -33,7 +28,7 @@ export function useSubmitGroupActionMutation(code, skillId) {
 		...parameters,
 		variables: { skillId, code, ...parameters.variables },
 		update: (cache, { data: { submitGroupAction: updatedExercise } }) => {
-			updateExerciseInCache(cache, code, updatedExercise)
+			updateExerciseInCache(cache, code, skillId, updatedExercise)
 		}
 	})
 	return [newSubmit, data]
@@ -53,7 +48,7 @@ export function useCancelGroupActionMutation(code, skillId) {
 		...parameters,
 		variables: { skillId, code, ...parameters.variables },
 		update: (cache, { data: { cancelGroupAction: updatedExercise } }) => {
-			updateExerciseInCache(cache, code, updatedExercise)
+			updateExerciseInCache(cache, code, skillId, updatedExercise)
 		}
 	})
 	return [newCancel, data]
@@ -66,11 +61,14 @@ const CANCEL_GROUP_ACTION = gql`
 	}
 `
 
-function updateExerciseInCache(cache, code, updatedExercise) {
+// updateExerciseInCache is a helper function that takes the cache, a group code and an updated exercises and updates that exercise in the cache.
+function updateExerciseInCache(cache, code, skillId, updatedExercise) {
 	const activeGroupExercises = cache.readQuery({ query: ACTIVE_GROUP_EXERCISES, variables: { code } })?.activeGroupExercises
 	cache.writeQuery({
 		query: ACTIVE_GROUP_EXERCISES,
 		variables: { code },
-		data: { activeGroupExercises: activeGroupExercises.map(exercise => exercise.id === updatedExercise.id ? updatedExercise : exercise) },
+		data: {
+			activeGroupExercises: activeGroupExercises && (activeGroupExercises.some(exercise => exercise.skillId === skillId) ? activeGroupExercises.map(exercise => exercise.skillId === skillId ? updatedExercise : exercise) : [...activeGroupExercises, updatedExercise])
+		},
 	})
 }
