@@ -12,6 +12,28 @@ export const groupParameters = `
 	}
 `
 
+// This is the data that will be loaded for group exercises.
+export const groupExerciseParameters = `
+	id
+	skillId
+	exerciseId
+	state
+	active
+	startedOn
+	progress
+	history {
+		id
+		progress
+		performedAt
+		actions {
+			id
+			userId
+			performedAt
+			action
+		}
+	}
+`
+
 export function addGroupToList(newGroup, groups = []) {
 	if (groups.some(group => group.code === newGroup.code))
 		return groups.map(group => group.code === newGroup.code ? newGroup : group)
