@@ -9,7 +9,8 @@ import skills from 'step-wise/edu/skills'
 import { processSkillId } from 'step-wise/edu/skills/util'
 import { getNewExercise } from 'step-wise/edu/exercises/util/selection'
 
-import { useUserResults } from 'api/user'
+import { useUserResult, useUser } from 'api/user'
+import { useActiveGroupResult, useActiveGroup, useGroupExercisesResult, useGroupExerciseForSkill, useStartGroupExerciseMutation } from 'api/group'
 import { useSkillQuery, useStartExerciseMutation, useSubmitExerciseActionMutation } from 'api/skill'
 import { TitleItem } from 'ui/layout/Title'
 import LoadingNote from 'ui/components/flow/LoadingNote'
@@ -20,24 +21,95 @@ import SkillFlask from './SkillFlask'
 import ExerciseContainer from '../exercises/ExerciseContainer'
 
 export default function Skill() {
-	const { loading, data } = useUserResults()
+	const { loading: userLoading } = useUserResult()
+	const { loading: groupLoading } = useActiveGroupResult()
+	const user = useUser()
+	const activeGroup = useActiveGroup()
 
-	if (loading)
+	if (userLoading || groupLoading)
 		return <LoadingNote text="Loading user data." />
 
-	const user = (data && data.me) || null
+	if (activeGroup)
+		return <SkillForGroup />
 	if (user)
 		return <SkillForUser />
 	return <SkillForStranger />
 }
 
-function SkillForUser() {
+function SkillForGroup() {
+	// Load in the skill and its exercises.
+	const group = useActiveGroup()
 	const skillId = useSkillId()
 	const skill = skills[skillId]
 	const hasExercises = skill.exercises.length > 0
+
+	// Load the exercise the group has open.
+	const { loading, error, data } = useGroupExercisesResult()
+	console.log(data)
+
+	// Get mutation functions.
+	// ToDo
+	const [startNewExerciseOnServer, { loading: newExerciseLoading, error: newExerciseError }] = useStartGroupExerciseMutation(group.code, skillId)
+	// const [submitActionToServer, { loading: submissionLoading, error: submissionError }] = useSubmitExerciseActionMutation(skillId)
+
+	// Set up callbacks for the exercise component.
+	const startNewExercise = useCallback(() => {
+		console.log('Trying to start new exercise...')
+		if (hasExercises)
+			startNewExerciseOnServer()
+	}, [startNewExerciseOnServer, hasExercises])
+	// const submitAction = useCallback((action, processAction) => {
+	// 	// ToDo later: implement processAction, if it's given, to set up an optimistic response.
+	// 	submitActionToServer({ variables: { action } })
+	// }, [submitActionToServer])
+
+	// If there is no exercise, start one.
+	const exercise = useGroupExerciseForSkill(skillId)
+	console.log(exercise)
+	useEffect(() => {
+		console.log('Checking: need exercise?')
+		if (!loading && !exercise)
+			startNewExercise()
+	}, [loading, exercise, startNewExercise])
+
+	// Are there simply no exercises?
+	if (!hasExercises)
+		return <div>Helaas ... er zijn nog geen opgaven voor deze vaardigheid toegevoegd. Ze komen er zo snel mogelijk aan. Kom later nog eens terug!</div>
+
+	// Any errors we should notify the user of?
+	if (error)
+		return <ErrorNote error={error} />
+	// if (submissionError)
+	// 	return <ErrorNote error={submissionError} />
+	if (newExerciseError)
+		return <ErrorNote error={newExerciseError} />
+
+	// Anything still loading?
+	if (loading)
+		return <LoadingNote text="Loading exercise data." />
+	if (newExerciseLoading)
+		return <LoadingNote text="Generating new exercise." />
+	if (!exercise)
+		return <LoadingNote text="No exercise yet. Generating one." />
+
+	return <div>ToDo</div>
+
+	// // All fine! Display the exercise.
+	// return <ExerciseContainer exercise={exercise} groupExercise={true} submitting={submissionLoading} submitAction={submitAction} cancelAction={() => console.log('ToDo')} resolveEvent={() => console.log('TODO')} startNewExercise={startNewExercise} />
+}
+
+function SkillForUser() {
+	// Load in the skill and its exercises.
+	const skillId = useSkillId()
+	const skill = skills[skillId]
+	const hasExercises = skill.exercises.length > 0
+
+	// Load the exercise the user has open.
 	const { loading, error, data } = useSkillQuery(skillId)
-	const [submitActionToServer, { loading: submissionLoading, error: submissionError }] = useSubmitExerciseActionMutation(skillId)
+
+	// Get mutation functions.
 	const [startNewExerciseOnServer, { loading: newExerciseLoading, error: newExerciseError }] = useStartExerciseMutation(skillId)
+	const [submitActionToServer, { loading: submissionLoading, error: submissionError }] = useSubmitExerciseActionMutation(skillId)
 
 	// Set up callbacks for the exercise component.
 	const startNewExercise = useCallback(() => {
@@ -70,14 +142,14 @@ function SkillForUser() {
 
 	// Anything still loading?
 	if (loading)
-		return <LoadingNote text="Loading skill data." />
+		return <LoadingNote text="Loading exercise data." />
 	if (newExerciseLoading)
 		return <LoadingNote text="Generating new exercise." />
 	if (!exercise)
 		return <LoadingNote text="No exercise yet. Generating one." />
 
 	// All fine! Display the exercise.
-	return <ExerciseContainer key={exercise.startedOn} exercise={exercise} submitting={submissionLoading} submitAction={submitAction} startNewExercise={startNewExercise} />
+	return <ExerciseContainer exercise={exercise} submitting={submissionLoading} submitAction={submitAction} startNewExercise={startNewExercise} />
 }
 
 function SkillForStranger() {
@@ -131,7 +203,7 @@ function SkillForStranger() {
 	if (!exercise)
 		return <LoadingNote text="Generating new exercise." />
 
-	return <ExerciseContainer key={exercise.startedOn} exercise={exercise} skillId={skillId} submitting={false} submitAction={submitAction} startNewExercise={startNewExercise} />
+	return <ExerciseContainer exercise={exercise} skillId={skillId} submitting={false} submitAction={submitAction} startNewExercise={startNewExercise} />
 }
 
 export function SkillName() {

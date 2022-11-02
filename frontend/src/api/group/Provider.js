@@ -3,8 +3,9 @@ import React, { createContext, useContext } from 'react'
 
 import { useUserId } from '../user'
 
-import { useMyActiveGroupQuery, useActiveGroupExercises } from './queries'
-import { useMyActiveGroupSubscription } from './subscriptions'
+import { useMyActiveGroupQuery } from './groupQueries'
+import { useActiveGroupExercises } from './exerciseQueries'
+import { useMyActiveGroupSubscription } from './groupSubscriptions'
 
 // Put the query results in a context, so there's a single source of truth.
 const GroupContext = createContext(null)
@@ -44,8 +45,14 @@ export function useGroupExercisesResult() {
 	return useContext(GroupContext).groupExercisesResult
 }
 
-// Only get the resulting active group. Also check if the user is actually active. (On deactivations, immediately give null for a speedy response to outdated cache data.)
+// Get the active exercises for the currently active group.
 export function useGroupExercises() {
 	const result = useGroupExercisesResult()
 	return result && result.data && result.data.activeGroupExercises
+}
+
+// Get the active exercise for a given skill for the currently active group.
+export function useGroupExerciseForSkill(skillId) {
+	const groupExercises = useGroupExercises()
+	return groupExercises && groupExercises.find(exercise => exercise.skillId === skillId)
 }

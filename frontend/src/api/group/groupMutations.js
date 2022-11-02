@@ -4,7 +4,7 @@ import { useMutation } from '@apollo/client'
 import { useUserId } from 'api/user'
 
 import { groupParameters, addGroupToList, removeGroupFromList } from './util'
-import { GROUP, MY_ACTIVE_GROUP, MY_GROUPS } from './queries'
+import { GROUP, MY_ACTIVE_GROUP, MY_GROUPS } from './groupQueries'
 
 // CreateGroup creates a new group and makes the user a member.
 export function useCreateGroupMutation() {

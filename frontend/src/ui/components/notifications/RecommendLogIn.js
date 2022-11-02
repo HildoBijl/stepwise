@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { useUserResults } from 'api/user'
+import { useUserResult } from 'api/user'
 import NotificationBar from './NotificationBar'
 
 export default function RecommendLogIn({ recommend }) {
-	const { loading, data } = useUserResults()
+	const { loading, data } = useUserResult()
 
 	// Check if the user is known to be not logged in. If so, show the notification.
 	const display = recommend && !loading && (!data || !data.me)

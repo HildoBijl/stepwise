@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 import { useQuery } from '@apollo/client'
 
-import { groupParameters, groupExerciseParameters } from './util'
+import { groupParameters } from './util'
 
 // Group returns the data of a group with the given code.
 export function useGroupQuery(code) {
@@ -47,18 +47,6 @@ export const MY_GROUPS = gql`
 	{
 		myGroups {
 			${groupParameters}
-		}
-	}
-`
-
-// ActiveGroupExercises return all active exercises of the given group.
-export function useActiveGroupExercises(code, apply = true) {
-	return useQuery(ACTIVE_GROUP_EXERCISES, { variables: { code }, skip: !apply })
-}
-export const ACTIVE_GROUP_EXERCISES = gql`
-	query activeGroupExercises($code: String!) {
-		activeGroupExercises(code: $code) {
-			${groupExerciseParameters}
 		}
 	}
 `

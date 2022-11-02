@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function ExerciseButtons({ stepwise }) {
+export default function ExerciseButtons({ stepwise = false }) {
 	const { progress, history, submitting, startNewExercise } = useExerciseData()
 	const classes = useStyles()
 	const theme = useTheme()

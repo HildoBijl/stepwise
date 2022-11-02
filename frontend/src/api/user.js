@@ -35,13 +35,13 @@ export function UserProvider({ children }) {
 }
 
 // Get the data out of the context.
-export function useUserResults() {
+export function useUserResult() {
 	return useContext(UserContext)
 }
 
 // Only get the resulting user.
 export function useUser() {
-	const res = useUserResults()
+	const res = useUserResult()
 	return (res && res.data && res.data.me) || null
 }
 
@@ -53,7 +53,7 @@ export function useUserId() {
 
 // Check if user data is done loading.
 export function useIsUserDataLoaded() {
-	const res = useUserResults()
+	const res = useUserResult()
 	return !!(res && res.data)
 }
 

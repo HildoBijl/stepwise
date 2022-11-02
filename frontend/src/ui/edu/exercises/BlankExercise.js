@@ -77,7 +77,7 @@ function BlankExerciseInner({ exerciseId }) {
 		return <LoadingNote text="Generating new exercise." />
 
 	// No loading/error notes: show the exercise!
-	return <ExerciseContainer key={exercise.startedOn} exercise={exercise} submitting={false} submitAction={submitAction} startNewExercise={startNewExercise} />
+	return <ExerciseContainer exercise={exercise} submitting={false} submitAction={submitAction} startNewExercise={startNewExercise} />
 }
 
 export function ExerciseName() {
