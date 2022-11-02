@@ -10,7 +10,7 @@ import { processSkillId } from 'step-wise/edu/skills/util'
 import { getNewExercise } from 'step-wise/edu/exercises/util/selection'
 
 import { useUserResult, useUser } from 'api/user'
-import { useActiveGroupResult, useActiveGroup, useGroupExercisesResult, useGroupExerciseForSkill, useStartGroupExerciseMutation, useSubmitGroupActionMutation, useCancelGroupActionMutation } from 'api/group'
+import { useActiveGroupResult, useActiveGroup, useGroupExercisesResult, useGroupExerciseForSkill, useStartGroupExerciseMutation, useSubmitGroupActionMutation, useCancelGroupActionMutation, useResolveGroupEventMutation } from 'api/group'
 import { useSkillQuery, useStartExerciseMutation, useSubmitExerciseActionMutation } from 'api/skill'
 import { TitleItem } from 'ui/layout/Title'
 import LoadingNote from 'ui/components/flow/LoadingNote'
@@ -48,8 +48,9 @@ function SkillForGroup() {
 
 	// Get mutation functions.
 	const [startNewExerciseOnServer, { loading: newExerciseLoading, error: newExerciseError }] = useStartGroupExerciseMutation(group.code, skillId)
-	const [submitActionToServer, { loading: submissionLoading, error: submissionError }] = useSubmitGroupActionMutation(group.code, skillId)
-	const [cancelAction] = useCancelGroupActionMutation(group.code, skillId)
+	const [submitActionToServer, { error: submissionError }] = useSubmitGroupActionMutation(group.code, skillId)
+	const [cancelAction, { error: cancelError }] = useCancelGroupActionMutation(group.code, skillId)
+	const [resolveEvent, { loading: resolveLoading, error: resolveError }] = useResolveGroupEventMutation(group.code, skillId)
 
 	// Set up callbacks for the exercise component.
 	const startNewExercise = useCallback(() => {
@@ -73,12 +74,9 @@ function SkillForGroup() {
 		return <div>Helaas ... er zijn nog geen opgaven voor deze vaardigheid toegevoegd. Ze komen er zo snel mogelijk aan. Kom later nog eens terug!</div>
 
 	// Any errors we should notify the user of?
-	if (error)
-		return <ErrorNote error={error} />
-	if (submissionError)
-		return <ErrorNote error={submissionError} />
-	if (newExerciseError)
-		return <ErrorNote error={newExerciseError} />
+	const presentError = error && newExerciseError && submissionError && cancelError && resolveError
+	if (presentError)
+		return <ErrorNote error={presentError} />
 
 	// Anything still loading?
 	if (loading)
@@ -91,10 +89,11 @@ function SkillForGroup() {
 	return <>
 		<div onClick={() => submitAction({ type: 'input', input: { x: 20 } })}>Submit 20</div>
 		<div onClick={() => cancelAction()}>Cancel</div>
+		<div onClick={() => resolveEvent()}>Resolve</div>
 	</>
 
 	// // All fine! Display the exercise.
-	// return <ExerciseContainer exercise={exercise} groupExercise={true} submitting={submissionLoading} submitAction={submitAction} cancelAction={() => console.log('ToDo')} resolveEvent={() => console.log('TODO')} startNewExercise={startNewExercise} />
+	// return <ExerciseContainer exercise={exercise} groupExercise={true} submitting={resolveLoading} submitAction={submitAction} cancelAction={() => console.log('ToDo')} resolveEvent={() => console.log('TODO')} startNewExercise={startNewExercise} />
 }
 
 function SkillForUser() {
