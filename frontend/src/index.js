@@ -44,12 +44,17 @@ const apolloClient = new ApolloClient({
 					members: { merge: false },
 				},
 			},
+			GroupEvent: {
+				fields: {
+					actions: { merge: false },
+				},
+			},
 			Member: { keyFields: ['groupId', 'userId'] },
 			Query: {
 				fields: {
 					myGroups: {
 						merge: false,
-					}
+					},
 				}
 			}
 		},

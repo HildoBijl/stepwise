@@ -33,12 +33,7 @@ export function useSubmitGroupActionMutation(code, skillId) {
 		...parameters,
 		variables: { skillId, code, ...parameters.variables },
 		update: (cache, { data: { submitGroupAction: updatedExercise } }) => {
-			const activeGroupExercises = cache.readQuery({ query: ACTIVE_GROUP_EXERCISES, variables: { code } })?.activeGroupExercises
-			cache.writeQuery({
-				query: ACTIVE_GROUP_EXERCISES,
-				variables: { code },
-				data: { activeGroupExercises: activeGroupExercises.map(exercise => exercise.id === updatedExercise.id ? updatedExercise : exercise) },
-			})
+			updateExerciseInCache(cache, code, updatedExercise)
 		}
 	})
 	return [newSubmit, data]
@@ -50,3 +45,32 @@ const SUBMIT_GROUP_ACTION = gql`
 		}
 	}
 `
+
+// SubmitGroupAction sends a given action on the active exercise for a given group (code) and skill (skillId) to the server to be stored.
+export function useCancelGroupActionMutation(code, skillId) {
+	const [cancel, data] = useMutation(CANCEL_GROUP_ACTION)
+	const newCancel = (parameters = {}) => cancel({ // Insert the given code and skillId by default.
+		...parameters,
+		variables: { skillId, code, ...parameters.variables },
+		update: (cache, { data: { cancelGroupAction: updatedExercise } }) => {
+			updateExerciseInCache(cache, code, updatedExercise)
+		}
+	})
+	return [newCancel, data]
+}
+const CANCEL_GROUP_ACTION = gql`
+	mutation cancelGroupAction($code: String!, $skillId: String!) {
+		cancelGroupAction(code: $code, skillId: $skillId) {
+			${groupExerciseParameters}
+		}
+	}
+`
+
+function updateExerciseInCache(cache, code, updatedExercise) {
+	const activeGroupExercises = cache.readQuery({ query: ACTIVE_GROUP_EXERCISES, variables: { code } })?.activeGroupExercises
+	cache.writeQuery({
+		query: ACTIVE_GROUP_EXERCISES,
+		variables: { code },
+		data: { activeGroupExercises: activeGroupExercises.map(exercise => exercise.id === updatedExercise.id ? updatedExercise : exercise) },
+	})
+}

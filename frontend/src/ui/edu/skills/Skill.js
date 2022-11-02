@@ -10,7 +10,7 @@ import { processSkillId } from 'step-wise/edu/skills/util'
 import { getNewExercise } from 'step-wise/edu/exercises/util/selection'
 
 import { useUserResult, useUser } from 'api/user'
-import { useActiveGroupResult, useActiveGroup, useGroupExercisesResult, useGroupExerciseForSkill, useStartGroupExerciseMutation, useSubmitGroupActionMutation } from 'api/group'
+import { useActiveGroupResult, useActiveGroup, useGroupExercisesResult, useGroupExerciseForSkill, useStartGroupExerciseMutation, useSubmitGroupActionMutation, useCancelGroupActionMutation } from 'api/group'
 import { useSkillQuery, useStartExerciseMutation, useSubmitExerciseActionMutation } from 'api/skill'
 import { TitleItem } from 'ui/layout/Title'
 import LoadingNote from 'ui/components/flow/LoadingNote'
@@ -49,6 +49,7 @@ function SkillForGroup() {
 	// Get mutation functions.
 	const [startNewExerciseOnServer, { loading: newExerciseLoading, error: newExerciseError }] = useStartGroupExerciseMutation(group.code, skillId)
 	const [submitActionToServer, { loading: submissionLoading, error: submissionError }] = useSubmitGroupActionMutation(group.code, skillId)
+	const [cancelAction] = useCancelGroupActionMutation(group.code, skillId)
 
 	// Set up callbacks for the exercise component.
 	const startNewExercise = useCallback(() => {
@@ -87,7 +88,10 @@ function SkillForGroup() {
 	if (!exercise)
 		return <LoadingNote text="No exercise yet. Generating one." />
 
-	return <div onClick={() => submitAction({ type: 'input', input: { x: 20 } })}>ToDo</div>
+	return <>
+		<div onClick={() => submitAction({ type: 'input', input: { x: 20 } })}>Submit 20</div>
+		<div onClick={() => cancelAction()}>Cancel</div>
+	</>
 
 	// // All fine! Display the exercise.
 	// return <ExerciseContainer exercise={exercise} groupExercise={true} submitting={submissionLoading} submitAction={submitAction} cancelAction={() => console.log('ToDo')} resolveEvent={() => console.log('TODO')} startNewExercise={startNewExercise} />
