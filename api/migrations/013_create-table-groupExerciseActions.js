@@ -40,6 +40,10 @@ module.exports = {
 				allowNull: false,
 			},
 		})
+		await queryInterface.addIndex('groupExerciseActions', {
+			fields: ['userId', 'groupExerciseEventId'],
+			unique: true,
+		})
 	},
 
 	down: async (queryInterface) => {

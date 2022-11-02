@@ -12,6 +12,13 @@ module.exports = (sequelize) => {
 			type: DataTypes.JSON,
 			allowNull: false,
 		},
+	}, {
+		indexes: [
+			{
+				fields: ['userId', 'groupExerciseEventId'],
+				unique: true,
+			}
+		]
 	})
 
 	GroupExerciseAction.associate = models => {

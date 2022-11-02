@@ -60,7 +60,6 @@ module.exports = {
 			fields: ['userId', 'skillId'],
 			unique: true,
 		})
-
 	},
 
 	down: async (queryInterface) => {

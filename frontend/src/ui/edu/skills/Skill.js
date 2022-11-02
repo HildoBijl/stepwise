@@ -10,7 +10,7 @@ import { processSkillId } from 'step-wise/edu/skills/util'
 import { getNewExercise } from 'step-wise/edu/exercises/util/selection'
 
 import { useUserResult, useUser } from 'api/user'
-import { useActiveGroupResult, useActiveGroup, useGroupExercisesResult, useGroupExerciseForSkill, useStartGroupExerciseMutation } from 'api/group'
+import { useActiveGroupResult, useActiveGroup, useGroupExercisesResult, useGroupExerciseForSkill, useStartGroupExerciseMutation, useSubmitGroupActionMutation } from 'api/group'
 import { useSkillQuery, useStartExerciseMutation, useSubmitExerciseActionMutation } from 'api/skill'
 import { TitleItem } from 'ui/layout/Title'
 import LoadingNote from 'ui/components/flow/LoadingNote'
@@ -45,29 +45,24 @@ function SkillForGroup() {
 
 	// Load the exercise the group has open.
 	const { loading, error, data } = useGroupExercisesResult()
-	console.log(data)
 
 	// Get mutation functions.
-	// ToDo
 	const [startNewExerciseOnServer, { loading: newExerciseLoading, error: newExerciseError }] = useStartGroupExerciseMutation(group.code, skillId)
-	// const [submitActionToServer, { loading: submissionLoading, error: submissionError }] = useSubmitExerciseActionMutation(skillId)
+	const [submitActionToServer, { loading: submissionLoading, error: submissionError }] = useSubmitGroupActionMutation(group.code, skillId)
 
 	// Set up callbacks for the exercise component.
 	const startNewExercise = useCallback(() => {
-		console.log('Trying to start new exercise...')
 		if (hasExercises)
 			startNewExerciseOnServer()
 	}, [startNewExerciseOnServer, hasExercises])
-	// const submitAction = useCallback((action, processAction) => {
-	// 	// ToDo later: implement processAction, if it's given, to set up an optimistic response.
-	// 	submitActionToServer({ variables: { action } })
-	// }, [submitActionToServer])
+	const submitAction = useCallback((action, processAction) => {
+		// ToDo later: implement processAction, if it's given, to set up an optimistic response.
+		submitActionToServer({ variables: { action } })
+	}, [submitActionToServer])
 
 	// If there is no exercise, start one.
 	const exercise = useGroupExerciseForSkill(skillId)
-	console.log(exercise)
 	useEffect(() => {
-		console.log('Checking: need exercise?')
 		if (!loading && !exercise)
 			startNewExercise()
 	}, [loading, exercise, startNewExercise])
@@ -79,8 +74,8 @@ function SkillForGroup() {
 	// Any errors we should notify the user of?
 	if (error)
 		return <ErrorNote error={error} />
-	// if (submissionError)
-	// 	return <ErrorNote error={submissionError} />
+	if (submissionError)
+		return <ErrorNote error={submissionError} />
 	if (newExerciseError)
 		return <ErrorNote error={newExerciseError} />
 
@@ -92,7 +87,7 @@ function SkillForGroup() {
 	if (!exercise)
 		return <LoadingNote text="No exercise yet. Generating one." />
 
-	return <div>ToDo</div>
+	return <div onClick={() => submitAction({ type: 'input', input: { x: 20 } })}>ToDo</div>
 
 	// // All fine! Display the exercise.
 	// return <ExerciseContainer exercise={exercise} groupExercise={true} submitting={submissionLoading} submitAction={submitAction} cancelAction={() => console.log('ToDo')} resolveEvent={() => console.log('TODO')} startNewExercise={startNewExercise} />
