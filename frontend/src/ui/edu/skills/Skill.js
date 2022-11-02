@@ -43,9 +43,6 @@ function SkillForGroup() {
 	const skill = skills[skillId]
 	const hasExercises = skill.exercises.length > 0
 
-	// Load the exercise the group has open.
-	const { loading, error, data } = useGroupExercisesResult()
-
 	// Get mutation functions.
 	const [startNewExerciseOnServer, { loading: newExerciseLoading, error: newExerciseError }] = useStartGroupExerciseMutation(group.code, skillId)
 	const [submitActionToServer, { error: submissionError }] = useSubmitGroupActionMutation(group.code, skillId)
@@ -63,6 +60,7 @@ function SkillForGroup() {
 	}, [submitActionToServer])
 
 	// If there is no exercise, start one.
+	const { loading, error } = useGroupExercisesResult()
 	const exercise = useGroupExerciseForSkill(skillId)
 	useEffect(() => {
 		if (!loading && !exercise)
@@ -86,14 +84,8 @@ function SkillForGroup() {
 	if (!exercise)
 		return <LoadingNote text="No exercise yet. Generating one." />
 
-	return <>
-		<div onClick={() => submitAction({ type: 'input', input: { x: 20 } })}>Submit 20</div>
-		<div onClick={() => cancelAction()}>Cancel</div>
-		<div onClick={() => resolveEvent()}>Resolve</div>
-	</>
-
-	// // All fine! Display the exercise.
-	// return <ExerciseContainer exercise={exercise} groupExercise={true} submitting={resolveLoading} submitAction={submitAction} cancelAction={() => console.log('ToDo')} resolveEvent={() => console.log('TODO')} startNewExercise={startNewExercise} />
+	// All fine! Display the exercise.
+	return <ExerciseContainer exercise={exercise} groupExercise={true} submitting={resolveLoading} submitAction={submitAction} cancelAction={cancelAction} resolveEvent={resolveEvent} startNewExercise={startNewExercise} />
 }
 
 function SkillForUser() {

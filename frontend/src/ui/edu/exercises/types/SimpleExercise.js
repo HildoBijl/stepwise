@@ -3,7 +3,9 @@
 import React, { useEffect, useRef } from 'react'
 
 import { deepEquals } from 'step-wise/util/objects'
+import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 
+import { useUserId } from 'api/user'
 import VerticalAdjuster from 'ui/components/layout/VerticalAdjuster'
 import { useFormData } from 'ui/form/Form'
 import { useFeedback } from 'ui/form/FeedbackProvider'
@@ -27,6 +29,7 @@ export default function SimpleExercise(props) {
 
 function Contents({ Problem, Solution }) {
 	const { state, progress, history } = useExerciseData()
+	const userId = useUserId()
 	const { getInputSI } = useFormData()
 	const { feedbackInput } = useFeedback()
 	const { activateFirst } = useFieldControllerContext()
@@ -40,7 +43,7 @@ function Contents({ Problem, Solution }) {
 	}, [Problem, progress, history, activateFirst])
 
 	// Determine what to show.
-	const hasSubmissions = history.some(event => event.action.type === 'input') // Has there been an input action?
+	const hasSubmissions = !!getLastInput(history, userId) // Has there been an input action?
 	const showInputSpace = !progress.done || hasSubmissions
 	const showMainFeedback = showInputSpace && (progress.done || deepEquals(getInputSI(), feedbackInput))
 

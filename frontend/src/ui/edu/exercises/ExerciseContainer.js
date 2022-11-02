@@ -9,12 +9,13 @@ import ErrorBoundary from 'ui/components/flow/ErrorBoundary'
 const ExerciseContext = createContext({})
 export { ExerciseContext } // Exported for testing purposes.
 
-export default function ExerciseContainer({ exercise, submitting, submitAction, startNewExercise }) {
-	// Whenever the exercise id changes, reload the component.
+export default function ExerciseContainer({ exercise, groupExercise, submitting, submitAction, cancelAction, resolveEvent, startNewExercise }) {
 	const { exerciseId, state } = exercise
 	const [loading, setLoading] = useState(true)
 	const ExerciseLocal = useRef(null)
 	const ExerciseShared = useRef({})
+
+	// Whenever the exercise id changes, reload the component.
 	const reload = () => {
 		setLoading(true)
 		Promise.all([import(/* webpackMode: "lazy-once" */ `./exercises/${exerciseId}`), import(/* webpackMode: "lazy-once" */ `step-wise/edu/exercises/exercises/${exerciseId}`)]).then(importedModules => {
@@ -22,13 +23,13 @@ export default function ExerciseContainer({ exercise, submitting, submitAction, 
 			ExerciseLocal.current = localModule.default
 			ExerciseShared.current = sharedModule.default
 			setLoading(false)
-		}).catch((err) => {
+		}).catch((error) => {
 			console.error('Exercise failed to load.')
-			console.error(err) // ToDo later: properly process errors.
-			throw err
+			console.error(error) // ToDo later: properly process errors.
+			throw error
 		})
 	}
-	useEffect(reload, [exerciseId])
+	useEffect(reload, [setLoading, exerciseId])
 
 	// Assemble the state as Functional Object.
 	const stateFO = useMemo(() => toFO(state), [state])
@@ -39,10 +40,13 @@ export default function ExerciseContainer({ exercise, submitting, submitAction, 
 	// Set up data for the exercise and put it in a context around the exercise.
 	const exerciseData = {
 		state: stateFO,
+		groupExercise,
 		history: exercise.history,
 		progress: getLastProgress(exercise.history),
 		submitting,
 		submitAction: (action) => submitAction(action, ExerciseShared.current.processAction), // Incorporate the processAction function for Stranger-mode and for optimistic responses.
+		cancelAction,
+		resolveEvent,
 		startNewExercise,
 		shared: ExerciseShared.current,
 	}

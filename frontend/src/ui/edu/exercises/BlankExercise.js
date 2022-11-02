@@ -41,6 +41,7 @@ function BlankExerciseInner({ exerciseId }) {
 	// Make sure there is exercise data, like a state, progress and such.
 	const [exercise, setExercise] = useState(null)
 	const startNewExercise = useCallback(() => {
+		console.log('Starting ' + exerciseId)
 		if (!loading && !error) {
 			setExercise({ // Emulate the exercise object that we otherwise get from the server.
 				exerciseId,

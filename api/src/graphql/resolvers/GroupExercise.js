@@ -1,20 +1,20 @@
 const { UserInputError } = require('apollo-server-express')
 
+const { findOptimum } = require('step-wise/util/arrays')
 const { toFO, toSO } = require('step-wise/inputTypes')
-const skills = require('step-wise/edu/skills')
 const { getNewRandomExercise } = require('step-wise/edu/exercises/util/selection')
 
-const { verifyGroupAccess, getGroupExerciseProgress, getGroupWithActiveExercises, getGroupWithActiveSkillExercise, processGroupExercises, processExercise } = require('../util/GroupExercise')
+const { verifyGroupAccess, getGroupExerciseProgress, getGroupWithActiveExercises, getGroupWithActiveSkillExercise, processGroupExercises } = require('../util/GroupExercise')
 
 const resolvers = {
 	GroupExercise: {
 		startedOn: exercise => exercise.createdAt,
 		progress: exercise => getGroupExerciseProgress(exercise),
-		history: exercise => exercise.events || [],
+		history: exercise => exercise.events.sort((a, b) => a.createdAt - b.createdAt) || [], // Sort the history ascending by date.
 	},
 
 	GroupEvent: {
-		performedAt: event => event.updatedAt,
+		performedAt: event => findOptimum(event.actions.map(action => action.updatedAt), (a, b) => a > b), // Get the moment of the last action.
 	},
 
 	GroupAction: {

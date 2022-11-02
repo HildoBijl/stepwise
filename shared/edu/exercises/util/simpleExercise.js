@@ -60,7 +60,7 @@ function getLastInput(history, userId) {
 		let userAction
 		if (userId && history[index].actions)
 			userAction = history[index].actions.find(action => action.userId === userId)?.action
-		else if (!userId && history[index].action)
+		else if (history[index].action)
 			userAction = history[index].action
 		else
 			throw new Error(`Invalid getLastInput case. Cannot determine if it is for a user or for a group.`)
@@ -83,17 +83,21 @@ module.exports.hasPreviousInput = hasPreviousInput
 
 // getLastProgress returns the last progress object from the history array.
 function getLastProgress(history) {
-	if (history.length === 0)
-		return {}
-	return history[history.length - 1].progress
+	for (let index = history.length - 1; index >= 0; index--) {
+		if (history[index].progress !== null)
+			return history[index].progress
+	}
+	return {} // None foune. 
 }
 module.exports.getLastProgress = getLastProgress
 
 // getPreviousProgress returns the second-to-last progress object from the history array.
 function getPreviousProgress(history) {
-	if (history.length <= 1)
-		return {}
-	return history[history.length - 2].progress
+	for (let index = history.length - 1; index > 0; index--) {
+		if (history[index].progress !== null)
+			return history[index - 1].progress
+	}
+	return {} // None foune. 
 }
 module.exports.getPreviousProgress = getPreviousProgress
 

@@ -17,7 +17,7 @@ const resolvers = {
 			const lastEvent = getLastEvent(exercise)
 			return (lastEvent && lastEvent.createdAt) || null
 		},
-		history: exercise => exercise.events || [],
+		history: exercise => exercise.events.sort((a, b) => a.createdAt - b.createdAt) || [], // Sort the history ascending by date. || [],
 	},
 	
 	Event: {

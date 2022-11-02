@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 
 import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 
+import { useUserId } from 'api/user'
 import Form from 'ui/form/Form'
 import FeedbackProvider from 'ui/form/FeedbackProvider'
 
@@ -13,7 +14,10 @@ import SolutionProvider, { useSolution } from './SolutionProvider'
 export default function ExerciseWrapper({ getFeedback, children }) {
 	// Check based on the last input action what the initial form data should be.
 	const exerciseData = useExerciseData()
-	const lastSubmittedInput = getLastInput(exerciseData.history)
+	const userId = useUserId()
+	console.log(exerciseData.history)
+	const lastSubmittedInput = getLastInput(exerciseData.history, userId)
+	console.log(lastSubmittedInput)
 
 	// Render all components together in the right dependency hierarchy.
 	return (
@@ -34,7 +38,8 @@ function FeedbackWrapper({ getFeedback, children }) {
 	const data = useMemo(() => solution === undefined ? exerciseData : ({ ...exerciseData, solution }), [exerciseData, solution])
 
 	// Determine the input that needs to be evaluated by the FeedbackProvider. When it changes, the feedback is adjusted.
-	const feedbackInput = getLastInput(exerciseData.history)
+	const userId = useUserId()
+	const feedbackInput = getLastInput(exerciseData.history, userId)
 
 	// Render the FeedbackProvider.
 	return <FeedbackProvider getFeedback={getFeedback} input={feedbackInput} data={data}>{children}</FeedbackProvider>
