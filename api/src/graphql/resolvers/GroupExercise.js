@@ -14,7 +14,7 @@ const resolvers = {
 	},
 
 	GroupEvent: {
-		performedAt: event => findOptimum(event.actions.map(action => action.updatedAt), (a, b) => a > b), // Get the moment of the last action.
+		performedAt: event => findOptimum(event.actions.map(action => action.updatedAt), (a, b) => a > b) || event.updatedAt, // Get the moment of the last action.
 	},
 
 	GroupAction: {

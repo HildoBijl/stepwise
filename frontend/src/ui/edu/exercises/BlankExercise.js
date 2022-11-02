@@ -77,8 +77,8 @@ function BlankExerciseInner({ exerciseId }) {
 	if (loading || !exercise)
 		return <LoadingNote text="Generating new exercise." />
 
-	// No loading/error notes: show the exercise!
-	return <ExerciseContainer exercise={exercise} submitting={false} submitAction={submitAction} startNewExercise={startNewExercise} />
+	// No loading/error notes: show the exercise! Use a key to force a rerender on a new exercise.
+	return <ExerciseContainer key={exercise.startedOn} exercise={exercise} submitting={false} submitAction={submitAction} startNewExercise={startNewExercise} />
 }
 
 export function ExerciseName() {

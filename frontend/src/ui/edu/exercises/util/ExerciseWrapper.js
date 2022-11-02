@@ -15,9 +15,7 @@ export default function ExerciseWrapper({ getFeedback, children }) {
 	// Check based on the last input action what the initial form data should be.
 	const exerciseData = useExerciseData()
 	const userId = useUserId()
-	console.log(exerciseData.history)
 	const lastSubmittedInput = getLastInput(exerciseData.history, userId)
-	console.log(lastSubmittedInput)
 
 	// Render all components together in the right dependency hierarchy.
 	return (
@@ -39,7 +37,7 @@ function FeedbackWrapper({ getFeedback, children }) {
 
 	// Determine the input that needs to be evaluated by the FeedbackProvider. When it changes, the feedback is adjusted.
 	const userId = useUserId()
-	const feedbackInput = getLastInput(exerciseData.history, userId)
+	const feedbackInput = getLastInput(exerciseData.history, userId, true)
 
 	// Render the FeedbackProvider.
 	return <FeedbackProvider getFeedback={getFeedback} input={feedbackInput} data={data}>{children}</FeedbackProvider>

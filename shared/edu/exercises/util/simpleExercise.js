@@ -54,12 +54,12 @@ function processGroupActions({ checkInput, data, progress, actions, state, histo
 module.exports.processGroupActions = processGroupActions
 
 // getLastInput takes a history object and returns the last given input.
-function getLastInput(history, userId) {
+function getLastInput(history, userId, requireSubmitted = false) {
 	for (let index = history.length - 1; index >= 0; index--) {
 		// Determine the action of the user in this piece of the history. This depends on whether it's an individual or a group exercise.
 		let userAction
-		if (userId && history[index].actions)
-			userAction = history[index].actions.find(action => action.userId === userId)?.action
+		if (history[index].actions && userId)
+			userAction = (!requireSubmitted || history[index].progress) && history[index].actions.find(action => action.userId === userId)?.action
 		else if (history[index].action)
 			userAction = history[index].action
 		else

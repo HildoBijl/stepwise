@@ -84,8 +84,8 @@ function SkillForGroup() {
 	if (!exercise)
 		return <LoadingNote text="No exercise yet. Generating one." />
 
-	// All fine! Display the exercise.
-	return <ExerciseContainer exercise={exercise} groupExercise={true} submitting={resolveLoading} submitAction={submitAction} cancelAction={cancelAction} resolveEvent={resolveEvent} startNewExercise={startNewExercise} />
+	// All fine! Display the exercise. Use a key to force a rerender on a new exercise.
+	return <ExerciseContainer key={exercise.startedOn} exercise={exercise} groupExercise={true} submitting={resolveLoading} submitAction={submitAction} cancelAction={cancelAction} resolveEvent={resolveEvent} startNewExercise={startNewExercise} />
 }
 
 function SkillForUser() {
@@ -138,8 +138,8 @@ function SkillForUser() {
 	if (!exercise)
 		return <LoadingNote text="No exercise yet. Generating one." />
 
-	// All fine! Display the exercise.
-	return <ExerciseContainer exercise={exercise} submitting={submissionLoading} submitAction={submitAction} startNewExercise={startNewExercise} />
+	// All fine! Display the exercise. Use a key to force a rerender on a new exercise.
+	return <ExerciseContainer key={exercise.startedOn} exercise={exercise} submitting={submissionLoading} submitAction={submitAction} startNewExercise={startNewExercise} />
 }
 
 function SkillForStranger() {
@@ -193,7 +193,8 @@ function SkillForStranger() {
 	if (!exercise)
 		return <LoadingNote text="Generating new exercise." />
 
-	return <ExerciseContainer exercise={exercise} skillId={skillId} submitting={false} submitAction={submitAction} startNewExercise={startNewExercise} />
+	// All fine! Display the exercise. Use a key to force a rerender on a new exercise.
+	return <ExerciseContainer key={exercise.startedOn} exercise={exercise} skillId={skillId} submitting={false} submitAction={submitAction} startNewExercise={startNewExercise} />
 }
 
 export function SkillName() {
