@@ -4,8 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import Tooltip from '@material-ui/core/Tooltip'
 
-import { lastOf } from 'step-wise/util/arrays'
-
+import { getWordList } from 'util/language'
 import { usePrevious } from 'util/react'
 import { useActiveGroup } from 'api/group/Provider'
 import { usePaths } from 'ui/routing'
@@ -51,8 +50,7 @@ function GroupIndicatorInternal({ group }) {
 	// Determine the names of active members.
 	const activeMembers = group.members.filter(member => member.active)
 	const otherMembers = useOtherMembers(activeMembers)
-	const memberNames = otherMembers.map(member => member.name)
-	const nameString = memberNames.slice(0, -1).join(', ') + (memberNames.length > 1 ? ' en ' : '') + lastOf(memberNames)
+	const nameString = getWordList(otherMembers.map(member => member.name))
 
 	// Check if the number of active members have changed and adjust visuals accordingly.
 	const numActiveMembers = activeMembers.length

@@ -1,5 +1,6 @@
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureString } from 'step-wise/util/strings'
+import { lastOf } from 'step-wise/util/arrays'
 
 export function wordToUpperCase(word) {
 	word = ensureString(word)
@@ -85,4 +86,9 @@ export function getCountingWord(num, upperCase = false) {
 		default:
 			return num
 	}
+}
+
+// getWordList takes an array of words like ['chair', 'table', 'couch'] and turns it into a textual list "chair, table and couch" in the respective language.
+export function getWordList(words) {
+	return words.slice(0, -1).join(', ') + (words.length > 1 ? ' en ' : '') + lastOf(words)
 }
