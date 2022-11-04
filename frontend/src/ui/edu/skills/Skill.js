@@ -10,7 +10,7 @@ import { processSkillId } from 'step-wise/edu/skills/util'
 import { getNewExercise } from 'step-wise/edu/exercises/util/selection'
 
 import { useUserResult, useUser } from 'api/user'
-import { useActiveGroupResult, useActiveGroup, useGroupExercisesResult, useGroupExerciseForSkill, useStartGroupExerciseMutation, useSubmitGroupActionMutation, useCancelGroupActionMutation, useResolveGroupEventMutation } from 'api/group'
+import { useActiveGroupResult, useActiveGroup, useActiveGroupExercisesResult, useActiveGroupExerciseForSkill, useStartGroupExerciseMutation, useSubmitGroupActionMutation, useCancelGroupActionMutation, useResolveGroupEventMutation } from 'api/group'
 import { useSkillQuery, useStartExerciseMutation, useSubmitExerciseActionMutation } from 'api/skill'
 import { TitleItem } from 'ui/layout/Title'
 import LoadingNote from 'ui/components/flow/LoadingNote'
@@ -60,8 +60,8 @@ function SkillForGroup() {
 	}, [submitActionToServer])
 
 	// If there is no exercise, start one.
-	const { loading, error } = useGroupExercisesResult()
-	const exercise = useGroupExerciseForSkill(skillId)
+	const { loading, error } = useActiveGroupExercisesResult()
+	const exercise = useActiveGroupExerciseForSkill(skillId)
 	useEffect(() => {
 		if (!loading && !exercise)
 			startNewExercise()

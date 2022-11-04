@@ -2,6 +2,11 @@ const { UserInputError, ForbiddenError } = require('apollo-server-express')
 
 const { findOptimum } = require('step-wise/util/arrays')
 
+const events = {
+	groupExerciseUpdated: 'GROUP_EXERCISE_UPDATED',
+}
+module.exports.events = events
+
 // getLastResolvedGroupEvent takes an exercise and finds the latest event in it that is resolved (and hence has a progress parameter). It filters out the unresolved event to which new actions are coupled.
 function getLastResolvedGroupEvent(exercise) {
 	const events = (exercise.events || []).filter(event => event.progress !== null)

@@ -4,8 +4,9 @@ import React, { createContext, useContext } from 'react'
 import { useUserId } from '../user'
 
 import { useMyActiveGroupQuery } from './groupQueries'
-import { useActiveGroupExercises } from './exerciseQueries'
 import { useMyActiveGroupSubscription } from './groupSubscriptions'
+import { useActiveGroupExercisesQuery } from './exerciseQueries'
+import { useActiveGroupExercisesSubscription } from './exerciseSubscriptions'
 
 // Put the query results in a context, so there's a single source of truth.
 const GroupContext = createContext(null)
@@ -17,10 +18,11 @@ export function ActiveGroupProvider({ children }) {
 
 	// Load in all exercise data of the given group.
 	const myActiveGroup = activeGroupResult && activeGroupResult.data && activeGroupResult.data.myActiveGroup
-	const groupExercisesResult = useActiveGroupExercises(myActiveGroup?.code, !!myActiveGroup)
+	const activeGroupExercisesResult = useActiveGroupExercisesQuery(myActiveGroup?.code, !!myActiveGroup)
+	useActiveGroupExercisesSubscription(myActiveGroup?.code, activeGroupExercisesResult.subscribeToMore, !!myActiveGroup)
 
 	return (
-		<GroupContext.Provider value={{ activeGroupResult, groupExercisesResult }}>
+		<GroupContext.Provider value={{ activeGroupResult, activeGroupExercisesResult }}>
 			{children}
 		</GroupContext.Provider>
 	)
@@ -41,18 +43,18 @@ export function useActiveGroup() {
 }
 
 // Get the group exercises query data out of the context.
-export function useGroupExercisesResult() {
-	return useContext(GroupContext).groupExercisesResult
+export function useActiveGroupExercisesResult() {
+	return useContext(GroupContext).activeGroupExercisesResult
 }
 
 // Get the active exercises for the currently active group.
-export function useGroupExercises() {
-	const result = useGroupExercisesResult()
+export function useActiveGroupExercises() {
+	const result = useActiveGroupExercisesResult()
 	return result && result.data && result.data.activeGroupExercises
 }
 
 // Get the active exercise for a given skill for the currently active group.
-export function useGroupExerciseForSkill(skillId) {
-	const groupExercises = useGroupExercises()
-	return groupExercises && groupExercises.find(exercise => exercise.skillId === skillId)
+export function useActiveGroupExerciseForSkill(skillId) {
+	const activeGroupExercises = useActiveGroupExercises()
+	return activeGroupExercises && activeGroupExercises.find(exercise => exercise.skillId === skillId)
 }

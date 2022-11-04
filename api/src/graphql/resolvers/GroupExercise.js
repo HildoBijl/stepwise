@@ -4,7 +4,8 @@ const { findOptimum } = require('step-wise/util/arrays')
 const { toFO, toSO } = require('step-wise/inputTypes')
 const { getNewRandomExercise } = require('step-wise/edu/exercises/util/selection')
 
-const { verifyGroupAccess, getGroupExerciseProgress, getGroupWithActiveExercises, getGroupWithActiveSkillExercise, processGroupExercises } = require('../util/GroupExercise')
+const { getSubscription } = require('../util/subscriptions')
+const { events, verifyGroupAccess, getGroupExerciseProgress, getGroupWithActiveExercises, getGroupWithActiveSkillExercise, processGroupExercises } = require('../util/GroupExercise')
 
 const resolvers = {
 	GroupExercise: {
@@ -30,7 +31,7 @@ const resolvers = {
 	},
 
 	Mutation: {
-		startGroupExercise: async (_source, { code, skillId }, { db, getCurrentUserId }) => {
+		startGroupExercise: async (_source, { code, skillId }, { db, pubsub, getCurrentUserId }) => {
 			// Verify that the user is a member of the given group.
 			const group = await getGroupWithActiveSkillExercise(code, skillId, db)
 			verifyGroupAccess(group, getCurrentUserId())
@@ -47,11 +48,11 @@ const resolvers = {
 			exercise.events = [activeEvent]
 
 			// Return the exercise as result.
-			// ToDo: pubsub event.
+			await pubsub.publish(events.groupExerciseUpdated, { updatedGroupExercise: exercise, code, action: 'startExercise' })
 			return exercise
 		},
 
-		submitGroupAction: async (_source, { code, skillId, action }, { db, getCurrentUserId }) => {
+		submitGroupAction: async (_source, { code, skillId, action }, { db, pubsub, getCurrentUserId }) => {
 			// Load and verify data.
 			const userId = getCurrentUserId()
 			const group = await getGroupWithActiveSkillExercise(code, skillId, db)
@@ -79,11 +80,11 @@ const resolvers = {
 			}
 
 			// Return the exercise as result.
-			// ToDo: pubsub event.
+			await pubsub.publish(events.groupExerciseUpdated, { updatedGroupExercise: exercise, code, action: 'submitAction' })
 			return exercise
 		},
 
-		cancelGroupAction: async (_source, { code, skillId }, { db, getCurrentUserId }) => {
+		cancelGroupAction: async (_source, { code, skillId }, { db, pubsub, getCurrentUserId }) => {
 			// Load and verify data.
 			const userId = getCurrentUserId()
 			const group = await getGroupWithActiveSkillExercise(code, skillId, db)
@@ -103,11 +104,11 @@ const resolvers = {
 			}
 
 			// Return the exercise as result.
-			// ToDo: pubsub event.
+			await pubsub.publish(events.groupExerciseUpdated, { updatedGroupExercise: exercise, code, action: 'cancelAction' })
 			return exercise
 		},
 
-		resolveGroupEvent: async (_source, { code, skillId }, { db, getCurrentUserId }) => {
+		resolveGroupEvent: async (_source, { code, skillId }, { db, pubsub, getCurrentUserId }) => {
 			// Load and verify data.
 			const userId = getCurrentUserId()
 			const group = await getGroupWithActiveSkillExercise(code, skillId, db)
@@ -151,9 +152,17 @@ const resolvers = {
 			// ToDo later: update skill data. See the Exercise file for how to set it up.
 
 			// Return the exercise as a result.
-			// ToDo: pubsub
+			await pubsub.publish(events.groupExerciseUpdated, { updatedGroupExercise: exercise, code, action: 'resolveEvent' })
 			return exercise
 		},
+	},
+
+	Subscription: {
+		...getSubscription('activeGroupExercisesUpdate', [events.groupExerciseUpdated], ({ updatedGroupExercise, code: codeOfEvent }, { code: codeOfFollowedGroup }) => {
+			// Only pass on when the code matches.
+			if (codeOfEvent === codeOfFollowedGroup)
+				return updatedGroupExercise
+		}),
 	},
 }
 module.exports = resolvers

@@ -185,7 +185,7 @@ const resolvers = {
 			if (userId === eventUserId || (updatedGroup.members && updatedGroup.members.some(member => member.id === userId)))
 				return updatedGroup
 		}),
-	}
+	},
 }
 
 module.exports = resolvers
