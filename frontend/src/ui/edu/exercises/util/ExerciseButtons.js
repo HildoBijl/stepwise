@@ -1,16 +1,18 @@
-import React, { useRef } from 'react'
+import React, { useRef, useMemo } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import { Check, Clear, ArrowForward } from '@material-ui/icons'
 
 import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
 
+import { useUserId } from 'api/user'
+import { useActiveGroup } from 'api/group'
 import { useFieldRegistration } from 'ui/form/FieldController'
 import { useModal, PictureConfirmation } from 'ui/components/Modal'
 import { Warning } from '@material-ui/icons'
 
 import { useExerciseData } from '../ExerciseContainer'
-import { useSubmitAction, useGiveUpAction } from './actions'
+import { useSubmitAction, useGiveUpAction, useCancelAction, useResolveEvent, canResolveGroupEvent } from './actions'
 
 const useStyles = makeStyles((theme) => ({
 	buttonContainer: {
@@ -30,7 +32,14 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function ExerciseButtons({ stepwise = false }) {
+export default function ExerciseButtons(props) {
+	const { groupExercise } = useExerciseData()
+	if (groupExercise)
+		return <GroupExerciseButtons {...props} />
+	return <SingleUserExerciseButtons {...props} />
+}
+
+function SingleUserExerciseButtons({ stepwise = false }) {
 	const { progress, history, submitting, startNewExercise } = useExerciseData()
 	const classes = useStyles()
 	const theme = useTheme()
@@ -87,4 +96,53 @@ export default function ExerciseButtons({ stepwise = false }) {
 			<Button variant="contained" startIcon={<Check />} onClick={submit} disabled={submitting} color="primary" ref={submitButtonRef}>Controleer</Button>
 		</div>
 	)
+}
+
+function GroupExerciseButtons({ stepwise = false }) {
+	const { progress, history, submitting, startNewExercise } = useExerciseData()
+	const activeGroup = useActiveGroup()
+	const classes = useStyles()
+	const userId = useUserId()
+
+	// Determine the status of the exercise.
+	const currentEvent = useMemo(() => history.find(event => event.progress === null), [history])
+	const submittedAction = useMemo(() => (currentEvent?.actions || []).find(action => action.userId === userId), [currentEvent, userId])
+	const hasSubmitted = !!submittedAction
+	const numSubmissions = useMemo(() => (currentEvent?.actions || []).length, [currentEvent])
+	const allHaveSubmitted = useMemo(() => canResolveGroupEvent(activeGroup, history), [activeGroup, history])
+
+	// Set up button handlers.
+	const submit = useSubmitAction()
+	const giveUp = useGiveUpAction()
+	const cancel = useCancelAction()
+	const resolve = useResolveEvent()
+
+	// Include the buttons in the tabbing.
+	const submitButtonRef = useRef(), giveUpButtonRef = useRef(), startNewExerciseButtonRef = useRef()
+	useFieldRegistration({ id: 'submitButton', element: submitButtonRef, apply: !progress.done, focusRefOnActive: true })
+	useFieldRegistration({ id: 'giveUpButton', element: giveUpButtonRef, apply: !progress.done, focusRefOnActive: true })
+	useFieldRegistration({ id: 'startNewExerciseButton', element: startNewExerciseButtonRef, apply: !!progress.done, focusRefOnActive: true })
+
+	// Is the exercise done? Then return the restart button.
+	if (progress.done) {
+		return <>
+			<div className={classes.buttonContainer}>
+				<Button variant="contained" endIcon={<ArrowForward />} onClick={startNewExercise} color="primary" ref={startNewExerciseButtonRef}>Volgende opgave</Button>
+			</div>
+		</>
+	}
+
+	// If the exercise is not done, we need the submit and give-up buttons. First set up the text.
+	let giveUpText = 'Ik geef het op'
+	const step = getStep(progress)
+	if (stepwise)
+		giveUpText = step ? 'Ik geef deze stap op' : 'Los stapsgewijs op'
+
+	return <>
+		<div>Er zijn nu {numSubmissions} inzending(en). {hasSubmitted ? (allHaveSubmitted ? <span onClick={resolve}>Iedereen heeft iets ingestuurd.</span> : <span onClick={cancel}>Je hebt iets ingestuurd.</span>) : <>Je hebt nog niets ingestuurd.</>}</div>
+		<div className={classes.buttonContainer}>
+			<Button variant="contained" startIcon={<Clear />} onClick={giveUp} disabled={submitting} color="secondary" ref={giveUpButtonRef}>{giveUpText}</Button>
+			<Button variant="contained" startIcon={<Check />} onClick={submit} disabled={submitting} color="primary" ref={submitButtonRef}>Controleer</Button>
+		</div>
+	</>
 }

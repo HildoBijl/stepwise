@@ -29,6 +29,12 @@ function firstOf(array) {
 }
 module.exports.firstOf = firstOf
 
+// secondLastOf returns the second-last element of an array.
+function secondLastOf(array) {
+	return array[array.length - 2]
+}
+module.exports.secondLastOf = secondLastOf
+
 // findOptimumIndex takes an array of objects, like [{x: 3}, {x: 2}, {x: 5}]. It also takes a comparison function (a, b) => [bool], indicating whether a is better than b. For example, to find the object with the highest x, use "(a, b) => x.a > x.b". It then returns the index of the object with the optimal value. Returns -1 on an empty array.
 function findOptimumIndex(array, isBetter) {
 	return array.reduce((bestIndex, element, index) => bestIndex === -1 || isBetter(element, array[bestIndex]) ? index : bestIndex, -1)
