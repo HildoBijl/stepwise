@@ -61,7 +61,7 @@ export function useCancelAction() {
 	return useCallback(() => {
 		// If the user has not submitted anything, do not do anything.
 		const currentEvent = historyRef.current.find(event => event.progress === null)
-		const isUserAction = (currentEvent?.actions || []).some(action => action.userId === userId)
+		const isUserAction = (currentEvent?.submissions || []).some(submission => submission.userId === userId)
 		if (!isUserAction)
 			return
 
@@ -93,8 +93,8 @@ export function getLastAction(history, groupExercise, userId) {
 
 	// The exercise is a group exercise.
 	const lastResolvedEvent = secondLastOf(history)
-	const actions = lastResolvedEvent?.actions || []
-	return actions.find(action => action.userId === userId)?.action
+	const submissions = lastResolvedEvent?.submissions || []
+	return submissions.find(submission => submission.userId === userId)?.action
 }
 
 export function canResolveGroupEvent(group, history) {
