@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from 'react'
+import React, { useRef, useMemo, useCallback } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import { Check, Clear, Send, ArrowForward, Search } from '@material-ui/icons'
@@ -6,6 +6,7 @@ import { Check, Clear, Send, ArrowForward, Search } from '@material-ui/icons'
 import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
 
 import { getWordList } from 'util/language'
+import { useRefWithValue } from 'util/react'
 import { useUserId } from 'api/user'
 import { useActiveGroup } from 'api/group'
 import { useFormData } from 'ui/form/Form'
@@ -176,9 +177,11 @@ function CurrentSubmissionRow({ submissionList, submitting, index }) {
 	const classes = useStyles()
 	const userId = useUserId()
 	const activeGroup = useActiveGroup()
+	const { setInputSI, getInputSI, isInputEqual } = useFormData()
 
 	// Set up button handlers.
 	const cancel = useCancelAction()
+	const submit = useSubmitAction()
 
 	// Register the buttons to tab control.
 	const viewButtonRef = useRef(), copyCancelButtonRef = useRef()
@@ -190,35 +193,53 @@ function CurrentSubmissionRow({ submissionList, submitting, index }) {
 	const isSelfPresent = submissionMembers.some(member => member.userId === userId)
 	const nameList = getWordList(submissionMembers.map(member => member.name))
 
+	// Set up handlers to put the input into the form and possibly submit it.
+	const submittedInput = submissionList[0].action.input
+	const inputRef = useRefWithValue(submittedInput)
+	const setFormInput = useCallback(() => setInputSI(inputRef.current), [inputRef, setInputSI])
+	const setAndSubmitFormInput = useCallback(() => {
+		setFormInput()
+		submit()
+	}, [setFormInput, submit])
+
 	// Show the buttons. Which exact button depends on whether the user itself is in the list.
+	const isEqual = isInputEqual(submittedInput)
 	return <div className={classes.buttonContainer}>
 		<div className="description">{nameList} {submissionMembers.length > 1 ? 'hebben' : 'heeft'} een inzending gemaakt.</div>
-		<Button variant="contained" startIcon={<Search />} onClick={() => console.log('ToDo bekijken')} color="primary" ref={viewButtonRef}>Bekijken</Button>
+		<Button variant="contained" startIcon={<Search />} disabled={isEqual} onClick={setFormInput} color="primary" ref={viewButtonRef}>Bekijken</Button>
 		{isSelfPresent ?
 			<Button variant="contained" startIcon={<Clear />} onClick={cancel} disabled={submitting} color="secondary" ref={copyCancelButtonRef}>Inzending annuleren</Button> :
-			<Button variant="contained" endIcon={<Send />} onClick={() => console.log('ToDo overnemen')} disabled={submitting} color="primary" ref={copyCancelButtonRef}>Ook insturen</Button>
+			<Button variant="contained" endIcon={<Send />} onClick={setAndSubmitFormInput} disabled={submitting} color="primary" ref={copyCancelButtonRef}>Ook insturen</Button>
 		}
 	</div>
 }
 
-function ResolveNote({ hasSubmitted, canResolve, allGaveUp, submitting, unsubmittedMembers, groupedSubmissions }) {
+function ResolveNote({ hasSubmitted, gaveUp, canResolve, allGaveUp, submitting, unsubmittedMembers, groupedSubmissions }) {
 	const classes = useStyles()
-	const resolve = useResolveEvent()
 	const activeGroup = useActiveGroup()
 
+	// Set up button handlers.
+	const cancel = useCancelAction()
+	const resolve = useResolveEvent()
+
 	// Register the resolve button to tab control.
-	const resolveButtonRef = useRef()
+	const cancelButtonRef = useRef(), resolveButtonRef = useRef()
+	useFieldRegistration({ id: 'cancelButton', element: cancelButtonRef, apply: gaveUp, focusRefOnActive: true })
 	useFieldRegistration({ id: 'resolveButton', element: resolveButtonRef, apply: canResolve, focusRefOnActive: true })
 
 	// If the user has not submitted anything, do not show anything.
 	if (!hasSubmitted)
 		return null
 
+	// The button to cancel a give-up is the same for all cases.
+	const cancelGiveUpButton = gaveUp ? <Button variant="contained" startIcon={<Clear />} onClick={cancel} disabled={submitting} color="secondary" ref={cancelButtonRef}>Opgeven annuleren</Button> : null
+
 	// If everyone gave up, show an alternate note.
 	if (allGaveUp) {
 		return <div className={classes.buttonContainer}>
 			<div className="description">Iedereen heeft het opgegeven.</div>
-			<Button variant="contained" startIcon={<Clear />} onClick={resolve} disabled={submitting} color="secondary" ref={resolveButtonRef}>Toon de oplossing</Button>
+			{cancelGiveUpButton}
+			<Button variant="contained" startIcon={<Clear />} onClick={resolve} disabled={submitting} color="primary" ref={resolveButtonRef}>Opgeven bevestigen</Button>
 		</div>
 	}
 
@@ -231,6 +252,7 @@ function ResolveNote({ hasSubmitted, canResolve, allGaveUp, submitting, unsubmit
 	if (canResolve) {
 		return <div className={classes.buttonContainer}>
 			<div className="description">{giveUpMembers.length === 0 ? 'Iedereen heeft een inzending voor de opgave gedaan.' : `${giveUpText} Alle inzendingen zijn binnen.`}</div>
+			{cancelGiveUpButton}
 			<Button variant="contained" startIcon={<Check />} onClick={resolve} disabled={submitting} color="primary" ref={resolveButtonRef}>Controleer</Button>
 		</div>
 	}
@@ -238,6 +260,7 @@ function ResolveNote({ hasSubmitted, canResolve, allGaveUp, submitting, unsubmit
 	// If the exercise cannot be resolved, show remaining members.
 	return <div className={classes.buttonContainer}>
 		<div className="description">{giveUpMembers.length > 0 ? `${giveUpText} ` : ``}{unsubmittedMembers.length === 1 ? 'Er ontbreekt nog een inzending van' : 'Er ontbreken nog inzendingen van'} {getWordList(unsubmittedMembers.map(member => member.name))}.</div>
+		{cancelGiveUpButton}
 	</div>
 }
 
@@ -246,25 +269,26 @@ function useDerivedParameters() {
 	const { history } = useExerciseData()
 	const activeGroup = useActiveGroup()
 	const userId = useUserId()
-	const { getField } = useFormData()
+	const { isInputEqual } = useFormData()
 
 	// Determine the status of the exercise.	
 	return useMemo(() => {
 		const currentEvent = history.find(event => event.progress === null)
 		const currentSubmissions = currentEvent?.submissions || []
+		const gaveUp = currentSubmissions.some(submission => submission.userId === userId && submission.action.type === 'giveUp')
 		const submittedAction = currentSubmissions.find(submission => submission.userId === userId)?.action
 		const hasSubmitted = !!submittedAction
 		const numSubmissions = currentSubmissions.length
 		const unsubmittedMembers = activeGroup.members.filter(member => member.active && !currentSubmissions.some(submission => submission.userId === member.userId))
 		const canResolve = canResolveGroupEvent(activeGroup, history)
 		const allGaveUp = canResolve && currentEvent.submissions.every(submission => submission.action.type === 'giveUp')
-		const groupedSubmissions = groupSubmissions(currentSubmissions, userId, getField)
-		return { currentEvent, currentSubmissions, submittedAction, hasSubmitted, numSubmissions, unsubmittedMembers, canResolve, allGaveUp, groupedSubmissions }
-	}, [activeGroup, history, userId, getField])
+		const groupedSubmissions = groupSubmissions(currentSubmissions, userId, isInputEqual)
+		return { currentEvent, currentSubmissions, gaveUp, submittedAction, hasSubmitted, numSubmissions, unsubmittedMembers, canResolve, allGaveUp, groupedSubmissions }
+	}, [activeGroup, history, userId, isInputEqual])
 }
 
 // groupSubmissions takes a set of submissions and groups them based on their type. The result is an object of the form { input: [[ ...identical actions...], ]}
-function groupSubmissions(submissions, userId, getField) {
+function groupSubmissions(submissions, userId, isInputEqual) {
 	// Filter the submissions by their type.
 	const inputSubmissions = submissions.filter(submission => submission.action.type === 'input')
 	const giveUpSubmissions = submissions.filter(submission => submission.action.type === 'giveUp')
@@ -272,7 +296,7 @@ function groupSubmissions(submissions, userId, getField) {
 	// Walk through the input submissions and group them based on equality. If there is an earlier submission with equal input, group them together.
 	const inputSubmissionsGrouped = []
 	inputSubmissions.forEach(submission => {
-		const index = inputSubmissionsGrouped.findIndex(submissionList => areInputsEqual(submissionList[0].action.input, submission.action.input, getField))
+		const index = inputSubmissionsGrouped.findIndex(submissionList => isInputEqual(submissionList[0].action.input, submission.action.input))
 		if (index !== -1)
 			inputSubmissionsGrouped[index].push(submission)
 		else
@@ -305,19 +329,5 @@ function sortSubmissionList(submissions, userId) {
 		if (b.userId === userId)
 			return -2
 		return Math.sign(new Date(a.performedAt) - new Date(b.performedAt))
-	})
-}
-
-// areInputsEqual takes two input objects (SIs) and uses the form getField parameter to check if they're equal.
-function areInputsEqual(a, b, getField) {
-	// Check if there is the same number of properties.
-	const aKeys = Object.keys(a), bKeys = Object.keys(b)
-	if (aKeys.length !== bKeys.length)
-		return false
-
-	// Walk through the properties to verify that they are all equal.
-	return aKeys.every(key => {
-		const fieldFunctions = getField(key)
-		return fieldFunctions && fieldFunctions.equals(a[key], b[key])
 	})
 }

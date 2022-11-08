@@ -103,6 +103,23 @@ export default function Form({ children, initialInput }) {
 		return fieldsRef.current[id]
 	}, [fieldsRef])
 
+	// setInputSI can overwrite the entire content of the form with a given form SI object.
+	const setInputSI = useCallback(inputSI => {
+		setInput(input => {
+			const newInput = { ...input }
+			Object.keys(inputSI).forEach(id => {
+				if (newInput[id] === undefined)
+					return // When the field does not exist, do not apply the new input value.
+				const field = getField(id)
+				newInput[id] = field.functionalize(inputSI[id])
+				field.SI = inputSI[id]
+				field.recentSI = true
+				field.recentFO = false
+			})
+			return ensureConsistency(newInput, input)
+		})
+	}, [getField])
+
 	// These functions allow us to easily get input in various forms.
 	const getInputParameterFI = useCallback((id) => inputRef.current[id], [inputRef])
 	const getInputFI = useCallback((filterUnsubscribed = true) => filterUnsubscribed ? filterProperties(inputRef.current, getSubscribedFields()) : inputRef.current, [inputRef, getSubscribedFields])
@@ -139,6 +156,17 @@ export default function Form({ children, initialInput }) {
 		return field.FO
 	}, [getField, getInputParameterSI])
 	const getInputFO = useCallback((filterUnsubscribed = true) => keysToObject(filterUnsubscribed ? getSubscribedFields() : getFields(), id => getInputParameterFO(id)), [getFields, getSubscribedFields, getInputParameterFO])
+
+	// isInputEqual is used to compare SI input objects. It is either given two input values (and these are compared) or it is given one, in which case the current input is compared.
+	const isInputEqual = useCallback((a, b = getInputSI()) => {
+		const aKeys = Object.keys(a), bKeys = Object.keys(b)
+		if (aKeys.length !== bKeys.length)
+			return false
+		return aKeys.every(key => {
+			const fieldFunctions = getField(key)
+			return fieldFunctions && fieldFunctions.equals(a[key], b[key])
+		})
+	}, [getInputSI, getField])
 
 	// Define validation handlers.
 	const isValid = useCallback((check = true) => {
@@ -190,7 +218,7 @@ export default function Form({ children, initialInput }) {
 	}, [initialInput, setInput, getField, getInputParameterSI])
 
 	return (
-		<FormContext.Provider value={{ input, setParameter, subscribe, unsubscribe, getFields, getSubscribedFields, validation, isValid, getField, getInputParameterFI, getInputFI, getInputParameterSI, getInputSI, getInputParameterFO, getInputFO, cursorRef, absoluteCursorRef }}>
+		<FormContext.Provider value={{ input, subscribe, unsubscribe, setParameter, setInputSI, getFields, getSubscribedFields, validation, isValid, getField, getInputParameterFI, getInputFI, getInputParameterSI, getInputSI, getInputParameterFO, getInputFO, isInputEqual, cursorRef, absoluteCursorRef }}>
 			<form onSubmit={(evt) => evt.preventDefault()}>
 				{children}
 			</form>
