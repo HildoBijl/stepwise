@@ -1,4 +1,6 @@
 const { filterProperties } = require('../../../util/objects')
+const { lastOf, secondLastOf } = require('../../../util/arrays')
+
 const { toFO } = require('../../../inputTypes')
 
 // getSimpleExerciseProcessor takes a checkInput function that checks the input for a SimpleExercise and returns a processAction function.
@@ -53,13 +55,30 @@ function processGroupActions({ checkInput, data, progress, submissions, state, h
 }
 module.exports.processGroupActions = processGroupActions
 
-// getLastInput takes a history object and returns the last given input.
-function getLastInput(history, userId, requireSubmitted = false) {
+// getLastAction takes a history and returns the last action for the given user.
+function getLastAction(history, userId) {
+	// On no history, return nothing.
+	if (history.length === 0)
+		return undefined
+
+	// Check if the history has an action at each event, and is hence a single-user exercise.
+	if (lastOf(history).action)
+		return lastOf(history).action
+
+	// The exercise is a group exercise.
+	const lastResolvedEvent = secondLastOf(history)
+	const submissions = lastResolvedEvent?.submissions || []
+	return submissions.find(submission => submission.userId === userId)?.action
+}
+module.exports.getLastAction = getLastAction
+
+// getLastInput takes a history object and returns the last input for the given user. This can be an unresolved input, unless requireResolved is set to true, in which case a potential unresolved input is ignored.
+function getLastInput(history, userId, requireResolved = false) {
 	for (let index = history.length - 1; index >= 0; index--) {
 		// Determine the action of the user in this piece of the history. This depends on whether it's an individual or a group exercise.
 		let userAction
 		if (history[index].submissions && userId)
-			userAction = (!requireSubmitted || history[index].progress) && history[index].submissions.find(submission => submission.userId === userId)?.action
+			userAction = (!requireResolved || history[index].progress) && history[index].submissions.find(submission => submission.userId === userId)?.action
 		else if (history[index].action)
 			userAction = history[index].action
 		else

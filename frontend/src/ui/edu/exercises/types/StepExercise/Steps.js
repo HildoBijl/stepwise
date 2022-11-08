@@ -3,6 +3,7 @@ import React from 'react'
 import { deepEquals } from 'step-wise/util/objects'
 import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
 
+import { useUserId } from 'api/user'
 import VerticalAdjuster from 'ui/components/layout/VerticalAdjuster'
 import { useFormData } from 'ui/form/Form'
 import { useFeedback } from 'ui/form/FeedbackProvider'
@@ -19,8 +20,9 @@ export default function Steps({ steps, forceDisplay }) {
 }
 
 export function Step({ step, Problem, Solution, forceDisplay }) {
+	const userId = useUserId()
 	const { state, progress, history } = useExerciseData()
-	const { input } = useFormData()
+	const { isInputEqual } = useFormData()
 	const { feedbackInput } = useFeedback()
 
 	// Determine what to show.
@@ -29,10 +31,18 @@ export function Step({ step, Problem, Solution, forceDisplay }) {
 	const stepProgress = (forceDisplay ? { done: true, solved: false } : progress[step]) || {}
 
 	// If this step has had a submission, or is still active, show the input space.
-	const hasSubmissions = history.some((event, index) => (event.action.type === 'input' && index > 0 && history[index - 1].progress.step === step))
+	const hasSubmissions = history.some((event, index) => {
+		if (index === 0 || history[index - 1].progress.step !== step)
+			return false // Not at this step.
+		if (event.action && event.action.type === 'input')
+			return true // Single-user exercise with input at this step.
+		if (event.submissions && event.submissions.some(submission => submission.action.type === 'input' && submission.userId === userId))
+			return true // Group exercise with input by the user at this step.
+		return false // Nothing found.
+	})
 	const doneWithStep = stepProgress.done
 	const showInputSpace = !stepProgress.done || hasSubmissions
-	const showMainFeedback = showInputSpace && (stepProgress.done || deepEquals(input, feedbackInput))
+	const showMainFeedback = showInputSpace && (stepProgress.done || isInputEqual(feedbackInput))
 
 	return <>
 		<ProblemContainer display={display} step={step}>

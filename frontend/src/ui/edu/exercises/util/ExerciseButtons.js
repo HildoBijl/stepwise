@@ -3,15 +3,18 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import { Check, Clear, Send, ArrowForward, Search } from '@material-ui/icons'
 
+import { lastOf } from 'step-wise/util/arrays'
+import { getLastAction, getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
 
 import { getWordList } from 'util/language'
 import { useRefWithValue } from 'util/react'
 import { useUserId } from 'api/user'
 import { useActiveGroup } from 'api/group'
+import { useModal, PictureConfirmation } from 'ui/components/Modal'
 import { useFormData } from 'ui/form/Form'
 import { useFieldRegistration } from 'ui/form/FieldController'
-import { useModal, PictureConfirmation } from 'ui/components/Modal'
+import { useFeedback } from 'ui/form/FeedbackProvider'
 import { Warning } from '@material-ui/icons'
 
 import { useExerciseData } from '../ExerciseContainer'
@@ -52,6 +55,7 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 	const { progress, history, submitting, startNewExercise } = useExerciseData()
 	const theme = useTheme()
 	const classes = useStyles()
+	const { isInputEqual } = useFormData()
 
 	// Set up button handlers.
 	const submit = useSubmitAction()
@@ -82,6 +86,10 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 		)
 	}
 
+	// Determine if the input is the same as previously.
+	const lastAction = getLastAction(history)
+	const inputIsEqualToLastInput = lastAction && lastAction.type === 'input' && isInputEqual(lastAction.input)
+
 	// If the exercise is not done, we need the submit and give-up buttons. First set up the text.
 	let giveUpText = 'Ik geef het op'
 	const step = getStep(progress)
@@ -102,7 +110,7 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 	return (
 		<div className={classes.buttonContainer}>
 			<Button variant="contained" startIcon={<Clear />} onClick={checkGiveUp} disabled={submitting} color="secondary" ref={giveUpButtonRef}>{giveUpText}</Button>
-			<Button variant="contained" startIcon={<Check />} onClick={submit} disabled={submitting} color="primary" ref={submitButtonRef}>Controleer</Button>
+			<Button variant="contained" startIcon={<Check />} onClick={submit} disabled={submitting || inputIsEqualToLastInput} color="primary" ref={submitButtonRef}>Controleer</Button>
 		</div>
 	)
 }
@@ -143,7 +151,11 @@ function StartNewExerciseButton() {
 
 function GiveUpAndSubmitButtons({ stepwise, submittedAction }) {
 	const classes = useStyles()
-	const { progress, submitting } = useExerciseData()
+	const { progress, submitting, history } = useExerciseData()
+	const userId = useUserId()
+	const { isInputEqual } = useFormData()
+
+	// Set up button handlers.
 	const submit = useSubmitAction()
 	const giveUp = useGiveUpAction()
 
@@ -155,6 +167,10 @@ function GiveUpAndSubmitButtons({ stepwise, submittedAction }) {
 	useFieldRegistration({ id: 'giveUpButton', element: giveUpButtonRef, apply: !hasGivenUp, focusRefOnActive: true })
 	useFieldRegistration({ id: 'submitButton', element: submitButtonRef, focusRefOnActive: true })
 
+	// Determine if the input is the same as previously.
+	const lastAction = getLastAction(history, userId)
+	const inputIsEqualToLastInput = lastAction && lastAction.type === 'input' && isInputEqual(lastAction.input)
+
 	// Determine the give-up button text.
 	let giveUpText = 'Ik geef het op'
 	const step = getStep(progress)
@@ -164,7 +180,7 @@ function GiveUpAndSubmitButtons({ stepwise, submittedAction }) {
 	// Render the buttons.
 	return <div className={classes.buttonContainer}>
 		{hasGivenUp ? null : <Button variant="contained" startIcon={<Clear />} onClick={giveUp} disabled={submitting} color="secondary" ref={giveUpButtonRef}>{giveUpText}</Button>}
-		<Button variant="contained" endIcon={<Send />} onClick={submit} disabled={submitting} color="primary" ref={submitButtonRef}>Insturen</Button>
+		<Button variant="contained" endIcon={<Send />} onClick={submit} disabled={submitting || inputIsEqualToLastInput} color="primary" ref={submitButtonRef}>Insturen</Button>
 	</div>
 }
 
@@ -174,10 +190,12 @@ function CurrentSubmissions(derivedProperties) {
 }
 
 function CurrentSubmissionRow({ submissionList, submitting, index }) {
+	const { history } = useExerciseData()
 	const classes = useStyles()
 	const userId = useUserId()
 	const activeGroup = useActiveGroup()
-	const { setInputSI, getInputSI, isInputEqual } = useFormData()
+	const { setInputSI, isInputEqual } = useFormData()
+	const { updateFeedback } = useFeedback()
 
 	// Set up button handlers.
 	const cancel = useCancelAction()
@@ -194,15 +212,19 @@ function CurrentSubmissionRow({ submissionList, submitting, index }) {
 	const nameList = getWordList(submissionMembers.map(member => member.name))
 
 	// Set up handlers to put the input into the form and possibly submit it.
-	const submittedInput = submissionList[0].action.input
-	const inputRef = useRefWithValue(submittedInput)
-	const setFormInput = useCallback(() => setInputSI(inputRef.current), [inputRef, setInputSI])
+	const historyRef = useRefWithValue(history), submissionListRef = useRefWithValue(submissionList)
+	const setFormInput = useCallback(() => {
+		// Find the previous input action of the user and show the feedback on this.
+		updateFeedback(getLastInput(historyRef.current, lastOf(submissionListRef.current).userId, true)) // Show feedback on the last resolved input.
+		setInputSI(lastOf(submissionListRef.current).action.input) // Show the input of the last action.
+	}, [historyRef, submissionListRef, updateFeedback, setInputSI])
 	const setAndSubmitFormInput = useCallback(() => {
 		setFormInput()
 		submit()
 	}, [setFormInput, submit])
 
 	// Show the buttons. Which exact button depends on whether the user itself is in the list.
+	const submittedInput = lastOf(submissionList).action.input
 	const isEqual = isInputEqual(submittedInput)
 	return <div className={classes.buttonContainer}>
 		<div className="description">{nameList} {submissionMembers.length > 1 ? 'hebben' : 'heeft'} een inzending gemaakt.</div>
@@ -216,6 +238,7 @@ function CurrentSubmissionRow({ submissionList, submitting, index }) {
 
 function ResolveNote({ hasSubmitted, gaveUp, canResolve, allGaveUp, submitting, unsubmittedMembers, groupedSubmissions }) {
 	const classes = useStyles()
+	const { progress } = useExerciseData()
 	const activeGroup = useActiveGroup()
 
 	// Set up button handlers.
@@ -232,21 +255,23 @@ function ResolveNote({ hasSubmitted, gaveUp, canResolve, allGaveUp, submitting, 
 		return null
 
 	// The button to cancel a give-up is the same for all cases.
-	const cancelGiveUpButton = gaveUp ? <Button variant="contained" startIcon={<Clear />} onClick={cancel} disabled={submitting} color="secondary" ref={cancelButtonRef}>Opgeven annuleren</Button> : null
+	const cancelGiveUpButton = gaveUp ? <Button variant="contained" startIcon={<Clear />} onClick={cancel} disabled={submitting} color="secondary" ref={cancelButtonRef}>{progress.step ? 'Opgeven annuleren' : 'Stapsgewijs oplossen annuleren'}</Button> : null
 
 	// If everyone gave up, show an alternate note.
 	if (allGaveUp) {
 		return <div className={classes.buttonContainer}>
-			<div className="description">Iedereen heeft het opgegeven.</div>
+			<div className="description">{progress.step ? 'Iedereen heeft het opgegeven.' : 'Iedereen stemt voor stapsgewijs oplossen.'}</div>
 			{cancelGiveUpButton}
-			<Button variant="contained" startIcon={<Clear />} onClick={resolve} disabled={submitting} color="primary" ref={resolveButtonRef}>Opgeven bevestigen</Button>
+			<Button variant="contained" startIcon={<Clear />} onClick={resolve} disabled={submitting} color="primary" ref={resolveButtonRef}>{progress.step ? 'Opgeven bevestigen' : 'Stapsgewijs oplossen bevestigen'}</Button>
 		</div>
 	}
 
 	// Determine the text for those who gave up.
 	const giveUpMembers = groupedSubmissions.giveUp.map(submission => activeGroup.members.find(member => member.userId === submission.userId))
 	const giveUpNameList = getWordList(giveUpMembers.map(member => member.name))
-	const giveUpText = `${giveUpNameList} ${giveUpMembers.length > 1 ? 'hebben' : 'heeft'} het opgegeven.`
+	const giveUpText = progress.step ?
+		`${giveUpNameList} ${giveUpMembers.length > 1 ? 'hebben' : 'heeft'} het opgegeven.` :
+		`${giveUpNameList} ${giveUpMembers.length > 1 ? 'stemmen' : 'stemt'} voor stapsgewijs oplossen.`
 
 	// If the exercise can be resolved, show this.
 	if (canResolve) {

@@ -1,7 +1,8 @@
 
 import { useCallback } from 'react'
 
-import { lastOf, secondLastOf, count } from 'step-wise/util/arrays'
+import { count } from 'step-wise/util/arrays'
+import { getLastAction } from 'step-wise/edu/exercises/util/simpleExercise'
 
 import { useRefWithValue } from 'util/react'
 import { useUserId } from 'api/user'
@@ -11,11 +12,10 @@ import { useFormData } from 'ui/form/Form'
 import { useExerciseData } from '../ExerciseContainer'
 
 export function useSubmitAction() {
-	const { groupExercise, submitting, submitAction, history } = useExerciseData()
+	const { submitting, submitAction, history } = useExerciseData()
 	const userId = useUserId()
 	const { getInputSI, isValid, getField } = useFormData()
 
-	const groupExerciseRef = useRefWithValue(groupExercise)
 	const historyRef = useRefWithValue(history)
 	const disabledRef = useRefWithValue(submitting)
 
@@ -30,7 +30,7 @@ export function useSubmitAction() {
 
 		// Check if the input is the same as for the previous action. If so, do nothing.
 		const input = getInputSI()
-		const lastAction = getLastAction(historyRef.current, groupExerciseRef.current, userId)
+		const lastAction = getLastAction(historyRef.current, userId)
 		if (lastAction && lastAction.type === 'input') {
 			const fieldIds = Object.keys(input)
 			if (fieldIds.length === Object.keys(lastAction.input).length && fieldIds.every(id => getField(id).equals(input[id], lastAction.input[id])))
@@ -39,7 +39,7 @@ export function useSubmitAction() {
 
 		// All checks are fine. Submit the input!
 		return submitAction({ type: 'input', input })
-	}, [getInputSI, isValid, groupExerciseRef, historyRef, disabledRef, getField, submitAction, userId])
+	}, [getInputSI, isValid, historyRef, disabledRef, getField, submitAction, userId])
 }
 
 export function useGiveUpAction() {
@@ -84,17 +84,6 @@ export function useResolveEvent() {
 		// Send the call to resolve the event.
 		return resolveEvent()
 	}, [resolveEvent, activeGroupRef, historyRef])
-}
-
-export function getLastAction(history, groupExercise, userId) {
-	// If the exercise is not a group exercise, find the last element from the history and return its action.
-	if (!groupExercise)
-		return (history.length > 0 && lastOf(history).action)
-
-	// The exercise is a group exercise.
-	const lastResolvedEvent = secondLastOf(history)
-	const submissions = lastResolvedEvent?.submissions || []
-	return submissions.find(submission => submission.userId === userId)?.action
 }
 
 export function canResolveGroupEvent(group, history) {

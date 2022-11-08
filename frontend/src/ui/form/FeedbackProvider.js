@@ -20,11 +20,17 @@ export default function FeedbackProvider({ children, getFeedback, input, data = 
 	// Set up an updateFeedback handler.
 	const dataRef = useRefWithValue({ ...data, feedback, feedbackInput })
 	const updateFeedback = useCallback((input) => {
-		// Compare the new input with the previous input. When they are equal, do not evaluate. Otherwise store this new input.
+		// Compare the new input with the previous input. When they are equal, do not evaluate.
 		const { feedback, feedbackInput } = dataRef.current
 		if (deepEquals(input, feedbackInput))
 			return
+
+		// Remember for which input the feedback was generated.
 		setFeedbackInput(input)
+
+		// If there is no input, then make sure there is no feedback either.
+		if (!input)
+			return setFeedback({})
 
 		// If there is a getFeedback function, call it with the given data, input, previous feedback and previous input. Make sure all input (which is given as SI) is in FO.
 		if (getFeedback) {
@@ -44,7 +50,7 @@ export default function FeedbackProvider({ children, getFeedback, input, data = 
 	}, [input, updateFeedback])
 
 	// Wrap a provider around the contents.
-	return <FeedbackContext.Provider value={{ feedback, feedbackInput }}>{children}</FeedbackContext.Provider>
+	return <FeedbackContext.Provider value={{ feedback, feedbackInput, updateFeedback }}>{children}</FeedbackContext.Provider>
 }
 
 export function useFeedback() {

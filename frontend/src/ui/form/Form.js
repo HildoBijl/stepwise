@@ -159,6 +159,8 @@ export default function Form({ children, initialInput }) {
 
 	// isInputEqual is used to compare SI input objects. It is either given two input values (and these are compared) or it is given one, in which case the current input is compared.
 	const isInputEqual = useCallback((a, b = getInputSI()) => {
+		if ((a === undefined || b === undefined) && a !== b)
+			return false
 		const aKeys = Object.keys(a), bKeys = Object.keys(b)
 		if (aKeys.length !== bKeys.length)
 			return false
