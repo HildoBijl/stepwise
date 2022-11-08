@@ -16,7 +16,7 @@ module.exports = (sequelize) => {
 
 	GroupExerciseEvent.associate = models => {
 		GroupExerciseEvent.belongsTo(models.GroupExerciseSample)
-		GroupExerciseEvent.hasMany(models.GroupExerciseAction, { as: 'actions' })
+		GroupExerciseEvent.hasMany(models.GroupExerciseSubmission, { as: 'submissions' })
 	}
 
 	return GroupExerciseEvent

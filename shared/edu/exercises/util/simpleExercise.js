@@ -7,8 +7,8 @@ function getSimpleExerciseProcessor(checkInput, data) {
 		if (submissionData.progress.done)
 			return submissionData.progress // Weird ... we're already done.
 
-		// How to process this depends on if we're in a group (multiple actions) or as have a single user (a single action).
-		if (submissionData.actions)
+		// How to process this depends on if we're in a group (multiple submissions) or as have a single user (a single action).
+		if (submissionData.submissions)
 			return processGroupActions({ checkInput, data, ...submissionData })
 		return processUserAction({ checkInput, data, ...submissionData })
 	}
@@ -19,31 +19,31 @@ module.exports.getSimpleExerciseProcessor = getSimpleExerciseProcessor
 function processUserAction(submissionData) {
 	return processGroupActions({
 		...submissionData,
-		actions: [submissionData.action],
+		submissions: [{ action: submissionData.action }],
 	})
 }
 module.exports.processUserAction = processUserAction
 
 // processGroupAction is the processor for a group of users.
-function processGroupActions({ checkInput, data, progress, actions, state, history, updateSkills }) {
+function processGroupActions({ checkInput, data, progress, submissions, state, history, updateSkills }) {
 	// Check for all the input actions whether they are correct.
-	const correct = actions.map(action => action.type === 'input' && checkInput(state, toFO(action.input, true)))
+	const correct = submissions.map(submission => submission.action.type === 'input' && checkInput(state, toFO(submission.action.input, true)))
 
 	// If any of the submissions is correct, or if all gave up, then the exercise is done. Give everyone a skill update. (One exception: if a user gave up and has made a previous submission, then no skill update is done.)
 	const someCorrect = correct.some(isCorrect => isCorrect)
-	const allGaveUp = actions.every(action => action.type === 'giveUp')
+	const allGaveUp = submissions.every(submission => submission.action.type === 'giveUp')
 	if (someCorrect || allGaveUp) {
-		actions.forEach((action, index) => {
-			if (action.type === 'input' || !hasPreviousInput(history, action.userId)) {
-				updateSkills(data.skill, correct[index], action.userId)
-				updateSkills(data.setup, correct[index], action.userId)
+		submissions.forEach((submission, index) => {
+			if (submission.action.type === 'input' || !hasPreviousInput(history, submission.userId)) {
+				updateSkills(data.skill, correct[index], submission.userId)
+				updateSkills(data.setup, correct[index], submission.userId)
 			}
 		})
 		return { [someCorrect ? 'solved' : 'givenUp']: true, done: true }
 	}
 
 	// No one had it right, but at least there were submissions. Give skill updates to wrong submissions (not to those who gave up) and leave the exercise open.
-	actions.forEach((action, index) => {
+	submissions.forEach((action, index) => {
 		if (action.type === 'input') {
 			updateSkills(data.skill, correct[index], action.userId)
 			updateSkills(data.setup, correct[index], action.userId)
@@ -58,8 +58,8 @@ function getLastInput(history, userId, requireSubmitted = false) {
 	for (let index = history.length - 1; index >= 0; index--) {
 		// Determine the action of the user in this piece of the history. This depends on whether it's an individual or a group exercise.
 		let userAction
-		if (history[index].actions && userId)
-			userAction = (!requireSubmitted || history[index].progress) && history[index].actions.find(action => action.userId === userId)?.action
+		if (history[index].submissions && userId)
+			userAction = (!requireSubmitted || history[index].progress) && history[index].submissions.find(submission => submission.userId === userId)?.action
 		else if (history[index].action)
 			userAction = history[index].action
 		else

@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize')
 
 module.exports = {
 	up: async (queryInterface) => {
-		await queryInterface.createTable('groupExerciseActions', {
+		await queryInterface.createTable('groupExerciseSubmissions', {
 			id: {
 				type: DataTypes.UUID,
 				defaultValue: DataTypes.UUIDV4,
@@ -40,14 +40,14 @@ module.exports = {
 				allowNull: false,
 			},
 		})
-		await queryInterface.addIndex('groupExerciseActions', {
+		await queryInterface.addIndex('groupExerciseSubmissions', {
 			fields: ['userId', 'groupExerciseEventId'],
 			unique: true,
 		})
 	},
 
 	down: async (queryInterface) => {
-		queryInterface.dropTable('groupExerciseActions')
+		queryInterface.dropTable('groupExerciseSubmissions')
 	},
 
 }

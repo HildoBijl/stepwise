@@ -105,8 +105,8 @@ export function canResolveGroupEvent(group, history) {
 
 	// Check that every active member has submitted something.
 	const currentEvent = history.find(event => event.progress === null)
-	const actions = currentEvent?.actions || []
-	if (group.members.some(member => member.active && !actions.some(action => action.userId === member.userId)))
+	const submissions = currentEvent?.submissions || []
+	if (group.members.some(member => member.active && !submissions.some(submission => submission.userId === member.userId)))
 		return false
 
 	// All checks are in order.

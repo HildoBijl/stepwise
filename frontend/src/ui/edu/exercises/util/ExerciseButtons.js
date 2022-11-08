@@ -113,13 +113,13 @@ function GroupExerciseButtons({ stepwise = false }) {
 	// Determine the status of the exercise.
 	const derivedParameters = useMemo(() => {
 		const currentEvent = history.find(event => event.progress === null)
-		const currentActions = currentEvent?.actions || []
-		const submittedAction = currentActions.find(action => action.userId === userId)?.action
+		const currentSubmissions = currentEvent?.submissions || []
+		const submittedAction = currentSubmissions.find(submission => submission.userId === userId)?.action
 		const hasSubmitted = !!submittedAction
-		const numSubmissions = currentActions.length
-		const unsubmittedMembers = activeGroup.members.filter(member => currentActions.some(action => action.userId === member.userId))
+		const numSubmissions = currentSubmissions.length
+		const unsubmittedMembers = activeGroup.members.filter(member => currentSubmissions.some(submission => submission.userId === member.userId))
 		const canResolve = canResolveGroupEvent(activeGroup, history)
-		return { currentEvent, currentActions, submittedAction, hasSubmitted, numSubmissions, unsubmittedMembers, canResolve }
+		return { currentEvent, currentSubmissions, submittedAction, hasSubmitted, numSubmissions, unsubmittedMembers, canResolve }
 	}, [activeGroup, history, userId])
 
 	// Set up button handlers.

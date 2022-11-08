@@ -25,7 +25,7 @@ export const groupExerciseParameters = `
 		id
 		progress
 		performedAt
-		actions {
+		submissions {
 			id
 			userId
 			performedAt

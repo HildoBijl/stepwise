@@ -54,7 +54,7 @@ async function getGroupWithActiveExercises(code, db) {
 				association: 'events',
 				required: false,
 				include: {
-					association: 'actions',
+					association: 'submissions',
 					required: false,
 				},
 			},
@@ -78,7 +78,7 @@ async function getGroupWithActiveSkillExercise(code, skillId, db) {
 				association: 'events',
 				required: false,
 				include: {
-					association: 'actions',
+					association: 'submissions',
 					required: false,
 				},
 			},

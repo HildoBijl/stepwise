@@ -31,10 +31,10 @@ const schema = gql`
 		id: ID!
 		progress: JSON
 		performedAt: DateTime!
-		actions: [GroupAction]!
+		submissions: [GroupSubmission]!
 	}
 
-	type GroupAction {
+	type GroupSubmission {
 		id: ID!
 		userId: ID!
 		action: JSON!

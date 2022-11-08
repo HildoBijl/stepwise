@@ -29,7 +29,7 @@ function Solution({ x }) {
 function getFeedback({ state, input, progress }) {
 	const { x } = state
 	const { ans } = input
-	const correct = progress.solved || false
+	const correct = state.x === input.ans
 	if (correct)
 		return { ans: { correct, text: selectRandomCorrect() } }
 	return {

@@ -9,5 +9,5 @@ module.exports = {
 
 	GroupExerciseSample: require('./GroupExerciseSample'),
 	GroupExerciseEvent: require('./GroupExerciseEvent'),
-	GroupExerciseAction: require('./GroupExerciseAction'),
+	GroupExerciseSubmission: require('./GroupExerciseSubmission'),
 }

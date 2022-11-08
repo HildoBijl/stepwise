@@ -47,5 +47,5 @@ To track group registration and activity there are these tables.
 To let groups practice on the same exercises, there is a set of tables providing these exercises. They are similar but not identical to the individual exercise tables.
 
 - `groupExerciseSamples` represent the exercises a group can work on. It points to a `groupId` and has both a `skillId` (like `addition`) and an `exerciseId` (like `additionSimpleExercise`) field, neither of which are a unique combination. Additionally, there is an `active` parameter indicating whether the group is active. Every group has, for every `skillId`, only (at most) one exercise active at any time.
-- `groupExerciseEvents` represent events for group exercises. This table only has one field `progress`, which stores the progress the group has made for the exercise.
-- `groupExerciseActions` represent the actions users do (or submissions they make) for an exercise. It has a `groupExerciseEventId` and a `userId`, together a unique combination. It also has an `action` field.
+- `groupExerciseEvents` represent events for group exercises. This table only has one field `progress`, which stores the progress the group has made for the exercise. There is always one event with progress `null` which new submissions will be connected to.
+- `groupExerciseSubmissions` represent the actions users do (or submissions they make) for an exercise. It has a `groupExerciseEventId` and a `userId`, together a unique combination. It also has an `action` field corresponding to the user's submission.
