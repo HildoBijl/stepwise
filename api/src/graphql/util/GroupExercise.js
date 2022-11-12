@@ -63,6 +63,29 @@ async function getGroupWithActiveExercises(code, db) {
 }
 module.exports.getGroupWithActiveExercises = getGroupWithActiveExercises
 
+// getGroupWithAllExercises takes a group code and extracts the group with all its exercises (from all skills). This is usually discouraged: only use this when all are needed.
+async function getGroupWithAllExercises(code, db) {
+	code = code.toUpperCase()
+	return await db.Group.findOne({
+		where: { code },
+		include: [{
+			association: 'members',
+		}, {
+			association: 'exercises',
+			required: false,
+			include: {
+				association: 'events',
+				required: false,
+				include: {
+					association: 'submissions',
+					required: false,
+				},
+			},
+		}],
+	})
+}
+module.exports.getGroupWithAllExercises = getGroupWithAllExercises
+
 // getGroupWithActiveSkillExercise takes a group code and a skillId and returns the group together with only the active exercise for that skill.
 async function getGroupWithActiveSkillExercise(code, skillId, db) {
 	code = code.toUpperCase()
