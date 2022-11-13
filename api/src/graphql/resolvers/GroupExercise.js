@@ -5,6 +5,7 @@ const { toFO, toSO } = require('step-wise/inputTypes')
 const { getNewRandomExercise } = require('step-wise/edu/exercises/util/selection')
 
 const { getSubscription } = require('../util/subscriptions')
+const { applySkillUpdates } = require('../util/Exercise')
 const { events, verifyGroupAccess, getGroupExerciseProgress, getGroupWithActiveExercises, getGroupWithActiveSkillExercise, processGroupExercises } = require('../util/GroupExercise')
 
 const resolvers = {
@@ -127,8 +128,12 @@ const resolvers = {
 			if (activeMembers.some(member => !activeEvent.submissions.some(submission => submission.userId === member.id)))
 				throw new UserInputError(`Could not resolve group event. Not every active user in group ${group.code} has submitted an action.`)
 
-			// Define how to update skills data.
-			const updateSkills = (...args) => { } // ToDo later
+			// Set up an updateSkills handler that only collects calls.
+			const skillUpdates = []
+			const updateSkills = (skill, correct, givenUserId) => {
+				if (skill)
+					skillUpdates.push({ skill, correct, userId: givenUserId || userId })
+			}
 
 			// Check the exercise, getting an updated progress. Store this and prepare for a new event.
 			const state = toFO(exercise.state)
@@ -148,7 +153,24 @@ const resolvers = {
 				exercise.events = [...exercise.events, newActiveEvent]
 			}
 
-			// ToDo later: update skill data. See the Exercise file for how to set it up.
+			// Time to store things in the database.
+			let adjustedSkillsPerUser
+			await db.transaction(async (transaction) => {
+				// Apply all the skill updates that were collected so far.
+				adjustedSkillsPerUser = await applySkillUpdates(skillUpdates, db, transaction)
+
+				// Store the progress in the active event. If the exercise is done, note this. If not, prepare for future submissions.
+				await activeEvent.update({ progress }, { transaction })
+				activeEvent.progress = progress
+				if (progress.done) {
+					await exercise.update({ active: false }, { transaction })
+					exercise.active = false
+				} else {
+					const newActiveEvent = await exercise.createEvent({ progress: null }, { transaction })
+					newActiveEvent.submissions = []
+					exercise.events = [...exercise.events, newActiveEvent]
+				}
+			})
 
 			// Return the exercise as a result.
 			await pubsub.publish(events.groupExerciseUpdated, { updatedGroupExercise: exercise, code, action: 'resolveEvent' })

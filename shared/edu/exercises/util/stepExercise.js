@@ -48,17 +48,18 @@ function processMainProblemActions({ checkInput, data, progress, submissions, st
 
 	// Run the skill updates.
 	submissions.forEach((submission, index) => {
-		switch (submission.action.type) {
+		const { action, userId } = submission
+		switch (action.type) {
 			case 'input': // On an input, update the skills.
-				updateSkills(data.skill, correct[index], submission.userId)
-				updateSkills(data.setup, correct[index], submission.userId)
+				updateSkills(data.skill, correct[index], userId)
+				updateSkills(data.setup, correct[index], userId)
 				return
 			case 'giveUp': // On a give-up, only update skills when the exercise is done and the user still hasn't tried anything. And then only update the skill (or the set-up, if the skill is not present), because the user seemingly hasn't even tried the steps.
-				if (isDone && !hasPreviousInput(history, submission.userId, 0))
-					updateSkills(data.skill || data.setup, false, submission.userId)
+				if (isDone && !hasPreviousInput(history, userId, 0))
+					updateSkills(data.skill || data.setup, false, userId)
 				return
 			default:
-				throw new Error(`Invalid action type: the action type "${submission.type}" is unknown and cannot be processed.`)
+				throw new Error(`Invalid action type: the action type "${action.type}" is unknown and cannot be processed.`)
 		}
 	})
 
@@ -94,15 +95,16 @@ function processStepWithoutSubstepsActions({ checkInput, data, progress, submiss
 	// Run the skill updates for the skill of this step.
 	const skill = data.steps[step - 1]
 	submissions.forEach((submission, index) => {
-		switch (submission.action.type) {
+		const { action, userId } = submission
+		switch (action.type) {
 			case 'input':
-				return updateSkills(skill, correct[index], submission.userId)
+				return updateSkills(skill, correct[index], userId)
 			case 'giveUp':
-				if (isDone && !hasPreviousInput(history, submission.userId, step))
-					updateSkills(skill, false, submission.userId)
+				if (isDone && !hasPreviousInput(history, userId, step))
+					updateSkills(skill, false, userId)
 				return
 			default:
-				throw new Error(`Invalid action type: the action type "${submission.type}" is unknown and cannot be processed.`)
+				throw new Error(`Invalid action type: the action type "${action.type}" is unknown and cannot be processed.`)
 		}
 	})
 
@@ -136,15 +138,16 @@ function processStepWithSubstepsActions({ checkInput, data, progress, submission
 
 		// Run the skill updates for the skill of this step.
 		submissions.forEach((submission, index) => {
-			switch (submission.action.type) {
+			const { action, userId } = submission
+			switch (action.type) {
 				case 'input':
-					return updateSkills(subskill, correct[index], submission.userId)
+					return updateSkills(subskill, correct[index], userId)
 				case 'giveUp':
-					if (isDone && !hasPreviousInput(history, submission.userId, step))
-						updateSkills(subskill, false, submission.userId)
+					if (isDone && !hasPreviousInput(history, userId, step))
+						updateSkills(subskill, false, userId)
 					return
 				default:
-					throw new Error(`Invalid action type: the action type "${submission.type}" is unknown and cannot be processed.`)
+					throw new Error(`Invalid action type: the action type "${action.type}" is unknown and cannot be processed.`)
 			}
 		})
 

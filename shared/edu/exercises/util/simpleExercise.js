@@ -36,19 +36,21 @@ function processGroupActions({ checkInput, data, progress, submissions, state, h
 	const allGaveUp = submissions.every(submission => submission.action.type === 'giveUp')
 	if (someCorrect || allGaveUp) {
 		submissions.forEach((submission, index) => {
-			if (submission.action.type === 'input' || !hasPreviousInput(history, submission.userId)) {
-				updateSkills(data.skill, correct[index], submission.userId)
-				updateSkills(data.setup, correct[index], submission.userId)
+			const { action, userId } = submission
+			if (action.type === 'input' || !hasPreviousInput(history, userId)) {
+				updateSkills(data.skill, correct[index], userId)
+				updateSkills(data.setup, correct[index], userId)
 			}
 		})
 		return { [someCorrect ? 'solved' : 'givenUp']: true, done: true }
 	}
 
 	// No one had it right, but at least there were submissions. Give skill updates to wrong submissions (not to those who gave up) and leave the exercise open.
-	submissions.forEach((action, index) => {
+	submissions.forEach((submission, index) => {
+		const { action, userId } = submission
 		if (action.type === 'input') {
-			updateSkills(data.skill, correct[index], action.userId)
-			updateSkills(data.setup, correct[index], action.userId)
+			updateSkills(data.skill, correct[index], userId)
+			updateSkills(data.setup, correct[index], userId)
 		}
 	})
 	return {}
