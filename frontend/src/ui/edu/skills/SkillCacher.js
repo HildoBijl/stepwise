@@ -101,10 +101,11 @@ function useSkillLoading(skillIds) {
 	// Ensure that the skills are being loaded by the cacher.
 	const { addSkillsToLoad, removeSkillsToLoad } = useSkillCacherContext()
 	skillIds = useConsistentValue(skillIds)
+	const skillsWithPrerequisites = useMemo(() => includePrerequisites(skillIds), [skillIds])
 	useEffect(() => {
-		addSkillsToLoad(skillIds)
-		return () => removeSkillsToLoad(skillIds)
-	}, [skillIds, addSkillsToLoad, removeSkillsToLoad])
+		addSkillsToLoad(skillsWithPrerequisites)
+		return () => removeSkillsToLoad(skillsWithPrerequisites)
+	}, [skillsWithPrerequisites, addSkillsToLoad, removeSkillsToLoad])
 }
 
 // useSkillsData is the main function used by child components to load in data on skills. It ensures that the cacher loads in data on the requested skillIds, and when this data arrives it is processed and returned as SkillData objects.
@@ -136,8 +137,7 @@ export function useSkillsData(skillIds) {
 	})
 
 	// Extract all the skill data from the processed skills data object.
-	const res = keysToObject(skillIds, skillId => skillsData[skillId])
-	return res
+	return keysToObject(skillIds, skillId => skillsData[skillId])
 }
 
 // useSkillData takes a single skill ID and returns a SkillsData for it from the cache, loading it if necessary.
