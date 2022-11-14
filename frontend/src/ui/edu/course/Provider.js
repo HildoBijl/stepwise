@@ -18,7 +18,7 @@ export default function CourseProvider({ children }) {
 	const skillsDataLoaded = overview.all.every(skillId => !!skillsData[skillId])
 	const analysis = getAnalysis(overview, skillsData)
 	return (
-		<CourseContext.Provider value={{courseId, course, overview, skillsData, skillsDataLoaded, analysis}}>
+		<CourseContext.Provider value={{ courseId, course, overview, skillsData, skillsDataLoaded, analysis }}>
 			{children}
 		</CourseContext.Provider>
 	)

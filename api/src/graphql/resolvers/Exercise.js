@@ -3,7 +3,7 @@ const { toFO, toSO } = require('step-wise/inputTypes')
 const { getNewExercise } = require('step-wise/edu/exercises/util/selection')
 
 const { getLastEvent, getExerciseProgress, getActiveExerciseData } = require('../util/Exercise')
-const { getUserSkillsData } = require('../util/Skill')
+const { events: skillEvents, getUserSkillsData } = require('../util/Skill')
 const { applySkillUpdatesForUser } = require('../util/Exercise')
 
 const resolvers = {
@@ -36,7 +36,7 @@ const resolvers = {
 			return await skill.createExercise({ exerciseId: newExercise.exerciseId, state: toSO(newExercise.state), active: true })
 		},
 
-		submitExerciseAction: async (_source, { skillId, action }, { db, getCurrentUserId }) => {
+		submitExerciseAction: async (_source, { skillId, action }, { db, pubsub, getCurrentUserId }) => {
 			const userId = getCurrentUserId()
 			const { exercise } = await getActiveExerciseData(userId, skillId, db, true)
 
@@ -68,6 +68,9 @@ const resolvers = {
 					exercise.active = false
 				}
 			})
+
+			// Update the skills through the web socket connection.
+			await pubsub.publish(skillEvents.skillsUpdated, { updatedSkills: adjustedSkills, userId })
 
 			// Return all required data.
 			return {

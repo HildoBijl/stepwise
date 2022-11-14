@@ -5,8 +5,9 @@ const { toFO, toSO } = require('step-wise/inputTypes')
 const { getNewRandomExercise } = require('step-wise/edu/exercises/util/selection')
 
 const { getSubscription } = require('../util/subscriptions')
+const { events: skillEvents } = require('../util/Skill')
 const { applySkillUpdates } = require('../util/Exercise')
-const { events, verifyGroupAccess, getGroupExerciseProgress, getGroupWithActiveExercises, getGroupWithActiveSkillExercise, processGroupExercises } = require('../util/GroupExercise')
+const { events: groupExerciseEvents, verifyGroupAccess, getGroupExerciseProgress, getGroupWithActiveExercises, getGroupWithActiveSkillExercise, processGroupExercises } = require('../util/GroupExercise')
 
 const resolvers = {
 	GroupExercise: {
@@ -49,7 +50,7 @@ const resolvers = {
 			exercise.events = [activeEvent]
 
 			// Return the exercise as result.
-			await pubsub.publish(events.groupExerciseUpdated, { updatedGroupExercise: exercise, code, action: 'startExercise' })
+			await pubsub.publish(groupExerciseEvents.groupExerciseUpdated, { updatedGroupExercise: exercise, code, action: 'startExercise' })
 			return exercise
 		},
 
@@ -81,7 +82,7 @@ const resolvers = {
 			}
 
 			// Return the exercise as result.
-			await pubsub.publish(events.groupExerciseUpdated, { updatedGroupExercise: exercise, code, action: 'submitAction' })
+			await pubsub.publish(groupExerciseEvents.groupExerciseUpdated, { updatedGroupExercise: exercise, code, action: 'submitAction' })
 			return exercise
 		},
 
@@ -105,7 +106,7 @@ const resolvers = {
 			}
 
 			// Return the exercise as result.
-			await pubsub.publish(events.groupExerciseUpdated, { updatedGroupExercise: exercise, code, action: 'cancelAction' })
+			await pubsub.publish(groupExerciseEvents.groupExerciseUpdated, { updatedGroupExercise: exercise, code, action: 'cancelAction' })
 			return exercise
 		},
 
@@ -172,14 +173,17 @@ const resolvers = {
 				}
 			})
 
+			// Resolve subscriptions where needed.
+			await Promise.all(Object.keys(adjustedSkillsPerUser).map(async userId => await pubsub.publish(skillEvents.skillsUpdated, { updatedSkills: adjustedSkillsPerUser[userId], userId })))
+			await pubsub.publish(groupExerciseEvents.groupExerciseUpdated, { updatedGroupExercise: exercise, code, action: 'resolveEvent' })
+
 			// Return the exercise as a result.
-			await pubsub.publish(events.groupExerciseUpdated, { updatedGroupExercise: exercise, code, action: 'resolveEvent' })
 			return exercise
 		},
 	},
 
 	Subscription: {
-		...getSubscription('activeGroupExercisesUpdate', [events.groupExerciseUpdated], ({ updatedGroupExercise, code: codeOfEvent }, { code: codeOfFollowedGroup }) => {
+		...getSubscription('activeGroupExercisesUpdate', [groupExerciseEvents.groupExerciseUpdated], ({ updatedGroupExercise, code: codeOfEvent }, { code: codeOfFollowedGroup }) => {
 			// Only pass on when the code matches.
 			if (codeOfEvent === codeOfFollowedGroup)
 				return updatedGroupExercise

@@ -1,5 +1,5 @@
-const skills = require('step-wise/edu/skills')
-const { getUserSkill, getUserSkills } = require('../util/Skill')
+const { getSubscription } = require('../util/subscriptions')
+const { events, getUserSkill, getUserSkills } = require('../util/Skill')
 
 const commonResolvers = {} // None at the moment.
 
@@ -28,6 +28,15 @@ const resolvers = {
 		skills: async (_source, { skillIds }, { db, getCurrentUserId }) => {
 			return await getUserSkills(getCurrentUserId(), skillIds, db)
 		},
+	},
+
+	Subscription: {
+		...getSubscription('skillsUpdate', [events.skillsUpdated], ({ updatedSkills, userId: skillsUserId }, _args, { getCurrentUserId }) => {
+			// Only pass on for the current user.
+			const userId = getCurrentUserId()
+			if (userId === skillsUserId)
+				return updatedSkills
+		}),
 	},
 }
 

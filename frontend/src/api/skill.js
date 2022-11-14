@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { gql } from '@apollo/client'
 import { useMutation, useQuery } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
@@ -7,6 +8,32 @@ import { ensureArray } from 'step-wise/util/arrays'
 
 import { useUser } from './user'
 import { useSkillCacherContext } from 'ui/edu/skills/SkillCacher'
+
+export const skillFields = `
+	id
+	skillId
+	numPracticed
+	coefficients
+	coefficientsOn
+	highest
+	highestOn
+	createdAt
+	updatedAt
+`
+
+export const exerciseFields = `
+	id
+	exerciseId
+	state
+	startedOn
+	active
+	progress
+	history {
+		action
+		progress
+		performedAt
+	}
+`
 
 // Get the data for a skill.
 export function useSkillQuery(skillId) {
@@ -18,30 +45,10 @@ const SKILL = gql`
 			id
 			skillId
 			currentExercise {
-				id
-				exerciseId
-				state
-				active
-				startedOn
-				progress
-				history {
-					action
-					progress
-					performedAt
-				}
+				${exerciseFields}
 			}
 			exercises {
-				id
-				exerciseId
-				state
-				active
-				startedOn
-				progress
-				history {
-					action
-					progress
-					performedAt
-				}
+				${exerciseFields}
 			}
 		}
 	}
@@ -58,23 +65,13 @@ export function useSkillsQuery(skillIds) {
 	const skip = !user || skillIds.length === 0
 	const result = useQuery(SKILLS, { variables: { skillIds }, skip })
 	if (!user)
-		return null
-	if (skillIds.length === 0)
-		return { data: { skills: [] } }
+		return { data: null, loading: false, error: false }
 	return result
 }
 const SKILLS = gql`
 	query skills($skillIds: [String]!) {
 		skills(skillIds: $skillIds) {
-			id
-			skillId
-			numPracticed
-			coefficients
-			coefficientsOn
-			highest
-			highestOn
-			createdAt
-			updatedAt
+			${skillFields}
 		}
 	}
 `
@@ -94,13 +91,13 @@ export function useStartExerciseMutation(skillId) {
 						currentExercise: exercise,
 						exercises: skill.exercises.concat([exercise]),
 					} : { // When no skill is present yet, simply add it. The ID won't correspond to the one on the server, but that'll be overwritten after the next server request.
-							id: uuidv4(),
-							skillId,
-							name: skills[skillId].name,
-							currentExercise: exercise,
-							exercises: [exercise],
-							__typename: 'Exercise',
-						},
+						id: uuidv4(),
+						skillId,
+						name: skills[skillId].name,
+						currentExercise: exercise,
+						exercises: [exercise],
+						__typename: 'Exercise',
+					},
 				},
 			})
 		},
@@ -109,17 +106,7 @@ export function useStartExerciseMutation(skillId) {
 const START_EXERCISE = gql`
 	mutation startExercise($skillId: String!) {
 		startExercise(skillId: $skillId) {
-			id
-			exerciseId
-			state
-			active
-			startedOn
-			progress
-			history {
-				action,
-				progress,
-				performedAt,
-			}
+			${exerciseFields}
 		}
 	}
 `
@@ -147,27 +134,47 @@ const SUBMIT_EXERCISE_ACTION = gql`
 	mutation submitExerciseAction($skillId: String!, $action: JSON!) {
 		submitExerciseAction(skillId: $skillId, action: $action) {
 			updatedExercise {
-				id
-				exerciseId
-				state
-				startedOn
-				active
-				progress
-				history {
-					action
-					progress
-					performedAt
-				}
+				${exerciseFields}
 			}
 			adjustedSkills {
-				id
-				skillId
-				numPracticed
-				coefficients
-				coefficientsOn
-				highest
-				highestOn
+				${skillFields}
 			}
+		}
+	}
+`
+
+// Subscribe to updates on skills for the given user.
+export function useSkillsSubscription(subscribeToMore, apply = true) {
+	useEffect(() => {
+		if (!apply)
+			return
+		const unsubscribe = subscribeToMore({
+			document: SKILLS_UPDATED,
+			updateQuery: ({ skills }, { subscriptionData }) => {
+				// If there is no new data, keep the old query result.
+				const updatedSkills = subscriptionData?.data?.skillsUpdate
+				if (!updatedSkills)
+					return { skills }
+
+				// If there is new data, add it to the query result.
+				const newSkills = [...skills]
+				updatedSkills.forEach(updatedSkill => {
+					const index = newSkills.findIndex(skill => skill.id === updatedSkill.id)
+					if (index === -1)
+						newSkills.push(updatedSkill)
+					else
+						newSkills[index] = updatedSkill
+				})
+				return { skills: newSkills }
+			}
+		})
+		return () => unsubscribe()
+	}, [apply, subscribeToMore])
+}
+const SKILLS_UPDATED = gql`
+	subscription skillsUpdate {
+		skillsUpdate {
+			${skillFields}
 		}
 	}
 `

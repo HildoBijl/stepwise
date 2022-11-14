@@ -4,6 +4,11 @@ const skills = require('step-wise/edu/skills')
 const SkillData = require('step-wise/edu/skills/SkillData')
 const { includePrerequisites, processSkill, getDefaultSkillData } = require('step-wise/edu/skills/util')
 
+const events = {
+	skillsUpdated: 'SKILLS_UPDATED',
+}
+module.exports.events = events
+
 // checkSkillIds checks an array of skillIds to see if they exist. It throws an error on an unknown skill. Otherwise it does nothing.
 function checkSkillIds(skillIds) {
 	skillIds.forEach(skillId => {

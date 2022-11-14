@@ -32,6 +32,10 @@ class SkillData {
 		return this._skillId
 	}
 
+	get rawData() {
+		return this._rawData
+	}
+
 	get setup() {
 		return skills[this._skillId].setup
 	}

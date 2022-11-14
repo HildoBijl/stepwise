@@ -21,6 +21,8 @@ function processSkill(skill) {
 		coefficientsOn: new Date(skill.coefficientsOn), // Give extra functionalities.
 		highest: skill.highest,
 		highestOn: new Date(skill.highestOn), // Give extra functionalities.
+		createdAt: new Date(skill.createdAt), // Give extra functionalities.
+		updatedAt: new Date(skill.updatedAt), // Give extra functionalities.
 	}
 }
 module.exports.processSkill = processSkill
@@ -63,6 +65,8 @@ function getDefaultSkillData(skillId) {
 		coefficientsOn: new Date(),
 		highest: [1],
 		highestOn: new Date(),
+		createdAt: new Date(),
+		updatedAt: new Date(),
 	}
 }
 module.exports.getDefaultSkillData = getDefaultSkillData

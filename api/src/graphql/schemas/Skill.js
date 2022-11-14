@@ -6,6 +6,10 @@ const schema = gql`
 		skills(skillIds: [String]): [SkillWithoutExercises]!
   }
 
+	extend type Subscription {
+		skillsUpdate: [SkillWithoutExercises]!
+	}
+
 	type Skill {
 		id: ID!
 		skillId: String!

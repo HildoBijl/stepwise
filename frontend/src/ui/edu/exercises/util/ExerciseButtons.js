@@ -129,7 +129,7 @@ function GroupExerciseButtons({ stepwise = false }) {
 	return <>
 		<GiveUpAndSubmitButtons stepwise={stepwise} {...derivedParameters} />
 		<CurrentSubmissions {...derivedParameters} />
-		<ResolveNote {...derivedParameters} />
+		<ResolveNote stepwise={stepwise} {...derivedParameters} />
 	</>
 }
 
@@ -236,7 +236,7 @@ function CurrentSubmissionRow({ submissionList, submitting, index }) {
 	</div>
 }
 
-function ResolveNote({ hasSubmitted, gaveUp, canResolve, allGaveUp, submitting, unsubmittedMembers, groupedSubmissions }) {
+function ResolveNote({ stepwise, hasSubmitted, gaveUp, canResolve, allGaveUp, submitting, unsubmittedMembers, groupedSubmissions }) {
 	const classes = useStyles()
 	const { progress } = useExerciseData()
 	const activeGroup = useActiveGroup()
@@ -255,21 +255,21 @@ function ResolveNote({ hasSubmitted, gaveUp, canResolve, allGaveUp, submitting, 
 		return null
 
 	// The button to cancel a give-up is the same for all cases.
-	const cancelGiveUpButton = gaveUp ? <Button variant="contained" startIcon={<Clear />} onClick={cancel} disabled={submitting} color="secondary" ref={cancelButtonRef}>{progress.step ? 'Opgeven annuleren' : 'Stapsgewijs oplossen annuleren'}</Button> : null
+	const cancelGiveUpButton = gaveUp ? <Button variant="contained" startIcon={<Clear />} onClick={cancel} disabled={submitting} color="secondary" ref={cancelButtonRef}>{!stepwise || progress.step ? 'Opgeven annuleren' : 'Stapsgewijs oplossen annuleren'}</Button> : null
 
 	// If everyone gave up, show an alternate note.
 	if (allGaveUp) {
 		return <div className={classes.buttonContainer}>
-			<div className="description">{progress.step ? 'Iedereen heeft het opgegeven.' : 'Iedereen stemt voor stapsgewijs oplossen.'}</div>
+			<div className="description">{!stepwise || progress.step ? 'Iedereen heeft het opgegeven.' : 'Iedereen stemt voor stapsgewijs oplossen.'}</div>
 			{cancelGiveUpButton}
-			<Button variant="contained" startIcon={<Clear />} onClick={resolve} disabled={submitting} color="primary" ref={resolveButtonRef}>{progress.step ? 'Opgeven bevestigen' : 'Stapsgewijs oplossen bevestigen'}</Button>
+			<Button variant="contained" startIcon={<Clear />} onClick={resolve} disabled={submitting} color="primary" ref={resolveButtonRef}>{!stepwise || progress.step ? 'Opgeven bevestigen' : 'Stapsgewijs oplossen bevestigen'}</Button>
 		</div>
 	}
 
 	// Determine the text for those who gave up.
 	const giveUpMembers = groupedSubmissions.giveUp.map(submission => activeGroup.members.find(member => member.userId === submission.userId))
 	const giveUpNameList = getWordList(giveUpMembers.map(member => member.name))
-	const giveUpText = progress.step ?
+	const giveUpText = !stepwise || progress.step ?
 		`${giveUpNameList} ${giveUpMembers.length > 1 ? 'hebben' : 'heeft'} het opgegeven.` :
 		`${giveUpNameList} ${giveUpMembers.length > 1 ? 'stemmen' : 'stemt'} voor stapsgewijs oplossen.`
 
