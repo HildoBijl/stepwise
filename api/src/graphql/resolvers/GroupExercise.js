@@ -142,18 +142,6 @@ const resolvers = {
 			const { processAction } = require(`step-wise/edu/exercises/exercises/${exercise.exerciseId}`)
 			const progress = processAction({ submissions: activeEvent.submissions, state, progress: previousProgress, history: exercise.events, updateSkills })
 
-			// Store the progress in the active event. If the exercise is done, note this. If not, prepare for future submissions.
-			await activeEvent.update({ progress })
-			activeEvent.progress = progress
-			if (progress.done) {
-				await exercise.update({ active: false })
-				exercise.active = false
-			} else {
-				const newActiveEvent = await exercise.createEvent({ progress: null })
-				newActiveEvent.submissions = []
-				exercise.events = [...exercise.events, newActiveEvent]
-			}
-
 			// Time to store things in the database.
 			let adjustedSkillsPerUser
 			await db.transaction(async (transaction) => {

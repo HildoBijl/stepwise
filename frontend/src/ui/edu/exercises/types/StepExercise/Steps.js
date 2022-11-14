@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { deepEquals } from 'step-wise/util/objects'
 import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
 
 import { useUserId } from 'api/user'

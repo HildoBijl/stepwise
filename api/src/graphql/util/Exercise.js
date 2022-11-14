@@ -1,7 +1,7 @@
 const { AuthenticationError, UserInputError } = require('apollo-server-express')
 
 const { findOptimum } = require('step-wise/util/arrays')
-const { keysToObject } = require('step-wise/util/objects')
+const { arraysToObject } = require('step-wise/util/objects')
 
 const { getCombinerSkills, getSmoothingFactor, smoothen, processObservation, getEV } = require('step-wise/skillTracking')
 
@@ -57,9 +57,10 @@ async function getActiveExerciseData(userId, skillId, db, requireExercise = true
 module.exports.getActiveExerciseData = getActiveExerciseData
 
 function getLastEvent(exercise) {
-	if (!exercise.events || exercise.events.length === 0)
+	const events = exercise.events && exercise.events.filter(event => event.progress !== null) // Filter out the null progress event for group exercises.
+	if (!events || events.length === 0)
 		return null
-	return findOptimum(exercise.events, (a, b) => a.createdAt > b.createdAt)
+	return findOptimum(events, (a, b) => a.createdAt > b.createdAt)
 }
 module.exports.getLastEvent = getLastEvent
 
@@ -78,13 +79,13 @@ async function applySkillUpdates(skillUpdates, db, transaction) {
 		if (skillUpdatesPerUser[userId] === undefined)
 			skillUpdatesPerUser[userId] = [skillUpdate]
 		else
-			skillUpdatesPerUser[userId].push(skillUpdates)
+			skillUpdatesPerUser[userId].push(skillUpdate)
 	})
 
 	// Process the skill updates for each user separately.
 	const userIds = Object.keys(skillUpdatesPerUser)
-	const result = await Promise.all(userIds.map(userId => applySkillUpdatesForUser(skillUpdatesPerUser[userId], userId, db, transaction)))
-	return keysToObject(userIds, (_userId, index) => result[index])
+	const result = await Promise.all(userIds.map(async userId => await applySkillUpdatesForUser(skillUpdatesPerUser[userId], userId, db, transaction)))
+	return arraysToObject(userIds, result)
 }
 module.exports.applySkillUpdates = applySkillUpdates
 
