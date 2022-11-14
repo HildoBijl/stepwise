@@ -52,9 +52,8 @@ const apolloClient = new ApolloClient({
 			Member: { keyFields: ['groupId', 'userId'] },
 			Query: {
 				fields: {
-					myGroups: {
-						merge: false,
-					},
+					myGroups: { merge: false },
+					skills: { merge: false },
 				}
 			}
 		},
