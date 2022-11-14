@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { SwipeableDrawer, List, Divider, IconButton, useMediaQuery } from '@material-ui/core'
-import { Menu as MenuIcon, ArrowBack, Home, MenuBook, Feedback, Info, ExitToApp, Policy, SupervisorAccount, Settings } from '@material-ui/icons'
+import { Menu as MenuIcon, ArrowBack, Home, MenuBook, Feedback, Info, ExitToApp, Policy, SupervisorAccount, Settings, People } from '@material-ui/icons'
 
 import { useUser } from 'api/user'
 import { isAdmin } from 'api/admin'
@@ -77,6 +77,7 @@ export default function Menu({ className, titleCollapsed }) {
 					{user ? <>
 						<List>
 							<MenuLink path={paths.courses()} text='Cursussen' icon={MenuBook} />
+							<MenuLink path={paths.groups()} text='Samenwerken' icon={People} />
 							{commonButtons}
 							<MenuLink path={paths.settings()} text='Instellingen' icon={Settings} />
 							<MenuLink path={paths.logOut()} text='Uitloggen' icon={ExitToApp} />
