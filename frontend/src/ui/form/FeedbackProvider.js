@@ -19,7 +19,7 @@ export default function FeedbackProvider({ children, getFeedback, input, data = 
 
 	// Set up an updateFeedback handler.
 	const dataRef = useRefWithValue({ ...data, feedback, feedbackInput })
-	const updateFeedback = useCallback((input) => {
+	const updateFeedback = useCallback((input = {}) => {
 		// Compare the new input with the previous input. When they are equal, do not evaluate.
 		const { feedback, feedbackInput } = dataRef.current
 		if (deepEquals(input, feedbackInput))
@@ -29,7 +29,7 @@ export default function FeedbackProvider({ children, getFeedback, input, data = 
 		setFeedbackInput(input)
 
 		// If there is no input, then make sure there is no feedback either.
-		if (!input)
+		if (!input || Object.keys(input).length === 0)
 			return setFeedback({})
 
 		// If there is a getFeedback function, call it with the given data, input, previous feedback and previous input. Make sure all input (which is given as SI) is in FO.
