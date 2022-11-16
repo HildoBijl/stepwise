@@ -1,6 +1,7 @@
-import { nonEmpty } from '../UnitInput'
+import { selectRandomMissingUnit } from 'util/feedbackMessages'
 
 export function any() { }
 export function nonEmptyUnit(floatUnit) {
-	return nonEmpty(floatUnit.unit)
+	if (floatUnit.unit.isEmpty())
+		return selectRandomMissingUnit()
 }
