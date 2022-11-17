@@ -64,8 +64,8 @@ const steps = [
 			</>
 		},
 		Solution: () => {
-			const { variables, bracketsExpanded, termsMoved } = useSolution()
-			return <Par>We gaan alle termen met <M>{variables.x}</M> naar links halen, en alle termen zonder <M>{variables.x}</M> naar rechts. Oftewel, we brengen <M>{bracketsExpanded.right.terms[0].abs()}</M> naar links en <M>{bracketsExpanded.left.terms[1].abs()}</M> naar rechts. Zo vinden we <BM>{termsMoved}.</BM></Par>
+			const { bracketsExpanded, termsMoved } = useSolution()
+			return <Par>We brengen <M>{bracketsExpanded.right.terms[0].abs()}</M> naar links en <M>{bracketsExpanded.left.terms[1].abs()}</M> naar rechts. Zo vinden we <BM>{termsMoved}.</BM></Par>
 		},
 	},
 	{

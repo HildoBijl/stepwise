@@ -9,7 +9,7 @@ import { isObject, filterOptions, applyToEachParameter } from 'step-wise/util/ob
 import { isNumber, boundTo } from 'step-wise/util/numbers'
 import { resolveFunctions } from 'step-wise/util/functions'
 
-import { getCoordinatesOf, preventDefaultOnKeys, getClickSide } from 'util/dom'
+import { getCoordinatesOf, getClickSide } from 'util/dom'
 import { useLookupCallback, useEventListener, useWidthTracker } from 'util/react'
 import { notSelectable } from 'ui/theme'
 import { latexMinus } from 'ui/components/equations'

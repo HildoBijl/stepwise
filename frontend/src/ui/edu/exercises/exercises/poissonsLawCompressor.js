@@ -17,7 +17,7 @@ export default function Exercise() {
 }
 
 const Problem = ({ gas, V2, p1, p2 }) => <>
-	<Par>Een compressor vult een drukvat met {Dutch[gas]}gas. Het drukvat heeft een volume van <M>{V2}.</M> De compressor comprimeert het {Dutch[gas]} van <M>{p1}</M> naar <M>{p2}.</M> Deze compressie is bij benadering isentroop, waardoor geldt <M>n = k.</M> Hoeveel volume aan {Dutch[gas]}gas is de compressor ingestroomd?</Par>
+	<Par>Een compressor vult een drukvat met {Dutch[gas]}gas. Het drukvat heeft een volume van <M>{V2}.</M> De compressor comprimeert het {Dutch[gas]} van <M>{p1}</M> naar <M>{p2}.</M> Deze compressie is bij benadering isentroop, waardoor geldt <M>n = k.</M> Bereken het volume van het {Dutch[gas]}gas voor de compressie.</Par>
 	<InputSpace>
 		<Par>
 			<FloatUnitInput id="V1" prelabel={<M>V_(\rm in)=</M>} label="Volume" size="s" />

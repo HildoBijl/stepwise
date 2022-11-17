@@ -47,8 +47,8 @@ const steps = [
 			</>
 		},
 		Solution: () => {
-			const { variables, equation, termsMoved } = useSolution()
-			return <Par>We gaan alle termen met <M>{variables.x}</M> naar links halen, en alle termen zonder <M>{variables.x}</M> naar rechts. Oftewel, we brengen <M>{equation.right.terms[0].abs()}</M> naar links en <M>{equation.left.terms[1].abs()}</M> naar rechts. Zo vinden we <BM>{termsMoved}.</BM></Par>
+			const { equation, termsMoved } = useSolution()
+			return <Par>We brengen <M>{equation.right.terms[0].abs()}</M> naar links en <M>{equation.left.terms[1].abs()}</M> naar rechts. Zo vinden we <BM>{termsMoved}.</BM></Par>
 		},
 	},
 	{

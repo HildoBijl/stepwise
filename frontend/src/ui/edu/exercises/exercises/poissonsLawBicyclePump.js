@@ -18,7 +18,7 @@ export default function Exercise() {
 }
 
 const Problem = ({ n, T1, V1, V2 }) => <>
-	<Par>We drukken de hendel van een fietspomp in. Bij aanvang is het volume van de lucht in de fietspomp <M>{V1}.</M> De temperatuur van de lucht is <M>{T1}.</M> Na het indrukken is het interne volume <M>{V2}.</M> Wat is de temperatuur van de lucht na deze compressie?</Par>
+	<Par>We drukken de hendel van een fietspomp in. Bij aanvang is het volume van de lucht in de fietspomp <M>{V1}.</M> De temperatuur van de lucht is <M>{T1}.</M> Na het indrukken is het interne volume <M>{V2}.</M> Bereken de temperatuur van de lucht na deze compressie.</Par>
 	<Par>Ga ervan uit dat de druk nog niet voldoende is om het ventiel open te laten gaan; er is dus nog geen lucht weggestroomd. Ga er ook van uit dat het proces <em>niet</em> isentropisch verloopt: er stroomt een beetje warmte weg. Gebruik een procescoëfficiënt van <M>n={n}.</M></Par>
 	<InputSpace>
 		<Par>
