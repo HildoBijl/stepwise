@@ -108,9 +108,9 @@ export default function Form({ children, initialInput }) {
 		setInput(input => {
 			const newInput = { ...input }
 			Object.keys(inputSI).forEach(id => {
-				if (newInput[id] === undefined)
-					return // When the field does not exist, do not apply the new input value.
 				const field = getField(id)
+				if (field === undefined)
+					return // When the field does not exist, do not apply the new input value.
 				newInput[id] = field.functionalize(inputSI[id])
 				field.SI = inputSI[id]
 				field.recentSI = true
