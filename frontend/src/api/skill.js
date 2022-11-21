@@ -29,6 +29,7 @@ export const exerciseFields = `
 	active
 	progress
 	history {
+		id
 		action
 		progress
 		performedAt

@@ -118,7 +118,7 @@ export default function Form({ children, initialInput }) {
 			})
 			return ensureConsistency(newInput, input)
 		})
-	}, [getField])
+	}, [setInput, getField])
 
 	// These functions allow us to easily get input in various forms.
 	const getInputParameterFI = useCallback((id) => inputRef.current[id], [inputRef])

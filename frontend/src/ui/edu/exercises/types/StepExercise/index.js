@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 
-import { numberArray } from 'step-wise/util/arrays'
+import { numberArray, lastOf } from 'step-wise/util/arrays'
 import { deepEquals } from 'step-wise/util/objects'
 import { getStep, getPreviousProgress } from 'step-wise/edu/exercises/util/stepExercise'
 
@@ -38,11 +38,12 @@ function Contents({ Problem: MainProblem, steps }) {
 	const { feedbackInput } = useFeedback()
 	const { activateFirst } = useFieldControllerContext()
 
-	// Upon loading, or on history updates, focus on the first field. (Delay to ensure all fields are registered.)
+	// Upon loading, or on a change of the last event (something was submitted), focus on the first field. (Delay to ensure all fields are registered.))
+	const lastEventId = lastOf(history)?.id
 	useEffect(() => {
 		if (!progress.done)
-			setTimeout(activateFirst)
-	}, [MainProblem, progress, history, activateFirst])
+			setTimeout(activateFirst, 1)
+	}, [MainProblem, progress, lastEventId, activateFirst])
 
 	// Determine what to show.
 	const doneWithMainProblem = progress.done || progress.split

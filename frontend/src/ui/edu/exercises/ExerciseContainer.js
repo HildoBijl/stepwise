@@ -3,6 +3,7 @@ import React, { useState, createContext, useContext, useEffect, useRef, useMemo 
 import { toFO } from 'step-wise/inputTypes'
 import { getLastProgress } from 'step-wise/edu/exercises/util/simpleExercise'
 
+import { useConsistentValue } from 'util/react'
 import LoadingNote from 'ui/components/flow/LoadingNote'
 import ErrorBoundary from 'ui/components/flow/ErrorBoundary'
 
@@ -34,6 +35,9 @@ export default function ExerciseContainer({ exercise, groupExercise, submitting,
 	// Assemble the state as Functional Object.
 	const stateFO = useMemo(() => toFO(state), [state])
 
+	// Ensure that the progress has a consistent reference.
+	const progress = useConsistentValue(getLastProgress(exercise.history))
+
 	if (loading)
 		return <LoadingNote text="Loading exercise component" />
 
@@ -42,7 +46,7 @@ export default function ExerciseContainer({ exercise, groupExercise, submitting,
 		state: stateFO,
 		groupExercise,
 		history: exercise.history,
-		progress: getLastProgress(exercise.history),
+		progress,
 		submitting,
 		submitAction: (action) => submitAction(action, ExerciseShared.current.processAction), // Incorporate the processAction function for Stranger-mode and for optimistic responses.
 		cancelAction,
