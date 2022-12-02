@@ -3,7 +3,7 @@ const { UserInputError } = require('apollo-server-express')
 const { checkSkillIds } = require('../util/Skill')
 const { getUser, getAllUsers } = require('../util/User')
 
-const CURRENT_PRIVACY_POLICY_VERSION = 1;
+const CURRENT_PRIVACY_POLICY_VERSION = 1
 
 const resolvers = {
 	User: {

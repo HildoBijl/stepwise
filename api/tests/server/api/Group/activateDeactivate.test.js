@@ -18,7 +18,7 @@ const seed = async db => {
 	await bob.createSurfConextProfile({ id: BOB_SURFSUB })
 
 	const physicsGroup = await db.Group.create({ code: GROUP_CODE })
-	physicsGroup.addMember(bob.id)
+	await physicsGroup.addMember(bob.id)
 }
 
 describe('(de)activating groups:', () => {
@@ -29,7 +29,7 @@ describe('(de)activating groups:', () => {
 		// Query the given group.
 		const { data: { myActiveGroup }, errors: activeGroupErrors } = await client.graphql({ query: `{myActiveGroup{code members{name active}}}` })
 		expect(activeGroupErrors).toBeUndefined()
-		expect(myActiveGroup).toStrictEqual(null)
+		expect(myActiveGroup).toBe(null)
 	})
 
 	it('can activate and deactivate an existing group', async () => {
@@ -81,6 +81,6 @@ describe('(de)activating groups:', () => {
 		// Query the currently active group.
 		const { data: { myActiveGroup: myActiveGroupAgain }, errors: myActiveGroupErrorsAgain } = await client.graphql({ query: `{myActiveGroup{code members{name}}}` })
 		expect(myActiveGroupErrorsAgain).toBeUndefined()
-		expect(myActiveGroupAgain).toStrictEqual(null)
+		expect(myActiveGroupAgain).toBe(null)
 	})
 })

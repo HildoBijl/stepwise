@@ -18,7 +18,7 @@ const seed = async db => {
 	await bob.createSurfConextProfile({ id: BOB_SURFSUB })
 
 	const physicsGroup = await db.Group.create({ code: GROUP_CODE })
-	physicsGroup.addMember(bob.id)
+	await physicsGroup.addMember(bob.id)
 }
 
 describe('creating group:', () => {

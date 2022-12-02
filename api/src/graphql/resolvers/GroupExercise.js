@@ -101,12 +101,12 @@ const resolvers = {
 			// Load in the user submission and delete it if it exists.
 			const userSubmission = activeEvent.submissions && activeEvent.submissions.find(submission => submission.userId === userId)
 			if (userSubmission) {
-				userSubmission.destroy()
+				await userSubmission.destroy()
 				activeEvent.submissions = activeEvent.submissions.filter(submission => submission.id !== userSubmission.id)
+				await pubsub.publish(groupExerciseEvents.groupExerciseUpdated, { updatedGroupExercise: exercise, code, action: 'cancelAction' })
 			}
 
 			// Return the exercise as result.
-			await pubsub.publish(groupExerciseEvents.groupExerciseUpdated, { updatedGroupExercise: exercise, code, action: 'cancelAction' })
 			return exercise
 		},
 

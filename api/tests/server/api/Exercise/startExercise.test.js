@@ -59,7 +59,7 @@ describe('startExercise', () => {
 
 		// The second exercise we start should give an error.
 		const { data, errors: errorsAfter } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id}}` })
-		expect(data).toBe(null)
 		expect(errorsAfter).not.toBeUndefined()
+		expect(data).toBe(null)
 	})
 })
