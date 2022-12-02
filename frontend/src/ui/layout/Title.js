@@ -54,6 +54,8 @@ export default function Title({ className, setTitleCollapsed }) {
 		return pageNames
 	}), [setPageNames])
 	const deregisterPageName = useCallback((index) => setPageNames(pageNames => {
+		if (index === pageNames.length - 1)
+			return pageNames.slice(0, index)
 		pageNames = [...pageNames]
 		delete pageNames[index]
 		return pageNames
