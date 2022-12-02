@@ -90,7 +90,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Gebruik het feit dat proces 3-4 isentroop is en proces 4-1 isochoor om punt 4 door te rekenen.</Par>
 			<InputSpace>
-				<InputTable colHeads={colHeads} rowHeads={[rowHeads[2]]} fields={[fields[2]]} />
+				<InputTable colHeads={colHeads} rowHeads={[rowHeads[3]]} fields={[fields[3]]} />
 			</InputSpace>
 		</>,
 		Solution: () => {

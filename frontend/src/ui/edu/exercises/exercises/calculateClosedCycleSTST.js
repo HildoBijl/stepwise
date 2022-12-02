@@ -87,7 +87,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Gebruik het feit dat proces 2-3 isotherm is en proces 3-4 isentroop om punt 3 door te rekenen.</Par>
 			<InputSpace>
-				<InputTable colHeads={colHeads} rowHeads={[rowHeads[2]]} fields={[fields[2]]} />
+				<InputTable colHeads={colHeads} rowHeads={[rowHeads[3]]} fields={[fields[3]]} />
 			</InputSpace>
 		</>,
 		Solution: () => {
