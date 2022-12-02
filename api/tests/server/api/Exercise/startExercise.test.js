@@ -1,18 +1,15 @@
-const { createClient, defaultConfig } = require('../../client')
+const surfConextMockData = require('../../../../surfConextMockData.json')
+const { createClient } = require('../../../client')
 
-const SPECIAL_USER_ID = '00000000-0000-0000-0000-000000000000'
-const SPECIAL_USER_SURFSUB = '0000000000000000000000000000000000000000'
+const ALEX_ID = 'a0000000-0000-0000-0000-000000000000'
+const ALEX_SURFSUB = 'a000000000000000000000000000000000000000'
+const ALEX = surfConextMockData.find(surf => surf.sub === ALEX_SURFSUB)
+
 const SAMPLE_SKILL = 'fillInInteger'
 
 const seed = async db => {
-	const user = await db.User.create({
-		id: SPECIAL_USER_ID,
-		name: 'Step Wise',
-		email: 'step@wise.com'
-	})
-	await user.createSurfConextProfile({
-		id: SPECIAL_USER_SURFSUB,
-	})
+	const alex = await db.User.create({ id: ALEX_ID, name: ALEX.name, email: ALEX.email })
+	await alex.createSurfConextProfile({ id: ALEX_SURFSUB })
 }
 
 describe('startExercise', () => {
@@ -26,7 +23,7 @@ describe('startExercise', () => {
 
 	it('creates a skill when none exists yet', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(SPECIAL_USER_SURFSUB)
+		await client.loginSurfConext(ALEX_SURFSUB)
 
 		// First the skill should not exist.
 		const { data: { skill: skillBefore }, errors: skillBeforeErrors } = await client.graphql({ query: `{skill(skillId: "${SAMPLE_SKILL}") {id skillId}}` })
@@ -53,7 +50,7 @@ describe('startExercise', () => {
 
 	it('gives an error when there already is an active exercise', async () => {
 		const client = await createClient(seed)
-		await client.loginSurfConext(SPECIAL_USER_SURFSUB)
+		await client.loginSurfConext(ALEX_SURFSUB)
 
 		// The first exercise we start should be fine.
 		const { data: { startExercise: exercise }, errors: errorsBefore } = await client.graphql({ query: `mutation{startExercise(skillId: "${SAMPLE_SKILL}") {id}}` })

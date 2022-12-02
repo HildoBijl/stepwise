@@ -92,9 +92,11 @@ const resolvers = {
 			const existingGroup = groups.find(group => group.code === code)
 			const existingMembership = existingGroup && existingGroup.members && existingGroup.members.find(member => member.id === userId).groupMembership
 			if (existingMembership) {
-				await existingMembership.update({ active: true })
-				existingGroup.members = await existingGroup.getMembers()
-				await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: existingGroup, userId, action: 'activate' })
+				if (!existingMembership.active) {
+					await existingMembership.update({ active: true })
+					existingGroup.members = await existingGroup.getMembers()
+					await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: existingGroup, userId, action: 'activate' })
+				}
 				return existingGroup
 			}
 
@@ -193,9 +195,7 @@ const resolvers = {
 			// Deactivate all groups.
 			await deactivateUserGroups(pubsub, user)
 
-			// Check if there is a group that deactivated and return that.
-			if (activeGroup)
-				await pubsub.publish(groupEvents.groupUpdated, { updatedGroup: activeGroup, userId, action: 'deactivate' })
+			// Return the active group (if it exists) that was found earlier.
 			return activeGroup
 		},
 	},

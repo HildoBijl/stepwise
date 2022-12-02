@@ -3,7 +3,7 @@
 		"start": "node scripts/startWebserver.js",
 		"dev": "nodemon --watch ./ --watch ../shared src/index.js",
 		"test": "cross-env POSTGRES_DB=\"testing\" jest --runInBand tests/.*\\.test\\.js",
-		"test:watch": "cross-env POSTGRES_DB=\"testing\" jest --watch --runInBand tests/.*\\.test\\.js",
+		"test:watch": "cross-env POSTGRES_DB=\"testing\" jest --watch --runInBand tests/server/api/Group/.*\\.test\\.js",
 		"db:seed": "node scripts/seedDb.js",
 		"db:clear": "node scripts/clearDb.js",
 		"db:migrate": "node scripts/migrateDb.js"

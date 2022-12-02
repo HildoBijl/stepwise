@@ -46,5 +46,49 @@
 		"eduperson_affiliation": null,
 		"locale": null,
 		"schac_personal_unique_code": null
+	},
+	{
+		"sub": "a000000000000000000000000000000000000000",
+		"name": "Alex Avary",
+		"given_name": "Alex",
+		"family_name": "Avary",
+		"email": "alex@step-wise.com",
+		"schac_home_organization": null,
+		"eduperson_affiliation": null,
+		"locale": null,
+		"schac_personal_unique_code": null
+	},
+	{
+		"sub": "b000000000000000000000000000000000000000",
+		"name": "Bob Barlow",
+		"given_name": "Bob",
+		"family_name": "Barlow",
+		"email": "bob@step-wise.com",
+		"schac_home_organization": null,
+		"eduperson_affiliation": null,
+		"locale": null,
+		"schac_personal_unique_code": null
+	},
+	{
+		"sub": "c000000000000000000000000000000000000000",
+		"name": "Carol Cumbridge",
+		"given_name": "Carol",
+		"family_name": "Cumbridge",
+		"email": "carol@step-wise.com",
+		"schac_home_organization": null,
+		"eduperson_affiliation": null,
+		"locale": null,
+		"schac_personal_unique_code": null
+	},
+	{
+		"sub": "d000000000000000000000000000000000000000",
+		"name": "Dan Dorsley",
+		"given_name": "Dan",
+		"family_name": "Dorsley",
+		"email": "dan@step-wise.com",
+		"schac_home_organization": null,
+		"eduperson_affiliation": null,
+		"locale": null,
+		"schac_personal_unique_code": null
 	}
 ]
