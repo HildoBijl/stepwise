@@ -48,7 +48,7 @@ function checkInput(state, input, step) {
 	if (step === 0 || step === 2)
 		return performComparison('ans', input, solution, data.comparison)
 	if (step === 1)
-		return performComparison('intermediate', input, solution, data.check)
+		return performComparison('intermediate', input, solution, data.comparison)
 }
 
 module.exports = {
