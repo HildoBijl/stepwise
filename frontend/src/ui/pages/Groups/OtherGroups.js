@@ -9,7 +9,7 @@ import { usePaths } from 'ui/routing'
 import { Head } from 'ui/components/containers'
 import { useLeaveGroupMutation } from 'api/group'
 
-import { useOtherMembers } from './util'
+import { useSelfAndOtherMembers } from './util'
 import MemberList from './MemberList'
 
 const useStyles = makeStyles((theme) => ({
@@ -47,7 +47,7 @@ export default function OtherGroups({ groups, hasActiveGroup }) {
 function OtherGroup({ group }) {
 	const paths = usePaths()
 	const [leaveGroup] = useLeaveGroupMutation(group.code)
-	const otherMembers = useOtherMembers(group.members)
+	const membersSorted = useSelfAndOtherMembers(group.members)
   const wideScreen = useMediaQuery('(min-width:600px)')
 
 	return <>
@@ -59,7 +59,7 @@ function OtherGroup({ group }) {
 				color="primary"
 			>{wideScreen ? 'Code ' : ''}{group.code}</Button>
 		</Link>
-		<MemberList className="groupMembers" members={otherMembers} />
+		<MemberList className="groupMembers" members={membersSorted} />
 		<Button
 			className="leaveButton"
 			variant="contained"

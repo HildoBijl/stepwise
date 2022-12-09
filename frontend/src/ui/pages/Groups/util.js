@@ -22,3 +22,10 @@ export function useOtherMembers(members) {
 	}, [members, userId])
 }
 
+// useSelfAndOtherMembers takes a list of members, puts the current user at the front, and sorts out the remaining members through useOtherMembers.
+export function useSelfAndOtherMembers(members) {
+	const userId = useUserId()
+	const otherMembers = useOtherMembers(members)
+	const user = members.find(member => member.userId === userId)
+	return useMemo(() => [user, ...otherMembers], [user, otherMembers])
+}

@@ -9,7 +9,7 @@ import { usePaths } from 'ui/routing'
 import { Head } from 'ui/components/containers'
 import { useDeactivateGroupMutation } from 'api/group'
 
-import { useOtherMembers } from './util'
+import { useSelfAndOtherMembers } from './util'
 import MemberList from './MemberList'
 
 const useStyles = makeStyles((theme) => ({
@@ -35,7 +35,7 @@ export default function ActiveGroup({ group }) {
 	const classes = useStyles()
 	const paths = usePaths()
 	const [deactivateGroup] = useDeactivateGroupMutation()
-	const otherMembers = useOtherMembers(group.members)
+	const membersSorted = useSelfAndOtherMembers(group.members)
 	const wideScreen = useMediaQuery('(min-width:600px)')
 
 	// Set up a deactivate button.
@@ -51,8 +51,8 @@ export default function ActiveGroup({ group }) {
 	return <>
 		<Head>Je actieve groep: <Link to={paths.group({ code: group.code })}>{group.code}</Link></Head>
 		<div className={classes.memberListContainer}>
-			{otherMembers.length === 0 ? <div className="emptyNote">Er zit nog niemand anders in groep <Link to={paths.group({ code: group.code })}>{group.code}</Link>
-				. Deel de code/<Link to={paths.group({ code: group.code })}>link</Link> met je studiegenoten om samen te kunnen oefenen.</div> : <MemberList members={otherMembers} />}
+			{membersSorted.length === 1 ? <div className="emptyNote">Er zit nog niemand anders in groep <Link to={paths.group({ code: group.code })}>{group.code}</Link>
+				. Deel de code/<Link to={paths.group({ code: group.code })}>link</Link> met je studiegenoten om samen te kunnen oefenen.</div> : <MemberList members={membersSorted} />}
 			<div className="buttonContainer">{deactivateButton}</div>
 		</div>
 	</>
