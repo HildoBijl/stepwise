@@ -27,5 +27,5 @@ export function useSelfAndOtherMembers(members) {
 	const userId = useUserId()
 	const otherMembers = useOtherMembers(members)
 	const user = members.find(member => member.userId === userId)
-	return useMemo(() => [user, ...otherMembers], [user, otherMembers])
+	return useMemo(() => user ? [user, ...otherMembers] : otherMembers, [user, otherMembers])
 }

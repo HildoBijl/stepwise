@@ -1,21 +1,21 @@
 import React, { useRef, useMemo, useCallback } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
-import { Check, Clear, Send, ArrowForward, Search } from '@material-ui/icons'
+import { Check, Clear, Send, ArrowForward, Search, Warning } from '@material-ui/icons'
 
-import Button from 'ui/components/misc/Button'
 import { lastOf } from 'step-wise/util/arrays'
 import { getLastAction, getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
 
-import { getWordList } from 'util/language'
 import { useRefWithValue } from 'util/react'
 import { useUserId } from 'api/user'
 import { useActiveGroup } from 'api/group'
+import Button from 'ui/components/misc/Button'
 import { useModal, PictureConfirmation } from 'ui/components/Modal'
 import { useFormData } from 'ui/form/Form'
 import { useFieldRegistration } from 'ui/form/FieldController'
 import { useFeedback } from 'ui/form/FeedbackProvider'
-import { Warning } from '@material-ui/icons'
+import { useSelfAndOtherMembers } from 'ui/pages/Groups/util'
+import MemberList from 'ui/pages/Groups/MemberList'
 
 import { useExerciseData } from '../ExerciseContainer'
 import { useSubmitAction, useGiveUpAction, useCancelAction, useResolveEvent, canResolveGroupEvent } from './actions'
@@ -129,6 +129,7 @@ function GroupExerciseButtons({ stepwise = false }) {
 	return <>
 		<GiveUpAndSubmitButtons stepwise={stepwise} {...derivedParameters} />
 		<CurrentSubmissions {...derivedParameters} />
+		<GivenUpNote stepwise={stepwise} {...derivedParameters} />
 		<ResolveNote stepwise={stepwise} {...derivedParameters} />
 	</>
 }
@@ -208,8 +209,8 @@ function CurrentSubmissionRow({ submissionList, submitting, index }) {
 
 	// Determine the members and their names for display purposes.
 	const submissionMembers = submissionList.map(submission => activeGroup.members.find(member => member.userId === submission.userId))
+	const membersSorted = useSelfAndOtherMembers(submissionMembers)
 	const isSelfPresent = submissionMembers.some(member => member.userId === userId)
-	const nameList = getWordList(submissionMembers.map(member => member.name))
 
 	// Set up handlers to put the input into the form and possibly submit it.
 	const historyRef = useRefWithValue(history), submissionListRef = useRefWithValue(submissionList)
@@ -227,7 +228,8 @@ function CurrentSubmissionRow({ submissionList, submitting, index }) {
 	const submittedInput = lastOf(submissionList).action.input
 	const isEqual = isInputEqual(submittedInput)
 	return <div className={classes.buttonContainer}>
-		<div className="description">{nameList} {submissionMembers.length > 1 ? 'hebben' : 'heeft'} een inzending gemaakt.</div>
+		<div className="description">Ingezonden:</div>
+		<div className="memberList"><MemberList members={membersSorted} /></div>
 		<Button variant="contained" startIcon={<Search />} disabled={isEqual} onClick={setFormInput} color="info" ref={viewButtonRef}>Bekijken</Button>
 		{isSelfPresent ?
 			<Button variant="contained" startIcon={<Clear />} onClick={cancel} disabled={submitting} color="secondary" ref={copyCancelButtonRef}>Inzending annuleren</Button> :
@@ -236,56 +238,65 @@ function CurrentSubmissionRow({ submissionList, submitting, index }) {
 	</div>
 }
 
-function ResolveNote({ stepwise, hasSubmitted, gaveUp, canResolve, allGaveUp, submitting, unsubmittedMembers, groupedSubmissions }) {
+function GivenUpNote({ stepwise, gaveUp, submitting, groupedSubmissions }) {
 	const classes = useStyles()
 	const { progress } = useExerciseData()
 	const activeGroup = useActiveGroup()
 
-	// Set up button handlers.
+	// Set up a cancel button ref and register it to tab control.
 	const cancel = useCancelAction()
-	const resolve = useResolveEvent()
-
-	// Register the resolve button to tab control.
-	const cancelButtonRef = useRef(), resolveButtonRef = useRef()
+	const cancelButtonRef = useRef()
 	useFieldRegistration({ id: 'cancelButton', element: cancelButtonRef, apply: gaveUp, focusRefOnActive: true })
+
+	// Determine who gave up.
+	const giveUpMembers = groupedSubmissions.giveUp.map(submission => activeGroup.members.find(member => member.userId === submission.userId))
+	const membersSorted = useSelfAndOtherMembers(giveUpMembers)
+
+	// If no one gave up, show nothing.
+	if (groupedSubmissions.giveUp.length === 0)
+		return null
+
+	// Show the people that gave up.
+	return <div className={classes.buttonContainer}>
+		<div className="description">{!stepwise || progress.step ? 'Opgeven:' : 'Stapsgewijs oplossen:'}</div>
+		<div className="memberList"><MemberList members={membersSorted} /></div>
+		{gaveUp ? <Button variant="contained" startIcon={<Clear />} onClick={cancel} disabled={submitting} color="secondary" ref={cancelButtonRef}>{!stepwise || progress.step ? 'Opgeven annuleren' : 'Stapsgewijs oplossen annuleren'}</Button> : null}
+	</div>
+}
+
+function ResolveNote({ stepwise, hasSubmitted, canResolve, allGaveUp, submitting, unsubmittedMembers }) {
+	const classes = useStyles()
+	const { progress } = useExerciseData()
+
+	// Set up a resolve button ref and register it to tab control.
+	const resolve = useResolveEvent()
+	const resolveButtonRef = useRef()
 	useFieldRegistration({ id: 'resolveButton', element: resolveButtonRef, apply: canResolve, focusRefOnActive: true })
 
 	// If the user has not submitted anything, do not show anything.
 	if (!hasSubmitted)
 		return null
 
-	// The button to cancel a give-up is the same for all cases.
-	const cancelGiveUpButton = gaveUp ? <Button variant="contained" startIcon={<Clear />} onClick={cancel} disabled={submitting} color="secondary" ref={cancelButtonRef}>{!stepwise || progress.step ? 'Opgeven annuleren' : 'Stapsgewijs oplossen annuleren'}</Button> : null
-
 	// If everyone gave up, show an alternate note.
 	if (allGaveUp) {
 		return <div className={classes.buttonContainer}>
-			<div className="description">{!stepwise || progress.step ? 'Iedereen heeft het opgegeven.' : 'Iedereen stemt voor stapsgewijs oplossen.'}</div>
-			{cancelGiveUpButton}
+			<div className="longDescription">{!stepwise || progress.step ? 'Iedereen heeft het opgegeven.' : 'Iedereen stemt voor stapsgewijs oplossen.'}</div>
 			<Button variant="contained" startIcon={<Clear />} onClick={resolve} disabled={submitting} color="primary" ref={resolveButtonRef}>{!stepwise || progress.step ? 'Opgeven bevestigen' : 'Stapsgewijs oplossen bevestigen'}</Button>
 		</div>
 	}
 
-	// Determine the text for those who gave up.
-	const giveUpMembers = groupedSubmissions.giveUp.map(submission => activeGroup.members.find(member => member.userId === submission.userId))
-	const giveUpNameList = getWordList(giveUpMembers.map(member => member.name))
-	const giveUpText = !stepwise || progress.step ?
-		`${giveUpNameList} ${giveUpMembers.length > 1 ? 'hebben' : 'heeft'} het opgegeven.` :
-		`${giveUpNameList} ${giveUpMembers.length > 1 ? 'stemmen' : 'stemt'} voor stapsgewijs oplossen.`
-
 	// If the exercise can be resolved, show this.
 	if (canResolve) {
 		return <div className={classes.buttonContainer}>
-			<div className="description">{giveUpMembers.length === 0 ? 'Iedereen heeft een inzending voor de opgave gedaan.' : `${giveUpText} Alle inzendingen zijn binnen.`}</div>
-			{cancelGiveUpButton}
+			<div className="longDescription">Alle inzendingen zijn binnen.</div>
 			<Button variant="contained" startIcon={<Check />} onClick={resolve} disabled={submitting} color="primary" ref={resolveButtonRef}>Controleer</Button>
 		</div>
 	}
 
 	// If the exercise cannot be resolved, show remaining members.
 	return <div className={classes.buttonContainer}>
-		<div className="description">{giveUpMembers.length > 0 ? `${giveUpText} ` : ``}{unsubmittedMembers.length === 1 ? 'Er ontbreekt nog een inzending van' : 'Er ontbreken nog inzendingen van'} {getWordList(unsubmittedMembers.map(member => member.name))}.</div>
-		{cancelGiveUpButton}
+		<div className="description">Ontbrekend:</div>
+		<div className="memberList"><MemberList members={unsubmittedMembers} /></div>
 	</div>
 }
 
