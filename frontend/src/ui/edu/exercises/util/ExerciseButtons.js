@@ -1,8 +1,8 @@
 import React, { useRef, useMemo, useCallback } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
 import { Check, Clear, Send, ArrowForward, Search } from '@material-ui/icons'
 
+import Button from 'ui/components/misc/Button'
 import { lastOf } from 'step-wise/util/arrays'
 import { getLastAction, getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
@@ -228,7 +228,7 @@ function CurrentSubmissionRow({ submissionList, submitting, index }) {
 	const isEqual = isInputEqual(submittedInput)
 	return <div className={classes.buttonContainer}>
 		<div className="description">{nameList} {submissionMembers.length > 1 ? 'hebben' : 'heeft'} een inzending gemaakt.</div>
-		<Button variant="contained" startIcon={<Search />} disabled={isEqual} onClick={setFormInput} color="primary" ref={viewButtonRef}>Bekijken</Button>
+		<Button variant="contained" startIcon={<Search />} disabled={isEqual} onClick={setFormInput} color="info" ref={viewButtonRef}>Bekijken</Button>
 		{isSelfPresent ?
 			<Button variant="contained" startIcon={<Clear />} onClick={cancel} disabled={submitting} color="secondary" ref={copyCancelButtonRef}>Inzending annuleren</Button> :
 			<Button variant="contained" endIcon={<Send />} onClick={setAndSubmitFormInput} disabled={submitting} color="primary" ref={copyCancelButtonRef}>Ook insturen</Button>
