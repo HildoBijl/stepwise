@@ -42,6 +42,65 @@ const useStyles = makeStyles((theme) => ({
 			},
 		},
 	},
+	buttonGrid: {
+		display: 'grid',
+		gridGap: '0.6rem 0.6rem',
+		placeItems: 'center stretch',
+		width: '100%',
+
+		[theme.breakpoints.down('xs')]: {
+			gridTemplateColumns: 'auto 1fr',
+
+			'& .description': {
+				gridColumnStart: 1,
+				gridColumnEnd: 2,
+			},
+			'& .longDescription': {
+				gridColumnStart: 1,
+				gridColumnEnd: 3,
+			},
+			'& .memberList': {
+				gridColumnStart: 2,
+				gridColumnEnd: 3,
+			},
+			'& .button1': {
+				gridColumnStart: 1,
+				gridColumnEnd: 3,
+			},
+			'& .button2': {
+				gridColumnStart: 1,
+				gridColumnEnd: 3,
+			},
+		},
+		[theme.breakpoints.up('sm')]: {
+			gridTemplateColumns: `auto 1fr auto auto`,
+
+			'& .description': {
+				gridColumnStart: 1,
+				gridColumnEnd: 2,
+			},
+			'& .longDescription': {
+				gridColumnStart: 1,
+				gridColumnEnd: 3,
+			},
+			'& .memberList': {
+				gridColumnStart: 2,
+				gridColumnEnd: 3,
+			},
+			'& .button1': {
+				gridColumnStart: 3,
+				gridColumnEnd: 4,
+			},
+			'& .button2': {
+				gridColumnStart: 4,
+				gridColumnEnd: 5,
+			},
+		},
+
+		'& .buttonText': {
+			width: '100%', // Ensure button icons are still on the side of the button.
+		},
+	},
 }))
 
 export default function ExerciseButtons(props) {
@@ -116,6 +175,7 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 }
 
 function GroupExerciseButtons({ stepwise = false }) {
+	const classes = useStyles()
 	const { progress } = useExerciseData()
 
 	// Determine the status of the exercise.
@@ -126,16 +186,15 @@ function GroupExerciseButtons({ stepwise = false }) {
 		return <StartNewExerciseButton />
 
 	// Render the variety of buttons required.
-	return <>
+	return <div className={classes.buttonGrid}>
 		<GiveUpAndSubmitButtons stepwise={stepwise} {...derivedParameters} />
 		<CurrentSubmissions {...derivedParameters} />
 		<GivenUpNote stepwise={stepwise} {...derivedParameters} />
 		<ResolveNote stepwise={stepwise} {...derivedParameters} />
-	</>
+	</div>
 }
 
 function StartNewExerciseButton() {
-	const classes = useStyles()
 	const { startNewExercise } = useExerciseData()
 
 	// Register the button to tab control.
@@ -144,14 +203,13 @@ function StartNewExerciseButton() {
 
 	// Render the button.
 	return <>
-		<div className={classes.buttonContainer}>
-			<Button variant="contained" endIcon={<ArrowForward />} onClick={startNewExercise} color="primary" ref={startNewExerciseButtonRef}>Volgende opgave</Button>
+		<div className="button2">
+			<Button variant="contained" endIcon={<ArrowForward />} onClick={startNewExercise} color="primary" ref={startNewExerciseButtonRef}><span className="buttonText">Volgende opgave</span></Button>
 		</div>
 	</>
 }
 
 function GiveUpAndSubmitButtons({ stepwise, submittedAction }) {
-	const classes = useStyles()
 	const { progress, submitting, history } = useExerciseData()
 	const userId = useUserId()
 	const { isInputEqual } = useFormData()
@@ -179,10 +237,10 @@ function GiveUpAndSubmitButtons({ stepwise, submittedAction }) {
 		giveUpText = step ? 'Ik geef deze stap op' : 'Los stapsgewijs op'
 
 	// Render the buttons.
-	return <div className={classes.buttonContainer}>
-		{hasGivenUp ? null : <Button variant="contained" startIcon={<Clear />} onClick={giveUp} disabled={submitting} color="secondary" ref={giveUpButtonRef}>{giveUpText}</Button>}
-		<Button variant="contained" endIcon={<Send />} onClick={submit} disabled={submitting || inputIsEqualToLastInput} color="primary" ref={submitButtonRef}>Insturen</Button>
-	</div>
+	return <>
+		{hasGivenUp ? null : <Button className="button1" variant="contained" startIcon={<Clear />} onClick={giveUp} disabled={submitting} color="secondary" ref={giveUpButtonRef}><span className="buttonText">{giveUpText}</span></Button>}
+		<Button className="button2" variant="contained" endIcon={<Send />} onClick={submit} disabled={submitting || inputIsEqualToLastInput} color="primary" ref={submitButtonRef}><span className="buttonText">Insturen</span></Button>
+	</>
 }
 
 function CurrentSubmissions(derivedProperties) {
@@ -192,7 +250,6 @@ function CurrentSubmissions(derivedProperties) {
 
 function CurrentSubmissionRow({ submissionList, submitting, index }) {
 	const { history } = useExerciseData()
-	const classes = useStyles()
 	const userId = useUserId()
 	const activeGroup = useActiveGroup()
 	const { setInputSI, isInputEqual } = useFormData()
@@ -227,19 +284,18 @@ function CurrentSubmissionRow({ submissionList, submitting, index }) {
 	// Show the buttons. Which exact button depends on whether the user itself is in the list.
 	const submittedInput = lastOf(submissionList).action.input
 	const isEqual = isInputEqual(submittedInput)
-	return <div className={classes.buttonContainer}>
+	return <>
 		<div className="description">Ingezonden:</div>
 		<div className="memberList"><MemberList members={membersSorted} /></div>
-		<Button variant="contained" startIcon={<Search />} disabled={isEqual} onClick={setFormInput} color="info" ref={viewButtonRef}>Bekijken</Button>
+		<Button className="button1" variant="contained" startIcon={<Search />} disabled={isEqual} onClick={setFormInput} color="info" ref={viewButtonRef}><span className="buttonText">Bekijken</span></Button>
 		{isSelfPresent ?
-			<Button variant="contained" startIcon={<Clear />} onClick={cancel} disabled={submitting} color="secondary" ref={copyCancelButtonRef}>Inzending annuleren</Button> :
-			<Button variant="contained" endIcon={<Send />} onClick={setAndSubmitFormInput} disabled={submitting} color="primary" ref={copyCancelButtonRef}>Ook insturen</Button>
+			<Button className="button2" variant="contained" startIcon={<Clear />} onClick={cancel} disabled={submitting} color="secondary" ref={copyCancelButtonRef}><span className="buttonText">Inzending annuleren</span></Button> :
+			<Button className="button2" variant="contained" endIcon={<Send />} onClick={setAndSubmitFormInput} disabled={submitting} color="primary" ref={copyCancelButtonRef}><span className="buttonText">Ook insturen</span></Button>
 		}
-	</div>
+	</>
 }
 
 function GivenUpNote({ stepwise, gaveUp, submitting, groupedSubmissions }) {
-	const classes = useStyles()
 	const { progress } = useExerciseData()
 	const activeGroup = useActiveGroup()
 
@@ -257,15 +313,14 @@ function GivenUpNote({ stepwise, gaveUp, submitting, groupedSubmissions }) {
 		return null
 
 	// Show the people that gave up.
-	return <div className={classes.buttonContainer}>
-		<div className="description">{!stepwise || progress.step ? 'Opgeven:' : 'Stapsgewijs oplossen:'}</div>
+	return <>
+		<div className="description">{!stepwise || progress.step ? 'Opgegeven:' : 'Stapsgewijs oplossen:'}</div>
 		<div className="memberList"><MemberList members={membersSorted} /></div>
-		{gaveUp ? <Button variant="contained" startIcon={<Clear />} onClick={cancel} disabled={submitting} color="secondary" ref={cancelButtonRef}>{!stepwise || progress.step ? 'Opgeven annuleren' : 'Stapsgewijs oplossen annuleren'}</Button> : null}
-	</div>
+		{gaveUp ? <Button className="button2" variant="contained" startIcon={<Clear />} onClick={cancel} disabled={submitting} color="secondary" ref={cancelButtonRef}><span className="buttonText">{!stepwise || progress.step ? 'Opgeven annuleren' : 'Stapsgewijs oplossen annuleren'}</span></Button> : null}
+	</>
 }
 
 function ResolveNote({ stepwise, hasSubmitted, canResolve, allGaveUp, submitting, unsubmittedMembers }) {
-	const classes = useStyles()
 	const { progress } = useExerciseData()
 
 	// Set up a resolve button ref and register it to tab control.
@@ -279,25 +334,32 @@ function ResolveNote({ stepwise, hasSubmitted, canResolve, allGaveUp, submitting
 
 	// If everyone gave up, show an alternate note.
 	if (allGaveUp) {
-		return <div className={classes.buttonContainer}>
+		return <>
 			<div className="longDescription">{!stepwise || progress.step ? 'Iedereen heeft het opgegeven.' : 'Iedereen stemt voor stapsgewijs oplossen.'}</div>
-			<Button variant="contained" startIcon={<Clear />} onClick={resolve} disabled={submitting} color="primary" ref={resolveButtonRef}>{!stepwise || progress.step ? 'Opgeven bevestigen' : 'Stapsgewijs oplossen bevestigen'}</Button>
-		</div>
+			<Button className="button2" variant="contained" startIcon={<Clear />} onClick={resolve} disabled={submitting} color="primary" ref={resolveButtonRef}><span className="buttonText">{!stepwise || progress.step ? 'Opgeven bevestigen' : 'Stapsgewijs oplossen bevestigen'}</span></Button>
+		</>
 	}
 
 	// If the exercise can be resolved, show this.
 	if (canResolve) {
-		return <div className={classes.buttonContainer}>
+		return <>
 			<div className="longDescription">Alle inzendingen zijn binnen.</div>
-			<Button variant="contained" startIcon={<Check />} onClick={resolve} disabled={submitting} color="primary" ref={resolveButtonRef}>Controleer</Button>
-		</div>
+			<Button className="button2" variant="contained" startIcon={<Check />} onClick={resolve} disabled={submitting} color="primary" ref={resolveButtonRef}><span className="buttonText">Controleer</span></Button>
+		</>
 	}
 
-	// If the exercise cannot be resolved, show remaining members.
-	return <div className={classes.buttonContainer}>
-		<div className="description">Ontbrekend:</div>
-		<div className="memberList"><MemberList members={unsubmittedMembers} /></div>
-	</div>
+	// If the exercise cannot be resolved because submissions are missing, show remaining members.
+	if (unsubmittedMembers.length > 0) {
+		return <>
+			<div className="description">Ontbrekend:</div>
+			<div className="memberList"><MemberList members={unsubmittedMembers} /></div>
+		</>
+	}
+
+	// There must simply be too few active members. Note this.
+	return <>
+		<div className="longDescription">In de samenwerkingsmodus zijn minimaal twee inzendingen nodig om een opgave na te laten kijken. Nodig een studiegenoot uit.</div>
+	</>
 }
 
 // useDerivedParameters takes the exercise data and extracts a variety of parameters that can be used to display the right buttons.
