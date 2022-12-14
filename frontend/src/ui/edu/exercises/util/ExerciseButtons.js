@@ -9,6 +9,7 @@ import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
 import { useRefWithValue } from 'util/react'
 import { useUserId } from 'api/user'
 import { useActiveGroup } from 'api/group'
+import { getIcon } from 'ui/theme'
 import Button from 'ui/components/misc/Button'
 import { useModal, PictureConfirmation } from 'ui/components/Modal'
 import { useFormData } from 'ui/form/Form'
@@ -27,10 +28,6 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'flex-end',
 		margin: '0.2rem 0',
 
-		'& .description': {
-			flexGrow: 1,
-			flexShrink: 1,
-		},
 		'& button': {
 			flexGrow: 0,
 			flexShrink: 0,
@@ -51,11 +48,11 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.down('xs')]: {
 			gridTemplateColumns: 'auto 1fr',
 
-			'& .description': {
+			'& .description1': {
 				gridColumnStart: 1,
 				gridColumnEnd: 2,
 			},
-			'& .longDescription': {
+			'& .description2, & .description3, & .description4': {
 				gridColumnStart: 1,
 				gridColumnEnd: 3,
 			},
@@ -75,13 +72,21 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.up('sm')]: {
 			gridTemplateColumns: `auto 1fr auto auto`,
 
-			'& .description': {
+			'& .description1': {
 				gridColumnStart: 1,
 				gridColumnEnd: 2,
 			},
-			'& .longDescription': {
+			'& .description2': {
 				gridColumnStart: 1,
 				gridColumnEnd: 3,
+			},
+			'& .description3': {
+				gridColumnStart: 1,
+				gridColumnEnd: 4,
+			},
+			'& .description4': {
+				gridColumnStart: 1,
+				gridColumnEnd: 5,
 			},
 			'& .memberList': {
 				gridColumnStart: 2,
@@ -95,6 +100,25 @@ const useStyles = makeStyles((theme) => ({
 				gridColumnStart: 4,
 				gridColumnEnd: 5,
 			},
+		},
+
+		'& .description1, & .description2, & .description3, & .description4': {
+			alignItems: 'center',
+			display: 'flex',
+			flexFlow: 'row nowrap',
+			padding: '0.25rem 0',
+
+			'& > svg': {
+				marginRight: '0.3rem',
+			},
+		},
+		'& .info': {
+			color: theme.palette.info.main,
+			fontWeight: 'bold',
+		},
+		'& .warning': {
+			color: theme.palette.warning.main,
+			fontWeight: 'bold',
 		},
 
 		'& .buttonText': {
@@ -226,9 +250,10 @@ function GiveUpAndSubmitButtons({ stepwise, submittedAction }) {
 	useFieldRegistration({ id: 'giveUpButton', element: giveUpButtonRef, apply: !hasGivenUp, focusRefOnActive: true })
 	useFieldRegistration({ id: 'submitButton', element: submitButtonRef, focusRefOnActive: true })
 
-	// Determine if the input is the same as previously.
+	// Determine if the input is the same as previously, or as to what is currently submitted.
 	const lastAction = getLastAction(history, userId)
-	const inputIsEqualToLastInput = lastAction && lastAction.type === 'input' && isInputEqual(lastAction.input)
+	const isInputEqualToLastInput = lastAction && lastAction.type === 'input' && isInputEqual(lastAction.input)
+	const isInputEqualToSubmittedInput = submittedAction && submittedAction.type === 'input' && isInputEqual(submittedAction.input)
 
 	// Determine the give-up button text.
 	let giveUpText = 'Ik geef het op'
@@ -237,9 +262,11 @@ function GiveUpAndSubmitButtons({ stepwise, submittedAction }) {
 		giveUpText = step ? 'Ik geef deze stap op' : 'Los stapsgewijs op'
 
 	// Render the buttons.
+	const WarningIcon = getIcon('warning')
 	return <>
+		{submittedAction && submittedAction.type === 'input' && !isInputEqualToSubmittedInput ? <div className="description2 warning"><WarningIcon />De invoer hierboven is niet gelijk aan je ingezonden antwoord.</div> : null}
 		{hasGivenUp ? null : <Button className="button1" variant="contained" startIcon={<Clear />} onClick={giveUp} disabled={submitting} color="secondary" ref={giveUpButtonRef}><span className="buttonText">{giveUpText}</span></Button>}
-		<Button className="button2" variant="contained" endIcon={<Send />} onClick={submit} disabled={submitting || inputIsEqualToLastInput} color="primary" ref={submitButtonRef}><span className="buttonText">Insturen</span></Button>
+		<Button className="button2" variant="contained" endIcon={<Send />} onClick={submit} disabled={submitting || isInputEqualToLastInput || isInputEqualToSubmittedInput} color="primary" ref={submitButtonRef}><span className="buttonText">Insturen</span></Button>
 	</>
 }
 
@@ -285,7 +312,7 @@ function CurrentSubmissionRow({ submissionList, submitting, index }) {
 	const submittedInput = lastOf(submissionList).action.input
 	const isEqual = isInputEqual(submittedInput)
 	return <>
-		<div className="description">Ingezonden:</div>
+		<div className="description1">Ingezonden:</div>
 		<div className="memberList"><MemberList members={membersSorted} /></div>
 		<Button className="button1" variant="contained" startIcon={<Search />} disabled={isEqual} onClick={setFormInput} color="info" ref={viewButtonRef}><span className="buttonText">Bekijken</span></Button>
 		{isSelfPresent ?
@@ -314,7 +341,7 @@ function GivenUpNote({ stepwise, gaveUp, submitting, groupedSubmissions }) {
 
 	// Show the people that gave up.
 	return <>
-		<div className="description">{!stepwise || progress.step ? 'Opgegeven:' : 'Stapsgewijs oplossen:'}</div>
+		<div className="description1">{!stepwise || progress.step ? 'Opgegeven:' : 'Stapsgewijs oplossen:'}</div>
 		<div className="memberList"><MemberList members={membersSorted} /></div>
 		{gaveUp ? <Button className="button2" variant="contained" startIcon={<Clear />} onClick={cancel} disabled={submitting} color="secondary" ref={cancelButtonRef}><span className="buttonText">{!stepwise || progress.step ? 'Opgeven annuleren' : 'Stapsgewijs oplossen annuleren'}</span></Button> : null}
 	</>
@@ -333,9 +360,10 @@ function ResolveNote({ stepwise, hasSubmitted, canResolve, allGaveUp, submitting
 		return null
 
 	// If everyone gave up, show an alternate note.
+	const InfoIcon = getIcon('info')
 	if (allGaveUp) {
 		return <>
-			<div className="longDescription">{!stepwise || progress.step ? 'Iedereen heeft het opgegeven.' : 'Iedereen stemt voor stapsgewijs oplossen.'}</div>
+			<div className="description3 info"><InfoIcon />{!stepwise || progress.step ? 'Iedereen heeft het opgegeven.' : 'Iedereen stemt voor stapsgewijs oplossen.'}</div>
 			<Button className="button2" variant="contained" startIcon={<Clear />} onClick={resolve} disabled={submitting} color="primary" ref={resolveButtonRef}><span className="buttonText">{!stepwise || progress.step ? 'Opgeven bevestigen' : 'Stapsgewijs oplossen bevestigen'}</span></Button>
 		</>
 	}
@@ -343,7 +371,7 @@ function ResolveNote({ stepwise, hasSubmitted, canResolve, allGaveUp, submitting
 	// If the exercise can be resolved, show this.
 	if (canResolve) {
 		return <>
-			<div className="longDescription">Alle inzendingen zijn binnen.</div>
+			<div className="description3 info"><InfoIcon />Alle inzendingen zijn binnen.</div>
 			<Button className="button2" variant="contained" startIcon={<Check />} onClick={resolve} disabled={submitting} color="primary" ref={resolveButtonRef}><span className="buttonText">Controleer</span></Button>
 		</>
 	}
@@ -351,14 +379,15 @@ function ResolveNote({ stepwise, hasSubmitted, canResolve, allGaveUp, submitting
 	// If the exercise cannot be resolved because submissions are missing, show remaining members.
 	if (unsubmittedMembers.length > 0) {
 		return <>
-			<div className="description">Ontbrekend:</div>
+			<div className="description1">Ontbrekend:</div>
 			<div className="memberList"><MemberList members={unsubmittedMembers} /></div>
 		</>
 	}
 
 	// There must simply be too few active members. Note this.
+	const WarningIcon = getIcon('warning')
 	return <>
-		<div className="longDescription">In de samenwerkingsmodus zijn minimaal twee inzendingen nodig om een opgave na te laten kijken. Nodig een studiegenoot uit.</div>
+		<div className="description4 warning"><WarningIcon />In de samenwerkingsmodus zijn minimaal twee inzendingen nodig om een opgave na te laten kijken. Nodig een studiegenoot uit.</div>
 	</>
 }
 
