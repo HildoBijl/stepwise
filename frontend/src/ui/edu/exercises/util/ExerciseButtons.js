@@ -48,12 +48,18 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.down('xs')]: {
 			gridTemplateColumns: 'auto 1fr',
 
-			'& .description1': {
+			'& .inBetween': {
+				height: '0.25rem',
 				gridColumnStart: 1,
+				gridColumnEnd: 3,
+			},
+			'& .description1, & .description2, & .description3, & .description4': {
+				gridColumnStart: 1,
+			},
+			'& .description1': {
 				gridColumnEnd: 2,
 			},
 			'& .description2, & .description3, & .description4': {
-				gridColumnStart: 1,
 				gridColumnEnd: 3,
 			},
 			'& .memberList': {
@@ -72,6 +78,9 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.up('sm')]: {
 			gridTemplateColumns: `auto 1fr auto auto`,
 
+			'& .inBetween': {
+				display: 'none', // Only for smartphones.
+			},
 			'& .description1': {
 				gridColumnStart: 1,
 				gridColumnEnd: 2,
@@ -312,6 +321,7 @@ function CurrentSubmissionRow({ submissionList, submitting, index }) {
 	const submittedInput = lastOf(submissionList).action.input
 	const isEqual = isInputEqual(submittedInput)
 	return <>
+		<div className="inBetween" />
 		<div className="description1">Ingezonden:</div>
 		<div className="memberList"><MemberList members={membersSorted} /></div>
 		<Button className="button1" variant="contained" startIcon={<Search />} disabled={isEqual} onClick={setFormInput} color="info" ref={viewButtonRef}><span className="buttonText">Bekijken</span></Button>
@@ -341,6 +351,7 @@ function GivenUpNote({ stepwise, gaveUp, submitting, groupedSubmissions }) {
 
 	// Show the people that gave up.
 	return <>
+		<div className="inBetween" />
 		<div className="description1">{!stepwise || progress.step ? 'Opgegeven:' : 'Stapsgewijs oplossen:'}</div>
 		<div className="memberList"><MemberList members={membersSorted} /></div>
 		{gaveUp ? <Button className="button2" variant="contained" startIcon={<Clear />} onClick={cancel} disabled={submitting} color="secondary" ref={cancelButtonRef}><span className="buttonText">{!stepwise || progress.step ? 'Opgeven annuleren' : 'Stapsgewijs oplossen annuleren'}</span></Button> : null}
@@ -363,6 +374,7 @@ function ResolveNote({ stepwise, hasSubmitted, canResolve, allGaveUp, submitting
 	const InfoIcon = getIcon('info')
 	if (allGaveUp) {
 		return <>
+			<div className="inBetween" />
 			<div className="description3 info"><InfoIcon />{!stepwise || progress.step ? 'Iedereen heeft het opgegeven.' : 'Iedereen stemt voor stapsgewijs oplossen.'}</div>
 			<Button className="button2" variant="contained" startIcon={<Clear />} onClick={resolve} disabled={submitting} color="primary" ref={resolveButtonRef}><span className="buttonText">{!stepwise || progress.step ? 'Opgeven bevestigen' : 'Stapsgewijs oplossen bevestigen'}</span></Button>
 		</>
@@ -371,6 +383,7 @@ function ResolveNote({ stepwise, hasSubmitted, canResolve, allGaveUp, submitting
 	// If the exercise can be resolved, show this.
 	if (canResolve) {
 		return <>
+			<div className="inBetween" />
 			<div className="description3 info"><InfoIcon />Alle inzendingen zijn binnen.</div>
 			<Button className="button2" variant="contained" startIcon={<Check />} onClick={resolve} disabled={submitting} color="primary" ref={resolveButtonRef}><span className="buttonText">Controleer</span></Button>
 		</>
@@ -379,6 +392,7 @@ function ResolveNote({ stepwise, hasSubmitted, canResolve, allGaveUp, submitting
 	// If the exercise cannot be resolved because submissions are missing, show remaining members.
 	if (unsubmittedMembers.length > 0) {
 		return <>
+			<div className="inBetween" />
 			<div className="description1">Ontbrekend:</div>
 			<div className="memberList"><MemberList members={unsubmittedMembers} /></div>
 		</>
