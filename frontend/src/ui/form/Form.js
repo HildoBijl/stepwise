@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useRef, useCallback, useMemo, useEffect } from 'react'
+import React, { createContext, useState, useContext, useRef, useCallback, useEffect } from 'react'
 
 import { isBasicObject, processOptions, filterProperties, deepEquals, ensureConsistency, keysToObject } from 'step-wise/util/objects'
 import { noop, passOn, resolveFunctions } from 'step-wise/util/functions'
@@ -99,8 +99,8 @@ export default function Form({ children, initialInput }) {
 	}, [fieldsRef])
 
 	// fields contains all fields (including persistent but removed fields) while subscribedFields contains all fields with an active subscription.
-	const fields = useConsistentValue(useMemo(() => getFields(), [getFields, input]))
-	const subscribedFields = useConsistentValue(useMemo(() => getSubscribedFields(), [getSubscribedFields, input]))
+	const fields = useConsistentValue(getFields())
+	const subscribedFields = useConsistentValue(getSubscribedFields())
 
 	// getField returns the data corresponding to the field with the given ID.
 	const getField = useCallback(id => {

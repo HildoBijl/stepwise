@@ -426,7 +426,8 @@ function useDerivedParameters() {
 		const allGaveUp = canResolve && currentEvent.submissions.every(submission => submission.action.type === 'giveUp')
 		const groupedSubmissions = groupSubmissions(currentSubmissions, userId, isInputEqual)
 		return { currentEvent, currentSubmissions, gaveUp, submittedAction, hasSubmitted, numSubmissions, unsubmittedMembers, canResolve, allGaveUp, groupedSubmissions }
-	}, [activeGroup, history, userId, isInputEqual, fields])
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [activeGroup, history, userId, isInputEqual, fields]) // The fields dependency is needed because, only after the fields get loaded into the form, can isInputEqual function properly.
 }
 
 // groupSubmissions takes a set of submissions and groups them based on their type. The result is an object of the form { input: [[ ...identical actions...], ]}
