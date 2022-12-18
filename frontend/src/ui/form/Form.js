@@ -1,10 +1,10 @@
-import React, { createContext, useState, useContext, useRef, useCallback, useEffect } from 'react'
+import React, { createContext, useState, useContext, useRef, useCallback, useMemo, useEffect } from 'react'
 
 import { isBasicObject, processOptions, filterProperties, deepEquals, ensureConsistency, keysToObject } from 'step-wise/util/objects'
 import { noop, passOn, resolveFunctions } from 'step-wise/util/functions'
 import { toFO } from 'step-wise/inputTypes'
 
-import { useRefWithValue, useMountedRef } from 'util/react'
+import { useRefWithValue, useMountedRef, useConsistentValue } from 'util/react'
 
 import { useFieldControllerContext } from './FieldController'
 
@@ -97,6 +97,10 @@ export default function Form({ children, initialInput }) {
 		const fields = fieldsRef.current
 		return Object.keys(fields).filter(id => fields[id].subscriptions > 0)
 	}, [fieldsRef])
+
+	// fields contains all fields (including persistent but removed fields) while subscribedFields contains all fields with an active subscription.
+	const fields = useConsistentValue(useMemo(() => getFields(), [getFields, input]))
+	const subscribedFields = useConsistentValue(useMemo(() => getSubscribedFields(), [getSubscribedFields, input]))
 
 	// getField returns the data corresponding to the field with the given ID.
 	const getField = useCallback(id => {
@@ -220,7 +224,7 @@ export default function Form({ children, initialInput }) {
 	}, [initialInput, setInput, getField, getInputParameterSI])
 
 	return (
-		<FormContext.Provider value={{ input, subscribe, unsubscribe, setParameter, setInputSI, getFields, getSubscribedFields, validation, isValid, getField, getInputParameterFI, getInputFI, getInputParameterSI, getInputSI, getInputParameterFO, getInputFO, isInputEqual, cursorRef, absoluteCursorRef }}>
+		<FormContext.Provider value={{ input, subscribe, unsubscribe, setParameter, setInputSI, getFields, getSubscribedFields, fields, subscribedFields, validation, isValid, getField, getInputParameterFI, getInputFI, getInputParameterSI, getInputSI, getInputParameterFO, getInputFO, isInputEqual, cursorRef, absoluteCursorRef }}>
 			<form onSubmit={(evt) => evt.preventDefault()}>
 				{children}
 			</form>

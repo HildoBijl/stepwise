@@ -228,6 +228,7 @@ function GroupExerciseButtons({ stepwise = false }) {
 }
 
 function StartNewExerciseButton() {
+	const classes = useStyles()
 	const { startNewExercise } = useExerciseData()
 
 	// Register the button to tab control.
@@ -236,8 +237,8 @@ function StartNewExerciseButton() {
 
 	// Render the button.
 	return <>
-		<div className="button2">
-			<Button variant="contained" endIcon={<ArrowForward />} onClick={startNewExercise} color="primary" ref={startNewExerciseButtonRef}><span className="buttonText">Volgende opgave</span></Button>
+		<div className={classes.buttonContainer}>
+			<Button variant="contained" endIcon={<ArrowForward />} onClick={startNewExercise} color="primary" ref={startNewExerciseButtonRef}>Volgende opgave</Button>
 		</div>
 	</>
 }
@@ -410,7 +411,7 @@ function useDerivedParameters() {
 	const { history } = useExerciseData()
 	const activeGroup = useActiveGroup()
 	const userId = useUserId()
-	const { isInputEqual } = useFormData()
+	const { isInputEqual, fields } = useFormData()
 
 	// Determine the status of the exercise.	
 	return useMemo(() => {
@@ -425,7 +426,7 @@ function useDerivedParameters() {
 		const allGaveUp = canResolve && currentEvent.submissions.every(submission => submission.action.type === 'giveUp')
 		const groupedSubmissions = groupSubmissions(currentSubmissions, userId, isInputEqual)
 		return { currentEvent, currentSubmissions, gaveUp, submittedAction, hasSubmitted, numSubmissions, unsubmittedMembers, canResolve, allGaveUp, groupedSubmissions }
-	}, [activeGroup, history, userId, isInputEqual])
+	}, [activeGroup, history, userId, isInputEqual, fields])
 }
 
 // groupSubmissions takes a set of submissions and groups them based on their type. The result is an object of the form { input: [[ ...identical actions...], ]}
