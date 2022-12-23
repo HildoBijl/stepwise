@@ -19,7 +19,7 @@ export default function ExerciseContainer({ exercise, groupExercise, submitting,
 	// Whenever the exercise id changes, reload the component.
 	const reload = () => {
 		setLoading(true)
-		Promise.all([import(/* webpackMode: "lazy-once" */ `./exercises/${exerciseId}`), import(/* webpackMode: "lazy-once" */ `step-wise/edu/exercises/exercises/${exerciseId}`)]).then(importedModules => {
+		Promise.all([import(/* webpackMode: "lazy" */ `./exercises/${exerciseId}`), import(/* webpackMode: "lazy" */ `step-wise/edu/exercises/exercises/${exerciseId}`)]).then(importedModules => {
 			const [localModule, sharedModule] = importedModules
 			ExerciseLocal.current = localModule.default
 			ExerciseShared.current = sharedModule.default

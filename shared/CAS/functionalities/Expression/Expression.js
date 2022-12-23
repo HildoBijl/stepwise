@@ -608,6 +608,8 @@ class Variable extends Expression {
 	}
 
 	getVariableStrings() {
+		if (this.isNumeric())
+			return new Set([]) // If this is a numeric variable, then there are no variables.
 		return new Set([this.str]) // Return a set with the string representation of this variable. The string representation allows proper set comparisons, filtering out duplicates.
 	}
 
@@ -1512,7 +1514,7 @@ class Function extends Expression {
 			if (index > 0)
 				result += `\\left[${this[key].tex}\\right]`
 		})
-		result += `\\!\\left(${this[firstOf(this.constructor.args)].tex}\\right)`
+		result += `\\left(${this[firstOf(this.constructor.args)].tex}\\right)`
 		return result
 	}
 

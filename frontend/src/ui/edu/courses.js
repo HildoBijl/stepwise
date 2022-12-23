@@ -15,7 +15,7 @@
  */
 
 const courses = {
-	swbasics: {
+	stepwisetutorial: {
 		name: 'Step-Wise Tutorial',
 		goals: [
 			'fillInInteger',
@@ -45,7 +45,7 @@ const courses = {
 		]
 	},
 
-	mathsbasics: {
+	wiskundebasis: {
 		name: 'Wiskunde basisvaardigheden',
 		goals: ['solveGeneralLinearEquation'],
 		priorKnowledge: [],
@@ -150,7 +150,28 @@ const courses = {
 		],
 	},
 
-	exactd: {
+	exactbafgeleiden: {
+		name: 'Exacte Wetenschap B - Differentiëren',
+		goals: ['findAdvancedDerivative'],
+		priorKnowledge: [],
+		startingPoints: ['lookUpElementaryDerivative'],
+		blocks: [
+			{
+				name: 'Basis afgeleiden',
+				goals: ['findBasicDerivative'],
+			},
+			{
+				name: 'Differentieerregels toepassen',
+				goals: ['applyProductRule', 'applyQuotientRule', 'applyChainRule'],
+			},
+			{
+				name: 'Afgeleiden bepalen',
+				goals: ['findAdvancedDerivative'],
+			},
+		],
+	},
+
+	exactdnatuurkunde: {
 		name: 'Exacte Wetenschap D: Natuurkunde',
 		goals: ['analyseClosedCycle', 'findFridgeTemperatures', 'analyseAirco'],
 		priorKnowledge: [

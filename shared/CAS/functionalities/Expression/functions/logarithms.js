@@ -1,3 +1,5 @@
+const { getParentClass } = require('../../../../util/objects')
+
 const { Integer, Function, Fraction, Ln, simplifyOptions } = require('../Expression')
 
 /*
@@ -42,6 +44,7 @@ class Log extends Function {
 		return {
 			argument: Integer.one,
 			base: Integer.ten,
+			...getParentClass(this).getDefaultSO(),
 		}
 	}
 }

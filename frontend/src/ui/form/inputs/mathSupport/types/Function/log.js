@@ -17,7 +17,7 @@ function toLatex(FI, options) {
 	const nameCharsArray = 'log('.split('')
 	nameCharsArray.include = false // Make sure that the name cannot be clicked on for cursor positioning.
 	return {
-		latex: `{}^{${parameterLatex.latex}}{\\rm log}\\!(`,
+		latex: `{}^{${parameterLatex.latex}}{\\rm log}(`,
 		chars: [parameterLatex.chars, nameCharsArray],
 	}
 }

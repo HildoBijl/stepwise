@@ -191,6 +191,57 @@ const skills = {
 	},
 
 	/*
+	 * Derivatives.
+	 * - The basic rules.
+	 * - The product/quotient/chain rule.
+	 * - General derivatives.
+	 * - Applying derivatives.
+	 */
+
+	// Derivatives: the basic rules.
+	lookUpElementaryDerivative: {
+		name: 'Elementaire afgeleide opzoeken',
+		exercises: ['lookUpElementaryDerivative'],
+	},
+	findBasicDerivative: {
+		name: 'Basis afgeleide bepalen',
+		setup: combinerRepeat('lookUpElementaryDerivative', 2),
+		exercises: [], // ToDo
+	},
+
+	// Derivatives: the product/quotient/chain rule.
+	applyProductRule: {
+		name: 'Productregel toepassen',
+		setup: combinerAnd('lookUpElementaryDerivative', 'findBasicDerivative'),
+		exercises: [], // ToDo
+	},
+	applyQuotientRule: {
+		name: 'Quotiëntregel toepassen',
+		setup: combinerAnd('lookUpElementaryDerivative', 'findBasicDerivative'),
+		exercises: [], // ToDo
+	},
+	applyChainRule: {
+		name: 'Kettingregel toepassen',
+		setup: combinerAnd('lookUpElementaryDerivative', 'findBasicDerivative'),
+		exercises: [], // ToDo
+	},
+
+	// Derivatives: general derivatives.
+	findGeneralDerivative: {
+		name: 'Algemene afgeleide bepalen',
+		setup: combinerAnd('applyProductRule', 'applyQuotientRule', 'applyChainRule'), // ToDo later: change into a picking function.
+		exercises: [], // ToDo
+	},
+	findAdvancedDerivative: {
+		name: 'Basis afgeleide bepalen',
+		setup: combinerAnd('findBasicDerivative', 'findGeneralDerivative', combinerOr('applyProductRule', 'applyQuotientRule', 'applyChainRule')), // ToDo later: include expandBrackets, expandPowers and rewriteLogarithms, as well as change into a picking function.
+		exercises: [], // ToDo
+	},
+
+	// Derivatives: applying derivatives.
+	// ToDo later: use this to optimize a function.
+
+	/*
 	 * Engineering mechanics.
 	 * - Skills for 2D point masses.
 	 * - Calculating support reactions for point masses.

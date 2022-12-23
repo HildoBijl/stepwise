@@ -47,4 +47,10 @@ const basicTrigonometryInDegrees = {
 	useDegrees: true,
 }
 
-export { noFunctions, noPowers, simpleVariables, basicMath, basicMathNoFractions, basicMathAndPowers, basicTrigonometry, basicTrigonometryInDegrees }
+const allMathSimpleVariables = {
+	...simpleVariables,
+	greek: false,
+	float: false,
+}
+
+export { noFunctions, noPowers, simpleVariables, basicMath, basicMathNoFractions, basicMathAndPowers, basicTrigonometry, basicTrigonometryInDegrees, allMathSimpleVariables }

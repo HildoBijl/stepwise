@@ -71,7 +71,7 @@ function getLatex(FI, options) {
 
 	// Apply non-italic text for basic functions. To do so, for any text (only letters) followed by a bracket, turn the text in non-italic form.
 	let latex = value
-	latex = latex.replace(/[a-zA-Z]+(?=\()/g, func => basicFunctions.includes(func) ? `{\\rm ${func}}\\!` : `${func}\\!`) // Add a negative space to bring the bracket closer.
+	latex = latex.replace(/[a-zA-Z]+(?=\()/g, func => basicFunctions.includes(func) ? `{\\rm ${func}}` : `${func}`)
 	if (beforeSubSupWithBrackets)
 		latex = latex.replace(/[a-zA-Z]+$/g, func => basicFunctions.includes(func) ? `{\\rm ${func}}` : func) // Don't add a negative space since a subscript follows.
 

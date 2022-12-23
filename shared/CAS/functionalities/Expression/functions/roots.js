@@ -1,3 +1,4 @@
+const { getParentClass } = require('../../../../util/objects')
 const { getLargestPowerFactor } = require('../../../../util/maths')
 
 const { Integer, SingleArgumentFunction, Product, Function, Fraction, Power, simplifyOptions } = require('../Expression')
@@ -143,6 +144,7 @@ class Root extends Function {
 		return {
 			argument: Integer.one,
 			base: Integer.two,
+			...getParentClass(this).getDefaultSO(),
 		}
 	}
 }

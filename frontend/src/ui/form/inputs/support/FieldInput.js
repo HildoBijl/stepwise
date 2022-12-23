@@ -345,7 +345,11 @@ export default function FieldInput(options) {
 function useKeyProcessing(processKeyPress, apply = true) {
 	const submit = useSubmitAction()
 	const keyDownHandler = useCallback(evt => {
-		evt.preventDefault() // Prevent browser-back-behavior (backspace), automatic scrolling on keys (home/end and arrows), and the Firefox quick-search button (slash) as well as the Firefox auto-search-on-type functionality.
+		// Prevent browser-back-behavior (backspace), automatic scrolling on keys (home/end and arrows), and the Firefox quick-search button (slash) as well as the Firefox auto-search-on-type functionality.
+		if (!evt.key.match(/^F[0-9]$/))
+			evt.preventDefault()
+
+		// Handle the key press.
 		submitOnEnter(evt, submit)
 		const keyInfo = { evt, key: evt.key, shift: evt.shiftKey || false, ctrl: evt.ctrlKey || false, alt: evt.altKey || false }
 		processKeyPress(keyInfo)
