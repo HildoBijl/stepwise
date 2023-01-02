@@ -1,5 +1,5 @@
 const { selectRandomly, getRandomInteger } = require('../../../util/random')
-const { Integer, expressionComparisons } = require('../../../CAS')
+const { expressionComparisons } = require('../../../CAS')
 const { combinerRepeat } = require('../../../skillTracking')
 
 const { getStepExerciseProcessor } = require('../util/stepExercise')
@@ -28,7 +28,7 @@ function generateState() {
 function getSolution(state) {
 	const { f, c, g1, g2 } = state
 	const x = f.getVariables()[0]
-	const g = g1.add(new Integer(c).multiply(g2)).elementaryClean()
+	const g = g1.add(g2.multiply(c, true)).elementaryClean()
 	const h = f.multiply(g).elementaryClean()
 	const fDerivative = f.getDerivative().cleanForDisplay()
 	const gDerivative = g.getDerivative().cleanForDisplay()

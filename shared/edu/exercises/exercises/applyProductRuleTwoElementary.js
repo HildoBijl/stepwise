@@ -1,5 +1,5 @@
 const { selectRandomly, getRandomInteger } = require('../../../util/random')
-const { Integer, expressionComparisons } = require('../../../CAS')
+const { expressionComparisons } = require('../../../CAS')
 const { combinerRepeat } = require('../../../skillTracking')
 
 const { getStepExerciseProcessor } = require('../util/stepExercise')
@@ -22,7 +22,7 @@ function generateState() {
 	const x = selectRandomly(variableSet)
 	const [fRaw, g] = getRandomElementaryFunctions(2, false).map(func => func.substitute('x', x))
 	const c = getRandomInteger(-12, 12, [0])
-	const f = new Integer(c).multiply(fRaw).basicClean()
+	const f = fRaw.multiply(c, true).basicClean()
 	return { f, g }
 }
 
