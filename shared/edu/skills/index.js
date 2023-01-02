@@ -206,7 +206,7 @@ const skills = {
 	findBasicDerivative: {
 		name: 'Basis afgeleide bepalen',
 		setup: combinerRepeat('lookUpElementaryDerivative', 2),
-		exercises: [], // ToDo
+		exercises: ['findBasicDerivativeTwoTerms', 'findBasicDerivativeThreeTerms'],
 	},
 
 	// Derivatives: the product/quotient/chain rule.

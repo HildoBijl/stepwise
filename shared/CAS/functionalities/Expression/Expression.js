@@ -462,7 +462,7 @@ class Expression {
 		// Simplify the variable first. Then take the derivative and simplify that.
 		const simplified = this.simplify(simplifyOptions.forDerivatives)
 		const derivative = simplified.getDerivativeBasic(variable)
-		return derivative.basicClean()
+		return derivative.regularClean()
 	}
 
 	// simplify simplifies an object. It checks the given options and calls simplifyBasic which does not run a check every time.

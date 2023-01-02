@@ -71,7 +71,7 @@ function getRandomIndices(arrayLength, num = arrayLength, randomOrder = true, we
 
 		// Pick one item and exclude it afterwards.
 		const index = selectRandomly(numberArray(0, arrayLength - 1), weights)
-		indices = [index, ...getRandomIndices(arrayLength, num - 1, randomOrder, weights.map((weight, weightIndex) => weightIndex === weight ? 0 : weight))]
+		indices = [index, ...getRandomIndices(arrayLength, num - 1, randomOrder, weights.map((weight, weightIndex) => weightIndex === index ? 0 : weight))]
 	} else {
 		indices = shuffle(numberArray(0, arrayLength - 1)).slice(0, num)
 	}

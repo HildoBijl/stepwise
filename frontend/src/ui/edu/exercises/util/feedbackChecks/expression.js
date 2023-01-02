@@ -11,7 +11,11 @@ const { onlyElementaryClean, onlyOrderChanges, equivalent, constantMultiple } = 
  * Basic checks.
  */
 
-export const originalExpression = (input, correct, { expression }) => onlyOrderChanges(input, expression) && <>Dit is de oorspronkelijke uitdrukking. Je hebt hier nog niets mee gedaan.</>
+export const originalExpression = (input, correct, { expression }) => {
+	if (!expression)
+		throw new Error(`Invalid originalExpression call: to use the originalExpression feedback check, there must be an "expression" parameter (the starting point) in the solution object to compare to. This is not present.`)
+	return onlyOrderChanges(input, expression) && <>Dit is de oorspronkelijke uitdrukking. Je hebt hier nog niets mee gedaan.</>
+}
 
 export const incorrectExpression = (input, correct, solution, isCorrect) => !isCorrect && !equivalent(input, correct) && <>Deze uitdrukking is niet gelijk aan wat gegeven is. Je hebt bij het omschrijven iets gedaan dat niet mag.</>
 

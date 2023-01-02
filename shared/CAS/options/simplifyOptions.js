@@ -90,6 +90,7 @@ const regularClean = {
 	sortProducts: true,
 	groupSumTerms: true,
 	mergeFractionTerms: true,
+	mergeFractionSums: true,
 	removePowersWithinPowers: true,
 	basicReductions: true,
 	pullPowersIntoRoots: true,
@@ -105,7 +106,6 @@ const advancedClean = {
 	removeNegativePowers: true,
 	expandPowersOfProducts: true,
 	expandPowersOfSums: true,
-	mergeFractionSums: true,
 }
 module.exports.advancedClean = advancedClean
 
