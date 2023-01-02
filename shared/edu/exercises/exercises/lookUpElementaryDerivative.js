@@ -20,14 +20,14 @@ function generateState() {
 	const func = getRandomElementaryFunction(true)
 	const x = selectRandomly(variableSet)
 	return {
+		x,
 		f: selectRandomly(functionSet),
 		func: func.substitute('x', x),
 	}
 }
 
 function getSolution(state) {
-	const x = state.func.getVariables()[0]
-	return { ...state, x, derivative: state.func.getDerivative().advancedClean() }
+	return { ...state, derivative: state.func.getDerivative().advancedClean() }
 }
 
 function checkInput(state, input) {
