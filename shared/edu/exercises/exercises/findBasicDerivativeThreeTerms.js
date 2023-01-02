@@ -45,7 +45,7 @@ function getSolution(state) {
 	return { ...state, c1, c2, c3, f1, f2, f3, f1Derivative, f2Derivative, f3Derivative, derivative }
 }
 
-function checkInput(state, input, step) {
+function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:

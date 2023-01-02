@@ -213,7 +213,7 @@ const skills = {
 	applyProductRule: {
 		name: 'Productregel toepassen',
 		setup: combinerAnd('lookUpElementaryDerivative', 'findBasicDerivative'),
-		exercises: [], // ToDo
+		exercises: ['applyProductRuleTwoElementary', 'applyProductRuleElementaryAndBasic'],
 	},
 	applyQuotientRule: {
 		name: 'Quotiëntregel toepassen',

@@ -38,7 +38,7 @@ export const sumWithWrongTerms = (input, correct, solution, isCorrect) => {
 
 	// Check if the number of terms matches.
 	if (correct.terms.length !== input.terms.length)
-		return <>Je optelsom moet bestaan uit {correct.terms.length} termen, met een plus of minteken ertussen. Nu heb je {input.terms.length} termen.</>
+		return <>Er wordt hier een optelsom verwacht met {correct.terms.length} termen, met een plus of minteken ertussen. Nu heb je {input.terms.length} termen.</>
 
 	// Find an input term that is not in the solution.
 	const index = input.terms.findIndex(inputTerm => !correct.terms.some(correctTerm => equivalent(inputTerm, correctTerm)))
