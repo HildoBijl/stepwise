@@ -49,7 +49,7 @@ const steps = [
 		},
 		Solution: () => {
 			const { f, x, func, c1, c2, c3, f1, f2, f3 } = useSolution()
-			return <Par>Voor de functies <M>{f}_1\left({x}\right) = {f1}</M>, <M>{f}_2\left({x}\right) = {f2}</M> en <M>{f}_3\left({x}\right) = {f3}</M> geldt dat <BM>{f}\left({x}\right) = {func} = {c1.number === 1 ? '' : c1.number === -1 ? '-' : c1} {f}_1\left({x}\right) {c2.number > 0 ? '+' : ''} {c2.number === 1 ? '' : c2.number === -1 ? '-' : c2} {f}_2\left({x}\right) {c3.number === 1 ? '' : c3.number === -1 ? '-' : c3} {f}_3\left({x}\right).</BM></Par>
+			return <Par>Voor de functies <M>{f}_1\left({x}\right) = {f1}</M>, <M>{f}_2\left({x}\right) = {f2}</M> en <M>{f}_3\left({x}\right) = {f3}</M> geldt dat <BM>{f}\left({x}\right) = {func} = {c1.number === 1 ? '' : c1.number === -1 ? '-' : c1} {f}_1\left({x}\right) {c2.number > 0 ? '+' : ''} {c2.number === 1 ? '' : c2.number === -1 ? '-' : c2} {f}_2\left({x}\right) {c3.number > 0 ? '+' : ''} {c3.number === 1 ? '' : c3.number === -1 ? '-' : c3} {f}_3\left({x}\right).</BM></Par>
 		},
 	},
 	{

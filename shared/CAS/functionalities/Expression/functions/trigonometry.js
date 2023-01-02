@@ -1,10 +1,8 @@
 const { deg2rad, rad2deg } = require('../../../../util/numbers')
 
-const { Variable, SingleArgumentFunction, Integer, Sum, Product, Fraction, Power } = require('../Expression')
+const { Variable, SingleArgumentFunction, Integer, Sum, Product, Fraction, Power, Sqrt } = require('../Expression')
 const { isInteger } = require('../checks')
 const { equivalent } = require('../comparisons')
-
-const { Sqrt } = require('./roots')
 
 const halfPi = Variable.pi.divide(2)
 const twoPi = Variable.pi.multiply(2)

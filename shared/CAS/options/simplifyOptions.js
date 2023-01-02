@@ -31,6 +31,8 @@ const noSimplify = { // This is never applied, but only use to verify options gi
 	expandPowersOfSums: false, // Reduces (a+b)^3 to (a^3 + 3*a^2*b + 3*a*b^2 + b^3). Only works on integer powers.
 	pullPowersIntoRoots: false, // Reduces sqrt(4)^3 to sqrt(4^3).
 	pullFactorsOutOfRoots: false, // Reduces sqrt(20) to 2*sqrt(5) and sqrt(a^3b^4c^5) to ab^2c^2*sqrt(ac).
+	turnFractionPowerIntoRoot: false, // Reduces x^(1/3) to root[3](x).
+	turnBaseTwoRootIntoSqrt: false, // Reduces root[2](x) to sqrt(x).
 
 	// The following options relate to Functions.
 	toBasicForm: false, // Turns more complex functions into more basic forms. So sqrt(a) becomes a^(1/2), [a]log(b) will be ln(b)/ln(a), tan(x) will be sin(x)/cos(x) and likewise simplifications ensue.
@@ -129,3 +131,14 @@ const equationForAnalysis = {
 	allToLeft: true,
 }
 module.exports.equationForAnalysis = equationForAnalysis
+
+// forDisplay makes simplifications that make an expression (or equation) more easy to display but not to evaluate. Think of turning x^(1/2) into sqrt(x), and x^(-2) into (1/x^2).
+const forDisplay = {
+	...removeUseless,
+	turnFractionPowerIntoRoot: true,
+	turnBaseTwoRootIntoSqrt: true,
+	removeNegativePowers: true,
+	flattenFractions: true, // Needed because removeNegativePowers may create fractions.
+	sortProducts: true, // Needed because flattenFractions may create unordered products.
+}
+module.exports.forDisplay = forDisplay

@@ -25,7 +25,7 @@ function generateState() {
 	const c1 = getRandomInteger(-12, 12, [0])
 	const c2 = getRandomInteger(-12, 12, [0])
 	const c3 = getRandomInteger(-12, 12, [0])
-	const func = f1.multiply(c1, true).add(f2.multiply(c2, true)).add(f3.multiply(c3, true)).substitute('x', x).basicClean()
+	const func = f1.multiply(c1, true).add(f2.multiply(c2, true)).add(f3.multiply(c3, true)).substitute('x', x).basicClean({ mergeProductTerms: false }) // Do not turn 10 * 10^x into 10^(x+1).
 	return {
 		x,
 		f: selectRandomly(functionSet),
@@ -38,9 +38,9 @@ function getSolution(state) {
 	const { constant: c1, func: f1 } = getElementaryFunctionFromTerm(func.terms[0])
 	const { constant: c2, func: f2 } = getElementaryFunctionFromTerm(func.terms[1])
 	const { constant: c3, func: f3 } = getElementaryFunctionFromTerm(func.terms[2])
-	const f1Derivative = f1.getDerivative()
-	const f2Derivative = f2.getDerivative()
-	const f3Derivative = f3.getDerivative()
+	const f1Derivative = f1.getDerivative().cleanForDisplay()
+	const f2Derivative = f2.getDerivative().cleanForDisplay()
+	const f3Derivative = f3.getDerivative().cleanForDisplay()
 	const derivative = c1.multiply(f1Derivative).add(c2.multiply(f2Derivative)).add(c3.multiply(f3Derivative)).basicClean()
 	return { ...state, c1, c2, c3, f1, f2, f3, f1Derivative, f2Derivative, f3Derivative, derivative }
 }
