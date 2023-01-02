@@ -176,7 +176,7 @@ class Tan extends SingleArgumentFunction {
 		}
 
 		// For analysis reduce to sines and cosines.
-		if (options.toBasicForm)
+		if (options.turnTanIntoSinCos)
 			return new Fraction(
 				new Sin(argument).applySettingsToSelf(this.settings),
 				new Cos(argument).applySettingsToSelf(this.settings),

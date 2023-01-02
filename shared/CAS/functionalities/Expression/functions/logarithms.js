@@ -34,7 +34,7 @@ class Log extends Function {
 		}
 
 		// For analysis reduce to only natural logarithms.
-		if (options.toBasicForm)
+		if (options.turnLogIntoLn)
 			return new Fraction(new Ln(argument), new Ln(base)).simplifyBasic(options)
 
 		return new Log({ argument, base })

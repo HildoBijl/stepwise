@@ -31,12 +31,14 @@ const noSimplify = { // This is never applied, but only use to verify options gi
 	expandPowersOfSums: false, // Reduces (a+b)^3 to (a^3 + 3*a^2*b + 3*a*b^2 + b^3). Only works on integer powers.
 	pullPowersIntoRoots: false, // Reduces sqrt(4)^3 to sqrt(4^3).
 	pullFactorsOutOfRoots: false, // Reduces sqrt(20) to 2*sqrt(5) and sqrt(a^3b^4c^5) to ab^2c^2*sqrt(ac).
+	turnRootIntoFractionPower: false, // Reduces root[3](x) to x^(1/3).
 	turnFractionPowerIntoRoot: false, // Reduces x^(1/3) to root[3](x).
 	turnBaseTwoRootIntoSqrt: false, // Reduces root[2](x) to sqrt(x).
 
 	// The following options relate to Functions.
-	toBasicForm: false, // Turns more complex functions into more basic forms. So sqrt(a) becomes a^(1/2), [a]log(b) will be ln(b)/ln(a), tan(x) will be sin(x)/cos(x) and likewise simplifications ensue.
-	basicReductions: false, // Turns sin(arcsin(x)) into x, cos(pi) into -1 and similar.
+	basicReductions: false, // Turns ln(e) into 1, cos(pi) into -1 and similar.
+	turnLogIntoLn: false, // Turns log[a](b) into ln(b)/ln(a).
+	turnTanIntoSinCos: false, // Turns tan(x) into sin(x)/cos(x).
 
 	// The following options relate to Equations. They do nothing for Expessions.
 	allToLeft: false, // Moves all terms to the left. So will turn "ax+b=cx+d" into "ax+b-(cx+d)=0".
@@ -114,14 +116,18 @@ module.exports.advancedClean = advancedClean
 // forAnalysis puts expression, for as much as possible, into a standard form. This subsequently allows for easy comparison.
 const forAnalysis = {
 	...advancedClean,
-	toBasicForm: true,
+	turnRootIntoFractionPower: true,
+	turnLogIntoLn: true,
+	turnTanIntoSinCos: true,
 }
 module.exports.forAnalysis = forAnalysis
 
 // forDerivatives puts expressions in a form making it easier to take derivatives. Some components (like tan(x)) do not have a derivative specified, but in basic form (sin(x)/cos(x)) derivatives are possible.
 const forDerivatives = {
 	...removeUseless,
-	toBasicForm: true,
+	turnRootIntoFractionPower: true,
+	turnLogIntoLn: true,
+	turnTanIntoSinCos: true,
 }
 module.exports.forDerivatives = forDerivatives
 

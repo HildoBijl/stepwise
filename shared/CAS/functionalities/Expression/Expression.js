@@ -2214,7 +2214,7 @@ class Sqrt extends SingleArgumentFunction {
 		}
 
 		// For analysis reduce to a power.
-		if (options.toBasicForm)
+		if (options.turnRootIntoFractionPower)
 			return new Power(argument, new Fraction(1, 2)).simplifyBasic(options)
 
 		return new Sqrt(argument)
@@ -2265,7 +2265,7 @@ class Root extends Function {
 		}
 
 		// For analysis reduce to a power.
-		if (options.toBasicForm)
+		if (options.turnRootIntoFractionPower)
 			return new Power(argument, new Fraction(1, base)).simplifyBasic(options)
 
 		return new Root({ argument, base })
