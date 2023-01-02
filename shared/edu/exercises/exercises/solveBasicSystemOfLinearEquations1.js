@@ -57,7 +57,7 @@ function getSolution(state) {
 	const eq2SubstitutedStep1 = asEquation('d*(c-b*y)+a*e*y=a*f').substituteVariables(variables).removeUseless()
 	const eq2SubstitutedStep2 = asEquation('d*c-d*b*y+a*e*y=a*f').substituteVariables(variables).basicClean()
 	const eq2SubstitutedStep3 = asEquation('-d*b*y+a*e*y=a*f-d*c').substituteVariables(variables).regularClean()
-	const eq2SubstitutedStep4 = asExpression('a*f-d*c').substituteVariables(variables).basicClean().divideBy(asExpression('a*e-d*b').substituteVariables(variables).basicClean())
+	const eq2SubstitutedStep4 = asExpression('a*f-d*c').substituteVariables(variables).basicClean().divide(asExpression('a*e-d*b').substituteVariables(variables).basicClean())
 
 	// Find the solution.
 	const { a, b, c, d, e, f } = variables

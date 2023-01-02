@@ -42,7 +42,7 @@ function getSolution(state) {
 	const termsMoved = equation.subtract(equation.left.terms[1]).subtract(equation.right.terms[0]).simplify({ cancelSumTerms: true })
 	const pulledOut = termsMoved.applyToLeft(left => left.pullOutsideBrackets(variables.x))
 	const bracketTerm = pulledOut.left.terms.find(factor => !variables.x.equals(factor))
-	const ans = termsMoved.right.divideBy(bracketTerm)
+	const ans = termsMoved.right.divide(bracketTerm)
 
 	return { ...state, variables, equation, termsMoved, pulledOut, bracketTerm, ans }
 }

@@ -55,7 +55,7 @@ function getSolution(state) {
 	const equation = new Equation(left, right).removeUseless()
 
 	// Set up the solution.
-	const intermediateWithBrackets = equation.divideBy(variables.x)
+	const intermediateWithBrackets = equation.divide(variables.x)
 	const intermediateWithoutBrackets = intermediateWithBrackets.simplify({ splitFractions: true, removeUseless: true })
 	const ans = intermediateWithoutBrackets.simplify({ removeUseless: true, mergeFractionTerms: true, mergeProductTerms: true, mergeSumNumbers: true })
 

@@ -44,9 +44,9 @@ function getSolution(state) {
 
 	// Set up the solution.
 	const denominator = asExpression('xyz').substituteVariables(variables).simplify({ sortProducts: true })
-	const leftAns = leftExpression.multiplyNumDenBy(y).simplify({ removeUseless: true, mergeProductNumbers: true, sortProducts: true })
-	const rightAns = rightExpression.multiplyNumDenBy(x).simplify({ removeUseless: true, mergeProductNumbers: true, sortProducts: true })
-	const ans = leftAns.numerator[plus ? 'add' : 'subtract'](rightAns.numerator).divideBy(denominator)
+	const leftAns = leftExpression.multiplyNumDen(y).simplify({ removeUseless: true, mergeProductNumbers: true, sortProducts: true })
+	const rightAns = rightExpression.multiplyNumDen(x).simplify({ removeUseless: true, mergeProductNumbers: true, sortProducts: true })
+	const ans = leftAns.numerator[plus ? 'add' : 'subtract'](rightAns.numerator).divide(denominator)
 
 	return { ...state, variables, leftExpression, rightExpression, expression, denominator, leftAns, rightAns, ans }
 }

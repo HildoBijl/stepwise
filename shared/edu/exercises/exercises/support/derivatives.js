@@ -67,7 +67,7 @@ function getElementaryFunctionFromTerm(func) {
 		const nonConstantTerm = func.terms.find(factor => !factor.isNumeric())
 		if (!constantTerm || !nonConstantTerm)
 			throw new Error(`Invalid case: cannot process products not consisting of a constant times a non-constant term.`)
-		constant = constant.multiplyBy(constantTerm)
+		constant = constant.multiply(constantTerm)
 		func = nonConstantTerm
 	}
 
@@ -75,7 +75,7 @@ function getElementaryFunctionFromTerm(func) {
 	if (func.isSubtype('Fraction')) {
 		if (!func.numerator.isNumeric())
 			throw new Error(`Invalid case: cannot process fractions with a non-constant numerator.`)
-		constant = constant.multiplyBy(func.numerator)
+		constant = constant.multiply(func.numerator)
 		func = new Fraction(Integer.one, func.denominator)
 	}
 

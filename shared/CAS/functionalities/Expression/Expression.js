@@ -13,7 +13,7 @@
  * - Power extends Function
  * - SingleArgumentFunction [abstract] extends Function and is used for single-argument mathematical functions like sin, ln, sqrt and such.
  * - Ln extends SingleArgumentFunction
- * By having all these elements in one file, we can add methods like "sum", "multiplyBy", "divideBy", "toPower", "getDerivative", "simplify" and "equals" all in the Expression class, ready to be inherited.
+ * By having all these elements in one file, we can add methods like "sum", "multiply", "divide", "toPower", "getDerivative", "simplify" and "equals" all in the Expression class, ready to be inherited.
  *
  * So why is this all in one file? The reason is cyclic dependencies. A "Sum" class must be an extension of the "Expression" class. But the "Expression" class must have an "add" method, which requires knowledge of the Sum. They depend on each other. There were various options here:
  * - Allow the "exp1.add(exp2)" method but have cyclic dependencies. Some module loaders can deal with this and simply load in all files together upon cyclic dependencies, but in Node and/or Jest this generally fails.
@@ -290,21 +290,21 @@ class Expression {
 		return this.add(subtraction.applyMinus(true), putAtStart)
 	}
 
-	// multiplyBy will multiply this expression by the given expression. It puts the given expression after the current one: a.multiply(b) = a*b. If the second argument is set to true, this is reversed: a.multiply(b, true) = b*a.
-	multiplyBy(multiplication, putAtStart = false) {
+	// multiply will multiply this expression by the given expression. It puts the given expression after the current one: a.multiply(b) = a*b. If the second argument is set to true, this is reversed: a.multiply(b, true) = b*a.
+	multiply(multiplication, putAtStart = false) {
 		multiplication = ensureExpression(multiplication)
 		return new Product(putAtStart ? [multiplication, this] : [this, multiplication]).cleanStructure()
 	}
 
-	// divideBy will divide this expression by the given expression.
-	divideBy(division) {
+	// divide will divide this expression by the given expression.
+	divide(division) {
 		division = ensureExpression(division)
 		return new Fraction(this, division).cleanStructure()
 	}
 
 	// applyMinus will multiply a quantity by -1 and do a few minor simplifications. If applySpecific is set to true (default), some Expression types may do a type-specific check. For instance, for a sum, we turn "a-b" either into "-1*(a-b)" (on false) or "-a+b" (on true). Otherwise all applyMinus cases are simply the result of a multiplication by "-1".
 	applyMinus(applySpecific = true) {
-		return this.multiplyBy(Integer.minusOne, true)
+		return this.multiply(Integer.minusOne, true)
 	}
 
 	// abs checks if an expression appears to be negative (starts with a minus sign) and if so takes the negative. Note that for equations this is only for display purposes: do not use logics based on this.
@@ -312,9 +312,9 @@ class Expression {
 		return this.isNegative() ? this.applyMinus(true) : this
 	}
 
-	// multiplyNumDenBy takes this object and turns it into a fraction, if it isn't already. Subsequently, it multiplies both the numerator and the denominator with a given expression.
-	multiplyNumDenBy(expression) {
-		return new Fraction(this.multiplyBy(expression), expression)
+	// multiplyNumDen takes this object and turns it into a fraction, if it isn't already. Subsequently, it multiplies both the numerator and the denominator with a given expression.
+	multiplyNumDen(expression) {
+		return new Fraction(this.multiply(expression), expression)
 	}
 
 	// toPower will take this object and apply the given power.
@@ -1037,11 +1037,11 @@ class Sum extends ExpressionList {
 				const denominator = new Product(terms.map(term => term.isSubtype(Fraction) ? term.denominator : Integer.one)).removeUseless()
 				const numerator = new Sum(terms.map((term, index) => {
 					if (!term.isSubtype(Fraction))
-						return term.multiplyBy(denominator).simplifyBasic(options)
+						return term.multiply(denominator).simplifyBasic(options)
 
 					// Get the product of denominators of all other fractions, and multiply by the numerator.
 					const factor = new Product(terms.map((comparisonTerm, comparisonIndex) => comparisonTerm.isSubtype(Fraction) && index !== comparisonIndex ? comparisonTerm.denominator : Integer.one)).removeUseless()
-					return term.numerator.multiplyBy(factor)
+					return term.numerator.multiply(factor)
 				}))
 				return new Fraction(numerator, denominator).simplifyBasic(options)
 			}
@@ -1063,7 +1063,7 @@ class Sum extends ExpressionList {
 
 			// If some terms have been merged, update the terms array to include the merged parts. Also clean up the merged constants, but not grouping them anymore to prevent infinite loops.
 			if (terms.length > newTerms.length) {
-				terms = newTerms.map(({ variablePart, constantPart }) => constantPart.simplify({ ...options, groupSumTerms: false }).multiplyBy(variablePart).removeUseless()).filter(term => !Integer.zero.equalsBasic(term))
+				terms = newTerms.map(({ variablePart, constantPart }) => constantPart.simplify({ ...options, groupSumTerms: false }).multiply(variablePart).removeUseless()).filter(term => !Integer.zero.equalsBasic(term))
 			}
 		}
 
@@ -1254,7 +1254,7 @@ class Product extends ExpressionList {
 				return new Product(this.terms.slice(1)).cleanStructure() // Remove the leading -1.
 			return new Product([this.terms[0].applyMinus(applySpecific), ...this.terms.slice(1)]) // Make the leading number negative.
 		}
-		return this.multiplyBy(Integer.minusOne, true).cleanStructure() // Add a "-1 * ...".
+		return this.multiply(Integer.minusOne, true).cleanStructure() // Add a "-1 * ...".
 	}
 
 	getConstantAndVariablePart() {
@@ -1650,9 +1650,9 @@ class Fraction extends Function {
 		return new Fraction(func(this.numerator), func(this.denominator))
 	}
 
-	multiplyNumDenBy(expression, putAtStart) {
+	multiplyNumDen(expression, putAtStart) {
 		expression = ensureExpression(expression)
-		return this.applyToBothSides(side => side.multiplyBy(expression, putAtStart))
+		return this.applyToBothSides(side => side.multiply(expression, putAtStart))
 	}
 
 	applyMinus(applySpecific = true) {

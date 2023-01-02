@@ -31,7 +31,7 @@ function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
 	const expression = asExpression('(ax)/(bw)').substituteVariables(variables)
 	const factor = asExpression('yz').substituteVariables(variables)
-	const ans = expression.multiplyNumDenBy(factor)
+	const ans = expression.multiplyNumDen(factor)
 	return { ...state, variables, expression, factor, ans }
 }
 

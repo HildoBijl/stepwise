@@ -49,20 +49,20 @@ function getSolution(state) {
 	const denominator = fraction2[state.plus2 ? 'add' : 'subtract'](term2)
 
 	// Define the expression.
-	const expression = numerator.divideBy(denominator)
+	const expression = numerator.divide(denominator)
 
 	// Simplify numerator.
-	const term1Intermediate = term1.multiplyNumDenBy(fraction1.denominator)
+	const term1Intermediate = term1.multiplyNumDen(fraction1.denominator)
 	const numeratorSplit = term1Intermediate[state.plus1 ? 'add' : 'subtract'](fraction1)
-	const numeratorIntermediate = term1Intermediate.numerator[state.plus1 ? 'add' : 'subtract'](fraction1.numerator).divideBy(fraction1.denominator)
+	const numeratorIntermediate = term1Intermediate.numerator[state.plus1 ? 'add' : 'subtract'](fraction1.numerator).divide(fraction1.denominator)
 
 	// Simplify denominator.
-	const term2Intermediate = term2.multiplyNumDenBy(fraction2.denominator)
+	const term2Intermediate = term2.multiplyNumDen(fraction2.denominator)
 	const denominatorSplit = fraction2[state.plus2 ? 'add' : 'subtract'](term2Intermediate)
-	const denominatorIntermediate = fraction2.numerator[state.plus2 ? 'add' : 'subtract'](term2Intermediate.numerator).divideBy(fraction2.denominator)
+	const denominatorIntermediate = fraction2.numerator[state.plus2 ? 'add' : 'subtract'](term2Intermediate.numerator).divide(fraction2.denominator)
 
 	// Simplify the expression.
-	const intermediate = numeratorIntermediate.divideBy(denominatorIntermediate)
+	const intermediate = numeratorIntermediate.divide(denominatorIntermediate)
 	const ans = intermediate.basicClean()
 	return { ...state, variables, term1, fraction1, numerator, fraction2, term2, denominator, expression, term1Intermediate, numeratorSplit, numeratorIntermediate, term2Intermediate, denominatorSplit, denominatorIntermediate, intermediate, ans }
 }

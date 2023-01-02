@@ -41,12 +41,12 @@ function getSolution(state) {
 	const fraction2 = asExpression('b/(xy)').substituteVariables(variables)
 	const numerator = asExpression('c/x').substituteVariables(variables)
 	const denominator = fraction1[state.plus ? 'add' : 'subtract'](fraction2)
-	const expression = numerator.divideBy(denominator)
-	const fraction1Intermediate = fraction1.multiplyNumDenBy(variables.y).basicClean()
-	const fraction2Intermediate = fraction2.multiplyNumDenBy(variables.x).basicClean()
+	const expression = numerator.divide(denominator)
+	const fraction1Intermediate = fraction1.multiplyNumDen(variables.y).basicClean()
+	const fraction2Intermediate = fraction2.multiplyNumDen(variables.x).basicClean()
 	const intermediateSplit = fraction1Intermediate[state.plus ? 'add' : 'subtract'](fraction2Intermediate)
-	const intermediate = fraction1Intermediate.numerator[state.plus ? 'add' : 'subtract'](fraction2Intermediate.numerator).divideBy(fraction1Intermediate.denominator)
-	const expressionWithIntermediate = numerator.divideBy(intermediate)
+	const intermediate = fraction1Intermediate.numerator[state.plus ? 'add' : 'subtract'](fraction2Intermediate.numerator).divide(fraction1Intermediate.denominator)
+	const expressionWithIntermediate = numerator.divide(intermediate)
 	const ans = asExpression(`(${variables.c / gcdValue}xy)/(${variables.a / gcdValue}y ${state.plus ? '+' : '-'} ${variables.b / gcdValue}x)`).substituteVariables(variables).simplify({ ...simplifyOptions.forAnalysis, sortSums: false })
 	return { ...state, variables, gcdValue, fraction1, fraction2, numerator, denominator, expression, fraction1Intermediate, fraction2Intermediate, intermediateSplit, intermediate, expressionWithIntermediate, ans }
 }

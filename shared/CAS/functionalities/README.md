@@ -21,8 +21,8 @@ Manipulating functions do something with the expression. The original expression
 
 - `add(exp, putAtStart = false)` adds the expression, resulting in `this + exp` (unless `putAtStart` is set to `true`).
 - `subtract(exp)` subtracts the expression, resulting in `this - exp`.
-- `multiplyBy(exp)` results in `this*exp`.
-- `divideBy(exp)` results in `this/exp`.
+- `multiply(exp)` results in `this*exp`.
+- `divide(exp)` results in `this/exp`.
 - `applyMinus()` results in `-this`.
 - `toPower(exp)` results in `this^(exp)`.
 - `invert` results in `this^(-1)`.
@@ -138,14 +138,14 @@ An `Equation` object has two important properties `left` and `right`, that are b
 
 Equations have mostly the same functionalities as expressions.
 
-- Mathematical operations like `add`, `subtract`, `multiplyBy`, `divideBy`, `toPower` and `applyMinus` still work, and will be applied to both sides.
+- Mathematical operations like `add`, `subtract`, `multiply`, `divide`, `toPower` and `applyMinus` still work, and will be applied to both sides.
 - Substitution-functions like `getVariables`, `substitute` and `substituteVariables` work and are also applied to both sides.
 - Simplification functions like `simplify`, `cleanStructure`, `removeUseless`, `elementaryClean`, `basicClean`, `regularClean` and `cleanForAnalysis` all work as usual and act on both sides. The main difference is that an extra simplify option `allToLeft` is available, which brings all terms in an equation to the left.
 
 On top of this, it is also possible to manipulate expressions. For this, you can use the following functions.
 
 - `switch()` will switch the left and right side.
-- `applyToBothSides(operation)` takes the operation and applies it to both sides. An example operation is `(exp) => exp.multiplyBy(2)`.
+- `applyToBothSides(operation)` takes the operation and applies it to both sides. An example operation is `(exp) => exp.multiply(2)`.
 - `applyToLeft(operation)` only applies an operation to the left side.
 - `applyToRight(operation)` only applies an operation to the right side.
 

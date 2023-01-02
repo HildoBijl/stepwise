@@ -39,11 +39,11 @@ function getSolution(state) {
 
 	// Find the solution.
 	const simplified = equation.applyToLeft(left => left.cleanForAnalysis({ sortSums: false }))
-	const multiplied = simplified.applyToBothSides(side => side.multiplyBy(simplified.left.denominator)).regularClean()
+	const multiplied = simplified.applyToBothSides(side => side.multiply(simplified.left.denominator)).regularClean()
 	const shifted = multiplied.subtract(multiplied.left.terms[1]).basicClean()
 	const pulledOut = shifted.applyToRight(side => side.pullOutsideBrackets(variables.x).regularClean())
 	const bracketFactor = pulledOut.right.terms.find(factor => !variables.x.equals(factor))
-	const ans = pulledOut.left.divideBy(bracketFactor).cleanForAnalysis({ sortSums: false })
+	const ans = pulledOut.left.divide(bracketFactor).cleanForAnalysis({ sortSums: false })
 
 	return { ...state, variables, equation, simplified, multiplied, shifted, pulledOut, bracketFactor, ans }
 }

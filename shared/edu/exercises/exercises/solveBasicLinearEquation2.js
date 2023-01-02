@@ -41,8 +41,8 @@ function getSolution(state) {
 	const termsMoved = equation.subtract(equation.left.terms[1]).subtract(equation.right.terms[1]).simplify({ cancelSumTerms: true })
 	const pulledOut = termsMoved.applyToLeft(left => left.pullOutsideBrackets(variables.x, { flattenFractions: true }))
 	const bracketTerm = pulledOut.left.terms.find(factor => !variables.x.equals(factor))
-	const ans = termsMoved.right.divideBy(bracketTerm)
-	const ansCleaned = ans.multiplyNumDenBy(variables.y).simplify({ expandProductsOfSums: true }).cleanForAnalysis()
+	const ans = termsMoved.right.divide(bracketTerm)
+	const ansCleaned = ans.multiplyNumDen(variables.y).simplify({ expandProductsOfSums: true }).cleanForAnalysis()
 
 	return { ...state, variables, equation, termsMoved, pulledOut, bracketTerm, ans, ansCleaned }
 }

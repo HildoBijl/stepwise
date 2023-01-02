@@ -85,9 +85,9 @@ const steps = [
 		Solution: () => {
 			const { variables, expression, intermediate, ans } = useSolution()
 			return <>
-				<Par>We hebben een breuk die we delen door een breuk. Door de regel "delen door een breuk is vermenigvuldigen met het omgekeerde" kunnen we dit schrijven als <BM>{intermediate.numerator.multiplyBy(intermediate.denominator.invert())}.</BM> Als we deze breuken samenvoegen, dan kunnen we dit simplificeren tot <BM>{ans}.</BM> Eventueel kunnen de haakjes nog uitgewerkt worden, maar dat is niet per se nodig hier.</Par>
+				<Par>We hebben een breuk die we delen door een breuk. Door de regel "delen door een breuk is vermenigvuldigen met het omgekeerde" kunnen we dit schrijven als <BM>{intermediate.numerator.multiply(intermediate.denominator.invert())}.</BM> Als we deze breuken samenvoegen, dan kunnen we dit simplificeren tot <BM>{ans}.</BM> Eventueel kunnen de haakjes nog uitgewerkt worden, maar dat is niet per se nodig hier.</Par>
 				<SubHead>Short-cut</SubHead>
-				<Par>We hadden deze opgave ook op kunnen lossen door de boven- en onderkant van de oorspronkelijke breuk met <M>{variables.x.multiplyBy(variables.y).simplify({ sortProducts: true })}</M> te vermenigvuldigen. Na het wegstrepen van factoren vinden we dan direct dat <BM>{expression}={ans.simplify({ expandProductsOfSums: true, sortProducts: true, mergeProductTerms: true, mergeSumNumbers: true })}.</BM> Deze short-cut vereist echter inzicht die je alleen via veel oefenen kan krijgen.</Par>
+				<Par>We hadden deze opgave ook op kunnen lossen door de boven- en onderkant van de oorspronkelijke breuk met <M>{variables.x.multiply(variables.y).simplify({ sortProducts: true })}</M> te vermenigvuldigen. Na het wegstrepen van factoren vinden we dan direct dat <BM>{expression}={ans.simplify({ expandProductsOfSums: true, sortProducts: true, mergeProductTerms: true, mergeSumNumbers: true })}.</BM> Deze short-cut vereist echter inzicht die je alleen via veel oefenen kan krijgen.</Par>
 			</>
 		},
 	},

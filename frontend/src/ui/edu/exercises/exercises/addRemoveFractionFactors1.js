@@ -38,7 +38,7 @@ const Solution = () => {
 
 function getFeedback(exerciseData) {
 	// Define extra checks.
-	const oneVariableCancelled = (input, correct, { variables, ans }) => (onlyOrderChanges(input, ans.multiplyNumDenBy(variables.y)) || onlyOrderChanges(input, ans.multiplyNumDenBy(variables.z))) && <>Goed op weg, maar er is nòg een variabele die je weg kunt strepen.</>
+	const oneVariableCancelled = (input, correct, { variables, ans }) => (onlyOrderChanges(input, ans.multiplyNumDen(variables.y)) || onlyOrderChanges(input, ans.multiplyNumDen(variables.z))) && <>Goed op weg, maar er is nòg een variabele die je weg kunt strepen.</>
 
 	// Determine feedback.
 	return getInputFieldFeedback('ans', exerciseData, { feedbackChecks: [originalExpression, oneVariableCancelled, correctExpression, incorrectExpression] })

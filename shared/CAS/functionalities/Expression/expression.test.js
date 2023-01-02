@@ -88,17 +88,17 @@ describe('Check direct expression comparison:', () => {
 
 	describe('products', () => {
 		it('equal itself', () => {
-			expect(x.multiplyBy(y).equals(x.multiplyBy(y))).toBe(true)
+			expect(x.multiply(y).equals(x.multiply(y))).toBe(true)
 		})
 		it('deal properly with multiplication priority', () => {
-			expect(x.multiplyBy(y).multiplyBy(z).equals(x.multiplyBy(y.multiplyBy(z)))).toBe(true)
+			expect(x.multiply(y).multiply(z).equals(x.multiply(y.multiply(z)))).toBe(true)
 		})
 		it('deal properly with order changes', () => {
-			expect(x.multiplyBy(y).equals(y.multiplyBy(x), true)).toBe(true)
-			expect(x.multiplyBy(y).equals(y.multiplyBy(x), false)).toBe(false)
+			expect(x.multiply(y).equals(y.multiply(x), true)).toBe(true)
+			expect(x.multiply(y).equals(y.multiply(x), false)).toBe(false)
 		})
 		it('do not equal other sums', () => {
-			expect(x.multiplyBy(y).equals(x.multiplyBy(z))).toBe(false)
+			expect(x.multiply(y).equals(x.multiply(z))).toBe(false)
 		})
 	})
 })
@@ -115,7 +115,7 @@ describe('Check expression simplification:', () => {
 			expect(xPlusZero.removeUseless().equals(x)).toBe(true)
 		})
 		it('removes useless multiplications', () => {
-			const xTimesOne = x.multiplyBy(Integer.one)
+			const xTimesOne = x.multiply(Integer.one)
 			expect(xTimesOne.equals(x)).toBe(false)
 			expect(xTimesOne.removeUseless().equals(x)).toBe(true)
 		})
@@ -123,19 +123,19 @@ describe('Check expression simplification:', () => {
 
 	describe('elementary clean', () => {
 		it('merges fraction products', () => {
-			const exp1 = Integer.two.divideBy(Integer.three).multiplyBy(x)
-			const exp2 = Integer.two.multiplyBy(x).divideBy(Integer.three)
+			const exp1 = Integer.two.divide(Integer.three).multiply(x)
+			const exp2 = Integer.two.multiply(x).divide(Integer.three)
 			expect(exp1.equals(exp2)).toBe(false)
 			expect(exp1.elementaryClean().equals(exp2)).toBe(true)
 		})
 		it('merges product numbers', () => {
-			const product = Integer.two.multiplyBy(Integer.three)
+			const product = Integer.two.multiply(Integer.three)
 			expect(product.equals(Integer.six)).toBe(false)
 			expect(product.elementaryClean().equals(Integer.six)).toBe(true)
 		})
 		it('merges product numbers into fractions', () => {
-			const exp1 = Integer.minusOne.multiplyBy(Integer.two).divideBy(Integer.three)
-			const exp2 = Integer.minusOne.multiplyBy(Integer.two.divideBy(Integer.three))
+			const exp1 = Integer.minusOne.multiply(Integer.two).divide(Integer.three)
+			const exp2 = Integer.minusOne.multiply(Integer.two.divide(Integer.three))
 			expect(exp1.equals(exp2)).toBe(false)
 			expect(exp1.elementaryClean().equals(exp2.elementaryClean())).toBe(true)
 		})
@@ -163,43 +163,43 @@ describe('Check expression comparison: ', () => {
 			expect(onlyOrderChanges(x.add(y), y.add(x))).toBe(true) // x + y = y + x
 		})
 		it('distinguishes unequal expressions', () => {
-			expect(onlyOrderChanges(Integer.two.multiplyBy(Integer.three).divideBy(Integer.four), Integer.two.multiplyBy(Integer.three.divideBy(Integer.four)))).toBe(false) // (2*3)/4 = 2*(3/4)
+			expect(onlyOrderChanges(Integer.two.multiply(Integer.three).divide(Integer.four), Integer.two.multiply(Integer.three.divide(Integer.four)))).toBe(false) // (2*3)/4 = 2*(3/4)
 		})
 	})
 
 	describe('onlyElementaryClean', () => {
 		it('matches equal expressions', () => {
-			expect(onlyElementaryClean(Integer.two.multiplyBy(Integer.three).divideBy(Integer.four), Integer.two.multiplyBy(Integer.three.divideBy(Integer.four)))).toBe(true) // (2*3)/4 = 2*(3/4)
+			expect(onlyElementaryClean(Integer.two.multiply(Integer.three).divide(Integer.four), Integer.two.multiply(Integer.three.divide(Integer.four)))).toBe(true) // (2*3)/4 = 2*(3/4)
 		})
 		it('distinguishes unequal expressions', () => {
-			expect(onlyElementaryClean(Integer.two.multiplyBy(x.add(y)), Integer.two.multiplyBy(x).add(Integer.two.multiplyBy(y)))).toBe(false) // 2(x+y) = 2x+2y
+			expect(onlyElementaryClean(Integer.two.multiply(x.add(y)), Integer.two.multiply(x).add(Integer.two.multiply(y)))).toBe(false) // 2(x+y) = 2x+2y
 		})
 	})
 
 	describe('equivalent', () => {
 		it('matches equal expressions', () => {
-			expect(equivalent(Integer.two.multiplyBy(x.add(y)), Integer.two.multiplyBy(x).add(Integer.two.multiplyBy(y)))).toBe(true) // 2(x+y) = 2x+2y
+			expect(equivalent(Integer.two.multiply(x.add(y)), Integer.two.multiply(x).add(Integer.two.multiply(y)))).toBe(true) // 2(x+y) = 2x+2y
 		})
 		it('distinguishes unequal expressions', () => {
-			expect(equivalent(Integer.six.multiplyBy(x), Integer.three.multiplyBy(x))).toBe(false) // 6x = 3x
+			expect(equivalent(Integer.six.multiply(x), Integer.three.multiply(x))).toBe(false) // 6x = 3x
 		})
 	})
 
 	describe('integerMultiple', () => {
 		it('matches equal expressions', () => {
-			expect(integerMultiple(Integer.six.multiplyBy(x), Integer.three.multiplyBy(x))).toBe(true) // 6x = 3x
+			expect(integerMultiple(Integer.six.multiply(x), Integer.three.multiply(x))).toBe(true) // 6x = 3x
 		})
 		it('distinguishes unequal expressions', () => {
-			expect(integerMultiple(Integer.five.multiplyBy(x), Integer.three.multiplyBy(x))).toBe(false) // 5x = 3x
+			expect(integerMultiple(Integer.five.multiply(x), Integer.three.multiply(x))).toBe(false) // 5x = 3x
 		})
 	})
 
 	describe('constantMultiple', () => {
 		it('matches equal expressions', () => {
-			expect(constantMultiple(Integer.six.multiplyBy(x), Integer.three.multiplyBy(x))).toBe(true) // 5x = 3x
+			expect(constantMultiple(Integer.six.multiply(x), Integer.three.multiply(x))).toBe(true) // 5x = 3x
 		})
 		it('distinguishes unequal expressions', () => {
-			expect(constantMultiple(Integer.five.multiplyBy(x), Integer.three.multiplyBy(y))).toBe(false) // 5x = 3y
+			expect(constantMultiple(Integer.five.multiply(x), Integer.three.multiply(y))).toBe(false) // 5x = 3y
 		})
 	})
 })

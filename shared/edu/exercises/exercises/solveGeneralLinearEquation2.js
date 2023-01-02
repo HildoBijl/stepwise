@@ -39,13 +39,13 @@ function getSolution(state) {
 
 	// Find the solution.
 	const simplified = equation.applyToLeft(side => side.cleanForAnalysis({ sortSums: false }))
-	const multiplied = simplified.applyToBothSides(side => side.multiplyBy(simplified.left.denominator).multiplyBy(simplified.right.denominator)).regularClean()
+	const multiplied = simplified.applyToBothSides(side => side.multiply(simplified.left.denominator).multiply(simplified.right.denominator)).regularClean()
 	const expanded = multiplied.simplify({ expandProductsOfSums: true, splitFractions: true, mergeProductNumbers: true })
 	const termToMove = expanded.right.terms.find(term => term.dependsOn(variables.x))
 	const shifted = expanded.subtract(termToMove).regularClean()
 	const pulledOut = shifted.applyToLeft(side => side.pullOutsideBrackets(variables.x).regularClean())
 	const bracketFactor = pulledOut.left.terms.find(factor => !variables.x.equals(factor))
-	const ans = pulledOut.right.divideBy(bracketFactor).cleanForAnalysis({ sortSums: false })
+	const ans = pulledOut.right.divide(bracketFactor).cleanForAnalysis({ sortSums: false })
 
 	return { ...state, variables, equation, simplified, multiplied, expanded, termToMove, shifted, pulledOut, bracketFactor, ans }
 }

@@ -38,11 +38,11 @@ function getSolution(state) {
 	const terms = ['axy^2', 'bxy', 'cx^2y'].map(term => asExpression(term).substituteVariables(variables).removeUseless())
 	const factor = asExpression('xy').substituteVariables(variables).simplify({ sortProducts: true })
 	const expression = new Sum(state.order.map(index => terms[index])).simplify({ sortProducts: true })
-	const fraction = expression.divideBy(factor)
-	const setup = factor.multiplyBy(fraction)
+	const fraction = expression.divide(factor)
+	const setup = factor.multiply(fraction)
 	const fractionSplit = fraction.simplify({ splitFractions: true })
 	const fractionSimplified = fractionSplit.simplify({ ...simplifyOptions.basicClean, mergeFractionTerms: true })
-	const ans = factor.multiplyBy(fractionSimplified)
+	const ans = factor.multiply(fractionSimplified)
 	return { ...state, variables, expression, factor, fraction, setup, fractionSplit, fractionSimplified, ans }
 }
 

@@ -24,7 +24,7 @@ function generateState() {
 	const x = selectRandomly(variableSet)
 	const c1 = getRandomInteger(-12, 12, [0])
 	const c2 = getRandomInteger(-12, 12, [0])
-	const func = f1.multiplyBy(c1, true).add(f2.multiplyBy(c2, true)).substitute('x', x).basicClean()
+	const func = f1.multiply(c1, true).add(f2.multiply(c2, true)).substitute('x', x).basicClean()
 	return {
 		x,
 		f: selectRandomly(functionSet),
@@ -38,7 +38,7 @@ function getSolution(state) {
 	const { constant: c2, func: f2 } = getElementaryFunctionFromTerm(func.terms[1])
 	const f1Derivative = f1.getDerivative()
 	const f2Derivative = f2.getDerivative()
-	const derivative = c1.multiplyBy(f1Derivative).add(c2.multiplyBy(f2Derivative)).basicClean()
+	const derivative = c1.multiply(f1Derivative).add(c2.multiply(f2Derivative)).basicClean()
 	return { ...state, c1, c2, f1, f2, f1Derivative, f2Derivative, derivative }
 }
 

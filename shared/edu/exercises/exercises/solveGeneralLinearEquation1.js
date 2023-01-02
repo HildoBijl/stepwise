@@ -40,14 +40,14 @@ function getSolution(state) {
 	// Find the solution.
 	const factor1 = variables.x
 	const factor2 = equation.left.terms[0].denominator
-	const factor = factor1.multiplyBy(factor2)
-	const multiplied = equation.applyToLeft(side => side.applyToAllTerms(term => term.multiplyBy(factor))).applyToRight(side => side.multiplyBy(factor)).basicClean({ mergeFractionTerms: true })
+	const factor = factor1.multiply(factor2)
+	const multiplied = equation.applyToLeft(side => side.applyToAllTerms(term => term.multiply(factor))).applyToRight(side => side.multiply(factor)).basicClean({ mergeFractionTerms: true })
 	const expanded = multiplied.simplify({ expandProductsOfSums: true, mergeProductNumbers: true })
 	const merged = expanded.regularClean({ sortProducts: false })
 	const shifted = merged.subtract(expanded.left.terms[3]).subtract(expanded.right.terms[0]).basicClean()
 	const pulledOut = shifted.applyToLeft(side => side.pullOutsideBrackets(variables.x))
 	const bracketFactor = pulledOut.left.terms.find(factor => !variables.x.equals(factor))
-	const ans = pulledOut.right.divideBy(bracketFactor)
+	const ans = pulledOut.right.divide(bracketFactor)
 
 	return { ...state, variables, equation, factor1, factor2, factor, multiplied, expanded, merged, shifted, pulledOut, bracketFactor, ans }
 }

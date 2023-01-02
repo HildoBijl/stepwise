@@ -47,7 +47,7 @@ const steps = [
 		Solution: (state) => {
 			const { b } = state
 			const { variables, equation, simplified } = useSolution()
-			return <Par>We kunnen de breuk in een breuk vereenvoudigen door de teller en de noemer beiden met <M>{variables.y}</M> te vermenigvuldigen en door <M>{variables.x}</M> te delen. {b > 0 ? 'Hiermee' : 'Hiermee, en via het wegstrepen van mintekens,'} reduceert de breuk tot <BM>{equation.left} = {equation.left.multiplyNumDenBy(variables.y.divideBy(variables.x))} = {simplified.left}.</BM> Als we dit invullen in de vergelijking, dan kunnen we hem schrijven als <BM>{simplified}.</BM></Par>
+			return <Par>We kunnen de breuk in een breuk vereenvoudigen door de teller en de noemer beiden met <M>{variables.y}</M> te vermenigvuldigen en door <M>{variables.x}</M> te delen. {b > 0 ? 'Hiermee' : 'Hiermee, en via het wegstrepen van mintekens,'} reduceert de breuk tot <BM>{equation.left} = {equation.left.multiplyNumDen(variables.y.divide(variables.x))} = {simplified.left}.</BM> Als we dit invullen in de vergelijking, dan kunnen we hem schrijven als <BM>{simplified}.</BM></Par>
 		},
 	},
 	{

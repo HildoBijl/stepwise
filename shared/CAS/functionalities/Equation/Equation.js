@@ -146,14 +146,14 @@ class Equation {
 		return this.applyToBothSides(part => part.subtract(subtraction))
 	}
 
-	// multiplyBy will multiply both sides of the equation by the given expression. A potential putAtStart parameter is passed on to the expressions.
-	multiplyBy(multiplication, putAtStart) {
-		return this.applyToBothSides(part => part.multiplyBy(multiplication, putAtStart))
+	// multiply will multiply both sides of the equation by the given expression. A potential putAtStart parameter is passed on to the expressions.
+	multiply(multiplication, putAtStart) {
+		return this.applyToBothSides(part => part.multiply(multiplication, putAtStart))
 	}
 
-	// divideBy will divide both sides of the expression by the given quantity.
-	divideBy(division) {
-		return this.applyToBothSides(part => part.divideBy(division))
+	// divide will divide both sides of the expression by the given quantity.
+	divide(division) {
+		return this.applyToBothSides(part => part.divide(division))
 	}
 
 	// toPower will take both sides and put it to the given power.

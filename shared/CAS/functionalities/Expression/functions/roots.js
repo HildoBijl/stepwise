@@ -27,7 +27,7 @@ class Sqrt extends SingleArgumentFunction {
 	getDerivativeBasic(variable) {
 		return new Fraction({
 			numerator: this.argument.getDerivative(variable), // Apply the chain rule.
-			denominator: new Sqrt(this.argument).multiplyBy(2), // Put the sqrt in the denominator. Multiply by 2 because of the square root derivative rule.
+			denominator: new Sqrt(this.argument).multiply(2), // Put the sqrt in the denominator. Multiply by 2 because of the square root derivative rule.
 		})
 	}
 

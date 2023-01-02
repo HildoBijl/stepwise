@@ -40,7 +40,7 @@ function getFeedback(exerciseData) {
 	// Define extra checks.
 	const wrongDenominator = (input, correct, { variables, ans }) => !onlyOrderChanges(ans.denominator, input.denominator) && <>Er is iets mis met je noemer. Hier is geen factor <M>{variables.x}</M> bijgekomen zoals beoogd.</>
 	
-	const noSquare = (input, correct, { expression, variables }) => onlyOrderChanges(expression.numerator.multiplyBy(variables.x), input.numerator) && <>Je kan je antwoord nog simpeler schrijven. Tip: Wat is <M>{variables.x} \cdot {variables.x}</M>?</>
+	const noSquare = (input, correct, { expression, variables }) => onlyOrderChanges(expression.numerator.multiply(variables.x), input.numerator) && <>Je kan je antwoord nog simpeler schrijven. Tip: Wat is <M>{variables.x} \cdot {variables.x}</M>?</>
 	
 	const wrongNumerator = (input, correct, { variables, ans }) => !onlyOrderChanges(ans.numerator, input.numerator) && <>Er is iets mis met je teller. Hier is geen factor <M>{variables.x}</M> bijgekomen zoals beoogd.</>
 

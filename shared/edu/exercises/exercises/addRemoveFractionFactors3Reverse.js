@@ -31,7 +31,7 @@ function getSolution(state) {
 	const term = new Product(a, z)
 	const product = new Product(state.front ? [term, sum] : [sum, term])
 	const expression = state.upper ? term : new Fraction(1, term)
-	const ans = expression.multiplyNumDenBy(sum).removeUseless()
+	const ans = expression.multiplyNumDen(sum).removeUseless()
 	return { ...state, variables, sum, term, product, expression, ans }
 }
 

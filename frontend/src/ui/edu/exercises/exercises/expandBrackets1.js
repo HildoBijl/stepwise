@@ -29,7 +29,7 @@ const Problem = () => {
 
 const Solution = () => {
 	const { before, factor, sum, expression, ans } = useSolution()
-	const intermediate = factor.multiplyBy(sum.terms[0], before).add(factor.multiplyBy(sum.terms[1], before))
+	const intermediate = factor.multiply(sum.terms[0], before).add(factor.multiply(sum.terms[1], before))
 	return <Par>Om de haakjes uit te werken vermenigvuldigen we de term buiten haakjes <M>{factor}</M> los met elk van de termen binnen haakjes <M>{sum.terms[0]}</M> en <M>{sum.terms[1]}.</M> Zo krijgen we <BM>{expression} = {intermediate}.</BM> Dit kan eventueel (niet verplicht, wel handig) simpeler geschreven worden als <BM>{expression} = {ans}.</BM></Par>
 }
 
