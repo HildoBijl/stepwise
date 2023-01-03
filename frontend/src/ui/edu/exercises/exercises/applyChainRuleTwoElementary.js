@@ -12,7 +12,6 @@ import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
 
 import { getInputFieldFeedback } from '../util/feedback'
-import { sumWithWrongTerms } from '../util/feedbackChecks/expression'
 
 const { onlyOrderChanges, equivalent, constantMultiple } = expressionComparisons
 
@@ -23,7 +22,7 @@ export default function Exercise() {
 const Problem = () => {
 	const { x, f, g, h } = useSolution()
 	return <>
-		<Par>Gegeven is de functie <BM>h\left({x}\right) = {h}.</BM> Deze functie is het product van de twee functies <BMList><BMPart>f\left({x}\right) = {f},</BMPart><BMPart>g\left({x}\right) = {g}.</BMPart></BMList>Bepaal de afgeleide <M>h'\left({x}\right).</M></Par>
+		<Par>Gegeven is de functie <BM>h\left({x}\right) = {h}.</BM> Deze functie is het resultaat van de ketening <M>h\left({x}\right) = f\left(g\left({x}\right)\right),</M> waarbij <BMList><BMPart>f\left({x}\right) = {f},</BMPart><BMPart>g\left({x}\right) = {g}.</BMPart></BMList>Bepaal de afgeleide <M>h'\left({x}\right).</M></Par>
 		<InputSpace>
 			<Par>
 				<ExpressionInput id="derivative" prelabel={<M>h'\left({x}\right)=</M>} label="Vul hier het resultaat in" size="l" settings={allMathSimpleVariables} validate={validWithVariables([x])} />
@@ -49,10 +48,11 @@ const steps = [
 		},
 		Solution: () => {
 			const { x, fDerivative, gDerivative } = useSolution()
-			return <Par>De tabel van basisafgeleiden zegt direct dat
-				<BM>f'\left({x}\right) = {fDerivative}.</BM>
-				Via de somregel en de constantenregel, en met wat herschrijven, vinden we verder ook nog dat
-				<BM>g'\left({x}\right) = {gDerivative}.</BM>
+			return <Par>We kunnen in onze tabel van basisafgeleiden (samen met de constanteregel bij <M>f\left({x}\right)</M>) vinden dat
+				<BMList>
+					<BMPart>f'\left({x}\right) = {fDerivative},</BMPart>
+					<BMPart>g'\left({x}\right) = {gDerivative}.</BMPart>
+				</BMList>
 			</Par>
 		},
 	},
@@ -60,7 +60,7 @@ const steps = [
 		Problem: () => {
 			const { x } = useSolution()
 			return <>
-				<Par>Stel via de productregel de afgeleide <M>h'\left({x}\right)</M> samen.</Par>
+				<Par>Stel via de kettingregel de afgeleide <M>h'\left({x}\right)</M> samen.</Par>
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="derivative" prelabel={<M>h'\left({x}\right)=</M>} label="Vul hier het resultaat in" size="l" settings={allMathSimpleVariables} validate={validWithVariables([x])} />
@@ -69,8 +69,8 @@ const steps = [
 			</>
 		},
 		Solution: () => {
-			const { x, derivative, derivativeSimplified } = useSolution()
-			return <Par>De productregel zegt dat <BM>h'\left({x}\right) = f'\left({x}\right) g\left({x}\right) + f\left({x}\right) g'\left({x}\right).</BM> Als we dit letterlijk toepassen, dan krijgen we <BM>h'\left({x}\right) = {derivative}.</BM> Dit kan eventueel nog herschreven worden tot <BM>h'\left({x}\right) = {derivativeSimplified}.</BM></Par>
+			const { x, g, gDerivative, derivative, derivativeSimplified } = useSolution()
+			return <Par>De kettingregel zegt dat <BM>h'\left({x}\right) = f'\left(g\left({x}\right)\right) g'\left({x}\right).</BM> Als we dit letterlijk toepassen, dan vullen we <M>{g}</M> in de functie <M>f'\left({x}\right)</M> in, en vermenigvuldigen het resultaat met <M>{gDerivative}.</M> Zo vinden we <BM>h'\left({x}\right) = {derivative}.</BM> Dit kan eventueel nog herschreven worden tot <BM>h'\left({x}\right) = {derivativeSimplified}.</BM></Par>
 		},
 	},
 ]
@@ -78,14 +78,14 @@ const steps = [
 function getFeedback(exerciseData) {
 	// Define h derivative checks.
 	const originalFunction = (input, correct, { h }) => onlyOrderChanges(input, h) && <>Dit is de oorspronkelijke functie. Je hebt hier nog niets mee gedaan.</>
-	const incorrectFunction = (input, correct, solution, isCorrect) => !isCorrect && !equivalent(input, correct) && <>Dit is niet de afgeleide. Kijk goed naar of je de productregel correct toegepast hebt.</>
+	const incorrectFunction = (input, correct, solution, isCorrect) => !isCorrect && !equivalent(input, correct) && <>Dit is niet de afgeleide. Kijk goed naar of je de kettingregel correct toegepast hebt.</>
 
 	// Define fDerivative and gDerivative checks.
-	const fDerivativeConstantMultipleCheck = (input, correct, { f, x }, isCorrect) => !isCorrect && constantMultiple(input, correct) && <>Er gaat iets mis met de constante vermenigvuldiging. Kijk daar eens naar.</>
-	const fDerivativeIncorrectCheck = (input, correct, { f, x }, isCorrect) => !isCorrect && <>Deze klopt niet. Kijk goed in je tabel van basisafgeleiden.</>
+	const fDerivativeConstantMultipleCheck = (input, correct, solution, isCorrect) => !isCorrect && constantMultiple(input, correct) && <>Er gaat iets mis met de constante vermenigvuldiging. Kijk daar eens naar.</>
+	const fDerivativeIncorrectCheck = (input, correct, solution, isCorrect) => !isCorrect && <>Deze klopt niet. Kijk goed in je tabel van basisafgeleiden.</>
 
 	// Assemble the checks for all input fields.
-	const derivativeChecks = [originalFunction, sumWithWrongTerms, incorrectFunction]
+	const derivativeChecks = [originalFunction, incorrectFunction]
 	const fDerivativeChecks = [fDerivativeConstantMultipleCheck, fDerivativeIncorrectCheck]
 	const feedbackChecks = [derivativeChecks, fDerivativeChecks, fDerivativeChecks]
 

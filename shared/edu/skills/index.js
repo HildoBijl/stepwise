@@ -223,7 +223,7 @@ const skills = {
 	applyChainRule: {
 		name: 'Kettingregel toepassen',
 		setup: combinerAnd('lookUpElementaryDerivative', 'findBasicDerivative'),
-		exercises: [], // ToDo
+		exercises: ['applyChainRuleTwoElementary', 'applyChainRuleElementaryAndBasic'],
 	},
 
 	// Derivatives: general derivatives.

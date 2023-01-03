@@ -71,7 +71,7 @@ const steps = [
 		},
 		Solution: () => {
 			const { x, derivative, derivativeSimplified } = useSolution()
-			return <Par>De productregel zegt dat <BM>h'\left({x}\right) = f'\left({x}\right) g\left({x}\right) + f\left({x}\right) g'\left({x}\right).</BM> Als we dit letterlijk toepassen, dan krijgen we <BM>h'\left({x}\right) = {derivative}.</BM> Dit kan eventueel nog makkelijker geschreven worden als <BM>h'\left({x}\right) = {derivativeSimplified}.</BM></Par>
+			return <Par>De productregel zegt dat <BM>h'\left({x}\right) = f'\left({x}\right) g\left({x}\right) + f\left({x}\right) g'\left({x}\right).</BM> Als we dit letterlijk toepassen, dan krijgen we <BM>h'\left({x}\right) = {derivative}.</BM> Dit kan eventueel nog herschreven worden tot <BM>h'\left({x}\right) = {derivativeSimplified}.</BM></Par>
 		},
 	},
 ]
@@ -79,7 +79,7 @@ const steps = [
 function getFeedback(exerciseData) {
 	// Define h derivative checks.
 	const originalFunction = (input, correct, { h }) => onlyOrderChanges(input, h) && <>Dit is de oorspronkelijke functie. Je hebt hier nog niets mee gedaan.</>
-	const incorrectFunction = (input, correct, solution, isCorrect) => !isCorrect && !equivalent(input, correct) && <>Dit is niet de afgeleide. Kijk goed naar of je de juiste regels toegepast hebt.</>
+	const incorrectFunction = (input, correct, solution, isCorrect) => !isCorrect && !equivalent(input, correct) && <>Dit is niet de afgeleide. Kijk goed naar of je de productregel correct toegepast hebt.</>
 
 	// Define fDerivative and gDerivative checks.
 	const fDerivativeConstantMultipleCheck = (input, correct, solution, isCorrect) => !isCorrect && constantMultiple(input, correct) && <>Er gaat iets mis met de constante vermenigvuldiging. Kijk daar eens naar.</>

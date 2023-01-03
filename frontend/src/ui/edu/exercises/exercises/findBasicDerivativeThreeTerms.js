@@ -92,7 +92,7 @@ const steps = [
 		},
 		Solution: () => {
 			const { f, x, c1, c2, c3, f1Derivative, f2Derivative, f3Derivative, derivative } = useSolution()
-			return <Par>Het letterlijk toepassen van de regel geeft <BM>{f}'\left({x}\right) = {c1.number === 1 ? '' : c1.number === -1 ? '-' : c1} \left({f1Derivative}\right) {c2.number > 0 ? '+' : ''} {c2.number === 1 ? '' : c2.number === -1 ? '-' : c2} \left({f2Derivative}\right) {c3.number > 0 ? '+' : ''} {c3.number === 1 ? '' : c3.number === -1 ? '-' : c3} \left({f3Derivative}\right).</BM> Dit kan eventueel nog makkelijker geschreven worden als <BM>{f}'\left({x}\right) = {derivative}.</BM></Par>
+			return <Par>Het letterlijk toepassen van de regel geeft <BM>{f}'\left({x}\right) = {c1.number === 1 ? '' : c1.number === -1 ? '-' : c1} \left({f1Derivative}\right) {c2.number > 0 ? '+' : ''} {c2.number === 1 ? '' : c2.number === -1 ? '-' : c2} \left({f2Derivative}\right) {c3.number > 0 ? '+' : ''} {c3.number === 1 ? '' : c3.number === -1 ? '-' : c3} \left({f3Derivative}\right).</BM> Dit kan eventueel nog herschreven worden tot <BM>{f}'\left({x}\right) = {derivative}.</BM></Par>
 		},
 	},
 ]
