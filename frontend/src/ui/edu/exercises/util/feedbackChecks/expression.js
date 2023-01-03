@@ -102,9 +102,9 @@ export const incorrectFraction = (input, correct, { variables }, isCorrect) => {
 	if (equivalent(input, correct.invert()))
 		return <>Je hebt je breuk verkeerd om ingevuld. Kijk goed wat je waardoor moet delen!</>
 	if (!constantMultiple(input.numerator, correct.numerator))
-		return <>De teller van je breuk is niet wat verwacht werd. Zijn dit wel alle termen zonder <M>{variables.x}?</M></>
+		return <>De teller van je breuk (bovenin) is niet wat verwacht werd. Heb je alle regels correct toegepast?</>
 	if (!constantMultiple(input.denominator, correct.denominator))
-		return <>De noemer van je breuk is niet wat verwacht werd. Heb je <M>{variables.x}</M> wel op de juiste manier buiten haakjes gehaald?</>
+		return <>De noemer van je breuk (onderin) is niet wat verwacht werd. Heb je alle regels correct toegepast?</>
 	return <>Je lijkt er een constante vermenigvuldiging naast te zitten.</>
 }
 

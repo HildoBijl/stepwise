@@ -218,7 +218,7 @@ const skills = {
 	applyQuotientRule: {
 		name: 'Quotiëntregel toepassen',
 		setup: combinerAnd('lookUpElementaryDerivative', 'findBasicDerivative'),
-		exercises: [], // ToDo
+		exercises: ['applyQuotientRuleTwoElementary', 'applyQuotientRuleElementaryAndBasic'],
 	},
 	applyChainRule: {
 		name: 'Kettingregel toepassen',

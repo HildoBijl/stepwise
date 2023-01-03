@@ -12,7 +12,7 @@ import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
 
 import { getInputFieldFeedback } from '../util/feedback'
-import { sumWithWrongTerms } from '../util/feedbackChecks/expression'
+import { incorrectFraction } from '../util/feedbackChecks/expression'
 
 const { onlyOrderChanges, equivalent, constantMultiple } = expressionComparisons
 
@@ -23,7 +23,7 @@ export default function Exercise() {
 const Problem = () => {
 	const { x, f, g, h } = useSolution()
 	return <>
-		<Par>Gegeven is de functie <BM>h\left({x}\right) = {h}.</BM> Deze functie is het product van de twee functies <BMList><BMPart>f\left({x}\right) = {f},</BMPart><BMPart>g\left({x}\right) = {g}.</BMPart></BMList>Bepaal de afgeleide <M>h'\left({x}\right).</M></Par>
+		<Par>Gegeven is de functie <BM>h\left({x}\right) = {h}.</BM> Deze functie is de deling van de twee functies <BMList><BMPart>f\left({x}\right) = {f},</BMPart><BMPart>g\left({x}\right) = {g}.</BMPart></BMList>Bepaal de afgeleide <M>h'\left({x}\right).</M></Par>
 		<InputSpace>
 			<Par>
 				<ExpressionInput id="derivative" prelabel={<M>h'\left({x}\right)=</M>} label="Vul hier het resultaat in" size="l" settings={allMathSimpleVariables} validate={validWithVariables([x])} />
@@ -49,11 +49,10 @@ const steps = [
 		},
 		Solution: () => {
 			const { x, fDerivative, gDerivative } = useSolution()
-			return <Par>We kunnen in onze tabel van basisafgeleiden (samen met de constanteregel bij <M>f\left({x}\right)</M>) vinden dat
-				<BMList>
-					<BMPart>f'\left({x}\right) = {fDerivative},</BMPart>
-					<BMPart>g'\left({x}\right) = {gDerivative}.</BMPart>
-				</BMList>
+			return <Par>Via de somregel en de constantenregel, en met wat herschrijven, vinden we
+				<BM>f'\left({x}\right) = {fDerivative}.</BM>
+				Verder zegt de tabel van basisafgeleiden direct dat
+				<BM>g'\left({x}\right) = {gDerivative}.</BM>
 			</Par>
 		},
 	},
@@ -61,7 +60,7 @@ const steps = [
 		Problem: () => {
 			const { x } = useSolution()
 			return <>
-				<Par>Stel via de productregel de afgeleide <M>h'\left({x}\right)</M> samen.</Par>
+				<Par>Stel via de quotiëntregel de afgeleide <M>h'\left({x}\right)</M> samen.</Par>
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="derivative" prelabel={<M>h'\left({x}\right)=</M>} label="Vul hier het resultaat in" size="l" settings={allMathSimpleVariables} validate={validWithVariables([x])} />
@@ -86,7 +85,7 @@ function getFeedback(exerciseData) {
 	const fDerivativeIncorrectCheck = (input, correct, solution, isCorrect) => !isCorrect && <>Deze klopt niet. Kijk goed in je tabel van basisafgeleiden.</>
 
 	// Assemble the checks for all input fields.
-	const derivativeChecks = [originalFunction, sumWithWrongTerms, incorrectFunction]
+	const derivativeChecks = [originalFunction, incorrectFraction, incorrectFunction]
 	const fDerivativeChecks = [fDerivativeConstantMultipleCheck, fDerivativeIncorrectCheck]
 	const feedbackChecks = [derivativeChecks, fDerivativeChecks, fDerivativeChecks]
 
