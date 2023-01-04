@@ -4,7 +4,6 @@ import { useConsistentValue } from 'util/react'
 import { useExerciseData } from 'ui/edu/exercises/ExerciseContainer'
 import { useInputObject } from 'ui/form/Form'
 
-
 const SolutionContext = createContext(null)
 
 // SolutionProvider combines the data from the ExerciseContainer and potentially the Input from the Form to set up a solution. (The latter is only used in case of input-dependent solutions.) It then makes it available to the exercise components.
@@ -12,7 +11,7 @@ export default function SolutionProvider({ children }) {
 	// Extract data: the exercise data and the form input. Only get the required data and nothing more.
 	const { state, shared } = useExerciseData()
 	const { getSolution, getStaticSolution, getInputDependency, dependentFields, getDynamicSolution } = shared
-	const input = useInputObject(getDynamicSolution ? dependentFields : [])
+	const input = useInputObject(getDynamicSolution ? dependentFields : undefined)
 
 	// Determine the static solution.
 	const currGetSolution = getSolution || getStaticSolution

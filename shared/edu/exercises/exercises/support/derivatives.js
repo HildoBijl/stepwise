@@ -1,9 +1,9 @@
 const { getRandomInteger, selectRandomly, getRandomIndices } = require('../../../../util/random')
 const { asExpression, Integer, Fraction } = require('../../../../CAS')
 
-function getRandomElementaryFunctions(num = 1, includeConstant = false, includeDivision = true) {
+function getRandomElementaryFunctions(num = 1, includeConstant = false, includeDivision = true, includeX = true) {
 	// Determine the indices of the elementary functions that we use.
-	const weights = [3, 9, 5, 3, 2, 2, 2, 2, 1, 2, 1]
+	const weights = [3, 9, 5, 3, 1, 2, 2, 2, 1, 2, 1]
 	if (!includeConstant)
 		weights[0] = 0
 	if (!includeDivision)
@@ -16,7 +16,7 @@ function getRandomElementaryFunctions(num = 1, includeConstant = false, includeD
 			case 0: // c
 				return asExpression(getRandomInteger(-12, 12, [0]))
 			case 1: // x^n
-				const powerAbove = selectRandomly([1, 2, 3, 4])
+				const powerAbove = selectRandomly(includeX ? [1, 2, 3, 4] : [2, 3, 4])
 				return asExpression(powerAbove === 1 ? 'x' : `x^${powerAbove}`)
 			case 2: // 1/x^n
 				const powerBelow = selectRandomly([1, 2, 3, 4])

@@ -86,7 +86,7 @@ function getDynamicSolution(directionIndices, solution, state) {
 	return { directionIndices, hasAdjustedSolution, loads, loadValues, ...loadValuesObj }
 }
 
-const dependencyData = { getStaticSolution, getInputDependency, dependentFields: ['loads'], getDynamicSolution }
+const dependencyData = { dependentFields: ['loads'], getStaticSolution, getInputDependency, getDynamicSolution }
 
 function checkInput(state, input, step) {
 	const solution = assembleSolution(dependencyData, state, input)
