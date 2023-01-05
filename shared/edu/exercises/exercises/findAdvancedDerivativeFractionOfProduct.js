@@ -1,5 +1,6 @@
 const { selectRandomly, getRandomInteger } = require('../../../util/random')
 const { expressionComparisons } = require('../../../CAS')
+const { combinerAnd } = require('../../../skillTracking')
 
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
@@ -11,39 +12,45 @@ const { equivalent } = expressionComparisons
 const variableSet = ['x', 'y', 't']
 
 const data = {
-	skill: 'findGeneralDerivative',
-	setup: 'applyChainRule',
-	steps: [null, null, 'applyChainRule'],
+	skill: 'findAdvancedDerivative',
+	setup: combinerAnd('applyProductRule', 'findBasicDerivative'),
+	steps: [null, null, ['applyProductRule', 'findBasicDerivative'], null],
 	comparison: { default: equivalent },
 }
 
 function generateState() {
 	const x = selectRandomly(variableSet)
-	const [fRaw, g] = getRandomElementaryFunctions(2, false, false, false).map(func => func.substitute('x', x))
-	const c = getRandomInteger(-12, 12, [0])
-	return { c, fRaw, g }
+	const [f1, f2, g] = getRandomElementaryFunctions(3, false, false, false).map(func => func.substitute('x', x))
+	return { f1, f2, g }
 }
 
 function getSolution(state) {
-	const { c, fRaw, g } = state
-	const method = 2
-	const f = fRaw.multiply(c, true).basicClean()
+	const { f1, f2, g } = state
+	const method = 1
+	const f = f1.multiply(f2).elementaryClean()
+	const h = f.divide(g).elementaryClean()
 	const x = f.getVariables()[0]
-	const h = f.substitute(x, g).elementaryClean()
 	const fDerivative = f.getDerivative().cleanForDisplay()
 	const gDerivative = g.getDerivative().cleanForDisplay()
-	const derivative = fDerivative.substitute(x, g).multiply(gDerivative)
+	const derivative = fDerivative.multiply(g).subtract(f.multiply(gDerivative)).divide(g.toPower(2))
 	const derivativeSimplified = derivative.advancedClean({ expandPowersOfSums: false }).cleanForDisplay()
 	return { ...state, method, x, f, h, fDerivative, gDerivative, derivative, derivativeSimplified }
 }
 
-function checkInput(state, input, step) {
+function checkInput(state, input, step, substep) {
 	const solution = getSolution(state)
 	switch (step) {
 		case 1:
 			return input.method === solution.method
 		case 2:
 			return performComparison(['f', 'g'], input, solution, data.comparison)
+		case 3:
+			switch (substep) {
+				case 1:
+					return performComparison('fDerivative', input, solution, data.comparison)
+				case 2:
+					return performComparison('gDerivative', input, solution, data.comparison)
+			}
 		default:
 			return performComparison('derivative', input, solution, data.comparison)
 	}

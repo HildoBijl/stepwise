@@ -80,7 +80,7 @@ function getFeedback(exerciseData) {
 	const incorrectFunction = (input, correct, solution, isCorrect) => !isCorrect && !equivalent(input, correct) && <>Dit is niet de afgeleide. Kijk goed naar of je de kettingregel correct toegepast hebt.</>
 
 	// Define fDerivative and gDerivative checks.
-	const fDerivativeConstantMultipleCheck = (input, correct, { f, x }, isCorrect) => !isCorrect && constantMultiple(input, correct) && <>Er gaat iets mis met de constante vermenigvuldiging. Kijk daar eens naar.</>
+	const fDerivativeConstantMultipleCheck = (input, correct, { f, x }, isCorrect) => !isCorrect && constantMultiple(input, correct) && <>Je zit er een constante vermenigvuldiging naast. Kijk goed naar de factor voor de functie.</>
 	const fDerivativeIncorrectCheck = (input, correct, { f, x }, isCorrect) => !isCorrect && <>Deze klopt niet. Kijk goed in je tabel van basisafgeleiden.</>
 
 	// Assemble the checks for all input fields.

@@ -456,13 +456,13 @@ class Expression {
 	}
 
 	// getDerivative returns the derivative. It includes checking the variable and simplifying the result, unlike getDerivativeBasic which doesn't check the input and only returns a derivative in any form.
-	getDerivative(variable) {
+	getDerivative(variable, preventClean = false) {
 		variable = this.verifyVariable(variable)
 
 		// Simplify the variable first. Then take the derivative and simplify that.
 		const simplified = this.simplify(simplifyOptions.forDerivatives)
 		const derivative = simplified.getDerivativeBasic(variable)
-		return derivative.regularClean()
+		return preventClean ? derivative : derivative.regularClean()
 	}
 
 	// simplify simplifies an object. It checks the given options and calls simplifyBasic which does not run a check every time.
@@ -2023,8 +2023,11 @@ class Power extends Function {
 
 		// Check for fraction powers. Reduce x^(2/3) to root[3](x^2).
 		if (options.turnFractionPowerIntoRoot) {
-			if (exponent.isSubtype(Fraction))
+			if (exponent.isSubtype(Fraction) && exponent.denominator.isSubtype(Integer)) {
+				if (Integer.two.equalsBasic(exponent.denominator))
+					return new Sqrt(new Power(base, exponent.numerator)).simplifyBasic(options)
 				return new Root(new Power(base, exponent.numerator), exponent.denominator).simplifyBasic(options)
+			}
 		}
 
 		// Check for powers of products. Reduce (a*b)^n to a^n*b^n. Same with fraction (a/b)^n.

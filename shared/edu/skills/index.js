@@ -235,7 +235,7 @@ const skills = {
 	findAdvancedDerivative: {
 		name: 'Geavanceerde afgeleide bepalen',
 		setup: combinerAnd('findBasicDerivative', 'findGeneralDerivative', combinerOr('applyProductRule', 'applyQuotientRule', 'applyChainRule')), // ToDo later: include expandBrackets, expandPowers and rewriteLogarithms, as well as change into a picking function.
-		exercises: [], // ToDo
+		exercises: ['findAdvancedDerivativeChainOfProduct', 'findAdvancedDerivativeChainOfFraction', 'findAdvancedDerivativeProductOfChain', 'findAdvancedDerivativeFractionOfProduct', 'findAdvancedDerivativeFractionOfChain'],
 	},
 
 	// Derivatives: applying derivatives.

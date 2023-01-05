@@ -76,8 +76,8 @@ module.exports = {
 	data,
 	generateState,
 	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
 	checkF,
 	checkFAndG,
 	...dependencyData,
+	checkInput,
 }
