@@ -15,6 +15,7 @@ const data = {
 	skill: 'applyProductRule',
 	setup: combinerRepeat('lookUpElementaryDerivative', 2),
 	steps: [['lookUpElementaryDerivative', 'lookUpElementaryDerivative'], null],
+	weight: 2,
 	comparison: { default: equivalent },
 }
 

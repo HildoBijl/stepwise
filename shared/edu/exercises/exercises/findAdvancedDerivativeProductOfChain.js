@@ -15,6 +15,7 @@ const data = {
 	skill: 'findAdvancedDerivative',
 	setup: combinerAnd('applyChainRule', 'findBasicDerivative'),
 	steps: [null, null, ['applyChainRule', 'findBasicDerivative'], null],
+	weight: 3,
 	comparison: { default: equivalent },
 }
 

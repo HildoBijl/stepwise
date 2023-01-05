@@ -15,6 +15,7 @@ const data = {
 	skill: 'findGeneralDerivative',
 	setup: 'applyQuotientRule',
 	steps: [null, null, 'applyQuotientRule'],
+	weight: 2,
 	comparison: { default: equivalent },
 }
 

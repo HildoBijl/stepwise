@@ -14,6 +14,7 @@ const data = {
 	skill: 'findGeneralDerivative',
 	setup: 'applyChainRule',
 	steps: [null, null, 'applyChainRule'],
+	weight: 4,
 	comparison: { default: equivalent },
 }
 
