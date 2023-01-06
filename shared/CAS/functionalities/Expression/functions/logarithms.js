@@ -23,14 +23,13 @@ class Log extends Function {
 		let { argument, base } = this.simplifyChildren(options)
 
 		// Check for basic reductions.
-		if (options.basicReductions) {
-			// If the argument is one, turn it into zero.
+		if (options.removeOneLogarithm) {
 			if (Integer.one.equalsBasic(argument))
-				return Integer.zero
-
-			// If the argument equals the base, turn it into one.
+				return Integer.zero // If the argument is one, turn it into zero.
+		}
+		if (options.removeEqualBaseArgumentLogarithm) {
 			if (base.equalsBasic(argument))
-				return Integer.one
+				return Integer.one // If the argument equals the base, turn it into one.
 		}
 
 		// For analysis reduce to only natural logarithms.

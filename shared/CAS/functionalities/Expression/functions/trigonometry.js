@@ -30,9 +30,9 @@ class Sin extends SingleArgumentFunction {
 		let { argument } = this.simplifyChildren(options)
 
 		// Check for basic reductions.
-		if (options.basicReductions) {
-			if (argument.isNumeric()) {
-				// Check for cases of 0, 1 or -1.
+		if (argument.isNumeric()) {
+			// Check for cases of 0, 1 or -1.
+			if (options.remove01TrigFunctions) {
 				const argumentAsPart = argument.divide(this.useDegrees ? 360 : twoPi).cleanForAnalysis()
 				if (isInteger(argumentAsPart.multiply(Integer.two)))
 					return Integer.zero.simplify(options)
@@ -40,8 +40,10 @@ class Sin extends SingleArgumentFunction {
 					return Integer.one.simplify(options)
 				if (isInteger(argumentAsPart.add(Fraction.quarter)))
 					return Integer.minusOne.simplify(options)
+			}
 
-				// Check for cases of 1/2, 1/2*sqrt(2) and 1/2*sqrt(3).
+			// Check for cases of 1/2, 1/2*sqrt(2) and 1/2*sqrt(3).
+			if (options.removeRootTrigFunctions) {
 				if (isInteger(argumentAsPart.subtract(new Fraction(1, 12))) || isInteger(argumentAsPart.subtract(new Fraction(5, 12))))
 					return Fraction.half
 				if (isInteger(argumentAsPart.add(new Fraction(1, 12))) || isInteger(argumentAsPart.add(new Fraction(5, 12))))
@@ -90,9 +92,9 @@ class Cos extends SingleArgumentFunction {
 			return new Sin(argument.add(this.useDegrees ? 90 : halfPi)).simplifyBasic(options)
 
 		// Check for basic reductions.
-		if (options.basicReductions) {
-			if (argument.isNumeric()) {
-				// Check for cases of 0, 1 or -1.
+		if (argument.isNumeric()) {
+			// Check for cases of 0, 1 or -1.
+			if (options.remove01TrigFunctions) {
 				const argumentAsPart = argument.divide(this.useDegrees ? 360 : twoPi).cleanForAnalysis()
 				if (isInteger(argumentAsPart.add(Fraction.quarter).multiply(Integer.two)))
 					return Integer.zero.simplify(options)
@@ -100,8 +102,10 @@ class Cos extends SingleArgumentFunction {
 					return Integer.one.simplify(options)
 				if (isInteger(argumentAsPart.add(Fraction.half)))
 					return Integer.minusOne.simplify(options)
+			}
 
-				// Check for cases of 1/2, 1/2*sqrt(2) and 1/2*sqrt(3).
+			// Check for cases of 1/2, 1/2*sqrt(2) and 1/2*sqrt(3).
+			if (options.removeRootTrigFunctions) {
 				if (isInteger(argumentAsPart.add(new Fraction(1, 12))) || isInteger(argumentAsPart.subtract(new Fraction(1, 12))))
 					return Fraction.half.multiply(Sqrt.three).simplify(options)
 				if (isInteger(argumentAsPart.add(new Fraction(5, 12))) || isInteger(argumentAsPart.subtract(new Fraction(5, 12))))
@@ -147,9 +151,9 @@ class Tan extends SingleArgumentFunction {
 		let { argument } = this.simplifyChildren(options)
 
 		// Check for basic reductions.
-		if (options.basicReductions) {
-			if (argument.isNumeric()) {
-				// Check for cases of multiples of 90 degrees.
+		if (argument.isNumeric()) {
+			// Check for cases of multiples of 90 degrees.
+			if (options.remove01TrigFunctions) {
 				const argumentAsPart = argument.divide(this.useDegrees ? 360 : twoPi).cleanForAnalysis()
 				const argumentAsHalfPart = argumentAsPart.multiply(Integer.two).cleanForAnalysis()
 				if (isInteger(argumentAsHalfPart))
@@ -158,8 +162,10 @@ class Tan extends SingleArgumentFunction {
 					return Variable.infinity.simplify(options)
 				if (isInteger(argumentAsPart.add(Fraction.quarter)))
 					return Variable.minusInfinity.simplify(options)
+			}
 
-				// Check for cases of 30, 45 and 60 degrees, and variations of these.
+			// Check for cases of 30, 45 and 60 degrees, and variations of these.
+			if (options.removeRootTrigFunctions) {
 				if (isInteger(argumentAsHalfPart.subtract(new Fraction(1, 6))))
 					return new Fraction(Integer.one, Sqrt.three).simplify(options)
 				if (isInteger(argumentAsHalfPart.subtract(new Fraction(1, 4))))
@@ -214,11 +220,11 @@ class Arcsin extends SingleArgumentFunction {
 		let { argument } = this.simplifyChildren(options)
 
 		// Check for basic reductions.
-		if (options.basicReductions) {
-			if (argument.isNumeric()) {
-				const processResult = (result) => (this.useDegrees ? new Integer(result) : d2rFactor.multiply(result)).simplify(options)
+		if (argument.isNumeric()) {
+			const processResult = (result) => (this.useDegrees ? new Integer(result) : d2rFactor.multiply(result)).simplify(options)
 
-				// Check for cases of -1, 0 and 1.
+			// Check for cases of -1, 0 and 1.
+			if (options.remove01TrigFunctions) {
 				const cleanedArgument = argument.cleanForAnalysis()
 				if (equivalent(cleanedArgument, Integer.minusOne))
 					return processResult(-90)
@@ -226,8 +232,10 @@ class Arcsin extends SingleArgumentFunction {
 					return Integer.zero
 				if (equivalent(cleanedArgument, Integer.one))
 					return processResult(90)
+			}
 
-				// Check for cases of 30/45/60 degree angles and similar.
+			// Check for cases of 30/45/60 degree angles and similar.
+			if (options.removeRootTrigFunctions) {
 				const doubleArgument = cleanedArgument.multiply(Integer.two).cleanForAnalysis()
 				const minusDoubleArgument = doubleArgument.applyMinus()
 				if (equivalent(minusDoubleArgument, Sqrt.three))
@@ -277,11 +285,11 @@ class Arccos extends SingleArgumentFunction {
 		let { argument } = this.simplifyChildren(options)
 
 		// Check for basic reductions.
-		if (options.basicReductions) {
-			if (argument.isNumeric()) {
-				const processResult = (result) => (this.useDegrees ? new Integer(result) : d2rFactor.multiply(result)).simplify(options)
+		if (argument.isNumeric()) {
+			const processResult = (result) => (this.useDegrees ? new Integer(result) : d2rFactor.multiply(result)).simplify(options)
 
-				// Check for cases of -1, 0 and 1.
+			// Check for cases of -1, 0 and 1.
+			if (options.remove01TrigFunctions) {
 				const cleanedArgument = argument.cleanForAnalysis()
 				if (equivalent(cleanedArgument, Integer.minusOne))
 					return processResult(180)
@@ -289,8 +297,10 @@ class Arccos extends SingleArgumentFunction {
 					return processResult(90)
 				if (equivalent(cleanedArgument, Integer.one))
 					return Integer.zero
+			}
 
-				// Check for cases of 30/45/60 degree angles and similar.
+			// Check for cases of 30/45/60 degree angles and similar.
+			if (options.removeRootTrigFunctions) {
 				const doubleArgument = cleanedArgument.multiply(Integer.two).cleanForAnalysis()
 				const minusDoubleArgument = doubleArgument.applyMinus()
 				if (equivalent(doubleArgument, Sqrt.three))
@@ -340,11 +350,11 @@ class Arctan extends SingleArgumentFunction {
 		let { argument } = this.simplifyChildren(options)
 
 		// Check for basic reductions.
-		if (options.basicReductions) {
-			if (argument.isNumeric()) {
-				const processResult = (result) => (this.useDegrees ? new Integer(result) : d2rFactor.multiply(result)).simplify(options)
+		if (argument.isNumeric()) {
+			const processResult = (result) => (this.useDegrees ? new Integer(result) : d2rFactor.multiply(result)).simplify(options)
 
-				// Check for cases of -infinity, 0 and infinity.
+			// Check for cases of -infinity, 0 and infinity.
+			if (options.remove01TrigFunctions) {
 				const cleanedArgument = argument.cleanForAnalysis()
 				if (equivalent(cleanedArgument, Variable.minusInfinity))
 					return processResult(-90)
@@ -352,8 +362,10 @@ class Arctan extends SingleArgumentFunction {
 					return Integer.zero
 				if (equivalent(cleanedArgument, Variable.infinity))
 					return processResult(90)
+			}
 
-				// Check for cases of 30/45/60 degree angles and similar.
+			// Check for cases of 30/45/60 degree angles and similar.
+			if (options.removeRootTrigFunctions) {
 				const minusArgument = cleanedArgument.applyMinus()
 				const oneOverSqrtThree = new Fraction(1, Sqrt.three)
 				if (equivalent(minusArgument, Sqrt.three))

@@ -469,8 +469,6 @@ class Expression {
 	simplify(options) {
 		if (!options)
 			throw new Error(`Missing simplify options: when simplifying an expression, a simplifying options object must be given.`)
-		if (options.structure === undefined)
-			options.structure = true // Structure is ALWAYS simplified, unless specifically stated otherwise. (No idea why anyone would do that in the first place.) It's crucial to the functioning of the CAS to keep the structure simple.
 		options = processOptions(options, simplifyOptions.noSimplify)
 		return this.simplifyBasic(options)
 	}
@@ -1010,12 +1008,12 @@ class Sum extends ExpressionList {
 		let { terms } = this.simplifyChildren(options)
 
 		// Flatten sums inside this sum.
-		if (options.structure) {
+		if (options.flattenSums) {
 			terms = terms.map(term => term.isSubtype(Sum) ? term.terms : term).flat()
 		}
 
 		// Filter out zero elements.
-		if (options.removeUseless) {
+		if (options.removePlusZeroFromSums) {
 			terms = terms.filter(term => !Integer.zero.equalsBasic(term))
 		}
 
@@ -1086,7 +1084,7 @@ class Sum extends ExpressionList {
 		}
 
 		// Check for structure simplifications.
-		if (options.structure) {
+		if (options.removeTrivialSums) {
 			if (terms.length === 0)
 				return Integer.zero
 			if (terms.length === 1)
@@ -1274,11 +1272,21 @@ class Product extends ExpressionList {
 		let { terms } = this.simplifyChildren(options)
 
 		// Flatten products inside this product.
-		if (options.structure) {
+		if (options.flattenProducts) {
 			terms = terms.map(term => term.isSubtype(Product) ? term.terms : term).flat()
 		}
 
-		// Merge all numbers together and put them at the start.
+		// Check for useless elements.
+		if (options.removeTimesZeroFromProduct) {
+			// If there is a zero multiplication, return zero.
+			if (terms.some(term => Integer.zero.equalsBasic(term)))
+				return Integer.zero
+		}
+
+		if (options.mergeProductNumbers) {
+		}
+
+		// Merge all numbers together and put them at the start. Or optionally only do so with minus signs, or only filter out ones.
 		if (options.mergeProductNumbers) {
 			let number = 1
 			terms = terms.filter(term => {
@@ -1290,28 +1298,33 @@ class Product extends ExpressionList {
 			})
 			if (number !== 1)
 				terms.unshift(Constant.interpret(number))
-		}
-
-		// Check for useless elements.
-		if (options.removeUseless) {
-			// If there is a zero multiplication, return zero.
-			if (terms.some(term => Integer.zero.equalsBasic(term)))
-				return Integer.zero
-
-			// Filter out one elements.
-			terms = terms.filter(term => !Integer.one.equalsBasic(term))
-
-			// Filter out all "minus one" elements. Count how many there are. If this is an odd number, check if the first factor is a constant. If so, make it negative. Otherwise add a -1 at the start.
-			const isMinusOne = term => Integer.minusOne.equalsBasic(term)
-			const minusOneCount = count(terms, isMinusOne)
-			if (minusOneCount > 0)
-				terms = terms.filter(term => !isMinusOne(term))
-			if (minusOneCount % 2 === 1) {
-				if (terms[0] instanceof Constant) {
-					terms[0] = terms[0].applyMinus(false)
-				} else {
-					terms.unshift(Integer.minusOne)
+		} else {
+			// Turn all negative constants into positive ones. Count how many times this is done and prepend a minus one on an odd number.				
+			if (options.mergeProductMinuses) {
+				const isNegative = term => (term instanceof Constant) && term.number < 0
+				const negativeCount = count(terms, isNegative)
+				if (negativeCount % 2 === 0 && Integer.minusOne.equalsBasic(terms[0]))
+					terms = terms.slice(1) // Ensure that "-x*-2" turn into "x*2" and not "1*x*2".
+				if (negativeCount > 0)
+					terms = terms.map(term => isNegative(term) ? term.applyMinus() : term)
+				if (negativeCount % 2 === 1) {
+					if (terms[0] instanceof Constant) {
+						terms[0] = terms[0].applyMinus(false)
+					} else {
+						terms.unshift(Integer.minusOne)
+					}
 				}
+			}
+
+			// If the product starts with "-1" followed by a number, pull the minus into the number.
+			if (options.mergeInitialMinusOne) {
+				if (Integer.minusOne.equalsBasic(terms[0]) && terms[1] instanceof Constant)
+					terms = [terms[1].applyMinus(), ...terms.slice(2)]
+			}
+
+			// Remove all ones from the product.
+			if (options.removeTimesOneFromProducts) {
+				terms = terms.filter(term => !Integer.one.equalsBasic(term))
 			}
 		}
 
@@ -1321,7 +1334,7 @@ class Product extends ExpressionList {
 		}
 
 		// Check for structure simplifications.
-		if (options.structure) {
+		if (options.removeTrivialProducts) {
 			// Check basic cases.
 			if (terms.length === 0)
 				return Integer.one
@@ -1795,18 +1808,15 @@ class Fraction extends Function {
 		}
 
 		// Check for useless elements.
-		if (options.removeUseless) {
-			// On a zero numerator, ignore the denominator.
+		if (options.removeZeroNumeratorFromFraction) {
 			if (Integer.zero.equalsBasic(numerator))
-				return Integer.zero
-
-			// On a one denominator, return the numerator.
+				return Integer.zero // On a zero numerator, ignore the denominator.
+		}
+		if (options.removeOneDenominatorFromFraction) {
 			if (Integer.one.equalsBasic(denominator))
-				return numerator
-
-			// On a minus one denominator, return minus te numerator.
+				return numerator // On a one denominator, return the numerator.
 			if (Integer.minusOne.equalsBasic(denominator))
-				return numerator.applyMinus(false)
+				return numerator.applyMinus(false) // On a minus one denominator, return minus te numerator.
 		}
 
 		return new Fraction(numerator, denominator)
@@ -1993,18 +2003,21 @@ class Power extends Function {
 		let { base, exponent } = this.simplifyChildren(options)
 
 		// Check for useless terms.
-		if (options.removeUseless) {
-			// If the power is 0, become 1.
-			if (Integer.zero.equalsBasic(exponent))
-				return Integer.one
-
-			// If the power is 1, become the base.
+		if (options.removeZeroExponentFromPower) {
+			if (Integer.zero.equalsBasic(exponent) && !Integer.zero.equalsBasic(base))
+				return Integer.one // If the power is 0, become 1.
+		}
+		if (options.removeZeroBaseFromPower) {
+			if (Integer.zero.equalsBasic(base) && !Integer.zero.equalsBasic(exponent))
+				return Integer.zero // If the base is 0, become 0.
+		}
+		if (options.removeOneExponentFromPower) {
 			if (Integer.one.equalsBasic(exponent))
-				return base
-
-			// If the base is 1, become 1.
+				return base // If the power is 1, become the base.
+		}
+		if (options.removeOneBaseFromPower) {
 			if (Integer.one.equalsBasic(base))
-				return Integer.one
+				return Integer.one // If the base is 1, become 1.
 		}
 
 		// Check for powers within powers. Reduce (a^b)^c to a^(b*c).
@@ -2096,6 +2109,10 @@ module.exports.SingleArgumentFunction = SingleArgumentFunction
  */
 
 class Ln extends SingleArgumentFunction {
+	get base() {
+		return Variable.e
+	}
+
 	toNumber() {
 		return Math.log(this.argument.toNumber())
 	}
@@ -2115,14 +2132,13 @@ class Ln extends SingleArgumentFunction {
 		let { argument } = this.simplifyChildren(options)
 
 		// Check for basic reductions.
-		if (options.basicReductions) {
-			// If the argument is one, turn it into zero.
+		if (options.removeOneLogarithm) {
 			if (Integer.one.equalsBasic(argument))
-				return Integer.zero
-
-			// If the argument equals the base, turn it into one.
-			if (Variable.e.equalsBasic(argument))
-				return Integer.one
+				return Integer.zero // If the argument is one, turn it into zero.
+		}
+		if (options.removeEqualBaseArgumentLogarithm) {
+			if (this.base.equalsBasic(argument))
+				return Integer.one // If the argument equals the base, turn it into one.
 		}
 
 		return new Ln(argument)
@@ -2163,14 +2179,13 @@ class Sqrt extends SingleArgumentFunction {
 		let { argument } = this.simplifyChildren(options)
 
 		// Check for basic reductions.
-		if (options.basicReductions) {
-			// If the argument is zero, turn it into zero.
+		if (options.removeZeroRoot) {
 			if (Integer.zero.equalsBasic(argument))
-				return Integer.zero
-
-			// If the argument is 1, become 1.
+				return Integer.zero // If the argument is 0, become 0.
+		}
+		if (options.removeOneRoot) {
 			if (Integer.one.equalsBasic(argument))
-				return Integer.one
+				return Integer.one // If the argument is 1, become 1.
 		}
 
 		// Pull factors out of roots, like turning sqrt(20) to 2*sqrt(5) and sqrt(a^3b^4c^5) to ab^2c^2*sqrt(ac).
@@ -2255,16 +2270,13 @@ class Root extends Function {
 		let { base, argument } = this.simplifyChildren(options)
 
 		// Check for basic reductions.
-		if (options.basicReductions) {
-			// If the argument is zero, turn it into zero.
+		if (options.removeZeroRoot) {
 			if (Integer.zero.equalsBasic(argument))
-				return Integer.zero
+				return Integer.zero // If the argument is 0, become 0.
 		}
-
-		// Turn a root with base two into a square root.
-		if (options.turnBaseTwoRootIntoSqrt) {
-			if (base.equalsBasic(Integer.two))
-				return new Sqrt(argument).simplifyBasic(options)
+		if (options.removeOneRoot) {
+			if (Integer.one.equalsBasic(argument))
+				return Integer.one // If the argument is 1, become 1.
 		}
 
 		// For analysis reduce to a power.

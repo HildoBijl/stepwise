@@ -221,8 +221,6 @@ class Equation {
 		// Process the given options.
 		if (!options)
 			throw new Error(`Missing simplify options: when simplifying an equation, a simplifying options object must be given.`)
-		if (options.structure === undefined)
-			options.structure = true // Structure is ALWAYS simplified, unless specifically stated otherwise. (No idea why anyone would do that in the first place.) It's crucial to the functioning of the CAS to keep the structure simple.
 		options = processOptions(options, simplifyOptions.noSimplify)
 
 		// If all has to be moved to the left, do so. This turns "[left]=[right]" into "[left]-[right]=0".
