@@ -34,10 +34,10 @@ function getSolution(state) {
 	const g = g1.divide(g2)
 	const x = f.getVariables()[0]
 	const h = f.substitute(x, g).elementaryClean()
-	const fDerivative = f.getDerivative().cleanForDisplay()
-	const gDerivative = g.getDerivative().cleanForDisplay()
+	const fDerivative = f.getDerivative().regularCleanDisplay()
+	const gDerivative = g.getDerivative().regularCleanDisplay()
 	const derivative = fDerivative.substitute(x, g).multiply(gDerivative)
-	const derivativeSimplified = derivative.advancedClean({ expandPowersOfSums: false }).cleanForDisplay()
+	const derivativeSimplified = derivative.advancedCleanDisplay({ expandPowersOfSums: false })
 	return { ...state, method, x, f, g, h, fDerivative, gDerivative, derivative, derivativeSimplified }
 }
 

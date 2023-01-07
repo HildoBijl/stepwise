@@ -16,7 +16,7 @@ class Log extends Function {
 	}
 
 	getDerivativeBasic(variable) {
-		return this.simplify(simplifyOptions.forDerivatives).getDerivativeBasic(variable)
+		return this.simplifyBasic(simplifyOptions.forDerivatives).getDerivativeBasic(variable)
 	}
 
 	simplifyBasic(options) {

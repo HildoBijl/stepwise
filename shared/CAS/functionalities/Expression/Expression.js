@@ -23,9 +23,9 @@
 
 const { decimalSeparator, decimalSeparatorTex } = require('../../../settings/numbers')
 
-const { isInt, isNumber, compareNumbers } = require('../../../util/numbers')
+const { isInt, isNumber, compareNumbers, mod } = require('../../../util/numbers')
 const { ensureString } = require('../../../util/strings')
-const { isObject, isBasicObject, isEmptyObject, deepEquals, processOptions, filterOptions, removeProperties, keysToObject, getParentClass } = require('../../../util/objects')
+const { isObject, isBasicObject, isEmptyObject, deepEquals, processOptions, filterOptions, filterProperties, removeProperties, keysToObject, getParentClass } = require('../../../util/objects')
 const { firstOf, lastOf, count, sum, product, arrayFind, hasSimpleMatching } = require('../../../util/arrays')
 const { union } = require('../../../util/sets')
 const { repeatWithIndices } = require('../../../util/functions')
@@ -33,7 +33,7 @@ const { gcd, getLargestPowerFactor } = require('../../../util/maths')
 const { binomial } = require('../../../util/combinatorics')
 
 const { bracketLevels, defaultExpressionSettings, simplifyOptions } = require('../../options')
-
+counter = 0
 /*
  * Expression: the Expression class is the one which everything inherits from. 
  */
@@ -330,15 +330,32 @@ class Expression {
 		return this.toPower(Integer.minusOne)
 	}
 
+	// removeFactor takes a term, often a product, and removes it (divides it out) from this expression. It returns the result. For instance, if the expression x^3*y^2*z removes the factor x^2*y^2*w^2, tThe result is x^(3-2)*z*w^(-2). A subsequent elementary clean might be recommended to simplify powers.
+	removeFactor(removalTerm) {
+		const ownFactors = [...this.getProductFactors()] // Turn into a clone to prevent altering it.
+		const removalFactors = removalTerm.getProductFactors()
+		removalFactors.forEach(removalFactor => {
+			const { base, exponent } = removalFactor.getBaseAndExponent()
+			const index = ownFactors.findIndex(ownFactor => base.equalsBasic(ownFactor.getBaseAndExponent().base, true))
+			if (index === -1) {
+				ownFactors.push(new Power(base, exponent.applyMinus())) // Base of the to-be-removed factor not found. Append it to the end with a negative exponent.
+			} else {
+				const { base: ownBase, exponent: ownExponent } = ownFactors[index].getBaseAndExponent()
+				if (exponent.equalsBasic(ownExponent))
+					ownFactors.splice(index, 1) // The exponent matches. Remove the factor from the list.
+				else
+					ownFactors[index] = new Power(ownBase, ownExponent.subtract(exponent)) // Subtract the exponent from the factor.
+			}
+		})
+		return new Product(ownFactors).cleanStructure()
+	}
+
 	// pullOutsideBrackets will take a term and pull it out of brackets. So if we pull m from "mgh+1/2mv^2+E" then you get "m*(gh+1/2v^2+E/m)".
-	pullOutsideBrackets(term, extraSimplifyOptions = {}) {
+	pullOutsideBrackets(term) {
 		term = ensureExpression(term)
-
-		// Set up the term that remains within brackets.
-		const inner = (new Fraction(this, term)).simplify({ ...simplifyOptions.removeUseless, mergeSumNumbers: true, mergeProductNumbers: true, mergeProductTerms: true, mergeFractionNumbers: true, mergeFractionTerms: true, splitFractions: true, ...extraSimplifyOptions })
-
-		// Set up the product that's the final result.
-		return new Product(term, inner)
+		if (Integer.one.equalsBasic(term))
+			return this
+		return new Product(term, this.removeFactor(term)).cleanStructure()
 	}
 
 	/*
@@ -426,6 +443,18 @@ class Expression {
 		return { constantPart: Integer.one, variablePart: this }
 	}
 
+	getSumTerms() {
+		return [this]
+	}
+
+	getProductFactors() {
+		return [this]
+	}
+
+	getBaseAndExponent() {
+		return { base: this, exponent: Integer.one }
+	}
+
 	/*
 	 * Manipulation methods.
 	 */
@@ -460,7 +489,7 @@ class Expression {
 		variable = this.verifyVariable(variable)
 
 		// Simplify the variable first. Then take the derivative and simplify that.
-		const simplified = this.simplify(simplifyOptions.forDerivatives)
+		const simplified = this.simplifyBasic(simplifyOptions.forDerivatives)
 		const derivative = simplified.getDerivativeBasic(variable)
 		return preventClean ? derivative : derivative.regularClean()
 	}
@@ -469,8 +498,23 @@ class Expression {
 	simplify(options) {
 		if (!options)
 			throw new Error(`Missing simplify options: when simplifying an expression, a simplifying options object must be given.`)
-		options = processOptions(options, simplifyOptions.noSimplify)
-		return this.simplifyBasic(options)
+
+		// Split the given options into simplify options and display options.
+		const currSimplifyOptions = removeProperties(options, simplifyOptions.displayOptionList)
+		const currDisplayOptions = filterProperties(options, simplifyOptions.displayOptionList)
+
+		// Run the simplification first. This is always done.
+		const currSimplifyOptionsProcessed = processOptions(currSimplifyOptions, simplifyOptions.structureOnly) // Always at least clean the structure.
+		let result = this.simplifyBasic(currSimplifyOptionsProcessed)
+
+		// Run the display cleaning second, if needed.
+		if (Object.keys(currDisplayOptions).length > 0) {
+			const currDisplayOptionsProcessed = processOptions(currDisplayOptions, simplifyOptions.structureOnly)
+			result = result.simplifyBasic(currDisplayOptionsProcessed)
+		}
+
+		// All done!
+		return result
 	}
 
 	// simplifyChildren will simplify all children an object has and return it as an object with the children as parameters.
@@ -486,10 +530,12 @@ class Expression {
 	}
 
 	// equals checks if one expression is equal to another. This is only done in a basic way: either they have to be exactly the same, or simple order changes are still allowed (latter is default). For more complex equality checks: simplify expressions first and then compare equality.
-	equals(expression, allowOrderChanges = true) {
+	equals(expression, allowOrderChanges) {
 		// Check the input.
 		expression = ensureExpression(expression)
-		return this.cleanStructure().equalsBasic(expression.cleanStructure(), allowOrderChanges)
+		const thisCleaned = this.cleanStructure()
+		const expressionCleaned = expression.cleanStructure()
+		return thisCleaned.equalsBasic(expressionCleaned, allowOrderChanges)
 	}
 
 	/*
@@ -497,43 +543,50 @@ class Expression {
 	 */
 
 	// cleanStructure applies the simplify function with structureOnly options. It cleans up the structure of the Expression.
-	cleanStructure(extraOptions = {}) {
-		return this.simplify({ ...simplifyOptions.structureOnly, ...extraOptions })
+	cleanStructure(extraOptions) {
+		return extraOptions ? this.simplify({ ...simplifyOptions.structureOnly, ...extraOptions }) : this.simplifyBasic(simplifyOptions.structureOnly)
 	}
 
 	// removeUseless applies the simplify function with removeUseless options. It removes useless elements from the expression.
-	removeUseless(extraOptions = {}) {
-		return this.simplify({ ...simplifyOptions.removeUseless, ...extraOptions })
+	removeUseless(extraOptions) {
+		return extraOptions ? this.simplify({ ...simplifyOptions.removeUseless, ...extraOptions }) : this.simplifyBasic(simplifyOptions.removeUseless)
 	}
 
 	// elementaryClean applies the simplify function with elementaryClean options.
-	elementaryClean(extraOptions = {}) {
-		return this.simplify({ ...simplifyOptions.elementaryClean, ...extraOptions })
+	elementaryClean(extraOptions) {
+		return extraOptions ? this.simplify({ ...simplifyOptions.elementaryClean, ...extraOptions }) : this.simplifyBasic(simplifyOptions.elementaryClean)
+	}
+	elementaryCleanDisplay(extraOptions) {
+		return this.simplify({ ...simplifyOptions.elementaryCleanDisplay, ...extraOptions })
 	}
 
 	// basicClean applies the simplify function with basicClean options.
-	basicClean(extraOptions = {}) {
-		return this.simplify({ ...simplifyOptions.basicClean, ...extraOptions })
+	basicClean(extraOptions) {
+		return extraOptions ? this.simplify({ ...simplifyOptions.basicClean, ...extraOptions }) : this.simplifyBasic(simplifyOptions.basicClean)
+	}
+	basicCleanDisplay(extraOptions) {
+		return this.simplify({ ...simplifyOptions.basicCleanDisplay, ...extraOptions })
 	}
 
 	// regularClean applies the simplify function with regularClean options.
-	regularClean(extraOptions = {}) {
-		return this.simplify({ ...simplifyOptions.regularClean, ...extraOptions })
+	regularClean(extraOptions) {
+		return extraOptions ? this.simplify({ ...simplifyOptions.regularClean, ...extraOptions }) : this.simplifyBasic(simplifyOptions.regularClean)
+	}
+	regularCleanDisplay(extraOptions) {
+		return this.simplify({ ...simplifyOptions.regularCleanDisplay, ...extraOptions })
 	}
 
 	// advancedClean applies the simplify function with advancedClean options.
-	advancedClean(extraOptions = {}) {
-		return this.simplify({ ...simplifyOptions.advancedClean, ...extraOptions })
+	advancedClean(extraOptions) {
+		return extraOptions ? this.simplify({ ...simplifyOptions.advancedClean, ...extraOptions }) : this.simplifyBasic(simplifyOptions.advancedClean)
+	}
+	advancedCleanDisplay(extraOptions) {
+		return this.simplify({ ...simplifyOptions.advancedCleanDisplay, ...extraOptions })
 	}
 
 	// cleanForAnalysis applies the simplify function with forAnalysis options.
-	cleanForAnalysis(extraOptions = {}) {
-		return this.simplify({ ...simplifyOptions.forAnalysis, ...extraOptions })
-	}
-
-	// cleanForDisplay applies the simplify function with forDisplay options.
-	cleanForDisplay(extraOptions = {}) {
-		return this.simplify({ ...simplifyOptions.forDisplay, ...extraOptions })
+	cleanForAnalysis(extraOptions) {
+		return extraOptions ? this.simplify({ ...simplifyOptions.forAnalysis, ...extraOptions }) : this.simplifyBasic(simplifyOptions.forAnalysis)
 	}
 
 	/*
@@ -932,7 +985,7 @@ class ExpressionList extends Expression {
 		return includeSelf ? func(obj) : obj
 	}
 
-	equalsBasic(expression, allowOrderChanges) {
+	equalsBasic(expression, allowOrderChanges = true) {
 		// Check that the list type is equal.
 		if (this.constructor !== expression.constructor)
 			return false
@@ -999,6 +1052,15 @@ class Sum extends ExpressionList {
 		return new Product(Integer.minusOne, this).cleanStructure()
 	}
 
+	// Overload the removeFactor function to apply to each sum term individually.
+	removeFactor(removalTerm) {
+		return this.applyToAllTerms(term => term.removeFactor(removalTerm))
+	}
+
+	getSumTerms() {
+		return this.terms
+	}
+
 	getDerivativeBasic(variable) {
 		// Apply the derivative to each element individually.
 		return new Sum(this.terms.map(term => term.getDerivativeBasic(variable)))
@@ -1046,19 +1108,20 @@ class Sum extends ExpressionList {
 					const factor = new Product(terms.map((comparisonTerm, comparisonIndex) => comparisonTerm.isSubtype(Fraction) && index !== comparisonIndex ? comparisonTerm.denominator : Integer.one)).removeUseless()
 					return term.numerator.multiply(factor)
 				}))
-				return new Fraction(numerator, denominator).simplifyBasic(options)
+				const res = new Fraction(numerator, denominator).simplifyBasic(options)
+				return res
 			}
 		}
 
-		// Find terms with an equal variable factor to merge. So turn 2*sin(x) + pi*sin(x) into (2+pi)*sin(x).
+		// Find terms with an equal variable part, so these can be merged together. So turn "2*x+3*x" into "(2+3)*x" (which in turn is simplified to "5*x") or turn "2*sin(x) + pi*sin(x)" into "(2+pi)*sin(x)".
 		if (options.groupSumTerms) {
 			// Walk through the terms. Check if their variable part matches with one that was already seen before. If so, merge their constants together.
 			const newTerms = []
 			terms.forEach(term => {
 				const { constantPart, variablePart } = term.getConstantAndVariablePart(term)
-				const matchIndex = newTerms.findIndex(newTerm => newTerm.variablePart.equalsBasic(variablePart, true))
-				if (matchIndex !== -1) {
-					newTerms[matchIndex].constantPart = newTerms[matchIndex].constantPart.add(constantPart)
+				const index = newTerms.findIndex(newTerm => newTerm.variablePart.equalsBasic(variablePart, true))
+				if (index !== -1) {
+					newTerms[index].constantPart = newTerms[index].constantPart.add(constantPart)
 				} else {
 					newTerms.push({ constantPart, variablePart })
 				}
@@ -1066,7 +1129,7 @@ class Sum extends ExpressionList {
 
 			// If some terms have been merged, update the terms array to include the merged parts. Also clean up the merged constants, but not grouping them anymore to prevent infinite loops.
 			if (terms.length > newTerms.length) {
-				terms = newTerms.map(({ variablePart, constantPart }) => constantPart.simplify({ ...options, groupSumTerms: false }).multiply(variablePart).removeUseless()).filter(term => !Integer.zero.equalsBasic(term))
+				terms = newTerms.map(({ variablePart, constantPart }) => constantPart.simplifyBasic({ ...options, groupSumTerms: false }).multiply(variablePart).removeUseless()).filter(term => !Integer.zero.equalsBasic(term))
 			}
 		}
 
@@ -1074,7 +1137,7 @@ class Sum extends ExpressionList {
 		if (options.cancelSumTerms && !options.groupSumTerms) {
 			const skipped = terms.map(_ => false)
 			terms = terms.filter((term1, index1) => {
-				const index = terms.findIndex((term2, index2) => index1 < index2 && !skipped[index1] && !skipped[index2] && term1.equalsBasic(term2.applyMinus(true).basicClean(), true))
+				const index = terms.findIndex((term2, index2) => index1 < index2 && !skipped[index1] && !skipped[index2] && term1.equalsBasic(term2.applyMinus(true).removeUseless(), true))
 				if (index !== -1) {
 					skipped[index1] = true
 					skipped[index] = true
@@ -1089,6 +1152,25 @@ class Sum extends ExpressionList {
 				return Integer.zero
 			if (terms.length === 1)
 				return terms[0]
+		}
+
+		// See if the terms have a common numerical factor that can be pulled out.
+		if (options.pullOutCommonSumNumbers && !options.expandProductsOfSums && !options.expandPowersOfSums) {
+			const leadingNumbers = terms.map(term => Product.extractLeadingNumber(term))
+			let divisor = gcd(...leadingNumbers)
+			if (leadingNumbers[0] < 0)
+				divisor = -divisor
+			if (Math.abs(divisor) !== 1)
+				return new Product([new Integer(divisor), new Sum(terms.map(term => Product.multiplyLeadingNumberBy(term, 1 / divisor)))]).simplifyBasic(options)
+			if (divisor === -1)
+				terms = terms.map(term => term.applyMinus(true))
+		}
+
+		// See if the terms have common factors that can be pulled out.
+		if (options.pullOutCommonSumFactors && !options.expandProductsOfSums && !options.expandPowersOfSums) {
+			const gcd = Sum.getGreatestCommonDivider(terms)
+			if (!Integer.one.equalsBasic(gcd))
+				return gcd.multiply(new Sum(terms.map(term => term.removeFactor(gcd)))).simplifyBasic(options)
 		}
 
 		// Sort terms.
@@ -1174,6 +1256,31 @@ class Sum extends ExpressionList {
 				return 0 // Doesn't matter for now.
 		}
 	}
+
+	// getGreatestCommonDivider takes a list of terms and returns the GCD of these terms. It only checks multiplications and does not do polynomial GCD. For instance, given ['x^3*(y+1)*z' and 'x^2*(y+1)^3*w'] it returns 'x^2*(y+1)'.
+	static getGreatestCommonDivider(terms) {
+		// Walk through the terms.
+		let gcdFactors
+		terms.forEach((term, index) => {
+			if (index === 0)
+				return gcdFactors = term.getProductFactors()
+
+			// Check for each GCD factor if it's also in this new term. If so, process it. If not, remove it.
+			const factors = term.getProductFactors()
+			gcdFactors = gcdFactors.map(gcdFactor => {
+				const { base, exponent } = gcdFactor.getBaseAndExponent()
+				const factor = factors.find(factor => base.equalsBasic(factor.getBaseAndExponent().base, true))
+				if (!factor)
+					return
+				const difference = factor.getBaseAndExponent().exponent.subtract(exponent).cleanForAnalysis()
+				return difference.isNegative() ? factor : gcdFactor // Keep the factor with the smallest exponent.
+			})
+			gcdFactors = gcdFactors.filter(factor => factor !== undefined)
+		})
+
+		// Return the GCD as a product of the relevant factors.
+		return new Product(gcdFactors).cleanStructure()
+	}
 }
 Sum.type = 'Sum'
 Sum.defaultSO = ExpressionList.defaultSO
@@ -1238,6 +1345,10 @@ class Product extends ExpressionList {
 		return product(this.terms.map(term => term.toNumber()))
 	}
 
+	getProductFactors() {
+		return this.terms
+	}
+
 	getDerivativeBasic(variable) {
 		// Apply the product rule.
 		const terms = []
@@ -1283,9 +1394,6 @@ class Product extends ExpressionList {
 				return Integer.zero
 		}
 
-		if (options.mergeProductNumbers) {
-		}
-
 		// Merge all numbers together and put them at the start. Or optionally only do so with minus signs, or only filter out ones.
 		if (options.mergeProductNumbers) {
 			let number = 1
@@ -1299,7 +1407,7 @@ class Product extends ExpressionList {
 			if (number !== 1)
 				terms.unshift(Constant.interpret(number))
 		} else {
-			// Turn all negative constants into positive ones. Count how many times this is done and prepend a minus one on an odd number.				
+			// Turn all negative constants into positive ones. Count how many times this is done and prepend a minus one on an odd number.
 			if (options.mergeProductMinuses) {
 				const isNegative = term => (term instanceof Constant) && term.number < 0
 				const negativeCount = count(terms, isNegative)
@@ -1380,7 +1488,7 @@ class Product extends ExpressionList {
 		return new Product(terms)
 	}
 
-	equalsBasic(expression, allowOrderChanges) {
+	equalsBasic(expression, allowOrderChanges = true) {
 		// Run a default equality check.
 		if (super.equalsBasic(expression, allowOrderChanges))
 			return true
@@ -1439,21 +1547,42 @@ class Product extends ExpressionList {
 		}
 	}
 
-	// mergeProductTerms takes a list of terms and merges the ones with equal base. So 2*x*a*x^2 becomes 2*x^3*a.
+	// mergeProductTerms takes a list of terms and merges the ones with equal base. So 2*x*a*x^2 becomes 2*x^3*a. It returns the result as a terms array too.
 	static mergeProductTerms(terms, options) {
-		// Walk through the terms and see if any matches (the base of) an earlier term. If not, add the term. If so, add up the powers.
-		const getBaseOf = term => term.isSubtype(Power) ? term.base : term
-		const getPowerOf = term => term.isSubtype(Power) ? term.exponent : Integer.one
 		const result = []
 		terms.forEach(term => {
-			const index = result.findIndex(comparisonTerm => getBaseOf(comparisonTerm).equalsBasic(getBaseOf(term), true))
+			const { base, exponent } = term.getBaseAndExponent()
+			const index = result.findIndex(comparisonTerm => base.equalsBasic(comparisonTerm.getBaseAndExponent().base, true))
 			if (index === -1) {
 				result.push(term)
 			} else {
-				result[index] = new Power(getBaseOf(result[index]), getPowerOf(result[index]).add(getPowerOf(term))).simplifyBasic(options)
+				const { base: otherBase, exponent: otherExponent } = result[index].getBaseAndExponent()
+				result[index] = new Power(otherBase, otherExponent.add(exponent)).simplifyBasic(options)
 			}
 		})
 		return result
+	}
+
+	// extractLeadingNumber takes a product (or any other type of expression) and returns the leading number.
+	static extractLeadingNumber(term) {
+		if (term.isSubtype(Integer))
+			return term.number
+		if (term.isSubtype(Product))
+			return Product.extractLeadingNumber(term.terms[0])
+		if (term.isSubtype(Fraction))
+			return Product.extractLeadingNumbers(fraction.numerator)
+		return 1 // Also for floats. In that case just don't divide by any number.
+	}
+
+	// multiplyLeadingNumberBy takes a product (or any other type of expression) and divides the leading number by the given number. It assumes there is a leading number. Otherwise an error is thrown.
+	static multiplyLeadingNumberBy(term, number) {
+		if (term.isSubtype(Integer))
+			return new Integer(term.number * number)
+		if (term.isSubtype(Product))
+			return term.applyToTerm(0, term => Product.multiplyLeadingNumberBy(term, number))
+		if (term.isSubtype(Fraction))
+			return Product.multiplyLeadingNumberBy(term.numerator, number)
+		throw new Error(`Invalid case: it is unknown how to divide an expression of subtype ${term.subtype} by a given divisor.`)
 	}
 }
 Product.type = 'Product'
@@ -1636,7 +1765,7 @@ class Fraction extends Function {
 	toString() {
 		// Get the numerator.
 		const useMinus = !this.requiresPlusInSum()
-		let numStr = (useMinus ? this.numerator.applyMinus(true).removeUseless() : this.numerator).toString()
+		let numStr = (useMinus ? this.numerator.applyMinus(!this.numerator.isSubtype(Sum)) : this.numerator).toString()
 		if (this.numerator.requiresBracketsFor(bracketLevels.multiplication))
 			numStr = `(${numStr})`
 
@@ -1651,7 +1780,7 @@ class Fraction extends Function {
 
 	toRawTex() {
 		const useMinus = !this.requiresPlusInSum()
-		const numerator = useMinus ? this.numerator.applyMinus(true).removeUseless() : this.numerator
+		const numerator = useMinus ? this.numerator.applyMinus(!this.numerator.isSubtype(Sum)) : this.numerator
 		return `${useMinus ? '-' : ''}\\frac{${numerator.tex}}{${this.denominator.tex}}`
 	}
 
@@ -1683,13 +1812,18 @@ class Fraction extends Function {
 		return new Fraction(this.denominator, this.numerator) // Invert for fractions flips them.
 	}
 
+	// Overload the removeFactor by only focusing on the numerator.
+	removeFactor(removalTerm) {
+		return new Fraction(this.numerator.removeFactor(removalTerm), this.denominator).cleanStructure()
+	}
+
 	getDerivativeBasic(variable) {
 		const terms = []
 
 		// If the numerator depends on the variable, take its derivative.
 		if (this.numerator.dependsOn(variable)) {
 			terms.push(new Fraction(
-				this.numerator.getDerivative(variable),
+				this.numerator.getDerivativeBasic(variable),
 				this.denominator,
 			))
 		}
@@ -1699,7 +1833,7 @@ class Fraction extends Function {
 			terms.push(new Fraction(
 				new Product( // The numerator is f*g'.
 					this.numerator,
-					this.denominator.getDerivative(variable),
+					this.denominator.getDerivativeBasic(variable),
 				),
 				new Power( // The denominator is g^2.
 					this.denominator,
@@ -1722,20 +1856,7 @@ class Fraction extends Function {
 	}
 
 	simplifyBasic(options) {
-		let { numerator, denominator } = this
-
-		// Merge fraction terms BEFORE simplifying children. We don't want to expand brackets just yet.
-		if (options.mergeFractionTerms && options.mergeProductTerms) {
-			numerator = numerator.simplify({ mergeProductTerms: true })
-			denominator = denominator.simplify({ mergeProductTerms: true })
-			const mergeResult = Fraction.mergeFractionTerms(numerator, denominator, options)
-			numerator = mergeResult.numerator
-			denominator = mergeResult.denominator
-		}
-
-		// Only now simplify children.
-		numerator = numerator.simplifyBasic(options)
-		denominator = denominator.simplifyBasic(options)
+		let { numerator, denominator } = this.simplifyChildren({ ...options, expandProductsOfSums: false, expandPowersOfSums: false }) // Do not expand brackets yet. We want to be able to cross out terms before doing that.
 
 		// Flatten fractions inside fractions.
 		if (options.flattenFractions) {
@@ -1755,56 +1876,26 @@ class Fraction extends Function {
 		}
 
 		// Split up fractions having sums as numerator.
-		if (options.splitFractions) {
+		if (options.splitFractions && !options.mergeFractionSums) {
 			if (numerator.isSubtype(Sum)) {
 				return new Sum(numerator.terms.map(term => new Fraction(term, denominator))).simplifyBasic(options)
 			}
 		}
 
 		// Reduce the numbers in the fraction.
-		if (options.mergeFractionNumbers) {
-			// Gather all terms to get the GCD of.
-			const getTerms = (part) => part.isSubtype(Sum) ? part.terms : [part]
-			const terms = [...getTerms(numerator), ...getTerms(denominator)]
-
-			// Walk through the terms, get their preceding numbers, and find the GCD we should divide through.
-			const extractNumber = (term) => {
-				if (term.isSubtype(Integer))
-					return term.number
-				if (term.isSubtype(Product))
-					return extractNumber(term.terms[0])
-				return 1 // Also for floats. In that case just don't divide by any number.
-			}
-			let divisor = gcd(...terms.map(term => extractNumber(term)))
-
-			// If the denominator starts with a minus sign, make the divisor negative to fix this.
-			if (extractNumber(getTerms(denominator)[0]) < 0)
-				divisor = -divisor
-
-			// Apply the divisor.
-			if (divisor === 1) {
-				// Do nothing.
-			} else if (divisor === -1) {
-				numerator = numerator.applyMinus(true)
-				denominator = denominator.applyMinus(true)
-			} else {
-				// Divide elements by the divisor.
-				const divideTermByDivisor = (term) => {
-					if (term.isSubtype(Integer))
-						return new Integer(term.number / divisor)
-					if (term.isSubtype(Product))
-						return term.applyToTerm(0, divideTermByDivisor).simplify(options)
-					throw new Error(`Fraction reduction error: an unexpected case appeared while reducing the numbers inside a fraction.`)
-				}
-				const dividePartByDivisor = (part) => part.isSubtype(Sum) ? part.applyToAllTerms(divideTermByDivisor) : divideTermByDivisor(part)
-				numerator = dividePartByDivisor(numerator)
-				denominator = dividePartByDivisor(denominator)
-			}
+		if (options.crossOutFractionNumbers) {
+			({ numerator, denominator } = Fraction.crossOutFractionNumbers(numerator, denominator, options))
 		}
 
 		// Once more try merging fraction terms. Things may have changed after simplifying children.
-		if (options.mergeFractionTerms && options.mergeProductTerms) {
-			({ numerator, denominator } = Fraction.mergeFractionTerms(numerator, denominator, options))
+		if (options.crossOutFractionTerms) {
+			({ numerator, denominator } = Fraction.crossOutFractionTerms(numerator, denominator, options))
+		}
+
+		// Only now, after terms have been crossed out, expand potential brackets.
+		if (options.expandProductsOfSums || options.expandPowersOfSums) {
+			numerator = numerator.simplifyBasic(options)
+			denominator = denominator.simplifyBasic(options)
 		}
 
 		// Check for useless elements.
@@ -1822,93 +1913,54 @@ class Fraction extends Function {
 		return new Fraction(numerator, denominator)
 	}
 
-	static mergeFractionTerms(numerator, denominator, options) {
+	static crossOutFractionNumbers(numerator, denominator, options) {
+		// Walk through all numerator/denominator terms, get their preceding numbers, and find the GCD we should divide through.
+		const terms = [...denominator.getSumTerms(), ...numerator.getSumTerms()]
+		const leadingNumbers = terms.map(term => Product.extractLeadingNumber(term))
+		let divisor = gcd(...leadingNumbers)
+
+		// If the denominator starts with a minus sign, make the divisor negative to fix this.
+		if (leadingNumbers[0] < 0)
+			divisor = -divisor
+
+		// Apply the divisor for simple cases.
+		if (divisor === 1)
+			return { numerator, denominator } // Do nothing.
+		if (divisor === -1)
+			return { numerator: numerator.applyMinus(true), denominator: denominator.applyMinus(true) }
+
+		// Apply the divisor by dividing all elements by it.
+		const divideTermByDivisor = (term) => {
+			if (term.isSubtype(Integer))
+				return new Integer(term.number / divisor)
+			if (term.isSubtype(Product))
+				return term.applyToTerm(0, divideTermByDivisor).simplifyBasic(options)
+			throw new Error(`Fraction reduction error: an unexpected case appeared while reducing the numbers inside a fraction.`)
+		}
+		const dividePartByDivisor = (part) => part.isSubtype(Sum) ? part.applyToAllTerms(divideTermByDivisor) : divideTermByDivisor(part)
+		return { numerator: dividePartByDivisor(numerator), denominator: dividePartByDivisor(denominator) }
+	}
+
+	static crossOutFractionTerms(numerator, denominator, options) {
 		// Run a very basic check: equality of numerator and denominator.
 		if (numerator.equalsBasic(denominator, true))
 			return { numerator: Integer.one, denominator: Integer.one }
 
-		// Gather all terms to get the GCD of.
-		const getTerms = (part) => part.isSubtype(Sum) ? part.terms : [part]
-		const numeratorTerms = getTerms(numerator)
-		const denominatorTerms = getTerms(denominator)
-
-		// Define handlers that can extract an array of factors from a term.
-		const getBase = (factor) => factor.isSubtype(Power) ? factor.base : factor
-		const getPower = (factor) => factor.isSubtype(Power) ? factor.exponent : Integer.one
-		const getBaseAndPower = (factor) => ({ base: getBase(factor), power: getPower(factor) })
-		const getFactors = (term) => term.isSubtype(Product) ? term.terms.map(getBaseAndPower) : [getBaseAndPower(term)]
-		const getFilteredFactors = (term) => getFactors(term).filter(({ base, power }) => !base.isNumeric() && power.isNumeric()) // Only process factors with a variable base and numeric power.
-
-		// Walk through the terms and find all joint factors.
-		const getGcd = (terms) => getGcdFromFactors(terms.map(term => getFilteredFactors(term)))
-		const getGcdFromFactors = (termsFactors) => {
-			let gcd
-			termsFactors.forEach((termFactors) => {
-				// On the first term, take all factors.
-				if (!gcd) {
-					gcd = termFactors
-					return
-				}
-				// Compare factors. If there is a factor with the same base, then remember the lowest power.
-				const newGcd = []
-				gcd.forEach(factor => {
-					const matchingIndex = termFactors.findIndex(termFactor => factor.base.equalsBasic(termFactor.base, true))
-					if (matchingIndex !== -1) {
-						const matchedFactor = termFactors[matchingIndex]
-						newGcd.push(factor.power.number < matchedFactor.power.number ? factor : matchedFactor)
-					}
-				})
-				gcd = newGcd
-			})
-			return gcd
-		}
-		const numeratorGcd = getGcd(numeratorTerms)
-		const denominatorGcd = getGcd(denominatorTerms)
-		const gcd = getGcdFromFactors([numeratorGcd, denominatorGcd])
-
-		// Define handlers to remove factors from the respective parts.
-		const removeFactorsFromTerm = (term, factorsToRemove) => {
-			// Filter out the factors that must be removed.
-			const factors = getFactors(term).map(factor => {
-				const removalIndex = factorsToRemove.findIndex(factorToRemove => factorToRemove.base.equalsBasic(factor.base, true))
-				if (removalIndex === -1)
-					return factor
-				return {
-					base: factor.base,
-					power: factor.power.subtract(factorsToRemove[removalIndex].power)
-				}
-			})
-			// Reassemble the term based on the factors.
-			return new Product(factors.map(factor => new Power(factor.base, factor.power))).simplify(options)
-		}
-		const removeFactorsFromPart = (part, factorsToRemove) => part.isSubtype(Sum) ? part.applyToAllTerms(term => removeFactorsFromTerm(term, factorsToRemove)) : removeFactorsFromTerm(part, factorsToRemove)
-
 		// Check special cases: the entire numerator is in the denominator GCD or vice versa.
-		const denominatorFactorWithNumerator = denominatorGcd.find(factor => factor.base.equals(numerator, true))
-		if (denominatorFactorWithNumerator) {
-			const actualGcd = [{ base: numerator, power: denominatorFactorWithNumerator.power.number >= 1 ? Integer.one : denominatorFactorWithNumerator.power.number }]
-			return {
-				numerator: Integer.one,
-				denominator: removeFactorsFromPart(denominator, actualGcd),
-			}
-		}
-		const numeratorFactorWithDenominator = numeratorGcd.find(factor => factor.base.equals(denominator, true))
-		if (numeratorFactorWithDenominator) {
-			const actualGcd = [{ base: denominator, power: numeratorFactorWithDenominator.power.number >= 1 ? Integer.one : numeratorFactorWithDenominator.power.number }]
-			return {
-				numerator: removeFactorsFromPart(numerator, actualGcd),
-				denominator: Integer.one,
-			}
-		}
+		const numeratorGcd = Sum.getGreatestCommonDivider(numerator.getSumTerms())
+		if (denominator.equalsBasic(Sum.getGreatestCommonDivider([numeratorGcd, denominator])))
+			return { numerator: numerator.removeFactor(denominator).simplifyBasic(options), denominator: Integer.one }
+		const denominatorGcd = Sum.getGreatestCommonDivider(denominator.getSumTerms())
+		if (numerator.equalsBasic(Sum.getGreatestCommonDivider([denominatorGcd, numerator])))
+			return { numerator: Integer.one, denominator: denominator.removeFactor(numerator).simplifyBasic(options) }
 
-		// If there are no common factors, do nothing.
-		if (gcd.length === 0)
-			return { numerator, denominator }
-
-		// Remove the factors from the numerator and denominator.
+		// Find the GCD and remove it from the numerator and denominator.
+		const gcd = Sum.getGreatestCommonDivider([numeratorGcd, denominatorGcd])
+		if (Integer.one.equalsBasic(gcd))
+			return { numerator, denominator } // Nothing possible. Return what we received.
 		return {
-			numerator: removeFactorsFromPart(numerator, gcd),
-			denominator: removeFactorsFromPart(denominator, gcd),
+			numerator: numerator.removeFactor(gcd).simplifyBasic(options),
+			denominator: denominator.removeFactor(gcd).simplifyBasic(options),
 		}
 	}
 }
@@ -1967,6 +2019,10 @@ class Power extends Function {
 		return new Power(this.base, this.exponent.applyMinus(true)).removeUseless()
 	}
 
+	getBaseAndExponent() {
+		return { base: this.base, exponent: this.exponent }
+	}
+
 	getDerivativeBasic(variable) {
 		const terms = []
 
@@ -1982,7 +2038,7 @@ class Power extends Function {
 			terms.push(new Product(
 				this.exponent, // Pre-multiply by the exponent.
 				powerWithExponentOneLower, // Lower the exponent of the power by one.
-				this.base.getDerivative(variable), // Apply the chain rule, multiplying by the derivative of the base.
+				this.base.getDerivativeBasic(variable), // Apply the chain rule, multiplying by the derivative of the base.
 			))
 		}
 
@@ -1991,7 +2047,7 @@ class Power extends Function {
 			terms.push(new Product(
 				new Ln(this.base),
 				this, // Keep the power intact.
-				this.exponent.getDerivative(variable), // Apply the chain rule on the exponent.
+				this.exponent.getDerivativeBasic(variable), // Apply the chain rule on the exponent.
 			))
 		}
 
@@ -2034,12 +2090,23 @@ class Power extends Function {
 				return new Fraction(Integer.one, new Power(base, exponent.applyMinus(true))).simplifyBasic(options)
 		}
 
-		// Check for fraction powers. Reduce x^(2/3) to root[3](x^2).
-		if (options.turnFractionPowerIntoRoot) {
+		// Check for fractional exponents. Reduce x^(2/3) to root[3](x^2) and x^(8/3) to x^2*root[3](x^2).
+		if (options.turnFractionExponentIntoRoot) {
 			if (exponent.isSubtype(Fraction) && exponent.denominator.isSubtype(Integer)) {
-				if (Integer.two.equalsBasic(exponent.denominator))
-					return new Sqrt(new Power(base, exponent.numerator)).simplifyBasic(options)
-				return new Root(new Power(base, exponent.numerator), exponent.denominator).simplifyBasic(options)
+				// On an integer numerator that is bigger than the denominator, add a preamble.
+				if (exponent.numerator.isSubtype(Integer) && exponent.numerator.number > exponent.denominator.number) {
+					const remainder = mod(exponent.numerator.number, exponent.denominator.number)
+					const innerExponent = (exponent.numerator.number - remainder) / exponent.denominator.number
+					return new Product([
+						innerExponent === 1 ? base : new Power(base, new Integer(innerExponent)),
+						new Root(remainder === 1 ? base : new Power(base, new Integer(remainder)), exponent.denominator),
+					]).simplifyBasic(options)
+				}
+				// Turn into a root with the right base.
+				return new Root(
+					Integer.one.equalsBasic(exponent.numerator) ? base : new Power(base, exponent.numerator),
+					exponent.denominator
+				).simplifyBasic(options)
 			}
 		}
 
@@ -2070,7 +2137,7 @@ class Power extends Function {
 		}
 
 		// Check for powers of roots. Turn sqrt(4)^3 into sqrt(4^3) and root[3](4)^2 into root[3](4^2).
-		if (options.pullPowersIntoRoots) {
+		if (options.pullExponentsIntoRoots) {
 			if (base.isSubtype('Sqrt'))
 				return new base.constructor(new Power(base.argument, exponent)).simplifyBasic(options)
 			if (base.isSubtype('Root'))
@@ -2123,7 +2190,7 @@ class Ln extends SingleArgumentFunction {
 
 	getDerivativeBasic(variable) {
 		return new Fraction({
-			numerator: this.argument.getDerivative(variable), // Take the derivative according to the chain rule.
+			numerator: this.argument.getDerivativeBasic(variable), // Take the derivative according to the chain rule.
 			denominator: this.argument, // Take 1/argument according to the derivative of ln(x).
 		})
 	}
@@ -2168,9 +2235,13 @@ class Sqrt extends SingleArgumentFunction {
 		return false
 	}
 
+	getBaseAndExponent() {
+		return { base: this.argument, exponent: Fraction.half }
+	}
+
 	getDerivativeBasic(variable) {
 		return new Fraction({
-			numerator: this.argument.getDerivative(variable), // Apply the chain rule.
+			numerator: this.argument.getDerivativeBasic(variable), // Apply the chain rule.
 			denominator: new Sqrt(this.argument).multiply(2), // Put the sqrt in the denominator. Multiply by 2 because of the square root derivative rule.
 		})
 	}
@@ -2263,7 +2334,11 @@ class Root extends Function {
 	}
 
 	getDerivativeBasic(variable) {
-		return this.simplify(simplifyOptions.forDerivatives).getDerivativeBasic(variable)
+		return this.simplifyBasic(simplifyOptions.forDerivatives).getDerivativeBasic(variable)
+	}
+
+	getBaseAndExponent() {
+		return { base: this.argument, exponent: new Fraction(Integer.one, this.base) }
 	}
 
 	simplifyBasic(options) {
@@ -2282,6 +2357,12 @@ class Root extends Function {
 		// For analysis reduce to a power.
 		if (options.turnRootIntoFractionPower)
 			return new Power(argument, new Fraction(1, base)).simplifyBasic(options)
+
+		// Turn roots with base two into Sqrts.
+		if (options.turnBaseTwoRootIntoSqrt) {
+			if (Integer.two.equalsBasic(base))
+				return new Sqrt(argument).simplifyBasic(options)
+		}
 
 		return new Root({ argument, base })
 	}

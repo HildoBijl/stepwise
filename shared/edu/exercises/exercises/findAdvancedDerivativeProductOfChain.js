@@ -44,10 +44,10 @@ function getDynamicSolution(switched, solution) {
 	if (switched)
 		solution = { ...solution, f: solution.g, g: solution.f }
 	const { f, g } = solution
-	const fDerivative = f.getDerivative().cleanForDisplay()
-	const gDerivative = g.getDerivative().cleanForDisplay()
+	const fDerivative = f.getDerivative().regularCleanDisplay()
+	const gDerivative = g.getDerivative().regularCleanDisplay()
 	const derivative = fDerivative.multiply(g).add(f.multiply(gDerivative))
-	const derivativeSimplified = derivative.advancedClean({ expandPowersOfSums: false }).cleanForDisplay()
+	const derivativeSimplified = derivative.advancedCleanDisplay({ expandPowersOfSums: false })
 	return { ...solution, switched, fDerivative, gDerivative, derivative, derivativeSimplified }
 }
 

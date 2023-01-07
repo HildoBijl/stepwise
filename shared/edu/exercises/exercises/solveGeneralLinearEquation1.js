@@ -41,7 +41,7 @@ function getSolution(state) {
 	const factor1 = variables.x
 	const factor2 = equation.left.terms[0].denominator
 	const factor = factor1.multiply(factor2)
-	const multiplied = equation.applyToLeft(side => side.applyToAllTerms(term => term.multiply(factor))).applyToRight(side => side.multiply(factor)).basicClean({ mergeFractionTerms: true })
+	const multiplied = equation.applyToLeft(side => side.applyToAllTerms(term => term.multiply(factor))).applyToRight(side => side.multiply(factor)).basicClean({ crossOutFractionTerms: true })
 	const expanded = multiplied.simplify({ expandProductsOfSums: true, mergeProductNumbers: true })
 	const merged = expanded.regularClean({ sortProducts: false })
 	const shifted = merged.subtract(expanded.left.terms[3]).subtract(expanded.right.terms[0]).basicClean()

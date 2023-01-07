@@ -221,7 +221,7 @@ class Equation {
 		// Process the given options.
 		if (!options)
 			throw new Error(`Missing simplify options: when simplifying an equation, a simplifying options object must be given.`)
-		options = processOptions(options, simplifyOptions.noSimplify)
+		options = processOptions(options, simplifyOptions.structureOnly) // Always at least clean the structure.
 
 		// If all has to be moved to the left, do so. This turns "[left]=[right]" into "[left]-[right]=0".
 		if (options.allToLeft) {

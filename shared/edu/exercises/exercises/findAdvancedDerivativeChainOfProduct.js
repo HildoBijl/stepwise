@@ -1,5 +1,5 @@
 const { selectRandomly, getRandomInteger } = require('../../../util/random')
-const { expressionComparisons } = require('../../../CAS')
+const { expressionComparisons, asExpression } = require('../../../CAS')
 const { combinerAnd } = require('../../../skillTracking')
 
 const { getStepExerciseProcessor } = require('../util/stepExercise')
@@ -21,9 +21,13 @@ const data = {
 
 function generateState() {
 	const x = selectRandomly(variableSet)
-	const [fRaw] = getRandomElementaryFunctions(1, false, false, false).map(func => func.substitute('x', x))
-	const [g1, g2] = getRandomElementaryFunctions(2, false, false, false).map(func => func.substitute('x', x))
+	const [fRaw] = [asExpression('y')]// getRandomElementaryFunctions(1, false, false, false).map(func => func.substitute('x', x))
+	const [g1, g2] = [asExpression('sqrt(x)'), asExpression('x^3')]//getRandomElementaryFunctions(2, false, false, false).map(func => func.substitute('x', x))
 	const c = getRandomInteger(-12, 12, [0])
+	console.log({ c, fRaw, g1, g2 })
+	console.log(fRaw.str)
+	console.log(g1.str)
+	console.log(g2.str)
 	return { c, fRaw, g1, g2 }
 }
 
@@ -34,10 +38,10 @@ function getSolution(state) {
 	const g = g1.multiply(g2)
 	const x = f.getVariables()[0]
 	const h = f.substitute(x, g).elementaryClean()
-	const fDerivative = f.getDerivative().cleanForDisplay()
-	const gDerivative = g.getDerivative().cleanForDisplay()
+	const fDerivative = f.getDerivative().regularCleanDisplay()
+	const gDerivative = g.getDerivative().regularCleanDisplay()
 	const derivative = fDerivative.substitute(x, g).multiply(gDerivative)
-	const derivativeSimplified = derivative.advancedClean({ expandPowersOfSums: false }).cleanForDisplay()
+	const derivativeSimplified = derivative.advancedCleanDisplay({ expandPowersOfSums: false })
 	return { ...state, method, x, f, g, h, fDerivative, gDerivative, derivative, derivativeSimplified }
 }
 

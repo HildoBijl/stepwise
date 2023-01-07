@@ -52,10 +52,10 @@ function getInputDependency(input, solution) {
 function getDynamicSolution(inputDependency, solution) {
 	const solutionMerged = { ...solution, ...inputDependency }
 	const { f, g } = solutionMerged
-	const fDerivative = f.getDerivative().cleanForDisplay()
-	const gDerivative = g.getDerivative().cleanForDisplay()
+	const fDerivative = f.getDerivative().regularCleanDisplay()
+	const gDerivative = g.getDerivative().regularCleanDisplay()
 	const derivative = fDerivative.multiply(g).subtract(f.multiply(gDerivative)).divide(g.toPower(2))
-	const derivativeSimplified = derivative.advancedClean().cleanForDisplay()
+	const derivativeSimplified = derivative.advancedCleanDisplay()
 	return { ...solutionMerged, fDerivative, gDerivative, derivative, derivativeSimplified }
 }
 

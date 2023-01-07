@@ -35,27 +35,27 @@ class Sin extends SingleArgumentFunction {
 			if (options.remove01TrigFunctions) {
 				const argumentAsPart = argument.divide(this.useDegrees ? 360 : twoPi).cleanForAnalysis()
 				if (isInteger(argumentAsPart.multiply(Integer.two)))
-					return Integer.zero.simplify(options)
+					return Integer.zero.simplifyBasic(options)
 				if (isInteger(argumentAsPart.subtract(Fraction.quarter)))
-					return Integer.one.simplify(options)
+					return Integer.one.simplifyBasic(options)
 				if (isInteger(argumentAsPart.add(Fraction.quarter)))
-					return Integer.minusOne.simplify(options)
+					return Integer.minusOne.simplifyBasic(options)
 			}
 
 			// Check for cases of 1/2, 1/2*sqrt(2) and 1/2*sqrt(3).
 			if (options.removeRootTrigFunctions) {
 				if (isInteger(argumentAsPart.subtract(new Fraction(1, 12))) || isInteger(argumentAsPart.subtract(new Fraction(5, 12))))
-					return Fraction.half
+					return Fraction.half.simplifyBasic(options)
 				if (isInteger(argumentAsPart.add(new Fraction(1, 12))) || isInteger(argumentAsPart.add(new Fraction(5, 12))))
-					return Fraction.half.applyMinus()
+					return Fraction.half.applyMinus().simplifyBasic(options)
 				if (isInteger(argumentAsPart.subtract(new Fraction(1, 8))) || isInteger(argumentAsPart.subtract(new Fraction(3, 8))))
-					return Fraction.half.multiply(Sqrt.two).simplify(options)
+					return Fraction.half.multiply(Sqrt.two).simplifyBasic(options)
 				if (isInteger(argumentAsPart.add(new Fraction(1, 8))) || isInteger(argumentAsPart.add(new Fraction(3, 8))))
-					return Fraction.half.applyMinus().multiply(Sqrt.two).simplify(options)
+					return Fraction.half.applyMinus().multiply(Sqrt.two).simplifyBasic(options)
 				if (isInteger(argumentAsPart.subtract(new Fraction(1, 6))) || isInteger(argumentAsPart.subtract(new Fraction(1, 3))))
-					return Fraction.half.multiply(Sqrt.three).simplify(options)
+					return Fraction.half.multiply(Sqrt.three).simplifyBasic(options)
 				if (isInteger(argumentAsPart.add(new Fraction(1, 6))) || isInteger(argumentAsPart.add(new Fraction(1, 3))))
-					return Fraction.half.applyMinus().multiply(Sqrt.three).simplify(options)
+					return Fraction.half.applyMinus().multiply(Sqrt.three).simplifyBasic(options)
 			}
 		}
 
@@ -97,27 +97,27 @@ class Cos extends SingleArgumentFunction {
 			if (options.remove01TrigFunctions) {
 				const argumentAsPart = argument.divide(this.useDegrees ? 360 : twoPi).cleanForAnalysis()
 				if (isInteger(argumentAsPart.add(Fraction.quarter).multiply(Integer.two)))
-					return Integer.zero.simplify(options)
+					return Integer.zero.simplifyBasic(options)
 				if (isInteger(argumentAsPart))
-					return Integer.one.simplify(options)
+					return Integer.one.simplifyBasic(options)
 				if (isInteger(argumentAsPart.add(Fraction.half)))
-					return Integer.minusOne.simplify(options)
+					return Integer.minusOne.simplifyBasic(options)
 			}
 
 			// Check for cases of 1/2, 1/2*sqrt(2) and 1/2*sqrt(3).
 			if (options.removeRootTrigFunctions) {
 				if (isInteger(argumentAsPart.add(new Fraction(1, 12))) || isInteger(argumentAsPart.subtract(new Fraction(1, 12))))
-					return Fraction.half.multiply(Sqrt.three).simplify(options)
+					return Fraction.half.multiply(Sqrt.three).simplifyBasic(options)
 				if (isInteger(argumentAsPart.add(new Fraction(5, 12))) || isInteger(argumentAsPart.subtract(new Fraction(5, 12))))
-					return Fraction.half.applyMinus().multiply(Sqrt.three).simplify(options)
+					return Fraction.half.applyMinus().multiply(Sqrt.three).simplifyBasic(options)
 				if (isInteger(argumentAsPart.add(new Fraction(1, 8))) || isInteger(argumentAsPart.subtract(new Fraction(1, 8))))
-					return Fraction.half.multiply(Sqrt.two).simplify(options)
+					return Fraction.half.multiply(Sqrt.two).simplifyBasic(options)
 				if (isInteger(argumentAsPart.add(new Fraction(3, 8))) || isInteger(argumentAsPart.subtract(new Fraction(3, 8))))
-					return Fraction.half.applyMinus().multiply(Sqrt.two).simplify(options)
+					return Fraction.half.applyMinus().multiply(Sqrt.two).simplifyBasic(options)
 				if (isInteger(argumentAsPart.add(new Fraction(1, 6))) || isInteger(argumentAsPart.subtract(new Fraction(1, 6))))
-					return Fraction.half.simplify(options)
+					return Fraction.half.simplifyBasic(options)
 				if (isInteger(argumentAsPart.add(new Fraction(1, 3))) || isInteger(argumentAsPart.subtract(new Fraction(1, 3))))
-					return Fraction.half.applyMinus().simplify(options)
+					return Fraction.half.applyMinus().simplifyBasic(options)
 			}
 		}
 
@@ -157,27 +157,27 @@ class Tan extends SingleArgumentFunction {
 				const argumentAsPart = argument.divide(this.useDegrees ? 360 : twoPi).cleanForAnalysis()
 				const argumentAsHalfPart = argumentAsPart.multiply(Integer.two).cleanForAnalysis()
 				if (isInteger(argumentAsHalfPart))
-					return Integer.zero.simplify(options)
+					return Integer.zero.simplifyBasic(options)
 				if (isInteger(argumentAsPart.subtract(Fraction.quarter)))
-					return Variable.infinity.simplify(options)
+					return Variable.infinity.simplifyBasic(options)
 				if (isInteger(argumentAsPart.add(Fraction.quarter)))
-					return Variable.minusInfinity.simplify(options)
+					return Variable.minusInfinity.simplifyBasic(options)
 			}
 
 			// Check for cases of 30, 45 and 60 degrees, and variations of these.
 			if (options.removeRootTrigFunctions) {
 				if (isInteger(argumentAsHalfPart.subtract(new Fraction(1, 6))))
-					return new Fraction(Integer.one, Sqrt.three).simplify(options)
+					return new Fraction(Integer.one, Sqrt.three).simplifyBasic(options)
 				if (isInteger(argumentAsHalfPart.subtract(new Fraction(1, 4))))
-					return Integer.one.simplify(options)
+					return Integer.one.simplifyBasic(options)
 				if (isInteger(argumentAsHalfPart.subtract(new Fraction(1, 3))))
-					return Sqrt.three.simplify(options)
+					return Sqrt.three.simplifyBasic(options)
 				if (isInteger(argumentAsHalfPart.subtract(new Fraction(2, 6))))
-					return Sqrt.three.applyMinus().simplify(options)
+					return Sqrt.three.applyMinus().simplifyBasic(options)
 				if (isInteger(argumentAsHalfPart.subtract(new Fraction(3, 4))))
-					return Integer.minusOne.simplify(options)
+					return Integer.minusOne.simplifyBasic(options)
 				if (isInteger(argumentAsHalfPart.subtract(new Fraction(5, 6))))
-					return new Fraction(Integer.minusOne, Sqrt.three).simplify(options)
+					return new Fraction(Integer.minusOne, Sqrt.three).simplifyBasic(options)
 			}
 		}
 
@@ -186,7 +186,7 @@ class Tan extends SingleArgumentFunction {
 			return new Fraction(
 				new Sin(argument).applySettingsToSelf(this.settings),
 				new Cos(argument).applySettingsToSelf(this.settings),
-			).simplify(options)
+			).simplifyBasic(options)
 
 		return new Tan(argument).applySettingsToSelf(this.settings)
 	}
@@ -221,7 +221,7 @@ class Arcsin extends SingleArgumentFunction {
 
 		// Check for basic reductions.
 		if (argument.isNumeric()) {
-			const processResult = (result) => (this.useDegrees ? new Integer(result) : d2rFactor.multiply(result)).simplify(options)
+			const processResult = (result) => (this.useDegrees ? new Integer(result) : d2rFactor.multiply(result)).simplifyBasic(options)
 
 			// Check for cases of -1, 0 and 1.
 			if (options.remove01TrigFunctions) {
@@ -286,7 +286,7 @@ class Arccos extends SingleArgumentFunction {
 
 		// Check for basic reductions.
 		if (argument.isNumeric()) {
-			const processResult = (result) => (this.useDegrees ? new Integer(result) : d2rFactor.multiply(result)).simplify(options)
+			const processResult = (result) => (this.useDegrees ? new Integer(result) : d2rFactor.multiply(result)).simplifyBasic(options)
 
 			// Check for cases of -1, 0 and 1.
 			if (options.remove01TrigFunctions) {
@@ -351,7 +351,7 @@ class Arctan extends SingleArgumentFunction {
 
 		// Check for basic reductions.
 		if (argument.isNumeric()) {
-			const processResult = (result) => (this.useDegrees ? new Integer(result) : d2rFactor.multiply(result)).simplify(options)
+			const processResult = (result) => (this.useDegrees ? new Integer(result) : d2rFactor.multiply(result)).simplifyBasic(options)
 
 			// Check for cases of -infinity, 0 and infinity.
 			if (options.remove01TrigFunctions) {
