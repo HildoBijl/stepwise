@@ -402,6 +402,16 @@ class Expression {
 		return !hasVariable
 	}
 
+	// isPolynomial checks if the Expression is a polynome: only has linear combinations of variables and integer powers of them.
+	isPolynomial() {
+		return false // Will be overwritten.
+	}
+
+	// isRational checks if the Expression is rational: a fraction of polynomes.
+	isRational() {
+		return this.isPolynomial() // Will be overwritten.
+	}
+
 	// hasFloat checks if there is a float anywhere in this expression. It affects the way numbers are simplified. For instance, 6/4 becomes 3/2 and stays like that, but 5.5/4 should simply become a new float 1.125.
 	hasFloat() {
 		return this.recursiveSome(term => term instanceof Float)
@@ -694,6 +704,10 @@ class Variable extends Expression {
 		return this.isPi() || this.isE() || this.isInfinity()
 	}
 
+	isPolynomial() {
+		return true
+	}
+
 	toNumber() {
 		if (this.isPi())
 			return Math.PI
@@ -797,6 +811,10 @@ class Constant extends Expression {
 
 	requiresTimesBeforeInProduct(previousTerm) {
 		return true // Always put a times before a constant.
+	}
+
+	isPolynomial() {
+		return true
 	}
 
 	getVariableStrings() {
@@ -948,6 +966,10 @@ class ExpressionList extends Expression {
 			...this.SO,
 			terms: this.terms.map(term => term.substitute(variable, substitution)),
 		})
+	}
+
+	isPolynomial() {
+		return this.terms.every(term => term.isPolynomial())
 	}
 
 	isNegative() {
@@ -1302,7 +1324,7 @@ class Product extends ExpressionList {
 	toString() {
 		const arrayToString = (array) => {
 			const termToString = (term, index) => {
-				const previousTerm = index > 0 && array[index-1]
+				const previousTerm = index > 0 && array[index - 1]
 				const precursor = index > 0 && (term.requiresTimesBeforeInProduct(previousTerm) || previousTerm.requiresTimesAfterInProduct(term)) ? '*' : ''
 				if (term.requiresBracketsFor(bracketLevels.multiplication))
 					return `${precursor}(${term.str})`
@@ -1320,7 +1342,7 @@ class Product extends ExpressionList {
 	toRawTex() {
 		const arrayToTex = (array) => {
 			const termToTex = (term, index) => {
-				const previousTerm = index > 0 && array[index-1]
+				const previousTerm = index > 0 && array[index - 1]
 				const precursor = index > 0 && (term.requiresTimesBeforeInProductTex(previousTerm) || previousTerm.requiresTimesAfterInProductTex(term)) ? ' \\cdot ' : ''
 				if (term.requiresBracketsFor(bracketLevels.multiplication))
 					return `${precursor}\\left(${term.tex}\\right)`
@@ -1846,6 +1868,14 @@ class Fraction extends Function {
 		return this.numerator.isSubtype(Sum) || this.numerator.requiresPlusInSum()
 	}
 
+	isPolynomial() {
+		return this.denominator.isNumeric()
+	}
+
+	isRational() {
+		return this.numerator.isRational() && this.denominator.isRational()
+	}
+
 	applyToBothSides(func) {
 		return new Fraction(func(this.numerator), func(this.denominator))
 	}
@@ -2073,6 +2103,14 @@ class Power extends Function {
 
 	requiresTimesBeforeInProduct() {
 		return this.base.requiresTimesBeforeInProduct()
+	}
+
+	isPolynomial() {
+		return this.base.isPolynomial() && this.exponent.isSubtype(Integer) && this.exponent.number >= 0
+	}
+
+	isRational() {
+		return this.base.isRational() && this.exponent.isSubtype(Integer)
 	}
 
 	// invert on powers means make the power negative. So x^2 becomes x^(-2).
