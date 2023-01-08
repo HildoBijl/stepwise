@@ -1,6 +1,6 @@
 const { selectRandomly, getRandomInteger } = require('../../../util/random')
 const { expressionComparisons } = require('../../../CAS')
-const { combinerRepeat } = require('../../../skillTracking')
+const { combinerAnd } = require('../../../skillTracking')
 
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
@@ -12,9 +12,9 @@ const { equivalent } = expressionComparisons
 const variableSet = ['x', 'y', 't']
 
 const data = {
-	skill: 'applyProductRule',
-	setup: combinerRepeat('lookUpElementaryDerivative', 2),
-	steps: [['lookUpElementaryDerivative', 'lookUpElementaryDerivative'], null],
+	skill: 'applyQuotientRule',
+	setup: combinerAnd('lookUpElementaryDerivative', 'findBasicDerivative'),
+	steps: [['lookUpElementaryDerivative', 'findBasicDerivative'], null],
 	comparison: { default: equivalent },
 }
 
@@ -29,8 +29,8 @@ function generateState() {
 function getSolution(state) {
 	const { c, f1, f2, g } = state
 	const x = g.getVariables()[0]
-	const f = f1.add(f2.multiply(c, true)).elementaryClean()
-	const h = f.divide(g).elementaryClean()
+	const f = f1.add(f2.multiply(c, true)).removeUseless()
+	const h = f.divide(g).removeUseless()
 	const fDerivative = f.getDerivative().regularCleanDisplay()
 	const gDerivative = g.getDerivative().regularCleanDisplay()
 	const derivative = fDerivative.multiply(g).subtract(f.multiply(gDerivative)).divide(g.toPower(2)).elementaryClean()

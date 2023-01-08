@@ -2214,8 +2214,8 @@ class Power extends Function {
 		return `${baseTex}^{${exponentTex}}`
 	}
 
-	requiresTimesBeforeInProduct() {
-		return this.base.requiresTimesBeforeInProduct()
+	requiresTimesBeforeInProductTex(previousTerm) {
+		return this.base.requiresTimesBeforeInProduct(previousTerm)
 	}
 
 	isPolynomial() {

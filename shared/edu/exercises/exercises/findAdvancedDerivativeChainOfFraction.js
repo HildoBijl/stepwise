@@ -13,8 +13,8 @@ const variableSet = ['x', 'y', 't']
 
 const data = {
 	skill: 'findAdvancedDerivative',
-	setup: combinerAnd('applyQuotientRule', 'findBasicDerivative'),
-	steps: [null, null, ['applyQuotientRule', 'findBasicDerivative'], null],
+	setup: combinerAnd('applyQuotientRule', 'lookUpElementaryDerivative'),
+	steps: [null, null, ['applyQuotientRule', 'lookUpElementaryDerivative'], null],
 	weight: 2,
 	comparison: { default: equivalent },
 }

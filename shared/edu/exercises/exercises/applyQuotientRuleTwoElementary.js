@@ -12,7 +12,7 @@ const { equivalent } = expressionComparisons
 const variableSet = ['x', 'y', 't']
 
 const data = {
-	skill: 'applyProductRule',
+	skill: 'applyQuotientRule',
 	setup: combinerRepeat('lookUpElementaryDerivative', 2),
 	steps: [['lookUpElementaryDerivative', 'lookUpElementaryDerivative'], null],
 	weight: 2,
@@ -30,7 +30,7 @@ function generateState() {
 function getSolution(state) {
 	const { f, g } = state
 	const x = f.getVariables()[0]
-	const h = f.divide(g).elementaryClean()
+	const h = f.divide(g).removeUseless()
 	const fDerivative = f.getDerivative().regularCleanDisplay()
 	const gDerivative = g.getDerivative().regularCleanDisplay()
 	const derivative = fDerivative.multiply(g).subtract(f.multiply(gDerivative)).divide(g.toPower(2)).elementaryClean()

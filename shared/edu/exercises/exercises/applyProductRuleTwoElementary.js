@@ -30,7 +30,7 @@ function generateState() {
 function getSolution(state) {
 	const { f, g } = state
 	const x = f.getVariables()[0]
-	const h = f.multiply(g).elementaryClean()
+	const h = f.multiply(g).removeUseless()
 	const fDerivative = f.getDerivative().regularCleanDisplay()
 	const gDerivative = g.getDerivative().regularCleanDisplay()
 	const derivative = fDerivative.multiply(g).add(f.multiply(gDerivative))
