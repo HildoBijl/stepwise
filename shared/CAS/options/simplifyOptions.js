@@ -34,6 +34,7 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	crossOutFractionNumbers: false, // Reduce the numbers in a fraction by dividing out the GCD. So 18/12 reduces to 3/2.
 	crossOutFractionTerms: false, // Merge terms inside fraction. So (ab)/(bc) becomes a/c and (ax+bx^2)/(cx^3) becomes (a+bx)/(cx^2). Only works when mergeProductTerms is also true.
 	pullConstantPartOutOfFraction: false, // For display purposes turn (2(x+1)/(x+2)) into 2*(x+1)/(x+2), and similarly (2*x)/(3*y) into (2/3)*(x/y). Should only be done at the end to prevent infinite loops.
+	applyPolynomialCancellation: false, // Try to cancel out polynomial terms between the numerator and denominator. Only applies on univariate case.
 
 	// Power options.
 	removeZeroExponentFromPower: false, // Turn x^0 into 1.
@@ -154,6 +155,7 @@ const advancedClean = {
 	pullOutCommonSumNumbers: true,
 	pullOutCommonSumFactors: true,
 	sortSums: true,
+	applyPolynomialCancellation: true,
 	turnRootIntoFractionExponent: true,
 	pullFactorsOutOfRoots: true,
 	expandPowersOfProducts: true,

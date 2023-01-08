@@ -26,7 +26,7 @@ const { decimalSeparator, decimalSeparatorTex } = require('../../../settings/num
 const { isInt, isNumber, compareNumbers, mod } = require('../../../util/numbers')
 const { ensureString } = require('../../../util/strings')
 const { isObject, isBasicObject, isEmptyObject, deepEquals, processOptions, filterOptions, filterProperties, removeProperties, keysToObject, getParentClass } = require('../../../util/objects')
-const { firstOf, lastOf, count, sum, product, arrayFind, hasSimpleMatching } = require('../../../util/arrays')
+const { firstOf, lastOf, count, sum, product, fillUndefinedWith, arrayFind, hasSimpleMatching } = require('../../../util/arrays')
 const { union } = require('../../../util/sets')
 const { repeatWithIndices } = require('../../../util/functions')
 const { gcd, getLargestPowerFactor } = require('../../../util/maths')
@@ -1307,6 +1307,99 @@ class Sum extends ExpressionList {
 		// Return the GCD as a product of the relevant factors.
 		return new Product(gcdFactors).cleanStructure()
 	}
+
+	// getPolynomialGCD gets two polynomes p1(x) and p2(x) and subsequently attempts to find a GCD g(x) such that p1(x) = gcd(x)f1(x) and p2(x) = gcd(x)f2(x). The result is an object { gcd: ..., factors: [..., ...] }. On a problem (like that the expressions are not univariate polynomes) then no error is thrown: a gcd of one is implied.
+	static getPolynomialGCD(p1, p2) {
+		// Verify that we have univariate polynomials.
+		if (!p1.isPolynomial() || !p2.isPolynomial())
+			return { gcd: Integer.one, f1: p1, f2: p2 } // Not polynomes.
+		const sum = p1.add(p2)
+		const p1Variables = p1.getVariables()
+		const p2Variables = p2.getVariables()
+		if (p1Variables.length !== 1 || p2Variables.length !== 1 || !p1Variables[0].equalsBasic(p2Variables[0]))
+			return { gcd: Integer.one, f1: p1, f2: p2 } // Not both dependent on the same variable.
+
+		// Turn the polynomials into coefficient arrays.
+		const getTermOrder = variablePart => {
+			if (variablePart.isNumeric())
+				return 0
+			if (variablePart.isSubtype(Variable))
+				return 1
+			return variablePart.exponent.number // Must be a power.
+		}
+		const polynomeToCoefficients = p => {
+			const result = []
+			p.getSumTerms().forEach(term => {
+				const { constantPart, variablePart } = term.getConstantAndVariablePart()
+				const order = getTermOrder(variablePart)
+				if (result[order] === undefined)
+					result[order] = constantPart
+				else
+					result[order].add(constantPart)
+			})
+			return fillUndefinedWith(result, Integer.zero).map(coefficient => coefficient.cleanForAnalysis())
+		}
+		const c1 = polynomeToCoefficients(p1)
+		const c2 = polynomeToCoefficients(p2)
+
+		// Use the coefficients to get the GCD.
+		const gcdCoefficients = Sum.getPolynomialGCDFromCoefficients(c1, c2)
+		if (gcdCoefficients.length === 1)
+			return { gcd: Integer.one, f1: p1, f2: p2 } // The GCD is one. Nothing we can do.
+
+		// Divide out the GCD from both polynomials.
+		const { divisor: f1Coefficients } = Sum.dividePolynomesByCoefficients(c1, gcdCoefficients)
+		const { divisor: f2Coefficients } = Sum.dividePolynomesByCoefficients(c2, gcdCoefficients)
+
+		// Assemble the results from the coefficients.
+		const x = p1Variables[0]
+		const coefficientsToPolynome = c => new Sum(c.map((coef, index) => coef.multiply(new Power(x, new Integer(index)))).reverse()).removeUseless()
+		return {
+			gcd: coefficientsToPolynome(gcdCoefficients),
+			factors: [
+				coefficientsToPolynome(f1Coefficients),
+				coefficientsToPolynome(f2Coefficients),
+			]
+		}
+	}
+
+	static getPolynomialGCDFromCoefficients(c1, c2) {
+		// Assume c1 is larger than (or equal to) c2. If not, switch.
+		;[c1, c2] = c1.length < c2.length ? [c2, c1] : [c1, c2]
+
+		// Iterate by subtracting the smallest from the largest, with the right factor.
+		while (c2.length > 0) {
+			// Subtract the smallest from the largest, with the right factor. So apply c1 <= c1 - c2*factor*x^exponent.
+			const factor = lastOf(c1).divide(lastOf(c2)).cleanForAnalysis()
+			const exponent = c1.length - c2.length
+			c1 = c1.map((value, index) => index < exponent ? value : value.subtract(c2[index - exponent].multiply(factor)).cleanForAnalysis())
+
+			// Remove excess elements and then switch smallest and largest if needed.
+			while (c1.length > 0 && Integer.zero.equalsBasic(lastOf(c1))) { c1.pop() }
+			;[c1, c2] = c1.length < c2.length ? [c2, c1] : [c1, c2]
+		}
+
+		// Return the result. Do divide by the last coefficient to ensure a unity as final coefficient.
+		return c1.map(c => c.divide(lastOf(c1)).cleanForAnalysis())
+	}
+
+	static dividePolynomesByCoefficients(c, cDiv) {
+		// Keep subtracting the divider cDiv from the coefficients c, with the right factor, until the latter has become smaller than the former.
+		const divisor = []
+		while (c.length >= cDiv.length) {
+			const factor = lastOf(c).divide(lastOf(cDiv)).cleanForAnalysis()
+			const exponent = c.length - cDiv.length
+			divisor[exponent] = factor
+			c = c.map((value, index) => index < exponent ? value : value.subtract(cDiv[index - exponent].multiply(factor)).cleanForAnalysis())
+			while (c.length > 0 && Integer.zero.equalsBasic(lastOf(c))) { c.pop() }
+		}
+
+		// Process the final outcome.
+		return {
+			divisor: fillUndefinedWith(divisor, Integer.zero),
+			remainder: c,
+		}
+	}
 }
 Sum.type = 'Sum'
 Sum.defaultSO = ExpressionList.defaultSO
@@ -1970,9 +2063,29 @@ class Fraction extends Function {
 			({ numerator, denominator } = Fraction.crossOutFractionNumbers(numerator, denominator, options))
 		}
 
-		// Once more try merging fraction terms. Things may have changed after simplifying children.
+		// Once more try crossing out fraction terms. Things may have changed after simplifying children.
 		if (options.crossOutFractionTerms) {
 			({ numerator, denominator } = Fraction.crossOutFractionTerms(numerator, denominator, options))
+		}
+
+		// See if there is a possibility for polynomial cancellation.
+		if (options.applyPolynomialCancellation) {
+			// Try to combine each of the factors of the numerator with each of the factors of the denominator.
+			let cancellationApplied = false
+			const numeratorFactors = numerator.getProductFactors()
+			const denominatorFactors = denominator.getProductFactors()
+			numeratorFactors.forEach((numeratorFactor, numeratorIndex) => {
+				denominatorFactors.forEach((denominatorFactor, denominatorIndex) => {
+					const { gcd, factors } = Sum.getPolynomialGCD(numeratorFactor, denominatorFactor)
+					if (!Integer.one.equalsBasic(gcd)) {
+						cancellationApplied = true
+						numeratorFactor = numeratorFactors[numeratorIndex] = factors[0]
+						denominatorFactor = denominatorFactors[denominatorIndex] = factors[1]
+					}
+				})
+			})
+			if (cancellationApplied)
+				return new Fraction(new Product(numeratorFactors), new Product(denominatorFactors)).simplifyBasic(options)
 		}
 
 		// Only now, after terms have been crossed out, expand potential brackets.

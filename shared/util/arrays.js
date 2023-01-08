@@ -77,6 +77,16 @@ function numberArray(p1, p2) {
 }
 module.exports.numberArray = numberArray
 
+// fillUndefinedWith takes an array and fills all undefined values with the given value. It changes the array and returns itself.
+function fillUndefinedWith(array, filler) {
+	for (let i = 0; i < array.length; i++) {
+		if (array[i] === undefined)
+			array[i] = filler
+	}
+	return array
+}
+module.exports.fillUndefinedWith = fillUndefinedWith
+
 // arraySplice takes an array, removes at index "index" a number of "numItemsToRemove" items and in their places splices in the given elements. It does NOT adjust the initial array but returns a copy of the result. (No deep copy is made.)
 function arraySplice(initialArray, index, numItemsToRemove = 0, ...insertItems) {
 	const result = [...initialArray]
