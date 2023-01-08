@@ -255,23 +255,23 @@ class Expression {
 	}
 
 	// requiresTimesBeforeInProduct checks whether the string representation requires a times before the term when displayed in a product. For instance, "xy" does not require a times, nor does "5y", but "x2" does, and certainly "52" when meaning "5*2".
-	requiresTimesBeforeInProduct() {
+	requiresTimesBeforeInProduct(previousTerm) {
 		return false
 	}
 
 	// requiresTimesAfterInProduct checks whether the string representation requires a times after the term when displayed in a product.
-	requiresTimesAfterInProduct() {
+	requiresTimesAfterInProduct(nextTerm) {
 		return false
 	}
 
 	// requiresTimesBeforeInProductTex is the same as requiresTimesBeforeInProduct but then for Tex purposes. Usually it's the same.
-	requiresTimesBeforeInProductTex() {
-		return this.requiresTimesBeforeInProduct()
+	requiresTimesBeforeInProductTex(previousTerm) {
+		return this.requiresTimesBeforeInProduct(previousTerm)
 	}
 
 	// requiresTimesAfterInProductTex is the same as requiresTimesAfterInProduct but then for Tex purposes. Usually it's the same.
-	requiresTimesAfterInProductTex() {
-		return this.requiresTimesAfterInProduct()
+	requiresTimesAfterInProductTex(nextTerm) {
+		return this.requiresTimesAfterInProduct(nextTerm)
 	}
 
 	/*
@@ -659,8 +659,12 @@ class Variable extends Expression {
 		return false
 	}
 
-	requiresTimesBeforeInProduct() {
-		return !!this.accent // On an accent, use a times.
+	requiresTimesBeforeInProduct(previousTerm) {
+		return !!(this.accent && previousTerm instanceof Variable && !previousTerm.accent && !previousTerm.subscript) // Only put a times when this is an accent and it's preceded by a variable without accent/subscript like "x". After all, xdot(x) will fail.
+	}
+
+	requiresTimesBeforeInProductTex(previousTerm) {
+		return false
 	}
 
 	getVariableStrings() {
@@ -791,8 +795,8 @@ class Constant extends Expression {
 		return this.value >= 0
 	}
 
-	requiresTimesBeforeInProduct() {
-		return true
+	requiresTimesBeforeInProduct(previousTerm) {
+		return true // Always put a times before a constant.
 	}
 
 	getVariableStrings() {
@@ -1298,7 +1302,8 @@ class Product extends ExpressionList {
 	toString() {
 		const arrayToString = (array) => {
 			const termToString = (term, index) => {
-				const precursor = index > 0 && (term.requiresTimesBeforeInProduct() || array[index - 1].requiresTimesAfterInProduct()) ? '*' : ''
+				const previousTerm = index > 0 && array[index-1]
+				const precursor = index > 0 && (term.requiresTimesBeforeInProduct(previousTerm) || previousTerm.requiresTimesAfterInProduct(term)) ? '*' : ''
 				if (term.requiresBracketsFor(bracketLevels.multiplication))
 					return `${precursor}(${term.str})`
 				return `${precursor}${term.str}`
@@ -1315,7 +1320,8 @@ class Product extends ExpressionList {
 	toRawTex() {
 		const arrayToTex = (array) => {
 			const termToTex = (term, index) => {
-				const precursor = index > 0 && (term.requiresTimesBeforeInProductTex() || this.terms[index - 1].requiresTimesAfterInProductTex()) ? ' \\cdot ' : ''
+				const previousTerm = index > 0 && array[index-1]
+				const precursor = index > 0 && (term.requiresTimesBeforeInProductTex(previousTerm) || previousTerm.requiresTimesAfterInProductTex(term)) ? ' \\cdot ' : ''
 				if (term.requiresBracketsFor(bracketLevels.multiplication))
 					return `${precursor}\\left(${term.tex}\\right)`
 				return `${precursor}${term.tex}`
@@ -1337,12 +1343,12 @@ class Product extends ExpressionList {
 		return firstOf(this.terms).requiresPlusInSum()
 	}
 
-	requiresTimesBeforeInProduct() {
-		return firstOf(this.terms).requiresTimesBeforeInProduct()
+	requiresTimesBeforeInProduct(previousTerm) {
+		return firstOf(this.terms).requiresTimesBeforeInProduct(previousTerm)
 	}
 
-	requiresTimesAfterInProduct() {
-		return lastOf(this.terms).requiresTimesAfterInProduct()
+	requiresTimesAfterInProduct(nextTerm) {
+		return lastOf(this.terms).requiresTimesAfterInProduct(nextTerm)
 	}
 
 	toNumber() {
@@ -1712,6 +1718,10 @@ class Function extends Expression {
 		return true
 	}
 
+	requiresTimesBeforeInProductTex() {
+		return false
+	}
+
 	requiresTimesAfterInProduct() {
 		return true
 	}
@@ -1821,6 +1831,10 @@ class Fraction extends Function {
 		const useMinus = !this.requiresPlusInSum()
 		const numerator = useMinus ? this.numerator.applyMinus(!this.numerator.isSubtype(Sum)) : this.numerator
 		return `${useMinus ? '-' : ''}\\frac{${numerator.tex}}{${this.denominator.tex}}`
+	}
+
+	requiresTimesBeforeInProductTex(previousTerm) {
+		return previousTerm.isSubtype(Fraction) // Only put a times before a fraction if there's another fraction.
 	}
 
 	requiresBracketsFor(level) {
@@ -1949,11 +1963,11 @@ class Fraction extends Function {
 				return numerator.applyMinus(false) // On a minus one denominator, return minus the numerator.
 		}
 
-		// Apply the display option to split constant and variable parts.
+		// Apply the display option to split constant and variable parts. But only when there does not wind up a one in a numerator somewhere.
 		const result = new Fraction(numerator, denominator)
 		if (options.pullConstantPartOutOfFraction) {
 			const { constantPart, variablePart } = result.getConstantAndVariablePart()
-			if (!Integer.one.equalsBasic(constantPart) && !Integer.one.equalsBasic(variablePart))
+			if (!Integer.one.equalsBasic(constantPart) && !Integer.one.equalsBasic(variablePart) && !(constantPart.isSubtype(Fraction) && Integer.one.equalsBasic(constantPart.numerator)) && !(variablePart.isSubtype(Fraction) && Integer.one.equalsBasic(variablePart.numerator)))
 				return new Product([constantPart, variablePart]).simplifyBasic(options)
 		}
 
@@ -2278,10 +2292,6 @@ class Sqrt extends SingleArgumentFunction {
 		return `\\sqrt{${this.argument.tex}}`
 	}
 
-	requiresTimesBeforeInProductTex() {
-		return false
-	}
-
 	getBaseAndExponent() {
 		if (this.argument.isSubtype(Power))
 			return { base: this.argument.base, exponent: new Fraction(this.argument.exponent, Integer.two) }
@@ -2346,10 +2356,6 @@ class Root extends Function {
 
 	toRawTex() {
 		return `\\sqrt[${this.base.tex}]{${this.argument.tex}}`
-	}
-
-	requiresTimesBeforeInProductTex() {
-		return false
 	}
 
 	getDerivativeBasic(variable) {
