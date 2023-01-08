@@ -12,6 +12,7 @@ const allFunctions = {
 	keyPressToFI,
 	merge,
 	split,
+	onClosingBracketGoOutside: true,
 }
 export default allFunctions
 

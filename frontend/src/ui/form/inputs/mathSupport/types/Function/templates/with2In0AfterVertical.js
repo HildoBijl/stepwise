@@ -24,6 +24,7 @@ const allFunctions = {
 	split,
 	shouldRemove,
 	removeElement,
+	onClosingBracketGoOutside: false,
 }
 export default allFunctions
 

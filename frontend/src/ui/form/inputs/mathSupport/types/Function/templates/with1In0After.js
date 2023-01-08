@@ -20,6 +20,7 @@ const allFunctions = {
 	canSplit,
 	split,
 	removeElement,
+	onClosingBracketGoOutside: true,
 }
 export default allFunctions
 

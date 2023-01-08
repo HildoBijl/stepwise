@@ -149,6 +149,10 @@ export function keyPressToFI(keyInfo, FI, settings, charElements, topParentFI, c
 	if (key === 'ArrowRight' && cursor.part < value.length - 1 && (isCursorAtFIEnd(activeElementFI) || (activeElementFuncs.canMoveCursorOutside && activeElementFuncs.canMoveCursorOutside(activeElementFI, true))))
 		return moveRight()
 
+	// On a closing bracket, at the end of an element where we should go outside on a closing bracket, go outside.
+	if (key === ')' && activeElementFuncs.onClosingBracketGoOutside && cursor.part < value.length - 1 && isCursorAtFIEnd(activeElementFI))
+		return moveRight()
+
 	// For the home/end, move to the start/end of this expression, but only if the cursor is already at the start of said element or a child of said element. (If not, pass the call on to let the part itself handle it.)
 	if (key === 'Home') {
 		if (activeElementFI.type === 'ExpressionPart' || activeElementFI.type === 'Accent' || isCursorAtFIStart(activeElementFI) || isCursorAtFIStart(zoomIn(activeElementFI)))
