@@ -21,13 +21,9 @@ const data = {
 
 function generateState() {
 	const x = selectRandomly(variableSet)
-	const [fRaw] = [asExpression('y')]// getRandomElementaryFunctions(1, false, false, false).map(func => func.substitute('x', x))
-	const [g1, g2] = [asExpression('sqrt(x)'), asExpression('x^3')]//getRandomElementaryFunctions(2, false, false, false).map(func => func.substitute('x', x))
+	const [fRaw] = getRandomElementaryFunctions(1, false, false, false).map(func => func.substitute('x', x))
+	const [g1, g2] = getRandomElementaryFunctions(2, false, false, false).map(func => func.substitute('x', x))
 	const c = getRandomInteger(-12, 12, [0])
-	console.log({ c, fRaw, g1, g2 })
-	console.log(fRaw.str)
-	console.log(g1.str)
-	console.log(g2.str)
 	return { c, fRaw, g1, g2 }
 }
 

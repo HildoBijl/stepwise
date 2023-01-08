@@ -22,9 +22,6 @@ export default function Exercise() {
 
 const Problem = () => {
 	const { x, h } = useSolution()
-	const sol = useSolution()
-	window.sol = sol
-	console.log(sol)
 	return <>
 		<Par>Gegeven is de functie <BM>h\left({x}\right) = {h}.</BM> Bepaal de afgeleide <M>h'\left({x}\right).</M></Par>
 		<InputSpace>

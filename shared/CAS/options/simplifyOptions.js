@@ -33,6 +33,7 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	splitFractions: false, // Split up fractions. So (a+b)/c becomes a/c+b/c. Conflicts with mergeFractionSums: that setting deactives this one.
 	crossOutFractionNumbers: false, // Reduce the numbers in a fraction by dividing out the GCD. So 18/12 reduces to 3/2.
 	crossOutFractionTerms: false, // Merge terms inside fraction. So (ab)/(bc) becomes a/c and (ax+bx^2)/(cx^3) becomes (a+bx)/(cx^2). Only works when mergeProductTerms is also true.
+	pullConstantPartOutOfFraction: false, // For display purposes turn (2(x+1)/(x+2)) into 2*(x+1)/(x+2), and similarly (2*x)/(3*y) into (2/3)*(x/y). Should only be done at the end to prevent infinite loops.
 
 	// Power options.
 	removeZeroExponentFromPower: false, // Turn x^0 into 1.
@@ -44,15 +45,17 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	removeNegativePowers: false, // Turns x^-2 into 1/x^2.
 	expandPowersOfProducts: false, // Reduces (a*b)^n to a^n*b^n.
 	expandPowersOfSums: false, // Reduces (a+b)^3 to (a^3 + 3*a^2*b + 3*a*b^2 + b^3). Only works on integer powers.
-	pullExponentsIntoRoots: false, // Reduces sqrt(4)^3 to sqrt(4^3).
-	pullFactorsOutOfRoots: false, // Reduces sqrt(20) to 2*sqrt(5) and sqrt(a^3b^4c^5) to ab^2c^2*sqrt(ac).
-	turnRootIntoFractionPower: false, // Reduces root[3](x) to x^(1/3).
-	turnFractionExponentIntoRoot: false, // Reduces x^(1/3) to root[3](x).
-	turnBaseTwoRootIntoSqrt: false, // Reduces root[2](x) to sqrt(x).
 
 	// Root options.
 	removeZeroRoot: false, // Turn sqrt(0) and root(0) into 0.
 	removeOneRoot: false, // Turn sqrt(1) and root(1) into 1.
+	turnRootIntoFractionExponent: false, // Reduces root[3](x) to x^(1/3).
+	turnFractionExponentIntoRoot: false, // Reduces x^(1/3) to root[3](x).
+	turnBaseTwoRootIntoSqrt: false, // Reduces root[2](x) to sqrt(x).
+	expandRootsOfProducts: false, // Turn sqrt(x*y) into sqrt(x)*sqrt(y).
+	mergeProductsOfRoots: false, // Turn sqrt(x)*sqrt(y) into sqrt(x*y). This is the opposite of expandRootsOfProducts, so this will be done last, in the cleaning phase.
+	pullExponentsIntoRoots: false, // Reduces sqrt(4)^3 to sqrt(4^3).
+	pullFactorsOutOfRoots: false, // Reduces sqrt(20) to 2*sqrt(5) and sqrt(a^3b^4c^5) to ab^2c^2*sqrt(ac).
 
 	// Logarithm options.
 	removeOneLogarithm: false, // Turn log(1) into 0.
@@ -75,7 +78,7 @@ const noSimplify = { // This is never applied, but only used to verify options g
 module.exports.noSimplify = noSimplify
 
 // The displayOptions are the options that are initially not applied, but are only done at the end. This is because they may cause conflicts (like infinite loops) when combined with the other. We don't want to have sqrt(x) be turned into x^(1/2) and then back to sqrt(x) until forever.
-const displayOptionList = ['turnFractionExponentIntoRoot', 'turnBaseTwoRootIntoSqrt']
+const displayOptionList = ['pullConstantPartOutOfFraction', 'turnFractionExponentIntoRoot', 'turnBaseTwoRootIntoSqrt', 'mergeProductsOfRoots', 'sortProducts', 'sortSums', 'pullFactorsOutOfRoots']
 module.exports.displayOptionList = displayOptionList
 
 /*
@@ -89,7 +92,7 @@ const structureOnly = {
 	flattenProducts: true,
 	removeTrivialProducts: true,
 }
-module.exports.structureOnly = { ...noSimplify, ...structureOnly}
+module.exports.structureOnly = { ...noSimplify, ...structureOnly }
 
 // elementaryClean writes things in such a way that the exact set-up of the equation does not matter for equality. Think of "(2/3)x" or "(2x)/3", or identically "-a/b" or "(-a)/b". It makes these equal.
 const elementaryClean = {
@@ -97,7 +100,7 @@ const elementaryClean = {
 	mergeFractionProducts: true,
 	mergeInitialMinusOne: true, // This is necessary to make "-(2)/(3)" equal to "(-2)/(3)" and not get confused with "((-1)*2)/(3)".
 }
-module.exports.elementaryClean = { ...noSimplify, ...elementaryClean}
+module.exports.elementaryClean = { ...noSimplify, ...elementaryClean }
 
 // removeUseless removes useless things from equations. Think of adding/subtracting 0, multiplying/dividing by 1 and taking the power of 0 or 1.
 const removeUseless = {
@@ -115,7 +118,7 @@ const removeUseless = {
 	removeOneRoot: true,
 	removeOneLogarithm: true,
 }
-module.exports.removeUseless = { ...noSimplify, ...removeUseless}
+module.exports.removeUseless = { ...noSimplify, ...removeUseless }
 
 // basicClean runs all basic clean-up methods available to starting mathematicians. Numbers like "2*3" are simplified to "6", fractions within fractions are squashed, and products "x*x" are merged into powers.
 const basicClean = {
@@ -129,7 +132,7 @@ const basicClean = {
 	mergeProductTerms: true,
 	flattenFractions: true,
 }
-module.exports.basicClean = { ...noSimplify, ...basicClean}
+module.exports.basicClean = { ...noSimplify, ...basicClean }
 
 // regularClean goes a few steps further than basicClean. It also uses tools taught at the end of high school, running more advanced fraction simplifications, power reductions and such. Also product terms are sorted into a sensible order.
 const regularClean = {
@@ -139,11 +142,11 @@ const regularClean = {
 	crossOutFractionTerms: true,
 	mergeFractionSums: true,
 	removePowersWithinPowers: true,
+	removeNegativePowers: true,
 	pullExponentsIntoRoots: true,
-	// pullFactorsOutOfRoots: true,
 	removeEqualBaseArgumentLogarithm: true,
 }
-module.exports.regularClean = { ...noSimplify, ...regularClean}
+module.exports.regularClean = { ...noSimplify, ...regularClean }
 
 // advancedClean goes even further than basicClean, applying further reductions to fractions and powers.
 const advancedClean = {
@@ -151,12 +154,14 @@ const advancedClean = {
 	pullOutCommonSumNumbers: true,
 	pullOutCommonSumFactors: true,
 	sortSums: true,
-	removeNegativePowers: true,
+	turnRootIntoFractionExponent: true,
+	pullFactorsOutOfRoots: true,
 	expandPowersOfProducts: true,
+	expandRootsOfProducts: true,
 	remove01TrigFunctions: true,
 	removeRootTrigFunctions: true,
 }
-module.exports.advancedClean = { ...noSimplify, ...advancedClean}
+module.exports.advancedClean = { ...noSimplify, ...advancedClean }
 
 // forAnalysis puts expression, for as much as possible, into a standard form. This subsequently allows for easy comparison.
 const forAnalysis = {
@@ -165,33 +170,34 @@ const forAnalysis = {
 	pullOutCommonSumFactors: false,
 	expandProductsOfSums: true,
 	expandPowersOfSums: true,
-	turnRootIntoFractionPower: true,
 	turnLogIntoLn: true,
 	turnTanIntoSinCos: true,
 }
-module.exports.forAnalysis = { ...noSimplify, ...forAnalysis}
+module.exports.forAnalysis = { ...noSimplify, ...forAnalysis }
 
 // forDerivatives puts expressions in a form making it easier to take derivatives. Some components (like tan(x)) do not have a derivative specified, but in basic form (sin(x)/cos(x)) derivatives are possible.
 const forDerivatives = {
 	...removeUseless,
-	turnRootIntoFractionPower: true,
+	turnRootIntoFractionExponent: true,
 	turnLogIntoLn: true,
 	turnTanIntoSinCos: true,
 }
-module.exports.forDerivatives = { ...noSimplify, ...forDerivatives}
+module.exports.forDerivatives = { ...noSimplify, ...forDerivatives }
 
 // equationForAnalysis is similar to forAnalysis but then for equations. It also moves all terms to the left of the equation.
 const equationForAnalysis = {
 	...forAnalysis,
 	allToLeft: true,
 }
-module.exports.equationForAnalysis = { ...noSimplify, ...equationForAnalysis}
+module.exports.equationForAnalysis = { ...noSimplify, ...equationForAnalysis }
 
 // forDisplay makes simplifications that make an expression (or equation) more easy to display but not to evaluate. Think of turning x^(1/2) into sqrt(x), and x^(-2) into (1/x^2).
 const forDisplay = {
 	...removeUseless,
+	pullConstantPartOutOfFraction: true,
 	turnFractionExponentIntoRoot: true,
 	turnBaseTwoRootIntoSqrt: true,
+	mergeProductsOfRoots: true,
 }
 module.exports.forDisplay = { ...noSimplify, ...forDisplay }
 

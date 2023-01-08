@@ -51,12 +51,12 @@ function equivalent(input, correct) {
 	return Integer.zero.equalsBasic(comparison)
 }
 
-// integerMultiple checks if the first argument (input) is an integer multiple of the second argument (correct). It does this by finding input/correct, simplifying it and checking if it reduces to an integer.
+// integerMultiple checks if the first argument (input) is a non-zero integer multiple of the second argument (correct). It does this by finding input/correct, simplifying it and checking if it reduces to an integer.
 function integerMultiple(input, correct) {
 	// Manually check for minus signs.
 	const comparison1 = input.divide(correct).cleanForAnalysis()
 	const comparison2 = input.applyMinus().divide(correct).cleanForAnalysis()
-	const check = (comparison) => comparison.isSubtype(Integer)
+	const check = (comparison) => comparison.isSubtype(Integer) && !Integer.zero.equalsBasic(comparison)
 	return check(comparison1) || check(comparison2)
 
 	// ToDo: put this back later on, when the CAS is complete.
@@ -64,7 +64,7 @@ function integerMultiple(input, correct) {
 	return comparison.isSubtype(Integer)
 }
 
-// constantMultiple checks if the two arguments only differ by a constant ratio, like (2/3) or (pi^2/e). We divide input/correct and check if the simplification reduces to a non-zero numeric value. (If it's zero, then a zero input would be equal to everything, which would not be desirable.)
+// constantMultiple checks if the two arguments only differ by a non-zero constant ratio, like (2/3) or (pi^2/e). We divide input/correct and check if the simplification reduces to a non-zero numeric value. (If it's zero, then a zero input would be equal to everything, which would not be desirable.)
 function constantMultiple(input, correct) {
 	// Manually check for minus signs.
 	const comparison1 = input.divide(correct).cleanForAnalysis()

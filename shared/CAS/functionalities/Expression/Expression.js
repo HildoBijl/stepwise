@@ -507,7 +507,7 @@ class Expression {
 		const currSimplifyOptionsProcessed = processOptions(currSimplifyOptions, simplifyOptions.structureOnly) // Always at least clean the structure.
 		let result = this.simplifyBasic(currSimplifyOptionsProcessed)
 
-		// Run the display cleaning second, if needed.
+		// Run the display cleaning second, if any cleaning options have been requested.
 		if (Object.keys(currDisplayOptions).length > 0) {
 			const currDisplayOptionsProcessed = processOptions(currDisplayOptions, simplifyOptions.structureOnly)
 			result = result.simplifyBasic(currDisplayOptionsProcessed)
@@ -1291,6 +1291,10 @@ module.exports.Sum = Sum
  */
 
 class Product extends ExpressionList {
+	get factors() {
+		return this.terms
+	}
+
 	toString() {
 		const arrayToString = (array) => {
 			const termToString = (term, index) => {
@@ -1477,6 +1481,41 @@ class Product extends ExpressionList {
 					...terms.slice(sumIndex + 1),
 				]))).simplifyBasic(options)
 			}
+		}
+
+		// Pull roots of equal base together. For this, walk through all terms, and if there are roots find matching ones to pull together.
+		if (options.mergeProductsOfRoots) {
+			const processed = terms.map(_ => false)
+			const newTerms = []
+			terms.forEach((term, index) => {
+				// Only process unprocessed roots.
+				if (processed[index])
+					return // Already added. Don't add again.
+				if (!term.isSubtype(Sqrt) && !term.isSubtype(Root))
+					return newTerms.push(term)
+
+				// Find matching roots.
+				const rootFactors = terms.filter((rootCandidate, rootCandidateIndex) => {
+					if (term.subtype !== rootCandidate.subtype)
+						return false
+					if (term.isSubtype(Root) && !term.base.equalsBasic(rootCandidate.base))
+						return false
+					processed[rootCandidateIndex] = true
+					return true
+				})
+
+				// Only one such root? Keep it.
+				if (rootFactors.length === 1)
+					return newTerms.push(term)
+
+				// Merge roots and add it.
+				const argument = new Product(rootFactors.map(root => root.argument))
+				if (term.isSubtype(Sqrt))
+					return newTerms.push(new Sqrt(argument).simplifyBasic(options))
+				return newTerms.push(new Root(argument, term.base).simplifyBasic(options))
+			})
+			if (newTerms.length < terms.length)
+				return new Product(newTerms).simplifyBasic(options)
 		}
 
 		// Sort terms.
@@ -1907,10 +1946,18 @@ class Fraction extends Function {
 			if (Integer.one.equalsBasic(denominator))
 				return numerator // On a one denominator, return the numerator.
 			if (Integer.minusOne.equalsBasic(denominator))
-				return numerator.applyMinus(false) // On a minus one denominator, return minus te numerator.
+				return numerator.applyMinus(false) // On a minus one denominator, return minus the numerator.
 		}
 
-		return new Fraction(numerator, denominator)
+		// Apply the display option to split constant and variable parts.
+		const result = new Fraction(numerator, denominator)
+		if (options.pullConstantPartOutOfFraction) {
+			const { constantPart, variablePart } = result.getConstantAndVariablePart()
+			if (!Integer.one.equalsBasic(constantPart) && !Integer.one.equalsBasic(variablePart))
+				return new Product([constantPart, variablePart]).simplifyBasic(options)
+		}
+
+		return result
 	}
 
 	static crossOutFractionNumbers(numerator, denominator, options) {
@@ -2236,6 +2283,8 @@ class Sqrt extends SingleArgumentFunction {
 	}
 
 	getBaseAndExponent() {
+		if (this.argument.isSubtype(Power))
+			return { base: this.argument.base, exponent: new Fraction(this.argument.exponent, Integer.two) }
 		return { base: this.argument, exponent: Fraction.half }
 	}
 
@@ -2259,52 +2308,22 @@ class Sqrt extends SingleArgumentFunction {
 				return Integer.one // If the argument is 1, become 1.
 		}
 
-		// Pull factors out of roots, like turning sqrt(20) to 2*sqrt(5) and sqrt(a^3b^4c^5) to ab^2c^2*sqrt(ac).
-		if (options.pullFactorsOutOfRoots) {
-			// If the argument is a product, integer or power, then we can possibly pull out factors.
-			let terms
+		// For analysis reduce to a power.
+		if (options.turnRootIntoFractionExponent)
+			return new Power(argument, new Fraction(1, 2)).simplifyBasic(options)
+
+		// Expand roots of products.
+		if (options.expandRootsOfProducts) {
 			if (argument.isSubtype(Product))
-				terms = argument.terms
-			if (argument.isSubtype(Integer) || argument.isSubtype(Power))
-				terms = [argument]
-
-			// Gather all pulled terms.
-			const power = 2
-			const pulledTerms = []
-			if (terms) {
-				terms = terms.map(term => {
-					// For an integer, pull out the largest power factor.
-					if (term.isSubtype(Integer) && term.value !== 0) {
-						const largestPowerFactor = getLargestPowerFactor(Math.abs(term.value), power)
-						if (largestPowerFactor > 1) {
-							pulledTerms.push(new Integer(largestPowerFactor ** (1 / power)))
-							return new Integer(term.value / largestPowerFactor)
-						}
-					}
-
-					// For a power, check if the power can be reduced.
-					if (term.isSubtype(Power) && term.exponent.isSubtype(Integer) && Math.abs(term.exponent.value) >= power) {
-						const remainingExponent = term.exponent.value % power
-						const pulledOutExponent = (term.exponent.value - remainingExponent) / power
-						pulledTerms.push(new Power(term.base, new Integer(pulledOutExponent)))
-						return new Power(term.base, new Integer(remainingExponent))
-					}
-
-					// Nothing can be found. Keep the term as is.
-					return term
-				})
-			}
-
-			// When terms have been pulled, assemble everything.
-			if (pulledTerms.length > 0) {
-				pulledTerms.push(new Sqrt(new Product(terms)))
-				return new Product(pulledTerms).simplifyBasic(options)
-			}
+				return new Product(argument.terms.map(term => new Sqrt(term)))
 		}
 
-		// For analysis reduce to a power.
-		if (options.turnRootIntoFractionPower)
-			return new Power(argument, new Fraction(1, 2)).simplifyBasic(options)
+		// Pull factors out of roots, like turning sqrt(20) to 2*sqrt(5) and sqrt(a^3b^4c^5) to ab^2c^2*sqrt(ac).
+		if (options.pullFactorsOutOfRoots) {
+			const { pulledFactor, remainder } = Root.getPulledFactor(argument, 2)
+			if (!Integer.one.equalsBasic(pulledFactor))
+				return new Product([pulledFactor, new Sqrt(remainder)]).simplifyBasic(options)
+		}
 
 		return new Sqrt(argument)
 	}
@@ -2338,6 +2357,8 @@ class Root extends Function {
 	}
 
 	getBaseAndExponent() {
+		if (this.argument.isSubtype(Power))
+			return { base: this.argument.base, exponent: new Fraction(this.argument.exponent, this.base) }
 		return { base: this.argument, exponent: new Fraction(Integer.one, this.base) }
 	}
 
@@ -2355,7 +2376,7 @@ class Root extends Function {
 		}
 
 		// For analysis reduce to a power.
-		if (options.turnRootIntoFractionPower)
+		if (options.turnRootIntoFractionExponent)
 			return new Power(argument, new Fraction(1, base)).simplifyBasic(options)
 
 		// Turn roots with base two into Sqrts.
@@ -2364,7 +2385,22 @@ class Root extends Function {
 				return new Sqrt(argument).simplifyBasic(options)
 		}
 
-		return new Root({ argument, base })
+		// Expand roots of products.
+		if (options.expandRootsOfProducts) {
+			if (argument.isSubtype(Product))
+				return new Product(argument.terms.map(term => new Root(term, base))).simplifyBasic(options)
+		}
+
+		// Pull factors out of roots, like turning sqrt(20) to 2*sqrt(5) and sqrt(a^3b^4c^5) to ab^2c^2*sqrt(ac).
+		if (options.pullFactorsOutOfRoots) {
+			if (base.isSubtype(Integer)) {
+				const { pulledFactor, remainder } = Root.getPulledFactor(argument, base.number)
+				if (!Integer.one.equalsBasic(pulledFactor))
+					return new Product([pulledFactor, new Root(remainder, base)]).simplifyBasic(options)
+			}
+		}
+
+		return new Root(argument, base)
 	}
 
 	static getDefaultSO() {
@@ -2372,6 +2408,44 @@ class Root extends Function {
 			argument: Integer.one,
 			base: Integer.two,
 			...getParentClass(this).getDefaultSO(),
+		}
+	}
+
+	// getPulledFactor takes an expression, like a product 'x^3y^5z^7' and a base like 3 (must be an integer). It then tries to pull (...)^3 out of the given terms. The result may be { pulledFactor: 'xyz^2', remainder: 'y^2z' }. This is used to pull factors out of roots.
+	static getPulledFactor(argument, rootBase) {
+		const pulledFactor = []
+		const remainder = []
+		argument.getProductFactors().forEach(factor => {
+			// For an integer, pull out the largest power factor.
+			if (factor.isSubtype(Integer) && factor.number !== 0) {
+				const largestPowerFactor = getLargestPowerFactor(Math.abs(factor.number), rootBase)
+				if (largestPowerFactor > 1) {
+					pulledFactor.push(new Integer(Math.round(largestPowerFactor ** (1 / rootBase)))) // Use rounding to prevent numerical inaccuracies.
+					const remainingFactor = factor.number / largestPowerFactor
+					if (remainingFactor !== 1)
+						remainder.push(new Integer(remainingFactor))
+				}
+			}
+
+			// For a power, check if the power can be reduced.
+			if (factor.isSubtype(Power) && factor.exponent.isSubtype(Integer)) {
+				const remainingExponent = factor.exponent.number % rootBase
+				const pulledOutExponent = (factor.exponent.number - remainingExponent) / rootBase
+				if (pulledOutExponent !== 0) {
+					pulledFactor.push(new Power(factor.base, new Integer(pulledOutExponent)))
+					if (remainingExponent !== 0)
+						remainder.push(new Power(factor.base, new Integer(remainingExponent)))
+				}
+			}
+
+			// Nothing can be found. Keep the factor as is.
+			return factor
+		})
+
+		// Return the final result.
+		return {
+			pulledFactor: new Product(pulledFactor).removeUseless(),
+			remainder: new Product(remainder).removeUseless(),
 		}
 	}
 }
