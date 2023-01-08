@@ -50,6 +50,7 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	// Root options.
 	removeZeroRoot: false, // Turn sqrt(0) and root(0) into 0.
 	removeOneRoot: false, // Turn sqrt(1) and root(1) into 1.
+	removeCanceledRoot: false, // Turn sqrt(x^2) into x and root[n](x^n) into x.
 	turnRootIntoFractionExponent: false, // Reduces root[3](x) to x^(1/3).
 	turnFractionExponentIntoRoot: false, // Reduces x^(1/3) to root[3](x).
 	turnBaseTwoRootIntoSqrt: false, // Reduces root[2](x) to sqrt(x).
@@ -144,6 +145,7 @@ const regularClean = {
 	mergeFractionSums: true,
 	removePowersWithinPowers: true,
 	removeNegativePowers: true,
+	removeCanceledRoot: true,
 	pullExponentsIntoRoots: true,
 	removeEqualBaseArgumentLogarithm: true,
 }

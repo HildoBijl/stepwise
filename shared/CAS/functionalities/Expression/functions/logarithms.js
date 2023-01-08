@@ -15,6 +15,10 @@ class Log extends Function {
 		return `{^{${this.base.tex}}}\\!\\log\\left(${this.argument.tex}\\right)`
 	}
 
+	requiresTimesBeforeInProductTex(previousTerm) {
+		return true // To prevent the pre-superscript to be confused by a power.
+	}
+
 	getDerivativeBasic(variable) {
 		return this.simplifyBasic(simplifyOptions.forDerivatives).getDerivativeBasic(variable)
 	}

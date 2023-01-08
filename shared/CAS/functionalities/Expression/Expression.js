@@ -2270,24 +2270,6 @@ class Power extends Function {
 	simplifyBasic(options) {
 		let { base, exponent } = this.simplifyChildren(options)
 
-		// Check for useless terms.
-		if (options.removeZeroExponentFromPower) {
-			if (Integer.zero.equalsBasic(exponent) && !Integer.zero.equalsBasic(base))
-				return Integer.one // If the power is 0, become 1.
-		}
-		if (options.removeZeroBaseFromPower) {
-			if (Integer.zero.equalsBasic(base) && !Integer.zero.equalsBasic(exponent))
-				return Integer.zero // If the base is 0, become 0.
-		}
-		if (options.removeOneExponentFromPower) {
-			if (Integer.one.equalsBasic(exponent))
-				return base // If the power is 1, become the base.
-		}
-		if (options.removeOneBaseFromPower) {
-			if (Integer.one.equalsBasic(base))
-				return Integer.one // If the base is 1, become 1.
-		}
-
 		// Check for powers within powers. Reduce (a^b)^c to a^(b*c).
 		if (options.removePowersWithinPowers) {
 			if (base.isSubtype(Power)) {
@@ -2364,6 +2346,24 @@ class Power extends Function {
 				if (base.isSubtype(Integer) && exponent.isSubtype(Integer))
 					return new Integer(base.number ** exponent.number)
 			}
+		}
+
+		// Check for useless terms.
+		if (options.removeZeroExponentFromPower) {
+			if (Integer.zero.equalsBasic(exponent) && !Integer.zero.equalsBasic(base))
+				return Integer.one // If the power is 0, become 1.
+		}
+		if (options.removeZeroBaseFromPower) {
+			if (Integer.zero.equalsBasic(base) && !Integer.zero.equalsBasic(exponent))
+				return Integer.zero // If the base is 0, become 0.
+		}
+		if (options.removeOneExponentFromPower) {
+			if (Integer.one.equalsBasic(exponent))
+				return base // If the power is 1, become the base.
+		}
+		if (options.removeOneBaseFromPower) {
+			if (Integer.one.equalsBasic(base))
+				return Integer.one // If the base is 1, become 1.
 		}
 
 		return new Power({ base, exponent })
@@ -2468,6 +2468,10 @@ class Sqrt extends SingleArgumentFunction {
 			if (Integer.one.equalsBasic(argument))
 				return Integer.one // If the argument is 1, become 1.
 		}
+		if (options.removeCanceledRoot) {
+			if (argument.isSubtype(Power) && Integer.two.equalsBasic(argument.exponent))
+				return argument.base
+		}
 
 		// For analysis reduce to a power.
 		if (options.turnRootIntoFractionExponent)
@@ -2530,6 +2534,10 @@ class Root extends Function {
 		if (options.removeOneRoot) {
 			if (Integer.one.equalsBasic(argument))
 				return Integer.one // If the argument is 1, become 1.
+		}
+		if (options.removeCanceledRoot) {
+			if (argument.isSubtype(Power) && base.equalsBasic(argument.exponent))
+				return argument.base
 		}
 
 		// For analysis reduce to a power.
