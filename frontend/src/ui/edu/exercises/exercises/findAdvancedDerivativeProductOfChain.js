@@ -127,7 +127,6 @@ const steps = [
 function getFeedback(exerciseData) {
 	const { solution } = exerciseData
 	const { x, switched } = solution
-	console.log(solution)
 
 	// Define h derivative checks.
 	const originalFunction = (input, correct, { h }) => onlyOrderChanges(input, h) && <>Dit is de oorspronkelijke functie. Je hebt hier nog niets mee gedaan.</>

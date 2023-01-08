@@ -22,9 +22,6 @@ export default function Exercise() {
 
 const Problem = () => {
 	const { x, f, g, h } = useSolution()
-	const sol = useSolution()
-	console.log(sol)
-	window.sol = sol
 	return <>
 		<Par>Gegeven is de functie <BM>h\left({x}\right) = {h}.</BM> Deze functie is de deling van de twee functies <BMList><BMPart>f\left({x}\right) = {f},</BMPart><BMPart>g\left({x}\right) = {g}.</BMPart></BMList>Bepaal de afgeleide <M>h'\left({x}\right).</M></Par>
 		<InputSpace>

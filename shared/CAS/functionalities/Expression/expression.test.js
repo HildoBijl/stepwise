@@ -128,10 +128,11 @@ describe('Check expression simplification:', () => {
 			expect(exp1.equals(exp2)).toBe(false)
 			expect(exp1.elementaryClean().equals(exp2)).toBe(true)
 		})
-		it('merges product numbers', () => {
-			const product = Integer.two.multiply(Integer.three)
-			expect(product.equals(Integer.six)).toBe(false)
-			expect(product.elementaryClean().equals(Integer.six)).toBe(true)
+		it('merges minus one product numbers', () => {
+			const product = Integer.minusOne.multiply(Integer.three)
+			const minusThree = new Integer(-3)
+			expect(product.equals(minusThree)).toBe(false)
+			expect(product.elementaryClean().equals(minusThree)).toBe(true)
 		})
 		it('merges product numbers into fractions', () => {
 			const exp1 = Integer.minusOne.multiply(Integer.two).divide(Integer.three)

@@ -31,9 +31,10 @@ class Sin extends SingleArgumentFunction {
 
 		// Check for basic reductions.
 		if (argument.isNumeric()) {
+			const argumentAsPart = argument.divide(this.useDegrees ? 360 : twoPi).cleanForAnalysis()
+
 			// Check for cases of 0, 1 or -1.
 			if (options.remove01TrigFunctions) {
-				const argumentAsPart = argument.divide(this.useDegrees ? 360 : twoPi).cleanForAnalysis()
 				if (isInteger(argumentAsPart.multiply(Integer.two)))
 					return Integer.zero.simplifyBasic(options)
 				if (isInteger(argumentAsPart.subtract(Fraction.quarter)))
@@ -93,9 +94,10 @@ class Cos extends SingleArgumentFunction {
 
 		// Check for basic reductions.
 		if (argument.isNumeric()) {
+			const argumentAsPart = argument.divide(this.useDegrees ? 360 : twoPi).cleanForAnalysis()
+
 			// Check for cases of 0, 1 or -1.
 			if (options.remove01TrigFunctions) {
-				const argumentAsPart = argument.divide(this.useDegrees ? 360 : twoPi).cleanForAnalysis()
 				if (isInteger(argumentAsPart.add(Fraction.quarter).multiply(Integer.two)))
 					return Integer.zero.simplifyBasic(options)
 				if (isInteger(argumentAsPart))
@@ -152,10 +154,11 @@ class Tan extends SingleArgumentFunction {
 
 		// Check for basic reductions.
 		if (argument.isNumeric()) {
+			const argumentAsPart = argument.divide(this.useDegrees ? 360 : twoPi).cleanForAnalysis()
+			const argumentAsHalfPart = argumentAsPart.multiply(Integer.two).cleanForAnalysis()
+
 			// Check for cases of multiples of 90 degrees.
 			if (options.remove01TrigFunctions) {
-				const argumentAsPart = argument.divide(this.useDegrees ? 360 : twoPi).cleanForAnalysis()
-				const argumentAsHalfPart = argumentAsPart.multiply(Integer.two).cleanForAnalysis()
 				if (isInteger(argumentAsHalfPart))
 					return Integer.zero.simplifyBasic(options)
 				if (isInteger(argumentAsPart.subtract(Fraction.quarter)))
@@ -222,10 +225,10 @@ class Arcsin extends SingleArgumentFunction {
 		// Check for basic reductions.
 		if (argument.isNumeric()) {
 			const processResult = (result) => (this.useDegrees ? new Integer(result) : d2rFactor.multiply(result)).simplifyBasic(options)
+			const cleanedArgument = argument.cleanForAnalysis()
 
 			// Check for cases of -1, 0 and 1.
 			if (options.remove01TrigFunctions) {
-				const cleanedArgument = argument.cleanForAnalysis()
 				if (equivalent(cleanedArgument, Integer.minusOne))
 					return processResult(-90)
 				if (equivalent(cleanedArgument, Integer.zero))
@@ -287,10 +290,10 @@ class Arccos extends SingleArgumentFunction {
 		// Check for basic reductions.
 		if (argument.isNumeric()) {
 			const processResult = (result) => (this.useDegrees ? new Integer(result) : d2rFactor.multiply(result)).simplifyBasic(options)
+			const cleanedArgument = argument.cleanForAnalysis()
 
 			// Check for cases of -1, 0 and 1.
 			if (options.remove01TrigFunctions) {
-				const cleanedArgument = argument.cleanForAnalysis()
 				if (equivalent(cleanedArgument, Integer.minusOne))
 					return processResult(180)
 				if (equivalent(cleanedArgument, Integer.zero))
@@ -352,10 +355,10 @@ class Arctan extends SingleArgumentFunction {
 		// Check for basic reductions.
 		if (argument.isNumeric()) {
 			const processResult = (result) => (this.useDegrees ? new Integer(result) : d2rFactor.multiply(result)).simplifyBasic(options)
+			const cleanedArgument = argument.cleanForAnalysis()
 
 			// Check for cases of -infinity, 0 and infinity.
 			if (options.remove01TrigFunctions) {
-				const cleanedArgument = argument.cleanForAnalysis()
 				if (equivalent(cleanedArgument, Variable.minusInfinity))
 					return processResult(-90)
 				if (equivalent(cleanedArgument, Integer.minusOne))

@@ -39,9 +39,9 @@ function getSolution(state) {
 
 	// Set up the original expression.
 	const sign = plus ? '+' : '-'
-	const expression = asExpression(`(by${sign}ax)/(abxy)`).substituteVariables(variables).simplify({ removeUseless: true, mergeProductNumbers: true, sortProducts: true })
-	const leftExpression = asExpression(`(by)/(abxy)`).substituteVariables(variables).simplify({ removeUseless: true, mergeProductNumbers: true, sortProducts: true })
-	const rightExpression = asExpression(`(ax)/(abxy)`).substituteVariables(variables).simplify({ removeUseless: true, mergeProductNumbers: true, sortProducts: true })
+	const expression = asExpression(`(by${sign}ax)/(abxy)`).substituteVariables(variables).removeUseless({ mergeProductNumbers: true, sortProducts: true })
+	const leftExpression = asExpression(`(by)/(abxy)`).substituteVariables(variables).removeUseless({ mergeProductNumbers: true, sortProducts: true })
+	const rightExpression = asExpression(`(ax)/(abxy)`).substituteVariables(variables).removeUseless({ mergeProductNumbers: true, sortProducts: true })
 	const split = leftExpression[plus ? 'add' : 'subtract'](rightExpression)
 
 	// Set up the solution.

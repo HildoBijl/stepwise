@@ -33,7 +33,7 @@ const { gcd, getLargestPowerFactor } = require('../../../util/maths')
 const { binomial } = require('../../../util/combinatorics')
 
 const { bracketLevels, defaultExpressionSettings, simplifyOptions } = require('../../options')
-counter = 0
+
 /*
  * Expression: the Expression class is the one which everything inherits from. 
  */

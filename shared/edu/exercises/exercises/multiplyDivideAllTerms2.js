@@ -56,8 +56,8 @@ function getSolution(state) {
 
 	// Set up the solution.
 	const intermediateWithBrackets = equation.divide(variables.x)
-	const intermediateWithoutBrackets = intermediateWithBrackets.simplify({ splitFractions: true, removeUseless: true })
-	const ans = intermediateWithoutBrackets.simplify({ removeUseless: true, crossOutFractionTerms: true, mergeProductTerms: true, mergeSumNumbers: true })
+	const intermediateWithoutBrackets = intermediateWithBrackets.removeUseless({ splitFractions: true })
+	const ans = intermediateWithoutBrackets.removeUseless({ crossOutFractionTerms: true, mergeProductTerms: true, mergeSumNumbers: true })
 
 	return { ...state, variables, terms, equation, intermediateWithBrackets, intermediateWithoutBrackets, ans }
 }

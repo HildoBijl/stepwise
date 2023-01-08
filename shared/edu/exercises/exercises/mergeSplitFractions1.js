@@ -46,8 +46,8 @@ function getSolution(state) {
 	// Set up the solution.
 	const scmValue = scm(a, b)
 	const denominator = asExpression(`${scmValue}xy`).substituteVariables(variables).simplify({ sortProducts: true })
-	const leftAns = leftExpression.multiplyNumDen(scmValue / a).multiplyNumDen(y).simplify({ removeUseless: true, mergeProductNumbers: true, sortProducts: true })
-	const rightAns = rightExpression.multiplyNumDen(scmValue / b).multiplyNumDen(x).simplify({ removeUseless: true, mergeProductNumbers: true, sortProducts: true })
+	const leftAns = leftExpression.multiplyNumDen(scmValue / a).multiplyNumDen(y).removeUseless({ mergeProductNumbers: true, sortProducts: true })
+	const rightAns = rightExpression.multiplyNumDen(scmValue / b).multiplyNumDen(x).removeUseless({ mergeProductNumbers: true, sortProducts: true })
 	const ans = leftAns.numerator[plus ? 'add' : 'subtract'](rightAns.numerator).divide(denominator)
 
 	return { ...state, variables, leftExpression, rightExpression, expression, scmValue, denominator, leftAns, rightAns, ans }
