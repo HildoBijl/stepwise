@@ -9,7 +9,7 @@ const hComparison = {
 	significantDigitMargin: 2,
 }
 const factorComparison = {
-	absoluteMargin: 0.3,
+	absoluteMargin: 0.4,
 	relativeMargin: 0.05,
 	significantDigitMargin: 2,
 }

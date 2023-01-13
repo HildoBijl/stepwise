@@ -56,7 +56,7 @@ const steps = [
 					De totale temperatuursstijging tussen de metingen is
 					<BM>T_2 - T_1 = {T2.float} - {T1.float} = {T2.subtract(T1)}.</BM>
 					Het deel van de eerste, ten opzichte van de tweede, is
-					<BM>x = \frac(T - T_1)(T_2 - T_1) = \frac({T.float} - {T1.float})({T2.float} - {T1.float}) = \frac{T.subtract(T1).float}{T2.subtract(T1).float} = {x.float}.</BM>
+					<BM>x = \frac(T - T_1)(T_2 - T_1) = \frac({T.float} - {T1.float})({T2.float} - {T1.float}) = \frac{T.subtract(T1).float}{T2.subtract(T1).float} = {x}.</BM>
 					Dit is dus het deel van de temperatuursstijging.
 					</Par>
 			</> : <>
@@ -65,7 +65,7 @@ const steps = [
 					De totale tijd tussen de metingen is
 					<BM>t_2 - t_1 = {t2.float} - {t1.float} = {t2.subtract(t1)}.</BM>
 					Het deel van de eerste, ten opzichte van de tweede, is
-					<BM>x = \frac(t - t_1)(t_2 - t_1) = \frac({t.float} - {t1.float})({t2.float} - {t1.float}) = \frac{t.subtract(t1).float}{t2.subtract(t1).float} = {x.float}.</BM>
+					<BM>x = \frac(t - t_1)(t_2 - t_1) = \frac({t.float} - {t1.float})({t2.float} - {t1.float}) = \frac{t.subtract(t1).float}{t2.subtract(t1).float} = {x}.</BM>
 					Dit is dus het deel van de gepasseerde tijd tussen de metingen.
 				</Par>
 			</>
@@ -91,21 +91,21 @@ const steps = [
 			const { type, T1, T2, t1, t2, x, T, t } = useSolution()
 			return type === 1 ?
 				<Par>
-					We zijn op <M>{x.float}</M> deel van de tijdsperiode. De gehele tijdsperiode is
+					We zijn op <M>{x}</M> deel van de tijdsperiode. De gehele tijdsperiode is
 					<BM>t_2 - t_1 = {t2.float} - {t1.float} = {t2.subtract(t1)}.</BM>
-					Een deel <M>{x.float}</M> hiervan is
-					<BM>x \left(t_2 - t_1\right) = {x.float} \cdot \left({t2.float} - {t1.float}\right) = {t2.subtract(t1).multiply(x)}.</BM>
+					Een deel <M>{x}</M> hiervan is
+					<BM>x \left(t_2 - t_1\right) = {x} \cdot \left({t2.float} - {t1.float}\right) = {t2.subtract(t1).multiply(x)}.</BM>
 					Dit is sinds de eerste meting. De tijd sinds dat de waterkoker aan is, is dan
-					<BM>t = t_1 + x \left(t_2 - t_1\right) = {t1.float} + {x.float} \cdot \left({t2.float} - {t1.float}\right) = {t}.</BM>
+					<BM>t = t_1 + x \left(t_2 - t_1\right) = {t1.float} + {x} \cdot \left({t2.float} - {t1.float}\right) = {t}.</BM>
 					Als controle kunnen we kijken of dit tussen de <M>{t1}</M> en de <M>{t2}</M> in ligt: dat doet het inderdaad.
 				</Par> :
 				<Par>
-					We zijn op <M>{x.float}</M> deel van de tijdsperiode. De gehele temperatuurtoename in deze periode is
+					We zijn op <M>{x}</M> deel van de tijdsperiode. De gehele temperatuurtoename in deze periode is
 				<BM>T_2 - T_1 = {T2.float} - {T1.float} = {T2.subtract(T1)}.</BM>
-				We hebben slechts een deel <M>{x.float}</M> hiervan, wat overeenkomt met een toename van
-				<BM>x \left(T_2 - T_1\right) = {x.float} \cdot \left({T2.float} - {T1.float}\right) = {T2.subtract(T1).multiply(x)}.</BM>
+				We hebben slechts een deel <M>{x}</M> hiervan, wat overeenkomt met een toename van
+				<BM>x \left(T_2 - T_1\right) = {x} \cdot \left({T2.float} - {T1.float}\right) = {T2.subtract(T1).multiply(x)}.</BM>
 				Dit is de temperatuurstoename. De werkelijk aanwezige temperatuur is dan
-				<BM>T = T_1 + x \left(T_2 - T_1\right) = {T1.float} + {x.float} \cdot \left({T2.float} - {T1.float}\right) = {T}.</BM>
+				<BM>T = T_1 + x \left(T_2 - T_1\right) = {T1.float} + {x} \cdot \left({T2.float} - {T1.float}\right) = {T}.</BM>
 				Als controle kunnen we kijken of dit tussen de <M>{T1}</M> en de <M>{T2}</M> in ligt: dat doet het inderdaad.
 			</Par>
 		},

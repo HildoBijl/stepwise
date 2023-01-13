@@ -48,6 +48,7 @@ function getSolution({ type, year1, year2, pop1, pop2, year, pop }) {
 		year = year1 + x * (year2 - year1)
 		yearFloored = Math.floor(year)
 	}
+	x = new Float({ number: x, significantDigits: 2 })
 	return { type, year1, year2, pop1, pop2, x, year, pop, yearFloored, popRounded }
 }
 
