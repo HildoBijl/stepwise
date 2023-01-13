@@ -18,11 +18,13 @@ const data = {
 }
 
 function generateState() {
-	let { p1, T1, p2, T2 } = getCycle()
+	let { p1, T1, p2, etai } = getCycle()
 	p1 = p1.setDecimals(0).roundToPrecision().setMinimumSignificantDigits(2)
 	p2 = p2.setDecimals(0).roundToPrecision().setMinimumSignificantDigits(2)
 	T1 = T1.setDecimals(0).roundToPrecision()
-	T2 = T2.setDecimals(0).roundToPrecision()
+	const ratio = p2.number/p1.number
+	const T2p = T1.multiply(Math.pow(ratio, 1 - 1/k.number))
+	const T2 = T1.add(T2p.subtract(T1).divide(etai)).setDecimals(0).roundToPrecision() // Recalculate to ensure that it's a valid value, and not an impossible one (etai > 1) due to rounding off of the pressure.
 	return { p1, p2, T1, T2 }
 }
 
