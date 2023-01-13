@@ -3,6 +3,7 @@ const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { combinerRepeat } = require('../../../skillTracking')
 const { performComparison } = require('../util/comparison')
 const { getRandomInteger } = require('../../../inputTypes/Integer')
+const { Float } = require('../../../inputTypes/Float')
 
 const data = {
 	skill: 'linearInterpolation',
