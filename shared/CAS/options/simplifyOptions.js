@@ -81,10 +81,6 @@ const noSimplify = { // This is never applied, but only used to verify options g
 }
 module.exports.noSimplify = noSimplify
 
-// The displayOptions are the options that are initially not applied, but are only done at the end. This is because they may cause conflicts (like infinite loops) when combined with the other. We don't want to have sqrt(x) be turned into x^(1/2) and then back to sqrt(x) until forever.
-const displayOptionList = ['pullConstantPartOutOfFraction', 'turnFractionExponentIntoRoot', 'turnBaseTwoRootIntoSqrt', 'mergeProductsOfRoots', 'sortProducts', 'sortSums', 'pullFactorsOutOfRoots']
-module.exports.displayOptionList = displayOptionList
-
 /*
  * Now we set up a variety of common combinations of simplify options.
  */

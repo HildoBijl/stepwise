@@ -1453,7 +1453,7 @@ class Product extends ExpressionList {
 			const termToTex = (term, index) => {
 				const previousTerm = index > 0 && array[index - 1]
 				const nextTerm = index < array.length - 1 && array[index + 1]
-				const precursor = index > 0 && (term.requiresTimesBeforeInProduct(previousTerm) || previousTerm.requiresTimesAfterInProduct(term)) && (!Integer.minusOne.equals(previousTerm) || term instanceof Constant) ? ' \\cdot ' : '' // Display a times when required, and when we don't apply the minus-one-replacement-trick.
+				const precursor = index > 0 && (term.requiresTimesBeforeInProductTex(previousTerm) || previousTerm.requiresTimesAfterInProductTex(term)) && (!Integer.minusOne.equals(previousTerm) || term instanceof Constant) ? ' \\cdot ' : '' // Display a times when required, and when we don't apply the minus-one-replacement-trick.
 				if (index < array.length - 1 && Integer.minusOne.equalsBasic(term) && !(nextTerm instanceof Constant))
 					return `${precursor}-` // Apply the minus-one-replacement-trick: on a -1 times a non-constant display only the minus sign.
 				if (term.requiresBracketsFor(bracketLevels.multiplication))
