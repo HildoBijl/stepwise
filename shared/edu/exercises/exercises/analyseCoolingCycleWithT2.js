@@ -101,7 +101,7 @@ function checkInput(state, input, step, substep) {
 				case 2:
 					return performComparison('etai', input, solution, data.comparison)
 				case 3:
-					return performComparison('mdot', input, solution, data.comparison)
+					return performComparison('P', input, solution, data.comparison)
 			}
 		default:
 			return performComparison(['epsilon', 'COP', 'etai', 'P'], input, solution, data.comparison)
