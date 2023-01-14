@@ -1418,7 +1418,10 @@ class Product extends ExpressionList {
 		const arrayToString = (array) => {
 			const termToString = (term, index) => {
 				const previousTerm = index > 0 && array[index - 1]
-				const precursor = index > 0 && (term.requiresTimesBeforeInProduct(previousTerm) || previousTerm.requiresTimesAfterInProduct(term)) ? '*' : ''
+				const nextTerm = index < array.length - 1 && array[index + 1]
+				const precursor = index > 0 && (term.requiresTimesBeforeInProduct(previousTerm) || previousTerm.requiresTimesAfterInProduct(term)) && (!Integer.minusOne.equals(previousTerm) || term instanceof Constant) ? '*' : '' // Display a times when required, and when we don't apply the minus-one-replacement-trick.
+				if (index < array.length - 1 && Integer.minusOne.equalsBasic(term) && !(nextTerm instanceof Constant))
+					return `${precursor}-` // Apply the minus-one-replacement-trick: on a -1 times a non-constant display only the minus sign.
 				if (term.requiresBracketsFor(bracketLevels.multiplication))
 					return `${precursor}(${term.str})`
 				return `${precursor}${term.str}`
@@ -1426,9 +1429,6 @@ class Product extends ExpressionList {
 			return array.map(termToString).join('')
 		}
 
-		// If the product starts with "-1" then just add a minus instead of "-1*".
-		if (this.terms.length > 1 && Integer.minusOne.equalsBasic(this.terms[0]) && !(this.terms[1] instanceof Constant))
-			return '-' + arrayToString(this.terms.slice(1))
 		return arrayToString(this.terms)
 	}
 
@@ -1436,7 +1436,10 @@ class Product extends ExpressionList {
 		const arrayToTex = (array) => {
 			const termToTex = (term, index) => {
 				const previousTerm = index > 0 && array[index - 1]
-				const precursor = index > 0 && (term.requiresTimesBeforeInProductTex(previousTerm) || previousTerm.requiresTimesAfterInProductTex(term)) ? ' \\cdot ' : ''
+				const nextTerm = index < array.length - 1 && array[index + 1]
+				const precursor = index > 0 && (term.requiresTimesBeforeInProduct(previousTerm) || previousTerm.requiresTimesAfterInProduct(term)) && (!Integer.minusOne.equals(previousTerm) || term instanceof Constant) ? ' \\cdot ' : '' // Display a times when required, and when we don't apply the minus-one-replacement-trick.
+				if (index < array.length - 1 && Integer.minusOne.equalsBasic(term) && !(nextTerm instanceof Constant))
+					return `${precursor}-` // Apply the minus-one-replacement-trick: on a -1 times a non-constant display only the minus sign.
 				if (term.requiresBracketsFor(bracketLevels.multiplication))
 					return `${precursor}\\left(${term.tex}\\right)`
 				return `${precursor}${term.tex}`
@@ -1444,9 +1447,6 @@ class Product extends ExpressionList {
 			return array.map(termToTex).join('')
 		}
 
-		// If the product starts with "-1" then just add a minus instead of "-1*".
-		if (this.terms.length > 1 && Integer.minusOne.equalsBasic(this.terms[0]) && !(this.terms[1] instanceof Constant))
-			return '-' + arrayToTex(this.terms.slice(1))
 		return arrayToTex(this.terms)
 	}
 
