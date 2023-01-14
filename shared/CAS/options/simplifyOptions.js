@@ -23,6 +23,7 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	sortProducts: false, // Sort the terms inside products to put simpler terms first and more complex terms later.
 	mergeProductTerms: false, // Merge terms in products into powers. So x*x^2 becomes x^3.
 	expandProductsOfSums: false, // Reduces a*(b+c) to (a*b+a*c).
+	expandProductsOfSumsWithinSums: false, // Applies expandProductsOfSums but ONLY within sums. So reduces (x+1)^2 - (x-1)^2 to 4x, but does not expand (x+1)^2 itself. If expandProductsOfSums is on, this is ignored.
 
 	// Fraction options.
 	removeZeroNumeratorFromFraction: false, // Turn 0/x into 0.
@@ -33,7 +34,7 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	splitFractions: false, // Split up fractions. So (a+b)/c becomes a/c+b/c. Conflicts with mergeFractionSums: that setting deactives this one.
 	crossOutFractionNumbers: false, // Reduce the numbers in a fraction by dividing out the GCD. So 18/12 reduces to 3/2.
 	crossOutFractionTerms: false, // Merge terms inside fraction. So (ab)/(bc) becomes a/c and (ax+bx^2)/(cx^3) becomes (a+bx)/(cx^2). Only works when mergeProductTerms is also true.
-	pullConstantPartOutOfFraction: false, // For display purposes turn (2(x+1)/(x+2)) into 2*(x+1)/(x+2), and similarly (2*x)/(3*y) into (2/3)*(x/y). Should only be done at the end to prevent infinite loops.
+	pullConstantPartOutOfFraction: false, // For display purposes turn (2(x+1)/(x+2)) into 2*(x+1)/(x+2), and similarly (2*x)/(3*y) into (2/3)*(x/y). Should only be done at the end to prevent infinite loops. This options is ignored if mergeFractionProducts is true, because they activate each other into an infinite loop.
 	applyPolynomialCancellation: false, // Try to cancel out polynomial terms between the numerator and denominator. Only applies on univariate case.
 
 	// Power options.
@@ -46,6 +47,7 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	removeNegativePowers: false, // Turns x^-2 into 1/x^2.
 	expandPowersOfProducts: false, // Reduces (a*b)^n to a^n*b^n.
 	expandPowersOfSums: false, // Reduces (a+b)^3 to (a^3 + 3*a^2*b + 3*a*b^2 + b^3). Only works on integer powers.
+	expandPowersOfSumsWithinSums: false, // Applies expandPowersOfSums but ONLY within sums. So reduces (x+1)^2 - (x-1)^2 to 4x, but does not expand (x+1)^2 itself. If expandPowersOfSumsWithinSums is on, this is ignored.
 
 	// Root options.
 	removeZeroRoot: false, // Turn sqrt(0) and root(0) into 0.
@@ -130,7 +132,6 @@ const basicClean = {
 	crossOutFractionNumbers: true,
 	mergePowerNumbers: true,
 	cancelSumTerms: true,
-	mergeFractionProducts: true,
 	mergeProductTerms: true,
 	flattenFractions: true,
 }
@@ -152,12 +153,9 @@ const regularClean = {
 module.exports.regularClean = { ...noSimplify, ...regularClean }
 
 // advancedClean goes even further than basicClean, applying further reductions to fractions and powers.
-const advancedClean = {
+const advancedCleanMain = {
 	...regularClean,
-	pullOutCommonSumNumbers: true,
-	pullOutCommonSumFactors: true,
 	sortSums: true,
-	applyPolynomialCancellation: true,
 	turnRootIntoFractionExponent: true,
 	pullFactorsOutOfRoots: true,
 	expandPowersOfProducts: true,
@@ -165,19 +163,41 @@ const advancedClean = {
 	remove01TrigFunctions: true,
 	removeRootTrigFunctions: true,
 }
-module.exports.advancedClean = { ...noSimplify, ...advancedClean }
+const advancedClean = [
+	{
+		...advancedCleanMain, // First run it, trying to pull out terms before expanding brackets.
+		pullOutCommonSumNumbers: true,
+		pullOutCommonSumFactors: true,
+	},
+	{
+		...advancedCleanMain, // Then run it, also expanding brackets (and still canceling out terms).
+		expandProductsOfSumsWithinSums: true,
+		// expandPowersOfSumsWithinSums: true, // Do not expand powers; this can get huge real quickly.
+		applyPolynomialCancellation: true,
+	},
+	{
+		...advancedCleanMain, // Then run it once more, pulling out terms where possible.
+		pullOutCommonSumNumbers: true,
+		pullOutCommonSumFactors: true,
+	},
+]
+module.exports.advancedClean = advancedClean.map(options => ({ ...noSimplify, ...options }))
 
 // forAnalysis puts expression, for as much as possible, into a standard form. This subsequently allows for easy comparison.
-const forAnalysis = {
-	...advancedClean,
-	pullOutCommonSumNumbers: false,
-	pullOutCommonSumFactors: false,
-	expandProductsOfSums: true,
-	expandPowersOfSums: true,
+const forAnalysisMain = {
+	...advancedCleanMain,
 	turnLogIntoLn: true,
 	turnTanIntoSinCos: true,
 }
-module.exports.forAnalysis = { ...noSimplify, ...forAnalysis }
+const forAnalysis = [
+	forAnalysisMain, // First run it, trying to cancel out terms in fractions before expanding brackets.
+	{
+		...forAnalysisMain, // Then run it, also expanding brackets (and still canceling out terms).
+		expandProductsOfSums: true,
+		expandPowersOfSums: true,
+	},
+]
+module.exports.forAnalysis = forAnalysis.map(options => ({ ...noSimplify, ...options }))
 
 // forDerivatives puts expressions in a form making it easier to take derivatives. Some components (like tan(x)) do not have a derivative specified, but in basic form (sin(x)/cos(x)) derivatives are possible.
 const forDerivatives = {
@@ -188,25 +208,20 @@ const forDerivatives = {
 }
 module.exports.forDerivatives = { ...noSimplify, ...forDerivatives }
 
-// equationForAnalysis is similar to forAnalysis but then for equations. It also moves all terms to the left of the equation.
-const equationForAnalysis = {
-	...forAnalysis,
-	allToLeft: true,
-}
-module.exports.equationForAnalysis = { ...noSimplify, ...equationForAnalysis }
-
 // forDisplay makes simplifications that make an expression (or equation) more easy to display but not to evaluate. Think of turning x^(1/2) into sqrt(x), and x^(-2) into (1/x^2).
 const forDisplay = {
 	...removeUseless,
 	pullConstantPartOutOfFraction: true,
+	mergeFractionProducts: false,
 	turnFractionExponentIntoRoot: true,
 	turnBaseTwoRootIntoSqrt: true,
 	mergeProductsOfRoots: true,
 }
 module.exports.forDisplay = { ...noSimplify, ...forDisplay }
 
-// Merge a few other option sets.
-module.exports.elementaryCleanDisplay = { ...noSimplify, ...forDisplay, ...elementaryClean }
-module.exports.basicCleanDisplay = { ...noSimplify, ...forDisplay, ...basicClean }
-module.exports.regularCleanDisplay = { ...noSimplify, ...forDisplay, ...regularClean }
-module.exports.advancedCleanDisplay = { ...noSimplify, ...forDisplay, ...advancedClean }
+// equationForAnalysis is similar to forAnalysis but then for equations. It also moves all terms to the left of the equation.
+const equationForAnalysis = {
+	...forAnalysis,
+	allToLeft: true,
+}
+module.exports.equationForAnalysis = { ...noSimplify, ...equationForAnalysis }

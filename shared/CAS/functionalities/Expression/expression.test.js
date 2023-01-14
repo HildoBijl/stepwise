@@ -108,19 +108,6 @@ describe('Check direct expression comparison:', () => {
  */
 
 describe('Check expression simplification:', () => {
-	describe('remove useless', () => {
-		it('removes useless additions', () => {
-			const xPlusZero = x.add(Integer.zero)
-			expect(xPlusZero.equals(x)).toBe(false)
-			expect(xPlusZero.removeUseless().equals(x)).toBe(true)
-		})
-		it('removes useless multiplications', () => {
-			const xTimesOne = x.multiply(Integer.one)
-			expect(xTimesOne.equals(x)).toBe(false)
-			expect(xTimesOne.removeUseless().equals(x)).toBe(true)
-		})
-	})
-
 	describe('elementary clean', () => {
 		it('merges fraction products', () => {
 			const exp1 = Integer.two.divide(Integer.three).multiply(x)
@@ -142,7 +129,111 @@ describe('Check expression simplification:', () => {
 		})
 	})
 
-	// ToDo later: add extra tests for the other cleaning methods too.
+	describe('remove useless', () => {
+		it('removes useless additions', () => {
+			const xPlusZero = x.add(Integer.zero)
+			expect(xPlusZero.equals(x)).toBe(false)
+			expect(xPlusZero.removeUseless().equals(x)).toBe(true)
+		})
+		it('removes useless multiplications', () => {
+			const xTimesOne = x.multiply(Integer.one)
+			expect(xTimesOne.equals(x)).toBe(false)
+			expect(xTimesOne.removeUseless().equals(x)).toBe(true)
+		})
+		it('removes useless powers', () => {
+			const xToPowerOne = x.toPower(Integer.one)
+			expect(xToPowerOne.equals(x)).toBe(false)
+			expect(xToPowerOne.removeUseless().equals(x)).toBe(true)
+		})
+	})
+
+	describe('basic clean', () => {
+		it('cancels sum terms', () => {
+			const sum = x.multiply(Integer.three).add(Integer.five).subtract(x.multiply(Integer.three))
+			const result = Integer.five
+			expect(sum.equals(result)).toBe(false)
+			expect(sum.basicClean().equals(result)).toBe(true)
+		})
+		it('flattens fractions', () => {
+			const fraction = x.divide(Integer.four).divide(y.divide(Integer.five))
+			const result = x.multiply(Integer.five).divide(y.multiply(Integer.four))
+			expect(fraction.equals(result)).toBe(false)
+			expect(fraction.basicClean().equals(result)).toBe(true)
+		})
+		it('merges product terms', () => {
+			const product = x.multiply(Integer.three).multiply(x.toPower(Integer.two))
+			const result = Integer.three.multiply(x.toPower(Integer.three))
+			expect(product.equals(result)).toBe(false)
+			expect(product.basicClean().equals(result)).toBe(true)
+		})
+	})
+
+	describe('regular clean', () => {
+		it('groups sum terms', () => {
+			const sum = x.multiply(Integer.three).add(Integer.five).subtract(x.multiply(Integer.seven))
+			const result = Integer.five.subtract(x.multiply(Integer.four))
+			expect(sum.equals(result)).toBe(false)
+			expect(sum.regularClean().equals(result)).toBe(true)
+		})
+		it('crosses out fractions terms', () => {
+			const numerator = x.add(Integer.one).toPower(Integer.four).multiply(x.toPower(Integer.two)) // (x+1)^4*x^2
+			const denominator = x.add(Integer.one).toPower(Integer.three).multiply(x.toPower(Integer.five)) // (x+1)^3*x^5
+			const fraction = numerator.divide(denominator)
+			const result = x.add(Integer.one).divide(x.toPower(Integer.three)) // (x+1)/x^3
+			expect(fraction.equals(result)).toBe(false)
+			expect(fraction.regularClean().equals(result)).toBe(true)
+		})
+		it('merges fraction sums', () => {
+			const sum = x.divide(Integer.two).add(Integer.three.divide(y)) // x/2 + 3/y
+			const result = x.multiply(y).add(Integer.six).divide(y.multiply(Integer.two)) // (xy + 6)/(2y)
+			expect(sum.equals(result)).toBe(false)
+			expect(sum.regularClean().equals(result)).toBe(true)
+		})
+	})
+
+	describe('regular clean', () => {
+		it('expands powers of products', () => {
+			const power = x.multiply(Integer.two).toPower(Integer.three)
+			const result = Integer.eight.multiply(x.toPower(Integer.three))
+			expect(power.equals(result)).toBe(false)
+			expect(power.advancedClean().equals(result)).toBe(true)
+		})
+		it('expands powers of sums within sums', () => {
+			const sum1 = x.add(Integer.one).multiply(x).subtract(x.subtract(Integer.one).multiply(x)) // (x+1)*x- (x-1)*x
+			const result1 = Integer.two.multiply(x)
+			expect(sum1.equals(result1)).toBe(false)
+			expect(sum1.advancedClean().equals(result1)).toBe(true)
+			const sum2 = x.add(Integer.one).multiply(x)
+			const result2 = x.toPower(Integer.two).add(x)
+			expect(sum2.advancedClean().equals(result2)).toBe(false) // A product outside of a sum should not be expanded.
+		})
+		it('pulls out common sum factors', () => {
+			const term1 = x.toPower(Integer.five).multiply(x.add(Integer.one)).multiply(y) // x^5*(x+1)*y
+			const term2 = x.toPower(Integer.three).multiply(x.add(Integer.one).toPower(Integer.three)).multiply(z) // x^3*(x+1)^3*z
+			const sum = term1.add(term2)
+			const gcd = x.toPower(Integer.three).multiply(x.add(Integer.one)) // x^3*(x+1)
+			const result = gcd.multiply(x.toPower(Integer.two).multiply(y).add(x.add(Integer.one).toPower(Integer.two).multiply(z)))
+			expect(sum.equals(result)).toBe(false)
+			expect(sum.advancedClean().equals(result)).toBe(true)
+		})
+		it('applies polynomial cancellation', () => {
+			const p1 = x.toPower(Integer.two).add(Integer.three.multiply(x)).add(Integer.two) // x^2+3x+2
+			const p2 = x.toPower(Integer.two).add(Integer.five.multiply(x)).add(Integer.six) // x^2+5x+6
+			const fraction = p1.divide(p2)
+			const result = x.add(Integer.one).divide(x.add(Integer.three))
+			expect(fraction.equals(result)).toBe(false)
+			expect(fraction.advancedClean().equals(result)).toBe(true)
+		})
+	})
+
+	describe('clean for analysis', () => {
+		it('expands powers of sums', () => {
+			const power = x.add(Integer.two).toPower(Integer.three) // (x+2)^3
+			const result = x.toPower(Integer.three).add(x.toPower(Integer.two).multiply(Integer.six)).add(x.multiply(Integer.twelve)).add(Integer.eight) // x^3+6x^2+12x+8
+			expect(power.equals(result)).toBe(false)
+			expect(power.cleanForAnalysis().equals(result)).toBe(true)
+		})
+	})
 })
 
 /*

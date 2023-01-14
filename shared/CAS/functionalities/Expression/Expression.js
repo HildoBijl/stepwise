@@ -504,26 +504,19 @@ class Expression {
 		return preventClean ? derivative : derivative.regularClean()
 	}
 
-	// simplify simplifies an object. It checks the given options and calls simplifyBasic which does not run a check every time.
+	// simplify simplifies an object. It checks the given options and calls simplifyBasic which does not run a check every time. It can also take an array of option objects, in which case simplifyBasic is called multiple times.
 	simplify(options) {
+		// Ensure that the options parameter is an array of simplify option objects.
 		if (!options)
-			throw new Error(`Missing simplify options: when simplifying an expression, a simplifying options object must be given.`)
+			throw new Error(`Missing simplify options: when simplifying an expression, a simplifying options object (or array of objects) must be given.`)
+		let optionsList = Array.isArray(options) ? options : [options]
+		optionsList = optionsList.map(optionsObject => processOptions(optionsObject, simplifyOptions.structureOnly)) // Always at least clean the structure.
 
-		// Split the given options into simplify options and display options.
-		const currSimplifyOptions = removeProperties(options, simplifyOptions.displayOptionList)
-		const currDisplayOptions = filterProperties(options, simplifyOptions.displayOptionList)
-
-		// Run the simplification first. This is always done.
-		const currSimplifyOptionsProcessed = processOptions(currSimplifyOptions, simplifyOptions.structureOnly) // Always at least clean the structure.
-		let result = this.simplifyBasic(currSimplifyOptionsProcessed)
-
-		// Run the display cleaning second, if any cleaning options have been requested.
-		if (Object.keys(currDisplayOptions).length > 0) {
-			const currDisplayOptionsProcessed = processOptions(currDisplayOptions, simplifyOptions.structureOnly)
-			result = result.simplifyBasic(currDisplayOptionsProcessed)
-		}
-
-		// All done!
+		// Execute the list of options.
+		let result = this
+		optionsList.forEach(optionsObject => {
+			result = result.simplifyBasic(optionsObject)
+		})
 		return result
 	}
 
@@ -554,49 +547,62 @@ class Expression {
 
 	// cleanStructure applies the simplify function with structureOnly options. It cleans up the structure of the Expression.
 	cleanStructure(extraOptions) {
-		return extraOptions ? this.simplify({ ...simplifyOptions.structureOnly, ...extraOptions }) : this.simplifyBasic(simplifyOptions.structureOnly)
+		return this.executeCleaningWithOptionsAndExtraOptions(simplifyOptions.structureOnly, extraOptions)
 	}
 
 	// removeUseless applies the simplify function with removeUseless options. It removes useless elements from the expression.
 	removeUseless(extraOptions) {
-		return extraOptions ? this.simplify({ ...simplifyOptions.removeUseless, ...extraOptions }) : this.simplifyBasic(simplifyOptions.removeUseless)
+		return this.executeCleaningWithOptionsAndExtraOptions(simplifyOptions.removeUseless, extraOptions)
 	}
 
 	// elementaryClean applies the simplify function with elementaryClean options.
 	elementaryClean(extraOptions) {
-		return extraOptions ? this.simplify({ ...simplifyOptions.elementaryClean, ...extraOptions }) : this.simplifyBasic(simplifyOptions.elementaryClean)
+		return this.executeCleaningWithOptionsAndExtraOptions(simplifyOptions.elementaryClean, extraOptions)
 	}
 	elementaryCleanDisplay(extraOptions) {
-		return this.simplify({ ...simplifyOptions.elementaryCleanDisplay, ...extraOptions })
+		return this.executeCleaningWithOptionsAndExtraOptions([simplifyOptions.elementaryClean, simplifyOptions.forDisplay], extraOptions)
 	}
 
 	// basicClean applies the simplify function with basicClean options.
 	basicClean(extraOptions) {
-		return extraOptions ? this.simplify({ ...simplifyOptions.basicClean, ...extraOptions }) : this.simplifyBasic(simplifyOptions.basicClean)
+		return this.executeCleaningWithOptionsAndExtraOptions(simplifyOptions.basicClean, extraOptions)
 	}
 	basicCleanDisplay(extraOptions) {
-		return this.simplify({ ...simplifyOptions.basicCleanDisplay, ...extraOptions })
+		return this.executeCleaningWithOptionsAndExtraOptions([simplifyOptions.basicClean, simplifyOptions.forDisplay], extraOptions)
 	}
 
 	// regularClean applies the simplify function with regularClean options.
 	regularClean(extraOptions) {
-		return extraOptions ? this.simplify({ ...simplifyOptions.regularClean, ...extraOptions }) : this.simplifyBasic(simplifyOptions.regularClean)
+		return this.executeCleaningWithOptionsAndExtraOptions(simplifyOptions.regularClean, extraOptions)
 	}
 	regularCleanDisplay(extraOptions) {
-		return this.simplify({ ...simplifyOptions.regularCleanDisplay, ...extraOptions })
+		return this.executeCleaningWithOptionsAndExtraOptions([simplifyOptions.regularClean, simplifyOptions.forDisplay], extraOptions)
 	}
 
 	// advancedClean applies the simplify function with advancedClean options.
 	advancedClean(extraOptions) {
-		return extraOptions ? this.simplify({ ...simplifyOptions.advancedClean, ...extraOptions }) : this.simplifyBasic(simplifyOptions.advancedClean)
+		return this.executeCleaningWithOptionsAndExtraOptions(simplifyOptions.advancedClean, extraOptions)
 	}
 	advancedCleanDisplay(extraOptions) {
-		return this.simplify({ ...simplifyOptions.advancedCleanDisplay, ...extraOptions })
+		return this.executeCleaningWithOptionsAndExtraOptions([simplifyOptions.advancedClean, simplifyOptions.forDisplay], extraOptions)
 	}
 
 	// cleanForAnalysis applies the simplify function with forAnalysis options.
 	cleanForAnalysis(extraOptions) {
-		return extraOptions ? this.simplify({ ...simplifyOptions.forAnalysis, ...extraOptions }) : this.simplifyBasic(simplifyOptions.forAnalysis)
+		return this.executeCleaningWithOptionsAndExtraOptions(simplifyOptions.forAnalysis, extraOptions)
+	}
+
+	// cleanForDisplay will clean up the expression for display purposes.
+	cleanForDisplay(extraOptions) {
+		return this.executeCleaningWithOptionsAndExtraOptions(simplifyOptions.forDisplay, extraOptions)
+	}
+
+	// This is an internal function used by various cleaning functions. It assumes the options have already been verified but the extra options may have not. It simplifies the Expression with the given options (or list of options) and includes the list of extra options if given. If it's given, a simplify (with check) is called and otherwise directly simplifyBasic is called.
+	executeCleaningWithOptionsAndExtraOptions(options, extraOptions) {
+		options = (Array.isArray(options) ? options : [options]).flat()
+		if (!extraOptions)
+			return options.reduce((result, options) => result.simplifyBasic(options), this)
+		return this.simplify(options.map(currOptions => ({ ...currOptions, ...(Array.isArray(extraOptions) ? extraOptions[index] : extraOptions) })))
 	}
 
 	/*
@@ -886,6 +892,9 @@ Integer.seven = new Integer(7)
 Integer.eight = new Integer(8)
 Integer.nine = new Integer(9)
 Integer.ten = new Integer(10)
+Integer.eleven = new Integer(11)
+Integer.twelve = new Integer(12)
+Integer.twenty = new Integer(20)
 Integer.minusOne = new Integer(-1)
 module.exports.Integer = Integer
 
@@ -1093,6 +1102,13 @@ class Sum extends ExpressionList {
 	}
 
 	simplifyBasic(options = {}) {
+		// Process the options: if a flag should be turned on additionally inside this sum, then turn it on.
+		if (options.expandProductsOfSumsWithinSums && !options.expandProductsOfSums)
+			options = { ...options, expandProductsOfSums: true }
+		if (options.expandPowersOfSumsWithinSums && !options.expandPowersOfSums)
+			options = { ...options, expandPowersOfSums: true }
+
+		// Simplify the children (the terms) first.
 		let { terms } = this.simplifyChildren(options)
 
 		// Flatten sums inside this sum.
@@ -2108,7 +2124,7 @@ class Fraction extends Function {
 
 		// Apply the display option to split constant and variable parts. But only when there does not wind up a one in a numerator somewhere.
 		const result = new Fraction(numerator, denominator)
-		if (options.pullConstantPartOutOfFraction) {
+		if (options.pullConstantPartOutOfFraction && !options.mergeFractionProducts) {
 			const { constantPart, variablePart } = result.getConstantAndVariablePart()
 			if (!Integer.one.equalsBasic(constantPart) && !Integer.one.equalsBasic(variablePart) && !(constantPart.isSubtype(Fraction) && Integer.one.equalsBasic(constantPart.numerator)) && !(variablePart.isSubtype(Fraction) && Integer.one.equalsBasic(variablePart.numerator)))
 				return new Product([constantPart, variablePart]).simplifyBasic(options)
