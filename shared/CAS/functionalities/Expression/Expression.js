@@ -2162,7 +2162,7 @@ class Fraction extends Function {
 						return factor.argument // Keep the argument of the square root in the denominator.
 					}
 					if (factor.isSubtype(Root)) { // On root[n](x) ...
-						multiplicationFactors.push(factor.toPower(denominator.base.subtract(Integer.one))) // Multiply the numerator by the root[n](x)^(n-1).
+						multiplicationFactors.push(factor.toPower(factor.base.subtract(Integer.one))) // Multiply the numerator by the root[n](x)^(n-1).
 						return factor.argument // Keep the argument of the root in the denominator.
 					}
 					return factor
