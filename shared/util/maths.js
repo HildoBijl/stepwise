@@ -69,6 +69,34 @@ function isPrime(num) {
 }
 module.exports.isPrime = isPrime
 
+// isPower checks if the given number is of the given power. So isPower(81, 4) returns true because 81 = 3^4, but isPower(81, 3) gives false.
+function isPower(num, power) {
+	num = ensureInt(num)
+	power = ensureInt(power, true)
+
+	// Check basic cases.
+	if (power === 0)
+		return num === 1
+	if (power === 1)
+		return true
+	if (num < 0 && power % 2 === 0)
+		return false
+	num = Math.abs(num)
+	if (num === 0 || num === 1)
+		return true
+
+	// Get the prime factors and check if they are all a multiple of the power.
+	const primeFactors = getPrimeFactors(num)
+	return primeFactors.every(numFactors => numFactors % power === 0)
+}
+module.exports.isPower = isPower
+
+// isSquare checks if a number is square.
+function isSquare(num) {
+	return isPower(num, 2)
+}
+module.exports.isSquare = isSquare
+
 // getPrimeFactors takes a number, like 140, and returns an array with how often each prime factor occurs in it. So for 140 = 2^2*3^0*5^1*7^1 it returns [2,0,1,1].
 function getPrimeFactors(num) {
 	num = ensureInt(num, true, true)

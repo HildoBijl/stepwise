@@ -29,7 +29,7 @@ const { isObject, isBasicObject, isEmptyObject, deepEquals, processOptions, filt
 const { firstOf, lastOf, count, sum, product, fillUndefinedWith, arrayFind, hasSimpleMatching } = require('../../../util/arrays')
 const { union } = require('../../../util/sets')
 const { repeatWithIndices } = require('../../../util/functions')
-const { gcd, getLargestPowerFactor } = require('../../../util/maths')
+const { gcd, getPrime, getPrimeFactors, isSquare, isPower, getLargestPowerFactor } = require('../../../util/maths')
 const { binomial } = require('../../../util/combinatorics')
 
 const { bracketLevels, defaultExpressionSettings, simplifyOptions } = require('../../options')
@@ -597,10 +597,10 @@ class Expression {
 		return this.executeCleaningWithOptionsAndExtraOptions(simplifyOptions.forDisplay, extraOptions)
 	}
 
-	// This is an internal function used by various cleaning functions. It assumes the options have already been verified but the extra options may have not. It simplifies the Expression with the given options (or list of options) and includes the list of extra options if given. If it's given, a simplify (with check) is called and otherwise directly simplifyBasic is called.
+	// executeCleaningWithOptionsAndExtraOptions is an internal function used by various cleaning functions. It assumes the options have already been verified but the extra options may have not. It simplifies the Expression with the given options (or list of options) and includes the list of extra options if given. If it's given, a simplify (with check) is called and otherwise directly simplifyBasic is called.
 	executeCleaningWithOptionsAndExtraOptions(options, extraOptions) {
 		options = (Array.isArray(options) ? options : [options]).flat()
-		if (!extraOptions)
+		if (!extraOptions) // If there are no extra options, call simplifyBasic without checking the options. They are assumed OK.
 			return options.reduce((result, options) => result.simplifyBasic(options), this)
 		return this.simplify(options.map(currOptions => ({ ...currOptions, ...(Array.isArray(extraOptions) ? extraOptions[index] : extraOptions) })))
 	}
@@ -878,6 +878,25 @@ class Integer extends Constant {
 			throw new Error(`Invalid integer: tried to create an Integer but only a parameter of type "${typeof SO}" with value "${JSON.stringify(SO)}" was given.`)
 		super(SO)
 	}
+
+	simplifyBasic(options = {}) {
+		// Split up the Integer into its factors.
+		if (options.applyIntegerFactorization && !options.mergeInitialMinusOne && !options.mergeProductNumbers && !options.mergePowerNumbers) {
+			if (Math.abs(this.number > 3)) {
+				const negative = this.number < 0
+				const primeFactors = getPrimeFactors(Math.abs(this.number))
+				if (sum(primeFactors) > 1) { // Only continue when a split is actually done.
+					const factors = primeFactors.map((exponent, index) => new Integer(getPrime(index)).toPower(new Integer(exponent)))
+					if (negative)
+						factors.unshift(Integer.minusOne)
+					return new Product(factors).simplifyBasic(options)
+				}
+			}
+		}
+
+		// Nothing happening. Keep the Integer as is.
+		return this
+	}
 }
 Integer.type = 'Integer'
 Integer.defaultSO = { ...Constant.defaultSO }
@@ -915,6 +934,17 @@ class Float extends Constant {
 		if (!isNumber(SO.value))
 			throw new Error(`Invalid float: tried to create a Float but only a parameter of type "${typeof SO}" with value "${JSON.stringify(SO)}" was given.`)
 		super(SO)
+	}
+
+	simplifyBasic(options = {}) {
+		// Turn Floats like 4.5/1.5 = 3.0 into Integers.
+		if (options.turnFloatIntoInteger) {
+			if (compareNumbers(this.number - Math.round(this.number)))
+				return new Integer(Math.round(this.number)).simplifyBasic(options)
+		}
+
+		// Nothing happening. Keep the Float as is.
+		return this
 	}
 }
 Float.type = 'Float'
@@ -1621,7 +1651,7 @@ class Product extends ExpressionList {
 		}
 
 		// Pull roots of equal base together. For this, walk through all terms, and if there are roots find matching ones to pull together.
-		if (options.mergeProductsOfRoots) {
+		if (options.mergeProductsOfRoots && !options.expandRootsOfProducts) {
 			const processed = terms.map(_ => false)
 			const newTerms = []
 			terms.forEach((term, index) => {
@@ -2122,7 +2152,15 @@ class Fraction extends Function {
 				return numerator.applyMinus(false) // On a minus one denominator, return minus the numerator.
 		}
 
-		// Apply the display option to split constant and variable parts. But only when there does not wind up a one in a numerator somewhere.
+		// Prevent roots in the denominator.
+		if (options.preventRootDenominators && !options.crossOutFractionTerms) {
+			if (denominator.isSubtype(Sqrt))
+				return new Fraction(numerator.multiply(denominator), denominator.argument).simplifyBasic(options) // Turn a/sqrt(b) into a*sqrt(b)/b.
+			if (denominator.isSubtype(Root))
+				return new Fraction(numerator.multiply(denominator.toPower(denominator.base.subtract(Integer.one))), denominator.argument).simplifyBasic(options) // Turn a/root[n](b) into a*root[n](b)^(n-1)/b.
+		}
+
+		// Apply the display option to split constant and variable parts, writing (2x)/y as 2*(x/y). But only when there does not wind up a one in a numerator somewhere.
 		const result = new Fraction(numerator, denominator)
 		if (options.pullConstantPartOutOfFraction && !options.mergeFractionProducts) {
 			const { constantPart, variablePart } = result.getConstantAndVariablePart()
@@ -2484,6 +2522,10 @@ class Sqrt extends SingleArgumentFunction {
 			if (Integer.one.equalsBasic(argument))
 				return Integer.one // If the argument is 1, become 1.
 		}
+		if (options.removeIntegerRoot) {
+			if (argument.isSubtype(Integer) && isSquare(argument.number))
+				return new Integer(Math.round(Math.sqrt(argument.number))) // Round to prevent numerical inaccuracies from causing problems.
+		}
 		if (options.removeCanceledRoot) {
 			if (argument.isSubtype(Power) && Integer.two.equalsBasic(argument.exponent))
 				return argument.base
@@ -2550,6 +2592,10 @@ class Root extends Function {
 		if (options.removeOneRoot) {
 			if (Integer.one.equalsBasic(argument))
 				return Integer.one // If the argument is 1, become 1.
+		}
+		if (options.removeIntegerRoot) {
+			if (argument.isSubtype(Integer) && base.isSubtype(Integer) && isPower(argument.number, base.number))
+				return new Integer(Math.round(Math.pow(argument.number, 1 / base.number))) // Round to prevent numerical inaccuracies from causing problems.
 		}
 		if (options.removeCanceledRoot) {
 			if (argument.isSubtype(Power) && base.equalsBasic(argument.exponent))

@@ -1,6 +1,10 @@
 // There is a variety of simplifying options available. First we define all of them and see what they mean.
 const noSimplify = { // This is never applied, but only used to verify options given. (Some options contradict eachother.)
 
+	// Constant options.
+	turnFloatIntoInteger: false, // Turns floats into integers whenever they are floats. So when 4.5/1.5 is reduced to 3.0 it becomes 3.
+	applyIntegerFactorization: false, // Turns integers into their factorizations. So 12 becomes 2^2*3. Conflicts with mergeInitialMinusOne, mergeProductNumbers and mergePowerNumbers.
+
 	// Sum options.
 	flattenSums: false, // Turn x+(y+z) into x+y+z.
 	removeTrivialSums: false, // Turn a sum with zero or one element into 0 or said element, respectively.
@@ -52,14 +56,16 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	// Root options.
 	removeZeroRoot: false, // Turn sqrt(0) and root(0) into 0.
 	removeOneRoot: false, // Turn sqrt(1) and root(1) into 1.
+	removeIntegerRoot: false, // Turns a root that would be an integer into said integer. So sqrt(25) becomes 5 and root[3](27) becomes 3, but sqrt(24) is left untouched.
 	removeCanceledRoot: false, // Turn sqrt(x^2) into x and root[n](x^n) into x.
 	turnRootIntoFractionExponent: false, // Reduces root[3](x) to x^(1/3).
 	turnFractionExponentIntoRoot: false, // Reduces x^(1/3) to root[3](x).
 	turnBaseTwoRootIntoSqrt: false, // Reduces root[2](x) to sqrt(x).
 	expandRootsOfProducts: false, // Turn sqrt(x*y) into sqrt(x)*sqrt(y).
-	mergeProductsOfRoots: false, // Turn sqrt(x)*sqrt(y) into sqrt(x*y). This is the opposite of expandRootsOfProducts, so this will be done last, in the cleaning phase.
+	mergeProductsOfRoots: false, // Turn sqrt(x)*sqrt(y) into sqrt(x*y). This is the opposite of expandRootsOfProducts, so it is ignored if expandRootsOfProducts is turned on.
 	pullExponentsIntoRoots: false, // Reduces sqrt(4)^3 to sqrt(4^3).
 	pullFactorsOutOfRoots: false, // Reduces sqrt(20) to 2*sqrt(5) and sqrt(a^3b^4c^5) to ab^2c^2*sqrt(ac).
+	preventRootDenominators: false, // Reduces 1/sqrt(2) to sqrt(2)/2 to prevent the denominator from being a root. This is ignored if crossOutFractionTerms is turned on.
 
 	// Logarithm options.
 	removeOneLogarithm: false, // Turn log(1) into 0.
@@ -87,6 +93,7 @@ module.exports.noSimplify = noSimplify
 
 // structureOnly is a simplification that does nothing to the equation, but only to the structure. This should always be applied, because a wrong equation structure can lead to errors.
 const structureOnly = {
+	turnFloatIntoInteger: true,
 	flattenSums: true,
 	removeTrivialSums: true,
 	flattenProducts: true,
@@ -130,6 +137,7 @@ const basicClean = {
 	cancelSumTerms: true,
 	mergeProductTerms: true,
 	flattenFractions: true,
+	removeIntegerRoot: true,
 }
 module.exports.basicClean = { ...noSimplify, ...basicClean }
 
@@ -144,6 +152,7 @@ const regularClean = {
 	removeNegativePowers: true,
 	removeCanceledRoot: true,
 	pullExponentsIntoRoots: true,
+	mergeProductsOfRoots: true,
 	removeEqualBaseArgumentLogarithm: true,
 }
 module.exports.regularClean = { ...noSimplify, ...regularClean }
@@ -152,21 +161,25 @@ module.exports.regularClean = { ...noSimplify, ...regularClean }
 const advancedCleanMain = {
 	...regularClean,
 	sortSums: true,
-	turnRootIntoFractionExponent: true,
-	pullFactorsOutOfRoots: true,
 	expandPowersOfProducts: true,
-	expandRootsOfProducts: true,
+	pullFactorsOutOfRoots: true,
 	remove01TrigFunctions: true,
 	removeRootTrigFunctions: true,
 }
 const advancedClean = [
 	{
 		...advancedCleanMain, // First run it, trying to pull out terms before expanding brackets.
+		applyIntegerFactorization: true,
+		mergeInitialMinusOne: false,
+		mergeProductNumbers: false,
+		mergePowerNumbers: false,
+		pullFactorsOutOfRoots: true,
 		pullOutCommonSumNumbers: true,
 		pullOutCommonSumFactors: true,
 	},
 	{
 		...advancedCleanMain, // Then run it, also expanding brackets (and still canceling out terms).
+		turnRootIntoFractionExponent: true,
 		expandProductsOfSumsWithinSums: true,
 		// expandPowersOfSumsWithinSums: true, // Do not expand powers; this can get huge real quickly.
 		applyPolynomialCancellation: true,
@@ -186,7 +199,13 @@ const forAnalysisMain = {
 	turnTanIntoSinCos: true,
 }
 const forAnalysis = [
-	forAnalysisMain, // First run it, trying to cancel out terms in fractions before expanding brackets.
+	{
+		...forAnalysisMain, // First run it, trying to cancel out terms in fractions before expanding brackets. Also turn integers into their factors.
+		applyIntegerFactorization: true,
+		mergeInitialMinusOne: false,
+		mergeProductNumbers: false,
+		mergePowerNumbers: false,
+	},
 	{
 		...forAnalysisMain, // Then run it, also expanding brackets (and still canceling out terms).
 		expandProductsOfSums: true,
@@ -206,12 +225,14 @@ module.exports.forDerivatives = { ...noSimplify, ...forDerivatives }
 
 // forDisplay makes simplifications that make an expression (or equation) more easy to display but not to evaluate. Think of turning x^(1/2) into sqrt(x), and x^(-2) into (1/x^2).
 const forDisplay = {
-	...removeUseless,
+	...regularClean,
 	pullConstantPartOutOfFraction: true,
-	mergeFractionProducts: false,
+	mergeFractionProducts: false, // Blocks pullConstantPartOutOfFraction.
 	turnFractionExponentIntoRoot: true,
 	turnBaseTwoRootIntoSqrt: true,
 	mergeProductsOfRoots: true,
+	preventRootDenominators: true,
+	crossOutFractionTerms: false, // Blocks preventRootDenominator.
 }
 module.exports.forDisplay = { ...noSimplify, ...forDisplay }
 

@@ -216,19 +216,29 @@ class Equation {
 		return this.applyToBothSides(side => side.applyMinus(applySpecific))
 	}
 
-	// simplify simplifies this equation, according to the given options.
-	simplify(options = {}) {
-		// Process the given options.
+	// simplify simplifies this equation, according to the given options. The options can be an object or an array of objects.
+	simplify(options) {
+		// Ensure that the options parameter is an array of simplify option objects.
 		if (!options)
-			throw new Error(`Missing simplify options: when simplifying an equation, a simplifying options object must be given.`)
-		options = processOptions(options, simplifyOptions.structureOnly) // Always at least clean the structure.
+			throw new Error(`Missing simplify options: when simplifying an expression, a simplifying options object (or array of objects) must be given.`)
+		let optionsList = Array.isArray(options) ? options : [options]
+		optionsList = optionsList.map(optionsObject => processOptions(optionsObject, simplifyOptions.structureOnly)) // Always at least clean the structure.
 
+		// Execute the list of options.
+		let result = this
+		optionsList.forEach(optionsObject => {
+			result = result.simplifyBasic(optionsObject)
+		})
+		return result
+	}
+
+	// simplifyBasic applies simplification for a single simplifyOptions object which is not checked anymore.
+	simplifyBasic(options) {
 		// If all has to be moved to the left, do so. This turns "[left]=[right]" into "[left]-[right]=0".
-		if (options.allToLeft) {
-			return new Equation(this.left.subtract(this.right).simplifyBasic(options), Integer.zero)
-		}
-
-		// Simply pass the simplification on to both parts.
+		if (options.allToLeft && !Integer.zero.equalsBasic(this.right))
+			return new Equation(this.left.subtract(this.right), Integer.zero).simplifyBasic(options)
+	
+		// Apply the simplification to both sides.
 		return this.applyToBothSides(part => part.simplifyBasic(options))
 	}
 
@@ -239,42 +249,58 @@ class Equation {
 	}
 
 	/*
-	 * Further cleaning methods.
+	 * Further cleaning methods. They are identical to those of the Expression.
 	 */
 
-	// cleanStructure applies the simplify function with structureOnly options. It cleans up the structure of the Expression.
-	cleanStructure(extraOptions = {}) {
-		return this.simplify({ ...simplifyOptions.structureOnly, ...extraOptions })
+	cleanStructure(extraOptions) {
+		return this.executeCleaningWithOptionsAndExtraOptions(simplifyOptions.structureOnly, extraOptions)
 	}
 
-	// removeUseless applies the simplify function with removeUseless options. It removes useless elements from the expression.
-	removeUseless(extraOptions = {}) {
-		return this.simplify({ ...simplifyOptions.removeUseless, ...extraOptions })
+	removeUseless(extraOptions) {
+		return this.executeCleaningWithOptionsAndExtraOptions(simplifyOptions.removeUseless, extraOptions)
 	}
 
-	// elementaryClean applies the simplify function with elementaryClean options.
-	elementaryClean(extraOptions = {}) {
-		return this.simplify({ ...simplifyOptions.elementaryClean, ...extraOptions })
+	elementaryClean(extraOptions) {
+		return this.executeCleaningWithOptionsAndExtraOptions(simplifyOptions.elementaryClean, extraOptions)
+	}
+	elementaryCleanDisplay(extraOptions) {
+		return this.executeCleaningWithOptionsAndExtraOptions([simplifyOptions.elementaryClean, simplifyOptions.forDisplay], extraOptions)
 	}
 
-	// basicClean applies the simplify function with basicClean options.
-	basicClean(extraOptions = {}) {
-		return this.simplify({ ...simplifyOptions.basicClean, ...extraOptions })
+	basicClean(extraOptions) {
+		return this.executeCleaningWithOptionsAndExtraOptions(simplifyOptions.basicClean, extraOptions)
+	}
+	basicCleanDisplay(extraOptions) {
+		return this.executeCleaningWithOptionsAndExtraOptions([simplifyOptions.basicClean, simplifyOptions.forDisplay], extraOptions)
 	}
 
-	// regularClean applies the simplify function with regularClean options.
-	regularClean(extraOptions = {}) {
-		return this.simplify({ ...simplifyOptions.regularClean, ...extraOptions })
+	regularClean(extraOptions) {
+		return this.executeCleaningWithOptionsAndExtraOptions(simplifyOptions.regularClean, extraOptions)
+	}
+	regularCleanDisplay(extraOptions) {
+		return this.executeCleaningWithOptionsAndExtraOptions([simplifyOptions.regularClean, simplifyOptions.forDisplay], extraOptions)
 	}
 
-	// advancedClean applies the simplify function with advancedClean options.
-	advancedClean(extraOptions = {}) {
-		return this.simplify({ ...simplifyOptions.advancedClean, ...extraOptions })
+	advancedClean(extraOptions) {
+		return this.executeCleaningWithOptionsAndExtraOptions(simplifyOptions.advancedClean, extraOptions)
+	}
+	advancedCleanDisplay(extraOptions) {
+		return this.executeCleaningWithOptionsAndExtraOptions([simplifyOptions.advancedClean, simplifyOptions.forDisplay], extraOptions)
 	}
 
-	// cleanForAnalysis applies the simplify function with equationForAnalysis option.
-	cleanForAnalysis(extraOptions = {}) {
-		return this.simplify({ ...simplifyOptions.equationForAnalysis, ...extraOptions })
+	cleanForAnalysis(extraOptions) {
+		return this.executeCleaningWithOptionsAndExtraOptions(simplifyOptions.forAnalysis, extraOptions)
+	}
+
+	cleanForDisplay(extraOptions) {
+		return this.executeCleaningWithOptionsAndExtraOptions(simplifyOptions.forDisplay, extraOptions)
+	}
+
+	executeCleaningWithOptionsAndExtraOptions(options, extraOptions) {
+		options = (Array.isArray(options) ? options : [options]).flat()
+		if (!extraOptions) // If there are no extra options, call simplifyBasic without checking the options. They are assumed OK.
+			return options.reduce((result, options) => result.simplifyBasic(options), this)
+		return this.simplify(options.map(currOptions => ({ ...currOptions, ...(Array.isArray(extraOptions) ? extraOptions[index] : extraOptions) })))
 	}
 }
 module.exports.Equation = Equation
