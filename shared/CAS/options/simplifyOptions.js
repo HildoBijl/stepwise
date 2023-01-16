@@ -2,8 +2,8 @@
 const noSimplify = { // This is never applied, but only used to verify options given. (Some options contradict eachother.)
 
 	// Constant options.
-	turnFloatIntoInteger: false, // Turns floats into integers whenever they are floats. So when 4.5/1.5 is reduced to 3.0 it becomes 3.
-	applyIntegerFactorization: false, // Turns integers into their factorizations. So 12 becomes 2^2*3. Conflicts with mergeInitialMinusOne, mergeProductNumbers and mergePowerNumbers.
+	turnFloatsIntoIntegers: false, // Turns floats into integers whenever they are floats. So when 4.5/1.5 is reduced to 3.0 it becomes 3.
+	factorizeIntegers: false, // Turns integers into their factorizations. So 12 becomes 2^2*3. Conflicts with mergeProductNumbers and mergePowerNumbers.
 
 	// Sum options.
 	flattenSums: false, // Turn x+(y+z) into x+y+z.
@@ -59,7 +59,7 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	removeIntegerRoot: false, // Turns a root that would be an integer into said integer. So sqrt(25) becomes 5 and root[3](27) becomes 3, but sqrt(24) is left untouched.
 	removeCanceledRoot: false, // Turn sqrt(x^2) into x and root[n](x^n) into x.
 	turnRootIntoFractionExponent: false, // Reduces root[3](x) to x^(1/3).
-	turnFractionExponentIntoRoot: false, // Reduces x^(1/3) to root[3](x).
+	turnFractionExponentIntoRoot: false, // Reduces x^(1/3) to root[3](x). Conflicts with mergeProductTerms on x^(3/2) which becomes x*sqrt(x).
 	turnBaseTwoRootIntoSqrt: false, // Reduces root[2](x) to sqrt(x).
 	expandRootsOfProducts: false, // Turn sqrt(x*y) into sqrt(x)*sqrt(y).
 	mergeProductsOfRoots: false, // Turn sqrt(x)*sqrt(y) into sqrt(x*y). This is the opposite of expandRootsOfProducts, so it is ignored if expandRootsOfProducts is turned on.
@@ -93,7 +93,7 @@ module.exports.noSimplify = noSimplify
 
 // structureOnly is a simplification that does nothing to the equation, but only to the structure. This should always be applied, because a wrong equation structure can lead to errors.
 const structureOnly = {
-	turnFloatIntoInteger: true,
+	turnFloatsIntoIntegers: true,
 	flattenSums: true,
 	removeTrivialSums: true,
 	flattenProducts: true,
@@ -169,8 +169,7 @@ const advancedCleanMain = {
 const advancedClean = [
 	{
 		...advancedCleanMain, // First run it, trying to pull out terms before expanding brackets.
-		applyIntegerFactorization: true,
-		mergeInitialMinusOne: false,
+		factorizeIntegers: true,
 		mergeProductNumbers: false,
 		mergePowerNumbers: false,
 		pullFactorsOutOfRoots: true,
@@ -201,8 +200,7 @@ const forAnalysisMain = {
 const forAnalysis = [
 	{
 		...forAnalysisMain, // First run it, trying to cancel out terms in fractions before expanding brackets. Also turn integers into their factors.
-		applyIntegerFactorization: true,
-		mergeInitialMinusOne: false,
+		factorizeIntegers: true,
 		mergeProductNumbers: false,
 		mergePowerNumbers: false,
 	},
@@ -229,6 +227,7 @@ const forDisplay = {
 	pullConstantPartOutOfFraction: true,
 	mergeFractionProducts: false, // Blocks pullConstantPartOutOfFraction.
 	turnFractionExponentIntoRoot: true,
+	mergeProductTerms: false, // Blocks turnFractionExponentIntoRoot.
 	turnBaseTwoRootIntoSqrt: true,
 	mergeProductsOfRoots: true,
 	preventRootDenominators: true,

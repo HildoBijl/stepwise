@@ -881,12 +881,17 @@ class Integer extends Constant {
 
 	simplifyBasic(options = {}) {
 		// Split up the Integer into its factors.
-		if (options.applyIntegerFactorization && !options.mergeInitialMinusOne && !options.mergeProductNumbers && !options.mergePowerNumbers) {
-			if (Math.abs(this.number > 3)) {
+		if (options.factorizeIntegers && !options.mergeProductNumbers && !options.mergePowerNumbers) {
+			if (Math.abs(this.number) > 3) {
 				const negative = this.number < 0
 				const primeFactors = getPrimeFactors(Math.abs(this.number))
 				if (sum(primeFactors) > 1) { // Only continue when a split is actually done.
-					const factors = primeFactors.map((exponent, index) => new Integer(getPrime(index)).toPower(new Integer(exponent)))
+					const factors = primeFactors.map((exponent, index) => {
+						if (exponent === 0)
+							return
+						const integer = new Integer(getPrime(index))
+						return exponent === 1 ? integer : integer.toPower(new Integer(exponent))
+					}).filter(f => f !== undefined)
 					if (negative)
 						factors.unshift(Integer.minusOne)
 					return new Product(factors).simplifyBasic(options)
@@ -938,7 +943,7 @@ class Float extends Constant {
 
 	simplifyBasic(options = {}) {
 		// Turn Floats like 4.5/1.5 = 3.0 into Integers.
-		if (options.turnFloatIntoInteger) {
+		if (options.turnFloatsIntoIntegers) {
 			if (compareNumbers(this.number - Math.round(this.number)))
 				return new Integer(Math.round(this.number)).simplifyBasic(options)
 		}
@@ -2078,7 +2083,7 @@ class Fraction extends Function {
 	}
 
 	simplifyBasic(options) {
-		let { numerator, denominator } = this.simplifyChildren({ ...options, expandProductsOfSums: false, expandPowersOfSums: false }) // Do not expand brackets yet. We want to be able to cross out terms before doing that.
+		let { numerator, denominator } = this.simplifyChildren(options)
 
 		// Flatten fractions inside fractions.
 		if (options.flattenFractions) {
@@ -2132,12 +2137,6 @@ class Fraction extends Function {
 			})
 			if (cancellationApplied)
 				return new Fraction(new Product(numeratorFactors), new Product(denominatorFactors)).simplifyBasic(options)
-		}
-
-		// Only now, after terms have been crossed out, expand potential brackets.
-		if (options.expandProductsOfSums || options.expandPowersOfSums) {
-			numerator = numerator.simplifyBasic(options)
-			denominator = denominator.simplifyBasic(options)
 		}
 
 		// Check for useless elements.
@@ -2339,7 +2338,7 @@ class Power extends Function {
 		}
 
 		// Check for fractional exponents. Reduce x^(2/3) to root[3](x^2) and x^(8/3) to x^2*root[3](x^2).
-		if (options.turnFractionExponentIntoRoot) {
+		if (options.turnFractionExponentIntoRoot && !options.mergeProductTerms) {
 			if (exponent.isSubtype(Fraction) && exponent.denominator.isSubtype(Integer)) {
 				// On an integer numerator that is bigger than the denominator, add a preamble.
 				if (exponent.numerator.isSubtype(Integer) && exponent.numerator.number > exponent.denominator.number) {
