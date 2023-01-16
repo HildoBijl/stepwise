@@ -2153,10 +2153,26 @@ class Fraction extends Function {
 
 		// Prevent roots in the denominator.
 		if (options.preventRootDenominators && !options.crossOutFractionTerms) {
-			if (denominator.isSubtype(Sqrt))
-				return new Fraction(numerator.multiply(denominator), denominator.argument).simplifyBasic(options) // Turn a/sqrt(b) into a*sqrt(b)/b.
-			if (denominator.isSubtype(Root))
-				return new Fraction(numerator.multiply(denominator.toPower(denominator.base.subtract(Integer.one))), denominator.argument).simplifyBasic(options) // Turn a/root[n](b) into a*root[n](b)^(n-1)/b.
+			const denominatorFactors = denominator.getProductFactors().filter(factor => factor.isSubtype(Sqrt) || factor.isSubtype(Root))
+			if (denominatorFactors.length > 0) {
+				const multiplicationFactors = []
+				const newDenominatorFactors = denominator.getProductFactors().map(factor => {
+					if (factor.isSubtype(Sqrt)) { // On sqrt(x) ...
+						multiplicationFactors.push(factor) // Multiply the numerator by sqrt(x).
+						return factor.argument // Keep the argument of the square root in the denominator.
+					}
+					if (factor.isSubtype(Root)) { // On root[n](x) ...
+						multiplicationFactors.push(factor.toPower(denominator.base.subtract(Integer.one))) // Multiply the numerator by the root[n](x)^(n-1).
+						return factor.argument // Keep the argument of the root in the denominator.
+					}
+					return factor
+				})
+				if (multiplicationFactors.length > 0) {
+					const newNumerator = numerator.multiply(new Product(multiplicationFactors))
+					const newDenominator = new Product(newDenominatorFactors)
+					return new Fraction(newNumerator, newDenominator).simplifyBasic(options)
+				}
+			}
 		}
 
 		// Apply the display option to split constant and variable parts, writing (2x)/y as 2*(x/y). But only when there does not wind up a one in a numerator somewhere.

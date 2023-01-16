@@ -191,7 +191,7 @@ describe('Check expression simplification:', () => {
 		})
 	})
 
-	describe('regular clean', () => {
+	describe('advanced clean', () => {
 		it('expands powers of products', () => {
 			const power = x.multiply(Integer.two).toPower(Integer.three)
 			const result = Integer.eight.multiply(x.toPower(Integer.three))
