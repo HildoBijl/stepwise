@@ -38,7 +38,7 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	splitFractions: false, // Split up fractions. So (a+b)/c becomes a/c+b/c. Conflicts with mergeFractionSums: that setting deactives this one.
 	crossOutFractionNumbers: false, // Reduce the numbers in a fraction by dividing out the GCD. So 18/12 reduces to 3/2.
 	crossOutFractionTerms: false, // Merge terms inside fraction. So (ab)/(bc) becomes a/c and (ax+bx^2)/(cx^3) becomes (a+bx)/(cx^2). Only works when mergeProductTerms is also true.
-	pullConstantPartOutOfFraction: false, // For display purposes turn (2(x+1)/(x+2)) into 2*(x+1)/(x+2), and similarly (2*x)/(3*y) into (2/3)*(x/y). Should only be done at the end to prevent infinite loops. This options is ignored if mergeFractionProducts is true, because they activate each other into an infinite loop.
+	pullConstantPartOutOfFraction: false, // For display purposes turn (2(x+1)/(x+2)) into 2*(x+1)/(x+2), and similarly (2*x)/(3*y) into (2/3)*(x/y). Should only be done at the end to prevent infinite loops. This options is ignored if mergeFractionProducts or removeNegativePowers is true, because they activate each other into an infinite loop.
 	applyPolynomialCancellation: false, // Try to cancel out polynomial terms between the numerator and denominator. Only applies on univariate case.
 
 	// Power options.
@@ -59,7 +59,7 @@ const noSimplify = { // This is never applied, but only used to verify options g
 	removeIntegerRoot: false, // Turns a root that would be an integer into said integer. So sqrt(25) becomes 5 and root[3](27) becomes 3, but sqrt(24) is left untouched.
 	removeCanceledRoot: false, // Turn sqrt(x^2) into x and root[n](x^n) into x.
 	turnRootIntoFractionExponent: false, // Reduces root[3](x) to x^(1/3).
-	turnFractionExponentIntoRoot: false, // Reduces x^(1/3) to root[3](x). Conflicts with mergeProductTerms on x^(3/2) which becomes x*sqrt(x).
+	turnFractionExponentIntoRoot: false, // Reduces x^(1/3) to root[3](x).
 	turnBaseTwoRootIntoSqrt: false, // Reduces root[2](x) to sqrt(x).
 	expandRootsOfProducts: false, // Turn sqrt(x*y) into sqrt(x)*sqrt(y).
 	mergeProductsOfRoots: false, // Turn sqrt(x)*sqrt(y) into sqrt(x*y). This is the opposite of expandRootsOfProducts, so it is ignored if expandRootsOfProducts is turned on.
@@ -226,8 +226,8 @@ const forDisplay = {
 	...regularClean,
 	pullConstantPartOutOfFraction: true,
 	mergeFractionProducts: false, // Blocks pullConstantPartOutOfFraction.
+	removeNegativePowers: false, // Blocks pullConstantPartOutOfFraction.
 	turnFractionExponentIntoRoot: true,
-	mergeProductTerms: false, // Blocks turnFractionExponentIntoRoot.
 	turnBaseTwoRootIntoSqrt: true,
 	mergeProductsOfRoots: true,
 	preventRootDenominators: true,

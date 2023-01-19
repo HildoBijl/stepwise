@@ -2012,8 +2012,12 @@ class Fraction extends Function {
 		return this.numerator.isSubtype(Sum) || this.numerator.requiresPlusInSum()
 	}
 
+	isNegative() {
+		return this.numerator.isNegative()
+	}
+
 	isPolynomial() {
-		return this.denominator.isNumeric()
+		return this.denominator.isNumeric() && this.numerator.isPolynomial()
 	}
 
 	isRational() {
@@ -2161,9 +2165,14 @@ class Fraction extends Function {
 						multiplicationFactors.push(factor) // Multiply the numerator by sqrt(x).
 						return factor.argument // Keep the argument of the square root in the denominator.
 					}
-					if (factor.isSubtype(Root)) { // On root[n](x) ...
-						multiplicationFactors.push(factor.toPower(factor.base.subtract(Integer.one))) // Multiply the numerator by the root[n](x)^(n-1).
-						return factor.argument // Keep the argument of the root in the denominator.
+					if (factor.isSubtype(Root)) {
+						if (factor.argument.isSubtype(Power)) { // On root[n](x^a) ...
+							multiplicationFactors.push(new Root(new Power(factor.argument.base, factor.base.subtract(factor.argument.exponent)), factor.base)) // Multiply the numerator by root[n](x)^(n-a).
+							return factor.argument.base // Keep x in the denominator. 
+						} else { // On root[n](x) ...
+							multiplicationFactors.push(new Root(new Power(factor.argument, factor.base.subtract(Integer.one)), factor.base)) // Multiply the numerator by root[n](x)^(n-1).
+							return factor.argument // Keep the argument of the root in the denominator.
+						}
 					}
 					return factor
 				})
@@ -2177,7 +2186,7 @@ class Fraction extends Function {
 
 		// Apply the display option to split constant and variable parts, writing (2x)/y as 2*(x/y). But only when there does not wind up a one in a numerator somewhere.
 		const result = new Fraction(numerator, denominator)
-		if (options.pullConstantPartOutOfFraction && !options.mergeFractionProducts) {
+		if (options.pullConstantPartOutOfFraction && !options.mergeFractionProducts && !options.removeNegativePowers) {
 			const { constantPart, variablePart } = result.getConstantAndVariablePart()
 			if (!Integer.one.equalsBasic(constantPart) && !Integer.one.equalsBasic(variablePart) && !(constantPart.isSubtype(Fraction) && Integer.one.equalsBasic(constantPart.numerator)) && !(variablePart.isSubtype(Fraction) && Integer.one.equalsBasic(variablePart.numerator)))
 				return new Product([constantPart, variablePart]).simplifyBasic(options)
@@ -2354,7 +2363,7 @@ class Power extends Function {
 		}
 
 		// Check for fractional exponents. Reduce x^(2/3) to root[3](x^2) and x^(8/3) to x^2*root[3](x^2).
-		if (options.turnFractionExponentIntoRoot && !options.mergeProductTerms) {
+		if (options.turnFractionExponentIntoRoot) {
 			if (exponent.isSubtype(Fraction) && exponent.denominator.isSubtype(Integer)) {
 				// On an integer numerator that is bigger than the denominator, add a preamble.
 				if (exponent.numerator.isSubtype(Integer) && exponent.numerator.number > exponent.denominator.number) {
@@ -2512,12 +2521,6 @@ class Sqrt extends SingleArgumentFunction {
 		return `\\sqrt{${this.argument.tex}}`
 	}
 
-	getBaseAndExponent() {
-		if (this.argument.isSubtype(Power))
-			return { base: this.argument.base, exponent: new Fraction(this.argument.exponent, Integer.two) }
-		return { base: this.argument, exponent: Fraction.half }
-	}
-
 	getDerivativeBasic(variable) {
 		return new Fraction({
 			numerator: this.argument.getDerivativeBasic(variable), // Apply the chain rule.
@@ -2588,12 +2591,6 @@ class Root extends Function {
 
 	getDerivativeBasic(variable) {
 		return this.simplifyBasic(simplifyOptions.forDerivatives).getDerivativeBasic(variable)
-	}
-
-	getBaseAndExponent() {
-		if (this.argument.isSubtype(Power))
-			return { base: this.argument.base, exponent: new Fraction(this.argument.exponent, this.base) }
-		return { base: this.argument, exponent: new Fraction(Integer.one, this.base) }
 	}
 
 	simplifyBasic(options) {

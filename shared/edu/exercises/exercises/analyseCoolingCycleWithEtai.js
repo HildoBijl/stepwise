@@ -21,7 +21,7 @@ const data = {
 	comparison: {
 		h1: hComparison,
 		h2p: hComparison,
-		h2: hComparison,
+		h2: { ...hComparison, absoluteMargin: 1.5*hComparison.absoluteMargin },
 		h3: hComparison,
 		h4: hComparison,
 		epsilon: factorComparison,
