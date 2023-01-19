@@ -22,7 +22,7 @@ export default function Exercise() {
 const Problem = () => {
 	const { x, f, g, h } = useSolution()
 	return <>
-		<Par>Gegeven is de functie <BM>h\left({x}\right) = {h}.</BM> Deze functie is het product van de twee functies <BMList><BMPart>f\left({x}\right) = {f},</BMPart><BMPart>g\left({x}\right) = {g}.</BMPart></BMList>Bepaal de afgeleide <M>h'\left({x}\right).</M></Par>
+		<Par>Gegeven is de functie <BM>h\left({x}\right) = {h}.</BM> Deze functie is het resultaat van de ketening <M>h\left({x}\right) = f\left(g\left({x}\right)\right),</M> waarbij <BMList><BMPart>f\left({x}\right) = {f},</BMPart><BMPart>g\left({x}\right) = {g}.</BMPart></BMList>Bepaal de afgeleide <M>h'\left({x}\right).</M></Par>
 		<InputSpace>
 			<Par>
 				<ExpressionInput id="derivative" prelabel={<M>h'\left({x}\right)=</M>} label="Vul hier het resultaat in" size="l" settings={allMathSimpleVariables} validate={validWithVariables([x])} />
@@ -59,7 +59,7 @@ const steps = [
 		Problem: () => {
 			const { x } = useSolution()
 			return <>
-				<Par>Stel via de productregel de afgeleide <M>h'\left({x}\right)</M> samen.</Par>
+				<Par>Stel via de kettingregel de afgeleide <M>h'\left({x}\right)</M> samen.</Par>
 				<InputSpace>
 					<Par>
 						<ExpressionInput id="derivative" prelabel={<M>h'\left({x}\right)=</M>} label="Vul hier het resultaat in" size="l" settings={allMathSimpleVariables} validate={validWithVariables([x])} />

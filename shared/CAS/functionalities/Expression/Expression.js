@@ -1017,7 +1017,7 @@ class ExpressionList extends Expression {
 	}
 
 	isNegative() {
-		return firstOf(this.terms).isNegative()
+		return this.terms.every(term => term.isNegative())
 	}
 
 	// applyToTerm takes a function and applies it to a specified term in this ExpressionList. The indexArray can be a single index or an array of indices.
@@ -1239,8 +1239,6 @@ class Sum extends ExpressionList {
 				divisor = -divisor
 			if (Math.abs(divisor) !== 1)
 				return new Product([new Integer(divisor), new Sum(terms.map(term => Product.multiplyLeadingNumberBy(term, 1 / divisor)))]).simplifyBasic(options)
-			if (divisor === -1)
-				terms = terms.map(term => term.applyMinus(true))
 		}
 
 		// See if the terms have common factors that can be pulled out.
@@ -1262,8 +1260,9 @@ class Sum extends ExpressionList {
 	static order(a, b) {
 		// Define a series of tests. If one of them matches for an element and not for the other, the first element comes first.
 		const tests = [
-			x => x.isSubtype(Variable) || x.isSubtype(Product) || x.isSubtype(Power),
+			x => x.isPolynomial(),
 			x => x.isNumeric(), // Remaining numbers.
+			x => x.isRational(),
 			x => true, // Remaining cases.
 		]
 
@@ -1279,59 +1278,68 @@ class Sum extends ExpressionList {
 
 		// If both elements fall in the same case, deal with this case separately.
 		switch (testIndex) {
-			case 0: // Product, power or variable.
+			case 0: // Polynomial.
 				// Check which variables there are. Walk through them.
-				const aVariables = a.getVariables()
-				const bVariables = b.getVariables()
-				for (let i = 0; i < aVariables.length; i++) {
-					const aVariable = aVariables[i]
-					const bVariable = bVariables[i]
-
-					// If B does not have a variable anymore, A has more variables. Put A first.
-					if (!bVariable)
-						return -1
-
-					// If the variables are not equal, one has an earlier variable than another. Use Variable comparison to figure out which.
-					if (!aVariable.equalsBasic(bVariable))
-						return Variable.order(aVariable, bVariable)
-
-					// There is the same variable. Find the power.
-					const getPowerInProduct = (variable, product) => {
-						if (product.isSubtype(Variable))
-							return variable.equalsBasic(product) ? Integer.one : Integer.zero
-						if (product.isSubtype(Power))
-							return product.exponent
-						const term = product.terms.find(term => term.dependsOn(variable))
-						if (term.isSubtype(Variable))
-							return Integer.one
-						if (term.isSubtype(Power))
-							return term.exponent
-						return Variable.infinity // A function or so. Treat as infinite power.
-					}
-					const aPower = getPowerInProduct(aVariable, a)
-					const bPower = getPowerInProduct(bVariable, b)
-					if (aPower.isNumeric()) {
-						if (bPower.isNumeric()) {
-							const difference = bPower.toNumber() - aPower.toNumber()
-							if (!compareNumbers(difference, 0))
-								return difference // Put highest power first.
-						} else {
-							return -1 // Since A-power is a number and B-power is not, put A first.
-						}
-					} else {
-						if (bPower instanceof Constant)
-							return 1 // Since B-power is a number and A-power is not, put B first.
-						return 0 // Both have non-number powers. Cannot determine order. Abort.
-					}
-				}
-				if (bVariables.length > aVariables.length)
-					return 1 // Since B has more variables, put B first.
-				return 0 // Seems to be equal terms. Order does not matter.
+				return Sum.orderTermByVariables(a, b) // Apply default ordering by variables.
 			case 1: // Numeric.
 				return b.number - a.number // Larger first.
+			case 2: // Rational.
+				return Sum.orderTermByVariables(a, b) // Apply default ordering by variables.
 			default: // Remaining.
-				return 0 // Doesn't matter for now.
+				return Sum.orderTermByVariables(a, b) // Apply default ordering by variables.
 		}
+	}
+
+	// orderTermByVariables takes two terms in a sum, and tries to order them based on which variables they have. This is done alphabetically, and subsequently based on polynomial ordering.
+	static orderTermByVariables(a, b) {
+		const aVariables = a.getVariables()
+		const bVariables = b.getVariables()
+		for (let i = 0; i < aVariables.length; i++) {
+			const aVariable = aVariables[i]
+			const bVariable = bVariables[i]
+
+			// If B does not have a variable anymore, A has more variables. Put A first.
+			if (!bVariable)
+				return -1
+
+			// If the variables are not equal, one has an earlier variable than another. Use Variable comparison to figure out which.
+			if (!aVariable.equalsBasic(bVariable))
+				return Variable.order(aVariable, bVariable)
+
+			// There is the same variable. Find the power.
+			const getPowerInTerm = (variable, term) => {
+				if (term.isSubtype(Variable))
+					return variable.equalsBasic(term) ? Integer.one : Integer.zero
+				if (term.isSubtype(Power))
+					return term.exponent
+				if (term.isSubtype(Product)) {
+					const factor = term.factors.find(term => term.dependsOn(variable))
+					if (factor.isSubtype(Variable))
+						return Integer.one
+					if (factor.isSubtype(Power))
+						return factor.exponent
+				}
+				return Variable.infinity // A function or so. Treat as infinite power.
+			}
+			const aPower = getPowerInTerm(aVariable, a)
+			const bPower = getPowerInTerm(bVariable, b)
+			if (aPower.isNumeric()) {
+				if (bPower.isNumeric()) {
+					const difference = bPower.toNumber() - aPower.toNumber()
+					if (!compareNumbers(difference, 0))
+						return difference // Put highest power first.
+				} else {
+					return -1 // Since A-power is a number and B-power is not, put A first.
+				}
+			} else {
+				if (bPower instanceof Constant)
+					return 1 // Since B-power is a number and A-power is not, put B first.
+				return 0 // Both have non-number powers. Cannot determine order. Abort.
+			}
+		}
+		if (bVariables.length > aVariables.length)
+			return 1 // Since B has more variables, put B first.
+		return 0 // Seems to be equal terms. Order does not matter.
 	}
 
 	// getGreatestCommonDivider takes a list of terms and returns the GCD of these terms. It only checks multiplications and does not do polynomial GCD. For instance, given ['x^3*(y+1)*z' and 'x^2*(y+1)^3*w'] it returns 'x^2*(y+1)'.
@@ -1523,6 +1531,10 @@ class Product extends ExpressionList {
 
 	getProductFactors() {
 		return this.terms
+	}
+
+	isNegative() {
+		return firstOf(this.terms).isNegative()
 	}
 
 	getDerivativeBasic(variable) {
