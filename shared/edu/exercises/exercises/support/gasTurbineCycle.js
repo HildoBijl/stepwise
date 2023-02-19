@@ -8,6 +8,7 @@ function getCycle() {
 		min: 6,
 		max: 12,
 		unit: 'bar',
+		decimals: 0,
 	})
 	const p3 = p2
 	const p4 = p1
