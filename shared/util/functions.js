@@ -1,4 +1,5 @@
 const { ensureInt } = require('./numbers')
+const { ensureNumberArray } = require('./arrays')
 const { isBasicObject, applyToEachParameter, ensureConsistency } = require('./objects')
 
 function noop() { }
@@ -36,6 +37,31 @@ function repeatWithIndices(min, max, func) {
 	return arr.map((_, index) => func(index + min))
 }
 module.exports.repeatWithIndices = repeatWithIndices
+
+// repeatMultidimensional takes an array of maximum values (for instance [3,2]) and calls the given function for all possible permutations of numbers underneath those maximum values. So it calls f(0,0), f(0,1), f(1,0), f(1,1), f(2,0) and f(2,1). Returned is a multi-dimensional array of all outcomes.
+function repeatMultidimensional(times, func) {
+	times = ensureNumberArray(times)
+	return repeatWithIndicesMultidimensional(times.map(num => 0), times.map(num => num - 1), func)
+}
+module.exports.repeatMultidimensional = repeatMultidimensional
+
+// repeatWithIndicesMultidimensional will repeat the given function with indices ranging from min to max (both inclusive). This is done in a multi-dimensional way.
+function repeatWithIndicesMultidimensional(min, max, func, previousValues = []) {
+	min = ensureNumberArray(min)
+	max = ensureNumberArray(max)
+	if (min.length !== max.length)
+		throw new Error(`Invalid min and max matrices: the minimum and maximum values of repeatMultidimensional must have the same number of elements. This is not the case: min has ${min.length} and max has ${max.length} elements.`)
+
+	// Check the final case.
+	if (min.length === 0)
+		return func(...previousValues)
+
+	// Recursively walk through the permutations.
+	const minValue = ensureInt(min[0])
+	const maxValue = ensureInt(max[0])
+	return repeatWithIndices(minValue, maxValue, value => repeatWithIndicesMultidimensional(min.slice(1), max.slice(1), func, [...previousValues, value]))
+}
+module.exports.repeatWithIndicesMultidimensional = repeatWithIndicesMultidimensional
 
 // resolveFunctions takes an array/object (or even a function or basic parameter) and recursively checks if there are functions in it. If so, those functions are executed, with the given parameters. Additionally, undefined values are filtered out.
 function resolveFunctions(param, ...args) {

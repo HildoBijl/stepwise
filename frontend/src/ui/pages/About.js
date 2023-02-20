@@ -1,9 +1,19 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+import * as setup from 'step-wise/skillTracking/setup'
+
 import { usePaths } from 'ui/routing'
 
 import { Par, Head } from 'ui/components/containers'
+
+import manip from 'step-wise/skillTracking/setup/combiners/support/polynomialManipulation'
+import disp from 'step-wise/skillTracking/setup/combiners/support/polynomialDisplay'
+
+console.log(setup)
+window.setup = setup
+window.manip = manip
+window.disp = disp
 
 export default function About() {
 	const paths = usePaths()

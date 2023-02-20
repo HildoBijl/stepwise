@@ -1,3 +1,7 @@
+// alphabet is simply the English alphabet.
+const alphabet = 'abcdefghijklmnopqrstuvwxyz'
+module.exports.alphabet = alphabet
+
 // ensureString takes a parameter and makes sure it's a string. If not, it throws an error. If the second parameter (nonEmpty) is set to true, it must also be non-empty.
 function ensureString(str, nonEmpty = false) {
 	if (typeof str !== 'string')
