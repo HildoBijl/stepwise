@@ -1,6 +1,6 @@
 // SkillCombiner is the abstract parent class for all skill-combining classes. It has all the functionalities that need to be implemented by combiners.
 
-const { polynomialMatrixToString } = require('./support/polynomialDisplay')
+const { polynomialMatrixToString } = require('../support/polynomialDisplay')
 
 class SkillCombiner {
 	constructor() {
