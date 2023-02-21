@@ -28,7 +28,7 @@ const { ensureString } = require('../../../util/strings')
 const { isObject, isBasicObject, isEmptyObject, deepEquals, processOptions, filterOptions, filterProperties, removeProperties, keysToObject, getParentClass } = require('../../../util/objects')
 const { firstOf, lastOf, count, sum, product, fillUndefinedWith, arrayFind, hasSimpleMatching } = require('../../../util/arrays')
 const { union } = require('../../../util/sets')
-const { repeatWithIndices } = require('../../../util/functions')
+const { repeatWithMinMax } = require('../../../util/functions')
 const { gcd, getPrime, getPrimeFactors, isSquare, isPower, getLargestPowerFactor } = require('../../../util/maths')
 const { binomial } = require('../../../util/combinatorics')
 
@@ -2409,7 +2409,7 @@ class Power extends Function {
 				const term1 = base.terms[0]
 				const term2 = new Sum(base.terms.slice(1)).cleanStructure()
 				const sumTerms = []
-				repeatWithIndices(0, num, (index) => {
+				repeatWithMinMax(0, num, (index) => {
 					sumTerms.push(new Product([
 						new Integer(binomial(num, index)),
 						new Power(term1, new Integer(num - index)).cleanStructure(),

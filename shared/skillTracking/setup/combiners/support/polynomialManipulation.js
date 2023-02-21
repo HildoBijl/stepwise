@@ -1,5 +1,5 @@
 const { sum, getDimensions, getMatrixElement } = require('../../../../util/arrays')
-const { repeat, repeatMultidimensional, repeatWithIndicesMultidimensional } = require('../../../../util/functions')
+const { repeat, repeatMultidimensional, repeatMultidimensionalWithMinMax } = require('../../../../util/functions')
 const { union, intersection } = require('../../../../util/sets')
 
 // applyMinus will take the polynomial and apply a minus sign to all elements.
@@ -128,7 +128,7 @@ function multiplyTwo(matrix1, list1, matrix2, list2) {
 		const max = crossTermMinMax.map(minMax => minMax.max)
 
 		// Set up the cross-term matrix.
-		const crossTerms = repeatWithIndicesMultidimensional(min, max, (...crossTermIndices) => {
+		const crossTerms = repeatMultidimensionalWithMinMax(min, max, (...crossTermIndices) => {
 			// Apply the cross term index shift.
 			const currIndices1New = [...newIndices]
 			const currIndices2New = [...newIndices]

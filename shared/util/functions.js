@@ -17,12 +17,12 @@ module.exports.ensureFunction = ensureFunction
 
 // repeat will repeat the given function the given number of times. The function is passed the index (0, 1, ..., (times-1)) as parameter. Negative times will throw an error. Returned is an array of all outcomes.
 function repeat(times, func) {
-	return repeatWithIndices(0, times - 1, func)
+	return repeatWithMinMax(0, times - 1, func)
 }
 module.exports.repeat = repeat
 
-// repeatWithIndices will repeat the given function with indices ranging from min to max (both inclusive). So repeatWithIndices(3, 5, print) will print 3, 4 and 5. If min is larger than max, an error will be thrown. Returned is an array of all outcomes.
-function repeatWithIndices(min, max, func) {
+// repeatWithMinMax will repeat the given function with indices ranging from min to max (both inclusive). So repeatWithMinMax(3, 5, print) will print 3, 4 and 5. If min is larger than max, an error will be thrown. Returned is an array of all outcomes.
+function repeatWithMinMax(min, max, func) {
 	// Proces input.
 	min = ensureInt(min)
 	max = ensureInt(max)
@@ -36,17 +36,17 @@ function repeatWithIndices(min, max, func) {
 	const arr = (new Array(times)).fill(0)
 	return arr.map((_, index) => func(index + min))
 }
-module.exports.repeatWithIndices = repeatWithIndices
+module.exports.repeatWithMinMax = repeatWithMinMax
 
 // repeatMultidimensional takes an array of maximum values (for instance [3,2]) and calls the given function for all possible permutations of numbers underneath those maximum values. So it calls f(0,0), f(0,1), f(1,0), f(1,1), f(2,0) and f(2,1). Returned is a multi-dimensional array of all outcomes.
 function repeatMultidimensional(times, func) {
 	times = ensureNumberArray(times)
-	return repeatWithIndicesMultidimensional(times.map(num => 0), times.map(num => num - 1), func)
+	return repeatMultidimensionalWithMinMax(times.map(num => 0), times.map(num => num - 1), func)
 }
 module.exports.repeatMultidimensional = repeatMultidimensional
 
-// repeatWithIndicesMultidimensional will repeat the given function with indices ranging from min to max (both inclusive). This is done in a multi-dimensional way.
-function repeatWithIndicesMultidimensional(min, max, func, previousValues = []) {
+// repeatMultidimensionalWithMinMax will repeat the given function with indices ranging from min to max (both inclusive). This is done in a multi-dimensional way.
+function repeatMultidimensionalWithMinMax(min, max, func, previousValues = []) {
 	min = ensureNumberArray(min)
 	max = ensureNumberArray(max)
 	if (min.length !== max.length)
@@ -59,9 +59,9 @@ function repeatWithIndicesMultidimensional(min, max, func, previousValues = []) 
 	// Recursively walk through the permutations.
 	const minValue = ensureInt(min[0])
 	const maxValue = ensureInt(max[0])
-	return repeatWithIndices(minValue, maxValue, value => repeatWithIndicesMultidimensional(min.slice(1), max.slice(1), func, [...previousValues, value]))
+	return repeatWithMinMax(minValue, maxValue, value => repeatMultidimensionalWithMinMax(min.slice(1), max.slice(1), func, [...previousValues, value]))
 }
-module.exports.repeatWithIndicesMultidimensional = repeatWithIndicesMultidimensional
+module.exports.repeatMultidimensionalWithMinMax = repeatMultidimensionalWithMinMax
 
 // resolveFunctions takes an array/object (or even a function or basic parameter) and recursively checks if there are functions in it. If so, those functions are executed, with the given parameters. Additionally, undefined values are filtered out.
 function resolveFunctions(param, ...args) {
