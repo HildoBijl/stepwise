@@ -11,7 +11,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
     "clsx": "^1.1.1",
-    "d3": "^6.7.0",
+    "d3": "^7.6.1",
     "graphql": "^15.5.1",
     "katex": "^0.12.0",
     "node-sass": "^7.0.3",
