@@ -18,6 +18,14 @@ function addConstant(matrix, addition) {
 }
 module.exports.addConstant = addConstant
 
+// multiplyByConstant will multiply the whole polynomial (all matrix elements) by the given constant.
+function multiplyByConstant(matrix, multiplication) {
+	if (!Array.isArray(matrix))
+		return matrix * multiplication
+	return matrix.map(submatrix => multiplyByConstant(submatrix, multiplication))
+}
+module.exports.multiplyByConstant = multiplyByConstant
+
 // oneMinus will take the polynomial and return one minus the said polynomial.
 function oneMinus(matrix) {
 	return addConstant(applyMinus(matrix), 1)
@@ -45,6 +53,36 @@ function restructure(matrix, originList, destinationList) {
 	})
 }
 module.exports.restructure = restructure
+
+// addWithEqualDimension will take a list of matrices and add them all together. It once more assumes they are of equal dimension.
+function addWithEqualDimension(matrices) {
+	// Check input dimensions.
+	const matrixDimensions = matrices.map(matrix => getDimensions(matrix))
+	if (matrixDimensions.some(dimensions => dimensions.length !== matrixDimensions[0].length))
+		throw new Error(`Invalid polynomial matrix sizes: tried to add polynomial matrices that had different dimensions. Dimensions were [${matrixDimensions.map(dimensions => dimensions.length).join(',')}].`)
+
+	// Add the matrices element-wise, using the biggest size on each dimension.
+	const dimensions = repeat(matrixDimensions[0].length, index => Math.max(...matrixDimensions.map(dimensions => dimensions[index])))
+	return repeatMultidimensional(dimensions, (...indices) => sum(matrices.map(matrix => getMatrixElement(matrix, indices) || 0)))
+}
+module.exports.addWithEqualDimension = addWithEqualDimension
+
+// add will take matrices with variable lists and adds them. The variable lists may be different. It returns an object of the form { matrix, list } with the resulting matrix and variable list.
+function add(matrices, lists, destinationList) {
+	// Check input.
+	if (matrices.length !== lists.length)
+		throw new Error(`Invalid input: expected the same number of variable lists as matrices. This is not the case: ${matrices.length} matrices are given and ${lists.length} variable lists.`)
+
+	// If there is no destination list, determine one.
+	if (!destinationList)
+		destinationList = [...union(lists.map(list => new Set(list)))]
+
+	// Restructure all matrices to the desired form. Then add them.
+	matrices = matrices.map((matrix, index) => restructure(matrix, lists[index], destinationList))
+	const matrix = addWithEqualDimension(matrices)
+	return { matrix, list: destinationList }
+}
+module.exports.add = add
 
 // multiplyTwo will take two matrices, each with their own variable lists. It multiplies them and returns an object of the form { matrix, list } with the resulting matrix and variable list.
 function multiplyTwo(matrix1, list1, matrix2, list2) {
@@ -109,7 +147,7 @@ function multiplyTwo(matrix1, list1, matrix2, list2) {
 		// Sum up all the terms of the cross-term matrix.
 		if (!Array.isArray(crossTerms))
 			return crossTerms // No cross-terms: just a single number.
-		return sum(crossTerms.flat(inter.length))
+		return sum(crossTerms.flat(inter.length - 1))
 	})
 
 	return { matrix, list }

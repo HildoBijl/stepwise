@@ -1,6 +1,6 @@
 // SkillCombiner is the abstract parent class for all skill-combining classes. It has all the functionalities that need to be implemented by combiners.
 
-const { polynomialMatrixToString } = require('../support/polynomialDisplay')
+const { polynomialMatrixToString } = require('../support')
 
 class SkillCombiner {
 	constructor() {
@@ -38,7 +38,7 @@ class SkillCombiner {
 	}
 
 	// getPolynomialString gives the polynomial related to this combiner in string form. It uses the given skill names, unless useSkillNames is set to false, in which case letters a, b, c, ... are used.
-	getPolynomialString(useSkillStrings = false) {
+	getPolynomialString(useSkillStrings = true) {
 		if (this.getSkillList().length > 26)
 			throw new Error(`Too many skills: cannot call displayPolynomial for skill combiners with more than 26 skills. There are not enough letters in the alphabet for this.`)
 		const matrix = this.getPolynomialMatrix()
