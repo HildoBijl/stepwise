@@ -1,8 +1,8 @@
 // Part is the combiner requiring the user to do only do a skill a part of the times. 
 
-const { ensureNumber } = require('../../../../util/numbers')
+const { ensureNumber } = require('../../../util/numbers')
 
-const { oneMinus, multiplyByConstant, multiply } = require('../support')
+const { oneMinus, multiplyByConstant } = require('../support')
 const { SkillItemCombiner } = require('../fundamentals')
 
 const { And } = require('./And')
@@ -33,3 +33,5 @@ class Part extends SkillItemCombiner {
 	}
 }
 module.exports.Part = Part
+
+module.exports.part = (...args) => new Part(...args)

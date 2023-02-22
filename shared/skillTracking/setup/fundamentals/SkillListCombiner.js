@@ -1,6 +1,6 @@
 // SkillListCombiner is an abstract class representing a combiner with a list of skills. Combiners like "And" and "Or" extend from it.
 
-const { union } = require('../../../../util/sets')
+const { union } = require('../../../util/sets')
 
 const { SkillCombiner } = require('./SkillCombiner')
 const { ensureCombiner } = require('./ensureCombiner')

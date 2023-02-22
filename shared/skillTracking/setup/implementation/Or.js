@@ -15,3 +15,5 @@ class Or extends SkillListCombiner {
 	}
 }
 module.exports.Or = Or
+
+module.exports.or = (...skills) => new Or(...skills)

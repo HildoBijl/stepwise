@@ -1,4 +1,4 @@
 module.exports = {
-	...require('./combiners'),
-	...require('./creation'),
+	...require('./fundamentals'),
+	...require('./implementation'),
 }

@@ -1,6 +1,6 @@
-const { sum, getDimensions, getMatrixElement } = require('../../../../util/arrays')
-const { repeat, repeatMultidimensional, repeatMultidimensionalWithMinMax } = require('../../../../util/functions')
-const { union, intersection } = require('../../../../util/sets')
+const { sum, getDimensions, getMatrixElement } = require('../../../util/arrays')
+const { repeat, repeatMultidimensional, repeatMultidimensionalWithMinMax } = require('../../../util/functions')
+const { union, intersection } = require('../../../util/sets')
 
 // applyMinus will take the polynomial and apply a minus sign to all elements.
 function applyMinus(matrix) {

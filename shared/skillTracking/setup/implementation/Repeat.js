@@ -1,6 +1,6 @@
 // Repeat is the combiner requiring the user to do a skill successful multiple times in a row. Repeat("X", 3) is short for And("X", "X", "X") and similar for other repeat values.
 
-const { ensureInt } = require('../../../../util/numbers')
+const { ensureInt } = require('../../../util/numbers')
 
 const { multiply } = require('../support')
 const { SkillItemCombiner } = require('../fundamentals')
@@ -21,3 +21,5 @@ class Repeat extends SkillItemCombiner {
 	}
 }
 module.exports.Repeat = Repeat
+
+module.exports.repeat = (...args) => new Repeat(...args)

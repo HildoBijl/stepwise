@@ -1,4 +1,4 @@
-const { alphabet } = require('../../../../util/strings')
+const { alphabet } = require('../../../util/strings')
 
 // polynomialMatrixToString takes a polynomial matrix and attempts to display it, using letters a, b, c, ... in a comprehensible form.
 function polynomialMatrixToString(matrix, list, indexList = []) {

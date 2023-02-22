@@ -15,3 +15,5 @@ class And extends SkillListCombiner {
 	}
 }
 module.exports.And = And
+
+module.exports.and = (...skills) => new And(...skills)

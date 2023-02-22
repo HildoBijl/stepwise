@@ -1,14 +1,14 @@
 // Pick is the combiner in which a user has to do a number of skill randomly selected from a larger set of skills.
 
-const { ensureInt } = require('../../../../util/numbers')
-const { ensureNumberArray, sum, product, getMatrixElement } = require('../../../../util/arrays')
-const { repeatMultidimensional } = require('../../../../util/functions')
+const { ensureInt } = require('../../../util/numbers')
+const { ensureNumberArray, sum, product, getMatrixElement } = require('../../../util/arrays')
+const { repeatMultidimensional } = require('../../../util/functions')
 
 const { multiplyByConstant, addWithEqualDimension, multiply } = require('../support')
 const { SkillListCombiner } = require('../fundamentals')
 
 class Pick extends SkillListCombiner {
-	constructor(skills, number, weights) {
+	constructor(skills, number = 1, weights) {
 		// Store the skills in the default way.
 		super(skills)
 
@@ -53,3 +53,5 @@ class Pick extends SkillListCombiner {
 	}
 }
 module.exports.Pick = Pick
+
+module.exports.pick = (...args) => new Pick(...args)

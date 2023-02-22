@@ -1,6 +1,6 @@
 // SkillItemCombiner is an abstract class representing a combiner with a single skill which has something done to it. Combiners like "Repeat" and "Part" extend from it.
 
-const { union } = require('../../../../util/sets')
+const { union } = require('../../../util/sets')
 
 const { SkillCombiner } = require('./SkillCombiner')
 const { ensureCombiner } = require('./ensureCombiner')
