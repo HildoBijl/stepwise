@@ -2,13 +2,18 @@
 
 const { ensureInt } = require('../../../util/numbers')
 
-const { multiply } = require('../support')
+const { multiply } = require('../../polynomials')
+
 const { SkillItemCombiner } = require('../fundamentals')
 
 class Repeat extends SkillItemCombiner {
 	constructor(skill, repeat) {
 		super(skill)
 		this.repeat = ensureInt(repeat, true, true)
+	}
+
+	isDeterministic() {
+		return true
 	}
 
 	getPolynomialMatrix() {

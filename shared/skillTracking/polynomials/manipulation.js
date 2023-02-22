@@ -1,6 +1,6 @@
-const { sum, getDimensions, getMatrixElement } = require('../../../util/arrays')
-const { repeat, repeatMultidimensional, repeatMultidimensionalWithMinMax } = require('../../../util/functions')
-const { union, intersection } = require('../../../util/sets')
+const { sum, getDimensions, getMatrixElement } = require('../../util/arrays')
+const { repeat, repeatMultidimensional, repeatMultidimensionalWithMinMax } = require('../../util/functions')
+const { union, intersection } = require('../../util/sets')
 
 // applyMinus will take the polynomial and apply a minus sign to all elements.
 function applyMinus(matrix) {
@@ -54,7 +54,7 @@ function restructure(matrix, originList, destinationList) {
 }
 module.exports.restructure = restructure
 
-// addWithEqualDimension will take a list of matrices and add them all together. It once more assumes they are of equal dimension.
+// addWithEqualDimension will take a list of matrices and add them all together. It once more assumes they are of equal dimension, and variable lists are matching.
 function addWithEqualDimension(matrices) {
 	// Check input dimensions.
 	const matrixDimensions = matrices.map(matrix => getDimensions(matrix))
@@ -75,7 +75,7 @@ function add(matrices, lists, destinationList) {
 
 	// If there is no destination list, determine one.
 	if (!destinationList)
-		destinationList = [...union(lists.map(list => new Set(list)))]
+		destinationList = [...union(...lists.map(list => new Set(list)))]
 
 	// Restructure all matrices to the desired form. Then add them.
 	matrices = matrices.map((matrix, index) => restructure(matrix, lists[index], destinationList))

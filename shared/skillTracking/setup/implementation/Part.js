@@ -2,7 +2,8 @@
 
 const { ensureNumber } = require('../../../util/numbers')
 
-const { oneMinus, multiplyByConstant } = require('../support')
+const { oneMinus, multiplyByConstant } = require('../../polynomials')
+
 const { SkillItemCombiner } = require('../fundamentals')
 
 const { And } = require('./And')
@@ -14,6 +15,10 @@ class Part extends SkillItemCombiner {
 		this.part = ensureNumber(part)
 		if (this.part < 0 || this.part > 1)
 			throw new Error(`Invalid skill part: the "part" parameter of the skill combiner must be a number between 0 and 1. This is not the case: a value of "${this.part}" was given.`)
+	}
+
+	isDeterministic() {
+		return false
 	}
 
 	getPolynomialMatrix(parent = null) {

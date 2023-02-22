@@ -1,4 +1,4 @@
-const { alphabet } = require('../../../util/strings')
+const { alphabet } = require('../../util/strings')
 
 // polynomialMatrixToString takes a polynomial matrix and attempts to display it, using letters a, b, c, ... in a comprehensible form.
 function polynomialMatrixToString(matrix, list, indexList = []) {
@@ -31,6 +31,8 @@ module.exports.polynomialMatrixToString = polynomialMatrixToString
 
 // getPolynomialTermString takes a list of indices like [2,1,0,3] and turns it into a polynomial string with the corresponding letters, like "a^2*b*d^3".
 function getPolynomialTermString(indexList, list = alphabet) {
+	if (indexList.length > list.length)
+		throw new Error(`Cannot display polynomial string: there are more variables (${indexList.length}) than that there are variable strings provided (${list.length}).`)
 	return indexList.map((exponent, index) => {
 		if (exponent === 0)
 			return // Do not use zero.

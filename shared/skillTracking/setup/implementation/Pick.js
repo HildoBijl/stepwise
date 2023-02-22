@@ -4,7 +4,8 @@ const { ensureInt } = require('../../../util/numbers')
 const { ensureNumberArray, sum, product, getMatrixElement } = require('../../../util/arrays')
 const { repeatMultidimensional } = require('../../../util/functions')
 
-const { multiplyByConstant, addWithEqualDimension, multiply } = require('../support')
+const { multiplyByConstant, addWithEqualDimension, multiply } = require('../../polynomials')
+
 const { SkillListCombiner } = require('../fundamentals')
 
 class Pick extends SkillListCombiner {
@@ -21,6 +22,10 @@ class Pick extends SkillListCombiner {
 		if (weights === undefined)
 			weights = skills.map(_ => 1) // On no weights given, use 1 everywhere.
 		this.weights = ensureNumberArray(weights, true, true)
+	}
+
+	isDeterministic() {
+		return false
 	}
 
 	getPolynomialMatrix() {

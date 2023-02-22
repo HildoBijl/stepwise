@@ -7,8 +7,8 @@ import { usePaths } from 'ui/routing'
 
 import { Par, Head } from 'ui/components/containers'
 
-import manip from 'step-wise/skillTracking/setup/support/polynomialManipulation'
-import disp from 'step-wise/skillTracking/setup/support/polynomialDisplay'
+import manip from 'step-wise/skillTracking/polynomials/manipulation'
+import disp from 'step-wise/skillTracking/polynomials/display'
 
 console.log(setup)
 window.setup = setup

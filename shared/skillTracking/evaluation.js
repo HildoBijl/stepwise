@@ -66,7 +66,7 @@ function getFunctionDerivative(coef) {
 		}, 0) * (n + 1)
 	}
 }
-module.exports.getFunction = getFunction
+module.exports.getFunctionDerivative = getFunctionDerivative
 
 // getEV returns the expected value of x, given the PDF fx(x). So it's basically the integral over x*f(x).
 function getEV(coef) {

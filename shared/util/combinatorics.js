@@ -1,7 +1,7 @@
 const { numberArray } = require('./arrays')
 const { isInt, ensureNumber } = require('./numbers')
 
-// factorial calculates n!. If an extra parameter nEnd is given, it calculates n!/nEnd! = (n * (n-1) * ... * (nEnd + 1)). It memorizes values that have already been calculated.
+// factorial calculates n!. If an extra parameter nEnd is given, it calculates n!/nEnd! = (n * (n-1) * ... * (nEnd + 1)). It memoizes values that have already been calculated.
 const factorialMemoization = {}
 function factorial(n, nEnd = 0) {
 	// Check input.
@@ -28,7 +28,7 @@ function factorial(n, nEnd = 0) {
 }
 module.exports.factorial = factorial
 
-// binomial calculates (a above b) = a! / (b! * (a-b)!). It memorizes values that have already been calculated.
+// binomial calculates (a above b) = a! / (b! * (a-b)!). It memoizes values that have already been calculated.
 const binomialMemoization = {}
 function binomial(a, b) {
 	// Check input.
