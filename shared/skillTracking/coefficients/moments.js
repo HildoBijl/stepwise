@@ -1,4 +1,5 @@
 const { ensureInt } = require('../../util/numbers')
+const { sum } = require('../../util/arrays')
 const { factorial } = require('../../util/combinatorics')
 
 const { ensureCoef, getOrder } = require('./fundamentals')

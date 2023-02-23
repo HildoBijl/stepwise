@@ -8,7 +8,7 @@ import { Par, Head } from 'ui/components/containers'
 
 import * as setup from 'step-wise/skillTracking/setup'
 import * as pol from 'step-wise/skillTracking/polynomials'
-import * as co from 'step-wise/skillTracking/polynomials'
+import * as co from 'step-wise/skillTracking/coefficients'
 import { getAlphabetIndexString } from 'step-wise/util/strings'
 
 console.log(setup)

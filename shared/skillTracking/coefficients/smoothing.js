@@ -3,22 +3,17 @@ const { numberArray } = require('../../util/arrays')
 const { processOptions } = require('../../util/objects')
 const { binomial } = require('../../util/combinatorics')
 
+const { maxOrder, maxSmoothingOrder, decayHalfLife, initialPracticeDecayTime, practiceDecayHalfLife } = require('../settings')
+
 const { getOrder, ensureCoef, normalize } = require('./fundamentals')
 
-// Define various settings.
-const decayHalfLife = 365.25 * 24 * 60 * 60 * 1000 // [Milliseconds] The time after which half of the convergence towards the flat distribution is obtained.
-const initialPracticeDecayTime = 2 * 30 * 24 * 60 * 60 * 1000 // [Milliseconds] The equivalent time of decay for practicing a problem.
-const practiceDecayHalfLife = 10 // [Problems practiced] The number of problems practiced until the practice decay halves.
-const maxSmoothingOrder = 120 // The maximum order for smoothing. This needs a cap, for numerical reasons. For higher values the binomials start failing.
-const maxOrder = 150 // If we encounter a higher order coefficient array than this, then we will always do smoothing to keep it manageable.
 const defaultSmoothingOptions = {
 	time: 0,
 	applyPracticeDecay: false,
 	numProblemsPracticed: 0,
 }
-module.exports.maxSmoothingOrder = maxSmoothingOrder
 
-/* getSmoothingFactor gives the order appropriate for smoothing. It calculates this on the given options:
+/* getSmoothingFactor gives the order appropriate for smoothing. It is purely a heuristic thing. It calculates its result based on the given options:
  * - time (default 0): how much time (in milliseconds) has passed since the last exercise?
  * - applyPracticeDecay (default false): should we add in practice decay?
  * - numProblemsPracticed (default 0): how many times has the user practiced this skill before? How many problems have been done?
@@ -88,3 +83,4 @@ function smoothenWithOrder(coef, nNew) {
 	const nOld = getOrder(coef)
 	return normalize(numberArray(0, nNew).map(i => sum(coef.map((c, j) => c * binomial(i + j, i) * binomial(nNew + nOld - i - j, nOld - j)))))
 }
+module.exports.smoothenWithOrder = smoothenWithOrder

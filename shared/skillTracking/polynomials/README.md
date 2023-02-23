@@ -27,7 +27,7 @@ First there are a few basic operations. Consider a polynomial `P = [3, 2]` corre
 - `multiplyByConstant(P, 2)` will turn `3+2x` into `6+4x`.
 - `oneMinus(P)` will turn `3+2x` into `-2-2x`, being `1-P`.
 
-### Restructuring
+### Restructuring and substituting
 
 Another common manipulation method is to change the variable list order. This is known as restructuring, and is applied through `restructure(matrix, originList, destinationList)`. You could for instance apply
 
@@ -36,6 +36,11 @@ restructure([[1, 0, 4], [2, -3, 0]], ['a', 'b'], ['b', 'a']))
 ```
 
 and the result will be `[[1,2], [0, -3], [4, 0]]`. Note that the destination list must contain all variables from the origin list, but it may contain more variables.
+
+Next to restructuring, it is also possible to substitute variables. This can be done in two ways.
+
+- `substituteAll(matrix, values)` substitutes all variables together. For instance, `substituteAll([[1, 0, 4], [2, -3, 0]], [5, 7])` will insert `a = 5` and `b = 7`, giving `102`.
+- `substitute(matrix, list, valueObject)` substitutes a part (or all) of the variables. For instance, `substitute([[1, 0, 4], [2, -3, 0]], ['a', 'b'], { a: 3, x: 4 })` will substitute `a = 3` into the polynomial (and ignore the non-existent variable `x`) resulting in `{ matrix: [7, -9, 4], list: ['b'] }` to represent `7 - 9b + 4b^2`.
 
 ### Adding and multiplying polynomials
 
@@ -48,5 +53,5 @@ Both functions take an array of polynomial matrices, their corresponding variabl
 
 An example application is to add or multiply the polynomials `2+3a` and `4+5b`. Note that the sum is `6+3a+5b` and the product is `8+10b+12a+15ab`. Defining `P1 = [2,3]` and `P2 = [4,5]`, we then have
 
-- `add([P1, P2], [['a'], ['b']], ['a', 'b'])` gives `{ matrix: [[6,5],[3,0]], list: ['a', 'b'] }`
-- `multiply([P1, P2], [['a'], ['b']], ['a', 'b'])` gives `{ matrix: [[8,10],[12,15]], list: ['a', 'b'] }`
+- `add([P1, P2], [['a'], ['b']], ['a', 'b'])` gives `{ matrix: [[6,5],[3,0]], list: ['a','b'] }`
+- `multiply([P1, P2], [['a'], ['b']], ['a', 'b'])` gives `{ matrix: [[8,10],[12,15]], list: ['a','b'] }`

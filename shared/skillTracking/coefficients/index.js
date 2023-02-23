@@ -3,4 +3,5 @@ module.exports = {
 	...require('./moments'),
 	...require('./distributions'),
 	...require('./smoothing'),
+	...require('./merging'),
 }

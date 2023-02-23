@@ -110,11 +110,7 @@ function multiplyWithEqualDimension(matrices) {
 		throw new Error(`Invalid polynomial matrix sizes: tried to add polynomial matrices that had different dimensions. Dimensions were [${matrixDimensions.map(dimensions => dimensions.length).join(',')}].`)
 
 	// Multiply iteratively.
-	let matrix
-	repeat(matrices.length, index => {
-		matrix = index === 0 ? matrices[0] : multiplyTwoWithEqualDimension(matrix, matrices[index])
-	})
-	return matrix
+	return matrices.reduce((result, matrix, index) => (index === 0 ? matrix : multiplyTwoWithEqualDimension(result, matrix)))
 }
 module.exports.multiplyWithEqualDimension = multiplyWithEqualDimension
 
@@ -150,3 +146,18 @@ function toPower(matrix, exponent) {
 	return multiplyWithEqualDimension(new Array(exponent).fill(matrix))
 }
 module.exports.toPower = toPower
+
+// getPowerList takes a matrix and returns all the powers of the given matrix, up to the given limit (inclusive). So getPowerList(matrix, 4) returns [matrix^0, matrix^1, matrix^2, matrix^3, matrix^4]. It does this as efficiently as possible, reusing matrix multiplications where possible.
+function getPowerList(matrix, maxExponent) {
+	maxExponent = ensureInt(maxExponent, true)
+	let matrixPower = matrix
+	return repeat(maxExponent + 1, exponent => {
+		if (exponent === 0)
+			return toPower(matrix, 0)
+		if (exponent === 1)
+			return matrix
+		matrixPower = multiplyTwoWithEqualDimension(matrix, matrixPower)
+		return matrixPower
+	})
+}
+module.exports.getPowerList = getPowerList
