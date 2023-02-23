@@ -1,19 +1,21 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import * as setup from 'step-wise/skillTracking/setup'
 
 import { usePaths } from 'ui/routing'
 
 import { Par, Head } from 'ui/components/containers'
 
-import manip from 'step-wise/skillTracking/polynomials/manipulation'
-import disp from 'step-wise/skillTracking/polynomials/display'
+import * as setup from 'step-wise/skillTracking/setup'
+import * as pol from 'step-wise/skillTracking/polynomials'
+import * as co from 'step-wise/skillTracking/polynomials'
+import { getAlphabetIndexString } from 'step-wise/util/strings'
 
 console.log(setup)
 window.setup = setup
-window.manip = manip
-window.disp = disp
+window.pol = pol
+window.co = co
+window.gais = getAlphabetIndexString
 
 export default function About() {
 	const paths = usePaths()

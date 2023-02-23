@@ -1,4 +1,5 @@
 module.exports = {
-	...require('./manipulation'),
+	...require('./addAndMultiply'),
+	...require('./restructureAndSubstitute'),
 	...require('./display'),
 }

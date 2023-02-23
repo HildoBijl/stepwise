@@ -1,6 +1,6 @@
-// alphabet is simply the English alphabet.
-const alphabet = 'abcdefghijklmnopqrstuvwxyz'
-module.exports.alphabet = alphabet
+const { ensureNumber } = require('./numbers')
+const { lastOf } = require('./arrays')
+const { repeat } = require('./functions')
 
 // ensureString takes a parameter and makes sure it's a string. If not, it throws an error. If the second parameter (nonEmpty) is set to true, it must also be non-empty.
 function ensureString(str, nonEmpty = false) {
@@ -79,3 +79,35 @@ function removeWhitespace(str) {
 	return str.replace(/\s/g, "")
 }
 module.exports.removeWhitespace = removeWhitespace
+
+// alphabet is simply the English alphabet.
+const alphabet = 'abcdefghijklmnopqrstuvwxyz'
+module.exports.alphabet = alphabet
+
+// getAlphabetIndexString takes a number, like 10, 26 or 36 and turns it into an index string from the alphabet. Here 0 is space " ", 1 is "a", 10 is "j", 26 is "z", 27 is "aa", 36 is "ai", and so forth. It effectively puts the number 
+const numNumbersWithDigits = [0, alphabet.length] // Will be 0, 26^1, 26^2, ...
+const numNumbersWithDigitsCumulative = [0, alphabet.length] // Will be the cumulative version of the above array.
+function getAlphabetIndexString(number) {
+	number = ensureNumber(number, true)
+
+	// Increase the required arrays if needed.
+	while (lastOf(numNumbersWithDigitsCumulative) <= number) {
+		numNumbersWithDigits.push(lastOf(numNumbersWithDigits) * alphabet.length)
+		numNumbersWithDigitsCumulative.push(lastOf(numNumbersWithDigitsCumulative) + lastOf(numNumbersWithDigits))
+	}
+
+	// Find the number of digits needed. Adjust the given number to get rid of the cases prior to being able to use this number of digits.
+	const numDigits = numNumbersWithDigitsCumulative.findIndex(numNumbers => number < numNumbers)
+	number -= numNumbersWithDigitsCumulative[numDigits - 1] || 0
+
+	// Put the number in base-26.
+	const indices = repeat(numDigits, () => {
+		const remainder = number % alphabet.length
+		number = (number - remainder) / alphabet.length
+		return remainder
+	})
+
+	// Convert the number from base-26 to a string.
+	return indices.reverse().map(index => alphabet[index]).join('')
+}
+module.exports.getAlphabetIndexString = getAlphabetIndexString
