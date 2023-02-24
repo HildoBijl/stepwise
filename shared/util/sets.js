@@ -1,5 +1,3 @@
-// This file has support functionalities for sets.
-
 // union applies a union to two or more sets.
 function union(...args) {
 	// Deal with simple cases: 0, 1 or 2 arguments.
