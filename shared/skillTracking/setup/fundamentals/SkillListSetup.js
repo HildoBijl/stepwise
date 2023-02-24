@@ -23,6 +23,10 @@ class SkillListSetup extends SkillSetup {
 		this.skills = skills
 	}
 
+	isDeterministic() {
+		return this.skills.every(skill => skill.isDeterministic())
+	}
+
 	toString() {
 		return `${this.constructor.name.toLowerCase()}(${this.skills.map(skill => skill.str).join(', ')})`
 	}

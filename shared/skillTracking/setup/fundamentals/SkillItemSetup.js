@@ -14,6 +14,10 @@ class SkillItemSetup extends SkillSetup {
 		this.skill = ensureSetup(skill)
 	}
 
+	isDeterministic() {
+		return this.skill.isDeterministic()
+	}
+
 	getSkillSet() {
 		return this.skill.getSkillSet()
 	}

@@ -1,3 +1,5 @@
+const { product } = require('../../util/arrays')
+const { repeat } = require('../../util/functions')
 const { binomial } = require('../../util/combinatorics')
 
 const { getOrder, normalize } = require('./fundamentals')
@@ -40,14 +42,14 @@ function merge(coefs) {
 }
 module.exports.merge = merge
 
-// elementWiseMerge takes a set of coefficients and multiplies all coefficients element-wise. The coefficient arrays must have the same length.
-function elementWiseMerge(coefs) {
+// mergeElementwise takes a set of coefficients and multiplies all coefficients element-wise. The coefficient arrays must have the same length.
+function mergeElementwise(coefs) {
 	// Check input.
 	if (coefs.some(coef => coef.length !== coefs[0].length))
 		throw new Error(`Invalid coefficient list: when merging coefficient lists element-wise, all coefficient lists must have the same number of coefficients. This was not the case.`)
 
 	// Merge all lists by taking the element-wise product of the coefficients.
 	const numCoefficients = coefs[0].length
-	return repeat(numCoefficients, index => product(coefs.map(coef => coef[index])))
+	return normalize(repeat(numCoefficients, index => product(coefs.map(coef => coef[index]))))
 }
-module.exports.elementWiseMerge = elementWiseMerge
+module.exports.mergeElementwise = mergeElementwise

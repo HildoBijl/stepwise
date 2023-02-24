@@ -109,8 +109,6 @@ class SkillSetup {
 		const EVs = keysToObject(skills, skill => getEV(dataSet[skill]))
 		let polynomialMatrix = this.getPolynomialMatrix()
 		polynomialMatrix = correct ? polynomialMatrix : oneMinus(polynomialMatrix)
-		console.log(EVs)
-		console.log(polynomialMatrix)
 
 		// Walk through the skill list and perform the update.
 		return keysToObject(skills, skill => {

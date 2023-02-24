@@ -7,7 +7,7 @@ function restructure(matrix, originList, destinationList) {
 	// Check that all variables in the origin list are in the destination list.
 	const dimensions = getDimensions(matrix)
 	originList.forEach((originSkill, originIndex) => {
-		const destinationIndex = destinationList.indexOf(originSkill) === -1
+		const destinationIndex = destinationList.indexOf(originSkill)
 		if (destinationIndex === -1 && dimensions[originIndex] !== 1)
 			throw new Error(`Cannot restructure matrix: the variable "${originSkill}" is not in the destination list, and the variable does exist in the polynomial.`)
 	})

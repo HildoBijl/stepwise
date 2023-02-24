@@ -1,4 +1,4 @@
-const { ensureInt, ensureNumber } = require('./numbers')
+const { ensureInt, ensureNumber, compareNumbers } = require('./numbers')
 const { deepEquals } = require('./objects')
 
 // ensureArray checks whether a variable is an array and throws an error if not. If all is fine, the same parameter is returned.
@@ -16,6 +16,12 @@ function ensureNumberArray(array, ...args) {
 	return array
 }
 module.exports.ensureNumberArray = ensureNumberArray
+
+// compareNumberArrays checks whether two number arrays have the same values, barring numerical differences.
+function compareNumberArrays(arr1, arr2) {
+	return arr1.length === arr2.length && arr1.every((value, index) => (Array.isArray(value) ? compareNumberArrays : compareNumbers)(value, arr2[index]))
+}
+module.exports.compareNumberArrays = compareNumberArrays
 
 // lastOf takes an array and returns its last item. It does not adjust the array.
 function lastOf(array) {

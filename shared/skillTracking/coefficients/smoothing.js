@@ -1,6 +1,7 @@
 const { ensureInt, ensureNumber } = require('../../util/numbers')
-const { numberArray } = require('../../util/arrays')
 const { processOptions } = require('../../util/objects')
+const { sum } = require('../../util/arrays')
+const { repeat } = require('../../util/functions')
 const { binomial } = require('../../util/combinatorics')
 
 const { maxOrder, maxSmoothingOrder, decayHalfLife, initialPracticeDecayTime, practiceDecayHalfLife } = require('../settings')
@@ -81,6 +82,6 @@ function smoothenWithOrder(coef, nNew) {
 
 	// Calculate the new coefficients.
 	const nOld = getOrder(coef)
-	return normalize(numberArray(0, nNew).map(i => sum(coef.map((c, j) => c * binomial(i + j, i) * binomial(nNew + nOld - i - j, nOld - j)))))
+	return normalize(repeat(nNew + 1, i => sum(coef.map((c, j) => c * binomial(i + j, i) * binomial(nNew + nOld - i - j, nOld - j)))))
 }
 module.exports.smoothenWithOrder = smoothenWithOrder

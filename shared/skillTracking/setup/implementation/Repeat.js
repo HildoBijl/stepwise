@@ -12,10 +12,6 @@ class Repeat extends SkillItemSetup {
 		this.repeat = ensureInt(repeat, true, true)
 	}
 
-	isDeterministic() {
-		return true
-	}
-
 	getPolynomialMatrix() {
 		// Get the polynomial matrix of the given skill.
 		const matrix = this.skill.getPolynomialMatrix()

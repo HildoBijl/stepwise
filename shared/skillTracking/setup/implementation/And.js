@@ -5,10 +5,6 @@ const { multiply } = require('../../polynomials')
 const { SkillListSetup } = require('../fundamentals')
 
 class And extends SkillListSetup {
-	isDeterministic() {
-		return true
-	}
-
 	getPolynomialMatrix() {
 		// Extract the skills lists and polynomials.
 		const list = this.getSkillList()
