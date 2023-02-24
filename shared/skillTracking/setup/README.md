@@ -39,9 +39,9 @@ Although the first method internally runs the second method, it is used more oft
 
 ## Methods
 
-The result of a set-up is always a `SkillCombiner` object, because it combines various skills into a joint skill. This combiner object has various useful methods. The most important ones are the following.
+The result of a set-up is always a `SkillSetup` object, because it describes how the skill is set up from various subskills. This set-up object has various useful methods. The most important ones are the following.
 
-- `getSkillList` returns all the skills used in the combiner, as an array. It may return `['addition', 'subtraction', 'multiplication']`.
+- `getSkillList` returns all the subskills used in the set-up, as an array. It may return `['addition', 'subtraction', 'multiplication']`.
 - `getSkillSet` is the same as `getSkillList` but then returns a set instead of an array.
 - `getPolynomialString` returns the polynomial that could calculate the success rate of the combined skill. For instance, `and('addition', 'multiplication', 'multiplication')` has as polynomial `addition * multiplication^2`.
 - `getPolynomialMatrix` returns the polynomial but then in matrix form. The index in the matrix denotes the power and the value is the constant coefficient. For instance, `and('addition', 'multiplication', 'multiplication')` has as polynomial matrix `[[0,0,0],[0,0,1]]`. Note that `matrix[1][2]` corresponds to a power `1` on addition (the first skill from the skill list and hence the first index) and a power `2` on multiplication.

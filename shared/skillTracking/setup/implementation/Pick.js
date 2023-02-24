@@ -1,4 +1,4 @@
-// Pick is the combiner in which a user has to do a number of skill randomly selected from a larger set of skills.
+// Pick is the set-up in which a user has to do a number of skill randomly selected from a larger set of skills.
 
 const { ensureInt } = require('../../../util/numbers')
 const { ensureNumberArray, sum, product, getMatrixElement } = require('../../../util/arrays')
@@ -6,9 +6,9 @@ const { repeatMultidimensional } = require('../../../util/functions')
 
 const { multiplyByConstant, addWithEqualDimension, multiply } = require('../../polynomials')
 
-const { SkillListCombiner } = require('../fundamentals')
+const { SkillListSetup } = require('../fundamentals')
 
-class Pick extends SkillListCombiner {
+class Pick extends SkillListSetup {
 	constructor(skills, number = 1, weights) {
 		// Store the skills in the default way.
 		super(skills)

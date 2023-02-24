@@ -1,6 +1,6 @@
 const { binomial } = require('../../util/combinatorics')
 
-const { getOrder } = require('./fundamentals')
+const { getOrder, normalize } = require('./fundamentals')
 
 // mergeTwo takes two sets of coefficients and merges them, coming up with a joint distribution.
 function mergeTwo(coef1, coef2) {

@@ -1,10 +1,10 @@
-// And is the combiner requiring the user to do ALL of the skills successfully for this skill to be successfully executed.
+// And is the set-up requiring the user to do ALL of the skills successfully for this skill to be successfully executed.
 
 const { multiply } = require('../../polynomials')
 
-const { SkillListCombiner } = require('../fundamentals')
+const { SkillListSetup } = require('../fundamentals')
 
-class And extends SkillListCombiner {
+class And extends SkillListSetup {
 	isDeterministic() {
 		return true
 	}

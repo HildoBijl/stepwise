@@ -1,8 +1,8 @@
 // Skill is the most basic skill. It just represents a single skill.
 
-const { SkillCombiner } = require('./SkillCombiner')
+const { SkillSetup } = require('./SkillSetup')
 
-class Skill extends SkillCombiner {
+class Skill extends SkillSetup {
 	constructor(skill) {
 		// Check input.
 		if (typeof skill !== 'string')
@@ -15,6 +15,10 @@ class Skill extends SkillCombiner {
 
 	toString() {
 		return `"${this.skill}"`
+	}
+
+	isDeterministic() {
+		return true
 	}
 
 	getSkillSet() {

@@ -9,10 +9,10 @@ module.exports = {
 
 	decayHalfLife: 365.25 * 24 * 60 * 60 * 1000, // [Milliseconds] The time after which half of the convergence towards the flat distribution is obtained.
 	initialPracticeDecayTime: 2 * 30 * 24 * 60 * 60 * 1000, // [Milliseconds] The equivalent time of decay for practicing a problem.
-	practiceDecayHalfLife: 10, // [Problems practiced] The number of problems practiced until the practice decay halves.
+	practiceDecayHalfLife: 12, // [Problems practiced] The number of problems practiced until the practice decay halves.
 
 	// Inference settings.
 
-	defaultInferenceOrder: 40, // The order applied to inference on skills.
-	
+	defaultInferenceOrder: 24, // The order applied to inference on skills.
+
 }

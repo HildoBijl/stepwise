@@ -35,6 +35,10 @@ function substitute(matrix, list, values) {
 	const knownVariables = list.filter(variable => values[variable] !== undefined)
 	const knownVariableValues = knownVariables.map(variable => ensureNumber(values[variable]))
 
+	// If there are no known variables, do nothing.
+	if (knownVariables.length === 0)
+		return { matrix, list }
+
 	// Set up mappings between the various indices.
 	const knownVariablesIndices = list.map((variable, index) => values[variable] !== undefined ? index : undefined).filter(index => index !== undefined) // An array of indices of known variables.
 	const unknownVariablesIndices = list.map((variable, index) => values[variable] !== undefined ? undefined : index).filter(index => index !== undefined) // An array of indices of unknown variables.

@@ -1,20 +1,20 @@
-// Part is the combiner requiring the user to do only do a skill a part of the times. 
+// Part is the set-up requiring the user to do only do a skill a part of the times. 
 
 const { ensureNumber } = require('../../../util/numbers')
 
 const { oneMinus, multiplyByConstant } = require('../../polynomials')
 
-const { SkillItemCombiner } = require('../fundamentals')
+const { SkillItemSetup } = require('../fundamentals')
 
 const { And } = require('./And')
 const { Or } = require('./Or')
 
-class Part extends SkillItemCombiner {
+class Part extends SkillItemSetup {
 	constructor(skill, part) {
 		super(skill)
 		this.part = ensureNumber(part)
 		if (this.part < 0 || this.part > 1)
-			throw new Error(`Invalid skill part: the "part" parameter of the skill combiner must be a number between 0 and 1. This is not the case: a value of "${this.part}" was given.`)
+			throw new Error(`Invalid skill part: the "part" parameter of the skill set-up must be a number between 0 and 1. This is not the case: a value of "${this.part}" was given.`)
 	}
 
 	isDeterministic() {
@@ -34,7 +34,7 @@ class Part extends SkillItemCombiner {
 			return multiplyByConstant(matrix, this.part)
 
 		// Unknown parent type. Something is wrong.
-		throw new Error(`Invalid polynomial matrix request: cannot determine the polynomial matrix of a Part combiner inside a combiner of type "${parent?.constructor?.name}". Either an "And" or "Or" combiner is expected around it.`)
+		throw new Error(`Invalid polynomial matrix request: cannot determine the polynomial matrix of a Part set-up inside a set-up of type "${parent?.constructor?.name}". Either an "And" or "Or" set-up is expected around it.`)
 	}
 }
 module.exports.Part = Part

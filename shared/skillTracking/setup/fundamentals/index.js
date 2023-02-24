@@ -1,7 +1,7 @@
 module.exports = {
-	...require('./SkillCombiner'),
+	...require('./SkillSetup'),
 	...require('./Skill'),
-	...require('./ensureCombiner'),
-	...require('./SkillListCombiner'),
-	...require('./SkillItemCombiner'),
+	...require('./ensureSetup'),
+	...require('./SkillListSetup'),
+	...require('./SkillItemSetup'),
 }

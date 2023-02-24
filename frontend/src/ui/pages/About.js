@@ -9,13 +9,11 @@ import { Par, Head } from 'ui/components/containers'
 import * as setup from 'step-wise/skillTracking/setup'
 import * as pol from 'step-wise/skillTracking/polynomials'
 import * as co from 'step-wise/skillTracking/coefficients'
-import { getAlphabetIndexString } from 'step-wise/util/strings'
 
 console.log(setup)
 window.setup = setup
 window.pol = pol
 window.co = co
-window.gais = getAlphabetIndexString
 
 export default function About() {
 	const paths = usePaths()
