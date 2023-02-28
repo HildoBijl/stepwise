@@ -17,6 +17,7 @@ fi
 	-d step-wise.com \
 	-d www.step-wise.com \
 	-d api.step-wise.com \
+	--server letsencrypt \
 	--key-file /config/certificates/key.pem  \
 	--fullchain-file /config/certificates/cert.pem \
 	--reloadcmd "systemctl restart app" \
