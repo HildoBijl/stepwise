@@ -32,7 +32,7 @@ jobs:
             postgres:15.2
       - name: Build project
         run: |
-          docker-compose -f ops/build.yml build
+          docker compose -f ops/build.yml build
       - name: Run shared code tests
         run: docker run --rm -t shared_build npm test
       - name: Run frontend tests
