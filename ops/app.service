@@ -1,3 +1,8 @@
+# If you make changes to this file, these will not be applied automatically
+# to systemd on the server upon release, since this file is only the blueprint
+# of the eventual config file. Instead, you have to manually copy this file to
+# the systemd folder, and reload the systemd daemon, and restart the service.
+
 [Unit]
 Description=Application
 After=docker.service containerd.service
@@ -7,8 +12,8 @@ Requires=docker.service
 Type=oneshot
 RemainAfterExit=yes
 WorkingDirectory=/app/ops
-ExecStart=/usr/bin/docker-compose -p app up -d --force-recreate
-ExecStop=/usr/bin/docker-compose -p app down --remove-orphans
+ExecStart=/usr/bin/docker compose -p app up -d --force-recreate
+ExecStop=/usr/bin/docker compose -p app down --remove-orphans
 
 [Install]
 WantedBy=multi-user.target
