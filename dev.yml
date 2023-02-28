@@ -28,13 +28,8 @@ services:
     volumes:
       - .:/app
   database:
-<<<<<<< HEAD
     # $ docker-compose -f dev.yml up -d database
     image: postgres:15.2
-=======
-    # $ docker compose -f dev.yml up -d database
-    image: postgres:12.3
->>>>>>> 3b46c54760f39c5a06a5a8a012a4290c453064c7
     container_name: database
     ports: ["5432:5432"]
     environment:
