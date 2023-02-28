@@ -7,8 +7,8 @@ Requires=docker.service
 Type=oneshot
 RemainAfterExit=yes
 WorkingDirectory=/app/ops
-ExecStart=/usr/bin/docker-compose -p app up -d --force-recreate
-ExecStop=/usr/bin/docker-compose -p app down --remove-orphans
+ExecStart=/usr/bin/docker compose -p app up -d --force-recreate
+ExecStop=/usr/bin/docker compose -p app down --remove-orphans
 
 [Install]
 WantedBy=multi-user.target

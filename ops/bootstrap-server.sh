@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#######################################################################
+# This script bootstraps the app environment on a fresh Debian machine.
+#######################################################################
+
 set -e
 error_message() {
 	echo -e '\n\033[41m     ERROR     \033[0m'
@@ -12,35 +16,47 @@ trap 'error_message' ERR
 #
 #	Update operating system
 #
-dnf update -y
+apt-get update
 
 #
-# Install `docker` and `docker-compose`
+# Install Docker
+# 1. Install pre-requisites and configure Docker’s apt repository
+# 2. Install Docker engine (which includes docker compose)
 #
-dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
-dnf install -y docker-ce --nobest
-systemctl enable docker
-systemctl start docker
+apt-get update
+apt-get install -y \
+	ca-certificates \
+	curl \
+	gnupg \
+	lsb-release
+mkdir -m 0755 -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+apt-get update
+apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+docker run --rm hello-world
 
-curl -L https://github.com/docker/compose/releases/download/1.25.5/docker-compose-`uname -s`-`uname -m` -o /usr/bin/docker-compose
-chmod +x /usr/bin/docker-compose
+#
+# Install Postgres client (`psql`)
+#
+apt-get update
+apt-get install -y postgresql-client
 
 #
-# Install Postgres client (psql)
+# Install git, and initialise repo
 #
-dnf install -y postgresql
-
-#
-# Install `git` and initialise repo
-#
-dnf install -y git
+apt-get update
+apt-get install -y git
+git --version
 git clone https://github.com/HildoBijl/stepwise.git /app
 chmod 0700 /app
 cp /app/ops/app.service /etc/systemd/system/
 systemctl enable app
 
 #
-#	Enable remote commands
+#	Enable remote commands via SSH
 #
 echo -e '\nPATH=$PATH:/app/ops/bin' >> ~/.bashrc
 exec bash
@@ -52,11 +68,9 @@ mkdir /config
 chmod 0700 /config
 touch /config/api.env
 mkdir /config/certificates
-dnf install -y nano
 
 #
-# Install SSL agent (HTTPS)
-# And issue intermediate (fake) certificates, so that nginx can start up
+# Issue intermediate (fake) certificates, so that nginx can start up
 #
 openssl req -nodes -new -x509 -days 365 \
 	-subj '/CN=localhost' \
