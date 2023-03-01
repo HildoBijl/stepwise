@@ -38,11 +38,11 @@ git checkout master
 git pull
 
 echo -e '\033[46m [STEP 2/4] \033[0m Install dependencies and build'
-docker-compose -f ops/docker-compose.yml -p app pull
+docker compose -f ops/docker-compose.yml -p app pull
 
 echo -e '\033[46m [STEP 3/4] \033[0m Restart application, run migrations'
 systemctl stop app
-docker-compose -f ops/docker-compose.yml -p app run --rm api \
+docker compose -f ops/docker-compose.yml -p app run --rm api \
 	/bin/sh -c "npm run db:migrate -- up"
 systemctl start app
 

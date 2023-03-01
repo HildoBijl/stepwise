@@ -5,7 +5,7 @@
 version: '3'
 services:
   frontend:
-    # $ docker-compose -f dev.yml run --service-ports --rm frontend
+    # $ docker compose -f dev.yml run --service-ports --rm frontend
     image: node:16.13.0-buster
     container_name: frontend
     ports: ["3000:3000"]
@@ -16,7 +16,7 @@ services:
     volumes:
       - .:/app
   api:
-    # $ docker-compose -f dev.yml run --service-ports --rm api
+    # $ docker compose -f dev.yml run --service-ports --rm api
     image: node:16.13.0-buster
     depends_on: [database]
     container_name: api
@@ -28,7 +28,7 @@ services:
     volumes:
       - .:/app
   database:
-    # $ docker-compose -f dev.yml up -d database
+    # $ docker compose -f dev.yml up -d database
     image: postgres:15.2
     container_name: database
     ports: ["5432:5432"]
@@ -36,7 +36,7 @@ services:
       POSTGRES_USER: "admin"
       POSTGRES_PASSWORD: "12345"
   sessions:
-    # $ docker-compose -f dev.yml up -d sessions
+    # $ docker compose -f dev.yml up -d sessions
     image: redis:6.0.4-alpine
     container_name: sessions
     ports: ["6379:6379"]

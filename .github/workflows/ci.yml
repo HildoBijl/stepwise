@@ -31,6 +31,7 @@ jobs:
             -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
             postgres:15.2
       - name: Build project
+        # Use docker-compose instead of docker compose because GitHub uses Ubuntu for testing.
         run: |
           docker-compose -f ops/build.yml build
       - name: Run shared code tests
