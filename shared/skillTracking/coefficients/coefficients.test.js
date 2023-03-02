@@ -73,6 +73,12 @@ describe('Check moment functions:', () => {
 			expect(getMoment([0, 0, 1, 0], 3)).toBe(2 / 7)
 		})
 	})
+	describe('getVariance', () => {
+		it('gives correct values', () => {
+			expect(getVariance([0, 1])).toBe(1 / 18)
+			expect(getVariance([0, 0, 1, 0])).toBe(1 / 25)
+		})
+	})
 })
 
 /*

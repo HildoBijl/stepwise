@@ -88,15 +88,15 @@ function applyToEachParameter(obj, func) {
 	if (Array.isArray(obj))
 		return obj.map(func).filter(value => value !== undefined)
 	if (isObject(obj))
-		return keysToObject(Object.keys(obj), key => func(obj[key], key))
+		return keysToObject(Object.keys(obj), (key, index, resultObject) => func(obj[key], key, resultObject))
 	throw new Error(`Invalid applyToEachParameter call: received a call with as input something of type "${typeof obj}". Could not process this. Only objects and arrays are allowed.`)
 }
 module.exports.applyToEachParameter = applyToEachParameter
 
-// keysToObject takes an array of keys like ['num', 'den'] and applies a function func(key, index) for each of these keys. The result is stored in an object like { num: func('num'), den: func('den') }. If the result is undefined, it is not stored in the object.
+// keysToObject takes an array of keys like ['num', 'den'] and applies a function func(key, index, resultObject) for each of these keys. The result is stored in an object like { num: func('num'), den: func('den') }. If the result is undefined, it is not stored in the object.
 function keysToObject(keys, func) {
 	const result = {}
-	keys.forEach((key, index) => {
+	keys.forEach((key, index, result) => {
 		const funcResult = func(key, index)
 		if (funcResult !== undefined)
 			result[key] = funcResult

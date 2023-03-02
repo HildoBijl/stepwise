@@ -21,3 +21,10 @@ function getMoment(coef, i) {
 	return sum(coef.map((c, j) => c * factorial(i + j, j), 0)) / factorial(n + i + 1, n + 1)
 }
 module.exports.getMoment = getMoment
+
+// getVariance returns the variance of x.
+function getVariance(coef) {
+	const EV = getEV(coef)
+	return getMoment(coef, 2) - EV ** 2
+}
+module.exports.getVariance = getVariance

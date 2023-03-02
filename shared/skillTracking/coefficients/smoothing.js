@@ -12,6 +12,9 @@ const defaultSmoothingOptions = {
 	time: 0,
 	applyPracticeDecay: false,
 	numProblemsPracticed: 0,
+	decayHalfLife,
+	initialPracticeDecayTime,
+	practiceDecayHalfLife,
 }
 
 /* getSmoothingFactor gives the order appropriate for smoothing. It is purely a heuristic thing. It calculates its result based on the given options:
@@ -20,7 +23,7 @@ const defaultSmoothingOptions = {
  * - numProblemsPracticed (default 0): how many times has the user practiced this skill before? How many problems have been done?
  */
 function getSmoothingFactor(options) {
-	const { time, applyPracticeDecay, numProblemsPracticed } = processOptions(options, defaultSmoothingOptions)
+	const { time, applyPracticeDecay, numProblemsPracticed, initialPracticeDecayTime, practiceDecayHalfLife } = processOptions(options, defaultSmoothingOptions)
 
 	// Calculate the equivalent time for smoothing.
 	const practiceDecayTime = applyPracticeDecay ? initialPracticeDecayTime * Math.pow(1 / 2, numProblemsPracticed / practiceDecayHalfLife) : 0
@@ -72,16 +75,16 @@ function smoothen(coef, factor) {
 module.exports.smoothen = smoothen
 
 // smoothenWithOrder smoothens the distribution described by the coefficients, using a smoothing order. If the smoothing order is too high, no smoothing is done.
-function smoothenWithOrder(coef, nNew) {
+function smoothenWithOrder(coef, newOrder) {
 	// Check input.
-	nNew = ensureInt(nNew, true)
+	newOrder = ensureInt(newOrder, true)
 
 	// Check a boundary case.
-	if (nNew > maxSmoothingOrder)
+	if (newOrder > maxSmoothingOrder)
 		return coef
 
 	// Calculate the new coefficients.
-	const nOld = getOrder(coef)
-	return normalize(repeat(nNew + 1, i => sum(coef.map((c, j) => c * binomial(i + j, i) * binomial(nNew + nOld - i - j, nOld - j)))))
+	const oldOrder = getOrder(coef)
+	return normalize(repeat(newOrder + 1, i => sum(coef.map((c, j) => c * binomial(i + j, i) * binomial(newOrder + oldOrder - i - j, oldOrder - j)))))
 }
 module.exports.smoothenWithOrder = smoothenWithOrder

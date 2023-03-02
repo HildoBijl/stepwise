@@ -31,22 +31,22 @@ function invert(coef) {
 }
 module.exports.invert = invert
 
-// ensureDataSet checks whether the given object is a data set object. If a list of required skill IDs is given, it filters the skills to the given IDs and checks only these.
-function ensureDataSet(dataSet, requiredSkillIds) {
-	if (!isBasicObject(dataSet))
-		throw new Error(`Invalid data set: expected the data parameter to be a basic object but received something of type "${dataSet}".`)
+// ensureCoefSet checks whether the given object is a coefficient set object. If a list of required skill IDs is given, it filters the skills to the given IDs and checks only these.
+function ensureCoefSet(coefSet, requiredSkillIds) {
+	if (!isBasicObject(coefSet))
+		throw new Error(`Invalid coefficient set: expected the coefficient set parameter to be a basic object but received something of type "${coefSet}".`)
 	if (!requiredSkillIds)
-		requiredSkillIds = Object.keys(dataSet)
+		requiredSkillIds = Object.keys(coefSet)
 	if (requiredSkillIds)
-		dataSet = keysToObject(requiredSkillIds, skillId => getCoef(dataSet, skillId))
-	return dataSet
+		coefSet = keysToObject(requiredSkillIds, skillId => getCoef(coefSet, skillId))
+	return coefSet
 }
-module.exports.ensureDataSet = ensureDataSet
+module.exports.ensureCoefSet = ensureCoefSet
 
-// getCoef gets a coefficient array from a data set based on the ID. It throws an error if the ID is not known.
-function getCoef(dataSet, skillId) {
-	if (!dataSet[skillId])
-		throw new Error(`Invalid skill ID: the skill ID "${skillId}" did not exist in the given skill data set.`)
-	return ensureCoef(dataSet[skillId])
+// getCoef gets a coefficient array from a coefficient set based on the ID. It throws an error if the ID is not known.
+function getCoef(coefSet, skillId) {
+	if (!coefSet[skillId])
+		throw new Error(`Invalid skill ID: the skill ID "${skillId}" did not exist in the given coefficient set.`)
+	return ensureCoef(coefSet[skillId])
 }
 module.exports.getCoef = getCoef

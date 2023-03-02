@@ -15,7 +15,7 @@ function getPDF(coef) {
 		// Check input.
 		x = ensureNumber(x)
 		if (x < 0 || x > 1)
-			throw new Error(`Invalid input: cannot evaluate the probability density function for x=${x}. A number between 0 and 1 (inclusive) is required.`)
+			return 0
 
 		// Calculate.
 		return sum(coef.map((c, i) => c * binomial(n, i) * Math.pow(x, i) * Math.pow(1 - x, n - i))) * (n + 1)
@@ -34,7 +34,7 @@ function getPDFDerivative(coef) {
 		// Check input.
 		x = ensureNumber(x)
 		if (x < 0 || x > 1)
-			throw new Error(`Invalid input: cannot evaluate the probability density function derivative for x=${x}. A number between 0 and 1 (inclusive) is required.`)
+			return 0
 
 		// Calculate.
 		return sum(coef.map((c, i) => {

@@ -6,7 +6,7 @@ const { repeat } = require('../../../util/functions')
 const { binomial } = require('../../../util/combinatorics')
 
 const { defaultInferenceOrder } = require('../../settings')
-const { ensureCoef, ensureDataSet, normalize, getEV, mergeTwo } = require('../../coefficients')
+const { ensureCoef, ensureCoefSet, normalize, getEV, mergeTwo } = require('../../coefficients')
 const { substitute, substituteAll, oneMinus, multiplyTwoWithEqualDimension, getPowerList, polynomialMatrixToString } = require('../../polynomials')
 
 class SkillSetup {
@@ -66,25 +66,24 @@ class SkillSetup {
 	// Skill evaluation functions, given a data set.
 
 	// getEV gets the expected value of this skill, given the distributions of all the skills, indicated by the data set. It gets the skill polynomial, takes the expected value of it (assuming independence) and returns the result.
-	getEV(dataSet) {
-		dataSet = ensureDataSet(dataSet)
+	getEV(coefSet) {
+		coefSet = ensureCoefSet(coefSet)
 		const { matrix, list } = this.getMatrixAndList()
-		const skillCoefs = list.map(skillId => ensureCoef(dataSet[skillId]))
+		const skillCoefs = list.map(skillId => ensureCoef(coefSet[skillId]))
 		const skillEVs = skillCoefs.map(coef => getEV(coef))
 		return substituteAll(matrix, skillEVs)
 	}
 
 	// getDistribution returns a set of coefficients describing the distribution of this skill. The given order is the smoothing order applied while calculating this result.
-	getDistribution(dataSet, n = defaultInferenceOrder) {
+	getDistribution(coefSet, n = defaultInferenceOrder) {
 		// Process all the skill data.
-		dataSet = ensureDataSet(dataSet)
+		coefSet = ensureCoefSet(coefSet)
 		const { matrix, list } = this.getMatrixAndList()
-		const skillCoefs = list.map(skillId => ensureCoef(dataSet[skillId]))
+		const skillCoefs = list.map(skillId => ensureCoef(coefSet[skillId]))
 		const skillEVs = skillCoefs.map(coef => getEV(coef))
 
 		// Find the coefficients of the final distribution.
 		const powersOfMatrix = getPowerList(matrix, n)
-		console.log(powersOfMatrix)
 		const powersOfOneMinusMatrix = getPowerList(oneMinus(matrix), n)
 		const coef = repeat(n + 1, i => {
 			const newMatrix = multiplyTwoWithEqualDimension(powersOfMatrix[i], powersOfOneMinusMatrix[n - i]) // This is x^i*(1-x)^(n-i), as a polynomial matrix in the given skills.
@@ -97,16 +96,16 @@ class SkillSetup {
 	// Observation implementation functions.
 
 	// processObservation is the main function to update skill coefficients. It is given a data set, as well as a boolean to indicate whether this skill set-up has been correctly or incorrectly performed. The function then checks all skills related to this set-up and updates them accordingly. An adjusted data set with only adjusted skills is returned. The calling function can then, if desired, merge this into the full data set.
-	processObservation(dataSet, correct) {
+	processObservation(coefSet, correct) {
 		// Check input.
 		correct = ensureBoolean(correct)
 		if (!this.isDeterministic())
 			throw new Error(`Invalid observation processing: can only process observations of deterministic skills. The given skill set-up is a stochastic one.`)
 		const skills = this.getSkillList()
-		dataSet = ensureDataSet(dataSet, skills)
+		coefSet = ensureCoefSet(coefSet, skills)
 
 		// Gather general data.
-		const EVs = keysToObject(skills, skill => getEV(dataSet[skill]))
+		const EVs = keysToObject(skills, skill => getEV(coefSet[skill]))
 		let polynomialMatrix = this.getPolynomialMatrix()
 		polynomialMatrix = correct ? polynomialMatrix : oneMinus(polynomialMatrix)
 
@@ -122,7 +121,7 @@ class SkillSetup {
 			const shiftedCoefficients = repeat(n + 1, i => sum(repeat(i + 1, j => binomial(n - j, i - j) * skillPolynomial[j])) / binomial(n, i))
 
 			// Merge the two coefficient sets together.
-			const oldCoefs = dataSet[skill]
+			const oldCoefs = coefSet[skill]
 			return mergeTwo(shiftedCoefficients, oldCoefs)
 		})
 	}
