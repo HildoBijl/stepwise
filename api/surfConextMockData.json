@@ -1,6 +1,7 @@
 [
 	{
 		"sub": "0000000000000000000000000000000000000000",
+		"databaseId": "00000000-0000-0000-0000-000000000000",
 		"name": "Step Wise",
 		"given_name": "Step",
 		"family_name": "Wise",
@@ -16,6 +17,7 @@
 	},
 	{
 		"sub": "1111111111111111111111111111111111111111",
+		"databaseId": "11111111-1111-1111-1111-111111111111",
 		"name": null,
 		"given_name": null,
 		"family_name": null,
@@ -27,6 +29,7 @@
 	},
 	{
 		"sub": "2222222222222222222222222222222222222222",
+		"databaseId": "22222222-2222-2222-2222-222222222222",
 		"name": "Prof. Richard Feynman",
 		"given_name": "Richard",
 		"family_name": "Feynman",
@@ -38,6 +41,7 @@
 	},
 	{
 		"sub": "3333333333333333333333333333333333333333",
+		"databaseId": "33333333-3333-3333-3333-333333333333",
 		"name": "Step Brother",
 		"given_name": "Step",
 		"family_name": "Brother",
@@ -49,6 +53,7 @@
 	},
 	{
 		"sub": "a000000000000000000000000000000000000000",
+		"databaseId": "a0000000-0000-0000-0000-000000000000",
 		"name": "Alex Avary",
 		"given_name": "Alex",
 		"family_name": "Avary",
@@ -60,6 +65,7 @@
 	},
 	{
 		"sub": "b000000000000000000000000000000000000000",
+		"databaseId": "b0000000-0000-0000-0000-000000000000",
 		"name": "Bob Barlow",
 		"given_name": "Bob",
 		"family_name": "Barlow",
@@ -71,6 +77,7 @@
 	},
 	{
 		"sub": "c000000000000000000000000000000000000000",
+		"databaseId": "c0000000-0000-0000-0000-000000000000",
 		"name": "Carol Cumbridge",
 		"given_name": "Carol",
 		"family_name": "Cumbridge",
@@ -82,6 +89,7 @@
 	},
 	{
 		"sub": "d000000000000000000000000000000000000000",
+		"databaseId": "d0000000-0000-0000-0000-000000000000",
 		"name": "Dan Dorsley",
 		"given_name": "Dan",
 		"family_name": "Dorsley",
