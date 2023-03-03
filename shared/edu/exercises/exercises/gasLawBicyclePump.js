@@ -1,12 +1,10 @@
 const { getRandomFloat } = require('../../../inputTypes/Float')
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { FloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { air: { Rs } } = require('../../../data/gasProperties')
-const { combinerRepeat } = require('../../../skillTracking')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 
 const data = {
-	setup: combinerRepeat('gasLaw', 2),
 	steps: ['gasLaw', 'gasLaw'],
 
 	comparison: {
@@ -14,6 +12,7 @@ const data = {
 		significantDigitMargin: 1,
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	// Define first situation.
@@ -44,7 +43,7 @@ function generateState() {
 	})
 
 	// Find end-point.
-	const V2 = V1.multiply(Math.pow(p2.number / p1.number, -1/n)).roundToPrecision()
+	const V2 = V1.multiply(Math.pow(p2.number / p1.number, -1 / n)).roundToPrecision()
 
 	return { p1, p2, V1, V2, T1 }
 }

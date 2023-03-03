@@ -1,8 +1,7 @@
 const { selectRandomly, getRandomInteger } = require('../../../util/random')
 const { expressionComparisons } = require('../../../CAS')
-const { combinerRepeat } = require('../../../skillTracking')
 
-const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
 
 const { getRandomElementaryFunctions, getElementaryFunctionFromTerm } = require('./support/derivatives')
@@ -14,10 +13,10 @@ const functionSet = ['f', 'g', 'h']
 
 const data = {
 	skill: 'findBasicDerivative',
-	setup: combinerRepeat('lookUpElementaryDerivative', 2),
 	steps: [[null, null], ['lookUpElementaryDerivative', 'lookUpElementaryDerivative'], null],
 	comparison: { default: equivalent },
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const [f1, f2] = getRandomElementaryFunctions(2, true)

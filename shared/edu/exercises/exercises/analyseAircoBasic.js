@@ -1,13 +1,13 @@
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerRepeat } = require('../../../skillTracking')
-const { performComparison } = require('../util/comparison')
 const { tableInterpolate, inverseTableInterpolate } = require('../../../util/interpolation')
-const { getCycle } = require('./support/aircoCycle')
 const { maximumHumidity } = require('../../../data/moistureProperties')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
+const { performComparison } = require('../util/comparison')
+
+const { getCycle } = require('./support/aircoCycle')
 
 const data = {
 	skill: 'analyseAirco',
-	setup: combinerRepeat('readMollierDiagram', 3),
 	steps: ['readMollierDiagram', 'readMollierDiagram', 'readMollierDiagram'],
 
 	comparison: {
@@ -21,6 +21,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	let { T1, T3, T4, startRH } = getCycle()

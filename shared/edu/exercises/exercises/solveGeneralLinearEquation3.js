@@ -1,9 +1,8 @@
 const { selectRandomly, getRandomInteger } = require('../../../util/random')
 const { asEquation, expressionComparisons, expressionChecks, equationComparisons, equationChecks } = require('../../../CAS')
-const { combinerAnd } = require('../../../skillTracking')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
 
 // (ax-x^2/y)/(bx^2) = cz.
@@ -13,7 +12,6 @@ const constants = ['a', 'b', 'c']
 
 const data = {
 	skill: 'solveGeneralLinearEquation',
-	setup: combinerAnd('simplifyFraction', 'multiplyDivideAllTerms', 'solveBasicLinearEquation'),
 	steps: ['simplifyFraction', 'multiplyDivideAllTerms', 'solveBasicLinearEquation'],
 	comparison: {
 		ans: (input, correct) => !expressionChecks.hasFractionWithinFraction(input) && expressionComparisons.equivalent(input, correct),
@@ -21,6 +19,7 @@ const data = {
 		multiplied: (input, correct) => !equationChecks.hasFraction(input) && (equationComparisons.equivalentSides(input, correct) || equationComparisons.equivalentSides(input, correct.applyMinus())),
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const variableSet = selectRandomly(availableVariableSets)

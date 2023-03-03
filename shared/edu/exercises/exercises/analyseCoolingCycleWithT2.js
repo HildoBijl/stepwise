@@ -1,8 +1,9 @@
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd } = require('../../../skillTracking')
-const { performComparison } = require('../util/comparison')
-const { getCycle } = require('./support/fridgeCycle')
 const refrigerantProperties = require('../../../data/refrigerantProperties')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
+const { performComparison } = require('../util/comparison')
+
+const { getCycle } = require('./support/fridgeCycle')
 
 const hComparison = {
 	absoluteMargin: 4000, // J/kg*K.
@@ -15,7 +16,6 @@ const factorComparison = {
 }
 const data = {
 	skill: 'analyseCoolingCycle',
-	setup: combinerAnd('createCoolingCycleOverview', 'calculateWithCOP', 'useIsentropicEfficiency', 'massFlowTrick'),
 	steps: ['createCoolingCycleOverview', ['calculateWithCOP', 'useIsentropicEfficiency', 'massFlowTrick']],
 
 	comparison: {
@@ -36,6 +36,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	let { refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling, mdot, point2 } = getCycle()

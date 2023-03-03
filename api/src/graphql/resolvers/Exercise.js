@@ -3,7 +3,7 @@ const { toFO, toSO } = require('step-wise/inputTypes')
 const { getNewExercise } = require('step-wise/edu/exercises/util/selection')
 
 const { getLastEvent, getExerciseProgress, getActiveExerciseData } = require('../util/Exercise')
-const { events: skillEvents, getUserSkillsData } = require('../util/Skill')
+const { events: skillEvents, getUserSkillDataSet } = require('../util/Skill')
 const { applySkillUpdatesForUser } = require('../util/Exercise')
 
 const resolvers = {
@@ -31,8 +31,8 @@ const resolvers = {
 			const { skill } = await getActiveExerciseData(userId, skillId, db, false)
 
 			// Select a new exercise, store it and return the result.
-			const getSkillsData = (skillIds) => getUserSkillsData(userId, skillIds, db)
-			const newExercise = await getNewExercise(skillId, getSkillsData)
+			const getSkillDataSet = (skillIds) => getUserSkillDataSet(userId, skillIds, db)
+			const newExercise = await getNewExercise(skillId, getSkillDataSet)
 			return await skill.createExercise({ exerciseId: newExercise.exerciseId, state: toSO(newExercise.state), active: true })
 		},
 
@@ -42,9 +42,9 @@ const resolvers = {
 
 			// Set up an updateSkills handler that only collects calls.
 			const skillUpdates = []
-			const updateSkills = (skill, correct) => {
-				if (skill)
-					skillUpdates.push({ skill, correct, userId })
+			const updateSkills = (setup, correct) => {
+				if (setup)
+					skillUpdates.push({ setup, correct, userId })
 			}
 
 			// Update the progress parameter.

@@ -1,14 +1,14 @@
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd } = require('../../../skillTracking')
-const { air: { cp } } = require('../../../data/gasProperties')
-const { performComparison } = require('../util/comparison')
 const { tableInterpolate, inverseTableInterpolate } = require('../../../util/interpolation')
-const { getCycle } = require('./support/aircoCycle')
+const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
+const { air: { cp } } = require('../../../data/gasProperties')
 const { maximumHumidity } = require('../../../data/moistureProperties')
 
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
+const { performComparison } = require('../util/comparison')
+
+const { getCycle } = require('./support/aircoCycle')
+
 const data = {
-	setup: combinerAnd('analyseAirco', 'calculateSpecificHeatAndMechanicalWork', 'massFlowTrick'),
 	steps: ['analyseAirco', 'calculateSpecificHeatAndMechanicalWork', 'massFlowTrick'],
 
 	comparison: {
@@ -22,6 +22,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	let { T1, startRH, T4, endRH } = getCycle()

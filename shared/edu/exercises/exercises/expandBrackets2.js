@@ -1,9 +1,8 @@
 const { selectRandomly, getRandomInteger } = require('../../../util/random')
-const { asExpression, simplifyOptions, expressionComparisons, expressionChecks } = require('../../../CAS')
-const { combinerRepeat } = require('../../../skillTracking')
+const { asExpression, expressionComparisons, expressionChecks } = require('../../../CAS')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
 
 const { equivalent } = expressionComparisons
@@ -15,12 +14,12 @@ const usedVariables = ['x', 'y', 'z']
 const constants = ['a', 'b']
 
 const data = {
-	setup: combinerRepeat('expandBrackets', 2),
 	steps: ['expandBrackets', 'expandBrackets'],
 	comparison: {
 		default: (input, correct) => !hasSumWithinProduct(input) && equivalent(input, correct),
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const variableSet = selectRandomly(availableVariableSets)

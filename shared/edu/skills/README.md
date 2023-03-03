@@ -1,5 +1,7 @@
 # The Step-Wise skill tree
 
+ToDo: this ReadMe needs to be updated after the latest skill tracking toolbox update.
+
 The fundamental idea behind Step-Wise is the skill tree. It shows the relationships between skills. To see how this works, examine the following example skills:
 
 - **Determine operation order (skill `A`):** determine what comes first, addition or multiplication (and similarly for other operations).

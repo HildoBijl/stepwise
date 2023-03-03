@@ -1,13 +1,12 @@
 const { selectRandomly } = require('../../../util/random')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
 const gasProperties = require('../../../data/gasProperties')
-const { combinerRepeat } = require('../../../skillTracking')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
 
 const data = {
 	skill: 'calculateOpenCycle',
-	setup: combinerRepeat('calculateOpenProcessStep', 2),
 	steps: ['calculateOpenProcessStep', 'calculateOpenProcessStep'],
 
 	comparison: {
@@ -18,6 +17,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const medium = selectRandomly(['air', 'argon', 'carbonMonoxide', 'helium', 'hydrogen', 'methane', 'nitrogen', 'oxygen'])
@@ -52,7 +52,7 @@ function getSolution({ medium, p1, T1, p2 }) {
 	const T2 = T1
 	const v2 = Rs.multiply(T2).divide(p2).setUnit('m^3/kg')
 	const p3 = p1
-	const v3 = v2.multiply(Math.pow(p2.number/p3.number, 1/k.number))
+	const v3 = v2.multiply(Math.pow(p2.number / p3.number, 1 / k.number))
 	const T3 = p3.multiply(v3).divide(Rs).setUnit('K')
 	return { medium, Rs, k, p1, v1, T1, p2, v2, T2, p3, v3, T3 }
 }

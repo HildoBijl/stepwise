@@ -17,6 +17,13 @@ const defaultSmoothingOptions = {
 	practiceDecayHalfLife,
 }
 
+// smoothen takes a set of smoothing options, determines its own smoothing factor, and applies smoothing with that factor.
+function smoothen(coefficients, options) {
+	const factor = getSmoothingFactor(options)
+	return smoothenWithFactor(coefficients, factor)
+}
+module.exports.smoothen = smoothen
+
 /* getSmoothingFactor gives the order appropriate for smoothing. It is purely a heuristic thing. It calculates its result based on the given options:
  * - time (default 0): how much time (in milliseconds) has passed since the last exercise?
  * - applyPracticeDecay (default false): should we add in practice decay?
@@ -38,8 +45,8 @@ function getSmoothingFactor(options) {
 }
 module.exports.getSmoothingFactor = getSmoothingFactor
 
-// smoothen smoothens the distribution described by the coefficients with a given factor. A factor of 1 leaves the distribution unchanged, while 0 brings it back to the starting distribution. Effectively, the new mean is (0.5 * (mu_old - 0.5) * factor). If the factor is too close to one, then no smoothing is done, unless the coefficient array is too large, which may cause numerical problems.
-function smoothen(coef, factor) {
+// smoothenWithFactor smoothens the distribution described by the coefficients with a given factor. A factor of 1 leaves the distribution unchanged, while 0 brings it back to the starting distribution. Effectively, the new mean is (0.5 * (mu_old - 0.5) * factor). If the factor is too close to one, then no smoothing is done, unless the coefficient array is too large, which may cause numerical problems.
+function smoothenWithFactor(coef, factor) {
 	// Check input.
 	coef = ensureCoef(coef)
 	factor = ensureNumber(factor)
@@ -72,7 +79,7 @@ function smoothen(coef, factor) {
 	})
 	return coef
 }
-module.exports.smoothen = smoothen
+module.exports.smoothenWithFactor = smoothenWithFactor
 
 // smoothenWithOrder smoothens the distribution described by the coefficients, using a smoothing order. If the smoothing order is too high, no smoothing is done.
 function smoothenWithOrder(coef, newOrder) {

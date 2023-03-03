@@ -1,11 +1,10 @@
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
+
 const { getCycle } = require('./support/steamTurbineCycle')
 
 const data = {
 	skill: 'useIsentropicEfficiency',
-	setup: combinerAnd(combinerRepeat('calculateWithEnthalpy', 2), 'solveLinearEquation'),
 	steps: ['calculateWithEnthalpy', 'solveLinearEquation', 'calculateWithEnthalpy'],
 
 	comparison: {
@@ -15,6 +14,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	let { etai, h2: h1, h3p: h2p } = getCycle() // Cycle indices.

@@ -1,15 +1,14 @@
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { Unit } = require('../../../inputTypes/Unit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd, combinerOr } = require('../../../skillTracking')
-const { performComparison } = require('../util/comparison')
 const { getRandom } = require('../../../util/random')
+const { Unit } = require('../../../inputTypes/Unit')
+const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 let { air: { Rs, cv } } = require('../../../data/gasProperties')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
+const { performComparison } = require('../util/comparison')
 
 const data = {
 	skill: 'calculateHeatAndWork',
-	setup: combinerAnd('recognizeProcessTypes', combinerOr('specificGasConstant', 'specificHeats'), combinerOr('calculateWithMass', 'calculateWithTemperature')),
-	steps: ['recognizeProcessTypes', null, ['specificGasConstant', 'specificHeats'], null, ['calculateWithMass', 'calculateWithTemperature'], 'solveLinearEquation'],
+	steps: ['recognizeProcessTypes', null, ['specificGasConstant', 'specificHeats'], null, ['calculateWithMass', 'calculateWithTemperature'], null],
 
 	comparison: {
 		m: {
@@ -49,6 +48,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const n = getRandomFloatUnit({

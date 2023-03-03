@@ -1,6 +1,6 @@
 const { ensureInt } = require('../../util/numbers')
 const { ensureArray } = require('../../util/arrays')
-const { isBasicObject } = require('../../util/objects')
+const { isBasicObject, keysToObject } = require('../../util/objects')
 
 const { smoothenWithOrder, merge, mergeElementwise } = require('../coefficients')
 
@@ -25,7 +25,8 @@ function getSetupCoefficients(skill, getSkillData, useHighest) {
 		return
 
 	// Walk through the skills in the set-up to set up a coefficient set, and use this to determine the posterior distribution of the set-up.
-	const coefSet = setup.getSkillList().map(skillId => getSkillData(skillId)[useHighest ? 'rawHighest' : 'smoothenedCoefficients'])
+	const skillIds = setup.getSkillList()
+	const coefSet = keysToObject(skillIds, skillId => getSkillData(skillId)[useHighest ? 'rawHighest' : 'smoothenedCoefficients'])
 	return setup.getDistribution(coefSet, skill.inferenceOrder)
 }
 

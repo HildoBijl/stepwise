@@ -1,13 +1,12 @@
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerRepeat } = require('../../../skillTracking')
-const { performComparison } = require('../util/comparison')
 const { getRandomInteger } = require('../../../inputTypes/Integer')
 const { getRandomFloat } = require('../../../inputTypes/Float')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
+const { performComparison } = require('../util/comparison')
+
 const data = {
 	skill: 'linearInterpolation',
-	setup: combinerRepeat('solveLinearEquation', 2),
 	steps: ['solveLinearEquation', 'solveLinearEquation'],
 
 	comparison: {
@@ -21,6 +20,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const type = getRandomInteger(1, 2) // 1 means give year, find population. 2 means give population, find year.

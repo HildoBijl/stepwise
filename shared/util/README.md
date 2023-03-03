@@ -20,7 +20,6 @@ These are utilities related to already existing Javascript functionalities.
 - **errors** extends various `Error` classes.
 - **date** provides extra functionality upon the Javascript `Date` object.
 - **random** helps picking random numbers, array elements, strings and more.
-- **log** supports the creation of logs through `console.log`.
 
 ## Extra add-on utilities
 

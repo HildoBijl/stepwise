@@ -1,13 +1,12 @@
 const { getRandomInteger } = require('../../../inputTypes/Integer')
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Unit } = require('../../../inputTypes/Unit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { oxygen: { Rs } } = require('../../../data/gasProperties')
-const { combinerAnd } = require('../../../skillTracking')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 
 const data = {
 	skill: 'gasLaw',
-	setup: combinerAnd('calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature', 'specificGasConstant', 'solveLinearEquation'),
 	steps: [['calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature'], 'specificGasConstant', 'solveLinearEquation'],
 
 	comparison: {
@@ -36,6 +35,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const p = getRandomFloatUnit({ // Note: this is the final input.wer. It won't be part of the state.

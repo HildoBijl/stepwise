@@ -1,13 +1,12 @@
 const { getRandom } = require('../../../util/random')
 const { getRandomFloat } = require('../../../inputTypes/Float')
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Unit } = require('../../../inputTypes/Unit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd } = require('../../../skillTracking')
+const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 
 const data = {
 	skill: 'poissonsLaw',
-	setup: combinerAnd('calculateWithTemperature', 'calculateWithVolume', 'solveLinearEquation'),
 	steps: [['calculateWithTemperature', null, 'calculateWithVolume'], null, 'solveLinearEquation'],
 
 	comparison: {
@@ -33,6 +32,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const n = getRandomFloat({

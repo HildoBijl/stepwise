@@ -34,7 +34,7 @@ module.exports.invert = invert
 // ensureCoefSet checks whether the given object is a coefficient set object. If a list of required skill IDs is given, it filters the skills to the given IDs and checks only these.
 function ensureCoefSet(coefSet, requiredSkillIds) {
 	if (!isBasicObject(coefSet))
-		throw new Error(`Invalid coefficient set: expected the coefficient set parameter to be a basic object but received something of type "${coefSet}".`)
+		throw new Error(`Invalid coefficient set: expected the coefficient set parameter to be a basic object but received something of type "${typeof coefSet}".`)
 	if (!requiredSkillIds)
 		requiredSkillIds = Object.keys(coefSet)
 	if (requiredSkillIds)

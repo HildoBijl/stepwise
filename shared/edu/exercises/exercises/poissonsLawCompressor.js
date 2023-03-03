@@ -1,13 +1,12 @@
 const { selectRandomly } = require('../../../util/random')
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Unit } = require('../../../inputTypes/Unit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd } = require('../../../skillTracking')
+const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const gasProperties = require('../../../data/gasProperties')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 
 const data = {
 	skill: 'poissonsLaw',
-	setup: combinerAnd('calculateWithPressure', 'specificHeatRatio', 'solveExponentEquation'),
 	steps: [[null, 'calculateWithPressure', null], 'specificHeatRatio', null, 'solveExponentEquation'],
 
 	comparison: {
@@ -35,6 +34,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const gas = selectRandomly(['methane', 'helium', 'hydrogen'])

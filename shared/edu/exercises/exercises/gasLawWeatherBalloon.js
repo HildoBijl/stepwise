@@ -1,11 +1,9 @@
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { FloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { helium: { Rs } } = require('../../../data/gasProperties')
-const { combinerRepeat } = require('../../../skillTracking')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 
 const data = {
-	setup: combinerRepeat('gasLaw', 2),
 	steps: ['gasLaw', 'gasLaw'],
 
 	comparison: {
@@ -13,6 +11,7 @@ const data = {
 		significantDigitMargin: 1,
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	// Define first situation.

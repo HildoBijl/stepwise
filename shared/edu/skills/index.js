@@ -1,4 +1,4 @@
-const { getCombinerSkills, combinerAnd, combinerOr, combinerRepeat } = require('../../skillTracking/combiners')
+const { and, or, repeat } = require('../../skillTracking')
 
 const skills = {
 	// Testing exercises.
@@ -38,7 +38,7 @@ const skills = {
 	},
 	summationAndMultiplication: {
 		name: 'Optellen en vermenigvuldigen',
-		setup: combinerAnd(combinerRepeat('multiplication', 2), 'summation'),
+		setup: and(repeat('multiplication', 2), 'summation'),
 		exercises: ['summationAndMultiplication1', 'summationAndMultiplication2'],
 	},
 
@@ -63,7 +63,7 @@ const skills = {
 	},
 	mergeSplitFractions: {
 		name: 'Algemene breuken samenvoegen/splitsen',
-		setup: combinerAnd(combinerRepeat('addRemoveFractionFactors', 2), 'mergeSplitBasicFractions'),
+		setup: and(repeat('addRemoveFractionFactors', 2), 'mergeSplitBasicFractions'),
 		exercises: ['mergeSplitFractions1', 'mergeSplitFractions1Reverse', 'mergeSplitFractions2', 'mergeSplitFractions2Reverse', 'mergeSplitFractions3', 'mergeSplitFractions3Reverse'],
 	},
 	multiplyDivideFractions: {
@@ -72,7 +72,7 @@ const skills = {
 	},
 	simplifyFraction: {
 		name: 'Breuk simplificeren',
-		setup: combinerAnd('mergeSplitFractions', 'multiplyDivideFractions'),
+		setup: and('mergeSplitFractions', 'multiplyDivideFractions'),
 		exercises: ['simplifyFraction1', 'simplifyFraction2', 'simplifyFraction3', 'simplifyFraction4'],
 	},
 
@@ -83,7 +83,7 @@ const skills = {
 	},
 	pullOutOfBrackets: {
 		name: 'Buiten haakjes halen',
-		setup: combinerAnd('mergeSplitFractions', 'expandBrackets'),
+		setup: and('mergeSplitFractions', 'expandBrackets'),
 		exercises: ['pullOutOfBrackets1', 'pullOutOfBrackets2', 'pullOutOfBrackets3'],
 	},
 
@@ -94,19 +94,19 @@ const skills = {
 	},
 	multiplyDivideAllTerms: {
 		name: 'Alle termen vermenigvuldigen/delen',
-		setup: combinerAnd('expandBrackets', 'multiplyDivideFractions', 'mergeSplitFractions'), // ToDo later: change into a picking function.
+		setup: and('expandBrackets', 'multiplyDivideFractions', 'mergeSplitFractions'), // ToDo later: change into a picking function.
 		exercises: ['multiplyDivideAllTerms1', 'multiplyDivideAllTerms2'],
 	},
 
 	// Basic algebra: solving linear equations.
 	solveBasicLinearEquation: {
 		name: 'Basis lineaire vergelijking oplossen',
-		setup: combinerAnd(combinerRepeat('moveATerm', 2), 'pullOutOfBrackets', 'multiplyDivideAllTerms'),
+		setup: and(repeat('moveATerm', 2), 'pullOutOfBrackets', 'multiplyDivideAllTerms'),
 		exercises: ['solveBasicLinearEquation1', 'solveBasicLinearEquation2', 'solveBasicLinearEquation3'],
 	},
 	solveGeneralLinearEquation: {
 		name: 'Algemene lineaire vergelijking oplossen',
-		setup: combinerAnd('simplifyFraction', 'expandBrackets', 'multiplyDivideAllTerms', 'solveBasicLinearEquation'), // ToDo later: change into a picking function.
+		setup: and('simplifyFraction', 'expandBrackets', 'multiplyDivideAllTerms', 'solveBasicLinearEquation'), // ToDo later: change into a picking function.
 		exercises: ['solveGeneralLinearEquation1', 'solveGeneralLinearEquation2', 'solveGeneralLinearEquation3'],
 	},
 
@@ -121,24 +121,24 @@ const skills = {
 	},
 	solveBasicQuadraticEquation: {
 		name: 'Basis kwadratische vergelijking oplossen',
-		setup: combinerAnd('moveATerm', 'multiplyDivideAllTerms', 'applySquareRoot', 'applyQuadraticFormula'),
+		setup: and('moveATerm', 'multiplyDivideAllTerms', 'applySquareRoot', 'applyQuadraticFormula'),
 		exercises: [], // ToDo
 	},
 	solveGeneralQuadraticEquation: {
 		name: 'Algemene kwadratische vergelijking oplossen',
-		setup: combinerAnd('moveATerm', 'multiplyDivideAllTerms', 'applySquareRoot', 'applyQuadraticFormula'),
+		setup: and('moveATerm', 'multiplyDivideAllTerms', 'applySquareRoot', 'applyQuadraticFormula'),
 		exercises: [], // ToDo
 	},
 
 	// Basic algebra: solving systems of linear equations.
 	solveBasicSystemOfLinearEquations: {
 		name: 'Basis stelsel van lineaire vergelijkingen oplossen',
-		setup: combinerRepeat('solveBasicLinearEquation', 2),
+		setup: repeat('solveBasicLinearEquation', 2),
 		exercises: ['solveBasicSystemOfLinearEquations1'],
 	},
 	solveGeneralSystemOfLinearEquations: {
 		name: 'Algemeen stelsel van lineaire vergelijkingen oplossen',
-		setup: combinerAnd('solveBasicLinearEquation', 'solveGeneralLinearEquation'),
+		setup: and('solveBasicLinearEquation', 'solveGeneralLinearEquation'),
 		exercises: ['solveGeneralSystemOfLinearEquations1', 'solveGeneralSystemOfLinearEquations2'],
 	},
 
@@ -168,14 +168,14 @@ const skills = {
 	},
 	determine2DDistances: {
 		name: '2D afstanden bepalen',
-		setup: combinerAnd('determine2DAngles', combinerRepeat(combinerOr('applyPythagoreanTheorem', 'applySineCosineTangent', 'applySimilarTriangles'), 2)), // ToDo later: change into a picking function.
+		setup: and('determine2DAngles', repeat(or('applyPythagoreanTheorem', 'applySineCosineTangent', 'applySimilarTriangles'), 2)), // ToDo later: change into a picking function.
 		exercises: [], // ToDo
 	},
 
 	// Basic geometry: general triangles.
 	calculateTriangle: {
 		name: 'Driehoek doorrekenen',
-		setup: combinerAnd(combinerOr('determine2DAngles', 'applySineCosineTangent'), combinerOr('solveBasicLinearEquation', 'solveBasicQuadraticEquation')), // ToDo later: change into a picking function.
+		setup: and(or('determine2DAngles', 'applySineCosineTangent'), or('solveBasicLinearEquation', 'solveBasicQuadraticEquation')), // ToDo later: change into a picking function.
 		exercises: ['calculateTriangleASAS', 'calculateTriangleSSAA', 'calculateTriangleASSA', 'calculateTriangleSASS', 'calculateTriangleSSAS', 'calculateTriangleSASA', 'calculateTriangleSSSA'],
 	},
 
@@ -186,7 +186,7 @@ const skills = {
 	},
 	calculate3DShape: {
 		name: '3D vorm doorrekenen',
-		setup: combinerAnd('determine2DDistances', 'calculate2DShape'),
+		setup: and('determine2DDistances', 'calculate2DShape'),
 		exercises: [], // ToDo
 	},
 
@@ -205,36 +205,36 @@ const skills = {
 	},
 	findBasicDerivative: {
 		name: 'Basis afgeleide bepalen',
-		setup: combinerRepeat('lookUpElementaryDerivative', 2),
+		setup: repeat('lookUpElementaryDerivative', 2),
 		exercises: ['findBasicDerivativeTwoTerms', 'findBasicDerivativeThreeTerms'],
 	},
 
 	// Derivatives: the product/quotient/chain rule.
 	applyProductRule: {
 		name: 'Productregel toepassen',
-		setup: combinerAnd('lookUpElementaryDerivative', 'findBasicDerivative'),
+		setup: and('lookUpElementaryDerivative', 'findBasicDerivative'),
 		exercises: ['applyProductRuleTwoElementary', 'applyProductRuleElementaryAndBasic'],
 	},
 	applyQuotientRule: {
 		name: 'Quotiëntregel toepassen',
-		setup: combinerAnd('lookUpElementaryDerivative', 'findBasicDerivative'),
+		setup: and('lookUpElementaryDerivative', 'findBasicDerivative'),
 		exercises: ['applyQuotientRuleTwoElementary', 'applyQuotientRuleElementaryAndBasic'],
 	},
 	applyChainRule: {
 		name: 'Kettingregel toepassen',
-		setup: combinerAnd('lookUpElementaryDerivative', 'findBasicDerivative'),
+		setup: and('lookUpElementaryDerivative', 'findBasicDerivative'),
 		exercises: ['applyChainRuleTwoElementary', 'applyChainRuleElementaryAndBasic'],
 	},
 
 	// Derivatives: general derivatives.
 	findGeneralDerivative: {
 		name: 'Algemene afgeleide bepalen',
-		setup: combinerAnd('applyProductRule', 'applyQuotientRule', 'applyChainRule'), // ToDo later: change into a picking function.
+		setup: and('applyProductRule', 'applyQuotientRule', 'applyChainRule'), // ToDo later: change into a picking function.
 		exercises: ['findGeneralDerivativeProductRule', 'findGeneralDerivativeQuotientRule', 'findGeneralDerivativeChainRule'],
 	},
 	findAdvancedDerivative: {
 		name: 'Geavanceerde afgeleide bepalen',
-		setup: combinerAnd('findBasicDerivative', 'findGeneralDerivative', combinerOr('applyProductRule', 'applyQuotientRule', 'applyChainRule')), // ToDo later: include expandBrackets, expandPowers and rewriteLogarithms, as well as change into a picking function.
+		setup: and('findBasicDerivative', 'findGeneralDerivative', or('applyProductRule', 'applyQuotientRule', 'applyChainRule')), // ToDo later: include expandBrackets, expandPowers and rewriteLogarithms, as well as change into a picking function.
 		exercises: ['findAdvancedDerivativeChainOfProduct', 'findAdvancedDerivativeChainOfFraction', 'findAdvancedDerivativeProductOfChain', 'findAdvancedDerivativeFractionOfProduct', 'findAdvancedDerivativeFractionOfChain'],
 	},
 
@@ -268,12 +268,12 @@ const skills = {
 	},
 	drawFreeBodyDiagram: {
 		name: 'Vrijlichaamsschema tekenen',
-		setup: combinerRepeat('schematizeSupport', 2),
+		setup: repeat('schematizeSupport', 2),
 		exercises: ['drawFreeBodyDiagram1'],
 	},
 	calculateBasicSupportReactions: {
 		name: 'Basis reactiekrachten berekenen',
-		setup: combinerAnd('drawFreeBodyDiagram', combinerRepeat('calculateForceOrMoment', 2)),
+		setup: and('drawFreeBodyDiagram', repeat('calculateForceOrMoment', 2)),
 		exercises: ['calculateBasicSupportReactionsDiagonalSupport', 'calculateBasicSupportReactionsDiagonalBeam', 'calculateBasicSupportReactionsFixedWithDiagonalLoad', 'calculateBasicSupportReactionsFixedWithElevatedLoad'],
 	},
 
@@ -295,7 +295,7 @@ const skills = {
 	},
 	linearInterpolation: {
 		name: 'Lineair interpoleren',
-		setup: combinerRepeat('solveLinearEquation', 2),
+		setup: repeat('solveLinearEquation', 2),
 		exercises: ['linearInterpolationPopulation', 'linearInterpolationKettle', 'linearInterpolationChild'],
 	},
 
@@ -332,7 +332,7 @@ const skills = {
 	},
 	gasLaw: {
 		name: 'De gaswet',
-		setup: combinerAnd('calculateWithPressure', 'calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature', 'specificGasConstant', 'solveLinearEquation'), // ToDo later: use a "combinerPick(..., 3)" to pick three of the given four unit calculation skills.
+		setup: and('calculateWithPressure', 'calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature', 'specificGasConstant', 'solveLinearEquation'), // ToDo later: use a "combinerPick(..., 3)" to pick three of the given four unit calculation skills.
 		exercises: ['gasLawLightBulb', 'gasLawHeliumBalloon', 'gasLawDivingCylinder', 'gasLawBicyclePump', 'gasLawWeatherBalloon'],
 	},
 	recognizeProcessTypes: {
@@ -341,33 +341,33 @@ const skills = {
 	},
 	poissonsLaw: {
 		name: `Poisson's wet`,
-		setup: combinerAnd('calculateWithTemperature', 'specificHeatRatio', 'solveExponentEquation'), // ToDo later: use "combinerPart('specificHeatRatio', 2/3)" to indicate it's not always needed.
+		setup: and('calculateWithTemperature', 'specificHeatRatio', 'solveExponentEquation'), // ToDo later: use "combinerPart('specificHeatRatio', 2/3)" to indicate it's not always needed.
 		exercises: ['poissonsLawBicyclePump', 'poissonsLawCompressor', 'poissonsLawTurbine'],
 	},
 	calculateProcessStep: {
 		name: 'Processtap doorrekenen',
-		setup: combinerAnd('gasLaw', 'recognizeProcessTypes', 'poissonsLaw'), // ToDo later: use "combinerPart('poissonsLaw', 1/2)" and possibly "combinerPart('gasLaw', 3/2)" to indicate it's not always needed.
+		setup: and('gasLaw', 'recognizeProcessTypes', 'poissonsLaw'), // ToDo later: use "combinerPart('poissonsLaw', 1/2)" and possibly "combinerPart('gasLaw', 3/2)" to indicate it's not always needed.
 		exercises: ['calculateProcessStepCompressor', 'calculateProcessStepDivingCylinder', 'calculateProcessStepBalloon', 'calculateProcessStepGasTurbine'],
 	},
 
 	calculateClosedCycle: {
 		name: 'Gesloten kringproces doorrekenen',
-		setup: combinerRepeat('calculateProcessStep', 3),
+		setup: repeat('calculateProcessStep', 3),
 		exercises: ['calculateClosedCycleVTp', 'calculateClosedCycleTsV', 'calculateClosedCycleSTST', 'calculateClosedCycleSVSV'],
 	},
 	calculateHeatAndWork: {
 		name: 'Warmte en arbeid berekenen',
-		setup: combinerAnd('recognizeProcessTypes', combinerOr('calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature', 'calculateWithMass'), combinerOr('specificGasConstant', 'specificHeatRatio', 'specificHeats')),
+		setup: and('recognizeProcessTypes', or('calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature', 'calculateWithMass'), or('specificGasConstant', 'specificHeatRatio', 'specificHeats')),
 		exercises: ['calculateHeatAndWorkIsobaric', 'calculateHeatAndWorkIsochoric', 'calculateHeatAndWorkIsothermal', 'calculateHeatAndWorkIsentropic', 'calculateHeatAndWorkPolytropic'],
 	},
 	calculateWithInternalEnergy: {
 		name: 'Rekenen met inwendige energie',
-		setup: combinerAnd(combinerOr('gasLaw', 'poissonsLaw'), combinerOr('specificHeats', 'solveLinearEquation'), 'calculateHeatAndWork'), // ToDo later: adjust this to something more sensible.
+		setup: and(or('gasLaw', 'poissonsLaw'), or('specificHeats', 'solveLinearEquation'), 'calculateHeatAndWork'), // ToDo later: adjust this to something more sensible.
 		exercises: ['calculateWithInternalEnergyEngine', 'calculateWithInternalEnergyBalloon', 'calculateWithInternalEnergyTire'],
 	},
 	createClosedCycleEnergyOverview: {
 		name: 'Gesloten kringproces energie-overzicht maken',
-		setup: combinerAnd(combinerRepeat('calculateHeatAndWork', 2), 'calculateWithInternalEnergy'),
+		setup: and(repeat('calculateHeatAndWork', 2), 'calculateWithInternalEnergy'),
 		// setup: combinerAnd(combinerRepeat('calculateHeatAndWork', 2), combinerOr('calculateHeatAndWork', 'calculateWithInternalEnergy')), // ToDo later: use this instead.
 		exercises: ['createClosedCycleEnergyOverviewVTp', 'createClosedCycleEnergyOverviewTsV', 'createClosedCycleEnergyOverviewSTST', 'createClosedCycleEnergyOverviewSVSV'],
 	},
@@ -381,7 +381,7 @@ const skills = {
 	},
 	analyseClosedCycle: {
 		name: 'Gesloten kringproces analyseren',
-		setup: combinerAnd('calculateClosedCycle', 'createClosedCycleEnergyOverview', combinerOr('calculateWithEfficiency', 'calculateWithCOP')),
+		setup: and('calculateClosedCycle', 'createClosedCycleEnergyOverview', or('calculateWithEfficiency', 'calculateWithCOP')),
 		exercises: ['analyseClosedCycleVTp', 'analyseClosedCycleTsV', 'analyseClosedCycleSTST', 'analyseClosedCycleSVSV'],
 	},
 
@@ -395,54 +395,54 @@ const skills = {
 	},
 	calculateOpenProcessStep: {
 		name: 'Open processtap doorrekenen',
-		setup: combinerAnd('gasLaw', 'calculateWithSpecificQuantities', 'recognizeProcessTypes', 'poissonsLaw'), // ToDo later: use "combinerPart('poissonsLaw', 1/2)" and possibly "combinerPart('gasLaw', 3/2)" to indicate it's not always needed.
+		setup: and('gasLaw', 'calculateWithSpecificQuantities', 'recognizeProcessTypes', 'poissonsLaw'), // ToDo later: use "combinerPart('poissonsLaw', 1/2)" and possibly "combinerPart('gasLaw', 3/2)" to indicate it's not always needed.
 		exercises: ['calculateOpenProcessStepWing', 'calculateOpenProcessStepCompressor', 'calculateOpenProcessStepGasTurbine'],
 	},
 	calculateOpenCycle: {
 		name: 'Open kringproces doorrekenen',
-		setup: combinerRepeat('calculateOpenProcessStep', 3),
+		setup: repeat('calculateOpenProcessStep', 3),
 		exercises: ['calculateOpenCyclespsp', 'calculateOpenCycleNspsp', 'calculateOpenCycleTsp'],
 	},
 	calculateSpecificHeatAndMechanicalWork: {
 		name: 'Specifieke warmte en technische arbeid berekenen',
-		setup: combinerAnd('recognizeProcessTypes', combinerOr('calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature', 'calculateWithMass'), combinerOr('specificGasConstant', 'specificHeatRatio', 'specificHeats'), 'calculateWithSpecificQuantities'), // ToDo: check this.
+		setup: and('recognizeProcessTypes', or('calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature', 'calculateWithMass'), or('specificGasConstant', 'specificHeatRatio', 'specificHeats'), 'calculateWithSpecificQuantities'), // ToDo: check this.
 		exercises: ['calculateSpecificHeatAndMechanicalWorkIsobaric', 'calculateSpecificHeatAndMechanicalWorkIsothermal', 'calculateSpecificHeatAndMechanicalWorkIsentropic'],
 	},
 	calculateWithEnthalpy: {
 		name: 'Rekenen met enthalpie',
-		setup: combinerAnd(combinerOr('calculateWithSpecificQuantities', 'calculateSpecificHeatAndMechanicalWork'), 'solveLinearEquation'), // ToDo later: adjust this to something more sensible, like a combinerPick.
+		setup: and(or('calculateWithSpecificQuantities', 'calculateSpecificHeatAndMechanicalWork'), 'solveLinearEquation'), // ToDo later: adjust this to something more sensible, like a combinerPick.
 		exercises: ['calculateWithEnthalpyCompressor', 'calculateWithEnthalpyBoiler', 'calculateWithEnthalpyTurbine'],
 	},
 	createOpenCycleEnergyOverview: {
 		name: 'Open kringproces energie-overzicht maken',
-		setup: combinerAnd(combinerRepeat('calculateSpecificHeatAndMechanicalWork', 2), 'calculateWithEnthalpy'),
+		setup: and(repeat('calculateSpecificHeatAndMechanicalWork', 2), 'calculateWithEnthalpy'),
 		exercises: ['createOpenCycleEnergyOverviewspsp', 'createOpenCycleEnergyOverviewNspsp', 'createOpenCycleEnergyOverviewTsp'],
 	},
 	analyseOpenCycle: {
 		name: 'Open kringproces analyseren',
-		setup: combinerAnd('calculateOpenCycle', 'createOpenCycleEnergyOverview', combinerOr('calculateWithEfficiency', 'calculateWithCOP'), 'massFlowTrick'),
+		setup: and('calculateOpenCycle', 'createOpenCycleEnergyOverview', or('calculateWithEfficiency', 'calculateWithCOP'), 'massFlowTrick'),
 		exercises: ['analyseOpenCyclespsp', 'analyseOpenCycleNspsp', 'analyseOpenCycleTsp'],
 	},
 
 	calculateEntropyChange: {
 		name: 'Entropieverandering berekenen',
-		setup: combinerAnd('calculateWithTemperature', 'specificGasConstant', 'specificHeats', 'solveLinearEquation'),
+		setup: and('calculateWithTemperature', 'specificGasConstant', 'specificHeats', 'solveLinearEquation'),
 		exercises: ['calculateEntropyChangeIsotherm', 'calculateEntropyChangeWithTemperature', 'calculateEntropyChangeWithProperties'],
 	},
 	calculateMissedWork: {
 		name: 'Gemiste arbeid berekenen',
-		setup: combinerAnd('calculateEntropyChange', 'solveLinearEquation'),
+		setup: and('calculateEntropyChange', 'solveLinearEquation'),
 		exercises: ['calculateMissedWorkIsotherm', 'calculateMissedWorkPiston', 'calculateMissedWorkCompressor'],
 	},
 
 	useIsentropicEfficiency: {
 		name: 'Isentropisch rendement gebruiken',
-		setup: combinerAnd('calculateSpecificHeatAndMechanicalWork', 'calculateWithEnthalpy', 'solveLinearEquation'), // ToDo later: adjust this to either twice wt or twice dh.
+		setup: and('calculateSpecificHeatAndMechanicalWork', 'calculateWithEnthalpy', 'solveLinearEquation'), // ToDo later: adjust this to either twice wt or twice dh.
 		exercises: ['useIsentropicEfficiencyCompressor1', 'useIsentropicEfficiencyCompressor2', 'useIsentropicEfficiencyTurbine1', 'useIsentropicEfficiencyTurbine2'],
 	},
 	analyseGasTurbine: {
 		name: 'Gasturbine analyseren',
-		setup: combinerAnd('calculateOpenCycle', 'useIsentropicEfficiency', 'createOpenCycleEnergyOverview', 'calculateWithEfficiency', 'massFlowTrick'),
+		setup: and('calculateOpenCycle', 'useIsentropicEfficiency', 'createOpenCycleEnergyOverview', 'calculateWithEfficiency', 'massFlowTrick'),
 		exercises: ['analyseGasTurbine1', 'analyseGasTurbine2', 'analyseGasTurbine3'],
 	},
 
@@ -452,17 +452,17 @@ const skills = {
 	},
 	useVaporFraction: {
 		name: 'Dampfractie gebruiken',
-		setup: combinerAnd('lookUpSteamProperties', 'linearInterpolation'),
+		setup: and('lookUpSteamProperties', 'linearInterpolation'),
 		exercises: ['useVaporFractionWithEnthalpy', 'useVaporFractionWithEntropy'],
 	},
 	createRankineCycleOverview: {
 		name: 'Overzicht Rankine-cyclus maken',
-		setup: combinerAnd(combinerRepeat('lookUpSteamProperties', 2), 'recognizeProcessTypes', 'useVaporFraction'),
+		setup: and(repeat('lookUpSteamProperties', 2), 'recognizeProcessTypes', 'useVaporFraction'),
 		exercises: ['createRankineCycleOverview'],
 	},
 	analyseRankineCycle: {
 		name: 'Rankine-cyclus analyseren',
-		setup: combinerAnd('createRankineCycleOverview', 'useIsentropicEfficiency', 'calculateWithEfficiency', 'massFlowTrick'), // ToDo later: add 'half the time useVaporFraction' to this.
+		setup: and('createRankineCycleOverview', 'useIsentropicEfficiency', 'calculateWithEfficiency', 'massFlowTrick'), // ToDo later: add 'half the time useVaporFraction' to this.
 		exercises: ['analyseRankineCycleWithEtai', 'analyseRankineCycleWithX3'],
 	},
 
@@ -476,12 +476,12 @@ const skills = {
 	},
 	createCoolingCycleOverview: {
 		name: 'Overzicht koelcyclus maken',
-		setup: combinerAnd('findFridgeTemperatures', combinerRepeat('determineRefrigerantProcess', 3)),
+		setup: and('findFridgeTemperatures', repeat('determineRefrigerantProcess', 3)),
 		exercises: ['createCoolingCycleOverviewFromPressures', 'createCoolingCycleOverviewFromTemperatures'],
 	},
 	analyseCoolingCycle: {
 		name: 'Koelcyclus analyseren',
-		setup: combinerAnd('createCoolingCycleOverview', 'useIsentropicEfficiency', 'calculateWithCOP', 'massFlowTrick'),
+		setup: and('createCoolingCycleOverview', 'useIsentropicEfficiency', 'calculateWithCOP', 'massFlowTrick'),
 		exercises: ['analyseCoolingCycleWithEtai', 'analyseCoolingCycleWithT2'],
 	},
 
@@ -491,7 +491,7 @@ const skills = {
 	},
 	analyseAirco: {
 		name: 'Airco analyseren',
-		setup: combinerRepeat('readMollierDiagram', 3),
+		setup: repeat('readMollierDiagram', 3),
 		exercises: ['analyseAircoBasic', 'analyseAircoWaterDischarge', 'analyseAircoPower'],
 	},
 }
@@ -500,7 +500,8 @@ const skills = {
 Object.keys(skills).forEach(key => {
 	const skill = skills[key]
 	skill.id = key // Inform the skills of their own id.
-	skill.prerequisites = skill.setup ? getCombinerSkills(skill.setup) : [] // If no set-up is given, there are none.
+	skill.prerequisites = skill.setup ? skill.setup.getSkillList() : [] // If no set-up is given, there are no prerequisites.
+	skill.linkedSkills = skill.links ? skill.links : [] // If no links are given, there are no linked skills.
 	skill.continuations = [] // Prepare an empty array.
 	if (!skill.exercises) // Ensure all skills have an exercises array (albeit an empty one).
 		skill.exercises = []

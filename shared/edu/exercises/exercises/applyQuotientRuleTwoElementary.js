@@ -1,8 +1,7 @@
 const { selectRandomly, getRandomInteger } = require('../../../util/random')
 const { expressionComparisons } = require('../../../CAS')
-const { combinerRepeat } = require('../../../skillTracking')
 
-const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
 
 const { getRandomElementaryFunctions } = require('./support/derivatives')
@@ -13,11 +12,11 @@ const variableSet = ['x', 'y', 't']
 
 const data = {
 	skill: 'applyQuotientRule',
-	setup: combinerRepeat('lookUpElementaryDerivative', 2),
 	steps: [['lookUpElementaryDerivative', 'lookUpElementaryDerivative'], null],
 	weight: 2,
 	comparison: { default: equivalent },
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const x = selectRandomly(variableSet)

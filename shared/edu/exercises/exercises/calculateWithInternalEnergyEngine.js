@@ -1,14 +1,13 @@
 const { getRandom } = require('../../../util/random')
 const { getRandomFloat } = require('../../../inputTypes/Float')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
 let { air: { Rs, cv } } = require('../../../data/gasProperties')
-const { combinerAnd } = require('../../../skillTracking')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
 
 const data = {
 	skill: 'calculateWithInternalEnergy',
-	setup: combinerAnd('poissonsLaw', 'calculateHeatAndWork', 'solveLinearEquation'),
 	steps: ['poissonsLaw', 'calculateHeatAndWork', 'solveLinearEquation'],
 
 	comparison: {
@@ -18,6 +17,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const n = getRandomFloat({
@@ -49,11 +49,11 @@ function getSolution({ p1, V1, V2, n }) {
 	V1 = V1.simplify()
 	V2 = V2.simplify()
 	cv = cv.simplify()
-	const p2 = p1.multiply(Math.pow(V1.number/V2.number, n))
+	const p2 = p1.multiply(Math.pow(V1.number / V2.number, n))
 	const diff = p2.multiply(V2).subtract(p1.multiply(V1)).setUnit('J')
-	const c = cv.subtract(Rs.divide(n-1))
+	const c = cv.subtract(Rs.divide(n - 1))
 	const Q = c.divide(Rs).multiply(diff).setUnit('J').setMinimumSignificantDigits(2)
-	const W = diff.multiply(-1/(n-1)).setMinimumSignificantDigits(2)
+	const W = diff.multiply(-1 / (n - 1)).setMinimumSignificantDigits(2)
 	const dU = Q.subtract(W).setMinimumSignificantDigits(2)
 	return { cv, Rs, c, p1, V1, p2, V2, n, Q, W, dU }
 }

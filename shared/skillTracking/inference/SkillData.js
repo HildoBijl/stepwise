@@ -1,7 +1,7 @@
 const { isBasicObject } = require('../../util/objects')
 
 const { maxSkillDataCacheTime } = require('../settings')
-const { smoothen, getSmoothingFactor } = require('../coefficients')
+const { smoothen } = require('../coefficients')
 
 const { applyInferenceForSkill } = require('./inference')
 
@@ -81,15 +81,16 @@ class SkillData {
 	get smoothenedCoefficients() {
 		// If the cache is invalid, recalculate coefficients.
 		if (!this.isSmoothenedCoefficientsCacheValid()) {
-			const factor = getSmoothingFactor({
-				time: now - this._rawData[this._skillId].coefficientsOn,
+			const now = new Date()
+			const options = {
+				time: now - this.rawData.coefficientsOn,
 				applyPracticeDecay: true,
 				numProblemsPracticed: this.numPracticed,
 				// ToDo later: implement option for different properties for each skill.
-			})
+			}
 			this._cache.smoothenedCoefficients = {
-				coefficients: smoothen(this.rawCoefficients, factor),
-				on: new Date(),
+				coefficients: smoothen(this.rawCoefficients, options),
+				on: now,
 			}
 		}
 		return this._cache.smoothenedCoefficients.coefficients
@@ -111,7 +112,7 @@ class SkillData {
 		// On an invalid cache, recalculate. Then return the result.
 		if (!this.isCoefficientsCacheValid()) {
 			this._cache.coefficients = {
-				coefficients: applyInferenceForSkill(this.skill, this.getSkillData, false),
+				coefficients: applyInferenceForSkill(this.skill, (skillId) => this.getSkillData(skillId), false),
 				on: new Date(),
 			}
 		}
@@ -149,7 +150,7 @@ class SkillData {
 		// On an invalid cache, recalculate. Then return the result.
 		if (!this.isHighestCacheValid()) {
 			this._cache.coefficients = {
-				coefficients: applyInferenceForSkill(this.skill, this.getSkillData, true),
+				coefficients: applyInferenceForSkill(this.skill, (skillId) => this.getSkillData(skillId), true),
 				on: new Date(),
 			}
 		}

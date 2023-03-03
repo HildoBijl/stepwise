@@ -1,9 +1,9 @@
 const { selectRandomly, getRandomInteger } = require('../../../util/random')
+const { repeat } = require('../../../skillTracking')
 const { asEquation, expressionComparisons, equationComparisons } = require('../../../CAS')
-const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
 
 // (ax+bz)y = cx + d.
@@ -13,14 +13,14 @@ const constants = ['a', 'b', 'c', 'd']
 
 const data = {
 	skill: 'solveBasicLinearEquation',
-	setup: combinerAnd('expandBrackets', combinerRepeat('moveATerm', 2), 'pullOutOfBrackets', 'multiplyDivideAllTerms'),
-	steps: ['expandBrackets', combinerRepeat('moveATerm', 2), 'pullOutOfBrackets', 'multiplyDivideAllTerms'],
+	steps: ['expandBrackets', repeat('moveATerm', 2), 'pullOutOfBrackets', 'multiplyDivideAllTerms'],
 	comparison: {
 		ans: expressionComparisons.equivalent, // For the final answer allow equivalent answers.
 		default: (input, correct) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.applyMinus()), // Allow switches and minus signs.
 		pulledOut: (input, correct) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.applyToRight(side => side.applyMinus()).applyToLeft(side => side.applyToTerm(1, factor => factor.applyMinus()))), // Allow switches and minus signs inside the brackets.
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const variableSet = selectRandomly(availableVariableSets)

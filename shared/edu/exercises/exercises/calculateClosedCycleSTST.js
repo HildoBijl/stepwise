@@ -1,13 +1,12 @@
 const { selectRandomly } = require('../../../util/random')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
 const gasProperties = require('../../../data/gasProperties')
-const { combinerRepeat } = require('../../../skillTracking')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
 
 const data = {
 	skill: 'calculateClosedCycle',
-	setup: combinerRepeat('calculateProcessStep', 3),
 	steps: ['calculateProcessStep', 'calculateProcessStep', 'calculateProcessStep'],
 
 	comparison: {
@@ -18,6 +17,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const medium = selectRandomly(['air', 'argon', 'carbonMonoxide', 'helium', 'hydrogen', 'methane', 'nitrogen', 'oxygen'])

@@ -6,8 +6,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import { noop } from 'step-wise/util/functions'
 import { toFO, toSO } from 'step-wise/inputTypes'
 import skills from 'step-wise/edu/skills'
-import { processSkillId } from 'step-wise/edu/skills/util'
-import { getNewExercise } from 'step-wise/edu/exercises/util/selection'
+import { ensureSkillId } from 'step-wise/edu/skills/util'
+import { getNewRandomExercise } from 'step-wise/edu/exercises/util/selection'
 
 import { useUserResult, useUser } from 'api/user'
 import { useActiveGroupResult, useActiveGroup, useActiveGroupExercisesResult, useActiveGroupExerciseForSkill, useStartGroupExerciseMutation, useSubmitGroupActionMutation, useCancelGroupActionMutation, useResolveGroupEventMutation } from 'api/group'
@@ -166,7 +166,7 @@ function SkillForStranger() {
 	const [exercise, setExercise] = useState(null)
 	const startNewExercise = useCallback(() => {
 		async function startNewExerciseAsync() {
-			const newExercise = await getNewExercise(skillId)
+			const newExercise = await getNewRandomExercise(skillId)
 			const exercise = { // Emulate the exercise object that we otherwise get from the server.
 				exerciseId: newExercise.exerciseId,
 				state: toSO(newExercise.state), // The state should be in storage format, as if it came from the database.
@@ -249,5 +249,5 @@ export function SkillIndicator() {
 // useSkillId returns the skill ID extracted from the URL. If this skill ID does not exist, it throws an error.
 export function useSkillId() {
 	const { skillId } = useParams()
-	return processSkillId(skillId)
+	return ensureSkillId(skillId)
 }

@@ -1,10 +1,9 @@
-const { scm } = require('../../../util/maths')
 const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../util/random')
+const { scm } = require('../../../util/maths')
 const { asExpression, expressionComparisons } = require('../../../CAS')
-const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
 
 const { onlyOrderChanges } = expressionComparisons
@@ -16,12 +15,12 @@ const constants = ['a', 'b']
 
 const data = {
 	skill: 'mergeSplitFractions',
-	setup: combinerAnd(combinerRepeat('addRemoveFractionFactors', 2), 'mergeSplitBasicFractions'),
 	steps: [null, ['addRemoveFractionFactors', 'addRemoveFractionFactors'], 'mergeSplitBasicFractions'],
 	comparison: {
 		default: onlyOrderChanges,
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const variableSet = selectRandomly(availableVariableSets)

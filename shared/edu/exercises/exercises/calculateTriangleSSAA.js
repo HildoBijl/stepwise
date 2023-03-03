@@ -1,22 +1,22 @@
 const { epsilon, deg2rad } = require('../../../util/numbers')
 const { selectRandomly, getRandom, getRandomBoolean, getRandomInteger } = require('../../../util/random')
-const { combinerAnd } = require('../../../skillTracking')
+const { and } = require('../../../skillTracking')
 const { asExpression, asEquation, equationComparisons, Integer, Variable, Arcsin } = require('../../../CAS')
 
-const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison, performListComparison } = require('../util/comparison')
 
 const variableSet = ['α', 'β', 'γ']
 
 const data = {
 	skill: 'calculateTriangle',
-	setup: combinerAnd('solveBasicLinearEquation', 'applySineCosineTangent'),
-	steps: [null, null, null, combinerAnd('solveBasicLinearEquation', 'applySineCosineTangent')],
+	steps: [null, null, null, and('solveBasicLinearEquation', 'applySineCosineTangent')],
 	comparison: {
 		default: {},
 		equation: (input, correct) => equationComparisons.equivalent(input, correct) || equationComparisons.equivalent(input.invert(), correct),
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	// Generate numbers and ensure that there are two solutions.

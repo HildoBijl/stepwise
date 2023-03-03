@@ -1,14 +1,15 @@
 const { getRandomInteger } = require('../../../util/random')
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd } = require('../../../skillTracking')
-const { performComparison } = require('../util/comparison')
-const { withTemperature, withPressure } = require('../../../data/steamProperties')
 const { tableInterpolate } = require('../../../util/interpolation')
+const { and } = require('../../../skillTracking')
+const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
+const { withTemperature, withPressure } = require('../../../data/steamProperties')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
+const { performComparison } = require('../util/comparison')
 
 const data = {
 	skill: 'useVaporFraction',
-	setup: combinerAnd('lookUpSteamProperties', 'linearInterpolation'),
+	setup: and('lookUpSteamProperties', 'linearInterpolation'),
 	steps: ['lookUpSteamProperties', 'linearInterpolation', 'linearInterpolation'],
 
 	comparison: {
@@ -25,6 +26,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const type = getRandomInteger(1, 2) // 1 is temperature given, 2 is pressure given.

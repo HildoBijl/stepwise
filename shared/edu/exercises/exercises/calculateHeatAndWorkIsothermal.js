@@ -1,15 +1,14 @@
 const { selectRandomly } = require('../../../util/random')
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Unit } = require('../../../inputTypes/Unit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd, combinerOr } = require('../../../skillTracking')
-const { performComparison } = require('../util/comparison')
+const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const gasProperties = require('../../../data/gasProperties')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
+const { performComparison } = require('../util/comparison')
 
 const data = {
 	skill: 'calculateHeatAndWork',
-	setup: combinerAnd('recognizeProcessTypes', 'specificGasConstant', 'gasLaw', combinerOr('calculateWithMass', 'calculateWithTemperature')),
-	steps: ['recognizeProcessTypes', null, 'specificGasConstant', 'gasLaw', ['calculateWithMass', 'calculateWithTemperature'], 'solveLinearEquation'],
+	steps: ['recognizeProcessTypes', null, 'specificGasConstant', 'gasLaw', ['calculateWithMass', 'calculateWithTemperature'], null],
 
 	comparison: {
 		default: {
@@ -29,6 +28,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const gas = selectRandomly(['air', 'carbonMonoxide', 'hydrogen', 'methane', 'nitrogen', 'oxygen'])

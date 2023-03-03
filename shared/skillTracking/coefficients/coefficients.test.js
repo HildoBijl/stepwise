@@ -4,7 +4,7 @@ const { ensureCoef, getOrder, normalize } = require('./fundamentals')
 const { getPDF } = require('./distributions')
 const { getEV, getMoment } = require('./moments')
 const { merge, mergeElementwise } = require('./merging')
-const { smoothen } = require('./smoothing')
+const { smoothenWithFactor } = require('./smoothing')
 
 /*
  * Check fundamental functions.
@@ -111,8 +111,8 @@ describe('Check merging functions:', () => {
 describe('Check smoothing functions:', () => {
 	describe('smoothen', () => {
 		it('correctly smoothes distributions', () => {
-			expect(compareNumberArrays(smoothen([0, 1], 1 / 2), [1 / 6, 1 / 3, 1 / 2])).toBe(true)
-			expect(compareNumberArrays(smoothen([0, 1 / 3, 2 / 3], 3 / 4), [5 / 140, 10 / 140, 15 / 140, 20 / 140, 25 / 140, 30 / 140, 35 / 140])).toBe(true)
+			expect(compareNumberArrays(smoothenWithFactor([0, 1], 1 / 2), [1 / 6, 1 / 3, 1 / 2])).toBe(true)
+			expect(compareNumberArrays(smoothenWithFactor([0, 1 / 3, 2 / 3], 3 / 4), [5 / 140, 10 / 140, 15 / 140, 20 / 140, 25 / 140, 30 / 140, 35 / 140])).toBe(true)
 		})
 	})
 })

@@ -1,22 +1,21 @@
 const { epsilon, deg2rad } = require('../../../util/numbers')
 const { getRandom, getRandomBoolean, getRandomInteger } = require('../../../util/random')
-const { combinerAnd } = require('../../../skillTracking')
 const { asExpression, asEquation, equationComparisons, Integer, Arcsin } = require('../../../CAS')
 
 const { selectRandomVariables } = require('../util/CASsupport')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performListComparison } = require('../util/comparison')
 
 const variableSet = ['α', 'β', 'γ']
 
 const data = {
-	setup: combinerAnd('calculateTriangle', 'determine2DAngles'),
 	steps: ['calculateTriangle', 'determine2DAngles'],
 	comparison: {
 		default: {},
 		equation: (input, correct) => equationComparisons.equivalent(input, correct) || equationComparisons.equivalent(input.invert(), correct),
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	// Generate numbers and ensure that there are two solutions.

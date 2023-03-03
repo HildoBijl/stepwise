@@ -1,14 +1,15 @@
+const { or } = require('../../../skillTracking')
 const { FloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { air } = require('../../../data/gasProperties')
-const { combinerRepeat, combinerOr } = require('../../../skillTracking')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
+
 const { generateState, getSolution: getCycleParametersRaw } = require('./calculateClosedCycleSVSV')
 
 const data = {
 	skill: 'createClosedCycleEnergyOverview',
-	setup: combinerRepeat('calculateHeatAndWork', 4),
-	steps: ['calculateHeatAndWork', 'calculateHeatAndWork', 'calculateHeatAndWork', combinerOr('calculateHeatAndWork', 'calculateWithInternalEnergy')],
+	steps: ['calculateHeatAndWork', 'calculateHeatAndWork', 'calculateHeatAndWork', or('calculateHeatAndWork', 'calculateWithInternalEnergy')],
 
 	comparison: {
 		default: {
@@ -17,6 +18,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function getCycleParameters(state) {
 	let { m, Rs, k, p1, V1, T1, p2, V2, T2, p3, V3, T3, p4, V4, T4 } = getCycleParametersRaw(state)

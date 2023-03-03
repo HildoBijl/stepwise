@@ -1,21 +1,20 @@
 const { selectRandomly, getRandom, getRandomBoolean, getRandomInteger } = require('../../../util/random')
-const { combinerAnd } = require('../../../skillTracking')
 const { asExpression, asEquation, equationComparisons, Integer, Variable } = require('../../../CAS')
 
-const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
 
 const variableSet = ['x', 'y', 'z']
 
 const data = {
 	skill: 'calculateTriangle',
-	setup: combinerAnd('determine2DAngles', 'solveBasicLinearEquation'),
 	steps: ['determine2DAngles', null, null, null, 'solveBasicLinearEquation'],
 	comparison: {
 		default: {},
 		equation: (input, correct) => equationComparisons.equivalent(input, correct) || equationComparisons.equivalent(input.invert(), correct),
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	// Determine the angles and check if they match the conditions.
@@ -62,16 +61,16 @@ function checkInput(state, input, step) {
 	const solution = getSolution(state)
 	if (step === 0)
 		return input.numSolutions === solution.numSolutions && performComparison('a', input, solution, data.comparison)
-		if (step === 1)
+	if (step === 1)
 		return performComparison('γ', input, solution, data.comparison)
-		if (step === 2)
+	if (step === 2)
 		return performComparison('rule', input, solution, data.comparison)
-		if (step === 3)
+	if (step === 3)
 		return performComparison('equation', input, solution, data.comparison)
-		if (step === 4)
+	if (step === 4)
 		return performComparison('numSolutions', input, solution, data.comparison)
-		if (step === 5)
-			return performComparison('a', input, solution, data.comparison)
+	if (step === 5)
+		return performComparison('a', input, solution, data.comparison)
 }
 
 module.exports = {

@@ -1,9 +1,9 @@
 const { selectRandomly, getRandomInteger } = require('../../../util/random')
+const { repeat } = require('../../../skillTracking')
 const { asEquation, expressionComparisons, expressionChecks, equationComparisons, equationChecks } = require('../../../CAS')
-const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
 
 // (y+b)/(x+c) + a/x = z/x.
@@ -13,14 +13,14 @@ const constants = ['a', 'b', 'c']
 
 const data = {
 	skill: 'solveGeneralLinearEquation',
-	setup: combinerAnd(combinerRepeat('multiplyDivideAllTerms', 2), combinerRepeat('expandBrackets', 2), 'solveBasicLinearEquation'),
-	steps: [combinerRepeat('multiplyDivideAllTerms', 2), combinerRepeat('expandBrackets', 2), 'solveBasicLinearEquation'],
+	steps: [repeat('multiplyDivideAllTerms', 2), repeat('expandBrackets', 2), 'solveBasicLinearEquation'],
 	comparison: {
 		ans: (input, correct) => !expressionChecks.hasFractionWithinFraction(input) && expressionComparisons.equivalent(input, correct),
 		multiplied: (input, correct) => equationComparisons.equivalentSides(input, correct) && !equationChecks.hasFraction(input), // No fractions left.
 		expanded: (input, correct) => equationComparisons.equivalentSides(input, correct) && !equationChecks.hasFraction(input) && !equationChecks.hasSumWithinProduct(input), // No fractions and no unexpanded brackets left.
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const variableSet = selectRandomly(availableVariableSets)

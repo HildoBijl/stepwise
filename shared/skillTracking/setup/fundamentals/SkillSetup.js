@@ -1,7 +1,7 @@
 // SkillSetup is the abstract parent class for all skill-set-up classes. It has all the functionalities that need to be implemented by set-ups.
 
 const { ensureBoolean, keysToObject, filterProperties } = require('../../../util/objects')
-const { sum } = require('../../../util/arrays')
+const { sum, getDimensions } = require('../../../util/arrays')
 const { repeat } = require('../../../util/functions')
 const { binomial } = require('../../../util/combinatorics')
 
@@ -76,26 +76,33 @@ class SkillSetup {
 
 	// getDistribution returns a set of coefficients describing the distribution of this skill. The given order is the smoothing order applied while calculating this result.
 	getDistribution(coefSet, n = defaultInferenceOrder) {
-		// Process all the skill data.
-		coefSet = ensureCoefSet(coefSet)
-		const { matrix, list } = this.getMatrixAndList()
-		const skillCoefs = list.map(skillId => ensureCoef(coefSet[skillId]))
-		const skillEVs = skillCoefs.map(coef => getEV(coef))
-
-		// Find the coefficients of the final distribution.
-		const powersOfMatrix = getPowerList(matrix, n)
-		const powersOfOneMinusMatrix = getPowerList(oneMinus(matrix), n)
-		const coef = repeat(n + 1, i => {
-			const newMatrix = multiplyTwoWithEqualDimension(powersOfMatrix[i], powersOfOneMinusMatrix[n - i]) // This is x^i*(1-x)^(n-i), as a polynomial matrix in the given skills.
-			const EV = substituteAll(newMatrix, skillEVs) // This is the expected value of the said polynomial matrix.
-			return (n + 1) * binomial(n, i) * EV // This is with the constant from the basis functions incorporated.
-		})
+		// Get the EV, insert it into the polynomial, and use the basis functions to get the coefficients.
+		const EV = this.getEV(coefSet)
+		const coef = repeat(n + 1, i => (n + 1) * binomial(n, i) * (EV ** i) * (1 - EV) ** (n - i))
 		return normalize(coef)
+
+		// ToDo: after making the polynomial system more efficient (sparse) implement the moments into the script below.
+
+		// // Process all the skill data.
+		// coefSet = ensureCoefSet(coefSet)
+		// const { matrix, list } = this.getMatrixAndList()
+		// const skillCoefs = list.map(skillId => ensureCoef(coefSet[skillId]))
+		// const skillEVs = skillCoefs.map(coef => getEV(coef))
+		//
+		// // Find the coefficients of the final distribution.
+		// const powersOfMatrix = getPowerList(matrix, n)
+		// const powersOfOneMinusMatrix = getPowerList(oneMinus(matrix), n)
+		// const coef = repeat(n + 1, i => {
+		// 	const newMatrix = multiplyTwoWithEqualDimension(powersOfMatrix[i], powersOfOneMinusMatrix[n - i]) // This is x^i*(1-x)^(n-i), as a polynomial matrix in the given skills.
+		// 	const EV = substituteAll(newMatrix, skillEVs) // This is the expected value of the said polynomial matrix.
+		// 	return (n + 1) * binomial(n, i) * EV // This is with the constant from the basis functions incorporated.
+		// })
+		// return normalize(coef)
 	}
 
 	// Observation implementation functions.
 
-	// processObservation is the main function to update skill coefficients. It is given a data set, as well as a boolean to indicate whether this skill set-up has been correctly or incorrectly performed. The function then checks all skills related to this set-up and updates them accordingly. An adjusted data set with only adjusted skills is returned. The calling function can then, if desired, merge this into the full data set.
+	// processObservation is the main function to update skill coefficients. It is given a coefficient set, as well as a boolean to indicate whether this skill set-up has been correctly or incorrectly performed. The function then checks all skills related to this set-up and updates them accordingly. An adjusted coefficient set with only adjusted skills is returned. The calling function can then, if desired, merge this into the full coefficient set.
 	processObservation(coefSet, correct) {
 		// Check input.
 		correct = ensureBoolean(correct)

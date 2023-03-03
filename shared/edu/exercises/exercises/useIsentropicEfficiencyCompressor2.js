@@ -1,12 +1,12 @@
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
-const { performComparison } = require('../util/comparison')
 const { air: { k, cp } } = require('../../../data/gasProperties')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
+const { performComparison } = require('../util/comparison')
+
 const { getCycle } = require('./support/gasTurbineCycle')
 
 const data = {
 	skill: 'useIsentropicEfficiency',
-	setup: combinerAnd('poissonsLaw', combinerRepeat('calculateSpecificHeatAndMechanicalWork', 2), 'solveLinearEquation'),
 	steps: ['poissonsLaw', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation', 'calculateSpecificHeatAndMechanicalWork'],
 
 	comparison: {
@@ -16,6 +16,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	let { p1, T1, p2, etai } = getCycle()

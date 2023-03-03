@@ -1,12 +1,11 @@
 const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
-const { performComparison } = require('../util/comparison')
 const { air: { k, Rs } } = require('../../../data/gasProperties')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
+const { performComparison } = require('../util/comparison')
 
 const data = {
 	skill: 'calculateProcessStep',
-	setup: combinerAnd(combinerRepeat('gasLaw', 2), 'recognizeProcessTypes', 'poissonsLaw'),
 	steps: ['gasLaw', 'recognizeProcessTypes', 'poissonsLaw', 'gasLaw'],
 
 	comparison: {
@@ -16,6 +15,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const m = getRandomFloatUnit({

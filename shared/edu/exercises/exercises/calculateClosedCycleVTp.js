@@ -1,13 +1,12 @@
 const { selectRandomly, getRandom } = require('../../../util/random')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
 const gasProperties = require('../../../data/gasProperties')
-const { combinerRepeat } = require('../../../skillTracking')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
 
 const data = {
 	skill: 'calculateClosedCycle',
-	setup: combinerRepeat('calculateProcessStep', 2),
 	steps: ['calculateProcessStep', 'calculateProcessStep'],
 
 	comparison: {
@@ -18,6 +17,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const medium = selectRandomly(['air', 'argon', 'carbonMonoxide', 'helium', 'hydrogen', 'methane', 'nitrogen', 'oxygen'])
@@ -39,7 +39,7 @@ function generateState() {
 		significantDigits: 2,
 		unit: 'bar',
 	})
-	const scale = getRandom(2,4) // Increase in volume, temperature and pressure.
+	const scale = getRandom(2, 4) // Increase in volume, temperature and pressure.
 	const V3 = V1.multiply(scale).roundToPrecision()
 
 	const { Rs } = gasProperties[medium]

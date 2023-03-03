@@ -1,11 +1,10 @@
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd } = require('../../../skillTracking')
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
+
 const { generateState, getSolution: getSolutionPrevious } = require('./calculateEntropyChangeIsotherm')
 
 const data = {
 	skill: 'calculateMissedWork',
-	setup: combinerAnd('calculateEntropyChange', 'solveLinearEquation'),
 	steps: ['calculateEntropyChange', 'solveLinearEquation'],
 
 	comparison: {
@@ -16,6 +15,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function getSolution(state) {
 	const solution = getSolutionPrevious(state)

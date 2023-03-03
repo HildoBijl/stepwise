@@ -1,12 +1,11 @@
 const { Unit } = require('../../../inputTypes/Unit')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
 
 const data = {
 	skill: 'calculateEntropyChange',
-	setup: combinerAnd('calculateWithTemperature', combinerRepeat('solveLinearEquation', 2)),
 	steps: ['calculateWithTemperature', 'solveLinearEquation', 'solveLinearEquation', null],
 
 	comparison: {
@@ -27,6 +26,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const Q = getRandomFloatUnit({

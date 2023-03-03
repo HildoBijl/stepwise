@@ -1,13 +1,13 @@
 const { FloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
 const { air: { k, cp } } = require('../../../data/gasProperties')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
+
 const { getCycle } = require('./support/gasTurbineCycle')
 
 const data = {
 	skill: 'analyseGasTurbine',
-	setup: combinerAnd('calculateOpenCycle', combinerRepeat('useIsentropicEfficiency', 2), 'createOpenCycleEnergyOverview', 'calculateWithEfficiency', 'massFlowTrick'),
 	steps: ['calculateOpenCycle', 'useIsentropicEfficiency', 'useIsentropicEfficiency', 'createOpenCycleEnergyOverview', ['calculateWithEfficiency', 'massFlowTrick']],
 
 	comparison: {
@@ -23,6 +23,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	let { p1, T1, p2, T2, T3, mdot } = getCycle()

@@ -1,10 +1,11 @@
+const { and } = require('../../../skillTracking')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
+
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { combinerAnd } = require('../../../skillTracking')
 const { performComparison } = require('../util/comparison')
 
 const data = {
-	setup: combinerAnd('calculateWithSpecificQuantities', 'massFlowTrick'),
+	setup: and('calculateWithSpecificQuantities', 'massFlowTrick'),
 	comparison: {
 		default: {
 			relativeMargin: 0.01,

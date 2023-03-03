@@ -1,10 +1,9 @@
 const { gcd } = require('../../../util/maths')
 const { selectRandomly, getRandomInteger, getRandomIndices } = require('../../../util/random')
 const { asExpression, Sum, expressionComparisons, simplifyOptions } = require('../../../CAS')
-const { combinerAnd } = require('../../../skillTracking')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
 
 const { onlyOrderChanges } = expressionComparisons
@@ -16,12 +15,12 @@ const constants = ['a', 'b', 'c', 'd']
 
 const data = {
 	skill: 'pullOutOfBrackets',
-	setup: combinerAnd('mergeSplitFractions', 'expandBrackets'),
 	steps: [null, null, 'mergeSplitFractions', null, 'expandBrackets'],
 	comparison: {
 		default: onlyOrderChanges,
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const variableSet = selectRandomly(availableVariableSets)

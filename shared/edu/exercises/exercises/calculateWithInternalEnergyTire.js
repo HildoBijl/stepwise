@@ -1,13 +1,12 @@
 const { getRandom } = require('../../../util/random')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
 let { air: { Rs, cv } } = require('../../../data/gasProperties')
-const { combinerAnd } = require('../../../skillTracking')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
 
 const data = {
 	skill: 'calculateWithInternalEnergy',
-	setup: combinerAnd('gasLaw', 'specificHeats', 'solveLinearEquation'),
 	steps: ['gasLaw', 'specificHeats', 'solveLinearEquation'],
 
 	comparison: {
@@ -20,6 +19,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const T1 = getRandomFloatUnit({

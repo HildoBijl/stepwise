@@ -131,9 +131,9 @@ const resolvers = {
 
 			// Set up an updateSkills handler that only collects calls.
 			const skillUpdates = []
-			const updateSkills = (skill, correct, givenUserId) => {
-				if (skill)
-					skillUpdates.push({ skill, correct, userId: givenUserId || userId })
+			const updateSkills = (setup, correct, givenUserId) => {
+				if (setup)
+					skillUpdates.push({ setup, correct, userId: givenUserId || userId })
 			}
 
 			// Check the exercise, getting an updated progress. Store this and prepare for a new event.

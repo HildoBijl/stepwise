@@ -1,22 +1,21 @@
 const { compareNumbers } = require('../../../util/numbers')
 const { selectRandomly, getRandom, getRandomBoolean, getRandomInteger } = require('../../../util/random')
-const { combinerRepeat } = require('../../../skillTracking')
 const { asExpression, asEquation, Integer, Variable, Sqrt, Arccos } = require('../../../CAS')
 
-const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
 
 const sideVariableSet = ['x', 'y', 'z']
 const angleVariableSet = ['α', 'β', 'γ']
 
 const data = {
-	setup: combinerRepeat('calculateTriangle', 2),
 	steps: ['calculateTriangle', 'calculateTriangle', null],
 	comparison: {
 		default: {},
 		βRaw: (input, correct, { variables, a }) => compareNumbers(...[input, correct].map(value => value.substitute(variables.a, a).number)), // Plug in the value of a and compare numbers. This is the easiest way to allow for alternate solutions.
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const b = getRandomInteger(3, 12)

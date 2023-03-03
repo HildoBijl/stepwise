@@ -1,12 +1,11 @@
-const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Unit } = require('../../../inputTypes/Unit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd } = require('../../../skillTracking')
+const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { air: { k } } = require('../../../data/gasProperties')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 
 const data = {
 	skill: 'poissonsLaw',
-	setup: combinerAnd('calculateWithPressure', 'specificHeatRatio', 'solveExponentEquation'),
 	steps: [[null, null, 'calculateWithPressure'], 'specificHeatRatio', null, 'solveExponentEquation'],
 
 	comparison: {
@@ -35,6 +34,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const T1 = getRandomFloatUnit({
@@ -56,7 +56,7 @@ function generateState() {
 
 function getSolution({ p1, p2, T1 }) {
 	const kNum = k.float.number
-	const T2 = T1.multiply(p2.divide(p1).float.toPower((kNum-1)/kNum))
+	const T2 = T1.multiply(p2.divide(p1).float.toPower((kNum - 1) / kNum))
 	return { k, p1, p2, T1, T2 }
 }
 

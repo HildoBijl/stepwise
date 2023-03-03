@@ -1,12 +1,11 @@
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd } = require('../../../skillTracking')
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
+
 const { generateState, getSolution: getCycleParameters } = require('./calculateClosedCycleVTp')
 const { getSolution: getEnergyParameters } = require('./createClosedCycleEnergyOverviewVTp')
 
 const data = {
 	skill: 'analyseClosedCycle',
-	setup: combinerAnd('calculateClosedCycle', 'createClosedCycleEnergyOverview', 'calculateWithEfficiency'),
 	steps: ['calculateClosedCycle', 'createClosedCycleEnergyOverview', null, 'calculateWithEfficiency'],
 
 	comparison: {
@@ -22,6 +21,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function getSolution(state) {
 	const { m, Rs, p1, V1, T1, p2, V2, T2, p3, V3, T3 } = getCycleParameters(state)

@@ -1,6 +1,7 @@
 const { UserInputError } = require('apollo-server-express')
 
-const { checkSkillIds } = require('../util/Skill')
+const { ensureSkillIds } = require('step-wise/edu/skills/util')
+
 const { getUser, getAllUsers } = require('../util/User')
 
 const CURRENT_PRIVACY_POLICY_VERSION = 1
@@ -10,7 +11,7 @@ const resolvers = {
 		skills: async (user, { ids }) => {
 			if (!ids)
 				return await user.getSkills()
-			checkSkillIds(ids)
+			ids = ensureSkillIds(ids)
 			return await user.getSkills({ where: { skillId: ids } })
 		},
 		privacyPolicyConsent: (user) => {

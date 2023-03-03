@@ -1,13 +1,13 @@
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
-const { performComparison } = require('../util/comparison')
-const { getCycle } = require('./support/steamTurbineCycle')
-const { withPressure, enthalpy, entropy } = require('../../../data/steamProperties')
 const { tableInterpolate } = require('../../../util/interpolation')
+const { withPressure, enthalpy, entropy } = require('../../../data/steamProperties')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
+const { performComparison } = require('../util/comparison')
+
+const { getCycle } = require('./support/steamTurbineCycle')
 
 const data = {
 	skill: 'createRankineCycleOverview',
-	setup: combinerAnd(combinerRepeat('lookUpSteamProperties', 2), 'recognizeProcessTypes', 'useVaporFraction'),
 	steps: ['lookUpSteamProperties', null, 'lookUpSteamProperties', 'recognizeProcessTypes', 'useVaporFraction'],
 
 	comparison: {
@@ -17,6 +17,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	let { pc, pe, T2 } = getCycle()

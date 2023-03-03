@@ -1,12 +1,11 @@
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Unit } = require('../../../inputTypes/Unit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { argon: { Rs } } = require('../../../data/gasProperties')
-const { combinerAnd, combinerOr } = require('../../../skillTracking')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 
 const data = {
 	skill: 'gasLaw',
-	setup: combinerAnd('calculateWithPressure', 'calculateWithTemperature', 'calculateWithVolume', 'specificGasConstant', 'solveLinearEquation'),
 	steps: [['calculateWithVolume', 'calculateWithPressure', 'calculateWithTemperature'], 'specificGasConstant', 'solveLinearEquation'],
 
 	comparison: {
@@ -35,6 +34,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const V = getRandomFloatUnit({

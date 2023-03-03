@@ -1,13 +1,13 @@
-const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { combinerAnd } = require('../../../skillTracking')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
+
 const { generateState: generateStateRaw, getSolution: getCycleParameters } = require('./calculateOpenCyclespsp')
 const { getSolution: getEnergyParameters } = require('./createOpenCycleEnergyOverviewspsp')
 
 const data = {
 	skill: 'analyseOpenCycle',
-	setup: combinerAnd('calculateOpenCycle', 'createOpenCycleEnergyOverview', 'calculateWithEfficiency', 'massFlowTrick'),
 	steps: ['calculateOpenCycle', 'createOpenCycleEnergyOverview', ['calculateWithEfficiency', 'massFlowTrick']],
 
 	comparison: {
@@ -23,6 +23,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	return {

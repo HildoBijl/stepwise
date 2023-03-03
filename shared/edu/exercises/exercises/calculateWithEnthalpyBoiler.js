@@ -1,12 +1,12 @@
 const { FloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd } = require('../../../skillTracking')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
+
 const { generateState } = require('./calculateWithSpecificQuantitiesBoiler')
 
 const data = {
 	skill: 'calculateWithEnthalpy',
-	setup: combinerAnd('calculateWithSpecificQuantities', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation'),
 	steps: ['calculateWithSpecificQuantities', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation'],
 
 	comparison: {
@@ -16,6 +16,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function getSolution({ Q, m }) {
 	Q = Q.simplify()

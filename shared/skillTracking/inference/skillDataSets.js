@@ -16,5 +16,6 @@ function updateSkillDataSet(skillDataSet, newRawSkillDataSet, skillTree) {
 		const rawSkillData = newRawSkillDataSet[skillId]
 		skillDataSet[skillId] = new SkillData(skill, rawSkillData, skillDataSet)
 	})
+	return skillDataSet
 }
 module.exports.updateSkillDataSet = updateSkillDataSet

@@ -1,15 +1,13 @@
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { FloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd, combinerOr } = require('../../../skillTracking')
-const { performComparison } = require('../util/comparison')
 const { getRandom } = require('../../../util/random')
+const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { air: { k } } = require('../../../data/gasProperties')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
+const { performComparison } = require('../util/comparison')
 
 const data = {
 	skill: 'calculateHeatAndWork',
-	setup: combinerAnd('recognizeProcessTypes', 'specificHeatRatio', combinerOr('calculateWithVolume', 'calculateWithPressure')),
-	steps: ['recognizeProcessTypes', null, 'specificHeatRatio', ['calculateWithVolume', 'calculateWithPressure'], 'solveLinearEquation'],
+	steps: ['recognizeProcessTypes', null, 'specificHeatRatio', ['calculateWithVolume', 'calculateWithPressure'], null],
 
 	comparison: {
 		default: {
@@ -39,6 +37,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	// Determine volumes, ensuring they are nice round numbers.

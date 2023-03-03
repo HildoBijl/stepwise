@@ -1,8 +1,7 @@
 const { selectRandomly, getRandomInteger } = require('../../../util/random')
-const { expressionComparisons, asExpression } = require('../../../CAS')
-const { combinerAnd } = require('../../../skillTracking')
+const { expressionComparisons } = require('../../../CAS')
 
-const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
 
 const { getRandomElementaryFunctions } = require('./support/derivatives')
@@ -13,11 +12,11 @@ const variableSet = ['x', 'y', 't']
 
 const data = {
 	skill: 'findAdvancedDerivative',
-	setup: combinerAnd('applyProductRule', 'lookUpElementaryDerivative'),
 	steps: [null, null, ['applyProductRule', 'lookUpElementaryDerivative'], null],
 	weight: 3,
 	comparison: { default: equivalent },
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const x = selectRandomly(variableSet)

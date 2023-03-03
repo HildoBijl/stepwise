@@ -1,15 +1,15 @@
 const { AuthenticationError, UserInputError } = require('apollo-server-express')
 
 const { findOptimum } = require('step-wise/util/arrays')
-const { arraysToObject } = require('step-wise/util/objects')
+const { ensureBoolean, arraysToObject, keysToObject } = require('step-wise/util/objects')
+const { union } = require('step-wise/util/sets')
 
-const { getCombinerSkills, getSmoothingFactor, smoothen, processObservation, getEV } = require('step-wise/skillTracking')
-
-const { checkSkillIds } = require('./Skill')
+const { smoothen, getEV, ensureSetup } = require('step-wise/skillTracking')
+const { ensureSkillId, ensureSkillIds } = require('step-wise/edu/skills/util')
 
 // getActiveExerciseData takes a userId and a skillId. For this, it returns { user, skill, activeExercise }, where the skill is the UserSkill from the database. If requireExercise is set to true it ensures that there is an active exercise. On false it ensures that there is not. (Otherwise an error is thrown.)
 async function getActiveExerciseData(userId, skillId, db, requireExercise = true) {
-	checkSkillIds([skillId])
+	skillId = ensureSkillId(skillId)
 
 	// Pull everything from the database.
 	const user = userId && await db.User.findByPk(userId, {
@@ -70,7 +70,7 @@ function getExerciseProgress(exercise) {
 }
 module.exports.getExerciseProgress = getExerciseProgress
 
-// applySkillUpdates takes an array [{ skill: {...}, correct: true/false, userId: 'someId' }, ...] and applies all the skill updates into the database. It return 
+// applySkillUpdates takes an array [{ setup: {...}, correct: true/false, userId: 'someId' }, ...] and applies all the skill updates into the database. It return 
 async function applySkillUpdates(skillUpdates, db, transaction) {
 	// Group the skill updates per user.
 	const skillUpdatesPerUser = {}
@@ -89,12 +89,18 @@ async function applySkillUpdates(skillUpdates, db, transaction) {
 }
 module.exports.applySkillUpdates = applySkillUpdates
 
-// applySkillUpdatesForUser takes an array [{ skill: {...}, correct: true/false }, ...] and applies all these skill updates for the given userId.
+// applySkillUpdatesForUser takes an array [{ setup: {...}, correct: true/false }, ...] and applies all these skill updates for the given userId.
 async function applySkillUpdatesForUser(skillUpdates, userId, db, transaction) {
-	// Extract all skillIds in the updates.
-	let skillIds = skillUpdates.map(({ skill }) => getCombinerSkills(skill)).flat() // Get all IDs.
-	skillIds = [...new Set(skillIds)] // Filter duplicates.
-	checkSkillIds(skillIds) // Make sure they exist.
+	// Ensure valid skill updates.
+	skillUpdates = skillUpdates.map(({ setup, correct }) => ({
+		setup: ensureSetup(setup),
+		correct: ensureBoolean(correct),
+	}))
+
+	// Extract all skillIds in the updates, ensuring there are no duplicates and making sure they all exist.
+	const skillSets = skillUpdates.map(({ setup }) => setup.getSkillSet())
+	const skillSetsMerged = union(...skillSets)
+	const skillIds = ensureSkillIds([...skillSetsMerged])
 
 	// If there are no skills, don't do anything. Return an empty array to show no skills were adjusted.
 	if (skillIds.length === 0)
@@ -107,32 +113,28 @@ async function applySkillUpdatesForUser(skillUpdates, userId, db, transaction) {
 			skillId: skillIds,
 		},
 	})
+	const skillsAsObject = arraysToObject(skills.map(skill => skill.skillId), skills)
 
-	// Smoothen all coefficients to the current data and plug them into a data set. (A data set is just an object with skillIds as indices and raw coefficient arrays as values.)
-	let dataSet = {}
-	const exists = {}
+	// Set up a coefficient set. Put in all loaded skills, smoothened to the current time, and use fillers for all other skills.
 	const now = new Date()
-	skills.forEach(skill => {
-		exists[skill.skillId] = true // Mark that this skill exists.
-		const factor = getSmoothingFactor({
+	let coefficientSet = keysToObject(skillIds, skillId => {
+		const skill = skillsAsObject[skillId]
+		if (!skill)
+			return [1]
+		const options = {
 			time: now - skill.coefficientsOn,
 			applyPracticeDecay: true,
 			numProblemsPracticed: skill.numPracticed,
-		})
-		dataSet[skill.skillId] = smoothen(skill.coefficients, factor)
-	})
-
-	// Walk through all skillIds and check if they're in the data set. Any missing ones simply aren't in the database yet.
-	skillIds.forEach(skillId => {
-		if (!exists[skillId])
-			dataSet[skillId] = [1]
+			// ToDo later: implement option for different properties for each skill.
+		}
+		return smoothen(skill.coefficients, options)
 	})
 
 	// Walk through the skill updates and apply them one by one, adjusting the data set.
-	skillUpdates.forEach(({ skill, correct }) => {
-		dataSet = {
-			...dataSet, // Possibly non-adjusted data.
-			...processObservation(dataSet, skill, correct), // Adjusted data.
+	skillUpdates.forEach(({ setup, correct }) => {
+		coefficientSet = {
+			...coefficientSet, // Possibly non-adjusted data.
+			...setup.processObservation(coefficientSet, correct), // Adjusted data.
 		}
 	})
 
@@ -141,7 +143,7 @@ async function applySkillUpdatesForUser(skillUpdates, userId, db, transaction) {
 		// Set up the initial update.
 		const update = {
 			numPracticed: skill.numPracticed + 1,
-			coefficients: dataSet[skill.skillId],
+			coefficients: coefficientSet[skill.skillId],
 			coefficientsOn: now,
 		}
 
@@ -159,7 +161,7 @@ async function applySkillUpdatesForUser(skillUpdates, userId, db, transaction) {
 	// Create new skills for the ones previously missing, and add their promises to the promise array.
 	skillIds.forEach(skillId => {
 		// Check if we don't already have this one.
-		if (exists[skillId])
+		if (skillsAsObject[skillId])
 			return
 
 		// Add a new UserSkill to the database.
@@ -167,15 +169,15 @@ async function applySkillUpdatesForUser(skillUpdates, userId, db, transaction) {
 			userId,
 			skillId,
 			numPracticed: 1,
-			coefficients: dataSet[skillId],
+			coefficients: coefficientSet[skillId],
 			coefficientsOn: now,
-			highest: getHighest(dataSet[skillId], [1], 1),
+			highest: getHighest(coefficientSet[skillId], [1], 1),
 			highestOn: now,
 		}, { transaction })
 		skillUpdatePromises.push(skillPromise)
 	})
 
-	// Wait until all promises are resolved and return the adjusted skills in an array.=
+	// Wait until all promises are resolved and return the adjusted skills in an array.
 	return await Promise.all(skillUpdatePromises)
 }
 module.exports.applySkillUpdatesForUser = applySkillUpdatesForUser
@@ -184,15 +186,16 @@ module.exports.applySkillUpdatesForUser = applySkillUpdatesForUser
 function getHighest(coefficients, highest, numPracticed) {
 	// If the coefficients aren't higher than the highest, nothing is going on.
 	const highestEV = getEV(highest)
-	if (getEV(coefficients) < highestEV)
+	if (getEV(coefficients) <= highestEV)
 		return highest
 
 	// The coefficients are higher now. But are they still higher after smoothing?
-	const factor = getSmoothingFactor({
+	const options = {
 		applyPracticeDecay: true,
 		numProblemsPracticed: numPracticed,
-	})
-	const smoothenedCoefficients = smoothen(coefficients, factor)
+		// ToDo later: implement option for different properties for each skill.
+	}
+	const smoothenedCoefficients = smoothen(coefficients, options)
 	if (getEV(smoothenedCoefficients) <= highestEV)
 		return highest
 	return smoothenedCoefficients

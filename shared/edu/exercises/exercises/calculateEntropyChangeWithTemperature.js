@@ -1,14 +1,13 @@
+const { getRandomInteger, selectRandomly } = require('../../../util/random')
 const { Unit } = require('../../../inputTypes/Unit')
 const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getRandomInteger, selectRandomly } = require('../../../util/random')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd } = require('../../../skillTracking')
-const { performComparison } = require('../util/comparison')
 const gasProperties = require('../../../data/gasProperties')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
+const { performComparison } = require('../util/comparison')
 
 const data = {
 	skill: 'calculateEntropyChange',
-	setup: combinerAnd('calculateWithTemperature', 'specificHeats', 'solveLinearEquation'),
 	steps: ['calculateWithTemperature', 'specificHeats', 'solveLinearEquation'],
 	weight: 2,
 
@@ -34,6 +33,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const type = getRandomInteger(0, 2) // 0 isobaric, 1 isochoric, 2 isentropic

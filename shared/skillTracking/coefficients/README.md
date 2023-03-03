@@ -40,11 +40,7 @@ From the coefficients, the complete distribution (that is, the PDF) can also be 
 
 Distributions often need to be smoothened when being processed. This is done through various smoothing functions. The most common one is the following.
 
-- `smoothen(coef, factor)` takes a coefficient array and smoothens its distribution by a given factor. A factor of 1 leaves the distribution unchanged, while 0 brings it back to the starting distribution. Effectively, the new mean is (0.5 * (mu_old - 0.5) * factor).
-
-To first determine and then apply the factor, there are two other functions.
-
-- `getSmoothingFactor(options)` returns a smoothing factor that is appropriate to apply given the situation. The situation is described in the options, with three (all optional) properties.
+- `smoothen(coef, options)` takes a coefficient array and smoothens its distribution subject to a given situation. The situation is described in the options, with three (all optional) properties.
 	- `time` (default `0`) is the time passed since the skill was last practiced.
 	- `applyPracticeDecay` (default `false`) will (when set to `true`) lower the amount of smoothing applied because the user practiced the skill one more time. If not, this amount of smoothing remains the same.
 	- `numProblemsPracticed` (default `0`) indices the number of times the student has practiced the problem, used by the practice decay.
@@ -54,7 +50,12 @@ To first determine and then apply the factor, there are two other functions.
 	- `initialPracticeDecayTime` [milliseconds] is the equivalent time of decay for practicing a problem.
 	- `practiceDecayHalfLife` [problems practiced] is the number of problems practiced until the practice decay halves.
 
-- `smoothenWithOrder(coef, newOrder)` applies smoothing with a given smoothing order.
+Behind the scenes, smoothing does two steps, as applied by the following two functions.
+
+- `getSmoothingFactor(options)` returns a smoothing factor that is appropriate to apply given the situation.
+- `smoothenWithFactor(coef, factor)` applies smoothing with a given factor. A factor of 1 leaves the distribution unchanged, while 0 brings it back to the starting distribution. Effectively, the new mean is (0.5 * (mu_old - 0.5) * factor). 
+
+The latter function in turn calls `smoothenWithOrder(coef, newOrder)` which smoothes using a given smoothing order.
 
 
 ## Merging

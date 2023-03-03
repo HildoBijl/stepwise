@@ -3,9 +3,8 @@ const { getRandomBoolean } = require('../../../util/random')
 const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Vector } = require('../../../geometry')
 const { Variable } = require('../../../CAS')
-const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
 
-const { getStepExerciseProcessor, assembleSolution } = require('../util/stepExercise')
+const { getStepExerciseProcessor, assembleSolution, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
 const { loadSources, getDefaultForce, getDefaultMoment, FBDComparison, getLoadNames, getLoadMatching, isMatchingComplete, getDirectionIndicators, performLoadsComparison, reverseLoad } = require('../util/engineeringMechanics')
 
@@ -13,7 +12,6 @@ const { reaction, external } = loadSources
 
 const data = {
 	skill: 'calculateBasicSupportReactions',
-	setup: combinerAnd('drawFreeBodyDiagram', combinerRepeat('calculateForceOrMoment', 2)),
 	steps: ['drawFreeBodyDiagram', null, 'calculateForceOrMoment', 'calculateForceOrMoment'],
 	comparison: {
 		default: {
@@ -24,6 +22,7 @@ const data = {
 		loads: FBDComparison,
 	},
 }
+addSetupFromSteps(and)
 
 function generateState() {
 	return {

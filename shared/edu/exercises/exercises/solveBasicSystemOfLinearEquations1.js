@@ -1,9 +1,8 @@
 const { selectRandomly, getRandomInteger } = require('../../../util/random')
 const { asExpression, asEquation, expressionComparisons, equationComparisons } = require('../../../CAS')
-const { combinerRepeat } = require('../../../skillTracking')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
 
 // ax + by = c.
@@ -14,7 +13,6 @@ const constants = ['a', 'b', 'c', 'd', 'e', 'f']
 
 const data = {
 	skill: 'solveBasicSystemOfLinearEquations',
-	setup: combinerRepeat('solveBasicLinearEquation', 2),
 	steps: ['solveBasicLinearEquation', null, 'solveBasicLinearEquation', null],
 	comparison: {
 		default: {},
@@ -22,6 +20,7 @@ const data = {
 		eq2Substituted: equationComparisons.equivalent,
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const variableSet = selectRandomly(availableVariableSets)

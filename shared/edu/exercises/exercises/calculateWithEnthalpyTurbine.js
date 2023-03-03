@@ -1,11 +1,10 @@
 const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd } = require('../../../skillTracking')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
 
 const data = {
 	skill: 'calculateWithEnthalpy',
-	setup: combinerAnd('massFlowTrick', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation'),
 	steps: ['massFlowTrick', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation'],
 
 	comparison: {
@@ -15,6 +14,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const mdot = getRandomFloatUnit({

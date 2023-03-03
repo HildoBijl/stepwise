@@ -1,12 +1,12 @@
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerRepeat } = require('../../../skillTracking')
-const { performComparison } = require('../util/comparison')
-const { getBasicCycle } = require('./support/fridgeCycle')
 const refrigerantProperties = require('../../../data/refrigerantProperties')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
+const { performComparison } = require('../util/comparison')
+
+const { getBasicCycle } = require('./support/fridgeCycle')
 
 const data = {
 	skill: 'createCoolingCycleOverview',
-	setup: combinerRepeat('determineRefrigerantProcess', 3),
 	steps: ['determineRefrigerantProcess', 'determineRefrigerantProcess', 'determineRefrigerantProcess', null],
 
 	comparison: {
@@ -16,6 +16,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	let { refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling } = getBasicCycle()

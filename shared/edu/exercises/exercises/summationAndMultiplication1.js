@@ -1,12 +1,12 @@
 const { getRandomInteger } = require('../../../inputTypes/Integer')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { combinerAnd } = require('../../../skillTracking')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 
 const data = {
 	skill: 'summationAndMultiplication',
-	setup: combinerAnd('multiplication', 'summation'),
 	steps: ['multiplication', 'summation'],
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	return {

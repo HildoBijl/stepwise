@@ -1,16 +1,16 @@
 
-const skills = require('../skills')
+const skillTree = require('../skills')
 const { getAllExercises } = require('./util/selection')
 const { getDifficulty } = require('../skills/util')
-const { ensureCombiner, getCombinerSkills } = require('../../skillTracking')
+const { ensureSetup } = require('../../skillTracking')
 
-// Set up a support function to check if something is a skill combiner.
-const assertSkillCombiner = (combiner) => {
-	expect(combiner).not.toBe(undefined)
-	expect(() => ensureCombiner(combiner)).not.toThrow()
-	const combinerSkills = getCombinerSkills(combiner)
-	combinerSkills.forEach(skill => {
-		expect(typeof skills[skill]).toBe('object')
+// Set up a support function to check if something is a skill set-up.
+const assertSkillSetup = (setup) => {
+	expect(setup).not.toBe(undefined)
+	expect(() => ensureSetup(setup)).not.toThrow()
+	const skillIds = setup.getSkillList()
+	skillIds.forEach(skillId => {
+		expect(typeof skillTree[skillId]).toBe('object')
 	})
 }
 
@@ -24,9 +24,6 @@ describe('Check all exercises:', () => {
 			try {
 				exercise = require(`./exercises/${exerciseId}`)
 			} catch (e) {
-				console.log(e)
-				console.log(e.message)
-				throw (e)
 				it('has a shared file', () => fail())
 			}
 			if (!exercise)
@@ -46,7 +43,7 @@ describe('Check all exercises:', () => {
 			})
 
 			it('has a difficulty defined with known skills', () => {
-				assertSkillCombiner(getDifficulty(exercise.data))
+				assertSkillSetup(getDifficulty(exercise.data))
 			})
 
 			if (exercise.getSolution) {
@@ -68,10 +65,10 @@ describe('Check all exercises:', () => {
 							step.forEach(substep => {
 								if (substep === null)
 									return // Null is always fine.
-								assertSkillCombiner(substep)
+								assertSkillSetup(substep)
 							})
 						} else {
-							assertSkillCombiner(step)
+							assertSkillSetup(step)
 						}
 					})
 				})

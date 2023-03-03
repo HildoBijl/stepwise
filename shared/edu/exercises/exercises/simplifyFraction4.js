@@ -1,10 +1,9 @@
-const { gcd } = require('../../../util/maths')
 const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../util/random')
+const { gcd } = require('../../../util/maths')
 const { asExpression, Fraction, expressionComparisons, expressionChecks, simplifyOptions } = require('../../../CAS')
-const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
 
 const { equivalent } = expressionComparisons
@@ -17,12 +16,12 @@ const constants = ['a', 'b', 'c', 'd']
 
 const data = {
 	skill: 'simplifyFraction',
-	setup: combinerAnd(combinerRepeat('mergeSplitFractions', 2), 'multiplyDivideFractions'),
 	steps: ['mergeSplitFractions', 'mergeSplitFractions', 'multiplyDivideFractions'],
 	comparison: {
 		default: (input, correct) => input.isSubtype(Fraction) && !hasFractionWithinFraction(input) && equivalent(input, correct),
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	const variableSet = selectRandomly(availableVariableSets)

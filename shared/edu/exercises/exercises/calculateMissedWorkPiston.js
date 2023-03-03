@@ -1,13 +1,12 @@
 const { getRandom } = require('../../../util/random')
 const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { air: { k, Rs, cv } } = require('../../../data/gasProperties')
-const { combinerAnd, combinerRepeat } = require('../../../skillTracking')
+
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
 
 const data = {
 	skill: 'calculateMissedWork',
-	setup: combinerAnd(combinerRepeat('calculateEntropyChange', 2), 'solveLinearEquation'),
 	steps: ['calculateEntropyChange', 'calculateEntropyChange', null, 'solveLinearEquation'],
 
 	comparison: {
@@ -18,6 +17,7 @@ const data = {
 		},
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	// State before compression.
