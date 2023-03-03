@@ -96,8 +96,8 @@ module.exports.applyToEachParameter = applyToEachParameter
 // keysToObject takes an array of keys like ['num', 'den'] and applies a function func(key, index, resultObject) for each of these keys. The result is stored in an object like { num: func('num'), den: func('den') }. If the result is undefined, it is not stored in the object.
 function keysToObject(keys, func) {
 	const result = {}
-	keys.forEach((key, index, result) => {
-		const funcResult = func(key, index)
+	keys.forEach((key, index) => {
+		const funcResult = func(key, index, result)
 		if (funcResult !== undefined)
 			result[key] = funcResult
 	})
