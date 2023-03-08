@@ -1,5 +1,5 @@
 
-const skillTree = require('../skills')
+const { skillTree } = require('../skills')
 const { getAllExercises } = require('./util/selection')
 const { getDifficulty } = require('../skills/util')
 const { ensureSetup } = require('../../skillTracking')
@@ -8,6 +8,7 @@ const { ensureSetup } = require('../../skillTracking')
 const assertSkillSetup = (setup) => {
 	expect(setup).not.toBe(undefined)
 	expect(() => ensureSetup(setup)).not.toThrow()
+	setup = ensureSetup(setup)
 	const skillIds = setup.getSkillList()
 	skillIds.forEach(skillId => {
 		expect(typeof skillTree[skillId]).toBe('object')

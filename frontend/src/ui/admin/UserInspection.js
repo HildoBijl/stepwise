@@ -4,8 +4,8 @@ import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { formatDate } from 'step-wise/util/date'
-import skills from 'step-wise/edu/skills'
-import SkillData from 'step-wise/edu/skills/SkillData'
+import { skillTree } from 'step-wise/edu/skills'
+import { SkillData } from 'step-wise/skillTracking'
 import { includePrerequisites, processSkill, getDefaultSkillData } from 'step-wise/edu/skills/util'
 
 import { useUserQuery } from 'api/admin'
@@ -80,7 +80,7 @@ function UserInspectionForUser({ user }) {
 function UserInspectionItem({ skillData }) {
 	return <>
 		<div className="flask"><SkillFlask coef={skillData.coefficients} size={40} /></div>
-		<div className="name">{skills[skillData.skillId].name}</div>
+		<div className="name">{skillTree[skillData.skillId].name}</div>
 		<div className="numPracticed">{skillData.numPracticed}</div>
 		<div className="lastPracticed">{formatDate(skillData.lastPracticed, true)}</div>
 	</>

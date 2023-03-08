@@ -4,10 +4,9 @@ const { keysToObject } = require('../../../util/objects')
 const { normalPDF } = require('../../../util/combinatorics')
 const { selectRandomly } = require('../../../util/random')
 
-const { getEV, merge, ensureSetup, processSkillDataSet } = require('../../../skillTracking')
+const { getEV, merge, ensureSetup } = require('../../../skillTracking')
 
-const skills = require('../../skills')
-const { ensureSkillId, getDifficulty, includePrerequisitesAndLinks } = require('../../skills/util')
+const { skillTree, ensureSkillId, getDifficulty } = require('../../skills')
 
 // Define general settings for exercise selection.
 const mu = 0.5 // Make exercises with success rate 0.5 the most likely.
@@ -27,7 +26,7 @@ module.exports.getNewExercise = getNewExercise
 async function selectExercise(skillId, getSkillDataSet) {
 	// Extract the skill data.
 	skillId = ensureSkillId(skillId)
-	const skill = skills[skillId]
+	const skill = skillTree[skillId]
 	if (!skill)
 		throw new Error(`Could not select an exercise: the skillId "${skillId}" is unknown.`)
 
@@ -76,7 +75,7 @@ module.exports.getNewRandomExercise = getNewRandomExercise
 // selectRandomExercise takes a skillId and picks an exercise completely randomly. It does not take into account skill data. It does take into account exercise weights.
 function selectRandomExercise(skillId) {
 	// Load the exercises for the given skill.
-	const skill = skills[skillId]
+	const skill = skillTree[skillId]
 	if (!skill)
 		throw new Error(`Could not select an exercise: the skillId "${skillId}" is unknown.`)
 	const exerciseIds = skill.exercises
@@ -103,7 +102,7 @@ module.exports.getExercise = getExercise
 // getAllExercises walks through all the skills and returns an array (without duplicates) of all the exercise ids. It's useful for testing purposes.
 function getAllExercises() {
 	const exercises = new Set() // Use a set to remove duplicates.
-	Object.values(skills).forEach(skill => {
+	Object.values(skillTree).forEach(skill => {
 		skill.exercises.forEach(exercise => exercises.add(exercise))
 	})
 	return [...exercises] // Return as array.

@@ -7,7 +7,7 @@ import Box from '@material-ui/core/Box'
 import Tooltip from '@material-ui/core/Tooltip'
 import { Check } from '@material-ui/icons'
 
-import skills from 'step-wise/edu/skills'
+import { skillTree } from 'step-wise/edu/skills'
 
 import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routing'
@@ -98,8 +98,8 @@ export default function SkillList({ courseId, skillIds, display = true, landscap
 				courseId={courseId}
 				skillId={skillId}
 				isPriorKnowledge={isPriorKnowledge}
-				recommend={skillId === analysis.recommendation}
-				practiceNeeded={analysis.practiceNeeded[skillId]}
+				recommend={skillId === analysis?.recommendation}
+				practiceNeeded={analysis && analysis.practiceNeeded[skillId]}
 			/>)}
 		</Box>
 	)
@@ -123,7 +123,7 @@ function SkillItem({ courseId, skillId, isPriorKnowledge, recommend = false, pra
 			iconText = 'Je beheerst een vervolg-vaardigheid, dus markeren we deze ook als voldoende.'
 	}
 
-	const skill = skills[skillId]
+	const skill = skillTree[skillId]
 	return (
 		<Link to={paths.courseSkill({ courseId, skillId })} className={clsx('skillItem', { recommend })}>
 			{skillData ? <SkillFlask coef={skillData.coefficients} size={40} /> : null}

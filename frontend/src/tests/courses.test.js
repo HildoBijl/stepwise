@@ -1,5 +1,5 @@
 import courses from '../ui/edu/courses'
-import skills from 'step-wise/edu/skills'
+import { skillTree } from 'step-wise/edu/skills'
 import { hasDuplicates } from 'step-wise/util/arrays'
 
 describe('Check all courses:', () => {
@@ -22,7 +22,7 @@ describe('Check all courses:', () => {
 				expect(course.goals).not.toHaveLength(0)
 				expect(hasDuplicates(course.goals)).toBe(false)
 				course.goals.forEach(goal => {
-					expect(typeof skills[goal]).toBe('object')
+					expect(typeof skillTree[goal]).toBe('object')
 				})
 			})
 
@@ -30,7 +30,7 @@ describe('Check all courses:', () => {
 				expect(Array.isArray(course.priorKnowledge)).toBe(true)
 				expect(hasDuplicates(course.priorKnowledge)).toBe(false)
 				course.priorKnowledge.forEach(priorKnowledge => {
-					expect(typeof skills[priorKnowledge]).toBe('object')
+					expect(typeof skillTree[priorKnowledge]).toBe('object')
 				})
 			})
 
@@ -38,7 +38,7 @@ describe('Check all courses:', () => {
 				expect(Array.isArray(course.startingPoints)).toBe(true)
 				expect(hasDuplicates(course.startingPoints)).toBe(false)
 				course.startingPoints.forEach(startingPoint => {
-					expect(typeof skills[startingPoint]).toBe('object')
+					expect(typeof skillTree[startingPoint]).toBe('object')
 				})
 			})
 
@@ -52,7 +52,7 @@ describe('Check all courses:', () => {
 					// expect(block.goals).not.toHaveLength(0)
 					expect(hasDuplicates(block.goals)).toBe(false)
 					block.goals.forEach(goal => {
-						expect(typeof skills[goal]).toBe('object')
+						expect(typeof skillTree[goal]).toBe('object')
 					})
 				})
 			})
@@ -71,14 +71,14 @@ describe('Check all courses:', () => {
 
 			it('has no superfluous starting points', () => {
 				const { skillsSet } = getSkillSets(course.goals, course.priorKnowledge)
-				const desiredStartingPoints = [...skillsSet].filter(skillId => skills[skillId].prerequisites.length === 0)
+				const desiredStartingPoints = [...skillsSet].filter(skillId => skillTree[skillId].prerequisites.length === 0)
 				const superfluousStartingPoints = course.startingPoints.filter(skillId => !desiredStartingPoints.includes(skillId))
 				expect(superfluousStartingPoints).toHaveLength(0)
 			})
 
 			it('has no missing prior knowledge or starting points', () => {
 				const { skillsSet } = getSkillSets(course.goals, course.priorKnowledge)
-				const desiredStartingPoints = [...skillsSet].filter(skillId => skills[skillId].prerequisites.length === 0)
+				const desiredStartingPoints = [...skillsSet].filter(skillId => skillTree[skillId].prerequisites.length === 0)
 				const basicSkillsNotDefinedAsStartingPoint = desiredStartingPoints.filter(skillId => !course.startingPoints.includes(skillId))
 				expect(basicSkillsNotDefinedAsStartingPoint).toHaveLength(0)
 			})
@@ -138,7 +138,7 @@ function addToSkillSets(skillId, goals, priorKnowledge, skillsSet, priorKnowledg
 	}
 
 	// Recursively add prerequisites.
-	const skill = skills[skillId]
+	const skill = skillTree[skillId]
 	if (!skill)
 		throw new Error(`Invalid skill: could not find "${skillId}" when processing course data.`)
 	if (skill.prerequisites)

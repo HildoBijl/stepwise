@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Course(props) {
 	// Load in relevant data about the course.
 	const { courseId, course, overview, analysis } = useCourseData()
-	const recommendation = analysis.recommendation
+	const recommendation = analysis?.recommendation
 	const hasRecommendation = !!recommendation
 	const recommendationBlock = overview.priorKnowledge.includes(recommendation) ? -1 : overview.blocks.findIndex(blockList => blockList.includes(recommendation))
 

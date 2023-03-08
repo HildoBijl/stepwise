@@ -6,7 +6,7 @@ import { alpha } from '@material-ui/core/styles/colorManipulator'
 import Box from '@material-ui/core/Box'
 import Tooltip from '@material-ui/core/Tooltip'
 
-import skills from 'step-wise/edu/skills'
+import { skillTree } from 'step-wise/edu/skills'
 
 import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routing'
@@ -87,7 +87,7 @@ export default function Tile({ course, skillsTotal, skillsDone, recommendation }
 			tooltip = 'Je beheerst alle vaardigheden. Ga naar de vrij-oefenen-modus.'
 			break
 		default:
-			tooltip = `Direct oefenen: ${skills[recommendation].name}`
+			tooltip = `Direct oefenen: ${skillTree[recommendation].name}`
 			break
 	}
 

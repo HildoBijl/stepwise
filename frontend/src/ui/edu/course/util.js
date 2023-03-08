@@ -1,4 +1,4 @@
-import skills from 'step-wise/edu/skills'
+import { skillTree } from 'step-wise/edu/skills'
 
 import { isPracticeNeeded } from '../skills/util'
 
@@ -18,15 +18,15 @@ export function getOverview(courseSetup) {
 		return blockSet
 	})
 
-	// Sort the prior knowledge by the order of the skills object. This prevents some funky situations when later on we encounter a prior-knowledge-skill that is a subskills of a skill an earlier-encountered skill.
-	const allSkillIds = Object.keys(skills)
+	// Sort the prior knowledge by the order of the skills object. This prevents some funky situations when later on we encounter a prior-knowledge-skill that is a subskills of a skill an earlier-encountered prior knowledge skill.
+	const allSkillIds = Object.keys(skillTree)
 	const indices = priorKnowledge.map(skillId => allSkillIds.indexOf(skillId)).sort((a, b) => a - b)
 	const priorKnowledgeSorted = indices.map(index => allSkillIds[index])
+	// ToDo: implement sort-by-index.
 
 	// Return all sets as arrays.
 	return {
-		// priorKnowledge: [...priorKnowledgeSet], // Using the prior knowledge set puts the prior knowledge skills in the order which they're encountered in. This results in some weird situations where later on we encounter a prerequisite of an earlier prior knowledge skill. So it's better not to use it.
-		priorKnowledge: priorKnowledgeSorted, // Use the prior knowledge sorted according to the skill tree file instead. It's cleaner. Optionally, we could traverse the tree to see which prior knowledge skills are children of which other prior knowledge skills, but that's computationally more of a challenge.
+		priorKnowledge: priorKnowledgeSorted, // Use the prior knowledge sorted according to the skill tree file instead.
 		goals: courseSetup.goals,
 		blocks: blockSets.map(blockSet => [...blockSet]),
 		course: [...courseSet],
@@ -46,7 +46,7 @@ function addToSkillSets(skillId, priorKnowledge, courseSet, blockSet, priorKnowl
 	}
 
 	// Recursively add prerequisites.
-	const skill = skills[skillId]
+	const skill = skillTree[skillId]
 	if (!skill)
 		throw new Error(`Invalid skill: could not find "${skillId}" when processing course data.`)
 	if (skill.prerequisites)
@@ -65,7 +65,7 @@ export function getAnalysis(overview, skillsData) {
 
 	// Check if there are still undefined practiceNeeded. Then not all data is loaded yet. Return undefined as recommendation.
 	if (overview.all.some(skillId => practiceNeeded[skillId] === undefined))
-		return { practiceNeeded }
+		return undefined
 
 	// Check for possible recommendations: first for work needed in prior knowledge and then for work needed in the course skills.
 	let recommendation = overview.priorKnowledge.find(skillId => practiceNeeded[skillId] === 2)
@@ -105,7 +105,7 @@ function checkPracticeNeeded(skillId, skillsData = {}, priorKnowledge, result, b
 	result[skillId] = practiceNeeded
 
 	// Store, and recursively add prerequisites.
-	const skill = skills[skillId]
+	const skill = skillTree[skillId]
 	if (!skill)
 		throw new Error(`Invalid skill: could not find "${skillId}" when processing course data.`)
 	if (!isPriorKnowledge && skill.prerequisites)

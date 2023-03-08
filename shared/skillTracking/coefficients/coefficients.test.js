@@ -1,8 +1,9 @@
+const { compareNumbers } = require('../../util/numbers')
 const { compareNumberArrays } = require('../../util/arrays')
 
 const { ensureCoef, getOrder, normalize } = require('./fundamentals')
 const { getPDF } = require('./distributions')
-const { getEV, getMoment } = require('./moments')
+const { getEV, getVariance, getMoment } = require('./moments')
 const { merge, mergeElementwise } = require('./merging')
 const { smoothenWithFactor } = require('./smoothing')
 
@@ -45,10 +46,10 @@ describe('Check distribution functions:', () => {
 	describe('getPDF', () => {
 		it('gives a correct PDF', () => {
 			const pdf = getPDF([0, 0, 1, 0]) // 12*x^2*(1-x).
-			expect(() => pdf(-1)).toThrow()
-			expect(() => pdf(2)).toThrow()
+			expect(pdf(-1)).toBe(0)
 			expect(pdf(0)).toBe(0)
 			expect(pdf(1)).toBe(0)
+			expect(pdf(2)).toBe(0)
 			expect(pdf(0.5)).toBe(1.5)
 		})
 	})
@@ -75,8 +76,8 @@ describe('Check moment functions:', () => {
 	})
 	describe('getVariance', () => {
 		it('gives correct values', () => {
-			expect(getVariance([0, 1])).toBe(1 / 18)
-			expect(getVariance([0, 0, 1, 0])).toBe(1 / 25)
+			expect(compareNumbers(getVariance([0, 1]), 1 / 18)).toBe(true)
+			expect(compareNumbers(getVariance([0, 0, 1, 0]), 1 / 25)).toBe(true)
 		})
 	})
 })

@@ -64,7 +64,7 @@ const epsilon = 1e-12
 module.exports.epsilon = epsilon
 
 // compareNumbers checks for two numbers if they are close enough (within margin epsilon, absolutely or relatively) to be considered equal.
-compareNumbers = (a, b) => {
+function compareNumbers(a, b) {
   if (Math.abs(a - b) < epsilon)
     return true
   if (Math.abs(b) > epsilon && Math.abs((a - b) / b) < epsilon)

@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Block({ landscape, courseId, skillIds, active, toggleActive, name, number, isPriorKnowledge, analysis }) {
 	const classes = useStyles({ landscape, active })
-	const numCompleted = count(skillIds, (skillId) => analysis.practiceNeeded[skillId] === 0)
+	const numCompleted = analysis ? count(skillIds, (skillId) => analysis.practiceNeeded[skillId] === 0) : 0
 
 	return (
 		<Box boxShadow={1} className={clsx(classes.blockBox, 'blockBox', { active, landscape, portrait: !landscape })}>

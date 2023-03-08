@@ -35,7 +35,7 @@ function ensureBoolean(param) {
 module.exports.ensureBoolean = ensureBoolean
 
 // deepEquals checks whether two objects are equal. It does this iteratively: if the parameters are objects or arrays, these are recursively checked.
-function deepEquals(a, b) {
+function deepEquals(a, b, objectList = []) {
 	// Check reference equality.
 	if (a === b)
 		return true

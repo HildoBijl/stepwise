@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import { CheckCircle as SuccessIcon, Info as InfoIcon, TrendingFlat as RightArrow, VerticalAlignBottom as DownArrow } from '@material-ui/icons'
 
-import skills from 'step-wise/edu/skills'
+import { skillTree } from 'step-wise/edu/skills'
 
 import { usePrevious } from 'util/react'
 import { linkStyle } from 'ui/theme'
@@ -36,7 +36,7 @@ function SkillNotification() {
 			return <NotificationBar type="warning">De vaardigheid die je nu probeert te oefenen is niet onderdeel van de cursus <Link to={paths.course({ courseId })}>{course.name}</Link>.</NotificationBar>
 		if (recommendation === strFreePractice)
 			return <NotificationBar type="warning">De vaardigheid die je nu probeert te oefenen is geen onderdeel van de cursus <Link to={paths.course({ courseId })}>{course.name}</Link>. Als je wilt oefenen voor deze cursus, dan kun je het beste naar de <Link to={paths.freePractice({ courseId })}>vrij-oefenen-modus</Link> gaan.</NotificationBar>
-		return <NotificationBar type="warning">De vaardigheid die je nu probeert te oefenen is niet onderdeel van de cursus <Link to={paths.course({ courseId })}>{course.name}</Link>. Als je wilt oefenen voor deze cursus, dan kun je beter bezig gaan met <Link to={paths.courseSkill({ courseId, skillId: recommendation })}>{skills[analysis.recommendation].name}</Link>.</NotificationBar>
+		return <NotificationBar type="warning">De vaardigheid die je nu probeert te oefenen is niet onderdeel van de cursus <Link to={paths.course({ courseId })}>{course.name}</Link>. Als je wilt oefenen voor deze cursus, dan kun je beter bezig gaan met <Link to={paths.courseSkill({ courseId, skillId: recommendation })}>{skillTree[analysis.recommendation].name}</Link>.</NotificationBar>
 	}
 
 	// Check if there is a recommendation. If not, not all data is loaded yet.
@@ -51,13 +51,13 @@ function SkillNotification() {
 		case 0: // This skill is already mastered. Show a recommendation.
 			if (recommendation === strFreePractice)
 				return <NotificationBar type="info">Je beheerst deze vaardigheid al goed! Het is effectiever voor de cursus <Link to={paths.course({ courseId })}>{course.name}</Link> om met de <Link to={paths.freePractice({ courseId })}>vrij-oefenen-modus</Link> bezig te gaan.</NotificationBar>
-			return <NotificationBar type="info">Je beheerst deze vaardigheid al goed! Het is effectiever voor de cursus <Link to={paths.course({ courseId })}>{course.name}</Link> als je <Link to={paths.courseSkill({ courseId, skillId: recommendation })}>{skills[recommendation].name}</Link> oefent.</NotificationBar>
+			return <NotificationBar type="info">Je beheerst deze vaardigheid al goed! Het is effectiever voor de cursus <Link to={paths.course({ courseId })}>{course.name}</Link> als je <Link to={paths.courseSkill({ courseId, skillId: recommendation })}>{skillTree[recommendation].name}</Link> oefent.</NotificationBar>
 
 		case 1: // This skill is reasonable to practice. Don't show a warning.
 			return null
 
 		case 2: // This skill is not mastered. Find a prior skill that requires practice. If there is none, this is a good skill to practice.
-			return <NotificationBar type="warning">{skillId === undefined ? 'Je bent nog niet toe aan vrij oefenen op het eindniveau.' : 'Je hebt nog niet alle voorkennis voor deze vaardigheid.'} Het is handiger om eerst <Link to={paths.courseSkill({ courseId, skillId: recommendation })}>{skills[recommendation].name}</Link> te oefenen.</NotificationBar>
+			return <NotificationBar type="warning">{skillId === undefined ? 'Je bent nog niet toe aan vrij oefenen op het eindniveau.' : 'Je hebt nog niet alle voorkennis voor deze vaardigheid.'} Het is handiger om eerst <Link to={paths.courseSkill({ courseId, skillId: recommendation })}>{skillTree[recommendation].name}</Link> te oefenen.</NotificationBar>
 
 		default:
 			throw new Error(`Impossible case.`)
@@ -152,8 +152,8 @@ function useSkillModal() {
 	if (skillsDataLoaded) {
 		if (adviceType === 0) {
 			const message = recommendation === strFreePractice ?
-				<>Je beheerst nu <Link to={paths.courseSkill({ courseId, skillId })} onClick={closeModal}>{skills[skillId].name}</Link>, en daarmee alle vaardigheden van <Link to={paths.course({ courseId })} onClick={closeModal}>{course.name}</Link>! Je kunt nog verder oefenen in de <Link to={paths.freePractice({ courseId })} onClick={closeModal}>vrij-oefenen-modus</Link>.</> :
-				<>Je beheerst nu <Link to={paths.courseSkill({ courseId, skillId })} onClick={closeModal}>{skills[skillId].name}</Link>! Tijd om verder te gaan met het volgende onderwerp: <Link to={paths.courseSkill({ courseId, skillId: recommendation })} onClick={closeModal}>{skills[recommendation].name}</Link>.</>
+				<>Je beheerst nu <Link to={paths.courseSkill({ courseId, skillId })} onClick={closeModal}>{skillTree[skillId].name}</Link>, en daarmee alle vaardigheden van <Link to={paths.course({ courseId })} onClick={closeModal}>{course.name}</Link>! Je kunt nog verder oefenen in de <Link to={paths.freePractice({ courseId })} onClick={closeModal}>vrij-oefenen-modus</Link>.</> :
+				<>Je beheerst nu <Link to={paths.courseSkill({ courseId, skillId })} onClick={closeModal}>{skillTree[skillId].name}</Link>! Tijd om verder te gaan met het volgende onderwerp: <Link to={paths.courseSkill({ courseId, skillId: recommendation })} onClick={closeModal}>{skillTree[recommendation].name}</Link>.</>
 			contents = (
 				<div className={clsx(classes.skillModal, 'masteryModal')}>
 					<div className="title">Geweldig!</div>
@@ -171,7 +171,7 @@ function useSkillModal() {
 				<div className={clsx(classes.skillModal, 'repeatModal')}>
 					<div className="title">Wacht even ...</div>
 					<div className="icon"><InfoIcon /></div>
-					<div className="message">Het lijkt erop dat je de sub-vaardigheid <Link to={paths.courseSkill({ courseId, skillId: recommendation })} onClick={closeModal}>{skills[recommendation].name}</Link> nog niet voldoende beheerst. Het is handig om hier eerst los wat mee te oefenen.</div>
+					<div className="message">Het lijkt erop dat je de sub-vaardigheid <Link to={paths.courseSkill({ courseId, skillId: recommendation })} onClick={closeModal}>{skillTree[recommendation].name}</Link> nog niet voldoende beheerst. Het is handig om hier eerst los wat mee te oefenen.</div>
 					<div className="message">Maak je geen zorgen: je opgave blijft bewaard en je kunt altijd nog terugkomen.</div>
 					<div className="buttons">
 						<Button variant="contained" className="button" startIcon={<div className="rotate"><RightArrow /></div>} onClick={goToRecommendation} color="primary">Ga een stapje terug</Button>
@@ -197,6 +197,10 @@ function useSkillModal() {
 export function useSkillAdvice() {
 	const { overview, analysis } = useCourseData()
 	const skillId = useSkillId()
+
+	// If there is no analysis data, then do not give advice.
+	if (!analysis)
+		return {}
 
 	// If there is no skillId, then we are in free practice mode.
 	if (!skillId) {
@@ -232,7 +236,7 @@ export function useSkillAdvice() {
 // findPriorSkillToPractice takes a skillId and a practiceNeeded object, and determines which prior skill should be practiced before the current skill. For this, it walks through the prerequisites and checks if any of them require work. This is done recursively. With "require work" we mean that practiceNeeded equals 2. If the includeDoubtfulCases parameter is set to true, also practiceNeeded equaling 1 is included.
 function findPriorSkillToPractice(skillId, practiceNeeded, includeDoubtfulCases = false) {
 	// Find the first prior skill that requires work.
-	const recommendation = skills[skillId].prerequisites.find(prerequisiteId => practiceNeeded[prerequisiteId] === 2 || (includeDoubtfulCases && practiceNeeded[prerequisiteId] === 1))
+	const recommendation = skillTree[skillId].prerequisites.find(prerequisiteId => practiceNeeded[prerequisiteId] === 2 || (includeDoubtfulCases && practiceNeeded[prerequisiteId] === 1))
 
 	// If no prior skill requires work, return that we best practice the current skill.
 	if (!recommendation)
@@ -245,7 +249,7 @@ function findPriorSkillToPractice(skillId, practiceNeeded, includeDoubtfulCases 
 // findNextSkillToPractice takes a skillId and a practiceNeeded object and determines which next skill should be practice upon completion of the current skill. For this, it studies the continuation skills and sees if any require work. (Or even continuations of those continuations, if the continuations are done already.) It then also checks their children, to see if any of those still require works. The most suitable option (that is, the first in the general skills list) is returned. If nothing suitable is found, undefined is returned.
 function findNextSkillToPractice(skillId, practiceNeeded) {
 	// Find the first continuation within the course that still requires practice. If there is none, do a depth-first search on the continuations of the continuations, to see if anything suitable pops up.
-	const continuations = skills[skillId].continuations.filter(continuationId => practiceNeeded[continuationId] !== undefined)
+	const continuations = skillTree[skillId].continuations.filter(continuationId => practiceNeeded[continuationId] !== undefined)
 	let recommendation = continuations.find(continuationId => (practiceNeeded[continuationId] === 1 || practiceNeeded[continuationId] === 2))
 	if (!recommendation)
 		return continuations.find(continuationId => findNextSkillToPractice(continuationId, practiceNeeded))

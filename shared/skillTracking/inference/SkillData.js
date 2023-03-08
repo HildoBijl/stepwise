@@ -6,7 +6,7 @@ const { smoothen } = require('../coefficients')
 const { applyInferenceForSkill } = require('./inference')
 
 class SkillData {
-	constructor(skill, rawSkillData, skillDataSet) {
+	constructor(skill, rawSkillData, skillDataSet, cache = {}) {
 		// Check that all the data is present.
 		if (!skill || !isBasicObject(skill))
 			throw new Error(`Invalid skill: expected a skill object from the skill tree, but received something of type "${typeof skill}".`)
@@ -14,12 +14,14 @@ class SkillData {
 			throw new Error(`Invalid raw skill data: expected a raw skill data object for skill "${skill.id}" but received something of type "${typeof rawSkillData}".`)
 		if (!skillDataSet || !isBasicObject(skillDataSet))
 			throw new Error(`Invalid skill data set: expected a skill data set when setting up the Skill Data for skill "${skill.id}" but received something of type "${typeof skillDataSet}".`)
+		if (!isBasicObject(cache))
+			throw new Error(`Invalid skill data cache: expected a basic object but received something of type "${typeof cache}".`)
 
 		// Store all data.
 		this._skill = skill
 		this._rawData = rawSkillData
 		this._skillDataSet = skillDataSet
-		this._cache = {}
+		this._cache = cache
 	}
 
 	get skill() {
@@ -62,8 +64,12 @@ class SkillData {
 		return extractOrThrow(this, 'numPracticed')
 	}
 
-	get lastPracticed() {
+	get coefficientsOn() {
 		return extractOrThrow(this, 'coefficientsOn')
+	}
+
+	get lastPracticed() {
+		return this.coefficientsOn
 	}
 
 	get rawCoefficients() {
@@ -149,7 +155,7 @@ class SkillData {
 
 		// On an invalid cache, recalculate. Then return the result.
 		if (!this.isHighestCacheValid()) {
-			this._cache.coefficients = {
+			this._cache.highest = {
 				coefficients: applyInferenceForSkill(this.skill, (skillId) => this.getSkillData(skillId), true),
 				on: new Date(),
 			}
@@ -185,6 +191,10 @@ class SkillData {
 		if (!skillData)
 			throw new Error(`Invalid raw skill data: tried to access information about the skill "${skillId}" but the skill data for this skill is unknown.`)
 		return skillData
+	}
+
+	cloneForSkillDataSet(skillDataSet) {
+		return new SkillData(this._skill, this._rawData, skillDataSet, this._cache)
 	}
 }
 module.exports.SkillData = SkillData

@@ -1,7 +1,7 @@
 const { ensureArray } = require('../../util/arrays')
 const { ensureSetup } = require('../../skillTracking')
 
-const skills = require('./index')
+const { skillTree } = require('./skillTree')
 
 // ensureSkillId checks whether a skill ID exists and throws an error if it doesn't. If it doesn't precisely match a skill ID, it does a case insensitive match. It returns the correct skill ID. (An undefined skillId can be allowed if the second parameter is set to true, in which case it is passed through.)
 function ensureSkillId(skillId, allowUndefined = false) {
@@ -12,12 +12,12 @@ function ensureSkillId(skillId, allowUndefined = false) {
 		throw new Error(`Missing skill ID: expected a string but received something of type "${typeof skillId}".`)
 
 	// Direct match?
-	if (skills[skillId])
+	if (skillTree[skillId])
 		return skillId
 
 	// Case insensitive match?
 	const skillIdLower = skillId.toLowerCase()
-	const adjustedSkillId = Object.keys(skills).find(currSkillId => currSkillId.toLowerCase() === skillIdLower)
+	const adjustedSkillId = Object.keys(skillTree).find(currSkillId => currSkillId.toLowerCase() === skillIdLower)
 	if (adjustedSkillId)
 		return adjustedSkillId
 
@@ -38,7 +38,7 @@ function includePrerequisites(skillIds) {
 	skillIds = ensureSkillIds(skillIds)
 	skillIds.forEach(skillId => {
 		result.add(skillId)
-		skills[skillId].prerequisites.forEach(prerequisite => result.add(prerequisite))
+		skillTree[skillId].prerequisites.forEach(prerequisite => result.add(prerequisite))
 	})
 	return [...result]
 }
@@ -49,8 +49,8 @@ function includePrerequisitesAndLinks(skillIds) {
 	skillIds = ensureSkillIds(skillIds)
 	skillIds.forEach(skillId => {
 		result.add(skillId)
-		skills[skillId].prerequisites.forEach(prerequisite => result.add(prerequisite))
-		skills[skillId].linkedSkills.forEach(linkedSkill => result.add(linkedSkill))
+		skillTree[skillId].prerequisites.forEach(prerequisite => result.add(prerequisite))
+		skillTree[skillId].linkedSkills.forEach(linkedSkill => result.add(linkedSkill))
 	})
 	return [...result]
 }

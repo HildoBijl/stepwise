@@ -3,7 +3,7 @@ import { gql } from '@apollo/client'
 import { useMutation, useQuery } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 
-import skills from 'step-wise/edu/skills'
+import { skillTree } from 'step-wise/edu/skills'
 import { ensureArray } from 'step-wise/util/arrays'
 
 import { useUser } from './user'
@@ -60,7 +60,7 @@ export function useSkillsQuery(skillIds) {
 	const user = useUser()
 	skillIds = ensureArray(skillIds)
 	skillIds.forEach(skillId => {
-		if (!skills[skillId])
+		if (!skillTree[skillId])
 			throw new Error(`Invalid skillId: the skillId "${skillId}" is not known.`)
 	})
 	const skip = !user || skillIds.length === 0
@@ -94,7 +94,7 @@ export function useStartExerciseMutation(skillId) {
 					} : { // When no skill is present yet, simply add it. The ID won't correspond to the one on the server, but that'll be overwritten after the next server request.
 						id: uuidv4(),
 						skillId,
-						name: skills[skillId].name,
+						name: skillTree[skillId].name,
 						currentExercise: exercise,
 						exercises: [exercise],
 						__typename: 'Exercise',

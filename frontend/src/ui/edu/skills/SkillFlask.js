@@ -5,7 +5,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 
 import { numberArray } from 'step-wise/util/arrays'
 import { boundTo, interpolate } from 'step-wise/util/numbers'
-import { getEV, getFMax } from 'step-wise/skillTracking'
+import { getEV, getMaxLikelihood } from 'step-wise/skillTracking'
 
 import { mix, shift, toCSS } from 'util/colors'
 import { useUniqueNumber } from 'util/react'
@@ -92,5 +92,5 @@ function partToColor(part) {
 }
 
 function coefToFading(coef) {
-	return boundTo((getFMax(coef, 10).f - colorFadingEnd) / (colorFadingStart - colorFadingEnd), 0, 1) // Based on the maximum, how much should we fade colors to grey? If the maximum is low, we want more fading.
+	return boundTo((getMaxLikelihood(coef, 10).f - colorFadingEnd) / (colorFadingStart - colorFadingEnd), 0, 1) // Based on the maximum, how much should we fade colors to grey? If the maximum is low, we want more fading.
 }

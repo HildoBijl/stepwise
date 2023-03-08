@@ -5,8 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import { noop } from 'step-wise/util/functions'
 import { toFO, toSO } from 'step-wise/inputTypes'
-import skills from 'step-wise/edu/skills'
-import { ensureSkillId } from 'step-wise/edu/skills/util'
+import { skillTree, ensureSkillId } from 'step-wise/edu/skills'
 import { getNewRandomExercise } from 'step-wise/edu/exercises/util/selection'
 
 import { useUserResult, useUser } from 'api/user'
@@ -40,7 +39,7 @@ function SkillForGroup() {
 	// Load in the skill and its exercises.
 	const group = useActiveGroup()
 	const skillId = useSkillId()
-	const skill = skills[skillId]
+	const skill = skillTree[skillId]
 	const hasExercises = skill.exercises.length > 0
 	const [requestedNextExercise, setRequestedNextExercise] = useState(false)
 
@@ -106,7 +105,7 @@ function SkillForGroup() {
 function SkillForUser() {
 	// Load in the skill and its exercises.
 	const skillId = useSkillId()
-	const skill = skills[skillId]
+	const skill = skillTree[skillId]
 	const hasExercises = skill.exercises.length > 0
 
 	// Load the exercise the user has open.
@@ -159,7 +158,7 @@ function SkillForUser() {
 
 function SkillForStranger() {
 	const skillId = useSkillId()
-	const skill = skills[skillId]
+	const skill = skillTree[skillId]
 	const hasExercises = skill.exercises.length > 0
 
 	// Use a state to track exercise data. Generate new data on a change in skill ID.
@@ -214,7 +213,7 @@ function SkillForStranger() {
 
 export function SkillName() {
 	const skillId = useSkillId() // ToDo later: add error handling if skill ID is not known.
-	const skill = skills[skillId]
+	const skill = skillTree[skillId]
 	return <TitleItem name={skill?.name || 'Unknown skill'} />
 }
 

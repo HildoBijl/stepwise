@@ -249,7 +249,7 @@ function addSetupFromSteps(data, overwrite = false) {
 	if (!data.steps)
 		throw new Error(`Invalid addSetupFromSteps call: expected a steps parameter in the exercise data, but this was not present.`)
 	if (!data.setup || overwrite)
-		data.setup = and(data.steps.flat().filter(x => !!x))
+		data.setup = and(...data.steps.flat().filter(x => !!x))
 	return data
 }
 module.exports.addSetupFromSteps = addSetupFromSteps

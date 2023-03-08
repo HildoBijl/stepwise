@@ -22,7 +22,7 @@ const data = {
 		loads: FBDComparison,
 	},
 }
-addSetupFromSteps(and)
+addSetupFromSteps(data)
 
 function generateState() {
 	return {
