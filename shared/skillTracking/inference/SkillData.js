@@ -45,15 +45,7 @@ class SkillData {
 	}
 
 	getLinkedSkills() {
-		if (!this.links)
-			return []
-		if (typeof this.links === 'string')
-			return [this.links]
-		if (Array.isArray(this.links))
-			return this.links
-		if (isBasicObject(this.links))
-			return this.links.skills
-		throw new Error(`Invalid skill links: cannot determine the linked skills for the links property of skill "${this.skillId}".`)
+		return this.skill.linkedSkills
 	}
 
 	get rawData() {

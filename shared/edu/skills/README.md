@@ -1,7 +1,5 @@
 # The Step-Wise skill tree
 
-ToDo: this ReadMe needs to be updated after the latest skill tracking toolbox update.
-
 The fundamental idea behind Step-Wise is the skill tree. It shows the relationships between skills. To see how this works, examine the following example skills:
 
 - **Determine operation order (skill `A`):** determine what comes first, addition or multiplication (and similarly for other operations).
@@ -26,43 +24,42 @@ Each skill has corresponding exercises. Exercises for basic skills generally do 
 
 Consider an exercise of a composite skill. For example, "Calculate `3*9 + 8*7`." This exercise corresponds to skill `X` (calculate composite expressions). To solve it, we have to first apply skill `A`, then apply skill `B` twice, and then apply skill `C`. You see: solving an exercise for a composite skill requires the application of multiple subskills.
 
-Every composite exercise has a *setup* defining exactly what steps need to be applied to solve the exercise. To define this setup, we use two setup functions.
+Every composite exercise has a *set-up* defining exactly what steps need to be applied to solve the exercise. To define this setup, we use two set-up functions.
 
-- **and**: writing `and(A, B, C)` means skills `A`, `B` and `C` all need to be applied to solve the exercise. Writing `and(A, 3)` means the same as `and(A, A, A)` but is considered cleaner. You can also use `and([A, B], [2, 1])` which means `and(A, A, B)`.
+- **and**: writing `and(A, B, C)` means skills `A`, `B` and `C` all need to be applied to solve the exercise.
 - **or**: writing `or(A, B, C)` means students can solve the exercise in three different ways. They can use skill `A`, `B` or `C`, or even use multiple of these skills and compare the corresponding outcomes to evaluate their own work.
+- **repeat**: writing `repeat(A, 3)` is equivalent to writing `and(A, A, A)`. It requires the successive execution of the given skill, with the number indicating the number of times.
 
-So for the exercise of calculating `3*9 + 8*7` the setup is `and([A, B, C], [1, 2, 1])`.
+So for the exercise of calculating `3*9 + 8*7` the set-up is `and(A, B, B, C)`, or alternatively `and(A, repeat(B, 2), C)`.
 
-When defining the setup, the order does not matter. We could have also written the setup as `and(and(C, B), and(A, B))` which would have the same effect. (Yes, you can nest functions to your heart's desire.) Nevertheless, it is customary to write the setup in the same order as the steps need to be executed, to keep the code easier to understand.
+When defining the set-up, the order does not matter. We could have also written the set-up as `and(and(C, B), and(A, B))` which would have the same effect. (Yes, you can nest functions to your heart's desire.) Nevertheless, it is customary to write the set-up in the same order as the steps need to be executed, to keep the code easier to understand.
 
 
-## The setup for composite skills
+## The set-up for composite skills
 
-Just like exercises, composite skills also have a setup. This setup defines which subskills (like `A`, `B` and `C`) are needed to solve an "average" exercise. However, you may be wondering, "Sometimes we get an exercise like `42 + 8*2` with setup `and(A, B, C)`, but sometimes we get an exercise like `3*9 + 8*7` with setup `and(A, B, B, C)`. How does this work?" And you are correct: the problem with skills is that there is some variability involved.
+Just like exercises, composite skills also have a set-up. This set-up defines which subskills (like `A`, `B` and `C`) are needed to solve an "average" exercise. However, you may be wondering, "Sometimes we get an exercise like `42 + 8*2` with set-up `and(A, B, C)`, but sometimes we get an exercise like `3*9 + 8*7` with set-up `and(A, B, B, C)`. How does this work?" And you are correct: the problem with skills is that there is some variability involved.
 
-To accomodate for this, we have two additional setup functions for skills. These functions do *not* work (nor would they be appropriate) for exercises, so keep that in mind. Also, these functions must *always* be used inside an `and` or `or` function. They are the following.
+To accomodate for this, we have two additional stochastic (non-deterministic) set-up functions for skills. These functions do *not* work (nor would they be appropriate) for exercises, so keep that in mind.
 
 - **pick**: writing `pick([A, B, C])` will randomly pick one of the given skills. This is useful if an exercise sometimes requires subskill A, sometimes subskill B and sometimes subskill C, but it varies per exercise. This function also has extra possibilities.
-	- Pick multiple: writing `and(pick([A, B, C], 2))` will pick two skills out of the set (without repeats). So in this case a third of the exercises uses `and(A, B)`, a third of the exercises uses `and(A, C)` and a third of the exercises uses `and(B, C)`. By default, only one skill is picked.
-	- Add weights: writing `or(pick([A, B, C, D], 2, [1, 1, 2, 2]))` will make it much more likely that `C` and `D` are chosen for `or(C,D)`. Other combinations are less likely. By default equal weights are used.
-- **part**: writing `and(part(A, 0.5), B)` means skill `A` is used only half the times. So half the time it is `and(A, B)` and the other half of the times it is only `and(B)` which equates to `B`.
+	- Pick multiple: writing `pick([A, B, C], 2)` will pick two skills out of the set (without repeats). So in this case a third of the exercises uses `and(A, B)`, a third of the exercises uses `and(A, C)` and a third of the exercises uses `and(B, C)`. By default, only one skill is picked.
+	- Add weights: writing `pick([A, B, C, D], 2, [1, 1, 2, 2])` will make it much more likely that `C` and `D` are chosen. Other combinations are less likely. By default uniform weights are used.
+- **part**: writing `and(part(A, 0.5), B)` means skill `A` is used only half the times. So half the time it is `and(A, B)` and the other half of the times it is only `and(B)` which equates to `B`. Identically, writing `or(part(A, 0.5), B)` means that half the time we have `or(A, B)` and the other half of the time it is `or(B)` which equates to `B`. Note that the `part` function must *always* be used inside an `and` or `or` function, or it would be meaningless otherwise.
 
-For our example skill, we could hence define the setup in either of the following ways. (And there are plenty of more convoluted possibilities.)
+For our example skill, we could hence define the set-up in either of the following ways. (And there are plenty of more convoluted possibilities.)
 
 - `and(A, pick([B, repeat(B, 2)]), C)`
 - `and(A, B, part(B, 0.5), C)`
-- `pick(and(A, B, C), and(A, repeat(B, 2), C))`
+- `pick(and(A, B, C), and(A, B, B, C))`
 
-Note that in this last case the `pick` operator also exists outside of an `and`/`or` operator, which is an exception. If a `pick` operator only selects one element, this is OK. If it picks multiple, the algorithm throws an error.
-
-Some people mix up the `or` and the `pick` operator. Note that these are in fact *very different* operators. Using `or(A, B)` in an exercise (or skill) setup means that the exercise can be solved using either of the skills `A` or `B`: students are free to pick. However, using `pick(A, B)` in a skill setup means there are multiple exercises. Half of these exercises require skill `A` to be used and they *cannot be solved* with skill `B`. (And vice versa for the other half.) Keep this distinction in mind.
+Some people mix up the `or` and the `pick` operator. Note that these are in fact *very different* operators. Using `or(A, B)` in an exercise (or skill) set-up means that the exercise can be solved using either of the skills `A` or `B`: students are free to pick, and they can even use both methods to check their work. However, using `pick(A, B)` in a skill set-up means there are multiple exercises. Half of these exercises require skill `A` to be used and they *cannot be solved* with skill `B`. (And vice versa for the other half.) Keep this distinction in mind.
 
 
 ## Requirements for the skill tree
 
-Based on the setup of each skill, Step-Wise determines the *prerequisites* for that skill. This list of prerequisites simply consists of all the skills that are present in the setup. So the prerequisites for skill `X` are `A`, `B` and `C`. These are all the skills that a student should master before trying to tackle this skill `X`. (If a subskill like `A` should not be counted as a prerequisite for `X`, then it shouldn't be in the setup in the first place.)
+Based on the set-up of each skill, Step-Wise determines the *prerequisites* for that skill. This list of prerequisites simply consists of all the skills that are present in the set-up. So the prerequisites for skill `X` are `A`, `B` and `C`. These are all the skills that a student should master before trying to tackle this skill `X`. (If a subskill like `A` should not be counted as a prerequisite for `X`, then it shouldn't be in the set-up in the first place.)
 
-Based on all the prerequisites, we can set up a huge learning tree. In this tree, we draw all skills and connect each skill (like `X`) with its prerequisite skills (`A`, `B`, `C`) through lines. This can result in a very complex hierarchy. There are a few rules/guidelines for the setup of this tree.
+Based on all the prerequisites, we can set up a huge learning tree. In this tree, we draw all skills and connect each skill (like `X`) with its prerequisite skills (`A`, `B`, `C`) through lines. This can result in a very complex hierarchy. There are a few rules/guidelines for the set-up of this tree.
 
 - **Rule: no cycles.** It may never be that a skill A is a prerequisite for a skill B, which in turn is a prerequisite for a skill C, which then is required for skill A. (Or for a longer cycle to be present.) Automated testing checks for cycles and stops a deploy if this may happen.
 - **Guideline: 3-4 prerequisites per skill.** Ideally a skill has three or four direct prerequisites. Two or five prerequisites may at times be okay too. In special cases it is possible that a skill has one direct prerequisite: exercises require this skill to be repeated multiple times then. However, the following should *not* happen.
@@ -87,14 +84,14 @@ There are actually three options here:
 - If the skills are *distinct enough* then just keep them separate. This of course works, but it does require a student who already mastered skill `P` to start from scratch with skill `Q`. It may result in Step-Wise recommending a couple of boring and seemingly pointless exercises, which is not ideal.
 - If the situation falls in-between, it is possible to *link* the skills.
 
-To add links, just add a parameter to the skill description object (see the skill tree below) like `links: [{ skill: "calculateWithEfficiency", correlation: 0.8 }, { skill: "someOtherSkill", correlation: 0.4 }]`. It is also possible to provide only a single object, without an array. Or you can just provide a string, in which case a default correlation of `0.5` is assumed. Note that links are always bidirectional: if you define `A` to be linked with `B`, then automatically (you don't have to indicate this) `B` is linked with `A`. If you do define a link the other way, and the correlation differs, an error is thrown.
+To add links, just add a parameter to the skill description object (see the skill tree below) like `links: [{ skills: 'summation', order: 4 }, { skills: ['someOtherSkill1', 'someOtherSkill2'], correlation: 0.5 }]`. Note: an order of `n` represents a correlation of `n/(n+2)`, so a higher order means a stronger correlation. On a correlation, the closest possible order is automatically calculated. It is also possible to provide only a single object, without an array. Or you can just provide a string, in which case a default correlation of `0.5` (order `2`) is assumed. Note that links are always bidirectional: if you define `A` to be linked with `B`, then automatically (you don't have to indicate this) `B` is linked with `A`. If you do define a link the other way, and the correlation differs, an error is thrown.
 
 What does this correlation mean though? To see that, we do a thought experiment. Assume skills `A` and `B` are linked with `0.6` correlation. Also assume that we have determined that the student has a 100% chance of succeeding at skill `A`, but no data is known yet on skill `B`. That is, skill `B` has a chance of success of 50% without any additional data. Due to this link, however, we pull this chance by a factor of `0.6` towards `p(A)`. So in this example the success rate for `B` will be estimated as 80%. In practice, mathematics-wise, this comes down to the distribution of skill `A` being smoothened with decay ratio `0.6` before being merged into the distribution of skill `B`.
 
 
 ## Programming the skill tree
 
-Currently the skill tree is hard-coded in the `shared/edu/skills/index.js` file. This file exports a large object with all the skills known to Step-Wise. The setup of the object is as follows.
+Currently the skill tree is hard-coded in the `shared/edu/skills/skillTree.js` file. This file exports a large `skillTree` object with all the skills known to Step-Wise. The set-up of the object is as follows.
 
 	{
 		summation: {
@@ -117,7 +114,7 @@ Currently the skill tree is hard-coded in the `shared/edu/skills/index.js` file.
 		},
 	}
 
-Note that basic skills do not have a setup (since they have no prerequisites) but composite skills do. Also note that we refer to the ID (generally written in camel case) when mentioning a skill. The name is there only for display purposes. 
+Note that basic skills do not have a set-up (since they have no prerequisites) but composite skills do. Also note that we refer to the ID (generally written in camel case) when mentioning a skill. The name is there only for display purposes. 
 
 The order in which skills appear inside the skills file is important! When Step-Wise recommends skills to students, it starts with the first one mentioned in the skills file. That is why `operationOrder` is placed later on in the file (even though it's the first step in most exercises): because it makes more sense for students to learn summation and multiplication first, before worrying about the order of these operations.
 

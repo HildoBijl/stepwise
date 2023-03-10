@@ -1,6 +1,8 @@
-const { and, or, repeat } = require('../../skillTracking')
+const { isBasicObject, applyToEachParameter } = require('../../util/objects')
+const { union } = require('../../util/sets')
+const { and, or, repeat, pick, part, defaultLinkOrder } = require('../../skillTracking')
 
-const skillTree = {
+let skillTree = {
 	// Testing exercises.
 	test: {
 		name: 'Testopgave',
@@ -94,7 +96,7 @@ const skillTree = {
 	},
 	multiplyDivideAllTerms: {
 		name: 'Alle termen vermenigvuldigen/delen',
-		setup: and('expandBrackets', 'multiplyDivideFractions', 'mergeSplitFractions'), // ToDo later: change into a picking function.
+		setup: and('expandBrackets', 'addRemoveFractionFactors'),
 		exercises: ['multiplyDivideAllTerms1', 'multiplyDivideAllTerms2'],
 	},
 
@@ -106,7 +108,7 @@ const skillTree = {
 	},
 	solveGeneralLinearEquation: {
 		name: 'Algemene lineaire vergelijking oplossen',
-		setup: and('simplifyFraction', 'expandBrackets', 'multiplyDivideAllTerms', 'solveBasicLinearEquation'), // ToDo later: change into a picking function.
+		setup: and(pick(['simplifyFraction', 'expandBrackets', 'multiplyDivideAllTerms'], 2), 'multiplyDivideAllTerms', 'solveBasicLinearEquation'),
 		exercises: ['solveGeneralLinearEquation1', 'solveGeneralLinearEquation2', 'solveGeneralLinearEquation3'],
 	},
 
@@ -139,6 +141,7 @@ const skillTree = {
 	solveGeneralSystemOfLinearEquations: {
 		name: 'Algemeen stelsel van lineaire vergelijkingen oplossen',
 		setup: and('solveBasicLinearEquation', 'solveGeneralLinearEquation'),
+		links: { skill: 'solveBasicSystemOfLinearEquations', correlation: 0.5 },
 		exercises: ['solveGeneralSystemOfLinearEquations1', 'solveGeneralSystemOfLinearEquations2'],
 	},
 
@@ -168,14 +171,14 @@ const skillTree = {
 	},
 	determine2DDistances: {
 		name: '2D afstanden bepalen',
-		setup: and('determine2DAngles', repeat(or('applyPythagoreanTheorem', 'applySineCosineTangent', 'applySimilarTriangles'), 2)), // ToDo later: change into a picking function.
+		setup: and('determine2DAngles', repeat(pick(['applyPythagoreanTheorem', 'applySineCosineTangent', 'applySimilarTriangles']), 2)),
 		exercises: [], // ToDo
 	},
 
 	// Basic geometry: general triangles.
 	calculateTriangle: {
 		name: 'Driehoek doorrekenen',
-		setup: and(or('determine2DAngles', 'applySineCosineTangent'), or('solveBasicLinearEquation', 'solveBasicQuadraticEquation')), // ToDo later: change into a picking function.
+		setup: and(pick(['determine2DAngles', 'applySineCosineTangent']), pick(['solveBasicLinearEquation', 'solveBasicQuadraticEquation'])),
 		exercises: ['calculateTriangleASAS', 'calculateTriangleSSAA', 'calculateTriangleASSA', 'calculateTriangleSASS', 'calculateTriangleSSAS', 'calculateTriangleSASA', 'calculateTriangleSSSA'],
 	},
 
@@ -229,12 +232,12 @@ const skillTree = {
 	// Derivatives: general derivatives.
 	findGeneralDerivative: {
 		name: 'Algemene afgeleide bepalen',
-		setup: and('applyProductRule', 'applyQuotientRule', 'applyChainRule'), // ToDo later: change into a picking function.
+		setup: pick(['applyProductRule', 'applyQuotientRule', 'applyChainRule']),
 		exercises: ['findGeneralDerivativeProductRule', 'findGeneralDerivativeQuotientRule', 'findGeneralDerivativeChainRule'],
 	},
 	findAdvancedDerivative: {
 		name: 'Geavanceerde afgeleide bepalen',
-		setup: and('findBasicDerivative', 'findGeneralDerivative', or('applyProductRule', 'applyQuotientRule', 'applyChainRule')), // ToDo later: include expandBrackets, expandPowers and rewriteLogarithms, as well as change into a picking function.
+		setup: and('findBasicDerivative', 'findGeneralDerivative', pick(['applyProductRule', 'applyQuotientRule', 'applyChainRule'])),
 		exercises: ['findAdvancedDerivativeChainOfProduct', 'findAdvancedDerivativeChainOfFraction', 'findAdvancedDerivativeProductOfChain', 'findAdvancedDerivativeFractionOfProduct', 'findAdvancedDerivativeFractionOfChain'],
 	},
 
@@ -332,7 +335,7 @@ const skillTree = {
 	},
 	gasLaw: {
 		name: 'De gaswet',
-		setup: and('calculateWithPressure', 'calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature', 'specificGasConstant', 'solveLinearEquation'), // ToDo later: use a "combinerPick(..., 3)" to pick three of the given four unit calculation skills.
+		setup: and(pick(['calculateWithPressure', 'calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature'], 2), 'specificGasConstant', 'solveLinearEquation'),
 		exercises: ['gasLawLightBulb', 'gasLawHeliumBalloon', 'gasLawDivingCylinder', 'gasLawBicyclePump', 'gasLawWeatherBalloon'],
 	},
 	recognizeProcessTypes: {
@@ -341,12 +344,12 @@ const skillTree = {
 	},
 	poissonsLaw: {
 		name: `Poisson's wet`,
-		setup: and('calculateWithTemperature', 'specificHeatRatio', 'solveExponentEquation'), // ToDo later: use "combinerPart('specificHeatRatio', 2/3)" to indicate it's not always needed.
+		setup: and(pick(['calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature']), part('specificHeatRatio', 2 / 3), pick(['solveLinearEquation', 'solveExponentEquation'], 1, [1, 2])),
 		exercises: ['poissonsLawBicyclePump', 'poissonsLawCompressor', 'poissonsLawTurbine'],
 	},
 	calculateProcessStep: {
 		name: 'Processtap doorrekenen',
-		setup: and('gasLaw', 'recognizeProcessTypes', 'poissonsLaw'), // ToDo later: use "combinerPart('poissonsLaw', 1/2)" and possibly "combinerPart('gasLaw', 3/2)" to indicate it's not always needed.
+		setup: and('gasLaw', 'recognizeProcessTypes', part('poissonsLaw', 1 / 2), part('gasLaw', 1 / 2)),
 		exercises: ['calculateProcessStepCompressor', 'calculateProcessStepDivingCylinder', 'calculateProcessStepBalloon', 'calculateProcessStepGasTurbine'],
 	},
 
@@ -357,18 +360,17 @@ const skillTree = {
 	},
 	calculateHeatAndWork: {
 		name: 'Warmte en arbeid berekenen',
-		setup: and('recognizeProcessTypes', or('calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature', 'calculateWithMass'), or('specificGasConstant', 'specificHeatRatio', 'specificHeats')),
+		setup: and('recognizeProcessTypes', pick(['calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature', 'calculateWithMass'], 2), pick(['specificGasConstant', 'specificHeatRatio', 'specificHeats'], 2)),
 		exercises: ['calculateHeatAndWorkIsobaric', 'calculateHeatAndWorkIsochoric', 'calculateHeatAndWorkIsothermal', 'calculateHeatAndWorkIsentropic', 'calculateHeatAndWorkPolytropic'],
 	},
 	calculateWithInternalEnergy: {
 		name: 'Rekenen met inwendige energie',
-		setup: and(or('gasLaw', 'poissonsLaw'), or('specificHeats', 'solveLinearEquation'), 'calculateHeatAndWork'), // ToDo later: adjust this to something more sensible.
+		setup: and(pick(['gasLaw', 'poissonsLaw']), pick(['specificHeats', 'calculateHeatAndWork']), 'solveLinearEquation'),
 		exercises: ['calculateWithInternalEnergyEngine', 'calculateWithInternalEnergyBalloon', 'calculateWithInternalEnergyTire'],
 	},
 	createClosedCycleEnergyOverview: {
 		name: 'Gesloten kringproces energie-overzicht maken',
-		setup: and(repeat('calculateHeatAndWork', 2), 'calculateWithInternalEnergy'),
-		// setup: combinerAnd(combinerRepeat('calculateHeatAndWork', 2), combinerOr('calculateHeatAndWork', 'calculateWithInternalEnergy')), // ToDo later: use this instead.
+		setup: and(repeat('calculateHeatAndWork', 2), or('calculateHeatAndWork', 'calculateWithInternalEnergy')),
 		exercises: ['createClosedCycleEnergyOverviewVTp', 'createClosedCycleEnergyOverviewTsV', 'createClosedCycleEnergyOverviewSTST', 'createClosedCycleEnergyOverviewSVSV'],
 	},
 	calculateWithEfficiency: {
@@ -377,11 +379,12 @@ const skillTree = {
 	},
 	calculateWithCOP: {
 		name: 'Rekenen met koudefactor/warmtefactor',
+		links: { skill: 'calculateWithEfficiency', correlation: 0.7 },
 		exercises: ['calculateWithCOPRefrigerator', 'calculateWithCOPHeatPump'],
 	},
 	analyseClosedCycle: {
 		name: 'Gesloten kringproces analyseren',
-		setup: and('calculateClosedCycle', 'createClosedCycleEnergyOverview', or('calculateWithEfficiency', 'calculateWithCOP')),
+		setup: and('calculateClosedCycle', 'createClosedCycleEnergyOverview', pick(['calculateWithEfficiency', 'calculateWithCOP'])),
 		exercises: ['analyseClosedCycleVTp', 'analyseClosedCycleTsV', 'analyseClosedCycleSTST', 'analyseClosedCycleSVSV'],
 	},
 
@@ -395,38 +398,44 @@ const skillTree = {
 	},
 	calculateOpenProcessStep: {
 		name: 'Open processtap doorrekenen',
-		setup: and('gasLaw', 'calculateWithSpecificQuantities', 'recognizeProcessTypes', 'poissonsLaw'), // ToDo later: use "combinerPart('poissonsLaw', 1/2)" and possibly "combinerPart('gasLaw', 3/2)" to indicate it's not always needed.
+		setup: and('gasLaw', 'calculateWithSpecificQuantities', 'recognizeProcessTypes', part('poissonsLaw', 1 / 2), part('gasLaw', 1 / 2)),
+		links: { skill: 'calculateProcessStep', correlation: 0.8 },
 		exercises: ['calculateOpenProcessStepWing', 'calculateOpenProcessStepCompressor', 'calculateOpenProcessStepGasTurbine'],
 	},
 	calculateOpenCycle: {
 		name: 'Open kringproces doorrekenen',
 		setup: repeat('calculateOpenProcessStep', 3),
+		links: { skill: 'calculateClosedCycle', correlation: 0.7 },
 		exercises: ['calculateOpenCyclespsp', 'calculateOpenCycleNspsp', 'calculateOpenCycleTsp'],
 	},
 	calculateSpecificHeatAndMechanicalWork: {
 		name: 'Specifieke warmte en technische arbeid berekenen',
-		setup: and('recognizeProcessTypes', or('calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature', 'calculateWithMass'), or('specificGasConstant', 'specificHeatRatio', 'specificHeats'), 'calculateWithSpecificQuantities'), // ToDo: check this.
+		setup: and('recognizeProcessTypes', pick(['calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature', 'calculateWithMass'], 2), pick(['specificGasConstant', 'specificHeatRatio', 'specificHeats'], 2), 'calculateWithSpecificQuantities'),
+		links: { skill: 'calculateHeatAndWork', correlation: 0.6 },
 		exercises: ['calculateSpecificHeatAndMechanicalWorkIsobaric', 'calculateSpecificHeatAndMechanicalWorkIsothermal', 'calculateSpecificHeatAndMechanicalWorkIsentropic'],
 	},
 	calculateWithEnthalpy: {
 		name: 'Rekenen met enthalpie',
-		setup: and(or('calculateWithSpecificQuantities', 'calculateSpecificHeatAndMechanicalWork'), 'solveLinearEquation'), // ToDo later: adjust this to something more sensible, like a combinerPick.
+		setup: and(pick(['massFlowTrick', 'calculateWithSpecificQuantities']), 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation'),
+		links: { skill: 'calculateWithInternalEnergy', correlation: 0.5 },
 		exercises: ['calculateWithEnthalpyCompressor', 'calculateWithEnthalpyBoiler', 'calculateWithEnthalpyTurbine'],
 	},
 	createOpenCycleEnergyOverview: {
 		name: 'Open kringproces energie-overzicht maken',
 		setup: and(repeat('calculateSpecificHeatAndMechanicalWork', 2), 'calculateWithEnthalpy'),
+		links: { skill: 'createClosedCycleEnergyOverview', correlation: 0.6 },
 		exercises: ['createOpenCycleEnergyOverviewspsp', 'createOpenCycleEnergyOverviewNspsp', 'createOpenCycleEnergyOverviewTsp'],
 	},
 	analyseOpenCycle: {
 		name: 'Open kringproces analyseren',
-		setup: and('calculateOpenCycle', 'createOpenCycleEnergyOverview', or('calculateWithEfficiency', 'calculateWithCOP'), 'massFlowTrick'),
+		setup: and('calculateOpenCycle', 'createOpenCycleEnergyOverview', pick(['calculateWithEfficiency', 'calculateWithCOP']), 'massFlowTrick'),
+		links: { skill: 'analyseClosedCycle', correlation: 0.7 },
 		exercises: ['analyseOpenCyclespsp', 'analyseOpenCycleNspsp', 'analyseOpenCycleTsp'],
 	},
 
 	calculateEntropyChange: {
 		name: 'Entropieverandering berekenen',
-		setup: and('calculateWithTemperature', 'specificGasConstant', 'specificHeats', 'solveLinearEquation'),
+		setup: and('calculateWithTemperature', pick(['specificGasConstant', 'specificHeats']), 'solveLinearEquation'),
 		exercises: ['calculateEntropyChangeIsotherm', 'calculateEntropyChangeWithTemperature', 'calculateEntropyChangeWithProperties'],
 	},
 	calculateMissedWork: {
@@ -437,7 +446,7 @@ const skillTree = {
 
 	useIsentropicEfficiency: {
 		name: 'Isentropisch rendement gebruiken',
-		setup: and('calculateSpecificHeatAndMechanicalWork', 'calculateWithEnthalpy', 'solveLinearEquation'), // ToDo later: adjust this to either twice wt or twice dh.
+		setup: and(pick([repeat('calculateSpecificHeatAndMechanicalWork', 2), repeat('calculateWithEnthalpy', 2)]), 'solveLinearEquation'),
 		exercises: ['useIsentropicEfficiencyCompressor1', 'useIsentropicEfficiencyCompressor2', 'useIsentropicEfficiencyTurbine1', 'useIsentropicEfficiencyTurbine2'],
 	},
 	analyseGasTurbine: {
@@ -462,7 +471,7 @@ const skillTree = {
 	},
 	analyseRankineCycle: {
 		name: 'Rankine-cyclus analyseren',
-		setup: and('createRankineCycleOverview', 'useIsentropicEfficiency', 'calculateWithEfficiency', 'massFlowTrick'), // ToDo later: add 'half the time useVaporFraction' to this.
+		setup: and('createRankineCycleOverview', 'useIsentropicEfficiency', part('useVaporFraction', 1 / 2), 'calculateWithEfficiency', 'massFlowTrick'),
 		exercises: ['analyseRankineCycleWithEtai', 'analyseRankineCycleWithX3'],
 	},
 
@@ -496,13 +505,11 @@ const skillTree = {
 	},
 }
 
-// Process the skill object.
+// Process the basic skill object properties.
 Object.keys(skillTree).forEach(key => {
 	const skill = skillTree[key]
 	skill.id = key // Inform the skills of their own id.
 	skill.prerequisites = skill.setup ? skill.setup.getSkillList() : [] // If no set-up is given, there are no prerequisites.
-	skill.linkedSkills = skill.links ? skill.links : [] // If no links are given, there are no linked skills.
-	skill.continuations = [] // Prepare an empty array.
 	if (!skill.exercises) // Ensure all skills have an exercises array (albeit an empty one).
 		skill.exercises = []
 	if (!Array.isArray(skill.exercises)) // Ensure that the exercises parameter is an array.
@@ -510,6 +517,7 @@ Object.keys(skillTree).forEach(key => {
 })
 
 // Set up continuations.
+Object.values(skillTree).forEach(skill => { skill.continuations = [] }) // Prepare an empty continuations array.
 Object.values(skillTree).forEach(skill => {
 	skill.prerequisites.forEach(prerequisiteId => {
 		const prerequisite = skillTree[prerequisiteId]
@@ -518,5 +526,61 @@ Object.values(skillTree).forEach(skill => {
 		prerequisite.continuations.push(skill.id)
 	})
 })
+
+// Process links properties.
+Object.values(skillTree).forEach(skill => {
+	// Ensure that the links is an array.
+	if (!skill.links)
+		skill.links = []
+	else if (!Array.isArray(skill.links) || skill.links.every(link => (typeof link === 'string')))
+		skill.links = [skill.links]
+
+	// Ensure that each element is a properly formatted object.
+	skill.links = skill.links.map(link => {
+		if (typeof link === 'string')
+			return { skills: [link], order: defaultLinkOrder }
+		if (Array.isArray(link))
+			return { skills: link, order: defaultLinkOrder }
+		if (!isBasicObject(link))
+			throw new Error(`Invalid skill link: expected a basic object, string or array, but got something of type "${typeof link}".`)
+		if (link.skill) {
+			if (!link.skills) // Allow a "skill" property to be set instead of a "skills" property.
+				link.skills = Array.isArray(link.skill) ? link.skill : [link.skill]
+			delete link.skill
+		}
+		if (link.correlation) {
+			if (!link.order) {
+				if (link.correlation <= 0 || link.correlation >= 1)
+					throw new Error(`Invalid skill correlation: expected a correlation between 0 and 1, but received one of "${link.correlation}".`)
+				link.order = Math.round(2 * link.correlation / (1 - link.correlation))
+			}
+			delete link.correlation
+		}
+		return link
+	})
+
+	// Extract all linked skills.
+	skill.linkedSkills = [...union(...skill.links.map(link => new Set(link.skills)))]
+})
+
+// Spread all links to all linked skills as well.
+const skillLinks = applyToEachParameter(skillTree, skill => [...skill.links]) // Copy links lists to prevent reference loops.
+applyToEachParameter(skillLinks, (links, skillId) => {
+	const skill = skillTree[skillId]
+	links.forEach(link => {
+		link.skills.forEach(linkedSkill => {
+			if (!skillTree[linkedSkill])
+				throw new Error(`Invalid skill link: received a skill ID "${linkedSkill}" in the linked skills of skill "${skill.id}". This is not a known skill ID and cannot be processed further.`)
+			skillTree[linkedSkill].links.push({
+				...link,
+				skills: [...link.skills.filter(skill => skill !== linkedSkill), skill.id],
+			})
+		})
+	})
+})
+Object.values(skillTree).forEach(skill => {
+	skill.linkedSkills = skill.links.map(link => link.skills).flat()
+})
+// console.log(skillTree)
 
 module.exports.skillTree = skillTree
