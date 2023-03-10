@@ -11,7 +11,7 @@ export default function Feedback() {
 				<li>Heb je een idee voor een uitbreiding? Iets wat je graag zou zien?</li>
 				<li>Heb je een mening over welke bestaande functies nuttig zijn en welke minder?</li>
 			</ul>
-			<Par>Laat het vooral weten! Mail naar <a href="mailto:hildo.bijl@hu.nl">hildo.bijl@hu.nl</a> en ik kom zo snel mogelijk bij je terug.</Par>
+			<Par>Laat het vooral weten! Mail naar <a href="mailto:info@step-wise.com">info@step-wise.com</a> en ik (Hildo) kom zo snel mogelijk bij je terug.</Par>
 			<Head>Bestaande ideeën</Head>
 			<Par>Onderstaande punten zijn ideeën die ik al heb. Ik twijfel alleen nog welke ik het eerst uit ga voeren. Heb je een mening? Laat het ook weten!</Par>
 			<ul>
