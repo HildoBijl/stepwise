@@ -563,7 +563,7 @@ Object.values(skillTree).forEach(skill => {
 	skill.linkedSkills = [...union(...skill.links.map(link => new Set(link.skills)))]
 })
 
-// Spread all links to all linked skills as well.
+// Copy links to the skills that have been linked.
 const skillLinks = applyToEachParameter(skillTree, skill => [...skill.links]) // Copy links lists to prevent reference loops.
 applyToEachParameter(skillLinks, (links, skillId) => {
 	const skill = skillTree[skillId]
@@ -573,7 +573,7 @@ applyToEachParameter(skillLinks, (links, skillId) => {
 				throw new Error(`Invalid skill link: received a skill ID "${linkedSkill}" in the linked skills of skill "${skill.id}". This is not a known skill ID and cannot be processed further.`)
 			skillTree[linkedSkill].links.push({
 				...link,
-				skills: [...link.skills.filter(skill => skill !== linkedSkill), skill.id],
+				skills: [...link.skills.filter(skill => skill !== linkedSkill), skill.id], // Adjust list to change skill ID into linking skill ID.
 			})
 		})
 	})
@@ -581,6 +581,5 @@ applyToEachParameter(skillLinks, (links, skillId) => {
 Object.values(skillTree).forEach(skill => {
 	skill.linkedSkills = skill.links.map(link => link.skills).flat()
 })
-// console.log(skillTree)
 
 module.exports.skillTree = skillTree

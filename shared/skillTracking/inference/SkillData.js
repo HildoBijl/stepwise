@@ -84,7 +84,6 @@ class SkillData {
 				time: now - this.rawData.coefficientsOn,
 				applyPracticeDecay: true,
 				numProblemsPracticed: this.numPracticed,
-				// ToDo later: implement option for different properties for each skill.
 			}
 			this._cache.smoothenedCoefficients = {
 				coefficients: smoothen(this.rawCoefficients, options),
