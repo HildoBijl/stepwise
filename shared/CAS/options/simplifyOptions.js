@@ -151,6 +151,7 @@ const regularClean = {
 	removePowersWithinPowers: true,
 	removeNegativePowers: true,
 	removeCanceledRoot: true,
+	turnBaseTwoRootIntoSqrt: true,
 	pullExponentsIntoRoots: true,
 	mergeProductsOfRoots: true,
 	removeEqualBaseArgumentLogarithm: true,
