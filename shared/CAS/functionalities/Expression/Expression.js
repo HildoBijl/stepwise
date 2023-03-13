@@ -1582,6 +1582,11 @@ class Product extends ExpressionList {
 				return Integer.zero
 		}
 
+		// If there are terms in this product equal to each other (or with equal base) then merge them into powers. So x*x^2 becomes x^3.
+		if (options.mergeProductTerms) {
+			terms = Product.mergeProductTerms(terms, options)
+		}
+
 		// Merge all numbers together and put them at the start. Or optionally only do so with minus signs, or only filter out ones.
 		if (options.mergeProductNumbers) {
 			let number = 1
@@ -1622,11 +1627,6 @@ class Product extends ExpressionList {
 			if (options.removeTimesOneFromProducts) {
 				terms = terms.filter(term => !Integer.one.equalsBasic(term))
 			}
-		}
-
-		// If there are terms in this product equal to each other (or with equal base) then merge them into powers. So x*x^2 becomes x^3.
-		if (options.mergeProductTerms) {
-			terms = Product.mergeProductTerms(terms, options)
 		}
 
 		// Check for structure simplifications.

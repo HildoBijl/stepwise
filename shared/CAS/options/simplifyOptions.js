@@ -204,11 +204,13 @@ const forAnalysis = [
 		factorizeIntegers: true,
 		mergeProductNumbers: false,
 		mergePowerNumbers: false,
+		mergeInitialMinusOne: false, // To allow -6*2^x to become -1*2*3*2^x after which the 2 can be pulled into the factor.
 	},
 	{
 		...forAnalysisMain, // Then run it, also expanding brackets (and still canceling out terms).
 		expandProductsOfSums: true,
 		expandPowersOfSums: true,
+		mergeInitialMinusOne: true,
 	},
 ]
 module.exports.forAnalysis = forAnalysis.map(options => ({ ...noSimplify, ...options }))
