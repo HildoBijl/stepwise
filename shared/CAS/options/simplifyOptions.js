@@ -164,6 +164,7 @@ const advancedCleanMain = {
 	sortSums: true,
 	expandPowersOfProducts: true,
 	pullFactorsOutOfRoots: true,
+	turnRootIntoFractionExponent: true,
 	remove01TrigFunctions: true,
 	removeRootTrigFunctions: true,
 }
@@ -179,7 +180,6 @@ const advancedClean = [
 	},
 	{
 		...advancedCleanMain, // Then run it, also expanding brackets (and still canceling out terms).
-		turnRootIntoFractionExponent: true,
 		expandProductsOfSumsWithinSums: true,
 		// expandPowersOfSumsWithinSums: true, // Do not expand powers; this can get huge real quickly.
 		applyPolynomialCancellation: true,
