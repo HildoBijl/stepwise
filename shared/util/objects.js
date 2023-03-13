@@ -34,15 +34,24 @@ function ensureBoolean(param) {
 }
 module.exports.ensureBoolean = ensureBoolean
 
-// deepEquals checks whether two objects are equal. It does this iteratively: if the parameters are objects or arrays, these are recursively checked.
-function deepEquals(a, b, objectList = []) {
+// deepEquals checks whether two objects are equal. It does this iteratively: if the parameters are objects or arrays, these are recursively checked. It tracks references of objects to prevent infinite loops.
+function deepEquals(a, b, referenceList = []) {
 	// Check reference equality.
 	if (a === b)
 		return true
 
+	// Check if any of the objects already were in the object list. If so, stop iterating to prevent infinite loops.
+	if (isObject(a) && isObject(b)) {
+		const aRef = referenceList.find(obj => obj.a === a)?.a
+		const bRef = referenceList.find(obj => obj.b === b)?.b
+		if (aRef || bRef)
+			return (aRef === a && bRef === b) || (aRef === b && bRef === a) // Return true if the references both point to the starting objects.
+		referenceList = [...referenceList, { a, b }]
+	}
+
 	// Check for arrays.
 	if (Array.isArray(a) && Array.isArray(b))
-		return a.length === b.length && a.every((value, index) => deepEquals(value, b[index]))
+		return a.length === b.length && a.every((value, index) => deepEquals(value, b[index], referenceList))
 
 	// Check for non-object types.
 	if (!isObject(a) || !isObject(b))
@@ -64,7 +73,7 @@ function deepEquals(a, b, objectList = []) {
 		return false
 
 	// Walk through keys and check equality.
-	return keys.every(key => deepEquals(a[key], b[key]))
+	return keys.every(key => deepEquals(a[key], b[key], referenceList))
 }
 module.exports.deepEquals = deepEquals
 
