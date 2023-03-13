@@ -68,7 +68,7 @@ async function getUserSkillDataSet(userId, skillIds, db) {
 	const rawSkills = await getUserSkills(userId, allSkillIds, db) // Pull all data from the database.
 	const processedSkills = rawSkills.map(skill => processSkill(skill)) // Apply basic processing.
 	const skillsAsObject = arraysToObject(processedSkills.map(skill => skill.skillId), processedSkills) // Turn the array into an object.
-	const skills = keysToObject(skillIds, skillId => skillsAsObject[skillId] || getDefaultSkillData(skillId)) // Add in missing skills that are not in the database yet.
+	const skills = keysToObject(allSkillIds, skillId => skillsAsObject[skillId] || getDefaultSkillData(skillId)) // Add in missing skills that are not in the database yet.
 	const skillDataSet = processSkillDataSet(skills, skillTree) // Turn the raw data into SkillData objects.
 	return skillDataSet
 }

@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { formatDate } from 'step-wise/util/date'
 import { skillTree } from 'step-wise/edu/skills'
 import { SkillData } from 'step-wise/skillTracking'
-import { includePrerequisites, processSkill, getDefaultSkillData } from 'step-wise/edu/skills/util'
+import { includePrerequisitesAndLinks, processSkill, getDefaultSkillData } from 'step-wise/edu/skills/util'
 
 import { useUserQuery } from 'api/admin'
 import { TitleItem } from 'ui/layout/Title'
@@ -118,8 +118,8 @@ function useSkillsData(user) {
 
 		// Add skills that are not in the data set. (These are skills that are not in the database yet.)
 		const skillIds = user.skills.map(skill => skill.skillId)
-		const skillIdsWithPrerequisites = includePrerequisites(skillIds)
-		skillIdsWithPrerequisites.forEach(skillId => {
+		const skillIdsWithPrerequisitesAndLinks = includePrerequisitesAndLinks(skillIds)
+		skillIdsWithPrerequisitesAndLinks.forEach(skillId => {
 			if (!data[skillId])
 				data[skillId] = getDefaultSkillData(skillId)
 		})
