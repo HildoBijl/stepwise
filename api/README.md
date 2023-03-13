@@ -34,4 +34,4 @@ In order to make changes to the database structure you need to run a migration a
 
 The server, including authentication, is defined in the `server` folder. For authentication we use [SURFconext](src/server/surfConext/).
 
-For authentication on localhost, mock user data is used. When logging in, you can choose from a list of sample users, which is convenient for testing. These sample users are defined in the `surfConextMockData.json` file. When the local server restarts (for instance after a file change) it tries to remember which user was last logged in. This prevents you from having to log in all the time. This is done by storing the `lastSessionId` in a separate file.
+For authentication on localhost, mock user data is used. When logging in, you can choose from a list of sample users, which is convenient for testing. These sample users are defined in the `surfConextMockData.json` file. When the local server restarts (for instance after a file change) it tries to remember which user was last logged in. This prevents you from having to log in all the time. This is done by storing the `lastSessionId` in a separate file `lastSessionData`.
