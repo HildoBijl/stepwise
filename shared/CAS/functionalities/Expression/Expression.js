@@ -1776,12 +1776,28 @@ class Product extends ExpressionList {
 		terms.forEach(term => {
 			const { base, exponent } = term.getBaseAndExponent()
 			const index = result.findIndex(comparisonTerm => base.equalsBasic(comparisonTerm.getBaseAndExponent().base, true))
-			if (index === -1) {
-				result.push(term)
-			} else {
+
+			// On an earlier term with equal base, merge the powers.
+			if (index !== -1) {
 				const { base: otherBase, exponent: otherExponent } = result[index].getBaseAndExponent()
 				result[index] = new Power(otherBase, otherExponent.add(exponent)).simplifyBasic(options)
+				return
 			}
+
+			// Check if there are constants that are equal except for the minus sign.
+			if (base instanceof Constant) {
+				const negativeBase = base.applyMinus()
+				const index = result.findIndex(comparisonTerm => negativeBase.equalsBasic(comparisonTerm.getBaseAndExponent().base, true))
+				if (index !== -1) {
+					const { base: otherBase, exponent: otherExponent } = result[index].getBaseAndExponent()
+					result[index] = new Power(base.abs(), otherExponent.add(exponent)).simplifyBasic(options)
+					result.push(new Power(Integer.minusOne, base.isNegative() ? exponent : otherExponent).simplifyBasic(options))
+					return
+				}
+			}
+
+			// Nothing found. Add the term.
+			result.push(term)
 		})
 		return result
 	}
