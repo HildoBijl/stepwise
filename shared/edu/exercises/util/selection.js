@@ -9,8 +9,8 @@ const { getEV, merge, ensureSetup } = require('../../../skillTracking')
 const { skillTree, ensureSkillId, getDifficulty } = require('../../skills')
 
 // Define general settings for exercise selection.
-const mu = 0.5 // Make exercises with success rate 0.5 the most likely.
-const sigma = 0.1 // Let the likelihood of selection drop off quite sharply.
+const mu = 0.4 // Make exercises with success rate 0.5 the most likely.
+const sigma = 0.15 // Let the likelihood of selection drop off quite sharply.
 const thresholdFactor = 0.3 // Exercises with probability lower than this threshold factor multiplied by the maximum selection rate of all exercises are too unlikely. They will not be selected at all.
 
 // getNewExercise takes a skillId and returns a set of exercise data of the form { exerciseId: 'linearEquations', state: { a: 3, b: 12 } }. The state is given in functional format.

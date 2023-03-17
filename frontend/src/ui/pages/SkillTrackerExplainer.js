@@ -3,7 +3,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Check, Clear, Replay } from '@material-ui/icons'
 import Slider from '@material-ui/core/Slider'
 
-import { processObservation, getEV, getFMax, getSmoothingFactor, smoothen, merge, infer, getCombinerEV, combinerAnd, combinerRepeat } from 'step-wise/skillTracking'
+import { keysToObject, applyToEachParameter } from 'step-wise/util/objects'
+import { Skill, getEV, getMaxLikelihood, smoothen, merge, and, repeat } from 'step-wise/skillTracking'
 import { getSelectionRates } from 'step-wise/edu/exercises/util/selection'
 
 import { M } from 'ui/components/equations'
@@ -15,6 +16,7 @@ import { defaultSkillThresholds } from 'ui/edu/skills/util'
 const labelsWithoutLast = ['A', 'B']
 const lastLabel = 'X'
 const labels = [...labelsWithoutLast, lastLabel]
+const setup = and(...labelsWithoutLast)
 
 const useStyles = makeStyles((theme) => ({
 	applet: {
@@ -151,25 +153,25 @@ export default function SkillTrackerExplainer() {
 		<Par>Als je een vaardigheid al een tijdje niet geoefend hebt, dan is het niet meer zo zeker dat je het nog wel kan. Dus hoe langer je iets niet gedaan hebt, hoe meer onzekerheid wij toevoegen aan onze schattingen.</Par>
 		<SingleSkillTrial addTimeDecay={true} />
 
-		<Head>Basisvaardigheden en vervolg-vaardigheden</Head>
-		<Par>Vaak zijn vaardigheden gelinkt. Na een basisvaardigheid A (bijvoorbeeld optellen) en een basisvaardigheid B (bijvoorbeeld vermenigvuldigen) kun je oefenen met een vervolg-vaardigheid X waarbij je zowel A als B nodig hebt (bijvoorbeeld samengestelde sommen). In dit geval kunnen we je kansen voor X inschatten aan de hand van hoe goed je A en B kan.</Par>
+		<Head>Basisvaardigheden en vervolgvaardigheden</Head>
+		<Par>Vaak zijn vaardigheden gelinkt. Na een basisvaardigheid <M>A</M> (bijvoorbeeld optellen) en een basisvaardigheid <M>B</M> (bijvoorbeeld vermenigvuldigen) kun je oefenen met een vervolgvaardigheid <M>X</M> waarbij je zowel <M>A</M> als <M>B</M> nodig hebt (bijvoorbeeld samengestelde sommen). In dit geval kunnen we je kansen voor <M>X</M> inschatten aan de hand van hoe goed je <M>A</M> en <M>B</M> kan.</Par>
 		<MultiSkillTrial showButtonsForX={false} />
-		<Par>De richtlijn is: als je een score van minimaal 70% hebt voor alle basisvaardigheden (A, B, enzovoort) dan "beheers" je de vaardigheid en mag je door naar de vervolg-vaardigheid (X). Als je score later echter weer onder de grofweg 60% duikt, dan word je teruggestuurd.</Par>
+		<Par>De richtlijn is: als je een score van minimaal {Math.round(defaultSkillThresholds.pass * 100)}% hebt voor alle basisvaardigheden (<M>A</M>, <M>B</M>, enzovoort) dan "beheers" je de vaardigheid en mag je door naar de vervolgvaardigheid (<M>X</M>). Als je score later echter weer onder de grofweg {Math.round(defaultSkillThresholds.recap * 100)}% duikt, dan word je teruggestuurd.</Par>
 
-		<Head>Vervolg-vaardigheden oefenen</Head>
-		<Par>Als je een vervolg-vaardigheid X uitvoert, dan voer je indirect ook de basisvaardigheden A en B uit. Dit betekent dat we ook daar je score updaten. Als je X goed doet, dan doe je A en B ook goed, en rekenen we dit mee. Als X fout gaat, dan is het echter nog onbekend of dat komt omdat moeite hebt met A of B. Via kansberekening schatten wij zo nauwkeurig mogelijk in waar het knelpunt precies ligt.</Par>
+		<Head>Vervolgvaardigheden oefenen</Head>
+		<Par>Als je een vervolgvaardigheid <M>X</M> uitvoert, dan voer je indirect ook de basisvaardigheden <M>A</M> en <M>B</M> uit. Dit betekent dat we ook daar je score updaten. Als je <M>X</M> goed doet, dan doe je <M>A</M> en <M>B</M> ook goed, en rekenen we dit mee. Als <M>X</M> fout gaat, dan is het echter nog onbekend of dat komt omdat moeite hebt met <M>A</M> of <M>B</M>. Via kansberekening schatten wij zo nauwkeurig mogelijk in waar het knelpunt precies ligt.</Par>
 		<MultiSkillTrial showButtonsForX={true} />
 		<Par>Bij veel opgaven is het ook mogelijk om de opgave op te splitsen en stapsgewijs op te lossen. Dit is handig voor jou: je kunt gericht inzoomen op wat je lastig vindt. Maar het is ook handig voor ons: wij krijgen hiermee nog meer informatie over waar je mee worstelt, en kunnen je zo nog beter gepaste opgaven aanbieden.</Par>
 
 		<Head>Oefenopgaven selecteren</Head>
 		<Par>Hoe bepalen we dan welke oefenopgave je krijgt? Als je een vaardigheid wilt oefenen, dan kijken we eerst naar welke opgaven daarbij horen. Voor elke opgave weten wij welke stappen je moet zetten om hem op te lossen. Aan de hand hiervan berekenen we de kans dat je dit lukt: je succes-kans.</Par>
 		<MultiSkillTrial showButtonsForX={true} exercises={[
-			{ combiner: combinerAnd('A','B'), name: 'Voer eerst A uit en dan B.' },
-			{ combiner: combinerAnd(combinerRepeat('A', 2), 'B'), name: 'Voer eerst twee keer A uit en dan B.' },
-			{ combiner: combinerAnd('A', combinerRepeat('B', 2)), name: 'Voer eerst A uit en dan twee keer B.' },
-			{ combiner: combinerRepeat('X', 3), name: '[Geavanceerd] Voer drie maal X uit.' },
+			{ setup: and('A', 'B'), name: <>Voer eerst <M>A</M> uit en dan <M>B</M>.</> },
+			{ setup: and(repeat('A', 2), 'B'), name: <>Voer eerst twee keer <M>A</M> uit en dan <M>B</M>.</> },
+			{ setup: and('A', repeat('B', 2)), name: <>Voer eerst <M>A</M> uit en dan twee keer <M>B</M>.</> },
+			{ setup: repeat('X', 3), name: <>[Geavanceerd] Voer drie maal <M>X</M> uit.</> },
 		]} />
-		<Par>Bij het oefenen is het belangrijk dat een opgave niet te moeilijk is, maar ook niet te makkelijk! Anders leer je niets. We zoeken dus een opgave die je met zo'n 50% kans in één keer oplost. Om te voorkomen dat je veel dezelfde opgave achter elkaar krijgt, stoppen we hier wel wat willekeur in. We stellen daarbij voor elke opgave een kans in dat hij geselecteerd wordt, en vervolgens kiezen we volgens deze kansen een opgave. Hierbij geldt uiteraard: hoe dichter de succes-kans van de opgave bij de 50% ligt, hoe waarschijnlijker het is dat je de opgave krijgt.</Par>
+		<Par>Bij het oefenen is het belangrijk dat een opgave niet te moeilijk is, maar ook niet te makkelijk! Anders leer je niets. We zoeken dus een opgave die je met zo'n 40%-50% kans in één keer oplost. Om te voorkomen dat je veel dezelfde opgave achter elkaar krijgt, stoppen we hier wel wat willekeur in. We stellen daarbij voor elke opgave een kans in dat hij geselecteerd wordt, en vervolgens kiezen we volgens deze kansen een opgave. Hierbij geldt uiteraard: hoe dichter de succes-kans van de opgave bij de 50% ligt, hoe waarschijnlijker het is dat je de opgave krijgt.</Par>
 
 		<Head>Nog belangrijker ... Oefenen!</Head>
 		<Par>Heel leuk al die info, maar van informatie leer je weinig. Van oefenen wel! Althans, dat is onze filosofie: hoe meer je ergens bezig bent, hoe meer je ervan opsteekt. Dat is ook waarom al die interactieve tools hierboven staan. Zou je anders net zo goed begrijpen hoe alles in elkaar zat? Dus ga vooral lekker klooien en dingen uitproberen!</Par>
@@ -184,17 +186,17 @@ function SkillFlaskWithLabel({ coef, text, months }) {
 		const EV = getEV(coef)
 		text = `${months === undefined ? 'De kans op een correcte uitkomst wordt' : `Na ${months} maanden niet oefenen wordt de kans op een correcte uitkomst`} geschat op zo'n ${Math.round(EV * 100)}%.`
 
-		const max = getFMax(coef).f
+		const max = getMaxLikelihood(coef).f
 		if (max < 1.2)
 			text += ' Maar eigenlijk hebben we nog geen idee.'
-		else if (max < 2)
-			text += ' Maar het is nog erg onzeker.'
-		else if (max < 3)
+		else if (max < 1.8)
+			text += ' Maar het is nog redelijk onzeker.'
+		else if (max < 2.4)
 			text += ' Deze schatting heeft een beetje nauwkeurigheid.'
-		else if (max < 4)
+		else if (max < 3)
 			text += ' Dit is een redelijk zekere schatting.'
-		else if (max < 5)
-			text += ' We zijn hier erg zeker van.'
+		else if (max < 4)
+			text += ' We zijn hier zeker van.'
 		else
 			text += ' Dit is gebaseerd op talloze oefeningen, en is dus een erg nauwkeurige schatting.'
 	}
@@ -216,14 +218,15 @@ function SingleSkillTrial({ addTimeDecay = false, showLabel = true }) {
 	const [numPracticed, setNumPracticed] = useState(0)
 	const [months, setMonths] = useState(0)
 	const applyUpdate = (correct) => {
-		const factor = getSmoothingFactor({
+		const options = {
 			time: addTimeDecay ? months * 30 * 24 * 60 * 60 * 1000 : 0,
 			applyPracticeDecay: true,
 			numProblemsPracticed: numPracticed,
-		})
-		const dataSet = { x: smoothen(coef, factor) }
-		const newDataSet = processObservation(dataSet, 'x', correct)
-		setCoef(newDataSet.x)
+		}
+		const coefficientSet = { [lastLabel]: smoothen(coef, options) }
+		const setup = new Skill(lastLabel)
+		const newCoefficientSet = setup.processObservation(coefficientSet, correct)
+		setCoef(newCoefficientSet[lastLabel])
 		setNumPracticed(numPracticed + 1)
 		setMonths(0)
 	}
@@ -236,12 +239,12 @@ function SingleSkillTrial({ addTimeDecay = false, showLabel = true }) {
 	}
 
 	// Apply smoothing based on the latest data.
-	const factor = getSmoothingFactor({
+	const options = {
 		time: addTimeDecay ? months * 30 * 24 * 60 * 60 * 1000 : 0,
 		applyPracticeDecay: true,
 		numProblemsPracticed: numPracticed,
-	})
-	const smoothenedCoef = smoothen(coef, factor)
+	}
+	const smoothenedCoef = smoothen(coef, options)
 
 	// Render contents.
 	return <div className={classes.applet}>
@@ -265,84 +268,61 @@ function SingleSkillTrial({ addTimeDecay = false, showLabel = true }) {
 
 function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 	const classes = useStyles()
-	const combiner = combinerAnd(...labelsWithoutLast)
 
 	// Set up the state.
-	const getEmptyDataSetFromLabels = labels => {
-		const result = {}
-		labels.forEach(label => {
-			result[label] = [1]
-		})
-		return result
-	}
-	const getEmptyNumsPracticedFromLabels = labels => {
-		const result = {}
-		labels.forEach(label => {
-			result[label] = 0
-		})
-		return result
-	}
-	const [dataSet, setDataSet] = useState(getEmptyDataSetFromLabels(labels))
+	const getEmptyCoefficientSetFromLabels = labels => keysToObject(labels, () => [1])
+	const getEmptyNumsPracticedFromLabels = labels => keysToObject(labels, () => 0)
+	const [coefficientSet, setCoefficientSet] = useState(getEmptyCoefficientSetFromLabels(labels))
 	const [numsPracticed, setNumsPracticed] = useState(getEmptyNumsPracticedFromLabels(labels))
+	const [pass, setPass] = useState(labels.map(() => false))
 
 	// Set up button handlers.
 	const applyUpdate = (label, correct) => {
-		// First apply the local update to the given skill.
-		const factor = getSmoothingFactor({
-			applyPracticeDecay: true,
-			numProblemsPracticed: numsPracticed[label],
-		})
-		let newDataSet = {
-			...dataSet,
-			[label]: smoothen(dataSet[label], factor),
-		}
-		newDataSet = {
-			...newDataSet,
-			...processObservation(newDataSet, label, correct),
-		}
+		// First smoothen all related coefficients.
+		let newCoefficientSet
+		if (label === lastLabel)
+			newCoefficientSet = applyToEachParameter(coefficientSet, (coef, label) => smoothen(coef, { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }))
+		else
+			newCoefficientSet = {
+				...coefficientSet,
+				[label]: smoothen(coefficientSet[label], { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }),
+			}
+
+		// Then apply the relevant updates.
+		newCoefficientSet = { ...newCoefficientSet, ...(new Skill(label).processObservation(newCoefficientSet, correct)) }
+		if (label === lastLabel)
+			newCoefficientSet = { ...newCoefficientSet, ...setup.processObservation(newCoefficientSet, correct) }
 		const newNumsPracticed = { ...numsPracticed }
 		newNumsPracticed[label]++
 
-		// If the last (joint) skill was used, also do a joint update of the other skills.
-		if (label === lastLabel) {
-			// First smoothen them.
-			labelsWithoutLast.forEach((label, i) => {
-				const factor = getSmoothingFactor({
-					applyPracticeDecay: true,
-					numProblemsPracticed: numsPracticed[label],
-				})
-				newDataSet[label] = smoothen(dataSet[label], factor)
-				newNumsPracticed[label]++
-			})
-			newDataSet = {
-				...newDataSet,
-				...processObservation(newDataSet, combiner, correct),
-			}
-		}
-
 		// Store everything.
-		setDataSet(newDataSet)
+		setCoefficientSet(newCoefficientSet)
 		setNumsPracticed(newNumsPracticed)
+
+		// Update the passed parameter.
+		const smoothenedCoefficientSet = applyToEachParameter(newCoefficientSet, (coef, label) => smoothen(coef, { applyPracticeDecay: true, numProblemsPracticed: newNumsPracticed[label] }))
+		setPass(pass => labels.map((label, i) => {
+			const EV = getEV(smoothenedCoefficientSet[label])
+			return (pass[i] && EV >= defaultSkillThresholds.recap) || (!pass[i] && EV >= defaultSkillThresholds.pass) // Apply hysteresis.
+		}))
 	}
 	const reset = () => {
-		setDataSet(getEmptyDataSetFromLabels(labels))
+		setCoefficientSet(getEmptyCoefficientSetFromLabels(labels))
 		setNumsPracticed(getEmptyNumsPracticedFromLabels(labels))
+		setPass(labels.map(() => false))
 	}
 
 	// Make the inference towards X. For this first smoothen all distributions and then run the inference and merging.
-	const dataSetNow = {}
-	labels.forEach(label => {
-		dataSetNow[label] = smoothen(dataSet[label], getSmoothingFactor({ applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }))
-	})
-	const inference = infer(dataSetNow, combiner)
-	dataSetNow[lastLabel] = merge(inference, dataSetNow[lastLabel])
+	const coefficientSetNow = applyToEachParameter(coefficientSet, (coef, label) => smoothen(coef, { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }))
+	const inference = setup.getDistribution(coefficientSetNow)
+	coefficientSetNow[lastLabel] = merge([inference, coefficientSetNow[lastLabel]])
 
 	// Render contents.
 	return <div className={classes.applet}>
 		{labels.map((label, index) => (
 			<div className={classes.skillContainer} key={index}>
-				<span className="skillLabel">{label}:</span>
-				<SkillFlask coef={dataSetNow[label]} />
+				<span className="skillLabel"><M>{label}</M>:</span>
+				<SkillFlask coef={coefficientSetNow[label]} />
 				{showButtonsForX || index !== labels.length - 1 ? (
 					<div className={classes.innerButtonContainer}>
 						<Button variant="contained" startIcon={<Check />} onClick={() => applyUpdate(label, true)} color="primary">Correct</Button>
@@ -351,40 +331,30 @@ function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 				) : null}
 			</div>
 		))}
-		<ExerciseOverview dataSet={dataSetNow} exercises={exercises} />
+		<ExerciseOverview coefficientSet={coefficientSetNow} pass={pass} exercises={exercises} />
 		<Button variant="contained" startIcon={<Replay />} onClick={reset} color="secondary">Reset</Button>
 	</div>
 }
 
-function ExerciseOverview({ dataSet, exercises }) {
+function ExerciseOverview({ coefficientSet, pass, exercises }) {
 	const classes = useStyles()
 
-	// Set up a state to track if the user has passed the previous skills. Update it on dataSet changes.
-	const [pass, setPass] = useState(labelsWithoutLast.map(_ => false))
-	useEffect(() => {
-		const newPass = labelsWithoutLast.map((label, i) => {
-			const EV = getEV(dataSet[label])
-			return (pass[i] && EV >= defaultSkillThresholds.recap) || (!pass[i] && EV >= defaultSkillThresholds.pass) // Apply hysteresis.
-		})
-		if (newPass.some((_, i) => pass[i] !== newPass[i]))
-			setPass(newPass)
-	}, [pass, dataSet])
 	const insufficientIndex = pass.indexOf(false)
 	const insufficientLabel = (insufficientIndex === -1 ? null : labelsWithoutLast[insufficientIndex])
-	const infoMessage = insufficientLabel ? <div className={classes.infoMessage}>Het wordt afgeraden om vervolg-vaardigheid X al te oefenen. Basis-vaardigheid {insufficientLabel} is nog niet op voldoende niveau.</div> : <div className={classes.infoMessage}>Het is een goed idee om vervolg-vaardigheid X te oefenen. De basis-vaardigheden worden voldoende beheerst.</div>
+	const infoMessage = insufficientLabel ? <div className={classes.infoMessage}>Het wordt afgeraden om vervolgvaardigheid <M>X</M> al te oefenen. Basisvaardigheid {insufficientLabel} is nog niet op voldoende niveau.</div> : <div className={classes.infoMessage}>Het is een goed idee om vervolgvaardigheid <M>X</M> te oefenen. De basisvaardigheden worden voldoende beheerst.</div>
 
 	// If there are no exercises, don't do anything.
 	if (!exercises)
 		return infoMessage
 
 	// Calculate success rates.
-	const successRates = exercises.map(exercise => getCombinerEV(dataSet, exercise.combiner))
+	const successRates = exercises.map(exercise => exercise.setup.getEV(coefficientSet))
 	const selectionRates = getSelectionRates(successRates)
 
 	// Render contents.
 	return (
 		<div className={classes.exerciseContainer}>
-			<Head className={classes.exerciseHeader}>Mogelijke oefenopgaven om X te oefenen</Head>
+			<Head className={classes.exerciseHeader}>Mogelijke oefenopgaven om <M>X</M> te oefenen</Head>
 			{infoMessage}
 			<table>
 				<thead>

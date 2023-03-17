@@ -1,21 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-
 import { usePaths } from 'ui/routing'
-
 import { Par, Head } from 'ui/components/containers'
-
-import * as setup from 'step-wise/skillTracking/setup'
-import * as pol from 'step-wise/skillTracking/polynomials'
-import * as co from 'step-wise/skillTracking/coefficients'
-import * as inf from 'step-wise/skillTracking/inference'
-
-// console.log(setup)
-window.setup = setup
-window.pol = pol
-window.co = co
-window.inf = inf
 
 export default function About() {
 	const paths = usePaths()

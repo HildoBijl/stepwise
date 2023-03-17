@@ -1,13 +1,13 @@
 // SkillSetup is the abstract parent class for all skill-set-up classes. It has all the functionalities that need to be implemented by set-ups.
 
 const { ensureBoolean, keysToObject, filterProperties } = require('../../../util/objects')
-const { sum, getDimensions } = require('../../../util/arrays')
+const { sum } = require('../../../util/arrays')
 const { repeat } = require('../../../util/functions')
 const { binomial } = require('../../../util/combinatorics')
 
 const { defaultInferenceOrder } = require('../../settings')
 const { ensureCoef, ensureCoefSet, normalize, getEV, mergeTwo } = require('../../coefficients')
-const { substitute, substituteAll, oneMinus, multiplyTwoWithEqualDimension, getPowerList, polynomialMatrixToString } = require('../../polynomials')
+const { substitute, substituteAll, oneMinus, polynomialMatrixToString } = require('../../polynomials')
 
 class SkillSetup {
 	constructor() {
@@ -81,7 +81,7 @@ class SkillSetup {
 		const coef = repeat(n + 1, i => (n + 1) * binomial(n, i) * (EV ** i) * (1 - EV) ** (n - i))
 		return normalize(coef)
 
-		// ToDo: after making the polynomial system more efficient (sparse) implement the moments into the script below.
+		// Note: the above code is mathematically incorrect. It immediately inserts the expected values, instead of expanding the polynomial and using the respective moments. The reason this is done (through the code below) is because this is computationally intensive and the difference is in most practical cases negligible.
 
 		// // Process all the skill data.
 		// coefSet = ensureCoefSet(coefSet)
