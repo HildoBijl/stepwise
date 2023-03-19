@@ -194,7 +194,7 @@ export function GradeEstimate() {
 	const cdfValueToPercentage = cdfValue => scoreToPercentage(inverseCDF(cdfValue))
 	return <div className={clsx(classes.gradeEstimate, 'gradeEstimate')}
 	>
-		<div className="estimate">Gebaseerd op je oefening tot nu toe, verwachten we grofweg een score van <strong>{scoreToPercentage(EV)}</strong> (zo'n <strong>{cdfValueToPercentage(0.3)} - {cdfValueToPercentage(0.7)}</strong>) op de eindtoets.<sup>*</sup></div>
+		<div className="estimate">Gebaseerd op je oefening tot nu toe, verwachten we een score van grofweg <strong>{scoreToPercentage(EV)}</strong> (zo'n <strong>{cdfValueToPercentage(0.3)} - {cdfValueToPercentage(0.7)}</strong>) op de eindtoets.<sup>*</sup></div>
 		<div className="disclaimer"><sup>*</sup>Aan deze schatting kunnen geen rechten worden ontleend.</div>
 	</div>
 }

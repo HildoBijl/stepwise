@@ -379,7 +379,7 @@ let skillTree = {
 	},
 	calculateWithCOP: {
 		name: 'Rekenen met koudefactor/warmtefactor',
-		links: { skill: 'calculateWithEfficiency', correlation: 0.7 },
+		links: { skill: 'calculateWithEfficiency', correlation: 0.5 },
 		exercises: ['calculateWithCOPRefrigerator', 'calculateWithCOPHeatPump'],
 	},
 	analyseClosedCycle: {
@@ -399,37 +399,37 @@ let skillTree = {
 	calculateOpenProcessStep: {
 		name: 'Open processtap doorrekenen',
 		setup: and('gasLaw', 'calculateWithSpecificQuantities', 'recognizeProcessTypes', part('poissonsLaw', 1 / 2), part('gasLaw', 1 / 2)),
-		links: { skill: 'calculateProcessStep', correlation: 0.8 },
+		links: { skill: 'calculateProcessStep', correlation: 0.7 },
 		exercises: ['calculateOpenProcessStepWing', 'calculateOpenProcessStepCompressor', 'calculateOpenProcessStepGasTurbine'],
 	},
 	calculateOpenCycle: {
 		name: 'Open kringproces doorrekenen',
 		setup: repeat('calculateOpenProcessStep', 3),
-		links: { skill: 'calculateClosedCycle', correlation: 0.7 },
+		links: { skill: 'calculateClosedCycle', correlation: 0.6 },
 		exercises: ['calculateOpenCyclespsp', 'calculateOpenCycleNspsp', 'calculateOpenCycleTsp'],
 	},
 	calculateSpecificHeatAndMechanicalWork: {
 		name: 'Specifieke warmte en technische arbeid berekenen',
 		setup: and('recognizeProcessTypes', pick(['calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature', 'calculateWithMass'], 2), pick(['specificGasConstant', 'specificHeatRatio', 'specificHeats'], 2), 'calculateWithSpecificQuantities'),
-		links: { skill: 'calculateHeatAndWork', correlation: 0.6 },
+		links: { skill: 'calculateHeatAndWork', correlation: 0.4 },
 		exercises: ['calculateSpecificHeatAndMechanicalWorkIsobaric', 'calculateSpecificHeatAndMechanicalWorkIsothermal', 'calculateSpecificHeatAndMechanicalWorkIsentropic'],
 	},
 	calculateWithEnthalpy: {
 		name: 'Rekenen met enthalpie',
 		setup: and(pick(['massFlowTrick', 'calculateWithSpecificQuantities']), 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation'),
-		links: { skill: 'calculateWithInternalEnergy', correlation: 0.5 },
+		links: { skill: 'calculateWithInternalEnergy', correlation: 0.3 },
 		exercises: ['calculateWithEnthalpyCompressor', 'calculateWithEnthalpyBoiler', 'calculateWithEnthalpyTurbine'],
 	},
 	createOpenCycleEnergyOverview: {
 		name: 'Open kringproces energie-overzicht maken',
 		setup: and(repeat('calculateSpecificHeatAndMechanicalWork', 2), 'calculateWithEnthalpy'),
-		links: { skill: 'createClosedCycleEnergyOverview', correlation: 0.6 },
+		links: { skill: 'createClosedCycleEnergyOverview', correlation: 0.4 },
 		exercises: ['createOpenCycleEnergyOverviewspsp', 'createOpenCycleEnergyOverviewNspsp', 'createOpenCycleEnergyOverviewTsp'],
 	},
 	analyseOpenCycle: {
 		name: 'Open kringproces analyseren',
 		setup: and('calculateOpenCycle', 'createOpenCycleEnergyOverview', pick(['calculateWithEfficiency', 'calculateWithCOP']), 'massFlowTrick'),
-		links: { skill: 'analyseClosedCycle', correlation: 0.7 },
+		links: { skill: 'analyseClosedCycle', correlation: 0.5 },
 		exercises: ['analyseOpenCyclespsp', 'analyseOpenCycleNspsp', 'analyseOpenCycleTsp'],
 	},
 

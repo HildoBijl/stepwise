@@ -1,6 +1,8 @@
-import courses from '../ui/edu/courses'
-import { skillTree } from 'step-wise/edu/skills'
 import { hasDuplicates } from 'step-wise/util/arrays'
+import { ensureSetup } from 'step-wise/skillTracking'
+import { skillTree } from 'step-wise/edu/skills'
+
+import courses from '../ui/edu/courses'
 
 describe('Check all courses:', () => {
 	Object.keys(courses).forEach(key => {
@@ -107,6 +109,22 @@ describe('Check all courses:', () => {
 				const blockGoals = course.blocks.map(block => block.goals).flat()
 				const goalsNotCoveredByBlocks = course.goals.filter(goal => !blockGoals.includes(goal))
 				expect(goalsNotCoveredByBlocks).toHaveLength(0)
+			})
+
+			// Check set-up.
+			it('has a set-up that is a set-up object', () => {
+				if (course.setup) {
+					expect(() => ensureSetup(course.setup)).not.toThrow()
+				}
+			})
+
+			it('has a set-up that does not contain skills outside of the course contents', () => {
+				if (course.setup) {
+					const { skillsSet } = getSkillSets(course.goals, course.priorKnowledge)
+					const setupSkillList = course.setup.getSkillList()
+					const skillsNotInCourse = setupSkillList.filter(skillId => !skillsSet.has(skillId))
+					expect(skillsNotInCourse).toHaveLength(0)
+				}
 			})
 		})
 	})

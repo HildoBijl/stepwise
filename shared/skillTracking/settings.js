@@ -13,7 +13,7 @@ module.exports = {
 
 	// Inference settings.
 
-	defaultInferenceOrder: 6, // The order applied to inference on skills through their set-ups.
+	defaultInferenceOrder: 4, // The order applied to inference on skills through their set-ups.
 	defaultLinkOrder: 2, // The order applied to inference on skills through correlation links.
 	maxSkillDataCacheTime: 60 * 60 * 1000, // [Milliseconds] The time that coefficients are cached within SkillData objects. After this time they are recalculated using the most recent time decay.
 
