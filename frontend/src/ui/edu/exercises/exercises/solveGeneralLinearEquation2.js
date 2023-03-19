@@ -117,7 +117,7 @@ function getFeedback(exerciseData) {
 		'multiplied',
 		'expanded',
 	], exerciseData, [
-		[hasX, incorrectFraction, incorrectExpression],
+		[hasX, correctExpression, incorrectFraction],
 		simplifiedChecks,
 		[originalEquation, hasFraction, incorrectEquation, correctEquation],
 		[hasSumWithinProduct, hasFraction, incorrectEquation, correctEquation],
