@@ -160,7 +160,7 @@ function getRoutes(user = undefined) {
 								Indicator: SkillIndicator,
 								Notification: SkillAdvice,
 							},
-							'vrijoefenen': {
+							'freePractice': {
 								id: 'freePractice',
 								component: FreePractice,
 								name: 'Vrij oefenen',

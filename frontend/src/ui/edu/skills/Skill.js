@@ -248,5 +248,5 @@ export function SkillIndicator() {
 // useSkillId returns the skill ID extracted from the URL. If this skill ID does not exist, it throws an error.
 export function useSkillId() {
 	const { skillId } = useParams()
-	return ensureSkillId(skillId)
+	return skillId && ensureSkillId(skillId) // Allow skillId to be undefined.
 }
