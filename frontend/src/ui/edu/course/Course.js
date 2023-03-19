@@ -4,6 +4,9 @@ import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
+import { keysToObject } from 'step-wise/util/objects'
+import { getEV, getInverseCDF } from 'step-wise/skillTracking'
+
 import { TitleItem } from 'ui/layout/Title'
 
 import courses from '../courses'
@@ -12,6 +15,10 @@ import SkillRecommender from './SkillRecommender'
 import Block from './Block'
 import SkillList from './SkillList'
 import { useCourseData } from './Provider'
+
+import st from 'step-wise/skillTracking'
+
+window.st = st
 
 const useStyles = makeStyles((theme) => ({
 	courseOverview: {
@@ -32,6 +39,14 @@ const useStyles = makeStyles((theme) => ({
 	portraitOverview: {
 		'& .blockList': {
 			width: '100%',
+		},
+	},
+	gradeEstimate: {
+		padding: '0.5rem',
+		width: '100%',
+
+		'& .disclaimer': {
+			fontSize: '0.6rem',
 		},
 	},
 }))
@@ -114,6 +129,7 @@ function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActive
 					isPriorKnowledge={false}
 					analysis={analysis}
 				/>)}
+				<GradeEstimate />
 			</div>
 			<SkillList courseId={course.id} skillIds={skillIds} display={activeBlock !== undefined} landscape={landscape} isPriorKnowledge={activeBlock === -1} analysis={analysis} />
 		</div>
@@ -152,9 +168,35 @@ function PortraitCourse({ course, overview, analysis, activeBlock, toggleActiveB
 						analysis={analysis}
 					/>
 				))}
+				<GradeEstimate />
 			</div>
 		</div>
 	)
+}
+
+export function GradeEstimate() {
+	const classes = useStyles()
+	const { skillsDataLoaded, skillsData, course } = useCourseData()
+
+	// Do not show an estimate when no set-up has been given.
+	const { setup } = course
+	if (!skillsDataLoaded || !setup)
+		return null
+
+	// Gather all the required data.
+	const coefficientSet = keysToObject(setup.getSkillList(), skillId => skillsData[skillId].coefficients)
+	const EV = setup.getEV(coefficientSet)
+	const distribution = setup.getDistribution(coefficientSet)
+	const inverseCDF = getInverseCDF(distribution)
+
+	// Display the grade estimate.
+	const scoreToPercentage = score => `${Math.round(score * 100)}%`
+	const cdfValueToPercentage = cdfValue => scoreToPercentage(inverseCDF(cdfValue))
+	return <div className={clsx(classes.gradeEstimate, 'gradeEstimate')}
+	>
+		<div className="estimate">Gebaseerd op je oefening tot nu toe, verwachten we grofweg een score van <strong>{scoreToPercentage(EV)}</strong> (zo'n <strong>{cdfValueToPercentage(0.3)} - {cdfValueToPercentage(0.7)}</strong>) op de eindtoets.<sup>*</sup></div>
+		<div className="disclaimer"><sup>*</sup>Aan deze schatting kunnen geen rechten worden ontleend.</div>
+	</div>
 }
 
 export function CourseName() {

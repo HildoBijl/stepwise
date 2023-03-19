@@ -2,9 +2,9 @@ const { ensureArray, ensureNumberArray, sum } = require('../../util/arrays')
 const { isBasicObject, keysToObject } = require('../../util/objects')
 
 // ensureCoef takes a coef array and ensures it actually is one: it is an array of non-negative numbers whose sum equals one. It returns a copy of the array.
-function ensureCoef(coef) {
+function ensureCoef(coef, requireNormalized = true) {
 	coef = ensureNumberArray(coef, true)
-	if (Math.abs(sum(coef) - 1) > 1e-12)
+	if (requireNormalized && Math.abs(sum(coef) - 1) > 1e-12)
 		throw new Error(`Invalid input: expected a coefficient array whose sum equals one, but the sum instead is ${sum}. The array itself is [${coef.join(', ')}].`)
 	return coef
 }

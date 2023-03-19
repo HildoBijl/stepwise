@@ -86,7 +86,9 @@ function smoothenWithOrder(coef, newOrder) {
 	// Check input.
 	newOrder = ensureInt(newOrder, true)
 
-	// Check a boundary case.
+	// Check boundary cases.
+	if (coef.length <= 1)
+		return [1]
 	if (newOrder > maxSmoothingOrder)
 		return coef
 

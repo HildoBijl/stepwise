@@ -1,6 +1,4 @@
-const { ensureInt } = require('../../util/numbers')
-const { ensureArray } = require('../../util/arrays')
-const { isBasicObject, keysToObject } = require('../../util/objects')
+const { keysToObject } = require('../../util/objects')
 
 const { smoothenWithOrder, merge, mergeElementwise } = require('../coefficients')
 

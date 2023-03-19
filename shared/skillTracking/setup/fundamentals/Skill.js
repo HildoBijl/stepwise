@@ -30,3 +30,5 @@ class Skill extends SkillSetup {
 	}
 }
 module.exports.Skill = Skill
+
+module.exports.skill = (skill) => new Skill(skill)

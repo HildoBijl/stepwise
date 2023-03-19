@@ -7,12 +7,15 @@
  * - blocks: an array of objects with properties
  *   x name: for display purposes, the name of the course.
  *   x goals: an array of skills that should be mastered at the end of this block.
+ * - setup (optional): a Skill Tracking set-up that represents the final exam of the course. If given, it is used to display a grade estimate.
  * That's all there is to it!
  *  
  * ToDo later: put courses in database.
  * Step 1: put user registration of courses into database. So users can subscribe to courses.
  * Step 2: put courses itself in the database too.
  */
+
+import { pick } from 'step-wise/skillTracking'
 
 const courses = {
 	stepwisetutorial: {
@@ -42,7 +45,7 @@ const courses = {
 				name: 'Demo stapsgewijze oefeningen',
 				goals: ['summationAndMultiplication'],
 			},
-		]
+		],
 	},
 
 	wiskundebasis: {
@@ -78,6 +81,7 @@ const courses = {
 				goals: ['solveGeneralLinearEquation'],
 			},
 		],
+		setup: pick(['simplifyFraction', 'solveBasicLinearEquation', 'solveGeneralLinearEquation']),
 	},
 
 	exactawiskunde: {
@@ -128,6 +132,7 @@ const courses = {
 				goals: ['calculate3DShape'],
 			},
 		],
+		setup: pick(['solveBasicSystemOfLinearEquations', 'solveGeneralSystemOfLinearEquations', 'solveBasicQuadraticEquation', 'solveGeneralQuadraticEquation', 'determine2DDistances', 'calculateTriangle', 'calculate2DShape']),
 	},
 
 	exactastatica: {
@@ -222,6 +227,7 @@ const courses = {
 				goals: ['analyseAirco'],
 			},
 		],
+		setup: pick(['calculateClosedCycle', 'createClosedCycleEnergyOverview', 'calculateWithEfficiency', 'calculateWithCOP', 'findFridgeTemperatures', 'analyseAirco'], 1, [3, 3, 1, 1, 1, 2]),
 	},
 
 	promo: {
@@ -286,6 +292,7 @@ const courses = {
 				goals: ['analyseCoolingCycle'],
 			},
 		],
+		setup: pick(['calculateClosedCycle', 'createClosedCycleEnergyOverview', 'calculateOpenCycle', 'createOpenCycleEnergyOverview', 'calculateWithEfficiency', 'calculateWithCOP', 'useIsentropicEfficiency', 'massFlowTrick', 'createRankineCycleOverview', 'useVaporFraction', 'createCoolingCycleOverview'], 1, [2, 2, 2, 2, 1, 1, 2, 2, 2, 1, 2]),
 	},
 
 	dlwmpn: {
@@ -353,6 +360,7 @@ const courses = {
 				goals: ['analyseCoolingCycle'],
 			},
 		],
+		setup: pick(['calculateClosedCycle', 'createClosedCycleEnergyOverview', 'calculateOpenCycle', 'createOpenCycleEnergyOverview', 'calculateWithEfficiency', 'calculateWithCOP', 'useIsentropicEfficiency', 'massFlowTrick', 'createRankineCycleOverview', 'useVaporFraction', 'createCoolingCycleOverview'], 1, [2, 2, 2, 2, 1, 1, 2, 2, 2, 1, 2]),
 	},
 }
 Object.keys(courses).forEach(key => {

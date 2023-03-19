@@ -137,7 +137,8 @@ async function getExerciseSuccessRates(exerciseIds, getSkillDataSet) {
 
 		// If there are both a skill and a setup parameter, combine this knowledge.
 		const skillCoefficients = coefficientSet[exerciseData.skill]
-		const setupCoefficients = exerciseData.setup.getDistribution(coefficientSet, exerciseData.setupOrder) // The exercise may overwrite the set-up order if desired.
+		const setup = ensureSetup(exerciseData.setup)
+		const setupCoefficients = setup.getDistribution(coefficientSet, exerciseData.setupOrder) // The exercise may overwrite the set-up order if desired.
 		const mergedCoefficients = merge([skillCoefficients, setupCoefficients])
 		return getEV(mergedCoefficients)
 	})
