@@ -3,9 +3,10 @@ import { useParams } from 'react-router-dom'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 
+import { arraysToObject, keysToObject } from 'step-wise/util/objects'
 import { formatDate } from 'step-wise/util/date'
+import { processSkillDataSet } from 'step-wise/skillTracking'
 import { skillTree } from 'step-wise/edu/skills'
-import { SkillData } from 'step-wise/skillTracking'
 import { includePrerequisitesAndLinks, processSkill, getDefaultSkillData } from 'step-wise/edu/skills/util'
 
 import { useUserQuery } from 'api/admin'
@@ -110,22 +111,17 @@ function getUserNameFromQueryResult(res) {
 function useSkillsData(user) {
 	return useMemo(() => {
 		// Process the skills into a raw data set.
-		const skills = user.skills
-		const data = {}
-		skills.forEach(skill => {
-			data[skill.skillId] = processSkill(skill)
-		})
+		const skillsProcessed = user.skills.map(skill => processSkill(skill))
+		const skillIds = skillsProcessed.map(skill => skill.skillId)
+		const skillsAsObject = arraysToObject(skillIds, skillsProcessed)
 
 		// Add skills that are not in the data set. (These are skills that are not in the database yet.)
-		const skillIds = user.skills.map(skill => skill.skillId)
-		const skillIdsWithPrerequisitesAndLinks = includePrerequisitesAndLinks(skillIds)
-		skillIdsWithPrerequisitesAndLinks.forEach(skillId => {
-			if (!data[skillId])
-				data[skillId] = getDefaultSkillData(skillId)
-		})
+		const allSkillIds = includePrerequisitesAndLinks(skillIds)
+		const skills = keysToObject(allSkillIds, skillId => skillsAsObject[skillId] || getDefaultSkillData(skillId))
+		const skillDataSet = processSkillDataSet(skills, skillTree)
 
-		// Set up SkillData objects.
-		const result = skillIds.map(skillId => new SkillData(skillId, data))
-		return result.sort((a, b) => b.lastPracticed - a.lastPracticed) // Sort with latest first.
+		// Turn the object back into an array, with only the practiced skills and not the prerequisites, and sort by last activity.
+		const skillList = skillIds.map(skillId => skillDataSet[skillId])
+		return skillList.sort((a, b) => b.lastPracticed - a.lastPracticed) // Sort with latest first.
 	}, [user])
 }
