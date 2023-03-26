@@ -64,10 +64,7 @@ export function useSkillsQuery(skillIds) {
 			throw new Error(`Invalid skillId: the skillId "${skillId}" is not known.`)
 	})
 	const skip = !user || skillIds.length === 0
-	const result = useQuery(SKILLS, { variables: { skillIds }, skip })
-	if (!user)
-		return { data: null, loading: false, error: false }
-	return result
+	return useQuery(SKILLS, { variables: { skillIds }, skip })
 }
 const SKILLS = gql`
 	query skills($skillIds: [String]!) {

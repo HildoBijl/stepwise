@@ -30,10 +30,13 @@ export default function SkillCacher({ children }) {
 	const skills = data?.skills
 
 	// Implement any loaded data into the cache.
+	const user = useUser()
 	useEffect(() => {
 		// Check if we should add anything.
 		if (skillsWithPrerequisitesAndLinks.length === 0)
 			return // Nothing to add.
+		if (!user)
+			return // No user to add anything for.
 		if (loading)
 			return // Still loading.
 		if (error)
@@ -44,13 +47,10 @@ export default function SkillCacher({ children }) {
 		const rawSkillDataSetUnprocessed = keysToObject(skillsWithPrerequisitesAndLinks, skillId => skillsAsObject[skillId] || getDefaultSkillData(skillId))
 		const rawSkillDataSet = applyToEachParameter(rawSkillDataSetUnprocessed, skill => processSkill(skill))
 		setCache(skillDataSet => updateSkillDataSet(skillDataSet, rawSkillDataSet, skillTree))
-	}, [skillsWithPrerequisitesAndLinks, loading, error, skills, setCache])
+	}, [skillsWithPrerequisitesAndLinks, user, loading, error, skills, setCache])
 
 	// When the user changes, clear the cache.
-	const user = useUser()
-	useEffect(() => {
-		setCache({})
-	}, [user])
+	useEffect(() => { setCache({}) }, [user])
 
 	// Gather data for the context.
 	const contextData = {

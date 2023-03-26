@@ -25,8 +25,6 @@ export default function About() {
 	const user = useUser()
 	return <>
 		<Par>Je bent ingelogd als {user.name} &lt;{user.email}&gt;.</Par>
-		<Par>Er zijn nog geen app-brede instellingen. Zijn er dingen die je in wilt stellen? Laat het weten via <a href="mailto:hildo.bijl@hu.nl">hildo.bijl@hu.nl</a> en we kijken of we het toe kunnen voegen.</Par>
-
 		<DeleteAccount />
 	</>
 }
@@ -64,7 +62,7 @@ function DeleteAccount() {
 
 	return <>
 		<Head>Account verwijderen</Head>
-		<Par>Als je je account verwijdert, dan worden <strong>alle</strong> gegevens van je op Step-Wise gewist. Dit kan niet ongedaan gemaakt worden.</Par>
+		<Par>Als je je account verwijdert, dan worden <strong>alle</strong> gegevens van je op Step-Wise gewist. Dit kan niet ongedaan gemaakt worden! Je kunt daarna uiteraard wel een volledig nieuwe account aanmaken, maar deze begint weer vanaf nul.</Par>
 		<Par>Weet je zeker dat je je account wilt verwijderen? Vul dan hieronder ter bevestiging je emailadres in.</Par>
 		<form noValidate autoComplete="off" onSubmit={submitForm}>
 			<TextField id="confirmEmail" className={classes.email} label="Emailadres" variant="outlined" size="small" value={confirmEmail} onChange={(evt) => setConfirmEmail(evt.target.value)} error={isError} helperText={helperText} />
