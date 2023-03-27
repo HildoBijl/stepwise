@@ -2,11 +2,10 @@ import { processOptions } from 'step-wise/util/objects'
 import { getEV } from 'step-wise/skillTracking'
 
 const defaultSkillThresholds = {
-	pass: 0.55, // If the skill is above this level, we can move on.
-	recap: 0.50, // If the skills is below this level, we must recap: go back to it.
-	pkPass: 0.55, // If a prior knowledge has this skill level, we can move on.
-	pkRecap: 0.45, // If the skill level for a prior skill drops below this, we must recap.
-	// ToDo later: allow skills to vary on this by themselves.
+	pass: 0.55, // If the skill level is above this level, the skill is considered mastered.
+	recapFactor: 0.90, // If the skill level is below this factor times the pass rate (above), then it is considered "forgotten" and needs to be readressed.
+	pkPass: 0.55, // If a prior knowledge skill is above this level, it is considered mastered.
+	pkRecapFactor: 0.8, // If the skill level for a prior skill drops below this factor times the pkPass rate (above) then it is considered "forgotten".
 }
 export { defaultSkillThresholds }
 
@@ -24,7 +23,7 @@ export function isPracticeNeeded(skillData, priorKnowledge = false, skillThresho
 	// Determine the thresholds to apply.
 	skillThresholds = processOptions(skillThresholds, defaultSkillThresholds)
 	const pass = priorKnowledge ? skillThresholds.pkPass : skillThresholds.pass
-	const recap = priorKnowledge ? skillThresholds.pkRecap : skillThresholds.recap
+	const recap = pass * (priorKnowledge ? skillThresholds.pkRecapFactor : skillThresholds.recapFactor)
 
 	// Check if the thresholds are satisfied.
 	const EV = getEV(skillData.coefficients)
