@@ -93,9 +93,14 @@ function getPracticeNeeded(overview, skillsData) {
 }
 
 function checkPracticeNeeded(skillId, skillsData = {}, priorKnowledge, result, bestParent) {
+	// Extract the skill from the skill tree.
+	const skill = skillTree[skillId]
+	if (!skill)
+		throw new Error(`Invalid skill: could not find "${skillId}" when processing course data.`)
+
 	// Derive data about this skill.
 	const isPriorKnowledge = priorKnowledge.includes(skillId)
-	let practiceNeeded = isPracticeNeeded(skillsData[skillId], isPriorKnowledge)
+	let practiceNeeded = isPracticeNeeded(skillsData[skillId], isPriorKnowledge, skill.thresholds)
 	if (bestParent !== undefined && practiceNeeded !== undefined)
 		practiceNeeded = Math.min(bestParent, practiceNeeded)
 
@@ -105,9 +110,6 @@ function checkPracticeNeeded(skillId, skillsData = {}, priorKnowledge, result, b
 	result[skillId] = practiceNeeded
 
 	// Store, and recursively add prerequisites.
-	const skill = skillTree[skillId]
-	if (!skill)
-		throw new Error(`Invalid skill: could not find "${skillId}" when processing course data.`)
 	if (!isPriorKnowledge && skill.prerequisites)
 		skill.prerequisites.forEach(prerequisiteId => checkPracticeNeeded(prerequisiteId, skillsData, priorKnowledge, result, practiceNeeded))
 }

@@ -242,7 +242,7 @@ export function SkillIndicator() {
 	if (!skill)
 		return null
 
-	return <SkillFlask className={classes.skillIndicator} coef={skill.coefficients} strongShadow={true} />
+	return <SkillFlask className={classes.skillIndicator} skillId={skillId} coef={skill.coefficients} strongShadow={true} />
 }
 
 // useSkillId returns the skill ID extracted from the URL. If this skill ID does not exist, it throws an error.

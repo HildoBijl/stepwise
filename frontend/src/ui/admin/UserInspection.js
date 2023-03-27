@@ -72,15 +72,15 @@ function UserInspectionForUser({ user }) {
 				<div className="name head">Vaardigheid</div>
 				<div className="numPracticed head">Gemaakte pogingen</div>
 				<div className="lastPracticed head">Laatste actie</div>
-				{Object.keys(skillsData).map(skillId => <UserInspectionItem key={skillId} skillData={skillsData[skillId]} />)}
+				{Object.keys(skillsData).map(skillId => <UserInspectionItem key={skillId} skillId={skillId} skillData={skillsData[skillId]} />)}
 			</div>
 		</HorizontalSlider>
 	</>
 }
 
-function UserInspectionItem({ skillData }) {
+function UserInspectionItem({ skillId, skillData }) {
 	return <>
-		<div className="flask"><SkillFlask coef={skillData.coefficients} size={40} /></div>
+		<div className="flask"><SkillFlask skillId={skillId} coef={skillData.coefficients} size={40} /></div>
 		<div className="name">{skillTree[skillData.skillId].name}</div>
 		<div className="numPracticed">{skillData.numPracticed}</div>
 		<div className="lastPracticed">{formatDate(skillData.lastPracticed, true)}</div>

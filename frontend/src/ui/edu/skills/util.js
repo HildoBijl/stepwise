@@ -3,9 +3,9 @@ import { getEV } from 'step-wise/skillTracking'
 
 const defaultSkillThresholds = {
 	pass: 0.55, // If the skill level is above this level, the skill is considered mastered.
-	recapFactor: 0.90, // If the skill level is below this factor times the pass rate (above), then it is considered "forgotten" and needs to be readressed.
-	pkPass: 0.55, // If a prior knowledge skill is above this level, it is considered mastered.
-	pkRecapFactor: 0.8, // If the skill level for a prior skill drops below this factor times the pkPass rate (above) then it is considered "forgotten".
+	recapFactor: 0.90, // [Multiplied by pass.] If the skill level is below this factor times the pass rate (above), then it is considered "forgotten" and needs to be readressed.
+	pkFactor: 1, // [Multiplied by pass.] If a prior knowledge skill is above this level, it is considered mastered.
+	pkRecapFactor: 0.8, // [Multiplied by pass * pkFactor.] If the skill level for a prior skill drops below this factor times the pass rate times the pkFactor, then it is considered "forgotten".
 }
 export { defaultSkillThresholds }
 
@@ -22,7 +22,7 @@ export function isPracticeNeeded(skillData, priorKnowledge = false, skillThresho
 
 	// Determine the thresholds to apply.
 	skillThresholds = processOptions(skillThresholds, defaultSkillThresholds)
-	const pass = priorKnowledge ? skillThresholds.pkPass : skillThresholds.pass
+	const pass = skillThresholds.pass * (priorKnowledge ? skillThresholds.pkFactor : 1)
 	const recap = pass * (priorKnowledge ? skillThresholds.pkRecapFactor : skillThresholds.recapFactor)
 
 	// Check if the thresholds are satisfied.

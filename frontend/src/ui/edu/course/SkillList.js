@@ -110,23 +110,22 @@ function SkillItem({ courseId, skillId, isPriorKnowledge, recommend = false, pra
 	const skillData = useSkillData(skillId)
 
 	// If there is no data, show that skills will be added in the future.
-	if (!skillId) {
+	if (!skillId)
 		return <div className="skillItem dummy">Er zijn nog geen opgaven toegevoegd hier. Ze komen er zo snel mogelijk aan.</div>
-	}
 
 	// Determine the tooltip to show under a "mastered" checkmark.
 	let iconText = ''
+	const skill = skillTree[skillId]
 	if (practiceNeeded === 0) {
-		if (isPracticeNeeded(skillData, isPriorKnowledge) === 0)
+		if (isPracticeNeeded(skillData, isPriorKnowledge, skill.thresholds) === 0)
 			iconText = 'Je beheerst deze vaardigheid goed.'
 		else
 			iconText = 'Je beheerst een vervolg-vaardigheid, dus markeren we deze ook als voldoende.'
 	}
 
-	const skill = skillTree[skillId]
 	return (
 		<Link to={paths.courseSkill({ courseId, skillId })} className={clsx('skillItem', { recommend })}>
-			{skillData ? <SkillFlask coef={skillData.coefficients} size={40} /> : null}
+			{skillData ? <SkillFlask skillId={skillId} coef={skillData.coefficients} isPriorKnowledge={isPriorKnowledge} size={40} /> : null}
 			<div className="skillName">{skill.name}</div>
 			{practiceNeeded === 0 ? (
 				<Tooltip title={iconText} arrow>

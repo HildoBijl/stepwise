@@ -173,6 +173,7 @@ let skillTree = {
 		name: '2D afstanden bepalen',
 		setup: and('determine2DAngles', repeat(pick(['applyPythagoreanTheorem', 'applySineCosineTangent', 'applySimilarTriangles']), 2)),
 		exercises: [], // ToDo
+		thresholds: { pass: 0.35 },
 	},
 
 	// Basic geometry: general triangles.
@@ -357,6 +358,7 @@ let skillTree = {
 		name: 'Gesloten kringproces doorrekenen',
 		setup: repeat('calculateProcessStep', 3),
 		exercises: ['calculateClosedCycleVTp', 'calculateClosedCycleTsV', 'calculateClosedCycleSTST', 'calculateClosedCycleSVSV'],
+		thresholds: { pass: 0.5 },
 	},
 	calculateHeatAndWork: {
 		name: 'Warmte en arbeid berekenen',
@@ -372,6 +374,7 @@ let skillTree = {
 		name: 'Gesloten kringproces energie-overzicht maken',
 		setup: and(repeat('calculateHeatAndWork', 2), or('calculateHeatAndWork', 'calculateWithInternalEnergy')),
 		exercises: ['createClosedCycleEnergyOverviewVTp', 'createClosedCycleEnergyOverviewTsV', 'createClosedCycleEnergyOverviewSTST', 'createClosedCycleEnergyOverviewSVSV'],
+		thresholds: { pass: 0.5 },
 	},
 	calculateWithEfficiency: {
 		name: 'Rekenen met rendement',
@@ -386,6 +389,7 @@ let skillTree = {
 		name: 'Gesloten kringproces analyseren',
 		setup: and('calculateClosedCycle', 'createClosedCycleEnergyOverview', pick(['calculateWithEfficiency', 'calculateWithCOP'])),
 		exercises: ['analyseClosedCycleVTp', 'analyseClosedCycleTsV', 'analyseClosedCycleSTST', 'analyseClosedCycleSVSV'],
+		thresholds: { pass: 0.4 },
 	},
 
 	calculateWithSpecificQuantities: {
@@ -407,6 +411,7 @@ let skillTree = {
 		setup: repeat('calculateOpenProcessStep', 3),
 		links: { skill: 'calculateClosedCycle', correlation: 0.6 },
 		exercises: ['calculateOpenCyclespsp', 'calculateOpenCycleNspsp', 'calculateOpenCycleTsp'],
+		thresholds: { pass: 0.5 },
 	},
 	calculateSpecificHeatAndMechanicalWork: {
 		name: 'Specifieke warmte en technische arbeid berekenen',
@@ -425,12 +430,14 @@ let skillTree = {
 		setup: and(repeat('calculateSpecificHeatAndMechanicalWork', 2), 'calculateWithEnthalpy'),
 		links: { skill: 'createClosedCycleEnergyOverview', correlation: 0.4 },
 		exercises: ['createOpenCycleEnergyOverviewspsp', 'createOpenCycleEnergyOverviewNspsp', 'createOpenCycleEnergyOverviewTsp'],
+		thresholds: { pass: 0.5 },
 	},
 	analyseOpenCycle: {
 		name: 'Open kringproces analyseren',
 		setup: and('calculateOpenCycle', 'createOpenCycleEnergyOverview', pick(['calculateWithEfficiency', 'calculateWithCOP']), 'massFlowTrick'),
 		links: { skill: 'analyseClosedCycle', correlation: 0.5 },
 		exercises: ['analyseOpenCyclespsp', 'analyseOpenCycleNspsp', 'analyseOpenCycleTsp'],
+		thresholds: { pass: 0.4 },
 	},
 
 	calculateEntropyChange: {
@@ -442,6 +449,7 @@ let skillTree = {
 		name: 'Gemiste arbeid berekenen',
 		setup: and('calculateEntropyChange', 'solveLinearEquation'),
 		exercises: ['calculateMissedWorkIsotherm', 'calculateMissedWorkPiston', 'calculateMissedWorkCompressor'],
+		thresholds: { pass: 0.5 },
 	},
 
 	useIsentropicEfficiency: {
@@ -453,6 +461,7 @@ let skillTree = {
 		name: 'Gasturbine analyseren',
 		setup: and('calculateOpenCycle', 'useIsentropicEfficiency', 'createOpenCycleEnergyOverview', 'calculateWithEfficiency', 'massFlowTrick'),
 		exercises: ['analyseGasTurbine1', 'analyseGasTurbine2', 'analyseGasTurbine3'],
+		thresholds: { pass: 0.4 },
 	},
 
 	lookUpSteamProperties: {
@@ -468,11 +477,13 @@ let skillTree = {
 		name: 'Overzicht Rankine-cyclus maken',
 		setup: and(repeat('lookUpSteamProperties', 2), 'recognizeProcessTypes', 'useVaporFraction'),
 		exercises: ['createRankineCycleOverview'],
+		thresholds: { pass: 0.5 },
 	},
 	analyseRankineCycle: {
 		name: 'Rankine-cyclus analyseren',
 		setup: and('createRankineCycleOverview', 'useIsentropicEfficiency', part('useVaporFraction', 1 / 2), 'calculateWithEfficiency', 'massFlowTrick'),
 		exercises: ['analyseRankineCycleWithEtai', 'analyseRankineCycleWithX3'],
+		thresholds: { pass: 0.4 },
 	},
 
 	findFridgeTemperatures: {
@@ -487,11 +498,13 @@ let skillTree = {
 		name: 'Overzicht koelcyclus maken',
 		setup: and('findFridgeTemperatures', repeat('determineRefrigerantProcess', 3)),
 		exercises: ['createCoolingCycleOverviewFromPressures', 'createCoolingCycleOverviewFromTemperatures'],
+		thresholds: { pass: 0.5 },
 	},
 	analyseCoolingCycle: {
 		name: 'Koelcyclus analyseren',
 		setup: and('createCoolingCycleOverview', 'useIsentropicEfficiency', 'calculateWithCOP', 'massFlowTrick'),
 		exercises: ['analyseCoolingCycleWithEtai', 'analyseCoolingCycleWithT2'],
+		thresholds: { pass: 0.4 },
 	},
 
 	readMollierDiagram: {

@@ -3,12 +3,16 @@ import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import Tooltip from '@material-ui/core/Tooltip'
 
+import { processOptions } from 'step-wise/util/objects'
 import { numberArray } from 'step-wise/util/arrays'
 import { boundTo, interpolate } from 'step-wise/util/numbers'
+import { skillTree } from 'step-wise/edu/skills'
 import { getEV, getMaxLikelihood } from 'step-wise/skillTracking'
 
 import { mix, shift, toCSS } from 'util/colors'
 import { useUniqueNumber } from 'util/react'
+
+import { defaultSkillThresholds } from './util'
 
 // Define general settings.
 const vb = 100 // Viewbox size.
@@ -32,6 +36,16 @@ const useStyles = makeStyles((theme) => ({
 		height: ({ size }) => `${size}px`,
 		transform: 'translateY(-1px)', // Compensation for the drop shadow. This makes it feel more balanced.
 		width: ({ size }) => `${size}px`,
+
+		'& .targetLine': {
+			opacity: 0,
+			stroke: ({ color }) => toCSS(shift(color, -0.4)),
+			strokeWidth: 2,
+			transition: `opacity ${theme.transitions.duration.standard}ms`,
+		},
+		'&:hover .targetLine': {
+			opacity: 0.6,
+		},
 	},
 	clip: ({ clipProperties }) => ({
 		...clipProperties,
@@ -40,8 +54,12 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function SkillFlask(props) {
-	const { coef, size = 60, strongShadow = false, className } = props
+	const { coef, size = 60, strongShadow = false, className, skillId, isPriorKnowledge = false } = props
 	const id = useUniqueNumber()
+
+	// If a skillId is given, calculate and display the target.
+	const thresholds = skillId ? processOptions(skillTree[skillId].thresholds || {}, defaultSkillThresholds) : undefined
+	const target = thresholds && thresholds.pass * (isPriorKnowledge ? thresholds.pkFactor : 1)
 
 	// Calculate style elements and pass them to the useStyles function.
 	const part = getEV(coef)
@@ -54,14 +72,14 @@ export default function SkillFlask(props) {
 			width: `${vb}px`,
 			height: `${part * (vb)}px`,
 		},
-		color: toCSS(color),
+		color,
 		size,
 		strongShadow,
 	})
 
 	// Render the component.
 	return (
-		<Tooltip title={<span>We schatten de kans in op <strong>{Math.round(part * 100)}%</strong> dat je een opdracht hiervan goed gaat doen.</span>} arrow>
+		<Tooltip title={<span>We schatten de kans in op <strong>{Math.round(part * 100)}%</strong> dat je een opdracht hiervan goed gaat doen.{thresholds ? ` (Doel: ${Math.round(target * 100)}%)` : null}</span>} arrow>
 			<svg className={clsx(classes.skillFlask, 'skillFlask', className)} viewBox={`0 0 ${vb} ${vb}`}>
 				<defs>
 					<radialGradient id={`flaskBackground${id}`} cx="50%" cy="50%" r="70%" fx="64%" fy="26%">
@@ -78,6 +96,7 @@ export default function SkillFlask(props) {
 				</defs>
 				<circle cx={vb / 2} cy={vb / 2} r={vb / 2 - vb / 100} strokeWidth="0" fill={`url(#flaskBackground${id})`} />{/* Subtract a small amount to prevent the background from creeping around the edges. */}
 				<circle cx={vb / 2} cy={vb / 2} r={vb / 2} strokeWidth="0" fill={`url(#flaskForeground${id})`} clipPath={`url(#flaskFill${id})`} />
+				{thresholds ? <line x1={(1 / 2 - Math.sqrt(target - target ** 2)) * vb} y1={(1 - target) * vb} x2={(1 / 2 + Math.sqrt(target - target ** 2)) * vb} y2={(1 - target) * vb} className="targetLine" /> : null}
 			</svg>
 		</Tooltip>
 	)
