@@ -25,7 +25,7 @@ export default function About() {
 			<Head>Geschiedenis</Head>
 			<Par>Step-Wise is een direct gevolg van de coronapandemie. Hoorcolleges gingen al snel digitaal, maar Hogeschooldocent <a href="https://www.hildobijl.com/" target="_blank"rel="noreferrer">Hildo Bijl</a> wilde ook de interactie van de werkcolleges digitaal, en dan het liefst volautomatisch. Het gevolg was de Step-Wise web-app.</Par>
 			<Par>Het eerste jaar begon met natuurkunde (thermodynamica). Toen de reacties van de studenten hierop positief waren, werd in het jaar erop ook wiskunde en mechanica toegevoegd. Langzamerhand groeide de variëteit aan onderwerpen.</Par>
-			<Par>Step-Wise heeft veel handmatig ontwikkelde tools, om de invoer en evaluatie van antwoorden op oefenopgaven zo natuurlijk mogelijk te maken. Denk aan een formule-invoerveld met bijbehorend toetsenbord, een Computer Algebra System om de wiskunde na te kijken, en een natuurkunde-engine die eenheden vergelijkt. Deze worden continu verbeterd en verder ontwikkeld.</Par>
+			<Par>Step-Wise heeft veel handmatig ontwikkelde tools die de invoer en evaluatie van antwoorden op oefenopgaven zo natuurlijk mogelijk te maken. Denk aan een formule-invoerveld met bijbehorend toetsenbord, een Computer Algebra System om de wiskunde na te kijken, en een natuurkunde-engine die eenheden vergelijkt. Deze worden continu verbeterd en verder ontwikkeld.</Par>
 			<Par>Dank is verschuldigd aan het Comenius netwerk en de SURF Stimuleringsregeling voor enkele kleine beurzen bij de opstartfase van de web-app.</Par>
 
 			<Head>Technische details</Head>
