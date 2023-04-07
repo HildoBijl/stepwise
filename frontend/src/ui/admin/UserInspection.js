@@ -12,7 +12,7 @@ import { includePrerequisitesAndLinks, processSkill, getDefaultSkillData } from 
 import { useUserQuery } from 'api/admin'
 import { TitleItem } from 'ui/layout/Title'
 import { Par } from 'ui/components/containers'
-import SkillFlask from 'ui/edu/skills/SkillFlask'
+import { SkillFlask } from 'ui/edu/skills'
 import HorizontalSlider from 'ui/components/layout/HorizontalSlider'
 
 export default function UserInspection() {

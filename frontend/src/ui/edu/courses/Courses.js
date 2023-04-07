@@ -4,7 +4,8 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import { count } from 'step-wise/util/arrays'
 
-import { useSkillsData } from '../skills/SkillCacher'
+import { useSkillsData } from 'api/skill'
+
 import { getOverview, getAnalysis } from '../course/util'
 import courses from '../courses'
 

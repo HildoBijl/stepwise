@@ -9,13 +9,12 @@ import { Check } from '@material-ui/icons'
 
 import { skillTree } from 'step-wise/edu/skills'
 
+import { useSkillData } from 'api/skill'
 import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routing'
 import QuickPractice from 'ui/components/icons/QuickPractice'
 
-import { useSkillData } from '../skills/SkillCacher'
-import SkillFlask from '../skills/SkillFlask'
-import { isPracticeNeeded } from '../skills/util'
+import { SkillFlask, isPracticeNeeded } from '../skills'
 
 const useStyles = makeStyles((theme) => ({
 	skillList: {

@@ -12,7 +12,7 @@ import { getEV, getMaxLikelihood } from 'step-wise/skillTracking'
 import { mix, shift, toCSS } from 'util/colors'
 import { useUniqueNumber } from 'util/react'
 
-import { defaultSkillThresholds } from './util'
+import { defaultSkillThresholds } from '../util'
 
 // Define general settings.
 const vb = 100 // Viewbox size.

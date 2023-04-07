@@ -6,7 +6,9 @@ import { skillTree, includePrerequisitesAndLinks, processSkill, getDefaultSkillD
 
 import { useConsistentValue } from 'util/react'
 import { useUser } from 'api/user'
-import { useSkillsQuery, useSkillsSubscription } from 'api/skill'
+
+import { useSkillsQuery } from './queries'
+import { useSkillsSubscription } from './subscriptions'
 
 const SkillCacherContext = createContext()
 

@@ -1,7 +1,8 @@
 import React, { createContext, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { useSkillsData } from '../skills/SkillCacher'
+import { useSkillsData } from 'api/skill'
+
 import courses from '../courses'
 
 import { getOverview, getAnalysis } from './util'

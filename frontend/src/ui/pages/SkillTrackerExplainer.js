@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { Check, Clear, Replay } from '@material-ui/icons'
 import Slider from '@material-ui/core/Slider'
@@ -10,8 +10,7 @@ import { getSelectionRates } from 'step-wise/edu/exercises/util/selection'
 import { M } from 'ui/components/equations'
 import Button from 'ui/components/misc/Button'
 import { Par, Head } from 'ui/components/containers'
-import SkillFlask from 'ui/edu/skills/SkillFlask'
-import { defaultSkillThresholds } from 'ui/edu/skills/util'
+import { SkillFlask, defaultSkillThresholds } from 'ui/edu/skills'
 
 const labelsWithoutLast = ['A', 'B']
 const lastLabel = 'X'

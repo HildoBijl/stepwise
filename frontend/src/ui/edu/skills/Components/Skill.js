@@ -9,15 +9,15 @@ import { skillTree, ensureSkillId } from 'step-wise/edu/skills'
 import { getNewRandomExercise } from 'step-wise/edu/exercises/util/selection'
 
 import { useUserResult, useUser } from 'api/user'
+import { useSkillQuery, useStartExerciseMutation, useSubmitExerciseActionMutation, useSkillData } from 'api/skill'
 import { useActiveGroupResult, useActiveGroup, useActiveGroupExercisesResult, useActiveGroupExerciseForSkill, useStartGroupExerciseMutation, useSubmitGroupActionMutation, useCancelGroupActionMutation, useResolveGroupEventMutation } from 'api/group'
-import { useSkillQuery, useStartExerciseMutation, useSubmitExerciseActionMutation } from 'api/skill'
 import { TitleItem } from 'ui/layout/Title'
 import LoadingNote from 'ui/components/flow/LoadingNote'
 import ErrorNote from 'ui/components/flow/ErrorNote'
 
-import { useSkillData } from './SkillCacher'
+import ExerciseContainer from '../../exercises/ExerciseContainer'
+
 import SkillFlask from './SkillFlask'
-import ExerciseContainer from '../exercises/ExerciseContainer'
 
 export default function Skill() {
 	const { loading: userLoading } = useUserResult()

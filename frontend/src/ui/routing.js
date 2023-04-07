@@ -8,7 +8,7 @@ import * as pages from 'ui/pages'
 import UserInspection, { UserInspectionTitle } from 'ui/admin/UserInspection'
 import UserOverview from 'ui/admin/UserOverview'
 
-import Skill, { SkillName, SkillIndicator } from 'ui/edu/skills/Skill'
+import Skill, { SkillName, SkillIndicator } from 'ui/edu/skills/Components/Skill'
 import BlankExercise, { ExerciseName } from 'ui/edu/exercises/BlankExercise'
 import Courses from 'ui/edu/courses/Courses'
 import Course, { CourseName } from 'ui/edu/course/Course'

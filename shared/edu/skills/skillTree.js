@@ -336,11 +336,13 @@ let skillTree = {
 	},
 	gasLaw: {
 		name: 'De gaswet',
+		path: 'physics/thermodynamics',
 		setup: and(pick(['calculateWithPressure', 'calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature'], 2), 'specificGasConstant', 'solveLinearEquation'),
 		exercises: ['gasLawLightBulb', 'gasLawHeliumBalloon', 'gasLawDivingCylinder', 'gasLawBicyclePump', 'gasLawWeatherBalloon'],
 	},
 	recognizeProcessTypes: {
 		name: 'Soorten processen herkennen',
+		path: 'physics/thermodynamics',
 		exercises: ['processNameToProperty', 'propertyToProcessName', 'findProcessCoefficient'], // ToDo later: add questions with p-V-plots too.
 	},
 	poissonsLaw: {

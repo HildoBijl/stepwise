@@ -5,8 +5,8 @@ import { ApolloProvider } from '@apollo/client'
 
 import { UserProvider } from 'api/user'
 import { ActiveGroupProvider } from 'api/group'
+import { SkillCacher } from 'api/skill'
 import theme from 'ui/theme'
-import SkillCacher from 'ui/edu/skills/SkillCacher'
 
 import Routing from './Routing'
 
