@@ -13,7 +13,7 @@ import { usePaths } from 'ui/routing'
 import NotificationBar from 'ui/components/notifications/NotificationBar'
 import { useModalContext } from 'ui/components/Modal'
 
-import { useSkillId } from '../skills/Components/Skill'
+import { useSkillId } from '../skills'
 
 import { strFreePractice } from './util'
 import { useCourseData } from './Provider'

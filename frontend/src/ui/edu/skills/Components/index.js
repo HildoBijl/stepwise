@@ -1,2 +1,5 @@
-export * from './Skill'
+export { default as Skill } from './Skill'
 export { default as SkillFlask } from './SkillFlask'
+export { default as SkillName } from './SkillName'
+export { default as SkillIndicator } from './SkillIndicator'
+export { ExercisePage } from './ExercisePage'

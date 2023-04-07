@@ -1,5 +1,8 @@
+import { useParams } from 'react-router-dom'
+
 import { processOptions } from 'step-wise/util/objects'
 import { getEV } from 'step-wise/skillTracking'
+import { ensureSkillId } from 'step-wise/edu/skills'
 
 const defaultSkillThresholds = {
 	pass: 0.55, // If the skill level is above this level, the skill is considered mastered.
@@ -36,4 +39,10 @@ export function isPracticeNeeded(skillData, priorKnowledge = false, skillThresho
 	if (getEV(skillData.highest) > pass)
 		return 1 // There has been mastery in the past, so it's not completely necessary.
 	return 2 // There has never been mastery yet: keep on working!
+}
+
+// useSkillId returns the skill ID extracted from the URL. If this skill ID does not exist, it throws an error.
+export function useSkillId() {
+	const { skillId } = useParams()
+	return skillId && ensureSkillId(skillId) // Allow skillId to be undefined.
 }
