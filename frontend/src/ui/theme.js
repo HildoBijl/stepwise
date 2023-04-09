@@ -91,6 +91,13 @@ let theme = {
 theme = createTheme(theme) // Turn the theme into a MUI theme object.
 export default theme
 
+// The style for a page container.
+const pageContainerStyle = {
+	marginTop: theme.spacing(2),
+	paddingBottom: '0.5rem', // Use padding to ensure that bottom elements inside this page can show their margin.
+}
+export { pageContainerStyle }
+
 // A macro for making an object unselectable, preventing a blue border around it.
 const notSelectable = {
 	userSelect: 'none',

@@ -23,6 +23,7 @@
     "react-scripts": "^5.0.1",
     "step-wise": "file:../shared",
     "subscriptions-transport-ws": "^0.9.19",
+    "swiper": "^9.2.0",
     "universal-cookie": "^4.0.4"
   },
   "scripts": {

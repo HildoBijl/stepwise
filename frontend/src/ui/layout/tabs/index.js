@@ -1,0 +1,5 @@
+export * from './TabProvider'
+export { default as TabProvider } from './TabProvider'
+export { default as TabPages } from './TabPages'
+export { default as Tabs } from './Tabs'
+export { default as TabLabel } from './TabLabel'

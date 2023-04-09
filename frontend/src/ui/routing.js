@@ -1,5 +1,6 @@
 import { createContext, useContext, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
+import { MenuBook as Book, EmojiObjects as LightBulb, OndemandVideo as Video, Create as Pencil, AttachFile as Attachment, Info } from '@material-ui/icons'
 
 import { useUser } from 'api/user'
 import { isAdmin } from 'api/admin'
@@ -52,6 +53,151 @@ function getRoutes(user = undefined) {
 			id: 'test',
 			component: pages.Test,
 			name: 'Testpagina',
+			preventPageContainer: true,
+		},
+		'subpages': {
+			id: 'subpages',
+			name: 'Tabs testpagina',
+			tabs: [
+				{
+					id: 'theorie',
+					icon: Book,
+					title: 'Theorie',
+					page: <div>
+						<p>Hier komt de theoriepagina over het onderwerp.</p>
+						<p>Hier komt de theoriepagina over het onderwerp.</p>
+						<p>Hier komt de theoriepagina over het onderwerp.</p>
+						<p>Hier komt de theoriepagina over het onderwerp.</p>
+						<p>Hier komt de theoriepagina over het onderwerp.</p>
+						<p>Hier komt de theoriepagina over het onderwerp.</p>
+						<p>Hier komt de theoriepagina over het onderwerp.</p>
+						<p>Hier komt de theoriepagina over het onderwerp.</p>
+						<p>Hier komt de theoriepagina over het onderwerp.</p>
+						<p>Hier komt de theoriepagina over het onderwerp.</p>
+						<p>Hier komt de theoriepagina over het onderwerp.</p>
+						<p>Hier komt de theoriepagina over het onderwerp.</p>
+						<p>Hier komt de theoriepagina over het onderwerp.</p>
+						<p>Hier komt de theoriepagina over het onderwerp.</p>
+						<p>Hier komt de theoriepagina over het onderwerp.</p>
+						<p>Hier komt de theoriepagina over het onderwerp.</p>
+						<p>Hier komt de theoriepagina over het onderwerp.</p>
+					</div>,
+				},
+				{
+					id: 'achtergrond',
+					icon: Book,
+					title: 'Achtergrond',
+					page: <div>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
+					</div>
+				},
+				{
+					id: 'video',
+					icon: Video,
+					title: 'Video',
+					page: <div><p>Hier komt een video met theorie over het onderwerp.</p></div>
+				},
+				{
+					id: 'samenvatting',
+					icon: LightBulb,
+					title: 'Samenvatting',
+					page: <div><p>Hier komt een potentiële samenvatting.</p></div>
+				},
+				{
+					id: 'voorbeeld',
+					icon: Pencil,
+					title: 'Voorbeeld',
+					page: <div><p>Hier komt een voorbeeldopgave om bij aanvang mee te klooien.</p></div>,
+				},
+				{
+					id: 'oefenen',
+					icon: Pencil,
+					title: 'Oefenen',
+					page: <div><p>Hier komt de oefening om op te lossen.</p></div>,
+				},
+				{
+					id: 'formule',
+					icon: Pencil,
+					title: 'Formules',
+					page: <div><p>Hier komt een overzicht van formules horende bij het onderwerp.</p></div>,
+				},
+				{
+					id: 'bijlagen',
+					icon: Attachment,
+					title: 'Bijlagen',
+					page: <div>
+						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
+						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
+						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
+						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
+						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
+						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
+						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
+						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
+						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
+						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
+						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
+						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
+						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
+						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
+						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
+						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
+						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
+						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
+						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
+						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
+						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
+						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
+						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
+						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
+						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
+					</div>,
+				},
+				{
+					id: 'meta',
+					icon: Info,
+					title: 'Meta-info',
+					page: <div><p>Hier komt iets over de achtergrond van deze vaardigheid; met name voor docenten.</p></div>,
+				},
+			],
 		},
 	}
 
@@ -194,7 +340,7 @@ export function useRoute() {
 	return useContext(RouteContext)
 }
 
-// usePaths gives all the paths to named pages. These paths are functions. For instance, the courseDeadlines page may have a path ({ courseId }) => `/courses/${courseId}/deadlines`.
+// usePaths gives all the paths to named pages. These paths are functions. For instance, the courseDeadlines page may have a path ({courseId}) => `/courses/${courseId}/deadlines`.
 export function usePaths() {
 	const routes = useRoutes()
 	const paths = useMemo(() => getPaths(routes), [routes])
@@ -239,7 +385,7 @@ function getPaths(routes) {
 	return fillPaths(routes)
 }
 
-// insertParametersIntoPath takes a path and tries to put the given parameters into it. Like a path "course/:courseId" and a parameters-object { courseId: 'someId' }. If there is a parameter in the path and not a corresponding parameter in the parameters-object, an error is thrown (but not the other way around).
+// insertParametersIntoPath takes a path and tries to put the given parameters into it. Like a path "course/:courseId" and a parameters-object {courseId: 'someId' }. If there is a parameter in the path and not a corresponding parameter in the parameters-object, an error is thrown (but not the other way around).
 function insertParametersIntoPath(parameters = {}, path = '/') {
 	// Insert all given parameters into the given path.
 	Object.keys(parameters).forEach(key => {
