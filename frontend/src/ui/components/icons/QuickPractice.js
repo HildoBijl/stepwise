@@ -1,7 +1,7 @@
 import React from 'react'
 import SvgIcon from '@material-ui/core/SvgIcon'
 
-export default function QuickPractice(props) {
+export default function Icon(props) {
 	return (
 		<SvgIcon {...props}>
 			<path d="M5 17.25v3.75h3.75l11 -11l-3.75-3.75z" />{/* Main pencil shaft. */}

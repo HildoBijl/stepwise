@@ -5,6 +5,7 @@ import { MenuBook as Book, EmojiObjects as LightBulb, OndemandVideo as Video, Cr
 import { useUser } from 'api/user'
 import { isAdmin } from 'api/admin'
 
+import { Books, Sqrt, BulletList, Teacher } from 'ui/components/icons'
 import * as pages from 'ui/pages'
 import UserInspection, { UserInspectionTitle } from 'ui/admin/UserInspection'
 import UserOverview from 'ui/admin/UserOverview'
@@ -85,7 +86,7 @@ function getRoutes(user = undefined) {
 				},
 				{
 					id: 'achtergrond',
-					icon: Book,
+					icon: Books,
 					title: 'Achtergrond',
 					page: <div>
 						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
@@ -129,33 +130,33 @@ function getRoutes(user = undefined) {
 						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
 					</div>
 				},
-				{
-					id: 'video',
-					icon: Video,
-					title: 'Video',
-					page: <div><p>Hier komt een video met theorie over het onderwerp.</p></div>
-				},
+				// {
+				// 	id: 'video',
+				// 	icon: Video,
+				// 	title: 'Video',
+				// 	page: <div><p>Hier komt een video met theorie over het onderwerp.</p></div>
+				// },
 				{
 					id: 'samenvatting',
-					icon: LightBulb,
+					icon: BulletList,
 					title: 'Samenvatting',
 					page: <div><p>Hier komt een potentiële samenvatting.</p></div>
 				},
 				{
 					id: 'voorbeeld',
-					icon: Pencil,
+					icon: Teacher,
 					title: 'Voorbeeld',
 					page: <div><p>Hier komt een voorbeeldopgave om bij aanvang mee te klooien.</p></div>,
 				},
-				{
-					id: 'oefenen',
-					icon: Pencil,
-					title: 'Oefenen',
-					page: <div><p>Hier komt de oefening om op te lossen.</p></div>,
-				},
+				// {
+				// 	id: 'oefenen',
+				// 	icon: Pencil,
+				// 	title: 'Oefenen',
+				// 	page: <div><p>Hier komt de oefening om op te lossen.</p></div>,
+				// },
 				{
 					id: 'formule',
-					icon: Pencil,
+					icon: Sqrt,
 					title: 'Formules',
 					page: <div><p>Hier komt een overzicht van formules horende bij het onderwerp.</p></div>,
 				},
@@ -191,12 +192,12 @@ function getRoutes(user = undefined) {
 						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
 					</div>,
 				},
-				{
-					id: 'meta',
-					icon: Info,
-					title: 'Meta-info',
-					page: <div><p>Hier komt iets over de achtergrond van deze vaardigheid; met name voor docenten.</p></div>,
-				},
+				// {
+				// 	id: 'meta',
+				// 	icon: Info,
+				// 	title: 'Meta-info',
+				// 	page: <div><p>Hier komt iets over de achtergrond van deze vaardigheid; met name voor docenten.</p></div>,
+				// },
 			],
 		},
 	}
