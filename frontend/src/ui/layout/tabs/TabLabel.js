@@ -3,6 +3,8 @@ import React from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 
+import tabData from './tabData'
+
 const useStyles = makeStyles((theme) => ({
 	tab: {
 		alignItems: 'center',
@@ -25,9 +27,15 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function TabLabel({ tab, showLabel, showIcon }) {
+	// Extract data (icon, title) on the tab.
+	const currTabData = tabData[tab]
+	if (!currTabData)
+		throw new Error(`Invalid tab ID: tried to extract data for a tab "${tab}" but no tab with that name is known. Use an item from the list [${Object.keys(tabData).join(', ')}].`)
+
+	// Display the tab.
 	const classes = useStyles({ showLabel })
 	return <div className={classes.tab}>
-		{showIcon ? <div className="iconContainer"><tab.icon /></div> : null}
-		{showLabel ? <div className="titleContainer">{tab.title}</div> : null}
+		{showIcon ? <div className="iconContainer"><currTabData.icon /></div> : null}
+		{showLabel ? <div className="titleContainer">{currTabData.title}</div> : null}
 	</div>
 }

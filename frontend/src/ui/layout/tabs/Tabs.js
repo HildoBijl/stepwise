@@ -19,10 +19,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function Tabs({ tabs }) {
+export default function Tabs() {
 	const theme = useTheme()
 	const classes = useStyles()
-	const { tabIndex, setTabIndex } = useTabContext()
+	const { tabs, tabIndex, setTabIndex } = useTabContext()
 
 	// Determine based on the width of the tabs bar whether labels should be shown.
 	const tabsRef = useRef()

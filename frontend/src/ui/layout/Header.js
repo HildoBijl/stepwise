@@ -5,12 +5,11 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Container from '@material-ui/core/Container'
 
-import { useRoute } from 'ui/routing'
 import GroupIndicator from 'ui/pages/Groups/Indicator'
 
 import Menu from './Menu'
 import Title from './Title'
-import { Tabs } from './tabs'
+import { TabBar } from './tabs'
 
 const useStyles = makeStyles((theme) => ({
 	toolbar: {
@@ -24,10 +23,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function Header({ routes, Indicator }) {
+export default function Header({ Indicator }) {
 	const theme = useTheme()
 	const classes = useStyles()
-	const route = useRoute()
 	const [titleCollapsed, setTitleCollapsed] = useState(false)
 
 	return (
@@ -40,18 +38,7 @@ export default function Header({ routes, Indicator }) {
 					<GroupIndicator />
 				</Toolbar>
 			</Container>
-			{route.tabs && <TabBar route={route} />}
-		</AppBar>
-	)
-}
-
-function TabBar({ route }) {
-	const theme = useTheme()
-	return (
-		<AppBar position="static" color="secondary">
-			<Container maxWidth={theme.appWidth}>
-				<Tabs tabs={route.tabs} />
-			</Container>
+			<TabBar />
 		</AppBar>
 	)
 }

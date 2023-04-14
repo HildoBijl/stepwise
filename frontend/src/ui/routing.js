@@ -1,11 +1,9 @@
 import { createContext, useContext, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
-import { MenuBook as Book, EmojiObjects as LightBulb, OndemandVideo as Video, Create as Pencil, AttachFile as Attachment, Info } from '@material-ui/icons'
 
 import { useUser } from 'api/user'
 import { isAdmin } from 'api/admin'
 
-import { Books, Sqrt, BulletList, Teacher } from 'ui/components/icons'
 import * as pages from 'ui/pages'
 import UserInspection, { UserInspectionTitle } from 'ui/admin/UserInspection'
 import UserOverview from 'ui/admin/UserOverview'
@@ -58,147 +56,8 @@ function getRoutes(user = undefined) {
 		},
 		'subpages': {
 			id: 'subpages',
+			component: pages.TestSubpages,
 			name: 'Tabs testpagina',
-			tabs: [
-				{
-					id: 'theorie',
-					icon: Book,
-					title: 'Theorie',
-					page: <div>
-						<p>Hier komt de theoriepagina over het onderwerp.</p>
-						<p>Hier komt de theoriepagina over het onderwerp.</p>
-						<p>Hier komt de theoriepagina over het onderwerp.</p>
-						<p>Hier komt de theoriepagina over het onderwerp.</p>
-						<p>Hier komt de theoriepagina over het onderwerp.</p>
-						<p>Hier komt de theoriepagina over het onderwerp.</p>
-						<p>Hier komt de theoriepagina over het onderwerp.</p>
-						<p>Hier komt de theoriepagina over het onderwerp.</p>
-						<p>Hier komt de theoriepagina over het onderwerp.</p>
-						<p>Hier komt de theoriepagina over het onderwerp.</p>
-						<p>Hier komt de theoriepagina over het onderwerp.</p>
-						<p>Hier komt de theoriepagina over het onderwerp.</p>
-						<p>Hier komt de theoriepagina over het onderwerp.</p>
-						<p>Hier komt de theoriepagina over het onderwerp.</p>
-						<p>Hier komt de theoriepagina over het onderwerp.</p>
-						<p>Hier komt de theoriepagina over het onderwerp.</p>
-						<p>Hier komt de theoriepagina over het onderwerp.</p>
-					</div>,
-				},
-				{
-					id: 'achtergrond',
-					icon: Books,
-					title: 'Achtergrond',
-					page: <div>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-						<p>Hier komt achtergrondinformatie over het onderwerp.</p>
-					</div>
-				},
-				// {
-				// 	id: 'video',
-				// 	icon: Video,
-				// 	title: 'Video',
-				// 	page: <div><p>Hier komt een video met theorie over het onderwerp.</p></div>
-				// },
-				{
-					id: 'samenvatting',
-					icon: BulletList,
-					title: 'Samenvatting',
-					page: <div><p>Hier komt een potentiële samenvatting.</p></div>
-				},
-				{
-					id: 'voorbeeld',
-					icon: Teacher,
-					title: 'Voorbeeld',
-					page: <div><p>Hier komt een voorbeeldopgave om bij aanvang mee te klooien.</p></div>,
-				},
-				// {
-				// 	id: 'oefenen',
-				// 	icon: Pencil,
-				// 	title: 'Oefenen',
-				// 	page: <div><p>Hier komt de oefening om op te lossen.</p></div>,
-				// },
-				{
-					id: 'formule',
-					icon: Sqrt,
-					title: 'Formules',
-					page: <div><p>Hier komt een overzicht van formules horende bij het onderwerp.</p></div>,
-				},
-				{
-					id: 'bijlagen',
-					icon: Attachment,
-					title: 'Bijlagen',
-					page: <div>
-						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
-						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
-						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
-						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
-						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
-						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
-						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
-						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
-						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
-						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
-						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
-						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
-						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
-						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
-						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
-						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
-						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
-						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
-						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
-						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
-						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
-						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
-						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
-						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
-						<p>Hier komen eventuele bijlagen over het onderwerp.</p>
-					</div>,
-				},
-				// {
-				// 	id: 'meta',
-				// 	icon: Info,
-				// 	title: 'Meta-info',
-				// 	page: <div><p>Hier komt iets over de achtergrond van deze vaardigheid; met name voor docenten.</p></div>,
-				// },
-			],
 		},
 	}
 

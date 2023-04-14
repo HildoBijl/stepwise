@@ -225,7 +225,7 @@ export function useWidthTracker(fieldRef, forceUpdateOnChange = true) {
 	// Update the width on the initial render.
 	useEffect(() => {
 		updateWidth()
-		const timeout = setTimeout(updateWidth, 0) // Add another update after rendering is done, since some things may change.
+		const timeout = setTimeout(updateWidth, 1) // Add another update after rendering is done, since some things may change.
 		return () => clearTimeout(timeout) // Cancel the update call when the component dismounts.
 	}, [updateWidth])
 

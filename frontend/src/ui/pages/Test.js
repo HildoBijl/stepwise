@@ -24,6 +24,8 @@ import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import Container from '@material-ui/core/Container'
 
+import { useTabs } from 'ui/layout/tabs'
+
 // // import Swiper bundle with all modules installed
 // import Swiper from 'swiper/bundle';
 
@@ -98,6 +100,9 @@ function TabPanel({ children, value, index, className, ...other }) {
 }
 
 export default function Test() {
+	const context = useTabs(['summary', 'meta', 'theory', 'references'])
+	console.log(context)
+
 	const eq = CAS.asEquation('E=mc^2')
 	eq.left.color = '881111'
 	eq.right.color = '00bb44'
@@ -107,7 +112,6 @@ export default function Test() {
 
 	// Tabs stuff
 	const theme = useTheme()
-	console.log(theme)
 	const [value, setValue] = useState(0)
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
