@@ -79,3 +79,17 @@ module.exports.removeWhitespace = removeWhitespace
 // alphabet is simply the English alphabet.
 const alphabet = 'abcdefghijklmnopqrstuvwxyz'
 module.exports.alphabet = alphabet
+
+// firstToLowerCase makes sure the first character of the given string is in lower case.
+function firstToLowerCase(str) {
+	str = ensureString(str)
+	return str && `${str[0].toLowerCase()}${str.slice(1)}`
+}
+module.exports.firstToLowerCase = firstToLowerCase
+
+// firstToUpperCase makes sure the first character of the given string is in upper case.
+function firstToUpperCase(str) {
+	str = ensureString(str)
+	return str && `${str[0].toUpperCase()}${str.slice(1)}`
+}
+module.exports.firstToUpperCase = firstToUpperCase

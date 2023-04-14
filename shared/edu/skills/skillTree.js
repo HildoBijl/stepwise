@@ -324,6 +324,7 @@ let skillTree = {
 	// Thermodynamics
 	specificGasConstant: {
 		name: 'Specifieke gasconstante opzoeken',
+		path: 'physics/thermodynamics',
 		exercises: ['specificGasConstant'],
 	},
 	specificHeatRatio: {
@@ -342,7 +343,6 @@ let skillTree = {
 	},
 	recognizeProcessTypes: {
 		name: 'Soorten processen herkennen',
-		path: 'physics/thermodynamics',
 		exercises: ['processNameToProperty', 'propertyToProcessName', 'findProcessCoefficient'], // ToDo later: add questions with p-V-plots too.
 	},
 	poissonsLaw: {

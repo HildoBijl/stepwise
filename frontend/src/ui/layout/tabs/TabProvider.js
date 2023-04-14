@@ -5,6 +5,8 @@ import { ensureArray } from 'step-wise/util/arrays'
 
 import { useConsistentValue, useRefWithValue } from 'util/react'
 
+import tabData from './tabData'
+
 const TabContext = createContext()
 export default function TabProvider({ children }) {
 	const [tab, setTab] = useState()
@@ -43,12 +45,11 @@ export function useTabContext() {
 export function useTabs(tabs, initialTab) {
 	const context = useTabContext()
 	const { tab, setTabs, setTab, setTabIndex } = context
-	tabs = useConsistentValue(ensureArray(tabs))
+	tabs = useConsistentValue(ensureArray(tabs).sort((a, b) => (tabData[a].order || 0) - (tabData[b].order || 0)))
 
 	// On a change in tabs, update the tabs.
 	const tabRef = useRefWithValue(tab)
 	useEffect(() => {
-		// Save the tabs array, after a check.
 		setTabs(tabs)
 
 		// Apply a potential initial tab. Also check: if the old tab is not valid, reset to first tab.

@@ -99,7 +99,8 @@ export default function Title({ className, setTitleCollapsed }) {
 
 	// Apply the update when anything changes.
 	useEffect(() => {
-		setTimeout(updateTitle, 0) // Delay until after rendering is done.
+		setTimeout(updateTitle, 1) // Delay until after rendering is done.
+		setTimeout(updateTitle, 100) // Do an extra check after data has loaded. It may happen that loading in user data adds in a skill indicator, which changes the layout.
 	})
 	useEventListener('resize', updateTitle, window)
 

@@ -16,7 +16,7 @@ export default function ExerciseContainer({ exercise, groupExercise, submitting,
 	const ExerciseLocal = useRef(null)
 	const ExerciseShared = useRef({})
 
-	// Whenever the exercise id changes, reload the component.
+	// Whenever the exercise ID changes, reload the component.
 	const reload = () => {
 		setLoading(true)
 		Promise.all([
