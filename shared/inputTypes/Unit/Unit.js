@@ -76,6 +76,10 @@ class Unit {
 		return `{\\color{${unitColor}}${str}}`
 	}
 
+	get texWithBrackets() {
+		return `\\left[${this.tex || '-'}\\right]`
+	}
+
 	// isEmpty checks whether the unit is empty or not.
 	isEmpty() {
 		return this._num.length === 0 && this._den.length === 0

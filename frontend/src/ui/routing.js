@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo } from 'react'
+import { createContext, useContext, useMemo, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { useUser } from 'api/user'
@@ -262,4 +262,15 @@ export function useParentPath() {
 	if (!route.parent)
 		return '/'
 	return insertParametersIntoPath(params, route.parent.path)
+}
+
+// useSkillPath returns a pathing function. This pathing function gets a skillId and returns the path to said skill. This is done content-dependent: if we are in a course, then we stay within the course.
+export function useSkillPath() {
+	const { courseId } = useParams()
+	const paths = usePaths()
+	return useCallback(skillId => {
+		if (courseId)
+			return paths.courseSkill({ courseId, skillId })
+		return paths.skill({ skillId })
+	}, [paths, courseId])
 }

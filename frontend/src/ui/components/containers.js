@@ -51,7 +51,10 @@ export function SubHead({ children, className, style }) {
 	return <Typography variant="h6" className={clsx(classes.subhead, 'subhead', className)} style={style}>{children}</Typography>
 }
 
-export function List({ items, className, style }) {
+export function List({ items, useNumbers, className, style }) {
 	const classes = useStyles()
-	return <ul className={clsx(classes.list, 'list', className)} style={style}>{items.map((item, index) => <li key={index} className="item">{item}</li>)}</ul>
+	className = clsx(classes.list, 'list', className)
+	const properties = { className, style }
+	const contents = items.map((item, index) => <li key={index} className="item">{item}</li>)
+	return useNumbers ? <ol {...properties}>{contents}</ol> : <ul {...properties}>{contents}</ul>
 }
