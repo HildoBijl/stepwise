@@ -1,11 +1,10 @@
 const { FloatUnit } = require('../inputTypes/FloatUnit')
-const { Float } = require('../inputTypes/Float')
 
 // Define initial properties.
 const gases = {
 	air: {
 		Rs: new FloatUnit('287.05 J / kg * K'),
-		k: new FloatUnit('1.40'),
+		k: new FloatUnit('1.400'),
 	},
 	argon: {
 		Rs: new FloatUnit('208.13 J / kg * K'),
@@ -17,7 +16,7 @@ const gases = {
 	},
 	carbonMonoxide: {
 		Rs: new FloatUnit('296.84 J / kg * K'),
-		k: new FloatUnit('1.40'),
+		k: new FloatUnit('1.410'),
 	},
 	helium: {
 		Rs: new FloatUnit('2077.1 J / kg * K'),
@@ -43,11 +42,9 @@ const gases = {
 
 // Calculate derived properties.
 Object.values(gases).forEach(gas => {
-	gas.cv = gas.Rs.divide(gas.k.number - 1).setMinimumSignificantDigits(3)
-	gas.cp = gas.cv.multiply(gas.k)
+	gas.Rs = gas.Rs.setSignificantDigits(4)
+	gas.cv = gas.Rs.divide(gas.k.float.subtract(1)).setMinimumSignificantDigits(4)
+	gas.cp = gas.cv.multiply(gas.k).setMinimumSignificantDigits(4)
 })
-
-// Set manual fixes.
-gases.air.cp = gases.air.cp.setMinimumSignificantDigits(4)
 
 module.exports = gases

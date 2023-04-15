@@ -1,4 +1,4 @@
-import { isValidElement, useState, useRef, useEffect, useReducer, useCallback } from 'react'
+import { isValidElement, useState, useRef, useEffect, useLayoutEffect, useReducer, useCallback } from 'react'
 
 import { getCounterNumber } from 'step-wise/util/numbers'
 import { ensureConsistency } from 'step-wise/util/objects'
@@ -209,8 +209,8 @@ export function useForceUpdate() {
 	return useReducer(() => ({}))[1]
 }
 
-// useWidthTracker tracks the width of an element. It returns the width of the object which the ref points to. It forces a rerender on every width change unless forceUpdateOnChange is set to false. It updates on initial render and on window resizes.
-export function useWidthTracker(fieldRef, forceUpdateOnChange = true) {
+// useWidthTracker tracks the width of an element. It returns the width of the object which the ref points to. It forces a rerender on every width change unless forceUpdateOnChange is set to false. It updates on initial render and on window resizes. When repeatOnNoField is set to true, it keeps on checking until the field actually exists.
+export function useWidthTracker(fieldRef, repeatOnNoField = false, forceUpdateOnChange = true) {
 	const fieldWidthRef = useRef(0)
 	const forceUpdate = useForceUpdate()
 
@@ -222,12 +222,18 @@ export function useWidthTracker(fieldRef, forceUpdateOnChange = true) {
 			forceUpdate()
 	}, [fieldRef, fieldWidthRef, forceUpdate, forceUpdateOnChange])
 
-	// Update the width on the initial render.
-	useEffect(() => {
+	// On top of that, set up a handler that also calls itself repeatedly when the field does not exist.
+	const updateWidthRecursively = useCallback(() => {
 		updateWidth()
-		const timeout = setTimeout(updateWidth, 1) // Add another update after rendering is done, since some things may change.
-		return () => clearTimeout(timeout) // Cancel the update call when the component dismounts.
-	}, [updateWidth])
+		if (repeatOnNoField && !fieldRef.current)
+		return setTimeout(() => updateWidthRecursively(), 1)
+	}, [updateWidth, repeatOnNoField, fieldRef])
+	
+	// Update the width on the initial render.
+	useLayoutEffect(() => {
+		const timeoutIndex = updateWidthRecursively()
+		return () => clearTimeout(timeoutIndex)
+	}, [updateWidthRecursively])
 
 	// Update the width whenever the window changes size.
 	useEffect(() => {

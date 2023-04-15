@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
+import clsx from 'clsx'
 
 import { findOptimum } from 'step-wise/util/arrays'
 import { ensureDate, formatDate } from 'step-wise/util/date'

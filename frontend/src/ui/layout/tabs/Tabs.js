@@ -9,9 +9,9 @@ import { useWidthTracker } from 'util/react'
 import { useTabContext } from './TabProvider'
 import TabLabel from './TabLabel'
 
-// Define limits on where tabs switch their contents.
-const lowerLimit = 110 // Below this there is only an icon. Above this there is text.
-const upperLimit = 145 // Below this there is only text, above this there is both an icon and text.
+// Define limits on tab width where tabs switch their contents.
+const lowerTabWidthLimit = 110 // Below this there is only an icon. Above this there is text.
+const upperTabWidthLimit = 145 // Below this there is only text, above this there is both an icon and text.
 
 const useStyles = makeStyles((theme) => ({
 	tab: {
@@ -26,11 +26,11 @@ export default function Tabs() {
 
 	// Determine based on the width of the tabs bar whether labels should be shown.
 	const tabsRef = useRef()
-	const width = useWidthTracker(tabsRef)
+	const width = useWidthTracker(tabsRef, true)
 	let showIcon = true, showLabel = true
-	if (width / tabs.length < lowerLimit)
+	if (width / tabs.length < lowerTabWidthLimit)
 		showLabel = false
-	else if (width / tabs.length < upperLimit)
+	else if (width / tabs.length < upperTabWidthLimit)
 		showIcon = false
 
 	// On zero or one tabs, do not show the tabs.

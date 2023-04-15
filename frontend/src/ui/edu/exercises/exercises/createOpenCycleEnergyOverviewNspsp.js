@@ -1,7 +1,8 @@
 import React from 'react'
 
 import { M, BM } from 'ui/components/equations'
-import { Par, List, Table } from 'ui/components/containers'
+import { Par, List } from 'ui/components/containers'
+import Table from 'ui/components/Table'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/FormPart'
 import { InputTable } from 'ui/components/misc/InputTable'
@@ -43,7 +44,7 @@ const Problem = (state) => {
 			'Stap 4-1: een isobare verwarming.',
 		]} />
 		<Par>Op elk van de punten 1, 2, 3 en 4 heeft het gas de volgende eigenschappen.</Par>
-		<Table colHeads={['Druk', 'Specifiek volume', 'Temperatuur']} rowHeads={['Punt 1', 'Punt 2', 'Punt 3', 'Punt 4']} fields={[[<M>p_1 = {p1.setUnit('bar')}</M>, <M>v_1 = {v1}</M>, <M>T_1 = {T1}</M>], [<M>p_2 = {p2.setUnit('bar')}</M>, <M>v_2 = {v2}</M>, <M>T_2 = {T2}</M>], [<M>p_3 = {p3.setUnit('bar')}</M>, <M>v_3 = {v3}</M>, <M>T_3 = {T3}</M>], [<M>p_4 = {p4.setUnit('bar')}</M>, <M>v_4 = {v4}</M>, <M>T_4 = {T4}</M>]]} style={{ minWidth: '500px', maxWidth: '540px' }} />
+		<Table colHeads={['Druk', 'Specifiek volume', 'Temperatuur']} rowHeads={['Punt 1', 'Punt 2', 'Punt 3', 'Punt 4']} fields={[[<M>{p1.setUnit('bar')}</M>, <M>{v1}</M>, <M>{T1}</M>], [<M>{p2.setUnit('bar')}</M>, <M>{v2}</M>, <M>{T2}</M>], [<M>{p3.setUnit('bar')}</M>, <M>{v3}</M>, <M>{T3}</M>], [<M>{p4.setUnit('bar')}</M>, <M>{v4}</M>, <M>{T4}</M>]]} style={{ minWidth: '500px', maxWidth: '540px' }} />
 		<Par>Bereken de toegevoerde specifieke warmte <M>q</M> en de door het gas geleverde specifieke technische arbeid <M>w_t</M> bij elke stap.</Par>
 		<InputSpace>
 			<InputTable {...{ colHeads, rowHeads, fields }} />

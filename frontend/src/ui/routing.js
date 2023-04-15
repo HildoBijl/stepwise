@@ -54,11 +54,6 @@ function getRoutes(user = undefined) {
 			name: 'Testpagina',
 			preventPageContainer: true,
 		},
-		'subpages': {
-			id: 'subpages',
-			component: pages.TestSubpages,
-			name: 'Tabs testpagina',
-		},
 	}
 
 	// Determine the type of users.

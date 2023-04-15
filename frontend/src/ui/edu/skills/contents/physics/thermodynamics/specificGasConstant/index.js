@@ -1,2 +1,1 @@
-export { default as Meta } from './Meta'
-export { default as References } from './References'
+export { default as References } from '../references/GasProperties'
