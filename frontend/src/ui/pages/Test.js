@@ -12,10 +12,10 @@ import { Float } from 'step-wise/inputTypes/Float'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 
 // core version + navigation, pagination modules:
-import Swiper, { Scrollbar } from 'swiper'
+// import Swiper, { Scrollbar } from 'swiper'
 // import Swiper and modules styles
-import 'swiper/css'
-import 'swiper/css/scrollbar'
+// import 'swiper/css'
+// import 'swiper/css/scrollbar'
 
 import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
@@ -37,20 +37,20 @@ window.CAS = CAS
 window.Float = Float
 window.FloatUnit = FloatUnit
 
-// init Swiper:
-const swiperOptions = {
-	modules: [Scrollbar],
+// // init Swiper:
+// const swiperOptions = {
+// 	modules: [Scrollbar],
 
-	autoHeight: true, // Adjust to height of active page.
-	simulateTouch: false, // Do not slide on mouse drags, only on touch drags.
+// 	autoHeight: true, // Adjust to height of active page.
+// 	simulateTouch: false, // Do not slide on mouse drags, only on touch drags.
 
-	// And if we need scrollbar
-	scrollbar: {
-		el: '.swiper-scrollbar',
-	},
+// 	// And if we need scrollbar
+// 	scrollbar: {
+// 		el: '.swiper-scrollbar',
+// 	},
 
-	initialSlide: 2,
-}
+// 	initialSlide: 2,
+// }
 
 const useStyles = makeStyles((theme) => ({
 	swiper: {
