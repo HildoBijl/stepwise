@@ -4,8 +4,7 @@ import { toFO } from 'step-wise/inputTypes'
 import { getLastProgress } from 'step-wise/edu/exercises/util/simpleExercise'
 
 import { useConsistentValue } from 'util/react'
-import LoadingNote from 'ui/components/flow/LoadingNote'
-import ErrorBoundary from 'ui/components/flow/ErrorBoundary'
+import { LoadingNote, ErrorBoundary } from 'ui/components/flow'
 
 const ExerciseContext = createContext({})
 export { ExerciseContext } // Exported for testing purposes.

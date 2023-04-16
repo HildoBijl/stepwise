@@ -2,8 +2,7 @@ import React from 'react'
 
 import { expressionComparisons } from 'step-wise/CAS'
 
-import { M, BM, BMList, BMPart } from 'ui/components/equations'
-import { Par } from 'ui/components/containers'
+import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import ExpressionInput, { allMathSimpleVariables, validWithVariables } from 'ui/form/inputs/ExpressionInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { InputSpace } from 'ui/form/FormPart'

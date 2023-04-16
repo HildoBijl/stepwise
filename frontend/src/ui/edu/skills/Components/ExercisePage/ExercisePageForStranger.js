@@ -6,7 +6,7 @@ import { toFO, toSO } from 'step-wise/inputTypes'
 import { skillTree } from 'step-wise/edu/skills'
 import { getNewRandomExercise } from 'step-wise/edu/exercises/util/selection'
 
-import LoadingNote from 'ui/components/flow/LoadingNote'
+import { LoadingNote } from 'ui/components'
 
 import ExerciseContainer from '../../../exercises/ExerciseContainer'
 

@@ -4,7 +4,7 @@ import { arrayFind } from 'step-wise/util/arrays'
 import { resolveFunctions } from 'step-wise/util/functions'
 import { Sum, expressionComparisons, equationComparisons, equationChecks } from 'step-wise/CAS'
 
-import { M } from 'ui/components/equations'
+import { M } from 'ui/components'
 
 /*
  * Basic checks.

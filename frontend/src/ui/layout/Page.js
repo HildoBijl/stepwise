@@ -1,9 +1,7 @@
 import React from 'react'
 
 import { useRoute } from 'ui/routing'
-import ModalManager from 'ui/components/Modal/ModalManager'
-import OfflineNotification from 'ui/components/notifications/OfflineNotification'
-import RecommendLogIn from 'ui/components/notifications/RecommendLogIn'
+import { ModalManager, OfflineNotification, RecommendLogIn } from 'ui/components'
 import FieldController from 'ui/form/FieldController'
 
 import PageContainer from './PageContainer'

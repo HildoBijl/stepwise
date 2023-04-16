@@ -6,18 +6,11 @@ import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
 import { Alert, AlertTitle } from '@material-ui/lab';
 
+import { websiteName, websiteNameAddendum, apiAddress, cookieApprovalName, googleClientId, googleRedirectAddress } from 'ui/settings'
 import cookies from 'ui/cookies'
 import { notSelectable } from 'ui/theme'
-import LinkBar from 'ui/layout/LinkBar'
-import {
-	websiteName,
-	websiteNameAddendum,
-	apiAddress,
-	cookieApprovalName,
-	googleClientId,
-	googleRedirectAddress,
-} from 'ui/settings'
 import { useModal, PictureConfirmation } from 'ui/components/Modal'
+import LinkBar from 'ui/layout/LinkBar'
 import logo from 'ui/images/logo.svg'
 import HUlogo from 'ui/images/HU.png'
 import Cookies from 'ui/images/Cookies.jpg'

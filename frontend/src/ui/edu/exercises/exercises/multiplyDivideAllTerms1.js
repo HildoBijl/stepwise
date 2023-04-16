@@ -2,8 +2,7 @@ import React from 'react'
 
 import { Sum, Product, expressionComparisons } from 'step-wise/CAS'
 
-import { M, BM } from 'ui/components/equations'
-import { Par } from 'ui/components/containers'
+import { Par, M, BM } from 'ui/components'
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
 import { basicMathAndPowers } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/FormPart'
@@ -95,7 +94,7 @@ function getFeedback(exerciseData) {
 	const formCheck = (input, correct, { variables, equation }) => input.someSide((side, part) => equation[part].isSubtype(Sum) && !(side.isSubtype(Product) && side.terms.length === 2 && side.terms.some(term => variables.x.equalsBasic(term)))) && <>Beide kanten van de vergelijking moeten van de vorm <M>\left(\ldots\right)\cdot {variables.x}</M> zijn.</>
 	// There is a side that does not contain the original expression part somewhere. (Ignore this if this side is zero.)
 	const insideBracketCheck = (input, correct, { equation }) => input.someSide((side, part) => equation[part].isSubtype(Sum) && !(side.isSubtype(Product) && side.terms.some(term => expressionOnlyElementaryClean(term, correct[part].terms[0])))) && <>Je hebt tussen de haakjes niet letterlijk de delen uit de vorige vergelijking opgenomen.</>
-	
+
 	// Determine feedback.
 	return getInputFieldFeedback([
 		'ans',

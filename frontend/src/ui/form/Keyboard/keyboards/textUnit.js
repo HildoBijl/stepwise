@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { M } from 'ui/components/equations'
+import { M } from 'ui/components/math'
 
 import KeyboardLayout from './KeyboardLayout'
 

@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { alpha } from '@material-ui/core/styles/colorManipulator'
 import clsx from 'clsx'
 
-import HorizontalSlider from 'ui/components/layout/HorizontalSlider'
+import { HorizontalSlider } from '../layout'
 
 const useStyles = makeStyles((theme) => ({
 	table: {

@@ -3,7 +3,7 @@ import KaTeX from 'katex'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import HorizontalSlider from 'ui/components/layout/HorizontalSlider'
+import { HorizontalSlider } from './layout'
 
 // Inline math equation.
 export function M(props) {

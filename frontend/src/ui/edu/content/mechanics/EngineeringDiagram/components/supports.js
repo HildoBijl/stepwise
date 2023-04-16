@@ -6,7 +6,8 @@ import { ensureObject, processOptions } from 'step-wise/util/objects'
 import { numberArray } from 'step-wise/util/arrays'
 import { Vector, ensureVector } from 'step-wise/geometry/Vector'
 
-import { components as drawingComponents, useTransformedOrGraphicalValue } from 'ui/components/figures'
+import { drawingComponents, useTransformedOrGraphicalValue } from 'ui/components/figures'
+
 import { defaultBeam, Hinge, defaultHinge, HalfHinge } from './structuralComponents'
 
 const { defaultObject, useRefWithEventHandlers, Group, Line } = drawingComponents

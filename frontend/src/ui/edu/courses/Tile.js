@@ -10,9 +10,7 @@ import { skillTree } from 'step-wise/edu/skills'
 
 import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routing'
-import QuickPractice from 'ui/components/icons/QuickPractice'
-import Button from 'ui/components/misc/Button'
-import ProgressIndicator from 'ui/components/misc/ProgressIndicator'
+import { Button, ProgressIndicator, QuickPractice } from 'ui/components'
 
 import { strFreePractice } from '../course/util'
 

@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button'
 import { useUser, useShutdownAccountMutation } from 'api/user'
 import { logOutAddress } from 'ui/settings'
 
-import { Par, Head } from 'ui/components/containers'
+import { Par, Head } from 'ui/components'
 
 const useStyles = makeStyles((theme) => ({
 	email: {

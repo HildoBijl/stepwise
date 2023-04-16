@@ -12,7 +12,7 @@ import { getRandomSubset } from 'step-wise/util/random'
 
 import { useRefWithValue, useImmutableValue } from 'util/react'
 import { notSelectable } from 'ui/theme'
-import FeedbackBlock from 'ui/components/misc/FeedbackBlock'
+import { FeedbackBlock } from 'ui/components'
 
 import { useAsInput, defaultInputOptions } from '../support/Input'
 

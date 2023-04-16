@@ -4,7 +4,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 
 import { processOptions, filterOptions, filterProperties } from 'step-wise/util/objects'
 
-import Drawing, { defaultDrawingOptions } from 'ui/components/figures/Drawing'
+import { Drawing, defaultDrawingOptions } from 'ui/components/figures'
 
 import { render } from './rendering'
 

@@ -5,10 +5,8 @@ import { numberArray } from 'step-wise/util/arrays'
 import { Vector } from 'step-wise/geometry'
 import { Float } from 'step-wise/inputTypes/Float'
 
-import { M, BM } from 'ui/components/equations'
-import { Par } from 'ui/components/containers'
-import { Drawing } from 'ui/components/figures'
-import { components, CornerLabel, LineLabel, useRotationReflectionTransformation, useScaleToBoundsTransformationSettings } from 'ui/components/figures'
+import { Par, M, BM } from 'ui/components'
+import { Drawing, drawingComponents, CornerLabel, LineLabel, useRotationReflectionTransformation, useScaleToBoundsTransformationSettings } from 'ui/components/figures'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import ExpressionInput, { numeric, basicTrigonometryInDegrees } from 'ui/form/inputs/ExpressionInput'
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
@@ -22,7 +20,7 @@ import { hasIncorrectSide } from '../util/feedbackChecks/equation'
 
 import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
 
-const { Polygon } = components
+const { Polygon } = drawingComponents
 
 const ruleNames = ['sinusregel', 'cosinusregel']
 

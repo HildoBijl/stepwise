@@ -2,8 +2,7 @@ import React from 'react'
 
 import { selectRandomCorrect } from 'util/feedbackMessages'
 
-import { M, BM } from 'ui/components/equations'
-import { Par } from 'ui/components/containers'
+import { Par, M, BM } from 'ui/components'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/FormPart'
 
@@ -39,10 +38,10 @@ function Solution() {
 		</Par>
 	return <Par>We bekijken eerst het onttrekken van warmte aan de te koelen ruimte. De binnenkant van de koelkast is <M>{TCold}.</M> Hieruit wordt warmte onttrokken en aan het koudemiddel overgedragen. Deze warmte zorgt ervoor dat het koudemiddel verdampt, waardoor hier de verdamper moet zitten. Om deze warmteoverdracht mogelijk te maken moet de temperatuur van de verdamper lager zijn dan de temperatuur in de koelkast. Dus geldt
 		<BM>T_v = T_(koelkast) - \Delta T_v = {TCold.float} - {dTCold.float} = {TEvap}.</BM>
-			Als tweede bekijken we het lozen van warmte aan de keuken. De keuken heeft een temperatuur van <M>{TWarm}.</M> Er wordt warmte geleverd aan de keuken, en die warmte komt uit het koudemiddel. Omdat het koudemiddel warmte kwijtraakt, zal het gaan condenseren. We hebben hier dus met de condensor te maken. De temperatuur in deze condensor moet hoger zijn dan de temperatuur in de keuken, want alleen dan wordt er warmte overgedragen aan de keuken. De temperatuur in de condensor is dus
-			<BM>T_c = T_(keuken) + \Delta T_c = {TWarm.float} + {dTWarm.float} = {TCond}.</BM>
-			De temperaturen in de condensor en de verdamper liggen altijd verder uit elkaar dan de temperaturen van de respectievelijke ruimtes, dus dit klopt.
-		</Par>
+		Als tweede bekijken we het lozen van warmte aan de keuken. De keuken heeft een temperatuur van <M>{TWarm}.</M> Er wordt warmte geleverd aan de keuken, en die warmte komt uit het koudemiddel. Omdat het koudemiddel warmte kwijtraakt, zal het gaan condenseren. We hebben hier dus met de condensor te maken. De temperatuur in deze condensor moet hoger zijn dan de temperatuur in de keuken, want alleen dan wordt er warmte overgedragen aan de keuken. De temperatuur in de condensor is dus
+		<BM>T_c = T_(keuken) + \Delta T_c = {TWarm.float} + {dTWarm.float} = {TCond}.</BM>
+		De temperaturen in de condensor en de verdamper liggen altijd verder uit elkaar dan de temperaturen van de respectievelijke ruimtes, dus dit klopt.
+	</Par>
 }
 
 function getFeedback(exerciseData) {

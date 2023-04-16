@@ -3,8 +3,7 @@ import { useTheme, makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
 import { pageContainerStyle } from 'ui/theme'
-import { Par, Head } from 'ui/components/containers'
-import { M, BM } from 'ui/components/equations'
+import { Par, Head, M, BM } from 'ui/components'
 
 import CAS from 'step-wise/CAS'
 

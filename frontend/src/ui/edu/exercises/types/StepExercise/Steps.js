@@ -3,7 +3,7 @@ import React from 'react'
 import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
 
 import { useUserId } from 'api/user'
-import VerticalAdjuster from 'ui/components/layout/VerticalAdjuster'
+import { VerticalAdjuster } from 'ui/components'
 import { useFormData } from 'ui/form/Form'
 import { useFeedback } from 'ui/form/FeedbackProvider'
 import FormPart from 'ui/form/FormPart'

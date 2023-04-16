@@ -3,8 +3,7 @@ import React from 'react'
 import { Float } from 'step-wise/inputTypes/Float'
 
 import { SkillLink } from 'ui/routing'
-import { Head, Par, List } from 'ui/components/containers'
-import { M, BM } from 'ui/components/equations'
+import { Head, Par, List, M, BM } from 'ui/components'
 
 export default function Component() {
 	return <>

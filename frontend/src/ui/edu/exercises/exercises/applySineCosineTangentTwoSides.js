@@ -3,10 +3,8 @@ import React from 'react'
 import { expressionComparisons } from 'step-wise/CAS'
 import { Vector } from 'step-wise/geometry'
 
-import { M, BM } from 'ui/components/equations'
-import { Par } from 'ui/components/containers'
-import { Drawing } from 'ui/components/figures'
-import { components, CornerLabel, LineLabel, useRotationReflectionTransformation, useScaleToBoundsTransformationSettings } from 'ui/components/figures'
+import { Par, M, BM } from 'ui/components'
+import { Drawing, drawingComponents, CornerLabel, LineLabel, useRotationReflectionTransformation, useScaleToBoundsTransformationSettings } from 'ui/components/figures'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import ExpressionInput, { numeric, basicTrigonometryInDegrees } from 'ui/form/inputs/ExpressionInput'
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
@@ -18,7 +16,7 @@ import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
 
-const { Polygon, RightAngle } = components
+const { Polygon, RightAngle } = drawingComponents
 
 const ruleNames = ['SOS', 'CAS', 'TOA']
 const funcNames = ['sinus', 'cosinus', 'tangens']

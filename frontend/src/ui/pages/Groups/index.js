@@ -4,9 +4,9 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { sortByIndices } from 'step-wise/util/arrays'
 
 import { useUserId } from 'api/user'
-import { usePaths } from 'ui/routing'
-import { Par } from 'ui/components/containers'
 import { useMyGroupsQuery, useActivateGroupMutation, useMyGroupsSubscription } from 'api/group'
+import { usePaths } from 'ui/routing'
+import { Par } from 'ui/components'
 
 import JoinGroupConditions from './JoinGroupConditions'
 import ActiveGroup from './ActiveGroup'

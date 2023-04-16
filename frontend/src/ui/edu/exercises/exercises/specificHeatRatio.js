@@ -2,11 +2,10 @@ import React from 'react'
 
 import * as gasProperties from 'step-wise/data/gasProperties'
 
-import { M } from 'ui/components/equations'
-import { Par } from 'ui/components/containers'
+import { Dutch } from 'ui/lang/gases'
+import { Par, M } from 'ui/components'
 import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/FormPart'
-import { Dutch } from 'ui/lang/gases'
 
 import SimpleExercise from '../types/SimpleExercise'
 import { getAllInputFieldsFeedback } from '../util/feedback'

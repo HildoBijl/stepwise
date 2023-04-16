@@ -3,8 +3,7 @@ import React from 'react'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 import { getPrefixName, getPrefixPower } from 'step-wise/inputTypes/Unit/prefixes'
 
-import { M, BM } from 'ui/components/equations'
-import { Par } from 'ui/components/containers'
+import { Par, M, BM } from 'ui/components'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/FormPart'
 
@@ -52,7 +51,7 @@ function Solution({ m, type, prefix }) {
 }
 
 function getFeedback(exerciseData) {
-	const { state: { type, prefix }} = exerciseData
+	const { state: { type, prefix } } = exerciseData
 	return getInputFieldFeedback('ans', exerciseData, { text: { unit: getUnitMessage(type, prefix) } })
 }
 

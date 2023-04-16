@@ -1,7 +1,6 @@
 import React from 'react'
 
-import { M, BMList, BMPart } from 'ui/components/equations'
-import { Par } from 'ui/components/containers'
+import { Par, M, BMList, BMPart } from 'ui/components'
 import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/FormPart'
 

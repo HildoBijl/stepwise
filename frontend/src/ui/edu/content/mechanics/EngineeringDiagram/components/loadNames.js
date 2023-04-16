@@ -3,8 +3,8 @@ import { Vector, ensureVector } from 'step-wise/geometry'
 import { Variable } from 'step-wise/CAS'
 import { loadTypes, ensureLoad } from 'step-wise/edu/exercises/util/engineeringMechanics'
 
-import { M } from 'ui/components/equations'
-import { Label } from 'ui/components/figures/Drawing'
+import { M } from 'ui/components'
+import { Label } from 'ui/components/figures'
 
 import { defaultMoment } from './loads'
 

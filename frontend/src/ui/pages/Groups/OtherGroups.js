@@ -5,9 +5,9 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Button from '@material-ui/core/Button'
 import { Clear } from '@material-ui/icons'
 
-import { usePaths } from 'ui/routing'
-import { Head } from 'ui/components/containers'
 import { useLeaveGroupMutation } from 'api/group'
+import { usePaths } from 'ui/routing'
+import { Head } from 'ui/components'
 
 import { useSelfAndOtherMembers } from './util'
 import MemberList from './MemberList'
@@ -48,7 +48,7 @@ function OtherGroup({ group }) {
 	const paths = usePaths()
 	const [leaveGroup] = useLeaveGroupMutation(group.code)
 	const membersSorted = useSelfAndOtherMembers(group.members)
-  const wideScreen = useMediaQuery('(min-width:600px)')
+	const wideScreen = useMediaQuery('(min-width:600px)')
 
 	return <>
 		<Link className="groupCode" to={paths.group({ code: group.code })}>

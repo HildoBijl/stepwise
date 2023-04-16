@@ -4,9 +4,7 @@ import gasProperties from 'step-wise/data/gasProperties'
 import { firstToUpperCase } from 'step-wise/util/strings'
 
 import { Dutch } from 'ui/lang/gases'
-import { Head, Par } from 'ui/components/containers'
-import Table from 'ui/components/Table'
-import { M } from 'ui/components/equations'
+import { Head, Par, Table, M } from 'ui/components'
 
 const gasKeys = Object.keys(gasProperties).sort((a, b) => Dutch[a].localeCompare(Dutch[b]))
 

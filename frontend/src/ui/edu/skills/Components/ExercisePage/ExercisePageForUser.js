@@ -3,8 +3,7 @@ import React, { useEffect, useCallback } from 'react'
 import { skillTree } from 'step-wise/edu/skills'
 
 import { useSkillQuery, useStartExerciseMutation, useSubmitExerciseActionMutation } from 'api/skill'
-import LoadingNote from 'ui/components/flow/LoadingNote'
-import ErrorNote from 'ui/components/flow/ErrorNote'
+import { ErrorNote, LoadingNote } from 'ui/components'
 
 import ExerciseContainer from '../../../exercises/ExerciseContainer'
 

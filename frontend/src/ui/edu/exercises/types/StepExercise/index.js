@@ -6,7 +6,7 @@ import { numberArray, lastOf } from 'step-wise/util/arrays'
 import { deepEquals } from 'step-wise/util/objects'
 import { getStep, getPreviousProgress } from 'step-wise/edu/exercises/util/stepExercise'
 
-import VerticalAdjuster from 'ui/components/layout/VerticalAdjuster'
+import { VerticalAdjuster } from 'ui/components'
 import { useFormData } from 'ui/form/Form'
 import { useFeedback } from 'ui/form/FeedbackProvider'
 import FormPart from 'ui/form/FormPart'

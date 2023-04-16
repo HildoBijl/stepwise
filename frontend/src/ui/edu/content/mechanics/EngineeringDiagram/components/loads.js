@@ -6,7 +6,7 @@ import { ensureString } from 'step-wise/util/strings'
 import { ensureBoolean, ensureObject, processOptions } from 'step-wise/util/objects'
 import { Vector, ensureVector, ensureSpan } from 'step-wise/geometry'
 
-import { components as drawingComponents, useScaledOrGraphicalValue, useTransformedOrGraphicalValue } from 'ui/components/figures'
+import { drawingComponents, useScaledOrGraphicalValue, useTransformedOrGraphicalValue } from 'ui/components/figures'
 
 const { defaultObject, useRefWithEventHandlers, Group, Line, Arc } = drawingComponents
 

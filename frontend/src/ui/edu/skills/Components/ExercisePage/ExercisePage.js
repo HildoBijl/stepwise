@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useUserResult, useUser } from 'api/user'
 import { useActiveGroupResult, useActiveGroup } from 'api/group'
-import LoadingNote from 'ui/components/flow/LoadingNote'
+import { LoadingNote } from 'ui/components'
 
 import ExercisePageForStranger from './ExercisePageForStranger'
 import ExercisePageForUser from './ExercisePageForUser'

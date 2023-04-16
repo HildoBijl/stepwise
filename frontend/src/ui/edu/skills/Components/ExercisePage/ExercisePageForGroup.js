@@ -3,8 +3,7 @@ import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { skillTree } from 'step-wise/edu/skills'
 
 import { useActiveGroup, useActiveGroupExercisesResult, useActiveGroupExerciseForSkill, useStartGroupExerciseMutation, useSubmitGroupActionMutation, useCancelGroupActionMutation, useResolveGroupEventMutation } from 'api/group'
-import LoadingNote from 'ui/components/flow/LoadingNote'
-import ErrorNote from 'ui/components/flow/ErrorNote'
+import { ErrorNote, LoadingNote } from 'ui/components'
 
 import ExerciseContainer from '../../../exercises/ExerciseContainer'
 

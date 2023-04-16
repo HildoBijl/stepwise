@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import { Done, Clear } from '@material-ui/icons'
 
-import { usePaths } from 'ui/routing'
-import { Par, List } from 'ui/components/containers'
 import { useCreateGroupMutation, useActiveGroup } from 'api/group'
+import { usePaths } from 'ui/routing'
+import { Par, List } from 'ui/components'
 
 import { groupPossibilities } from './util'
 

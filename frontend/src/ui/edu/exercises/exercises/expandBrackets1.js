@@ -1,7 +1,6 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
-import { Par } from 'ui/components/containers'
+import { Par, M, BM } from 'ui/components'
 import ExpressionInput, { basicMathNoFractions, validWithVariables } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/FormPart'
 

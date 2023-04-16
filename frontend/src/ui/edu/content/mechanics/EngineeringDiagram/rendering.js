@@ -6,7 +6,7 @@ import { isObject, applyToEachParameter } from 'step-wise/util/objects'
 import { toCSS } from 'util/colors'
 
 import { themeColor, feedbackColors } from 'ui/theme'
-import { components as drawingComponents } from 'ui/components/figures/Drawing'
+import { drawingComponents } from 'ui/components/figures'
 
 import * as engineeringComponents from './components'
 

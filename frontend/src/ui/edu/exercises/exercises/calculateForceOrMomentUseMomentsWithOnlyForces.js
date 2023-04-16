@@ -4,13 +4,11 @@ import { numberArray } from 'step-wise/util/arrays'
 import { Vector, Rectangle } from 'step-wise/geometry'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 
-import { M, BM, BMList, BMPart } from 'ui/components/equations'
-import { Par } from 'ui/components/containers'
+import { Par, M, BM, BMList, BMPart } from 'ui/components'
+import { CornerLabel, Circle, Rectangle as SvgRectangle, Line, useScaleAndShiftTransformationSettings } from 'ui/components/figures'
 import { InputSpace } from 'ui/form/FormPart'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
-import { CornerLabel, Circle, Rectangle as SvgRectangle, Line } from 'ui/components/figures'
-import { useScaleAndShiftTransformationSettings } from 'ui/components/figures/Drawing'
 
 import EngineeringDiagram, { Group, Distance, PositionedElement, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
 import { sumOfMoments } from 'ui/edu/content/mechanics/latex'
@@ -61,7 +59,7 @@ const steps = [
 	{
 		Problem: () => {
 			return <>
-			<Par>Ontbind de kracht <M>F_D</M> in de componenten <M>F_(Dx)</M> en <M>F_(Dy).</M></Par>
+				<Par>Ontbind de kracht <M>F_D</M> in de componenten <M>F_(Dx)</M> en <M>F_(Dy).</M></Par>
 				<Diagram decompose={true} />
 				<InputSpace>
 					<FloatUnitInput id="FDx" prelabel={<M>F_(Dx)=</M>} size="s" />

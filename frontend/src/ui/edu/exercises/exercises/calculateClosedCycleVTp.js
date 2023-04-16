@@ -1,11 +1,9 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
-import { Par } from 'ui/components/containers'
+import { Dutch } from 'ui/lang/gases'
+import { Par, M, BM, InputTable } from 'ui/components'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/FormPart'
-import { InputTable } from 'ui/components/misc/InputTable'
-import { Dutch } from 'ui/lang/gases'
 
 import StepExercise from '../types/StepExercise'
 import { useSolution } from '../util/SolutionProvider'

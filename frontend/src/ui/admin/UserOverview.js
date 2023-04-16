@@ -7,9 +7,8 @@ import { findOptimum } from 'step-wise/util/arrays'
 import { ensureDate, formatDate } from 'step-wise/util/date'
 
 import { useAllUsersQuery } from 'api/admin'
-import { Par } from 'ui/components/containers'
+import { Par, HorizontalSlider } from 'ui/components'
 import { usePaths } from 'ui/routing'
-import HorizontalSlider from 'ui/components/layout/HorizontalSlider'
 
 const useStyles = makeStyles((theme) => ({
 	userOverview: {

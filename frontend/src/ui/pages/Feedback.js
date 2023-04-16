@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Par, Head } from 'ui/components/containers'
+import { Par, Head } from 'ui/components'
 
 export default function Feedback() {
 	return (

@@ -7,7 +7,7 @@ import { functions } from 'step-wise/CAS'
 
 import { getClickSide } from 'util/dom'
 
-import { latexMinus } from 'ui/components/equations'
+import { latexMinus } from 'ui/components/math'
 
 import { emptyElementChar, emptyElementCharLatex, isCharElementEmpty, getCursorPropertiesFromElements, getClosestElement } from '../MathWithCursor'
 

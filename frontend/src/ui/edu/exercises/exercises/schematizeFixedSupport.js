@@ -4,7 +4,7 @@ import { deg2rad } from 'step-wise/util/numbers'
 import { Vector, Line } from 'step-wise/geometry'
 
 import { selectRandomCorrect } from 'util/feedbackMessages'
-import { Par } from 'ui/components/containers'
+import { Par } from 'ui/components'
 import { useScaleAndShiftTransformationSettings } from 'ui/components/figures'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { InputSpace } from 'ui/form/FormPart'

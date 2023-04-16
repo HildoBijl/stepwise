@@ -2,13 +2,12 @@ import React from 'react'
 
 import gases from 'step-wise/data/gasProperties'
 
-import { Head, Par, List } from 'ui/components/containers'
-import { M } from 'ui/components/equations'
+import { Head, Par, List, M } from 'ui/components'
 
 export default function Component() {
 	return <>
 		<Par>De specifieke gasconstante is een constante die je vaak nodig hebt bij het rekenen met gassen. Het is belangrijk om deze constante op te kunnen zoeken.</Par>
-		
+
 		<Head>Theorie</Head>
 		<Par>De specifieke gasconstante <M>R_s {gases.air.Rs.unit.texWithBrackets}</M> is een constante waarde voor een soort gas. Voor lucht geldt bijvoorbeeld <M>R_s = {gases.air.Rs},</M> maar deze waarde is voor elk gas anders. Daarom heet hij ook de "specifieke" gasconstante.</Par>
 		<Par>Het kan handig zijn om in gedachten te houden: hoe zwaarder het gas, hoe lager de specifieke gasconstante. Zo geldt voor waterstof (het lichtste gas) bijvoorbeeld dat <M>R_s = {gases.hydrogen.Rs}</M> terwijl voor koolstofdioxide (een zwaarder gas) <M>R_s = {gases.carbonDioxide.Rs}</M> geldt.</Par>

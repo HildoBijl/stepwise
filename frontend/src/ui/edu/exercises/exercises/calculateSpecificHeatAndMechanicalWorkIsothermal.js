@@ -1,11 +1,10 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
-import { Par } from 'ui/components/containers'
+import { Dutch } from 'ui/lang/gases'
+import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form/FormPart'
 import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
-import { Dutch } from 'ui/lang/gases'
 
 import StepExercise from '../types/StepExercise'
 import { useSolution } from '../util/SolutionProvider'

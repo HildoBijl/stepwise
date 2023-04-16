@@ -5,8 +5,7 @@ import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 
 import { getCountingWord } from 'util/language'
 import { selectRandomCorrect } from 'util/feedbackMessages'
-import { Par } from 'ui/components/containers'
-import { M } from 'ui/components/equations'
+import { Par, M } from 'ui/components'
 import { useCurrentBackgroundColor, useScaleAndShiftTransformationSettings } from 'ui/components/figures'
 import { InputSpace } from 'ui/form/FormPart'
 

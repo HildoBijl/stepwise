@@ -1,7 +1,6 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
-import { Par } from 'ui/components/containers'
+import { Par, M, BM } from 'ui/components'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import FloatInput from 'ui/form/inputs/FloatInput'
 import { InputSpace } from 'ui/form/FormPart'
@@ -58,7 +57,7 @@ const steps = [
 					Het deel van de eerste, ten opzichte van de tweede, is
 					<BM>x = \frac(h - h_1)(h_2 - h_1) = \frac({h.float} - {h1.float})({h2.float} - {h1.float}) = \frac{h.subtract(h1).float}{h2.subtract(h1).float} = {x}.</BM>
 					Dit is dus het deel van de hoogtestijging.
-					</Par>
+				</Par>
 			</> : <>
 				<Par>De gewichtstoename sinds de eerste meting is
 					<BM>W - W_1 = {W.float} - {W1.float} = {W.subtract(W1)}.</BM>
@@ -101,13 +100,13 @@ const steps = [
 				</Par> :
 				<Par>
 					We hebben <M>{x}</M> deel van de hoogtestijging. De gehele hoogtestijging tussen de twee metingen is
-				<BM>h_2 - h_1 = {h2.float} - {h1.float} = {h2.subtract(h1)}.</BM>
-				We hebben slechts een deel <M>{x}</M> hiervan, wat overeenkomt met een toename van
-				<BM>x \left(h_2 - h_1\right) = {x} \cdot \left({h2.float} - {h1.float}\right) = {h2.subtract(h1).multiply(x)}.</BM>
-				Dit is de stijging sinds de eerste meting. De hoogte zelf is dus
-				<BM>h = h_1 + x \left(h_2 - h_1\right) = {h1.float} + {x} \cdot \left({h2.float} - {h1.float}\right) = {h}.</BM>
-				Als controle kunnen we kijken of dit tussen de <M>{h1}</M> en de <M>{h2}</M> in ligt: dat doet het inderdaad.
-			</Par>
+					<BM>h_2 - h_1 = {h2.float} - {h1.float} = {h2.subtract(h1)}.</BM>
+					We hebben slechts een deel <M>{x}</M> hiervan, wat overeenkomt met een toename van
+					<BM>x \left(h_2 - h_1\right) = {x} \cdot \left({h2.float} - {h1.float}\right) = {h2.subtract(h1).multiply(x)}.</BM>
+					Dit is de stijging sinds de eerste meting. De hoogte zelf is dus
+					<BM>h = h_1 + x \left(h_2 - h_1\right) = {h1.float} + {x} \cdot \left({h2.float} - {h1.float}\right) = {h}.</BM>
+					Als controle kunnen we kijken of dit tussen de <M>{h1}</M> en de <M>{h2}</M> in ligt: dat doet het inderdaad.
+				</Par>
 		},
 	},
 ]

@@ -2,10 +2,9 @@ import React from 'react'
 
 import { Vector, Line, Span } from 'step-wise/geometry'
 
-import { M } from 'ui/components/equations'
-import { Par } from 'ui/components/containers'
-import { InputSpace } from 'ui/form/FormPart'
+import { Par, M } from 'ui/components'
 import { useCurrentBackgroundColor, useScaleAndShiftTransformationSettings } from 'ui/components/figures/Drawing'
+import { InputSpace } from 'ui/form/FormPart'
 
 import EngineeringDiagram, { Group, Beam, HingeSupport, RollerHalfHingeSupport, Distance, PositionedElement, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
 import FBDInput, { allConnectedToPoints, getFBDFeedback, loadSources, FBDComparison, getLoadNames } from 'ui/edu/content/mechanics/FBDInput'

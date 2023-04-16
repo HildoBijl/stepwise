@@ -12,7 +12,7 @@ import { skillTree } from 'step-wise/edu/skills'
 import { useSkillData } from 'api/skill'
 import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routing'
-import QuickPractice from 'ui/components/icons/QuickPractice'
+import { QuickPractice } from 'ui/components/icons'
 
 import { SkillFlask, isPracticeNeeded } from '../skills'
 

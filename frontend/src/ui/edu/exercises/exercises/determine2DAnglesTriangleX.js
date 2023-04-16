@@ -2,10 +2,8 @@ import React from 'react'
 
 import { Vector, Line } from 'step-wise/geometry'
 
-import { M, BM } from 'ui/components/equations'
-import { Par } from 'ui/components/containers'
-import { Drawing } from 'ui/components/figures'
-import { components, CornerLabel, useRotationReflectionTransformation, useScaleToBoundsTransformationSettings } from 'ui/components/figures'
+import { Par, M, BM } from 'ui/components'
+import { Drawing, drawingComponents, CornerLabel, useRotationReflectionTransformation, useScaleToBoundsTransformationSettings } from 'ui/components/figures'
 import ExpressionInput, { numeric, basicMath } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/FormPart'
 
@@ -14,7 +12,7 @@ import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
 
-const { BoundedLine, Polygon, RightAngle } = components
+const { BoundedLine, Polygon, RightAngle } = drawingComponents
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />

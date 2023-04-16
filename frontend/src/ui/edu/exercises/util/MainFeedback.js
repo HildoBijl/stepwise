@@ -2,9 +2,9 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Collapse from '@material-ui/core/Collapse'
 
-import { useMainFeedback } from 'ui/form/FeedbackProvider'
 import { startEndMarginFix } from 'ui/theme'
-import FeedbackBlock from 'ui/components/misc/FeedbackBlock'
+import { FeedbackBlock } from 'ui/components'
+import { useMainFeedback } from 'ui/form/FeedbackProvider'
 
 const useStyles = makeStyles((theme) => ({
 	mainFeedbackCollapse: {

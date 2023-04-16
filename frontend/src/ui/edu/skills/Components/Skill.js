@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { firstToLowerCase } from 'step-wise/util/strings'
 import { skillTree } from 'step-wise/edu/skills'
 
-import LoadingNote from 'ui/components/flow/LoadingNote'
+import { LoadingNote } from 'ui/components'
 import { TabPages, tabData } from 'ui/layout/tabs'
 
 import { useSkillId } from '../util'

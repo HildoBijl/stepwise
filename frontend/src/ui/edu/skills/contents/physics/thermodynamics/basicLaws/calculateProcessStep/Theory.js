@@ -1,8 +1,7 @@
 import React from 'react'
 
 import { SkillLink } from 'ui/routing'
-import { Head, Par, List } from 'ui/components/containers'
-import { M } from 'ui/components/equations'
+import { Head, Par, List, M } from 'ui/components'
 
 export default function Component() {
 	return <>

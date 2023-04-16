@@ -3,8 +3,7 @@ import React from 'react'
 import { Unit } from 'step-wise/inputTypes/Unit'
 
 import { SkillLink } from 'ui/routing'
-import { Head, Par, List } from 'ui/components/containers'
-import { M, BM } from 'ui/components/equations'
+import { Head, Par, List, M, BM } from 'ui/components'
 
 const Pa = new Unit('Pa')
 const m3 = new Unit('m^3')
@@ -26,7 +25,7 @@ export default function Component() {
 			<><M>T {K.texWithBrackets}</M> is de temperatuur van het gas.</>,
 		]} />
 		<Par>Belangrijk bij de gaswet is om altijd met standaard eenheden te rekenen. Anders gaat het fout.</Par>
-		
+
 		<Head>De stappen</Head>
 		<Par>Bij het gebruik van de gaswet volg je over het algemeen de volgende stappen.</Par>
 		<List useNumbers={true} items={[

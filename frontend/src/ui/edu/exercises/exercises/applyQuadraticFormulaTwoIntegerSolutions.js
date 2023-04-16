@@ -2,8 +2,7 @@ import React from 'react'
 
 import { numberArray } from 'step-wise/util/arrays'
 
-import { M, BM, BMList, BMPart } from 'ui/components/equations'
-import { Par } from 'ui/components/containers'
+import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import ExpressionInput, { numeric, basicMathAndPowers } from 'ui/form/inputs/ExpressionInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { useInput } from 'ui/form/Form'

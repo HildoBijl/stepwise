@@ -2,7 +2,7 @@
 
 import { Sum, Fraction, expressionChecks, expressionComparisons } from 'step-wise/CAS'
 
-import { M } from 'ui/components/equations'
+import { M } from 'ui/components'
 
 const { onlyElementaryClean, onlyOrderChanges, equivalent, constantMultiple } = expressionComparisons
 

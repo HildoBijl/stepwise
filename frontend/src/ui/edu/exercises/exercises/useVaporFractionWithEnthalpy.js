@@ -1,7 +1,6 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
-import { Par } from 'ui/components/containers'
+import { Par, M, BM } from 'ui/components'
 import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/FormPart'
 
@@ -25,7 +24,7 @@ const Problem = ({ type, T, p, h }) => <>
 const steps = [
 	{
 		Problem: ({ type }) => <>
-			<Par>Zoek eerst de enthalpie en entropie op, voor de gegeven { type === 1 ? `temperatuur` : `druk` }, bij de vloeistoflijn en damplijn.</Par>
+			<Par>Zoek eerst de enthalpie en entropie op, voor de gegeven {type === 1 ? `temperatuur` : `druk`}, bij de vloeistoflijn en damplijn.</Par>
 			<InputSpace>
 				<Par>
 					<FloatUnitInput id="hx0" prelabel={<M>h_(x=0) =</M>} label="Specifieke enthalpie (vloeistoflijn)" size="s" />

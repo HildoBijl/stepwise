@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export function InputTable({ fields, rowHeads, colHeads, className }) {
+export default function InputTable({ fields, rowHeads, colHeads, className }) {
 	const numRows = fields.length
 	const numCols = fields[0].length
 	const classes = useStyles({ numRows, numCols })

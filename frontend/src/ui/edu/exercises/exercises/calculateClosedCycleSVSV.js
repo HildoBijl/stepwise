@@ -1,10 +1,8 @@
 import React from 'react'
 
-import { M, BM, BMList, BMPart } from 'ui/components/equations'
-import { Par, SubHead } from 'ui/components/containers'
+import { Par, SubHead, M, BM, BMList, BMPart, InputTable } from 'ui/components'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/FormPart'
-import { InputTable } from 'ui/components/misc/InputTable'
 
 import StepExercise from '../types/StepExercise'
 import { useSolution } from '../util/SolutionProvider'

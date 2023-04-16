@@ -1,7 +1,7 @@
 import { isBasicObject } from 'step-wise/util/objects'
 import { Variable } from 'step-wise/CAS'
 
-import { M } from 'ui/components/equations'
+import { M } from 'ui/components'
 
 export function any() { }
 

@@ -11,7 +11,7 @@ import { Vector, Span } from 'step-wise/geometry'
 import { defaultForceLength, loadTypes, areLoadsEqual, doesLoadTouchRectangle, reverseLoad } from 'step-wise/edu/exercises/util/engineeringMechanics'
 
 import { useEnsureRef, useEventListener } from 'util/react'
-import { DrawingInput, useAsDrawingInput, defaultDrawingInputOptions } from 'ui/components/figures/Drawing'
+import { DrawingInput, useAsDrawingInput, defaultDrawingInputOptions } from 'ui/components/figures'
 
 import EngineeringDiagram, { defaultEngineeringDiagramOptions, render, loadColors, LoadLabel } from '../EngineeringDiagram'
 

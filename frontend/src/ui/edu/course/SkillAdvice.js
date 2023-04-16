@@ -10,8 +10,7 @@ import { skillTree } from 'step-wise/edu/skills'
 import { usePrevious } from 'util/react'
 import { linkStyle } from 'ui/theme'
 import { usePaths } from 'ui/routing'
-import NotificationBar from 'ui/components/notifications/NotificationBar'
-import { useModalContext } from 'ui/components/Modal'
+import { NotificationBar, useModalContext } from 'ui/components'
 
 import { useSkillId } from '../skills'
 

@@ -7,9 +7,7 @@ import { keysToObject, applyToEachParameter } from 'step-wise/util/objects'
 import { Skill, getEV, getMaxLikelihood, smoothen, merge, and, repeat } from 'step-wise/skillTracking'
 import { getSelectionRates } from 'step-wise/edu/exercises/util/selection'
 
-import { M } from 'ui/components/equations'
-import Button from 'ui/components/misc/Button'
-import { Par, Head } from 'ui/components/containers'
+import { Par, Head, Button, M } from 'ui/components'
 import { SkillFlask, defaultSkillThresholds } from 'ui/edu/skills'
 
 const labelsWithoutLast = ['A', 'B']

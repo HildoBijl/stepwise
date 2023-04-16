@@ -2,12 +2,10 @@ import React from 'react'
 
 import { temperature as TConversion, pressure as pConversion } from 'step-wise/data/conversions'
 
-import { M, BM, BMList, BMPart } from 'ui/components/equations'
-import { Par } from 'ui/components/containers'
+import { Par, M, BM, BMList, BMPart, InputTable } from 'ui/components'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { InputSpace } from 'ui/form/FormPart'
-import { InputTable } from 'ui/components/misc/InputTable'
 
 import StepExercise from '../types/StepExercise'
 import { useSolution } from '../util/SolutionProvider'

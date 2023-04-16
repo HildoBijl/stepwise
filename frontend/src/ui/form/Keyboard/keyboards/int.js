@@ -1,7 +1,7 @@
 import React from 'react'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
-import { M } from 'ui/components/equations'
+import { M } from 'ui/components/math'
 
 import KeyboardLayout from './KeyboardLayout'
 

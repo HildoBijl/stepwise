@@ -4,7 +4,7 @@ import { findOptimum, findOptimumIndex, flattenFully, forceIntoShape, getIndexTr
 import { filterProperties } from 'step-wise/util/objects'
 
 import { getCoordinatesOf } from 'util/dom'
-import { RBM, zeroWidthSpaceRegExp } from 'ui/components/equations'
+import { RBM, zeroWidthSpaceRegExp } from 'ui/components'
 
 import { useAbsoluteCursorRef } from '../../Form'
 

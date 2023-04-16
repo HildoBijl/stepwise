@@ -10,10 +10,9 @@ import { skillTree } from 'step-wise/edu/skills'
 import { includePrerequisitesAndLinks, processSkill, getDefaultSkillData } from 'step-wise/edu/skills/util'
 
 import { useUserQuery } from 'api/admin'
+import { Par, HorizontalSlider } from 'ui/components'
 import { TitleItem } from 'ui/layout/Title'
-import { Par } from 'ui/components/containers'
 import { SkillFlask } from 'ui/edu/skills'
-import HorizontalSlider from 'ui/components/layout/HorizontalSlider'
 
 export default function UserInspection() {
 	const params = useParams()

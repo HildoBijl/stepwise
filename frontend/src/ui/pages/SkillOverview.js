@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { skillTree } from 'step-wise/edu/skills'
 
 import { usePaths } from 'ui/routing'
-import { Par } from 'ui/components/containers'
+import { Par } from 'ui/components'
 
 export default function SkillOverview() {
 	const paths = usePaths()

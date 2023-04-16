@@ -1,7 +1,6 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
-import { Par } from 'ui/components/containers'
+import { Par, M, BM } from 'ui/components'
 import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/FormPart'
 
@@ -39,7 +38,7 @@ const steps = [
 			const { k, p1, T1, p2, T2p } = useSolution()
 			return <>
 				<Par>In punt 1 is al bekend dat <M>p_1 = {p1}</M> en <M>T_1 = {T1}.</M> We bereiken het fictieve punt <M>2'</M> via isentrope compressie. Met <M>p_(2') = p_2 = {p2}</M> vinden we via Poisson's wet
-				<BM>T_(2') = T_1 \left(\frac(p_(2'))(p_1)\right)^(\frac(n-1)(n)) = {T1.float} \cdot \left(\frac{p2.float}{p1.float}\right)^(\frac({k}-1)({k})) = {T2p}.</BM></Par>
+					<BM>T_(2') = T_1 \left(\frac(p_(2'))(p_1)\right)^(\frac(n-1)(n)) = {T1.float} \cdot \left(\frac{p2.float}{p1.float}\right)^(\frac({k}-1)({k})) = {T2p}.</BM></Par>
 			</>
 		},
 	},
@@ -122,7 +121,7 @@ const steps = [
 				Net zo is bij de turbine de specifieke technische arbeid
 				<BM>w_(t,3-4) = -\Delta h = -c_p \left(T_4 - T_3\right) = -{cp.float} \cdot \left({T4.float} - {T3.float}\right) = {wt34}.</BM>
 				De totale (netto) specifieke technische arbeid is dus
-					<BM>w_(netto) = w_(t,1-2) + w_(t,2-3) + w_(t,3-4) + w_(t,4-1) = {wt12.float} {wt23.float.texWithPM} {wt34.float.texWithPM} {wt41.float.texWithPM} = {wn}.</BM>
+				<BM>w_(netto) = w_(t,1-2) + w_(t,2-3) + w_(t,3-4) + w_(t,4-1) = {wt12.float} {wt23.float.texWithPM} {wt34.float.texWithPM} {wt41.float.texWithPM} = {wn}.</BM>
 			</Par>
 		},
 	},

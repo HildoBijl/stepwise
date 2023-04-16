@@ -5,9 +5,9 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Button from '@material-ui/core/Button'
 import { ExitToApp } from '@material-ui/icons'
 
-import { usePaths } from 'ui/routing'
-import { Head } from 'ui/components/containers'
 import { useDeactivateGroupMutation } from 'api/group'
+import { usePaths } from 'ui/routing'
+import { Head } from 'ui/components'
 
 import { useSelfAndOtherMembers } from './util'
 import MemberList from './MemberList'

@@ -1,6 +1,6 @@
 import * as components from './components'
 
-export { components }
+export { components as drawingComponents }
 export * from './Drawing'
 export { default } from './Drawing'
 export * from './components'

@@ -7,9 +7,8 @@ import { v4 as uuidv4 } from 'uuid'
 import { toFO, toSO } from 'step-wise/inputTypes'
 import { noop } from 'step-wise/util/functions'
 
+import { LoadingNote, ErrorNote } from 'ui/components/flow'
 import { TitleItem } from 'ui/layout/Title'
-import LoadingNote from 'ui/components/flow/LoadingNote'
-import ErrorNote from 'ui/components/flow/ErrorNote'
 
 import ExerciseContainer from './ExerciseContainer'
 

@@ -2,8 +2,7 @@ import React from 'react'
 
 import { expressionComparisons } from 'step-wise/CAS'
 
-import { M, BM } from 'ui/components/equations'
-import { Par } from 'ui/components/containers'
+import { Par, M, BM } from 'ui/components'
 import ExpressionInput, { basicMathAndPowers, validWithVariables } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/FormPart'
 
@@ -97,10 +96,10 @@ function getFeedback(exerciseData) {
 				<>De tweede term van je antwoord kan nog verder gesimplificeerd worden.</>,
 			][unsimplifiedTerm]
 	}
-	
+
 	// Define fraction checks.
 	const correctFraction = (input, correct, solution, isCorrect) => !isCorrect && equivalent(input, correct) && <>De breuk klopt, maar je kunt hem nog makkelijker schrijven.</>
-	
+
 	const incorrectFraction = (input, correct) => !equivalent(input, correct) && <>De breuk is niet gelijk aan wat gegeven was. Je hebt iets gedaan dat niet mag.</>
 
 	// Assemble the checks for all input fields.

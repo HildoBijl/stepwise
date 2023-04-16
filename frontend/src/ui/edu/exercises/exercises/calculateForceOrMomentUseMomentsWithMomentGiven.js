@@ -4,13 +4,11 @@ import { numberArray } from 'step-wise/util/arrays'
 import { Vector, Rectangle } from 'step-wise/geometry'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 
-import { M, BM } from 'ui/components/equations'
-import { Par } from 'ui/components/containers'
+import { Par, M, BM } from 'ui/components'
+import { CornerLabel, Circle, Rectangle as SvgRectangle, Line, useScaleAndShiftTransformationSettings } from 'ui/components/figures'
 import { InputSpace } from 'ui/form/FormPart'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
-import { CornerLabel, Circle, Rectangle as SvgRectangle, Line } from 'ui/components/figures'
-import { useScaleAndShiftTransformationSettings } from 'ui/components/figures/Drawing'
 
 import EngineeringDiagram, { Group, Distance, PositionedElement, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
 import { sumOfMoments } from 'ui/edu/content/mechanics/latex'
@@ -100,7 +98,7 @@ const steps = [
 	},
 ]
 
-function Diagram({ decompose = false, showIntersection=false }) {
+function Diagram({ decompose = false, showIntersection = false }) {
 	const transformationSettings = useScaleAndShiftTransformationSettings([Vector.zero, new Vector(4, 4)], { scale: 50, margin: 70 })
 	return <EngineeringDiagram transformationSettings={transformationSettings} svgContents={<Schematics decompose={decompose} showIntersection={showIntersection} />} htmlContents={<Elements decompose={decompose} showIntersection={showIntersection} />} />
 }

@@ -5,8 +5,7 @@ import { getRange } from 'step-wise/util/numbers'
 import { maximumHumidity } from 'step-wise/data/moistureProperties'
 import { tableInterpolate } from 'step-wise/util/interpolation'
 
-import { Plot } from 'ui/components/figures'
-import { useIdentityTransformationSettings } from 'ui/components/figures'
+import { Plot, useIdentityTransformationSettings } from 'ui/components/figures'
 
 // Set up the lines for the diagram.
 const temperatureRange = maximumHumidity.headers[0]

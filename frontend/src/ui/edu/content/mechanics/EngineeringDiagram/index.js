@@ -1,6 +1,6 @@
 // An Engineering Diagram allows for the easy creation of structural drawings. It can easily draw forces, moments, beams, hinges, supports and more.
 
-import { components as drawingComponents } from 'ui/components/figures/Drawing'
+import { drawingComponents } from 'ui/components/figures/Drawing'
 import * as engineeringComponents from './components'
 import EngineeringDiagram from './EngineeringDiagram'
 

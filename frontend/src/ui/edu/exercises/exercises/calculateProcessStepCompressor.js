@@ -2,14 +2,12 @@ import React from 'react'
 
 import { temperature as TConversion, volumeLiter as VConversion, massGram as mConversion } from 'step-wise/data/conversions'
 
-import { M, BM, BMList, BMPart } from 'ui/components/equations'
-import { Par } from 'ui/components/containers'
+import { Dutch } from 'ui/lang/gases'
+import { Par, M, BM, BMList, BMPart, InputTable } from 'ui/components'
 import { AntiInputSpace, InputSpace } from 'ui/form/FormPart'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { useInput } from 'ui/form/Form'
-import { InputTable } from 'ui/components/misc/InputTable'
-import { Dutch } from 'ui/lang/gases'
 
 import StepExercise from '../types/StepExercise'
 import { useSolution } from '../util/SolutionProvider'

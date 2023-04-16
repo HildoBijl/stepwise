@@ -1,7 +1,6 @@
 import React from 'react'
 
-import { M, BM } from 'ui/components/equations'
-import { Par } from 'ui/components/containers'
+import { Par, M, BM } from 'ui/components'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/FormPart'
 
@@ -36,9 +35,9 @@ const steps = [
 			const { h1, h2p, wti } = useSolution()
 			return <>
 				<Par>In een turbine wordt geen warmte toegevoerd of afgevoerd, waardoor <M>q = 0.</M> De technische arbeid volgt vanuit de eerste hoofdwet als
-				<BM>w_t = q - \Delta h = -\left(h_2 - h_1\right) = h_1 - h_2.</BM>
-				Dit geldt zowel voor het theoretische isentrope geval als voor de werkelijkheid. Voor het theoretische geval vinden we zo
-				<BM>w_(t_i) = h_1 - h_(2') = {h1.float} - {h2p.float} = {wti}.</BM>
+					<BM>w_t = q - \Delta h = -\left(h_2 - h_1\right) = h_1 - h_2.</BM>
+					Dit geldt zowel voor het theoretische isentrope geval als voor de werkelijkheid. Voor het theoretische geval vinden we zo
+					<BM>w_(t_i) = h_1 - h_(2') = {h1.float} - {h2p.float} = {wti}.</BM>
 				</Par>
 			</>
 		},

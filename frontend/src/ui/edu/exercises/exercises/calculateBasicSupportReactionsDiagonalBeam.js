@@ -2,8 +2,7 @@ import React from 'react'
 
 import { Vector, Line } from 'step-wise/geometry'
 
-import { M, BM } from 'ui/components/equations'
-import { Par } from 'ui/components/containers'
+import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form/FormPart'
 import { useInput } from 'ui/form/Form'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
