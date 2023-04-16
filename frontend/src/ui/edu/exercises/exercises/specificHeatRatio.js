@@ -6,7 +6,7 @@ import { M } from 'ui/components/equations'
 import { Par } from 'ui/components/containers'
 import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/FormPart'
-import { English, Dutch } from 'ui/lang/gases'
+import { Dutch } from 'ui/lang/gases'
 
 import SimpleExercise from '../types/SimpleExercise'
 import { getAllInputFieldsFeedback } from '../util/feedback'
@@ -17,7 +17,7 @@ export default function Exercise() {
 
 function Problem({ medium }) {
 	return <>
-		<Par>Zoek de <M>k</M>-waarde (de verhouding van soortelijke warmten) van <strong>{Dutch[medium]}</strong> op. Voer je antwoord zo nauwkeurig mogelijk in.</Par>
+		<Par>Zoek de <M>k</M>-waarde (de verhouding van soortelijke warmten) van <strong>{Dutch[medium]}</strong> op.</Par>
 		<InputSpace>
 			<Par><FloatUnitInput id="k" prelabel={<M>k =</M>} label={<span><M>k</M>-waarde</span>} size="s" validate={any} /></Par>
 		</InputSpace>
@@ -27,6 +27,5 @@ function Problem({ medium }) {
 function Solution({ medium }) {
 	return <>
 		<Par>De <M>k</M>-waarde (de verhouding van soortelijke warmten) van {Dutch[medium]} is <M>{gasProperties[medium].k}.</M></Par>
-		<Par>Als je dit wilt vinden, dan kun je achterin een thermodynamicaboek kijken: er is vast een bijlage met eigenschappen van gassen. Anders kun je ook Googlen naar "specific heat ratio of {English[medium]}". Zoeken in het Engels geeft vaak meer/betere resultaten dan het Nederlands.</Par>
 	</>
 }

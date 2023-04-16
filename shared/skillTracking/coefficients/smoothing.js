@@ -88,7 +88,7 @@ function smoothenWithOrder(coef, newOrder) {
 
 	// Check boundary cases.
 	if (coef.length <= 1)
-		return [1]
+		return new Array(newOrder + 1).fill(1 / (newOrder + 1)) // Make sure it has size n+1 as it should.
 	if (newOrder > maxSmoothingOrder)
 		return coef
 

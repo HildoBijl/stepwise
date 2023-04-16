@@ -1,5 +1,5 @@
 import { createContext, useContext, useMemo, useCallback } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 
 import { useUser } from 'api/user'
 import { isAdmin } from 'api/admin'
@@ -273,4 +273,10 @@ export function useSkillPath() {
 			return paths.courseSkill({ courseId, skillId })
 		return paths.skill({ skillId })
 	}, [paths, courseId])
+}
+
+// SkillLink is an extension of the Link component that creates a link to a given skill. It does it context-dependent, using the useSkillPath function.
+export function SkillLink({ skillId, children, ...props }) {
+	const skillPath = useSkillPath()
+	return <Link to={skillPath(skillId)} {...props}>{children}</Link>
 }

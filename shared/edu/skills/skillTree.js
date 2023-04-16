@@ -324,34 +324,40 @@ let skillTree = {
 	// Thermodynamics
 	specificGasConstant: {
 		name: 'Specifieke gasconstante opzoeken',
-		path: 'physics/thermodynamics',
+		path: 'physics/thermodynamics/basicLaws',
 		exercises: ['specificGasConstant'],
 	},
 	specificHeatRatio: {
 		name: 'De k-waarde opzoeken',
+		path: 'physics/thermodynamics/basicLaws',
 		exercises: ['specificHeatRatio'],
 	},
 	specificHeats: {
 		name: 'Soortelijke warmten opzoeken',
+		path: 'physics/thermodynamics/basicLaws',
 		exercises: ['specificHeats'],
+		links: { skills: ['specificGasConstant', 'specificHeatRatio'], correlation: 0.5 },
 	},
 	gasLaw: {
 		name: 'De gaswet',
-		path: 'physics/thermodynamics',
+		path: 'physics/thermodynamics/basicLaws',
 		setup: and(pick(['calculateWithPressure', 'calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature'], 2), 'specificGasConstant', 'solveLinearEquation'),
 		exercises: ['gasLawLightBulb', 'gasLawHeliumBalloon', 'gasLawDivingCylinder', 'gasLawBicyclePump', 'gasLawWeatherBalloon'],
 	},
 	recognizeProcessTypes: {
 		name: 'Soorten processen herkennen',
+		path: 'physics/thermodynamics/basicLaws',
 		exercises: ['processNameToProperty', 'propertyToProcessName', 'findProcessCoefficient'], // ToDo later: add questions with p-V-plots too.
 	},
 	poissonsLaw: {
 		name: `Poisson's wet`,
+		path: 'physics/thermodynamics/basicLaws',
 		setup: and(pick(['calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature']), part('specificHeatRatio', 2 / 3), pick(['solveLinearEquation', 'solveExponentEquation'], 1, [1, 2])),
 		exercises: ['poissonsLawBicyclePump', 'poissonsLawCompressor', 'poissonsLawTurbine'],
 	},
 	calculateProcessStep: {
 		name: 'Processtap doorrekenen',
+		path: 'physics/thermodynamics/basicLaws',
 		setup: and('gasLaw', 'recognizeProcessTypes', part('poissonsLaw', 1 / 2), part('gasLaw', 1 / 2)),
 		exercises: ['calculateProcessStepCompressor', 'calculateProcessStepDivingCylinder', 'calculateProcessStepBalloon', 'calculateProcessStepGasTurbine'],
 	},
