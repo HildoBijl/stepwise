@@ -1,4 +1,4 @@
-// The FBDInput is an input field for Free Body Diagrams. It takes 
+// The FBDInput is an input field for Free Body Diagrams.
 
 import React, { forwardRef, useCallback, useMemo, useState, useEffect } from 'react'
 import clsx from 'clsx'
