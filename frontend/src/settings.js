@@ -3,9 +3,7 @@ const websiteName = 'Step-Wise'
 const websiteNameAddendum = 'Oefenopgaven op maat'
 export { websiteName, websiteNameAddendum }
 
-// API settings.
-// For the websocket, we replace `http` with `ws`. That also yields
-// correct results for `https` (-> `wss`).
+// API settings. For the websocket, we replace `http` with `ws`. That also yields correct results for `https` (-> `wss`).
 const apiAddress = process.env.REACT_APP_API_ADDRESS
 const graphqlAddress = `${apiAddress}/graphql`
 const websocketEndpoint = process.env.REACT_APP_API_WEBSOCKET_ENDPOINT || 'graphql'

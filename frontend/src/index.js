@@ -6,7 +6,7 @@ import { getMainDefinition } from '@apollo/client/utilities'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import { WebSocketLink } from '@apollo/client/link/ws'
 import { SubscriptionClient } from 'subscriptions-transport-ws'
-import { graphqlAddress, graphqlWebsocketAddress } from './ui/settings'
+import { graphqlAddress, graphqlWebsocketAddress } from './settings'
 
 // The websocket link, for subscriptions.
 const wsClient = new SubscriptionClient(

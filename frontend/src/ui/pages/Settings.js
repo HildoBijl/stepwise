@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
 import { useUser, useShutdownAccountMutation } from 'api/user'
-import { logOutAddress } from 'ui/settings'
+import { logOutAddress } from 'settings'
 
 import { Par, Head } from 'ui/components'
 

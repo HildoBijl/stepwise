@@ -10,7 +10,7 @@ import { lastOf } from 'step-wise/util/arrays'
 
 import { useEventListener } from 'util/react'
 import { useRoute, usePaths } from 'ui/routing'
-import { websiteName } from 'ui/settings'
+import { websiteName } from 'settings'
 
 const useStyles = makeStyles((theme) => ({
 	title: {

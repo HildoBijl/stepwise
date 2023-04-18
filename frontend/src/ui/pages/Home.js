@@ -6,7 +6,7 @@ import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
 import { Alert, AlertTitle } from '@material-ui/lab';
 
-import { websiteName, websiteNameAddendum, apiAddress, cookieApprovalName, googleClientId, googleRedirectAddress } from 'ui/settings'
+import { websiteName, websiteNameAddendum, apiAddress, cookieApprovalName, googleClientId, googleRedirectAddress } from 'settings'
 import cookies from 'ui/cookies'
 import { notSelectable } from 'ui/theme'
 import { useModal, PictureConfirmation } from 'ui/components/Modal'
