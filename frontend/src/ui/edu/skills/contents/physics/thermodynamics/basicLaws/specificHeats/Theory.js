@@ -13,7 +13,7 @@ export default function Component() {
 		<Par>Per definitie is <M>c_v</M> de soortelijke warmte bij constant volume: als je een gas met constant volume verwarmt, hoeveel Joule is er dan nodig om één kilogram gas één graad Celsius (of Kelvin) in temperatuur te laten stijgen? Voor lucht is dit bijvoorbeeld <M>c_v = {gases.air.cv}.</M> Soortgelijk is <M>c_p</M> de soortelijke warmte bij constante druk: als je een gas met constante druk verwarmt, hoeveel Joule is er dan nodig om één kilogram gas één graad Celsius (of Kelvin) in temperatuur te laten stijgen? Voor lucht geldt <M>c_p = {gases.air.cp}.</M></Par>
 		<Par>Er geldt altijd dat <M>c_p &gt; c_v.</M> Er is dus altijd meer energie nodig om gas bij constante druk te verwarmen dan bij constant volume. Om in te zien waarom, moet je kijken naar wat er gebeurt bij een proces met constante druk. Stel je bijvoorbeeld een hoeveelheid gas voor in een zuiger. De zuiger houdt het gas op constante druk. Als we het gas verwarmen, dan stijgt normaliter de druk. Deze toename in druk duwt de zuiger weg, waardoor de druk weer op de oude waarde komt. Bij het wegdrukken van deze zuiger (bij de expansie van het gas) verricht het gas arbeid. Dit is een vorm van energie die vanuit het gas naar buiten "wegstroomt". Als gevolg hiervan moeten we dus meer energie in het gas stoppen: er is meer warmte nodig om de temperatuur één graad Celsius te laten stijgen.</Par>
 
-		<Head>Links met <M>R_s</M> en <M>k</M></Head>
+		<Head>Verbinding met <M>R_s</M> en <M>k</M></Head>
 		<Par>Een gas heeft vier belangrijke constanten: <M>R_s,</M> <M>k,</M> <M>c_v</M> en <M>c_p.</M> Hierbij geldt: als je twee van de vier weet, dan kun je altijd de andere twee berekenen. Er geldt bijvoorbeeld
 			<BMList>
 				<BMPart>R_s = c_p - c_v,</BMPart>
