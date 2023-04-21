@@ -6,8 +6,8 @@ import { ensureConsistency } from 'step-wise/util/objects'
 import { getEventPosition } from 'util/dom'
 
 // ensureReactElement ensures that the given parameter is a React-type element. If not, it throws an error. On success it returns the element.
-export function ensureReactElement(element) {
-	if (!isValidElement(element))
+export function ensureReactElement(element, allowString = true) {
+	if (!isValidElement(element) && (!allowString || typeof element !== 'string'))
 		throw new Error(`Invalid React element: expected a valid React element but received something of type "${typeof element}".`)
 	return element
 }

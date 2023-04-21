@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 		width: '100%',
 		zIndex: 2,
 
-		'& .line': {
+		'& .line, & .curve': {
 			fill: 'none',
 			stroke: 'black',
 			'stroke-width': 1,

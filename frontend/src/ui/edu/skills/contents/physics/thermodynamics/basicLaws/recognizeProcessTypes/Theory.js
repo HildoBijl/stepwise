@@ -5,6 +5,8 @@ import { Float } from 'step-wise/inputTypes/Float'
 import { SkillLink } from 'ui/routing'
 import { Head, Par, List, M, BM } from 'ui/components'
 
+import ProcessTypeDrawing from './ProcessTypeDrawing'
+
 export default function Component() {
 	return <>
 		<Par>Je kunt gassen op verschillende wijzen verwarmen/koelen, expanderen/comprimeren, enzovoort. Om hierover te kunnen praten, moet je weten wat de namen van de verschillende procestypen zijn en deze soorten processen kunnen herkennen.</Par>
@@ -34,6 +36,10 @@ export default function Component() {
 		]} />
 		<Par>In de praktijk is het zo dat een proces niet exact één van de bovenstaande procestypen is, maar wel bij één ervan in de buurt komt. Mogelijk heeft het isobare proces toch kleine drukfluctuaties, of is het isotherme proces net niet op constante temperatuur. We benaderen het proces dan alsnog met één van de bovenstaande soorten processen, zodat we ermee kunnen rekenen.</Par>
 
+		<Head>Processen in een <M>p</M>-<M>V</M>-diagram</Head>
+		<Par>Je kunt de hierboven beschreven processen intekenen in een <M>p</M>-<M>V</M>-diagram. In dit diagram is de druk de verticale as en het volume de horizontale as. Je ziet zo direct hoe deze waarden veranderen gedurende zo'n proces.</Par>
+		<ProcessTypeDrawing />
+
 		<Head>De procescoëfficiënt</Head>
 		<Par>We hebben gezien dat er verschillende soorten processen zijn. Het zou een handig overzicht scheppen als we elk proces in één getal samen kunnen vaten, en gelukkig is dit mogelijk. Voor elk van de bovenstaande processen geldt namelijk, voor een bepaald getal <M>n,</M> dat <BM>pV^n = (\rm constant).</BM> Het getal <M>n</M> dat het proces beschrijft heet de <strong>procescoëfficiënt</strong>.</Par>
 		<List items={[
@@ -42,6 +48,7 @@ export default function Component() {
 			<>Voor een <strong>isotherm</strong> proces geldt <M>n = 1.</M> Om in te zien waarom hebben we de gaswet nodig. Deze zegt dat <M>pV = mR_sT.</M> Als de temperatuur constant is, dan is de rechterkant van deze vergelijking constant. De linkerkant (met een macht <M>1</M> boven de <M>V</M>) is dat dan dus ook.</>,
 			<>Voor een <strong>isentroop</strong> proces is uit metingen gebleken dat <M>n = k,</M> waar de waarde van <M>k</M> van het gas afhangt. Hier is <M>k</M> de <SkillLink skillId="specificHeatRatio">verhouding van soortelijke warmten</SkillLink>. Dit is een gaseigenschap die je op kan zoeken.</>,
 		]} />
+		<Par>Je kunt de <M>n</M>-waarde ook zien als een mate van de steilheid van het proces in een <M>p</M>-<M>V</M>-diagram. Hoe hoger de waarde van <M>n,</M> hoe steiler de lijn in het diagram.</Par>
 		<Par>Let op: het is een veelgemaakte fout om <M>n</M> en <M>k</M> door elkaar te halen. <M>n</M> is de procescoëfficiënt: hij bepaalt <em>wat we doen</em> met het gas. <M>k</M> is een gaseigenschap: deze is afhankelijk van <em>welk gas</em> we gebruiken. Alleen bij een isentroop proces geldt dat <M>n</M> gelijk is aan <M>k.</M></Par>
 		<Par>Naast de bovenstaande vier processen zijn er ook nog tal van andere processen met andere <M>n</M>-waarden. Bijvoorbeeld een proces met (willekeurig gekozen) <M>n = {new Float('1.2')}.</M> Dit proces heeft geen eigen naam, maar elk proces waarbij er een <M>n</M> bestaat zodat <M>pV^n = (\rm constant)</M> noemen we een <strong>polytroop</strong> proces. Een proces met <M>n = {new Float('1.2')}</M> is, gezien de <M>n</M>-waarde, een proces dat ergens tussen een isotherm en een isentroop proces invalt. Denk aan het indrukken van een fietspomp met een klein beetje isolatie: er is wel warmteuitwisseling, maar niet genoeg om de temperatuur constant te houden.</Par>
 		<Par>Onthoud: een polytroop proces is een verzamelnaam. Isobare, isochore, isotherme en isentrope processen zijn allemaal vormen van polytrope processen, maar een polytroop proces is niet altijd isobaar of isochoor.</Par>

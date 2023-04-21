@@ -337,8 +337,10 @@ class Vector {
 		return new Vector(coordinates)
 	}
 
-	// fromCoordinates allows for an object like { x: 2, y: 4 } and possibly with z too to be turned into a Vector.
+	// fromCoordinates allows for an object like { x: 2, y: 4 } and possibly with z too to be turned into a Vector. When given a vector, it is implemented as is.
 	static fromCoordinates(coordinates) {
+		if (Array.isArray(coordinates))
+			return new Vector(coordinates)
 		if (typeof coordinates !== 'object')
 			throw new Error(`Invalid coordinates: expected an object with coordinates but received an input of type "${coordinates}".`)
 

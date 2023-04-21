@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import { alpha } from '@material-ui/core/styles/colorManipulator'
@@ -6,7 +6,7 @@ import { alpha } from '@material-ui/core/styles/colorManipulator'
 import { boundTo } from 'step-wise/util/numbers'
 
 import { notSelectable } from 'ui/theme'
-import { useEventListener, useForceUpdate, useRefWithValue, useWidthTracker } from 'util/react'
+import { useEventListener, useForceUpdate, useWidthTracker } from 'util/react'
 import { getCoordinatesOf, getEventPosition } from 'util/dom'
 
 const bottomDisplacement = '0.5rem'
