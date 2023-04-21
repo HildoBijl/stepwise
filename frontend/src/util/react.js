@@ -210,25 +210,33 @@ export function useForceUpdate() {
 }
 
 // useWidthTracker tracks the width of an element. It returns the width of the object which the ref points to. It forces a rerender on every width change unless forceUpdateOnChange is set to false. It updates on initial render and on window resizes. When repeatOnNoField is set to true, it keeps on checking until the field actually exists.
-export function useWidthTracker(fieldRef, repeatOnNoField = false, forceUpdateOnChange = true) {
+export function useWidthTracker(fieldRef, repeatOnZero = true, repeatOnInterval = 0, forceUpdateOnChange = true, property = 'offsetWidth') {
 	const fieldWidthRef = useRef(0)
 	const forceUpdate = useForceUpdate()
 
 	// Set up a handler that updates the width.
 	const updateWidth = useCallback(() => {
 		const prevWidth = fieldWidthRef.current
-		fieldWidthRef.current = (fieldRef.current && fieldRef.current.offsetWidth) || 0
+		fieldWidthRef.current = (fieldRef.current && fieldRef.current[property]) || 0
 		if (forceUpdateOnChange && prevWidth !== fieldWidthRef.current)
 			forceUpdate()
-	}, [fieldRef, fieldWidthRef, forceUpdate, forceUpdateOnChange])
+	}, [fieldRef, fieldWidthRef, forceUpdate, forceUpdateOnChange, property])
 
 	// On top of that, set up a handler that also calls itself repeatedly when the field does not exist.
 	const updateWidthRecursively = useCallback(() => {
 		updateWidth()
-		if (repeatOnNoField && !fieldRef.current)
-		return setTimeout(() => updateWidthRecursively(), 1)
-	}, [updateWidth, repeatOnNoField, fieldRef])
-	
+		if (repeatOnZero && fieldWidthRef.current === 0)
+			return setTimeout(() => updateWidthRecursively(), 1)
+	}, [updateWidth, repeatOnZero, fieldWidthRef])
+
+	// Repeat on an interval, if indicated.
+	useEffect(() => {
+		if (repeatOnInterval > 0) {
+			const interval = setInterval(() => updateWidth(), repeatOnInterval)
+			return () => clearInterval(interval)
+		}
+	}, [repeatOnInterval, updateWidth])
+
 	// Update the width on the initial render.
 	useLayoutEffect(() => {
 		const timeoutIndex = updateWidthRecursively()

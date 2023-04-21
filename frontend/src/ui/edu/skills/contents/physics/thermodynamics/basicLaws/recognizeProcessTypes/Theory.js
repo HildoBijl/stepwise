@@ -42,8 +42,8 @@ export default function Component() {
 			<>Voor een <strong>isotherm</strong> proces geldt <M>n = 1.</M> Om in te zien waarom hebben we de gaswet nodig. Deze zegt dat <M>pV = mR_sT.</M> Als de temperatuur constant is, dan is de rechterkant van deze vergelijking constant. De linkerkant (met een macht <M>1</M> boven de <M>V</M>) is dat dan dus ook.</>,
 			<>Voor een <strong>isentroop</strong> proces is uit metingen gebleken dat <M>n = k,</M> waar de waarde van <M>k</M> van het gas afhangt. Hier is <M>k</M> de <SkillLink skillId="specificHeatRatio">verhouding van soortelijke warmten</SkillLink>. Dit is een gaseigenschap die je op kan zoeken.</>,
 		]} />
-		<Par>Let op: het is een veelgemaakte fout om <M>n</M> en <M>k</M> door elkaar te halen. <M>n</M> is de procescoëfficiënt: hij bepaalt wat we met het gas doen. <M>k</M> is een gaseigenschap: deze is afhankelijk van welk gas we gebruiken. Alleen bij een isentroop proces geldt dat <M>n</M> gelijk is aan <M>k.</M></Par>
-		<Par>Naast de bovenstaande vier processen zijn er ook nog tal van andere processen met andere <M>n</M>-waarden. Bijvoorbeeld een proces met (willekeurig gekozen) <M>n = {new Float('1.2')}.</M> Dit proces heeft geen eigen naam, maar elk proces waarbij er een <M>n</M> bestaat zodat <M>pV^n = (\rm constant)</M> noemen we een <strong>polytroop</strong> proces. Een proces met <M>n = {new Float('1.2')}</M> is een proces dat ergens tussen een isotherm en een isentroop proces invalt. Denk aan het indrukken van een fietspomp met een klein beetje isolatie: er is wel warmteuitwisseling, maar niet genoeg om de temperatuur constant te houden.</Par>
+		<Par>Let op: het is een veelgemaakte fout om <M>n</M> en <M>k</M> door elkaar te halen. <M>n</M> is de procescoëfficiënt: hij bepaalt <em>wat we doen</em> met het gas. <M>k</M> is een gaseigenschap: deze is afhankelijk van <em>welk gas</em> we gebruiken. Alleen bij een isentroop proces geldt dat <M>n</M> gelijk is aan <M>k.</M></Par>
+		<Par>Naast de bovenstaande vier processen zijn er ook nog tal van andere processen met andere <M>n</M>-waarden. Bijvoorbeeld een proces met (willekeurig gekozen) <M>n = {new Float('1.2')}.</M> Dit proces heeft geen eigen naam, maar elk proces waarbij er een <M>n</M> bestaat zodat <M>pV^n = (\rm constant)</M> noemen we een <strong>polytroop</strong> proces. Een proces met <M>n = {new Float('1.2')}</M> is, gezien de <M>n</M>-waarde, een proces dat ergens tussen een isotherm en een isentroop proces invalt. Denk aan het indrukken van een fietspomp met een klein beetje isolatie: er is wel warmteuitwisseling, maar niet genoeg om de temperatuur constant te houden.</Par>
 		<Par>Onthoud: een polytroop proces is een verzamelnaam. Isobare, isochore, isotherme en isentrope processen zijn allemaal vormen van polytrope processen, maar een polytroop proces is niet altijd isobaar of isochoor.</Par>
 
 		<Head>Hoe het werkt</Head>
@@ -58,8 +58,8 @@ export default function Component() {
 				]} />
 			</>,
 			<>Is het proces goed geïsoleerd, waardoor er geen warmte-uitwisseling is? In dit geval is het proces in ieder geval <strong>adiabatisch</strong>. Indien interne warmte-ontwikkeling (bijvoorbeeld door frictie) ook verwaarloosd kan worden, dan is het proces daarbovenop ook <strong>isentroop</strong>.</>,
-			<>Is het proces matig geïsoleerd? In dat geval zit het ergens tussen isotherm (<M>n = 1</M>) en isentroop (<M>n = k</M>) in. Het is dan een <strong>polytroop</strong> proces.</>,
+			<>Is het proces matig geïsoleerd? In dat geval zit het ergens tussen isotherm (<M>n = 1</M>) en isentroop (<M>n = k</M>) in. Het is dan slechts een <strong>polytroop</strong> proces. We moeten via bijvoorbeeld metingen de <M>n</M>-waarde nog bepalen.</>,
 		]} />
-		<Par>Als je het procestype weet, dan weet je daarmee ook de procescoëfficiënt <M>n.</M> De uitzondering is het polytrope proces, waar we zelf nog de procescoëfficiënt moeten bepalen, bijvoorbeeld via metingen.</Par>
+		<Par>Als je het procestype weet, dan weet je daarmee ook de procescoëfficiënt <M>n.</M> Deze is nodig om ermee te kunnen rekenen.</Par>
 	</>
 }

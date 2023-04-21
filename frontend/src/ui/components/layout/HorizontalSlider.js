@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import { alpha } from '@material-ui/core/styles/colorManipulator'
@@ -6,8 +6,8 @@ import { alpha } from '@material-ui/core/styles/colorManipulator'
 import { boundTo } from 'step-wise/util/numbers'
 
 import { notSelectable } from 'ui/theme'
-import { useEventListener, useForceUpdate } from 'util/react'
-import { getCoordinatesOf } from 'util/dom'
+import { useEventListener, useForceUpdate, useRefWithValue, useWidthTracker } from 'util/react'
+import { getCoordinatesOf, getEventPosition } from 'util/dom'
 
 const bottomDisplacement = '0.5rem'
 const useStyles = makeStyles((theme) => ({
@@ -62,11 +62,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function HorizontalSlider({ children, sliderInside = false, padding = 0 }) {
+export default function HorizontalSlider({ children, sliderInside = false, padding = 0, updateTime = undefined }) {
 	// Set up required states.
 	const [slidePart, setSlidePart] = useState(0) // Keeps track of the slide position. 0 means the slider is all the way on the left and 1 means the slider is all the way on the right.
 	const [togglePart, setTogglePart] = useState(undefined) // Keeps track, during sliding of the toggle, where on the toggle was clicked. undefined means no sliding is going on, 0 means the user clicked on exactly the left end of the toggle and 1 means the user clicked on exactly the right end of the toggle.
-	const [lastTouch, setLastTouch] = useState(undefined) // Keeps track, during dragging of the equation using touch, where the last registered touch on the page was. undefined means no dragging is going on; otherwise it's the x-coordinate of the last touch.
+	const [lastTouch, setLastTouch] = useState(undefined) // Keeps track, during dragging of the element using touch, where the last registered touch on the page was. undefined means no dragging is going on; otherwise it's the x-coordinate of the last touch.
 	const sliding = (togglePart !== undefined)
 	const dragging = (lastTouch !== undefined)
 
@@ -75,30 +75,25 @@ export default function HorizontalSlider({ children, sliderInside = false, paddi
 	const outerRef = useRef()
 	const scrollerRef = useRef()
 
-	// Determine widths and whether there should be sliding in the first place (whether the slider is active).
-	let contentsWidth, containerWidth, contentsPart, active = false
-	if (outerRef.current) {
-		contentsWidth = innerRef.current.scrollWidth
-		containerWidth = outerRef.current.offsetWidth
-		active = contentsWidth > containerWidth
-		if (active)
-			contentsWidth += 2 * padding
-		contentsPart = containerWidth / contentsWidth
-	}
+	// Determine width and use it to determine whether we are active.
+	let contentsWidth = useWidthTracker(innerRef, undefined, updateTime, undefined, 'scrollWidth')
+	const containerWidth = useWidthTracker(outerRef, undefined, updateTime, undefined, 'offsetWidth')
+	const active = contentsWidth > containerWidth
+	contentsWidth = contentsWidth + (active ? 2 * padding : 0)
+	const contentsPart = containerWidth / contentsWidth
 
 	// Set up generic support functions.
-	const getClickPosition = (evt) => ((evt.touches && evt.touches[0]) || evt).clientX
+	const getClickPosition = (evt) => getEventPosition(evt).x
 	const getClickPart = (evt) => {
 		const clickPosition = getClickPosition(evt)
 		const containerPosition = getCoordinatesOf(outerRef.current).x
 		return (clickPosition - containerPosition) / containerWidth
 	}
-	const applySliding = (clickPart, togglePart) => {
-		// Determine the slide part based on the position of the mouse and the togglePart.
-		setSlidePart(boundTo((clickPart - togglePart * contentsPart) / (1 - contentsPart), 0, 1))
-	}
 
 	// Set up sliding handlers.
+	const applySliding = (clickPart, togglePart) => {
+		setSlidePart(boundTo((clickPart - togglePart * contentsPart) / (1 - contentsPart), 0, 1)) // Determine the slide part based on the position of the mouse and the togglePart.
+	}
 	const startSliding = (evt) => {
 		if (!active)
 			return
@@ -108,13 +103,10 @@ export default function HorizontalSlider({ children, sliderInside = false, paddi
 		const minToggle = slidePart * (1 - contentsPart)
 		const maxToggle = 1 - (1 - slidePart) * (1 - contentsPart)
 		let togglePart
-		if (clickPart >= minToggle && clickPart <= maxToggle) {
-			// The click was on the toggle. Calculate on which part of the toggle was clicked.
+		if (clickPart >= minToggle && clickPart <= maxToggle) // The click was on the toggle. Calculate on which part of the toggle was clicked.
 			togglePart = (clickPart - minToggle) / (maxToggle - minToggle)
-		} else {
-			// The click was next to the toggle. Put the toggle such that the cursor it at the middle, unless this doesn't fit.
+		else // The click was next to the toggle. Put the toggle such that the cursor it at the middle, unless this doesn't fit.			
 			togglePart = boundTo(0.5, 1 - (1 - clickPart) / contentsPart, clickPart / contentsPart)
-		}
 
 		// Start the sliding.
 		setTogglePart(togglePart)
@@ -125,16 +117,10 @@ export default function HorizontalSlider({ children, sliderInside = false, paddi
 			return
 		applySliding(getClickPart(evt), togglePart)
 	}
-	const endSliding = () => {
-		setTogglePart(undefined)
-	}
+	const endSliding = () => setTogglePart(undefined)
 
 	// Set up dragging handlers.
-	const startDragging = (evt) => {
-		if (!active)
-			return
-		setLastTouch(getClickPosition(evt))
-	}
+	const startDragging = (evt) => active && setLastTouch(getClickPosition(evt))
 	const updateDragging = (evt) => {
 		if (!active || lastTouch === undefined)
 			return
@@ -142,19 +128,17 @@ export default function HorizontalSlider({ children, sliderInside = false, paddi
 		setSlidePart(boundTo(slidePart + (touch - lastTouch) / (containerWidth - contentsWidth), 0, 1))
 		setLastTouch(touch)
 	}
-	const endDragging = () => {
-		setLastTouch(undefined)
-	}
+	const endDragging = () => setLastTouch(undefined)
 
-	// Set up event listeners for mouse clicks/drags.
+	// Set up event listeners for mouse clicks/drags for the horizontal scroll bar.
 	useEventListener('mousedown', startSliding, scrollerRef)
 	useEventListener('mousemove', updateSliding)
 	useEventListener('mouseup', endSliding)
 
-	// Set up event listeners for touch.
+	// Set up event listeners for touch for the contents itself.
 	useEventListener('touchstart', startDragging, outerRef, { passive: true })
-	useEventListener('touchmove', updateDragging, { passive: true })
-	useEventListener('touchend', endDragging, { passive: true })
+	useEventListener('touchmove', updateDragging, undefined, { passive: true })
+	useEventListener('touchend', endDragging, undefined, { passive: true })
 
 	// On a window-resize rerender the scrollbar.
 	const forceUpdate = useForceUpdate()
