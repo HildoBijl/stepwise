@@ -39,7 +39,7 @@ export function getBoundingRectangle(points) {
 
 // useIdentityTransformationSettings returns transformation settings that do absolutely nothing. The transformation is the identity, and the bounds are set up using the given width and height.
 export function useIdentityTransformationSettings(width, height, points) {
-	points = useConsistentValue(ensureVectorArray(points))
+	points = useConsistentValue(points)
 	const bounds = useMemo(() => new Rectangle({ start: new Vector(0, 0), end: new Vector(width, height) }), [width, height])
 	return useMemo(() => ({
 		points,
@@ -59,7 +59,7 @@ export function useIdentityTransformationSettings(width, height, points) {
  */
 export function useScaleAndShiftTransformationSettings(points, options = {}) {
 	// Ensure consistent input.
-	points = useConsistentValue(ensureVectorArray(points))
+	points = useConsistentValue(points)
 	options = useConsistentValue(options)
 
 	// Wrap the function in a useMemo for reference equality.
@@ -121,7 +121,7 @@ const defaultScaleAndShiftOptions = {
  */
 export function useScaleToBoundsTransformationSettings(points, options = {}) {
 	// Ensure consistent input.
-	points = useConsistentValue(ensureVectorArray(points))
+	points = useConsistentValue(points)
 	options = useConsistentValue(options)
 
 	// Wrap the function in a useMemo for reference equality.
@@ -175,7 +175,7 @@ const defaultScaleToBoundsOptions = {
 // useDefinedBoundsTransformationSettings takes a set of points and scales them to fit within the given bounds. If only a width or a height is given, the scaling is done uniformly. If they are both given, the scaling is done non-uniformly. Optionally, a pointBounds parameter (a Rectangle) can be provided, in which case this rectangle is scaled to the given width/height and not the points bounds.
 export function useDefinedBoundsTransformationSettings(points, options = {}) {
 	// Ensure consistent input.
-	points = useConsistentValue(ensureVectorArray(points))
+	points = useConsistentValue(points)
 	options = useConsistentValue(options)
 
 	// Wrap the function in a useMemo for reference equality.
