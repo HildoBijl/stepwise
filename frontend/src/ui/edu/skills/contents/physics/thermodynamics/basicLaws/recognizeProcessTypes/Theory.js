@@ -12,26 +12,29 @@ export default function Component() {
 		<Par>Je kunt gassen op verschillende wijzen verwarmen/koelen, expanderen/comprimeren, enzovoort. Om hierover te kunnen praten, moet je weten wat de namen van de verschillende procestypen zijn en deze soorten processen kunnen herkennen.</Par>
 
 		<Head>Soorten processen</Head>
-		<Par>We bekijken vijf verschillende situaties.</Par>
+		<Par>We bekijken vijf verschillende soorten processen: isobaar, isochoor, isotherm, adiabatisch en isentroop, allen met een voorbeeldsituatie.</Par>
 		<List useNumbers={true} items={[
 			<>
-				<Par>We nemen een gas in een afgesloten vat met een zuiger. De zuiger heeft een vast gewicht, waardoor de druk in het vat constant is. (Denk aan een fietspomp met een baksteen op het handvat.) Als we het gas verwarmen, dan nemen de temperatuur en het volume toe. De zuiger gaat omhoog.</Par>
-				<Par>Dit is een voorbeeld van een proces met constante druk. Dit noemen we een <strong>isobaar</strong> proces. Deze naam komt van de Griekse woorden "isos" (gelijk) en "baros" (gewicht).</Par>
+				<Par>Bij een <strong>isobaar</strong> proces blijft de druk constant. Deze naam komt van de Griekse woorden "isos" (gelijk) en "baros" (gewicht).</Par>
+				<Par>Een voorbeeld van een isobaar proces is een drukvat met een zuiger, waarbij de kracht op de zuiger constant wordt gehouden. (Denk aan een fietspomp met een baksteen op het handvat.) De constante kracht zorgt ook voor een constante druk. Als we het gas verwarmen, dan nemen de temperatuur en het volume toe. De zuiger gaat omhoog.</Par>
 			</>,
 			<>
-				<Par>We nemen een gas in een afgesloten vat. (Denk aan een eenvoudig drukvat.) Omdat het vat vaste afmetingen heeft, is het volume van het gas ook constant. Als we het gas verwarmen, dan nemen de temperatuur en de druk toe.</Par>
-				<Par>Dit is een voorbeeld van een proces met constant volume. Dit noemen we een <strong>isochoor</strong> proces. Deze naam komt van de Griekse woorden "isos" (gelijk) en "khora" (ruimte).</Par>
+				<Par>Bij een <strong>isochoor</strong> proces blijft het volume constant. Deze naam komt van de Griekse woorden "isos" (gelijk) en "khora" (ruimte).</Par>
+				<Par>Een voorbeeld van een isobaar proces is een afgesloten drukvat. Omdat het vat vaste afmetingen heeft, is het volume van het gas ook constant. Als we het gas verwarmen, dan nemen de temperatuur en de druk toe.</Par>
 			</>,
 			<>
-				<Par>We nemen een gas in een afgesloten vat met een zuiger. (Denk aan een fietspomp.) Dit vat plaatsen we in een bak met water. Vervolgens drukken we de zuiger langzaam in. Omdat de temperatuur van het water ongeveer constant is, en het vat gemakkelijk warmte kan uitwisselen met het water en hier ook voldoende tijd voor heeft, is de temperatuur van het vat ook ongeveer constant. Als gevolg van het indrukken van de zuiger neemt de druk toe en het volume af.</Par>
-				<Par>Dit is een voorbeeld van een proces met constante temperatuur. Dit noemen we een <strong>isotherm</strong> proces. Deze naam komt van de Griekse woorden "isos" (gelijk) en "therme" (warmte).</Par>
+				<Par>Bij een <strong>isotherm</strong> proces blijft de temperatuur constant. Deze naam komt van de Griekse woorden "isos" (gelijk) en "therme" (warmte).</Par>
+				<Par>Een voorbeeld van een isotherm proces is een drukvat met zuiger waarbij de temperatuur constant gehouden wordt. Dit kan bijvoorbeeld door het proces zo slecht mogelijk te isoleren, en/of door het zo langzaam mogelijk te laten verlopen, zodat er voldoende warmteuitwisseling is. (Denk aan een fietspomp in een bak water waarvan de hendel langzaam ingedrukt wordt.) Als de zuiger ingedrukt wordt, neemt de druk toe en het volume af.</Par>
 			</>,
 			<>
-				<Par>We nemen een gas in een afgesloten vat met een zuiger. (Denk aan een fietspomp.) Dit vat isoleren we goed, zodat er geen enkele warmteuitwisseling met de omgeving is. Vervolgens drukken we de zuiger snel in. Vanwege de goede isolatie en het snelle proces is er geen mogelijkheid voor warmteuitwisseling. Als gevolg van dit proces neemt de druk toe, neemt het volume af, en neemt de temperatuur toe.</Par>
-				<Par>Dit is een voorbeeld van een proces zonder warmteuitwisseling. Dit noemen we een <strong>adiabatisch</strong> proces. Bij een adiabatisch proces is er mogelijk wel interne warmteontwikkeling, bijvoorbeeld vanwege frictie. Mogelijk schuurt onze zuiger langs het vat en creëert hiermee intern warmte.</Par>
+				<Par>Bij een <strong>adiabatisch</strong> proces is er geen warmteuitwisseling met de omgeving. Deze naam komt van het Griekse woord "diabaínein" (doorlaatbaar) en het voorvoegsel "a" (niet) om aan te geven dat de grens geen warmte doorlaat.</Par>
+				<Par>Een voorbeeld van een adiabatisch proces is een drukvat met zuiger waarbij het proces zo goed geïsoleerd en/of zo snel uitgevoerd is dat er geen warmteuitwisseling is. (Denk aan een fietspomp waarvan de hendel erg snel ingedrukt wordt.) Als de zuiger ingedrukt wordt, dan neemt de druk toe, neemt het volume af, en neemt de temperatuur toe.</Par>
+				<Par>Merk op: bij een adiabatisch proces is er mogelijk wel interne warmteontwikkeling, bijvoorbeeld vanwege frictie. Mogelijk schuurt onze zuiger langs het vat en creëert hiermee intern warmte. Dit is echter geen warmtestroom van/naar de omgeving.</Par>
 			</>,
 			<>
-				<Par>We nemen exact dezelfde situatie als hiervoor (het adiabatische proces) maar nu zorgen we ervoor dat er ook geen interne warmteontwikkeling is. Het is, om het eenvoudig te zeggen, een goed geolied proces. Zo'n proces zonder enige warmtestroom en warmteontwikkeling noemen we een <strong>isentroop</strong> proces. Deze naam komt van het feit dat de "entropie" gelijk blijft. (Vermoedelijk leer je pas een stuk later wat entropie exact inhoudt.) Merk op dat een isentroop proces ook adiabatisch is, maar een adiabatisch proces is niet altijd isentroop.</Par>
+				<Par>Een <strong>isentroop</strong> proces is een adiabatisch proces (geen warmteuitwisseling) waarbij er <em>ook</em> geen interne warmteontwikkeling is. Deze naam komt van het feit dat de "entropie" gelijk blijft. (Vermoedelijk leer je pas een stuk later wat entropie exact inhoudt.)</Par>
+				<Par>Een voorbeeld van een isentroop proces is een goed geïsoleerd drukvat met zuiger zonder frictie. (Denk aan een goed geoliede fietspomp.) Als we de zuiger indrukken, dan neemt de druk toe, neemt het volume af, en neemt de temperatuur toe.</Par>
+				<Par>Merk op dat een isentroop proces ook adiabatisch is, maar een adiabatisch proces is niet altijd isentroop. Vanwege de onbekende frictie is het moeilijk om met adiabatische processen te rekenen, en dus rekenen we veel meer met isentrope processen.</Par>
 			</>,
 		]} />
 		<Par>In de praktijk is het zo dat een proces niet exact één van de bovenstaande procestypen is, maar wel bij één ervan in de buurt komt. Mogelijk heeft het isobare proces toch kleine drukfluctuaties, of is het isotherme proces net niet op constante temperatuur. We benaderen het proces dan alsnog met één van de bovenstaande soorten processen, zodat we ermee kunnen rekenen.</Par>

@@ -50,6 +50,8 @@ function getSolution({ p1, V1, V2, n }) {
 	V1 = V1.simplify()
 	V2 = V2.simplify()
 	cv = cv.simplify()
+	if (typeof n === 'number') // Legacy: in older exercises n was stored as number. Adjust accordingly.
+		n = new FloatUnit({ float: n, unit: '' })
 	const p2 = p1.multiply(Math.pow(V1.number / V2.number, n.number))
 	const diff = p2.multiply(V2).subtract(p1.multiply(V1)).setUnit('J')
 	const c = cv.subtract(Rs.divide(n.number - 1))

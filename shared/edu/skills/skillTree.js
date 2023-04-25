@@ -361,20 +361,22 @@ let skillTree = {
 		setup: and('gasLaw', 'recognizeProcessTypes', part('poissonsLaw', 1 / 2), part('gasLaw', 1 / 2)),
 		exercises: ['calculateProcessStepCompressor', 'calculateProcessStepDivingCylinder', 'calculateProcessStepBalloon', 'calculateProcessStepGasTurbine'],
 	},
-
 	calculateClosedCycle: {
 		name: 'Gesloten kringproces doorrekenen',
+		// path: 'physics/thermodynamics/basicLaws',
 		setup: repeat('calculateProcessStep', 3),
 		exercises: ['calculateClosedCycleVTp', 'calculateClosedCycleTsV', 'calculateClosedCycleSTST', 'calculateClosedCycleSVSV'],
 		thresholds: { pass: 0.5 },
 	},
 	calculateHeatAndWork: {
 		name: 'Warmte en arbeid berekenen',
+		path: 'physics/thermodynamics/basicLaws',
 		setup: and('recognizeProcessTypes', pick(['calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature', 'calculateWithMass'], 2), pick(['specificGasConstant', 'specificHeatRatio', 'specificHeats'], 2)),
 		exercises: ['calculateHeatAndWorkIsobaric', 'calculateHeatAndWorkIsochoric', 'calculateHeatAndWorkIsothermal', 'calculateHeatAndWorkIsentropic', 'calculateHeatAndWorkPolytropic'],
 	},
 	calculateWithInternalEnergy: {
 		name: 'Rekenen met inwendige energie',
+		path: 'physics/thermodynamics/basicLaws',
 		setup: and(pick(['gasLaw', 'poissonsLaw']), pick(['specificHeats', 'calculateHeatAndWork']), 'solveLinearEquation'),
 		exercises: ['calculateWithInternalEnergyEngine', 'calculateWithInternalEnergyBalloon', 'calculateWithInternalEnergyTire'],
 	},
