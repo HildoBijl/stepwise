@@ -96,7 +96,7 @@ export function getLinePath(points, close) {
 	return `M${points.map(getPointSvg).join(' L')}${close ? ' Z' : ''}`
 }
 
-// Curve draws a smooth curve along/through a set of points. Parameters include the curve part (0 means straight, 1 means maximally curved) or the radius (in )
+// Curve draws a smooth curve along/through a set of points. Parameters include the curve part (0 means straight, 1 means maximally curved) or the spread of the curve (similar to curve radius). With the "through" parameter it can be determined whether the curve should go through the points or only along them.
 export const Curve = forwardRef((props, ref) => {
 	// Process the input.
 	let { points, graphicalPoints, spread, graphicalSpread, part, through, close, className, style } = processOptions(props, defaultCurve)
@@ -116,7 +116,7 @@ export const Curve = forwardRef((props, ref) => {
 export const defaultCurve = {
 	...defaultLine,
 	className: 'curve',
-	through: false,
+	through: true,
 	spread: undefined,
 	graphicalSpread: undefined,
 	part: 1,

@@ -63,7 +63,7 @@ export default function ProcessTypeDrawing() {
 			<SvgLine points={xAxisPoints} />
 			<SvgLine points={yAxisPoints} />
 			{processes.map((process, index) => <Fragment key={index}>
-				<SvgCurve points={process.points} through={true} style={{ strokeWidth: 2, stroke: process.color }} />
+				<SvgCurve points={process.points} style={{ strokeWidth: 2, stroke: process.color }} />
 			</Fragment>)}
 		</>}
 		htmlContents={<>
