@@ -4,7 +4,7 @@ import { useTheme, makeStyles } from '@material-ui/core/styles'
 import MuiTabs from '@material-ui/core/Tabs'
 import MuiTab from '@material-ui/core/Tab'
 
-import { useWidthTracker } from 'util/react'
+import { useSize } from 'util/react'
 
 import { useTabContext } from './TabProvider'
 import TabLabel from './TabLabel'
@@ -26,7 +26,7 @@ export default function Tabs() {
 
 	// Determine based on the width of the tabs bar whether labels should be shown.
 	const tabsRef = useRef()
-	const width = useWidthTracker(tabsRef, true)
+	const [width] = useSize(tabsRef)
 	let showIcon = true, showLabel = true
 	if (width / tabs.length < lowerTabWidthLimit)
 		showLabel = false
@@ -49,4 +49,3 @@ export default function Tabs() {
 		} />)}
 	</MuiTabs>
 }
-

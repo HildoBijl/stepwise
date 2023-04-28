@@ -1,8 +1,10 @@
-import { createTheme } from '@material-ui/core/styles'
+import { useMemo } from 'react'
+import { createTheme, useTheme } from '@material-ui/core/styles'
 import { CheckCircle as SuccessIcon, Cancel as ErrorIcon, Warning as WarningIcon, Info as InfoIcon } from '@material-ui/icons'
 import { alpha } from '@material-ui/core/styles/colorManipulator'
 
 import { toCSS } from 'util/colors'
+import { useFontFaceObserver } from 'util/react'
 
 // const themeColor = [0.01, 0.27, 0.54, 1] // #043870
 // const secondaryColor = [0.26, 0.16, 0.08, 1] // #422814
@@ -158,4 +160,14 @@ export function getIcon(feedbackType) {
 
 export function getFeedbackColor(feedbackType, theme) {
 	return (theme.palette[feedbackType] && theme.palette[feedbackType].main) || theme.palette.text.primary
+}
+
+export function useFontsLoaded(includeMaths = true) {
+	const theme = useTheme()
+	const fontFamily = theme.typography.fontFamily
+	const firstFontFamily = useMemo(() => fontFamily.split('"').find(str => str.length > 0), [fontFamily])
+	const fonts = [{ family: firstFontFamily }]
+	if (includeMaths)
+		fonts.push({ family: 'KaTeX_Math' })
+	return useFontFaceObserver(fonts)
 }

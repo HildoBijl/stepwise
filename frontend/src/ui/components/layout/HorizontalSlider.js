@@ -6,8 +6,9 @@ import { alpha } from '@material-ui/core/styles/colorManipulator'
 import { boundTo } from 'step-wise/util/numbers'
 
 import { notSelectable } from 'ui/theme'
-import { useEventListener, useForceUpdate, useWidthTracker } from 'util/react'
+import { useEventListener, useForceUpdate, useSize, useDimension } from 'util/react'
 import { getCoordinatesOf, getEventPosition } from 'util/dom'
+import { useResizeListener } from 'ui/layout/App'
 
 const bottomDisplacement = '0.5rem'
 const useStyles = makeStyles((theme) => ({
@@ -76,8 +77,8 @@ export default function HorizontalSlider({ children, sliderInside = false, paddi
 	const scrollerRef = useRef()
 
 	// Determine width and use it to determine whether we are active.
-	let contentsWidth = useWidthTracker(innerRef, undefined, updateTime, undefined, 'scrollWidth')
-	const containerWidth = useWidthTracker(outerRef, undefined, updateTime, undefined, 'offsetWidth')
+	let contentsWidth = useDimension(innerRef, (elem) => elem.scrollWidth, useResizeListener) // Get the scrollWidth.
+	const [containerWidth] = useSize(outerRef) // Get the offsetWidth.
 	const active = contentsWidth > containerWidth
 	contentsWidth = contentsWidth + (active ? 2 * padding : 0)
 	const contentsPart = containerWidth / contentsWidth

@@ -8,9 +8,10 @@ import clsx from 'clsx'
 
 import { lastOf } from 'step-wise/util/arrays'
 
-import { useEventListener } from 'util/react'
-import { useRoute, usePaths } from 'ui/routing'
+import { useStaggeredFunction } from 'util/react'
 import { websiteName } from 'settings'
+import { useRoute, usePaths } from 'ui/routing'
+import { useResizeListener } from 'ui/layout/App'
 
 const useStyles = makeStyles((theme) => ({
 	title: {
@@ -96,13 +97,8 @@ export default function Title({ className, setTitleCollapsed }) {
 		}
 		setTitleCollapsed(collapsed) // Inform the Header that the title is collapsed. This influences whether a menu button is shown.
 	}, [fullTitleRef, partialTitleRef, pageNames, setTitleCollapsed])
-
-	// Apply the update when anything changes.
-	useEffect(() => {
-		setTimeout(updateTitle, 1) // Delay until after rendering is done.
-		setTimeout(updateTitle, 100) // Do an extra check after data has loaded. It may happen that loading in user data adds in a skill indicator, which changes the layout.
-	})
-	useEventListener('resize', updateTitle, window)
+	const checkUpdateTitle = useStaggeredFunction(updateTitle)
+	useResizeListener(checkUpdateTitle)
 
 	// Determine the title to be shown in the browser tab, through the HTML <title> tag.
 	const pageName = lastOf(pageNames)
@@ -114,8 +110,12 @@ export default function Title({ className, setTitleCollapsed }) {
 			<TitleItems routes={routes} />
 		</TitleContext.Provider>
 		<Helmet><title>{tabTitle}</title></Helmet>
-		<Breadcrumbs ref={fullTitleRef} variant='h6' aria-label='breadcrumb' separator={<Arrow className='arrow' />} className={clsx(className, classes.breadcrumbs)} style={{ display: 'none' }}>{getBreadcrumbs(routes, pageNames)}</Breadcrumbs>
-		<Breadcrumbs ref={partialTitleRef} variant='h6' aria-label='breadcrumb' separator={<Arrow className='arrow' />} className={clsx(className, classes.breadcrumbs)} style={{ display: 'none' }}><Breadcrumb route={route} name={lastOf(pageNames)} last={true} /></Breadcrumbs>
+		<Breadcrumbs ref={fullTitleRef} variant='h6' aria-label='breadcrumb' separator={<Arrow className='arrow' />} className={clsx(className, classes.breadcrumbs)} style={{ display: 'none' }}>
+			{getBreadcrumbs(routes, pageNames)}
+		</Breadcrumbs>
+		<Breadcrumbs ref={partialTitleRef} variant='h6' aria-label='breadcrumb' separator={<Arrow className='arrow' />} className={clsx(className, classes.breadcrumbs)} style={{ display: 'none' }}>
+			<Breadcrumb route={route} name={lastOf(pageNames)} last={true} />
+		</Breadcrumbs>
 	</>
 }
 

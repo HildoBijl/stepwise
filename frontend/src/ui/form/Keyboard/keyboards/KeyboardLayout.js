@@ -4,7 +4,7 @@ import clsx from 'clsx'
 
 import { resolveFunctions } from 'step-wise/util/functions'
 
-import { useWidthTracker } from 'util/react'
+import { useSize } from 'util/react'
 
 import KeyButton from './KeyButton'
 
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 export default function KeyboardLayout({ settings, keyFunction, keySettings = {}, keys, numColumns, numRows, styles, widthToRowHeight, maxWidth, keyClassNames = {} }) {
 	// Determine the row height.
 	const keyboardLayoutRef = useRef()
-	const width = useWidthTracker(keyboardLayoutRef)
+	const [width] = useSize(keyboardLayoutRef)
 	const rowHeight = widthToRowHeight ? widthToRowHeight(width) : width / numColumns
 	const classes = useStyles({ rowHeight, numColumns, numRows, settings, styles, maxWidth })
 	const [buttonClickFunction, properties] = useButtonClickFunction(keyFunction)

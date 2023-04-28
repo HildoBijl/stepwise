@@ -10,7 +10,7 @@ import { isNumber, boundTo } from 'step-wise/util/numbers'
 import { resolveFunctions } from 'step-wise/util/functions'
 
 import { getCoordinatesOf, getClickSide } from 'util/dom'
-import { useLookupCallback, useEventListener, useWidthTracker } from 'util/react'
+import { useLookupCallback, useEventListener, useSize } from 'util/react'
 import { notSelectable } from 'ui/theme'
 import { latexMinus } from 'ui/components/math'
 import { defaultUseFormParameterOptions, useCursorRef, useAbsoluteCursorRef } from 'ui/form/Form'
@@ -254,9 +254,9 @@ export default function FieldInput(options) {
 	const labelRef = useRef()
 
 	// Determine element widths.
-	const fieldWidth = useWidthTracker(fieldRef)
-	const contentsContainerWidth = useWidthTracker(contentsContainerRef)
-	const labelWidth = useWidthTracker(labelRef)
+	const [fieldWidth] = useSize(fieldRef)
+	const [contentsContainerWidth] = useSize(contentsContainerRef)
+	const [labelWidth] = useSize(labelRef)
 
 	// Define keyboard settings.
 	const keyboard = (FI) => FI && FI.cursor !== undefined && keyboardSettings ? {

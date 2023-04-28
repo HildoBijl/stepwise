@@ -79,7 +79,7 @@ export default function Table({ fields, rowHeads, colHeads, rowHeadAlign = 'l', 
 	// Render the table.
 	const classes = useStyles({ hasRowHeads, hasColHeads, numRows, numCols, rowHeadAlign, colHeadAlign, rowAlign, colAlign })
 	return (
-		<HorizontalSlider updateTime={200}>
+		<HorizontalSlider>
 			<div className={clsx(classes.table, 'table', className)} style={style}>
 				{colHeads && rowHeads ? <Cell row="head" col="head" /> : null}
 				{colHeads ? colHeads.map((head, col) => <Cell key={col} row="head" col={col} horizontalAlign={colAlign[col]} verticalAlign={colHeadAlign} hover={hover} setHover={setHover}>{head}</Cell>) : null}

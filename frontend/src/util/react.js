@@ -1,9 +1,15 @@
-import { isValidElement, useState, useRef, useEffect, useLayoutEffect, useReducer, useCallback } from 'react'
+import { isValidElement, useState, useRef, useEffect, useReducer, useCallback } from 'react'
+import useSize from '@react-hook/size'
+import useResizeObserver from '@react-hook/resize-observer'
+import FontFaceObserver from 'fontfaceobserver'
 
 import { getCounterNumber } from 'step-wise/util/numbers'
 import { ensureConsistency } from 'step-wise/util/objects'
 
 import { getEventPosition } from 'util/dom'
+
+// Re-export various useful hooks from other packages.
+export { useSize, useResizeObserver }
 
 // ensureReactElement ensures that the given parameter is a React-type element. If not, it throws an error. On success it returns the element.
 export function ensureReactElement(element, allowString = true) {
@@ -209,47 +215,13 @@ export function useForceUpdate() {
 	return useReducer(() => ({}))[1]
 }
 
-// useWidthTracker tracks the width of an element. It returns the width of the object which the ref points to. It forces a rerender on every width change unless forceUpdateOnChange is set to false. It updates on initial render and on window resizes. When repeatOnNoField is set to true, it keeps on checking until the field actually exists.
-export function useWidthTracker(fieldRef, repeatOnZero = true, repeatOnInterval = 0, forceUpdateOnChange = true, property = 'offsetWidth') {
-	const fieldWidthRef = useRef(0)
-	const forceUpdate = useForceUpdate()
-
-	// Set up a handler that updates the width.
-	const updateWidth = useCallback(() => {
-		const prevWidth = fieldWidthRef.current
-		fieldWidthRef.current = (fieldRef.current && fieldRef.current[property]) || 0
-		if (forceUpdateOnChange && prevWidth !== fieldWidthRef.current)
-			forceUpdate()
-	}, [fieldRef, fieldWidthRef, forceUpdate, forceUpdateOnChange, property])
-
-	// On top of that, set up a handler that also calls itself repeatedly when the field does not exist.
-	const updateWidthRecursively = useCallback(() => {
-		updateWidth()
-		if (repeatOnZero && fieldWidthRef.current === 0)
-			return setTimeout(() => updateWidthRecursively(), 1)
-	}, [updateWidth, repeatOnZero, fieldWidthRef])
-
-	// Repeat on an interval, if indicated.
-	useEffect(() => {
-		if (repeatOnInterval > 0) {
-			const interval = setInterval(() => updateWidth(), repeatOnInterval)
-			return () => clearInterval(interval)
-		}
-	}, [repeatOnInterval, updateWidth])
-
-	// Update the width on the initial render.
-	useLayoutEffect(() => {
-		const timeoutIndex = updateWidthRecursively()
-		return () => clearTimeout(timeoutIndex)
-	}, [updateWidthRecursively])
-
-	// Update the width whenever the window changes size.
-	useEffect(() => {
-		window.addEventListener('resize', updateWidth)
-		return () => window.removeEventListener('resize', updateWidth)
-	}, [updateWidth])
-
-	return fieldWidthRef.current
+// useDimension takes a field ref and a function that returns a dimension. This function is called on every resize of the said object. If required, an extra useUpdateCallback can be implemented. This is for instance a listener that listens to other events and fires the update function on a change in the value it itself is monitoring.
+export function useDimension(fieldRef, dimensionFunc, useUpdateCallback = () => { }) {
+	const [dimension, setDimension] = useState()
+	const update = elem => setDimension(dimensionFunc(elem))
+	useResizeObserver(fieldRef, (entry) => update(entry.target))
+	useUpdateCallback(() => update(fieldRef.current))
+	return dimension
 }
 
 // getHTMLElement will take an HTML element or a ref to one and ensures that it returns an HTML element, or null if it cannot find one.
@@ -267,4 +239,34 @@ export function ensureHTMLElement(obj) {
 	if (!result)
 		throw new Error(`Invalid HTML Element: could not find an HTML element in the given object. Its type was "${typeof obj}".`)
 	return result
+}
+
+// useFontFaceObserver checks whether the given font-faces are loaded. This is a copy of the NPM-package use-font-face-observer, which is bugged due to including an outdated version of Javascript in its dev-dependencies. 
+export function useFontFaceObserver(fontFaces, options = {}) {
+	const { testString, timeout } = options
+
+	const [isResolved, setIsResolved] = useState(false)
+	const fontFacesString = JSON.stringify(fontFaces)
+
+	useEffect(() => {
+		const promises = JSON.parse(fontFacesString).map(({ family, weight, style, stretch }) => new FontFaceObserver(family, { weight, style, stretch }).load(testString, timeout))
+		Promise.all(promises).then(() => setIsResolved(true))
+	}, [fontFacesString, testString, timeout])
+
+	return isResolved
+}
+
+// useStaggeredFunction turns a function into a staggered function. First of all, when calling the function, it's not called directly, but on a zero-timeout. Second of all, if it is called multiple times before being executed, it's only executed once.
+export function useStaggeredFunction(func) {
+	const funcRef = useRefWithValue(func)
+	const timeoutRef = useRef()
+	const staggeredFunc = useCallback(() => {
+		if (!timeoutRef.current) {
+			timeoutRef.current = setTimeout(() => {
+				funcRef.current()
+				timeoutRef.current = undefined
+			}, [timeoutRef])
+		}
+	}, [funcRef, timeoutRef])
+	return staggeredFunc
 }
