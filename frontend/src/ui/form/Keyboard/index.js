@@ -7,9 +7,10 @@ import Paper from '@material-ui/core/Paper'
 import Container from '@material-ui/core/Container'
 import { Keyboard as KeyboardIcon } from '@material-ui/icons'
 
-import { usePrevious, useCurrentOrPrevious, useEventListener } from 'util/react'
+import { usePrevious, useCurrentOrPrevious } from 'util/react'
 
 import Arrow from 'ui/components/icons/Arrow'
+import { useResizeListener } from 'ui/layout/App'
 
 import Tab from './Tab'
 import keyboards, { tabs } from './keyboards'
@@ -69,7 +70,7 @@ function Keyboard({ settings, keyFunction }, ref) {
 			localStorage.setItem('keyboardStatus', open ? 'open' : 'closed')
 		setOpen(open)
 	}, [setOpen])
-	useEffect(() => {	setOpen(storedStatus ? storedStatus === 'open' : defaultOpen)	}, [storedStatus, defaultOpen]) // When the media query changes (which it can do upon loading) update the keyboardOpen parameter.
+	useEffect(() => { setOpen(storedStatus ? storedStatus === 'open' : defaultOpen) }, [storedStatus, defaultOpen]) // When the media query changes (which it can do upon loading) update the keyboardOpen parameter.
 
 	let [chosenTab, setChosenTab] = useState()
 	const previousSettings = usePrevious(settings)
@@ -133,7 +134,7 @@ function Keyboard({ settings, keyFunction }, ref) {
 	// Position the keyboard properly.
 	const positionKeyboardCB = useCallback(() => { setTimeout(() => positionKeyboard(barRef, tabsRef, keyboardRef, fillerRef, active, open)) }, [barRef, tabsRef, keyboardRef, fillerRef, active, open]) // Use a time-out to ensure this happens after all resizing, rendering and media queries are finished.
 	useLayoutEffect(positionKeyboardCB, [positionKeyboardCB, chosenTab]) // Also update the position when the active tab changes.
-	useEventListener('resize', positionKeyboardCB)
+	useResizeListener(positionKeyboardCB)
 
 	// Determine the settings for the given keyboard layout.
 	let layoutSettings = settings && chosenTab ? settings[chosenTab] : null

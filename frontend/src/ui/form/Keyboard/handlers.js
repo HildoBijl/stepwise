@@ -15,12 +15,12 @@ import { useState, useCallback } from 'react'
 
 import { deepEquals } from 'step-wise/util/objects'
 
-import { useRefWithValue } from 'util/react'
+import { useLatest } from 'util/react'
 
 export default function useKeyboardHandlers(fieldTracker, tabOrder, tabIndexRef) {
 	// Use a state to store the keyboard settings.
 	const [keyboardSettings, setKeyboardSettings] = useState(undefined)
-	const keyboardSettingsRef = useRefWithValue(keyboardSettings)
+	const keyboardSettingsRef = useLatest(keyboardSettings)
 
 	// getKeyboard returns the keyboard of the currently active input field.
 	const getKeyboard = useCallback(() => {

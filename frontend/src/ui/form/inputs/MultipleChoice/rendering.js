@@ -10,7 +10,7 @@ import { numberArray, shuffle } from 'step-wise/util/arrays'
 import { processOptions, filterOptions, deepEquals } from 'step-wise/util/objects'
 import { getRandomSubset } from 'step-wise/util/random'
 
-import { useRefWithValue, useImmutableValue } from 'util/react'
+import { useLatest, useImmutableValue } from 'util/react'
 import { notSelectable } from 'ui/theme'
 import { FeedbackBlock } from 'ui/components'
 
@@ -117,7 +117,7 @@ export default function MultipleChoice(options) {
 		subFields: numberArray(0, choices.length - 1),
 		functionalize,
 	})
-	const selectionRef = useRefWithValue(selection)
+	const selectionRef = useLatest(selection)
 
 	// Set up important elements and properties.
 	const Element = multiple ? Checkbox : Radio

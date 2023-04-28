@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback, createContext, useContext } fr
 import { boundTo } from 'step-wise/util/numbers'
 import { ensureArray } from 'step-wise/util/arrays'
 
-import { useConsistentValue, useRefWithValue } from 'util/react'
+import { useConsistentValue, useLatest } from 'util/react'
 
 import tabData from './tabData'
 
@@ -14,7 +14,7 @@ export default function TabProvider({ children }) {
 	const tabIndex = tabs.length === 0 || !tabs.includes(tab) ? 0 : tabs.indexOf(tab)
 
 	// Define refs where needed.
-	const tabsRef = useRefWithValue(tabs)
+	const tabsRef = useLatest(tabs)
 
 	// Set up handlers.
 	const setTabIndex = useCallback(tabIndex => {
@@ -48,7 +48,7 @@ export function useTabs(tabs, initialTab) {
 	tabs = useConsistentValue(ensureArray(tabs).sort((a, b) => (tabData[a].order || 0) - (tabData[b].order || 0)))
 
 	// On a change in tabs, update the tabs.
-	const tabRef = useRefWithValue(tab)
+	const tabRef = useLatest(tab)
 	useEffect(() => {
 		setTabs(tabs)
 

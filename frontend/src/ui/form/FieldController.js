@@ -3,7 +3,7 @@ import React, { useRef, useState, useCallback, useEffect, createContext, useCont
 import { mod } from 'step-wise/util/numbers'
 import { processOptions } from 'step-wise/util/objects'
 
-import { useEventListener, useRefWithValue, getHTMLElement, ensureHTMLElement } from 'util/react'
+import { useEventListener, useLatest, getHTMLElement, ensureHTMLElement } from 'util/react'
 
 import Keyboard from './Keyboard'
 import useKeyboardHandlers from './Keyboard/handlers'
@@ -19,11 +19,11 @@ export default function FieldController({ children }) {
 	const [tabbingOn, setTabbingOn] = useState(true)
 	const turnTabbingOn = useCallback(() => setTabbingOn(true), [setTabbingOn])
 	const turnTabbingOff = useCallback(() => setTabbingOn(false), [setTabbingOn])
-	const tabbingOnRef = useRefWithValue(tabbingOn)
+	const tabbingOnRef = useLatest(tabbingOn)
 
 	// Track the current active element through a tab index.
 	const [tabIndex, setTabIndex] = useState(-1) // -1 means no tab has been performed just yet.
-	const tabIndexRef = useRefWithValue(tabIndex)
+	const tabIndexRef = useLatest(tabIndex)
 
 	// activate will activate the field with the given ID, while deactivate deactivates it (but only when it's active, otherwise do nothing).
 	const activate = useCallback((id) => {

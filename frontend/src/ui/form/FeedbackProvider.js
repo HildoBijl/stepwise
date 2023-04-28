@@ -4,7 +4,7 @@ import { useTheme } from '@material-ui/core/styles'
 import { isBasicObject, processOptions, deepEquals } from 'step-wise/util/objects'
 import { toFO } from 'step-wise/inputTypes'
 
-import { useRefWithValue } from 'util/react'
+import { useLatest } from 'util/react'
 import { selectRandomCorrect, selectRandomIncorrect } from 'util/feedbackMessages'
 
 import { getIcon, getFeedbackColor } from 'ui/theme'
@@ -18,7 +18,7 @@ export default function FeedbackProvider({ children, getFeedback, input, data = 
 	const [feedbackInput, setFeedbackInput] = useState({})
 
 	// Set up an updateFeedback handler.
-	const dataRef = useRefWithValue({ ...data, feedback, feedbackInput })
+	const dataRef = useLatest({ ...data, feedback, feedbackInput })
 	const updateFeedback = useCallback((input = {}) => {
 		// Compare the new input with the previous input. When they are equal, do not evaluate.
 		const { feedback, feedbackInput } = dataRef.current
@@ -137,7 +137,7 @@ export function useMainFeedback(step) {
 // useStaticFeedbackText comes up with a feedback text when the feedback is just a boolean (true or false, for correct or incorrect). It ensures that this message stays the same until the dependency changes. If you don't do this, then the incorrect-message will change after every keypress.
 function useStaticFeedbackText(feedback, dependency) {
 	const [text, setText] = useState('')
-	const feedbackRef = useRefWithValue(feedback)
+	const feedbackRef = useLatest(feedback)
 
 	// Refresh the text on a change of input, if the feedback is boolean. Otherwise the text won't be used anyway.
 	useEffect(() => {

@@ -6,7 +6,7 @@ import { lastOf } from 'step-wise/util/arrays'
 import { getLastAction, getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
 
-import { useRefWithValue } from 'util/react'
+import { useLatest } from 'util/react'
 import { useUserId } from 'api/user'
 import { useActiveGroup } from 'api/group'
 import { getIcon } from 'ui/theme'
@@ -306,7 +306,7 @@ function CurrentSubmissionRow({ submissionList, submitting, index }) {
 	const isSelfPresent = submissionMembers.some(member => member.userId === userId)
 
 	// Set up handlers to put the input into the form and possibly submit it.
-	const historyRef = useRefWithValue(history), submissionListRef = useRefWithValue(submissionList)
+	const historyRef = useLatest(history), submissionListRef = useLatest(submissionList)
 	const setFormInput = useCallback(() => {
 		// Find the previous input action of the user and show the feedback on this.
 		updateFeedback(getLastInput(historyRef.current, lastOf(submissionListRef.current).userId, true) || {}) // Show feedback on the last resolved input.

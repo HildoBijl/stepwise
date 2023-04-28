@@ -6,7 +6,7 @@ import { deepEquals, processOptions, filterOptions, removeEqualProperties } from
 import { isEmpty } from 'step-wise/CAS/interpretation/support'
 import { defaultFieldSettings, defaultInterpretationSettings, defaultExpressionSettings } from 'step-wise/CAS/options'
 
-import { useRefWithValue } from 'util/react'
+import { useLatest } from 'util/react'
 
 import { useAbsoluteCursorRef } from '../../Form'
 
@@ -56,7 +56,7 @@ function ExpressionInputInner(props) {
 	// Process the field settings, and use them to determine the keyboard settings function and expression interpreter settings.
 	const settings = useMemo(() => processOptions(props.settings || {}, defaultFieldSettings), [props.settings])
 	const interpretationSettings = useMemo(() => removeEqualProperties(filterOptions(settings, jointFieldSettings), jointFieldSettings), [settings])
-	const settingsRef = useRefWithValue(settings)
+	const settingsRef = useLatest(settings)
 	const keyboardSettings = useCallback(FI => FIToKeyboardSettings(FI, settingsRef.current), [settingsRef])
 	const initialSI = {
 		...getEmptySI(interpretationSettings),

@@ -4,7 +4,7 @@ import { isBasicObject, processOptions, filterProperties, deepEquals, ensureCons
 import { noop, passOn, resolveFunctions } from 'step-wise/util/functions'
 import { toFO } from 'step-wise/inputTypes'
 
-import { useRefWithValue, useMountedRef, useConsistentValue } from 'util/react'
+import { useLatest, useMountedRef, useConsistentValue } from 'util/react'
 
 import { useFieldControllerContext } from './FieldController'
 
@@ -21,9 +21,9 @@ export default function Form({ children, initialInput }) {
 	const absoluteCursorRef = useRef()
 
 	// Define refs of values.
-	const inputRef = useRefWithValue(input)
-	const validationRef = useRefWithValue(validation)
-	const initialInputRef = useRefWithValue(initialInput)
+	const inputRef = useLatest(input)
+	const validationRef = useLatest(validation)
+	const initialInputRef = useLatest(initialInput)
 
 	// Get other parameters.
 	const { activateFirst } = useFieldControllerContext()
@@ -262,7 +262,7 @@ export const defaultUseFormParameterOptions = {
 export function useFormParameter(options = {}) {
 	const { input, setParameter, subscribe, unsubscribe } = useFormData()
 	options = processOptions(options, defaultUseFormParameterOptions)
-	const optionsRef = useRefWithValue(options)
+	const optionsRef = useLatest(options)
 	const { id, initialSI, functionalize } = options
 
 	// Subscribe upon mounting and unsubscribe upon unmounting.

@@ -4,7 +4,7 @@ import { useCallback } from 'react'
 import { count } from 'step-wise/util/arrays'
 import { getLastAction } from 'step-wise/edu/exercises/util/simpleExercise'
 
-import { useRefWithValue } from 'util/react'
+import { useLatest } from 'util/react'
 import { useUserId } from 'api/user'
 import { useActiveGroup } from 'api/group'
 import { useFormData } from 'ui/form/Form'
@@ -16,8 +16,8 @@ export function useSubmitAction() {
 	const userId = useUserId()
 	const { getInputSI, isValid, getField } = useFormData()
 
-	const historyRef = useRefWithValue(history)
-	const disabledRef = useRefWithValue(submitting)
+	const historyRef = useLatest(history)
+	const disabledRef = useLatest(submitting)
 
 	return useCallback(() => {
 		// Check if we're enabled. (This is not the case if we're still submitting.)
@@ -44,7 +44,7 @@ export function useSubmitAction() {
 
 export function useGiveUpAction() {
 	const { submitting, submitAction } = useExerciseData()
-	const disabledRef = useRefWithValue(submitting)
+	const disabledRef = useLatest(submitting)
 
 	return useCallback(() => {
 		if (disabledRef.current)
@@ -56,7 +56,7 @@ export function useGiveUpAction() {
 export function useCancelAction() {
 	const { cancelAction, history } = useExerciseData()
 	const userId = useUserId()
-	const historyRef = useRefWithValue(history)
+	const historyRef = useLatest(history)
 
 	return useCallback(() => {
 		// If the user has not submitted anything, do not do anything.
@@ -73,8 +73,8 @@ export function useCancelAction() {
 export function useResolveEvent() {
 	const { resolveEvent, history } = useExerciseData()
 	const activeGroup = useActiveGroup()
-	const historyRef = useRefWithValue(history)
-	const activeGroupRef = useRefWithValue(activeGroup)
+	const historyRef = useLatest(history)
+	const activeGroupRef = useLatest(activeGroup)
 
 	return useCallback(() => {
 		// If we cannot resolve the event, do nothing.

@@ -1,4 +1,6 @@
 import { isValidElement, useState, useRef, useEffect, useReducer, useCallback } from 'react'
+import useLatest from '@react-hook/latest'
+import usePrevious from '@react-hook/previous'
 import useSize from '@react-hook/size'
 import useResizeObserver from '@react-hook/resize-observer'
 import FontFaceObserver from 'fontfaceobserver'
@@ -9,22 +11,13 @@ import { ensureConsistency } from 'step-wise/util/objects'
 import { getEventPosition } from 'util/dom'
 
 // Re-export various useful hooks from other packages.
-export { useSize, useResizeObserver }
+export { useLatest, usePrevious, useSize, useResizeObserver }
 
 // ensureReactElement ensures that the given parameter is a React-type element. If not, it throws an error. On success it returns the element.
 export function ensureReactElement(element, allowString = true) {
 	if (!isValidElement(element) && (!allowString || typeof element !== 'string'))
 		throw new Error(`Invalid React element: expected a valid React element but received something of type "${typeof element}".`)
 	return element
-}
-
-// usePrevious remembers a value from the previous render.
-export function usePrevious(value) {
-	const ref = useRef()
-	useEffect(() => {
-		ref.current = value
-	}, [value])
-	return ref.current
 }
 
 // useCurrentOrPrevious will check if the current object still exists. If not, the previous one is used. This is useful for keeping the layout intact while an object slides into hiding.
@@ -66,26 +59,19 @@ export function useCounter(initialValue = 0) {
 	return [counter, () => setCounter(counter + 1)]
 }
 
-// useRefWithValue is used to directly store a value in a ref. This is useful when you have use-only functions in a useEffect function: plug them in a ref, apply the ref in the useEffect function and the function isn't triggered so much.
-export function useRefWithValue(value, initialValue = value) {
-	const ref = useRef(initialValue)
-	ref.current = value
-	return ref
-}
-
 // useInitializer is like useEffect(func, []) but then can have dependencies without giving warnings. 
 export function useInitializer(func) {
-	const funcRef = useRefWithValue(func)
+	const funcRef = useLatest(func)
 	useEffect(() => funcRef.current(), [funcRef])
 }
 
 // useLookupCallback is like useCallback(func, []) but then can have dependencies without giving warnings. It's a constant-reference function that just looks up which function is registered to it whenever it's called.
 export function useLookupCallback(func) {
-	const funcRef = useRefWithValue(func)
+	const funcRef = useLatest(func)
 	return useCallback((...args) => funcRef.current(...args), [funcRef])
 }
 
-// useMountedRef returns whether the object is mounted, through a reference object. This allows for pass-by-reference.
+// useMountedRef returns whether the object is mounted. It returns the actual reference object.
 export function useMountedRef() {
 	const mountedRef = useRef(false)
 	useEffect(() => {
@@ -95,16 +81,16 @@ export function useMountedRef() {
 	return mountedRef
 }
 
-// useEnsureRef takes a ref object that comes in and assume that it actually is a ref. This is useful when using forwardref and wanting to make sure you get an actual ref.
-export function useEnsureRef(ref) {
-	const backupRef = useRef()
-	return ref || backupRef
-}
-
 // useMounted returns whether the object is mounted by giving a boolean.
 export function useMounted() {
 	const mountedRef = useMountedRef()
 	return mountedRef.current
+}
+
+// useEnsureRef takes a ref object that comes in and assume that it actually is a ref. This is useful when using forwardref and wanting to make sure you get an actual ref.
+export function useEnsureRef(ref) {
+	const backupRef = useRef()
+	return ref || backupRef
 }
 
 // useUniqueNumber gives a number that's unique for this page. It keeps it constant. Usually the first object gets 1, the second 2, and so forth.
@@ -118,7 +104,7 @@ export function useUniqueNumber() {
 // useEventListener sets up event listeners for the given elements, executing the given handler. It ensures to efficiently deal with registering and unregistering listeners. The element parameter can be a DOM object or an array of DOM objects. It is allowed to insert ref objects whose "current" parameter is a DOM object. In addition, the eventName attribute may be an array. The handler may be a single function (in which case it's used for all eventNames) or an array with equal length as the eventName array.
 export function useEventListener(eventName, handler, elements = window, options = {}) {
 	// If the handler changes, remember it within the ref. This allows us to change the handler without having to reregister listeners.
-	const handlerRef = useRefWithValue(handler)
+	const handlerRef = useLatest(handler)
 	eventName = ensureConsistency(eventName)
 	options = ensureConsistency(options)
 
@@ -215,12 +201,24 @@ export function useForceUpdate() {
 	return useReducer(() => ({}))[1]
 }
 
-// useDimension takes a field ref and a function that returns a dimension. This function is called on every resize of the said object. If required, an extra useUpdateCallback can be implemented. This is for instance a listener that listens to other events and fires the update function on a change in the value it itself is monitoring.
+// useDimension takes a field ref and a function that returns a dimension. (Or the function can also be the name of a property, like "offsetWidth".) This function is called on every resize of the said object. If required, an extra useUpdateCallback can be implemented. This is for instance a listener that listens to other events and fires the update function on a change in the value it itself is monitoring.
 export function useDimension(fieldRef, dimensionFunc, useUpdateCallback = () => { }) {
 	const [dimension, setDimension] = useState()
-	const update = elem => setDimension(dimensionFunc(elem))
-	useResizeObserver(fieldRef, (entry) => update(entry.target))
-	useUpdateCallback(() => update(fieldRef.current))
+	if (typeof dimensionFunc === 'string')
+		dimensionFunc = elem => elem[dimensionFunc]
+	const update = () => fieldRef.current && setDimension(dimensionFunc(fieldRef.current))
+
+	// Update upon field loading.
+	const field = fieldRef.current
+	const updateRef = useLatest(update)
+	useEffect(() => {
+		if (field)
+			updateRef.current()
+	}, [field, updateRef])
+
+	// Apply remaining updates.
+	useResizeObserver(fieldRef, () => update()) // Update upon a resize of the app window.
+	useUpdateCallback(() => update()) // Update on specifically indicated events too.
 	return dimension
 }
 
@@ -258,7 +256,7 @@ export function useFontFaceObserver(fontFaces, options = {}) {
 
 // useStaggeredFunction turns a function into a staggered function. First of all, when calling the function, it's not called directly, but on a zero-timeout. Second of all, if it is called multiple times before being executed, it's only executed once.
 export function useStaggeredFunction(func) {
-	const funcRef = useRefWithValue(func)
+	const funcRef = useLatest(func)
 	const timeoutRef = useRef()
 	const staggeredFunc = useCallback(() => {
 		if (!timeoutRef.current) {

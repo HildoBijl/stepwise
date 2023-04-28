@@ -77,8 +77,8 @@ export default function HorizontalSlider({ children, sliderInside = false, paddi
 	const scrollerRef = useRef()
 
 	// Determine width and use it to determine whether we are active.
-	let contentsWidth = useDimension(innerRef, (elem) => elem.scrollWidth, useResizeListener) // Get the scrollWidth.
-	const [containerWidth] = useSize(outerRef) // Get the offsetWidth.
+	let contentsWidth = useDimension(innerRef, 'scrollWidth', useResizeListener)
+	const containerWidth = useDimension(innerRef, 'offsetWidth', useResizeListener)
 	const active = contentsWidth > containerWidth
 	contentsWidth = contentsWidth + (active ? 2 * padding : 0)
 	const contentsPart = containerWidth / contentsWidth

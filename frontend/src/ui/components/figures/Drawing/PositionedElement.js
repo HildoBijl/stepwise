@@ -1,11 +1,12 @@
 
-import React, { useRef, useCallback, useEffect, useLayoutEffect } from 'react'
+import React, { useRef, useCallback, useEffect } from 'react'
 
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureBoolean, ensureObject, processOptions, filterOptions, removeProperties } from 'step-wise/util/objects'
 import { Vector, ensureVector, ensureVectorArray, ensureCorner } from 'step-wise/geometry'
 
-import { ensureReactElement, useEqualRefOnEquality, useEventListener } from 'util/react'
+import { ensureReactElement, useEqualRefOnEquality } from 'util/react'
+import { useResizeListener } from 'ui/layout/App'
 
 import { useDrawingContext, useTransformedOrGraphicalValue, useScaledOrGraphicalValue } from './DrawingContext'
 
@@ -58,9 +59,8 @@ export function PositionedElement(props) {
 	}, [ref, drawing, position, rotate, scale, anchor])
 
 	// Properly position the element on a change of settings, a change of contents or on a window resize.
-	useLayoutEffect(updateElementPosition, [updateElementPosition, children])
-	useEventListener('resize', updateElementPosition) // Window resize.
-	useEffect(updateElementPosition, [updateElementPosition, drawing])
+	useEffect(updateElementPosition, [updateElementPosition, children, drawing])
+	useResizeListener(updateElementPosition)
 
 	// Render the children.
 	return <div className="positionedElement" style={style} ref={ref}>{children}</div>
