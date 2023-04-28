@@ -5,7 +5,7 @@ import { Head, Par, List, M, BM } from 'ui/components'
 
 export default function Component() {
 	return <>
-		<Par>Elk voorwerp heeft een inwendige energie <M>U.</M> Bij gassen voldoet deze inwendige energie aan bepaalde regels/formules. We bekijken hoe we toename <M>\Delta U</M> in inwendige energie exact kunnen berekenen.</Par>
+		<Par>Elk voorwerp heeft een inwendige energie <M>U.</M> Bij gassen voldoet deze inwendige energie aan bepaalde regels/formules. We bekijken hoe we de toename <M>\Delta U</M> in inwendige energie exact kunnen berekenen.</Par>
 
 		<Head>De eerste hoofdwet</Head>
 		<Par>De eerste hoofdwet van de thermodynamica zegt: "Energie blijft altijd behouden." Als formule geldt dus <BM>U_1 + Q = U_2 + W.</BM> Oftewel, de energie <M>U_1</M> bij aanvang, plus energie die we toevoeren via warmte <M>Q,</M> is gelijk aan de energie <M>U_2</M> aan het einde, plus energie die het gas via het leveren van arbeid <M>W</M> nog afgestaan heeft.</Par>

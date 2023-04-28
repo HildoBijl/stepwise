@@ -1,7 +1,5 @@
 import React from 'react'
 
-import gases from 'step-wise/data/gasProperties'
-
 import { SkillLink } from 'ui/routing'
 import { Head, SubHead, Par, List, M, BM, BMList, BMPart } from 'ui/components'
 

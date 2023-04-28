@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function UserInspectionForUser({ user }) {
-	const skillsData = useSkillsData(user)
+	const skillsList = useSkillsList(user)
 	const classes = useStyles()
 	return <>
 		<Par>Hier zie je al de vaardigheden die {user.name} geoefend heeft, met de meest recente boven.</Par>
@@ -71,7 +71,7 @@ function UserInspectionForUser({ user }) {
 				<div className="name head">Vaardigheid</div>
 				<div className="numPracticed head">Gemaakte pogingen</div>
 				<div className="lastPracticed head">Laatste actie</div>
-				{Object.keys(skillsData).map(skillId => <UserInspectionItem key={skillId} skillId={skillId} skillData={skillsData[skillId]} />)}
+				{skillsList.map(skillData => <UserInspectionItem key={skillData.skill.id} skillId={skillData.skill.id} skillData={skillData} />)}
 			</div>
 		</HorizontalSlider>
 	</>
@@ -107,7 +107,7 @@ function getUserNameFromQueryResult(res) {
 	return user.name
 }
 
-function useSkillsData(user) {
+function useSkillsList(user) {
 	return useMemo(() => {
 		// Process the skills into a raw data set.
 		const skillsProcessed = user.skills.map(skill => processSkill(skill))
