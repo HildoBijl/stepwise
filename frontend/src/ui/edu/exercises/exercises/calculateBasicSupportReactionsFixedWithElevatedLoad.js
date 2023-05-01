@@ -8,7 +8,7 @@ import { InputSpace } from 'ui/form/FormPart'
 import { useInput } from 'ui/form/Form'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 
-import EngineeringDiagram, { Group, Beam, FixedSupport, Distance, PositionedElement, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
+import EngineeringDiagram, { Group, Beam, FixedSupport, Distance, Element, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
 import FBDInput, { allConnectedToPoints, getFBDFeedback, loadSources, performLoadsComparison } from 'ui/edu/content/mechanics/FBDInput'
 import { sumOfForces, sumOfMoments } from 'ui/edu/content/mechanics/latex'
 
@@ -183,8 +183,8 @@ function Elements({ l1, l2, points, loads, getLoadNames }) {
 		<Label position={points.A} angle={Math.PI / 4} graphicalDistance={7}><M>A</M></Label>
 		<Label position={points.B} angle={Math.PI / 4} graphicalDistance={5}><M>B</M></Label>
 		<Label position={points.C} angle={0} graphicalDistance={8}><M>C</M></Label>
-		<PositionedElement position={points.A.interpolate(points.B)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}</M></PositionedElement>
-		<PositionedElement position={points.B.interpolate(points.C)} graphicalShift={new Vector(distanceShift, 0)} rotate={Math.PI / 2} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_2 = {l2}</M></PositionedElement>
+		<Element position={points.A.interpolate(points.B)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}</M></Element>
+		<Element position={points.B.interpolate(points.C)} graphicalShift={new Vector(distanceShift, 0)} rotate={Math.PI / 2} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_2 = {l2}</M></Element>
 		{loadNames.map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
 	</>
 }

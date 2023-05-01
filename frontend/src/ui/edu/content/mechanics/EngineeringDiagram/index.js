@@ -12,8 +12,8 @@ export const components = {
 	...engineeringComponents,
 }
 
-// Reexport all PositionedElements (and corresponding Labels).
-export * from 'ui/components/figures/Drawing/PositionedElement'
+// Reexport all HtmlComponents.
+export * from 'ui/components/figures/Drawing/HtmlComponents'
 
 // Export all from rendering.
 export * from './rendering'

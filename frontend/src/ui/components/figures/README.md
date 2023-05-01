@@ -33,7 +33,7 @@ Once you have transformation settings, you must position stuff on your drawing. 
 
 - *Drawing SVG contents* -- Through the `svgContents` parameter you can add SVG components. There is a large variety of [drawing components](./Drawing/components.js) that can be used. Think of lines, paths, circles, etcetera.
 
-- *Drawing HTML contents* -- Through the `htmlContents` parameter you can add HTML components. Think of text or even equations to be rendered at a specific point in the figure. Usually, this is done through the [PositionedElement](./Drawing/PositionedElement.js) component.
+- *Drawing HTML contents* -- Through the `htmlContents` parameter you can add HTML components. Think of text or even equations to be rendered at a specific point in the figure. See the [HtmlComponents](./Drawing/HtmlComponents/) for further information.
 
 - *Drawing through a Canvas* -- Separate from the above, it is also possible to add a `Canvas` object to the drawing. For this, first set the `useCanvas` parameter to `true`. (A canvas is not applied by default.) Then, from the Drawing ref (use `<Drawing ref={someDrawingRef} ... />`) you can use the `canvas` parameter (like through `someDrawingRef.current.canvas`) and draw in the usual way with a canvas. Optionally, it is also possible to get the `2dContext` directly through `someDrawingRef.current.context` and apply it.
 

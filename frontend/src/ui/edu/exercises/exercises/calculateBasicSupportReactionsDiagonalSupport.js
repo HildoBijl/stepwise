@@ -8,7 +8,7 @@ import { InputSpace } from 'ui/form/FormPart'
 import { useInput } from 'ui/form/Form'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 
-import EngineeringDiagram, { Group, Beam, HingeSupport, RollerHingeSupport, Distance, PositionedElement, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
+import EngineeringDiagram, { Group, Beam, HingeSupport, RollerHingeSupport, Distance, Element, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
 import FBDInput, { allConnectedToPoints, getFBDFeedback, loadSources, performLoadsComparison } from 'ui/edu/content/mechanics/FBDInput'
 import { sumOfForces, sumOfMoments } from 'ui/edu/content/mechanics/latex'
 
@@ -190,8 +190,8 @@ function Elements({ l1, l2, angle, angleRad, anglePoints, points, loads, getLoad
 		<Label position={A} angle={-Math.PI * 3 / 4} graphicalDistance={7}><M>A</M></Label>
 		<Label position={B} angle={Math.PI / 2} graphicalDistance={4}><M>B</M></Label>
 		<Label position={C} angle={-Math.PI / 4} graphicalDistance={8}><M>C</M></Label>
-		<PositionedElement position={A.interpolate(B)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}</M></PositionedElement>
-		<PositionedElement position={B.interpolate(C)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_2 = {l2}</M></PositionedElement>
+		<Element position={A.interpolate(B)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}</M></Element>
+		<Element position={B.interpolate(C)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_2 = {l2}</M></Element>
 		{showSupports ? <CornerLabel points={anglePoints.map(point => point.add(C))} graphicalSize={28} graphicalShift={Vector.fromPolar(50, Math.PI / 2 - angleRad)}><M>{angle}^\circ</M></CornerLabel> : null}
 		{loadNames.map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
 	</>

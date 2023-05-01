@@ -3,9 +3,8 @@
  */
 
 import React, { useRef, forwardRef, useImperativeHandle, useEffect, useId } from 'react'
-import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
-
+import clsx from 'clsx'
 import { select } from 'd3-selection'
 
 import { deg2rad } from 'step-wise/util/numbers'
@@ -28,7 +27,7 @@ const defaultDrawingOptions = {
 	useCanvas: false,
 	svgContents: undefined, // JSX elements that need to be placed directly into the SVG container.
 	svgDefs: undefined, // JSX elements that are placed in the defs part of the SVG container.
-	htmlContents: undefined, // JSX elements for regular HTML, often inside a PositionedElement container.
+	htmlContents: undefined, // JSX elements for regular HTML, often inside an Element container.
 }
 delete defaultDrawingOptions.aspectRatio // We override the aspect ratio based on the width and height of the viewport.
 export { defaultDrawingOptions }
@@ -55,17 +54,6 @@ const useStyles = makeStyles((theme) => ({
 		...notSelectable,
 		width: '100%',
 		zIndex: 1,
-	},
-
-	drawingHtmlContainer: {
-		'& .positionedElement': {
-			left: 0,
-			...notSelectable,
-			position: 'absolute',
-			top: 0,
-			transformOrigin: '0% 0%',
-			zIndex: 0,
-		},
 	},
 }))
 

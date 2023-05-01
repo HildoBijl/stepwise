@@ -6,7 +6,7 @@ import { Par, M } from 'ui/components'
 import { useCurrentBackgroundColor, useScaleAndShiftTransformationSettings } from 'ui/components/figures/Drawing'
 import { InputSpace } from 'ui/form/FormPart'
 
-import EngineeringDiagram, { Group, Beam, HingeSupport, RollerHalfHingeSupport, Distance, PositionedElement, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
+import EngineeringDiagram, { Group, Beam, HingeSupport, RollerHalfHingeSupport, Distance, Element, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
 import FBDInput, { allConnectedToPoints, getFBDFeedback, loadSources, FBDComparison, getLoadNames } from 'ui/edu/content/mechanics/FBDInput'
 
 import { useSolution } from '../util/SolutionProvider'
@@ -78,9 +78,9 @@ function Elements({ points, loads, prenamedLoads, h, l1, l2 }) {
 		<Label position={points.B} angle={Math.PI * 3 / 2} graphicalDistance={2}><M>B</M></Label>
 		<Label position={points.C} angle={0}><M>C</M></Label>
 		<Label position={points.D} angle={0}><M>D</M></Label>
-		<PositionedElement position={points.A.interpolate(points.B)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}\ (\rm m)</M></PositionedElement>
-		<PositionedElement position={points.B.interpolate(points.C)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_2 = {l2}\ (\rm m)</M></PositionedElement>
-		<PositionedElement position={points.C.interpolate(points.D)} graphicalShift={new Vector(distanceShift, 0)} anchor={[0.5, 0.5]} rotate={Math.PI / 2} style={distanceLabelStyle}><M>h = {h}\ (\rm m)</M></PositionedElement>
+		<Element position={points.A.interpolate(points.B)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}\ (\rm m)</M></Element>
+		<Element position={points.B.interpolate(points.C)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_2 = {l2}\ (\rm m)</M></Element>
+		<Element position={points.C.interpolate(points.D)} graphicalShift={new Vector(distanceShift, 0)} anchor={[0.5, 0.5]} rotate={Math.PI / 2} style={distanceLabelStyle}><M>h = {h}\ (\rm m)</M></Element>
 		{loadNames.map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
 	</>
 }

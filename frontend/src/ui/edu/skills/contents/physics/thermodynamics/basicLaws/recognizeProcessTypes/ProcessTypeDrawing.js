@@ -4,7 +4,7 @@ import { firstOf, lastOf } from 'step-wise/util/arrays'
 import { Transformation } from 'step-wise/geometry'
 import { M } from 'ui/components'
 
-import { Drawing, drawingComponents, useScaleToBoundsTransformationSettings, PositionedElement } from 'ui/components/figures'
+import { Drawing, drawingComponents, useScaleToBoundsTransformationSettings, Element } from 'ui/components/figures'
 
 const { Line: SvgLine, Curve: SvgCurve } = drawingComponents
 
@@ -67,11 +67,11 @@ export default function ProcessTypeDrawing() {
 			</Fragment>)}
 		</>}
 		htmlContents={<>
-			<PositionedElement anchor={[1, 0]} position={yAxisPoints[1]} graphicalShift={[-8, 10]}><M>p</M></PositionedElement>
-			<PositionedElement anchor={[1, 0]} position={xAxisPoints[1]} graphicalShift={[-10, 5]}><M>V</M></PositionedElement>
+			<Element anchor={[1, 0]} position={yAxisPoints[1]} graphicalShift={[-8, 10]}><M>p</M></Element>
+			<Element anchor={[1, 0]} position={xAxisPoints[1]} graphicalShift={[-10, 5]}><M>V</M></Element>
 			{processes.map((process, index) => <Fragment key={index}>
-				<PositionedElement position={firstOf(process.points)} anchor={process.nAnchor || [1, 0]} graphicalShift={process.nGraphicalShift} style={{ color: process.color }}><M>n = {process.n}</M></PositionedElement>
-				<PositionedElement position={lastOf(process.points)} anchor={process.nameAnchor || [1, 0]} graphicalShift={process.nameGraphicalShift} style={{ color: process.color, fontWeight: 'bold' }}>{process.name}</PositionedElement>
+				<Element position={firstOf(process.points)} anchor={process.nAnchor || [1, 0]} graphicalShift={process.nGraphicalShift} style={{ color: process.color }}><M>n = {process.n}</M></Element>
+				<Element position={lastOf(process.points)} anchor={process.nameAnchor || [1, 0]} graphicalShift={process.nameGraphicalShift} style={{ color: process.color, fontWeight: 'bold' }}>{process.name}</Element>
 			</Fragment>)}
 		</>}
 	/>

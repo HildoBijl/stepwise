@@ -9,7 +9,7 @@ import { useInput } from 'ui/form/Form'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { useCurrentBackgroundColor, useScaleAndShiftTransformationSettings } from 'ui/components/figures/Drawing'
 
-import EngineeringDiagram, { Group, Beam, HingeSupport, RollerHingeSupport, Distance, PositionedElement, Label, CornerLabel, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
+import EngineeringDiagram, { Group, Beam, HingeSupport, RollerHingeSupport, Distance, Element, Label, CornerLabel, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
 import FBDInput, { allConnectedToPoints, getFBDFeedback, loadSources, performLoadsComparison } from 'ui/edu/content/mechanics/FBDInput'
 import { sumOfForces, sumOfMoments } from 'ui/edu/content/mechanics/latex'
 
@@ -94,8 +94,8 @@ function Elements({ theta, l1, l2, points, loads, getLoadNames }) {
 		<Label position={points.B} angle={Math.PI / 2} graphicalDistance={3}><M>B</M></Label>
 		<Label position={points.C} angle={-Math.PI / 4} graphicalDistance={5}><M>C</M></Label>
 		{externalForce ? <CornerLabel points={[externalForce.start, externalForce.end, points.A]} graphicalSize={36}><M>{theta}^\circ</M></CornerLabel> : null}
-		<PositionedElement position={points.A.interpolate(points.B)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}</M></PositionedElement>
-		<PositionedElement position={points.B.interpolate(points.C)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_2 = {l2}</M></PositionedElement>
+		<Element position={points.A.interpolate(points.B)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}</M></Element>
+		<Element position={points.B.interpolate(points.C)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_2 = {l2}</M></Element>
 		{loadNames.map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
 	</>
 }

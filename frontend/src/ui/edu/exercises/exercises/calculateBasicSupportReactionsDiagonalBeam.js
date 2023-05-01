@@ -8,7 +8,7 @@ import { useInput } from 'ui/form/Form'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { useCurrentBackgroundColor, useScaleAndShiftTransformationSettings } from 'ui/components/figures/Drawing'
 
-import EngineeringDiagram, { Group, Beam, HingeSupport, RollerHingeSupport, Distance, PositionedElement, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
+import EngineeringDiagram, { Group, Beam, HingeSupport, RollerHingeSupport, Distance, Element, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
 import FBDInput, { allConnectedToPoints, getFBDFeedback, loadSources, performLoadsComparison } from 'ui/edu/content/mechanics/FBDInput'
 import { sumOfForces, sumOfMoments } from 'ui/edu/content/mechanics/latex'
 
@@ -188,9 +188,9 @@ function Elements({ l1, l2, l3, clockwise, angle, points, Bx, Cx, loads, getLoad
 		<Label position={A} angle={-Math.PI * 3 / 4} graphicalDistance={7}><M>A</M></Label>
 		<Label position={B} angle={-angle + (clockwise ? 1 : -1) * Math.PI / 2} graphicalDistance={2}><M>B</M></Label>
 		<Label position={C} angle={-Math.PI / 4} graphicalDistance={8}><M>C</M></Label>
-		<PositionedElement position={A.interpolate(Bx)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}</M></PositionedElement>
-		<PositionedElement position={Bx.interpolate(Cx)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_2 = {l2}</M></PositionedElement>
-		<PositionedElement position={Cx.interpolate(C)} graphicalShift={new Vector(distanceShift, 0)} rotate={Math.PI / 2} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_3 = {l3}</M></PositionedElement>
+		<Element position={A.interpolate(Bx)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}</M></Element>
+		<Element position={Bx.interpolate(Cx)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_2 = {l2}</M></Element>
+		<Element position={Cx.interpolate(C)} graphicalShift={new Vector(distanceShift, 0)} rotate={Math.PI / 2} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_3 = {l3}</M></Element>
 		{loadNames.map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
 	</>
 }

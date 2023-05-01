@@ -10,7 +10,7 @@ import { InputSpace } from 'ui/form/FormPart'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 
-import EngineeringDiagram, { Group, Distance, PositionedElement, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
+import EngineeringDiagram, { Group, Distance, Element, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
 import { sumOfMoments } from 'ui/edu/content/mechanics/latex'
 
 import StepExercise from '../types/StepExercise'
@@ -133,7 +133,7 @@ function Elements({ decompose, showIntersection }) {
 	const lineEndpoint = new Vector(span.end.x, span.start.y)
 
 	return <>
-		<PositionedElement position={new Vector(4, 0.5)} graphicalShift={new Vector(distanceShift + 6, 0)} anchor={[0, 0.5]}><M>{new FloatUnit('1.0 m')}</M></PositionedElement>
+		<Element position={new Vector(4, 0.5)} graphicalShift={new Vector(distanceShift + 6, 0)} anchor={[0, 0.5]}><M>{new FloatUnit('1.0 m')}</M></Element>
 		{showIntersection ? <Label position={intersection} angle={Math.PI / 4} graphicalDistance={4}><M>E</M></Label> : null}
 		{decompose ? null : <CornerLabel points={[span.start, span.end, lineEndpoint]} graphicalSize={28}><M>{angle}^\circ</M></CornerLabel>}
 		{(decompose ? decomposedLoadNames : loadNames).map((loadName, index) => <LoadLabel key={index} {...loadName} />)}

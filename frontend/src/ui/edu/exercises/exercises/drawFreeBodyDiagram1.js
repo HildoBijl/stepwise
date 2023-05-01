@@ -9,7 +9,7 @@ import { Par, M } from 'ui/components'
 import { useCurrentBackgroundColor, useScaleAndShiftTransformationSettings } from 'ui/components/figures'
 import { InputSpace } from 'ui/form/FormPart'
 
-import EngineeringDiagram, { Group, PositionedElement, Distance, Beam, FixedSupport, AdjacentFixedSupport, HingeSupport, HalfHingeSupport, RollerSupport, AdjacentRollerSupport, RollerHingeSupport, RollerHalfHingeSupport, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
+import EngineeringDiagram, { Group, Element, Distance, Beam, FixedSupport, AdjacentFixedSupport, HingeSupport, HalfHingeSupport, RollerSupport, AdjacentRollerSupport, RollerHingeSupport, RollerHalfHingeSupport, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
 import FBDInput, { allConnectedToPoints, loadSources, getFBDFeedback, FBDComparison, getLoadMatching, isLoadAtPoint } from 'ui/edu/content/mechanics/FBDInput'
 
 import StepExercise from '../types/StepExercise'
@@ -210,7 +210,7 @@ function Elements({ zoom }) {
 			const prev = points[index - 1]
 			if (index === 0 || prev.equals(point))
 				return null
-			return <PositionedElement key={index} position={point.interpolate(prev)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>{new FloatUnit(`${point.x - prev.x}m`)}</M></PositionedElement>
+			return <Element key={index} position={point.interpolate(prev)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>{new FloatUnit(`${point.x - prev.x}m`)}</M></Element>
 		})}
 	</>
 }

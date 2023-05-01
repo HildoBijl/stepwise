@@ -18,7 +18,7 @@ import { notSelectable } from 'ui/theme'
 import { useAsInput, defaultInputOptions } from 'ui/form/inputs/support/Input'
 
 import { defaultDrawingOptions, useGraphicalMousePosition } from './Drawing'
-import { PositionedElement } from './PositionedElement'
+import { Element } from './HtmlComponents'
 import { Line as SvgLine, Square, Rectangle as SvgRectangle } from './components'
 import { applyTransformation } from './transformation'
 
@@ -232,7 +232,7 @@ export function DrawingInputUnforwarded({ Drawing, drawingProperties, className,
 	if (onDeleteWithStopPropagation) {
 		htmlContents = <>
 			{htmlContents}
-			<PositionedElement anchor={[1, 1]} graphicalPosition={[drawing.width - 10, drawing.height - 10]} scale={1.5} ignoreMouse={false} ><DeleteButton onDelete={onDeleteWithStopPropagation} onMouseEnter={() => setIsOverDeleteButton(true)} onMouseLeave={() => setIsOverDeleteButton(false)} /></PositionedElement>
+			<Element anchor={[1, 1]} graphicalPosition={[drawing.width - 10, drawing.height - 10]} scale={1.5} ignoreMouse={false} ><DeleteButton onDelete={onDeleteWithStopPropagation} onMouseEnter={() => setIsOverDeleteButton(true)} onMouseLeave={() => setIsOverDeleteButton(false)} /></Element>
 		</>
 	}
 	useEffect(() => {
@@ -415,7 +415,7 @@ export function addFeedbackIcon(htmlContents, feedback, drawing, scale = 1) {
 		return htmlContents
 	return <>
 		{htmlContents}
-		<PositionedElement anchor={[1, 0]} graphicalPosition={[drawing.width - 8, 6]} scale={scale} ><feedback.Icon className="icon" /></PositionedElement>
+		<Element anchor={[1, 0]} graphicalPosition={[drawing.width - 8, 6]} scale={scale} ><feedback.Icon className="icon" /></Element>
 	</>
 }
 
