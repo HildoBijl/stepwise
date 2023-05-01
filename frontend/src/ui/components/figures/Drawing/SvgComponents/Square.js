@@ -1,0 +1,31 @@
+import React, { forwardRef } from 'react'
+
+import { ensureString } from 'step-wise/util/strings'
+import { ensureObject, processOptions } from 'step-wise/util/objects'
+import { Vector, ensureVector } from 'step-wise/geometry'
+
+import { useTransformedOrGraphicalValue, useScaledOrGraphicalValue } from '../DrawingContext'
+
+import { defaultObject, useRefWithEventHandlers, filterEventHandlers } from './util'
+
+export const defaultSquare = {
+	...defaultObject,
+	center: undefined,
+	graphicalCenter: Vector.zero,
+	side: undefined,
+	graphicalSide: 20,
+}
+
+export const Square = forwardRef((props, ref) => {
+	// Process the input.
+	let { center, graphicalCenter, side, graphicalSide, className, style } = processOptions(props, defaultSquare)
+	center = ensureVector(useTransformedOrGraphicalValue(center, graphicalCenter), 2)
+	side = useScaledOrGraphicalValue(side, graphicalSide)
+	className = ensureString(className)
+	style = ensureObject(style)
+	ref = useRefWithEventHandlers(props, ref)
+
+	// Set up the square.
+	return <rect ref={ref} x={center.x - side / 2} y={center.y - side / 2} width={side} height={side} className={className} style={style} {...filterEventHandlers(props)} />
+})
+export default Square

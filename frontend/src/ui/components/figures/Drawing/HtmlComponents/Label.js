@@ -12,14 +12,13 @@ import { useTransformedOrGraphicalValue, useScaledOrGraphicalValue } from '../Dr
 import { getAnchorFromAngle } from './util'
 import Element, { defaultElement } from './Element'
 
-const defaultLabel = {
+export const defaultLabel = {
 	...defaultElement,
 	angle: -Math.PI * 3 / 4,
 	distance: undefined,
 	graphicalDistance: 6,
 	anchor: undefined,
 }
-export { defaultLabel }
 
 export default function Label(props) {
 	// Check input.

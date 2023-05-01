@@ -6,11 +6,11 @@ import { ensureObject, processOptions } from 'step-wise/util/objects'
 import { numberArray } from 'step-wise/util/arrays'
 import { Vector, ensureVector } from 'step-wise/geometry/Vector'
 
-import { drawingComponents, useTransformedOrGraphicalValue } from 'ui/components/figures'
+import { useTransformedOrGraphicalValue } from 'ui/components/figures'
+import { Group, Line } from 'ui/components/figures/Drawing/SvgComponents'
+import { defaultObject, useRefWithEventHandlers } from 'ui/components/figures/Drawing/SvgComponents/util'
 
 import { defaultBeam, Hinge, defaultHinge, HalfHinge } from './structuralComponents'
-
-const { defaultObject, useRefWithEventHandlers, Group, Line } = drawingComponents
 
 /*
  * Part 1 of this file contains all the actual structural supports.

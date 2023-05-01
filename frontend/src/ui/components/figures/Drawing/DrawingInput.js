@@ -19,7 +19,7 @@ import { useAsInput, defaultInputOptions } from 'ui/form/inputs/support/Input'
 
 import { defaultDrawingOptions, useGraphicalMousePosition } from './Drawing'
 import { Element } from './HtmlComponents'
-import { Line as SvgLine, Square, Rectangle as SvgRectangle } from './components'
+import { Line as SvgLine, Square, Rectangle as SvgRectangle } from './SvgComponents'
 import { applyTransformation } from './transformation'
 
 export const startSelectionOptions = {

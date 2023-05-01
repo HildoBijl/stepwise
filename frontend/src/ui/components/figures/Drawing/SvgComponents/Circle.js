@@ -1,0 +1,33 @@
+import React, { forwardRef } from 'react'
+
+import { ensureNumber } from 'step-wise/util/numbers'
+import { ensureString } from 'step-wise/util/strings'
+import { ensureObject, processOptions } from 'step-wise/util/objects'
+import { Vector, ensureVector } from 'step-wise/geometry'
+
+import { useTransformedOrGraphicalValue, useScaledOrGraphicalValue } from '../DrawingContext'
+
+import { defaultObject, useRefWithEventHandlers, filterEventHandlers } from './util'
+
+export const defaultCircle = {
+	...defaultObject,
+	center: undefined,
+	graphicalCenter: Vector.zero,
+	radius: undefined,
+	graphicalRadius: 20,
+}
+
+// Circle draws a circle. It can be given a radius (in drawing coordinate distance, which will be scaled) or a graphicalRadius (in graphical coordinates).
+export const Circle = forwardRef((props, ref) => {
+	// Process the input.
+	let { center, graphicalCenter, radius, graphicalRadius, className, style } = processOptions(props, defaultCircle)
+	center = ensureVector(useTransformedOrGraphicalValue(center, graphicalCenter), 2)
+	radius = ensureNumber(useScaledOrGraphicalValue(radius, graphicalRadius), true)
+	className = ensureString(className)
+	style = ensureObject(style)
+	ref = useRefWithEventHandlers(props, ref)
+
+	// Set up the circle.
+	return <circle ref={ref} cx={center.x} cy={center.y} r={radius} className={className} style={style} {...filterEventHandlers(props)} />
+})
+export default Circle

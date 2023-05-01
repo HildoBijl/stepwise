@@ -5,9 +5,10 @@ import { ensureString } from 'step-wise/util/strings'
 import { ensureObject, processOptions } from 'step-wise/util/objects'
 import { Vector, ensureVectorArray } from 'step-wise/geometry'
 
-import { drawingComponents, useTransformedOrGraphicalValue } from 'ui/components/figures'
-
-const { defaultObject, useRefWithEventHandlers, Group, Line, defaultLine, Polygon, Circle, Arc } = drawingComponents
+import { useTransformedOrGraphicalValue } from 'ui/components/figures'
+import { Group, Line, Polygon, Circle, Arc } from 'ui/components/figures/Drawing/SvgComponents'
+import { defaultObject, useRefWithEventHandlers } from 'ui/components/figures/Drawing/SvgComponents/util'
+import { defaultLine } from 'ui/components/figures/Drawing/SvgComponents/Line'
 
 export const Beam = forwardRef((props, ref) => {
 	// Check input.

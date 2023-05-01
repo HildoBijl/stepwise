@@ -11,14 +11,13 @@ import { useTransformedOrGraphicalValue, useScaledOrGraphicalValue } from '../Dr
 
 import Element, { defaultElement } from './Element'
 
-const defaultCornerLabel = {
+export const defaultCornerLabel = {
 	...removeProperties(defaultElement, ['position', 'graphicalPosition']),
 	points: undefined,
 	graphicalPoints: [Vector.i, Vector.zero, Vector.j],
 	size: undefined,
 	graphicalSize: 30,
 }
-export { defaultCornerLabel }
 
 export default function CornerLabel(props) {
 	// Check input.

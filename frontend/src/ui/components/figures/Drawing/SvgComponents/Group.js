@@ -1,0 +1,45 @@
+import React, { forwardRef } from 'react'
+
+import { ensureNumber } from 'step-wise/util/numbers'
+import { ensureString } from 'step-wise/util/strings'
+import { ensureBoolean, ensureObject, processOptions } from 'step-wise/util/objects'
+import { Vector, ensureVector } from 'step-wise/geometry'
+
+import { useDrawingId, useTransformedOrGraphicalValue } from '../DrawingContext'
+
+import { defaultObject, useRefWithEventHandlers } from './util'
+
+export const defaultGroup = {
+	...defaultObject,
+	position: undefined,
+	graphicalPosition: Vector.zero,
+	shift: undefined,
+	graphicalShift: Vector.zero,
+	rotate: 0,
+	scale: 1,
+	overflow: true,
+	children: null,
+}
+
+// Group sets up a groups with a given position, rotation and scale. (In that order: it's first translated, then rotated and then scaled.)
+export const Group = forwardRef((props, ref) => {
+	// Process the input.
+	let { position, graphicalPosition, shift, graphicalShift, rotate, scale, overflow, className, style, children } = processOptions(props, defaultGroup)
+	position = ensureVector(useTransformedOrGraphicalValue(position, graphicalPosition), 2)
+	shift = ensureVector(useTransformedOrGraphicalValue(shift, graphicalShift, true), 2)
+	rotate = ensureNumber(rotate)
+	scale = ensureNumber(scale)
+	overflow = ensureBoolean(overflow)
+	className = ensureString(className)
+	style = ensureObject(style)
+	ref = useRefWithEventHandlers(props, ref)
+
+	// Set up the group with the right transform property.
+	const drawingId = useDrawingId()
+	return <g ref={ref} className={className} style={{
+		...style,
+		clipPath: overflow ? '' : `url(#noOverflow${drawingId})`,
+		transform: `translate(${position.x + shift.x}px, ${position.y + shift.y}px) rotate(${rotate * 180 / Math.PI}deg) scale(${scale}) ${style.transform || ''}`,
+	}}>{children}</g>
+})
+export default Group

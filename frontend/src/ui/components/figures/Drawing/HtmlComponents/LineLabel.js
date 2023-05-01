@@ -10,14 +10,13 @@ import { useTransformedOrGraphicalValue } from '../DrawingContext'
 
 import Label, { defaultLabel } from './Label'
 
-const defaultLineLabel = {
+export const defaultLineLabel = {
 	...removeProperties(defaultLabel, ['position', 'graphicalPosition']),
 	points: undefined,
 	graphicalPoints: [Vector.i, Vector.zero],
 	oppositeTo: undefined,
 	graphicalOppositeTo: undefined,
 }
-export { defaultLineLabel }
 
 export default function LineLabel(props) {
 	// Check input.

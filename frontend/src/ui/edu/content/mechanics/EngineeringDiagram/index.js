@@ -5,7 +5,7 @@ import * as engineeringComponents from './components'
 import EngineeringDiagram from './EngineeringDiagram'
 
 // Export all components from the Drawing and from the Engineering set, both separately and as components object.
-export * from 'ui/components/figures/Drawing/components'
+export * from 'ui/components/figures/Drawing/SvgComponents'
 export * from './components'
 export const components = {
 	...drawingComponents,

@@ -6,9 +6,9 @@ import { ensureString } from 'step-wise/util/strings'
 import { ensureBoolean, ensureObject, processOptions } from 'step-wise/util/objects'
 import { Vector, ensureVector, ensureSpan } from 'step-wise/geometry'
 
-import { drawingComponents, useScaledOrGraphicalValue, useTransformedOrGraphicalValue } from 'ui/components/figures'
-
-const { defaultObject, useRefWithEventHandlers, Group, Line, Arc } = drawingComponents
+import { useScaledOrGraphicalValue, useTransformedOrGraphicalValue } from 'ui/components/figures'
+import { Group, Line, Arc } from 'ui/components/figures/Drawing/SvgComponents'
+import { defaultObject, useRefWithEventHandlers } from 'ui/components/figures/Drawing/SvgComponents/util'
 
 // ArrowHead draws an arrowhead in the given container at the given position and with the given angle. It can also be sized up and styled further.
 export const ArrowHead = forwardRef((props, ref) => {

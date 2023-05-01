@@ -31,7 +31,7 @@ These transformation settings must then be applied to the drawing through `<Draw
 
 Once you have transformation settings, you must position stuff on your drawing. There are three ways to do so. All these three ways can be used together when desired, but usually you only need the first two.
 
-- *Drawing SVG contents* -- Through the `svgContents` parameter you can add SVG components. There is a large variety of [drawing components](./Drawing/components.js) that can be used. Think of lines, paths, circles, etcetera.
+- *Drawing SVG contents* -- Through the `svgContents` parameter you can add SVG components. There is a large variety of [SvgComponents](./Drawing/SvgComponents/) that can be used. Think of lines, paths, circles, etcetera.
 
 - *Drawing HTML contents* -- Through the `htmlContents` parameter you can add HTML components. Think of text or even equations to be rendered at a specific point in the figure. See the [HtmlComponents](./Drawing/HtmlComponents/) for further information.
 

@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-const defaultElement = {
+export const defaultElement = {
 	children: null,
 	position: undefined,
 	graphicalPosition: Vector.zero,
@@ -37,7 +37,6 @@ const defaultElement = {
 	style: {},
 	className: undefined,
 }
-export { defaultElement }
 
 export default function Element(props) {
 	const classes = useStyles()
