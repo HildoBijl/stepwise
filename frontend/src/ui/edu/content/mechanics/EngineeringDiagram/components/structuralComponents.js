@@ -8,7 +8,6 @@ import { Vector, ensureVectorArray } from 'step-wise/geometry'
 import { useTransformedOrGraphicalValue } from 'ui/components/figures'
 import { Group, Line, Polygon, Circle, Arc } from 'ui/components/figures/Drawing/SvgComponents'
 import { defaultObject, useRefWithEventHandlers } from 'ui/components/figures/Drawing/SvgComponents/util'
-import { defaultLine } from 'ui/components/figures/Drawing/SvgComponents/Line'
 
 export const Beam = forwardRef((props, ref) => {
 	// Check input.
@@ -42,7 +41,7 @@ export const Beam = forwardRef((props, ref) => {
 	</Group>
 })
 export const defaultBeam = {
-	...defaultLine,
+	...Line.defaultProps,
 	thickness: 6,
 	strutSize: 12,
 	strutOpacity: 0.75,

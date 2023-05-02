@@ -33,3 +33,4 @@ export default function Label(props) {
 	const delta = Vector.fromPolar(distance, angle)
 	return <Element {...filterOptions(removeProperties(props, 'position'), defaultElement)} graphicalPosition={position.add(delta)} anchor={anchor}>{children}</Element>
 }
+Label.defaultProps = defaultLabel

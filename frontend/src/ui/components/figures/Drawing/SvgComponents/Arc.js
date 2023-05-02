@@ -35,4 +35,5 @@ export const Arc = forwardRef((props, ref) => {
 	// Draw the arc.
 	return <path ref={ref} className={className} style={style} d={getArcPath(center, radius, startAngle, endAngle)} {...filterEventHandlers(props)} />
 })
+Arc.defaultProps = defaultArc
 export default Arc

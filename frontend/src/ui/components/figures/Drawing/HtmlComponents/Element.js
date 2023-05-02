@@ -94,3 +94,4 @@ export default function Element(props) {
 	// Render the children.
 	return <div className={clsx('drawingElement', classes.element, props.className)} style={style} ref={ref}>{children}</div>
 }
+Element.defaultProps = defaultElement

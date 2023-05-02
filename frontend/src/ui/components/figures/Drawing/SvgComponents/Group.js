@@ -42,4 +42,5 @@ export const Group = forwardRef((props, ref) => {
 		transform: `translate(${position.x + shift.x}px, ${position.y + shift.y}px) rotate(${rotate * 180 / Math.PI}deg) scale(${scale}) ${style.transform || ''}`,
 	}}>{children}</g>
 })
+Group.defaultProps = defaultGroup
 export default Group

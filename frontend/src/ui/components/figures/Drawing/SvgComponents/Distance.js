@@ -32,4 +32,5 @@ export const Distance = forwardRef((props, ref) => {
 	span = span.add(shift)
 	return <Line ref={ref} {...filterOptions(props, defaultLine)} graphicalPoints={[span.start, span.end]} className={clsx(className, className === defaultDistance.className ? '' : defaultDistance.className)} />
 })
+Distance.defaultProps = defaultDistance
 export default Distance

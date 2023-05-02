@@ -28,4 +28,5 @@ export const Square = forwardRef((props, ref) => {
 	// Set up the square.
 	return <rect ref={ref} x={center.x - side / 2} y={center.y - side / 2} width={side} height={side} className={className} style={style} {...filterEventHandlers(props)} />
 })
+Square.defaultProps = defaultSquare
 export default Square

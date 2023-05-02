@@ -41,12 +41,6 @@ const useStyles = makeStyles((theme) => ({
 		overflow: 'visible',
 		width: '100%',
 		zIndex: 2,
-
-		'& .line, & .curve': {
-			fill: 'none',
-			stroke: 'black',
-			'stroke-width': 1,
-		},
 	},
 
 	drawingCanvas: {

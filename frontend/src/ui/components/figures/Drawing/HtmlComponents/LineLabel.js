@@ -35,3 +35,4 @@ export default function LineLabel(props) {
 	const position = points[0].interpolate(points[1])
 	return <Label {...filterOptions(props, defaultLabel)} graphicalPosition={position} angle={angle}>{children}</Label>
 }
+LineLabel.defaultProps = defaultLineLabel

@@ -1,4 +1,6 @@
 import React, { forwardRef } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import clsx from 'clsx'
 
 import { ensureString } from 'step-wise/util/strings'
 import { ensureBoolean, ensureObject, processOptions } from 'step-wise/util/objects'
@@ -7,6 +9,14 @@ import { ensureVectorArray } from 'step-wise/geometry'
 import { useTransformedOrGraphicalValue } from '../DrawingContext'
 
 import { defaultObject, useRefWithEventHandlers, filterEventHandlers, getLinePath } from './util'
+
+const useStyles = makeStyles((theme) => ({
+	line: {
+		fill: 'none',
+		stroke: 'black',
+		'stroke-width': 1,
+	},
+}))
 
 export const defaultLine = {
 	...defaultObject,
@@ -27,7 +37,9 @@ export const Line = forwardRef((props, ref) => {
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Set up the line.
+	const classes = useStyles()
 	const path = getLinePath(points, close)
-	return <path ref={ref} className={className} style={style} d={path} {...filterEventHandlers(props)} />
+	return <path ref={ref} className={clsx(classes.line, className)} style={style} d={path} {...filterEventHandlers(props)} />
 })
+Line.defaultProps = defaultLine
 export default Line

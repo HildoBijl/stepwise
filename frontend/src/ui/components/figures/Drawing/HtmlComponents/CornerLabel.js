@@ -34,3 +34,4 @@ export default function CornerLabel(props) {
 	const delta = vector1.interpolate(vector2).normalize().multiply(adjustedDistance)
 	return <Element {...filterOptions(props, defaultElement)} graphicalPosition={point.add(delta)}>{children}</Element>
 }
+CornerLabel.defaultProps = defaultCornerLabel

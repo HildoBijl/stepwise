@@ -1,4 +1,6 @@
 import React, { forwardRef } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import clsx from 'clsx'
 
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureString } from 'step-wise/util/strings'
@@ -9,6 +11,14 @@ import { useTransformedOrGraphicalValue, useScaledOrGraphicalValue } from '../Dr
 
 import { useRefWithEventHandlers, filterEventHandlers, getCurvePathThrough, getCurvePathAlong } from './util'
 import { defaultLine } from './Line'
+
+const useStyles = makeStyles((theme) => ({
+	curve: {
+		fill: 'none',
+		stroke: 'black',
+		'stroke-width': 1,
+	},
+}))
 
 export const defaultCurve = {
 	...defaultLine,
@@ -33,7 +43,9 @@ export const Curve = forwardRef((props, ref) => {
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Set up the line.
+	const classes = useStyles()
 	const path = (through ? getCurvePathThrough : getCurvePathAlong)(points, close, part, spread)
-	return <path ref={ref} className={className} style={style} d={path} {...filterEventHandlers(props)} />
+	return <path ref={ref} className={clsx(classes.curve, className)} style={style} d={path} {...filterEventHandlers(props)} />
 })
+Curve.defaultProps = defaultCurve
 export default Curve

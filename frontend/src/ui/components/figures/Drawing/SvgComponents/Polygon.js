@@ -6,4 +6,5 @@ import Line from './Line'
 export const Polygon = forwardRef((props, ref) => {
 	return <Line ref={ref} {...props} close={true} />
 })
+Polygon.defaultProps = Line.defaultProps
 export default Polygon

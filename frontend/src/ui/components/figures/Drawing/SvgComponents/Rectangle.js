@@ -30,4 +30,5 @@ export const Rectangle = forwardRef((props, ref) => {
 	const { start, vector, end } = dimensions
 	return <rect ref={ref} x={Math.min(start.x, end.x)} y={Math.min(start.y, end.y)} width={Math.abs(vector.x)} height={Math.abs(vector.y)} rx={cornerRadius} className={className} style={style} {...filterEventHandlers(props)} />
 })
+Rectangle.defaultProps = defaultRectangle
 export default Rectangle

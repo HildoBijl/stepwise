@@ -30,4 +30,5 @@ export const Circle = forwardRef((props, ref) => {
 	// Set up the circle.
 	return <circle ref={ref} cx={center.x} cy={center.y} r={radius} className={className} style={style} {...filterEventHandlers(props)} />
 })
+Circle.defaultProps = defaultCircle
 export default Circle
