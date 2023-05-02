@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { forwardRef } from 'react'
 
 import { processOptions, filterOptions, removeProperties } from 'step-wise/util/objects'
 import { Vector, ensureVector, ensureVectorArray } from 'step-wise/geometry'
@@ -18,7 +18,7 @@ export const defaultLineLabel = {
 	graphicalOppositeTo: undefined,
 }
 
-export default function LineLabel(props) {
+export const LineLabel = forwardRef((props, ref) => {
 	// Check input.
 	let { children, points, graphicalPoints, oppositeTo, graphicalOppositeTo } = processOptions(props, defaultLineLabel)
 	children = ensureReactElement(children)
@@ -34,5 +34,6 @@ export default function LineLabel(props) {
 	// Set up the Label.
 	const position = points[0].interpolate(points[1])
 	return <Label {...filterOptions(props, defaultLabel)} graphicalPosition={position} angle={angle}>{children}</Label>
-}
+})
 LineLabel.defaultProps = defaultLineLabel
+export default LineLabel

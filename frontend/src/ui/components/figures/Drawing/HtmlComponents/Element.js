@@ -1,5 +1,5 @@
 
-import React, { useRef, useCallback, useEffect } from 'react'
+import React, { forwardRef, useCallback, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
@@ -7,7 +7,7 @@ import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureBoolean, ensureObject, processOptions } from 'step-wise/util/objects'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
-import { ensureReactElement, useEqualRefOnEquality } from 'util/react'
+import { useEnsureRef, ensureReactElement, useEqualRefOnEquality } from 'util/react'
 import { notSelectable } from 'ui/theme'
 import { useResizeListener } from 'ui/layout/App'
 
@@ -38,7 +38,8 @@ export const defaultElement = {
 	className: undefined,
 }
 
-export default function Element(props) {
+export const Element = forwardRef((props, ref) => {
+	ref = useEnsureRef(ref)
 	const classes = useStyles()
 
 	// Check input.
@@ -65,7 +66,6 @@ export default function Element(props) {
 	const drawing = useDrawingContext()
 
 	// Define a handler that positions the element accordingly.
-	const ref = useRef()
 	const updateElementPosition = useCallback(() => {
 		// Can we do anything?
 		const element = ref.current
@@ -92,6 +92,7 @@ export default function Element(props) {
 	useResizeListener(updateElementPosition)
 
 	// Render the children.
-	return <div className={clsx('drawingElement', classes.element, props.className)} style={style} ref={ref}>{children}</div>
-}
+	return <div ref={ref} className={clsx('drawingElement', classes.element, props.className)} style={style}>{children}</div>
+})
 Element.defaultProps = defaultElement
+export default Element

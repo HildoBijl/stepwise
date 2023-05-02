@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { forwardRef } from 'react'
 
 import { ensureNumber } from 'step-wise/util/numbers'
 import { processOptions, filterOptions, removeProperties } from 'step-wise/util/objects'
@@ -19,7 +19,7 @@ export const defaultCornerLabel = {
 	graphicalSize: 30,
 }
 
-export default function CornerLabel(props) {
+export const CornerLabel = forwardRef((props, ref) => {
 	// Check input.
 	let { children, points, graphicalPoints, size, graphicalSize } = processOptions(props, defaultCornerLabel)
 	children = ensureReactElement(children)
@@ -32,6 +32,7 @@ export default function CornerLabel(props) {
 	const vector2 = points[2].subtract(point).normalize()
 	const adjustedDistance = size / 2 * Math.sqrt(2 / Math.max(0.1, 1 - vector1.dotProduct(vector2)))
 	const delta = vector1.interpolate(vector2).normalize().multiply(adjustedDistance)
-	return <Element {...filterOptions(props, defaultElement)} graphicalPosition={point.add(delta)}>{children}</Element>
-}
+	return <Element ref={ref} {...filterOptions(props, defaultElement)} graphicalPosition={point.add(delta)}>{children}</Element>
+})
 CornerLabel.defaultProps = defaultCornerLabel
+export default CornerLabel

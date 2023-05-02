@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { forwardRef } from 'react'
 
 import { ensureNumber } from 'step-wise/util/numbers'
 import { processOptions, filterOptions, removeProperties } from 'step-wise/util/objects'
@@ -20,7 +20,7 @@ export const defaultLabel = {
 	anchor: undefined,
 }
 
-export default function Label(props) {
+export const Label = forwardRef((props, ref) => {
 	// Check input.
 	let { children, position, graphicalPosition, distance, graphicalDistance, angle, anchor } = processOptions(props, defaultLabel)
 	children = ensureReactElement(children)
@@ -32,5 +32,6 @@ export default function Label(props) {
 	// Find the position shift and apply it.
 	const delta = Vector.fromPolar(distance, angle)
 	return <Element {...filterOptions(removeProperties(props, 'position'), defaultElement)} graphicalPosition={position.add(delta)} anchor={anchor}>{children}</Element>
-}
+})
 Label.defaultProps = defaultLabel
+export default Label
