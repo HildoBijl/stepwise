@@ -1,5 +1,4 @@
 import { isValidElement, useState, useRef, useEffect, useReducer, useCallback } from 'react'
-import useLatest from '@react-hook/latest'
 import usePrevious from '@react-hook/previous'
 import useSize from '@react-hook/size'
 import useResizeObserver from '@react-hook/resize-observer'
@@ -11,13 +10,20 @@ import { ensureConsistency } from 'step-wise/util/objects'
 import { getEventPosition } from 'util/dom'
 
 // Re-export various useful hooks from other packages.
-export { useLatest, usePrevious, useSize, useResizeObserver }
+export { usePrevious, useSize, useResizeObserver }
 
 // ensureReactElement ensures that the given parameter is a React-type element. If not, it throws an error. On success it returns the element.
 export function ensureReactElement(element, allowString = true) {
 	if (!isValidElement(element) && (!allowString || typeof element !== 'string'))
 		throw new Error(`Invalid React element: expected a valid React element but received something of type "${typeof element}".`)
 	return element
+}
+
+// useLatest is used to directly store a value in a ref. This is useful when you have use-only functions in a useEffect function: plug them in a ref, apply the ref in the useEffect function and the function isn't triggered so much. (Note: this is different from the @react-hook/latest, which uses an event and is hence too slow.)
+export function useLatest(value, initialValue = value) {
+	const ref = useRef(initialValue)
+	ref.current = value
+	return ref
 }
 
 // useCurrentOrPrevious will check if the current object still exists. If not, the previous one is used. This is useful for keeping the layout intact while an object slides into hiding.

@@ -68,7 +68,6 @@ export default function Form({ children, initialInput }) {
 					delete fieldsRef.current[id]
 					const newInput = { ...input }
 					delete newInput[id]
-					inputRef.current = newInput
 					return newInput
 				} else {
 					field.subscriptions--
@@ -76,7 +75,7 @@ export default function Form({ children, initialInput }) {
 				}
 			})
 		}, 0)
-	}, [mountedRef, setInput, fieldsRef, inputRef])
+	}, [mountedRef, setInput, fieldsRef])
 
 	const setParameter = useCallback((id, FI) => {
 		setInput((input) => {
@@ -88,10 +87,9 @@ export default function Form({ children, initialInput }) {
 			}, input)
 			if (newInput[id] !== input[id])
 				fieldsRef.current[id].recentSI = false
-			inputRef.current = newInput // Already save new input in ref, to ensure look-ups function directly.
 			return newInput
 		})
-	}, [setInput, fieldsRef, inputRef])
+	}, [setInput, fieldsRef])
 
 	// getFields returns all fields (including persistent but removed fields) while getSubscribedFields returns an array of fields that have an active subscription. Persistent fields that are not visible are then filtered out.
 	const getFields = useCallback(() => Object.keys(fieldsRef.current), [fieldsRef])
@@ -122,10 +120,9 @@ export default function Form({ children, initialInput }) {
 				field.recentSI = true
 				field.recentFO = false
 			})
-			inputRef.current = ensureConsistency(newInput, input)
-			return inputRef.current
+			return ensureConsistency(newInput, input)
 		})
-	}, [setInput, getField, inputRef])
+	}, [setInput, getField])
 
 	// These functions allow us to easily get input in various forms.
 	const getInputParameterFI = useCallback((id) => inputRef.current[id], [inputRef])
@@ -222,10 +219,9 @@ export default function Form({ children, initialInput }) {
 				field.recentSI = true
 				field.recentFO = false
 			})
-			inputRef.current = ensureConsistency(newInput, input)
-			return inputRef.current
+			return ensureConsistency(newInput, input)
 		})
-	}, [initialInput, setInput, getField, getInputParameterSI, inputRef])
+	}, [initialInput, setInput, getField, getInputParameterSI])
 
 	return (
 		<FormContext.Provider value={{ input, subscribe, unsubscribe, setParameter, setInputSI, getFields, getSubscribedFields, fields, subscribedFields, validation, isValid, getField, getInputParameterFI, getInputFI, getInputParameterSI, getInputSI, getInputParameterFO, getInputFO, isInputEqual, cursorRef, absoluteCursorRef }}>
