@@ -1,4 +1,4 @@
-import React, { Fragment, useRef } from 'react'
+import React, { Fragment } from 'react'
 
 import { firstOf, lastOf } from 'step-wise/util/arrays'
 import { Transformation } from 'step-wise/geometry'
@@ -53,14 +53,6 @@ const processes = [
 ]
 
 export default function ProcessTypeDrawing() {
-	const ref1 = useRef()
-	const ref2 = useRef()
-
-	console.log(ref1.current)
-	console.log(ref2.current)
-	window.r1 = ref1
-	window.r2 = ref2
-
 	const transformationSettings = useScaleToBoundsTransformationSettings([...xAxisPoints, ...yAxisPoints], {
 		maxWidth: 400,
 		pretransformation: Transformation.getReflection([0, 1]),
@@ -68,14 +60,14 @@ export default function ProcessTypeDrawing() {
 	return <Drawing
 		transformationSettings={transformationSettings}
 		svgContents={<>
-			<SvgLine points={xAxisPoints} ref={ref1} />
+			<SvgLine points={xAxisPoints} />
 			<SvgLine points={yAxisPoints} />
 			{processes.map((process, index) => <Fragment key={index}>
 				<SvgCurve points={process.points} style={{ strokeWidth: 2, stroke: process.color }} />
 			</Fragment>)}
 		</>}
 		htmlContents={<>
-			<Element ref={ref2} anchor={[1, 0]} position={yAxisPoints[1]} graphicalShift={[-8, 10]}><M>p</M></Element>
+			<Element anchor={[1, 0]} position={yAxisPoints[1]} graphicalShift={[-8, 10]}><M>p</M></Element>
 			<Element anchor={[1, 0]} position={xAxisPoints[1]} graphicalShift={[-10, 5]}><M>V</M></Element>
 			{processes.map((process, index) => <Fragment key={index}>
 				<Element position={firstOf(process.points)} anchor={process.nAnchor || [1, 0]} graphicalShift={process.nGraphicalShift} style={{ color: process.color }}><M>n = {process.n}</M></Element>
