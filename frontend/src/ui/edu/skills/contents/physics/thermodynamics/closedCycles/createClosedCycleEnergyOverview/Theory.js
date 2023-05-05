@@ -21,7 +21,7 @@ export default function Component() {
 		<Head>Het procestabel invullen: de stappen</Head>
 		<Par>Het procestabel invullen is niet ingewikkeld, maar wel veel werk. Als voorbereiding zet je in elke rij het soort proces en de procescoëfficiënt <M>n.</M> Na het <SkillLink skillId="calculateClosedCycle">invullen van je toestandstabel</SkillLink> voer je, voor elke rij, de volgende stappen uit.</Par>
 		<List useNumbers={true} items={[
-			<>Zoek voor het soort proces (wat je al genoteerd hebt in je procestabel) de formules voor <M>W</M> en <M>Q</M> op. Indien er meerde formules gegeven zijn: kies je favoriete. Omdat we alle drie de toestandswaarden weten (<M>p,</M> <M>V</M> en <M>T</M>) zijn alle formules toepasbaar.</>,
+			<>Zoek voor het soort proces (wat je al genoteerd hebt in je procestabel) de formules voor <M>W</M> en <M>Q</M> op, in de betreffende formulekaart. Indien er meerde formules gegeven zijn: kies je favoriete. Omdat we alle drie de toestandswaarden weten (<M>p,</M> <M>V</M> en <M>T</M>) zijn alle formules toepasbaar.</>,
 			<>Bereken via de formules de geleverde arbeid <M>W</M> en de toegevoerde warmte <M>Q.</M> Pas overal standaard eenheden toe. Je berekende waarden zijn dan ook in standaard eenheden: Joule.</>,
 			<>Belangrijk: controleer het teken van je berekende waarden. Gebruik je kennis van het soort proces om te beredeneren of <M>W</M> en <M>Q</M> positief of negatief moeten zijn. Komt dit overeen met wat je berekend hebt? Zo niet, dan heb je mogelijk de twee punten in de formule omgedraaid.</>,
 		]} />

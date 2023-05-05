@@ -6,7 +6,7 @@ import { alpha } from '@material-ui/core/styles/colorManipulator'
 import { boundTo } from 'step-wise/util/numbers'
 
 import { notSelectable } from 'ui/theme'
-import { useEventListener, useForceUpdate, useSize, useDimension } from 'util/react'
+import { useEventListener, useForceUpdate, useDimension } from 'util/react'
 import { getCoordinatesOf, getEventPosition } from 'util/dom'
 import { useResizeListener } from 'ui/layout/App'
 
@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function HorizontalSlider({ children, sliderInside = false, padding = 0, updateTime = undefined }) {
+export default function HorizontalSlider({ children, sliderInside = false, padding = 0 }) {
 	// Set up required states.
 	const [slidePart, setSlidePart] = useState(0) // Keeps track of the slide position. 0 means the slider is all the way on the left and 1 means the slider is all the way on the right.
 	const [togglePart, setTogglePart] = useState(undefined) // Keeps track, during sliding of the toggle, where on the toggle was clicked. undefined means no sliding is going on, 0 means the user clicked on exactly the left end of the toggle and 1 means the user clicked on exactly the right end of the toggle.
@@ -143,7 +143,7 @@ export default function HorizontalSlider({ children, sliderInside = false, paddi
 
 	// On a window-resize rerender the scrollbar.
 	const forceUpdate = useForceUpdate()
-	useEventListener('resize', forceUpdate)
+	useResizeListener(forceUpdate)
 	useEffect(() => forceUpdate(), [forceUpdate])
 
 	// Implement style and render slider.

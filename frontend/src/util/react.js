@@ -210,8 +210,10 @@ export function useForceUpdate() {
 // useDimension takes a field ref and a function that returns a dimension. (Or the function can also be the name of a property, like "offsetWidth".) This function is called on every resize of the said object. If required, an extra useUpdateCallback can be implemented. This is for instance a listener that listens to other events and fires the update function on a change in the value it itself is monitoring.
 export function useDimension(fieldRef, dimensionFunc, useUpdateCallback = () => { }) {
 	const [dimension, setDimension] = useState()
-	if (typeof dimensionFunc === 'string')
-		dimensionFunc = elem => elem[dimensionFunc]
+	if (typeof dimensionFunc === 'string') {
+		const dimensionString = dimensionFunc
+		dimensionFunc = elem => elem[dimensionString]
+	}
 	const update = () => fieldRef.current && setDimension(dimensionFunc(fieldRef.current))
 
 	// Update upon field loading.
