@@ -172,7 +172,7 @@ function Schematics({ points, angleRad, anglePoints, loads, showSupports = true 
 
 		<Group>{render(loads)}</Group>
 
-		{showSupports ? <Group position={C} graphicalShift={Vector.fromPolar(50, Math.PI / 2 - angleRad)}>
+		{showSupports ? <Group position={C} graphicalPosition={Vector.fromPolar(50, Math.PI / 2 - angleRad)}>
 			<SvgLine graphicalPoints={anglePoints.map(point => point.multiply(angleGraphicalSize))} />
 		</Group> : null}
 		<Distance span={{ start: A, end: B }} graphicalShift={new Vector(0, distanceShift)} />
@@ -190,9 +190,9 @@ function Elements({ l1, l2, angle, angleRad, anglePoints, points, loads, getLoad
 		<Label position={A} angle={-Math.PI * 3 / 4} graphicalDistance={7}><M>A</M></Label>
 		<Label position={B} angle={Math.PI / 2} graphicalDistance={4}><M>B</M></Label>
 		<Label position={C} angle={-Math.PI / 4} graphicalDistance={8}><M>C</M></Label>
-		<Element position={A.interpolate(B)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}</M></Element>
-		<Element position={B.interpolate(C)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_2 = {l2}</M></Element>
-		{showSupports ? <CornerLabel points={anglePoints.map(point => point.add(C))} graphicalSize={28} graphicalShift={Vector.fromPolar(50, Math.PI / 2 - angleRad)}><M>{angle}^\circ</M></CornerLabel> : null}
+		<Element position={A.interpolate(B)} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}</M></Element>
+		<Element position={B.interpolate(C)} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_2 = {l2}</M></Element>
+		{showSupports ? <CornerLabel points={anglePoints.map(point => point.add(C))} graphicalSize={28} graphicalPoints={Vector.fromPolar(50, Math.PI / 2 - angleRad)}><M>{angle}^\circ</M></CornerLabel> : null}
 		{loadNames.map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
 	</>
 }

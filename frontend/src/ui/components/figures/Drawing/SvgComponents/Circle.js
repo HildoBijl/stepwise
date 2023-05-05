@@ -5,7 +5,7 @@ import { ensureString } from 'step-wise/util/strings'
 import { ensureObject, processOptions } from 'step-wise/util/objects'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
-import { useTransformedOrGraphicalValue, useScaledOrGraphicalValue } from '../DrawingContext'
+import { useGraphicalVector, useGraphicalDistance } from '../DrawingContext'
 
 import { defaultObject, useRefWithEventHandlers, filterEventHandlers } from './util'
 
@@ -14,15 +14,15 @@ export const defaultCircle = {
 	center: undefined,
 	graphicalCenter: Vector.zero,
 	radius: undefined,
-	graphicalRadius: 20,
+	graphicalRadius: 0,
 }
 
 // Circle draws a circle. It can be given a radius (in drawing coordinate distance, which will be scaled) or a graphicalRadius (in graphical coordinates).
 export const Circle = forwardRef((props, ref) => {
 	// Process the input.
 	let { center, graphicalCenter, radius, graphicalRadius, className, style } = processOptions(props, defaultCircle)
-	center = ensureVector(useTransformedOrGraphicalValue(center, graphicalCenter), 2)
-	radius = ensureNumber(useScaledOrGraphicalValue(radius, graphicalRadius), true)
+	center = ensureVector(useGraphicalVector(center, graphicalCenter), 2)
+	radius = ensureNumber(useGraphicalDistance(radius, graphicalRadius), true)
 	className = ensureString(className)
 	style = ensureObject(style)
 	ref = useRefWithEventHandlers(props, ref)

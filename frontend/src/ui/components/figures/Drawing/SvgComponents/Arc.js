@@ -5,7 +5,7 @@ import { ensureString } from 'step-wise/util/strings'
 import { ensureObject, processOptions } from 'step-wise/util/objects'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
-import { useTransformedOrGraphicalValue, useScaledOrGraphicalValue } from '../DrawingContext'
+import { useGraphicalVector, useGraphicalDistance } from '../DrawingContext'
 
 import { defaultObject, useRefWithEventHandlers, filterEventHandlers, getArcPath } from './util'
 
@@ -14,7 +14,7 @@ export const defaultArc = {
 	center: undefined,
 	graphicalCenter: Vector.zero,
 	radius: undefined,
-	graphicalRadius: 50,
+	graphicalRadius: 0,
 	startAngle: 0,
 	endAngle: Math.PI,
 	className: 'arc',
@@ -24,8 +24,8 @@ export const defaultArc = {
 export const Arc = forwardRef((props, ref) => {
 	// Check input.
 	let { center, graphicalCenter, radius, graphicalRadius, startAngle, endAngle, className, style } = processOptions(props, defaultArc)
-	center = ensureVector(useTransformedOrGraphicalValue(center, graphicalCenter), 2)
-	radius = useScaledOrGraphicalValue(radius, graphicalRadius)
+	center = ensureVector(useGraphicalVector(center, graphicalCenter), 2)
+	radius = useGraphicalDistance(radius, graphicalRadius)
 	startAngle = ensureNumber(startAngle)
 	endAngle = ensureNumber(endAngle)
 	className = ensureString(className)

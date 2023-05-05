@@ -7,7 +7,7 @@ import { Vector, ensureVector } from 'step-wise/geometry'
 
 import { ensureReactElement } from 'util/react'
 
-import { useTransformedOrGraphicalValue, useScaledOrGraphicalValue } from '../DrawingContext'
+import { useGraphicalVector, useGraphicalDistance } from '../DrawingContext'
 
 import { getAnchorFromAngle } from './util'
 import Element, { defaultElement } from './Element'
@@ -24,8 +24,8 @@ export const Label = forwardRef((props, ref) => {
 	// Check input.
 	let { children, position, graphicalPosition, distance, graphicalDistance, angle, anchor } = processOptions(props, defaultLabel)
 	children = ensureReactElement(children)
-	position = ensureVector(useTransformedOrGraphicalValue(position, graphicalPosition), 2)
-	distance = ensureNumber(useScaledOrGraphicalValue(distance, graphicalDistance))
+	position = ensureVector(useGraphicalVector(position, graphicalPosition), 2)
+	distance = ensureNumber(useGraphicalDistance(distance, graphicalDistance))
 	angle = ensureNumber(angle)
 	anchor = anchor === undefined ? getAnchorFromAngle(angle + Math.PI) : ensureVector(anchor, 2)
 

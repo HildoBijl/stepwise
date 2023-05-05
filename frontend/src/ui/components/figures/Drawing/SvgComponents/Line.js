@@ -6,7 +6,7 @@ import { ensureString } from 'step-wise/util/strings'
 import { ensureBoolean, ensureObject, processOptions } from 'step-wise/util/objects'
 import { ensureVectorArray } from 'step-wise/geometry'
 
-import { useTransformedOrGraphicalValue } from '../DrawingContext'
+import { useGraphicalVector } from '../DrawingContext'
 
 import { defaultObject, useRefWithEventHandlers, filterEventHandlers, getLinePath } from './util'
 
@@ -22,7 +22,7 @@ export const defaultLine = {
 	...defaultObject,
 	className: 'line',
 	points: undefined,
-	graphicalPoints: [],
+	graphicalPoints: undefined,
 	close: false,
 }
 
@@ -30,7 +30,7 @@ export const defaultLine = {
 export const Line = forwardRef((props, ref) => {
 	// Process the input.
 	let { points, graphicalPoints, close, className, style } = processOptions(props, defaultLine)
-	points = ensureVectorArray(useTransformedOrGraphicalValue(points, graphicalPoints), 2)
+	points = ensureVectorArray(useGraphicalVector(points, graphicalPoints), 2)
 	close = ensureBoolean(close)
 	className = ensureString(className)
 	style = ensureObject(style)

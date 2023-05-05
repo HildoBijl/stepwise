@@ -131,7 +131,7 @@ function Elements({ decompose, showIntersection }) {
 	const lineEndpoint2 = new Vector(span2.end.x, span2.start.y)
 
 	return <>
-		<Element position={new Vector(4, 0.5)} graphicalShift={new Vector(distanceShift + 6, 0)} anchor={[0, 0.5]}><M>{new FloatUnit('1.0 m')}</M></Element>
+		<Element position={new Vector(4, 0.5)} graphicalPosition={new Vector(distanceShift + 6, 0)} anchor={[0, 0.5]}><M>{new FloatUnit('1.0 m')}</M></Element>
 		{showIntersection ? <Label position={intersection} angle={Math.PI / 4} graphicalDistance={4}><M>E</M></Label> : null}
 		{decompose ? null : <CornerLabel points={[span1.start, span1.end, lineEndpoint1]} graphicalSize={28}><M>{angle}^\circ</M></CornerLabel>}
 		<CornerLabel points={[span2.start, span2.end, lineEndpoint2]} graphicalSize={28}><M>45^\circ</M></CornerLabel>

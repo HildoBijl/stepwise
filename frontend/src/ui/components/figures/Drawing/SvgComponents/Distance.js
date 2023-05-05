@@ -3,9 +3,9 @@ import clsx from 'clsx'
 
 import { ensureString } from 'step-wise/util/strings'
 import { processOptions, filterOptions } from 'step-wise/util/objects'
-import { Vector, ensureVector, Span, ensureSpan } from 'step-wise/geometry'
+import { Vector, ensureVector, ensureSpan } from 'step-wise/geometry'
 
-import { useTransformedOrGraphicalValue } from '../DrawingContext'
+import { useGraphicalObject, useGraphicalVector } from '../DrawingContext'
 
 import { defaultObject, useRefWithEventHandlers } from './util'
 import Line, { defaultLine } from './Line'
@@ -13,7 +13,7 @@ import Line, { defaultLine } from './Line'
 export const defaultDistance = {
 	...defaultObject,
 	span: undefined,
-	graphicalSpan: new Span({ start: Vector.zero, end: new Vector(100, 0) }),
+	graphicalSpan: undefined,
 	shift: undefined,
 	graphicalShift: Vector.zero,
 	className: 'distance',
@@ -23,8 +23,8 @@ export const defaultDistance = {
 export const Distance = forwardRef((props, ref) => {
 	// Process the input.
 	let { span, graphicalSpan, shift, graphicalShift, className } = processOptions(props, defaultDistance)
-	span = ensureSpan(useTransformedOrGraphicalValue(span, graphicalSpan), 2)
-	shift = ensureVector(useTransformedOrGraphicalValue(shift, graphicalShift, true), 2)
+	span = ensureSpan(useGraphicalObject(span, graphicalSpan), 2)
+	shift = ensureVector(useGraphicalVector(shift, graphicalShift, true), 2)
 	className = ensureString(className)
 	ref = useRefWithEventHandlers(props, ref)
 

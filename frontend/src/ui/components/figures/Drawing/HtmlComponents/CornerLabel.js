@@ -3,18 +3,18 @@ import React, { forwardRef } from 'react'
 
 import { ensureNumber } from 'step-wise/util/numbers'
 import { processOptions, filterOptions, removeProperties } from 'step-wise/util/objects'
-import { Vector, ensureCorner } from 'step-wise/geometry'
+import { ensureCorner } from 'step-wise/geometry'
 
 import { ensureReactElement } from 'util/react'
 
-import { useTransformedOrGraphicalValue, useScaledOrGraphicalValue } from '../DrawingContext'
+import { useGraphicalVector, useGraphicalDistance } from '../DrawingContext'
 
 import Element, { defaultElement } from './Element'
 
 export const defaultCornerLabel = {
 	...removeProperties(defaultElement, ['position', 'graphicalPosition']),
 	points: undefined,
-	graphicalPoints: [Vector.i, Vector.zero, Vector.j],
+	graphicalPoints: undefined,
 	size: undefined,
 	graphicalSize: 30,
 }
@@ -23,8 +23,8 @@ export const CornerLabel = forwardRef((props, ref) => {
 	// Check input.
 	let { children, points, graphicalPoints, size, graphicalSize } = processOptions(props, defaultCornerLabel)
 	children = ensureReactElement(children)
-	points = ensureCorner(useTransformedOrGraphicalValue(points, graphicalPoints), 2)
-	size = ensureNumber(useScaledOrGraphicalValue(size, graphicalSize))
+	points = ensureCorner(useGraphicalVector(points, graphicalPoints), 2)
+	size = ensureNumber(useGraphicalDistance(size, graphicalSize))
 
 	// Calculate the given position. Use an adjustment on the size of the corner: smaller angles should give a larger distance. For this adjustment, pretend the label is circular with the given size as double the radius.
 	const point = points[1]

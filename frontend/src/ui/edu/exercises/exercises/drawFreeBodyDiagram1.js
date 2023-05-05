@@ -210,7 +210,7 @@ function Elements({ zoom }) {
 			const prev = points[index - 1]
 			if (index === 0 || prev.equals(point))
 				return null
-			return <Element key={index} position={point.interpolate(prev)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>{new FloatUnit(`${point.x - prev.x}m`)}</M></Element>
+			return <Element key={index} position={point.interpolate(prev)} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>{new FloatUnit(`${point.x - prev.x}m`)}</M></Element>
 		})}
 	</>
 }

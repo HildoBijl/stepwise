@@ -20,34 +20,34 @@ const processes = [
 		name: 'Isobaar',
 		n: '0',
 		nAnchor: [0, 0],
-		nGraphicalShift: [0, 1],
+		nShift: [0, 1],
 		color: '#0a6f3c',
 	},
 	{
 		points: [[intersection[0], 0.2], [intersection[0], maxY]],
 		name: 'Isochoor',
 		nameAnchor: [0, 0],
-		nameGraphicalShift: [5, 0],
+		nameShift: [5, 0],
 		n: '\\infty',
 		nAnchor: [1, 1],
-		nGraphicalShift: [-5, 0],
+		nShift: [-5, 0],
 		color: '#422814',
 	},
 	{
 		points: [[1, maxY], intersection, [maxX, 1.2]],
 		name: 'Isotherm',
-		nameGraphicalShift: [0, -1],
+		nameShift: [0, -1],
 		n: '1',
-		nGraphicalShift: [-1, 0],
+		nShift: [-1, 0],
 		color: '#044488',
 	},
 	{
 		points: [[1.8, maxY], intersection, [maxX, 0.6]],
 		name: 'Isentroop',
-		nameGraphicalShift: [0, -2],
+		nameShift: [0, -2],
 		n: 'k',
 		nAnchor: [0, 0],
-		nGraphicalShift: [10, 0],
+		nShift: [10, 0],
 		color: '#bd0f0f',
 	},
 ]
@@ -67,11 +67,11 @@ export default function ProcessTypeDrawing() {
 			</Fragment>)}
 		</>}
 		htmlContents={<>
-			<Element anchor={[1, 0]} position={yAxisPoints[1]} graphicalShift={[-8, 10]}><M>p</M></Element>
-			<Element anchor={[1, 0]} position={xAxisPoints[1]} graphicalShift={[-10, 5]}><M>V</M></Element>
+			<Element anchor={[1, 0]} position={yAxisPoints[1]} graphicalPosition={[-8, 10]}><M>p</M></Element>
+			<Element anchor={[1, 0]} position={xAxisPoints[1]} graphicalPosition={[-10, 5]}><M>V</M></Element>
 			{processes.map((process, index) => <Fragment key={index}>
-				<Element position={firstOf(process.points)} anchor={process.nAnchor || [1, 0]} graphicalShift={process.nGraphicalShift} style={{ color: process.color }}><M>n = {process.n}</M></Element>
-				<Element position={lastOf(process.points)} anchor={process.nameAnchor || [1, 0]} graphicalShift={process.nameGraphicalShift} style={{ color: process.color, fontWeight: 'bold' }}>{process.name}</Element>
+				<Element position={firstOf(process.points)} graphicalPosition={process.nShift} anchor={process.nAnchor || [1, 0]} style={{ color: process.color }}><M>n = {process.n}</M></Element>
+				<Element position={lastOf(process.points)} graphicalPosition={process.nameShift} anchor={process.nameAnchor || [1, 0]} style={{ color: process.color, fontWeight: 'bold' }}>{process.name}</Element>
 			</Fragment>)}
 		</>}
 	/>

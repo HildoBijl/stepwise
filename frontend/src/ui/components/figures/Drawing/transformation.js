@@ -14,7 +14,7 @@
 
 import { useMemo } from 'react'
 
-import { isNumber, ensureNumber, ensureInt } from 'step-wise/util/numbers'
+import { ensureNumber, ensureInt } from 'step-wise/util/numbers'
 import { ensureBoolean, applyToEachParameter, processOptions } from 'step-wise/util/objects'
 import { Vector, ensureVector, Rectangle, ensureRectangle, Transformation, ensureTransformation } from 'step-wise/geometry'
 
@@ -281,7 +281,7 @@ export function applyTransformation(points, transformation, preventShift) {
 		return undefined
 
 	// If the points parameter is a single vector, apply it.
-	if (points instanceof Vector || (Array.isArray(points) && points.length >= 2 && points.every(element => isNumber(element))))
+	if (Vector.isVector(points))
 		return transformation.apply(points, preventShift)
 
 	// If the parameter has a transform function, apply it.

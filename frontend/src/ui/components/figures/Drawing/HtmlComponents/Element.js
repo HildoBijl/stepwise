@@ -11,7 +11,7 @@ import { useEnsureRef, ensureReactElement, useEqualRefOnEquality } from 'util/re
 import { notSelectable } from 'ui/theme'
 import { useResizeListener } from 'ui/layout/App'
 
-import { useDrawingContext, useTransformedOrGraphicalValue } from '../DrawingContext'
+import { useDrawingContext, useGraphicalVector } from '../DrawingContext'
 
 const useStyles = makeStyles((theme) => ({
 	element: {
@@ -27,9 +27,7 @@ const useStyles = makeStyles((theme) => ({
 export const defaultElement = {
 	children: null,
 	position: undefined,
-	graphicalPosition: Vector.zero,
-	shift: undefined,
-	graphicalShift: Vector.zero, // Useful if the position is defined in drawing coordinates but the shift is in graphical coordinates.
+	graphicalPosition: undefined,
 	rotate: 0, // Radians.
 	scale: 1,
 	anchor: new Vector(0.5, 0.5), // Use 0 for left/top and 1 for right/bottom.
@@ -43,10 +41,9 @@ export const Element = forwardRef((props, ref) => {
 	const classes = useStyles()
 
 	// Check input.
-	let { children, position, graphicalPosition, shift, graphicalShift, rotate, scale, anchor, ignoreMouse, style } = processOptions(props, defaultElement)
+	let { children, position, graphicalPosition, rotate, scale, anchor, ignoreMouse, style } = processOptions(props, defaultElement)
 	children = ensureReactElement(children)
-	position = ensureVector(useTransformedOrGraphicalValue(position, graphicalPosition), 2)
-	shift = ensureVector(useTransformedOrGraphicalValue(shift, graphicalShift), 2)
+	position = ensureVector(useGraphicalVector(position, graphicalPosition), 2)
 	rotate = ensureNumber(rotate)
 	scale = ensureNumber(scale)
 	anchor = ensureVector(anchor, 2)
@@ -58,7 +55,6 @@ export const Element = forwardRef((props, ref) => {
 		style.pointerEvents = 'none'
 
 	// Make sure the vector references remain consistent.
-	position = position.add(shift)
 	position = useEqualRefOnEquality(position)
 	anchor = useEqualRefOnEquality(anchor)
 

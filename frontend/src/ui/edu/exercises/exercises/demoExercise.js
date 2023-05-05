@@ -94,8 +94,8 @@ function Elements({ theta, l1, l2, points, loads, getLoadNames }) {
 		<Label position={points.B} angle={Math.PI / 2} graphicalDistance={3}><M>B</M></Label>
 		<Label position={points.C} angle={-Math.PI / 4} graphicalDistance={5}><M>C</M></Label>
 		{externalForce ? <CornerLabel points={[externalForce.start, externalForce.end, points.A]} graphicalSize={36}><M>{theta}^\circ</M></CornerLabel> : null}
-		<Element position={points.A.interpolate(points.B)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}</M></Element>
-		<Element position={points.B.interpolate(points.C)} graphicalShift={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_2 = {l2}</M></Element>
+		<Element position={points.A.interpolate(points.B)} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}</M></Element>
+		<Element position={points.B.interpolate(points.C)} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_2 = {l2}</M></Element>
 		{loadNames.map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
 	</>
 }

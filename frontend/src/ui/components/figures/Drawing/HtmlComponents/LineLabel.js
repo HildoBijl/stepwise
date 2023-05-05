@@ -2,18 +2,18 @@
 import React, { forwardRef } from 'react'
 
 import { processOptions, filterOptions, removeProperties } from 'step-wise/util/objects'
-import { Vector, ensureVector, ensureVectorArray } from 'step-wise/geometry'
+import { ensureVector, ensureVectorArray } from 'step-wise/geometry'
 
 import { ensureReactElement } from 'util/react'
 
-import { useTransformedOrGraphicalValue } from '../DrawingContext'
+import { useGraphicalVector } from '../DrawingContext'
 
 import Label, { defaultLabel } from './Label'
 
 export const defaultLineLabel = {
 	...removeProperties(defaultLabel, ['position', 'graphicalPosition']),
 	points: undefined,
-	graphicalPoints: [Vector.i, Vector.zero],
+	graphicalPoints: undefined,
 	oppositeTo: undefined,
 	graphicalOppositeTo: undefined,
 }
@@ -22,8 +22,8 @@ export const LineLabel = forwardRef((props, ref) => {
 	// Check input.
 	let { children, points, graphicalPoints, oppositeTo, graphicalOppositeTo } = processOptions(props, defaultLineLabel)
 	children = ensureReactElement(children)
-	points = ensureVectorArray(useTransformedOrGraphicalValue(points, graphicalPoints), 2, 2)
-	oppositeTo = ensureVector(useTransformedOrGraphicalValue(oppositeTo, graphicalOppositeTo))
+	points = ensureVectorArray(useGraphicalVector(points, graphicalPoints), 2, 2)
+	oppositeTo = ensureVector(useGraphicalVector(oppositeTo, graphicalOppositeTo))
 
 	// Determine the angle.
 	const delta = points[1].subtract(points[0])

@@ -7,7 +7,7 @@ import { ensureString } from 'step-wise/util/strings'
 import { ensureBoolean, ensureObject, processOptions } from 'step-wise/util/objects'
 import { ensureVectorArray } from 'step-wise/geometry'
 
-import { useTransformedOrGraphicalValue, useScaledOrGraphicalValue } from '../DrawingContext'
+import { useGraphicalVector, useGraphicalDistance } from '../DrawingContext'
 
 import { useRefWithEventHandlers, filterEventHandlers, getCurvePathThrough, getCurvePathAlong } from './util'
 import { defaultLine } from './Line'
@@ -33,8 +33,8 @@ export const defaultCurve = {
 export const Curve = forwardRef((props, ref) => {
 	// Process the input.
 	let { points, graphicalPoints, spread, graphicalSpread, part, through, close, className, style } = processOptions(props, defaultCurve)
-	points = ensureVectorArray(useTransformedOrGraphicalValue(points, graphicalPoints), 2)
-	spread = useScaledOrGraphicalValue(spread, graphicalSpread)
+	points = ensureVectorArray(useGraphicalVector(points, graphicalPoints), 2)
+	spread = useGraphicalDistance(spread, graphicalSpread)
 	part = ensureNumber(part)
 	through = ensureBoolean(through)
 	close = ensureBoolean(close)

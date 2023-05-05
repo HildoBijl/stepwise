@@ -92,6 +92,12 @@ function ensureConsistency(newValue, oldValue) {
 }
 module.exports.ensureConsistency = ensureConsistency
 
+// hasIterableParameters is a function that checks if something is an array or basic object: something with parameters that we can browse through.
+function hasIterableParameters(obj) {
+	return Array.isArray(obj) || isBasicObject(obj)
+}
+module.exports.hasIterableParameters = hasIterableParameters
+
 // applyToEachParameter takes an object with multiple parameters, like { a: 2, b: 3 }, and applies a function like (x, key) => 2*x to each parameter. It returns a new object (the old one is unchanged) with the result, like { a: 4, b: 6 }. It can also receive an array, in which case it returns an array (just like array map). In both cases undefined values are always filtered out.
 function applyToEachParameter(obj, func) {
 	if (Array.isArray(obj))

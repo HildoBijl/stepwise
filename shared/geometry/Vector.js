@@ -1,6 +1,7 @@
 // A Vector is a combination of coordinates. It can be entered as an array [2, 3, 4] or an object { x: 2, y: 3, z: 4 }. It can be of any dimension. Various methods like the magnitude are available.
 
 const { ensureInt, ensureNumber, isNumber, compareNumbers } = require('../util/numbers')
+const { isNumberArray } = require('../util/arrays')
 
 class Vector {
 	/*
@@ -317,6 +318,15 @@ class Vector {
 	/*
 	 * Static methods.
 	 */
+
+	// isVector checks if a parameter is a vector or is sufficiently like a vector to become one. That is: ensureVector can turn it into one.
+	static isVector(obj) {
+		if (obj instanceof Vector)
+			return true
+		if (isNumberArray(obj) && obj.length >= 2)
+			return true
+		return false
+	}
 
 	// getZero returns the zero vector for the given dimension.
 	static getZero(dimension) {

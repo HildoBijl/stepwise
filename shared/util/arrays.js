@@ -1,4 +1,4 @@
-const { ensureInt, ensureNumber, compareNumbers } = require('./numbers')
+const { ensureInt, isNumber, ensureNumber, compareNumbers } = require('./numbers')
 const { deepEquals } = require('./objects')
 
 // ensureArray checks whether a variable is an array and throws an error if not. If all is fine, the same parameter is returned.
@@ -8,6 +8,12 @@ function ensureArray(array) {
 	return array
 }
 module.exports.ensureArray = ensureArray
+
+// isNumberArray checks whether a variable is an array filled with numbers.
+function isNumberArray(array) {
+	return Array.isArray(array) && array.every(value => isNumber(value))
+}
+module.exports.isNumberArray = isNumberArray
 
 // ensureNumberArray checks whether a variable is an array filled with numbers. It can be given the same extra options as ensureNumber.
 function ensureNumberArray(array, ...args) {

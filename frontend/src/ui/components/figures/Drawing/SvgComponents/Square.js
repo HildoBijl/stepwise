@@ -4,7 +4,7 @@ import { ensureString } from 'step-wise/util/strings'
 import { ensureObject, processOptions } from 'step-wise/util/objects'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
-import { useTransformedOrGraphicalValue, useScaledOrGraphicalValue } from '../DrawingContext'
+import { useGraphicalVector, useGraphicalDistance } from '../DrawingContext'
 
 import { defaultObject, useRefWithEventHandlers, filterEventHandlers } from './util'
 
@@ -13,14 +13,14 @@ export const defaultSquare = {
 	center: undefined,
 	graphicalCenter: Vector.zero,
 	side: undefined,
-	graphicalSide: 20,
+	graphicalSide: 0,
 }
 
 export const Square = forwardRef((props, ref) => {
 	// Process the input.
 	let { center, graphicalCenter, side, graphicalSide, className, style } = processOptions(props, defaultSquare)
-	center = ensureVector(useTransformedOrGraphicalValue(center, graphicalCenter), 2)
-	side = useScaledOrGraphicalValue(side, graphicalSide)
+	center = ensureVector(useGraphicalVector(center, graphicalCenter), 2)
+	side = useGraphicalDistance(side, graphicalSide)
 	className = ensureString(className)
 	style = ensureObject(style)
 	ref = useRefWithEventHandlers(props, ref)
