@@ -363,7 +363,7 @@ let skillTree = {
 	},
 	calculateClosedCycle: {
 		name: 'Gesloten kringproces doorrekenen',
-		// path: 'physics/thermodynamics/basicLaws',
+		path: 'physics/thermodynamics/closedCycles',
 		setup: repeat('calculateProcessStep', 3),
 		exercises: ['calculateClosedCycleVTp', 'calculateClosedCycleTsV', 'calculateClosedCycleSTST', 'calculateClosedCycleSVSV'],
 		thresholds: { pass: 0.5 },
@@ -382,6 +382,7 @@ let skillTree = {
 	},
 	createClosedCycleEnergyOverview: {
 		name: 'Gesloten kringproces energie-overzicht maken',
+		path: 'physics/thermodynamics/closedCycles',
 		setup: and(repeat('calculateHeatAndWork', 2), or('calculateHeatAndWork', 'calculateWithInternalEnergy')),
 		exercises: ['createClosedCycleEnergyOverviewVTp', 'createClosedCycleEnergyOverviewTsV', 'createClosedCycleEnergyOverviewSTST', 'createClosedCycleEnergyOverviewSVSV'],
 		thresholds: { pass: 0.5 },

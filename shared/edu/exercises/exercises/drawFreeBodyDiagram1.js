@@ -1,7 +1,7 @@
 const { getRandomBoolean, getRandomInteger } = require('../../../util/random')
 const { Vector } = require('../../../geometry/Vector')
 
-const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
 const { loadSources, areLoadsMatching, FBDComparison, getDefaultForce, getDefaultMoment } = require('../util/engineeringMechanics')
 
@@ -14,6 +14,7 @@ const data = {
 		default: (input, correct) => areLoadsMatching(input, correct, FBDComparison)
 	},
 }
+addSetupFromSteps(data)
 
 function generateState() {
 	// Determine the beam size.
