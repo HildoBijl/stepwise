@@ -114,7 +114,7 @@ function ExerciseFigure({ showAlpha = 0, showBeta = 0, showGamma = 0 }) {
 		<Polygon points={[left, bottomLeft, middle]} style={{ fill: '#ffaabb' }} />
 		<BoundedLine line={Line.fromPoints(left, right)} style={{ strokeWidth: 2 }} />
 		<BoundedLine line={Line.fromPoints(bottomLeft, topRight)} style={{ strokeWidth: 2 }} />
-		<RightAngle points={[middle, right, topRight]} />
+		<RightAngle points={[middle, right, topRight]} graphicalSize={10} />
 	</>} htmlContents={<>
 		{showAlpha === 0 ? null : <CornerLabel points={[right, middle, topRight]} graphicalSize={showAlpha === 1 ? labelLetterSize : labelNumberSize}>{showAlpha === 1 ? <M>{variables.alpha}</M> : <M>{alpha}^\circ</M>}</CornerLabel>}
 		{showBeta === 0 ? null : <CornerLabel points={[left, middle, bottomLeft]} graphicalSize={showBeta === 1 ? labelLetterSize : labelNumberSize}>{showBeta === 1 ? <M>{variables.beta}</M> : <M>{beta}^\circ</M>}</CornerLabel>}

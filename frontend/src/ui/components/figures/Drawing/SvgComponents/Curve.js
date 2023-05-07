@@ -24,9 +24,9 @@ export const defaultCurve = {
 	...defaultLine,
 	className: 'curve',
 	through: true,
+	part: 1,
 	spread: undefined,
 	graphicalSpread: undefined,
-	part: 1,
 }
 
 // Curve draws a smooth curve along/through a set of points. Parameters include the curve part (0 means straight, 1 means maximally curved) or the spread of the curve (similar to curve radius). With the "through" parameter it can be determined whether the curve should go through the points or only along them.

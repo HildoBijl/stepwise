@@ -123,7 +123,7 @@ function ExerciseFigure() {
 	// Render the figure.
 	return <Drawing transformationSettings={transformationSettings} svgContents={<>
 		<Polygon points={triangle1} style={{ fill: '#aaccff' }} />
-		<RightAngle points={triangle1} />
+		<RightAngle points={triangle1} graphicalSize={10} />
 		<Polygon points={triangle2} style={{ fill: '#ffffff' }} />
 		<RightAngle points={triangle2} graphicalSize={6} />
 	</>} htmlContents={<>

@@ -134,7 +134,7 @@ function ExerciseFigure({ showAlpha = 0, showBeta = 0, showGamma = 0, showDelta 
 		<LineComponent points={[right, center]} />
 		<BoundedLine line={Line.fromPoints(top, right)} style={{ strokeWidth: 2 }} />
 		<BoundedLine line={Line.fromPoints(bottom, right)} style={{ strokeWidth: 2 }} />
-		{showAlpha === 2 ? <RightAngle points={[center, top, right]} /> : null}
+		{showAlpha === 2 ? <RightAngle points={[center, top, right]} graphicalSize={10} /> : null}
 		<Circle center={center} radius={radius / 40} style={{ fill: 'black' }} />
 	</>} htmlContents={<>
 		{showAlpha === 1 ? <CornerLabel points={[center, top, right]} graphicalSize={labelLetterSize}><M>{variables.alpha}</M></CornerLabel> : null}
