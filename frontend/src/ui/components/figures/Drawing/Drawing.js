@@ -146,9 +146,17 @@ function Drawing(options, ref) {
 				{options.useSvg ? (
 					<svg ref={svgRef} className={classes.drawingSVG} viewBox={`0 0 ${width} ${height}`}>
 						<defs>
+							{/* Clip path to prevent overflow. */}
 							<clipPath id={`noOverflow${id}`}>
 								<rect x="0" y="0" width={width} height={height} fill="#fff" rx={7} />
 							</clipPath>
+							{/* Markers for distance arrows. */}
+							<marker id="distanceArrowHead" key="distanceArrowHead" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
+								<path d="M0 0 L12 6 L0 12" stroke="black" strokeWidth="1" fill="none" />
+							</marker>
+							<marker id="forceArrowHead" key="forceArrowHead" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto-start-reverse">
+								<polygon points="8 4, 0 0, 2 4, 0 8" />
+							</marker>
 							{options.svgDefs}
 						</defs>
 						{options.svgContents}

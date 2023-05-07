@@ -1,5 +1,5 @@
-// The index file determines what is exported from this folder.
 export { Force, Moment } from './loads'
-export { Beam, Hinge } from './structuralComponents'
+export { Beam, Hinge, HalfHinge } from './structuralComponents'
+export { Ground, SupportBlock, SupportTriangle, Wheels } from './attachments'
 export { FixedSupport, AdjacentFixedSupport, HingeSupport, HalfHingeSupport, RollerSupport, AdjacentRollerSupport, RollerHingeSupport, RollerHalfHingeSupport } from './supports'
-export { LoadLabel } from './loadNames'
+export { default as LoadLabel } from './LoadLabel'

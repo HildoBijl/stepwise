@@ -15,36 +15,6 @@ export const defaultEngineeringDiagramOptions = {
 const useStyles = makeStyles((theme) => ({
 	engineeringDiagram: {
 		'& svg': {
-			'& .distance': {
-				fill: 'none',
-				stroke: 'black',
-				'stroke-width': 1,
-				'marker-start': 'url(#distanceArrowHead)',
-				'marker-end': 'url(#distanceArrowHead)',
-			},
-			'& .force': {
-				'& .forceLine': {
-					fill: 'none',
-				},
-			},
-			'& .moment': {
-				'& .momentLine': {
-					fill: 'none',
-				},
-			},
-			'& .arrowHead': {
-				fill: 'black',
-				'stroke-width': 0,
-			},
-			'& .beamLine': {
-				fill: 'none',
-			},
-			'& .beamStrut': {
-				'stroke-width': 0,
-			},
-			'& .hinge': {
-				fill: 'white',
-			},
 			'& .supportTriangle': {
 				fill: 'white',
 			},
@@ -77,12 +47,6 @@ export default EngineeringDiagram
 function EngineeringDiagramDefs() {
 	const theme = useTheme()
 	return <>
-		<marker id="distanceArrowHead" key="distanceArrowHead" markerWidth="12" markerHeight="12" refX="12" refY="6" orient="auto-start-reverse">
-			<path d="M0 0 L12 6 L0 12" stroke="black" strokeWidth="1" fill="none" />
-		</marker>
-		<marker id="forceArrowHead" key="forceArrowHead" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto-start-reverse">
-			<polygon points="8 4, 0 0, 2 4, 0 8" />
-		</marker>
 		{[0, 0.6, 1.6, 1].map((value, index) => <filter key={index} id={`selectionFilter${index}`}>
 			<feGaussianBlur stdDeviation="3" in="SourceGraphic" result="Blur" />
 			<feComposite operator="out" in="Blur" in2="SourceGraphic" result="OuterBlur" />

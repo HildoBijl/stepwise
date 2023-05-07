@@ -129,19 +129,3 @@ export function useGraphicalObject(drawingObject, graphicalObject) {
 		return applyToEachParameter(transformedObject, obj => obj.add(graphicalObject))
 	return applyToEachParameter(transformedObject, (obj, index) => obj.add(graphicalObject[index]))
 }
-
-// useTransformedOrGraphicalValue takes two values: a (set of) points in drawing coordinates and a (set of) points in graphical coordinates. If the first one is defined, it is scaled and used. Otherwise the second is used. If both fail, the third value given (the default) will be used.
-export function useTransformedOrGraphicalValue(drawingPoints, graphicalPoints, preventShift = false) {
-	const transformedPoints = useTransformation(drawingPoints, preventShift)
-	if (drawingPoints)
-		return transformedPoints
-	return graphicalPoints
-}
-
-// useScaledOrGraphicalValue takes two numbers: a size in drawing coordinates and a size in graphical coordinates. If the first one is defined, it is scaled and used. Otherwise the second is used. If both fail, the third value given (the default) will be used.
-export function useScaledOrGraphicalValue(drawingSize, graphicalSize) {
-	const scaledSize = useScaling(drawingSize)
-	if (drawingSize !== undefined)
-		return scaledSize
-	return graphicalSize
-}

@@ -1,4 +1,5 @@
 import React, { forwardRef } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
 import { ensureString } from 'step-wise/util/strings'
@@ -9,6 +10,16 @@ import { useGraphicalObject, useGraphicalVector } from '../DrawingContext'
 
 import { defaultObject, useRefWithEventHandlers } from './util'
 import Line, { defaultLine } from './Line'
+
+const useStyles = makeStyles((theme) => ({
+	distance: {
+		fill: 'none',
+		stroke: 'black',
+		'stroke-width': 1,
+		'marker-start': 'url(#distanceArrowHead)',
+		'marker-end': 'url(#distanceArrowHead)',
+	},
+}))
 
 export const defaultDistance = {
 	...defaultObject,
@@ -30,7 +41,8 @@ export const Distance = forwardRef((props, ref) => {
 
 	// Render the line with the appropriate style. Enforce that the default className is used, because this adds the arrow spread.
 	span = span.add(shift)
-	return <Line ref={ref} {...filterOptions(props, defaultLine)} graphicalPoints={[span.start, span.end]} className={clsx(className, className === defaultDistance.className ? '' : defaultDistance.className)} />
+	const classes = useStyles()
+	return <Line ref={ref} {...filterOptions(props, defaultLine)} graphicalPoints={[span.start, span.end]} className={clsx(classes.distance, className)} />
 })
 Distance.defaultProps = defaultDistance
 export default Distance

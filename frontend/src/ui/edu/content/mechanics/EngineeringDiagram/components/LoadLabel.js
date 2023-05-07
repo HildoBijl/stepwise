@@ -6,13 +6,13 @@ import { loadTypes, ensureLoad } from 'step-wise/edu/exercises/util/engineeringM
 import { M } from 'ui/components'
 import { Label } from 'ui/components/figures'
 
-import { defaultMoment } from './loads'
+import { Moment } from './loads'
 
 const forceGraphicalDistance = 2
 const momentGraphicalDistance = 4
 const momentAngleDeviation = Math.PI / 12
 
-export function LoadLabel({ load, variable, point }) {
+export default function LoadLabel({ load, variable, point }) {
 	// Check the input.
 	load = ensureLoad(load)
 	variable = Variable.ensureVariable(variable)
@@ -30,7 +30,7 @@ export function LoadLabel({ load, variable, point }) {
 		// For a moment, put the label near the moment arrow.
 		case loadTypes.moment:
 			// Determine the angle at which the arrow ends.
-			const { position, opening, clockwise, spread, radius, graphicalRadius } = processOptions(load, defaultMoment, true)
+			const { position, opening, clockwise, spread, radius, graphicalRadius } = processOptions(load, Moment.defaultProps, true)
 			const angle = opening + (clockwise ? -1 : 1) * ((2 * Math.PI - spread) / 2 + momentAngleDeviation)
 
 			// An important question is whether the radius is known. If so, we can determine the exact endpoint and displace the label from there.
