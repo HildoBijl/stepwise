@@ -8,8 +8,9 @@ import { Par } from 'ui/components'
 import { useScaleAndShiftTransformationSettings } from 'ui/components/figures'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { InputSpace } from 'ui/form/FormPart'
+import { Drawing } from 'ui/components/figures'
 
-import EngineeringDiagram, { Group, Beam, RollerSupport, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
+import { Group, Beam, RollerSupport, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
 import FBDInput, { allConnectedToPoints, loadTypes, areLoadsEqual, getFBDFeedbackFunction, FBDComparison } from 'ui/edu/content/mechanics/FBDInput'
 
 import StepExercise from '../types/StepExercise'
@@ -164,8 +165,8 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 	const A = points[0]
 	const snappers = [A, Line.fromPointAndAngle(A, deg2rad(wallRotation)), Line.fromPointAndAngle(A, deg2rad(wallRotation + 90)), Line.fromPointAndAngle(A, deg2rad(wallRotation + beamRotation)), Line.fromPointAndAngle(A, deg2rad(wallRotation + beamRotation + 90))]
 	return isInputField ?
-		<FBDInput id="loads" transformationSettings={transformationSettings} svgContents={schematics} snappers={snappers} validate={allConnectedToPoints(points)} /> :
-		<EngineeringDiagram transformationSettings={transformationSettings} svgContents={schematics} />
+		<FBDInput id="loads" transformationSettings={transformationSettings} snappers={snappers} validate={allConnectedToPoints(points)}>{schematics}</FBDInput> :
+		<Drawing transformationSettings={transformationSettings}>{schematics}</Drawing>
 }
 
 function Schematics({ loads, showSupports = true }) {

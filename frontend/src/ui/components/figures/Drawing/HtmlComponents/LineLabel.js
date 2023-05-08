@@ -36,4 +36,5 @@ export const LineLabel = forwardRef((props, ref) => {
 	return <Label {...filterOptions(props, defaultLabel)} graphicalPosition={position} angle={angle}>{children}</Label>
 })
 LineLabel.defaultProps = defaultLineLabel
+LineLabel.plotType = 'html'
 export default LineLabel

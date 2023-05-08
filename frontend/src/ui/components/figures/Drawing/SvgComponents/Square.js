@@ -4,7 +4,7 @@ import { ensureString } from 'step-wise/util/strings'
 import { ensureObject, processOptions } from 'step-wise/util/objects'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
-import { useGraphicalVector, useGraphicalDistance } from '../DrawingContext'
+import { useGraphicalVector, useGraphicalDistance, SvgPortal } from '../DrawingContext'
 
 import { defaultObject, useRefWithEventHandlers, filterEventHandlers } from './util'
 
@@ -26,7 +26,7 @@ export const Square = forwardRef((props, ref) => {
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Set up the square.
-	return <rect ref={ref} x={center.x - side / 2} y={center.y - side / 2} width={side} height={side} className={className} style={style} {...filterEventHandlers(props)} />
+	return <SvgPortal><rect ref={ref} x={center.x - side / 2} y={center.y - side / 2} width={side} height={side} className={className} style={style} {...filterEventHandlers(props)} /></SvgPortal>
 })
 Square.defaultProps = defaultSquare
 export default Square

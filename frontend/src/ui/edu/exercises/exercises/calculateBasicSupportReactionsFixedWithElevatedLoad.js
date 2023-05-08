@@ -7,8 +7,9 @@ import { useCurrentBackgroundColor, useScaleAndShiftTransformationSettings } fro
 import { InputSpace } from 'ui/form/FormPart'
 import { useInput } from 'ui/form/Form'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
+import { Drawing } from 'ui/components/figures'
 
-import EngineeringDiagram, { Group, Beam, FixedSupport, Distance, Element, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
+import { Group, Beam, FixedSupport, Distance, Element, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
 import FBDInput, { allConnectedToPoints, getFBDFeedback, loadSources, performLoadsComparison } from 'ui/edu/content/mechanics/FBDInput'
 import { sumOfForces, sumOfMoments } from 'ui/edu/content/mechanics/latex'
 
@@ -150,42 +151,37 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 	// Get all the required components.
 	const loadsToDisplay = isInputField ? [] : (showSolution ? loads : loads.filter(load => load.source === loadSources.external))
 	const schematics = <Schematics {...solution} showSupports={showSupports} loads={loadsToDisplay} />
-	const elements = <Elements {...solution} loads={loadsToDisplay} />
 
 	// Set up either a diagram or an input field with said diagram.
 	const snappers = Object.values(points)
 	return isInputField ?
-		<FBDInput id="loads" transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} snappers={snappers} validate={allConnectedToPoints(points)} getLoadNames={getLoadNames} /> :
-		<EngineeringDiagram transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} />
+		<FBDInput id="loads" transformationSettings={transformationSettings} snappers={snappers} validate={allConnectedToPoints(points)} getLoadNames={getLoadNames}>{schematics}</FBDInput> :
+		<Drawing transformationSettings={transformationSettings}>{schematics}</Drawing>
 }
 
-function Schematics({ points, loads, showSupports = true }) {
+function Schematics({ l1, l2, points, loads, getLoadNames, showSupports = true }) {
+	const background = useCurrentBackgroundColor()
+	const distanceLabelStyle = { background, padding: '0.3rem' }
+	const loadNames = getLoadNames(loads)
+
 	return <>
 		<Beam points={Object.values(points)} />
+		<Label position={points.A} angle={Math.PI / 4} graphicalDistance={7}><M>A</M></Label>
+		<Label position={points.B} angle={Math.PI / 4} graphicalDistance={5}><M>B</M></Label>
+		<Label position={points.C} angle={0} graphicalDistance={8}><M>C</M></Label>
 
 		<Group style={{ opacity: showSupports ? 1 : 0.1 }}>
 			<FixedSupport position={points.A} angle={Math.PI} />
 		</Group>
 
 		<Group>{render(loads)}</Group>
+		{loadNames.map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
 
 		<Distance span={{ start: points.A, end: points.B }} graphicalShift={new Vector(0, distanceShift)} />
-		<Distance span={{ start: points.B, end: points.C }} graphicalShift={new Vector(distanceShift, 0)} />
-	</>
-}
-
-function Elements({ l1, l2, points, loads, getLoadNames }) {
-	const background = useCurrentBackgroundColor()
-	const distanceLabelStyle = { background, padding: '0.3rem' }
-	const loadNames = getLoadNames(loads)
-
-	return <>
-		<Label position={points.A} angle={Math.PI / 4} graphicalDistance={7}><M>A</M></Label>
-		<Label position={points.B} angle={Math.PI / 4} graphicalDistance={5}><M>B</M></Label>
-		<Label position={points.C} angle={0} graphicalDistance={8}><M>C</M></Label>
 		<Element position={points.A.interpolate(points.B)} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}</M></Element>
+
+		<Distance span={{ start: points.B, end: points.C }} graphicalShift={new Vector(distanceShift, 0)} />
 		<Element position={points.B.interpolate(points.C)} graphicalPosition={new Vector(distanceShift, 0)} rotate={Math.PI / 2} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_2 = {l2}</M></Element>
-		{loadNames.map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
 	</>
 }
 

@@ -57,22 +57,20 @@ export default function ProcessTypeDrawing() {
 		maxWidth: 400,
 		pretransformation: Transformation.getReflection([0, 1]),
 	})
-	return <Drawing
-		transformationSettings={transformationSettings}
-		svgContents={<>
-			<SvgLine points={xAxisPoints} />
-			<SvgLine points={yAxisPoints} />
-			{processes.map((process, index) => <Fragment key={index}>
-				<SvgCurve points={process.points} style={{ strokeWidth: 2, stroke: process.color }} />
-			</Fragment>)}
-		</>}
-		htmlContents={<>
-			<Element anchor={[1, 0]} position={yAxisPoints[1]} graphicalPosition={[-8, 10]}><M>p</M></Element>
-			<Element anchor={[1, 0]} position={xAxisPoints[1]} graphicalPosition={[-10, 5]}><M>V</M></Element>
-			{processes.map((process, index) => <Fragment key={index}>
-				<Element position={firstOf(process.points)} graphicalPosition={process.nShift} anchor={process.nAnchor || [1, 0]} style={{ color: process.color }}><M>n = {process.n}</M></Element>
-				<Element position={lastOf(process.points)} graphicalPosition={process.nameShift} anchor={process.nameAnchor || [1, 0]} style={{ color: process.color, fontWeight: 'bold' }}>{process.name}</Element>
-			</Fragment>)}
-		</>}
-	/>
+	return <Drawing transformationSettings={transformationSettings}>
+		{/* x-axis */}
+		<SvgLine points={xAxisPoints} />
+		<Element anchor={[1, 0]} position={xAxisPoints[1]} graphicalPosition={[-10, 5]}><M>V</M></Element>
+
+		{/* y-axis */}
+		<SvgLine points={yAxisPoints} />
+		<Element anchor={[1, 0]} position={yAxisPoints[1]} graphicalPosition={[-8, 10]}><M>p</M></Element>
+
+		{/* Curves */}
+		{processes.map((process, index) => <Fragment key={index}>
+			<SvgCurve points={process.points} style={{ strokeWidth: 2, stroke: process.color }} />
+			<Element position={firstOf(process.points)} graphicalPosition={process.nShift} anchor={process.nAnchor || [1, 0]} style={{ color: process.color }}><M>n = {process.n}</M></Element>
+			<Element position={lastOf(process.points)} graphicalPosition={process.nameShift} anchor={process.nameAnchor || [1, 0]} style={{ color: process.color, fontWeight: 'bold' }}>{process.name}</Element>
+		</Fragment>)}
+	</Drawing >
 }

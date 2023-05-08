@@ -109,20 +109,20 @@ function ExerciseFigure({ showAlpha = 0, showBeta = 0, showGamma = 0 }) {
 	})
 
 	// Render the figure.
-	return <Drawing transformationSettings={transformationSettings} svgContents={<>
+	return <Drawing transformationSettings={transformationSettings}>
 		<Polygon points={[right, topRight, middle]} style={{ fill: '#aaccff' }} />
 		<Polygon points={[left, bottomLeft, middle]} style={{ fill: '#ffaabb' }} />
 		<BoundedLine line={Line.fromPoints(left, right)} style={{ strokeWidth: 2 }} />
 		<BoundedLine line={Line.fromPoints(bottomLeft, topRight)} style={{ strokeWidth: 2 }} />
 		<RightAngle points={[middle, right, topRight]} graphicalSize={10} />
-	</>} htmlContents={<>
+
 		{showAlpha === 0 ? null : <CornerLabel points={[right, middle, topRight]} graphicalSize={showAlpha === 1 ? labelLetterSize : labelNumberSize}>{showAlpha === 1 ? <M>{variables.alpha}</M> : <M>{alpha}^\circ</M>}</CornerLabel>}
 		{showBeta === 0 ? null : <CornerLabel points={[left, middle, bottomLeft]} graphicalSize={showBeta === 1 ? labelLetterSize : labelNumberSize}>{showBeta === 1 ? <M>{variables.beta}</M> : <M>{beta}^\circ</M>}</CornerLabel>}
 		{showGamma === 0 ? null : <CornerLabel points={[left, bottomLeft, middle]} graphicalSize={showGamma === 1 ? labelLetterSize : labelNumberSize}>{showGamma === 1 ? <M>{variables.gamma}</M> : <M>{gamma}^\circ</M>}</CornerLabel>}
 
 		<CornerLabel points={[right, topRight, middle]} graphicalSize={labelNumberSize}><M>{a}^\circ</M></CornerLabel>
 		<CornerLabel points={[bottomLeft, left, middle]} graphicalSize={labelNumberSize}><M>{b}^\circ</M></CornerLabel>
-	</>} />
+	</Drawing>
 }
 
 function getPoints(solution) {

@@ -1,4 +1,5 @@
 export { default as Group } from './Group'
+export { default as Text } from './Text'
 export { default as Line } from './Line'
 export { default as Curve } from './Curve'
 export { default as Polygon } from './Polygon'

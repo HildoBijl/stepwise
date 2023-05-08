@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export function Plot(options, ref) {
+export const Plot = forwardRef((options, ref) => {
 	options = processOptions(options, defaultPlotOptions)
 	const classes = useStyles()
 	const [useHoverLines, setUseHoverLines] = useState(false)
@@ -99,8 +99,8 @@ export function Plot(options, ref) {
 	// Render the drawing.
 	options.className = clsx('plot', classes.plot, options.className)
 	return <Drawing ref={drawingRef} {...filterOptions(options, defaultDrawingOptions)} />
-}
-export default forwardRef(Plot)
+})
+export default Plot
 
 function initialize(drawing) {
 	// Get properties from the drawing.

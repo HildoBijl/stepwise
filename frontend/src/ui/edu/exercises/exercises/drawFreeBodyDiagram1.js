@@ -6,10 +6,10 @@ import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 import { getCountingWord } from 'util/language'
 import { selectRandomCorrect } from 'util/feedbackMessages'
 import { Par, M } from 'ui/components'
-import { useCurrentBackgroundColor, useScaleAndShiftTransformationSettings } from 'ui/components/figures'
+import { Drawing, useCurrentBackgroundColor, useScaleAndShiftTransformationSettings } from 'ui/components/figures'
 import { InputSpace } from 'ui/form/FormPart'
 
-import EngineeringDiagram, { Group, Element, Distance, Beam, FixedSupport, AdjacentFixedSupport, HingeSupport, HalfHingeSupport, RollerSupport, AdjacentRollerSupport, RollerHingeSupport, RollerHalfHingeSupport, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
+import { Group, Element, Distance, Beam, FixedSupport, AdjacentFixedSupport, HingeSupport, HalfHingeSupport, RollerSupport, AdjacentRollerSupport, RollerHingeSupport, RollerHalfHingeSupport, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
 import FBDInput, { allConnectedToPoints, loadSources, getFBDFeedback, FBDComparison, getLoadMatching, isLoadAtPoint } from 'ui/edu/content/mechanics/FBDInput'
 
 import StepExercise from '../types/StepExercise'
@@ -160,57 +160,40 @@ function Diagram({ isInputField = false, id, showSupports = true, showSolution =
 	if (zoom)
 		loadsToDisplay = loadsToDisplay.filter(load => isLoadAtPoint(load, zoom))
 	const schematics = <Schematics loads={loadsToDisplay} showSupports={showSupports} zoom={zoom} />
-	const elements = <Elements zoom={zoom} />
 
 	// Set up either a diagram or an input field with said diagram.
 	const snappers = points
 	return isInputField ?
-		<FBDInput id={id} transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} snappers={snappers} validate={allConnectedToPoints(points)} /> :
-		<EngineeringDiagram transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} />
+		<FBDInput id={id} transformationSettings={transformationSettings} snappers={snappers} validate={allConnectedToPoints(points)}>{schematics}</FBDInput> :
+		<Drawing transformationSettings={transformationSettings}>{schematics}</Drawing>
 }
 
 function Schematics({ loads, showSupports = true, zoom }) {
 	const { supportTypes, A, B, points, isAEnd, isBEnd } = useSolution()
+	const background = useCurrentBackgroundColor()
+	const distanceLabelStyle = { background, padding: '0.3rem' }
 
 	const SupportLeft = (isAEnd ? endSupportObjects : midSupportObjects)[supportTypes[0]]
 	const SupportRight = (isBEnd ? endSupportObjects : midSupportObjects)[supportTypes[1]]
 
 	return <>
-		<Group overflow={false}>
-			<Beam points={points} />
-		</Group>
+		<Group overflow={false}><Beam points={points} /></Group>
 
 		{!zoom || zoom.equals(A) ? <SupportLeft position={A} angle={isAEnd ? Math.PI : Math.PI / 2} style={{ opacity: showSupports ? 1 : 0.1 }} /> : null}
 		{!zoom || zoom.equals(B) ? <SupportRight position={B} angle={isBEnd ? 0 : Math.PI / 2} style={{ opacity: showSupports ? 1 : 0.1 }} /> : null}
 
-		<Group>
-			{points.map((point, index) => {
-				if (zoom)
-					return null
-				const prev = points[index - 1]
-				if (index === 0 || prev.equals(point))
-					return null
-				return <Distance key={index} span={{ start: prev, end: point }} graphicalShift={new Vector(0, distanceShift)} />
-			})}
-		</Group>
-
-		<Group>{render(loads)}</Group>
-	</>
-}
-
-function Elements({ zoom }) {
-	const { points } = useSolution()
-	const background = useCurrentBackgroundColor()
-	const distanceLabelStyle = { background, padding: '0.3rem' }
-
-	return <>
 		{points.map((point, index) => {
 			if (zoom)
 				return null
 			const prev = points[index - 1]
 			if (index === 0 || prev.equals(point))
 				return null
-			return <Element key={index} position={point.interpolate(prev)} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>{new FloatUnit(`${point.x - prev.x}m`)}</M></Element>
+			return <>
+				<Element key={index} position={point.interpolate(prev)} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>{new FloatUnit(`${point.x - prev.x}m`)}</M></Element>
+				<Distance key={index} span={{ start: prev, end: point }} graphicalShift={new Vector(0, distanceShift)} />
+			</>
 		})}
+
+		{render(loads)}
 	</>
 }

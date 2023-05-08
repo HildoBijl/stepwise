@@ -1,4 +1,6 @@
 import React, { forwardRef } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import clsx from 'clsx'
 
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureString } from 'step-wise/util/strings'
@@ -9,6 +11,12 @@ import { useGraphicalVector } from 'ui/components/figures'
 import { defaultObject, useRefWithEventHandlers } from 'ui/components/figures/Drawing/SvgComponents/util'
 
 import { Hinge } from '../structuralComponents'
+
+const useStyles = makeStyles((theme) => ({
+	supportTriangle: {
+		fill: 'white',
+	},
+}))
 
 export const defaultSupportTriangle = {
 	...defaultObject,
@@ -34,7 +42,8 @@ export const SupportTriangle = forwardRef((props, ref) => {
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Draw the support triangle.
-	return <polygon ref={ref} points={`${position.x} ${position.y}, ${position.x - width / 2} ${position.y + height}, ${position.x + width / 2} ${position.y + height}`} className={className} style={{ stroke: color, strokeWidth: thickness, ...style }} />
+	const classes = useStyles()
+	return <polygon ref={ref} points={`${position.x} ${position.y}, ${position.x - width / 2} ${position.y + height}, ${position.x + width / 2} ${position.y + height}`} className={clsx(classes.supportTriangle, className)} style={{ stroke: color, strokeWidth: thickness, ...style }} />
 })
 SupportTriangle.defaultProps = defaultSupportTriangle
 export default SupportTriangle

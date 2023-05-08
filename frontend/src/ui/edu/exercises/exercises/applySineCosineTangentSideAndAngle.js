@@ -136,14 +136,14 @@ function ExerciseFigure() {
 	const labelSize = 34
 
 	// Render the figure.
-	return <Drawing transformationSettings={transformationSettings} svgContents={<>
+	return <Drawing transformationSettings={transformationSettings}>
 		<Polygon points={points} style={{ fill: '#aaccff' }} />
 		<RightAngle points={points} graphicalSize={10} />
-	</>} htmlContents={<>
+
 		<LineLabel points={[pointsInSideOrder[(known + 1) % 3], pointsInSideOrder[(known + 2) % 3]]} oppositeTo={pointsInSideOrder[known]}><M>{x}</M></LineLabel>
 		<LineLabel points={[pointsInSideOrder[(requested + 1) % 3], pointsInSideOrder[(requested + 2) % 3]]} oppositeTo={pointsInSideOrder[requested]}><M>{y}</M></LineLabel>
 		<CornerLabel points={[points[2], points[0], points[1]]} graphicalSize={labelSize}><M>{state.beta}^\circ</M></CornerLabel>
-	</>} />
+	</Drawing>
 }
 
 function getPoints(solution) {

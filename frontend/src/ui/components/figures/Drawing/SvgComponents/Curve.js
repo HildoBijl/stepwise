@@ -7,7 +7,7 @@ import { ensureString } from 'step-wise/util/strings'
 import { ensureBoolean, ensureObject, processOptions } from 'step-wise/util/objects'
 import { ensureVectorArray } from 'step-wise/geometry'
 
-import { useGraphicalVector, useGraphicalDistance } from '../DrawingContext'
+import { useGraphicalVector, useGraphicalDistance, SvgPortal } from '../DrawingContext'
 
 import { useRefWithEventHandlers, filterEventHandlers, getCurvePathThrough, getCurvePathAlong } from './util'
 import { defaultLine } from './Line'
@@ -45,7 +45,7 @@ export const Curve = forwardRef((props, ref) => {
 	// Set up the line.
 	const classes = useStyles()
 	const path = (through ? getCurvePathThrough : getCurvePathAlong)(points, close, part, spread)
-	return <path ref={ref} className={clsx(classes.curve, className)} style={style} d={path} {...filterEventHandlers(props)} />
+	return <SvgPortal><path ref={ref} className={clsx(classes.curve, className)} style={style} d={path} {...filterEventHandlers(props)} /></SvgPortal>
 })
 Curve.defaultProps = defaultCurve
 export default Curve

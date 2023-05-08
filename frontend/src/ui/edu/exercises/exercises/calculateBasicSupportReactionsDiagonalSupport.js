@@ -7,8 +7,9 @@ import { CornerLabel, Line as SvgLine, useCurrentBackgroundColor, useScaleAndShi
 import { InputSpace } from 'ui/form/FormPart'
 import { useInput } from 'ui/form/Form'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
+import { Drawing } from 'ui/components/figures'
 
-import EngineeringDiagram, { Group, Beam, HingeSupport, RollerHingeSupport, Distance, Element, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
+import { Group, Beam, HingeSupport, RollerHingeSupport, Distance, Element, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
 import FBDInput, { allConnectedToPoints, getFBDFeedback, loadSources, performLoadsComparison } from 'ui/edu/content/mechanics/FBDInput'
 import { sumOfForces, sumOfMoments } from 'ui/edu/content/mechanics/latex'
 
@@ -149,21 +150,26 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 
 	// Get all the required components.
 	const loadsToDisplay = isInputField ? [] : (showSolution ? loads : loads.filter(load => load.source === loadSources.external))
-	const schematics = <Schematics {...solution} showSupports={showSupports} loads={loadsToDisplay} />
-	const elements = <Elements {...solution} showSupports={showSupports} loads={loadsToDisplay} />
+	const schematics = <Schematics {...solution} loads={loadsToDisplay} showSupports={showSupports} />
 
 	// Set up either a diagram or an input field with said diagram.
 	const snappers = [...Object.values(points), Line.fromPointAndAngle(points.C, -Math.PI / 2 - angleRad)]
 	return isInputField ?
-		<FBDInput id="loads" transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} snappers={snappers} validate={allConnectedToPoints(points)} getLoadNames={getLoadNames} /> :
-		<EngineeringDiagram transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} />
+		<FBDInput id="loads" transformationSettings={transformationSettings} snappers={snappers} validate={allConnectedToPoints(points)} getLoadNames={getLoadNames}>{schematics}</FBDInput> :
+		<Drawing transformationSettings={transformationSettings}>{schematics}</Drawing>
 }
 
-function Schematics({ points, angleRad, anglePoints, loads, showSupports = true }) {
+function Schematics({ l1, l2, angle, angleRad, anglePoints, points, loads, getLoadNames, showSupports = true }) {
 	const { A, B, C } = points
+	const background = useCurrentBackgroundColor()
+	const distanceLabelStyle = { background, padding: '0.3rem' }
+	const loadNames = getLoadNames(loads)
 
 	return <>
 		<Beam points={[A, C]} />
+		<Label position={A} angle={-Math.PI * 3 / 4} graphicalDistance={7}><M>A</M></Label>
+		<Label position={B} angle={Math.PI / 2} graphicalDistance={4}><M>B</M></Label>
+		<Label position={C} angle={-Math.PI / 4} graphicalDistance={8}><M>C</M></Label>
 
 		<Group style={{ opacity: showSupports ? 1 : 0.1 }}>
 			<HingeSupport position={A} />
@@ -171,29 +177,20 @@ function Schematics({ points, angleRad, anglePoints, loads, showSupports = true 
 		</Group>
 
 		<Group>{render(loads)}</Group>
-
-		{showSupports ? <Group position={C} graphicalPosition={Vector.fromPolar(50, Math.PI / 2 - angleRad)}>
-			<SvgLine graphicalPoints={anglePoints.map(point => point.multiply(angleGraphicalSize))} />
-		</Group> : null}
-		<Distance span={{ start: A, end: B }} graphicalShift={new Vector(0, distanceShift)} />
-		<Distance span={{ start: B, end: C }} graphicalShift={new Vector(0, distanceShift)} />
-	</>
-}
-
-function Elements({ l1, l2, angle, angleRad, anglePoints, points, loads, getLoadNames, showSupports }) {
-	const { A, B, C } = points
-	const background = useCurrentBackgroundColor()
-	const distanceLabelStyle = { background, padding: '0.3rem' }
-	const loadNames = getLoadNames(loads)
-
-	return <>
-		<Label position={A} angle={-Math.PI * 3 / 4} graphicalDistance={7}><M>A</M></Label>
-		<Label position={B} angle={Math.PI / 2} graphicalDistance={4}><M>B</M></Label>
-		<Label position={C} angle={-Math.PI / 4} graphicalDistance={8}><M>C</M></Label>
-		<Element position={A.interpolate(B)} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}</M></Element>
-		<Element position={B.interpolate(C)} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_2 = {l2}</M></Element>
-		{showSupports ? <CornerLabel points={anglePoints.map(point => point.add(C))} graphicalSize={28} graphicalPoints={Vector.fromPolar(50, Math.PI / 2 - angleRad)}><M>{angle}^\circ</M></CornerLabel> : null}
 		{loadNames.map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
+
+		{showSupports ? <>
+			<CornerLabel points={anglePoints.map(point => point.add(C))} graphicalSize={28} graphicalPoints={Vector.fromPolar(50, Math.PI / 2 - angleRad)}><M>{angle}^\circ</M></CornerLabel>
+			<Group position={C} graphicalPosition={Vector.fromPolar(50, Math.PI / 2 - angleRad)}>
+				<SvgLine graphicalPoints={anglePoints.map(point => point.multiply(angleGraphicalSize))} />
+			</Group>
+		</> : null}
+
+		<Distance span={{ start: A, end: B }} graphicalShift={new Vector(0, distanceShift)} />
+		<Element position={A.interpolate(B)} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}</M></Element>
+
+		<Distance span={{ start: B, end: C }} graphicalShift={new Vector(0, distanceShift)} />
+		<Element position={B.interpolate(C)} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_2 = {l2}</M></Element>
 	</>
 }
 

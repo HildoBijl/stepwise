@@ -1,5 +1,4 @@
-
-import React, { forwardRef, useCallback, useEffect } from 'react'
+import React, { forwardRef, useCallback, useLayoutEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
@@ -11,7 +10,7 @@ import { useEnsureRef, ensureReactElement, useEqualRefOnEquality } from 'util/re
 import { notSelectable } from 'ui/theme'
 import { useResizeListener } from 'ui/layout/App'
 
-import { useDrawingContext, useGraphicalVector } from '../DrawingContext'
+import { useDrawingContext, useGraphicalVector, HtmlPortal } from '../DrawingContext'
 
 const useStyles = makeStyles((theme) => ({
 	element: {
@@ -50,7 +49,7 @@ export const Element = forwardRef((props, ref) => {
 	ignoreMouse = ensureBoolean(ignoreMouse)
 	style = { ...defaultElement.style, ...ensureObject(style) }
 
-	// Check if mouse events should be ignore.
+	// Check if mouse events should be ignored.
 	if (ignoreMouse)
 		style.pointerEvents = 'none'
 
@@ -59,18 +58,18 @@ export const Element = forwardRef((props, ref) => {
 	anchor = useEqualRefOnEquality(anchor)
 
 	// Extract the drawing from the context.
-	const drawing = useDrawingContext()
+	const { transformationSettings, figure } = useDrawingContext()
 
 	// Define a handler that positions the element accordingly.
 	const updateElementPosition = useCallback(() => {
 		// Can we do anything?
 		const element = ref.current
-		if (!element || !drawing || !drawing.figure || !drawing.figure.inner || !drawing.transformationSettings || !drawing.transformationSettings.graphicalBounds)
+		if (!element || !transformationSettings?.graphicalBounds || !figure?.inner)
 			return
 
 		// Calculate the scale at which the figure is drawn.
-		const figureRect = drawing.figure.inner.getBoundingClientRect()
-		const figureScale = figureRect.width / drawing.transformationSettings.graphicalBounds.width
+		const figureRect = figure.inner.getBoundingClientRect()
+		const figureScale = figureRect.width / transformationSettings.graphicalBounds.width
 
 		// Position the element accordingly.
 		element.style.transformOrigin = `${anchor.x * 100}% ${anchor.y * 100}%`
@@ -81,14 +80,15 @@ export const Element = forwardRef((props, ref) => {
 			scale(${scale})
 			rotate(${rotate * 180 / Math.PI}deg)
 		`
-	}, [ref, drawing, position, rotate, scale, anchor])
+	}, [ref, transformationSettings, figure, position, rotate, scale, anchor])
 
 	// Properly position the element on a change of settings, a change of contents or on a window resize.
-	useEffect(updateElementPosition, [updateElementPosition, children, drawing])
+	useLayoutEffect(updateElementPosition, [updateElementPosition, children])
 	useResizeListener(updateElementPosition)
 
-	// Render the children.
-	return <div ref={ref} className={clsx('drawingElement', classes.element, props.className)} style={style}>{children}</div>
+	// Render the children inside the Drawing HTML contents container.
+	return <HtmlPortal><div ref={ref} className={clsx('drawingElement', classes.element, props.className)} style={style}>{children}</div></HtmlPortal>
 })
 Element.defaultProps = defaultElement
+Element.plotType = 'html'
 export default Element

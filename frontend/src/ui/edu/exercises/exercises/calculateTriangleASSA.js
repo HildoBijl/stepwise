@@ -133,15 +133,14 @@ function ExerciseFigure({ useAlternative, showγ }) {
 	const labelSize = 30
 
 	// Render the figure.
-	return <Drawing transformationSettings={transformationSettings} svgContents={<>
+	return <Drawing transformationSettings={transformationSettings}>
 		<Polygon points={points} style={{ fill: '#aaccff' }} />
-	</>} htmlContents={<>
 		<LineLabel points={[points[1], points[2]]} oppositeTo={points[0]}><M>{a}</M></LineLabel>
 		<LineLabel points={[points[0], points[1]]} oppositeTo={points[2]}><M>{c}</M></LineLabel>
 		<CornerLabel points={[points[2], points[0], points[1]]} graphicalSize={labelSize}><M>{α}^\circ</M></CornerLabel>
 		{showγ ? <CornerLabel points={[points[1], points[2], points[0]]} graphicalSize={labelSize}><M>{γ}</M></CornerLabel> : null}
 		<CornerLabel points={[points[0], points[1], points[2]]} graphicalSize={labelSize}><M>{β}</M></CornerLabel>
-	</>} />
+	</Drawing>
 }
 
 function getPoints(solution, useAlternative = false) {

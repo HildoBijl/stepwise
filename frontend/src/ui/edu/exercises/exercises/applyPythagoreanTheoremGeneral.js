@@ -104,14 +104,13 @@ function ExerciseFigure({ state, solution }) {
 	})
 
 	// Render the figure.
-	return <Drawing transformationSettings={transformationSettings} svgContents={<>
+	return <Drawing transformationSettings={transformationSettings}>
 		<Polygon points={points} style={{ fill: '#aaccff' }} />
 		<RightAngle points={points} graphicalSize={10} />
-	</>} htmlContents={<>
 		<LineLabel points={[points[0], points[1]]} oppositeTo={points[2]}><M>{state.a}</M></LineLabel>
 		<LineLabel points={[points[1], points[2]]} oppositeTo={points[0]}><M>{state.b}</M></LineLabel>
 		<LineLabel points={[points[0], points[2]]} oppositeTo={points[1]}><M>{state.c}</M></LineLabel>
-	</>} />
+	</Drawing>
 }
 
 function getPoints(solution) {
