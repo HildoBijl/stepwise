@@ -5,12 +5,12 @@ import { Vector, Line } from 'step-wise/geometry'
 
 import { selectRandomCorrect } from 'util/feedbackMessages'
 import { Par } from 'ui/components'
-import { useScaleAndShiftTransformationSettings } from 'ui/components/figures'
+import { useScaleBasedTransformationSettings } from 'ui/components/figures'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { InputSpace } from 'ui/form/FormPart'
 import { Drawing } from 'ui/components/figures'
 
-import EngineeringDiagram, { Group, Beam, FixedSupport, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
+import { Group, Beam, FixedSupport, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
 import FBDInput, { allConnectedToPoints, loadTypes } from 'ui/edu/content/mechanics/FBDInput'
 
 import StepExercise from '../types/StepExercise'
@@ -154,7 +154,7 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 	const { wallRotation, beamRotation, points, loads } = solution
 
 	// Define the transformation.
-	const transformationSettings = useScaleAndShiftTransformationSettings(points, { scale: 70, margin: 100 })
+	const transformationSettings = useScaleBasedTransformationSettings(points, { scale: 70, margin: 100 })
 
 	// Get all the required components.
 	const loadsToDisplay = showSolution ? loads : []
