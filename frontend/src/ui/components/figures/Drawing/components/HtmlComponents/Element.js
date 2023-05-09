@@ -10,7 +10,7 @@ import { useEnsureRef, ensureReactElement, useEqualRefOnEquality } from 'util/re
 import { notSelectable } from 'ui/theme'
 import { useResizeListener } from 'ui/layout/App'
 
-import { useDrawingContext, useGraphicalVector, HtmlPortal } from '../DrawingContext'
+import { useDrawingContext, useGraphicalVector, HtmlPortal } from '../../DrawingContext'
 
 const useStyles = makeStyles((theme) => ({
 	element: {

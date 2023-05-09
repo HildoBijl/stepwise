@@ -2,7 +2,7 @@ export * from './layout'
 export * from './text'
 export * from './math'
 export * from './tables'
-export { Figure, Drawing, Plot } from './figures' // Limit export to prevent conflicting exports.
+export { Figure, Drawing, drawingComponents, Plot } from './figures' // Limit export to prevent conflicting exports.
 export * from './misc'
 export * from './icons'
 export * from './flow'
