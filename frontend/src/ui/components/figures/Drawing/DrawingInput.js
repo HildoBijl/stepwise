@@ -290,7 +290,7 @@ function useMouseSnapping(drawing, snappers, snappingDistance, applySnapping) {
 		return { mouseInDrawing: false, snappingLines, graphicalSnappingLines, snapper: () => emptySnapMousePositionResponse, ...emptySnapMousePositionResponse }
 
 	// Return all data.
-	const mouseInDrawing = drawing && position && drawing.transformationSettings.graphicalBounds.isInside(position)
+	const mouseInDrawing = drawing && position && drawing.transformationSettings.graphicalBounds.contains(position)
 	const snapResult = snapper(position)
 	return { mouseInDrawing, snappingLines, graphicalSnappingLines, snapper, ...snapResult }
 }
@@ -378,7 +378,7 @@ export function getSnapSvg(mouseData, drawing, lineStyle = {}, markerStyle = {},
 	const bounds = drawing && drawing.bounds
 
 	// Don't show things when the mouse is outside the drawing.
-	if (!drawing.isInside(position))
+	if (!drawing.contains(position))
 		return {}
 
 	// Show the snap marker and lines.

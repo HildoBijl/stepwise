@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { ensureBoolean, applyToEachParameter, removeProperties, filterOptions, processOptions } from 'step-wise/util/objects'
+import { ensureBoolean, removeProperties, filterOptions, processOptions } from 'step-wise/util/objects'
 import { firstOf, lastOf } from 'step-wise/util/arrays'
 import { Vector, Rectangle, Transformation } from 'step-wise/geometry'
 
@@ -16,7 +16,7 @@ export const defaultPlotTransformationOptions = {
 	uniform: false, // Override default setting.
 	includeOrigin: true,
 	extendBoundsToTicks: true,
-	desiredNumTicks: [8, 7], // The desired number of ticks for each direction.
+	desiredNumTicks: [9, 8], // The desired number of ticks for each direction.
 }
 
 export default function usePlotTransformationSettings(points, options = {}) {
@@ -52,10 +52,9 @@ export default function usePlotTransformationSettings(points, options = {}) {
 	}), [options])
 	const boundsBasedTransformationSettings = useBoundsBasedTransformationSettings(boundsPoints, optionsFiltered)
 
-	// Also transform all points (hasn't been done yet) and add in ticks information.
+	// Add in the tick information to the transformation settings.
 	return useMemo(() => ({
 		...boundsBasedTransformationSettings,
-		points: applyToEachParameter(points, point => boundsBasedTransformationSettings.transformation.apply(point)),
 		ticks,
-	}), [boundsBasedTransformationSettings, points, ticks])
+	}), [boundsBasedTransformationSettings, ticks])
 }

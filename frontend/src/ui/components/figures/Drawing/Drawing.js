@@ -14,7 +14,7 @@ import { notSelectable } from 'ui/theme'
 
 import Figure, { defaultOptions as figureDefaultOptions } from '../Figure'
 
-import { DrawingContext, SvgDefsPortal } from './DrawingContext'
+import { DrawingContext, useDrawingContext, SvgDefsPortal } from './DrawingContext'
 
 const defaultDrawingOptions = {
 	...figureDefaultOptions,
@@ -102,10 +102,10 @@ export const Drawing = forwardRef((options, ref) => {
 			const inverseTransformation = transformationSettings.inverseTransformation
 			return gPoint && inverseTransformation.apply(gPoint)
 		},
-		isInside(dPoint) {
+		contains(dPoint) {
 			if (!dPoint)
 				return false
-			return transformationSettings.bounds.isInside(dPoint)
+			return transformationSettings.bounds.contains(dPoint)
 		},
 		applyBounds(dPoint) {
 			return transformationSettings.bounds.applyBounds(dPoint)
@@ -188,26 +188,28 @@ export function applyStyle(obj, style = {}) {
 	return obj
 }
 
-// useGraphicalMousePosition tracks the position of the mouse in graphical coordinates. This is of the from {x: 120, y: 90 }. The function must be provided with a reference to the drawing.
-export function useGraphicalMousePosition(drawing) {
+// useGraphicalMousePosition tracks the position of the mouse in graphical coordinates. This is of the from {x: 120, y: 90 }.
+export function useGraphicalMousePosition() {
 	// Acquire data.
+	const { figure, transformationSettings } = useDrawingContext()
 	const clientMousePosition = useClientMousePosition()
-	const figureRect = useBoundingClientRect(drawing?.figure?.inner)
+	const figureRect = useBoundingClientRect(figure?.inner)
 
 	// Return undefined on missing data.
-	if (!drawing || !clientMousePosition || !figureRect || figureRect.width === 0 || figureRect.height === 0)
+	if (!clientMousePosition || !figureRect || figureRect.width === 0 || figureRect.height === 0)
 		return undefined
 
 	// Calculate the position in graphical coordinates.
-	return getGraphicalCoordinates(clientMousePosition, drawing.transformationSettings, drawing.figure, figureRect)
+	return getGraphicalCoordinates(clientMousePosition, transformationSettings, figure, figureRect)
 }
 
 // useMousePosition tracks the position of the mouse and gives the location in drawing coordinates. This is of the form { x: 3.5, y: -2.5 }. The function must be provided with a reference to the drawing.
-export function useMousePosition(drawing) {
+export function useMousePosition() {
 	// Acquire the position in graphical coordinates.
-	const graphicalMousePosition = useGraphicalMousePosition(drawing)
+	const { transformationSettings } = useDrawingContext()
+	const graphicalMousePosition = useGraphicalMousePosition()
 
 	// Transform to drawing coordinates.
-	const inverseTransformation = drawing.transformationSettings.inverseTransformation
+	const inverseTransformation = transformationSettings.inverseTransformation
 	return graphicalMousePosition && inverseTransformation.apply(graphicalMousePosition)
 }

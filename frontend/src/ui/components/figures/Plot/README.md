@@ -10,7 +10,7 @@ ToDo
 
 ToDo
 ```
-<Axes plotSettings={plotSettings} {...axisOptions} />
+<Axes />
 ```
 
 ## Step 3: draw the lines/shapes

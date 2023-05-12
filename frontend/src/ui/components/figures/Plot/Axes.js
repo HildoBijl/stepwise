@@ -8,7 +8,7 @@ import { ensureReactElement } from 'util/react'
 
 import { useTransformationSettings, Group, Line, Label } from '../Drawing'
 
-const defaultAxesOptions = {
+export const defaultAxesOptions = {
 	axisLineStyle: { opacity: 0.9, strokeWidth: 0.5 },
 	tickLineStyle: { opacity: 0.9, strokeWidth: 0.5 },
 	tickSize: 5,
@@ -22,6 +22,7 @@ const defaultAxesOptions = {
 	labelStyle: undefined,
 	xLabelShift: 0,
 	yLabelShift: 0,
+	textScale: 0.65,
 }
 
 export const Axes = forwardRef(({ plotSettings, ...options }, ref) => {
@@ -30,7 +31,7 @@ export const Axes = forwardRef(({ plotSettings, ...options }, ref) => {
 		throw new Error(`Missing Plot ticks data: expected a Plot with ticks provided, but these were not present in the transformation settings. Has some form of PlotTransformation been used to set up the transformation settings of the Drawing?`)
 
 	// Process options.
-	let { axisLineStyle, tickLineStyle, tickSize, tickSizeOpposite, showZeroTick, tickToElement, gridLines, gridLineStyle, xLabel, yLabel, xLabelShift, yLabelShift } = processOptions(options, defaultAxesOptions)
+	let { axisLineStyle, tickLineStyle, tickSize, tickSizeOpposite, showZeroTick, tickToElement, gridLines, gridLineStyle, xLabel, yLabel, xLabelShift, yLabelShift, textScale } = processOptions(options, defaultAxesOptions)
 	axisLineStyle = ensureBasicObject(axisLineStyle)
 	tickLineStyle = ensureBasicObject(tickLineStyle)
 	tickSize = ensureNumber(tickSize, true)
@@ -43,6 +44,7 @@ export const Axes = forwardRef(({ plotSettings, ...options }, ref) => {
 	yLabel = yLabel && ensureReactElement(yLabel)
 	xLabelShift = ensureNumber(xLabelShift)
 	yLabelShift = ensureNumber(yLabelShift)
+	textScale = ensureNumber(textScale, true, true)
 
 	return <Group ref={ref}>
 		{/* Grid lines. */}
@@ -70,15 +72,15 @@ export const Axes = forwardRef(({ plotSettings, ...options }, ref) => {
 					{ x: axisIndex === 0 ? 0 : tickSizeOpposite, y: axisIndex === 1 ? 0 : tickSize },
 				]
 				return tick !== 0 || showZeroTick ? <Fragment key={tickIndex}>
-					<Label position={point} graphicalDistance={tickSize + (axisIndex === 0 ? -1 : 2)} angle={axisIndex === 0 ? Math.PI / 2 : Math.PI} scale={0.75}>{tickToElement(tick)}</Label>
+					<Label position={point} graphicalDistance={tickSize + (axisIndex === 0 ? -1 : 2)} angle={axisIndex === 0 ? Math.PI / 2 : Math.PI} scale={textScale}>{tickToElement(tick)}</Label>
 					<Line points={[point, point]} graphicalPoints={graphicalPoints} style={tickLineStyle} />
 				</Fragment> : null
 			})}
 		</Group>)}
 
 		{/* Axis labels. */}
-		{xLabel ? <Label position={[bounds.middle.x, 0]} graphicalPosition={[0, tickSize + 5 + xLabelShift]} angle={Math.PI / 2} scale={0.75}>{xLabel}</Label> : null}
-		{yLabel ? <Label position={[0, bounds.middle.y]} graphicalPosition={[-tickSize - 5 - yLabelShift, 0]} angle={Math.PI} rotate={-Math.PI / 2} scale={0.75}>{yLabel}</Label> : null}
+		{xLabel ? <Label position={[bounds.middle.x, 0]} graphicalDistance={tickSize + 12 + xLabelShift} angle={Math.PI / 2} scale={textScale}>{xLabel}</Label> : null}
+		{yLabel ? <Label position={[0, bounds.middle.y]} graphicalDistance={tickSize + 17 + yLabelShift} angle={Math.PI} rotate={-Math.PI / 2} scale={textScale}>{yLabel}</Label> : null}
 	</Group >
 })
 export default Axes

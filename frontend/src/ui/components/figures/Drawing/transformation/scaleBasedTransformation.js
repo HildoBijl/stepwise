@@ -46,7 +46,6 @@ export default function useScaleBasedTransformationSettings(points, options = {}
 
 		// Return all data.
 		return {
-			points: transformedPoints,
 			scale,
 			bounds,
 			graphicalBounds,

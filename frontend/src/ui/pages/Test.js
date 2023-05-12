@@ -16,7 +16,7 @@ import { Transformation } from 'step-wise/geometry'
 
 import { useAnimation } from 'util/react'
 import { Drawing, drawingComponents, useBoundsBasedTransformationSettings, Element } from 'ui/components/figures'
-import { usePlotTransformationSettings, Axes } from 'ui/components/figures/Plot'
+import { usePlotTransformationSettings, Axes, MouseLines } from 'ui/components/figures/Plot'
 
 
 // core version + navigation, pagination modules:
@@ -307,6 +307,7 @@ export default function Test() {
 	// 	</>
 	// )
 }
+console.log(MouseLines)
 
 const x = spread(-Math.PI, 3 * Math.PI, 0.1)
 const { Line: SvgLine, Curve: SvgCurve } = drawingComponents
@@ -319,7 +320,7 @@ export function SomeRandomPlot() {
 	const transformationSettings = usePlotTransformationSettings([[-4, -2], [10, 3]], { maxHeight: 300, maxWidth: 400, extendBoundsToTicks: true })
 	return <Drawing transformationSettings={transformationSettings}>
 		<Axes xLabel={<>De <M>x</M>-waarde</>} yLabel="De sinus, geanimeerd" />
+		<MouseLines />
 		<SvgCurve points={data} style={{ stroke: 'blue' }} />
-		{/* <SvgLine points={data} style={{ stroke: 'red', strokeDasharray: '4 2' }} /> */}
 	</Drawing>
 }
