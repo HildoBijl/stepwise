@@ -14,8 +14,8 @@ import { getEventPosition } from 'util/dom'
 export { usePrevious, useSize, useResizeObserver }
 
 // ensureReactElement ensures that the given parameter is a React-type element. If not, it throws an error. On success it returns the element.
-export function ensureReactElement(element, allowString = true) {
-	if (!isValidElement(element) && (!allowString || typeof element !== 'string'))
+export function ensureReactElement(element, allowString = true, allowNumber = true) {
+	if (!isValidElement(element) && (!allowString || typeof element !== 'string') && (!allowNumber || typeof element !== 'number'))
 		throw new Error(`Invalid React element: expected a valid React element but received something of type "${typeof element}".`)
 	return element
 }
@@ -288,4 +288,36 @@ export function useStaggeredFunction(func) {
 // Portal takes a target parameter - a DOM object - and then renders the children in there. It checks when the target changes and rerenders when that happens.
 export function Portal({ target, children }) {
 	return target ? createPortal(children, target) : null
+}
+
+// useAnimation takes an animation function and calls it several times per second with both (1) the time since mounting, and (2) the time difference dt since the last call. On the first call dt is undefined.
+export function useAnimation(animationFunc) {
+	const startTimeRef = useRef()
+	const previousTimeRef = useRef()
+	const requestRef = useRef()
+	const animationFuncRef = useLatest(animationFunc)
+
+	// Set up an animate function that keeps calling itself.
+	const animate = useCallback(pageTime => {
+		// Calculate all relevant times.
+		let dt, time
+		if (startTimeRef.current === undefined) {
+			startTimeRef.current = pageTime // Remember the starting time.
+			time = 0
+		} else {
+			time = pageTime - startTimeRef.current
+			dt = pageTime - previousTimeRef.current
+		}
+		previousTimeRef.current = pageTime
+
+		// Call the given animation function, and then call itself a tiny bit later.
+		animationFuncRef.current(time, dt)
+		requestRef.current = requestAnimationFrame(animate)
+	}, [startTimeRef, previousTimeRef, animationFuncRef])
+
+	// Start the animation cycle upon mounting.
+	useEffect(() => {
+		requestRef.current = requestAnimationFrame(animate)
+		return () => cancelAnimationFrame(requestRef.current)
+	}, [requestRef, animate])
 }

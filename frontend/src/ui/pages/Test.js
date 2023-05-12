@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { Fragment, useEffect, useRef, useState } from 'react'
 import { useTheme, makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
@@ -9,6 +9,15 @@ import CAS from 'step-wise/CAS'
 
 import { Float } from 'step-wise/inputTypes/Float'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
+
+
+import { firstOf, lastOf, spread } from 'step-wise/util/arrays'
+import { Transformation } from 'step-wise/geometry'
+
+import { useAnimation } from 'util/react'
+import { Drawing, drawingComponents, useBoundsBasedTransformationSettings, Element } from 'ui/components/figures'
+import { usePlotTransformationSettings, Axes } from 'ui/components/figures/Plot'
+
 
 // core version + navigation, pagination modules:
 // import Swiper, { Scrollbar } from 'swiper'
@@ -100,7 +109,6 @@ function TabPanel({ children, value, index, className, ...other }) {
 
 export default function Test() {
 	const context = useTabs(['summary', 'meta', 'theory', 'references'])
-	console.log(context)
 
 	const eq = CAS.asEquation('E=mc^2')
 	eq.left.color = '881111'
@@ -153,6 +161,7 @@ export default function Test() {
 					<p>Item One</p>
 					<p>Item One</p>
 					<p>Item One</p>
+					<SomeRandomPlot />
 					<p>Item One</p>
 					<p>Item One</p>
 					<p>Item One</p>
@@ -297,4 +306,20 @@ export default function Test() {
 	// 		<BM>{eq}</BM>
 	// 	</>
 	// )
+}
+
+const x = spread(-Math.PI, 3 * Math.PI, 0.1)
+const { Line: SvgLine, Curve: SvgCurve } = drawingComponents
+
+export function SomeRandomPlot() {
+	const [a, setA] = useState(0)
+	useAnimation((time, dt) => setA(2 * Math.sin(2 * Math.PI * 3 * time / 10000)))
+
+	const data = x.map(x => ({ x, y: a * Math.sin(x) + 1 / 4 }))
+	const transformationSettings = usePlotTransformationSettings([[-4, -2], [10, 3]], { maxHeight: 300, maxWidth: 400, extendBoundsToTicks: true })
+	return <Drawing transformationSettings={transformationSettings}>
+		<Axes />
+		<SvgCurve points={data} style={{ stroke: 'blue' }} />
+		{/* <SvgLine points={data} style={{ stroke: 'red', strokeDasharray: '4 2' }} /> */}
+	</Drawing>
 }

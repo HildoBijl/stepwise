@@ -156,6 +156,8 @@ class Transformation {
 		return new Transformation(matrix, vector).getRelativeTo(relativeTo)
 	}
 }
+Transformation.horizontalFlip = Transformation.getReflection([1, 0])
+Transformation.verticalFlip = Transformation.getReflection([0, 1])
 Transformation.type = 'Transformation'
 module.exports.Transformation = Transformation
 

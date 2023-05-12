@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureBoolean, applyToEachParameter, processOptions } from 'step-wise/util/objects'
+import { passOn, ensureFunction } from 'step-wise/util/functions'
 import { Transformation, ensureTransformation } from 'step-wise/geometry'
 
 import { useConsistentValue } from 'util/react'
@@ -9,13 +10,14 @@ import { useConsistentValue } from 'util/react'
 import { getBoundingRectangle, ensureScale, ensureMargin } from './util'
 import useScaleBasedTransformationSettings from './scaleBasedTransformation'
 
-export const defaultScaleToBoundsOptions = {
+export const defaultBoundsBasedTransformationOptions = {
 	maxWidth: Infinity,
 	maxHeight: Infinity,
 	maxScale: Infinity,
 	uniform: true, // Scale uniformly for x and y?
 	margin: 0,
 	pretransformation: Transformation.getIdentity(2),
+	processBounds: passOn,
 }
 
 export default function useBoundsBasedTransformationSettings(points, options = {}) {
@@ -23,24 +25,25 @@ export default function useBoundsBasedTransformationSettings(points, options = {
 	points = useConsistentValue(points)
 	options = useConsistentValue(options)
 
-	// Wrap the function in a useMemo for reference equality.
+	// Wrap the settings calculation in a useMemo for reference equality and efficiency.
 	const scaleAndShiftOptions = useMemo(() => {
 		// Check that at least one bound has been set.
 		if (options.maxWidth === undefined && options.maxHeight === undefined && options.maxScale === undefined)
 			throw new Error(`Invalid ScaleToBounds options: one maximum must be set. Cannot apply bounds if there are no limits defined.`)
 
 		// Process the input.
-		let { maxWidth, maxHeight, maxScale, margin, uniform, pretransformation } = processOptions(options, defaultScaleToBoundsOptions)
+		let { maxWidth, maxHeight, maxScale, margin, uniform, pretransformation, processBounds } = processOptions(options, defaultBoundsBasedTransformationOptions)
 		maxWidth = ensureNumber(maxWidth)
 		maxHeight = ensureNumber(maxHeight)
 		maxScale = ensureScale(maxScale)
 		margin = ensureMargin(margin)
 		uniform = ensureBoolean(uniform)
 		pretransformation = ensureTransformation(pretransformation)
+		processBounds = ensureFunction(processBounds)
 
 		// Pretransform the points, find their bounds and use it to calculate the scale to be applied.
 		const transformedPoints = applyToEachParameter(points, point => pretransformation.apply(point))
-		const currBounds = getBoundingRectangle(transformedPoints)
+		const currBounds = processBounds(getBoundingRectangle(transformedPoints))
 		let scale = [0, 1].map(axis => {
 			const maxSize = (axis === 0 ? maxWidth : maxHeight)
 			const maxSizeWithoutMargin = maxSize - margin[axis][0] - margin[axis][1]

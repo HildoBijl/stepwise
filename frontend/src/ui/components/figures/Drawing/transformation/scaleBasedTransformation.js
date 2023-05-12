@@ -7,7 +7,7 @@ import { useConsistentValue } from 'util/react'
 
 import { getBoundingRectangle, ensureScale, ensureMargin } from './util'
 
-export const defaultScaleAndShiftOptions = {
+export const defaultScaleBasedTransformationOptions = {
 	scale: 1,
 	margin: 0,
 	pretransformation: Transformation.getIdentity(2),
@@ -18,10 +18,10 @@ export default function useScaleBasedTransformationSettings(points, options = {}
 	points = useConsistentValue(points)
 	options = useConsistentValue(options)
 
-	// Wrap the function in a useMemo for reference equality.
+	// Wrap the settings calculation in a useMemo for reference equality and efficiency.
 	return useMemo(() => {
 		// Check the input.
-		let { scale, margin, pretransformation } = processOptions(options, defaultScaleAndShiftOptions)
+		let { scale, margin, pretransformation } = processOptions(options, defaultScaleBasedTransformationOptions)
 		scale = ensureScale(scale)
 		margin = ensureMargin(margin)
 		pretransformation = ensureTransformation(pretransformation)

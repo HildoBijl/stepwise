@@ -55,7 +55,7 @@ const processes = [
 export default function ProcessTypeDrawing() {
 	const transformationSettings = useBoundsBasedTransformationSettings([...xAxisPoints, ...yAxisPoints], {
 		maxWidth: 400,
-		pretransformation: Transformation.getReflection([0, 1]),
+		pretransformation: Transformation.verticalFlip,
 	})
 	return <Drawing transformationSettings={transformationSettings}>
 		{/* x-axis */}
@@ -72,5 +72,5 @@ export default function ProcessTypeDrawing() {
 			<Element position={firstOf(process.points)} graphicalPosition={process.nShift} anchor={process.nAnchor || [1, 0]} style={{ color: process.color }}><M>n = {process.n}</M></Element>
 			<Element position={lastOf(process.points)} graphicalPosition={process.nameShift} anchor={process.nameAnchor || [1, 0]} style={{ color: process.color, fontWeight: 'bold' }}>{process.name}</Element>
 		</Fragment>)}
-	</Drawing >
+	</Drawing>
 }

@@ -24,10 +24,14 @@ export function useDrawingId() {
 	return drawing?.id
 }
 
+// Get the transformation settings from the drawing context.
+export function useTransformationSettings() {
+	return useDrawingContext()?.transformationSettings
+}
+
 // Get specifically the bounds from the drawing context.
 export function useBounds() {
-	const drawing = useDrawingContext()
-	return drawing?.transformationSettings?.bounds
+	return useTransformationSettings()?.bounds
 }
 
 // Get specifically the graphicalBounds from the drawing context.
