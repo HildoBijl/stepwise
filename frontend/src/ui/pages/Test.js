@@ -312,13 +312,13 @@ const x = spread(-Math.PI, 3 * Math.PI, 0.1)
 const { Line: SvgLine, Curve: SvgCurve } = drawingComponents
 
 export function SomeRandomPlot() {
-	const [a, setA] = useState(0)
-	useAnimation((time, dt) => setA(2 * Math.sin(2 * Math.PI * 3 * time / 10000)))
+	const [a, setA] = useState(1)
+	// useAnimation((time, dt) => setA(2 * Math.sin(2 * Math.PI * 3 * time / 10000)))
 
 	const data = x.map(x => ({ x, y: a * Math.sin(x) + 1 / 4 }))
 	const transformationSettings = usePlotTransformationSettings([[-4, -2], [10, 3]], { maxHeight: 300, maxWidth: 400, extendBoundsToTicks: true })
 	return <Drawing transformationSettings={transformationSettings}>
-		<Axes />
+		<Axes xLabel={<>De <M>x</M>-waarde</>} yLabel="De sinus, geanimeerd" />
 		<SvgCurve points={data} style={{ stroke: 'blue' }} />
 		{/* <SvgLine points={data} style={{ stroke: 'red', strokeDasharray: '4 2' }} /> */}
 	</Drawing>

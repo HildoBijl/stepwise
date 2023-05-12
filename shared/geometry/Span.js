@@ -86,6 +86,10 @@ class Span {
 		return new Line(this.start, this.vector)
 	}
 
+	get middle() {
+		return this.start.interpolate(this.end)
+	}
+
 	/*
 	 * Manipulation and calculation methods.
 	 */

@@ -101,6 +101,11 @@ class Rectangle {
 		return numberArray(0, this.dimension - 1).map(axis => this.getSize(axis))
 	}
 
+	// middle gives the vector that's exactly in the middle of the Rectangle.
+	get middle() {
+		return this.span.middle
+	}
+
 	/*
 	 * Manipulation and calculation methods.
 	 */
