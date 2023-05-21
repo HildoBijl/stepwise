@@ -15,6 +15,7 @@ const defaultMouseLinesOptions = {
 	valueToLabel: x => roundToDigits(x, 3),
 	xValueToLabel: undefined,
 	yValueToLabel: undefined,
+	pointToLabel: undefined,
 }
 
 const defaultLabelStyle = theme => ({
@@ -25,6 +26,8 @@ const defaultLabelStyle = theme => ({
 	padding: '1px 5px',
 })
 
+const labelAngles = [[3 / 4, 1 / 2, 1 / 4], [1, -1 / 4, 0], [-3 / 4, 1 / 2, -1 / 4]].map(list => list.map(angle => angle * Math.PI))
+
 export const MouseLines = forwardRef(({ plotSettings, ...options }, ref) => {
 	const theme = useTheme()
 	const { bounds } = useTransformationSettings()
@@ -32,7 +35,7 @@ export const MouseLines = forwardRef(({ plotSettings, ...options }, ref) => {
 	const mouseInPlot = !!mousePosition && bounds.contains(mousePosition)
 
 	// Process options.
-	let { lineStyle, circleStyle, showAxisLabels, labelStyle, valueToLabel, xValueToLabel, yValueToLabel } = processOptions(options, defaultMouseLinesOptions)
+	let { lineStyle, circleStyle, showAxisLabels, labelStyle, valueToLabel, xValueToLabel, yValueToLabel, pointToLabel } = processOptions(options, defaultMouseLinesOptions)
 	lineStyle = ensureBasicObject(lineStyle)
 	circleStyle = ensureBasicObject(circleStyle)
 	showAxisLabels = ensureBoolean(showAxisLabels)
@@ -40,6 +43,7 @@ export const MouseLines = forwardRef(({ plotSettings, ...options }, ref) => {
 	valueToLabel = ensureFunction(valueToLabel)
 	xValueToLabel = xValueToLabel && ensureFunction(xValueToLabel)
 	yValueToLabel = yValueToLabel && ensureFunction(yValueToLabel)
+	pointToLabel = pointToLabel && ensureFunction(pointToLabel)
 
 	// When the mouse is not present, render nothing. Keep the empty group for reference purposes.
 	if (!mousePosition || !mouseInPlot)
@@ -47,6 +51,7 @@ export const MouseLines = forwardRef(({ plotSettings, ...options }, ref) => {
 
 	// Render everything.
 	const appliedLabelStyle = { ...defaultLabelStyle(theme), ...labelStyle }
+	const pointLabel = pointToLabel && pointToLabel(mousePosition)
 	return <Group ref={ref}>
 		{/* Line and marker. */}
 		<Line points={[
@@ -56,10 +61,21 @@ export const MouseLines = forwardRef(({ plotSettings, ...options }, ref) => {
 		]} style={{ stroke: theme.palette.primary.main, strokeWidth: 1, strokeDasharray: [4, 2], ...lineStyle }} />
 		<Circle center={mousePosition} graphicalRadius={2} style={{ fill: theme.palette.primary.main, ...circleStyle }} />
 
-		{/* Axis elements. */}
+		{/* Axis labels. */}
 		{showAxisLabels ? <>
-			<Label position={[mousePosition.x, 0]} graphicalDistance={2} angle={(mousePosition.y >= 0 ? 1 : -1) * Math.PI / 2} scale={0.75}><div style={appliedLabelStyle}>{(xValueToLabel || valueToLabel)(mousePosition.x)}</div></Label>
-			<Label position={[0, mousePosition.y]} graphicalDistance={2} angle={mousePosition.x >= 0 ? Math.PI : 0} scale={0.75}><div style={appliedLabelStyle}>{(yValueToLabel || valueToLabel)(mousePosition.y)}</div></Label>
+			<Label position={[mousePosition.x, 0]} graphicalDistance={2} angle={(mousePosition.y >= 0 ? 1 : -1) * Math.PI / 2} scale={0.75}>
+				<div style={appliedLabelStyle}>{(xValueToLabel || valueToLabel)(mousePosition.x)}</div>
+			</Label>
+			<Label position={[0, mousePosition.y]} graphicalDistance={2} angle={mousePosition.x >= 0 ? Math.PI : 0} scale={0.75}>
+				<div style={appliedLabelStyle}>{(yValueToLabel || valueToLabel)(mousePosition.y)}</div>
+			</Label>
+		</> : null}
+
+		{/* Point label. */}
+		{pointLabel ? <>
+			<Label position={mousePosition} graphicalDistance={3} angle={labelAngles[Math.sign(mousePosition.y) + 1][Math.sign(mousePosition.x) + 1]} scale={0.75}>
+				<div style={appliedLabelStyle}>{pointLabel}</div>
+			</Label>
 		</> : null}
 	</Group >
 })
