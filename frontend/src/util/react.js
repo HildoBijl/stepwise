@@ -189,9 +189,9 @@ export function useBoundingClientRect(element) {
 
 	// Listen for updates to the rect.
 	useEffect(() => updateElementPosition(), [element, updateElementPosition]) // Changes in the rectangle.
-	useEventListener('scroll', updateElementPosition) // Scrolling.
-	useEventListener('resize', updateElementPosition) // Window resize.
-	useResizeObserver(element, updateElementPosition) // Resizing of element.
+	useEventListener('scroll', updateElementPosition) // Window scrolling.
+	useResizeObserver(window?.document?.body, updateElementPosition) // Window/body resize.
+	useResizeObserver(element, updateElementPosition) // Element resize.
 
 	// On a first run the rect may not be known yet. Calculate it directly.
 	if (element && !rect) {
