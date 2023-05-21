@@ -16,13 +16,15 @@ const pointToRelativeHumidity = point => {
 	const T = new FloatUnit({ float: point.y, unit: 'dC' })
 	const AH = new FloatUnit({ float: point.x, unit: 'g/kg' })
 	const AHmax = tableInterpolate(T, maximumHumidity)
+	if (!AHmax)
+		return null // On undefined (out of range) do not show a label.
 	const RH = AH.divide(AHmax).setUnit('')
 	return (RH.number < 0 || RH.number > 1) ? null : `${Math.round(RH.number * 100)}%`
 }
 
 export const MollierDiagram = forwardRef(({ children, ...options }, ref) => {
 	const transformationSettings = usePlotTransformationSettings([[0, -10], [35, 35]], { maxHeight: 300, maxWidth: 400, extendBoundsToTicks: true, ...options })
-	return <Drawing transformationSettings={transformationSettings}>
+	return <Drawing ref={ref} transformationSettings={transformationSettings}>
 		<Axes xLabel="Absolute luchtvochtigheid [g/kg]" yLabel="Temperatuur [°C]" />
 		<MouseLines pointToLabel={pointToRelativeHumidity} />
 		<Group overflow={false}>

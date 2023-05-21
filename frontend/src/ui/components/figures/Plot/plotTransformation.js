@@ -56,5 +56,6 @@ export default function usePlotTransformationSettings(points, options = {}) {
 	return useMemo(() => ({
 		...boundsBasedTransformationSettings,
 		ticks,
+		plotBounds: new Rectangle({ start: ticks.map(ticksForAxis => firstOf(ticksForAxis)), end: ticks.map(ticksForAxis => lastOf(ticksForAxis)) }),
 	}), [boundsBasedTransformationSettings, ticks])
 }

@@ -30,9 +30,9 @@ const labelAngles = [[3 / 4, 1 / 2, 1 / 4], [1, -1 / 4, 0], [-3 / 4, 1 / 2, -1 /
 
 export const MouseLines = forwardRef(({ plotSettings, ...options }, ref) => {
 	const theme = useTheme()
-	const { bounds } = useTransformationSettings()
+	const { plotBounds } = useTransformationSettings()
 	const mousePosition = useMousePosition()
-	const mouseInPlot = !!mousePosition && bounds.contains(mousePosition)
+	const mouseInPlot = !!mousePosition && plotBounds.contains(mousePosition)
 
 	// Process options.
 	let { lineStyle, circleStyle, showAxisLabels, labelStyle, valueToLabel, xValueToLabel, yValueToLabel, pointToLabel } = processOptions(options, defaultMouseLinesOptions)
@@ -51,7 +51,7 @@ export const MouseLines = forwardRef(({ plotSettings, ...options }, ref) => {
 
 	// Render everything.
 	const appliedLabelStyle = { ...defaultLabelStyle(theme), ...labelStyle }
-	const pointLabel = pointToLabel && pointToLabel(mousePosition)
+	const pointLabel = mousePosition && pointToLabel && pointToLabel(mousePosition)
 	return <Group ref={ref}>
 		{/* Line and marker. */}
 		<Line points={[

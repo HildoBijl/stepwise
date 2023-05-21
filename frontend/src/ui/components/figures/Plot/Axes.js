@@ -2,6 +2,7 @@ import React, { Fragment, forwardRef } from 'react'
 
 import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureBoolean, ensureBasicObject, processOptions } from 'step-wise/util/objects'
+import { firstOf, lastOf } from 'step-wise/util/arrays'
 import { ensureFunction } from 'step-wise/util/functions'
 
 import { ensureReactElement } from 'util/react'
@@ -52,16 +53,16 @@ export const Axes = forwardRef(({ plotSettings, ...options }, ref) => {
 			{ticks.map((ticksForAxis, axisIndex) => <Group key={axisIndex}>
 				{ticksForAxis.map((tick, tickIndex) => <Fragment key={tickIndex}>
 					<Line key={tickIndex} points={axisIndex === 0 ?
-						[[tick, bounds.start.y], [tick, bounds.end.y]] :
-						[[bounds.start.x, tick], [bounds.end.x, tick]]
+						[[tick, firstOf(ticks[1])], [tick, lastOf(ticks[1])]] :
+						[[firstOf(ticks[0]), tick], [lastOf(ticks[0]), tick]]
 					} style={gridLineStyle} />
 				</Fragment>)}
 			</Group>)}
 		</Group> : null}
 
 		{/* Axis lines. */}
-		<Line points={[[bounds.start.x, 0], [bounds.end.x, 0]]} style={axisLineStyle} />
-		<Line points={[[0, bounds.start.y], [0, bounds.end.y]]} style={axisLineStyle} />
+		<Line points={[[firstOf(ticks[0]), 0], [lastOf(ticks[0]), 0]]} style={axisLineStyle} />
+		<Line points={[[0, firstOf(ticks[1])], [0, lastOf(ticks[1])]]} style={axisLineStyle} />
 
 		{/* Ticks for each axis. */}
 		{ticks.map((ticksForAxis, axisIndex) => <Group key={axisIndex}>
