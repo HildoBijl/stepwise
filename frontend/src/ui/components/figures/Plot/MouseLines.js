@@ -73,7 +73,7 @@ export const MouseLines = forwardRef(({ plotSettings, ...options }, ref) => {
 
 		{/* Point label. */}
 		{pointLabel ? <>
-			<Label position={mousePosition} graphicalDistance={3} angle={labelAngles[Math.sign(mousePosition.y) + 1][Math.sign(mousePosition.x) + 1]} scale={0.75}>
+			<Label position={mousePosition} graphicalDistance={2} angle={labelAngles[Math.sign(mousePosition.y) + 1][Math.sign(mousePosition.x) + 1]} scale={0.75}>
 				<div style={appliedLabelStyle}>{pointLabel}</div>
 			</Label>
 		</> : null}

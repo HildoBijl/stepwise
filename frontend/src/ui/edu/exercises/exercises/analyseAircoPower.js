@@ -1,10 +1,11 @@
-import React, { useRef } from 'react'
+import React from 'react'
 
 import { Unit } from 'step-wise/inputTypes/Unit'
 import { maximumHumidity } from 'step-wise/data/moistureProperties'
 
-import { useInitializer } from 'util/react'
+import { useColor } from 'ui/theme'
 import { Par, M, BM } from 'ui/components'
+import { Line, Circle, Curve } from 'ui/components/figures'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/FormPart'
 
@@ -29,13 +30,8 @@ const Problem = ({ T1, startRH, T4, endRH, mdot }) => <>
 	</InputSpace>
 </>
 
-const color = 'red' // What is the color of the solution lines?
-const points = maximumHumidity.headers[0].map((T, index) => ({
-	input: maximumHumidity.grid[index].number,
-	output: T.number,
-}))
-const lineStyle = { stroke: color, 'stroke-width': '2' }
-const lineStyleDashed = { stroke: color, 'stroke-dasharray': '4, 4' }
+const linePoints = maximumHumidity.headers[0].map((T, index) => [maximumHumidity.grid[index].number, T.number])
+
 const steps = [
 	{
 		Problem: () => <>
@@ -48,54 +44,26 @@ const steps = [
 		</>,
 		Solution: () => {
 			const { T1, T2, T3, T4, startAH, endAH, endRH } = useSolution()
-			const plotRef = useRef()
-			useInitializer(() => {
-				const plot = plotRef.current
-				const point1 = {
-					input: startAH.number,
-					output: T1.number,
-				}
-				const point2 = {
-					input: startAH.number,
-					output: T2.number,
-				}
-				const point3 = {
-					input: endAH.number,
-					output: T3.number,
-				}
-				const point4 = {
-					input: endAH.number,
-					output: T4.number,
-				}
+			const color = useColor('primary')
 
-				// Start drawing.
-				plot.drawLine({
-					points: [
-						point1,
-						point2,
-						...points.filter(point => point.output < T2.number && point.output > T3.number).reverse(),
-						point3,
-						point4,
-					],
-					style: lineStyle,
-				})
-				plot.drawLine({
-					points: [
-						{ input: point3.input, output: 0 },
-						point3,
-						{ input: 0, output: point3.output },
-					],
-					style: lineStyleDashed,
-				})
-				const drawCircle = (point) => plot.drawCircle({ ...point, radius: 4, style: { fill: color } })
-				drawCircle(point1)
-				drawCircle(point2)
-				drawCircle(point3)
-				drawCircle(point4)
-			})
+			const point1 = [startAH.number, T1.number]
+			const point2 = [startAH.number, T2.number]
+			const point3 = [endAH.number, T3.number]
+			const point4 = [endAH.number, T4.number]
+			const points = [point2, ...linePoints.filter(point => point.output < T2.number && point.output > T3.number).reverse(), point3]
+
 			return <>
 				<Par>De uitstromende lucht heeft een temperatuur van <M>{T4}</M> en een relatieve luchtvochtigheid van <M>{endRH.setUnit('%')}.</M> De absolute luchtvochtigheid hier is dus <M>{endAH}.</M> Om op deze absolute luchtvochtigheid te komen is de lucht hiervoor (op 100% luchtvochtigheid) gekoeld tot <M>T_(tussen) = {T3},</M> af te lezen uit ons Mollier-diagram.</Par>
-				<MollierDiagram ref={plotRef} maxWidth="500" />
+				<MollierDiagram maxWidth="500">
+					<Line points={[point1, point2]} style={{ stroke: color, strokeWidth: 2 }} />
+					<Curve points={points} style={{ stroke: color, strokeWidth: 2 }} />
+					<Line points={[point3, point4]} style={{ stroke: color, strokeWidth: 2 }} />
+					<Line points={[[point3[0], 0], point3, [0, point3[1]]]} style={{ stroke: color, strokeDasharray: '4 2' }} />
+					<Circle center={point1} graphicalRadius={3} style={{ fill: color }} />
+					<Circle center={point2} graphicalRadius={3} style={{ fill: color }} />
+					<Circle center={point3} graphicalRadius={3} style={{ fill: color }} />
+					<Circle center={point4} graphicalRadius={3} style={{ fill: color }} />
+				</MollierDiagram>
 			</>
 		},
 	},

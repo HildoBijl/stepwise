@@ -1,9 +1,10 @@
-import React, { useRef } from 'react'
+import React from 'react'
 
 import { Unit } from 'step-wise/inputTypes/Unit'
 
-import { useInitializer } from 'util/react'
+import { useColor } from 'ui/theme'
 import { Par, M, BM } from 'ui/components'
+import { Line, Circle } from 'ui/components/figures'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/FormPart'
 
@@ -31,41 +32,16 @@ function Problem({ T, RH }) {
 
 function Solution() {
 	const { T, RH, AHmax, AH } = useSolution()
-	const plotRef = useRef()
-	useInitializer(() => {
-		const plot = plotRef.current
-		const color = 'red'
-		plot.drawLine({
-			points: [
-				{ input: AHmax.number, output: 0, },
-				{ input: AHmax.number, output: T.number, },
-				{ input: 0, output: T.number, },
-			],
-			style: { stroke: color, 'stroke-dasharray': '4, 4' },
-		})
-		plot.drawCircle({
-			input: AHmax.number,
-			output: T.number,
-			radius: 4,
-			style: { fill: color },
-		})
-		plot.drawLine({
-			points: [
-				{ input: AH.number, output: 0, },
-				{ input: AH.number, output: T.number, },
-			],
-			style: { stroke: color, 'stroke-dasharray': '4, 4' },
-		})
-		plot.drawCircle({
-			input: AH.number,
-			output: T.number,
-			radius: 4,
-			style: { fill: color },
-		})
-	})
+	const color = useColor('primary')
+	
 	return <>
 		<Par>In het Mollier diagram kunnen we direct bij <M>T = {T}</M> en <M>RV = {RH.setUnit('%')}</M> opzoeken dat <M>AV = {AH}.</M></Par>
-		<MollierDiagram ref={plotRef} maxWidth="500" />
+		<MollierDiagram maxWidth="500">
+			<Line points={[[AHmax.number, 0], [AHmax.number, T.number], [0, T.number]]} style={{ stroke: color, strokeDasharray: '4 2' }} />
+			<Line points={[[AH.number, 0], [AH.number, T.number]]} style={{ stroke: color, strokeDasharray: '4 2' }} />
+			<Circle center={[AHmax.number, T.number]} graphicalRadius={3} style={{ fill: color }} />
+			<Circle center={[AH.number, T.number]} graphicalRadius={3} style={{ fill: color }} />
+		</MollierDiagram>
 		<Par>Eventueel hadden we als omweg ook op kunnen zoeken dat <BM>AV_(max) = {AHmax}.</BM> Hiermee volgt de absolute luchtvochtigheid als <BM>AV = RV \cdot AV_(max) = {RH.float} \cdot {AHmax.float} = {AH}.</BM></Par>
 	</>
 }
