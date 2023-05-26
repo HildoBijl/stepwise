@@ -189,9 +189,13 @@ export function applyStyle(obj, style = {}) {
 }
 
 // useGraphicalMousePosition tracks the position of the mouse in graphical coordinates. This is of the from {x: 120, y: 90 }.
-export function useGraphicalMousePosition() {
+export function useGraphicalMousePosition(drawing) {
 	// Acquire data.
-	const { figure, transformationSettings } = useDrawingContext()
+	let { figure, transformationSettings } = useDrawingContext()
+	if (drawing) { // ToDo: remove this once contexts have been established for input fields.
+		figure = drawing.figure
+		transformationSettings = drawing.transformationSettings
+	}
 	const clientMousePosition = useClientMousePosition()
 	const figureRect = useBoundingClientRect(figure?.inner)
 

@@ -1,9 +1,9 @@
-import React, { Fragment, useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { useTheme, makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
 import { pageContainerStyle } from 'ui/theme'
-import { Par, Head, M, BM } from 'ui/components'
+// import { Par, Head, M, BM } from 'ui/components'
 
 import CAS from 'step-wise/CAS'
 
@@ -11,12 +11,12 @@ import { Float } from 'step-wise/inputTypes/Float'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 
 
-import { firstOf, lastOf, spread } from 'step-wise/util/arrays'
-import { Transformation } from 'step-wise/geometry'
+// import { firstOf, lastOf, spread } from 'step-wise/util/arrays'
+// import { Transformation } from 'step-wise/geometry'
 
-import { useAnimation } from 'util/react'
-import { Drawing, drawingComponents, useBoundsBasedTransformationSettings, Element } from 'ui/components/figures'
-import { usePlotTransformationSettings, Axes, MouseLines } from 'ui/components/figures/Plot'
+// import { useAnimation } from 'util/react'
+// import { Drawing, drawingComponents, useBoundsBasedTransformationSettings, Element } from 'ui/components/figures'
+// import { usePlotTransformationSettings, Axes, MouseLines } from 'ui/components/figures/Plot'
 
 
 // core version + navigation, pagination modules:
@@ -28,11 +28,11 @@ import { usePlotTransformationSettings, Axes, MouseLines } from 'ui/components/f
 import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
-import Typography from '@material-ui/core/Typography'
-import Box from '@material-ui/core/Box'
+// import Typography from '@material-ui/core/Typography'
+// import Box from '@material-ui/core/Box'
 import Container from '@material-ui/core/Container'
 
-import { useTabs } from 'ui/layout/tabs'
+// import { useTabs } from 'ui/layout/tabs'
 
 // // import Swiper bundle with all modules installed
 // import Swiper from 'swiper/bundle';
@@ -108,7 +108,7 @@ function TabPanel({ children, value, index, className, ...other }) {
 }
 
 export default function Test() {
-	const context = useTabs(['summary', 'meta', 'theory', 'references'])
+	// const context = useTabs(['summary', 'meta', 'theory', 'references'])
 
 	const eq = CAS.asEquation('E=mc^2')
 	eq.left.color = '881111'
@@ -123,9 +123,9 @@ export default function Test() {
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	}
-	const handleChangeIndex = (index) => {
-		setValue(index);
-	}
+	// const handleChangeIndex = (index) => {
+	// 	setValue(index);
+	// }
 
 	// // ToDo: put in separate hook useSwiper.
 	// const swiperRef = useRef()

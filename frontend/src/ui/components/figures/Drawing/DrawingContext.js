@@ -11,7 +11,7 @@ import { Portal } from 'util/react'
 import { applyTransformation } from './transformation'
 
 // Set up a context so elements inside the drawing can ask for the drawing.
-export const DrawingContext = createContext(null)
+export const DrawingContext = createContext({})
 
 // Get the data out of the context.
 export function useDrawingContext() {

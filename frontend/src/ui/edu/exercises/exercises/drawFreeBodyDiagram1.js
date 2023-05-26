@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
 import { Vector } from 'step-wise/geometry'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
@@ -188,10 +188,10 @@ function Schematics({ loads, showSupports = true, zoom }) {
 			const prev = points[index - 1]
 			if (index === 0 || prev.equals(point))
 				return null
-			return <>
-				<Element key={index} position={point.interpolate(prev)} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>{new FloatUnit(`${point.x - prev.x}m`)}</M></Element>
-				<Distance key={index} span={{ start: prev, end: point }} graphicalShift={new Vector(0, distanceShift)} />
-			</>
+			return <Fragment key={index}>
+				<Element position={point.interpolate(prev)} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>{new FloatUnit(`${point.x - prev.x}m`)}</M></Element>
+				<Distance span={{ start: prev, end: point }} graphicalShift={new Vector(0, distanceShift)} />
+			</Fragment>
 		})}
 
 		{render(loads)}

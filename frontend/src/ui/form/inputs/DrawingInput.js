@@ -17,9 +17,9 @@ import { useEventListener, useConsistentValue } from 'util/react'
 import { notSelectable } from 'ui/theme'
 import { useAsInput, defaultInputOptions } from 'ui/form/inputs/support/Input'
 
-import Drawing, { defaultDrawingOptions, useGraphicalMousePosition } from './Drawing'
-import { Element, Line as SvgLine, Square, Rectangle as SvgRectangle } from './components'
-import { applyTransformation } from './transformation'
+import Drawing, { defaultDrawingOptions, useGraphicalMousePosition } from '../../components/figures/Drawing/Drawing'
+import { Element, Line as SvgLine, Square, Rectangle as SvgRectangle } from '../../components/figures/Drawing/components'
+import { applyTransformation } from '../../components/figures/Drawing/transformation'
 
 export const startSelectionOptions = {
 	never: 0,
@@ -274,7 +274,7 @@ export function useCurrentBackgroundColor() {
 // useMouseSnapping wraps all the snapping functionalities into one hook. It takes a drawing, a set of snappers and a snapping distance and takes care of all the mouse functionalities.
 function useMouseSnapping(drawing, snappers, snappingDistance, applySnapping) {
 	// Retrieve the current mouse position in both coordinate systems.
-	const graphicalPosition = useGraphicalMousePosition(drawing)
+	const graphicalPosition = useGraphicalMousePosition(drawing) // ToDo: remove drawing once contexts have been established.
 	const inverseTransformation = drawing?.transformationSettings?.inverseTransformation
 	const position = inverseTransformation && graphicalPosition && inverseTransformation.apply(graphicalPosition)
 
