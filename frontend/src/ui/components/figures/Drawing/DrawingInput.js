@@ -18,7 +18,8 @@ import { notSelectable } from 'ui/theme'
 import { useAsInput, defaultInputOptions } from 'ui/form/inputs/support/Input'
 
 import Drawing, { defaultDrawingOptions, useGraphicalMousePosition } from './Drawing'
-import { Element, Line as SvgLine, Square, Rectangle as SvgRectangle } from './components'
+import { Element } from './HtmlComponents'
+import { Line as SvgLine, Square, Rectangle as SvgRectangle } from './SvgComponents'
 import { applyTransformation } from './transformation'
 
 export const startSelectionOptions = {

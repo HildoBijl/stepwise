@@ -5,7 +5,7 @@ import { Vector, Rectangle } from 'step-wise/geometry'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 
 import { Par, M, BM } from 'ui/components'
-import { Circle, Rectangle as SvgRectangle, useScaleBasedTransformationSettings } from 'ui/components/figures'
+import { Circle, Rectangle as SvgRectangle, useScaleAndShiftTransformationSettings } from 'ui/components/figures'
 import { InputSpace } from 'ui/form/FormPart'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
@@ -98,7 +98,7 @@ const steps = [
 ]
 
 function Diagram({ decompose = false }) {
-	const transformationSettings = useScaleBasedTransformationSettings([Vector.zero, new Vector(4, 4)], { scale: 50, margin: 70 })
+	const transformationSettings = useScaleAndShiftTransformationSettings([Vector.zero, new Vector(4, 4)], { scale: 50, margin: 70 })
 
 	const { loads, loadNames, decomposedLoads, decomposedLoadNames } = useSolution()
 	const grid = numberArray(0, 4).map(x => numberArray(0, 4).map(y => new Vector(x, y))).flat()

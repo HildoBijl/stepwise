@@ -8,8 +8,8 @@ import { ensureObject, processOptions } from 'step-wise/util/objects'
 import { numberArray } from 'step-wise/util/arrays'
 import { Vector } from 'step-wise/geometry'
 
-import { Group } from 'ui/components/figures/Drawing/components/svgComponents'
-import { defaultObject, useRefWithEventHandlers } from 'ui/components/figures/Drawing/components/svgComponents/util'
+import { Group } from 'ui/components/figures/Drawing/SvgComponents'
+import { defaultObject, useRefWithEventHandlers } from 'ui/components/figures/Drawing/SvgComponents/util'
 
 import { Hinge } from '../structuralComponents'
 
