@@ -3,7 +3,7 @@ import React from 'react'
 import { Vector, Line } from 'step-wise/geometry'
 
 import { Par, M, BM } from 'ui/components'
-import { CornerLabel, Line as SvgLine, useCurrentBackgroundColor, useScaleAndShiftTransformationSettings } from 'ui/components/figures'
+import { CornerLabel, Line as SvgLine, useCurrentBackgroundColor, useScaleBasedTransformationSettings } from 'ui/components/figures'
 import { InputSpace } from 'ui/form/FormPart'
 import { useInput } from 'ui/form/Form'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
@@ -146,7 +146,7 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 	const { points, loads, getLoadNames, angleRad } = solution
 
 	// Define the transformation.
-	const transformationSettings = useScaleAndShiftTransformationSettings(points, { scale: 70, margin: [[100, 120], 100] })
+	const transformationSettings = useScaleBasedTransformationSettings(points, { scale: 70, margin: [[100, 120], 100] })
 
 	// Get all the required components.
 	const loadsToDisplay = isInputField ? [] : (showSolution ? loads : loads.filter(load => load.source === loadSources.external))
