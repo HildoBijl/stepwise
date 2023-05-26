@@ -4,7 +4,7 @@ import { expressionComparisons } from 'step-wise/CAS'
 import { Vector } from 'step-wise/geometry'
 
 import { Par, M, BM } from 'ui/components'
-import { Drawing, drawingComponents, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/components/figures'
+import { Drawing, drawingComponents, CornerLabel, LineLabel, useRotationReflectionTransformation, useScaleToBoundsTransformationSettings } from 'ui/components/figures'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import ExpressionInput, { numeric, basicTrigonometryInDegrees } from 'ui/form/inputs/ExpressionInput'
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
@@ -127,7 +127,7 @@ function ExerciseFigure() {
 
 	// Define the transformation.
 	const pretransformation = useRotationReflectionTransformation(rotation, reflection)
-	const transformationSettings = useBoundsBasedTransformationSettings(points, {
+	const transformationSettings = useScaleToBoundsTransformationSettings(points, {
 		pretransformation,
 		maxWidth: 300,
 		maxHeight: 300,
@@ -136,14 +136,14 @@ function ExerciseFigure() {
 	const labelSize = 34
 
 	// Render the figure.
-	return <Drawing transformationSettings={transformationSettings}>
+	return <Drawing transformationSettings={transformationSettings} svgContents={<>
 		<Polygon points={points} style={{ fill: '#aaccff' }} />
 		<RightAngle points={points} graphicalSize={10} />
-
+	</>} htmlContents={<>
 		<LineLabel points={[pointsInSideOrder[(known + 1) % 3], pointsInSideOrder[(known + 2) % 3]]} oppositeTo={pointsInSideOrder[known]}><M>{x}</M></LineLabel>
 		<LineLabel points={[pointsInSideOrder[(requested + 1) % 3], pointsInSideOrder[(requested + 2) % 3]]} oppositeTo={pointsInSideOrder[requested]}><M>{y}</M></LineLabel>
 		<CornerLabel points={[points[2], points[0], points[1]]} graphicalSize={labelSize}><M>{state.beta}^\circ</M></CornerLabel>
-	</Drawing>
+	</>} />
 }
 
 function getPoints(solution) {

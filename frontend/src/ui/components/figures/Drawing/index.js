@@ -1,9 +1,10 @@
-import * as drawingComponents from './components'
+import * as components from './SvgComponents'
 
-export * from './transformation'
-export * from './DrawingContext'
-export * from './components'
-export { drawingComponents }
+export { components as drawingComponents }
 export * from './Drawing'
 export { default } from './Drawing'
-export * from '../../../form/inputs/DrawingInput'
+export * from './SvgComponents'
+export * from './DrawingContext'
+export * from './DrawingInput'
+export * from './HtmlComponents'
+export * from './transformation'

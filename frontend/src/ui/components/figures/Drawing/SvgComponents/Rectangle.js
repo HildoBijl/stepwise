@@ -5,7 +5,7 @@ import { ensureString } from 'step-wise/util/strings'
 import { ensureObject, processOptions } from 'step-wise/util/objects'
 import { ensureRectangle as ensureGeometryRectangle } from 'step-wise/geometry'
 
-import { useGraphicalObject, useGraphicalDistance, SvgPortal } from '../../DrawingContext'
+import { useGraphicalObject, useGraphicalDistance } from '../DrawingContext'
 
 import { defaultObject, useRefWithEventHandlers, filterEventHandlers } from './util'
 
@@ -28,7 +28,7 @@ export const Rectangle = forwardRef((props, ref) => {
 
 	// Set up the circle.
 	const { start, vector, end } = dimensions
-	return <SvgPortal><rect ref={ref} x={Math.min(start.x, end.x)} y={Math.min(start.y, end.y)} width={Math.abs(vector.x)} height={Math.abs(vector.y)} rx={cornerRadius} className={className} style={style} {...filterEventHandlers(props)} /></SvgPortal>
+	return <rect ref={ref} x={Math.min(start.x, end.x)} y={Math.min(start.y, end.y)} width={Math.abs(vector.x)} height={Math.abs(vector.y)} rx={cornerRadius} className={className} style={style} {...filterEventHandlers(props)} />
 })
 Rectangle.defaultProps = defaultRectangle
 export default Rectangle

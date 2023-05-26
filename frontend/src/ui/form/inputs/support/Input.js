@@ -12,27 +12,6 @@ import { useFieldFeedback, defaultFieldFeedbackOptions } from 'ui/form/FeedbackP
 
 const bannedInputIds = ['id', 'type', 'value', 'cursor', 'SO']
 
-export const defaultInputOptions = {
-	// General.
-	id: undefined,
-
-	// Status-dependent.
-	readOnly: undefined,
-
-	// For Form data registration.
-	...defaultUseFormParameterOptions,
-
-	// For focus and tabbing.
-	useFocusRegistration: true,
-	element: undefined,
-	autofocus: undefined,
-	keyboard: undefined,
-	focusOnClick: undefined,
-
-	// For feedback.
-	...defaultFieldFeedbackOptions,
-}
-
 /* useAsInput can be used inside an input field and does various things.
  * - Extract the status of this input field from the Status context.
  * - Connecting it to the Form for input data storage.
@@ -70,4 +49,24 @@ export function useAsInput(options) {
 
 	// Return all data as one large object.
 	return { id, readOnly, FI, setFI, active, activateField, deactivateField, feedback, feedbackInput }
+}
+export const defaultInputOptions = {
+	// General.
+	id: undefined,
+
+	// Status-dependent.
+	readOnly: undefined,
+
+	// For Form data registration.
+	...defaultUseFormParameterOptions,
+
+	// For focus and tabbing.
+	useFocusRegistration: true,
+	element: undefined,
+	autofocus: undefined,
+	keyboard: undefined,
+	focusOnClick: undefined,
+
+	// For feedback.
+	...defaultFieldFeedbackOptions,
 }

@@ -1,8 +1,8 @@
 // The FBDInput is an input field for Free Body Diagrams.
 
 import React, { forwardRef, useCallback, useMemo, useState, useEffect } from 'react'
-import { useTheme, makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
+import { makeStyles } from '@material-ui/core/styles'
 
 import { mod } from 'step-wise/util/numbers'
 import { processOptions, filterOptions, applyToEachParameter } from 'step-wise/util/objects'
@@ -11,15 +11,15 @@ import { Vector, Span } from 'step-wise/geometry'
 import { defaultForceLength, loadTypes, areLoadsEqual, doesLoadTouchRectangle, reverseLoad } from 'step-wise/edu/exercises/util/engineeringMechanics'
 
 import { useEnsureRef, useEventListener } from 'util/react'
-import { defaultDrawingOptions, DrawingInput, useAsDrawingInput, defaultDrawingInputOptions, SvgDefsPortal } from 'ui/components/figures'
+import { DrawingInput, useAsDrawingInput, defaultDrawingInputOptions } from 'ui/components/figures'
 
-import { render, loadColors, LoadLabel } from '../EngineeringDiagram'
+import EngineeringDiagram, { defaultEngineeringDiagramOptions, render, loadColors, LoadLabel } from '../EngineeringDiagram'
 
 import { clean, functionalize } from './support'
 import { nonEmptyNoDoubles } from './validation'
 
 export const defaultFBDInputOptions = {
-	...defaultDrawingOptions,
+	...defaultEngineeringDiagramOptions,
 	...defaultDrawingInputOptions,
 	initialSI: [],
 	validate: nonEmptyNoDoubles,
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export const FBDInput = forwardRef((options, drawingRef) => {
+function FBDInputUnforwarded(options, drawingRef) {
 	options = processOptions(options, defaultFBDInputOptions)
 
 	// Sort out references.
@@ -131,8 +131,8 @@ export const FBDInput = forwardRef((options, drawingRef) => {
 	// Add all drawn loads.
 	const dragObject = getDragObject(mouseDownData, mouseData, options)
 	const styledLoads = useMemo(() => FI.map((load, index) => styleLoad(index, { ...load, hovering: index === hoverIndex }, readOnly, mouseHandlers, selectionRectangle, feedback)), [FI, hoverIndex, readOnly, mouseHandlers, selectionRectangle, feedback])
-	options.children = <>
-		{options.children}
+	options.svgContents = <>
+		{options.svgContents}
 		{render(styledLoads)}
 		{dragObject && render(styleLoad(undefined, dragObject, readOnly))}
 	</>
@@ -141,39 +141,17 @@ export const FBDInput = forwardRef((options, drawingRef) => {
 	if (options.getLoadNames) {
 		const loads = dragObject && Object.values(loadTypes).includes(dragObject.type) ? [...FI, dragObject] : FI
 		const loadNames = options.getLoadNames(loads)
-		options.children = <>
-			{options.children}
+		options.htmlContents = <>
+			{options.htmlContents}
 			{loadNames.map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
 		</>
 	}
 
 	// Render the Engineering Diagram with the proper styling.
-	return <DrawingInput ref={drawingRef} className={className} inputData={inputData} options={options}>
-		<EngineeringDiagramDefs />
-		{options.children}
-	</DrawingInput>
-})
-export default FBDInput
-
-// EngineeringDiagramDefs are SVG defs needed inside the SVG. We put them into the Drawing.
-function EngineeringDiagramDefs() {
-	const theme = useTheme()
-	return <SvgDefsPortal>
-		{[0, 0.6, 1.6, 1].map((value, index) => <filter key={index} id={`selectionFilter${index}`}>
-			<feGaussianBlur stdDeviation="3" in="SourceGraphic" result="Blur" />
-			<feComposite operator="out" in="Blur" in2="SourceGraphic" result="OuterBlur" />
-			<feComponentTransfer in="OuterBlur" result="OuterBlurFaded">
-				<feFuncA type="linear" slope={value} />
-			</feComponentTransfer>
-			<feFlood width="100%" height="100%" floodColor={theme.palette.primary.main} result="Color" />
-			<feComposite operator="in" in="Color" in2="OuterBlurFaded" result="Glow" />
-			<feMerge>
-				<feMergeNode in="Glow" />
-				<feMergeNode in="SourceGraphic" />
-			</feMerge>
-		</filter>)}
-	</SvgDefsPortal>
+	return <DrawingInput ref={drawingRef} Drawing={EngineeringDiagram} drawingProperties={Object.keys(defaultEngineeringDiagramOptions)} className={className} inputData={inputData} options={options} />
 }
+export const FBDInput = forwardRef(FBDInputUnforwarded)
+export default FBDInput
 
 function getDragObject(downData, upData, options) {
 	// Don't draw if the mouse is not down or is not snapped.

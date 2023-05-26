@@ -2,7 +2,6 @@
 
 const { ensureInt, ensureNumber, isNumber, compareNumbers } = require('../util/numbers')
 const { isNumberArray } = require('../util/arrays')
-const { isBasicObject } = require('../util/objects')
 
 class Vector {
 	/*
@@ -322,18 +321,10 @@ class Vector {
 
 	// isVector checks if a parameter is a vector or is sufficiently like a vector to become one. That is: ensureVector can turn it into one.
 	static isVector(obj) {
-		if (obj instanceof Vector) // Is it already a Vector?
+		if (obj instanceof Vector)
 			return true
-		if (isNumberArray(obj) && obj.length >= 2) // Is it an array of numbers?
+		if (isNumberArray(obj) && obj.length >= 2)
 			return true
-		if (isBasicObject(obj)) { // Is it a basic object of the form { x: 2, y: 3, z: 4 } (with at least one parameter)?
-			const parameters = ['x', 'y', 'z']
-			const parameterCount = parameters.findIndex(parameter => obj[parameter] === undefined)
-			if (parameterCount === -1)
-				parameterCount = parameters.length
-			if (parameterCount > 0 && parameterCount === Object.keys(obj).length)
-				return true
-		}
 		return false
 	}
 

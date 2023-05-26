@@ -101,11 +101,6 @@ class Rectangle {
 		return numberArray(0, this.dimension - 1).map(axis => this.getSize(axis))
 	}
 
-	// middle gives the vector that's exactly in the middle of the Rectangle.
-	get middle() {
-		return this.span.middle
-	}
-
 	/*
 	 * Manipulation and calculation methods.
 	 */
@@ -115,8 +110,8 @@ class Rectangle {
 		return new Rectangle(this.span.transform(transformation, ...args))
 	}
 
-	// contains checks if a vector (a point) falls within the rectangle.
-	contains(vector) {
+	// isInside checks if a vector (a point) falls within the rectangle.
+	isInside(vector) {
 		vector = ensureVector(vector, this.dimension)
 		return numberArray(0, this.dimension - 1).every(axis => {
 			const vectorCoordinate = vector.getCoordinate(axis)
@@ -207,7 +202,7 @@ class Rectangle {
 		center = ensureVector(center, this.dimension)
 		radius = ensureNumber(radius, true)
 		return contains ?
-			this.contains(center) && this.getDistanceTo(center, true) >= radius :
+			this.isInside(center) && this.getDistanceTo(center, true) >= radius :
 			this.getDistanceTo(center) <= radius
 	}
 

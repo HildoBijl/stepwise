@@ -6,7 +6,7 @@ import { ensureString } from 'step-wise/util/strings'
 import { ensureBoolean, ensureObject, processOptions } from 'step-wise/util/objects'
 import { ensureVectorArray } from 'step-wise/geometry'
 
-import { useGraphicalVector, SvgPortal } from '../../DrawingContext'
+import { useGraphicalVector } from '../DrawingContext'
 
 import { defaultObject, useRefWithEventHandlers, filterEventHandlers, getLinePath } from './util'
 
@@ -39,7 +39,7 @@ export const Line = forwardRef((props, ref) => {
 	// Set up the line.
 	const classes = useStyles()
 	const path = getLinePath(points, close)
-	return <SvgPortal><path ref={ref} className={clsx(classes.line, className)} style={style} d={path} {...filterEventHandlers(props)} /></SvgPortal>
+	return <path ref={ref} className={clsx(classes.line, className)} style={style} d={path} {...filterEventHandlers(props)} />
 })
 Line.defaultProps = defaultLine
 export default Line

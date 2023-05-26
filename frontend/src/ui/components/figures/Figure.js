@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export const Figure = forwardRef((options, ref) => {
+function Figure(options, ref) {
 	options = processOptions(options, defaultOptions)
 	const classes = useStyles({ aspectRatio: options.aspectRatio, maxWidth: options.maxWidth })
 
@@ -55,5 +55,5 @@ export const Figure = forwardRef((options, ref) => {
 			</div>
 		</div>
 	)
-})
-export default Figure
+}
+export default forwardRef(Figure)

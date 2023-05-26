@@ -28,15 +28,6 @@ In SVG the `<g>` tag is common. Such a `Group` can shift/rotate an entire group 
 - `rotate` (default `0`): a rotation in radians.
 - `overflow` (default `true`): should elements be visible outside of the drawing? Or should they be clipped off at the edge?
 
-## Text
-
-Renders an SVG `text` element. Parameters are:
-
-- `points` and `graphicalPoints`: an array of `Vectors` to indicate where the line should go.
-- `anchor` (default `middle`): the `text-anchor` parameter that can be either "start" (left), "middle" or "end" (right).
-
-The text is then placed at the given point. If more attributes are desired, consider using the (non-SVG) `Element` component instead.
-
 ## Line
 
 A `Line` is a straight line through multiple points. Parameters are:

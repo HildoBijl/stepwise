@@ -89,28 +89,6 @@ function numberArray(p1, p2) {
 }
 module.exports.numberArray = numberArray
 
-// spread creates an array with numbers from start (inclusive) to end (inclusive if possible) with the given step. So spread(5,11,2) gives [5,7,9,11] while spread(5,10,2) gives [5,7,9]. It is similar to Python's 5:11:2 (except Python does not include the end point while this function does).
-function spread(start, end, step = 1) {
-	// Check input.
-	start = ensureNumber(start)
-	end = ensureNumber(end)
-	step = ensureNumber(step, false, true) // The spread may not be zero.
-
-	// Check boundary cases.
-	if (start === end)
-		return [start]
-	if (Math.sign(end - start) !== Math.sign(step)) {
-		const temp = end
-		end = start
-		start = temp
-	}
-
-	// Iterate.
-	const numPoints = Math.floor((end - start) / step) + 1
-	return numberArray(0, numPoints - 1).map(index => start + index * step)
-}
-module.exports.spread = spread
-
 // fillUndefinedWith takes an array and fills all undefined values with the given value. It changes the array and returns itself.
 function fillUndefinedWith(array, filler) {
 	for (let i = 0; i < array.length; i++) {

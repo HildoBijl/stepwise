@@ -6,7 +6,7 @@ import { ensureString } from 'step-wise/util/strings'
 import { processOptions, filterOptions } from 'step-wise/util/objects'
 import { Vector, ensureVector, ensureSpan } from 'step-wise/geometry'
 
-import { useGraphicalObject, useGraphicalVector } from '../../DrawingContext'
+import { useGraphicalObject, useGraphicalVector } from '../DrawingContext'
 
 import { defaultObject, useRefWithEventHandlers } from './util'
 import Line, { defaultLine } from './Line'

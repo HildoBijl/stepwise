@@ -5,7 +5,7 @@ import { ensureString } from 'step-wise/util/strings'
 import { ensureObject, processOptions } from 'step-wise/util/objects'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
-import { useGraphicalVector, useGraphicalDistance, SvgPortal } from '../../DrawingContext'
+import { useGraphicalVector, useGraphicalDistance } from '../DrawingContext'
 
 import { defaultObject, useRefWithEventHandlers, filterEventHandlers, getArcPath } from './util'
 
@@ -33,7 +33,7 @@ export const Arc = forwardRef((props, ref) => {
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Draw the arc.
-	return <SvgPortal><path ref={ref} className={className} style={style} d={getArcPath(center, radius, startAngle, endAngle)} {...filterEventHandlers(props)} /></SvgPortal>
+	return <path ref={ref} className={className} style={style} d={getArcPath(center, radius, startAngle, endAngle)} {...filterEventHandlers(props)} />
 })
 Arc.defaultProps = defaultArc
 export default Arc

@@ -5,13 +5,12 @@ import { Vector, Rectangle } from 'step-wise/geometry'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 
 import { Par, M, BM } from 'ui/components'
-import { Circle, Rectangle as SvgRectangle, useScaleBasedTransformationSettings } from 'ui/components/figures'
+import { Circle, Rectangle as SvgRectangle, useScaleAndShiftTransformationSettings } from 'ui/components/figures'
 import { InputSpace } from 'ui/form/FormPart'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
-import { Drawing } from 'ui/components/figures'
 
-import { Distance, Element, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
+import EngineeringDiagram, { Group, Distance, Element, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
 import { sumOfForces } from 'ui/edu/content/mechanics/latex'
 
 import StepExercise from '../types/StepExercise'
@@ -98,22 +97,30 @@ const steps = [
 ]
 
 function Diagram({ decompose = false }) {
-	const transformationSettings = useScaleBasedTransformationSettings([Vector.zero, new Vector(4, 4)], { scale: 50, margin: 70 })
+	const transformationSettings = useScaleAndShiftTransformationSettings([Vector.zero, new Vector(4, 4)], { scale: 50, margin: 70 })
+	return <EngineeringDiagram transformationSettings={transformationSettings} svgContents={<Schematics decompose={decompose} />} htmlContents={<Elements decompose={decompose} />} />
+}
 
-	const { loads, loadNames, decomposedLoads, decomposedLoadNames } = useSolution()
+function Schematics({ decompose }) {
+	const { loads, decomposedLoads } = useSolution()
 	const grid = numberArray(0, 4).map(x => numberArray(0, 4).map(y => new Vector(x, y))).flat()
 	const rectangle = new Rectangle({ start: new Vector(-rectangleMargin, -rectangleMargin), end: new Vector(4 + rectangleMargin, 4 + rectangleMargin) })
 
-	return <Drawing transformationSettings={transformationSettings}>
+	return <>
 		<SvgRectangle dimensions={rectangle} cornerRadius={0.2} style={{ fill: '#aaccff', strokeWidth: 1, stroke: '#777' }} />
-		{grid.map((point, index) => <Circle key={index} center={point} graphicalRadius={3} style={{ fill: '#777' }} />)}
-
-		{(decompose ? decomposedLoadNames : loadNames).map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
-		{render(decompose ? decomposedLoads : loads)}
-
-		<Element position={new Vector(4, 0.5)} graphicalPosition={new Vector(distanceShift + 6, 0)} anchor={[0, 0.5]}><M>{new FloatUnit('1.0 m')}</M></Element>
+		<Group>{grid.map((point, index) => <Circle key={index} center={point} graphicalRadius={3} style={{ fill: '#777' }} />)}</Group>
+		<Group>{render(decompose ? decomposedLoads : loads)}</Group>
 		<Distance span={{ start: new Vector(4, 0), end: new Vector(4, 1) }} graphicalShift={new Vector(distanceShift, 0)} />
-	</Drawing>
+	</>
+}
+
+function Elements({ decompose }) {
+	const { loadNames, decomposedLoadNames } = useSolution()
+
+	return <>
+		<Element position={new Vector(4, 0.5)} graphicalPosition={new Vector(distanceShift + 6, 0)} anchor={[0, 0.5]}><M>{new FloatUnit('1.0 m')}</M></Element>
+		{(decompose ? decomposedLoadNames : loadNames).map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
+	</>
 }
 
 function getFeedback(exerciseData) {

@@ -162,11 +162,6 @@ export function getFeedbackColor(feedbackType, theme) {
 	return (theme.palette[feedbackType] && theme.palette[feedbackType].main) || theme.palette.text.primary
 }
 
-export function useColor(color) {
-	const theme = useTheme()
-	return getFeedbackColor(color, theme)
-}
-
 export function useFontsLoaded(includeMaths = true) {
 	const theme = useTheme()
 	const fontFamily = theme.typography.fontFamily

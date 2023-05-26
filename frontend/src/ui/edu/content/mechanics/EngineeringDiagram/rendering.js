@@ -24,13 +24,11 @@ export const loadColors = {
 	glow: toCSS(themeColor), // On selection.
 }
 
-const { Group } = drawingComponents
-
 // render takes a data object, checks its "type" parameter, and based on that tries to render it into the right component for the Engineering Diagram.
 export function render(data) {
 	// For arrays make a group out of all individual elements.
 	if (Array.isArray(data))
-		return <Group>{data.map((element, index) => <Fragment key={index}>{render(element)}</Fragment>)}</Group>
+		return <g>{data.map((element, index) => <Fragment key={index}>{render(element)}</Fragment>)}</g>
 
 	// Ensure it's an object.
 	if (!isObject(data))

@@ -1,5 +1,4 @@
 import { isValidElement, useState, useRef, useEffect, useReducer, useCallback } from 'react'
-import { createPortal } from 'react-dom'
 import usePrevious from '@react-hook/previous'
 import useSize from '@react-hook/size'
 import useResizeObserver from '@react-hook/resize-observer'
@@ -14,8 +13,8 @@ import { getEventPosition } from 'util/dom'
 export { usePrevious, useSize, useResizeObserver }
 
 // ensureReactElement ensures that the given parameter is a React-type element. If not, it throws an error. On success it returns the element.
-export function ensureReactElement(element, allowString = true, allowNumber = true) {
-	if (!isValidElement(element) && (!allowString || typeof element !== 'string') && (!allowNumber || typeof element !== 'number'))
+export function ensureReactElement(element, allowString = true) {
+	if (!isValidElement(element) && (!allowString || typeof element !== 'string'))
 		throw new Error(`Invalid React element: expected a valid React element but received something of type "${typeof element}".`)
 	return element
 }
@@ -189,9 +188,8 @@ export function useBoundingClientRect(element) {
 
 	// Listen for updates to the rect.
 	useEffect(() => updateElementPosition(), [element, updateElementPosition]) // Changes in the rectangle.
-	useEventListener('scroll', updateElementPosition) // Window scrolling.
-	useResizeObserver(window?.document?.body, updateElementPosition) // Window/body resize.
-	useResizeObserver(element, updateElementPosition) // Element resize.
+	useEventListener('scroll', updateElementPosition) // Scrolling.
+	useEventListener('resize', updateElementPosition) // Window resize.
 
 	// On a first run the rect may not be known yet. Calculate it directly.
 	if (element && !rect) {
@@ -207,12 +205,6 @@ export function useBoundingClientRect(element) {
 // useForceUpdate gives you a force update function, which is useful in some extreme cases.
 export function useForceUpdate() {
 	return useReducer(() => ({}))[1]
-}
-
-// useForceUpdateEffect forces an update of the component as an effect, updating it after its render. This is useful if we need an update after the references have been established.
-export function useForceUpdateEffect() {
-	const forceUpdate = useForceUpdate()
-	useEffect(() => forceUpdate(), [forceUpdate])
 }
 
 // useDimension takes a field ref and a function that returns a dimension. (Or the function can also be the name of a property, like "offsetWidth".) This function is called on every resize of the said object. If required, an extra useUpdateCallback can be implemented. This is for instance a listener that listens to other events and fires the update function on a change in the value it itself is monitoring.
@@ -283,41 +275,4 @@ export function useStaggeredFunction(func) {
 		}
 	}, [funcRef, timeoutRef])
 	return staggeredFunc
-}
-
-// Portal takes a target parameter - a DOM object - and then renders the children in there. It checks when the target changes and rerenders when that happens.
-export function Portal({ target, children }) {
-	return target ? createPortal(children, target) : null
-}
-
-// useAnimation takes an animation function and calls it several times per second with both (1) the time since mounting, and (2) the time difference dt since the last call. On the first call dt is undefined.
-export function useAnimation(animationFunc) {
-	const startTimeRef = useRef()
-	const previousTimeRef = useRef()
-	const requestRef = useRef()
-	const animationFuncRef = useLatest(animationFunc)
-
-	// Set up an animate function that keeps calling itself.
-	const animate = useCallback(pageTime => {
-		// Calculate all relevant times.
-		let dt, time
-		if (startTimeRef.current === undefined) {
-			startTimeRef.current = pageTime // Remember the starting time.
-			time = 0
-		} else {
-			time = pageTime - startTimeRef.current
-			dt = pageTime - previousTimeRef.current
-		}
-		previousTimeRef.current = pageTime
-
-		// Call the given animation function, and then call itself a tiny bit later.
-		animationFuncRef.current(time, dt)
-		requestRef.current = requestAnimationFrame(animate)
-	}, [startTimeRef, previousTimeRef, animationFuncRef])
-
-	// Start the animation cycle upon mounting.
-	useEffect(() => {
-		requestRef.current = requestAnimationFrame(animate)
-		return () => cancelAnimationFrame(requestRef.current)
-	}, [requestRef, animate])
 }
