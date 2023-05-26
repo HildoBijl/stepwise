@@ -1,50 +1,15 @@
-// Every Drawing provides a context. This file deals with everything related to that.
-
-import { createContext, useContext } from 'react'
-
 import { isNumber } from 'step-wise/util/numbers'
 import { hasIterableParameters, applyToEachParameter } from 'step-wise/util/objects'
 import { Vector, Transformation } from 'step-wise/geometry'
 
-import { Portal } from 'util/react'
+import { applyTransformation } from '../transformation'
 
-import { applyTransformation } from './transformation'
-
-// Set up a context so elements inside the drawing can ask for the drawing.
-export const DrawingContext = createContext({})
-
-// Get the data out of the context.
-export function useDrawingContext() {
-	return useContext(DrawingContext)
-}
-
-// Get the ID of the surrounding drawing.
-export function useDrawingId() {
-	const drawing = useDrawingContext()
-	return drawing?.id
-}
-
-// Get the transformation settings from the drawing context.
-export function useTransformationSettings() {
-	return useDrawingContext()?.transformationSettings
-}
-
-// Get specifically the bounds from the drawing context.
-export function useBounds() {
-	return useTransformationSettings()?.bounds
-}
-
-// Get specifically the graphicalBounds from the drawing context.
-export function useGraphicalBounds() {
-	const drawing = useDrawingContext()
-	return drawing?.transformationSettings?.graphicalBounds
-}
+import { useTransformationSettings } from './context'
 
 // useTransformation receives a vector, an array of vectors or a basic object with only vectors, and applies the transformation from the drawing to all these vectors.
 export function useTransformation(points, preventShift) {
 	// Extract the transformation.
-	const drawing = useDrawingContext()
-	const transformation = (drawing?.transformationSettings?.transformation) || Transformation.getIdentity(2)
+	const transformation = useTransformationSettings()?.transformation || Transformation.getIdentity(2)
 
 	// Apply the transformation.
 	return applyTransformation(points, transformation, preventShift)
@@ -53,8 +18,7 @@ export function useTransformation(points, preventShift) {
 // useScaling receives a number, an array of numbers or a basic object with only number properties, and multiplies these numbers by the scale.
 export function useScaling(numbers) {
 	// Extract the scaling factor.
-	const drawing = useDrawingContext()
-	const scale = (drawing?.transformationSettings?.scale) || [1, 1]
+	const scale = useTransformationSettings()?.scale || [1, 1]
 	const scaleFactor = Math.pow(scale.reduce((product, value) => value * product, 1), 1 / scale.length) // Geometric mean of the scale of all axes.
 
 	// Define a (recursive) scaling function.
@@ -133,25 +97,4 @@ export function useGraphicalObject(drawingObject, graphicalObject) {
 	if (!hasIterableParameters(graphicalObject))
 		return applyToEachParameter(transformedObject, obj => obj.add(graphicalObject))
 	return applyToEachParameter(transformedObject, (obj, index) => obj.add(graphicalObject[index]))
-}
-
-/*
- * Portals for getting DOM elements in the right container.
- */
-
-export function HtmlPortal({ children }) {
-	const { htmlContents } = useDrawingContext()
-	return <Portal target={htmlContents}>{children}</Portal>
-}
-
-const IsInSvgPortalContext = createContext()
-export function SvgPortal({ children }) {
-	const { svg } = useDrawingContext()
-	const isInSvgPortal = useContext(IsInSvgPortalContext)
-	return isInSvgPortal ? children : <IsInSvgPortalContext.Provider value={true}><Portal target={svg}>{children}</Portal></IsInSvgPortalContext.Provider> // Only set up a portal on the first SVG component encountered (like a Group) and not on descendants (like shapes inside that Group).
-}
-
-export function SvgDefsPortal({ children }) {
-	const { svgDefs } = useDrawingContext()
-	return <Portal target={svgDefs}>{children}</Portal>
 }

@@ -9,6 +9,7 @@ import { processOptions, filterOptions } from 'step-wise/util/objects'
 import { resolveFunctions } from 'step-wise/util/functions'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
+import { getEventPosition } from 'util/dom'
 import { useMousePosition as useClientMousePosition, useBoundingClientRect, useForceUpdateEffect } from 'util/react'
 import { notSelectable } from 'ui/theme'
 
@@ -97,7 +98,7 @@ export const Drawing = forwardRef((options, ref) => {
 			return gPoint && inverseTransformation.apply(gPoint)
 		},
 		getPointFromEvent(event) {
-			const cPoint = getClientCoordinatesFromEvent(event)
+			const cPoint = getEventPosition(event)
 			const gPoint = getGraphicalCoordinates(cPoint, transformationSettings, figureRef.current)
 			const inverseTransformation = transformationSettings.inverseTransformation
 			return gPoint && inverseTransformation.apply(gPoint)
@@ -172,20 +173,6 @@ function getGraphicalCoordinates(clientCoordinates, transformationSettings, figu
 		(clientCoordinates.x - figureRect.x) * transformationSettings.graphicalBounds.width / figureRect.width,
 		(clientCoordinates.y - figureRect.y) * transformationSettings.graphicalBounds.height / figureRect.height,
 	])
-}
-
-// getClientCoordinatesFromEvent returns the point in SVG/Canvas coordinates based on an event.
-function getClientCoordinatesFromEvent(event) {
-	const eventProcessed = ((event.touches && event.touches[0]) || event)
-	return new Vector({ x: eventProcessed.clientX, y: eventProcessed.clientY })
-}
-
-// applyStyle takes an object and applies the corresponding style object to it. It returns the given object.
-export function applyStyle(obj, style = {}) {
-	Object.keys(style).forEach(key => {
-		obj.style(key, style[key])
-	})
-	return obj
 }
 
 // useGraphicalMousePosition tracks the position of the mouse in graphical coordinates. This is of the from {x: 120, y: 90 }.

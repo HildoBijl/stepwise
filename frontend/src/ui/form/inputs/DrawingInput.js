@@ -15,11 +15,9 @@ import { Vector, Line, Span, Rectangle } from 'step-wise/geometry'
 import { getEventPosition, getUtilKeys } from 'util/dom'
 import { useEventListener, useConsistentValue } from 'util/react'
 import { notSelectable } from 'ui/theme'
-import { useAsInput, defaultInputOptions } from 'ui/form/inputs/support/Input'
+import { Drawing, defaultDrawingOptions, useGraphicalMousePosition, Element, Line as SvgLine, Square, Rectangle as SvgRectangle, applyTransformation } from 'ui/components/figures/Drawing'
 
-import Drawing, { defaultDrawingOptions, useGraphicalMousePosition } from '../../components/figures/Drawing/Drawing'
-import { Element, Line as SvgLine, Square, Rectangle as SvgRectangle } from '../../components/figures/Drawing/components'
-import { applyTransformation } from '../../components/figures/Drawing/transformation'
+import { useAsInput, defaultInputOptions } from './support/Input'
 
 export const startSelectionOptions = {
 	never: 0,
