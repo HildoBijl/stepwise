@@ -3,12 +3,13 @@ import React from 'react'
 import { Vector, Line } from 'step-wise/geometry'
 
 import { Par, M, BM } from 'ui/components'
-import { CornerLabel, useCurrentBackgroundColor, useScaleAndShiftTransformationSettings } from 'ui/components/figures'
+import { CornerLabel, useCurrentBackgroundColor, useScaleBasedTransformationSettings } from 'ui/components/figures'
 import { InputSpace } from 'ui/form/FormPart'
 import { useInput } from 'ui/form/Form'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
+import { Drawing } from 'ui/components/figures'
 
-import EngineeringDiagram, { Group, Beam, FixedSupport, Distance, Element, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
+import { Group, Beam, FixedSupport, Distance, Element, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
 import FBDInput, { allConnectedToPoints, getFBDFeedback, loadSources, performLoadsComparison } from 'ui/edu/content/mechanics/FBDInput'
 import { sumOfForces, sumOfMoments } from 'ui/edu/content/mechanics/latex'
 
@@ -147,38 +148,20 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 	const { points, loads, getLoadNames, angleRad } = solution
 
 	// Define the transformation.
-	const transformationSettings = useScaleAndShiftTransformationSettings(points, { scale: 70, margin: [[120, 80], [90, 110]] })
+	const transformationSettings = useScaleBasedTransformationSettings(points, { scale: 70, margin: [[120, 80], [90, 110]] })
 
 	// Get all the required components.
 	const loadsToDisplay = isInputField ? [] : (showSolution ? loads : loads.filter(load => load.source === loadSources.external))
-	const schematics = <Schematics {...solution} showSupports={showSupports} loads={loadsToDisplay} />
-	const elements = <Elements {...solution} loads={loadsToDisplay} />
+	const schematics = <Schematics {...solution} loads={loadsToDisplay} showSupports={showSupports} />
 
 	// Set up either a diagram or an input field with said diagram.
 	const snappers = [...Object.values(points), Line.fromPointAndAngle(points.B, angleRad)]
 	return isInputField ?
-		<FBDInput id="loads" transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} snappers={snappers} validate={allConnectedToPoints(points)} getLoadNames={getLoadNames} /> :
-		<EngineeringDiagram transformationSettings={transformationSettings} svgContents={schematics} htmlContents={elements} />
+		<FBDInput id="loads" transformationSettings={transformationSettings} snappers={snappers} validate={allConnectedToPoints(points)} getLoadNames={getLoadNames}>{schematics}</FBDInput> :
+		<Drawing transformationSettings={transformationSettings}>{schematics}</Drawing>
 }
 
-function Schematics({ points, loads, showSupports = true }) {
-	const { A, B, C } = points
-
-	return <>
-		<Beam points={[A, C]} />
-
-		<Group style={{ opacity: showSupports ? 1 : 0.1 }}>
-			<FixedSupport position={points.A} angle={Math.PI} />
-		</Group>
-
-		<Group>{render(loads)}</Group>
-
-		<Distance span={{ start: A, end: B }} graphicalShift={new Vector(0, distanceShift)} />
-		<Distance span={{ start: B, end: C }} graphicalShift={new Vector(0, distanceShift)} />
-	</>
-}
-
-function Elements({ l1, l2, angle, points, loads, getLoadNames }) {
+function Schematics({ l1, l2, angle, points, loads, getLoadNames, showSupports = true }) {
 	const background = useCurrentBackgroundColor()
 	const distanceLabelStyle = { background, padding: '0.3rem' }
 	const loadNames = getLoadNames(loads)
@@ -186,13 +169,25 @@ function Elements({ l1, l2, angle, points, loads, getLoadNames }) {
 	const externalLoad = loads.find(load => load.source === loadSources.external)
 
 	return <>
+		<Beam points={[A, C]} />
 		<Label position={A} angle={Math.PI / 4} graphicalDistance={7}><M>A</M></Label>
 		<Label position={B} angle={Math.PI / 2} graphicalDistance={4}><M>B</M></Label>
 		<Label position={C} angle={0} graphicalDistance={6}><M>C</M></Label>
-		<Element position={A.interpolate(B)} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}</M></Element>
-		<Element position={B.interpolate(C)} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_2 = {l2}</M></Element>
-		{externalLoad ? <CornerLabel points={[externalLoad.span.start, B, A]} graphicalSize={32}><M>{angle}^\circ</M></CornerLabel> : null}
+
+		<Group style={{ opacity: showSupports ? 1 : 0.1 }}>
+			<FixedSupport position={points.A} angle={Math.PI} />
+		</Group>
+
+		<Group>{render(loads)}</Group>
 		{loadNames.map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
+
+		{externalLoad ? <CornerLabel points={[externalLoad.span.start, B, A]} graphicalSize={32}><M>{angle}^\circ</M></CornerLabel> : null}
+
+		<Distance span={{ start: A, end: B }} graphicalShift={new Vector(0, distanceShift)} />
+		<Element position={A.interpolate(B)} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_1 = {l1}</M></Element>
+
+		<Distance span={{ start: B, end: C }} graphicalShift={new Vector(0, distanceShift)} />
+		<Element position={B.interpolate(C)} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>l_2 = {l2}</M></Element>
 	</>
 }
 

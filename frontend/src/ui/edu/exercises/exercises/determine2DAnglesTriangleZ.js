@@ -3,7 +3,7 @@ import React from 'react'
 import { Vector, Line } from 'step-wise/geometry'
 
 import { Par, M, BM } from 'ui/components'
-import { Drawing, drawingComponents, CornerLabel, useRotationReflectionTransformation, useScaleToBoundsTransformationSettings } from 'ui/components/figures'
+import { Drawing, drawingComponents, CornerLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/components/figures'
 import ExpressionInput, { numeric, basicMath } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/FormPart'
 
@@ -101,7 +101,7 @@ function ExerciseFigure({ showAlpha = 0, showBeta = 0, showGamma = 0 }) {
 
 	// Define the transformation.
 	const pretransformation = useRotationReflectionTransformation(rotation, reflection)
-	const transformationSettings = useScaleToBoundsTransformationSettings(points, {
+	const transformationSettings = useBoundsBasedTransformationSettings(points, {
 		pretransformation,
 		maxWidth: size,
 		maxHeight: size,
@@ -109,12 +109,12 @@ function ExerciseFigure({ showAlpha = 0, showBeta = 0, showGamma = 0 }) {
 	})
 
 	// Render the figure.
-	return <Drawing transformationSettings={transformationSettings} svgContents={<>
+	return <Drawing transformationSettings={transformationSettings}>
 		<Polygon points={[bottomLeft, topRight, bottomRight]} style={{ fill: '#aaccff' }} />
 		<Polygon points={[topLeft, bottomLeft, topRight]} style={{ fill: '#ffaabb' }} />
 		<BoundedLine line={Line.fromPoints(bottomLeft, bottomRight)} style={{ strokeWidth: 2 }} />
 		<BoundedLine line={Line.fromPoints(topLeft, topRight)} style={{ strokeWidth: 2 }} />
-	</>} htmlContents={<>
+
 		{showAlpha === 0 ? null : <CornerLabel points={[topRight, bottomLeft, bottomRight]} graphicalSize={showAlpha === 1 ? labelLetterSize : labelNumberSize}>{showAlpha === 1 ? <M>{variables.alpha}</M> : <M>{alpha}^\circ</M>}</CornerLabel>}
 		{showBeta === 0 ? null : <CornerLabel points={[bottomLeft, topRight, topLeft]} graphicalSize={showBeta === 1 ? labelLetterSize : labelNumberSize}>{showBeta === 1 ? <M>{variables.beta}</M> : <M>{beta}^\circ</M>}</CornerLabel>}
 		{showGamma === 0 ? null : <CornerLabel points={[topRight, topLeft, bottomLeft]} graphicalSize={showGamma === 1 ? labelLetterSize : labelNumberSize}>{showGamma === 1 ? <M>{variables.gamma}</M> : <M>{gamma}^\circ</M>}</CornerLabel>}
@@ -122,7 +122,7 @@ function ExerciseFigure({ showAlpha = 0, showBeta = 0, showGamma = 0 }) {
 		<CornerLabel points={[bottomLeft, bottomRight, topRight]} graphicalSize={labelNumberSize}><M>{a}^\circ</M></CornerLabel>
 		<CornerLabel points={[bottomLeft, topRight, bottomRight]} graphicalSize={labelNumberSize}><M>{b}^\circ</M></CornerLabel>
 		<CornerLabel points={[topLeft, bottomLeft, topRight]} graphicalSize={labelNumberSize}><M>{c}^\circ</M></CornerLabel>
-	</>} />
+	</Drawing>
 }
 
 function getPoints(solution) {

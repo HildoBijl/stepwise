@@ -35,7 +35,7 @@ Once you have transformation settings, you must position stuff on your drawing. 
 
 - *Drawing HTML contents* -- Through the `htmlContents` parameter you can add HTML components. Think of text or even equations to be rendered at a specific point in the figure. See the [HtmlComponents](./Drawing/HtmlComponents/) for further information.
 
-- *Drawing through a Canvas* -- Separate from the above, it is also possible to add a `Canvas` object to the drawing. For this, first set the `useCanvas` parameter to `true`. (A canvas is not applied by default.) Then, from the Drawing ref (use `<Drawing ref={someDrawingRef} ... />`) you can use the `canvas` parameter (like through `someDrawingRef.current.canvas`) and draw in the usual way with a canvas. Optionally, it is also possible to get the `2dContext` directly through `someDrawingRef.current.context` and apply it.
+- *Drawing through a Canvas* -- Separate from the above, it is also possible to add a `Canvas` object to the drawing. For this, first set the `useCanvas` parameter to `true`. (A canvas is not applied by default.) Then, from the Drawing ref (use `<Drawing ref={someDrawingRef} ... />`) you can use the `canvas` parameter (like through `someDrawingRef.current.canvas`) and draw in the usual way with a canvas. Optionally, it is also possible to get the 2D context directly through `someDrawingRef.current.context` and apply it.
 
 Out comes a drawing, which hopefully looks as good as you want it to be!
 
@@ -47,4 +47,3 @@ On Step-Wise are various interactive diagrams. These are extensions of the `Draw
 2. Inside the component, render a `DrawingInput` component through `return <DrawingInput ref={drawingRef} inputData={inputData} />`. Once more, the `DrawingInput` has a variety of options that can then be used.
 
 It will take some figuring out, and looking at examples applying it, but through it it's possible to make new drawing inputs, that will come across as intuitive and easy-to-use by the users of Step-Wise.
-

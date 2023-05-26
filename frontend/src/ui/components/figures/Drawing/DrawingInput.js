@@ -17,9 +17,8 @@ import { useEventListener, useConsistentValue } from 'util/react'
 import { notSelectable } from 'ui/theme'
 import { useAsInput, defaultInputOptions } from 'ui/form/inputs/support/Input'
 
-import { defaultDrawingOptions, useGraphicalMousePosition } from './Drawing'
-import { Element } from './HtmlComponents'
-import { Line as SvgLine, Square, Rectangle as SvgRectangle } from './SvgComponents'
+import Drawing, { defaultDrawingOptions, useGraphicalMousePosition } from './Drawing'
+import { Element, Line as SvgLine, Square, Rectangle as SvgRectangle } from './components'
 import { applyTransformation } from './transformation'
 
 export const startSelectionOptions = {
@@ -202,14 +201,13 @@ export function useAsDrawingInput(options) {
 }
 
 // The DrawingInput wrapper needs to be used to add the right classes and to properly position potential feedback.
-export function DrawingInputUnforwarded({ Drawing, drawingProperties, className, inputData, options = {} }, drawingRef) {
-	const drawingOptions = drawingProperties ? filterProperties(options, drawingProperties) : options
+export const DrawingInput = forwardRef(({ DrawingElement = Drawing, drawingElementProperties = Object.keys(defaultDrawingOptions), className, inputData, options = {}, children }, drawingRef) => {
+	const drawingOptions = drawingElementProperties ? filterProperties(options, drawingElementProperties) : options
 	options = processOptions(options, defaultDrawingInputOptions, true)
 	let { maxWidth, stopSnapOnSelection, feedbackIconScale, onDelete, transformationSettings } = options
 	const { active, readOnly, mouseData, feedback, selectionRectangle } = inputData
 	const drawing = drawingRef && drawingRef.current
 	maxWidth = resolveFunctions(maxWidth, transformationSettings.graphicalBounds)
-	let { svgContents, htmlContents } = drawingOptions
 
 	// Determine styling of the object.
 	const classes = useStyles({
@@ -230,8 +228,8 @@ export function DrawingInputUnforwarded({ Drawing, drawingProperties, className,
 		onDelete(evt)
 	}), [onDelete])
 	if (onDeleteWithStopPropagation) {
-		htmlContents = <>
-			{htmlContents}
+		children = <>
+			{children}
 			<Element anchor={[1, 1]} graphicalPosition={[drawing.width - 10, drawing.height - 10]} scale={1.5} ignoreMouse={false} ><DeleteButton onDelete={onDeleteWithStopPropagation} onMouseEnter={() => setIsOverDeleteButton(true)} onMouseLeave={() => setIsOverDeleteButton(false)} /></Element>
 		</>
 	}
@@ -242,24 +240,23 @@ export function DrawingInputUnforwarded({ Drawing, drawingProperties, className,
 
 	// Add snap lines when the mouse is not over a button.
 	const isOverButton = isOverDeleteButton
-	svgContents = addSelectionRectangle(svgContents, selectionRectangle, drawing)
+	children = addSelectionRectangle(children, selectionRectangle, drawing)
 	if ((!selectionRectangle || !stopSnapOnSelection) && !isOverButton)
-		svgContents = addSnapSvg(svgContents, mouseData, drawing)
+		children = addSnapSvg(children, mouseData, drawing)
 
 	// Add a feedback icon when appropriate.
-	htmlContents = addFeedbackIcon(htmlContents, feedback, drawing, feedbackIconScale)
+	children = addFeedbackIcon(children, feedback, drawing, feedbackIconScale)
 
 	// Show the drawing and the feedback box.
 	return <div className={className}>
 		<IsInDrawingInputContext.Provider value={true}>
 			<div className="drawing">
-				<Drawing ref={drawingRef} {...{ ...drawingOptions, svgContents, htmlContents }} />
+				<DrawingElement ref={drawingRef} {...{ ...drawingOptions, children }} />
 			</div>
 		</IsInDrawingInputContext.Provider>
 		<div className="feedbackText">{feedback && feedback.text}</div>
 	</div>
-}
-export const DrawingInput = forwardRef(DrawingInputUnforwarded)
+})
 export default DrawingInput
 
 // useIsInDrawingInput returns true or false: is the given element inside of a DrawingInput.
@@ -395,26 +392,26 @@ export function getSnapSvg(mouseData, drawing, lineStyle = {}, markerStyle = {},
 }
 
 // addSnapSvg takes SVG elements and adds snap lines to it.
-export function addSnapSvg(svgContents, mouseData, drawing) {
+export function addSnapSvg(children, mouseData, drawing) {
 	// If the drawing is not there yet, don't add lines.
 	if (!drawing)
-		return svgContents
+		return children
 
 	// Get the lines and marker and display them in the right order.
 	const snapSvg = getSnapSvg(mouseData, drawing)
 	return <>
 		{snapSvg.lines}
-		{svgContents}
+		{children}
 		{snapSvg.marker}
 	</>
 }
 
 // addFeedbackIcon takes HTML elements and adds a feedback icon to it.
-export function addFeedbackIcon(htmlContents, feedback, drawing, scale = 1) {
+export function addFeedbackIcon(children, feedback, drawing, scale = 1) {
 	if (!feedback || !feedback.Icon || !drawing)
-		return htmlContents
+		return children
 	return <>
-		{htmlContents}
+		{children}
 		<Element anchor={[1, 0]} graphicalPosition={[drawing.width - 8, 6]} scale={scale} ><feedback.Icon className="icon" /></Element>
 	</>
 }
@@ -448,12 +445,12 @@ function getSelectionRectangle(downData, upData, drawing) {
 	})
 }
 
-// addSelectionRectangle takes an svgContents object and adds a selection rectangle on top of it.
-function addSelectionRectangle(svgContents, selectionRectangle) {
+// addSelectionRectangle takes a Drawing children object and adds a selection rectangle on top of it.
+function addSelectionRectangle(children, selectionRectangle) {
 	return selectionRectangle ? <>
-		{svgContents}
+		{children}
 		<SvgRectangle className="selectionRectangle" dimensions={selectionRectangle} />
-	</> : svgContents
+	</> : children
 }
 
 // DeleteButton is a button of a garbage bin icon.

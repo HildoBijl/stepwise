@@ -1,4 +1,5 @@
 import { isValidElement, useState, useRef, useEffect, useReducer, useCallback } from 'react'
+import { createPortal } from 'react-dom'
 import usePrevious from '@react-hook/previous'
 import useSize from '@react-hook/size'
 import useResizeObserver from '@react-hook/resize-observer'
@@ -190,6 +191,7 @@ export function useBoundingClientRect(element) {
 	useEffect(() => updateElementPosition(), [element, updateElementPosition]) // Changes in the rectangle.
 	useEventListener('scroll', updateElementPosition) // Scrolling.
 	useEventListener('resize', updateElementPosition) // Window resize.
+	useResizeObserver(element, updateElementPosition) // Resizing of element.
 
 	// On a first run the rect may not be known yet. Calculate it directly.
 	if (element && !rect) {
@@ -205,6 +207,12 @@ export function useBoundingClientRect(element) {
 // useForceUpdate gives you a force update function, which is useful in some extreme cases.
 export function useForceUpdate() {
 	return useReducer(() => ({}))[1]
+}
+
+// useForceUpdateEffect forces an update of the component as an effect, updating it after its render. This is useful if we need an update after the references have been established.
+export function useForceUpdateEffect() {
+	const forceUpdate = useForceUpdate()
+	useEffect(() => forceUpdate(), [forceUpdate])
 }
 
 // useDimension takes a field ref and a function that returns a dimension. (Or the function can also be the name of a property, like "offsetWidth".) This function is called on every resize of the said object. If required, an extra useUpdateCallback can be implemented. This is for instance a listener that listens to other events and fires the update function on a change in the value it itself is monitoring.
@@ -275,4 +283,9 @@ export function useStaggeredFunction(func) {
 		}
 	}, [funcRef, timeoutRef])
 	return staggeredFunc
+}
+
+// Portal takes a target parameter - a DOM object - and then renders the children in there. It checks when the target changes and rerenders when that happens.
+export function Portal({ target, children }) {
+	return target ? createPortal(children, target) : null
 }

@@ -7,7 +7,7 @@ import { ensureCorner } from 'step-wise/geometry'
 
 import { ensureReactElement } from 'util/react'
 
-import { useGraphicalVector, useGraphicalDistance } from '../DrawingContext'
+import { useGraphicalVector, useGraphicalDistance } from '../../DrawingContext'
 
 import Element, { defaultElement } from './Element'
 
@@ -35,4 +35,5 @@ export const CornerLabel = forwardRef((props, ref) => {
 	return <Element ref={ref} {...filterOptions(props, defaultElement)} graphicalPosition={point.add(delta)}>{children}</Element>
 })
 CornerLabel.defaultProps = defaultCornerLabel
+CornerLabel.plotType = 'html'
 export default CornerLabel

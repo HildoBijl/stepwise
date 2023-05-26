@@ -3,7 +3,7 @@ import React from 'react'
 import { Vector, Line } from 'step-wise/geometry'
 
 import { Par, M, BM } from 'ui/components'
-import { Drawing, drawingComponents, CornerLabel, useRotationReflectionTransformation, useScaleToBoundsTransformationSettings } from 'ui/components/figures'
+import { Drawing, drawingComponents, CornerLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/components/figures'
 import ExpressionInput, { numeric, basicMath } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/FormPart'
 
@@ -120,7 +120,7 @@ function ExerciseFigure({ showAlpha = 0, showBeta = 0, showGamma = 0, showDelta 
 
 	// Define the transformation.
 	const pretransformation = useRotationReflectionTransformation(rotation, reflection)
-	const transformationSettings = useScaleToBoundsTransformationSettings(points, {
+	const transformationSettings = useBoundsBasedTransformationSettings(points, {
 		pretransformation,
 		maxWidth: size,
 		maxHeight: size,
@@ -128,7 +128,7 @@ function ExerciseFigure({ showAlpha = 0, showBeta = 0, showGamma = 0, showDelta 
 	})
 
 	// Render the figure.
-	return <Drawing transformationSettings={transformationSettings} svgContents={<>
+	return <Drawing transformationSettings={transformationSettings}>
 		<Circle center={center} radius={radius} style={{ fill: '#aaccff', stroke: '#888888' }} />
 		<LineComponent points={[top, bottom]} />
 		<LineComponent points={[right, center]} />
@@ -136,14 +136,14 @@ function ExerciseFigure({ showAlpha = 0, showBeta = 0, showGamma = 0, showDelta 
 		<BoundedLine line={Line.fromPoints(bottom, right)} style={{ strokeWidth: 2 }} />
 		{showAlpha === 2 ? <RightAngle points={[center, top, right]} graphicalSize={10} /> : null}
 		<Circle center={center} radius={radius / 40} style={{ fill: 'black' }} />
-	</>} htmlContents={<>
+
 		{showAlpha === 1 ? <CornerLabel points={[center, top, right]} graphicalSize={labelLetterSize}><M>{variables.alpha}</M></CornerLabel> : null}
 		{showBeta === 0 ? null : <CornerLabel points={[top, right, center]} graphicalSize={showBeta === 1 ? labelLetterSize : labelNumberSize}>{showBeta === 1 ? <M>{variables.beta}</M> : <M>{beta}^\circ</M>}</CornerLabel>}
 		{showGamma === 0 ? null : <CornerLabel points={[bottom, right, center]} graphicalSize={showGamma === 1 ? labelLetterSize : labelNumberSize}>{showGamma === 1 ? <M>{variables.gamma}</M> : <M>{gamma}^\circ</M>}</CornerLabel>}
 		{showDelta === 0 ? null : <CornerLabel points={[right, bottom, top]} graphicalSize={showDelta === 1 ? labelLetterSize : labelNumberSize}>{showDelta === 1 ? <M>{variables.delta}</M> : <M>{delta}^\circ</M>}</CornerLabel>}
 
 		<CornerLabel points={[right, center, top]} graphicalSize={labelNumberSize}><M>{a}^\circ</M></CornerLabel>
-	</>} />
+	</Drawing>
 }
 
 function getPoints(solution) {

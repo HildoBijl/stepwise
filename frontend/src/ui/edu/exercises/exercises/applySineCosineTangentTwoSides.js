@@ -4,7 +4,7 @@ import { expressionComparisons } from 'step-wise/CAS'
 import { Vector } from 'step-wise/geometry'
 
 import { Par, M, BM } from 'ui/components'
-import { Drawing, drawingComponents, CornerLabel, LineLabel, useRotationReflectionTransformation, useScaleToBoundsTransformationSettings } from 'ui/components/figures'
+import { Drawing, drawingComponents, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/components/figures'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import ExpressionInput, { numeric, basicTrigonometryInDegrees } from 'ui/form/inputs/ExpressionInput'
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
@@ -123,7 +123,7 @@ function ExerciseFigure() {
 
 	// Define the transformation.
 	const pretransformation = useRotationReflectionTransformation(rotation, reflection)
-	const transformationSettings = useScaleToBoundsTransformationSettings(points, {
+	const transformationSettings = useBoundsBasedTransformationSettings(points, {
 		pretransformation,
 		maxWidth: 300,
 		maxHeight: 300,
@@ -132,15 +132,15 @@ function ExerciseFigure() {
 	const labelSize = 26
 
 	// Render the figure.
-	return <Drawing transformationSettings={transformationSettings} svgContents={<>
+	return <Drawing transformationSettings={transformationSettings}>
 		<Polygon points={points} style={{ fill: '#aaccff' }} />
 		<RightAngle points={points} graphicalSize={10} />
-	</>} htmlContents={<>
+
 		{notGiven === 0 ? null : <LineLabel points={[points[0], points[1]]} oppositeTo={points[2]}><M>{a}</M></LineLabel>}
 		{notGiven === 1 ? null : <LineLabel points={[points[1], points[2]]} oppositeTo={points[0]}><M>{b}</M></LineLabel>}
 		{notGiven === 2 ? null : <LineLabel points={[points[0], points[2]]} oppositeTo={points[1]}><M>{c}</M></LineLabel>}
 		<CornerLabel points={[points[2], points[0], points[1]]} graphicalSize={labelSize}><M>{state.beta}</M></CornerLabel>
-	</>} />
+	</Drawing>
 }
 
 function getPoints(solution) {

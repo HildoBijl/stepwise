@@ -7,7 +7,7 @@ import { Vector, ensureVector } from 'step-wise/geometry'
 
 import { ensureReactElement } from 'util/react'
 
-import { useGraphicalVector, useGraphicalDistance } from '../DrawingContext'
+import { useGraphicalVector, useGraphicalDistance } from '../../DrawingContext'
 
 import { getAnchorFromAngle } from './util'
 import Element, { defaultElement } from './Element'
@@ -34,4 +34,5 @@ export const Label = forwardRef((props, ref) => {
 	return <Element {...filterOptions(removeProperties(props, 'position'), defaultElement)} graphicalPosition={position.add(delta)} anchor={anchor}>{children}</Element>
 })
 Label.defaultProps = defaultLabel
+Label.plotType = 'html'
 export default Label

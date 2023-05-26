@@ -1,4 +1,6 @@
 import React, { forwardRef } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import clsx from 'clsx'
 
 import { ensureInt, ensureNumber } from 'step-wise/util/numbers'
 import { ensureString } from 'step-wise/util/strings'
@@ -6,10 +8,18 @@ import { ensureObject, processOptions } from 'step-wise/util/objects'
 import { numberArray } from 'step-wise/util/arrays'
 import { Vector } from 'step-wise/geometry'
 
-import { Group } from 'ui/components/figures/Drawing/SvgComponents'
-import { defaultObject, useRefWithEventHandlers } from 'ui/components/figures/Drawing/SvgComponents/util'
+import { Group } from 'ui/components/figures/Drawing/components/svgComponents'
+import { defaultObject, useRefWithEventHandlers } from 'ui/components/figures/Drawing/components/svgComponents/util'
 
 import { Hinge } from '../structuralComponents'
+
+const useStyles = makeStyles((theme) => ({
+	wheels: {
+		'& circle': {
+			'stroke-width': 0,
+		},
+	},
+}))
 
 export const defaultWheels = {
 	...defaultObject,
@@ -32,13 +42,13 @@ export const Wheels = forwardRef((props, ref) => {
 	ref = useRefWithEventHandlers(props, ref)
 
 	// Draw a group with the right number of wheels (circles).
-	return <Group {...{ ref, position, graphicalPosition, className, style }}>
+	const classes = useStyles()
+	return <Group className={clsx(classes.wheels, className)} {...{ ref, position, graphicalPosition, style }}>
 		{numberArray(0, numWheels - 1).map(index => <circle
 			key={index}
 			cx={(2 * index + 1 - numWheels) * wheelRadius}
 			cy="0"
 			r={wheelRadius}
-			className="wheel"
 			style={{ fill: color, ...wheelStyle }}
 		/>)}
 	</Group>

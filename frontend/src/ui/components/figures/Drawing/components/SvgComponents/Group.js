@@ -5,7 +5,7 @@ import { ensureString } from 'step-wise/util/strings'
 import { ensureBoolean, ensureObject, processOptions } from 'step-wise/util/objects'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
-import { useDrawingId, useGraphicalVector } from '../DrawingContext'
+import { useDrawingId, useGraphicalVector, SvgPortal } from '../../DrawingContext'
 
 import { defaultObject, useRefWithEventHandlers } from './util'
 
@@ -33,11 +33,11 @@ export const Group = forwardRef((props, ref) => {
 
 	// Set up the group with the right transform property.
 	const drawingId = useDrawingId()
-	return <g ref={ref} className={className} style={{
+	return <SvgPortal><g ref={ref} className={className} style={{
 		...style,
 		clipPath: overflow ? '' : `url(#noOverflow${drawingId})`,
 		transform: `translate(${position.x}px, ${position.y}px) rotate(${rotate * 180 / Math.PI}deg) scale(${scale}) ${style.transform || ''}`,
-	}}>{children}</g>
+	}}>{children}</g></SvgPortal>
 })
 Group.defaultProps = defaultGroup
 export default Group

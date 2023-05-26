@@ -3,7 +3,7 @@ import React from 'react'
 import { Vector } from 'step-wise/geometry'
 
 import { Par, M, BM } from 'ui/components'
-import { Drawing, drawingComponents, LineLabel, useRotationReflectionTransformation, useScaleToBoundsTransformationSettings } from 'ui/components/figures'
+import { Drawing, drawingComponents, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/components/figures'
 import ExpressionInput, { numeric, basicMathAndPowers } from 'ui/form/inputs/ExpressionInput'
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form/FormPart'
@@ -113,7 +113,7 @@ function ExerciseFigure() {
 
 	// Define the transformation.
 	const pretransformation = useRotationReflectionTransformation(rotation, reflection)
-	const transformationSettings = useScaleToBoundsTransformationSettings([...triangle1, ...triangle2], {
+	const transformationSettings = useBoundsBasedTransformationSettings([...triangle1, ...triangle2], {
 		pretransformation,
 		maxWidth: 300,
 		maxHeight: 300,
@@ -121,20 +121,21 @@ function ExerciseFigure() {
 	})
 
 	// Render the figure.
-	return <Drawing transformationSettings={transformationSettings} svgContents={<>
+	return <Drawing transformationSettings={transformationSettings}>
 		<Polygon points={triangle1} style={{ fill: '#aaccff' }} />
 		<RightAngle points={triangle1} graphicalSize={10} />
-		<Polygon points={triangle2} style={{ fill: '#ffffff' }} />
-		<RightAngle points={triangle2} graphicalSize={6} />
-	</>} htmlContents={<>
+
 		<LineLabel points={[triangle1[0], triangle1[1]]} oppositeTo={triangle1[2]}><M>{state.a}</M></LineLabel>
 		<LineLabel points={[triangle1[1], triangle1[2]]} oppositeTo={triangle1[0]}><M>{state.b}</M></LineLabel>
 		<LineLabel points={[triangle1[0], triangle1[2]]} oppositeTo={triangle1[1]}><M>{state.c}</M></LineLabel>
 
+		<Polygon points={triangle2} style={{ fill: '#ffffff' }} />
+		<RightAngle points={triangle2} graphicalSize={6} />
+
 		<LineLabel points={[triangle2[0], triangle2[1]]} oppositeTo={triangle2[2]} graphicalDistance={4}><M>{La}</M></LineLabel>
 		<LineLabel points={[triangle2[1], triangle2[2]]} oppositeTo={triangle2[0]} graphicalDistance={4}><M>{Lb}</M></LineLabel>
 		<LineLabel points={[triangle2[0], triangle2[2]]} oppositeTo={triangle2[1]} graphicalDistance={4}><M>{Lc}</M></LineLabel>
-	</>} />
+	</Drawing>
 }
 
 function getPoints(solution) {
