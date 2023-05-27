@@ -28,8 +28,8 @@ export default function Component() {
 		<Par>Aan het einde is de gehele tabel zo ingevuld, hopelijk zonder fouten. Maar ook hier kunnen we nog een controle uitvoeren: geldt energiebehoud? Om dit te zien berekenen we het volgende.</Par>
 		<List items={[
 			<>De totaal (netto) geleverde arbeid <M>W_(netto) = W_(1-2) + W_(2-3) + \ldots.</M></>,
-			<>De totaal (netto) toegevoerde arbeid <M>Q_(netto) = Q_(1-2) + Q_(2-3) + \ldots.</M></>,
+			<>De totaal (netto) toegevoerde warmte <M>Q_(netto) = Q_(1-2) + Q_(2-3) + \ldots.</M></>,
 		]} />
-		<Par>Vanwege energiebehoud moeten, na afloop van het kringproces, deze twee waarden gelijk zijn aan elkaar: de netto toegevoerde arbeid is gelijk aan de netto geleverde arbeid. Kleine afrondonnauwkeurigheden kunnen voorkomen, maar indien de twee waarden ver van elkaar af liggen, dan hebben we ergens in ons tabel een fout gemaakt. Dan is het dus de moeite waard om alle berekeningen nog eens goed langs te gaan. Zo verkrijgen we uiteindelijk een foutloos <M>W</M>-<M>Q</M>-tabel.</Par>
+		<Par>Vanwege energiebehoud moeten, na afloop van het kringproces, deze twee waarden gelijk zijn aan elkaar: de netto geleverde arbeid is gelijk aan de netto toegevoerde warmte. Kleine afrondonnauwkeurigheden kunnen voorkomen, maar indien de twee waarden ver van elkaar af liggen, dan hebben we ergens in ons tabel een fout gemaakt. Dan is het dus de moeite waard om alle berekeningen nog eens goed langs te gaan. Zo verkrijgen we uiteindelijk een foutloos <M>W</M>-<M>Q</M>-tabel.</Par>
 	</>
 }
