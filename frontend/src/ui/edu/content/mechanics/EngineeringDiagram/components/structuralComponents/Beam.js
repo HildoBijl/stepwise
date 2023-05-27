@@ -8,8 +8,8 @@ import { ensureObject, processOptions } from 'step-wise/util/objects'
 import { ensureVectorArray } from 'step-wise/geometry'
 
 import { useGraphicalVector } from 'ui/components/figures'
-import { Group, Line, Polygon } from 'ui/components/figures/Drawing/drawingComponents/SvgComponents'
-import { useRefWithEventHandlers } from 'ui/components/figures/Drawing/drawingComponents/SvgComponents/util'
+import { Group, Line, Polygon } from 'ui/components/figures/Drawing/components/SvgComponents'
+import { useRefWithEventHandlers } from 'ui/components/figures/Drawing/components/SvgComponents/util'
 
 const useStyles = makeStyles((theme) => ({
 	beam: {

@@ -8,7 +8,7 @@ import { ensureObject, processOptions } from 'step-wise/util/objects'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
 import { useGraphicalVector } from 'ui/components/figures'
-import { defaultObject, useRefWithEventHandlers } from 'ui/components/figures/Drawing/drawingComponents/SvgComponents/util'
+import { defaultObject, useRefWithEventHandlers } from 'ui/components/figures/Drawing/components/SvgComponents/util'
 
 const useStyles = makeStyles((theme) => ({
 	arrowHead: {

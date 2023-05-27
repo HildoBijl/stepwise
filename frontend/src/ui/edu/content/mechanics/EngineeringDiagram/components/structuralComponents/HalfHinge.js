@@ -6,8 +6,8 @@ import { ensureNumber } from 'step-wise/util/numbers'
 import { ensureString } from 'step-wise/util/strings'
 import { ensureObject, processOptions } from 'step-wise/util/objects'
 
-import { Arc } from 'ui/components/figures/Drawing/drawingComponents/SvgComponents'
-import { useRefWithEventHandlers } from 'ui/components/figures/Drawing/drawingComponents/SvgComponents/util'
+import { Arc } from 'ui/components/figures/Drawing/components/SvgComponents'
+import { useRefWithEventHandlers } from 'ui/components/figures/Drawing/components/SvgComponents/util'
 
 import { defaultHinge } from './Hinge'
 

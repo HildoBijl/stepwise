@@ -5,8 +5,8 @@ import { ensureString } from 'step-wise/util/strings'
 import { processOptions } from 'step-wise/util/objects'
 import { Vector } from 'step-wise/geometry/Vector'
 
-import { Group, Line } from 'ui/components/figures/Drawing/drawingComponents/SvgComponents'
-import { defaultObject, useRefWithEventHandlers } from 'ui/components/figures/Drawing/drawingComponents/SvgComponents/util'
+import { Group, Line } from 'ui/components/figures/Drawing/components/SvgComponents'
+import { defaultObject, useRefWithEventHandlers } from 'ui/components/figures/Drawing/components/SvgComponents/util'
 
 import { Hinge } from '../structuralComponents'
 

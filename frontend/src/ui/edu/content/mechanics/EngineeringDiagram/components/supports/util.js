@@ -1,6 +1,6 @@
 import { Vector } from 'step-wise/geometry/Vector'
 
-import { defaultObject } from 'ui/components/figures/Drawing/drawingComponents/SvgComponents/util'
+import { defaultObject } from 'ui/components/figures/Drawing/components/SvgComponents/util'
 
 import { Beam, Hinge } from '../structuralComponents'
 
