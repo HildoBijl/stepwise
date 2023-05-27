@@ -3,7 +3,7 @@ import React from 'react'
 import { Vector, Line } from 'step-wise/geometry'
 
 import { Par, M, BM } from 'ui/components'
-import { Drawing, drawingComponents, CornerLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/components/figures'
+import { Drawing, Circle, BoundedLine, Line as SvgLine, RightAngle, CornerLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
 import ExpressionInput, { numeric, basicMath } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form/FormPart'
 
@@ -11,8 +11,6 @@ import { useSolution } from '../util/SolutionProvider'
 import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'
-
-const { Circle, BoundedLine, Line: LineComponent, RightAngle } = drawingComponents
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -130,8 +128,8 @@ function ExerciseFigure({ showAlpha = 0, showBeta = 0, showGamma = 0, showDelta 
 	// Render the figure.
 	return <Drawing transformationSettings={transformationSettings}>
 		<Circle center={center} radius={radius} style={{ fill: '#aaccff', stroke: '#888888' }} />
-		<LineComponent points={[top, bottom]} />
-		<LineComponent points={[right, center]} />
+		<SvgLine points={[top, bottom]} />
+		<SvgLine points={[right, center]} />
 		<BoundedLine line={Line.fromPoints(top, right)} style={{ strokeWidth: 2 }} />
 		<BoundedLine line={Line.fromPoints(bottom, right)} style={{ strokeWidth: 2 }} />
 		{showAlpha === 2 ? <RightAngle points={[center, top, right]} graphicalSize={10} /> : null}

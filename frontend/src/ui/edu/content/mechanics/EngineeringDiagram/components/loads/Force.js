@@ -7,9 +7,9 @@ import { ensureString } from 'step-wise/util/strings'
 import { processOptions } from 'step-wise/util/objects'
 import { Vector, ensureSpan } from 'step-wise/geometry'
 
-import { useGraphicalObject } from 'ui/components/figures'
-import { Group, Line } from 'ui/components/figures/Drawing/components/svgComponents'
-import { defaultObject, useRefWithEventHandlers } from 'ui/components/figures/Drawing/components/svgComponents/util'
+import { useGraphicalObject } from 'ui/figures'
+import { Group, Line } from 'ui/figures/Drawing/components/svgComponents'
+import { defaultObject, useRefWithEventHandlers } from 'ui/figures/Drawing/components/svgComponents/util'
 
 import ArrowHead, { defaultArrowHead } from './ArrowHead'
 

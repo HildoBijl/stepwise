@@ -7,8 +7,8 @@ import { ensureString } from 'step-wise/util/strings'
 import { ensureObject, processOptions } from 'step-wise/util/objects'
 import { Vector } from 'step-wise/geometry'
 
-import { Circle } from 'ui/components/figures/Drawing/components/svgComponents'
-import { defaultObject, useRefWithEventHandlers } from 'ui/components/figures/Drawing/components/svgComponents/util'
+import { Circle } from 'ui/figures/Drawing/components/svgComponents'
+import { defaultObject, useRefWithEventHandlers } from 'ui/figures/Drawing/components/svgComponents/util'
 
 import { defaultBeam } from './Beam'
 

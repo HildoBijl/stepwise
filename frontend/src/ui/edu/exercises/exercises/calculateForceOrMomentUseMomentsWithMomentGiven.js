@@ -5,11 +5,10 @@ import { Vector, Rectangle } from 'step-wise/geometry'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 
 import { Par, M, BM } from 'ui/components'
-import { CornerLabel, Circle, Rectangle as SvgRectangle, Line, useScaleBasedTransformationSettings } from 'ui/components/figures'
+import { Drawing, CornerLabel, Circle, Rectangle as SvgRectangle, Line, useScaleBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form/FormPart'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
-import { Drawing } from 'ui/components/figures'
 
 import { Distance, Element, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
 import { sumOfMoments } from 'ui/edu/content/mechanics/latex'

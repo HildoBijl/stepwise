@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useColor } from 'ui/theme'
 import { Par, M, BM } from 'ui/components'
-import { Line, Circle } from 'ui/components/figures'
+import { Line, Circle } from 'ui/figures'
 import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/FormPart'
 

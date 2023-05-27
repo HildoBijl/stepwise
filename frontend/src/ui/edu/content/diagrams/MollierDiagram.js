@@ -5,8 +5,8 @@ import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 import { maximumHumidity } from 'step-wise/data/moistureProperties'
 import { tableInterpolate, inverseTableInterpolate } from 'step-wise/util/interpolation'
 
-import { Drawing, usePlotTransformationSettings, Axes, MouseLines, Group, Curve, Label } from 'ui/components/figures'
-import { defaultAxesOptions } from 'ui/components/figures/Plot/Axes'
+import { Drawing, usePlotTransformationSettings, Axes, MouseLines, Group, Curve, Label } from 'ui/figures'
+import { defaultAxesOptions } from 'ui/figures/Plot/Axes'
 
 const factors = spread(0.1, 1, 0.1)
 const pointsList = factors.map(factor => maximumHumidity.headers[0].map((temperature, index) => [maximumHumidity.grid[index].number * factor, temperature.number]))

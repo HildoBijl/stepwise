@@ -6,7 +6,7 @@ import { isObject, applyToEachParameter } from 'step-wise/util/objects'
 import { toCSS } from 'util/colors'
 
 import { themeColor, feedbackColors } from 'ui/theme'
-import { drawingComponents } from 'ui/components/figures'
+import { Group, components as drawingComponents } from 'ui/figures'
 
 import * as engineeringComponents from './components'
 
@@ -23,8 +23,6 @@ export const loadColors = {
 	feedback: applyToEachParameter(feedbackColors, toCSS),
 	glow: toCSS(themeColor), // On selection.
 }
-
-const { Group } = drawingComponents
 
 // render takes a data object, checks its "type" parameter, and based on that tries to render it into the right component for the Engineering Diagram.
 export function render(data) {

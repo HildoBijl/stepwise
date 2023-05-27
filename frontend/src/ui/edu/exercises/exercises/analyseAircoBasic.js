@@ -5,7 +5,7 @@ import { maximumHumidity } from 'step-wise/data/moistureProperties'
 
 import { useColor } from 'ui/theme'
 import { Par, M } from 'ui/components'
-import { Line, Circle, Curve } from 'ui/components/figures'
+import { Line, Circle, Curve } from 'ui/figures'
 import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form/FormPart'
 

@@ -3,11 +3,11 @@ import React from 'react'
 import { Vector, Line } from 'step-wise/geometry'
 
 import { Par, M, BM } from 'ui/components'
+import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form/FormPart'
 import { useInput } from 'ui/form/Form'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
-import { useCurrentBackgroundColor, useScaleBasedTransformationSettings } from 'ui/components/figures/Drawing'
-import { Drawing } from 'ui/components/figures'
+import { useCurrentBackgroundColor } from 'ui/form/inputs/DrawingInput'
 
 import { Group, Beam, HingeSupport, RollerHingeSupport, Distance, Element, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
 import FBDInput, { allConnectedToPoints, getFBDFeedback, loadSources, performLoadsComparison } from 'ui/edu/content/mechanics/FBDInput'

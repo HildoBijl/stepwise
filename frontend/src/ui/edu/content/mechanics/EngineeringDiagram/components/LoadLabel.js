@@ -4,7 +4,7 @@ import { Variable } from 'step-wise/CAS'
 import { loadTypes, ensureLoad } from 'step-wise/edu/exercises/util/engineeringMechanics'
 
 import { M } from 'ui/components'
-import { Label } from 'ui/components/figures'
+import { Label } from 'ui/figures'
 
 import { Moment } from './loads'
 

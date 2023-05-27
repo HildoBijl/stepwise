@@ -2,11 +2,10 @@ import React, { Fragment } from 'react'
 
 import { firstOf, lastOf } from 'step-wise/util/arrays'
 import { Transformation } from 'step-wise/geometry'
+
 import { M } from 'ui/components'
+import { Drawing, Line as SvgLine, Curve as SvgCurve, useBoundsBasedTransformationSettings, Element } from 'ui/figures'
 
-import { Drawing, drawingComponents, useBoundsBasedTransformationSettings, Element } from 'ui/components/figures'
-
-const { Line: SvgLine, Curve: SvgCurve } = drawingComponents
 
 // Define settings for the drawing.
 const displacement = 0.2

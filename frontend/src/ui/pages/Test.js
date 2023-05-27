@@ -15,8 +15,8 @@ import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 // import { Transformation } from 'step-wise/geometry'
 
 // import { useAnimation } from 'util/react'
-// import { Drawing, drawingComponents, useBoundsBasedTransformationSettings, Element } from 'ui/components/figures'
-// import { usePlotTransformationSettings, Axes, MouseLines } from 'ui/components/figures/Plot'
+// import { Drawing, drawingComponents, useBoundsBasedTransformationSettings, Element } from 'ui/figures'
+// import { usePlotTransformationSettings, Axes, MouseLines } from 'ui/figures/Plot'
 
 
 // core version + navigation, pagination modules:

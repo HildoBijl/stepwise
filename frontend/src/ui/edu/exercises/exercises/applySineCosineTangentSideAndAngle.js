@@ -4,7 +4,7 @@ import { expressionComparisons } from 'step-wise/CAS'
 import { Vector } from 'step-wise/geometry'
 
 import { Par, M, BM } from 'ui/components'
-import { Drawing, drawingComponents, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/components/figures'
+import { Drawing, Polygon, RightAngle, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import ExpressionInput, { numeric, basicTrigonometryInDegrees } from 'ui/form/inputs/ExpressionInput'
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
@@ -15,8 +15,6 @@ import { useSolution } from '../util/SolutionProvider'
 import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
-
-const { Polygon, RightAngle } = drawingComponents
 
 const ruleNames = ['SOS', 'CAS', 'TOA']
 const funcNames = ['sinus', 'cosinus', 'tangens']
