@@ -1,61 +1,37 @@
-import React, { useRef, forwardRef, useImperativeHandle, useEffect } from 'react'
+import React, { forwardRef } from 'react'
 
-import { firstOf, lastOf } from 'step-wise/util/arrays'
-import { getRange } from 'step-wise/util/numbers'
+import { spread, lastOf } from 'step-wise/util/arrays'
+import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 import { maximumHumidity } from 'step-wise/data/moistureProperties'
-import { tableInterpolate } from 'step-wise/util/interpolation'
+import { tableInterpolate, inverseTableInterpolate } from 'step-wise/util/interpolation'
 
-import { Plot, useIdentityTransformationSettings } from 'ui/components/figures'
+import { Drawing, usePlotTransformationSettings, Axes, MouseLines, Group, Curve, Label } from 'ui/components/figures'
+import { defaultAxesOptions } from 'ui/components/figures/Plot/Axes'
 
-// Set up the lines for the diagram.
-const temperatureRange = maximumHumidity.headers[0]
-const xOptions = getRange(0.1, 1, 10)
-const lines = xOptions.map(x => ({
-	points: temperatureRange.map(T => ({
-		output: T.number,
-		input: tableInterpolate(T, maximumHumidity).number * x,
-	})),
-}))
-lastOf(lines).style = { 'stroke-width': 2 }
+const factors = spread(0.1, 1, 0.1)
+const pointsList = factors.map(factor => maximumHumidity.headers[0].map((temperature, index) => [maximumHumidity.grid[index].number * factor, temperature.number]))
+const finalPoint = [35, inverseTableInterpolate(new FloatUnit('35 g/kg'), maximumHumidity).number]
 
-function MollierDiagram({ maxWidth }, ref) {
-	const plotRef = useRef()
-	useImperativeHandle(ref, () => plotRef.current) // Forward the plot ref.
-
-	// Upon loading of the plot, draw the axes and lines.
-	useEffect(() => {
-		// Set up the plot range and labels.
-		const plot = plotRef.current
-		plot.range = {
-			input: { min: 0, max: 35 },
-			output: { min: firstOf(temperatureRange).number, max: lastOf(temperatureRange).number }
-		}
-		plot.drawAxes()
-		plot.addLabels('Absolute luchtvochtigheid [g/kg]', 'Temperatuur [°C]')
-		plot.useHoverLines = true
-
-		// Draw all lines.
-		lines.forEach(line => plot.drawLine(line))
-
-		// Add the percentage markers.
-		xOptions.forEach((x, index) => {
-			const text = `${Math.round(x * 100)}%`
-			if (index === xOptions.length - 1) {
-				plot.drawing.placeText(text, {
-					x: plot.drawing.width + 18,
-					y: 10,
-				})
-			} else {
-				plot.drawing.placeText(text, {
-					x: plot.scale.input(lastOf(lines[index].points).input) + 14,
-					y: 0,
-				})
-			}
-		})
-	}, [plotRef])
-
-	const transformationSettings = useIdentityTransformationSettings(600, 450, [])
-
-	return <Plot ref={plotRef} transformationSettings={transformationSettings} maxWidth={maxWidth} />
+const pointToRelativeHumidity = point => {
+	const T = new FloatUnit({ float: point.y, unit: 'dC' })
+	const AH = new FloatUnit({ float: point.x, unit: 'g/kg' })
+	const AHmax = tableInterpolate(T, maximumHumidity)
+	if (!AHmax)
+		return null // On undefined (out of range) do not show a label.
+	const RH = AH.divide(AHmax).setUnit('')
+	return (RH.number < 0 || RH.number > 1) ? null : `${Math.round(RH.number * 100)}%`
 }
-export default forwardRef(MollierDiagram)
+
+export const MollierDiagram = forwardRef(({ children, ...options }, ref) => {
+	const transformationSettings = usePlotTransformationSettings([[0, -10], [35, 35]], { maxHeight: 300, maxWidth: 400, extendBoundsToTicks: true, ...options })
+	return <Drawing ref={ref} transformationSettings={transformationSettings}>
+		<Axes xLabel="Absolute luchtvochtigheid [g/kg]" yLabel="Temperatuur [°C]" />
+		<MouseLines pointToLabel={pointToRelativeHumidity} />
+		<Group overflow={false}>
+			{pointsList.map((points, index) => <Curve key={index} points={points} style={index === pointsList.length - 1 ? { strokeWidth: 2 } : {}} />)}
+		</Group>
+		{factors.map((factor, index) => <Label key={index} position={index === pointsList.length - 1 ? finalPoint : lastOf(pointsList[index])} angle={index === pointsList.length - 1 ? -Math.PI / 12 : -Math.PI / 3} scale={defaultAxesOptions.textScale} graphicalDistance={index === pointsList.length - 1 ? 3 : 1}>{`${Math.round(factor * 100)}%`}</Label>)}
+		{children}
+	</Drawing>
+})
+export default MollierDiagram

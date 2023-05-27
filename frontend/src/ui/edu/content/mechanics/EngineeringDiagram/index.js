@@ -4,15 +4,12 @@ import { drawingComponents } from 'ui/components/figures/Drawing'
 import * as engineeringComponents from './components'
 
 // Export all components from the Drawing and from the Engineering set, both separately and as components object.
-export * from 'ui/components/figures/Drawing/SvgComponents'
+export * from 'ui/components/figures/Drawing/components'
 export * from './components'
 export const components = {
 	...drawingComponents,
 	...engineeringComponents,
 }
-
-// Reexport all HtmlComponents.
-export * from 'ui/components/figures/Drawing/HtmlComponents'
 
 // Export all from rendering.
 export * from './rendering'

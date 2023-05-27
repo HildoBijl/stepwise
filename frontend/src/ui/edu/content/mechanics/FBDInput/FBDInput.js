@@ -1,8 +1,8 @@
 // The FBDInput is an input field for Free Body Diagrams.
 
 import React, { forwardRef, useCallback, useMemo, useState, useEffect } from 'react'
-import clsx from 'clsx'
 import { useTheme, makeStyles } from '@material-ui/core/styles'
+import clsx from 'clsx'
 
 import { mod } from 'step-wise/util/numbers'
 import { processOptions, filterOptions, applyToEachParameter } from 'step-wise/util/objects'

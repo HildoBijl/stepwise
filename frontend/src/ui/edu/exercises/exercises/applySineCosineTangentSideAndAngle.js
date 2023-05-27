@@ -4,7 +4,7 @@ import { expressionComparisons } from 'step-wise/CAS'
 import { Vector } from 'step-wise/geometry'
 
 import { Par, M, BM } from 'ui/components'
-import { Drawing, drawingComponents, CornerLabel, LineLabel, useRotationReflectionTransformation, useScaleToBoundsTransformationSettings } from 'ui/components/figures'
+import { Drawing, drawingComponents, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/components/figures'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import ExpressionInput, { numeric, basicTrigonometryInDegrees } from 'ui/form/inputs/ExpressionInput'
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
@@ -127,7 +127,7 @@ function ExerciseFigure() {
 
 	// Define the transformation.
 	const pretransformation = useRotationReflectionTransformation(rotation, reflection)
-	const transformationSettings = useScaleToBoundsTransformationSettings(points, {
+	const transformationSettings = useBoundsBasedTransformationSettings(points, {
 		pretransformation,
 		maxWidth: 300,
 		maxHeight: 300,

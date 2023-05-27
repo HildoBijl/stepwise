@@ -26,6 +26,14 @@ function ensureObject(obj) {
 }
 module.exports.ensureObject = ensureObject
 
+// ensureBasicObject makes sure an object is a basic object and otherwise throws an error.
+function ensureBasicObject(obj) {
+	if (!isBasicObject(obj))
+		throw new Error(`Invalid input: expected a basic object but received a parameter of type "${typeof obj}".`)
+	return obj
+}
+module.exports.ensureBasicObject = ensureBasicObject
+
 // ensureBoolean makes sure a parameter is boolean.
 function ensureBoolean(param) {
 	if (typeof param !== 'boolean')

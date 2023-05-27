@@ -9,12 +9,13 @@ import { processOptions, filterOptions } from 'step-wise/util/objects'
 import { resolveFunctions } from 'step-wise/util/functions'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
+import { getEventPosition } from 'util/dom'
 import { useMousePosition as useClientMousePosition, useBoundingClientRect, useForceUpdateEffect } from 'util/react'
 import { notSelectable } from 'ui/theme'
 
 import Figure, { defaultOptions as figureDefaultOptions } from '../Figure'
 
-import { DrawingContext, SvgDefsPortal } from './DrawingContext'
+import { DrawingContext, useDrawingContext, SvgDefsPortal } from './DrawingContext'
 
 const defaultDrawingOptions = {
 	...figureDefaultOptions,
@@ -97,15 +98,15 @@ export const Drawing = forwardRef((options, ref) => {
 			return gPoint && inverseTransformation.apply(gPoint)
 		},
 		getPointFromEvent(event) {
-			const cPoint = getClientCoordinatesFromEvent(event)
+			const cPoint = getEventPosition(event)
 			const gPoint = getGraphicalCoordinates(cPoint, transformationSettings, figureRef.current)
 			const inverseTransformation = transformationSettings.inverseTransformation
 			return gPoint && inverseTransformation.apply(gPoint)
 		},
-		isInside(dPoint) {
+		contains(dPoint) {
 			if (!dPoint)
 				return false
-			return transformationSettings.bounds.isInside(dPoint)
+			return transformationSettings.bounds.contains(dPoint)
 		},
 		applyBounds(dPoint) {
 			return transformationSettings.bounds.applyBounds(dPoint)
@@ -174,40 +175,32 @@ function getGraphicalCoordinates(clientCoordinates, transformationSettings, figu
 	])
 }
 
-// getClientCoordinatesFromEvent returns the point in SVG/Canvas coordinates based on an event.
-function getClientCoordinatesFromEvent(event) {
-	const eventProcessed = ((event.touches && event.touches[0]) || event)
-	return new Vector({ x: eventProcessed.clientX, y: eventProcessed.clientY })
-}
-
-// applyStyle takes an object and applies the corresponding style object to it. It returns the given object.
-export function applyStyle(obj, style = {}) {
-	Object.keys(style).forEach(key => {
-		obj.style(key, style[key])
-	})
-	return obj
-}
-
-// useGraphicalMousePosition tracks the position of the mouse in graphical coordinates. This is of the from {x: 120, y: 90 }. The function must be provided with a reference to the drawing.
+// useGraphicalMousePosition tracks the position of the mouse in graphical coordinates. This is of the from {x: 120, y: 90 }.
 export function useGraphicalMousePosition(drawing) {
 	// Acquire data.
+	let { figure, transformationSettings } = useDrawingContext()
+	if (drawing) { // ToDo: remove this once contexts have been established for input fields.
+		figure = drawing.figure
+		transformationSettings = drawing.transformationSettings
+	}
 	const clientMousePosition = useClientMousePosition()
-	const figureRect = useBoundingClientRect(drawing?.figure?.inner)
+	const figureRect = useBoundingClientRect(figure?.inner)
 
 	// Return undefined on missing data.
-	if (!drawing || !clientMousePosition || !figureRect || figureRect.width === 0 || figureRect.height === 0)
+	if (!clientMousePosition || !figureRect || figureRect.width === 0 || figureRect.height === 0)
 		return undefined
 
 	// Calculate the position in graphical coordinates.
-	return getGraphicalCoordinates(clientMousePosition, drawing.transformationSettings, drawing.figure, figureRect)
+	return getGraphicalCoordinates(clientMousePosition, transformationSettings, figure, figureRect)
 }
 
 // useMousePosition tracks the position of the mouse and gives the location in drawing coordinates. This is of the form { x: 3.5, y: -2.5 }. The function must be provided with a reference to the drawing.
-export function useMousePosition(drawing) {
+export function useMousePosition() {
 	// Acquire the position in graphical coordinates.
-	const graphicalMousePosition = useGraphicalMousePosition(drawing)
+	const { transformationSettings } = useDrawingContext()
+	const graphicalMousePosition = useGraphicalMousePosition()
 
 	// Transform to drawing coordinates.
-	const inverseTransformation = drawing.transformationSettings.inverseTransformation
+	const inverseTransformation = transformationSettings.inverseTransformation
 	return graphicalMousePosition && inverseTransformation.apply(graphicalMousePosition)
 }

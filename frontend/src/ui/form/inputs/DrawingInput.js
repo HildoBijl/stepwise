@@ -15,12 +15,9 @@ import { Vector, Line, Span, Rectangle } from 'step-wise/geometry'
 import { getEventPosition, getUtilKeys } from 'util/dom'
 import { useEventListener, useConsistentValue } from 'util/react'
 import { notSelectable } from 'ui/theme'
-import { useAsInput, defaultInputOptions } from 'ui/form/inputs/support/Input'
+import { Drawing, defaultDrawingOptions, useGraphicalMousePosition, Element, Line as SvgLine, Square, Rectangle as SvgRectangle, applyTransformation } from 'ui/components/figures/Drawing'
 
-import Drawing, { defaultDrawingOptions, useGraphicalMousePosition } from './Drawing'
-import { Element } from './HtmlComponents'
-import { Line as SvgLine, Square, Rectangle as SvgRectangle } from './SvgComponents'
-import { applyTransformation } from './transformation'
+import { useAsInput, defaultInputOptions } from './support/Input'
 
 export const startSelectionOptions = {
 	never: 0,
@@ -275,7 +272,7 @@ export function useCurrentBackgroundColor() {
 // useMouseSnapping wraps all the snapping functionalities into one hook. It takes a drawing, a set of snappers and a snapping distance and takes care of all the mouse functionalities.
 function useMouseSnapping(drawing, snappers, snappingDistance, applySnapping) {
 	// Retrieve the current mouse position in both coordinate systems.
-	const graphicalPosition = useGraphicalMousePosition(drawing)
+	const graphicalPosition = useGraphicalMousePosition(drawing) // ToDo: remove drawing once contexts have been established.
 	const inverseTransformation = drawing?.transformationSettings?.inverseTransformation
 	const position = inverseTransformation && graphicalPosition && inverseTransformation.apply(graphicalPosition)
 
@@ -291,7 +288,7 @@ function useMouseSnapping(drawing, snappers, snappingDistance, applySnapping) {
 		return { mouseInDrawing: false, snappingLines, graphicalSnappingLines, snapper: () => emptySnapMousePositionResponse, ...emptySnapMousePositionResponse }
 
 	// Return all data.
-	const mouseInDrawing = drawing && position && drawing.transformationSettings.graphicalBounds.isInside(position)
+	const mouseInDrawing = drawing && position && drawing.transformationSettings.graphicalBounds.contains(position)
 	const snapResult = snapper(position)
 	return { mouseInDrawing, snappingLines, graphicalSnappingLines, snapper, ...snapResult }
 }
@@ -379,7 +376,7 @@ export function getSnapSvg(mouseData, drawing, lineStyle = {}, markerStyle = {},
 	const bounds = drawing && drawing.bounds
 
 	// Don't show things when the mouse is outside the drawing.
-	if (!drawing.isInside(position))
+	if (!drawing.contains(position))
 		return {}
 
 	// Show the snap marker and lines.

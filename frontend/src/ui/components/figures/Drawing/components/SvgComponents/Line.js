@@ -6,7 +6,7 @@ import { ensureString } from 'step-wise/util/strings'
 import { ensureBoolean, ensureObject, processOptions } from 'step-wise/util/objects'
 import { ensureVectorArray } from 'step-wise/geometry'
 
-import { useGraphicalVector, SvgPortal } from '../DrawingContext'
+import { useGraphicalVector, SvgPortal } from '../../DrawingContext'
 
 import { defaultObject, useRefWithEventHandlers, filterEventHandlers, getLinePath } from './util'
 

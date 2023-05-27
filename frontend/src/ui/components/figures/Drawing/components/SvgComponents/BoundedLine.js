@@ -3,7 +3,7 @@ import React, { forwardRef } from 'react'
 import { processOptions, filterOptions } from 'step-wise/util/objects'
 import { ensureLine as ensureGeometryLine } from 'step-wise/geometry'
 
-import { useGraphicalBounds, useGraphicalObject } from '../DrawingContext'
+import { useGraphicalBounds, useGraphicalObject } from '../../DrawingContext'
 
 import { defaultObject, useRefWithEventHandlers } from './util'
 import Line, { defaultLine } from './Line'

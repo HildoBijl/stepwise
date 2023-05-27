@@ -3,7 +3,7 @@ import React from 'react'
 import { Vector } from 'step-wise/geometry'
 
 import { Par, M, BM } from 'ui/components'
-import { Drawing, drawingComponents, LineLabel, useRotationReflectionTransformation, useScaleToBoundsTransformationSettings } from 'ui/components/figures'
+import { Drawing, drawingComponents, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/components/figures'
 import ExpressionInput, { numeric, basicMathAndPowers } from 'ui/form/inputs/ExpressionInput'
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form/FormPart'
@@ -96,7 +96,7 @@ function ExerciseFigure({ state, solution }) {
 
 	// Define the transformation.
 	const pretransformation = useRotationReflectionTransformation(rotation, reflection)
-	const transformationSettings = useScaleToBoundsTransformationSettings(points, {
+	const transformationSettings = useBoundsBasedTransformationSettings(points, {
 		pretransformation,
 		maxWidth: 300,
 		maxHeight: 300,

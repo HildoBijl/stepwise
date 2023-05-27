@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
 import { Vector } from 'step-wise/geometry'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
@@ -6,7 +6,7 @@ import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 import { getCountingWord } from 'util/language'
 import { selectRandomCorrect } from 'util/feedbackMessages'
 import { Par, M } from 'ui/components'
-import { Drawing, useCurrentBackgroundColor, useScaleAndShiftTransformationSettings } from 'ui/components/figures'
+import { Drawing, useCurrentBackgroundColor, useScaleBasedTransformationSettings } from 'ui/components/figures'
 import { InputSpace } from 'ui/form/FormPart'
 
 import { Group, Element, Distance, Beam, FixedSupport, AdjacentFixedSupport, HingeSupport, HalfHingeSupport, RollerSupport, AdjacentRollerSupport, RollerHingeSupport, RollerHalfHingeSupport, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
@@ -153,7 +153,7 @@ function Diagram({ isInputField = false, id, showSupports = true, showSolution =
 	const { points, loads } = solution
 
 	// Define the transformation.
-	const transformationSettings = useScaleAndShiftTransformationSettings(zoom || points, { scale: 70, margin: [80, [80, 100]] })
+	const transformationSettings = useScaleBasedTransformationSettings(zoom || points, { scale: 70, margin: [80, [80, 100]] })
 
 	// Get all the required components.
 	let loadsToDisplay = isInputField ? [] : (showSolution ? loads : loads.filter(load => load.source === loadSources.external))
@@ -188,10 +188,10 @@ function Schematics({ loads, showSupports = true, zoom }) {
 			const prev = points[index - 1]
 			if (index === 0 || prev.equals(point))
 				return null
-			return <>
-				<Element key={index} position={point.interpolate(prev)} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>{new FloatUnit(`${point.x - prev.x}m`)}</M></Element>
-				<Distance key={index} span={{ start: prev, end: point }} graphicalShift={new Vector(0, distanceShift)} />
-			</>
+			return <Fragment key={index}>
+				<Element position={point.interpolate(prev)} graphicalPosition={new Vector(0, distanceShift)} anchor={[0.5, 0.5]} style={distanceLabelStyle}><M>{new FloatUnit(`${point.x - prev.x}m`)}</M></Element>
+				<Distance span={{ start: prev, end: point }} graphicalShift={new Vector(0, distanceShift)} />
+			</Fragment>
 		})}
 
 		{render(loads)}
