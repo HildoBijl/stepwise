@@ -1,2 +1,2 @@
-export * from './HtmlComponents'
-export * from './SvgComponents'
+export * from './htmlTemp'
+export * from './svgTemp'

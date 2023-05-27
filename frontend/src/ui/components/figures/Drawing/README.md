@@ -22,9 +22,9 @@ See the [transformation](./transformation) directory to see all the available ho
 
 Once you have transformation settings, you must position stuff on your drawing. There are three ways to do so. All these three ways can be used together when desired, but usually you only need the first two.
 
-- *SVG components* -- If you need shapes, like lines, paths, circles, etcetera, then check out the [SvgComponents](./components/SvgComponents/) directory.
+- *SVG components* -- If you need shapes, like lines, paths, circles, etcetera, then check out the [svgComponents](./components/svgComponents/) directory.
 
-- *HTML components* -- If you want anything text-related, like labels or equations, see the [HtmlComponents](./components/HtmlComponents/) directory.
+- *HTML components* -- If you want anything text-related, like labels or equations, see the [htmlComponents](./components/htmlComponents/) directory.
 
 - *Drawing through a Canvas* -- If you are familiar with the HTML Canvas, you can also use this, completely separate from the components above. To do so, first set the `useCanvas` parameter to `true`. (A canvas is not applied by default.) Then, from the Drawing ref (use `<Drawing useCanvas={true} ref={someDrawingRef} ... />`) you can use the `canvas` parameter (like through `someDrawingRef.current.canvas`) and draw in the usual way with a canvas. Optionally, it is also possible to get the 2D context directly through `someDrawingRef.current.context` and apply it.
 
