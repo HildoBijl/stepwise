@@ -8,8 +8,8 @@ import { processOptions } from 'step-wise/util/objects'
 import { Vector, ensureSpan } from 'step-wise/geometry'
 
 import { useGraphicalObject } from 'ui/components/figures'
-import { Group, Line } from 'ui/components/figures/Drawing/SvgComponents'
-import { defaultObject, useRefWithEventHandlers } from 'ui/components/figures/Drawing/SvgComponents/util'
+import { Group, Line } from 'ui/components/figures/Drawing/drawingComponents/SvgComponents'
+import { defaultObject, useRefWithEventHandlers } from 'ui/components/figures/Drawing/drawingComponents/SvgComponents/util'
 
 import ArrowHead, { defaultArrowHead } from './ArrowHead'
 

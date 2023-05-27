@@ -6,7 +6,7 @@ import { ensureVector, ensureVectorArray } from 'step-wise/geometry'
 
 import { ensureReactElement } from 'util/react'
 
-import { useGraphicalVector } from '../DrawingContext'
+import { useGraphicalVector } from '../../DrawingContext'
 
 import Label, { defaultLabel } from './Label'
 
