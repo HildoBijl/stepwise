@@ -5,8 +5,8 @@ import { ensureString } from 'step-wise/util/strings'
 import { ensureObject, processOptions } from 'step-wise/util/objects'
 import { Vector } from 'step-wise/geometry/Vector'
 
-import { Group } from 'ui/components/figures/Drawing/components/svgTemp'
-import { useRefWithEventHandlers } from 'ui/components/figures/Drawing/components/svgTemp/util'
+import { Group } from 'ui/components/figures/Drawing/components/svgComponents'
+import { useRefWithEventHandlers } from 'ui/components/figures/Drawing/components/svgComponents/util'
 
 import { Ground, SupportBlock, Wheels } from '../attachments'
 
