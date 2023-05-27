@@ -6,7 +6,7 @@ import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 import { getCountingWord } from 'util/language'
 import { selectRandomCorrect } from 'util/feedbackMessages'
 import { Par, M } from 'ui/components'
-import { Drawing, useCurrentBackgroundColor, useScaleBasedTransformationSettings } from 'ui/components/figures'
+import { Drawing, useCurrentBackgroundColor, useScaleAndShiftTransformationSettings } from 'ui/components/figures'
 import { InputSpace } from 'ui/form/FormPart'
 
 import { Group, Element, Distance, Beam, FixedSupport, AdjacentFixedSupport, HingeSupport, HalfHingeSupport, RollerSupport, AdjacentRollerSupport, RollerHingeSupport, RollerHalfHingeSupport, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
@@ -153,7 +153,7 @@ function Diagram({ isInputField = false, id, showSupports = true, showSolution =
 	const { points, loads } = solution
 
 	// Define the transformation.
-	const transformationSettings = useScaleBasedTransformationSettings(zoom || points, { scale: 70, margin: [80, [80, 100]] })
+	const transformationSettings = useScaleAndShiftTransformationSettings(zoom || points, { scale: 70, margin: [80, [80, 100]] })
 
 	// Get all the required components.
 	let loadsToDisplay = isInputField ? [] : (showSolution ? loads : loads.filter(load => load.source === loadSources.external))

@@ -9,8 +9,8 @@ import { ensureBoolean, processOptions } from 'step-wise/util/objects'
 import { Vector } from 'step-wise/geometry'
 
 import { useGraphicalDistance } from 'ui/components/figures'
-import { Group, Arc } from 'ui/components/figures/Drawing/components/SvgComponents'
-import { defaultObject, useRefWithEventHandlers } from 'ui/components/figures/Drawing/components/SvgComponents/util'
+import { Group, Arc } from 'ui/components/figures/Drawing/SvgComponents'
+import { defaultObject, useRefWithEventHandlers } from 'ui/components/figures/Drawing/SvgComponents/util'
 
 import ArrowHead from './ArrowHead'
 import { defaultForce } from './Force'

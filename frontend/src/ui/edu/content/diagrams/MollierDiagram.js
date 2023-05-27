@@ -18,7 +18,7 @@ const lines = xOptions.map(x => ({
 }))
 lastOf(lines).style = { 'stroke-width': 2 }
 
-export const MollierDiagram = forwardRef(({ maxWidth }, ref) => {
+function MollierDiagram({ maxWidth }, ref) {
 	const plotRef = useRef()
 	useImperativeHandle(ref, () => plotRef.current) // Forward the plot ref.
 
@@ -57,5 +57,5 @@ export const MollierDiagram = forwardRef(({ maxWidth }, ref) => {
 	const transformationSettings = useIdentityTransformationSettings(600, 450, [])
 
 	return <Plot ref={plotRef} transformationSettings={transformationSettings} maxWidth={maxWidth} />
-})
-export default MollierDiagram
+}
+export default forwardRef(MollierDiagram)

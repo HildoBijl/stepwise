@@ -4,7 +4,7 @@ import { firstOf, lastOf } from 'step-wise/util/arrays'
 import { Transformation } from 'step-wise/geometry'
 import { M } from 'ui/components'
 
-import { Drawing, drawingComponents, useBoundsBasedTransformationSettings, Element } from 'ui/components/figures'
+import { Drawing, drawingComponents, useScaleToBoundsTransformationSettings, Element } from 'ui/components/figures'
 
 const { Line: SvgLine, Curve: SvgCurve } = drawingComponents
 
@@ -53,7 +53,7 @@ const processes = [
 ]
 
 export default function ProcessTypeDrawing() {
-	const transformationSettings = useBoundsBasedTransformationSettings([...xAxisPoints, ...yAxisPoints], {
+	const transformationSettings = useScaleToBoundsTransformationSettings([...xAxisPoints, ...yAxisPoints], {
 		maxWidth: 400,
 		pretransformation: Transformation.getReflection([0, 1]),
 	})

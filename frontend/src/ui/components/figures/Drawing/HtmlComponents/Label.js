@@ -7,7 +7,7 @@ import { Vector, ensureVector } from 'step-wise/geometry'
 
 import { ensureReactElement } from 'util/react'
 
-import { useGraphicalVector, useGraphicalDistance } from '../../DrawingContext'
+import { useGraphicalVector, useGraphicalDistance } from '../DrawingContext'
 
 import { getAnchorFromAngle } from './util'
 import Element, { defaultElement } from './Element'

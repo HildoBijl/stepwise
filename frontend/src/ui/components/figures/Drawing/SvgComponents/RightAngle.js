@@ -3,7 +3,7 @@ import React, { forwardRef } from 'react'
 import { processOptions, filterOptions, removeProperties } from 'step-wise/util/objects'
 import { ensureCorner } from 'step-wise/geometry'
 
-import { useGraphicalVector, useGraphicalDistance } from '../../DrawingContext'
+import { useGraphicalVector, useGraphicalDistance } from '../DrawingContext'
 
 import { defaultObject, useRefWithEventHandlers } from './util'
 import Line, { defaultLine } from './Line'

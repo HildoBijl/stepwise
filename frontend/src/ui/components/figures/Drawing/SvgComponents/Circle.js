@@ -5,7 +5,7 @@ import { ensureString } from 'step-wise/util/strings'
 import { ensureObject, processOptions } from 'step-wise/util/objects'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
-import { useGraphicalVector, useGraphicalDistance, SvgPortal } from '../../DrawingContext'
+import { useGraphicalVector, useGraphicalDistance, SvgPortal } from '../DrawingContext'
 
 import { defaultObject, useRefWithEventHandlers, filterEventHandlers } from './util'
 

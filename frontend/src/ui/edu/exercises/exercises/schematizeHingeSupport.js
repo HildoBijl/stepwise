@@ -5,7 +5,7 @@ import { Vector, Line } from 'step-wise/geometry'
 
 import { selectRandomCorrect } from 'util/feedbackMessages'
 import { Par } from 'ui/components'
-import { useScaleBasedTransformationSettings } from 'ui/components/figures'
+import { useScaleAndShiftTransformationSettings } from 'ui/components/figures'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import { InputSpace } from 'ui/form/FormPart'
 import { Drawing } from 'ui/components/figures'
@@ -154,7 +154,7 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 	const { wallRotation, beamRotation, points, loads } = solution
 
 	// Define the transformation.
-	const transformationSettings = useScaleBasedTransformationSettings(points, { scale: 70, margin: 100 })
+	const transformationSettings = useScaleAndShiftTransformationSettings(points, { scale: 70, margin: 100 })
 
 	// Get all the required components.
 	const loadsToDisplay = showSolution ? loads : []
