@@ -521,11 +521,13 @@ let skillTree = {
 	readMollierDiagram: {
 		name: 'Mollier diagram aflezen',
 		exercises: ['readMollierDiagramRH', 'readMollierDiagramAH'],
+		path: 'physics/thermodynamics/humidity',
 	},
 	analyseAirco: {
 		name: 'Airco analyseren',
 		setup: repeat('readMollierDiagram', 3),
 		exercises: ['analyseAircoBasic', 'analyseAircoWaterDischarge', 'analyseAircoPower'],
+		path: 'physics/thermodynamics/humidity',
 	},
 }
 
