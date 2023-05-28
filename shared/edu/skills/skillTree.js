@@ -499,6 +499,7 @@ let skillTree = {
 
 	findFridgeTemperatures: {
 		name: 'Koelmachinetemperaturen bepalen',
+		path: 'physics/thermodynamics/coolingCycles',
 		exercises: ['findFridgeTemperaturesInternal', 'findFridgeTemperaturesExternal'],
 	},
 	determineRefrigerantProcess: {
@@ -520,14 +521,14 @@ let skillTree = {
 
 	readMollierDiagram: {
 		name: 'Mollier diagram aflezen',
-		exercises: ['readMollierDiagramRH', 'readMollierDiagramAH'],
 		path: 'physics/thermodynamics/humidity',
+		exercises: ['readMollierDiagramRH', 'readMollierDiagramAH'],
 	},
 	analyseAirco: {
 		name: 'Airco analyseren',
 		setup: repeat('readMollierDiagram', 3),
-		exercises: ['analyseAircoBasic', 'analyseAircoWaterDischarge', 'analyseAircoPower'],
 		path: 'physics/thermodynamics/humidity',
+		exercises: ['analyseAircoBasic', 'analyseAircoWaterDischarge', 'analyseAircoPower'],
 	},
 }
 
