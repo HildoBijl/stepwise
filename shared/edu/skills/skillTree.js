@@ -389,16 +389,19 @@ let skillTree = {
 	},
 	calculateWithEfficiency: {
 		name: 'Rekenen met rendement',
+		path: 'physics/fundamentals',
 		exercises: ['calculateWithEfficiencyGenerator', 'calculateWithEfficiencyBattery'],
 	},
 	calculateWithCOP: {
 		name: 'Rekenen met koudefactor/warmtefactor',
 		links: { skill: 'calculateWithEfficiency', correlation: 0.5 },
+		path: 'physics/thermodynamics/coolingCycles',
 		exercises: ['calculateWithCOPRefrigerator', 'calculateWithCOPHeatPump'],
 	},
 	analyseClosedCycle: {
 		name: 'Gesloten kringproces analyseren',
 		setup: and('calculateClosedCycle', 'createClosedCycleEnergyOverview', pick(['calculateWithEfficiency', 'calculateWithCOP'])),
+		path: 'physics/thermodynamics/closedCycles',
 		exercises: ['analyseClosedCycleVTp', 'analyseClosedCycleTsV', 'analyseClosedCycleSTST', 'analyseClosedCycleSVSV'],
 		thresholds: { pass: 0.4 },
 	},
