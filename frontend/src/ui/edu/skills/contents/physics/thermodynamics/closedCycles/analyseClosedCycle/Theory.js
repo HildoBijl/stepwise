@@ -42,6 +42,18 @@ export default function Component() {
 		]} />
 		<Par>Zo kun je voor elk kringproces de betreffende factor(en) uitrekenen.</Par>
 
+		<Head>Hoogst mogelijke factoren</Head>
+		<Par>Mogelijk weet je nog dat het Carnot-proces het meest efficiënte proces is, gegeven een bepaalde minimum en maximum temperatuur. Voor het Carnot-proces is er een handige short-cut om het rendement te berekenen. Maar let op: deze geldt alleen voor het Carnot-proces! Voor een positief Carnot-proces geldt dat het rendement gevonden kan worden via
+			<BM>\eta_C = 1 - \frac(T_(min))(T_(max)).</BM>
+			Hier is <M>T_(min)</M> de laagste temperatuur in de cyclus en <M>T_(max)</M> de hoogste temperatuur.</Par>
+		<Par>Voor een negatief Carnot-proces werkt alles identiek. Hier zijn de koudefactor en de warmtefactor te vinden via
+			<BMList>
+				<BMPart>\varepsilon_C = \frac(T_(min))(T_(max) - T_(min)),</BMPart>
+				<BMPart>\varepsilon_(wC) = \frac(T_(max))(T_(max) - T_(min)).</BMPart>
+			</BMList>
+		</Par>
+		<Par>Soms wordt gevraagd naar het "hoogst haalbare rendement" of de "hoogst haalbare koudefactor/warmtefactor". In dit geval is het handig om te weten dat het Carnot-proces het meest efficiënte proces mogelijk is. In dat geval bereken je via de bovenstaande formules dus het rendement voor het Carnot-proces, en dat is de beste prestatiefactor die we kunnen behalen.</Par>
+
 		<Head>Kringprocessen analyseren: de stappen</Head>
 		<Par>Met een "kringproces analyseren" bedoelen we het berekenen van de betreffende prestatiefactor(en). Dit gaat via de volgende stappen.</Par>
 		<List useNumbers={true} items={[
