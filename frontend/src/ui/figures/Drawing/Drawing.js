@@ -13,12 +13,12 @@ import { getEventPosition } from 'util/dom'
 import { useMousePosition as useClientMousePosition, useBoundingClientRect, useForceUpdateEffect } from 'util/react'
 import { notSelectable } from 'ui/theme'
 
-import Figure, { defaultOptions as figureDefaultOptions } from '../Figure'
+import Figure, { defaultFigureOptions } from '../Figure'
 
 import { DrawingContext, useDrawingContext, SvgDefsPortal } from './DrawingContext'
 
 const defaultDrawingOptions = {
-	...figureDefaultOptions,
+	...defaultFigureOptions,
 	maxWidth: bounds => bounds.width, // Override the default maxWidth (undefined, meaning full width) to the bounds. Set to "fill" to always fill the available page width.
 	transformationSettings: undefined, // An object containing data on figure bounds and a transformation that is applied to get from drawing coordinates to graphical coordinates.
 	useSvg: true,
@@ -117,7 +117,7 @@ export const Drawing = forwardRef((options, ref) => {
 	options.className = clsx('drawing', classes.drawing, options.className)
 	return (
 		<DrawingContext.Provider value={{ id, transformationSettings, figure: figureRef.current, svg: svgRef.current, svgDefs: svgDefsRef.current, htmlContents: htmlContentsRef.current, canvas: canvasRef.current }}>
-			<Figure ref={figureRef} {...filterOptions(options, figureDefaultOptions)}>
+			<Figure ref={figureRef} {...filterOptions(options, defaultFigureOptions)}>
 				{options.useSvg ? (
 					<svg ref={svgRef} className={classes.drawingSVG} viewBox={`0 0 ${width} ${height}`}>
 						<defs ref={svgDefsRef} />

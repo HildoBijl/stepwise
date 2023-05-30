@@ -1,18 +1,15 @@
-// Figure is the placeholder for any type of figure on the website. It deals with the positioning and sizing.
-
 import React, { useRef, forwardRef, useImperativeHandle } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { processOptions } from 'step-wise/util/objects'
 
-const defaultOptions = {
+export const defaultFigureOptions = {
 	aspectRatio: 0.75, // Height divided by width. Enter a ratio.
 	maxWidth: undefined, // Max width in px. Enter a number. undefined means scale to full width when possible.
 	className: '',
 	children: null, // What is placed inside the figure.
 }
-export { defaultOptions }
 
 const useStyles = makeStyles((theme) => ({
 	figure: {
@@ -33,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export const Figure = forwardRef((options, ref) => {
-	options = processOptions(options, defaultOptions)
+	options = processOptions(options, defaultFigureOptions)
 	const classes = useStyles({ aspectRatio: options.aspectRatio, maxWidth: options.maxWidth })
 
 	// Define refs and make them accessible to calling elements.

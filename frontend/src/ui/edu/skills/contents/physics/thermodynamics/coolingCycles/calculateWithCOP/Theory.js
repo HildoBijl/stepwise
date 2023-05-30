@@ -23,12 +23,11 @@ export default function Component() {
 			Zo vinden we de formule voor de warmtefactor <BM>\varepsilon_w = \frac(Q_(gelev))(W_(comp)).</BM> De warmtefactor wordt in de wandelgangen ook wel de <em>Coefficient Of Performance (COP)</em> genoemd. Dit betekent exact hetzelfde: de COP is de warmtefactor.</Par>
 
 		<Head>Tips bij rekenen met koudefactoren/warmtefactoren</Head>
-		<Par>Net als bij het <SkillLink skillId="calculateWithEfficiency">rendement</SkillLink>, kun je bij de koudefactor en de warmtefactor rekenen met welke eenheid je maar wilt, zolang de eenheden van "nuttig" en "invoer" gelijk zijn. Vaak werk je me warmtestromen en geleverde arbeid (in Joule) maar je kunt ook met vermogens (in Watt) werken. Er geldt dan
-			<BMList>
-				<BMPart>\varepsilon = \frac(P_(opg))(P_(comp)),</BMPart>
-				<BMPart>\varepsilon_w = \frac(P_(gelev))(P_(comp)).</BMPart>
-			</BMList>
-		</Par>
+		<Par>Net als bij het <SkillLink skillId="calculateWithEfficiency">rendement</SkillLink>, kun je bij de koudefactor en de warmtefactor rekenen met welke eenheid je maar wilt, zolang de eenheden van "nuttig" en "invoer" gelijk zijn. Vaak werk je met warmtestromen en geleverde arbeid (in Joule) maar je kunt ook met vermogens (in Watt) werken. Er geldt dan</Par>
+		<BMList>
+			<BMPart>\varepsilon = \frac(P_(opg))(P_(comp)),</BMPart>
+			<BMPart>\varepsilon_w = \frac(P_(gelev))(P_(comp)).</BMPart>
+		</BMList>
 		<Par>In tegenstelling tot het <SkillLink skillId="calculateWithEfficiency">rendement</SkillLink> geldt dat de koudefactor/warmtefactor wèl groter dan <M>1</M> kan worden. Een typische waarde voor de koudefactor is <M>2</M> a <M>4</M>, waar de warmtefactor vaak tussen de <M>3</M> en de <M>5</M> ligt. In theorie kan ook het dubbele of zelfs driedubbele behaald worden, maar omdat compressoren geen perfecte compressie kunnen leveren is dat in de praktijk niet mogelijk.</Par>
 		<Par>Verder is het handig om in gedachten te houden dat behoud van energie geldt: de ingaande energie is gelijk aan de uitgaande energie volgens <BM>Q_(opg) + W_(comp) = Q_(gelev).</BM> Als gevolg van dit energiebehoud geldt een handig feitje: de warmtefactor is altijd precies één meer dan de koudefactor. Immers, de compressorarbeid krijg je er bij het leveren van energie "gratis" bij. Of wiskundiger kunnen we zeggen dat <BM>\varepsilon_w = \frac(Q_(gelev))(W_(comp)) = \frac(Q_(opg) + W_(comp))(W_(comp)) = \frac(Q_(opg))(W_(comp)) + 1 = \varepsilon + 1.</BM> Oftewel, als je de ene factor weet, dan weet je altijd direct ook de andere factor.</Par>
 
