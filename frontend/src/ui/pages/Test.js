@@ -17,8 +17,8 @@ export default function Test() {
 	const [primary, info, warning] = getHexColor(['primary', 'info', 'warning'])
 	const eq = CAS.asEquation('E=mc^2')
 	eq.left.color = primary
-	eq.right.color = warning
-	eq.color = info
+	eq.right.color = info
+	eq.color = warning
 
 	return (
 		<>
