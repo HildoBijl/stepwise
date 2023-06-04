@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "step-wise-frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -32,7 +32,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!(step-wise-frontend|step-wise))/\" --env=jsdom",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

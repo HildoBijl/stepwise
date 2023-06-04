@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
-
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
-import 'swiper/css'
+import 'swiper/swiper.min.css'
 
 import { useConsistentValue } from 'util/react'
 
@@ -18,7 +17,7 @@ export default function TabPages({ pages, initialPage }) {
 		touchStartPreventDefault={false} // Allow a touch event to hit an input field.
 		autoHeight={true} // Adapt the height to the active page.
 		spaceBetween={40} // Add some margin between pages.
-		noSwipingSelector={'.slider, .field, .input, .drawingInput'} // Prevent swiping on these elements.
+		noSwipingSelector={'.slider.active, .field, .input, .drawingInput'} // Prevent swiping on these elements.
 	>
 		<TabPagesEffect />
 		{tabs.map(id => <SwiperSlide key={id}>{pages[id]}</SwiperSlide>)}
