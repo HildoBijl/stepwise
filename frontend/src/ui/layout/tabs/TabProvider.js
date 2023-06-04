@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useCallback, createContext, useContext } from 'react'
 
 import { boundTo } from 'step-wise/util/numbers'
-import { ensureArray } from 'step-wise/util/arrays'
 
 import { useConsistentValue, useLatest } from 'util/react'
 
-import tabData from './tabData'
+import { getOrderedTabs } from './util'
 
 const TabContext = createContext()
 export default function TabProvider({ children }) {
@@ -45,7 +44,7 @@ export function useTabContext() {
 export function useTabs(tabs, initialTab) {
 	const context = useTabContext()
 	const { tab, setTabs, setTab, setTabIndex } = context
-	tabs = useConsistentValue(ensureArray(tabs).sort((a, b) => (tabData[a].order || 0) - (tabData[b].order || 0)))
+	tabs = useConsistentValue(getOrderedTabs(tabs))
 
 	// On a change in tabs, update the tabs.
 	const tabRef = useLatest(tab)

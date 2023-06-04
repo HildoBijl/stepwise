@@ -52,7 +52,6 @@ function getRoutes(user = undefined) {
 			id: 'test',
 			component: pages.Test,
 			name: 'Testpagina',
-			preventPageContainer: true,
 		},
 	}
 

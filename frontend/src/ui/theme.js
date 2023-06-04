@@ -3,7 +3,7 @@ import { createTheme, useTheme } from '@material-ui/core/styles'
 import { CheckCircle as SuccessIcon, Cancel as ErrorIcon, Warning as WarningIcon, Info as InfoIcon } from '@material-ui/icons'
 import { alpha } from '@material-ui/core/styles/colorManipulator'
 
-import { toCSS } from 'util/colors'
+import { toCSS, toHex } from 'util/colors'
 import { useFontFaceObserver } from 'util/react'
 
 // const themeColor = [0.01, 0.27, 0.54, 1] // #043870
@@ -28,7 +28,15 @@ const feedbackColors = {
 const backgroundColor = [0.96, 0.96, 0.96, 1] // #f5f5f5
 const inputBackgroundColor = [1, 1, 1, 1] // #ffffff
 
-export { themeColor, secondaryColor, feedbackColors, backgroundColor, inputBackgroundColor }
+const colors = {
+	primary: themeColor,
+	secondary: secondaryColor,
+	...feedbackColors,
+	background: backgroundColor,
+	inputBackground: inputBackgroundColor
+}
+
+export { themeColor, secondaryColor, feedbackColors, backgroundColor, inputBackgroundColor, colors }
 
 let theme = {
 	palette: {
@@ -159,12 +167,22 @@ export function getIcon(feedbackType) {
 }
 
 export function getFeedbackColor(feedbackType, theme) {
+	if (Array.isArray(feedbackType))
+		return feedbackType.map(feedbackType => getFeedbackColor(feedbackType, theme))
 	return (theme.palette[feedbackType] && theme.palette[feedbackType].main) || theme.palette.text.primary
 }
 
 export function useColor(color) {
 	const theme = useTheme()
 	return getFeedbackColor(color, theme)
+}
+
+export function getHexColor(color) {
+	if (Array.isArray(color))
+		return color.map(color => getHexColor(color))
+	if (!colors[color])
+		throw new Error(`Invalid color name: tried to get the hex code for the color "${color}" but this color was not known.`)
+	return toHex(colors[color])
 }
 
 export function useFontsLoaded(includeMaths = true) {

@@ -22,6 +22,12 @@ export function toCSS(color) {
 	return `rgba(${p(color[0])}, ${p(color[1])}, ${p(color[2])}, ${color[3]})`
 }
 
+export function toHex(color) {
+	color = checkColor(color)
+	const p = x => Math.round(x * 255).toString(16).padStart(2, '0')
+	return `${p(color[0])}${p(color[1])}${p(color[2])}`
+}
+
 // mix mixes two colors, taking "1 - part" of c1 and "part" of c2.
 export function mix(c1, c2, part = 0.5) {
 	// Check input.
@@ -57,7 +63,7 @@ export function lighten(color, part = 0.5) {
 	const mean = (color[0] + color[1] + color[2]) / 3
 	if (mean <= 1e-15)
 		return [part, part, part, color[3]]
-	const scaledColor = color.map((v, i) => i === 3 ? v : v * (1 + (1/mean - 1)*part))
+	const scaledColor = color.map((v, i) => i === 3 ? v : v * (1 + (1 / mean - 1) * part))
 	return redistributeColor(scaledColor)
 }
 

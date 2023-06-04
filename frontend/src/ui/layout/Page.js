@@ -6,7 +6,7 @@ import FieldController from 'ui/form/FieldController'
 
 import PageContainer from './PageContainer'
 import Header from './Header'
-import { TabProvider, TabPages } from './tabs'
+import { TabProvider } from './tabs'
 
 export default function Page() {
 	// Determine the contents.
@@ -37,7 +37,7 @@ function Contents() {
 			<OfflineNotification />
 			<RecommendLogIn recommend={route.recommendLogIn} />
 			{route.Notification ? <route.Notification /> : null}
-			{route.tabs ? <TabPages route={route} /> : <SinglePage route={route} />}
+			{route.preventPageContainer ? <route.component /> : <PageContainer><route.component /></PageContainer>}
 		</PageWrapper>
 	)
 }
@@ -52,10 +52,4 @@ function PageWrapper({ children }) {
 			</FieldController>
 		</TabProvider>
 	)
-}
-
-function SinglePage({ route }) {
-	if (route.preventPageContainer)
-		return <route.component />
-	return <PageContainer><route.component /></PageContainer>
 }
