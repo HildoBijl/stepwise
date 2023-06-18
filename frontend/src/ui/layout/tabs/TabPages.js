@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
 import 'swiper/swiper.min.css'
 
-import { useConsistentValue } from 'util/react'
+import { useConsistentValue, useResizeObserver } from 'util/react'
 
 import { getOrderedTabs } from './util'
 import { useTabs, useTabContext } from './TabProvider'
@@ -20,10 +20,11 @@ export default function TabPages({ pages, initialPage }) {
 		noSwipingSelector={'.slider.active, .field, .input, .drawingInput'} // Prevent swiping on these elements.
 	>
 		<TabPagesEffect />
-		{tabs.map(id => <SwiperSlide key={id}>{pages[id]}</SwiperSlide>)}
+		{tabs.map(id => <SwiperSlide key={id}><SwipePageWrapper>{pages[id]}</SwipePageWrapper></SwiperSlide>)}
 	</Swiper>
 }
 
+// The TabPagesEffect uses a React Effect to make sure the Tab bar also has the same page indicated as the page slider itself. When the user swipes on a smartphone, the bar then updates too.
 function TabPagesEffect() {
 	const tabContext = useTabContext()
 	const swiper = useSwiper() // Possible because we are inside the Swiper.
@@ -35,4 +36,12 @@ function TabPagesEffect() {
 	}, [swiper, tabIndex])
 
 	return null
+}
+
+// The PageWrapper is wrapped around every swiper page. It checks for resizes and ensures that the swiper updates on a resize. It does not always do this well on its own.
+function SwipePageWrapper({ children }) {
+	const swiper = useSwiper()
+	const swipePageRef = useRef()
+	useResizeObserver(swipePageRef, () => swiper.update())
+	return <div ref={swipePageRef}>{children}</div>
 }
