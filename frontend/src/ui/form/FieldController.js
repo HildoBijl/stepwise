@@ -4,6 +4,7 @@ import { mod } from 'step-wise/util/numbers'
 import { processOptions } from 'step-wise/util/objects'
 
 import { useEventListener, useLatest, getHTMLElement, ensureHTMLElement } from 'util/react'
+import { useVisible } from 'ui/components'
 
 import Keyboard from './Keyboard'
 import useKeyboardHandlers from './Keyboard/handlers'
@@ -175,17 +176,18 @@ export function useFieldRegistration(options) {
 	const { registerElement, unregisterElement, storeKeyboard } = useFieldControllerContext()
 
 	// Make sure the field is registered for tabbing.
+	const visible = useVisible()
 	useEffect(() => {
-		if (apply) {
+		if (apply && visible) {
 			registerElement(id, element, manualIndex, useTabbing, autofocus, focusOnClick)
 			return () => unregisterElement(id)
 		}
-	}, [apply, id, element, manualIndex, useTabbing, autofocus, focusOnClick, registerElement, unregisterElement])
+	}, [apply, visible, id, element, manualIndex, useTabbing, autofocus, focusOnClick, registerElement, unregisterElement])
 
 	// Focus the field if requested.
 	const [active, activateField, deactivateField] = useFieldActivation(id)
 	useEffect(() => {
-		if (apply && active) {
+		if (apply && visible && active) {
 			if (focusRefOnActive) {
 				const field = ensureHTMLElement(element)
 				setTimeout(() => field.focus()) // Delay the focus to ensure it happens after all blurs.
@@ -196,17 +198,17 @@ export function useFieldRegistration(options) {
 					document.activeElement.blur()
 			}
 		}
-	}, [apply, focusRefOnActive, active, element])
+	}, [apply, visible, focusRefOnActive, active, element])
 
 	// Apply the given keyboard.
 	useEffect(() => {
-		if (apply)
+		if (apply && visible)
 			storeKeyboard(id, keyboard)
-	}, [apply, id, keyboard, storeKeyboard])
+	}, [apply, visible, id, keyboard, storeKeyboard])
 
 	// On a non-applied input field (like a read-only input field) do not allow activation. Throw an error when an attempt is made.
 	const throwFunction = useCallback(() => { throw new Error(`Invalid field (de)activation: cannot (de)activate an inactive field "${id}".`) }, [id])
-	if (apply)
+	if (apply && visible)
 		return [active, activateField, deactivateField]
 	return [false, throwFunction, throwFunction]
 }
