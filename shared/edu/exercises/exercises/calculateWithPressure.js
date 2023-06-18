@@ -12,9 +12,11 @@ const { performComparison } = require('../util/comparison')
 const data = {
 	skill: 'calculateWithPressure',
 	comparison: {
-		relativeMargin: 0.001,
-		significantDigitMargin: 0,
-		unitCheck: Unit.equalityTypes.sameUnits,
+		default: {
+			relativeMargin: 0.001,
+			significantDigitMargin: 0,
+			unitCheck: Unit.equalityTypes.sameUnits,
+		},
 	},
 }
 
@@ -38,7 +40,7 @@ function getSolution({ p, type }) {
 
 function checkInput(state, input) {
 	const solution = getSolution(state)
-	return performComparison('ans', input, solution, data.comparison)
+	return performComparison('ans', input, solution, data.comparison.default)
 }
 
 module.exports = {

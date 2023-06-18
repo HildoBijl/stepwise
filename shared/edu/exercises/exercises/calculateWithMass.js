@@ -12,9 +12,11 @@ const { performComparison } = require('../util/comparison')
 const data = {
 	skill: 'calculateWithMass',
 	comparison: {
-		relativeMargin: 0.001,
-		significantDigitMargin: 0,
-		unitCheck: Unit.equalityTypes.exact,
+		default: {
+			relativeMargin: 0.001,
+			significantDigitMargin: 0,
+			unitCheck: Unit.equalityTypes.exact,
+		},
 	},
 }
 
@@ -41,7 +43,7 @@ function getSolution({ m, type, prefix }) {
 
 function checkInput(state, input) {
 	const solution = getSolution(state)
-	return performComparison('ans', input, solution, data.comparison)
+	return performComparison('ans', input, solution, data.comparison.default)
 }
 
 module.exports = {

@@ -7,8 +7,10 @@ const data = {
 	steps: ['gasLaw', 'gasLaw'],
 
 	comparison: {
-		relativeMargin: 0.01,
-		significantDigitMargin: 1,
+		default: {
+			relativeMargin: 0.01,
+			significantDigitMargin: 1,
+		},
 	},
 }
 addSetupFromSteps(data)
@@ -62,9 +64,9 @@ function checkInput(state, input, step, substep) {
 
 	switch (step) {
 		case 1:
-			return m.equals(input.m, data.comparison)
+			return m.equals(input.m, data.comparison.default)
 		default:
-			return V2.equals(input.V2, data.comparison)
+			return V2.equals(input.V2, data.comparison.default)
 	}
 }
 

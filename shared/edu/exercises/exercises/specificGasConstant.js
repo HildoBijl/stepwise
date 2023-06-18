@@ -6,7 +6,9 @@ const { performComparison } = require('../util/comparison')
 const data = {
 	skill: 'specificGasConstant',
 	comparison: {
-		relativeMargin: 0.015,
+		default: {
+			relativeMargin: 0.015,
+		},
 	}
 }
 
@@ -20,7 +22,7 @@ function getSolution({ medium }) {
 
 function checkInput(state, input) {
 	const solution = getSolution(state)
-	return performComparison('Rs', input, solution, data.comparison)
+	return performComparison('Rs', input, solution, data.comparison.default)
 }
 
 module.exports = {
