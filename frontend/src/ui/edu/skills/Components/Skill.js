@@ -56,7 +56,7 @@ export default function Skill() {
 	}, [loadedForSkillId, skillId, loadedPages])
 
 	// Upon loading, show a loading note.
-	if (!loadedForSkillId)
+	if (!loadedForSkillId || Object.keys(pages).length === 0)
 		return <LoadingNote text="Loading skill pages" />
 
 	// Render the pages. Use a key to force a reload on a new skillId.

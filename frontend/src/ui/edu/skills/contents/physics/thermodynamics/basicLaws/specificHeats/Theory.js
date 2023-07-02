@@ -30,7 +30,7 @@ export default function Component() {
 		<Head>Hoe het werkt</Head>
 		<Par>Als je de soortelijke warmten van een gas nodig hebt, dan zoek je deze altijd op.</Par>
 		<List items={[
-			<>In de bijlage van deze app. Zie het tabblad rechtsboven.</>,
+			<>In de <SkillLink tab="references">bijlage bij deze vaardigheid</SkillLink>. Zie het tabblad rechtsboven.</>,
 			<>In een thermodynamicaboek. Vaak vind je in de bijlage wel een tabel "Eigenschappen van gassen" of soortgelijk.</>,
 			<>Online. Zoek in dit geval bij voorkeur in het Engels. Bijvoorbeeld "specific heat at constant volume/pressure air" om de soortelijke warmten van lucht bij constante druk/volume op te zoeken.</>,
 		]} />

@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback, createContext, useContext } from 'react'
+import React, { useState, useCallback, createContext, useContext } from 'react'
 
 import { boundTo } from 'step-wise/util/numbers'
 
-import { useConsistentValue, useLatest } from 'util/react'
+import { useConsistentValue, useLatest, useUpdater } from 'util/react'
 
 import { getOrderedTabs } from './util'
 
@@ -21,6 +21,10 @@ export default function TabProvider({ children }) {
 		tabIndex = boundTo(tabIndex, 0, tabs.length - 1)
 		setTab(tabs[tabIndex])
 	}, [tabsRef, setTab])
+	const reset = useCallback(() => {
+		setTab(undefined)
+		setTabs([])
+	}, [])
 
 	// Set up the context value.
 	const value = {
@@ -30,6 +34,7 @@ export default function TabProvider({ children }) {
 		setTab,
 		tabs,
 		setTabs,
+		reset,
 	}
 
 	// Pass on the context value.
@@ -41,27 +46,36 @@ export function useTabContext() {
 }
 
 // useTabs is called by a component that wants to display tabs on the page. It takes an array of tab names, like ["theory", "practice", "references"], and optionally an initial tab "practice". It returns the full tab context.
-export function useTabs(tabs, initialTab) {
+export function useTabs(tabs, initialTab, skillId) {
 	const context = useTabContext()
-	const { tab, setTabs, setTab, setTabIndex } = context
+	const { tab, setTabs, setTab, setTabIndex, reset } = context
+	const [initialized, setInitialized] = useState(false)
 	tabs = useConsistentValue(getOrderedTabs(tabs))
 
-	// On a change in tabs, update the tabs.
-	const tabRef = useLatest(tab)
-	useEffect(() => {
-		setTabs(tabs)
-
-		// Apply a potential initial tab. Also check: if the old tab is not valid, reset to first tab.
-		const tab = tabRef.current
+	// On mounting and dismounting, apply the initial tab.
+	useUpdater(() => {
 		if (initialTab && tabs.includes(initialTab))
 			setTab(initialTab)
-		else if (!tab || !tabs.includes(tabRef.current))
-			setTabIndex(0)
+		setInitialized(true)
+		return () => {
+			reset()
+			setInitialized(false)
+		}
+	}, [])
 
-		// On dismount, clear tabs.
-		return () => setTabs([])
-	}, [tabs, initialTab, tabRef, setTabs, setTab, setTabIndex])
+	// On a change in tabs, update the tabs.
+	useUpdater(() => {
+		setTabs(tabs)
 
-	// Return the context for further application.
-	return context
+		// If the old tab is not valid, reset to the initial tab, or otherwise the first tab.
+		if (tabs.length > 0 && (!tab || !tabs.includes(tab))) {
+			if (initialTab && tabs.includes(initialTab))
+				setTab(initialTab)
+			else
+				setTabIndex(0)
+		}
+	}, [tabs])
+
+	// Return the context for further application. When initializing has not finished, do not include the tab data, since it may be from the previous component, whose dismounting still needs to be applied.
+	return initialized ? context : { ...context, tab: undefined, tabIndex: undefined, tabs: [] }
 }

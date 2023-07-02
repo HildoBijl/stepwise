@@ -2,6 +2,7 @@ import React from 'react'
 
 import gases from 'step-wise/data/gasProperties'
 
+import { SkillLink } from 'ui/routing'
 import { Head, Par, List, M } from 'ui/components'
 
 export default function Component() {
@@ -16,7 +17,7 @@ export default function Component() {
 		<Head>Hoe het werkt</Head>
 		<Par>Als je de specifieke gasconstante nodig hebt, dan zoek je deze altijd op. Er zijn hier tal van mogelijkheden.</Par>
 		<List items={[
-			<>In de bijlage van deze app. Zie het tabblad rechtsboven.</>,
+			<>In de <SkillLink tab="references">bijlage bij deze vaardigheid</SkillLink>. Zie het tabblad rechtsboven.</>,
 			<>In een thermodynamicaboek. Vaak vind je in de bijlage wel een tabel "Eigenschappen van gassen" of soortgelijk.</>,
 			<>Online. Zoek in dit geval bij voorkeur in het Engels. Bijvoorbeeld "specific gas constant air" om de specifieke gasconstante van lucht op te zoeken.</>,
 		]} />

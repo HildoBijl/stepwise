@@ -41,6 +41,13 @@ function getRoutes(user = undefined) {
 				},
 			},
 		},
+		'vaardigheid/:skillId/:tab': {
+			id: 'skillTab',
+			component: Skill,
+			name: <SkillName />,
+			recommendLogIn: true,
+			Indicator: SkillIndicator,
+		},
 		'vaardigheid/:skillId': {
 			id: 'skill',
 			component: Skill,
@@ -153,6 +160,13 @@ function getRoutes(user = undefined) {
 						name: <CourseName />,
 						Provider: CourseProvider,
 						children: {
+							'vaardigheid/:skillId/:tab': {
+								id: 'courseSkillTab',
+								component: Skill,
+								name: <SkillName />,
+								Indicator: SkillIndicator,
+								Notification: SkillAdvice,
+							},
 							'vaardigheid/:skillId': {
 								id: 'courseSkill',
 								component: Skill,
@@ -240,7 +254,7 @@ function getPaths(routes) {
 }
 
 // insertParametersIntoPath takes a path and tries to put the given parameters into it. Like a path "course/:courseId" and a parameters-object {courseId: 'someId' }. If there is a parameter in the path and not a corresponding parameter in the parameters-object, an error is thrown (but not the other way around).
-function insertParametersIntoPath(parameters = {}, path = '/') {
+export function insertParametersIntoPath(parameters = {}, path = '/') {
 	// Insert all given parameters into the given path.
 	Object.keys(parameters).forEach(key => {
 		path = path.replace(`:${key}`, parameters[key])
@@ -267,15 +281,21 @@ export function useParentPath() {
 export function useSkillPath() {
 	const { courseId } = useParams()
 	const paths = usePaths()
-	return useCallback(skillId => {
-		if (courseId)
+	return useCallback((skillId, tab) => {
+		if (courseId) {
+			if (tab)
+				return paths.courseSkillTab({ courseId, skillId, tab })
 			return paths.courseSkill({ courseId, skillId })
+		}
+		if (tab)
+			return paths.skillTab({ skillId, tab })
 		return paths.skill({ skillId })
 	}, [paths, courseId])
 }
 
 // SkillLink is an extension of the Link component that creates a link to a given skill. It does it context-dependent, using the useSkillPath function.
-export function SkillLink({ skillId, children, ...props }) {
+export function SkillLink({ skillId, tab, children, ...props }) {
+	const { skillId: currentSkillId } = useParams()
 	const skillPath = useSkillPath()
-	return <Link to={skillPath(skillId)} {...props}>{children}</Link>
+	return <Link to={skillPath(skillId || currentSkillId, tab)} {...props}>{children}</Link>
 }

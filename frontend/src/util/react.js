@@ -66,10 +66,11 @@ export function useCounter(initialValue = 0) {
 	return [counter, () => setCounter(counter + 1)]
 }
 
-// useInitializer is like useEffect(func, []) but then can have dependencies without giving warnings. 
-export function useInitializer(func) {
+// useUpdater is like useEffect(func, [params]) but then can have dependencies without giving warnings. It is called whenever some of the dependencies change.
+export function useUpdater(func, dependencies) {
+	dependencies = useConsistentValue(dependencies)
 	const funcRef = useLatest(func)
-	useEffect(() => funcRef.current(), [funcRef])
+	useEffect(() => funcRef.current(), [funcRef, dependencies])
 }
 
 // useLookupCallback is like useCallback(func, []) but then can have dependencies without giving warnings. It's a constant-reference function that just looks up which function is registered to it whenever it's called.
