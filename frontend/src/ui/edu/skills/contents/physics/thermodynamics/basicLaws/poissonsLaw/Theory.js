@@ -1,16 +1,16 @@
 import React from 'react'
 
 import { SkillLink } from 'ui/routing'
-import { Head, Par, List, M, BM, BMList, BMPart } from 'ui/components'
+import { Head, Par, List, M, BM, BMList, BMPart, Term, Emp, Info } from 'ui/components'
 
 export default function Component() {
 	return <>
 		<Par>Als we iets met een gas doen, dan veranderen de drie toestandseigenschappen druk, volume en temperatuur. Hoe dit gebeurt wordt beschreven door Poisson's wet.</Par>
 
 		<Head>Poisson's wetten</Head>
-		<Par>We hebben bij het <SkillLink skillId="recognizeProcessTypes">herkennen van processen</SkillLink> geleerd dat elk proces een procescoëfficiënt <M>n</M> heeft. Dit is het getal zodat <BM>pV^n = (\rm constant).</BM> De bovenstaande vergelijking heet de <strong>wet van Poisson</strong>, vernoemd naar de Franse wiskundige/natuurkundige Siméon Denis Poisson (1781-1840).</Par>
+		<Par>We hebben bij het <SkillLink skillId="recognizeProcessTypes">herkennen van processen</SkillLink> geleerd dat elk proces een <Term>procescoëfficiënt</Term> <M>n</M> heeft. Dit is het getal zodat <BM>pV^n = (\rm constant).</BM> De bovenstaande vergelijking heet de <Term>wet van Poisson</Term>, vernoemd naar de Franse wiskundige/natuurkundige Siméon Denis Poisson (1781-1840).</Par>
 		<Par>Met behulp van de gaswet kunnen we Poisson's wet ook herschrijven in twee andere vormen. Zo vinden we <BMList><BMPart>TV^(n-1) = (\rm constant),</BMPart><BMPart>\frac(T^n)(p^(n-1)) = (\rm constant).</BMPart></BMList> Het hangt van de situatie af - wat we al weten en wat we nog willen weten - welke van de drie vormen van Poisson's wetten het handigst is om te gebruiken.</Par>
-		<Par>Extra: bij de gaswet moet je altijd standaard eenheden gebruiken. Bij Poisson's wet is dit niet altijd zo. Omdat je hier werkt met verhoudingen (bijvoorbeeld de drukverhouding <M>p_1/p_2</M>) is het in orde om de druk in bar te laten staan, of het volume in liters. Zolang je de twee waarden in de <em>zelfde</em> eenheid hebt staan, gaat het goed. De uitzondering is temperatuur: die moet <em>altijd</em> in Kelvin, en niet in graden Celsius.</Par>
+		<Info>Extra: bij de gaswet moet je altijd standaard eenheden gebruiken. Bij Poisson's wet is dit niet altijd zo. Omdat je hier werkt met verhoudingen (bijvoorbeeld de drukverhouding <M>p_1/p_2</M>) is het in orde om de druk in bar te laten staan, of het volume in liters. Zolang je de twee waarden in de <Emp>zelfde</Emp> eenheid hebt staan, gaat het goed. De uitzondering is temperatuur: die moet <Emp>altijd</Emp> in Kelvin, en niet in graden Celsius.</Info>
 
 		<Head>De stappen</Head>
 		<Par>Bij het toepassen van Poisson's wet voer je de volgende stappen uit.</Par>

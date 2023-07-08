@@ -1,14 +1,14 @@
 import React from 'react'
 
 import { SkillLink } from 'ui/routing'
-import { Head, Par, List, M } from 'ui/components'
+import { Head, Par, List, M, Term } from 'ui/components'
 
 export default function Component() {
 	return <>
-		<Par>Een <strong>thermodynamisch proces</strong> is een proces waarbij een gas bij aanvang (punt 1) bepaalde eigenschappen heeft, en na afloop (punt 2) andere eigenschappen. We bekijken hoe we op overzichtelijke wijze zo'n proces door kunnen rekenen.</Par>
+		<Par>Een <Term>thermodynamisch proces</Term> is een proces waarbij een gas bij aanvang (punt 1) bepaalde eigenschappen heeft, en na afloop (punt 2) andere eigenschappen. We bekijken hoe we op overzichtelijke wijze zo'n proces door kunnen rekenen.</Par>
 
 		<Head>Overzicht scheppen: het <M>p</M>-<M>V</M>-<M>T</M>-tabel</Head>
-		<Par>Belangrijke waarden bij thermodynamische processen zijn de toestandseigenschappen druk <M>p,</M> volume <M>V</M> en temperatuur <M>T.</M> We willen weten wat deze bij aanvang en na afloop zijn. Om hierin overzicht te scheppen maken we een <M>p</M>-<M>V</M>-<M>T</M>-tabel.</Par>
+		<Par>Belangrijke waarden bij thermodynamische processen zijn de toestandseigenschappen druk <M>p,</M> volume <M>V</M> en temperatuur <M>T.</M> We willen weten wat deze bij aanvang en na afloop zijn. Om hierin overzicht te scheppen maken we een <Term>toestandstabel</Term>, vanwege zijn kolommen ook wel bekend als een <Term><M>p</M>-<M>V</M>-<M>T</M>-tabel</Term>.</Par>
 		<Par>Een <M>p</M>-<M>V</M>-<M>T</M>-tabel heeft als rijen de verschillende punten. (Hier is dat punt 1 "begin" en punt 2 "einde" maar het kunnen er ook meer zijn.) De kolommen zijn de verschillende toestandswaarden, <M>p,</M> <M>V</M> en <M>T.</M> Als de tabel helemaal ingevuld is, dan is het thermodynamische proces doorgerekend.</Par>
 
 		<Head>De stappen</Head>

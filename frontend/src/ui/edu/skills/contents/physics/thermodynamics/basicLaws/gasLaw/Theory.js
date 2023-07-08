@@ -3,7 +3,7 @@ import React from 'react'
 import { Unit } from 'step-wise/inputTypes/Unit'
 
 import { SkillLink } from 'ui/routing'
-import { Head, Par, List, M, BM } from 'ui/components'
+import { Head, Par, List, M, BM, Term, Emp } from 'ui/components'
 
 const Pa = new Unit('Pa')
 const m3 = new Unit('m^3')
@@ -16,7 +16,7 @@ export default function Component() {
 		<Par>De gaswet beschrijft de link tussen druk, volume en temperatuur. Als je twee van de drie weet (en als je weet wat voor/hoeveel gas je hebt) dan kun je altijd de derde waarde vinden. Dat maakt de gaswet erg nuttig.</Par>
 
 		<Head>Theorie</Head>
-		<Par>De gaswet zegt dat <BM>pV = mR_sT.</BM> De symbolen in deze formule betekenen het volgende.</Par>
+		<Par>De <Term>gaswet</Term> zegt dat <BM>pV = mR_sT.</BM> De symbolen in deze formule betekenen het volgende.</Par>
 		<List items={[
 			<><M>p {Pa.texWithBrackets}</M> is de druk van het gas.</>,
 			<><M>V {m3.texWithBrackets}</M> is het volume van het gas.</>,
@@ -24,7 +24,7 @@ export default function Component() {
 			<><M>R_s {JpkgK.texWithBrackets}</M> is de specifieke gasconstante van het gas. Merk op: deze is per gas verschillend en kun je opzoeken in tabellen.</>,
 			<><M>T {K.texWithBrackets}</M> is de temperatuur van het gas.</>,
 		]} />
-		<Par>Belangrijk bij de gaswet is om altijd met standaard eenheden te rekenen. Anders gaat het fout.</Par>
+		<Par>Belangrijk bij de gaswet is om altijd met <Emp>standaard eenheden</Emp> te rekenen. Anders gaat het fout.</Par>
 
 		<Head>De stappen</Head>
 		<Par>Bij het gebruik van de gaswet volg je over het algemeen de volgende stappen.</Par>

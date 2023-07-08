@@ -3,14 +3,14 @@ import React from 'react'
 import gases from 'step-wise/data/gasProperties'
 
 import { SkillLink } from 'ui/routing'
-import { Head, Par, List, M, BMList, BMPart } from 'ui/components'
+import { Head, Par, List, M, BMList, BMPart, Term } from 'ui/components'
 
 export default function Component() {
 	return <>
 		<Par>Eerder zagen we dat elk gas een <SkillLink skillId="specificGasConstant">specifieke gasconstante</SkillLink> en een <SkillLink skillId="specificHeatRatio"><M>k</M>-waarde</SkillLink> heeft. Er zijn ook nog de soortelijke warmten <M>c_v</M> en <M>c_p</M>, die je ook op moet kunnen zoeken.</Par>
 
 		<Head>Definities van de soortelijke warmten</Head>
-		<Par>Per definitie is <M>c_v</M> de soortelijke warmte bij constant volume: als je een gas met constant volume verwarmt, hoeveel Joule is er dan nodig om één kilogram gas één graad Celsius (of Kelvin) in temperatuur te laten stijgen? Voor lucht is dit bijvoorbeeld <M>c_v = {gases.air.cv}.</M> Soortgelijk is <M>c_p</M> de soortelijke warmte bij constante druk: als je een gas met constante druk verwarmt, hoeveel Joule is er dan nodig om één kilogram gas één graad Celsius (of Kelvin) in temperatuur te laten stijgen? Voor lucht geldt <M>c_p = {gases.air.cp}.</M></Par>
+		<Par>Per definitie is <M>c_v</M> de <Term>soortelijke warmte bij constant volume</Term>: als je een gas met constant volume verwarmt, hoeveel Joule is er dan nodig om één kilogram gas één graad Celsius (of Kelvin) in temperatuur te laten stijgen? Voor lucht is dit bijvoorbeeld <M>c_v = {gases.air.cv}.</M> Soortgelijk is <M>c_p</M> de <Term>soortelijke warmte bij constante druk</Term>: als je een gas met constante druk verwarmt, hoeveel Joule is er dan nodig om één kilogram gas één graad Celsius (of Kelvin) in temperatuur te laten stijgen? Voor lucht geldt <M>c_p = {gases.air.cp}.</M></Par>
 		<Par>Er geldt altijd dat <M>c_p &gt; c_v.</M> Er is dus altijd meer energie nodig om gas bij constante druk te verwarmen dan bij constant volume. Om in te zien waarom, moet je kijken naar wat er gebeurt bij een proces met constante druk. Stel je bijvoorbeeld een hoeveelheid gas voor in een zuiger. De zuiger houdt het gas op constante druk. Als we het gas verwarmen, dan stijgt normaliter de druk. Deze toename in druk duwt de zuiger weg, waardoor de druk weer op de oude waarde komt. Bij het wegdrukken van deze zuiger (bij de expansie van het gas) verricht het gas arbeid. Dit is een vorm van energie die vanuit het gas naar buiten "wegstroomt". Als gevolg hiervan moeten we dus meer energie in het gas stoppen: er is meer warmte nodig om de temperatuur één graad Celsius te laten stijgen.</Par>
 
 		<Head>Verbinding met <M>R_s</M> en <M>k</M></Head>
@@ -32,7 +32,7 @@ export default function Component() {
 		<List items={[
 			<>In de <SkillLink tab="references">bijlage bij deze vaardigheid</SkillLink>. Zie het tabblad rechtsboven.</>,
 			<>In een thermodynamicaboek. Vaak vind je in de bijlage wel een tabel "Eigenschappen van gassen" of soortgelijk.</>,
-			<>Online. Zoek in dit geval bij voorkeur in het Engels. Bijvoorbeeld "specific heat at constant volume/pressure air" om de soortelijke warmten van lucht bij constante druk/volume op te zoeken.</>,
+			<>Online. Zoek in dit geval bij voorkeur in het Engels. Bijvoorbeeld "specific heat at constant pressure/volume air" om de soortelijke warmten van lucht bij constante druk/volume op te zoeken.</>,
 		]} />
 	</>
 }

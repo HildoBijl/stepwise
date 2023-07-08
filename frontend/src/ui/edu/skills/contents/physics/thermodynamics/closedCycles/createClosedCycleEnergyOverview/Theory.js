@@ -1,20 +1,20 @@
 import React from 'react'
 
 import { SkillLink } from 'ui/routing'
-import { Head, Par, List, M } from 'ui/components'
+import { Head, Par, List, M, Term } from 'ui/components'
 
 export default function Component() {
 	return <>
-		<Par>Naast het <M>p</M>-<M>V</M>-<M>T</M>-tabel (het toestandstabel) is er nog een ander belangrijk tabel om te maken: het <M>W</M>-<M>Q</M>-tabel, ook wel bekend als het <strong>procestabel</strong>. Dit tabel geeft ons een overzicht van de arbeid en warmte die bij elk proces geleverd/toegevoerd wordt.</Par>
+		<Par>Naast de toestandstabel (de <M>p</M>-<M>V</M>-<M>T</M>-tabel) is er nog een ander belangrijk tabel om te maken: de <Term>procestabel</Term>, ook wel bekend als de <Term><M>W</M>-<M>Q</M>-tabel</Term>. Deze tabel geeft ons een overzicht van de arbeid en warmte die bij elk <Term>proces</Term> geleverd/toegevoerd wordt.</Par>
 
 		<Head>De kolommen van de procestabel</Head>
 		<Par>Het procestabel heeft verschillende kolommen.</Par>
 		<List items={[
-			<>Het procesnummer: dit zijn 1-2, 2-3, 3-4 of 4-1 bij een kringproces met 4 stappen.</>,
-			<>Voor elk proces de naam: bijvoorbeeld "isobaar", "isochoor", etcetera.</>,
-			<>De procescoëfficiënt <M>n</M> van elk proces.</>,
-			<>De arbeid <M>W</M> die het medium gedurende het proces geleverd heeft.</>,
-			<>De warmte <M>Q</M> die gedurende het proces aan het medium toegevoerd is.</>,
+			<>Het <Term>procesnummer</Term>: dit zijn 1-2, 2-3, 3-4 of 4-1 bij een kringproces met 4 stappen.</>,
+			<>Het <Term>procestype</Term>: bijvoorbeeld "isobaar", "isochoor", etcetera.</>,
+			<>De <Term>procescoëfficiënt</Term> <M>n</M> van elk proces.</>,
+			<>De <Term>arbeid</Term> <M>W</M> die het medium gedurende het proces geleverd heeft.</>,
+			<>De <Term>warmte</Term> <M>Q</M> die gedurende het proces aan het medium toegevoerd is.</>,
 		]} />
 		<Par>De eerste drie kolommen kun je altijd al direct invullen, bij het lezen van de opgave. De laatste twee kolommen (<M>W</M> en <M>Q</M>) bereken je pas na het invullen van je <M>p</M>-<M>V</M>-<M>T</M>-tabel. Je hebt de toestandswaarden immers nodig om de warmte en arbeid te berekenen.</Par>
 

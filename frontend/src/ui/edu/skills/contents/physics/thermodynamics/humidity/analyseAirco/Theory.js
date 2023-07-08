@@ -6,7 +6,7 @@ import { maximumHumidity } from 'step-wise/data/moistureProperties'
 
 import { useColor } from 'ui/theme'
 import { SkillLink } from 'ui/routing'
-import { Head, Par, List, M } from 'ui/components'
+import { Head, Par, List, M, Term, Emp } from 'ui/components'
 import { Curve, Line, Circle } from 'ui/figures'
 
 import MollierDiagram from 'ui/edu/content/diagrams/MollierDiagram'
@@ -28,14 +28,14 @@ const T2 = inverseTableInterpolate(startAH, maximumHumidity).setDecimals(0)
 
 export default function Component() {
 	return <>
-		<Par>Bij een airco is het belangrijk dat de uitgaande lucht de juiste temperatuur <em>en</em> de juiste luchtvochtigheid heeft. Hier bekijken we hoe een airco dat voor elkaar krijgt.</Par>
+		<Par>Bij een airco is het belangrijk dat de uitgaande lucht de juiste temperatuur <Emp>en</Emp> de juiste luchtvochtigheid heeft. Hier bekijken we hoe een airco dat voor elkaar krijgt.</Par>
 
 		<Head>Een comfortabele luchtvochtigheid</Head>
 		<Par>We kennen allemaal wel situaties waarin de lucht te droog is. Denk aan een woestijn of een erg koude winterdag. Je krijgt dan last van een droge keel, wat verre van prettig is. Maar we kennen ook situaties waarin de lucht juist erg vochtig is. Denk aan een regenwoud of een vochtige badkamer. Het is in deze situaties vaak erg benauwd: je zweet verdampt niet waardoor je lichaam de warmte niet kwijt kan.</Par>
-		<Par>Je merkt: als we een comfortabele omgeving willen creëren, dan is het belangrijk om de luchtvochtigheid goed af te stellen. In de praktijk is gebleken dat mensen een luchtvochtigheid van zo'n <M>{p45}</M> tot <M>{p60}</M> comfortabel vinden. Ietsje lager of hoger is nog niet zo'n probleem, maar je wilt niet te ver van dit gebied af zitten.</Par>
+		<Par>Je merkt: als we een <Term>comfortabele omgeving</Term> willen creëren, dan is het belangrijk om de luchtvochtigheid goed af te stellen. In de praktijk is gebleken dat mensen een luchtvochtigheid van zo'n <M>{p45}</M> tot <M>{p60}</M> comfortabel vinden. Ietsje lager of hoger is nog niet zo'n probleem, maar je wilt niet te ver van dit gebied af zitten.</Par>
 
 		<Head>Eerst koelen, dan verwarmen</Head>
-		<Par>Stel, we krijgen warme lucht met hoge luchtvochtigheid binnen; bijvoorbeeld bij <M>T_(in) = {T1}</M>) en <M>RV_(in) = {startRH}.</M> We willen uiteindelijk lucht met een lagere temperatuur en luchtvochtigheid afleveren; bijvoorbeeld <M>T_(uit) = {T4}</M> en <M>RV_(uit) = {endRH}.</M> Hoe kunnen we dat voor elkaar krijgen?</Par>
+		<Par>Stel, we krijgen warme lucht met hoge luchtvochtigheid binnen; bijvoorbeeld bij <M>T_(in) = {T1}</M> en <M>RV_(in) = {startRH}.</M> We willen uiteindelijk lucht met een lagere temperatuur en luchtvochtigheid afleveren; bijvoorbeeld <M>T_(uit) = {T4}</M> en <M>RV_(uit) = {endRH}.</M> Hoe kunnen we dat voor elkaar krijgen?</Par>
 		<Par>Het afkoelen van de lucht kan met een koelmachine. Het lastige deel is het verlagen van de luchtvochtigheid. De truc is om de lucht eerst "te ver" af te koelen. Omdat we hierbij de maximale luchtvochtigheid voorbij gaan, zal een groot deel van het water in de lucht condenseren. Dit water (dan in vloeibare vorm) kan via een afvoerpijpje afgevoerd worden. Als er voldoende water gecondenseerd en afgevoerd is, warmen we de lucht weer op (bijvoorbeeld via een warmtewisselaar om energie te besparen) tot de gewenste temperatuur.</Par>
 		<AircoProcess />
 		<Par>Het bovenstaande proces kunnen we ook in een Mollier diagram weergeven. Dat ziet er uit zoals hierboven. We gaan vanaf het beginpunt (rechtsboven) verticaal naar beneden tot we de maximale luchtvochtigheid bereiken. Deze lijn volgen we, tot we uiteindelijk besluiten dat er voldoende water gecondenseerd is. Bij het verwarmen gaat de lijn weer recht omhoog.</Par>
