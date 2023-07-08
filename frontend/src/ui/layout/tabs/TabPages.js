@@ -76,6 +76,11 @@ function SwipePageWrapper({ children, id }) {
 	// On a resize of the child, update the swiper properties.
 	useResizeObserver(swipePageRef, () => swiper.update())
 
+	// On a swipe move, throw a swipe event, so other components (for instance useBoundingClientRect) know about it.
+	swiper.on('transitionStart', () => dispatchEvent(new Event('swipeStart')))
+	swiper.on('setTranslate', () => dispatchEvent(new Event('swipe')))
+	swiper.on('transitionEnd', () => dispatchEvent(new Event('swipeEnd')))
+
 	// Wrap the page in a provider indicating whether it's visible. This is then used by for instance input fields to determine whether they should react to anything.
 	const visible = tab === id
 	return <VisibleProvider visible={visible}><div ref={swipePageRef}>{children}</div></VisibleProvider>

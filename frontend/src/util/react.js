@@ -183,16 +183,18 @@ export function useBoundingClientRect(element) {
 	const [rect, setRect] = useState(null)
 
 	// Create a handler that updates the rect.
-	const updateElementPosition = useCallback(() => {
+	const updateElementPosition = useStaggeredFunction(() => {
 		if (element)
 			setRect(element.getBoundingClientRect())
 	}, [element, setRect])
 
 	// Listen for updates to the rect.
 	useEffect(() => updateElementPosition(), [element, updateElementPosition]) // Changes in the rectangle.
-	useEventListener('scroll', updateElementPosition) // Window scrolling.
 	useResizeObserver(window?.document?.body, updateElementPosition) // Window/body resize.
 	useResizeObserver(element, updateElementPosition) // Element resize.
+	useEventListener('scroll', updateElementPosition) // Window scrolling.
+	useEventListener('swipe', updateElementPosition) // Swiper swiping.
+	useEventListener('swipeEnd', updateElementPosition) // Swiper swiping.
 
 	// On a first run the rect may not be known yet. Calculate it directly.
 	if (element && !rect) {
@@ -275,15 +277,31 @@ export function useFontFaceObserver(fontFaces, options = {}) {
 export function useStaggeredFunction(func) {
 	const funcRef = useLatest(func)
 	const timeoutRef = useRef()
-	const staggeredFunc = useCallback(() => {
-		if (!timeoutRef.current) {
+	return useLookupCallback((...args) => {
+		if (timeoutRef.current === undefined) {
 			timeoutRef.current = setTimeout(() => {
-				funcRef.current()
+				func(...args)
 				timeoutRef.current = undefined
 			}, [timeoutRef])
 		}
 	}, [funcRef, timeoutRef])
-	return staggeredFunc
+}
+
+// useThrottledFunction takes a function to be called. It returns a function to call this function. However, this function is throttled: only when it's not been called recently will the call go through. Here "recently" means "within the last [time] milliseconds". Optionally, an "onDeny" function can be given too, which is called whenever a call is blocked.
+export function useThrottledFunction(func, time = 25, onDeny) {
+	const lastTimeRef = useRef()
+	return useLookupCallback((...args) => {
+		const lastTime = lastTimeRef.current
+		const currentTime = new Date().getTime()
+		if (lastTime === undefined || lastTime + time <= currentTime) {
+			lastTimeRef.current = currentTime
+			func(...args)
+		} else {
+			if (onDeny) {
+				onDeny(...args)
+			}
+		}
+	})
 }
 
 // Portal takes a target parameter - a DOM object - and then renders the children in there. It checks when the target changes and rerenders when that happens.

@@ -26,6 +26,7 @@ const defaultLabelStyle = theme => ({
 	padding: '1px 5px',
 })
 
+// The labelAngles determine wheter the point label will appear, relative to the point, for each segment of the plot.
 const labelAngles = [[3 / 4, 1 / 2, 1 / 4], [1, -1 / 4, 0], [-3 / 4, 1 / 2, -1 / 4]].map(list => list.map(angle => angle * Math.PI))
 
 export const MouseLines = forwardRef(({ plotSettings, ...options }, ref) => {
