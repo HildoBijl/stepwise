@@ -4,7 +4,7 @@ import { numberArray } from 'step-wise/util/arrays'
 
 import { M } from 'ui/components/math'
 
-import KeyboardLayout from './KeyboardLayout'
+import KeyboardLayout from '../KeyboardLayout'
 
 export const tab = <M>\rm sin\left(\pi\right)</M>
 

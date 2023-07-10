@@ -2,7 +2,7 @@ import React from 'react'
 
 import { M } from 'ui/components/math'
 
-import KeyboardLayout from './KeyboardLayout'
+import KeyboardLayout from '../KeyboardLayout'
 
 export const tab = <M>\alpha \beta \gamma</M>
 

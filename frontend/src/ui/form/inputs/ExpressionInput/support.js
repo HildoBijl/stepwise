@@ -2,8 +2,8 @@ import { isEmptyObject } from 'step-wise/util/objects'
 import { support } from 'step-wise/CAS'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 
-import { keys as mathKeys } from '../../Keyboard/keyboards/basicMath'
-import { simplifyKey } from '../../Keyboard/keyboards/KeyboardLayout'
+import { keys as mathKeys } from '../../Keyboard/keyboards/types/basicMath'
+import { simplifyKey } from '../../Keyboard/keyboards/util'
 
 import { expressionFunctions } from '../mathSupport'
 

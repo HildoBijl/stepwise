@@ -2,11 +2,10 @@ import React, { useRef, useState, useCallback } from 'react'
 
 import { useLatest } from 'util/react'
 
-import Keyboard from '../Keyboard'
-import useKeyboardHandlers from '../Keyboard/handlers'
+import { Keyboard } from '../Keyboard'
 
 import { FieldControllerContext } from './context'
-import { useControlHandlers, useRegistrationHandlers, useEventHandlers } from './handlers'
+import { useControlHandlers, useRegistrationHandlers, useEventHandlers, useKeyboardHandlers } from './handlers'
 
 export default function FieldController({ children }) {
 	// Define refs to track all relevant data.
@@ -24,13 +23,10 @@ export default function FieldController({ children }) {
 	const turnTabbingOff = useCallback(() => setTabbingOn(false), [setTabbingOn])
 	const tabbingOnRef = useLatest(tabbingOn)
 
-	// Set up keyboard state and handlers.
-	const { keyboardSettings, keyFunction, storeKeyboard } = useKeyboardHandlers(fieldTrackerRef, tabOrderRef, tabIndexRef)
-	const keyboardRef = useRef()
-
-	// Define handler functions.
+	// Define handler functions for various parts of the field control.
 	const { activate, deactivate, blur, activateFirst, incrementTabIndex, decrementTabIndex, getActiveFieldId, isActive } = useControlHandlers(tabOrderRef, tabIndexRef, setTabIndex)
 	const { registerElement, unregisterElement } = useRegistrationHandlers(controllerRef, fieldTrackerRef, tabOrderRef, setTabIndex, { activate })
+	const { keyboardRef, keyboardSettings, keyFunction, storeKeyboard } = useKeyboardHandlers(fieldTrackerRef, tabOrderRef, tabIndexRef)
 
 	// Set up event listening/handling.
 	useEventHandlers(fieldTrackerRef, keyboardRef, tabbingOnRef, { activate, blur, incrementTabIndex, decrementTabIndex, getActiveFieldId })
