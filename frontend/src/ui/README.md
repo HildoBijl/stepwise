@@ -11,7 +11,8 @@ This UI folder contains all the content to render Step-Wise. There are a few imp
 ## General-purpose components
 
 - [images](./images/) simply contains images that can be loaded onto the website.
-- [components](./components/) are general-purpose components that can be included anywhere in the website. This is very broad: from paragraphs, tables and drawings to react flow management components like error boundaries.
+- [components](./components/) are general-purpose components that can be included anywhere in the website. This is very broad: from paragraphs and tables to react flow management components like error boundaries.
+- [figures](./figures/) is the image drawing library. Use it to generate dynamically rendered images. This includes shapes, plots and more. Everything can also be automated or made interactive.
 - [form](./form/) has all components related to input: the Form that tracks input data, as well as the input fields that can be used to get that data.
 
 ## Contents

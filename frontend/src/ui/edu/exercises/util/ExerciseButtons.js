@@ -6,7 +6,7 @@ import { lastOf } from 'step-wise/util/arrays'
 import { getLastAction, getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
 
-import { useLatest } from 'util/react'
+import { useLatest, useConsistentValue } from 'util/react'
 import { useUserId } from 'api/user'
 import { useActiveGroup } from 'api/group'
 import { getIcon } from 'ui/theme'
@@ -288,7 +288,7 @@ function CurrentSubmissionRow({ submissionList, submitting, index }) {
 	const { history } = useExerciseData()
 	const userId = useUserId()
 	const activeGroup = useActiveGroup()
-	const { setInputSI, isInputEqual } = useFormData()
+	const { setAllInputSI, isInputEqual } = useFormData()
 	const { updateFeedback } = useFeedback()
 
 	// Set up button handlers.
@@ -310,8 +310,8 @@ function CurrentSubmissionRow({ submissionList, submitting, index }) {
 	const setFormInput = useCallback(() => {
 		// Find the previous input action of the user and show the feedback on this.
 		updateFeedback(getLastInput(historyRef.current, lastOf(submissionListRef.current).userId, true) || {}) // Show feedback on the last resolved input.
-		setInputSI(lastOf(submissionListRef.current).action.input) // Show the input of the last action.
-	}, [historyRef, submissionListRef, updateFeedback, setInputSI])
+		setAllInputSI(lastOf(submissionListRef.current).action.input) // Show the input of the last action.
+	}, [historyRef, submissionListRef, updateFeedback, setAllInputSI])
 	const setAndSubmitFormInput = useCallback(() => {
 		setFormInput()
 		submit()
@@ -410,7 +410,8 @@ function useDerivedParameters() {
 	const { history } = useExerciseData()
 	const activeGroup = useActiveGroup()
 	const userId = useUserId()
-	const { isInputEqual, fields } = useFormData()
+	const { isInputEqual, getFieldIds } = useFormData()
+	const fieldIds = useConsistentValue(getFieldIds())
 
 	// Determine the status of the exercise.	
 	return useMemo(() => {
@@ -426,7 +427,7 @@ function useDerivedParameters() {
 		const groupedSubmissions = groupSubmissions(currentSubmissions, userId, isInputEqual)
 		return { currentEvent, currentSubmissions, gaveUp, submittedAction, hasSubmitted, numSubmissions, unsubmittedMembers, canResolve, allGaveUp, groupedSubmissions }
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [activeGroup, history, userId, isInputEqual, fields]) // The fields dependency is needed because, only after the fields get loaded into the form, can isInputEqual function properly.
+	}, [activeGroup, history, userId, isInputEqual, fieldIds]) // The fieldIds dependency is needed because, only after the fields get loaded into the form, can isInputEqual function properly.
 }
 
 // groupSubmissions takes a set of submissions and groups them based on their type. The result is an object of the form { input: [[ ...identical actions...], ]}

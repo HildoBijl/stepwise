@@ -1,4 +1,3 @@
-
 import { useCallback } from 'react'
 
 import { count } from 'step-wise/util/arrays'
@@ -14,7 +13,7 @@ import { useExerciseData } from '../ExerciseContainer'
 export function useSubmitAction() {
 	const { submitting, submitAction, history } = useExerciseData()
 	const userId = useUserId()
-	const { getInputSI, isValid, getField } = useFormData()
+	const { getAllInputSI, isInputValid, getFieldData } = useFormData()
 
 	const historyRef = useLatest(history)
 	const disabledRef = useLatest(submitting)
@@ -25,21 +24,21 @@ export function useSubmitAction() {
 			return
 
 		// Check if the input has validated.
-		if (!isValid())
+		if (!isInputValid())
 			return
 
 		// Check if the input is the same as for the previous action. If so, do nothing.
-		const input = getInputSI()
+		const input = getAllInputSI()
 		const lastAction = getLastAction(historyRef.current, userId)
 		if (lastAction && lastAction.type === 'input') {
 			const fieldIds = Object.keys(input)
-			if (fieldIds.length === Object.keys(lastAction.input).length && fieldIds.every(id => getField(id).equals(input[id], lastAction.input[id])))
+			if (fieldIds.length === Object.keys(lastAction.input).length && fieldIds.every(id => getFieldData(id).equals(input[id], lastAction.input[id])))
 				return
 		}
 
 		// All checks are fine. Submit the input!
 		return submitAction({ type: 'input', input })
-	}, [getInputSI, isValid, historyRef, disabledRef, getField, submitAction, userId])
+	}, [getAllInputSI, isInputValid, historyRef, disabledRef, getFieldData, submitAction, userId])
 }
 
 export function useGiveUpAction() {

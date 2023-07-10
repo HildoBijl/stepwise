@@ -10,7 +10,7 @@ import { isNumber, boundTo } from 'step-wise/util/numbers'
 import { resolveFunctions } from 'step-wise/util/functions'
 
 import { getCoordinatesOf, getClickSide } from 'util/dom'
-import { useLookupCallback, useEventListener, useSize } from 'util/react'
+import { useStableCallback, useEventListener, useSize } from 'util/react'
 import { notSelectable } from 'ui/theme'
 import { latexMinus } from 'ui/components/math'
 import { defaultUseFormParameterOptions, useCursorRef, useAbsoluteCursorRef } from 'ui/form/Form'
@@ -515,10 +515,10 @@ export function removeCursors(inputSet) {
 
 // The default clean and functionalize functions remove/add a cursor on the right place, in addition to running the given clean/functionalize function on the value property.
 export function useDefaultCleanFunction(clean) {
-	return useLookupCallback(FI => removeCursor({ ...FI, value: clean(FI.value) }))
+	return useStableCallback(FI => removeCursor({ ...FI, value: clean(FI.value) }))
 }
 export function useDefaultFunctionalizeFunction(functionalize, getEndCursor) {
-	return useLookupCallback(FI => {
+	return useStableCallback(FI => {
 		const value = functionalize(FI.value)
 		return { ...FI, value, cursor: getEndCursor(value) }
 	})

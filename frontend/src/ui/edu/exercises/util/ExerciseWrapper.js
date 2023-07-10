@@ -26,7 +26,7 @@ export default function ExerciseWrapper({ getFeedback, children }) {
 function FeedbackWrapper({ getFeedback, children }) {
 	// Extract all the data needed by the FeedbackProvider.
 	const exerciseData = useExerciseData()
-	const { setInputSI } = useFormData()
+	const { setAllInputSI } = useFormData()
 	const solution = useSolution(false)
 	const data = useMemo(() => solution === undefined ? exerciseData : ({ ...exerciseData, solution }), [exerciseData, solution])
 
@@ -38,8 +38,8 @@ function FeedbackWrapper({ getFeedback, children }) {
 	const lastInput = getLastInput(exerciseData.history, userId)
 	useEffect(() => {
 		if (lastInput)
-			setInputSI(lastInput)
-	}, [feedbackInput, lastInput, setInputSI])
+			setAllInputSI(lastInput)
+	}, [feedbackInput, lastInput, setAllInputSI])
 
 	// Render the FeedbackProvider.
 	return <FeedbackProvider getFeedback={getFeedback} input={feedbackInput} data={data}>{children}</FeedbackProvider>

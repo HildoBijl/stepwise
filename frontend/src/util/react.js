@@ -73,10 +73,11 @@ export function useUpdater(func, dependencies) {
 	useEffect(() => funcRef.current(), [funcRef, dependencies])
 }
 
-// useLookupCallback is like useCallback(func, []) but then can have dependencies without giving warnings. It's a constant-reference function that just looks up which function is registered to it whenever it's called.
-export function useLookupCallback(func) {
-	const funcRef = useLatest(func)
-	return useCallback((...args) => funcRef.current(...args), [funcRef])
+// useStableCallback is like useCallback(func, []) but then can have dependencies without giving warnings. It's a constant-reference function that just looks up which function is registered to it whenever it's called. If any of the optional dependencies changes, then the callback is changed though.
+export function useStableCallback(func, dependencies) {
+	dependencies = useConsistentValue(dependencies)
+	const funcRef = useLatest(func) // eslint-disable-next-line react-hooks/exhaustive-deps
+	return useCallback((...args) => funcRef.current(...args), [funcRef, dependencies])
 }
 
 // useMountedRef returns whether the object is mounted. It returns the actual reference object.
@@ -277,7 +278,7 @@ export function useFontFaceObserver(fontFaces, options = {}) {
 export function useStaggeredFunction(func) {
 	const funcRef = useLatest(func)
 	const timeoutRef = useRef()
-	return useLookupCallback((...args) => {
+	return useStableCallback((...args) => {
 		if (timeoutRef.current === undefined) {
 			timeoutRef.current = setTimeout(() => {
 				func(...args)
@@ -290,7 +291,7 @@ export function useStaggeredFunction(func) {
 // useThrottledFunction takes a function to be called. It returns a function to call this function. However, this function is throttled: only when it's not been called recently will the call go through. Here "recently" means "within the last [time] milliseconds". Optionally, an "onDeny" function can be given too, which is called whenever a call is blocked.
 export function useThrottledFunction(func, time = 25, onDeny) {
 	const lastTimeRef = useRef()
-	return useLookupCallback((...args) => {
+	return useStableCallback((...args) => {
 		const lastTime = lastTimeRef.current
 		const currentTime = new Date().getTime()
 		if (lastTime === undefined || lastTime + time <= currentTime) {

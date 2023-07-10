@@ -83,18 +83,18 @@ export function useFieldFeedback(options) {
 
 	// Gather data.
 	const theme = useTheme()
-	const { getInputParameterSI, getField } = useFormData()
+	const { getInputSI, getFieldData } = useFormData()
 	let { result: validationResult, input: validationInput } = useFieldValidation(id)
 	let { feedback, feedbackInput } = useParameterFeedback(id)
 	const staticFeedbackText = useStaticFeedbackText(feedback, feedbackInput)
 
 	// Check if the field exists.
-	const input = getInputParameterSI(id)
+	const input = getInputSI(id)
 	if (input === undefined)
 		return addInput(getDefaultFeedback(feedbackText, theme), input) // No feedback can be determined yet.
 
 	// Check for validation problems.
-	const equals = getField(id).equals
+	const equals = getFieldData(id).equals
 	if (validationResult !== undefined && equals(input, validationInput)) {
 		// If the validation result is a full object, use that directly. Most of the time it is only text (or a React element) in which case this is used as text.
 		if (isBasicObject(validationResult) && !isValidElement(validationResult))
