@@ -35,3 +35,18 @@ The `Form` has a ton of other possibilities. To use them, you have to access the
 
 - `getFieldIds(includeUnsubscribed = false)`: returns a list of all the field IDs that are known in the form and are currently active on the page. If `includeUnsubscribed` is set to `true`, then any older input fields that have been made persistent will also be included.
 
+
+## Components
+
+Are you a developer and want to understand how it's all set up, and how all components connect to one another? Then read on.
+
+Below you find the various components, and how they all relate to each other. All of them (except for the `Keyboard` component) also have a corresponding React `Context` to pass data to its children.
+
+- `FieldController`: At the top level, surrounding every page, is a `FieldController` component. This component tracks which input fields are on the page, and on tabs or clicks activates the right one. Input fields can register themselves to the `FieldController` if they ought to be considered for tabs/clicks.
+- `Keyboard`: Right inside the `FieldController` is a `Keyboard`. When an input field registers at the `FieldController`, it also tells the `FieldController` the corresponding `keyboardSettings`: which keyboard should be shown when the input field is active? These settings are then passed to the `Keyboard` which is displayed accordingly.
+- `Form`: On a page, there may be a `Form` with various input fields. For instance, a practice exercise is generally encompassed by a `Form`. This `Form` tracks all the values of all the input fields inside of it. (Input fields do not keep their own value, since then the form cannot access the full contents.) Input values are stored in FI form, but the `Form` is also able to transform the values to SI and FO form for further processing.
+- `FeedbackProvider`: A `Form` often has a `FeedbackProvider` inside of it. When feedback is requested, the `FeedbackProvider` takes the input from the form and comes up with feedback in one form or another to display inside the form.
+- `FormPart`: A `Form` generally consists of various parts. Think of a main question, a subquestion A and a subquestion B. If the user is done with subquestion A, then this part should be read-only and, depending on whether a user has attempted an input, show or hide input fields. The `FormPart` is the component that tracks these settings, subsequently informing input fields inside of it of their status.
+- `Input`: Inside the `Form` there are various `Input` fields. There is a large variety of [input fields](inputs/), so check the corresponding documentation to see what's possible there.
+
+And that's how a `Form` is built up in Step-Wise!
