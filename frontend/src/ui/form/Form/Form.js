@@ -17,7 +17,7 @@ export default function Form({ children, initialInput }) {
 	const cursorRef = useRef()
 	const absoluteCursorRef = useRef()
 
-	// Define important handler functions.
+	// Define handler functions.
 	const { subscribe, unsubscribe, getFieldData, getFieldIds } = useSubscriptionHandlers(initialInput, setInput, fieldsRef)
 	const { getInputFI, getAllInputFI, getInputSI, getAllInputSI, getInputFO, getAllInputFO } = useReadHandlers(input, { getFieldData, getFieldIds })
 	const { setInputFI, setAllInputSI } = useWriteHandlers(setInput, { getFieldData })

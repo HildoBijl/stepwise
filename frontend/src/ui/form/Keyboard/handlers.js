@@ -17,7 +17,7 @@ import { deepEquals } from 'step-wise/util/objects'
 
 import { useLatest } from 'util/react'
 
-export default function useKeyboardHandlers(fieldTracker, tabOrder, tabIndexRef) {
+export default function useKeyboardHandlers(fieldTrackerRef, tabOrderRef, tabIndexRef) {
 	// Use a state to store the keyboard settings.
 	const [keyboardSettings, setKeyboardSettings] = useState(undefined)
 	const keyboardSettingsRef = useLatest(keyboardSettings)
@@ -25,10 +25,10 @@ export default function useKeyboardHandlers(fieldTracker, tabOrder, tabIndexRef)
 	// getKeyboard returns the keyboard of the currently active input field.
 	const getKeyboard = useCallback(() => {
 		const tabIndex = tabIndexRef.current
-		const activeFieldId = tabOrder.current[tabIndex]
-		const activeField = fieldTracker.current[activeFieldId]
+		const activeFieldId = tabOrderRef.current[tabIndex]
+		const activeField = fieldTrackerRef.current[activeFieldId]
 		return activeField && activeField.keyboard
-	}, [tabIndexRef, tabOrder, fieldTracker])
+	}, [tabIndexRef, tabOrderRef, fieldTrackerRef])
 
 	// refreshKeyboard compares the keyboard of the currently active input field with the keyboard in the state. On a difference, the state is updated.
 	const refreshKeyboard = useCallback(() => {
@@ -43,7 +43,7 @@ export default function useKeyboardHandlers(fieldTracker, tabOrder, tabIndexRef)
 	// storeKeyboard will store the given keyboard for the input field with the given ID.
 	const storeKeyboard = useCallback((id, keyboard) => {
 		// Check the input.
-		if (!fieldTracker.current[id])
+		if (!fieldTrackerRef.current[id])
 			throw new Error(`Keyboard storing error: tried to store the keyboard of an input field "${id}" that is not registered yet.`)
 		if (keyboard) {
 			if (!keyboard.settings)
@@ -53,9 +53,9 @@ export default function useKeyboardHandlers(fieldTracker, tabOrder, tabIndexRef)
 		}
 
 		// Store the keyboard.
-		fieldTracker.current[id].keyboard = keyboard
+		fieldTrackerRef.current[id].keyboard = keyboard
 		refreshKeyboard()
-	}, [fieldTracker, refreshKeyboard])
+	}, [fieldTrackerRef, refreshKeyboard])
 
 	// keyFunction is a steady function (its reference doesn't change) that calls the key function of the currently active input field.
 	const keyFunction = useCallback((keyInfo, evt) => {
