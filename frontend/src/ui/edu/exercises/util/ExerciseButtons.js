@@ -11,9 +11,7 @@ import { useUserId } from 'api/user'
 import { useActiveGroup } from 'api/group'
 import { getIcon } from 'ui/theme'
 import { Button, useModal, PictureConfirmation } from 'ui/components'
-import { useFormData } from 'ui/form/Form'
-import { useFieldRegistration } from 'ui/form/FieldController'
-import { useFeedback } from 'ui/form/FeedbackProvider'
+import { useFormData, useFieldRegistration, useFeedbackContext } from 'ui/form'
 import { useSelfAndOtherMembers } from 'ui/pages/Groups/util'
 import MemberList from 'ui/pages/Groups/MemberList'
 
@@ -289,7 +287,7 @@ function CurrentSubmissionRow({ submissionList, submitting, index }) {
 	const userId = useUserId()
 	const activeGroup = useActiveGroup()
 	const { setAllInputSI, isInputEqual } = useFormData()
-	const { updateFeedback } = useFeedback()
+	const { updateFeedback } = useFeedbackContext()
 
 	// Set up button handlers.
 	const cancel = useCancelAction()

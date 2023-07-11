@@ -3,14 +3,10 @@
 import React, { useState, useEffect } from 'react'
 
 import { numberArray, lastOf } from 'step-wise/util/arrays'
-import { deepEquals } from 'step-wise/util/objects'
 import { getStep, getPreviousProgress } from 'step-wise/edu/exercises/util/stepExercise'
 
 import { VerticalAdjuster } from 'ui/components'
-import { useFormData } from 'ui/form/Form'
-import { useFeedback } from 'ui/form/FeedbackProvider'
-import FormPart from 'ui/form/FormPart'
-import { useFieldControllerContext } from 'ui/form/FieldController'
+import { useFormData, useFeedbackInput, FormPart, useFieldControllerContext } from 'ui/form'
 
 import { useExerciseData } from '../../ExerciseContainer'
 import ExerciseWrapper from '../../util/ExerciseWrapper'
@@ -34,8 +30,8 @@ export default function StepExercise(props) {
 function Contents({ Problem: MainProblem, steps }) {
 	const { state, progress, history } = useExerciseData()
 	const [expandSolution, setExpandSolution] = useState(false)
-	const { getAllInputSI } = useFormData()
-	const { feedbackInput } = useFeedback()
+	const { isInputEqual } = useFormData()
+	const feedbackInput = useFeedbackInput()
 	const { activateFirst } = useFieldControllerContext()
 
 	// Upon loading, or on a change of the last event (something was submitted), focus on the first field. (Delay to ensure all fields are registered.))
@@ -48,8 +44,7 @@ function Contents({ Problem: MainProblem, steps }) {
 	// Determine what to show.
 	const doneWithMainProblem = progress.done || progress.split
 	const showInputSpace = !progress.split
-	const input = getAllInputSI()
-	const showMainFeedback = showInputSpace && (progress.solved || progress.split || deepEquals(input, feedbackInput))
+	const showMainFeedback = showInputSpace && (progress.solved || progress.split || isInputEqual(feedbackInput))
 
 	return <>
 		<ProblemContainer>
@@ -82,7 +77,7 @@ function stepExerciseGetFeedback({ state, input, progress, history, shared }) {
 	const step = getStep(previousProgress)
 	if (step > 0) {
 		numberArray(1, step).forEach(index => {
-			feedback[index] = { main: shared.checkInput(state, input, index) }
+			feedback[`step${index}main`] = shared.checkInput(state, input, index)
 		})
 	}
 	return feedback

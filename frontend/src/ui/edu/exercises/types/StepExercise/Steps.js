@@ -4,9 +4,7 @@ import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
 
 import { useUserId } from 'api/user'
 import { VerticalAdjuster } from 'ui/components'
-import { useFormData } from 'ui/form/Form'
-import { useFeedback } from 'ui/form/FeedbackProvider'
-import FormPart from 'ui/form/FormPart'
+import { useFormData, useFeedbackInput, FormPart } from 'ui/form'
 
 import { useExerciseData } from '../../ExerciseContainer'
 import ProblemContainer from '../../util/ProblemContainer'
@@ -22,7 +20,7 @@ export function Step({ step, Problem, Solution, forceDisplay }) {
 	const userId = useUserId()
 	const { state, progress, history } = useExerciseData()
 	const { isInputEqual } = useFormData()
-	const { feedbackInput } = useFeedback()
+	const feedbackInput = useFeedbackInput()
 
 	// Determine what to show.
 	const exerciseStep = getStep(progress) // How far the student is with the exercise.

@@ -114,7 +114,6 @@ export default function MultipleChoice(options) {
 		...filterOptions(options, defaultInputOptions),
 		useFocusRegistration: false, // Tabbing does not focus MultipleChoice elements.
 		initialSI: getEmptySI(multiple),
-		subFields: numberArray(0, choices.length - 1),
 		functionalize,
 	})
 	const selectionRef = useLatest(selection)
@@ -160,7 +159,7 @@ export default function MultipleChoice(options) {
 		return null
 	return <>
 		<ul className={clsx(classes.multipleChoice, readOnly ? 'disabled' : 'enabled')}>
-			{mapping ? mapping.map(index => <Choice key={index} checked={isChecked(index)} activate={() => activateItem(index)} deactivate={() => activateItem(index)} toggle={() => toggleItem(index)} Element={Element} feedback={feedback && feedback[index]} readOnly={readOnly}>{choices[index]}</Choice>
+			{mapping ? mapping.map(index => <Choice key={index} checked={isChecked(index)} activate={() => activateItem(index)} deactivate={() => activateItem(index)} toggle={() => toggleItem(index)} Element={Element} feedback={feedback?.subfields && feedback.subfields[index]} readOnly={readOnly}>{choices[index]}</Choice>
 			) : null}
 		</ul>
 		{showFeedbackText ? <FeedbackBlock {...feedback} /> : null}

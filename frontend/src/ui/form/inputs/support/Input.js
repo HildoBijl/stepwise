@@ -8,7 +8,7 @@ import { getHTMLElement } from 'util/react'
 import { useFormPartSettings } from 'ui/form/FormPart'
 import { useFormParameter, defaultUseFormParameterOptions } from 'ui/form/Form'
 import { useFieldRegistration, defaultFieldControlOptions } from 'ui/form/FieldController'
-import { useFieldFeedback, defaultFieldFeedbackOptions } from 'ui/form/FeedbackProvider'
+import { useFieldFeedback } from 'ui/form/FeedbackProvider'
 
 const bannedInputIds = ['id', 'type', 'value', 'cursor', 'SO']
 
@@ -28,9 +28,6 @@ export const defaultInputOptions = {
 	autofocus: undefined,
 	keyboard: undefined,
 	focusOnClick: undefined,
-
-	// For feedback.
-	...defaultFieldFeedbackOptions,
 }
 
 /* useAsInput can be used inside an input field and does various things.
@@ -66,7 +63,7 @@ export function useAsInput(options) {
 	})
 
 	// Get feedback from the Feedback Provider.
-	const { feedback, feedbackInput } = useFieldFeedback(filterOptions(options, defaultFieldFeedbackOptions))
+	const { feedback, feedbackInput } = useFieldFeedback(id)
 
 	// Return all data as one large object.
 	return { id, readOnly, FI, setFI, active, activateField, deactivateField, feedback, feedbackInput }

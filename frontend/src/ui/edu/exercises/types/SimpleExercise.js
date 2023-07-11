@@ -7,10 +7,7 @@ import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 
 import { useUserId } from 'api/user'
 import { VerticalAdjuster } from 'ui/components'
-import { useFormData } from 'ui/form/Form'
-import { useFeedback } from 'ui/form/FeedbackProvider'
-import FormPart from 'ui/form/FormPart'
-import { useFieldControllerContext } from 'ui/form/FieldController'
+import { useFormData, useFeedbackInput, FormPart, useFieldControllerContext } from 'ui/form'
 
 import { useExerciseData } from '../ExerciseContainer'
 import ExerciseWrapper from '../util/ExerciseWrapper'
@@ -30,8 +27,8 @@ export default function SimpleExercise(props) {
 function Contents({ Problem, Solution }) {
 	const { state, progress, history } = useExerciseData()
 	const userId = useUserId()
-	const { getAllInputSI } = useFormData()
-	const { feedbackInput } = useFeedback()
+	const { isInputEqual } = useFormData()
+	const feedbackInput = useFeedbackInput()
 	const { activateFirst } = useFieldControllerContext()
 	const timeoutIndexRef = useRef()
 
@@ -45,7 +42,7 @@ function Contents({ Problem, Solution }) {
 	// Determine what to show.
 	const hasSubmissions = !!getLastInput(history, userId) // Has there been an input action?
 	const showInputSpace = !progress.done || hasSubmissions
-	const showMainFeedback = showInputSpace && (progress.done || deepEquals(getAllInputSI(), feedbackInput))
+	const showMainFeedback = showInputSpace && (progress.done || deepEquals(isInputEqual(feedbackInput)))
 
 	return <>
 		<ProblemContainer>

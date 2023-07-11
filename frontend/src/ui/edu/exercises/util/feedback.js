@@ -312,7 +312,7 @@ export function getInputFieldListFeedback(parameters, exerciseData, extraOptions
  * - text: the text corresponding to each option, if it is selected. This is usually an array of strings/JSXs. If it is not an array, the given text is simply always shown.
  * - correctText: the text that is used upon a correct answer, if no text is given.
  * - incorrectText: the text that is used upon an incorrect answer, if no text is given.
- * The object returned is of the form { [name]: { 0: { correct: false, text: 'Wrong!' }, 1: { correct: true } } }
+ * The object returned is of the form { [name]: { subfields: { 0: { correct: false, text: 'Wrong!' }, 1: { correct: true } } } }
  */
 export function getMCFeedback(parameter, exerciseData, options = {}) {
 	const { input, progress, solution } = exerciseData
@@ -353,7 +353,7 @@ export function getMCFeedback(parameter, exerciseData, options = {}) {
 	}
 
 	// Return result in appropriate format.
-	return { [parameter]: feedback }
+	return { [parameter]: { subfields: feedback } }
 }
 
 // extractComparisonFromExerciseData extracts shared data and the comparison method from the exercise data, assuring it's present. It also returns all other properties from the exerciseData, to allow easy variable definitions.

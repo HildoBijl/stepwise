@@ -9,18 +9,20 @@ import React, { createContext, useContext } from 'react'
 
 import { processOptions } from 'step-wise/util/objects'
 
-const defaults = {
+const defaultFormPartParameters = {
 	children: null,
 	readOnly: false,
 	showInputSpace: true,
 	showHints: true,
 }
 
-const FormPartContext = createContext(defaults)
+const FormPartContext = createContext(defaultFormPartParameters)
 
 export default function FormPart(props) {
-	const settings = processOptions(props, defaults)
-	return <FormPartContext.Provider value={{ ...settings, children: undefined }}>{props.children}</FormPartContext.Provider>
+	const settings = processOptions(props, defaultFormPartParameters)
+	return <FormPartContext.Provider value={{ ...settings, children: undefined }}>
+		{props.children}
+	</FormPartContext.Provider>
 }
 
 export function useFormPartSettings() {
