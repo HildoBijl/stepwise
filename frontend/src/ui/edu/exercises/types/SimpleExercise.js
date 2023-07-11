@@ -19,12 +19,12 @@ import ExerciseButtons from '../util/ExerciseButtons'
 export default function SimpleExercise(props) {
 	return (
 		<ExerciseWrapper getFeedback={props.getFeedback || simpleExerciseGetFeedback}>
-			<Contents {...props} />
+			<SimpleExerciseInner {...props} />
 		</ExerciseWrapper>
 	)
 }
 
-function Contents({ Problem, Solution }) {
+function SimpleExerciseInner({ Problem, Solution }) {
 	const { state, progress, history } = useExerciseData()
 	const userId = useUserId()
 	const { isInputEqual } = useFormData()

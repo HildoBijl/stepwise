@@ -7,10 +7,9 @@ import { Float } from 'step-wise/inputTypes/Float'
 
 import { Par, M, BM } from 'ui/components'
 import { Drawing, Polygon, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
+import { useInput, InputSpace } from 'ui/form'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import ExpressionInput, { numeric, validWithVariables, basicTrigonometryInDegrees } from 'ui/form/inputs/ExpressionInput'
-import { useInput } from 'ui/form/Form'
-import { InputSpace } from 'ui/form/FormPart'
 
 import { useExerciseData } from '../ExerciseContainer'
 import { useSolution } from '../util/SolutionProvider'

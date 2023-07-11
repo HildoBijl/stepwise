@@ -6,7 +6,7 @@ import { Float } from 'step-wise/inputTypes/Float'
 import { Par, M, BM } from 'ui/components'
 import IntegerInput from 'ui/form/inputs/IntegerInput'
 import FloatInput from 'ui/form/inputs/FloatInput'
-import { InputSpace } from 'ui/form/FormPart'
+import { InputSpace } from 'ui/form'
 
 import StepExercise from '../types/StepExercise'
 import { useSolution } from '../util/SolutionProvider'

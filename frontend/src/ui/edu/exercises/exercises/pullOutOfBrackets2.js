@@ -4,7 +4,7 @@ import { Integer, Sum, Product, Fraction, expressionComparisons } from 'step-wis
 
 import { Par, M, BM } from 'ui/components'
 import ExpressionInput, { basicMathAndPowers, validWithVariables } from 'ui/form/inputs/ExpressionInput'
-import { InputSpace } from 'ui/form/FormPart'
+import { InputSpace } from 'ui/form'
 
 import { useSolution } from '../util/SolutionProvider'
 import StepExercise from '../types/StepExercise'

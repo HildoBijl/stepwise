@@ -5,10 +5,7 @@ import { filterOptions, processOptions } from 'step-wise/util/objects'
 import { resolveFunctions } from 'step-wise/util/functions'
 
 import { getHTMLElement } from 'util/react'
-import { useFormPartSettings } from 'ui/form/FormPart'
-import { useFormParameter, defaultUseFormParameterOptions } from 'ui/form/Form'
-import { useFieldRegistration, defaultFieldControlOptions } from 'ui/form/FieldController'
-import { useFieldFeedback } from 'ui/form/FeedbackProvider'
+import { useFieldRegistration, defaultFieldControlOptions, useFormParameter, defaultUseFormParameterOptions, useFieldFeedback, useFormPartSettings } from 'ui/form'
 
 const bannedInputIds = ['id', 'type', 'value', 'cursor', 'SO']
 

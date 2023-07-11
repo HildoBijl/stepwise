@@ -4,7 +4,7 @@ import { pressure as pConversion } from 'step-wise/data/conversions'
 
 import { Par, M, BM } from 'ui/components'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
-import { InputSpace } from 'ui/form/FormPart'
+import { InputSpace } from 'ui/form'
 
 import SimpleExercise from '../types/SimpleExercise'
 import { useSolution } from '../util/SolutionProvider'

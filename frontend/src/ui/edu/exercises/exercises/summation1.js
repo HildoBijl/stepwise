@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M } from 'ui/components'
 import IntegerInput from 'ui/form/inputs/IntegerInput'
-import { InputSpace } from 'ui/form/FormPart'
+import { InputSpace } from 'ui/form'
 
 import SimpleExercise from '../types/SimpleExercise'
 

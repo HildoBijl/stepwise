@@ -3,10 +3,9 @@ import React from 'react'
 import { pressure as pConversion } from 'step-wise/data/conversions'
 
 import { Par, M, BM, InputTable } from 'ui/components'
-import { AntiInputSpace, InputSpace } from 'ui/form/FormPart'
+import { useInput, AntiInputSpace, InputSpace } from 'ui/form'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
-import { useInput } from 'ui/form/Form'
 
 import StepExercise from '../types/StepExercise'
 import { useSolution } from '../util/SolutionProvider'

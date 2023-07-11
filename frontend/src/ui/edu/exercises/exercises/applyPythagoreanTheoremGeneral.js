@@ -6,7 +6,7 @@ import { Par, M, BM } from 'ui/components'
 import { Drawing, Polygon, RightAngle, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
 import ExpressionInput, { numeric, basicMathAndPowers } from 'ui/form/inputs/ExpressionInput'
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
-import { InputSpace } from 'ui/form/FormPart'
+import { InputSpace } from 'ui/form'
 
 import { useSolution } from '../util/SolutionProvider'
 import StepExercise from '../types/StepExercise'

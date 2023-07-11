@@ -6,7 +6,7 @@ import { noop } from 'step-wise/util/functions'
 
 import theme from 'ui/theme'
 
-import keyboards, { tabs } from './index'
+import { keyboards, tabs } from './index'
 
 describe('Check all keyboards:', () => {
 	describe('the complete keyboard list', () => {

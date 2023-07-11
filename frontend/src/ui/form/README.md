@@ -5,7 +5,7 @@ Many exercise types automatically wrap everything in a `Form` component. This co
 
 ## Accessing existing input field values live
 
-Suppose you have a `Form` with various input fields inside. How can you use existing input field values live in React components? To do so, use one of the following hooks. (All hooks are imported from `ui/form/Form`.)
+Suppose you have a `Form` with various input fields inside. How can you use existing input field values live in React components? To do so, use one of the following hooks. (All hooks are imported from `ui/form`.)
 
 - `useInput`: use as `const someValue = useInput('someId')`, or as `const [value1, value2] = useInput(['id1', 'id2'])`. So either provide a single ID or an array of IDs. The resulting values are fully functional (FO type).
 - `useInputObject`: use as `const { id1, id2 } = useInputObject(['id1','id2'])`. So this is the same as the above, except that an object is returned containing the requested input values.

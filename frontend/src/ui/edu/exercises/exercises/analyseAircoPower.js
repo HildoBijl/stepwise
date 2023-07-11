@@ -3,11 +3,11 @@ import React from 'react'
 import { Unit } from 'step-wise/inputTypes/Unit'
 import { maximumHumidity } from 'step-wise/data/moistureProperties'
 
-import { useColor } from 'ui/theme'
 import { Par, M, BM } from 'ui/components'
+import { useColor } from 'ui/theme'
 import { Line, Circle, Curve } from 'ui/figures'
+import { InputSpace } from 'ui/form'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
-import { InputSpace } from 'ui/form/FormPart'
 
 import MollierDiagram from '../../content/diagrams/MollierDiagram'
 

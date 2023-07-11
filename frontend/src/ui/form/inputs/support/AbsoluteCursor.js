@@ -2,7 +2,7 @@ import React, { useRef, useState, forwardRef, useImperativeHandle } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { useAbsoluteCursorRef } from '../../Form'
+import { useAbsoluteCursorRef } from '../../'
 
 const useStyles = makeStyles(() => ({
 	cursor: {

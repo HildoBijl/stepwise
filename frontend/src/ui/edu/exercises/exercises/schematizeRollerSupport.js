@@ -7,7 +7,7 @@ import { selectRandomCorrect } from 'util/feedbackMessages'
 import { Par } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
-import { InputSpace } from 'ui/form/FormPart'
+import { InputSpace } from 'ui/form'
 
 import { Group, Beam, RollerSupport, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
 import FBDInput, { allConnectedToPoints, loadTypes, areLoadsEqual, getFBDFeedbackFunction, FBDComparison } from 'ui/edu/content/mechanics/FBDInput'

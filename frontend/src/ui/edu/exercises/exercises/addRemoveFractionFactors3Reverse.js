@@ -3,8 +3,8 @@ import React from 'react'
 import { Fraction, expressionComparisons } from 'step-wise/CAS'
 
 import { Par, M, BM } from 'ui/components'
+import { InputSpace } from 'ui/form'
 import ExpressionInput, { basicMathAndPowers, validWithVariables } from 'ui/form/inputs/ExpressionInput'
-import { InputSpace } from 'ui/form/FormPart'
 
 import { useSolution } from '../util/SolutionProvider'
 import SimpleExercise from '../types/SimpleExercise'
@@ -40,7 +40,7 @@ const Solution = () => {
 function getFeedback(exerciseData) {
 	// Define extra checks.
 	const originalExpression = (input, correct, { expression, upper }) => onlyOrderChanges(expression, input) && <>Dit is de oorspronkelijke uitdrukking. Je hebt er nog geen breuk van gemaakt met de gevraagde {upper ? 'noemer' : 'teller'}.</>
-	
+
 	const wrongPart = (input, correct, { upper, sum }) => input.isSubtype(Fraction) && !onlyOrderChanges(sum, input[upper ? 'denominator' : 'numerator']) && <>Je antwoord heeft niet <M>{sum}</M> in de {upper ? 'noemer' : 'teller'}.</>
 
 	// Determine feedback.

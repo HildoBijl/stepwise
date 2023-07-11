@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M } from 'ui/components'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
-import { InputSpace } from 'ui/form/FormPart'
+import { InputSpace } from 'ui/form'
 
 import SimpleExercise from '../types/SimpleExercise'
 import { getMCFeedback } from '../util/feedback'

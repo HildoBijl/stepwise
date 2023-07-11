@@ -8,7 +8,7 @@ import { Drawing, Polygon, RightAngle, CornerLabel, LineLabel, useRotationReflec
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 import ExpressionInput, { numeric, basicTrigonometryInDegrees } from 'ui/form/inputs/ExpressionInput'
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
-import { InputSpace } from 'ui/form/FormPart'
+import { InputSpace } from 'ui/form'
 
 import { useExerciseData } from '../ExerciseContainer'
 import { useSolution } from '../util/SolutionProvider'

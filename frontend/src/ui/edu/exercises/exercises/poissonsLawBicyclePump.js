@@ -3,7 +3,7 @@ import React from 'react'
 import { temperature as TConversion } from 'step-wise/data/conversions'
 
 import { Par, M, BM } from 'ui/components'
-import { InputSpace } from 'ui/form/FormPart'
+import { InputSpace } from 'ui/form'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 

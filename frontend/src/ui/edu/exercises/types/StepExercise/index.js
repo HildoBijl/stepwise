@@ -22,12 +22,12 @@ export { getStep, getPreviousProgress }
 export default function StepExercise(props) {
 	return (
 		<ExerciseWrapper getFeedback={props.getFeedback || stepExerciseGetFeedback}>
-			<Contents {...props} />
+			<StepExerciseInner {...props} />
 		</ExerciseWrapper>
 	)
 }
 
-function Contents({ Problem: MainProblem, steps }) {
+function StepExerciseInner({ Problem: MainProblem, steps }) {
 	const { state, progress, history } = useExerciseData()
 	const [expandSolution, setExpandSolution] = useState(false)
 	const { isInputEqual } = useFormData()

@@ -7,7 +7,7 @@ import { getCountingWord } from 'util/language'
 import { selectRandomCorrect } from 'util/feedbackMessages'
 import { Par, M } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
-import { InputSpace } from 'ui/form/FormPart'
+import { InputSpace } from 'ui/form'
 import { useCurrentBackgroundColor } from 'ui/form/inputs/DrawingInput'
 
 import { Group, Element, Distance, Beam, FixedSupport, AdjacentFixedSupport, HingeSupport, HalfHingeSupport, RollerSupport, AdjacentRollerSupport, RollerHingeSupport, RollerHalfHingeSupport, render } from 'ui/edu/content/mechanics/EngineeringDiagram'

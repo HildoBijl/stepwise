@@ -4,7 +4,7 @@ import { temperature as TConversion } from 'step-wise/data/conversions'
 
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
-import { InputSpace } from 'ui/form/FormPart'
+import { InputSpace } from 'ui/form'
 
 import StepExercise from '../types/StepExercise'
 import { useSolution } from '../util/SolutionProvider'

@@ -4,7 +4,7 @@ import { Unit } from 'step-wise/inputTypes/Unit'
 
 import { Par, M, BM } from 'ui/components'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
-import { InputSpace } from 'ui/form/FormPart'
+import { InputSpace } from 'ui/form'
 
 import SimpleExercise from '../types/SimpleExercise'
 import { useSolution } from '../util/SolutionProvider'

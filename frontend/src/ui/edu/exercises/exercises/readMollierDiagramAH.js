@@ -6,7 +6,7 @@ import { useColor } from 'ui/theme'
 import { Par, M, BM } from 'ui/components'
 import { Line, Circle } from 'ui/figures'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
-import { InputSpace } from 'ui/form/FormPart'
+import { InputSpace } from 'ui/form'
 
 import MollierDiagram from '../../content/diagrams/MollierDiagram'
 

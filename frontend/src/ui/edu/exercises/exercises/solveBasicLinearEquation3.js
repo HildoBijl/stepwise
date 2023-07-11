@@ -5,7 +5,7 @@ import { Sum, Product, expressionComparisons } from 'step-wise/CAS'
 import { Par, M, BM } from 'ui/components'
 import ExpressionInput, { validWithVariables as expressionValidWithVariables, basicMath } from 'ui/form/inputs/ExpressionInput'
 import EquationInput, { validWithVariables as equationValidWithVariables } from 'ui/form/inputs/EquationInput'
-import { InputSpace } from 'ui/form/FormPart'
+import { InputSpace } from 'ui/form'
 
 import { useSolution } from '../util/SolutionProvider'
 import StepExercise from '../types/StepExercise'

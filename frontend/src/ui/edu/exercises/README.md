@@ -148,10 +148,10 @@ Very often, you'll want to provide feedback to parameters in a default way. For 
 
 Most problems have a question, like "Solve `3*x = 18`" including an input field where the student can insert an answer. This will look something like "x = [ .... ]". When a student just gives up on an exercise, without inserting anything, it would be more clean to hide the input field. This can be achieved by putting the input field in an `InputSpace` wrapper. 
 
-To do so, first import it using `import { InputSpace } from 'ui/form/FormPart'`. Then, in your Problem component, use it like `Problem = ({a, b}) => <><Par>Solve {a}*x = {b}.</Par><InputSpace><Par><IntegerInput id="ans" label="x" /></Par></InputSpace></>`. Everything in this input space is then hidden whenever an input space is not required. All the other text is always visible.
+To do so, first import it using `import { InputSpace } from 'ui/form'`. Then, in your Problem component, use it like `Problem = ({a, b}) => <><Par>Solve {a}*x = {b}.</Par><InputSpace><Par><IntegerInput id="ans" label="x" /></Par></InputSpace></>`. Everything in this input space is then hidden whenever an input space is not required. All the other text is always visible.
 
 If you want to put a replacement text in place of the input space, then it's also possible to use the `AntiInputSpace` wrapper, imported in the same way. The contents of this one are only visible when the input space is *not* visible.
 
 ### Hint and AntiHint
 
-Sometimes you may want to show a hint for a question, which may be hidden when the exercise is done. (Whether a submissions has been done or not.) In this case you can use `import { Hint, AntiHint } from 'ui/form/FormPart'` to import these conainers. Then, in your Problem component, use it like `Problem = ({a, b}) => <><Par>Solve {a}*x = {b}.</Par><InputSpace><Par><IntegerInput id="ans" label="x" /></Par></InputSpace><Hint><Par>Hint: divide {b} by {a}.</Par></Hint></>`.
+Sometimes you may want to show a hint for a question, which may be hidden when the exercise is done. (Whether a submissions has been done or not.) In this case you can use `import { Hint, AntiHint } from 'ui/form'` to import these conainers. Then, in your Problem component, use it like `Problem = ({a, b}) => <><Par>Solve {a}*x = {b}.</Par><InputSpace><Par><IntegerInput id="ans" label="x" /></Par></InputSpace><Hint><Par>Hint: divide {b} by {a}.</Par></Hint></>`.

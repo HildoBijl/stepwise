@@ -11,9 +11,9 @@ import { resolveFunctions } from 'step-wise/util/functions'
 
 import { getCoordinatesOf, getClickSide } from 'util/dom'
 import { useStableCallback, useEventListener, useSize } from 'util/react'
-import { notSelectable } from 'ui/theme'
 import { latexMinus } from 'ui/components/math'
-import { defaultUseFormParameterOptions, useCursorRef, useAbsoluteCursorRef } from 'ui/form/Form'
+import { notSelectable } from 'ui/theme'
+import { defaultUseFormParameterOptions, useCursorRef, useAbsoluteCursorRef } from 'ui/form'
 import { useSubmitAction } from 'ui/edu/exercises/util/actions'
 
 import { useAsInput, defaultInputOptions } from './Input'

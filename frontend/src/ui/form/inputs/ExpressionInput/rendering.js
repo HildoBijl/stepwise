@@ -8,7 +8,7 @@ import { defaultFieldSettings, defaultInterpretationSettings, defaultExpressionS
 
 import { useLatest } from 'util/react'
 
-import { useAbsoluteCursorRef } from '../../Form'
+import { useAbsoluteCursorRef } from '../../'
 
 import FieldInput from '../support/FieldInput'
 import { expressionFunctions, MathWithCursor, MathWithCursorProvider, useMathWithCursorContext, mouseClickToCursor as generalMouseClickToCursor } from '../mathSupport'

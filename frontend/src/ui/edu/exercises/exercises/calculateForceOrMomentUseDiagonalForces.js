@@ -6,7 +6,7 @@ import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 
 import { Par, M, BM } from 'ui/components'
 import { Drawing, Circle, Rectangle as SvgRectangle, useScaleBasedTransformationSettings } from 'ui/figures'
-import { InputSpace } from 'ui/form/FormPart'
+import { InputSpace } from 'ui/form'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 

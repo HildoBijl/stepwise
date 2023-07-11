@@ -3,8 +3,7 @@ import React, { useMemo, useEffect } from 'react'
 import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 
 import { useUserId } from 'api/user'
-import Form, { useFormData } from 'ui/form/Form'
-import FeedbackProvider from 'ui/form/FeedbackProvider'
+import { Form, useFormData, FeedbackProvider } from 'ui/form'
 
 import { useExerciseData } from '../ExerciseContainer'
 

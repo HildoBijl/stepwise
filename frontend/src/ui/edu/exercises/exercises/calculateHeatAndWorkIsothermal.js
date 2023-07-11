@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Dutch } from 'ui/lang/gases'
 import { Par, M, BM } from 'ui/components'
-import { InputSpace } from 'ui/form/FormPart'
+import { InputSpace } from 'ui/form'
 import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
 import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 

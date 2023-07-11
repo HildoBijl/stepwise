@@ -3,8 +3,8 @@ import React from 'react'
 import { Integer, expressionComparisons } from 'step-wise/CAS'
 
 import { Par, M, BM } from 'ui/components'
+import { InputSpace } from 'ui/form'
 import ExpressionInput, { basicMathAndPowers, validWithVariables } from 'ui/form/inputs/ExpressionInput'
-import { InputSpace } from 'ui/form/FormPart'
 
 import { useSolution } from '../util/SolutionProvider'
 import SimpleExercise from '../types/SimpleExercise'

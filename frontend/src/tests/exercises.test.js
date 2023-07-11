@@ -6,9 +6,9 @@ import ResizeObserver from 'resize-observer-polyfill'
 import { getAllExercises } from 'step-wise/edu/exercises/util/selection'
 import { noop } from 'step-wise/util/functions'
 
-import theme from 'ui/theme'
-import FieldController from 'ui/form/FieldController'
 import ModalManager from 'ui/components/Modal/ModalManager'
+import theme from 'ui/theme'
+import { FieldController } from 'ui/form'
 import { ExerciseContext } from 'ui/edu/exercises/ExerciseContainer'
 
 // Polyfill the react-resize-detector.

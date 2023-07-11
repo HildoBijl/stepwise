@@ -6,7 +6,7 @@ import { getLastAction } from 'step-wise/edu/exercises/util/simpleExercise'
 import { useLatest } from 'util/react'
 import { useUserId } from 'api/user'
 import { useActiveGroup } from 'api/group'
-import { useFormData } from 'ui/form/Form'
+import { useFormData } from 'ui/form'
 
 import { useExerciseData } from '../ExerciseContainer'
 

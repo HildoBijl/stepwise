@@ -6,7 +6,7 @@ import { filterProperties } from 'step-wise/util/objects'
 import { getCoordinatesOf } from 'util/dom'
 import { RBM, zeroWidthSpaceRegExp } from 'ui/components'
 
-import { useAbsoluteCursorRef } from '../../Form'
+import { useAbsoluteCursorRef } from '../../'
 
 import { getFIFuncs } from './types'
 

@@ -46,7 +46,7 @@ export function useTabContext() {
 }
 
 // useTabs is called by a component that wants to display tabs on the page. It takes an array of tab names, like ["theory", "practice", "references"], and optionally an initial tab "practice". It returns the full tab context.
-export function useTabs(tabs, initialTab, skillId) {
+export function useTabs(tabs, initialTab) {
 	const context = useTabContext()
 	const { tab, setTabs, setTab, setTabIndex, reset } = context
 	const [initialized, setInitialized] = useState(false)

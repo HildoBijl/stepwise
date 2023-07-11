@@ -4,8 +4,7 @@ import { Vector, Line } from 'step-wise/geometry'
 
 import { Par, M, BM } from 'ui/components'
 import { Drawing, CornerLabel, Line as SvgLine, useScaleBasedTransformationSettings } from 'ui/figures'
-import { InputSpace } from 'ui/form/FormPart'
-import { useInput } from 'ui/form/Form'
+import { useInput, InputSpace } from 'ui/form'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { useCurrentBackgroundColor } from 'ui/form/inputs/DrawingInput'
 

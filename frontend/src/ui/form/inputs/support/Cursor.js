@@ -2,7 +2,7 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { useCursorRef } from '../../Form'
+import { useCursorRef } from '../../'
 
 const useStyles = makeStyles(() => ({
 	cursorContainer: {
@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
 			width: '1px',
 		},
 	},
-	
+
 	'@keyframes cursor': {
 		'0%': { opacity: 1 },
 		'30%': { opacity: 0 },

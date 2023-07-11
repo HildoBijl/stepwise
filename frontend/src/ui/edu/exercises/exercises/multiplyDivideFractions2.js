@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
 import ExpressionInput, { basicMath, validWithVariables } from 'ui/form/inputs/ExpressionInput'
-import { InputSpace } from 'ui/form/FormPart'
+import { InputSpace } from 'ui/form'
 
 import { useSolution } from '../util/SolutionProvider'
 import SimpleExercise from '../types/SimpleExercise'

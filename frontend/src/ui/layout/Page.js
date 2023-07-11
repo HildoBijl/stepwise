@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useRoute } from 'ui/routing'
 import { ModalManager, OfflineNotification, RecommendLogIn } from 'ui/components'
-import FieldController from 'ui/form/FieldController'
+import { FieldController } from 'ui/form'
 
 import PageContainer from './PageContainer'
 import Header from './Header'
