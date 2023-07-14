@@ -10,7 +10,7 @@ import { useFieldControllerContext } from '../provider'
 import { useFieldActivation } from './status'
 
 // useFieldRegistration allows any input field to input field to register to the FieldController. Just write `const [active, activate, deactivate] = useFieldRegistration({ id: 'fieldId', element: refUsedForElement, ... (other options) ... })`. There are the following options.
-export const defaultFieldControlOptions = {
+export const defaultFieldRegistrationOptions = {
 	id: undefined, // [Mandatory] A unique string related to the field.
 	element: undefined, // [Mandatory] The DOM object or a React reference to one representing the field. It's use to determine tabbing order.
 	apply: true, // By setting this to false, the field is unregistered. This allows you to unregister fields without needing a conditional hook.
@@ -23,7 +23,7 @@ export const defaultFieldControlOptions = {
 }
 export function useFieldRegistration(options) {
 	// Process input.
-	const { id, element, apply, useTabbing, manualIndex, autofocus, focusOnClick, focusRefOnActive, keyboard } = processOptions(options, defaultFieldControlOptions)
+	const { id, element, apply, useTabbing, manualIndex, autofocus, focusOnClick, focusRefOnActive, keyboard } = processOptions(options, defaultFieldRegistrationOptions)
 	if (apply && !element)
 		throw new Error(`Field registration error: no ref was given pointing to a DOM object representing the field.`)
 

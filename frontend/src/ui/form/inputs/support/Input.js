@@ -5,7 +5,7 @@ import { filterOptions, processOptions } from 'step-wise/util/objects'
 import { resolveFunctions } from 'step-wise/util/functions'
 
 import { getHTMLElement } from 'util/react'
-import { useFieldRegistration, defaultFieldControlOptions, useFormParameter, defaultUseFormParameterOptions, useFieldFeedback, useFormPartSettings } from 'ui/form'
+import { useFieldRegistration, defaultFieldRegistrationOptions, useFormParameter, defaultUseFormParameterOptions, useFeedback, useFormPartSettings } from 'ui/form'
 
 const bannedInputIds = ['id', 'type', 'value', 'cursor', 'SO']
 
@@ -54,13 +54,13 @@ export function useAsInput(options) {
 	// Register the field for tabbing at the field controller.
 	const { useFocusRegistration, keyboard } = options
 	const [active, activateField, deactivateField] = useFieldRegistration({
-		...filterOptions(options, defaultFieldControlOptions),
+		...filterOptions(options, defaultFieldRegistrationOptions),
 		apply: useFocusRegistration && !readOnly && !!getHTMLElement(options.element), // Only apply when the element has loaded.
 		keyboard: resolveFunctions(keyboard, FI), // The keyboard settings may depend on the data.
 	})
 
 	// Get feedback from the Feedback Provider.
-	const { feedback, feedbackInput } = useFieldFeedback(id)
+	const { result: feedback, input: feedbackInput } = useFeedback(id)
 
 	// Return all data as one large object.
 	return { id, readOnly, FI, setFI, active, activateField, deactivateField, feedback, feedbackInput }

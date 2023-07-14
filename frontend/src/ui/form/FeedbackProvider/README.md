@@ -52,10 +52,10 @@ The result is a feedback object of the following form.
 
 ## Using Feedback inside input fields
 
-Once feedback is present, it can be used by input fields. There are various hooks available for this. The most important one is the `useFieldFeedback` hook. It is used through
+Once feedback is present, it can be used by input fields. There are various hooks available for this. The most important one is the `useFeedback` hook. It is used through
 
 ```
-const { feedback, feedbackInput } = useFieldFeedback(fieldId)
+const { feedback, feedbackInput } = useFeedback(fieldId)
 ```
 
 The `feedback` is the processed feedback for the respective field. (Or `undefined` if no feedback is available yet.) It's then the input field's responsibility to properly display it. The `feedbackInput` is the input (in SI format) that is used to generate that feedback. If desired, the input field can compare this input value to what is currently in the form, to see if the feedback should actually still be shown.

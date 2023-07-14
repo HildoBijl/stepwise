@@ -18,17 +18,24 @@ export default function Form({ children, initialInput }) {
 	const absoluteCursorRef = useRef()
 
 	// Define handler functions.
-	const { subscribe, unsubscribe, getFieldData, getFieldIds } = useSubscriptionHandlers(initialInput, setInput, fieldsRef)
-	const { getInputFI, getAllInputFI, getInputSI, getAllInputSI, getInputFO, getAllInputFO } = useReadHandlers(input, { getFieldData, getFieldIds })
-	const { setInputFI, setAllInputSI } = useWriteHandlers(setInput, { getFieldData })
-	const { isInputEqual, isInputValid } = useValidationHandlers(validation, setValidation, { getFieldIds, getFieldData, getAllInputSI, getAllInputFO })
+	const subscriptionHandlers = useSubscriptionHandlers(initialInput, setInput, fieldsRef)
+	const readHandlers = useReadHandlers(input, subscriptionHandlers)
+	const writeHandlers = useWriteHandlers(setInput, subscriptionHandlers)
+	const validationHandlers = useValidationHandlers(validation, setValidation, { ...subscriptionHandlers, ...readHandlers })
 
 	// Upon a change of the initialInput, try to implement it.
 	useInitialInputUpdating()
 
 	// Set up the Form context for everyone to use.
 	return (
-		<FormContext.Provider value={{ input, validation, cursorRef, absoluteCursorRef, subscribe, unsubscribe, getFieldData, getFieldIds, getInputFI, getAllInputFI, getInputSI, getAllInputSI, getInputFO, getAllInputFO, setInputFI, setAllInputSI, isInputEqual, isInputValid }}>
+		<FormContext.Provider value={{
+			input, validation, // State
+			cursorRef, absoluteCursorRef, // Cursor refs
+			...subscriptionHandlers,
+			...readHandlers,
+			...writeHandlers,
+			...validationHandlers,
+		}}>
 			<form onSubmit={(evt) => evt.preventDefault()}>
 				{children}
 			</form>
