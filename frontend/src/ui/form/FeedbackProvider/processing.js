@@ -31,22 +31,22 @@ export function processFeedback(feedback, theme) {
 		delete feedback.correct
 	}
 
-	// If there is no type, use a default type.
-	if (!feedback.type)
-		feedback = { ...feedback, type: 'info' }
-
 	// If by now we do not know the feedback, the feedback has not been implemented properly. Throw an error.
 	if (!feedback.text && !feedback.subfields)
 		throw new Error(`Invalid feedback: some feedback was attempted to be given, but no feedback text is known. Cannot process/display this feedback. Received was "${JSON.stringify(feedback)}".`)
 
-	// Add an icon and a color.
-	feedback = addIconAndColor(feedback, theme)
+	// If there is feedback, make sure it has a type, icon and color.
+	if (feedback.text) {
+		if (!feedback.type)
+			feedback = { ...feedback, type: 'info' } // Apply default type on missing type.
+		feedback = addIconAndColor(feedback, theme)
+	}
 
 	// If there are subfields, recursively process said subfields.
 	if (feedback.subfields) {
 		feedback.subfields = applyToEachParameter(feedback.subfields, subfieldFeedback => processFeedback(subfieldFeedback, theme))
 	}
-
+	
 	// All done!
 	return feedback
 }

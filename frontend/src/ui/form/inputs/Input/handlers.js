@@ -3,7 +3,7 @@ import { resolveFunctions } from 'step-wise/util/functions'
 
 import { getHTMLElement } from 'util/react'
 
-import { useFormParameter, defaultUseFormParameterOptions, useFieldRegistration, defaultFieldRegistrationOptions, useFormPartSettings } from '../../../'
+import { useFormParameter, defaultUseFormParameterOptions, useFieldRegistration, defaultFieldRegistrationOptions, useFormPartSettings } from '../../'
 
 // useReadOnlyValue takes a given readOnly value and also checks the readOnly value provided by the FormPart status. It uses the provided value, or if that's undefined uses the FormPart value.
 export function useReadOnlyValue(readOnly) {

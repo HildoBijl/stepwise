@@ -19,7 +19,7 @@ export default function Steps({ steps, forceDisplay }) {
 export function Step({ step, Problem, Solution, forceDisplay }) {
 	const userId = useUserId()
 	const { state, progress, history } = useExerciseData()
-	const { isInputEqual } = useFormData()
+	const { isAllInputEqual } = useFormData()
 	const feedbackInput = useFeedbackInput()
 
 	// Determine what to show.
@@ -39,7 +39,7 @@ export function Step({ step, Problem, Solution, forceDisplay }) {
 	})
 	const doneWithStep = stepProgress.done
 	const showInputSpace = !stepProgress.done || hasSubmissions
-	const showMainFeedback = showInputSpace && (stepProgress.done || isInputEqual(feedbackInput))
+	const showMainFeedback = showInputSpace && (stepProgress.done || isAllInputEqual(feedbackInput))
 
 	return <>
 		<ProblemContainer display={display} step={step}>

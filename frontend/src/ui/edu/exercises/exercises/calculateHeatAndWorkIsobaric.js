@@ -2,9 +2,8 @@ import React from 'react'
 
 import { Dutch } from 'ui/lang/gases'
 import { Par, M, BMList, BMPart } from 'ui/components'
-import { InputSpace } from 'ui/form'
+import { InputSpace, MultipleChoice } from 'ui/form'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
-import MultipleChoice from 'ui/form/inputs/MultipleChoice'
 
 import StepExercise from '../types/StepExercise'
 import { useSolution } from '../util/SolutionProvider'

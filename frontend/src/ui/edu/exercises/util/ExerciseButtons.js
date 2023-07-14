@@ -144,7 +144,7 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 	const { progress, history, submitting, startNewExercise } = useExerciseData()
 	const theme = useTheme()
 	const classes = useStyles()
-	const { isInputEqual } = useFormData()
+	const { isAllInputEqual } = useFormData()
 
 	// Set up button handlers.
 	const submit = useSubmitAction()
@@ -177,7 +177,7 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 
 	// Determine if the input is the same as previously.
 	const lastAction = getLastAction(history)
-	const inputIsEqualToLastInput = lastAction && lastAction.type === 'input' && isInputEqual(lastAction.input)
+	const inputIsEqualToLastInput = lastAction && lastAction.type === 'input' && isAllInputEqual(lastAction.input)
 
 	// If the exercise is not done, we need the submit and give-up buttons. First set up the text.
 	let giveUpText = 'Ik geef het op'
@@ -243,7 +243,7 @@ function StartNewExerciseButton() {
 function GiveUpAndSubmitButtons({ stepwise, submittedAction }) {
 	const { progress, submitting, history } = useExerciseData()
 	const userId = useUserId()
-	const { isInputEqual } = useFormData()
+	const { isAllInputEqual } = useFormData()
 
 	// Set up button handlers.
 	const submit = useSubmitAction()
@@ -259,8 +259,8 @@ function GiveUpAndSubmitButtons({ stepwise, submittedAction }) {
 
 	// Determine if the input is the same as previously, or as to what is currently submitted.
 	const lastAction = getLastAction(history, userId)
-	const isInputEqualToLastInput = lastAction && lastAction.type === 'input' && isInputEqual(lastAction.input)
-	const isInputEqualToSubmittedInput = submittedAction && submittedAction.type === 'input' && isInputEqual(submittedAction.input)
+	const isAllInputEqualToLastInput = lastAction && lastAction.type === 'input' && isAllInputEqual(lastAction.input)
+	const isAllInputEqualToSubmittedInput = submittedAction && submittedAction.type === 'input' && isAllInputEqual(submittedAction.input)
 
 	// Determine the give-up button text.
 	let giveUpText = 'Ik geef het op'
@@ -271,9 +271,9 @@ function GiveUpAndSubmitButtons({ stepwise, submittedAction }) {
 	// Render the buttons.
 	const WarningIcon = getIcon('warning')
 	return <>
-		{submittedAction && submittedAction.type === 'input' && !isInputEqualToSubmittedInput ? <div className="description2 warning"><WarningIcon />De invoer hierboven is niet gelijk aan je ingezonden antwoord.</div> : null}
+		{submittedAction && submittedAction.type === 'input' && !isAllInputEqualToSubmittedInput ? <div className="description2 warning"><WarningIcon />De invoer hierboven is niet gelijk aan je ingezonden antwoord.</div> : null}
 		{hasGivenUp ? null : <Button className="button1" variant="contained" startIcon={<Clear />} onClick={giveUp} disabled={submitting} color="secondary" ref={giveUpButtonRef}><span className="buttonText">{giveUpText}</span></Button>}
-		<Button className="button2" variant="contained" endIcon={<Send />} onClick={submit} disabled={submitting || isInputEqualToLastInput || isInputEqualToSubmittedInput} color="primary" ref={submitButtonRef}><span className="buttonText">Insturen</span></Button>
+		<Button className="button2" variant="contained" endIcon={<Send />} onClick={submit} disabled={submitting || isAllInputEqualToLastInput || isAllInputEqualToSubmittedInput} color="primary" ref={submitButtonRef}><span className="buttonText">Insturen</span></Button>
 	</>
 }
 
@@ -286,7 +286,7 @@ function CurrentSubmissionRow({ submissionList, submitting, index }) {
 	const { history } = useExerciseData()
 	const userId = useUserId()
 	const activeGroup = useActiveGroup()
-	const { setAllInputSI, isInputEqual } = useFormData()
+	const { setAllInputSI, isAllInputEqual } = useFormData()
 	const { updateFeedback } = useFeedbackContext()
 
 	// Set up button handlers.
@@ -317,7 +317,7 @@ function CurrentSubmissionRow({ submissionList, submitting, index }) {
 
 	// Show the buttons. Which exact button depends on whether the user itself is in the list.
 	const submittedInput = lastOf(submissionList).action.input
-	const isEqual = isInputEqual(submittedInput)
+	const isEqual = isAllInputEqual(submittedInput)
 	return <>
 		<div className="inBetween" />
 		<div className="description1">Ingezonden:</div>
@@ -408,7 +408,7 @@ function useDerivedParameters() {
 	const { history } = useExerciseData()
 	const activeGroup = useActiveGroup()
 	const userId = useUserId()
-	const { isInputEqual, getFieldIds } = useFormData()
+	const { isAllInputEqual, getFieldIds } = useFormData()
 	const fieldIds = useConsistentValue(getFieldIds())
 
 	// Determine the status of the exercise.	
@@ -422,14 +422,14 @@ function useDerivedParameters() {
 		const unsubmittedMembers = activeGroup.members.filter(member => member.active && !currentSubmissions.some(submission => submission.userId === member.userId))
 		const canResolve = canResolveGroupEvent(activeGroup, history)
 		const allGaveUp = canResolve && currentEvent.submissions.every(submission => submission.action.type === 'giveUp')
-		const groupedSubmissions = groupSubmissions(currentSubmissions, userId, isInputEqual)
+		const groupedSubmissions = groupSubmissions(currentSubmissions, userId, isAllInputEqual)
 		return { currentEvent, currentSubmissions, gaveUp, submittedAction, hasSubmitted, numSubmissions, unsubmittedMembers, canResolve, allGaveUp, groupedSubmissions }
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [activeGroup, history, userId, isInputEqual, fieldIds]) // The fieldIds dependency is needed because, only after the fields get loaded into the form, can isInputEqual function properly.
+	}, [activeGroup, history, userId, isAllInputEqual, fieldIds]) // The fieldIds dependency is needed because, only after the fields get loaded into the form, can isAllInputEqual function properly.
 }
 
 // groupSubmissions takes a set of submissions and groups them based on their type. The result is an object of the form { input: [[ ...identical actions...], ]}
-function groupSubmissions(submissions, userId, isInputEqual) {
+function groupSubmissions(submissions, userId, isAllInputEqual) {
 	// Filter the submissions by their type.
 	const inputSubmissions = submissions.filter(submission => submission.action.type === 'input')
 	const giveUpSubmissions = submissions.filter(submission => submission.action.type === 'giveUp')
@@ -437,7 +437,7 @@ function groupSubmissions(submissions, userId, isInputEqual) {
 	// Walk through the input submissions and group them based on equality. If there is an earlier submission with equal input, group them together.
 	const inputSubmissionsGrouped = []
 	inputSubmissions.forEach(submission => {
-		const index = inputSubmissionsGrouped.findIndex(submissionList => isInputEqual(submissionList[0].action.input, submission.action.input))
+		const index = inputSubmissionsGrouped.findIndex(submissionList => isAllInputEqual(submissionList[0].action.input, submission.action.input))
 		if (index !== -1)
 			inputSubmissionsGrouped[index].push(submission)
 		else

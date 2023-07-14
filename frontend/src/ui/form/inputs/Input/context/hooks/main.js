@@ -1,4 +1,4 @@
-import { useInput as useFieldInput } from '../../../'
+import { useInput as useFieldInput } from '../../../../'
 
 import { useInputData } from '../provider'
 

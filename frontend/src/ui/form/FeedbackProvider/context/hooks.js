@@ -61,6 +61,13 @@ export function useFeedback(id) {
 	return addInput(undefined, feedbackInput)
 }
 
+// useFeedbackToDisplay takes a field ID and gives the feedback that should be shown. That is, if the current input is still equal to the feedback input, the feedback is returned. Otherwise undefined is given.
+export function useFeedbackToDisplay(id) {
+	const { isInputEqual } = useFormData()
+	const feedback = useFeedback(id)
+	return isInputEqual(id, feedback.input) ? feedback.result : undefined
+}
+
 // useMainFeedback gives the feedback object for the "main" item. A step can be added, in which case the main feedback for that step is given.
 export function useMainFeedback(step) {
 	const { result, input } = useFeedbackContext()

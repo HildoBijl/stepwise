@@ -30,7 +30,7 @@ export default function StepExercise(props) {
 function StepExerciseInner({ Problem: MainProblem, steps }) {
 	const { state, progress, history } = useExerciseData()
 	const [expandSolution, setExpandSolution] = useState(false)
-	const { isInputEqual } = useFormData()
+	const { isAllInputEqual } = useFormData()
 	const feedbackInput = useFeedbackInput()
 	const { activateFirst } = useFieldControllerContext()
 
@@ -44,7 +44,7 @@ function StepExerciseInner({ Problem: MainProblem, steps }) {
 	// Determine what to show.
 	const doneWithMainProblem = progress.done || progress.split
 	const showInputSpace = !progress.split
-	const showMainFeedback = showInputSpace && (progress.solved || progress.split || isInputEqual(feedbackInput))
+	const showMainFeedback = showInputSpace && (progress.solved || progress.split || isAllInputEqual(feedbackInput))
 
 	return <>
 		<ProblemContainer>

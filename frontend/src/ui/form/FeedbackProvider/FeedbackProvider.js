@@ -26,12 +26,12 @@ export default function FeedbackProvider({ children, getFeedback, input, data = 
 	const feedbackRef = useLatest(feedback)
 
 	// Set up an updateFeedback handler.
-	const { isInputEqual } = useFormData()
+	const { isAllInputEqual } = useFormData()
 	const dataRef = useLatest(data)
 	const updateFeedback = useStableCallback((input = {}) => {
 		// Compare the new input with the previous input. When they are equal, do not evaluate.
 		const { result: previousResult, input: previousInput } = feedbackRef.current
-		if (isInputEqual(input, previousInput))
+		if (isAllInputEqual(input, previousInput))
 			return
 
 		// If there is no input, then make sure there is no feedback either.

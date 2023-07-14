@@ -1,4 +1,4 @@
-import { useFeedback as useFieldFeedback } from '../../../../'
+import { useFeedback as useFieldFeedback, useFeedbackToDisplay as useFieldFeedbackToDisplay } from '../../../../'
 
 import { useInputId } from './main'
 
@@ -8,12 +8,18 @@ export function useFeedback() {
 	return useFieldFeedback(id)
 }
 
-// useFeedbackValue retrieves only the actually given feedback.
-export function useFeedbackValue() {
-	return useFeedback().feedback
+// useFeedbackToDisplay retrieves the feedback to be displayed if the input still equals the feedback input, and otherwise gives undefined.
+export function useFeedbackToDisplay() {
+	const id = useInputId()
+	return useFieldFeedbackToDisplay(id)
+}
+
+// useFeedbackResult retrieves only the actually given feedback.
+export function useFeedbackResult() {
+	return useFeedback().result
 }
 
 // useFeedbackInput retrieves only the input to which the feedback was given.
 export function useFeedbackInput() {
-	return useFeedback().feedbackInput
+	return useFeedback().input
 }
