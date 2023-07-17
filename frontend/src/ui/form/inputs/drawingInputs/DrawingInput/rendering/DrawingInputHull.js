@@ -60,28 +60,10 @@ const useStyles = makeStyles((theme) => ({
 				'&:hover': {
 					boxShadow: ({ readOnly, feedbackColor }) => readOnly ? 'none' : `0 0 ${glowRadius}em 0 ${feedbackColor || theme.palette.text.secondary}`,
 				},
-
-				'& .icon': {
-					color: ({ feedbackColor }) => feedbackColor || theme.palette.text.primary,
-				},
 			},
 
 			'& svg': {
 				display: 'block',
-			},
-		},
-
-		'& .deleteButton': {
-			background: 'rgba(0, 0, 0, 0.1)',
-			borderRadius: '10rem',
-			cursor: 'pointer',
-			opacity: 0.7,
-			padding: '0.3rem',
-			'&:hover': {
-				opacity: 1,
-			},
-			'& svg': {
-				width: 'auto',
 			},
 		},
 

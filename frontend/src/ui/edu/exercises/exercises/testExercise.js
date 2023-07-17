@@ -49,19 +49,20 @@ function getFeedback({ state, input, progress }) {
 function TestDrawingInput() {
 	const transformationSettings = useIdentityTransformationSettings(400, 300)
 
-	const snappers = FI => [[200, 150], ...FI.map(circle => circle.center)]
-	const selectAll = FI => FI.map(circle => ({ ...circle, selected: true }))
-	const deselectAll = FI => FI.map(circle => ({ ...circle, selected: false }))
+	const snappers = list => [[200, 150], ...list.map(circle => circle.center)]
+	const selectAll = list => list.map(circle => ({ ...circle, selected: true }))
+	const deselectAll = list => list.map(circle => ({ ...circle, selected: false }))
 	const startDrag = deselectAll
-	const endDrag = (FI, downData, upData) => [
-		...FI.map(circle => ({ ...circle, selected: false })),
+	const endDrag = (list, downData, upData) => [
+		...list.map(circle => ({ ...circle, selected: false })),
 		{
 			center: downData.snappedPosition,
 			radius: upData.position.subtract(downData.snappedPosition).magnitude,
 			selected: true,
 		}
 	]
-	const endSelect = (FI, rectangle, utilKeys) => applySelectionRectangle(FI, rectangle, utilKeys)
+	const endSelect = (list, rectangle, utilKeys) => applySelectionRectangle(list, rectangle, utilKeys)
+	const deleteSelected = list => list.filter(circle => !circle.selected)
 
 	return <DrawingInput
 		id="testDI"
@@ -74,6 +75,8 @@ function TestDrawingInput() {
 		endSelect={endSelect}
 		selectAll={selectAll}
 		deselectAll={deselectAll}
+		applyDeletion={deleteSelected}
+		showDeleteButton={list => list.some(circle => circle.selected)}
 	>
 		<Circles />
 		<ActiveDrag />

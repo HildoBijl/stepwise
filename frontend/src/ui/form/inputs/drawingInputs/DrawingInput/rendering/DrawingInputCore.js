@@ -9,11 +9,13 @@ import { useMousePosition } from 'ui/figures'
 import { DrawingInputContext } from '../context'
 import { defaultSnappingOptions, useMouseSnapping, SnapLines, SnapMarker } from '../snapping'
 import { defaultDraggingAndSelectingOptions, useDraggingAndSelecting, SelectionRectangle } from '../draggingAndSelecting'
+import { defaultDeletingOptions, useDeleting, DeleteButton } from '../deleting'
 
 export const defaultDrawingInputCoreOptions = {
 	children: null,
 	...defaultSnappingOptions,
 	...defaultDraggingAndSelectingOptions,
+	...defaultDeletingOptions,
 }
 
 export default function DrawingInputCore(options) {
@@ -24,30 +26,21 @@ export default function DrawingInputCore(options) {
 	const mousePosition = useMousePosition()
 	const mouseSnapping = useMouseSnapping(filterOptions(options, defaultSnappingOptions), { mousePosition })
 	const mouseDragging = useDraggingAndSelecting(filterOptions(options, defaultDraggingAndSelectingOptions), { mousePosition, ...mouseSnapping })
+	const deleting = useDeleting(filterOptions(options, defaultDeletingOptions))
 
-	// ToDo: deletion
-
-
-
-
-
-
-	// Render the drawing and the feedback box.
-	// ToDo: make SnapMarkings also get data from Context. Seems easier. But how to deal with isOverButton?
-	const { snapOnDrag } = options
-	const { isSelecting, isDragging } = mouseDragging
-	const isOverButton = false
-	const showSnappers = (!isDragging || snapOnDrag) && !isSelecting && !isOverButton
+	// Assemble all data in the context. Then render all elements.
 	return (
 		<DrawingInputContext.Provider value={{
 			mousePosition,
 			...mouseSnapping,
 			...mouseDragging,
+			...deleting,
 		}}>
-			{showSnappers ? <SnapLines mouseSnapping={mouseSnapping} /> : null}
+			<SnapLines />
 			{children}
-			{showSnappers ? <SnapMarker mouseSnapping={mouseSnapping} /> : null}
+			<SnapMarker />
 			<SelectionRectangle />
+			<DeleteButton />
 		</DrawingInputContext.Provider>
 	)
 }

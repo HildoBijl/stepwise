@@ -45,6 +45,8 @@ const useStyles = makeStyles((theme) => ({
 		width: '100%',
 		zIndex: 1,
 	},
+
+	drawingHtmlContainer: {},
 }))
 
 export const Drawing = forwardRef((options, ref) => {

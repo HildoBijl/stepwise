@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import { useBounds, Line as SvgLine, Square as SvgSquare } from 'ui/figures'
 
+import { useDrawingInputData } from '../context'
+
 export const markerSquareSide = 6 // The length of a side (in pixels) of the square snap/drag-marker.
 
 const useStyles = makeStyles((theme) => ({
@@ -20,13 +22,14 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export function SnapLines({ mouseSnapping }) {
-	const { mouseData } = mouseSnapping
+export function SnapLines() {
+	const showSnapMarking = useShowSnapMarking()
+	const { mouseData } = useDrawingInputData()
 	const bounds = useBounds()
 	const classes = useStyles()
 
 	// Should we actually show the snap markings? 
-	if (!shouldShowSnapMarking(mouseData, bounds))
+	if (!showSnapMarking)
 		return null
 
 	// Render the snap lines.
@@ -37,13 +40,13 @@ export function SnapLines({ mouseSnapping }) {
 	})
 }
 
-export function SnapMarker({ mouseSnapping }) {
-	const { mouseData } = mouseSnapping
-	const bounds = useBounds()
+export function SnapMarker() {
+	const showSnapMarking = useShowSnapMarking()
+	const { mouseData } = useDrawingInputData()
 	const classes = useStyles()
 
 	// Should we actually show the snap markings? 
-	if (!shouldShowSnapMarking(mouseData, bounds))
+	if (!showSnapMarking)
 		return null
 
 	// Render the snap marker.
@@ -51,21 +54,36 @@ export function SnapMarker({ mouseSnapping }) {
 	return <SvgSquare className={clsx(classes.snapMarker, 'snapMarker')} center={snappedPosition} graphicalSide={markerSquareSide} />
 }
 
-// shouldShowSnapMarker checks, given a mouseData object, whether snapping markers should be shown.
-export function shouldShowSnapMarking(mouseData, bounds) {
-	// On missing data, do not show anything.
+// useShowSnapMarking uses all the data from the available contexts to see if snap marking should be shown.
+export function useShowSnapMarking() {
+	const { mouseData, snapOnDrag, isSelecting, isDragging, isMouseOverButton } = useDrawingInputData()
+	const bounds = useBounds()
+
+	// On missing data, do not snap.
 	if (!mouseData || !bounds || !mouseData.position)
 		return false
-	const { position, isSnapped } = mouseData
 
 	// On an out of bounds position, do not show anything.
+	const { position, isSnapped } = mouseData
 	if (!bounds.contains(position))
 		return false
 
-	// On no snap, do not show anything.
+	// If the mouse position is not at a snapping point, there is no snap that can be done.
 	if (!isSnapped)
 		return false
 
-	// All in order!
+	// If we are dragging, the setting 'snapOnDrag' determines if we should snap.
+	if (isDragging)
+		return snapOnDrag
+
+	// If we are selecting, do not snap.
+	if (isSelecting)
+		return false
+
+	// If the mouse is over a button, do not snap.
+	if (isMouseOverButton)
+		return false
+
+	// No reason found not to snap. Let's snap.
 	return true
 }
