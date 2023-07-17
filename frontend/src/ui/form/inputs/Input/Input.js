@@ -9,7 +9,7 @@ import { useReadOnlyValue, useFormRegistration, useFieldControlRegistration } fr
 export const defaultInputOptions = {
 	children: null, // Contents inside the input field.
 	readOnly: undefined, // When not given, this is deduced from the FormPart status.
-	data: {}, // Other data that needs to be added to the context.
+	contextData: {}, // Other data that needs to be added to the context.
 
 	// For registration in the form.
 	...defaultUseFormParameterOptions,
@@ -22,9 +22,10 @@ export const defaultInputOptions = {
 export default function Input(options) {
 	// Process and extract the given options.
 	options = processOptions(options, defaultInputOptions)
-	let { id, children, readOnly, data } = options
+	let { id, children, readOnly, contextData } = options
 	id = ensureValidInputId(id)
 	readOnly = useReadOnlyValue(readOnly)
+	options = { ...options, readOnly }
 
 	// Use handlers to register the input field in the right places.
 	const [FI, setFI] = useFormRegistration({ ...options, readOnly })
@@ -32,7 +33,7 @@ export default function Input(options) {
 
 	// Set up the Input context for child components to use.
 	return (
-		<InputContext.Provider value={{ id, readOnly, FI, setFI, ...fieldControlRegistration, ...data }}>
+		<InputContext.Provider value={{ id, readOnly, FI, setFI, ...fieldControlRegistration, ...contextData }}>
 			{children}
 		</InputContext.Provider>
 	)

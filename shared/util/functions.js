@@ -75,3 +75,21 @@ function resolveFunctions(param, ...args) {
 	return ensureConsistency(resolve(param), param)
 }
 module.exports.resolveFunctions = resolveFunctions
+
+// joinFunctions takes two functions and creates a new function that (when called) calls both of them with the same input. The return value is ignored (undefined).
+function joinFunctions(...funcs) {
+	// Ensure we have an array of functions.
+	funcs = funcs.filter(func => func !== undefined)
+	if (funcs.some(func => (typeof func !== 'function')))
+		throw new Error(`Invalid join function call: tried to join functions, but received something that was not a function.`)
+
+	// Check special cases.
+	if (funcs.length === 0)
+		return undefined
+	if (funcs.length === 1)
+		return funcs[0]
+
+	// Set up a joint function.
+	return (...args) => funcs.forEach(func => func(...args))
+}
+module.exports.joinFunctions = joinFunctions

@@ -32,6 +32,10 @@ export function useFormParameter(options = {}) {
 
 	const { input, setInputFI, subscribe, unsubscribe } = useFormData()
 
+	// Check if we're in a form.
+	if (input === undefined)
+		throw new Error(`Invalid form: tried to access a Form parameter, but the call was made without a Form parent being present.`)
+
 	// Subscribe upon mounting and unsubscribe upon unmounting.
 	useUpdater(() => {
 		subscribe(options)

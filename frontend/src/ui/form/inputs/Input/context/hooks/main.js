@@ -13,13 +13,19 @@ export function useInput() {
 	return [FI, setFI]
 }
 
-// useInputValue gets the current value of the parent input field. This is the FO, unless the FI is specifically requested by passing 'true'.
-export function useInputValue(useFI = false) {
-	const id = useInputId()
-	return useFieldInput(id, useFI)
+export function useInputValue() {
+	return useInputFI()
 }
 
-// useReadOnly gets the current readOnly value.
+export function useInputFI() {
+	return useInput()[0]
+}
+
+export function useInputFO() {
+	const id = useInputId()
+	return useFieldInput(id, false)
+}
+
 export function useReadOnly() {
 	return useInputData().readOnly
 }

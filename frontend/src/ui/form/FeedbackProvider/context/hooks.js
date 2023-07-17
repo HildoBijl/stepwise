@@ -40,12 +40,13 @@ export function useFeedback(id) {
 
 	// Check if the field exists.
 	const { getInputSI, getFieldData } = useFormData()
-	const input = getInputSI(id)
-	if (input === undefined)
-		return addInput(undefined, input) // No feedback can be determined yet.
+	const fieldData = getFieldData(id)
+	if (fieldData === undefined)
+		return addInput(undefined, undefined) // No feedback can be determined yet.
 
 	// Check for validation problems. On a validation problem, the feedback to be given still needs to be processed.
-	const equals = getFieldData(id).equals
+	const equals = fieldData.equals
+	const input = getInputSI(id)
 	if (validationResult !== undefined && equals(input, validationInput)) {
 		// If the validation result is not a full object, but a string (text) or React element (which is usually the case) then use this as text for the feedback. Also process it to still add an icon and a color.
 		if (!isBasicObject(validationResult) || isValidElement(validationResult))
@@ -65,6 +66,7 @@ export function useFeedback(id) {
 export function useFeedbackToDisplay(id) {
 	const { isInputEqual } = useFormData()
 	const feedback = useFeedback(id)
+	console.log(feedback)
 	return isInputEqual(id, feedback.input) ? feedback.result : undefined
 }
 

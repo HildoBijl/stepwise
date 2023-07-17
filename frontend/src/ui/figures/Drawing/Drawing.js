@@ -15,7 +15,7 @@ import { notSelectable } from 'ui/theme'
 
 import Figure, { defaultFigureOptions } from '../Figure'
 
-import { DrawingContext, useDrawingContext, SvgDefsPortal } from './DrawingContext'
+import { DrawingContext, useDrawingContext, useTransformationSettings, SvgDefsPortal } from './DrawingContext'
 
 const defaultDrawingOptions = {
 	...defaultFigureOptions,
@@ -196,11 +196,17 @@ export function useGraphicalMousePosition(drawing) {
 
 // useMousePosition tracks the position of the mouse and gives the location in drawing coordinates. This is of the form { x: 3.5, y: -2.5 }. The function must be provided with a reference to the drawing.
 export function useMousePosition() {
+	return useMousePositions().position
+}
+
+// useMousePositions returns an object { position: {...}, graphicalPosition: {...} } giving both the graphical and the plot coordinate mouse positions.
+export function useMousePositions() {
 	// Acquire the position in graphical coordinates.
-	const { transformationSettings } = useDrawingContext()
-	const graphicalMousePosition = useGraphicalMousePosition()
+	const transformationSettings = useTransformationSettings()
+	const graphicalPosition = useGraphicalMousePosition()
 
 	// Transform to drawing coordinates.
 	const inverseTransformation = transformationSettings.inverseTransformation
-	return graphicalMousePosition && inverseTransformation.apply(graphicalMousePosition)
+	const position = graphicalPosition && inverseTransformation.apply(graphicalPosition)
+	return { position, graphicalPosition }
 }

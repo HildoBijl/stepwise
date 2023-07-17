@@ -288,7 +288,7 @@ function useMouseSnapping(drawing, snappers, snappingDistance, applySnapping) {
 		return { mouseInDrawing: false, snappingLines, graphicalSnappingLines, snapper: () => emptySnapMousePositionResponse, ...emptySnapMousePositionResponse }
 
 	// Return all data.
-	const mouseInDrawing = drawing && position && drawing.transformationSettings.graphicalBounds.contains(position)
+	const mouseInDrawing = drawing && position && drawing.transformationSettings.bounds.contains(position)
 	const snapResult = snapper(position)
 	return { mouseInDrawing, snappingLines, graphicalSnappingLines, snapper, ...snapResult }
 }

@@ -1,7 +1,7 @@
 // The Rectangle represents a rectangle shape in space. It is based on the Span which denotes its position, but it adds functionalities on top like bounding coordinates and more.
 
 const { ensureNumber, compareNumbers, boundTo } = require('../util/numbers')
-const { numberArray } = require('../util/arrays')
+const { numberArray, findOptimumIndex } = require('../util/arrays')
 const { repeat } = require('../util/functions')
 
 const { Vector, ensureVector } = require('./Vector')
@@ -125,24 +125,28 @@ class Rectangle {
 		})
 	}
 
-	// applyBounds will make sure that a given vector falls within the rectangle. It returns a new vector that is guaranteed to lie within the rectangle. If a coordinate falls outside of the range, it is brought inside.
-	applyBounds(vector) {
+	// applyBounds will make sure that a given vector falls within the rectangle. It returns a new vector that is guaranteed to lie within the rectangle. If a coordinate falls outside of the range, it is brought inside. If a coordinate falls inside the range, it stays the same, unless 'alwaysPutOnEdge' is set to true, in which case the point is always brought to the nearest point on the edge of the rectangle.
+	applyBounds(vector, alwaysPutOnEdge = false) {
 		vector = ensureVector(vector, this.dimension)
-		return new Vector(vector.coordinates.map((coordinate, axis) => boundTo(coordinate, ...this.getBounds(axis))))
-	}
+		if (!alwaysPutOnEdge || !this.contains(vector))
+			return new Vector(vector.coordinates.map((coordinate, axis) => boundTo(coordinate, ...this.getBounds(axis))))
 
-	// putOnNearestBound will take a given vector and return the closest point on the rectangle edge. This differs from applyBounds because, if the point is inside the rectangle, this function does return something different. On a tie, the smallest coordinate is chosen.
-	putOnNearestBound(vector) {
-		vector = ensureVector(vector, this.dimension)
+		// The point is inside the Rectangle and must be moved to the edge. Find the axis along which the shortest distance can be moved to reach the rectangle, and then along this axis find the bound that is closest to the given point.
+		const distancesAlongAxes = vector.coordinates.map((coordinate, axis) => Math.min(...this.getBounds(axis).map(bound => Math.abs(bound - coordinate)))) // How far is the point away from the side if we move it along this axis?
+		const shiftAxis = findOptimumIndex(distancesAlongAxes, (a, b) => a < b) // Along which axis should we move?
 		return new Vector(vector.coordinates.map((coordinate, axis) => {
-			const [min, max] = this.getBounds(axis)
-			return (Math.abs(coordinate - min) <= Math.abs(coordinate - max)) ? min : max
+			if (axis !== shiftAxis)
+				return coordinate
+			const bounds = this.getBounds(axis)
+			const distances = bounds.map(bound => Math.abs(bound - coordinate))
+			const boundIndex = findOptimumIndex(distances, (a, b) => a < b)
+			return bounds[boundIndex]
 		}))
 	}
 
 	// getDistanceTo returns the distance of a point to this rectangle. A point inside the rectangle always has distance zero, unless toBounds is set to true, in which case the distance to the nearest bound is taken.
 	getDistanceTo(vector, toBounds = false) {
-		return this[toBounds ? 'putOnNearestBound' : 'applyBounds'](vector).subtract(vector).magnitude
+		return this.applyBounds(vector, toBounds).subtract(vector).magnitude
 	}
 
 	// getLinePartFactors takes a line. It checks wich part of the line is within the rectangle. For this, it gives the lower and upper factor of the points on the line. If the line does not fall within the rectangle, undefined is returned.
@@ -188,7 +192,7 @@ class Rectangle {
 		})
 	}
 
-	// touchesSpan checks if a part of the span falls within or touches this rectangle.
+	// touchesSpan checks if a part of the span falls within or touches this rectangle. If 'contains' is set to true, then the entire span must fall within the rectangle.
 	touchesSpan(span, contains = false) {
 		// Examine the line through the span. If it doesn't go through the rectangle, return false.
 		const linePartFactors = this.getLinePartFactors(span.line)
@@ -202,7 +206,7 @@ class Rectangle {
 			(lower <= 1 && upper >= 0)
 	}
 
-	// touchesCircle checks if a part of the given circle falls within or touches this rectangle.
+	// touchesCircle checks if a part of the given circle falls within or touches this rectangle. If 'contains' is set to true, then it requires the circle to be fully inside the rectangle.
 	touchesCircle(center, radius, contains = false) {
 		center = ensureVector(center, this.dimension)
 		radius = ensureNumber(radius, true)

@@ -1,1 +1,1 @@
-export * from './miscellaneous'
+export { MultipleChoice, DrawingInput } from './loader'

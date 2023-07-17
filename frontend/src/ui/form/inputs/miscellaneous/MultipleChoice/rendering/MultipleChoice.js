@@ -20,7 +20,7 @@ export const defaultMultipleChoiceOptions = {
 
 export default function MultipleChoice(options) {
 	options = processOptions(options, defaultMultipleChoiceOptions)
-	
+
 	// Set up the Input field settings.
 	const multiple = useImmutableValue(options.multiple) // Ensure that "multiple" does not change.
 	const inputOptions = {

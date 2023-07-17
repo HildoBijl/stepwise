@@ -19,5 +19,6 @@ export function useInputObject(ids, useFI = false) {
 // useInput is identical to useInputObject, but then returns the result as array instead of object. 
 export function useInput(ids, useFI = false) {
 	const inputObject = useInputObject(ids, useFI)
+	console.log(ids, inputObject)
 	return Array.isArray(ids) ? ids.map(id => inputObject[id]) : inputObject[ids]
 }
