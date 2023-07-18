@@ -1,10 +1,13 @@
 import React from 'react'
 
+import { toSO } from 'step-wise/inputTypes'
+
 import { selectRandomCorrect, selectRandomIncorrect } from 'util/feedbackMessages'
 
 import { Par, M } from 'ui/components'
 import IntegerInput from 'ui/form/inputs/IntegerInput'
 import { InputSpace } from 'ui/form'
+import { useActive } from 'ui/form/inputs/Input'
 
 import { useIdentityTransformationSettings, Circle } from 'ui/figures'
 import { DrawingInput, useInputValue, useDrawingInputData, DragMarker } from 'ui/form/inputs/loader'
@@ -67,6 +70,12 @@ function TestDrawingInput() {
 	return <DrawingInput
 		id="testDI"
 		initialSI={[]}
+		validate={FO => FO.length < 2 && <>At least two circles are required to make the drawing valid.</>}
+		clean={FI => FI.map(circle => {
+			circle = { ...circle }
+			delete circle.selected
+			return toSO(circle)
+		})}
 		transformationSettings={transformationSettings}
 		snappers={snappers}
 		snapOnDrag={false}

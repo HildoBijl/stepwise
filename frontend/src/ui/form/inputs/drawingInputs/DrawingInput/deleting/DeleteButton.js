@@ -29,10 +29,10 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function DeleteButton() {
-	const { applyDeletion, showDeleteButton, setIsMouseOverButton, isDragging, isSelecting } = useDrawingInputData()
+	const { active, applyDeletion, showDeleteButton, setIsMouseOverButton, isDragging, isSelecting } = useDrawingInputData()
 	const [FI, setFI] = useInput()
 	const classes = useStyles()
-	const ref = useRef()
+	const buttonRef = useRef()
 	const graphicalBounds = useGraphicalBounds()
 
 	// On a mouse down event on the button, apply deletion.
@@ -40,10 +40,10 @@ export default function DeleteButton() {
 		event.stopPropagation()
 		setFI(FI => applyDeletion(FI))
 	}
-	useEventListener(['mousedown', 'touchstart'], deletionHandler, ref)
+	useEventListener(['mousedown', 'touchstart'], deletionHandler, buttonRef)
 
 	// Check if the button has to be shown. When it's not shown, note that the mouse cannot be over a button. (If this is not done, the mouse still seems to be over a button even after removing the button.)
-	const showButton = applyDeletion && resolveFunctions(showDeleteButton, FI) && !isDragging && !isSelecting
+	const showButton = applyDeletion && resolveFunctions(showDeleteButton, FI) && active && !isDragging && !isSelecting
 	useEffect(() => {
 		if (!showButton)
 			setIsMouseOverButton(false)
@@ -56,7 +56,7 @@ export default function DeleteButton() {
 	// Render the marker.
 	return <>
 		<Element anchor={[1, 1]} graphicalPosition={[graphicalBounds.width - 10, graphicalBounds.height - 10]} scale={1.3} ignoreMouse={false}>
-			<div ref={ref} className={clsx(classes.deleteButton, 'deleteButton')} onMouseEnter={() => setIsMouseOverButton(true)} onMouseLeave={() => setIsMouseOverButton(false)}>
+			<div ref={buttonRef} className={clsx(classes.deleteButton, 'deleteButton')} onMouseEnter={() => setIsMouseOverButton(true)} onMouseLeave={() => setIsMouseOverButton(false)}>
 				<Delete />
 			</div>
 		</Element>

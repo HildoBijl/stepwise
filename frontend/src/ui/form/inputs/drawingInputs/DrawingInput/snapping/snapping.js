@@ -5,14 +5,14 @@ import { getEventPosition, getUtilKeys } from 'util/dom'
 import { useStableCallback } from 'util/react'
 import { useTransformationSettings } from 'ui/figures'
 
-import { useDrawingRef } from '../hooks'
+import { useDrawingRef } from '../context/hooks'
 
 import { useSnappingLines } from './definitions'
 
 export const defaultSnappingOptions = {
 	snappers: [], // Can be an array of snapping objects, or a function snappers(FI, previousFI) that gives an array of snapping objects depending on the input.
 	applySnapping: true, // Will turn snapping on/off.
-	snappingDistance: 24, // Pixels towards a snapping line before it is triggered.
+	snappingDistance: 20, // Pixels towards a snapping line before it is triggered.
 }
 
 // useMouseSnapping wraps all the snapping functionalities into one hook. It takes a drawing, a set of snappers and a snapping distance and takes care of all the mouse functionalities.

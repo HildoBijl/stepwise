@@ -1,7 +1,8 @@
 import React, { useCallback } from 'react'
 
 import { processOptions, deepEquals } from 'step-wise/util/objects'
-import { noop, passOn } from 'step-wise/util/functions'
+import { noop } from 'step-wise/util/functions'
+import { toSO, toFO } from 'step-wise/inputTypes'
 
 import { useUpdater } from 'util/react'
 
@@ -20,8 +21,8 @@ export const defaultUseFormParameterOptions = {
 	id: undefined,
 	initialSI: undefined,
 	validate: noop,
-	clean: passOn,
-	functionalize: passOn,
+	clean: toSO,
+	functionalize: toFO,
 	persistent: false,
 	equals: deepEquals,
 	errorToMessage: () => <>Oops ... ik begrijp niet wat je hier getypt hebt.</>,

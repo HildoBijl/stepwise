@@ -4,7 +4,8 @@ import React from 'react'
 
 import { processOptions, filterOptions } from 'step-wise/util/objects'
 
-import { useMouseData } from 'ui/figures'
+import { useDrawingData, useMouseData } from 'ui/figures'
+import { useInputData } from '../../../Input'
 
 import { DrawingInputContext } from '../context'
 import { defaultSnappingOptions, useMouseSnapping, SnapLines, SnapMarker } from '../snapping'
@@ -22,6 +23,10 @@ export default function DrawingInputCore(options) {
 	options = processOptions(options, defaultDrawingInputCoreOptions)
 	const { children } = options
 
+	// Get data from the parents.
+	const inputData = useInputData()
+	const drawingData = useDrawingData()
+
 	// Use handlers to set up the required functionality.
 	const rawMouseData = useMouseData()
 	const mouseSnapping = useMouseSnapping(filterOptions(options, defaultSnappingOptions), rawMouseData)
@@ -31,6 +36,8 @@ export default function DrawingInputCore(options) {
 	// Assemble all data in the context. Then render all elements.
 	return (
 		<DrawingInputContext.Provider value={{
+			...inputData,
+			...drawingData,
 			...mouseSnapping,
 			...mouseDragging,
 			...deleting,

@@ -119,19 +119,22 @@ export function useEventListener(eventName, handler, elements = window, options 
 	elements = useConsistentValue(elements)
 	options = useConsistentValue(options)
 
+	// Ensure that the elements parameter is an array of existing objects.
+	elements = (Array.isArray(elements) ? elements : [elements])
+	elements = elements.map(element => {
+		if (!element)
+			return false // No element. Throw it out.
+		if (element.addEventListener)
+			return element // The element can listen. Keep it.
+		if (element.current && element.current.addEventListener)
+			return element.current // There is a "current" property that can listen. The object is most likely a ref.
+		return false // No idea. Throw it out.
+	})
+	elements = elements.filter(element => element) // Throw out non-existing elements or elements without an event listener.
+	elements = useConsistentValue(elements)
+
 	// Set up the listeners using another effect.
 	useEffect(() => {
-		// Ensure that the elements given are an array of existing objects.
-		const processedElements = (Array.isArray(elements) ? elements : [elements]).map(element => {
-			if (!element)
-				return false // No element. Throw it out.
-			if (element.addEventListener)
-				return element // The element can listen. Keep it.
-			if (element.current && element.current.addEventListener)
-				return element.current // There is a "current" property that can listen. The object is most likely a ref.
-			return false // No idea. Throw it out.
-		}).filter(element => element) // Throw out non-existing elements or elements without an event listener.
-
 		// Set up redirecting handlers (one for each event name) which calls the latest functions in the handlerRef. 
 		const eventNames = Array.isArray(eventName) ? eventName : [eventName]
 		const redirectingHandlers = eventNames.map((_, index) => {
@@ -145,14 +148,14 @@ export function useEventListener(eventName, handler, elements = window, options 
 		// Add event listeners for each of the handlers, to each of the elements.
 		eventNames.forEach((eventName, index) => {
 			const redirectingHandler = redirectingHandlers[index]
-			processedElements.forEach(element => element.addEventListener(eventName, redirectingHandler, options))
+			elements.forEach(element => element.addEventListener(eventName, redirectingHandler, options))
 		})
 
 		// Make sure to remove all handlers upon a change in settings or upon a dismount.
 		return () => {
 			eventNames.forEach((eventName, index) => {
 				const redirectingHandler = redirectingHandlers[index]
-				processedElements.forEach(element => element.removeEventListener(eventName, redirectingHandler))
+				elements.forEach(element => element.removeEventListener(eventName, redirectingHandler))
 			})
 		}
 	}, [eventName, handlerRef, elements, options]) // Reregister only when the event type or the listening objects change.

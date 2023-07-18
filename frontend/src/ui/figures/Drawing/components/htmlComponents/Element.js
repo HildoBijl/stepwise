@@ -10,7 +10,7 @@ import { useEnsureRef, ensureReactElement, useEqualRefOnEquality } from 'util/re
 import { notSelectable } from 'ui/theme'
 import { useResizeListener } from 'ui/layout/App'
 
-import { useDrawingContext, useGraphicalVector, HtmlPortal } from '../../DrawingContext'
+import { useDrawingData, useGraphicalVector, HtmlPortal } from '../../DrawingContext'
 
 const useStyles = makeStyles((theme) => ({
 	element: {
@@ -58,7 +58,7 @@ export const Element = forwardRef((props, ref) => {
 	anchor = useEqualRefOnEquality(anchor)
 
 	// Extract the drawing from the context.
-	const { transformationSettings, figure } = useDrawingContext()
+	const { transformationSettings, figure } = useDrawingData()
 
 	// Define a handler that positions the element accordingly.
 	const updateElementPosition = useCallback(() => {

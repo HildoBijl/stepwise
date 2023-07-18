@@ -4,18 +4,18 @@ import { createContext, useContext } from 'react'
 export const DrawingContext = createContext({})
 
 // Get the data out of the context.
-export function useDrawingContext() {
+export function useDrawingData() {
 	return useContext(DrawingContext)
 }
 
 // Get the ID of the surrounding drawing.
 export function useDrawingId() {
-	return useDrawingContext()?.id
+	return useDrawingData()?.id
 }
 
 // Get the transformation settings from the drawing context.
 export function useTransformationSettings() {
-	return useDrawingContext()?.transformationSettings
+	return useDrawingData()?.transformationSettings
 }
 
 // Get specifically the bounds from the drawing context.

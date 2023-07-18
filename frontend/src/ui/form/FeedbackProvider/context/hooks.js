@@ -66,7 +66,6 @@ export function useFeedback(id) {
 export function useFeedbackToDisplay(id) {
 	const { isInputEqual } = useFormData()
 	const feedback = useFeedback(id)
-	console.log(feedback)
 	return isInputEqual(id, feedback.input) ? feedback.result : undefined
 }
 

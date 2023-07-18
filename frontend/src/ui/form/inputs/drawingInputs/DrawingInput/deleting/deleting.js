@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import { processOptions } from 'step-wise/util/objects'
 
+import { getUtilKeys } from 'util/dom'
 import { useEventListener } from 'util/react'
 
 import { useInputData } from '../../../Input'
@@ -40,7 +41,7 @@ export function useDeletionKeyDownHandler(applyDeletion) {
 		// On a delete remove all selected loads.
 		if (applyDeletion && (event.key === 'Delete' || event.key === 'Backspace')) {
 			event.preventDefault()
-			return setFI(FI => applyDeletion(FI))
+			return setFI(FI => applyDeletion(FI, getUtilKeys(event)))
 		}
 	}
 }

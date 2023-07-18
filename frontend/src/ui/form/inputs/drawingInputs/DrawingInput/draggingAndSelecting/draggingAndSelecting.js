@@ -8,7 +8,7 @@ import { useBounds } from 'ui/figures'
 
 import { useInputData } from '../../../Input'
 
-import { useDrawing } from '../hooks'
+import { useDrawing } from '../context/hooks'
 
 import { useStartEndDragHandlers } from './dragging'
 import { applySelectingOptions, useSelectionKeyDownHandler, shouldApplySelecting, getSelectionRectangle } from './selecting'
@@ -29,7 +29,7 @@ export function useDraggingAndSelecting(options, { mouseData, eventSnapper }) {
 
 	// Collect data from parent components.
 	const bounds = useBounds()
-	const { setCursor } = useInputData()
+	const { setFI, setCursor } = useInputData()
 
 	// Set up a state and extract data from it.
 	const [mouseDownData, setMouseDownData] = useState()
@@ -44,6 +44,10 @@ export function useDraggingAndSelecting(options, { mouseData, eventSnapper }) {
 	useEventListener(['mousedown', 'touchstart'], startDragHandler, eventContainer, { passive: false })
 	useEventListener(['mouseup', 'touchend'], endDragHandler)
 
+	// On a click outside of the figure, deselect all.
+	const clickOutsideFigureHandler = (event) => !eventContainer.contains(event.target) && setFI(FI => deselectAll(FI))
+	useEventListener(['mousedown'], clickOutsideFigureHandler)
+
 	// Listen to key presses for selecting/deselecting.
 	const keyDownHandler = useSelectionKeyDownHandler(selectAll, deselectAll)
 	useEventListener('keydown', keyDownHandler)
@@ -55,5 +59,5 @@ export function useDraggingAndSelecting(options, { mouseData, eventSnapper }) {
 	const cancelDrag = useCallback(() => setMouseDownData(undefined), [setMouseDownData])
 
 	// Return all relevant data and handlers for the consuming function to use.
-	return { mouseDownData, mouseData, canStartSelecting, isDragging, isSelecting, selectionRectangle, cancelDrag }
+	return { mouseDownData, canStartSelecting, isDragging, isSelecting, selectionRectangle, cancelDrag }
 }

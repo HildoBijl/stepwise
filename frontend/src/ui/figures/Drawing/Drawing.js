@@ -15,7 +15,7 @@ import { notSelectable } from 'ui/theme'
 
 import Figure, { defaultFigureOptions } from '../Figure'
 
-import { DrawingContext, useDrawingContext, SvgDefsPortal } from './DrawingContext'
+import { DrawingContext, useDrawingData, SvgDefsPortal } from './DrawingContext'
 
 const defaultDrawingOptions = {
 	...defaultFigureOptions,
@@ -180,7 +180,7 @@ function getGraphicalCoordinates(clientCoordinates, transformationSettings, figu
 // useMouseData tracks the position of the mouse in various coordinate systems. It returns its data in the form { clientPosition: ..., graphicalPosition: ..., position: ..., keys: {...} }.
 export function useMouseData() {
 	// Acquire data.
-	let { figure, transformationSettings } = useDrawingContext()
+	let { figure, transformationSettings } = useDrawingData()
 	const { position: clientPosition, keys } = useClientMouseData()
 	const figureRect = useBoundingClientRect(figure?.inner)
 
