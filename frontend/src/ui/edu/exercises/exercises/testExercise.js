@@ -61,7 +61,7 @@ function TestDrawingInput() {
 			selected: true,
 		}
 	]
-	const endSelect = (list, rectangle, utilKeys) => applySelectionRectangle(list, rectangle, utilKeys)
+	const endSelect = (list, rectangle, keys) => applySelectionRectangle(list, rectangle, keys)
 	const deleteSelected = list => list.filter(circle => !circle.selected)
 
 	return <DrawingInput
@@ -83,15 +83,15 @@ function TestDrawingInput() {
 	</DrawingInput >
 }
 
-function applySelectionRectangle(input, rectangle, utilKeys) {
-	return input.map(circle => ({ ...circle, selected: rectangle.touchesCircle(circle.center, circle.radius) }))
+function applySelectionRectangle(input, rectangle, keys) {
+	return input.map(circle => ({ ...circle, selected: (keys.shift && circle.selected) || rectangle.touchesCircle(circle.center, circle.radius) }))
 }
 
 function Circles() {
 	let input = useInputValue()
-	const { selectionRectangle } = useDrawingInputData()
+	const { selectionRectangle, mouseData } = useDrawingInputData()
 	if (selectionRectangle)
-		input = applySelectionRectangle(input, selectionRectangle)
+		input = applySelectionRectangle(input, selectionRectangle, mouseData?.keys)
 	return input.map((circle, index) => <Circle key={index} center={circle.center} radius={circle.radius} style={{ fill: circle.selected ? '#0a6f3c' : 'blue' }} />)
 }
 

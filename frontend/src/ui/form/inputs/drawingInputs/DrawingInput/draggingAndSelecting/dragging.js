@@ -41,7 +41,7 @@ export function useStartEndDragHandlers({ startDrag, endDrag, startSelect, endSe
 		if (isSelecting) {
 			if (endSelect) {
 				const selectionRectangle = getSelectionRectangle(mouseDownData.position, mouseUpData.position, bounds)
-				setFI(FI => endSelect(FI, selectionRectangle, mouseUpData.utilKeys))
+				setFI(FI => endSelect(FI, selectionRectangle, mouseUpData.keys))
 			}
 		}
 

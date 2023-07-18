@@ -40,33 +40,33 @@ export function getCoordinatesOf(input, parent = null) {
 }
 
 // getClickSide checks if the click (event) was closer to the left (0) or right (1) of the target element and returns the corresponding number.
-export function getClickSide(evt) {
-	const rect = evt.target.getBoundingClientRect()
-	return (evt.clientX - rect.x + 1) * 2 >= rect.width ? 1 : 0 // Add a small offset delta to make it feel more natural.
+export function getClickSide(event) {
+	const rect = event.target.getBoundingClientRect()
+	return (event.clientX - rect.x + 1) * 2 >= rect.width ? 1 : 0 // Add a small offset delta to make it feel more natural.
 }
 
 // ignoreBackspaceEvent will prevent browser default behavior on a backspace keypress. This prevents us from going back in the browser.
-export function ignoreBackspaceEvent(evt) {
-	preventDefaultOnKeys(evt, 'Backspace')
+export function ignoreBackspaceEvent(event) {
+	preventDefaultOnKeys(event, 'Backspace')
 }
 
 // ignoreHomeEndEvent will prevent browser default behavior on a home/end press which would go to the start/end of the page.
-export function ignoreHomeEndEvent(evt) {
-	preventDefaultOnKeys(evt, ['Home', 'End'])
+export function ignoreHomeEndEvent(event) {
+	preventDefaultOnKeys(event, ['Home', 'End'])
 }
 
 // ignoreArrowKeyEvent will prevent browser default behavior on arrow keys, which could scroll the page.
-export function ignoreArrowKeyEvent(evt) {
-	preventDefaultOnKeys(evt, ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'])
+export function ignoreArrowKeyEvent(event) {
+	preventDefaultOnKeys(event, ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'])
 }
 
-export function preventDefaultOnKeys(evt, keys) {
+export function preventDefaultOnKeys(event, keys) {
 	keys = Array.isArray(keys) ? keys : [keys]
-	if (keys.includes(evt.key))
-		evt.preventDefault()
+	if (keys.includes(event.key))
+		event.preventDefault()
 }
 
 // getUtilKeys gets the utility keys (shift, ctrl, alt) status from an event.
-export function getUtilKeys(evt) {
-	return keysToObject(['shift', 'ctrl', 'alt'], key => evt[`${key}Key`])
+export function getUtilKeys(event) {
+	return keysToObject(['shift', 'ctrl', 'alt'], key => event[`${key}Key`])
 }

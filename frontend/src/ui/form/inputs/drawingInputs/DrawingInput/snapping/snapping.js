@@ -16,7 +16,7 @@ export const defaultSnappingOptions = {
 }
 
 // useMouseSnapping wraps all the snapping functionalities into one hook. It takes a drawing, a set of snappers and a snapping distance and takes care of all the mouse functionalities.
-export function useMouseSnapping(options, { mousePosition }) {
+export function useMouseSnapping(options, { position, keys }) {
 	const { snappers, applySnapping, snappingDistance } = processOptions(options, defaultSnappingOptions)
 
 	// Get the snapping lines in both coordinate systems and use them to set up a snapper function.
@@ -24,12 +24,12 @@ export function useMouseSnapping(options, { mousePosition }) {
 	const snapper = useSnapperFunction(lines, graphicalLines, snappingDistance, applySnapping)
 
 	// Retrieve the current mouse position and apply the snapper.
-	const mouseData = snapper(mousePosition)
+	const mouseData = { ...snapper(position), keys }
 	const eventSnapper = useEventSnapper(snapper)
 
 	// If no drawing data is available, return a default outcome.
-	if (!mousePosition || !lines)
-		return { ...emptySnapMousePositionResponse, snappingLines: lines, graphicalSnappingLines: graphicalLines, snapper: () => emptySnapMousePositionResponse }
+	if (!position || !lines)
+		return { lines, graphicalLines, snapper: () => emptySnapMousePositionResponse, eventSnapper, mouseData: emptySnapMousePositionResponse }
 
 	// Return all data.
 	return { lines, graphicalLines, snapper, eventSnapper, mouseData }
@@ -110,6 +110,6 @@ function useEventSnapper(snapper) {
 	const drawingRef = useDrawingRef()
 	return useStableCallback((event) => ({
 		...snapper(drawingRef.current.getDrawingCoordinates(getEventPosition(event))),
-		utilKeys: getUtilKeys(event),
+		keys: getUtilKeys(event),
 	}))
 }

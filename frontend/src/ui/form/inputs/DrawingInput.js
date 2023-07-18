@@ -186,7 +186,7 @@ export function useAsDrawingInput(options) {
 			return
 		const mouseUpData = getMouseData(evt, snapper, drawing)
 		if (isSelecting && options.processSelection)
-			options.processSelection(getSelectionRectangle(mouseDownData, mouseUpData, drawing), mouseUpData.utilKeys)
+			options.processSelection(getSelectionRectangle(mouseDownData, mouseUpData, drawing), mouseUpData.keys)
 		if (!isSelecting && options.endDrag)
 			options.endDrag(mouseDownData, mouseUpData)
 		setMouseDownData(undefined)

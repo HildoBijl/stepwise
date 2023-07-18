@@ -7,8 +7,9 @@ import FontFaceObserver from 'fontfaceobserver'
 
 import { getCounterNumber } from 'step-wise/util/numbers'
 import { ensureConsistency } from 'step-wise/util/objects'
+import { Vector } from 'step-wise/geometry'
 
-import { getEventPosition } from 'util/dom'
+import { getEventPosition, getUtilKeys } from 'util/dom'
 
 // Re-export various useful hooks from other packages.
 export { usePrevious, useSize, useResizeObserver }
@@ -113,9 +114,10 @@ export function useUniqueNumber() {
 // useEventListener sets up event listeners for the given elements, executing the given handler. It ensures to efficiently deal with registering and unregistering listeners. The element parameter can be a DOM object or an array of DOM objects. It is allowed to insert ref objects whose "current" parameter is a DOM object. In addition, the eventName attribute may be an array. The handler may be a single function (in which case it's used for all eventNames) or an array with equal length as the eventName array.
 export function useEventListener(eventName, handler, elements = window, options = {}) {
 	// If the handler changes, remember it within the ref. This allows us to change the handler without having to reregister listeners.
+	eventName = useConsistentValue(eventName)
 	const handlerRef = useLatest(handler)
-	eventName = ensureConsistency(eventName)
-	options = ensureConsistency(options)
+	elements = useConsistentValue(elements)
+	options = useConsistentValue(options)
 
 	// Set up the listeners using another effect.
 	useEffect(() => {
@@ -130,21 +132,30 @@ export function useEventListener(eventName, handler, elements = window, options 
 			return false // No idea. Throw it out.
 		}).filter(element => element) // Throw out non-existing elements or elements without an event listener.
 
-		// Add and remove event listeners.
+		// Set up redirecting handlers (one for each event name) which calls the latest functions in the handlerRef. 
 		const eventNames = Array.isArray(eventName) ? eventName : [eventName]
-		const handler = handlerRef.current
-		const redirectingHandlers = eventNames.map((eventName, index) => {
-			const currHandler = Array.isArray(handler) ? handler[index] : handler
-			const redirectingHandler = (evt) => currHandler(evt)
-			processedElements.forEach(element => element.addEventListener(eventName, redirectingHandler, options))
-			return redirectingHandler
+		const redirectingHandlers = eventNames.map((_, index) => {
+			return (event) => {
+				const handler = handlerRef.current
+				const currHandler = Array.isArray(handler) ? handler[index] : handler
+				currHandler(event)
+			}
 		})
+
+		// Add event listeners for each of the handlers, to each of the elements.
+		eventNames.forEach((eventName, index) => {
+			const redirectingHandler = redirectingHandlers[index]
+			processedElements.forEach(element => element.addEventListener(eventName, redirectingHandler, options))
+		})
+
+		// Make sure to remove all handlers upon a change in settings or upon a dismount.
 		return () => {
 			eventNames.forEach((eventName, index) => {
-				processedElements.forEach(element => element.removeEventListener(eventName, redirectingHandlers[index]))
+				const redirectingHandler = redirectingHandlers[index]
+				processedElements.forEach(element => element.removeEventListener(eventName, redirectingHandler))
 			})
 		}
-	}, [eventName, elements, handlerRef, options]) // Reregister only when the event type or the listening objects change.
+	}, [eventName, handlerRef, elements, options]) // Reregister only when the event type or the listening objects change.
 }
 
 // useEventListeners takes an object like { mouseenter: (evt) => {...}, mouseleave: (evt) => {...} } and applies event listeners to it.
@@ -158,25 +169,37 @@ export function useRefWithEventListeners(handlers) {
 	useEventListener(Object.keys(handlers), Object.values(handlers), ref)
 }
 
-// useMousePosition returns the position of the mouse in client coordinates.
-export function useMousePosition() {
+// useMouseData returns the last-known data related to mouse motion, with the position in client coordinates. The format is { position: new Vector(x, y), keys: { shift: true, alt: false, ctrl: false } }.
+export function useMouseData() {
+	const [data, setData] = useState({})
+
 	// Track the position of the mouse.
-	const [position, setPosition] = useState(null)
-	const storePosition = (evt) => { setPosition(getEventPosition(evt)) }
-	useEventListener(['mousemove', 'touchstart', 'touchmove'], storePosition)
-	return position
+	const storeData = (event) => setData({ position: getEventPosition(event), keys: getUtilKeys(event) })
+	useEventListener(['mousemove', 'touchstart', 'touchmove'], storeData)
+
+	// Track additional key-down/up for the utility keys.
+	const processKeyPress = (event) => setData(data => ({ ...data, keys: getUtilKeys(event) }))
+	useEventListener(['keydown', 'keyup'], processKeyPress)
+
+	// Return the known data.
+	return data
+}
+
+// useMousePosition returns the position of the mouse in client coordinates, as a Vector.
+export function useMousePosition() {
+	return useMouseData().position
 }
 
 // useMousePositionRelative returns the position of the mouse in client coordinates relative to a given element reference. In case anything is not known yet, null is returned.
 export function useMousePositionRelative(element) {
 	// Acquire all data.
-	const mousePosition = useMousePosition()
+	const position = useMousePosition()
 	const elementRect = useBoundingClientRect(element)
 
 	// Combine data where possible.
-	if (!mousePosition || !elementRect)
+	if (!position || !elementRect)
 		return null
-	return { x: mousePosition.x - elementRect.x, y: mousePosition.y - elementRect.y }
+	return new Vector(position.x - elementRect.x, position.y - elementRect.y)
 }
 
 // useBoundingClientRect takes an element and tracks the BoundingClientRect. It only updates it on changes to the element and on scrolls, improving efficiency.

@@ -24,7 +24,7 @@ export const defaultDraggingAndSelectingOptions = {
 	deselectAll: undefined, // A function to be executed when ctrl+d or escape is pressed.
 }
 
-export function useDraggingAndSelecting(options, { mousePosition, mouseData, eventSnapper }) {
+export function useDraggingAndSelecting(options, { mouseData, eventSnapper }) {
 	const { startDrag, endDrag, startSelect, endSelect, applySelecting, selectAll, deselectAll } = processOptions(options, defaultDraggingAndSelectingOptions)
 
 	// Collect data from parent components.
@@ -35,7 +35,7 @@ export function useDraggingAndSelecting(options, { mousePosition, mouseData, eve
 	const [mouseDownData, setMouseDownData] = useState()
 	const canStartSelecting = !mouseDownData && shouldApplySelecting(mouseData, applySelecting, endSelect)
 	const isSelecting = mouseDownData && shouldApplySelecting(mouseDownData, applySelecting, endSelect)
-	const selectionRectangle = isSelecting ? getSelectionRectangle(mouseDownData.position, mousePosition, bounds) : undefined
+	const selectionRectangle = isSelecting ? getSelectionRectangle(mouseDownData.position, mouseData.position, bounds) : undefined
 	const isDragging = !!mouseDownData && !isSelecting
 
 	// Listen to mouse-down and mouse-up events to start/end a drag/selection.
