@@ -6,11 +6,9 @@ import { selectRandomCorrect, selectRandomIncorrect } from 'util/feedbackMessage
 
 import { Par, M } from 'ui/components'
 import IntegerInput from 'ui/form/inputs/IntegerInput'
-import { InputSpace } from 'ui/form'
-import { useActive } from 'ui/form/inputs/Input'
-
 import { useIdentityTransformationSettings, Circle } from 'ui/figures'
-import { DrawingInput, useInputValue, useDrawingInputData, DragMarker } from 'ui/form/inputs/loader'
+import { InputSpace } from 'ui/form'
+import { DrawingInput, useInputValue, useDrawingInputData, DragMarker } from 'ui/inputs'
 
 import SimpleExercise from '../types/SimpleExercise'
 

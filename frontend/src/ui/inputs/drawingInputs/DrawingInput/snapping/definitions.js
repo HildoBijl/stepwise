@@ -6,7 +6,7 @@ import { ensureVector, Line, Span } from 'step-wise/geometry'
 import { useConsistentValue } from 'util/react'
 import { useTransformationSettings, applyTransformation } from 'ui/figures'
 
-import { useInputFI } from '../../../loader'
+import { useInputFI } from '../../../'
 
 // useSnappingLines takes a snappers object (which could be unprocessed: it may be an input-dependent function or so) and returns an object of the form { lines: [...], graphicalLines: [...] }.
 export function useSnappingLines(snappers) {

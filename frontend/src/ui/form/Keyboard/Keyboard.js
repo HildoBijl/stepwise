@@ -10,7 +10,7 @@ import { usePrevious, useCurrentOrPrevious } from 'util/react'
 
 import Arrow from 'ui/components/icons/Arrow'
 
-import { keyboards } from './keyboards/index.js'
+import { keyboards } from './keyboards'
 import { useKeyboardOpening, useKeyboardTabbing, useKeyboardPositioning } from './handlers/index.js'
 import Tab from './Tab'
 

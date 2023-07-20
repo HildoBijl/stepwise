@@ -3,7 +3,8 @@ import React from 'react'
 import { expressionComparisons } from 'step-wise/CAS'
 
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
-import { InputSpace, MultipleChoice } from 'ui/form'
+import { InputSpace } from 'ui/form'
+import { MultipleChoice } from 'ui/inputs'
 import ExpressionInput, { allMathSimpleVariables, validWithVariables } from 'ui/form/inputs/ExpressionInput'
 
 import { useSolution } from '../util/SolutionProvider'

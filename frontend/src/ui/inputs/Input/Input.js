@@ -1,7 +1,7 @@
 import { ensureString } from 'step-wise/util/strings'
 import { processOptions } from 'step-wise/util/objects'
 
-import { defaultFieldRegistrationOptions, defaultUseFormParameterOptions } from '../../'
+import { defaultFieldRegistrationOptions, defaultUseFormParameterOptions } from 'ui/form'
 
 import { InputContext } from './context'
 import { useReadOnlyValue, useFormRegistration, useFieldControlRegistration } from './handlers'

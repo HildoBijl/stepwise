@@ -4,7 +4,8 @@ import { numberArray } from 'step-wise/util/arrays'
 
 import { selectRandomIncorrect } from 'util/feedbackMessages'
 import { Par, M, BM } from 'ui/components'
-import { useInput, InputSpace, MultipleChoice } from 'ui/form'
+import { useInput, InputSpace } from 'ui/form'
+import { MultipleChoice } from 'ui/inputs'
 import ExpressionInput, { numeric, basicMathAndPowers } from 'ui/form/inputs/ExpressionInput'
 
 import { useSolution } from '../util/SolutionProvider'

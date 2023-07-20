@@ -3,7 +3,8 @@ import React from 'react'
 import { selectRandomCorrect } from 'util/feedbackMessages'
 
 import { Par, M } from 'ui/components'
-import { InputSpace, MultipleChoice } from 'ui/form'
+import { InputSpace } from 'ui/form'
+import { MultipleChoice } from 'ui/inputs'
 
 import SimpleExercise from '../types/SimpleExercise'
 import { getMCFeedback } from '../util/feedback'

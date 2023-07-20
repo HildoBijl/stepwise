@@ -3,7 +3,8 @@ import React from 'react'
 import { temperature as TConversion, massGram as mConversion, volumeLiter as VConversion } from 'step-wise/data/conversions'
 
 import { Par, M, BM, BMList, BMPart, InputTable } from 'ui/components'
-import { InputSpace, MultipleChoice } from 'ui/form'
+import { InputSpace } from 'ui/form'
+import { MultipleChoice } from 'ui/inputs'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 
 import StepExercise from '../types/StepExercise'

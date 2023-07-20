@@ -1,4 +1,4 @@
-import { useFeedback as useFieldFeedback, useFeedbackToDisplay as useFieldFeedbackToDisplay } from '../../../../'
+import { useFeedback as useFieldFeedback, useFeedbackToDisplay as useFieldFeedbackToDisplay } from 'ui/form'
 
 import { useInputId } from './main'
 

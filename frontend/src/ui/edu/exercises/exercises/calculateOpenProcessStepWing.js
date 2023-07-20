@@ -1,7 +1,8 @@
 import React from 'react'
 
 import { Par, M, BM, BMList, BMPart, InputTable } from 'ui/components'
-import { useInput, InputSpace, AntiInputSpace, MultipleChoice } from 'ui/form'
+import { useInput, InputSpace, AntiInputSpace } from 'ui/form'
+import { MultipleChoice } from 'ui/inputs'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 
 import StepExercise from '../types/StepExercise'

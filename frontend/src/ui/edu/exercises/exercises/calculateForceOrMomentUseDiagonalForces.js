@@ -6,7 +6,8 @@ import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 
 import { Par, M, BM } from 'ui/components'
 import { Drawing, Circle, Rectangle as SvgRectangle, useScaleBasedTransformationSettings } from 'ui/figures'
-import { InputSpace, MultipleChoice } from 'ui/form'
+import { InputSpace } from 'ui/form'
+import { MultipleChoice } from 'ui/inputs'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 
 import { Distance, Element, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
