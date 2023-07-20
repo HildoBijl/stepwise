@@ -31,15 +31,16 @@ export function useFormParameter(options = {}) {
 	options = processOptions(options, defaultUseFormParameterOptions)
 	const { id, initialSI, functionalize } = options
 
-	const { input, setInputFI, subscribe, unsubscribe } = useFormData()
+	const { input, setInputFI, register, subscribe, unsubscribe } = useFormData()
 
 	// Check if we're in a form.
 	if (input === undefined)
 		throw new Error(`Invalid form: tried to access a Form parameter, but the call was made without a Form parent being present.`)
 
 	// Subscribe upon mounting and unsubscribe upon unmounting.
+	register(options)
 	useUpdater(() => {
-		subscribe(options)
+		subscribe(id)
 		return () => unsubscribe(id)
 	}, [id])
 

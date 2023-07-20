@@ -5,31 +5,42 @@ export function useSubscriptionHandlers(initialInput, setInput, fieldsRef) {
 	const mountedRef = useMountedRef()
 	const initialInputRef = useLatest(initialInput)
 
-	// subscribe tells the Form that an input field is using an input with the given ID. Multiple input fields can be connected to the same ID.
-	const subscribe = useStableCallback((options) => {
+	// register makes sure that the input field is known to the form and all its settings are saved. It is instantaneous and saves the options in the Form refs. However, it does not involve a state update.
+	const register = useStableCallback((options) => {
+		const { id, initialSI } = options
+
+		// If the field is already registered, do nothing.
+		if (fieldsRef.current[id])
+			return
+
+		// Store the options and save the initialSI in the input.
+		fieldsRef.current[id] = {
+			...options,
+			subscriptions: 0,
+			SI: initialSI,
+			recentSI: true,
+			FO: undefined,
+			recentFO: false,
+		}
+	})
+
+	// subscribe tells the Form that an input field is using an input with the given ID. Multiple input fields can be connected to the same ID. While subscribe is not instantaneous (it is called through an effect) it does update the state.
+	const subscribe = useStableCallback(id => {
 		setInput(input => {
-			let { id, initialSI, functionalize } = options
+			// The field must be registered already.
+			if (!fieldsRef.current[id])
+				throw new Error(`Invalid field subscription call: tried to subscribe to an input field with ID "${id}" but this field has not been registered yet. Registration must come before subscription.`)
 
-			// On an existing field, keep the input and simply update subscription numbers.
-			if (input[id] !== undefined) {
-				fieldsRef.current[id].subscriptions++
+			// Update the subscription count.
+			fieldsRef.current[id].subscriptions++
+
+			// If there is an input value, no further actions are needed.
+			if (input[id] !== undefined)
 				return input
-			}
 
-			// On a non-existing field, determine the initial value. A given value to the form overrides the initial value specified by the field.
-			const initialFieldInput = initialInputRef.current && initialInputRef.current[id]
-			if (initialFieldInput !== undefined)
-				initialSI = initialFieldInput
-
-			// Store the options and save the initialFI in the input.
-			fieldsRef.current[id] = {
-				...options,
-				subscriptions: 1,
-				SI: initialSI,
-				recentSI: true,
-				FO: undefined,
-				recentFO: false,
-			}
+			// There is no input value. Determine the initial value. In this process, a given initial form value (for instance from a previous submission) overrides the default initial field value. Then apply this initial value.
+			let { initialSI, functionalize } = fieldsRef.current[id]
+			initialSI = (initialInputRef.current && initialInputRef.current[id]) || initialSI
 			return { ...input, [id]: functionalize(initialSI) }
 		})
 	})
@@ -74,5 +85,5 @@ export function useSubscriptionHandlers(initialInput, setInput, fieldsRef) {
 	})
 
 	// Handlers are set up! Return them.
-	return { subscribe, unsubscribe, getFieldData, getFieldIds }
+	return { register, subscribe, unsubscribe, getFieldData, getFieldIds }
 }

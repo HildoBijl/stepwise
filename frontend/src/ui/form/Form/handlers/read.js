@@ -7,11 +7,15 @@ import { useLatest, useStableCallback } from 'util/react'
 export function useReadHandlers(input, { getFieldData, getFieldIds }) {
 	const inputRef = useLatest(input)
 
-	// getInputFI takes a field ID or an array of field IDs and gives the FI value of the given fields.
+	// getInputFI takes a field ID or an array of field IDs and gives the FI value of the given field. If the field value has not been registered yet, it tries to derive it regardless.
 	const getInputFI = useStableCallback((id) => {
 		if (Array.isArray(id))
 			return id.map(id => getInputFI(id))
-		return inputRef.current[id]
+		if (inputRef.current[id])
+			return inputRef.current[id]
+		const fieldData = getFieldData(id)
+		if (fieldData)
+			return fieldData.functionalize(fieldData.initialSI)
 	})
 
 	// getAllInputFI gives the FI values of all input fields. When 'true' is passed on, this also includes unsubscribed but persistent fields.
