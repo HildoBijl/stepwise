@@ -73,9 +73,6 @@ function useMouseHandlers() {
 			cancelDrag() // Cancel a dragging effect, to prevent that a (tiny) rectangle will be processed resulting in a deselect.
 			activateField() // Activate the field if not already active.
 			setFI(FI => {
-				// Make sure none of the loads is on for hovering. (Needed for smartphones. Though it's less pretty for when using a regular mouse.)
-				FI = removeHovering(FI)
-
 				// When the shift key is selected, or when no other loads are selected, flip the selection of the chosen load.
 				if (evt.shiftKey || !FI.some((load, index) => (index !== loadIndex && load.selected)))
 					return FI.map((load, index) => index === loadIndex ? { ...load, selected: !load.selected } : load)

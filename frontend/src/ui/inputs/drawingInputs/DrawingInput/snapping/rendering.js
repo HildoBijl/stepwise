@@ -56,8 +56,12 @@ export function SnapMarker() {
 
 // useShowSnapMarking uses all the data from the available contexts to see if snap marking should be shown.
 export function useShowSnapMarking() {
-	const { mouseData, snapOnDrag, isSelecting, isDragging, isMouseOverButton } = useDrawingInputData()
+	const { applySnapping, mouseData, snapOnDrag, isSelecting, isDragging, isMouseOverButton } = useDrawingInputData()
 	const bounds = useBounds()
+
+	// If snapping is not requested, do not snap.
+	if (!applySnapping)
+		return false
 
 	// On missing data, do not snap.
 	if (!mouseData || !bounds || !mouseData.position)

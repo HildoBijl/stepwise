@@ -5,7 +5,7 @@ import { processOptions, filterOptions } from 'step-wise/util/objects'
 
 import { DrawingInput, defaultDrawingInputOptions } from 'ui/inputs'
 
-import { clean, functionalize, selectAll, deselectAll, startDrag, getEndDragFunction, endSelect, applyDeletion, showDeleteButton } from '../support'
+import { clean, functionalize, applySnapping, selectAll, deselectAll, startDrag, getEndDragFunction, endSelect, applyDeletion, showDeleteButton } from '../support'
 import * as validation from '../validation'
 
 import FBDInputInner, { defaultFBDInputInnerOptions } from './FBDInputInner'
@@ -21,6 +21,7 @@ export const defaultFBDInputOptions = {
 	functionalize,
 
 	// Set up default properties specific to the DrawingInput component.
+	applySnapping,
 	selectAll,
 	deselectAll,
 	startDrag,

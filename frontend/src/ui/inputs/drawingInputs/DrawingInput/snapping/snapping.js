@@ -1,9 +1,11 @@
 import { numberArray, sortByIndices } from 'step-wise/util/arrays'
 import { processOptions } from 'step-wise/util/objects'
+import { resolveFunctions } from 'step-wise/util/functions'
 
 import { getEventPosition, getUtilKeys } from 'util/dom'
 import { useStableCallback } from 'util/react'
 import { useTransformationSettings } from 'ui/figures'
+import { useInputFI } from 'ui/inputs'
 
 import { useDrawingRef } from '../context/hooks'
 
@@ -17,7 +19,11 @@ export const defaultSnappingOptions = {
 
 // useMouseSnapping wraps all the snapping functionalities into one hook. It takes a drawing, a set of snappers and a snapping distance and takes care of all the mouse functionalities.
 export function useMouseSnapping(options, { position, keys }) {
-	const { snappers, applySnapping, snappingDistance } = processOptions(options, defaultSnappingOptions)
+	let { snappers, applySnapping, snappingDistance } = processOptions(options, defaultSnappingOptions)
+
+	// Resolve parameters that may depend on the input.
+	const FI = useInputFI()
+	applySnapping = resolveFunctions(applySnapping, FI)
 
 	// Get the snapping lines in both coordinate systems and use them to set up a snapper function.
 	const { lines, graphicalLines } = useSnappingLines(snappers)
@@ -32,7 +38,7 @@ export function useMouseSnapping(options, { position, keys }) {
 		return { lines, graphicalLines, snapper: () => emptySnapMousePositionResponse, eventSnapper, mouseData: emptySnapMousePositionResponse }
 
 	// Return all data.
-	return { lines, graphicalLines, snapper, eventSnapper, mouseData }
+	return { applySnapping, lines, graphicalLines, snapper, eventSnapper, mouseData }
 }
 
 // useSnapperFunction returns a function (position) => { ... data ... } that snaps the given mouse position.

@@ -16,6 +16,10 @@ export function functionalize(SI) {
 	return toFO(SI).map(load => ({ ...load, selected: false }))
 }
 
+export function applySnapping(FI) {
+	return !FI.some(load => load.hovering)
+}
+
 export function selectAll(FI) {
 	return FI.map(load => ({ ...load, selected: true }))
 }
