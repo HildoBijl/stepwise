@@ -10,8 +10,7 @@ import { InputSpace } from 'ui/form'
 import { MultipleChoice } from 'ui/inputs'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 
-import { Distance, Element, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
-import { sumOfMoments } from 'ui/edu/content/mechanics/latex'
+import { Distance, Element, Label, LoadLabel, render, sumOfMoments } from 'ui/edu/content/mechanics'
 
 import StepExercise from '../types/StepExercise'
 import { useSolution } from '../util/SolutionProvider'

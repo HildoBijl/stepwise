@@ -1,5 +1,3 @@
-// Within a drawing, you can make use of useAsDrawingInput to get some useful tools for DrawingInputs.
-
 import React from 'react'
 
 import { processOptions, filterOptions } from 'step-wise/util/objects'

@@ -1,5 +1,3 @@
-// Within a drawing, you can make use of useAsDrawingInput to get some useful tools for DrawingInputs.
-
 import React, { forwardRef } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'

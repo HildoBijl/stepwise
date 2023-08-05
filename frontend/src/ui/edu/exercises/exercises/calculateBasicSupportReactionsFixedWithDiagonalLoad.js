@@ -8,9 +8,7 @@ import { useInput, InputSpace } from 'ui/form'
 import { useCurrentBackgroundColor } from 'ui/inputs'
 import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 
-import { Group, Beam, FixedSupport, Distance, Element, Label, LoadLabel, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
-import FBDInput, { getFBDFeedback, loadSources, performLoadsComparison } from 'ui/edu/content/mechanics/FBDInput'
-import { sumOfForces, sumOfMoments } from 'ui/edu/content/mechanics/latex'
+import { FBDInput, Group, Beam, FixedSupport, Distance, Element, Label, LoadLabel, render, getFBDFeedback, loadSources, performLoadsComparison, sumOfForces, sumOfMoments } from 'ui/edu/content/mechanics'
 
 import StepExercise, { getStep } from '../types/StepExercise'
 import { useSolution } from '../util/SolutionProvider'

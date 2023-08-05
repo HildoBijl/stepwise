@@ -9,8 +9,7 @@ import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice } from 'ui/inputs'
 
-import { Group, Beam, FixedSupport, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
-import FBDInput, { loadTypes } from 'ui/edu/content/mechanics/FBDInput'
+import { FBDInput, Group, Beam, FixedSupport, render, loadTypes } from 'ui/edu/content/mechanics'
 
 import StepExercise from '../types/StepExercise'
 import { useSolution } from '../util/SolutionProvider'
