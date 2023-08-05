@@ -6,9 +6,9 @@ import { defaultForceLength, reverseLoad } from 'step-wise/edu/exercises/util/en
 import { useEventListener } from 'util/react'
 import { useInputData } from 'ui/inputs'
 
+import { DragLoad, InputLoads, LoadLabels } from '../components'
+
 import { GlowDefs } from './GlowDefs'
-import { DragLoad } from './DragLoad'
-import { InputLoads } from './InputLoads'
 
 export const defaultFBDInputInnerOptions = {
 	children: null,
@@ -20,8 +20,7 @@ export const defaultFBDInputInnerOptions = {
 }
 
 export default function FBDInputInner(options) {
-	const { children } = processOptions(options, defaultFBDInputInnerOptions)
-
+	const { children } = options = processOptions(options, defaultFBDInputInnerOptions)
 	const { active, setFI } = useInputData()
 
 	// On becoming inactive, deselect all loads.
@@ -34,21 +33,12 @@ export default function FBDInputInner(options) {
 	const keyDownHandler = (event) => active && handleKeyPress(event, setFI)
 	useEventListener('keydown', keyDownHandler)
 
-	// // When load names need to be displayed, add these load names.
-	// if (options.getLoadNames) {
-	// 	const loads = dragObject && Object.values(loadTypes).includes(dragObject.type) ? [...FI, dragObject] : FI
-	// 	const loadNames = options.getLoadNames(loads)
-	// 	options.children = <>
-	// 		{options.children}
-	// 		{loadNames.map((loadName, index) => <LoadLabel key={index} {...loadName} />)}
-	// 	</>
-	// }
-
 	return <>
 		<GlowDefs />
 		{children}
 		<InputLoads />
 		<DragLoad options={options} />
+		<LoadLabels options={options} />
 	</>
 }
 
