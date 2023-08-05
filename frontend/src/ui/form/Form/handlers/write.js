@@ -8,14 +8,23 @@ export function useWriteHandlers(setInput, { getFieldData }) {
 	// setInputFI saves the given FI for the given field ID. Note that only FIs can be saved, and not SIs or FOs.
 	const setInputFI = useStableCallback((id, FI) => {
 		setInput((input) => {
-			const oldFI = input[id]
-			FI = resolveFunctions(FI, oldFI) // Allow for functions in the new FI that take into account the old FI.
-			FI = ensureConsistency(FI, oldFI)
-			if (FI === oldFI)
-				return input // On a non-change, keep the old input.
+			// Get the FI. If the FI is not in the state yet (like on an initial render) then determine it from the fieldData.
 			const fieldData = getFieldData(id)
+			let oldFI = input[id]
+			if (oldFI === undefined)
+				oldFI = fieldData.functionalize(fieldData.initialSI)
+
+			// Allow for functions in the new FI that take into account the old FI.
+			FI = ensureConsistency(FI, oldFI)
+
+			// On a non-change, keep the old input.
+			FI = resolveFunctions(FI, oldFI)
+			if (FI === oldFI)
+				return input
+
+			// Apply the parameter into the input.
 			fieldData.recentSI = false // The input changed. The SI is probably not valid.
-			return { ...input, [id]: FI } // Set up the new input.
+			return { ...input, [id]: FI }
 		})
 	})
 

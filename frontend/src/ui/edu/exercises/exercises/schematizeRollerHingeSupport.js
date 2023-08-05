@@ -150,8 +150,7 @@ function getFeedback(exerciseData) {
 }
 
 function Diagram({ isInputField = false, showSupports = true, showSolution = false }) {
-	const solution = useSolution()
-	const { wallRotation, beamRotation, points, loads } = solution
+	const { wallRotation, beamRotation, points, loads } = useSolution()
 
 	// Define the transformation.
 	const transformationSettings = useScaleBasedTransformationSettings(points, { scale: 70, margin: 100 })

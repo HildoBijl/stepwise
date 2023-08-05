@@ -10,7 +10,7 @@ import { InputSpace } from 'ui/form'
 import { MultipleChoice } from 'ui/inputs'
 
 import { Group, Beam, FixedSupport, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
-import FBDInput, { allConnectedToPoints, loadTypes } from 'ui/edu/content/mechanics/FBDInput'
+import FBDInput, { loadTypes } from 'ui/edu/content/mechanics/FBDInput'
 
 import StepExercise from '../types/StepExercise'
 import { useSolution } from '../util/SolutionProvider'
@@ -149,8 +149,7 @@ function getFeedback(exerciseData) {
 }
 
 function Diagram({ isInputField = false, showSupports = true, showSolution = false }) {
-	const solution = useSolution()
-	const { wallRotation, beamRotation, points, loads } = solution
+	const { wallRotation, beamRotation, points, loads } = useSolution()
 
 	// Define the transformation.
 	const transformationSettings = useScaleBasedTransformationSettings(points, { scale: 70, margin: 100 })
@@ -163,7 +162,7 @@ function Diagram({ isInputField = false, showSupports = true, showSolution = fal
 	const A = points[0]
 	const snappers = [A, Line.fromPointAndAngle(A, deg2rad(wallRotation)), Line.fromPointAndAngle(A, deg2rad(wallRotation + 90)), Line.fromPointAndAngle(A, deg2rad(wallRotation + beamRotation)), Line.fromPointAndAngle(A, deg2rad(wallRotation + beamRotation + 90))]
 	return isInputField ?
-		<FBDInput id="loads" transformationSettings={transformationSettings} snappers={snappers} validate={allConnectedToPoints(points)}>{schematics}</FBDInput> :
+		<FBDInput id="loads" transformationSettings={transformationSettings} snappers={snappers} validate={FBDInput.validation.allConnectedToPoints(points)}>{schematics}</FBDInput> :
 		<Drawing transformationSettings={transformationSettings}>{schematics}</Drawing>
 }
 

@@ -74,6 +74,13 @@ module.exports.getDefaultMoment = (position, clockwise, opening = defaultMomentO
  * Type checkers.
  */
 
+function isLoad(load) {
+	if (!isBasicObject(load))
+		return false
+	return Object.values(loadTypes).includes(load.type)
+}
+module.exports.isLoad = isLoad
+
 function ensureLoad(load) {
 	// Ensure it's an object with a valid type.
 	if (!isBasicObject(load))

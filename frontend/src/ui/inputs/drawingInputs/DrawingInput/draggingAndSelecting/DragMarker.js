@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function DragMarker() {
+export const DragMarker = forwardRef((props, ref) => {
 	const { isDragging, mouseDownData } = useDrawingInputData()
 	const classes = useStyles()
 
@@ -25,5 +25,6 @@ export default function DragMarker() {
 
 	// Render the marker.
 	const { snappedPosition } = mouseDownData
-	return <SvgSquare className={clsx(classes.dragMarker, 'dragMarker')} center={snappedPosition} graphicalSide={markerSquareSide} />
-}
+	return <SvgSquare ref={ref} className={clsx(classes.dragMarker, 'dragMarker')} center={snappedPosition} graphicalSide={markerSquareSide} />
+})
+export default DragMarker

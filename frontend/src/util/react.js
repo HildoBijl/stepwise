@@ -167,9 +167,10 @@ export function useEventListeners(handlers, elements, options) {
 }
 
 // useRefWithEventListeners takes an object like { mouseenter: (evt) => {...}, mouseleave: (evt) => {...} } and returns a ref. If the ref is coupled to a DOM object, this DOM object listens to the relevant events.
-export function useRefWithEventListeners(handlers) {
+export function useRefWithEventListeners(handlers, options) {
 	const ref = useRef()
-	useEventListener(Object.keys(handlers), Object.values(handlers), ref)
+	useEventListeners(handlers, ref, options)
+	return ref
 }
 
 // useMouseData returns the last-known data related to mouse motion, with the position in client coordinates. The format is { position: new Vector(x, y), keys: { shift: true, alt: false, ctrl: false } }.

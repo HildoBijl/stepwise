@@ -33,8 +33,8 @@ const useStyles = makeStyles((theme) => ({
 	drawingSVG: {
 		display: 'block',
 		...notSelectable,
+		outline: 'none',
 		overflow: 'visible',
-		pointerEvents: 'none', // Prevent a box around the SVG when clicking on it.
 		width: '100%',
 		zIndex: 2,
 	},

@@ -20,8 +20,7 @@ export const defaultDrawingInputCoreOptions = {
 }
 
 export default function DrawingInputCore(options) {
-	options = processOptions(options, defaultDrawingInputCoreOptions)
-	const { children } = options
+	const { children } = options = processOptions(options, defaultDrawingInputCoreOptions)
 
 	// Get data from the parents.
 	const inputData = useInputData()

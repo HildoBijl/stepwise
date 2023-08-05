@@ -11,9 +11,14 @@ export const defaultEventHandlers = {}
 const eventHandlers = ['mouseenter', 'mouseleave', 'click', 'mousedown', 'mouseup']
 eventHandlers.forEach(name => { defaultEventHandlers[name] = undefined })
 export const filterEventHandlers = (options) => filterProperties(options, eventHandlers)
-export const useRefWithEventHandlers = (props, ref) => {
+export const useRefWithEventHandlers = (props, ref, test) => {
 	ref = useEnsureRef(ref)
-	useEventListeners(filterEventHandlers(props), ref)
+	const handlers = filterEventHandlers(props)
+	// if (test) {
+	// 	console.log(ref?.current)
+	// 	console.log(handlers)
+	// }
+	useEventListeners(handlers, ref)
 	return ref
 }
 

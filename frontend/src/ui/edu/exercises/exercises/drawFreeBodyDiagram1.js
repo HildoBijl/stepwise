@@ -8,10 +8,10 @@ import { selectRandomCorrect } from 'util/feedbackMessages'
 import { Par, M } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'
-import { useCurrentBackgroundColor } from 'ui/form/inputs/DrawingInput'
+import { useCurrentBackgroundColor } from 'ui/inputs'
 
 import { Group, Element, Distance, Beam, FixedSupport, AdjacentFixedSupport, HingeSupport, HalfHingeSupport, RollerSupport, AdjacentRollerSupport, RollerHingeSupport, RollerHalfHingeSupport, render } from 'ui/edu/content/mechanics/EngineeringDiagram'
-import FBDInput, { allConnectedToPoints, loadSources, getFBDFeedback, FBDComparison, getLoadMatching, isLoadAtPoint } from 'ui/edu/content/mechanics/FBDInput'
+import FBDInput, { loadSources, getFBDFeedback, FBDComparison, getLoadMatching, isLoadAtPoint } from 'ui/edu/content/mechanics/FBDInput'
 
 import StepExercise from '../types/StepExercise'
 import { useSolution } from '../util/SolutionProvider'
@@ -165,7 +165,7 @@ function Diagram({ isInputField = false, id, showSupports = true, showSolution =
 	// Set up either a diagram or an input field with said diagram.
 	const snappers = points
 	return isInputField ?
-		<FBDInput id={id} transformationSettings={transformationSettings} snappers={snappers} validate={allConnectedToPoints(points)}>{schematics}</FBDInput> :
+		<FBDInput id={id} transformationSettings={transformationSettings} snappers={snappers} validate={FBDInput.validation.allConnectedToPoints(points)}>{schematics}</FBDInput> :
 		<Drawing transformationSettings={transformationSettings}>{schematics}</Drawing>
 }
 

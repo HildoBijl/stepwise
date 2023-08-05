@@ -1,12 +1,5 @@
-// Default export.
-import FBDInput from './FBDInput'
-export default FBDInput
+export * from 'step-wise/edu/exercises/util/engineeringMechanics' // Export shared tools too, for easy referencing.
 
-// Other exports.
-export * from './support'
-export * from './validation'
 export * from './feedback'
-export * from './FBDInput'
-export * from 'step-wise/edu/exercises/util/engineeringMechanics'
-
-
+export { default } from './rendering'
+export * from './rendering'

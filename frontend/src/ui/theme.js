@@ -111,7 +111,7 @@ export { pageContainerStyle }
 // A macro for making an object unselectable, preventing a blue border around it.
 const notSelectable = {
 	userSelect: 'none',
-	'-webkit-tap-highlight-color': 'rgba(0,0,0,0)',
+	'-webkit-tap-highlight-color': 'rgba(255, 0, 0, 0)',
 }
 export { notSelectable }
 

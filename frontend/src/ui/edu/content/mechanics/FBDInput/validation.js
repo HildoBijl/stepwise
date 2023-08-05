@@ -2,11 +2,13 @@ import { areLoadsEqual, isLoadAtPoint } from 'step-wise/edu/exercises/util/engin
 
 import { selectRandomEmpty } from 'util/feedbackMessages'
 
-// These are validation functions.
+// nonEmpty requires at least one load.
 export function nonEmpty(data) {
 	if (data.length === 0)
 		return selectRandomEmpty()
 }
+
+// nonEmptyNoDoubles checks that there are no duplicates in the loads.
 export function nonEmptyNoDoubles(data) {
 	// Check for empty.
 	const nonEmptyValidation = nonEmpty(data)
@@ -24,6 +26,8 @@ export function nonEmptyNoDoubles(data) {
 		}
 	}
 }
+
+// allConnectedToPoints is a validation-function-generating function. It gets the points to check and returns a validation function. This validation function first checks that there are no duplicates, and then ensures that all loads are connected to at least one of the given points.
 export function allConnectedToPoints(points) {
 	return (data) => {
 		// Check basic problems.

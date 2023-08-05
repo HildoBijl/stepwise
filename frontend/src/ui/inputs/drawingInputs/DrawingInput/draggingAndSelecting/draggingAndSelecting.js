@@ -25,7 +25,7 @@ export const defaultDraggingAndSelectingOptions = {
 }
 
 export function useDraggingAndSelecting(options, { mouseData, eventSnapper }) {
-	const { startDrag, endDrag, startSelect, endSelect, applySelecting, selectAll, deselectAll } = processOptions(options, defaultDraggingAndSelectingOptions)
+	const { startDrag, endDrag, snapOnDrag, startSelect, endSelect, applySelecting, selectAll, deselectAll } = processOptions(options, defaultDraggingAndSelectingOptions)
 
 	// Collect data from parent components.
 	const bounds = useBounds()
@@ -59,5 +59,5 @@ export function useDraggingAndSelecting(options, { mouseData, eventSnapper }) {
 	const cancelDrag = useCallback(() => setMouseDownData(undefined), [setMouseDownData])
 
 	// Return all relevant data and handlers for the consuming function to use.
-	return { mouseDownData, canStartSelecting, isDragging, isSelecting, selectionRectangle, cancelDrag }
+	return { mouseDownData, canStartSelecting, isDragging, isSelecting, selectionRectangle, cancelDrag, snapOnDrag }
 }

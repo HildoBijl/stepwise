@@ -40,7 +40,7 @@ export function shouldApplySelecting(mouseDownData, applySelecting, endSelect) {
 	if (!mouseDownData)
 		return false
 
-	// If no endSelecting function has been provided, selecting will never happen.
+	// If no endSelect function has been provided, selecting will never happen.
 	if (!endSelect)
 		return false
 

@@ -1,5 +1,5 @@
 
-import React, { Fragment } from 'react'
+import React, { forwardRef, Fragment } from 'react'
 
 import { isObject, applyToEachParameter } from 'step-wise/util/objects'
 
@@ -25,10 +25,15 @@ export const loadColors = {
 }
 
 // render takes a data object, checks its "type" parameter, and based on that tries to render it into the right component for the Engineering Diagram.
-export function render(data) {
+export function render(data, ref) {
 	// For arrays make a group out of all individual elements.
-	if (Array.isArray(data))
-		return <Group>{data.map((element, index) => <Fragment key={index}>{render(element)}</Fragment>)}</Group>
+	if (Array.isArray(data)) {
+		return <Group ref={ref}>
+			{data.map((element, index) => <Fragment key={index}>
+				{render(element)}
+			</Fragment>)}
+		</Group>
+	}
 
 	// Ensure it's an object.
 	if (!isObject(data))
@@ -44,9 +49,15 @@ export function render(data) {
 		throw new Error(`Invalid Engineering Diagram data: received an object with type property "${data.type}". Could not render this.`)
 
 	// Render the requested component.
-	return <Component {...applyStyling(data)} />
+	return <Component ref={ref} {...applyStyling(data)} />
 }
 
+// EngineeringDiagramElement is just like the render function, but then functions as a React component.
+export const EngineeringDiagramElement = forwardRef((data, ref) => {
+	return render(data, ref)
+})
+
+// applyStyling checks if the data is the data of a load with a specified source. It then styles the load using this piece of information.
 function applyStyling(data) {
 	data = { ...data }
 

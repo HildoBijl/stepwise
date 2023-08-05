@@ -1,3 +1,3 @@
 # Exercise system notes
 
-The exercise system is based on skills and exercises. Before reading this, it is wise to read in the [shared folder](../../../../shared/) about [skills](../../../../shared/edu/skills/) and [exercises](../../../../shared/edu/exercises/) first. After this you can learn how to program [front-end exercises](exercises/). Optionally, you can also read about the [`Form` component](../form/) and the corresponding [input fields](../form/inputs/).
+The exercise system is based on skills and exercises. Before reading this, it is wise to read in the [shared folder](../../../../shared/) about [skills](../../../../shared/edu/skills/) and [exercises](../../../../shared/edu/exercises/) first. After this you can learn how to program [front-end exercises](exercises/). Optionally, you can also read about the [`Form` component](../form/) and the corresponding [input fields](../inputs/).

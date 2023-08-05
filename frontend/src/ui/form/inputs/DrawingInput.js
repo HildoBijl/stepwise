@@ -266,6 +266,7 @@ export function useIsInDrawingInput() {
 export function useCurrentBackgroundColor() {
 	const inDrawingInput = useIsInDrawingInput()
 	const theme = useTheme()
+	console.log(inDrawingInput)
 	return inDrawingInput ? theme.palette.inputBackground.main : theme.palette.background.main
 }
 
