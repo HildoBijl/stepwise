@@ -1,25 +1,4 @@
-function ensureDate(input) {
-	// Check if it's already a date object.
-	if (input.constructor === Date)
-		return input
-
-	// Try to force it into one.
-	date = new Date(input)
-	if (isValidDate(date))
-		return date
-
-	// Nothing worked.
-	throw new Error(`Invalid date encountered: received "${input}" which could not be converted into a date.`)
-}
-module.exports.ensureDate = ensureDate
-
-function isValidDate(date) {
-	if (date.constructor !== Date)
-		return false
-	return !isNaN(date.getTime())
-}
-module.exports.isValidDate = isValidDate
-
+// formatDate turns a Date object into a string of the form "YYYY-MM-DD". If includeTime is set to true, als "HH:mm" is included, and if includeSeconds is set to true this becomes "HH:mm:ss". There is always a two-digit format used.
 function formatDate(date, includeTime = false, includeSeconds = false) {
 	// Determine the day format.
 	date = ensureDate(date)
