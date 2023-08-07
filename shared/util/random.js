@@ -1,5 +1,5 @@
 const { ensureInt } = require('./numbers')
-const { ensureArray, getCumulativeArray, lastOf, numberArray, shuffle, sum } = require('./arrays')
+const { ensureArray, cumulative, lastOf, numberArray, shuffle, sum } = require('./arrays')
 
 // getRandomBoolean returns true or false, randomly. Optionally, the probability for true can be given.
 function getRandomBoolean(probability = 0.5) {
@@ -48,7 +48,7 @@ function selectRandomly(arr, weights) {
 		return arr[getRandomInteger(0, arr.length - 1)]
 
 	// If there are weights, apply them.
-	const cumWeights = getCumulativeArray(weights)
+	const cumWeights = cumulative(weights)
 	const random = Math.random() * lastOf(cumWeights)
 	const index = cumWeights.findIndex(cumWeight => random <= cumWeight)
 	return arr[index]

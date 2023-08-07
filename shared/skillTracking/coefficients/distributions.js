@@ -1,5 +1,5 @@
 const { ensureInt, ensureNumber } = require('../../util/numbers')
-const { sum, getCumulativeArray } = require('../../util/arrays')
+const { sum, cumulative } = require('../../util/arrays')
 const { binomial } = require('../../util/combinatorics')
 
 const { ensureCoef, getOrder } = require('./fundamentals')
@@ -66,7 +66,7 @@ module.exports.getCDF = getCDF
 // getCDFCoefficients takes a set of coefficients for a PDF, and returns the coefficients for the CDF. After all, the CDF of a PDF that is the sum of beta distributions is once more a sum of beta distributions (but not normalized).
 function getCDFCoefficients(coef) {
 	const n = getOrder(coef)
-	return getCumulativeArray([0, ...coef]).map(x => x / (n + 2)) // Get the cumulative array of coefficients, and divide by n + 2.
+	return cumulative([0, ...coef]).map(x => x / (n + 2)) // Get the cumulative array of coefficients, and divide by n + 2.
 }
 module.exports.getCDFCoefficients = getCDFCoefficients
 
