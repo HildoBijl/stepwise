@@ -1,4 +1,4 @@
-const { applyToEachParameter } = require('../../../util/objects')
+const { applyMapping } = require('../../../util/objects')
 const { selectRandomly, getRandom, getRandomBoolean, getRandomInteger } = require('../../../util/random')
 
 const { asExpression, asEquation, expressionComparisons, equationComparisons, Integer, Variable } = require('../../../CAS')
@@ -34,7 +34,7 @@ function generateState() {
 
 	// Gather all data into a state.
 	return {
-		...applyToEachParameter(sides, side => new Integer(side)),
+		...applyMapping(sides, side => new Integer(side)),
 		beta: new Variable(selectRandomly(variableSet)),
 		rotation: getRandom(0, 2 * Math.PI),
 		reflection: getRandomBoolean(),

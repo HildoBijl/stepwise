@@ -1,4 +1,4 @@
-# Numbers utility functions
+# Number utility functions
 
 All utility functions related to numbers are in this folder. These are grouped as follows.
 

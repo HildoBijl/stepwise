@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
 import { ensureNumber, ensureInt } from 'step-wise/util/numbers'
-import { applyToEachParameter } from 'step-wise/util/objects'
+import { applyMapping } from 'step-wise/util/objects'
 import { Vector, ensureVector, Rectangle, Transformation, ensureTransformation } from 'step-wise/geometry'
 
 import { useConsistentValue } from 'util/react'
@@ -9,7 +9,7 @@ import { useConsistentValue } from 'util/react'
 // getBoundingRectangle gets a set of points (an object or array) and checks the bounds of these points. It returns a Rectangle object for these bounds.
 export function getBoundingRectangle(points) {
 	let minX, maxX, minY, maxY
-	applyToEachParameter(points, point => {
+	applyMapping(points, point => {
 		point = ensureVector(point, 2)
 		if (minX === undefined || point.x < minX)
 			minX = point.x
@@ -74,7 +74,7 @@ export function applyTransformation(points, transformation, preventShift) {
 		return points.transform(transformation, preventShift)
 
 	// Apply the transformation to each element of the given array/object.
-	return applyToEachParameter(points, point => applyTransformation(point, transformation, preventShift))
+	return applyMapping(points, point => applyTransformation(point, transformation, preventShift))
 }
 
 // useRotationReflectionTransformation gives a Transformation object that first reflects along the x-axis (if reflection is set to true) and then rotates (by the given rotation angle). Optionally, this can be done with respect to a given point. It only gives the Transformation object and not transformation settings with bounds, scales, etcetera, since that data is not available. It is mainly used to set up a pretransformation, when random rotation and reflection values are used.

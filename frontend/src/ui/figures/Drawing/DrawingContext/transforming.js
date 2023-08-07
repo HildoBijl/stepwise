@@ -1,5 +1,5 @@
 import { isNumber } from 'step-wise/util/numbers'
-import { hasIterableParameters, applyToEachParameter } from 'step-wise/util/objects'
+import { hasIterableParameters, applyMapping } from 'step-wise/util/objects'
 import { Vector, Transformation } from 'step-wise/geometry'
 
 import { applyTransformation } from '../transformation'
@@ -32,7 +32,7 @@ export function useScaling(numbers) {
 			return numbers * scaleFactor
 
 		// Apply the scaling to each element of the given array/object.
-		return applyToEachParameter(numbers, number => applyScaling(number))
+		return applyMapping(numbers, number => applyScaling(number))
 	}
 
 	// Run the scaling.
@@ -56,11 +56,11 @@ export function useGraphicalVector(drawingPoints, graphicalPoints, preventShift)
 	if (Vector.isVector(transformedPoints)) {
 		if (Vector.isVector(graphicalPoints))
 			return transformedPoints.add(graphicalPoints)
-		return applyToEachParameter(graphicalPoints, point => transformedPoints.add(point))
+		return applyMapping(graphicalPoints, point => transformedPoints.add(point))
 	}
 	if (Vector.isVector(graphicalPoints))
-		return applyToEachParameter(transformedPoints, point => point.add(graphicalPoints))
-	return applyToEachParameter(transformedPoints, (point, index) => point.add(graphicalPoints[index]))
+		return applyMapping(transformedPoints, point => point.add(graphicalPoints))
+	return applyMapping(transformedPoints, (point, index) => point.add(graphicalPoints[index]))
 }
 
 // useGraphicalDistance takes a number (like a distance) in drawing coordinates, and a corresponding number in graphical coordinates. It transforms (scales) the drawing-distance to a graphical value. If given, the graphical distance is then added, returning the sum of the two.
@@ -92,9 +92,9 @@ export function useGraphicalObject(drawingObject, graphicalObject) {
 	if (!hasIterableParameters(transformedObject)) {
 		if (!hasIterableParameters(graphicalObject))
 			return transformedObject.add(graphicalObject)
-		return applyToEachParameter(graphicalObject, obj => transformedObject.add(obj))
+		return applyMapping(graphicalObject, obj => transformedObject.add(obj))
 	}
 	if (!hasIterableParameters(graphicalObject))
-		return applyToEachParameter(transformedObject, obj => obj.add(graphicalObject))
-	return applyToEachParameter(transformedObject, (obj, index) => obj.add(graphicalObject[index]))
+		return applyMapping(transformedObject, obj => obj.add(graphicalObject))
+	return applyMapping(transformedObject, (obj, index) => obj.add(graphicalObject[index]))
 }

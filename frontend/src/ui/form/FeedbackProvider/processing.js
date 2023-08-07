@@ -1,4 +1,4 @@
-import { applyToEachParameter } from 'step-wise/util/objects'
+import { applyMapping } from 'step-wise/util/objects'
 
 import { selectRandomCorrect, selectRandomIncorrect } from 'util/feedbackMessages'
 import { getIcon, getFeedbackColor } from 'ui/theme'
@@ -44,7 +44,7 @@ export function processFeedback(feedback, theme) {
 
 	// If there are subfields, recursively process said subfields.
 	if (feedback.subfields) {
-		feedback.subfields = applyToEachParameter(feedback.subfields, subfieldFeedback => processFeedback(subfieldFeedback, theme))
+		feedback.subfields = applyMapping(feedback.subfields, subfieldFeedback => processFeedback(subfieldFeedback, theme))
 	}
 	
 	// All done!

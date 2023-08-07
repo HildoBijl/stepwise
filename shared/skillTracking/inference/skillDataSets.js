@@ -1,4 +1,4 @@
-const { applyToEachParameter } = require('../../util/objects')
+const { applyMapping } = require('../../util/objects')
 
 const { SkillData } = require('./SkillData')
 
@@ -32,7 +32,7 @@ function updateSkillDataSet(skillDataSet, newRawSkillDataSet, skillTree) {
 		return skillDataSet
 
 	// An update is needed. Clone the data set and apply updates.
-	const newSkillDataSet = applyToEachParameter(skillDataSet, (skillData, skillId, obj) => skillData.cloneForSkillDataSet(obj))
+	const newSkillDataSet = applyMapping(skillDataSet, (skillData, skillId, obj) => skillData.cloneForSkillDataSet(obj))
 	Object.keys(newRawSkillDataSet).forEach(skillId => {
 		// If the skill ID does not exist, throw an error.
 		const skill = skillTree[skillId]

@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Check, Clear, Replay } from '@material-ui/icons'
 import Slider from '@material-ui/core/Slider'
 
-import { keysToObject, applyToEachParameter } from 'step-wise/util/objects'
+import { keysToObject, applyMapping } from 'step-wise/util/objects'
 import { Skill, getEV, getMaxLikelihood, smoothen, merge, and, repeat } from 'step-wise/skillTracking'
 import { getSelectionRates } from 'step-wise/edu/exercises/util/selection'
 
@@ -278,7 +278,7 @@ function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 		// First smoothen all related coefficients.
 		let newCoefficientSet
 		if (label === lastLabel)
-			newCoefficientSet = applyToEachParameter(coefficientSet, (coef, label) => smoothen(coef, { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }))
+			newCoefficientSet = applyMapping(coefficientSet, (coef, label) => smoothen(coef, { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }))
 		else
 			newCoefficientSet = {
 				...coefficientSet,
@@ -297,7 +297,7 @@ function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 		setNumsPracticed(newNumsPracticed)
 
 		// Update the passed parameter.
-		const smoothenedCoefficientSet = applyToEachParameter(newCoefficientSet, (coef, label) => smoothen(coef, { applyPracticeDecay: true, numProblemsPracticed: newNumsPracticed[label] }))
+		const smoothenedCoefficientSet = applyMapping(newCoefficientSet, (coef, label) => smoothen(coef, { applyPracticeDecay: true, numProblemsPracticed: newNumsPracticed[label] }))
 		setPass(pass => labels.map((label, i) => {
 			const EV = getEV(smoothenedCoefficientSet[label])
 			return (pass[i] && EV >= defaultSkillThresholds.pass * defaultSkillThresholds.recapFactor) || (!pass[i] && EV >= defaultSkillThresholds.pass) // Apply hysteresis.
@@ -310,7 +310,7 @@ function MultiSkillTrial({ showButtonsForX = true, exercises }) {
 	}
 
 	// Make the inference towards X. For this first smoothen all distributions and then run the inference and merging.
-	const coefficientSetNow = applyToEachParameter(coefficientSet, (coef, label) => smoothen(coef, { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }))
+	const coefficientSetNow = applyMapping(coefficientSet, (coef, label) => smoothen(coef, { applyPracticeDecay: true, numProblemsPracticed: numsPracticed[label] }))
 	const inference = setup.getDistribution(coefficientSetNow)
 	coefficientSetNow[lastLabel] = merge([inference, coefficientSetNow[lastLabel]])
 

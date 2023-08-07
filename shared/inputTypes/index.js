@@ -1,4 +1,4 @@
-const { isObject, isBasicObject, applyToEachParameter, deepEquals } = require('../util/objects')
+const { isObject, isBasicObject, applyMapping, deepEquals } = require('../util/objects')
 
 // Input object legacy: the types Boolean, String and MultipleChoice can be removed after the corresponding old exercise data is removed.
 const types = [
@@ -28,7 +28,7 @@ function toFO(data, useSI = false) {
 	}
 
 	// If there is no known type, or the type does not have the appropriate function, walk through the parameters one by one and interpret them.
-	return applyToEachParameter(data, data => toFO(data, useSI))
+	return applyMapping(data, data => toFO(data, useSI))
 }
 module.exports.toFO = toFO
 
@@ -44,7 +44,7 @@ function toSO(obj, useSI = false) {
 
 	// If it is a basic object or an array, do things parameter by parameter.
 	if (isBasicObject(obj) || Array.isArray(obj))
-		return applyToEachParameter(obj, obj => toSO(obj, useSI))
+		return applyMapping(obj, obj => toSO(obj, useSI))
 
 	// We have a functional object. There must be a type. If the type is known, run the corresponding functions.
 	const { type } = obj

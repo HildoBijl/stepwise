@@ -1,6 +1,6 @@
 # Step-Wise utility functions
 
-Step-Wise has a large amount of utility functions: simple functions that do a small task, and can be used anywhere in the code base. These are sorted into various groups. Each utility file may use files higher up the chain, but not vice versa, to prevent circular references.
+Step-Wise has a large amount of utility functions: simple functions that do a small task, and can be used anywhere in the code base. These are sorted into various groups. Each utility submoduyle may use submodules higher up the chain, but not vice versa, to prevent circular references.
 
 ## Fundamental functions
 

@@ -1,7 +1,7 @@
 
 import React, { forwardRef, Fragment } from 'react'
 
-import { isObject, applyToEachParameter } from 'step-wise/util/objects'
+import { isObject, applyMapping } from 'step-wise/util/objects'
 
 import { toCSS } from 'util/colors'
 
@@ -20,7 +20,7 @@ export const loadColors = {
 	external: '#8e0b0b',
 	reaction: '#043870',
 	section: '#902dba',
-	feedback: applyToEachParameter(feedbackColors, toCSS),
+	feedback: applyMapping(feedbackColors, toCSS),
 	glow: toCSS(themeColor), // On selection.
 }
 

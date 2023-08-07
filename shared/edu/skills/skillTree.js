@@ -1,4 +1,4 @@
-const { isBasicObject, applyToEachParameter } = require('../../util/objects')
+const { isBasicObject, applyMapping } = require('../../util/objects')
 const { union } = require('../../util/sets')
 const { and, or, repeat, pick, part, defaultLinkOrder } = require('../../skillTracking')
 
@@ -594,8 +594,8 @@ Object.values(skillTree).forEach(skill => {
 })
 
 // Copy links to the skills that have been linked.
-const skillLinks = applyToEachParameter(skillTree, skill => [...skill.links]) // Copy links lists to prevent reference loops.
-applyToEachParameter(skillLinks, (links, skillId) => {
+const skillLinks = applyMapping(skillTree, skill => [...skill.links]) // Copy links lists to prevent reference loops.
+applyMapping(skillLinks, (links, skillId) => {
 	const skill = skillTree[skillId]
 	links.forEach(link => {
 		link.skills.forEach(linkedSkill => {

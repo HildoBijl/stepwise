@@ -1,6 +1,6 @@
 import { isNumber } from 'step-wise/util/numbers'
 import { removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
-import { applyToEachParameter, keysToObject } from 'step-wise/util/objects'
+import { applyMapping, keysToObject } from 'step-wise/util/objects'
 
 import { errorToMessage as integerErrorToMessage } from '../IntegerInput'
 
@@ -16,7 +16,7 @@ export const getEndCursor = ({ number, power }, cursor) => (power !== '' || (cur
 export const isCursorAtStart = (_, cursor) => cursor.part === 'number' && cursor.cursor === 0
 export const isCursorAtEnd = ({ number, power }, cursor) => (cursor.part === 'power') ? (cursor.cursor === power.length) : (power === '' && cursor.cursor === number.length)
 export const isValid = ({ number }) => number.replace(/[.-]/g, '').length > 0 // It should have a number somewhere in it.
-export const clean = value => applyToEachParameter(value, param => param || undefined) // Remove empty strings.
+export const clean = value => applyMapping(value, param => param || undefined) // Remove empty strings.
 export const functionalize = value => keysToObject(parts, part => value[part] || '') // Add empty strings.
 
 // FIToKeyboardSettings takes an FI object and determines what keyboard settings are appropriate.

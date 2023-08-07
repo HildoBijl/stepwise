@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo, useEffect, createContext, useContext } from 'react'
 
-import { arraysToObject, keysToObject, applyToEachParameter } from 'step-wise/util/objects'
+import { arraysToObject, keysToObject, applyMapping } from 'step-wise/util/objects'
 import { updateSkillDataSet } from 'step-wise/skillTracking'
 import { skillTree, includePrerequisitesAndLinks, processSkill, getDefaultSkillData } from 'step-wise/edu/skills'
 
@@ -47,7 +47,7 @@ export default function SkillCacher({ children }) {
 		// Fill up the loaded skills with default skills when missing (that is, not in the database yet), process them, and incorporate them into the data set.
 		const skillsAsObject = arraysToObject(skills.map(skill => skill.skillId), skills)
 		const rawSkillDataSetUnprocessed = keysToObject(skillsWithPrerequisitesAndLinks, skillId => skillsAsObject[skillId] || getDefaultSkillData(skillId))
-		const rawSkillDataSet = applyToEachParameter(rawSkillDataSetUnprocessed, skill => processSkill(skill))
+		const rawSkillDataSet = applyMapping(rawSkillDataSetUnprocessed, skill => processSkill(skill))
 		setCache(skillDataSet => updateSkillDataSet(skillDataSet, rawSkillDataSet, skillTree))
 	}, [skillsWithPrerequisitesAndLinks, user, loading, error, skills, setCache])
 

@@ -1,6 +1,6 @@
 import React, { forwardRef, useMemo } from 'react'
 
-import { applyToEachParameter, removeProperties } from 'step-wise/util/objects'
+import { applyMapping, removeProperties } from 'step-wise/util/objects'
 import { isLoad, areLoadsEqual, doesLoadTouchRectangle } from 'step-wise/edu/exercises/util/engineeringMechanics'
 
 import { useDrawingInputData, useFeedbackResult } from 'ui/inputs'
@@ -40,7 +40,7 @@ export function useStyledInputLoad(load, index) {
 	if (index !== undefined) {
 		load = {
 			...load,
-			...applyToEachParameter(mouseHandlers, handler => (evt) => handler(index, evt)),
+			...applyMapping(mouseHandlers, handler => (evt) => handler(index, evt)),
 		}
 	}
 

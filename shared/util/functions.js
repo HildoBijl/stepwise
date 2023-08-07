@@ -1,6 +1,6 @@
 const { ensureInt } = require('./numbers')
 const { ensureNumberArray } = require('./arrays')
-const { isBasicObject, applyToEachParameter, ensureConsistency } = require('./objects')
+const { isBasicObject, applyMapping, ensureConsistency } = require('./objects')
 
 function noop() { }
 module.exports.noop = noop
@@ -69,7 +69,7 @@ function resolveFunctions(param, ...args) {
 		if (typeof value === 'function')
 			return value(...args)
 		if (Array.isArray(value) || isBasicObject(value))
-			return applyToEachParameter(value, resolve)
+			return applyMapping(value, resolve)
 		return value
 	}
 	return ensureConsistency(resolve(param), param)

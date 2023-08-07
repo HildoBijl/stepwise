@@ -1,5 +1,5 @@
 const { selectRandomly, getRandomInteger } = require('../../../util/random')
-const { applyToEachParameter } = require('../../../util/objects')
+const { applyMapping } = require('../../../util/objects')
 const { asExpression, asEquation, Integer, expressionComparisons } = require('../../../CAS')
 
 const { filterVariables } = require('../util/CASsupport')
@@ -46,7 +46,7 @@ function getSolution(state) {
 
 	// Find values for the expressions and store those numbers.
 	const numSolutions = 2
-	const values = applyToEachParameter(expressions, expression => expression.cleanForAnalysis())
+	const values = applyMapping(expressions, expression => expression.cleanForAnalysis())
 	const equationInFactors = asEquation(`a(x-x_1)(x-x_2)=0`).substituteVariables({ ...variables, 'x_1': values.x1, 'x_2': values.x2 }).removeUseless()
 	return { ...state, equation, expressions, ...values, numSolutions, equationInFactors }
 }

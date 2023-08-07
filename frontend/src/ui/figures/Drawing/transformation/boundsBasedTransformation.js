@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
 import { ensureNumber } from 'step-wise/util/numbers'
-import { ensureBoolean, applyToEachParameter, processOptions } from 'step-wise/util/objects'
+import { ensureBoolean, applyMapping, processOptions } from 'step-wise/util/objects'
 import { passOn, ensureFunction } from 'step-wise/util/functions'
 import { Transformation, ensureTransformation } from 'step-wise/geometry'
 
@@ -42,7 +42,7 @@ export default function useBoundsBasedTransformationSettings(points, options = {
 		processBounds = ensureFunction(processBounds)
 
 		// Pretransform the points, find their bounds and use it to calculate the scale to be applied.
-		const transformedPoints = applyToEachParameter(points, point => pretransformation.apply(point))
+		const transformedPoints = applyMapping(points, point => pretransformation.apply(point))
 		const currBounds = processBounds(getBoundingRectangle(transformedPoints))
 		let scale = [0, 1].map(axis => {
 			const maxSize = (axis === 0 ? maxWidth : maxHeight)

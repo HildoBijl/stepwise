@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useTheme } from '@material-ui/core/styles'
 
-import { isBasicObject, applyToEachParameter } from 'step-wise/util/objects'
+import { isBasicObject, applyMapping } from 'step-wise/util/objects'
 import { toFO } from 'step-wise/inputTypes'
 
 import { useLatest, useStableCallback } from 'util/react'
@@ -45,7 +45,7 @@ export default function FeedbackProvider({ children, getFeedback, input, data = 
 			let result = getFeedback({ ...dataRef.current, input: inputFO, previousFeedback: previousResult, previousInput: previousInputFO })
 			if (!result || !isBasicObject(result))
 				throw new Error(`Invalid feedback: a feedback was returned which is not an object. Instead, we received "${result}". Possibly the getFeedback function forgot to return anything sensible?`)
-			result = applyToEachParameter(result, fieldFeedback => processFeedback(fieldFeedback, theme))
+			result = applyMapping(result, fieldFeedback => processFeedback(fieldFeedback, theme))
 			setFeedback({ result: result, input })
 		}
 	})

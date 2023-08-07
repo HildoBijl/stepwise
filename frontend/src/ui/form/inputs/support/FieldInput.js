@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
 import { decimalSeparator } from 'step-wise/settings/numbers'
-import { isObject, filterOptions, applyToEachParameter } from 'step-wise/util/objects'
+import { isObject, filterOptions, applyMapping } from 'step-wise/util/objects'
 import { isNumber, boundTo } from 'step-wise/util/numbers'
 import { resolveFunctions } from 'step-wise/util/functions'
 
@@ -510,7 +510,7 @@ export function removeCursor(input) {
 
 // removeCursors applies removeCursor to all elements in an input set.
 export function removeCursors(inputSet) {
-	return applyToEachParameter(inputSet, removeCursor)
+	return applyMapping(inputSet, removeCursor)
 }
 
 // The default clean and functionalize functions remove/add a cursor on the right place, in addition to running the given clean/functionalize function on the value property.

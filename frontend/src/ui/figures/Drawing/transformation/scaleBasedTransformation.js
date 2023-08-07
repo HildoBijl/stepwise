@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { applyToEachParameter, processOptions } from 'step-wise/util/objects'
+import { applyMapping, processOptions } from 'step-wise/util/objects'
 import { Vector, ensureVector, Rectangle, Transformation, ensureTransformation } from 'step-wise/geometry'
 
 import { useConsistentValue } from 'util/react'
@@ -27,13 +27,13 @@ export default function useScaleBasedTransformationSettings(points, options = {}
 		pretransformation = ensureTransformation(pretransformation)
 
 		// Pretransform the points, scale them, find their bounds, use this to determine their shift and then shift the points.
-		let transformedPoints = applyToEachParameter(points, point => pretransformation.apply(point))
+		let transformedPoints = applyMapping(points, point => pretransformation.apply(point))
 		const scaleTransformation = Transformation.getScale(scale)
-		transformedPoints = applyToEachParameter(transformedPoints, point => scaleTransformation.apply(ensureVector(point, 2)))
+		transformedPoints = applyMapping(transformedPoints, point => scaleTransformation.apply(ensureVector(point, 2)))
 		const currBounds = getBoundingRectangle(transformedPoints)
 		const shift = new Vector(...[0, 1].map(axis => -currBounds.getBounds(axis)[0] + margin[axis][0]))
 		const shiftTransformation = Transformation.getShift(shift)
-		transformedPoints = applyToEachParameter(transformedPoints, point => shiftTransformation.apply(point))
+		transformedPoints = applyMapping(transformedPoints, point => shiftTransformation.apply(point))
 
 		// Set up the full transformation and determine the final bounds including both margins.
 		const transformation = pretransformation.chain(scaleTransformation).chain(shiftTransformation)

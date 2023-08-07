@@ -1,4 +1,4 @@
-const { isObject, isBasicObject, applyToEachParameter } = require('./../../../util/objects')
+const { isObject, isBasicObject, applyMapping } = require('./../../../util/objects')
 
 const mainCAS = require('./Expression')
 const functions = require('./functions')
@@ -52,7 +52,7 @@ function SOtoFO(SO, loose = false) {
 	}
 
 	// First walk through all children and see if we can turn them into FOs. This order is needed because this object itself (like a Product) might not know about the other objects (like Arcsin or so) and hence fail.
-	SO = applyToEachParameter(SO, param => SOtoFO(param, true))
+	SO = applyMapping(SO, param => SOtoFO(param, true))
 
 	// Then try to turn this object into an FO based on the given subtype.
 	const subtype = SO.subtype

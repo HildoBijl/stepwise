@@ -1,4 +1,4 @@
-const { filterProperties, applyToEachParameter } = require('../../../util/objects')
+const { filterProperties, applyMapping } = require('../../../util/objects')
 const { getRandomSubset } = require('../../../util/random')
 
 const { Variable } = require('../../../CAS')
@@ -18,6 +18,6 @@ module.exports.selectRandomVariables = selectRandomVariables
 function filterVariables(state, usedVariables, constants) {
 	const allVariables = constants ? [...usedVariables, ...constants] : usedVariables
 	const filteredVariables = filterProperties(state, allVariables) // Filter non-variable properties out.
-	return applyToEachParameter(filteredVariables, Variable.ensureVariable) // Ensure all variables are Variable objects.
+	return applyMapping(filteredVariables, Variable.ensureVariable) // Ensure all variables are Variable objects.
 }
 module.exports.filterVariables = filterVariables

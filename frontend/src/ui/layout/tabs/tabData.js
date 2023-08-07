@@ -1,6 +1,6 @@
 import { MenuBook as Book, OndemandVideo as Video, Create as Pencil, AttachFile as Paperclip, Info } from '@material-ui/icons'
 
-import { applyToEachParameter } from 'step-wise/util/objects'
+import { applyMapping } from 'step-wise/util/objects'
 
 import { Books, Sqrt, BulletList, Teacher } from 'ui/components/icons'
 
@@ -53,7 +53,7 @@ const tabData = {
 }
 
 // Apply post-processing.
-applyToEachParameter(tabData, (tab, id) => {
+applyMapping(tabData, (tab, id) => {
 	tab.id = id
 })
 

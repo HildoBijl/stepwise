@@ -1,5 +1,5 @@
 const { selectRandomly, getRandomInteger } = require('../../../util/random')
-const { applyToEachParameter } = require('../../../util/objects')
+const { applyMapping } = require('../../../util/objects')
 const { asExpression, asEquation, Integer, Sqrt, expressionComparisons } = require('../../../CAS')
 
 const { filterVariables } = require('../util/CASsupport')
@@ -47,7 +47,7 @@ function getSolution(state) {
 
 	// Find values for the expressions and store those numbers.
 	const numSolutions = 2
-	const values = applyToEachParameter(expressions, expression => expression.regularClean())
+	const values = applyMapping(expressions, expression => expression.regularClean())
 	const sqrtD = new Sqrt(values.D).regularClean()
 	return { ...state, equation, expressions, ...values, sqrtD, numSolutions }
 }
