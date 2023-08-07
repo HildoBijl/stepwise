@@ -219,3 +219,14 @@ function getPropertyOrDefault(obj, prop, useDefaultAsFallback = true, useSelfAsF
 		throw new Error(errorMessage || `Missing object property: could not find property "${prop}".`)
 }
 module.exports.getPropertyOrDefault = getPropertyOrDefault
+
+// JSONstringifyWithoutPropertyQuotes will JSON stringify an object but not like {"x":"a"}. Instead, it will give {x:"a"}. No quotes will be used around properties.
+function JSONstringifyWithoutPropertyQuotes(obj) {
+	// If it's not an object, use the regular JSON.stringify.
+	if (typeof obj !== "object" || Array.isArray(obj))
+		return JSON.stringify(obj)
+
+	// Merge all properties together into a JSON string.
+	return `{${Object.keys(obj).map(key => `${key}:${JSONstringifyWithoutPropertyQuotes(obj[key])}`).join(',')}}`
+}
+module.exports.JSONstringifyWithoutPropertyQuotes = JSONstringifyWithoutPropertyQuotes
