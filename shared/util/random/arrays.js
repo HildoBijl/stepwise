@@ -1,45 +1,6 @@
 const { ensureInt } = require('./numbers')
 const { ensureArray, cumulative, lastOf, numberArray, shuffle, sum } = require('./arrays')
 
-// getRandomBoolean returns true or false, randomly. Optionally, the probability for true can be given.
-function getRandomBoolean(probability = 0.5) {
-	return Math.random() < probability
-}
-module.exports.getRandomBoolean = getRandomBoolean
-
-// getRandom returns a random floating number between the given minimum and maximum.
-function getRandom(min, max) {
-	return min + (max - min) * Math.random()
-}
-module.exports.getRandom = getRandom
-
-/* getRandomInteger returns a random integer between the given min and max (both inclusive) according to a uniform distribution. It must receive these parameters:
- * - min (obligatory): the minimum value (inclusive).
- * - max (obligatory): the maximum value (inclusive).
- * - prevent: an integer or array of integers to exclude. For instance, using { min: -3, max: 3, prevent: [-1, 0, 1] } will give either -3, -2, 2 or 3.
- */
-function getRandomInteger(min, max, prevent = []) {
-	// Check input: must be numbers.
-	min = ensureInt(min)
-	max = ensureInt(max)
-	prevent = Array.isArray(prevent) ? prevent : [prevent]
-
-	// Check the number of options.
-	if (max - min + 1 <= prevent.length)
-		throw new Error(`Invalid getRandomInteger options: we tried to generate a random number between ${max} and ${min}, but (after taking into account a prevent-array) there were no options left.`)
-
-	// Set up a random integer number.
-	const number = Math.floor(Math.random() * (max - min + 1)) + min
-
-	// Check if it's in the prevent list. If so, repeat to eventually find something.
-	if (prevent.includes(number))
-		return getRandomInteger(min, max, prevent)
-
-	// All good!
-	return number
-}
-module.exports.getRandomInteger = getRandomInteger
-
 // selectRandomly takes an array and returns a random element from it.
 function selectRandomly(arr, weights) {
 	// If there are no weights, just pick one uniformly randomly.
@@ -48,9 +9,9 @@ function selectRandomly(arr, weights) {
 		return arr[getRandomInteger(0, arr.length - 1)]
 
 	// If there are weights, apply them.
-	const cumWeights = cumulative(weights)
-	const random = Math.random() * lastOf(cumWeights)
-	const index = cumWeights.findIndex(cumWeight => random <= cumWeight)
+	const cumulativeWeights = cumulative(weights)
+	const random = Math.random() * lastOf(cumulativeWeights)
+	const index = cumulativeWeights.findIndex(cumWeight => random <= cumWeight)
 	return arr[index]
 }
 module.exports.selectRandomly = selectRandomly
