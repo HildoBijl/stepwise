@@ -1,6 +1,5 @@
 const { UserInputError } = require('apollo-server-express')
-const { numberArray } = require('step-wise/util/arrays')
-const { selectRandomly } = require('step-wise/util/random')
+const { numberArray, selectRandomly } = require('step-wise/util')
 
 const events = {
 	groupUpdated: 'GROUP_UPDATED',

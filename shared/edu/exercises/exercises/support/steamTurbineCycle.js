@@ -1,8 +1,6 @@
+const { numberArray, selectRandomly, getRandomInteger, tableInterpolate } = require('../../../../util')
 const { getRandomFloatUnit } = require('../../../../inputTypes/FloatUnit')
 const { withPressure, enthalpy, entropy } = require('../../../../data/steamProperties')
-const { numberArray } = require('../../../../util/arrays')
-const { selectRandomly, getRandomInteger } = require('../../../../util/random')
-const { tableInterpolate } = require('../../../../util/interpolation')
 
 function getCycle() {
 	// Pressure in the condensor and evaporator.
@@ -60,8 +58,8 @@ function getCycle() {
 
 	// Define mass flow and use it to find other parameters.
 	const mdot = getRandomFloatUnit({
-		min: 20*2,
-		max: 80*2,
+		min: 20 * 2,
+		max: 80 * 2,
 		decimals: -1,
 		unit: 'kg/s',
 	}).divide(2).setDecimals(0) // Apply intervals of 5 kg/s.
@@ -84,7 +82,7 @@ function getCycleProperties(condenserIndex, evaporatorIndex, temperatureIndex, x
 	// Find properties of point 2.
 	const h2 = enthalpy.grid[temperatureIndex][evaporatorIndex]
 	const s2 = entropy.grid[temperatureIndex][evaporatorIndex]
-	
+
 	// Find properties of point 3p.
 	const s3p = s2
 	const x3p = s3p.subtract(sx0).divide(sx1.subtract(sx0)).setUnit('')

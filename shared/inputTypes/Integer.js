@@ -1,7 +1,4 @@
-const { isNumber, epsilon } = require('../util/numbers')
-const { processOptions } = require('../util/objects')
-const { getRandomInteger } = require('../util/random')
-const { InterpretationError } = require('../util/errors')
+const { isNumber, epsilon, processOptions, getRandomInteger, InterpretationError } = require('../util')
 
 module.exports.getRandomInteger = getRandomInteger // Exports this function here too, for uniformity's sake.
 

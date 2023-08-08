@@ -1,4 +1,4 @@
-const { keysToObject } = require('../../util/objects')
+const { keysToObject } = require('../../util')
 
 const { smoothenWithOrder, merge, mergeElementwise } = require('../coefficients')
 

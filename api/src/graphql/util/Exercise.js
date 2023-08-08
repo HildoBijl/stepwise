@@ -1,9 +1,6 @@
 const { AuthenticationError, UserInputError } = require('apollo-server-express')
 
-const { findOptimum } = require('step-wise/util/arrays')
-const { ensureBoolean, arraysToObject, keysToObject } = require('step-wise/util/objects')
-const { union } = require('step-wise/util/sets')
-
+const { findOptimum, ensureBoolean, arraysToObject, keysToObject, union } = require('step-wise/util')
 const { smoothen, getEV, ensureSetup } = require('step-wise/skillTracking')
 const { ensureSkillId, ensureSkillIds } = require('step-wise/edu/skills/util')
 

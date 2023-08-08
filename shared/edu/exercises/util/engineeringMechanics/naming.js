@@ -1,5 +1,4 @@
-const { mod } = require('../../../../util/numbers')
-const { sortByIndices } = require('../../../../util/arrays')
+const { mod, sortByIndices } = require('../../../../util')
 const { Vector } = require('../../../../geometry')
 const { Variable } = require('../../../../CAS')
 
@@ -96,7 +95,7 @@ function getForceNamesForPoint(forces, point, pointName) {
 	}
 
 	// On multiple forces, sort them by vector argument, and then use F_{A1}, F_{A2}, and so forth. Make sure a vector pointing upwards gets the first number, and clockwise afterwards.
-	forces = sortByIndices(forces, forces.map(force => mod(force.span.vector.argument + Math.PI/2, 2*Math.PI)))
+	forces = sortByIndices(forces, forces.map(force => mod(force.span.vector.argument + Math.PI / 2, 2 * Math.PI)))
 	return forces.map((force, index) => ({ load: force, variable: new Variable(pointName ? `F_${pointName}${index + 1}` : `F_${index + 1}`), point: point || force.span.start }))
 }
 module.exports.getForceNamesForPoint = getForceNamesForPoint

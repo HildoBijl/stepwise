@@ -1,6 +1,6 @@
 // Repeat is the set-up requiring the user to do a skill successful multiple times in a row. Repeat("X", 3) is short for And("X", "X", "X") and similar for other repeat values.
 
-const { ensureInt } = require('../../../util/numbers')
+const { ensureInt } = require('../../../util')
 
 const { multiply } = require('../../polynomials')
 

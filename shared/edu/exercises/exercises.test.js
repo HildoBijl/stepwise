@@ -1,4 +1,4 @@
-const { isBasicObject } = require('../../util/objects')
+const { isBasicObject } = require('../../util')
 const { ensureSetup } = require('../../skillTracking')
 
 const { skillTree } = require('../skills')

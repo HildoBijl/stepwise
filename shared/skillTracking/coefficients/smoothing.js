@@ -1,8 +1,4 @@
-const { ensureInt, ensureNumber } = require('../../util/numbers')
-const { processOptions } = require('../../util/objects')
-const { sum } = require('../../util/arrays')
-const { repeat } = require('../../util/functions')
-const { binomial } = require('../../util/maths')
+const { ensureInt, ensureNumber, processOptions, sum, repeat, binomial } = require('../../util')
 
 const { maxOrder, maxSmoothingOrder, decayHalfLife, initialPracticeDecayTime, practiceDecayHalfLife } = require('../settings')
 

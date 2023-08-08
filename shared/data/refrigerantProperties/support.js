@@ -1,6 +1,4 @@
-const { firstOf, lastOf } = require('../../util/arrays')
-const { isObject } = require('../../util/objects')
-const { ensureNumberLike, interpolate, getInterpolationPart, getClosestIndices, columnTableInterpolate } = require('../../util/interpolation')
+const { firstOf, lastOf, isObject, ensureNumberLike, interpolate, getInterpolationPart, getClosestIndices, columnTableInterpolate } = require('../../util')
 const { Unit, unitsSimilar } = require('../../inputTypes/Unit')
 const { FloatUnit } = require('../../inputTypes/FloatUnit')
 

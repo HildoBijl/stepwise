@@ -23,13 +23,7 @@
 
 const { decimalSeparator, decimalSeparatorTex } = require('../../../settings/numbers')
 
-const { isInt, isNumber, compareNumbers, mod } = require('../../../util/numbers')
-const { ensureString } = require('../../../util/strings')
-const { isObject, isBasicObject, isEmptyObject, deepEquals, processOptions, filterOptions, removeProperties, keysToObject, getParentClass } = require('../../../util/objects')
-const { firstOf, lastOf, count, sum, product, fillUndefinedWith, arrayFind, hasSimpleMatching } = require('../../../util/arrays')
-const { union } = require('../../../util/sets')
-const { repeatWithMinMax } = require('../../../util/functions')
-const { gcd, getPrime, getPrimeFactors, isSquare, isPower, getLargestPowerFactor, binomial } = require('../../../util/maths')
+const { isInt, isNumber, compareNumbers, mod, ensureString, isObject, isBasicObject, isEmptyObject, deepEquals, processOptions, filterOptions, removeProperties, keysToObject, getParentClass, firstOf, lastOf, count, sum, product, fillUndefinedWith, arrayFind, hasSimpleMatching, union, repeatWithMinMax, gcd, getPrime, getPrimeFactors, isSquare, isPower, getLargestPowerFactor, binomial } = require('../../../util')
 
 const { bracketLevels, defaultExpressionSettings, simplifyOptions } = require('../../options')
 

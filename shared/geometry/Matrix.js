@@ -1,9 +1,6 @@
 // A Matrix is an array of number arrays, like [[1,2],[3,4],[5,6]]. It can be manipulated, multiplied, etcetera in a multitude of ways.
 
-const { ensureInt, ensureNumber, isNumber, compareNumbers } = require('../util/numbers')
-const { numberArray, ensureNumberArray } = require('../util/arrays')
-const { processOptions } = require('../util/objects')
-const { ensureFunction } = require('../util/functions')
+const { ensureInt, ensureNumber, isNumber, compareNumbers, numberArray, ensureNumberArray, processOptions, ensureFunction } = require('../util')
 
 const { Vector } = require('./Vector')
 

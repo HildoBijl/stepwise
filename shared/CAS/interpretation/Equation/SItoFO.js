@@ -1,5 +1,4 @@
-const { processOptions, filterOptions } = require('../../../util/objects')
-const { InterpretationError } = require('../../../util/errors')
+const { processOptions, filterOptions, InterpretationError } = require('../../../util')
 
 const { Equation } = require('../../functionalities')
 const { defaultFieldSettings, defaultExpressionSettings } = require('../../options')

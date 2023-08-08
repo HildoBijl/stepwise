@@ -1,5 +1,4 @@
-const { hasSimpleMatching } = require('../../../util/arrays')
-const { isBasicObject, getPropertyOrDefault } = require('../../../util/objects')
+const { isBasicObject, getPropertyOrDefault, hasSimpleMatching } = require('../../../util')
 const { Expression } = require('../../../CAS')
 
 const { areNumbersEqual } = require('../../../inputTypes/Integer')

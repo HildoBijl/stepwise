@@ -1,6 +1,6 @@
 // SkillListSetup is an abstract class representing a set-up with a list of skills. Set-ups like "And" and "Or" extend from it.
 
-const { union } = require('../../../util/sets')
+const { union } = require('../../../util')
 
 const { SkillSetup } = require('./SkillSetup')
 const { ensureSetup } = require('./ensureSetup')

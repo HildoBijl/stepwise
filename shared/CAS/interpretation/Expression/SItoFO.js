@@ -1,7 +1,4 @@
-const { isLetter, getNextSymbol } = require('../../../util/strings')
-const { lastOf } = require('../../../util/arrays')
-const { processOptions, filterOptions } = require('../../../util/objects')
-const { InterpretationError } = require('../../../util/errors')
+const { isLetter, getNextSymbol, lastOf, processOptions, filterOptions, InterpretationError } = require('../../../util')
 
 const { Expression, Constant, Variable, Sum, Product, Power } = require('../../functionalities')
 const { defaultFieldSettings, defaultExpressionSettings } = require('../../options')

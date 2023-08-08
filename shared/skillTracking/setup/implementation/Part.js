@@ -1,6 +1,6 @@
 // Part is the set-up requiring the user to do only do a skill a part of the times. 
 
-const { ensureNumber } = require('../../../util/numbers')
+const { ensureNumber } = require('../../../util')
 
 const { oneMinus, multiplyByConstant } = require('../../polynomials')
 

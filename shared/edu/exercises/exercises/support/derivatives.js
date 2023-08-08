@@ -1,4 +1,4 @@
-const { getRandomInteger, selectRandomly, getRandomIndices } = require('../../../../util/random')
+const { getRandomInteger, selectRandomly, getRandomIndices } = require('../../../../util')
 const { asExpression, Integer, Fraction } = require('../../../../CAS')
 
 function getRandomElementaryFunctions(num = 1, includeConstant = false, includeDivision = true, includeX = true) {

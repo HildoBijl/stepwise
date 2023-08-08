@@ -1,4 +1,4 @@
-const { JSONstringifyWithoutPropertyQuotes } = require('step-wise/util/objects')
+const { JSONstringifyWithoutPropertyQuotes } = require('step-wise/util')
 
 const surfConextMockData = require('../../../../surfConextMockData.json')
 const { createClient } = require('../../../client')

@@ -1,8 +1,6 @@
 // Pick is the set-up in which a user has to do a number of skill randomly selected from a larger set of skills.
 
-const { ensureInt } = require('../../../util/numbers')
-const { ensureNumberArray, sum, product, getMatrixElement } = require('../../../util/arrays')
-const { repeatMultidimensional } = require('../../../util/functions')
+const { ensureInt, ensureNumberArray, sum, product, getMatrixElement, repeatMultidimensional } = require('../../../util')
 
 const { multiplyByConstant, addWithEqualDimension, multiply } = require('../../polynomials')
 

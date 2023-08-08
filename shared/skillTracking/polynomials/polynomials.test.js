@@ -1,4 +1,4 @@
-const { compareNumberArrays } = require('../../util/arrays')
+const { compareNumberArrays } = require('../../util')
 
 const { applyMinus, addConstant, multiplyByConstant, oneMinus, add, multiply } = require('./addAndMultiply')
 const { restructure, substitute, substituteAll } = require('./restructureAndSubstitute')

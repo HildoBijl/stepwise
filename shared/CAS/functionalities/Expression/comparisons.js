@@ -1,6 +1,6 @@
 // This file contains equality checks for expressions. There are placed here, instead of inside the objects, to prevent classes from getting too many methods that always have to be loaded in. On top of that, most equals methods rely on first simplifying expressions to some standard form and then comparing these reductions.
 
-const { isNumber, compareNumbers } = require('../../../util/numbers')
+const { isNumber, compareNumbers } = require('../../../util')
 
 const { Integer } = require('./Expression')
 

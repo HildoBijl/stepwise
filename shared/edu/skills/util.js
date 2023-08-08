@@ -1,4 +1,4 @@
-const { ensureArray } = require('../../util/arrays')
+const { ensureArray } = require('../../util')
 const { ensureSetup } = require('../../skillTracking')
 
 const { skillTree } = require('./skillTree')

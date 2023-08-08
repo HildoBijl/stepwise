@@ -1,5 +1,4 @@
-const { compareNumbers } = require('../../util/numbers')
-const { compareNumberArrays } = require('../../util/arrays')
+const { compareNumbers, compareNumberArrays } = require('../../util')
 
 const { and, or, repeat, pick, part } = require('./implementation')
 

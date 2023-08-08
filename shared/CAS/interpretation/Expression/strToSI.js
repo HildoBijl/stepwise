@@ -1,7 +1,6 @@
 // This file has all functionalities to turn Expressions, Equations and such from String format to Input Object format. (You can turn String to SI, SI to FO, and FO to String.)
 
-const { getNextSymbol, removeWhitespace, isLetter } = require('../../../util/strings')
-const { processOptions } = require('../../../util/objects')
+const { getNextSymbol, removeWhitespace, isLetter, processOptions } = require('../../../util')
 
 const { defaultFieldSettings } = require('../../options')
 

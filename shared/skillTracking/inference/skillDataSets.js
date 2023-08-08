@@ -1,4 +1,4 @@
-const { applyMapping } = require('../../util/objects')
+const { applyMapping } = require('../../util')
 
 const { SkillData } = require('./SkillData')
 

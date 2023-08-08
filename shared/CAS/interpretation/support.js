@@ -1,4 +1,4 @@
-const { firstOf, lastOf } = require('../../util/arrays')
+const { firstOf, lastOf } = require('../../util')
 
 function getEmpty() {
 	return [{ type: 'ExpressionPart', value: '' }]

@@ -1,4 +1,4 @@
-const { ensureInt } = require('../../../util/numbers')
+const { ensureInt } = require('../../../util')
 const { toFO } = require('../../../inputTypes')
 const { and } = require('../../../skillTracking')
 

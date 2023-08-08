@@ -1,6 +1,4 @@
-const { ensureNumber } = require('../../util/numbers')
-const { sum, product, getDimensions, getMatrixElement } = require('../../util/arrays')
-const { repeatMultidimensional } = require('../../util/functions')
+const { ensureNumber, sum, product, getDimensions, getMatrixElement, repeatMultidimensional } = require('../../util')
 
 // restructure takes a matrix corresponding to a list of variables, and adjusts it to a destination list of variables. All the variables in the origin list must be in the destination list, but not necessarily vice versa. An exception occurs when a variable has no influence on the polynomial: its corresponding array is only of size one, and hence it only comes in as x^0.
 function restructure(matrix, originList, destinationList) {

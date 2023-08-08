@@ -1,5 +1,4 @@
-const { filterProperties } = require('../../../util/objects')
-const { lastOf, secondLastOf } = require('../../../util/arrays')
+const { filterProperties, lastOf, secondLastOf } = require('../../../util')
 
 const { toFO } = require('../../../inputTypes')
 

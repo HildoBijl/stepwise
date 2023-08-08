@@ -1,7 +1,4 @@
-const { getNextSymbol } = require('../../util/strings')
-const { isObject } = require('../../util/objects')
-const { lastOf } = require('../../util/arrays')
-const { InterpretationError } = require('../../util/errors')
+const { getNextSymbol, isObject, lastOf, InterpretationError } = require('../../util')
 
 const { advancedFunctionComponents } = require('./functions')
 

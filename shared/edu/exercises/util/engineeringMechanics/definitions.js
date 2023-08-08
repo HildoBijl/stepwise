@@ -1,5 +1,4 @@
-const { ensureNumber } = require('../../../../util/numbers')
-const { ensureBoolean, isBasicObject } = require('../../../../util/objects')
+const { ensureNumber, ensureBoolean, isBasicObject } = require('../../../../util')
 const { Vector, ensureVector, Span, ensureSpan } = require('../../../../geometry')
 
 /*

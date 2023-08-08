@@ -1,10 +1,7 @@
 // The Float class represents floating point numbers with a certain number of significant digits. By default it is an empty string with zero significant digits.
 
+const { isInt, ensureInt, isNumber, ensureNumber, roundToDigits, roundTo, isObject, processOptions, keysToObject, getRandom, InterpretationError } = require('../util')
 const { decimalSeparator } = require('../settings/numbers')
-const { isInt, ensureInt, isNumber, ensureNumber, roundToDigits, roundTo } = require('../util/numbers')
-const { isObject, processOptions, keysToObject } = require('../util/objects')
-const { getRandom } = require('../util/random')
-const { InterpretationError } = require('../util/errors')
 
 const { Integer } = require('./Integer')
 

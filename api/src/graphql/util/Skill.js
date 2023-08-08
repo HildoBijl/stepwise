@@ -1,6 +1,6 @@
 const { UserInputError } = require('apollo-server-express')
 
-const { arraysToObject, keysToObject } = require('step-wise/util/objects')
+const { arraysToObject, keysToObject } = require('step-wise/util')
 const { processSkillDataSet } = require('step-wise/skillTracking')
 const { skillTree } = require('step-wise/edu/skills')
 const { ensureSkillId, ensureSkillIds, includePrerequisitesAndLinks, processSkill, getDefaultSkillData } = require('step-wise/edu/skills/util')

@@ -1,8 +1,4 @@
-const { ensureInt } = require('../../util/numbers')
-const { sum, getDimensions, getMatrixElement } = require('../../util/arrays')
-const { union, intersection } = require('../../util/sets')
-const { repeat, repeatMultidimensional, repeatMultidimensionalWithMinMax } = require('../../util/functions')
-const { getAlphabetIndexString } = require('../../util/strings')
+const { ensureInt, sum, getDimensions, getMatrixElement, repeat, repeatMultidimensional, repeatMultidimensionalWithMinMax, union } = require('../../util')
 
 const { restructure } = require('./restructureAndSubstitute')
 

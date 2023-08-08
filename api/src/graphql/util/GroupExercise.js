@@ -1,6 +1,6 @@
 const { UserInputError, ForbiddenError } = require('apollo-server-express')
 
-const { findOptimum } = require('step-wise/util/arrays')
+const { findOptimum } = require('step-wise/util')
 
 const events = {
 	groupExerciseUpdated: 'GROUP_EXERCISE_UPDATED',

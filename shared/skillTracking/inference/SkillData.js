@@ -1,4 +1,4 @@
-const { isBasicObject } = require('../../util/objects')
+const { isBasicObject } = require('../../util')
 
 const { maxSkillDataCacheTime } = require('../settings')
 const { smoothen } = require('../coefficients')

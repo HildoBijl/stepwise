@@ -1,8 +1,6 @@
 // The Rectangle represents a rectangle shape in space. It is based on the Span which denotes its position, but it adds functionalities on top like bounding coordinates and more.
 
-const { ensureNumber, compareNumbers, boundTo } = require('../util/numbers')
-const { numberArray, findOptimumIndex } = require('../util/arrays')
-const { repeat } = require('../util/functions')
+const { ensureNumber, compareNumbers, boundTo, numberArray, findOptimumIndex, repeat } = require('../util')
 
 const { Vector, ensureVector } = require('./Vector')
 const { Span, ensureSpan } = require('./Span')

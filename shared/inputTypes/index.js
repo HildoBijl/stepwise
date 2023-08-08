@@ -1,4 +1,4 @@
-const { isObject, isBasicObject, applyMapping, deepEquals } = require('../util/objects')
+const { isObject, isBasicObject, applyMapping } = require('../util')
 
 // Input object legacy: the types Boolean, String and MultipleChoice can be removed after the corresponding old exercise data is removed.
 const types = [

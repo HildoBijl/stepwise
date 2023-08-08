@@ -1,5 +1,4 @@
-const { isBasicObject, applyMapping } = require('../../util/objects')
-const { union } = require('../../util/sets')
+const { isBasicObject, applyMapping, union } = require('../../util')
 const { and, or, repeat, pick, part, defaultLinkOrder } = require('../../skillTracking')
 
 let skillTree = {

@@ -1,5 +1,4 @@
-const { filterProperties, applyMapping } = require('../../../util/objects')
-const { getRandomSubset } = require('../../../util/random')
+const { filterProperties, applyMapping, getRandomSubset } = require('../../../util')
 
 const { Variable } = require('../../../CAS')
 

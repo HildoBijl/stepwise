@@ -1,6 +1,4 @@
-const { compareNumbers, mod } = require('../../../../util/numbers')
-const { processOptions } = require('../../../../util/objects')
-const { resolveFunctions } = require('../../../../util/functions')
+const { compareNumbers, mod, processOptions, resolveFunctions } = require('../../../../util')
 
 const { getCurrentInputSolutionAndComparison } = require('../comparison')
 

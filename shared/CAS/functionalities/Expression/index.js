@@ -1,4 +1,4 @@
-const { isObject, isBasicObject, applyMapping } = require('./../../../util/objects')
+const { isObject, isBasicObject, applyMapping } = require('./../../../util')
 
 const mainCAS = require('./Expression')
 const functions = require('./functions')
