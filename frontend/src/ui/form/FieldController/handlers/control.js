@@ -1,4 +1,4 @@
-import { mod } from 'step-wise/util/numbers'
+import { mod } from 'step-wise/util'
 
 import { useStableCallback } from 'util/react'
 

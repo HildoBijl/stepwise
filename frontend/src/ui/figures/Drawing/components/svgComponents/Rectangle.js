@@ -1,8 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ensureNumber } from 'step-wise/util/numbers'
-import { ensureString } from 'step-wise/util/strings'
-import { ensureObject, processOptions } from 'step-wise/util/objects'
+import { ensureNumber, ensureString, ensureObject, processOptions } from 'step-wise/util'
 import { ensureRectangle as ensureGeometryRectangle } from 'step-wise/geometry'
 
 import { useGraphicalObject, useGraphicalDistance, SvgPortal } from '../../DrawingContext'

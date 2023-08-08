@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useRef, useEffect, useCallback, useMemo } from 'react'
 
-import { findOptimum, findOptimumIndex, flattenFully, forceIntoShape, getIndexTrace } from 'step-wise/util/arrays'
-import { filterProperties } from 'step-wise/util/objects'
+import { findOptimum, findOptimumIndex, flattenFully, forceIntoShape, getIndexTrace, filterProperties } from 'step-wise/util'
 
 import { getCoordinatesOf } from 'util/dom'
 import { RBM, zeroWidthSpaceRegExp } from 'ui/components'

@@ -1,6 +1,6 @@
 import React, { forwardRef, useMemo } from 'react'
 
-import { applyMapping, removeProperties } from 'step-wise/util/objects'
+import { applyMapping, removeProperties } from 'step-wise/util'
 import { isLoad, areLoadsEqual, doesLoadTouchRectangle } from 'step-wise/edu/exercises/util/engineeringMechanics'
 
 import { useDrawingInputData, useFeedbackResult } from 'ui/inputs'

@@ -1,4 +1,4 @@
-import { isBasicObject } from 'step-wise/util/objects'
+import { isBasicObject } from 'step-wise/util'
 import { Variable } from 'step-wise/CAS'
 
 import { M } from 'ui/components'

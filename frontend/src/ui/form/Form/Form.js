@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 
-import { isBasicObject, ensureConsistency } from 'step-wise/util/objects'
+import { isBasicObject, ensureConsistency } from 'step-wise/util'
 
 import { useUpdater } from 'util/react'
 

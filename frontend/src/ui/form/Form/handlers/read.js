@@ -1,4 +1,4 @@
-import { filterProperties, ensureConsistency, keysToObject } from 'step-wise/util/objects'
+import { filterProperties, ensureConsistency, keysToObject } from 'step-wise/util'
 import { toFO } from 'step-wise/inputTypes'
 
 import { useLatest, useStableCallback } from 'util/react'

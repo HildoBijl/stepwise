@@ -1,8 +1,7 @@
 
 import React, { forwardRef } from 'react'
 
-import { ensureNumber } from 'step-wise/util/numbers'
-import { processOptions, filterOptions, removeProperties } from 'step-wise/util/objects'
+import { ensureNumber, processOptions, filterOptions, removeProperties } from 'step-wise/util'
 import { ensureCorner } from 'step-wise/geometry'
 
 import { ensureReactElement } from 'util/react'

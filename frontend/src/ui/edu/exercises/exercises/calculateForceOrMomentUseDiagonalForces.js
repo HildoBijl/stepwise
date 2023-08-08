@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { numberArray } from 'step-wise/util/arrays'
+import { numberArray } from 'step-wise/util'
 import { Vector, Rectangle } from 'step-wise/geometry'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 

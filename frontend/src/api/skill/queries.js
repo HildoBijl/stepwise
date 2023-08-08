@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 import { useQuery } from '@apollo/client'
 
+import { ensureArray } from 'step-wise/util'
 import { skillTree } from 'step-wise/edu/skills'
-import { ensureArray } from 'step-wise/util/arrays'
 
 import { useUser } from '../user'
 

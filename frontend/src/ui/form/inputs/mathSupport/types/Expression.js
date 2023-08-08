@@ -1,5 +1,4 @@
-import { insertAtIndex } from 'step-wise/util/strings'
-import { firstOf, lastOf, sum } from 'step-wise/util/arrays'
+import { insertAtIndex, firstOf, lastOf, sum } from 'step-wise/util'
 import { support } from 'step-wise/CAS'
 
 import { addCursor, removeCursor } from '../../support/FieldInput'

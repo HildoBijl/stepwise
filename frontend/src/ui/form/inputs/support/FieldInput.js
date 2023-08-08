@@ -4,10 +4,8 @@ import React, { useRef, useEffect, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
+import { isObject, filterOptions, applyMapping, isNumber, boundTo, resolveFunctions } from 'step-wise/util'
 import { decimalSeparator } from 'step-wise/settings/numbers'
-import { isObject, filterOptions, applyMapping } from 'step-wise/util/objects'
-import { isNumber, boundTo } from 'step-wise/util/numbers'
-import { resolveFunctions } from 'step-wise/util/functions'
 
 import { getCoordinatesOf, getClickSide } from 'util/dom'
 import { useStableCallback, useEventListener, useSize } from 'util/react'

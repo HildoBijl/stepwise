@@ -2,11 +2,9 @@ import React, { forwardRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { defaultMomentRadius, defaultGraphicalMomentRadius, defaultMomentOpening } from 'step-wise/edu/exercises/util/engineeringMechanics'
-import { ensureNumber } from 'step-wise/util/numbers'
-import { ensureString } from 'step-wise/util/strings'
-import { ensureBoolean, processOptions } from 'step-wise/util/objects'
+import { ensureNumber, ensureString, ensureBoolean, processOptions } from 'step-wise/util'
 import { Vector } from 'step-wise/geometry'
+import { defaultMomentRadius, defaultGraphicalMomentRadius, defaultMomentOpening } from 'step-wise/edu/exercises/util/engineeringMechanics'
 
 import { useGraphicalDistance } from 'ui/figures'
 import { Group, Arc } from 'ui/figures/Drawing/components/svgComponents'

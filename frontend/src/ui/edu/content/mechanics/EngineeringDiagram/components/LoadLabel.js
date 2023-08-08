@@ -1,4 +1,4 @@
-import { processOptions } from 'step-wise/util/objects'
+import { processOptions } from 'step-wise/util'
 import { Vector, ensureVector } from 'step-wise/geometry'
 import { Variable } from 'step-wise/CAS'
 import { loadTypes, ensureLoad } from 'step-wise/edu/exercises/util/engineeringMechanics'

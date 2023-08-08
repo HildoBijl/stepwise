@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 
-import { sortByIndices } from 'step-wise/util/arrays'
+import { sortByIndices } from 'step-wise/util'
 
 import { useUserId } from 'api/user'
 

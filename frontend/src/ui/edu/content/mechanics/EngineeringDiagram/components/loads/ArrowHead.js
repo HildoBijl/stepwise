@@ -2,9 +2,7 @@ import React, { forwardRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { ensureNumber } from 'step-wise/util/numbers'
-import { ensureString } from 'step-wise/util/strings'
-import { ensureObject, processOptions } from 'step-wise/util/objects'
+import { ensureNumber, ensureString, ensureObject, processOptions } from 'step-wise/util'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
 import { useGraphicalVector } from 'ui/figures'

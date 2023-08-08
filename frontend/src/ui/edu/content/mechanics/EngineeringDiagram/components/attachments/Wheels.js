@@ -2,10 +2,7 @@ import React, { forwardRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { ensureInt, ensureNumber } from 'step-wise/util/numbers'
-import { ensureString } from 'step-wise/util/strings'
-import { ensureObject, processOptions } from 'step-wise/util/objects'
-import { numberArray } from 'step-wise/util/arrays'
+import { ensureInt, ensureNumber, ensureString, ensureObject, processOptions, numberArray } from 'step-wise/util'
 import { Vector } from 'step-wise/geometry'
 
 import { Group } from 'ui/figures/Drawing/components/svgComponents'

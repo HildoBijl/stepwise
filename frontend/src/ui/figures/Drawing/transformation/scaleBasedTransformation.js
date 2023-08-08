@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { applyMapping, processOptions } from 'step-wise/util/objects'
+import { applyMapping, processOptions } from 'step-wise/util'
 import { Vector, ensureVector, Rectangle, Transformation, ensureTransformation } from 'step-wise/geometry'
 
 import { useConsistentValue } from 'util/react'

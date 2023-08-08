@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
-import { keysToObject } from 'step-wise/util/objects'
+import { keysToObject } from 'step-wise/util'
 import { getInverseCDF } from 'step-wise/skillTracking'
 
 import { TitleItem } from 'ui/layout/Title'

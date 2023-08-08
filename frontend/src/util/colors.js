@@ -1,4 +1,4 @@
-import { isNumber } from 'step-wise/util/numbers'
+import { isNumber } from 'step-wise/util'
 
 // checkColor ensures that the given color is a color. If it's nothing sensible an error is thrown. If it's only an array of 3 it turns it into an array of 4 (adding default opacity). It returns the result, or the color itself if it's already fine. 
 export function checkColor(color) {

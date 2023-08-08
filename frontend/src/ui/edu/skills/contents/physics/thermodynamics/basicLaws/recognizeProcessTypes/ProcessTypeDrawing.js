@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-import { firstOf, lastOf } from 'step-wise/util/arrays'
+import { firstOf, lastOf } from 'step-wise/util'
 import { Transformation } from 'step-wise/geometry'
 
 import { M } from 'ui/components'

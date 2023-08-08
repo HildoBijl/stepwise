@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Check, Clear, Replay } from '@material-ui/icons'
 import Slider from '@material-ui/core/Slider'
 
-import { keysToObject, applyMapping } from 'step-wise/util/objects'
+import { keysToObject, applyMapping } from 'step-wise/util'
 import { Skill, getEV, getMaxLikelihood, smoothen, merge, and, repeat } from 'step-wise/skillTracking'
 import { getSelectionRates } from 'step-wise/edu/exercises/util/selection'
 

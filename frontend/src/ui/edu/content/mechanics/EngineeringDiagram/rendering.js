@@ -1,7 +1,7 @@
 
 import React, { forwardRef, Fragment } from 'react'
 
-import { isObject, applyMapping } from 'step-wise/util/objects'
+import { isObject, applyMapping } from 'step-wise/util'
 
 import { toCSS } from 'util/colors'
 

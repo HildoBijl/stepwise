@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import { alpha } from '@material-ui/core/styles/colorManipulator'
 
-import { boundTo } from 'step-wise/util/numbers'
+import { boundTo } from 'step-wise/util'
 
 import { notSelectable } from 'ui/theme'
 import { useEventListener, useForceUpdate, useDimension } from 'util/react'

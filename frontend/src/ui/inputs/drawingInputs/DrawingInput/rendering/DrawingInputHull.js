@@ -2,8 +2,7 @@ import React, { forwardRef } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { processOptions, filterOptions } from 'step-wise/util/objects'
-import { resolveFunctions } from 'step-wise/util/functions'
+import { processOptions, filterOptions, resolveFunctions } from 'step-wise/util'
 
 import { notSelectable } from 'ui/theme'
 import { Drawing, defaultDrawingOptions } from 'ui/figures/Drawing'

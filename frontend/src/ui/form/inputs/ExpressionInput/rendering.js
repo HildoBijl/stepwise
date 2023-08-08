@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { deepEquals, processOptions, filterOptions, removeEqualProperties } from 'step-wise/util/objects'
+import { deepEquals, processOptions, filterOptions, removeEqualProperties } from 'step-wise/util'
 import { isEmpty } from 'step-wise/CAS/interpretation/support'
 import { defaultFieldSettings, defaultInterpretationSettings, defaultExpressionSettings } from 'step-wise/CAS/options'
 

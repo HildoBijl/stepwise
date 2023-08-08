@@ -1,4 +1,4 @@
-import { selectRandomly } from 'step-wise/util/random'
+import { selectRandomly } from 'step-wise/util'
 
 // selectRandomCorrect gives a random correct text.
 export function selectRandomCorrect(withWrapper = false) {

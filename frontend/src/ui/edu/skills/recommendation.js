@@ -1,4 +1,4 @@
-import { processOptions } from 'step-wise/util/objects'
+import { processOptions } from 'step-wise/util'
 import { getEV } from 'step-wise/skillTracking'
 
 const defaultSkillThresholds = {

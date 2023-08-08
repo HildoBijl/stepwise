@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { ArrowRight as Arrow } from '@material-ui/icons'
 import clsx from 'clsx'
 
-import { lastOf } from 'step-wise/util/arrays'
+import { lastOf } from 'step-wise/util'
 
 import { useStaggeredFunction } from 'util/react'
 import { websiteName } from 'settings'

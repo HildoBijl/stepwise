@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useTheme } from '@material-ui/core/styles'
 
-import { isBasicObject, applyMapping } from 'step-wise/util/objects'
+import { isBasicObject, applyMapping } from 'step-wise/util'
 import { toFO } from 'step-wise/inputTypes'
 
 import { useLatest, useStableCallback } from 'util/react'

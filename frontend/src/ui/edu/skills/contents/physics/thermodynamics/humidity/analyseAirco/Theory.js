@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { tableInterpolate, inverseTableInterpolate } from 'step-wise/util/interpolation'
+import { tableInterpolate, inverseTableInterpolate } from 'step-wise/util'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 import { maximumHumidity } from 'step-wise/data/moistureProperties'
 

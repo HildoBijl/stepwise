@@ -1,4 +1,4 @@
-import { hasDuplicates } from 'step-wise/util/arrays'
+import { hasDuplicates } from 'step-wise/util'
 import { ensureSetup } from 'step-wise/skillTracking'
 import { skillTree } from 'step-wise/edu/skills'
 

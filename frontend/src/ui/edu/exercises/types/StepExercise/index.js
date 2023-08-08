@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 
-import { numberArray, lastOf } from 'step-wise/util/arrays'
+import { numberArray, lastOf } from 'step-wise/util'
 import { getStep, getPreviousProgress } from 'step-wise/edu/exercises/util/stepExercise'
 
 import { VerticalAdjuster } from 'ui/components'

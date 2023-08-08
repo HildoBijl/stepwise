@@ -1,9 +1,7 @@
 import React, { forwardRef } from 'react'
 import { useTheme } from '@material-ui/core/styles'
 
-import { roundToDigits } from 'step-wise/util/numbers'
-import { ensureBoolean, ensureBasicObject, processOptions } from 'step-wise/util/objects'
-import { ensureFunction } from 'step-wise/util/functions'
+import { roundToDigits, ensureBoolean, ensureBasicObject, processOptions, ensureFunction } from 'step-wise/util'
 
 import { useTransformationSettings, useMousePosition, Group, Line, Circle, Label } from '../Drawing'
 

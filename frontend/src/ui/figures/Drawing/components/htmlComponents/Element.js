@@ -2,8 +2,7 @@ import React, { forwardRef, useCallback, useLayoutEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { ensureNumber } from 'step-wise/util/numbers'
-import { ensureBoolean, ensureObject, processOptions } from 'step-wise/util/objects'
+import { ensureNumber, ensureBoolean, ensureObject, processOptions } from 'step-wise/util'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
 import { useEnsureRef, ensureReactElement, useEqualRefOnEquality } from 'util/react'

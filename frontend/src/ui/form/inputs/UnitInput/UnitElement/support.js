@@ -1,6 +1,4 @@
-import { isNumber } from 'step-wise/util/numbers'
-import { removeAtIndex, insertAtIndex, isLetter } from 'step-wise/util/strings'
-import { keysToObject } from 'step-wise/util/objects'
+import { isNumber, removeAtIndex, insertAtIndex, isLetter, keysToObject } from 'step-wise/util'
 import { units } from 'step-wise/inputTypes/Unit/units'
 import { prefixes } from 'step-wise/inputTypes/Unit/prefixes'
 import { interpretPrefixAndBaseUnitStr } from 'step-wise/inputTypes/Unit/UnitElement'

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { deg2rad } from 'step-wise/util/numbers'
+import { deg2rad } from 'step-wise/util'
 import { Vector, Line } from 'step-wise/geometry'
 
 import { selectRandomCorrect } from 'util/feedbackMessages'

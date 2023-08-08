@@ -1,5 +1,4 @@
-import { filterOptions } from 'step-wise/util/objects'
-import { resolveFunctions } from 'step-wise/util/functions'
+import { filterOptions, resolveFunctions } from 'step-wise/util'
 
 import { getHTMLElement } from 'util/react'
 

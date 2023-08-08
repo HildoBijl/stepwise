@@ -5,8 +5,8 @@
 import React, { useRef, forwardRef, useImperativeHandle, useId } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
-import { processOptions, filterOptions } from 'step-wise/util/objects'
-import { resolveFunctions } from 'step-wise/util/functions'
+
+import { processOptions, filterOptions, resolveFunctions } from 'step-wise/util'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
 import { getEventPosition } from 'util/dom'

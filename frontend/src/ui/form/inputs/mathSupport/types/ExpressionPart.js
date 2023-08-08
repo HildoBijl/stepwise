@@ -1,9 +1,7 @@
 import { decimalSeparator, decimalSeparatorTex } from 'step-wise/settings/numbers'
-import { isNumber } from 'step-wise/util/numbers'
-import { isLetter, removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
-import { firstOf } from 'step-wise/util/arrays'
-import { alphabet as greekAlphabet } from 'step-wise/data/greek'
+import { isNumber, isLetter, removeAtIndex, insertAtIndex, firstOf } from 'step-wise/util'
 import { functions } from 'step-wise/CAS'
+import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 
 import { getClickSide } from 'util/dom'
 

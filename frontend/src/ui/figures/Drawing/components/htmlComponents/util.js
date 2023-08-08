@@ -1,5 +1,5 @@
 
-import { mod } from 'step-wise/util/numbers'
+import { mod } from 'step-wise/util'
 import { Vector } from 'step-wise/geometry'
 
 // getAnchorFromAngle takes an angle in radians (for instance pi/2) and returns an anchor Vector from it (for instance (0,1). The angle is interpreted as counterclockwise from the positive x-axis, as is standard in mathematics.

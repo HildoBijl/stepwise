@@ -1,6 +1,4 @@
-import { lastOf, arraySplice } from 'step-wise/util/arrays'
-import { applyMapping, keysToObject } from 'step-wise/util/objects'
-import { repeat } from 'step-wise/util/functions'
+import { lastOf, arraySplice, applyMapping, keysToObject, repeat } from 'step-wise/util'
 
 import { selectRandomInvalidUnit } from 'util/feedbackMessages'
 

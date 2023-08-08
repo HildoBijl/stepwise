@@ -4,7 +4,7 @@ import Radio from '@material-ui/core/Radio'
 import Checkbox from '@material-ui/core/Checkbox'
 import clsx from 'clsx'
 
-import { processOptions } from 'step-wise/util/objects'
+import { processOptions } from 'step-wise/util'
 
 import { notSelectable } from 'ui/theme'
 import { FeedbackBlock } from 'ui/components'

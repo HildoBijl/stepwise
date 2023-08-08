@@ -1,5 +1,4 @@
-import { roundTo } from 'step-wise/util/numbers'
-import { numberArray } from 'step-wise/util/arrays'
+import { roundTo, numberArray } from 'step-wise/util'
 
 // getTicks takes a minimum and a maximum value (like -32 and 94) and gives an array of tick points as a result (like [-40,-20,0,20,40,60,80,100]). It always has tick sizes of sizes 0.1, 0.2, 0.5, 1, 2, 5, 10, etcetera: something of the form 1*10^c, 2*10^c or 5*10^c. It aims to pick the one such that we are (ratio-wise) as close as possible to the given desired nmber of ticks. If extendBoundsToTicks is true (default) then the minimum and maximum will be around the given interval, while if it's set to false the minimum and maximum will be inside the given interval.
 export function getTicks(min, max, desiredNumTicks = 7, extendBoundsToTicks = true) {

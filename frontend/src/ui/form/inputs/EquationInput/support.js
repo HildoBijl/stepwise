@@ -1,4 +1,4 @@
-import { isEmptyObject } from 'step-wise/util/objects'
+import { isEmptyObject } from 'step-wise/util'
 import { getEmpty } from 'step-wise/CAS/interpretation/support'
 
 import { errorToMessage as expressionErrorToMessage } from '../ExpressionInput'

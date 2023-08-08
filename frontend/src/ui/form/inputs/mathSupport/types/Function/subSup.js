@@ -1,4 +1,4 @@
-import { arraySplice } from 'step-wise/util/arrays'
+import { arraySplice } from 'step-wise/util'
 import { support } from 'step-wise/CAS'
 
 

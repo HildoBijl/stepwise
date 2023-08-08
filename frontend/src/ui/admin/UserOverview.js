@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { findOptimum } from 'step-wise/util/arrays'
-import { ensureDate, formatDate } from 'step-wise/util/date'
+import { findOptimum, ensureDate, formatDate } from 'step-wise/util'
 
 import { useAllUsersQuery } from 'api/admin'
 import { Par, HorizontalSlider } from 'ui/components'

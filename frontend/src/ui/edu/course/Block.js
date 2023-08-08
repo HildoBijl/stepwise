@@ -6,7 +6,7 @@ import Collapse from '@material-ui/core/Collapse'
 import Box from '@material-ui/core/Box'
 import { ChevronRight as Arrow } from '@material-ui/icons'
 
-import { count } from 'step-wise/util/arrays'
+import { count } from 'step-wise/util'
 
 import { notSelectable } from 'ui/theme'
 import { ProgressIndicator } from 'ui/components'

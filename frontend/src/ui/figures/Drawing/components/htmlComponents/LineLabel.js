@@ -1,7 +1,7 @@
 
 import React, { forwardRef } from 'react'
 
-import { processOptions, filterOptions, removeProperties } from 'step-wise/util/objects'
+import { processOptions, filterOptions, removeProperties } from 'step-wise/util'
 import { ensureVector, ensureVectorArray } from 'step-wise/geometry'
 
 import { ensureReactElement } from 'util/react'

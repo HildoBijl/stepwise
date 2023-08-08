@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import { Delete } from '@material-ui/icons'
 
-import { resolveFunctions } from 'step-wise/util/functions'
+import { resolveFunctions } from 'step-wise/util'
 
 import { useEventListener } from 'util/react'
 import { Element, useGraphicalBounds } from 'ui/figures'

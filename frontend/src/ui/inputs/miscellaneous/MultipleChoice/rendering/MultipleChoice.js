@@ -1,5 +1,7 @@
 import React from 'react'
-import { processOptions, filterOptions } from 'step-wise/util/objects'
+
+import { processOptions, filterOptions } from 'step-wise/util'
+
 import { useImmutableValue } from 'util/react'
 
 import { Input, defaultInputOptions } from '../../../Input'

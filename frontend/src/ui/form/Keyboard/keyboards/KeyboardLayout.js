@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { resolveFunctions } from 'step-wise/util/functions'
+import { resolveFunctions } from 'step-wise/util'
 
 import { useSize } from 'util/react'
 

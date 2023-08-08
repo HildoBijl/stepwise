@@ -1,7 +1,7 @@
 import { isValidElement } from 'react'
 import { useTheme } from '@material-ui/core/styles'
 
-import { isBasicObject } from 'step-wise/util/objects'
+import { isBasicObject } from 'step-wise/util'
 
 import { useFormData, useFieldValidation } from '../../Form'
 

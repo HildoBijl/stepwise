@@ -1,8 +1,6 @@
 // UnitArray represents a multiplication of unit elements like "km^3 * s^2 * N", but not a division like "m / s". It is not an input field but its functionality is used by other input fields.
 
-import { isNumber } from 'step-wise/util/numbers'
-import { isLetter } from 'step-wise/util/strings'
-import { firstOf, lastOf, arraySplice } from 'step-wise/util/arrays'
+import { isNumber, isLetter, firstOf, lastOf, arraySplice } from 'step-wise/util'
 
 import { getClickSide } from 'util/dom'
 

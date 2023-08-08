@@ -1,7 +1,6 @@
 // This file contains various feedback checks that are used more commonly among exercises. They can be loaded in and used directly then.
 
-import { arrayFind } from 'step-wise/util/arrays'
-import { resolveFunctions } from 'step-wise/util/functions'
+import { arrayFind, resolveFunctions } from 'step-wise/util'
 import { Sum, expressionComparisons, equationComparisons, equationChecks } from 'step-wise/CAS'
 
 import { M } from 'ui/components'

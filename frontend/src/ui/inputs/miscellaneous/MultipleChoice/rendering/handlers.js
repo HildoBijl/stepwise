@@ -1,7 +1,6 @@
 import { useRef, useCallback } from 'react'
 
-import { numberArray, shuffle } from 'step-wise/util/arrays'
-import { getRandomSubset } from 'step-wise/util/random'
+import { numberArray, shuffle, getRandomSubset } from 'step-wise/util'
 
 import { useLatest } from 'util/react'
 

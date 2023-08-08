@@ -1,5 +1,4 @@
-import { mod } from 'step-wise/util/numbers'
-import { removeProperties } from 'step-wise/util/objects'
+import { mod, removeProperties } from 'step-wise/util'
 import { Span } from 'step-wise/geometry'
 import { toFO, toSO } from 'step-wise/inputTypes'
 import { loadTypes, isLoad, doesLoadTouchRectangle } from 'step-wise/edu/exercises/util/engineeringMechanics'

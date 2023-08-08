@@ -1,4 +1,4 @@
-import { isLetter } from 'step-wise/util/strings'
+import { isLetter } from 'step-wise/util'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 
 import dot from './dot'

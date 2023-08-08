@@ -7,7 +7,7 @@
 
 import React, { createContext, useContext } from 'react'
 
-import { processOptions } from 'step-wise/util/objects'
+import { processOptions } from 'step-wise/util'
 
 const defaultFormPartParameters = {
 	children: null,

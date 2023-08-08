@@ -2,7 +2,7 @@ import React, { useRef, useMemo, useCallback } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Check, Clear, Send, ArrowForward, Search, Warning } from '@material-ui/icons'
 
-import { lastOf } from 'step-wise/util/arrays'
+import { lastOf } from 'step-wise/util'
 import { getLastAction, getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
 

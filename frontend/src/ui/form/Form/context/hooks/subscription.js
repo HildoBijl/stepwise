@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react'
 
-import { processOptions, deepEquals } from 'step-wise/util/objects'
-import { noop } from 'step-wise/util/functions'
+import { processOptions, deepEquals, noop } from 'step-wise/util'
 import { toSO, toFO } from 'step-wise/inputTypes'
 
 import { useUpdater } from 'util/react'

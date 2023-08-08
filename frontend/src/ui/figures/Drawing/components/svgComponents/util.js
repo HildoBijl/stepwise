@@ -1,7 +1,4 @@
-import { mod } from 'step-wise/util/numbers'
-import { firstOf, lastOf } from 'step-wise/util/arrays'
-import { repeat } from 'step-wise/util/functions'
-import { filterProperties } from 'step-wise/util/objects'
+import { mod, firstOf, lastOf, repeat, filterProperties } from 'step-wise/util'
 import { Vector } from 'step-wise/geometry'
 
 import { useEnsureRef, useEventListeners } from 'util/react'

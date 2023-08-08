@@ -1,8 +1,6 @@
 // This Input file contains supporting functions for all input field types, including field inputs (which can be typed in) and drawing inputs (which should be drawed upon).
 
-import { ensureString } from 'step-wise/util/strings'
-import { filterOptions, processOptions } from 'step-wise/util/objects'
-import { resolveFunctions } from 'step-wise/util/functions'
+import { ensureString, filterOptions, processOptions, resolveFunctions } from 'step-wise/util'
 
 import { getHTMLElement } from 'util/react'
 import { useFieldRegistration, defaultFieldRegistrationOptions, useFormParameter, defaultUseFormParameterOptions, useFeedback, useFormPartSettings } from 'ui/form'

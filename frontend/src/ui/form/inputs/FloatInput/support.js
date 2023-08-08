@@ -1,6 +1,4 @@
-import { isNumber } from 'step-wise/util/numbers'
-import { removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
-import { applyMapping, keysToObject } from 'step-wise/util/objects'
+import { isNumber, removeAtIndex, insertAtIndex, applyMapping, keysToObject } from 'step-wise/util'
 
 import { errorToMessage as integerErrorToMessage } from '../IntegerInput'
 

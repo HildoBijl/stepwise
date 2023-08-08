@@ -1,6 +1,4 @@
-import { numberArray, sortByIndices } from 'step-wise/util/arrays'
-import { processOptions } from 'step-wise/util/objects'
-import { resolveFunctions } from 'step-wise/util/functions'
+import { numberArray, sortByIndices, processOptions, resolveFunctions } from 'step-wise/util'
 
 import { getEventPosition, getUtilKeys } from 'util/dom'
 import { useStableCallback } from 'util/react'

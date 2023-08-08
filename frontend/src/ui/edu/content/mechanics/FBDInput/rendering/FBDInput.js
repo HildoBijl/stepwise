@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 import clsx from 'clsx'
 
-import { processOptions, filterOptions } from 'step-wise/util/objects'
+import { processOptions, filterOptions } from 'step-wise/util'
 
 import { DrawingInput, defaultDrawingInputOptions } from 'ui/inputs'
 

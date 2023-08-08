@@ -1,4 +1,4 @@
-import { firstOf, lastOf } from 'step-wise/util/arrays'
+import { firstOf, lastOf } from 'step-wise/util'
 import { support } from 'step-wise/CAS'
 
 import { expressionFunctions, getFIStartCursor, getFIEndCursor } from '..'

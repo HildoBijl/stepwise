@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { processOptions } from 'step-wise/util/objects'
+import { processOptions } from 'step-wise/util'
 
 export const defaultImageOptions = {
 	src: undefined, // The path to the image.

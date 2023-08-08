@@ -2,8 +2,7 @@ import React, { forwardRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { ensureString } from 'step-wise/util/strings'
-import { processOptions, filterOptions } from 'step-wise/util/objects'
+import { ensureString, processOptions, filterOptions } from 'step-wise/util'
 import { Vector, ensureVector, ensureSpan } from 'step-wise/geometry'
 
 import { useGraphicalObject, useGraphicalVector } from '../../DrawingContext'

@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { count } from 'step-wise/util/arrays'
+import { count } from 'step-wise/util'
 
 import { useSkillsData } from 'api/skill'
 

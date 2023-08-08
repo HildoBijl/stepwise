@@ -1,6 +1,6 @@
 import React, { useState, useCallback, createContext, useContext } from 'react'
 
-import { boundTo } from 'step-wise/util/numbers'
+import { boundTo } from 'step-wise/util'
 
 import { useConsistentValue, useLatest, useUpdater } from 'util/react'
 

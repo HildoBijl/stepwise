@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from 'react'
 
-import { deepEquals } from 'step-wise/util/objects'
+import { deepEquals } from 'step-wise/util'
 import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 
 import { useUserId } from 'api/user'

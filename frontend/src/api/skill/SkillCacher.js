@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo, useEffect, createContext, useContext } from 'react'
 
-import { arraysToObject, keysToObject, applyMapping } from 'step-wise/util/objects'
+import { arraysToObject, keysToObject, applyMapping } from 'step-wise/util'
 import { updateSkillDataSet } from 'step-wise/skillTracking'
 import { skillTree, includePrerequisitesAndLinks, processSkill, getDefaultSkillData } from 'step-wise/edu/skills'
 

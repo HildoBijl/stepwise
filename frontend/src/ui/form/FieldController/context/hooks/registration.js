@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react'
 
-import { processOptions } from 'step-wise/util/objects'
+import { processOptions } from 'step-wise/util'
 
 import { ensureHTMLElement } from 'util/react'
 import { useVisible } from 'ui/components'

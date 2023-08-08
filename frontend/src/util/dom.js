@@ -1,4 +1,4 @@
-import { keysToObject } from 'step-wise/util/objects'
+import { keysToObject } from 'step-wise/util'
 import { Vector } from 'step-wise/geometry/Vector'
 
 // resetFocus takes a field, removes the focus and restores it. This is useful to work around the Android auto-suggest option, preventing it from taking place.

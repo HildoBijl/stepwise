@@ -1,5 +1,4 @@
-import { ensureString } from 'step-wise/util/strings'
-import { processOptions } from 'step-wise/util/objects'
+import { ensureString, processOptions } from 'step-wise/util'
 
 import { defaultFieldRegistrationOptions, defaultUseFormParameterOptions } from 'ui/form'
 

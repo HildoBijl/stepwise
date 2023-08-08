@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { numberArray } from 'step-wise/util/arrays'
+import { numberArray } from 'step-wise/util'
 
 import { M } from 'ui/components/math'
 

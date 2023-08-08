@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { count } from 'step-wise/util/arrays'
+import { count } from 'step-wise/util'
 import { getLastAction } from 'step-wise/edu/exercises/util/simpleExercise'
 
 import { useLatest } from 'util/react'

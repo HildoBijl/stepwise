@@ -1,7 +1,6 @@
 import { isValidElement } from 'react'
 
-import { arrayFind } from 'step-wise/util/arrays'
-import { isBasicObject, processOptions, deepEquals } from 'step-wise/util/objects'
+import { arrayFind, isBasicObject, processOptions, deepEquals } from 'step-wise/util'
 import { checkNumberEquality, areNumbersEqual } from 'step-wise/inputTypes/Integer'
 import { Float } from 'step-wise/inputTypes/Float'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'

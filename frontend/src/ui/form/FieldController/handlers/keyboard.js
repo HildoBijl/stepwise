@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback } from 'react'
 
-import { ensureConsistency } from 'step-wise/util/objects'
+import { ensureConsistency } from 'step-wise/util'
 
 // useKeyboardHandlers provides handlers to the parent component (the FieldController) that lets this parent control the keyboard.
 export function useKeyboardHandlers(fieldTrackerRef, tabOrderRef, tabIndexRef) {

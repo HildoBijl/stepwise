@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
 
-import { ensureNumber, ensureInt } from 'step-wise/util/numbers'
-import { applyMapping } from 'step-wise/util/objects'
+import { ensureNumber, ensureInt, applyMapping } from 'step-wise/util'
 import { Vector, ensureVector, Rectangle, Transformation, ensureTransformation } from 'step-wise/geometry'
 
 import { useConsistentValue } from 'util/react'

@@ -5,8 +5,7 @@ import useSize from '@react-hook/size'
 import useResizeObserver from '@react-hook/resize-observer'
 import FontFaceObserver from 'fontfaceobserver'
 
-import { getCounterNumber } from 'step-wise/util/numbers'
-import { ensureConsistency } from 'step-wise/util/objects'
+import { getCounterNumber, ensureConsistency } from 'step-wise/util'
 import { Vector } from 'step-wise/geometry'
 
 import { getEventPosition, getUtilKeys } from 'util/dom'

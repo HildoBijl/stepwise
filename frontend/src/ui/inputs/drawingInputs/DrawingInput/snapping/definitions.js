@@ -1,6 +1,6 @@
 import { useMemo, } from 'react'
 
-import { filterDuplicates } from 'step-wise/util/arrays'
+import { filterDuplicates } from 'step-wise/util'
 import { ensureVector, Line, Span } from 'step-wise/geometry'
 
 import { useConsistentValue } from 'util/react'

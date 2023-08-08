@@ -1,4 +1,4 @@
-import { isEmptyObject } from 'step-wise/util/objects'
+import { isEmptyObject } from 'step-wise/util'
 import { support } from 'step-wise/CAS'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 

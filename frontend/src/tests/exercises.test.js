@@ -3,8 +3,8 @@ import { render } from '@testing-library/react'
 import { ThemeProvider } from '@material-ui/core/styles'
 import ResizeObserver from 'resize-observer-polyfill'
 
+import { noop } from 'step-wise/util'
 import { getAllExercises } from 'step-wise/edu/exercises/util/selection'
-import { noop } from 'step-wise/util/functions'
 
 import ModalManager from 'ui/components/Modal/ModalManager'
 import theme from 'ui/theme'

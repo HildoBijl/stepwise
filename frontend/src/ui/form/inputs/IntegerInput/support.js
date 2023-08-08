@@ -1,5 +1,4 @@
-import { isNumber } from 'step-wise/util/numbers'
-import { removeAtIndex, insertAtIndex } from 'step-wise/util/strings'
+import { isNumber, removeAtIndex, insertAtIndex } from 'step-wise/util'
 
 import { selectRandomEmpty } from 'util/feedbackMessages'
 

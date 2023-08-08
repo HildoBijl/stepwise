@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { processOptions, filterOptions } from 'step-wise/util/objects'
+import { processOptions, filterOptions } from 'step-wise/util'
 
 import { useDrawingData, useMouseData } from 'ui/figures'
 import { useInputData } from '../../../Input'

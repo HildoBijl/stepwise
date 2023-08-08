@@ -1,7 +1,7 @@
 import React from 'react'
 import SvgIcon from '@material-ui/core/SvgIcon'
 
-import { removeProperties } from 'step-wise/util/objects'
+import { removeProperties } from 'step-wise/util'
 
 export default function Shift(props) {
 	const full = props.full

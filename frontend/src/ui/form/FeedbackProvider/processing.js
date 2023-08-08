@@ -1,4 +1,4 @@
-import { applyMapping } from 'step-wise/util/objects'
+import { applyMapping } from 'step-wise/util'
 
 import { selectRandomCorrect, selectRandomIncorrect } from 'util/feedbackMessages'
 import { getIcon, getFeedbackColor } from 'ui/theme'

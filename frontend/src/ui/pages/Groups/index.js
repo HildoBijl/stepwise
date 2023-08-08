@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 
-import { sortByIndices } from 'step-wise/util/arrays'
+import { sortByIndices } from 'step-wise/util'
 
 import { useUserId } from 'api/user'
 import { useMyGroupsQuery, useActivateGroupMutation, useMyGroupsSubscription } from 'api/group'

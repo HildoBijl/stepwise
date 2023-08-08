@@ -1,6 +1,4 @@
-import { ensureNumber } from 'step-wise/util/numbers'
-import { ensureString } from 'step-wise/util/strings'
-import { lastOf } from 'step-wise/util/arrays'
+import { ensureNumber, ensureString, lastOf } from 'step-wise/util'
 
 export function wordToUpperCase(word) {
 	word = ensureString(word)

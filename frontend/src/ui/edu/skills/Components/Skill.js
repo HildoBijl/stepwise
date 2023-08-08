@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react'
 
-import { firstToLowerCase } from 'step-wise/util/strings'
+import { firstToLowerCase } from 'step-wise/util'
 import { skillTree } from 'step-wise/edu/skills'
 
 import { LoadingNote } from 'ui/components'

@@ -2,7 +2,7 @@ import React, { useRef, forwardRef, useImperativeHandle } from 'react'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { processOptions } from 'step-wise/util/objects'
+import { processOptions } from 'step-wise/util'
 
 export const defaultFigureOptions = {
 	aspectRatio: 0.75, // Height divided by width. Enter a ratio.

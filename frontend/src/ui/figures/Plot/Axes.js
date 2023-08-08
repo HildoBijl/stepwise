@@ -1,9 +1,6 @@
 import React, { Fragment, forwardRef } from 'react'
 
-import { ensureNumber } from 'step-wise/util/numbers'
-import { ensureBoolean, ensureBasicObject, processOptions } from 'step-wise/util/objects'
-import { firstOf, lastOf } from 'step-wise/util/arrays'
-import { ensureFunction } from 'step-wise/util/functions'
+import { ensureNumber, ensureBoolean, ensureBasicObject, processOptions, firstOf, lastOf, ensureFunction } from 'step-wise/util'
 
 import { ensureReactElement } from 'util/react'
 

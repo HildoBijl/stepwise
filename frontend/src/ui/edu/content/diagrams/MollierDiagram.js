@@ -1,9 +1,8 @@
 import React, { forwardRef } from 'react'
 
-import { spread, lastOf } from 'step-wise/util/arrays'
+import { spread, lastOf, tableInterpolate, inverseTableInterpolate } from 'step-wise/util'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 import { maximumHumidity } from 'step-wise/data/moistureProperties'
-import { tableInterpolate, inverseTableInterpolate } from 'step-wise/util/interpolation'
 
 import { Drawing, usePlotTransformationSettings, Axes, MouseLines, Curve, Label, defaultAxesOptions } from 'ui/figures'
 

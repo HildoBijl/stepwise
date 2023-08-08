@@ -1,6 +1,6 @@
 // This is the most general template for settings up accents.
 
-import { removeAtIndex } from 'step-wise/util/strings'
+import { removeAtIndex } from 'step-wise/util'
 import { support } from 'step-wise/CAS'
 
 import { getFIStartCursor, getFIEndCursor } from '../..'

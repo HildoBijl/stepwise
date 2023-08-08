@@ -1,5 +1,4 @@
-import { isNumber } from 'step-wise/util/numbers'
-import { hasIterableParameters, applyMapping } from 'step-wise/util/objects'
+import { isNumber, hasIterableParameters, applyMapping } from 'step-wise/util'
 import { Vector, Transformation } from 'step-wise/geometry'
 
 import { applyTransformation } from '../transformation'

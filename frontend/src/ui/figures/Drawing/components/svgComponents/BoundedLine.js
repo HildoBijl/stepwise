@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { processOptions, filterOptions } from 'step-wise/util/objects'
+import { processOptions, filterOptions } from 'step-wise/util'
 import { ensureLine as ensureGeometryLine } from 'step-wise/geometry'
 
 import { useGraphicalBounds, useGraphicalObject } from '../../DrawingContext'

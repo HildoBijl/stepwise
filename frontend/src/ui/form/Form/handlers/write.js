@@ -1,5 +1,4 @@
-import { ensureConsistency } from 'step-wise/util/objects'
-import { resolveFunctions } from 'step-wise/util/functions'
+import { ensureConsistency, resolveFunctions } from 'step-wise/util'
 
 import { useStableCallback } from 'util/react'
 

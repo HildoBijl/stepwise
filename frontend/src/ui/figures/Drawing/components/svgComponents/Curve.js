@@ -2,9 +2,7 @@ import React, { forwardRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { ensureNumber } from 'step-wise/util/numbers'
-import { ensureString } from 'step-wise/util/strings'
-import { ensureBoolean, ensureObject, processOptions } from 'step-wise/util/objects'
+import { ensureNumber, ensureString, ensureBoolean, ensureObject, processOptions } from 'step-wise/util'
 import { ensureVectorArray } from 'step-wise/geometry'
 
 import { useGraphicalVector, useGraphicalDistance, SvgPortal } from '../../DrawingContext'

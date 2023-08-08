@@ -1,6 +1,6 @@
 import { MenuBook as Book, OndemandVideo as Video, Create as Pencil, AttachFile as Paperclip, Info } from '@material-ui/icons'
 
-import { applyMapping } from 'step-wise/util/objects'
+import { applyMapping } from 'step-wise/util'
 
 import { Books, Sqrt, BulletList, Teacher } from 'ui/components/icons'
 

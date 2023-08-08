@@ -1,6 +1,6 @@
 import React, { forwardRef, useState } from 'react'
 
-import { processOptions, filterOptions } from 'step-wise/util/objects'
+import { processOptions, filterOptions } from 'step-wise/util'
 
 import { useEnsureRef } from 'util/react'
 

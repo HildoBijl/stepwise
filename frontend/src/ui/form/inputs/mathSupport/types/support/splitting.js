@@ -1,4 +1,4 @@
-import { firstOf } from 'step-wise/util/arrays'
+import { firstOf } from 'step-wise/util'
 
 import { removeCursor } from '../../../support/FieldInput'
 
