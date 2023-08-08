@@ -4,7 +4,6 @@ module.exports = {
 
 	...require('./operations'),
 	...require('./rounding'),
-	...require('./interpolation'),
 
 	...require('./angles'),
 	...require('./counter'),

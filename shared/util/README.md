@@ -6,7 +6,7 @@ Step-Wise has a large amount of utility functions: simple functions that do a sm
 
 These are utilities related to the fundamental working of Javascript. Think of the basic data types like numbers, strings, arrays, objects, etcetera.
 
-- [numbers](./numbers.js) deals with everything around numbers, both integer and float. Think of checking if a number satisfies certain requirements, bounding a number to a range, and basic interpolation between two numbers.
+- [numbers](./numbers.js) deals with everything around numbers, both integer and float. Think of checking if a number satisfies certain requirements, or bounding a number to a range.
 - [strings](./strings.js) concerns everything related to strings. Think of efficiently browsing through the characters of a string, or adding/removing characters.
 - [objects](./objects.js) adds utilities to objects. Think of comparing objects (with `deepEquals`), generating objects from a list of keys, filtering its properties, or applying a function to each object parameter.
 - [arrays](./arrays.js) adds functionalities to browsing through arrays. Think of finding the sum or product of arrays, rearranging/shuffling arrays, efficiently searching through arrays, and so forth.
@@ -26,5 +26,4 @@ These are utilities related to already existing Javascript functionalities.
 These are various other, often mainly mathematical, utility tools.
 
 - [maths](./maths.js) deals with basic mathematics, like finding the prime factors of a number, the greatest common divisor/smallest common multiple of two numbers, and so forth.
-- [combinatorics](./combinatorics.js) deals with factorials, binomials, and so forth.
 - [interpolation](./interpolation.js) deals with the interpolation between numbers, up to multi-dimensional interpolation.

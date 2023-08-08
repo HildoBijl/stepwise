@@ -5,7 +5,9 @@ import Tooltip from '@material-ui/core/Tooltip'
 
 import { processOptions } from 'step-wise/util/objects'
 import { numberArray } from 'step-wise/util/arrays'
-import { boundTo, interpolate } from 'step-wise/util/numbers'
+import { boundTo } from 'step-wise/util/numbers'
+import { repeat } from 'step-wise/util/functions'
+import { gridInterpolate } from 'step-wise/util/interpolation'
 import { skillTree } from 'step-wise/edu/skills'
 import { getEV, getMaxLikelihood } from 'step-wise/skillTracking'
 
@@ -103,11 +105,8 @@ export default function SkillFlask(props) {
 }
 
 function partToColor(part) {
-	return interpolate(
-		numberArray(0, colorSpread.length - 1).map(v => v / (colorSpread.length - 1)), // For instance [0, 0.2, 0.4, 0.6, 0.8, 1] or so.
-		colorSpread, // [c1, c2, ..., cn] with each ci a color array.
-		part, // The part which the sphere is filled. It's used to interpolate the color.
-	)
+	const partTransitionList = numberArray(0, colorSpread.length - 1).map(v => v / (colorSpread.length - 1)) // An array of where (at what part) we transition from one color to the next; for instance [0, 0.2, 0.4, 0.6, 0.8, 1] or so.
+	return repeat(4, index => gridInterpolate(part, colorSpread.map(color => color[index]), partTransitionList)) // Interpolate for each element in the color array.
 }
 
 function coefToFading(coef) {

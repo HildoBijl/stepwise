@@ -1,6 +1,6 @@
 const { firstOf, lastOf } = require('../../util/arrays')
 const { isObject } = require('../../util/objects')
-const { interpolate, columnTableInterpolate, getPart, isValidPart, getClosestIndices, ensureNumberLike } = require('../../util/interpolation')
+const { ensureNumberLike, interpolate, getInterpolationPart, getClosestIndices, columnTableInterpolate } = require('../../util/interpolation')
 const { Unit, unitsSimilar } = require('../../inputTypes/Unit')
 const { FloatUnit } = require('../../inputTypes/FloatUnit')
 
@@ -196,7 +196,7 @@ function getProperties(pressure, parameter, data) {
 
 	// We have the four closest points. First interpolate between them for the given parameter, reducing it to a range of two points.
 	const valuesAtParameter = closestValuesProcessed.map(range => {
-		const part = getPart(parameter, range.map(value => value[label])).setUnit('')
+		const part = getInterpolationPart(parameter, range.map(value => value[label])).setUnit('')
 		const result = {}
 		const labelsWithPressure = ['pressure', ...labels]
 		labelsWithPressure.forEach(currLabel => {
@@ -207,7 +207,7 @@ function getProperties(pressure, parameter, data) {
 
 	// Next interpolate between these two points, with respect to the pressure. Do this for all properties to be found.
 	const result = { pressure, phase }
-	const part = getPart(pressure, valuesAtParameter.map(value => value.pressure)).setUnit('')
+	const part = getInterpolationPart(pressure, valuesAtParameter.map(value => value.pressure)).setUnit('')
 	labels.forEach(currLabel => {
 		if (label === currLabel)
 			result[currLabel] = parameter

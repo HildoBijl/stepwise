@@ -11,7 +11,6 @@ All utility functions related to numbers are in this folder. These are grouped a
 
 - [operations](./operations.js) contains general operations related to numbers. Think of the `mod` operator, or the `boundTo` function.
 - [rounding](./rounding.js) has operators relating to bounding numbers in a certain way, with a given number of decimals or digits.
-- [interpolation](./interpolation.js) can interpolate numbers in a certain range.
 
 ## Specialized number functionalities
 
