@@ -1,7 +1,7 @@
 const { getRandomInteger } = require('../../../inputTypes/Integer')
 const { getRandomExponentialFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Unit } = require('../../../inputTypes/Unit')
-const { selectRandomly } = require('../../../util/random')
+const { selectRandomly } = require('../../../util')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 const { performComparison } = require('../util/comparison')
 

@@ -1,5 +1,4 @@
-const { filterProperties } = require('../../../util/objects')
-const { selectRandomly, getRandomInteger } = require('../../../util/random')
+const { filterProperties, selectRandomly, getRandomInteger } = require('../../../util')
 const { expressionComparisons } = require('../../../CAS')
 
 const { getStepExerciseProcessor, assembleSolution } = require('../util/stepExercise')

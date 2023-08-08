@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../util/random')
+const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../util')
 const { asExpression, Integer, Equation, equationComparisons } = require('../../../CAS')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')

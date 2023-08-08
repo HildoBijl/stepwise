@@ -1,5 +1,4 @@
-const { selectRandomly, getRandomInteger } = require('../../../util/random')
-const { applyMapping } = require('../../../util/objects')
+const { selectRandomly, getRandomInteger, applyMapping } = require('../../../util')
 const { asExpression, asEquation, Integer, Sqrt, expressionComparisons } = require('../../../CAS')
 
 const { filterVariables } = require('../util/CASsupport')

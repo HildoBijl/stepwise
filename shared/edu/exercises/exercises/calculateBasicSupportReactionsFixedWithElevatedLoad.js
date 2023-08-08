@@ -1,4 +1,4 @@
-const { arraysToObject } = require('../../../util/objects')
+const { arraysToObject } = require('../../../util')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Vector } = require('../../../geometry')
 const { Variable } = require('../../../CAS')

@@ -1,5 +1,4 @@
-const { deg2rad } = require('../../../util/numbers')
-const { getRandomInteger } = require('../../../util/random')
+const { deg2rad, getRandomInteger } = require('../../../util')
 const { Vector } = require('../../../geometry/Vector')
 
 const { getStepExerciseProcessor } = require('../util/stepExercise')

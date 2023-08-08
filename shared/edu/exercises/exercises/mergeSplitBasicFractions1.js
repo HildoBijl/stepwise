@@ -1,5 +1,4 @@
-const { hasSimpleMatching } = require('../../../util/arrays')
-const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../util/random')
+const { hasSimpleMatching, selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../util')
 const { asExpression, Sum, Fraction, expressionComparisons, expressionChecks } = require('../../../CAS')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')

@@ -1,5 +1,4 @@
-const { epsilon, deg2rad } = require('../../../util/numbers')
-const { selectRandomly, getRandom, getRandomBoolean, getRandomInteger } = require('../../../util/random')
+const { epsilon, deg2rad, selectRandomly, getRandom, getRandomBoolean, getRandomInteger } = require('../../../util')
 const { asExpression, asEquation, equationComparisons, Integer, Variable } = require('../../../CAS')
 
 const { getStepExerciseProcessor } = require('../util/stepExercise')

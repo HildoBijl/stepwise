@@ -1,4 +1,4 @@
-const { getRandom } = require('../../../util/random')
+const { getRandom } = require('../../../util')
 const { getRandomInteger } = require('../../../inputTypes/Integer')
 const { Float } = require('../../../inputTypes/Float')
 

@@ -1,4 +1,4 @@
-const { getRandomBoolean, getRandomInteger } = require('../../../util/random')
+const { getRandomBoolean, getRandomInteger } = require('../../../util')
 const { Vector } = require('../../../geometry/Vector')
 
 const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')

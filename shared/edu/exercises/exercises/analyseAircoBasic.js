@@ -1,4 +1,4 @@
-const { tableInterpolate, inverseTableInterpolate } = require('../../../util/interpolation')
+const { tableInterpolate, inverseTableInterpolate } = require('../../../util')
 const { maximumHumidity } = require('../../../data/moistureProperties')
 
 const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')

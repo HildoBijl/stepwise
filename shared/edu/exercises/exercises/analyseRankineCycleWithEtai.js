@@ -1,5 +1,4 @@
-const { tableInterpolate } = require('../../../util/interpolation')
-const { getRandomInteger } = require('../../../util/random')
+const { tableInterpolate, getRandomInteger } = require('../../../util')
 const { withPressure, enthalpy, entropy } = require('../../../data/steamProperties')
 
 const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')

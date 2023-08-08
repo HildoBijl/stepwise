@@ -1,4 +1,4 @@
-const { getRandom, getRandomBoolean, getRandomInteger } = require('../../../util/random')
+const { getRandom, getRandomBoolean, getRandomInteger } = require('../../../util')
 
 const { selectRandomVariables, filterVariables } = require('../util/CASsupport')
 const { getStepExerciseProcessor } = require('../util/stepExercise')

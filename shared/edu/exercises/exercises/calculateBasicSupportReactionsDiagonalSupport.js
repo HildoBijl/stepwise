@@ -1,6 +1,4 @@
-const { deg2rad } = require('../../../util/numbers')
-const { arraysToObject } = require('../../../util/objects')
-const { getRandomInteger } = require('../../../util/random')
+const { deg2rad, arraysToObject, getRandomInteger } = require('../../../util')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Vector } = require('../../../geometry')
 const { Variable } = require('../../../CAS')

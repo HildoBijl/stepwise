@@ -1,4 +1,4 @@
-const { selectRandomly } = require('../../../util/random')
+const { selectRandomly } = require('../../../util')
 const constants = require('../../../data/constants')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 const { performComparison } = require('../util/comparison')

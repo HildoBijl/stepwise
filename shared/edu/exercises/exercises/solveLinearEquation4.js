@@ -1,4 +1,4 @@
-const { Float, getRandomFloat } = require('../../../inputTypes/Float')
+const { getRandomFloat } = require('../../../inputTypes/Float')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 
 const data = {

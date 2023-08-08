@@ -1,4 +1,4 @@
-const { selectRandomly, getRandomBoolean } = require('../../../util/random')
+const { selectRandomly, getRandomBoolean } = require('../../../util')
 const { getRandomFloatUnit, getRandomExponentialFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 const { performComparison } = require('../util/comparison')

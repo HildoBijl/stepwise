@@ -1,4 +1,4 @@
-const { getRandomInteger, selectRandomly } = require('../../../util/random')
+const { getRandomInteger, selectRandomly } = require('../../../util')
 const { Unit } = require('../../../inputTypes/Unit')
 const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const gasProperties = require('../../../data/gasProperties')

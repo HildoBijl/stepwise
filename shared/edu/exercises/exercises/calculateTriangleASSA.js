@@ -1,5 +1,4 @@
-const { epsilon, deg2rad } = require('../../../util/numbers')
-const { getRandom, getRandomBoolean, getRandomInteger } = require('../../../util/random')
+const { epsilon, deg2rad, getRandom, getRandomBoolean, getRandomInteger } = require('../../../util')
 const { asExpression, asEquation, equationComparisons, Integer, Arcsin } = require('../../../CAS')
 
 const { selectRandomVariables } = require('../util/CASsupport')

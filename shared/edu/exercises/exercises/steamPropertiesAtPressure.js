@@ -1,8 +1,8 @@
-const { getRandomInteger } = require('../../../util/random')
+const { getRandomInteger, tableInterpolate } = require('../../../util')
+const { withPressure } = require('../../../data/steamProperties')
+
 const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 const { performComparison } = require('../util/comparison')
-const { withPressure } = require('../../../data/steamProperties')
-const { tableInterpolate } = require('../../../util/interpolation')
 
 const data = {
 	skill: 'lookUpSteamProperties',

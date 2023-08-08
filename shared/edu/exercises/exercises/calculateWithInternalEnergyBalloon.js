@@ -1,4 +1,4 @@
-const { getRandom } = require('../../../util/random')
+const { getRandom } = require('../../../util')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 let { helium: { k } } = require('../../../data/gasProperties')
 

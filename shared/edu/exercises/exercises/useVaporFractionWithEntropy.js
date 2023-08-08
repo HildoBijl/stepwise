@@ -1,5 +1,4 @@
-const { getRandomInteger } = require('../../../util/random')
-const { tableInterpolate } = require('../../../util/interpolation')
+const { getRandomInteger, tableInterpolate } = require('../../../util')
 const { and } = require('../../../skillTracking')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { withTemperature, withPressure } = require('../../../data/steamProperties')
