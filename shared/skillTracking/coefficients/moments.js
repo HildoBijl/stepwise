@@ -1,6 +1,6 @@
 const { ensureInt } = require('../../util/numbers')
 const { sum } = require('../../util/arrays')
-const { factorial } = require('../../util/combinatorics')
+const { factorial } = require('../../util/maths')
 
 const { ensureCoef, getOrder } = require('./fundamentals')
 

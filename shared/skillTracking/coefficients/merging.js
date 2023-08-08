@@ -1,6 +1,6 @@
 const { product } = require('../../util/arrays')
 const { repeat } = require('../../util/functions')
-const { binomial } = require('../../util/combinatorics')
+const { binomial } = require('../../util/maths')
 
 const { getOrder, normalize } = require('./fundamentals')
 

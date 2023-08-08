@@ -1,20 +1,16 @@
-const { numberArray } = require('./arrays')
-const { isInt, ensureNumber } = require('./numbers')
+const { numberArray } = require('../arrays')
+const { ensureInt } = require('../numbers')
 
 // factorial calculates n!. If an extra parameter nEnd is given, it calculates n!/nEnd! = (n * (n-1) * ... * (nEnd + 1)). It memoizes values that have already been calculated.
 const factorialMemoization = {}
 function factorial(n, nEnd = 0) {
 	// Check input.
-	if (!isInt(n) || !isInt(nEnd))
-		throw new Error(`Invalid input: the factorial function requires integers but was given "${n}" and "${nEnd}".`)
-	n = parseInt(n)
-	nEnd = parseInt(nEnd)
-	if (nEnd < 0)
-		throw new Error(`Invalid input: the factorial function requires nEnd >= 0 but received ${nEnd}.`)
+	n = ensureInt(n, true)
+	nEnd = ensureInt(nEnd, true)
 	if (n < nEnd)
 		throw new Error(`Invalid input: the factorial function requires n >= ${nEnd} but received ${n}.`)
 
-	// Check memoization values. Calculate if necessary.
+	// If the value has not been memoized, calculate it.
 	if (!factorialMemoization[n])
 		factorialMemoization[n] = {}
 	if (!factorialMemoization[n][nEnd]) {
@@ -24,6 +20,8 @@ function factorial(n, nEnd = 0) {
 			factorialMemoization[n][nEnd] = numberArray(n, nEnd + 1).reduce((f, x) => f * x, 1)
 		}
 	}
+
+	// Return the requested value.
 	return factorialMemoization[n][nEnd]
 }
 module.exports.factorial = factorial
@@ -32,12 +30,8 @@ module.exports.factorial = factorial
 const binomialMemoization = {}
 function binomial(a, b) {
 	// Check input.
-	if (!isInt(a) || !isInt(b))
-		throw new Error(`Invalid input: the binomial function requires integers but was given "${a}" and "${b}".`)
-	a = parseInt(a)
-	b = parseInt(b)
-	if (b < 0)
-		throw new Error(`Invalid input: the binomial function requires b > 0 but received ${b}.`)
+	a = ensureInt(a, true)
+	b = ensureInt(b, true)
 	if (a < b)
 		throw new Error(`Invalid input: the binomial function requires a >= b but received a=${a} and b=${b}.`)
 
@@ -45,23 +39,13 @@ function binomial(a, b) {
 	if (b > a - b)
 		b = a - b
 
-	// Check memoization values. Calculate if necessary.
+	// If the value has not been memoized, calculate it.
 	if (!binomialMemoization[a])
 		binomialMemoization[a] = {}
 	if (!binomialMemoization[a][b])
 		binomialMemoization[a][b] = factorial(a, a - b) / factorial(b) // Calculate it.
+
+	// Return the requested value.
 	return binomialMemoization[a][b]
 }
 module.exports.binomial = binomial
-
-// normalPDF calculates the PDF for a Gaussian (normal) distribution.
-function normalPDF(x, mu = 0, sigma = 1) {
-	// Check input.
-	x = ensureNumber(x)
-	mu = ensureNumber(mu)
-	sigma = ensureNumber(sigma)
-	
-	// Calculate the PDF.
-	return 1/(sigma * Math.sqrt(2*Math.PI)) * Math.exp(-1/2 * ((x - mu)/sigma) ** 2)
-}
-module.exports.normalPDF = normalPDF

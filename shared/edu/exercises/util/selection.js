@@ -1,7 +1,7 @@
 const { isNumber } = require('../../../util/numbers')
 const { sum } = require('../../../util/arrays')
 const { keysToObject } = require('../../../util/objects')
-const { normalPDF } = require('../../../util/combinatorics')
+const { normalPDF } = require('../../../util/maths')
 const { selectRandomly } = require('../../../util/random')
 
 const { getEV, merge, ensureSetup } = require('../../../skillTracking')

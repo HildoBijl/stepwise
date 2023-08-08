@@ -3,7 +3,7 @@
 const { ensureBoolean, keysToObject, filterProperties } = require('../../../util/objects')
 const { sum } = require('../../../util/arrays')
 const { repeat } = require('../../../util/functions')
-const { binomial } = require('../../../util/combinatorics')
+const { binomial } = require('../../../util/maths')
 
 const { defaultInferenceOrder } = require('../../settings')
 const { ensureCoef, ensureCoefSet, normalize, getEV, mergeTwo } = require('../../coefficients')

@@ -2,7 +2,7 @@ const { ensureInt, ensureNumber } = require('../../util/numbers')
 const { processOptions } = require('../../util/objects')
 const { sum } = require('../../util/arrays')
 const { repeat } = require('../../util/functions')
-const { binomial } = require('../../util/combinatorics')
+const { binomial } = require('../../util/maths')
 
 const { maxOrder, maxSmoothingOrder, decayHalfLife, initialPracticeDecayTime, practiceDecayHalfLife } = require('../settings')
 
