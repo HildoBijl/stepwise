@@ -1,3 +1,5 @@
+const { ensureNumber } = require('../numbers')
+
 // shuffle will shuffle the elements in an array. It returns a shallow copy, not affecting the original array. It uses the Fisher-Yates shuffle algorithm.
 function shuffle(array) {
 	array = [...array] // Clone array.

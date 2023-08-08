@@ -1,4 +1,4 @@
-const { ensureInt } = require('./numbers')
+const { ensureInt } = require('../numbers')
 
 // getRandomBoolean returns true or false, randomly. Optionally, the probability for true can be given.
 function getRandomBoolean(probability = 0.5) {

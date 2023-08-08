@@ -1,5 +1,7 @@
-const { ensureInt } = require('./numbers')
-const { ensureArray, cumulative, lastOf, numberArray, shuffle, sum } = require('./arrays')
+const { ensureInt } = require('../numbers')
+const { ensureArray, cumulative, lastOf, numberArray, shuffle, sum } = require('../arrays')
+
+const { getRandomInteger } = require('./numbers')
 
 // selectRandomly takes an array and returns a random element from it.
 function selectRandomly(arr, weights) {

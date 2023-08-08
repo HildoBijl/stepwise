@@ -1,8 +1,10 @@
+const { isBasicObject } = require('../../util/objects')
+const { ensureSetup } = require('../../skillTracking')
 
 const { skillTree } = require('../skills')
-const { getAllExercises } = require('./util/selection')
 const { getDifficulty } = require('../skills/util')
-const { ensureSetup } = require('../../skillTracking')
+
+const { getAllExercises } = require('./util/selection')
 
 // Set up a support function to check if something is a skill set-up.
 const assertSkillSetup = (setup) => {
@@ -35,8 +37,10 @@ describe('Check all exercises:', () => {
 				expect(typeof exercise.data).toBe('object')
 			})
 
-			it('has a generateState function', () => {
+			it('has a generateState function that runs and gives a basic object', () => {
 				expect(typeof exercise.generateState).toBe('function')
+				expect(exercise.generateState).not.toThrow()
+				expect(isBasicObject(exercise.generateState())).toBe(true)
 			})
 
 			it('has a processAction function', () => {
