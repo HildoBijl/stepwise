@@ -1,4 +1,4 @@
-import { filterOptions, resolveFunctions } from 'step-wise/util'
+import { filterOptions, resolveFunctionsShallow } from 'step-wise/util'
 
 import { getHTMLElement } from 'util/react'
 
@@ -18,12 +18,12 @@ export function useFormRegistration(options) {
 }
 
 // useFieldControlRegistration registers this field for tabbing at the field controller if needed.
-export function useFieldControlRegistration(options, FI) {
+export function useFieldControlRegistration(options, FI, setFI) {
 	const { allowFocus, readOnly, keyboard, element } = options
 	const [active, activateField, deactivateField] = useFieldRegistration({
 		...filterOptions(options, defaultFieldRegistrationOptions),
 		apply: allowFocus && !readOnly && !!getHTMLElement(element), // Only apply when the element has loaded.
-		keyboard: resolveFunctions(keyboard, FI), // The keyboard settings may depend on the input field value.
+		keyboard: resolveFunctionsShallow(keyboard, FI, setFI), // The keyboard set-up may depend on the input field value, and the keyFunction may use the setFI function.
 	})
 	return { active, activateField, deactivateField }
 }

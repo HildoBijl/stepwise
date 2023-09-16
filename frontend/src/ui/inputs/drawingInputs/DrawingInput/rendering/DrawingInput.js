@@ -37,7 +37,7 @@ export const DrawingInput = forwardRef((options, drawingRef) => {
 
 	// Render the field.
 	return <Input {...inputOptions}>
-		<DrawingInputHull {...filterOptions(options, defaultDrawingInputHullOptions)} ref={drawingRef} />
+		<DrawingInputHull ref={drawingRef} {...filterOptions(options, defaultDrawingInputHullOptions)} />
 	</Input>
 })
 DrawingInput.applySelectingOptions = applySelectingOptions

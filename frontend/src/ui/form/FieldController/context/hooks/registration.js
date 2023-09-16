@@ -19,7 +19,7 @@ export const defaultFieldRegistrationOptions = {
 	autofocus: false, // When true, puts the focus on this field when it mounts. Make sure to only apply this for one input field, or the last-rendered-object gets the focus, which is usually quite arbitrary.
 	focusOnClick: true, // When true, whenever a click is done on the field, it is activated. Similarly, if a click is made outside of the field when it is not active, it is deactivated.
 	focusRefOnActive: false, // When true, the ref DOM object is focused with obj.focus() whenever the field becomes active.
-	keyboard: undefined, // A keyboard object describing all the details of what keyboard should be shown when this field is active. When undefined, no keyboard is shown. For details, see the Keyboard component and its handlers.
+	keyboard: undefined, // A keyboard object describing all the details of what keyboard should be shown when this field is active. It is a basic object of the form { keyFunction: keyInfo => (...change state...), settings: {...} }. When undefined, no keyboard is shown. For details, see the Keyboard component and its handlers.
 }
 export function useFieldRegistration(options) {
 	// Process input.

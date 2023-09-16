@@ -2,7 +2,7 @@ import React, { useRef, useState, forwardRef, useImperativeHandle } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { useAbsoluteCursorRef } from '../../'
+import { useCursorRef } from '../../'
 
 const useStyles = makeStyles(() => ({
 	cursor: {
@@ -28,12 +28,15 @@ const useStyles = makeStyles(() => ({
 }))
 
 function AbsoluteCursor({ active }, parentRef) {
-	const formRef = useAbsoluteCursorRef(active)
+	const formRef = useCursorRef(active)
 	const internalRef = useRef()
 	const [properties, setProperties] = useState()
-	const classes = useStyles(active && properties)
 
+	// Set up handles for control.
 	const imperativeHandleFunction = () => ({
+		get type() {
+			return 'absolute'
+		},
 		get element() {
 			return internalRef.current
 		},
@@ -50,6 +53,8 @@ function AbsoluteCursor({ active }, parentRef) {
 	useImperativeHandle(parentRef, imperativeHandleFunction)
 	useImperativeHandle(formRef, imperativeHandleFunction)
 
+	// Render the cursor.
+	const classes = useStyles(active && properties)
 	return (
 		<span ref={internalRef} className={clsx(classes.cursor, classes.cursorPositioned, 'cursor')} />
 	)

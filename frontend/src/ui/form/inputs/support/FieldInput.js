@@ -11,7 +11,7 @@ import { getCoordinatesOf, getClickSide } from 'util/dom'
 import { useStableCallback, useEventListener, useSize } from 'util/react'
 import { latexMinus } from 'ui/components/math'
 import { notSelectable } from 'ui/theme'
-import { defaultUseFormParameterOptions, useCursorRef, useAbsoluteCursorRef } from 'ui/form'
+import { useCursorRef } from 'ui/form'
 import { useSubmitAction } from 'ui/edu/exercises/util/actions'
 
 import { useAsInput, defaultInputOptions } from './Input'
@@ -263,8 +263,8 @@ export default function FieldInput(options) {
 	} : false // When no settings are provided, no keyboard needs to be shown.
 
 	// Connect as an input. For this, turn the field-defined clean/functionalize functions (which work on the VALUE for easy access) into regular clean/functionalize functions (which work on the FI) that automatically add/remove the cursor.
-	const defaultClean = useDefaultCleanFunction(clean || defaultUseFormParameterOptions.clean)
-	const defaultFunctionalize = useDefaultFunctionalizeFunction(functionalize || defaultUseFormParameterOptions.functionalize, getEndCursor)
+	const defaultClean = useDefaultCleanFunction(clean)
+	const defaultFunctionalize = useDefaultFunctionalizeFunction(functionalize, getEndCursor)
 	const { id, readOnly, FI, setFI, active, feedback } = useAsInput({
 		...filterOptions(options, defaultInputOptions),
 		element: fieldRef,
@@ -373,7 +373,8 @@ function useMouseClickProcessing(fieldId, mouseClickToCursor, mouseClickToFI, se
 		// Check various cases that are the same for all input fields.
 		if (!mouseClickToFI)
 			return // If no process function is present, do nothing.
-		if (cursorRef.current && cursorRef.current.contains(evt.target))
+		const cursorElement = cursorRef.current?.element
+		if (cursorElement && cursorElement.contains(evt.target))
 			return // If the cursor was clicked, keep everything as is.
 		if (!fieldRef.current.contains(evt.target))
 			return // If the target element has disappeared from the field (like a filler that's no longer present when the field becomes active) then do nothing.
@@ -400,7 +401,6 @@ function useMouseClickProcessing(fieldId, mouseClickToCursor, mouseClickToFI, se
 // useContentSlidingEffect sets up an effect for content sliding. It gets references to the contents field and the cursor (if existing). It then positions the contents field within its container (the input field) such that the cursor is appropriately visible.
 function useContentSliding(contentsRef, contentsContainerRef, center) {
 	const cursorRef = useCursorRef()
-	const absoluteCursorRef = useAbsoluteCursorRef()
 
 	// Set up a function that adjusts the sliding.
 	const adjustContentSliding = useCallback(() => {
@@ -421,7 +421,7 @@ function useContentSliding(contentsRef, contentsContainerRef, center) {
 		}
 
 		// If there is no cursor inside the field, then we can't position anything. Leave the previous settings.
-		const cursorElement = cursorRef.current || (absoluteCursorRef.current && absoluteCursorRef.current.element)
+		const cursorElement = cursorRef.current?.element
 		if (!cursorElement || !contentsContainerRef.current.contains(cursorElement))
 			return
 
@@ -432,7 +432,7 @@ function useContentSliding(contentsRef, contentsContainerRef, center) {
 		const slidePart = boundTo((cursorPos - cutOffDistance) / (contentsWidth - 2 * cutOffDistance), 0, 1) - (center ? 0.5 : 0)
 		const translation = -slidePart * (contentsWidth - containerWidth)
 		contentsElement.style.transform = `translateX(${translation}px)`
-	}, [contentsRef, contentsContainerRef, cursorRef, absoluteCursorRef, center])
+	}, [contentsRef, contentsContainerRef, cursorRef, center])
 
 	// Apply the function through an effect. Use a setTimeout to ensure that the adjustments are done after the absolute cursor has properly updated its position.
 	useEffect(() => {
@@ -513,11 +513,14 @@ export function removeCursors(inputSet) {
 
 // The default clean and functionalize functions remove/add a cursor on the right place, in addition to running the given clean/functionalize function on the value property.
 export function useDefaultCleanFunction(clean) {
-	return useStableCallback(FI => removeCursor({ ...FI, value: clean(FI.value) }))
+	return useStableCallback(FI => removeCursor({
+		...FI,
+		value: clean ? clean(FI.value) : FI.value,
+	}))
 }
 export function useDefaultFunctionalizeFunction(functionalize, getEndCursor) {
 	return useStableCallback(FI => {
-		const value = functionalize(FI.value)
+		const value = functionalize ? functionalize(FI.value) : FI.value
 		return { ...FI, value, cursor: getEndCursor(value) }
 	})
 }

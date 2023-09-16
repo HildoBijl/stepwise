@@ -2,7 +2,8 @@ import React, { useRef, forwardRef, useImperativeHandle } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { useCursorRef } from '../../'
+import { useCursorRef } from 'ui/form'
+import { useActive } from 'ui/inputs'
 
 const useStyles = makeStyles(() => ({
 	cursorContainer: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles(() => ({
 	},
 }))
 
-function InlineCursor(_, parentRef) {
+export const InlineCursor = forwardRef((_, parentRef) => {
 	const formRef = useCursorRef()
 	const internalRef = useRef()
 	const classes = useStyles()
@@ -44,9 +45,13 @@ function InlineCursor(_, parentRef) {
 	useImperativeHandle(parentRef, imperativeHandleFunction)
 	useImperativeHandle(formRef, imperativeHandleFunction)
 
+	// If the surrounding input field is not active, do not show anything.
+	const active = useActive()
+	if (!active)
+		return null
+
 	// Render the cursor.
 	return <span ref={internalRef} className={clsx(classes.cursorContainer, 'cursorContainer')}>
 		<span className="cursor" />
 	</span>
-}
-export default forwardRef(InlineCursor)
+})

@@ -13,6 +13,12 @@ function resolveFunctions(param, ...args) {
 }
 module.exports.resolveFunctions = resolveFunctions
 
+// resolveFunctionsShallow is like resolveFunctions but then does not iterate inside of an array/object.
+function resolveFunctionsShallow(param, ...args) {
+	return (typeof param === 'function' ? param(...args) : param)
+}
+module.exports.resolveFunctionsShallow = resolveFunctionsShallow
+
 // joinFunctions takes multiple functions and creates a new function that (when called) calls all of them with the same input. The return value is an array of the resulting function return values.
 function joinFunctions(...funcs) {
 	// Ensure that we have an array of functions.

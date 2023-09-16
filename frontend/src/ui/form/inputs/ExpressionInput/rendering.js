@@ -8,7 +8,7 @@ import { defaultFieldSettings, defaultInterpretationSettings, defaultExpressionS
 
 import { useLatest } from 'util/react'
 
-import { useAbsoluteCursorRef } from '../../'
+import { useCursorRef } from '../../'
 
 import FieldInput from '../support/FieldInput'
 import { expressionFunctions, MathWithCursor, MathWithCursorProvider, useMathWithCursorContext, mouseClickToCursor as generalMouseClickToCursor } from '../mathSupport'
@@ -65,10 +65,10 @@ function ExpressionInputInner(props) {
 
 	// Get the charElements and use this to set up proper keyPressToFI and mouseClickToCursor functions.
 	const { charElementsRef } = useMathWithCursorContext()
-	const cursorRef = useAbsoluteCursorRef()
+	const cursorRef = useCursorRef()
 	const keyPressToFI = useCallback((keyInfo, FI, contentsElement) => {
 		const charElements = charElementsRef.current
-		const newFI = expressionFunctions.keyPressToFI(keyInfo, FI, settingsRef.current, charElements, FI, contentsElement, (cursorRef.current && cursorRef.current.element))
+		const newFI = expressionFunctions.keyPressToFI(keyInfo, FI, settingsRef.current, charElements, FI, contentsElement, cursorRef.current?.element)
 		return newFI === FI || deepEquals(FI, newFI) ? FI : expressionFunctions.cleanUp(newFI, settingsRef.current)
 	}, [charElementsRef, cursorRef, settingsRef])
 	const mouseClickToFI = useCallback((evt, FI, contentsElement) => {

@@ -26,9 +26,9 @@ export default function Input(options) {
 	readOnly = useReadOnlyValue(readOnly)
 	options = { ...options, readOnly }
 
-	// Use handlers to register the input field in the right places. Also adjust the setFI function to use the initial value of the FI when the regular value is undefined. (The setFI function is a bit slow to load, because the Form uses an effect to implement them.)
-	const [FI, setFI] = useFormRegistration({ ...options, readOnly })
-	const fieldControlRegistration = useFieldControlRegistration({ ...options, readOnly }, FI)
+	// Use handlers to register the input field in the right places.
+	const [FI, setFI] = useFormRegistration(options)
+	const fieldControlRegistration = useFieldControlRegistration(options, FI, setFI)
 
 	// Set up the Input context for child components to use.
 	return (

@@ -5,7 +5,7 @@ import { findOptimum, findOptimumIndex, flattenFully, forceIntoShape, getIndexTr
 import { getCoordinatesOf } from 'util/dom'
 import { RBM, zeroWidthSpaceRegExp } from 'ui/components'
 
-import { useAbsoluteCursorRef } from '../../'
+import { useCursorRef } from '../../'
 
 import { getFIFuncs } from './types'
 
@@ -23,7 +23,7 @@ export default function MathWithCursor({ contentsRef, ...FI }) {
 	const { type, value } = FI
 	const context = useMathWithCursorContext()
 	const charElementsRef = context && context.charElementsRef
-	const cursorRef = useAbsoluteCursorRef()
+	const cursorRef = useCursorRef()
 
 	// When the cursor changes, or the value changes (like on a delete key), reposition the cursor.
 	useEffect(() => {
