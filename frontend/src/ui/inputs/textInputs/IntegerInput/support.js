@@ -5,7 +5,8 @@ import { selectRandomEmpty } from 'util/feedbackMessages'
 import { getClickPosition } from '../TextInput'
 
 // Define various trivial objects and functions.
-export const emptySI = { type: 'Integer', value: '' }
+export const type = 'Integer'
+export const initialValue = ''
 export const isEmpty = value => value === ''
 export const getStartCursor = () => 0
 export const getEndCursor = value => value ? value.length : 0

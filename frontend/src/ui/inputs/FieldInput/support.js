@@ -1,4 +1,4 @@
-import { isObject } from 'step-wise/util'
+import { isObject, removeProperties } from 'step-wise/util'
 
 // addCursor will add the given cursor to the given FI object.
 export function addCursor(FI, cursor) {
@@ -19,9 +19,7 @@ export function removeCursor(input) {
 		return input
 
 	// There is a cursor. Remove it.
-	const result = { ...input } // Make a shallow copy of the object.
-	delete result.cursor // Remove a potential cursor.
-	return result
+	return removeProperties(input, 'cursor')
 }
 
 // submitOnEnter checks if an event is an enter key press. If so, it submits the exercise using the given submit function.

@@ -3,23 +3,24 @@ import clsx from 'clsx'
 
 import { processOptions, filterOptions } from 'step-wise/util'
 
-import { TextInput, defaultTextInputOptions } from '../../TextInput'
+import { TextInput, defaultTextInputOptions } from '../TextInput'
 
-import { emptySI, isEmpty, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd, mouseClickToCursor, FIToKeyboardSettings, keyPressToFI, errorToMessage } from '../support'
+import { type, initialValue, isEmpty, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd, mouseClickToCursor, FIToKeyboardSettings, keyPressToFI, errorToMessage } from './support'
+import { IntegerInputInner } from './IntegerInputInner'
+import * as validation from './validation'
 
-import IntegerInputInner from './IntegerInputInner'
-
-const defaultIntegerInputOptions = {
+export const defaultIntegerInputOptions = {
 	...defaultTextInputOptions,
 
 	// Settings from outside.
 	placeholder: <>Geheel getal</>,
 	positive: false,
-	validate: undefined,
-	initialSI: emptySI,
+	validate: validation.any,
 
 	// Functionalities.
-	isEmpty: SI => isEmpty(SI.value),
+	type,
+	initialValue,
+	isEmpty,
 	keyboardSettings: FIToKeyboardSettings,
 	keyPressToFI,
 	mouseClickToCursor,
@@ -30,11 +31,11 @@ const defaultIntegerInputOptions = {
 	errorToMessage,
 }
 
-export default function IntegerInput(options) {
+export function IntegerInput(options) {
 	options = processOptions(options, defaultIntegerInputOptions)
 
 	// Set up options for the TextInput field.
-	const positive = options.positive !== undefined ? options.positive : defaultIntegerInputOptions.positive
+	const { positive } = options
 	const textInputOptions = {
 		...filterOptions(options, defaultTextInputOptions),
 		keyPressToFI: (keyInfo, FI) => keyPressToFI(keyInfo, FI, positive),
@@ -47,3 +48,4 @@ export default function IntegerInput(options) {
 		<IntegerInputInner />
 	</TextInput>
 }
+IntegerInput.validation = validation

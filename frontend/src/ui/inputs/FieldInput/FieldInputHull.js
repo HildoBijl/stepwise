@@ -25,8 +25,6 @@ export const defaultFieldInputHullRenderingOptions = {
 
 // Functionalities needed by the handlers to manage the field properly.
 export const defaultFieldInputHandlerOptions = {
-	clean: undefined,
-	functionalize: undefined,
 	isEmpty: undefined,
 	keyPressToFI: undefined,
 	mouseClickToCursor: undefined,
@@ -242,8 +240,8 @@ export const FieldInputHull = forwardRef((options, hullRef) => {
 	const [labelWidth] = useSize(labelRef)
 
 	// Extract the status of the Input field.
-	const FI = useInputValue()
-	const empty = isEmpty(FI) && (!FI.cursor || isCursorAtStart(FI.value, FI.cursor))
+	const { value, cursor } = useInputValue()
+	const empty = isEmpty(value) && (!cursor || isCursorAtStart(value, cursor))
 	const active = useActive()
 	const readOnly = useReadOnly()
 

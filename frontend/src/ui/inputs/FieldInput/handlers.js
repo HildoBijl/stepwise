@@ -29,7 +29,6 @@ export function useFieldInputHandlers(options, hullRef) {
 
 	// Set up hooks for graphical processing.
 	useContentSliding(hullRef, center)
-	// useFieldResizing(contentsRef, prelabelRef, fieldRef, FI.value, autoResize, heightDelta) // ToDo
 }
 
 // useKeyProcessing uses an effect to listen for key presses. It gets a key press processing function, which should have as arguments a keyInfo object, an FI object and (optionally) a contentsElement object, and should return a new FI object. This function makes sure that the given processKeyPress function is called.
@@ -114,7 +113,6 @@ function useContentSliding(hullRef, center) {
 		}
 
 		// If there is no cursor inside the field, then we can't position anything. Leave the previous settings.
-		// ToDo: put in Form hook? (Can we use Cursor data anyway?)
 		const cursorElement = cursorRef.current?.element
 		if (!cursorElement || !container.contains(cursorElement))
 			return

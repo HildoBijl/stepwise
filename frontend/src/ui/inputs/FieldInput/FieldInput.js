@@ -13,16 +13,27 @@ export const defaultFieldInputOptions = {
 
 	// Options for the rendering of the field hull. This also includes the handler functions.
 	...defaultFieldInputHullOptions,
+
+	// Add extra options that allow us to determine the initialSI without having descending components (the specific input fields) worry about the structure of the FI.
+	type: undefined,
+	initialValue: undefined,
 }
 
 export function FieldInput(options) {
 	options = processOptions(options, defaultFieldInputOptions)
 	const hullRef = useRef()
 
-	// Give certain functionalities, if undefined, their default values.
-	options.clean = options.clean || removeCursor
-	options.functionalize = options.functionalize || (SI => addCursor(SI, options.getEndCursor(SI.value)))
-	options.initialSI = options.initialSI || options.getEmptySI()
+	// Process certain functions, given the fact that FieldInput SIs always have the form { type, value } and the FI is identically { type, value, cursor }. Descendent components (the input fields) then only have to worry about the value.
+	const { type, initialValue, clean, functionalize } = options
+	options.clean = FI => removeCursor({
+		...FI,
+		value: clean ? clean(FI.value) : FI.value,
+	})
+	options.functionalize = SI => {
+		const value = functionalize ? functionalize(SI.value) : SI.value
+		return addCursor({ ...SI, value }, options.getEndCursor(value))
+	}
+	options.initialSI = { type, value: initialValue }
 
 	// Define the keyboard set-up (keyFunction and settings together) to be used. This is here a function that will take the FI and setFI as input. It will be evaluated internally.
 	const { keyPressToFI, keyboardSettings } = options

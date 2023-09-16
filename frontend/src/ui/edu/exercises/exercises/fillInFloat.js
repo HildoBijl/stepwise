@@ -3,8 +3,8 @@ import React from 'react'
 import { selectRandomCorrect, selectRandomIncorrect } from 'util/feedbackMessages'
 
 import { Par, M } from 'ui/components'
-import FloatInput from 'ui/form/inputs/FloatInput'
 import { InputSpace } from 'ui/form'
+import { FloatInput } from 'ui/inputs'
 
 import SimpleExercise from '../types/SimpleExercise'
 

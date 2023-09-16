@@ -5,8 +5,8 @@ import { Unit } from 'step-wise/inputTypes/Unit'
 import { selectRandomCorrect, selectRandomIncorrect } from 'util/feedbackMessages'
 
 import { Par, M } from 'ui/components'
-import UnitInput from 'ui/form/inputs/UnitInput'
-import { InputSpace, Hint } from 'ui/form/FormPart'
+import { InputSpace, Hint } from 'ui/form'
+import { UnitInput } from 'ui/inputs'
 
 import SimpleExercise from '../types/SimpleExercise'
 
