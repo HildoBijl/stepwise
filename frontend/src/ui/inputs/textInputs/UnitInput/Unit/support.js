@@ -20,7 +20,7 @@ export const isCursorAtStart = (value, cursor) => cursor.part === 'num' && isCur
 export const isCursorAtEnd = (value, cursor) => isDenominatorVisible(value, cursor) ? (cursor.part === 'den' && isCursorAtUnitArrayEnd(value.den, cursor.cursor)) : (cursor.part === 'num' && isCursorAtUnitArrayEnd(value.num, cursor.cursor))
 export const isValid = (value) => parts.every(part => isUnitArrayValid(value[part]))
 export const clean = value => applyMapping(value, cleanUnitArray)
-export const functionalize = value => keysToObject(parts, part => functionalizeUnitArray(value[part]))
+export const functionalize = value => keysToObject(parts, part => functionalizeUnitArray((value || initialValue)[part]))
 
 // FIToKeyboardSettings takes an FI object and determines what keyboard settings are appropriate.
 export function FIToKeyboardSettings(FI) {

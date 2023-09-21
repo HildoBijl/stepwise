@@ -1,4 +1,3 @@
 export * from './support'
-export * from './Float'
-export * from './FloatInput'
+export * from './FloatUnitInput'
 export * from './validation'

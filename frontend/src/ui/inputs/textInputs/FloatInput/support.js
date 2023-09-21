@@ -7,14 +7,14 @@ import { errorToMessage as integerErrorToMessage } from '../IntegerInput'
 export const type = 'Float'
 export const initialValue = {}
 export const parts = ['number', 'power']
-export const isEmpty = value => value.number === '' && value.power === ''
+export const isEmpty = ({ number, power }) => number === '' && power === ''
 export const getStartCursor = () => ({ part: 'number', cursor: 0 })
 export const getEndCursor = ({ number, power }, cursor) => (power !== '' || (cursor && cursor.part === 'power')) ? { part: 'power', cursor: power.length } : { part: 'number', cursor: number.length }
 export const isCursorAtStart = (_, cursor) => cursor.part === 'number' && cursor.cursor === 0
 export const isCursorAtEnd = ({ number, power }, cursor) => (cursor.part === 'power') ? (cursor.cursor === power.length) : (power === '' && cursor.cursor === number.length)
 export const isValid = ({ number }) => number.replace(/[.-]/g, '').length > 0 // It should have a number somewhere in it.
 export const clean = value => applyMapping(value, param => param || undefined) // Remove empty strings.
-export const functionalize = value => keysToObject(parts, part => value[part] || '') // Add empty strings.
+export const functionalize = value => keysToObject(parts, part => (value || initialValue)[part] || '') // Add empty strings.
 
 // FIToKeyboardSettings takes an FI object and determines what keyboard settings are appropriate.
 export function FIToKeyboardSettings(FI, positive = false, allowPower = true) {

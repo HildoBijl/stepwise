@@ -5,8 +5,8 @@ import * as constants from 'step-wise/data/constants'
 import { selectRandomCorrect } from 'util/feedbackMessages'
 
 import { Par, M } from 'ui/components'
-import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form'
+import { FloatUnitInput } from 'ui/inputs'
 
 import SimpleExercise from '../types/SimpleExercise'
 
