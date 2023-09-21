@@ -3,8 +3,8 @@ import React from 'react'
 import { Unit } from 'step-wise/inputTypes/Unit'
 
 import { Par, M, BM } from 'ui/components'
-import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form'
+import { FloatUnitInput } from 'ui/inputs'
 
 import SimpleExercise from '../types/SimpleExercise'
 import { useSolution } from '../util/SolutionProvider'
@@ -18,7 +18,7 @@ function Problem({ E, Ein }) {
 	return <>
 		<Par>Een elektrische auto heeft een batterij die <M>{E}</M> op kan slaan. We laden deze batterij volledig op, van "helemaal leeg" naar "helemaal vol". Na afloop blijkt dat we <M>{Ein}</M> aan elektriciteit verbruikt hebben. Bereken het rendement van het oplaadproces.</Par>
 		<InputSpace>
-			<Par><FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={any} /></Par>
+			<Par><FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={FloatUnitInput.validation.any} /></Par>
 		</InputSpace>
 	</>
 }

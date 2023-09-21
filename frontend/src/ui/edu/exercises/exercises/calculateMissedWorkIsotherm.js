@@ -3,8 +3,8 @@ import React from 'react'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 
 import { Par, SubHead, M, BM, BMList, BMPart } from 'ui/components'
-import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form'
+import { FloatUnitInput } from 'ui/inputs'
 
 import StepExercise from '../types/StepExercise'
 import { useSolution } from '../util/SolutionProvider'

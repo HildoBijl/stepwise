@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
-import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form'
+import { FloatUnitInput } from 'ui/inputs'
 
 import SimpleExercise from '../types/SimpleExercise'
 import { useSolution } from '../util/SolutionProvider'
@@ -16,7 +16,7 @@ function Problem({ Ee, Eout }) {
 	return <>
 		<Par>Gedurende een volle dag wordt het energieverbruik van een koelkast gemeten. In deze dag heeft de koelkast <M>{Ee}</M> aan elektriciteit verbruikt. Ook is er <M>{Eout}</M> warmte aan de keuken afgestaan. Bereken de koudefactor van de koelkast.</Par>
 		<InputSpace>
-			<Par><FloatUnitInput id="epsilon" prelabel={<M>\epsilon =</M>} label="Koudefactor" size="s" validate={any} /></Par>
+			<Par><FloatUnitInput id="epsilon" prelabel={<M>\epsilon =</M>} label="Koudefactor" size="s" validate={FloatUnitInput.validation.any} /></Par>
 		</InputSpace>
 	</>
 }

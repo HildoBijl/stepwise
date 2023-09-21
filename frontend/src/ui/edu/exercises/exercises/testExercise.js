@@ -5,10 +5,9 @@ import { toSO } from 'step-wise/inputTypes'
 import { selectRandomCorrect, selectRandomIncorrect } from 'util/feedbackMessages'
 
 import { Par, M } from 'ui/components'
-import IntegerInput from 'ui/form/inputs/IntegerInput'
 import { useIdentityTransformationSettings, Circle } from 'ui/figures'
 import { InputSpace } from 'ui/form'
-import { DrawingInput, useInputValue, useDrawingInputData, DragMarker } from 'ui/inputs'
+import { DrawingInput, useInputValue, useDrawingInputData, DragMarker, IntegerInput } from 'ui/inputs'
 
 import SimpleExercise from '../types/SimpleExercise'
 

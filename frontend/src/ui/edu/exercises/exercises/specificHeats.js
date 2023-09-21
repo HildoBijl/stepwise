@@ -4,8 +4,8 @@ import * as gasProperties from 'step-wise/data/gasProperties'
 
 import { Dutch } from 'ui/lang/gases'
 import { Par, M } from 'ui/components'
-import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form'
+import { FloatUnitInput } from 'ui/inputs'
 
 import SimpleExercise from '../types/SimpleExercise'
 import { getAllInputFieldsFeedback } from '../util/feedback'

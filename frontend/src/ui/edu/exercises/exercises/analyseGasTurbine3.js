@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
-import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form'
+import { FloatUnitInput } from 'ui/inputs'
 
 import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
@@ -19,7 +19,7 @@ const Problem = ({ p1, T1, p2, q23, etai, mdot }) => {
 		<Par>Voor deze gasturbine geldt verder dat de compressor en de turbine <em>niet</em> isentroop werken: ze hebben elk een isentropisch rendement van <M>{etai}.</M> Bereken het thermodynamisch rendement van de gasturbine. Bereken ook het geleverde (netto) asvermogen, gegeven dat de massastroom lucht <M>{mdot}</M> is.</Par>
 		<InputSpace>
 			<Par>
-				<FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={any} />
+				<FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={FloatUnitInput.validation.any} />
 				<FloatUnitInput id="P" prelabel={<M>P =</M>} label="Asvermogen" size="s" />
 			</Par>
 		</InputSpace>
@@ -130,7 +130,7 @@ const steps = [
 			<Par>Bereken, gebaseerd op de energiestromen, het rendement van de gasturbine. Bereken ook via het gegeven asvermogen de gebruikte massastroom.</Par>
 			<InputSpace>
 				<Par>
-					<Substep ss={1}><FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={any} /></Substep>
+					<Substep ss={1}><FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={FloatUnitInput.validation.any} /></Substep>
 					<Substep ss={2}><FloatUnitInput id="P" prelabel={<M>P =</M>} label="Asvermogen" size="s" /></Substep>
 				</Par>
 			</InputSpace>

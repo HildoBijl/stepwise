@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { Par, M } from 'ui/components'
-import IntegerInput from 'ui/form/inputs/IntegerInput'
 import { InputSpace } from 'ui/form'
+import { IntegerInput } from 'ui/inputs'
 
 import StepExercise from '../types/StepExercise'
 

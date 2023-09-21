@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
-import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form'
+import { FloatUnitInput } from 'ui/inputs'
 
 import StepExercise from '../types/StepExercise'
 import { useSolution } from '../util/SolutionProvider'
@@ -17,8 +17,8 @@ const Problem = ({ refrigerant, TCold, TWarm, dTCold, dTWarm, dTSuperheating, dT
 		<Par>We bekijken een koelmachine die werkt met {refrigerant}. De koelmachine moet een ruimte op een temperatuur houden van <M>{TCold}.</M> De omgevingstemperatuur (waar warmte geloosd wordt) is <M>{TWarm}.</M> In de verdamper is een minimaal temperatuursverschil nodig van <M>{dTCold}</M> en in de condensor is dit benodigde temperatuursverschil <M>{dTWarm}.</M> Tevens vindt er in de koelmachine <M>{dTSuperheating}</M> oververhitting en <M>{dTSubcooling}</M> nakoeling plaats. De compressor heeft een isentropisch rendement van <M>{etai.setUnit('%')}</M> en gebruikt een vermogen van <M>{P}.</M> Bepaal de koudefactor/warmtefactor en de massastroom koudemiddel die door de koelmachine stroomt.</Par>
 		<InputSpace>
 			<Par>
-				<FloatUnitInput id="epsilon" prelabel={<M>\varepsilon =</M>} label="Koudefactor" size="s" validate={any} />
-				<FloatUnitInput id="COP" prelabel={<M>\varepsilon_w =</M>} label="Warmtefactor" size="s" validate={any} />
+				<FloatUnitInput id="epsilon" prelabel={<M>\varepsilon =</M>} label="Koudefactor" size="s" validate={FloatUnitInput.validation.any} />
+				<FloatUnitInput id="COP" prelabel={<M>\varepsilon_w =</M>} label="Warmtefactor" size="s" validate={FloatUnitInput.validation.any} />
 				<FloatUnitInput id="mdot" prelabel={<M>\dot(m) =</M>} label="Massastroom" size="s" />
 			</Par>
 		</InputSpace>
@@ -73,8 +73,8 @@ const steps = [
 			<Par>Bereken met alle bekende gegevens de koudefactor, de warmtefactor en de massastroom aan koudemiddel.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="epsilon" prelabel={<M>\varepsilon =</M>} label="Koudefactor" size="s" validate={any} />
-					<FloatUnitInput id="COP" prelabel={<M>\varepsilon_w =</M>} label="Warmtefactor" size="s" validate={any} />
+					<FloatUnitInput id="epsilon" prelabel={<M>\varepsilon =</M>} label="Koudefactor" size="s" validate={FloatUnitInput.validation.any} />
+					<FloatUnitInput id="COP" prelabel={<M>\varepsilon_w =</M>} label="Warmtefactor" size="s" validate={FloatUnitInput.validation.any} />
 					<FloatUnitInput id="mdot" prelabel={<M>\dot(m) =</M>} label="Massastroom" size="s" />
 				</Par>
 			</InputSpace>

@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { Par, M, BM, BMList, BMPart, InputTable } from 'ui/components'
-import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form'
+import { FloatUnitInput } from 'ui/inputs'
 
 import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
@@ -19,8 +19,8 @@ const Problem = ({ p1, T1, p2, T4, mdot }) => {
 		<Par>Bepaal voor dit proces de koudefactor en de warmtefactor. Bepaal ook het verwarmingsvermogen <M>P_(warm)</M>, gegeven een massastroom lucht van <M>{mdot}.</M></Par>
 		<InputSpace>
 			<Par>
-				<FloatUnitInput id="epsilon" prelabel={<M>\varepsilon =</M>} label="Koudefactor" size="s" validate={any} />
-				<FloatUnitInput id="COP" prelabel={<M>\varepsilon_w =</M>} label="Warmtefactor" size="s" validate={any} />
+				<FloatUnitInput id="epsilon" prelabel={<M>\varepsilon =</M>} label="Koudefactor" size="s" validate={FloatUnitInput.validation.any} />
+				<FloatUnitInput id="COP" prelabel={<M>\varepsilon_w =</M>} label="Warmtefactor" size="s" validate={FloatUnitInput.validation.any} />
 				<FloatUnitInput id="Ph" prelabel={<M>P_(warm) =</M>} label="Verwarmingsvermogen" size="s" />
 			</Par>
 		</InputSpace>
@@ -120,8 +120,8 @@ const steps = [
 			<Par>Bereken, gebaseerd op de energiestromen, de koudefactor en de warmtefactor. Bereken ook via de massastroom het geleverde verwarmingsvermogen.</Par>
 			<InputSpace>
 				<Par>
-					<Substep ss={1}><FloatUnitInput id="epsilon" prelabel={<M>\varepsilon =</M>} label="Koudefactor" size="s" validate={any} /></Substep>
-					<Substep ss={1}><FloatUnitInput id="COP" prelabel={<M>\varepsilon_w =</M>} label="Warmtefactor" size="s" validate={any} /></Substep>
+					<Substep ss={1}><FloatUnitInput id="epsilon" prelabel={<M>\varepsilon =</M>} label="Koudefactor" size="s" validate={FloatUnitInput.validation.any} /></Substep>
+					<Substep ss={1}><FloatUnitInput id="COP" prelabel={<M>\varepsilon_w =</M>} label="Warmtefactor" size="s" validate={FloatUnitInput.validation.any} /></Substep>
 					<Substep ss={2}><FloatUnitInput id="Ph" prelabel={<M>P_(warm) =</M>} label="Verwarmingsvermogen" size="s" /></Substep>
 				</Par>
 			</InputSpace>

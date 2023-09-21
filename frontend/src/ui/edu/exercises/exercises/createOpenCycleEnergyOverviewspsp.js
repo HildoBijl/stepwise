@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { Par, List, M, BM, Table, InputTable } from 'ui/components'
-import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form'
+import { FloatUnitInput } from 'ui/inputs'
 
 import { useExerciseData } from '../ExerciseContainer'
 import StepExercise from '../types/StepExercise'

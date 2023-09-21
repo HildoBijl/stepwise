@@ -7,7 +7,7 @@ import { Par, M } from 'ui/components'
 import { useColor } from 'ui/theme'
 import { Line, Circle, Curve } from 'ui/figures'
 import { InputSpace } from 'ui/form'
-import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
+import { FloatUnitInput } from 'ui/inputs'
 
 import MollierDiagram from '../../content/diagrams/MollierDiagram'
 
@@ -24,7 +24,7 @@ const Problem = ({ T1, T3, T4, startRH }) => <>
 	<MollierDiagram maxWidth="500" />
 	<InputSpace>
 		<Par>
-			<FloatUnitInput id="endRH" prelabel={<M>RV_(uit) =</M>} label="Relatieve luchtvochtigheid" size="s" validate={any} />
+			<FloatUnitInput id="endRH" prelabel={<M>RV_(uit) =</M>} label="Relatieve luchtvochtigheid" size="s" validate={FloatUnitInput.validation.any} />
 		</Par>
 	</InputSpace>
 </>
@@ -91,7 +91,7 @@ const steps = [
 			<Par>Vervolgens wordt de lucht opgewarmd tot <M>{T4}.</M> Bepaal de relatieve luchtvochtigheid na afloop.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="endRH" prelabel={<M>RV_(uit) =</M>} label="Relatieve luchtvochtigheid" size="s" validate={any} />
+					<FloatUnitInput id="endRH" prelabel={<M>RV_(uit) =</M>} label="Relatieve luchtvochtigheid" size="s" validate={FloatUnitInput.validation.any} />
 				</Par>
 			</InputSpace>
 		</>,

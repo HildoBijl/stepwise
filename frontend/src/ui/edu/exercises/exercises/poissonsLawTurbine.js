@@ -2,8 +2,7 @@ import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { MultipleChoice } from 'ui/inputs'
-import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
+import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
 
 import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
@@ -46,7 +45,7 @@ const steps = [
 		Problem: () => <>
 			<Par>Zoek de <M>k</M>-waarde (verhouding van soortelijke warmten) op van het betreffende gas.</Par>
 			<InputSpace>
-				<Par><FloatUnitInput id="k" prelabel={<M>k =</M>} label={<span><M>k</M>-waarde</span>} size="s" validate={any} /></Par>
+				<Par><FloatUnitInput id="k" prelabel={<M>k =</M>} label={<span><M>k</M>-waarde</span>} size="s" validate={FloatUnitInput.validation.any} /></Par>
 			</InputSpace>
 		</>,
 		Solution: () => {

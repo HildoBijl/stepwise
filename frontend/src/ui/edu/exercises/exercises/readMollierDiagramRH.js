@@ -3,8 +3,8 @@ import React from 'react'
 import { useColor } from 'ui/theme'
 import { Par, M, BM } from 'ui/components'
 import { Line, Circle } from 'ui/figures'
-import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form'
+import { FloatUnitInput } from 'ui/inputs'
 
 import MollierDiagram from '../../content/diagrams/MollierDiagram'
 
@@ -22,7 +22,7 @@ function Problem({ T, AH }) {
 		<MollierDiagram maxWidth="500" />
 		<InputSpace>
 			<Par>
-				<FloatUnitInput id="RH" prelabel={<M>RV =</M>} label="Relatieve luchtvochtigheid" size="s" validate={any} />
+				<FloatUnitInput id="RH" prelabel={<M>RV =</M>} label="Relatieve luchtvochtigheid" size="s" validate={FloatUnitInput.validation.any} />
 			</Par>
 		</InputSpace>
 	</>

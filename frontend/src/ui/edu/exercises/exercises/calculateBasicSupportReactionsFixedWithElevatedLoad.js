@@ -5,8 +5,7 @@ import { Vector } from 'step-wise/geometry'
 import { Par, M, BM } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
 import { useInput, InputSpace } from 'ui/form'
-import { useCurrentBackgroundColor } from 'ui/inputs'
-import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
+import { useCurrentBackgroundColor, FloatUnitInput } from 'ui/inputs'
 
 import { FBDInput, Group, Beam, FixedSupport, Distance, Element, Label, LoadLabel, render, getFBDFeedback, loadSources, performLoadsComparison, sumOfForces, sumOfMoments } from 'ui/edu/content/mechanics'
 

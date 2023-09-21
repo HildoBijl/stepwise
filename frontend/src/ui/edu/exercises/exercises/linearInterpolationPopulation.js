@@ -4,9 +4,8 @@ import { roundTo } from 'step-wise/util'
 import { Float } from 'step-wise/inputTypes/Float'
 
 import { Par, M, BM } from 'ui/components'
-import IntegerInput from 'ui/form/inputs/IntegerInput'
 import { InputSpace } from 'ui/form'
-import { FloatInput } from 'ui/inputs' // ToDo: add FloatUnitInput too.
+import { IntegerInput, FloatInput } from 'ui/inputs'
 
 import StepExercise from '../types/StepExercise'
 import { useSolution } from '../util/SolutionProvider'

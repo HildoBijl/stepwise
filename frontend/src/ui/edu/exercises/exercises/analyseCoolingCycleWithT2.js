@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { Par, M, BMList, BMPart } from 'ui/components'
-import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form'
+import { FloatUnitInput } from 'ui/inputs'
 
 import StepExercise from '../types/StepExercise'
 import { useSolution } from '../util/SolutionProvider'
@@ -17,9 +17,9 @@ const Problem = ({ refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling, T2, 
 		<Par>We bekijken een koelmachine die werkt met {refrigerant}. In de verdamper is de druk <M>{pEvap}</M> en in de condensor is deze <M>{pCond}.</M> De koelmachine past <M>{dTSuperheating}</M> oververhitting en <M>{dTSubcooling}</M> nakoeling toe. Verder is bekend dat de massastroom koudemiddel <M>{mdot}</M> is en dat de temperatuur ervan na de compressor <M>{T2}</M> is. Bepaal de koudefactor/warmtefactor van de koelmachine, en het isentropisch rendement en elektrisch vermogen van de compressor.</Par>
 		<InputSpace>
 			<Par>
-				<FloatUnitInput id="epsilon" prelabel={<M>\varepsilon =</M>} label="Koudefactor" size="s" validate={any} />
-				<FloatUnitInput id="COP" prelabel={<M>\varepsilon_w =</M>} label="Warmtefactor" size="s" validate={any} />
-				<FloatUnitInput id="etai" prelabel={<M>\eta_i =</M>} label="Isentropisch rendement" size="s" validate={any} />
+				<FloatUnitInput id="epsilon" prelabel={<M>\varepsilon =</M>} label="Koudefactor" size="s" validate={FloatUnitInput.validation.any} />
+				<FloatUnitInput id="COP" prelabel={<M>\varepsilon_w =</M>} label="Warmtefactor" size="s" validate={FloatUnitInput.validation.any} />
+				<FloatUnitInput id="etai" prelabel={<M>\eta_i =</M>} label="Isentropisch rendement" size="s" validate={FloatUnitInput.validation.any} />
 				<FloatUnitInput id="P" prelabel={<M>P =</M>} label="Compressorvermogen" size="s" />
 			</Par>
 		</InputSpace>
@@ -53,9 +53,9 @@ const steps = [
 			<Par>Bereken met alle bekende gegevens de koudefactor, de warmtefactor, het isentropisch rendement van de compressor en het compressorvermogen.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="epsilon" prelabel={<M>\varepsilon =</M>} label="Koudefactor" size="s" validate={any} />
-					<FloatUnitInput id="COP" prelabel={<M>\varepsilon_w =</M>} label="Warmtefactor" size="s" validate={any} />
-					<FloatUnitInput id="etai" prelabel={<M>\eta_i =</M>} label="Isentropisch rendement" size="s" validate={any} />
+					<FloatUnitInput id="epsilon" prelabel={<M>\varepsilon =</M>} label="Koudefactor" size="s" validate={FloatUnitInput.validation.any} />
+					<FloatUnitInput id="COP" prelabel={<M>\varepsilon_w =</M>} label="Warmtefactor" size="s" validate={FloatUnitInput.validation.any} />
+					<FloatUnitInput id="etai" prelabel={<M>\eta_i =</M>} label="Isentropisch rendement" size="s" validate={FloatUnitInput.validation.any} />
 					<FloatUnitInput id="P" prelabel={<M>P =</M>} label="Compressorvermogen" size="s" />
 				</Par>
 			</InputSpace>

@@ -1,9 +1,8 @@
 import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
-import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form'
-import { FloatInput } from 'ui/inputs' // ToDo: add FloatUnitInput too.
+import { FloatInput, FloatUnitInput } from 'ui/inputs'
 
 import StepExercise from '../types/StepExercise'
 import { useSolution } from '../util/SolutionProvider'

@@ -7,8 +7,7 @@ import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { Drawing, CornerLabel, Circle, Rectangle as SvgRectangle, Line, useScaleBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'
-import { MultipleChoice } from 'ui/inputs'
-import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
+import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
 
 import { Distance, Element, Label, LoadLabel, render, sumOfMoments } from 'ui/edu/content/mechanics'
 

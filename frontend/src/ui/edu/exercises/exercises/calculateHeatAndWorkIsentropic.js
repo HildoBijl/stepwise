@@ -2,8 +2,7 @@ import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
-import { MultipleChoice } from 'ui/inputs'
-import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
+import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
 
 import StepExercise from '../types/StepExercise'
 import { useSolution } from '../util/SolutionProvider'
@@ -71,7 +70,7 @@ const steps = [
 				<Par>Zoek voor lucht de <M>k</M>-waarde op.</Par>
 				<InputSpace>
 					<Par>
-						<FloatUnitInput id="k" prelabel={<M>k =</M>} label={<span><M>k</M></span>} size="s" validate={any} />
+						<FloatUnitInput id="k" prelabel={<M>k =</M>} label={<span><M>k</M></span>} size="s" validate={FloatUnitInput.validation.any} />
 					</Par>
 				</InputSpace>
 			</>

@@ -5,8 +5,7 @@ import { temperature as TConversion, volumeLiter as VConversion, massGram as mCo
 import { Dutch } from 'ui/lang/gases'
 import { Par, M, BM, BMList, BMPart, InputTable } from 'ui/components'
 import { useInput, AntiInputSpace, InputSpace } from 'ui/form'
-import { MultipleChoice } from 'ui/inputs'
-import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
+import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
 
 import StepExercise from '../types/StepExercise'
 import { useSolution } from '../util/SolutionProvider'

@@ -3,8 +3,8 @@ import React from 'react'
 import { Unit } from 'step-wise/inputTypes/Unit'
 
 import { Par, M, BM } from 'ui/components'
-import FloatUnitInput, { any } from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form'
+import { FloatUnitInput } from 'ui/inputs'
 
 import SimpleExercise from '../types/SimpleExercise'
 import { useSolution } from '../util/SolutionProvider'
@@ -18,7 +18,7 @@ function Problem({ P, Pin }) {
 	return <>
 		<Par>Een generator levert een elektrisch vermogen van <M>{P}.</M> De warmte geleverd door de verbrande brandstof is <M>{Pin}.</M> Wat is het rendement van de generator?</Par>
 		<InputSpace>
-			<Par><FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={any} /></Par>
+			<Par><FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={FloatUnitInput.validation.any} /></Par>
 		</InputSpace>
 	</>
 }

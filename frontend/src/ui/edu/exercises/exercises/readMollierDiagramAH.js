@@ -5,8 +5,8 @@ import { Unit } from 'step-wise/inputTypes/Unit'
 import { useColor } from 'ui/theme'
 import { Par, M, BM } from 'ui/components'
 import { Line, Circle } from 'ui/figures'
-import FloatUnitInput from 'ui/form/inputs/FloatUnitInput'
 import { InputSpace } from 'ui/form'
+import { FloatUnitInput } from 'ui/inputs'
 
 import MollierDiagram from '../../content/diagrams/MollierDiagram'
 
