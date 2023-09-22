@@ -4,9 +4,9 @@ import { Vector } from 'step-wise/geometry'
 
 import { Par, M, BM } from 'ui/components'
 import { Drawing, Polygon, RightAngle, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
-import ExpressionInput, { numeric, basicMathAndPowers } from 'ui/form/inputs/ExpressionInput'
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form'
+import { ExpressionInput } from 'ui/inputs'
 
 import { useExerciseData } from '../ExerciseContainer'
 import { useSolution } from '../util/SolutionProvider'
@@ -26,8 +26,8 @@ const Problem = () => {
 		<Par>De onderstaande driehoek met zijde <M>{z}</M> is gelijkvormig met een <M>\left({La},{Lb},{Lc}\right)</M> driehoek. Vind de onbekende zijden <M>{x}</M> en <M>{y}.</M></Par>
 		<ExerciseFigure />
 		<InputSpace>
-			<ExpressionInput id="ans1" prelabel={<M>{x}=</M>} size="s" settings={basicMathAndPowers} validate={numeric} />
-			<ExpressionInput id="ans2" prelabel={<M>{y}=</M>} size="s" settings={basicMathAndPowers} validate={numeric} />
+			<ExpressionInput id="ans1" prelabel={<M>{x}=</M>} size="s" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.numeric} />
+			<ExpressionInput id="ans2" prelabel={<M>{y}=</M>} size="s" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.numeric} />
 		</InputSpace>
 	</>
 }
@@ -39,7 +39,7 @@ const steps = [
 			return <>
 				<Par>Bekijk als eerste zijde <M>{x}.</M> Stel een vergelijking op waar zowel de bekende zijde <M>{z}</M> als de onbekende zijde <M>{x}</M> in voorkomen.</Par>
 				<InputSpace>
-					<EquationInput id="equation1" settings={basicMathAndPowers} validate={validWithVariables(x)} />
+					<EquationInput id="equation1" settings={ExpressionInput.settings.basicMathAndPowers} validate={validWithVariables(x)} />
 				</InputSpace>
 			</>
 		},
@@ -55,7 +55,7 @@ const steps = [
 				<Par>Los deze vergelijking op voor <M>{x}.</M></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="ans1" prelabel={<M>{x}=</M>} size="s" settings={basicMathAndPowers} validate={numeric} />
+						<ExpressionInput id="ans1" prelabel={<M>{x}=</M>} size="s" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.numeric} />
 					</Par>
 				</InputSpace>
 			</>
@@ -71,7 +71,7 @@ const steps = [
 			return <>
 				<Par>Bekijk vervolgens zijde <M>{y}.</M> Stel een vergelijking op waar zowel de bekende zijde <M>{z}</M> als de onbekende zijde <M>{y}</M> in voorkomen.</Par>
 				<InputSpace>
-					<EquationInput id="equation2" settings={basicMathAndPowers} validate={validWithVariables(y)} />
+					<EquationInput id="equation2" settings={ExpressionInput.settings.basicMathAndPowers} validate={validWithVariables(y)} />
 				</InputSpace>
 			</>
 		},
@@ -87,7 +87,7 @@ const steps = [
 				<Par>Los deze vergelijking op voor <M>{y}.</M></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="ans2" prelabel={<M>{y}=</M>} size="s" settings={basicMathAndPowers} validate={numeric} />
+						<ExpressionInput id="ans2" prelabel={<M>{y}=</M>} size="s" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.numeric} />
 					</Par>
 				</InputSpace>
 			</>

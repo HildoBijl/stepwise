@@ -4,9 +4,9 @@ import { Vector } from 'step-wise/geometry'
 
 import { Par, M, BM } from 'ui/components'
 import { Drawing, Polygon, RightAngle, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
-import ExpressionInput, { numeric, basicMathAndPowers } from 'ui/form/inputs/ExpressionInput'
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form'
+import { ExpressionInput } from 'ui/inputs'
 
 import { useSolution } from '../util/SolutionProvider'
 import StepExercise from '../types/StepExercise'
@@ -25,7 +25,7 @@ const Problem = (state) => {
 		<Par>Gegeven is de onderstaande driehoek. Vind de onbekende zijde <M>{x}.</M></Par>
 		<ExerciseFigure state={state} solution={solution} />
 		<InputSpace>
-			<ExpressionInput id="ans" prelabel={<M>{x}=</M>} size="s" settings={basicMathAndPowers} validate={numeric} />
+			<ExpressionInput id="ans" prelabel={<M>{x}=</M>} size="s" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.numeric} />
 		</InputSpace>
 	</>
 }
@@ -38,7 +38,7 @@ const steps = [
 			return <>
 				<Par>Stel via de stelling van Pythagoras een vergelijking op voor de zijden van de driehoek. Gebruik de waarden <M>{a},</M> <M>{b}</M> en <M>{c}.</M></Par>
 				<InputSpace>
-					<EquationInput id="equation" settings={basicMathAndPowers} validate={validWithVariables(x)} />
+					<EquationInput id="equation" settings={ExpressionInput.settings.basicMathAndPowers} validate={validWithVariables(x)} />
 				</InputSpace>
 			</>
 		},
@@ -55,7 +55,7 @@ const steps = [
 				<Par>Los deze vergelijking eerst op voor <M>{x}^2.</M></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="ansSquared" prelabel={<M>{x}^2=</M>} size="s" settings={basicMathAndPowers} validate={numeric} />
+						<ExpressionInput id="ansSquared" prelabel={<M>{x}^2=</M>} size="s" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.numeric} />
 					</Par>
 				</InputSpace>
 			</>
@@ -72,7 +72,7 @@ const steps = [
 				<Par>Bepaal vanuit <M>{x}^2</M> de waarde van <M>{x}.</M></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="ans" prelabel={<M>{x}=</M>} size="s" settings={basicMathAndPowers} validate={numeric} />
+						<ExpressionInput id="ans" prelabel={<M>{x}=</M>} size="s" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.numeric} />
 					</Par>
 				</InputSpace>
 			</>

@@ -8,8 +8,7 @@ import { Float } from 'step-wise/inputTypes/Float'
 import { Par, M, BM } from 'ui/components'
 import { Drawing, Polygon, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
 import { useInput, InputSpace } from 'ui/form'
-import { MultipleChoice } from 'ui/inputs'
-import ExpressionInput, { numeric, basicTrigonometryInDegrees } from 'ui/form/inputs/ExpressionInput'
+import { MultipleChoice, ExpressionInput } from 'ui/inputs'
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
 
 import { useExerciseData } from '../ExerciseContainer'
@@ -38,7 +37,7 @@ const Problem = (state) => {
 				<>Er zijn twee oplossingen voor <M>{α}</M>.</>,
 			]} />
 			{numSolutions ? <Par>
-				{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`α${numSolutions > 1 ? index : ''}`} prelabel={<M>{α}{numSolutions > 1 ? `_${index}` : ''}=</M>} size="m" settings={basicTrigonometryInDegrees} validate={numeric} persistent={true} />)}
+				{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`α${numSolutions > 1 ? index : ''}`} prelabel={<M>{α}{numSolutions > 1 ? `_${index}` : ''}=</M>} size="m" settings={ExpressionInput.settings.basicTrigonometryInDegrees} validate={ExpressionInput.validation.numeric} persistent={true} />)}
 			</Par> : null}
 		</InputSpace>
 	</>
@@ -64,7 +63,7 @@ const steps = [
 			return <>
 				<Par>Pas de betreffende regel letterlijk toe, gebruik makend van hoek <M>{α}.</M> Noteer de vergelijking.</Par>
 				<InputSpace>
-					<EquationInput id="equation" settings={basicTrigonometryInDegrees} validate={validWithVariables(α)} />
+					<EquationInput id="equation" settings={ExpressionInput.settings.basicTrigonometryInDegrees} validate={validWithVariables(α)} />
 				</InputSpace>
 			</>
 		},
@@ -103,7 +102,7 @@ const steps = [
 				<Par>Los de vergelijking op voor <M>{α}.</M> Gebruik wiskundige notatie: je mag eventuele functies als sin/cos/tan in je antwoord laten staan.</Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="α" prelabel={<M>{α}=</M>} size="m" settings={basicTrigonometryInDegrees} validate={numeric} />
+						<ExpressionInput id="α" prelabel={<M>{α}=</M>} size="m" settings={ExpressionInput.settings.basicTrigonometryInDegrees} validate={ExpressionInput.validation.numeric} />
 					</Par>
 				</InputSpace>
 			</>

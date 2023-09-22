@@ -8,27 +8,26 @@ import { getCoordinatesOf } from 'util/dom'
 import { useCursorRef } from 'ui/form'
 import { useSubmitAction } from 'ui/edu/exercises/util/actions'
 
+import { useInputData } from '../Input'
+
 import { addCursor, submitOnEnter } from './support'
 
-import { useInput, useActive } from '../Input'
-
 // useFieldInputHandlers is a single hook that calls various other hooks to arrange functionalities (key processing, mouse click processing, etcetera) for the Input Field.
-export function useFieldInputHandlers(options, hullRef) {
+export function useFieldInputHandlers(options, inputFieldRef) {
 	const { keyPressToFI, mouseClickToCursor, mouseClickToFI, getStartCursor, getEndCursor, center } = options
 
 	// Extract data from the Input field.
-	const [, setFI] = useInput()
-	const active = useActive()
+	const { setFI, active, cursorRef } = useInputData()
 
 	// Set up a key press listener.
-	const processKeyPress = useCallback(keyInfo => setFI(FI => keyPressToFI(keyInfo, FI, hullRef.current?.contents)), [setFI, keyPressToFI, hullRef])
+	const processKeyPress = useCallback(keyInfo => setFI(FI => keyPressToFI(keyInfo, FI, inputFieldRef.current?.contents, cursorRef.current?.element)), [setFI, keyPressToFI, inputFieldRef, cursorRef])
 	useKeyProcessing(processKeyPress, active)
 
 	// Set up a mouse click listener.
-	useMouseClickProcessing(mouseClickToCursor, mouseClickToFI, setFI, hullRef, getStartCursor, getEndCursor)
+	useMouseClickProcessing(mouseClickToCursor, mouseClickToFI, setFI, inputFieldRef, getStartCursor, getEndCursor)
 
 	// Set up hooks for graphical processing.
-	useContentSliding(hullRef, center)
+	useContentSliding(inputFieldRef, center)
 }
 
 // useKeyProcessing uses an effect to listen for key presses. It gets a key press processing function, which should have as arguments a keyInfo object, an FI object and (optionally) a contentsElement object, and should return a new FI object. This function makes sure that the given processKeyPress function is called.

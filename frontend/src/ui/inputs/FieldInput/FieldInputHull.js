@@ -33,7 +33,6 @@ export const defaultFieldInputHandlerOptions = {
 	getEndCursor: undefined,
 	isCursorAtStart: undefined,
 	isCursorAtEnd: undefined,
-	keyboardSettings: undefined,
 }
 
 export const defaultFieldInputHullOptions = {
@@ -47,11 +46,13 @@ const padding = 0.75 // em
 const border = 0.0625 // em
 const glowRadius = 0.25 // em
 const transitionTime = 200 // ms
+export const fieldSettings = { height, padding, border, glowRadius, transitionTime }
 
 // Label definitions.
 const scaleFactor = 0.7
 const labelMargin = 0.3 // em
 const labelOffset = 0.5 // em
+export const labelSettings = { scaleFactor, labelMargin, labelOffset }
 
 const useStyles = makeStyles((theme) => ({
 	fieldInput: {
@@ -211,6 +212,11 @@ const useStyles = makeStyles((theme) => ({
 				transition: `color ${transitionTime}ms`,
 			},
 		},
+	},
+
+	contents: {
+		margin: '0 -0.25em',
+		padding: '0 0.25em', // To make sure the cursor is visible when all the way on the edge, even for expressions starting/ending with large brackets.
 	},
 }))
 

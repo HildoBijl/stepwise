@@ -3,9 +3,9 @@ import React from 'react'
 import { Sum, Product, expressionComparisons } from 'step-wise/CAS'
 
 import { Par, M, BM } from 'ui/components'
-import ExpressionInput, { validWithVariables as expressionValidWithVariables, basicMath } from 'ui/form/inputs/ExpressionInput'
 import EquationInput, { validWithVariables as equationValidWithVariables } from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form'
+import { ExpressionInput } from 'ui/inputs'
 
 import { useSolution } from '../util/SolutionProvider'
 import StepExercise from '../types/StepExercise'
@@ -26,7 +26,7 @@ const Problem = () => {
 		<Par>Gegeven is de vergelijking <BM>{equation}.</BM> Los deze op voor <M>{variables.x}.</M></Par>
 		<InputSpace>
 			<Par>
-				<ExpressionInput id="ans" prelabel={<M>{variables.x}=</M>} label="Vul hier het resultaat in" size="l" settings={basicMath} validate={expressionValidWithVariables(variables)} />
+				<ExpressionInput id="ans" prelabel={<M>{variables.x}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.basicMath} validate={ExpressionInput.validation.validWithVariables(variables)} />
 			</Par>
 		</InputSpace>
 	</>
@@ -40,7 +40,7 @@ const steps = [
 				<Par>Breng alle termen met <M>{variables.x}</M> naar de ene kant van de vergelijking, en alle termen zonder <M>{variables.x}</M> naar de andere kant.</Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="termsMoved" size="l" settings={basicMath} validate={equationValidWithVariables(variables)} />
+						<EquationInput id="termsMoved" size="l" settings={ExpressionInput.settings.basicMath} validate={equationValidWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
@@ -57,7 +57,7 @@ const steps = [
 				<Par>Haal <M>{variables.x}</M> buiten haakjes. Laat de rest van de vergelijking onveranderd.</Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="pulledOut" size="l" settings={basicMath} validate={equationValidWithVariables(variables)} />
+						<EquationInput id="pulledOut" size="l" settings={ExpressionInput.settings.basicMath} validate={equationValidWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
@@ -74,7 +74,7 @@ const steps = [
 				<Par>Deel beide kanten van de vergelijking door de term tussen haakjes, om zo <M>{variables.x}</M> op te lossen.</Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="ans" prelabel={<M>{variables.x}=</M>} label="Vul hier het resultaat in" size="l" settings={basicMath} validate={expressionValidWithVariables(variables)} />
+						<ExpressionInput id="ans" prelabel={<M>{variables.x}=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.basicMath} validate={ExpressionInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>

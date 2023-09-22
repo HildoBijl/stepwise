@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-function Keyboard({ settings, keyFunction }, ref) {
+export const Keyboard = forwardRef(({ settings, keyFunction }, ref) => {
 	// Check the current activity and settings.
 	const previousSettings = usePrevious(settings)
 	const active = !!settings
@@ -135,5 +135,4 @@ function Keyboard({ settings, keyFunction }, ref) {
 		</Paper>
 		<div ref={fillerRef} className={clsx(classes.filler, 'filler')} />
 	</>
-}
-export default forwardRef(Keyboard)
+})

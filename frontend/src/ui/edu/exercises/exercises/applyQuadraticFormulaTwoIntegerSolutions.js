@@ -4,8 +4,7 @@ import { numberArray } from 'step-wise/util'
 
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { useInput, InputSpace } from 'ui/form'
-import { MultipleChoice } from 'ui/inputs'
-import ExpressionInput, { numeric, basicMathAndPowers } from 'ui/form/inputs/ExpressionInput'
+import { MultipleChoice, ExpressionInput } from 'ui/inputs'
 
 import { useSolution } from '../util/SolutionProvider'
 import StepExercise from '../types/StepExercise'
@@ -29,7 +28,7 @@ const Problem = () => {
 				<>Er zijn <M>3</M> oplossingen voor <M>{x}</M>.</>,
 			]} />
 			{numSolutions ? <Par>
-				{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`x${index}`} prelabel={<M>{x}_{index}=</M>} label={`Vul hier antwoord ${index} in`} size="s" settings={basicMathAndPowers} validate={numeric} persistent={true} />
+				{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`x${index}`} prelabel={<M>{x}_{index}=</M>} label={`Vul hier antwoord ${index} in`} size="s" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.numeric} persistent={true} />
 				)}
 			</Par> : null}
 		</InputSpace>
@@ -44,9 +43,9 @@ const steps = [
 				<Par>De vergelijking staat al in de standaardvorm <M>a{x}^2 + b{x} + c = 0.</M> Bepaal hieruit de waarden van <M>a</M>, <M>b</M> en <M>c.</M></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="a" prelabel={<M>a=</M>} label="Vul hier het resultaat in" size="s" settings={basicMathAndPowers} validate={numeric} />
-						<ExpressionInput id="b" prelabel={<M>b=</M>} label="Vul hier het resultaat in" size="s" settings={basicMathAndPowers} validate={numeric} />
-						<ExpressionInput id="c" prelabel={<M>c=</M>} label="Vul hier het resultaat in" size="s" settings={basicMathAndPowers} validate={numeric} />
+						<ExpressionInput id="a" prelabel={<M>a=</M>} label="Vul hier het resultaat in" size="s" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.numeric} />
+						<ExpressionInput id="b" prelabel={<M>b=</M>} label="Vul hier het resultaat in" size="s" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.numeric} />
+						<ExpressionInput id="c" prelabel={<M>c=</M>} label="Vul hier het resultaat in" size="s" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.numeric} />
 					</Par>
 				</InputSpace>
 			</>
@@ -62,7 +61,7 @@ const steps = [
 				<Par>Bepaal de discriminant <M>D = b^2 - 4ac.</M></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="D" prelabel={<M>D=</M>} label="Vul hier het resultaat in" size="s" settings={basicMathAndPowers} validate={numeric} />
+						<ExpressionInput id="D" prelabel={<M>D=</M>} label="Vul hier het resultaat in" size="s" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.numeric} />
 					</Par>
 				</InputSpace>
 			</>
@@ -99,7 +98,7 @@ const steps = [
 				<Par>Gebruik de wortelformule (ABC-formule) om de twee oplossingen voor <M>{x}</M> te vinden.</Par>
 				<InputSpace>
 					<Par>
-						{numberArray(1, 2).map(index => <ExpressionInput key={index} id={`x${index}`} prelabel={<M>{x}_{index}=</M>} label={`Vul hier antwoord ${index} in`} size="s" settings={basicMathAndPowers} validate={numeric} persistent={true} />
+						{numberArray(1, 2).map(index => <ExpressionInput key={index} id={`x${index}`} prelabel={<M>{x}_{index}=</M>} label={`Vul hier antwoord ${index} in`} size="s" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.numeric} persistent={true} />
 						)}
 					</Par>
 				</InputSpace>

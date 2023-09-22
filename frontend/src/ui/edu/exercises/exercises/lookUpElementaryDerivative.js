@@ -3,8 +3,8 @@ import React from 'react'
 import { Variable } from 'step-wise/CAS'
 
 import { Par, M, BM } from 'ui/components'
-import ExpressionInput, { allMathSimpleVariables, validWithVariables } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form'
+import { ExpressionInput } from 'ui/inputs'
 
 import { useSolution } from '../util/SolutionProvider'
 import SimpleExercise from '../types/SimpleExercise'
@@ -21,7 +21,7 @@ const Problem = () => {
 		<Par>Gegeven is de functie <BM>{f}\left({x}\right) = {func}.</BM> Bepaal de afgeleide <M>{f}'\left({x}\right).</M></Par>
 		<InputSpace>
 			<Par>
-				<ExpressionInput id="derivative" prelabel={<M>{f}'\left({x}\right)=</M>} label="Vul hier het resultaat in" size="l" settings={allMathSimpleVariables} validate={validWithVariables([x])} />
+				<ExpressionInput id="derivative" prelabel={<M>{f}'\left({x}\right)=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.allMathSimpleVariables} validate={ExpressionInput.validation.validWithVariables([x])} />
 			</Par>
 		</InputSpace>
 	</>

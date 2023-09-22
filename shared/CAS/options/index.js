@@ -8,6 +8,7 @@ module.exports = {
 	defaultInputSettings,
 	defaultInterpretationSettings,
 	defaultExpressionSettings,
+	defaultInterpretationExpressionSettings: { ...defaultInterpretationSettings, defaultExpressionSettings },
 	defaultFieldSettings: { ...defaultInputSettings, ...defaultInterpretationSettings, ...defaultExpressionSettings },
 
 	// Load in files with multiple exports that should be grouped.

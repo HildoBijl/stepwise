@@ -6,8 +6,7 @@ import { Vector } from 'step-wise/geometry'
 import { Par, M, BM } from 'ui/components'
 import { Drawing, Polygon, RightAngle, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'
-import { MultipleChoice } from 'ui/inputs'
-import ExpressionInput, { numeric, basicTrigonometryInDegrees } from 'ui/form/inputs/ExpressionInput'
+import { MultipleChoice, ExpressionInput } from 'ui/inputs'
 import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
 
 import { useExerciseData } from '../ExerciseContainer'
@@ -32,7 +31,7 @@ const Problem = (state) => {
 		<Par>Gegeven is de onderstaande driehoek met zijden <M>{notGiven === 0 ? b : a}</M> en <M>{notGiven === 2 ? b : c}.</M> Bereken de hoek <M>{beta}.</M> Werk in graden en geef je antwoord in wiskundige notatie.</Par>
 		<ExerciseFigure />
 		<InputSpace>
-			<ExpressionInput id="ans" prelabel={<M>{beta}=</M>} size="s" settings={basicTrigonometryInDegrees} validate={numeric} />
+			<ExpressionInput id="ans" prelabel={<M>{beta}=</M>} size="s" settings={ExpressionInput.settings.basicTrigonometryInDegrees} validate={ExpressionInput.validation.numeric} />
 		</InputSpace>
 	</>
 }
@@ -58,7 +57,7 @@ const steps = [
 			return <>
 				<Par>Pas de betreffende regel letterlijk toe op de gegeven driehoek met hoek <M>{state.beta}.</M> Noteer de vergelijking.</Par>
 				<InputSpace>
-					<EquationInput id="equation" settings={basicTrigonometryInDegrees} validate={validWithVariables(beta)} />
+					<EquationInput id="equation" settings={ExpressionInput.settings.basicTrigonometryInDegrees} validate={validWithVariables(beta)} />
 				</InputSpace>
 			</>
 		},
@@ -74,7 +73,7 @@ const steps = [
 				<Par>Los de vergelijking op voor <M>{beta}.</M> Gebruik wiskundige notatie: je mag eventuele functies als sin/cos/tan in je antwoord laten staan.</Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="ans" prelabel={<M>{beta}=</M>} size="s" settings={basicTrigonometryInDegrees} validate={numeric} />
+						<ExpressionInput id="ans" prelabel={<M>{beta}=</M>} size="s" settings={ExpressionInput.settings.basicTrigonometryInDegrees} validate={ExpressionInput.validation.numeric} />
 					</Par>
 				</InputSpace>
 			</>

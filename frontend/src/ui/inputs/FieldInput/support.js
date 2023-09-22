@@ -1,5 +1,7 @@
 import { isObject, removeProperties } from 'step-wise/util'
 
+import { useInputData } from '../Input'
+
 // addCursor will add the given cursor to the given FI object.
 export function addCursor(FI, cursor) {
 	return {
@@ -26,4 +28,9 @@ export function removeCursor(input) {
 export function submitOnEnter(evt, submit) {
 	if (evt.key === 'Enter')
 		submit()
+}
+
+// useCursorRef returns a ref connected to the FieldInput that will track the cursor.
+export function useCursorRef() {
+	return useInputData().cursorRef
 }

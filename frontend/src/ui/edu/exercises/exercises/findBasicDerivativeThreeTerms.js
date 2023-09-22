@@ -3,8 +3,8 @@ import React from 'react'
 import { expressionComparisons } from 'step-wise/CAS'
 
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
-import ExpressionInput, { allMathSimpleVariables, validWithVariables } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form'
+import { ExpressionInput } from 'ui/inputs'
 
 import { useSolution } from '../util/SolutionProvider'
 import StepExercise from '../types/StepExercise'
@@ -25,7 +25,7 @@ const Problem = () => {
 		<Par>Gegeven is de functie <BM>{f}\left({x}\right) = {func}.</BM> Bepaal de afgeleide <M>{f}'\left({x}\right).</M></Par>
 		<InputSpace>
 			<Par>
-				<ExpressionInput id="derivative" prelabel={<M>{f}'\left({x}\right)=</M>} label="Vul hier het resultaat in" size="l" settings={allMathSimpleVariables} validate={validWithVariables([x])} />
+				<ExpressionInput id="derivative" prelabel={<M>{f}'\left({x}\right)=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.allMathSimpleVariables} validate={ExpressionInput.validation.validWithVariables([x])} />
 			</Par>
 		</InputSpace>
 	</>
@@ -39,9 +39,9 @@ const steps = [
 				<Par>De functie <M>{f}\left({x}\right)</M> kan ook geschreven worden als <BM>{f}\left({x}\right) = {c1.number === 1 ? '' : c1.number === -1 ? '-' : c1} {f}_1\left({x}\right) {c2.number > 0 ? '+' : ''} {c2.number === 1 ? '' : c2.number === -1 ? '-' : c2} {f}_2\left({x}\right) {c3.number > 0 ? '+' : ''} {c3.number === 1 ? '' : c3.number === -1 ? '-' : c3} {f}_3\left({x}\right)</BM> voor bepaalde basisfuncties <M>{f}_1\left({x}\right)</M>, <M>{f}_2\left({x}\right)</M> en <M>{f}_3\left({x}\right).</M> Bepaal deze basisfuncties.</Par>
 				<InputSpace>
 					<Par>
-						<Substep ss={1}><ExpressionInput id="f1" prelabel={<M>{f}_1\left({x}\right)=</M>} label="Vul hier het resultaat in" size="l" settings={allMathSimpleVariables} validate={validWithVariables([x])} /></Substep>
-						<Substep ss={2}><ExpressionInput id="f2" prelabel={<M>{f}_2\left({x}\right)=</M>} label="Vul hier het resultaat in" size="l" settings={allMathSimpleVariables} validate={validWithVariables([x])} /></Substep>
-						<Substep ss={3}><ExpressionInput id="f3" prelabel={<M>{f}_3\left({x}\right)=</M>} label="Vul hier het resultaat in" size="l" settings={allMathSimpleVariables} validate={validWithVariables([x])} /></Substep>
+						<Substep ss={1}><ExpressionInput id="f1" prelabel={<M>{f}_1\left({x}\right)=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.allMathSimpleVariables} validate={ExpressionInput.validation.validWithVariables([x])} /></Substep>
+						<Substep ss={2}><ExpressionInput id="f2" prelabel={<M>{f}_2\left({x}\right)=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.allMathSimpleVariables} validate={ExpressionInput.validation.validWithVariables([x])} /></Substep>
+						<Substep ss={3}><ExpressionInput id="f3" prelabel={<M>{f}_3\left({x}\right)=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.allMathSimpleVariables} validate={ExpressionInput.validation.validWithVariables([x])} /></Substep>
 					</Par>
 				</InputSpace>
 			</>
@@ -59,9 +59,9 @@ const steps = [
 				</Par>
 				<InputSpace>
 					<Par>
-						<Substep ss={1}><ExpressionInput id="f1Derivative" prelabel={<M>{f}_1'\left({x}\right)=</M>} label="Vul hier het resultaat in" size="l" settings={allMathSimpleVariables} validate={validWithVariables([x])} /></Substep>
-						<Substep ss={2}><ExpressionInput id="f2Derivative" prelabel={<M>{f}_2'\left({x}\right)=</M>} label="Vul hier het resultaat in" size="l" settings={allMathSimpleVariables} validate={validWithVariables([x])} /></Substep>
-						<Substep ss={3}><ExpressionInput id="f3Derivative" prelabel={<M>{f}_3'\left({x}\right)=</M>} label="Vul hier het resultaat in" size="l" settings={allMathSimpleVariables} validate={validWithVariables([x])} /></Substep>
+						<Substep ss={1}><ExpressionInput id="f1Derivative" prelabel={<M>{f}_1'\left({x}\right)=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.allMathSimpleVariables} validate={ExpressionInput.validation.validWithVariables([x])} /></Substep>
+						<Substep ss={2}><ExpressionInput id="f2Derivative" prelabel={<M>{f}_2'\left({x}\right)=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.allMathSimpleVariables} validate={ExpressionInput.validation.validWithVariables([x])} /></Substep>
+						<Substep ss={3}><ExpressionInput id="f3Derivative" prelabel={<M>{f}_3'\left({x}\right)=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.allMathSimpleVariables} validate={ExpressionInput.validation.validWithVariables([x])} /></Substep>
 					</Par>
 				</InputSpace>
 			</>
@@ -84,7 +84,7 @@ const steps = [
 				<Par>Stel de afgeleide <M>{f}'\left({x}\right)</M> samen, gebruik makend van de somregel en de constanteregel via <BM>{f}'\left({x}\right) = {c1.number === 1 ? '' : c1.number === -1 ? '-' : c1} {f}_1'\left({x}\right) {c2.number > 0 ? '+' : ''} {c2.number === 1 ? '' : c2.number === -1 ? '-' : c2} {f}_2'\left({x}\right) {c3.number > 0 ? '+' : ''} {c3.number === 1 ? '' : c3.number === -1 ? '-' : c3} {f}_3'\left({x}\right).</BM></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="derivative" prelabel={<M>{f}'\left({x}\right)=</M>} label="Vul hier het resultaat in" size="l" settings={allMathSimpleVariables} validate={validWithVariables([x])} />
+						<ExpressionInput id="derivative" prelabel={<M>{f}'\left({x}\right)=</M>} label="Vul hier het resultaat in" size="l" settings={ExpressionInput.settings.allMathSimpleVariables} validate={ExpressionInput.validation.validWithVariables([x])} />
 					</Par>
 				</InputSpace>
 			</>

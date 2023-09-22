@@ -1,6 +1,8 @@
-import React, { useRef } from 'react'
+import React, { useRef, forwardRef } from 'react'
 
-import { processOptions, filterOptions, resolveFunctions } from 'step-wise/util'
+import { isEmptyObject, processOptions, filterOptions, resolveFunctions, passOn } from 'step-wise/util'
+
+import { useEnsureRef } from 'util/react'
 
 import { Input, defaultInputOptions } from '../Input'
 
@@ -14,44 +16,63 @@ export const defaultFieldInputOptions = {
 	// Options for the rendering of the field hull. This also includes the handler functions.
 	...defaultFieldInputHullOptions,
 
+	// Make sure to not use the default toSO/toFO clean/functionalize, but simpler versions. 
+	clean: passOn,
+	functionalize: passOn,
+
+	// Allow various functions to depend on the FI.
+	keyPressToFI: undefined,
+	keyboardSettings: undefined,
+
 	// Add extra options that allow us to determine the initialSI without having descending components (the specific input fields) worry about the structure of the FI.
 	type: undefined,
 	initialValue: undefined,
+	initialSettings: undefined,
 }
 
-export function FieldInput(options) {
+export const FieldInput = forwardRef((options, ref) => {
 	options = processOptions(options, defaultFieldInputOptions)
-	const hullRef = useRef()
+	const { type, initialValue, initialSettings, clean, functionalize, keyPressToFI, keyboardSettings } = options
+	ref = useEnsureRef(ref)
+	const cursorRef = useRef()
 
-	// Process certain functions, given the fact that FieldInput SIs always have the form { type, value } and the FI is identically { type, value, cursor }. Descendent components (the input fields) then only have to worry about the value.
-	const { type, initialValue, clean, functionalize } = options
-	options.clean = FI => removeCursor({
-		...FI,
-		value: clean ? clean(FI.value) : FI.value,
-	})
+	// Process certain functions, given the fact that FieldInput SIs always have the form { type, value, settings } and the FI is identically { type, value, settings, cursor }. (The settings parameter is not always used.) Descendent components (the input fields) then only have to worry about the value.
+	options.clean = FI => {
+		const result = { ...FI, value: clean ? clean(FI.value, FI.settings) : FI.value }
+		if (FI.settings && isEmptyObject(FI.settings))
+			delete result.settings
+		return removeCursor(result)
+	}
 	options.functionalize = SI => {
-		const value = functionalize ? functionalize(SI.value) : SI.value
-		return addCursor({ ...SI, value }, options.getEndCursor(value))
+		const result = { ...SI, value: functionalize ? functionalize(SI.value, SI.settings) : SI.value }
+		if (initialSettings)
+			result.settings = initialSettings
+		return addCursor(result, options.getEndCursor(result.value))
 	}
 	options.initialSI = { type, value: initialValue }
+	if (initialSettings && !isEmptyObject(initialSettings))
+		options.initialSI.settings = initialSettings
 
-	// Define the keyboard set-up (keyFunction and settings together) to be used. This is here a function that will take the FI and setFI as input. It will be evaluated internally.
-	const { keyPressToFI, keyboardSettings } = options
+	// Expand the keyPressToFI function to automatically receive the contents element and the cursor element.
+	options.keyPressToFI = (keyInfo, FI) => keyPressToFI(keyInfo, FI, ref.current?.contents, cursorRef.current?.element)
+
+	// Define the keyboard set-up (keyFunction and settings together) to be used. This is a function that will take the FI and setFI as input.
 	options.keyboard = (FI, setFI) => FI?.cursor !== undefined && keyboardSettings ? {
-		keyFunction: (keyInfo) => setFI(FI => keyPressToFI(keyInfo, FI, hullRef.current?.contents)),
+		keyFunction: (keyInfo) => setFI(FI => options.keyPressToFI(keyInfo, FI)),
 		settings: resolveFunctions(keyboardSettings, FI), // keyboardSettings may depend on the FI.
 	} : false // When no settings are provided, no keyboard needs to be shown.
 
 	// Set up the Input field settings.
 	const inputOptions = {
 		...filterOptions(options, defaultInputOptions),
-		element: hullRef.current?.field, // Inform the input field which element it should monitor.
+		element: ref.current?.field, // Inform the input field which element it should monitor.
+		contextData: { ...options.contextData, inputFieldRef: ref, cursorRef }, // Add the input field ref to the input field context so inner elements can access it.
 	}
 
 	// Render the input field and its contents.
 	return <Input {...inputOptions}>
-		<FieldInputHull ref={hullRef} {...filterOptions(options, defaultFieldInputHullOptions)}>
+		<FieldInputHull ref={ref} {...filterOptions(options, defaultFieldInputHullOptions)}>
 			{options.children}
 		</FieldInputHull>
 	</Input>
-}
+})

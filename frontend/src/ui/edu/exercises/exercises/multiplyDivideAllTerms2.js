@@ -3,9 +3,9 @@ import React from 'react'
 import { Integer, Fraction, expressionComparisons } from 'step-wise/CAS'
 
 import { Par, M, BM } from 'ui/components'
-import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
-import { basicMathAndPowers } from 'ui/form/inputs/ExpressionInput'
+import EquationInput from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form'
+import { ExpressionInput } from 'ui/inputs'
 
 import { useSolution } from '../util/SolutionProvider'
 import StepExercise from '../types/StepExercise'
@@ -25,7 +25,7 @@ const Problem = () => {
 		<Par>Gegeven is de vergelijking <BM>{equation}.</BM> Deel alle termen in deze vergelijking door <M>{variables.x}</M> en simplificeer deze termen zoveel mogelijk.</Par>
 		<InputSpace>
 			<Par>
-				<EquationInput id="ans" size="l" settings={basicMathAndPowers} validate={validWithVariables(variables)} />
+				<EquationInput id="ans" size="l" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.validWithVariables(variables)} />
 			</Par>
 		</InputSpace>
 	</>
@@ -39,7 +39,7 @@ const steps = [
 				<Par>Deel eerst de linkerkant en de rechterkant allebei door <M>{variables.x}.</M> Oftewel, schrijf de vergelijking als <BM>\frac(\left[\ldots\right])({variables.x}) = \frac(\left[\ldots\right])({variables.x})</BM> waarbij in plaats van <M>\left[\ldots\right]</M> de oorspronkelijke linker/rechterkant van de vergelijking staat.</Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="intermediateWithBrackets" size="l" settings={basicMathAndPowers} validate={validWithVariables(variables)} />
+						<EquationInput id="intermediateWithBrackets" size="l" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
@@ -56,7 +56,7 @@ const steps = [
 				<Par>Splits de breuken links/rechts op in losse breuken. Je hoeft nog geen verdere simplificaties toe te passen.</Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="intermediateWithoutBrackets" size="l" settings={basicMathAndPowers} validate={validWithVariables(variables)} />
+						<EquationInput id="intermediateWithoutBrackets" size="l" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
@@ -73,7 +73,7 @@ const steps = [
 				<Par>Simplificeer alle termen zo veel mogelijk.</Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="ans" size="l" settings={basicMathAndPowers} validate={validWithVariables(variables)} />
+						<EquationInput id="ans" size="l" settings={ExpressionInput.settings.basicMathAndPowers} validate={ExpressionInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>

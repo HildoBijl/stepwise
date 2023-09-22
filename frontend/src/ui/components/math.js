@@ -38,18 +38,15 @@ export function BMPart(props) {
 	return RBM(props)
 }
 
-const latexMinus = '−'
-export { latexMinus }
+export const latexMinus = '−'
 
 // Accolades are useful as variable because you're not allowed to type them in JSX: they have functionalities.
-const la = '{'
-const ra = '}'
-export { la, ra }
+export const la = '{'
+export const ra = '}'
 
 // The zero-width space is sometimes used while rendering equations.
-const zeroWidthSpace = String.fromCharCode(8203)
-const zeroWidthSpaceRegExp = new RegExp(zeroWidthSpace, 'g')
-export { zeroWidthSpace, zeroWidthSpaceRegExp }
+export const zeroWidthSpace = String.fromCharCode(8203)
+export const zeroWidthSpaceRegExp = new RegExp(zeroWidthSpace, 'g')
 
 const useStyles = makeStyles((theme) => ({
 	equation: {

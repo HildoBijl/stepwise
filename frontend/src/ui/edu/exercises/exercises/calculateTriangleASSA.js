@@ -8,8 +8,7 @@ import { Float } from 'step-wise/inputTypes/Float'
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { Drawing, Polygon, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
 import { useInput, InputSpace } from 'ui/form'
-import { MultipleChoice } from 'ui/inputs'
-import ExpressionInput, { numeric, basicTrigonometryInDegrees } from 'ui/form/inputs/ExpressionInput'
+import { MultipleChoice, ExpressionInput } from 'ui/inputs'
 
 import { useExerciseData } from '../ExerciseContainer'
 import { useSolution } from '../util/SolutionProvider'
@@ -34,7 +33,7 @@ const Problem = (state) => {
 				<>Er zijn twee oplossingen voor <M>{β}</M>.</>,
 			]} />
 			{numSolutions ? <Par>
-				{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`β${numSolutions > 1 ? index : ''}`} prelabel={<M>{β}{numSolutions > 1 ? `_${index}` : ''}=</M>} size="m" settings={basicTrigonometryInDegrees} validate={numeric} persistent={true} />)}
+				{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`β${numSolutions > 1 ? index : ''}`} prelabel={<M>{β}{numSolutions > 1 ? `_${index}` : ''}=</M>} size="m" settings={ExpressionInput.settings.basicTrigonometryInDegrees} validate={ExpressionInput.validation.numeric} persistent={true} />)}
 			</Par> : null}
 		</InputSpace>
 	</>
@@ -55,7 +54,7 @@ const steps = [
 						<>Er zijn twee oplossingen voor <M>{γ}</M>.</>,
 					]} />
 					{numSolutions ? <Par>
-						{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`γ${numSolutions > 1 ? index : ''}`} prelabel={<M>{γ}{numSolutions > 1 ? `_${index}` : ''}=</M>} size="m" settings={basicTrigonometryInDegrees} validate={numeric} persistent={true} />)}
+						{numberArray(1, numSolutions).map(index => <ExpressionInput key={index} id={`γ${numSolutions > 1 ? index : ''}`} prelabel={<M>{γ}{numSolutions > 1 ? `_${index}` : ''}=</M>} size="m" settings={ExpressionInput.settings.basicTrigonometryInDegrees} validate={ExpressionInput.validation.numeric} persistent={true} />)}
 					</Par> : null}
 				</InputSpace>
 			</>
@@ -72,8 +71,8 @@ const steps = [
 				<Par>Bepaal voor elke mogelijke waarde van <M>{γ}</M> de bijbehorende waarde van <M>{β}.</M></Par>
 				<InputSpace>
 					<Par>
-						<ExpressionInput id="β1" prelabel={<M>{β}_1=</M>} size="m" settings={basicTrigonometryInDegrees} validate={numeric} />
-						<ExpressionInput id="β2" prelabel={<M>{β}_2=</M>} size="m" settings={basicTrigonometryInDegrees} validate={numeric} />
+						<ExpressionInput id="β1" prelabel={<M>{β}_1=</M>} size="m" settings={ExpressionInput.settings.basicTrigonometryInDegrees} validate={ExpressionInput.validation.numeric} />
+						<ExpressionInput id="β2" prelabel={<M>{β}_2=</M>} size="m" settings={ExpressionInput.settings.basicTrigonometryInDegrees} validate={ExpressionInput.validation.numeric} />
 					</Par>
 				</InputSpace>
 			</>

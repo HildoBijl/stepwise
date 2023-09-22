@@ -2,11 +2,11 @@ import React, { useRef, forwardRef, useImperativeHandle } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { useCursorRef } from 'ui/form'
-import { useActive } from 'ui/inputs'
+import { useInputData } from '../../Input'
 
 const useStyles = makeStyles(() => ({
 	cursorContainer: {
+		visibility: (active) => active ? 'visible' : 'hidden',
 		height: 0,
 		width: 0,
 
@@ -29,9 +29,9 @@ const useStyles = makeStyles(() => ({
 }))
 
 export const InlineCursor = forwardRef((_, parentRef) => {
-	const formRef = useCursorRef()
+	const { active, cursorRef: fieldCursorRef } = useInputData()
 	const internalRef = useRef()
-	const classes = useStyles()
+	const classes = useStyles(active)
 
 	// Set up handles for control.
 	const imperativeHandleFunction = () => ({
@@ -43,10 +43,9 @@ export const InlineCursor = forwardRef((_, parentRef) => {
 		},
 	})
 	useImperativeHandle(parentRef, imperativeHandleFunction)
-	useImperativeHandle(formRef, imperativeHandleFunction)
+	useImperativeHandle(fieldCursorRef, imperativeHandleFunction)
 
 	// If the surrounding input field is not active, do not show anything.
-	const active = useActive()
 	if (!active)
 		return null
 
