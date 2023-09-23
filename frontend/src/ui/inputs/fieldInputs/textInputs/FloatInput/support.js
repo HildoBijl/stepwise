@@ -16,8 +16,8 @@ export const isValid = ({ number }) => number.replace(/[.-]/g, '').length > 0 //
 export const clean = value => applyMapping(value, param => param || undefined) // Remove empty strings.
 export const functionalize = value => keysToObject(parts, part => (value || initialValue)[part] || '') // Add empty strings.
 
-// FIToKeyboardSettings takes an FI object and determines what keyboard settings are appropriate.
-export function FIToKeyboardSettings(FI, positive = false, allowPower = true) {
+// keyboardSettings takes an FI object and determines what keyboard settings are appropriate.
+export function keyboardSettings(FI, positive = false, allowPower = true) {
 	const { value, cursor } = FI
 
 	// Determine which keys to disable.

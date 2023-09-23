@@ -6,7 +6,7 @@ import { processOptions, filterOptions } from 'step-wise/util'
 
 import { TextInput, defaultTextInputOptions } from '../TextInput'
 
-import { type, initialValue, isEmpty, FIToKeyboardSettings, keyPressToFI, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd, clean, functionalize, errorToMessage } from './support'
+import { type, initialValue, isEmpty, keyboardSettings, keyPressToFI, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd, clean, functionalize, errorToMessage } from './support'
 import { FloatInputInner } from './FloatInputInner'
 import * as validation from './validation'
 
@@ -23,7 +23,7 @@ export const defaultFloatInputOptions = {
 	type,
 	initialValue,
 	isEmpty,
-	keyboardSettings: FIToKeyboardSettings,
+	keyboardSettings,
 	keyPressToFI,
 	mouseClickToCursor,
 	getStartCursor,
@@ -49,7 +49,7 @@ export function FloatInput(options) {
 	const textInputOptions = {
 		...filterOptions(options, defaultTextInputOptions),
 		keyPressToFI: (keyInfo, FI) => keyPressToFI(keyInfo, FI, positive, allowPower),
-		keyboardSettings: (FI) => FIToKeyboardSettings(FI, positive, allowPower),
+		keyboardSettings: (FI) => keyboardSettings(FI, positive, allowPower),
 		className: clsx(options.className, classes.floatInput, 'floatInput'),
 	}
 

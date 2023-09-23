@@ -14,8 +14,8 @@ export const isCursorAtStart = (_, cursor) => cursor === 0
 export const isCursorAtEnd = (value, cursor) => cursor === value.length
 export const mouseClickToCursor = (evt, _, contentsElement) => getClickPosition(evt, contentsElement)
 
-// FIToKeyboardSettings takes an FI object and determines what keyboard settings are appropriate.
-export function FIToKeyboardSettings(FI, positive = false) {
+// keyboardSettings takes an FI object and determines what keyboard settings are appropriate.
+export function keyboardSettings(FI, positive = false) {
 	const { value, cursor } = FI
 
 	// Determine which keys to disable.

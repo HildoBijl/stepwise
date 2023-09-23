@@ -23,7 +23,7 @@ export const clean = value => applyMapping(value, cleanUnitArray)
 export const functionalize = value => keysToObject(parts, part => functionalizeUnitArray((value || initialValue)[part]))
 
 // FIToKeyboardSettings takes an FI object and determines what keyboard settings are appropriate.
-export function FIToKeyboardSettings(FI) {
+export function keyboardSettings(FI) {
 	const { value: unit, cursor: unitCursor } = FI
 
 	let keySettings = {}

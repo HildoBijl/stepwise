@@ -5,7 +5,7 @@ import { processOptions, filterOptions } from 'step-wise/util'
 
 import { TextInput, defaultTextInputOptions } from '../TextInput'
 
-import { type, initialValue, isEmpty, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd, mouseClickToCursor, FIToKeyboardSettings, keyPressToFI, errorToMessage } from './support'
+import { type, initialValue, isEmpty, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd, mouseClickToCursor, keyboardSettings, keyPressToFI, errorToMessage } from './support'
 import { IntegerInputInner } from './IntegerInputInner'
 import * as validation from './validation'
 
@@ -21,7 +21,7 @@ export const defaultIntegerInputOptions = {
 	type,
 	initialValue,
 	isEmpty,
-	keyboardSettings: FIToKeyboardSettings,
+	keyboardSettings,
 	keyPressToFI,
 	mouseClickToCursor,
 	getStartCursor,
@@ -39,7 +39,7 @@ export function IntegerInput(options) {
 	const textInputOptions = {
 		...filterOptions(options, defaultTextInputOptions),
 		keyPressToFI: (keyInfo, FI) => keyPressToFI(keyInfo, FI, positive),
-		keyboardSettings: (FI) => FIToKeyboardSettings(FI, positive),
+		keyboardSettings: (FI) => keyboardSettings(FI, positive),
 		className: clsx(options.className, 'integerInput'),
 	}
 

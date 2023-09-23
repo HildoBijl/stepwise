@@ -7,7 +7,7 @@ import { processOptions, filterOptions } from 'step-wise/util'
 
 import { TextInput, defaultTextInputOptions } from '../TextInput'
 
-import { type, initialValue, isEmpty, FIToKeyboardSettings, keyPressToFI, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd, clean, functionalize, errorToMessage } from './Unit'
+import { type, initialValue, isEmpty, keyboardSettings, keyPressToFI, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd, clean, functionalize, errorToMessage } from './Unit'
 import { UnitInputInner } from './UnitInputInner'
 import * as validation from './validation'
 
@@ -22,7 +22,7 @@ const defaultUnitInputOptions = {
 	type,
 	initialValue,
 	isEmpty,
-	keyboardSettings: FIToKeyboardSettings,
+	keyboardSettings,
 	keyPressToFI,
 	mouseClickToCursor,
 	getStartCursor,

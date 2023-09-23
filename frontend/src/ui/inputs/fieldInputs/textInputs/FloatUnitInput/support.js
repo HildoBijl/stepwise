@@ -5,8 +5,8 @@ import { prefixes } from 'step-wise/inputTypes/Unit/prefixes'
 
 import { getClickSide } from 'util/dom'
 
-import { type as floatType, FIToKeyboardSettings as floatFIToKeyboardSettings, keyPressToFI as floatKeyPressToFI, mouseClickToCursor as floatMouseClickToCursor, isEmpty as isFloatEmpty, getStartCursor as getFloatStartCursor, getEndCursor as getFloatEndCursor, isCursorAtStart as isCursorAtFloatStart, isCursorAtEnd as isCursorAtFloatEnd, isValid as isFloatValid, clean as cleanFloat, functionalize as functionalizeFloat, errorToMessage as floatErrorToMessage } from '../FloatInput'
-import { type as unitType, FIToKeyboardSettings as unitFIToKeyboardSettings, keyPressToFI as unitKeyPressToFI, mouseClickToCursor as unitMouseClickToCursor, isEmpty as isUnitEmpty, getStartCursor as getUnitStartCursor, getEndCursor as getUnitEndCursor, isCursorAtStart as isCursorAtUnitStart, isCursorAtEnd as isCursorAtUnitEnd, isValid as isUnitValid, clean as cleanUnit, functionalize as functionalizeUnit, errorToMessage as unitErrorToMessage } from '../UnitInput'
+import { type as floatType, keyboardSettings as floatKeyboardSettings, keyPressToFI as floatKeyPressToFI, mouseClickToCursor as floatMouseClickToCursor, isEmpty as isFloatEmpty, getStartCursor as getFloatStartCursor, getEndCursor as getFloatEndCursor, isCursorAtStart as isCursorAtFloatStart, isCursorAtEnd as isCursorAtFloatEnd, isValid as isFloatValid, clean as cleanFloat, functionalize as functionalizeFloat, errorToMessage as floatErrorToMessage } from '../FloatInput'
+import { type as unitType, keyboardSettings as unitKeyboardSettings, keyPressToFI as unitKeyPressToFI, mouseClickToCursor as unitMouseClickToCursor, isEmpty as isUnitEmpty, getStartCursor as getUnitStartCursor, getEndCursor as getUnitEndCursor, isCursorAtStart as isCursorAtUnitStart, isCursorAtEnd as isCursorAtUnitEnd, isValid as isUnitValid, clean as cleanUnit, functionalize as functionalizeUnit, errorToMessage as unitErrorToMessage } from '../UnitInput'
 
 // Define various trivial objects and functions.
 export const type = 'FloatUnit'
@@ -34,13 +34,13 @@ export const clean = ({ float, unit }) => {
 }
 export const functionalize = ({ float, unit }) => ({ float: functionalizeFloat(float), unit: functionalizeUnit(unit) })
 
-// FIToKeyboardSettings takes an FI object and determines what keyboard settings are appropriate.
-export function FIToKeyboardSettings(FI, positive = false, allowPower = true) {
+// keyboardSettings takes an FI object and determines what keyboard settings are appropriate.
+export function keyboardSettings(FI, positive = false, allowPower = true) {
 	const { value, cursor } = FI
 
 	// Find the settings for the individual parts and merge the key settings.
-	const floatSettings = floatFIToKeyboardSettings({ value: value.float, cursor: cursor.part === 'float' ? cursor.cursor : null }, positive, allowPower)
-	const unitSettings = unitFIToKeyboardSettings({ value: value.unit, cursor: cursor.part === 'unit' ? cursor.cursor : null })
+	const floatSettings = floatKeyboardSettings({ value: value.float, cursor: cursor.part === 'float' ? cursor.cursor : null }, positive, allowPower)
+	const unitSettings = unitKeyboardSettings({ value: value.unit, cursor: cursor.part === 'unit' ? cursor.cursor : null })
 	const keySettings = {
 		...floatSettings.keySettings,
 		...unitSettings.keySettings,

@@ -8,7 +8,7 @@ import { TextInput, defaultTextInputOptions } from '../TextInput'
 import { style as floatStyle, defaultFloatInputOptions } from '../FloatInput'
 import { style as unitStyle } from '../UnitInput'
 
-import { type, initialValue, isEmpty, FIToKeyboardSettings, keyPressToFI, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd, clean, functionalize, errorToMessage } from './support'
+import { type, initialValue, isEmpty, keyboardSettings, keyPressToFI, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd, clean, functionalize, errorToMessage } from './support'
 import { FloatUnitInputInner } from './FloatUnitInputInner'
 import * as validation from './validation'
 
@@ -26,7 +26,7 @@ export const defaultFloatUnitInputOptions = {
 	type,
 	initialValue,
 	isEmpty,
-	keyboardSettings: FIToKeyboardSettings,
+	keyboardSettings: keyboardSettings,
 	keyPressToFI,
 	mouseClickToCursor,
 	getStartCursor,
@@ -63,7 +63,7 @@ export function FloatUnitInput(options) {
 	const textInputOptions = {
 		...filterOptions(options, defaultTextInputOptions),
 		keyPressToFI: (keyInfo, FI, contentsElement) => keyPressToFI(keyInfo, FI, contentsElement, positive, allowPower),
-		keyboardSettings: (FI) => FIToKeyboardSettings(FI, positive, allowPower),
+		keyboardSettings: (FI) => keyboardSettings(FI, positive, allowPower),
 		className: clsx(options.className, classes.floatUnitInput, 'floatUnitInput'),
 	}
 
