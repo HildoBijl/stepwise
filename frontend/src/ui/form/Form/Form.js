@@ -2,18 +2,19 @@ import React, { useState, useRef } from 'react'
 
 import { isBasicObject, ensureConsistency } from 'step-wise/util'
 
-import { useUpdater } from 'util/react'
+import { useUpdater, useLatest } from 'util/react'
 
 import { FormContext } from './context'
 import { useSubscriptionHandlers, useReadHandlers, useWriteHandlers, useValidationHandlers } from './handlers'
 
-export default function Form({ children, initialInput }) {
+export default function Form({ children, initialInput, submit }) {
 	// Define states.
 	const [input, setInput] = useState({})
 	const [validation, setValidation] = useState({ result: {}, input: {} })
 
 	// Define refs. These store important data that do not require rerenders.
-	const fieldsRef = useRef({})
+	const fieldsRef = useRef({}) // Stores all subscribed fields, processed versions of their input, and whether these data points are valid.
+	const submitRef = useLatest(submit) // Stores the submit function.
 
 	// Define handler functions.
 	const subscriptionHandlers = useSubscriptionHandlers(initialInput, setInput, fieldsRef)
@@ -28,6 +29,7 @@ export default function Form({ children, initialInput }) {
 	return (
 		<FormContext.Provider value={{
 			input, validation, // State
+			submitRef,
 			...subscriptionHandlers,
 			...readHandlers,
 			...writeHandlers,

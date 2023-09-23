@@ -25,8 +25,8 @@ export function removeCursor(input) {
 }
 
 // submitOnEnter checks if an event is an enter key press. If so, it submits the exercise using the given submit function.
-export function submitOnEnter(evt, submit) {
-	if (evt.key === 'Enter')
+export function submitOnEnter(event, submit) {
+	if (event.key === 'Enter')
 		submit()
 }
 

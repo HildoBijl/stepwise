@@ -6,29 +6,25 @@ import { getLastAction } from 'step-wise/edu/exercises/util/simpleExercise'
 import { useLatest } from 'util/react'
 import { useUserId } from 'api/user'
 import { useActiveGroup } from 'api/group'
-import { useFormData } from 'ui/form'
+import { useSubmitCall } from 'ui/form'
 
 import { useExerciseData } from '../ExerciseContainer'
 
-export function useSubmitAction() {
+// useFormSubmitAction gives a function that is given to a Form, to be called whenever the form is submitted.
+export function useFormSubmitAction() {
 	const { submitting, submitAction, history } = useExerciseData()
 	const userId = useUserId()
-	const { getAllInputSI, isInputValid, getFieldData } = useFormData()
 
 	const historyRef = useLatest(history)
 	const disabledRef = useLatest(submitting)
 
-	return useCallback(() => {
+	return useCallback((input, formData) => {
 		// Check if we're enabled. (This is not the case if we're still submitting.)
 		if (disabledRef.current)
 			return
 
-		// Check if the input has validated.
-		if (!isInputValid())
-			return
-
 		// Check if the input is the same as for the previous action. If so, do nothing.
-		const input = getAllInputSI()
+		const { getFieldData } = formData
 		const lastAction = getLastAction(historyRef.current, userId)
 		if (lastAction && lastAction.type === 'input') {
 			const fieldIds = Object.keys(input)
@@ -37,8 +33,12 @@ export function useSubmitAction() {
 		}
 
 		// All checks are fine. Submit the input!
-		return submitAction({ type: 'input', input })
-	}, [getAllInputSI, isInputValid, historyRef, disabledRef, getFieldData, submitAction, userId])
+		return submitAction({ type: 'input', input: input })
+	}, [historyRef, disabledRef, submitAction, userId])
+}
+
+export function useSubmitAction() {
+	return useSubmitCall()
 }
 
 export function useGiveUpAction() {
