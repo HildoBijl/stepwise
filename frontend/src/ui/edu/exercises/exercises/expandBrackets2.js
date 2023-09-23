@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { Par, SubHead, M, BM } from 'ui/components'
-import ExpressionInput, { basicMathNoFractions, validWithVariables } from 'ui/form/inputs/ExpressionInput'
 import { InputSpace } from 'ui/form'
+import { ExpressionInput } from 'ui/inputs'
 
 import { useSolution } from '../util/SolutionProvider'
 import StepExercise from '../types/StepExercise'

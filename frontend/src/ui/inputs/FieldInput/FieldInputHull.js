@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
 			flexFlow: 'row nowrap',
 			flex: '1 0 auto',
 			height: `${height}em`,
-			margin: '0 0.4em 0 0',
+			margin: '0 0.4em 0 0.1em', // Left margin present for expressions with brackets, to have the brackets not fall off the left of the page.
 			transform: 'translateY(0.1em)', // For better centering taking into account the label.
 		},
 
