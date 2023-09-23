@@ -1,9 +1,8 @@
 import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
-import EquationInput, { validWithVariables as equationValidWithVariables } from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form'
-import { ExpressionInput } from 'ui/inputs'
+import { ExpressionInput, EquationInput } from 'ui/inputs'
 
 import { useSolution } from '../util/SolutionProvider'
 import StepExercise from '../types/StepExercise'
@@ -36,7 +35,7 @@ const steps = [
 				<Par>Het lastige is dat de onbekende <M>{variables.x}</M> onderin een breuk staat. Verhelp dit probleem door alle termen met zowel <M>{factor1}</M> als <M>{factor2}</M> te vermenigvuldigen. Streep waar mogelijk factoren in breuken weg.</Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="multiplied" size="l" settings={ExpressionInput.settings.basicMath} validate={equationValidWithVariables(variables)} />
+						<EquationInput id="multiplied" size="l" settings={EquationInput.settings.basicMath} validate={EquationInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
@@ -53,7 +52,7 @@ const steps = [
 				<Par>Werk alle haakjes uit.</Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="expanded" size="l" settings={ExpressionInput.settings.basicMath} validate={equationValidWithVariables(variables)} />
+						<EquationInput id="expanded" size="l" settings={EquationInput.settings.basicMath} validate={EquationInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>

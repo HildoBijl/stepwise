@@ -4,9 +4,8 @@ import { Vector } from 'step-wise/geometry'
 
 import { Par, M, BM } from 'ui/components'
 import { Drawing, Polygon, RightAngle, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
-import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form'
-import { ExpressionInput } from 'ui/inputs'
+import { ExpressionInput, EquationInput } from 'ui/inputs'
 
 import { useExerciseData } from '../ExerciseContainer'
 import { useSolution } from '../util/SolutionProvider'
@@ -39,7 +38,7 @@ const steps = [
 			return <>
 				<Par>Bekijk als eerste zijde <M>{x}.</M> Stel een vergelijking op waar zowel de bekende zijde <M>{z}</M> als de onbekende zijde <M>{x}</M> in voorkomen.</Par>
 				<InputSpace>
-					<EquationInput id="equation1" settings={ExpressionInput.settings.basicMathAndPowers} validate={validWithVariables(x)} />
+					<EquationInput id="equation1" settings={EquationInput.settings.basicMathAndPowers} validate={EquationInput.validation.validWithVariables(x)} />
 				</InputSpace>
 			</>
 		},
@@ -71,7 +70,7 @@ const steps = [
 			return <>
 				<Par>Bekijk vervolgens zijde <M>{y}.</M> Stel een vergelijking op waar zowel de bekende zijde <M>{z}</M> als de onbekende zijde <M>{y}</M> in voorkomen.</Par>
 				<InputSpace>
-					<EquationInput id="equation2" settings={ExpressionInput.settings.basicMathAndPowers} validate={validWithVariables(y)} />
+					<EquationInput id="equation2" settings={EquationInput.settings.basicMathAndPowers} validate={EquationInput.validation.validWithVariables(y)} />
 				</InputSpace>
 			</>
 		},

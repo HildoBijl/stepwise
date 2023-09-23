@@ -7,8 +7,7 @@ import { Float } from 'step-wise/inputTypes/Float'
 import { Par, M, BM } from 'ui/components'
 import { Drawing, Polygon, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
 import { useInput, InputSpace } from 'ui/form'
-import { MultipleChoice, ExpressionInput } from 'ui/inputs'
-import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
+import { MultipleChoice, ExpressionInput, EquationInput } from 'ui/inputs'
 
 import { useExerciseData } from '../ExerciseContainer'
 import { useSolution } from '../util/SolutionProvider'
@@ -62,7 +61,7 @@ const steps = [
 			return <>
 				<Par>Pas de betreffende regel letterlijk toe, gebruik makend van de zijden <M>{a}</M> en <M>{c}.</M> Noteer de vergelijking.</Par>
 				<InputSpace>
-					<EquationInput id="equation" settings={ExpressionInput.settings.basicTrigonometryInDegrees} validate={validWithVariables(γ)} />
+					<EquationInput id="equation" settings={EquationInput.settings.basicTrigonometryInDegrees} validate={EquationInput.validation.validWithVariables(γ)} />
 				</InputSpace>
 			</>
 		},

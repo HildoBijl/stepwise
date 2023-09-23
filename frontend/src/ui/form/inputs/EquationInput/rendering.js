@@ -28,5 +28,6 @@ export default function EquationInput(props) {
 		...props,
 		settings
 	}
+	console.log(props)
 	return <ExpressionInput {...props} />
 }

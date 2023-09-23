@@ -241,6 +241,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function FieldInput(options) {
 	// Gather properties.
+	console.log(options)
 	let { prelabel, label, placeholder, className, size, center } = options // User-defined props that are potentially passed on.
 	let { isEmpty, JSXObject, keyPressToFI, mouseClickToCursor, mouseClickToFI, getStartCursor, getEndCursor, isCursorAtStart, clean, functionalize, keyboardSettings, basic, autoResize = false, heightDelta = 0 } = options // Field-defined props that vary per field type.
 

@@ -88,6 +88,7 @@ function ExpressionInputInner(props) {
 		mouseClickToFI,
 		className: clsx(props.className, classes.expressionInput, 'expressionInput'),
 	}
+	console.log(mergedProps)
 
 	return <FieldInput {...mergedProps} />
 }

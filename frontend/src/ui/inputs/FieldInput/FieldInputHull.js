@@ -19,7 +19,7 @@ export const defaultFieldInputHullRenderingOptions = {
 	placeholder: null, // What is shown inside the field when the field is active yet still empty.
 	className: undefined, // An extra className for the input field.
 	contentsClassName: undefined, // An extra className for the contents part (deep inside) of the input field.
-	size: 's', // Can be 's', 'm' or 'l' (small/medium/large). How large should the field be?
+	size: 'l', // Can be 's', 'm' or 'l' (small/medium/large). How large should the field be?
 	center: false, // Should the contents inside the field be centered? Usually false.
 }
 

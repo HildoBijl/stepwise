@@ -3,9 +3,8 @@ import React from 'react'
 import { Sum, Product, expressionComparisons } from 'step-wise/CAS'
 
 import { Par, M, BM } from 'ui/components'
-import EquationInput, { validWithVariables as equationValidWithVariables } from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form'
-import { ExpressionInput } from 'ui/inputs'
+import { ExpressionInput, EquationInput } from 'ui/inputs'
 
 import { useSolution } from '../util/SolutionProvider'
 import StepExercise from '../types/StepExercise'
@@ -40,7 +39,7 @@ const steps = [
 				<Par>Werk eerst de haakjes in de vergelijking uit. (Laat de rest onveranderd staan.)</Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="bracketsExpanded" size="l" settings={ExpressionInput.settings.basicMath} validate={equationValidWithVariables(variables)} />
+						<EquationInput id="bracketsExpanded" size="l" settings={EquationInput.settings.basicMath} validate={EquationInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
@@ -57,7 +56,7 @@ const steps = [
 				<Par>Breng alle termen met <M>{variables.x}</M> naar de ene kant van de vergelijking, en alle termen zonder <M>{variables.x}</M> naar de andere kant.</Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="termsMoved" size="l" settings={ExpressionInput.settings.basicMath} validate={equationValidWithVariables(variables)} />
+						<EquationInput id="termsMoved" size="l" settings={EquationInput.settings.basicMath} validate={EquationInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
@@ -74,7 +73,7 @@ const steps = [
 				<Par>Haal <M>{variables.x}</M> buiten haakjes. Laat de rest van de vergelijking onveranderd.</Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="pulledOut" size="l" settings={ExpressionInput.settings.basicMath} validate={equationValidWithVariables(variables)} />
+						<EquationInput id="pulledOut" size="l" settings={EquationInput.settings.basicMath} validate={EquationInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>

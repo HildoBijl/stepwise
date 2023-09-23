@@ -4,9 +4,8 @@ import { Vector } from 'step-wise/geometry'
 
 import { Par, M, BM } from 'ui/components'
 import { Drawing, Polygon, RightAngle, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
-import EquationInput, { validWithVariables } from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form'
-import { ExpressionInput } from 'ui/inputs'
+import { ExpressionInput, EquationInput } from 'ui/inputs'
 
 import { useSolution } from '../util/SolutionProvider'
 import StepExercise from '../types/StepExercise'
@@ -38,7 +37,7 @@ const steps = [
 			return <>
 				<Par>Stel via de stelling van Pythagoras een vergelijking op voor de zijden van de driehoek. Gebruik de waarden <M>{a},</M> <M>{b}</M> en <M>{c}.</M></Par>
 				<InputSpace>
-					<EquationInput id="equation" settings={ExpressionInput.settings.basicMathAndPowers} validate={validWithVariables(x)} />
+					<EquationInput id="equation" settings={EquationInput.settings.basicMathAndPowers} validate={EquationInput.validation.validWithVariables(x)} />
 				</InputSpace>
 			</>
 		},

@@ -3,9 +3,8 @@ import React from 'react'
 import { selectRandomCorrect, selectRandomIncorrect } from 'util/feedbackMessages'
 
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
-import EquationInput, { validWithVariables as equationValidWithVariables } from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form'
-import { ExpressionInput } from 'ui/inputs'
+import { ExpressionInput, EquationInput } from 'ui/inputs'
 
 import { useSolution } from '../util/SolutionProvider'
 import StepExercise from '../types/StepExercise'
@@ -57,7 +56,7 @@ const steps = [
 				<Par>Vul letterlijk je oplossing voor <M>{variables.x}</M> in de tweede vergelijking <M>{eq2}</M> in.</Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="eq2Substituted" size="l" settings={ExpressionInput.settings.basicMath} validate={equationValidWithVariables(variables)} />
+						<EquationInput id="eq2Substituted" size="l" settings={EquationInput.settings.basicMath} validate={EquationInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>

@@ -3,9 +3,8 @@ import React from 'react'
 import { expressionComparisons } from 'step-wise/CAS'
 
 import { Par, M, BM } from 'ui/components'
-import EquationInput, { validWithVariables as equationValidWithVariables } from 'ui/form/inputs/EquationInput'
 import { InputSpace } from 'ui/form'
-import { ExpressionInput } from 'ui/inputs'
+import { ExpressionInput, EquationInput } from 'ui/inputs'
 
 import { useSolution } from '../util/SolutionProvider'
 import StepExercise from '../types/StepExercise'
@@ -38,7 +37,7 @@ const steps = [
 				<Par>Als eerste zien we aan de linkerkant een breuk binnen een breuk staan. Simplificeer deze zo veel mogelijk. (Laat de rechterkant van de vergelijking onveranderd staan.)</Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="simplified" size="l" settings={ExpressionInput.settings.basicMathAndPowers} validate={equationValidWithVariables(variables)} />
+						<EquationInput id="simplified" size="l" settings={EquationInput.settings.basicMathAndPowers} validate={EquationInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>
@@ -56,7 +55,7 @@ const steps = [
 				<Par>Vergelijkingen zijn een stuk makkelijker op te lossen als er geen breuken in zitten. Vermenigvuldig alle termen van de vergelijking met de noemer van de breuk links om dit voor elkaar te krijgen.</Par>
 				<InputSpace>
 					<Par>
-						<EquationInput id="multiplied" size="l" settings={ExpressionInput.settings.basicMathAndPowers} validate={equationValidWithVariables(variables)} />
+						<EquationInput id="multiplied" size="l" settings={EquationInput.settings.basicMathAndPowers} validate={EquationInput.validation.validWithVariables(variables)} />
 					</Par>
 				</InputSpace>
 			</>

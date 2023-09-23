@@ -14,30 +14,37 @@ export const style = (theme) => ({
 	// Currently empty.
 })
 const useStyles = makeStyles((theme) => ({
-	expressionInput: style(theme),
+	equationInput: style(theme),
 }))
 
-const defaultExpressionInputOptions = {
+const defaultEquationInputOptions = {
 	...defaultMathInputOptions,
-	size: 's', // Expression Inputs are by default small.
-	type: 'Expression',
-	placeholder: <>Uitdrukking</>,
+	center: true, // Center equations in their input fields.
+	size: 'l', // Equation Inputs are by default large.
+	type: 'Equation',
+	placeholder: <>Vergelijking</>,
 	keyboardSettings,
 	errorToMessage,
 }
 
-export function ExpressionInput(options) {
-	options = processOptions(options, defaultExpressionInputOptions)
+export function EquationInput(options) {
+	options = processOptions(options, defaultEquationInputOptions)
+
+	// Force equals to be true in the settings to allow an equals sign.
+	options.settings = {
+		...options.settings,
+		equals: true,
+	}
 
 	// Set up the options for the Math Input field.
 	const classes = useStyles()
 	const mathInputOptions = {
 		...filterOptions(options, defaultMathInputOptions),
-		className: clsx(options.className, classes.expressionInput, 'expressionInput'),
+		className: clsx(options.className, classes.equationInput, 'equationInput'),
 	}
 
 	// Render everything.
 	return <MathInput {...mathInputOptions} />
 }
-ExpressionInput.validation = validation
-ExpressionInput.settings = settings
+EquationInput.validation = validation
+EquationInput.settings = settings
