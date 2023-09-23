@@ -1,5 +1,4 @@
 export * from './Input'
 export * from './miscellaneous'
-export * from './textInputs'
-export * from './resizingInputs'
+export * from './fieldInputs'
 export * from './drawingInputs'

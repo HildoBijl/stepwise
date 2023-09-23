@@ -1,6 +1,6 @@
 # Input
 
-The `Input` object is an object that is implemented by various specific input field types.
+The `Input` object is an object that is implemented by various specific input field types. Effectively all input fields are descendents of it. If you only want to use existing input fields, then ignore this folder.
 
 ## Usage/set-up
 
