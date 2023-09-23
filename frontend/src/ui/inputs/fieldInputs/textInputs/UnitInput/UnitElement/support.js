@@ -10,7 +10,7 @@ export const type = 'UnitElement'
 export const initialValue = {}
 export const parts = ['prefix', 'unit', 'power']
 export const isEmpty = value => value.prefix === '' && value.unit === '' && value.power === ''
-export const hasPowerVisible = ({ power }, cursor) => (power !== '' || (cursor && cursor.part === 'power'))
+export const hasPowerVisible = ({ power }, cursor) => (power !== '' || (cursor?.part === 'power'))
 export const getStartCursor = () => ({ part: 'text', cursor: 0 })
 export const getEndCursor = (FI, cursor) => hasPowerVisible(FI, cursor) ? { part: 'power', cursor: FI.power.length } : { part: 'text', cursor: FI.prefix.length + FI.unit.length }
 export const isCursorAtStart = (_, cursor) => cursor?.part === 'text' && cursor.cursor === 0
@@ -127,7 +127,7 @@ export function processUnitElement(value, cursor) {
 	const { prefix, unit } = interpretPrefixAndBaseUnitStr(text)
 
 	// Determine if the cursor needs to shift.
-	if (cursor && cursor.part === 'text') {
+	if (cursor?.part === 'text') {
 		if (cursor.cursor > 0 && cursor.cursor <= prefix.original.length) { // Was the cursor in the prefix?
 			if (prefix.original.length !== prefix.str.length) // Did the prefix length change?
 				cursor = { ...cursor, cursor: prefix.str.length } // Put the cursor at the end of the adjusted part.

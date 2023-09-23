@@ -14,5 +14,5 @@ export function zoomIn(FI, number = 1) {
 // zoomInAt takes an FI object and zooms in at a particular child of said FI element. If that element is pointed at by the cursor, the cursor is passed along. Otherwise no cursor is passed.
 export function zoomInAt(FI, part) {
 	const { value, cursor } = FI
-	return (cursor && cursor.part === part) ? zoomIn(FI) : value[part]
+	return cursor?.part === part ? zoomIn(FI) : value[part]
 }

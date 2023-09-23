@@ -183,7 +183,7 @@ function cleanUp(FI, settings) {
 	const { cursor, value } = FI
 	return {
 		...FI,
-		value: value.map((element, part) => element && (!isFIEmpty(element) || (cursor && cursor.part === part)) ? element : null),
+		value: value.map((element, part) => element && (!isFIEmpty(element) || (cursor?.part === part)) ? element : null),
 	}
 }
 

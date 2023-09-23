@@ -8,7 +8,7 @@ import { latexMinus } from 'ui/components/math'
 import { InlineCursor } from './InlineCursor'
 
 // CharString takes a string, turns it into an array of JSX char elements and returns it. If a cursor position (a number) is given, then the cursor is put in that position.
-export function CharString({ str, cursor = false }) {
+export function CharString({ str, cursor = undefined }) {
 	// Check the input.
 	if (cursor && !isNumber(cursor))
 		throw new Error(`Invalid cursor position: the cursor position has to be a number, but its value was "${cursor}".`)

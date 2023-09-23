@@ -13,18 +13,18 @@ export const type = 'FloatUnit'
 export const initialValue = {}
 export const parts = ['float', 'unit']
 export const isEmpty = ({ float, unit }) => isFloatEmpty(float) && isUnitEmpty(unit)
-export const isUnitVisible = ({ unit }, cursor) => !isUnitEmpty(unit) || (cursor && cursor.part === 'unit')
-export const getStartCursor = (value, cursor) => ({ part: 'float', cursor: getFloatStartCursor(value.float, cursor && cursor.part === 'float' && cursor.cursor) })
+export const isUnitVisible = ({ unit }, cursor) => !isUnitEmpty(unit) || (cursor?.part === 'unit')
+export const getStartCursor = (value, cursor) => ({ part: 'float', cursor: getFloatStartCursor(value.float, cursor?.part === 'float' ? cursor.cursor : undefined) })
 export const getEndCursor = (value, cursor) => {
 	const part = isUnitVisible(value, cursor) ? 'unit' : 'float'
-	const partCursor = (part === 'float' ? getFloatEndCursor : getUnitEndCursor)(value[part], cursor?.part === part && cursor.cursor)
+	const partCursor = (part === 'float' ? getFloatEndCursor : getUnitEndCursor)(value[part], cursor?.part === part ? cursor.cursor : undefined)
 	return { part, cursor: partCursor }
 }
 export const isCursorAtStart = ({ float }, cursor) => cursor.part === 'float' && isCursorAtFloatStart(float, cursor.cursor)
 export const isCursorAtEnd = (value, cursor) => isUnitVisible(value, cursor) ? (cursor.part === 'unit' && isCursorAtUnitEnd(value.unit, cursor.cursor)) : isCursorAtFloatEnd(value.float, cursor.cursor)
 export const isValid = ({ float, unit }) => isFloatValid(float) && isUnitValid(unit)
-export const getFloatFI = ({ value, cursor }) => ({ type: floatType, value: value.float, cursor: cursor && cursor.part === 'float' && cursor.cursor })
-export const getUnitFI = ({ value, cursor }) => ({ type: unitType, value: value.unit, cursor: cursor && cursor.part === 'unit' && cursor.cursor })
+export const getFloatFI = ({ value, cursor }) => ({ type: floatType, value: value.float, cursor: cursor?.part === 'float' ? cursor.cursor : undefined })
+export const getUnitFI = ({ value, cursor }) => ({ type: unitType, value: value.unit, cursor: cursor?.part === 'unit' ? cursor.cursor : undefined })
 export const clean = ({ float, unit }) => {
 	const result = {
 		float: isFloatEmpty(float) ? undefined : cleanFloat(float),
@@ -78,8 +78,8 @@ export function keyPressToFI(keyInfo, FI, contentsElement, positive, allowPower)
 	const { float, unit } = value
 
 	// Check where the cursor is currently at.
-	const floatCursor = cursor && cursor.part === 'float' && cursor.cursor
-	const unitCursor = cursor && cursor.part === 'unit' && cursor.cursor
+	const floatCursor = cursor?.part === 'float' ? cursor.cursor : undefined
+	const unitCursor = cursor?.part === 'unit' ? cursor.cursor : undefined
 	const floatFI = getFloatFI(FI)
 	const unitFI = getUnitFI(FI)
 

@@ -36,5 +36,5 @@ export function Unit({ value, cursor }) {
 }
 
 function Part({ part, value, cursor }) {
-	return <UnitArray {...{ type: 'UnitArray', value: value[part], cursor: cursor?.part === part && cursor.cursor }} />
+	return <UnitArray {...{ type: 'UnitArray', value: value[part], cursor: cursor?.part === part ? cursor.cursor : undefined }} />
 }

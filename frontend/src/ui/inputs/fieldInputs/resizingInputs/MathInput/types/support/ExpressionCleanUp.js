@@ -44,7 +44,7 @@ function cleanUpElements(FI, settings) {
 		const newElementUncleaned = zoomInAt(FI, part)
 		const cleanUp = getFIFuncs(newElementUncleaned).cleanUp
 		const newElement = cleanUp ? cleanUp(newElementUncleaned, settings) : newElementUncleaned
-		if (cursor && cursor.part === part)
+		if (cursor?.part === part)
 			newCursor = { part, cursor: newElement.cursor }
 		return removeCursor(newElement)
 	})
@@ -97,7 +97,7 @@ function removeUnnecessaryElements(FI) {
 	const { value, cursor } = FI
 	const activeElement = cursor && value[cursor.part]
 	const filteredValue = value.filter((element, index) => { // Remove pointless object.
-		if (cursor && cursor.part === index)
+		if (cursor?.part === index)
 			return true // The cursor is in here. Keep it.
 		const funcs = getFIFuncs(element)
 		if (!funcs.shouldRemove)
@@ -134,7 +134,7 @@ function alternateExpressionParts(FI, settings) {
 		if (element.type === 'ExpressionPart' && lastAddedElement.type === 'ExpressionPart') {
 			// Two ExpressionParts in a row. Merge them. And if the cursor is in this merged ExpressionPart, position it appropriately. Also run a clean-up, in case this merging creates auto-replace options.
 			let jointCursor = null
-			if (cursor && cursor.part === index)
+			if (cursor?.part === index)
 				jointCursor = lastAddedElement.value.length + cursor.cursor
 			if (newCursor && newCursor.part === newValue.length - 1)
 				jointCursor = newCursor.cursor
@@ -153,7 +153,7 @@ function alternateExpressionParts(FI, settings) {
 
 			// Add the new part and keep the cursor on it if needed.
 			newValue.push(element)
-			if (cursor && cursor.part === index)
+			if (cursor?.part === index)
 				newCursor = { ...cursor, part: newValue.length - 1 }
 		}
 	})

@@ -5,13 +5,13 @@ export function Float({ value, cursor }) {
 	const showPower = power !== '' || (cursor?.part === 'power')
 	return <>
 		<span className="number">
-			<CharString str={number} cursor={cursor?.part === 'number' && cursor.cursor} />
+			<CharString str={number} cursor={cursor?.part === 'number' ? cursor.cursor : undefined} />
 		</span>
 		{!showPower ? null : <span className="tenPowerContainer">
 			<span className="char times">⋅</span>
 			<span className="char ten">10</span>
 			<span className="power">
-				<CharString str={power} cursor={cursor?.part === 'power' && cursor.cursor} />
+				<CharString str={power} cursor={cursor?.part === 'power' ? cursor.cursor : undefined} />
 			</span>
 		</span>}
 	</>

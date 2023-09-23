@@ -11,10 +11,10 @@ export const initialValue = {}
 export const parts = ['num', 'den']
 export const isEmpty = ({ num, den }) => isUnitArrayEmpty(num) && isUnitArrayEmpty(den)
 export const isDenominatorVisible = (value, cursor) => !isUnitArrayEmpty(value.den) || (cursor?.part === 'den')
-export const getStartCursor = ({ num }, cursor) => ({ part: 'num', cursor: getUnitArrayStartCursor(num, cursor?.part === 'num' && cursor.cursor) })
+export const getStartCursor = ({ num }, cursor) => ({ part: 'num', cursor: getUnitArrayStartCursor(num, cursor?.part === 'num' ? cursor.cursor : undefined) })
 export const getEndCursor = (value, cursor) => {
 	const part = isDenominatorVisible(value, cursor) ? 'den' : 'num'
-	return { part, cursor: getUnitArrayEndCursor(value[part], cursor?.part === part && cursor.cursor) }
+	return { part, cursor: getUnitArrayEndCursor(value[part], cursor?.part === part ? cursor.cursor : undefined) }
 }
 export const isCursorAtStart = (value, cursor) => cursor.part === 'num' && isCursorAtUnitArrayStart(value.num, cursor.cursor)
 export const isCursorAtEnd = (value, cursor) => isDenominatorVisible(value, cursor) ? (cursor.part === 'den' && isCursorAtUnitArrayEnd(value.den, cursor.cursor)) : (cursor.part === 'num' && isCursorAtUnitArrayEnd(value.num, cursor.cursor))
@@ -210,7 +210,7 @@ export function mouseClickToCursor(evt, FI, contentsElement) {
 		return unitArrayElement && unitArrayElement.contains(evt.target)
 	})
 	if (unitArrayElement) {
-		const unitArrayFI = { type: unitArrayType, value: value[part], cursor: cursor?.part === part && cursor.cursor }
+		const unitArrayFI = { type: unitArrayType, value: value[part], cursor: cursor?.part === part ? cursor.cursor : undefined }
 		const newCursor = unitArrayMouseClickToCursor(evt, unitArrayFI, unitArrayElement)
 		return newCursor === undefined ? undefined : { part, cursor: newCursor }
 	}

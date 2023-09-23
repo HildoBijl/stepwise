@@ -15,7 +15,7 @@ export function UnitArray({ value, cursor }) {
 	return value.map((unitElement, index) => (
 		<Fragment key={index}>
 			{index === 0 ? null : <span className="char times">⋅</span>}
-			<UnitElement {...{ type: 'UnitElement', value: unitElement, cursor: cursor?.part === index && cursor.cursor }} />
+			<UnitElement {...{ type: 'UnitElement', value: unitElement, cursor: cursor?.part === index ? cursor.cursor : undefined }} />
 		</Fragment>
 	))
 }

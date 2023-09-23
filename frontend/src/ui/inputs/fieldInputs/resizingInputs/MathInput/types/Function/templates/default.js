@@ -215,7 +215,7 @@ export function cleanUp(FI, settings) {
 		const cleanedElement = cleanUp ? cleanUp(element, settings) : element
 
 		// Extract the possibly adjusted cursor positions.
-		if (cursor && cursor.part === part)
+		if (cursor?.part === part)
 			newCursor = { part, cursor: cleanedElement.cursor }
 		return removeCursor(cleanedElement)
 	})

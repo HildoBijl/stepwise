@@ -8,8 +8,8 @@ import { type as unitElementType, initialValue as initialUnitElementValue, isEmp
 export const type = 'UnitArray'
 export const initialValue = [initialUnitElementValue]
 export const isEmpty = value => value.length === 0 || (value.length === 1 && isUnitElementEmpty(firstOf(value)))
-export const getStartCursor = (value, cursor) => ({ part: 0, cursor: getUnitElementStartCursor(firstOf(value), cursor?.part === 0 && cursor.cursor) })
-export const getEndCursor = (value, cursor) => ({ part: value.length - 1, cursor: getUnitElementEndCursor(lastOf(value), cursor?.part === value.length - 1 && cursor.cursor) })
+export const getStartCursor = (value, cursor) => ({ part: 0, cursor: getUnitElementStartCursor(firstOf(value), cursor?.part === 0 ? cursor.cursor : undefined) })
+export const getEndCursor = (value, cursor) => ({ part: value.length - 1, cursor: getUnitElementEndCursor(lastOf(value), cursor?.part === value.length - 1 ? cursor.cursor : undefined) })
 export const isCursorAtStart = (value, cursor) => cursor?.part === 0 && isCursorAtUnitElementStart(firstOf(value), cursor.cursor)
 export const isCursorAtEnd = (value, cursor) => cursor?.part === value.length - 1 && isCursorAtUnitElementEnd(lastOf(value), cursor.cursor)
 export const isValid = value => isEmpty(value) || value.every(unitElement => isUnitElementValid(unitElement))
@@ -143,7 +143,7 @@ export function mouseClickToCursor(evt, FI, unitArrayElement) {
 	const unitElementElements = [...unitArrayElement.getElementsByClassName('unitElement')]
 	const unitElementIndex = unitElementElements.findIndex(unitElementElement => unitElementElement.contains(evt.target))
 	if (unitElementIndex !== -1) {
-		const unitElementFI = { type: unitElementType, value: value[unitElementIndex], cursor: cursor?.part === unitElementIndex && cursor.cursor }
+		const unitElementFI = { type: unitElementType, value: value[unitElementIndex], cursor: cursor?.part === unitElementIndex ? cursor.cursor : undefined }
 		const newCursor = unitElementMouseClickToCursor(evt, unitElementFI, unitElementElements[unitElementIndex])
 		return newCursor === undefined ? undefined : { part: unitElementIndex, cursor: newCursor }
 	}
