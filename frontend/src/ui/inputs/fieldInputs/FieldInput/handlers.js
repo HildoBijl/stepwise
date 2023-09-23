@@ -5,10 +5,11 @@ import { boundTo } from 'step-wise/util'
 import { useEventListener } from 'util/react'
 import { getCoordinatesOf } from 'util/dom'
 
-import { useCursorRef } from 'ui/form'
 import { useSubmitAction } from 'ui/edu/exercises/util/actions'
 
 import { useInputData } from '../../Input'
+
+import { useCursorRef } from '../FieldInput'
 
 import { addCursor, submitOnEnter } from './support'
 

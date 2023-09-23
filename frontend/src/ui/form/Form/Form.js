@@ -14,7 +14,6 @@ export default function Form({ children, initialInput }) {
 
 	// Define refs. These store important data that do not require rerenders.
 	const fieldsRef = useRef({})
-	const cursorRef = useRef()
 
 	// Define handler functions.
 	const subscriptionHandlers = useSubscriptionHandlers(initialInput, setInput, fieldsRef)
@@ -29,7 +28,6 @@ export default function Form({ children, initialInput }) {
 	return (
 		<FormContext.Provider value={{
 			input, validation, // State
-			cursorRef,
 			...subscriptionHandlers,
 			...readHandlers,
 			...writeHandlers,
