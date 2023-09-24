@@ -13,7 +13,7 @@ export const defaultScaleBasedTransformationOptions = {
 	pretransformation: Transformation.getIdentity(2),
 }
 
-export default function useScaleBasedTransformationSettings(points, options = {}) {
+export function useScaleBasedTransformationSettings(points, options = {}) {
 	// Ensure consistent input.
 	points = useConsistentValue(points)
 	options = useConsistentValue(options)

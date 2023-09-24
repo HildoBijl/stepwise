@@ -5,7 +5,7 @@ import { roundToDigits, ensureBoolean, ensureBasicObject, processOptions, ensure
 
 import { useTransformationSettings, useMousePosition, Group, Line, Circle, Label } from '../Drawing'
 
-const defaultMouseLinesOptions = {
+export const defaultMouseLinesOptions = {
 	lineStyle: {},
 	circleStyle: {},
 	showAxisLabels: true,
@@ -78,4 +78,3 @@ export const MouseLines = forwardRef(({ plotSettings, ...options }, ref) => {
 		</> : null}
 	</Group >
 })
-export default MouseLines

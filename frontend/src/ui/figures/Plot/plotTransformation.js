@@ -6,9 +6,9 @@ import { Vector, Rectangle, Transformation } from 'step-wise/geometry'
 import { useConsistentValue } from 'util/react'
 
 import { getBoundingRectangle, ensureScale } from '../Drawing/transformation/util'
-import useBoundsBasedTransformationSettings, { defaultBoundsBasedTransformationOptions } from '../Drawing/transformation/boundsBasedTransformation'
+import { useBoundsBasedTransformationSettings, defaultBoundsBasedTransformationOptions } from '../Drawing'
 
-import { getTicks } from './util'
+import { getTicks } from './ticks'
 
 export const defaultPlotTransformationOptions = {
 	...removeProperties(defaultBoundsBasedTransformationOptions, ['pretransformation']), // Plots do not allow pretransformations.
@@ -18,7 +18,7 @@ export const defaultPlotTransformationOptions = {
 	desiredNumTicks: [9, 8], // The desired number of ticks for each direction.
 }
 
-export default function usePlotTransformationSettings(points, options = {}) {
+export function usePlotTransformationSettings(points, options = {}) {
 	// Ensure consistent input.
 	points = useConsistentValue(points)
 	options = useConsistentValue(processOptions(options, defaultPlotTransformationOptions))

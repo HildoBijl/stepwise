@@ -1,7 +1,4 @@
-export { default as Image } from './Image'
 export * from './Image'
-export { default as Figure } from './Figure'
 export * from './Figure'
-export { default as Drawing } from './Drawing'
 export * from './Drawing'
 export * from './Plot'

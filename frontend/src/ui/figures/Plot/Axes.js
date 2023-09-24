@@ -81,4 +81,3 @@ export const Axes = forwardRef(({ plotSettings, ...options }, ref) => {
 		{yLabel ? <Label position={[0, bounds.middle.y]} graphicalDistance={tickSize + 17 + yLabelShift} angle={Math.PI} rotate={-Math.PI / 2} scale={textScale}>{yLabel}</Label> : null}
 	</Group >
 })
-export default Axes

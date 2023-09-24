@@ -6,7 +6,7 @@ import { Transformation, ensureTransformation } from 'step-wise/geometry'
 import { useConsistentValue } from 'util/react'
 
 import { getBoundingRectangle, ensureScale, ensureMargin } from './util'
-import useScaleBasedTransformationSettings from './scaleBasedTransformation'
+import { useScaleBasedTransformationSettings } from './scaleBasedTransformation'
 
 export const defaultBoundsBasedTransformationOptions = {
 	maxWidth: Infinity,
@@ -18,7 +18,7 @@ export const defaultBoundsBasedTransformationOptions = {
 	processBounds: passOn,
 }
 
-export default function useBoundsBasedTransformationSettings(points, options = {}) {
+export function useBoundsBasedTransformationSettings(points, options = {}) {
 	// Ensure consistent input.
 	points = useConsistentValue(points)
 	options = useConsistentValue(options)

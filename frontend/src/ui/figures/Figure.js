@@ -53,4 +53,3 @@ export const Figure = forwardRef((options, ref) => {
 		</div>
 	)
 })
-export default Figure

@@ -13,7 +13,7 @@ import { getEventPosition } from 'util/dom'
 import { useMouseData as useClientMouseData, useBoundingClientRect, useForceUpdateEffect } from 'util/react'
 import { notSelectable } from 'ui/theme'
 
-import Figure, { defaultFigureOptions } from '../Figure'
+import { Figure, defaultFigureOptions } from '../Figure'
 
 import { DrawingContext, useDrawingData, SvgDefsPortal } from './DrawingContext'
 
@@ -149,7 +149,6 @@ export const Drawing = forwardRef((options, ref) => {
 		</DrawingContext.Provider>
 	)
 })
-export default Drawing
 
 /*
  * Positioning functions.

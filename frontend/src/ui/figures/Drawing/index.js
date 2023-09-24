@@ -5,4 +5,3 @@ export * from './DrawingContext'
 export * from './components'
 export { components } // Also merge all components into one object.
 export * from './Drawing'
-export { default } from './Drawing'

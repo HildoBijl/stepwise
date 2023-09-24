@@ -32,4 +32,3 @@ export const Image = forwardRef((options, ref) => {
 	const classes = useStyles()
 	return <img ref={ref} src={src} alt={alt} className={clsx('image', classes.image, className)} style={style} />
 })
-export default Image
