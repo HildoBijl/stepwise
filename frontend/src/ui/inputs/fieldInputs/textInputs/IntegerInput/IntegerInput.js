@@ -38,7 +38,7 @@ export function IntegerInput(options) {
 	const { positive } = options
 	const textInputOptions = {
 		...filterOptions(options, defaultTextInputOptions),
-		keyPressToFI: (keyInfo, FI) => keyPressToFI(keyInfo, FI, positive),
+		keyPressToFI: (keyInfo, FI, contentsElement) => keyPressToFI(keyInfo, FI, contentsElement, positive),
 		keyboardSettings: (FI) => keyboardSettings(FI, positive),
 		className: clsx(options.className, 'integerInput'),
 	}

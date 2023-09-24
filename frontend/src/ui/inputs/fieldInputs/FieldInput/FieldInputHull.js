@@ -247,7 +247,7 @@ export const FieldInputHull = forwardRef((options, hullRef) => {
 
 	// Extract the status of the Input field.
 	const { value, cursor } = useInputValue()
-	const empty = isEmpty(value) && (!cursor || isCursorAtStart(value, cursor))
+	const empty = isEmpty(value) && (cursor === undefined || isCursorAtStart(value, cursor))
 	const active = useActive()
 	const readOnly = useReadOnly()
 

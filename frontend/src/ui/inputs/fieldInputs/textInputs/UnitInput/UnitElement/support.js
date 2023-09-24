@@ -20,7 +20,7 @@ export const clean = value => isEmpty(value) ? undefined : keysToObject(parts, p
 export const functionalize = ({ prefix = '', unit = '', power = '' }) => processUnitElement({ text: prefix + unit, power }).value
 
 // keyPressToFI takes a keyInfo event and an FI object and returns a new FI object.
-export function keyPressToFI(keyInfo, FI) {
+export function keyPressToFI(keyInfo, FI, contentsElement) {
 	// Let's walk through a large variety of cases and see what's up.
 	let { key, ctrl, alt } = keyInfo
 	const { value, cursor } = FI

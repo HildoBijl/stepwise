@@ -48,7 +48,7 @@ export function FloatInput(options) {
 	const { positive, allowPower } = options
 	const textInputOptions = {
 		...filterOptions(options, defaultTextInputOptions),
-		keyPressToFI: (keyInfo, FI) => keyPressToFI(keyInfo, FI, positive, allowPower),
+		keyPressToFI: (keyInfo, FI, contentsElement) => keyPressToFI(keyInfo, FI, contentsElement, positive, allowPower),
 		keyboardSettings: (FI) => keyboardSettings(FI, positive, allowPower),
 		className: clsx(options.className, classes.floatInput, 'floatInput'),
 	}

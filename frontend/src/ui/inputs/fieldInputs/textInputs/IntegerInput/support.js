@@ -39,7 +39,7 @@ export function keyboardSettings(FI, positive = false) {
 }
 
 // keyPressToFI takes a keyInfo event and an FI object and returns a new FI object.
-export function keyPressToFI(keyInfo, FI, positive) {
+export function keyPressToFI(keyInfo, FI, contentsElement, positive) {
 	// Let's walk through a large variety of cases and see what's up.
 	const { key, ctrl, alt } = keyInfo
 	const { value, cursor } = FI

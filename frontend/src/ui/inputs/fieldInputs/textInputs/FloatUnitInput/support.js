@@ -90,14 +90,14 @@ export function keyPressToFI(keyInfo, FI, contentsElement, positive, allowPower)
 		if (part === 'float') {
 			const oldFloatFI = {
 				...floatFI,
-				cursor: partCursor || floatFI.cursor,
+				cursor: partCursor !== undefined ? partCursor : floatFI.cursor,
 			}
 			newFI = floatKeyPressToFI(keyInfo, oldFloatFI, contentsElement, positive, allowPower)
 		}
 		if (part === 'unit') {
 			const oldUnitFI = {
 				...unitFI,
-				cursor: partCursor || unitFI.cursor,
+				cursor: partCursor !== undefined ? partCursor : unitFI.cursor,
 			}
 			newFI = unitKeyPressToFI(keyInfo, oldUnitFI, contentsElement)
 		}

@@ -21,7 +21,7 @@ export function CharString({ str, cursor = undefined }) {
 
 	// Set up the digits array with JSX elements, add a potential cursor and return it all.
 	const chars = str.split('').map((char, ind) => <span className="char" key={ind}>{char}</span>)
-	if (cursor || cursor === 0)
+	if (isNumber(cursor))
 		chars.splice(cursor, 0, <InlineCursor key="cursor" />)
 	return <>{chars}</>
 }

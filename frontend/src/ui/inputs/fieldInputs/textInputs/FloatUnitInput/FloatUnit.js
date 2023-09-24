@@ -15,7 +15,7 @@ export function FloatUnit(FI) {
 		return null
 
 	// Show the FloatUnit.
-	const showFloatFiller = isFloatEmpty(float) && (!cursor || cursor.part !== 'float')
+	const showFloatFiller = isFloatEmpty(float) && cursor?.part !== 'float'
 	return <>
 		<span className="float">
 			{

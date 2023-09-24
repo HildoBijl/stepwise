@@ -17,7 +17,7 @@ export const clean = value => isEmpty(value) ? undefined : value.map(cleanUnitEl
 export const functionalize = value => (value || initialValue).map(functionalizeUnitElement)
 
 // keyPressToFI takes a keyInfo event and an FI object and returns a new FI object.
-export function keyPressToFI(keyInfo, FI) {
+export function keyPressToFI(keyInfo, FI, contentsElement) {
 	// Extract given data.
 	const { key, ctrl, alt } = keyInfo
 	const { value, cursor } = FI
@@ -33,7 +33,7 @@ export function keyPressToFI(keyInfo, FI) {
 			value: unitElement,
 			cursor: unitElementCursor,
 		}
-		const newUnitElementFI = unitElementKeyPressToFI(keyInfo, oldUnitElementFI)
+		const newUnitElementFI = unitElementKeyPressToFI(keyInfo, oldUnitElementFI, contentsElement)
 		return {
 			...FI,
 			value: arraySplice(value, cursor.part, 1, newUnitElementFI.value),

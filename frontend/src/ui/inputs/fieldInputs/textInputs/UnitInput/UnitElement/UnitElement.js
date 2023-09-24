@@ -9,7 +9,7 @@ import { isValid } from './support'
 
 export function UnitElement({ value, cursor }) {
 	// Determine important parameters.
-	const useFiller = (value.prefix === '' && value.unit === '' && (!cursor || cursor.part !== 'text'))
+	const useFiller = (value.prefix === '' && value.unit === '' && cursor?.part !== 'text')
 	const valid = isValid(value)
 
 	// Render the output.

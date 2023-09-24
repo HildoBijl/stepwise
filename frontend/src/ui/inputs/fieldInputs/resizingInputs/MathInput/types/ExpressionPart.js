@@ -324,7 +324,7 @@ export function cleanUp(FI, settings) {
 
 export function applyAutoReplace(FI, settings) {
 	let { value, cursor } = FI
-	const hasCursor = !!cursor || cursor === 0
+	const hasCursor = isNumber(cursor)
 
 	// Apply an auto-replace on all auto-replace symbols. For each symbol, replace all instances and shift the cursor along accordingly.
 	let found = false
@@ -334,7 +334,7 @@ export function applyAutoReplace(FI, settings) {
 		while (position !== -1) {
 			found = true
 			value = value.replace(symbol.name, symbol.symbol)
-			if (cursor !== null) {
+			if (hasCursor) {
 				if (cursor > position && cursor <= position + symbol.name.length)
 					cursor = position + symbol.symbol.length
 				if (cursor > position + symbol.name.length)

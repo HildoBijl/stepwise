@@ -18,8 +18,6 @@ export const defaultFloatUnitInputOptions = {
 
 	// Settings from outside.
 	placeholder: <>Getal met eenheid</>,
-	positive: false,
-	allowPower: true,
 	validate: validation.nonEmptyUnit,
 
 	// Functionalities.

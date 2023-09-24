@@ -78,7 +78,7 @@ export function keyPressToFI(keyInfo, FI, contentsElement) {
 			value: unitArray,
 			cursor: unitArrayCursor,
 		}
-		const newUnitArrayFI = unitArrayKeyPressToFI(keyInfo, oldUnitArrayFI)
+		const newUnitArrayFI = unitArrayKeyPressToFI(keyInfo, oldUnitArrayFI, contentsElement)
 		return {
 			...FI,
 			value: {

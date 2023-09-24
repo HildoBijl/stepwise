@@ -16,7 +16,7 @@ export function MathWithCursor({ ...FI }) {
 		const cursorHandle = cursorRef.current
 		const charElements = charElementsRef?.current
 		const contentsElement = inputFieldRef.current?.contents
-		if (!FI.cursor || !charElements || !contentsElement)
+		if (FI.cursor === undefined || !charElements || !contentsElement)
 			return
 
 		// Let the expression figure out where the cursor should be and apply this.
