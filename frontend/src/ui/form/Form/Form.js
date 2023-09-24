@@ -7,7 +7,7 @@ import { useUpdater, useLatest } from 'util/react'
 import { FormContext } from './context'
 import { useSubscriptionHandlers, useReadHandlers, useWriteHandlers, useValidationHandlers } from './handlers'
 
-export default function Form({ children, initialInput, submit }) {
+export function Form({ children, initialInput, submit }) {
 	// Define states.
 	const [input, setInput] = useState({})
 	const [validation, setValidation] = useState({ result: {}, input: {} })

@@ -8,11 +8,11 @@ import { Keyboard as KeyboardIcon } from '@material-ui/icons'
 
 import { usePrevious, useCurrentOrPrevious } from 'util/react'
 
-import Arrow from 'ui/components/icons/Arrow'
+import { Arrow } from 'ui/components'
 
 import { keyboards } from './keyboards'
-import { useKeyboardOpening, useKeyboardTabbing, useKeyboardPositioning } from './handlers/index.js'
-import Tab from './Tab'
+import { useKeyboardOpening, useKeyboardTabbing, useKeyboardPositioning } from './handlers'
+import { Tab } from './Tab'
 
 const useStyles = makeStyles((theme) => ({
 	keyboardBar: {

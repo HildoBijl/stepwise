@@ -1,9 +1,9 @@
 import React from 'react'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
-import { M } from 'ui/components/math'
+import { M } from 'ui/components'
 
-import KeyboardLayout from '../KeyboardLayout'
+import { KeyboardLayout } from '../KeyboardLayout'
 
 export const tab = <M>1{`{,}`}23</M>
 

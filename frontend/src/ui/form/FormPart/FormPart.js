@@ -18,7 +18,7 @@ const defaultFormPartParameters = {
 
 const FormPartContext = createContext(defaultFormPartParameters)
 
-export default function FormPart(props) {
+export function FormPart(props) {
 	const settings = processOptions(props, defaultFormPartParameters)
 	return <FormPartContext.Provider value={{ ...settings, children: undefined }}>
 		{props.children}

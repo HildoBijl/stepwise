@@ -5,7 +5,7 @@ import React from 'react'
 import { ensureInt } from 'step-wise/util'
 import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
 
-import FormPart, { useFormPartSettings } from 'ui/form/FormPart'
+import { FormPart, useFormPartSettings } from 'ui/form'
 
 import { useExerciseData } from '../../ExerciseContainer'
 

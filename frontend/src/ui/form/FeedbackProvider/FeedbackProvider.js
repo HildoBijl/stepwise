@@ -18,7 +18,7 @@ import { processFeedback } from './processing'
  * - data (default {}): an optional extra object with parameters that are then provided to the getFeedback function: see the [...] above. A common data object is { exerciseData: {...}, solution: {...} } but anything can be added.
  * The feedback object then makes the feedback available through the useFeedback(fieldId) hook.
  */
-export default function FeedbackProvider({ children, getFeedback, input, data = {} }) {
+export function FeedbackProvider({ children, getFeedback, input, data = {} }) {
 	const theme = useTheme()
 
 	// Set up a state to store the feedback and corresponding input to which that feedback was given.

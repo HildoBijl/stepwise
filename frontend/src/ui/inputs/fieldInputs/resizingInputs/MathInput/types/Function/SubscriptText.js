@@ -2,7 +2,7 @@
 import { isNumber, isLetter, removeAtIndex } from 'step-wise/util'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 
-import { latexMinus } from 'ui/components/math'
+import { latexMinus } from 'ui/components'
 
 import { emptyElementChar, emptyElementCharLatex } from '../..'
 

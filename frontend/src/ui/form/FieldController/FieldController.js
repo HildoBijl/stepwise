@@ -7,7 +7,7 @@ import { Keyboard } from '../Keyboard'
 import { FieldControllerContext } from './context'
 import { useControlHandlers, useRegistrationHandlers, useEventHandlers, useKeyboardHandlers } from './handlers'
 
-export default function FieldController({ children }) {
+export function FieldController({ children }) {
 	// Define refs to track all relevant data.
 	const controllerRef = useRef() // Will refer to the tab controller container.
 	const fieldTrackerRef = useRef({}) // Will register all tabable fields.

@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function KeyButton({ keyID, className, setting, onClick, properties }) {
+export function KeyButton({ keyID, className, setting, onClick, properties }) {
 	const disabled = (setting === false)
 	const classes = useStyles()
 	return (

@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { M } from 'ui/components/math'
+import { M } from 'ui/components'
 
-import KeyboardLayout from '../KeyboardLayout'
+import { KeyboardLayout } from '../KeyboardLayout'
 
 export const tab = <M>\rm abc</M>
 

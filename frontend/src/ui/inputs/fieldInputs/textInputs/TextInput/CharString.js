@@ -3,7 +3,7 @@ import React from 'react'
 import { isNumber } from 'step-wise/util'
 import { decimalSeparator } from 'step-wise/settings/numbers'
 
-import { latexMinus } from 'ui/components/math'
+import { latexMinus } from 'ui/components'
 
 import { InlineCursor } from './InlineCursor'
 

@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function Tab({ children, active, onClick }) {
+export function Tab({ children, active, onClick }) {
 	const classes = useStyles({ active })
 	return (
 		<div className={clsx(classes.tab, 'tab')} onClick={onClick}>

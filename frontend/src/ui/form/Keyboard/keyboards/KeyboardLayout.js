@@ -7,7 +7,7 @@ import { resolveFunctions } from 'step-wise/util'
 import { useSize } from 'util/react'
 
 import { useButtonClickFunction } from './util'
-import KeyButton from './KeyButton'
+import { KeyButton } from './KeyButton'
 
 const useStyles = makeStyles((theme) => ({
 	keyboardLayout: ({ rowHeight, numColumns, numRows, settings, styles, maxWidth }) => {
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function KeyboardLayout({ settings, keyFunction, keySettings = {}, keys, numColumns, numRows, styles, widthToRowHeight, maxWidth, keyClassNames = {} }) {
+export function KeyboardLayout({ settings, keyFunction, keySettings = {}, keys, numColumns, numRows, styles, widthToRowHeight, maxWidth, keyClassNames = {} }) {
 	// Determine the row height.
 	const keyboardLayoutRef = useRef()
 	const [width] = useSize(keyboardLayoutRef)
