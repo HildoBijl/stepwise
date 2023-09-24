@@ -11,7 +11,7 @@ export function useReadHandlers(input, { getFieldData, getFieldIds }) {
 	const getInputFI = useStableCallback((id) => {
 		if (Array.isArray(id))
 			return id.map(id => getInputFI(id))
-		if (inputRef.current[id])
+		if (inputRef.current[id] !== undefined)
 			return inputRef.current[id]
 		const fieldData = getFieldData(id)
 		if (fieldData)
