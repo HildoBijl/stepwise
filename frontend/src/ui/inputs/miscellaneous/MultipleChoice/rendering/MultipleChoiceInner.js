@@ -9,7 +9,7 @@ import { processOptions } from 'step-wise/util'
 import { notSelectable } from 'ui/theme'
 import { FeedbackBlock } from 'ui/components'
 
-import { useInput, useReadOnly, useFeedbackToDisplay } from '../../../Input'
+import { useInput, useReadOnly, useFeedbackResult } from '../../../Input'
 
 import { useStableMapping, useSelectionHandlers } from './handlers'
 import { Option } from './Option'
@@ -76,7 +76,7 @@ export function MultipleChoiceInner(options) {
 	// Extract data from the various parents.
 	const [selection, setSelection] = useInput()
 	const readOnly = useReadOnly()
-	const feedbackResult = useFeedbackToDisplay()
+	const feedbackResult = useFeedbackResult()
 
 	// Apply the various handlers.
 	const mapping = useStableMapping(choices.length, pick, include, randomOrder)

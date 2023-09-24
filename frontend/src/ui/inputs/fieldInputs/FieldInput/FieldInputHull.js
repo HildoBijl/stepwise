@@ -7,7 +7,7 @@ import { processOptions, filterOptions } from 'step-wise/util'
 import { useSize } from 'util/react'
 import { notSelectable } from 'ui/theme'
 
-import { useInputValue, useReadOnly, useActive, useFeedbackToDisplay } from '../../Input'
+import { useInputValue, useReadOnly, useActive, useFeedbackResult } from '../../Input'
 
 import { useFieldInputHandlers } from './handlers'
 
@@ -252,8 +252,8 @@ export const FieldInputHull = forwardRef((options, hullRef) => {
 	const readOnly = useReadOnly()
 
 	// Extract feedback to display from the Input field.
-	const feedback = useFeedbackToDisplay()
-	const Icon = feedback && feedback.Icon
+	const feedbackResult = useFeedbackResult()
+	const Icon = feedbackResult && feedbackResult.Icon
 
 	// Pass relevant data to the style function.
 	const classes = useStyles({
@@ -272,10 +272,10 @@ export const FieldInputHull = forwardRef((options, hullRef) => {
 		displayPlaceholder: empty, // Should the placeholder be rendered (but possibly invisible)?
 		showPlaceholder: empty && (active || !label), // Should the placeholder be visible?
 
-		feedbackColor: feedback && feedback.color,
-		feedbackType: feedback && feedback.type,
-		hasFeedbackText: !!(feedback && feedback.text),
-		displayIcon: !!(feedback && feedback.Icon),
+		feedbackColor: feedbackResult?.color,
+		feedbackType: feedbackResult?.type,
+		hasFeedbackText: !!(feedbackResult?.text),
+		displayIcon: !!(feedbackResult?.Icon),
 	})
 
 	// Use the main hook to set up all the functionalities.
@@ -307,7 +307,7 @@ export const FieldInputHull = forwardRef((options, hullRef) => {
 					<div className="hider glowHider" />
 					<div className="hider borderHider" />
 				</div>
-				<div className="feedbackText">{feedback && feedback.text}</div>
+				<div className="feedbackText">{feedbackResult && feedbackResult.text}</div>
 			</div>
 		</div>
 	)

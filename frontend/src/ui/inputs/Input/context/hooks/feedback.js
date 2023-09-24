@@ -1,4 +1,4 @@
-import { useFeedback as useFieldFeedback, useFeedbackToDisplay as useFieldFeedbackToDisplay } from 'ui/form'
+import { useFeedback as useFieldFeedback } from 'ui/form'
 
 import { useInputId } from './main'
 
@@ -6,12 +6,6 @@ import { useInputId } from './main'
 export function useFeedback() {
 	const id = useInputId()
 	return useFieldFeedback(id)
-}
-
-// useFeedbackToDisplay retrieves the feedback result to be displayed if the input still equals the feedback input, and otherwise gives undefined.
-export function useFeedbackToDisplay() {
-	const id = useInputId()
-	return useFieldFeedbackToDisplay(id)
 }
 
 // useFeedbackResult retrieves only the actually given feedback, and this is also given even if the input value has since changed.

@@ -97,7 +97,7 @@ function useContentSliding(hullRef, center) {
 	// Set up a function that adjusts the sliding.
 	const adjustContentSliding = useCallback(() => {
 		// Ensure all objects are present.
-		const { contents, contentsContainer: container } = hullRef.current
+		const { contents, contentsContainer: container } = hullRef.current || {}
 		if (!contents || !container)
 			return
 

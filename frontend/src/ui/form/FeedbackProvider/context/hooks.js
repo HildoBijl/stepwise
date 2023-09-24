@@ -37,50 +37,35 @@ export function useFeedback(id) {
 	// Gather data on validation and feedback.
 	let { result: validationResult, input: validationInput } = useFieldValidation(id)
 	let { result: feedbackResult, input: feedbackInput } = useRawFeedback(id)
+	const { input: allInput } = useFeedbackContext()
 
-	// Check if the field exists.
-	const { getInputSI, getFieldData } = useFormData()
+	// If the field is not known yet, return empty feedback.
+	const { getFieldData, isInputEqual } = useFormData()
 	const fieldData = getFieldData(id)
 	if (fieldData === undefined)
-		return addInput(undefined, undefined) // No feedback can be determined yet.
+		return addInput(undefined, undefined)
 
-	// Check for validation problems. On a validation problem, the feedback to be given still needs to be processed.
-	const equals = fieldData.equals
-	const input = getInputSI(id)
-	if (validationResult !== undefined && equals(input, validationInput)) {
+	// On a validation problem, return the validation feedback.
+	if (validationResult !== undefined && isInputEqual(id, validationInput)) {
 		// If the validation result is not a full object, but a string (text) or React element (which is usually the case) then use this as text for the feedback. Also process it to still add an icon and a color.
 		if (!isBasicObject(validationResult) || isValidElement(validationResult))
 			validationResult = { text: validationResult }
 		return addInput(processFeedback({ type: 'warning', ...validationResult }, theme), validationInput)
 	}
 
-	// Validation is fine. Return the regular feedback (whether it exists or not).
-	return addInput(feedbackResult, feedbackInput)
-}
+	// Evaluate the regular feedback. If it does not exist, do not give any.
+	if (!feedbackResult)
+		return addInput(undefined, feedbackInput)
 
-// useFeedbackToDisplay takes a field ID and gives the feedback that should be shown. That is, if the current input is still equal to the feedback input, the feedback is returned. Otherwise undefined is given.
-export function useFeedbackToDisplay(id) {
-	const { isInputEqual, getFieldData } = useFormData()
-	const { input: allInput } = useFeedbackContext()
-	const feedback = useFeedback(id)
-
-	// If there is no feedback for this field, do not give any.
-	if (!feedback?.result)
-		return undefined
-
-	// If the input for this field has changed, do not show feedback.
-	if (!isInputEqual(id, feedback.input))
-		return undefined
-
-	// If there is a feedback coupling to certain fields, and if any of those fields have changed, do not show feedback either.
+	// If there is a feedback coupling to certain fields, and if any of those fields have changed, do not show feedback.
 	let feedbackCoupling = getFieldData(id).feedbackCoupling || []
 	if (!Array.isArray(feedbackCoupling))
 		feedbackCoupling = [feedbackCoupling]
-	if (feedbackCoupling.some(couplingId => !isInputEqual(couplingId, allInput[couplingId])))
-		return undefined
+	if (feedbackCoupling.some(couplingId => allInput[couplingId] === undefined || !isInputEqual(couplingId, allInput[couplingId])))
+		return addInput(undefined, feedbackInput)
 
-	// All in order. Show feedback!
-	return feedback.result
+	// Validation is fine. Return the regular feedback (whether it exists or not).
+	return addInput(feedbackResult, feedbackInput)
 }
 
 // useMainFeedback gives the feedback object for the "main" item. A step can be added, in which case the main feedback for that step is given.
