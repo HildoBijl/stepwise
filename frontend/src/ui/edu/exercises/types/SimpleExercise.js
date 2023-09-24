@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef } from 'react'
 
-import { deepEquals } from 'step-wise/util'
 import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 
 import { useUserId } from 'api/user'
@@ -42,7 +41,7 @@ function SimpleExerciseInner({ Problem, Solution }) {
 	// Determine what to show.
 	const hasSubmissions = !!getLastInput(history, userId) // Has there been an input action?
 	const showInputSpace = !progress.done || hasSubmissions
-	const showMainFeedback = showInputSpace && (progress.done || deepEquals(isAllInputEqual(feedbackInput)))
+	const showMainFeedback = showInputSpace && (progress.done || isAllInputEqual(feedbackInput))
 
 	return <>
 		<ProblemContainer>

@@ -13,13 +13,13 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function MainFeedback({ display, step = 0 }) {
-	const { feedback } = useMainFeedback(step)
+	const { result } = useMainFeedback(step)
 	const classes = useStyles()
-	display = !!(feedback && feedback.text && display)
+	display = !!(result && result.text && display)
 
 	return (
 		<Collapse in={display} className={classes.mainFeedbackCollapse}>
-			<FeedbackBlock className="mainFeedback" {...feedback} />
+			<FeedbackBlock className="mainFeedback" {...result} />
 		</Collapse>
 	)
 }
