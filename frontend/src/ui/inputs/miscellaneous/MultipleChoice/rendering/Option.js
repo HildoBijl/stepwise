@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function Option({ checked, activate, deactivate, toggle, Element, feedback, readOnly, children }) {
+export function Option({ checked, activate, deactivate, toggle, Element, feedback, readOnly, children }) {
 	const { type: feedbackType, text: feedbackText, Icon, color: feedbackColor } = feedback || {}
 	const hasFeedback = (feedbackType && feedbackType !== 'normal')
 	const classes = useStyles({ feedbackType, feedbackColor, readOnly })

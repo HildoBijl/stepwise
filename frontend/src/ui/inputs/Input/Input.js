@@ -18,7 +18,7 @@ export const defaultInputOptions = {
 	allowFocus: true,
 }
 
-export default function Input(options) {
+export function Input(options) {
 	// Process and extract the given options.
 	options = processOptions(options, defaultInputOptions)
 	let { id, children, readOnly, contextData } = options

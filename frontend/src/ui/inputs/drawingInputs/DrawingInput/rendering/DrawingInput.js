@@ -41,4 +41,3 @@ export const DrawingInput = forwardRef((options, drawingRef) => {
 	</Input>
 })
 DrawingInput.applySelectingOptions = applySelectingOptions
-export default DrawingInput

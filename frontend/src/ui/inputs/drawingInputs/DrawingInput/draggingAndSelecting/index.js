@@ -1,5 +1,5 @@
 export * from './draggingAndSelecting'
 export * from './selecting'
 export * from './dragging'
-export { default as SelectionRectangle } from './SelectionRectangle'
-export { default as DragMarker } from './DragMarker'
+export * from './SelectionRectangle'
+export * from './DragMarker'

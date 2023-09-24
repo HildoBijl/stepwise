@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function SelectionRectangle() {
+export function SelectionRectangle() {
 	const { selectionRectangle } = useDrawingInputData()
 	const classes = useStyles()
 

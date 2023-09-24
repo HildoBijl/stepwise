@@ -9,7 +9,7 @@ import { Input, defaultInputOptions } from '../../../Input'
 import { getEmptySI } from '../support'
 import * as validation from '../validation'
 
-import MultipleChoiceInner, { defaultMultipleChoiceInnerOptions } from './MultipleChoiceInner'
+import { MultipleChoiceInner, defaultMultipleChoiceInnerOptions } from './MultipleChoiceInner'
 
 export const defaultMultipleChoiceOptions = {
 	// General Input field options.
@@ -20,7 +20,7 @@ export const defaultMultipleChoiceOptions = {
 	...defaultMultipleChoiceInnerOptions,
 }
 
-export default function MultipleChoice(options) {
+export function MultipleChoice(options) {
 	options = processOptions(options, defaultMultipleChoiceOptions)
 
 	// Set up the Input field settings.

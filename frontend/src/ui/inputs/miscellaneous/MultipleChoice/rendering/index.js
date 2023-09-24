@@ -1,1 +1,1 @@
-export { default } from './MultipleChoice'
+export { MultipleChoice } from './MultipleChoice'

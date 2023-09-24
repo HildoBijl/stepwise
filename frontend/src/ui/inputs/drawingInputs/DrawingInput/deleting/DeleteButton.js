@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function DeleteButton() {
+export function DeleteButton() {
 	const { active, applyDeletion, showDeleteButton, setIsMouseOverButton, isDragging, isSelecting } = useDrawingInputData()
 	const [FI, setFI] = useInput()
 	const classes = useStyles()

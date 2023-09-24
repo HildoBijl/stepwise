@@ -9,8 +9,8 @@ import { Drawing, defaultDrawingOptions } from 'ui/figures/Drawing'
 
 import { useInputData, useFeedbackResult } from '../../../Input'
 
-import DrawingInputCore, { defaultDrawingInputCoreOptions } from './DrawingInputCore'
-import FeedbackIcon from './FeedbackIcon'
+import { DrawingInputCore, defaultDrawingInputCoreOptions } from './DrawingInputCore'
+import { FeedbackIcon } from './FeedbackIcon'
 
 export const defaultDrawingInputHullOptions = {
 	...defaultDrawingOptions,
@@ -116,4 +116,3 @@ export const DrawingInputHull = forwardRef((options, drawingRef) => {
 		</div>
 	</div>
 })
-export default DrawingInputHull

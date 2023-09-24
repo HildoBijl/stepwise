@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 // FeedbackIcon puts a feedback Icon on the DrawingInput whenever feedback is given.
-export default function FeedbackIcon({ scale = 1, anchor = [1, 0] }) {
+export function FeedbackIcon({ scale = 1, anchor = [1, 0] }) {
 	const feedbackResult = useFeedbackResult()
 	const bounds = useGraphicalBounds()
 	const classes = useStyles({ feedbackColor: feedbackResult?.color })

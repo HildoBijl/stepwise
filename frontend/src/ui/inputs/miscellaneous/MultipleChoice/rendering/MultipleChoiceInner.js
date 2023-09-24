@@ -12,7 +12,7 @@ import { FeedbackBlock } from 'ui/components'
 import { useInput, useReadOnly, useFeedbackToDisplay } from '../../../Input'
 
 import { useStableMapping, useSelectionHandlers } from './handlers'
-import Option from './Option'
+import { Option } from './Option'
 
 const useStyles = makeStyles((theme) => ({
 	multipleChoice: {
@@ -70,7 +70,7 @@ export const defaultMultipleChoiceInnerOptions = {
 	randomOrder: false,
 }
 
-export default function MultipleChoiceInner(options) {
+export function MultipleChoiceInner(options) {
 	const { choices, multiple, pick, include, randomOrder } = processOptions(options, defaultMultipleChoiceInnerOptions)
 
 	// Extract data from the various parents.

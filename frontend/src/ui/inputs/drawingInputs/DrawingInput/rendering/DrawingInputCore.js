@@ -17,7 +17,7 @@ export const defaultDrawingInputCoreOptions = {
 	...defaultDeletingOptions,
 }
 
-export default function DrawingInputCore(options) {
+export function DrawingInputCore(options) {
 	const { children } = options = processOptions(options, defaultDrawingInputCoreOptions)
 
 	// Get data from the parents.

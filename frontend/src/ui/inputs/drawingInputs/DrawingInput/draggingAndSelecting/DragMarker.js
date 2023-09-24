@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export const DragMarker = forwardRef((props, ref) => {
+export const DragMarker = forwardRef((_, ref) => {
 	const { isDragging, mouseDownData } = useDrawingInputData()
 	const classes = useStyles()
 
@@ -27,4 +27,3 @@ export const DragMarker = forwardRef((props, ref) => {
 	const { snappedPosition } = mouseDownData
 	return <SvgSquare ref={ref} className={clsx(classes.dragMarker, 'dragMarker')} center={snappedPosition} graphicalSide={markerSquareSide} />
 })
-export default DragMarker

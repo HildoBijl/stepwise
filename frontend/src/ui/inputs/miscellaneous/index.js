@@ -1,1 +1,1 @@
-export * from './MultipleChoice'
+export { MultipleChoice } from './MultipleChoice'
