@@ -33,7 +33,7 @@ const Problem = (state) => {
 		</InputSpace>
 		<Par>Bereken hierin de onbekende reactiekrachten/momenten.</Par>
 		<InputSpace>
-			{loadNames.map(loadName => <FloatUnitInput key={loadName.variable.name} id={loadName.variable.name} prelabel={<M>{loadName.variable}=</M>} size="s" />)}
+			{loadNames.map(loadName => <FloatUnitInput key={loadName.variable.name} id={loadName.variable.name} prelabel={<M>{loadName.variable}=</M>} size="s" persistent={true} feedbackCoupling={['loads']} />)}
 		</InputSpace>
 	</>
 }

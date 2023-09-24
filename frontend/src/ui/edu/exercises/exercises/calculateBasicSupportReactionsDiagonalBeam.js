@@ -33,7 +33,7 @@ const Problem = (state) => {
 		</InputSpace>
 		<Par>Bereken hierin de onbekende reactiekrachten/momenten.</Par>
 		<InputSpace>
-			{loadNames.map(loadName => <FloatUnitInput key={loadName.variable.name} id={loadName.variable.name} prelabel={<M>{loadName.variable}=</M>} size="s" />)}
+			{loadNames.map(loadName => <FloatUnitInput key={loadName.variable.name} id={loadName.variable.name} prelabel={<M>{loadName.variable}=</M>} size="s" persistent={true} feedbackCoupling={['loads']} />)}
 		</InputSpace>
 	</>
 }
@@ -103,7 +103,7 @@ const steps = [
 					Om <M>{vFC}</M> te vinden bekijken we de som van de momenten om punt <M>A.</M> In dit geval hebben <M>{vFAx}</M> en <M>{vFAy}</M> geen invloed. Dit geeft ons de evenwichtsvergelijking
 					<BM>{sumOfMoments('A', false)} {clockwise ? '' : '-'} {vMoment} {clockwise === directionIndices[3] ? '-' : '+'} {vFC} \left(l_1 + l_2\right) = 0.</BM>
 					De oplossing volgt als
-					<BM>{vFC} = {directionIndices[3] ? '' : '-'} \frac({vMoment})(\left(l_1 + l_2\right)) = {directionIndices[3] ? '' : '-'} \frac({Moment.float})(\left({l1.float} + {l2.float}\right)) = {FC}.</BM>
+					<BM>{vFC} = {directionIndices[3] ? '' : '-'} \frac({vMoment})(l_1 + l_2) = {directionIndices[3] ? '' : '-'} \frac({Moment.float})({l1.float} + {l2.float}) = {FC}.</BM>
 				</Par>
 			</>
 		},

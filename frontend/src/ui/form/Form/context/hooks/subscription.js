@@ -12,6 +12,7 @@ import { useFormData } from '../provider'
  * - validate: a function that receives the Functional Object (FO). It then either returns undefined (on all OK) or an error message (on a problem).
  * - clean: turn a Functional Input (FI) object (possibly with cursors, selections and such) into a Stored Input (SI) object (ready to be stored into the database).
  * - functionalize: turn an SI object (without cursors and without anything functional) into an FI object (possibly with cursors or functional components).
+ * - feedbackCoupling: an array of field IDs to which this field is (unidirectionally) coupled. If the value of any of those fields changes, then the feedback for this field should not be shown anymore either.
  * - persistent: should the parameter stay (true) or be cleared (false) when the last subscriber unsubscribes from listening for this parameter?
  * - equals: a function that checks if two Stored Input (SI) objects are considered equal. It is used to check if the same feedback should still be shown. By default this is deepEquals.
  * - errorToMessage: a function that takes an error thrown by the interpretation (SItoFO) script and turns it into a sensible message to show to the user, preferably having as much information as possible.
@@ -22,6 +23,7 @@ export const defaultUseFormParameterOptions = {
 	validate: noop,
 	clean: FO => toSO(FO, true),
 	functionalize: SI => toFO(SI, true),
+	feedbackCoupling: [],
 	persistent: false,
 	equals: deepEquals,
 	errorToMessage: () => <>Oops ... ik begrijp niet wat je hier getypt hebt.</>,

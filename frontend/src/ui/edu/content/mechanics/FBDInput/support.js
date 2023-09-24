@@ -1,18 +1,18 @@
 import { mod, removeProperties } from 'step-wise/util'
 import { Span } from 'step-wise/geometry'
 import { toFO, toSO } from 'step-wise/inputTypes'
-import { loadTypes, isLoad, doesLoadTouchRectangle } from 'step-wise/edu/exercises/util/engineeringMechanics'
+import { loadTypes, isLoad, doesLoadTouchRectangle, defaultComparison, areLoadsMatching } from 'step-wise/edu/exercises/util/engineeringMechanics'
 
 export function clean(FI) {
-	return toSO(FI.map(load => {
-		load = { ...load }
-		delete load.selected
-		return load
-	}))
+	return toSO(FI.map(load => removeProperties(load, ['selected', 'hovering'])))
 }
 
 export function functionalize(SI) {
 	return toFO(SI).map(load => ({ ...load, selected: false }))
+}
+
+export function equals(a, b) {
+	return areLoadsMatching(toFO(a), toFO(b), defaultComparison)
 }
 
 export function applySnapping(FI) {

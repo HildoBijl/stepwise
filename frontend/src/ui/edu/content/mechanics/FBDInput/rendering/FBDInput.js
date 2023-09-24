@@ -5,7 +5,7 @@ import { processOptions, filterOptions } from 'step-wise/util'
 
 import { DrawingInput, defaultDrawingInputOptions } from 'ui/inputs'
 
-import { clean, functionalize, applySnapping, selectAll, deselectAll, startDrag, getEndDragFunction, endSelect, applyDeletion, showDeleteButton } from '../support'
+import { clean, functionalize, equals, applySnapping, selectAll, deselectAll, startDrag, getEndDragFunction, endSelect, applyDeletion, showDeleteButton } from '../support'
 import * as validation from '../validation'
 
 import FBDInputInner, { defaultFBDInputInnerOptions } from './FBDInputInner'
@@ -19,6 +19,7 @@ export const defaultFBDInputOptions = {
 	validate: validation.nonEmptyNoDoubles,
 	clean,
 	functionalize,
+	equals,
 
 	// Set up default properties specific to the DrawingInput component.
 	applySnapping,

@@ -7,7 +7,7 @@ import { processOptions, filterOptions, resolveFunctions } from 'step-wise/util'
 import { notSelectable } from 'ui/theme'
 import { Drawing, defaultDrawingOptions } from 'ui/figures/Drawing'
 
-import { useInputData, useFeedbackResult } from '../../../Input'
+import { useInputData, useFeedbackToDisplay } from '../../../Input'
 
 import { DrawingInputCore, defaultDrawingInputCoreOptions } from './DrawingInputCore'
 import { FeedbackIcon } from './FeedbackIcon'
@@ -83,7 +83,7 @@ export const DrawingInputHull = forwardRef((options, drawingRef) => {
 
 	// Get data from the parent contexts.
 	const { active, readOnly, cursor } = useInputData()
-	const feedbackResult = useFeedbackResult()
+	const feedbackResult = useFeedbackToDisplay()
 
 	// Determine styling of the object.
 	maxWidth = resolveFunctions(maxWidth, transformationSettings?.graphicalBounds)

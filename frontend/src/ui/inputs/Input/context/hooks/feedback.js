@@ -8,13 +8,13 @@ export function useFeedback() {
 	return useFieldFeedback(id)
 }
 
-// useFeedbackToDisplay retrieves the feedback to be displayed if the input still equals the feedback input, and otherwise gives undefined.
+// useFeedbackToDisplay retrieves the feedback result to be displayed if the input still equals the feedback input, and otherwise gives undefined.
 export function useFeedbackToDisplay() {
 	const id = useInputId()
 	return useFieldFeedbackToDisplay(id)
 }
 
-// useFeedbackResult retrieves only the actually given feedback.
+// useFeedbackResult retrieves only the actually given feedback, and this is also given even if the input value has since changed.
 export function useFeedbackResult() {
 	return useFeedback().result
 }

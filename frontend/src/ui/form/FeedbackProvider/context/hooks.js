@@ -54,19 +54,33 @@ export function useFeedback(id) {
 		return addInput(processFeedback({ type: 'warning', ...validationResult }, theme), validationInput)
 	}
 
-	// Validation is fine. Check for regular feedback. If it exists, it's already been processed.
-	if (feedbackResult !== undefined && equals(input, feedbackInput))
-		return addInput(feedbackResult, feedbackInput)
-
-	// No particular feedback found.
-	return addInput(undefined, feedbackInput)
+	// Validation is fine. Return the regular feedback (whether it exists or not).
+	return addInput(feedbackResult, feedbackInput)
 }
 
 // useFeedbackToDisplay takes a field ID and gives the feedback that should be shown. That is, if the current input is still equal to the feedback input, the feedback is returned. Otherwise undefined is given.
 export function useFeedbackToDisplay(id) {
-	const { isInputEqual } = useFormData()
+	const { isInputEqual, getFieldData } = useFormData()
+	const { input: allInput } = useFeedbackContext()
 	const feedback = useFeedback(id)
-	return isInputEqual(id, feedback.input) ? feedback.result : undefined
+
+	// If there is no feedback for this field, do not give any.
+	if (!feedback?.result)
+		return undefined
+
+	// If the input for this field has changed, do not show feedback.
+	if (!isInputEqual(id, feedback.input))
+		return undefined
+
+	// If there is a feedback coupling to certain fields, and if any of those fields have changed, do not show feedback either.
+	let feedbackCoupling = getFieldData(id).feedbackCoupling || []
+	if (!Array.isArray(feedbackCoupling))
+		feedbackCoupling = [feedbackCoupling]
+	if (feedbackCoupling.some(couplingId => !isInputEqual(couplingId, allInput[couplingId])))
+		return undefined
+
+	// All in order. Show feedback!
+	return feedback.result
 }
 
 // useMainFeedback gives the feedback object for the "main" item. A step can be added, in which case the main feedback for that step is given.
