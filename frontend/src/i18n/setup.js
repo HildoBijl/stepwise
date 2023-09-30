@@ -19,11 +19,15 @@ i18n
 		},
 
 		saveMissing: true,
-		saveMissingTo: 'all',
+		saveMissingTo: 'fallback',
+		updateMissing: true,
 
 		backend: {
 			loadPath: '/locales/{{lng}}/{{ns}}.json',
-			addPath: '/locales/add/{{lng}}/{{ns}}',
+			addPath: 'http://localhost:4000/locales/add/{{lng}}/{{ns}}',
+			// addPath: '/locales/add/{{lng}}/{{ns}}',
+			// parsePayload: (namespace, key, fallbackValue) => console.log(namespace, key, fallbackValue) || key,
+			// parsePayload: (namespace, key, fallbackValue) => console.log(namespace, key, fallbackValue) || { x: 1, y: 'test' },
 		},
 	})
 

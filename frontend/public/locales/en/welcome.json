@@ -1,7 +1,8 @@
 {
-  "title": "Hello there!",
+  "title": "Hello!",
   "content": {
-    "text": "Welcome at <1>our place</1>.",
-		"second": "Some <1>remaining</1> matters."
+    "text": "Welcome at <strong>our place</strong>.",
+    "second": "Some <strong>new</strong> stuff.",
+    "third": "And an <strong>untranslated</strong> text."
   }
 }

@@ -1,16 +1,19 @@
 const express = require('express')
 const http = require('http')
-const { createApolloContext, getPrincipalOrThrow } = require('./apollo')
 const session = require('express-session')
 const cors = require('cors')
 const Joi = require('@hapi/joi')
-const { createAuthRouter } = require('./auth')
-const { typeDefs, resolvers } = require('../graphql')
 const { ApolloServer } = require('apollo-server-express')
 const { makeExecutableSchema } = require('@graphql-tools/schema')
 const { ApolloServerPluginDrainHttpServer, ApolloServerPluginLandingPageGraphQLPlayground, ApolloServerPluginLandingPageDisabled } = require('apollo-server-core')
 const { execute, subscribe } = require('graphql')
 const { SubscriptionServer } = require('subscriptions-transport-ws')
+
+const { typeDefs, resolvers } = require('../graphql')
+
+const { createApolloContext, getPrincipalOrThrow } = require('./apollo')
+const { createAuthRouter } = require('./auth')
+const { createI18nRouter } = require('./i18n')
 
 const configValidationSchema = Joi.object({
 	sslEnabled: Joi.boolean().required(),
@@ -31,6 +34,7 @@ const createServer = async ({
 	surfConextClient,
 	googleClient,
 	pubsub,
+	useI18n,
 	devAuthPortal,
 }) => {
 	const configValidationError = configValidationSchema.validate(config).error
@@ -74,6 +78,11 @@ const createServer = async ({
 		database,
 		{ surfConextClient, googleClient })
 	)
+
+	// Language file submission from i18n
+	if (useI18n) {
+		app.use('/locales', createI18nRouter())
+	}
 
 	// Development auth portal
 	if (devAuthPortal) {

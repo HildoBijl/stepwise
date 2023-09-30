@@ -2,6 +2,30 @@ const { isObject, isBasicObject } = require('./checks')
 const { deepEquals } = require('./comparisons')
 const { keysToObject } = require('./creation')
 
+// setDeepParameter takes an object like { x: { y: 1, z: 2}, w: 3 }, an array of indices ['x', 'z'] and a value (for instance 4) and sets the corresponding value in the object. If the sub-object does not exist, it is created. It changes the 
+function setDeepParameter(obj, path, value) {
+	if (!Array.isArray(path))
+		throw new Error(`Invalid parameter path: expected an array but received a path of type "${typeof path}".`)
+	
+	// Create a shallow clone, so as not to adjust the original.
+	if (Array.isArray(obj))
+		obj = [...obj]
+	else if (isBasicObject(obj))
+		obj = {...obj}
+	else if (obj === undefined)
+		obj = {}
+	else
+		throw new Error(`Invalid object passed: received something of type "${typeof obj}".`)
+
+	// Adjust the clone and return it.
+	if (path.length === 1)
+		obj[path[0]] = value
+	else
+		obj[path[0]] = (path.length === 1 ? value : setDeepParameter(obj[path[0]], path.slice(1), value))
+	return obj
+}
+module.exports.setDeepParameter = setDeepParameter
+
 // applyMapping takes an object with multiple parameters, like { a: 2, b: 3 }, and applies a function like (x, key) => 2*x to each parameter. It returns a new object (the old one is unchanged) with the result, like { a: 4, b: 6 }. It can also receive an array, in which case it returns an array (just like array map). In both cases undefined values are always filtered out.
 function applyMapping(obj, func) {
 	if (Array.isArray(obj))

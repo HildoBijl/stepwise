@@ -34,6 +34,7 @@ sequelize.authenticate()
 			surfConextClient,
 			googleClient,
 			pubsub: new PubSub(),
+			useI18n: process.env.NODE_ENV === 'development',
 			devAuthPortal: process.env.NODE_ENV === 'development' ? {
 				path: SurfConextMock.DIRECTORY_PATH,
 				directory: SurfConextMock.userDirectory,

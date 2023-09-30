@@ -39,7 +39,7 @@ export default function Test() {
 			</button>
 			<Head>{t('welcome:title', 'Hello!')}</Head>
 			<Par><Trans i18nKey="welcome:content.text">Welcome at <strong>our place</strong>.</Trans></Par>
-			<Par><Trans i18nKey="welcome:content.second">Some <strong>other</strong> stuff.</Trans></Par>
+			<Par><Trans i18nKey="welcome:content.second">Some <strong>new</strong> stuff.</Trans></Par>
 			<Par><Trans i18nKey="welcome:content.third">And an <strong>untranslated</strong> text.</Trans></Par>
 			<Par>Dit is een testpagina. Hij wordt gebruikt om simpele dingen te testen en te kijken hoe ze werken. Vaak staat er willekeurige zooi op. Zoals vergelijkingen als <M>E = mc^2.</M></Par>
 			<Head>Tests</Head>
