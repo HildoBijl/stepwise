@@ -1,6 +1,6 @@
 {
   "title": "Hallo daar!",
   "content": {
-    "text": "Welcome bij <1>ons hier</1>."
+    "text": "Welcome bij <x>ons hier</x>."
   }
 }

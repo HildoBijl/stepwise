@@ -3,19 +3,43 @@ import { initReactI18next } from 'react-i18next'
 import Backend from 'i18next-xhr-backend'
 import LanguageDetector from 'i18next-browser-languagedetector'
 
+class TestBackend {
+	constructor(services, options, allOptions) {
+		// console.log(services)
+		// console.log(options)
+		// console.log(allOptions)
+		this.type = 'backend'
+	}
+	init(services, options = {}, allOptions = {}) {
+		// console.log(services, options, allOptions)
+	}
+
+	readMulti(languages, namespaces, callback) {
+		// console.log(languages, namespaces, callback)
+	}
+
+	read(language, namespace, callback) {
+		// console.log(language, namespace, callback)
+	}
+}
+TestBackend.type = 'backend'
+
 i18n
 	.use(Backend) // Learn more: https://github.com/i18next/i18next-xhr-backend
 	.use(LanguageDetector) // Learn more: https://github.com/i18next/i18next-browser-languageDetector
 	.use(initReactI18next) // Connect with React.
+	.use(TestBackend)
 	.init({ // Learn more: https://www.i18next.com/overview/configuration-options
-		debug: true,
+		debug: false,
 
 		lng: 'en',
 		fallbackLng: 'en',
 		whitelist: ['en', 'nl', 'de'],
 
 		interpolation: {
-			escapeValue: false, // not needed for react as it escapes by default
+			escapeValue: false, // Not needed for React as it escapes by default.
+			// prefix: '{',
+			// suffix: '}',
 		},
 
 		saveMissing: true,

@@ -7,6 +7,7 @@ import { useResizeObserver, useEventListener } from 'util/react'
 import { UserProvider } from 'api/user'
 import { ActiveGroupProvider } from 'api/group'
 import { SkillCacher } from 'api/skill'
+import { I18nProvider } from 'i18n'
 import theme from 'ui/theme'
 
 import Routing from './Routing'
@@ -24,11 +25,13 @@ function App() {
 				<ThemeProvider theme={theme}>
 					<CssBaseline />
 					<UserProvider>
-						<ActiveGroupProvider>
-							<SkillCacher>
-								<Routing />
-							</SkillCacher>
-						</ActiveGroupProvider>
+						<I18nProvider>
+							<ActiveGroupProvider>
+								<SkillCacher>
+									<Routing />
+								</SkillCacher>
+							</ActiveGroupProvider>
+						</I18nProvider>
 					</UserProvider>
 				</ThemeProvider>
 			</div>
