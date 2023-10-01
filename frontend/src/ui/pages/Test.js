@@ -78,7 +78,7 @@ export default function Test() {
 			<button type="button" onClick={() => setLanguage('de')}>German</button>
 			<button type="button" onClick={() => setLanguage('en')}>English</button>
 			<button type="button" onClick={() => setLanguage('nl')}>Dutch</button>
-			<Translation path="welcome" entry="content.text"><Par>Welcome at <strong>our place</strong></Par></Translation>
+			<Translation path="welcome" entry="content.text">Test <Par>Name: {{name}}<br/>Age: <strong>{age} years</strong></Par></Translation>
 			{/* <Translation path="welcome" entry="content.text"><Par>Good morning <strong>{name}</strong>, you are {age} years and {months} months old!</Par></Translation> */}
 			{/* <Head>I18n Package</Head>
 			<button type="button" onClick={() => changeLanguage('de')}>

@@ -1,6 +1,6 @@
 {
   "title": "Hallo daar!",
   "content": {
-    "text": "Welcome bij <x>ons hier</x>."
+    "text": "Nederlandse test <a>Naam: {name}<b/>Leeftijd: <c>{d} jaar</c></a>"
   }
 }

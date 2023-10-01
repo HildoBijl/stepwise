@@ -1,7 +1,7 @@
 {
   "title": "Hello!",
   "content": {
-    "text": "Welcome at <x>our place</x>.",
+    "text": "Test <a>Name: {name}<b/>Age: <c>{d} years</c></a>",
     "second": "Some <strong>new</strong> stuff.",
     "third": "And an <strong>untranslated</strong> text.",
     "pluralTest": "The button has been clicked <1><0>one</0><1>zero</1><2>{count}</2> time<4>s</4></1>."

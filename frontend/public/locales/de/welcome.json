@@ -1,6 +1,6 @@
 {
   "title": "Hallochen!",
   "content": {
-    "text": "Willkommen <x>bei uns</x>."
+    "text": "Test <a>Name: {name}<b/>Alter: <c>{d} Jahre</c></a>"
   }
 }
