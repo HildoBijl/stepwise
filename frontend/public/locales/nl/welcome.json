@@ -1,6 +1,8 @@
 {
   "title": "Hallo daar!",
   "content": {
-    "text": "Nederlandse test <a>Naam: {name}<b/>Leeftijd: <c>{d} jaar</c></a>"
+    "text": "<a>Hallo! Mijn naam is <b>{name}</b> <c>Bijl</c> en ik ben <d><e>{f}</e> jaar</d> en <g><h><i>één</i><j>nul</j><k>{l}</k></h> maand<m>en</m></g> oud.</a>",
+    "button": "<a><b>Maand erbij</b></a>",
+    "equation": "<a>Hallo! Je vergelijking is <b>{c}.</b></a>"
   }
 }

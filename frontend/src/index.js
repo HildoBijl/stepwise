@@ -7,7 +7,6 @@ import { WebSocketLink } from '@apollo/client/link/ws'
 import { SubscriptionClient } from 'subscriptions-transport-ws'
 
 import { graphqlAddress, graphqlWebsocketAddress } from './settings'
-import { I18nWrapper } from './i18n'
 import App from './ui/layout/App'
 
 // The websocket link, for subscriptions.
@@ -64,7 +63,7 @@ const apolloClient = new ApolloClient({
 
 // React. Do not use strict mode to prevent Material UI from bugging out.
 const root = ReactDOM.createRoot(document.getElementById('root'))
-root.render(<I18nWrapper><App apolloClient={apolloClient} /></I18nWrapper>)
+root.render(<App apolloClient={apolloClient} />)
 
 // Service worker.
 serviceWorkerRegistration.register()

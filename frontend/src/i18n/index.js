@@ -1,5 +1,3 @@
-export * from './setup'
-export * from './I18nWrapper'
 export * from './context'
 export * from './components'
-export * from './loadLanguageFile'
+export * from './loadAndUpdate'

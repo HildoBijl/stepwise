@@ -9,7 +9,7 @@ export function applyBasicProcessing(element) {
 		return element.map(currElement => applyBasicProcessing(currElement))
 
 	// On a React element, make a copy with processed children.
-	if (isValidElement(element) && element.props.children) {
+	if (isValidElement(element) && element.props.children !== undefined) {
 		return {
 			...element,
 			props: {
@@ -51,7 +51,7 @@ export function elementToString(element, counter = { count: 0 }) {
 
 	// On a React element, add a tag. Include any potential children.
 	if (isValidElement(element)) {
-		if (!element.props.children)
+		if (element.props.children === undefined)
 			return `<${name}/>`
 		return `<${name}>${elementToString(element.props.children, counter)}</${name}>`
 	}
@@ -61,14 +61,13 @@ export function elementToString(element, counter = { count: 0 }) {
 }
 
 // applyTranslation takes a React element and a string translation and tries to apply the translation to the React element. On any inconsistency between the element and the translation, it throws an error.
-const translationRegEx = /(\{[a-zA-Z0-9]+\}|<[a-zA-Z0-9]+>.*<\/[a-zA-Z0-9]+>|<[a-zA-Z0-9]+\/>)/
 export function applyTranslation(element, translation) {
 	// If the element we received is a string, replace it by the translation.
 	if (typeof element === 'string')
 		return translation
 
 	// Split up the translation into <tags></tags>, <singleTags/>, {variables} and remaining strings.
-	const translationSplit = translation.split(translationRegEx).filter(str => str !== '')
+	const translationSplit = getTranslationSplit(translation)
 
 	// If the element we received is an array, the translation should match. Process it element by element.
 	if (Array.isArray(element)) {
@@ -88,7 +87,7 @@ export function applyTranslation(element, translation) {
 	// Is it a valid React element?
 	if (isValidElement(element)) {
 		// On a no-child element, leave it as is.
-		if (!element.props.children) {
+		if (element.props.children === undefined) {
 			if (!translation.match(/^<[a-zA-Z0-9]+\/>$/))
 				throw new Error(`Invalid translation: there was a mismatch between the received original text and the translation text. Expected to encounter a tag of the form "<tag/>". Instead, encountered: ${translation}`)
 			return element
@@ -111,4 +110,26 @@ export function applyTranslation(element, translation) {
 	if (!translation.match(/^\{([a-z]+)\}$/))
 		throw new Error(`Invalid translation: there was a mismatch between the received original text and the translation text. Expected to encounter a variable of the form {x}. Instead, encountered: ${translation}`)
 	return element
+}
+
+// getTranslationSplit takes a translation string, like "My name is <b>{name}</b> and I'm <c><d>{e}</d> years</c> old." It then splits this according to tags and variables. So it returns ["My name is ", "<b>{name}</b>", " and I'm ", "<c><d>{e}</d> years</c>" old."]. The challenge is to not have extra elements included from the RegEx control groups.
+const allElementsRegEx = /(\{[a-zA-Z0-9]+\}|<([a-zA-Z0-9]+)>.*<\/\2>|<[a-zA-Z0-9]+\/>)/
+const closedTagRegEx = /^<([a-zA-Z0-9]+)>.*<\/\1>$/
+function getTranslationSplit(translation) {
+	// Start with a split according to all elements.
+	let translationSplit = translation.split(allElementsRegEx)
+
+	// Filter out empty spaces and undefineds.
+	translationSplit = translationSplit.filter(str => str !== '' && str !== undefined)
+
+	// Take out the extra control group elements originating from the open/close tags.
+	translationSplit = translationSplit.filter((str, index) => {
+		if (index === 0)
+			return true
+		const match = translationSplit[index - 1].match(closedTagRegEx)
+		if (match && match[1] === str)
+			return false // We have found the extra control group. Toss it out.
+		return true
+	})
+	return translationSplit
 }

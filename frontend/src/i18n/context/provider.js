@@ -2,9 +2,7 @@ import React, { createContext, useContext, useState, useRef } from 'react'
 
 import { keysToObject } from 'step-wise/util'
 
-import { useLatest } from 'util/react'
-
-import { languages, defaultLanguage } from '../settings'
+import { languages } from '../settings'
 
 import { useI18nHandlers } from './handlers'
 
@@ -13,12 +11,11 @@ const I18nContext = createContext({})
 export function I18nProvider({ children }) {
 	// Define states.
 	const [language, setLanguage] = useState()
-	const [translationFiles, setTranslationFiles] = useState(keysToObject(languages, () => ({})))
+	const [languageFiles, setLanguageFiles] = useState(keysToObject(languages, () => ({})))
 	const loaderRef = useRef(keysToObject(languages, () => ({})))
-	const translationFilesRef = useLatest(translationFiles)
 
 	// Set up various handlers that have important functionalities.
-	const handlers = useI18nHandlers({ setLanguage, setTranslationFiles, translationFilesRef, loaderRef })
+	const handlers = useI18nHandlers({ setLanguage, setLanguageFiles, loaderRef })
 
 	// Check various sources of information to see if we can derive the language to be used.
 	// ToDo.
@@ -26,7 +23,7 @@ export function I18nProvider({ children }) {
 	// Set up the context value.
 	const value = {
 		language,
-		translationFiles,
+		languageFiles,
 		loaderRef,
 		...handlers,
 	}

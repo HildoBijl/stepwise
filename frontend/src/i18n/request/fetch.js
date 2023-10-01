@@ -50,7 +50,7 @@ export function requestWithFetch(options, url, payload, callback) {
 	const reqOptions = (typeof options.requestOptions === 'function' ? options.requestOptions(payload) : options.requestOptions)
 	const fetchOptions = {
 		method: payload ? 'POST' : 'GET',
-		body: payload ? options.stringify(payload) : undefined,
+		body: payload ? JSON.stringify(payload) : undefined,
 		headers,
 		...(omitFetchOptions ? {} : reqOptions),
 	}

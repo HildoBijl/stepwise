@@ -1,10 +1,9 @@
 {
   "title": "Hello!",
   "content": {
-    "text": "Test <a>Name: {name}<b/>Age: <c>{d} years</c></a>",
-    "second": "Some <strong>new</strong> stuff.",
-    "third": "And an <strong>untranslated</strong> text.",
-    "pluralTest": "The button has been clicked <1><0>one</0><1>zero</1><2>{count}</2> time<4>s</4></1>."
+    "text": "<a>Hello! My name is <b>{name}</b> <c>Bijl</c> and I'm <d><e>{f}</e> years</d> and <g><h><i>one</i><j>zero</j><k>{l}</k></h> month<m>s</m></g> old.</a>",
+    "button": "<a><b>Increase months</b></a>",
+    "equation": "<a>Hello! Your equation is <b>{c}.</b></a>"
   },
   "name": "<0>Hello <strong>dear</strong> {{name}}. You are {{age}} years and {{months}} months and {{days}} days old. Your equation is <11>{{eq}}.</11></0>"
 }
