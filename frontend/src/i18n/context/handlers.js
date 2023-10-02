@@ -42,29 +42,36 @@ export function useI18nHandlers({ setLanguage: setLanguageState, setLanguageFile
 	})
 
 	// When there are updates to language files, we store the updates in a state, and once every now and then (on an effect) send them to the server.
-	const [fileUpdates, setFileUpdates] = useState([])
+	const [fileUpdates, setFileUpdates] = useState({})
 	useEffect(() => {
 		// If there are no updates queued, do nothing.
-		if (fileUpdates.length === 0)
+		if (Object.keys(fileUpdates).length === 0)
 			return
 
 		// There are updates queued. Send them.
-		console.log(fileUpdates)
 		sendLanguageFileUpdates(fileUpdates)
 
 		// Process the updates locally too.
 		setLanguageFiles(languageFiles => {
-			fileUpdates.forEach(({ language, path, entry, translation }) => {
-				languageFiles = setDeepParameter(languageFiles, [language, path, ...entryAsArray(entry)], translation)
+			Object.keys(fileUpdates).forEach(language => {
+				Object.keys(fileUpdates[language]).forEach(path => {
+					Object.keys(fileUpdates[language][path]).forEach(entry => {
+						const text = fileUpdates[language][path][entry]
+						languageFiles = setDeepParameter(languageFiles, [language, path, ...entryAsArray(entry)], text)
+					})
+				})
 			})
 			return languageFiles
 		})
+
+		// Erase the file updates storage because the updates have been processed.
+		setFileUpdates({})
 	}, [fileUpdates, setFileUpdates, setLanguageFiles])
 
 	// updateLanguageEntry queues up an updated entry, to be sent to the server when there is some time.
-	const updateLanguageEntry = useStableCallback((language, path, entry, translation) => {
+	const updateLanguageEntry = useStableCallback((language, path, entry, text) => {
 		// Save the update into the fileUpdates to queue it for updating on the server.
-		setFileUpdates(fileUpdates => [...fileUpdates, { language, path, entry, translation }])
+		setFileUpdates(fileUpdates => setDeepParameter(fileUpdates, [language, path, entry], text))
 	})
 
 	// Return all the defined handlers.

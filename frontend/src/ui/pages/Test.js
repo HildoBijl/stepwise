@@ -40,7 +40,7 @@ export default function Test() {
 			<button type="button" onClick={() => setLanguage('en')}>English</button>
 			<button type="button" onClick={() => setLanguage('nl')}>Dutch</button>
 			<Translation path="welcome" entry="content.button"><Par><button type="button" onClick={() => setMonths(count => count + 1)}>Increase months</button></Par></Translation>
-			<Translation path="welcome" entry="content.text"><Par>Hello! My name is <strong>{{ name }}</strong> <em>Bijl</em> and I'm <strong><em>{age}</em> years</strong> and <Plurals count={months}><strong><Plurals.One>one</Plurals.One><Plurals.Zero>zero</Plurals.Zero><Plurals.Multiple>{months}</Plurals.Multiple></strong> month<Plurals.NotOne>s</Plurals.NotOne></Plurals> old.</Par></Translation>
+			<Translation path="welcome" entry="content.text"><Par>Hello! My name is <strong>{{ name }}</strong> <em>Bijl</em> and I'm <strong><em>{age}</em> years</strong> and <Plurals count={months}><strong><Plurals.One>one</Plurals.One><Plurals.Zero>zero</Plurals.Zero><Plurals.Multiple>{months}</Plurals.Multiple></strong> month<Plurals.NotOne>s</Plurals.NotOne></Plurals> old!</Par></Translation>
 			<Translation path="welcome" entry="content.equation"><Par>Hello! Your equation is <BM>{eq}.</BM></Par></Translation>
 
 			<Par>Dit is een testpagina. Hij wordt gebruikt om simpele dingen te testen en te kijken hoe ze werken. Vaak staat er willekeurige zooi op. Zoals vergelijkingen als <M>E = mc^2.</M></Par>

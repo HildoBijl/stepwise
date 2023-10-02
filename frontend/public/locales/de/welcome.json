@@ -1,7 +1,7 @@
 {
   "title": "Hallochen!",
   "content": {
-    "text": "<a>Hallo! Mein Name ist <b>{name}</b> <c>Bijl</c> und ich bin <d><e>{f}</e> Jahre</d> und <g><h><i>ein</i><j>null</j><k>{l}</k></h> Monat<m>e</m></g> alt.</a>",
+    "text": "<a>Hallo! Mein Name ist <b>{name}</b> <c>Bijl</c> und ich bin <d><e>{f}</e> Jahre</d> und <g><h><i>ein</i><j>null</j><k>{l}</k></h> Monat<m>e</m></g> alt!</a>",
     "button": "<a><b>Extra Monat</b></a>",
     "equation": "<a>Hallo! Deine Gleichung ist <b>{c}.</b></a>"
   }

@@ -3,7 +3,10 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const fs = require('fs/promises')
 
-const { setDeepParameter } = require('step-wise/util')
+const { getDeepParameter, setDeepParameter } = require('step-wise/util')
+
+const filePath = (language, path) => `../frontend/public/locales/${language}/${path}.json`
+const logPath = `../frontend/public/locales/updateLog.json`
 
 function createI18nRouter() {
 	const i18nRouter = express.Router()
@@ -15,49 +18,55 @@ function createI18nRouter() {
 		// Extract data from the query.
 		const updates = req.body
 
-		// Walk through the updates and group them by language and path.
-		const groupedUpdates = {}
-		updates.forEach(({ language, path, entry, translation }) => {
-			if (!groupedUpdates[language])
-				groupedUpdates[language] = {}
-			if (!groupedUpdates[language][path])
-				groupedUpdates[language][path] = []
-			groupedUpdates[language][path].push({ entry, translation })
-		})
-
 		// Extract a list of all files that should be updated.
 		const files = []
-		Object.keys(groupedUpdates).forEach(language => {
-			Object.keys(groupedUpdates[language]).forEach(path => {
+		Object.keys(updates).forEach(language => {
+			Object.keys(updates[language]).forEach(path => {
 				files.push({ language, path })
 			})
 		})
 
-		// Walk through the files, first loading them all and then updating them all.
-		Promise.all(files.map(({ language, path }) => {
-			const filePath = `../frontend/public/locales/${language}/${path}.json`
-			return fs.readFile(filePath)
-		})).then(languageFiles => {
-			// Walk through the language files and for each one apply the updates.
-			languageFiles.forEach((languageFile, index) => {
-				// Decode the loaded file.
-				languageFile = JSON.parse(languageFile)
+		// First load the log-file, to update it where needed.
+		fs.readFile(logPath).then(logFile => {
+			logFile = JSON.parse(logFile)
 
-				// Walk through all updates to apply them.
-				const { language, path } = files[index]
-				groupedUpdates[language][path].forEach(({ entry, translation }) => {
-					languageFile = setDeepParameter(languageFile, entry.split('.'), translation)
+			// Walk through the files, first loading them all and then updating them all.
+			const now = new Date()
+			Promise.all(files.map(({ language, path }) => fs.readFile(filePath(language, path)))).then(languageFiles => {
+				// Walk through the language files and for each one apply the updates.
+				return languageFiles.map((languageFile, index) => {
+					// Decode the loaded file.
+					languageFile = JSON.parse(languageFile)
+
+					// Walk through all updates to apply them.
+					const { language, path } = files[index]
+					Object.keys(updates[language][path]).forEach(entry => {
+						const text = updates[language][path][entry]
+						const entrySplit = entry.split('.')
+						oldText = getDeepParameter(languageFile, entrySplit)
+						languageFile = setDeepParameter(languageFile, entrySplit, text)
+
+						// Also update the log.
+						const logEntry = {
+							oldText,
+							firstUpdate: now,
+							...(getDeepParameter(logFile, [language, path, entry]) || {}),
+							latestUpdate: now,
+							latestText: text,
+						}
+						logFile = setDeepParameter(logFile, [language, path, entry], logEntry)
+					})
+
+					// Save the updated file. Return the resulting promise.
+					return fs.writeFile(filePath(language, path), JSON.stringify(languageFile, null, 2))
 				})
-
-				// Save the updated file. Return the resulting promise.
-				const filePath = `../frontend/public/locales/${language}/${path}.json`
-				return fs.writeFile(filePath, JSON.stringify(languageFile, null, 2))
+			}).then(() => {
+				// Also save the new log file.
+				fs.writeFile(logPath, JSON.stringify(logFile, null, 2)).then(() => {
+					res.sendStatus(200)
+				})
 			})
-		}).then(() => {
-			res.sendStatus(200)
 		})
-
-		// ToDo: set up a change log. Note which entries have been changed, from what, to what, and when.
 	})
 
 	return i18nRouter

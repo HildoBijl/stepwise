@@ -35,7 +35,7 @@ export function loadLanguageFile(language, path, options = {}) {
 	})
 }
 
-// sendLanguageFileUpdates takes a list of updates [{ language: 'en', path: 'pages/home', entry: 'text.title', translation: 'Welcome to Step-Wise' }, ...] and sends this to the server for updating. It's processed server-side.
+// sendLanguageFileUpdates takes a list of updates [{ language: 'en', path: 'pages/home', entry: 'text.title', text: 'Welcome to Step-Wise' }, ...] and sends this to the server for updating. It's processed server-side.
 export function sendLanguageFileUpdates(updates, options = {}) {
 	return new Promise((resolve, reject) => {
 		const url = updatePath
