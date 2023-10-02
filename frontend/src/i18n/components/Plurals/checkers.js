@@ -1,10 +1,6 @@
-import { usePluralCount } from './provider'
+import { Checker } from '../Switch'
 
-// Checker is a component that verifies if the count from the encompassing Plural component matches a condition (a function). If so, it's displayed. Otherwise it's not. It is implemented by various useful components.
-export function Checker({ check, children }) {
-	const count = usePluralCount()
-	return check(count) ? children : null
-}
+export { Checker }
 
 export function One({ children }) {
 	return <Checker check={count => count === 1}>{children}</Checker>

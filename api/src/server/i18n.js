@@ -28,7 +28,11 @@ function createI18nRouter() {
 
 		// First load the log-file, to update it where needed.
 		fs.readFile(logPath).then(logFile => {
-			logFile = JSON.parse(logFile)
+			try {
+				logFile = JSON.parse(logFile)
+			} catch(error) {
+				logFile = {} // Probably someone just completely erased the log contents.
+			}
 
 			// Walk through the files, first loading them all and then updating them all.
 			const now = new Date()

@@ -35,8 +35,8 @@ function createAuthRouter(config, database, { surfConextClient, googleClient }) 
 				const redirectPath = config.homepageUrl + (req.session.redirect || '')
 				req.session.redirect = null
 				res.redirect(redirectPath)
-			} catch (e) {
-				console.log(e)
+			} catch (error) {
+				console.error(error)
 				res.redirect(`${config.homepageUrl}?error=${INTERNAL_ERROR}`)
 			}
 		}
@@ -68,8 +68,8 @@ function createAuthRouter(config, database, { surfConextClient, googleClient }) 
 			req.session.redirect = getValidRedirect(req.query.redirect)
 			const authProviderUrl = await surfConextAuthStrategy.initiate(req.session.id)
 			res.redirect(authProviderUrl)
-		} catch(e) {
-			console.log(e)
+		} catch(error) {
+			console.error(error)
 			res.redirect(`${config.homepageUrl}?error=${INTERNAL_ERROR}`)
 		}
 	})

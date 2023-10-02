@@ -24,8 +24,8 @@ class Client {
 				scope: 'openid',
 				state: hash(sessionId),
 			})
-		} catch(e) {
-			console.log(e)
+		} catch(error) {
+			console.error(error)
 			return null
 		}
 	}
@@ -76,8 +76,8 @@ class Client {
 					d.setDate(new Date().getDate() + 1)
 					return d
 				})()
-			} catch (e) {
-				console.log(e)
+			} catch (error) {
+				console.error(error)
 				return null
 			}
 		}

@@ -54,7 +54,7 @@ export function getAllInputFieldsFeedbackExcluding(excludedFields) {
  *   x progress: the progress made so far.
  *   x shared: the data from the shared file of the exercise.
  *   x solution: if the shared file has a getSolution function, this is called on the state and the corresponding solution is added.
- *   x more ... run a console.log to see what else is available.
+ *   x more ... run a console log to see what else is available.
  * - extraOptions: an array of extra options per parameter. This is on top of what the feedback function already adds by default. See the defaultOptions object above.
  * If the parameters array is a single string, the options may also be a single object. That is, this function also works for single parameters.
  * 

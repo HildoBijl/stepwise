@@ -75,6 +75,6 @@ export function requestWithXmlHttpRequest(options, url, payload, callback) {
 		// Time to send the payload!
     req.send(payload)
   } catch (error) {
-    console && console.log(error)
+    console && console.error(error)
   }
 }

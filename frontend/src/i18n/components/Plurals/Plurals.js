@@ -2,7 +2,8 @@ import React from 'react'
 
 import { ensureInt } from 'step-wise/util'
 
-import { PluralContext } from './provider'
+import { Switch } from '../Switch'
+
 import * as checkers from './checkers'
 
 // Set up a context which child components can refer to.
@@ -13,8 +14,8 @@ export function Plurals({ children, count }) {
 	count = ensureInt(count, true)
 
 	// Set up the provider to provide the count to child components.
-	return <PluralContext.Provider value={count}>{children}</PluralContext.Provider>
+	return <Switch value={count}>{children}</Switch>
 }
 
 // Expose the checker components within this component.
-Object.keys(checkers).forEach(key => Plurals[key] = checkers[key])
+Object.keys(checkers).forEach(key => { Plurals[key] = checkers[key] })
