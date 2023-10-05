@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 
 import { getDeepParameter } from 'step-wise/util'
 
-import { isLocalhost } from 'util'
+import { isLocalhost } from 'util/development'
 
 import { defaultLanguage } from '../../settings'
 import { entryAsArray } from '../../util'
