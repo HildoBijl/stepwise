@@ -1,7 +1,7 @@
 {
   "title": "Hallo daar!",
   "content": {
-    "text": "<a>Hallo! Mijn naam is <b>{name}</b> <c>Bijl</c> en ik ben <d><e>{f}</e> jaar</d> en <g><h><i>één</i><j>nul</j><k>{l}</k></h> maand<m>en</m></g> oud. Dit is <n><o>meer dan</o><p>niet meer dan</p> vijf maanden.</n></a>",
+    "text": "<a>Hallo! Mijn naam is <b>{name}</b> <c>Bijl</c> en ik ben <d><e>{f}</e> jaar</d> en <count-check><g><one>één</one><zero>nul</zero><multiple>{h}</multiple></g> maand<not-one>en</not-one></count-check> oud. Dit is <check><on-true>meer dan</on-true><on-false>niet meer dan</on-false></check> vijf maanden.</a>",
     "button": "<a><b>Maand erbij</b></a>",
     "equation": "<a>Hallo! Je vergelijking is <b>{c}.</b></a>"
   }
