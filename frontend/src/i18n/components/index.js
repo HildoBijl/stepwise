@@ -1,3 +1,3 @@
 export * from './Translation'
-export * from './Switch'
+export * from './Check'
 export * from './Plurals'

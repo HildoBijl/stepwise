@@ -2,33 +2,11 @@ import { isValidElement } from 'react'
 
 import { isBasicObject, numberToAlphabetString } from 'step-wise/util'
 
-// applyBasicProcessing takes a React element and does some small transformations to make sure it can be rendered. Think of turning single-parameter objects into their values.
-export function applyBasicProcessing(element) {
-	// On an array, pass it on to each element.
-	if (Array.isArray(element))
-		return element.map(currElement => applyBasicProcessing(currElement))
-
-	// On a React element, make a copy with processed children.
-	if (isValidElement(element) && element.props.children !== undefined) {
-		return {
-			...element,
-			props: {
-				...element.props,
-				children: applyBasicProcessing(element.props.children),
-			}
-		}
-	}
-
-	// Turn a single-parameter object into said parameter.
-	if (isBasicObject(element) && Object.keys(element).length === 1)
-		return Object.values(element)[0]
-
-	// Nothing special needs to be done.
-	return element
-}
-
 // elementToString takes a React element like <strong>x: {x}<br/>y: {y}</strong> and turns it into a string for a translation file, like "<a>x: {b}<c/>y: {d}</a>".
 export function elementToString(element, counter = { count: 0 }) {
+	// Define a handler to get a name for a tag/variable when needed.
+	const getName = () => numberToAlphabetString(++counter.count)
+
 	// On an array, process the elements individually and paste them together. Do check if there are no two strings together.
 	if (Array.isArray(element)) {
 		const faultyIndex = element.findIndex((currElement, index) => typeof currElement === 'string' && index > 0 && typeof element[index - 1] === 'string')
@@ -45,19 +23,41 @@ export function elementToString(element, counter = { count: 0 }) {
 	if (isBasicObject(element) && Object.keys(element).length === 1)
 		return `{${Object.keys(element)[0]}}`
 
-	// We have some name. Increment the counter.
-	counter.count++
-	const name = numberToAlphabetString(counter.count)
-
 	// On a React element, add a tag. Include any potential children.
 	if (isValidElement(element)) {
+		const name = (element.type.tag || getName()) // If present, use the corresponding element tag.
 		if (element.props.children === undefined)
 			return `<${name}/>`
 		return `<${name}>${elementToString(element.props.children, counter)}</${name}>`
 	}
 
 	// Anything remaining is just a variable.
-	return `{${name}}`
+	return `{${getName()}}`
+}
+
+// applyNoTranslation takes a React element and, instead of doing a translation, it just does some basic processing to make sure it can be rendered. Think of turning single-parameter objects into their values.
+export function applyNoTranslation(element) {
+	// On an array, pass it on to each element.
+	if (Array.isArray(element))
+		return element.map(currElement => applyNoTranslation(currElement))
+
+	// On a React element, make a copy with processed children.
+	if (isValidElement(element) && element.props.children !== undefined) {
+		return {
+			...element,
+			props: {
+				...element.props,
+				children: applyNoTranslation(element.props.children),
+			}
+		}
+	}
+
+	// Turn a single-parameter object into said parameter.
+	if (isBasicObject(element) && Object.keys(element).length === 1)
+		return Object.values(element)[0]
+
+	// Nothing special needs to be done.
+	return element
 }
 
 // applyTranslation takes a React element and a string translation and tries to apply the translation to the React element. On any inconsistency between the element and the translation, it throws an error.
@@ -84,17 +84,17 @@ export function applyTranslation(element, translation) {
 		return element[name]
 	}
 
-	// Is it a valid React element?
+	// If the element is a React element, process it accordingly.
 	if (isValidElement(element)) {
 		// On a no-child element, leave it as is.
 		if (element.props.children === undefined) {
-			if (!translation.match(/^<[a-zA-Z0-9]+\/>$/))
+			if (!translation.match(/^<[a-zA-Z0-9-]+\/>$/))
 				throw new Error(`Invalid translation: there was a mismatch between the received original text and the translation text. Expected to encounter a tag of the form "<tag/>". Instead, encountered: ${translation}`)
 			return element
 		}
 
 		// On an element with children, take the children and process them with respect to the contents of the tag.
-		const translationMatch = translation.match(/^<([a-zA-Z0-9]+)>(.*)<\/\1>$/)
+		const translationMatch = translation.match(/^<([a-zA-Z0-9-]+)>(.*)<\/\1>$/)
 		if (!translationMatch)
 			throw new Error(`Invalid translation: there was a mismatch between the received original text and the translation text. Expected to encounter a tag of the form "<tag>...</tag>". Instead, encountered: ${translation}`)
 		return {
@@ -107,14 +107,14 @@ export function applyTranslation(element, translation) {
 	}
 
 	// We must have a variable. Leave it as is.
-	if (!translation.match(/^\{([a-z]+)\}$/))
+	if (!translation.match(/^\{([a-z-]+)\}$/))
 		throw new Error(`Invalid translation: there was a mismatch between the received original text and the translation text. Expected to encounter a variable of the form {x}. Instead, encountered: ${translation}`)
 	return element
 }
 
 // getTranslationSplit takes a translation string, like "My name is <b>{name}</b> and I'm <c><d>{e}</d> years</c> old." It then splits this according to tags and variables. So it returns ["My name is ", "<b>{name}</b>", " and I'm ", "<c><d>{e}</d> years</c>" old."]. The challenge is to not have extra elements included from the RegEx control groups.
-const allElementsRegEx = /(\{[a-zA-Z0-9]+\}|<([a-zA-Z0-9]+)>.*<\/\2>|<[a-zA-Z0-9]+\/>)/
-const closedTagRegEx = /^<([a-zA-Z0-9]+)>.*<\/\1>$/
+const allElementsRegEx = /(\{[a-zA-Z0-9-]+\}|<([a-zA-Z0-9-]+)>.*<\/\2>|<[a-zA-Z0-9-]+\/>)/
+const closedTagRegEx = /^<([a-zA-Z0-9-]+)>.*<\/\1>$/
 function getTranslationSplit(translation) {
 	// Start with a split according to all elements.
 	let translationSplit = translation.split(allElementsRegEx)

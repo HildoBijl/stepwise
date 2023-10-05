@@ -22,18 +22,18 @@ function App() {
 	return (
 		<div id="app">
 			<div id="appInner">
-				<ThemeProvider theme={theme}>
-					<CssBaseline />
-					<UserProvider>
-						<I18nProvider>
+				<I18nProvider>
+					<ThemeProvider theme={theme}>
+						<CssBaseline />
+						<UserProvider>
 							<ActiveGroupProvider>
 								<SkillCacher>
 									<Routing />
 								</SkillCacher>
 							</ActiveGroupProvider>
-						</I18nProvider>
-					</UserProvider>
-				</ThemeProvider>
+						</UserProvider>
+					</ThemeProvider>
+				</I18nProvider>
 			</div>
 		</div>
 	)

@@ -8,7 +8,7 @@ import { defaultLanguage } from '../../settings'
 import { entryAsArray } from '../../util'
 import { useI18nData, useLanguage, useLanguageFile } from '../../context'
 
-import { applyBasicProcessing, elementToString, applyTranslation } from './transformation'
+import { applyNoTranslation, elementToString, applyTranslation } from './transformation'
 
 export function Translation({ path, entry, children }) {
 	// Get the translation file and extract the respective entry.
@@ -28,7 +28,7 @@ export function Translation({ path, entry, children }) {
 
 	// If there is no translation, render the default content.
 	if (!text)
-		return applyBasicProcessing(children)
+		return applyNoTranslation(children)
 
 	// Try to implement the translation.
 	try {
@@ -37,6 +37,6 @@ export function Translation({ path, entry, children }) {
 		// On a failure to implement the translation, keep the original text.
 		if (isLocalhost())
 			console.error(error)
-		return applyBasicProcessing(children)
+		return applyNoTranslation(children)
 	}
 }

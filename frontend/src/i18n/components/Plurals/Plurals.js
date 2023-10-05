@@ -2,9 +2,9 @@ import React from 'react'
 
 import { ensureInt } from 'step-wise/util'
 
-import { Switch } from '../Switch'
+import { Check } from '../Check'
 
-import * as checkers from './checkers'
+import * as conditions from './conditions'
 
 // Set up a context which child components can refer to.
 export function Plurals({ children, count }) {
@@ -14,8 +14,9 @@ export function Plurals({ children, count }) {
 	count = ensureInt(count, true)
 
 	// Set up the provider to provide the count to child components.
-	return <Switch value={count}>{children}</Switch>
+	return <Check value={count}>{children}</Check>
 }
+Plurals.tag = 'count-check'
 
-// Expose the checker components within this component.
-Object.keys(checkers).forEach(key => { Plurals[key] = checkers[key] })
+// Expose the conditions components within this component.
+Object.keys(conditions).forEach(key => { Plurals[key] = conditions[key] })
