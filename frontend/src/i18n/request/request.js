@@ -20,6 +20,7 @@ export function request(url, payload, callback, options = {}) {
 	// Process input parameters: if no payload is present, the callback may be given at the location of the payload.
 	options = processOptions(options, defaultOptions)
   if (typeof payload === 'function') {
+		options = callback || {}
     callback = payload
     payload = undefined
   }

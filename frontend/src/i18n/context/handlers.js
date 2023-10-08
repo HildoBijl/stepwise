@@ -5,8 +5,8 @@ import { setDeepParameter } from 'step-wise/util'
 import { useStableCallback } from 'util/react'
 import { isLocalhost } from 'util/development'
 
-import { languages, localStorageKey } from '../settings'
-import { pathAsString, entryAsArray } from '../util'
+import { languages } from '../settings'
+import { pathAsString, entryAsArray, getStoredLanguage, setStoredLanguage, getLocationBasedLanguage } from '../util'
 import { loadLanguageFile, sendLanguageFileUpdates } from '../loadAndUpdate'
 
 export function useI18nHandlers({ setLanguage: setLanguageState, setLanguageFiles, loaderRef }) {
@@ -15,12 +15,6 @@ export function useI18nHandlers({ setLanguage: setLanguageState, setLanguageFile
 		if (!languages.includes(language))
 			throw new Error(`Invalid language setting: tried to set the language to "${language}" but this is not among the supported languages.`)
 		setLanguageState(language)
-	})
-
-	// storeLanguage will store a language setting in localStorage. Note that it does not change the language within the website: call setLanguage separately.
-	const storeLanguage = useStableCallback((language) => {
-		if (languages.includes(language))
-			localStorage.setItem(localStorageKey, language)
 	})
 
 	// requestLanguageFile will start loading a translation file, assuming this hasn't already been requested.
@@ -82,7 +76,7 @@ export function useI18nHandlers({ setLanguage: setLanguageState, setLanguageFile
 	})
 
 	// Return all the defined handlers.
-	return { setLanguage, storeLanguage, requestLanguageFile, updateLanguageEntry }
+	return { setLanguage, requestLanguageFile, updateLanguageEntry }
 }
 
 // useInitialLanguage aims to set up the initial value of the language, based on various sources of information.
@@ -90,16 +84,20 @@ export function useInitialLanguage(setLanguage) {
 	// Only perform the check upon mounting.
 	useEffect(() => {
 		// If the local storage has a valid language, apply it.
-		const localStorageLanguage = localStorage.getItem(localStorageKey)
-		if (localStorageLanguage && languages.includes(localStorageLanguage)) {
-			console.log('Setting language to ' + localStorageLanguage)
-			setLanguage(localStorageLanguage)
+		const storedLanguage = getStoredLanguage()
+		if (storedLanguage && languages.includes(storedLanguage)) {
+			setLanguage(storedLanguage)
 			return
 		}
 
 		// Otherwise, if some location data of the user can be obtained, use that to set the language.
-		// ToDo 
-
-		// No idea what the language is. Maybe the User component will load in a bit and set the language based on the user details. For now, don't do anything. On 'undefined' language will default to the default language but indicates we're unsure.
+		getLocationBasedLanguage().then(locationBasedLanguage => {
+			if (locationBasedLanguage) {
+				setLanguage(language => language || locationBasedLanguage)
+				if (!storedLanguage)
+					setStoredLanguage(locationBasedLanguage)
+			}
+		})
+		// Note: the above method uses a direct requested from the frontend, exposing the token. Through domain whitelisting this is mostly safe. If the token gets used too much, it might be worthwhile to reroute the request through our own server instead, keeping the token private.
 	}, [setLanguage])
 }
