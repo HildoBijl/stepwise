@@ -4,7 +4,7 @@ import { keysToObject } from 'step-wise/util'
 
 import { languages } from '../settings'
 
-import { useI18nHandlers } from './handlers'
+import { useI18nHandlers, useInitialLanguage } from './handlers'
 
 const I18nContext = createContext({})
 
@@ -14,11 +14,11 @@ export function I18nProvider({ children }) {
 	const [languageFiles, setLanguageFiles] = useState(keysToObject(languages, () => ({})))
 	const loaderRef = useRef(keysToObject(languages, () => ({})))
 
+	// Set up the initial language value based on various sources of information.
+	useInitialLanguage(setLanguage)
+
 	// Set up various handlers that have important functionalities.
 	const handlers = useI18nHandlers({ setLanguage, setLanguageFiles, loaderRef })
-
-	// Check various sources of information to see if we can derive the language to be used.
-	// ToDo.
 
 	// Set up the context value.
 	const value = {
