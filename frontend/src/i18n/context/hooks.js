@@ -1,8 +1,10 @@
-import { defaultLanguage } from '../settings'
+import { useEffect } from 'react'
+
+import { languages, defaultLanguage } from '../settings'
 
 import { useI18nData } from './provider'
 
-import { pathAsString } from '../util'
+import { pathAsString, setStoredLanguage } from '../util'
 
 export function useLanguage() {
 	return useI18nData().language || defaultLanguage
@@ -32,4 +34,19 @@ export function useLanguageFile(path) {
 
 	// Nothing can be returned yet.
 	return undefined
+}
+
+// useLanguageSetting can be used by a child component that wants to set the language. If it gives a valid language, it is immediately applied.
+export function useLanguageSetting(language, storeLanguage = true) {
+	const setLanguage = useSetLanguage()
+	useEffect(() => {
+		// Don't apply the language if it's not a valid language. (Like it's undefined, or something random.)
+		if (!languages.includes(language))
+			return
+
+		// Apply the language.
+		setLanguage(language)
+		if (storeLanguage)
+			setStoredLanguage(language)
+	}, [language, setLanguage, storeLanguage])
 }

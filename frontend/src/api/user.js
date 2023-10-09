@@ -1,6 +1,8 @@
 import React, { createContext, useContext } from 'react'
 import { useMutation, useQuery, gql } from '@apollo/client'
 
+import { useLanguageSetting } from 'i18n'
+
 // Get the query results. It's recommended not to use this one externally but use the context results, to have a single source of truth. (GraphQL gives flaky results.)
 function useUserQuery() {
 	return useQuery(ME)
@@ -14,6 +16,7 @@ const ME = gql`
 			givenName
 			familyName
 			role
+			language
 			privacyPolicyConsent {
 				version,
 				acceptedAt,
@@ -29,6 +32,7 @@ export function UserProvider({ children }) {
 	const result = useUserQuery()
 	return (
 		<UserContext.Provider value={result}>
+			<LanguageSetter />
 			{children}
 		</UserContext.Provider>
 	)
@@ -68,3 +72,8 @@ const SHUTDOWN_ACCOUNT = gql`
 		shutdownAccount(confirmEmail: $confirmEmail)
 	}
 `
+
+export function LanguageSetter() {
+	const user = useUser()
+	useLanguageSetting(user?.language)
+}

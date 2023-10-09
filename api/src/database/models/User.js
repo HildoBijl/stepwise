@@ -34,6 +34,9 @@ module.exports = (sequelize) => {
 			defaultValue: 'student',
 			allowNull: false,
 		},
+		language: {
+			type: DataTypes.STRING(5),
+		},
 		privacyPolicyAcceptedVersion: {
 			type: DataTypes.INTEGER,
 			allowNull: true,

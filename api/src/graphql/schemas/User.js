@@ -25,6 +25,7 @@ const schema = gql`
 		familyName: String
 		email: EmailAddress
 		role: String!
+		language: String
 		createdAt: DateTime!
 		updatedAt: DateTime!
 		skills(ids: [String]): [SkillWithoutExercises]!
