@@ -4,7 +4,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import { ApolloProvider } from '@apollo/client'
 
 import { useResizeObserver, useEventListener } from 'util/react'
-import { UserProvider } from 'api/user'
+import { UserWrapper } from 'api/user'
 import { ActiveGroupProvider } from 'api/group'
 import { SkillCacher } from 'api/skill'
 import { I18nProvider } from 'i18n'
@@ -25,13 +25,13 @@ function App() {
 				<I18nProvider>
 					<ThemeProvider theme={theme}>
 						<CssBaseline />
-						<UserProvider>
+						<UserWrapper>
 							<ActiveGroupProvider>
 								<SkillCacher>
 									<Routing />
 								</SkillCacher>
 							</ActiveGroupProvider>
-						</UserProvider>
+						</UserWrapper>
 					</ThemeProvider>
 				</I18nProvider>
 			</div>

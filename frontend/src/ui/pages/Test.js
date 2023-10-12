@@ -11,6 +11,8 @@ import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 
 import { useLanguage, useI18nData, Translation, setStoredLanguage } from 'i18n'
 
+import { useSetLanguageMutation } from 'api/user'
+
 window.CAS = CAS
 
 window.Float = Float
@@ -32,21 +34,26 @@ export default function Test() {
 	const language = useLanguage()
 	const { setLanguage } = useI18nData()
 
+	const [setUserLanguage, data] = useSetLanguageMutation()
+
 	return (
 		<>
 			<Head>Own language package</Head>
 			<Par>Current setting: <strong>{language}</strong></Par>
 			<button type="button" onClick={() => {
-				setLanguage('de')
-				setStoredLanguage('de')
+				// setLanguage('de')
+				// setStoredLanguage('de')
+				setUserLanguage('de')
 			}}>German</button>
 			<button type="button" onClick={() => {
-				setLanguage('en')
-				setStoredLanguage('en')
+				// setLanguage('en')
+				// setStoredLanguage('en')
+				setUserLanguage('en')
 			}}>English</button>
 			<button type="button" onClick={() => {
-				setLanguage('nl')
-				setStoredLanguage('nl')
+				// setLanguage('nl')
+				// setStoredLanguage('nl')
+				setUserLanguage('nl')
 			}}>Dutch</button>
 			<Translation path="welcome" entry="content.button"><Par><button type="button" onClick={() => setMonths(count => count + 1)}>Increase months</button></Par></Translation>
 			<Translation path="welcome" entry="content.text"><Par>Hello! My name is <strong>{{ name }}</strong> <em>Bijl</em> and I'm <strong><em>{age}</em> years</strong> and <Plurals count={months}><strong><Plurals.One>one</Plurals.One><Plurals.Zero>zero</Plurals.Zero><Plurals.Multiple>{months}</Plurals.Multiple></strong> month<Plurals.NotOne>s</Plurals.NotOne></Plurals> old. This is <Check value={months > 5}><Check.True>more than</Check.True><Check.False>not more than</Check.False></Check> five months.</Par></Translation>
