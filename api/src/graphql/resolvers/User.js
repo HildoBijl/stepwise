@@ -1,5 +1,6 @@
 const { UserInputError } = require('apollo-server-express')
 
+const { languages } = require('step-wise/settings/i18n')
 const { ensureSkillIds } = require('step-wise/edu/skills/util')
 
 const { getUser, getAllUsers } = require('../util/User')
@@ -24,6 +25,17 @@ const resolvers = {
 	},
 
 	Mutation: {
+		setLanguage: async (_source, { language }, { getCurrentUser }) => {
+			// Check the received language.
+			if (!languages.includes(language))
+				throw new Error(`Invalid language setting: the language "${language}" is not in the list of supported languages.`)
+
+			// Save the received language.
+			const user = await getCurrentUser()
+			await user.update({ language })
+			return user
+		},
+
 		acceptLatestPrivacyPolicy: async (_source, _args, { getCurrentUser }) => {
 			const user = await getCurrentUser()
 			// Only run update if we are behind
@@ -41,12 +53,12 @@ const resolvers = {
 		},
 
 		shutdownAccount: async (_source, { confirmEmail }, { getCurrentUser }) => {
+			// Get the user and verify the given email address.
 			const user = await getCurrentUser()
-			if (user.email !== confirmEmail) {
-				throw new UserInputError('The confirmation email does not match.')
-			}
-			// The database is configured to cascade the deletion, so this
-			// will also delete all associated user data.
+			if (user.email !== confirmEmail)
+				throw new UserInputError('User shutdown denied: the confirmation email does not match.')
+
+			// Destroy the user. The database is configured to cascade the deletion, so this will also delete all associated user data.
 			await user.destroy()
 			return user.id
 		},
@@ -56,7 +68,7 @@ const resolvers = {
 		me: async (_source, _args, { getCurrentUser }) => {
 			try {
 				return await getCurrentUser()
-			} catch (err) {
+			} catch (error) {
 				return null
 			}
 		},

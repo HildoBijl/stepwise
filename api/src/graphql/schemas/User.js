@@ -8,6 +8,7 @@ const schema = gql`
   }
 
 	extend type Mutation {
+		setLanguage(language: String!): User!
 		acceptLatestPrivacyPolicy: PrivacyPolicyConsent!
 		shutdownAccount(confirmEmail: String!): ID!
 	}

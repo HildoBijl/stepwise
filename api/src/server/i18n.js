@@ -4,9 +4,11 @@ const bodyParser = require('body-parser')
 const fs = require('fs/promises')
 
 const { getDeepParameter, setDeepParameter } = require('step-wise/util')
+const { loadPath, updateLogPath } = require('step-wise/settings/i18n')
 
-const filePath = (language, path) => `../frontend/public/locales/${language}/${path}.json`
-const logPath = `../frontend/public/locales/updateLog.json`
+const pathToPublicFolder = `../frontend/public`
+const filePath = (language, path) => `${pathToPublicFolder}${loadPath(language, path)}`
+const logPath = `${pathToPublicFolder}${updateLogPath}`
 
 function createI18nRouter() {
 	const i18nRouter = express.Router()
