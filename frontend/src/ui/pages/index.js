@@ -1,7 +1,7 @@
 export { default as Home } from './Home'
 export { default as Feedback } from './Feedback.js'
 export { default as About } from './About.js'
-export { default as Settings } from './Settings'
+export { Settings } from './Settings'
 export { default as Groups } from './Groups'
 export { default as NewGroup } from './Groups/NewGroup'
 export { default as SkillTrackerExplainer } from './SkillTrackerExplainer.js'

@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
-import { useUser, useShutdownAccountMutation } from 'api/user'
+import { useShutdownAccountMutation } from 'api/user'
 import { logOutAddress } from 'settings'
 
 import { Par, Head } from 'ui/components'
@@ -21,15 +21,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function About() {
-	const user = useUser()
-	return <>
-		<Par>Je bent ingelogd als {user.name} &lt;{user.email}&gt;.</Par>
-		<DeleteAccount />
-	</>
-}
-
-function DeleteAccount() {
+export function DeleteAccount() {
 	const classes = useStyles()
 	const [confirmEmail, setConfirmEmail] = useState('')
 	const [lastSubmission, setLastSubmission] = useState()
