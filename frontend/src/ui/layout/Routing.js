@@ -18,20 +18,20 @@ export default function Routing() {
 }
 
 // getRoutes returns an array of Route objects for each of the possible pages.
-function renderRoutes(pages) {
-	return Object.values(pages).map(page => renderPageRoutes(page)).flat()
+function renderRoutes(routes) {
+	return Object.values(routes).map(route => renderPageRoutes(route)).flat()
 }
 
-function renderPageRoutes(page) {
+function renderPageRoutes(route) {
 	let result = []
 
 	// Add the children first, as they should trigger first if their path matches.
-	if (page.children)
-		result = renderRoutes(page.children)
+	if (route.children)
+		result = renderRoutes(route.children)
 
-	// Add the page itself. Include a context to set inform the page of the route used.
-	result.push(<Route key={page.path} path={page.path} element={
-		<RouteContext.Provider value={page}>
+	// Add the page itself. Include a context to inform the page of the route used.
+	result.push(<Route key={route.path} path={route.path} element={
+		<RouteContext.Provider value={route}>
 			<Page />
 		</RouteContext.Provider>
 	} />)

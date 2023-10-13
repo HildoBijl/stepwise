@@ -1,0 +1,22 @@
+{
+  "pageTitles": {
+    "info": "About Step-Wise",
+    "settings": "Settings",
+    "logOut": "Logging out...",
+    "feedback": "Feedback",
+    "courses": "Courses",
+    "groups": "Practice together",
+    "newGroup": "New practice group",
+    "group": "Join practice group"
+  },
+  "menu": {
+    "courses": "Courses",
+    "groups": "Practice together",
+    "info": "About Step-Wise",
+    "feedback": "Feedback",
+    "settings": "Instellingen",
+    "logOut": "Log out",
+    "inspect": "Skill overview",
+    "admin": "User overview"
+  }
+}

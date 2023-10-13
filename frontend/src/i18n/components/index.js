@@ -1,5 +1,5 @@
-export * from './TranslationFile'
-export * from './TranslationSection'
+export * from '../sectioning/TranslationFile'
+export * from '../sectioning/TranslationSection'
 export * from './Translation'
 export * from './Check'
 export * from './Plurals'

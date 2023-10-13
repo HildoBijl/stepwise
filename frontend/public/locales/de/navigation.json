@@ -1,0 +1,20 @@
+{
+  "pageTitles": {
+    "info": "Über Step-Wise",
+    "settings": "Einstellungen",
+    "logOut": "Abmelden...",
+    "feedback": "Feedback",
+    "courses": "Kurse",
+    "groups": "Gemeinsam üben",
+    "newGroup": "Neue Übungsgruppe",
+    "group": "Übungsgruppe beitreten"
+  },
+  "menu": {
+    "courses": "Kurse",
+    "groups": "Gemeinsam üben",
+    "info": "Über Step-Wise",
+    "feedback": "Feedback",
+    "settings": "Einstellungen",
+    "logOut": "Abmelden"
+  }
+}

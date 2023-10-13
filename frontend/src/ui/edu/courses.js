@@ -15,10 +15,11 @@
  * Step 2: put courses itself in the database too.
  */
 
+import { arraysToObject } from 'step-wise/util'
 import { pick } from 'step-wise/skillTracking'
 
-const courses = {
-	stepwisetutorial: {
+let courses = {
+	stepwiseTutorial: {
 		name: 'Step-Wise Tutorial',
 		goals: [
 			'fillInInteger',
@@ -48,7 +49,7 @@ const courses = {
 		],
 	},
 
-	wiskundebasis: {
+	wiskundeBasis: {
 		name: 'Wiskunde basisvaardigheden',
 		goals: ['solveGeneralLinearEquation'],
 		priorKnowledge: [],
@@ -84,7 +85,7 @@ const courses = {
 		setup: pick(['simplifyFraction', 'solveBasicLinearEquation', 'solveGeneralLinearEquation']),
 	},
 
-	exactawiskunde: {
+	exactAWiskunde: {
 		name: 'Exacte Wetenschap A: Wiskunde',
 		goals: ['solveBasicSystemOfLinearEquations', 'solveGeneralSystemOfLinearEquations', 'solveGeneralQuadraticEquation', 'calculateTriangle', 'calculate3DShape'],
 		priorKnowledge: [],
@@ -135,7 +136,7 @@ const courses = {
 		setup: pick(['solveBasicSystemOfLinearEquations', 'solveGeneralSystemOfLinearEquations', 'solveBasicQuadraticEquation', 'solveGeneralQuadraticEquation', 'determine2DDistances', 'calculateTriangle', 'calculate2DShape']),
 	},
 
-	exactastatica: {
+	exactAStatica: {
 		name: 'Exacte Wetenschap A: Statica basisvaardigheden',
 		goals: ['calculateBasicSupportReactions'],
 		priorKnowledge: [],
@@ -155,7 +156,7 @@ const courses = {
 		],
 	},
 
-	exactbafgeleiden: {
+	exactBAfgeleiden: {
 		name: 'Exacte Wetenschap B - Differentiëren',
 		goals: ['findAdvancedDerivative'],
 		priorKnowledge: [],
@@ -176,7 +177,7 @@ const courses = {
 		],
 	},
 
-	exactdnatuurkunde: {
+	exactDNatuurkunde: {
 		name: 'Exacte Wetenschap D: Natuurkunde',
 		goals: ['analyseClosedCycle', 'findFridgeTemperatures', 'analyseAirco'],
 		priorKnowledge: [
@@ -363,8 +364,13 @@ const courses = {
 		setup: pick(['calculateClosedCycle', 'createClosedCycleEnergyOverview', 'calculateOpenCycle', 'createOpenCycleEnergyOverview', 'calculateWithEfficiency', 'calculateWithCOP', 'useIsentropicEfficiency', 'massFlowTrick', 'createRankineCycleOverview', 'useVaporFraction', 'createCoolingCycleOverview'], 1, [2, 2, 2, 2, 1, 1, 2, 2, 2, 1, 2]),
 	},
 }
+
+// Add ids for the courses.
 Object.keys(courses).forEach(key => {
 	courses[key].id = key
 })
+
+// Turn all keys into lower case.
+courses = arraysToObject(Object.keys(courses).map(key => key.toLowerCase()), Object.values(courses))
 
 export default courses

@@ -1,0 +1,20 @@
+{
+  "pageTitles": {
+    "logOut": "Uitloggen...",
+    "info": "Over Step-Wise",
+    "settings": "Instellingen",
+    "feedback": "Feedback",
+    "courses": "Cursussen",
+    "groups": "Samen oefenen",
+    "newGroup": "Nieuwe samenwerkingsgroep",
+    "group": "Meedoen met groep"
+  },
+  "menu": {
+    "courses": "Cursussen",
+    "groups": "Samen oefenen",
+    "info": "Over Step-Wise",
+    "feedback": "Feedback",
+    "settings": "Instellingen",
+    "logOut": "Uitloggen"
+  }
+}

@@ -6,6 +6,7 @@ import { Menu as MenuIcon, ArrowBack, Home, MenuBook, Feedback, Info, ExitToApp,
 
 import { useUser } from 'api/user'
 import { isAdmin } from 'api/admin'
+import { TranslationSection } from 'i18n'
 import { usePaths, useParentPath } from 'ui/routing'
 import { useFieldRegistration, useFieldControllerContext } from 'ui/form'
 
@@ -55,20 +56,20 @@ export default function Menu({ className, titleCollapsed }) {
 
 		// Define buttons common to logged-in and non-logged-in users.
 		const commonButtons = <>
-			<MenuLink path={paths.info()} text='Over Step-Wise' icon={Info} />
-			<MenuLink path={paths.feedback()} text='Feedback' icon={Feedback} />
+			<MenuLink id="info" icon={Info} />
+			<MenuLink id="feedback" icon={Feedback} />
 		</>
 
 		// Define buttons for admins.
 		const adminButtons = isAdmin(user) ? <>
 			<Divider />
 			<List>
-				<MenuLink path={paths.inspect()} text='Vaardigheden overzicht' icon={Policy} />
-				<MenuLink path={paths.admin()} text='Gebruikersoverzicht' icon={SupervisorAccount} />
+				<MenuLink id="inspect" icon={Policy} />
+				<MenuLink id="admin" icon={SupervisorAccount} />
 			</List>
 		</> : null
 
-		return <>
+		return <TranslationSection entry="menu">
 			<IconButton edge="start" className={className} color="inherit" aria-label="menu" onClick={toggleDrawer(true)} ref={menuButtonRef}>
 				<MenuIcon />
 			</IconButton>
@@ -76,22 +77,22 @@ export default function Menu({ className, titleCollapsed }) {
 				<nav className={classes.menu} role="presentation" onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)}>
 					{user ? <>
 						<List>
-							<MenuLink path={paths.courses()} text='Cursussen' icon={MenuBook} />
-							<MenuLink path={paths.groups()} text='Samenwerken' icon={People} />
+							<MenuLink id="courses" icon={MenuBook} />
+							<MenuLink id="groups" icon={People} />
 							{commonButtons}
-							<MenuLink path={paths.settings()} text='Instellingen' icon={Settings} />
-							<MenuLink path={paths.logOut()} text='Uitloggen' icon={ExitToApp} />
+							<MenuLink id="settings" path={paths.settings()} text='Instellingen' icon={Settings} />
+							<MenuLink id="logOut" text='Log out' icon={ExitToApp} />
 						</List>
 						{adminButtons}
 					</> : <>
 						<List>
-							<MenuLink path={paths.home()} text='Home' icon={Home} />
+							<MenuLink id="home" icon={Home} />
 							{commonButtons}
 						</List>
 					</>}
 				</nav>
 			</SwipeableDrawer>
-		</>
+		</TranslationSection>
 	} else {
 		const goToParent = () => navigate(parentPath)
 		return (

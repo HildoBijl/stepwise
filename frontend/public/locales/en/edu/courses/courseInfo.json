@@ -1,0 +1,26 @@
+{
+  "stepwiseTutorial": {
+    "name": "Step-Wise Tutorial"
+  },
+  "wiskundeBasis": {
+    "name": "Wiskunde basisvaardigheden"
+  },
+  "exactAWiskunde": {
+    "name": "Exacte Wetenschap A: Wiskunde"
+  },
+  "exactAStatica": {
+    "name": "Exacte Wetenschap A: Statica basisvaardigheden"
+  },
+  "exactBAfgeleiden": {
+    "name": "Exacte Wetenschap B - Differentiëren"
+  },
+  "exactDNatuurkunde": {
+    "name": "Exacte Wetenschap D: Natuurkunde"
+  },
+  "promo": {
+    "name": "Processen en Modelleren"
+  },
+  "dlwmpn": {
+    "name": "Deeltijd: Modelleren en Processen"
+  }
+}

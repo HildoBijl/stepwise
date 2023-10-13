@@ -1,6 +1,6 @@
 // Name settings.
 const websiteName = 'Step-Wise'
-const websiteNameAddendum = 'Oefenopgaven op maat'
+const websiteNameAddendum = 'Practice exercises on your level'
 export { websiteName, websiteNameAddendum }
 
 // API settings. For the websocket, we replace `http` with `ws`. That also yields correct results for `https` (-> `wss`).

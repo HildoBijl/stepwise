@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography'
 import { Alert, AlertTitle } from '@material-ui/lab';
 
 import { websiteName, websiteNameAddendum, apiAddress, cookieApprovalName, googleClientId, googleRedirectAddress } from 'settings'
+import { useTranslator } from 'i18n'
 import cookies from 'ui/cookies'
 import { notSelectable } from 'ui/theme'
 import { useModal, PictureConfirmation } from 'ui/components/Modal'
@@ -219,11 +220,17 @@ export default function Home() {
 			setModalOpen(true)
 	}
 
+	// Load language-dependent texts.
+	const translate = useTranslator('main')
+	const websiteNameTranslation = translate(websiteName, 'websiteName')
+	const websiteNameAddendumTranslation = translate(websiteNameAddendum, 'websiteNameAddendum')
+
+	// Render the page.
 	return (
 		<Container maxWidth='lg' className={classes.home}>
 			<div className="nameContainer">
-				<Typography variant="h1" className="name">{websiteName}</Typography>
-				<Typography variant="h2" className="motto">{websiteNameAddendum}</Typography>
+				<Typography variant="h1" className="name">{websiteNameTranslation}</Typography>
+				<Typography variant="h2" className="motto">{websiteNameAddendumTranslation}</Typography>
 			</div>
 			{isUserDataLoaded ? <>
 				<div className="main">
@@ -254,7 +261,7 @@ export default function Home() {
 				</div>
 				<div className="spacer" />
 				<LinkBar className="linkBar" />
-				<Helmet><title>{websiteName} | {websiteNameAddendum}</title></Helmet>
+				<Helmet><title>{websiteNameTranslation} | {websiteNameAddendumTranslation}</title></Helmet>
 			</> : null}
 		</Container>
 	)
@@ -262,24 +269,14 @@ export default function Home() {
 
 class GoogleLoginButton extends React.Component {
 	shouldComponentUpdate() {
-		// If React would re-render this component, the Google button would disappear,
-		// because the Google script only runs once after it has been loaded.
-		// To prevent that from happening, we “freeze” this component and make it
-		// immune to updates by state changes.
-		// This doesn’t prevent the Hot Module Reloader to re-render, however, so in
-		// development the button might still disappear if you make changes in this file.
+		// If React would re-render this component, the Google button would disappear, because the Google script only runs once after it has been loaded. To prevent that from happening, we "freeze" this component and make it immune to updates by state changes. This doesn't prevent the Hot Module Reloader to re-render, however, so in development the button might still disappear if you make changes in this file.
 		return false
 	}
 
 	render() {
-		// We have to fetch the Google JS library dynamically, because it inspects
-		// the DOM for the `g_id_onload` and `g_id_signin` elements. This must
-		// happen *after* the DOM render is complete, though, otherwise it doesn’t
-		// find any elements and nothing happens.
-		//
-		// The code for the two <div>’s can be obtained from here:
-		// https://developers.google.com/identity/gsi/web/tools/configurator
-		// (Remember to replace the clientId and the login URI afterwards!)
+		// We have to fetch the Google JS library dynamically, because it inspects the DOM for the `g_id_onload` and `g_id_signin` elements. This must happen *after* the DOM render is complete, though, otherwise it doesn't find any elements and nothing happens.
+		// The code for the two <div>’s can be obtained from here: https://developers.google.com/identity/gsi/web/tools/configurator (Remember to replace the clientId and the login URI afterwards!)
+
 		return <>
 			<div
 				id='g_id_onload'

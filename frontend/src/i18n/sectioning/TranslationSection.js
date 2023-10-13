@@ -25,11 +25,18 @@ export function useTranslationSectionEntry() {
 	return useContext(TranslationSectionContext)
 }
 
-// useTranslationEntry is used in the Translation component to get the entry. It combines a given entry with the entry of the encompassing Section.
-export function useTranslationEntry(entry) {
-	entry = ensureString(entry, true)
-	const sectionEntry = useTranslationSectionEntry()
-	if (sectionEntry)
-		entry = `${sectionEntry}.${entry}`
+export function applyTranslationSectionEntry(entry, contextEntry, apply = true) {
+	// Check the input.
+	if (!entry || typeof entry !== 'string')
+		throw new Error(`Missing Translation entry: no entry for within the translation file has been provided for this Translation element.`)
+
+	// Combine with any potential section entry.
+	if (apply && contextEntry)
+		entry = `${contextEntry}.${entry}`
 	return entry
+}
+
+export function useTranslationEntry(entry, apply) {
+	const contextEntry = useTranslationSectionEntry()
+	return applyTranslationSectionEntry(entry, contextEntry, apply)
 }

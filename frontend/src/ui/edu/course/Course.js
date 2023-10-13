@@ -202,5 +202,8 @@ export function GradeEstimate() {
 export function CourseName() {
 	const { courseId } = useParams()
 	const course = courses[courseId.toLowerCase()]
-	return <TitleItem name={course ? course.name : 'Onbekende cursus'} />
+	const courseInfoPath = 'edu/courses/courseInfo'
+	if (!course)
+		return <TitleItem path={courseInfoPath} entry="unknownCourse.name" name="Unknown course" />
+	return <TitleItem path={courseInfoPath} entry={`${course.id}.name`} name={course.name} />
 }

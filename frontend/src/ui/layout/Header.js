@@ -5,6 +5,8 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Container from '@material-ui/core/Container'
 
+import { TranslationFile } from 'i18n'
+
 import GroupIndicator from 'ui/pages/Groups/Indicator'
 
 import Menu from './Menu'
@@ -29,16 +31,18 @@ export default function Header({ Indicator }) {
 	const [titleCollapsed, setTitleCollapsed] = useState(false)
 
 	return (
-		<AppBar position="sticky">
-			<Container maxWidth={theme.appWidth}>
-				<Toolbar className={classes.toolbar}>
-					<Menu className={classes.menuButton} titleCollapsed={titleCollapsed} />
-					<Title className={classes.title} setTitleCollapsed={setTitleCollapsed} />
-					{Indicator ? <Indicator /> : null}
-					<GroupIndicator />
-				</Toolbar>
-			</Container>
-			<TabBar />
-		</AppBar>
+		<TranslationFile path="navigation">
+			<AppBar position="sticky">
+				<Container maxWidth={theme.appWidth}>
+					<Toolbar className={classes.toolbar}>
+						<Menu className={classes.menuButton} titleCollapsed={titleCollapsed} />
+						<Title className={classes.title} setTitleCollapsed={setTitleCollapsed} />
+						{Indicator ? <Indicator /> : null}
+						<GroupIndicator />
+					</Toolbar>
+				</Container>
+				<TabBar />
+			</AppBar>
+		</TranslationFile>
 	)
 }

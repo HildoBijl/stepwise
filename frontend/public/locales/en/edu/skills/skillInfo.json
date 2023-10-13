@@ -1,0 +1,23 @@
+{
+  "fillInInteger": {
+    "name": "Fill in an integer"
+  },
+  "fillInFloat": {
+    "name": "Fill in a decimal number"
+  },
+  "fillInUnit": {
+    "name": "Fill in a unit"
+  },
+  "lookUpConstant": {
+    "name": "Look up a constant"
+  },
+  "multiplication": {
+    "name": "Multiply numbers"
+  },
+  "summation": {
+    "name": "Add numbers"
+  },
+  "summationAndMultiplication": {
+    "name": "Add and multiply numbers"
+  }
+}

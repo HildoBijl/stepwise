@@ -7,7 +7,10 @@
       "nl": "Dutch",
       "de": "German"
     },
-    "warning": "Not all content may be available in this language. Content in other languages may occasionally still appear."
+    "warning": "Not all content may be available in this language. Content in other languages may occasionally still appear.",
+    "pageTitle": {
+      "title": "Language settings"
+    }
   },
   "deleteAccount": {
     "title": "Delete account",
@@ -16,6 +19,9 @@
     "fieldPlaceholder": "Email address",
     "buttonText": "Delete account",
     "invalidEmail": "Failed to delete account. This email address is not coupled to your account.",
-    "successfulDeletion": "Your account has been deleted. You will be sent back to the home page."
+    "successfulDeletion": "Your account has been deleted. You will be sent back to the home page.",
+    "pageTitle": {
+      "title": "Delete account"
+    }
   }
 }

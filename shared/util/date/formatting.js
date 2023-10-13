@@ -1,3 +1,5 @@
+const { ensureDate } = require('./checks')
+
 // formatDate turns a Date object into a string of the form "YYYY-MM-DD". If includeTime is set to true, als "HH:mm" is included, and if includeSeconds is set to true this becomes "HH:mm:ss". There is always a two-digit format used.
 function formatDate(date, includeTime = false, includeSeconds = false) {
 	// Determine the day format.

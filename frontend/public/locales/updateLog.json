@@ -1,1 +1,282 @@
-{}
+{
+  "en": {
+    "pages/settings": {
+      "language.pageTitle.title": {
+        "firstUpdate": "2023-10-13T10:16:42.927Z",
+        "latestUpdate": "2023-10-13T11:59:36.409Z",
+        "latestText": "Language settings"
+      },
+      "deleteAccount.pageTitle.title": {
+        "firstUpdate": "2023-10-13T10:16:42.927Z",
+        "latestUpdate": "2023-10-13T11:59:36.409Z",
+        "latestText": "Delete account"
+      },
+      "title": {
+        "oldText": "Delete account",
+        "firstUpdate": "2023-10-13T11:40:27.666Z",
+        "latestUpdate": "2023-10-13T11:40:27.686Z",
+        "latestText": "Delete account"
+      },
+      "en": {
+        "firstUpdate": "2023-10-13T11:40:27.666Z",
+        "latestUpdate": "2023-10-13T11:40:27.666Z",
+        "latestText": "English"
+      },
+      "nl": {
+        "firstUpdate": "2023-10-13T11:40:27.666Z",
+        "latestUpdate": "2023-10-13T11:40:27.666Z",
+        "latestText": "Dutch"
+      },
+      "de": {
+        "firstUpdate": "2023-10-13T11:40:27.666Z",
+        "latestUpdate": "2023-10-13T11:40:27.666Z",
+        "latestText": "German"
+      },
+      "explanation": {
+        "firstUpdate": "2023-10-13T11:40:27.666Z",
+        "latestUpdate": "2023-10-13T11:40:27.666Z",
+        "latestText": "If you delete your account, then <a>all</a> your data on Step-Wise will be erased. This cannot be undone. Of course you can create a new account afterwards, but this account will start from zero."
+      },
+      "confirmation": {
+        "firstUpdate": "2023-10-13T11:40:27.666Z",
+        "latestUpdate": "2023-10-13T11:40:27.666Z",
+        "latestText": "Are you sure you wish to delete your account? Then enter your email address below as confirmation."
+      },
+      "fieldPlaceholder": {
+        "firstUpdate": "2023-10-13T11:40:27.666Z",
+        "latestUpdate": "2023-10-13T11:40:27.666Z",
+        "latestText": "Email address"
+      },
+      "buttonText": {
+        "firstUpdate": "2023-10-13T11:40:27.666Z",
+        "latestUpdate": "2023-10-13T11:40:27.666Z",
+        "latestText": "Delete account"
+      }
+    },
+    "navigation": {
+      "settings": {
+        "firstUpdate": "2023-10-13T10:17:05.416Z",
+        "latestUpdate": "2023-10-13T13:31:53.641Z",
+        "latestText": "Settings"
+      },
+      "pageTitles.courses": {
+        "oldText": "Cursussen",
+        "firstUpdate": "2023-10-13T11:59:33.629Z",
+        "latestUpdate": "2023-10-13T12:06:05.204Z",
+        "latestText": "Courses"
+      },
+      "pageTitles.settings": {
+        "oldText": "InstelXXXlingen",
+        "firstUpdate": "2023-10-13T11:59:36.364Z",
+        "latestUpdate": "2023-10-13T12:01:00.578Z",
+        "latestText": "Settings"
+      },
+      "pageTitles.info": {
+        "firstUpdate": "2023-10-13T12:03:42.156Z",
+        "latestUpdate": "2023-10-13T12:03:42.156Z",
+        "latestText": "About Step-Wise"
+      },
+      "pageTitles.feedback": {
+        "firstUpdate": "2023-10-13T12:03:55.835Z",
+        "latestUpdate": "2023-10-13T12:03:55.835Z",
+        "latestText": "Feedback"
+      },
+      "pageTitles.groups": {
+        "firstUpdate": "2023-10-13T12:04:08.815Z",
+        "latestUpdate": "2023-10-13T12:04:08.815Z",
+        "latestText": "Practice together"
+      },
+      "pageTitles.newGroup": {
+        "firstUpdate": "2023-10-13T12:04:11.249Z",
+        "latestUpdate": "2023-10-13T12:04:11.249Z",
+        "latestText": "New practice group"
+      },
+      "pageTitles.group": {
+        "firstUpdate": "2023-10-13T12:04:30.696Z",
+        "latestUpdate": "2023-10-13T12:04:30.696Z",
+        "latestText": "Join practice group"
+      },
+      "pageTitles.logOut": {
+        "firstUpdate": "2023-10-13T12:06:00.562Z",
+        "latestUpdate": "2023-10-13T12:06:00.562Z",
+        "latestText": "Logging out..."
+      },
+      "courses": {
+        "firstUpdate": "2023-10-13T13:30:11.158Z",
+        "latestUpdate": "2023-10-13T13:31:53.641Z",
+        "latestText": "Courses"
+      },
+      "groups": {
+        "firstUpdate": "2023-10-13T13:30:11.158Z",
+        "latestUpdate": "2023-10-13T13:31:53.641Z",
+        "latestText": "Practice together"
+      },
+      "info": {
+        "firstUpdate": "2023-10-13T13:30:11.158Z",
+        "latestUpdate": "2023-10-13T13:31:53.641Z",
+        "latestText": "About Step-Wise"
+      },
+      "feedback": {
+        "firstUpdate": "2023-10-13T13:30:11.158Z",
+        "latestUpdate": "2023-10-13T13:31:53.641Z",
+        "latestText": "Feedback"
+      },
+      "logOut": {
+        "firstUpdate": "2023-10-13T13:30:11.158Z",
+        "latestUpdate": "2023-10-13T13:31:53.641Z",
+        "latestText": "Logging out..."
+      },
+      "menu.courses": {
+        "firstUpdate": "2023-10-13T13:33:36.322Z",
+        "latestUpdate": "2023-10-13T13:33:36.322Z",
+        "latestText": "Courses"
+      },
+      "menu.groups": {
+        "firstUpdate": "2023-10-13T13:33:36.322Z",
+        "latestUpdate": "2023-10-13T13:33:36.322Z",
+        "latestText": "Practice together"
+      },
+      "menu.info": {
+        "firstUpdate": "2023-10-13T13:33:36.322Z",
+        "latestUpdate": "2023-10-13T13:33:36.322Z",
+        "latestText": "About Step-Wise"
+      },
+      "menu.feedback": {
+        "firstUpdate": "2023-10-13T13:33:36.322Z",
+        "latestUpdate": "2023-10-13T13:33:36.322Z",
+        "latestText": "Feedback"
+      },
+      "menu.settings": {
+        "oldText": "Settings",
+        "firstUpdate": "2023-10-13T13:33:36.322Z",
+        "latestUpdate": "2023-10-13T13:46:55.225Z",
+        "latestText": "Instellingen"
+      },
+      "menu.logOut": {
+        "oldText": "Logging out...",
+        "firstUpdate": "2023-10-13T13:33:36.322Z",
+        "latestUpdate": "2023-10-13T13:36:14.055Z",
+        "latestText": "Log out"
+      },
+      "menu.inspect": {
+        "oldText": "Skill overview",
+        "firstUpdate": "2023-10-13T16:50:19.868Z",
+        "latestUpdate": "2023-10-13T16:50:19.883Z",
+        "latestText": "Skill overview"
+      },
+      "menu.admin": {
+        "oldText": "User overview",
+        "firstUpdate": "2023-10-13T16:50:19.868Z",
+        "latestUpdate": "2023-10-13T16:50:19.883Z",
+        "latestText": "User overview"
+      }
+    },
+    "main": {
+      "websiteName": {
+        "firstUpdate": "2023-10-13T10:25:48.370Z",
+        "latestUpdate": "2023-10-13T10:25:48.370Z",
+        "latestText": "<a><b>{websiteName} | {websiteNameAddendum}</b></a>"
+      },
+      "websiteNameAddendum": {
+        "oldText": "Practice exercises on your level",
+        "firstUpdate": "2023-10-13T10:56:53.974Z",
+        "latestUpdate": "2023-10-13T12:51:39.759Z",
+        "latestText": "Practice exercises on your level"
+      }
+    },
+    "edu/courses/courseInfo": {
+      "stepwiseTutorial.name": {
+        "oldText": "Step-Wise Tutorial",
+        "firstUpdate": "2023-10-13T16:04:42.902Z",
+        "latestUpdate": "2023-10-13T16:25:48.356Z",
+        "latestText": "Step-Wise Tutorial"
+      },
+      "wiskundeBasis.name": {
+        "oldText": "Wiskunde basisvaardigheden",
+        "firstUpdate": "2023-10-13T16:05:02.117Z",
+        "latestUpdate": "2023-10-13T16:26:04.664Z",
+        "latestText": "Wiskunde basisvaardigheden"
+      },
+      "exactAWiskunde.name": {
+        "oldText": "Exacte Wetenschap A: Wiskunde",
+        "firstUpdate": "2023-10-13T16:05:48.790Z",
+        "latestUpdate": "2023-10-13T16:26:13.686Z",
+        "latestText": "Exacte Wetenschap A: Wiskunde"
+      },
+      "exactAStatica.name": {
+        "oldText": "Exacte Wetenschap A: Statica basisvaardigheden",
+        "firstUpdate": "2023-10-13T16:25:00.611Z",
+        "latestUpdate": "2023-10-13T16:26:17.886Z",
+        "latestText": "Exacte Wetenschap A: Statica basisvaardigheden"
+      },
+      "exactBAfgeleiden.name": {
+        "oldText": "Exacte Wetenschap B - Differentiëren",
+        "firstUpdate": "2023-10-13T16:25:08.236Z",
+        "latestUpdate": "2023-10-13T16:26:20.803Z",
+        "latestText": "Exacte Wetenschap B - Differentiëren"
+      },
+      "exactDNatuurkunde.name": {
+        "oldText": "Exacte Wetenschap D: Natuurkunde",
+        "firstUpdate": "2023-10-13T16:25:12.299Z",
+        "latestUpdate": "2023-10-13T16:25:44.117Z",
+        "latestText": "Exacte Wetenschap D: Natuurkunde"
+      },
+      "promo.name": {
+        "oldText": "Processen en Modelleren",
+        "firstUpdate": "2023-10-13T16:25:28.877Z",
+        "latestUpdate": "2023-10-13T16:26:25.355Z",
+        "latestText": "Processen en Modelleren"
+      },
+      "dlwmpn.name": {
+        "oldText": "Deeltijd: Modelleren en Processen",
+        "firstUpdate": "2023-10-13T16:25:33.176Z",
+        "latestUpdate": "2023-10-13T16:26:27.651Z",
+        "latestText": "Deeltijd: Modelleren en Processen"
+      }
+    },
+    "edu/skills/skillInfo": {
+      "fillInInteger.name": {
+        "oldText": "Geheel getal invullen",
+        "firstUpdate": "2023-10-13T16:33:13.561Z",
+        "latestUpdate": "2023-10-13T16:34:27.930Z",
+        "latestText": "Fill in an integer"
+      },
+      "fillInFloat.name": {
+        "oldText": "Kommagetal invullen",
+        "firstUpdate": "2023-10-13T16:34:34.620Z",
+        "latestUpdate": "2023-10-13T16:37:11.127Z",
+        "latestText": "Fill in a decimal number"
+      },
+      "fillInUnit.name": {
+        "oldText": "Eenheid invullen",
+        "firstUpdate": "2023-10-13T16:34:41.893Z",
+        "latestUpdate": "2023-10-13T16:37:08.659Z",
+        "latestText": "Fill in a unit"
+      },
+      "lookUpConstant.name": {
+        "oldText": "Constanten opzoeken",
+        "firstUpdate": "2023-10-13T16:34:44.192Z",
+        "latestUpdate": "2023-10-13T16:37:03.781Z",
+        "latestText": "Look up a constant"
+      },
+      "multiplication.name": {
+        "oldText": "Vermenigvuldigen",
+        "firstUpdate": "2023-10-13T16:34:47.040Z",
+        "latestUpdate": "2023-10-13T16:37:16.953Z",
+        "latestText": "Multiply numbers"
+      },
+      "summation.name": {
+        "oldText": "Optellen",
+        "firstUpdate": "2023-10-13T16:34:49.821Z",
+        "latestUpdate": "2023-10-13T16:37:19.522Z",
+        "latestText": "Add numbers"
+      },
+      "summationAndMultiplication.name": {
+        "oldText": "Optellen en vermenigvuldigen",
+        "firstUpdate": "2023-10-13T16:34:52.913Z",
+        "latestUpdate": "2023-10-13T16:37:22.294Z",
+        "latestText": "Add and multiply numbers"
+      }
+    }
+  }
+}

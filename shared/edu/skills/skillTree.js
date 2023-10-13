@@ -4,41 +4,41 @@ const { and, or, repeat, pick, part, defaultLinkOrder } = require('../../skillTr
 let skillTree = {
 	// Testing exercises.
 	test: {
-		name: 'Testopgave',
+		name: 'Text exercise',
 		exercises: ['testExercise'],
 	},
 	demo: {
-		name: 'Demo-opgave',
+		name: 'Demo exercise',
 		exercises: ['demoExercise'],
 	},
 
 	// Tutorial exercises.
 	fillInInteger: {
-		name: 'Geheel getal invullen',
+		name: 'Fill in an integer',
 		exercises: ['fillInInteger'],
 	},
 	fillInFloat: {
-		name: 'Kommagetal invullen',
+		name: 'Fill in a decimal number',
 		exercises: ['fillInFloat'],
 	},
 	fillInUnit: {
-		name: 'Eenheid invullen',
+		name: 'Fill in a unit',
 		exercises: ['fillInUnit'],
 	},
 	lookUpConstant: {
-		name: 'Constanten opzoeken',
+		name: 'Look up a constant',
 		exercises: ['lookUpConstant'],
 	},
 	summation: {
-		name: 'Optellen',
+		name: 'Add numbers',
 		exercises: ['summation1'],
 	},
 	multiplication: {
-		name: 'Vermenigvuldigen',
+		name: 'Multiply numbers',
 		exercises: ['multiplication1'],
 	},
 	summationAndMultiplication: {
-		name: 'Optellen en vermenigvuldigen',
+		name: 'Add and multiply numbers',
 		setup: and(repeat('multiplication', 2), 'summation'),
 		exercises: ['summationAndMultiplication1', 'summationAndMultiplication2'],
 	},

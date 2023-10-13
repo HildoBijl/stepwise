@@ -1,0 +1,23 @@
+{
+  "fillInInteger": {
+    "name": "Geheel getal invullen"
+  },
+  "fillInFloat": {
+    "name": "Kommagetal invullen"
+  },
+  "fillInUnit": {
+    "name": "Eenheid invullen"
+  },
+  "lookUpConstant": {
+    "name": "Constanten opzoeken"
+  },
+  "multiplication": {
+    "name": "Vermenigvuldigen"
+  },
+  "summation": {
+    "name": "Optellen"
+  },
+  "summationAndMultiplication": {
+    "name": "Optellen en vermenigvuldigen"
+  }
+}

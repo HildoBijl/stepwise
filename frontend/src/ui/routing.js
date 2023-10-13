@@ -17,8 +17,7 @@ import SkillAdvice from 'ui/edu/course/SkillAdvice'
 import FreePractice from 'ui/edu/course/FreePractice'
 
 // Set up a route context object through which child elements can access the current route.
-const RouteContext = createContext(undefined)
-export { RouteContext }
+export const RouteContext = createContext(undefined)
 
 // getRoutes sets up a routes object based on the user. This routes object contains the whole site structure. The object keys appear in the URL, so can be language-dependent. The "id" is used in scripts when creating links so should be English. The "name" is shown on the page.
 function getRoutes(user = undefined) {
@@ -32,12 +31,12 @@ function getRoutes(user = undefined) {
 		'info': {
 			id: 'info',
 			component: pages.About,
-			name: 'Over Step-Wise',
+			name: 'About Step-Wise',
 			children: {
 				'tracker': {
 					id: 'skillTrackerExplainer',
 					component: pages.SkillTrackerExplainer,
-					name: 'Vaardigheden bijhouden',
+					name: 'Tracking skills',
 				},
 			},
 		},
@@ -58,7 +57,7 @@ function getRoutes(user = undefined) {
 		'test': {
 			id: 'test',
 			component: pages.Test,
-			name: 'Testpagina',
+			name: 'Test page',
 		},
 	}
 
@@ -88,7 +87,7 @@ function getRoutes(user = undefined) {
 				'inspect': {
 					id: 'inspect',
 					component: pages.SkillOverview,
-					name: 'Vaardigheden overzicht',
+					name: 'Skill overview',
 					children: {
 						'vaardigheid/:skillId': {
 							id: 'skillInspection',
@@ -107,7 +106,7 @@ function getRoutes(user = undefined) {
 				'admin': {
 					id: 'admin',
 					component: UserOverview,
-					name: 'Gebruikersoverzicht',
+					name: 'User overview',
 					children: {
 						'user/:userId': {
 							id: 'userInspection',
@@ -125,34 +124,34 @@ function getRoutes(user = undefined) {
 			'instellingen': {
 				id: 'settings',
 				component: pages.Settings,
-				name: 'Instellingen',
+				name: 'Settings',
 			},
 			'uitloggen': {
 				id: 'logOut',
 				component: pages.LogOut,
-				name: 'Uitloggen...'
+				name: 'Logging out...'
 			},
 			'groepen': {
 				id: 'groups',
 				component: pages.Groups,
-				name: 'Samenwerken',
+				name: 'Practice together',
 				children: {
 					'nieuw': {
 						id: 'newGroup',
 						component: pages.NewGroup,
-						name: 'Nieuwe samenwerkingsgroep',
+						name: 'New practice group',
 					},
 					':code': {
 						id: 'group',
 						component: pages.Groups,
-						name: 'Meedoen met groep',
+						name: 'Join practice group',
 					},
 				},
 			},
 			'': {
 				id: 'courses',
 				component: Courses,
-				name: 'Cursussen',
+				name: 'Courses',
 				children: {
 					'cursus/:courseId': {
 						id: 'course',
@@ -187,7 +186,7 @@ function getRoutes(user = undefined) {
 			'*': { // Note that the '*' path must be last.
 				id: 'notFound',
 				component: Courses,
-				name: 'Cursussen',
+				name: 'Courses',
 			},
 		}
 	}
@@ -206,6 +205,12 @@ export function useRoutes() {
 // useRoute is used to give the route to the current page.
 export function useRoute() {
 	return useContext(RouteContext)
+}
+
+// useRouteById takes an ID and gives the corresponding route.
+export function useRouteById(routeId) {
+	const routes = useRoutes()
+	return useMemo(() => Object.values(routes).find(route => route.id === routeId), [routes, routeId])
 }
 
 // usePaths gives all the paths to named pages. These paths are functions. For instance, the courseDeadlines page may have a path ({courseId}) => `/courses/${courseId}/deadlines`.
