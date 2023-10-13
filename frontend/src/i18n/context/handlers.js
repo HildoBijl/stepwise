@@ -5,7 +5,7 @@ import { setDeepParameter } from 'step-wise/util'
 import { useStableCallback } from 'util/react'
 import { isLocalhost } from 'util/development'
 
-import { languages } from '../settings'
+import { languages, defaultLanguage } from '../settings'
 import { pathAsString, entryAsArray, getStoredLanguage, setStoredLanguage, getLocationBasedLanguage } from '../util'
 import { loadLanguageFile, sendLanguageFileUpdates } from '../loadAndUpdate'
 
@@ -37,8 +37,12 @@ export function useI18nHandlers({ setLanguage: setLanguageState, setLanguageFile
 			loaderRef.current[language][path] = true // Loading completed successfully.
 		}).catch(error => {
 			loaderRef.current[language][path] = false // Loading failed.
-			if (isLocalhost())
-				console.error(error)
+			if (isLocalhost()) {
+				if (language === defaultLanguage)
+					console.error(`Language file loading failed: could not load the language file "${path}". Probably this is because it has not been created yet. Please add the file "frontend/public/locales/${language}/${path}" and give it an empty object "{}" as contents. (Yes, this can be automated, but this would create an accidental clutter, so that's why this is left as a manual action.)`)
+				else
+					console.error(`Missing translation file: the translation file "${path}" has not been translated to language setting "${language}" yet.`)
+			}
 		})
 	})
 

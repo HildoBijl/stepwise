@@ -32,7 +32,7 @@ function createI18nRouter() {
 		fs.readFile(logPath).then(logFile => {
 			try {
 				logFile = JSON.parse(logFile)
-			} catch(error) {
+			} catch (error) {
 				logFile = {} // Probably someone just completely erased the log contents.
 			}
 
@@ -64,11 +64,11 @@ function createI18nRouter() {
 					})
 
 					// Save the updated file. Return the resulting promise.
-					return fs.writeFile(filePath(language, path), JSON.stringify(languageFile, null, 2).replaceAll('\n','\r\n'))
+					return fs.writeFile(filePath(language, path), JSON.stringify(languageFile, null, 2).replaceAll('\n', '\r\n'))
 				})
 			}).then(() => {
 				// Also save the new log file.
-				fs.writeFile(logPath, JSON.stringify(logFile, null, 2).replaceAll('\n','\r\n')).then(() => {
+				fs.writeFile(logPath, JSON.stringify(logFile, null, 2).replaceAll('\n', '\r\n')).then(() => {
 					res.sendStatus(200)
 				})
 			})

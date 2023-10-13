@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { alpha } from '@material-ui/core/styles/colorManipulator'
 
 import { useSetLanguageMutation } from 'api/user'
-import { useLanguage } from 'i18n'
+import { Translation, useLanguage } from 'i18n'
 
 const useStyles = makeStyles((theme) => ({
 	language: {
@@ -36,6 +36,6 @@ export function Language({ Flag, language, text }) {
 	const classes = useStyles({ active })
 	return <div className={classes.language} onClick={() => setUserLanguage(language)}>
 		<div className="flag"><Flag /></div>
-		<div className="language">{text}</div>
+		<div className="language"><Translation entry={language}>{text}</Translation></div>
 	</div>
 }

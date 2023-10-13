@@ -1,0 +1,21 @@
+{
+  "introduction": "You are logged in as {name} <{email}>.",
+  "language": {
+    "title": "Language settings",
+    "languageList": {
+      "en": "English",
+      "nl": "Dutch",
+      "de": "German"
+    },
+    "warning": "Not all content may be available in this language. Content in other languages may occasionally still appear."
+  },
+  "deleteAccount": {
+    "title": "Delete account",
+    "explanation": "If you delete your account, then <a>all</a> your data on Step-Wise will be erased. This cannot be undone. Of course you can create a new account afterwards, but this account will start from zero.",
+    "confirmation": "Are you sure you wish to delete your account? Then enter your email address below as confirmation.",
+    "fieldPlaceholder": "Email address",
+    "buttonText": "Delete account",
+    "invalidEmail": "Failed to delete account. This email address is not coupled to your account.",
+    "successfulDeletion": "Your account has been deleted. You will be sent back to the home page."
+  }
+}
