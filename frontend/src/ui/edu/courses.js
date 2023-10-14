@@ -39,11 +39,11 @@ let courses = {
 		],
 		blocks: [
 			{
-				name: 'Antwoorden invoeren',
+				name: 'Fill in answers',
 				goals: ['fillInInteger', 'fillInFloat', 'fillInUnit', 'lookUpConstant'],
 			},
 			{
-				name: 'Demo stapsgewijze oefeningen',
+				name: 'Demo Step-Wise exercises',
 				goals: ['summationAndMultiplication'],
 			},
 		],

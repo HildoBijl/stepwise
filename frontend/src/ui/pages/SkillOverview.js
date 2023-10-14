@@ -6,7 +6,7 @@ import { skillTree } from 'step-wise/edu/skills'
 import { usePaths } from 'ui/routing'
 import { Par } from 'ui/components'
 
-export default function SkillOverview() {
+export function SkillOverview() {
 	const paths = usePaths()
 	return <>
 		<Par>This is a test system used to inspect exercises. Below you find all exercises available on the website, grouped per skill.</Par>

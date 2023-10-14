@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { count } from 'step-wise/util'
 
 import { useSkillsData } from 'api/skill'
+import { PageTranslationFile } from 'ui/pages'
 
 import { getOverview, getAnalysis } from '../course/util'
 import courses from '../courses'
@@ -31,15 +32,17 @@ export default function Courses() {
 
 	// Render all the tiles with corresponding data.
 	return (
-		<div className={clsx(classes.courses, 'courses')}>
-			{Object.values(courses).map((course, index) => <Tile
-				key={course.id}
-				course={course}
-				skillsTotal={courseOverviews[index].course.length}
-				skillsDone={analyses[index] ? count(courseOverviews[index].course, (skillId) => analyses[index].practiceNeeded[skillId] === 0) : '0'}
-				recommendation={analyses[index]?.recommendation}
-			/>)}
-		</div>
+		<PageTranslationFile page="courses">
+			<div className={clsx(classes.courses, 'courses')}>
+				{Object.values(courses).map((course, index) => <Tile
+					key={course.id}
+					course={course}
+					skillsTotal={courseOverviews[index].course.length}
+					skillsDone={analyses[index] ? count(courseOverviews[index].course, (skillId) => analyses[index].practiceNeeded[skillId] === 0) : '0'}
+					recommendation={analyses[index]?.recommendation}
+				/>)}
+			</div>
+		</PageTranslationFile>
 	)
 }
 

@@ -8,6 +8,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 
 import { skillTree } from 'step-wise/edu/skills'
 
+import { useTranslator } from 'i18n'
 import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routing'
 import { Button, ProgressIndicator, QuickPractice } from 'ui/components'
@@ -70,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function Tile({ course, skillsTotal, skillsDone, recommendation }) {
+	const translate = useTranslator()
 	const paths = usePaths()
 	const [buttonHover, setButtonHover] = useState(false)
 	const navigate = useNavigate()
@@ -79,13 +81,13 @@ export default function Tile({ course, skillsTotal, skillsDone, recommendation }
 	let tooltip
 	switch (recommendation) {
 		case undefined:
-			tooltip = 'Je voortgang wordt nog ingeladen...'
+			tooltip = translate('Your progress is being loaded...', 'loadingNotification')
 			break
 		case strFreePractice:
-			tooltip = 'Je beheerst alle vaardigheden. Ga naar de vrij-oefenen-modus.'
+			tooltip = translate('You have all skills on a sufficient level! The next step is the free practice mode.', 'freePracticeRecommendation')
 			break
 		default:
-			tooltip = `Direct oefenen: ${skillTree[recommendation].name}`
+			tooltip = `${translate(`Our practice recommendation:`, 'skillRecommendation')} ${translate(skillTree[recommendation].name, `${recommendation}.name`, 'edu/skills/skillInfo')}`
 			break
 	}
 

@@ -7,7 +7,7 @@ import { Par, Head } from 'ui/components'
 
 import { PageTranslationFile } from './PageTranslationFile'
 
-export default function Feedback() {
+export function Feedback() {
 	return (
 		<PageTranslationFile page="feedback">
 			<Translation entry="introduction">

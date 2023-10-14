@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { darken } from '@material-ui/core/styles/colorManipulator'
 
-import { skillTree } from 'step-wise/edu/skills'
-
+import { useGetTranslation } from 'i18n'
 import { linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routing'
 import { Button, QuickPractice } from 'ui/components'
@@ -33,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function SkillRecommender({ courseId, recommendation }) {
+	const getTranslation = useGetTranslation()
 	const paths = usePaths()
 	const classes = useStyles()
 
@@ -44,10 +44,10 @@ export default function SkillRecommender({ courseId, recommendation }) {
 	let link, message
 	if (recommendation === strFreePractice) {
 		link = paths.freePractice({ courseId })
-		message = `Je hebt alles op voldoende niveau! Tijd voor vrij oefenen.`
+		message = getTranslation('freePracticeRecommendation', 'pages/courses')
 	} else {
 		link = paths.courseSkill({ courseId, skillId: recommendation })
-		message = `Direct oefenen: ${skillTree[recommendation].name}`
+		message = `${getTranslation('skillRecommendation', 'pages/courses')} ${getTranslation(`${recommendation}.name`, 'edu/skills/skillInfo')}`
 	}
 
 	// Show the button.

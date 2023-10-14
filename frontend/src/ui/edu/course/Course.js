@@ -7,7 +7,9 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { keysToObject } from 'step-wise/util'
 import { getInverseCDF } from 'step-wise/skillTracking'
 
+import { Translation, useTranslator } from 'i18n'
 import { TitleItem } from 'ui/layout/Title'
+import { PageTranslationFile } from 'ui/pages'
 
 import courses from '../courses'
 
@@ -15,10 +17,6 @@ import SkillRecommender from './SkillRecommender'
 import Block from './Block'
 import SkillList from './SkillList'
 import { useCourseData } from './Provider'
-
-import st from 'step-wise/skillTracking'
-
-window.st = st
 
 const useStyles = makeStyles((theme) => ({
 	courseOverview: {
@@ -78,17 +76,18 @@ export default function Course(props) {
 
 	// If there is an unknown course, display this.
 	if (!course)
-		return <div>Oops... De cursus die je wilt bezoeken is niet bekend. Mogelijk is er iets mis met de link?</div>
+		return <PageTranslationFile page="coure"><div><Translation entry="courseNotFound">Oops... De cursus die je wilt bezoeken is niet bekend. Mogelijk is er iets mis met de link?</Translation></div></PageTranslationFile>
 
 	// Render the component.
 	const data = { ...props, course, overview, analysis, activeBlock, toggleActiveBlock }
-	return <>
+	return <PageTranslationFile page="course">
 		{hasRecommendation ? <SkillRecommender courseId={courseId} recommendation={recommendation} /> : null}
 		{landscape ? <LandscapeCourse {...data} /> : <PortraitCourse {...data} />}
-	</>
+	</PageTranslationFile>
 }
 
 function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActiveBlock }) {
+	const translate = useTranslator()
 	const landscape = true
 	const classes = useStyles({ landscape })
 
@@ -113,7 +112,7 @@ function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActive
 					skillIds={overview.priorKnowledge}
 					active={activeBlock === -1}
 					toggleActive={() => toggleActiveBlock(-1)}
-					name="Directe voorkennis"
+					name={translate('Prior knowledge', 'priorKnowledge')}
 					isPriorKnowledge={true}
 					analysis={analysis}
 				/> : null}
@@ -124,7 +123,7 @@ function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActive
 					skillIds={overview.blocks[index]}
 					active={activeBlock === index}
 					toggleActive={() => toggleActiveBlock(index)}
-					name={block.name}
+					name={translate(block.name, `${course.id}.blocks.${index}`, 'edu/courses/courseInfo')}
 					number={index + 1}
 					isPriorKnowledge={false}
 					analysis={analysis}
@@ -137,6 +136,7 @@ function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActive
 }
 
 function PortraitCourse({ course, overview, analysis, activeBlock, toggleActiveBlock }) {
+	const translate = useTranslator()
 	const landscape = false
 	const classes = useStyles({ landscape })
 	const hasPriorKnowledge = overview.priorKnowledge.length > 0
@@ -150,7 +150,7 @@ function PortraitCourse({ course, overview, analysis, activeBlock, toggleActiveB
 					skillIds={overview.priorKnowledge}
 					active={activeBlock === -1}
 					toggleActive={() => toggleActiveBlock(-1)}
-					name="Directe voorkennis"
+					name={translate('Prior knowledge', 'priorKnowledge')}
 					isPriorKnowledge={true}
 					analysis={analysis}
 				/> : null}
@@ -162,7 +162,7 @@ function PortraitCourse({ course, overview, analysis, activeBlock, toggleActiveB
 						skillIds={overview.blocks[index]}
 						active={activeBlock === index}
 						toggleActive={() => toggleActiveBlock(index)}
-						name={block.name}
+						name={translate(block.name, `${course.id}.blocks.${index}`, 'edu/courses/courseInfo')}
 						number={index + 1}
 						isPriorKnowledge={false}
 						analysis={analysis}
@@ -194,8 +194,8 @@ export function GradeEstimate() {
 	const cdfValueToPercentage = cdfValue => scoreToPercentage(inverseCDF(cdfValue))
 	return <div className={clsx(classes.gradeEstimate, 'gradeEstimate')}
 	>
-		<div className="estimate">Gebaseerd op je oefening tot nu toe, verwachten we een score van grofweg <strong>{scoreToPercentage(EV)}</strong> (zo'n <strong>{cdfValueToPercentage(0.3)} - {cdfValueToPercentage(0.7)}</strong>) op de eindtoets.<sup>*</sup></div>
-		<div className="disclaimer"><sup>*</sup>Aan deze schatting kunnen geen rechten worden ontleend.</div>
+		<div className="estimate"><Translation entry="gradeEstimate">Based on your practice so far, we expect a score of roughly <strong>{{ percentage: scoreToPercentage(EV) }}</strong> (about <strong>{{ lowerPercentage: cdfValueToPercentage(0.3) }} - {{ upperPercentage: cdfValueToPercentage(0.7) }}</strong>) on the final test.</Translation><sup>*</sup></div>
+		<div className="disclaimer"><sup>*</sup><Translation entry="disclaimer">No rights can be derived from this estimate.</Translation></div>
 	</div>
 }
 

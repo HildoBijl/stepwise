@@ -1,6 +1,10 @@
 {
   "stepwiseTutorial": {
-    "name": "Step-Wise Tutorial"
+    "name": "Step-Wise Tutorial",
+    "blocks": {
+      "0": "Antwoorden invoeren",
+      "1": "Demo stapsgewijze oefeningen"
+    }
   },
   "wiskundeBasis": {
     "name": "Wiskunde basisvaardigheden"

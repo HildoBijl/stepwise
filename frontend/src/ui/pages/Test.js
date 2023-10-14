@@ -5,15 +5,9 @@ import { Par, Head, M, BM } from 'ui/components'
 
 import CAS from 'step-wise/CAS'
 
-import { Float } from 'step-wise/inputTypes/Float'
-import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
-
 window.CAS = CAS
 
-window.Float = Float
-window.FloatUnit = FloatUnit
-
-export default function Test() {
+export function Test() {
 	const [primary, info, warning] = getHexColor(['primary', 'info', 'warning'])
 	const eq = CAS.asEquation('E=mc^2')
 	eq.left.color = primary

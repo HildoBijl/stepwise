@@ -14,7 +14,7 @@ import Courses from 'ui/edu/courses/Courses'
 import Course, { CourseName } from 'ui/edu/course/Course'
 import CourseProvider from 'ui/edu/course/Provider'
 import SkillAdvice from 'ui/edu/course/SkillAdvice'
-import FreePractice from 'ui/edu/course/FreePractice'
+import { FreePractice } from 'ui/edu/course/FreePractice'
 
 // Set up a route context object through which child elements can access the current route.
 export const RouteContext = createContext(undefined)
@@ -176,7 +176,7 @@ function getRoutes(user = undefined) {
 							'freePractice': {
 								id: 'freePractice',
 								component: FreePractice,
-								name: 'Vrij oefenen',
+								name: 'Free practice mode',
 								Notification: SkillAdvice,
 							},
 						},

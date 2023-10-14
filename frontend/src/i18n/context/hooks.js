@@ -15,9 +15,10 @@ export function useSetLanguage() {
 	return useI18nData().setLanguage
 }
 
-export function useLanguageFiles(paths) {
+export function useLanguageFiles(paths, language) {
 	const { languageFiles, requestLanguageFile, loaderRef } = useI18nData()
-	const language = useLanguage()
+	const userLanguage = useLanguage()
+	language = language || userLanguage
 
 	// Walk through the array of paths and load each of them. Merge the results into one object.
 	return keysToObject(paths, path => {

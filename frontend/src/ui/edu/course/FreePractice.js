@@ -1,5 +1,10 @@
 import React from 'react'
 
-export default function FreePractice() {
-	return <div>De vrije-oefenen-modus is nog in ontwikkeling. Dit wordt een modus waarin je alle onderdelen van de cursus op afwisselende wijze kan oefenen. Kom hier later nog eens terug.</div>
+import { Translation } from 'i18n'
+import { PageTranslationFile } from 'ui/pages'
+
+export function FreePractice() {
+	return <PageTranslationFile page="freePractice">
+		<div><Translation entry="introduction">The free practice mode is still under development. This will be a page where you can practice all parts of this course mixed through one another. Please come back later.</Translation></div>
+	</PageTranslationFile>
 }

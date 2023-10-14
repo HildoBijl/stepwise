@@ -10,6 +10,7 @@ import { Check } from '@material-ui/icons'
 import { skillTree } from 'step-wise/edu/skills'
 
 import { useSkillData } from 'api/skill'
+import { Translation } from 'i18n'
 import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routing'
 import { QuickPractice } from 'ui/components/icons'
@@ -110,7 +111,7 @@ function SkillItem({ courseId, skillId, isPriorKnowledge, recommend = false, pra
 
 	// If there is no data, show that skills will be added in the future.
 	if (!skillId)
-		return <div className="skillItem dummy">Er zijn nog geen opgaven toegevoegd hier. Ze komen er zo snel mogelijk aan.</div>
+		return <div className="skillItem dummy"><Translation entry="noSkills">This block is still under development: no skills/exercises have been added yet. They will be here shortly!</Translation></div>
 
 	// Determine the tooltip to show under a "mastered" checkmark.
 	let iconText = ''

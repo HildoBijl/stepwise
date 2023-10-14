@@ -10,7 +10,8 @@
     "group": "Meedoen met groep",
     "inspect": "Vaardigheden overzicht",
     "admin": "Gebruikersoverzicht",
-    "test": "Testpagina"
+    "test": "Testpagina",
+    "freePractice": "Vrij-oefenen-modus"
   },
   "menu": {
     "courses": "Cursussen",

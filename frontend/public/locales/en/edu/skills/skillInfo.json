@@ -19,5 +19,26 @@
   },
   "summationAndMultiplication": {
     "name": "Add and multiply numbers"
+  },
+  "addRemoveFractionFactors": {
+    "name": "Breukfactoren toevoegen/wegstrepen"
+  },
+  "mergeSplitBasicFractions": {
+    "name": "Gelijknamige breuken samenvoegen/splitsen"
+  },
+  "expandBrackets": {
+    "name": "Haakjes uitwerken"
+  },
+  "schematizeSupport": {
+    "name": "Bevestiging schematiseren"
+  },
+  "lookUpElementaryDerivative": {
+    "name": "Elementaire afgeleide opzoeken"
+  },
+  "specificGasConstant": {
+    "name": "Specifieke gasconstante opzoeken"
+  },
+  "gasLaw": {
+    "name": "De gaswet"
   }
 }

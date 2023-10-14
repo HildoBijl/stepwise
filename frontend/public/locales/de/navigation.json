@@ -10,7 +10,8 @@
     "group": "Übungsgruppe beitreten",
     "inspect": "Kompetenzübersicht",
     "admin": "Benutzerübersicht",
-    "test": "Testseite"
+    "test": "Testseite",
+    "freePractice": "Freie Übungsmodus"
   },
   "menu": {
     "courses": "Kurse",

@@ -1,0 +1,5 @@
+{
+  "noSkills": "Dieser Block befindet sich noch in der Entwicklung: Es wurden noch keine Fähigkeiten/Übungen hinzugefügt. Sie werden in Kürze hier zu finden sein!",
+  "gradeEstimate": "Auf der Grundlage deiner bisherigen Übung erwarten wir eine Punktzahl von etwa <a>{percentage}</a> (etwa <b>{lowerPercentage} - {upperPercentage}</b>) im Abschlusstest.",
+  "disclaimer": "Aus dieser Schätzung können keine Rechte abgeleitet werden."
+}

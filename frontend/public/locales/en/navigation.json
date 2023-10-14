@@ -10,7 +10,8 @@
     "group": "Join practice group",
     "inspect": "Skill overview",
     "admin": "User overview",
-    "test": "Test page"
+    "test": "Test page",
+    "freePractice": "Free practice mode"
   },
   "menu": {
     "courses": "Courses",

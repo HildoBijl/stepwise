@@ -1,0 +1,5 @@
+{
+  "noSkills": "Dit blok is nog in ontwikkeling: er zijn nog geen vaardigheden/oefeningen toegevoegd. Ze komen er zo snel mogelijk aan!",
+  "gradeEstimate": "Gebaseerd op je oefening tot nu toe, verwachten we een score van grofweg <a>{percentage}</a> (zo'n <b>{lowerPercentage} - {upperPercentage}</b>) op de eindtoets.",
+  "disclaimer": "Aan deze schatting kunnen geen rechten worden ontleend."
+}

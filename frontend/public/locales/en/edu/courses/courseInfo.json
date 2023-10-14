@@ -1,18 +1,47 @@
 {
   "stepwiseTutorial": {
-    "name": "Step-Wise Tutorial"
+    "name": "Step-Wise Tutorial",
+    "blocks": {
+      "0": "Fill in answers",
+      "1": "Demo Step-Wise exercises"
+    }
   },
   "wiskundeBasis": {
-    "name": "Wiskunde basisvaardigheden"
+    "name": "Wiskunde basisvaardigheden",
+    "blocks": {
+      "0": "Breuken samenvoegen/splitsen",
+      "1": "Breuken binnen breuken simplificeren",
+      "2": "Werken met haakjes",
+      "3": "Vergelijkingen omschrijven",
+      "4": "Lineaire vergelijkingen oplossen"
+    }
   },
   "exactAWiskunde": {
-    "name": "Exacte Wetenschap A: Wiskunde"
+    "name": "Exacte Wetenschap A: Wiskunde",
+    "blocks": {
+      "0": "Basisregels",
+      "1": "Lineaire vergelijkingen",
+      "2": "Hoeken en afstanden",
+      "3": "Stelsels van vergelijkingen",
+      "4": "Kwadratische vergelijkingen",
+      "5": "Driehoeken doorrekenen",
+      "6": "Oppervlakten en volumes"
+    }
   },
   "exactAStatica": {
-    "name": "Exacte Wetenschap A: Statica basisvaardigheden"
+    "name": "Exacte Wetenschap A: Statica basisvaardigheden",
+    "blocks": {
+      "0": "Vrijlichaamsschema tekenen",
+      "1": "Reactiekrachten berekenen"
+    }
   },
   "exactBAfgeleiden": {
-    "name": "Exacte Wetenschap B - Differentiëren"
+    "name": "Exacte Wetenschap B - Differentiëren",
+    "blocks": {
+      "0": "Basis afgeleiden",
+      "1": "Differentieerregels toepassen",
+      "2": "Afgeleiden bepalen"
+    }
   },
   "exactDNatuurkunde": {
     "name": "Exacte Wetenschap D: Natuurkunde"
