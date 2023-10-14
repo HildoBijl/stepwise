@@ -40,14 +40,14 @@ function getRoutes(user = undefined) {
 				},
 			},
 		},
-		'vaardigheid/:skillId/:tab': {
+		'skill/:skillId/:tab': {
 			id: 'skillTab',
 			component: Skill,
 			name: <SkillName />,
 			recommendLogIn: true,
 			Indicator: SkillIndicator,
 		},
-		'vaardigheid/:skillId': {
+		'skill/:skillId': {
 			id: 'skill',
 			component: Skill,
 			name: <SkillName />,
@@ -89,14 +89,14 @@ function getRoutes(user = undefined) {
 					component: pages.SkillOverview,
 					name: 'Skill overview',
 					children: {
-						'vaardigheid/:skillId': {
+						'skill/:skillId': {
 							id: 'skillInspection',
 							component: Skill,
 							name: <SkillName />,
 							recommendLogIn: true,
 							Indicator: SkillIndicator,
 						},
-						'opgave/:exerciseId': {
+						'exercise/:exerciseId': {
 							id: 'exerciseInspection',
 							component: BlankExercise,
 							name: <ExerciseName />,
@@ -121,17 +121,17 @@ function getRoutes(user = undefined) {
 		// Set up routes for regular logged-in users.
 		routes = {
 			...routes,
-			'instellingen': {
+			'settings': {
 				id: 'settings',
 				component: pages.Settings,
 				name: 'Settings',
 			},
-			'uitloggen': {
+			'logout': {
 				id: 'logOut',
 				component: pages.LogOut,
 				name: 'Logging out...'
 			},
-			'groepen': {
+			'groups': {
 				id: 'groups',
 				component: pages.Groups,
 				name: 'Practice together',
@@ -153,20 +153,20 @@ function getRoutes(user = undefined) {
 				component: Courses,
 				name: 'Courses',
 				children: {
-					'cursus/:courseId': {
+					'course/:courseId': {
 						id: 'course',
 						component: Course,
 						name: <CourseName />,
 						Provider: CourseProvider,
 						children: {
-							'vaardigheid/:skillId/:tab': {
+							'skill/:skillId/:tab': {
 								id: 'courseSkillTab',
 								component: Skill,
 								name: <SkillName />,
 								Indicator: SkillIndicator,
 								Notification: SkillAdvice,
 							},
-							'vaardigheid/:skillId': {
+							'skill/:skillId': {
 								id: 'courseSkill',
 								component: Skill,
 								name: <SkillName />,
