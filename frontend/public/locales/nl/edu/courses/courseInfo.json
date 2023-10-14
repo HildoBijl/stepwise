@@ -6,25 +6,78 @@
       "1": "Demo stapsgewijze oefeningen"
     }
   },
-  "wiskundeBasis": {
-    "name": "Wiskunde basisvaardigheden"
+  "algebraBasics": {
+    "name": "Algebra: basisvaardigheden",
+    "blocks": {
+      "0": "Breuken samenvoegen/splitsen",
+      "1": "Breuken binnen breuken simplificeren",
+      "2": "Werken met haakjes",
+      "3": "Vergelijkingen omschrijven",
+      "4": "Lineaire vergelijkingen oplossen"
+    }
   },
-  "exactAWiskunde": {
-    "name": "Exacte Wetenschap A: Wiskunde"
+  "mathematicsFundamentals": {
+    "name": "Exacte Wetenschap A: Wiskunde",
+    "blocks": {
+      "0": "Basisregels algebra",
+      "1": "Lineaire vergelijkingen",
+      "2": "Hoeken en afstanden",
+      "3": "Stelsels van vergelijkingen",
+      "4": "Kwadratische vergelijkingen",
+      "5": "Driehoeken doorrekenen",
+      "6": "Oppervlakten en volumes"
+    }
   },
-  "exactAStatica": {
-    "name": "Exacte Wetenschap A: Statica basisvaardigheden"
+  "mathematicsDerivatives": {
+    "name": "Exacte Wetenschap B: Differentiëren",
+    "blocks": {
+      "0": "Basis afgeleiden",
+      "1": "Differentieerregels toepassen",
+      "2": "Afgeleiden bepalen"
+    }
   },
-  "exactBAfgeleiden": {
-    "name": "Exacte Wetenschap B - Differentiëren"
+  "staticsFundamentals": {
+    "name": "Exacte Wetenschap A: Statica basisvaardigheden",
+    "blocks": {
+      "0": "Vrijlichaamsschema tekenen",
+      "1": "Reactiekrachten berekenen"
+    }
   },
-  "exactDNatuurkunde": {
-    "name": "Exacte Wetenschap D: Natuurkunde"
+  "thermodynamicsFundamentals": {
+    "name": "Exacte Wetenschap D: Natuurkunde",
+    "blocks": {
+      "0": "Gaseigenschappen en de gaswet",
+      "1": "Processen en Poisson's wet",
+      "2": "Arbeid en warmte",
+      "3": "Kringprocessen: doorrekenen",
+      "4": "Kringprocessen: energie en rendement",
+      "5": "Stoomturbines en koelmachines",
+      "6": "Luchtvochtigheid en airco's"
+    }
   },
-  "promo": {
-    "name": "Processen en Modelleren"
+  "thermodynamicsApplications": {
+    "name": "Processen en Modelleren",
+    "blocks": {
+      "0": "Gesloten systemen en kringprocessen",
+      "1": "Open systemen en enthalpie",
+      "2": "Entropie en de tweede hoofdwet",
+      "3": "Gasturbines",
+      "4": "Dampen en diagrammen",
+      "5": "Stoomturbines",
+      "6": "Koelmachines en warmtepompen"
+    }
   },
-  "dlwmpn": {
-    "name": "Deeltijd: Modelleren en Processen"
+  "thermodynamicsApplications2": {
+    "name": "Deeltijd: Modelleren en Processen",
+    "blocks": {
+      "0": "Thermodynamische processen",
+      "1": "Gesloten systemen en kringprocessen",
+      "2": "Open systemen en enthalpie",
+      "3": "Entropie en de tweede hoofdwet",
+      "4": "Gasturbines",
+      "5": "Dampen en diagrammen",
+      "6": "Stoomturbines",
+      "7": "Koelmachines en warmtepompen"
+    }
   }
 }

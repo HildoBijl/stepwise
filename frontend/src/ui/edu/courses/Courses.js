@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { count } from 'step-wise/util'
 
 import { useSkillsData } from 'api/skill'
+import { useLanguage } from 'i18n'
 import { PageTranslationFile } from 'ui/pages'
 
 import { getOverview, getAnalysis } from '../course/util'
@@ -25,16 +26,18 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Courses() {
 	// Load all the skills data for the courses and use it to determine which skills are left (i.e., need practice).
+	const language = useLanguage()
 	const classes = useStyles()
 	const allSkills = [...new Set(courseOverviews.map(courseOverview => courseOverview.all).flat())] // A list of all relevant skills for all courses.
 	const skillsData = useSkillsData(allSkills) // The SkillData objects for all skills.
 	const analyses = useMemo(() => Object.values(courseOverviews).map(courseOverview => getAnalysis(courseOverview, skillsData)), [skillsData])
 
 	// Render all the tiles with corresponding data.
+	const courseList = Object.values(courses).filter(course => !course.languages || course.languages.includes(language)) // Only render courses that should be shown in this language.
 	return (
 		<PageTranslationFile page="courses">
 			<div className={clsx(classes.courses, 'courses')}>
-				{Object.values(courses).map((course, index) => <Tile
+				{courseList.map((course, index) => <Tile
 					key={course.id}
 					course={course}
 					skillsTotal={courseOverviews[index].course.length}

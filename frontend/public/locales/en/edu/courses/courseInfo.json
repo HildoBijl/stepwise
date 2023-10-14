@@ -6,50 +6,78 @@
       "1": "Demo Step-Wise exercises"
     }
   },
-  "wiskundeBasis": {
-    "name": "Wiskunde basisvaardigheden",
+  "algebraBasics": {
+    "name": "Mathematics: algebra basics",
     "blocks": {
-      "0": "Breuken samenvoegen/splitsen",
-      "1": "Breuken binnen breuken simplificeren",
-      "2": "Werken met haakjes",
-      "3": "Vergelijkingen omschrijven",
-      "4": "Lineaire vergelijkingen oplossen"
+      "0": "Merge/split fractions",
+      "1": "Simplify fractions within fractions",
+      "2": "Using brackets",
+      "3": "Rearranging equations",
+      "4": "Solve linear equations"
     }
   },
-  "exactAWiskunde": {
-    "name": "Exacte Wetenschap A: Wiskunde",
+  "mathematicsFundamentals": {
+    "name": "Mathematics: fundamentals",
     "blocks": {
-      "0": "Basisregels",
-      "1": "Lineaire vergelijkingen",
-      "2": "Hoeken en afstanden",
-      "3": "Stelsels van vergelijkingen",
-      "4": "Kwadratische vergelijkingen",
-      "5": "Driehoeken doorrekenen",
-      "6": "Oppervlakten en volumes"
+      "0": "Basic rules of algebra",
+      "1": "Linear equations",
+      "2": "Angles and distances",
+      "3": "Systems of equations",
+      "4": "Quadratic equations",
+      "5": "Analyzing triangles",
+      "6": "Areas and volumes"
     }
   },
-  "exactAStatica": {
-    "name": "Exacte Wetenschap A: Statica basisvaardigheden",
+  "mathematicsDerivatives": {
+    "name": "Mathematics: derivatives",
     "blocks": {
-      "0": "Vrijlichaamsschema tekenen",
-      "1": "Reactiekrachten berekenen"
+      "0": "Basic derivatives",
+      "1": "Derivative rules",
+      "2": "General derivatives"
     }
   },
-  "exactBAfgeleiden": {
-    "name": "Exacte Wetenschap B - Differentiëren",
+  "staticsFundamentals": {
+    "name": "Statics: fundamentals",
     "blocks": {
-      "0": "Basis afgeleiden",
-      "1": "Differentieerregels toepassen",
-      "2": "Afgeleiden bepalen"
+      "0": "Drawing free body diagrams",
+      "1": "Calculate support reactions"
     }
   },
-  "exactDNatuurkunde": {
-    "name": "Exacte Wetenschap D: Natuurkunde"
+  "thermodynamicsFundamentals": {
+    "name": "Thermodynamics: fundamentals",
+    "blocks": {
+      "0": "Gas properties and the gas law",
+      "1": "Thermodynamic processes and Poisson's law",
+      "2": "Work and heat",
+      "3": "Cycles: analysis",
+      "4": "Cycles: energy and efficiency",
+      "5": "Steam turbines and cooling machines",
+      "6": "Humidity and air conditioning"
+    }
   },
-  "promo": {
-    "name": "Processen en Modelleren"
+  "thermodynamicsApplications": {
+    "name": "Thermodynamics: applications",
+    "blocks": {
+      "0": "Closed systems and cycles",
+      "1": "Open systems and enthalpy",
+      "2": "Entropy and the second law",
+      "3": "Gas turbines",
+      "4": "Vapors and diagrams",
+      "5": "Steam turbines",
+      "6": "Cooling machines and heat pumps"
+    }
   },
-  "dlwmpn": {
-    "name": "Deeltijd: Modelleren en Processen"
+  "thermodynamicsApplications2": {
+    "name": "Thermodynamics: applications",
+    "blocks": {
+      "0": "Thermodynamic processes",
+      "1": "Closed systems and cycles",
+      "2": "Open systems and enthalpy",
+      "3": "Entropy and the second law",
+      "4": "Gasturbines",
+      "5": "Vapors and diagrams",
+      "6": "Steam turbines",
+      "7": "Cooling machines and heat pumps"
+    }
   }
 }

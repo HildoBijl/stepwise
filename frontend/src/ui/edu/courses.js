@@ -49,8 +49,8 @@ let courses = {
 		],
 	},
 
-	wiskundeBasis: {
-		name: 'Wiskunde basisvaardigheden',
+	algebraBasics: {
+		name: 'Mathematics: algebra basics',
 		goals: ['solveGeneralLinearEquation'],
 		priorKnowledge: [],
 		startingPoints: [
@@ -62,31 +62,31 @@ let courses = {
 		],
 		blocks: [
 			{
-				name: 'Breuken samenvoegen/splitsen',
+				name: 'Merge/split fractions',
 				goals: ['mergeSplitFractions'],
 			},
 			{
-				name: 'Breuken binnen breuken simplificeren',
+				name: 'Simplify fractions within fractions',
 				goals: ['simplifyFraction'],
 			},
 			{
-				name: 'Werken met haakjes',
+				name: 'Using brackets',
 				goals: ['pullOutOfBrackets'],
 			},
 			{
-				name: 'Vergelijkingen omschrijven',
+				name: 'Rearranging equations',
 				goals: ['moveATerm', 'multiplyDivideAllTerms'],
 			},
 			{
-				name: 'Lineaire vergelijkingen oplossen',
+				name: 'Solve linear equations',
 				goals: ['solveGeneralLinearEquation'],
 			},
 		],
 		setup: pick(['simplifyFraction', 'solveBasicLinearEquation', 'solveGeneralLinearEquation']),
 	},
 
-	exactAWiskunde: {
-		name: 'Exacte Wetenschap A: Wiskunde',
+	mathematicsFundamentals: {
+		name: 'Mathematics: fundamentals',
 		goals: ['solveBasicSystemOfLinearEquations', 'solveGeneralSystemOfLinearEquations', 'solveGeneralQuadraticEquation', 'calculateTriangle', 'calculate3DShape'],
 		priorKnowledge: [],
 		startingPoints: [
@@ -105,39 +105,60 @@ let courses = {
 		],
 		blocks: [
 			{
-				name: 'Basisregels',
+				name: 'Basic rules of algebra',
 				goals: ['expandBrackets', 'simplifyFraction'],
 			},
 			{
-				name: 'Lineaire vergelijkingen',
+				name: 'Linear equations',
 				goals: ['solveGeneralLinearEquation'],
 			},
 			{
-				name: 'Hoeken en afstanden',
+				name: 'Angles and distances',
 				goals: ['determine2DDistances'],
 			},
 			{
-				name: 'Stelsels van vergelijkingen',
+				name: 'Systems of equations',
 				goals: ['solveBasicSystemOfLinearEquations', 'solveGeneralSystemOfLinearEquations'],
 			},
 			{
-				name: 'Kwadratische vergelijkingen',
+				name: 'Quadratic equations',
 				goals: ['solveBasicQuadraticEquation', 'solveGeneralQuadraticEquation'],
 			},
 			{
-				name: 'Driehoeken doorrekenen',
+				name: 'Analyzing triangles',
 				goals: ['calculateTriangle'],
 			},
 			{
-				name: 'Oppervlakten en volumes',
+				name: 'Areas and volumes',
 				goals: ['calculate3DShape'],
 			},
 		],
 		setup: pick(['solveBasicSystemOfLinearEquations', 'solveGeneralSystemOfLinearEquations', 'solveBasicQuadraticEquation', 'solveGeneralQuadraticEquation', 'determine2DDistances', 'calculateTriangle', 'calculate2DShape']),
 	},
 
-	exactAStatica: {
-		name: 'Exacte Wetenschap A: Statica basisvaardigheden',
+	mathematicsDerivatives: {
+		name: 'Mathematics: derivatives',
+		goals: ['findAdvancedDerivative'],
+		priorKnowledge: [],
+		startingPoints: ['lookUpElementaryDerivative'],
+		blocks: [
+			{
+				name: 'Basic derivatives',
+				goals: ['findBasicDerivative'],
+			},
+			{
+				name: 'Derivative rules',
+				goals: ['applyProductRule', 'applyQuotientRule', 'applyChainRule'],
+			},
+			{
+				name: 'Advanced derivatives',
+				goals: ['findAdvancedDerivative'],
+			},
+		],
+	},
+
+	staticsFundamentals: {
+		name: 'Statics: fundamentals',
 		goals: ['calculateBasicSupportReactions'],
 		priorKnowledge: [],
 		startingPoints: [
@@ -146,39 +167,18 @@ let courses = {
 		],
 		blocks: [
 			{
-				name: 'Vrijlichaamsschema tekenen',
+				name: 'Drawing free body diagrams',
 				goals: ['drawFreeBodyDiagram'],
 			},
 			{
-				name: 'Reactiekrachten berekenen',
+				name: 'Calculate support reactions',
 				goals: ['calculateBasicSupportReactions'],
 			}
 		],
 	},
 
-	exactBAfgeleiden: {
-		name: 'Exacte Wetenschap B - Differentiëren',
-		goals: ['findAdvancedDerivative'],
-		priorKnowledge: [],
-		startingPoints: ['lookUpElementaryDerivative'],
-		blocks: [
-			{
-				name: 'Basis afgeleiden',
-				goals: ['findBasicDerivative'],
-			},
-			{
-				name: 'Differentieerregels toepassen',
-				goals: ['applyProductRule', 'applyQuotientRule', 'applyChainRule'],
-			},
-			{
-				name: 'Afgeleiden bepalen',
-				goals: ['findAdvancedDerivative'],
-			},
-		],
-	},
-
-	exactDNatuurkunde: {
-		name: 'Exacte Wetenschap D: Natuurkunde',
+	thermodynamicsFundamentals: {
+		name: 'Thermodynamics: fundamentals',
 		goals: ['analyseClosedCycle', 'findFridgeTemperatures', 'analyseAirco'],
 		priorKnowledge: [
 			'calculateWithPressure',
@@ -200,39 +200,39 @@ let courses = {
 		],
 		blocks: [
 			{
-				name: 'Gaseigenschappen en de gaswet',
+				name: 'Gas properties and the gas law',
 				goals: ['gasLaw'],
 			},
 			{
-				name: 'Processen en Poisson\'s wet',
+				name: 'Thermodynamic processes and Poisson\'s law',
 				goals: ['calculateProcessStep'],
 			},
 			{
-				name: 'Arbeid en warmte',
+				name: 'Work and heat',
 				goals: ['calculateWithInternalEnergy'],
 			},
 			{
-				name: 'Kringprocessen: doorrekenen',
+				name: 'Cycles: analysis',
 				goals: ['calculateClosedCycle', 'createClosedCycleEnergyOverview'],
 			},
 			{
-				name: 'Kringprocessen: energie en rendement',
+				name: 'Cycles: energy and efficiency',
 				goals: ['analyseClosedCycle'],
 			},
 			{
-				name: `Stoomturbines en koelmachines`,
+				name: `Steam turbines and cooling machines`,
 				goals: ['findFridgeTemperatures'],
 			},
 			{
-				name: `Luchtvochtigheid en airco's`,
+				name: `Humidity and air conditioning`,
 				goals: ['analyseAirco'],
 			},
 		],
 		setup: pick(['calculateClosedCycle', 'createClosedCycleEnergyOverview', 'calculateWithEfficiency', 'calculateWithCOP', 'findFridgeTemperatures', 'analyseAirco'], 1, [3, 3, 1, 1, 1, 2]),
 	},
 
-	promo: {
-		name: 'Processen en Modelleren',
+	thermodynamicsApplications: {
+		name: 'Thermodynamics: applications',
 		goals: [
 			'analyseClosedCycle',
 			'analyseOpenCycle',
@@ -265,39 +265,40 @@ let courses = {
 		],
 		blocks: [
 			{
-				name: 'Gesloten systemen en kringprocessen',
+				name: 'Closed systems and cycles',
 				goals: ['analyseClosedCycle'],
 			},
 			{
-				name: 'Open systemen en enthalpie',
+				name: 'Open systems and enthalpy',
 				goals: ['analyseOpenCycle'],
 			},
 			{
-				name: 'Entropie en de tweede hoofdwet',
+				name: 'Entropy and the second law',
 				goals: ['calculateMissedWork'],
 			},
 			{
-				name: 'Gasturbines',
+				name: 'Gas turbines',
 				goals: ['analyseGasTurbine'],
 			},
 			{
-				name: 'Dampen en diagrammen',
+				name: 'Vapors and diagrams',
 				goals: ['useVaporFraction', 'determineRefrigerantProcess'],
 			},
 			{
-				name: 'Stoomturbines',
+				name: 'Steam turbines',
 				goals: ['analyseRankineCycle'],
 			},
 			{
-				name: 'Koelmachines en warmtepompen',
+				name: 'Cooling machines and heat pumps',
 				goals: ['analyseCoolingCycle'],
 			},
 		],
 		setup: pick(['calculateClosedCycle', 'createClosedCycleEnergyOverview', 'calculateOpenCycle', 'createOpenCycleEnergyOverview', 'calculateWithEfficiency', 'calculateWithCOP', 'useIsentropicEfficiency', 'massFlowTrick', 'createRankineCycleOverview', 'useVaporFraction', 'createCoolingCycleOverview'], 1, [2, 2, 2, 2, 1, 1, 2, 2, 2, 1, 2]),
 	},
 
-	dlwmpn: {
-		name: 'Deeltijd: Modelleren en Processen',
+	thermodynamicsApplications2: {
+		name: 'Thermodynamics: applications',
+		languages: ['nl'],
 		goals: [
 			'analyseClosedCycle',
 			'analyseOpenCycle',
@@ -329,19 +330,19 @@ let courses = {
 		],
 		blocks: [
 			{
-				name: 'Thermodynamische processen',
+				name: 'Thermodynamic processes',
 				goals: ['calculateProcessStep', 'calculateWithInternalEnergy'],
 			},
 			{
-				name: 'Gesloten systemen en kringprocessen',
+				name: 'Closed systems and cycles',
 				goals: ['analyseClosedCycle'],
 			},
 			{
-				name: 'Open systemen en enthalpie',
+				name: 'Open systems and enthalpy',
 				goals: ['analyseOpenCycle'],
 			},
 			{
-				name: 'Entropie en de tweede hoofdwet',
+				name: 'Entropy and the second law',
 				goals: ['calculateMissedWork'],
 			},
 			{
@@ -349,15 +350,15 @@ let courses = {
 				goals: ['analyseGasTurbine'],
 			},
 			{
-				name: 'Dampen en diagrammen',
+				name: 'Vapors and diagrams',
 				goals: ['useVaporFraction', 'determineRefrigerantProcess'],
 			},
 			{
-				name: 'Stoomturbines',
+				name: 'Steam turbines',
 				goals: ['analyseRankineCycle'],
 			},
 			{
-				name: 'Koelmachines en warmtepompen',
+				name: 'Cooling machines and heat pumps',
 				goals: ['analyseCoolingCycle'],
 			},
 		],

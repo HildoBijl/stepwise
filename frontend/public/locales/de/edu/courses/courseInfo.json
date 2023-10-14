@@ -1,0 +1,83 @@
+{
+  "stepwiseTutorial": {
+    "name": "Step-Wise Tutorial",
+    "blocks": {
+      "0": "Lösungen eingeben",
+      "1": "Demo schrittweise Übungen"
+    }
+  },
+  "algebraBasics": {
+    "name": "Mathematik: Algebra Grundlagen",
+    "blocks": {
+      "0": "Brüchen zusammenführen/spalten",
+      "1": "Brüchen in Brüchen vereinfachen",
+      "2": "Klammern verwenden",
+      "3": "Gleichungen umstellen",
+      "4": "Lineare Gleichungen lösen"
+    }
+  },
+  "mathematicsFundamentals": {
+    "name": "Mathematik: Grundlagen",
+    "blocks": {
+      "0": "Grundregeln der Algebra",
+      "1": "Lineare Gleichungen",
+      "2": "Winkel und Distanzen",
+      "3": "Systeme von Gleichungen",
+      "4": "Quadratische Gleichungen",
+      "5": "Berechnung von Dreiecken",
+      "6": "Flächen und Volumen"
+    }
+  },
+  "mathematicsDerivatives": {
+    "name": "Mathematik: Ableitungen",
+    "blocks": {
+      "0": "Basisableitungen",
+      "1": "Ableitungsregeln anwenden",
+      "2": "Ableitungen bestimmen"
+    }
+  },
+  "staticsFundamentals": {
+    "name": "Statik: Grundlagen",
+    "blocks": {
+      "0": "Freikörperdiagrammen zeichnen",
+      "1": "Reaktionenskräfte berechnen"
+    }
+  },
+  "thermodynamicsFundamentals": {
+    "name": "Thermodynamik: Grundlagen",
+    "blocks": {
+      "0": "Gaseigenschaften und das Gasgesetz",
+      "1": "Thermodynamische Prozesse und das Poisson'sche Gesetz",
+      "2": "Arbeit und Wärme",
+      "3": "Kreisläufe: Analyse",
+      "4": "Kreisläufe: Energie und Effizienz",
+      "5": "Dampfturbinen und Kältemaschinen",
+      "6": "Luftfeuchtigkeit und Klimatisierung"
+    }
+  },
+  "thermodynamicsApplications": {
+    "name": "Thermodynamik: Anwendungen",
+    "blocks": {
+      "0": "Geschlossene Systeme und Kreisläufe",
+      "1": "Offene Systeme und Enthalpie",
+      "2": "Entropie und das zweite Gesetz",
+      "3": "Gasturbinen",
+      "4": "Dämpfe und Diagramme",
+      "5": "Dampfturbinen",
+      "6": "Kältemaschinen und Wärmepumpen"
+    }
+  },
+  "thermodynamicsApplications2": {
+    "name": "Thermodynamik: Anwendungen",
+    "blocks": {
+      "0": "Thermodynamische Prozesse",
+      "1": "Geschlossene Systeme und Kreisläufe",
+      "2": "Offene Systeme und Enthalpie",
+      "3": "Entropie und das zweite Gesetz",
+      "4": "Gasturbinen",
+      "5": "Dämpfe und Diagramme",
+      "6": "Dampfturbinen",
+      "7": "Kältemaschinen und Wärmepumpen"
+    }
+  }
+}

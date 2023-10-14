@@ -105,7 +105,7 @@ export default function Tile({ course, skillsTotal, skillsDone, recommendation }
 			<Box boxShadow={1} className="tileBox">
 				<div className="nameContainer">
 					<div className="name">
-						{course.name}
+						{translate(course.name, `${course.id}.name`, 'edu/courses/courseInfo')}
 					</div>
 				</div>
 				<div className="info">
