@@ -10,7 +10,7 @@ import { lastOf } from 'step-wise/util'
 
 import { useStaggeredFunction } from 'util/react'
 import { websiteName } from 'settings'
-import { TranslationSection, useTranslation } from 'i18n'
+import { TranslationSection, useTranslator } from 'i18n'
 import { useRoute, usePaths } from 'ui/routing'
 import { useResizeListener } from 'ui/layout/App'
 
@@ -161,7 +161,8 @@ function TitleWrapper({ index, children }) {
 
 // TitleItem is an element whose name must be the page title (a string). It can receive this name from a hook or something similar.
 export function TitleItem({ path, entry, name }) {
-	const nameTranslation = useTranslation(name, entry, path)
+	const translate = useTranslator()
+	const nameTranslation = entry ? translate(name, entry, path) : name
 	const index = useContext(TitleWrapperContext)
 	const { registerPageName, deregisterPageName } = useContext(TitleContext)
 	useEffect(() => {

@@ -9,7 +9,7 @@ import { Par } from 'ui/components'
 export default function SkillOverview() {
 	const paths = usePaths()
 	return <>
-		<Par>Dit is een testsysteem, gemaakt om gemakkelijk opgaven mee te kunnen inspecteren. Hieronder vind je een lijst van alle aanwezige vaardigheden en bijbehorende opgaven.</Par>
+		<Par>This is a test system used to inspect exercises. Below you find all exercises available on the website, grouped per skill.</Par>
 		<ul>
 			{Object.values(skillTree).map(skill => (
 				<li key={skill.id}>

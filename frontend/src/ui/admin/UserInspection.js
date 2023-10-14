@@ -19,12 +19,12 @@ export default function UserInspection() {
 
 	// Check if data has loaded properly.
 	if (res.loading)
-		return <Par>Gebruiker wordt opgezocht...</Par>
+		return <Par>Looking up user data...</Par>
 	if (res.error || !res.data)
-		return <Par>Oops... Er ging iets mis bij het opzoeken van de gebruiker.</Par>
+		return <Par>Oops... Something went wrong while looking up user data.</Par>
 	const user = res.data.user
 	if (!user)
-		return <Par>Oops... De gebruiker kon niet gevonden worden. Hij bestaat niet.</Par>
+		return <Par>Oops... The user could not be found. It doesn't exist.</Par>
 
 	// Display the user.
 	return <UserInspectionForUser user={user} />
@@ -63,13 +63,13 @@ function UserInspectionForUser({ user }) {
 	const skillsList = useSkillsList(user)
 	const classes = useStyles()
 	return <>
-		<Par>Hier zie je al de vaardigheden die {user.name} geoefend heeft, met de meest recente boven.</Par>
+		<Par>Below you see all the skills that {user.name} has practiced, with the most recent one on top.</Par>
 		<HorizontalSlider>
 			<div className={clsx(classes.skillList, 'skillList')}>
 				<div className="flask head"></div>
-				<div className="name head">Vaardigheid</div>
-				<div className="numPracticed head">Gemaakte pogingen</div>
-				<div className="lastPracticed head">Laatste actie</div>
+				<div className="name head">Skill</div>
+				<div className="numPracticed head">Number of executions</div>
+				<div className="lastPracticed head">Last activity</div>
 				{skillsList.map(skillData => <UserInspectionItem key={skillData.skill.id} skillId={skillData.skill.id} skillData={skillData} />)}
 			</div>
 		</HorizontalSlider>
@@ -95,14 +95,14 @@ export function UserInspectionTitle() {
 function getUserNameFromQueryResult(res) {
 	// Check if the query was successful.
 	if (res.loading)
-		return 'Even wachten...'
+		return 'Loading name...'
 	if (res.error || !res.data)
 		return 'Oops...'
 
 	// Check if the user exists.
 	const user = res.data.user
 	if (!user)
-		return 'Onbekende gebruiker'
+		return 'Unknown user'
 	return user.name
 }
 

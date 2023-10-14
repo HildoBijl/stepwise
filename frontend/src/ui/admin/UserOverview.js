@@ -51,9 +51,9 @@ export default function UserOverview() {
 
 	// Check if data has loaded properly.
 	if (res.loading)
-		return <Par>Gebruikers worden geladen...</Par>
+		return <Par>Users are being loaded...</Par>
 	if (res.error || !res.data || !res.data.allUsers) {
-		return <Par>Oops... De gebruikers konden niet geladen worden.</Par>
+		return <Par>Oops... The users apparently cannot be loaded.</Par>
 	}
 
 	// All loaded!
@@ -80,15 +80,15 @@ function UserOverviewWithData({ allUsers }) {
 	}, [allUsers])
 
 	return <>
-		<Par>Hieronder vind je alle gebruikers die ooit op Step-Wise ingelogd zijn, gesorteerd op wanneer ze voor het laatst actief waren.</Par>
+		<Par>Below you find all users that have ever logged in to Step-Wise, sorted by the date of their last activity.</Par>
 		<HorizontalSlider>
 			<div className={clsx(classes.userOverview, 'userOverview')}>
-				<div className="name head">Naam</div>
-				<div className="stats head">Vaardigheden</div>
-				<div className="updatedAt head">Laatst actief</div>
-				<div className="createdAt head">Eerst actief</div>
-				<div className="role head">Rechten</div>
-				<div className="email head">Emailadres</div>
+				<div className="name head">Name</div>
+				<div className="stats head">Skills</div>
+				<div className="updatedAt head">Last activity</div>
+				<div className="createdAt head">First activity</div>
+				<div className="role head">Role</div>
+				<div className="email head">Email address</div>
 
 				{usersWithLastActivity.map(userWithLastActivity => <UserOverviewItem key={userWithLastActivity.user.id} user={userWithLastActivity.user} lastActivity={userWithLastActivity.lastActivity} />)}
 			</div>
