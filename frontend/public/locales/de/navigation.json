@@ -11,7 +11,9 @@
     "inspect": "Kompetenzübersicht",
     "admin": "Benutzerübersicht",
     "test": "Testseite",
-    "freePractice": "Freie Übungsmodus"
+    "freePractice": "Freie Übungsmodus",
+    "notFoundForStranger": "Home",
+    "notFoundForUser": "Kurse"
   },
   "menu": {
     "courses": "Kurse",

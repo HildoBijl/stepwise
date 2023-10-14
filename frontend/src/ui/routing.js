@@ -73,7 +73,7 @@ function getRoutes(user = undefined) {
 				fullPage: true,
 			},
 			'*': { // Note that the '*' path must be last.
-				id: 'notFound',
+				id: 'notFoundForStranger',
 				component: pages.Home,
 				name: 'Home',
 				fullPage: true,
@@ -184,7 +184,7 @@ function getRoutes(user = undefined) {
 				},
 			},
 			'*': { // Note that the '*' path must be last.
-				id: 'notFound',
+				id: 'notFoundForUser',
 				component: Courses,
 				name: 'Courses',
 			},

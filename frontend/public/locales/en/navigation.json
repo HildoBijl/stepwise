@@ -11,7 +11,9 @@
     "inspect": "Skill overview",
     "admin": "User overview",
     "test": "Test page",
-    "freePractice": "Free practice mode"
+    "freePractice": "Free practice mode",
+    "notFoundForStranger": "Home",
+    "notFoundForUser": "Courses"
   },
   "menu": {
     "courses": "Courses",

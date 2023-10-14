@@ -11,7 +11,9 @@
     "inspect": "Vaardigheden overzicht",
     "admin": "Gebruikersoverzicht",
     "test": "Testpagina",
-    "freePractice": "Vrij-oefenen-modus"
+    "freePractice": "Vrij-oefenen-modus",
+    "notFoundForStranger": "Home",
+    "notFoundForUser": "Cursussen"
   },
   "menu": {
     "courses": "Cursussen",
