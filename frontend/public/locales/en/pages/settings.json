@@ -7,10 +7,7 @@
       "nl": "Dutch",
       "de": "German"
     },
-    "warning": "Not all content may be available in this language. Content in other languages may occasionally still appear.",
-    "pageTitle": {
-      "title": "Language settings"
-    }
+    "warning": "Not all content may be available in this language. Content in other languages may occasionally still appear."
   },
   "deleteAccount": {
     "title": "Delete account",

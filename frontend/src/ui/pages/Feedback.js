@@ -1,32 +1,45 @@
 import React from 'react'
 
+import { Translation } from 'i18n'
+
+import { infoEmail } from 'settings'
 import { Par, Head } from 'ui/components'
+
+import { PageTranslationFile } from './PageTranslationFile'
 
 export default function Feedback() {
 	return (
-		<>
-			<Par>Step-Wise is nog experimenteel en wordt continu verder ontwikkeld. Feedback is dus altijd welkom!</Par>
+		<PageTranslationFile page="feedback">
+			<Translation entry="introduction">
+				<Par>Step-Wise is still experimental and is continuously developed further. Feedback is always welcome!</Par>
+			</Translation>
 
-			<Head>Bug gevonden?</Head>
-			<Par>Stuur bij een bug (maakt niet uit hoe klein) gelijk een mail naar <a href="mailto:info@step-wise.com">info@step-wise.com</a> (Hildo). Dan los ik hem op, zodat jij en anderen er niet weer tegenaan lopen. Voeg waar mogelijk toe:</Par>
-			<ul>
-				<li>Waar de bug optradt: welke vaardigheid/opgave.</li>
-				<li>Wat je deed vlak voordat de bug optradt.</li>
-				<li>Eventueel een screenshot van de rode foutmelding in de Developer's Tools console (F12).</li>
-			</ul>
+			<Translation entry="bugs">
+				<Head>Found a bug?</Head>
+				<Par>When you encounter a bug (doesn't matter how small) then send an email to <a href={`mailto:${infoEmail}`}>{{infoEmail}}</a> (Hildo). I'll solve it right away for you, so that both you and others won't run into it again. If possible please add:</Par>
+				<ul>
+					<li>Where you encountered the bug: which skill/exercise.</li>
+					<li>What you did right before the bug popped up.</li>
+					<li>If possible a screenshot of the red error message from the Developer's Tools console (F12).</li>
+				</ul>
+			</Translation>
 
-			<Head>Idee voor verbetering?</Head>
-			<Par>Wil je graag een verandering of uitbreiding zien? Laat het weten, en als het niet te veel werk is regelen we het zo snel mogelijk! Mail wederom naar <a href="mailto:info@step-wise.com">info@step-wise.com</a> en vertel ons al je ideeën.</Par>
+			<Translation entry="improvements">
+				<Head>Got ideas for improvement?</Head>
+				<Par>Would you like to see a change or extension? Let me know, and if it's not too much work we'll set it up as soon as we can! Email your idea to <a href={`mailto:${infoEmail}`}>{{infoEmail}}</a> and tell us everything you would like to see.</Par>
+			</Translation>
 
-			<Head>Bestaande plannen</Head>
-			<Par>De komende maanden wordt er aan het volgende gewerkt.</Par>
-			<ul>
-				<li><strong>Theoriepagina's:</strong> elke vaardigheid krijgt een korte samenvatting met theorie over het onderwerp, inclusief stappen om opgaven op te lossen.</li>
-				<li><strong>Bijlagen:</strong> voor het opzoeken van natuurkundige constanten komen er bijlage-pagina's. Wel zo handig, omdat het internet niet altijd dezelfde waarden gebruikt.</li>
-				<li><strong>Vertaling:</strong> Step-Wise gaat omgezet worden in het Engels en Duits!</li>
-				<li><strong>Extra onderwerpen:</strong> op het gebied van basis-wiskunde en mechanica gaan nog verschillende vaardigheden toegevoegd worden.</li>
-			</ul>
-			<Par>In welke richting de ontwikkelingen daarna gaan zal alleen de tijd uitwijzen.</Par>
-		</>
+			<Translation entry="plans">
+				<Head>Existing plans</Head>
+				<Par>We are currently working on or planning to work on the following.</Par>
+				<ul>
+					<li><strong>Translation:</strong> Step-Wise is being extended to English and German!</li>
+					<li><strong>Theory pages:</strong> Every skill will get a brief summary with theory about the subject, including the steps to take to solve an exercise.</li>
+					<li><strong>Attachments:</strong> In the attachment pages you can look up physical constants. This is especially useful since physical constants aren't as constant across the internet as their name would imply.</li>
+					<li><strong>More topics:</strong> Especially on the fields of fundamental mathematics and engineering mechanics (statics) further skills will be added.</li>
+				</ul>
+				<Par>In which direction Step-Wise will be developed afterwards is something only time will tell. And you, through tips and suggestions!</Par>
+			</Translation>
+		</PageTranslationFile>
 	)
 }

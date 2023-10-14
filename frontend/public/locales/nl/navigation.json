@@ -7,7 +7,9 @@
     "courses": "Cursussen",
     "groups": "Samen oefenen",
     "newGroup": "Nieuwe samenwerkingsgroep",
-    "group": "Meedoen met groep"
+    "group": "Meedoen met groep",
+    "inspect": "Vaardigheden overzicht",
+    "admin": "Gebruikersoverzicht"
   },
   "menu": {
     "courses": "Cursussen",
@@ -15,6 +17,8 @@
     "info": "Over Step-Wise",
     "feedback": "Feedback",
     "settings": "Instellingen",
-    "logOut": "Uitloggen"
+    "logOut": "Uitloggen",
+    "inspect": "Vaardigheden overzicht",
+    "admin": "Gebruikersoverzicht"
   }
 }

@@ -80,7 +80,7 @@ export default function Menu({ className, titleCollapsed }) {
 							<MenuLink id="courses" icon={MenuBook} />
 							<MenuLink id="groups" icon={People} />
 							{commonButtons}
-							<MenuLink id="settings" path={paths.settings()} text='Instellingen' icon={Settings} />
+							<MenuLink id="settings" path={paths.settings()} icon={Settings} />
 							<MenuLink id="logOut" text='Log out' icon={ExitToApp} />
 						</List>
 						{adminButtons}

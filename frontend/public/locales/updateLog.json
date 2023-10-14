@@ -149,8 +149,8 @@
       "menu.settings": {
         "oldText": "Settings",
         "firstUpdate": "2023-10-13T13:33:36.322Z",
-        "latestUpdate": "2023-10-13T13:46:55.225Z",
-        "latestText": "Instellingen"
+        "latestUpdate": "2023-10-14T08:14:41.425Z",
+        "latestText": "Settings"
       },
       "menu.logOut": {
         "oldText": "Logging out...",
@@ -169,6 +169,23 @@
         "firstUpdate": "2023-10-13T16:50:19.868Z",
         "latestUpdate": "2023-10-13T16:50:19.883Z",
         "latestText": "User overview"
+      },
+      "pageTitles.inspect": {
+        "oldText": "Skill overview",
+        "firstUpdate": "2023-10-14T08:15:05.838Z",
+        "latestUpdate": "2023-10-14T08:15:05.849Z",
+        "latestText": "Skill overview"
+      },
+      "pageTitles.admin": {
+        "oldText": "User overview",
+        "firstUpdate": "2023-10-14T08:15:08.340Z",
+        "latestUpdate": "2023-10-14T08:15:08.353Z",
+        "latestText": "User overview"
+      },
+      "menu.home": {
+        "firstUpdate": "2023-10-14T08:22:05.105Z",
+        "latestUpdate": "2023-10-14T08:22:05.105Z",
+        "latestText": "Home"
       }
     },
     "main": {
@@ -276,6 +293,32 @@
         "firstUpdate": "2023-10-13T16:34:52.913Z",
         "latestUpdate": "2023-10-13T16:37:22.294Z",
         "latestText": "Add and multiply numbers"
+      }
+    },
+    "pages/feedback": {
+      "introduction": {
+        "oldText": "<a>Step-Wise is still experimental and is continuously developed further. Feedback is always welcome!</a>",
+        "firstUpdate": "2023-10-14T08:35:27.748Z",
+        "latestUpdate": "2023-10-14T08:35:27.759Z",
+        "latestText": "<a>Step-Wise is still experimental and is continuously developed further. Feedback is always welcome!</a>"
+      },
+      "bugs": {
+        "oldText": "<a>Found a bug?</a><b>When you encounter a bug (doesn't matter how small) then send an email to <c>info@step-wise.com</c> (Hildo). I'll solve it right away for you, so that both you and others won't run into it again. If possible please add:</b><d><e>Where you encountered the bug: which skill/exercise.</e><f>What you did right before the bug popped up.</f><g>If possible a screenshot of the red error message from the Developer's Tools console (F12).</g></d>",
+        "firstUpdate": "2023-10-14T08:35:27.748Z",
+        "latestUpdate": "2023-10-14T08:36:54.092Z",
+        "latestText": "<a>Found a bug?</a><b>When you encounter a bug (doesn't matter how small) then send an email to <c>{infoEmail}</c> (Hildo). I'll solve it right away for you, so that both you and others won't run into it again. If possible please add:</b><d><e>Where you encountered the bug: which skill/exercise.</e><f>What you did right before the bug popped up.</f><g>If possible a screenshot of the red error message from the Developer's Tools console (F12).</g></d>"
+      },
+      "improvements": {
+        "oldText": "<a>Got ideas for improvement?</a><b>Would you like to see a change or extension? Let me know, and if it's not too much work we'll set it up as soon as we can! Email your idea to <c>info@step-wise.com</c> and tell us everything you would like to see.</b>",
+        "firstUpdate": "2023-10-14T08:35:27.748Z",
+        "latestUpdate": "2023-10-14T08:36:54.092Z",
+        "latestText": "<a>Got ideas for improvement?</a><b>Would you like to see a change or extension? Let me know, and if it's not too much work we'll set it up as soon as we can! Email your idea to <c>{infoEmail}</c> and tell us everything you would like to see.</b>"
+      },
+      "plans": {
+        "oldText": "<a>Existing plans</a><b>We are currently working on or planning to work on the following.</b><c><d><e>Translation:</e> Step-Wise is being extended to English and German!</d><f><g>Theory pages:</g> Every skill will get a brief summary with theory about the subject, including the steps to take to solve an exercise.</f><h><i>Attachments:</i> In the attachmenet pages you can look up physical constants. This is especially useful since physical constants aren't as constant across the internet as their name would imply.</h><j><k>More topics:</k> Especially on the fields of mathematics and engineering mechanics further skills will be added.</j></c><l>In which direction Step-Wise will be developed afterwards is something only time will tell. And you, if you give us feedback!</l>",
+        "firstUpdate": "2023-10-14T08:35:27.748Z",
+        "latestUpdate": "2023-10-14T08:43:37.082Z",
+        "latestText": "<a>Existing plans</a><b>We are currently working on or planning to work on the following.</b><c><d><e>Translation:</e> Step-Wise is being extended to English and German!</d><f><g>Theory pages:</g> Every skill will get a brief summary with theory about the subject, including the steps to take to solve an exercise.</f><h><i>Attachments:</i> In the attachment pages you can look up physical constants. This is especially useful since physical constants aren't as constant across the internet as their name would imply.</h><j><k>More topics:</k> Especially on the fields of fundamental mathematics and engineering mechanics (statics) further skills will be added.</j></c><l>In which direction Step-Wise will be developed afterwards is something only time will tell. And you, through tips and suggestions!</l>"
       }
     }
   }

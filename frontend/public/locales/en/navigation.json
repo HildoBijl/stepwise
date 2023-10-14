@@ -7,16 +7,19 @@
     "courses": "Courses",
     "groups": "Practice together",
     "newGroup": "New practice group",
-    "group": "Join practice group"
+    "group": "Join practice group",
+    "inspect": "Skill overview",
+    "admin": "User overview"
   },
   "menu": {
     "courses": "Courses",
     "groups": "Practice together",
     "info": "About Step-Wise",
     "feedback": "Feedback",
-    "settings": "Instellingen",
+    "settings": "Settings",
     "logOut": "Log out",
     "inspect": "Skill overview",
-    "admin": "User overview"
+    "admin": "User overview",
+    "home": "Home"
   }
 }

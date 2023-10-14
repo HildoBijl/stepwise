@@ -1,7 +1,8 @@
 // Name settings.
 const websiteName = 'Step-Wise'
 const websiteNameAddendum = 'Practice exercises on your level'
-export { websiteName, websiteNameAddendum }
+const infoEmail = 'info@step-wise.com'
+export { websiteName, websiteNameAddendum, infoEmail }
 
 // API settings. For the websocket, we replace `http` with `ws`. That also yields correct results for `https` (-> `wss`).
 const apiAddress = process.env.REACT_APP_API_ADDRESS
