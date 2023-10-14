@@ -1,8 +1,0 @@
-{
-  "title": "Hallochen!",
-  "content": {
-    "text": "<a>Hallo! Mein Name ist <b>{name}</b> <c>Bijl</c> und ich bin <d><e>{f}</e> Jahre</d> und <count-check><g><one>ein</one><zero>null</zero><multiple>{h}</multiple></g> Monat<not-one>e</not-one></count-check> alt. Dies sind <check><on-true>mehr als</on-true><on-false>nicht mehr als</on-false></check> fünf Monate.</a>",
-    "button": "<a><b>Extra Monat</b></a>",
-    "equation": "<a>Hallo! Deine Gleichung ist <b>{c}.</b></a>"
-  }
-}

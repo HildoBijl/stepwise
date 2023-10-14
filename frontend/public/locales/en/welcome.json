@@ -1,9 +1,0 @@
-{
-  "title": "Hello!",
-  "content": {
-    "text": "<a>Hello! My name is <b>{name}</b> <c>Bijl</c> and I'm <d><e>{f}</e> years</d> and <count-check><g><one>one</one><zero>zero</zero><multiple>{h}</multiple></g> month<not-one>s</not-one></count-check> old. This is <check><on-true>more than</on-true><on-false>not more than</on-false></check> five months.</a>",
-    "button": "<a><b>Increase months</b></a>",
-    "equation": "<a>Hello! Your equation is <b>{c}.</b></a>"
-  },
-  "name": "<0>Hello <strong>dear</strong> {{name}}. You are {{age}} years and {{months}} months and {{days}} days old. Your equation is <11>{{eq}}.</11></0>"
-}
