@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { firstToLowerCase } from 'step-wise/util'
 import { skillTree } from 'step-wise/edu/skills'
 
+import { TranslationFile, useTranslator } from 'i18n'
 import { LoadingNote } from 'ui/components'
 import { TabPages, tabData } from 'ui/layout/tabs'
 
@@ -11,6 +12,7 @@ import { useSkillId } from '../util'
 import { ExercisePage } from './ExercisePage'
 
 export default function Skill() {
+	const translate = useTranslator()
 	const skillId = useSkillId()
 	const [loadedForSkillId, setLoadedForSkillId] = useState()
 	const Pages = useRef(null)
@@ -57,8 +59,10 @@ export default function Skill() {
 
 	// Upon loading, show a loading note.
 	if (!loadedForSkillId || Object.keys(pages).length === 0)
-		return <LoadingNote text="Loading skill pages" />
+		return <LoadingNote text={translate('Loading skill pages...', 'loadingSkillPages', 'edu/skills/skillPage')} />
 
 	// Render the pages. Use a key to force a reload on a new skillId.
-	return <TabPages key={skillId} pages={pages} initialPage="practice" />
+	return <TranslationFile path={`edu/skills/${skillId}`}>
+		<TabPages key={skillId} pages={pages} initialPage="practice" />
+	</TranslationFile>
 }

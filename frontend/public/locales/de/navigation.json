@@ -16,6 +16,7 @@
     "notFoundForUser": "Kurse"
   },
   "menu": {
+    "home": "Home",
     "courses": "Kurse",
     "groups": "Gemeinsam üben",
     "info": "Über Step-Wise",
@@ -24,5 +25,16 @@
     "logOut": "Abmelden",
     "inspect": "Kompetenzübersicht",
     "admin": "Benutzerübersicht"
+  },
+  "tabs": {
+    "theory": "Theorie",
+    "video": "Video",
+    "background": "Hintergrund",
+    "summary": "Zusammenfassung",
+    "example": "Beispiel",
+    "practice": "Übung",
+    "formulas": "Formeln",
+    "references": "Anhänge",
+    "meta": "Meta-Info"
   }
 }

@@ -6,13 +6,15 @@ import { toFO, toSO } from 'step-wise/inputTypes'
 import { skillTree } from 'step-wise/edu/skills'
 import { getNewRandomExercise } from 'step-wise/edu/exercises/util/selection'
 
+import { useGetTranslation } from 'i18n'
 import { LoadingNote } from 'ui/components'
 
 import ExerciseContainer from '../../../exercises/ExerciseContainer'
 
 import { useSkillId } from '../../util'
 
-export default function ExercisePageForStranger() {
+export function ExercisePageForStranger() {
+	const getTranslation = useGetTranslation()
 	const skillId = useSkillId()
 	const skill = skillTree[skillId]
 	const hasExercises = skill.exercises.length > 0
@@ -57,11 +59,11 @@ export default function ExercisePageForStranger() {
 
 	// Are there simply no exercises?
 	if (!hasExercises)
-		return <div>Helaas ... er zijn nog geen opgaven voor deze vaardigheid toegevoegd. Ze komen er zo snel mogelijk aan. Kom later nog eens terug!</div>
+		return <div>{getTranslation('noExercises', 'edu/skills/skillPage')}</div>
 
 	// Is there no exercise loaded yet?
 	if (!exercise)
-		return <LoadingNote text="Generating new exercise." />
+		return <LoadingNote text={getTranslation('generatingNewExercise', 'edu/skills/skillPage')} />
 
 	// All fine! Display the exercise. Use a key to force a rerender on a new exercise.
 	return <ExerciseContainer key={exercise.startedOn} exercise={exercise} skillId={skillId} submitting={false} submitAction={submitAction} startNewExercise={startNewExercise} />

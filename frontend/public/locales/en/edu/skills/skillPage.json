@@ -1,1 +1,9 @@
-{}
+{
+  "loadingUserData": "Loading user data...",
+  "loadingSkillPages": "Loading skill pages...",
+  "loadingExerciseData": "Loading exercise data...",
+  "generatingNewExercise": "Generating new exercise...",
+  "noExercises": "Oh no ... no exercises have been added yet for this skill. We will add them as soon as we can. Please check back later!",
+  "loadingExerciseComponent": "Loading exercise component...",
+  "exerciseCrashed": "Oops ... the exercise crashed."
+}

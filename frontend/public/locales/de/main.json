@@ -1,4 +1,8 @@
 {
   "websiteName": "Step-Wise",
-  "websiteNameAddendum": "Maßgeschneiderte Praxisübungen"
+  "websiteNameAddendum": "Maßgeschneiderte Praxisübungen",
+  "notifications": {
+    "notLoggedIn": "Du bist nicht angemeldet. Dein Lernfortschritt wird nicht verfolgt. Übungsvorschläge und personalisierte Aufgaben sind nicht möglich.",
+		"notOnline": "Du scheinst derzeit nicht mit dem Internet verbunden zu sein. Einige Funktionen werden nicht verfügbar sein, bis du wieder online bist."
+  }
 }

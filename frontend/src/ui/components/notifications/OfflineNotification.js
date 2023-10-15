@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react'
 
+import { Translation } from 'i18n'
+
 import NotificationBar from './NotificationBar'
 
 export default function OfflineNotification() {
@@ -16,5 +18,5 @@ export default function OfflineNotification() {
 	}, [updateStatus])
 
 	// Only display the notification when the user is offline. 
-	return <NotificationBar display={!online} type="warning">Je hebt even geen internetverbinding. Bepaalde website-onderdelen zullen niet werken tot je weer online bent.</NotificationBar>
+	return <NotificationBar display={!online} type="warning"><Translation entry="notifications.notOnline" path="main">You seem to have lost your internet connection. Some functionalities will not be available until you are back online.</Translation></NotificationBar>
 }

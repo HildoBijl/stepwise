@@ -16,6 +16,7 @@
     "notFoundForUser": "Courses"
   },
   "menu": {
+    "home": "Home",
     "courses": "Courses",
     "groups": "Practice together",
     "info": "About Step-Wise",
@@ -23,7 +24,17 @@
     "settings": "Settings",
     "logOut": "Log out",
     "inspect": "Skill overview",
-    "admin": "User overview",
-    "home": "Home"
+    "admin": "User overview"
+  },
+  "tabs": {
+    "theory": "Theory",
+    "video": "Video",
+    "background": "Background",
+    "summary": "Summary",
+    "example": "Example",
+    "practice": "Practice",
+    "formulas": "Formulas",
+    "references": "Attachments",
+    "meta": "Meta-info"
   }
 }

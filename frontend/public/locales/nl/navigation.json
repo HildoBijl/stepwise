@@ -16,6 +16,7 @@
     "notFoundForUser": "Cursussen"
   },
   "menu": {
+    "home": "Home",
     "courses": "Cursussen",
     "groups": "Samen oefenen",
     "info": "Over Step-Wise",
@@ -24,5 +25,16 @@
     "logOut": "Uitloggen",
     "inspect": "Vaardigheden overzicht",
     "admin": "Gebruikersoverzicht"
+  },
+  "tabs": {
+    "theory": "Theorie",
+    "video": "Video",
+    "background": "Achtergrond",
+    "summary": "Samenvatting",
+    "example": "Voorbeeld",
+    "practice": "Oefenen",
+    "formulas": "Formules",
+    "references": "Bijlagen",
+    "meta": "Meta-info"
   }
 }

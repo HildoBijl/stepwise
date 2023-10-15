@@ -4,9 +4,14 @@ import { ensureString } from 'step-wise/util'
 
 const TranslationFileContext = createContext()
 
-export function TranslationFile({ children, path }) {
+export function TranslationFile({ children, path, extend = true }) {
 	// Check the input.
 	path = ensureString(path, true)
+
+	// Extend by a potential parent path.
+	const parentPath = useTranslationFilePath()
+	if (extend && parentPath)
+		path = `${parentPath}/${path}`
 
 	// Render the provider.
 	return (

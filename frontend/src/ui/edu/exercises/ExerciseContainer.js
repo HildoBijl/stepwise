@@ -4,12 +4,14 @@ import { toFO } from 'step-wise/inputTypes'
 import { getLastProgress } from 'step-wise/edu/exercises/util/simpleExercise'
 
 import { useConsistentValue } from 'util/react'
+import { useTranslator } from 'i18n'
 import { LoadingNote, ErrorBoundary } from 'ui/components/flow'
 
 const ExerciseContext = createContext({})
 export { ExerciseContext } // Exported for testing purposes.
 
 export default function ExerciseContainer({ exercise, groupExercise, submitting, submitAction, cancelAction, resolveEvent, startNewExercise }) {
+	const translate = useTranslator()
 	const { exerciseId, state } = exercise
 	const [loading, setLoading] = useState(true)
 	const ExerciseLocal = useRef(null)
@@ -41,7 +43,7 @@ export default function ExerciseContainer({ exercise, groupExercise, submitting,
 	const progress = useConsistentValue(getLastProgress(exercise.history))
 
 	if (loading)
-		return <LoadingNote text="Loading exercise component" />
+		return <LoadingNote text={translate('Loading exercise component...', 'loadingExerciseComponent', 'edu/skills/skillPage')} />
 
 	// Set up data for the exercise and put it in a context around the exercise.
 	const exerciseData = {
@@ -60,7 +62,7 @@ export default function ExerciseContainer({ exercise, groupExercise, submitting,
 	const Exercise = ExerciseLocal.current
 	return (
 		<ExerciseContext.Provider value={exerciseData}>
-			<ErrorBoundary text="De opgave is gecrashed.">
+			<ErrorBoundary text={translate('Oops ... the exercise crashed.', 'exerciseCrashed', 'edu/skills/skillPage')}>
 				<Exercise />
 			</ErrorBoundary>
 		</ExerciseContext.Provider>

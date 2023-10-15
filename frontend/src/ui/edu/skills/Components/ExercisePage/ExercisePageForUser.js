@@ -3,13 +3,16 @@ import React, { useEffect, useCallback } from 'react'
 import { skillTree } from 'step-wise/edu/skills'
 
 import { useSkillQuery, useStartExerciseMutation, useSubmitExerciseActionMutation } from 'api/skill'
+import { useTranslator } from 'i18n'
 import { ErrorNote, LoadingNote } from 'ui/components'
 
 import ExerciseContainer from '../../../exercises/ExerciseContainer'
 
 import { useSkillId } from '../../util'
 
-export default function ExercisePageForUser() {
+export function ExercisePageForUser() {
+	const translate = useTranslator()
+
 	// Load in the skill and its exercises.
 	const skillId = useSkillId()
 	const skill = skillTree[skillId]
@@ -41,7 +44,7 @@ export default function ExercisePageForUser() {
 
 	// Are there simply no exercises?
 	if (!hasExercises)
-		return <div>Helaas ... er zijn nog geen opgaven voor deze vaardigheid toegevoegd. Ze komen er zo snel mogelijk aan. Kom later nog eens terug!</div>
+		return <div>{translate('Oh no ... no exercises have been added yet for this skill. We will add them as soon as we can. Please check back later!', 'noExercises', 'edu/skills/skillPage')}</div>
 
 	// Any errors we should notify the user of?
 	if (error)
@@ -53,11 +56,9 @@ export default function ExercisePageForUser() {
 
 	// Anything still loading?
 	if (loading)
-		return <LoadingNote text="Loading exercise data." />
-	if (newExerciseLoading)
-		return <LoadingNote text="Generating new exercise." />
-	if (!exercise)
-		return <LoadingNote text="No exercise yet. Generating one." />
+		return <LoadingNote text={translate('Loading exercise data...', 'loadingExerciseData', 'edu/skills/skillPage')} />
+	if (newExerciseLoading || !exercise)
+		return <LoadingNote text={translate('Generating new exercise...', 'generatingNewExercise', 'edu/skills/skillPage')} />
 
 	// All fine! Display the exercise. Use a key to force a rerender on a new exercise.
 	return <ExerciseContainer key={exercise.startedOn} exercise={exercise} submitting={submissionLoading} submitAction={submitAction} startNewExercise={startNewExercise} />

@@ -3,13 +3,16 @@ import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { skillTree } from 'step-wise/edu/skills'
 
 import { useActiveGroup, useActiveGroupExercisesResult, useActiveGroupExerciseForSkill, useStartGroupExerciseMutation, useSubmitGroupActionMutation, useCancelGroupActionMutation, useResolveGroupEventMutation } from 'api/group'
+import { useGetTranslation } from 'i18n'
 import { ErrorNote, LoadingNote } from 'ui/components'
 
 import ExerciseContainer from '../../../exercises/ExerciseContainer'
 
 import { useSkillId } from '../../util'
 
-export default function ExercisePageForGroup() {
+export function ExercisePageForGroup() {
+	const getTranslation = useGetTranslation()
+
 	// Load in the skill and its exercises.
 	const group = useActiveGroup()
 	const skillId = useSkillId()
@@ -57,7 +60,7 @@ export default function ExercisePageForGroup() {
 
 	// Are there simply no exercises?
 	if (!hasExercises)
-		return <div>Helaas ... er zijn nog geen opgaven voor deze vaardigheid toegevoegd. Ze komen er zo snel mogelijk aan. Kom later nog eens terug!</div>
+	return <div>{getTranslation('noExercises', 'edu/skills/skillPage')}</div>
 
 	// Any errors we should notify the user of?
 	const presentError = error && newExerciseError && submissionError && cancelError && resolveError
@@ -66,11 +69,9 @@ export default function ExercisePageForGroup() {
 
 	// Anything still loading?
 	if (loading)
-		return <LoadingNote text="Loading exercise data." />
-	if (newExerciseLoading)
-		return <LoadingNote text="Generating new exercise." />
-	if (!displayExercise)
-		return <LoadingNote text="No exercise yet. Generating one." />
+	return <LoadingNote text={getTranslation('loadingExerciseData', 'edu/skills/skillPage')} />
+	if (newExerciseLoading || !displayExercise)
+	return <LoadingNote text={getTranslation('generatingNewExercise', 'edu/skills/skillPage')} />
 
 	// All fine! Display the exercise. Use a key to force a rerender on a new exercise.
 	return <ExerciseContainer key={displayExercise.startedOn} exercise={displayExercise} groupExercise={true} submitting={resolveLoading} submitAction={submitAction} cancelAction={cancelAction} resolveEvent={resolveEvent} startNewExercise={startNewExercise} />

@@ -3,6 +3,7 @@ import React from 'react'
 
 import { makeStyles } from '@material-ui/core/styles'
 
+import { useTranslator } from 'i18n'
 import tabData from './tabData'
 
 const useStyles = makeStyles((theme) => ({
@@ -27,6 +28,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function TabLabel({ tab, showLabel, showIcon }) {
+	const translate = useTranslator()
+
 	// Extract data (icon, title) on the tab.
 	const currTabData = tabData[tab]
 	if (!currTabData)
@@ -36,6 +39,6 @@ export default function TabLabel({ tab, showLabel, showIcon }) {
 	const classes = useStyles({ showLabel })
 	return <div className={classes.tab}>
 		{showIcon ? <div className="iconContainer"><currTabData.icon /></div> : null}
-		{showLabel ? <div className="titleContainer">{currTabData.title}</div> : null}
+		{showLabel ? <div className="titleContainer">{translate(currTabData.title, `tabs.${currTabData.id}`, 'navigation')}</div> : null}
 	</div>
 }

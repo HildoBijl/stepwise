@@ -1,4 +1,8 @@
 {
 	"websiteName": "Step-Wise",
-	"websiteNameAddendum": "Oefenopgaven op maat"
+	"websiteNameAddendum": "Oefenopgaven op maat",
+  "notifications": {
+		"notLoggedIn": "Je bent niet ingelogd. Voortgang wordt niet bijgehouden. Oefensuggesties en gepersonaliseerde opgaven zijn niet mogelijk.",
+		"notOnline": "Je hebt blijkbaar even geen internetverbinding. Bepaalde functionaliteiten zijn niet beschikbaar tot je weer online bent."
+  }
 }

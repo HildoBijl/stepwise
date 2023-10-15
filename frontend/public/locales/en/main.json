@@ -1,4 +1,8 @@
 {
   "websiteName": "Step-Wise",
-  "websiteNameAddendum": "Practice exercises on your level"
+  "websiteNameAddendum": "Practice exercises on your level",
+  "notifications": {
+    "notLoggedIn": "You are not logged in. Progress will not be tracked. Practice recommendations and personalized exercises are not possible.",
+    "notOnline": "You seem to have lost your internet connection. Some functionalities will not be available until you are back online."
+  }
 }

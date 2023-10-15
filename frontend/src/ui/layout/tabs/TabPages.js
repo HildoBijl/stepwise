@@ -4,6 +4,7 @@ import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
 import 'swiper/swiper.min.css'
 
 import { useConsistentValue, useResizeObserver, useUpdater } from 'util/react'
+import { TranslationFile } from 'i18n'
 import { VisibleProvider } from 'ui/components'
 import { useRoute, insertParametersIntoPath } from 'ui/routing'
 
@@ -48,7 +49,13 @@ export default function TabPages({ pages, initialPage, updateUrl = true }) {
 		noSwipingSelector={'.slider.active, .field, .input, .drawingInput'} // Prevent swiping on these elements.
 	>
 		<TabPagesEffect />
-		{tabs.map(id => <SwiperSlide key={id}><SwipePageWrapper id={id}>{pages[id]}</SwipePageWrapper></SwiperSlide>)}
+		{tabs.map(id => <SwiperSlide key={id}>
+			<SwipePageWrapper id={id}>
+				<TranslationFile path={id}>
+					{pages[id]}
+				</TranslationFile>
+			</SwipePageWrapper>
+		</SwiperSlide>)}
 	</Swiper>
 }
 

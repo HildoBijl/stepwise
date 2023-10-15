@@ -7,7 +7,7 @@ import { Books, Sqrt, BulletList, Teacher } from 'ui/components/icons'
 const tabData = {
 	theory: {
 		icon: Book,
-		title: 'Theorie',
+		title: 'Theory',
 		order: 1,
 	},
 	video: {
@@ -17,32 +17,32 @@ const tabData = {
 	},
 	background: {
 		icon: Books,
-		title: 'Achtergrond',
+		title: 'Background',
 		order: 3,
 	},
 	summary: {
 		icon: BulletList,
-		title: 'Samenvatting',
+		title: 'Summary',
 		order: 4,
 	},
 	example: {
 		icon: Teacher,
-		title: 'Voorbeeld',
+		title: 'Example',
 		order: 5,
 	},
 	practice: {
 		icon: Pencil,
-		title: 'Oefenen',
+		title: 'Practice',
 		order: 6,
 	},
 	formulas: {
 		icon: Sqrt,
-		title: 'Formules',
+		title: 'Formulas',
 		order: 7,
 	},
 	references: {
 		icon: Paperclip,
-		title: 'Bijlagen',
+		title: 'Attachments',
 		order: 8,
 	},
 	meta: {
