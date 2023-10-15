@@ -45,7 +45,7 @@
     "name": "Klammern erweitern"
   },
   "pullOutOfBrackets": {
-    "name": "Aus Klammern ziehen"
+    "name": "Faktor aus Klammern ziehen"
   },
   "moveATerm": {
     "name": "Verschieben eines Terms"

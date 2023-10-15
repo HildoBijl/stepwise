@@ -5,8 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { count } from 'step-wise/util'
 
 import { useSkillsData } from 'api/skill'
-import { useLanguage } from 'i18n'
-import { PageTranslationFile } from 'ui/pages'
+import { TranslationFile, useLanguage } from 'i18n'
 
 import { getOverview, getAnalysis } from '../course/util'
 import courses from '../courses'
@@ -35,7 +34,7 @@ export default function Courses() {
 	// Render all the tiles with corresponding data.
 	const courseList = Object.values(courses).filter(course => !course.languages || course.languages.includes(language)) // Only render courses that should be shown in this language.
 	return (
-		<PageTranslationFile page="courses">
+		<TranslationFile path="edu/courses/coursesPage">
 			<div className={clsx(classes.courses, 'courses')}>
 				{courseList.map((course, index) => <Tile
 					key={course.id}
@@ -45,7 +44,7 @@ export default function Courses() {
 					recommendation={analyses[index]?.recommendation}
 				/>)}
 			</div>
-		</PageTranslationFile>
+		</TranslationFile>
 	)
 }
 

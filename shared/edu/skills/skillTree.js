@@ -83,7 +83,7 @@ let skillTree = {
 		exercises: ['expandBrackets1', 'expandBrackets2'],
 	},
 	pullOutOfBrackets: {
-		name: 'Pull out of brackets',
+		name: 'Pull factor out of brackets',
 		setup: and('mergeSplitFractions', 'expandBrackets'),
 		exercises: ['pullOutOfBrackets1', 'pullOutOfBrackets2', 'pullOutOfBrackets3'],
 	},

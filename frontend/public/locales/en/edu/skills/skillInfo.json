@@ -45,7 +45,7 @@
     "name": "Expand brackets"
   },
   "pullOutOfBrackets": {
-    "name": "Pull out of brackets"
+    "name": "Pull factor out of brackets"
   },
   "moveATerm": {
     "name": "Move a term"

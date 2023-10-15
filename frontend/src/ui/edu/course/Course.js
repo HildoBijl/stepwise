@@ -7,12 +7,12 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { keysToObject } from 'step-wise/util'
 import { getInverseCDF } from 'step-wise/skillTracking'
 
-import { Translation, useTranslator } from 'i18n'
+import { TranslationFile, Translation, useTranslator } from 'i18n'
 import { TitleItem } from 'ui/layout/Title'
-import { PageTranslationFile } from 'ui/pages'
 
 import courses from '../courses'
 
+import { strFreePractice } from './util'
 import SkillRecommender from './SkillRecommender'
 import Block from './Block'
 import SkillList from './SkillList'
@@ -54,7 +54,13 @@ export default function Course(props) {
 	const { courseId, course, overview, analysis } = useCourseData()
 	const recommendation = analysis?.recommendation
 	const hasRecommendation = !!recommendation
-	const recommendationBlock = overview.priorKnowledge.includes(recommendation) ? -1 : overview.blocks.findIndex(blockList => blockList.includes(recommendation))
+
+	// Determine which block to open up at the start.
+	let recommendationBlock = overview.blocks.findIndex(blockList => blockList.includes(recommendation)) // Find the block containing the recommendation.
+	if (overview.priorKnowledge.includes(recommendation))
+		recommendationBlock = -1 // -1 means prior knowledge.
+	if (recommendation === strFreePractice)
+		recommendationBlock = overview.blocks.length - 1 // When everything is mastered, open up the last block.
 
 	// Track which block is active.
 	const [activeBlock, setActiveBlock] = useState() // -1 means prior knowledge. Undefined means none selected.
@@ -76,14 +82,14 @@ export default function Course(props) {
 
 	// If there is an unknown course, display this.
 	if (!course)
-		return <PageTranslationFile page="coure"><div><Translation entry="courseNotFound">Oops... De cursus die je wilt bezoeken is niet bekend. Mogelijk is er iets mis met de link?</Translation></div></PageTranslationFile>
+		return <TranslationFile path="edu/courses/coursePage"><div><Translation entry="courseNotFound">Oops... De cursus die je wilt bezoeken is niet bekend. Mogelijk is er iets mis met de link?</Translation></div></TranslationFile>
 
 	// Render the component.
 	const data = { ...props, course, overview, analysis, activeBlock, toggleActiveBlock }
-	return <PageTranslationFile page="course">
+	return <TranslationFile path="edu/courses/coursePage">
 		{hasRecommendation ? <SkillRecommender courseId={courseId} recommendation={recommendation} /> : null}
 		{landscape ? <LandscapeCourse {...data} /> : <PortraitCourse {...data} />}
-	</PageTranslationFile>
+	</TranslationFile>
 }
 
 function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActiveBlock }) {

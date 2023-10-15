@@ -45,7 +45,7 @@
     "name": "Haakjes uitwerken"
   },
   "pullOutOfBrackets": {
-    "name": "Buiten haakjes halen"
+    "name": "Factor buiten haakjes halen"
   },
   "moveATerm": {
     "name": "Een term verplaatsen"
