@@ -9,6 +9,7 @@ import { skillTree } from 'step-wise/edu/skills'
 
 import { mix, shift, toCSS } from 'util/colors'
 import { useUniqueNumber } from 'util/react'
+import { Translation, Check } from 'i18n'
 
 import { defaultSkillThresholds } from '../recommendation'
 
@@ -77,7 +78,7 @@ export default function SkillFlask(props) {
 
 	// Render the component.
 	return (
-		<Tooltip title={<span>We schatten de kans in op <strong>{Math.round(part * 100)}%</strong> dat je een opdracht hiervan goed gaat doen.{thresholds ? ` (Doel: ${Math.round(target * 100)}%)` : null}</span>} arrow>
+		<Tooltip title={<Translation entry="skills.prediction" path="edu/main"><span>We estimate a chance of <strong>{{ percentage: Math.round(part * 100) }}%</strong> that you will successfully complete an exercise in this skill.<Check value={!!thresholds}><Check.True> (Goal: {{ goal: Math.round(target * 100) }}%)</Check.True></Check></span></Translation>} arrow>
 			<svg className={clsx(classes.skillFlask, 'skillFlask', className)} viewBox={`0 0 ${vb} ${vb}`}>
 				<defs>
 					<radialGradient id={`flaskBackground${id}`} cx="50%" cy="50%" r="70%" fx="64%" fy="26%">

@@ -2,5 +2,8 @@
   "priorKnowledge": "Vorkenntnisse",
   "noSkills": "Dieser Block befindet sich noch in der Entwicklung: Es wurden noch keine Fähigkeiten/Übungen hinzugefügt. Sie werden in Kürze hier zu finden sein!",
   "gradeEstimate": "Auf der Grundlage deiner bisherigen Übung erwarten wir eine Punktzahl von etwa <a>{percentage}</a> (etwa <b>{lowerPercentage} - {upperPercentage}</b>) im Abschlusstest.",
-  "disclaimer": "Aus dieser Schätzung können keine Rechte abgeleitet werden."
+  "disclaimer": "Aus dieser Schätzung können keine Rechte abgeleitet werden.",
+  "practiceRecommendation": "Dies ist nun die empfohlene Kompetenz zum Üben.",
+  "sufficientMastery": "Du beherrschst diese Kompetenz gut.",
+  "followUpMastery": "Du hast eine Folgekompetenz gemeistert, also stufen wir auch diese als ausreichend ein."
 }

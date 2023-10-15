@@ -31,9 +31,9 @@
   "mathematicsDerivatives": {
     "name": "Mathematics: derivatives",
     "blocks": {
-      "0": "Basic derivatives",
+      "0": "Derivative basics",
       "1": "Derivative rules",
-      "2": "General derivatives"
+      "2": "Determine derivatives"
     }
   },
   "staticsFundamentals": {

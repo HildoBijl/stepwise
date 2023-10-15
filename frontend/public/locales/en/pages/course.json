@@ -2,5 +2,8 @@
   "priorKnowledge": "Prior knowledge",
   "noSkills": "This block is still under development: no skills/exercises have been added yet. They will be here shortly!",
   "gradeEstimate": "Based on your practice so far, we expect a score of roughly <a>{percentage}</a> (about <b>{lowerPercentage} - {upperPercentage}</b>) on the final test.",
-  "disclaimer": "No rights can be derived from this estimate."
+  "disclaimer": "No rights can be derived from this estimate.",
+  "practiceRecommendation": "This is currently the recommended skill to practice.",
+  "sufficientMastery": "You have sufficiently mastered this skill.",
+  "followUpMastery": "You have mastered a follow-up skill, so we mark this one as sufficient as well."
 }

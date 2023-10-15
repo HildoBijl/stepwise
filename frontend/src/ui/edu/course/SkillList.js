@@ -10,7 +10,7 @@ import { Check } from '@material-ui/icons'
 import { skillTree } from 'step-wise/edu/skills'
 
 import { useSkillData } from 'api/skill'
-import { Translation } from 'i18n'
+import { Translation, useTranslator } from 'i18n'
 import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routing'
 import { QuickPractice } from 'ui/components/icons'
@@ -106,6 +106,7 @@ export default function SkillList({ courseId, skillIds, display = true, landscap
 }
 
 function SkillItem({ courseId, skillId, isPriorKnowledge, recommend = false, practiceNeeded = 2 }) {
+	const translate = useTranslator()
 	const paths = usePaths()
 	const skillData = useSkillData(skillId)
 
@@ -118,15 +119,15 @@ function SkillItem({ courseId, skillId, isPriorKnowledge, recommend = false, pra
 	const skill = skillTree[skillId]
 	if (practiceNeeded === 0) {
 		if (isPracticeNeeded(skillData, isPriorKnowledge, skill.thresholds) === 0)
-			iconText = 'Je beheerst deze vaardigheid goed.'
+			iconText = translate('You have sufficiently mastered this skill.', 'sufficientMastery')
 		else
-			iconText = 'Je beheerst een vervolg-vaardigheid, dus markeren we deze ook als voldoende.'
+			iconText = translate('You have mastered a follow-up skill, so we mark this one as sufficient as well.', 'followUpMastery')
 	}
 
 	return (
 		<Link to={paths.courseSkill({ courseId, skillId })} className={clsx('skillItem', { recommend })}>
 			{skillData ? <SkillFlask skillId={skillId} coef={skillData.coefficients} isPriorKnowledge={isPriorKnowledge} size={40} /> : null}
-			<div className="skillName">{skill.name}</div>
+			<div className="skillName">{translate(skill.name, `${skill.id}.name`, 'edu/skills/skillInfo')}</div>
 			{practiceNeeded === 0 ? (
 				<Tooltip title={iconText} arrow>
 					<div className="iconContainer">
@@ -135,7 +136,7 @@ function SkillItem({ courseId, skillId, isPriorKnowledge, recommend = false, pra
 				</Tooltip>
 			) : null}
 			{recommend ? (
-				<Tooltip title="Dit is nu de optimale vaardigheid om te oefenen." arrow>
+				<Tooltip title={translate('This is currently the recommended skill to practice.', 'practiceRecommendation')} arrow>
 					<div className="iconContainer">
 						<QuickPractice />
 					</div>

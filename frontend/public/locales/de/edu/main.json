@@ -1,0 +1,5 @@
+{
+  "skills": {
+    "prediction": "<a>Wir schätzen die Wahrscheinlichkeit auf <b>{percentage}%</b>, dass du eine Übung mit dieser Kompetenz lösen wirst.<check><on-true> (Ziel: {goal}%)</on-true></check></a>"
+  }
+}

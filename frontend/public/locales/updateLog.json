@@ -1,1 +1,568 @@
-{}
+{
+  "en": {
+    "edu/skills/skillInfo": {
+      "test.name": {
+        "oldText": "Text exercise",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Test exercise"
+      },
+      "demo.name": {
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:14:43.837Z",
+        "latestText": "Demo exercise"
+      },
+      "mergeSplitFractions.name": {
+        "oldText": "Algemene breuken samenvoegen/splitsen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Merge/split general fractions"
+      },
+      "multiplyDivideFractions.name": {
+        "oldText": "Breuken vermenigvuldigen/delen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Multiply/divide fractions"
+      },
+      "simplifyFraction.name": {
+        "oldText": "Breuk simplificeren",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Simplify a fraction"
+      },
+      "pullOutOfBrackets.name": {
+        "oldText": "Buiten haakjes halen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Pull out of brackets"
+      },
+      "moveATerm.name": {
+        "oldText": "Een term verplaatsen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Move a term"
+      },
+      "multiplyDivideAllTerms.name": {
+        "oldText": "Alle termen vermenigvuldigen/delen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Multiply/divide all terms"
+      },
+      "solveBasicLinearEquation.name": {
+        "oldText": "Basis lineaire vergelijking oplossen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Solve a basic linear equations"
+      },
+      "solveGeneralLinearEquation.name": {
+        "oldText": "Algemene lineaire vergelijking oplossen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Solve a general linear equations"
+      },
+      "applySquareRoot.name": {
+        "oldText": "Wortel toepassen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Apply a square root"
+      },
+      "applyQuadraticFormula.name": {
+        "oldText": "Wortelformule toepassen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Apply the quadratic formula"
+      },
+      "solveBasicQuadraticEquation.name": {
+        "oldText": "Basis kwadratische vergelijking oplossen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Solve a basic quadratic equation"
+      },
+      "solveGeneralQuadraticEquation.name": {
+        "oldText": "Algemene kwadratische vergelijking oplossen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Solve a general quadratic equation"
+      },
+      "solveBasicSystemOfLinearEquations.name": {
+        "oldText": "Basis stelsel van lineaire vergelijkingen oplossen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Solve a basic system of linear equations"
+      },
+      "solveGeneralSystemOfLinearEquations.name": {
+        "oldText": "Algemeen stelsel van lineaire vergelijkingen oplossen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Solve a general system of linear equations"
+      },
+      "determine2DAngles.name": {
+        "oldText": "2D hoeken bepalen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Determine 2D angles"
+      },
+      "applyPythagoreanTheorem.name": {
+        "oldText": "De stelling van Pythagoras toepassen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Apply the Pythagorean theorem"
+      },
+      "applySineCosineTangent.name": {
+        "oldText": "Sinus/cosinus/tangens toepassen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Apply the sine/cosine/tangent"
+      },
+      "applySimilarTriangles.name": {
+        "oldText": "Gelijkvormige driehoeken toepassen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Apply similar triangles"
+      },
+      "determine2DDistances.name": {
+        "oldText": "2D afstanden bepalen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Determine 2D distances"
+      },
+      "calculateTriangle.name": {
+        "oldText": "Driehoek doorrekenen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Calculate a triangle"
+      },
+      "calculate2DShape.name": {
+        "oldText": "2D vorm doorrekenen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Calculate a 2D shape"
+      },
+      "calculate3DShape.name": {
+        "oldText": "3D vorm doorrekenen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Calculate a 3D shape"
+      },
+      "findBasicDerivative.name": {
+        "oldText": "Basis afgeleide bepalen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T10:53:44.515Z",
+        "latestText": "Determine a basic derivative"
+      },
+      "applyProductRule.name": {
+        "oldText": "Productregel toepassen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Apply the product rule"
+      },
+      "applyQuotientRule.name": {
+        "oldText": "Quotiëntregel toepassen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Apply the quotient rule"
+      },
+      "applyChainRule.name": {
+        "oldText": "Kettingregel toepassen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Apply the chain rule"
+      },
+      "findGeneralDerivative.name": {
+        "oldText": "Algemene afgeleide bepalen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T10:53:44.500Z",
+        "latestText": "Determine a general derivative"
+      },
+      "findAdvancedDerivative.name": {
+        "oldText": "Geavanceerde afgeleide bepalen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T10:53:44.500Z",
+        "latestText": "Determine an advanced derivative"
+      },
+      "calculateForceOrMoment.name": {
+        "oldText": "Kracht of moment berekenen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Calculate a force or moment"
+      },
+      "drawFreeBodyDiagram.name": {
+        "oldText": "Vrijlichaamsschema tekenen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Draw a free body diagram"
+      },
+      "calculateBasicSupportReactions.name": {
+        "oldText": "Basis reactiekrachten berekenen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Calculate basic support reactions"
+      },
+      "solveLinearEquation.name": {
+        "oldText": "Lineaire vergelijking oplossen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Solve a linear equation"
+      },
+      "solveExponentEquation.name": {
+        "oldText": "Exponent-vergelijking oplossen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Solve an exponent equation"
+      },
+      "linearInterpolation.name": {
+        "oldText": "Lineair interpoleren",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Apply linear interpolation"
+      },
+      "calculateWithPressure.name": {
+        "oldText": "Rekenen met druk",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Calculate with pressure"
+      },
+      "calculateWithVolume.name": {
+        "oldText": "Rekenen met volume",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Calculate with volume"
+      },
+      "calculateWithMass.name": {
+        "oldText": "Rekenen met massa",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Calculate with mass"
+      },
+      "calculateWithTemperature.name": {
+        "oldText": "Rekenen met temperatuur",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Calculate with temperature"
+      },
+      "specificHeatRatio.name": {
+        "oldText": "De k-waarde opzoeken",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Look up a specific heat ratio"
+      },
+      "specificHeats.name": {
+        "oldText": "Soortelijke warmten opzoeken",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Look up specific heats"
+      },
+      "recognizeProcessTypes.name": {
+        "oldText": "Soorten processen herkennen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Recognize process types"
+      },
+      "poissonsLaw.name": {
+        "oldText": "Poisson's wet",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Apply Poisson's law"
+      },
+      "calculateProcessStep.name": {
+        "oldText": "Processtap doorrekenen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Calculate a process step"
+      },
+      "calculateClosedCycle.name": {
+        "oldText": "Gesloten kringproces doorrekenen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Calculate a closed cycle"
+      },
+      "calculateHeatAndWork.name": {
+        "oldText": "Warmte en arbeid berekenen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Calculate heat and work"
+      },
+      "calculateWithInternalEnergy.name": {
+        "oldText": "Rekenen met inwendige energie",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Calculate with internal energy"
+      },
+      "createClosedCycleEnergyOverview.name": {
+        "oldText": "Gesloten kringproces energie-overzicht maken",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Create a closed-cycle energy overview"
+      },
+      "calculateWithEfficiency.name": {
+        "oldText": "Rekenen met rendement",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Calculate with efficiency"
+      },
+      "calculateWithCOP.name": {
+        "oldText": "Rekenen met koudefactor/warmtefactor",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Calculate with the COP"
+      },
+      "analyseClosedCycle.name": {
+        "oldText": "Gesloten kringproces analyseren",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Analyse a closed cycle"
+      },
+      "calculateWithSpecificQuantities.name": {
+        "oldText": "Rekenen met specifieke grootheden",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Calculate with specific quantities"
+      },
+      "massFlowTrick.name": {
+        "oldText": "De massastroom-truc",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Apply the mass flow trick"
+      },
+      "calculateOpenProcessStep.name": {
+        "oldText": "Open processtap doorrekenen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Calculate an open process step"
+      },
+      "calculateOpenCycle.name": {
+        "oldText": "Open kringproces doorrekenen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Calculate an open cycle"
+      },
+      "calculateSpecificHeatAndMechanicalWork.name": {
+        "oldText": "Specifieke warmte en technische arbeid berekenen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Calculate specific heat and mechanical work"
+      },
+      "calculateWithEnthalpy.name": {
+        "oldText": "Rekenen met enthalpie",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Calculate with enthalpy"
+      },
+      "createOpenCycleEnergyOverview.name": {
+        "oldText": "Open kringproces energie-overzicht maken",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Create an open cycle energy overview"
+      },
+      "analyseOpenCycle.name": {
+        "oldText": "Open kringproces analyseren",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Analyse an open cycle"
+      },
+      "calculateEntropyChange.name": {
+        "oldText": "Entropieverandering berekenen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Calculate an entropy change"
+      },
+      "calculateMissedWork.name": {
+        "oldText": "Gemiste arbeid berekenen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Calculate the missed work"
+      },
+      "useIsentropicEfficiency.name": {
+        "oldText": "Isentropisch rendement gebruiken",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Use the isentropic efficiency"
+      },
+      "analyseGasTurbine.name": {
+        "oldText": "Gasturbine analyseren",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Analyse gas turbines"
+      },
+      "lookUpSteamProperties.name": {
+        "oldText": "Stoomeigenschappen opzoeken",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Look up steam properties"
+      },
+      "useVaporFraction.name": {
+        "oldText": "Dampfractie gebruiken",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Use the vapor fraction"
+      },
+      "createRankineCycleOverview.name": {
+        "oldText": "Overzicht Rankine-cyclus maken",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Create a Rankine cycle overview"
+      },
+      "analyseRankineCycle.name": {
+        "oldText": "Rankine-cyclus analyseren",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Analyse a Rankine cycle"
+      },
+      "findFridgeTemperatures.name": {
+        "oldText": "Koelmachinetemperaturen bepalen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Find refrigerator temperatures"
+      },
+      "determineRefrigerantProcess.name": {
+        "oldText": "Koelmiddelproces bepalen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Determine a refrigerant process"
+      },
+      "createCoolingCycleOverview.name": {
+        "oldText": "Overzicht koelcyclus maken",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Create a cooling cycle overview"
+      },
+      "analyseCoolingCycle.name": {
+        "oldText": "Koelcyclus analyseren",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Analyse a cooling cycle"
+      },
+      "readMollierDiagram.name": {
+        "oldText": "Mollier diagram aflezen",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Read a Mollier diagram"
+      },
+      "analyseAirco.name": {
+        "oldText": "Airco analyseren",
+        "firstUpdate": "2023-10-15T07:14:38.338Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Analyse an air conditioner"
+      },
+      "fillInInteger.name": {
+        "firstUpdate": "2023-10-15T07:14:43.837Z",
+        "latestUpdate": "2023-10-15T07:14:43.837Z",
+        "latestText": "Fill in an integer"
+      },
+      "fillInFloat.name": {
+        "firstUpdate": "2023-10-15T07:14:43.837Z",
+        "latestUpdate": "2023-10-15T07:14:43.837Z",
+        "latestText": "Fill in a decimal number"
+      },
+      "fillInUnit.name": {
+        "firstUpdate": "2023-10-15T07:14:43.837Z",
+        "latestUpdate": "2023-10-15T07:14:43.837Z",
+        "latestText": "Fill in a unit"
+      },
+      "lookUpConstant.name": {
+        "firstUpdate": "2023-10-15T07:14:43.837Z",
+        "latestUpdate": "2023-10-15T07:14:43.837Z",
+        "latestText": "Look up a constant"
+      },
+      "summation.name": {
+        "firstUpdate": "2023-10-15T07:14:43.837Z",
+        "latestUpdate": "2023-10-15T07:14:43.837Z",
+        "latestText": "Add numbers"
+      },
+      "multiplication.name": {
+        "firstUpdate": "2023-10-15T07:14:43.837Z",
+        "latestUpdate": "2023-10-15T07:14:43.837Z",
+        "latestText": "Multiply numbers"
+      },
+      "summationAndMultiplication.name": {
+        "firstUpdate": "2023-10-15T07:14:43.837Z",
+        "latestUpdate": "2023-10-15T07:14:43.837Z",
+        "latestText": "Add and multiply numbers"
+      },
+      "addRemoveFractionFactors.name": {
+        "oldText": "Breukfactoren toevoegen/wegstrepen",
+        "firstUpdate": "2023-10-15T07:14:43.837Z",
+        "latestUpdate": "2023-10-15T07:30:50.081Z",
+        "latestText": "Add/remove fraction factors"
+      },
+      "mergeSplitBasicFractions.name": {
+        "oldText": "Gelijknamige breuken samenvoegen/splitsen",
+        "firstUpdate": "2023-10-15T07:14:43.837Z",
+        "latestUpdate": "2023-10-15T07:30:47.980Z",
+        "latestText": "Merge/split fractions with equal denominator"
+      },
+      "expandBrackets.name": {
+        "oldText": "Haakjes uitwerken",
+        "firstUpdate": "2023-10-15T07:14:43.837Z",
+        "latestUpdate": "2023-10-15T07:30:47.980Z",
+        "latestText": "Expand brackets"
+      },
+      "lookUpElementaryDerivative.name": {
+        "oldText": "Elementaire afgeleide opzoeken",
+        "firstUpdate": "2023-10-15T07:14:43.837Z",
+        "latestUpdate": "2023-10-15T07:30:47.980Z",
+        "latestText": "Look up an elementary derivative"
+      },
+      "schematizeSupport.name": {
+        "oldText": "Bevestiging schematiseren",
+        "firstUpdate": "2023-10-15T07:14:43.837Z",
+        "latestUpdate": "2023-10-15T07:30:47.980Z",
+        "latestText": "Schematize a support"
+      },
+      "specificGasConstant.name": {
+        "oldText": "Specifieke gasconstante opzoeken",
+        "firstUpdate": "2023-10-15T07:14:43.837Z",
+        "latestUpdate": "2023-10-15T07:30:47.980Z",
+        "latestText": "Look up a specific gas constant"
+      },
+      "gasLaw.name": {
+        "oldText": "De gaswet",
+        "firstUpdate": "2023-10-15T07:14:43.837Z",
+        "latestUpdate": "2023-10-15T07:30:47.980Z",
+        "latestText": "Apply the gas law"
+      }
+    },
+    "pages/course": {
+      "practiceRecommendation": {
+        "oldText": "This is currently the recommended skill to practice.",
+        "firstUpdate": "2023-10-15T10:38:07.961Z",
+        "latestUpdate": "2023-10-15T10:38:07.984Z",
+        "latestText": "This is currently the recommended skill to practice."
+      },
+      "sufficientMastery": {
+        "oldText": "You have sufficiently mastered this skill.",
+        "firstUpdate": "2023-10-15T10:38:07.961Z",
+        "latestUpdate": "2023-10-15T10:38:07.984Z",
+        "latestText": "You have sufficiently mastered this skill."
+      },
+      "followUpMastery": {
+        "oldText": "You have mastered a follow-up skill, so we mark this one as sufficient as well.",
+        "firstUpdate": "2023-10-15T10:38:07.961Z",
+        "latestUpdate": "2023-10-15T10:38:07.984Z",
+        "latestText": "You have mastered a follow-up skill, so we mark this one as sufficient as well."
+      }
+    },
+    "edu/main": {
+      "skills.prediction": {
+        "oldText": "<a>We estimate a chance of <b>{percentage}%</b> that yo will successfully complete an exercise in this skill.<check><on-true> (Goal: {goal}%)</on-true></check></a>",
+        "firstUpdate": "2023-10-15T10:46:08.402Z",
+        "latestUpdate": "2023-10-15T10:49:50.137Z",
+        "latestText": "<a>We estimate a chance of <b>{percentage}%</b> that you will successfully complete an exercise in this skill.<check><on-true> (Goal: {goal}%)</on-true></check></a>"
+      }
+    },
+    "edu/courses/courseInfo": {
+      "mathematicsDerivatives.blocks.2": {
+        "oldText": "General derivatives",
+        "firstUpdate": "2023-10-15T10:51:21.835Z",
+        "latestUpdate": "2023-10-15T10:53:02.095Z",
+        "latestText": "Determine derivatives"
+      },
+      "mathematicsDerivatives.blocks.0": {
+        "oldText": "Basic derivatives",
+        "firstUpdate": "2023-10-15T10:53:02.080Z",
+        "latestUpdate": "2023-10-15T10:53:02.095Z",
+        "latestText": "Derivative basics"
+      }
+    }
+  }
+}

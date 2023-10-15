@@ -143,7 +143,7 @@ let courses = {
 		startingPoints: ['lookUpElementaryDerivative'],
 		blocks: [
 			{
-				name: 'Basic derivatives',
+				name: 'Derivative basics',
 				goals: ['findBasicDerivative'],
 			},
 			{
@@ -151,7 +151,7 @@ let courses = {
 				goals: ['applyProductRule', 'applyQuotientRule', 'applyChainRule'],
 			},
 			{
-				name: 'Advanced derivatives',
+				name: 'Determine derivatives',
 				goals: ['findAdvancedDerivative'],
 			},
 		],
