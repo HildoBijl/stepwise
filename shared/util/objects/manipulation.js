@@ -15,7 +15,7 @@ function setDeepParameter(obj, path, value) {
 	else if (obj === undefined)
 		obj = {}
 	else
-		throw new Error(`Invalid object passed: received something of type "${typeof obj}".`)
+		throw new Error(`Invalid object passed: received something of type "${typeof obj}" and value "${obj}".`)
 
 	// Adjust the clone and return it.
 	if (path.length === 1)

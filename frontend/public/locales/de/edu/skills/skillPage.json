@@ -1,0 +1,26 @@
+{
+  "loadingNotes": {
+    "loadingUserData": "Benutzerdaten werden geladen...",
+    "loadingSkillPages": "Die Seiten für die Kompetenz werden geladen...",
+    "loadingExerciseData": "Die Übung wird geladen...",
+    "generatingNewExercise": "Neue Übung wird erzeugt...",
+    "noExercises": "Oh oh ... es wurden noch keine Übungen zu dieser Kompetenz hinzugefügt. Wir werden sie so bald wie möglich hinzufügen. Schau später wieder vorbei!",
+    "loadingExerciseComponent": "Die Übungskomponente wird geladen...",
+    "exerciseCrashed": "Ups ... die Übung ist fehlgeschlagen."
+  },
+  "notifications": {
+    "notPartOfCourse": {
+      "noRecommendation": "Die Kompetenz, die du jetzt zu üben versuchst, ist nicht Teil des Kurses <a>{course}</a>.",
+      "freePracticeRecommendation": "Die Kompetenz, die du jetzt zu üben versuchst, ist nicht Teil des Kurses <a>{course}</a>. Wenn du für diesen Kurs üben willst, solltest du in den <b>freien Übungsmodus</b> gehen.",
+      "skillRecommendation": "Die Kompetenz, die du jetzt zu üben versuchst, ist nicht Teil des Kurses <a>{course}</a>. Wenn du für diesen Kurs üben willst, solltest du dich mit <b>{skill}</b> beschäftigen."
+    },
+    "alreadyMastered": {
+      "freePracticeRecommendation": "Du hast diese Kompetenz bereits gut gemeistert! Es ist effektiver für den Kurs <a>{course}</a>, im <b>freien Übungsmodus</b> zu arbeiten.",
+      "skillRecommendation": "Du hast diese Kompetenz bereits gut gemeistert! Es ist effektiver für den Kurs <a>{course}</a>, wenn du <b>{skill}</b> übst."
+    },
+    "notMastered": {
+      "onFreePracticeMode": "Du bist noch nicht bereit für das freie Üben auf der letzten Stufe. Es ist besser, zuerst <a>{skill}</a> zu üben.",
+      "onSkill": "Du hast noch nicht alle Vorkenntnisse für diese Kompetenz. Es ist besser, zuerst <a>{skill}</a> zu üben."
+    }
+  }
+}

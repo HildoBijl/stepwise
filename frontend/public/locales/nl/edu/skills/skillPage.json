@@ -1,0 +1,26 @@
+{
+  "loadingNotes": {
+    "loadingUserData": "Gebruikersgegevens worden geladen...",
+    "loadingSkillPages": "Pagina's voor de vaardigheid worden geladen...",
+    "loadingExerciseData": "De opgave wordt geladen...",
+    "generatingNewExercise": "Nieuwe opgave wordt gegenereerd...",
+    "noExercises": "Uh oh ... er zijn nog geen opgaven toegevoegd aan deze vaardigheid. We voegen ze zo snel mogelijk toe. Kijk vooral later nog eens.!",
+    "loadingExerciseComponent": "De opgavecomponent wordt geladen...",
+    "exerciseCrashed": "Oops ... de opgave is gecrashed."
+  },
+  "notifications": {
+    "notPartOfCourse": {
+      "noRecommendation": "De vaardigheid die je nu probeert te oefenen is niet onderdeel van de cursus <a>{course}</a>.",
+      "freePracticeRecommendation": "De vaardigheid die je nu probeert te oefenen is niet onderdeel van de cursus <a>{course}</a>. Als je wilt oefenen voor deze cursus, dan kun je het beste naar de <b>vrij-oefenen-modus</b> gaan.",
+      "skillRecommendation": "De vaardigheid die je nu probeert te oefenen is niet onderdeel van de cursus <a>{course}</a>. Als je wilt oefenen voor deze cursus, dan kun je beter bezig gaan met <b>{skill}</b>."
+    },
+    "alreadyMastered": {
+      "freePracticeRecommendation": "Je beheerst deze vaardigheid al goed! Het is effectiever voor de cursus <a>{course}</a> om met de <b>vrij-oefenen-modus</b> bezig te gaan.",
+      "skillRecommendation": "Je beheerst deze vaardigheid al goed! Het is effectiever voor de cursus <a>{course}</a> als je <b>{skill}</b> oefent."
+    },
+    "notMastered": {
+      "onFreePracticeMode": "Je bent nog niet toe aan vrij oefenen op het eindniveau. Het is handiger om eerst <a>{skill}</a> te oefenen.",
+      "onSkill": "Je hebt nog niet alle voorkennis voor deze vaardigheid. Het is handiger om eerst <a>{skill}</a> te oefenen."
+    }
+  }
+}

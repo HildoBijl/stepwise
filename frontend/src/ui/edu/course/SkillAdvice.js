@@ -7,6 +7,7 @@ import { CheckCircle as SuccessIcon, Info as InfoIcon, TrendingFlat as RightArro
 
 import { skillTree } from 'step-wise/edu/skills'
 
+import { TranslationFile, Translation, useTranslator } from 'i18n'
 import { usePrevious } from 'util/react'
 import { linkStyle } from 'ui/theme'
 import { usePaths } from 'ui/routing'
@@ -19,11 +20,14 @@ import { useCourseData } from './Provider'
 
 export default function SkillAdvice() {
 	useSkillModal()
-	return <SkillNotification />
+	return <TranslationFile path="edu/skills/skillPage">
+		<SkillNotification />
+	</TranslationFile>
 }
 
 // SkillNotification shows the notification bar at the top of the screen recommending users to go to a different skill.
 function SkillNotification() {
+	const translate = useTranslator()
 	const { type: adviceType, recommendation } = useSkillAdvice()
 	const paths = usePaths()
 	const { courseId, course, overview, analysis } = useCourseData()
@@ -32,10 +36,11 @@ function SkillNotification() {
 	// First check if the skill is part of the course.
 	if (skillId && !overview.all.includes(skillId)) {
 		if (recommendation === undefined)
-			return <NotificationBar type="warning">De vaardigheid die je nu probeert te oefenen is niet onderdeel van de cursus <Link to={paths.course({ courseId })}>{course.name}</Link>.</NotificationBar>
+			return <NotificationBar type="warning"><Translation entry="notifications.notPartOfCourse.noRecommendation">The skill you are currently practising is not part of the course <Link to={paths.course({ courseId })}>{{ course: translate(course.name, `${course.id}.name`, 'edu/courses/courseInfo') }}</Link>.</Translation></NotificationBar>
 		if (recommendation === strFreePractice)
-			return <NotificationBar type="warning">De vaardigheid die je nu probeert te oefenen is geen onderdeel van de cursus <Link to={paths.course({ courseId })}>{course.name}</Link>. Als je wilt oefenen voor deze cursus, dan kun je het beste naar de <Link to={paths.freePractice({ courseId })}>vrij-oefenen-modus</Link> gaan.</NotificationBar>
-		return <NotificationBar type="warning">De vaardigheid die je nu probeert te oefenen is niet onderdeel van de cursus <Link to={paths.course({ courseId })}>{course.name}</Link>. Als je wilt oefenen voor deze cursus, dan kun je beter bezig gaan met <Link to={paths.courseSkill({ courseId, skillId: recommendation })}>{skillTree[analysis.recommendation].name}</Link>.</NotificationBar>
+			return <NotificationBar type="warning"><Translation entry="notifications.notPartOfCourse.freePracticeRecommendation">The skill you are currently practising is not part of the course <Link to={paths.course({ courseId })}>{{ course: translate(course.name, `${course.id}.name`, 'edu/courses/courseInfo') }}</Link>. If you want to practice for this course, it's best to use the <Link to={paths.freePractice({ courseId })}>free-practice-mode</Link>.</Translation></NotificationBar>
+		const recommendedSkill = skillTree[analysis.recommendation]
+		return <NotificationBar type="warning"><Translation entry="notifications.notPartOfCourse.skillRecommendation">The skill you are currently practising is not part of the course <Link to={paths.course({ courseId })}>{{ course: translate(course.name, `${course.id}.name`, 'edu/courses/courseInfo') }}</Link>. If you want to practice for this course, it's best to work on <Link to={paths.courseSkill({ courseId, skillId: recommendedSkill.id })}>{{ skill: translate(recommendedSkill.name, `${recommendedSkill.id}.name`, 'edu/skills/skillInfo') }}</Link>.</Translation></NotificationBar>
 	}
 
 	// Check if there is a recommendation. If not, not all data is loaded yet.
@@ -49,14 +54,17 @@ function SkillNotification() {
 
 		case 0: // This skill is already mastered. Show a recommendation.
 			if (recommendation === strFreePractice)
-				return <NotificationBar type="info">Je beheerst deze vaardigheid al goed! Het is effectiever voor de cursus <Link to={paths.course({ courseId })}>{course.name}</Link> om met de <Link to={paths.freePractice({ courseId })}>vrij-oefenen-modus</Link> bezig te gaan.</NotificationBar>
-			return <NotificationBar type="info">Je beheerst deze vaardigheid al goed! Het is effectiever voor de cursus <Link to={paths.course({ courseId })}>{course.name}</Link> als je <Link to={paths.courseSkill({ courseId, skillId: recommendation })}>{skillTree[recommendation].name}</Link> oefent.</NotificationBar>
+				return <NotificationBar type="info"><Translation entry="notifications.alreadyMastered.freePracticeRecommendation">You have already sufficiently mastered this skill! It is more effective for the course <Link to={paths.course({ courseId })}>{{ course: translate(course.name, `${course.id}.name`, 'edu/courses/courseInfo') }}</Link> to use the <Link to={paths.freePractice({ courseId })}>free-practice-mode</Link>.</Translation></NotificationBar>
+			return <NotificationBar type="info"><Translation entry="notifications.alreadyMastered.skillRecommendation">You have already sufficiently mastered this skill! It is more effective for the course <Link to={paths.course({ courseId })}>{{ course: translate(course.name, `${course.id}.name`, 'edu/courses/courseInfo') }}</Link> if you practice <Link to={paths.courseSkill({ courseId, skillId: recommendation })}>{{ skill: translate(skillTree[recommendation].name, `${recommendation}.name`, 'edu/skills/skillInfo') }}</Link>.</Translation></NotificationBar>
 
 		case 1: // This skill is reasonable to practice. Don't show a warning.
 			return null
 
 		case 2: // This skill is not mastered. Find a prior skill that requires practice. If there is none, this is a good skill to practice.
-			return <NotificationBar type="warning">{skillId === undefined ? 'Je bent nog niet toe aan vrij oefenen op het eindniveau.' : 'Je hebt nog niet alle voorkennis voor deze vaardigheid.'} Het is handiger om eerst <Link to={paths.courseSkill({ courseId, skillId: recommendation })}>{skillTree[recommendation].name}</Link> te oefenen.</NotificationBar>
+			const recommendedSkill = skillTree[recommendation]
+			if (skillId === undefined)
+				return <NotificationBar type="warning"><Translation entry="notifications.notMastered.onFreePracticeMode">You're not ready yet for free practice on the final level of the course. It is wiser to first practice <Link to={paths.courseSkill({ courseId, skillId: recommendation })}>{{ skill: translate(recommendedSkill.name, `${recommendedSkill.id}.name`, 'edu/skills/skillInfo') }}</Link>.</Translation></NotificationBar>
+			return <NotificationBar type="warning"><Translation entry="notifications.notMastered.onSkill">You have not yet mastered all the prerequisites for this skill. It is wiser to first practice <Link to={paths.courseSkill({ courseId, skillId: recommendation })}>{{ skill: translate(recommendedSkill.name, `${recommendedSkill.id}.name`, 'edu/skills/skillInfo') }}</Link>.</Translation></NotificationBar>
 
 		default:
 			throw new Error(`Impossible case.`)

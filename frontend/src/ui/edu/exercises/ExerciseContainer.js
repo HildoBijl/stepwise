@@ -43,7 +43,7 @@ export default function ExerciseContainer({ exercise, groupExercise, submitting,
 	const progress = useConsistentValue(getLastProgress(exercise.history))
 
 	if (loading)
-		return <LoadingNote text={translate('Loading exercise component...', 'loadingExerciseComponent', 'edu/skills/skillPage')} />
+		return <LoadingNote text={translate('Loading exercise component...', 'loadingNotes.loadingExerciseComponent', 'edu/skills/skillPage')} />
 
 	// Set up data for the exercise and put it in a context around the exercise.
 	const exerciseData = {
@@ -62,7 +62,7 @@ export default function ExerciseContainer({ exercise, groupExercise, submitting,
 	const Exercise = ExerciseLocal.current
 	return (
 		<ExerciseContext.Provider value={exerciseData}>
-			<ErrorBoundary text={translate('Oops ... the exercise crashed.', 'exerciseCrashed', 'edu/skills/skillPage')}>
+			<ErrorBoundary text={translate('Oops ... the exercise crashed.', 'loadingNotes.exerciseCrashed', 'edu/skills/skillPage')}>
 				<Exercise />
 			</ErrorBoundary>
 		</ExerciseContext.Provider>

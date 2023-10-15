@@ -59,7 +59,7 @@ export default function Skill() {
 
 	// Upon loading, show a loading note.
 	if (!loadedForSkillId || Object.keys(pages).length === 0)
-		return <LoadingNote text={translate('Loading skill pages...', 'loadingSkillPages', 'edu/skills/skillPage')} />
+		return <LoadingNote text={translate('Loading skill pages...', 'loadingNotes.loadingSkillPages', 'edu/skills/skillPage')} />
 
 	// Render the pages. Use a key to force a reload on a new skillId.
 	return <TranslationFile path={`edu/skills/${skillId}`}>

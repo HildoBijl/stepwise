@@ -1,1 +1,86 @@
-{}
+{
+  "en": {
+    "edu/skills/skillPage": {
+      "notPartOfCourse": {
+        "firstUpdate": "2023-10-15T21:39:08.833Z",
+        "latestUpdate": "2023-10-15T21:39:08.833Z",
+        "latestText": "The skill you are currently practising is not part of the course <a>{name}</a>."
+      },
+      "notifications.notPartOfCourse": {
+        "oldText": "The skill you are currently practising is not part of the course <a>{name}</a>.",
+        "firstUpdate": "2023-10-15T21:39:17.625Z",
+        "latestUpdate": "2023-10-15T21:39:17.688Z",
+        "latestText": "The skill you are currently practising is not part of the course <a>{name}</a>."
+      },
+      "notifications.notPartOfCourse.noRecommendation": {
+        "oldText": "The skill you are currently practising is not part of the course <a>{name}</a>.",
+        "firstUpdate": "2023-10-15T21:51:36.054Z",
+        "latestUpdate": "2023-10-15T22:13:03.251Z",
+        "latestText": "The skill you are currently practising is not part of the course <a>{course}</a>."
+      },
+      "notifications.notPartOfCourse.freePracticeRecommendation": {
+        "oldText": "The skill you are currently practising is not part of the course <a>{name}</a>. If you want to practice for this course, it's best to use the <b>free-practice-mode</b>.",
+        "firstUpdate": "2023-10-15T21:52:23.158Z",
+        "latestUpdate": "2023-10-15T21:52:23.236Z",
+        "latestText": "The skill you are currently practising is not part of the course <a>{name}</a>. If you want to practice for this course, it's best to use the <b>free-practice-mode</b>."
+      },
+      "notifications.notPartOfCourse.skillRecommendation": {
+        "oldText": "The skill you are currently practising is not part of the course <a>{name}</a>. If you want to practice for this course, it's best to work on <b>{skill}</b>.",
+        "firstUpdate": "2023-10-15T21:53:51.594Z",
+        "latestUpdate": "2023-10-15T21:53:51.639Z",
+        "latestText": "The skill you are currently practising is not part of the course <a>{name}</a>. If you want to practice for this course, it's best to work on <b>{skill}</b>."
+      },
+      "notifications.alreadyMastered.skillRecommendation": {
+        "firstUpdate": "2023-10-15T22:14:18.393Z",
+        "latestUpdate": "2023-10-15T22:14:18.393Z",
+        "latestText": "You have already sufficiently mastered this skill! It is more effective for the course <a>{name}</a> if you practice <b>{skill}</b>."
+      },
+      "notifications.alreadyMastered.freePracticeRecommendation": {
+        "firstUpdate": "2023-10-15T22:14:28.923Z",
+        "latestUpdate": "2023-10-15T22:14:28.923Z",
+        "latestText": "You have already sufficiently mastered this skill! It is more effective for the course <a>{course}</a> to use the <b>free-practice-mode</b>."
+      },
+      "notifications.notMastered.noRecommendation": {
+        "oldText": "You're not ready yet for free practice on the final level of the course. It is wiser to first practice <a>{skill}</a>.",
+        "firstUpdate": "2023-10-15T22:14:48.226Z",
+        "latestUpdate": "2023-10-15T22:14:48.237Z",
+        "latestText": "You're not ready yet for free practice on the final level of the course. It is wiser to first practice <a>{skill}</a>."
+      },
+      "notifications.notMastered.skillRecommendation": {
+        "firstUpdate": "2023-10-15T22:15:26.011Z",
+        "latestUpdate": "2023-10-15T22:15:26.011Z",
+        "latestText": "You have not yet mastered all the prerequisites for this skill. It is wiser to first practice <a>{skill}</a>."
+      },
+      "loadingNotes.loadingSkillPages": {
+        "firstUpdate": "2023-10-15T22:18:36.894Z",
+        "latestUpdate": "2023-10-15T22:18:36.894Z",
+        "latestText": "Loading skill pages..."
+      },
+      "loadingNotes.loadingExerciseData": {
+        "firstUpdate": "2023-10-15T22:18:36.936Z",
+        "latestUpdate": "2023-10-15T22:18:36.936Z",
+        "latestText": "Loading exercise data..."
+      },
+      "loadingNotes.loadingExerciseComponent": {
+        "oldText": "Loading exercise component...",
+        "firstUpdate": "2023-10-15T22:18:37.003Z",
+        "latestUpdate": "2023-10-15T22:18:37.014Z",
+        "latestText": "Loading exercise component..."
+      },
+      "loadingNotes.exerciseCrashed": {
+        "oldText": "Oops ... the exercise crashed.",
+        "firstUpdate": "2023-10-15T22:18:38.325Z",
+        "latestUpdate": "2023-10-15T22:18:38.364Z",
+        "latestText": "Oops ... the exercise crashed."
+      }
+    },
+    "edu/skills/skillInfo": {
+      "notifications.notPartOfCourse.noRecommendation": {
+        "oldText": "The skill you are currently practising is not part of the course <a>{course}</a>.",
+        "firstUpdate": "2023-10-15T22:09:48.954Z",
+        "latestUpdate": "2023-10-15T22:10:24.162Z",
+        "latestText": "The skilXXXl you are currently practising is not part of the course <a>{course}</a>."
+      }
+    }
+  }
+}

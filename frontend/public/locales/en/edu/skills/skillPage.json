@@ -1,9 +1,26 @@
 {
-  "loadingUserData": "Loading user data...",
-  "loadingSkillPages": "Loading skill pages...",
-  "loadingExerciseData": "Loading exercise data...",
-  "generatingNewExercise": "Generating new exercise...",
-  "noExercises": "Oh no ... no exercises have been added yet for this skill. We will add them as soon as we can. Please check back later!",
-  "loadingExerciseComponent": "Loading exercise component...",
-  "exerciseCrashed": "Oops ... the exercise crashed."
+  "loadingNotes": {
+    "loadingUserData": "Loading user data...",
+    "loadingSkillPages": "Loading skill pages...",
+    "loadingExerciseData": "Loading exercise data...",
+    "generatingNewExercise": "Generating new exercise...",
+    "noExercises": "Oh no ... no exercises have been added yet for this skill. We will add them as soon as we can. Please check back later!",
+    "loadingExerciseComponent": "Loading exercise component...",
+    "exerciseCrashed": "Oops ... the exercise crashed."
+  },
+  "notifications": {
+    "notPartOfCourse": {
+      "noRecommendation": "The skill you are currently practising is not part of the course <a>{course}</a>.",
+      "freePracticeRecommendation": "The skill you are currently practising is not part of the course <a>{course}</a>. If you want to practice for this course, it's best to use the <b>free-practice-mode</b>.",
+      "skillRecommendation": "The skill you are currently practising is not part of the course <a>{course}</a>. If you want to practice for this course, it's best to work on <b>{skill}</b>."
+    },
+    "alreadyMastered": {
+      "freePracticeRecommendation": "You have already sufficiently mastered this skill! It is more effective for the course <a>{course}</a> to use the <b>free-practice-mode</b>.",
+      "skillRecommendation": "You have already sufficiently mastered this skill! It is more effective for the course <a>{course}</a> if you practice <b>{skill}</b>."
+    },
+    "notMastered": {
+      "onFreePracticeMode": "You're not ready yet for free practice on the final level of the course. It is wiser to first practice <a>{skill}</a>.",
+      "onSkill": "You have not yet mastered all the prerequisites for this skill. It is wiser to first practice <a>{skill}</a>."
+    }
+  }
 }
