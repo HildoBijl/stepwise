@@ -52,7 +52,7 @@ export default function SkillCacher({ children }) {
 	}, [skillsWithPrerequisitesAndLinks, user, loading, error, skills, setCache])
 
 	// When the user changes, clear the cache.
-	useEffect(() => { setCache({}) }, [user])
+	useEffect(() => { setCache({}) }, [user?.id])
 
 	// Gather data for the context.
 	const contextData = {
