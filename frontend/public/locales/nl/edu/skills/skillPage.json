@@ -22,5 +22,22 @@
       "onFreePracticeMode": "Je bent nog niet toe aan vrij oefenen op het eindniveau. Het is handiger om eerst <a>{skill}</a> te oefenen.",
       "onSkill": "Je hebt nog niet alle voorkennis voor deze vaardigheid. Het is handiger om eerst <a>{skill}</a> te oefenen."
     }
+  },
+  "modals": {
+    "mastery": {
+      "title": "Geweldig!",
+      "nextSkill": "Je beheerst nu <a>{passedSkill}</a>! Tijd om verder te gaan met de volgende vaardigheid: <b>{nextSkill}</b>.",
+      "toFreePracticeMode": "Je beheerst nu <a>{passedSkill}</a>, en daarmee alle vaardigheden van <b>{course}</b>! We raden je aan verder te oefenen met een gevarieerde opgavenset in de <c>vrij-oefenen-modus</c>."
+    },
+    "deficiency": {
+      "title": "Wacht even ...",
+      "toDeficientSkill": "Het lijkt erop dat je de subvaardigheid <a>{deficientSkill}</a> nog niet voldoende beheerst. We raden aan om hier eerst los nog wat mee te oefenen.",
+      "reassurance": "Maak je geen zorgen: je opgave blijft bewaard en je kunt altijd nog terugkomen."
+    }
+  },
+  "buttons": {
+    "stay": "Blijf nog even",
+    "continue": "Ga verder",
+    "goBack": "Ga een stapje terug"
   }
 }

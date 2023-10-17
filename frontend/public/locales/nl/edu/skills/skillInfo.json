@@ -18,10 +18,10 @@
     "name": "Constanten opzoeken"
   },
   "summation": {
-    "name": "Vermenigvuldigen"
+    "name": "Optellen"
   },
   "multiplication": {
-    "name": "Optellen"
+    "name": "Vermenigvuldigen"
   },
   "summationAndMultiplication": {
     "name": "Optellen en vermenigvuldigen"

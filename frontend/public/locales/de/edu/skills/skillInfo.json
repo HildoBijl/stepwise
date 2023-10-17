@@ -18,10 +18,10 @@
     "name": "Nachschlagen einer Konstante"
   },
   "summation": {
-    "name": "Multiplizieren"
+    "name": "Addieren"
   },
   "multiplication": {
-    "name": "Addieren"
+    "name": "Multiplizieren"
   },
   "summationAndMultiplication": {
     "name": "Addieren und Multiplizieren"

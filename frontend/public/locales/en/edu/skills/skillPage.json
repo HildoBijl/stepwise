@@ -22,5 +22,22 @@
       "onFreePracticeMode": "You're not ready yet for free practice on the final level of the course. It is wiser to first practice <a>{skill}</a>.",
       "onSkill": "You have not yet mastered all the prerequisites for this skill. It is wiser to first practice <a>{skill}</a>."
     }
+  },
+  "modals": {
+    "mastery": {
+      "title": "Amazing!",
+      "nextSkill": "You just mastered <a>{passedSkill}</a>! You can carry on with the next skill: <b>{nextSkill}</b>.",
+      "toFreePracticeMode": "You just mastered <a>{passedSkill}</a>, and with that all skills of <b>{course}</b>! We recommend you to practice with a mixed assortment of exercises in the <c>free practice mode</c>."
+    },
+    "deficiency": {
+      "title": "Oh, wait ...",
+      "toDeficientSkill": "If seems that you haven't yet sufficiently mastered the subskill <a>{deficientSkill}</a>. We recommend to practice this separately first.",
+      "reassurance": "Don't worry: your exercise remains saved and you can always come back."
+    }
+  },
+  "buttons": {
+    "stay": "Stay for a bit",
+    "continue": "Continue onwards",
+    "goBack": "Go back a step"
   }
 }

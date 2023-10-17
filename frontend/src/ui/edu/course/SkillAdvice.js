@@ -140,6 +140,7 @@ const useStyles = makeStyles((theme) => ({
 
 // useSkillModal shows a pop-up modal whenever the skill advice changes. So when the user mastered the skill he's practicing ("mastery") or when he sinks a prerequisite too low ("repeat").
 function useSkillModal() {
+	const translate = useTranslator()
 	const classes = useStyles()
 	const paths = usePaths()
 	const navigate = useNavigate()
@@ -159,16 +160,16 @@ function useSkillModal() {
 	if (skillsDataLoaded) {
 		if (adviceType === 0) {
 			const message = recommendation === strFreePractice ?
-				<>Je beheerst nu <Link to={paths.courseSkill({ courseId, skillId })} onClick={closeModal}>{skillTree[skillId].name}</Link>, en daarmee alle vaardigheden van <Link to={paths.course({ courseId })} onClick={closeModal}>{course.name}</Link>! Je kunt nog verder oefenen in de <Link to={paths.freePractice({ courseId })} onClick={closeModal}>vrij-oefenen-modus</Link>.</> :
-				<>Je beheerst nu <Link to={paths.courseSkill({ courseId, skillId })} onClick={closeModal}>{skillTree[skillId].name}</Link>! Tijd om verder te gaan met het volgende onderwerp: <Link to={paths.courseSkill({ courseId, skillId: recommendation })} onClick={closeModal}>{skillTree[recommendation].name}</Link>.</>
+				<Translation entry="modals.mastery.toFreePracticeMode">You just mastered <Link to={paths.courseSkill({ courseId, skillId })} onClick={closeModal}>{{ passedSkill: translate(skillTree[skillId].name, `${skillId}.name`, 'edu/skills/skillInfo') }}</Link>, and with that all skills of <Link to={paths.course({ courseId })} onClick={closeModal}>{{ course: translate(course.name, `${course.id}.name`, 'edu/courses/courseInfo') }}</Link>! We recommend you to practice with a mixed assortment of exercises in the <Link to={paths.freePractice({ courseId })} onClick={closeModal}>free practice mode</Link>.</Translation> :
+				<Translation entry="modals.mastery.nextSkill">You just mastered <Link to={paths.courseSkill({ courseId, skillId })} onClick={closeModal}>{{ passedSkill: translate(skillTree[skillId].name, `${skillId}.name`, 'edu/skills/skillInfo') }}</Link>! You can carry on with the next skill: <Link to={paths.courseSkill({ courseId, skillId: recommendation })} onClick={closeModal}>{{ nextSkill: translate(skillTree[recommendation].name, `${recommendation}.name`, 'edu/skills/skillInfo') }}</Link>.</Translation>
 			contents = (
 				<div className={clsx(classes.skillModal, 'masteryModal')}>
-					<div className="title">Geweldig!</div>
+					<div className="title"><Translation entry="modals.mastery.title">Amazing!</Translation></div>
 					<div className="icon"><SuccessIcon /></div>
 					<div className="message">{message}</div>
 					<div className="buttons">
-						<Button variant="contained" className="button" startIcon={<DownArrow />} onClick={closeModal} color="secondary">Blijf nog even</Button>
-						<Button variant="contained" className="button" endIcon={<RightArrow />} onClick={goToRecommendation} color="primary">Ga verder</Button>
+						<Button variant="contained" className="button" startIcon={<DownArrow />} onClick={closeModal} color="secondary"><Translation entry="buttons.stay">Stay for a bit</Translation></Button>
+						<Button variant="contained" className="button" endIcon={<RightArrow />} onClick={goToRecommendation} color="primary"><Translation entry="buttons.continue">Continue onwards</Translation></Button>
 					</div>
 				</div>
 			)
@@ -176,19 +177,19 @@ function useSkillModal() {
 		if (adviceType === 2) {
 			contents = (
 				<div className={clsx(classes.skillModal, 'repeatModal')}>
-					<div className="title">Wacht even ...</div>
+					<div className="title"><Translation entry="modals.deficiency.title">Oh, wait ...</Translation></div>
 					<div className="icon"><InfoIcon /></div>
-					<div className="message">Het lijkt erop dat je de sub-vaardigheid <Link to={paths.courseSkill({ courseId, skillId: recommendation })} onClick={closeModal}>{skillTree[recommendation].name}</Link> nog niet voldoende beheerst. Het is handig om hier eerst los wat mee te oefenen.</div>
-					<div className="message">Maak je geen zorgen: je opgave blijft bewaard en je kunt altijd nog terugkomen.</div>
+					<div className="message"><Translation entry="modals.deficiency.toDeficientSkill">If seems that you haven't yet sufficiently mastered the subskill <Link to={paths.courseSkill({ courseId, skillId: recommendation })} onClick={closeModal}>{{ deficientSkill: translate(skillTree[recommendation].name, `${recommendation}.name`, 'edu/skills/skillInfo') }}</Link>. We recommend to practice this separately first.</Translation></div>
+					<div className="message"><Translation entry="modals.deficiency.reassurance">Don't worry: your exercise remains saved and you can always come back.</Translation></div>
 					<div className="buttons">
-						<Button variant="contained" className="button" startIcon={<div className="rotate"><RightArrow /></div>} onClick={goToRecommendation} color="primary">Ga een stapje terug</Button>
-						<Button variant="contained" className="button" endIcon={<DownArrow />} onClick={closeModal} color="secondary">Blijf nog even</Button>
+						<Button variant="contained" className="button" startIcon={<div className="rotate"><RightArrow /></div>} onClick={goToRecommendation} color="primary"><Translation entry="buttons.goBack">Go back a step</Translation></Button>
+						<Button variant="contained" className="button" endIcon={<DownArrow />} onClick={closeModal} color="secondary"><Translation entry="buttons.stay">Stay for a bit</Translation></Button>
 					</div>
 				</div>
 			)
 		}
 	}
-	const [, setShowModal] = useModal(contents)
+	const [, setShowModal] = useModal(<TranslationFile path="edu/skills/skillPage">{contents}</TranslationFile>)
 
 	// Use an effect to show a modal when the advice changes. But only do this when we previously already had good data and suddenly the advice type changes while staying at the same skill.
 	const previousAdviceType = usePrevious(adviceType)

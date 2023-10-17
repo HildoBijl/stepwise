@@ -22,5 +22,22 @@
       "onFreePracticeMode": "Du bist noch nicht bereit für das freie Üben auf der letzten Stufe. Es ist besser, zuerst <a>{skill}</a> zu üben.",
       "onSkill": "Du hast noch nicht alle Vorkenntnisse für diese Kompetenz. Es ist besser, zuerst <a>{skill}</a> zu üben."
     }
+  },
+  "modals": {
+    "mastery": {
+      "title": "Großartig!",
+      "nextSkill": "Du hast <a>{passedSkill}</a> gemeistert! Du kannst zur nächsten Kompetenz übergehen: <b>{nextSkill}</b>.",
+      "toFreePracticeMode": "Du hast <a>{passedSkill}</a> gemeistert, und damit alle Kompetenzen des Kurses <b>{course}</b>! Wir empfehlen dir, mit einer abwechslungsreichen Übungsreihe im <c>freien Übungsmodus</c> weiter zu üben."
+    },
+    "deficiency": {
+      "title": "Moment mal ...",
+      "toDeficientSkill": "Es scheint, als hättest du die Teilkompetenz <a>{deficientSkill}</a> noch nicht ausreichend beherrscht. Wir empfehlen, zunächst noch etwas mehr damit zu üben.",
+      "reassurance": "Keine Sorge: Deine Übung wird gespeichert und du kannst jederzeit wiederkommen."
+    }
+  },
+  "buttons": {
+    "stay": "Bleib eine Weile",
+    "continue": "Mach weiter",
+    "goBack": "Geh einen Schritt zurück"
   }
 }
