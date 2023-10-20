@@ -1,7 +1,7 @@
 import React from 'react'
 import SvgIcon from '@material-ui/core/SvgIcon'
 
-export default function Icon(props) {
+export function Teacher(props) {
 	return (
 		<SvgIcon {...props}>
 			<circle cx="7.75" cy="9" r="2.3" stroke="currentColor" strokeWidth="0" strokeLinejoin="round" strokeLinecap="round" fill="currentColor" />

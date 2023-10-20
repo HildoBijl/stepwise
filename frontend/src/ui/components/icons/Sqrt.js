@@ -1,7 +1,7 @@
 import React from 'react'
 import SvgIcon from '@material-ui/core/SvgIcon'
 
-export default function Icon(props) {
+export function Sqrt(props) {
 	// First the x, then the top bar and then the root symbol. Add stroke to make it more bold-like and hence visible.
 	return (
 		<SvgIcon {...props}>

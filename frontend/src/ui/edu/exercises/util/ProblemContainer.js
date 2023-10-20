@@ -1,21 +1,19 @@
 import React from 'react'
-import SvgIcon from '@material-ui/core/SvgIcon'
+
+import { Translation } from 'i18n'
+import { Circle } from 'ui/components'
 
 import ContentsContainer from './ContentsContainer'
 
 export default function ProblemContainer(props) {
+	const translationPath = 'edu/eduTools/exercises'
 	const { step } = props
 	return <ContentsContainer
 		{...props}
 		Icon={Circle}
 		rotateIcon={false}
-		text={!step ? 'Opgave' : `Stap ${step}`} />
-}
-
-function Circle(props) {
-	return (
-		<SvgIcon {...props}>
-			<circle cx="12" cy="12" r="4" fill="currentColor" />
-		</SvgIcon>
-	)
+		text={!step ?
+			<Translation entry="exercise" path={translationPath}>Exercise</Translation> :
+			<Translation entry="step" path={translationPath}>Step {{ step }}</Translation>}
+	/>
 }

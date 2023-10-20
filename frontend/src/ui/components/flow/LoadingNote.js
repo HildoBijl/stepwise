@@ -1,6 +1,10 @@
 import React from 'react'
 
-export default function LoadingNote({ text }) {
-	return <p>Loading ... {text}</p>
+import { Translation } from 'i18n'
+
+import { Par } from '../text'
+
+export function LoadingNote({ text }) {
+	return <Par><Translation entry="loading" path="main">Loading ... {{ text }}</Translation></Par>
 }
 // ToDo later: get a fancy loading indicator.

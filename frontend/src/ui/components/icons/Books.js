@@ -1,7 +1,7 @@
 import React from 'react'
 import SvgIcon from '@material-ui/core/SvgIcon'
 
-export default function Icon(props) {
+export function Books(props) {
 	// First the five horizontal'ish lines (top to bottom), then the left curves, then the right curves, and then the filled-in shapes (book title and page marker).
 	return (
 		<SvgIcon {...props}>

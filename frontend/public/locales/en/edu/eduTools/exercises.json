@@ -1,0 +1,9 @@
+{
+  "exercise": "Exercise",
+  "solution": "Solution",
+  "step": "Step {step}",
+  "loadingNotes": {
+    "loadingError": "The exercise failed to load. Please check if the exercise ID is correct.",
+    "loadingExercise": "Loading the exercise..."
+  }
+}

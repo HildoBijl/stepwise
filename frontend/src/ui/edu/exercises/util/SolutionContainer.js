@@ -1,6 +1,7 @@
 import React from 'react'
 
-import Arrow from 'ui/components/icons/Arrow'
+import { Translation } from 'i18n'
+import { Arrow } from 'ui/components'
 
 import ContentsContainer from './ContentsContainer'
 
@@ -10,5 +11,5 @@ export default function SolutionContainer(props) {
 		Icon={Arrow}
 		canToggle={true}
 		color="success"
-		text={'Oplossing'} />
+		text={<Translation entry="solution" path="edu/eduTools/exercises">Solution</Translation>} />
 }

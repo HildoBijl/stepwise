@@ -1,0 +1,10 @@
+{
+  "exercise": "Übung",
+  "solution": "Lösung",
+  "step": "Schritt {step}",
+  "loadingNotes": {
+    "missingExerciseId": "Die URL enthält keine Übungs-ID.",
+    "loadingError": "Die Übung konnte nicht geladen werden. Bitte prüfe, ob die Übungs-ID korrekt ist.",
+    "loadingExercise": "Die Übung wird geladen..."
+  }
+}

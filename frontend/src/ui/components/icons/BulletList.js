@@ -1,7 +1,7 @@
 import React from 'react'
 import SvgIcon from '@material-ui/core/SvgIcon'
 
-export default function Icon(props) {
+export function BulletList(props) {
 	const yValues = [5, 12, 19]
 	return (
 		<SvgIcon {...props}>

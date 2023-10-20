@@ -4,5 +4,7 @@
   "notifications": {
     "notLoggedIn": "You are not logged in. Progress will not be tracked. Practice recommendations and personalized exercises are not possible.",
     "notOnline": "You seem to have lost your internet connection. Some functionalities will not be available until you are back online."
-  }
+  },
+  "loading": "Loading ... {text}",
+  "errorNote": "<par>Oops ... something went wrong. {reason}</par><par>It could be that an old version of this app is still present on your device. Try a hard refresh (shift+F5) to see if this solves the problem.</par><par>Is the bug still there? If so, please send an email to <link>{infoEmail}</link> (Hildo). Then I will fix the bug, so that both you and others won't continue running into it. If possible, also add:</par><list><item>Where the bug occurred: which skill/exercise.</item><item>What you did right before the bug appeared.</item><item>Possibly a screenshot of the red error message in the Developer's Tools console (F12).</item></list>"
 }

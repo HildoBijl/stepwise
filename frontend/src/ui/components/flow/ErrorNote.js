@@ -1,16 +1,20 @@
 import React from 'react'
 
-export default function ErrorNote({ error, info, text }) {
+import { infoEmail } from 'settings'
+import { Translation } from 'i18n'
+import { Par, List, Link } from 'ui/components'
+
+export function ErrorNote({ error, info, text }) {
 	// ToDo later: log error and info.
-	return <>
-		<p>Oops ... daar ging iets mis. {text || ''}</p>
-		<p>Mogelijk heb je een verouderde versie van de web-app. Probeer een hard refresh (shift+F5) om te kijken of dit het probleem oplost.</p>
-		<p>Is de bug er nog steeds? Stuur dan even een mail naar <a href="mailto:info@step-wise.com">info@step-wise.com</a> (Hildo). Dan los ik de bug op, zodat jij en anderen er niet weer tegenaan lopen. Voeg waar mogelijk toe:</p>
-		<ul>
-			<li>Waar de bug optradt: welke vaardigheid/opgave.</li>
-			<li>Wat je deed vlak voordat de bug optradt.</li>
-			<li>Eventueel een screenshot van de rode foutmelding in de Developer's Tools console (F12).</li>
-		</ul>
-	</>
+	return <Translation entry="errorNote" path="main">
+		<Par>Oops ... something went wrong. {{ reason: text || '' }}</Par>
+		<Par>It could be that an old version of this app is still present on your device. Try a hard refresh (shift+F5) to see if this solves the problem.</Par>
+		<Par>Is the bug still there? If so, please send an email to <Link to={infoEmail}>{{ infoEmail }}</Link> (Hildo). Then I will fix the bug, so that both you and others won't continue running into it. If possible, also add:</Par>
+		<List items={[
+			'Where the bug occurred: which skill/exercise.',
+			'What you did right before the bug appeared.',
+			'Possibly a screenshot of the red error message in the Developer\'s Tools console (F12).'
+		]} />
+	</Translation>
 }
 // ToDo later: add some kind of image to make this more fun. Maybe a dead leaf?

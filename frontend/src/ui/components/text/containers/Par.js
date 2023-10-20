@@ -17,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function Par({ children, className, style }) {
+export function Par({ children, className, style }) {
 	const classes = useStyles()
 	return <div className={clsx(classes.paragraph, 'paragraph', className)} style={style}>{children}</div>
 }
+Par.tag = 'par'

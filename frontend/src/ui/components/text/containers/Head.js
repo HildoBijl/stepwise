@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function Head({ children, className, style }) {
+export function Head({ children, className, style }) {
 	const classes = useStyles()
 	return <>
 		<Typography variant="h5" className={clsx(classes.head, 'head', className)} style={style}>
@@ -22,3 +22,4 @@ export default function Head({ children, className, style }) {
 		</Typography>
 	</>
 }
+Head.tag = 'head'

@@ -7,19 +7,23 @@ import { v4 as uuidv4 } from 'uuid'
 import { toFO, toSO } from 'step-wise/inputTypes'
 import { noop } from 'step-wise/util'
 
+import { useTranslator } from 'i18n'
 import { LoadingNote, ErrorNote } from 'ui/components/flow'
 import { TitleItem } from 'ui/layout/Title'
 
 import ExerciseContainer from './ExerciseContainer'
 
 export default function BlankExercise() {
+	const translate = useTranslator()
 	const { exerciseId } = useParams()
 	if (!exerciseId)
-		return <ErrorNote text="Er is geen opgave in de URL opgegeven." />
+		return <ErrorNote text={translate('The URL has no exercise ID in it.', 'loadingNotes.missingExerciseId', 'edu/eduTools/exercises')} />
 	return <BlankExerciseInner exerciseId={exerciseId} />
 }
 
 function BlankExerciseInner({ exerciseId }) {
+	const translate = useTranslator()
+
 	// Make sure that the exercise is loaded.
 	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState(false)
@@ -71,9 +75,9 @@ function BlankExerciseInner({ exerciseId }) {
 
 	// Show error/loading notes when appropriate.
 	if (error)
-		return <ErrorNote text="De opgave kon niet geladen worden. Controleer of hij wel bestaat." />
+		return <ErrorNote text={translate('The exercise failed to load. Please check if the exercise ID is correct.', 'loadingNotes.loadingError', 'edu/eduTools/exercises')} />
 	if (loading || !exercise)
-		return <LoadingNote text="Generating new exercise." />
+		return <LoadingNote text={translate('Loading the exercise...', 'loadingNotes.loadingExercise', 'edu/eduTools/exercises')} />
 
 	// No loading/error notes: show the exercise! Use a key to force a rerender on a new exercise.
 	return <ExerciseContainer key={exercise.startedOn} exercise={exercise} submitting={false} submitAction={submitAction} startNewExercise={startNewExercise} />

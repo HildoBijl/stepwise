@@ -13,7 +13,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function SubHead({ children, className, style }) {
+export function SubHead({ children, className, style }) {
 	const classes = useStyles()
 	return <Typography variant="h6" className={clsx(classes.subhead, 'subhead', className)} style={style}>{children}</Typography>
 }
+SubHead.tag = 'sub-head'
