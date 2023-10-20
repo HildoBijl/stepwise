@@ -11,7 +11,7 @@
 	},
   "deleteAccount": {
     "title": "Konto löschen",
-    "explanation": "Wenn du dein Konto löschst, werden <a>alle</a> deiner Daten auf Step-Wise gelöscht. Dies kann nicht rückgängig gemacht werden! Natürlich kannst du danach ein komplett neues Konto erstellen, aber das fängt dann wieder bei Null an.",
+    "explanation": "Wenn du dein Konto löschst, werden <strong>alle</strong> deiner Daten auf Step-Wise gelöscht. Dies kann nicht rückgängig gemacht werden! Natürlich kannst du danach ein komplett neues Konto erstellen, aber das fängt dann wieder bei Null an.",
     "confirmation": "Bist du sicher, dass du dein Konto löschen möchtest? Dann gib deine E-Mail-Adresse zur Bestätigung unten ein.",
     "fieldPlaceholder": "E-Mail-Adresse",
     "buttonText": "Konto löschen",

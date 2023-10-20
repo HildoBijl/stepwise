@@ -6,5 +6,20 @@
     "missingExerciseId": "Die URL enthält keine Übungs-ID.",
     "loadingError": "Die Übung konnte nicht geladen werden. Bitte prüfe, ob die Übungs-ID korrekt ist.",
     "loadingExercise": "Die Übung wird geladen..."
+  },
+  "stepsModal": {
+    "title": "Bist du dir sicher?",
+    "message": "Das Ziel von Step-Wise ist, dass du die Aufgaben irgendwann ohne Zwischenschritte lösen kannst. Wenn du aufgibst, ohne es versucht zu haben, wird dies als fehlerhafte Antwort gewertet. Deine Kompetenzbewertung sinkt.",
+    "buttons": {
+      "no": "Moment mal ...",
+      "yes": "Zeige mir Zwischenschritte"
+    }
+  },
+  "buttons": {
+    "giveUp": "Ich gebe auf",
+    "check": "Überprüfen",
+    "solveStepWise": "Schrittweise auflösen",
+    "giveUpStep": "Ich gebe diesen Schritt auf",
+    "nextExercise": "Nächste Übung"
   }
 }

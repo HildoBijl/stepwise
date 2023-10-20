@@ -11,7 +11,7 @@
 	},
   "deleteAccount": {
     "title": "Account verwijderen",
-    "explanation": "Als je je account verwijdert, dan worden <a>alle</a> gegevens van je op Step-Wise gewist. Dit kan niet ongedaan gemaakt worden! Je kunt daarna uiteraard wel een volledig nieuwe account aanmaken, maar deze begint weer vanaf nul.",
+    "explanation": "Als je je account verwijdert, dan worden <strong>alle</strong> gegevens van je op Step-Wise gewist. Dit kan niet ongedaan gemaakt worden! Je kunt daarna uiteraard wel een volledig nieuwe account aanmaken, maar deze begint weer vanaf nul.",
     "confirmation": "Weet je zeker dat je je account wilt verwijderen? Vul dan hieronder ter bevestiging je emailadres in.",
     "fieldPlaceholder": "Emailadres",
     "buttonText": "Verwijder account",

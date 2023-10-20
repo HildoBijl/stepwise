@@ -6,5 +6,20 @@
     "missingExerciseId": "De URL heeft geen opgave-ID.",
     "loadingError": "De opgave kon niet geladen worden. Controleer of het opgave-ID correct is.",
     "loadingExercise": "De opgave wordt geladen..."
+  },
+  "stepsModal": {
+    "title": "Weet je het zeker?",
+    "message": "Het doel van Step-Wise is dat je uiteindelijk opgaven op kunt lossen zonder de hulp van tussenstappen. Geef je het op zonder te proberen? Dan geldt dit als een foute inzending: je score gaat omlaag.",
+    "buttons": {
+      "no": "Wacht even ...",
+      "yes": "Laat me tussenstappen zien"
+    }
+  },
+  "buttons": {
+    "giveUp": "Ik geef het op",
+    "check": "Controleer",
+    "solveStepWise": "Los stapsgewijs op",
+    "giveUpStep": "Ik geef deze stap op",
+    "nextExercise": "Volgende opgave"
   }
 }

@@ -7,6 +7,7 @@ import { getLastAction, getLastInput } from 'step-wise/edu/exercises/util/simple
 import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
 
 import { useLatest, useConsistentValue } from 'util/react'
+import { useTranslator, useGetTranslation } from 'i18n'
 import { useUserId } from 'api/user'
 import { useActiveGroup } from 'api/group'
 import { getIcon } from 'ui/theme'
@@ -17,6 +18,8 @@ import MemberList from 'ui/pages/Groups/MemberList'
 
 import { useExerciseData } from '../ExerciseContainer'
 import { useSubmitAction, useGiveUpAction, useCancelAction, useResolveEvent, canResolveGroupEvent } from './actions'
+
+const translationPath = 'edu/eduTools/exercises'
 
 const useStyles = makeStyles((theme) => ({
 	buttonContainer: {
@@ -141,6 +144,7 @@ export default function ExerciseButtons(props) {
 }
 
 function SingleUserExerciseButtons({ stepwise = false }) {
+	const translate = useTranslator(translationPath)
 	const { progress, history, submitting, startNewExercise } = useExerciseData()
 	const theme = useTheme()
 	const classes = useStyles()
@@ -158,11 +162,11 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 
 	// Set up a warning Modal for when the user gives up a step exercise without even trying.
 	const [, setModalOpen] = useModal(<PictureConfirmation
-		title={<span style={{ color: theme.palette.warning.main }}>Weet je het zeker?</span>}
+		title={<span style={{ color: theme.palette.warning.main }}>{translate('Are you sure?', 'stepsModal.title')}</span>}
 		picture={<Warning style={{ color: theme.palette.warning.main, height: '8rem', width: '8rem' }} />}
-		message='Het doel van Step-Wise is dat je uiteindelijk opgaven op kunt lossen zonder de hulp van tussenstappen. Geef je het op zonder te proberen? Dan geldt dit als een foute inzending: je score gaat omlaag.'
-		rejectText='Wacht even ...'
-		confirmText='Laat me tussenstappen zien'
+		message={translate('The goal of Step-Wise is that you can eventually solve exercises without using steps. If you give up without trying, then this counts as an incorrect submission. Your skill rating will decrease.', 'stepsModal.message')}
+		rejectText={translate('Not yet ...', 'stepsModal.buttons.no')}
+		confirmText={translate('Show me the steps', 'stepsModal.buttons.yes')}
 		onConfirm={giveUp}
 	/>)
 
@@ -170,7 +174,7 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 	if (progress.done) {
 		return (
 			<div className={classes.buttonContainer}>
-				<Button variant="contained" endIcon={<ArrowForward />} onClick={startNewExercise} color="primary" ref={startNewExerciseButtonRef}>Volgende opgave</Button>
+				<Button variant="contained" endIcon={<ArrowForward />} onClick={startNewExercise} color="primary" ref={startNewExerciseButtonRef}>{translate('Next exercise', 'buttons.nextExercise')}</Button>
 			</div>
 		)
 	}
@@ -180,10 +184,10 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 	const inputIsEqualToLastInput = lastAction && lastAction.type === 'input' && isAllInputEqual(lastAction.input)
 
 	// If the exercise is not done, we need the submit and give-up buttons. First set up the text.
-	let giveUpText = 'Ik geef het op'
+	let giveUpText = translate('I give up', 'buttons.giveUp')
 	const step = getStep(progress)
 	if (stepwise)
-		giveUpText = step ? 'Ik geef deze stap op' : 'Los stapsgewijs op'
+		giveUpText = step ? translate('I give up this step', 'buttons.giveUpStep') : translate('Solve this Step-Wise', 'buttons.solveStepWise')
 
 	// On giving up, check if a warning needs to be shown.
 	const checkGiveUp = () => {
@@ -199,7 +203,7 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 	return (
 		<div className={classes.buttonContainer}>
 			<Button variant="contained" startIcon={<Clear />} onClick={checkGiveUp} disabled={submitting} color="secondary" ref={giveUpButtonRef}>{giveUpText}</Button>
-			<Button variant="contained" startIcon={<Check />} onClick={submit} disabled={submitting || inputIsEqualToLastInput} color="primary" ref={submitButtonRef}>Controleer</Button>
+			<Button variant="contained" startIcon={<Check />} onClick={submit} disabled={submitting || inputIsEqualToLastInput} color="primary" ref={submitButtonRef}>{translate('Submit and check', 'buttons.check')}</Button>
 		</div>
 	)
 }
@@ -225,6 +229,7 @@ function GroupExerciseButtons({ stepwise = false }) {
 }
 
 function StartNewExerciseButton() {
+	const getTranslation = useGetTranslation(translationPath)
 	const classes = useStyles()
 	const { startNewExercise } = useExerciseData()
 
@@ -235,12 +240,13 @@ function StartNewExerciseButton() {
 	// Render the button.
 	return <>
 		<div className={classes.buttonContainer}>
-			<Button variant="contained" endIcon={<ArrowForward />} onClick={startNewExercise} color="primary" ref={startNewExerciseButtonRef}>Volgende opgave</Button>
+			<Button variant="contained" endIcon={<ArrowForward />} onClick={startNewExercise} color="primary" ref={startNewExerciseButtonRef}>{getTranslation('buttons.nextExercise')}</Button>
 		</div>
 	</>
 }
 
 function GiveUpAndSubmitButtons({ stepwise, submittedAction }) {
+	const getTranslation = useGetTranslation(translationPath)
 	const { progress, submitting, history } = useExerciseData()
 	const userId = useUserId()
 	const { isAllInputEqual } = useFormData()
@@ -263,10 +269,10 @@ function GiveUpAndSubmitButtons({ stepwise, submittedAction }) {
 	const isAllInputEqualToSubmittedInput = submittedAction && submittedAction.type === 'input' && isAllInputEqual(submittedAction.input)
 
 	// Determine the give-up button text.
-	let giveUpText = 'Ik geef het op'
+	let giveUpText = getTranslation('buttons.giveUp')
 	const step = getStep(progress)
 	if (stepwise)
-		giveUpText = step ? 'Ik geef deze stap op' : 'Los stapsgewijs op'
+		giveUpText = step ? getTranslation('buttons.giveUpStep') : getTranslation('buttons.solveStepWise')
 
 	// Render the buttons.
 	const WarningIcon = getIcon('warning')
