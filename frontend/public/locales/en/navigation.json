@@ -36,5 +36,13 @@
     "formulas": "Formulas",
     "references": "Attachments",
     "meta": "Meta-info"
-  }
+  },
+  "courses": "Courses",
+  "groups": "Practice together",
+  "info": "About Step-Wise",
+  "feedback": "Feedback",
+  "settings": "Settings",
+  "logOut": "Log out",
+  "inspect": "Skill overview",
+  "admin": "User overview"
 }

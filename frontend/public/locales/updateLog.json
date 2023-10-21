@@ -1,1 +1,45 @@
-{}
+{
+  "en": {
+    "edu/exercises/fillInInteger": {
+      "solution": {
+        "oldText": "<a><par>You can click on the input field and type in the number <b>{c}</b>.<check><on-true> A potential minus sign can also be added after typing in the number. The input field is smart enough to know that the minus sign must be at the front.</on-true></check></par></a>",
+        "firstUpdate": "2023-10-21T13:03:27.550Z",
+        "latestUpdate": "2023-10-21T13:03:27.550Z",
+        "latestText": "<a><par>You can click on the input field and type in the number <b>{c}</b>.<check><on-true> A potential minus sign can also be added after typing in the number. The input field is smart enough to know that the minus sign must be at the front.</on-true></check></par></a>"
+      },
+      "problem.unnecessaryMinusSign": {
+        "firstUpdate": "2023-10-21T13:03:58.723Z",
+        "latestUpdate": "2023-10-21T13:04:43.923Z",
+        "latestText": "Try removing the minus sign."
+      },
+      "problem": {
+        "oldText": {
+          "unnecessaryMinusSign": "Try removing the minus sign."
+        },
+        "firstUpdate": "2023-10-21T13:04:10.061Z",
+        "latestUpdate": "2023-10-21T13:14:54.292Z",
+        "latestText": "<a><par>Enter the number <b>{c}</b>.</par><d><par><e/></par></d></a>"
+      },
+      "problem.feedback.unnecessaryMinusSign": {
+        "firstUpdate": "2023-10-21T13:05:10.384Z",
+        "latestUpdate": "2023-10-21T13:10:57.735Z",
+        "latestText": "Try removing the minus sign."
+      },
+      "problem.feedback.noMinusSign": {
+        "firstUpdate": "2023-10-21T13:13:29.298Z",
+        "latestUpdate": "2023-10-21T13:14:42.474Z",
+        "latestText": "You forgot the minus sign."
+      },
+      "feedback.noMinusSign": {
+        "firstUpdate": "2023-10-21T13:15:06.059Z",
+        "latestUpdate": "2023-10-21T13:15:06.059Z",
+        "latestText": "You forgot the minus sign."
+      },
+      "feedback.unnecessaryMinusSign": {
+        "firstUpdate": "2023-10-21T13:16:30.776Z",
+        "latestUpdate": "2023-10-21T13:16:30.776Z",
+        "latestText": "Try removing the minus sign."
+      }
+    }
+  }
+}

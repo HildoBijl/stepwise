@@ -47,6 +47,7 @@ export default function ExerciseContainer({ exercise, groupExercise, submitting,
 
 	// Set up data for the exercise and put it in a context around the exercise.
 	const exerciseData = {
+		exerciseId,
 		state: stateFO,
 		groupExercise,
 		history: exercise.history,

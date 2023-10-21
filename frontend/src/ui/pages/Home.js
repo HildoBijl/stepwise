@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography'
 import { Alert, AlertTitle } from '@material-ui/lab';
 
 import { websiteName, websiteNameAddendum, apiAddress, cookieApprovalName, googleClientId, googleRedirectAddress } from 'settings'
-import { useTranslator } from 'i18n'
+import { useTextTranslator } from 'i18n'
 import cookies from 'ui/cookies'
 import { notSelectable } from 'ui/theme'
 import { useModal, PictureConfirmation } from 'ui/components/Modal'
@@ -221,7 +221,7 @@ export default function Home() {
 	}
 
 	// Load language-dependent texts.
-	const translate = useTranslator('main')
+	const translate = useTextTranslator('main')
 	const websiteNameTranslation = translate(websiteName, 'websiteName')
 	const websiteNameAddendumTranslation = translate(websiteNameAddendum, 'websiteNameAddendum')
 

@@ -25,7 +25,7 @@ List.tag = 'list'
 List.getTranslationString = (props, getTranslationString) => getTranslationString(getListContents(props.items))
 List.translateProps = (props, tree, applyTranslationTree) => ({
 	...props,
-	items: (props.items || []).map((item, index) => applyTranslationTree(item, tree[index].value))
+	items: (props.items || []).map((item, index) => applyTranslationTree(item, tree[index]?.value))
 })
 
 function getListContents(items) {

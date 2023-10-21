@@ -79,5 +79,10 @@
       "6": "Steam turbines",
       "7": "Cooling machines and heat pumps"
     }
+  },
+  "pageTitles": {
+    "stepwiseTutorial": {
+      "name": "Step-Wise Tutorial"
+    }
   }
 }

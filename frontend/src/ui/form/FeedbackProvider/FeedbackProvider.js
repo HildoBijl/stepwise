@@ -5,6 +5,7 @@ import { isBasicObject, applyMapping } from 'step-wise/util'
 import { toFO } from 'step-wise/inputTypes'
 
 import { useLatest, useStableCallback } from 'util/react'
+import { useTranslator, addEntryPreamble } from 'i18n'
 
 import { useFormData } from '../Form'
 
@@ -20,6 +21,7 @@ import { processFeedback } from './processing'
  */
 export function FeedbackProvider({ children, getFeedback, input, data = {} }) {
 	const theme = useTheme()
+	const translate = addEntryPreamble(useTranslator(), 'feedback', false)
 
 	// Set up a state to store the feedback and corresponding input to which that feedback was given.
 	const [feedback, setFeedback] = useState({ result: {}, input: {} })
@@ -42,7 +44,7 @@ export function FeedbackProvider({ children, getFeedback, input, data = {} }) {
 		if (getFeedback) {
 			const inputFO = toFO(input, true)
 			const previousInputFO = toFO(previousInput, true)
-			let result = getFeedback({ ...dataRef.current, input: inputFO, previousFeedback: previousResult, previousInput: previousInputFO })
+			let result = getFeedback({ ...dataRef.current, input: inputFO, previousFeedback: previousResult, previousInput: previousInputFO, translate })
 			if (!result || !isBasicObject(result))
 				throw new Error(`Invalid feedback: a feedback was returned which is not an object. Instead, we received "${result}". Possibly the getFeedback function forgot to return anything sensible?`)
 			result = applyMapping(result, fieldFeedback => processFeedback(fieldFeedback, theme))

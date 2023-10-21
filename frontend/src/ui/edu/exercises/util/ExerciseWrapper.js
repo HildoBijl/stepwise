@@ -3,6 +3,7 @@ import React, { useMemo, useEffect } from 'react'
 import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 
 import { useUserId } from 'api/user'
+import { TranslationFile } from 'i18n'
 import { Form, useFormData, FeedbackProvider } from 'ui/form'
 
 import { useExerciseData } from '../ExerciseContainer'
@@ -15,11 +16,13 @@ export default function ExerciseWrapper({ getFeedback, children }) {
 	const submit = useFormSubmitAction()
 	return (
 		<Form submit={submit}>
-			<SolutionProvider>
-				<FeedbackWrapper getFeedback={getFeedback}>
-					{children}
-				</FeedbackWrapper>
-			</SolutionProvider>
+			<TranslationWrapper>
+				<SolutionProvider>
+					<FeedbackWrapper getFeedback={getFeedback}>
+						{children}
+					</FeedbackWrapper>
+				</SolutionProvider>
+			</TranslationWrapper>
 		</Form>
 	)
 }
@@ -44,4 +47,9 @@ function FeedbackWrapper({ getFeedback, children }) {
 
 	// Render the FeedbackProvider.
 	return <FeedbackProvider getFeedback={getFeedback} input={feedbackInput} data={data}>{children}</FeedbackProvider>
+}
+
+function TranslationWrapper({ children }) {
+	const { exerciseId } = useExerciseData()
+	return <TranslationFile path={`edu/exercises/${exerciseId}`} extend={false}>{children}</TranslationFile>
 }

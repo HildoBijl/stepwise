@@ -6,16 +6,14 @@ const { keysToObject } = require('./creation')
 function setDeepParameter(obj, path, value) {
 	if (!Array.isArray(path))
 		throw new Error(`Invalid parameter path: expected an array but received a path of type "${typeof path}".`)
-	
+
 	// Create a shallow clone, so as not to adjust the original.
 	if (Array.isArray(obj))
 		obj = [...obj]
 	else if (isBasicObject(obj))
-		obj = {...obj}
-	else if (obj === undefined)
-		obj = {}
+		obj = { ...obj }
 	else
-		throw new Error(`Invalid object passed: received something of type "${typeof obj}" and value "${obj}".`)
+		obj = {}
 
 	// Adjust the clone and return it.
 	if (path.length === 1)

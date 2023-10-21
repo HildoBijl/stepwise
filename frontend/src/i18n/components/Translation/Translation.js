@@ -1,13 +1,13 @@
 import { isLocalhost } from 'util/development'
 
-import { applyNoTranslation, elementToString, applyTranslation } from './transformation'
+import { applyNoTranslation, elementToString, applyTranslation } from '../../transformation'
 
-import { useTranslation } from '../../sectioning'
+import { useTextTranslation } from '../../sectioning'
 
-export function Translation({ path, entry, children }) {
+export function Translation({ path, entry, children, extendEntry }) {
 	// Extract the translation text.
 	const fallbackText = elementToString(children)
-	const text = useTranslation(fallbackText, entry, path)
+	const text = useTextTranslation(fallbackText, entry, path, extendEntry)
 
 	// If there is no translation, render the default content.
 	if (!text || text === fallbackText)

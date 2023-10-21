@@ -1,0 +1,8 @@
+{
+	"problem": "<a><par>Enter the number <b>{c}</b>.</par><d><par><e/></par></d></a>",
+	"solution": "<a><par>You can click on the input field and type in the number <b>{c}</b>.<check><on-true> A potential minus sign can also be added after typing in the number. The input field is smart enough to know that the minus sign must be at the front.</on-true></check></par></a>",
+	"feedback": {
+		"noMinusSign": "You forgot the minus sign.",
+		"unnecessaryMinusSign": "Try removing the minus sign."
+	}
+}

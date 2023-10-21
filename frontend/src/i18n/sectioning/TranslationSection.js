@@ -25,18 +25,18 @@ export function useTranslationSectionEntry() {
 	return useContext(TranslationSectionContext)
 }
 
-export function applyTranslationSectionEntry(entry, contextEntry, apply = true) {
-	// Check the input.
-	if (!entry || typeof entry !== 'string')
+export function applyTranslationSectionEntry(entry, contextEntry, extendEntry = true) {
+	// If there is no entry and no contextEntry (or the contextEntry is not applied) then something is wrong.
+	if (!entry && (!contextEntry || !extendEntry))
 		throw new Error(`Missing Translation entry: no entry for within the translation file has been provided for this Translation element.`)
 
-	// Combine with any potential section entry.
-	if (apply && contextEntry)
+	// If there is no entry, use the contextEntry as entry.
+	if (!entry && extendEntry)
+		return contextEntry
+
+	// Combine the entry with the potential contextEntry from the section.
+	if (extendEntry && contextEntry)
 		entry = `${contextEntry}.${entry}`
 	return entry
 }
 
-export function useTranslationEntry(entry, apply) {
-	const contextEntry = useTranslationSectionEntry()
-	return applyTranslationSectionEntry(entry, contextEntry, apply)
-}

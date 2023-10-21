@@ -51,33 +51,48 @@ export function elementToString(element, counter = { count: 0 }) {
 }
 
 // applyNoTranslation takes a React element and, instead of doing a translation, it just does some basic processing to make sure it can be rendered. Think of turning single-parameter objects into their values.
-export function applyNoTranslation(element) {
+export function applyNoTranslation(element, key) {
 	// On an array, pass it on to each element.
 	if (Array.isArray(element))
-		return element.map(currElement => applyNoTranslation(currElement))
+		return element.map((currElement, index) => applyNoTranslation(currElement, index))
 
 	// On a React element, make a copy with processed children.
 	if (isValidElement(element) && element.props.children !== undefined) {
-		// ToDo: set up similar to applyTranslation.
-		return {
-			...element,
-			props: {
-				...element.props,
+		// Set up a function to apply the no-translation processing. Then run the function that preprocesses the props.
+		const defaultNoTranslateProps = (props) => {
+			// On a no-child element, leave it as is.
+			const contents = props.children
+			if (!contents)
+				return props
+
+			// On an element with children, process the children.
+			return {
+				...props,
 				children: applyNoTranslation(element.props.children),
 			}
 		}
+		const noTranslateProps = element?.type?.translateProps || defaultNoTranslateProps
+		return {
+			...element,
+			key: element.key || key, // Add a key when needed to prevent React warnings.
+			props: noTranslateProps(element.props, [], element => applyNoTranslation(element)),
+		}
 	}
 
-	// Turn a single-parameter object into said parameter.
-	if (isBasicObject(element) && Object.keys(element).length === 1)
-		return Object.values(element)[0]
+	// Turn a single-parameter object into said parameter. If it's a React element, make sure it has a key.
+	if (isBasicObject(element) && Object.keys(element).length === 1) {
+		let variable = Object.values(element)[0]
+		if (isValidElement(variable))
+			variable = { ...variable, key: variable.key || `i18n-key-${key}` }
+		return variable
+	}
 
 	// Nothing special needs to be done.
 	return element
 }
 
 // applyTranslation takes a React element and a string translation and tries to apply the translation to the React element. On any inconsistency between the element and the translation, it throws an error.
-export function applyTranslation(element, translation, tagTree) {
+export function applyTranslation(element, translation, tagTree, key) {
 	// If not already done, split up the translation into <tags></tags>, <singleTags/>, {variables} and remaining strings.
 	if (!tagTree)
 		tagTree = getTagTree(translation)
@@ -86,12 +101,16 @@ export function applyTranslation(element, translation, tagTree) {
 	if (Array.isArray(element)) {
 		if (element.length !== tagTree.length)
 			throw new Error(`Invalid translation: there was a mismatch between the received original text and the translation text.\nOriginal text: ${elementToString(element)}\nTranslation: ${tagTreeToString(tagTree)}`)
-		return element.map((currElement, index) => applyTranslation(currElement, undefined, tagTree[index]))
+		return element.map((currElement, index) => applyTranslation(currElement, undefined, tagTree[index], index))
 	}
 
 	// If the tag tree is a single-element array, then select that element. React does this automatically on its elements.
-	if (Array.isArray(tagTree) && tagTree.length === 1)
-		tagTree = tagTree[0]
+	if (Array.isArray(tagTree)) {
+		if (tagTree.length === 1)
+			tagTree = tagTree[0]
+		else
+			throw new Error(`Invalid translation: there was a mismatch between the received original text and the translation text.\nOriginal text: ${elementToString(element)}\nTranslation: ${tagTreeToString(tagTree)}`)
+	}
 
 	// If the element we received is a string, replace it by the translation.
 	if (typeof element === 'string') {
@@ -100,14 +119,17 @@ export function applyTranslation(element, translation, tagTree) {
 		return tagTree.value
 	}
 
-	// If the element we received is a single-variable object, include it as variable.
+	// If the element we received is a single-variable object, include it. If it's a React element, make sure it has a key.
 	if (isBasicObject(element) && Object.keys(element).length === 1) {
 		const name = Object.keys(element)[0]
 		if (tagTree.type !== 'variable')
 			throw new Error(`Invalid translation: there was a mismatch in the translation. Expected to include a variable with name "${name}" and hence encounter "{${name}}" in the translation. Instead, encountered:\n${tagTreeToString(tagTree)}`)
 		if (tagTree.name !== name)
 			throw new Error(`Invalid translation: there was a mismatch in variable names. Expected to include a variable "${name}" but encountered a variable "${tagTree.name}" in the translation.`)
-		return element[name]
+		let variable = element[name]
+		if (isValidElement(variable))
+			variable = { ...variable, key: variable.key || `i18n-key-${key}` }
+		return variable
 	}
 
 	// If the element is a React element, process it accordingly.
@@ -118,9 +140,9 @@ export function applyTranslation(element, translation, tagTree) {
 		// Set up a function to apply the translation. Then run the function. This function effectively preprocesses the props given to an element.
 		const defaultTranslateProps = (props, tagTree, applyTranslationTree) => {
 			// On a no-child element, leave it as is.
-			const contents = element.props.children
+			const contents = props.children
 			if (!contents)
-				return element
+				return props
 
 			// On an element with children, take the children and process them with respect to the contents of the tag.
 			return {
@@ -131,6 +153,7 @@ export function applyTranslation(element, translation, tagTree) {
 		const translateProps = element?.type?.translateProps || defaultTranslateProps
 		return {
 			...element,
+			key: element.key || key, // Add a key when needed to prevent React warnings.
 			props: translateProps(element.props, tagTree.value, (element, tagTree) => applyTranslation(element, undefined, tagTree)),
 		}
 	}
