@@ -5,7 +5,7 @@ import React, { useEffect, useRef } from 'react'
 import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
 
 import { useUserId } from 'api/user'
-import { TranslationSection, useTranslator, addEntryPreamble } from 'i18n'
+import { TranslationSection, useTranslator, addSection } from 'i18n'
 import { VerticalAdjuster } from 'ui/components'
 import { useFormData, useFeedbackInput, FormPart, useFieldControllerContext } from 'ui/form'
 
@@ -50,7 +50,7 @@ function SimpleExerciseInner({ Problem, Solution }) {
 			<FormPart readOnly={progress.done} showInputSpace={showInputSpace} showHints={!progress.done}>
 				<VerticalAdjuster>
 					<TranslationSection entry="problem">
-						<Problem {...state} translate={addEntryPreamble(translate, 'problem')} />
+						<Problem {...state} translate={addSection(translate, 'problem')} />
 					</TranslationSection>
 				</VerticalAdjuster>
 			</FormPart>
@@ -58,7 +58,7 @@ function SimpleExerciseInner({ Problem, Solution }) {
 		</ProblemContainer>
 		<SolutionContainer display={!!progress.done} initialExpand={!progress.solved}>
 			<TranslationSection entry="solution">
-				<Solution {...state} translate={addEntryPreamble(translate, 'problem')} />
+				<Solution {...state} translate={addSection(translate, 'problem')} />
 			</TranslationSection>
 		</SolutionContainer>
 		<ExerciseButtons />

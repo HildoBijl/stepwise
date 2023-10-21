@@ -5,7 +5,7 @@ import { isBasicObject, applyMapping } from 'step-wise/util'
 import { toFO } from 'step-wise/inputTypes'
 
 import { useLatest, useStableCallback } from 'util/react'
-import { useTranslator, addEntryPreamble } from 'i18n'
+import { useTranslator, addSection } from 'i18n'
 
 import { useFormData } from '../Form'
 
@@ -21,7 +21,7 @@ import { processFeedback } from './processing'
  */
 export function FeedbackProvider({ children, getFeedback, input, data = {} }) {
 	const theme = useTheme()
-	const translate = addEntryPreamble(useTranslator(), 'feedback', false)
+	const translate = addSection(useTranslator(), 'feedback', false)
 
 	// Set up a state to store the feedback and corresponding input to which that feedback was given.
 	const [feedback, setFeedback] = useState({ result: {}, input: {} })

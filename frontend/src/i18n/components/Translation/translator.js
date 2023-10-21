@@ -13,10 +13,10 @@ export function useTranslator(translatorPath) {
 	return useCallback((element, entry, path, extendEntry) => <Translation entry={entry} path={path || translatorPath} extendEntry={extendEntry}>{element}</Translation>, [translatorPath])
 }
 
-// addEntryPreamble takes a translator function, and then adds a preamble to the entry. So if a preamble "section1" is used or so, then everything is placed under that entry point in the language file. The preamble is ignored if a path is given.
-export function addEntryPreamble(translator, entryPreamble, extendEntryExternal) {
+// addSection takes a translator function, and then adds a preamble to the entry. So if a section "section1" is used or so, then everything is placed under that entry point in the language file. The section is ignored if a path is given.
+export function addSection(translator, section, extendEntryExternal) {
 	return (element, entry, path, extendEntry) => {
-		entry = (entry && !path ? `${entryPreamble}.${entry}` : entry)
+		entry = (entry && !path && (extendEntry || extendEntry === undefined) ? `${section}.${entry}` : entry)
 		return translator(element, entry, path, extendEntry !== undefined ? extendEntry : extendEntryExternal)
 	}
 }
