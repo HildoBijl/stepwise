@@ -1,0 +1,11 @@
+{
+  "mainProblem": "<par>Calculate <a>{b} \\cdot {c} + {d}.</a></par><e><par><f/></par></e>",
+  "step1": {
+    "problem": "<par>Calculate <a>{b} \\cdot {c}.</a></par><d><par><e/></par></d>",
+    "solution": "<par>Note that multiplication comes before addition, so first we calculate <a>{b} \\cdot {c} = {d}.</a></par>"
+  },
+  "step2": {
+    "problem": "<par>Calculate <a>{b} + {c}.</a></par><d><par><e/></par></d>",
+    "solution": "<par>After the multiplication we add everything together. This gets us the final result <a>{b} + {c} = {d}.</a></par>"
+  }
+}

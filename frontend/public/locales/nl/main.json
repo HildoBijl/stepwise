@@ -6,5 +6,6 @@
 		"notOnline": "Je hebt blijkbaar even geen internetverbinding. Bepaalde functionaliteiten zijn niet beschikbaar tot je weer online bent."
 	},
   "loading": "Laden ... {text}",
-	"errorNote": "<par>Oops ... daar ging iets mis. {reason}</par><par>Mogelijk heb je een verouderde versie van de web-app. Probeer een hard refresh (shift+F5) om te kijken of dit het probleem oplost.</par><par>Is de bug er nog steeds? Stuur dan even een mail naar <link>{infoEmail}</link> (Hildo). Dan los ik de bug op, zodat jij en anderen er niet weer tegenaan lopen. Voeg waar mogelijk toe:</par><list><item>Waar de bug optradt: welke vaardigheid/opgave.</item><item>Wat je deed vlak voordat de bug optradt.</item><item>Eventueel een screenshot van de rode foutmelding in de Developer's Tools console (F12).</item></list>"
+	"errorNote": "<par>Oops ... daar ging iets mis. {reason}</par><par>Mogelijk heb je een verouderde versie van de web-app. Probeer een hard refresh (shift+F5) om te kijken of dit het probleem oplost.</par><par>Is de bug er nog steeds? Stuur dan even een mail naar <link>{infoEmail}</link> (Hildo). Dan los ik de bug op, zodat jij en anderen er niet weer tegenaan lopen. Voeg waar mogelijk toe:</par><list><item>Waar de bug optradt: welke vaardigheid/opgave.</item><item>Wat je deed vlak voordat de bug optradt.</item><item>Eventueel een screenshot van de rode foutmelding in de Developer's Tools console (F12).</item></list>",
+  "test1": "<strong><em>c</em></strong>"
 }

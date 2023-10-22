@@ -1,0 +1,11 @@
+{
+  "mainProblem": "<par>Bereken <a>{b} \\cdot {c} + {d}.</a></par><e><par><f/></par></e>",
+  "step1": {
+    "problem": "<par>Bereken <a>{b} \\cdot {c}.</a></par><d><par><e/></par></d>",
+    "solution": "<par>Merk op dat vermenigvuldigen voorrang heeft op optellen. Eerst berekenen we dus <a>{b} \\cdot {c} = {d}.</a></par>"
+  },
+  "step2": {
+    "problem": "<par>Bereken <a>{b} + {c}.</a></par><d><par><e/></par></d>",
+    "solution": "<par>Dan tellen we alles bij elkaar op. Hiermee vinden we het eindantwoord <a>{b} + {c} = {d}.</a></par>"
+  }
+}

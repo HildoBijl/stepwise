@@ -18,8 +18,10 @@ export function Translation({ path, entry, children, extendEntry }) {
 		return applyTranslation(children, text)
 	} catch (error) {
 		// On a failure to implement the translation, keep the original text.
-		if (isLocalhost())
+		if (isLocalhost()) {
+			console.error(`Translation failure: tried to translate an element with path "${path}" and entry "${entry}" but failed to do so. Probably the translation text does not have the right format. The texts are as follows.\nTranslation text: ${text}\nOriginal text: ${fallbackText}`)
 			console.error(error)
+		}
 		return applyNoTranslation(children)
 	}
 }

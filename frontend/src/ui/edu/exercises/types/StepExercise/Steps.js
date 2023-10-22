@@ -2,6 +2,7 @@ import React from 'react'
 
 import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
 
+import { TranslationSection, useTranslator, addSection } from 'i18n'
 import { useUserId } from 'api/user'
 import { VerticalAdjuster } from 'ui/components'
 import { useFormData, useFeedbackInput, FormPart } from 'ui/form'
@@ -17,6 +18,7 @@ export default function Steps({ steps, forceDisplay }) {
 }
 
 export function Step({ step, Problem, Solution, forceDisplay }) {
+	const translate = useTranslator()
 	const userId = useUserId()
 	const { state, progress, history } = useExerciseData()
 	const { isAllInputEqual } = useFormData()
@@ -45,13 +47,17 @@ export function Step({ step, Problem, Solution, forceDisplay }) {
 		<ProblemContainer display={display} step={step}>
 			<FormPart readOnly={doneWithStep} showInputSpace={showInputSpace} showHints={!doneWithStep}>
 				<VerticalAdjuster>
-					<Problem {...state} />
+					<TranslationSection entry={`step${step}.problem`}>
+						<Problem {...state} translate={addSection(translate, `step${step}.problem`)} />
+					</TranslationSection>
 				</VerticalAdjuster>
 			</FormPart>
 			<MainFeedback display={showMainFeedback} step={step} />
 		</ProblemContainer>
 		<SolutionContainer display={!!stepProgress.done} initialExpand={forceDisplay || !stepProgress.solved}>
-			<Solution {...state} />
+			<TranslationSection entry={`step${step}.solution`}>
+				<Solution {...state} translate={addSection(translate, `step${step}.solution`)} />
+			</TranslationSection>
 		</SolutionContainer>
 	</>
 }

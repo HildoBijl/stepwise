@@ -1,1 +1,12 @@
-{}
+{
+  "en": {
+    "main": {
+      "test1": {
+        "oldText": "<strong><em>x</em></strong>",
+        "firstUpdate": "2023-10-22T11:23:06.883Z",
+        "latestUpdate": "2023-10-22T11:37:22.739Z",
+        "latestText": "<strong>y<em>x</em>z</strong>"
+      }
+    }
+  }
+}

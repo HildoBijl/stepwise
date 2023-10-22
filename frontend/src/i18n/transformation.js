@@ -97,19 +97,56 @@ export function applyTranslation(element, translation, tagTree, key) {
 	if (!tagTree)
 		tagTree = getTagTree(translation)
 
-	// If the element we received is an array, the translation should match. Process it element by element.
-	if (Array.isArray(element)) {
-		if (element.length !== tagTree.length)
-			throw new Error(`Invalid translation: there was a mismatch between the received original text and the translation text.\nOriginal text: ${elementToString(element)}\nTranslation: ${tagTreeToString(tagTree)}`)
-		return element.map((currElement, index) => applyTranslation(currElement, undefined, tagTree[index], index))
-	}
+	// If the element is not an array, but the tagTree is a one-element array, zoom in on the tagTree.
+	if (!Array.isArray(element) && Array.isArray(tagTree) && tagTree.length === 1)
+		tagTree = tagTree[0]
 
-	// If the tag tree is a single-element array, then select that element. React does this automatically on its elements.
-	if (Array.isArray(tagTree)) {
-		if (tagTree.length === 1)
-			tagTree = tagTree[0]
-		else
+	// If either the element or a tagTree is an array, the other should be too.
+	if (Array.isArray(element) && !Array.isArray(tagTree))
+		tagTree = [tagTree]
+	if (Array.isArray(tagTree) && !Array.isArray(element))
+		element = [element]
+
+	// If we have arrays, walk through them to match up corresponding elements. After all, it may always happen that one has a string somewhere in-between and the other has not. If that's the case, squeeze in an empty string to have a proper pairing. Then translate these element pairs one by one.
+	if (Array.isArray(element)) {
+		const elementListProcessed = [], tagTreeProcessed = []
+		for (let elementIndex = 0, tagTreeIndex = 0; elementIndex < element.length || tagTreeIndex < tagTree.length;) {
+			const currElementItem = element[elementIndex]
+			const currTagTreeItem = tagTree[tagTreeIndex]
+
+			// If the element and the tag tree item are both a string or both not a string, then it adds up. Move on to the next item.
+			if ((typeof currElementItem === 'string' && currTagTreeItem?.type === 'text') || (typeof currElementItem !== 'string' && currTagTreeItem?.type !== 'text')) {
+				elementListProcessed.push(currElementItem)
+				elementIndex++
+				tagTreeProcessed.push(currTagTreeItem)
+				tagTreeIndex++
+				continue
+			}
+
+			// So one of them is a string and one is not. If the element is a string, add an empty tagTree item.
+			if (typeof currElementItem === 'string') {
+				elementListProcessed.push(currElementItem)
+				elementIndex++
+				tagTreeProcessed.push({ type: 'text', value: '' })
+				continue
+			}
+
+			// But if the tag tree item is a string, add an empty string to the element list.
+			if (currTagTreeItem?.type === 'text') {
+				tagTreeProcessed.push(currTagTreeItem)
+				tagTreeIndex++
+				elementListProcessed.push('')
+				continue
+			}
+
+			// We should never get here.
+			throw new Error(`Invalid translation: reached a point in the code that should be impossible to be reached. There is an error in the code.`)
+		}
+
+		// By now the two lists should have the same length.
+		if (elementListProcessed.length !== tagTreeProcessed.length)
 			throw new Error(`Invalid translation: there was a mismatch between the received original text and the translation text.\nOriginal text: ${elementToString(element)}\nTranslation: ${tagTreeToString(tagTree)}`)
+		return elementListProcessed.map((currElement, index) => applyTranslation(currElement, undefined, tagTreeProcessed[index], index))
 	}
 
 	// If the element we received is a string, replace it by the translation.

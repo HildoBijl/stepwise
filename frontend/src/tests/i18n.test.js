@@ -6,7 +6,8 @@ describe('Translations', () => {
 		try {
 			const pathToPublicFolder = `../../public/`
 			const logFile = await import(`${pathToPublicFolder}${updateLogPath}`)
-			console.log(deepEquals(logFile, {}) || deepEquals(logFile, { default: {} })) // For some reason a default parameter is added on the import. Allow it too.
+
+			// For some reason a default parameter is added on the import. Allow it too.
 			expect(deepEquals(logFile, {}) || deepEquals(logFile, { default: {} })).toBe(true)
 		} catch (error) {
 			expect(error instanceof SyntaxError).toBe(true) // A syntax error is fine: it most likely means the entire log contents have been removed.

@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react'
 import { numberArray, lastOf } from 'step-wise/util'
 import { getStep, getPreviousProgress } from 'step-wise/edu/exercises/util/stepExercise'
 
+import { TranslationSection, useTranslator, addSection } from 'i18n'
 import { VerticalAdjuster } from 'ui/components'
 import { useFormData, useFeedbackInput, FormPart, useFieldControllerContext } from 'ui/form'
 
@@ -28,6 +29,7 @@ export default function StepExercise(props) {
 }
 
 function StepExerciseInner({ Problem: MainProblem, steps }) {
+	const translate = useTranslator()
 	const { state, progress, history } = useExerciseData()
 	const [expandSolution, setExpandSolution] = useState(false)
 	const { isAllInputEqual } = useFormData()
@@ -50,7 +52,9 @@ function StepExerciseInner({ Problem: MainProblem, steps }) {
 		<ProblemContainer>
 			<FormPart readOnly={doneWithMainProblem} showInputSpace={showInputSpace} showHints={!doneWithMainProblem}>
 				<VerticalAdjuster>
-					<MainProblem {...state} />
+					<TranslationSection entry="mainProblem">
+						<MainProblem {...state} translate={addSection(translate, 'mainProblem')} />
+					</TranslationSection>
 				</VerticalAdjuster>
 			</FormPart>
 			<MainFeedback display={showMainFeedback} />
