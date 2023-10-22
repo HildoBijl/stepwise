@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { selectRandomCorrect } from 'util/feedbackMessages'
+import { selectRandomCorrect } from 'ui/edu/exercises/feedbackMessages'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'

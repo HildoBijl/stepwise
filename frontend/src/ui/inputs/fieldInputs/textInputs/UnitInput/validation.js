@@ -1,4 +1,4 @@
-import { selectRandomEmpty } from 'util/feedbackMessages'
+import { selectRandomEmpty } from 'ui/edu/exercises/feedbackMessages'
 
 export function any() { }
 export function nonEmpty(unit) {

@@ -2,7 +2,7 @@
 import { loadTypes, getLoadMatching } from 'step-wise/edu/exercises/util/engineeringMechanics'
 
 import { getCountingWord } from 'util/language'
-import { selectRandomCorrect } from 'util/feedbackMessages'
+import { selectRandomCorrect } from 'ui/edu/exercises/feedbackMessages'
 
 // getFBDFeedbackFunction returns a feedback function to give feedback on Free Body Diagram inputs. It requires comparison options and a set of points to refer to when naming a point.
 export function getFBDFeedbackFunction(comparison, points = {}) {

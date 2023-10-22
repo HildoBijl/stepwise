@@ -1,6 +1,6 @@
 import { lastOf, arraySplice, applyMapping, keysToObject, repeat } from 'step-wise/util'
 
-import { selectRandomInvalidUnit } from 'util/feedbackMessages'
+import { selectRandomInvalidUnit } from 'ui/edu/exercises/feedbackMessages'
 
 import { type as unitArrayType, initialValue as initialUnitArrayValue, isEmpty as isUnitArrayEmpty, getStartCursor as getUnitArrayStartCursor, getEndCursor as getUnitArrayEndCursor, isCursorAtStart as isCursorAtUnitArrayStart, isCursorAtEnd as isCursorAtUnitArrayEnd, isValid as isUnitArrayValid, mergeElements, splitElement, getCursorFromOffset as getUnitArrayCursorFromOffset, clean as cleanUnitArray, functionalize as functionalizeUnitArray, keyPressToFI as unitArrayKeyPressToFI, mouseClickToCursor as unitArrayMouseClickToCursor } from '../UnitArray'
 import { isEmpty as isUnitElementEmpty, getStartCursor as getUnitElementStartCursor, getEndCursor as getUnitElementEndCursor, isCursorAtStart as isCursorAtUnitElementStart } from '../UnitElement'

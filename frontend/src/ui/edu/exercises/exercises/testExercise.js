@@ -2,7 +2,7 @@ import React from 'react'
 
 import { toSO } from 'step-wise/inputTypes'
 
-import { selectRandomCorrect, selectRandomIncorrect } from 'util/feedbackMessages'
+import { selectRandomCorrect, selectRandomIncorrect } from 'ui/edu/exercises/feedbackMessages'
 
 import { Par, M } from 'ui/components'
 import { useIdentityTransformationSettings, Circle } from 'ui/figures'

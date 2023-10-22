@@ -7,7 +7,7 @@ import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 import { Expression } from 'step-wise/CAS'
 import { performIndividualComparison, performIndividualListComparison, getCurrentInputSolutionAndComparison } from 'step-wise/edu/exercises/util/comparison'
 
-import { selectRandomCorrect, selectRandomIncorrect, selectRandomIncorrectUnit, selectRandomDuplicate, selectRandomNonNumeric } from 'util/feedbackMessages'
+import { selectRandomCorrect, selectRandomIncorrect, selectRandomIncorrectUnit, selectRandomDuplicate, selectRandomNonNumeric } from 'ui/edu/exercises/feedbackMessages'
 
 const defaultOptions = {
 	// These are options that can be manually added.

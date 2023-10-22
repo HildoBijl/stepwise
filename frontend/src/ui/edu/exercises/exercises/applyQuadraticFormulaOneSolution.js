@@ -2,7 +2,7 @@ import React from 'react'
 
 import { numberArray } from 'step-wise/util'
 
-import { selectRandomIncorrect } from 'util/feedbackMessages'
+import { selectRandomIncorrect } from 'ui/edu/exercises/feedbackMessages'
 import { Par, M, BM } from 'ui/components'
 import { useInput, InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput } from 'ui/inputs'

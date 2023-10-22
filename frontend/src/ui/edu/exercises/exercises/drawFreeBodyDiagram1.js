@@ -4,7 +4,7 @@ import { Vector } from 'step-wise/geometry'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 
 import { getCountingWord } from 'util/language'
-import { selectRandomCorrect } from 'util/feedbackMessages'
+import { selectRandomCorrect } from 'ui/edu/exercises/feedbackMessages'
 import { Par, M } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'

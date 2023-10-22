@@ -1,6 +1,6 @@
 import { areLoadsEqual, isLoadAtPoint } from 'step-wise/edu/exercises/util/engineeringMechanics'
 
-import { selectRandomEmpty } from 'util/feedbackMessages'
+import { selectRandomEmpty } from 'ui/edu/exercises/feedbackMessages'
 
 // nonEmpty requires at least one load.
 export function nonEmpty(data) {

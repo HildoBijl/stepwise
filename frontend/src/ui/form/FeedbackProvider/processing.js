@@ -1,6 +1,6 @@
 import { applyMapping } from 'step-wise/util'
 
-import { selectRandomCorrect, selectRandomIncorrect } from 'util/feedbackMessages'
+import { selectRandomCorrect, selectRandomIncorrect } from 'ui/edu/exercises/feedbackMessages'
 import { getIcon, getFeedbackColor } from 'ui/theme'
 
 /* processFeedback takes a feedback object of a variable form and turns it into the standard form the input fields expect. Input can be of the form:

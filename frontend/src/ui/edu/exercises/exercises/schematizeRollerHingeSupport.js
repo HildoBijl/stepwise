@@ -3,7 +3,7 @@ import React from 'react'
 import { deg2rad } from 'step-wise/util'
 import { Vector, Line } from 'step-wise/geometry'
 
-import { selectRandomCorrect } from 'util/feedbackMessages'
+import { selectRandomCorrect } from 'ui/edu/exercises/feedbackMessages'
 import { Par } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'
