@@ -87,7 +87,7 @@ export default function Tile({ course, skillsTotal, skillsDone, recommendation }
 			tooltip = translate('You have all skills on a sufficient level! The next step is the free practice mode.', 'freePracticeRecommendation')
 			break
 		default:
-			tooltip = `${translate(`Our practice recommendation:`, 'skillRecommendation')} ${translate(skillTree[recommendation].name, `${recommendation}.name`, 'edu/skills/skillInfo')}`
+			tooltip = <>{translate(`Our practice recommendation:`, 'skillRecommendation')} {translate(skillTree[recommendation].name, `${recommendation}.name`, 'edu/skills/skillInfo')}</>
 			break
 	}
 
