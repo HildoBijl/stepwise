@@ -39,13 +39,13 @@ export function useFeedback(id) {
 	let { result: feedbackResult, input: feedbackInput } = useRawFeedback(id)
 	const { input: allInput } = useFeedbackContext()
 
-	// If the field is not known yet, return empty feedback.
+	// If the field is not known yet, do not show feedback.
 	const { getFieldData, isInputEqual } = useFormData()
 	const fieldData = getFieldData(id)
 	if (fieldData === undefined)
 		return addInput(undefined, undefined)
 
-	// On a validation problem, return the validation feedback.
+	// On a validation problem, show the validation feedback.
 	if (validationResult !== undefined && isInputEqual(id, validationInput)) {
 		// If the validation result is not a full object, but a string (text) or React element (which is usually the case) then use this as text for the feedback. Also process it to still add an icon and a color.
 		if (!isBasicObject(validationResult) || isValidElement(validationResult))
@@ -53,8 +53,14 @@ export function useFeedback(id) {
 		return addInput(processFeedback({ type: 'warning', ...validationResult }, theme), validationInput)
 	}
 
-	// Evaluate the regular feedback. If it does not exist, do not give any.
+	// Validation is fine. Check the regular feedback.
+
+	// If there is no regular feedback, do not show feedback.
 	if (!feedbackResult)
+		return addInput(undefined, feedbackInput)
+
+	// If the input has changed, do not show feedback.
+	if (!isInputEqual(id, feedbackInput))
 		return addInput(undefined, feedbackInput)
 
 	// If there is a feedback coupling to certain fields, and if any of those fields have changed, do not show feedback.
@@ -64,7 +70,7 @@ export function useFeedback(id) {
 	if (feedbackCoupling.some(couplingId => allInput[couplingId] === undefined || !isInputEqual(couplingId, allInput[couplingId])))
 		return addInput(undefined, feedbackInput)
 
-	// Validation is fine. Return the regular feedback (whether it exists or not).
+	// Show the field feedback.
 	return addInput(feedbackResult, feedbackInput)
 }
 
