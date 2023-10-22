@@ -1,0 +1,89 @@
+{
+	"correct": {
+		"0": "That is correct!",
+		"1": "Nicely done.",
+		"2": "Amazing, you did it!",
+		"3": "That is the correct solution.",
+		"4": "All in order.",
+		"5": "Wonderful! Keep it up.",
+		"6": "Well on your way.",
+		"7": "Correct! Very well done.",
+		"8": "You solved it!",
+		"9": "Splendid!",
+		"10": "All perfect.",
+		"11": "Looking good.",
+		"12": "Awesome! All correct.",
+		"13": "Yes, that's it.",
+		"14": "That is the right answer.",
+		"15": "That is completely correct."
+	},
+	"incorrect": {
+		"0": "That is not the right solution.",
+		"1": "Sadly, that doesn't add up.",
+		"2": "That is not correct.",
+		"3": "Try again?",
+		"4": "This one's off.",
+		"5": "Unfortunately it's wrong.",
+		"6": "No, not the right solution.",
+		"7": "Well ... not exactly.",
+		"8": "Sorry, that's wrong.",
+		"9": "No, that's not it.",
+		"10": "Oops, that's a wrong answer."
+	},
+	"empty": {
+		"0": "You did not enter anything.",
+		"1": "This field is still empty.",
+		"2": "You forgot to write something here.",
+		"3": "You have to enter something here.",
+		"4": "There's something missing here."
+	},
+	"missingNumber": {
+		"0": "You didn't fill in a number.",
+		"1": "There should be a number here.",
+		"2": "Don't forget to enter a number!",
+		"3": "Where is the number?",
+		"4": "Oops, there's a number missing here."
+	},
+	"missingUnit": {
+		"0": "You didn't fill in a unit.",
+		"1": "There should be a unit here.",
+		"2": "Don't forget to enter a unit!",
+		"3": "Where is the unit?",
+		"4": "Oops, there's a unit missing here."
+	},
+	"invalidUnit": {
+		"0": "This is not a valid unit.",
+		"1": "Check the unit here.",
+		"2": "This unit does not look correct.",
+		"3": "There's something wrong with your unit.",
+		"4": "There are faulty parts in your unit."
+	},
+	"incorrectUnit": {
+		"0": "Your unit isn't correct. Have a look at that first.",
+		"1": "There's an error in your unit. Fix that first.",
+		"2": "Wrong unit. What unit should the answer have?",
+		"3": "It goes awry at the unit. What should it be?",
+		"4": "Oops, your unit is off. Check that one out."
+	},
+	"negative": {
+		"0": "This is a negative number.",
+		"1": "This number isn't positive.",
+		"2": "The minus sign shouldn't be there.",
+		"3": "This number is supposed to be positive.",
+		"4": "What's that minus sign doing there?"
+	},
+	"duplicate": {
+		"0": "This value is equal to an earlier solution.",
+		"1": "No, you already gave this solution.",
+		"2": "You already entered this solution above.",
+		"3": "This is not a unique solution.",
+		"4": "Oops, you already filled this one in."
+	},
+	"nonNumeric": {
+		"0": "This value is not a number.",
+		"1": "There's still a variable in there.",
+		"2": "You entered something that is not a number.",
+		"3": "This isn't something that can be turned into a number.",
+		"4": "Oops, I can't turn this into a number."
+	}
+}

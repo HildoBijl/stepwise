@@ -1,132 +1,140 @@
-import { selectRandomly } from 'step-wise/util'
+import { getRandomInteger } from 'step-wise/util'
+
+import { Translation } from 'i18n'
+
+// getRandomTranslatedFeedback is a support wrapper function that wraps a feedback string in a Translation component so it can be translated.
+export function getRandomTranslatedFeedback(feedbackList, entryType) {
+	const index = getRandomInteger(0, feedbackList.length - 1)
+	return <Translation path="edu/eduTools/feedback" entry={`${entryType}.${index}`}>{feedbackList[index]}</Translation>
+}
 
 // selectRandomCorrect gives a random correct text.
 export function selectRandomCorrect(withWrapper = false) {
 	if (withWrapper)
 		return { correct: false, text: selectRandomIncorrect() }
-	return selectRandomly([
-		'Dat is goed!',
-		'Indrukwekkend gedaan.',
-		'Geweldig, het is je gelukt!',
-		'Dat is de juiste oplossing.',
-		'Klopt helemaal.',
-		'Prachtig! Ga zo door.',
-		'Gaat lekker zo.',
-		'Correct! Goed gedaan.',
-		'Je hebt hem opgelost!',
-		'Mooi zo!',
-		'Helemaal perfect.',
-		'Ziet er goed uit.',
-		'Top! Het klopt.',
-		'Ja, dat is hem.',
-		'Dat is het goede antwoord.',
-		'Dat is helemaal correct.',
-	])
+	return getRandomTranslatedFeedback([
+		'That is correct!',
+		'Nicely done.',
+		'Amazing, you did it!',
+		'That is the correct solution.',
+		'All in order.',
+		'Wonderful! Keep it up.',
+		'Well on your way.',
+		'Correct! Very well done.',
+		'You solved it!',
+		'Splendid!',
+		'All perfect.',
+		'Looking good.',
+		'Awesome! All correct.',
+		'Yes, that\'s it.',
+		'That is the right answer.',
+		'That is completely correct.',
+	], 'correct')
 }
 
 // selectRandomIncorrect gives a random incorrect text.
 export function selectRandomIncorrect(withWrapper = false) {
 	if (withWrapper)
 		return { correct: false, text: selectRandomIncorrect() }
-	return selectRandomly([
-		'Dat is niet de juiste oplossing.',
-		'Helaas, dat klopt niet.',
-		'Dat is niet correct.',
-		'Nog eens proberen?',
-		'Die is mis.',
-		'Je zit er helaas naast.',
-		'Nee, niet het juiste antwoord.',
-		'Tja ... net niet.',
-		'Sorry, dat is fout.',
-		'Nee, dat is hem niet.',
-		'Oops, dat is een verkeerd antwoord.',
-	])
+	return getRandomTranslatedFeedback([
+		'That is not the right solution.',
+		'Sadly, that doesn\'t add up.',
+		'That is not correct.',
+		'Try again?',
+		'This one\'s off.',
+		'Unfortunately it\'s wrong.',
+		'No, not the right solution.',
+		'Well ... not exactly.',
+		'Sorry, that\'s wrong.',
+		'No, that\'s not it.',
+		'Oops, that\'s a wrong answer.',
+	], 'incorrect')
 }
 
 // selectRandomEmpty gives a random text that a field is empty.
 export function selectRandomEmpty() {
-	return selectRandomly([
-		'Je hebt niets ingevuld.',
-		'Dit veld is nog leeg.',
-		'Je bent hier iets vergeten in te vullen.',
-		'Je moet hier iets invullen.',
-		'Hier mist nog wat.',
-	])
+	return getRandomTranslatedFeedback([
+		'You did not enter anything.',
+		'This field is still empty.',
+		'You forgot to write something here.',
+		'You have to enter something here.',
+		'There\'s something missing here.',
+	], 'empty')
 }
 
 // selectRandomMissingNumber gives a random text that a number is lacking.
 export function selectRandomMissingNumber() {
-	return selectRandomly([
-		'Je hebt geen getal ingevuld.',
-		'Het getal ontbreekt.',
-		'Vergeet niet een getal in te vullen!',
-		'Waar is het getal?',
-		'Oops, hier mist een getal.',
-	])
+	return getRandomTranslatedFeedback([
+		'You didn\'t fill in a number.',
+		'There should be a number here.',
+		'Don\'t forget to enter a number!',
+		'Where is the number?',
+		'Oops, there\'s a number missing here.',
+	], 'missingNumber')
 }
 
 // selectRandomMissingUnit gives a random text that a unit is lacking.
 export function selectRandomMissingUnit() {
-	return selectRandomly([
-		'Je hebt geen eenheid ingevuld.',
-		'De eenheid ontbreekt.',
-		'Vergeet niet een eenheid in te vullen!',
-		'Waar is de eenheid?',
-		'Oops, hier mist een eenheid.',
-	])
+	return getRandomTranslatedFeedback([
+		'You didn\'t fill in a unit.',
+		'There should be a unit here.',
+		'Don\'t forget to enter a unit.',
+		'Where is the unit?',
+		'Oops, there\'s a unit missing here.',
+	], 'missingUnit')
 }
 
 // selectRandomInvalidUnit gives a random text that a unit is faulty.
 export function selectRandomInvalidUnit() {
-	return selectRandomly([
-		'Dit is geen geldige eenheid.',
-		'Check je eenheid nog eens.',
-		'Deze eenheid ziet er niet correct uit.',
-		'Er is iets mis met je eenheid.',
-		'Er zitten niet kloppende delen in je eenheid.',
-	])
+	return getRandomTranslatedFeedback([
+		'This is not a valid unit.',
+		'Check the unit here.',
+		'This unit does not look correct.',
+		'There\'s something wrong with your unit.',
+		'There are faulty parts in your unit.',
+	], 'invalidUnit')
 }
 
 // selectRandomIncorrectUnit gives a random text that a unit is incorrect.
 export function selectRandomIncorrectUnit() {
-	return selectRandomly([
-		'Je eenheid klopt niet. Kijk daar eerst eens naar.',
-		'Er zit een fout in je eenheid. Verbeter die eerst.',
-		'Incorrecte eenheid. Welke eenheid moet je antwoord hebben?',
-		'Het gaat fout bij de eenheid. Wat zou dit moeten zijn?',
-		'Oops, je eenheid zit ernaast. Check die even.',
-	])
+	return getRandomTranslatedFeedback([
+		'Your unit isn\'t correct. Have a look at that first.',
+		'There\'s an error in your unit. Fix that first.',
+		'Wrong unit. What unit should the answer have?',
+		'It goes awry at the unit. What should it be?',
+		'Oops, your unit is off. Check that one out.',
+	], 'incorrectUnit')
 }
 
 // selectRandomNegative gives a random text that a number is negative.
 export function selectRandomNegative() {
-	return selectRandomly([
-		'Dit is een negatief getal.',
-		'Dit getal is niet positief.',
-		'Dat minteken hoort daar niet.',
-		'Dit getal hoort positief te zijn.',
-		'Wat doet dat minteken daar?',
-	])
+	return getRandomTranslatedFeedback([
+		'This is a negative number.',
+		'This number isn\'t positive.',
+		'The minus sign shouldn\'t be there.',
+		'This number is supposed to be positive.',
+		'What\'s that minus sign doing there?',
+	], 'negative')
 }
 
 // selectRandomDuplicate gives a random text that an answer has already been provided.
 export function selectRandomDuplicate() {
-	return selectRandomly([
-		'Deze waarde is al gelijk aan een eerder gegeven oplossing.',
-		'Nee, deze oplossing had je al gegeven.',
-		'Je hebt deze oplossing hierboven al ingevuld.',
-		'Dit is geen unieke oplossing.',
-		'Oops, je hebt deze al eerder ingevuld.',
-	])
+	return getRandomTranslatedFeedback([
+		'This value is equal to an earlier solution.',
+		'No, you already gave this solution.',
+		'You already entered this solution above.',
+		'This is not a unique solution.',
+		'Oops, you already filled this one in.',
+	], 'duplicate')
 }
 
 // selectRandomNonNumeric gives a random text that an answer is not numeric.
 export function selectRandomNonNumeric() {
-	return selectRandomly([
-		'Deze waarde is geen getal.',
-		'Er staat nog een variabele in.',
-		'Je hebt iets ingevuld dat geen getal is.',
-		'Dit is niet iets wat een getal kan worden.',
-		'Oops, ik kan hier geen getal van maken..',
-	])
+	return getRandomTranslatedFeedback([
+		'This value is not a number.',
+		'There\'s still a variable in there.',
+		'You entered something that is not a number.',
+		'This isn\'t something that can be turned into a number.',
+		'Oops, I can\'t turn this into a number.',
+	], 'nonNumeric')
 }

@@ -1,0 +1,89 @@
+{
+	"correct": {
+		"0": "Dat is goed!",
+		"1": "Indrukwekkend gedaan.",
+		"2": "Geweldig, het is je gelukt!",
+		"3": "Dat is de juiste oplossing.",
+		"4": "Klopt helemaal.",
+		"5": "Prachtig! Ga zo door.",
+		"6": "Gaat lekker zo.",
+		"7": "Correct! Goed gedaan.",
+		"8": "Je hebt hem opgelost!",
+		"9": "Mooi zo!",
+		"10": "Helemaal perfect.",
+		"11": "Ziet er goed uit.",
+		"12": "Top! Het klopt.",
+		"13": "Ja, dat is hem.",
+		"14": "Dat is het goede antwoord.",
+		"15": "Dat is helemaal correct."
+	},
+	"incorrect": {
+		"0": "Dat is niet de juiste oplossing.",
+		"1": "Helaas, dat klopt niet.",
+		"2": "Dat is niet correct.",
+		"3": "Nog eens proberen?",
+		"4": "Die is mis.",
+		"5": "Je zit er helaas naast.",
+		"6": "Nee, niet het juiste antwoord.",
+		"7": "Tja ... net niet.",
+		"8": "Sorry, dat is fout.",
+		"9": "Nee, dat is hem niet.",
+		"10": "Oops, dat is een verkeerd antwoord."
+	},
+	"empty": {
+		"0": "Je hebt niets ingevuld.",
+		"1": "Dit veld is nog leeg.",
+		"2": "Je bent hier iets vergeten in te vullen.",
+		"3": "Je moet hier iets invullen.",
+		"4": "Hier mist nog wat."
+	},
+	"missingNumber": {
+		"0": "Je hebt geen getal ingevuld.",
+		"1": "Het getal ontbreekt.",
+		"2": "Vergeet niet een getal in te vullen!",
+		"3": "Waar is het getal?",
+		"4": "Oops, hier mist een getal."
+	},
+	"missingUnit": {
+		"0": "Je hebt geen eenheid ingevuld.",
+		"1": "De eenheid ontbreekt.",
+		"2": "Vergeet niet een eenheid in te vullen!",
+		"3": "Waar is de eenheid?",
+		"4": "Oops, hier mist een eenheid."
+	},
+	"invalidUnit": {
+		"0": "Dit is geen geldige eenheid.",
+		"1": "Check je eenheid nog eens.",
+		"2": "Deze eenheid ziet er niet correct uit.",
+		"3": "Er is iets mis met je eenheid.",
+		"4": "Er zitten niet kloppende delen in je eenheid."
+	},
+	"incorrectUnit": {
+		"0": "Je eenheid klopt niet. Kijk daar eerst eens naar.",
+		"1": "Er zit een fout in je eenheid. Verbeter die eerst.",
+		"2": "Incorrecte eenheid. Welke eenheid moet je antwoord hebben?",
+		"3": "Het gaat fout bij de eenheid. Wat zou dit moeten zijn?",
+		"4": "Oops, je eenheid zit ernaast. Check die even."
+	},
+	"negative": {
+		"0": "Dit is een negatief getal.",
+		"1": "Dit getal is niet positief.",
+		"2": "Dat minteken hoort daar niet.",
+		"3": "Dit getal hoort positief te zijn.",
+		"4": "Wat doet dat minteken daar?"
+	},
+	"duplicate": {
+		"0": "Deze waarde is al gelijk aan een eerder gegeven oplossing.",
+		"1": "Nee, deze oplossing had je al gegeven.",
+		"2": "Je hebt deze oplossing hierboven al ingevuld.",
+		"3": "Dit is geen unieke oplossing.",
+		"4": "Oops, je hebt deze al eerder ingevuld."
+	},
+	"nonNumeric": {
+		"0": "Deze waarde is geen getal.",
+		"1": "Er staat nog een variabele in.",
+		"2": "Je hebt iets ingevuld dat geen getal is.",
+		"3": "Dit is niet iets wat een getal kan worden.",
+		"4": "Oops, ik kan hier geen getal van maken."
+	}
+}

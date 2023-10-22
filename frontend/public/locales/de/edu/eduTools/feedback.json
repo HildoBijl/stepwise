@@ -1,0 +1,89 @@
+{
+	"correct": {
+		"0": "Das ist gut!",
+		"1": "Beeindruckend gemacht.",
+		"2": "Toll, du hast es geschafft!",
+		"3": "Das ist die richtige Lösung.",
+		"4": "Das stimmt.",
+		"5": "Wunderbar! Mach weiter so.",
+		"6": "Es geht zügig voran.",
+		"7": "Richtig! Gut gemacht.",
+		"8": "Du hast es gelöst!",
+		"9": "Schön gemacht!",
+		"10": "Völlig perfekt.",
+		"11": "Sieht gut aus.",
+		"12": "Großartig! Das ist richtig.",
+		"13": "Ja, das ist die Lösung.",
+		"14": "Das ist die richtige Antwort.",
+		"15": "Das ist ganz richtig."
+	},
+	"incorrect": {
+		"0": "Das ist nicht die richtige Lösung.",
+		"1": "Leider stimmt das nicht.",
+		"2": "Das ist nicht richtig.",
+		"3": "Nochmals versuchen?",
+		"4": "Das ist falsch.",
+		"5": "Du irrst dich leider.",
+		"6": "Nein, das ist nicht die richtige Antwort.",
+		"7": "Nun ... einfach nicht.",
+		"8": "Tut mir leid, das ist falsch.",
+		"9": "Nein, das ist nicht die Lösung.",
+		"10": "Ups, das ist die falsche Antwort."
+	},
+	"empty": {
+		"0": "Du hast noch nichts ausgefüllt.",
+		"1": "Dieses Feld ist noch leer.",
+		"2": "Du hast vergessen, hier etwas auszufüllen.",
+		"3": "Du musst hier etwas eingeben.",
+		"4": "Hier fehlt noch etwas."
+	},
+	"missingNumber": {
+		"0": "Du hast keine Nummer eingegeben.",
+		"1": "Die Zahl fehlt.",
+		"2": "Vergiss nicht, eine Nummer einzugeben!",
+		"3": "Wo ist die Nummer?",
+		"4": "Ups, hier fehlt eine Zahl."
+	},
+	"missingUnit": {
+		"0": "Du hast keine Einheit eingegeben.",
+		"1": "Es fehlt die Einheit.",
+		"2": "Vergiss nicht, eine Einheit einzugeben!",
+		"3": "Wo ist die Einheit?",
+		"4": "Ups, hier fehlt eine Einheit."
+	},
+	"invalidUnit": {
+		"0": "Dies ist keine gültige Einheit.",
+		"1": "Überprüfe deine Einheit noch einmal.",
+		"2": "Dieses Einheit sieht nicht korrekt aus.",
+		"3": "Mit deiner Einheit ist etwas nicht in Ordnung.",
+		"4": "In deiner Einheit befinden sich falsche Teile."
+	},
+	"incorrectUnit": {
+		"0": "Deine Einheit ist nicht korrekt. Sieh dir das zuerst an.",
+		"1": "Es gibt einen Fehler in deiner Einheit. Korrigiere ihn zuerst.",
+		"2": "Falsche Einheit. Welche Einheit sollte deine Antwort haben?",
+		"3": "Es geht schief mit der Einheit. Was sollte das sein?",
+		"4": "Ups, deine Einheit ist falsch. Überprüfe das."
+	},
+	"negative": {
+		"0": "Dies ist eine negative Zahl.",
+		"1": "Diese Zahl ist nicht positiv.",
+		"2": "Das Minuszeichen gehört da nicht hin.",
+		"3": "Diese Zahl sollte positiv sein.",
+		"4": "Was hat das Minuszeichen da zu suchen?"
+	},
+	"duplicate": {
+		"0": "Dieser Wert ist bereits gleich einer vorher gegebenen Lösung.",
+		"1": "Nein, diese Lösung hast du bereits gegeben.",
+		"2": "Du hast diese Lösung bereits oben eingegeben.",
+		"3": "Dies ist keine einzigartige Lösung.",
+		"4": "Ups, das hast du schon ausgefüllt."
+	},
+	"nonNumeric": {
+		"0": "Dieser Wert ist keine Zahl.",
+		"1": "Deine Antwort enthält eine Variable.",
+		"2": "Du hast etwas eingegeben, das keine Zahl ist.",
+		"3": "Das ist nichts, was zu einer Zahl werden kann.",
+		"4": "Ups, ich kann daraus keine Zahl ableiten."
+	}
+}
