@@ -6,7 +6,8 @@ import ResizeObserver from 'resize-observer-polyfill'
 import { noop } from 'step-wise/util'
 import { getAllExercises } from 'step-wise/edu/exercises/util/selection'
 
-import ModalManager from 'ui/components/Modal/ModalManager'
+import { I18nProvider } from 'i18n'
+import { ModalManager } from 'ui/components'
 import theme from 'ui/theme'
 import { FieldController } from 'ui/form'
 import { ExerciseContext } from 'ui/edu/exercises/ExerciseContainer'
@@ -30,6 +31,7 @@ describe('Check all exercises:', () => {
 				// Emulate the ExerciseContainer.
 				const state = shared.generateState()
 				const exerciseData = {
+					exerciseId,
 					state,
 					history: [],
 					progress: {},
@@ -40,15 +42,17 @@ describe('Check all exercises:', () => {
 					solution: shared.getSolution && shared.getSolution(state),
 				}
 				expect(() => render(
-					<ThemeProvider theme={theme}>
-						<FieldController>
-							<ModalManager>
-								<ExerciseContext.Provider value={exerciseData}>
-									<Exercise />
-								</ExerciseContext.Provider>
-							</ModalManager>
-						</FieldController>
-					</ThemeProvider>
+					<I18nProvider>
+						<ThemeProvider theme={theme}>
+							<FieldController>
+								<ModalManager>
+									<ExerciseContext.Provider value={exerciseData}>
+										<Exercise />
+									</ExerciseContext.Provider>
+								</ModalManager>
+							</FieldController>
+						</ThemeProvider>
+					</I18nProvider>
 				)).not.toThrow()
 			})
 		})

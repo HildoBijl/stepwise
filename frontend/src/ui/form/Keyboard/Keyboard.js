@@ -111,15 +111,16 @@ export const Keyboard = forwardRef(({ settings, keyFunction }, ref) => {
 			<Container maxWidth={theme.appWidth}>
 				<div className='tabContainer'>
 					<div ref={tabsRef} className='tabs'>
-						{activeTabs.length === 1 ? null : activeTabs.map(currTab => (
-							<Tab
+						{activeTabs.length === 1 ? null : activeTabs.map(currTab => {
+							const TabIcon = keyboards[currTab].Tab
+							return <Tab
 								key={currTab}
 								active={open && currTab === tab}
 								onClick={() => activate(currTab)}
 							>
-								{keyboards[currTab].tab}
+								<TabIcon />
 							</Tab>
-						))}
+						})}
 						<Tab onClick={() => setOpen(!open)}>
 							<KeyboardIcon />
 							<Arrow className='keyboardArrow' />

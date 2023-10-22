@@ -5,7 +5,7 @@ import { M } from 'ui/components'
 
 import { KeyboardLayout } from '../KeyboardLayout'
 
-export const tab = <M>1{`{,}`}23</M>
+export const Tab = () => <M>1{`{,}`}23</M>
 
 export function Layout({ settings, keyFunction, keySettings }) {
 	const smallScreen = !useMediaQuery(theme => theme.breakpoints.up('sm'))

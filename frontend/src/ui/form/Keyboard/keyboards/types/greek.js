@@ -4,7 +4,7 @@ import { M } from 'ui/components'
 
 import { KeyboardLayout } from '../KeyboardLayout'
 
-export const tab = <M>\alpha \beta \gamma</M>
+export const Tab = () => <M>\alpha \beta \gamma</M>
 
 const defaultKeys = ['alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta', 'theta', 'iota', 'Backspace', 'kappa', 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'ArrowUp', 'Shift', 'tau', 'upsilon', 'phi', 'chi', 'psi', 'omega', 'ArrowLeft', 'ArrowDown', 'ArrowRight']
 const upperCaseKeys = defaultKeys.map(keyID => keyID[0].toUpperCase() === keyID[0] ? keyID : (keyID[0].toUpperCase() + keyID.slice(1)))

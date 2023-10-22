@@ -18,8 +18,8 @@ describe('Check all keyboards:', () => {
 	Object.keys(keyboards).forEach(tab => {
 		describe(tab, () => {
 			const keyboard = keyboards[tab]
-			it('has a tab export', () => {
-				expect(keyboard.tab).toBeTruthy()
+			it('has a tab export that is a function', () => {
+				expect(typeof keyboard.Tab).toBe('function')
 			})
 			it('has a Layout export that is a function', () => {
 				expect(typeof keyboard.Layout).toBe('function')

@@ -4,7 +4,7 @@ import { M } from 'ui/components'
 
 import { KeyboardLayout } from '../KeyboardLayout'
 
-export const tab = <M>\rm kg/s</M>
+export const Tab = () => <M>\rm kg/s</M>
 
 const prefixesUp = ['da', 'h', 'k', 'M', 'G', 'T', 'P', 'E']
 const prefixesDown = ['d', 'c', 'm', 'μ', 'n', 'p', 'f', 'a']

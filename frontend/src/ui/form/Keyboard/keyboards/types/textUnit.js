@@ -4,7 +4,7 @@ import { M } from 'ui/components'
 
 import { KeyboardLayout } from '../KeyboardLayout'
 
-export const tab = <M>\rm abc</M>
+export const Tab = () => <M>\rm abc</M>
 
 const defaultKeys = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'Backspace', 'Power', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'ArrowUp', 'Times', 'Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'Divide']
 const upperCaseKeys = defaultKeys.map(keyID => keyID.length === 1 ? keyID.toUpperCase() : keyID)

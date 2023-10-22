@@ -366,12 +366,12 @@ let courses = {
 	},
 }
 
+// Turn all keys into lower case.
+courses = arraysToObject(Object.keys(courses).map(key => key.toLowerCase()), Object.values(courses))
+
 // Add ids for the courses.
 Object.keys(courses).forEach(key => {
 	courses[key].id = key
 })
-
-// Turn all keys into lower case.
-courses = arraysToObject(Object.keys(courses).map(key => key.toLowerCase()), Object.values(courses))
 
 export default courses

@@ -6,7 +6,7 @@ import { M } from 'ui/components'
 
 import { KeyboardLayout } from '../KeyboardLayout'
 
-export const tab = <M>\rm sin\left(\pi\right)</M>
+export const Tab = () => <M>\rm sin\left(\pi\right)</M>
 
 const keyGrid = [
 	...['1', '2', '3', 'Plus', 'Minus', 'sin', 'asin', 'root', 'dot', 'pi'],
