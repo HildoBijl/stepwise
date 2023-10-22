@@ -9,6 +9,8 @@ import { HorizontalSlider } from './layout'
 export function M(props) {
 	return <Math displayMode={false} {...props} />
 }
+M.tag = 'inline-math'
+M.translation = false
 
 // Block math equation.
 export function BM(props) {
@@ -18,6 +20,8 @@ export function BM(props) {
 		</HorizontalSlider>
 	)
 }
+BM.tag = 'block-math'
+BM.translation = false
 
 // Raw block math: no horizontal slider around it.
 export function RBM(props) {
@@ -32,11 +36,15 @@ export function BMList(props) {
 		</HorizontalSlider>
 	)
 }
+BMList.tag = 'math-list'
+BMList.translation = false
 
 // A list of block math equations.
 export function BMPart(props) {
 	return RBM(props)
 }
+BMPart.tag = 'math-list-part'
+BMPart.translation = false
 
 export const latexMinus = '−'
 

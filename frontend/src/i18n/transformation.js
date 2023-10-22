@@ -1,6 +1,6 @@
 import { isValidElement } from 'react'
 
-import { isBasicObject, numberToAlphabetString, getTagTree, tagTreeToString } from 'step-wise/util'
+import { passOn, isEmptyArray, isBasicObject, numberToAlphabetString, getTagTree, tagTreeToString, camelCaseToDashCase } from 'step-wise/util'
 
 // elementToString takes a React element like <strong>x: {x}<br/>y: {y}</strong> and turns it into a string for a translation file, like "<a>x: {b}<c/>y: {d}</a>".
 export function elementToString(element, counter = { count: 0 }) {
@@ -31,6 +31,8 @@ export function elementToString(element, counter = { count: 0 }) {
 			name = element.type // A regular HTML component: get the tag.
 		else if (typeof element.type === 'function' && element.type.tag)
 			name = element.type.tag // A React component with a tag parameter.
+		else if (element.type?.name)
+			name = camelCaseToDashCase(element.type.name)
 		else
 			name = getName() // Unknown React component. Get a sequentially generated name.
 
@@ -40,7 +42,7 @@ export function elementToString(element, counter = { count: 0 }) {
 			return contents ? elementToString(contents, counter) : ''
 		}
 		const getTranslationString = element?.type?.getTranslationString || defaultGetTranslationString
-		const contentsString = getTranslationString(element.props, (element) => elementToString(element, counter), element)
+		const contentsString = (element?.type?.translation === false ? '' : getTranslationString(element.props, (element) => elementToString(element, counter), element))
 
 		// Add a tag and return the result.
 		return contentsString ? `<${name}>${contentsString}</${name}>` : `<${name}/>`
@@ -62,7 +64,7 @@ export function applyNoTranslation(element, key) {
 		const defaultNoTranslateProps = (props) => {
 			// On a no-child element, leave it as is.
 			const contents = props.children
-			if (!contents)
+			if (!contents || isEmptyArray(contents))
 				return props
 
 			// On an element with children, process the children.
@@ -71,7 +73,7 @@ export function applyNoTranslation(element, key) {
 				children: applyNoTranslation(element.props.children),
 			}
 		}
-		const noTranslateProps = element?.type?.translateProps || defaultNoTranslateProps
+		const noTranslateProps = (element?.type?.translation === false ? passOn : element?.type?.translateProps || defaultNoTranslateProps)
 		return {
 			...element,
 			key: element.key || key, // Add a key when needed to prevent React warnings.
@@ -178,7 +180,7 @@ export function applyTranslation(element, translation, tagTree, key) {
 		const defaultTranslateProps = (props, tagTree, applyTranslationTree) => {
 			// On a no-child element, leave it as is.
 			const contents = props.children
-			if (!contents)
+			if (!contents || isEmptyArray(contents))
 				return props
 
 			// On an element with children, take the children and process them with respect to the contents of the tag.
@@ -187,7 +189,7 @@ export function applyTranslation(element, translation, tagTree, key) {
 				children: applyTranslationTree(element.props.children, tagTree),
 			}
 		}
-		const translateProps = element?.type?.translateProps || defaultTranslateProps
+		const translateProps = (element?.type?.translation === false ? passOn : element?.type?.translateProps || defaultTranslateProps)
 		return {
 			...element,
 			key: element.key || key, // Add a key when needed to prevent React warnings.

@@ -12,7 +12,6 @@ export function Check({ children, value }) {
 	// Set up the provider to provide the count to child components.
 	return <SwitchContext.Provider value={value}>{children}</SwitchContext.Provider>
 }
-Check.tag = 'check'
 
 // Expose the conditions components within this component.
 Object.keys(conditions).forEach(key => { Check[key] = conditions[key] })

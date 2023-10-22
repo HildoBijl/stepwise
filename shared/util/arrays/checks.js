@@ -1,5 +1,17 @@
 const { isNumber, ensureNumber } = require('../numbers')
 
+// isArray checks if the given variable is an array.
+function isArray(array) {
+	return Array.isArray(array)
+}
+module.exports.isArray = isArray
+
+// isEmptyArray checks if the given parameter is an array that's empty.
+function isEmptyArray(array) {
+	return isArray(array) && array.length === 0
+}
+module.exports.isEmptyArray = isEmptyArray
+
 // ensureArray checks whether a variable is an array and throws an error if not. If all is fine, the same parameter is returned.
 function ensureArray(array) {
 	if (!Array.isArray(array))

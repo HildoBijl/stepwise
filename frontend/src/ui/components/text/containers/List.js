@@ -19,7 +19,6 @@ export function List({ items, useNumbers, className, style }) {
 	const contents = getListContents(items)
 	return useNumbers ? <ol {...properties}>{contents}</ol> : <ul {...properties}>{contents}</ul>
 }
-List.tag = 'list'
 
 // Set up custom functions for generating/using translation strings, to get easier translation set-ups.
 List.getTranslationString = (props, getTranslationString) => getTranslationString(getListContents(props.items))

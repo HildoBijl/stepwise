@@ -7,6 +7,86 @@
         "latestUpdate": "2023-10-22T11:37:22.739Z",
         "latestText": "<strong>y<em>x</em>z</strong>"
       }
+    },
+    "edu/exercises/calculateBasicSupportReactionsDiagonalSupport": {
+      "mainProblem": {
+        "oldText": "<par>Een balk is links met een scharnier en rechts met een scharnierende schuifverbinding bevestigd. Hij wordt belast met een kracht van <a>P = {b}.</a></par><c/><par>Teken het vrijlichaamsschema/schematisch diagram.</par><d><e/></d><par>Bereken hierin de onbekende reactiekrachten/momenten.</par><f/>",
+        "firstUpdate": "2023-10-22T13:07:54.610Z",
+        "latestUpdate": "2023-10-22T14:21:30.984Z",
+        "latestText": "<par>A beam is connected through a hinge on the left and a hinging slider on the right. It is subjected to a load of <inline-math/>.</par><diagram/><par>Draw the free body diagram.</par><input-space><diagram/></input-space><par>Calculate the unknown support reactions.</par>"
+      },
+      "step1.problem": {
+        "oldText": "<par>Teken het vrijlichaamsschema/schematisch diagram.</par><a><b/></a>",
+        "firstUpdate": "2023-10-22T13:09:02.011Z",
+        "latestUpdate": "2023-10-22T14:10:13.907Z",
+        "latestText": "<par>Draw the free body diagram.</par><input-space><diagram/></input-space>"
+      },
+      "step1.solution": {
+        "oldText": "<par>Een scharnier (links) voorkomt horizontale en verticale beweging, maar laat wel draaiing toe. Er is dus een horizontale en een verticale reactiekracht, maar geen reactiemoment. Soortgelijk voorkomt een scharnierende schuifverbinding (rechts) alleen beweging loodrecht op het contactoppervlak. Dat zorgt hier, vanwege de schuine ondergrond, dus voor een iets gekantelde reactiekracht. Zo vinden we het onderstaande schema.</par><a/><par><b>De richtingen van de reactiekrachten/momenten zijn zo gekozen dat de waarden positief worden. Ze mogen ook de andere kant op getekend worden, maar dan worden de berekende krachten/momenten negatief.</b></par>",
+        "firstUpdate": "2023-10-22T13:09:08.697Z",
+        "latestUpdate": "2023-10-22T14:10:18.986Z",
+        "latestText": "<par>A hinge (left) prevents horizontal and vertical motion, but does allow rotation. This means that there is a horizontal and vertical reaction force, but not a reaction torque. Similarly a hinging slider (right) only prevents motion perpendicular to the surface. This results, due to the slanted surface, in a rotated reaction force. This gives us the following diagram.</par><diagram/><par><check><on-true>Note that this is according to the diagram you drew. The support reactions may also be drawn in the opposite direction.</on-true><on-false>The directions of the support reactions have been chosen such that the values are positive. They may also be drawn in the opposite direction, but then the calculated support reactions would be negative.</on-false></check></par>"
+      },
+      "step2.problem": {
+        "oldText": "<par>Bereken de schuine reactiekracht <inline-math/></par><a><b/></a>",
+        "firstUpdate": "2023-10-22T13:22:57.805Z",
+        "latestUpdate": "2023-10-22T14:21:38.252Z",
+        "latestText": "<par>Calculate the diagonal reaction force <inline-math/>.</par><input-space><float-unit-input/></input-space>"
+      },
+      "step2.solution": {
+        "oldText": "<par>Om <inline-math/> te vinden bekijken we de som van de momenten om punt <inline-math/> In dit geval hebben <inline-math/> en <inline-math/> geen invloed. Als we <inline-math/> ook ontbinden in componenten <inline-math/> en <inline-math/>, dan geeft dit de evenwichtsvergelijking<block-math/>De oplossing voor <inline-math/> volgt als<block-math/>Via het ontbinden van krachten volgt <inline-math/> als<block-math/></par>",
+        "firstUpdate": "2023-10-22T13:23:08.584Z",
+        "latestUpdate": "2023-10-22T14:19:44.931Z",
+        "latestText": "<par>To find <inline-math/> we examine the sum of the moments around point <inline-math/>. In this case <inline-math/> and <inline-math/> have no effect. If we decompose <inline-math/> into components <inline-math/> and <inline-math/> too, then this gives the equilibrium equation<block-math/>The solution for <inline-math/> follows as<block-math/>Through decomposing forces <inline-math/> follows as<block-math/></par>"
+      },
+      "step3.problem": {
+        "oldText": "<par>Bereken de verticale reactiekracht <inline-math/></par><a><b/></a>",
+        "firstUpdate": "2023-10-22T13:23:08.584Z",
+        "latestUpdate": "2023-10-22T14:21:44.377Z",
+        "latestText": "<par>Calculate the vertical reaction force <inline-math/>.</par><input-space><float-unit-input/></input-space>"
+      },
+      "step3.solution": {
+        "oldText": "<par>Om <inline-math/> te vinden bekijken we de som van de krachten in de verticale richting. (Het kan eventueel ook via momenten om punt <inline-math/> maar dit is iets meer werk.) De evenwichtsvergelijking wordt hiermee<block-math/>Dit oplossen voor <inline-math/> geeft<block-math/></par>",
+        "firstUpdate": "2023-10-22T13:24:37.074Z",
+        "latestUpdate": "2023-10-22T13:40:03.098Z",
+        "latestText": "<par>To find <inline-math/> we look at the sum of the forces in the vertical direction. (This can also be done by examining moments around point <inline-math/> but this is a bit more work.) This gives the equilibrium equation<block-math/>Solving this for <inline-math/> gives<block-math/></par>"
+      },
+      "step4.problem": {
+        "oldText": "<par>Bereken de horizontale reactiekracht <inline-math/></par><a><b/></a>",
+        "firstUpdate": "2023-10-22T13:24:37.074Z",
+        "latestUpdate": "2023-10-22T14:21:50.769Z",
+        "latestText": "<par>Calculate the horizontal reaction force <inline-math/>.</par><input-space><float-unit-input/></input-space>"
+      },
+      "step4.solution": {
+        "oldText": "<par>Om <inline-math/> te vinden bekijken we de som van de krachten in de horizontale richting. In dit geval hebben <inline-math/> en <inline-math/> geen invloed. Dit geeft ons de evenwichtsvergelijking<block-math/>Via het ontbinden van factoren kunnen we vinden dat<block-math/>De evenwichtsvergelijking oplossen voor <inline-math/> geeft vervolgens<block-math/>Hiermee zijn alle reactiekrachten bekend.</par>",
+        "firstUpdate": "2023-10-22T13:24:45.615Z",
+        "latestUpdate": "2023-10-22T13:40:27.631Z",
+        "latestText": "<par>To find <inline-math/> we look at the sum of the forces in the horizontal direction. In this case <inline-math/> and <inline-math/> have no effect. This gives us the equilibrium equation<block-math/>By decomposing forces we can find that<block-math/>Solving the equilibrium equation for <inline-math/> then gives<block-math/>And with this all support reactions have been determined.</par>"
+      }
+    },
+    "edu/exercises/summationAndMultiplication2": {
+      "mainProblem": {
+        "oldText": "<par>Calculate <a>{b} \\cdot {c} + {d} \\cdot {e}.</a></par><f><par><g/></par></f>",
+        "firstUpdate": "2023-10-22T13:20:38.148Z",
+        "latestUpdate": "2023-10-22T14:07:13.629Z",
+        "latestText": "<par>Calculate <inline-math/></par><input-space><par><integer-input/></par></input-space>"
+      }
+    },
+    "edu/exercises/summationAndMultiplication1": {
+      "mainProblem": {
+        "oldText": "<par>Calculate <a>{b} \\cdot {c} + {d}.</a></par><e><par><f/></par></e>",
+        "firstUpdate": "2023-10-22T13:20:40.313Z",
+        "latestUpdate": "2023-10-22T14:07:13.487Z",
+        "latestText": "<par>Calculate <inline-math/></par><input-space><par><integer-input/></par></input-space>"
+      }
+    },
+    "edu/courses/coursePage": {
+      "gradeEstimate": {
+        "oldText": "Based on your practice so far, we expect a score of roughly <a>{percentage}</a> (about <b>{lowerPercentage} - {upperPercentage}</b>) on the final test.",
+        "firstUpdate": "2023-10-22T14:49:49.481Z",
+        "latestUpdate": "2023-10-22T14:49:49.494Z",
+        "latestText": "Based on your practice so far, we expect a score of roughly <strong>{percentage}</strong> (about <strong>{lowerPercentage} - {upperPercentage}</strong>) on the final test."
+      }
     }
   }
 }

@@ -1,5 +1,5 @@
 {
-  "mainProblem": "<par>Calculate <a>{b} \\cdot {c} + {d} \\cdot {e}.</a></par><f><par><g/></par></f>",
+  "mainProblem": "<par>Calculate <inline-math/></par><input-space><par><integer-input/></par></input-space>",
   "step1": {
     "problem": "<par>Calculate <a>{b} \\cdot {c}.</a></par><d><par><e/></par></d>",
     "solution": "<par>Note that multiplication comes before addition, so first we calculate <a>{b} \\cdot {c} = {d}.</a></par>"

@@ -22,4 +22,3 @@ export function Head({ children, className, style }) {
 		</Typography>
 	</>
 }
-Head.tag = 'head'

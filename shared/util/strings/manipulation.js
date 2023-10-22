@@ -31,3 +31,9 @@ function insertAtIndex(str, ind = 0, insertion = '') {
 	return str.slice(0, ind) + insertion + str.slice(ind)
 }
 module.exports.insertAtIndex = insertAtIndex
+
+// camelCaseToDashCase takes a string like 'someFancyName' and turns it into 'some-fancy-name': all lower case and with dashes as seperators.
+function camelCaseToDashCase(str) {
+	return firstToLowerCase(str).replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`)
+}
+module.exports.camelCaseToDashCase = camelCaseToDashCase

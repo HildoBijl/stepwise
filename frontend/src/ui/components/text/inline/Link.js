@@ -16,4 +16,3 @@ export function Link({ children, className, style, to }) {
 	const classes = useStyles()
 	return <a className={clsx(classes.link, 'paragraph', className)} style={style} href={to}>{children}</a>
 }
-Link.tag = 'link'

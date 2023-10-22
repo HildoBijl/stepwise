@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Vector, Line } from 'step-wise/geometry'
 
+import { Translation, Check } from 'i18n'
 import { Par, M, BM } from 'ui/components'
 import { Drawing, CornerLabel, Line as SvgLine, useScaleBasedTransformationSettings } from 'ui/figures'
 import { useInput, InputSpace } from 'ui/form'
@@ -26,13 +27,15 @@ const Problem = (state) => {
 	const loadNames = getLoadNames(inputLoads).filter(load => !load.prenamed)
 
 	return <>
-		<Par>Een balk is links met een scharnier en rechts met een scharnierende schuifverbinding bevestigd. Hij wordt belast met een kracht van <M>P = {P}.</M></Par>
-		<Diagram isInputField={false} />
-		<Par>Teken het vrijlichaamsschema/schematisch diagram.</Par>
-		<InputSpace>
-			<Diagram id="loads" isInputField={true} showSupports={false} />
-		</InputSpace>
-		<Par>Bereken hierin de onbekende reactiekrachten/momenten.</Par>
+		<Translation>
+			<Par>A beam is connected through a hinge on the left and a hinging slider on the right. It is subjected to a load of <M>P = {P}</M>.</Par>
+			<Diagram isInputField={false} />
+			<Par>Draw the free body diagram.</Par>
+			<InputSpace>
+				<Diagram id="loads" isInputField={true} showSupports={false} />
+			</InputSpace>
+			<Par>Calculate the unknown support reactions.</Par>
+		</Translation >
 		<InputSpace>
 			{loadNames.map(loadName => <FloatUnitInput key={loadName.variable.name} id={loadName.variable.name} prelabel={<M>{loadName.variable}=</M>} size="s" persistent={true} feedbackCoupling={['loads']} />)}
 		</InputSpace>
@@ -42,97 +45,97 @@ const Problem = (state) => {
 const steps = [
 	{
 		Problem: () => {
-			return <>
-				<Par>Teken het vrijlichaamsschema/schematisch diagram.</Par>
+			return <Translation>
+				<Par>Draw the free body diagram.</Par>
 				<InputSpace>
 					<Diagram id="loads" isInputField={true} showSupports={false} />
 				</InputSpace>
-			</>
+			</Translation>
 		},
 		Solution: () => {
 			const { hasAdjustedSolution } = useSolution()
-			return <>
-				<Par>Een scharnier (links) voorkomt horizontale en verticale beweging, maar laat wel draaiing toe. Er is dus een horizontale en een verticale reactiekracht, maar geen reactiemoment. Soortgelijk voorkomt een scharnierende schuifverbinding (rechts) alleen beweging loodrecht op het contactoppervlak. Dat zorgt hier, vanwege de schuine ondergrond, dus voor een iets gekantelde reactiekracht. Zo vinden we het onderstaande schema.</Par>
+			return <Translation>
+				<Par>A hinge (left) prevents horizontal and vertical motion, but does allow rotation. This means that there is a horizontal and vertical reaction force, but not a reaction torque. Similarly a hinging slider (right) only prevents motion perpendicular to the surface. This results, due to the slanted surface, in a rotated reaction force. This gives us the following diagram.</Par>
 				<Diagram showSolution={true} showSupports={false} />
-				<Par>{hasAdjustedSolution ? <>Merk op dat dit conform jouw getekende diagram is. De reactiekrachten/momenten mogen ook andersom, indien gewenst.</> : <>De richtingen van de reactiekrachten/momenten zijn zo gekozen dat de waarden positief worden. Ze mogen ook de andere kant op getekend worden, maar dan worden de berekende krachten/momenten negatief.</>}</Par>
-			</>
+				<Par><Check value={hasAdjustedSolution}><Check.True>Note that this is according to the diagram you drew. The support reactions may also be drawn in the opposite direction.</Check.True><Check.False>The directions of the support reactions have been chosen such that the values are positive. They may also be drawn in the opposite direction, but then the calculated support reactions would be negative.</Check.False></Check></Par>
+			</Translation>
 		},
 	},
 	{
 		Problem: () => {
 			const { loadVariables } = useSolution()
 			const vFC = loadVariables[3]
-			return <>
-				<Par>Bereken de schuine reactiekracht <M>{vFC}.</M></Par>
+			return <Translation>
+				<Par>Calculate the diagonal reaction force <M>{vFC}</M>.</Par>
 				<InputSpace>
 					<FloatUnitInput id={vFC.name} prelabel={<M>{vFC}=</M>} size="s" />
 				</InputSpace>
-			</>
+			</Translation>
 		},
 		Solution: () => {
 			const { directionIndices, l1, l2, angle, P, FCy, FC } = useSolution()
 
-			return <>
+			return <Translation>
 				<Par>
-					Om <M>F_C</M> te vinden bekijken we de som van de momenten om punt <M>A.</M> In dit geval hebben <M>F_(Ax)</M> en <M>F_(Ay)</M> geen invloed. Als we <M>F_C</M> ook ontbinden in componenten <M>F_(Cx)</M> en <M>F_(Cy)</M>, dan geeft dit de evenwichtsvergelijking
+					To find <M>F_C</M> we examine the sum of the moments around point <M>A</M>. In this case <M>F_(Ax)</M> and <M>F_(Ay)</M> have no effect. If we decompose <M>F_C</M> into components <M>F_(Cx)</M> and <M>F_(Cy)</M> too, then this gives the equilibrium equation
 					<BM>{sumOfMoments('A', false)} P l_1 {directionIndices[3] ? '-' : '+'} F_(Cy) \left(l_1 + l_2\right) = 0.</BM>
-					De oplossing voor <M>F_(Cy)</M> volgt als
+					The solution for <M>F_(Cy)</M> follows as
 					<BM>F_(Cy) = {directionIndices[3] ? '' : '-'} \frac(P l_1)(l_1 + l_2) = {directionIndices[3] ? '' : '-'} \frac({P.float} \cdot {l1.float})({l1.float} + {l2.float}) = {FCy}.</BM>
-					Via het ontbinden van krachten volgt <M>F_C</M> als
+					Through decomposing forces <M>F_C</M> follows as
 					<BM>F_C = \frac(F_(Cy))(\sin\left({angle}\right)) = \frac({FCy.float})(\sin\left({angle}\right)) = {FC}.</BM>
 				</Par>
-			</>
+			</Translation>
 		},
 	},
 	{
 		Problem: () => {
 			const { loadVariables } = useSolution()
 			const vFAy = loadVariables[2]
-			return <>
-				<Par>Bereken de verticale reactiekracht <M>{vFAy}.</M></Par>
+			return <Translation>
+				<Par>Calculate the vertical reaction force <M>{vFAy}</M>.</Par>
 				<InputSpace>
 					<FloatUnitInput id={vFAy.name} prelabel={<M>{vFAy}=</M>} size="s" />
 				</InputSpace>
-			</>
+			</Translation>
 		},
 		Solution: () => {
 			const { directionIndices, P, FCy, FAy } = useSolution()
 
-			return <>
+			return <Translation>
 				<Par>
-					Om <M>F_(Ay)</M> te vinden bekijken we de som van de krachten in de verticale richting. (Het kan eventueel ook via momenten om punt <M>C,</M> maar dit is iets meer werk.) De evenwichtsvergelijking wordt hiermee
+					To find <M>F_(Ay)</M> we look at the sum of the forces in the vertical direction. (This can also be done by examining moments around point <M>C,</M> but this is a bit more work.) This gives the equilibrium equation
 					<BM>{sumOfForces(true)} {directionIndices[2] ? '' : '-'} F_(Ay) - P {directionIndices[3] ? '+' : '-'} F_(Cy) = 0.</BM>
-					Dit oplossen voor <M>F_(Ay)</M> geeft
+					Solving this for <M>F_(Ay)</M> gives
 					<BM>F_(Ay) = {directionIndices[2] ? '' : '-'} P {directionIndices[2] === directionIndices[3] ? '-' : '+'} F_(Cy) = {directionIndices[2] ? '' : '-'} {P.float} {directionIndices[2] === directionIndices[3] ? '-' : '+'} {FCy.float.texWithBrackets} = {FAy}.</BM>
 				</Par>
-			</>
+			</Translation>
 		},
 	},
 	{
 		Problem: () => {
 			const { loadVariables } = useSolution()
 			const vFAx = loadVariables[1]
-			return <>
-				<Par>Bereken de horizontale reactiekracht <M>{vFAx}.</M></Par>
+			return <Translation>
+				<Par>Calculate the horizontal reaction force <M>{vFAx}</M>.</Par>
 				<InputSpace>
 					<FloatUnitInput id={vFAx.name} prelabel={<M>{vFAx}=</M>} size="s" />
 				</InputSpace>
-			</>
+			</Translation>
 		},
 		Solution: () => {
 			const { directionIndices, angle, FAx, FC, FCx } = useSolution()
 
-			return <>
+			return <Translation>
 				<Par>
-					Om <M>F_(Ax)</M> te vinden bekijken we de som van de krachten in de horizontale richting. In dit geval hebben <M>F_(Ay)</M> en <M>F_(Cy)</M> geen invloed. Dit geeft ons de evenwichtsvergelijking
+					To find <M>F_(Ax)</M> we look at the sum of the forces in the horizontal direction. In this case <M>F_(Ay)</M> and <M>F_(Cy)</M> have no effect. This gives us the equilibrium equation
 					<BM>{sumOfForces(false)} {directionIndices[1] ? '' : '-'} F_(Ax) {directionIndices[3] ? '-' : '+'} F_(Cx) = 0.</BM>
-					Via het ontbinden van factoren kunnen we vinden dat
+					By decomposing forces we can find that
 					<BM>F_(Cx) = F_C \sin\left({angle}\right) = {FC.float} \cdot \sin\left({angle}\right) = {FCx}.</BM>
-					De evenwichtsvergelijking oplossen voor <M>F_(Ax)</M> geeft vervolgens
+					Solving the equilibrium equation for <M>F_(Ax)</M> then gives
 					<BM>F_(Ax) = {directionIndices[1] === directionIndices[3] ? '' : '-'} F_(Cx) = {FAx}.</BM>
-					Hiermee zijn alle reactiekrachten bekend.
+					And with this all support reactions have been determined.
 				</Par>
-			</>
+			</Translation>
 		},
 	},
 ]
