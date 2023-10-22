@@ -1,12 +1,12 @@
 {
-  "stepwiseTutorial": {
+  "stepwisetutorial": {
     "name": "Step-Wise Tutorial",
     "blocks": {
       "0": "Lösungen eingeben",
       "1": "Demo schrittweise Übungen"
     }
   },
-  "algebraBasics": {
+  "algebrabasics": {
     "name": "Mathematik: Algebra Grundlagen",
     "blocks": {
       "0": "Brüchen zusammenführen/spalten",
@@ -16,7 +16,7 @@
       "4": "Lineare Gleichungen lösen"
     }
   },
-  "mathematicsFundamentals": {
+  "mathematicsfundamentals": {
     "name": "Mathematik: Grundlagen",
     "blocks": {
       "0": "Grundregeln der Algebra",
@@ -28,7 +28,7 @@
       "6": "Flächen und Volumen"
     }
   },
-  "mathematicsDerivatives": {
+  "mathematicsderivatives": {
     "name": "Mathematik: Ableitungen",
     "blocks": {
       "0": "Basisableitungen",
@@ -36,14 +36,14 @@
       "2": "Ableitungen bestimmen"
     }
   },
-  "staticsFundamentals": {
+  "staticsfundamentals": {
     "name": "Statik: Grundlagen",
     "blocks": {
       "0": "Freikörperdiagrammen zeichnen",
       "1": "Reaktionenskräfte berechnen"
     }
   },
-  "thermodynamicsFundamentals": {
+  "thermodynamicsfundamentals": {
     "name": "Thermodynamik: Grundlagen",
     "blocks": {
       "0": "Gaseigenschaften und das Gasgesetz",
@@ -55,7 +55,7 @@
       "6": "Luftfeuchtigkeit und Klimatisierung"
     }
   },
-  "thermodynamicsApplications": {
+  "thermodynamicsapplications": {
     "name": "Thermodynamik: Anwendungen",
     "blocks": {
       "0": "Geschlossene Systeme und Kreisläufe",
@@ -67,7 +67,7 @@
       "6": "Kältemaschinen und Wärmepumpen"
     }
   },
-  "thermodynamicsApplications2": {
+  "thermodynamicsapplications2": {
     "name": "Thermodynamik: Anwendungen",
     "blocks": {
       "0": "Thermodynamische Prozesse",

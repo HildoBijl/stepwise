@@ -1,12 +1,12 @@
 {
-  "stepwiseTutorial": {
+  "stepwisetutorial": {
     "name": "Step-Wise Tutorial",
     "blocks": {
       "0": "Antwoorden invoeren",
       "1": "Demo stapsgewijze oefeningen"
     }
   },
-  "algebraBasics": {
+  "algebrabasics": {
     "name": "Algebra: basisvaardigheden",
     "blocks": {
       "0": "Breuken samenvoegen/splitsen",
@@ -16,7 +16,7 @@
       "4": "Lineaire vergelijkingen oplossen"
     }
   },
-  "mathematicsFundamentals": {
+  "mathematicsfundamentals": {
     "name": "Exacte Wetenschap A: Wiskunde",
     "blocks": {
       "0": "Basisregels algebra",
@@ -28,7 +28,7 @@
       "6": "Oppervlakten en volumes"
     }
   },
-  "mathematicsDerivatives": {
+  "mathematicsderivatives": {
     "name": "Exacte Wetenschap B: Differentiëren",
     "blocks": {
       "0": "Basis afgeleiden",
@@ -36,14 +36,14 @@
       "2": "Afgeleiden bepalen"
     }
   },
-  "staticsFundamentals": {
+  "staticsfundamentals": {
     "name": "Exacte Wetenschap A: Statica basisvaardigheden",
     "blocks": {
       "0": "Vrijlichaamsschema tekenen",
       "1": "Reactiekrachten berekenen"
     }
   },
-  "thermodynamicsFundamentals": {
+  "thermodynamicsfundamentals": {
     "name": "Exacte Wetenschap D: Natuurkunde",
     "blocks": {
       "0": "Gaseigenschappen en de gaswet",
@@ -55,7 +55,7 @@
       "6": "Luchtvochtigheid en airco's"
     }
   },
-  "thermodynamicsApplications": {
+  "thermodynamicsapplications": {
     "name": "Processen en Modelleren",
     "blocks": {
       "0": "Gesloten systemen en kringprocessen",
@@ -67,7 +67,7 @@
       "6": "Koelmachines en warmtepompen"
     }
   },
-  "thermodynamicsApplications2": {
+  "thermodynamicsapplications2": {
     "name": "Deeltijd: Modelleren en Processen",
     "blocks": {
       "0": "Thermodynamische processen",

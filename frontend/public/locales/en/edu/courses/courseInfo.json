@@ -1,12 +1,12 @@
 {
-  "stepwiseTutorial": {
+  "stepwisetutorial": {
     "name": "Step-Wise Tutorial",
     "blocks": {
       "0": "Fill in answers",
       "1": "Demo Step-Wise exercises"
     }
   },
-  "algebraBasics": {
+  "algebrabasics": {
     "name": "Mathematics: algebra basics",
     "blocks": {
       "0": "Merge/split fractions",
@@ -16,7 +16,7 @@
       "4": "Solve linear equations"
     }
   },
-  "mathematicsFundamentals": {
+  "mathematicsfundamentals": {
     "name": "Mathematics: fundamentals",
     "blocks": {
       "0": "Basic rules of algebra",
@@ -28,7 +28,7 @@
       "6": "Areas and volumes"
     }
   },
-  "mathematicsDerivatives": {
+  "mathematicsderivatives": {
     "name": "Mathematics: derivatives",
     "blocks": {
       "0": "Derivative basics",
@@ -36,14 +36,14 @@
       "2": "Determine derivatives"
     }
   },
-  "staticsFundamentals": {
+  "staticsfundamentals": {
     "name": "Statics: fundamentals",
     "blocks": {
       "0": "Drawing free body diagrams",
       "1": "Calculate support reactions"
     }
   },
-  "thermodynamicsFundamentals": {
+  "thermodynamicsfundamentals": {
     "name": "Thermodynamics: fundamentals",
     "blocks": {
       "0": "Gas properties and the gas law",
@@ -55,7 +55,7 @@
       "6": "Humidity and air conditioning"
     }
   },
-  "thermodynamicsApplications": {
+  "thermodynamicsapplications": {
     "name": "Thermodynamics: applications",
     "blocks": {
       "0": "Closed systems and cycles",
@@ -67,7 +67,7 @@
       "6": "Cooling machines and heat pumps"
     }
   },
-  "thermodynamicsApplications2": {
+  "thermodynamicsapplications2": {
     "name": "Thermodynamics: applications",
     "blocks": {
       "0": "Thermodynamic processes",
@@ -78,11 +78,6 @@
       "5": "Vapors and diagrams",
       "6": "Steam turbines",
       "7": "Cooling machines and heat pumps"
-    }
-  },
-  "pageTitles": {
-    "stepwiseTutorial": {
-      "name": "Step-Wise Tutorial"
     }
   }
 }
