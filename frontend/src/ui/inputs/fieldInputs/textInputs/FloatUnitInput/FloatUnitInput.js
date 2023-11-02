@@ -2,9 +2,11 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { processOptions, filterOptions } from 'step-wise/util'
+import { processOptions, filterOptions, applyMapping } from 'step-wise/util'
 
-import { TextInput, defaultTextInputOptions } from '../TextInput'
+import { Translation } from 'i18n'
+
+import { TextInput, defaultTextInputOptions, textInputFunctions } from '../TextInput'
 import { style as floatStyle, defaultFloatInputOptions } from '../FloatInput'
 import { style as unitStyle } from '../UnitInput'
 
@@ -17,7 +19,7 @@ export const defaultFloatUnitInputOptions = {
 	...defaultFloatInputOptions, // Loads in positive and allowPower.
 
 	// Settings from outside.
-	placeholder: <>Getal met eenheid</>,
+	placeholder: <Translation path="inputs" entry="floatUnitInput.placeHolder">Number with unit</Translation>,
 	validate: validation.nonEmptyUnit,
 
 	// Functionalities.
@@ -70,4 +72,5 @@ export function FloatUnitInput(options) {
 		<FloatUnitInputInner />
 	</TextInput>
 }
+applyMapping(textInputFunctions, (func, key) => { FloatUnitInput[key] = func })
 FloatUnitInput.validation = validation

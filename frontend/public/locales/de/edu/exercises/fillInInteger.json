@@ -1,6 +1,6 @@
 {
-  "problem": "<a><par>Gib die Zahl <b>{c}</b> ein.</par><d><par><e/></par></d></a>",
-  "solution": "<a><par>Du klickst auf das Eingabefeld und gibst <b>{c}</b> ein.<check><on-true> Ein eventuelles Minuszeichen kann auch nach der Eingabe der Zahl hinzugefügt werden. Das Eingabefeld ist intelligent genug, um zu wissen, dass das Minuszeichen vorangestellt werden muss.</on-true></check></par></a>",
+  "problem": "<a><par>Gib die Zahl <inline-math/> ein.</par><input-space><par><integer-input><prelabel><inline-math/></prelabel><label><span>Hier <inline-math/> eingeben</span></label></integer-input></par></input-space></a>",
+  "solution": "<a><par>Du klickst auf das Eingabefeld und gibst <inline-math/> ein.<check><on-true> Ein eventuelles Minuszeichen kann auch nach der Eingabe der Zahl hinzugefügt werden. Das Eingabefeld ist intelligent genug, um zu wissen, dass das Minuszeichen vorangestellt werden muss.</on-true></check></par></a>",
   "feedback": {
     "noMinusSign": "Du hast das Minuszeichen vergessen.",
     "unnecessaryMinusSign": "Versuche, das Minuszeichen zu entfernen."

@@ -1,0 +1,20 @@
+{
+  "integerInput": {
+    "placeHolder": "Ganzzahl"
+  },
+  "floatInput": {
+    "placeHolder": "Kommazahl"
+  },
+  "unitInput": {
+    "placeHolder": "Einheit"
+  },
+  "floatUnitInput": {
+    "placeHolder": "Zahl mit Einheit"
+  },
+  "expressionInput": {
+    "placeHolder": "Ausdruck"
+  },
+  "equationInput": {
+    "placeHolder": "Gleichung"
+  }
+}

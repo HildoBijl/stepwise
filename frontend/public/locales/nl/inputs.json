@@ -1,0 +1,14 @@
+{
+  "integerInput": {
+    "placeHolder": "Geheel getal"
+  },
+  "floatInput": {
+    "placeHolder": "Kommagetal"
+  },
+  "unitInput": {
+    "placeHolder": "Eenheid"
+  },
+  "floatUnitInput": {
+    "placeHolder": "Getal met eenheid"
+  }
+}

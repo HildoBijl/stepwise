@@ -2,10 +2,12 @@ import React from 'react'
 
 import { processOptions, filterOptions } from 'step-wise/util'
 
-import { FieldInput, defaultFieldInputOptions } from '../../FieldInput'
+import { FieldInput, defaultFieldInputOptions, fieldInputFunctions } from '../../FieldInput'
 
 import { AbsoluteCursor } from './AbsoluteCursor'
 import { ResizingInputInner, defaultResizingInputInnerOptions } from './ResizingInputInner'
+
+export const resizingInputFunctions = fieldInputFunctions
 
 export const defaultResizingInputOptions = {
 	...defaultFieldInputOptions,

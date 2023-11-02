@@ -5,7 +5,7 @@ import { options as CASOptions, support as CASSupport } from 'step-wise/CAS'
 
 import { useStableCallback } from 'util/react'
 
-import { ResizingInput, defaultResizingInputOptions } from '../ResizingInput'
+import { ResizingInput, defaultResizingInputOptions, resizingInputFunctions } from '../ResizingInput'
 
 import { mouseClickToCursor } from './support'
 import { expressionFunctions } from './types'
@@ -13,6 +13,8 @@ import { MathInputInner, defaultMathInputInnerOptions } from './MathInputInner'
 
 const { defaultFieldSettings, defaultInterpretationExpressionSettings } = CASOptions
 const { getEmpty, isEmpty } = CASSupport
+
+export const mathInputFunctions = resizingInputFunctions
 
 export const defaultMathInputOptions = {
 	...defaultResizingInputOptions,

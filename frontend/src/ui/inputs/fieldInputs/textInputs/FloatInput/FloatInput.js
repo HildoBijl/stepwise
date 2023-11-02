@@ -2,9 +2,11 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { processOptions, filterOptions } from 'step-wise/util'
+import { processOptions, filterOptions, applyMapping } from 'step-wise/util'
 
-import { TextInput, defaultTextInputOptions } from '../TextInput'
+import { Translation } from 'i18n'
+
+import { TextInput, defaultTextInputOptions, textInputFunctions } from '../TextInput'
 
 import { type, initialValue, isEmpty, keyboardSettings, keyPressToFI, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd, clean, functionalize, errorToMessage } from './support'
 import { FloatInputInner } from './FloatInputInner'
@@ -14,7 +16,7 @@ export const defaultFloatInputOptions = {
 	...defaultTextInputOptions,
 
 	// Settings from outside.
-	placeholder: <>Kommagetal</>,
+	placeholder: <Translation path="inputs" entry="floatInput.placeHolder">Floating point number</Translation>,
 	positive: false,
 	allowPower: true,
 	validate: validation.any,
@@ -58,4 +60,5 @@ export function FloatInput(options) {
 		<FloatInputInner />
 	</TextInput>
 }
+applyMapping(textInputFunctions, (func, key) => { FloatInput[key] = func })
 FloatInput.validation = validation

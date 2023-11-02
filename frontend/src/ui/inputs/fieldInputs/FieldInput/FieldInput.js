@@ -1,6 +1,6 @@
 import React, { useRef, forwardRef } from 'react'
 
-import { isEmptyObject, processOptions, filterOptions, resolveFunctions, passOn } from 'step-wise/util'
+import { isEmptyObject, processOptions, filterOptions, resolveFunctions, passOn, applyMapping } from 'step-wise/util'
 
 import { useEnsureRef } from 'util/react'
 
@@ -76,3 +76,33 @@ export const FieldInput = forwardRef((options, ref) => {
 		</FieldInputHull>
 	</Input>
 })
+FieldInput.getTranslationString = getTranslationString
+
+// Define static functions for the field, for instance those used by translations.
+
+const inputElements = ['label', 'prelabel', 'placeholder']
+function getTranslationString(props, getTranslationString) {
+	let str = ''
+	const processProp = key => {
+		if (props[key])
+			str += `<${key}>${getTranslationString(props[key])}</${key}>`
+	}
+	inputElements.forEach(key => processProp(key))
+	return str
+}
+
+function translateProps(props, tree, applyTranslationTree) {
+	props = { ...props }
+	const processProp = key => {
+		if (props[key])
+			props[key] = applyTranslationTree(props[key], tree.find(branch => branch.name === key).value)
+	}
+	inputElements.forEach(key => processProp(key))
+	return props
+}
+
+export const fieldInputFunctions = {
+	getTranslationString,
+	translateProps,
+}
+applyMapping(fieldInputFunctions, (func, key) => { FieldInput[key] = func })

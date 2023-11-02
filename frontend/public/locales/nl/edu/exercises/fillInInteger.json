@@ -1,6 +1,6 @@
 {
-	"problem": "<a><par>Vul het getal <b>{c}</b> in.</par><d><par><e/></par></d></a>",
-	"solution": "<a><par>Je klikt op het invoervak en typt <b>{c}</b> in.<check><on-true> Het minteken kun je eventueel ook intypen na het getal. Het invoerveld snapt vanzelf dat dit minteken ervoor moet staan.</on-true></check></par></a>",
+  "problem": "<a><par>Vul het getal <inline-math/> in.</par><input-space><par><integer-input><prelabel><inline-math/></prelabel><label><span>Vul hier <inline-math/> in</span></label></integer-input></par></input-space></a>",
+	"solution": "<a><par>Je klikt op het invoervak en typt <inline-math/> in.<check><on-true> Het minteken kun je eventueel ook intypen na het getal. Het invoerveld snapt vanzelf dat dit minteken ervoor moet staan.</on-true></check></par></a>",
 	"feedback": {
 		"noMinusSign": "Je bent het minteken vergeten.",
 		"unnecessaryMinusSign": "Probeer het minteken te verwijderen."

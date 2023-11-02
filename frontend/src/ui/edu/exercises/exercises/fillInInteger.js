@@ -17,7 +17,7 @@ function Problem({ translate, x }) {
 	return translate(<>
 		<Par>Enter the number <M>{x}</M>.</Par>
 		<InputSpace>
-			<Par><IntegerInput id="ans" prelabel={<M>{x}=</M>} label={<span>Vul hier <M>{x}</M> in</span>} size='s' /></Par>
+			<Par><IntegerInput id="ans" prelabel={<M>{x}=</M>} label={<span>Enter <M>{x}</M> here</span>} size='s' /></Par>
 		</InputSpace>
 	</>)
 }

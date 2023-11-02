@@ -3,9 +3,11 @@ import { makeStyles } from '@material-ui/core/styles'
 import { alpha } from '@material-ui/core/styles/colorManipulator'
 import clsx from 'clsx'
 
-import { processOptions, filterOptions } from 'step-wise/util'
+import { Translation } from 'i18n'
 
-import { TextInput, defaultTextInputOptions } from '../TextInput'
+import { processOptions, filterOptions, applyMapping } from 'step-wise/util'
+
+import { TextInput, defaultTextInputOptions, textInputFunctions } from '../TextInput'
 
 import { type, initialValue, isEmpty, keyboardSettings, keyPressToFI, mouseClickToCursor, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd, clean, functionalize, errorToMessage } from './Unit'
 import { UnitInputInner } from './UnitInputInner'
@@ -15,7 +17,7 @@ const defaultUnitInputOptions = {
 	...defaultTextInputOptions,
 
 	// Settings from outside.
-	placeholder: <>Eenheid</>,
+	placeholder: <Translation path="inputs" entry="unitInput.placeHolder">Unit</Translation>,
 	validate: validation.nonEmpty,
 
 	// Functionalities.
@@ -148,7 +150,7 @@ export function UnitInput(options) {
 	const classes = useStyles()
 	const textInputOptions = {
 		...filterOptions(options, defaultTextInputOptions),
-		className: clsx(options.className, classes.unitInput, 'floatInput'),
+		className: clsx(options.className, classes.unitInput, 'unitInput'),
 	}
 
 	// Render the TextInput.
@@ -156,4 +158,5 @@ export function UnitInput(options) {
 		<UnitInputInner />
 	</TextInput>
 }
+applyMapping(textInputFunctions, (func, key) => { UnitInput[key] = func })
 UnitInput.validation = validation

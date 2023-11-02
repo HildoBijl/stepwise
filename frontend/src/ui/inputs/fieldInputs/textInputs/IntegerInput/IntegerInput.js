@@ -1,9 +1,11 @@
 import React from 'react'
 import clsx from 'clsx'
 
-import { processOptions, filterOptions } from 'step-wise/util'
+import { processOptions, filterOptions, applyMapping } from 'step-wise/util'
 
-import { TextInput, defaultTextInputOptions } from '../TextInput'
+import { Translation } from 'i18n'
+
+import { TextInput, defaultTextInputOptions, textInputFunctions } from '../TextInput'
 
 import { type, initialValue, isEmpty, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd, mouseClickToCursor, keyboardSettings, keyPressToFI, errorToMessage } from './support'
 import { IntegerInputInner } from './IntegerInputInner'
@@ -13,7 +15,7 @@ export const defaultIntegerInputOptions = {
 	...defaultTextInputOptions,
 
 	// Settings from outside.
-	placeholder: <>Geheel getal</>,
+	placeholder: <Translation path="inputs" entry="integerInput.placeHolder">Integer number</Translation>,
 	positive: false,
 	validate: validation.any,
 
@@ -48,4 +50,5 @@ export function IntegerInput(options) {
 		<IntegerInputInner />
 	</TextInput>
 }
+applyMapping(textInputFunctions, (func, key) => { IntegerInput[key] = func })
 IntegerInput.validation = validation

@@ -2,9 +2,11 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
-import { processOptions, filterOptions } from 'step-wise/util'
+import { processOptions, filterOptions, applyMapping } from 'step-wise/util'
 
-import { MathInput, defaultMathInputOptions } from '../MathInput'
+import { Translation } from 'i18n'
+
+import { MathInput, defaultMathInputOptions, mathInputFunctions } from '../MathInput'
 
 import { keyboardSettings, errorToMessage } from './support'
 import * as settings from './settings'
@@ -22,7 +24,7 @@ const defaultEquationInputOptions = {
 	center: true, // Center equations in their input fields.
 	size: 'l', // Equation Inputs are by default large.
 	type: 'Equation',
-	placeholder: <>Vergelijking</>,
+	placeholder: <Translation path="inputs" entry="equationInput.placeHolder">Equation</Translation>,
 	keyboardSettings,
 	errorToMessage,
 }
@@ -46,5 +48,6 @@ export function EquationInput(options) {
 	// Render everything.
 	return <MathInput {...mathInputOptions} />
 }
+applyMapping(mathInputFunctions, (func, key) => { EquationInput[key] = func })
 EquationInput.validation = validation
 EquationInput.settings = settings

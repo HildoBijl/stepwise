@@ -1,0 +1,20 @@
+{
+  "integerInput": {
+    "placeHolder": "Integer number"
+  },
+  "floatInput": {
+    "placeHolder": "Floating point number"
+  },
+  "unitInput": {
+    "placeHolder": "Unit"
+  },
+  "floatUnitInput": {
+    "placeHolder": "Number with unit"
+  },
+  "expressionInput": {
+    "placeHolder": "Expression"
+  },
+  "equationInput": {
+    "placeHolder": "Equation"
+  }
+}
