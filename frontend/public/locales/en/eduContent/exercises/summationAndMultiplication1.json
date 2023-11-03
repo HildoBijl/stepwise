@@ -1,11 +1,11 @@
 {
-  "mainProblem": "<par>Calculate <inline-math/></par><input-space><par><integer-input/></par></input-space>",
+  "mainProblem": "<par>Calculate <inline-math/>.</par><input-space><par><integer-input><label>Answer</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
   "step1": {
-    "problem": "<par>Calculate <a>{b} \\cdot {c}.</a></par><d><par><e/></par></d>",
-    "solution": "<par>Note that multiplication comes before addition, so first we calculate <a>{b} \\cdot {c} = {d}.</a></par>"
+    "problem": "<par>Calculate <inline-math/>.</par><input-space><par><integer-input><label>Step answer</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
+    "solution": "<par>Note that multiplication comes before addition, so first we calculate <inline-math/>.</par>"
   },
   "step2": {
-    "problem": "<par>Calculate <a>{b} + {c}.</a></par><d><par><e/></par></d>",
-    "solution": "<par>After the multiplication we add everything together. This gets us the final result <a>{b} + {c} = {d}.</a></par>"
+    "problem": "<par>Calculate <inline-math/>.</par><input-space><par><integer-input><label>Final answer</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
+    "solution": "<par>After the multiplication we add everything together. This gets us the final result <inline-math/>.</par>"
   }
 }

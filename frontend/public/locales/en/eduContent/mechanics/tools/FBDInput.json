@@ -1,0 +1,9 @@
+{
+  "feedback": {
+		"doubleArrows": "Some arrows have been drawn multiple times. Make sure that all arrows are unique.",
+    "unconnectedLoads": "<count-check><one>There is an arrow that is</one><not-one>There are arrows that are</not-one></count-check> not connected to any known point, so this can never be a correct solution.",
+    "missingLoads": "<count-check><one>There is still a missing arrow.</one><not-one>There are still missing arrows.</not-one></count-check><check><on-true> Have another look at point {pointName}.</on-true></check>",
+    "incorrectInputLoads": "<count-check><one>An arrow has been drawn that shouldn't be present.</one><not-one>There are <counting-word/> arrows that should not be present.</not-one></count-check> Have a look at that first.",
+    "doubleInputLoads": "<count-check><one>There is a set</one><not-one>There are <counting-word/> sets</not-one> of duplicate arrows.</count-check> Remove the superfluous ones."
+  }
+}

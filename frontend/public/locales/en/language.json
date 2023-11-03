@@ -30,7 +30,9 @@
 		"90": "ninety",
 		"100": "hundred",
 		"1000": "thousand",
-		"1000000": "million",
-		"1000000000": "billion"
+		"10000": "ten thousand",
+		"100000": "hundred thousand",
+		"1000000": "a million",
+		"1000000000": "a billion"
 	}
 }

@@ -14,7 +14,7 @@ module.exports.product = product
 
 // count takes an array and a function and checks for how many elements this function returns a truthy value.
 function count(array, fun) {
-	return array.reduce((sum, item) => sum + (fun(item) ? 1 : 0), 0)
+	return array.reduce((sum, item, index) => sum + (fun(item, index) ? 1 : 0), 0)
 }
 module.exports.count = count
 

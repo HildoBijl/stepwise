@@ -1,8 +1,11 @@
 
 import { loadTypes, getLoadMatching } from 'step-wise/edu/exercises/util/engineeringMechanics'
 
-import { getCountingWord } from 'util/language'
+import { Translation, Check, Plurals, CountingWord } from 'i18n'
+
 import { selectRandomCorrect } from 'ui/edu/exercises/feedbackMessages'
+
+import { translationPath } from './validation'
 
 // getFBDFeedbackFunction returns a feedback function to give feedback on Free Body Diagram inputs. It requires comparison options and a set of points to refer to when naming a point.
 export function getFBDFeedbackFunction(comparison, points = {}) {
@@ -19,7 +22,7 @@ export function getFBDFeedback(input, solution, comparison, points = {}) {
 	if (unmatchedInputLoads.length > 0) {
 		return {
 			correct: false,
-			text: unmatchedInputLoads.length === 1 ? 'Er is een pijl getekend die niet aanwezig hoort te zijn. Kijk daar eerst naar.' : `Er zijn ${getCountingWord(unmatchedInputLoads.length)} pijlen getekend die niet aanwezig horen te zijn. Kijk daar eerst naar.`,
+			text: <Translation path={translationPath} entry="feedback.incorrectInputLoads"><Plurals value={unmatchedInputLoads.length}><Plurals.One>An arrow has been drawn that shouldn't be present.</Plurals.One><Plurals.NotOne>There are <CountingWord>{unmatchedInputLoads.length}</CountingWord> arrows that should not be present.</Plurals.NotOne></Plurals> Have a look at that first.</Translation>,
 			affectedLoads: unmatchedInputLoads,
 		}
 	}
@@ -29,7 +32,7 @@ export function getFBDFeedback(input, solution, comparison, points = {}) {
 	if (doubleInputLoads.length >= 1) {
 		return {
 			correct: false,
-			text: `${doubleInputLoads.length === 1 ? `Er is een set` : `Er zijn ${getCountingWord(doubleInputLoads.length)} sets`} pijlen die op hetzelfde neerkomen. Haal overbodige pijlen weg.`,
+			text: <Translation path={translationPath} entry="feedback.doubleInputLoads"><Plurals value={doubleInputLoads.length}><Plurals.One>There is a set</Plurals.One><Plurals.NotOne>There are <CountingWord>{doubleInputLoads.length}</CountingWord> sets</Plurals.NotOne> of duplicate arrows.</Plurals> Remove the superfluous ones.</Translation>,
 			affectedLoads: doubleInputLoads.flat(),
 		}
 	}
@@ -41,9 +44,7 @@ export function getFBDFeedback(input, solution, comparison, points = {}) {
 		const pointName = findRelatedPoint(missingLoads[0], points)
 		return {
 			correct: false,
-			text: pointName ?
-				(`${missingLoads.length === 1 ? `Er is nog een ontbrekende pijl. Kijk eens goed naar punt ${pointName}.` : `Er zijn nog ontbrekende pijlen. Kijk eerst eens goed naar punt ${pointName}.`}`) :
-				(`${missingLoads.length === 1 ? `Er is nog een ontbrekende pijl.` : `Er zijn nog ontbrekende pijlen.`}`),
+			text: <Translation path={translationPath} entry="feedback.missingLoads"><Plurals value={missingLoads.length}><Plurals.One>There is still a missing arrow.</Plurals.One><Plurals.NotOne>There are still missing arrows.</Plurals.NotOne></Plurals><Check value={!!pointName}><Check.True> Have another look at point {{ pointName }}.</Check.True></Check></Translation>
 		}
 	}
 

@@ -1,0 +1,9 @@
+{
+  "feedback": {
+		"doubleArrows": "Einige Pfeile sind doppelt gezeichnet. Achte darauf, dass alle Pfeile eindeutig sind.",
+    "unconnectedLoads": "<count-check><one>Es gibt einen Pfeil, der nicht mit einem bekannten Punkt verbunden ist.</one><not-one>Es gibt Pfeile, die nicht mit einem bekannten Punkt verbunden sind.</not-one></count-check> Dies kann also niemals eine richtige Antwort sein.",
+    "missingLoads": "<count-check><one>Es fehlt noch ein Pfeil.</one><not-one>Es fehlen noch Pfeile.</not-one></count-check><check><on-true> Schau dir Punkt {pointName} genau an.</on-true></check>",
+    "incorrectInputLoads": "<count-check><one>Es wurde ein Pfeil gezeichnet, der dort nicht sein sollte.</one><not-one>Es sind <counting-word/> Pfeile eingezeichnet, die nicht vorhanden sein sollten.</not-one></count-check> Schau dir das zuerst an.",
+    "doubleInputLoads": "<count-check><one>Es gibt eine Gruppe</one><not-one>Es gibt <counting-word/> Gruppen</not-one> von Pfeilen, die auf das Gleiche hinauslaufen.</count-check> Entferne unnötige Pfeile."
+  }
+}

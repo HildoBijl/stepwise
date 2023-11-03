@@ -45,12 +45,14 @@ const Problem = (state) => {
 const steps = [
 	{
 		Problem: () => {
-			return <Translation>
-				<Par>Draw the free body diagram.</Par>
+			return <>
+				<Translation>
+					<Par>Draw the free body diagram.</Par>
+				</Translation>
 				<InputSpace>
 					<Diagram id="loads" isInputField={true} showSupports={false} />
 				</InputSpace>
-			</Translation>
+			</>
 		},
 		Solution: () => {
 			const { hasAdjustedSolution } = useSolution()
@@ -65,12 +67,14 @@ const steps = [
 		Problem: () => {
 			const { loadVariables } = useSolution()
 			const vFC = loadVariables[3]
-			return <Translation>
-				<Par>Calculate the diagonal reaction force <M>{vFC}</M>.</Par>
+			return <>
+				<Translation>
+					<Par>Calculate the diagonal reaction force <M>{vFC}</M>.</Par>
+				</Translation>
 				<InputSpace>
 					<FloatUnitInput id={vFC.name} prelabel={<M>{vFC}=</M>} size="s" />
 				</InputSpace>
-			</Translation>
+			</>
 		},
 		Solution: () => {
 			const { directionIndices, l1, l2, angle, P, FCy, FC } = useSolution()
@@ -91,12 +95,14 @@ const steps = [
 		Problem: () => {
 			const { loadVariables } = useSolution()
 			const vFAy = loadVariables[2]
-			return <Translation>
-				<Par>Calculate the vertical reaction force <M>{vFAy}</M>.</Par>
+			return <>
+				<Translation>
+					<Par>Calculate the vertical reaction force <M>{vFAy}</M>.</Par>
+				</Translation>
 				<InputSpace>
 					<FloatUnitInput id={vFAy.name} prelabel={<M>{vFAy}=</M>} size="s" />
 				</InputSpace>
-			</Translation>
+			</>
 		},
 		Solution: () => {
 			const { directionIndices, P, FCy, FAy } = useSolution()
@@ -115,12 +121,14 @@ const steps = [
 		Problem: () => {
 			const { loadVariables } = useSolution()
 			const vFAx = loadVariables[1]
-			return <Translation>
-				<Par>Calculate the horizontal reaction force <M>{vFAx}</M>.</Par>
+			return <>
+				<Translation>
+					<Par>Calculate the horizontal reaction force <M>{vFAx}</M>.</Par>
+				</Translation>
 				<InputSpace>
 					<FloatUnitInput id={vFAx.name} prelabel={<M>{vFAx}=</M>} size="s" />
 				</InputSpace>
-			</Translation>
+			</>
 		},
 		Solution: () => {
 			const { directionIndices, angle, FAx, FC, FCx } = useSolution()

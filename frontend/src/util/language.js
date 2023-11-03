@@ -1,5 +1,7 @@
 import { ensureNumber, ensureString, lastOf } from 'step-wise/util'
 
+// ToDo: check if this file is still needed. It seems to be mostly deprecated after the introduction of the i18n package.
+
 export function wordToUpperCase(word) {
 	word = ensureString(word)
 	return word[0].toUpperCase() + word.slice(1)

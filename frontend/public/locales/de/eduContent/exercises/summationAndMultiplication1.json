@@ -1,11 +1,11 @@
 {
-  "mainProblem": "<par>Berechne <a>{b} \\cdot {c} + {d}.</a></par><e><par><f/></par></e>",
+  "mainProblem": "<par>Berechne <inline-math/>.</par><input-space><par><integer-input><label>Antwort</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
   "step1": {
-    "problem": "<par>Berechne <a>{b} \\cdot {c}.</a></par><d><par><e/></par></d>",
-    "solution": "<par>Beachte, dass die Multiplikation Vorrang vor der Addition hat. Wir berechnen also zunächst <a>{b} \\cdot {c} = {d}.</a></par>"
+    "problem": "<par>Berechne <inline-math/>.</par><input-space><par><integer-input><label>Schrittantwort</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
+    "solution": "<par>Beachte, dass die Multiplikation Vorrang vor der Addition hat. Wir berechnen also zunächst <inline-math/>.</par>"
   },
   "step2": {
-    "problem": "<par>Berechne <a>{b} + {c}.</a></par><d><par><e/></par></d>",
-    "solution": "<par>Dann addieren wir alles zusammen. Auf diese Weise erhalten wir die endgültige Antwort <a>{b} + {c} = {d}.</a></par>"
+    "problem": "<par>Berechne <inline-math/>.</par><input-space><par><integer-input><label>Endgültige Antwort</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
+    "solution": "<par>Dann addieren wir alles zusammen. Auf diese Weise erhalten wir die endgültige Antwort <inline-math/>.</par>"
   }
 }

@@ -30,7 +30,9 @@
 		"90": "neunzig",
 		"100": "hundert",
 		"1000": "tausend",
-		"1000000": "million",
-		"1000000000": "milliarde"
+		"10000": "zehntausend",
+		"100000": "hunderttausend",
+		"1000000": "eine Million",
+		"1000000000": "eind Milliarde"
 	}
 }

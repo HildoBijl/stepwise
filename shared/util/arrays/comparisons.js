@@ -1,6 +1,12 @@
 const { compareNumbers } = require('../numbers')
 const { deepEquals } = require('../objects')
 
+// areArraysEqualShallow checks if two arrays are equal in the sense that all its elements satisfy a === comparison.
+function areArraysEqualShallow(arr1, arr2) {
+	return arr1.length === arr2.length && arr1.every((element, index) => element === arr2[index])
+}
+module.exports.areArraysEqualShallow = areArraysEqualShallow
+
 // compareNumberArrays checks whether two number arrays have the same values, barring numerical differences.
 function compareNumberArrays(arr1, arr2) {
 	return arr1.length === arr2.length && arr1.every((value, index) => (Array.isArray(value) ? compareNumberArrays : compareNumbers)(value, arr2[index]))

@@ -1,0 +1,9 @@
+{
+  "feedback": {
+		"doubleArrows": "Sommige pijlen zijn dubbel getekend. Zorg dat alle pijlen uniek zijn.",
+    "unconnectedLoads": "<count-check><one>Er is een pijl die niet gekoppeld is aan een bekend punt.</one><not-one>Er zijn pijlen die niet gekoppeld zijn aan een bekend punt.</not-one></count-check> Dit kan dus nooit een correct antwoord zijn.",
+    "missingLoads": "<count-check><one>Er is nog een ontbrekende pijl.</one><not-one>Er zijn nog ontbrekende pijlen.</not-one></count-check><check><on-true> Kijk eens goed naar punt {pointName}.</on-true></check>",
+    "incorrectInputLoads": "<count-check><one>Er is een pijl getekend die niet aanwezig hoort te zijn.</one><not-one>Er zijn <counting-word/> pijlen getekend die niet aanwezig horen te zijn.</not-one></count-check> Kijk daar eerst naar.",
+    "doubleInputLoads": "<count-check><one>Er is een set</one><not-one>Er zijn <counting-word/> sets</not-one> pijlen die op hetzelfde neerkomen.</count-check> Haal overbodige pijlen weg."
+  }
+}
