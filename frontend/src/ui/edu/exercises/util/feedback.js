@@ -7,6 +7,8 @@ import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 import { Expression } from 'step-wise/CAS'
 import { performIndividualComparison, performIndividualListComparison, getCurrentInputSolutionAndComparison } from 'step-wise/edu/exercises/util/comparison'
 
+import { Translation } from 'i18n'
+
 import { selectRandomCorrect, selectRandomIncorrect, selectRandomIncorrectUnit, selectRandomDuplicate, selectRandomNonNumeric } from 'ui/edu/exercises/feedbackMessages'
 
 const defaultOptions = {
@@ -193,7 +195,7 @@ export function getNumberComparisonFeedback(currInput, currSolution, options, ob
 	// On a correct answer, check if a margin warning is needed. Otherwise give the default message.
 	if (correct) {
 		if (!isEqual(currInput, currSolution, accuracyFactorForMarginWarnings))
-			return text.marginWarning || 'Je zit nog binnen de marge, maar het kan nauwkeuriger.'
+			return text.marginWarning || <Translation path="inputs" entry="feedback.withinMargin">You're still within the margin, but this could be more accurate.</Translation>
 		return text.correct || (previousFeedback && previousFeedback.correct && previousFeedback.text) || selectRandomCorrect()
 	}
 
@@ -205,46 +207,46 @@ export function getNumberComparisonFeedback(currInput, currSolution, options, ob
 	const inputSign = Math.sign(getNumber(currInput))
 	const solutionSign = Math.sign(getNumber(currSolution))
 	if (inputSign * solutionSign === -1)
-		return text.sign || 'Je antwoord heeft niet het juiste teken. Controleer plussen en minnen.'
+		return text.sign || <Translation path="inputs" entry="feedback.wrongSign">You haven't used the right sign. Check your pluses and minuses.</Translation>
 
 	// Check for a near-hit.
 	if (isEqual(currInput, currSolution, accuracyFactorForNearHits))
-		return text.near || 'Je zit erg in de buurt! Maak je antwoord iets nauwkeuriger.'
+		return text.near || <Translation path="inputs" entry="feedback.nearby">You're very close! Check for accuracy and rounding errors.</Translation>
 
 	// Check if we're too high or too low. On negative numbers flip the phrasing.
 	if (equalityData.magnitude !== undefined && equalityData.magnitude !== 'OK') {
 		if (inputSign === 0) {
 			if (solutionSign === -1)
-				return text.tooLarge || text.wrongValue || 'Je antwoord is (qua absolute waarde) te klein.'
+				return text.tooSmall || text.wrongValue || <Translation path="inputs" entry="feedback.notZeroNegative">Zero is sadly wrong. We do expect a (possibly negative) number here.</Translation>
 			else
-				return text.tooSmall || text.wrongValue || 'Je antwoord is (qua absolute waarde) te klein.'
+				return text.tooLarge || text.wrongValue || <Translation path="inputs" entry="feedback.notZeroPositive">Zero is sadly wrong. We do expect a number here.</Translation>
 		} else if (inputSign === -1) {
 			if (equalityData.magnitude === 'TooLarge')
-				return text.tooLarge || text.wrongValue || 'Je antwoord is (qua absolute waarde) te klein.'
+				return text.tooLarge || text.wrongValue || <Translation path="inputs" entry="feedback.negativeTooLarge">Your answer is (magnitude-based) too small. We expected something even more negative.</Translation>
 			else
-				return text.tooSmall || text.wrongValue || 'Je antwoord is (qua absolute waarde) te groot.'
+				return text.tooSmall || text.wrongValue || <Translation path="inputs" entry="feedback.negativeTooSmall">Your answer is (magnitude-based) too large. We expected something closer to zero.</Translation>
 		} else {
 			if (equalityData.magnitude === 'TooLarge')
-				return text.tooLarge || text.wrongValue || 'Je antwoord is te groot.'
+				return text.tooLarge || text.wrongValue || <Translation path="inputs" entry="feedback.positiveTooLarge">Your answer is too high.</Translation>
 			else
-				return text.tooSmall || text.wrongValue || 'Je antwoord is te klein.'
+				return text.tooSmall || text.wrongValue || <Translation path="inputs" entry="feedback.positiveTooSmall">Your answer is too small.</Translation>
 		}
 	}
 
 	// Check the number of significant digits.
 	if (equalityData.numSignificantDigits !== undefined && equalityData.numSignificantDigits !== 'OK') {
 		if (equalityData.numSignificantDigits === 'TooLarge')
-			return text.tooManySignificantDigits || text.wrongSignificantDigits || 'Je hebt te veel significante getallen.'
+			return text.tooManySignificantDigits || text.wrongSignificantDigits || <Translation path="inputs" entry="feedback.tooManySignificantDigits">You used too many significant digits.</Translation>
 		else
-			return text.tooFewSignificantDigits || text.wrongSignificantDigits || 'Je hebt te weinig significante getallen.'
+			return text.tooFewSignificantDigits || text.wrongSignificantDigits || <Translation path="inputs" entry="feedback.tooFewSignificantDigits">You used too few significant digits.</Translation>
 	}
 
 	// Check the power. (In case it was examined.)
 	if (equalityData.power !== undefined && equalityData.power !== 'OK') {
 		if (equalityData.power === 'TooLarge')
-			return text.tooLargePower || text.wrongPower || 'De gebruikte tien-macht is te groot.'
+			return text.tooLargePower || text.wrongPower || <Translation path="inputs" entry="feedback.tooLargePower">The exponent you used is too large.</Translation>
 		else
-			return text.tooSmallPower || text.wrongPower || 'De gebruikte tien-macht is te klein.'
+			return text.tooSmallPower || text.wrongPower || <Translation path="inputs" entry="feedback.tooSmallPower">The exponent you used is too small.</Translation>
 	}
 
 	// Something else is wrong, but not sure what.
