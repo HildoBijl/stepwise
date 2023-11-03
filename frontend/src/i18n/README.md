@@ -93,7 +93,7 @@ Maybe you already have defined a piece of text for one page, and on another page
 import { useGetTranslation } from 'i18n'
 function SomeFancyButton() {
 	const getTranslation = useGetTranslation('someOptionalDefaultPath/someFile')
-	const buttonText = useGetTranslation('buttons.clickHereButton', somePath/someFile')
+	const buttonText = getTranslation('buttons.clickHereButton', somePath/someFile')
 	return <Button>{buttonText}</Button>
 }
 ```
@@ -346,6 +346,19 @@ function SomePage() {
 ```
 
 In this way you can set up any dynamically rendered text you may like, allowing for smooth translations to other languages.
+
+### The CountingWord component
+
+Perhaps you have a variable number like `x = 8` in your script, and you want to use a word for that, to make the text look better. In that case you can use the `CountingWord` component.
+
+```
+import { CountingWord } from 'i18n'
+function NumberOfSheep({ number }) {
+	return <div>I have counted <CountingWord>{number}</CountingWord> sheep so far. <CountingWord upperCase={true}>{number}</CountingWord> lovely sheep!</div>
+}
+```
+
+The `CountingWord` component will replace itself with the right word, in this case `eight`. An optional parameter `upperCase` (default `false`) can be set to true to turn this into `Eight`
 
 
 ## Updating translation files

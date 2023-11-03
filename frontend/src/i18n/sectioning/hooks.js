@@ -36,7 +36,7 @@ export function useTextTranslator(translatorPath) {
 	// Set up the translator function.
 	return useCallback((fallbackText, entry, path, extendEntry = true) => {
 		// Process the path and the entry, based on the context of the translator.
-		entry = applyTranslationSectionEntry(entry, contextEntry, extendEntry && !path)
+		entry = applyTranslationSectionEntry(entry, contextEntry, extendEntry && !path && !translatorPath)
 		path = applyTranslationFilePath(path || translatorPath, contextPath)
 
 		// If the file path has not been requested yet, then do so.
