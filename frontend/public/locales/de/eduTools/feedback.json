@@ -85,5 +85,20 @@
 		"2": "Du hast etwas eingegeben, das keine Zahl ist.",
 		"3": "Das ist nichts, was zu einer Zahl werden kann.",
 		"4": "Ups, ich kann daraus keine Zahl ableiten."
-	}
+	},
+	"numeric": {
+    "withinMargin": "Deine Antwort liegt noch innerhalb des Bereichs, könnte aber genauer sein.",
+    "wrongSign": "Deine Antwort hat nicht das richtige Vorzeichen. Prüfen Sie Plus- und Minuszeichen.",
+    "nearby": "Du bist sehr nah dran! Mach deine Antwort ein bisschen genauer.",
+    "notZeroPositive": "Null ist leider nicht richtig. Wir erwarten hier eine Zahl.",
+    "notZeroNegative": "Null ist leider nicht richtig. Wir erwarten hier eine (möglicherweise negative) Zahl.",
+    "negativeTooLarge": "Deine Antwort (den absoluten Wert) ist zu gering. Wir erwarten etwas, das noch negativer ist.",
+    "negativeTooSmall": "Deine Antwort (den absoluten Wert) ist zu groß. Wir erwarten etwas, das näher bei Null liegt.",
+    "positiveTooLarge": "Deine Antwort ist zu groß.",
+    "positiveTooSmall": "Deine Antwort ist zu klein.",
+    "tooManySignificantDigits": "Du hast zu viele signifikante Zahlen.",
+    "tooFewSignificantDigits": "Du hast zu wenig signifikante Zahlen.",
+    "tooLargePower": "Die verwendete Zehnerpotenz ist zu groß.",
+    "tooSmallPower": "Die verwendete Zehnerpotenz ist zu klein."
+  }
 }

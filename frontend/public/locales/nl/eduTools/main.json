@@ -1,0 +1,5 @@
+{
+  "skills": {
+    "prediction": "<span>We schatten de kans in op <strong>{percentage}%</strong> dat je een opdracht met deze vaardigheid goed gaat doen.<check><on-true> (Doel: {goal}%)</on-true></check></span>"
+  }
+}

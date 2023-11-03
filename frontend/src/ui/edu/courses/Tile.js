@@ -87,7 +87,7 @@ export default function Tile({ course, skillsTotal, skillsDone, recommendation }
 			tooltip = translate('You have all skills on a sufficient level! The next step is the free practice mode.', 'freePracticeRecommendation')
 			break
 		default:
-			tooltip = <>{translate(`Our practice recommendation:`, 'skillRecommendation')} {translate(skillTree[recommendation].name, `${recommendation}.name`, 'edu/skills/skillInfo')}</>
+			tooltip = <>{translate(`Our practice recommendation:`, 'skillRecommendation')} {translate(skillTree[recommendation].name, `${recommendation}.name`, 'eduContent/skillInfo')}</>
 			break
 	}
 
@@ -105,7 +105,7 @@ export default function Tile({ course, skillsTotal, skillsDone, recommendation }
 			<Box boxShadow={1} className="tileBox">
 				<div className="nameContainer">
 					<div className="name">
-						{translate(course.name, `${course.id}.name`, 'edu/courses/courseInfo')}
+						{translate(course.name, `${course.id}.name`, 'eduContent/courseInfo')}
 					</div>
 				</div>
 				<div className="info">

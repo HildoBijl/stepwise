@@ -5,5 +5,9 @@
   "disclaimer": "No rights can be derived from this estimate.",
   "practiceRecommendation": "This is currently the recommended skill to practice.",
   "sufficientMastery": "You have sufficiently mastered this skill.",
-  "followUpMastery": "You have mastered a follow-up skill, so we mark this one as sufficient as well."
+  "followUpMastery": "You have mastered a follow-up skill, so we mark this one as sufficient as well.",
+  "unknownCourse": {
+    "title": "Unknown course",
+    "message": "Oops... The course you wanted to visit is unknown here. Perhaps something is wrong in the URL?"
+  }
 }

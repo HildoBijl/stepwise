@@ -195,7 +195,7 @@ export function getNumberComparisonFeedback(currInput, currSolution, options, ob
 	// On a correct answer, check if a margin warning is needed. Otherwise give the default message.
 	if (correct) {
 		if (!isEqual(currInput, currSolution, accuracyFactorForMarginWarnings))
-			return text.marginWarning || <Translation path="inputs" entry="feedback.withinMargin">You're still within the margin, but this could be more accurate.</Translation>
+			return text.marginWarning || <Translation path="eduTools/feedback" entry="numeric.withinMargin">You're still within the margin, but this could be more accurate.</Translation>
 		return text.correct || (previousFeedback && previousFeedback.correct && previousFeedback.text) || selectRandomCorrect()
 	}
 
@@ -207,46 +207,46 @@ export function getNumberComparisonFeedback(currInput, currSolution, options, ob
 	const inputSign = Math.sign(getNumber(currInput))
 	const solutionSign = Math.sign(getNumber(currSolution))
 	if (inputSign * solutionSign === -1)
-		return text.sign || <Translation path="inputs" entry="feedback.wrongSign">You haven't used the right sign. Check your pluses and minuses.</Translation>
+		return text.sign || <Translation path="eduTools/feedback" entry="numeric.wrongSign">You haven't used the right sign. Check your pluses and minuses.</Translation>
 
 	// Check for a near-hit.
 	if (isEqual(currInput, currSolution, accuracyFactorForNearHits))
-		return text.near || <Translation path="inputs" entry="feedback.nearby">You're very close! Check for accuracy and rounding errors.</Translation>
+		return text.near || <Translation path="eduTools/feedback" entry="numeric.nearby">You're very close! Check for accuracy and rounding errors.</Translation>
 
 	// Check if we're too high or too low. On negative numbers flip the phrasing.
 	if (equalityData.magnitude !== undefined && equalityData.magnitude !== 'OK') {
 		if (inputSign === 0) {
 			if (solutionSign === -1)
-				return text.tooSmall || text.wrongValue || <Translation path="inputs" entry="feedback.notZeroNegative">Zero is sadly wrong. We do expect a (possibly negative) number here.</Translation>
+				return text.tooSmall || text.wrongValue || <Translation path="eduTools/feedback" entry="numeric.notZeroNegative">Zero is sadly wrong. We do expect a (possibly negative) number here.</Translation>
 			else
-				return text.tooLarge || text.wrongValue || <Translation path="inputs" entry="feedback.notZeroPositive">Zero is sadly wrong. We do expect a number here.</Translation>
+				return text.tooLarge || text.wrongValue || <Translation path="eduTools/feedback" entry="numeric.notZeroPositive">Zero is sadly wrong. We do expect a number here.</Translation>
 		} else if (inputSign === -1) {
 			if (equalityData.magnitude === 'TooLarge')
-				return text.tooLarge || text.wrongValue || <Translation path="inputs" entry="feedback.negativeTooLarge">Your answer is (magnitude-based) too small. We expected something even more negative.</Translation>
+				return text.tooLarge || text.wrongValue || <Translation path="eduTools/feedback" entry="numeric.negativeTooLarge">Your answer is (magnitude-based) too small. We expected something even more negative.</Translation>
 			else
-				return text.tooSmall || text.wrongValue || <Translation path="inputs" entry="feedback.negativeTooSmall">Your answer is (magnitude-based) too large. We expected something closer to zero.</Translation>
+				return text.tooSmall || text.wrongValue || <Translation path="eduTools/feedback" entry="numeric.negativeTooSmall">Your answer is (magnitude-based) too large. We expected something closer to zero.</Translation>
 		} else {
 			if (equalityData.magnitude === 'TooLarge')
-				return text.tooLarge || text.wrongValue || <Translation path="inputs" entry="feedback.positiveTooLarge">Your answer is too high.</Translation>
+				return text.tooLarge || text.wrongValue || <Translation path="eduTools/feedback" entry="numeric.positiveTooLarge">Your answer is too high.</Translation>
 			else
-				return text.tooSmall || text.wrongValue || <Translation path="inputs" entry="feedback.positiveTooSmall">Your answer is too small.</Translation>
+				return text.tooSmall || text.wrongValue || <Translation path="eduTools/feedback" entry="numeric.positiveTooSmall">Your answer is too small.</Translation>
 		}
 	}
 
 	// Check the number of significant digits.
 	if (equalityData.numSignificantDigits !== undefined && equalityData.numSignificantDigits !== 'OK') {
 		if (equalityData.numSignificantDigits === 'TooLarge')
-			return text.tooManySignificantDigits || text.wrongSignificantDigits || <Translation path="inputs" entry="feedback.tooManySignificantDigits">You used too many significant digits.</Translation>
+			return text.tooManySignificantDigits || text.wrongSignificantDigits || <Translation path="eduTools/feedback" entry="numeric.tooManySignificantDigits">You used too many significant digits.</Translation>
 		else
-			return text.tooFewSignificantDigits || text.wrongSignificantDigits || <Translation path="inputs" entry="feedback.tooFewSignificantDigits">You used too few significant digits.</Translation>
+			return text.tooFewSignificantDigits || text.wrongSignificantDigits || <Translation path="eduTools/feedback" entry="numeric.tooFewSignificantDigits">You used too few significant digits.</Translation>
 	}
 
 	// Check the power. (In case it was examined.)
 	if (equalityData.power !== undefined && equalityData.power !== 'OK') {
 		if (equalityData.power === 'TooLarge')
-			return text.tooLargePower || text.wrongPower || <Translation path="inputs" entry="feedback.tooLargePower">The exponent you used is too large.</Translation>
+			return text.tooLargePower || text.wrongPower || <Translation path="eduTools/feedback" entry="numeric.tooLargePower">The exponent you used is too large.</Translation>
 		else
-			return text.tooSmallPower || text.wrongPower || <Translation path="inputs" entry="feedback.tooSmallPower">The exponent you used is too small.</Translation>
+			return text.tooSmallPower || text.wrongPower || <Translation path="eduTools/feedback" entry="numeric.tooSmallPower">The exponent you used is too small.</Translation>
 	}
 
 	// Something else is wrong, but not sure what.

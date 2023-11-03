@@ -51,5 +51,5 @@ function FeedbackWrapper({ getFeedback, children }) {
 
 function TranslationWrapper({ children }) {
 	const { exerciseId } = useExerciseData()
-	return <TranslationFile path={`edu/exercises/${exerciseId}`} extend={false}>{children}</TranslationFile>
+	return <TranslationFile path={`eduContent/exercises/${exerciseId}`} extend={false}>{children}</TranslationFile>
 }

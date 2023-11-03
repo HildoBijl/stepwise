@@ -34,7 +34,7 @@ export default function Courses() {
 	// Render all the tiles with corresponding data.
 	const courseList = Object.values(courses).filter(course => !course.languages || course.languages.includes(language)) // Only render courses that should be shown in this language.
 	return (
-		<TranslationFile path="edu/courses/coursesPage">
+		<TranslationFile path="eduTools/pages/coursesPage">
 			<div className={clsx(classes.courses, 'courses')}>
 				{courseList.map((course, index) => <Tile
 					key={course.id}

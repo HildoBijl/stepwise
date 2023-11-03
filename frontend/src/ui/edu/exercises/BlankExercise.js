@@ -17,7 +17,7 @@ export default function BlankExercise() {
 	const translate = useTranslator()
 	const { exerciseId } = useParams()
 	if (!exerciseId)
-		return <ErrorNote text={translate('The URL has no exercise ID in it.', 'loadingNotes.missingExerciseId', 'edu/eduTools/exercises')} />
+		return <ErrorNote text={translate('The URL has no exercise ID in it.', 'loadingNotes.missingExerciseId', 'eduTools/exercises')} />
 	return <BlankExerciseInner exerciseId={exerciseId} />
 }
 
@@ -75,9 +75,9 @@ function BlankExerciseInner({ exerciseId }) {
 
 	// Show error/loading notes when appropriate.
 	if (error)
-		return <ErrorNote text={translate('The exercise failed to load. Please check if the exercise ID is correct.', 'loadingNotes.loadingError', 'edu/eduTools/exercises')} />
+		return <ErrorNote text={translate('The exercise failed to load. Please check if the exercise ID is correct.', 'loadingNotes.loadingError', 'eduTools/exercises')} />
 	if (loading || !exercise)
-		return <LoadingNote text={translate('Loading the exercise...', 'loadingNotes.loadingExercise', 'edu/eduTools/exercises')} />
+		return <LoadingNote text={translate('Loading the exercise...', 'loadingNotes.loadingExercise', 'eduTools/exercises')} />
 
 	// No loading/error notes: show the exercise! Use a key to force a rerender on a new exercise.
 	return <ExerciseContainer key={exercise.startedOn} exercise={exercise} submitting={false} submitAction={submitAction} startNewExercise={startNewExercise} />

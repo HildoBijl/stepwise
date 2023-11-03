@@ -15,7 +15,7 @@ export function SkillOverview() {
 		<ul>
 			{Object.values(skillTree).map(skill => (
 				<li key={skill.id}>
-					<Link to={paths.skillInspection({ skillId: skill.id })}>{translate(skill.name, `${skill.id}.name`, 'edu/skills/skillInfo')}</Link>
+					<Link to={paths.skillInspection({ skillId: skill.id })}>{translate(skill.name, `${skill.id}.name`, 'eduContent/skillInfo')}</Link>
 					<ul>
 						{skill.exercises.map(exerciseId => <li key={exerciseId}><Link to={paths.exerciseInspection({ exerciseId })}>{exerciseId}</Link></li>)}
 					</ul>

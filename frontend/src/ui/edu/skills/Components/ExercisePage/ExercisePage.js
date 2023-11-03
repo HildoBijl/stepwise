@@ -17,7 +17,7 @@ export function ExercisePage() {
 	const activeGroup = useActiveGroup()
 
 	if (userLoading || groupLoading)
-		return <LoadingNote text={translate('Loading user data...', 'loadingNotes.loadingUserData', 'edu/skills/skillPage')} />
+		return <LoadingNote text={translate('Loading user data...', 'loadingNotes.loadingUserData', 'eduTools/pages/skillPage')} />
 
 	if (activeGroup)
 		return <ExercisePageForGroup />

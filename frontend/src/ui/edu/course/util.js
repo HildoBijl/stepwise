@@ -6,7 +6,7 @@ import { isPracticeNeeded } from '../skills'
 export function getOverview(courseSetup) {
 	// Check input.
 	if (!courseSetup)
-		return { priorKnowledge: [], blocks: [], course: [] }
+		return { priorKnowledge: [], goals: [], blocks: [], course: [], all: [] }
 
 	// Fill up all the skill sets.
 	const { blocks, priorKnowledge } = courseSetup

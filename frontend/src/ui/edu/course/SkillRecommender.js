@@ -44,10 +44,10 @@ export default function SkillRecommender({ courseId, recommendation }) {
 	let link, message
 	if (recommendation === strFreePractice) {
 		link = paths.freePractice({ courseId })
-		message = getTranslation('freePracticeRecommendation', 'edu/courses/coursesPage')
+		message = getTranslation('freePracticeRecommendation', 'eduTools/pages/coursesPage')
 	} else {
 		link = paths.courseSkill({ courseId, skillId: recommendation })
-		message = `${getTranslation('skillRecommendation', 'edu/courses/coursesPage')} ${getTranslation(`${recommendation}.name`, 'edu/skills/skillInfo')}`
+		message = `${getTranslation('skillRecommendation', 'eduTools/pages/coursesPage')} ${getTranslation(`${recommendation}.name`, 'eduContent/skillInfo')}`
 	}
 
 	// Show the button.

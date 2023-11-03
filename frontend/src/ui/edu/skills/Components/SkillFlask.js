@@ -78,7 +78,7 @@ export default function SkillFlask(props) {
 
 	// Render the component.
 	return (
-		<Tooltip title={<Translation entry="skills.prediction" path="edu/main"><span>We estimate a chance of <strong>{{ percentage: Math.round(part * 100) }}%</strong> that you will successfully complete an exercise in this skill.<Check value={!!thresholds}><Check.True> (Goal: {{ goal: Math.round(target * 100) }}%)</Check.True></Check></span></Translation>} arrow>
+		<Tooltip title={<Translation entry="skills.prediction" path="eduTools/main"><span>We estimate a chance of <strong>{{ percentage: Math.round(part * 100) }}%</strong> that you will successfully complete an exercise in this skill.<Check value={!!thresholds}><Check.True> (Goal: {{ goal: Math.round(target * 100) }}%)</Check.True></Check></span></Translation>} arrow>
 			<svg className={clsx(classes.skillFlask, 'skillFlask', className)} viewBox={`0 0 ${vb} ${vb}`}>
 				<defs>
 					<radialGradient id={`flaskBackground${id}`} cx="50%" cy="50%" r="70%" fx="64%" fy="26%">

@@ -85,5 +85,20 @@
 		"2": "You entered something that is not a number.",
 		"3": "This isn't something that can be turned into a number.",
 		"4": "Oops, I can't turn this into a number."
-	}
+	},
+	"numeric": {
+    "withinMargin": "You're still within the margin, but this could be more accurate.",
+    "wrongSign": "You haven't used the right sign. Check your pluses and minuses.",
+    "nearby": "You're very close! Check for accuracy and rounding errors.",
+    "notZeroPositive": "Zero is sadly wrong. We do expect a number here.",
+    "notZeroNegative": "Zero is sadly wrong. We do expect a (possibly negative) number here.",
+    "negativeTooLarge": "Your answer is (magnitude-based) too small. We expected something even more negative.",
+    "negativeTooSmall": "Your answer is (magnitude-based) too large. We expected something closer to zero.",
+    "positiveTooLarge": "Your answer is too high.",
+    "positiveTooSmall": "Your answer is too small.",
+    "tooManySignificantDigits": "You used too many significant digits.",
+    "tooFewSignificantDigits": "You used too few significant digits.",
+    "tooLargePower": "The exponent you used is too large.",
+    "tooSmallPower": "The exponent you used is too small."
+  }
 }

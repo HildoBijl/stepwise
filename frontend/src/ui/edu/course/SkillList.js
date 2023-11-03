@@ -127,7 +127,7 @@ function SkillItem({ courseId, skillId, isPriorKnowledge, recommend = false, pra
 	return (
 		<Link to={paths.courseSkill({ courseId, skillId })} className={clsx('skillItem', { recommend })}>
 			{skillData ? <SkillFlask skillId={skillId} coef={skillData.coefficients} isPriorKnowledge={isPriorKnowledge} size={40} /> : null}
-			<div className="skillName">{translate(skill.name, `${skill.id}.name`, 'edu/skills/skillInfo')}</div>
+			<div className="skillName">{translate(skill.name, `${skill.id}.name`, 'eduContent/skillInfo')}</div>
 			{practiceNeeded === 0 ? (
 				<Tooltip title={iconText} arrow>
 					<div className="iconContainer">

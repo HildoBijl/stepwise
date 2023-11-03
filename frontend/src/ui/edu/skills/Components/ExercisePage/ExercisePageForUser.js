@@ -44,7 +44,7 @@ export function ExercisePageForUser() {
 
 	// Are there simply no exercises?
 	if (!hasExercises)
-		return <div>{translate('Oh no ... no exercises have been added yet for this skill. We will add them as soon as we can. Please check back later!', 'loadingNotes.noExercises', 'edu/skills/skillPage')}</div>
+		return <div>{translate('Oh no ... no exercises have been added yet for this skill. We will add them as soon as we can. Please check back later!', 'loadingNotes.noExercises', 'eduTools/pages/skillPage')}</div>
 
 	// Any errors we should notify the user of?
 	if (error)
@@ -56,9 +56,9 @@ export function ExercisePageForUser() {
 
 	// Anything still loading?
 	if (loading)
-		return <LoadingNote text={translate('Loading exercise data...', 'loadingNotes.loadingExerciseData', 'edu/skills/skillPage')} />
+		return <LoadingNote text={translate('Loading exercise data...', 'loadingNotes.loadingExerciseData', 'eduTools/pages/skillPage')} />
 	if (newExerciseLoading || !exercise)
-		return <LoadingNote text={translate('Generating new exercise...', 'loadingNotes.generatingNewExercise', 'edu/skills/skillPage')} />
+		return <LoadingNote text={translate('Generating new exercise...', 'loadingNotes.generatingNewExercise', 'eduTools/pages/skillPage')} />
 
 	// All fine! Display the exercise. Use a key to force a rerender on a new exercise.
 	return <ExerciseContainer key={exercise.startedOn} exercise={exercise} submitting={submissionLoading} submitAction={submitAction} startNewExercise={startNewExercise} />

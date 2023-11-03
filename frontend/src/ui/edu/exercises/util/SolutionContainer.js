@@ -11,5 +11,5 @@ export default function SolutionContainer(props) {
 		Icon={Arrow}
 		canToggle={true}
 		color="success"
-		text={<Translation entry="solution" path="edu/eduTools/exercises">Solution</Translation>} />
+		text={<Translation entry="solution" path="eduTools/exercises">Solution</Translation>} />
 }

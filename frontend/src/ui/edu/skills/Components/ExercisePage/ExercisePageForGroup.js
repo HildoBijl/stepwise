@@ -60,7 +60,7 @@ export function ExercisePageForGroup() {
 
 	// Are there simply no exercises?
 	if (!hasExercises)
-	return <div>{getTranslation('loadingNotes.noExercises', 'edu/skills/skillPage')}</div>
+	return <div>{getTranslation('loadingNotes.noExercises', 'eduTools/pages/skillPage')}</div>
 
 	// Any errors we should notify the user of?
 	const presentError = error && newExerciseError && submissionError && cancelError && resolveError
@@ -69,9 +69,9 @@ export function ExercisePageForGroup() {
 
 	// Anything still loading?
 	if (loading)
-	return <LoadingNote text={getTranslation('loadingNotes.loadingExerciseData', 'edu/skills/skillPage')} />
+	return <LoadingNote text={getTranslation('loadingNotes.loadingExerciseData', 'eduTools/pages/skillPage')} />
 	if (newExerciseLoading || !displayExercise)
-	return <LoadingNote text={getTranslation('loadingNotes.generatingNewExercise', 'edu/skills/skillPage')} />
+	return <LoadingNote text={getTranslation('loadingNotes.generatingNewExercise', 'eduTools/pages/skillPage')} />
 
 	// All fine! Display the exercise. Use a key to force a rerender on a new exercise.
 	return <ExerciseContainer key={displayExercise.startedOn} exercise={displayExercise} groupExercise={true} submitting={resolveLoading} submitAction={submitAction} cancelAction={cancelAction} resolveEvent={resolveEvent} startNewExercise={startNewExercise} />

@@ -19,7 +19,7 @@ import MemberList from 'ui/pages/Groups/MemberList'
 import { useExerciseData } from '../ExerciseContainer'
 import { useSubmitAction, useGiveUpAction, useCancelAction, useResolveEvent, canResolveGroupEvent } from './actions'
 
-const translationPath = 'edu/eduTools/exercises'
+const translationPath = 'eduTools/exercises'
 
 const useStyles = makeStyles((theme) => ({
 	buttonContainer: {

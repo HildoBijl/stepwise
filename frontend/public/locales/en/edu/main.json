@@ -1,5 +1,0 @@
-{
-  "skills": {
-    "prediction": "<a>We estimate a chance of <b>{percentage}%</b> that you will successfully complete an exercise in this skill.<check><on-true> (Goal: {goal}%)</on-true></check></a>"
-  }
-}

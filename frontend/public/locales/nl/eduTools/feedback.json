@@ -85,5 +85,20 @@
 		"2": "Je hebt iets ingevuld dat geen getal is.",
 		"3": "Dit is niet iets wat een getal kan worden.",
 		"4": "Oops, ik kan hier geen getal van maken."
-	}
+	},
+	"numeric": {
+    "withinMargin": "Je zit nog binnen de marge, maar het kan nauwkeuriger.",
+    "wrongSign": "Je antwoord heeft niet het juiste teken. Controleer plussen en minnen.",
+    "nearby": "Je zit erg in de buurt! Maak je antwoord iets nauwkeuriger.",
+    "notZeroPositive": "Nul klopt helaas niet. We verwachten wel een getal hier.",
+    "notZeroNegative": "Nul klopt helaas niet. We verwachten wel een (mogelijk negatief) getal hier.",
+    "negativeTooLarge": "Je antwoord is (qua absolute waarde) te klein. We verwachten iets nog negatievers.",
+    "negativeTooSmall": "Je antwoord is (qua absolute waarde) te groot. We verwachten iets dichter bij de nul.",
+    "positiveTooLarge": "Je antwoord is te groot.",
+    "positiveTooSmall": "Je antwoord is te klein.",
+    "tooManySignificantDigits": "Je hebt te veel significante getallen.",
+    "tooFewSignificantDigits": "Je hebt te weinig significante getallen.",
+    "tooLargePower": "De gebruikte tien-macht is te groot.",
+    "tooSmallPower": "De gebruikte tien-macht is te klein."
+  }
 }

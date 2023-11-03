@@ -82,11 +82,11 @@ export default function Course(props) {
 
 	// If there is an unknown course, display this.
 	if (!course)
-		return <TranslationFile path="edu/courses/coursePage"><div><Translation entry="courseNotFound">Oops... De cursus die je wilt bezoeken is niet bekend. Mogelijk is er iets mis met de link?</Translation></div></TranslationFile>
+		return <TranslationFile path="eduTools/pages/coursePage"><div><Translation entry="unknownCourse.message">Oops... The course you wanted to visit is unknown here. Perhaps something is wrong in the URL?</Translation></div></TranslationFile>
 
 	// Render the component.
 	const data = { ...props, course, overview, analysis, activeBlock, toggleActiveBlock }
-	return <TranslationFile path="edu/courses/coursePage">
+	return <TranslationFile path="eduTools/pages/coursePage">
 		{hasRecommendation ? <SkillRecommender courseId={courseId} recommendation={recommendation} /> : null}
 		{landscape ? <LandscapeCourse {...data} /> : <PortraitCourse {...data} />}
 	</TranslationFile>
@@ -129,7 +129,7 @@ function LandscapeCourse({ course, overview, analysis, activeBlock, toggleActive
 					skillIds={overview.blocks[index]}
 					active={activeBlock === index}
 					toggleActive={() => toggleActiveBlock(index)}
-					name={translate(block.name, `${course.id}.blocks.${index}`, 'edu/courses/courseInfo')}
+					name={translate(block.name, `${course.id}.blocks.${index}`, 'eduContent/courseInfo')}
 					number={index + 1}
 					isPriorKnowledge={false}
 					analysis={analysis}
@@ -168,7 +168,7 @@ function PortraitCourse({ course, overview, analysis, activeBlock, toggleActiveB
 						skillIds={overview.blocks[index]}
 						active={activeBlock === index}
 						toggleActive={() => toggleActiveBlock(index)}
-						name={translate(block.name, `${course.id}.blocks.${index}`, 'edu/courses/courseInfo')}
+						name={translate(block.name, `${course.id}.blocks.${index}`, 'eduContent/courseInfo')}
 						number={index + 1}
 						isPriorKnowledge={false}
 						analysis={analysis}
@@ -208,8 +208,8 @@ export function GradeEstimate() {
 export function CourseName() {
 	const { courseId } = useParams()
 	const course = courses[courseId.toLowerCase()]
-	const courseInfoPath = 'edu/courses/courseInfo'
+	const courseInfoPath = 'eduContent/courseInfo'
 	if (!course)
-		return <TitleItem path={courseInfoPath} entry="unknownCourse.name" name="Unknown course" />
+		return <TitleItem path="eduTools/pages/coursePage" entry="unknownCourse.title" name="Unknown course" />
 	return <TitleItem path={courseInfoPath} entry={`${course.id}.name`} name={course.name} />
 }
