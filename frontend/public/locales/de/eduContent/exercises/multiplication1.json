@@ -1,0 +1,4 @@
+{
+  "problem": "<par>Berechne die Multiplikation <inline-math/>.</par><input-space><par><integer-input><label>Antwort</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
+  "solution": "Die Lösung ist <inline-math/>."
+}

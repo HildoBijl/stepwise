@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { Translation } from 'i18n'
 import { Par, M } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { IntegerInput } from 'ui/inputs'
@@ -11,14 +12,14 @@ export default function Exercise() {
 }
 
 function Problem({ a, b }) {
-	return <>
-		<Par>Bereken de optelsom <M>{a} + {b}.</M></Par>
+	return <Translation>
+		<Par>Calculate the addition <M>{a} + {b}</M>.</Par>
 		<InputSpace>
-			<Par><IntegerInput id="ans" label="Antwoord" prelabel={<M>{a} + {b} =</M>} size="s" /></Par>
+			<Par><IntegerInput id="ans" label="Answer" prelabel={<M>{a} + {b} =</M>} size="s" /></Par>
 		</InputSpace>
-	</>
+	</Translation>
 }
 
 function Solution({ a, b }) {
-	return <Par>De oplossing is <M>{a} + {b} = {a + b}.</M></Par>
+	return <Par><Translation>The solution is <M>{a} + {b} = {a + b}</M>.</Translation></Par>
 }
