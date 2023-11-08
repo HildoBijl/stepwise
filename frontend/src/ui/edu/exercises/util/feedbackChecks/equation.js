@@ -75,7 +75,7 @@ export const sumWithWrongTerms = (input, correct, solution, isCorrect) => {
 			// Find an input term that is not in the solution.
 			const index = inputSide.terms.findIndex(inputTerm => !correctSide.terms.some(correctTerm => expressionComparisons.equivalent(inputTerm, correctTerm)))
 			if (index !== -1)
-				<Translation path={translationPath} entry="equation.errorInSumTerm">There seems to be an error in the <CountingWord ordinal={true}>{index + 1}</CountingWord> term on the <Check value={atLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side.</Translation>
+				return <Translation path={translationPath} entry="equation.errorInSumTerm">There seems to be an error in the <CountingWord ordinal={true}>{index + 1}</CountingWord> term on the <Check value={atLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side.</Translation>
 		} else {
 			// Check that the given terms are the same.
 			if (!expressionComparisons.equivalent(inputSide, correctSide))
@@ -108,7 +108,7 @@ export const sumWithUnsimplifiedTerms = (input, correct, solution, isCorrect) =>
 			// Find an input term that is not in the solution when checking only for order changes.
 			const index = inputSide.terms.findIndex(inputTerm => !correctSide.terms.some(correctTerm => expressionComparisons.onlyElementaryClean(inputTerm, correctTerm)))
 			if (index !== -1)
-				<Translation path={translationPath} entry="equation.unsimplifiedSumTerm">You can still simplify the <CountingWord ordinal={true}>{index + 1}</CountingWord> term on the <Check value={atLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side.</Translation>
+				return <Translation path={translationPath} entry="equation.unsimplifiedSumTerm">You can still simplify the <CountingWord ordinal={true}>{index + 1}</CountingWord> term on the <Check value={atLeft}><Check.True>left</Check.True><Check.False>right</Check.False></Check> side.</Translation>
 		} else {
 			// Check that the given terms are the same.
 			if (!expressionComparisons.onlyElementaryClean(inputSide, correctSide))
