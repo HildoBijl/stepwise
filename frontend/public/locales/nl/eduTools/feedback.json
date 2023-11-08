@@ -100,5 +100,47 @@
     "tooFewSignificantDigits": "Je hebt te weinig significante getallen.",
     "tooLargePower": "De gebruikte tien-macht is te groot.",
     "tooSmallPower": "De gebruikte tien-macht is te klein."
+  },
+  "expression": {
+    "original": "Dit is de oorspronkelijke uitdrukking. Je hebt hier nog niets mee gedaan.",
+    "incorrect": "Deze uitdrukking is niet gelijk aan wat gegeven is. Je hebt bij het omschrijven iets gedaan dat niet mag.",
+    "correct": "De uitdrukking klopt wel, maar je hebt niet gedaan wat gevraagd is.",
+    "noSum": "Je moet je antwoord schrijven als een optelling/aftrekking van termen. Je gegeven antwoord is geen optelling/aftrekking.",
+    "wrongNumberOfSumTerms": "Er wordt hier een optelsom verwacht met {expectedNumTerms} termen, met een plus of minteken ertussen. Nu heb je {inputNumTerms} termen.",
+    "errorInSumTerm": "Er lijkt iets mis te zijn met de <counting-word/> term van je antwoord.",
+    "unsimplifiedSumTerm": "Je kunt de <counting-word/> term van je antwoord nog verder vereenvoudigen.",
+    "hasX": "Je antwoord bevat nog een <inline-math/>. Dat was niet de bedoeling!",
+    "hasSumWithinProduct": "Je antwoord heeft onuitgewerkte haakjes.",
+    "hasSumWithinFraction": "Je antwoord heeft nog een niet-opgesplitste breuk.",
+    "hasFraction": "Je antwoord heeft nog een breuk. Het idee was om alle breuken weg te halen.",
+    "noFraction": "Je antwoord is geen breuk. Er wordt een enkele breuk als antwoord verwacht.",
+    "hasFractionWithinFraction": "Je antwoord mag geen verdere breuken binnenin een breuk bevatten. Je kunt het nog verder simplificeren.",
+    "incorrectFraction": {
+      "noFraction": "Hmm ... er was eigenlijk een breuk als antwoord verwacht.",
+      "inverted": "Je hebt je breuk verkeerd om ingevuld. Kijk goed wat je waardoor moet delen!",
+      "incorrectNumerator": "De teller van je breuk (bovenin) is niet wat verwacht werd. Heb je alle regels correct toegepast?",
+      "incorrectDenominator": "De noemer van je breuk (onderin) is niet wat verwacht werd. Heb je alle regels correct toegepast?",
+      "constantMultiple": "Je lijkt er een constante vermenigvuldiging naast te zitten."
+    },
+    "hasPower": "Je antwoord heeft nog een macht. Je kunt dit simpeler schrijven."
+  },
+  "equation": {
+    "original": "Dit is de oorspronkelijke vergelijking. Je hebt hier nog niets mee gedaan.",
+    "incorrect": "Deze vergelijking klopt niet. Je hebt bij het omschrijven iets gedaan dat niet mag.",
+    "incorrectLeftSide": "De linkerkant van de vergelijking is niet wat verwacht werd.",
+    "incorrectRightSide": "De rechterkant van de vergelijking is niet wat verwacht werd.",
+    "correct": "De vergelijking klopt wel, maar je hebt niet gedaan wat gevraagd werd.",
+    "noSum": "Je hebt aan de <check><on-true>linker</on-true><on-false>rechter</on-false></check>kant slechts een enkele term gegeven. Hier werd een som verwacht: een optelling/aftrekking van termen.",
+    "hasSum": "Je hebt aan de <check><on-true>linker</on-true><on-false>rechter</on-false></check>kant een som gezet: een optelling/aftrekking van termen. Hier werd maar één term verwacht.",
+    "wrongNumberOfSumTerms": "De optelsom <check><on-true>links</on-true><on-false>rechts</on-false></check> van het is-teken heeft <counting-word/> termen. Er werden er <counting-word/> verwacht.",
+    "errorInSumTerm": "Er lijkt iets mis te zijn met de <counting-word/> term aan de <check><on-true>linker</on-true><on-false>rechter</on-false></check>kant.",
+    "errorInSide": "Er lijkt iets mis te zijn met de <check><on-true>linker</on-true><on-false>rechter</on-false></check>kant van de vergelijking.",
+    "unsimplifiedSumTerm": "Je kunt de <counting-word/> term aan de <check><on-true>linker</on-true><on-false>rechter</on-false></check>kant nog verder vereenvoudigen.",
+    "unsimplifiedSide": "Je kunt de <check><on-true>linker</on-true><on-false>rechter</on-false></check>kant nog verder vereenvoudigen.",
+    "hasSumWithinProduct": "Je antwoord heeft onuitgewerkte haakjes.",
+    "hasSumWithinFraction": "Je antwoord heeft nog een niet-opgesplitste breuk.",
+    "hasFraction": "Je antwoord heeft nog een breuk. Het idee was om alle breuken weg te halen.",
+    "hasFractionWithinFraction": "Je antwoord mag geen verdere breuken binnenin een breuk bevatten. Je kunt het nog verder simplificeren.",
+    "hasFractionWithX": "Je antwoord heeft nog een breuk met <inline-math/> in de noemer. Het idee was om dit juist niet meer te hebben."
   }
 }

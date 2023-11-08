@@ -21,7 +21,6 @@ export const defaultMathInputOptions = {
 	...defaultMathInputInnerOptions,
 
 	// Apply some default settings.
-	label: <>Vul hier het resultaat in</>,
 	isEmpty,
 	getStartCursor: expressionFunctions.getStartCursor,
 	getEndCursor: expressionFunctions.getEndCursor,

@@ -12,9 +12,35 @@
     "placeHolder": "Number with unit"
   },
   "expressionInput": {
-    "placeHolder": "Expression"
+    "placeHolder": "Expression",
+    "validation": {
+      "emptyExpression": "There's (part of) an expression missing here.",
+      "unmatchedClosingBracket": "There is a closing bracket without corresponding opening bracket.",
+      "unmatchedOpeningBracket": "There is an opening bracket without corresponding closing bracket.",
+      "plusAtStart": "There is a plus symbol at the start.",
+      "doublePlusMinus": "There are two subsequent plus/minus symbols.",
+      "plusMinusAtEnd": "There is a <check><on-true>plus</on-true><on-false>minus</on-false></check> symbol at the end.",
+      "timesAtStart": "There is a multiplication symbol at the start of a term.",
+      "doubleTimes": "There are two subsequent multiplication symbols.",
+      "timesAtEnd": "There is a multiplication symbol at the end of a term.",
+      "unknownFunction": "Encountered an unknown function \"{name}\".",
+      "unknownAccent": "Encountered an unknown accent \"{name}\".",
+      "emptyAccent": "There is an empty accent.",
+      "tooLongAccent": "There is an accent with more than one character in it: \"{contents}\".",
+      "invalidSymbol": "Unexpected character \"{character}\".",
+      "singleDecimalSeparator": "There is a decimal separator without numbers around it.",
+      "multipleDecimalSeparator": "There is a number with multiple decimal separators.",
+      "misplacedSubscript": "There is a subscript \"{subscript}\" without a variable.",
+      "misplacedSuperscript": "There is an exponent without a term prior to it.",
+      "unknownVariable": "Unknown variable <inline-math/>."
+    }
   },
   "equationInput": {
-    "placeHolder": "Equation"
+    "placeHolder": "Equation",
+    "validation": {
+      "emptyEquation": "There's (part of) an equation missing here.",
+      "multipleEqualsSigns": "The equation has multiple \"=\" characters.",
+      "missingEqualsSign": "The equation has no \"=\" character."
+    }
   }
 }

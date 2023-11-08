@@ -12,9 +12,35 @@
     "placeHolder": "Getal met eenheid"
   },
   "expressionInput": {
-    "placeHolder": "Uitdrukking"
+    "placeHolder": "Uitdrukking",
+    "validation": {
+      "emptyExpression": "Er mist een (deel van een) uitdrukking.",
+      "unmatchedClosingBracket": "Er is een sluitend haakje zonder bijbehorend openingshaakje.",
+      "unmatchedOpeningBracket": "Er is een openend haakje zonder bijbehorend sluitingshaakje.",
+      "plusAtStart": "Er staat een plus aan het begin.",
+      "doublePlusMinus": "Er zijn twee plussen/minnen na elkaar.",
+      "plusMinusAtEnd": "Er staat een <check><on-true>plus</on-true><on-false>min</on-false></check> aan het eind.",
+      "timesAtStart": "Er staat een vermenigvuldiging aan het begin van een term.",
+      "doubleTimes": "Er staan twee vermenigvuldigingen na elkaar.",
+      "timesAtEnd": "Er staat een vermenigvuldiging aan het einde van een term.",
+      "unknownFunction": "Er is een onbekende functie \"{name}\" aangetroffen.",
+      "unknownAccent": "Er is een onbekend accent \"{name}\" aangetroffen.",
+      "emptyAccent": "Er is een leeg accent.",
+      "tooLongAccent": "Er is een accent met meer dan één teken: \"{contents}\".",
+      "invalidSymbol": "Onverwacht symbool \"{character}\".",
+      "singleDecimalSeparator": "Er is een komma zonder getallen eromheen.",
+      "multipleDecimalSeparator": "Er is een getal met meerdere komma's.",
+      "misplacedSubscript": "Er is een subscript \"{subscript}\" zonder variabele ervoor.",
+      "misplacedSuperscript": "Er is een macht zonder term ervoor.",
+      "unknownVariable": "Onbekende variabele <inline-math/>."
+    }
   },
   "equationInput": {
-    "placeHolder": "Vergelijking"
+    "placeHolder": "Vergelijking",
+    "validation": {
+      "emptyEquation": "Er mist een (deel van een) vergelijking.",
+      "multipleEqualsSigns": "De vergelijking heeft meerdere \"=\" tekens.",
+      "missingEqualsSign": "De vergelijking heeft geen \"=\" teken."
+    }
   }
 }

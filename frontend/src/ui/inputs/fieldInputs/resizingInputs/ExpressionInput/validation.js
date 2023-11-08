@@ -1,6 +1,7 @@
 import { isBasicObject } from 'step-wise/util'
 import { Variable } from 'step-wise/CAS'
 
+import { Translation } from 'i18n'
 import { M } from 'ui/components'
 
 export function any() { }
@@ -33,6 +34,6 @@ export function validWithVariables(...variables) {
 		const inputVariables = expression.getVariables()
 		const invalidVariable = inputVariables.find(inputVariable => !variables.some(variable => variable.equalsBasic(inputVariable)))
 		if (invalidVariable)
-			return <>Onbekende variabele <M>{invalidVariable}</M>.</>
+			return <Translation path="inputs" entry="expressionInput.validation.unknownVariable">Unknown variable <M>{invalidVariable}</M>.</Translation>
 	}
 }

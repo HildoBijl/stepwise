@@ -1,0 +1,26 @@
+{
+  "mainProblem": "Gegeben ist die Gleichung <block-math/> Löse sie für <inline-math/>.",
+  "step1": {
+    "problem": "Bringe alle Terme mit <inline-math/> auf die eine Seite der Gleichung, und alle ohne <inline-math/> auf die andere Seite.",
+    "solution": "Wir bringen <inline-math/> nach links und <inline-math/> nach rechts. So finden wir <block-math/>"
+  },
+  "step2": {
+    "problem": "Nimm <inline-math/> aus den Klammern heraus. Lass den Rest der Gleichung unverändert.",
+    "solution": "Um <inline-math/> aus den Klammern zu nehmen, müssen wir <inline-math/> als <inline-math/> schreiben. Damit sehen wir, dass zwischen den Klammern <inline-math/> stehen sollte. Wir schreiben die Gleichung also um als <block-math/>"
+  },
+  "step3": {
+    "problem": "Dividiere beide Seiten der Gleichung durch den Term in Klammern, um <inline-math/> zu lösen.",
+    "solution": "Wenn wir beide Seiten der Gleichung durch <inline-math/> teilen, fällt der Term in den Klammern auf der linken Seite weg. Es bleibt nur noch <inline-math/> übrig, und damit haben wir <inline-math/> frei gemacht! Das Endergebnis ist <block-math/>. Natürlich kann diese Antwort auch anders geschrieben werden, aber kleine Unterschiede in der Schreibweise sind hier nicht wichtig."
+  },
+  "feedback": {
+    "variableOnBothSides": "<a>Beide Seiten der Gleichung enthalten ein weiteres <inline-math/>. Bringe alle Terme mit <inline-math/> auf <em>dieselbe</em> Seite.</a>",
+    "missingVariable": "<a>Deine Antwort enthält überhaupt kein <inline-math/>. Wo ist es geblieben?</a>",
+    "oneVariable": "<a>Es gab mehrere Terme mit <inline-math/>, aber du hast nur einen aufgeschrieben.</a>",
+    "termWithoutVariable": "<a>Du hast zwar alle Terme mit <inline-math/> auf eine Seite bekommen, aber hier ist auch ein Term <inline-math/>, der kein <inline-math/> enthält.</a>",
+    "noSideWithoutVariable": "<a>Du hast wieder ein <inline-math/> auf beide Seiten der Gleichung gesetzt. Das war nicht die Absicht.</a>",
+    "unequalSideWithoutVariable": "<a>Die Seite ohne <inline-math/> muss die gleiche bleiben!</a>",
+    "disappearedVariable": "<a>Du hast <inline-math/> komplett verschwinden lassen. Das war nicht die Absicht.</a>",
+    "unequalSide": "<a>Die Seite mit <inline-math/> ist nicht mehr das, was sie vorher war. Beim Umschreiben ist etwas schief gegangen.</a>",
+    "notOutsideOfBrackets": "<a>Du hast <inline-math/> nicht aus der Klammer genommen. Du solltest die Seite mit <inline-math/> als <inline-math/> schreiben, mit dem einfachsten möglichen Ausdruck in den Punkten.</a>"
+  }
+}

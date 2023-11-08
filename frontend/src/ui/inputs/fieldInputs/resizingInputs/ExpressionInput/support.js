@@ -1,11 +1,15 @@
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 
+import { Translation, Check } from 'i18n'
 import { simplifyKey, keyboards } from 'ui/form'
 
 import { expressionFunctions } from '../MathInput'
 
 const mathKeys = keyboards.basicMath.keys
 const keysToCheck = [...mathKeys, ...Object.keys(greekAlphabet)]
+
+const translationPath = 'inputs'
+const translationEntry = 'expressionInput.validation'
 
 // keyboardSettings takes an FI object and determines what keyboard settings are appropriate.
 export function keyboardSettings(FI, settings) {
@@ -31,56 +35,56 @@ export function errorToMessage(error) {
 	switch (code) {
 		// Special cases.
 		case 'EmptyExpression':
-			return `Er mist een (deel van een) uitdrukking.`
+			return <Translation path={translationPath} entry={`${translationEntry}.emptyExpression`}>There's (part of) an expression missing here.</Translation>
 
 		// Bracket interpretation.
 		case 'UnmatchedClosingBracket':
-			return `Er is een sluitend haakje zonder bijbehorend openingshaakje.`
+			return <Translation path={translationPath} entry={`${translationEntry}.unmatchedClosingBracket`}>There is a closing bracket without corresponding opening bracket.</Translation>
 		case 'UnmatchedOpeningBracket':
-			return `Er is een openend haakje zonder bijbehorend sluitingshaakje.`
+			return <Translation path={translationPath} entry={`${translationEntry}.unmatchedOpeningBracket`}>There is an opening bracket without corresponding closing bracket.</Translation>
 
 		// Sum interpretation.
 		case 'PlusAtStart':
-			return `Er staat een plus aan het begin.`
+			return <Translation path={translationPath} entry={`${translationEntry}.plusAtStart`}>There is a plus symbol at the start.</Translation>
 		case 'DoublePlusMinus':
-			return `Er zijn twee plussen/minnen na elkaar.`
+			return <Translation path={translationPath} entry={`${translationEntry}.doublePlusMinus`}>There are two subsequent plus/minus symbols.</Translation>
 		case 'PlusMinusAtEnd':
-			return `Er staat een ${cause === '+' ? 'plus' : 'min'} aan het eind.`
+			return <Translation path={translationPath} entry={`${translationEntry}.plusMinusAtEnd`}>There is a <Check value={cause === '+'}><Check.True>plus</Check.True><Check.False>minus</Check.False></Check> symbol at the end.</Translation>
 
 		// Product interpretation.
 		case 'TimesAtStart':
-			return `Er staat een vermenigvuldiging aan het begin van een term.`
+			return <Translation path={translationPath} entry={`${translationEntry}.timesAtStart`}>There is a multiplication symbol at the start of a term.</Translation>
 		case 'DoubleTimes':
-			return `Er staan twee vermenigvuldigingen na elkaar.`
+			return <Translation path={translationPath} entry={`${translationEntry}.doubleTimes`}>There are two subsequent multiplication symbols.</Translation>
 		case 'TimesAtEnd':
-			return `Er staat een vermenigvuldiging aan het einde van een term.`
+			return <Translation path={translationPath} entry={`${translationEntry}.timesAtEnd`}>There is a multiplication symbol at the end of a term.</Translation>
 
 		// Advanced function interpretation.
 		case 'UnknownBasicFunction':
 		case 'UnknownAdvancedFunction':
-			return `Er is een onbekende functie "${cause}" aangetroffen.`
+			return <Translation path={translationPath} entry={`${translationEntry}.unknownFunction`}>Encountered an unknown function "{{ name: cause }}".</Translation>
 
 		// Accent interpretation.
 		case 'UnknownAccent':
-			return `Onbekend accent "${cause}".`
+			return <Translation path={translationPath} entry={`${translationEntry}.unknownAccent`}>Encountered an unknown accent "{{ name: cause }}".</Translation>
 		case 'EmptyAccent':
-			return `Er is een leeg accent.`
+			return <Translation path={translationPath} entry={`${translationEntry}.emptyAccent`}>There is an empty accent.</Translation>
 		case 'TooLongAccent':
-			return `Er is een accent met meer dan één teken: "${cause}".`
+			return <Translation path={translationPath} entry={`${translationEntry}.tooLongAccent`}>There is an accent with more than one character in it: "{{ contents: cause }}".</Translation>
 
 		// String interpretation.
 		case 'InvalidSymbol':
-			return `Onverwacht symbool "${cause}".`
+			return <Translation path={translationPath} entry={`${translationEntry}.invalidSymbol`}>Unexpected character "{{ character: cause }}".</Translation>
 		case 'SingleDecimalSeparator':
-			return `Er is een komma zonder getallen eromheen.`
+			return <Translation path={translationPath} entry={`${translationEntry}.singleDecimalSeparator`}>There is a decimal separator without numbers around it.</Translation>
 		case 'MultipleDecimalSeparator':
-			return `Er is een getal met meerdere komma's.`
+			return <Translation path={translationPath} entry={`${translationEntry}.multipleDecimalSeparator`}>There is a number with multiple decimal separators.</Translation>
 
 		// Subscript/superscript interpretation.
 		case 'MisplacedSubscript':
-			return `Er is een subscript "${cause}" zonder variabele ervoor.`
+			return <Translation path={translationPath} entry={`${translationEntry}.misplacedSubscript`}>There is a subscript "{{ subscript: cause }}" without a variable.</Translation>
 		case 'MisplacedSuperscript':
-			return `Er is een macht zonder term ervoor.`
+			return <Translation path={translationPath} entry={`${translationEntry}.misplacedSuperscript`}>There is an exponent without a term prior to it.</Translation>
 
 		default: return
 	}
