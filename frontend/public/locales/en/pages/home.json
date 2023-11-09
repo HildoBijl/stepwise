@@ -1,0 +1,14 @@
+{
+  "head": "How does it work?",
+  "step1": "You practice exercises in the web-app.",
+  "step2": "Every exercise gives you detailed feedback.",
+  "step3": "The app tracks what you're struggling with.",
+  "step4": "You get more exercises on your level.",
+  "logInHU": "Log in through Hogeschool Utrecht",
+	"logInError": {
+		"title": "Log-in unsuccessful",
+		"invalidAuthentication": "We could not determine your identity. If possible try another account.",
+		"internalError": "A server error occurred while logging in. Please try again later.",
+		"unspecifiedError": "Something went wrong while logging in. Please try again later."
+	}
+}

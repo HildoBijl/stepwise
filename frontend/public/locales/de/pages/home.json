@@ -1,0 +1,14 @@
+{
+	"head": "Wie funktioniert es?",
+	"step1": "Du machst Übungsaufgaben in der Web-App.",
+	"step2": "Zu jeder Übung erhältst du ein ausführliches Feedback.",
+	"step3": "Die App merkt sich, womit du Probleme hast.",
+	"step4": "Du bekommst neue Aufgaben auf deinem Niveau.",
+	"logInHU": "Anmeldung mit Hogeschool Utrecht",
+	"logInError": {
+		"title": "Anmelden fehlgeschlagen",
+		"invalidAuthentication": "Wir konnten nicht feststellen, wer du bist. Bitte versuche ein anderes Konto, wenn möglich.",
+		"internalError": "Beim Anmelden ist auf unserem Server ein Fehler aufgetreten. Bitte versuche es später noch einmal.",
+		"unspecifiedError": "Beim Anmelden ist ein Fehler aufgetreten. Bitte versuche es später noch einmal."
+	}
+}

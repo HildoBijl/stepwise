@@ -1,0 +1,14 @@
+{
+	"head": "Hoe werkt het?",
+	"step1": "Jij maakt oefenopgaven in de web-app.",
+	"step2": "Elke opgave geeft je gedetailleerde feedback.",
+	"step3": "De app houdt bij waar je moeite mee hebt.",
+	"step4": "Je krijgt op jouw niveau nieuwe opgaven.",
+	"logInHU": "Inloggen met Hogeschool Utrecht",
+	"logInError": {
+		"title": "Niet gelukt om in te loggen",
+		"invalidAuthentication": "We konden niet bepalen wie je bent. Probeer indien mogelijk een andere account.",
+		"internalError": "Er ging bij het inloggen iets mis op onze server. Probeer het later nog eens.",
+		"unspecifiedError": "Er ging iets mis bij het inloggen. Probeer het later nog eens."
+	}
+}

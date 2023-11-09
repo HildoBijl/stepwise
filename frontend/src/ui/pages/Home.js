@@ -7,7 +7,8 @@ import Typography from '@material-ui/core/Typography'
 import { Alert, AlertTitle } from '@material-ui/lab';
 
 import { websiteName, websiteNameAddendum, apiAddress, cookieApprovalName, googleClientId, googleRedirectAddress } from 'settings'
-import { useTextTranslator } from 'i18n'
+import { useIsUserDataLoaded } from 'api/user'
+import { useTextTranslator, Translation } from 'i18n'
 import cookies from 'ui/cookies'
 import { notSelectable } from 'ui/theme'
 import { useModal, PictureConfirmation } from 'ui/components/Modal'
@@ -16,7 +17,7 @@ import logo from 'ui/images/logo.svg'
 import HUlogo from 'ui/images/HU.png'
 import Cookies from 'ui/images/Cookies.jpg'
 
-import { useIsUserDataLoaded } from 'api/user'
+import { PageTranslationFile } from './PageTranslationFile'
 
 const useStyles = makeStyles((theme) => ({
 	home: {
@@ -227,43 +228,45 @@ export default function Home() {
 
 	// Render the page.
 	return (
-		<Container maxWidth='lg' className={classes.home}>
-			<div className="nameContainer">
-				<Typography variant="h1" className="name">{websiteNameTranslation}</Typography>
-				<Typography variant="h2" className="motto">{websiteNameAddendumTranslation}</Typography>
-			</div>
-			{isUserDataLoaded ? <>
-				<div className="main">
-					<div className="logo">
-						<img src={logo} className="logoPicture" alt="Logo" width="512" height="512" />
-					</div>
-					<div className="explanation">
-						<div className="title">Hoe werkt het?</div>
-						<ol className="list">
-							<li className="item">Jij maakt oefenopgaven in de web-app.</li>
-							<li className="item">Elke opgave geeft je gedetailleerde feedback.</li>
-							<li className="item">De app houdt bij waar je moeite mee hebt.</li>
-							<li className="item">Je krijgt op jouw niveau nieuwe opgaven.</li>
-						</ol>
-						<LoginError />
-						<div className="login" onClick={verifyCookies}>
-							<div className="inner">
-								<div className="img">
-									<img src={HUlogo} className="logo" alt="HU logo" width="606" height="525" />
-								</div>
-								<div className="text">
-									Inloggen met Hogeschool Utrecht
+		<PageTranslationFile page="home">
+			<Container maxWidth='lg' className={classes.home}>
+				<div className="nameContainer">
+					<Typography variant="h1" className="name">{websiteNameTranslation}</Typography>
+					<Typography variant="h2" className="motto">{websiteNameAddendumTranslation}</Typography>
+				</div>
+				{isUserDataLoaded ? <>
+					<div className="main">
+						<div className="logo">
+							<img src={logo} className="logoPicture" alt="Logo" width="512" height="512" />
+						</div>
+						<div className="explanation">
+							<div className="title"><Translation entry="head">How does it work?</Translation></div>
+							<ol className="list">
+								<li className="item"><Translation entry="step1">You practice exercises in the web-app.</Translation></li>
+								<li className="item"><Translation entry="step2">Every exercise gives you detailed feedback.</Translation></li>
+								<li className="item"><Translation entry="step3">The app tracks what you're struggling with.</Translation></li>
+								<li className="item"><Translation entry="step4">You get more exercises on your level.</Translation></li>
+							</ol>
+							<LoginError />
+							<GoogleLoginButton />
+							<div className="login" onClick={verifyCookies}>
+								<div className="inner">
+									<div className="img">
+										<img src={HUlogo} className="logo" alt="HU logo" width="606" height="525" />
+									</div>
+									<div className="text">
+										<Translation entry="logInHU">Log in through Hogeschool Utrecht</Translation>
+									</div>
 								</div>
 							</div>
 						</div>
-						<GoogleLoginButton />
 					</div>
-				</div>
-				<div className="spacer" />
-				<LinkBar className="linkBar" />
-				<Helmet><title>{websiteNameTranslation} | {websiteNameAddendumTranslation}</title></Helmet>
-			</> : null}
-		</Container>
+					<div className="spacer" />
+					<LinkBar className="linkBar" />
+					<Helmet><title>{websiteNameTranslation} | {websiteNameAddendumTranslation}</title></Helmet>
+				</> : null}
+			</Container>
+		</PageTranslationFile>
 	)
 }
 
@@ -306,8 +309,8 @@ class GoogleLoginButton extends React.Component {
 }
 
 const errorCode2Message = {
-	INVALID_AUTHENTICATION: "We konden niet bepalen wie je bent. Probeer indien mogelijk een andere account.",
-	INTERNAL_ERROR: "Er ging bij het inloggen iets mis achter de schermen. Probeer het later nog eens.",
+	INVALID_AUTHENTICATION: <Translation entry="logInError.invalidAuthentication">We could not determine your identity. If possible try another account.</Translation>,
+	INTERNAL_ERROR: <Translation entry="logInError.internalError">A server error occurred while logging in. Please try again later.</Translation>,
 }
 
 function LoginError() {
@@ -319,7 +322,7 @@ function LoginError() {
 		const queryParams = new URLSearchParams(location.search)
 		if (queryParams.has('error')) {
 			const code = queryParams.get('error')
-			setErrorMessage(errorCode2Message[code] || "Er ging iets mis bij het inloggen. Probeer het later nog eens.")
+			setErrorMessage(errorCode2Message[code] || <Translation entry="logInError.unspecifiedError">Something went wrong while logging in. Please try again later.</Translation>)
 			queryParams.delete('error')
 			navigate({ search: queryParams.toString() }, { replace: true })
 		}
@@ -327,7 +330,7 @@ function LoginError() {
 
 	return errorMessage && (
 		<Alert severity="error">
-			<AlertTitle>Niet gelukt om in te loggen</AlertTitle>
+			<AlertTitle><Translation entry="logInError.title">Log-in unsuccessful</Translation></AlertTitle>
 			{errorMessage}
 		</Alert>
 	)

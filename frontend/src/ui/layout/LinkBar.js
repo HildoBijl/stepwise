@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 
+import { useGetTranslation } from 'i18n'
 import { usePaths } from 'ui/routing'
 
 const useStyles = makeStyles((theme) => ({
@@ -42,13 +43,14 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function LinkBar({ className }) {
+	const getTranslation = useGetTranslation('navigation')
 	const classes = useStyles()
 	const paths = usePaths()
 
 	return (
 		<div className={clsx(className, classes.list)}>
-			<Typography variant="h5"><Link to={paths.info()}>Over Step-Wise</Link></Typography>
-			<Typography variant="h5"><Link to={paths.feedback()}>Feedback</Link></Typography>
+			<Typography variant="h5"><Link to={paths.info()}>{getTranslation('pageTitles.info')}</Link></Typography>
+			<Typography variant="h5"><Link to={paths.feedback()}>{getTranslation('pageTitles.feedback')}</Link></Typography>
 		</div>
 	)
 }
