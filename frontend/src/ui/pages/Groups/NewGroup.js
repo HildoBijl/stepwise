@@ -4,10 +4,11 @@ import Button from '@material-ui/core/Button'
 import { Done, Clear } from '@material-ui/icons'
 
 import { useCreateGroupMutation, useActiveGroup } from 'api/group'
+import { TranslationFile, TranslationSection, Translation } from 'i18n'
 import { usePaths } from 'ui/routing'
 import { Par, List } from 'ui/components'
 
-import { groupPossibilities } from './util'
+import { translationPath, groupPossibilities } from './util'
 
 export default function NewGroup() {
 	const paths = usePaths()
@@ -21,29 +22,31 @@ export default function NewGroup() {
 			navigate(paths.groups())
 	}, [activeGroup, navigate, paths])
 
-	return <>
-		<Par>Je staat op het punt om een nieuwe samenwerkingsgroep aan te maken. Je krijgt dan een code/link om met je studiegenoten te delen. Elke persoon die de code invoert krijgt toegang tot de samenwerkingsgroep. Dit omvat:
-			<List items={groupPossibilities} />
-			Je kunt een samenwerkingsgroep altijd verlaten en/of vergeten. Als je een samenwerkingsgroep vergeet, dan worden al je sporen uit deze samenwerkingsgroep permanent gewist.
-		</Par>
-		<Par>
-			<Button
-				variant="contained"
-				color="primary"
-				startIcon={<Done />}
-				onClick={() => {
-					createGroup()
-					navigate(paths.groups())
-				}}
-				style={{ margin: '0.5rem' }}
-			>Ja, ik ga akkoord</Button>
-			<Button
-				variant="contained"
-				color="secondary"
-				startIcon={<Clear />}
-				onClick={() => navigate(paths.groups())}
-				style={{ margin: '0.5rem' }}
-			>Nee, dat wil ik niet</Button>
-		</Par>
-	</>
+	return <TranslationFile path={translationPath}>
+		<TranslationSection entry="newGroup">
+			<Par><Translation entry="paragraph1">You are about to create a new practice group. This will give you a code/link to share with your fellow students. Each person entering the code will get access to the practice group. This includes:</Translation>
+				<List items={groupPossibilities} />
+				<Translation entry="paragraph2">You can always leave and/or forget a practice group. Upon forgetting a practice group, all your traces from the group will be permanently erased.</Translation>
+			</Par>
+			<Par>
+				<Button
+					variant="contained"
+					color="primary"
+					startIcon={<Done />}
+					onClick={() => {
+						createGroup()
+						navigate(paths.groups())
+					}}
+					style={{ margin: '0.5rem' }}
+				><Translation entry="agreeButton">Yes, I agree</Translation></Button>
+				<Button
+					variant="contained"
+					color="secondary"
+					startIcon={<Clear />}
+					onClick={() => navigate(paths.groups())}
+					style={{ margin: '0.5rem' }}
+				><Translation entry="disagreeButton">No, I don't want that</Translation></Button>
+			</Par>
+		</TranslationSection>
+	</TranslationFile>
 }

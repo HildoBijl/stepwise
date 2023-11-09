@@ -4,12 +4,12 @@ import { useNavigate } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import Tooltip from '@material-ui/core/Tooltip'
 
-import { getWordList } from 'util/language'
 import { usePrevious } from 'util/react'
 import { useActiveGroup } from 'api/group/Provider'
+import { TranslationFile, TranslationSection, Translation, WordList } from 'i18n'
 import { usePaths } from 'ui/routing'
 
-import { useOtherMembers } from './util'
+import { translationPath, useOtherMembers } from './util'
 
 const useStyles = makeStyles((theme) => ({
 	groupIndicator: {
@@ -50,7 +50,7 @@ function GroupIndicatorInternal({ group }) {
 	// Determine the names of active members.
 	const activeMembers = group.members.filter(member => member.active)
 	const otherMembers = useOtherMembers(activeMembers)
-	const nameString = getWordList(otherMembers.map(member => member.name))
+	const names = otherMembers.map(member => member.name)
 
 	// Check if the number of active members have changed and adjust visuals accordingly.
 	const numActiveMembers = activeMembers.length
@@ -67,9 +67,13 @@ function GroupIndicatorInternal({ group }) {
 
 	// Render the indicator.
 	const classes = useStyles({ lastEvent })
-	return <Tooltip title={<span>{numActiveMembers <= 1 ? `Er zijn nog geen anderen aanwezig.` : `Je werkt samen met ${nameString}.`}</span>} arrow>
-		<div className={clsx(classes.groupIndicator, 'groupIndicator')} onClick={() => navigate(paths.groups({ code: activeGroup.code }))}>
-			<div className="contents">{activeMembers.length}</div>
-		</div>
-	</Tooltip>
+	return <TranslationFile path={translationPath} extend={false}>
+		<TranslationSection entry="indicator">
+			<Tooltip title={<span>{numActiveMembers <= 1 ? <Translation entry="noOthers">No other group members are present yet.</Translation> : <Translation entry="others">You are working together with <WordList words={names}/>.</Translation>}</span>} arrow>
+				<div className={clsx(classes.groupIndicator, 'groupIndicator')} onClick={() => navigate(paths.groups({ code: activeGroup.code }))}>
+					<div className="contents">{activeMembers.length}</div>
+				</div>
+			</Tooltip>
+		</TranslationSection>
+	</TranslationFile>
 }

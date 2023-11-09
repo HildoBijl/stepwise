@@ -5,9 +5,11 @@ import { sortByIndices } from 'step-wise/util'
 
 import { useUserId } from 'api/user'
 import { useMyGroupsQuery, useActivateGroupMutation, useMyGroupsSubscription } from 'api/group'
+import { TranslationFile, Translation } from 'i18n'
 import { usePaths } from 'ui/routing'
 import { Par } from 'ui/components'
 
+import { translationPath } from './util'
 import JoinGroupConditions from './JoinGroupConditions'
 import ActiveGroup from './ActiveGroup'
 import OtherGroups from './OtherGroups'
@@ -47,18 +49,18 @@ export default function Groups() {
 
 	// Deal with data loading issues.
 	if (error)
-		return <Par>Oops ... er ging iets mis met het laden van alle groepen.</Par>
+		return <Par><Translation path={translationPath} entry="notifications.groupsLoadingError">Oops ... something went wrong when loading the groups.</Translation></Par>
 	if (loading)
-		return <Par>Groepen worden geladen...</Par>
+		return <Par><Translation path={translationPath} entry="notifications.groupsLoading">Groups are being loaded...</Translation></Par>
 
 	// If a code has been provided to join a group, and this group is not already joined, show a join confirmation screen.
 	if (code && !myGroups.find(group => group.code === code))
-		return <JoinGroupConditions code={code} />
+		return <TranslationFile path={translationPath}><JoinGroupConditions code={code} /></TranslationFile>
 
 	// Render the component as usual.
-	return <>
+	return <TranslationFile path={translationPath}>
 		{activeGroup ? <ActiveGroup group={activeGroup} /> : null}
 		{otherGroups.length > 0 ? <OtherGroups groups={otherGroups} hasActiveGroup={!!activeGroup} /> : null}
 		{activeGroup ? null : <GroupCreation />}
-	</>
+	</TranslationFile>
 }

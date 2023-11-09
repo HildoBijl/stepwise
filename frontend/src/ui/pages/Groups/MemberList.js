@@ -7,7 +7,7 @@ import FaceIcon from '@material-ui/icons/Face'
 const useStyles = makeStyles((theme) => ({
 	memberList: {
 		display: 'inline flex',
-		justifyContent: 'center',
+		justifyContent: 'flex-start',
 		flexWrap: 'wrap',
 		'& > *': {
 			margin: theme.spacing(0.5),

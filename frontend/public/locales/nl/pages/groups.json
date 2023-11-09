@@ -1,0 +1,55 @@
+{
+  "notifications": {
+    "groupsLoading": "Groepen worden geladen...",
+    "groupsLoadingError": "Oops ... er ging iets mis met het laden van de groepen."
+  },
+  "createGroup": {
+    "title": "Nieuwe samenwerkingsgroep",
+    "step1": "Maak een groepscode/link aan.",
+    "step2": "Deel deze met studiegenoten.",
+    "step3": "Krijg samen dezelfde opgaven.",
+    "confirmationButton": "Maak nieuwe samenwerkingsgroep"
+  },
+  "newGroup": {
+    "paragraph1": "Je staat op het punt om een nieuwe samenwerkingsgroep aan te maken. Je krijgt dan een code/link om met je studiegenoten te delen. Elke persoon die de code invoert krijgt toegang tot de samenwerkingsgroep. Dit omvat:",
+    "paragraph2": "Je kunt een samenwerkingsgroep altijd verlaten en/of vergeten. Als je een samenwerkingsgroep vergeet, dan worden al je sporen uit deze samenwerkingsgroep permanent gewist.",
+    "agreeButton": "Ja, ik ga akkoord",
+    "disagreeButton": "Nee, dat wil ik niet"
+  },
+  "groupPossibilities": {
+    "entry1": "Zien wie er in de samenwerkingsgroep zit en of ze online/actief zijn.",
+    "entry2": "Bij opgaven: de inzendingen van groepsgenoten inzien.",
+    "entry3": "Tips krijgen over welke vaardigheid handig is om te oefenen, gezien het niveau van actieve groepsgenoten."
+  },
+  "olderGroups": {
+    "title": "Eerdere groepen",
+    "code": "Code",
+    "forgetGroup": "Vergeet deze groep"
+  },
+  "activeGroup": {
+    "activeGroup": "Je actieve groep: <a>{code}</a>",
+    "emptyGroup": "Er zit nog niemand anders in groep <a>{code}</a>. Deel de code/<b>link</b> met je studiegenoten om samen te kunnen oefenen.",
+    "deactivateButton": "Verlaat deze groep"
+  },
+  "indicator": {
+    "noOthers": "Er zijn nog geen anderen aanwezig.",
+    "others": "Je werkt samen met <word-list/>."
+  },
+  "joinGroup": {
+    "title": "Meedoen met bestaande groep",
+    "instruction": "Voer een bestaande groepscode in.",
+    "fieldLabel": "Groepscode",
+    "confirmationButton": "Word lid van de groep",
+    "feedback": {
+      "numberOfCharacters": "Codes hebben altijd vier tekens.",
+      "useLettersNumbers": "Gebruik alleen letters/cijfers.",
+      "nonexistingGroup": "Deze groepscode bestaat niet."
+    }
+  },
+  "joinGroupConditions": {
+    "paragraph1": "Je staat op het punt om lid te worden van de samenwerkingsgroep {code}. Je kan dan:",
+    "paragraph2": "Alle huidige en toekomstige leden van deze samenwerkingsgroep kunnen dit uiteraard ook. Je kunt een samenwerkingsgroep altijd verlaten en/of vergeten. Als je een samenwerkingsgroep vergeet, dan worden al je sporen uit de samenwerkingsgroep permanent gewist.",
+    "agreeButton": "Ja, ik ga akkoord",
+    "disagreeButton": "Nee, dat wil ik niet"
+  }
+}

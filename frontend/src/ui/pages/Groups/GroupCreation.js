@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 
 import { usePaths } from 'ui/routing'
+import { TranslationSection, Translation } from 'i18n'
 import { useGroupExistsQuery } from 'api/group'
 
 const useStyles = makeStyles((theme) => ({
@@ -72,18 +73,20 @@ export default function GroupCreation() {
 function CreateGroup() {
 	const paths = usePaths()
 	const navigate = useNavigate()
-	return <Paper className="block" elevation={3}>
-		<h1>Nieuwe samenwerkingsgroep</h1>
-		<p>Maak een groepscode/link aan.</p>
-		<p>Deel deze met studiegenoten.</p>
-		<p>Krijg samen dezelfde opgaven.</p>
-		<Button
-			className="createButton"
-			variant="contained"
-			color="primary"
-			onClick={() => navigate(paths.newGroup())}
-		>Maak nieuwe samenwerkingsgroep</Button>
-	</Paper>
+	return <TranslationSection entry="createGroup">
+		<Paper className="block" elevation={3}>
+			<h1><Translation entry="title">New practice group</Translation></h1>
+			<p><Translation entry="step1">Create a group code/link.</Translation></p>
+			<p><Translation entry="step2">Share it with fellow students.</Translation></p>
+			<p><Translation entry="step3">Practice with the same exercises.</Translation></p>
+			<Button
+				className="createButton"
+				variant="contained"
+				color="primary"
+				onClick={() => navigate(paths.newGroup())}
+			><Translation entry="confirmationButton">Create new practice group</Translation></Button>
+		</Paper>
+	</TranslationSection>
 }
 
 function JoinGroup() {
@@ -112,7 +115,8 @@ function JoinGroup() {
 			return setProblem(problems.wrongLength)
 		if (!isValidCode(code))
 			return setProblem(problems.invalidFormat)
-		return setProblem(problems.allOK) // A uniqueness check will be performed. For now assume all is OK.
+		if (code !== submittedCode)
+			return setProblem(problems.allOK) // A uniqueness check will be performed. For now assume all is OK.
 	}
 
 	// When the group code check is done, process the results.
@@ -128,29 +132,31 @@ function JoinGroup() {
 	}, [submittedCode, loading, data, navigate, paths])
 
 	// Render the component.
-	return <Paper className="block" elevation={3}>
-		<h1>Meedoen met bestaande groep</h1>
-		<p>Voer een bestaande groepscode in.</p>
-		<form className="inputContainer" onSubmit={submit}>
-			<TextField
-				id="code"
-				error={code === submittedCode && problem !== problems.allOK}
-				className="input"
-				label="Groepscode"
-				variant="outlined"
-				placeholder="ABCD"
-				value={code}
-				onChange={(evt) => setCode(evt.target.value.substring(0, 4).toUpperCase())}
-				helperText={code === submittedCode ? helperText[problem] : ''}
-			/>
-		</form>
-		<Button
-			className="createButton"
-			variant="contained"
-			color="primary"
-			onClick={submit}
-		>Word lid van de groep</Button>
-	</Paper>
+	return <TranslationSection entry="joinGroup">
+		<Paper className="block" elevation={3}>
+			<h1><Translation entry="title">Join existing group</Translation></h1>
+			<p><Translation entry="instruction">Enter an existing group code.</Translation></p>
+			<form className="inputContainer" onSubmit={submit}>
+				<TextField
+					id="code"
+					error={code === submittedCode && problem !== problems.allOK}
+					className="input"
+					label={<Translation entry="fieldLabel">Group code</Translation>}
+					variant="outlined"
+					placeholder="ABCD"
+					value={code}
+					onChange={(evt) => setCode(evt.target.value.substring(0, 4).toUpperCase())}
+					helperText={code === submittedCode ? helperText[problem] : ''}
+				/>
+			</form>
+			<Button
+				className="createButton"
+				variant="contained"
+				color="primary"
+				onClick={submit}
+			><Translation entry="confirmationButton">Become a group member</Translation></Button>
+		</Paper>
+	</TranslationSection>
 }
 
 const problems = {
@@ -161,9 +167,9 @@ const problems = {
 }
 const helperText = {
 	0: '',
-	1: 'Codes hebben altijd vier tekens.',
-	2: 'Gebruik alleen letters/cijfers.',
-	3: 'De groepscode bestaat niet.',
+	1: <Translation entry="feedback.numberOfCharacters">Codes must have four characters.</Translation>,
+	2: <Translation entry="feedback.useLettersNumbers">Only use letters/numbers.</Translation>,
+	3: <Translation entry="feedback.nonexistingGroup">This group code does not exist.</Translation>,
 }
 
 function isValidCode(code) {

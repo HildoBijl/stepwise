@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button'
 import { Clear } from '@material-ui/icons'
 
 import { useLeaveGroupMutation } from 'api/group'
+import { Translation } from 'i18n'
 import { usePaths } from 'ui/routing'
 import { Head } from 'ui/components'
 
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 export default function OtherGroups({ groups, hasActiveGroup }) {
 	const classes = useStyles()
 	return <>
-		<Head>Oudere groepen</Head>
+		<Head><Translation entry="olderGroups.title">Previous groups</Translation></Head>
 		<div className={classes.otherGroups}>
 			{groups.map(group => <OtherGroup key={group.code} group={group} />)}
 		</div>
@@ -57,7 +58,7 @@ function OtherGroup({ group }) {
 				variant="contained"
 				size="small"
 				color="primary"
-			>{wideScreen ? 'Code ' : ''}{group.code}</Button>
+			>{wideScreen ? <><Translation entry="olderGroups.code">Code</Translation> </> : ''}{group.code}</Button>
 		</Link>
 		<MemberList className="groupMembers" members={membersSorted} />
 		<Button
@@ -67,6 +68,6 @@ function OtherGroup({ group }) {
 			color="secondary"
 			endIcon={wideScreen ? <Clear /> : null}
 			onClick={leaveGroup}
-		>{wideScreen ? 'Vergeet deze groep' : <Clear />}</Button>
+		>{wideScreen ? <Translation entry="olderGroups.forgetGroup">Forget this group</Translation> : <Clear />}</Button>
 	</>
 }

@@ -3,12 +3,15 @@ import React, { useMemo } from 'react'
 import { sortByIndices } from 'step-wise/util'
 
 import { useUserId } from 'api/user'
+import { Translation } from 'i18n'
+
+export const translationPath = 'pages/groups'
 
 // groupPossibilities is a React list of possibilities that group members have. It is shown at various points in the app.
 export const groupPossibilities = [
-	<>Zien wie er in de samenwerkingsgroep zit en of ze online/actief zijn.</>,
-	<>Bij opgaven: de inzendingen van groepsgenoten inzien.</>,
-	<>Tips krijgen over welke vaardigheid handig is om te oefenen, gezien het niveau van actieve groepsgenoten.</>
+	<Translation path={translationPath} entry="groupPossibilities.entry1">See who is active in the group and whether they are online/active.</Translation>,
+	<Translation path={translationPath} entry="groupPossibilities.entry2">At exercises: view the submissions of other group members.</Translation>,
+	<Translation path={translationPath} entry="groupPossibilities.entry3">Get suggestions on which skill is best to practice, also based on the level of other active group members.</Translation>
 ]
 
 // useOtherMembers takes a list of members, filters out the given user, and sorts the remaining members according to their activity. It puts currently active users always first, and then sorts by the most recent activity.

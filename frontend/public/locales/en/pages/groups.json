@@ -1,0 +1,55 @@
+{
+  "notifications": {
+    "groupsLoading": "Groups are being loaded...",
+    "groupsLoadingError": "Oops ... something went wrong when loading the groups."
+  },
+  "createGroup": {
+    "title": "New practice group",
+    "step1": "Create a group code/link.",
+    "step2": "Share it with fellow students.",
+    "step3": "Practice with the same exercises.",
+    "confirmationButton": "Create new practice group"
+  },
+  "newGroup": {
+    "paragraph1": "You are about to create a new practice group. This will give you a code/link to share with your fellow students. Each person entering the code will get access to the practice group. This includes:",
+    "paragraph2": "You can always leave and/or forget a practice group. Upon forgetting a practice group, all your traces from the group will be permanently erased.",
+    "agreeButton": "Yes, I agree",
+    "disagreeButton": "No, I don't want that"
+  },
+  "groupPossibilities": {
+    "entry1": "See who is active in the group and whether they are online/active.",
+    "entry2": "At exercises: view the submissions of other group members.",
+    "entry3": "Get suggestions on which skill is best to practice, also based on the level of other active group members."
+  },
+  "olderGroups": {
+    "title": "Previous groups",
+    "code": "Code",
+    "forgetGroup": "Forget this group"
+  },
+  "activeGroup": {
+    "activeGroup": "Your active group: <a>{code}</a>",
+    "emptyGroup": "There is no one else in group <a>{code}</a>. Share the code/<b>link</b> with your fellow students to practice together.",
+    "deactivateButton": "Leave this group"
+  },
+  "indicator": {
+    "noOthers": "No other group members are present yet.",
+    "others": "You are working together with <word-list/>."
+  },
+  "joinGroup": {
+    "title": "Join existing group",
+    "instruction": "Enter an existing group code.",
+    "fieldLabel": "Group code",
+    "confirmationButton": "Become a group member",
+    "feedback": {
+      "numberOfCharacters": "Codes must have four characters.",
+      "useLettersNumbers": "Only use letters/numbers.",
+      "nonexistingGroup": "This group code does not exist."
+    }
+  },
+  "joinGroupConditions": {
+    "paragraph1": "You are about to join the practice group {code}. This will allow you to:",
+    "paragraph2": "All current and future members of the practice group are of course also able to do so. You can always leave and/or forget a practice group. If you leave a practice group, all your traces from this group will be permanently erased.",
+    "agreeButton": "Yes, I agree",
+    "disagreeButton": "No, I don't want that"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "notifications": {
+    "groupsLoading": "Gruppen werden geladen...",
+    "groupsLoadingError": "Ups ... beim Laden der Gruppen ist etwas schiefgegangen."
+  },
+  "createGroup": {
+    "title": "Neue Übungsgruppe",
+    "step1": "Erstelle einen Gruppencode/Link.",
+    "step2": "Teile ihn mit deinen Kommilitonen.",
+    "step3": "Mache die gleichen Übungen zusammen.",
+    "confirmationButton": "Neue Übungsgruppe erstellen"
+  },
+  "newGroup": {
+    "paragraph1": "Du bist dabei, eine neue Übungsgruppe zu erstellen. Du erhältst einen Code/Link, den du mit deinen Kommilitonen teilen kannst. Jeder, der den Code eingibt, erhält Zugang zur Übungsgruppe. Dies beinhaltet",
+    "paragraph2": "Du kannst eine Übungsgruppe jederzeit verlassen und/oder vergessen. Wenn du eine Übungsgruppe vergisst, werden alle deine Spuren aus dieser Übungsgruppe dauerhaft gelöscht.",
+    "agreeButton": "Ja, ich stimme zu",
+    "disagreeButton": "Nein, das will ich nicht."
+  },
+  "groupPossibilities": {
+    "entry1": "Sehen, wer in der Gruppe ist und ob sie online/aktiv sind.",
+    "entry2": "Für Übungen: Eingaben von Gruppenmitgliedern ansehen.",
+    "entry3": "Hinweise darauf erhalten, welche Kompetenz angesichts des Niveaus der aktiven Gruppenmitglieder sinnvoll zu üben ist."
+  },
+  "olderGroups": {
+    "title": "Vorherige Gruppen",
+    "code": "Code",
+    "forgetGroup": "Vergiss diese Gruppe"
+  },
+  "activeGroup": {
+    "activeGroup": "Deine aktive Gruppe: <a>{code}</a>",
+    "emptyGroup": "Es ist noch niemand in Gruppe <a>{code}</a>. Gib den Code/<b>Link</b> an deine Kommilitonen weiter, um gemeinsam zu üben.",
+    "deactivateButton": "Verlasse diese Gruppe"
+  },
+  "indicator": {
+    "noOthers": "Es sind noch keine anderen anwesend.",
+    "others": "Du arbeitest mit <word-list/> zusammen."
+  },
+  "joinGroup": {
+    "title": "Bestehende Gruppe beitreten",
+    "instruction": "Gib einen bestehenden Gruppencode ein.",
+    "fieldLabel": "Gruppencode",
+    "confirmationButton": "Der Gruppe beitreten",
+    "feedback": {
+      "numberOfCharacters": "Codes haben immer vier Zeichen.",
+      "useLettersNumbers": "Verwende nur Buchstaben/Zahlen.",
+      "nonexistingGroup": "Der Gruppencode existiert nicht."
+    }
+  },
+  "joinGroupConditions": {
+    "paragraph1": "Du bist dabei, der Übungsgruppe {code} beizutreten. Du kannst dann:",
+    "paragraph2": "Alle derzeitigen und zukünftigen Mitglieder dieser Übungsgruppe können dies natürlich auch tun. Du kannst eine Übungsgruppe jederzeit verlassen und/oder vergessen. Wenn du eine Übungsgruppe vergisst, werden alle deine Spuren in der Übungsgruppe dauerhaft gelöscht.",
+    "agreeButton": "Ja, ich stimme zu",
+    "disagreeButton": "Nein, das will ich nicht."
+  }
+}

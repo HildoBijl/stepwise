@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button'
 import { ExitToApp } from '@material-ui/icons'
 
 import { useDeactivateGroupMutation } from 'api/group'
+import { TranslationSection, Translation } from 'i18n'
 import { usePaths } from 'ui/routing'
 import { Head } from 'ui/components'
 
@@ -46,14 +47,13 @@ export default function ActiveGroup({ group }) {
 		color="secondary"
 		endIcon={wideScreen ? <ExitToApp /> : null}
 		onClick={deactivateGroup}
-	>{wideScreen ? 'Verlaat deze groep' : <ExitToApp />}</Button>
+	>{wideScreen ? <Translation entry="deactivateButton">Leave this group</Translation> : <ExitToApp />}</Button>
 
-	return <>
-		<Head>Je actieve groep: <Link to={paths.group({ code: group.code })}>{group.code}</Link></Head>
+	return <TranslationSection entry="activeGroup">
+		<Head><Translation entry="activeGroup">Your active group: <Link to={paths.group({ code: group.code })}>{{ code: group.code }}</Link></Translation></Head>
 		<div className={classes.memberListContainer}>
-			{membersSorted.length === 1 ? <div className="emptyNote">Er zit nog niemand anders in groep <Link to={paths.group({ code: group.code })}>{group.code}</Link>
-				. Deel de code/<Link to={paths.group({ code: group.code })}>link</Link> met je studiegenoten om samen te kunnen oefenen.</div> : <MemberList members={membersSorted} />}
+			{membersSorted.length === 1 ? <div className="emptyNote"><Translation entry="emptyGroup">There is no one else in group <Link to={paths.group({ code: group.code })}>{{ code: group.code }}</Link>. Share the code/<Link to={paths.group({ code: group.code })}>link</Link> with your fellow students to practice together.</Translation></div> : <MemberList members={membersSorted} />}
 			<div className="buttonContainer">{deactivateButton}</div>
 		</div>
-	</>
+	</TranslationSection>
 }

@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button'
 import { Done, Clear } from '@material-ui/icons'
 
 import { useJoinGroupMutation } from 'api/group'
+import { TranslationSection, Translation } from 'i18n'
 import { usePaths } from 'ui/routing'
 import { Par, List } from 'ui/components'
 
@@ -14,11 +15,11 @@ export default function JoinGroupConditions({ code }) {
 	const navigate = useNavigate()
 	const [joinGroup] = useJoinGroupMutation()
 
-	return <>
+	return <TranslationSection entry="joinGroupConditions">
 		<Par>
-			Je staat op het punt om lid te worden van de samenwerkingsgroep {code.toUpperCase()}. Je kan dan:
+			<Translation entry="paragraph1">You are about to join the practice group {{ code: code.toUpperCase() }}. This will allow you to:</Translation>
 			<List items={groupPossibilities} />
-			Alle huidige en toekomstige leden van deze samenwerkingsgroep kunnen dit uiteraard ook. Je kunt een samenwerkingsgroep altijd verlaten en/of vergeten. Als je een samenwerkingsgroep vergeet, dan worden al je sporen uit de samenwerkingsgroep permanent gewist.
+			<Translation entry="paragraph2">All current and future members of the practice group are of course also able to do so. You can always leave and/or forget a practice group. If you leave a practice group, all your traces from this group will be permanently erased.</Translation>
 		</Par>
 		<Par>
 			<Button
@@ -27,14 +28,14 @@ export default function JoinGroupConditions({ code }) {
 				startIcon={<Done />}
 				onClick={() => joinGroup(code)}
 				style={{ margin: '0.5rem' }}
-			>Ja, ik ga akkoord</Button>
+			><Translation entry="agreeButton">Yes, I agree</Translation></Button>
 			<Button
 				variant="contained"
 				color="secondary"
 				startIcon={<Clear />}
 				onClick={() => navigate(paths.groups())}
 				style={{ margin: '0.5rem' }}
-			>Nee, dat wil ik niet</Button>
+			><Translation entry="disagreeButton">No, I don't want that</Translation></Button>
 		</Par>
-	</>
+	</TranslationSection>
 }
