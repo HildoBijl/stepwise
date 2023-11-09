@@ -247,6 +247,7 @@ function StartNewExerciseButton() {
 
 function GiveUpAndSubmitButtons({ stepwise, submittedAction }) {
 	const getTranslation = useGetTranslation(translationPath)
+	const translate = useTranslator(translationPath, 'groupExercise')
 	const { progress, submitting, history } = useExerciseData()
 	const userId = useUserId()
 	const { isAllInputEqual } = useFormData()
@@ -277,9 +278,9 @@ function GiveUpAndSubmitButtons({ stepwise, submittedAction }) {
 	// Render the buttons.
 	const WarningIcon = getIcon('warning')
 	return <>
-		{submittedAction && submittedAction.type === 'input' && !isAllInputEqualToSubmittedInput ? <div className="description2 warning"><WarningIcon />De invoer hierboven is niet gelijk aan je ingezonden antwoord.</div> : null}
+		{submittedAction && submittedAction.type === 'input' && !isAllInputEqualToSubmittedInput ? <div className="description2 warning"><WarningIcon />{translate('The above input is not equal to your submitted solution.', 'unequalSolutionWarning')}</div> : null}
 		{hasGivenUp ? null : <Button className="button1" variant="contained" startIcon={<Clear />} onClick={giveUp} disabled={submitting} color="secondary" ref={giveUpButtonRef}><span className="buttonText">{giveUpText}</span></Button>}
-		<Button className="button2" variant="contained" endIcon={<Send />} onClick={submit} disabled={submitting || isAllInputEqualToLastInput || isAllInputEqualToSubmittedInput} color="primary" ref={submitButtonRef}><span className="buttonText">Insturen</span></Button>
+		<Button className="button2" variant="contained" endIcon={<Send />} onClick={submit} disabled={submitting || isAllInputEqualToLastInput || isAllInputEqualToSubmittedInput} color="primary" ref={submitButtonRef}><span className="buttonText">{translate('Send submission', 'buttons.sendSubmission')}</span></Button>
 	</>
 }
 
@@ -289,6 +290,7 @@ function CurrentSubmissions(derivedProperties) {
 }
 
 function CurrentSubmissionRow({ submissionList, submitting, index }) {
+	const translate = useTranslator(translationPath, 'groupExercise')
 	const { history } = useExerciseData()
 	const userId = useUserId()
 	const activeGroup = useActiveGroup()
@@ -326,17 +328,18 @@ function CurrentSubmissionRow({ submissionList, submitting, index }) {
 	const isEqual = isAllInputEqual(submittedInput)
 	return <>
 		<div className="inBetween" />
-		<div className="description1">Ingezonden:</div>
+		<div className="description1">{translate('Submitted:', 'status.submitted')}</div>
 		<div className="memberList"><MemberList members={membersSorted} /></div>
-		<Button className="button1" variant="contained" startIcon={<Search />} disabled={isEqual} onClick={setFormInput} color="info" ref={viewButtonRef}><span className="buttonText">Bekijken</span></Button>
+		<Button className="button1" variant="contained" startIcon={<Search />} disabled={isEqual} onClick={setFormInput} color="info" ref={viewButtonRef}><span className="buttonText">{translate('View submission', 'buttons.viewSubmission')}</span></Button>
 		{isSelfPresent ?
-			<Button className="button2" variant="contained" startIcon={<Clear />} onClick={cancel} disabled={submitting} color="secondary" ref={copyCancelButtonRef}><span className="buttonText">Inzending annuleren</span></Button> :
-			<Button className="button2" variant="contained" endIcon={<Send />} onClick={setAndSubmitFormInput} disabled={submitting} color="primary" ref={copyCancelButtonRef}><span className="buttonText">Ook insturen</span></Button>
+			<Button className="button2" variant="contained" startIcon={<Clear />} onClick={cancel} disabled={submitting} color="secondary" ref={copyCancelButtonRef}><span className="buttonText">{translate('Cancel submission', 'buttons.cancelSubmission')}</span></Button> :
+			<Button className="button2" variant="contained" endIcon={<Send />} onClick={setAndSubmitFormInput} disabled={submitting} color="primary" ref={copyCancelButtonRef}><span className="buttonText">{translate('Submit the same', 'buttons.submitTheSame')}</span></Button>
 		}
 	</>
 }
 
 function GivenUpNote({ stepwise, gaveUp, submitting, groupedSubmissions }) {
+	const translate = useTranslator(translationPath, 'groupExercise')
 	const { progress } = useExerciseData()
 	const activeGroup = useActiveGroup()
 
@@ -356,13 +359,14 @@ function GivenUpNote({ stepwise, gaveUp, submitting, groupedSubmissions }) {
 	// Show the people that gave up.
 	return <>
 		<div className="inBetween" />
-		<div className="description1">{!stepwise || progress.step ? 'Opgegeven:' : 'Stapsgewijs oplossen:'}</div>
+		<div className="description1">{!stepwise || progress.step ? translate('Given up:', 'status.givenUp') : translate('Solve Step-Wise:', 'status.solveStepWise')}</div>
 		<div className="memberList"><MemberList members={membersSorted} /></div>
-		{gaveUp ? <Button className="button2" variant="contained" startIcon={<Clear />} onClick={cancel} disabled={submitting} color="secondary" ref={cancelButtonRef}><span className="buttonText">{!stepwise || progress.step ? 'Opgeven annuleren' : 'Stapsgewijs oplossen annuleren'}</span></Button> : null}
+		{gaveUp ? <Button className="button2" variant="contained" startIcon={<Clear />} onClick={cancel} disabled={submitting} color="secondary" ref={cancelButtonRef}><span className="buttonText">{!stepwise || progress.step ? translate('Cancel giving up', 'buttons.cancelGivingUp') : translate('Cancel solving Step-Wise', 'buttons.cancelSolveStepWise')}</span></Button> : null}
 	</>
 }
 
 function ResolveNote({ stepwise, hasSubmitted, canResolve, allGaveUp, submitting, unsubmittedMembers }) {
+	const translate = useTranslator(translationPath, 'groupExercise')
 	const { progress } = useExerciseData()
 
 	// Set up a resolve button ref and register it to tab control.
@@ -379,8 +383,8 @@ function ResolveNote({ stepwise, hasSubmitted, canResolve, allGaveUp, submitting
 	if (allGaveUp) {
 		return <>
 			<div className="inBetween" />
-			<div className="description3 info"><InfoIcon />{!stepwise || progress.step ? 'Iedereen heeft het opgegeven.' : 'Iedereen stemt voor stapsgewijs oplossen.'}</div>
-			<Button className="button2" variant="contained" startIcon={<Clear />} onClick={resolve} disabled={submitting} color="primary" ref={resolveButtonRef}><span className="buttonText">{!stepwise || progress.step ? 'Opgeven bevestigen' : 'Stapsgewijs oplossen bevestigen'}</span></Button>
+			<div className="description3 info"><InfoIcon />{!stepwise || progress.step ? translate('Everyone gave up.', 'status.allGaveUp') : translate('Everyone votes for solving this Step-Wise.', 'status.allStepWise')}</div>
+			<Button className="button2" variant="contained" startIcon={<Clear />} onClick={resolve} disabled={submitting} color="primary" ref={resolveButtonRef}><span className="buttonText">{!stepwise || progress.step ? translate('Confirm giving up', 'buttons.confirmGivingUp') : translate('Confirm solving Step-Wise', 'buttons.comfirmSolvingStepWise')}</span></Button>
 		</>
 	}
 
@@ -388,8 +392,8 @@ function ResolveNote({ stepwise, hasSubmitted, canResolve, allGaveUp, submitting
 	if (canResolve) {
 		return <>
 			<div className="inBetween" />
-			<div className="description3 info"><InfoIcon />Alle inzendingen zijn binnen.</div>
-			<Button className="button2" variant="contained" startIcon={<Check />} onClick={resolve} disabled={submitting} color="primary" ref={resolveButtonRef}><span className="buttonText">Controleer</span></Button>
+			<div className="description3 info"><InfoIcon />{translate('All submissions have been received.', 'status.submissionsReceived')}</div>
+			<Button className="button2" variant="contained" startIcon={<Check />} onClick={resolve} disabled={submitting} color="primary" ref={resolveButtonRef}><span className="buttonText">{translate('Check submissions', 'buttons.checkSubmissions')}</span></Button>
 		</>
 	}
 
@@ -397,7 +401,7 @@ function ResolveNote({ stepwise, hasSubmitted, canResolve, allGaveUp, submitting
 	if (unsubmittedMembers.length > 0) {
 		return <>
 			<div className="inBetween" />
-			<div className="description1">Ontbrekend:</div>
+			<div className="description1">{translate('Missing:', 'status.missingSubmissions')}</div>
 			<div className="memberList"><MemberList members={unsubmittedMembers} /></div>
 		</>
 	}
@@ -405,7 +409,7 @@ function ResolveNote({ stepwise, hasSubmitted, canResolve, allGaveUp, submitting
 	// There must simply be too few active members. Note this.
 	const WarningIcon = getIcon('warning')
 	return <>
-		<div className="description4 warning"><WarningIcon />In de samenwerkingsmodus zijn minimaal twee inzendingen nodig om een opgave na te laten kijken. Nodig een studiegenoot uit.</div>
+		<div className="description4 warning"><WarningIcon />{translate('When practicing together, at least two submissions are needed to complete an exercise. Invite a fellow student.', 'notEnoughSubmissions')}</div>
 	</>
 }
 

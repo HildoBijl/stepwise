@@ -21,5 +21,29 @@
     "solveStepWise": "Schrittweise auflösen",
     "giveUpStep": "Ich gebe diesen Schritt auf",
     "nextExercise": "Nächste Übung"
+  },
+  "groupExercise": {
+    "status": {
+      "submitted": "Eingereicht:",
+      "missingSubmissions": "Fehlt:",
+      "givenUp": "Aufgegeben:",
+      "solveStepWise": "Schrittweise auflösen:",
+      "submissionsReceived": "Alle Eingaben sind eingereicht.",
+      "allGaveUp": "Alle haben aufgegeben.",
+      "allStepWise": "Alle stimmen für eine schrittweise Auflösung."
+    },
+    "buttons": {
+      "sendSubmission": "Einreichen",
+      "cancelSubmission": "Einreichung abbrechen",
+      "cancelGivingUp": "Aufgeben abbrechen",
+      "cancelSolveStepWise": "Schrittweise Auflösung abbrechen",
+      "viewSubmission": "Anschauen",
+      "submitTheSame": "Auch einreichen",
+      "checkSubmissions": "Einreichungen überprüfen",
+      "confirmGivingUp": "Aufgeben bestätigen",
+      "comfirmSolvingStepWise": "Schrittweise Auflösung bestätigen"
+    },
+    "unequalSolutionWarning": "Der obige Eingabe entspricht nicht der von dir eingereichten Antwort.",
+    "notEnoughSubmissions": "Beim gemeinsamen Üben sind mindestens zwei Einsendungen erforderlich, damit eine Übung überprüft werden kann. Lade einen Kommilitonen ein."
   }
 }

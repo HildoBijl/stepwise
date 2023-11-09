@@ -21,5 +21,29 @@
     "solveStepWise": "Los stapsgewijs op",
     "giveUpStep": "Ik geef deze stap op",
     "nextExercise": "Volgende opgave"
+  },
+  "groupExercise": {
+    "status": {
+      "submitted": "Ingezonden:",
+      "missingSubmissions": "Ontbrekend:",
+      "givenUp": "Opgegeven:",
+      "solveStepWise": "Stapsgewijs oplossen:",
+      "submissionsReceived": "Alle inzendingen zijn binnen.",
+      "allGaveUp": "Iedereen heeft het opgegeven.",
+      "allStepWise": "Iedereen stemt voor stapsgewijs oplossen."
+    },
+    "buttons": {
+      "sendSubmission": "Insturen",
+      "cancelSubmission": "Inzending annuleren",
+      "cancelGivingUp": "Opgeven annuleren",
+      "cancelSolveStepWise": "Stapsgewijs oplossen annuleren",
+      "viewSubmission": "Bekijken",
+      "submitTheSame": "Ook insturen",
+      "checkSubmissions": "Controleer inzendingen",
+      "confirmGivingUp": "Opgeven bevestigen",
+      "comfirmSolvingStepWise": "Stapsgewijs oplossen bevestigen"
+    },
+    "unequalSolutionWarning": "De invoer hierboven is niet gelijk aan je ingezonden antwoord.",
+    "notEnoughSubmissions": "In de samenwerkingsmodus zijn minimaal twee inzendingen nodig om een opgave na te laten kijken. Nodig een studiegenoot uit."
   }
 }

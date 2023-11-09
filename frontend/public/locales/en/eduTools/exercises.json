@@ -21,5 +21,29 @@
     "solveStepWise": "Solve this Step-Wise",
     "giveUpStep": "I give up this step",
     "nextExercise": "Next exercise"
+  },
+  "groupExercise": {
+    "status": {
+      "submitted": "Submitted:",
+      "missingSubmissions": "Missing:",
+      "givenUp": "Given up:",
+      "solveStepWise": "Solve Step-Wise:",
+      "submissionsReceived": "All submissions have been received.",
+      "allGaveUp": "Everyone gave up.",
+      "allStepWise": "Everyone votes for solving this Step-Wise."
+    },
+    "buttons": {
+      "sendSubmission": "Send submission",
+      "cancelSubmission": "Cancel submission",
+      "cancelGivingUp": "Cancel giving up",
+      "cancelSolveStepWise": "Cancel solving Step-Wise",
+      "viewSubmission": "View submission",
+      "submitTheSame": "Submit the same",
+      "checkSubmissions": "Check submissions",
+      "confirmGivingUp": "Confirm giving up",
+      "comfirmSolvingStepWise": "Confirm solving Step-Wise"
+    },
+    "unequalSolutionWarning": "The above input is not equal to your submitted solution.",
+    "notEnoughSubmissions": "When practicing together, at least two submissions are needed to complete an exercise. Invite a fellow student."
   }
 }

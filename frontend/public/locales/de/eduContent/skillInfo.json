@@ -6,13 +6,13 @@
     "name": "Demo-Übung"
   },
   "fillInInteger": {
-    "name": "Ausfüllen einer ganzzahligen Zahl"
+    "name": "Eingeben einer ganzzahligen Zahl"
   },
   "fillInFloat": {
-    "name": "Ausfüllen einer Kommazahl"
+    "name": "Eingeben einer Kommazahl"
   },
   "fillInUnit": {
-    "name": "Ausfüllen einer Einheit"
+    "name": "Eingeben einer Einheit"
   },
   "lookUpConstant": {
     "name": "Nachschlagen einer Konstante"
