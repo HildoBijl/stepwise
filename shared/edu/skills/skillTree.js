@@ -103,8 +103,7 @@ let skillTree = {
 	solveBasicLinearEquation: {
 		name: 'Solve a basic linear equations',
 		setup: and(repeat('moveATerm', 2), 'pullOutOfBrackets', 'multiplyDivideAllTerms'),
-		exercises: ['solveBasicLinearEquation1'],
-		// exercises: ['solveBasicLinearEquation1', 'solveBasicLinearEquation2', 'solveBasicLinearEquation3'],
+		exercises: ['solveBasicLinearEquation1', 'solveBasicLinearEquation2', 'solveBasicLinearEquation3'],
 	},
 	solveGeneralLinearEquation: {
 		name: 'Solve a general linear equations',
