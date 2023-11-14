@@ -2,7 +2,7 @@ const { selectRandomly, getRandom, getRandomBoolean, getRandomInteger } = requir
 
 const { asExpression, asEquation, equationComparisons, Variable, Integer } = require('../../../CAS')
 
-const { selectRandomVariables } = require('../util/CASsupport')
+const { selectRandomVariables } = require('../../../eduTools')
 const { getStepExerciseProcessor } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
 

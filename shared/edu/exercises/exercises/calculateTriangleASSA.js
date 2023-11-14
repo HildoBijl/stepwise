@@ -1,7 +1,7 @@
 const { epsilon, deg2rad, getRandom, getRandomBoolean, getRandomInteger } = require('../../../util')
 const { asExpression, asEquation, equationComparisons, Integer, Arcsin } = require('../../../CAS')
 
-const { selectRandomVariables } = require('../util/CASsupport')
+const { selectRandomVariables } = require('../../../eduTools')
 const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
 const { performListComparison } = require('../util/comparison')
 
