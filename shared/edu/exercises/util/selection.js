@@ -2,7 +2,8 @@ const { isNumber, sum, keysToObject, normalPDF, selectRandomly } = require('../.
 
 const { getEV, merge, ensureSetup } = require('../../../skillTracking')
 
-const { skillTree, ensureSkillId, getDifficulty } = require('../../skills')
+const { skillTree } = require('../../../eduTools')
+const { ensureSkillId, getDifficulty } = require('../../skills')
 
 // Define general settings for exercise selection.
 const mu = 0.4 // Make exercises with success rate 0.5 the most likely.

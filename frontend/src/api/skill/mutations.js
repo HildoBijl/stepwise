@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 import { useMutation } from '@apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 
-import { skillTree } from 'step-wise/edu/skills'
+import { skillTree } from 'step-wise/eduTools'
 
 import { skillFields, exerciseFields } from './util'
 import { SKILL } from './queries'

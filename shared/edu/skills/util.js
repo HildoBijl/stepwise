@@ -1,7 +1,7 @@
 const { ensureArray } = require('../../util')
 const { ensureSetup } = require('../../skillTracking')
 
-const { skillTree } = require('./skillTree')
+const { skillTree } = require('../../eduTools')
 
 // ensureSkillId checks whether a skill ID exists and throws an error if it doesn't. If it doesn't precisely match a skill ID, it does a case insensitive match. It returns the correct skill ID. (An undefined skillId can be allowed if the second parameter is set to true, in which case it is passed through.)
 function ensureSkillId(skillId, allowUndefined = false) {

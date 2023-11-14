@@ -5,7 +5,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 
 import { processOptions, numberArray, boundTo, repeat, gridInterpolate } from 'step-wise/util'
 import { getEV, getMaxLikelihood } from 'step-wise/skillTracking'
-import { skillTree } from 'step-wise/edu/skills'
+import { skillTree } from 'step-wise/eduTools'
 
 import { mix, shift, toCSS } from 'util/colors'
 import { useUniqueNumber } from 'util/react'

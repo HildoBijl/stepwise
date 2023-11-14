@@ -91,7 +91,7 @@ What does this correlation mean though? To see that, we do a thought experiment.
 
 ## Programming the skill tree
 
-Currently the skill tree is hard-coded in the `shared/edu/skills/skillTree.js` file. This file exports a large `skillTree` object with all the skills known to Step-Wise. The set-up of the object is as follows.
+Currently the skill tree is hard-coded in the `shared/eduTools/skillTree/skillTree.js` file. This file exports a large `skillTree` object with all the skills known to Step-Wise. The set-up of the object is as follows.
 
 	{
 		summation: {

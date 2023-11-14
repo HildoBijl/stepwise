@@ -1,6 +1,6 @@
 import { hasDuplicates } from 'step-wise/util'
 import { ensureSetup } from 'step-wise/skillTracking'
-import { skillTree } from 'step-wise/edu/skills'
+import { skillTree } from 'step-wise/eduTools'
 
 import courses from '../ui/edu/courses'
 

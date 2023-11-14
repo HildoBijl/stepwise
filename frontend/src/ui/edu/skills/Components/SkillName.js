@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { skillTree } from 'step-wise/edu/skills'
+import { skillTree } from 'step-wise/eduTools'
 
 import { TitleItem } from 'ui/layout/Title'
 

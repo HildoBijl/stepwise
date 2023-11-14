@@ -1,4 +1,4 @@
-import { skillTree } from 'step-wise/edu/skills'
+import { skillTree } from 'step-wise/eduTools'
 
 import { isPracticeNeeded } from '../skills'
 

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { noop } from 'step-wise/util'
 import { toFO, toSO } from 'step-wise/inputTypes'
-import { skillTree } from 'step-wise/edu/skills'
+import { skillTree } from 'step-wise/eduTools'
 import { getNewRandomExercise } from 'step-wise/edu/exercises/util/selection'
 
 import { useGetTranslation } from 'i18n'

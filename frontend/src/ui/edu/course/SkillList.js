@@ -7,7 +7,7 @@ import Box from '@material-ui/core/Box'
 import Tooltip from '@material-ui/core/Tooltip'
 import { Check } from '@material-ui/icons'
 
-import { skillTree } from 'step-wise/edu/skills'
+import { skillTree } from 'step-wise/eduTools'
 
 import { useSkillData } from 'api/skill'
 import { Translation, useTranslator } from 'i18n'

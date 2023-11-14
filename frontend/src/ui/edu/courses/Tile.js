@@ -6,7 +6,7 @@ import { alpha } from '@material-ui/core/styles/colorManipulator'
 import Box from '@material-ui/core/Box'
 import Tooltip from '@material-ui/core/Tooltip'
 
-import { skillTree } from 'step-wise/edu/skills'
+import { skillTree } from 'step-wise/eduTools'
 
 import { useTranslator } from 'i18n'
 import { notSelectable, linkStyleReset } from 'ui/theme'

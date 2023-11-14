@@ -1,7 +1,7 @@
 const { isBasicObject } = require('../../util')
 const { ensureSetup } = require('../../skillTracking')
 
-const { skillTree } = require('../skills')
+const { skillTree } = require('../../eduTools')
 const { getDifficulty } = require('../skills/util')
 
 const { getAllExercises } = require('./util/selection')

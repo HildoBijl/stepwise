@@ -2,7 +2,8 @@ import React, { useState, useCallback, useMemo, useEffect, createContext, useCon
 
 import { arraysToObject, keysToObject, applyMapping } from 'step-wise/util'
 import { updateSkillDataSet } from 'step-wise/skillTracking'
-import { skillTree, includePrerequisitesAndLinks, processSkill, getDefaultSkillData } from 'step-wise/edu/skills'
+import { skillTree } from 'step-wise/eduTools'
+import { includePrerequisitesAndLinks, processSkill, getDefaultSkillData } from 'step-wise/edu/skills'
 
 import { useConsistentValue } from 'util/react'
 import { useUser } from 'api/user'
