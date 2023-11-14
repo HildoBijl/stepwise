@@ -2,7 +2,7 @@ const { AuthenticationError, UserInputError } = require('apollo-server-express')
 
 const { findOptimum, ensureBoolean, arraysToObject, keysToObject, union } = require('step-wise/util')
 const { smoothen, getEV, ensureSetup } = require('step-wise/skillTracking')
-const { ensureSkillId, ensureSkillIds } = require('step-wise/edu/skills/util')
+const { ensureSkillId, ensureSkillIds } = require('step-wise/eduTools')
 
 // getActiveExerciseData takes a userId and a skillId. For this, it returns { user, skill, activeExercise }, where the skill is the UserSkill from the database. If requireExercise is set to true it ensures that there is an active exercise. On false it ensures that there is not. (Otherwise an error is thrown.)
 async function getActiveExerciseData(userId, skillId, db, requireExercise = true) {

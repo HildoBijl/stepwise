@@ -5,8 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import { arraysToObject, keysToObject, formatDate } from 'step-wise/util'
 import { processSkillDataSet } from 'step-wise/skillTracking'
-import { skillTree } from 'step-wise/eduTools'
-import { includePrerequisitesAndLinks, processSkill, getDefaultSkillData } from 'step-wise/edu/skills/util'
+import { skillTree, includePrerequisitesAndLinks, processSkill, getDefaultSkillData } from 'step-wise/eduTools'
 
 import { useUserQuery } from 'api/admin'
 import { Par, HorizontalSlider } from 'ui/components'
