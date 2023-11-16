@@ -1,4 +1,4 @@
-import { ensureString, processOptions } from 'step-wise/util'
+import { ensureString, processOptions, resolveFunctionsShallow } from 'step-wise/util'
 
 import { defaultFieldRegistrationOptions, defaultUseFormParameterOptions } from 'ui/form'
 
@@ -21,10 +21,11 @@ export const defaultInputOptions = {
 export function Input(options) {
 	// Process and extract the given options.
 	options = processOptions(options, defaultInputOptions)
-	let { id, children, readOnly, contextData } = options
+	let { id, element, children, readOnly, contextData } = options
 	id = ensureValidInputId(id)
 	readOnly = useReadOnlyValue(readOnly)
-	options = { ...options, readOnly }
+	element = resolveFunctionsShallow(element) // The element may be a getter function.
+	options = { ...options, readOnly, element }
 
 	// Use handlers to register the input field in the right places.
 	const [FI, setFI] = useFormRegistration(options)
