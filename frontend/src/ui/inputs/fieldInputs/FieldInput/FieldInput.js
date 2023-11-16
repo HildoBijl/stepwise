@@ -65,7 +65,7 @@ export const FieldInput = forwardRef((options, ref) => {
 	// Set up the Input field settings.
 	const inputOptions = {
 		...filterOptions(options, defaultInputOptions),
-		element: ref.current?.field, // Inform the input field which element it should monitor.
+		element: () => ref.current?.field, // Inform the input field which element it should monitor. Turn this into a function, because these objects may not be updated as much as child components may be rerendered.
 		contextData: { ...options.contextData, inputFieldRef: ref, cursorRef }, // Add the input field ref to the input field context so inner elements can access it.
 	}
 
