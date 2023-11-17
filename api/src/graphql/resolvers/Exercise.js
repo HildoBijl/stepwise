@@ -1,6 +1,6 @@
 
 const { toFO, toSO } = require('step-wise/inputTypes')
-const { getNewExercise } = require('step-wise/edu/exercises/util/selection')
+const { getNewExercise } = require('step-wise/eduTools')
 
 const { getLastEvent, getExerciseProgress, getActiveExerciseData } = require('../util/Exercise')
 const { events: skillEvents, getUserSkillDataSet } = require('../util/Skill')

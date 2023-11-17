@@ -2,7 +2,7 @@ const { UserInputError } = require('apollo-server-express')
 
 const { findOptimum } = require('step-wise/util')
 const { toFO, toSO } = require('step-wise/inputTypes')
-const { getNewRandomExercise } = require('step-wise/edu/exercises/util/selection')
+const { getNewRandomExercise } = require('step-wise/eduTools')
 
 const { getSubscription } = require('../util/subscriptions')
 const { events: skillEvents } = require('../util/Skill')

@@ -1,3 +1,5 @@
 module.exports = {
-	...require('./util')
+	...require('./util'),
+	getSelectionRates: require('./selectExercise').getSelectionRates,
+	...require('./getExercise')
 }

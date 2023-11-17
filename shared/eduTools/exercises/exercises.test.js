@@ -1,8 +1,9 @@
 const { isBasicObject } = require('../../util')
 const { ensureSetup } = require('../../skillTracking')
-const { skillTree, getDifficulty } = require('../../eduTools')
 
-const { getAllExercises } = require('./util/selection')
+const { skillTree } = require('../skills')
+
+const { getDifficulty, getAllExercises } = require('./selection')
 
 // Set up a support function to check if something is a skill set-up.
 const assertSkillSetup = (setup) => {
@@ -23,7 +24,7 @@ describe('Check all exercises:', () => {
 			// Load exercise file.
 			let exercise
 			try {
-				exercise = require(`./exercises/${exerciseId}`)
+				exercise = require(`../../edu/exercises/exercises/${exerciseId}`)
 			} catch (e) {
 				it('has a shared file', () => fail())
 			}

@@ -5,7 +5,7 @@ import Slider from '@material-ui/core/Slider'
 
 import { keysToObject, applyMapping } from 'step-wise/util'
 import { Skill, getEV, getMaxLikelihood, smoothen, merge, and, repeat } from 'step-wise/skillTracking'
-import { getSelectionRates } from 'step-wise/edu/exercises/util/selection'
+import { getSelectionRates } from 'step-wise/eduTools'
 
 import { Par, Head, Button, M } from 'ui/components'
 import { SkillFlask, defaultSkillThresholds } from 'ui/edu/skills'
