@@ -1,4 +1,4 @@
-const { ensureArray } = require('../../util')
+const { ensureArray } = require('../../../util')
 
 const { skillTree } = require('../skillTree')
 

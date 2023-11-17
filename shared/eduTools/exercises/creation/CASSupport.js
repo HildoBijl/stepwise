@@ -1,5 +1,5 @@
-const { filterProperties, applyMapping, getRandomSubset } = require('../../util')
-const { Variable } = require('../../CAS')
+const { filterProperties, applyMapping, getRandomSubset } = require('../../../util')
+const { Variable } = require('../../../CAS')
 
 // selectRandomVariables takes an array of variable strings, like ['x', 'y', 'z'], and an array of variables to be used, like ['a', 'b'], and then returns a randomly generated object like { a: 'z', b: 'x' }. This can then be used in exercises to have random variables. It also turns the parameters into CAS Variables, so the result will be { a: new Variable('z'), b: new Variable('x') }.
 function selectRandomVariables(availableVariables, usedVariables) {
