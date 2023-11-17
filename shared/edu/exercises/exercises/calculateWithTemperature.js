@@ -1,8 +1,7 @@
 const { getRandomInteger } = require('../../../inputTypes/Integer')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Unit } = require('../../../inputTypes/Unit')
-const { getSimpleExerciseProcessor } = require('../../../eduTools')
-const { performComparison } = require('../util/comparison')
+const { getSimpleExerciseProcessor, performComparison } = require('../../../eduTools')
 
 // Type 0: from K to °C.
 // Type 1: from K to SI (so K: which it already is in).

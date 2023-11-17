@@ -5,7 +5,7 @@ import { checkNumberEquality, areNumbersEqual } from 'step-wise/inputTypes/Integ
 import { Float } from 'step-wise/inputTypes/Float'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 import { Expression } from 'step-wise/CAS'
-import { performIndividualComparison, performIndividualListComparison, getCurrentInputSolutionAndComparison } from 'step-wise/edu/exercises/util/comparison'
+import { performIndividualComparison, performIndividualListComparison, getCurrentInputSolutionAndComparison } from 'step-wise/eduTools'
 
 import { Translation } from 'i18n'
 

@@ -1,7 +1,6 @@
 const { selectRandomly } = require('../../../util')
 const { Unit } = require('../../../inputTypes/Unit')
-const { getSimpleExerciseProcessor } = require('../../../eduTools')
-const { performComparison } = require('../util/comparison')
+const { getSimpleExerciseProcessor, performComparison } = require('../../../eduTools')
 
 const data = {
 	skill: 'fillInUnit',

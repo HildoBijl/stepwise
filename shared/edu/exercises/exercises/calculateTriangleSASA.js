@@ -1,7 +1,6 @@
 const { compareNumbers, selectRandomly, getRandom, getRandomBoolean, getRandomInteger } = require('../../../util')
 const { asExpression, asEquation, Integer, Variable, Sqrt, Arccos } = require('../../../CAS')
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../eduTools')
-const { performComparison } = require('../util/comparison')
+const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../eduTools')
 
 const sideVariableSet = ['x', 'y', 'z']
 const angleVariableSet = ['α', 'β', 'γ']

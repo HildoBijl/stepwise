@@ -14,7 +14,7 @@ function getDeepParameter(obj, path) {
 }
 module.exports.getDeepParameter = getDeepParameter
 
-// getPropertyOrDefault takes an object and returns a property of it if it exists. If not, it checks if default exists, assuming useDefaultAsFallback is set to true (default). If neither exists, possibly the object itself is given (default: false), or possibly an error is thrown (default: false), depending on the settings.
+// getPropertyOrDefault takes an object and returns a property of it if it exists. If not, it checks if default exists, assuming useDefaultAsFallback is set to true (default: true). If neither exists, possibly the object itself is given (default: false), or possibly an error is thrown (default: false), depending on the settings.
 function getPropertyOrDefault(obj, prop, useDefaultAsFallback = true, useSelfAsFallback = false, throwErrorOnMissing = false, errorMessage) {
 	prop = ensureString(prop)
 	if (obj === undefined)

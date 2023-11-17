@@ -1,6 +1,5 @@
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../eduTools')
-const { performComparison } = require('../util/comparison')
+const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../eduTools')
 
 const { generateState: generateStateRaw, getSolution: getCycleParameters } = require('./calculateOpenCycleTsp')
 const { getSolution: getEnergyParameters } = require('./createOpenCycleEnergyOverviewTsp')

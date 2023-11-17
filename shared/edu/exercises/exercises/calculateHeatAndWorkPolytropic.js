@@ -2,8 +2,7 @@ const { getRandom } = require('../../../util')
 const { Unit } = require('../../../inputTypes/Unit')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 let { air: { Rs, cv } } = require('../../../data/gasProperties')
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../eduTools')
-const { performComparison } = require('../util/comparison')
+const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../eduTools')
 
 const data = {
 	skill: 'calculateHeatAndWork',

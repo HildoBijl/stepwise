@@ -1,7 +1,6 @@
 const { getRandomBoolean, getRandomInteger } = require('../../../util')
 const { Vector } = require('../../../geometry')
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../eduTools')
-const { performComparison } = require('../util/comparison')
+const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../eduTools')
 
 const { loadSources, areLoadsMatching, FBDComparison, getDefaultForce, getDefaultMoment } = require('../util/engineeringMechanics')
 

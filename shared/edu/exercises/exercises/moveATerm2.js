@@ -1,7 +1,6 @@
 const { selectRandomly, getRandomInteger, getRandomBoolean } = require('../../../util')
 const { asExpression, Integer, Equation, equationComparisons } = require('../../../CAS')
-const { getStepExerciseProcessor, selectRandomVariables, filterVariables } = require('../../../eduTools')
-const { performComparison } = require('../util/comparison')
+const { getStepExerciseProcessor, selectRandomVariables, filterVariables, performComparison } = require('../../../eduTools')
 
 const { onlyOrderChanges } = equationComparisons
 

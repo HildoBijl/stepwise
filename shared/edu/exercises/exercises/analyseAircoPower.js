@@ -2,8 +2,7 @@ const { tableInterpolate, inverseTableInterpolate } = require('../../../util')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { air: { cp } } = require('../../../data/gasProperties')
 const { maximumHumidity } = require('../../../data/moistureProperties')
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../eduTools')
-const { performComparison } = require('../util/comparison')
+const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../eduTools')
 
 const { getCycle } = require('./support/aircoCycle')
 

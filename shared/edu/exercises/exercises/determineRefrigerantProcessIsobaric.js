@@ -1,8 +1,7 @@
 const { selectRandomly, getRandomBoolean } = require('../../../util')
 const { getRandomFloatUnit, getRandomExponentialFloatUnit } = require('../../../inputTypes/FloatUnit')
 const refrigerantProperties = require('../../../data/refrigerantProperties')
-const { getSimpleExerciseProcessor } = require('../../../eduTools')
-const { performComparison } = require('../util/comparison')
+const { getSimpleExerciseProcessor, performComparison } = require('../../../eduTools')
 
 const data = {
 	skill: 'determineRefrigerantProcess',

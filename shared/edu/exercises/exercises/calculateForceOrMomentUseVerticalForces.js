@@ -2,8 +2,7 @@ const { deg2rad, numberArray, getRandomBoolean, getRandomInteger } = require('..
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Variable } = require('../../../CAS')
 const { Vector } = require('../../../geometry')
-const { getStepExerciseProcessor } = require('../../../eduTools')
-const { performComparison } = require('../util/comparison')
+const { getStepExerciseProcessor, performComparison } = require('../../../eduTools')
 
 const { loadSources, loadTypes, getDefaultForce, decomposeForce } = require('../util/engineeringMechanics')
 

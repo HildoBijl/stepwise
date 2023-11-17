@@ -2,8 +2,7 @@ const { getRandomInteger, tableInterpolate } = require('../../../util')
 const { and } = require('../../../skillTracking')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { withTemperature, withPressure } = require('../../../data/steamProperties')
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../eduTools')
-const { performComparison } = require('../util/comparison')
+const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../eduTools')
 
 const data = {
 	skill: 'useVaporFraction',

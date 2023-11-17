@@ -1,8 +1,7 @@
 const { getRandom } = require('../../../util')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 let { helium: { k } } = require('../../../data/gasProperties')
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../eduTools')
-const { performComparison } = require('../util/comparison')
+const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../eduTools')
 
 const data = {
 	skill: 'calculateWithInternalEnergy',

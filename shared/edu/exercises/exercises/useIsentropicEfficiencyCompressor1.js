@@ -1,6 +1,5 @@
 const { air: { k, cp } } = require('../../../data/gasProperties')
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../eduTools')
-const { performComparison } = require('../util/comparison')
+const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../eduTools')
 
 const { getCycle } = require('./support/gasTurbineCycle')
 

@@ -1,7 +1,6 @@
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { air: { Rs, k } } = require('../../../data/gasProperties')
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../eduTools')
-const { performComparison } = require('../util/comparison')
+const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../eduTools')
 
 const comparison = {
 	default: {

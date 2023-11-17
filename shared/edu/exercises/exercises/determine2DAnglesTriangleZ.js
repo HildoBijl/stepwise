@@ -1,6 +1,5 @@
 const { getRandom, getRandomBoolean, getRandomInteger } = require('../../../util')
-const { getStepExerciseProcessor, selectRandomVariables, filterVariables } = require('../../../eduTools')
-const { performComparison } = require('../util/comparison')
+const { getStepExerciseProcessor, selectRandomVariables, filterVariables, performComparison } = require('../../../eduTools')
 
 const variableSet = ['α', 'β', 'γ']
 const usedVariables = ['alpha', 'beta', 'gamma']

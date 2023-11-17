@@ -2,8 +2,7 @@ const { selectRandomly } = require('../../../util')
 const { getRandomInteger } = require('../../../inputTypes/Integer')
 const { Unit } = require('../../../inputTypes/Unit')
 const { getRandomExponentialFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getSimpleExerciseProcessor } = require('../../../eduTools')
-const { performComparison } = require('../util/comparison')
+const { getSimpleExerciseProcessor, performComparison } = require('../../../eduTools')
 
 // Type 0: from (c/d/.)m^3 to liter.
 // Type 1: from (c/d/.)m^3 to SI (so m^3: which it may already be in).

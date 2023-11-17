@@ -1,5 +1,4 @@
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../eduTools')
-const { performComparison } = require('../util/comparison')
+const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../eduTools')
 
 const { generateState, getSolution: getCycleParameters } = require('./calculateClosedCycleSTST')
 const { getSolution: getEnergyParameters } = require('./createClosedCycleEnergyOverviewSTST')

@@ -1,7 +1,6 @@
 const { selectRandomly } = require('../../../util')
 const constants = require('../../../data/constants')
-const { getSimpleExerciseProcessor } = require('../../../eduTools')
-const { performComparison } = require('../util/comparison')
+const { getSimpleExerciseProcessor, performComparison } = require('../../../eduTools')
 
 const data = {
 	skill: 'lookUpConstant',

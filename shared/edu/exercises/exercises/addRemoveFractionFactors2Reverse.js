@@ -1,8 +1,6 @@
 const { selectRandomly, getRandomBoolean, getRandomInteger } = require('../../../util')
 const { asExpression, expressionComparisons } = require('../../../CAS')
-
-const { getSimpleExerciseProcessor, selectRandomVariables, filterVariables } = require('../../../eduTools')
-const { performComparison } = require('../util/comparison')
+const { getSimpleExerciseProcessor, selectRandomVariables, filterVariables, performComparison } = require('../../../eduTools')
 
 // (ayx)/z = (ayx^2)/(zx).
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]

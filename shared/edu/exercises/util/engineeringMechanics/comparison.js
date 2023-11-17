@@ -1,6 +1,5 @@
 const { compareNumbers, mod, processOptions, resolveFunctions, areArraysEqualShallow, count } = require('../../../../util')
-
-const { getCurrentInputSolutionAndComparison } = require('../comparison')
+const { getCurrentInputSolutionAndComparison } = require('../../../../eduTools')
 
 const { defaultMomentRadius, defaultMomentOpening, loadTypes, loadSources } = require('./definitions')
 

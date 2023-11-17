@@ -1,7 +1,6 @@
 const { tableInterpolate, getRandomInteger } = require('../../../util')
 const { withPressure, enthalpy, entropy } = require('../../../data/steamProperties')
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../eduTools')
-const { performComparison } = require('../util/comparison')
+const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../eduTools')
 
 const { getCycle } = require('./support/steamTurbineCycle')
 

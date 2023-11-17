@@ -2,8 +2,7 @@ const { selectRandomly } = require('../../../util')
 const { getRandomInteger } = require('../../../inputTypes/Integer')
 const { getRandomExponentialFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Unit } = require('../../../inputTypes/Unit')
-const { getSimpleExerciseProcessor } = require('../../../eduTools')
-const { performComparison } = require('../util/comparison')
+const { getSimpleExerciseProcessor, performComparison } = require('../../../eduTools')
 
 // Type 0: from (mu/m/./M)g to kg.
 // Type 1: from (mu/m/./M)g to SI (so kg: which it may already be in).

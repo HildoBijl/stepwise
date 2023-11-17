@@ -1,6 +1,5 @@
 const { selectRandomly } = require('../../../util')
-const { getSimpleExerciseProcessor } = require('../../../eduTools')
-const { performComparison } = require('../util/comparison')
+const { getSimpleExerciseProcessor, performComparison } = require('../../../eduTools')
 const { getTemperatures } = require('./support/fridgeCycle')
 
 const data = {

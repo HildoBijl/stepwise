@@ -1,7 +1,6 @@
 const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 let { air: { cp } } = require('../../../data/gasProperties')
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../eduTools')
-const { performComparison } = require('../util/comparison')
+const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../eduTools')
 
 const data = {
 	skill: 'calculateSpecificHeatAndMechanicalWork',

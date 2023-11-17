@@ -1,6 +1,5 @@
 const { getRandomInteger } = require('../../../inputTypes/Integer')
-const { getSimpleExerciseProcessor } = require('../../../eduTools')
-const { performComparison } = require('../util/comparison')
+const { getSimpleExerciseProcessor, performComparison } = require('../../../eduTools')
 
 const data = {
 	skill: 'fillInInteger',

@@ -1,8 +1,6 @@
 const { selectRandomly, getRandomBoolean, getRandomInteger } = require('../../../util')
 const { Sum, Product, Fraction, expressionComparisons } = require('../../../CAS')
-
-const { getSimpleExerciseProcessor, selectRandomVariables, filterVariables } = require('../../../eduTools')
-const { performComparison } = require('../util/comparison')
+const { getSimpleExerciseProcessor, selectRandomVariables, filterVariables, performComparison } = require('../../../eduTools')
 
 // az(x+y)/(x+y) or (x+y)/(az(x+y)).
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]

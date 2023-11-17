@@ -1,8 +1,7 @@
 const { or } = require('../../../skillTracking')
 const { FloatUnit } = require('../../../inputTypes/FloatUnit')
 const gasProperties = require('../../../data/gasProperties')
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../eduTools')
-const { performComparison } = require('../util/comparison')
+const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../eduTools')
 
 const { generateState, getSolution: getCycleParametersRaw } = require('./calculateClosedCycleVTp')
 

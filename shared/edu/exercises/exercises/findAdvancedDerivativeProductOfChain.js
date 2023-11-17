@@ -1,8 +1,6 @@
 const { selectRandomly } = require('../../../util')
 const { expressionComparisons } = require('../../../CAS')
-const { getStepExerciseProcessor, assembleSolution, addSetupFromSteps } = require('../../../eduTools')
-
-const { performComparison } = require('../util/comparison')
+const { getStepExerciseProcessor, assembleSolution, addSetupFromSteps, performComparison } = require('../../../eduTools')
 
 const { getRandomElementaryFunctions } = require('./support/derivatives')
 

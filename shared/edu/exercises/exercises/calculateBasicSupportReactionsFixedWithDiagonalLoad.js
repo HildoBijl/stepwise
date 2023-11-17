@@ -1,10 +1,9 @@
 const { deg2rad, arraysToObject, getRandomInteger } = require('../../../util')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { Vector } = require('../../../geometry')
 const { Variable } = require('../../../CAS')
-const { getStepExerciseProcessor, assembleSolution, addSetupFromSteps } = require('../../../eduTools')
+const { Vector } = require('../../../geometry')
+const { getStepExerciseProcessor, assembleSolution, addSetupFromSteps, performComparison } = require('../../../eduTools')
 
-const { performComparison } = require('../util/comparison')
 const { loadSources, getDefaultForce, getDefaultMoment, FBDComparison, getLoadNames, getLoadMatching, isMatchingComplete, getDirectionIndicators, performLoadsComparison, reverseLoad } = require('../util/engineeringMechanics')
 
 const { reaction, external } = loadSources

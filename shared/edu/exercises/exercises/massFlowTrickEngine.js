@@ -1,7 +1,6 @@
 const { and } = require('../../../skillTracking')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getSimpleExerciseProcessor } = require('../../../eduTools')
-const { performComparison } = require('../util/comparison')
+const { getSimpleExerciseProcessor, performComparison } = require('../../../eduTools')
 
 const data = {
 	setup: and('calculateWithSpecificQuantities', 'massFlowTrick'),
