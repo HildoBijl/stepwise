@@ -1,8 +1,7 @@
 const { getRandomFloat } = require('../../../inputTypes/Float')
 const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { air: { Rs } } = require('../../../data/gasProperties')
-
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../eduTools')
 
 const data = {
 	steps: ['gasLaw', 'gasLaw'],

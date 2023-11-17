@@ -1,8 +1,7 @@
 const { getRandom } = require('../../../util')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 let { air: { Rs, k, cp } } = require('../../../data/gasProperties')
-
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../eduTools')
 const { performComparison } = require('../util/comparison')
 
 const data = {

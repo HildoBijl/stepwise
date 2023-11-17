@@ -2,8 +2,7 @@ const { getRandomInteger } = require('../../../inputTypes/Integer')
 const { Unit } = require('../../../inputTypes/Unit')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { oxygen: { Rs } } = require('../../../data/gasProperties')
-
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../eduTools')
 
 const data = {
 	skill: 'gasLaw',

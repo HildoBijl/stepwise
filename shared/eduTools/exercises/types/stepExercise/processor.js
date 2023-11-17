@@ -1,13 +1,6 @@
-const { ensureInt } = require('../../../util')
-const { toFO } = require('../../../inputTypes')
-const { and } = require('../../../skillTracking')
+const { toFO } = require('../../../../inputTypes')
 
-const { assembleSolution, getLastProgress, getPreviousProgress } = require('./simpleExercise')
-module.exports = {
-	assembleSolution,
-	getLastProgress,
-	getPreviousProgress,
-}
+const { hasPreviousInput } = require('./util')
 
 // getStepExerciseProcessor takes a checkInput function that checks the input for a StepExercise and returns a processAction function.
 function getStepExerciseProcessor(checkInput, data) {
@@ -30,7 +23,6 @@ function processUserAction(submissionData) {
 		submissions: [{ action: submissionData.action }],
 	})
 }
-module.exports.processUserAction = processUserAction
 
 // processGroupActions is the processor for a single user and not a group.
 function processGroupActions(submissionData) {
@@ -38,7 +30,6 @@ function processGroupActions(submissionData) {
 		return processStepActions(submissionData)
 	return processMainProblemActions(submissionData)
 }
-module.exports.processGroupActions = processGroupActions
 
 function processMainProblemActions({ checkInput, data, progress, submissions, state, history, updateSkills }) {
 	// Determine whether the individual users got the solution correct.
@@ -71,7 +62,6 @@ function processMainProblemActions({ checkInput, data, progress, submissions, st
 		return nextStep({ split: true, step: 0 })
 	return progress // Nothing changed.
 }
-module.exports.processMainProblemActions = processMainProblemActions
 
 function processStepActions(submissionData) {
 	const { data, progress } = submissionData
@@ -83,7 +73,6 @@ function processStepActions(submissionData) {
 		return processStepWithSubstepsActions(submissionData)
 	return processStepWithoutSubstepsActions(submissionData)
 }
-module.exports.processStepActions = processStepActions
 
 function processStepWithoutSubstepsActions({ checkInput, data, progress, submissions, state, history, updateSkills }) {
 	// Determine whether the individual users got the solution correct.
@@ -117,7 +106,6 @@ function processStepWithoutSubstepsActions({ checkInput, data, progress, submiss
 		return nextStep({ ...progress, [step]: { ...progress[step], givenUp: true, done: true } }, numSteps)
 	return progress // Nothing changed.
 }
-module.exports.processStepWithoutSubstepsActions = processStepWithoutSubstepsActions
 
 function processStepWithSubstepsActions({ checkInput, data, progress, submissions, state, history, updateSkills }) {
 	const step = getStep(progress)
@@ -165,71 +153,6 @@ function processStepWithSubstepsActions({ checkInput, data, progress, submission
 		return nextStep({ ...progress, [step]: { ...progress[step], givenUp: true, done: true } }, numSteps)
 	return { ...progress, [step]: stepProgress }
 }
-module.exports.processStepWithSubstepsActions = processStepWithSubstepsActions
-
-// getLastInput takes a history object and returns the last given input at the given step. If step is undefined, any step will do.
-function getLastInput(history, userId, step) {
-	for (let index = history.length - 1; index >= 0; index--) {
-		// Determine the action of the user in this piece of the history. This depends on whether it's an individual or a group exercise. If it's not an input, ignore this history event.
-		let userAction
-		if (userId && history[index].submissions)
-			userAction = history[index].submissions.find(submission => submission.userId === userId)?.action
-		else if (!userId && history[index].action)
-			userAction = history[index].action
-		else
-			throw new Error(`Invalid getLastInput case. Cannot determine if it is for a user or for a group.`)
-		if (!userAction || userAction.type !== 'input')
-			continue // No input action.
-
-		// Determine the previous progress. If it's not at the right step, ignore this history event.
-		if (step !== undefined) {
-			const previousProgress = index === 0 ? {} : history[index - 1].progress
-			const previousStep = getStep(previousProgress)
-			if (step !== previousStep)
-				continue // Not at the right step.
-		}
-
-		// All conditions match. Returns the given action.
-		return userAction.input
-	}
-
-	// Nothing found: return undefined.
-	return undefined
-}
-module.exports.getLastInput = getLastInput
-
-// hasPreviousInput takes a history object and checks if a user has made a previous input at the given step.
-function hasPreviousInput(history, userId, step) {
-	return !!getLastInput(history, userId, step)
-}
-module.exports.hasPreviousInput = hasPreviousInput
-
-// getStep takes a progress object and returns the step which this problem is at.
-function getStep(progress) {
-	return progress.split ? progress.step : 0
-}
-module.exports.getStep = getStep
-
-// isStepSolved checks, from the progress object, whether the given step is solved. If no step is given, it checks the main exercise.
-function isStepSolved(progress, step) {
-	if (!step)
-		return !!progress.solved
-	return !!(progress[step] || {}).solved
-}
-module.exports.isStepSolved = isStepSolved
-
-// isSubStepSolved checks, from the progress object, whether the given substep is solved.
-function isSubstepSolved(progress, step, substep) {
-	// Check input.
-	step = ensureInt(step, true, true)
-	substep = ensureInt(substep, true, true)
-
-	// Look up the progress.
-	if (!progress[step])
-		return false
-	return !!progress[step][substep]
-}
-module.exports.isSubstepSolved = isSubstepSolved
 
 // nextStep takes a progress object and adjusts it to make it one in which the current step is done. The object is adjusted and returned.
 function nextStep(progress, numSteps) {
@@ -243,13 +166,3 @@ function nextStep(progress, numSteps) {
 	}
 	return progress
 }
-
-// addSetupFromSteps takes a skill data object and adds a set-up parameter based on the provided steps, assuming none exists yet. (If one exists, this function does nothing, unless overwrite is specifically set to true.) It modifies the given data object and also returns it.
-function addSetupFromSteps(data, overwrite = false) {
-	if (!data.steps)
-		throw new Error(`Invalid addSetupFromSteps call: expected a steps parameter in the exercise data, but this was not present.`)
-	if (!data.setup || overwrite)
-		data.setup = and(...data.steps.flat().filter(x => !!x))
-	return data
-}
-module.exports.addSetupFromSteps = addSetupFromSteps

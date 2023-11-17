@@ -1,6 +1,5 @@
 const refrigerantProperties = require('../../../data/refrigerantProperties')
-
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../eduTools')
 const { performComparison } = require('../util/comparison')
 
 const { getBasicCycle } = require('./support/fridgeCycle')

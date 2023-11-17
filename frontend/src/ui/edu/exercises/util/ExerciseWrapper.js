@@ -1,6 +1,6 @@
 import React, { useMemo, useEffect } from 'react'
 
-import { getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
+import { getLastInput } from 'step-wise/eduTools'
 
 import { useUserId } from 'api/user'
 import { TranslationFile } from 'i18n'
@@ -35,7 +35,7 @@ function FeedbackWrapper({ getFeedback, children }) {
 
 	// Determine the input that the user made, and hence which needs to be evaluated by the FeedbackProvider. When it changes, the feedback is adjusted.
 	const userId = useUserId()
-	const feedbackInput = getLastInput(exerciseData.history, userId, true)
+	const feedbackInput = getLastInput(exerciseData.history, userId, undefined, true)
 
 	// Upon page load, make sure that the last submitted (possibly unresolved) input is visible. This is also useful when a submission is resolved and the update comes in through a websocket connection.
 	const { setAllInputSI } = useFormData()

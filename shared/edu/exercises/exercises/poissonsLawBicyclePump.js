@@ -2,8 +2,7 @@ const { getRandom } = require('../../../util')
 const { getRandomFloat } = require('../../../inputTypes/Float')
 const { Unit } = require('../../../inputTypes/Unit')
 const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../eduTools')
 
 const data = {
 	skill: 'poissonsLaw',

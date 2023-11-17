@@ -1,7 +1,7 @@
 const { filterProperties, selectRandomly, getRandomInteger } = require('../../../util')
 const { expressionComparisons } = require('../../../CAS')
+const { getStepExerciseProcessor, assembleSolution } = require('../../../eduTools')
 
-const { getStepExerciseProcessor, assembleSolution } = require('../util/stepExercise')
 const { performComparison } = require('../util/comparison')
 
 const { getRandomElementaryFunctions } = require('./support/derivatives')

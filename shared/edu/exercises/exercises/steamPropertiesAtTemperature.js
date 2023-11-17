@@ -1,7 +1,6 @@
 const { getRandomInteger, tableInterpolate } = require('../../../util')
 const { withTemperature } = require('../../../data/steamProperties')
-
-const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+const { getSimpleExerciseProcessor } = require('../../../eduTools')
 const { performComparison } = require('../util/comparison')
 
 const data = {

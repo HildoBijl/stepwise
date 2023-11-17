@@ -1,5 +1,5 @@
 const { getRandomFloat } = require('../../../inputTypes/Float')
-const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+const { getSimpleExerciseProcessor } = require('../../../eduTools')
 
 const data = {
 	skill: 'solveLinearEquation',

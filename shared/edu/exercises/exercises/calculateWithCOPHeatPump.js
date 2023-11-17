@@ -1,6 +1,6 @@
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
 const { getRandom } = require('../../../util')
+const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
+const { getSimpleExerciseProcessor } = require('../../../eduTools')
 const { performComparison } = require('../util/comparison')
 
 const data = {

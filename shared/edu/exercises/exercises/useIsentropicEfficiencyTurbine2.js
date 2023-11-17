@@ -1,4 +1,4 @@
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../eduTools')
 const { performComparison } = require('../util/comparison')
 
 const { getCycle } = require('./support/steamTurbineCycle')

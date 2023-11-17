@@ -1,6 +1,5 @@
 const { getRandomInteger } = require('../../../inputTypes/Integer')
-
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../eduTools')
 
 const data = {
 	skill: 'summationAndMultiplication',

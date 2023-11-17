@@ -1,8 +1,8 @@
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
-const { performComparison } = require('../util/comparison')
-const { maximumHumidity } = require('../../../data/moistureProperties')
 const { tableInterpolate, firstOf, lastOf } = require('../../../util')
+const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
+const { maximumHumidity } = require('../../../data/moistureProperties')
+const { getSimpleExerciseProcessor } = require('../../../eduTools')
+const { performComparison } = require('../util/comparison')
 
 const data = {
 	skill: 'readMollierDiagram',

@@ -1,6 +1,6 @@
 const { selectRandomly } = require('../../../util')
 const constants = require('../../../data/constants')
-const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+const { getSimpleExerciseProcessor } = require('../../../eduTools')
 const { performComparison } = require('../util/comparison')
 
 const data = {

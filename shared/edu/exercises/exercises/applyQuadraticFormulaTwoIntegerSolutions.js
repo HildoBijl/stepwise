@@ -1,8 +1,6 @@
 const { selectRandomly, getRandomInteger, applyMapping } = require('../../../util')
 const { asExpression, asEquation, Integer, expressionComparisons } = require('../../../CAS')
-
-const { filterVariables } = require('../../../eduTools')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
+const { getStepExerciseProcessor, filterVariables } = require('../../../eduTools')
 const { performComparison, performListComparison } = require('../util/comparison')
 
 // a*x^2 + b*x + c = 0.

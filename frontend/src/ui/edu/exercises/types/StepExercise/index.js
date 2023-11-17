@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 
 import { numberArray, lastOf } from 'step-wise/util'
-import { getStep, getPreviousProgress } from 'step-wise/edu/exercises/util/stepExercise'
+import { getStep, getPreviousProgress } from 'step-wise/eduTools'
 
 import { TranslationSection, useTranslator, addSection } from 'i18n'
 import { VerticalAdjuster } from 'ui/components'

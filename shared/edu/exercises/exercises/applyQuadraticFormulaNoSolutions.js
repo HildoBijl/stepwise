@@ -1,9 +1,7 @@
-const { selectRandomly, getRandomInteger, applyMapping } = require('../../../util')
+const { selectRandomly, getRandomInteger } = require('../../../util')
 const { asExpression, asEquation, Integer, Sqrt, expressionComparisons } = require('../../../CAS')
-
-const { filterVariables } = require('../../../eduTools')
-const { getStepExerciseProcessor } = require('../util/stepExercise')
-const { performComparison, performListComparison } = require('../util/comparison')
+const { getStepExerciseProcessor, filterVariables } = require('../../../eduTools')
+const { performComparison } = require('../util/comparison')
 
 // a*x^2 + b*x + c = 0.
 const variableSet = ['x', 'y', 'z']

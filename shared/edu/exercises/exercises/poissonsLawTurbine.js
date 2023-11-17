@@ -1,8 +1,7 @@
 const { Unit } = require('../../../inputTypes/Unit')
 const { FloatUnit, getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { air: { k } } = require('../../../data/gasProperties')
-
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
+const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../eduTools')
 
 const data = {
 	skill: 'poissonsLaw',

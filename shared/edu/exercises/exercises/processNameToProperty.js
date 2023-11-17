@@ -1,5 +1,5 @@
 const { getRandomInteger } = require('../../../inputTypes/Integer')
-const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+const { getSimpleExerciseProcessor } = require('../../../eduTools')
 
 const data = {
 	skill: 'recognizeProcessTypes',

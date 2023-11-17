@@ -1,8 +1,6 @@
 const { gcd, selectRandomly, getRandomInteger, getRandomIndices } = require('../../../util')
 const { asExpression, Sum, expressionComparisons, simplifyOptions } = require('../../../CAS')
-
-const { selectRandomVariables, filterVariables } = require('../../../eduTools')
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
+const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, filterVariables } = require('../../../eduTools')
 const { performComparison } = require('../util/comparison')
 
 const { onlyOrderChanges } = expressionComparisons

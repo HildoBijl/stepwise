@@ -1,8 +1,6 @@
 const { selectRandomly, getRandomInteger } = require('../../../util')
 const { asEquation, expressionComparisons, expressionChecks, equationComparisons, equationChecks } = require('../../../CAS')
-
-const { selectRandomVariables, filterVariables } = require('../../../eduTools')
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
+const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, filterVariables } = require('../../../eduTools')
 const { performComparison } = require('../util/comparison')
 
 // 1/(a/w+b/x) = y/z.

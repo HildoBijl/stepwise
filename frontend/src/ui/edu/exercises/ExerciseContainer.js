@@ -1,7 +1,7 @@
 import React, { useState, createContext, useContext, useEffect, useRef, useMemo } from 'react'
 
 import { toFO } from 'step-wise/inputTypes'
-import { getLastProgress } from 'step-wise/edu/exercises/util/simpleExercise'
+import { getLastProgress } from 'step-wise/eduTools'
 
 import { useConsistentValue } from 'util/react'
 import { useTranslator } from 'i18n'

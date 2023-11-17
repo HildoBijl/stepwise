@@ -1,9 +1,7 @@
 const { selectRandomly, getRandomInteger } = require('../../../util')
 const { repeat } = require('../../../skillTracking')
 const { asEquation, expressionComparisons, equationComparisons } = require('../../../CAS')
-
-const { selectRandomVariables, filterVariables } = require('../../../eduTools')
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../util/stepExercise')
+const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, filterVariables } = require('../../../eduTools')
 const { performComparison } = require('../util/comparison')
 
 // x/y + a = bz + cx.

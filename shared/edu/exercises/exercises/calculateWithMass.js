@@ -1,8 +1,8 @@
+const { selectRandomly } = require('../../../util')
 const { getRandomInteger } = require('../../../inputTypes/Integer')
 const { getRandomExponentialFloatUnit } = require('../../../inputTypes/FloatUnit')
 const { Unit } = require('../../../inputTypes/Unit')
-const { selectRandomly } = require('../../../util')
-const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+const { getSimpleExerciseProcessor } = require('../../../eduTools')
 const { performComparison } = require('../util/comparison')
 
 // Type 0: from (mu/m/./M)g to kg.

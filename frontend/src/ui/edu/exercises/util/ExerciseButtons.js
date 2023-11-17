@@ -3,8 +3,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Check, Clear, Send, ArrowForward, Search, Warning } from '@material-ui/icons'
 
 import { lastOf } from 'step-wise/util'
-import { getLastAction, getLastInput } from 'step-wise/edu/exercises/util/simpleExercise'
-import { getStep } from 'step-wise/edu/exercises/util/stepExercise'
+import { getLastAction, getLastInput, getStep } from 'step-wise/eduTools'
 
 import { useLatest, useConsistentValue } from 'util/react'
 import { useTranslator, useGetTranslation } from 'i18n'
@@ -315,7 +314,7 @@ function CurrentSubmissionRow({ submissionList, submitting, index }) {
 	const historyRef = useLatest(history), submissionListRef = useLatest(submissionList)
 	const setFormInput = useCallback(() => {
 		// Find the previous input action of the user and show the feedback on this.
-		updateFeedback(getLastInput(historyRef.current, lastOf(submissionListRef.current).userId, true) || {}) // Show feedback on the last resolved input.
+		updateFeedback(getLastInput(historyRef.current, lastOf(submissionListRef.current).userId, undefined, true) || {}) // Show feedback on the last resolved input.
 		setAllInputSI(lastOf(submissionListRef.current).action.input) // Show the input of the last action.
 	}, [historyRef, submissionListRef, updateFeedback, setAllInputSI])
 	const setAndSubmitFormInput = useCallback(() => {

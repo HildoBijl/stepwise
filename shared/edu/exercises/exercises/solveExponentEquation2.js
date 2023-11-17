@@ -1,5 +1,5 @@
 const { getRandomFloat, getRandomExponentialFloat } = require('../../../inputTypes/Float')
-const { getSimpleExerciseProcessor } = require('../util/simpleExercise')
+const { getSimpleExerciseProcessor } = require('../../../eduTools')
 
 // a + b*x^p = c
 
