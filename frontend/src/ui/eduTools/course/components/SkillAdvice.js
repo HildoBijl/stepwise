@@ -13,7 +13,7 @@ import { NotificationBar, useModalContext } from 'ui/components'
 import { linkStyle } from 'ui/theme'
 import { usePaths } from 'ui/routing'
 
-import { useSkillId } from '../../../edu/skills'
+import { useSkillId } from '../../../edu/skills' // ToDo: change ref
 
 import { strFreePractice } from '../../courses'
 
@@ -26,7 +26,7 @@ export function SkillAdvice() {
 	</TranslationFile>
 }
 
-// SkillNotification shows the notification bar at the top of the screen recommending users to go to a different skill.
+// SkillNotification shows the notification bar at the top of the screen recommending users to go to a different skill within the course.
 function SkillNotification() {
 	const translate = useTranslator()
 	const { type: adviceType, recommendation } = useSkillAdvice()

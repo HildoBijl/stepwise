@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import { useSkillData } from 'api/skill'
 
-import SkillFlask from './SkillFlask'
+import { SkillFlask } from './SkillFlask'
 
 const useStyles = makeStyles((theme) => ({
 	skillIndicator: { // Match the toolbar style boundaries.
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function SkillIndicator() {
+export function SkillIndicator() {
 	const { skillId } = useParams()
 	const skill = useSkillData(skillId)
 	const classes = useStyles()

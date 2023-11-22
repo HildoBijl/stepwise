@@ -15,7 +15,9 @@ import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routing'
 import { QuickPractice } from 'ui/components/icons'
 
-import { SkillFlask, isPracticeNeeded } from '../../../edu/skills'
+import { isPracticeNeeded } from '../../../edu/skills' // ToDo: change ref
+
+import { SkillFlask } from '../../skills'
 
 const useStyles = makeStyles((theme) => ({
 	skillList: {

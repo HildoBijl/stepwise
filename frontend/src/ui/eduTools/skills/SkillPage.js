@@ -7,11 +7,11 @@ import { TranslationFile, useTranslator } from 'i18n'
 import { LoadingNote } from 'ui/components'
 import { TabPages, tabData } from 'ui/layout/tabs'
 
-import { useSkillId } from '../util'
+import { useSkillId } from '../../edu/skills/util' // ToDo: change ref
 
-import { ExercisePage } from './ExercisePage'
+import { ExercisePage } from '../../edu/skills/Components/ExercisePage' // ToDo: change ref
 
-export default function Skill() {
+export function SkillPage() {
 	const translate = useTranslator()
 	const skillId = useSkillId()
 	const [loadedForSkillId, setLoadedForSkillId] = useState()
@@ -29,7 +29,8 @@ export default function Skill() {
 
 		// When a path is given, load the relevant files.
 		setLoadedForSkillId(undefined)
-		import(/* webpackChunkName: "skill-pages-6" */ `../contents/${path}/${skillId}`).then(pages => {
+		// ToDo: change ref to eduContents in the paths below.
+		import(/* webpackChunkName: "skill-pages-6" */ `../../edu/skills/contents/${path}/${skillId}`).then(pages => {
 			if (pages === null)
 				throw new Error(`Invalid skill path: tried to find skill pages at "skills/contents/${path}/${skillId}" but no files were found there. Could not render skill pages.`)
 			Pages.current = pages

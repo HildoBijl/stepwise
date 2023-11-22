@@ -10,7 +10,7 @@ import { skillTree, includePrerequisitesAndLinks, processSkill, getDefaultSkillD
 import { useUserQuery } from 'api/admin'
 import { Par, HorizontalSlider } from 'ui/components'
 import { TitleItem } from 'ui/layout/Title'
-import { SkillFlask } from 'ui/edu/skills'
+import { SkillFlask } from 'ui/eduTools'
 
 export default function UserInspection() {
 	const params = useParams()

@@ -4,9 +4,9 @@ import { skillTree } from 'step-wise/eduTools'
 
 import { TitleItem } from 'ui/layout/Title'
 
-import { useSkillId } from '../util'
+import { useSkillId } from '../../../edu/skills/util' // ToDo: change ref.
 
-export default function SkillName() {
+export function SkillName() {
 	const skillId = useSkillId() // ToDo later: add error handling if skill ID is not known.
 	const skill = skillTree[skillId]
 	const skillInfoPath = 'eduContent/skillInfo'

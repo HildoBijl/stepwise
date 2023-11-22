@@ -11,7 +11,7 @@ import { mix, shift, toCSS } from 'util/colors'
 import { useUniqueNumber } from 'util/react'
 import { Translation, Check } from 'i18n'
 
-import { defaultSkillThresholds } from '../recommendation'
+import { defaultSkillThresholds } from '../../../edu/skills/recommendation' // ToDo: change ref
 
 // Define general settings.
 const vb = 100 // Viewbox size.
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 	})
 }))
 
-export default function SkillFlask(props) {
+export function SkillFlask(props) {
 	const { coef, size = 60, strongShadow = false, className, skillId, isPriorKnowledge = false } = props
 	const id = useUniqueNumber()
 

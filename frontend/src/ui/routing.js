@@ -8,9 +8,8 @@ import * as pages from 'ui/pages'
 import UserInspection, { UserInspectionTitle } from 'ui/admin/UserInspection'
 import UserOverview from 'ui/admin/UserOverview'
 
-import { Skill, SkillName, SkillIndicator } from 'ui/edu/skills'
 import BlankExercise, { ExerciseName } from 'ui/edu/exercises/BlankExercise'
-import { CoursesPage, CoursePage, CourseProvider, CourseName, SkillAdvice, FreePracticePage } from 'ui/eduTools'
+import { CoursesPage, CoursePage, CourseProvider, CourseName, SkillAdvice, FreePracticePage, SkillPage, SkillName, SkillIndicator } from 'ui/eduTools'
 
 // Set up a route context object through which child elements can access the current route.
 export const RouteContext = createContext(undefined)
@@ -38,14 +37,14 @@ function getRoutes(user = undefined) {
 		},
 		'skill/:skillId/:tab': {
 			id: 'skillTab',
-			component: Skill,
+			component: SkillPage,
 			name: <SkillName />,
 			recommendLogIn: true,
 			Indicator: SkillIndicator,
 		},
 		'skill/:skillId': {
 			id: 'skill',
-			component: Skill,
+			component: SkillPage,
 			name: <SkillName />,
 			recommendLogIn: true,
 			Indicator: SkillIndicator,
@@ -87,7 +86,7 @@ function getRoutes(user = undefined) {
 					children: {
 						'skill/:skillId': {
 							id: 'skillInspection',
-							component: Skill,
+							component: SkillPage,
 							name: <SkillName />,
 							recommendLogIn: true,
 							Indicator: SkillIndicator,
@@ -157,14 +156,14 @@ function getRoutes(user = undefined) {
 						children: {
 							'skill/:skillId/:tab': {
 								id: 'courseSkillTab',
-								component: Skill,
+								component: SkillPage,
 								name: <SkillName />,
 								Indicator: SkillIndicator,
 								Notification: SkillAdvice,
 							},
 							'skill/:skillId': {
 								id: 'courseSkill',
-								component: Skill,
+								component: SkillPage,
 								name: <SkillName />,
 								Indicator: SkillIndicator,
 								Notification: SkillAdvice,
