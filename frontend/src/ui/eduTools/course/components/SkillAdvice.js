@@ -8,17 +8,18 @@ import { CheckCircle as SuccessIcon, Info as InfoIcon, TrendingFlat as RightArro
 import { skillTree } from 'step-wise/eduTools'
 
 import { TranslationFile, Translation, useTranslator } from 'i18n'
-import { usePrevious } from 'util/react'
+import { usePrevious } from 'util'
+import { NotificationBar, useModalContext } from 'ui/components'
 import { linkStyle } from 'ui/theme'
 import { usePaths } from 'ui/routing'
-import { NotificationBar, useModalContext } from 'ui/components'
 
-import { useSkillId } from '../skills'
+import { useSkillId } from '../../../edu/skills'
 
-import { strFreePractice } from './util'
-import { useCourseData } from './Provider'
+import { strFreePractice } from '../../courses'
 
-export default function SkillAdvice() {
+import { useCourseData } from './CourseProvider'
+
+export function SkillAdvice() {
 	useSkillModal()
 	return <TranslationFile path="eduTools/pages/skillPage">
 		<SkillNotification />

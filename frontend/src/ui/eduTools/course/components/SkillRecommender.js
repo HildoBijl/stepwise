@@ -8,7 +8,7 @@ import { linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routing'
 import { Button, QuickPractice } from 'ui/components'
 
-import { strFreePractice } from './util'
+import { strFreePractice } from '../../courses'
 
 const useStyles = makeStyles((theme) => ({
 	skillRecommenderLink: linkStyleReset,
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function SkillRecommender({ courseId, recommendation }) {
+export function SkillRecommender({ courseId, recommendation }) {
 	const getTranslation = useGetTranslation()
 	const paths = usePaths()
 	const classes = useStyles()

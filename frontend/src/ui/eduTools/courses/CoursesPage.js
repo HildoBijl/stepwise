@@ -7,10 +7,10 @@ import { count } from 'step-wise/util'
 import { useSkillsData } from 'api/skill'
 import { TranslationFile, useLanguage } from 'i18n'
 
-import { getOverview, getAnalysis } from '../../edu/course/util'
-import courses from './courses'
+import { getOverview, getAnalysis } from './util'
 
-import Tile from './Tile'
+import { courses } from './courses'
+import { Tile } from './Tile'
 
 const courseOverviews = Object.values(courses).map(getOverview)
 

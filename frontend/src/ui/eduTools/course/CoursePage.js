@@ -1,22 +1,13 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 
-import { keysToObject } from 'step-wise/util'
-import { getInverseCDF } from 'step-wise/skillTracking'
-
 import { TranslationFile, Translation, useTranslator } from 'i18n'
-import { TitleItem } from 'ui/layout/Title'
 
-import courses from '../../eduTools/courses/courses'
+import { strFreePractice } from '../courses'
 
-import { strFreePractice } from './util'
-import SkillRecommender from './SkillRecommender'
-import Block from './Block'
-import SkillList from './SkillList'
-import { useCourseData } from './Provider'
+import { useCourseData, SkillList, SkillRecommender, Block, GradeEstimate } from './components'
 
 const useStyles = makeStyles((theme) => ({
 	courseOverview: {
@@ -49,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function Course(props) {
+export function CoursePage(props) {
 	// Load in relevant data about the course.
 	const { courseId, course, overview, analysis } = useCourseData()
 	const recommendation = analysis?.recommendation
@@ -178,38 +169,4 @@ function PortraitCourse({ course, overview, analysis, activeBlock, toggleActiveB
 			</div>
 		</div>
 	)
-}
-
-export function GradeEstimate() {
-	const classes = useStyles()
-	const { skillsDataLoaded, skillsData, course } = useCourseData()
-
-	// Do not show an estimate when no set-up has been given.
-	const { setup } = course
-	if (!skillsDataLoaded || !setup)
-		return null
-
-	// Gather all the required data.
-	const coefficientSet = keysToObject(setup.getSkillList(), skillId => skillsData[skillId].coefficients)
-	const EV = setup.getEV(coefficientSet)
-	const distribution = setup.getDistribution(coefficientSet)
-	const inverseCDF = getInverseCDF(distribution)
-
-	// Display the grade estimate.
-	const scoreToPercentage = score => `${Math.round(score * 100)}%`
-	const cdfValueToPercentage = cdfValue => scoreToPercentage(inverseCDF(cdfValue))
-	return <div className={clsx(classes.gradeEstimate, 'gradeEstimate')}
-	>
-		<div className="estimate"><Translation entry="gradeEstimate">Based on your practice so far, we expect a score of roughly <strong>{{ percentage: scoreToPercentage(EV) }}</strong> (about <strong>{{ lowerPercentage: cdfValueToPercentage(0.3) }} - {{ upperPercentage: cdfValueToPercentage(0.7) }}</strong>) on the final test.</Translation><sup>*</sup></div>
-		<div className="disclaimer"><sup>*</sup><Translation entry="disclaimer">No rights can be derived from this estimate.</Translation></div>
-	</div>
-}
-
-export function CourseName() {
-	const { courseId } = useParams()
-	const course = courses[courseId.toLowerCase()]
-	const courseInfoPath = 'eduContent/courseInfo'
-	if (!course)
-		return <TitleItem path="eduTools/pages/coursePage" entry="unknownCourse.title" name="Unknown course" />
-	return <TitleItem path={courseInfoPath} entry={`${course.id}.name`} name={course.name} />
 }

@@ -1,6 +1,6 @@
 import { skillTree } from 'step-wise/eduTools'
 
-import { isPracticeNeeded } from '../skills'
+import { isPracticeNeeded } from '../../edu/skills' // ToDo: change path.
 
 // getOverview takes a course set-up and returns an overview object { priorKnowledge: ['priorSkill1', ...], course: ['firstSkill', ..., 'lastSkill'], blocks: [['firstSkill', ...], ..., [..., 'lastSkill']], goals: [...], all: ['priorSkill1', ..., 'firstSkill', ...] }. It lists all the skills belonging to the course in the right order.
 export function getOverview(courseSetup) {

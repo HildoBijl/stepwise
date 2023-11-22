@@ -15,7 +15,7 @@ import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routing'
 import { QuickPractice } from 'ui/components/icons'
 
-import { SkillFlask, isPracticeNeeded } from '../skills'
+import { SkillFlask, isPracticeNeeded } from '../../../edu/skills'
 
 const useStyles = makeStyles((theme) => ({
 	skillList: {
@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function SkillList({ courseId, skillIds, display = true, landscape, isPriorKnowledge, analysis }) {
+export function SkillList({ courseId, skillIds, display = true, landscape, isPriorKnowledge, analysis }) {
 	const classes = useStyles()
 
 	// If we should not display this skill list, show nothing instead.

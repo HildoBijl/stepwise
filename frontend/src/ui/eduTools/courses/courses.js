@@ -374,4 +374,4 @@ Object.keys(courses).forEach(key => {
 	courses[key].id = key
 })
 
-export default courses
+export { courses }

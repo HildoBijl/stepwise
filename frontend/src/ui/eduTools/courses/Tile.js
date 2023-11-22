@@ -13,7 +13,7 @@ import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routing'
 import { Button, ProgressIndicator, QuickPractice } from 'ui/components'
 
-import { strFreePractice } from '../../edu/course/util'
+import { strFreePractice } from './util'
 
 const useStyles = makeStyles((theme) => ({
 	tile: {
@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function Tile({ course, skillsTotal, skillsDone, recommendation }) {
+export function Tile({ course, skillsTotal, skillsDone, recommendation }) {
 	const translate = useTranslator()
 	const paths = usePaths()
 	const [buttonHover, setButtonHover] = useState(false)

@@ -3,12 +3,10 @@ import { useParams } from 'react-router-dom'
 
 import { useSkillsData } from 'api/skill'
 
-import courses from '../../eduTools/courses/courses'
-
-import { getOverview, getAnalysis } from './util'
+import { courses, getOverview, getAnalysis } from '../../courses'
 
 const CourseContext = createContext(null)
-export default function CourseProvider({ children }) {
+export function CourseProvider({ children }) {
 	// Examine the requested course.
 	const { courseId } = useParams()
 	const course = courses[courseId.toLowerCase()]

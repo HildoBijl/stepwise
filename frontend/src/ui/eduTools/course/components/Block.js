@@ -11,7 +11,7 @@ import { count } from 'step-wise/util'
 import { notSelectable } from 'ui/theme'
 import { ProgressIndicator } from 'ui/components'
 
-import SkillList from './SkillList'
+import { SkillList } from './SkillList'
 
 const useStyles = makeStyles((theme) => ({
 	blockBox: {
@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function Block({ landscape, courseId, skillIds, active, toggleActive, name, number, isPriorKnowledge, analysis }) {
+export function Block({ landscape, courseId, skillIds, active, toggleActive, name, number, isPriorKnowledge, analysis }) {
 	const classes = useStyles({ landscape, active })
 	const numCompleted = analysis ? count(skillIds, (skillId) => analysis.practiceNeeded[skillId] === 0) : 0
 

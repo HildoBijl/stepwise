@@ -10,11 +10,7 @@ import UserOverview from 'ui/admin/UserOverview'
 
 import { Skill, SkillName, SkillIndicator } from 'ui/edu/skills'
 import BlankExercise, { ExerciseName } from 'ui/edu/exercises/BlankExercise'
-import { CoursesPage } from 'ui/eduTools'
-import Course, { CourseName } from 'ui/edu/course/Course'
-import CourseProvider from 'ui/edu/course/Provider'
-import SkillAdvice from 'ui/edu/course/SkillAdvice'
-import { FreePractice } from 'ui/edu/course/FreePractice'
+import { CoursesPage, CoursePage, CourseProvider, CourseName, SkillAdvice, FreePracticePage } from 'ui/eduTools'
 
 // Set up a route context object through which child elements can access the current route.
 export const RouteContext = createContext(undefined)
@@ -155,7 +151,7 @@ function getRoutes(user = undefined) {
 				children: {
 					'course/:courseId': {
 						id: 'course',
-						component: Course,
+						component: CoursePage,
 						name: <CourseName />,
 						Provider: CourseProvider,
 						children: {
@@ -175,7 +171,7 @@ function getRoutes(user = undefined) {
 							},
 							'freePractice': {
 								id: 'freePractice',
-								component: FreePractice,
+								component: FreePracticePage,
 								name: 'Free practice mode',
 								Notification: SkillAdvice,
 							},
