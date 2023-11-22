@@ -10,7 +10,7 @@ import UserOverview from 'ui/admin/UserOverview'
 
 import { Skill, SkillName, SkillIndicator } from 'ui/edu/skills'
 import BlankExercise, { ExerciseName } from 'ui/edu/exercises/BlankExercise'
-import Courses from 'ui/edu/courses/Courses'
+import { CoursesPage } from 'ui/eduTools'
 import Course, { CourseName } from 'ui/edu/course/Course'
 import CourseProvider from 'ui/edu/course/Provider'
 import SkillAdvice from 'ui/edu/course/SkillAdvice'
@@ -150,7 +150,7 @@ function getRoutes(user = undefined) {
 			},
 			'': {
 				id: 'courses',
-				component: Courses,
+				component: CoursesPage,
 				name: 'Courses',
 				children: {
 					'course/:courseId': {
@@ -185,7 +185,7 @@ function getRoutes(user = undefined) {
 			},
 			'*': { // Note that the '*' path must be last.
 				id: 'notFoundForUser',
-				component: Courses,
+				component: CoursesPage,
 				name: 'Courses',
 			},
 		}

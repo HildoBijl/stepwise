@@ -7,8 +7,8 @@ import { count } from 'step-wise/util'
 import { useSkillsData } from 'api/skill'
 import { TranslationFile, useLanguage } from 'i18n'
 
-import { getOverview, getAnalysis } from '../course/util'
-import courses from '../courses'
+import { getOverview, getAnalysis } from '../../edu/course/util'
+import courses from './courses'
 
 import Tile from './Tile'
 
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function Courses() {
+export function CoursesPage() {
 	// Load all the skills data for the courses and use it to determine which skills are left (i.e., need practice).
 	const language = useLanguage()
 	const classes = useStyles()
@@ -47,4 +47,3 @@ export default function Courses() {
 		</TranslationFile>
 	)
 }
-

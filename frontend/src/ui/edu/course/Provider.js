@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 
 import { useSkillsData } from 'api/skill'
 
-import courses from '../courses'
+import courses from '../../eduTools/courses/courses'
 
 import { getOverview, getAnalysis } from './util'
 

@@ -1,6 +1,6 @@
 # Step-Wise courses
 
-The Step-Wise courses are currently all hard-coded. They are defined in the file `frontend/src/ui/edu/courses.js`. This file exports a large `courses` object of the form `{ course1: { ... }, course2: { ... }, ... }`. Let's take a look at how each of these courses is set up.
+The Step-Wise courses are currently all hard-coded. They are defined in the file `frontend/src/ui/eduTools/courses/courses.js`. This file exports a large `courses` object of the form `{ course1: { ... }, course2: { ... }, ... }`. Let's take a look at how each of these courses is set up.
 
 
 ## Defining a Step-Wise course

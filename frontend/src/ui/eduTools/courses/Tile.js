@@ -13,7 +13,7 @@ import { notSelectable, linkStyleReset } from 'ui/theme'
 import { usePaths } from 'ui/routing'
 import { Button, ProgressIndicator, QuickPractice } from 'ui/components'
 
-import { strFreePractice } from '../course/util'
+import { strFreePractice } from '../../edu/course/util'
 
 const useStyles = makeStyles((theme) => ({
 	tile: {

@@ -10,7 +10,7 @@ import { getInverseCDF } from 'step-wise/skillTracking'
 import { TranslationFile, Translation, useTranslator } from 'i18n'
 import { TitleItem } from 'ui/layout/Title'
 
-import courses from '../courses'
+import courses from '../../eduTools/courses/courses'
 
 import { strFreePractice } from './util'
 import SkillRecommender from './SkillRecommender'

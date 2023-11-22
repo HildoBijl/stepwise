@@ -4,7 +4,7 @@ import { ThemeProvider } from '@material-ui/core/styles'
 import ResizeObserver from 'resize-observer-polyfill'
 
 import { noop } from 'step-wise/util'
-import { getAllExercises } from 'step-wise/edu/exercises/util/selection'
+import { getAllExercises } from 'step-wise/eduTools'
 
 import { I18nProvider } from 'i18n'
 import { ModalManager } from 'ui/components'
