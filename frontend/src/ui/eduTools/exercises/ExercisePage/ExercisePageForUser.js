@@ -7,7 +7,7 @@ import { useTranslator } from 'i18n'
 import { ErrorNote, LoadingNote } from 'ui/components'
 import { useSkillId } from 'ui/eduTools'
 
-import ExerciseContainer from '../../../exercises/ExerciseContainer'
+import ExerciseContainer from '../../../edu/exercises/ExerciseContainer'
 
 export function ExercisePageForUser() {
 	const translate = useTranslator()

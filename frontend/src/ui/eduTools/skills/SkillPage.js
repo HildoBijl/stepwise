@@ -7,7 +7,7 @@ import { TranslationFile, useTranslator } from 'i18n'
 import { LoadingNote } from 'ui/components'
 import { TabPages, tabData } from 'ui/layout/tabs'
 
-import { ExercisePage } from '../../edu/skills/Components/ExercisePage' // ToDo: change ref
+import { ExercisePage } from '../exercises'
 
 import { useSkillId } from './util'
 

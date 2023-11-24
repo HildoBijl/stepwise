@@ -9,7 +9,7 @@ import { useGetTranslation } from 'i18n'
 import { LoadingNote } from 'ui/components'
 import { useSkillId } from 'ui/eduTools'
 
-import ExerciseContainer from '../../../exercises/ExerciseContainer'
+import ExerciseContainer from '../../../edu/exercises/ExerciseContainer'
 
 export function ExercisePageForStranger() {
 	const getTranslation = useGetTranslation()
