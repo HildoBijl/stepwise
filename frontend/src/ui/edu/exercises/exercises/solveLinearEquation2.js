@@ -4,7 +4,7 @@ import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatInput } from 'ui/inputs'
 
-import SimpleExercise from '../types/SimpleExercise'
+import { SimpleExercise } from 'ui/eduTools'
 import { useSolution } from 'ui/eduTools'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 

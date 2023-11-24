@@ -9,8 +9,7 @@ import { useCurrentBackgroundColor, FloatUnitInput } from 'ui/inputs'
 
 import { FBDInput, Group, Beam, HingeSupport, RollerHingeSupport, Distance, Element, Label, LoadLabel, render, getFBDFeedback, loadSources, performLoadsComparison, sumOfForces, sumOfMoments } from 'ui/edu/content/mechanics'
 
-import StepExercise, { getStep } from '../types/StepExercise'
-import { useSolution } from 'ui/eduTools'
+import { StepExercise, getStep, useSolution } from 'ui/eduTools'
 import { getInputFieldFeedback } from '../util/feedback'
 
 const distanceShift = 60

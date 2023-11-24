@@ -7,7 +7,7 @@ import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { IntegerInput, FloatInput } from 'ui/inputs'
 
-import StepExercise from '../types/StepExercise'
+import { StepExercise } from 'ui/eduTools'
 import { useSolution } from 'ui/eduTools'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 

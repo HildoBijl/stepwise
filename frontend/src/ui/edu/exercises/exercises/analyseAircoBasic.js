@@ -11,7 +11,7 @@ import { FloatUnitInput } from 'ui/inputs'
 
 import MollierDiagram from '../../content/diagrams/MollierDiagram'
 
-import StepExercise from '../types/StepExercise'
+import { StepExercise } from 'ui/eduTools'
 import { useSolution } from 'ui/eduTools'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 

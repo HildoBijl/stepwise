@@ -7,7 +7,7 @@ import { InputSpace } from 'ui/form'
 import { EquationInput } from 'ui/inputs'
 
 import { useSolution } from 'ui/eduTools'
-import StepExercise from '../types/StepExercise'
+import { StepExercise } from 'ui/eduTools'
 
 import { getInputFieldFeedback } from '../util/feedback'
 import { originalEquation, incorrectEquation, correctEquation, correctEquationWithMessage, sumWithWrongTerms, sumWithUnsimplifiedTerms, hasSumWithinFraction } from '../util/feedbackChecks/equation'

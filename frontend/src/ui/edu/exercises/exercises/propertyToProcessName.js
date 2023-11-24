@@ -4,7 +4,7 @@ import { Par, M } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice } from 'ui/inputs'
 
-import SimpleExercise from '../types/SimpleExercise'
+import { SimpleExercise } from 'ui/eduTools'
 import { getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {

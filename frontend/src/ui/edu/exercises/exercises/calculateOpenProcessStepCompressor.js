@@ -4,7 +4,7 @@ import { Par, M, BM, BMList, BMPart, InputTable } from 'ui/components'
 import { useInput, InputSpace, AntiInputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
 
-import StepExercise from '../types/StepExercise'
+import { StepExercise } from 'ui/eduTools'
 import { useSolution } from 'ui/eduTools'
 import { getAllInputFieldsFeedbackExcluding } from '../util/feedback'
 

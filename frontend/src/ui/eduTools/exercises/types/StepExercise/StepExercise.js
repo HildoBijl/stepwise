@@ -9,15 +9,13 @@ import { TranslationSection, useTranslator, addSection } from 'i18n'
 import { VerticalAdjuster } from 'ui/components'
 import { useFormData, useFeedbackInput, FormPart, useFieldControllerContext } from 'ui/form'
 
-import { useExerciseData } from '../../../../eduTools/exercises/containers/ExerciseContainer' // ToDo: change ref
-import { ExerciseWrapper } from '../../../../eduTools/exercises/wrappers'
-import { ProblemContainer, SolutionContainer, ExerciseButtons, MainFeedback } from '../../../../eduTools/exercises/parts'
+import { useExerciseData } from '../../containers'
+import { ExerciseWrapper } from '../../wrappers'
+import { ProblemContainer, SolutionContainer, ExerciseButtons, MainFeedback } from '../../parts'
 
-import Steps from './Steps'
+import { Steps } from './Steps'
 
-export { getStep, getPreviousProgress }
-
-export default function StepExercise(props) {
+export function StepExercise(props) {
 	return (
 		<ExerciseWrapper getFeedback={props.getFeedback || stepExerciseGetFeedback}>
 			<StepExerciseInner {...props} />

@@ -7,8 +7,7 @@ import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
 
 import { useSolution } from 'ui/eduTools'
-import StepExercise from '../types/StepExercise'
-import Substep from '../types/StepExercise/Substep'
+import { StepExercise, Substep } from 'ui/eduTools'
 
 import { getInputFieldFeedback } from '../util/feedback'
 

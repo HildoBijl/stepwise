@@ -7,7 +7,7 @@ import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
 
 import { useSolution } from 'ui/eduTools'
-import StepExercise from '../types/StepExercise'
+import { StepExercise } from 'ui/eduTools'
 
 import { getInputFieldFeedback } from '../util/feedback'
 import { originalExpression, sumWithUnsimplifiedTerms, correctExpression, incorrectExpression } from '../util/feedbackChecks/expression'

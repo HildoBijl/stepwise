@@ -11,7 +11,7 @@ import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
 
 import { Distance, Element, LoadLabel, render, sumOfForces } from 'ui/edu/content/mechanics'
 
-import StepExercise from '../types/StepExercise'
+import { StepExercise } from 'ui/eduTools'
 import { useSolution } from 'ui/eduTools'
 import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
 

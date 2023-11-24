@@ -9,7 +9,7 @@ import { ExpressionInput, EquationInput } from 'ui/inputs'
 
 import { useExerciseData } from 'ui/eduTools'
 import { useSolution } from 'ui/eduTools'
-import StepExercise from '../types/StepExercise'
+import { StepExercise } from 'ui/eduTools'
 
 import { getInputFieldFeedback } from '../util/feedback'
 

@@ -5,7 +5,7 @@ import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
 
 import { useSolution } from 'ui/eduTools'
-import SimpleExercise from '../types/SimpleExercise'
+import { SimpleExercise } from 'ui/eduTools'
 
 import { getInputFieldFeedback } from '../util/feedback'
 import { originalExpression, noFraction, hasFractionWithinFraction, correctExpression, incorrectExpression } from '../util/feedbackChecks/expression'

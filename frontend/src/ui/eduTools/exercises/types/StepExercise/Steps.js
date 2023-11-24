@@ -7,15 +7,15 @@ import { useUserId } from 'api/user'
 import { VerticalAdjuster } from 'ui/components'
 import { useFormData, useFeedbackInput, FormPart } from 'ui/form'
 
-import { useExerciseData } from '../../../../eduTools/exercises/containers/ExerciseContainer' // ToDo: change ref
-import { ProblemContainer, SolutionContainer, MainFeedback } from '../../../../eduTools/exercises/parts'
+import { useExerciseData } from '../../containers'
+import { ProblemContainer, SolutionContainer, MainFeedback } from '../../parts'
 
-export default function Steps({ steps, forceDisplay }) {
+export function Steps({ steps, forceDisplay }) {
 	// Walk through the steps, displaying them one by one.
 	return steps.map((stepData, index) => <Step key={index} step={index + 1} forceDisplay={forceDisplay} {...stepData} />)
 }
 
-export function Step({ step, Problem, Solution, forceDisplay }) {
+function Step({ step, Problem, Solution, forceDisplay }) {
 	const translate = useTranslator()
 	const userId = useUserId()
 	const { state, progress, history } = useExerciseData()

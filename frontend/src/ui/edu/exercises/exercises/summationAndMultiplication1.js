@@ -5,7 +5,7 @@ import { Par, M } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { IntegerInput } from 'ui/inputs'
 
-import StepExercise from '../types/StepExercise'
+import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} />

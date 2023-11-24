@@ -11,7 +11,7 @@ import { MultipleChoice } from 'ui/inputs'
 
 import { FBDInput, Group, Beam, FixedSupport, render, loadTypes } from 'ui/edu/content/mechanics'
 
-import StepExercise from '../types/StepExercise'
+import { StepExercise } from 'ui/eduTools'
 import { useSolution } from 'ui/eduTools'
 import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
 

@@ -8,7 +8,7 @@ import { FloatUnitInput } from 'ui/inputs'
 
 import MollierDiagram from '../../content/diagrams/MollierDiagram'
 
-import SimpleExercise from '../types/SimpleExercise'
+import { SimpleExercise } from 'ui/eduTools'
 import { useSolution } from 'ui/eduTools'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
