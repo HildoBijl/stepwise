@@ -16,7 +16,7 @@ import { useSelfAndOtherMembers } from 'ui/pages/Groups/util'
 import MemberList from 'ui/pages/Groups/MemberList'
 
 import { useExerciseData } from '../containers' // ToDo: change ref
-import { useSubmitAction, useGiveUpAction, useCancelAction, useResolveEvent, canResolveGroupEvent } from '../../../edu/exercises/util/actions' // ToDo: change ref
+import { useSubmitAction, useGiveUpAction, useCancelAction, useResolveEvent, canResolveGroupEvent } from '../util'
 
 const translationPath = 'eduTools/exercises'
 

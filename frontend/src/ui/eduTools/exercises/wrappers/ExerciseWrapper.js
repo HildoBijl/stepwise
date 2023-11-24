@@ -6,10 +6,10 @@ import { useUserId } from 'api/user'
 import { TranslationFile } from 'i18n'
 import { Form, useFormData, FeedbackProvider } from 'ui/form'
 
-import { useExerciseData } from '../containers/ExerciseContainer' // ToDo: change ref
+import { useExerciseData } from '../containers'
+import { useFormSubmitAction } from '../util'
 
 import { SolutionProvider, useSolution } from './SolutionProvider'
-import { useFormSubmitAction } from '../../../edu/exercises/util/actions'
 
 // ExerciseWrapper wraps an exercise in a Form and getFeedback function, providing support functionalities to exercises.
 export function ExerciseWrapper({ getFeedback, children }) {
