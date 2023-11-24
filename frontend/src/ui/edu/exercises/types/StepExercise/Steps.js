@@ -8,9 +8,7 @@ import { VerticalAdjuster } from 'ui/components'
 import { useFormData, useFeedbackInput, FormPart } from 'ui/form'
 
 import { useExerciseData } from '../../../../eduTools/exercises/containers/ExerciseContainer' // ToDo: change ref
-import ProblemContainer from '../../util/ProblemContainer'
-import MainFeedback from '../../util/MainFeedback'
-import SolutionContainer from '../../util/SolutionContainer'
+import { ProblemContainer, SolutionContainer, MainFeedback } from '../../../../eduTools/exercises/parts'
 
 export default function Steps({ steps, forceDisplay }) {
 	// Walk through the steps, displaying them one by one.

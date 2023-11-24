@@ -12,7 +12,7 @@ import { SolutionProvider, useSolution } from './SolutionProvider'
 import { useFormSubmitAction } from '../../../edu/exercises/util/actions'
 
 // ExerciseWrapper wraps an exercise in a Form and getFeedback function, providing support functionalities to exercises.
-export default function ExerciseWrapper({ getFeedback, children }) {
+export function ExerciseWrapper({ getFeedback, children }) {
 	const submit = useFormSubmitAction()
 	return (
 		<Form submit={submit}>

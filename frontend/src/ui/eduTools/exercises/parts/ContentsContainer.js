@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function ContentsContainer({ children, display = true, text, onClick, initialExpand = true, canToggle, color, Icon = ArrowRight, rotateIcon }) {
+export function ContentsContainer({ children, display = true, text, onClick, initialExpand = true, canToggle, color, Icon = ArrowRight, rotateIcon }) {
 	// Allow for toggles, if desired.
 	let [expand, setExpand] = useState()
 	const toggle = () => setExpand(!expand)

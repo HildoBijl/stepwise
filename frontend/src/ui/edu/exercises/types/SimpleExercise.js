@@ -9,12 +9,9 @@ import { TranslationSection, useTranslator, addSection } from 'i18n'
 import { VerticalAdjuster } from 'ui/components'
 import { useFormData, useFeedbackInput, FormPart, useFieldControllerContext } from 'ui/form'
 
-import { useExerciseData } from '../../../eduTools/exercises/containers/ExerciseContainer' // ToDo: change ref
-import ExerciseWrapper from '../../../eduTools/exercises/wrappers/ExerciseWrapper'
-import ProblemContainer from '../util/ProblemContainer'
-import MainFeedback from '../util/MainFeedback'
-import SolutionContainer from '../util/SolutionContainer'
-import ExerciseButtons from '../util/ExerciseButtons'
+import { useExerciseData } from '../../../eduTools/exercises/containers' // ToDo: change ref
+import { ExerciseWrapper } from '../../../eduTools/exercises/wrappers'
+import { ProblemContainer, SolutionContainer, ExerciseButtons, MainFeedback } from '../../../eduTools/exercises/parts'
 
 export default function SimpleExercise(props) {
 	return (

@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function MainFeedback({ display, step = 0 }) {
+export function MainFeedback({ display, step = 0 }) {
 	const { result } = useMainFeedback(step)
 	const classes = useStyles()
 	display = !!(result && result.text && display)

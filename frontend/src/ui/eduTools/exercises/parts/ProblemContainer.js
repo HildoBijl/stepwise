@@ -3,9 +3,9 @@ import React from 'react'
 import { Translation } from 'i18n'
 import { Circle } from 'ui/components'
 
-import ContentsContainer from './ContentsContainer'
+import { ContentsContainer } from './ContentsContainer'
 
-export default function ProblemContainer(props) {
+export function ProblemContainer(props) {
 	const translationPath = 'eduTools/exercises'
 	const { step } = props
 	return <ContentsContainer
