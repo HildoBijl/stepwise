@@ -5,10 +5,9 @@ import { skillTree } from 'step-wise/eduTools'
 import { useSkillQuery, useStartExerciseMutation, useSubmitExerciseActionMutation } from 'api/skill'
 import { useTranslator } from 'i18n'
 import { ErrorNote, LoadingNote } from 'ui/components'
+import { useSkillId } from 'ui/eduTools'
 
 import ExerciseContainer from '../../../exercises/ExerciseContainer'
-
-import { useSkillId } from '../../util'
 
 export function ExercisePageForUser() {
 	const translate = useTranslator()

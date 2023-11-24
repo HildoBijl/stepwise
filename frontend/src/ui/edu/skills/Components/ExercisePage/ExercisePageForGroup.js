@@ -5,10 +5,9 @@ import { skillTree } from 'step-wise/eduTools'
 import { useActiveGroup, useActiveGroupExercisesResult, useActiveGroupExerciseForSkill, useStartGroupExerciseMutation, useSubmitGroupActionMutation, useCancelGroupActionMutation, useResolveGroupEventMutation } from 'api/group'
 import { useGetTranslation } from 'i18n'
 import { ErrorNote, LoadingNote } from 'ui/components'
+import { useSkillId } from 'ui/eduTools'
 
 import ExerciseContainer from '../../../exercises/ExerciseContainer'
-
-import { useSkillId } from '../../util'
 
 export function ExercisePageForGroup() {
 	const getTranslation = useGetTranslation()

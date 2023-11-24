@@ -13,8 +13,7 @@ import { NotificationBar, useModalContext } from 'ui/components'
 import { linkStyle } from 'ui/theme'
 import { usePaths } from 'ui/routing'
 
-import { useSkillId } from '../../../edu/skills' // ToDo: change ref
-
+import { useSkillId } from '../../skills'
 import { strFreePractice } from '../../courses'
 
 import { useCourseData } from './CourseProvider'
