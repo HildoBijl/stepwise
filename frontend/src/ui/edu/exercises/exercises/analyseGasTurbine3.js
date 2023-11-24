@@ -6,7 +6,7 @@ import { FloatUnitInput } from 'ui/inputs'
 
 import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
-import { useSolution } from '../util/SolutionProvider'
+import { useSolution } from 'ui/eduTools'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {

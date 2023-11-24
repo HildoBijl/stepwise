@@ -11,7 +11,7 @@ import { useInput, InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput } from 'ui/inputs'
 
 import { useExerciseData } from 'ui/eduTools'
-import { useSolution } from '../util/SolutionProvider'
+import { useSolution } from 'ui/eduTools'
 import StepExercise from '../types/StepExercise'
 
 import { getInputFieldListFeedback, getMCFeedback } from '../util/feedback'

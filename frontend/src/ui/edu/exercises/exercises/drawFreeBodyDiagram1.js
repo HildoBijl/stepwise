@@ -13,7 +13,7 @@ import { useCurrentBackgroundColor } from 'ui/inputs'
 import { FBDInput, Group, Element, Distance, Beam, FixedSupport, AdjacentFixedSupport, HingeSupport, HalfHingeSupport, RollerSupport, AdjacentRollerSupport, RollerHingeSupport, RollerHalfHingeSupport, render, loadSources, getFBDFeedback, FBDComparison, getLoadMatching, isLoadAtPoint } from 'ui/edu/content/mechanics'
 
 import StepExercise from '../types/StepExercise'
-import { useSolution } from '../util/SolutionProvider'
+import { useSolution } from 'ui/eduTools'
 import { getInputFieldFeedback } from '../util/feedback'
 
 const distanceShift = 70

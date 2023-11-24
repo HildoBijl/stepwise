@@ -4,7 +4,7 @@ import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
 
-import { useSolution } from '../util/SolutionProvider'
+import { useSolution } from 'ui/eduTools'
 import SimpleExercise from '../types/SimpleExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'

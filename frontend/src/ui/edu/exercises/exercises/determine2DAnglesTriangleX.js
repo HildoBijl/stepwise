@@ -7,7 +7,7 @@ import { Drawing, BoundedLine, Polygon, RightAngle, CornerLabel, useRotationRefl
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
 
-import { useSolution } from '../util/SolutionProvider'
+import { useSolution } from 'ui/eduTools'
 import StepExercise from '../types/StepExercise'
 
 import { getInputFieldFeedback } from '../util/feedback'

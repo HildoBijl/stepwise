@@ -7,7 +7,7 @@ import { useInputObject } from 'ui/form'
 const SolutionContext = createContext(null)
 
 // SolutionProvider combines the data from the ExerciseContainer and potentially the Input from the Form to set up a solution. (The latter is only used in case of input-dependent solutions.) It then makes it available to the exercise components.
-export default function SolutionProvider({ children }) {
+export function SolutionProvider({ children }) {
 	// Extract data: the exercise data and the form input. Only get the required data and nothing more.
 	const { state, shared } = useExerciseData()
 	const { getSolution, getStaticSolution, getInputDependency, dependentFields, getDynamicSolution } = shared

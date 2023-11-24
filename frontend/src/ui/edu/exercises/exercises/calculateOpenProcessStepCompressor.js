@@ -5,7 +5,7 @@ import { useInput, InputSpace, AntiInputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
 
 import StepExercise from '../types/StepExercise'
-import { useSolution } from '../util/SolutionProvider'
+import { useSolution } from 'ui/eduTools'
 import { getAllInputFieldsFeedbackExcluding } from '../util/feedback'
 
 export default function Exercise() {

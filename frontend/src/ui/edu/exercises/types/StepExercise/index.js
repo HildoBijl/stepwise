@@ -10,7 +10,7 @@ import { VerticalAdjuster } from 'ui/components'
 import { useFormData, useFeedbackInput, FormPart, useFieldControllerContext } from 'ui/form'
 
 import { useExerciseData } from '../../../../eduTools/exercises/containers/ExerciseContainer' // ToDo: change ref
-import ExerciseWrapper from '../../util/ExerciseWrapper'
+import ExerciseWrapper from '../../../../eduTools/exercises/wrappers/ExerciseWrapper'
 import ProblemContainer from '../../util/ProblemContainer'
 import MainFeedback from '../../util/MainFeedback'
 import SolutionContainer from '../../util/SolutionContainer'

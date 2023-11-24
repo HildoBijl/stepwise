@@ -7,7 +7,7 @@ import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
 
 import SimpleExercise from '../types/SimpleExercise'
-import { useSolution } from '../util/SolutionProvider'
+import { useSolution } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />

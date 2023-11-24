@@ -6,7 +6,7 @@ import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput } from 'ui/inputs'
 
-import { useSolution } from '../util/SolutionProvider'
+import { useSolution } from 'ui/eduTools'
 import StepExercise from '../types/StepExercise'
 import Substep from '../types/StepExercise/Substep'
 

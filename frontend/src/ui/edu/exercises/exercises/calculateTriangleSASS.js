@@ -11,7 +11,7 @@ import { useInput, InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput, EquationInput } from 'ui/inputs'
 
 import { useExerciseData } from 'ui/eduTools'
-import { useSolution } from '../util/SolutionProvider'
+import { useSolution } from 'ui/eduTools'
 import StepExercise from '../types/StepExercise'
 import { hasIncorrectSide } from '../util/feedbackChecks/equation'
 

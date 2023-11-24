@@ -12,7 +12,7 @@ import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
 import { Distance, Element, Label, LoadLabel, render, sumOfMoments } from 'ui/edu/content/mechanics'
 
 import StepExercise from '../types/StepExercise'
-import { useSolution } from '../util/SolutionProvider'
+import { useSolution } from 'ui/eduTools'
 import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
 
 const distanceShift = 60

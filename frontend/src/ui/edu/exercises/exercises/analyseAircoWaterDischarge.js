@@ -12,7 +12,7 @@ import { FloatUnitInput } from 'ui/inputs'
 import MollierDiagram from '../../content/diagrams/MollierDiagram'
 
 import StepExercise from '../types/StepExercise'
-import { useSolution } from '../util/SolutionProvider'
+import { useSolution } from 'ui/eduTools'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
