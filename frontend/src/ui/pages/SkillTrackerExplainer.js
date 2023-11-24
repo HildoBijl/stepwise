@@ -8,8 +8,7 @@ import { Skill, getEV, getMaxLikelihood, smoothen, merge, and, repeat } from 'st
 import { getSelectionRates } from 'step-wise/eduTools'
 
 import { Par, Head, Button, M } from 'ui/components'
-import { defaultSkillThresholds } from 'ui/edu/skills' // ToDo: change ref
-import { SkillFlask } from 'ui/eduTools'
+import { defaultSkillThresholds, SkillFlask } from 'ui/eduTools'
 
 const labelsWithoutLast = ['A', 'B']
 const lastLabel = 'X'

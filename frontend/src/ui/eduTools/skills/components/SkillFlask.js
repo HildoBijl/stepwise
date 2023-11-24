@@ -11,7 +11,7 @@ import { mix, shift, toCSS } from 'util/colors'
 import { useUniqueNumber } from 'util/react'
 import { Translation, Check } from 'i18n'
 
-import { defaultSkillThresholds } from '../../../edu/skills/recommendation' // ToDo: change ref
+import { defaultSkillThresholds } from '../recommendation'
 
 // Define general settings.
 const vb = 100 // Viewbox size.
