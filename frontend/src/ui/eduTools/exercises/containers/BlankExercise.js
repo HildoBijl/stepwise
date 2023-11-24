@@ -11,9 +11,9 @@ import { useTranslator } from 'i18n'
 import { LoadingNote, ErrorNote } from 'ui/components/flow'
 import { TitleItem } from 'ui/layout/Title'
 
-import ExerciseContainer from './ExerciseContainer'
+import { ExerciseContainer } from './ExerciseContainer'
 
-export default function BlankExercise() {
+export function BlankExercise() {
 	const translate = useTranslator()
 	const { exerciseId } = useParams()
 	if (!exerciseId)

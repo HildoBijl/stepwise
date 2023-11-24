@@ -6,7 +6,7 @@ import { useUserId } from 'api/user'
 import { TranslationFile } from 'i18n'
 import { Form, useFormData, FeedbackProvider } from 'ui/form'
 
-import { useExerciseData } from '../ExerciseContainer'
+import { useExerciseData } from '../../../eduTools/exercises/containers/ExerciseContainer' // ToDo: change ref
 
 import SolutionProvider, { useSolution } from './SolutionProvider'
 import { useFormSubmitAction } from './actions'

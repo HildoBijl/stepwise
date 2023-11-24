@@ -8,8 +8,7 @@ import * as pages from 'ui/pages'
 import UserInspection, { UserInspectionTitle } from 'ui/admin/UserInspection'
 import UserOverview from 'ui/admin/UserOverview'
 
-import BlankExercise, { ExerciseName } from 'ui/edu/exercises/BlankExercise'
-import { CoursesPage, CoursePage, CourseProvider, CourseName, SkillAdvice, FreePracticePage, SkillPage, SkillName, SkillIndicator } from 'ui/eduTools'
+import { CoursesPage, CoursePage, CourseProvider, CourseName, SkillAdvice, FreePracticePage, SkillPage, SkillName, SkillIndicator, BlankExercise, ExerciseName } from 'ui/eduTools'
 
 // Set up a route context object through which child elements can access the current route.
 export const RouteContext = createContext(undefined)

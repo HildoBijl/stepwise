@@ -10,7 +10,7 @@ import { LoadingNote, ErrorBoundary } from 'ui/components/flow'
 const ExerciseContext = createContext({})
 export { ExerciseContext } // Exported for testing purposes.
 
-export default function ExerciseContainer({ exercise, groupExercise, submitting, submitAction, cancelAction, resolveEvent, startNewExercise }) {
+export function ExerciseContainer({ exercise, groupExercise, submitting, submitAction, cancelAction, resolveEvent, startNewExercise }) {
 	const translate = useTranslator()
 	const { exerciseId, state } = exercise
 	const [loading, setLoading] = useState(true)
@@ -21,7 +21,7 @@ export default function ExerciseContainer({ exercise, groupExercise, submitting,
 	const reload = () => {
 		setLoading(true)
 		Promise.all([
-			import(/* webpackChunkName: "front-end-exercises-6" */ `./exercises/${exerciseId}`),
+			import(/* webpackChunkName: "front-end-exercises-6" */ `../../../edu/exercises/exercises/${exerciseId}`),
 			import(/* webpackChunkName: "shared-exercises-6" */ `step-wise/edu/exercises/exercises/${exerciseId}`),
 		]).then(importedModules => {
 			const [localModule, sharedModule] = importedModules

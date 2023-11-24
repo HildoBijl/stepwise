@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useMemo } from 'react'
 
 import { useConsistentValue } from 'util/react'
-import { useExerciseData } from 'ui/edu/exercises/ExerciseContainer'
+import { useExerciseData } from 'ui/eduTools/exercises/containers/ExerciseContainer' // ToDo: change ref
 import { useInputObject } from 'ui/form'
 
 const SolutionContext = createContext(null)

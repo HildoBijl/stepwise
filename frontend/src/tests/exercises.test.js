@@ -10,7 +10,7 @@ import { I18nProvider } from 'i18n'
 import { ModalManager } from 'ui/components'
 import theme from 'ui/theme'
 import { FieldController } from 'ui/form'
-import { ExerciseContext } from 'ui/edu/exercises/ExerciseContainer'
+import { ExerciseContext } from 'ui/eduTools'
 
 // Polyfill the react-resize-detector.
 window.ResizeObserver = ResizeObserver

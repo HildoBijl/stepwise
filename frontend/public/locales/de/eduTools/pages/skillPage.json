@@ -6,7 +6,7 @@
     "generatingNewExercise": "Neue Übung wird erzeugt...",
     "noExercises": "Oh oh ... es wurden noch keine Übungen zu dieser Kompetenz hinzugefügt. Wir werden sie so bald wie möglich hinzufügen. Schau später wieder vorbei!",
     "loadingExerciseComponent": "Die Übungskomponente wird geladen...",
-    "exerciseCrashed": "Ups ... die Übung ist fehlgeschlagen."
+    "exerciseCrashed": "Ups ... Die Übung ist fehlgeschlagen."
   },
   "notifications": {
     "notPartOfCourse": {

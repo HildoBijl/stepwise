@@ -7,7 +7,7 @@ import { Drawing, Polygon, RightAngle, LineLabel, useRotationReflectionTransform
 import { InputSpace } from 'ui/form'
 import { ExpressionInput, EquationInput } from 'ui/inputs'
 
-import { useExerciseData } from '../ExerciseContainer'
+import { useExerciseData } from 'ui/eduTools'
 import { useSolution } from '../util/SolutionProvider'
 import StepExercise from '../types/StepExercise'
 

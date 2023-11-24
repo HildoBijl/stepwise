@@ -4,7 +4,7 @@ import { Par, List, M, BM, Table, InputTable } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
 
-import { useExerciseData } from '../ExerciseContainer'
+import { useExerciseData } from 'ui/eduTools'
 import StepExercise from '../types/StepExercise'
 import { getAllInputFieldsFeedback } from '../util/feedback'
 

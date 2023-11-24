@@ -9,7 +9,7 @@ import { TranslationSection, useTranslator, addSection } from 'i18n'
 import { VerticalAdjuster } from 'ui/components'
 import { useFormData, useFeedbackInput, FormPart, useFieldControllerContext } from 'ui/form'
 
-import { useExerciseData } from '../../ExerciseContainer'
+import { useExerciseData } from '../../../../eduTools/exercises/containers/ExerciseContainer' // ToDo: change ref
 import ExerciseWrapper from '../../util/ExerciseWrapper'
 import ProblemContainer from '../../util/ProblemContainer'
 import MainFeedback from '../../util/MainFeedback'

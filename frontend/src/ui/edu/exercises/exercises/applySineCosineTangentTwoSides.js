@@ -8,7 +8,7 @@ import { Drawing, Polygon, RightAngle, CornerLabel, LineLabel, useRotationReflec
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput, EquationInput } from 'ui/inputs'
 
-import { useExerciseData } from '../ExerciseContainer'
+import { useExerciseData } from 'ui/eduTools'
 import { useSolution } from '../util/SolutionProvider'
 import StepExercise from '../types/StepExercise'
 

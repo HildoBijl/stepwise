@@ -8,7 +8,7 @@ import { useUserId } from 'api/user'
 import { useActiveGroup } from 'api/group'
 import { useSubmitCall } from 'ui/form'
 
-import { useExerciseData } from '../ExerciseContainer'
+import { useExerciseData } from '../../../eduTools/exercises/containers/ExerciseContainer' // ToDo: change ref
 
 // useFormSubmitAction gives a function that is given to a Form, to be called whenever the form is submitted.
 export function useFormSubmitAction() {

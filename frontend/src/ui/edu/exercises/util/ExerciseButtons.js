@@ -15,7 +15,7 @@ import { useFormData, useFieldRegistration, useFeedbackContext } from 'ui/form'
 import { useSelfAndOtherMembers } from 'ui/pages/Groups/util'
 import MemberList from 'ui/pages/Groups/MemberList'
 
-import { useExerciseData } from '../ExerciseContainer'
+import { useExerciseData } from '../../../eduTools/exercises/containers/ExerciseContainer' // ToDo: change ref
 import { useSubmitAction, useGiveUpAction, useCancelAction, useResolveEvent, canResolveGroupEvent } from './actions'
 
 const translationPath = 'eduTools/exercises'

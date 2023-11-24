@@ -7,7 +7,7 @@ import { getStep } from 'step-wise/eduTools'
 
 import { FormPart, useFormPartSettings } from 'ui/form'
 
-import { useExerciseData } from '../../ExerciseContainer'
+import { useExerciseData } from '../../../../eduTools/exercises/containers/ExerciseContainer' // ToDo: change ref
 
 // Substep is used to update the "done" status when a substep is done. This then informs the field that this part of the exercise is done, so the field cannot be edited anymore.
 export default function Substep({ ss, children }) {

@@ -7,9 +7,10 @@ import { skillTree, getNewRandomExercise } from 'step-wise/eduTools'
 
 import { useGetTranslation } from 'i18n'
 import { LoadingNote } from 'ui/components'
-import { useSkillId } from 'ui/eduTools'
 
-import ExerciseContainer from '../../../edu/exercises/ExerciseContainer'
+import { useSkillId } from '../../skills'
+
+import { ExerciseContainer } from '../containers'
 
 export function ExercisePageForStranger() {
 	const getTranslation = useGetTranslation()
