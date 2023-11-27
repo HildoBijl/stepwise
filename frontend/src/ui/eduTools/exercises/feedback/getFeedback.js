@@ -8,8 +8,7 @@ import { Expression } from 'step-wise/CAS'
 import { performIndividualComparison, performIndividualListComparison, getCurrentInputSolutionAndComparison } from 'step-wise/eduTools'
 
 import { Translation } from 'i18n'
-
-import { selectRandomCorrect, selectRandomIncorrect, selectRandomIncorrectUnit, selectRandomDuplicate, selectRandomNonNumeric } from './feedbackMessages'
+import { selectRandomCorrect, selectRandomIncorrect, selectRandomIncorrectUnit, selectRandomDuplicate, selectRandomNonNumeric } from 'ui/inputs'
 
 const defaultOptions = {
 	// These are options that can be manually added.

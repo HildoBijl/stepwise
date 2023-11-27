@@ -1,9 +1,9 @@
 import React from 'react'
 
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
-import { InputSpace } from 'ui/form'
+import { InputSpace, selectRandomCorrect, selectRandomIncorrect } from 'ui/form'
 import { ExpressionInput, EquationInput } from 'ui/inputs'
-import { useSolution, StepExercise, getInputFieldFeedback, selectRandomCorrect, selectRandomIncorrect } from 'ui/eduTools'
+import { useSolution, StepExercise, getInputFieldFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />

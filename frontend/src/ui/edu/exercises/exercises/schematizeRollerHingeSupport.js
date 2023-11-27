@@ -5,9 +5,9 @@ import { Vector, Line } from 'step-wise/geometry'
 
 import { Par } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
-import { InputSpace } from 'ui/form'
+import { InputSpace, selectRandomCorrect } from 'ui/form'
 import { MultipleChoice } from 'ui/inputs'
-import { StepExercise, useSolution, getInputFieldFeedback, getMCFeedback, selectRandomCorrect } from 'ui/eduTools'
+import { StepExercise, useSolution, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
 
 import { FBDInput, Group, Beam, RollerHingeSupport, render, loadTypes, areLoadsEqual, getFBDFeedbackFunction, FBDComparison } from 'ui/edu/content/mechanics'
 

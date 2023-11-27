@@ -2,9 +2,9 @@ import React from 'react'
 
 import { Translation, Check } from 'i18n'
 import { Par, M } from 'ui/components'
-import { InputSpace } from 'ui/form'
+import { InputSpace, selectRandomCorrect, selectRandomIncorrect } from 'ui/form'
 import { IntegerInput } from 'ui/inputs'
-import { SimpleExercise, selectRandomCorrect, selectRandomIncorrect } from 'ui/eduTools'
+import { SimpleExercise } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />

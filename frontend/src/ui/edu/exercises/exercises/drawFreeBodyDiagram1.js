@@ -6,9 +6,9 @@ import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 import { getCountingWord } from 'util/language'
 import { Par, M } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
-import { InputSpace } from 'ui/form'
+import { InputSpace, selectRandomCorrect } from 'ui/form'
 import { useCurrentBackgroundColor } from 'ui/inputs'
-import { StepExercise, useSolution, getInputFieldFeedback, selectRandomCorrect } from 'ui/eduTools'
+import { StepExercise, useSolution, getInputFieldFeedback } from 'ui/eduTools'
 
 import { FBDInput, Group, Element, Distance, Beam, FixedSupport, AdjacentFixedSupport, HingeSupport, HalfHingeSupport, RollerSupport, AdjacentRollerSupport, RollerHingeSupport, RollerHalfHingeSupport, render, loadSources, getFBDFeedback, FBDComparison, getLoadMatching, isLoadAtPoint } from 'ui/edu/content/mechanics'
 

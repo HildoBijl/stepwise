@@ -4,9 +4,9 @@ import { toSO } from 'step-wise/inputTypes'
 
 import { Par, M } from 'ui/components'
 import { useIdentityTransformationSettings, Circle } from 'ui/figures'
-import { InputSpace } from 'ui/form'
+import { InputSpace, selectRandomCorrect, selectRandomIncorrect } from 'ui/form'
 import { DrawingInput, useInputValue, useDrawingInputData, DragMarker, IntegerInput } from 'ui/inputs'
-import { SimpleExercise, selectRandomCorrect, selectRandomIncorrect } from 'ui/eduTools'
+import { SimpleExercise } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />

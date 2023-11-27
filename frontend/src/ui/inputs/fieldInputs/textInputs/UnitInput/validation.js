@@ -1,4 +1,4 @@
-import { selectRandomEmpty } from 'ui/eduTools'
+import { selectRandomEmpty } from '../../../util'
 
 export function any() { }
 export function nonEmpty(unit) {

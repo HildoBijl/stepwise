@@ -3,9 +3,9 @@ import React from 'react'
 import * as constants from 'step-wise/data/constants'
 
 import { Par, M } from 'ui/components'
-import { InputSpace } from 'ui/form'
+import { InputSpace, selectRandomCorrect } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { SimpleExercise, selectRandomCorrect } from 'ui/eduTools'
+import { SimpleExercise } from 'ui/eduTools'
 
 const descriptions = {
 	c: <span>de snelheid van het licht <M>c</M></span>,

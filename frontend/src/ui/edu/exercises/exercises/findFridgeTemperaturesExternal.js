@@ -1,9 +1,9 @@
 import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
-import { InputSpace } from 'ui/form'
+import { InputSpace, selectRandomCorrect } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { SimpleExercise, useSolution, selectRandomCorrect } from 'ui/eduTools'
+import { SimpleExercise, useSolution } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />

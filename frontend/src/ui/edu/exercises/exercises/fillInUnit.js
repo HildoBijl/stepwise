@@ -3,9 +3,9 @@ import React from 'react'
 import { Unit } from 'step-wise/inputTypes/Unit'
 
 import { Par, M } from 'ui/components'
-import { InputSpace, Hint } from 'ui/form'
+import { InputSpace, Hint, selectRandomCorrect, selectRandomIncorrect } from 'ui/form'
 import { UnitInput } from 'ui/inputs'
-import { SimpleExercise, selectRandomCorrect, selectRandomIncorrect } from 'ui/eduTools'
+import { SimpleExercise } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
