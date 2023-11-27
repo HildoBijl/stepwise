@@ -1,6 +1,6 @@
 import { isNumber, removeAtIndex, insertAtIndex } from 'step-wise/util'
 
-import { selectRandomEmpty } from 'ui/edu/exercises/feedbackMessages'
+import { selectRandomEmpty } from 'ui/eduTools'
 
 import { getClickPosition } from '../TextInput'
 

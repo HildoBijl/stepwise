@@ -6,10 +6,7 @@ import { getPrefixName, getPrefixPower } from 'step-wise/inputTypes/Unit/prefixe
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-
-import { SimpleExercise } from 'ui/eduTools'
-import { useSolution } from 'ui/eduTools'
-import { getInputFieldFeedback } from '../util/feedback'
+import { SimpleExercise, useSolution, getInputFieldFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />

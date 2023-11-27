@@ -9,12 +9,7 @@ import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { Drawing, Polygon, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
 import { useInput, InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput } from 'ui/inputs'
-
-import { useExerciseData } from 'ui/eduTools'
-import { useSolution } from 'ui/eduTools'
-import { StepExercise } from 'ui/eduTools'
-
-import { getInputFieldListFeedback, getMCFeedback } from '../util/feedback'
+import { useExerciseData, StepExercise, useSolution, getInputFieldListFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />

@@ -4,10 +4,7 @@ import { Dutch } from 'ui/lang/gases'
 import { InputTable, Par, SubHead, M, BM, BMList, BMPart } from 'ui/components'
 import { useInput, InputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
-
-import { StepExercise } from 'ui/eduTools'
-import { useSolution } from 'ui/eduTools'
-import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
+import { StepExercise, useSolution, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />

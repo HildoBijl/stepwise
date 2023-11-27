@@ -3,10 +3,7 @@ import React from 'react'
 import { Par, M, BM, BMList, BMPart, InputTable } from 'ui/components'
 import { useInput, InputSpace, AntiInputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
-
-import { StepExercise } from 'ui/eduTools'
-import { useSolution } from 'ui/eduTools'
-import { getAllInputFieldsFeedbackExcluding } from '../util/feedback'
+import { StepExercise, useSolution, getAllInputFieldsFeedbackExcluding } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedbackExcluding('choice')} />

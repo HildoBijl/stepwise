@@ -5,10 +5,7 @@ import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 import { Par, SubHead, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-
-import { StepExercise } from 'ui/eduTools'
-import { useSolution } from 'ui/eduTools'
-import { getAllInputFieldsFeedback } from '../util/feedback'
+import { StepExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />

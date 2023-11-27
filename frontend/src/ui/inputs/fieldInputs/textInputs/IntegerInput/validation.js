@@ -1,4 +1,4 @@
-import { selectRandomNegative } from 'ui/edu/exercises/feedbackMessages'
+import { selectRandomNegative } from 'ui/eduTools'
 
 export function any() { }
 export function positive(number) {

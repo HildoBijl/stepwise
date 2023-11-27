@@ -9,13 +9,9 @@ import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { Drawing, Polygon, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
 import { useInput, InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput, EquationInput } from 'ui/inputs'
+import { useExerciseData, StepExercise, useSolution, equationChecks, getInputFieldFeedback, getInputFieldListFeedback, getMCFeedback } from 'ui/eduTools'
 
-import { useExerciseData } from 'ui/eduTools'
-import { useSolution } from 'ui/eduTools'
-import { StepExercise } from 'ui/eduTools'
-import { hasIncorrectSide } from '../util/feedbackChecks/equation'
-
-import { getInputFieldFeedback, getInputFieldListFeedback, getMCFeedback } from '../util/feedback'
+const { hasIncorrectSide } = equationChecks
 
 const ruleNames = ['sinusregel', 'cosinusregel']
 

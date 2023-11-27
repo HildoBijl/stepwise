@@ -1,8 +1,7 @@
 import { areLoadsEqual, isLoadAtPoint } from 'step-wise/edu/exercises/util/engineeringMechanics'
 
 import { Translation, Plurals } from 'i18n'
-
-import { selectRandomEmpty } from 'ui/edu/exercises/feedbackMessages'
+import { selectRandomEmpty } from 'ui/eduTools'
 
 export const translationPath = 'eduContent/mechanics/tools/FBDInput'
 

@@ -3,10 +3,7 @@ import React from 'react'
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatInput } from 'ui/inputs'
-
-import { SimpleExercise } from 'ui/eduTools'
-import { useSolution } from 'ui/eduTools'
-import { getAllInputFieldsFeedback } from '../util/feedback'
+import { SimpleExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getAllInputFieldsFeedback} />

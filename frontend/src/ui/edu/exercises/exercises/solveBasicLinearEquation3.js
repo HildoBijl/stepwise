@@ -5,15 +5,11 @@ import { Sum, Product, expressionComparisons } from 'step-wise/CAS'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput, EquationInput } from 'ui/inputs'
-
-import { useSolution } from 'ui/eduTools'
-import { StepExercise } from 'ui/eduTools'
-
-import { getInputFieldFeedback } from '../util/feedback'
-import { hasX, incorrectFraction, incorrectExpression } from '../util/feedbackChecks/expression'
-import { originalEquation, hasSumWithinProduct, correctEquation, incorrectEquation, sumWithWrongTerms } from '../util/feedbackChecks/equation'
+import { useSolution, StepExercise, getInputFieldFeedback, expressionChecks, equationChecks } from 'ui/eduTools'
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
+const { hasX, incorrectFraction, incorrectExpression } = expressionChecks
+const { originalEquation, hasSumWithinProduct, correctEquation, incorrectEquation, sumWithWrongTerms } = equationChecks
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />

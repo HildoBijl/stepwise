@@ -3,7 +3,7 @@ import { getRandomInteger } from 'step-wise/util'
 import { Translation } from 'i18n'
 
 // getRandomTranslatedFeedback is a support wrapper function that wraps a feedback string in a Translation component so it can be translated.
-export function getRandomTranslatedFeedback(feedbackList, entryType) {
+function getRandomTranslatedFeedback(feedbackList, entryType) {
 	const index = getRandomInteger(0, feedbackList.length - 1)
 	return <Translation path="eduTools/feedback" entry={`${entryType}.${index}`}>{feedbackList[index]}</Translation>
 }
@@ -11,7 +11,7 @@ export function getRandomTranslatedFeedback(feedbackList, entryType) {
 // selectRandomCorrect gives a random correct text.
 export function selectRandomCorrect(withWrapper = false) {
 	if (withWrapper)
-		return { correct: false, text: selectRandomIncorrect() }
+		return { correct: true, text: selectRandomCorrect() }
 	return getRandomTranslatedFeedback([
 		'That is correct!',
 		'Nicely done.',

@@ -1,4 +1,4 @@
-import { selectRandomMissingUnit } from 'ui/edu/exercises/feedbackMessages'
+import { selectRandomMissingUnit } from 'ui/eduTools'
 
 export function any() { }
 export function nonEmptyUnit(floatUnit) {

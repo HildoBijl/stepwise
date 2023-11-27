@@ -6,11 +6,9 @@ import { Par, M, BM } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
 import { useInput, InputSpace } from 'ui/form'
 import { useCurrentBackgroundColor, FloatUnitInput } from 'ui/inputs'
+import { StepExercise, getStep, useSolution, getInputFieldFeedback } from 'ui/eduTools'
 
 import { FBDInput, Group, Beam, FixedSupport, Distance, Element, Label, LoadLabel, render, getFBDFeedback, loadSources, performLoadsComparison, sumOfForces, sumOfMoments } from 'ui/edu/content/mechanics'
-
-import { StepExercise, getStep, useSolution } from 'ui/eduTools'
-import { getInputFieldFeedback } from '../util/feedback'
 
 const distanceShift = 60
 

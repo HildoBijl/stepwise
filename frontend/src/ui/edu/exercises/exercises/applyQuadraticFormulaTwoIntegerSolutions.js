@@ -5,11 +5,7 @@ import { numberArray } from 'step-wise/util'
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { useInput, InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput } from 'ui/inputs'
-
-import { useSolution } from 'ui/eduTools'
-import { StepExercise } from 'ui/eduTools'
-
-import { getInputFieldFeedback, getMCFeedback, getInputFieldListFeedback } from '../util/feedback'
+import { useSolution, StepExercise, getInputFieldFeedback, getMCFeedback, getInputFieldListFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />

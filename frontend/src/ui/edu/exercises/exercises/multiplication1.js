@@ -4,7 +4,6 @@ import { Translation } from 'i18n'
 import { Par, M } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { IntegerInput } from 'ui/inputs'
-
 import { SimpleExercise } from 'ui/eduTools'
 
 export default function Exercise() {

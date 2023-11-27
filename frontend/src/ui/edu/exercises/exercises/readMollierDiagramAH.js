@@ -7,12 +7,9 @@ import { Par, M, BM } from 'ui/components'
 import { Line, Circle } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
+import { SimpleExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
 
 import MollierDiagram from '../../content/diagrams/MollierDiagram'
-
-import { SimpleExercise } from 'ui/eduTools'
-import { useSolution } from 'ui/eduTools'
-import { getAllInputFieldsFeedback } from '../util/feedback'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getAllInputFieldsFeedback} />

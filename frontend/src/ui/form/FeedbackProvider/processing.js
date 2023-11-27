@@ -1,7 +1,7 @@
 import { applyMapping } from 'step-wise/util'
 
-import { selectRandomCorrect, selectRandomIncorrect } from 'ui/edu/exercises/feedbackMessages'
 import { getIcon, getFeedbackColor } from 'ui/theme'
+import { selectRandomCorrect, selectRandomIncorrect } from 'ui/eduTools'
 
 /* processFeedback takes a feedback object of a variable form and turns it into the standard form the input fields expect. Input can be of the form:
  * - undefined: don't display feedback.
@@ -46,7 +46,7 @@ export function processFeedback(feedback, theme) {
 	if (feedback.subfields) {
 		feedback.subfields = applyMapping(feedback.subfields, subfieldFeedback => processFeedback(subfieldFeedback, theme))
 	}
-	
+
 	// All done!
 	return feedback
 }

@@ -5,10 +5,7 @@ import { pressure as pConversion, volumeCubicCentimeter as VConversion, temperat
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-
-import { StepExercise, Substep } from 'ui/eduTools'
-import { useSolution } from 'ui/eduTools'
-import { getAllInputFieldsFeedback } from '../util/feedback'
+import { StepExercise, Substep, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />

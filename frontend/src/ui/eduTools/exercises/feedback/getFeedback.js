@@ -9,7 +9,7 @@ import { performIndividualComparison, performIndividualListComparison, getCurren
 
 import { Translation } from 'i18n'
 
-import { selectRandomCorrect, selectRandomIncorrect, selectRandomIncorrectUnit, selectRandomDuplicate, selectRandomNonNumeric } from 'ui/edu/exercises/feedbackMessages'
+import { selectRandomCorrect, selectRandomIncorrect, selectRandomIncorrectUnit, selectRandomDuplicate, selectRandomNonNumeric } from './feedbackMessages'
 
 const defaultOptions = {
 	// These are options that can be manually added.

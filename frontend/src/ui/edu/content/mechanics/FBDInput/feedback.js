@@ -2,8 +2,7 @@
 import { loadTypes, getLoadMatching } from 'step-wise/edu/exercises/util/engineeringMechanics'
 
 import { Translation, Check, Plurals, CountingWord } from 'i18n'
-
-import { selectRandomCorrect } from 'ui/edu/exercises/feedbackMessages'
+import { selectRandomCorrect } from 'ui/eduTools'
 
 import { translationPath } from './validation'
 

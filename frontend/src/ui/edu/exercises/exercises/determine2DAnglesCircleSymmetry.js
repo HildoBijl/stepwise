@@ -6,11 +6,7 @@ import { Par, M, BM } from 'ui/components'
 import { Drawing, Circle, BoundedLine, Line as SvgLine, RightAngle, CornerLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
-
-import { useSolution } from 'ui/eduTools'
-import { StepExercise } from 'ui/eduTools'
-
-import { getInputFieldFeedback } from '../util/feedback'
+import { useSolution, StepExercise, getInputFieldFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />

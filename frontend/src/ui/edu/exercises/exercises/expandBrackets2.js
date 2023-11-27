@@ -1,15 +1,13 @@
 import React from 'react'
 
+import { simplifyOptions } from 'step-wise/CAS'
+
 import { Par, SubHead, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
+import { useSolution, StepExercise, getInputFieldFeedback, expressionChecks } from 'ui/eduTools'
 
-import { useSolution } from 'ui/eduTools'
-import { StepExercise } from 'ui/eduTools'
-
-import { getInputFieldFeedback } from '../util/feedback'
-import { originalExpression, hasSumWithinProduct, sumWithWrongTerms, correctExpression, incorrectExpression } from '../util/feedbackChecks/expression'
-import { simplifyOptions } from 'step-wise/CAS'
+const { originalExpression, hasSumWithinProduct, sumWithWrongTerms, correctExpression, incorrectExpression } = expressionChecks
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />

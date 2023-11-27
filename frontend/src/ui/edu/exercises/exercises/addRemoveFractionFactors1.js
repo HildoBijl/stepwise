@@ -5,13 +5,10 @@ import { expressionComparisons } from 'step-wise/CAS'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
-
-import { SimpleExercise, useSolution } from 'ui/eduTools'
-
-import { getInputFieldFeedback } from '../util/feedback'
-import { originalExpression, correctExpression, incorrectExpression } from '../util/feedbackChecks/expression'
+import { SimpleExercise, useSolution, getInputFieldFeedback, expressionChecks } from 'ui/eduTools'
 
 const { onlyOrderChanges } = expressionComparisons
+const { originalExpression, correctExpression, incorrectExpression } = expressionChecks
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />

@@ -7,12 +7,7 @@ import { Par, M, BM } from 'ui/components'
 import { Drawing, Polygon, RightAngle, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput, EquationInput } from 'ui/inputs'
-
-import { useExerciseData } from 'ui/eduTools'
-import { useSolution } from 'ui/eduTools'
-import { StepExercise } from 'ui/eduTools'
-
-import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
+import { StepExercise, useExerciseData, useSolution, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
 
 const ruleNames = ['SOS', 'CAS', 'TOA']
 const funcNames = ['sinus', 'cosinus', 'tangens']

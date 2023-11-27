@@ -4,17 +4,13 @@ import { Vector } from 'step-wise/geometry'
 import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
 
 import { getCountingWord } from 'util/language'
-import { selectRandomCorrect } from 'ui/edu/exercises/feedbackMessages'
 import { Par, M } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { useCurrentBackgroundColor } from 'ui/inputs'
+import { StepExercise, useSolution, getInputFieldFeedback, selectRandomCorrect } from 'ui/eduTools'
 
 import { FBDInput, Group, Element, Distance, Beam, FixedSupport, AdjacentFixedSupport, HingeSupport, HalfHingeSupport, RollerSupport, AdjacentRollerSupport, RollerHingeSupport, RollerHalfHingeSupport, render, loadSources, getFBDFeedback, FBDComparison, getLoadMatching, isLoadAtPoint } from 'ui/edu/content/mechanics'
-
-import { StepExercise } from 'ui/eduTools'
-import { useSolution } from 'ui/eduTools'
-import { getInputFieldFeedback } from '../util/feedback'
 
 const distanceShift = 70
 const supportNames = ['inklemming', 'scharnierverbinding', 'schuifverbinding', 'scharnierende schuifverbinding']

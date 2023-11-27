@@ -3,17 +3,13 @@ import React from 'react'
 import { deg2rad } from 'step-wise/util'
 import { Vector, Line } from 'step-wise/geometry'
 
-import { selectRandomCorrect } from 'ui/edu/exercises/feedbackMessages'
 import { Par } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice } from 'ui/inputs'
+import { StepExercise, useSolution, getInputFieldFeedback, getMCFeedback, selectRandomCorrect } from 'ui/eduTools'
 
 import { FBDInput, Group, Beam, HingeSupport, render, loadTypes } from 'ui/edu/content/mechanics'
-
-import { StepExercise } from 'ui/eduTools'
-import { useSolution } from 'ui/eduTools'
-import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />

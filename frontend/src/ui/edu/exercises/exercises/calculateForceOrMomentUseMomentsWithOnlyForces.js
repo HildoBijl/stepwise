@@ -8,12 +8,9 @@ import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { Drawing, CornerLabel, Circle, Rectangle as SvgRectangle, Line, useScaleBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
+import { StepExercise, useSolution, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
 
 import { Distance, Element, Label, LoadLabel, render, sumOfMoments } from 'ui/edu/content/mechanics'
-
-import { StepExercise } from 'ui/eduTools'
-import { useSolution } from 'ui/eduTools'
-import { getInputFieldFeedback, getMCFeedback } from '../util/feedback'
 
 const distanceShift = 60
 const rectangleMargin = 0.7
