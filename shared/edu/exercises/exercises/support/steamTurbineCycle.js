@@ -1,5 +1,5 @@
 const { numberArray, selectRandomly, getRandomInteger, tableInterpolate } = require('../../../../util')
-const { getRandomFloatUnit } = require('../../../../inputTypes/FloatUnit')
+const { getRandomFloatUnit } = require('../../../../inputTypes')
 const { withPressure, enthalpy, entropy } = require('../../../../data/steamProperties')
 
 function getCycle() {

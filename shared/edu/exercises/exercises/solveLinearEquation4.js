@@ -1,4 +1,4 @@
-const { getRandomFloat } = require('../../../inputTypes/Float')
+const { getRandomFloat } = require('../../../inputTypes')
 const { getSimpleExerciseProcessor } = require('../../../eduTools')
 
 const data = {

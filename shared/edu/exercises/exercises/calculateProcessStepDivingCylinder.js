@@ -1,5 +1,4 @@
-const { getRandomInteger } = require('../../../inputTypes/Integer')
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
+const { getRandomInteger, getRandomFloatUnit } = require('../../../inputTypes')
 const { oxygen: { Rs } } = require('../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../eduTools')
 

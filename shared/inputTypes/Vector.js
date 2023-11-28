@@ -2,4 +2,5 @@
 
 const { Vector } = require('../geometry')
 
+module.exports.Vector = Vector
 module.exports.SOtoFO = SO => new Vector(SO)

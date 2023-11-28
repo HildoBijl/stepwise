@@ -1,7 +1,6 @@
 import { isNumber, isLetter, applyMapping, passOn } from 'step-wise/util'
 
-import { units } from 'step-wise/inputTypes/Unit/units'
-import { prefixes } from 'step-wise/inputTypes/Unit/prefixes'
+import { units, prefixes } from 'step-wise/inputTypes'
 
 import { getClickSide } from 'util/dom'
 

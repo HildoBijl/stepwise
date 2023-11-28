@@ -1,4 +1,4 @@
-const { getRandomInteger } = require('../../../inputTypes/Integer')
+const { getRandomInteger } = require('../../../inputTypes')
 const { getSimpleExerciseProcessor } = require('../../../eduTools')
 
 const data = {

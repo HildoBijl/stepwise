@@ -1,4 +1,4 @@
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
+const { getRandomFloatUnit } = require('../../../inputTypes')
 const { air: { Rs, k } } = require('../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../eduTools')
 

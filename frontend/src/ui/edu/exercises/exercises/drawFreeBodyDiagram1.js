@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 
 import { Vector } from 'step-wise/geometry'
-import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
+import { FloatUnit } from 'step-wise/inputTypes'
 
 import { getCountingWord } from 'util/language'
 import { Par, M } from 'ui/components'

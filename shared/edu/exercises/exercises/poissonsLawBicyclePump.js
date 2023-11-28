@@ -1,7 +1,5 @@
 const { getRandom } = require('../../../util')
-const { getRandomFloat } = require('../../../inputTypes/Float')
-const { Unit } = require('../../../inputTypes/Unit')
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
+const { getRandomFloat, Unit, getRandomFloatUnit } = require('../../../inputTypes')
 const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../eduTools')
 
 const data = {

@@ -1,5 +1,5 @@
 const { selectRandomly } = require('../../../util')
-const { Unit } = require('../../../inputTypes/Unit')
+const { Unit } = require('../../../inputTypes')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../eduTools')
 
 const data = {

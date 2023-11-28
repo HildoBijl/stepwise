@@ -1,7 +1,6 @@
 import React from 'react'
 
-import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
-import { getPrefixName, getPrefixPower } from 'step-wise/inputTypes/Unit/prefixes'
+import { FloatUnit, getPrefixName, getPrefixPower } from 'step-wise/inputTypes'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'

@@ -1,5 +1,5 @@
 const { or } = require('../../../skillTracking')
-const { FloatUnit } = require('../../../inputTypes/FloatUnit')
+const { FloatUnit } = require('../../../inputTypes')
 const gasProperties = require('../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../eduTools')
 

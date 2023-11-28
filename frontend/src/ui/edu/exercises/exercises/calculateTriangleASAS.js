@@ -2,7 +2,7 @@ import React from 'react'
 
 import { deg2rad, roundToDigits, numberArray } from 'step-wise/util'
 import { Vector } from 'step-wise/geometry'
-import { Float } from 'step-wise/inputTypes/Float'
+import { Float } from 'step-wise/inputTypes'
 
 import { Par, M, BM } from 'ui/components'
 import { Drawing, Polygon, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'

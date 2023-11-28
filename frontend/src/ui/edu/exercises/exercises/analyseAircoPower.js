@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Unit } from 'step-wise/inputTypes/Unit'
+import { Unit } from 'step-wise/inputTypes'
 import { maximumHumidity } from 'step-wise/data/moistureProperties'
 
 import { Par, M, BM } from 'ui/components'

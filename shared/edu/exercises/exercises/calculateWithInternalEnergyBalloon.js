@@ -1,5 +1,5 @@
 const { getRandom } = require('../../../util')
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
+const { getRandomFloatUnit } = require('../../../inputTypes')
 let { helium: { k } } = require('../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../eduTools')
 

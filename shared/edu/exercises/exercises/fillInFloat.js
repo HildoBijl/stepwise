@@ -1,5 +1,4 @@
-const { getRandomInteger } = require('../../../inputTypes/Integer')
-const { getRandomExponentialFloat } = require('../../../inputTypes/Float')
+const { getRandomInteger, getRandomExponentialFloat } = require('../../../inputTypes')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../eduTools')
 
 const data = {

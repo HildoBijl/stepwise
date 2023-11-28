@@ -1,5 +1,5 @@
 const { deg2rad, numberArray, getRandomBoolean, getRandomInteger } = require('../../../util')
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
+const { getRandomFloatUnit } = require('../../../inputTypes')
 const { Variable } = require('../../../CAS')
 const { Vector } = require('../../../geometry')
 const { getStepExerciseProcessor, performComparison } = require('../../../eduTools')

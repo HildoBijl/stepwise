@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Unit } from 'step-wise/inputTypes/Unit'
+import { Unit } from 'step-wise/inputTypes'
 
 import { SkillLink } from 'ui/routing'
 import { Head, Par, List, M, BM, Term, Emp } from 'ui/components'

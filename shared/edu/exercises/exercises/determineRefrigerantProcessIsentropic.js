@@ -1,5 +1,5 @@
 const { selectRandomly, getRandomBoolean } = require('../../../util')
-const { getRandomFloatUnit, getRandomExponentialFloatUnit } = require('../../../inputTypes/FloatUnit')
+const { getRandomFloatUnit, getRandomExponentialFloatUnit } = require('../../../inputTypes')
 const refrigerantProperties = require('../../../data/refrigerantProperties')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../eduTools')
 

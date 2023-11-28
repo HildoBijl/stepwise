@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Unit } from 'step-wise/inputTypes/Unit'
+import { Unit } from 'step-wise/inputTypes'
 
 import { Par, M } from 'ui/components'
 import { InputSpace, Hint, selectRandomCorrect, selectRandomIncorrect } from 'ui/form'

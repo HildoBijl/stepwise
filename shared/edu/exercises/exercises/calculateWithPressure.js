@@ -1,6 +1,4 @@
-const { getRandomInteger } = require('../../../inputTypes/Integer')
-const { getRandomExponentialFloatUnit } = require('../../../inputTypes/FloatUnit')
-const { Unit } = require('../../../inputTypes/Unit')
+const { getRandomInteger, getRandomExponentialFloatUnit, Unit } = require('../../../inputTypes')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../eduTools')
 
 // Type 0: from Pa to bar.

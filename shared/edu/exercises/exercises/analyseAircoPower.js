@@ -1,5 +1,5 @@
 const { tableInterpolate, inverseTableInterpolate } = require('../../../util')
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
+const { getRandomFloatUnit } = require('../../../inputTypes')
 const { air: { cp } } = require('../../../data/gasProperties')
 const { maximumHumidity } = require('../../../data/moistureProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../eduTools')

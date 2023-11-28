@@ -1,4 +1,4 @@
-const { FloatUnit } = require('../../../inputTypes/FloatUnit')
+const { FloatUnit } = require('../../../inputTypes')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../eduTools')
 
 const { generateState } = require('./calculateWithSpecificQuantitiesBoiler')

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Float } from 'step-wise/inputTypes/Float'
+import { Float } from 'step-wise/inputTypes'
 import gases from 'step-wise/data/gasProperties'
 
 import { SkillLink } from 'ui/routing'

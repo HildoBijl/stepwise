@@ -1,5 +1,5 @@
 const { selectRandomly } = require('../../../../util')
-const { getRandomFloatUnit } = require('../../../../inputTypes/FloatUnit')
+const { getRandomFloatUnit } = require('../../../../inputTypes')
 const refrigerantProperties = require('../../../../data/refrigerantProperties')
 
 function getTemperatures() {

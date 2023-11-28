@@ -1,7 +1,7 @@
 const { isBasicObject } = require('../../../util')
 const { Expression } = require('../../../CAS')
 
-const { areNumbersEqual } = require('../../../inputTypes/Integer')
+const { areNumbersEqual } = require('../../../inputTypes')
 
 const { getCurrentInputSolutionAndComparison } = require('./util')
 

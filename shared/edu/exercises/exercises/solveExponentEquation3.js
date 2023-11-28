@@ -1,4 +1,4 @@
-const { getRandomFloat, getRandomExponentialFloat } = require('../../../inputTypes/Float')
+const { getRandomFloat, getRandomExponentialFloat } = require('../../../inputTypes')
 const { getSimpleExerciseProcessor } = require('../../../eduTools')
 
 // a*x^c = b*x^d

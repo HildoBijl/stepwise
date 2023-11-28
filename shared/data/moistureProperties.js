@@ -1,4 +1,4 @@
-const { FloatUnit } = require('../inputTypes/FloatUnit')
+const { FloatUnit } = require('../inputTypes')
 
 // This is the Mollier diagram in g/kg moisture in the air.
 module.exports.maximumHumidity = {

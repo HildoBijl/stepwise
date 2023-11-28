@@ -1,10 +1,7 @@
 import { isValidElement } from 'react'
 
 import { arrayFind, isBasicObject, processOptions, deepEquals } from 'step-wise/util'
-import { checkNumberEquality, areNumbersEqual } from 'step-wise/inputTypes/Integer'
-import { Float } from 'step-wise/inputTypes/Float'
-import { FloatUnit } from 'step-wise/inputTypes/FloatUnit'
-import { Expression } from 'step-wise/CAS'
+import { checkNumberEquality, areNumbersEqual, Float, FloatUnit, Expression } from 'step-wise/inputTypes'
 import { performIndividualComparison, performIndividualListComparison, getCurrentInputSolutionAndComparison } from 'step-wise/eduTools'
 
 import { Translation } from 'i18n'

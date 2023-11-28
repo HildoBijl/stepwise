@@ -1,4 +1,4 @@
-const { FloatUnit } = require('../../inputTypes/FloatUnit')
+const { FloatUnit } = require('../../inputTypes')
 
 // Critical point data.
 const criticalPoint = {

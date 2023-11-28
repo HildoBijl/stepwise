@@ -1,5 +1,5 @@
 const { arraysToObject } = require('../../../util')
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
+const { getRandomFloatUnit } = require('../../../inputTypes')
 const { Variable } = require('../../../CAS')
 const { Vector } = require('../../../geometry')
 const { getStepExerciseProcessor, assembleSolution, addSetupFromSteps, performComparison } = require('../../../eduTools')

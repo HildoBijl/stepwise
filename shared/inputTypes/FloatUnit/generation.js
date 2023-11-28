@@ -1,5 +1,7 @@
 const { getRandomFloat, getRandomExponentialFloat } = require('../Float')
 
+const { FloatUnit } = require('./FloatUnit')
+
 // getRandomFloatUnit gives a random Float with given Unit.
 function getRandomFloatUnit(options) {
 	return new FloatUnit({

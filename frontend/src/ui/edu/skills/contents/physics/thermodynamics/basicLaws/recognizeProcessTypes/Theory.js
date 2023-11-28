@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Float } from 'step-wise/inputTypes/Float'
+import { Float } from 'step-wise/inputTypes'
 
 import { SkillLink } from 'ui/routing'
 import { Head, Par, List, M, BM, Term, Emp, Warning } from 'ui/components'

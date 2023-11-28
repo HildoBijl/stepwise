@@ -1,7 +1,5 @@
 const { selectRandomly } = require('../../../util')
-const { getRandomInteger } = require('../../../inputTypes/Integer')
-const { Unit } = require('../../../inputTypes/Unit')
-const { getRandomExponentialFloatUnit } = require('../../../inputTypes/FloatUnit')
+const { getRandomInteger, Unit, getRandomExponentialFloatUnit } = require('../../../inputTypes')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../eduTools')
 
 // Type 0: from (c/d/.)m^3 to liter.

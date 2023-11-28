@@ -1,5 +1,4 @@
-const { Unit } = require('../../../inputTypes/Unit')
-const { getRandomFloatUnit } = require('../../../inputTypes/FloatUnit')
+const { Unit, getRandomFloatUnit } = require('../../../inputTypes')
 const { argon: { Rs } } = require('../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../eduTools')
 

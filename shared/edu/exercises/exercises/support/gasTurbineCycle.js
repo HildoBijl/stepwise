@@ -1,4 +1,4 @@
-const { FloatUnit, getRandomFloatUnit } = require('../../../../inputTypes/FloatUnit')
+const { FloatUnit, getRandomFloatUnit } = require('../../../../inputTypes')
 const { air: { k, cp } } = require('../../../../data/gasProperties')
 
 function getCycle() {

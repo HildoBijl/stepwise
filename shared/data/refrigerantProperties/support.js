@@ -1,6 +1,5 @@
 const { firstOf, lastOf, isObject, ensureNumberLike, interpolate, getInterpolationPart, getClosestIndices, columnTableInterpolate } = require('../../util')
-const { Unit, unitsSimilar } = require('../../inputTypes/Unit')
-const { FloatUnit } = require('../../inputTypes/FloatUnit')
+const { Unit, unitsSimilar, FloatUnit } = require('../../inputTypes')
 
 const pressureUnit = new Unit('bar')
 const temperatureUnit = new Unit('dC')

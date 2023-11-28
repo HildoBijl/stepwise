@@ -1,7 +1,5 @@
 import { isNumber, removeAtIndex, insertAtIndex, isLetter, keysToObject } from 'step-wise/util'
-import { units } from 'step-wise/inputTypes/Unit/units'
-import { prefixes } from 'step-wise/inputTypes/Unit/prefixes'
-import { interpretPrefixAndBaseUnitStr } from 'step-wise/inputTypes/Unit/UnitElement'
+import { units, prefixes, interpretPrefixAndBaseUnitStr } from 'step-wise/inputTypes'
 
 import { getClickPosition } from '../../TextInput'
 
