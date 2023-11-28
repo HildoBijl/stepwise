@@ -16,7 +16,7 @@ class MockClient {
 		if (!sfUserinfo) {
 			return null
 		}
-		// Persist session on file system, so that it can be recovered on server restart
+		// Persist session on file system, so that it can be recovered on server restart.
 		fileSystem.writeFileSync(LAST_SESSION_DATA_PATH, sessionId + "\n" + sfUserinfo.sub)
 		return sfUserinfo
 	}

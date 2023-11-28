@@ -56,7 +56,7 @@ class AuthStrategy {
 		// user information with what we get from SurfConext.
 		return await this._db.transaction(async t => {
 			const [user] = await this._db.User.upsert({
-				id: userId || undefined,
+				id: userId || surfRawData.databaseId || undefined,
 				name: surfRawData.name || undefined,
 				givenName: surfRawData.given_name || undefined,
 				familyName: surfRawData.family_name || undefined,
