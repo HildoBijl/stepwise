@@ -1,6 +1,4 @@
-const { isNumber, epsilon, processOptions, getRandomInteger, InterpretationError } = require('../util')
-
-module.exports.getRandomInteger = getRandomInteger // Exports this function here too, for uniformity's sake.
+const { isNumber, epsilon, processOptions } = require('../../util')
 
 // The below default comparison options are used when comparing integers through the areNumbersEqual or checkNumberEquality functions.
 const defaultComparison = {
@@ -8,7 +6,6 @@ const defaultComparison = {
 	relativeMargin: epsilon,
 	accuracyFactor: 1,
 }
-module.exports.defaultComparison = defaultComparison
 
 // areNumbersEqual does a more thorough number equality check where various options are possible. Note that the numbers may not even need to be integers. If the correct answer is 23.4, then you can give an absoluteMargin of 1 to ensure both 23 and 24 are considered equal.
 function areNumbersEqual(a, b, options = {}) {
@@ -45,15 +42,3 @@ function checkNumberEquality(a, b, options = {}) {
 	return result
 }
 module.exports.checkNumberEquality = checkNumberEquality
-
-// An Integer coming from an input field is stored as a string. In this way we can remember what exactly the user put in. It is transformed into an integer on the SItoFO transformation.
-module.exports.SItoFO = (value) => {
-	if (value === '' || value === undefined)
-		throw new InterpretationError(`Empty`, undefined, 'Could not interpret an empty string into a number.')
-	if (value === '-')
-		throw new InterpretationError(`MinusSign`, undefined, 'Could not interpret a number consisting of only a minus sign.')
-	return parseInt(value)
-}
-
-// Input object legacy: the integer used to be stored inside an object, even for the state. The function below unpacks it. It can be removed once the old exercise data is deleted.
-module.exports.SOtoFO = module.exports.SItoFO
