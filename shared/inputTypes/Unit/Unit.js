@@ -266,7 +266,7 @@ class Unit {
 			return false
 
 		// Simplify the units based on the given options.
-		const simplifyOptions = equalityTypeToSimplifyOptions(options.type)
+		const simplifyOptions = unitEqualityTypeToSimplifyOptions(options.type)
 		const aData = a.simplifyWithData(simplifyOptions)
 		const bData = b.simplifyWithData(simplifyOptions)
 		if (options.checkSize) {
@@ -342,7 +342,9 @@ Unit.defaultComparison = {
 	type: Unit.equalityTypes.free,
 	checkSize: true,
 }
-function equalityTypeToSimplifyOptions(type) {
+
+// unitEqualityTypeToSimplifyOptions takes a Unit equality type and turns it into simplify options needed to be applied to make a proper comparison.
+function unitEqualityTypeToSimplifyOptions(type) {
 	if (type === Unit.equalityTypes.exact) {
 		return {
 			type: Unit.simplifyTypes.doNothing,
@@ -369,7 +371,7 @@ function equalityTypeToSimplifyOptions(type) {
 	}
 	throw new Error(`Invalid unit equals type: received "${type}" which is not a known type.`)
 }
-module.exports.equalityTypeToSimplifyOptions = equalityTypeToSimplifyOptions
+module.exports.unitEqualityTypeToSimplifyOptions = unitEqualityTypeToSimplifyOptions
 
 // unitsSimilar checks if units are similar enough to be turned into each other.
 function unitsSimilar(a, b) {
@@ -395,7 +397,6 @@ function splitUnitString(str) {
 		den: strSplit[1] || '',
 	}
 }
-module.exports.splitUnitString = splitUnitString
 
 // The functions below describe how to transfer between various data types, other than the standard ways in which this is done.
 

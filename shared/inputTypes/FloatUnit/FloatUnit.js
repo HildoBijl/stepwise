@@ -1,12 +1,11 @@
 // The FloatUnit class represents a combination of a floating point number and a unit. An example is "9.81 m / s^2". It can be given a string, or an object of the form { float: ..., unit: ... } where the dots are valid float and unit representations.
 
-const { isObject, processOptions, filterOptions } = require('../util')
+const { isObject, processOptions, filterOptions } = require('../../util')
 
-const { Float, floatFormat, getRandomFloat, getRandomExponentialFloat, SItoFO: floatSItoFO, FOtoSI: floatFOtoSI, SOtoFO: floatSOtoFO } = require('./Float')
-const { Unit, equalityTypeToSimplifyOptions, SItoFO: unitSItoFO, FOtoSI: unitFOtoSI, SOtoFO: unitSOtoFO } = require('./Unit')
+const { Float } = require('../Float')
+const { Unit, unitEqualityTypeToSimplifyOptions } = require('../Unit')
 
-// const inputFormat = new RegExp(`^(?<float>${floatFormat})(?<unit>.*)$`) // Firefox doesn't support named capture groups.
-const inputFormat = new RegExp(`^(${floatFormat}(.*))$`)
+const { splitString } = require('./util')
 
 class FloatUnit {
 	// The constructor must either get an object { float: ..., unit: ... } or a string which can be split up into a float and a unit.
@@ -232,7 +231,7 @@ class FloatUnit {
 		}
 
 		// Simplify the units based on the given options. This will adjust the floats accordingly.
-		const simplifyOptions = equalityTypeToSimplifyOptions(options.unitCheck)
+		const simplifyOptions = unitEqualityTypeToSimplifyOptions(options.unitCheck)
 		a = a.simplify(simplifyOptions)
 		b = b.simplify(simplifyOptions)
 
@@ -368,63 +367,4 @@ FloatUnit.defaultComparison = {
 	significantDigitMargin: Float.defaultComparison.significantDigitMargin,
 	unitCheck: Unit.defaultComparison.type,
 	checkUnitSize: false,
-}
-
-// splitString turns a string representation of (hopefully) a FloatUnit into two strings, returning them as an object { float: "...", unit: "..." }.
-function splitString(str) {
-	// Check boundary cases.
-	str = str.trim()
-	if (str === '')
-		return {}
-
-	// Check if the string has the required format.
-	let match = inputFormat.exec(str)
-	if (!match)
-		throw new Error(`Invalid FloatUnit number given: could not parse "${str}". It did not have the required format of "xxx.xxxx * 10^(yy) [units]".`)
-
-	// Further process and save the results.
-	return {
-		float: match[2],
-		unit: match[22],
-	}
-}
-
-// getRandomFloatUnit gives a random Float with given Unit.
-function getRandomFloatUnit(options) {
-	return new FloatUnit({
-		float: getRandomFloat(options),
-		unit: options.unit,
-	})
-}
-module.exports.getRandomFloatUnit = getRandomFloatUnit
-
-// getRandomExponentialFloatUnit gives a random Float according to an exponential distribution with given Unit.
-function getRandomExponentialFloatUnit(options) {
-	return new FloatUnit({
-		float: getRandomExponentialFloat(options),
-		unit: options.unit,
-	})
-}
-module.exports.getRandomExponentialFloatUnit = getRandomExponentialFloatUnit
-
-// The functions below describe how to transfer between various data types, other than the standard ways in which this is done.
-
-module.exports.SItoFO = ({ float, unit }) => {
-	return new FloatUnit({
-		float: floatSItoFO(float || {}),
-		unit: unitSItoFO(unit || {}),
-	})
-}
-
-module.exports.FOtoSI = FO => ({
-	float: floatFOtoSI(FO.float),
-	unit: unitFOtoSI(FO.unit),
-})
-
-module.exports.SOtoFO = SO => {
-	// Input object legacy: use the individual SOtoFO functions. If the old data types are removed, a simple "return new FloatUnit(SO)" would suffice.
-	return new FloatUnit({
-		float: floatSOtoFO(SO.float),
-		unit: unitSOtoFO(SO.unit),
-	})
 }
