@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import { ensureNumber, ensureBoolean, applyMapping, processOptions, passOn, ensureFunction } from 'step-wise/util'
 import { Transformation, ensureTransformation } from 'step-wise/geometry'
 
-import { useConsistentValue } from 'util/react'
+import { useConsistentValue } from 'util'
 
 import { getBoundingRectangle, ensureScale, ensureMargin } from './util'
 import { useScaleBasedTransformationSettings } from './scaleBasedTransformation'

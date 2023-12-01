@@ -1,6 +1,4 @@
 export * from './colors'
-export * from './language'
-export * from './numbers'
 export * from './development'
 export * from './dom'
 export * from './react'

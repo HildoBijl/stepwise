@@ -1,4 +1,4 @@
-import { useLatest, useMountedRef, useStableCallback } from 'util/react'
+import { useLatest, useMountedRef, useStableCallback } from 'util'
 
 // The subscription handlers track which input fields exist, allows new input fields to subscribe (while providing the right information) and allows dismounting input fields to unsubscribe.
 export function useSubscriptionHandlers(initialInput, setInput, fieldsRef) {

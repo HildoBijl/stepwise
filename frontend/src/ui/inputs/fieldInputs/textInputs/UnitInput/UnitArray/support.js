@@ -1,6 +1,6 @@
 import { isNumber, isLetter, firstOf, lastOf, arraySplice } from 'step-wise/util'
 
-import { getClickSide } from 'util/dom'
+import { getClickSide } from 'util'
 
 import { type as unitElementType, initialValue as initialUnitElementValue, isEmpty as isUnitElementEmpty, getStartCursor as getUnitElementStartCursor, getEndCursor as getUnitElementEndCursor, isCursorAtStart as isCursorAtUnitElementStart, isCursorAtEnd as isCursorAtUnitElementEnd, isValid as isUnitElementValid, clean as cleanUnitElement, functionalize as functionalizeUnitElement, keyPressToFI as unitElementKeyPressToFI, mouseClickToCursor as unitElementMouseClickToCursor, processUnitElement } from '../UnitElement'
 

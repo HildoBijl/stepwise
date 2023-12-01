@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import { processOptions, deepEquals, noop } from 'step-wise/util'
 import { toSO, toFO } from 'step-wise/inputTypes'
 
-import { useUpdater } from 'util/react'
+import { useUpdater } from 'util'
 
 import { useFormData } from '../provider'
 

@@ -5,7 +5,7 @@ import { Check, Clear, Send, ArrowForward, Search, Warning } from '@material-ui/
 import { lastOf } from 'step-wise/util'
 import { getLastAction, getLastInput, getStep } from 'step-wise/eduTools'
 
-import { useLatest, useConsistentValue } from 'util/react'
+import { useLatest, useConsistentValue } from 'util'
 import { useTranslator, useGetTranslation } from 'i18n'
 import { useUserId } from 'api/user'
 import { useActiveGroup } from 'api/group'

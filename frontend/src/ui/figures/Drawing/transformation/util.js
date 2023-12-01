@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import { ensureNumber, ensureInt, applyMapping } from 'step-wise/util'
 import { Vector, ensureVector, Rectangle, Transformation, ensureTransformation } from 'step-wise/geometry'
 
-import { useConsistentValue } from 'util/react'
+import { useConsistentValue } from 'util'
 
 // getBoundingRectangle gets a set of points (an object or array) and checks the bounds of these points. It returns a Rectangle object for these bounds.
 export function getBoundingRectangle(points) {

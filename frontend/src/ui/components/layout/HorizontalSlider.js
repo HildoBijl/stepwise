@@ -5,9 +5,8 @@ import { alpha } from '@material-ui/core/styles/colorManipulator'
 
 import { boundTo } from 'step-wise/util'
 
+import { useEventListener, useForceUpdate, useDimension, getCoordinatesOf, getEventPosition } from 'util'
 import { notSelectable } from 'ui/theme'
-import { useEventListener, useForceUpdate, useDimension } from 'util/react'
-import { getCoordinatesOf, getEventPosition } from 'util/dom'
 import { useResizeListener } from 'ui/layout/App'
 
 const bottomDisplacement = '0.5rem'

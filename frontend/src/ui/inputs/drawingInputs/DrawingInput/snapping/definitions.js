@@ -3,7 +3,7 @@ import { useMemo, } from 'react'
 import { filterDuplicates } from 'step-wise/util'
 import { ensureVector, Line, Span } from 'step-wise/geometry'
 
-import { useConsistentValue } from 'util/react'
+import { useConsistentValue } from 'util'
 import { useTransformationSettings, applyTransformation } from 'ui/figures'
 
 import { useInputFI } from '../../../'

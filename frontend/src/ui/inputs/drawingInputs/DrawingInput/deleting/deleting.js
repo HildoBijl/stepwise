@@ -2,8 +2,7 @@ import { useState } from 'react'
 
 import { processOptions } from 'step-wise/util'
 
-import { getUtilKeys } from 'util/dom'
-import { useEventListener } from 'util/react'
+import { getUtilKeys, useEventListener } from 'util'
 
 import { useInputData } from '../../../Input'
 

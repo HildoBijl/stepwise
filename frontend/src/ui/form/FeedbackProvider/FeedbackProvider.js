@@ -4,7 +4,7 @@ import { useTheme } from '@material-ui/core/styles'
 import { isBasicObject, applyMapping } from 'step-wise/util'
 import { toFO } from 'step-wise/inputTypes'
 
-import { useLatest, useStableCallback } from 'util/react'
+import { useLatest, useStableCallback } from 'util'
 import { useTranslator, addSection } from 'i18n'
 
 import { useFormData } from '../Form'

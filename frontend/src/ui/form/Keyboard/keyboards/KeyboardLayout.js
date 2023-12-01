@@ -4,7 +4,7 @@ import clsx from 'clsx'
 
 import { resolveFunctions } from 'step-wise/util'
 
-import { useSize } from 'util/react'
+import { useSize } from 'util'
 
 import { useButtonClickFunction } from './util'
 import { KeyButton } from './KeyButton'

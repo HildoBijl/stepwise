@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 
 import { isBasicObject, ensureConsistency } from 'step-wise/util'
 
-import { useUpdater, useLatest } from 'util/react'
+import { useUpdater, useLatest } from 'util'
 
 import { FormContext } from './context'
 import { useSubscriptionHandlers, useReadHandlers, useWriteHandlers, useValidationHandlers } from './handlers'

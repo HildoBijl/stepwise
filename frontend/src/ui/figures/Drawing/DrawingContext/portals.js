@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react'
 
-import { Portal } from 'util/react'
+import { Portal } from 'util'
 
 import { useDrawingData } from './context'
 

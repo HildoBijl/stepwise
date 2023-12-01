@@ -5,7 +5,7 @@ import clsx from 'clsx'
 import { ensureNumber, ensureBoolean, ensureObject, processOptions } from 'step-wise/util'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
-import { useEnsureRef, ensureReactElement, useEqualRefOnEquality } from 'util/react'
+import { useEnsureRef, ensureReactElement, useEqualRefOnEquality } from 'util'
 import { notSelectable } from 'ui/theme'
 import { useResizeListener } from 'ui/layout/App'
 

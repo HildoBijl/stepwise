@@ -1,7 +1,6 @@
 import { numberArray, sortByIndices, processOptions, resolveFunctions } from 'step-wise/util'
 
-import { getEventPosition, getUtilKeys } from 'util/dom'
-import { useStableCallback } from 'util/react'
+import { getEventPosition, getUtilKeys, useStableCallback } from 'util'
 import { useTransformationSettings } from 'ui/figures'
 import { useInputFI } from 'ui/inputs'
 

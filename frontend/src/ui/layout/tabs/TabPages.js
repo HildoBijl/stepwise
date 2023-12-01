@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
 import 'swiper/swiper.min.css'
 
-import { useConsistentValue, useResizeObserver, useUpdater } from 'util/react'
+import { useConsistentValue, useResizeObserver, useUpdater } from 'util'
 import { TranslationFile } from 'i18n'
 import { VisibleProvider } from 'ui/components'
 import { useRoute, insertParametersIntoPath } from 'ui/routing'

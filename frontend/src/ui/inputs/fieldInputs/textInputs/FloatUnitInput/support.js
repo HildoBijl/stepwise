@@ -2,7 +2,7 @@ import { isNumber, isLetter, applyMapping, passOn } from 'step-wise/util'
 
 import { units, prefixes } from 'step-wise/inputTypes'
 
-import { getClickSide } from 'util/dom'
+import { getClickSide } from 'util'
 
 import { type as floatType, keyboardSettings as floatKeyboardSettings, keyPressToFI as floatKeyPressToFI, mouseClickToCursor as floatMouseClickToCursor, isEmpty as isFloatEmpty, getStartCursor as getFloatStartCursor, getEndCursor as getFloatEndCursor, isCursorAtStart as isCursorAtFloatStart, isCursorAtEnd as isCursorAtFloatEnd, isValid as isFloatValid, clean as cleanFloat, functionalize as functionalizeFloat, errorToMessage as floatErrorToMessage } from '../FloatInput'
 import { type as unitType, keyboardSettings as unitKeyboardSettings, keyPressToFI as unitKeyPressToFI, mouseClickToCursor as unitMouseClickToCursor, isEmpty as isUnitEmpty, getStartCursor as getUnitStartCursor, getEndCursor as getUnitEndCursor, isCursorAtStart as isCursorAtUnitStart, isCursorAtEnd as isCursorAtUnitEnd, isValid as isUnitValid, clean as cleanUnit, functionalize as functionalizeUnit, errorToMessage as unitErrorToMessage } from '../UnitInput'

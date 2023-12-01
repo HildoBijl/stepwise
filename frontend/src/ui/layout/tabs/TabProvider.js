@@ -2,7 +2,7 @@ import React, { useState, useCallback, createContext, useContext } from 'react'
 
 import { boundTo } from 'step-wise/util'
 
-import { useConsistentValue, useLatest, useUpdater } from 'util/react'
+import { useConsistentValue, useLatest, useUpdater } from 'util'
 
 import { getOrderedTabs } from './util'
 

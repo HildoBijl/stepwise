@@ -4,7 +4,7 @@ import clsx from 'clsx'
 
 import { processOptions, filterOptions } from 'step-wise/util'
 
-import { useSize } from 'util/react'
+import { useSize } from 'util'
 import { notSelectable } from 'ui/theme'
 
 import { useInputValue, useReadOnly, useActive, useFeedbackResult } from '../../Input'

@@ -5,7 +5,7 @@ import { updateSkillDataSet } from 'step-wise/skillTracking'
 import { skillTree } from 'step-wise/eduTools'
 import { includePrerequisitesAndLinks, processSkill, getDefaultSkillData } from 'step-wise/eduTools'
 
-import { useConsistentValue } from 'util/react'
+import { useConsistentValue } from 'util'
 import { useUser } from 'api/user'
 
 import { useSkillsQuery } from './queries'

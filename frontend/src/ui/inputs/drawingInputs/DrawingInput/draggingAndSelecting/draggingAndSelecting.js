@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react'
 
 import { processOptions } from 'step-wise/util'
 
-import { useEventListener } from 'util/react'
+import { useEventListener } from 'util'
 
 import { useBounds } from 'ui/figures'
 

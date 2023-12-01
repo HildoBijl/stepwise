@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import Tooltip from '@material-ui/core/Tooltip'
 
-import { usePrevious } from 'util/react'
+import { usePrevious } from 'util'
 import { useActiveGroup } from 'api/group/Provider'
 import { TranslationFile, TranslationSection, Translation, WordList } from 'i18n'
 import { usePaths } from 'ui/routing'

@@ -2,7 +2,7 @@ import React, { forwardRef, useState } from 'react'
 
 import { processOptions, filterOptions } from 'step-wise/util'
 
-import { useEnsureRef } from 'util/react'
+import { useEnsureRef } from 'util'
 
 import { Input, defaultInputOptions } from '../../../Input'
 

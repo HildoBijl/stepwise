@@ -1,4 +1,4 @@
-import { isLocalhost } from 'util/development'
+import { isLocalhost } from 'util'
 
 import { applyNoTranslation, elementToString, applyTranslation } from '../../transformation'
 

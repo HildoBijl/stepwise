@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import Modal from '@material-ui/core/Modal'
 
-import { usePrevious } from 'util/react'
+import { usePrevious } from 'util'
 import { centered } from 'ui/theme'
 
 const useModalStyles = makeStyles((theme) => ({

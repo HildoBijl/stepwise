@@ -4,7 +4,7 @@ import React, { forwardRef } from 'react'
 import { ensureNumber, processOptions, filterOptions, removeProperties } from 'step-wise/util'
 import { ensureCorner } from 'step-wise/geometry'
 
-import { ensureReactElement } from 'util/react'
+import { ensureReactElement } from 'util'
 
 import { useGraphicalVector, useGraphicalDistance } from '../../DrawingContext'
 

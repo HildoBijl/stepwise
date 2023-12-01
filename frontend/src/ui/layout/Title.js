@@ -8,7 +8,7 @@ import clsx from 'clsx'
 
 import { lastOf } from 'step-wise/util'
 
-import { useStaggeredFunction } from 'util/react'
+import { useStaggeredFunction } from 'util'
 import { websiteName } from 'settings'
 import { TranslationSection, useTextTranslator } from 'i18n'
 import { useRoute, usePaths } from 'ui/routing'

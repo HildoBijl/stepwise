@@ -1,7 +1,7 @@
 import { mod, firstOf, lastOf, repeat, filterProperties } from 'step-wise/util'
 import { Vector } from 'step-wise/geometry'
 
-import { useEnsureRef, useEventListeners } from 'util/react'
+import { useEnsureRef, useEventListeners } from 'util'
 
 // Define event handlers that objects can use.
 export const defaultEventHandlers = {}

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { processOptions } from 'step-wise/util'
 import { defaultForceLength, reverseLoad } from 'step-wise/edu/exercises/util/engineeringMechanics'
 
-import { useEventListener } from 'util/react'
+import { useEventListener } from 'util'
 import { useInputData } from 'ui/inputs'
 
 import { DragLoad, InputLoads, LoadLabels } from '../components'

@@ -1,6 +1,6 @@
 import { mod } from 'step-wise/util'
 
-import { useStableCallback } from 'util/react'
+import { useStableCallback } from 'util'
 
 // The control handlers allow the controlling/setting of which field is active.
 export function useControlHandlers(tabOrderRef, tabIndexRef, setTabIndex) {

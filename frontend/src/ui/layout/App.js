@@ -3,7 +3,7 @@ import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { ApolloProvider } from '@apollo/client'
 
-import { useResizeObserver, useEventListener } from 'util/react'
+import { useResizeObserver, useEventListener } from 'util'
 import { UserWrapper } from 'api/user'
 import { ActiveGroupProvider } from 'api/group'
 import { SkillCacher } from 'api/skill'

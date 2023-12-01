@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useMemo } from 'react'
 
-import { useConsistentValue } from 'util/react'
+import { useConsistentValue } from 'util'
 import { useInputObject } from 'ui/form'
 
 import { useExerciseData } from '../containers'

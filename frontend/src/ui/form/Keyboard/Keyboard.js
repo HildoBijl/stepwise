@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper'
 import Container from '@material-ui/core/Container'
 import { Keyboard as KeyboardIcon } from '@material-ui/icons'
 
-import { usePrevious, useCurrentOrPrevious } from 'util/react'
+import { usePrevious, useCurrentOrPrevious } from 'util'
 
 import { Arrow } from 'ui/components'
 

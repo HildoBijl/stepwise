@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 
 import { Vector, Rectangle, Transformation } from 'step-wise/geometry'
 
-import { useConsistentValue } from 'util/react'
+import { useConsistentValue } from 'util'
 
 export function useIdentityTransformationSettings(width, height, points) {
 	points = useConsistentValue(points)

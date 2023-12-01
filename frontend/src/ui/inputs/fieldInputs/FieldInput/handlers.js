@@ -2,8 +2,7 @@ import { useCallback, useEffect } from 'react'
 
 import { boundTo } from 'step-wise/util'
 
-import { useEventListener } from 'util/react'
-import { getCoordinatesOf } from 'util/dom'
+import { useEventListener, getCoordinatesOf } from 'util'
 import { useSubmitCall } from 'ui/form'
 
 import { useInputData } from '../../Input'

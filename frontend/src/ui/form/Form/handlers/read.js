@@ -1,7 +1,7 @@
 import { filterProperties, ensureConsistency, keysToObject } from 'step-wise/util'
 import { toFO } from 'step-wise/inputTypes'
 
-import { useLatest, useStableCallback } from 'util/react'
+import { useLatest, useStableCallback } from 'util'
 
 // The read handlers allow the extraction of parameters from the Form.
 export function useReadHandlers(input, { getFieldData, getFieldIds }) {

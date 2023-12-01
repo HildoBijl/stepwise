@@ -1,4 +1,4 @@
-import { getCoordinatesOf } from 'util/dom'
+import { getCoordinatesOf } from 'util'
 
 import { maxCursorHeight, emptyElementCursorHeight } from '../settings'
 

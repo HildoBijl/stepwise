@@ -3,7 +3,7 @@ import React, { useState, createContext, useContext, useEffect, useRef, useMemo 
 import { toFO } from 'step-wise/inputTypes'
 import { getLastProgress } from 'step-wise/eduTools'
 
-import { useConsistentValue } from 'util/react'
+import { useConsistentValue } from 'util'
 import { useTranslator } from 'i18n'
 import { LoadingNote, ErrorBoundary } from 'ui/components/flow'
 

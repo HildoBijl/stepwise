@@ -2,8 +2,7 @@ import { useState, useCallback } from 'react'
 
 import { getDeepParameter } from 'step-wise/util'
 
-import { useStableCallback } from 'util/react'
-import { isLocalhost } from 'util/development'
+import { useStableCallback, isLocalhost } from 'util'
 
 import { defaultLanguage } from '../settings'
 import { entryAsArray } from '../util'

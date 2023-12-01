@@ -1,6 +1,6 @@
 import { filterOptions, resolveFunctionsShallow } from 'step-wise/util'
 
-import { getHTMLElement } from 'util/react'
+import { getHTMLElement } from 'util'
 
 import { useFormParameter, defaultUseFormParameterOptions, useFieldRegistration, defaultFieldRegistrationOptions, useFormPartSettings } from 'ui/form'
 

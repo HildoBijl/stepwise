@@ -1,4 +1,4 @@
-import { useStableCallback } from 'util/react'
+import { useStableCallback } from 'util'
 
 import { useFormData } from '../provider'
 

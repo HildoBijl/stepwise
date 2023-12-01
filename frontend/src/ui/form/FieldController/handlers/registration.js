@@ -1,4 +1,4 @@
-import { useStableCallback, getHTMLElement } from 'util/react'
+import { useStableCallback, getHTMLElement } from 'util'
 
 // The registration handlers arrange the registration and deregistration of fields to the FieldController.
 export function useRegistrationHandlers(controllerRef, fieldTrackerRef, tabOrderRef, setTabIndex, { activate }) {

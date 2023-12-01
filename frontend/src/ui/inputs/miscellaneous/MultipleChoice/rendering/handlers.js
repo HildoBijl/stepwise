@@ -2,7 +2,7 @@ import { useRef, useCallback } from 'react'
 
 import { numberArray, shuffle, getRandomSubset } from 'step-wise/util'
 
-import { useLatest } from 'util/react'
+import { useLatest } from 'util'
 
 // useStableMapping sets up a mapping (given various options) between the available options and which should be placed where. For instance, with six options, a mapping may be [4,0,2,5] to indicate to first show option 4, then option 0, then option 2 and then option 5. Options 1 and 3 are not displayed.
 export function useStableMapping(numChoices, pick, include, randomOrder) {

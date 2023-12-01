@@ -4,7 +4,7 @@ import { useTheme, makeStyles } from '@material-ui/core/styles'
 import MuiTabs from '@material-ui/core/Tabs'
 import MuiTab from '@material-ui/core/Tab'
 
-import { useDimension } from 'util/react'
+import { useDimension } from 'util'
 import { useResizeListener } from 'ui/layout/App'
 
 import { useTabContext } from './TabProvider'

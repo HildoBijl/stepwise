@@ -1,6 +1,6 @@
 import { ensureConsistency, resolveFunctions } from 'step-wise/util'
 
-import { useStableCallback } from 'util/react'
+import { useStableCallback } from 'util'
 
 // The write handlers allow the adjusting of Form parameters.
 export function useWriteHandlers(setInput, { getFieldData }) {

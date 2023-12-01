@@ -5,7 +5,7 @@ import { Delete } from '@material-ui/icons'
 
 import { resolveFunctions } from 'step-wise/util'
 
-import { useEventListener } from 'util/react'
+import { useEventListener } from 'util'
 import { Element, useGraphicalBounds } from 'ui/figures'
 
 import { useInput } from '../../../Input'

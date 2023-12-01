@@ -1,6 +1,6 @@
 import { findOptimum, findOptimumIndex, getIndexTrace, filterProperties } from 'step-wise/util'
 
-import { getCoordinatesOf } from 'util/dom'
+import { getCoordinatesOf } from 'util'
 
 import { getFIFuncs } from '../types'
 

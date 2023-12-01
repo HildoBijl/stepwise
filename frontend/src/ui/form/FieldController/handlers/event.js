@@ -1,4 +1,4 @@
-import { useStableCallback, useEventListener, ensureHTMLElement } from 'util/react'
+import { useStableCallback, useEventListener, ensureHTMLElement } from 'util'
 
 // The event handlers will deal with events like key presses, mouse presses and such.
 export function useEventHandlers(fieldTrackerRef, keyboardRef, tabbingOnRef, { activate, blur, incrementTabIndex, decrementTabIndex, getActiveFieldId }) {

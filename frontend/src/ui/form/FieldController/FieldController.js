@@ -1,6 +1,6 @@
 import React, { useRef, useState, useCallback } from 'react'
 
-import { useLatest } from 'util/react'
+import { useLatest } from 'util'
 
 import { Keyboard } from '../Keyboard'
 

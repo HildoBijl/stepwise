@@ -3,7 +3,7 @@ import { isNumber, isLetter, removeAtIndex, insertAtIndex, firstOf } from 'step-
 import { functions } from 'step-wise/CAS'
 import { alphabet as greekAlphabet } from 'step-wise/data/greek'
 
-import { getClickSide } from 'util/dom'
+import { getClickSide } from 'util'
 import { latexMinus } from 'ui/components'
 
 import { emptyElementChar, emptyElementCharLatex } from '../settings'

@@ -9,8 +9,7 @@ import clsx from 'clsx'
 import { processOptions, filterOptions, resolveFunctions } from 'step-wise/util'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
-import { getEventPosition } from 'util/dom'
-import { useMouseData as useClientMouseData, useBoundingClientRect, useForceUpdateEffect } from 'util/react'
+import { getEventPosition, useMouseData as useClientMouseData, useBoundingClientRect, useForceUpdateEffect } from 'util'
 import { notSelectable } from 'ui/theme'
 
 import { Figure, defaultFigureOptions } from '../Figure'

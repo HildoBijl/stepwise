@@ -2,7 +2,7 @@ import { useCallback, useEffect } from 'react'
 
 import { processOptions } from 'step-wise/util'
 
-import { ensureHTMLElement } from 'util/react'
+import { ensureHTMLElement } from 'util'
 import { useVisible } from 'ui/components'
 
 import { useFieldControllerContext } from '../provider'
