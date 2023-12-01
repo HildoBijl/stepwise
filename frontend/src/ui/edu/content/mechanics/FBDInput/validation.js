@@ -1,4 +1,4 @@
-import { areLoadsEqual, isLoadAtPoint } from 'step-wise/edu/exercises/util/engineeringMechanics'
+import { areLoadsEqual, isLoadAtPoint } from 'step-wise/eduContent/util/engineeringMechanics'
 
 import { Translation, Plurals } from 'i18n'
 import { selectRandomEmpty } from 'ui/inputs'

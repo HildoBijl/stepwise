@@ -1,6 +1,6 @@
 # Step-Wise educational tools
 
-This folder contains all tools related to education that do not contain direct contents. (For that, see the [eduContents](../eduContents/) folder.)
+This folder contains all tools related to education in general. So matters that are not necessarily content-related. (For content-related matters, see the [eduContents](../eduContents/) folder.)
 
 There are two important subdirectories: skills and exercises. There is an important distinction between the two.
 

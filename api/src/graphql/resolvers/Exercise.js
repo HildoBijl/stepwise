@@ -49,7 +49,7 @@ const resolvers = {
 
 			// Update the progress parameter.
 			const previousProgress = getExerciseProgress(exercise)
-			const { processAction } = require(`step-wise/edu/exercises/exercises/${exercise.exerciseId}`)
+			const { processAction } = require(`step-wise/eduContent/exercises/${exercise.exerciseId}`)
 			const progress = processAction({ action, state: toFO(exercise.state), progress: previousProgress, history: exercise.events, updateSkills })
 			if (!progress)
 				throw new Error(`Invalid progress object: could not process action due to an error in updating the exercise progress.`)

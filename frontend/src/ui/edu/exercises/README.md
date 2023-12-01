@@ -1,6 +1,6 @@
 # The Step-Wise front-end exercise system
 
-To understand how the front-end exercise system of Step-Wise works, first read about the [back-end exercise system](../../../../../shared/edu/exercises/). You'll need that knowledge for the part below. It explains how to program your own exercises in the front-end.
+To understand how the front-end exercise system of Step-Wise works, first read about the [back-end exercise system](../../../../../shared/eduTools/). You'll need that knowledge for the part below. It explains how to program your own exercises in the front-end.
 
 
 ## The front-end exercise file

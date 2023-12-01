@@ -1,7 +1,7 @@
 import { mod, removeProperties } from 'step-wise/util'
 import { Span } from 'step-wise/geometry'
 import { toFO, toSO } from 'step-wise/inputTypes'
-import { loadTypes, isLoad, doesLoadTouchRectangle, defaultComparison, areLoadsMatching } from 'step-wise/edu/exercises/util/engineeringMechanics'
+import { loadTypes, isLoad, doesLoadTouchRectangle, defaultComparison, areLoadsMatching } from 'step-wise/eduContent/util/engineeringMechanics'
 
 export function clean(FI) {
 	return toSO(FI.map(load => removeProperties(load, ['selected', 'hovering'])))

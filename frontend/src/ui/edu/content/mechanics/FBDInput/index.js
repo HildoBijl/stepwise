@@ -1,4 +1,4 @@
-export * from 'step-wise/edu/exercises/util/engineeringMechanics' // Export shared tools too, for easy referencing.
+export * from 'step-wise/eduContent/util/engineeringMechanics' // Export shared tools too, for easy referencing.
 
 export * from './feedback'
 export { default } from './rendering'

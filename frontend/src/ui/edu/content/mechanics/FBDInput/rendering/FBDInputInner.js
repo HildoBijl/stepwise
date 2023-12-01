@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 
 import { processOptions } from 'step-wise/util'
-import { defaultForceLength, reverseLoad } from 'step-wise/edu/exercises/util/engineeringMechanics'
+import { defaultForceLength, reverseLoad } from 'step-wise/eduContent/util/engineeringMechanics'
 
 import { useEventListener } from 'util'
 import { useInputData } from 'ui/inputs'

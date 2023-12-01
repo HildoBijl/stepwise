@@ -6,7 +6,7 @@ const { getDifficulty } = require('./util')
 // getExerciseSuccessRates takes a bunch of exercises and calculates the chance, given access to skill data, that the user will succeed in them. It returns an object { successRates: [...], weights: [...] }.
 async function getExerciseSuccessRates(exerciseIds, getSkillDataSet) {
 	// Load exercise data and extract weights.
-	const exerciseDatas = exerciseIds.map(exerciseId => require(`../../../edu/exercises/exercises/${exerciseId}`).data) // ToDo: update links.
+	const exerciseDatas = exerciseIds.map(exerciseId => require(`../../../eduContent/exercises/${exerciseId}`).data) // ToDo: update links.
 	const weights = exerciseDatas.map(exerciseData => (isNumber(exerciseData.weight) ? Math.abs(exerciseData.weight) : 1))
 
 	// Figure out all the skills that need to be loaded and load them.

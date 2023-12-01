@@ -4,7 +4,7 @@ import clsx from 'clsx'
 
 import { ensureNumber, ensureString, ensureBoolean, processOptions } from 'step-wise/util'
 import { Vector } from 'step-wise/geometry'
-import { defaultMomentRadius, defaultGraphicalMomentRadius, defaultMomentOpening } from 'step-wise/edu/exercises/util/engineeringMechanics'
+import { defaultMomentRadius, defaultGraphicalMomentRadius, defaultMomentOpening } from 'step-wise/eduContent/util/engineeringMechanics'
 
 import { useGraphicalDistance } from 'ui/figures'
 import { Group, Arc } from 'ui/figures/Drawing/components/svgComponents'

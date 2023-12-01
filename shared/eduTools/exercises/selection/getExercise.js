@@ -18,7 +18,7 @@ module.exports.getNewRandomExercise = getNewRandomExercise
 
 // getExercise takes an exerciseId and sets up an exercise (a state) for that exercise. It returns an object with both the exerciseId and the state, like { exerciseId: 'someExercise', state: { a: 3, b: 12 } }.
 function getExercise(exerciseId) {
-	const { generateState } = require(`../../../edu/exercises/exercises/${exerciseId}`) // ToDo: update links.
+	const { generateState } = require(`../../../eduContent/exercises/${exerciseId}`) // ToDo: update links.
 	return {
 		exerciseId,
 		state: generateState(),

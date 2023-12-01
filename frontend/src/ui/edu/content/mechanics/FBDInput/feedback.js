@@ -1,5 +1,5 @@
 
-import { loadTypes, getLoadMatching } from 'step-wise/edu/exercises/util/engineeringMechanics'
+import { loadTypes, getLoadMatching } from 'step-wise/eduContent/util/engineeringMechanics'
 
 import { Translation, Check, Plurals, CountingWord } from 'i18n'
 import { selectRandomCorrect } from 'ui/form'

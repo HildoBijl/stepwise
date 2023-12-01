@@ -139,7 +139,7 @@ const resolvers = {
 			// Check the exercise, getting an updated progress. Store this and prepare for a new event.
 			const state = toFO(exercise.state)
 			const previousProgress = getGroupExerciseProgress(exercise)
-			const { processAction } = require(`step-wise/edu/exercises/exercises/${exercise.exerciseId}`)
+			const { processAction } = require(`step-wise/eduContent/exercises/${exercise.exerciseId}`)
 			const progress = processAction({ submissions: activeEvent.submissions, state, progress: previousProgress, history: exercise.events, updateSkills })
 
 			// Time to store things in the database.

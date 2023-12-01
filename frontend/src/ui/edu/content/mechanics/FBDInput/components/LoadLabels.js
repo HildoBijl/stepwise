@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { useInputValue, useDrawingInputData } from 'ui/inputs'
-import { loadTypes } from 'step-wise/edu/exercises/util/engineeringMechanics'
+import { loadTypes } from 'step-wise/eduContent/util/engineeringMechanics'
 
 import { LoadLabel } from '../../EngineeringDiagram'
 

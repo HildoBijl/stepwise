@@ -25,7 +25,7 @@ describe('Check all exercises:', () => {
 			})
 
 			it('renders properly', async () => {
-				const shared = (await import(`step-wise/edu/exercises/exercises/${exerciseId}`)).default
+				const shared = (await import(`step-wise/eduContent/exercises/${exerciseId}`)).default
 				const Exercise = (await import(`../ui/edu/exercises/exercises/${exerciseId}`)).default
 
 				// Emulate the ExerciseContainer.

@@ -24,7 +24,7 @@ describe('Check all exercises:', () => {
 			// Load exercise file.
 			let exercise
 			try {
-				exercise = require(`../../edu/exercises/exercises/${exerciseId}`)
+				exercise = require(`../../eduContent/exercises/${exerciseId}`)
 			} catch (e) {
 				it('has a shared file', () => fail())
 			}
