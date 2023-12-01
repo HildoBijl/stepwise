@@ -1,7 +1,7 @@
 const refrigerantProperties = require('../../data/refrigerantProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../eduTools')
 
-const { getBasicCycle } = require('./support/fridgeCycle')
+const { getBasicCycle } = require('../physics/thermodynamics/coolingCycles')
 
 const data = {
 	skill: 'createCoolingCycleOverview',

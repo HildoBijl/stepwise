@@ -3,9 +3,9 @@ import React from 'react'
 import { Unit, FloatUnit } from 'step-wise/inputTypes'
 
 import { Head, Par, List, M, BM, Term } from 'ui/components'
+import { MollierDiagram } from 'ui/eduContent/physics/thermodynamics/humidity'
 
-import MaximumHumidityPlot from './MaximumHumidityPlot'
-import MollierDiagram from 'ui/edu/content/diagrams/MollierDiagram'
+import { MaximumHumidityPlot } from './MaximumHumidityPlot'
 
 const T25dC = new FloatUnit('25 dC')
 const AV15gpkg = new FloatUnit('15 g/kg')

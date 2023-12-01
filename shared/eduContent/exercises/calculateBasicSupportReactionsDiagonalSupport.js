@@ -4,7 +4,7 @@ const { Variable } = require('../../CAS')
 const { Vector } = require('../../geometry')
 const { getStepExerciseProcessor, assembleSolution, addSetupFromSteps, performComparison } = require('../../eduTools')
 
-const { loadSources, getDefaultForce, FBDComparison, getLoadNames, getLoadMatching, isMatchingComplete, getDirectionIndicators, performLoadsComparison, reverseLoad } = require('../util/engineeringMechanics')
+const { loadSources, getDefaultForce, FBDComparison, getLoadNames, getLoadMatching, isMatchingComplete, getDirectionIndicators, performLoadsComparison, reverseLoad } = require('../mechanics')
 
 const { reaction, external } = loadSources
 

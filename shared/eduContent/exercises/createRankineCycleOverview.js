@@ -2,7 +2,7 @@ const { tableInterpolate } = require('../../util')
 const { withPressure, enthalpy, entropy } = require('../../data/steamProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../eduTools')
 
-const { getCycle } = require('./support/steamTurbineCycle')
+const { getCycle } = require('../physics/thermodynamics/steamTurbines')
 
 const data = {
 	skill: 'createRankineCycleOverview',

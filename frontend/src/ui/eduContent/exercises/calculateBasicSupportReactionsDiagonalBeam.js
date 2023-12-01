@@ -8,7 +8,7 @@ import { useInput, InputSpace } from 'ui/form'
 import { useCurrentBackgroundColor, FloatUnitInput } from 'ui/inputs'
 import { StepExercise, getStep, useSolution, getInputFieldFeedback } from 'ui/eduTools'
 
-import { FBDInput, Group, Beam, HingeSupport, RollerHingeSupport, Distance, Element, Label, LoadLabel, render, getFBDFeedback, loadSources, performLoadsComparison, sumOfForces, sumOfMoments } from 'ui/edu/content/mechanics'
+import { FBDInput, Group, Beam, HingeSupport, RollerHingeSupport, Distance, Element, Label, LoadLabel, render, getFBDFeedback, loadSources, performLoadsComparison, sumOfForces, sumOfMoments } from 'ui/eduContent/mechanics'
 
 const distanceShift = 60
 

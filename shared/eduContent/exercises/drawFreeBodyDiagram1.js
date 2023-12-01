@@ -2,7 +2,7 @@ const { getRandomBoolean, getRandomInteger } = require('../../util')
 const { Vector } = require('../../geometry')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../eduTools')
 
-const { loadSources, areLoadsMatching, FBDComparison, getDefaultForce, getDefaultMoment } = require('../util/engineeringMechanics')
+const { loadSources, areLoadsMatching, FBDComparison, getDefaultForce, getDefaultMoment } = require('../mechanics')
 
 const { reaction, external } = loadSources
 

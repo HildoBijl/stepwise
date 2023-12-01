@@ -9,7 +9,7 @@ import { SkillLink } from 'ui/routing'
 import { Head, Par, List, M, Term, Emp } from 'ui/components'
 import { Curve, Line, Circle } from 'ui/figures'
 
-import MollierDiagram from 'ui/edu/content/diagrams/MollierDiagram'
+import { MollierDiagram } from 'ui/eduContent/physics/thermodynamics/humidity'
 
 const p45 = new FloatUnit('45%')
 const p60 = new FloatUnit('60%')

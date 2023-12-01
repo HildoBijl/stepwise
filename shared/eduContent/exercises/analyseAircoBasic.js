@@ -2,7 +2,7 @@ const { tableInterpolate, inverseTableInterpolate } = require('../../util')
 const { maximumHumidity } = require('../../data/moistureProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../eduTools')
 
-const { getCycle } = require('./support/aircoCycle')
+const { getCycle } = require('../physics/thermodynamics/humidity')
 
 const data = {
 	skill: 'analyseAirco',

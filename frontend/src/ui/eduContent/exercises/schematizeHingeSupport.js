@@ -9,7 +9,7 @@ import { InputSpace, selectRandomCorrect } from 'ui/form'
 import { MultipleChoice } from 'ui/inputs'
 import { StepExercise, useSolution, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
 
-import { FBDInput, Group, Beam, HingeSupport, render, loadTypes } from 'ui/edu/content/mechanics'
+import { FBDInput, Group, Beam, HingeSupport, render, loadTypes } from 'ui/eduContent/mechanics'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />

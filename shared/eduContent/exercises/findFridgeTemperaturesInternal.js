@@ -1,6 +1,6 @@
 const { selectRandomly } = require('../../util')
 const { getSimpleExerciseProcessor, performComparison } = require('../../eduTools')
-const { getTemperatures } = require('./support/fridgeCycle')
+const { getTemperatures } = require('../physics/thermodynamics/coolingCycles')
 
 const data = {
 	skill: 'findFridgeTemperatures',

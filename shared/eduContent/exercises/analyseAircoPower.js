@@ -4,7 +4,7 @@ const { air: { cp } } = require('../../data/gasProperties')
 const { maximumHumidity } = require('../../data/moistureProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../eduTools')
 
-const { getCycle } = require('./support/aircoCycle')
+const { getCycle } = require('../physics/thermodynamics/humidity')
 
 const data = {
 	steps: ['analyseAirco', 'calculateSpecificHeatAndMechanicalWork', 'massFlowTrick'],

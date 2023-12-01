@@ -1,2 +1,2 @@
 export { default as Theory } from './Theory'
-export { default as References } from '../../references/GasProperties'
+export { GasPropertiesTable as References } from 'ui/eduContent/physics/thermodynamics'

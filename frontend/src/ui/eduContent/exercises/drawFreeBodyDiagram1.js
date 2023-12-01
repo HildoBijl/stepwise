@@ -10,7 +10,7 @@ import { InputSpace, selectRandomCorrect } from 'ui/form'
 import { useCurrentBackgroundColor } from 'ui/inputs'
 import { StepExercise, useSolution, getInputFieldFeedback } from 'ui/eduTools'
 
-import { FBDInput, Group, Element, Distance, Beam, FixedSupport, AdjacentFixedSupport, HingeSupport, HalfHingeSupport, RollerSupport, AdjacentRollerSupport, RollerHingeSupport, RollerHalfHingeSupport, render, loadSources, getFBDFeedback, FBDComparison, getLoadMatching, isLoadAtPoint } from 'ui/edu/content/mechanics'
+import { FBDInput, Group, Element, Distance, Beam, FixedSupport, AdjacentFixedSupport, HingeSupport, HalfHingeSupport, RollerSupport, AdjacentRollerSupport, RollerHingeSupport, RollerHalfHingeSupport, render, loadSources, getFBDFeedback, FBDComparison, getLoadMatching, isLoadAtPoint } from 'ui/eduContent/mechanics'
 
 const distanceShift = 70
 const supportNames = ['inklemming', 'scharnierverbinding', 'schuifverbinding', 'scharnierende schuifverbinding']

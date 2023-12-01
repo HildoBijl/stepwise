@@ -1,7 +1,7 @@
 const { air: { k, cp } } = require('../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../eduTools')
 
-const { getCycle } = require('./support/gasTurbineCycle')
+const { getCycle } = require('../physics/thermodynamics/gasTurbines')
 
 const data = {
 	skill: 'useIsentropicEfficiency',

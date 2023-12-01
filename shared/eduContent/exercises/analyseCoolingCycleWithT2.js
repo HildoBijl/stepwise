@@ -1,7 +1,7 @@
 const refrigerantProperties = require('../../data/refrigerantProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../eduTools')
 
-const { getCycle } = require('./support/fridgeCycle')
+const { getCycle } = require('../physics/thermodynamics/coolingCycles')
 
 const hComparison = {
 	absoluteMargin: 4000, // J/kg*K.

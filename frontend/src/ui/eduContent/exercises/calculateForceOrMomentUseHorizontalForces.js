@@ -10,7 +10,7 @@ import { InputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
 import { StepExercise, useSolution, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
 
-import { Distance, Element, LoadLabel, render, sumOfForces } from 'ui/edu/content/mechanics'
+import { Distance, Element, LoadLabel, render, sumOfForces } from 'ui/eduContent/mechanics'
 
 const distanceShift = 60
 const rectangleMargin = 0.7
