@@ -5,7 +5,7 @@ To understand how the front-end exercise system of Step-Wise works, first read a
 
 ## The front-end exercise file
 
-Every exercise has a shared file and a front-end file. The front-end file must export a React component as default export. It must be positioned in the folder `front-end/src/ui/edu/exercises/exercises` and its file name must equal its `[exerciseId].js`. And generally that's all! There are no further rules.
+Every exercise has a shared file and a front-end file. The front-end file must export a React component as default export. It must be positioned in the folder `front-end/src/ui/eduContent/exercises` and its file name must equal its `[exerciseId].js`. And generally that's all! There are no further rules.
 
 So how does an exercise access its data? This is done through React Contexts. After all, every exercise is placed in an `ExerciseContainer`, which gives you access to `ExerciseData`. Just follow the following steps.
 

@@ -10,7 +10,7 @@ import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
 import { StepExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
 
-import MollierDiagram from '../../content/diagrams/MollierDiagram'
+import MollierDiagram from '../../edu/content/diagrams/MollierDiagram'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />

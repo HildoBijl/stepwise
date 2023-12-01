@@ -8,9 +8,9 @@ In the `eduContent` folder you find all educational content. This also includes 
 Every exercise has an `exerciseId`. Correspondingly, there are two files.
 
 - One file is in the `shared/eduContent/exercises` folder. This contains the shared exercise data needed by both the front-end and the API.
-- One file is in the `frontend/src/ui/edu/exercises/exercises` folder. This contains info on how to display the exercise.
+- One file is in the `frontend/src/ui/eduContent/exercises` folder. This contains info on how to display the exercise.
 
-Below we discuss the shared exercise file. To read more about the way exercises are displayed, see the [exercise front-end readme](../../../frontend/src/ui/edu/exercises/).
+Below we discuss the shared exercise file. To read more about the way exercises are displayed, see the [exercise front-end readme](../../../frontend/src/ui/eduTools/exercises/).
 
 
 ## The shared exercise file
@@ -67,7 +67,7 @@ That is all! The resulting exercise will take two types of actions then.
 - An input action: `{ type: "input", input: { ... } }`. An incorrect input will keep the `progress` object empty: `{}`. A correct input will turn it into `{ done: true, solved: true }`.
 - A give-up action: `{ type: "giveUp" }`. This will turn the `progress` object into `{ done: true, givenUp: true }`.
 
-To program exercises for the front-end, see the [exercise front-end readme](../../../frontend/src/ui/edu/exercises/).
+To program exercises for the front-end, see the [exercise front-end readme](../../../frontend/src/ui/eduTools/exercises/).
 
 
 ### The StepExercise type
