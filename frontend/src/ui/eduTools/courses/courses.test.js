@@ -130,7 +130,7 @@ describe('Check all courses:', () => {
 	})
 })
 
-// getSkillSets retrieves all the skills for a course and throws an error when something fishy is going on. Note that this is different from the functions in ui/edu/course/util.js because that function tries to work around failures, instead of throwing as many of them as possible. It returns { skillsSet, priorKnowledgeSet } where the first contains all skills in the course and the second contains all found prior knowledge skills.
+// getSkillSets retrieves all the skills for a course and throws an error when something fishy is going on. Note that this is different from the functions in ui/eduTools/course/util.js because that function tries to work around failures, instead of throwing as many of them as possible. It returns { skillsSet, priorKnowledgeSet } where the first contains all skills in the course and the second contains all found prior knowledge skills.
 function getSkillSets(goals, priorKnowledge, skillsSet = new Set()) {
 	const priorKnowledgeSet = new Set()
 	goals.forEach(goal => {

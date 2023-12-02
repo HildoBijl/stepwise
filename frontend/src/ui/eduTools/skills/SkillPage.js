@@ -20,8 +20,8 @@ export function SkillPage() {
 	// Whenever the skill ID changes, reload the skill pages.
 	const reload = () => {
 		// When no path is given, there are no files to load.
-		const { path } = skillTree[skillId]
-		if (!path) {
+		const { path, usePath } = skillTree[skillId]
+		if (!path || !usePath) {
 			Pages.current = null
 			setLoadedForSkillId(skillId)
 			return // Nothing to load.
@@ -29,8 +29,7 @@ export function SkillPage() {
 
 		// When a path is given, load the relevant files.
 		setLoadedForSkillId(undefined)
-		// ToDo: change ref to eduContents in the paths below.
-		import(/* webpackChunkName: "skill-pages-6" */ `../../edu/skills/contents/${path}/${skillId}`).then(pages => {
+		import(/* webpackChunkName: "skill-pages-6" */ `../../eduContent/${path.join('/')}/${skillId}`).then(pages => {
 			if (pages === null)
 				throw new Error(`Invalid skill path: tried to find skill pages at "skills/contents/${path}/${skillId}" but no files were found there. Could not render skill pages.`)
 			Pages.current = pages
@@ -63,7 +62,7 @@ export function SkillPage() {
 		return <LoadingNote text={translate('Loading skill pages...', 'loadingNotes.loadingSkillPages', 'eduTools/pages/skillPage')} />
 
 	// Render the pages. Use a key to force a reload on a new skillId.
-	return <TranslationFile path={`edu/skills/${skillId}`}>
+	return <TranslationFile path={`eduContent/${skillTree[skillId].path.join('/')}/${skillId}`}>
 		<TabPages key={skillId} pages={pages} initialPage="practice" />
 	</TranslationFile>
 }

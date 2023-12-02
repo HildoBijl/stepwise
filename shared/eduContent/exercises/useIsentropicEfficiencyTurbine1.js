@@ -1,6 +1,6 @@
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../eduTools')
 
-const { getCycle } = require('../physics/thermodynamics/steamTurbines')
+const { getCycle } = require('../physics/thermodynamics/steam/rankineCycle')
 
 const data = {
 	skill: 'useIsentropicEfficiency',

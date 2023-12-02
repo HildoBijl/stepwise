@@ -18,7 +18,8 @@ This UI folder contains all the content to render Step-Wise. There are a few imp
 
 ## Contents
 
-- [edu](./edu/) has all components related to educational purposes. For skills there are theory pages, and for exercises there are the actual exercise components.
+- [eduTools](./eduTools/) has all components related to the functionality of educational purposes. Think of tools to load exercises, recommend skills, and so forth.
+- [eduContents](./eduContents/) has all components related to educational contents. This includes the theory pages and exercises corresponding to skills.
 - [pages](./pages/) has various pages that can be rendered. These pages then display some of the earlier mentioned components.
 - [admin](./admin/) has pages and tools related to the administrator functionalities of the website.
 
