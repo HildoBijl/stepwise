@@ -149,7 +149,7 @@ function TitleItems({ routes }) {
 	// Set up the elements for each route.
 	return <>
 		{routes.map((route, index) => {
-			return <TitleWrapper key={index} index={index}>{typeof route.name === 'string' ? <TitleItem entry={route.id} name={route.name} /> : route.name}</TitleWrapper>
+			return <TitleWrapper key={index} index={index}>{typeof route.name === 'string' ? <TitleItem entry={route.id} name={route.name} /> : <route.name />}</TitleWrapper>
 		})}
 	</>
 }

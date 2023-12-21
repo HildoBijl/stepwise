@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { useUser } from 'api/user'
 import { RoutesContext, RouteContext, getPaths } from 'ui/routingTools'
 
-import Page from './Page'
+import { Page } from './Page'
 import { getRoutes } from './routes'
 
 export function Routing() {

@@ -8,15 +8,15 @@ import PageContainer from './PageContainer'
 import Header from './Header'
 import { TabProvider } from './tabs'
 
-export default function Page() {
+export function Page() {
 	// Determine the contents.
 	let result = <Contents />
 
 	// Iterate over all parents to provide all Providers.
 	let route = useRoute()
 	while (route !== undefined) {
-		if (route.Provider)
-			result = <route.Provider>{result}</route.Provider>
+		if (route.provider)
+			result = <route.provider>{result}</route.provider>
 		route = route.parent
 	}
 
@@ -29,7 +29,7 @@ function Contents() {
 
 	// Full page components don't get a header/container, while regular pages do.
 	if (route.fullPage)
-		return <PageWrapper><route.component /></PageWrapper>
+		return <PageWrapper><route.page /></PageWrapper>
 
 	return (
 		<PageWrapper>
@@ -37,7 +37,7 @@ function Contents() {
 			<OfflineNotification />
 			<RecommendLogIn recommend={route.recommendLogIn} />
 			{route.Notification ? <route.Notification /> : null}
-			{route.preventPageContainer ? <route.component /> : <PageContainer><route.component /></PageContainer>}
+			{route.preventPageContainer ? <route.page /> : <PageContainer><route.page /></PageContainer>}
 		</PageWrapper>
 	)
 }

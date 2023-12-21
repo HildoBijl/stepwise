@@ -1,6 +1,6 @@
 import { isAdmin } from 'api/admin'
 
-import * as pages from 'ui/pages'
+import { Feedback, About, SkillTrackerExplainer, Test, Home, SkillOverview, Settings, LogOut, Groups, NewGroup } from 'ui/pages'
 import UserInspection, { UserInspectionTitle } from 'ui/admin/UserInspection'
 import UserOverview from 'ui/admin/UserOverview'
 
@@ -12,38 +12,38 @@ export function getRoutes(user = undefined) {
 	let routes = {
 		'feedback': {
 			id: 'feedback',
-			component: pages.Feedback,
+			page: Feedback,
 			name: 'Feedback',
 		},
 		'info': {
 			id: 'info',
-			component: pages.About,
+			page: About,
 			name: 'About Step-Wise',
 			children: {
 				'tracker': {
 					id: 'skillTrackerExplainer',
-					component: pages.SkillTrackerExplainer,
+					page: SkillTrackerExplainer,
 					name: 'Tracking skill levels',
 				},
 			},
 		},
 		'skill/:skillId/:tab': {
 			id: 'skillTab',
-			component: SkillPage,
-			name: <SkillName />,
+			page: SkillPage,
+			name: SkillName,
 			recommendLogIn: true,
 			Indicator: SkillIndicator,
 		},
 		'skill/:skillId': {
 			id: 'skill',
-			component: SkillPage,
-			name: <SkillName />,
+			page: SkillPage,
+			name: SkillName,
 			recommendLogIn: true,
 			Indicator: SkillIndicator,
 		},
 		'test': {
 			id: 'test',
-			component: pages.Test,
+			page: Test,
 			name: 'Test page',
 		},
 	}
@@ -55,13 +55,13 @@ export function getRoutes(user = undefined) {
 			...routes,
 			'': {
 				id: 'home',
-				component: pages.Home,
+				page: Home,
 				name: 'Home',
 				fullPage: true,
 			},
 			'*': { // Note that the '*' path must be last.
 				id: 'notFoundForStranger',
-				component: pages.Home,
+				page: Home,
 				name: 'Home',
 				fullPage: true,
 			},
@@ -73,32 +73,32 @@ export function getRoutes(user = undefined) {
 				...routes,
 				'inspect': {
 					id: 'inspect',
-					component: pages.SkillOverview,
+					page: SkillOverview,
 					name: 'Skill overview',
 					children: {
 						'skill/:skillId': {
 							id: 'skillInspection',
-							component: SkillPage,
-							name: <SkillName />,
+							page: SkillPage,
+							name: SkillName,
 							recommendLogIn: true,
 							Indicator: SkillIndicator,
 						},
 						'exercise/:exerciseId': {
 							id: 'exerciseInspection',
-							component: BlankExercise,
-							name: <ExerciseName />,
+							page: BlankExercise,
+							name: ExerciseName,
 						},
 					},
 				},
 				'admin': {
 					id: 'admin',
-					component: UserOverview,
+					page: UserOverview,
 					name: 'User overview',
 					children: {
 						'user/:userId': {
 							id: 'userInspection',
-							component: UserInspection,
-							name: <UserInspectionTitle />,
+							page: UserInspection,
+							name: UserInspectionTitle,
 						},
 					},
 				},
@@ -110,59 +110,59 @@ export function getRoutes(user = undefined) {
 			...routes,
 			'settings': {
 				id: 'settings',
-				component: pages.Settings,
+				page: Settings,
 				name: 'Settings',
 			},
 			'logout': {
 				id: 'logOut',
-				component: pages.LogOut,
+				page: LogOut,
 				name: 'Logging out...'
 			},
 			'groups': {
 				id: 'groups',
-				component: pages.Groups,
+				page: Groups,
 				name: 'Practice together',
 				children: {
 					'nieuw': {
 						id: 'newGroup',
-						component: pages.NewGroup,
+						page: NewGroup,
 						name: 'New practice group',
 					},
 					':code': {
 						id: 'group',
-						component: pages.Groups,
+						page: Groups,
 						name: 'Join practice group',
 					},
 				},
 			},
 			'': {
 				id: 'courses',
-				component: CoursesPage,
+				page: CoursesPage,
 				name: 'Courses',
 				children: {
 					'course/:courseId': {
 						id: 'course',
-						component: CoursePage,
-						name: <CourseName />,
-						Provider: CourseProvider,
+						page: CoursePage,
+						name: CourseName,
+						provider: CourseProvider,
 						children: {
 							'skill/:skillId/:tab': {
 								id: 'courseSkillTab',
-								component: SkillPage,
-								name: <SkillName />,
+								page: SkillPage,
+								name: SkillName,
 								Indicator: SkillIndicator,
 								Notification: SkillAdvice,
 							},
 							'skill/:skillId': {
 								id: 'courseSkill',
-								component: SkillPage,
-								name: <SkillName />,
+								page: SkillPage,
+								name: SkillName,
 								Indicator: SkillIndicator,
 								Notification: SkillAdvice,
 							},
 							'freePractice': {
 								id: 'freePractice',
-								component: FreePracticePage,
+								page: FreePracticePage,
 								name: 'Free practice mode',
 								Notification: SkillAdvice,
 							},
@@ -172,7 +172,7 @@ export function getRoutes(user = undefined) {
 			},
 			'*': { // Note that the '*' path must be last.
 				id: 'notFoundForUser',
-				component: CoursesPage,
+				page: CoursesPage,
 				name: 'Courses',
 			},
 		}
