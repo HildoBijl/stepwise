@@ -1,7 +1,7 @@
 import React, { useState, createContext, useContext, useEffect, useRef, useMemo } from 'react'
 
 import { toFO } from 'step-wise/inputTypes'
-import { getLastProgress } from 'step-wise/eduTools'
+import { exercises, getLastProgress } from 'step-wise/eduTools'
 
 import { useConsistentValue } from 'util'
 import { useTranslator } from 'i18n'
@@ -21,8 +21,8 @@ export function ExerciseContainer({ exercise, groupExercise, submitting, submitA
 	const reload = () => {
 		setLoading(true)
 		Promise.all([
-			import(/* webpackChunkName: "front-end-exercises-7" */ `../../../eduContent/exercises/${exerciseId}`),
-			import(/* webpackChunkName: "shared-exercises-7" */ `step-wise/eduContent/exercises/${exerciseId}`),
+			import(/* webpackChunkName: "front-end-exercises-13" */ `../../../eduContent/exercises/${exerciseId}`),
+			import(/* webpackChunkName: "shared-exercises-13" */ `step-wise/eduContent/${exercises[exerciseId].path.join('/')}/${exerciseId}`),
 		]).then(importedModules => {
 			const [localModule, sharedModule] = importedModules
 			ExerciseLocal.current = localModule.default

@@ -30,7 +30,7 @@ function getRoutes(user = undefined) {
 				'tracker': {
 					id: 'skillTrackerExplainer',
 					component: pages.SkillTrackerExplainer,
-					name: 'Tracking skills',
+					name: 'Tracking skill levels',
 				},
 			},
 		},

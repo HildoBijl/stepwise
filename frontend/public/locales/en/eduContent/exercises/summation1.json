@@ -1,4 +1,0 @@
-{
-  "problem": "<par>Calculate the addition <inline-math/>.</par><input-space><par><integer-input><label>Answer</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
-  "solution": "The solution is <inline-math/>."
-}

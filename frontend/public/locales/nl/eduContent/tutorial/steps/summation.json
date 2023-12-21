@@ -1,0 +1,8 @@
+{
+  "practice": {
+    "summation1": {
+      "problem": "<par>Bereken de optelsom <inline-math/>.</par><input-space><par><integer-input><label>Antwoord</label><prelabel><inline-math/></prelabel></integer-input></par></input-space>",
+      "solution": "De oplossing is <inline-math/>."
+    }
+  }
+}

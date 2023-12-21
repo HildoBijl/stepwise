@@ -1,13 +1,13 @@
 const mainFunctions = ['SItoFO', 'SOtoFO', 'FOtoSI']
 function requireAndProcess(name) {
-	const package = { ...require(`./${name}`) }
+	const exports = { ...require(`./${name}`) }
 	mainFunctions.forEach(mainFunction => {
-		if (package[mainFunction]) {
-			package[`${name}${mainFunction}`] = package[mainFunction]
-			delete package[mainFunction]
+		if (exports[mainFunction]) {
+			exports[`${name}${mainFunction}`] = exports[mainFunction]
+			delete exports[mainFunction]
 		}
 	})
-	return package
+	return exports
 }
 
 module.exports = {

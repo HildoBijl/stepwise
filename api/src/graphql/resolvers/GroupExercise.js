@@ -2,7 +2,7 @@ const { UserInputError } = require('apollo-server-express')
 
 const { findOptimum } = require('step-wise/util')
 const { toFO, toSO } = require('step-wise/inputTypes')
-const { getNewRandomExercise } = require('step-wise/eduTools')
+const { exercises, getNewRandomExercise } = require('step-wise/eduTools')
 
 const { getSubscription } = require('../util/subscriptions')
 const { events: skillEvents } = require('../util/Skill')
@@ -139,7 +139,7 @@ const resolvers = {
 			// Check the exercise, getting an updated progress. Store this and prepare for a new event.
 			const state = toFO(exercise.state)
 			const previousProgress = getGroupExerciseProgress(exercise)
-			const { processAction } = require(`step-wise/eduContent/exercises/${exercise.exerciseId}`)
+			const { processAction } = require(`step-wise/eduContent/${exercises[exercise.exerciseId].path.join('/')}/${exercise.exerciseId}`)
 			const progress = processAction({ submissions: activeEvent.submissions, state, progress: previousProgress, history: exercise.events, updateSkills })
 
 			// Time to store things in the database.

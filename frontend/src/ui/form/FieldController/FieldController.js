@@ -1,6 +1,6 @@
 import React, { useRef, useState, useCallback } from 'react'
 
-import { useLatest } from 'util'
+import { useLatest } from 'util/react' // Keep exports separate and specific due to faulty unit test package caching.
 
 import { Keyboard } from '../Keyboard'
 

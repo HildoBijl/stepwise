@@ -1,6 +1,6 @@
 const { isNumber, sum, normalPDF, selectRandomly } = require('../../../util')
 
-const { skillTree, ensureSkillId } = require('../../skills')
+const { skillTree, exercises, ensureSkillId } = require('../../skills')
 
 const { mu, sigma, thresholdFactor } = require('./settings')
 const { getExerciseSuccessRates } = require('./successRates')
@@ -59,7 +59,7 @@ function selectRandomExercise(skillId) {
 		throw new Error(`Invalid request: cannot get an exercise for skill "${skillId}". This skill has no exercises yet.`)
 
 	// Select an exercise based on the weights.
-	const exerciseDatas = exerciseIds.map(exerciseId => require(`../../../eduContent/exercises/${exerciseId}`).data) // ToDo: update links.
+	const exerciseDatas = exerciseIds.map(exerciseId => require(`../../../eduContent/${exercises[exerciseId].path.join('/')}/${exerciseId}`).data)
 	const weights = exerciseDatas.map(exerciseData => (isNumber(exerciseData.weight) ? Math.abs(exerciseData.weight) : 1))
 	return selectRandomly(exerciseIds, weights)
 }

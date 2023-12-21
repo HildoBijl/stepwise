@@ -1,4 +1,4 @@
-import { useStableCallback, getHTMLElement } from 'util'
+import { useStableCallback, getHTMLElement } from 'util/react' // Keep exports separate and specific due to faulty unit test package caching.
 
 // The registration handlers arrange the registration and deregistration of fields to the FieldController.
 export function useRegistrationHandlers(controllerRef, fieldTrackerRef, tabOrderRef, setTabIndex, { activate }) {

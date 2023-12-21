@@ -20,8 +20,8 @@ export function SkillPage() {
 	// Whenever the skill ID changes, reload the skill pages.
 	const reload = () => {
 		// When no path is given, there are no files to load.
-		const { path, usePath } = skillTree[skillId]
-		if (!path || !usePath) {
+		const { path, hasPages } = skillTree[skillId]
+		if (!path || !hasPages) {
 			Pages.current = null
 			setLoadedForSkillId(skillId)
 			return // Nothing to load.

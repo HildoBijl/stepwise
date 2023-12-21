@@ -3,7 +3,7 @@ import React, { useMemo, useEffect } from 'react'
 import { getLastInput } from 'step-wise/eduTools'
 
 import { useUserId } from 'api/user'
-import { TranslationFile } from 'i18n'
+import { TranslationSection } from 'i18n'
 import { Form, useFormData, FeedbackProvider } from 'ui/form'
 
 import { useExerciseData } from '../containers'
@@ -51,5 +51,5 @@ function FeedbackWrapper({ getFeedback, children }) {
 
 function TranslationWrapper({ children }) {
 	const { exerciseId } = useExerciseData()
-	return <TranslationFile path={`eduContent/exercises/${exerciseId}`} extend={false}>{children}</TranslationFile>
+	return <TranslationSection entry={`${exerciseId}`}>{children}</TranslationSection>
 }

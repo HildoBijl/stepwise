@@ -13,7 +13,8 @@
     "test": "Testseite",
     "freePractice": "Freie Übungsmodus",
     "notFoundForStranger": "Home",
-    "notFoundForUser": "Kurse"
+    "notFoundForUser": "Kurse",
+    "skillTrackerExplainer": "Kompetenzniveaus verfolgen"
   },
   "menu": {
     "home": "Home",

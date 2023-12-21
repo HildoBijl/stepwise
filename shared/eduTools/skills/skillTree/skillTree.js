@@ -1,6 +1,8 @@
 const { isBasicObject, applyMapping, union } = require('../../../util')
 const { and, or, repeat, pick, part, defaultLinkOrder } = require('../../../skillTracking')
 
+// Below is the skillStructure defined for Step-Wise. The set-up of the object must match the folder structure for the files. Also remember that no folders can be named "name" or "tools".
+
 const skillStructure = {
 	test: {
 		test: {
@@ -145,11 +147,7 @@ const skillStructure = {
 		},
 
 		geometry: {
-			anglesAndDistances: {
-				determine2DAngles: {
-					name: 'Determine 2D angles',
-					exercises: ['determine2DAnglesTriangleX', 'determine2DAnglesTriangleZ', 'determine2DAnglesCircleSymmetry'],
-				},
+			triangles: {
 				applyPythagoreanTheorem: {
 					name: 'Apply the Pythagorean theorem',
 					exercises: ['applyPythagoreanTheoremGeneral'],
@@ -162,18 +160,22 @@ const skillStructure = {
 					name: 'Apply similar triangles',
 					exercises: ['applySimilarTrianglesGeneral'],
 				},
+				calculateTriangle: {
+					name: 'Calculate a triangle',
+					setup: and(pick(['determine2DAngles', 'applySineCosineTangent']), pick(['solveBasicLinearEquation', 'solveBasicQuadraticEquation'])),
+					exercises: ['calculateTriangleASAS', 'calculateTriangleSSAA', 'calculateTriangleASSA', 'calculateTriangleSASS', 'calculateTriangleSSAS', 'calculateTriangleSASA', 'calculateTriangleSSSA'],
+				},
+			},
+			anglesAndDistances: {
+				determine2DAngles: {
+					name: 'Determine 2D angles',
+					exercises: ['determine2DAnglesTriangleX', 'determine2DAnglesTriangleZ', 'determine2DAnglesCircleSymmetry'],
+				},
 				determine2DDistances: {
 					name: 'Determine 2D distances',
 					setup: and('determine2DAngles', repeat(pick(['applyPythagoreanTheorem', 'applySineCosineTangent', 'applySimilarTriangles']), 2)),
 					exercises: [], // ToDo
 					thresholds: { pass: 0.35 },
-				},
-			},
-			triangles: {
-				calculateTriangle: {
-					name: 'Calculate a triangle',
-					setup: and(pick(['determine2DAngles', 'applySineCosineTangent']), pick(['solveBasicLinearEquation', 'solveBasicQuadraticEquation'])),
-					exercises: ['calculateTriangleASAS', 'calculateTriangleSSAA', 'calculateTriangleASSA', 'calculateTriangleSASS', 'calculateTriangleSSAS', 'calculateTriangleSASA', 'calculateTriangleSSSA'],
 				},
 			},
 			areasAndVolumes: {
@@ -297,13 +299,13 @@ const skillStructure = {
 			efficiency: {
 				calculateWithEfficiency: {
 					name: 'Calculate with efficiency',
-					usePath: true,
+					hasPages: true,
 					exercises: ['calculateWithEfficiencyGenerator', 'calculateWithEfficiencyBattery'],
 				},
 				calculateWithCOP: {
 					name: 'Calculate with the COP',
 					links: { skill: 'calculateWithEfficiency', correlation: 0.5 },
-					usePath: true,
+					hasPages: true,
 					exercises: ['calculateWithCOPRefrigerator', 'calculateWithCOPHeatPump'],
 				},
 			},
@@ -313,17 +315,17 @@ const skillStructure = {
 			constants: {
 				specificGasConstant: {
 					name: 'Look up a specific gas constant',
-					usePath: true,
+					hasPages: true,
 					exercises: ['specificGasConstant'],
 				},
 				specificHeatRatio: {
 					name: 'Look up a specific heat ratio',
-					usePath: true,
+					hasPages: true,
 					exercises: ['specificHeatRatio'],
 				},
 				specificHeats: {
 					name: 'Look up specific heats',
-					usePath: true,
+					hasPages: true,
 					exercises: ['specificHeats'],
 					links: { skills: ['specificGasConstant', 'specificHeatRatio'], correlation: 0.5 },
 				},
@@ -331,18 +333,18 @@ const skillStructure = {
 			basicLaws: {
 				gasLaw: {
 					name: 'Apply the gas law',
-					usePath: true,
+					hasPages: true,
 					setup: and(pick(['calculateWithPressure', 'calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature'], 2), 'specificGasConstant', 'solveLinearEquation'),
 					exercises: ['gasLawLightBulb', 'gasLawHeliumBalloon', 'gasLawDivingCylinder', 'gasLawBicyclePump', 'gasLawWeatherBalloon'],
 				},
 				recognizeProcessTypes: {
 					name: 'Recognize process types',
-					usePath: true,
+					hasPages: true,
 					exercises: ['processNameToProperty', 'propertyToProcessName', 'findProcessCoefficient'], // ToDo later: add questions with p-V-plots too.
 				},
 				poissonsLaw: {
 					name: `Apply Poisson's law`,
-					usePath: true,
+					hasPages: true,
 					setup: and(pick(['calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature']), part('specificHeatRatio', 2 / 3), pick(['solveLinearEquation', 'solveExponentEquation'], 1, [1, 2])),
 					exercises: ['poissonsLawBicyclePump', 'poissonsLawCompressor', 'poissonsLawTurbine'],
 				},
@@ -350,32 +352,32 @@ const skillStructure = {
 			closedCycles: {
 				calculateProcessStep: {
 					name: 'Calculate a process step',
-					usePath: true,
+					hasPages: true,
 					setup: and('gasLaw', 'recognizeProcessTypes', part('poissonsLaw', 1 / 2), part('gasLaw', 1 / 2)),
 					exercises: ['calculateProcessStepCompressor', 'calculateProcessStepDivingCylinder', 'calculateProcessStepBalloon', 'calculateProcessStepGasTurbine'],
 				},
 				calculateHeatAndWork: {
 					name: 'Calculate heat and work',
-					usePath: true,
+					hasPages: true,
 					setup: and('recognizeProcessTypes', pick(['calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature', 'calculateWithMass'], 2), pick(['specificGasConstant', 'specificHeatRatio', 'specificHeats'], 2)),
 					exercises: ['calculateHeatAndWorkIsobaric', 'calculateHeatAndWorkIsochoric', 'calculateHeatAndWorkIsothermal', 'calculateHeatAndWorkIsentropic', 'calculateHeatAndWorkPolytropic'],
 				},
 				calculateWithInternalEnergy: {
 					name: 'Calculate with internal energy',
-					usePath: true,
+					hasPages: true,
 					setup: and(pick(['gasLaw', 'poissonsLaw']), pick(['specificHeats', 'calculateHeatAndWork']), 'solveLinearEquation'),
 					exercises: ['calculateWithInternalEnergyEngine', 'calculateWithInternalEnergyBalloon', 'calculateWithInternalEnergyTire'],
 				},
 				calculateClosedCycle: {
 					name: 'Calculate a closed cycle',
-					usePath: true,
+					hasPages: true,
 					setup: repeat('calculateProcessStep', 3),
 					exercises: ['calculateClosedCycleVTp', 'calculateClosedCycleTsV', 'calculateClosedCycleSTST', 'calculateClosedCycleSVSV'],
 					thresholds: { pass: 0.5 },
 				},
 				createClosedCycleEnergyOverview: {
 					name: 'Create a closed-cycle energy overview',
-					usePath: true,
+					hasPages: true,
 					setup: and(repeat('calculateHeatAndWork', 2), or('calculateHeatAndWork', 'calculateWithInternalEnergy')),
 					exercises: ['createClosedCycleEnergyOverviewVTp', 'createClosedCycleEnergyOverviewTsV', 'createClosedCycleEnergyOverviewSTST', 'createClosedCycleEnergyOverviewSVSV'],
 					thresholds: { pass: 0.5 },
@@ -383,7 +385,7 @@ const skillStructure = {
 				analyseClosedCycle: {
 					name: 'Analyse a closed cycle',
 					setup: and('calculateClosedCycle', 'createClosedCycleEnergyOverview', pick(['calculateWithEfficiency', 'calculateWithCOP'])),
-					usePath: true,
+					hasPages: true,
 					exercises: ['analyseClosedCycleVTp', 'analyseClosedCycleTsV', 'analyseClosedCycleSTST', 'analyseClosedCycleSVSV'],
 					thresholds: { pass: 0.4 },
 				},
@@ -494,7 +496,7 @@ const skillStructure = {
 				properties: {
 					findFridgeTemperatures: {
 						name: 'Find refrigerator temperatures',
-						usePath: true,
+						hasPages: true,
 						exercises: ['findFridgeTemperaturesInternal', 'findFridgeTemperaturesExternal'],
 					},
 					determineRefrigerantProcess: {
@@ -502,7 +504,7 @@ const skillStructure = {
 						exercises: ['determineRefrigerantProcessIsobaric', 'determineRefrigerantProcessIsentropic'],
 					},
 				},
-				coolingCycle: {
+				coolingCycles: {
 					createCoolingCycleOverview: {
 						name: 'Create a cooling cycle overview',
 						setup: and('findFridgeTemperatures', repeat('determineRefrigerantProcess', 3)),
@@ -520,13 +522,13 @@ const skillStructure = {
 			humidity: {
 				readMollierDiagram: {
 					name: 'Read a Mollier diagram',
-					usePath: true, // ToDo: remove
+					hasPages: true, // ToDo: remove
 					exercises: ['readMollierDiagramRH', 'readMollierDiagramAH'],
 				},
 				analyseAirco: {
 					name: 'Analyse an air conditioner',
 					setup: repeat('readMollierDiagram', 3),
-					usePath: true, // ToDo: remove
+					hasPages: true, // ToDo: remove
 					exercises: ['analyseAircoBasic', 'analyseAircoWaterDischarge', 'analyseAircoPower'],
 				},
 			},
@@ -628,7 +630,20 @@ Object.values(skillTree).forEach(skill => {
 	skill.linkedSkills = skill.links.map(link => link.skills).flat()
 })
 
+// Set up an overview of exercise paths.
+const exercises = {}
+Object.values(skillTree).forEach(skill => {
+	skill.exercises.forEach(exerciseId => {
+		exercises[exerciseId] = {
+			id: exerciseId,
+			path: [...skill.path, skill.id],
+		}
+	})
+})
+
+// Export all relevant parameters.
 module.exports = {
 	skillStructure,
 	skillTree,
+	exercises,
 }

@@ -1,6 +1,6 @@
 import { mod } from 'step-wise/util'
 
-import { useStableCallback } from 'util'
+import { useStableCallback } from 'util/react' // Keep exports separate and specific due to faulty unit test package caching.
 
 // The control handlers allow the controlling/setting of which field is active.
 export function useControlHandlers(tabOrderRef, tabIndexRef, setTabIndex) {

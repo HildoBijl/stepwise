@@ -13,7 +13,8 @@
     "test": "Test page",
     "freePractice": "Free practice mode",
     "notFoundForStranger": "Home",
-    "notFoundForUser": "Courses"
+    "notFoundForUser": "Courses",
+    "skillTrackerExplainer": "Tracking skill levels"
   },
   "menu": {
     "home": "Home",

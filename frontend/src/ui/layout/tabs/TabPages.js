@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
 import 'swiper/swiper.min.css'
 
 import { useConsistentValue, useResizeObserver, useUpdater } from 'util'
-import { TranslationFile } from 'i18n'
+import { TranslationSection } from 'i18n'
 import { VisibleProvider } from 'ui/components'
 import { useRoute, insertParametersIntoPath } from 'ui/routing'
 
@@ -51,9 +51,9 @@ export default function TabPages({ pages, initialPage, updateUrl = true }) {
 		<TabPagesEffect />
 		{tabs.map(id => <SwiperSlide key={id}>
 			<SwipePageWrapper id={id}>
-				<TranslationFile path={id}>
+				<TranslationSection entry={id}>
 					{pages[id]}
-				</TranslationFile>
+				</TranslationSection>
 			</SwipePageWrapper>
 		</SwiperSlide>)}
 	</Swiper>

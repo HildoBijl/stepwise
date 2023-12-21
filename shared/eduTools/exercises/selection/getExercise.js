@@ -1,3 +1,5 @@
+const { exercises } = require('../../skills')
+
 const { selectExercise, selectRandomExercise } = require('./selectExercise')
 
 // getNewExercise takes a skillId and returns exercise data of the form { exerciseId: 'someExercise', state: { a: 3, b: 12 } }. The state is given in FO format.
@@ -18,7 +20,7 @@ module.exports.getNewRandomExercise = getNewRandomExercise
 
 // getExercise takes an exerciseId and sets up an exercise (a state) for that exercise. It returns an object with both the exerciseId and the state, like { exerciseId: 'someExercise', state: { a: 3, b: 12 } }.
 function getExercise(exerciseId) {
-	const { generateState } = require(`../../../eduContent/exercises/${exerciseId}`) // ToDo: update links.
+	const { generateState } = require(`../../../eduContent/${exercises[exerciseId].path.join('/')}/${exerciseId}`)
 	return {
 		exerciseId,
 		state: generateState(),

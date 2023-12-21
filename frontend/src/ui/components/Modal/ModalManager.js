@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
 import Modal from '@material-ui/core/Modal'
 
-import { usePrevious } from 'util'
+import { usePrevious } from 'util/react' // Keep exports separate and specific due to faulty unit test package caching.
 import { centered } from 'ui/theme'
 
 const useModalStyles = makeStyles((theme) => ({

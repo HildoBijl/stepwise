@@ -8,7 +8,7 @@ import FontFaceObserver from 'fontfaceobserver'
 import { getCounterNumber, ensureConsistency } from 'step-wise/util'
 import { Vector } from 'step-wise/geometry'
 
-import { getEventPosition, getUtilKeys } from 'util'
+import { getEventPosition, getUtilKeys } from 'util/dom' // Keep exports separate and specific due to faulty unit test package caching.
 
 // Re-export various useful hooks from other packages.
 export { usePrevious, useSize, useResizeObserver }
