@@ -10,7 +10,7 @@ import { SkillCacher } from 'api/skill'
 import { I18nProvider } from 'i18n'
 import theme from 'ui/theme'
 
-import Routing from './Routing'
+import { Routing } from './Routing'
 
 const withApolloProvider = WrappedComponent => props => (
 	<ApolloProvider client={props.apolloClient}>

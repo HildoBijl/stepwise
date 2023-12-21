@@ -6,7 +6,7 @@ import { sortByIndices } from 'step-wise/util'
 import { useUserId } from 'api/user'
 import { useMyGroupsQuery, useActivateGroupMutation, useMyGroupsSubscription } from 'api/group'
 import { TranslationFile, Translation } from 'i18n'
-import { usePaths } from 'ui/routing'
+import { usePaths } from 'ui/routingTools'
 import { Par } from 'ui/components'
 
 import { translationPath } from './util'

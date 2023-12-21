@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 
 import { useGetTranslation } from 'i18n'
-import { usePaths } from 'ui/routing'
+import { usePaths } from 'ui/routingTools'
 
 const useStyles = makeStyles((theme) => ({
 	list: {

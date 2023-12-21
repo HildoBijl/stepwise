@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Head, Par, List, M, BM, BMList, BMPart, Term, Emp } from 'ui/components'
-import { SkillLink } from 'ui/routing'
+import { SkillLink } from 'ui/eduTools'
 
 export default function Component() {
 	return <>

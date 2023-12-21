@@ -5,7 +5,7 @@ import { Done, Clear } from '@material-ui/icons'
 
 import { useJoinGroupMutation } from 'api/group'
 import { TranslationSection, Translation } from 'i18n'
-import { usePaths } from 'ui/routing'
+import { usePaths } from 'ui/routingTools'
 import { Par, List } from 'ui/components'
 
 import { groupPossibilities } from './util'

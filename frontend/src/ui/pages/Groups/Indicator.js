@@ -7,7 +7,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 import { usePrevious } from 'util'
 import { useActiveGroup } from 'api/group/Provider'
 import { TranslationFile, TranslationSection, Translation, WordList } from 'i18n'
-import { usePaths } from 'ui/routing'
+import { usePaths } from 'ui/routingTools'
 
 import { translationPath, useOtherMembers } from './util'
 

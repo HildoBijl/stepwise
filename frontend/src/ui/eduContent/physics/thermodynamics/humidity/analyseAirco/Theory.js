@@ -5,9 +5,9 @@ import { FloatUnit } from 'step-wise/inputTypes'
 import { maximumHumidity } from 'step-wise/data/moistureProperties'
 
 import { useColor } from 'ui/theme'
-import { SkillLink } from 'ui/routing'
 import { Head, Par, List, M, Term, Emp } from 'ui/components'
 import { Curve, Line, Circle } from 'ui/figures'
+import { SkillLink } from 'ui/eduTools'
 
 import { MollierDiagram } from 'ui/eduContent/physics/thermodynamics/humidity'
 

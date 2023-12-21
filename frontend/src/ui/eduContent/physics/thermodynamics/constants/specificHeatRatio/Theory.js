@@ -3,8 +3,8 @@ import React from 'react'
 import { Float } from 'step-wise/inputTypes'
 import gases from 'step-wise/data/gasProperties'
 
-import { SkillLink } from 'ui/routing'
 import { Head, Par, List, M, Term } from 'ui/components'
+import { SkillLink } from 'ui/eduTools'
 
 export default function Component() {
 	return <>

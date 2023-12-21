@@ -6,9 +6,9 @@ import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 
-import { usePaths } from 'ui/routing'
 import { TranslationSection, Translation } from 'i18n'
 import { useGroupExistsQuery } from 'api/group'
+import { usePaths } from 'ui/routingTools'
 
 const useStyles = makeStyles((theme) => ({
 	groupCreation: {

@@ -7,7 +7,7 @@ import { Menu as MenuIcon, ArrowBack, Home, MenuBook, Feedback, Info, ExitToApp,
 import { useUser } from 'api/user'
 import { isAdmin } from 'api/admin'
 import { TranslationSection } from 'i18n'
-import { usePaths, useParentPath } from 'ui/routing'
+import { usePaths, useParentPath } from 'ui/routingTools'
 import { useFieldRegistration, useFieldControllerContext } from 'ui/form'
 
 import MenuLink from './MenuLink'

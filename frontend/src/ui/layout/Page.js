@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useRoute } from 'ui/routing'
+import { useRoute } from 'ui/routingTools'
 import { ModalManager, OfflineNotification, RecommendLogIn } from 'ui/components'
 import { FieldController } from 'ui/form'
 

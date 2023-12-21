@@ -11,8 +11,9 @@ import { lastOf } from 'step-wise/util'
 import { useStaggeredFunction } from 'util'
 import { websiteName } from 'settings'
 import { TranslationSection, useTextTranslator } from 'i18n'
-import { useRoute, usePaths } from 'ui/routing'
-import { useResizeListener } from 'ui/layout/App'
+import { useRoute, usePaths } from 'ui/routingTools'
+
+import { useResizeListener } from './App'
 
 const useStyles = makeStyles((theme) => ({
 	title: {

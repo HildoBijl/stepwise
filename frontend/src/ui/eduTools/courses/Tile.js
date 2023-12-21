@@ -10,7 +10,7 @@ import { skillTree } from 'step-wise/eduTools'
 
 import { useTranslator } from 'i18n'
 import { notSelectable, linkStyleReset } from 'ui/theme'
-import { usePaths } from 'ui/routing'
+import { usePaths } from 'ui/routingTools'
 import { Button, ProgressIndicator, QuickPractice } from 'ui/components'
 
 import { strFreePractice } from './util'

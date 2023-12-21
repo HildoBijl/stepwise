@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { skillTree } from 'step-wise/eduTools'
 
 import { useTranslator } from 'i18n'
-import { usePaths } from 'ui/routing'
+import { usePaths } from 'ui/routingTools'
 import { Par } from 'ui/components'
 
 export function SkillOverview() {

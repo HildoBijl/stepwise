@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { usePaths } from 'ui/routing'
+import { usePaths } from 'ui/routingTools'
 import { Par, Head } from 'ui/components'
 
 export default function About() {

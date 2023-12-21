@@ -6,7 +6,7 @@ import 'swiper/swiper.min.css'
 import { useConsistentValue, useResizeObserver, useUpdater } from 'util'
 import { TranslationSection } from 'i18n'
 import { VisibleProvider } from 'ui/components'
-import { useRoute, insertParametersIntoPath } from 'ui/routing'
+import { useRoute, insertParametersIntoPath } from 'ui/routingTools'
 
 import { getOrderedTabs, useTab } from './util'
 import { useTabs, useTabContext } from './TabProvider'

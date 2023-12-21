@@ -5,7 +5,7 @@ import { darken } from '@material-ui/core/styles/colorManipulator'
 
 import { useGetTranslation } from 'i18n'
 import { linkStyleReset } from 'ui/theme'
-import { usePaths } from 'ui/routing'
+import { usePaths } from 'ui/routingTools'
 import { Button, QuickPractice } from 'ui/components'
 
 import { strFreePractice } from '../../courses'

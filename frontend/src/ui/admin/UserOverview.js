@@ -6,8 +6,8 @@ import clsx from 'clsx'
 import { findOptimum, ensureDate, formatDate } from 'step-wise/util'
 
 import { useAllUsersQuery } from 'api/admin'
+import { usePaths } from 'ui/routingTools'
 import { Par, HorizontalSlider } from 'ui/components'
-import { usePaths } from 'ui/routing'
 
 const useStyles = makeStyles((theme) => ({
 	userOverview: {

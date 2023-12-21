@@ -9,9 +9,9 @@ import { skillTree } from 'step-wise/eduTools'
 
 import { TranslationFile, Translation, useTranslator } from 'i18n'
 import { usePrevious } from 'util'
-import { NotificationBar, useModalContext } from 'ui/components'
 import { linkStyle } from 'ui/theme'
-import { usePaths } from 'ui/routing'
+import { usePaths } from 'ui/routingTools'
+import { NotificationBar, useModalContext } from 'ui/components'
 
 import { useSkillId } from '../../skills'
 import { strFreePractice } from '../../courses'

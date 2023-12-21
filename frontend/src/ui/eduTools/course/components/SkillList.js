@@ -12,7 +12,7 @@ import { skillTree } from 'step-wise/eduTools'
 import { useSkillData } from 'api/skill'
 import { Translation, useTranslator } from 'i18n'
 import { notSelectable, linkStyleReset } from 'ui/theme'
-import { usePaths } from 'ui/routing'
+import { usePaths } from 'ui/routingTools'
 import { QuickPractice } from 'ui/components/icons'
 
 import { isPracticeNeeded, SkillFlask } from '../../skills'

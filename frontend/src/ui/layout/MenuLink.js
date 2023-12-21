@@ -5,7 +5,7 @@ import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
 import clsx from 'clsx'
 
 import { useTranslator } from 'i18n'
-import { useRoute, useRouteById } from 'ui/routing'
+import { useRoute, useRouteById } from 'ui/routingTools'
 
 const useStyles = makeStyles((theme) => ({
 	link: {

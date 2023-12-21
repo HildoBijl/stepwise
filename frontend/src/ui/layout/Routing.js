@@ -1,23 +1,35 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
-import { useRoutes, RouteContext } from 'ui/routing'
+import { useUser } from 'api/user'
+import { RoutesContext, RouteContext, getPaths } from 'ui/routingTools'
 
 import Page from './Page'
+import { getRoutes } from './routes'
 
-export default function Routing() {
+export function Routing() {
 	const routes = useRoutes() // Get the routes of the main website structure.
+	const paths = useMemo(() => getPaths(routes), [routes])
 	return (
-		<Router>
-			<Routes>
-				{renderRoutes(routes)}
-				<Route path="*" />
-			</Routes>
-		</Router>
+		<RoutesContext.Provider value={{ routes, paths }}>
+			<Router>
+				<Routes>
+					{renderRoutes(routes)}
+					<Route path="*" />
+				</Routes>
+			</Router>
+		</RoutesContext.Provider>
 	)
 }
 
-// getRoutes returns an array of Route objects for each of the possible pages.
+// useRoutes is used to access the current routes: the map of all pages on this site.
+function useRoutes() {
+	const user = useUser()
+	const routes = useMemo(() => getRoutes(user), [user])
+	return routes
+}
+
+// renderRoutes will, for a given routes object, render the React Route component with the right parameters.
 function renderRoutes(routes) {
 	return Object.values(routes).map(route => renderPageRoutes(route)).flat()
 }

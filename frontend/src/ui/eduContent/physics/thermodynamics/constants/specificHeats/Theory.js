@@ -2,8 +2,8 @@ import React from 'react'
 
 import gases from 'step-wise/data/gasProperties'
 
-import { SkillLink } from 'ui/routing'
 import { Head, Par, List, M, BMList, BMPart, Term } from 'ui/components'
+import { SkillLink } from 'ui/eduTools'
 
 export default function Component() {
 	return <>

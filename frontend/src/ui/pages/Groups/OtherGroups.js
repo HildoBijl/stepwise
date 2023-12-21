@@ -7,7 +7,7 @@ import { Clear } from '@material-ui/icons'
 
 import { useLeaveGroupMutation } from 'api/group'
 import { Translation } from 'i18n'
-import { usePaths } from 'ui/routing'
+import { usePaths } from 'ui/routingTools'
 import { Head } from 'ui/components'
 
 import { useSelfAndOtherMembers } from './util'

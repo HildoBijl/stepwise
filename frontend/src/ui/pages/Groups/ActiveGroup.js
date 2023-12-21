@@ -7,7 +7,7 @@ import { ExitToApp } from '@material-ui/icons'
 
 import { useDeactivateGroupMutation } from 'api/group'
 import { TranslationSection, Translation } from 'i18n'
-import { usePaths } from 'ui/routing'
+import { usePaths } from 'ui/routingTools'
 import { Head } from 'ui/components'
 
 import { useSelfAndOtherMembers } from './util'

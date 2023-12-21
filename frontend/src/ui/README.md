@@ -6,6 +6,7 @@ This UI folder contains all the content to render Step-Wise. There are a few imp
 
 - [cookies](./cookies.js) exports functionalities related to setting/reading cookies.
 - [theme](./theme.js) has all general style for the website. This theme is used in various styling functions.
+- [routingTools](./routingTools.js) has tools related to the routing of the app. It has components like Links and such.
 - [lang](./lang/) has supported functionalities related to displaying various languages. This will be extended in the future, when multiple languages will be added to Step-Wise.
 
 ## General-purpose components
