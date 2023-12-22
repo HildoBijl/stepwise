@@ -1,0 +1,23 @@
+{
+	"practice": {
+		"calculateBasicSupportReactionsDiagonalSupport": {
+			"mainProblem": "<par>Een balk is links met een scharnier en rechts met een scharnierende schuifverbinding bevestigd. Hij wordt belast met een kracht van <inline-math/>.</par><diagram/><par>Teken het vrijlichaamsschema/schematisch diagram.</par><input-space><diagram/></input-space><par>Bereken hierin de onbekende reactiekrachten/momenten.</par>",
+			"step1": {
+				"problem": "<par>Teken het vrijlichaamsschema/schematisch diagram.</par>",
+				"solution": "<par>Een scharnier (links) voorkomt horizontale en verticale beweging, maar laat wel draaiing toe. Er is dus een horizontale en een verticale reactiekracht, maar geen reactiemoment. Soortgelijk voorkomt een scharnierende schuifverbinding (rechts) alleen beweging loodrecht op het contactoppervlak. Dat zorgt hier, vanwege de schuine ondergrond, dus voor een iets gekantelde reactiekracht. Zo vinden we het onderstaande schema.</par><diagram/><par><check><on-true>Merk op dat dit conform jouw getekende diagram is. De reactiekrachten/momenten mogen ook andersom, indien gewenst.</on-true><on-false>De richtingen van de reactiekrachten/momenten zijn zo gekozen dat de waarden positief worden. Ze mogen ook de andere kant op getekend worden, maar dan worden de berekende krachten/momenten negatief.</on-false></check></par>"
+			},
+			"step2": {
+				"problem": "<par>Bereken de schuine reactiekracht <inline-math/>.</par>",
+				"solution": "<par>Om <inline-math/> te vinden bekijken we de som van de momenten om punt <inline-math/>. In dit geval hebben <inline-math/> en <inline-math/> geen invloed. Als we <inline-math/> ook ontbinden in componenten <inline-math/> en <inline-math/> dan geeft dit de evenwichtsvergelijking<block-math/>De oplossing voor <inline-math/> volgt als<block-math/>Via het ontbinden van krachten volgt <inline-math/> als<block-math/></par>"
+			},
+			"step3": {
+				"problem": "<par>Bereken de verticale reactiekracht <inline-math/>.</par>",
+				"solution": "<par>Om <inline-math/> te vinden bekijken we de som van de krachten in de verticale richting. (Het kan eventueel ook via momenten om punt <inline-math/> maar dit is iets meer werk.) De evenwichtsvergelijking wordt hiermee<block-math/>Dit oplossen voor <inline-math/> geeft<block-math/></par>"
+			},
+			"step4": {
+				"problem": "<par>Bereken de horizontale reactiekracht <inline-math/>.</par>",
+				"solution": "<par>Om <inline-math/> te vinden bekijken we de som van de krachten in de horizontale richting. In dit geval hebben <inline-math/> en <inline-math/> geen invloed. Dit geeft ons de evenwichtsvergelijking<block-math/>Via het ontbinden van krachten kunnen we vinden dat<block-math/>De evenwichtsvergelijking oplossen voor <inline-math/> geeft vervolgens<block-math/>Hiermee zijn alle reactiekrachten bekend.</par>"
+			}
+		}
+	}
+}

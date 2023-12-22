@@ -1,0 +1,30 @@
+{
+	"practice": {
+		"solveBasicLinearEquation1": {
+			"mainProblem": "Consider the equation <block-math/> Solve it for <inline-math/>.",
+			"step1": {
+				"problem": "Move all terms with <inline-math/> to one side of the equation, and all terms without <inline-math/> to the other side.",
+				"solution": "We move <inline-math/> to the left and <inline-math/> to the right. This gives us <block-math/>"
+			},
+			"step2": {
+				"problem": "Pull <inline-math/> outside of brackets. Leave the rest of the equation unchanged.",
+				"solution": "To pull <inline-math/> outside of brackets, we must write <inline-math/> as <inline-math/>. This tells us that there should be <inline-math/> between the brackets. In this way we can rewrite the equation as <block-math/>"
+			},
+			"step3": {
+				"problem": "Divide both sides of the equation by the term between brackets, to solve for <inline-math/>.",
+				"solution": "If we divide both sides by <inline-math/>, then on the left the term between brackets disappears. We only remain with <inline-math/>, meaning that we have indeed solve the equation for <inline-math/>! The final result is <block-math/> Of course this solution can also be written in other ways, but small variations in notation are not relevant here."
+			},
+			"feedback": {
+				"variableOnBothSides": "<a>Both sides of the equation still contain <inline-math/>. Pull all terms with <inline-math/> to the <em>same</em> side.</a>",
+				"missingVariable": "<a>Your solution does not contain <inline-math/>. Where did it go?</a>",
+				"oneVariable": "<a>There were multiple terms with <inline-math/>, but you only wrote down one.</a>",
+				"termWithoutVariable": "<a>You did bring all terms with <inline-math/> to one side, but there's also a term <inline-math/> that does not contain <inline-math/>.</a>",
+				"noSideWithoutVariable": "<a>You put the variable <inline-math/> on both sides of the equation again. That was not supposed to happen.</a>",
+				"unequalSideWithoutVariable": "<a>The side without <inline-math/> should remain the same!</a>",
+				"disappearedVariable": "<a>You somehow let <inline-math/> disappear entirely. That was not supposed to happen.</a>",
+				"unequalSide": "<a>The side with <inline-math/> is not equal to what it was before. Something went wrong during the rewriting.</a>",
+				"notOutsideOfBrackets": "<a>You did not pull <inline-math/> outside of brackets. You should write the side containing <inline-math/> as <inline-math/>, with on the dots an expression that's as simple as possible.</a>"
+			}
+		}
+	}
+}
