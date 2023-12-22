@@ -35,7 +35,7 @@ export const Force = forwardRef((props, ref) => {
 	const { vector, end } = ensureSpan(useGraphicalObject(span, graphicalSpan), 2)
 	size = ensureNumber(size)
 	color = ensureString(color)
-	ref = useRefWithEventHandlers(props, ref, true) // ToDo: remove "true" parameter.
+	ref = useRefWithEventHandlers(props, ref)
 
 	// Draw a horizontal force ending in (0, 0) and transform it to position it.
 	const classes = useStyles()

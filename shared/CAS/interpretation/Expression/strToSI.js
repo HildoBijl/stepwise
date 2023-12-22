@@ -288,7 +288,7 @@ function applyFraction(value, cursor, settings) {
 	]
 }
 
-// ToDo: document this function. And how much is it needed? It's currently only used in processSubSup? Possible move it to support? Or use one of the support functions?
+// getBracketEnd takes a mathematical string like "2*(x+5*(3+y)-4)+2" as well as a search starting index, often (but not necessarily) connected to an opening bracket. (For instance 2.) From this position it starts walking through the string to find the closing bracket with the right level. It returns the corresponding index. (In the example the last bracket at 14.)
 function getBracketEnd(str, from) {
 	if (str[from] !== '(')
 		throw new Error(`Invalid getBracketEnd call: this function can only be called on a string where the start index points to an opening bracket. The matching closing bracket is then found. But this index did not point to an opening bracket. Values given were str="${str}" and from="${from}".`)

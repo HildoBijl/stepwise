@@ -53,7 +53,6 @@ export function useSubmitExerciseActionMutation(skillId) {
 			skillId, // Put the skillId first, so it can still be overwritten.
 			...parameters.variables,
 		},
-		// ToDo: consider adding an optimistic response here.
 		update: (cache, { data: { submitExerciseAction: { adjustedSkills, updatedExercise } } }) => {
 			// Implement the adjusted skills in the cache. (We use manual caching because GraphQL isn't capable of clever caching when requesting arrays of IDs with varying orders.)
 			if (updateCache)

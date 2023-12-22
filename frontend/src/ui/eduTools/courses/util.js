@@ -1,3 +1,4 @@
+import { sortByIndices } from 'step-wise/util'
 import { skillTree } from 'step-wise/eduTools'
 
 import { isPracticeNeeded } from '../skills'
@@ -18,11 +19,10 @@ export function getOverview(courseSetup) {
 		return blockSet
 	})
 
-	// Sort the prior knowledge by the order of the skills object. This prevents some funky situations when later on we encounter a prior-knowledge-skill that is a subskills of a skill an earlier-encountered prior knowledge skill.
+	// Sort the prior knowledge by the order of the skills object. This prevents some funky situations when later on we encounter a prior-knowledge-skill that is a subskill of a skill of an earlier-encountered prior knowledge skill.
 	const allSkillIds = Object.keys(skillTree)
-	const indices = priorKnowledge.map(skillId => allSkillIds.indexOf(skillId)).sort((a, b) => a - b)
-	const priorKnowledgeSorted = indices.map(index => allSkillIds[index])
-	// ToDo: implement sort-by-index.
+	const indices = priorKnowledge.map(skillId => allSkillIds.indexOf(skillId))
+	const priorKnowledgeSorted = sortByIndices(priorKnowledge, indices)
 
 	// Return all sets as arrays.
 	return {
