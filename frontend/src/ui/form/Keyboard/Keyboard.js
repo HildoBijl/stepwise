@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper'
 import Container from '@material-ui/core/Container'
 import { Keyboard as KeyboardIcon } from '@material-ui/icons'
 
-import { usePrevious, useCurrentOrPrevious } from 'util/react' // Keep exports separate and specific due to faulty unit test package caching.
+import { usePrevious, useCurrentOrPrevious } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
 import { Arrow } from 'ui/components'
 

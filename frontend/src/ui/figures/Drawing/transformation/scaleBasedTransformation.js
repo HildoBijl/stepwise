@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import { applyMapping, processOptions } from 'step-wise/util'
 import { Vector, ensureVector, Rectangle, Transformation, ensureTransformation } from 'step-wise/geometry'
 
-import { useConsistentValue } from 'util'
+import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
 import { getBoundingRectangle, ensureScale, ensureMargin } from './util'
 

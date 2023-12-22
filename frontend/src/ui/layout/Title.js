@@ -8,12 +8,10 @@ import clsx from 'clsx'
 
 import { lastOf } from 'step-wise/util'
 
-import { useStaggeredFunction } from 'util'
+import { useStaggeredFunction, useResizeListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 import { websiteName } from 'settings'
 import { TranslationSection, useTextTranslator } from 'i18n'
 import { useRoute, usePaths } from 'ui/routingTools'
-
-import { useResizeListener } from './App'
 
 const useStyles = makeStyles((theme) => ({
 	title: {

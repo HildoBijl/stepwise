@@ -4,7 +4,7 @@ import { useTheme } from '@material-ui/core/styles'
 import { isBasicObject, applyMapping } from 'step-wise/util'
 import { toFO } from 'step-wise/inputTypes'
 
-import { useLatest, useStableCallback } from 'util'
+import { useLatest, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 import { useTranslator, addSection } from 'i18n'
 
 import { useFormData } from '../Form'

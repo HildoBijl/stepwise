@@ -245,6 +245,12 @@ export function useForceUpdateEffect() {
 	useEffect(() => forceUpdate(), [forceUpdate])
 }
 
+// useResizeListener checks when the window or the app field resizes and calls the given callback function then.
+export function useResizeListener(callbackFunc, element = document.querySelector('#appInner')) {
+	useResizeObserver(element, () => callbackFunc())
+	useEventListener('resize', () => callbackFunc())
+}
+
 // useDimension takes a field ref and a function that returns a dimension. (Or the function can also be the name of a property, like "offsetWidth".) This function is called on every resize of the said object. If required, an extra useUpdateCallback can be implemented. This is for instance a listener that listens to other events and fires the update function on a change in the value it itself is monitoring.
 export function useDimension(fieldRef, dimensionFunc, useUpdateCallback = () => { }) {
 	const [dimension, setDimension] = useState()

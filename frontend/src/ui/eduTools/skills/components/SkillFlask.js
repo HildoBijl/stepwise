@@ -7,7 +7,7 @@ import { processOptions, numberArray, boundTo, repeat, gridInterpolate } from 's
 import { getEV, getMaxLikelihood } from 'step-wise/skillTracking'
 import { skillTree } from 'step-wise/eduTools'
 
-import { mix, shift, toCSS, useUniqueNumber } from 'util'
+import { mix, shift, toCSS, useUniqueNumber } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 import { Translation, Check } from 'i18n'
 
 import { defaultSkillThresholds } from '../recommendation'

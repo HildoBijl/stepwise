@@ -5,9 +5,8 @@ import clsx from 'clsx'
 import { ensureNumber, ensureBoolean, ensureObject, processOptions } from 'step-wise/util'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
-import { useEnsureRef, ensureReactElement, useEqualRefOnEquality } from 'util'
+import { useEnsureRef, ensureReactElement, useEqualRefOnEquality, useResizeListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 import { notSelectable } from 'ui/theme'
-import { useResizeListener } from 'ui/layout/App'
 
 import { useDrawingData, useGraphicalVector, HtmlPortal } from '../../DrawingContext'
 

@@ -5,9 +5,8 @@ import { alpha } from '@material-ui/core/styles/colorManipulator'
 
 import { boundTo } from 'step-wise/util'
 
-import { useEventListener, useForceUpdate, useDimension, getCoordinatesOf, getEventPosition } from 'util'
+import { getCoordinatesOf, getEventPosition, useEventListener, useForceUpdate, useDimension, useResizeListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 import { notSelectable } from 'ui/theme'
-import { useResizeListener } from 'ui/layout/App'
 
 const bottomDisplacement = '0.5rem'
 const useStyles = makeStyles((theme) => ({

@@ -3,7 +3,7 @@ import React, { useState, createContext, useContext, useEffect, useRef, useMemo 
 import { toFO } from 'step-wise/inputTypes'
 import { exercises, getLastProgress } from 'step-wise/eduTools'
 
-import { useConsistentValue } from 'util'
+import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 import { useTranslator } from 'i18n'
 import { LoadingNote, ErrorBoundary } from 'ui/components/flow'
 

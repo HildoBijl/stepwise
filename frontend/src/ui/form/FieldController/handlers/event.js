@@ -1,4 +1,4 @@
-import { useStableCallback, useEventListener, ensureHTMLElement } from 'util/react' // Keep exports separate and specific due to faulty unit test package caching.
+import { useStableCallback, useEventListener, ensureHTMLElement } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
 // The event handlers will deal with events like key presses, mouse presses and such.
 export function useEventHandlers(fieldTrackerRef, keyboardRef, tabbingOnRef, { activate, blur, incrementTabIndex, decrementTabIndex, getActiveFieldId }) {

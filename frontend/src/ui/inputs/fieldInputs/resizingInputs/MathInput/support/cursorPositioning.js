@@ -1,4 +1,4 @@
-import { getCoordinatesOf } from 'util'
+import { getCoordinatesOf } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
 import { maxCursorHeight, emptyElementCursorHeight } from '../settings'
 

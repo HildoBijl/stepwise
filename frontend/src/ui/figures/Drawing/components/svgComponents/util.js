@@ -1,7 +1,7 @@
 import { mod, firstOf, lastOf, repeat, filterProperties } from 'step-wise/util'
 import { Vector } from 'step-wise/geometry'
 
-import { useEnsureRef, useEventListeners } from 'util'
+import { useEnsureRef, useEventListeners } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
 // Define event handlers that objects can use.
 export const defaultEventHandlers = {}

@@ -1,6 +1,6 @@
 import { numberArray, sortByIndices, processOptions, resolveFunctions } from 'step-wise/util'
 
-import { getEventPosition, getUtilKeys, useStableCallback } from 'util'
+import { getEventPosition, getUtilKeys, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 import { useTransformationSettings } from 'ui/figures'
 import { useInputFI } from 'ui/inputs'
 

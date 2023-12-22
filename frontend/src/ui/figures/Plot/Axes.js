@@ -2,7 +2,7 @@ import React, { Fragment, forwardRef } from 'react'
 
 import { ensureNumber, ensureBoolean, ensureBasicObject, processOptions, firstOf, lastOf, ensureFunction } from 'step-wise/util'
 
-import { ensureReactElement } from 'util'
+import { ensureReactElement } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
 import { useTransformationSettings, Group, Line, Label } from '../Drawing'
 

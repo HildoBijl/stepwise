@@ -3,7 +3,7 @@ import React, { useRef, useCallback, useMemo } from 'react'
 import { processOptions, filterOptions, removeEqualProperties, resolveFunctionsShallow, deepEquals } from 'step-wise/util'
 import { options as CASOptions, support as CASSupport } from 'step-wise/CAS'
 
-import { useStableCallback } from 'util'
+import { useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
 import { ResizingInput, defaultResizingInputOptions, resizingInputFunctions } from '../ResizingInput'
 

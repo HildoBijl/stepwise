@@ -9,7 +9,7 @@ import clsx from 'clsx'
 import { processOptions, filterOptions, resolveFunctions } from 'step-wise/util'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
-import { getEventPosition, useMouseData as useClientMouseData, useBoundingClientRect, useForceUpdateEffect } from 'util'
+import { getEventPosition, useMouseData as useClientMouseData, useBoundingClientRect, useForceUpdateEffect } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 import { notSelectable } from 'ui/theme'
 
 import { Figure, defaultFigureOptions } from '../Figure'

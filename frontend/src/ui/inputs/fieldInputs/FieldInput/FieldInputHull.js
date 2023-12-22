@@ -4,7 +4,7 @@ import clsx from 'clsx'
 
 import { processOptions, filterOptions } from 'step-wise/util'
 
-import { useSize } from 'util'
+import { useSize } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 import { notSelectable } from 'ui/theme'
 
 import { useInputValue, useReadOnly, useActive, useFeedbackResult } from '../../Input'

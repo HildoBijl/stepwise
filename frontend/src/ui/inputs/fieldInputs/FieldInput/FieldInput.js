@@ -2,7 +2,7 @@ import React, { useRef, forwardRef } from 'react'
 
 import { isEmptyObject, processOptions, filterOptions, resolveFunctions, passOn, applyMapping } from 'step-wise/util'
 
-import { useEnsureRef } from 'util'
+import { useEnsureRef } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
 import { Input, defaultInputOptions } from '../../Input'
 

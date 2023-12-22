@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 
 import { isBasicObject, ensureConsistency } from 'step-wise/util'
 
-import { useUpdater, useLatest } from 'util/react' // Keep exports separate and specific due to faulty unit test package caching.
+import { useUpdater, useLatest } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
 import { FormContext } from './context'
 import { useSubscriptionHandlers, useReadHandlers, useWriteHandlers, useValidationHandlers } from './handlers'

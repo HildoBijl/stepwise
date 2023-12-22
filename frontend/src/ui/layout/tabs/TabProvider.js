@@ -2,7 +2,7 @@ import React, { useState, useCallback, createContext, useContext } from 'react'
 
 import { boundTo } from 'step-wise/util'
 
-import { useConsistentValue, useLatest, useUpdater } from 'util/react' // Keep exports separate and specific due to faulty unit test package caching.
+import { useConsistentValue, useLatest, useUpdater } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
 import { getOrderedTabs } from './util'
 

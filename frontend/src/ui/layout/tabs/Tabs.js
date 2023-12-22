@@ -4,8 +4,7 @@ import { useTheme, makeStyles } from '@material-ui/core/styles'
 import MuiTabs from '@material-ui/core/Tabs'
 import MuiTab from '@material-ui/core/Tab'
 
-import { useDimension } from 'util'
-import { useResizeListener } from 'ui/layout/App'
+import { useDimension, useResizeListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
 import { useTabContext } from './TabProvider'
 import TabLabel from './TabLabel'

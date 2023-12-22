@@ -5,7 +5,7 @@ import { updateSkillDataSet } from 'step-wise/skillTracking'
 import { skillTree } from 'step-wise/eduTools'
 import { includePrerequisitesAndLinks, processSkill, getDefaultSkillData } from 'step-wise/eduTools'
 
-import { useConsistentValue } from 'util/react' // Keep exports separate and specific due to faulty unit test package caching.
+import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 import { useUser } from 'api/user'
 
 import { useSkillsQuery } from './queries'

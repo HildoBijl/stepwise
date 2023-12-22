@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { processOptions } from 'step-wise/util'
 import { defaultForceLength, reverseLoad } from 'step-wise/eduContent/mechanics'
 
-import { useEventListener } from 'util'
+import { useEventListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 import { useInputData } from 'ui/inputs'
 
 import { DragLoad, InputLoads, LoadLabels } from '../components'

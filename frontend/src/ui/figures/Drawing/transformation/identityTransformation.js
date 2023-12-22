@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 
 import { Vector, Rectangle, Transformation } from 'step-wise/geometry'
 
-import { useConsistentValue } from 'util'
+import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
 export function useIdentityTransformationSettings(width, height, points) {
 	points = useConsistentValue(points)

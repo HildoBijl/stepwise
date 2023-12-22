@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react'
 
-import { Portal } from 'util'
+import { Portal } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
 import { useDrawingData } from './context'
 

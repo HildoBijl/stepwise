@@ -4,7 +4,7 @@ import clsx from 'clsx'
 
 import { resolveFunctions } from 'step-wise/util'
 
-import { useSize } from 'util'
+import { useSize } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
 import { useButtonClickFunction } from './util'
 import { KeyButton } from './KeyButton'

@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import { ensureBoolean, removeProperties, filterOptions, processOptions, firstOf, lastOf } from 'step-wise/util'
 import { Vector, Rectangle, Transformation } from 'step-wise/geometry'
 
-import { useConsistentValue } from 'util'
+import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
 import { getBoundingRectangle, ensureScale } from '../Drawing/transformation/util'
 import { useBoundsBasedTransformationSettings, defaultBoundsBasedTransformationOptions } from '../Drawing'

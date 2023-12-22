@@ -3,7 +3,7 @@ import { useMemo, } from 'react'
 import { filterDuplicates } from 'step-wise/util'
 import { ensureVector, Line, Span } from 'step-wise/geometry'
 
-import { useConsistentValue } from 'util'
+import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 import { useTransformationSettings, applyTransformation } from 'ui/figures'
 
 import { useInputFI } from '../../../'

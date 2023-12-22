@@ -2,7 +2,7 @@ import { useCallback, useEffect } from 'react'
 
 import { boundTo } from 'step-wise/util'
 
-import { useEventListener, getCoordinatesOf } from 'util'
+import { getCoordinatesOf, useEventListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 import { useSubmitCall } from 'ui/form'
 
 import { useInputData } from '../../Input'

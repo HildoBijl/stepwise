@@ -8,7 +8,7 @@ import { CheckCircle as SuccessIcon, Info as InfoIcon, TrendingFlat as RightArro
 import { skillTree } from 'step-wise/eduTools'
 
 import { TranslationFile, Translation, useTranslator } from 'i18n'
-import { usePrevious } from 'util'
+import { usePrevious } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 import { linkStyle } from 'ui/theme'
 import { usePaths } from 'ui/routingTools'
 import { NotificationBar, useModalContext } from 'ui/components'

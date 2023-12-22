@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react'
 
 import { processOptions } from 'step-wise/util'
 
-import { useEventListener } from 'util'
+import { useEventListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
 import { useBounds } from 'ui/figures'
 

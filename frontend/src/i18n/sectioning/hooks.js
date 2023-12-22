@@ -2,8 +2,7 @@ import { useState, useCallback } from 'react'
 
 import { getDeepParameter } from 'step-wise/util'
 
-import { isLocalhost } from 'util/development' // Keep exports separate and specific due to faulty unit test package caching.
-import { useStableCallback } from 'util/react'
+import { isLocalhost, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
 import { defaultLanguage } from '../settings'
 import { entryAsArray } from '../util'

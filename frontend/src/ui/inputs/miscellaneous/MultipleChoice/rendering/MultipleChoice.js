@@ -2,7 +2,7 @@ import React from 'react'
 
 import { processOptions, filterOptions } from 'step-wise/util'
 
-import { useImmutableValue } from 'util'
+import { useImmutableValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
 import { Input, defaultInputOptions } from '../../../Input'
 

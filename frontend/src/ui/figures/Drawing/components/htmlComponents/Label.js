@@ -4,7 +4,7 @@ import React, { forwardRef } from 'react'
 import { ensureNumber, processOptions, filterOptions, removeProperties } from 'step-wise/util'
 import { Vector, ensureVector } from 'step-wise/geometry'
 
-import { ensureReactElement } from 'util'
+import { ensureReactElement } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
 import { useGraphicalVector, useGraphicalDistance } from '../../DrawingContext'
 

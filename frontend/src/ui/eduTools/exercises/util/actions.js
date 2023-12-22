@@ -3,7 +3,7 @@ import { useCallback } from 'react'
 import { count } from 'step-wise/util'
 import { getLastAction } from 'step-wise/eduTools'
 
-import { useLatest } from 'util/react' // Keep exports separate and specific due to faulty unit test package caching.
+import { useLatest } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 import { useUserId } from 'api/user'
 import { useActiveGroup } from 'api/group'
 import { useSubmitCall } from 'ui/form'

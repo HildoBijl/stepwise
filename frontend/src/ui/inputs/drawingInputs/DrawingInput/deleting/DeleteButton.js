@@ -5,7 +5,7 @@ import { Delete } from '@material-ui/icons'
 
 import { resolveFunctions } from 'step-wise/util'
 
-import { useEventListener } from 'util'
+import { useEventListener } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 import { Element, useGraphicalBounds } from 'ui/figures'
 
 import { useInput } from '../../../Input'

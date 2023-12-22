@@ -1,6 +1,6 @@
 import { filterOptions, resolveFunctionsShallow } from 'step-wise/util'
 
-import { getHTMLElement } from 'util'
+import { getHTMLElement } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
 import { useFormParameter, defaultUseFormParameterOptions, useFieldRegistration, defaultFieldRegistrationOptions, useFormPartSettings } from 'ui/form'
 
