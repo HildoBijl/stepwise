@@ -19,13 +19,13 @@ describe('Check all exercises:', () => {
 	Object.keys(exercises).forEach(exerciseId => {
 		describe(exerciseId, () => {
 			it('has a front-end exercise component', async () => {
-				const Exercise = (await import(`../ui/eduContent/exercises/${exerciseId}`)).default
+				const Exercise = (await import(`ui/eduContent/${exercises[exerciseId].path.join('/')}/exercises/${exerciseId}`)).default
 				expect(typeof Exercise).toBe('function')
 			})
 
 			it('renders properly', async () => {
 				const shared = (await import(`step-wise/eduContent/${exercises[exerciseId].path.join('/')}/${exerciseId}`)).default
-				const Exercise = (await import(`../ui/eduContent/exercises/${exerciseId}`)).default
+				const Exercise = (await import(`ui/eduContent/${exercises[exerciseId].path.join('/')}/exercises/${exerciseId}`)).default
 
 				// Emulate the ExerciseContainer.
 				const state = shared.generateState()

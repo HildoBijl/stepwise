@@ -29,7 +29,7 @@ export function SkillPage() {
 
 		// When a path is given, load the relevant files.
 		setLoadedForSkillId(undefined)
-		import(/* webpackChunkName: "skill-pages-6" */ `../../eduContent/${path.join('/')}/${skillId}`).then(pages => {
+		import(/* webpackChunkName: "skill-pages-6" */ `ui/eduContent/${path.join('/')}/${skillId}`).then(pages => {
 			if (pages === null)
 				throw new Error(`Invalid skill path: tried to find skill pages at "skills/contents/${path}/${skillId}" but no files were found there. Could not render skill pages.`)
 			Pages.current = pages
