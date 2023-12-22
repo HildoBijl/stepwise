@@ -299,13 +299,11 @@ const skillStructure = {
 			efficiency: {
 				calculateWithEfficiency: {
 					name: 'Calculate with efficiency',
-					hasPages: true,
 					exercises: ['calculateWithEfficiencyGenerator', 'calculateWithEfficiencyBattery'],
 				},
 				calculateWithCOP: {
 					name: 'Calculate with the COP',
 					links: { skill: 'calculateWithEfficiency', correlation: 0.5 },
-					hasPages: true,
 					exercises: ['calculateWithCOPRefrigerator', 'calculateWithCOPHeatPump'],
 				},
 			},
@@ -315,17 +313,14 @@ const skillStructure = {
 			constants: {
 				specificGasConstant: {
 					name: 'Look up a specific gas constant',
-					hasPages: true,
 					exercises: ['specificGasConstant'],
 				},
 				specificHeatRatio: {
 					name: 'Look up a specific heat ratio',
-					hasPages: true,
 					exercises: ['specificHeatRatio'],
 				},
 				specificHeats: {
 					name: 'Look up specific heats',
-					hasPages: true,
 					exercises: ['specificHeats'],
 					links: { skills: ['specificGasConstant', 'specificHeatRatio'], correlation: 0.5 },
 				},
@@ -333,18 +328,15 @@ const skillStructure = {
 			basicLaws: {
 				gasLaw: {
 					name: 'Apply the gas law',
-					hasPages: true,
 					setup: and(pick(['calculateWithPressure', 'calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature'], 2), 'specificGasConstant', 'solveLinearEquation'),
 					exercises: ['gasLawLightBulb', 'gasLawHeliumBalloon', 'gasLawDivingCylinder', 'gasLawBicyclePump', 'gasLawWeatherBalloon'],
 				},
 				recognizeProcessTypes: {
 					name: 'Recognize process types',
-					hasPages: true,
 					exercises: ['processNameToProperty', 'propertyToProcessName', 'findProcessCoefficient'], // ToDo later: add questions with p-V-plots too.
 				},
 				poissonsLaw: {
 					name: `Apply Poisson's law`,
-					hasPages: true,
 					setup: and(pick(['calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature']), part('specificHeatRatio', 2 / 3), pick(['solveLinearEquation', 'solveExponentEquation'], 1, [1, 2])),
 					exercises: ['poissonsLawBicyclePump', 'poissonsLawCompressor', 'poissonsLawTurbine'],
 				},
@@ -352,32 +344,27 @@ const skillStructure = {
 			closedCycles: {
 				calculateProcessStep: {
 					name: 'Calculate a process step',
-					hasPages: true,
 					setup: and('gasLaw', 'recognizeProcessTypes', part('poissonsLaw', 1 / 2), part('gasLaw', 1 / 2)),
 					exercises: ['calculateProcessStepCompressor', 'calculateProcessStepDivingCylinder', 'calculateProcessStepBalloon', 'calculateProcessStepGasTurbine'],
 				},
 				calculateHeatAndWork: {
 					name: 'Calculate heat and work',
-					hasPages: true,
 					setup: and('recognizeProcessTypes', pick(['calculateWithPressure', 'calculateWithVolume', 'calculateWithTemperature', 'calculateWithMass'], 2), pick(['specificGasConstant', 'specificHeatRatio', 'specificHeats'], 2)),
 					exercises: ['calculateHeatAndWorkIsobaric', 'calculateHeatAndWorkIsochoric', 'calculateHeatAndWorkIsothermal', 'calculateHeatAndWorkIsentropic', 'calculateHeatAndWorkPolytropic'],
 				},
 				calculateWithInternalEnergy: {
 					name: 'Calculate with internal energy',
-					hasPages: true,
 					setup: and(pick(['gasLaw', 'poissonsLaw']), pick(['specificHeats', 'calculateHeatAndWork']), 'solveLinearEquation'),
 					exercises: ['calculateWithInternalEnergyEngine', 'calculateWithInternalEnergyBalloon', 'calculateWithInternalEnergyTire'],
 				},
 				calculateClosedCycle: {
 					name: 'Calculate a closed cycle',
-					hasPages: true,
 					setup: repeat('calculateProcessStep', 3),
 					exercises: ['calculateClosedCycleVTp', 'calculateClosedCycleTsV', 'calculateClosedCycleSTST', 'calculateClosedCycleSVSV'],
 					thresholds: { pass: 0.5 },
 				},
 				createClosedCycleEnergyOverview: {
 					name: 'Create a closed-cycle energy overview',
-					hasPages: true,
 					setup: and(repeat('calculateHeatAndWork', 2), or('calculateHeatAndWork', 'calculateWithInternalEnergy')),
 					exercises: ['createClosedCycleEnergyOverviewVTp', 'createClosedCycleEnergyOverviewTsV', 'createClosedCycleEnergyOverviewSTST', 'createClosedCycleEnergyOverviewSVSV'],
 					thresholds: { pass: 0.5 },
@@ -385,7 +372,6 @@ const skillStructure = {
 				analyseClosedCycle: {
 					name: 'Analyse a closed cycle',
 					setup: and('calculateClosedCycle', 'createClosedCycleEnergyOverview', pick(['calculateWithEfficiency', 'calculateWithCOP'])),
-					hasPages: true,
 					exercises: ['analyseClosedCycleVTp', 'analyseClosedCycleTsV', 'analyseClosedCycleSTST', 'analyseClosedCycleSVSV'],
 					thresholds: { pass: 0.4 },
 				},
@@ -496,7 +482,6 @@ const skillStructure = {
 				properties: {
 					findFridgeTemperatures: {
 						name: 'Find refrigerator temperatures',
-						hasPages: true,
 						exercises: ['findFridgeTemperaturesInternal', 'findFridgeTemperaturesExternal'],
 					},
 					determineRefrigerantProcess: {
@@ -522,13 +507,11 @@ const skillStructure = {
 			humidity: {
 				readMollierDiagram: {
 					name: 'Read a Mollier diagram',
-					hasPages: true, // ToDo: remove
 					exercises: ['readMollierDiagramRH', 'readMollierDiagramAH'],
 				},
 				analyseAirco: {
 					name: 'Analyse an air conditioner',
 					setup: repeat('readMollierDiagram', 3),
-					hasPages: true, // ToDo: remove
 					exercises: ['analyseAircoBasic', 'analyseAircoWaterDischarge', 'analyseAircoPower'],
 				},
 			},
