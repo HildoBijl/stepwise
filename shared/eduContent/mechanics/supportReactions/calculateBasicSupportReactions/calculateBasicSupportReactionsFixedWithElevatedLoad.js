@@ -84,10 +84,10 @@ function getDynamicSolution(directionIndices, solution, state) {
 	return { directionIndices, hasAdjustedSolution, loads, loadValues, ...loadValuesObj }
 }
 
-const dependencyData = { dependentFields: ['loads'], getStaticSolution, getInputDependency, getDynamicSolution }
+const getSolution = { dependentFields: ['loads'], getStaticSolution, getInputDependency, getDynamicSolution }
 
 function checkInput(state, input, step) {
-	const solution = assembleSolution(dependencyData, state, input)
+	const solution = assembleSolution(getSolution, state, input)
 	if (step === 0)
 		return performLoadsComparison('loads', input, solution, data.comparison) && performComparison(solution.loadsToCheck, input, solution, data.comparison)
 	if (step === 1)
@@ -105,5 +105,5 @@ module.exports = {
 	generateState,
 	processAction: getStepExerciseProcessor(checkInput, data),
 	checkInput,
-	...dependencyData,
+	getSolution,
 }

@@ -48,10 +48,10 @@ function getDynamicSolution(switched, solution) {
 	return { ...solution, switched, fDerivative, gDerivative, derivative, derivativeSimplified }
 }
 
-const dependencyData = { dependentFields: ['f', 'g'], getStaticSolution, getInputDependency, getDynamicSolution }
+const getSolution = { dependentFields: ['f', 'g'], getStaticSolution, getInputDependency, getDynamicSolution }
 
 function checkInput(state, input, step, substep) {
-	const solution = assembleSolution(dependencyData, state, input)
+	const solution = assembleSolution(getSolution, state, input)
 	switch (step) {
 		case 1:
 			return input.method === solution.method
@@ -73,6 +73,6 @@ module.exports = {
 	data,
 	generateState,
 	processAction: getStepExerciseProcessor(checkInput, data),
-	...dependencyData,
+	getSolution,
 	checkInput,
 }

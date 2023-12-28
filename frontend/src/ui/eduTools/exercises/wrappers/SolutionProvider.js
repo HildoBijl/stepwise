@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useMemo } from 'react'
 
+import { isBasicObject } from 'step-wise/util'
+
 import { useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 import { useInputObject } from 'ui/form'
 
@@ -9,14 +11,43 @@ const SolutionContext = createContext(null)
 
 // SolutionProvider combines the data from the ExerciseContainer and potentially the Input from the Form to set up a solution. (The latter is only used in case of input-dependent solutions.) It then makes it available to the exercise components.
 export function SolutionProvider({ children }) {
-	// Extract data: the exercise data and the form input. Only get the required data and nothing more.
-	const { state, shared } = useExerciseData()
-	const { getSolution, getStaticSolution, getInputDependency, dependentFields, getDynamicSolution } = shared
-	const input = useInputObject(getDynamicSolution ? dependentFields : undefined)
+	const { shared } = useExerciseData()
+	const { getSolution } = shared
 
+	// How to set up the context depends on the type of getSolution.
+	if (typeof getSolution === 'function')
+		return <SolutionProviderForFunction>{children}</SolutionProviderForFunction>
+	if (isBasicObject(getSolution))
+		return <SolutionProviderForObject>{children}</SolutionProviderForObject>
+	if (getSolution === undefined)
+		return <SolutionContext.Provider value={undefined}>{children}</SolutionContext.Provider>
+
+	// Invalid case. Throw an error.
+	throw new Error(`Invalid getSolution parameter: received a parameter of type ${typeof getSolution}.`)
+}
+
+// SolutionProviderForFunction provides data in case getSolution is a function.
+function SolutionProviderForFunction({ children }) {
+	// Extract the solution from the getSolution function.
+	const { state, shared } = useExerciseData()
+	const { getSolution } = shared
+	const solution = useMemo(() => getSolution ? getSolution(state) : undefined, [getSolution, state])
+
+	// Return the solution in the context.
+	return <SolutionContext.Provider value={solution}>{children}</SolutionContext.Provider>
+}
+
+// SolutionProviderForObject provides data in case getSolution is an object with getStaticSolution, getDynamicSolution, etcetera.
+function SolutionProviderForObject({ children }) {
+	const { state, shared } = useExerciseData()
+	const { getSolution } = shared
+	const { getStaticSolution, getInputDependency, dependentFields, getDynamicSolution } = getSolution
+	
 	// Determine the static solution.
-	const currGetSolution = getSolution || getStaticSolution
-	const staticSolution = useMemo(() => currGetSolution ? currGetSolution(state) : undefined, [currGetSolution, state])
+	const staticSolution = useMemo(() => getStaticSolution ? getStaticSolution(state) : undefined, [getStaticSolution, state])
+	
+	// Get only the input parameters that are needed for the dependency.
+	const input = useInputObject(getDynamicSolution ? dependentFields : undefined)
 
 	// Determine the input dependency.
 	const inputDependencyRecalculated = useMemo(() => {
