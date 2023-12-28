@@ -38,7 +38,7 @@ export function FeedbackProvider({ children, getFeedback, input, data = {} }) {
 
 		// If there is no input, then make sure there is no feedback either.
 		if (!input || Object.keys(input).length === 0)
-			return setFeedback({ reslut: {}, input: {} })
+			return setFeedback({ result: {}, input: {} })
 
 		// If there is a getFeedback function, call it with the given data, input, previous feedback and previous input. Make sure all input (which is given as SI) is in FO. Then process and store the resulting feedback.
 		if (getFeedback) {
