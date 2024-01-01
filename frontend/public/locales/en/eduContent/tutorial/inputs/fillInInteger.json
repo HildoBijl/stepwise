@@ -3,7 +3,8 @@
     "fillInInteger": {
       "problem": {
         "text": "Enter the number <inline-math/>.",
-        "label": "Enter <inline-math/> here"
+        "label": "Enter <inline-math/> here",
+        "noMinusSign": "You forgot the minus sign."
       },
       "solution": "You can click on the input field and type in the number <inline-math/>.<check><on-true> A potential minus sign can also be added after typing in the number. The input field is smart enough to know that the minus sign must be at the front.</on-true></check>",
       "feedback": {

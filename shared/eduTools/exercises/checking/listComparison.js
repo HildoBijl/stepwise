@@ -13,6 +13,6 @@ module.exports.performListComparison = performListComparison
 function performIndividualListComparison(inputParameter, solutionParameter, input, solution, comparison) {
 	const { currInput } = getCurrentInputSolutionAndComparison(inputParameter, input, solution, comparison, false, false)
 	const { currSolution, currComparison } = getCurrentInputSolutionAndComparison(solutionParameter, input, solution, comparison, true, true)
-	return currInput !== undefined && performIndividualComparison(solutionParameter, currInput, currSolution, currComparison, solution)
+	return currInput !== undefined && performIndividualComparison(currInput, currSolution, currComparison, solution)
 }
 module.exports.performIndividualListComparison = performIndividualListComparison

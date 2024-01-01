@@ -353,13 +353,7 @@ class FloatUnit {
 }
 module.exports.FloatUnit = FloatUnit
 
-// Define equality check types.
-FloatUnit.equalityTypes = {
-	exact: 0,
-	sameUnitsAndPrefixes: 1,
-	sameUnits: 2,
-	free: 3,
-}
+// Define comparison options.
 FloatUnit.defaultComparison = {
 	absoluteMargin: Float.defaultComparison.absoluteMargin,
 	relativeMargin: Float.defaultComparison.relativeMargin,

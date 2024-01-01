@@ -194,7 +194,7 @@ function getDirectionIndicators(solution, matching) {
 module.exports.getDirectionIndicators = getDirectionIndicators
 
 // performLoadsComparison is very similar to the performComparison function, but then for loads.
-function performLoadsComparison(parameters, input, solution, comparison) {
+function performLoadsComparison(parameters, input, solution, comparison) { // ToDo: change to format performLoadsComparison(exerciseData, parameterComparison) just like performComparison.
 	// Check if there is a single-parameter case or a multi-parameter case. Adjust accordingly.
 	let singleParameterCase = false
 	if (!Array.isArray(parameters)) {
@@ -205,7 +205,7 @@ function performLoadsComparison(parameters, input, solution, comparison) {
 	// Walk through the parameters and perform a comparison.
 	return parameters.every(currParameter => {
 		// Extract the current input, solution and comparison method.
-		const { currInput, currSolution, currComparison } = getCurrentInputSolutionAndComparison(currParameter, input, solution, comparison, singleParameterCase)
+		const { currInput, currSolution, currComparison } = getCurrentInputSolutionAndComparison(currParameter, input, solution, comparison, singleParameterCase) // ToDo: change to format getCurrentInputSolutionAndComparison(currParameter, input, solution, comparison, parameterComparison)
 
 		// Perform the comparison for this individual parameter.
 		return areLoadsMatching(currInput, currSolution, currComparison)

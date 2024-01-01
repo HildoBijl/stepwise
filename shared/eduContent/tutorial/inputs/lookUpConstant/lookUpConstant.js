@@ -2,13 +2,9 @@ const { selectRandomly } = require('../../../../util')
 const constants = require('../../../../data/constants')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'lookUpConstant',
-	comparison: {
-		default: {
-			relativeMargin: 0.0001,
-		},
-	}
+	comparison: { ans: { relativeMargin: 0.0001 } },
 }
 
 function generateState() {
@@ -19,14 +15,12 @@ function getSolution({ constant }) {
 	return { ans: constants[constant] }
 }
 
-function checkInput(state, input) {
-	const solution = getSolution(state)
-	return performComparison('ans', input, solution, data.comparison.default)
+function checkInput(exerciseData) {
+	return performComparison(exerciseData, 'ans')
 }
 
+const exercise = { metaData, generateState, getSolution, checkInput }
 module.exports = {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	checkInput,
+	...exercise,
+	processAction: getSimpleExerciseProcessor(exercise),
 }

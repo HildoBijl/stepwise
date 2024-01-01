@@ -1,24 +1,27 @@
 const { getRandomInteger } = require('../../../../inputTypes')
-const { getSimpleExerciseProcessor } = require('../../../../eduTools')
+const { getSimpleExerciseProcessor, performComparison } = require('../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'multiplication',
 }
 
 function generateState() {
 	return {
-		a: getRandomInteger(1,10),
-		b: getRandomInteger(1,10),
+		a: getRandomInteger(1, 10),
+		b: getRandomInteger(1, 10),
 	}
 }
 
-function checkInput({ a, b }, { ans }) {
-	return a * b === ans
+function getSolution({ a, b }) {
+	return { ans: a*b }
 }
 
+function checkInput(exerciseData) {
+	return performComparison(exerciseData, 'ans')
+}
+
+const exercise = { metaData, generateState, getSolution, checkInput }
 module.exports = {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	checkInput,
+	...exercise,
+	processAction: getSimpleExerciseProcessor(exercise),
 }

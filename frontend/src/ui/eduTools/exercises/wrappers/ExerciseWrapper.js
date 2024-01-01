@@ -31,7 +31,7 @@ function FeedbackWrapper({ getFeedback, children }) {
 	// Extract the exercise data and merge in the solution when available.
 	const exerciseData = useExerciseData()
 	const solution = useSolution(false)
-	const data = useMemo(() => solution === undefined ? exerciseData : ({ ...exerciseData, solution }), [exerciseData, solution])
+	const mergedExerciseData = useMemo(() => solution === undefined ? exerciseData : ({ ...exerciseData, solution }), [exerciseData, solution])
 
 	// Determine the input that the user made, and hence which needs to be evaluated by the FeedbackProvider. When it changes, the feedback is adjusted.
 	const userId = useUserId()
@@ -46,7 +46,7 @@ function FeedbackWrapper({ getFeedback, children }) {
 	}, [feedbackInput, lastInput, setAllInputSI])
 
 	// Render the FeedbackProvider.
-	return <FeedbackProvider getFeedback={getFeedback} input={feedbackInput} data={data}>{children}</FeedbackProvider>
+	return <FeedbackProvider getFeedback={getFeedback} input={feedbackInput} exerciseData={mergedExerciseData}>{children}</FeedbackProvider>
 }
 
 function TranslationWrapper({ children }) {

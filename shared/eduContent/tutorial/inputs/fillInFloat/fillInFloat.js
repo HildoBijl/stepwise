@@ -1,9 +1,9 @@
 const { getRandomInteger, getRandomExponentialFloat } = require('../../../../inputTypes')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'fillInFloat',
-	comparison: { relativeMargin: 0.0001 },
+	comparison: { ans: { significantDigitMargin: 0 } },
 }
 
 function generateState() {
@@ -21,14 +21,12 @@ function getSolution({ x }) {
 	return { ans: x }
 }
 
-function checkInput(state, input) {
-	const solution = getSolution(state)
-	return performComparison('ans', input, solution, data.comparison)
+function checkInput(exerciseData) {
+	return performComparison(exerciseData, 'ans')
 }
 
+const exercise = { metaData, generateState, getSolution, checkInput }
 module.exports = {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	checkInput,
+	...exercise,
+	processAction: getSimpleExerciseProcessor(exercise),
 }

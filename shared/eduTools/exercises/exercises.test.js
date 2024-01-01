@@ -31,8 +31,8 @@ describe('Check all exercises:', () => {
 				return
 
 			// Analyse exercise file.
-			it('has a data object', () => {
-				expect(typeof exercise.data).toBe('object')
+			it('has a metaData object', () => {
+				expect(typeof exercise.metaData).toBe('object')
 			})
 
 			it('has a generateState function that runs and gives a basic object', () => {
@@ -46,7 +46,7 @@ describe('Check all exercises:', () => {
 			})
 
 			it('has a difficulty defined with known skills', () => {
-				assertSkillSetup(getDifficulty(exercise.data))
+				assertSkillSetup(getDifficulty(exercise.metaData))
 			})
 
 			if (exercise.getSolution) {
@@ -55,9 +55,9 @@ describe('Check all exercises:', () => {
 				})
 			}
 
-			if (exercise.data.steps) {
+			if (exercise.metaData.steps) {
 				it('has steps properly defined', () => {
-					const { steps } = exercise.data
+					const { steps } = exercise.metaData
 					expect(Array.isArray(steps)).toBe(true)
 					expect(steps.length).toBeGreaterThan(1)
 					steps.forEach(step => {

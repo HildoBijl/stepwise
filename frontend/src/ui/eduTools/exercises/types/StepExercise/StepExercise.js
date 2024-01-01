@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 
-import { numberArray, lastOf } from 'step-wise/util'
+import { lastOf, repeat } from 'step-wise/util'
 import { getStep, getPreviousProgress } from 'step-wise/eduTools'
 
 import { TranslationSection, useTranslator, addSection } from 'i18n'
@@ -12,6 +12,7 @@ import { useFormData, useFeedbackInput, FormPart, useFieldControllerContext } fr
 import { useExerciseData } from '../../containers'
 import { ExerciseWrapper } from '../../wrappers'
 import { ProblemContainer, SolutionContainer, ExerciseButtons, MainFeedback } from '../../parts'
+import { getFieldInputFeedback } from '../../feedback'
 
 import { Steps } from './Steps'
 
@@ -60,24 +61,29 @@ function StepExerciseInner({ Problem: MainProblem, steps }) {
 	</>
 }
 
-function stepExerciseGetFeedback({ state, input, progress, history, shared }) {
-	const feedback = {}
-	if (!shared.checkInput)
-		return feedback
+function stepExerciseGetFeedback(exerciseData) {
+	const { input, progress, history, shared } = exerciseData
 
-	// If we're not split, use the default function.
-	if (!progress.split) {
-		feedback.main = shared.checkInput(state, input, 0)
-		return feedback
-	}
+	// If a getSolution parameter is present (which is for most exercises) then give input on each individual field.
+	if (shared.getSolution)
+		return getFieldInputFeedback(exerciseData, Object.keys(input))
 
-	// We're split! Find the step the user was at during his last action. Provide feedback until that step.
-	const previousProgress = getPreviousProgress(history)
-	const step = getStep(previousProgress)
-	if (step > 0) {
-		numberArray(1, step).forEach(index => {
-			feedback[`step${index}main`] = shared.checkInput(state, input, index)
+	// If there's only a checkInput (which is in the remaining cases) then use it for a main feedback display.
+	if (shared.checkInput) {
+		// If the exercise is not split, only do so for the main problem.
+		if (!progress.split)
+			return { main: shared.checkInput(exerciseData, 0) }
+
+		// If the exercise is split, give main feedback to each step that has just been submitted.
+		const feedback = {}
+		const previousProgress = getPreviousProgress(history)
+		const step = getStep(previousProgress)
+		repeat(step, (index) => {
+			feedback[`step${index+1}main`] = shared.checkInput(exerciseData, index+1)
 		})
+		return feedback
 	}
-	return feedback
+
+	// There is nothing to give feedback based on.
+	return {}
 }

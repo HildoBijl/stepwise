@@ -1,1 +1,30 @@
-{}
+{
+  "en": {
+    "eduContent/tutorial/inputs/fillInInteger": {
+      "practice.fillInInteger.problem.noMinusSign": {
+        "oldText": "You forgot the minus sign.",
+        "firstUpdate": "2023-12-29T10:05:00.013Z",
+        "latestUpdate": "2023-12-29T10:05:00.023Z",
+        "latestText": "You forgot the minus sign."
+      },
+      "feedback.unnecessaryMinusSign": {
+        "oldText": "Try removing the minus sign.",
+        "firstUpdate": "2023-12-30T13:16:54.992Z",
+        "latestUpdate": "2023-12-30T13:16:55.002Z",
+        "latestText": "Try removing the minus sign."
+      },
+      "feedback.noMinusSign": {
+        "oldText": "You forgot the minus sign.",
+        "firstUpdate": "2023-12-30T13:23:27.290Z",
+        "latestUpdate": "2023-12-30T13:27:21.745Z",
+        "latestText": "You forgot the minus sign."
+      },
+      "practice.fillInInteger.feedback.noMinusSign": {
+        "oldText": "You forgot the minus sign.",
+        "firstUpdate": "2023-12-30T13:28:03.783Z",
+        "latestUpdate": "2023-12-30T13:28:30.173Z",
+        "latestText": "You forgot the minus sign."
+      }
+    }
+  }
+}

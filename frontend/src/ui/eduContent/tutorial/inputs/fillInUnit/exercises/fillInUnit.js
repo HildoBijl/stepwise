@@ -3,9 +3,9 @@ import React from 'react'
 import { Unit } from 'step-wise/inputTypes'
 
 import { Par, M } from 'ui/components'
-import { InputSpace, Hint, selectRandomCorrect, selectRandomIncorrect } from 'ui/form'
+import { InputSpace, Hint } from 'ui/form'
 import { UnitInput } from 'ui/inputs'
-import { SimpleExercise } from 'ui/eduTools'
+import { SimpleExercise, getFieldInputFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -39,18 +39,11 @@ function Solution({ unit }) {
 	return <Par>Je klikt op het invoervak en typt <M>{unit}</M> in.<ul><li>Als vermenigvuldigingsteken kun je de ster "*" gebruiken of de punt ".". Ook de spatie werkt als short-cut.</li><li>Als deelteken gebruik je de slash "/" of de pijl omlaag.</li><li>Voor machten kun je eventueel het machtteken "^" gebruiken maar dit is niet per se nodig: direct getallen invoeren werkt ook.</li></ul></Par>
 }
 
-function getFeedback({ state: { unit }, input: { ans }, progress: { solved }, shared: { data: { comparison } } }) {
-	const correct = !!solved
-	if (correct)
-		return { ans: { correct, text: selectRandomCorrect() } }
-
-	// Devise feedback text.
-	let text
-	if (unit.equals(ans, { type: Unit.equalityTypes.sameUnits }))
-		text = <>Technisch correct, maar je moet de eenheid <strong>letterlijk</strong> overnemen, inclusief volgorde.</>
-	else if (unit.equals(ans, { type: Unit.equalityTypes.free }))
-		text = <>Technisch correct, maar dit is een heel andere schrijfwijze. Neem de eenheid <strong>letterlijk</strong> over.</>
-	else
-		text = selectRandomIncorrect()
-	return { ans: { correct, text } }
+function getFeedback(exerciseData) {
+	return getFieldInputFeedback(exerciseData, {
+		ans: [
+			(input, solution, _, correct) => !correct && solution.equals(input, { type: Unit.equalityTypes.sameUnits }) && <>Technisch correct, maar je moet de eenheid <strong>letterlijk</strong> overnemen, inclusief volgorde.</>,
+			(input, solution, _, correct) => !correct && solution.equals(input, { type: Unit.equalityTypes.free }) && <>Technisch correct, maar dit is een heel andere schrijfwijze. Neem de eenheid <strong>letterlijk</strong> over.</>,
+		],
+	})
 }

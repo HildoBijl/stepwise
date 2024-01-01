@@ -26,7 +26,7 @@ export function useValidationHandlers(validation, setValidation, { getFieldIds, 
 			return false
 
 		// Keys are equal. Compare individual fields.
-		return aKeys.every(key => isInputEqual(key, a[key], b[key]))
+		return bKeys.every(key => isInputEqual(key, a[key], b[key]))
 	})
 
 	// isInputValid returns a boolean: are all fields valid? To determine this, it runs all field validation checks. (Unless 'false' is provided: in this case the checks are not run, but the latest result is returned.)

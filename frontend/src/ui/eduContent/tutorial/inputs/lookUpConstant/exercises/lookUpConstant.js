@@ -3,7 +3,7 @@ import React from 'react'
 import * as constants from 'step-wise/data/constants'
 
 import { Par, M } from 'ui/components'
-import { InputSpace, selectRandomCorrect } from 'ui/form'
+import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
 import { SimpleExercise } from 'ui/eduTools'
 
@@ -17,7 +17,7 @@ const descriptions = {
 }
 
 export default function Exercise() {
-	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
+	return <SimpleExercise Problem={Problem} Solution={Solution} />
 }
 
 function Problem({ constant }) {
@@ -31,17 +31,4 @@ function Problem({ constant }) {
 
 function Solution({ constant }) {
 	return <Par>De waarde van <M>{constant}</M> is <M>{constants[constant]}.</M></Par>
-}
-
-function getFeedback({ state: { constant }, input: { ans }, progress: { solved }, shared: { data: { comparison } } }) {
-	const correct = !!solved
-	if (correct)
-		return { ans: { correct, text: selectRandomCorrect() } }
-
-	const c = constants[constant]
-	if (!c.unit.equals(ans.unit, { checkSize: false }))
-		return { ans: { correct, text: 'Je eenheid klopt niet. Kijk daar eerst eens naar.' } }
-	if (c.equals(ans, { relativeMargin: 10 * comparison.default.relativeMargin }))
-		return { ans: { correct, text: 'Je zit er net naast! Voer het iets nauwkeuriger in.' } }
-	return { ans: { correct, text: 'Je eenheid klopt, maar je getal nog niet.' } }
 }

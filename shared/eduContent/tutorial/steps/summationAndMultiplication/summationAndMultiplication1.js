@@ -1,11 +1,11 @@
 const { getRandomInteger } = require('../../../../inputTypes')
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../../eduTools')
+const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'summationAndMultiplication',
 	steps: ['multiplication', 'summation'],
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	return {
@@ -15,18 +15,24 @@ function generateState() {
 	}
 }
 
-function checkInput({ a, b, c }, { ans, ab }, step) {
-	if (step === 0)
-		return a * b + c === ans
-	if (step === 1)
-		return a * b === ab
-	if (step === 2)
-		return a * b + c === ans
+function getSolution({ a, b, c }) {
+	return {
+		ab: a * b,
+		ans: a * b + c,
+	}
 }
 
+function checkInput(exerciseData, step) {
+	switch (step) {
+		case 1:
+			return performComparison(exerciseData, 'ab')
+		default:
+			return performComparison(exerciseData, 'ans')
+	}
+}
+
+const exercise = { metaData, generateState, getSolution, checkInput }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

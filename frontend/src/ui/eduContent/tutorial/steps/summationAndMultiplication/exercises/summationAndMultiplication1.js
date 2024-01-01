@@ -17,11 +17,11 @@ const Problem = ({ a, b, c }) => <Translation>
 
 const steps = [
 	{
-		Problem: ({ a, b, c }) => <Translation>
+		Problem: ({ a, b }) => <Translation>
 			<Par>Calculate <M>{a} \cdot {b}</M>.</Par>
 			<InputSpace><Par><IntegerInput id="ab" prelabel={<M>{a} \cdot {b} =</M>} label="Step answer" size="s" /></Par></InputSpace>
 		</Translation>,
-		Solution: ({ a, b, c }) => <Translation><Par>Note that multiplication comes before addition, so first we calculate <M>{a} \cdot {b} = {a * b}</M>.</Par></Translation>,
+		Solution: ({ a, b }) => <Translation><Par>Note that multiplication comes before addition, so first we calculate <M>{a} \cdot {b} = {a * b}</M>.</Par></Translation>,
 	},
 	{
 		Problem: ({ a, b, c }) => <Translation>

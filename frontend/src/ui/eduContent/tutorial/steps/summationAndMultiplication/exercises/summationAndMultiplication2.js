@@ -17,18 +17,18 @@ const Problem = ({ a, b, c, d }) => <Translation>
 
 const steps = [
 	{
-		Problem: ({ a, b, c, d }) => <Translation>
+		Problem: ({ a, b }) => <Translation>
 			<Par>Calculate <M>{a} \cdot {b}</M>.</Par>
-			<InputSpace><Par><IntegerInput id="p1" prelabel={<M>{a} \cdot {b} =</M>} label="Step answer" size="s" /></Par></InputSpace>
+			<InputSpace><Par><IntegerInput id="ab" prelabel={<M>{a} \cdot {b} =</M>} label="Step answer" size="s" /></Par></InputSpace>
 		</Translation>,
-		Solution: ({ a, b, c, d }) => <Translation><Par>Note that multiplication comes before addition, so first we calculate <M>{a} \cdot {b} = {a * b}</M>.</Par></Translation>,
+		Solution: ({ a, b }) => <Translation><Par>Note that multiplication comes before addition, so first we calculate <M>{a} \cdot {b} = {a * b}</M>.</Par></Translation>,
 	},
 	{
-		Problem: ({ a, b, c, d }) => <Translation>
+		Problem: ({ c, d }) => <Translation>
 			<Par>Calculate <M>{c} \cdot {d}</M>.</Par>
-			<InputSpace><Par><IntegerInput id="p2" prelabel={<M>{c} \cdot {d} =</M>} label="Step answer" size="s" /></Par></InputSpace>
+			<InputSpace><Par><IntegerInput id="cd" prelabel={<M>{c} \cdot {d} =</M>} label="Step answer" size="s" /></Par></InputSpace>
 		</Translation>,
-		Solution: ({ a, b, c, d }) => <Translation><Par>Identically we first calculate the other multiplication too, giving us <M>{c} \cdot {d} = {c * d}</M>.</Par></Translation>,
+		Solution: ({ c, d }) => <Translation><Par>Identically we first calculate the other multiplication too, giving us <M>{c} \cdot {d} = {c * d}</M>.</Par></Translation>,
 	},
 	{
 		Problem: ({ a, b, c, d }) => <Translation>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useTheme } from '@material-ui/core/styles'
 
-import { isBasicObject, applyMapping } from 'step-wise/util'
+import { isBasicObject, applyMapping, filterProperties } from 'step-wise/util'
 import { toFO } from 'step-wise/inputTypes'
 
 import { useLatest, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
@@ -19,9 +19,9 @@ import { processFeedback } from './processing'
  * - data (default {}): an optional extra object with parameters that are then provided to the getFeedback function: see the [...] above. A common data object is { exerciseData: {...}, solution: {...} } but anything can be added.
  * The feedback object then makes the feedback available through the useFeedback(fieldId) hook.
  */
-export function FeedbackProvider({ children, getFeedback, input, data = {} }) {
+export function FeedbackProvider({ children, getFeedback, input, exerciseData = {} }) {
 	const theme = useTheme()
-	const translate = addSection(useTranslator(), 'feedback', false)
+	const translate = addSection(useTranslator(), `practice.${exerciseData.exerciseId}.feedback`, false)
 
 	// Set up a state to store the feedback and corresponding input to which that feedback was given.
 	const [feedback, setFeedback] = useState({ result: {}, input: {} })
@@ -29,7 +29,7 @@ export function FeedbackProvider({ children, getFeedback, input, data = {} }) {
 
 	// Set up an updateFeedback handler.
 	const { isAllInputEqual } = useFormData()
-	const dataRef = useLatest(data)
+	const exerciseDataRef = useLatest(exerciseData)
 	const updateFeedback = useStableCallback((input = {}) => {
 		// Compare the new input with the previous input. When they are equal, do not evaluate.
 		const { result: previousResult, input: previousInput } = feedbackRef.current
@@ -44,7 +44,13 @@ export function FeedbackProvider({ children, getFeedback, input, data = {} }) {
 		if (getFeedback) {
 			const inputFO = toFO(input, true)
 			const previousInputFO = toFO(previousInput, true)
-			let result = getFeedback({ ...dataRef.current, input: inputFO, previousFeedback: previousResult, previousInput: previousInputFO, translate })
+			let result = getFeedback({
+				...filterProperties(exerciseDataRef.current, ['history', 'metaData', 'shared', 'solution', 'state']),
+				input: inputFO,
+				previousFeedback: previousResult,
+				previousInput: previousInputFO,
+				translate,
+			})
 			if (!result || !isBasicObject(result))
 				throw new Error(`Invalid feedback: a feedback was returned which is not an object. Instead, we received "${result}". Possibly the getFeedback function forgot to return anything sensible?`)
 			result = applyMapping(result, fieldFeedback => processFeedback(fieldFeedback, theme))

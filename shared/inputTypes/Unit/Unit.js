@@ -331,7 +331,7 @@ Unit.defaultSimplifyOptions = {
 	clean: true,
 }
 
-// Define equality check types.
+// Define comparison options.
 Unit.equalityTypes = {
 	exact: 0,
 	sameUnitsAndPrefixes: 1,
