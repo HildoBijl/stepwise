@@ -1,9 +1,9 @@
 import React from 'react'
 
 import { Par, M } from 'ui/components'
-import { InputSpace, selectRandomCorrect, selectRandomIncorrect } from 'ui/form'
+import { InputSpace } from 'ui/form'
 import { IntegerInput } from 'ui/inputs'
-import { SimpleExercise } from 'ui/eduTools'
+import { SimpleExercise, getFieldInputFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -22,18 +22,11 @@ function Solution({ x }) {
 	return <Par>Je klikt op het invoervak en typt <M>{x}</M> in. {x < 0 ? `Het minteken kun je eventueel ook intypen na het getal. Het invoerveld snapt vanzelf dat dit minteken ervoor moet staan.` : ''}</Par>
 }
 
-function getFeedback({ state, input, progress }) {
-	const { x } = state
-	const { ans } = input
-	const correct = state.x === input.ans
-	if (correct)
-		return { ans: { correct, text: selectRandomCorrect() } }
-	return {
-		ans: {
-			correct,
-			text: Math.abs(x) === Math.abs(ans) ? (
-				ans > 0 ? 'Je bent het minteken vergeten.' : 'Probeer het minteken te verwijderen.'
-			) : selectRandomIncorrect()
-		}
-	}
+
+function getFeedback(exerciseData) {
+	return getFieldInputFeedback(exerciseData, {
+		ans: [
+			(input, solution, _, correct) => !correct && Math.abs(input) === Math.abs(solution) && (input > 0 ? exerciseData.translate('You forgot the minus sign.', 'noMinusSign') : exerciseData.translate('Try removing the minus sign.', 'unnecessaryMinusSign'))
+		]
+	})
 }

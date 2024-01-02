@@ -1,9 +1,8 @@
 const { getRandomInteger } = require('../../../inputTypes')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../eduTools')
 
-const data = {
-	skill: 'fillInInteger',
-	comparison: {},
+const metaData = {
+	skill: 'demo',
 }
 
 function generateState() {
@@ -14,15 +13,12 @@ function getSolution({ x }) {
 	return { ans: x }
 }
 
-function checkInput(state, input) {
-	const solution = getSolution(state)
-	return performComparison('ans', input, solution, data.comparison) // Basically returns whether state.ans === input.ans in convoluted but generalized way.
+function checkInput(exerciseData) {
+	return performComparison(exerciseData, 'ans') // Basically returns whether state.x === input.ans, but then through a convoluted generalized way.
 }
 
+const exercise = { metaData, generateState, getSolution, checkInput }
 module.exports = {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getSimpleExerciseProcessor(exercise),
 }
