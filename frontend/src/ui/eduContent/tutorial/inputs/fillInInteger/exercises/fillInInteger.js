@@ -24,7 +24,9 @@ function Solution({ x }) {
 }
 
 function getFeedback(exerciseData) {
-	return getFieldInputFeedback(exerciseData, { ans: [
-		(input, solution, _, correct) => !correct && Math.abs(input) === Math.abs(solution) && (input > 0 ? exerciseData.translate('You forgot the minus sign.', 'noMinusSign') : exerciseData.translate('Try removing the minus sign.', 'unnecessaryMinusSign'))
-	] })
+	return getFieldInputFeedback(exerciseData, {
+		ans: [
+			(input, solution, _, correct) => !correct && Math.abs(input) === Math.abs(solution) && (input > 0 ? exerciseData.translate('You forgot the minus sign.', 'noMinusSign') : exerciseData.translate('Try removing the minus sign.', 'unnecessaryMinusSign'))
+		]
+	})
 }

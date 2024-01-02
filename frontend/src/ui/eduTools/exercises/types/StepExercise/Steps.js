@@ -8,6 +8,7 @@ import { VerticalAdjuster } from 'ui/components'
 import { useFormData, useFeedbackInput, FormPart } from 'ui/form'
 
 import { useExerciseData } from '../../containers'
+import { useSolution } from '../../wrappers'
 import { ProblemContainer, SolutionContainer, MainFeedback } from '../../parts'
 
 export function Steps({ steps, forceDisplay }) {
@@ -19,6 +20,7 @@ function Step({ step, Problem, Solution, forceDisplay }) {
 	const translate = useTranslator()
 	const userId = useUserId()
 	const { state, progress, history } = useExerciseData()
+	const solution = useSolution(false) || {}
 	const { isAllInputEqual } = useFormData()
 	const feedbackInput = useFeedbackInput()
 
@@ -54,7 +56,7 @@ function Step({ step, Problem, Solution, forceDisplay }) {
 		</ProblemContainer>
 		<SolutionContainer display={!!stepProgress.done} initialExpand={forceDisplay || !stepProgress.solved}>
 			<TranslationSection entry={`step${step}.solution`}>
-				<Solution {...state} translate={addSection(translate, `step${step}.solution`)} />
+				<Solution {...state} {...solution} translate={addSection(translate, `step${step}.solution`)} />
 			</TranslationSection>
 		</SolutionContainer>
 	</>

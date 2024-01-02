@@ -10,7 +10,7 @@ import { VerticalAdjuster } from 'ui/components'
 import { useFormData, useFeedbackInput, FormPart, useFieldControllerContext } from 'ui/form'
 
 import { useExerciseData } from '../containers'
-import { ExerciseWrapper } from '../wrappers'
+import { ExerciseWrapper, useSolution } from '../wrappers'
 import { ProblemContainer, SolutionContainer, ExerciseButtons, MainFeedback } from '../parts'
 import { getFieldInputFeedback } from '../feedback'
 
@@ -25,6 +25,7 @@ export function SimpleExercise(props) {
 function SimpleExerciseInner({ Problem, Solution }) {
 	const translate = useTranslator()
 	const { state, progress, history } = useExerciseData()
+	const solution = useSolution(false) || {}
 	const userId = useUserId()
 	const { isAllInputEqual } = useFormData()
 	const feedbackInput = useFeedbackInput()
@@ -56,7 +57,7 @@ function SimpleExerciseInner({ Problem, Solution }) {
 		</ProblemContainer>
 		<SolutionContainer display={!!progress.done} initialExpand={!progress.solved}>
 			<TranslationSection entry="solution">
-				<Solution {...state} translate={addSection(translate, 'problem')} />
+				<Solution {...state} {...solution} translate={addSection(translate, 'solution')} />
 			</TranslationSection>
 		</SolutionContainer>
 		<ExerciseButtons />
