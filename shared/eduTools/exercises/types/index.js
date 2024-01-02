@@ -1,4 +1,4 @@
 module.exports = {
-	...require('./simpleExercise'),
-	...require('./stepExercise'), // stepExercise may overwrite functions from simpleExercise.
+	...require('./stepExercise'),
+	...require('./simpleExercise'), // simpleExercise is mostly a special case of stepExercise. It uses its functionalities.
 }

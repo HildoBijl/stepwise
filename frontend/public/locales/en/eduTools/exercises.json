@@ -20,7 +20,8 @@
     "check": "Submit and check",
     "solveStepWise": "Solve this Step-Wise",
     "giveUpStep": "I give up this step",
-    "nextExercise": "Next exercise"
+    "nextExercise": "Next exercise",
+    "solve": "Insert solution"
   },
   "groupExercise": {
     "status": {

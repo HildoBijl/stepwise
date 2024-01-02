@@ -1,7 +1,7 @@
 const { isBasicObject } = require('../../../../util')
 const { toFO } = require('../../../../inputTypes')
 
-const { hasPreviousInput } = require('./util')
+const { hasPreviousInput } = require('../stepExercise')
 
 // getSimpleExerciseProcessor takes exerciseData with a checkInput function that checks the input for a SimpleExercise and returns a processAction function.
 function getSimpleExerciseProcessor(exerciseData) {

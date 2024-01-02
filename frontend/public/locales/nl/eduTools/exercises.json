@@ -20,7 +20,8 @@
     "check": "Controleer",
     "solveStepWise": "Los stapsgewijs op",
     "giveUpStep": "Ik geef deze stap op",
-    "nextExercise": "Volgende opgave"
+    "nextExercise": "Volgende opgave",
+    "solve": "Vul oplossing in"
   },
   "groupExercise": {
     "status": {

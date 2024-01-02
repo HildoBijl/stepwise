@@ -72,6 +72,14 @@ class UnitElement {
 		})
 	}
 
+	get SI() {
+		return keysToObject(parts, part => {
+			if (part === 'power')
+				return this.power === 1 ? undefined : this.power.toString()
+			return this[`${part}String`] || undefined
+		})
+	}
+
 	get type() {
 		return 'UnitElement'
 	}

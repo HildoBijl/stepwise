@@ -1,4 +1,4 @@
-const { isObject, isBasicObject, applyMapping } = require('../util')
+const { isInteger, isObject, isBasicObject, applyMapping } = require('../util')
 
 // Input object legacy: the types Boolean, String and MultipleChoice can be removed after the corresponding old exercise data is removed.
 const types = [
@@ -33,34 +33,34 @@ function toFO(data, useSI = false) {
 module.exports.toFO = toFO
 
 // toSO takes an object and tries to turn all functional objects in it into storage objects.
-function toSO(obj, useSI = false) {
+function toSO(obj, useSI = false, type) {
 	// Check special cases.
 	if (typeof obj === 'function')
 		throw new Error(`Invalid Functional Object: cannot deal with functions.`)
+
+	// Check if some type is known that we can apply, either given or inherent in the given object.
+	type = type || obj?.type
+	if (type && types.includes(type)) {
+		const funcs = require(`./${type}`)
+		const func = funcs[useSI ? 'FOtoSI' : 'FOtoSO'] || funcs.FOtoSO
+		if (func)
+			return { type, value: func(obj) }
+	}
+
+	// No type is known. It might be a basic object or array, in which case we process it parameter by parameter.
+	if (isBasicObject(obj) || Array.isArray(obj))
+		return applyMapping(obj, obj => toSO(obj, useSI))
+
+	// Check other special cases.
 	if (typeof obj !== 'object')
 		return obj // Basic type.
 	if (obj === null)
 		return null
 
-	// If it is a basic object or an array, do things parameter by parameter.
-	if (isBasicObject(obj) || Array.isArray(obj))
-		return applyMapping(obj, obj => toSO(obj, useSI))
-
-	// We have a functional object. There must be a type. If the type is known, run the corresponding functions.
-	const { type } = obj
-	if (typeof type !== 'string' || type === '')
-		throw new Error(`Missing object type: received a functional object without a type. Could not turn it into a storage object.`)
-	if (types.includes(type)) {
-		const funcs = require(`./${type}`)
-		const func = funcs[useSI ? 'FOtoSI' : 'FOtoSO'] || funcs.FOtoSO
-		if (func)
-			return func(obj)
-	}
-
-	// Attempt to extract an SO from the object.
-	const { SO } = obj
-	if (SO === undefined || (isObject(SO) && SO.constructor !== Object && !Array.isArray(SO)))
+	// It's a functional object. Attempt to extract an SO or SI directly from the object.
+	const value = obj[useSI ? 'SI' : 'SO'] || obj.SO
+	if (value === undefined || (isObject(value) && value.constructor !== Object && !Array.isArray(value)))
 		throw new Error(`Invalid data type: received a functional object without a valid SO parameter. Could not turn it into a storage object.`)
-	return { type, value: SO }
+	return { type, value }
 }
 module.exports.toSO = toSO

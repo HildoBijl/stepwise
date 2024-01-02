@@ -55,6 +55,14 @@ class Float {
 		return keysToObject(Object.keys(defaultParameters), key => this[key] === defaultParameters[key] ? undefined : this[key])
 	}
 
+	get SI() {
+		const power = this.getDisplayPower()
+		const result = { number: this.getDisplayNumber(power) }
+		if (power !== 0)
+			result.power = power.toString()
+		return result
+	}
+
 	get type() {
 		return 'Float'
 	}

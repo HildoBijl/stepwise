@@ -11,8 +11,8 @@ module.exports.SItoFO = ({ float, unit }) => {
 }
 
 module.exports.FOtoSI = FO => ({
-	float: floatFOtoSI(FO.float),
-	unit: unitFOtoSI(FO.unit),
+	float: FO.float.SI,
+	unit: FO.unit.SI,
 })
 
 module.exports.SOtoFO = SO => {

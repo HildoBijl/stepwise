@@ -7,7 +7,7 @@ import { Translation } from 'i18n'
 
 import { TextInput, defaultTextInputOptions, textInputFunctions } from '../TextInput'
 
-import { type, initialValue, isEmpty, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd, mouseClickToCursor, keyboardSettings, keyPressToFI, errorToMessage } from './support'
+import { type, initialValue, isEmpty, getStartCursor, getEndCursor, isCursorAtStart, isCursorAtEnd, mouseClickToCursor, keyboardSettings, keyPressToFI, clean, functionalize, errorToMessage } from './support'
 import { IntegerInputInner } from './IntegerInputInner'
 import * as validation from './validation'
 
@@ -30,6 +30,8 @@ export const defaultIntegerInputOptions = {
 	getEndCursor,
 	isCursorAtStart,
 	isCursorAtEnd,
+	clean,
+	functionalize,
 	errorToMessage,
 }
 

@@ -2,21 +2,23 @@ import React, { useRef, useMemo, useCallback } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Check, Clear, Send, ArrowForward, Search, Warning } from '@material-ui/icons'
 
-import { lastOf } from 'step-wise/util'
+import { lastOf, applyMapping } from 'step-wise/util'
+import { toSO } from 'step-wise/inputTypes'
 import { getLastAction, getLastInput, getStep } from 'step-wise/eduTools'
 
 import { useLatest, useConsistentValue } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 import { useTranslator, useGetTranslation } from 'i18n'
-import { useUserId } from 'api/user'
+import { useUserId, useIsAdmin } from 'api/user'
 import { useActiveGroup } from 'api/group'
 import { getIcon } from 'ui/theme'
-import { Button, useModal, PictureConfirmation } from 'ui/components'
+import { Button, useModal, PictureConfirmation, QuickPractice } from 'ui/components'
 import { useFormData, useFieldRegistration, useFeedbackContext } from 'ui/form'
 import { useSelfAndOtherMembers } from 'ui/pages/Groups/util'
 import MemberList from 'ui/pages/Groups/MemberList'
 
-import { useExerciseData } from '../containers'
 import { useSubmitAction, useGiveUpAction, useCancelAction, useResolveEvent, canResolveGroupEvent } from '../util'
+import { useExerciseData } from '../containers'
+import { useSolution } from '../wrappers'
 
 const translationPath = 'eduTools/exercises'
 
@@ -144,17 +146,20 @@ export function ExerciseButtons(props) {
 
 function SingleUserExerciseButtons({ stepwise = false }) {
 	const translate = useTranslator(translationPath)
-	const { progress, history, submitting, startNewExercise } = useExerciseData()
+	const isAdmin = useIsAdmin()
 	const theme = useTheme()
 	const classes = useStyles()
-	const { isAllInputEqual } = useFormData()
+	const { isAllInputEqual, getAllInputSI, setAllInputSI } = useFormData()
+	const { progress, history, submitting, startNewExercise } = useExerciseData()
+	const solution = useSolution(false)
 
 	// Set up button handlers.
 	const submit = useSubmitAction()
 	const giveUp = useGiveUpAction()
 
 	// Include the buttons in the tabbing.
-	const submitButtonRef = useRef(), giveUpButtonRef = useRef(), startNewExerciseButtonRef = useRef()
+	const insertSolutionButtonRef = useRef(), giveUpButtonRef = useRef(), submitButtonRef = useRef(), startNewExerciseButtonRef = useRef()
+	useFieldRegistration({ id: 'insertSolutionButton', element: insertSolutionButtonRef, apply: !progress.done && isAdmin, focusRefOnActive: true })
 	useFieldRegistration({ id: 'submitButton', element: submitButtonRef, apply: !progress.done, focusRefOnActive: true })
 	useFieldRegistration({ id: 'giveUpButton', element: giveUpButtonRef, apply: !progress.done, focusRefOnActive: true })
 	useFieldRegistration({ id: 'startNewExerciseButton', element: startNewExerciseButtonRef, apply: !!progress.done, focusRefOnActive: true })
@@ -199,11 +204,19 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 		}
 	}
 
+	// Set up a function to insert the solution into the input fields.
+	const insertSolution = () => {
+		const oldInput = getAllInputSI()
+		const newInput = applyMapping(oldInput, (currValue, key) => solution[key] === undefined ? currValue : toSO(solution[key], true, currValue.type))
+		setAllInputSI(newInput)
+	}
+
 	return (
 		<div className={classes.buttonContainer}>
+			{isAdmin && solution ? <Button variant="contained" startIcon={<QuickPractice />} onClick={insertSolution} disabled={submitting} color="info" ref={insertSolutionButtonRef}>{translate('Insert solution', 'buttons.solve')}</Button> : null}
 			<Button variant="contained" startIcon={<Clear />} onClick={checkGiveUp} disabled={submitting} color="secondary" ref={giveUpButtonRef}>{giveUpText}</Button>
 			<Button variant="contained" startIcon={<Check />} onClick={submit} disabled={submitting || inputIsEqualToLastInput} color="primary" ref={submitButtonRef}>{translate('Submit and check', 'buttons.check')}</Button>
-		</div>
+		</div >
 	)
 }
 
@@ -259,7 +272,7 @@ function GiveUpAndSubmitButtons({ stepwise, submittedAction }) {
 	const hasGivenUp = submittedAction && submittedAction.type === 'giveUp'
 
 	// Register the buttons to tab control.
-	const submitButtonRef = useRef(), giveUpButtonRef = useRef()
+	const giveUpButtonRef = useRef(), submitButtonRef = useRef()
 	useFieldRegistration({ id: 'giveUpButton', element: giveUpButtonRef, apply: !hasGivenUp, focusRefOnActive: true })
 	useFieldRegistration({ id: 'submitButton', element: submitButtonRef, focusRefOnActive: true })
 

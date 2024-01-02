@@ -35,6 +35,10 @@ class Unit {
 		return keysToObject(parts, part => this[part].length === 0 ? undefined : this[part].map(unitElement => unitElement.SO))
 	}
 
+	get SI() {
+		return keysToObject(parts, part => this[part].length === 0 ? undefined : this[part].map(unitElement => unitElement.SI))
+	}
+
 	get type() {
 		return 'Unit'
 	}
