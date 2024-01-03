@@ -1,11 +1,11 @@
 const { getRandomFloat, getRandomExponentialFloat } = require('../../../../inputTypes')
-const { getSimpleExerciseProcessor } = require('../../../../eduTools')
+const { getSimpleExerciseProcessor, performComparison } = require('../../../../eduTools')
 
 // a + b*x^p = c
 
-const data = {
+const metaData = {
 	skill: 'solveExponentEquation',
-	comparison: { significantDigitMargin: 2 },
+	comparison: { default: { significantDigitMargin: 2 } },
 }
 
 function generateState() {
@@ -39,17 +39,18 @@ function generateState() {
 }
 
 function getSolution({ a, b, p, c }) {
-	return c.subtract(a).divide(b).toPower(p.invert())
+	const cMinusA = c.subtract(a, true)
+	const cMinusADivB = cMinusA.divide(b, true)
+	const ans = c.subtract(a).divide(b).toPower(p.invert())
+	return { cMinusA, cMinusADivB, ans }
 }
 
-function checkInput(state, { ans }) {
-	return getSolution(state).equals(ans, data.comparison)
+function checkInput(exerciseData) {
+	return performComparison(exerciseData, 'ans')
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getSimpleExerciseProcessor(exercise),
 }

@@ -1,7 +1,7 @@
 const { getRandomInteger, getRandomFloat, getRandomFloatUnit } = require('../../../../inputTypes')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'linearInterpolation',
 	steps: ['solveLinearEquation', 'solveLinearEquation'],
 
@@ -16,7 +16,7 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const type = getRandomInteger(1, 2) // 1 means give year, find population. 2 means give population, find year.
@@ -67,20 +67,17 @@ function getSolution({ type, h1, h2, W1, W2, h, W }) {
 	return { type, h1, h2, W1, W2, x, h, W }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison('x', input, solution, data.comparison)
+			return performComparison(exerciseData, 'x')
 		default:
-			return performComparison(state.type === 1 ? 'W' : 'h', input, solution, data.comparison)
+			return performComparison(exerciseData, exerciseData.state.type === 1 ? 'W' : 'h')
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

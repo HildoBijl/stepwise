@@ -3,7 +3,7 @@ import React from 'react'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatInput } from 'ui/inputs'
-import { SimpleExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { SimpleExercise, getAllInputFieldsFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getAllInputFieldsFeedback} />
@@ -18,7 +18,6 @@ function Problem({ a, b }) {
 	</>
 }
 
-function Solution({ a, b }) {
-	const x = useSolution()
-	return <Par>We beginnen met de vergelijking <BM>{a} \cdot x = {b}.</BM> Als we beide kanten van de vergelijking delen door <M>{a}</M> krijgen we <BM>x = \frac{b}{a} = {x}.</BM> Dit is de oplossing van de opgave.</Par>
+function Solution({ a, b, ans }) {
+	return <Par>We beginnen met de vergelijking <BM>{a} \cdot x = {b}.</BM> Als we beide kanten van de vergelijking delen door <M>{a}</M> krijgen we <BM>x = \frac{b}{a} = {ans}.</BM> Dit is de oplossing van de opgave.</Par>
 }

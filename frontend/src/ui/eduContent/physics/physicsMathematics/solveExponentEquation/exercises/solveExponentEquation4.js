@@ -3,7 +3,7 @@ import React from 'react'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatInput } from 'ui/inputs'
-import { SimpleExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { SimpleExercise, getAllInputFieldsFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getAllInputFieldsFeedback} />
@@ -18,12 +18,6 @@ function Problem({ a, b, c, p }) {
 	</>
 }
 
-function Solution(state) {
-	const { a, b, c, p } = state
-	const x = useSolution()
-
-	const aMinusB = a.subtract(b, true)
-	const cDivAMinusB = c.divide(aMinusB, true)
-
-	return <Par>We beginnen met de vergelijking <BM>{a} \cdot x^{p} = {b} \cdot x^{p} {c.texWithPM}.</BM> We zien dat hier twee exponenten inzitten. Deze hebben echter dezelfde macht! Dat betekent dat we deze termen samen kunnen voegen. Om in te zien hoe, brengen we eerst <M>{b} \cdot x^{p}</M> naar de andere kant. Zo vinden we <BM>{a} \cdot x^{p} {b.applyMinus().texWithPM} \cdot x^{p} = {c}.</BM> De twee termen links kunnen we nu samenvoegen tot <BM>\left({a} {b.applyMinus().texWithPM}\right) \cdot x^{p} = {c},</BM> wat weer versimpeld kan worden tot <BM>{aMinusB} \cdot x^{p} = {c}.</BM> Nu hebben we maar één exponent! Om dit verder op te lossen, brengen we ook nog <M>{aMinusB}</M> naar de andere kant. Zo krijgen we <BM>x^{p} = \frac{c}{aMinusB} = {cDivAMinusB}.</BM> Om ten slotte de macht weg te werken doen we beide kanten van de vergelijking tot de macht <M>\frac(1)({p}).</M> Hiermee vinden we de oplossing <BM>x = {cDivAMinusB.texWithBrackets}^(\frac(1)({p})) = {x}.</BM></Par>
+function Solution({ a, b, c, p, aMinusB, cDivAMinusB, ans }) {
+	return <Par>We beginnen met de vergelijking <BM>{a} \cdot x^{p} = {b} \cdot x^{p} {c.texWithPM}.</BM> We zien dat hier twee exponenten inzitten. Deze hebben echter dezelfde macht! Dat betekent dat we deze termen samen kunnen voegen. Om in te zien hoe, brengen we eerst <M>{b} \cdot x^{p}</M> naar de andere kant. Zo vinden we <BM>{a} \cdot x^{p} {b.applyMinus().texWithPM} \cdot x^{p} = {c}.</BM> De twee termen links kunnen we nu samenvoegen tot <BM>\left({a} {b.applyMinus().texWithPM}\right) \cdot x^{p} = {c},</BM> wat weer versimpeld kan worden tot <BM>{aMinusB} \cdot x^{p} = {c}.</BM> Nu hebben we maar één exponent! Om dit verder op te lossen, brengen we ook nog <M>{aMinusB}</M> naar de andere kant. Zo krijgen we <BM>x^{p} = \frac{c}{aMinusB} = {cDivAMinusB}.</BM> Om ten slotte de macht weg te werken doen we beide kanten van de vergelijking tot de macht <M>\frac(1)({p}).</M> Hiermee vinden we de oplossing <BM>x = {cDivAMinusB.texWithBrackets}^(\frac(1)({p})) = {ans}.</BM></Par>
 }

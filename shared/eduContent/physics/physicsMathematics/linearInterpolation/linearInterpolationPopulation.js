@@ -2,7 +2,7 @@ const { getRandom } = require('../../../../util')
 const { getRandomInteger, Float } = require('../../../../inputTypes')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'linearInterpolation',
 	steps: ['solveLinearEquation', 'solveLinearEquation'],
 
@@ -16,7 +16,7 @@ const data = {
 		}
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const type = getRandomInteger(1, 2) // 1 means give year, find population. 2 means give population, find year.
@@ -36,34 +36,31 @@ function generateState() {
 }
 
 function getSolution({ type, year1, year2, pop1, pop2, year, pop }) {
-	let x, popRounded, yearFloored
+	let x, popUnrounded, yearUnrounded
 	if (type === 1) {
 		x = (year - year1) / (year2 - year1)
-		pop = pop1 + x * (pop2 - pop1)
-		popRounded = Math.round(pop)
+		popUnrounded = pop1 + x * (pop2 - pop1)
+		pop = Math.round(popUnrounded)
 	} else {
 		x = (pop - pop1) / (pop2 - pop1)
-		year = year1 + x * (year2 - year1)
-		yearFloored = Math.floor(year)
+		yearUnrounded = year1 + x * (year2 - year1)
+		year = Math.floor(yearUnrounded)
 	}
 	x = new Float({ number: x, significantDigits: 2 })
-	return { type, year1, year2, pop1, pop2, x, year, pop, yearFloored, popRounded }
+	return { type, year1, year2, pop1, pop2, x, year, pop, yearUnrounded, popUnrounded }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison('x', input, solution, data.comparison)
+			return performComparison(exerciseData, 'x')
 		default:
-			return performComparison(state.type === 1 ? 'pop' : 'year', input, solution, data.comparison)
+			return performComparison(exerciseData, exerciseData.state.type === 1 ? 'pop' : 'year')
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

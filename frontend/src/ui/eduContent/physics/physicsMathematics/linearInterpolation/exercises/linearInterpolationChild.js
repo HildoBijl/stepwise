@@ -3,7 +3,7 @@ import React from 'react'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatInput, FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, getAllInputFieldsFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
@@ -42,8 +42,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { type, h1, h2, W1, W2, x, h, W } = useSolution()
+		Solution: ({ type, h1, h2, W1, W2, x, h, W }) => {
 			return type === 1 ? <>
 				<Par>
 					De hoogtestijging sinds de eerste meting is
@@ -82,8 +81,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { type, h1, h2, W1, W2, x, h, W } = useSolution()
+		Solution: ({ type, h1, h2, W1, W2, x, h, W }) => {
 			return type === 1 ?
 				<Par>
 					We hebben <M>{x}</M> deel van de gewichtstoename. De gehele gewichtstoename tussen de twee metingen is

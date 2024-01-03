@@ -3,7 +3,7 @@ import React from 'react'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatInput, FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, getAllInputFieldsFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
@@ -42,8 +42,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { type, T1, T2, t1, t2, x, T, t } = useSolution()
+		Solution: ({ type, T1, T2, t1, t2, x, T, t }) => {
 			return type === 1 ? <>
 				<Par>
 					De temperatuursstijging ten opzichte van de eerste meting is
@@ -53,7 +52,7 @@ const steps = [
 					Het deel van de eerste, ten opzichte van de tweede, is
 					<BM>x = \frac(T - T_1)(T_2 - T_1) = \frac({T.float} - {T1.float})({T2.float} - {T1.float}) = \frac{T.subtract(T1).float}{T2.subtract(T1).float} = {x}.</BM>
 					Dit is dus het deel van de temperatuursstijging.
-					</Par>
+				</Par>
 			</> : <>
 				<Par>De gepasseerde tijd sinds de eerste meting is
 					<BM>t - t_1 = {t.float} - {t1.float} = {t.subtract(t1)}.</BM>
@@ -82,8 +81,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { type, T1, T2, t1, t2, x, T, t } = useSolution()
+		Solution: ({ type, T1, T2, t1, t2, x, T, t }) => {
 			return type === 1 ?
 				<Par>
 					We zijn op <M>{x}</M> deel van de tijdsperiode. De gehele tijdsperiode is
@@ -96,13 +94,13 @@ const steps = [
 				</Par> :
 				<Par>
 					We zijn op <M>{x}</M> deel van de tijdsperiode. De gehele temperatuurtoename in deze periode is
-				<BM>T_2 - T_1 = {T2.float} - {T1.float} = {T2.subtract(T1)}.</BM>
-				We hebben slechts een deel <M>{x}</M> hiervan, wat overeenkomt met een toename van
-				<BM>x \left(T_2 - T_1\right) = {x} \cdot \left({T2.float} - {T1.float}\right) = {T2.subtract(T1).multiply(x)}.</BM>
-				Dit is de temperatuurstoename. De werkelijk aanwezige temperatuur is dan
-				<BM>T = T_1 + x \left(T_2 - T_1\right) = {T1.float} + {x} \cdot \left({T2.float} - {T1.float}\right) = {T}.</BM>
-				Als controle kunnen we kijken of dit tussen de <M>{T1}</M> en de <M>{T2}</M> in ligt: dat doet het inderdaad.
-			</Par>
+					<BM>T_2 - T_1 = {T2.float} - {T1.float} = {T2.subtract(T1)}.</BM>
+					We hebben slechts een deel <M>{x}</M> hiervan, wat overeenkomt met een toename van
+					<BM>x \left(T_2 - T_1\right) = {x} \cdot \left({T2.float} - {T1.float}\right) = {T2.subtract(T1).multiply(x)}.</BM>
+					Dit is de temperatuurstoename. De werkelijk aanwezige temperatuur is dan
+					<BM>T = T_1 + x \left(T_2 - T_1\right) = {T1.float} + {x} \cdot \left({T2.float} - {T1.float}\right) = {T}.</BM>
+					Als controle kunnen we kijken of dit tussen de <M>{T1}</M> en de <M>{T2}</M> in ligt: dat doet het inderdaad.
+				</Par>
 		},
 	},
 ]

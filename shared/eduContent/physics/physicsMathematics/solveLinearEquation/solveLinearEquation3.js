@@ -1,9 +1,9 @@
 const { getRandomFloat } = require('../../../../inputTypes')
-const { getSimpleExerciseProcessor } = require('../../../../eduTools')
+const { getSimpleExerciseProcessor, performComparison } = require('../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'solveLinearEquation',
-	comparison: { significantDigitMargin: 1 },
+	comparison: { default: { significantDigitMargin: 1 } },
 }
 
 function generateState() {
@@ -29,24 +29,25 @@ function generateState() {
 			significantDigits: 2,
 		}),
 	}
-	
+
 	if (state.a.subtract(state.c).number === 0) // Invalid?
 		return generateState() // Redo
 	return state
 }
 
 function getSolution({ a, b, c, d }) {
-	return (d.subtract(b)).divide(a.subtract(c))
+	const ac = a.subtract(c, true)
+	const db = d.subtract(b, true)
+	const ans = db.divide(ac)
+	return { ac, db, ans }
 }
 
-function checkInput(state, { ans }) {
-	return getSolution(state).equals(ans, data.comparison)
+function checkInput(exerciseData) {
+	return performComparison(exerciseData, 'ans')
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getSimpleExerciseProcessor(exercise),
 }

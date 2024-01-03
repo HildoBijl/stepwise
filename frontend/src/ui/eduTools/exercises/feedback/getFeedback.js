@@ -38,7 +38,7 @@ export function getAllInputFieldsFeedbackExcluding(excludedFields) {
 	return (exerciseData) => {
 		// Determine all fields that require feedback and ask for their feedback.
 		const inputFields = Object.keys(exerciseData.input).filter(inputField => !excludedFields.includes(inputField))
-		return getInputFieldFeedback(inputFields.length === 1 ? inputFields[0] : inputFields, exerciseData)
+		return getFieldInputFeedback(exerciseData, inputFields)
 	}
 }
 
