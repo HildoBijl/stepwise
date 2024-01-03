@@ -6,7 +6,7 @@ const { getSimpleExerciseProcessor, performComparison } = require('../../../../.
 // Type 1: from (mu/m/./M)g to SI (so kg: which it may already be in).
 // Type 2: from kg to (mu/m/./M)g.
 
-const data = {
+const metaData = {
 	skill: 'calculateWithMass',
 	comparison: {
 		default: {
@@ -34,19 +34,16 @@ function generateState() {
 	return { m, type, prefix }
 }
 
-function getSolution({ m, type, prefix }) {
-	return (type === 2 ? m.setUnit(`${prefix}g`) : m.setUnit('kg'))
+function getSolution(state) {
+	return { ...state, ans: (state.type === 2 ? state.m.setUnit(`${state.prefix}g`) : state.m.setUnit('kg')) }
 }
 
-function checkInput(state, input) {
-	const solution = getSolution(state)
-	return performComparison('ans', input, solution, data.comparison.default)
+function checkInput(exerciseData) {
+	return performComparison(exerciseData, 'ans')
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getSimpleExerciseProcessor(exercise),
 }

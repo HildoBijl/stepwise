@@ -2,9 +2,9 @@ const { getRandom } = require('../../../../../util')
 const { getRandomFloatUnit } = require('../../../../../inputTypes')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'calculateWithCOP',
-	comparison: { significantDigitMargin: 1 },
+	comparison: { default: { significantDigitMargin: 1 } },
 }
 
 function generateState() {
@@ -14,24 +14,25 @@ function generateState() {
 		significantDigits: 2,
 		unit: 'MJ',
 	})
-	const epsilon = getRandom(2,4)
+	const epsilon = getRandom(2, 4)
 	const Eout = Ee.multiply(epsilon + 1).roundToPrecision()
 
 	return { Ee, Eout }
 }
 
 function getSolution({ Ee, Eout }) {
-	return Eout.subtract(Ee).divide(Ee).setUnit('').setSignificantDigits(2)
+	return {
+		Ef: Eout.subtract(Ee, true),
+		epsilon: Eout.subtract(Ee).divide(Ee).setUnit('').setSignificantDigits(2),
+	}
 }
 
-function checkInput(state, input, step, substep) {
-	return performComparison('epsilon', input, getSolution(state), data.comparison)
+function checkInput(exerciseData) {
+	return performComparison(exerciseData, 'epsilon')
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getSimpleExerciseProcessor(exercise),
 }

@@ -1,11 +1,12 @@
 import React from 'react'
 
+import { Unit } from 'step-wise/inputTypes'
 import { pressure as pConversion } from 'step-wise/data/conversions'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { SimpleExercise, useSolution, getInputFieldFeedback } from 'ui/eduTools'
+import { SimpleExercise, getFieldInputFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -27,21 +28,19 @@ function Problem({ p, type }) {
 	</>
 }
 
-function Solution({ p, type }) {
-	const correctAnswer = useSolution()
-
+function Solution({ p, type, ans }) {
 	switch (type) {
 		case 0:
-			return <Par>Een bar is <M>{pConversion.float}</M> Pascal. Om van Pascal naar bar te gaan delen we dus door <M>{pConversion}.</M> Hiermee krijgen we <BM>p = \frac{p}{pConversion} = {correctAnswer}.</BM></Par>
+			return <Par>Een bar is <M>{pConversion.float}</M> Pascal. Om van Pascal naar bar te gaan delen we dus door <M>{pConversion}.</M> Hiermee krijgen we <BM>p = \frac{p}{pConversion} = {ans}.</BM></Par>
 
 		case 1:
-			return <Par>Dit is een strikvraag. De druk staat al in standaard eenheden (Pascal). Het antwoord is dus gewoon <M>p = {correctAnswer}.</M></Par>
+			return <Par>Dit is een strikvraag. De druk staat al in standaard eenheden (Pascal). Het antwoord is dus gewoon <M>p = {ans}.</M></Par>
 
 		case 2:
-			return <Par>Een bar is <M>{pConversion.float}</M> Pascal. Om van bar naar Pascal te gaan vermenigvuldigen we dus met <M>{pConversion}.</M> Hiermee krijgen we <BM>p = {p} \cdot {pConversion} = {correctAnswer}.</BM></Par>
+			return <Par>Een bar is <M>{pConversion.float}</M> Pascal. Om van bar naar Pascal te gaan vermenigvuldigen we dus met <M>{pConversion}.</M> Hiermee krijgen we <BM>p = {p} \cdot {pConversion} = {ans}.</BM></Par>
 
 		case 3:
-			return <Par>De standaard eenheid van druk is Pascal, en een bar is <M>{pConversion.float}</M> Pascal. Om van bar naar Pascal te gaan vermenigvuldigen we daarom met <M>{pConversion}.</M> Hiermee krijgen we <BM>p = {p} \cdot {pConversion} = {correctAnswer}.</BM></Par>
+			return <Par>De standaard eenheid van druk is Pascal, en een bar is <M>{pConversion.float}</M> Pascal. Om van bar naar Pascal te gaan vermenigvuldigen we daarom met <M>{pConversion}.</M> Hiermee krijgen we <BM>p = {p} \cdot {pConversion} = {ans}.</BM></Par>
 
 		default:
 			throw new Error(`Invalid exercise type "${type}".`)
@@ -49,7 +48,11 @@ function Solution({ p, type }) {
 }
 
 function getFeedback(exerciseData) {
-	return getInputFieldFeedback('ans', exerciseData, { text: { unit: getUnitMessage(exerciseData.state.type) } })
+	return getFieldInputFeedback(exerciseData, {
+		ans: [
+			(input, answer, { type }, correct) => !correct && !answer.unit.equals(input.unit, { type: Unit.equalityTypes.exact }) && <>{getUnitMessage(type)}</>,
+		],
+	})
 }
 
 function getUnitMessage(type) {

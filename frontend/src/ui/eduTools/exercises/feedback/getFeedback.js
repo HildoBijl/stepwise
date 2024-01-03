@@ -65,6 +65,8 @@ export function getFieldInputFeedback(exerciseData, parameterOptions) {
 
 		// Process the given options for the field. If it's an array, assume they are feedbackChecks. Also merge in the metaData comparison options and previous input/feedback.
 		let currOptions = parameterOptions[currParameter]
+		if (typeof currOptions === 'function') // On a function, assume it's a single feedbackCheck.
+			currOptions = [currOptions]
 		if (Array.isArray(currOptions)) // On an array, assume they are feedbackChecks.
 			currOptions = { feedbackChecks: currOptions }
 		currOptions.comparison = currOptions.comparison || (comparison && comparison[currParameter]) || comparison?.default
@@ -258,7 +260,7 @@ export function getNumberComparisonFeedback(currInput, currSolution, currOptions
 				return <Translation path="eduTools/feedback" entry="numeric.negativeTooSmall">Your answer is (magnitude-based) too large. We expected something closer to zero.</Translation>
 		} else {
 			if (equalityData.magnitude === 'TooLarge')
-				return <Translation path="eduTools/feedback" entry="numeric.positiveTooLarge">Your answer is too high.</Translation>
+				return <Translation path="eduTools/feedback" entry="numeric.positiveTooLarge">Your answer is too large.</Translation>
 			else
 				return <Translation path="eduTools/feedback" entry="numeric.positiveTooSmall">Your answer is too small.</Translation>
 		}

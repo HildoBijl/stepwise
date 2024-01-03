@@ -6,7 +6,7 @@ const { getSimpleExerciseProcessor, performComparison } = require('../../../../.
 // Type 2: from bar to Pa.
 // Type 3: from bar to SI (so Pa).
 
-const data = {
+const metaData = {
 	skill: 'calculateWithPressure',
 	comparison: {
 		default: {
@@ -30,20 +30,17 @@ function generateState() {
 	return { p, type }
 }
 
-function getSolution({ p, type }) {
-	p = p.simplify()
-	return (type === 0 ? p.setUnit('bar') : p)
+function getSolution(state) {
+	p = state.p.simplify()
+	return { ...state, ans: (state.type === 0 ? p.setUnit('bar') : p) }
 }
 
-function checkInput(state, input) {
-	const solution = getSolution(state)
-	return performComparison('ans', input, solution, data.comparison.default)
+function checkInput(exerciseData) {
+	return performComparison(exerciseData, 'ans')
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getSimpleExerciseProcessor(exercise),
 }

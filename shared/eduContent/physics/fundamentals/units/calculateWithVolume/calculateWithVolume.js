@@ -7,7 +7,7 @@ const { getSimpleExerciseProcessor, performComparison } = require('../../../../.
 // Type 2: from liter to m^3.
 // Type 3: from liter to SI (so m^3).
 
-const data = {
+const metaData = {
 	skill: 'calculateWithVolume',
 	comparison: {
 		default: {
@@ -37,20 +37,17 @@ function generateState() {
 	return { V, type }
 }
 
-function getSolution({ V, type }) {
-	V = V.simplify()
-	return (type === 0 ? V.setUnit('l') : V)
+function getSolution(state) {
+	const V = state.V.simplify()
+	return { ...state, ans: (state.type === 0 ? V.setUnit('l') : V) }
 }
 
-function checkInput(state, input) {
-	const solution = getSolution(state)
-	return performComparison('ans', input, solution, data.comparison.default)
+function checkInput(exerciseData) {
+	return performComparison(exerciseData, 'ans')
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getSimpleExerciseProcessor(exercise),
 }

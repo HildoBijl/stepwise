@@ -1,11 +1,11 @@
 import React from 'react'
 
-import { FloatUnit, getPrefixName, getPrefixPower } from 'step-wise/inputTypes'
+import { FloatUnit, Unit, getPrefixName, getPrefixPower } from 'step-wise/inputTypes'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { SimpleExercise, useSolution, getInputFieldFeedback } from 'ui/eduTools'
+import { SimpleExercise, getFieldInputFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -26,8 +26,7 @@ function Problem({ m, type, prefix }) {
 	</>
 }
 
-function Solution({ m, type, prefix }) {
-	const correctAnswer = useSolution()
+function Solution({ m, type, prefix, ans }) {
 	const fromPrefix = (type === 2 ? 'k' : prefix)
 	const toPrefix = (type === 2 ? prefix : 'k')
 	const fromName = getPrefixName(fromPrefix)
@@ -42,13 +41,16 @@ function Solution({ m, type, prefix }) {
 	const intro = `${type === 1 ? 'De standaard eenheid van massa is de kilogram. Oftewel, we willen' : 'We willen'} van ${fromName}gram naar ${toName}gram gaan.`
 
 	if (fromPower > toPower)
-		return <Par>{intro} Een {fromName}gram is <M>{conversion.float}</M> {toName}gram. We gebruiken dus een conversiefactor van <M>{conversion}.</M> Hiermee vinden we een massa van <BM>m = {m} \cdot {conversion} = {correctAnswer}.</BM></Par>
-	return <Par>{intro} Een {toName}gram is <M>{conversion.float}</M> {fromName}gram. We gebruiken dus een conversiefactor van <M>{conversion}.</M> Hiermee vinden we een massa van <BM>m = \frac{m}{conversion} = {correctAnswer}.</BM></Par>
+		return <Par>{intro} Een {fromName}gram is <M>{conversion.float}</M> {toName}gram. We gebruiken dus een conversiefactor van <M>{conversion}.</M> Hiermee vinden we een massa van <BM>m = {m} \cdot {conversion} = {ans}.</BM></Par>
+	return <Par>{intro} Een {toName}gram is <M>{conversion.float}</M> {fromName}gram. We gebruiken dus een conversiefactor van <M>{conversion}.</M> Hiermee vinden we een massa van <BM>m = \frac{m}{conversion} = {ans}.</BM></Par>
 }
 
 function getFeedback(exerciseData) {
-	const { state: { type, prefix } } = exerciseData
-	return getInputFieldFeedback('ans', exerciseData, { text: { unit: getUnitMessage(type, prefix) } })
+	return getFieldInputFeedback(exerciseData, {
+		ans: [
+			(input, answer, { type, prefix }, correct) => !correct && !answer.unit.equals(input.unit, { type: Unit.equalityTypes.exact }) && <>{getUnitMessage(type, prefix)}</>,
+		],
+	})
 }
 
 function getUnitMessage(type, prefix) {

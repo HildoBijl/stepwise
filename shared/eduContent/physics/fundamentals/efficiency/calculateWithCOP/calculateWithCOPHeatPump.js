@@ -2,9 +2,9 @@ const { getRandom } = require('../../../../../util')
 const { getRandomFloatUnit } = require('../../../../../inputTypes')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'calculateWithCOP',
-	comparison: { significantDigitMargin: 1 },
+	comparison: { default: { significantDigitMargin: 1 } },
 }
 
 function generateState() {
@@ -14,24 +14,25 @@ function generateState() {
 		significantDigits: 2,
 		unit: 'kW',
 	})
-	const COP = getRandom(3,5)
+	const COP = getRandom(3, 5)
 	const Pin = Pe.multiply(COP - 1).roundToPrecision()
 
 	return { Pe, Pin }
 }
 
 function getSolution({ Pe, Pin }) {
-	return Pin.add(Pe).divide(Pe).setUnit('').setSignificantDigits(2)
+	return {
+		Pout: Pin.add(Pe, true),
+		COP: Pin.add(Pe).divide(Pe).setUnit('').setSignificantDigits(2),
+	}
 }
 
-function checkInput(state, input, step, substep) {
-	return performComparison('COP', input, getSolution(state), data.comparison)
+function checkInput(exerciseData) {
+	return performComparison(exerciseData, 'COP')
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getSimpleExerciseProcessor(exercise),
 }

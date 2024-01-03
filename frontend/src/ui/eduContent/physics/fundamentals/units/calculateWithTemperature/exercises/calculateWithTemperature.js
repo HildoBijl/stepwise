@@ -1,11 +1,12 @@
 import React from 'react'
 
+import { Unit } from 'step-wise/inputTypes'
 import { temperature as TConversion } from 'step-wise/data/conversions'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { SimpleExercise, useSolution, getInputFieldFeedback } from 'ui/eduTools'
+import { SimpleExercise, getFieldInputFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -27,20 +28,23 @@ function Problem({ T, type }) {
 	</>
 }
 
-function Solution({ T, type }) {
-	const correctAnswer = useSolution()
+function Solution({ T, type, ans }) {
 	const solution = [
-		<Par>Om van Kelvin naar graden Celsius te gaan halen we <M>{TConversion.float}</M> ervan af. Hiermee krijgen we, rekening houdend met significante getallen, <BM>T = {T.float} - {TConversion.float} = {correctAnswer}.</BM></Par>,
-		<Par>Dit is een strikvraag. De temperatuur staat al in standaard eenheden (Kelvin). Het antwoord is dus gewoon <M>T = {correctAnswer}.</M></Par>,
-		<Par>Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.float}</M> bij op. Hiermee krijgen we, rekening houdend met significante getallen, <BM>T = {T.float} + {TConversion.float} = {correctAnswer}.</BM></Par>,
-		<Par>De standaard eenheid van temperatuur is Kelvin. Om van Kelvin naar graden Celsius te gaan tellen we er <M>{TConversion.float}</M> bij op. Hiermee krijgen we, rekening houdend met significante getallen, <BM>T = {T.float} + {TConversion.float} = {correctAnswer}.</BM></Par>,
+		<Par>Om van Kelvin naar graden Celsius te gaan halen we <M>{TConversion.float}</M> ervan af. Hiermee krijgen we, rekening houdend met significante getallen, <BM>T = {T.float} - {TConversion.float} = {ans}.</BM></Par>,
+		<Par>Dit is een strikvraag. De temperatuur staat al in standaard eenheden (Kelvin). Het antwoord is dus gewoon <M>T = {ans}.</M></Par>,
+		<Par>Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.float}</M> bij op. Hiermee krijgen we, rekening houdend met significante getallen, <BM>T = {T.float} + {TConversion.float} = {ans}.</BM></Par>,
+		<Par>De standaard eenheid van temperatuur is Kelvin. Om van Kelvin naar graden Celsius te gaan tellen we er <M>{TConversion.float}</M> bij op. Hiermee krijgen we, rekening houdend met significante getallen, <BM>T = {T.float} + {TConversion.float} = {ans}.</BM></Par>,
 	][type]
 
 	return <Par>{solution}</Par>
 }
 
 function getFeedback(exerciseData) {
-	return getInputFieldFeedback('ans', exerciseData, { text: { unit: getUnitMessage(exerciseData.state.type) } })
+	return getFieldInputFeedback(exerciseData, {
+		ans: [
+			(input, answer, { type }, correct) => !correct && !answer.unit.equals(input.unit, { type: Unit.equalityTypes.exact }) && <>{getUnitMessage(type)}</>,
+		],
+	})
 }
 
 function getUnitMessage(type) {

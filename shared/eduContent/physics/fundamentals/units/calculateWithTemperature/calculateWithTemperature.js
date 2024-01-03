@@ -6,12 +6,14 @@ const { getSimpleExerciseProcessor, performComparison } = require('../../../../.
 // Type 2: from °C to K.
 // Type 3: from °C to SI (so K).
 
-const data = {
+const metaData = {
 	skill: 'calculateWithTemperature',
 	comparison: {
-		absoluteMargin: 0.7,
-		significantDigitMargin: 1,
-		unitCheck: Unit.equalityTypes.sameUnits,
+		default: {
+			absoluteMargin: 0.7,
+			significantDigitMargin: 1,
+			unitCheck: Unit.equalityTypes.sameUnits,
+		},
 	},
 }
 
@@ -28,20 +30,17 @@ function generateState() {
 	return { T, type }
 }
 
-function getSolution({ T, type }) {
-	T = T.simplify()
-	return (type === 0 ? T.setUnit('dC') : T)
+function getSolution(state) {
+	const T = state.T.simplify()
+	return { ...state, ans: (state.type === 0 ? T.setUnit('dC') : T) }
 }
 
-function checkInput(state, input) {
-	const solution = getSolution(state)
-	return performComparison('ans', input, solution, data.comparison)
+function checkInput(exerciseData) {
+	return performComparison(exerciseData, 'ans')
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getSimpleExerciseProcessor(exercise),
 }

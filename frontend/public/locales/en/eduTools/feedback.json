@@ -94,7 +94,7 @@
     "notZeroNegative": "Zero is sadly wrong. We do expect a (possibly negative) number here.",
     "negativeTooLarge": "Your answer is (magnitude-based) too small. We expected something even more negative.",
     "negativeTooSmall": "Your answer is (magnitude-based) too large. We expected something closer to zero.",
-    "positiveTooLarge": "Your answer is too high.",
+    "positiveTooLarge": "Your answer is too large.",
     "positiveTooSmall": "Your answer is too small.",
     "tooManySignificantDigits": "You used too many significant digits.",
     "tooFewSignificantDigits": "You used too few significant digits.",
