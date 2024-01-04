@@ -1,6 +1,6 @@
 import { isValidElement } from 'react'
 
-import { arrayFind, isBasicObject, keysToObject, processOptions, deepEquals } from 'step-wise/util'
+import { arrayFind, isBasicObject, keysToObject, processOptions, deepEquals, applyMapping } from 'step-wise/util'
 import { checkNumberEquality, areNumbersEqual, Float, Unit, FloatUnit, Expression } from 'step-wise/inputTypes'
 import { performIndividualComparison, performIndividualListComparison, getCurrentInputSolutionAndComparison } from 'step-wise/eduTools'
 
@@ -11,6 +11,7 @@ const defaultOptions = {
 	// These are options that can be manually added.
 	feedbackChecks: [], // Checks to be run on the given input. Feedback checks are of the form (currInput, currSolution, solution, correct, exerciseData) => <>SomeMessage</>. Here "currSolution" refers to the solution for this parameter, while "solution" is the full solution object returned from the getSolution function. The value of correct is true/false, indicating whether it was graded to be equal. The first check that returns something truthy will be used.
 	feedbackFunction: undefined, // The function to be called after the feedbackChecks have failed to give any result. This is a function of the type (currInput, currSolution, currOptions, exerciseData) => { correct: false, <>SomeMessage</> } or similar. When not given, default feedback is determined based on the input and solution types.
+	dependency: undefined, // The names of parameters which the feedback of this parameter may depend on. The feedback of a parameter is only updated when it changes, or any of its dependencies changes.
 
 	// These are options automatically added, based on exerciseData.
 	comparison: {}, // A comparison function or object that will be used to check for correctness.
@@ -55,8 +56,7 @@ export function getFieldInputFeedback(exerciseData, parameterOptions) {
 	// Walk through the parameters and incorporate feedback.
 	const { input, solution, metaData, previousInput, previousFeedback } = exerciseData
 	const { comparison } = metaData
-	const feedback = {}
-	Object.keys(parameterOptions).forEach(currParameter => {
+	return applyMapping(parameterOptions, (currOptions, currParameter) => {
 		// Extract input and solution. Ignore parameters with no input.
 		const currInput = input[currParameter]
 		const currSolution = solution[currParameter]
@@ -64,21 +64,25 @@ export function getFieldInputFeedback(exerciseData, parameterOptions) {
 			return
 
 		// Process the given options for the field. If it's an array, assume they are feedbackChecks. Also merge in the metaData comparison options and previous input/feedback.
-		let currOptions = parameterOptions[currParameter]
 		if (typeof currOptions === 'function') // On a function, assume it's a single feedbackCheck.
 			currOptions = [currOptions]
 		if (Array.isArray(currOptions)) // On an array, assume they are feedbackChecks.
 			currOptions = { feedbackChecks: currOptions }
 		currOptions.comparison = currOptions.comparison || (comparison && comparison[currParameter]) || comparison?.default
-		currOptions.previousInput = previousInput[currParameter]
-		currOptions.previousFeedback = previousFeedback[currParameter]
+
+		// If the input hasn't changed (and nor have any potential dependencies) then keep the previous feedback.
+		let dependency = currOptions.dependency || []
+		dependency = [currParameter, ...(Array.isArray(dependency) ? dependency : [dependency])]
+		if (previousInput && previousFeedback && previousFeedback[currParameter] && dependency.every(dependencyParameter => {
+			const curr = input[dependencyParameter]
+			const prev = previousInput[dependencyParameter]
+			return prev !== undefined && (curr === prev || (curr.SO !== undefined && deepEquals(curr, prev))) // Is this parameter's input equal to the previous input?
+		}))
+			return previousFeedback[currParameter]
 
 		// Determine the feedback and save it.
-		feedback[currParameter] = getIndividualFieldInputFeedback(exerciseData, currParameter, currInput, currSolution, currOptions)
+		return getIndividualFieldInputFeedback(exerciseData, currParameter, currInput, currSolution, currOptions)
 	})
-
-	// All done! Return feedback.
-	return feedback
 }
 
 // ToDo: remove this function once the rest is pulled over to the new format.
@@ -145,12 +149,8 @@ export function getInputFieldFeedback(parameters, exerciseData, extraOptions) {
 
 // getIndividualFieldInputFeedback extracts feedback for a single input parameter. It checks which type it is and calls the appropriate function.
 function getIndividualFieldInputFeedback(exerciseData, currParameter, currInput, currSolution, currOptions) {
-	const { comparison, previousInput, previousFeedback, feedbackChecks, feedbackFunction } = processOptions(currOptions, defaultOptions)
+	const { comparison, feedbackChecks, feedbackFunction } = processOptions(currOptions, defaultOptions)
 	const { solution } = exerciseData
-
-	// If the previous input equals the current input, keep the previous feedback.
-	if (previousInput !== undefined && (currInput === previousInput || (currInput.SO !== undefined && deepEquals(currInput.SO, previousInput.SO))) && previousFeedback !== undefined)
-		return previousFeedback
 
 	// Determine if the field is correct. Do this in the same way as the comparison function from the shared directory.
 	const correct = performIndividualComparison(currInput, currSolution, comparison, solution)
@@ -202,6 +202,8 @@ function getFeedbackCheckResult(exerciseData, feedbackChecks, currInput, currSol
 	// Check the input.
 	if (feedbackChecks === undefined)
 		return undefined
+	if (typeof feedbackChecks === 'function')
+		feedbackChecks = [feedbackChecks]
 	if (!Array.isArray(feedbackChecks))
 		throw new Error(`Invalid feedbackChecks parameter: the feedbackChecks parameter must be an array. Instead, something of type "${typeof feedbackChecks}" was given.`)
 
@@ -293,6 +295,7 @@ export function getUnitComparisonFeedback(currInput, currSolution, currCompariso
 	return selectRandomIncorrectUnit()
 }
 
+// ToDo: turn this into getFieldInputListFeedback and convert to the new format.
 /* getInputFieldListFeedback gets an array of parameters and attempts to give feedback for the respective input fields. The main difference is that the fields may not have to be in the same order as the fields in the solution field.
 The extra options given can be an array with options for each parameter, or it can be single object that holds for every parameter. It may contain specific text to give on a "correct", a "wrongValue" case or a "usedValue" case. */
 export function getInputFieldListFeedback(parameters, exerciseData, extraOptions = []) {
@@ -325,62 +328,7 @@ export function getInputFieldListFeedback(parameters, exerciseData, extraOptions
 	return feedback
 }
 
-/* getMCFeedback provides a default feedback for multiple choice input fields. Currently this only works for single-input multiple choice and not multi-input. Parameters are:
- * - parameter: the parameter name (ID) of the field.
- * - exerciseData: all the data for the exercise in the standard format.
- * - options: an object with options.
- * The options object can contain the following.
- * - correct: the correct answer. It is used to determine if the given input is correct or not. If it is not given, it is attempted to be pulled out of the getSolution function.
- * - done: whether the question is done. If so, the correct answer will be displayed.
- * - step: if provided, the progress object is used to determine whether this question is done. Only used if "done" is not given.
- * - substep: if provided, the corresponding substep is checked.
- * - text: the text corresponding to each option, if it is selected. This is usually an array of strings/JSXs. If it is not an array, the given text is simply always shown.
- * - correctText: the text that is used upon a correct answer, if no text is given.
- * - incorrectText: the text that is used upon an incorrect answer, if no text is given.
- * The object returned is of the form { [name]: { subfields: { 0: { correct: false, text: 'Wrong!' }, 1: { correct: true } } } }
- */
-export function getMCFeedback(parameter, exerciseData, options = {}) {
-	const { input, progress, solution } = exerciseData
-	let { correct, done, step, substep, text, correctText, incorrectText } = options
-
-	// Attempt to get correct answer if not given.
-	if (correct === undefined)
-		correct = solution[parameter]
-
-	// Attempt to determine "done".
-	if (done === undefined) {
-		if (progress.done) {
-			done = progress.done
-		} else if (step !== undefined) {
-			let currProgress = progress[step]
-			if (substep !== undefined)
-				currProgress = currProgress && currProgress[substep]
-			done = currProgress && currProgress.done
-		}
-	}
-
-	// If the exercise is done, show the correct answer.
-	const feedback = {}
-	if (done && correct !== undefined)
-		feedback[correct] = true
-
-	// If there is an input, show the feedback on this input.
-	const currInput = input[parameter]
-	if (currInput !== undefined) {
-		const isCorrect = correct === currInput
-		let feedbackText = Array.isArray(text) ? text[currInput] : text
-		if (!feedbackText)
-			feedbackText = (isCorrect ? correctText : incorrectText)
-		feedback[currInput] = {
-			correct: isCorrect,
-			text: feedbackText,
-		}
-	}
-
-	// Return result in appropriate format.
-	return { [parameter]: { subfields: feedback } }
-}
-
+// ToDo: check if we still need this function.
 // extractComparisonFromExerciseData extracts shared data and the comparison method from the exercise data, assuring it's present. It also returns all other properties from the exerciseData, to allow easy variable definitions.
 function extractComparisonFromExerciseData(exerciseData) {
 	// Ensure there is a solution.

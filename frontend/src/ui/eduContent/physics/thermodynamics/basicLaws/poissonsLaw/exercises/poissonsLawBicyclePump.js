@@ -1,11 +1,12 @@
 import React from 'react'
 
+import { Unit } from 'step-wise/inputTypes'
 import { temperature as TConversion } from 'step-wise/data/conversions'
 
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
-import { StepExercise, Substep, useSolution, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
+import { StepExercise, Substep, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -27,15 +28,15 @@ const steps = [
 			<Par>Noem de beginsituatie "punt 1" en de eindsituatie "punt 2". Zet alle gegeven waarden in eenheden waarmee we mogen rekenen.</Par>
 			<InputSpace>
 				<Par>
-					<Substep ss={1}><FloatUnitInput id="T1" prelabel={<M>T_1=</M>} label="Begintemperatuur" size="s" /></Substep>
-					<Substep ss={2}><FloatUnitInput id="V1" prelabel={<M>V_1=</M>} label="Beginvolume" size="s" /></Substep>
-					<Substep ss={3}><FloatUnitInput id="V2" prelabel={<M>V_2=</M>} label="Eindvolume" size="s" /></Substep>
+					<Substep ss={1}><FloatUnitInput id="T1s" prelabel={<M>T_1=</M>} label="Begintemperatuur" size="s" /></Substep>
+					<Substep ss={2}><FloatUnitInput id="V1s" prelabel={<M>V_1=</M>} label="Beginvolume" size="s" /></Substep>
+					<Substep ss={3}><FloatUnitInput id="V2s" prelabel={<M>V_2=</M>} label="Eindvolume" size="s" /></Substep>
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: ({ T1, V1, V2 }) => {
+		Solution: ({ T1, V1, V2, T1s }) => {
 			return <>
-				<Par>De standaard eenheid van temperatuur is de Kelvin. Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.float}</M> bij op. Hiermee krijgen we <BM>T_1 = {T1.float} + {TConversion.float} = {T1.setUnit('K')}.</BM></Par>
+				<Par>De standaard eenheid van temperatuur is de Kelvin. Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.float}</M> bij op. Hiermee krijgen we <BM>T_1 = {T1.float} + {TConversion.float} = {T1s}.</BM></Par>
 				<Par>Wat volumes betreft mogen we bij Poisson's wet rekenen met liters! Natuurlijk is het altijd prima (veiliger) om standaard eenheden (kubieke meters) te gebruiken, maar in dit geval is het dus ook OK (makkelijker) om gebruik te maken van <M>V_1 = {V1}</M> en <M>V_2 = {V2}.</M></Par>
 			</>
 		},
@@ -64,34 +65,25 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { n, T1, T2, V1, V2 } = useSolution()
-			return <Par>Poisson's wet zegt dat <M>TV^(n-1)=(\rm constant)</M> waardoor we mogen schrijven, <BM>T_1V_1^(n-1)=T_2V_2^(n-1).</BM> We willen dit oplossen voor <M>T_2.</M> Delen door <M>V_2^(n-1)</M> geeft <BM>T_2 = T_1 \cdot \frac(V_1^(n-1))(V_2^(n-1)) = T_1 \left(\frac(V_1)(V_2)\right)^(n-1) = {T1.float} \cdot \left(\frac{V1.float}{V2.float}\right)^({n}-1) = {T2}.</BM> Dit komt overeen met een temperatuur van <M>{T2.setUnit('dC').setDecimals(0)}</M>, wat een best redelijke opwarming is. In de praktijk stroomt deze warmte echter snel genoeg weg via de behuizing van de fietspomp.</Par>
+		Solution: ({ n, T1, T1s, T2, V1, V2 }) => {
+			return <Par>Poisson's wet zegt dat <M>TV^(n-1)=(\rm constant)</M> waardoor we mogen schrijven, <BM>T_1V_1^(n-1)=T_2V_2^(n-1).</BM> We willen dit oplossen voor <M>T_2.</M> Delen door <M>V_2^(n-1)</M> geeft <BM>T_2 = T_1 \cdot \frac(V_1^(n-1))(V_2^(n-1)) = T_1 \left(\frac(V_1)(V_2)\right)^(n-1) = {T1s.float} \cdot \left(\frac{V1.float}{V2.float}\right)^({n}-1) = {T2}.</BM> Dit komt overeen met een temperatuur van <M>{T2.setUnit('dC').setDecimals(0)}</M>, wat een best redelijke opwarming is. In de praktijk stroomt deze warmte echter snel genoeg weg via de behuizing van de fietspomp.</Par>
 		},
 	},
 ]
 
 const getFeedback = (exerciseData) => {
-	const { input, shared } = exerciseData
-	const { data } = shared
+	// Set up an extra feedbackCheck for the parameter that should have equal units.
+	const feedbackCheck = (input, answer, solution, correct, { input: { V1s, V2s } }) => V1s && V2s && !V1s.unit.equals(V2s.unit, { type: Unit.equalityTypes.exact }) && { correct: false, text: <span>De eenheden van <M>V_1</M> en <M>V_2</M> moeten gelijk zijn.</span> }
 
-	const feedback = {
-		...getInputFieldFeedback(['T1', 'T2', 'V1', 'V2'], exerciseData),
-		...getMCFeedback('eq', exerciseData, {
-			correct: 1,
-			step: 2,
-			correctText: <span>Inderdaad! We weten <M>T</M> en <M>V</M>, wat dit de optimale vergelijking maakt om te gebruiken.</span>,
-			incorrectText: <span>Dat lijkt me niet handig. We weten niets over de druk <M>p</M>, en we hoeven hem ook niet te weten. Dus waarom wil je die in een vergelijking hebben?</span>,
+	return {
+		...getFieldInputFeedback(exerciseData, ['T1s', 'T2']),
+		...getFieldInputFeedback(exerciseData, { V1s: { feedbackChecks: feedbackCheck, dependency: 'V2s' }, V2s: { feedbackChecks: feedbackCheck, dependency: 'V1s' } }),
+		...getMCFeedback(exerciseData, {
+			eq: {
+				step: 2,
+				correctText: <span>Inderdaad! We weten <M>T</M> en <M>V</M>, wat dit de optimale vergelijking maakt om te gebruiken.</span>,
+				incorrectText: <span>Dat lijkt me niet handig. We weten niets over de druk <M>p</M>, en we hoeven hem ook niet te weten. Dus waarom wil je die in een vergelijking hebben?</span>,
+			}
 		}),
 	}
-
-	// If p1 and p2 have different units, then note this.
-	if (input.V1 && input.V2 && !input.V1.unit.equals(input.V2.unit, data.comparison.VUnit)) {
-		const addedFeedback = { correct: false, text: <span>De eenheden van <M>V_1</M> en <M>V_2</M> moeten gelijk zijn.</span> }
-		feedback.V1 = addedFeedback
-		feedback.V2 = addedFeedback
-	}
-
-	return feedback
 }
-

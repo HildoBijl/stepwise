@@ -1,7 +1,5 @@
 import React from 'react'
 
-import * as gasProperties from 'step-wise/data/gasProperties'
-
 import { Dutch } from 'ui/lang/gases'
 import { Par, M } from 'ui/components'
 import { InputSpace } from 'ui/form'
@@ -21,6 +19,6 @@ function Problem({ medium }) {
 	</>
 }
 
-function Solution({ medium }) {
-	return <Par>De specifieke gasconstante van {Dutch[medium]} is <M>{gasProperties[medium].Rs}.</M></Par>
+function Solution({ medium, Rs }) {
+	return <Par>De specifieke gasconstante van {Dutch[medium]} is <M>{Rs}.</M></Par>
 }

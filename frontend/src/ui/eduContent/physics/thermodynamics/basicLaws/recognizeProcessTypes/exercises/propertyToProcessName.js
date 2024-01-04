@@ -41,7 +41,6 @@ function Solution({ type }) {
 
 function getFeedback(exerciseData) {
 	const { state: { type } } = exerciseData
-	const correct = type
 
 	const text = [
 		[
@@ -81,5 +80,5 @@ function getFeedback(exerciseData) {
 		],
 	][type]
 
-	return getMCFeedback('ans', exerciseData, { correct, text })
+	return getMCFeedback(exerciseData, { ans: { text } })
 }

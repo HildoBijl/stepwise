@@ -5,7 +5,7 @@ import { temperature as TConversion, volumeLiter as VConversion } from 'step-wis
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, Substep, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, Substep, getAllInputFieldsFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
@@ -22,17 +22,17 @@ const steps = [
 			<Par>Zet alle gegeven waarden in standaard eenheden.</Par>
 			<InputSpace>
 				<Par>
-					<Substep ss={1}><FloatUnitInput id="V" prelabel={<M>V=</M>} label="Volume" size="s" /></Substep>
-					<Substep ss={2}><FloatUnitInput id="m" prelabel={<M>m=</M>} label="Massa" size="s" /></Substep>
-					<Substep ss={3}><FloatUnitInput id="T" prelabel={<M>T=</M>} label="Temperatuur" size="s" /></Substep>
+					<Substep ss={1}><FloatUnitInput id="Vs" prelabel={<M>V=</M>} label="Volume" size="s" /></Substep>
+					<Substep ss={2}><FloatUnitInput id="ms" prelabel={<M>m=</M>} label="Massa" size="s" /></Substep>
+					<Substep ss={3}><FloatUnitInput id="Ts" prelabel={<M>T=</M>} label="Temperatuur" size="s" /></Substep>
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: ({ V, m, T }) => {
+		Solution: ({ V, m, T, Vs, Ts }) => {
 			return <>
-				<Par>De standaard eenheid van volume is de kubieke meter. We gebruiken hierbij een conversiefactor van <M>{VConversion}.</M> Het volume is vervolgens <BM>V = \frac{V}{VConversion} = {V.simplify()}.</BM></Par>
+				<Par>De standaard eenheid van volume is de kubieke meter. We gebruiken hierbij een conversiefactor van <M>{VConversion}.</M> Het volume is vervolgens <BM>V = \frac{V}{VConversion} = {Vs}.</BM></Par>
 				<Par>De standaard eenheid van massa is de kilogram. De massa staat al in die eenheid, waardoor we gelijk <M>m = {m}</M> op kunnen schrijven.</Par>
-				<Par>De standaard eenheid van temperatuur is de Kelvin. Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.float}</M> bij op. Hiermee krijgen we <BM>T = {T.float} + {TConversion.float} = {T.setUnit('K')}.</BM></Par>
+				<Par>De standaard eenheid van temperatuur is de Kelvin. Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.float}</M> bij op. Hiermee krijgen we <BM>T = {T.float} + {TConversion.float} = {Ts}.</BM></Par>
 			</>
 		},
 	},
@@ -43,8 +43,7 @@ const steps = [
 				<Par><FloatUnitInput id="Rs" prelabel={<M>R_s=</M>} label="Specifieke gasconstante" size="s" /></Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { Rs } = useSolution()
+		Solution: ({ Rs }) => {
 			return <Par>De specifieke gasconstante van zuurstof is <M>R_s = {Rs}.</M></Par>
 		},
 	},
@@ -55,9 +54,8 @@ const steps = [
 				<Par><FloatUnitInput id="p" prelabel={<M>p=</M>} label="Druk" size="s" /></Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { p, V, m, Rs, T } = useSolution()
-			return <Par>De gaswet zegt dat <BM>pV = mR_sT.</BM> Om <M>p</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>V.</M> Het resultaat is <BM>p = \frac(mR_sT)(V) = \frac({m.float} \cdot {Rs.float} \cdot {T.float})({V.float}) = {p}.</BM> Dit is gelijk aan <M>{p.setUnit('bar').setDecimals(0)}</M> wat reëel is voor een duikfles.</Par>
+		Solution: ({ p, Vs, m, Rs, Ts }) => {
+			return <Par>De gaswet zegt dat <BM>pV = mR_sT.</BM> Om <M>p</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>V.</M> Het resultaat is <BM>p = \frac(mR_sT)(V) = \frac({m.float} \cdot {Rs.float} \cdot {Ts.float})({Vs.float}) = {p}.</BM> Dit is gelijk aan <M>{p.setUnit('bar').setDecimals(0)}</M> wat reëel is voor een duikfles.</Par>
 		},
 	},
 ]

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
-import { InputSpace, selectRandomCorrect } from 'ui/form'
+import { InputSpace } from 'ui/form'
 import { MultipleChoice } from 'ui/inputs'
 import { SimpleExercise, getMCFeedback } from 'ui/eduTools'
 
@@ -48,9 +48,7 @@ function Solution({ type }) {
 }
 
 function getFeedback(exerciseData) {
-	const { state: { type: correct } } = exerciseData
-
-	const text = [
+	const incorrectText = [
 		<span>Dit geldt voor een <strong>isobaar</strong> proces (constante druk).</span>,
 		<span>Dit geldt voor een <strong>isochoor</strong> proces (constant volume).</span>,
 		<span>Dit geldt voor een <strong>isotherm</strong> proces (constante temperatuur).</span>,
@@ -58,7 +56,5 @@ function getFeedback(exerciseData) {
 		<span>Dit geldt voor een <strong>polytroop</strong> proces (een algemeen proces met <M>pV^n=(\rm constant)</M>).</span>,
 		<span>Dit geldt in de praktijk eigenlijk nooit. Het zou moeten betekenen dat, als het volume toeneemt, de druk ook toeneemt! Dat zou erg vreemd zijn.</span>,
 	]
-	text[correct] = selectRandomCorrect()
-
-	return getMCFeedback('ans', exerciseData, { correct, text })
+	return getMCFeedback(exerciseData, { ans: { incorrectText } })
 }

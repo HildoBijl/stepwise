@@ -1,9 +1,11 @@
 import React from 'react'
 
+import { Unit } from 'step-wise/inputTypes'
+
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
-import { StepExercise, Substep, useSolution, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
+import { StepExercise, Substep, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -24,16 +26,16 @@ const steps = [
 			<Par>Noem de lucht die de turbine ingaat "punt 1" en lucht die de turbine uitstroomt "punt 2". Zet alle gegeven waarden in eenheden waarmee we mogen rekenen.</Par>
 			<InputSpace>
 				<Par>
-					<Substep ss={1}><FloatUnitInput id="T1" prelabel={<M>T_1=</M>} label="Begintemperatuur" size="s" /></Substep>
-					<Substep ss={2}><FloatUnitInput id="p1" prelabel={<M>p_1=</M>} label="Begindruk" size="s" /></Substep>
-					<Substep ss={3}><FloatUnitInput id="p2" prelabel={<M>p_2=</M>} label="Einddruk" size="s" /></Substep>
+					<Substep ss={1}><FloatUnitInput id="T1s" prelabel={<M>T_1=</M>} label="Begintemperatuur" size="s" /></Substep>
+					<Substep ss={2}><FloatUnitInput id="p1s" prelabel={<M>p_1=</M>} label="Begindruk" size="s" /></Substep>
+					<Substep ss={3}><FloatUnitInput id="p2s" prelabel={<M>p_2=</M>} label="Einddruk" size="s" /></Substep>
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: ({ p1, p2, T1 }) => {
+		Solution: ({ p1s, p2s, T1s }) => {
 			return <>
-				<Par>De temperatuur staat al in standaard eenheden (Kelvin) waardoor we direct <M>T_1 = {T1}</M> kunnen noteren.</Par>
-				<Par>Wat druk betreft mogen we bij Poisson's wet rekenen met zowel bar als Pascal. Natuurlijk is het altijd veiliger om standaard eenheden (Pascal) te gebruiken, maar in dit geval mogen we dus ook met bar rekenen. We houden hier voor het gemak <M>p_1 = {p1}</M> en <M>p_2 = {p2}.</M></Par>
+				<Par>De temperatuur staat al in standaard eenheden (Kelvin) waardoor we direct <M>T_1 = {T1s}</M> kunnen noteren.</Par>
+				<Par>Wat druk betreft mogen we bij Poisson's wet rekenen met zowel bar als Pascal. Natuurlijk is het altijd veiliger om standaard eenheden (Pascal) te gebruiken, maar in dit geval mogen we dus ook met bar rekenen. We houden hier voor het gemak <M>p_1 = {p1s}</M> en <M>p_2 = {p2s}.</M></Par>
 			</>
 		},
 	},
@@ -44,8 +46,7 @@ const steps = [
 				<Par><FloatUnitInput id="k" prelabel={<M>k =</M>} label={<span><M>k</M>-waarde</span>} size="s" validate={FloatUnitInput.validation.any} /></Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { k } = useSolution()
+		Solution: ({ k }) => {
 			return <Par>De turbine gebruikt gewone lucht, zoals we dat overal om ons heen hebben. Voor deze lucht geldt <M>k = {k}.</M></Par>
 		},
 	},
@@ -73,34 +74,25 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { k, p1, p2, T1, T2 } = useSolution()
-			return <Par>Poisson's wet zegt dat <M>\frac(T^n)(p^(n-1))=(\rm constant)</M> waardoor we mogen schrijven, <BM>\frac(T_1^n)(p_1^(n-1)) = \frac(T_2^n)(p_2^(n-1)).</BM> We willen dit oplossen voor <M>T_2.</M> Vermenigvuldigen met <M>p_2^(n-1)</M> geeft <BM>T_2^n = \frac(p_2^(n-1))(p_1^(n-1)) \cdot T_1^n = \left(\frac(p_2)(p_1)\right)^(n-1) \cdot T_1^n.</BM> Om de macht weg te krijgen doen we beide kanten van de vergelijking tot de macht <M>\frac(1)(n)</M> waarmee we uitkomen op <BM>T_2 = \left(\left(\frac(p_2)(p_1)\right)^(n-1) \cdot T_1^n\right)^(\frac(1)(n)) = \left(\frac(p_2)(p_1)\right)^(\frac(n-1)(n)) \cdot T_1 = \left(\frac{p2.float}{p1.float}\right)^(\frac({k.float}-1)({k.float})) \cdot {T1.float} = {T2}.</BM> Ter referentie: dit komt neer op <M>{T2.setUnit('dC').setDecimals(0)}</M>, wat redelijk warm is. Deze hitte is de reden waarom de uitlaat van een vliegtuigmotor vaak zo lijkt te glimmeren.</Par>
+		Solution: ({ k, p1s, p2s, T1s, T2 }) => {
+			return <Par>Poisson's wet zegt dat <M>\frac(T^n)(p^(n-1))=(\rm constant)</M> waardoor we mogen schrijven, <BM>\frac(T_1^n)(p_1^(n-1)) = \frac(T_2^n)(p_2^(n-1)).</BM> We willen dit oplossen voor <M>T_2.</M> Vermenigvuldigen met <M>p_2^(n-1)</M> geeft <BM>T_2^n = \frac(p_2^(n-1))(p_1^(n-1)) \cdot T_1^n = \left(\frac(p_2)(p_1)\right)^(n-1) \cdot T_1^n.</BM> Om de macht weg te krijgen doen we beide kanten van de vergelijking tot de macht <M>\frac(1)(n)</M> waarmee we uitkomen op <BM>T_2 = \left(\left(\frac(p_2)(p_1)\right)^(n-1) \cdot T_1^n\right)^(\frac(1)(n)) = \left(\frac(p_2)(p_1)\right)^(\frac(n-1)(n)) \cdot T_1 = \left(\frac{p2s.float}{p1s.float}\right)^(\frac({k.float}-1)({k.float})) \cdot {T1s.float} = {T2}.</BM> Ter referentie: dit komt neer op <M>{T2.setUnit('dC').setDecimals(0)}</M>, wat redelijk warm is. Deze hitte is de reden waarom de uitlaat van een vliegtuigmotor vaak zo lijkt te glimmeren.</Par>
 		},
 	},
 ]
 
 const getFeedback = (exerciseData) => {
-	const { input, shared } = exerciseData
-	const { data } = shared
+	// Set up an extra feedbackCheck for the parameter that should have equal units.
+	const feedbackCheck = (input, answer, solution, correct, { input: { p1s, p2s } }) => p1s && p2s && !p1s.unit.equals(p2s.unit, { type: Unit.equalityTypes.exact }) && { correct: false, text: <span>De eenheden van <M>p_1</M> en <M>p_2</M> moeten gelijk zijn.</span> }
 
-	const feedback = {
-		...getInputFieldFeedback(['p1', 'p2', 'T1', 'T2', 'k'], exerciseData),
-		...getMCFeedback('eq', exerciseData, {
-			correct: 2,
-			step: 3,
-			correctText: <span>Inderdaad! We weten <M>p</M> en <M>T</M>, wat dit de optimale vergelijking maakt om te gebruiken.</span>,
-			incorrectText: <span>Dat lijkt me niet handig. We weten niets over het volume <M>V</M>, en we hoeven hem ook niet te weten. Dus waarom wil je die in een vergelijking hebben?</span>,
+	return {
+		...getFieldInputFeedback(exerciseData, ['T1s', 'k', 'T2']),
+		...getFieldInputFeedback(exerciseData, { p1s: { feedbackChecks: feedbackCheck, dependency: 'p2s' }, p2s: { feedbackChecks: feedbackCheck, dependency: 'p1s' } }),
+		...getMCFeedback(exerciseData, {
+			eq: {
+				step: 3,
+				correctText: <span>Inderdaad! We weten <M>p</M> en <M>T</M>, wat dit de optimale vergelijking maakt om te gebruiken.</span>,
+				incorrectText: <span>Dat lijkt me niet handig. We weten niets over het volume <M>V</M>, en we hoeven hem ook niet te weten. Dus waarom wil je die in een vergelijking hebben?</span>,
+			}
 		}),
 	}
-
-	// If p1 and p2 have different units, then note this.
-	if (input.p1 && input.p2 && !input.p1.unit.equals(input.p2.unit, data.comparison.pUnit)) {
-		const addedFeedback = { correct: false, text: <span>De eenheden van <M>p_1</M> en <M>p_2</M> moeten gelijk zijn.</span> }
-		feedback.p1 = addedFeedback
-		feedback.p2 = addedFeedback
-	}
-
-	return feedback
 }
-

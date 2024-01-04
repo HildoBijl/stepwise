@@ -2,7 +2,7 @@ const { selectRandomly } = require('../../../../../util')
 const gasProperties = require('../../../../../data/gasProperties')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'specificHeats',
 	comparison: {
 		default: {
@@ -19,15 +19,12 @@ function getSolution({ medium }) {
 	return gasProperties[medium]
 }
 
-function checkInput(state, input) {
-	const solution = getSolution(state)
-	return performComparison(['cv', 'cp'], input, solution, data.comparison)
+function checkInput(exerciseData) {
+	return performComparison(exerciseData, ['cv', 'cp'])
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getSimpleExerciseProcessor(exercise),
 }

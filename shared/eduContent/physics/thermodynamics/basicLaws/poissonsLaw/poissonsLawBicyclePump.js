@@ -1,24 +1,20 @@
 const { getRandom } = require('../../../../../util')
 const { getRandomFloat, Unit, getRandomFloatUnit } = require('../../../../../inputTypes')
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../../../eduTools')
+const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'poissonsLaw',
 	steps: [['calculateWithTemperature', null, 'calculateWithVolume'], null, 'solveLinearEquation'],
-
 	comparison: {
-		V1: {
+		V1s: {
 			relativeMargin: 0.001,
 			significantDigitMargin: 1,
 		},
-		V2: {
+		V2s: {
 			relativeMargin: 0.001,
 			significantDigitMargin: 1,
 		},
-		VUnit: {
-			type: Unit.equalityTypes.exact,
-		},
-		T1: {
+		T1s: {
 			absoluteMargin: 0.7,
 			significantDigitMargin: 2,
 			unitCheck: Unit.equalityTypes.exact,
@@ -29,7 +25,7 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const n = getRandomFloat({
@@ -58,36 +54,36 @@ function generateState() {
 }
 
 function getSolution({ n, T1, V1, V2 }) {
-	T1 = T1.simplify()
-	const T2 = T1.multiply(V1.float.divide(V2.float).toPower(n.subtract(1)))
-	return { n, T1, T2, V1, V2 }
+	const T1s = T1.simplify()
+	const V1s = V1
+	const V2s = V2
+	const eq = 1
+	const T2 = T1s.multiply(V1.float.divide(V2.float).toPower(n.subtract(1)))
+	return { n, T1s, T2, V1s, V2s, eq }
 }
 
-function checkInput(state, input, step, substep) {
-	const { T1, T2, V1, V2 } = getSolution(state)
-	const eo = data.comparison
-
+function checkInput(exerciseData, step, substep) {
+	const { input } = exerciseData
+	const { V1s, V2s } = input
 	switch (step) {
 		case 1:
 			switch (substep) {
 				case 1:
-					return T1.equals(input.T1, eo.T1)
+					return performComparison(exerciseData, 'T1s')
 				case 2:
-					return V1.equals(input.V1, eo.V) && input.V1.unit.equals(input.V2.unit, eo.VUnit)
+					return performComparison(exerciseData, 'V1s') && V1s.unit.equals(V2s.unit, { type: Unit.equalityTypes.exact })
 				case 3:
-					return V2.equals(input.V2, eo.V) && input.V1.unit.equals(input.V2.unit, eo.VUnit)
+					return performComparison(exerciseData, 'V2s') && V1s.unit.equals(V2s.unit, { type: Unit.equalityTypes.exact })
 			}
 		case 2:
-			return input.eq === 1
+			return performComparison(exerciseData, 'eq')
 		default:
-			return T2.equals(input.T2, eo.T2)
+			return performComparison(exerciseData, 'T2')
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

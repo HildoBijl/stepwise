@@ -1,10 +1,9 @@
 const { getRandomFloat, FloatUnit, getRandomFloatUnit } = require('../../../../../inputTypes')
 const { air: { Rs } } = require('../../../../../data/gasProperties')
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../../../eduTools')
+const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
-const data = {
+const metaData = {
 	steps: ['gasLaw', 'gasLaw'],
-
 	comparison: {
 		default: {
 			relativeMargin: 0.01,
@@ -12,7 +11,7 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	// Define first situation.
@@ -49,31 +48,27 @@ function generateState() {
 }
 
 function getSolution({ p1, p2, V1, V2, T1 }) {
-	p1 = p1.simplify()
-	p2 = p2.simplify()
-	V1 = V1.simplify()
-	V2 = V2.simplify()
-	T1 = T1.simplify()
-	const m = p1.multiply(V1).divide(Rs.multiply(T1)).setUnit('kg')
-	const T2 = T1.multiply(p2).multiply(V2).divide(p1.multiply(V1)).setUnit('K')
-	return { p1, p2, V1, V2, T1, T2, m, Rs }
+	const p1s = p1.simplify()
+	const p2s = p2.simplify()
+	const V1s = V1.simplify()
+	const V2s = V2.simplify()
+	const T1s = T1.simplify()
+	const m = p1s.multiply(V1s).divide(Rs.multiply(T1s)).setUnit('kg')
+	const T2 = T1s.multiply(p2s).multiply(V2s).divide(p1s.multiply(V1s)).setUnit('K')
+	return { p1s, p2s, V1s, V2s, T1s, T2, m, Rs }
 }
 
-function checkInput(state, input, step, substep) {
-	const { m, T2 } = getSolution(state)
-
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return m.equals(input.m, data.comparison.default)
+			return performComparison(exerciseData, 'm')
 		default:
-			return T2.equals(input.T2, data.comparison.default)
+			return performComparison(exerciseData, 'T2')
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

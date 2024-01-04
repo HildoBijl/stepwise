@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Par, M } from 'ui/components'
-import { InputSpace, selectRandomCorrect } from 'ui/form'
+import { InputSpace } from 'ui/form'
 import { MultipleChoice } from 'ui/inputs'
 import { SimpleExercise, getMCFeedback } from 'ui/eduTools'
 
@@ -41,11 +41,9 @@ function Solution({ type }) {
 }
 
 function getFeedback(exerciseData) {
-	const { input: { ans }, state: { type: correct } } = exerciseData
-	return getMCFeedback('ans', exerciseData, {
-		correct,
-		text: ans === correct ?
-			selectRandomCorrect() :
-			<span>Dit geldt voor een <strong>{types[ans].toLowerCase()}</strong> proces.</span>,
+	return getMCFeedback(exerciseData, {
+		ans: {
+			incorrectText: index => <span>Dit geldt voor een <strong>{types[index].toLowerCase()}</strong> proces.</span>,
+		}
 	})
 }

@@ -1,7 +1,7 @@
 const { getRandomInteger } = require('../../../../../inputTypes')
-const { getSimpleExerciseProcessor } = require('../../../../../eduTools')
+const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'recognizeProcessTypes',
 }
 
@@ -11,13 +11,16 @@ function generateState() {
 	}
 }
 
-function checkInput({ type }, { ans }) {
-	return type === ans
+function getSolution({ type }) {
+	return { ans: type }
 }
 
+function checkInput(exerciseData) {
+	return performComparison(exerciseData, 'ans')
+}
+
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	checkInput,
+	...exercise,
+	processAction: getSimpleExerciseProcessor(exercise),
 }

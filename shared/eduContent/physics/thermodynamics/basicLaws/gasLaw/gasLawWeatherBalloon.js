@@ -1,10 +1,9 @@
 const { FloatUnit, getRandomFloatUnit } = require('../../../../../inputTypes')
 const { helium: { Rs } } = require('../../../../../data/gasProperties')
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../../../eduTools')
+const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
-const data = {
+const metaData = {
 	steps: ['gasLaw', 'gasLaw'],
-
 	comparison: {
 		default: {
 			relativeMargin: 0.01,
@@ -12,7 +11,7 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	// Define first situation.
@@ -48,31 +47,27 @@ function generateState() {
 }
 
 function getSolution({ p1, p2, T1, T2, V1 }) {
-	p1 = p1.simplify()
-	p2 = p2.simplify()
-	T1 = T1.simplify()
-	T2 = T2.simplify()
-	V1 = V1.simplify()
+	const p1s = p1.simplify()
+	const p2s = p2.simplify()
+	const T1s = T1.simplify()
+	const T2s = T2.simplify()
+	const V1s = V1.simplify()
 	const m = p1.multiply(V1).divide(Rs.multiply(T1)).setUnit('kg')
 	const V2 = m.multiply(Rs).multiply(T2).divide(p2).setUnit('m^3')
-	return { p1, p2, V1, V2, T1, T2, m, Rs }
+	return { p1s, p2s, V1s, V2, T1s, T2s, m, Rs }
 }
 
-function checkInput(state, input, step, substep) {
-	const { m, V2 } = getSolution(state)
-
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return m.equals(input.m, data.comparison.default)
+			return performComparison(exerciseData, 'm')
 		default:
-			return V2.equals(input.V2, data.comparison.default)
+			return performComparison(exerciseData, 'V2')
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

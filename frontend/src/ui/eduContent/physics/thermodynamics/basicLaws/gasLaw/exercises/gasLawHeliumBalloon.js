@@ -5,7 +5,7 @@ import { massGram as mConversion, temperature as TConversion, pressure as pConve
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, Substep, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, Substep, getAllInputFieldsFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
@@ -22,22 +22,17 @@ const steps = [
 			<Par>Zet alle gegeven waarden in standaard eenheden.</Par>
 			<InputSpace>
 				<Par>
-					<Substep ss={1}><FloatUnitInput id="m" prelabel={<M>m=</M>} label="Massa" size="s" /></Substep>
-					<Substep ss={2}><FloatUnitInput id="T" prelabel={<M>T=</M>} label="Temperatuur" size="s" /></Substep>
-					<Substep ss={3}><FloatUnitInput id="p" prelabel={<M>p=</M>} label="Druk" size="s" /></Substep>
+					<Substep ss={1}><FloatUnitInput id="ms" prelabel={<M>m=</M>} label="Massa" size="s" /></Substep>
+					<Substep ss={2}><FloatUnitInput id="Ts" prelabel={<M>T=</M>} label="Temperatuur" size="s" /></Substep>
+					<Substep ss={3}><FloatUnitInput id="ps" prelabel={<M>p=</M>} label="Druk" size="s" /></Substep>
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: ({ m, T, p }) => {
-			const mInG = m
-			const mInKG = m.setUnit('kg')
-			const TInKelvin = T.setUnit('K')
-			const pInBar = p
-			const pInPa = p.setUnit('Pa')
+		Solution: ({ m, T, p, ms, Ts, ps }) => {
 			return <>
-				<Par>De standaard eenheid van massa is de kilogram. Om van gram naar kilogram te gaan gebruiken we een conversiefactor van <M>{mConversion}.</M> Hiermee wordt de massa <BM>m = \frac{mInG}{mConversion} = {mInKG}.</BM></Par>
-				<Par>De standaard eenheid van temperatuur is de Kelvin. Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.float}</M> bij op. Hiermee krijgen we <BM>T = {T.float} + {TConversion.float} = {TInKelvin}.</BM></Par>
-				<Par>De standaard eenheid van druk is Pascal. Om van bar naar Pascal te gaan gebruiken we een conversiefactor van <M>{pConversion}.</M> Hiermee wordt de druk <BM>p = {pInBar} \cdot {pConversion} = {pInPa}.</BM></Par>
+				<Par>De standaard eenheid van massa is de kilogram. Om van gram naar kilogram te gaan gebruiken we een conversiefactor van <M>{mConversion}.</M> Hiermee wordt de massa <BM>m = \frac{m}{mConversion} = {ms}.</BM></Par>
+				<Par>De standaard eenheid van temperatuur is de Kelvin. Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.float}</M> bij op. Hiermee krijgen we <BM>T = {T.float} + {TConversion.float} = {Ts}.</BM></Par>
+				<Par>De standaard eenheid van druk is Pascal. Om van bar naar Pascal te gaan gebruiken we een conversiefactor van <M>{pConversion}.</M> Hiermee wordt de druk <BM>p = {p} \cdot {pConversion} = {ps}.</BM></Par>
 			</>
 		},
 	},
@@ -48,8 +43,7 @@ const steps = [
 				<Par><FloatUnitInput id="Rs" prelabel={<M>R_s=</M>} label="Specifieke gasconstante" size="s" /></Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { Rs } = useSolution()
+		Solution: ({ Rs }) => {
 			return <Par>De specifieke gasconstante van helium is <M>R_s = {Rs}.</M></Par>
 		},
 	},
@@ -60,9 +54,8 @@ const steps = [
 				<Par><FloatUnitInput id="V" prelabel={<M>V=</M>} label="Volume" size="s" /></Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { p, V, m, Rs, T } = useSolution()
-			return <Par>De gaswet luidt <BM>pV = mR_sT.</BM> Om <M>V</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>p.</M> Het resultaat is <BM>V = \frac(mR_sT)(p) = \frac({m.float} \cdot {Rs.float} \cdot {T.float})({p.float}) = {V}.</BM> Om dit wat intuïtiever te krijgen kunnen we dit nog omrekenen naar liters: het is <M>{V.setUnit('l')}.</M> Dat is grofweg wat we zouden verwachten van een ballon.</Par>
+		Solution: ({ ps, V, ms, Rs, Ts }) => {
+			return <Par>De gaswet luidt <BM>pV = mR_sT.</BM> Om <M>V</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>p.</M> Het resultaat is <BM>V = \frac(mR_sT)(p) = \frac({ms.float} \cdot {Rs.float} \cdot {Ts.float})({ps.float}) = {V}.</BM> Om dit wat intuïtiever te krijgen kunnen we dit nog omrekenen naar liters: het is <M>{V.setUnit('l')}.</M> Dat is grofweg wat we zouden verwachten van een ballon.</Par>
 		},
 	},
 ]

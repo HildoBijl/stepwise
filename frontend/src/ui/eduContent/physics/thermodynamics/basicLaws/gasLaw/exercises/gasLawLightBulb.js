@@ -5,7 +5,7 @@ import { pressure as pConversion, volumeCubicCentimeter as VConversion, temperat
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, Substep, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, Substep, getAllInputFieldsFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
@@ -22,19 +22,18 @@ const steps = [
 			<Par>Zet alle gegeven waarden in standaard eenheden.</Par>
 			<InputSpace>
 				<Par>
-					<Substep ss={1}><FloatUnitInput id="V" prelabel={<M>V=</M>} label="Volume" size="s" /></Substep>
-					<Substep ss={2}><FloatUnitInput id="p" prelabel={<M>p=</M>} label="Druk" size="s" /></Substep>
-					<Substep ss={3}><FloatUnitInput id="T" prelabel={<M>T=</M>} label="Temperatuur" size="s" /></Substep>
+					<Substep ss={1}><FloatUnitInput id="Vs" prelabel={<M>V=</M>} label="Volume" size="s" /></Substep>
+					<Substep ss={2}><FloatUnitInput id="ps" prelabel={<M>p=</M>} label="Druk" size="s" /></Substep>
+					<Substep ss={3}><FloatUnitInput id="Ts" prelabel={<M>T=</M>} label="Temperatuur" size="s" /></Substep>
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: ({ V, p, T }) => {
+		Solution: ({ V, Vs, p, ps, T, Ts }) => {
 			const pInBar = p.setUnit('bar')
-			const pInPa = pInBar.setUnit('Pa')
 			return <>
-				<Par>De standaard eenheid van volume is de kubieke meter. Om van kubieke centimeter naar kubieke meter te gaan gebruiken we een conversiefactor van <M>{VConversion}.</M> Het volume is daarmee <BM>V = \frac{V}{VConversion} = {V.setUnit('m^3')}.</BM></Par>
-				<Par>De standaard eenheid van druk is Pascal. Als eerste schrijven we <M>p = {p}</M> als <M>p = {pInBar}.</M> Vervolgens zetten we dit om. De conversiefactor van bar naar Pascal is <M>{pConversion}.</M> Dit vertelt ons dat de druk gelijk is aan <BM>p = {pInBar} \cdot {pConversion} = {pInPa}.</BM></Par>
-				<Par>De standaard eenheid van temperatuur is de Kelvin. Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.float}</M> bij op. Hiermee krijgen we <BM>T = {T.float} + {TConversion.float} = {T.setUnit('K')}.</BM></Par>
+				<Par>De standaard eenheid van volume is de kubieke meter. Om van kubieke centimeter naar kubieke meter te gaan gebruiken we een conversiefactor van <M>{VConversion}.</M> Het volume is daarmee <BM>V = \frac{V}{VConversion} = {Vs}.</BM></Par>
+				<Par>De standaard eenheid van druk is Pascal. Als eerste schrijven we <M>p = {p}</M> als <M>p = {pInBar}.</M> Vervolgens zetten we dit om. De conversiefactor van bar naar Pascal is <M>{pConversion}.</M> Dit vertelt ons dat de druk gelijk is aan <BM>p = {pInBar} \cdot {pConversion} = {ps}.</BM></Par>
+				<Par>De standaard eenheid van temperatuur is de Kelvin. Om van graden Celsius naar Kelvin te gaan tellen we er <M>{TConversion.float}</M> bij op. Hiermee krijgen we <BM>T = {T.float} + {TConversion.float} = {Ts}.</BM></Par>
 			</>
 		},
 	},
@@ -45,8 +44,7 @@ const steps = [
 				<Par><FloatUnitInput id="Rs" prelabel={<M>R_s=</M>} label="Specifieke gasconstante" size="s" /></Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { Rs } = useSolution()
+		Solution: ({ Rs }) => {
 			return <Par>De specifieke gasconstante van argon is <M>R_s = {Rs}.</M></Par>
 		},
 	},
@@ -57,9 +55,8 @@ const steps = [
 				<Par><FloatUnitInput id="m" prelabel={<M>m=</M>} label="Massa" size="s" /></Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { Rs, m, p, V, T } = useSolution()
-			return <Par>De gaswet zegt <BM>pV = mR_sT.</BM> Om <M>m</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>R_sT.</M> Het resultaat is <BM>m = \frac(pV)(R_sT) = \frac({p.float} \cdot {V.float})({Rs.float} \cdot {T.float}) = {m}.</BM></Par>
+		Solution: ({ Rs, m, ps, Vs, Ts }) => {
+			return <Par>De gaswet zegt <BM>pV = mR_sT.</BM> Om <M>m</M> hieruit op te lossen delen we beide kanten van de vergelijking door <M>R_sT.</M> Het resultaat is <BM>m = \frac(pV)(R_sT) = \frac({ps.float} \cdot {Vs.float})({Rs.float} \cdot {Ts.float}) = {m}.</BM></Par>
 		},
 	},
 ]

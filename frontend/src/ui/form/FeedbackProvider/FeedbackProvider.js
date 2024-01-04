@@ -45,7 +45,7 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 			const inputFO = toFO(input, true)
 			const previousInputFO = toFO(previousInput, true)
 			let result = getFeedback({
-				...filterProperties(exerciseDataRef.current, ['history', 'metaData', 'shared', 'solution', 'state']),
+				...filterProperties(exerciseDataRef.current, ['history', 'progress', 'metaData', 'shared', 'solution', 'state']),
 				input: inputFO,
 				previousFeedback: previousResult,
 				previousInput: previousInputFO,

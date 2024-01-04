@@ -1,11 +1,10 @@
 const { Unit, getRandomFloatUnit } = require('../../../../../inputTypes')
 const { helium: { Rs } } = require('../../../../../data/gasProperties')
-const { getStepExerciseProcessor, addSetupFromSteps } = require('../../../../../eduTools')
+const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'gasLaw',
 	steps: [['calculateWithMass', 'calculateWithTemperature', 'calculateWithPressure'], 'specificGasConstant', 'solveLinearEquation'],
-
 	comparison: {
 		m: {
 			relativeMargin: 0.001,
@@ -32,7 +31,7 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const m = getRandomFloatUnit({
@@ -60,37 +59,33 @@ function generateState() {
 }
 
 function getSolution({ m, T, p }) {
-	m = m.simplify()
-	T = T.simplify()
-	p = p.simplify()
-	const V = m.multiply(Rs).multiply(T).divide(p).setUnit('m^3')
-	return { p, V, m, Rs, T }
+	const ms = m.simplify()
+	const Ts = T.simplify()
+	const ps = p.simplify()
+	const V = ms.multiply(Rs).multiply(Ts).divide(ps).setUnit('m^3')
+	return { ps, V, ms, Rs, Ts }
 }
 
-function checkInput(state, input, step, substep) {
-	const { p, V, m, Rs, T } = getSolution(state)
-
+function checkInput(exerciseData, step, substep) {
 	switch (step) {
 		case 1:
 			switch (substep) {
 				case 1:
-					return m.equals(input.m, data.comparison.m)
+					return performComparison(exerciseData, 'ms')
 				case 2:
-					return T.equals(input.T, data.comparison.T)
+					return performComparison(exerciseData, 'Ts')
 				case 3:
-					return p.equals(input.p, data.comparison.p)
+					return performComparison(exerciseData, 'ps')
 			}
 		case 2:
-			return Rs.equals(input.Rs, data.comparison.Rs)
+			return performComparison(exerciseData, 'Rs')
 		default:
-			return V.equals(input.V, data.comparison.V)
+			return performComparison(exerciseData, 'V')
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

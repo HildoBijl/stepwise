@@ -2,7 +2,7 @@ import React, { useRef, useMemo, useCallback } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { Check, Clear, Send, ArrowForward, Search, Warning } from '@material-ui/icons'
 
-import { lastOf, applyMapping } from 'step-wise/util'
+import { lastOf, keysToObject } from 'step-wise/util'
 import { toSO } from 'step-wise/inputTypes'
 import { getLastAction, getLastInput, getStep } from 'step-wise/eduTools'
 
@@ -149,7 +149,7 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 	const isAdmin = useIsAdmin()
 	const theme = useTheme()
 	const classes = useStyles()
-	const { isAllInputEqual, getAllInputSI, setAllInputSI } = useFormData()
+	const { isAllInputEqual, getAllInputSI, setAllInputSI, getFieldIds } = useFormData()
 	const { progress, history, submitting, startNewExercise } = useExerciseData()
 	const solution = useSolution(false)
 
@@ -207,7 +207,7 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 	// Set up a function to insert the solution into the input fields.
 	const insertSolution = () => {
 		const oldInput = getAllInputSI()
-		const newInput = applyMapping(oldInput, (currValue, key) => solution[key] === undefined ? currValue : toSO(solution[key], true, currValue.type))
+		const newInput = keysToObject(getFieldIds(), (key) => solution[key] === undefined ? oldInput[key] : toSO(solution[key], true, oldInput[key]?.type))
 		setAllInputSI(newInput)
 	}
 
