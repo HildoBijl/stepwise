@@ -3,10 +3,9 @@ const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = requi
 const { generateState, getSolution: getCycleParameters } = require('../calculateClosedCycle/calculateClosedCycleSTST')
 const { getSolution: getEnergyParameters } = require('../createClosedCycleEnergyOverview/createClosedCycleEnergyOverviewSTST')
 
-const data = {
+const metaData = {
 	skill: 'analyseClosedCycle',
 	steps: ['calculateClosedCycle', 'createClosedCycleEnergyOverview', null, 'calculateWithCOP'],
-
 	comparison: {
 		default: {
 			relativeMargin: 0.01,
@@ -20,40 +19,35 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function getSolution(state) {
-	const { m, Rs, k, p1, V1, T1, p2, V2, T2, p3, V3, T3, p4, V4, T4 } = getCycleParameters(state)
-	const { cv, cp, Q12, W12, Q23, W23, Q34, W34, Q41, W41, Wn } = getEnergyParameters(state)
+	const cycleParameters = getCycleParameters(state)
+	const energyParameters = getEnergyParameters(state)
+	const { Q23, Q41, Wn } = energyParameters
 
 	const Qin = Q41
+	const Qout = Q23.abs()
 	const epsilon = Qin.divide(Wn.abs()).setUnit('').setMinimumSignificantDigits(2)
 	const COP = epsilon.add(1)
-	return { Rs, k, cv, cp, m, p1, V1, T1, p2, V2, T2, p3, V3, T3, p4, V4, T4, Q12, W12, Q23, W23, Q34, W34, Q41, W41, Wn, Qin, epsilon, COP }
+	return { ...energyParameters, ...cycleParameters, choice: 1, Qin, Qout, epsilon, COP }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
-	const { choice } = input
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison(['p1', 'V1', 'T1', 'p2', 'V2', 'T2', 'p3', 'V3', 'T3', 'p4', 'V4', 'T4'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['p1', 'V1', 'T1', 'p2', 'V2', 'T2', 'p3', 'V3', 'T3', 'p4', 'V4', 'T4'])
 		case 2:
-			return performComparison(['Q12', 'W12', 'Q23', 'W23', 'Q34', 'W34', 'Q41', 'W41'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['Q12', 'W12', 'Q23', 'W23', 'Q34', 'W34', 'Q41', 'W41'])
 		case 3:
-			return choice === 1
+			return performComparison(exerciseData, 'choice')
 		default:
-			if (choice === 0)
-				return false
-			return performComparison(['epsilon', 'COP'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['choice', 'epsilon', 'COP'])
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getCycleParameters,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

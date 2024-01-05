@@ -4,7 +4,7 @@
  * time [default theme.transitions.duration.standard]: the number of milliseconds which the transition takes.
 */
 
-import React, { useState, forwardRef, useRef, useEffect } from 'react'
+import React, { useState, forwardRef, useRef, useLayoutEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import ReactResizeDetector from 'react-resize-detector'
 
@@ -41,7 +41,7 @@ export default function VerticalAdjuster({ children, on = true, initiallyOn = tr
 }
 
 const VerticalAdjusterInner = forwardRef(({ children, height, setHeight }, ref) => {
-	useEffect(() => {
+	useLayoutEffect(() => {
 		if (height !== undefined)
 			setHeight(height)
 	}, [height, setHeight])

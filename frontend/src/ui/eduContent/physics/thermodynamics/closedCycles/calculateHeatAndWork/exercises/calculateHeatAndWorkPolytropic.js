@@ -3,7 +3,7 @@ import React from 'react'
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
+import { StepExercise, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -73,9 +73,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { Rs, cv } = useSolution()
-
+		Solution: ({ Rs, cv }) => {
 			return <Par>Voor lucht geldt <M>R_s = {Rs}</M> en <M>c_v = {cv}.</M></Par>
 		},
 	},
@@ -90,8 +88,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { n, Rs, cv, c } = useSolution()
+		Solution: ({ n, Rs, cv, c }) => {
 			return <Par>Voor elk proces met procescoëfficiënt <M>n</M> kunnen we de soortelijke warmte berekenen via <BM>c = c_v - \frac(R_s)(n-1).</BM> Getallen invullen geeft <BM>c = {cv.float} - \frac({Rs.float})({n.float} - 1) = {c}.</BM> Hiermee kunnen we zo de toegevoerde warmte berekenen.</Par>
 		},
 	},
@@ -100,14 +97,14 @@ const steps = [
 			<Par>Zet de gegeven waarden in eenheden waarmee we hier mogen rekenen.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="m" prelabel={<M>m =</M>} label="Massa" size="s" />
-					<FloatUnitInput id="T1" prelabel={<M>T_1 =</M>} label="Temperatuur" size="s" />
-					<FloatUnitInput id="T2" prelabel={<M>T_2 =</M>} label="Temperatuur" size="s" />
+					<FloatUnitInput id="ms" prelabel={<M>m =</M>} label="Massa" size="s" />
+					<FloatUnitInput id="T1s" prelabel={<M>T_1 =</M>} label="Temperatuur" size="s" />
+					<FloatUnitInput id="T2s" prelabel={<M>T_2 =</M>} label="Temperatuur" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: ({ m, T1, T2 }) => {
-			return <Par>De massa moet zeker in standaard eenheden. Dus schrijven we <M>m = {m.setUnit('kg')}.</M> Bij de temperatuur moeten we alleen een temperatuursverschil in de formule invullen, en dus mogen we de temperatuur in graden Celsius laten staan. Oftewel, <M>T_1 = {T1}</M> en <M>T_2 = {T2}.</M> Natuurlijk is het ook prima om in Kelvin te rekenen.</Par>
+		Solution: ({ ms, T1s, T2s }) => {
+			return <Par>De massa moet zeker in standaard eenheden. Dus schrijven we <M>m = {ms}.</M> Bij de temperatuur moeten we alleen een temperatuursverschil in de formule invullen, en dus mogen we de temperatuur in graden Celsius laten staan. Oftewel, <M>T_1 = {T1s}</M> en <M>T_2 = {T2s}.</M> Natuurlijk is het ook prima om in Kelvin te rekenen.</Par>
 		},
 	},
 	{
@@ -120,12 +117,11 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { Rs, n, m, c, T1, T2, Q, W } = useSolution()
+		Solution: ({ Rs, n, ms, c, T1s, T2s, Q, W }) => {
 			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we
 				<BMList>
-					<BMPart>Q = mc\left(T_2 - T_1\right) = {m.float} \cdot {c.float} \cdot \left({T2.float} - {T1.float}\right) = {Q},</BMPart>
-					<BMPart>W = -\frac(mR_s)(n-1)\left(T_2 - T_1\right) = -\frac({m.float} \cdot {Rs.float})({n.float} - 1) \cdot \left({T2.float} - {T1.float}\right) = {W}.</BMPart>
+					<BMPart>Q = mc\left(T_2 - T_1\right) = {ms.float} \cdot {c.float} \cdot \left({T2s.float} - {T1s.float}\right) = {Q},</BMPart>
+					<BMPart>W = -\frac(mR_s)(n-1)\left(T_2 - T_1\right) = -\frac({ms.float} \cdot {Rs.float})({n.float} - 1) \cdot \left({T2s.float} - {T1s.float}\right) = {W}.</BMPart>
 				</BMList>
 				De mintekens hier betekenen dat er warmte <strong>uit het gas</strong> stroomt en dat er arbeid <strong>op het gas</strong> wordt verricht. Dit klopt, want we zijn de lucht aan het comprimeren, dus dit kost arbeid. En omdat de lucht warmer wordt stroomt er warmte uit. De mintekens moeten zeker wel vermeld worden, want ze geven de richtingen van deze energiestromen aan.
 			</Par>
@@ -135,31 +131,33 @@ const steps = [
 
 const getFeedback = (exerciseData) => {
 	return {
-		...getInputFieldFeedback(['Rs', 'cv', 'c', 'm', 'T1', 'T2', 'Q', 'W'], exerciseData),
-		...getMCFeedback('process', exerciseData, {
-			step: 1,
-			text: [
-				'Nee, dan zou de druk constant moeten blijven.',
-				'Nee, dan zou het volume constant moeten blijven, maar het gas wordt gecomprimeerd.',
-				'Nee, dan zou de temperatuur constant moeten blijven.',
-				'Nee, dan zou er geen warmte toegevoerd/afgevoerd mogen worden. Maar om de temperatuur gelijk te blijven wordt er hier zeker wel warmte afgevoerd.',
-				<span>Ja, dit is een algemeen proces waarbij niets constant blijft en we alleen kunnen rekenen met een procescoëfficiënt <M>n.</M></span>,
-			],
-		}),
-		...getMCFeedback('eq', exerciseData, {
-			step: 2,
-			text: [
-				'Nee, dit zijn de formules voor een isobaar proces. Daarnaast weten we de druk en het volume helemaal niet.',
-				'Nee, dit zijn de formules voor een isobaar proces.',
-				'Nee, dit zijn de formules voor een isochoor proces. Daarnaast weten we de druk en het volume helemaal niet.',
-				'Nee, dit zijn de formules voor een isochoor proces.',
-				'Nee, dit zijn de formules voor een isotherm proces. Daarnaast weten we de druk en het volume helemaal niet.',
-				'Nee, dit zijn de formules voor een isotherm proces.',
-				'Nee, dit zijn de formules voor een isentroop proces. Daarnaast weten we de druk en het volume helemaal niet.',
-				'Nee, dit zijn de formules voor een isentroop proces.',
-				'Net niet! Dit zijn wel de formules voor een polytroop proces. We weten de druk en het volume alleen niet, en dus zijn deze formules niet handig om te gebruiken.',
-				'Ja! Dit zijn inderdaad de formules voor een polytroop proces, en we weten de massa en de temperatuur, dus dat moet goed komen.',
-			],
+		...getFieldInputFeedback(exerciseData, ['Rs', 'cv', 'c', 'ms', 'T1s', 'T2s', 'Q', 'W']),
+		...getMCFeedback(exerciseData, {
+			process: {
+				step: 1,
+				text: [
+					'Nee, dan zou de druk constant moeten blijven.',
+					'Nee, dan zou het volume constant moeten blijven, maar het gas wordt gecomprimeerd.',
+					'Nee, dan zou de temperatuur constant moeten blijven.',
+					'Nee, dan zou er geen warmte toegevoerd/afgevoerd mogen worden. Maar om de temperatuur gelijk te blijven wordt er hier zeker wel warmte afgevoerd.',
+					<span>Ja, dit is een algemeen proces waarbij niets constant blijft en we alleen kunnen rekenen met een procescoëfficiënt <M>n.</M></span>,
+				],
+			},
+			eq: {
+				step: 2,
+				text: [
+					'Nee, dit zijn de formules voor een isobaar proces. Daarnaast weten we de druk en het volume helemaal niet.',
+					'Nee, dit zijn de formules voor een isobaar proces.',
+					'Nee, dit zijn de formules voor een isochoor proces. Daarnaast weten we de druk en het volume helemaal niet.',
+					'Nee, dit zijn de formules voor een isochoor proces.',
+					'Nee, dit zijn de formules voor een isotherm proces. Daarnaast weten we de druk en het volume helemaal niet.',
+					'Nee, dit zijn de formules voor een isotherm proces.',
+					'Nee, dit zijn de formules voor een isentroop proces. Daarnaast weten we de druk en het volume helemaal niet.',
+					'Nee, dit zijn de formules voor een isentroop proces.',
+					'Net niet! Dit zijn wel de formules voor een polytroop proces. We weten de druk en het volume alleen niet, en dus zijn deze formules niet handig om te gebruiken.',
+					'Ja! Dit zijn inderdaad de formules voor een polytroop proces, en we weten de massa en de temperatuur, dus dat moet goed komen.',
+				],
+			}
 		})
 	}
 }

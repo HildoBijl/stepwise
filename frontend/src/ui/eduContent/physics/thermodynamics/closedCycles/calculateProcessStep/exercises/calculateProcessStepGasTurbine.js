@@ -5,7 +5,7 @@ import { pressure as pConversion } from 'step-wise/data/conversions'
 import { Par, M, BM, InputTable } from 'ui/components'
 import { useInput, AntiInputSpace, InputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
+import { StepExercise, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -42,9 +42,7 @@ const steps = [
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[0]]} fields={[fields[0]]} />
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { m, T1, p1 } = state
-			const { Rs, p1: p1s, V1 } = useSolution()
+		Solution: ({ m, T1, p1, Rs, p1s, V1 }) => {
 			return <>
 				<Par>We weten <M>p_1</M> en <M>T_1</M> al. We gaan de gaswet gebruiken om <M>V_1</M> te berekenen. Hierbij moeten alle waarden in standaard eenheden staan. Dus schrijven we op,<BM>p_1 = {p1} \cdot {pConversion} = {p1s}.</BM> Merk op dat de temperatuur <M>T1 = {T1}</M> en de massa <M>m = {m}</M> al in standaard eenheden staan. Verder weten we dat de specifieke gasconstante van lucht gelijk is aan <M>{Rs}.</M></Par>
 				<Par>De gaswet zegt dat <BM>pV = mR_sT.</BM> Dit toepassen op punt 1 en oplossen voor <M>V_1</M> geeft <BM>V_1 = \frac(mR_sT_1)(p_1) = \frac({m.float} \cdot {Rs.float} \cdot {T1.float})({p1s.float}) = {V1}.</BM> Dit is een grote hoeveelheid, maar dat is logisch: het is het volume van <M>{m}</M> sterk verwarmde lucht.</Par>
@@ -96,9 +94,7 @@ const steps = [
 				</AntiInputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { p1, p2 } = state
-			const { k, V1, V2, T1, T2 } = useSolution()
+		Solution: ({ p1, p2, k, V1, V2, T1, T2 }) => {
 			const choice = useInput('choice')
 
 			if (choice === undefined || choice === 0)
@@ -108,36 +104,36 @@ const steps = [
 		},
 	},
 	{
-		Problem: ({ gas }) => <>
+		Problem: () => <>
 			<Par>Vind via de gaswet de resterende eigenschappen van de lucht na de turbine.</Par>
 			<InputSpace>
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[1]]} fields={[fields[1]]} />
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { Rs, m, p2, V2, T2 } = useSolution()
+		Solution: ({ Rs, m, p2s, V2, T2 }) => {
 			const choice = useInput('choice')
 
 			if (choice === undefined || choice === 0)
-				return <Par>We moeten alleen nog de temperatuur <M>T</M> weten. Deze vinden we via de gaswet, toegepast op punt 2. Oftewel, <BM>p_2 V_2 = m R_s T_2.</BM> Dit oplossen voor <M>T_2</M> geeft <BM>T_2 = \frac(p_2V_2)(m R_s) = \frac({p2.float} \cdot {V2.float})({m.float} \cdot {Rs.float}) = {T2}.</BM> Dit is een stuk kouder dan in de verbrandingskamer, wat logisch is: de lucht expandeert in de turbine, en bij expanderen daalt de temperatuur altijd. Hoewel een temperatuur van <M>T_2 = {T2.setUnit('dC').setDecimals(0)}</M> natuurlijk nog steeds best warm is.</Par>
+				return <Par>We moeten alleen nog de temperatuur <M>T</M> weten. Deze vinden we via de gaswet, toegepast op punt 2. Oftewel, <BM>p_2 V_2 = m R_s T_2.</BM> Dit oplossen voor <M>T_2</M> geeft <BM>T_2 = \frac(p_2V_2)(m R_s) = \frac({p2s.float} \cdot {V2.float})({m.float} \cdot {Rs.float}) = {T2}.</BM> Dit is een stuk kouder dan in de verbrandingskamer, wat logisch is: de lucht expandeert in de turbine, en bij expanderen daalt de temperatuur altijd. Hoewel een temperatuur van <M>T_2 = {T2.setUnit('dC').setDecimals(0)}</M> natuurlijk nog steeds best warm is.</Par>
 
-			return <Par>We moeten alleen nog het volume <M>V</M> weten. Deze vinden we via de gaswet, toegepast op punt 2. Oftewel, <BM>p_2 V_2 = m R_s T_2.</BM> Dit oplossen voor <M>V_2</M> geeft <BM>V_2 = \frac(m R_s T_2)(p_2) = \frac({m.float} \cdot {Rs.float} \cdot {T2.float})({p2.float}) = {V2}.</BM> Dit is een groter volume dan voorheen, wat logisch is: in een turbine expandeert gas waardoor de druk en de temperatuur afnemen en het volume toeneemt.</Par>
+			return <Par>We moeten alleen nog het volume <M>V</M> weten. Deze vinden we via de gaswet, toegepast op punt 2. Oftewel, <BM>p_2 V_2 = m R_s T_2.</BM> Dit oplossen voor <M>V_2</M> geeft <BM>V_2 = \frac(m R_s T_2)(p_2) = \frac({m.float} \cdot {Rs.float} \cdot {T2.float})({p2s.float}) = {V2}.</BM> Dit is een groter volume dan voorheen, wat logisch is: in een turbine expandeert gas waardoor de druk en de temperatuur afnemen en het volume toeneemt.</Par>
 		},
 	},
 ]
 
 const getFeedback = (exerciseData) => {
 	return {
-		...getInputFieldFeedback(['p1', 'V1', 'T1', 'p2', 'V2', 'T2'], exerciseData),
-		...getMCFeedback('process', exerciseData, {
-			step: 2,
-			correct: 3,
-			text: [
-				'Nee, dit is bij een isobaar proces (constante druk). De druk is hier echter zeker niet constant: die neemt af.',
-				'Nee, dit is bij een isochoor proces (constant volume). Maar hier neemt het volume van het gas toe: het expandeert in de turbine.',
-				'Nee, dit is bij een isotherm proces (constante temperatuur). Hier geldt echter dat de temperatuur afneemt door de expansie in de turbine.',
-				<span>Ja! Bij een isentropisch proces geldt altijd <M>n=k.</M></span>,
-			],
+		...getFieldInputFeedback(exerciseData, ['p1', 'V1', 'T1', 'p2', 'V2', 'T2']),
+		...getMCFeedback(exerciseData, {
+			process: {
+				step: 2,
+				text: [
+					'Nee, dit is bij een isobaar proces (constante druk). De druk is hier echter zeker niet constant: die neemt af.',
+					'Nee, dit is bij een isochoor proces (constant volume). Maar hier neemt het volume van het gas toe: het expandeert in de turbine.',
+					'Nee, dit is bij een isotherm proces (constante temperatuur). Hier geldt echter dat de temperatuur afneemt door de expansie in de turbine.',
+					<span>Ja! Bij een isentropisch proces geldt altijd <M>n=k.</M></span>,
+				],
+			}
 		}),
 	}
 }

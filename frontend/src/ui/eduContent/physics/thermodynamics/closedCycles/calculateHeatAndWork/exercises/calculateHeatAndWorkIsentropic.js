@@ -3,7 +3,7 @@ import React from 'react'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
+import { StepExercise, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -72,9 +72,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { k } = useSolution()
-
+		Solution: ({ k }) => {
 			return <Par>Voor lucht geldt <M>k = {k}.</M></Par>
 		},
 	},
@@ -83,15 +81,15 @@ const steps = [
 			<Par>Zet de gegeven waarden in eenheden waarmee we hier mogen rekenen.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="V1" prelabel={<M>V_1 =</M>} label="Volume" size="s" />
-					<FloatUnitInput id="V2" prelabel={<M>V_2 =</M>} label="Volume" size="s" />
-					<FloatUnitInput id="p1" prelabel={<M>p_1 =</M>} label="Druk" size="s" />
-					<FloatUnitInput id="p2" prelabel={<M>p_2 =</M>} label="Druk" size="s" />
+					<FloatUnitInput id="V1s" prelabel={<M>V_1 =</M>} label="Volume" size="s" />
+					<FloatUnitInput id="V2s" prelabel={<M>V_2 =</M>} label="Volume" size="s" />
+					<FloatUnitInput id="p1s" prelabel={<M>p_1 =</M>} label="Druk" size="s" />
+					<FloatUnitInput id="p2s" prelabel={<M>p_2 =</M>} label="Druk" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: ({ p1, V1, p2, V2 }) => {
-			return <Par>De volumes staan al in standaard eenheden: <M>V_1 = {V1}</M> en <M>V_2 = {V2}.</M> De druk moet nog in Pascal gezet worden. Zo vinden we <M>p_1 = {p1.setUnit('Pa')}</M> en <M>p_2 = {p2.setUnit('Pa')}.</M></Par>
+		Solution: ({ p1s, V1s, p2s, V2s }) => {
+			return <Par>De volumes staan al in standaard eenheden: <M>V_1 = {V1s}</M> en <M>V_2 = {V2s}.</M> De druk moet nog in Pascal gezet worden. Zo vinden we <M>p_1 = {p1s}</M> en <M>p_2 = {p2s}.</M></Par>
 		},
 	},
 	{
@@ -104,41 +102,41 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { k, p1, p2, V1, V2, Q, W } = useSolution()
-
-			return <Par>We hoeven alleen maar de formules in te vullen. Er geldt <M>Q = {Q}</M> omdat dat per definitie zo is bij een isentropisch proces. Verder vinden we <BM>W = -\frac(1)(k-1)\left(p_2V_2 - p_1V_1\right) = -\frac(1)({k}-1)\left({p2.float} \cdot {V2.float} - {p1.float} \cdot {V1.float}\right) = {W}.</BM> Dit is een erg grote hoeveelheid arbeid. We hebben hier echter ook te maken met een grote gasturbine die een volle minuut draait. Dit kan dus goed kloppen.</Par>
+		Solution: ({ k, p1s, p2s, V1s, V2s, Q, W }) => {
+			return <Par>We hoeven alleen maar de formules in te vullen. Er geldt <M>Q = {Q}</M> omdat dat per definitie zo is bij een isentropisch proces. Verder vinden we <BM>W = -\frac(1)(k-1)\left(p_2V_2 - p_1V_1\right) = -\frac(1)({k}-1)\left({p2s.float} \cdot {V2s.float} - {p1s.float} \cdot {V1s.float}\right) = {W}.</BM> Dit is een erg grote hoeveelheid arbeid. We hebben hier echter ook te maken met een grote gasturbine die een volle minuut draait. Dit kan dus goed kloppen.</Par>
 		},
 	},
 ]
 
 const getFeedback = (exerciseData) => {
 	return {
-		...getInputFieldFeedback(['k', 'V1', 'V2', 'p1', 'p2', 'Q', 'W'], exerciseData),
-		...getMCFeedback('process', exerciseData, {
-			step: 1,
-			text: [
-				'Nee, dan zou de druk constant moeten blijven.',
-				'Nee, dan zou het volume constant moeten blijven.',
-				'Nee, dan zou de temperatuur constant moeten blijven, maar bij expansie koelt lucht over het algemeen af.',
-				'Ja! Er is immers geen warmtetoevoer (want er is goede isolatie) en ook geen interne warmte-ontwikkeling.',
-				'Nee, dat is bij een algemeen proces waarbij niets constant blijft.',
-			],
+		...getFieldInputFeedback(exerciseData, ['k', 'V1s', 'V2s', 'p1s', 'p2s', 'Q', 'W']),
+		...getMCFeedback(exerciseData, {
+			process: {
+				step: 1,
+				text: [
+					'Nee, dan zou de druk constant moeten blijven.',
+					'Nee, dan zou het volume constant moeten blijven.',
+					'Nee, dan zou de temperatuur constant moeten blijven, maar bij expansie koelt lucht over het algemeen af.',
+					'Ja! Er is immers geen warmtetoevoer (want er is goede isolatie) en ook geen interne warmte-ontwikkeling.',
+					'Nee, dat is bij een algemeen proces waarbij niets constant blijft.',
+				],
+			},
+			eq: {
+				step: 2,
+				text: [
+					'Nee, dit zijn de formules voor een isobaar proces.',
+					'Nee, dit zijn de formules voor een isobaar proces. Daarnaast weten we de massa en de temperatuur helemaal niet.',
+					'Nee, dit zijn de formules voor een isochoor proces.',
+					'Nee, dit zijn de formules voor een isochoor proces. Daarnaast weten we de massa en de temperatuur helemaal niet.',
+					'Nee, dit zijn de formules voor een isotherm proces.',
+					'Nee, dit zijn de formules voor een isotherm proces. Daarnaast weten we de massa en de temperatuur helemaal niet.',
+					'Ja! Dit zijn de formules voor een isentroop proces die we kunnen gebruiken.',
+					'Net niet! Dit zijn wel de formules voor een isentroop proces. We weten alleen de massa en de temperatuur niet, waardoor deze formules niet handig zijn.',
+					'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze vraag.',
+					'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze vraag. Daarnaast weten we de massa en de temperatuur helemaal niet.',
+				],
+			}
 		}),
-		...getMCFeedback('eq', exerciseData, {
-			step: 2,
-			text: [
-				'Nee, dit zijn de formules voor een isobaar proces.',
-				'Nee, dit zijn de formules voor een isobaar proces. Daarnaast weten we de massa en de temperatuur helemaal niet.',
-				'Nee, dit zijn de formules voor een isochoor proces.',
-				'Nee, dit zijn de formules voor een isochoor proces. Daarnaast weten we de massa en de temperatuur helemaal niet.',
-				'Nee, dit zijn de formules voor een isotherm proces.',
-				'Nee, dit zijn de formules voor een isotherm proces. Daarnaast weten we de massa en de temperatuur helemaal niet.',
-				'Ja! Dit zijn de formules voor een isentroop proces die we kunnen gebruiken.',
-				'Net niet! Dit zijn wel de formules voor een isentroop proces. We weten alleen de massa en de temperatuur niet, waardoor deze formules niet handig zijn.',
-				'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze vraag.',
-				'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze vraag. Daarnaast weten we de massa en de temperatuur helemaal niet.',
-			],
-		})
 	}
 }

@@ -3,10 +3,9 @@ const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = requi
 const { generateState, getSolution: getCycleParameters } = require('../calculateClosedCycle/calculateClosedCycleSVSV')
 const { getSolution: getEnergyParameters } = require('../createClosedCycleEnergyOverview/createClosedCycleEnergyOverviewSVSV')
 
-const data = {
+const metaData = {
 	skill: 'analyseClosedCycle',
 	steps: ['calculateClosedCycle', 'createClosedCycleEnergyOverview', null, 'calculateWithEfficiency'],
-
 	comparison: {
 		default: {
 			relativeMargin: 0.01,
@@ -20,40 +19,33 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function getSolution(state) {
-	const { m, Rs, k, p1, V1, T1, p2, V2, T2, p3, V3, T3, p4, V4, T4 } = getCycleParameters(state)
-	const { cv, cp, Q12, W12, Q23, W23, Q34, W34, Q41, W41, Wn } = getEnergyParameters(state)
+	const cycleParameters = getCycleParameters(state)
+	const energyParameters = getEnergyParameters(state)
+	const { Q23, Wn } = energyParameters
 
 	const Qin = Q23.setMinimumSignificantDigits(2)
 	const eta = Wn.divide(Qin).setUnit('')
-
-	return { Rs, k, cv, cp, m, p1, V1, T1, p2, V2, T2, p3, V3, T3, p4, V4, T4, Q12, W12, Q23, W23, Q34, W34, Q41, W41, Wn, Qin, eta }
+	return { ...energyParameters, ...cycleParameters, choice: 0, Qin, eta }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
-	const { choice } = input
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison(['p1', 'V1', 'T1', 'p2', 'V2', 'T2', 'p3', 'V3', 'T3', 'p4', 'V4', 'T4'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['p1', 'V1', 'T1', 'p2', 'V2', 'T2', 'p3', 'V3', 'T3', 'p4', 'V4', 'T4'])
 		case 2:
-			return performComparison(['Q12', 'W12', 'Q23', 'W23', 'Q34', 'W34', 'Q41', 'W41'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['Q12', 'W12', 'Q23', 'W23', 'Q34', 'W34', 'Q41', 'W41'])
 		case 3:
-			return choice === 0
+			return performComparison(exerciseData, 'choice')
 		default:
-			if (choice === 1)
-				return false
-			return performComparison(['eta'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['choice', 'eta'])
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getCycleParameters,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

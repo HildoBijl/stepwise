@@ -2,10 +2,9 @@ const { FloatUnit, getRandomFloatUnit } = require('../../../../../inputTypes')
 const { air: { k, Rs } } = require('../../../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'calculateProcessStep',
 	steps: ['gasLaw', 'recognizeProcessTypes', 'poissonsLaw', 'gasLaw'],
-
 	comparison: {
 		default: {
 			relativeMargin: 0.015,
@@ -13,7 +12,7 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const m = getRandomFloatUnit({
@@ -40,35 +39,31 @@ function generateState() {
 }
 
 function getSolution({ m, T1, p1, p2 }) {
-	p1 = p1.simplify()
-	p2 = p2.simplify()
+	const p1s = p1.simplify()
+	const p2s = p2.simplify()
 	const V1 = m.multiply(Rs).multiply(T1).divide(p1).setUnit('m^3')
 	const V2 = V1.multiply(Math.pow(p1.number / p2.number, 1 / k.number))
 	const T2 = p2.multiply(V2).divide(m.multiply(Rs)).setUnit('K')
-	return { k, Rs, m, p1, V1, T1, p2, V2, T2 }
+	return { process: 3, m, T1, p1, p2, k, Rs, m, p1s, V1, T1, p2s, V2, T2 }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison(['p1', 'V1', 'T1'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['p1', 'V1', 'T1'])
 		case 2:
-			return input.process === 3
+			return performComparison(exerciseData, 'process')
 		case 3:
-			const choice = input.choice || 0
-			return performComparison(choice === 0 ? 'V2' : 'T2', input, solution, data.comparison)
+			return performComparison(exerciseData, (exerciseData.input.choice || 0) === 0 ? 'p2' : 'T2')
 		case 4:
-			return performComparison(['p2', 'V2', 'T2'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['p2', 'V2', 'T2'])
 		default:
-			return performComparison(['p1', 'V1', 'T1', 'p2', 'V2', 'T2'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['p1', 'V1', 'T1', 'p2', 'V2', 'T2'])
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

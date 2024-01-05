@@ -42,10 +42,10 @@ function SolutionProviderForObject({ children }) {
 	const { state, shared } = useExerciseData()
 	const { getSolution } = shared
 	const { getStaticSolution, getInputDependency, dependentFields, getDynamicSolution } = getSolution
-	
+
 	// Determine the static solution.
 	const staticSolution = useMemo(() => getStaticSolution ? getStaticSolution(state) : undefined, [getStaticSolution, state])
-	
+
 	// Get only the input parameters that are needed for the dependency.
 	const input = useInputObject(getDynamicSolution ? dependentFields : undefined)
 

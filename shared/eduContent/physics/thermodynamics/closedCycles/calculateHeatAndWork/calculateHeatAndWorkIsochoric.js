@@ -3,34 +3,33 @@ const { FloatUnit, getRandomFloatUnit } = require('../../../../../inputTypes')
 const gasProperties = require('../../../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'calculateHeatAndWork',
 	steps: ['recognizeProcessTypes', null, 'specificHeatRatio', ['calculateWithVolume', 'calculateWithPressure'], null],
-
 	comparison: {
 		default: {
 			relativeMargin: 0.015,
 			significantDigitMargin: 2,
 			accuracyFactor: 2,
 		},
-		V: {
+		Vs: {
 			relativeMargin: 0.001,
 			significantDigitMargin: 1,
 			checkUnitSize: true,
 		},
-		p1: {
+		p1s: {
 			relativeMargin: 0.001,
 			significantDigitMargin: 1,
 			checkUnitSize: true,
 		},
-		p2: {
+		p2s: {
 			relativeMargin: 0.001,
 			significantDigitMargin: 1,
 			checkUnitSize: true,
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const gas = selectRandomly(['air', 'carbonMonoxide', 'hydrogen', 'methane', 'nitrogen', 'oxygen'])
@@ -58,37 +57,36 @@ function generateState() {
 
 function getSolution({ gas, V, p1, p2 }) {
 	let { k } = gasProperties[gas]
-	V = V.simplify()
-	p1 = p1.simplify()
-	p2 = p2.simplify()
-	const Q = V.multiply(p2.subtract(p1)).multiply(1 / (k.number - 1)).setUnit('J')
+	const Vs = V.simplify()
+	const p1s = p1.simplify()
+	const p2s = p2.simplify()
+	const Q = Vs.multiply(p2s.subtract(p1s)).multiply(1 / (k.number - 1)).setUnit('J')
 	const W = new FloatUnit('0 J')
-	return { gas, process: 1, eq: 2, k, V, p1, p2, Q, W }
+	return { gas, process: 1, eq: 2, k, Vs, p1s, p2s, Q, W }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step, substep) {
 	switch (step) {
 		case 1:
-			return input.process === solution.process
+			return performComparison(exerciseData, 'process')
 		case 2:
-			return input.eq === solution.eq
+			return performComparison(exerciseData, 'eq')
 		case 3:
-			return performComparison('k', input, solution, data.comparison)
+			return performComparison(exerciseData, 'k')
 		case 4:
 			switch (substep) {
-				case 1: return performComparison('V', input, solution, data.comparison)
-				case 2: return performComparison(['p1', 'p2'], input, solution, data.comparison)
+				case 1:
+					return performComparison(exerciseData, 'Vs')
+				case 2:
+					return performComparison(exerciseData, ['p1s', 'p2s'])
 			}
 		default:
-			return performComparison(['Q', 'W'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['Q', 'W'])
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

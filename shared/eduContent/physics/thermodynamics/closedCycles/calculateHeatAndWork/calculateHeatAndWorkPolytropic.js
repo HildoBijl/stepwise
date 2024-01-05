@@ -3,20 +3,19 @@ const { Unit, getRandomFloatUnit } = require('../../../../../inputTypes')
 let { air: { Rs, cv } } = require('../../../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'calculateHeatAndWork',
 	steps: ['recognizeProcessTypes', null, ['specificGasConstant', 'specificHeats'], null, ['calculateWithMass', 'calculateWithTemperature'], null],
-
 	comparison: {
-		m: {
+		ms: {
 			relativeMargin: 0.001,
 			unitCheck: Unit.equalityTypes.exact,
 		},
-		T1: {
+		T1s: {
 			absoluteMargin: 0.7,
 			significantDigitMargin: 2,
 		},
-		T2: {
+		T2s: {
 			absoluteMargin: 0.7,
 			significantDigitMargin: 2,
 		},
@@ -45,7 +44,7 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const n = getRandomFloatUnit({
@@ -73,43 +72,46 @@ function generateState() {
 }
 
 function getSolution({ m, T1, T2, n }) {
-	m = m.simplify()
+	const ms = m.simplify()
+	const T1s = T1
+	const T2s = T2
 	cv = cv.simplify()
 	const c = cv.subtract(Rs.divide(n.number - 1))
-	const mdT = m.multiply(T2.subtract(T1))
+	const mdT = m.multiply(T2s.subtract(T1s))
 	const Q = mdT.multiply(c).setUnit('J')
 	const W = mdT.multiply(Rs).divide(1 - n.number).setUnit('J')
-	return { process: 4, eq: 9, Rs, cv, n, m, c, T1, T2, Q, W }
+	return { process: 4, eq: 9, Rs, cv, n, ms, c, T1s, T2s, Q, W }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step, substep) {
 	switch (step) {
 		case 1:
-			return input.process === solution.process
+			return performComparison(exerciseData, 'process')
 		case 2:
-			return input.eq === solution.eq
+			return performComparison(exerciseData, 'eq')
 		case 3:
 			switch (substep) {
-				case 1: return performComparison('Rs', input, solution, data.comparison)
-				case 2: return performComparison('cv', input, solution, data.comparison)
+				case 1:
+					return performComparison(exerciseData, 'Rs')
+				case 2:
+					return performComparison(exerciseData, 'cv')
 			}
 		case 4:
-				return performComparison('c', input, solution, data.comparison)
+			return performComparison(exerciseData, 'c')
 		case 5:
 			switch (substep) {
-				case 1: return performComparison('m', input, solution, data.comparison)
-				case 2: return performComparison(['T1','T2'], input, solution, data.comparison)
+				case 1:
+					return performComparison(exerciseData, 'ms')
+				case 2:
+					return performComparison(exerciseData, ['T1s', 'T2s'])
 			}
 		default:
-			return performComparison(['Q', 'W'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['Q', 'W'])
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

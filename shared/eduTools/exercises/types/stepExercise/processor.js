@@ -44,7 +44,7 @@ function processGroupActions(submissionData) {
 
 function processMainProblemActions({ checkInput, metaData, getSolution, progress, submissions, state, history, updateSkills }) {
 	// Get the solution of the exercise, if it exists.
-	const solution = (typeof getSolution === 'function') ? getSolution(state) : undefined
+	const solution = (typeof getSolution === 'function') && submissions.some(submission => submission.action.type === 'input') ? getSolution(state) : undefined
 
 	// Check for all the input actions whether they are correct.
 	const correct = submissions.map(submission => {
@@ -97,9 +97,9 @@ function processStepActions(submissionData) {
 }
 
 function processStepWithoutSubstepsActions({ checkInput, metaData, getSolution, progress, submissions, state, history, updateSkills }) {
-	// Get the solution of the exercise, if it exists.
-	const solution = (typeof getSolution === 'function') ? getSolution(state) : undefined
-	
+	// Get the solution of the exercise, if it exists and if there is some input action.
+	const solution = (typeof getSolution === 'function') && submissions.some(submission => submission.action.type === 'input') ? getSolution(state) : undefined
+
 	// Check for all the input actions whether they are correct.
 	const step = getStep(progress)
 	const correct = submissions.map(submission => {
@@ -144,8 +144,8 @@ function processStepWithSubstepsActions({ checkInput, metaData, getSolution, pro
 	const step = getStep(progress)
 	const skill = metaData.steps[step - 1]
 	const allGaveUp = submissions.every(submission => submission.action.type === 'giveUp')
-	const solution = (typeof getSolution === 'function') ? getSolution(state) : undefined
-	
+	const solution = (typeof getSolution === 'function') && submissions.some(submission => submission.action.type === 'input') ? getSolution(state) : undefined
+
 	// We must have subskills (or this function won't be called) so walk through them and process them one by one.
 	const stepProgress = { ...progress[step] }
 	skill.forEach((subskill, index) => {

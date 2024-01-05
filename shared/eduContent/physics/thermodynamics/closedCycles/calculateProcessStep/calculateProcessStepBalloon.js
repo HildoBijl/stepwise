@@ -13,17 +13,16 @@ const comparison = {
 	},
 }
 
-const data = {
+const metaData = {
 	skill: 'calculateProcessStep',
 	steps: ['gasLaw', 'recognizeProcessTypes', 'gasLaw'],
-
 	comparison: {
 		default: comparison.default,
 		T1: comparison.T,
 		T2: comparison.T,
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const p1 = getRandomFloatUnit({
@@ -51,34 +50,31 @@ function generateState() {
 }
 
 function getSolution({ m, V1, T1, T2 }) {
-	m = m.simplify()
-	V1 = V1.simplify()
-	T1 = T1.simplify()
-	T2 = T2.simplify()
-	const p1 = m.multiply(Rs).multiply(T1).divide(V1).setUnit('Pa')
+	const ms = m.simplify()
+	const V1s = V1.simplify()
+	const T1s = T1.simplify()
+	const T2s = T2.simplify()
+	const p1 = ms.multiply(Rs).multiply(T1s).divide(V1s).setUnit('Pa')
 	const p2 = p1
-	const V2 = m.multiply(Rs).multiply(T2).divide(p2).setUnit('m^3')
-	return { m, Rs, p1, p2, V1, V2, T1, T2 }
+	const V2 = ms.multiply(Rs).multiply(T2s).divide(p2).setUnit('m^3')
+	return { process: 0, m, V1, T1, T2, ms, Rs, p1, p2, V1s, V2, T1s, T2s }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison(['p1', 'V1', 'T1'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['p1', 'V1', 'T1'])
 		case 2:
-			return input.process === 0
+			return performComparison(exerciseData, 'process')
 		case 3:
-			return performComparison(['p2', 'V2', 'T2'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['p2', 'V2', 'T2'])
 		default:
-			return performComparison(['p1', 'V1', 'T1', 'p2', 'V2', 'T2'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['p1', 'V1', 'T1', 'p2', 'V2', 'T2'])
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

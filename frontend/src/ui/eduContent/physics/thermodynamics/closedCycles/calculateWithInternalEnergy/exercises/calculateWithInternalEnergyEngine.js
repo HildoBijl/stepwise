@@ -3,7 +3,7 @@ import React from 'react'
 import { Par, SubHead, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, getAllInputFieldsFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
@@ -28,8 +28,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { p1, V1, p2, V2, n } = useSolution()
+		Solution: ({ p1, V1, p2, V2, n }) => {
 			return <Par>Er is gegeven dat <M>p_1 = {p1},</M> <M>V_1 = {V1},</M> <M>V_2 = {V2}</M> en <M>n = {n}.</M> We vinden <M>p_2</M> via Poisson's wet,
 				<BMList>
 					<BMPart>p_1V_1^n = p_2V_2^n,</BMPart>
@@ -48,15 +47,14 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { cv, Rs, c, p1, V1, p2, V2, n, Q, W } = useSolution()
+		Solution: ({ cv, Rs, c, p1s, V1s, p2s, V2s, n, Q, W }) => {
 			return <>
 				<Par>Dit is een algemeen polytroop proces, waardoor het handig is om eerst de soortelijke warmte <M>c</M> horende bij dit proces te berekenen. Deze volgt uit de procescoëfficiënt <M>n={n}</M> als
 					<BM>c = c_v - \frac(R_s)(n-1) = {cv.float} - \frac({Rs.float})({n}-1) = {c}.</BM>
 					Hiermee kunnen we de toegevoerde warmte berekenen als
-					<BM>Q = \frac(c)(R_s)\left(p_2V_2 - p_1V_1\right) = \frac{c.float}{Rs.float} \cdot \left({p2.float} \cdot {V2.float} - {p1.float} \cdot {V1.float}\right) = {Q}.</BM>
+					<BM>Q = \frac(c)(R_s)\left(p_2V_2 - p_1V_1\right) = \frac{c.float}{Rs.float} \cdot \left({p2s.float} \cdot {V2s.float} - {p1s.float} \cdot {V1s.float}\right) = {Q}.</BM>
 					De geleverde arbeid volgt soortgelijk via
-					<BM>W = -\frac(1)(n-1) \left(p_2V_2 - p_1V_1\right) = -\frac(1)({n}-1) \cdot \left({p2.float} \cdot {V2.float} - {p1.float} \cdot {V1.float}\right) = {W}.</BM>
+					<BM>W = -\frac(1)(n-1) \left(p_2V_2 - p_1V_1\right) = -\frac(1)({n}-1) \cdot \left({p2s.float} \cdot {V2s.float} - {p1s.float} \cdot {V1s.float}\right) = {W}.</BM>
 					Het is ten slotte handig om intuïtief te checken of de tekens kloppen. De arbeid <M>W</M> moet zeker positief zijn, omdat het gas bij deze expansiestap veel arbeid levert. Dit klopt dus. Ook de toegevoerde warmte <M>Q</M> moet positief zijn. Dit laatste is echter wat lastiger in te zien.</Par>
 				<Par>Om te begrijpen waarom <M>Q &gt; 0</M> moeten we eerst stilstaan bij het feit dat <M>n = {n}.</M> Dit betekent dat het proces ergens tussen een isentroop en een isotherm proces inzit. Bij een isentroop proces geldt dat <M>Q = 0.</M> Bij een isotherme expansie geldt dat <M>Q = W</M> waardoor <M>Q</M> net als <M>W</M> sterk positief is. Omdat ons proces tussen een isentroop en een isotherm proces in zit geldt dat <M>Q</M> positief moet zijn, maar niet zo groot als <M>W.</M> Dat klopt bij onze getallen inderdaad.</Par>
 			</>
@@ -71,8 +69,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { cv, Rs, p1, V1, p2, V2, Q, W, dU } = useSolution()
+		Solution: ({ cv, Rs, p1s, V1s, p2s, V2s, Q, W, dU }) => {
 			return <>
 				<Par>De eerste hoofdwet zegt dat <M>Q = \Delta U + W.</M> Hieruit volgt direct dat <BM>\Delta U = Q - W = {Q.float} - {W.float} = {dU}.</BM>
 					Omdat het gas arbeid geleverd heeft is het veel energie kwijtgeraakt, wat betekent dat <M>\Delta U</M> negatief is.</Par>
@@ -84,7 +81,7 @@ const steps = [
 					Hiermee hebben we een nieuwe formule voor <M>\Delta U</M> afgeleid, zijnde
 					<BM>\Delta U = \frac(c_v)(R_s)\left(p_2V_2 - p_1V_1\right).</BM>
 					Invullen van getallen geeft ons
-					<BM>\Delta U = \frac{cv.float}{Rs.float} \cdot \left({p2.float} \cdot {V2.float} - {p1.float} \cdot {V1.float}\right) = {dU}.</BM>
+					<BM>\Delta U = \frac{cv.float}{Rs.float} \cdot \left({p2s.float} \cdot {V2s.float} - {p1s.float} \cdot {V1s.float}\right) = {dU}.</BM>
 					Via handig omschrijven van formules hadden we ons dus wat rekenwerk kunnen besparen.</Par>
 			</>
 		},

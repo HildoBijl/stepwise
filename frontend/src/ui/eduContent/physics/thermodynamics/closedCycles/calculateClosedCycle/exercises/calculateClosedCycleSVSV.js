@@ -3,7 +3,7 @@ import React from 'react'
 import { Par, SubHead, M, BM, BMList, BMPart, InputTable } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, getAllInputFieldsFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
@@ -29,8 +29,8 @@ const fields = [[
 	<FloatUnitInput id="T4" label={<M>T_4</M>} size="l" />,
 ]]
 
-const Problem = ({ p1, V1, T1, p2, p3 }) => <>
-	<Par>We bekijken een viertaktmotor die een Otto-cyclus uitvoert. Eerst zuigt de motor <M>{V1}</M> lucht aan op <M>{p1}</M> en <M>{T1}</M> (punt 1). Bij het omhoog gaan van de zuiger wordt deze lucht isentropisch gecomprimeerd tot <M>{p2}.</M> Vervolgens vindt de verbranding plaats, die de druk isochoor verder ophoogt tot <M>{p3}.</M> Hierna wordt de zuiger isentropisch weer terug omlaag geduwd tot het beginvolume. Ten slotte wordt de lucht uitgestoten en wordt weer verse lucht aangezogen. (Je kunt deze stap zien als "isochore koeling".) Bereken de gaseigenschappen voor elk punt in dit kringproces.</Par>
+const Problem = ({ p1o, V1o, T1o, p2o, p3o }) => <>
+	<Par>We bekijken een viertaktmotor die een Otto-cyclus uitvoert. Eerst zuigt de motor <M>{V1o}</M> lucht aan op <M>{p1o}</M> en <M>{T1o}</M> (punt 1). Bij het omhoog gaan van de zuiger wordt deze lucht isentropisch gecomprimeerd tot <M>{p2o}.</M> Vervolgens vindt de verbranding plaats, die de druk isochoor verder ophoogt tot <M>{p3o}.</M> Hierna wordt de zuiger isentropisch weer terug omlaag geduwd tot het beginvolume. Ten slotte wordt de lucht uitgestoten en wordt weer verse lucht aangezogen. (Je kunt deze stap zien als "isochore koeling".) Bereken de gaseigenschappen voor elk punt in dit kringproces.</Par>
 	<InputSpace>
 		<InputTable {...{ colHeads, rowHeads, fields }} />
 	</InputSpace>
@@ -44,12 +44,11 @@ const steps = [
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[0], rowHeads[1]]} fields={[fields[0], fields[1]]} />
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { m, Rs, k, p1, V1, T1, p2, V2, T2 } = useSolution()
+		Solution: ({ m, Rs, k, p1, V1, T1, p2, V2, T2 }) => {
 			return <>
 				<Par>
 					In punt 1 is alles bekend behalve de massa. Het is dus handig om hieruit de massa te berekenen. Via de gaswet vinden we
-					<BM>m = \frac(p_1V_1)(R_sT_1) = \frac({p1.float} \cdot {p2.float})({Rs.float} \cdot {T1.float}) = {m}.</BM>
+					<BM>m = \frac(p_1V_1)(R_sT_1) = \frac({p1.float} \cdot {V1.float})({Rs.float} \cdot {T1.float}) = {m}.</BM>
 					In punt 2 was al gegeven dat <M>p_2 = {p2}.</M> Omdat proces 1-2 isentroop is geldt hierbij <M>n = k</M> en voor lucht geldt <M>k = {k}.</M> Via Poisson's wet <M>p_1V_1^n = p_2V_2^n</M> vinden we zo
 					<BMList>
 						<BMPart>V_2^n = \frac(p_1)(p_2) V_1^n,</BMPart>
@@ -76,8 +75,7 @@ const steps = [
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[2]]} fields={[fields[2]]} />
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { m, Rs, p3, V3, T3 } = useSolution()
+		Solution: ({ m, Rs, p3, V3, T3 }) => {
 			return <Par>Gegeven is dat <M>p_3 = {p3}.</M> Omdat proces 2-3 isochoor is geldt verder <M>V_3 = V_2 = {V3}.</M> Via de gaswet volgt <BM>T_3 = \frac(p_3V_3)(mR_s) = \frac({p3.float} \cdot {V3.float})({m.float} \cdot {Rs.float}) = {T3}.</BM> Daarmee is punt 3 bekend.</Par>
 		},
 	},
@@ -88,8 +86,7 @@ const steps = [
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[3]]} fields={[fields[3]]} />
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { m, Rs, k, p3, V3, p4, V4, T4 } = useSolution()
+		Solution: ({ m, Rs, k, p3, V3, p4, V4, T4 }) => {
 			return <Par>
 				Omdat proces 4-1 isotherm is geldt <M>V_4 = V_1 = {V4}.</M> Proces 3-4 is isentroop, wat betekent dat we Poisson's wet moeten gebruiken. Via <M>p_3V_3^n = p_4V_4^n</M> vinden we zo
 				<BM>p_4 = p_3 \frac(V_3^n)(V_4^n) = p_3 \left(\frac(V_3)(V_4)\right)^n = {p3.float} \cdot \left(\frac{V3.float}{V4.float}\right)^{k} = {p4}.</BM>

@@ -4,16 +4,16 @@ import { Dutch } from 'ui/lang/gases'
 import { InputTable, Par, SubHead, M, BM, BMList, BMPart } from 'ui/components'
 import { useInput, InputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
+import { StepExercise, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = ({ medium, m, p1, V1, p2, p4 }) => {
+const Problem = ({ medium, mo, p1o, V1o, p2o, p4o }) => {
 	const choice = useInput('choice')
 	return <>
-		<Par>We voeren een Carnot-proces uit met <M>{m}</M> {Dutch[medium]}. Bij aanvang (punt 1) heeft dit gas een druk van <M>{p1}</M> en een volume van <M>{V1}.</M> Het wordt eerst isentroop gecomprimeerd tot <M>{p2},</M> vervolgens isotherm gecomprimeerd, daarna isentroop geëxpandeerd naar <M>{p4}</M> en uiteindelijk weer isotherm geëxpandeerd tot het beginpunt.</Par>
+		<Par>We voeren een Carnot-proces uit met <M>{mo}</M> {Dutch[medium]}. Bij aanvang (punt 1) heeft dit gas een druk van <M>{p1o}</M> en een volume van <M>{V1o}.</M> Het wordt eerst isentroop gecomprimeerd tot <M>{p2o},</M> vervolgens isotherm gecomprimeerd, daarna isentroop geëxpandeerd naar <M>{p4o}</M> en uiteindelijk weer isotherm geëxpandeerd tot het beginpunt.</Par>
 		<Par>Bepaal of dit een positief of negatief kringproces is en bereken de betreffende factor(en).</Par>
 		<InputSpace>
 			<MultipleChoice id="choice" choices={[
@@ -64,8 +64,7 @@ const steps = [
 					]]} />
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { m, Rs, k, p1, V1, T1, p2, V2, T2, p3, V3, T3, p4, V4, T4 } = useSolution()
+		Solution: ({ m, Rs, k, p1, V1, T1, p2, V2, T2, p3, V3, T3, p4, V4, T4 }) => {
 			return <>
 				<Par>
 					In punt 1 weten we al dat <M>p_1 = {p1}</M> en <M>V_1 = {V1}.</M> Via de gaswet vinden we
@@ -106,8 +105,7 @@ const steps = [
 					]]} />
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { m, cv, V1, T1, p2, V2, T2, T3, V3, p4, V4, T4, Q12, W12, Q23, W23, Q34, W34, Q41, W41, Wn } = useSolution()
+		Solution: ({ m, cv, V1, T1, p2, V2, T2, T3, V3, p4, V4, T4, Q12, W12, Q23, W23, Q34, W34, Q41, W41, Wn }) => {
 			return <>
 				<Par>
 					Voor de isentrope stap 1-2 zijn de energiestromen
@@ -158,9 +156,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { Wn, T1, T2, Q23, Qin, epsilon, COP } = useSolution()
-			const Qout = Q23.abs()
+		Solution: ({ Wn, T1, T2, Q23, Qin, Qout, epsilon, COP }) => {
 			return <Par>De processtappen waarop warmte toegevoerd wordt (<M>Q \gt 0</M>) is alleen stap 4-1. De toegevoerde warmte is dus <M>Q_(toe) = Q_(4-1) = {Qin}.</M> De netto arbeid is al bekend als <M>W_(netto) = {Wn}.</M> Hiermee volgt de koudefactor als
 				<BM>\varepsilon = \frac(\rm nuttig)(\rm invoer) = \frac(Q_(toe))(W_(netto)) = \frac{Qin}{Wn.abs()} = {epsilon}.</BM>
 				Voor de warmtefactor moeten we kijken naar de stappen waarop warmte afgevoerd wordt. Dit is alleen stap 2-3. De afgevoerde warmte is dus <M>Q_(af) = Q_(2-3) = {Qout}.</M> (We negeren hier het minteken omdat we al in woorden zeggen dat dit afgevoerde warmte is.) Dit zorgt voor een warmtefactor van
@@ -178,18 +174,17 @@ const steps = [
 ]
 
 const getFeedback = (exerciseData) => {
-	const { input: { eta } } = exerciseData
 	return {
-		...getInputFieldFeedback(['p1', 'V1', 'T1', 'p2', 'V2', 'T2', 'p3', 'V3', 'T3', 'Q12', 'W12', 'Q23', 'W23', 'Q34', 'W34', 'Q41', 'W41', 'epsilon', 'COP'], exerciseData),
-		...getMCFeedback('choice', exerciseData, {
-			step: 3,
-			correct: 1,
-			text: [
-				<span>Nee, het is geen positief kringproces. Kijk goed of de netto arbeid <M>W_(netto) = W_(1-2) + W_(2-3) + W_(3-4) + W_(4-1)</M> positief of negatief is.</span>,
-				<span>Ja! Het is inderdaad een negatief kringproces: de pijlen in het <M>p</M>-<M>V</M>-diagram gaan tegen de klok in en <M>W_(netto)</M> is negatief.</span>,
-			],
+		...getFieldInputFeedback(exerciseData, ['p1', 'V1', 'T1', 'p2', 'V2', 'T2', 'p3', 'V3', 'T3', 'p4', 'V4', 'T4', 'Q12', 'W12', 'Q23', 'W23', 'Q34', 'W34', 'Q41', 'W41', 'epsilon', 'COP']),
+		...getMCFeedback(exerciseData, {
+			choice: {
+				step: 3,
+				text: [
+					<span>Nee, het is geen positief kringproces. Kijk goed of de netto arbeid <M>W_(netto) = W_(1-2) + W_(2-3) + W_(3-4) + W_(4-1)</M> positief of negatief is.</span>,
+					<span>Ja! Het is inderdaad een negatief kringproces: de pijlen in het <M>p</M>-<M>V</M>-diagram gaan tegen de klok in en <M>W_(netto)</M> is negatief.</span>,
+				],
+			}
 		}),
-		eta: (eta ? { correct: false, text: 'Aangezien we geen positief kringproces hebben, is het zinloos om het redenement te berekenen.' } : undefined),
+		eta: (exerciseData.input.eta ? { correct: false, text: 'Aangezien we geen positief kringproces hebben, is het zinloos om het redenement te berekenen.' } : undefined),
 	}
 }
-

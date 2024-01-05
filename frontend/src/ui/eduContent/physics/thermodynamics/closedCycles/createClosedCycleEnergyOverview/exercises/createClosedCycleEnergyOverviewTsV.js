@@ -2,9 +2,9 @@ import React from 'react'
 
 import { Dutch } from 'ui/lang/gases'
 import { Par, List, M, BM, Table, InputTable } from 'ui/components'
-import { InputSpace } from 'ui/form'
+import { InputSpace, Hint } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { useExerciseData, StepExercise, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
@@ -23,11 +23,8 @@ const fields = [[
 	<FloatUnitInput id="W31" label={<M>W_(3-1)</M>} size="l" />,
 ]]
 
-const Problem = (state) => {
-	const { shared: { getCycleParameters } } = useExerciseData()
-	const { m, p1, V1, T1, p2, V2, T2, p3, V3, T3 } = getCycleParameters(state)
-	const { medium } = state
-
+const Problem = ({ medium }) => {
+	const { m, p1, V1, T1, p2, V2, T2, p3, V3, T3 } = useSolution()
 	return <>
 		<Par>We voeren een kringproces uit met <M>{m}</M> {Dutch[medium]}. Hiermee doorlopen we drie stappen:</Par>
 		<List items={[
@@ -40,14 +37,14 @@ const Problem = (state) => {
 		<Par>Bereken de toegevoerde warmte <M>Q</M> en de door het gas geleverde arbeid <M>W</M> bij elke stap.</Par>
 		<InputSpace>
 			<InputTable {...{ colHeads, rowHeads, fields }} />
-			<Par>Tip: controleer of de energiebalans klopt voor je resultaten.</Par>
+			<Hint><Par>Tip: controleer of de energiebalans klopt voor je resultaten.</Par></Hint>
 		</InputSpace>
 	</>
 }
 
 const steps = [
 	{
-		Problem: (state) => <>
+		Problem: () => <>
 			<Par>Bekijk eerst stap 1-2. Bij deze stap wordt het gas <strong>isotherm</strong> gecomprimeerd. Bereken met behulp van de gegeven waarden de toegevoerde warmte en de door het gas geleverde arbeid.</Par>
 			<InputSpace>
 				<Par>
@@ -56,10 +53,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { shared: { getCycleParameters, getSolution } } = useExerciseData()
-			const { p1, V1, V2 } = getCycleParameters(state)
-			const { Q12, W12 } = getSolution(state)
+		Solution: ({ p1, V1, V2, Q12, W12 }) => {
 			return <Par>Er zijn meerdere manieren om dit uit te rekenen. We kunnen bijvoorbeeld de warmte <M>Q_(1-2)</M> berekenen via <BM>Q_(1-2) = pV\ln\left(\frac(V_2)(V_1)\right) = {p1.float} \cdot {V1.float} \cdot \ln\left(\frac{V2.float}{V1.float}\right) = {Q12}.</BM> Omdat het een isotherm proces is geldt verder <M>W_(1-2) = Q_(1-2) = {W12}.</M> Hiermee is de eerste stap doorgerekend.</Par>
 		},
 	},
@@ -73,10 +67,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { shared: { getCycleParameters, getSolution } } = useExerciseData()
-			const { m, T2, T3 } = getCycleParameters(state)
-			const { cv, Q23, W23 } = getSolution(state)
+		Solution: ({ m, T2, T3, cv, Q23, W23 }) => {
 			return <Par>Bij een isentroop proces is er per definitie geen warmte toegevoerd. Er geldt dus <M>Q_(2-3) = {Q23}.</M> De arbeid is te berekenen als <BM>W_(2-3) = -mc_v\left(T_3-T_2\right) = -{m.float} \cdot {cv.float} \cdot \left({T3.float} - {T2.float}\right) = {W23}.</BM> Hiermee is ook deze stap klaar.</Par>
 		},
 	},
@@ -90,11 +81,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { shared: { getCycleParameters, getSolution } } = useExerciseData()
-			const { m, T1, T3 } = getCycleParameters(state)
-			const { cv, Q12, W12, Q23, W23, Q31, W31, Qn, Wn } = getSolution(state)
-
+		Solution: ({ m, T1, T3, cv, Q12, W12, Q23, W23, Q31, W31, Qn, Wn }) => {
 			return <>
 				<Par>Bij een isochore stap geldt <M>W_(3-1) = {W31}.</M> We hoeven dus alleen <M>Q_(3-1)</M> te berekenen. Dit gaat het makkelijkst via <BM>Q_(3-1) = mc_v\left(T_1 - T_3\right) = {m.float} \cdot {cv.float} \cdot \left({T1.float} - {T3.float}\right) = {Q31}.</BM> Daarmee is alles doorgerekend.</Par>
 				<Par>Als controle kunnen we nog kijken of de energiebalans klopt. De totaal netto toegevoerde warmte is <BM>Q_(netto) = Q_(1-2) + Q_(2-3) + Q_(3-1) = {Q12.float} {Q23.float.texWithPM} {Q31.float.texWithPM} = {Qn}.</BM> Dit moet gelijk zijn aan de totaal netto geleverde arbeid, welke gelijk is aan <BM>W_(netto) = W_(1-2) + W_(2-3) + W_(3-1) = {W12.float} {W23.float.texWithPM} {W31.float.texWithPM} = {Wn}.</BM> We zien dat dit inderdaad gelijk aan elkaar is, dus we hebben geen rekenfout gemaakt. Ook zien we dat het een negatief kringproces betreft.</Par>

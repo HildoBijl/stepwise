@@ -16,7 +16,7 @@ module.exports.areNumbersEqual = areNumbersEqual
 // checkNumberEquality does a thorough equality check on the numbers, giving reasons on why they may be unequal. Note that the second number (b) is considered a "correct" one and is used as basis for the comparison. The first (a) is considered "input".
 function checkNumberEquality(a, b, options = {}) {
 	// Check the options.
-	options = processOptions(options, defaultComparison)
+	options = processOptions(options, defaultComparison, true)
 	if (!isNumber(options.absoluteMargin) || options.absoluteMargin < 0)
 		throw new Error(`Invalid options: the parameter absoluteMargin must be a non-negative number but "${options.absoluteMargin}" was given.`)
 	if (!isNumber(options.relativeMargin) || options.relativeMargin < 0)

@@ -4,7 +4,7 @@ import { Dutch } from 'ui/lang/gases'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
+import { StepExercise, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -73,9 +73,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { gas, Rs } = useSolution()
-
+		Solution: ({ gas, Rs }) => {
 			return <Par>Voor {Dutch[gas]} geldt <M>R_s = {Rs}.</M></Par>
 		},
 	},
@@ -88,8 +86,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { p1, p2, ratio } = useSolution()
+		Solution: ({ p1, p2, ratio }) => {
 			return <Par>De gaswet zegt dat <M>pV = mR_sT.</M> We weten hier dat <M>m</M>, <M>R_s</M> en <M>T</M> allen constant blijven. Dus moet ook <M>pV</M> constant blijven. Er geldt dus <BM>p_1V_1 = p_2V_2.</BM> Hieruit kunnen we de volumeverhouding halen. Deze is het omgekeerde van de drukverhouding. Oftewel, <BM>\frac(V_2)(V_1) = \frac(p_1)(p_2) = \frac{p1.float}{p2.float} = {ratio}.</BM> Dit kunnen we straks in de formule voor <M>Q</M> en <M>W</M> invullen.</Par>
 		},
 	},
@@ -98,13 +95,13 @@ const steps = [
 			<Par>Zet de gegeven waarden in eenheden waarmee we hier mogen rekenen.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="m" prelabel={<M>m =</M>} label="Massa" size="s" />
-					<FloatUnitInput id="T" prelabel={<M>T =</M>} label="Temperatuur" size="s" />
+					<FloatUnitInput id="ms" prelabel={<M>m =</M>} label="Massa" size="s" />
+					<FloatUnitInput id="Ts" prelabel={<M>T =</M>} label="Temperatuur" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: ({ m, T }) => {
-			return <Par>Zowel de massa als de temperatuur moeten in standaard eenheden. De massa <M>m = {m}</M> staat al in standaard eenheden. De temperatuur kunnen we schrijven als <M>T = {T.setUnit('K')}.</M></Par>
+		Solution: ({ ms, Ts }) => {
+			return <Par>Zowel de massa als de temperatuur moeten in standaard eenheden. De massa <M>m = {ms}</M> staat al in standaard eenheden. De temperatuur kunnen we schrijven als <M>T = {Ts}.</M></Par>
 		},
 	},
 	{
@@ -117,40 +114,41 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { Rs, m, T, ratio, Q } = useSolution()
-			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we <BM>Q = W = mR_sT \ln\left(\frac(V_2)(V_1)\right) = {m.float} \cdot {Rs.float} \cdot {T.float} \cdot \ln\left({ratio.float}\right) = {Q}.</BM> Het minteken hier betekent dat er warmte <strong>uit het gas</strong> stroomt, en dat er arbeid <strong>op het gas</strong> wordt verricht. Dit klopt, want we zijn het gas aan het comprimeren, dus dit kost arbeid. Het minteken moet dus zeker wel vermeld worden, want het geeft de richting van deze energiestroom aan.</Par>
+		Solution: ({ Rs, ms, Ts, ratio, Q }) => {
+			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we <BM>Q = W = mR_sT \ln\left(\frac(V_2)(V_1)\right) = {ms.float} \cdot {Rs.float} \cdot {Ts.float} \cdot \ln\left({ratio.float}\right) = {Q}.</BM> Het minteken hier betekent dat er warmte <strong>uit het gas</strong> stroomt, en dat er arbeid <strong>op het gas</strong> wordt verricht. Dit klopt, want we zijn het gas aan het comprimeren, dus dit kost arbeid. Het minteken moet dus zeker wel vermeld worden, want het geeft de richting van deze energiestroom aan.</Par>
 		},
 	},
 ]
 
 const getFeedback = (exerciseData) => {
 	return {
-		...getInputFieldFeedback(['Rs', 'ratio', 'm', 'T', 'Q', 'W'], exerciseData),
-		...getMCFeedback('process', exerciseData, {
-			step: 1,
-			text: [
-				'Nee, dan zou de druk constant moeten blijven.',
-				'Nee, dan zou het volume constant moeten blijven, maar het gas wordt gecomprimeerd.',
-				'Ja, de temperatuur blijft immers constant.',
-				'Nee, dan zou er geen warmte toegevoerd/afgevoerd mogen worden. Maar om de temperatuur gelijk te blijven wordt er hier zeker wel warmte afgevoerd.',
-				'Nee, dat is bij een algemeen proces waarbij niets constant blijft.',
-			],
-		}),
-		...getMCFeedback('eq', exerciseData, {
-			step: 2,
-			text: [
-				'Nee, dit zijn de formules voor een isobaar proces. Daarnaast weten we het volume helemaal niet.',
-				'Nee, dit zijn de formules voor een isobaar proces.',
-				'Nee, dit zijn de formules voor een isochoor proces. Daarnaast weten we het volume helemaal niet.',
-				'Nee, dit zijn de formules voor een isochoor proces.',
-				'Net niet! Dit zijn wel de formules voor een isotherm proces, maar we weten het volume niet, en dus is dit niet handig om te gebruiken.',
-				'Ja! We weten de massa en de temperatuur, dus hier komen we een heel eind mee.',
-				'Nee, dit zijn de formules voor een isentroop proces. Daarnaast weten we het volume helemaal niet.',
-				'Nee, dit zijn de formules voor een isentroop proces.',
-				'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze opgave. Daarnaast weten we het volume helemaal niet.',
-				'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze opgave.',
-			],
+		...getFieldInputFeedback(exerciseData, ['Rs', 'ratio', 'ms', 'Ts', 'Q', 'W']),
+		...getMCFeedback(exerciseData, {
+			process: {
+				step: 1,
+				text: [
+					'Nee, dan zou de druk constant moeten blijven.',
+					'Nee, dan zou het volume constant moeten blijven, maar het gas wordt gecomprimeerd.',
+					'Ja, de temperatuur blijft immers constant.',
+					'Nee, dan zou er geen warmte toegevoerd/afgevoerd mogen worden. Maar om de temperatuur gelijk te blijven wordt er hier zeker wel warmte afgevoerd.',
+					'Nee, dat is bij een algemeen proces waarbij niets constant blijft.',
+				],
+			},
+			eq: {
+				step: 2,
+				text: [
+					'Nee, dit zijn de formules voor een isobaar proces. Daarnaast weten we het volume helemaal niet.',
+					'Nee, dit zijn de formules voor een isobaar proces.',
+					'Nee, dit zijn de formules voor een isochoor proces. Daarnaast weten we het volume helemaal niet.',
+					'Nee, dit zijn de formules voor een isochoor proces.',
+					'Net niet! Dit zijn wel de formules voor een isotherm proces, maar we weten het volume niet, en dus is dit niet handig om te gebruiken.',
+					'Ja! We weten de massa en de temperatuur, dus hier komen we een heel eind mee.',
+					'Nee, dit zijn de formules voor een isentroop proces. Daarnaast weten we het volume helemaal niet.',
+					'Nee, dit zijn de formules voor een isentroop proces.',
+					'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze opgave. Daarnaast weten we het volume helemaal niet.',
+					'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze opgave.',
+				],
+			}
 		})
 	}
 }

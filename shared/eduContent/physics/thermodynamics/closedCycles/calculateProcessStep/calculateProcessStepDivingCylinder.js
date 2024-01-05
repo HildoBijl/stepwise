@@ -13,17 +13,16 @@ const comparison = {
 	},
 }
 
-const data = {
+const metaData = {
 	skill: 'calculateProcessStep',
 	steps: ['gasLaw', 'recognizeProcessTypes', 'gasLaw'],
-
 	comparison: {
 		default: comparison.default,
 		T1: comparison.T,
 		T2: comparison.T,
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const p1 = getRandomFloatUnit({
@@ -57,33 +56,30 @@ function generateState() {
 }
 
 function getSolution({ m, p1, T1, T2 }) {
-	p1 = p1.simplify()
-	T1 = T1.simplify()
-	T2 = T2.simplify()
-	const V1 = m.multiply(Rs).multiply(T1).divide(p1).setUnit('m^3')
+	const p1s = p1.simplify()
+	const T1s = T1.simplify()
+	const T2s = T2.simplify()
+	const V1 = m.multiply(Rs).multiply(T1s).divide(p1s).setUnit('m^3')
 	const V2 = V1
-	const p2 = m.multiply(Rs).multiply(T2).divide(V2).setUnit('Pa')
-	return { m, Rs, p1, p2, V1, V2, T1, T2 }
+	const p2 = m.multiply(Rs).multiply(T2s).divide(V2).setUnit('Pa')
+	return { process: 1, m, p1, T1, T2, Rs, p1s, p2, V1, V2, T1s, T2s }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison(['p1', 'V1', 'T1'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['p1', 'V1', 'T1'])
 		case 2:
-			return input.process === 1
+			return performComparison(exerciseData, 'process')
 		case 3:
-			return performComparison(['p2', 'V2', 'T2'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['p2', 'V2', 'T2'])
 		default:
-			return performComparison(['p1', 'V1', 'T1', 'p2', 'V2', 'T2'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['p1', 'V1', 'T1', 'p2', 'V2', 'T2'])
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

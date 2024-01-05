@@ -3,7 +3,7 @@ import React from 'react'
 import { Par, SubHead, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, getAllInputFieldsFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
@@ -29,13 +29,12 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { k, p, V1, V2, Q, W } = useSolution()
+		Solution: ({ k, p, V1s, V2s, Q, W }) => {
 			return <>
 				<Par>De verwarming vindt op gelijke druk plaats, waardoor we met een isobaar proces te maken hebben. Het gebruikte medium is helium, met <M>k = {k}.</M> Bij dit proces valt de toegevoerde warmte te berekenen via
-					<BM>Q = \frac(k)(k-1) p\left(V_2 - V_1\right) = \frac({k})({k} - 1) \cdot {p.float} \cdot \left({V2.float} - {V1.float}\right) = {Q}.</BM>
+					<BM>Q = \frac(k)(k-1) p\left(V_2 - V_1\right) = \frac({k})({k} - 1) \cdot {p.float} \cdot \left({V2s.float} - {V1s.float}\right) = {Q}.</BM>
 					Net zo volgt de door het helium geleverde arbeid als
-					<BM>W = p\left(V_2 - V_1\right) = {p.float} \cdot \left({V2.float} - {V1.float}\right) = {W}.</BM>
+					<BM>W = p\left(V_2 - V_1\right) = {p.float} \cdot \left({V2s.float} - {V1s.float}\right) = {W}.</BM>
 					Beiden zijn positief, waarbij vooral <M>Q</M> groot is. Dit klopt met wat we intuïtief zouden verwachten: we voegen veel warmte toe, maar het helium gebruikt een deel van deze energie als arbeid om de ballon verder uit te rekken.</Par>
 			</>
 		},
@@ -49,8 +48,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { k, p, V1, V2, Q, W, dU } = useSolution()
+		Solution: ({ k, ps, V1s, V2s, Q, W, dU }) => {
 			return <>
 				<Par>De eerste hoofdwet zegt dat <M>Q = \Delta U + W.</M> Hieruit volgt direct dat <BM>\Delta U = Q - W = {Q.float} - {W.float} = {dU}.</BM>
 					Omdat we veel warmte aan het gas toegevoegd hebben is deze waarde positief.</Par>
@@ -63,7 +61,7 @@ const steps = [
 					We kunnen hiermee <M>\Delta U</M> schrijven als
 					<BM>\Delta U = Q - W = \left(\frac(k)(k-1) - 1\right)p\left(V_2 - V_1\right) = \frac(1)(k-1) p\left(V_2 - V_1\right).</BM>
 					Deze formule geldt altijd voor isobare processen. Getallen invullen geeft
-					<BM>\Delta U = \frac(1)({k}-1) \cdot {p.float} \cdot \left({V2.float} - {V1.float}\right) = {dU}.</BM>
+					<BM>\Delta U = \frac(1)({k}-1) \cdot {ps.float} \cdot \left({V2s.float} - {V1s.float}\right) = {dU}.</BM>
 					Via handig omschrijven van formules hadden we ons dus wat rekenwerk kunnen besparen.</Par>
 			</>
 		},

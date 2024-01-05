@@ -3,10 +3,9 @@ const { getRandomFloatUnit } = require('../../../../../inputTypes')
 const gasProperties = require('../../../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'calculateClosedCycle',
 	steps: ['calculateProcessStep', 'calculateProcessStep', 'calculateProcessStep'],
-
 	comparison: {
 		default: {
 			relativeMargin: 0.01,
@@ -15,35 +14,35 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const medium = selectRandomly(['air', 'argon', 'carbonMonoxide', 'helium', 'hydrogen', 'methane', 'nitrogen', 'oxygen'])
-	const V1 = getRandomFloatUnit({
+	const V1o = getRandomFloatUnit({
 		min: 4,
 		max: 30,
 		significantDigits: 2,
 		unit: 'l',
 	})
-	const T1 = getRandomFloatUnit({
+	const T1o = getRandomFloatUnit({
 		min: 1,
 		max: 30,
 		decimals: 0,
 		unit: 'dC',
 	})
-	const p1 = getRandomFloatUnit({
+	const p1o = getRandomFloatUnit({
 		min: 1,
 		max: 2,
 		significantDigits: 2,
 		unit: 'bar',
 	})
-	const p2 = getRandomFloatUnit({
+	const p2o = getRandomFloatUnit({
 		min: 6,
 		max: 12,
 		significantDigits: 2,
 		unit: 'bar',
 	})
-	const p4 = getRandomFloatUnit({
+	const p4o = getRandomFloatUnit({
 		min: 6,
 		max: 12,
 		significantDigits: 2,
@@ -51,20 +50,20 @@ function generateState() {
 	})
 
 	const { Rs } = gasProperties[medium]
-	const m = p1.setUnit('Pa').multiply(V1.setUnit('m^3')).divide(Rs.multiply(T1.setUnit('K'))).setUnit('g').roundToPrecision()
+	const mo = p1o.setUnit('Pa').multiply(V1o.setUnit('m^3')).divide(Rs.multiply(T1o.setUnit('K'))).setUnit('g').roundToPrecision()
 
-	return { medium, m, p1, V1, p2, p4 }
+	return { medium, mo, p1o, V1o, p2o, p4o }
 }
 
-function getSolution({ medium, m, p1, V1, p2, p4 }) {
+function getSolution({ medium, mo, p1o, V1o, p2o, p4o }) {
 	const { Rs, k } = gasProperties[medium]
-	m = m.simplify()
-	p1 = p1.simplify()
-	V1 = V1.simplify()
-	p2 = p2.simplify()
-	p4 = p4.simplify()
+	const m = mo.simplify()
+	const p1 = p1o.simplify()
+	const V1 = V1o.simplify()
+	const p2 = p2o.simplify()
+	const p4 = p4o.simplify()
 
-	const mRs = m.multiply(Rs)
+	const mRs = mo.multiply(Rs)
 	const T1 = p1.multiply(V1).divide(mRs).setUnit('K')
 	const V2 = V1.multiply(Math.pow(p1.number / p2.number, 1 / k.number))
 	const T2 = p2.multiply(V2).divide(mRs).setUnit('K')
@@ -76,24 +75,21 @@ function getSolution({ medium, m, p1, V1, p2, p4 }) {
 	return { medium, m, Rs, k, p1, V1, T1, p2, V2, T2, p3, V3, T3, p4, V4, T4 }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison(['p1', 'V1', 'T1', 'p2', 'V2', 'T2'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['p1', 'V1', 'T1', 'p2', 'V2', 'T2'])
 		case 2:
-			return performComparison(['p4', 'V4', 'T4'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['p4', 'V4', 'T4'])
 		case 3:
-			return performComparison(['p3', 'V3', 'T3'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['p3', 'V3', 'T3'])
 		default:
-			return performComparison(['p1', 'V1', 'T1', 'p2', 'V2', 'T2', 'p3', 'V3', 'T3', 'p4', 'V4', 'T4'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['p1', 'V1', 'T1', 'p2', 'V2', 'T2', 'p3', 'V3', 'T3', 'p4', 'V4', 'T4'])
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

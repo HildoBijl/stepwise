@@ -3,10 +3,9 @@ const { getRandomFloatUnit } = require('../../../../../inputTypes')
 let { helium: { k } } = require('../../../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'calculateWithInternalEnergy',
 	steps: ['calculateHeatAndWork', 'solveLinearEquation'],
-
 	comparison: {
 		default: {
 			relativeMargin: 0.01,
@@ -14,7 +13,7 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const factor = getRandom(1.1, 1.25)
@@ -35,29 +34,26 @@ function generateState() {
 }
 
 function getSolution({ p, V1, V2 }) {
-	p = p.simplify()
-	V1 = V1.simplify()
-	V2 = V2.simplify()
-	const W = p.multiply(V2.subtract(V1)).setUnit('J').setMinimumSignificantDigits(2)
+	const ps = p.simplify()
+	const V1s = V1.simplify()
+	const V2s = V2.simplify()
+	const W = ps.multiply(V2s.subtract(V1s)).setUnit('J').setMinimumSignificantDigits(2)
 	const Q = W.multiply(k.number / (k.number - 1)).setMinimumSignificantDigits(2)
 	const dU = Q.subtract(W).setMinimumSignificantDigits(2)
-	return { k, p, V1, V2, Q, W, dU }
+	return { k, ps, V1s, V2s, Q, W, dU }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison(['Q', 'W'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['Q', 'W'])
 		default:
-			return performComparison('dU', input, solution, data.comparison)
+			return performComparison(exerciseData, 'dU')
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

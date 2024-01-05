@@ -4,7 +4,7 @@ import { Dutch } from 'ui/lang/gases'
 import { Par, M, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
+import { StepExercise, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -74,9 +74,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { gas, cp, Rs } = useSolution()
-
+		Solution: ({ gas, cp, Rs }) => {
 			return <Par>Voor {Dutch[gas]} geldt <M>c_p = {cp}</M> en <M>R_s = {Rs}.</M></Par>
 		},
 	},
@@ -85,14 +83,14 @@ const steps = [
 			<Par>Zet de gegeven waarden in eenheden waarmee we hier mogen rekenen.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="m" prelabel={<M>m =</M>} label="Massa" size="s" />
-					<FloatUnitInput id="T1" prelabel={<M>T_1 =</M>} label="Temperatuur" size="s" />
-					<FloatUnitInput id="T2" prelabel={<M>T_2 =</M>} label="Temperatuur" size="s" />
+					<FloatUnitInput id="ms" prelabel={<M>m =</M>} label="Massa" size="s" />
+					<FloatUnitInput id="T1s" prelabel={<M>T_1 =</M>} label="Temperatuur" size="s" />
+					<FloatUnitInput id="T2s" prelabel={<M>T_2 =</M>} label="Temperatuur" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: ({ m, T1, T2 }) => {
-			return <Par>De massa moet in standaard eenheden. Immers, de soortelijke warmte is ook "per kilogram" gegeven. Dus noteren we <M>m = {m.setUnit('kg')}.</M> Bij de temperaturen gaat het alleen om een temperatuurverschil, en dan mogen we ook in graden Celsius rekenen. Het is dus voldoende om <M>T_1 = {T1}</M> en <M>T_2 = {T2}</M> te gebruiken.</Par>
+		Solution: ({ ms, T1s, T2s }) => {
+			return <Par>De massa moet in standaard eenheden. Immers, de soortelijke warmte is ook "per kilogram" gegeven. Dus noteren we <M>m = {ms}.</M> Bij de temperaturen gaat het alleen om een temperatuurverschil, en dan mogen we ook in graden Celsius rekenen. Het is dus voldoende om <M>T_1 = {T1s}</M> en <M>T_2 = {T2s}</M> te gebruiken.</Par>
 		},
 	},
 	{
@@ -105,13 +103,11 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { cp, Rs, m, T1, T2, Q, W } = useSolution()
-
+		Solution: ({ cp, Rs, ms, T1s, T2s, Q, W }) => {
 			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we
 				<BMList>
-					<BMPart>Q = mc_p\left(T_2-T_1\right) = {m.float} \cdot {cp.float} \cdot \left({T2.float} - {T1.float}\right) = {Q},</BMPart>
-					<BMPart>W = mR_s\left(T_2-T_1\right) = {m.float} \cdot {Rs.float} \cdot \left({T2.float} - {T1.float}\right) = {W}.</BMPart>
+					<BMPart>Q = mc_p\left(T_2-T_1\right) = {ms.float} \cdot {cp.float} \cdot \left({T2s.float} - {T1s.float}\right) = {Q},</BMPart>
+					<BMPart>W = mR_s\left(T_2-T_1\right) = {ms.float} \cdot {Rs.float} \cdot \left({T2s.float} - {T1s.float}\right) = {W}.</BMPart>
 				</BMList>
 				Het is lastig om te controleren of dit logisch is. De richtlijn is dat het aantal Joules bij een proces vaak een stuk groter is (een factor 10 à 100) dan het aantal gram gas. Dit lijkt te kloppen met onze waarden, waardoor de antwoorden logisch lijken.</Par>
 		},
@@ -120,31 +116,33 @@ const steps = [
 
 const getFeedback = (exerciseData) => {
 	return {
-		...getInputFieldFeedback(['m', 'T1', 'T2', 'cp', 'Rs', 'Q', 'W'], exerciseData),
-		...getMCFeedback('process', exerciseData, {
-			step: 1,
-			text: [
-				'Ja, dit is inderdaad een isobaar proces, want de druk blijft constant.',
-				'Nee, dan zou het volume constant moeten blijven.',
-				'Nee, dan zou de temperatuur constant moeten blijven.',
-				'Nee, dan zou er geen warmte toegevoerd mogen worden.',
-				'Nee, dat is bij een algemeen proces waarbij niets constant blijft.',
-			],
-		}),
-		...getMCFeedback('eq', exerciseData, {
-			step: 2,
-			text: [
-				'Net niet! Dit zijn wel de formules voor een isobaar proces, maar we weten de druk en het volume niet. Dus zijn deze niet handig om te gebruiken.',
-				'Ja! Dit zijn de formules voor een isobaar proces, en ze gebruiken de temperatuur, die in de vraag gegeven is.',
-				'Nee, dit zijn de formules voor een isochoor proces. Daarnaast weten we de druk en het volume helemaal niet.',
-				'Nee, dit zijn de formules voor een isochoor proces.',
-				'Nee, dit zijn de formules voor een isotherm proces. Daarnaast weten we de druk en het volume helemaal niet.',
-				'Nee, dit zijn de formules voor een isotherm proces.',
-				'Nee, dit zijn de formules voor een isentroop proces. Daarnaast weten we de druk en het volume helemaal niet.',
-				'Nee, dit zijn de formules voor een isentroop proces.',
-				'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze opgave. Daarnaast weten we de druk en het volume helemaal niet.',
-				'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze opgave.',
-			],
+		...getFieldInputFeedback(exerciseData, ['ms', 'T1s', 'T2s', 'cp', 'Rs', 'Q', 'W']),
+		...getMCFeedback(exerciseData, {
+			process: {
+				step: 1,
+				text: [
+					'Ja, dit is inderdaad een isobaar proces, want de druk blijft constant.',
+					'Nee, dan zou het volume constant moeten blijven.',
+					'Nee, dan zou de temperatuur constant moeten blijven.',
+					'Nee, dan zou er geen warmte toegevoerd mogen worden.',
+					'Nee, dat is bij een algemeen proces waarbij niets constant blijft.',
+				],
+			},
+			eq: {
+				step: 2,
+				text: [
+					'Net niet! Dit zijn wel de formules voor een isobaar proces, maar we weten de druk en het volume niet. Dus zijn deze niet handig om te gebruiken.',
+					'Ja! Dit zijn de formules voor een isobaar proces, en ze gebruiken de temperatuur, die in de vraag gegeven is.',
+					'Nee, dit zijn de formules voor een isochoor proces. Daarnaast weten we de druk en het volume helemaal niet.',
+					'Nee, dit zijn de formules voor een isochoor proces.',
+					'Nee, dit zijn de formules voor een isotherm proces. Daarnaast weten we de druk en het volume helemaal niet.',
+					'Nee, dit zijn de formules voor een isotherm proces.',
+					'Nee, dit zijn de formules voor een isentroop proces. Daarnaast weten we de druk en het volume helemaal niet.',
+					'Nee, dit zijn de formules voor een isentroop proces.',
+					'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze opgave. Daarnaast weten we de druk en het volume helemaal niet.',
+					'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze opgave.',
+				],
+			}
 		})
 	}
 }

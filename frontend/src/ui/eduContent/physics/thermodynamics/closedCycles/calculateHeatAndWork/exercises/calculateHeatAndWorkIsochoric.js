@@ -4,7 +4,7 @@ import { Dutch } from 'ui/lang/gases'
 import { Par, M, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
+import { StepExercise, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -73,8 +73,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { gas, k } = useSolution()
+		Solution: ({ gas, k }) => {
 			return <Par>Voor {Dutch[gas]} geldt <M>k = {k}.</M></Par>
 		},
 	},
@@ -83,14 +82,14 @@ const steps = [
 			<Par>Zet de gegeven waarden in eenheden waarmee we hier mogen rekenen.</Par>
 			<InputSpace>
 				<Par>
-					<FloatUnitInput id="V" prelabel={<M>V =</M>} label="Volume" size="s" />
-					<FloatUnitInput id="p1" prelabel={<M>p_1 =</M>} label="Druk" size="s" />
-					<FloatUnitInput id="p2" prelabel={<M>p_2 =</M>} label="Druk" size="s" />
+					<FloatUnitInput id="Vs" prelabel={<M>V =</M>} label="Volume" size="s" />
+					<FloatUnitInput id="p1s" prelabel={<M>p_1 =</M>} label="Druk" size="s" />
+					<FloatUnitInput id="p2s" prelabel={<M>p_2 =</M>} label="Druk" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: ({ V, p1, p2 }) => {
-			return <Par>Zowel het volume als de druk moeten in standaard eenheden. Zo vinden we <M>V = {V.setUnit('m^3')}</M>, <M>p_1 = {p1.setUnit('Pa')}</M> en <M>p_2 = {p2.setUnit('Pa')}.</M></Par>
+		Solution: ({ Vs, p1s, p2s }) => {
+			return <Par>Zowel het volume als de druk moeten in standaard eenheden. Zo vinden we <M>V = {Vs.setUnit('m^3')}</M>, <M>p_1 = {p1s.setUnit('Pa')}</M> en <M>p_2 = {p2s.setUnit('Pa')}.</M></Par>
 		},
 	},
 	{
@@ -103,11 +102,10 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { k, V, p1, p2, Q, W } = useSolution()
+		Solution: ({ k, Vs, p1s, p2s, Q, W }) => {
 			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we
 				<BMList>
-					<BMPart>Q = \frac(1)(k-1) V \left(p_2 - p_1\right) = \frac(1)({k.float}-1) \cdot {V.float} \cdot \left({p2.float} - {p1.float}\right) = {Q},</BMPart>
+					<BMPart>Q = \frac(1)(k-1) V \left(p_2 - p_1\right) = \frac(1)({k.float}-1) \cdot {Vs.float} \cdot \left({p2s.float} - {p1s.float}\right) = {Q},</BMPart>
 					<BMPart>W = {W}.</BMPart>
 				</BMList>
 				Dit is een grote hoeveelheid warmte, maar de druktoename is ook significant, dus dit lijkt logisch.</Par>
@@ -117,31 +115,33 @@ const steps = [
 
 const getFeedback = (exerciseData) => {
 	return {
-		...getInputFieldFeedback(['k', 'V', 'p1', 'p2', 'Q', 'W'], exerciseData),
-		...getMCFeedback('process', exerciseData, {
-			step: 1,
-			text: [
-				'Nee, dan zou de druk constant moeten blijven.',
-				'Ja, dit is inderdaad een isochoor proces, want de solide gastank groeit niet opeens.',
-				'Nee, dan zou de temperatuur constant moeten blijven.',
-				'Nee, dan zou er geen warmte toegevoerd mogen worden.',
-				'Nee, dat is bij een algemeen proces waarbij niets constant blijft.',
-			],
-		}),
-		...getMCFeedback('eq', exerciseData, {
-			step: 2,
-			text: [
-				'Nee, dit zijn de formules voor een isobaar proces.',
-				'Nee, dit zijn de formules voor een isobaar proces. Daarnaast weten we de massa en de temperatuur helemaal niet.',
-				'Ja! Dit zijn de formules voor een isochoor proces, en ze gebruiken het volume en de druk, die in de vraag gegeven zijn.',
-				'Net niet! Dit zijn wel de formules voor een isochoor proces, maar weten we de massa en de temperatuur helemaal niet. Dus zijn deze niet handig om te gebruiken.',
-				'Nee, dit zijn de formules voor een isotherm proces.',
-				'Nee, dit zijn de formules voor een isotherm proces. Daarnaast weten we de massa en de temperatuur helemaal niet.',
-				'Nee, dit zijn de formules voor een isentroop proces.',
-				'Nee, dit zijn de formules voor een isentroop proces. Daarnaast weten we de massa en de temperatuur helemaal niet.',
-				'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze opgave.',
-				'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze opgave. Daarnaast weten we de massa en de temperatuur helemaal niet.',
-			],
+		...getFieldInputFeedback(exerciseData, ['k', 'Vs', 'p1s', 'p2s', 'Q', 'W']),
+		...getMCFeedback(exerciseData, {
+			process: {
+				step: 1,
+				text: [
+					'Nee, dan zou de druk constant moeten blijven.',
+					'Ja, dit is inderdaad een isochoor proces, want de solide gastank groeit niet opeens.',
+					'Nee, dan zou de temperatuur constant moeten blijven.',
+					'Nee, dan zou er geen warmte toegevoerd mogen worden.',
+					'Nee, dat is bij een algemeen proces waarbij niets constant blijft.',
+				],
+			},
+			eq: {
+				step: 2,
+				text: [
+					'Nee, dit zijn de formules voor een isobaar proces.',
+					'Nee, dit zijn de formules voor een isobaar proces. Daarnaast weten we de massa en de temperatuur helemaal niet.',
+					'Ja! Dit zijn de formules voor een isochoor proces, en ze gebruiken het volume en de druk, die in de vraag gegeven zijn.',
+					'Net niet! Dit zijn wel de formules voor een isochoor proces, maar weten we de massa en de temperatuur helemaal niet. Dus zijn deze niet handig om te gebruiken.',
+					'Nee, dit zijn de formules voor een isotherm proces.',
+					'Nee, dit zijn de formules voor een isotherm proces. Daarnaast weten we de massa en de temperatuur helemaal niet.',
+					'Nee, dit zijn de formules voor een isentroop proces.',
+					'Nee, dit zijn de formules voor een isentroop proces. Daarnaast weten we de massa en de temperatuur helemaal niet.',
+					'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze opgave.',
+					'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze opgave. Daarnaast weten we de massa en de temperatuur helemaal niet.',
+				],
+			}
 		})
 	}
 }

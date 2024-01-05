@@ -4,7 +4,7 @@ import { Dutch } from 'ui/lang/gases'
 import { Par, M, BM, BMList, BMPart, InputTable } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, getAllInputFieldsFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
@@ -30,8 +30,8 @@ const fields = [[
 	<FloatUnitInput id="T4" label={<M>T_4</M>} size="l" />,
 ]]
 
-const Problem = ({ medium, m, p1, V1, p2, p4 }) => <>
-	<Par>We voeren een Carnot-proces uit met <M>{m}</M> {Dutch[medium]}. Bij aanvang (punt 1) heeft dit gas een druk van <M>{p1}</M> en een volume van <M>{V1}.</M> Het wordt eerst isentroop gecomprimeerd tot <M>{p2},</M> vervolgens isotherm gecomprimeerd, daarna isentroop geëxpandeerd naar <M>{p4}</M> en uiteindelijk weer isotherm geëxpandeerd tot het beginpunt. Bereken de gaseigenschappen voor elk punt in dit kringproces.</Par>
+const Problem = ({ medium, mo, p1o, V1o, p2o, p4o }) => <>
+	<Par>We voeren een Carnot-proces uit met <M>{mo}</M> {Dutch[medium]}. Bij aanvang (punt 1) heeft dit gas een druk van <M>{p1o}</M> en een volume van <M>{V1o}.</M> Het wordt eerst isentroop gecomprimeerd tot <M>{p2o},</M> vervolgens isotherm gecomprimeerd, daarna isentroop geëxpandeerd naar <M>{p4o}</M> en uiteindelijk weer isotherm geëxpandeerd tot het beginpunt. Bereken de gaseigenschappen voor elk punt in dit kringproces.</Par>
 	<InputSpace>
 		<InputTable {...{ colHeads, rowHeads, fields }} />
 	</InputSpace>
@@ -45,8 +45,7 @@ const steps = [
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[0], rowHeads[1]]} fields={[fields[0], fields[1]]} />
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { medium, m, Rs, k, p1, V1, T1, p2, V2, T2 } = useSolution()
+		Solution: ({ medium, m, Rs, k, p1, V1, T1, p2, V2, T2 }) => {
 			return <>
 				<Par>
 					In punt 1 hebben we twee van de drie eigenschappen: <M>p_1 = {p1}</M> en <M>V_1 = {V1}.</M> Via de gaswet vinden we <M>T_1</M> als
@@ -70,11 +69,10 @@ const steps = [
 		Problem: () => <>
 			<Par>In punt 4 is de druk gegeven. Gebruik dit om het isotherme proces 4-1 door te rekenen.</Par>
 			<InputSpace>
-				<InputTable colHeads={colHeads} rowHeads={[rowHeads[2]]} fields={[fields[2]]} />
+				<InputTable colHeads={colHeads} rowHeads={[rowHeads[3]]} fields={[fields[3]]} />
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { m, Rs, p4, V4, T4 } = useSolution()
+		Solution: ({ m, Rs, p4, V4, T4 }) => {
 			return <Par>Gegeven is dat <M>p_4 = {p4}.</M> Omdat proces 4-1 isotherm is geldt verder <M>T_4 = T_1 = {T4}.</M> Via de gaswet volgt <BM>V_4 = \frac(mR_sT_4)(p_4) = \frac({m.float} \cdot {Rs.float} \cdot {T4.float})({p4.float}) = {V4}.</BM> Daarmee is punt 4 bekend.</Par>
 		},
 	},
@@ -82,11 +80,10 @@ const steps = [
 		Problem: () => <>
 			<Par>Gebruik het feit dat proces 2-3 isotherm is en proces 3-4 isentroop om punt 3 door te rekenen.</Par>
 			<InputSpace>
-				<InputTable colHeads={colHeads} rowHeads={[rowHeads[3]]} fields={[fields[3]]} />
+				<InputTable colHeads={colHeads} rowHeads={[rowHeads[2]]} fields={[fields[2]]} />
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { m, Rs, k, p3, V3, T3, V4, T4 } = useSolution()
+		Solution: ({ m, Rs, k, p3, V3, T3, V4, T4 }) => {
 			return <Par>
 				Omdat proces 2-3 isotherm is geldt <M>T_3 = T_2 = {T3}.</M> Proces 3-4 is isentroop, wat betekent dat we Poisson's wet moeten gebruiken. Dit gaat het makkelijkst via <M>T_3V_3^(n-1) = T_4V_4^(n-1).</M> Dit oplossen voor <M>V_3</M> geeft
 				<BMList>

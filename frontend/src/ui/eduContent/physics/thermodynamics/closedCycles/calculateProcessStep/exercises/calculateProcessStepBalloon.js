@@ -5,7 +5,7 @@ import { temperature as TConversion, massGram as mConversion, volumeLiter as VCo
 import { Par, M, BM, BMList, BMPart, InputTable } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
+import { StepExercise, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -39,13 +39,11 @@ const steps = [
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[0]]} fields={[fields[0]]} />
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { m, V1, T1 } = state
-			const { Rs, p1, m: ms, V1: V1s, T1: T1s } = useSolution()
+		Solution: ({ m, V1, T1, Rs, p1, ms, V1s, T1s }) => {
 			return <>
 				<Par>We gaan de gaswet gebruiken. Hierbij moeten alle waarden in standaard eenheden staan. Dus schrijven we op,
 					<BMList>
-						<BMPart>V_1 = {V1} \cdot {VConversion} = {V1s},</BMPart>
+						<BMPart>V_1 = \frac{V1}{VConversion} = {V1s},</BMPart>
 						<BMPart>T_1 = {T1.float} + {TConversion.float} = {T1s},</BMPart>
 						<BMPart>m = \frac{m}{mConversion} = {ms}.</BMPart>
 					</BMList>
@@ -67,8 +65,7 @@ const steps = [
 				]} randomOrder={true} />
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { p1 } = useSolution()
+		Solution: ({ p1 }) => {
 			return <Par>Op het moment is de druk in de ballon <M>{p1.setUnit('bar').setDecimals(2)}.</M> Dit is gelijk aan de atmosferische druk plus nog een klein beetje extra druk die, vanwege de elasticiteit van de ballon, toegevoegd wordt. De ballon "trekt aan" waardoor de lucht nog net ietsje meer samengedrukt wordt. Omdat de elasticiteit van de ballon bij benadering constant blijft, zal deze "extra druk" ook hetzelfde blijven. Kortom: de druk blijft gelijk. Het is (bij benadering) een isobaar proces, waardoor <M>p_2 = p_1.</M></Par>
 		},
 	},
@@ -79,27 +76,25 @@ const steps = [
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[1]]} fields={[fields[1]]} />
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { V1, T2 } = state
-			const { Rs, m, T2: T2s, V2, p2 } = useSolution()
-			return <Par>We weten inmiddels dat <BM>p_2 = p_1 = {p2}.</BM> Ook is de eindtemperatuur <M>T_2</M> bekend. In standaard eenheden is deze <BM>T_2 = {T2.float} + {TConversion.float} = {T2s}.</BM> Alleen <M>V_2</M> is nog onbekend. Deze kunnen we vinden via de gaswet <BM>pV = mR_sT.</BM> Als we deze oplossen voor <M>V_2</M> vinden we <BM>V_2 = \frac(mR_sT_2)(p_2) = \frac({m.float} \cdot {Rs.float} \cdot {T2s.float})({p2.float}) = {V2}.</BM> Dit komt neer op <M>{V2.setUnit('l')}</M> wat een beetje groter is dan het beginvolume van <M>{V1}.</M> Dit klinkt logisch: de ballon zet immers uit.</Par>
+		Solution: ({ V1, T2, Rs, ms, T2s, V2, p2 }) => {
+			return <Par>We weten inmiddels dat <BM>p_2 = p_1 = {p2}.</BM> Ook is de eindtemperatuur <M>T_2</M> bekend. In standaard eenheden is deze <BM>T_2 = {T2.float} + {TConversion.float} = {T2s}.</BM> Alleen <M>V_2</M> is nog onbekend. Deze kunnen we vinden via de gaswet <BM>pV = mR_sT.</BM> Als we deze oplossen voor <M>V_2</M> vinden we <BM>V_2 = \frac(mR_sT_2)(p_2) = \frac({ms.float} \cdot {Rs.float} \cdot {T2s.float})({p2.float}) = {V2}.</BM> Dit komt neer op <M>{V2.setUnit('l')}</M> wat een beetje groter is dan het beginvolume van <M>{V1}.</M> Dit klinkt logisch: de ballon zet immers uit.</Par>
 		},
 	},
 ]
 
 const getFeedback = (exerciseData) => {
 	return {
-		...getInputFieldFeedback(['p1', 'V1', 'T1', 'p2', 'V2', 'T2'], exerciseData),
-		...getMCFeedback('process', exerciseData, {
-			step: 2,
-			correct: 0,
-			text: [
-				'Ja! Omdat de elasticiteit van de ballon ongeveer constant blijft, zal de druk net iets hoger blijven van de atmosferische druk.',
-				'Nee, de ballon zet uit door het verwarmen. Het volume neemt dus toe.',
-				'Nee, de temperatuur stijgt juist door het verwarmen.',
-				'Nee, dit is geen isentroop proces. Er wordt immers warmte aan de ballon toegevoegd.',
-			],
+		...getFieldInputFeedback(exerciseData, ['p1', 'V1', 'T1', 'p2', 'V2', 'T2']),
+		...getMCFeedback(exerciseData, {
+			process: {
+				step: 2,
+				text: [
+					'Ja! Omdat de elasticiteit van de ballon ongeveer constant blijft, zal de druk net iets hoger blijven van de atmosferische druk.',
+					'Nee, de ballon zet uit door het verwarmen. Het volume neemt dus toe.',
+					'Nee, de temperatuur stijgt juist door het verwarmen.',
+					'Nee, dit is geen isentroop proces. Er wordt immers warmte aan de ballon toegevoegd.',
+				],
+			}
 		}),
 	}
 }
-

@@ -5,7 +5,7 @@ import { temperature as TConversion, pressure as pConversion } from 'step-wise/d
 import { Par, M, BM, BMList, BMPart, InputTable } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
+import { StepExercise, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -39,9 +39,7 @@ const steps = [
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[0]]} fields={[fields[0]]} />
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { m, p1, T1 } = state
-			const { Rs, p1: p1s, V1, T1: T1s } = useSolution()
+		Solution: ({ m, p1, T1, Rs, p1s, V1, T1s }) => {
 			return <>
 				<Par>We gaan de gaswet gebruiken. Hierbij moeten alle waarden in standaard eenheden staan. Dus schrijven we op,
 					<BMList>
@@ -77,9 +75,7 @@ const steps = [
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[1]]} fields={[fields[1]]} />
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { m, p1, T2 } = state
-			const { Rs, T2: T2s, V2, p2 } = useSolution()
+		Solution: ({ m, p1, T2, Rs, T2s, V2, p2 }) => {
 			return <Par>We weten inmiddels dat <BM>V_2 = V_1 = {V2}.</BM> Ook is de eindtemperatuur <M>T_2</M> bekend. In standaard eenheden is deze <BM>T_2 = {T2.float} + {TConversion.float} = {T2s}.</BM> Alleen <M>p_2</M> is nog onbekend. Deze kunnen we vinden via de gaswet <BM>pV = mR_sT.</BM> Als we deze oplossen voor <M>p_2</M> vinden we <BM>p_2 = \frac(mR_sT_2)(V_2) = \frac({m.float} \cdot {Rs.float} \cdot {T2s.float})({V2.float}) = {p2}.</BM> Deze einddruk <M>p_2 = {p2.setUnit('bar').setDecimals(0)}</M> is iets minder dan de begindruk van <M>p_1 = {p1.setUnit('bar').setDecimals(0)}</M> wat logisch is: de afkoeling laat de druk iets afnemen.</Par>
 		},
 	},
@@ -87,17 +83,17 @@ const steps = [
 
 const getFeedback = (exerciseData) => {
 	return {
-		...getInputFieldFeedback(['p1', 'V1', 'T1', 'p2', 'V2', 'T2'], exerciseData),
-		...getMCFeedback('process', exerciseData, {
-			step: 2,
-			correct: 1,
-			text: [
-				'Nee, de druk blijft niet constant. Als de zuurstof in de duikfles afkoelt daalt de druk.',
-				'Ja! De duikfles wordt immers niet groter of kleiner. Het volume blijft constant.',
-				'Nee, de temperatuur blijft niet constant. De duikfles koelt immers af in het koude water.',
-				'Nee, dit is geen isentroop proces. Er is immers warmte-uitwisseling: de duikfles verliest een hoop warmte aan het koude water.',
-			],
+		...getFieldInputFeedback(exerciseData, ['p1', 'V1', 'T1', 'p2', 'V2', 'T2']),
+		...getMCFeedback(exerciseData, {
+			process: {
+				step: 2,
+				text: [
+					'Nee, de druk blijft niet constant. Als de zuurstof in de duikfles afkoelt daalt de druk.',
+					'Ja! De duikfles wordt immers niet groter of kleiner. Het volume blijft constant.',
+					'Nee, de temperatuur blijft niet constant. De duikfles koelt immers af in het koude water.',
+					'Nee, dit is geen isentroop proces. Er is immers warmte-uitwisseling: de duikfles verliest een hoop warmte aan het koude water.',
+				],
+			}
 		}),
 	}
 }
-

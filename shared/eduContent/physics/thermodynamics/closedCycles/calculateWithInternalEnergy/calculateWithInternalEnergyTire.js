@@ -3,10 +3,9 @@ const { getRandomFloatUnit } = require('../../../../../inputTypes')
 let { air: { Rs, cv } } = require('../../../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'calculateWithInternalEnergy',
 	steps: ['gasLaw', 'specificHeats', 'solveLinearEquation'],
-
 	comparison: {
 		default: {
 			relativeMargin: 0.01,
@@ -17,7 +16,7 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const T1 = getRandomFloatUnit({
@@ -45,32 +44,29 @@ function generateState() {
 }
 
 function getSolution({ T1, p2, V2, T2 }) {
-	T1 = T1.simplify()
-	p2 = p2.simplify()
-	V2 = V2.simplify()
-	T2 = T2.simplify()
+	const T1s = T1.simplify()
+	const p2s = p2.simplify()
+	const V2s = V2.simplify()
+	const T2s = T2.simplify()
 	cv = cv.simplify()
-	const m = p2.multiply(V2).divide(Rs.multiply(T2)).setUnit('kg')
-	const dU = m.multiply(cv).multiply(T2.subtract(T1)).setUnit('J')
-	return { cv, Rs, T1, p2, V2, T2, m, dU }
+	const m = p2s.multiply(V2s).divide(Rs.multiply(T2s)).setUnit('kg')
+	const dU = m.multiply(cv).multiply(T2s.subtract(T1s)).setUnit('J')
+	return { cv, Rs, T1s, p2s, V2s, T2s, m, dU }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison('m', input, solution, data.comparison)
+			return performComparison(exerciseData, 'm')
 		case 2:
-			return performComparison('cv', input, solution, data.comparison)
+			return performComparison(exerciseData, 'cv')
 		default:
-			return performComparison('dU', input, solution, data.comparison)
+			return performComparison(exerciseData, 'dU')
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

@@ -1,12 +1,11 @@
 const { getRandom } = require('../../../../../util')
-const { getRandomFloat, getRandomFloatUnit } = require('../../../../../inputTypes')
+const { getRandomFloatUnit } = require('../../../../../inputTypes')
 let { air: { Rs, cv } } = require('../../../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'calculateWithInternalEnergy',
 	steps: ['poissonsLaw', 'calculateHeatAndWork', 'solveLinearEquation'],
-
 	comparison: {
 		default: {
 			relativeMargin: 0.01,
@@ -14,7 +13,7 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const n = getRandomFloatUnit({
@@ -43,37 +42,35 @@ function generateState() {
 }
 
 function getSolution({ p1, V1, V2, n }) {
-	p1 = p1.simplify()
-	V1 = V1.simplify()
-	V2 = V2.simplify()
+	const p1s = p1.simplify()
+	const V1s = V1.simplify()
+	const V2s = V2.simplify()
 	cv = cv.simplify()
 	if (typeof n === 'number') // Legacy: in older exercises n was stored as number. Adjust accordingly.
 		n = new FloatUnit({ float: n, unit: '' })
-	const p2 = p1.multiply(Math.pow(V1.number / V2.number, n.number))
-	const diff = p2.multiply(V2).subtract(p1.multiply(V1)).setUnit('J')
+	const p2 = p1s.multiply(Math.pow(V1s.number / V2s.number, n.number))
+	const p2s = p2.simplify()
+	const diff = p2s.multiply(V2s).subtract(p1s.multiply(V1s)).setUnit('J')
 	const c = cv.subtract(Rs.divide(n.number - 1))
 	const Q = c.divide(Rs).multiply(diff).setUnit('J').setMinimumSignificantDigits(2)
 	const W = diff.multiply(-1 / (n.number - 1)).setMinimumSignificantDigits(2)
 	const dU = Q.subtract(W).setMinimumSignificantDigits(2)
-	return { cv, Rs, c, p1, V1, p2, V2, n, Q, W, dU }
+	return { cv, Rs, c, p1s, V1s, p2, p2s, V2s, n, Q, W, dU }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison('p2', input, solution, data.comparison)
+			return performComparison(exerciseData, 'p2')
 		case 2:
-			return performComparison(['Q', 'W'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['Q', 'W'])
 		default:
-			return performComparison('dU', input, solution, data.comparison)
+			return performComparison(exerciseData, 'dU')
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }
