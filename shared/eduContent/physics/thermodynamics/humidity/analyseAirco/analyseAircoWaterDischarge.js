@@ -2,12 +2,11 @@ const { tableInterpolate, inverseTableInterpolate } = require('../../../../../ut
 const { maximumHumidity } = require('../../../../../data/moistureProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
-const { getCycle } = require('..')
+const { getCycle } = require('../tools')
 
-const data = {
+const metaData = {
 	skill: 'analyseAirco',
 	steps: ['readMollierDiagram', 'readMollierDiagram', 'readMollierDiagram', null],
-
 	comparison: {
 		default: { // AH
 			absoluteMargin: .001, // In standard units, so kg/kg.
@@ -19,7 +18,7 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	let { T1, startRH, T4, endRH } = getCycle()
@@ -48,29 +47,26 @@ function getSolution({ T1, startRH, T4, endRH }) {
 	const T2 = inverseTableInterpolate(startAH, maximumHumidity).setDecimals(0)
 	const T3 = inverseTableInterpolate(endAH, maximumHumidity).setDecimals(0)
 
-	return { T1, T2, T3, T4, startRH, startAH, startAHmax, endRH, endAH, endAHmax, dAH }
+	return { T2, T3, startAH, startAHmax, endAH, endAHmax, dAH }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison('startAH', input, solution, data.comparison)
+			return performComparison(exerciseData, 'startAH')
 		case 2:
-			return performComparison('endAH', input, solution, data.comparison)
+			return performComparison(exerciseData, 'endAH')
 		case 3:
-			return performComparison('T3', input, solution, data.comparison)
+			return performComparison(exerciseData, 'T3')
 		case 4:
-			return performComparison('dAH', input, solution, data.comparison)
+			return performComparison(exerciseData, 'dAH')
 		default:
-			return performComparison(['T3', 'dAH'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['T3', 'dAH'])
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

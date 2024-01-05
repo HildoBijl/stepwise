@@ -8,7 +8,7 @@ import { useColor } from 'ui/theme'
 import { Line, Circle, Curve } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, getAllInputFieldsFeedback } from 'ui/eduTools'
 
 import { MollierDiagram } from 'ui/eduContent/physics/thermodynamics/humidity'
 
@@ -39,8 +39,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { T1, startRH, startAH } = useSolution()
+		Solution: ({ T1, startRH, startAH }) => {
 			const color = useColor('primary')
 
 			return <>
@@ -61,8 +60,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { T4, endRH, endAH } = useSolution()
+		Solution: ({ T4, endRH, endAH }) => {
 			const color = useColor('primary')
 
 			return <>
@@ -83,8 +81,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { T1, T2, T3, T4, startAH, endAH } = useSolution()
+		Solution: ({ T1, T2, T3, T4, startAH, endAH }) => {
 			const color = useColor('primary')
 
 			const point1 = [startAH.number, T1.number]
@@ -118,8 +115,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { startAH, endAH, dAH } = useSolution()
+		Solution: ({ startAH, endAH, dAH }) => {
 			return <Par>De instromende lucht bevat <M>AH_(in) = {startAH}</M> aan water. De uitstromende lucht bevat <M>AH_(uit) = {endAH}</M> aan water. Dat betekent dat er <BM>\Delta AH = AH_(in) - AH_(uit) = {startAH.float} - {endAH.float} = {dAH}</BM> aan water is "verdwenen". Dit water is gecondenseerd en wordt door de airco afgevoerd.</Par>
 		},
 	},

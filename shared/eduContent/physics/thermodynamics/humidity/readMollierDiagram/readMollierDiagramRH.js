@@ -3,7 +3,7 @@ const { getRandomFloatUnit } = require('../../../../../inputTypes')
 const { maximumHumidity } = require('../../../../../data/moistureProperties')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'readMollierDiagram',
 	comparison: {
 		default: {
@@ -33,18 +33,15 @@ function generateState() {
 function getSolution({ T, AH }) {
 	const AHmax = tableInterpolate(T, maximumHumidity).setSignificantDigits(2)
 	const RH = AH.divide(AHmax).setUnit('%').setDecimals(0)
-	return { T, RH, AHmax, AH }
+	return { AHmax, RH }
 }
 
-function checkInput(state, input) {
-	const solution = getSolution(state)
-	return performComparison(['RH'], input, solution, data.comparison)
+function checkInput(exerciseData) {
+	return performComparison(exerciseData, 'RH')
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getSimpleExerciseProcessor(exercise),
 }

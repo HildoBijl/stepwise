@@ -8,7 +8,7 @@ import { useColor } from 'ui/theme'
 import { Line, Circle, Curve } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, getAllInputFieldsFeedback } from 'ui/eduTools'
 
 import { MollierDiagram } from 'ui/eduContent/physics/thermodynamics/humidity'
 
@@ -39,8 +39,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { T1, T2, T3, T4, startAH, endAH, endRH } = useSolution()
+		Solution: ({ T1, T2, T3, T4, startAH, endAH, endRH }) => {
 			const color = useColor('primary')
 
 			const point1 = [startAH.number, T1.number]
@@ -74,8 +73,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { T1, T3, T4, cp, qcool, qheat } = useSolution()
+		Solution: ({ T1, T3, T4, cp, qcool, qheat }) => {
 			return <Par>Eerst wordt de lucht op constante druk afgekoeld van <M>T_(in) = {T1}</M> tot <M>T_(tussen) = {T3}.</M> De warmte die hierbij uit elke kilogram lucht gehaald moet worden is <BM>q_(af) = c_p \left(T_(in) - T_(tussen)\right) = {cp.float} \cdot \left({T1.float} - {T3.float}\right) = {qcool}.</BM> Vervolgens wordt de lucht op constante druk opgewarmd van <M>T_(tussen) = {T3}</M> tot <M>T_(uit) = {T4}.</M> De warmte die hierbij aan elke kilogram lucht wordt toegevoerd is <BM>q_(toe) = c_p \left(T_(uit) - T_(tussen)\right) = {cp.float} \cdot \left({T4.float} - {T3.float}\right) = {qheat}.</BM></Par>
 		},
 	},
@@ -89,8 +87,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { qcool, qheat, mdot, Pcool, Pheat } = useSolution()
+		Solution: ({ qcool, qheat, mdot, Pcool, Pheat }) => {
 			return <>
 				<Par>We weten de hoeveelheid warmte die uit elke kilogram lucht wordt gehaald. Ook weten we hoeveel kilogram lucht er elke seconde langsstroomt. Zo zien we ook hoeveel warmte we elke seconde uit de lucht moeten halen. Dit volgt via <BM>P_(koel) = \dot(m) q_(koel) = {mdot.float} \cdot {qcool.float} = {Pcool}.</BM> Op identieke wijze vinden we ook het verwarmingsvermogen als <BM>P_(warm) = \dot(m) q_(warm) = {mdot.float} \cdot {qheat.float} = {Pheat}.</BM> Deze waarden kunnen indien nodig vervolgens weer gebruikt worden om een schatting te maken van het vermogen van de airco. Dit hangt wel af van de efficiëntie van het koelproces, dus daar gaan we hier verder niet op in.</Par>
 			</>

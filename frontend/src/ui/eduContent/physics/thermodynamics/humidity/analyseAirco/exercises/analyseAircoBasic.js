@@ -8,7 +8,7 @@ import { useColor } from 'ui/theme'
 import { Line, Circle, Curve } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, getAllInputFieldsFeedback } from 'ui/eduTools'
 
 import { MollierDiagram } from 'ui/eduContent/physics/thermodynamics/humidity'
 
@@ -38,10 +38,8 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { T1, startRH, startAH } = useSolution()
+		Solution: ({ T1, startRH, startAH }) => {
 			const color = useColor('primary')
-
 			return <>
 				<Par>Bij een temperatuur van <M>{T1}</M> en een relatieve luchtvochtigheid van <M>{startRH.setUnit('%')}</M> kunnen we opzoeken dat de absolute luchtvochtigheid <M>AH_(in) = {startAH}</M> is.</Par>
 				<MollierDiagram maxWidth="500">
@@ -60,8 +58,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { T1, T2, T3, startAH, endAH } = useSolution()
+		Solution: ({ T1, T2, T3, startAH, endAH }) => {
 			const color = useColor('primary')
 
 			const point1 = [startAH.number, T1.number]
@@ -70,7 +67,7 @@ const steps = [
 			const points = [point2, ...linePoints.filter(point => point[1] < T2.number && point[1] > T3.number).reverse(), point3]
 
 			return <>
-				<Par> Bij het opwarmen / afkoelen van lucht blijft de absolute luchtvochtigheid altijd constant.We gaan vanaf het vorige punt dus verticaal omlaag in het Mollier diagram.</Par>
+				<Par> Bij het opwarmen/afkoelen van lucht blijft de absolute luchtvochtigheid altijd constant.We gaan vanaf het vorige punt dus verticaal omlaag in het Mollier diagram.</Par>
 				<Par>Voordat we de <M>{T3}</M> bereiken komen we echter op de 100% luchtvochtigheidslijn aan. De luchtvochtigheid kan nooit hoger dan 100% worden. Dit betekent dat een deel van de vocht in de lucht gaat condenseren en als druppels naar beneden valt.</Par>
 				<Par>Bij het condenseren blijft de relatieve luchtvochtigheid 100%. Als we uiteindelijk de <M>{T3}</M> bereiken, dan kunnen we dus direct de absolute luchtvochtigheid aflezen. Deze is <M>AH_(tussen) = {endAH}.</M> Dit is de hoeveelheid vocht die nog over is in de lucht. De rest is gecondenseerd.</Par>
 				<MollierDiagram maxWidth="500">
@@ -92,8 +89,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { T1, T2, T3, T4, startAH, endRH, endAH } = useSolution()
+		Solution: ({ T1, T2, T3, T4, startAH, endRH, endAH }) => {
 			const color = useColor('primary')
 
 			const point1 = [startAH.number, T1.number]

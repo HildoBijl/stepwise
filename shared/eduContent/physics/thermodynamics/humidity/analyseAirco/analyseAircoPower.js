@@ -4,11 +4,10 @@ const { air: { cp } } = require('../../../../../data/gasProperties')
 const { maximumHumidity } = require('../../../../../data/moistureProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
-const { getCycle } = require('..')
+const { getCycle } = require('../tools')
 
-const data = {
+const metaData = {
 	steps: ['analyseAirco', 'calculateSpecificHeatAndMechanicalWork', 'massFlowTrick'],
-
 	comparison: {
 		default: {
 			relativeMargin: 0.05,
@@ -20,7 +19,7 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	let { T1, startRH, T4, endRH } = getCycle()
@@ -49,7 +48,6 @@ function getSolution({ T1, startRH, T4, endRH, mdot }) {
 	// Absolute humidity.
 	const startAH = startRH.multiply(startAHmax).setDecimals(0)
 	const endAH = endRH.multiply(endAHmax).setDecimals(0)
-	const dAH = startAH.subtract(endAH)
 
 	// Temperatures.
 	const T2 = inverseTableInterpolate(startAH, maximumHumidity).setDecimals(0)
@@ -63,25 +61,22 @@ function getSolution({ T1, startRH, T4, endRH, mdot }) {
 	const Pcool = mdot.multiply(qcool).setUnit('kW')
 	const Pheat = mdot.multiply(qheat).setUnit('kW')
 
-	return { T1, T2, T3, T4, startRH, startAH, startAHmax, endRH, endAH, endAHmax, cp, qcool, qheat, mdot, Pcool, Pheat }
+	return { T2, T3, startAH, startAHmax, endAH, endAHmax, cp, qcool, qheat, Pcool, Pheat }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison('T3', input, solution, data.comparison)
+			return performComparison(exerciseData, 'T3')
 		case 2:
-			return performComparison(['qcool', 'qheat'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['qcool', 'qheat'])
 		default:
-			return performComparison(['Pcool', 'Pheat'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['Pcool', 'Pheat'])
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

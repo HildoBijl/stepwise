@@ -2,12 +2,11 @@ const { tableInterpolate, inverseTableInterpolate } = require('../../../../../ut
 const { maximumHumidity } = require('../../../../../data/moistureProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
-const { getCycle } = require('..')
+const { getCycle } = require('../tools')
 
-const data = {
+const metaData = {
 	skill: 'analyseAirco',
 	steps: ['readMollierDiagram', 'readMollierDiagram', 'readMollierDiagram'],
-
 	comparison: {
 		default: { // AH
 			absoluteMargin: .001, // In standard units, so kg/kg.
@@ -19,7 +18,7 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	let { T1, T3, T4, startRH } = getCycle()
@@ -38,25 +37,22 @@ function getSolution({ T1, T3, T4, startRH }) {
 	const endAHmax = tableInterpolate(T4, maximumHumidity).setSignificantDigits(2)
 	const endRH = endAH.divide(endAHmax).setUnit('')
 	const T2 = inverseTableInterpolate(startAH, maximumHumidity).setDecimals(0) // Unneeded, but nice to know.
-	return { T1, T2, T3, T4, startRH, startAH, startAHmax, endRH, endAH, endAHmax }
+	return { T2, startAH, startAHmax, endRH, endAH, endAHmax }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison('startAH', input, solution, data.comparison)
+			return performComparison(exerciseData, 'startAH')
 		case 2:
-			return performComparison('endAH', input, solution, data.comparison)
+			return performComparison(exerciseData, 'endAH')
 		default:
-			return performComparison('endRH', input, solution, data.comparison)
+			return performComparison(exerciseData, 'endRH')
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

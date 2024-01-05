@@ -7,7 +7,7 @@ import { Par, M, BM } from 'ui/components'
 import { Line, Circle } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { SimpleExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { SimpleExercise, getAllInputFieldsFeedback } from 'ui/eduTools'
 
 import { MollierDiagram } from 'ui/eduContent/physics/thermodynamics/humidity'
 
@@ -27,10 +27,8 @@ function Problem({ T, RH }) {
 	</>
 }
 
-function Solution() {
-	const { T, RH, AHmax, AH } = useSolution()
+function Solution({ T, RH, AHmax, AH }) {
 	const color = useColor('primary')
-	
 	return <>
 		<Par>In het Mollier diagram kunnen we direct bij <M>T = {T}</M> en <M>RV = {RH.setUnit('%')}</M> opzoeken dat <M>AV = {AH}.</M></Par>
 		<MollierDiagram maxWidth="500">
