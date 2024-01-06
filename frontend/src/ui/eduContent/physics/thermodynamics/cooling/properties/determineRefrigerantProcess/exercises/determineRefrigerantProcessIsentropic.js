@@ -26,8 +26,7 @@ function Problem({ refrigerant, phase1, T1, x1, p1, p2 }) {
 	</>
 }
 
-function Solution() {
-	const { refrigerant, phase1, p1, T1, x1, h1, s1, p2, h2 } = useSolution()
+function Solution({ refrigerant, phase1, p1, T1, x1, h1, s1, p2, h2 }) {
 	return <>
 		<Par>Deze opgave lossen we op met het log(p)-h diagram van {refrigerant}. We beginnen hierbij uiteraard bij het beginpunt van het proces.
 			{phase1 === 'vapor' ?

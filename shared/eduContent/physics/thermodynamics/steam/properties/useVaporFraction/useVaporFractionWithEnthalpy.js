@@ -4,11 +4,10 @@ const { getRandomFloatUnit } = require('../../../../../../inputTypes')
 const { withTemperature, withPressure } = require('../../../../../../data/steamProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'useVaporFraction',
 	setup: and('lookUpSteamProperties', 'linearInterpolation'),
 	steps: ['lookUpSteamProperties', 'linearInterpolation', 'linearInterpolation'],
-
 	comparison: {
 		default: {
 			relativeMargin: 0.001,
@@ -23,7 +22,7 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const type = getRandomInteger(1, 2) // 1 is temperature given, 2 is pressure given.
@@ -57,25 +56,22 @@ function getSolution({ type, T, p, h }) {
 	// Find the vapor fraction and the outcome.
 	const x = h.subtract(hx0).divide(hx1.subtract(hx0)).setUnit('')
 	const s = sx0.add(x.multiply(sx1.subtract(sx0)))
-	return { type, T, p, h, hx0, hx1, x, sx0, sx1, s }
+	return { hx0, hx1, x, sx0, sx1, s }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison(['hx0', 'hx1', 'sx0', 'sx1'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['hx0', 'hx1', 'sx0', 'sx1'])
 		case 2:
-			return performComparison('x', input, solution, data.comparison)
+			return performComparison(exerciseData, 'x')
 		default:
-			return performComparison('s', input, solution, data.comparison)
+			return performComparison(exerciseData, 's')
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

@@ -2,7 +2,7 @@ const { getRandomInteger, tableInterpolate } = require('../../../../../../util')
 const { withPressure } = require('../../../../../../data/steamProperties')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'lookUpSteamProperties',
 	comparison: {
 		default: {
@@ -31,15 +31,12 @@ function getSolution({ p, type }) {
 	return { p, type, T, h, s }
 }
 
-function checkInput(state, input) {
-	const solution = getSolution(state)
-	return performComparison(['T', 'h', 's'], input, solution, data.comparison)
+function checkInput(exerciseData) {
+	return performComparison(exerciseData, ['T', 'h', 's'])
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getSimpleExerciseProcessor(exercise),
 }

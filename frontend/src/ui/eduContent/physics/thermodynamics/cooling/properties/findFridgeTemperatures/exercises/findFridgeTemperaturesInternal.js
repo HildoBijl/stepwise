@@ -23,8 +23,7 @@ function Problem({ type, TCold, TWarm, dTCold, dTWarm }) {
 	</>
 }
 
-function Solution() {
-	const { type, TCold, TWarm, dTCold, dTWarm, TEvap, TCond } = useSolution()
+function Solution({ type, TCold, TWarm, dTCold, dTWarm, TEvap, TCond }) {
 	if (type === 'heatPump')
 		return <Par>We bekijken eerst het leveren van warmte aan de huiskamer. De huiskamer heeft een temperatuur van <M>{TWarm}.</M> Er wordt warmte geleverd aan de huiskamer, en die warmte komt uit het koudemiddel. Omdat het koudemiddel warmte kwijtraakt, zal het gaan condenseren. We hebben hier dus met de condensor te maken. De temperatuur in deze condensor moet hoger zijn dan de temperatuur in de huiskamer, want alleen dan wordt er warmte overgedragen aan de huiskamer. De temperatuur in de condensor is dus
 			<BM>T_c = T_(huis) + \Delta T_c = {TWarm.float} + {dTWarm.float} = {TCond}.</BM>

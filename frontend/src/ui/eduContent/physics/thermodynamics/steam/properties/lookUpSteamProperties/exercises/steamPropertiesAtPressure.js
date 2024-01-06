@@ -3,7 +3,7 @@ import React from 'react'
 import { Par, M } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { SimpleExercise, useSolution } from 'ui/eduTools'
+import { SimpleExercise } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} />
@@ -22,7 +22,6 @@ function Problem({ p, type }) {
 	</>
 }
 
-function Solution() {
-	const { p, type, T, h, s } = useSolution()
+function Solution({ p, type, T, h, s }) {
 	return <Par>In de stoomtabellen kunnen we opzoeken dat bij een druk van <M>{p}</M> een kooktemperatuur hoort van <M>{T}.</M> Tevens hebben we te maken met {type === 1 ? `verzadigde vloeistof` : `verzadigde damp`} waarmee we kunnen vinden dat <M>h = {h}</M> en <M>s = {s}.</M></Par>
 }

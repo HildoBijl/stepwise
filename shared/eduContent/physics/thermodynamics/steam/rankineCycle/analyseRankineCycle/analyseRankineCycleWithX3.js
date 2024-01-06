@@ -4,10 +4,9 @@ const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = requi
 
 const { getCycle } = require('..')
 
-const data = {
+const metaData = {
 	skill: 'analyseRankineCycle',
 	steps: ['createRankineCycleOverview', 'useVaporFraction', ['useIsentropicEfficiency', 'calculateWithEfficiency', 'massFlowTrick']],
-
 	comparison: {
 		default: {
 			relativeMargin: 0.01,
@@ -15,7 +14,7 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	let { pc, pe, T2, x3, mdot, P } = getCycle()
@@ -73,35 +72,32 @@ function getSolution({ type, pc, pe, T2, x3, mdot, P }) {
 	}
 
 	// Return all data.
-	return { type, pc, pe, T2, hx0, hx1, sx0, sx1, h1, s1, h2, s2, h3p, s3p, x3p, h3, x3, h4, s4, etai, wt, q, eta, P, mdot }
+	return { hx0, hx1, sx0, sx1, h1, s1, h2, s2, h3p, s3p, x3p, h3, h4, s4, etai, wt, q, eta, mdot, P }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
-	const toCheck = state.type === 1 ? 'P' : 'mdot'
+function checkInput(exerciseData, step, substep) {
+	const toCheck = exerciseData.state.type === 1 ? 'P' : 'mdot'
 	switch (step) {
 		case 1:
-			return performComparison(['h1', 'h2', 'h3p', 'h4'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['h1', 'h2', 'h3p', 'h4'])
 		case 2:
-			return performComparison('h3', input, solution, data.comparison)
+			return performComparison(exerciseData, 'h3')
 		case 3:
 			switch (substep) {
 				case 1:
-					return performComparison('etai', input, solution, data.comparison)
+					return performComparison(exerciseData, 'etai')
 				case 2:
-					return performComparison('eta', input, solution, data.comparison)
-				case 3:
-					return performComparison(toCheck, input, solution, data.comparison)
+					return performComparison(exerciseData, 'eta')
+				case 2:
+					return performComparison(exerciseData, toCheck)
 			}
 		default:
-			return performComparison(['etai', 'eta', toCheck], input, solution, data.comparison)
+			return performComparison(exerciseData, ['etai', 'eta', toCheck])
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }
