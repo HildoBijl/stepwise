@@ -39,8 +39,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { variables, equation, simplified } = useSolution()
+		Solution: ({ variables, equation, simplified }) => {
 			return <Par>We kunnen de breuk in een breuk vereenvoudigen door boven en onder met zowel <M>{variables.w}</M> als <M>{variables.x}</M> te vermenigvuldigen. Hiermee reduceert de breuk tot <BM>{equation.left} = {simplified.left}.</BM> Als we dit invullen in de vergelijking, dan kunnen we hem schrijven als <BM>{simplified}.</BM></Par>
 		},
 	},
@@ -56,8 +55,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { simplified, multiplied } = useSolution()
+		Solution: ({ simplified, multiplied }) => {
 			return <Par>We vermenigvuldigen beide kanten van de vergelijking met <M>{simplified.left.denominator}</M> en met <M>{simplified.right.denominator}.</M> Nadat we factoren wegstrepen blijven we over met <BM>{multiplied}.</BM></Par>
 		},
 	},
@@ -73,8 +71,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { expanded } = useSolution()
+		Solution: ({ expanded }) => {
 			return <Par>Als we alles opsplitsen in losse termen, dan krijgen we <BM>{expanded}.</BM></Par>
 		},
 	},
@@ -90,8 +87,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { variables, termToMove, shifted, pulledOut, bracketFactor, ans } = useSolution()
+		Solution: ({ variables, termToMove, shifted, pulledOut, bracketFactor, ans }) => {
 			return <Par>Voor het oplossen van een lineaire vergelijking brengen we eerst alle termen met <M>{variables.x}</M> naar de ene kant en alle termen zonder <M>{variables.x}</M> naar de andere kant. Oftewel, <M>{termToMove.abs()}</M> gaat naar links, zodat <BM>{shifted}.</BM> Vervolgens brengen we <M>{variables.x}</M> buiten haakjes. Dit zet het bovenstaande om in <BM>{pulledOut}.</BM> We delen ten slotte beide kanten van de vergelijking door <M>{bracketFactor}</M> om <M>{variables.x}</M> op te lossen. Het eindresultaat is <BM>{variables.x} = {ans}.</BM></Par>
 		},
 	},

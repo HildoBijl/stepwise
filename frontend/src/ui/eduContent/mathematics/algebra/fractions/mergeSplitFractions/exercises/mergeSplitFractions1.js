@@ -39,8 +39,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { a, b, variables, scmValue, leftExpression, rightExpression, denominator } = useSolution()
+		Solution: ({ a, b, variables, scmValue, leftExpression, rightExpression, denominator }) => {
 			return <Par>Vanwege <M>{leftExpression.denominator}</M> hebben we een factor <M>{variables.x}</M> nodig, en vanwege <M>{rightExpression.denominator}</M> hebben we een factor <M>{variables.y}</M> nodig. Verder is ook nog een factor <M>{scmValue}</M> nodig. Immers, dit is de kleinste veelvoud van <M>{a}</M> en van <M>{b}.</M> Zo vinden we dus <BM>{denominator}.</BM> Dit is de kleinste veelvoud van zowel <M>{leftExpression.denominator}</M> als <M>{rightExpression.denominator}.</M></Par>
 		},
 	},
@@ -57,8 +56,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { leftExpression, rightExpression, leftAns, rightAns } = useSolution()
+		Solution: ({ leftExpression, rightExpression, leftAns, rightAns }) => {
 			return <Par>Bij de eerste breuk vermenigvuldigen we boven en onder met <M>{leftAns.numerator}.</M> Zo vinden we <BM>{leftExpression} = {leftAns}.</BM> Voor de tweede breuk vermenigvuldigen we boven en onder met <M>{rightAns.numerator}.</M> Hiermee krijgen we <BM>{rightExpression} = {rightAns}.</BM></Par>
 		},
 	},
@@ -74,8 +72,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { plus, expression, leftAns, rightAns, ans } = useSolution()
+		Solution: ({ plus, expression, leftAns, rightAns, ans }) => {
 			return <Par>Als we alles bij elkaar voegen, dan vinden we <BM>{expression} = {leftAns} {plus ? '+' : '-'} {rightAns} = {ans}.</BM> Hiermee zijn de twee breuken samengevoegd als één breuk.</Par>
 		},
 	},

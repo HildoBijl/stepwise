@@ -3,10 +3,10 @@ import React from 'react'
 import { Par, M, BM, BMList, BMPart, InputTable } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
-	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
+	return <StepExercise Problem={Problem} steps={steps} />
 }
 
 const colHeads = ['Druk', 'Specifiek volume', 'Temperatuur']
@@ -29,9 +29,9 @@ const fields = [[
 	<FloatUnitInput id="T4" label={<M>T_4</M>} size="l" />,
 ]]
 
-const Problem = ({ p1, T1, p2, T3 }) => <>
+const Problem = ({ p1o, T1o, p2o, T3o }) => <>
 	<Par>We bekijken een gasturbine-installatie. Hierin doorloopt lucht continu een Braytoncyclus: isentrope compressie, isobare verwarming, isentrope expansie en isobare koeling. Het koelen gebeurt door de warme lucht uit te stoten en nieuwe lucht aan te zuigen, maar dat is hier niet relevant.</Par>
-	<Par>Bij aanvang (punt 1) heeft de lucht een druk van <M>{p1}</M> en een temperatuur van <M>{T1}.</M> Na de compressie is de druk <M>{p2}</M> en na de verwarming is de temperatuur <M>{T3}.</M> Bereken de gaseigenschappen voor elk punt in dit kringproces.</Par>
+	<Par>Bij aanvang (punt 1) heeft de lucht een druk van <M>{p1o}</M> en een temperatuur van <M>{T1o}.</M> Na de compressie is de druk <M>{p2o}</M> en na de verwarming is de temperatuur <M>{T3o}.</M> Bereken de gaseigenschappen voor elk punt in dit kringproces.</Par>
 	<InputSpace>
 		<InputTable {...{ colHeads, rowHeads, fields }} />
 	</InputSpace>
@@ -45,8 +45,7 @@ const steps = [
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[0], rowHeads[1]]} fields={[fields[0], fields[1]]} />
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { k, Rs, p1, v1, T1, p2, v2, T2 } = useSolution()
+		Solution: ({ k, Rs, p1, v1, T1, p2, v2, T2 }) => {
 			return <>
 				<Par>We kunnen <M>T_2</M> vinden via Poisson's wet. Deze wet zegt dat
 					<BM>\frac(T_1^n)(p_1^(n-1)) = \frac(T_2^n)(p_2^(n-1)).</BM>
@@ -71,8 +70,7 @@ const steps = [
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[2]]} fields={[fields[2]]} />
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { Rs, p3, v3, T3 } = useSolution()
+		Solution: ({ Rs, p3, v3, T3 }) => {
 			return <Par>We weten dat <M>p_3 = p_2 = {p3}</M> en <M>T_3 = {T3}.</M> Het specifieke volume volgt via de gaswet als
 				<BM>v_3 = \frac(R_sT_3)(p_3) = \frac({Rs.float} \cdot {T3.float})({p3.float}) = {v3}.</BM>
 				Zo is ook punt drie bekend.
@@ -86,8 +84,7 @@ const steps = [
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[3]]} fields={[fields[3]]} />
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { k, Rs, T3, p3, p4, v4, T4 } = useSolution()
+		Solution: ({ k, Rs, T3, p3, p4, v4, T4 }) => {
 			return <Par>Omdat stap 4-1 isobaar is geldt <M>p_4 = p_1 = {p4}.</M> De temperatuur <M>T_4</M> volgt vanuit Poisson's wet. Identiek aan hoe we <M>T_2</M> vonden geldt hier
 				<BM>T_4 = T_3 \left(\frac(p_4)(p_3)\right)^(\frac(n-1)(n)) = {T3.float} \cdot \left(\frac{p4.float}{p3.float}\right)^(\frac({k}-1)({k})) = {T4}.</BM>
 				Het specifieke volume <M>v_4</M> volgt wederom vanuit de gaswet als

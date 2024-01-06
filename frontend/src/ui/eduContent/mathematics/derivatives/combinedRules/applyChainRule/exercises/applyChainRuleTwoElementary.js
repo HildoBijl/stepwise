@@ -40,8 +40,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { x, fDerivative, gDerivative } = useSolution()
+		Solution: ({ x, fDerivative, gDerivative }) => {
 			return <Par>We kunnen in onze tabel van basisafgeleiden (samen met de constanteregel bij <M>f\left({x}\right)</M>) vinden dat
 				<BMList>
 					<BMPart>f'\left({x}\right) = {fDerivative},</BMPart>
@@ -62,8 +61,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { x, g, gDerivative, derivative, derivativeSimplified } = useSolution()
+		Solution: ({ x, g, gDerivative, derivative, derivativeSimplified }) => {
 			return <Par>De kettingregel zegt dat <BM>h'\left({x}\right) = f'\left(g\left({x}\right)\right) g'\left({x}\right).</BM> Als we dit letterlijk toepassen, dan vullen we <M>{g}</M> in de functie <M>f'\left({x}\right)</M> in, en vermenigvuldigen het resultaat met <M>{gDerivative}.</M> Zo vinden we <BM>h'\left({x}\right) = {derivative}.</BM> Dit kan eventueel nog herschreven worden tot <BM>h'\left({x}\right) = {derivativeSimplified}.</BM></Par>
 		},
 	},

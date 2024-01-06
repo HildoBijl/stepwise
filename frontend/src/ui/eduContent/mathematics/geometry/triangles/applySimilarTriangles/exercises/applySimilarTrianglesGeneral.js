@@ -37,8 +37,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { x, z, equation1 } = useSolution()
+		Solution: ({ x, z, equation1 }) => {
 			return <Par>Gelijkvormigheid betekent dat de verhouding tussen corresponderende zijden constant is. Als we kijken naar de zijden met <M>{z}</M> en <M>{x},</M> dan volgt <BM>{equation1}.</BM></Par>
 		},
 	},
@@ -54,8 +53,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { x, ans1Raw, ans1 } = useSolution()
+		Solution: ({ x, ans1Raw, ans1 }) => {
 			return <Par>De oplossing volgt direct als <BM>{x} = {ans1Raw} = {ans1}.</BM></Par>
 		},
 	},
@@ -69,8 +67,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { y, z, equation2 } = useSolution()
+		Solution: ({ y, z, equation2 }) => {
 			return <Par>Gelijkvormigheid betekent dat de verhouding tussen corresponderende zijden constant is. Als we kijken naar de zijden met <M>{z}</M> en <M>{y},</M> dan volgt <BM>{equation2}.</BM></Par>
 		},
 	},
@@ -86,8 +83,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { y, ans2Raw, ans2 } = useSolution()
+		Solution: ({ y, ans2Raw, ans2 }) => {
 			return <Par>De oplossing volgt direct als <BM>{y} = {ans2Raw} = {ans2}.</BM></Par>
 		},
 	},

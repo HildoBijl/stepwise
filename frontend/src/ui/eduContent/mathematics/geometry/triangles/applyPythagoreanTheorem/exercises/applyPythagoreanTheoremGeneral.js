@@ -55,8 +55,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { x, ansSquared, ansSquaredSimplified } = useSolution()
+		Solution: ({ x, ansSquared, ansSquaredSimplified }) => {
 			return <Par>We kunnen direct vinden dat <BM>{x}^2 = {ansSquared}.</BM> Dit kan vervolgens nog vereenvoudigd worden tot <BM>{x}^2 = {ansSquaredSimplified}.</BM></Par>
 		},
 	},
@@ -72,8 +71,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { x, ansRaw, ans, ansCanBeSimplified } = useSolution()
+		Solution: ({ x, ansRaw, ans, ansCanBeSimplified }) => {
 			return <Par>We nemen van beide kanten van de vergelijking de wortel. Zo vinden we <BM>{x} = {ansRaw}.</BM> Merk op dat, omdat we weten dat de gevraagde afstand positief is, we hier geen <M>\pm</M> bij hoeven te plaatsen. {ansCanBeSimplified ? <>Eventueel kan het bovenstaande nog vereenvoudigd worden tot <BM>{x} = {ans}.</BM></> : <>Het bovenstaande kan niet nog verder vereenvoudigd worden.</>}</Par>
 		},
 	},

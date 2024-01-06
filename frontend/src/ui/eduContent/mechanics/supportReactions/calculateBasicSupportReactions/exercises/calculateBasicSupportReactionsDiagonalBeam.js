@@ -45,8 +45,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { hasAdjustedSolution } = useSolution()
+		Solution: ({ hasAdjustedSolution }) => {
 			return <>
 				<Par>Een scharnier (links) voorkomt horizontale en verticale beweging, maar laat wel draaiing toe. Er is dus een horizontale en een verticale reactiekracht, maar geen reactiemoment. Soortgelijk voorkomt een scharnierende schuifverbinding alleen beweging loodrecht op het contactoppervlak. Dat zorgt hier dus voor een verticale reactiekracht. Zo vinden we het onderstaande schema.</Par>
 				<Diagram showSolution={true} showSupports={false} />
@@ -65,8 +64,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { loadVariables, loadValues, directionIndices } = useSolution()
+		Solution: ({ loadVariables, loadValues, directionIndices }) => {
 			const [, vFAx, vFAy, vFC] = loadVariables
 			const [, FAx, ,] = loadValues
 
@@ -90,8 +88,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { loadVariables, loadValues, directionIndices, l1, l2, clockwise } = useSolution()
+		Solution: ({ loadVariables, loadValues, directionIndices, l1, l2, clockwise }) => {
 			const [vMoment, vFAx, vFAy, vFC] = loadVariables
 			const [Moment, , , FC] = loadValues
 
@@ -116,8 +113,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { loadVariables, loadValues, clockwise, directionIndices } = useSolution()
+		Solution: ({ loadVariables, loadValues, clockwise, directionIndices }) => {
 			const [, , vFAy, vFC] = loadVariables
 			const [, , FAy,] = loadValues
 

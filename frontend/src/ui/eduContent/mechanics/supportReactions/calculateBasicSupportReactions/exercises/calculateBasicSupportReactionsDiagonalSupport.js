@@ -51,8 +51,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { hasAdjustedSolution } = useSolution()
+		Solution: ({ hasAdjustedSolution }) => {
 			return <Translation>
 				<Par>A hinge (left) prevents horizontal and vertical motion, but does allow rotation. This means that there is a horizontal and vertical reaction force, but not a reaction torque. Similarly a hinging slider (right) only prevents motion perpendicular to the surface. This results, due to the slanted surface, in a rotated reaction force. This gives us the following diagram.</Par>
 				<Diagram showSolution={true} showSupports={false} />
@@ -73,8 +72,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { directionIndices, l1, l2, angle, P, FCy, FC } = useSolution()
+		Solution: ({ directionIndices, l1, l2, angle, P, FCy, FC }) => {
 
 			return <Translation>
 				<Par>
@@ -101,8 +99,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { directionIndices, P, FCy, FAy } = useSolution()
+		Solution: ({ directionIndices, P, FCy, FAy }) => {
 
 			return <Translation>
 				<Par>
@@ -127,8 +124,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { directionIndices, angle, FAx, FC, FCx } = useSolution()
+		Solution: ({ directionIndices, angle, FAx, FC, FCx }) => {
 
 			return <Translation>
 				<Par>

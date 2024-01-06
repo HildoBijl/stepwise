@@ -3,16 +3,16 @@ import React from 'react'
 import { Par, M, BM, BMList, BMPart, InputTable } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, Substep, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, Substep } from 'ui/eduTools'
 
 export default function Exercise() {
-	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
+	return <StepExercise Problem={Problem} steps={steps} />
 }
 
-const Problem = ({ p1, T1, p2, T3, P }) => {
+const Problem = ({ p1o, T1o, p2o, T3o, Po }) => {
 	return <>
 		<Par>We bekijken een gasturbine-installatie. Hierin doorloopt lucht continu een Braytoncyclus: isentrope compressie, isobare verwarming, isentrope expansie en isobare koeling. Het koelen gebeurt door de warme lucht uit te stoten en nieuwe lucht aan te zuigen, maar dat is hier niet relevant.</Par>
-		<Par>Bij aanvang (punt 1) heeft de lucht een druk van <M>{p1}</M> en een temperatuur van <M>{T1}.</M> Na de compressie is de druk <M>{p2}</M> en na de verwarming is de temperatuur <M>{T3}.</M> Bereken het rendement van deze gasturbine. Bereken ook de massastroom lucht <M>\dot(m)</M>, gegeven dat het geleverde (netto) asvermogen <M>{P}</M> is.</Par>
+		<Par>Bij aanvang (punt 1) heeft de lucht een druk van <M>{p1o}</M> en een temperatuur van <M>{T1o}.</M> Na de compressie is de druk <M>{p2o}</M> en na de verwarming is de temperatuur <M>{T3o}.</M> Bereken het rendement van deze gasturbine. Bereken ook de massastroom lucht <M>\dot(m)</M>, gegeven dat het geleverde (netto) asvermogen <M>{Po}</M> is.</Par>
 		<InputSpace>
 			<Par>
 				<FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={FloatUnitInput.validation.any} />
@@ -49,8 +49,7 @@ const steps = [
 					]]} />
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { Rs, k, p1, v1, T1, p2, v2, T2, p3, v3, T3, p4, v4, T4 } = useSolution()
+		Solution: ({ Rs, k, p1, v1, T1, p2, v2, T2, p3, v3, T3, p4, v4, T4 }) => {
 			return <>
 				<Par>In punt 1 is al bekend dat <M>p_1 = {p1}</M> en <M>T_1 = {T1}.</M> Voor punt 2 weten we <M>p_2 = {p2}.</M> We vinden <M>T_2</M> via Poisson's wet als
 					<BM>T_2 = T_1 \left(\frac(p_2)(p_1)\right)^(\frac(n-1)(n)) = {T1.float} \cdot \left(\frac{p2.float}{p1.float}\right)^(\frac({k}-1)({k})) = {T2}.</BM>
@@ -89,8 +88,7 @@ const steps = [
 					]]} />
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { cp, T1, T2, T3, T4, q12, wt12, q23, wt23, q34, wt34, q41, wt41, qn, wn } = useSolution()
+		Solution: ({ cp, T1, T2, T3, T4, q12, wt12, q23, wt23, q34, wt34, q41, wt41, qn, wn }) => {
 			return <>
 				<Par>Bij de isentrope stap 1-2 geldt <M>q_(1-2) = {q12}</M> en
 					<BM>w_(t,1-2) = -\Delta h = -c_p \left(T_2 - T_1\right) = -{cp.float} \cdot \left({T2.float} - {T1.float}\right) = {wt12}.</BM>
@@ -120,13 +118,12 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: (state) => {
-			const { P, wn, qin, eta, mdot } = useSolution()
+		Solution: ({ Po, P, wn, qin, eta, mdot }) => {
 			return <Par>Er wordt alleen bij stap 2-3 warmte toegevoerd. De toegevoerde warmte is dus <M>q_(toe) = q_(2-3) = {qin}.</M> De netto arbeid is al bekend als <M>w_(netto) = {wn}.</M> Hiermee volgt het rendement als
 				<BM>\eta = \frac(\rm nuttig)(\rm invoer) = \frac(w_(netto))(q_(toe)) = \frac{wn.float}{qin.float} = {eta}.</BM>
 				We vinden de massastroom via de vergelijking <M>P = \dot(m) w_(netto).</M> Het resultaat is
 				<BM>\dot(m) = \frac(P)(w_(netto)) = \frac{P.float}{wn.float} = {mdot}.</BM>
-				Dit is een best grote hoeveelheid, maar een gasturbine van <M>{state.P}</M> is dan ook een flinke installatie.</Par>
+				Dit is een best grote hoeveelheid, maar een gasturbine van <M>{Po}</M> is dan ook een flinke installatie.</Par>
 		},
 	},
 ]

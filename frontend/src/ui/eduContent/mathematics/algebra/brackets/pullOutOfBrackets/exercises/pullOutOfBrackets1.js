@@ -39,8 +39,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { setup } = useSolution()
+		Solution: ({ setup }) => {
 			return <Par>We schrijven letterlijk op, <BM>{setup}.</BM></Par>
 		},
 	},
@@ -56,8 +55,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { variables, fractionSplit, fractionSimplified } = useSolution()
+		Solution: ({ variables, fractionSplit, fractionSimplified }) => {
 			return <Par>Als eerste splitsen we de breuk op. Zo krijgen we <BM>{fractionSplit}.</BM> Vervolgens strepen we, waar mogelijk, boven en onder een factor <M>{variables.x}</M> weg. Op één plek is dit niet mogelijk, en daar moeten we de breuk dus laten staan. Zo vinden we <BM>{fractionSimplified}.</BM></Par>
 		},
 	},
@@ -73,8 +71,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { ans } = useSolution()
+		Solution: ({ ans }) => {
 			return <>
 				<Par>Als we letterlijk het resultaat van de vorige stap op de puntjes invullen, dan krijgen we <BM>{ans}.</BM></Par>
 			</>
@@ -92,8 +89,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { expression, ans } = useSolution()
+		Solution: ({ expression, ans }) => {
 			return <>
 				<Par>Als we de haakjes uitwerken, dan krijgen we <BM>{ans} = {expression}.</BM> Dit is hetzelfde als waar we mee begonnen, en dus klopt het wat we gedaan hebben.</Par>
 			</>

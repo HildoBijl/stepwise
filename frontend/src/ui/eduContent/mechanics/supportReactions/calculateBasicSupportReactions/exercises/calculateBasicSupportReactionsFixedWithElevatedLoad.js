@@ -45,8 +45,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { hasAdjustedSolution } = useSolution()
+		Solution: ({ hasAdjustedSolution }) => {
 			return <>
 				<Par>Een inklemming voorkomt alle beweging, en zorgt dus voor een horizontale reactiekracht, een verticale reactiekracht en een reactiemoment. Samen met de externe belasting geeft dit het volgende schema.</Par>
 				<Diagram showSolution={true} showSupports={false} />
@@ -65,8 +64,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { loadVariables, loadValues, directionIndices } = useSolution()
+		Solution: ({ loadVariables, loadValues, directionIndices }) => {
 			const [, vFAx, vFAy, vMA] = loadVariables
 			const [, FAx, ,] = loadValues
 
@@ -91,8 +89,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { loadVariables, loadValues, directionIndices } = useSolution()
+		Solution: ({ loadVariables, loadValues, directionIndices }) => {
 			const [, vFAx, vFAy, vMA] = loadVariables
 			const [, , FAy,] = loadValues
 
@@ -116,8 +113,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { loadVariables, loadValues, directionIndices, l2 } = useSolution()
+		Solution: ({ loadVariables, loadValues, directionIndices, l2 }) => {
 			const [, vFAx, vFAy, vMA] = loadVariables
 			const [P, , , MA] = loadValues
 

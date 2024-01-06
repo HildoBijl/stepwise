@@ -39,8 +39,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { plus, expression, leftExpression, rightExpression } = useSolution()
+		Solution: ({ plus, expression, leftExpression, rightExpression }) => {
 			return <Par>Als we een breuk opsplitsen, dan blijft de noemer (de onderkant) hetzelfde bij beide breuken. Alleen de teller (de bovenkant) wordt opgeplitst. Zo vinden we <BM>{expression} = {leftExpression} {plus ? '+' : '-'} {rightExpression}.</BM> Hiermee is de breuk opgeplitst in twee breuken die we nog verder kunnen simplificeren.</Par>
 		},
 	},
@@ -57,8 +56,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { variables, leftExpression, rightExpression, leftAns, rightAns } = useSolution()
+		Solution: ({ variables, leftExpression, rightExpression, leftAns, rightAns }) => {
 			return <Par>Bij de eerste breuk kunnen we boven en onder <M>{variables.y}</M> wegdelen. Zo vinden we <BM>{leftExpression} = {leftAns}.</BM> Voor de tweede breuk delen we boven en onder <M>{variables.x}</M> weg. Hiermee krijgen we <BM>{rightExpression} = {rightAns}.</BM></Par>
 		},
 	},
@@ -74,8 +72,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { plus, expression, leftExpression, rightExpression, ans } = useSolution()
+		Solution: ({ plus, expression, leftExpression, rightExpression, ans }) => {
 			return <Par>Het eindresultaat van de twee breuken samen is <BM>{expression} = {leftExpression} {plus ? '+' : '-'} {rightExpression} = {ans}.</BM> Dit is zo simpel als we deze breuken kunnen schrijven.</Par>
 		},
 	},

@@ -3,10 +3,10 @@ import React from 'react'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, useSolution } from 'ui/eduTools'
 
 export default function Exercise() {
-	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
+	return <StepExercise Problem={Problem} steps={steps} />
 }
 
 const Problem = ({ m, TAtm, T1, T2, T2p }) => <>
@@ -30,8 +30,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { dS12p } = useSolution()
+		Solution: ({ dS12p }) => {
 			return <>
 				<Par>Bij een isentropisch proces is de entropieverandering altijd <M>\Delta S_(1-2') = {dS12p}.</M></Par>
 			</>
@@ -46,8 +45,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { m, cv, T2, T2p, dS2p2 } = useSolution()
+		Solution: ({ m, cv, T2, T2p, dS2p2 }) => {
 			return <>
 				<Par>Bij deze stap blijft het volume constant. Het is dus een isochoor proces met <M>c = c_v = {cv}.</M> De entropieverandering is hierbij dus <BM>\Delta S_(2'-2) = m c_v \ln\left(\frac(T_2)(T_(2'))\right) = {m.float} \cdot {cv.float} \cdot \ln\left(\frac{T2.float}{T2p.float}\right) = {dS2p2}.</BM></Par>
 			</>
@@ -62,8 +60,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { dS12p, dS2p2, dS } = useSolution()
+		Solution: ({ dS12p, dS2p2, dS }) => {
 			return <>
 				<Par>Voor de totale entropieverandering tellen we de entropieveranderingen van de stappen op. Dit gaat via <BM>\Delta S_(1-2) = \Delta S_(1-2') + \Delta S_(2'-2) = {dS12p.float} {dS2p2.float.texWithPM} = {dS}.</BM></Par>
 			</>
@@ -78,8 +75,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { TAtm, dS, Wm } = useSolution()
+		Solution: ({ TAtm, dS, Wm }) => {
 			return <>
 				<Par>De koudste temperatuur waarop in dit probleem warmte geloosd kan worden is de omgevingstemperatuur <M>T_(omg) = {TAtm}.</M> Via de standaard formule voor gemiste arbeid vinden we zo <BM>W_m = T_(omg) \Delta S = {TAtm.float} \cdot {dS.float} = {Wm}.</BM></Par>
 			</>

@@ -41,8 +41,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { equation, termsMoved } = useSolution()
+		Solution: ({ equation, termsMoved }) => {
 			return <Par><Translation>We move <M>{equation.right.terms[0].abs()}</M> to the left and <M>{equation.left.terms[1].abs()}</M> to the right. This gives us <BM>{termsMoved}.</BM></Translation></Par>
 		},
 	},
@@ -58,8 +57,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { variables, termsMoved, bracketTerm, pulledOut } = useSolution()
+		Solution: ({ variables, termsMoved, bracketTerm, pulledOut }) => {
 			return <Par><Translation>To pull <M>{variables.x}</M> outside of brackets, we must write <M>{termsMoved.left}</M> as <M>{variables.x}\cdot\left(\ldots\right)</M>. This tells us that there should be <M>{bracketTerm}</M> between the brackets. In this way we can rewrite the equation as <BM>{pulledOut}.</BM></Translation></Par>
 		},
 	},
@@ -75,8 +73,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { variables, bracketTerm, ans } = useSolution()
+		Solution: ({ variables, bracketTerm, ans }) => {
 			return <Par><Translation>If we divide both sides by <M>{bracketTerm}</M>, then on the left the term between brackets disappears. We only remain with <M>{variables.x}</M>, meaning that we have indeed solve the equation for <M>{variables.x}</M>! The final result is <BM>{variables.x} = {ans}.</BM> Of course this solution can also be written in other ways, but small variations in notation are not relevant here.</Translation></Par>
 		},
 	},

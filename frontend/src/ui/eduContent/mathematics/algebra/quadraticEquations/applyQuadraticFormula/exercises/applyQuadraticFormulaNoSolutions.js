@@ -46,8 +46,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { x, a, b, c } = useSolution()
+		Solution: ({ x, a, b, c }) => {
 			return <Par>Voor de <M>{x}^2</M> staat <M>{a}</M> waardoor <M>a={a}.</M> Voor de <M>{x}</M> staat <M>{b}</M> waardoor <M>b={b}.</M> {c === 0 ? <>Verder is er geen constante in de vergelijking, waardoor <M>c=0.</M></> : <>Verder is de constante in de vergelijking <M>{c}</M> waardoor <M>c={c}.</M></>}</Par>
 		},
 	},
@@ -62,8 +61,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { expressionD, D } = useSolution()
+		Solution: ({ expressionD, D }) => {
 			return <Par>We berekenen <BM>D = b^2 - 4ac = {expressionD} = {D}.</BM></Par>
 		},
 	},
@@ -82,8 +80,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { D, x } = useSolution()
+		Solution: ({ D, x }) => {
 			return <Par>De discriminant is <M>D={D}.</M> Omdat <M>D &lt; 0</M> geldt dat er geen (reëele) oplossingen zijn voor <M>{x}.</M> We hoeven deze niet-bestaande oplossingen dus ook niet te bepalen.</Par>
 		},
 	},

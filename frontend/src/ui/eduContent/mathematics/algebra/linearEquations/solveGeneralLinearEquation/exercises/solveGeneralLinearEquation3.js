@@ -57,8 +57,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { simplified, multiplied } = useSolution()
+		Solution: ({ simplified, multiplied }) => {
 			return <Par>We vermenigvuldigen beide kanten van de vergelijking met <M>{simplified.left.denominator}.</M> Nadat we factoren wegstrepen blijven we over met <BM>{multiplied}.</BM></Par>
 		},
 	},
@@ -74,8 +73,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { variables, shifted, pulledOut, bracketFactor, ans } = useSolution()
+		Solution: ({ variables, shifted, pulledOut, bracketFactor, ans }) => {
 			return <Par>Voor het oplossen van een lineaire vergelijking brengen we eerst alle termen met <M>{variables.x}</M> naar de ene kant en alle termen zonder <M>{variables.x}</M> naar de andere kant. Hier is het makkelijker om <M>{variables.x}</M> naar rechts te halen, zodat <BM>{shifted}.</BM> Vervolgens brengen we <M>{variables.x}</M> buiten haakjes. Dit zet het bovenstaande om in <BM>{pulledOut}.</BM> We delen ten slotte beide kanten van de vergelijking door <M>{bracketFactor}</M> om <M>{variables.x}</M> op te lossen. Het eindresultaat is <BM>{variables.x} = {ans}.</BM></Par>
 		},
 	},

@@ -40,8 +40,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { x } = useSolution()
+		Solution: ({ x }) => {
 			return <Par>In dit geval is de laatste operatie een deling van "iets met <M>{x}</M>" gedeeld door "iets met <M>{x}</M>". We gaan dus de quotiëntregel toepassen.</Par>
 		},
 	},
@@ -58,8 +57,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { x, f, g } = useSolution()
+		Solution: ({ x, f, g }) => {
 			return <Par>Als we de functie <M>h\left({x}\right)</M> opsplitsen bij de deling, dan zien we direct dat
 				<BMList>
 					<BMPart>f\left({x}\right) = {f},</BMPart>
@@ -82,8 +80,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { x, fDerivative, gDerivative } = useSolution()
+		Solution: ({ x, fDerivative, gDerivative }) => {
 			return <Par>Voor de afgeleide van <M>f\left({x}\right)</M> hebben we de kettingregel nodig. Via de gebruikelijke stappen vinden we zo
 				<BM>f'\left({x}\right) = {fDerivative}.</BM>
 				De afgeleide van <M>g\left({x}\right)</M> volgt direct uit onze tabel van basisafgeleiden als
@@ -103,8 +100,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { x, derivative, derivativeSimplified } = useSolution()
+		Solution: ({ x, derivative, derivativeSimplified }) => {
 			return <Par>Letterlijk toepassen van de quotiëntregel <M>h'\left({x}\right) = \frac(g\left({x}\right) f'\left({x}\right) - f\left({x}\right) g'\left({x}\right))(\left(g\left({x}\right)\right)^2)</M> geeft als oplossing <BM>h'\left({x}\right) = {derivative} = {derivativeSimplified}.</BM></Par>
 		},
 	},

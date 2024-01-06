@@ -4,10 +4,10 @@ import { Dutch } from 'ui/lang/gases'
 import { Par, M, BM, BMList, BMPart, InputTable } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
-	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
+	return <StepExercise Problem={Problem} steps={steps} />
 }
 
 const colHeads = ['Druk', 'Specifiek volume', 'Temperatuur']
@@ -26,8 +26,8 @@ const fields = [[
 	<FloatUnitInput id="T3" label={<M>T_3</M>} size="l" />,
 ]]
 
-const Problem = ({ medium, p1, T1, p2 }) => <>
-	<Par>Een uitvinder heeft een nieuw soort koelproces ontworpen. Hierbij wordt gebruik gemaakt van een kringproces waar continu {Dutch[medium]} doorstroomt. Bij aanvang heeft dit gas een druk van <M>{p1}</M> en een temperatuur van <M>{T1}.</M> Dit gas wordt isotherm gecomprimeerd tot <M>{p2}</M>, om vervolgens isentroop te expanderen tot de begindruk. De arbeid geleverd bij de expansie wordt teruggewonnen om te helpen bij de eerste compressiestap. Na deze isentropische expansie wordt het gas weer opgewarmd tot het de begintoestand bereikt heeft. Deze laatste stap is de stap waarbij de warmte uit de te koelen ruimte wordt onttrokken.</Par>
+const Problem = ({ medium, p1o, T1o, p2o }) => <>
+	<Par>Een uitvinder heeft een nieuw soort koelproces ontworpen. Hierbij wordt gebruik gemaakt van een kringproces waar continu {Dutch[medium]} doorstroomt. Bij aanvang heeft dit gas een druk van <M>{p1o}</M> en een temperatuur van <M>{T1o}.</M> Dit gas wordt isotherm gecomprimeerd tot <M>{p2o}</M>, om vervolgens isentroop te expanderen tot de begindruk. De arbeid geleverd bij de expansie wordt teruggewonnen om te helpen bij de eerste compressiestap. Na deze isentropische expansie wordt het gas weer opgewarmd tot het de begintoestand bereikt heeft. Deze laatste stap is de stap waarbij de warmte uit de te koelen ruimte wordt onttrokken.</Par>
 	<Par>Bereken de gaseigenschappen voor elk punt in dit kringproces. Punt 1 is hierbij de begintoestand.</Par>
 	<InputSpace>
 		<InputTable {...{ colHeads, rowHeads, fields }} />
@@ -42,8 +42,7 @@ const steps = [
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[0], rowHeads[1]]} fields={[fields[0], fields[1]]} />
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { medium, Rs, p1, v1, T1, p2, v2, T2 } = useSolution()
+		Solution: ({ medium, Rs, p1, v1, T1, p2, v2, T2 }) => {
 			return <>
 				<Par>In punt 1 is alleen het specifiek volume onbekend, dus die kunnen we eerst vinden. Voor {Dutch[medium]} geldt <M>R_s = {Rs}.</M> Via de gaswet volgt <M>v_1</M> als <BM>v_1 = \frac(R_sT_1)(p_1) = \frac({Rs.float} \cdot {T1.float})({p1.float}) = {v1}.</BM> Nu dit bekend is kunnen we naar punt 2 kijken. We weten al dat <M>p_2 = {p2}.</M> Omdat proces 1-2 een isotherm proces is geldt verder <BM>T_2 = T_1 = {T2}.</BM> Via de gaswet volgt <M>v_2</M> als <BM>v_2 = \frac(R_sT_2)(p_2) = \frac({Rs.float} \cdot {T2.float})({p2.float}) = {v2}.</BM> Daarmee is punt 2 volledig bekend.</Par>
 			</>
@@ -56,8 +55,7 @@ const steps = [
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[2]]} fields={[fields[2]]} />
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { medium, Rs, k, p2, v2, p3, v3, T3 } = useSolution()
+		Solution: ({ medium, Rs, k, p2, v2, p3, v3, T3 }) => {
 			return <Par>We weten dat <M>p_3 = p_1 = {p3}.</M> Proces 2-3 is isentroop, waardoor ook geldt, <BM>p_2v_2^n = p_3v_3^n.</BM> Bij het isentrope proces geldt <M>n = k</M> en voor {Dutch[medium]} geldt <M>k = {k}.</M> De oplossing voor <M>v_3</M> vinden we vervolgens via
 				<BMList>
 					<BMPart>v_3^n = \frac(p_2)(p_3) \cdot v_2^n,</BMPart>

@@ -39,8 +39,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { isPositive, termToMoveAbs, intermediate } = useSolution()
+		Solution: ({ isPositive, termToMoveAbs, intermediate }) => {
 			return <Par>Als we <M>{termToMoveAbs}</M> {isPositive ? <>van beide kanten van de vergelijking afhalen</> : <>bij beide kanten van de vergelijking optellen</>}, dan krijgen we <BM>{intermediate}.</BM> Omdat we met beide kanten van de vergelijking hetzelfde gedaan hebben (hetzelfde {isPositive ? <>ervan afgehaald</> : <>erbij opgeteld</>} hebben) klopt de vergelijking nog steeds.</Par>
 		},
 	},
@@ -56,8 +55,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { isPositive, isLeft, termToMove, termToMoveAbs, ans } = useSolution()
+		Solution: ({ isPositive, isLeft, termToMove, termToMoveAbs, ans }) => {
 			return <Par>Als we ergens eerst <M>{termToMoveAbs}</M> {isPositive ? <>bij optellen en het er vervolgens weer van afhalen</> : <>van afhalen en het er vervolgens weer bij optellen</>}, dan komen we altijd op hetzelfde uit. We hadden het net zo goed niet kunnen doen. De termen <M>{termToMove}</M> en <M>{termToMove.applyMinus().removeUseless()}</M> vallen {isLeft ? 'links' : 'rechts'} dus tegen elkaar weg. We blijven over met <BM>{ans}.</BM> Hiermee is de term <M>{termToMoveAbs}</M> van {isLeft ? 'links' : 'rechts'} naar {isLeft ? 'rechts' : 'links'} gehaald. Merk op dat het nu niet meer {isPositive ? <>positief (met plusteken) is maar negatief (met minteken).</> : <>negatief (met minteken) is maar positief (met plusteken).</>}</Par>
 		},
 	},

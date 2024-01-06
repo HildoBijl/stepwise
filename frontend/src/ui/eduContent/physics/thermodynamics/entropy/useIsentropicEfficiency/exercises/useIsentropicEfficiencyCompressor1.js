@@ -3,10 +3,10 @@ import React from 'react'
 import { Par, SubHead, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, useSolution } from 'ui/eduTools'
 
 export default function Exercise() {
-	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
+	return <StepExercise Problem={Problem} steps={steps} />
 }
 
 const Problem = ({ p1, p2, T1, T2 }) => <>
@@ -28,8 +28,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { k, p1, p2, T1, T2p } = useSolution()
+		Solution: ({ k, p1, p2, T1, T2p }) => {
 			return <Par>Poisson's wet zegt dat in dit geval <BM>\frac(T_1^n)(p_1^(n-1)) = \frac(T_(2')^n)(p_2^(n-1)).</BM> Het oplossen van de theoretische temperatuur <M>T_(2')</M> gaat via
 				<BMList>
 					<BMPart>T_(2')^n = T_1^n \frac(p_2^(n-1))(p_1^(n-1)) = T_1^n \left(\frac(p_2)(p_1)\right)^(n-1),</BMPart>
@@ -48,8 +47,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { cp, T1, T2, T2p, wt, wti } = useSolution()
+		Solution: ({ cp, T1, T2, T2p, wt, wti }) => {
 			return <>
 				<Par>Bij de compressor wordt geen warmte toegevoerd, dus <M>q = 0.</M> De technische arbeid volgt vanuit de eerste hoofdwet als
 					<BM>w_t = q - \Delta h = -\Delta h = -c_p \left(T_2 - T_1\right).</BM>
@@ -72,8 +70,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { T1, T2, T2p, wt, wti, etai } = useSolution()
+		Solution: ({ T1, T2, T2p, wt, wti, etai }) => {
 			return <>
 				<Par>Het isentropisch rendement is altijd een getal tussen de <M>0</M> en de <M>1.</M> We moeten bij een compressor dus de theoretische technische arbeid (het kleinere getal) delen door de werkelijke technische arbeid (het grotere getal). Zo vinden we <BM>\eta_i = \frac(w_(t_i))(w_t) = \frac{wti.float}{wt.float} = {etai}.</BM> Merk op dat een eventueel minteken in de waarden van <M>w_(t_i)</M> en <M>w_t</M> hier geen effect gehad zou hebben. Ook geldt dat een isentropisch rendement van <M>{etai.setUnit('%')}</M> redelijk reëel is voor een compressor.</Par>
 				<SubHead>Short-cut</SubHead>

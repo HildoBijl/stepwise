@@ -6,7 +6,7 @@ import { Dutch } from 'ui/lang/gases'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
-import { StepExercise, Substep, useSolution, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
+import { StepExercise, Substep, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -47,8 +47,7 @@ const steps = [
 				<Par><FloatUnitInput id="k" prelabel={<M>k =</M>} label={<span><M>k</M>-waarde</span>} size="s" validate={FloatUnitInput.validation.any} /></Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { gas, k } = useSolution()
+		Solution: ({ gas, k }) => {
 			return <Par>De verhouding van soortelijke warmten van {Dutch[gas]} is <M>k = {k}.</M></Par>
 		},
 	},

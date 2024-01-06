@@ -3,10 +3,10 @@ import React from 'react'
 import { Par, M } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { SimpleExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { SimpleExercise, useSolution } from 'ui/eduTools'
 
 export default function Exercise() {
-	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getAllInputFieldsFeedback} />
+	return <SimpleExercise Problem={Problem} Solution={Solution} />
 }
 
 function Problem({ refrigerant, phase1, T1, x1, p1, phase2, x2, T2 }) {

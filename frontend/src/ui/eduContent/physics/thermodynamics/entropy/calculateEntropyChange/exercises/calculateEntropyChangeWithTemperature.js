@@ -6,10 +6,10 @@ import { Dutch } from 'ui/lang/gases'
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, useSolution } from 'ui/eduTools'
 
 export default function Exercise() {
-	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
+	return <StepExercise Problem={Problem} steps={steps} />
 }
 
 const Problem = ({ type, medium, T1, T2, m }) => <>
@@ -50,8 +50,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { type, medium, c } = useSolution()
+		Solution: ({ type, medium, c }) => {
 			if (type === 0)
 				return <Par>Bij een isobaar proces geldt <M>c = c_p.</M> Verder geldt voor {Dutch[medium]} dat <M>c_p = {c}.</M></Par>
 			if (type === 1)
@@ -68,8 +67,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { type, m, c, T1, T2, dS } = useSolution()
+		Solution: ({ type, m, c, T1, T2, dS }) => {
 			if (type === 2)
 				return <Par>De entropieverandering volgt direct uit de formule <BM>\Delta S = m c \ln\left(\frac(T_2)(T_1)\right) = {m.float} \cdot {c.float} \cdot \ln\left(\frac{T2.float}{T1.float}\right) = {dS}.</BM> Dit is logisch: bij een isentroop proces is er geen warmte-uitwisseling, waardoor dan altijd <M>Q = 0</M> geldt, en hiermee dus ook <M>\Delta S = 0.</M></Par>
 			return <>

@@ -40,8 +40,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { x } = useSolution()
+		Solution: ({ x }) => {
 			return <Par>In dit geval is de laatste operatie een vermenigvuldiging van "iets met <M>{x}</M>" maal "iets met <M>{x}</M>". We gaan dus de productregel toepassen.</Par>
 		},
 	},
@@ -58,8 +57,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { x, f, g } = useSolution()
+		Solution: ({ x, f, g }) => {
 			return <Par>Als we de functie <M>h\left({x}\right)</M> opsplitsen bij de vermenigvuldiging, dan zien we direct dat
 				<BMList>
 					<BMPart>f\left({x}\right) = {f},</BMPart>
@@ -82,8 +80,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { x, switched, fDerivative, gDerivative } = useSolution()
+		Solution: ({ x, switched, fDerivative, gDerivative }) => {
 			if (switched) {
 				return <Par>De afgeleide van <M>f\left({x}\right)</M> is relatief lastig: we hebben de kettingregel nodig. Via de gebruikelijke stappen vinden we uiteindelijk
 					<BM>f'\left({x}\right) = {fDerivative}.</BM>
@@ -110,8 +107,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { x, derivative, derivativeSimplified } = useSolution()
+		Solution: ({ x, derivative, derivativeSimplified }) => {
 			return <Par>Letterlijk toepassen van de productregel <M>h'\left({x}\right) = f'\left({x}\right) g\left({x}\right) + f\left({x}\right) g'\left({x}\right)</M> geeft als oplossing <BM>h'\left({x}\right) = {derivative} = {derivativeSimplified}.</BM></Par>
 		},
 	},

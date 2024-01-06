@@ -12,7 +12,7 @@ import { useFormData, useFeedbackInput, FormPart, useFieldControllerContext } fr
 import { useExerciseData } from '../../containers'
 import { ExerciseWrapper } from '../../wrappers'
 import { ProblemContainer, SolutionContainer, ExerciseButtons, MainFeedback } from '../../parts'
-import { getFieldInputFeedback } from '../../feedback'
+import { getAllInputFieldsFeedback } from '../../feedback'
 
 import { Steps } from './Steps'
 
@@ -62,11 +62,11 @@ function StepExerciseInner({ Problem: MainProblem, steps }) {
 }
 
 function stepExerciseGetFeedback(exerciseData) {
-	const { input, progress, history, shared } = exerciseData
+	const { progress, history, shared } = exerciseData
 
 	// If a getSolution parameter is present (which is for most exercises) then give input on each individual field.
 	if (shared.getSolution)
-		return getFieldInputFeedback(exerciseData, Object.keys(input))
+		return getAllInputFieldsFeedback(exerciseData)
 
 	// If there's only a checkInput (which is in the remaining cases) then use it for a main feedback display.
 	if (shared.checkInput) {
@@ -79,7 +79,7 @@ function stepExerciseGetFeedback(exerciseData) {
 		const previousProgress = getPreviousProgress(history)
 		const step = getStep(previousProgress)
 		repeat(step, (index) => {
-			feedback[`step${index+1}main`] = shared.checkInput(exerciseData, index+1)
+			feedback[`step${index + 1}main`] = shared.checkInput(exerciseData, index + 1)
 		})
 		return feedback
 	}

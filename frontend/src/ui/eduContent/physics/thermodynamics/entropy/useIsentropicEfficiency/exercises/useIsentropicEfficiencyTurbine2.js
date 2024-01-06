@@ -3,10 +3,10 @@ import React from 'react'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, useSolution } from 'ui/eduTools'
 
 export default function Exercise() {
-	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
+	return <StepExercise Problem={Problem} steps={steps} />
 }
 
 const Problem = ({ h1, h2p, etai }) => <>
@@ -28,8 +28,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { h1, h2p, wti } = useSolution()
+		Solution: ({ h1, h2p, wti }) => {
 			return <>
 				<Par>In een turbine wordt geen warmte toegevoerd of afgevoerd, waardoor <M>q = 0.</M> De technische arbeid volgt vanuit de eerste hoofdwet als
 					<BM>w_t = q - \Delta h = -\left(h_2 - h_1\right) = h_1 - h_2.</BM>
@@ -48,8 +47,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { wti, wt, etai } = useSolution()
+		Solution: ({ wti, wt, etai }) => {
 			return <>
 				<Par>In een turbine is de werkelijk geleverde arbeid altijd kleiner dan de in theorie haalbare technische arbeid. Het isentropisch rendement van een turbine is dus gedefinieerd als <BM>\eta_i = \frac(w_t)(w_(t_i)).</BM> Dit oplossen voor <M>w_t</M> geeft <BM>w_t = \eta_i w_(t_i) = {etai.float} \cdot {wti.float} = {wt}.</BM> Dit is inderdaad ietsje kleiner dan de specifieke technische arbeid in het isentropische geval.</Par>
 			</>
@@ -64,8 +62,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { wt, h1, h2 } = useSolution()
+		Solution: ({ wt, h1, h2 }) => {
 			return <Par>Er geldt nog steeds <BM>w_t = h_1 - h_2.</BM> De oplossing voor <M>h_2</M> volgt als <BM>h_2 = h_1 - w_t = {h1.float} - {wt.float} = {h2}.</BM> Dit is ietsje groter dan <M>h_(2')</M> wat logisch is.</Par>
 		},
 	},

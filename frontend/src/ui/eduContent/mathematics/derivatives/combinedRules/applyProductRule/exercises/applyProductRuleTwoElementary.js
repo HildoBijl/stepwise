@@ -41,8 +41,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { x, fDerivative, gDerivative } = useSolution()
+		Solution: ({ x, fDerivative, gDerivative }) => {
 			return <Par>We kunnen in onze tabel van basisafgeleiden (samen met de constanteregel bij <M>f\left({x}\right)</M>) vinden dat
 				<BMList>
 					<BMPart>f'\left({x}\right) = {fDerivative},</BMPart>
@@ -63,8 +62,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { x, derivative, derivativeSimplified } = useSolution()
+		Solution: ({ x, derivative, derivativeSimplified }) => {
 			return <Par>De productregel zegt dat <BM>h'\left({x}\right) = f'\left({x}\right) g\left({x}\right) + f\left({x}\right) g'\left({x}\right).</BM> Als we dit letterlijk toepassen, dan krijgen we <BM>h'\left({x}\right) = {derivative}.</BM> Dit kan eventueel nog herschreven worden tot <BM>h'\left({x}\right) = {derivativeSimplified}.</BM></Par>
 		},
 	},

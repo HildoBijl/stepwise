@@ -40,8 +40,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { f, x, func, c1, c2, f1, f2 } = useSolution()
+		Solution: ({ f, x, func, c1, c2, f1, f2 }) => {
 			return <Par>Voor de functies <M>{f}_1\left({x}\right) = {f1}</M> en <M>{f}_2\left({x}\right) = {f2}</M> geldt dat <BM>{f}\left({x}\right) = {func} = {c1.number === 1 ? '' : c1.number === -1 ? '-' : c1} {f}_1\left({x}\right) {c2.number > 0 ? '+' : ''} {c2.number === 1 ? '' : c2.number === -1 ? '-' : c2} {f}_2\left({x}\right).</BM></Par>
 		},
 	},
@@ -59,8 +58,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { f, x, f1Derivative, f2Derivative } = useSolution()
+		Solution: ({ f, x, f1Derivative, f2Derivative }) => {
 			return <Par>We kunnen in onze tabel van basisafgeleiden direct opzoeken dat
 				<BMList>
 					<BMPart>{f}_1'\left({x}\right) = {f1Derivative},</BMPart>
@@ -81,8 +79,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { f, x, c1, c2, f1Derivative, f2Derivative, derivative } = useSolution()
+		Solution: ({ f, x, c1, c2, f1Derivative, f2Derivative, derivative }) => {
 			return <Par>Het letterlijk toepassen van de regel geeft <BM>{f}'\left({x}\right) = {c1.number === 1 ? '' : c1.number === -1 ? '-' : c1} \left({f1Derivative}\right) {c2.number > 0 ? '+' : ''} {c2.number === 1 ? '' : c2.number === -1 ? '-' : c2} \left({f2Derivative}\right).</BM> Dit kan eventueel nog herschreven worden tot <BM>{f}'\left({x}\right) = {derivative}.</BM></Par>
 		},
 	},

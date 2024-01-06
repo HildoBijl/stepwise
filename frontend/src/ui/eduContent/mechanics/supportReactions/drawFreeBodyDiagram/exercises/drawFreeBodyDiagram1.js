@@ -50,8 +50,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { A, supportTypes } = useSolution()
+		Solution: ({ A, supportTypes }) => {
 			return <>
 				<Par>{supportExplanation[supportTypes[0]]} Hiermee vinden we de onderstaande schematisering.</Par>
 				<Diagram showSolution={true} showSupports={false} zoom={A} />
@@ -68,8 +67,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { B, supportTypes } = useSolution()
+		Solution: ({ B, supportTypes }) => {
 			return <>
 				<Par>{supportExplanation[supportTypes[1]]} Hiermee vinden we de onderstaande schematisering.</Par>
 				<Diagram showSolution={true} showSupports={false} zoom={B} />

@@ -12,7 +12,7 @@ import { useFormData, useFeedbackInput, FormPart, useFieldControllerContext } fr
 import { useExerciseData } from '../containers'
 import { ExerciseWrapper, useSolution } from '../wrappers'
 import { ProblemContainer, SolutionContainer, ExerciseButtons, MainFeedback } from '../parts'
-import { getFieldInputFeedback } from '../feedback'
+import { getAllInputFieldsFeedback } from '../feedback'
 
 export function SimpleExercise(props) {
 	return (
@@ -65,11 +65,11 @@ function SimpleExerciseInner({ Problem, Solution }) {
 }
 
 function simpleExerciseGetFeedback(exerciseData) {
-	const { shared, input } = exerciseData
+	const { shared } = exerciseData
 
 	// If a getSolution parameter is present (which is for most exercises) then give input on each individual field.
 	if (shared.getSolution)
-		return getFieldInputFeedback(exerciseData, Object.keys(input))
+		return getAllInputFieldsFeedback(exerciseData)
 
 	// If there's only a checkInput (which is in the remaining cases) then use it for a main feedback display.
 	if (shared.checkInput)

@@ -40,8 +40,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { equation, termsMoved } = useSolution()
+		Solution: ({ equation, termsMoved }) => {
 			return <Par>We brengen <M>{equation.right.terms[1].abs()}</M> naar links en <M>{equation.left.terms[1].abs()}</M> naar rechts. Zo vinden we <BM>{termsMoved}.</BM></Par>
 		},
 	},
@@ -57,8 +56,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { variables, termsMoved, bracketTerm, pulledOut } = useSolution()
+		Solution: ({ variables, termsMoved, bracketTerm, pulledOut }) => {
 			return <Par>Om <M>{variables.x}</M> buiten haakjes te halen, moeten we <M>{termsMoved.left}</M> schrijven als <M>{variables.x}\cdot\left(\ldots\right).</M> We zien hiermee dat er tussen haakjes <M>{bracketTerm}</M> moet staan. Zo herschrijven we de vergelijking als <BM>{pulledOut}.</BM></Par>
 		},
 	},
@@ -74,8 +72,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { variables, bracketTerm, ans, ansCleaned } = useSolution()
+		Solution: ({ variables, bracketTerm, ans, ansCleaned }) => {
 			return <Par>Als we beide kanten van de vergelijking delen door <M>{bracketTerm},</M> dan valt links de term tussen haakjes weg. We houden alleen <M>{variables.x}</M> over, en hebben dus <M>{variables.x}</M> vrij gemaakt! Het eindresultaat is <BM>{variables.x} = {ans}.</BM> Eventueel kan dit nog makkelijker geschreven worden als <BM>{variables.x} = {ansCleaned}</BM> maar dat is niet per se nodig hier.</Par>
 		},
 	},

@@ -39,8 +39,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { variables, equation } = useSolution()
+		Solution: ({ variables, equation }) => {
 			return <Par>We schrijven letterlijk op, <BM>\frac({equation.left})({variables.x}) = \frac({equation.right})({variables.x}).</BM> Merk op dat, omdat we met beide kanten van de vergelijking hetzelfde doen, de vergelijking nog steeds klopt.</Par>
 		},
 	},
@@ -56,8 +55,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { variables, intermediateWithoutBrackets } = useSolution()
+		Solution: ({ variables, intermediateWithoutBrackets }) => {
 			return <Par>We splitsen de breuk op door elke term afzonderlijk door <M>{variables.x}</M> te delen. Het resultaat is <BM>{intermediateWithoutBrackets}.</BM></Par>
 		},
 	},
@@ -73,8 +71,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { variables, ans } = useSolution()
+		Solution: ({ variables, ans }) => {
 			return <Par>Bij termen waar zowel boven als onder een <M>{variables.x}</M> staat strepen we deze weg. Bij één term staat er boven <M>{variables.x}^2.</M> Omdat <M>{variables.x}^2 = {variables.x} \cdot {variables.x}</M> valt er hier maar één factor <M>{variables.x}</M> weg, en blijft er boven nog <M>{variables.x}</M> over. Het eindresultaat is <BM>{ans}.</BM> Dit kan niet nog simpeler geschreven worden.</Par>
 		},
 	},

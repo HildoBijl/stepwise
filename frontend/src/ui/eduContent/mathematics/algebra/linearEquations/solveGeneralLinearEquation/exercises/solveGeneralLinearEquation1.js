@@ -37,8 +37,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { factor1, factor2, multiplied } = useSolution()
+		Solution: ({ factor1, factor2, multiplied }) => {
 			return <Par>We vermenigvuldigen alle termen met zowel <M>{factor1}</M> als <M>{factor2}.</M> Bij de eerste term links valt <M>{factor2}</M> onderin de breuk weg, en vermenigvuldigen we het restant met <M>{factor1}.</M> Bij de andere twee termen valt juist <M>{factor1}</M> weg en wordt het restant vermenigvuldigd met <M>{factor2}.</M> Het resultaat is dan <BM>{multiplied}.</BM></Par>
 		},
 	},
@@ -54,8 +53,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { expanded, merged } = useSolution()
+		Solution: ({ expanded, merged }) => {
 			return <Par>Als we alle haakjes op de normale wijze uitwerken krijgen we <BM>{expanded}.</BM> Eventueel kunnen we dit nog wat korter schrijven als <BM>{merged}.</BM></Par>
 		},
 	},
@@ -71,8 +69,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { variables, expanded, shifted, pulledOut, bracketFactor, ans } = useSolution()
+		Solution: ({ variables, expanded, shifted, pulledOut, bracketFactor, ans }) => {
 			return <Par>Voor het oplossen van een lineaire vergelijking brengen we eerst alle termen met <M>{variables.x}</M> naar de ene kant en alle termen zonder <M>{variables.x}</M> naar de andere kant. Oftewel, <M>{expanded.right.terms[0].abs()}</M> gaat naar links en <M>{expanded.left.terms[3].abs()}</M> gaat naar rechts. Zo vinden we <BM>{shifted}.</BM> Vervolgens brengen we <M>{variables.x}</M> buiten haakjes. Dit zet het bovenstaande om in <BM>{pulledOut}.</BM> We delen ten slotte beide kanten van de vergelijking door <M>{bracketFactor}</M> om <M>{variables.x}</M> op te lossen. Het eindresultaat is <BM>{variables.x} = {ans}.</BM></Par>
 		},
 	},

@@ -61,8 +61,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { angle, FD, FDx } = useSolution()
+		Solution: ({ angle, FD, FDx }) => {
 			return <Par>
 				De horizontale component <M>F_(Dx)</M> van kracht <M>F_D</M> volgt als overstaande zijde van de hoek van <M>{angle}^\circ</M> als
 				<BM>F_(Dx) = F_D \sin\left({angle}\right) = {FD.float} \cdot \sin\left({angle}\right) = {FDx}.</BM>
@@ -78,8 +77,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { right, FA } = useSolution()
+		Solution: ({ right, FA }) => {
 			return <Par>
 				De evenwichtsvergelijking voor krachten in horizontale richting is
 				<BM>{sumOfForces(false)} {right ? '' : '-'} F_A {right ? '-' : '+'} F_(Dx) = 0.</BM>

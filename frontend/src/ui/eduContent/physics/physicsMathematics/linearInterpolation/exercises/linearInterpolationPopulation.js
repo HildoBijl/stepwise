@@ -6,10 +6,10 @@ import { Float } from 'step-wise/inputTypes'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { IntegerInput, FloatInput } from 'ui/inputs'
-import { StepExercise, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
-	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
+	return <StepExercise Problem={Problem} steps={steps} />
 }
 
 const Problem = ({ type, year1, year2, pop1, pop2, year, pop }) => type === 1 ? <>

@@ -3,10 +3,10 @@ import React from 'react'
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, Substep, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, Substep, useSolution } from 'ui/eduTools'
 
 export default function Exercise() {
-	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
+	return <StepExercise Problem={Problem} steps={steps} />
 }
 
 const Problem = ({ type, pc, pe, T2, etai, mdot, P }) => {
@@ -36,8 +36,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { pc, pe, T2, hx0, hx1, sx0, sx1, h1, h2, s2, s3p, x3p, h3p, h4 } = useSolution()
+		Solution: ({ pc, pe, T2, hx0, hx1, sx0, sx1, h1, h2, s2, s3p, x3p, h3p, h4 }) => {
 			return <>
 				<Par>Om deze ideale cyclus door te rekenen is het handig om in punt 4 te beginnen. Dit punt ligt op een druk van <M>{pc}</M> op de vloeistoflijn, waardoor <BM>h_4 = h_(x=0) = {h4}.</BM> Het water wordt via een pomp op een druk van <M>{pe}</M> gebracht, waarbij de pomparbeid te verwaarlozen is. Dit betekent dat <BM>h_1 = h_4 = {h1}.</BM> Vanaf hier wordt het water op constante druk aan het koken gebracht, verdampt en oververhit tot <M>{T2}.</M> De eigenschappen van de stoom kunnen we opzoeken als
 					<BMList>
@@ -57,8 +56,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { h2, h3p, h3, etai } = useSolution()
+		Solution: ({ h2, h3p, h3, etai }) => {
 			return <Par>De definitie van het isentropisch rendement in de turbine is <BM>\eta_i = \frac(w_t)(w_t') = \frac(h_2 - h_3)(h_2 - h_(3')).</BM> De oplossing voor <M>h_3</M> is <BM>h_3 = h_2 - \eta_i \left(h_2 - h_(3')\right) = {h2.float} - {etai.float} \cdot \left({h2.float} - {h3p.float}\right) = {h3}.</BM> Hiermee zijn voor de cyclus nu alle enthalpie-waarden bekend.</Par>
 		},
 	},
@@ -74,8 +72,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { type, h1, h2, h3, wt, q, eta, mdot, P } = useSolution()
+		Solution: ({ type, h1, h2, h3, wt, q, eta, mdot, P }) => {
 			return <>
 				<Par>Als eerste berekenen we het rendement. De technische arbeid die in de turbine geleverd wordt is <BM>w_t = h_2 - h_3 = {h2.float} - {h3.float} = {wt}.</BM> De warmte die wordt toegevoerd is <BM>q = h_2 - h_1 = {h2.float} - {h1.float} = {q}.</BM> Hiermee vinden we een rendement van <BM>\eta = \frac(\rm nuttig)(\rm invoer) = \frac(w_t)(q) = \frac{wt.float}{q.float} = {eta}.</BM> Een rendement van <M>{eta.setUnit('%')}</M> is realistisch voor een stoomturbine.</Par>
 				{type === 1 ?

@@ -61,8 +61,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { FD, FDl } = useSolution()
+		Solution: ({ FD, FDl }) => {
 			return <Par>
 				Alle hoeken die hier spelen zijn <M>45^\circ.</M> We kunnen de loodrechte component dus vinden via <M>\sin\left(45\right),</M> via <M>\cos\left(45\right),</M> of via de factor <M>\frac(1)(2)\sqrt(2).</M> Met elk van deze methoden komen we uit op
 				<BM>F_(Dl) = F_D \cdot \frac(1)(2)\sqrt(2) = {FD.float} \cdot \frac(1)(2)\sqrt(2) = {FDl}.</BM>
@@ -78,8 +77,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { up, right, FA } = useSolution()
+		Solution: ({ up, right, FA }) => {
 			return <Par>
 				De evenwichtsvergelijking voor krachten in de richting langs <M>F_A</M> is
 				<BM>{sumOfForces(up === right, right, true)} F_A - F_(Dl) = 0.</BM>

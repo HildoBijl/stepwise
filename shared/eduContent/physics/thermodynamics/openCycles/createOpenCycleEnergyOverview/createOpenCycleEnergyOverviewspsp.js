@@ -5,10 +5,9 @@ const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = requi
 
 const { generateState, getSolution: getCycleParametersRaw } = require('../calculateOpenCycle/calculateOpenCyclespsp')
 
-const data = {
+const metaData = {
 	skill: 'createOpenCycleEnergyOverview',
 	steps: ['calculateSpecificHeatAndMechanicalWork', 'calculateSpecificHeatAndMechanicalWork', 'calculateSpecificHeatAndMechanicalWork', or('calculateSpecificHeatAndMechanicalWork', 'calculateWithEnthalpy')],
-
 	comparison: {
 		default: {
 			relativeMargin: 0.02,
@@ -16,7 +15,7 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function getCycleParameters(state) {
 	let { k, Rs, p1, v1, T1, p2, v2, T2, p3, v3, T3, p4, v4, T4 } = getCycleParametersRaw(state)
@@ -36,7 +35,8 @@ function getCycleParameters(state) {
 }
 
 function getSolution(state) {
-	const { T1, T2, T3, T4 } = getCycleParameters(state)
+	const cycleParameters = getCycleParameters(state)
+	const { T1, T2, T3, T4 } = cycleParameters
 	let { cv, cp } = air
 	cv = cv.simplify()
 	cp = cp.simplify()
@@ -50,30 +50,26 @@ function getSolution(state) {
 	const wt41 = new FloatUnit('0 J/kg')
 	const qn = q12.add(q23).add(q34).add(q41).setMinimumSignificantDigits(2)
 	const wn = wt12.add(wt23).add(wt34).add(wt41).setMinimumSignificantDigits(2)
-	return { cv, cp, q12, wt12, q23, wt23, q34, wt34, q41, wt41, qn, wn }
+	return { ...cycleParameters, cv, cp, q12, wt12, q23, wt23, q34, wt34, q41, wt41, qn, wn }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison(['q12', 'wt12'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['q12', 'wt12'])
 		case 2:
-			return performComparison(['q23', 'wt23'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['q23', 'wt23'])
 		case 3:
-			return performComparison(['q34', 'wt34'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['q34', 'wt34'])
 		case 4:
-			return performComparison(['q41', 'wt41'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['q41', 'wt41'])
 		default:
-			return performComparison(['q12', 'wt12', 'q23', 'wt23', 'q34', 'wt34', 'q41', 'wt41'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['q12', 'wt12', 'q23', 'wt23', 'q34', 'wt34', 'q41', 'wt41'])
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getCycleParameters,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

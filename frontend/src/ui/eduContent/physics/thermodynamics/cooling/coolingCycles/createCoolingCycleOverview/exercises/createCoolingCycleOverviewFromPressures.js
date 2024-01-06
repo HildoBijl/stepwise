@@ -3,10 +3,10 @@ import React from 'react'
 import { Par, M } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, useSolution } from 'ui/eduTools'
 
 export default function Exercise() {
-	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
+	return <StepExercise Problem={Problem} steps={steps} />
 }
 
 const Problem = ({ refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling }) => {
@@ -33,8 +33,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { pEvap, dTSuperheating, TEvap, T1, h1 } = useSolution()
+		Solution: ({ pEvap, dTSuperheating, TEvap, T1, h1 }) => {
 			return <>
 				<Par>Op een druk van <M>p_v = {pEvap}</M> is de kooktemperatuur <M>T_v = {TEvap}.</M> Op deze hoogte in het diagram lopen we naar rechts (isobare verwarming) tot we de damplijn bereiken. We moeten nu nog <M>{dTSuperheating}</M> oververhitting toepassen. De temperatuur stijgt dan naar <M>T_1 = {T1}.</M> Bij de betreffende isotherme lijn kunnen we aflezen dat de enthalpie <M>h_1 = {h1}</M> is.</Par>
 			</>
@@ -49,8 +48,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { pCond, h2, s1 } = useSolution()
+		Solution: ({ pCond, h2, s1 }) => {
 			return <Par>Om van punt 1 naar punt 2 te gaan volgen we de isentropische lijnen. Bij punt 1 geldt <M>s_1 = {s1}.</M> Dit is dus ook voor punt 2 het geval. Als we kijken waar de betreffende isentropische lijn <M>p_c = {pCond}</M> snijdt zien we dat dit is bij <M>h_2 = {h2}.</M></Par>
 		},
 	},
@@ -63,8 +61,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { pCond, dTSubcooling, TCond, T3, h3 } = useSolution()
+		Solution: ({ pCond, dTSubcooling, TCond, T3, h3 }) => {
 			return <>
 				<Par>Op een druk van <M>p_c = {pCond}</M> is de kooktemperatuur <M>T_c = {TCond}.</M> Op deze hoogte in het diagram lopen we naar links (isobare koeling) tot we de vloeistof bereiken. We moeten nu nog <M>{dTSubcooling}</M> nakoeling toepassen. De temperatuur daalt dan naar <M>T_3 = {T3}.</M> Bij de betreffende isotherme (verticale) lijn kunnen we aflezen dat de enthalpie <M>h_3 = {h3}</M> is.</Par>
 			</>
@@ -79,8 +76,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { h4 } = useSolution()
+		Solution: ({ h4 }) => {
 			return <Par>De laatste stap is de smoorklep. Hier wordt het koudemiddel isenthalpisch geëxpandeerd. De enthalpie blijft dus gelijk. Zo vinden we <M>h_4 = h_3 = {h4}.</M> Hiermee is de cyclus rond.</Par>
 		},
 	},

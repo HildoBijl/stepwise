@@ -3,10 +3,10 @@ import React from 'react'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, useSolution } from 'ui/eduTools'
 
 export default function Exercise() {
-	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
+	return <StepExercise Problem={Problem} steps={steps} />
 }
 
 const Problem = ({ pc, pe, T2 }) => {
@@ -33,8 +33,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { pc, h4 } = useSolution()
+		Solution: ({ pc, h4 }) => {
 			return <>
 				<Par>Op de damplijn bij een druk van <M>{pc}</M> geldt een specifieke enthalpie van <BM>h_4 = h_(x=0) = {h4}.</BM></Par>
 			</>
@@ -49,8 +48,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { pc, pe, h1 } = useSolution()
+		Solution: ({ pc, pe, h1 }) => {
 			return <Par>De pomp comprimeert het water dan wel van <M>{pc}</M> naar <M>{pe},</M> maar de arbeid hierbij is erg klein. Als we deze arbeid verwaarlozen, dan zegt de eerste hoofdwet <M>\Delta h = q - w_t</M> dat de enthalpie ook niet verandert. Dus geldt <BM>h_1 = h_4 = {h1}.</BM></Par>
 		},
 	},
@@ -64,8 +62,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { pe, T2, h2, s2 } = useSolution()
+		Solution: ({ pe, T2, h2, s2 }) => {
 			return <>
 				<Par>We kunnen direct opzoeken dat stoom met een druk van <M>{pe}</M> en een temperatuur van <M>{T2}</M> een specifieke enthalpie heeft van <M>h_2 = {h2}</M> en een specifieke entropie van <M>s_2 = {s2}.</M></Par>
 			</>
@@ -80,8 +77,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { s3 } = useSolution()
+		Solution: ({ s3 }) => {
 			return <Par>Gegeven is dat de turbine isentropisch werkt. Dat betekent dat de entropie van de stoom niet verandert gedurende dit proces. Hierdoor geldt <BM>s_3 = s_2 = {s3}.</BM></Par>
 		},
 	},
@@ -94,8 +90,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { hx0, hx1, sx0, sx1, x3, h3, s3 } = useSolution()
+		Solution: ({ hx0, hx1, sx0, sx1, x3, h3, s3 }) => {
 			return <Par>We weten de entropie <M>s_3.</M> Om de bijbehorende enthalpie <M>h_3</M> te vinden hebben we de dampfractie <M>x_3</M> nodig. Deze vinden we via <BM>x_3 = \frac(s_3 - s_(x=0))(s_(x=1) - s_(x=0)) = \frac({s3.float} - {sx0.float})({sx1.float} - {sx0.float}) = {x3.setDecimals(3)}.</BM> Via deze dampfractie kunnen we de enthalpie vinden als <BM>h_3 = h_(x=0) + x \left(h_(x=1) - h_(x=0)\right) = {hx0.float} + {x3.setDecimals(3).float} \cdot \left({hx1.float} - {hx0.float}\right) = {h3}.</BM> Hiermee zijn alle enthalpieën van de cyclus bekend.</Par>
 		},
 	},

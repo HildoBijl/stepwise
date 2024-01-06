@@ -40,8 +40,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { notGiven, rule } = useSolution()
+		Solution: ({ notGiven, rule }) => {
 			return <Par>Vanuit de hoek gezien zijn de {notGiven === 1 ? sides[0] : sides[1]} en de {notGiven === 2 ? sides[0] : sides[1]} zijden gegeven. Dit betekent dat {ruleNames[rule]} van toepassing is en we dus de {funcNames[rule]} gaan gebruiken.</Par>
 		},
 	},
@@ -55,8 +54,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { notGiven, rule, a, b, c, equation } = useSolution()
+		Solution: ({ notGiven, rule, a, b, c, equation }) => {
 			return <Par>We gebruiken {ruleNames[rule]}. De {notGiven === 1 ? <>{sides[0]} zijde is <M>{a}</M></> : <>{sides[1]} zijde is <M>{b}</M></>} en de {notGiven === 2 ? <>{sides[0]} zijde is <M>{a}.</M></> : <>{sides[2]} zijde is <M>{c}.</M></>} De {ruleNames[rule]}-regel zegt nu direct dat <BM>{equation}.</BM></Par>
 		},
 	},

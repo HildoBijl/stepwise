@@ -3,10 +3,10 @@ import React from 'react'
 import { Par, M, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, useSolution } from 'ui/eduTools'
 
 export default function Exercise() {
-	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
+	return <StepExercise Problem={Problem} steps={steps} />
 }
 
 const Problem = ({ refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling, T2, mdot }) => {
@@ -37,8 +37,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { TEvap, TCond, pEvap, pCond, dTSuperheating, dTSubcooling, T1, T2, T3, h1, h2p, h2, h3, h4, s1 } = useSolution()
+		Solution: ({ TEvap, TCond, pEvap, pCond, dTSuperheating, dTSubcooling, T1, T2, T3, h1, h2p, h2, h3, h4, s1 }) => {
 			return <>
 				<Par>De verdamperdruk en condensordruk zijn gegeven als <M>p_v = {pEvap}</M> en <M>p_c = {pCond}.</M> De bijbehorende kooktemperaturen zijn <M>T_v = {TEvap}</M> en <M>T_c = {TCond}.</M> Hiermee kunnen we langs alle punten lopen.</Par>
 				<Par>Om punt <M>1</M> te vinden gaan we op <M>{pEvap}</M> naar rechts tot we <M>{dTSuperheating}</M> voorbij de damplijn zijn. Bij de temperatuur van <M>{T1}</M> vinden we <M>h_1 = {h1}.</M> Voor punt <M>2'</M> volgen we de isentrope lijnen bij <M>s = {s1}</M> tot de druk van <M>{pCond}.</M> Hier zien we dat <M>h_(2') = {h2p}.</M> Punt 2 ligt op dezelfde hoogte (dezelfde druk) maar dan bij <M>T_2 = {T2}.</M> De enthalpie hiervan is <M>h_2 = {h2}.</M> Voor punt <M>3</M> gaan we naar links tot <M>{dTSubcooling}</M> voorbij de vloeistoflijn. Dit is bij een temperatuur van <M>{T3}</M> en de specifieke enthalpie is hier <M>h_3 = {h3}.</M> Ten slotte is er punt <M>4</M>. Hiervoor gaan we recht omlaag tot <M>{pEvap}.</M> Uiteraard geldt <M>h_4 = h_3 = {h4}.</M> Hiermee is de cyclus rond.</Par>
@@ -57,8 +56,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { h1, h2p, h2, h3, h4, wt, wtp, qin, qout, epsilon, COP, etai, mdot, P } = useSolution()
+		Solution: ({ h1, h2p, h2, h3, h4, wt, wtp, qin, qout, epsilon, COP, etai, mdot, P }) => {
 			return <Par>
 				Als eerste schrijven we alle warmtestormen op. De toegevoerde en afgevoerde warmte zijn
 				<BMList>

@@ -39,8 +39,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { variables, fraction1, fraction2, expression, fraction1Intermediate, fraction2Intermediate, intermediateSplit, intermediate } = useSolution()
+		Solution: ({ variables, fraction1, fraction2, expression, fraction1Intermediate, fraction2Intermediate, intermediateSplit, intermediate }) => {
 			return <>
 				<Par>Om de noemer <M>{expression.denominator}</M> als één breuk te schrijven, moeten we eerst de kleinste veelvoud van de twee noemers <M>{fraction1.denominator}</M> en <M>{fraction2.denominator}</M> vinden. Deze kleinste veelvoud is <M>{intermediate.denominator}.</M> Beide breuken moeten dus een noemer <M>{intermediate.denominator}</M> krijgen.</Par>
 				<Par>Voor de eerste breuk vermenigvuldigen we boven en onder met <M>{variables.y}.</M> Zo krijgen we <BM>{fraction1} = {fraction1Intermediate}.</BM> Voor de tweede breuk vermenigvuldigen we boven en onder met <M>{variables.x}.</M> Dit geeft <BM>{fraction2} = {fraction2Intermediate}.</BM> Als we deze breuken samenvoegen, dan vinden we <BM>{expression.denominator} = {intermediateSplit} = {intermediate}.</BM></Par>
@@ -59,8 +58,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { variables, expression, gcdValue, numerator, intermediate, ans } = useSolution()
+		Solution: ({ variables, expression, gcdValue, numerator, intermediate, ans }) => {
 			return <>
 				<Par>We hebben een breuk die we delen door een breuk. Door de regel "delen door een breuk is vermenigvuldigen met het omgekeerde" kunnen we dit schrijven als <BM>{numerator.multiply(intermediate.invert())}.</BM> Als we deze breuken samenvoegen, en de factor <M>{variables.x}</M> die boven en onder in alle termen voorkomt wegstrepen, dan kunnen we dit simplificeren tot <BM>{ans}.</BM> Dit kan niet nog verder gesimplificeerd worden.</Par>
 				<SubHead>Short-cut</SubHead>

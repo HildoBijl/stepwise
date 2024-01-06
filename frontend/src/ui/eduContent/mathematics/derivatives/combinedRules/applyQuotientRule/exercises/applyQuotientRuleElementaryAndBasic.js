@@ -41,8 +41,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { x, fDerivative, gDerivative } = useSolution()
+		Solution: ({ x, fDerivative, gDerivative }) => {
 			return <Par>Via de somregel en de constantenregel, en met wat herschrijven, vinden we
 				<BM>f'\left({x}\right) = {fDerivative}.</BM>
 				Verder zegt de tabel van basisafgeleiden direct dat
@@ -62,8 +61,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { x, derivative, derivativeSimplified } = useSolution()
+		Solution: ({ x, derivative, derivativeSimplified }) => {
 			return <Par>De quotiëntregel zegt dat <BM>h'\left({x}\right) = \frac(g\left({x}\right) f'\left({x}\right) - f\left({x}\right) g'\left({x}\right))(\left(g\left({x}\right)\right)^2).</BM> Als we dit letterlijk toepassen, dan krijgen we <BM>h'\left({x}\right) = {derivative}.</BM> Dit kan eventueel nog herschreven worden tot <BM>h'\left({x}\right) = {derivativeSimplified}.</BM></Par>
 		},
 	},

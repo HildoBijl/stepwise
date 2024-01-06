@@ -62,8 +62,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { angle, FD, FDx, FDy } = useSolution()
+		Solution: ({ angle, FD, FDx, FDy }) => {
 			return <Par>
 				De gevraagde componenten volgen via
 				<BMList>
@@ -83,8 +82,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { intersection, D, up, right, clockwise, FDx, FDy, rDx, rDy, MA } = useSolution()
+		Solution: ({ intersection, D, up, right, clockwise, FDx, FDy, rDx, rDy, MA }) => {
 			const FAPositive = clockwise
 			const FDxPositive = (right === (D.y < intersection.y))
 			const FDyPositive = (up === (D.x < intersection.x))

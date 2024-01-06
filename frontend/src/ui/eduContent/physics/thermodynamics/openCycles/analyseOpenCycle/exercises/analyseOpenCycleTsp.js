@@ -4,16 +4,16 @@ import { Dutch } from 'ui/lang/gases'
 import { Par, M, BM, BMList, BMPart, InputTable } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, Substep, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, Substep } from 'ui/eduTools'
 
 export default function Exercise() {
-	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
+	return <StepExercise Problem={Problem} steps={steps} />
 }
 
-const Problem = ({ medium, mdot, p1, T1, p2 }) => {
+const Problem = ({ medium, mdoto, p1o, T1o, p2o }) => {
 	return <>
-		<Par>Een uitvinder heeft een nieuw soort koelproces ontworpen. Hierbij wordt gebruik gemaakt van een kringproces waar continu {Dutch[medium]} doorstroomt. Bij aanvang heeft dit gas een druk van <M>{p1}</M> en een temperatuur van <M>{T1}.</M> Dit gas wordt isotherm gecomprimeerd tot <M>{p2}</M>, om vervolgens isentroop te expanderen tot de begindruk. De arbeid geleverd bij de expansie wordt teruggewonnen om te helpen bij de eerste compressiestap. Na deze isentropische expansie wordt het gas weer opgewarmd tot het de begintoestand bereikt heeft. Deze laatste stap is de stap waarbij de warmte uit de te koelen ruimte wordt onttrokken.</Par>
-		<Par>Bepaal voor dit koelproces de koudefactor en de warmtefactor. Bepaal ook het koelvermogen, gegeven een massastroom {Dutch[medium]} van <M>{mdot}.</M></Par>
+		<Par>Een uitvinder heeft een nieuw soort koelproces ontworpen. Hierbij wordt gebruik gemaakt van een kringproces waar continu {Dutch[medium]} doorstroomt. Bij aanvang heeft dit gas een druk van <M>{p1o}</M> en een temperatuur van <M>{T1o}.</M> Dit gas wordt isotherm gecomprimeerd tot <M>{p2o}</M>, om vervolgens isentroop te expanderen tot de begindruk. De arbeid geleverd bij de expansie wordt teruggewonnen om te helpen bij de eerste compressiestap. Na deze isentropische expansie wordt het gas weer opgewarmd tot het de begintoestand bereikt heeft. Deze laatste stap is de stap waarbij de warmte uit de te koelen ruimte wordt onttrokken.</Par>
+		<Par>Bepaal voor dit koelproces de koudefactor en de warmtefactor. Bepaal ook het koelvermogen, gegeven een massastroom {Dutch[medium]} van <M>{mdoto}.</M></Par>
 		<InputSpace>
 			<Par>
 				<FloatUnitInput id="epsilon" prelabel={<M>\varepsilon =</M>} label="Koudefactor" size="s" validate={FloatUnitInput.validation.any} />
@@ -47,8 +47,7 @@ const steps = [
 					]]} />
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { Rs, k, p1, v1, T1, p2, v2, T2, p3, v3, T3 } = useSolution()
+		Solution: ({ Rs, k, p1, v1, T1, p2, v2, T2, p3, v3, T3 }) => {
 			return <>
 				<Par>In punt 1 is al gegeven dat <M>p_1 = {p1}</M> en <M>T_1 = {T1}.</M> Het specifieke volume <M>v_1</M> volgt via de gaswet als <BM>v_1 = \frac(R_sT_1)(p_1) = \frac({Rs.float} \cdot {T1.float})({p1.float}) = {v1}.</BM> In punt 2 geldt <M>p_2 = {p2}</M> en <M>T_2 = T_1 = {T2}</M> (isotherm proces). Via de gaswet volgt <BM>v_2 = \frac(R_sT_2)(p_2) = \frac({Rs.float} \cdot {T2.float})({p2.float}) = {v2}.</BM> In punt 3 is al bekend dat <M>p_3 = p_1 = {p3}.</M> Via Poisson's wet <M>p_2v_2^n = p_3v_3^n</M> vinden we <M>v_3</M> als <BM>v_3 = \left(\frac(p_2)(p_3)\right)^(\frac(1)(n)) \cdot v_2 = \left(\frac{p2.float}{p3.float}\right)^(\frac(1)({k})) \cdot {v2.float} = {v3}.</BM> Ten slotte volgt <M>T_3</M> via de gaswet als <BM>T_3 = \frac(p_3v_3)(R_s) = \frac({p3.float} \cdot {v3.float})({Rs.float}) = {T3}.</BM> Daarmee zijn alle eigenschappen bekend.</Par>
 			</>
@@ -73,8 +72,7 @@ const steps = [
 					]]} />
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { cp, p1, v1, T1, v2, T2, T3, q12, wt12, q23, wt23, q31, wt31, qn, wn } = useSolution()
+		Solution: ({ cp, p1, v1, T1, v2, T2, T3, q12, wt12, q23, wt23, q31, wt31, qn, wn }) => {
 			return <>
 				<Par>Voor de isotherme stap 1-2 zijn de energiestromen <BM>q_(1-2) = w_(t,1-2) = pv\ln\left(\frac(v_2)(v_1)\right) = {p1.float} \cdot {v1.float} \cdot \ln\left(\frac{v2.float}{v1.float}\right) = {q12}.</BM> Voor de isentrope stap 2-3 geldt <M>q_(2-3) = {q23}</M> en <BM>w_(t,2-3) = -c_p\left(T_3-T_2\right) = -{cp.float} \cdot \left({T3.float} - {T2.float}\right) = {wt23}.</BM> Ten slotte heeft de isobare stap 3-1 <BM>q_(3-1) = c_p\left(T_1 - T_3\right) = {cp.float} \cdot \left({T1.float} - {T3.float}\right) = {q31}</BM> en <M>w_(t,3-1) = {wt31}.</M></Par>
 				<Par>Als check controleren we de energiebalans. Zo vinden we
@@ -97,8 +95,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { mdot, wn, q12, qin, epsilon, COP, Pc } = useSolution()
+		Solution: ({ mdot, wn, q12, qin, epsilon, COP, Pc }) => {
 			const qout = q12.abs()
 			return <>
 				<Par>De processtappen waarop warmte toegevoerd wordt (<M>q \gt 0</M>) is alleen stap 3-1. De toegevoerde warmte is dus <M>q_(toe) = q_(3-1) = {qin}.</M> De netto arbeid is al bekend als <M>w_(netto) = {wn}.</M> Hiermee volgt de koudefactor als

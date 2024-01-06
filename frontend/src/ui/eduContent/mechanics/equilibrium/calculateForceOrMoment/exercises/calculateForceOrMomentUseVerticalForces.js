@@ -61,8 +61,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { FAy, up } = useSolution()
+		Solution: ({ FAy, up }) => {
 			return <Par>
 				De evenwichtsvergelijking voor krachten in verticale richting is
 				<BM>{sumOfForces(true)} {up ? '-' : ''} F_(Ay) {up ? '+' : '-'} F_D = 0.</BM>
@@ -80,8 +79,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { angle, FAy, FA } = useSolution()
+		Solution: ({ angle, FAy, FA }) => {
 			return <Par>
 				De schuine kracht <M>F_A</M> volgt via de aanliggende zijde <M>F_(Ay)</M> als
 				<BM>F_A = \frac(F_(Ay))(\cos\left({angle}\right)) = \frac({FAy.float})(\cos\left({angle}\right)) = {FA}.</BM>

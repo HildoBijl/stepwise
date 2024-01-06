@@ -39,8 +39,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { notGiven, rule } = useSolution()
+		Solution: ({ notGiven, rule }) => {
 			return <Par>Vanuit de hoek gezien zijn de {notGiven === 1 ? sides[0] : sides[1]} en de {notGiven === 2 ? sides[0] : sides[1]} zijden gegeven/gevraagd. Dit betekent dat {ruleNames[rule]} van toepassing is en we dus de {funcNames[rule]} gaan gebruiken.</Par>
 		},
 	},
@@ -54,8 +53,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { known, requested, rule, x, y, beta, equation } = useSolution()
+		Solution: ({ known, requested, rule, x, y, beta, equation }) => {
 			return <Par>We gebruiken {ruleNames[rule]}. De {sides[known]} zijde is <M>{x}</M> en de {sides[requested]} zijde is <M>{y}.</M> Met de hoek van <M>{beta}^\circ</M> zegt de {ruleNames[rule]}-regel nu direct dat <BM>{equation}.</BM></Par>
 		},
 	},
@@ -71,8 +69,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { y, ansRaw, ans, canSimplifyAns } = useSolution()
+		Solution: ({ y, ansRaw, ans, canSimplifyAns }) => {
 			return <Par>Het herschrijven van de breuk geeft direct de oplossing <BM>{y}={ansRaw}.</BM>{canSimplifyAns ? <>Dit kan eventueel (niet verplicht) nog verder vereenvoudigd worden tot <BM>{y} = {ans}.</BM></> : null}</Par>
 		},
 	},

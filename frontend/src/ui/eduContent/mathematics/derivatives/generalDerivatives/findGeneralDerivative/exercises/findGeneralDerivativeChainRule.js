@@ -40,8 +40,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { x, fRaw } = useSolution()
+		Solution: ({ x, fRaw }) => {
 			return <Par>In dit geval is de laatste operatie de operatie <M>{fRaw},</M> waar we er "iets met <M>{x}</M>" instoppen. Dit is geen product of deling maar een ander soort operatie. We gaan dus de kettingregel toepassen.</Par>
 		},
 	},
@@ -58,8 +57,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { x, fRaw, f, g } = useSolution()
+		Solution: ({ x, fRaw, f, g }) => {
 			return <Par>We weten dat we <M>{fRaw}</M> als laatste operatie toepassen. De buitenste functie <M>f\left({x}\right)</M> moet dus in ieder geval deze operatie bevatten. Wat we in die operatie stoppen wordt dan <M>g\left({x}\right).</M> Zo vinden we
 				<BMList>
 					<BMPart>f\left({x}\right) = {f},</BMPart>
@@ -80,8 +78,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { x, fDerivative, gDerivative, derivative, derivativeSimplified } = useSolution()
+		Solution: ({ x, fDerivative, gDerivative, derivative, derivativeSimplified }) => {
 			return <Par>We bepalen eerst los de afgeleiden van <M>f\left({x}\right)</M> en <M>g\left({x}\right).</M> Via de standaard regels vinden we
 				<BMList>
 					<BMPart>f'\left({x}\right) = {fDerivative},</BMPart>

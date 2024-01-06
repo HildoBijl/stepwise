@@ -40,8 +40,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { x } = useSolution()
+		Solution: ({ x }) => {
 			return <Par>In dit geval is de laatste operatie een vermenigvuldiging van "iets met <M>{x}</M>" maal "iets met <M>{x}</M>". We gaan dus de productregel toepassen.</Par>
 		},
 	},
@@ -58,8 +57,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { x, c, f, g } = useSolution()
+		Solution: ({ x, c, f, g }) => {
 			return <Par>Als we de functie <M>h\left({x}\right)</M> opsplitsen bij de vermenigvuldiging, dan zien we direct dat
 				<BMList>
 					<BMPart>f\left({x}\right) = {f},</BMPart>
@@ -80,8 +78,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { x, fDerivative, gDerivative, derivative, derivativeSimplified } = useSolution()
+		Solution: ({ x, fDerivative, gDerivative, derivative, derivativeSimplified }) => {
 			return <Par>We bepalen eerst los de afgeleiden van <M>f\left({x}\right)</M> en <M>g\left({x}\right).</M> Via de standaard regels vinden we
 				<BMList>
 					<BMPart>f'\left({x}\right) = {fDerivative},</BMPart>

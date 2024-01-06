@@ -44,8 +44,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { variables, eq1Solution } = useSolution()
+		Solution: ({ variables, eq1Solution }) => {
 			return <Par>We brengen alle termen zonder <M>{variables.x}</M> naar rechts en delen vervolgens door <M>{variables.a}.</M> De oplossing volgt als <BM>{variables.x} = {eq1Solution}.</BM></Par>
 		},
 	},
@@ -61,8 +60,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { variables, eq1Solution, eq2Substituted } = useSolution()
+		Solution: ({ variables, eq1Solution, eq2Substituted }) => {
 			return <Par>We vervangen elke <M>{variables.x}</M> voor <M>{eq1Solution},</M> waarbij we waar nodig gebruik maken van haakjes. Het resultaat is <BM>{eq2Substituted}.</BM></Par>
 		},
 	},
@@ -78,8 +76,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { variables, eq2SubstitutedStep1, eq2SubstitutedStep2, eq2SubstitutedStep3, eq2SubstitutedStep4, y } = useSolution()
+		Solution: ({ variables, eq2SubstitutedStep1, eq2SubstitutedStep2, eq2SubstitutedStep3, eq2SubstitutedStep4, y }) => {
 			return <Par>
 				We werken eerst de breuk weg: we vermenigvuldigen alle termen met <M>{variables.a}.</M> Hiermee krijgen we
 				<BM>{eq2SubstitutedStep1}.</BM>
@@ -106,8 +103,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { variables, eq1, eq2, eq1Solution, x, xRaw, y } = useSolution()
+		Solution: ({ variables, eq1, eq2, eq1Solution, x, xRaw, y }) => {
 			return <Par>
 				Eerder vonden we al dat
 				<BM>{variables.x} = {eq1Solution}.</BM>

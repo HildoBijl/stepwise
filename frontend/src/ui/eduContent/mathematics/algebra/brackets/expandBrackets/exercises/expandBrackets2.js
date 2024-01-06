@@ -38,8 +38,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { variables, term1, term2, expressionSubstituted, intermediate } = useSolution()
+		Solution: ({ variables, term1, term2, expressionSubstituted, intermediate }) => {
 			return <Par>Na het vervangen van <M>\left({term1}\right)</M> voor <M>{variables.z}</M> hebben we <BM>{expressionSubstituted}.</BM> Om de haakjes uit te werken vermenigvuldigen we <M>{variables.z}</M> stuk voor stuk met de termen <M>{term2.terms[0]}</M> en <M>{term2.terms[1]}.</M> Zo krijgen we <BM>{expressionSubstituted.simplify({ expandProductsOfSums: true })}.</BM> Dit kunnen we eventueel makkelijker schrijven als <BM>{intermediate}.</BM></Par>
 		},
 	},
@@ -55,8 +54,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { variables, expression, term1, term2, intermediateSubstituted, ans } = useSolution()
+		Solution: ({ variables, expression, term1, term2, intermediateSubstituted, ans }) => {
 			return <>
 				<Par>Na het terugzetten van <M>{variables.z}</M> voor <M>\left({term1}\right)</M> hebben we <BM>{intermediateSubstituted}.</BM> We werken hiervoor twee maal de haakjes uit. We vermenigvuldigen eerst <M>{term2.terms[0]}</M> stuk voor stuk met <M>{term1.terms[0]}</M> en <M>{term1.terms[1]},</M> en vervolgens vermenigvuldigen we <M>{term2.terms[1]}</M> ook stuk voor stuk met <M>{term1.terms[0]}</M> en <M>{term1.terms[1]}.</M> Op deze wijze krijgen we <BM>{intermediateSubstituted.simplify({ ...simplifyOptions.removeUseless, expandProductsOfSums: true })}.</BM> Dit kan eventueel nog iets netter geschreven worden als <BM>{ans}.</BM></Par>
 				<SubHead>Short-Cut</SubHead>

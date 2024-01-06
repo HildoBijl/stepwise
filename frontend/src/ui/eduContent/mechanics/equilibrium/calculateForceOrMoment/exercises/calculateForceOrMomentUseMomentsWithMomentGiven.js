@@ -61,8 +61,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { clockwise, MD, rAy, FAy } = useSolution()
+		Solution: ({ clockwise, MD, rAy, FAy }) => {
 
 			return <Par>
 				Als we momentenevenwicht toepassen om punt <M>E,</M> en met de klok mee als positieve richting gebruiken, dan vinden we
@@ -82,8 +81,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { angle, FAy, FA } = useSolution()
+		Solution: ({ angle, FAy, FA }) => {
 			return <Par>
 				De schuine kracht <M>F_A</M> volgt via de aanliggende zijde <M>F_(Ay)</M> als
 				<BM>F_A = \frac(F_(Ay))(\cos\left({angle}\right)) = \frac({FAy.float})(\cos\left({angle}\right)) = {FA}.</BM>

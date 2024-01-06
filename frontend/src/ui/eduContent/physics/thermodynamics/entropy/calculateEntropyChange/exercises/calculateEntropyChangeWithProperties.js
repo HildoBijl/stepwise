@@ -3,10 +3,10 @@ import React from 'react'
 import { Par, SubHead, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, Substep, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, Substep, useSolution } from 'ui/eduTools'
 
 export default function Exercise() {
-	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
+	return <StepExercise Problem={Problem} steps={steps} />
 }
 
 const Problem = ({ p1, T1, p2, n }) => <>
@@ -28,8 +28,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { n, p1, p2, T1, T2 } = useSolution()
+		Solution: ({ n, p1, p2, T1, T2 }) => {
 			return <Par>Poisson's wet zegt dat <BM>\frac(T_1^n)(p_1^(n-1)) = \frac(T_2^n)(p_2^(n-1)).</BM> Hierbij moet <M>T_1 = {T1}</M> uiteraard in Kelvin staan. Het bovenstaande oplossen voor <M>T_2</M> gaat via
 				<BMList>
 					<BMPart>T_2^n = T_1^n \frac(p_2^(n-1))(p_1^(n-1)) = T_1^n \left(\frac(p_2)(p_1)\right)^(n-1),</BMPart>
@@ -48,8 +47,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { Rs, cp } = useSolution()
+		Solution: ({ Rs, cp }) => {
 			return <>
 				<Par>Voor lucht geldt <M>R_s = {Rs}</M> en <M>c_p = {cp}.</M></Par>
 			</>
@@ -64,8 +62,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { n, p1, p2, T1, T2, ds, cv, cp, Rs, c } = useSolution()
+		Solution: ({ n, p1, p2, T1, T2, ds, cv, cp, Rs, c }) => {
 			return <>
 				<Par>De entropieverandering valt te berekenen vanuit de druk en de temperatuur volgens <BM>\Delta s = c_p \ln\left(\frac(T_2)(T_1)\right) - R_s \ln\left(\frac(p_2)(p_1)\right) = {cp.float} \cdot \ln\left(\frac{T2.float}{T1.float}\right) - {Rs.float} \cdot \ln\left(\frac{p2.float}{p1.float}\right) = {ds}.</BM> Dit is negatief, wat logisch is. De procescoëfficiënt zit tussen <M>n=k</M> (isentroop, geen warmte-uitwisseling) en <M>n=1</M> (isotherm: veel warmte lozen om de temperatuur niet te laten stijgen) in. Er wordt dus een beetje warmte geloosd, wat zorgt voor een beperkte entropieafname.</Par>
 				<SubHead>Alternatieve oplossing</SubHead>

@@ -39,8 +39,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { leftExpression, rightExpression, denominator } = useSolution()
+		Solution: ({ leftExpression, rightExpression, denominator }) => {
 			return <Par>De noemers <M>{leftExpression.denominator}</M> en <M>{rightExpression.denominator}</M> hebben geen gemeenschappelijke factoren. We kunnen ze dus vermenigvuldigen om hun (kleinst mogelijke) gemeenschappelijke veelvoud te vinden. Zo krijgen we <BM>{denominator}.</BM></Par>
 		},
 	},
@@ -57,8 +56,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { leftExpression, rightExpression, leftAns, rightAns } = useSolution()
+		Solution: ({ leftExpression, rightExpression, leftAns, rightAns }) => {
 			return <Par>Bij de eerste breuk vermenigvuldigen we boven en onder met <M>{rightExpression.denominator}.</M> Zo vinden we <BM>{leftExpression} = {leftAns}.</BM> Voor de tweede breuk vermenigvuldigen we boven en onder met <M>{leftExpression.denominator}.</M> Hiermee krijgen we <BM>{rightExpression} = {rightAns}.</BM></Par>
 		},
 	},
@@ -74,8 +72,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { plus, expression, leftAns, rightAns, ans } = useSolution()
+		Solution: ({ plus, expression, leftAns, rightAns, ans }) => {
 			return <Par>Als we alles bij elkaar voegen, dan vinden we <BM>{expression} = {leftAns} {plus ? '+' : '-'} {rightAns} = {ans}.</BM> Hiermee zijn de twee breuken samengevoegd als één breuk.</Par>
 		},
 	},

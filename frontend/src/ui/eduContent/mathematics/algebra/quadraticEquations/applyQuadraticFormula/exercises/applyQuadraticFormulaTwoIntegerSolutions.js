@@ -46,8 +46,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { x, a, b, c } = useSolution()
+		Solution: ({ x, a, b, c }) => {
 			return <Par>Voor de <M>{x}^2</M> staat <M>{a}</M> waardoor <M>a={a}.</M> Voor de <M>{x}</M> staat <M>{b}</M> waardoor <M>b={b}.</M> {c === 0 ? <>Verder is er geen constante in de vergelijking, waardoor <M>c=0.</M></> : <>Verder is de constante in de vergelijking <M>{c}</M> waardoor <M>c={c}.</M></>}</Par>
 		},
 	},
@@ -62,8 +61,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { expressions, D } = useSolution()
+		Solution: ({ expressions, D }) => {
 			return <Par>We berekenen <BM>D = b^2 - 4ac = {expressions.D} = {D}.</BM></Par>
 		},
 	},
@@ -82,8 +80,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { D, x } = useSolution()
+		Solution: ({ D, x }) => {
 			return <Par>De discriminant is <M>D={D}.</M> Omdat <M>D &gt; 0</M> geldt dat er twee oplossingen zijn voor <M>{x}.</M></Par>
 		},
 	},
@@ -100,8 +97,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { x, a, b, D, x1, x2, equationInFactors } = useSolution()
+		Solution: ({ x, a, b, D, x1, x2, equationInFactors }) => {
 			const sqrtD = Math.sqrt(D)
 			return <Par>
 				De twee oplossingen volgen via

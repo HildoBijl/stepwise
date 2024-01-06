@@ -3,10 +3,10 @@ import React from 'react'
 import { Par, List, M, BM, Table, InputTable } from 'ui/components'
 import { InputSpace, Hint } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, useSolution } from 'ui/eduTools'
 
 export default function Exercise() {
-	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
+	return <StepExercise Problem={Problem} steps={steps} />
 }
 
 const colHeads = [<span>Warmte <M>Q</M></span>, <span>Arbeid <M>W</M></span>]

@@ -3,10 +3,10 @@ import React from 'react'
 import { Par, SubHead, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, useSolution } from 'ui/eduTools'
 
 export default function Exercise() {
-	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
+	return <StepExercise Problem={Problem} steps={steps} />
 }
 
 const Problem = ({ p1, p2, T1, etai }) => <>
@@ -28,8 +28,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { k, p1, p2, T1, T2p } = useSolution()
+		Solution: ({ k, p1, p2, T1, T2p }) => {
 			return <Par>Poisson's wet zegt dat in dit geval <BM>\frac(T_1^n)(p_1^(n-1)) = \frac(T_(2')^n)(p_2^(n-1)).</BM> Het oplossen van de theoretische temperatuur <M>T_(2')</M> gaat via
 				<BMList>
 					<BMPart>T_(2')^n = T_1^n \frac(p_2^(n-1))(p_1^(n-1)) = T_1^n \left(\frac(p_2)(p_1)\right)^(n-1),</BMPart>
@@ -47,8 +46,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { cp, T1, T2p, wti } = useSolution()
+		Solution: ({ cp, T1, T2p, wti }) => {
 			return <>
 				<Par>Bij de compressor wordt geen warmte toegevoerd, dus <M>q = 0.</M> De technische arbeid volgt vanuit de eerste hoofdwet als
 					<BM>w_t = q - \Delta h = -\Delta h = -c_p \left(T_2 - T_1\right).</BM>
@@ -67,8 +65,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { wt, wti, etai } = useSolution()
+		Solution: ({ wt, wti, etai }) => {
 			return <Par>Bij een compressor is de technische arbeid in het theoretische isentrope geval altijd kleiner dan de technische arbeid in werkelijkheid. Het isentrope rendement van een compressor is dus gedefinieerd als
 				<BM>\eta_i = \frac(w_(t_i))(w_t).</BM>
 				Dit oplossen voor <M>w_t</M> geeft
@@ -85,8 +82,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { cp, T1, T2, T2p, wt, etai } = useSolution()
+		Solution: ({ cp, T1, T2, T2p, wt, etai }) => {
 			return <>
 				<Par>De technische arbeid die de compressor in werkelijkheid op de lucht uitoefent voldoet nog steeds aan
 					<BM>w_t = c_p \left(T_2 - T_1\right).</BM>

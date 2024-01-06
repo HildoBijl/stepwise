@@ -3,10 +3,10 @@ import React from 'react'
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, useSolution } from 'ui/eduTools'
 
 export default function Exercise() {
-	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
+	return <StepExercise Problem={Problem} steps={steps} />
 }
 
 const Problem = ({ refrigerant, TCold, TWarm, dTCold, dTWarm, dTSuperheating, dTSubcooling, etai, P }) => {
@@ -35,8 +35,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { TCold, TWarm, dTCold, dTWarm, TEvap, TCond, pEvap, pCond, dTSuperheating, dTSubcooling, T1, T3, h1, h2p, h3, h4, s1 } = useSolution()
+		Solution: ({ TCold, TWarm, dTCold, dTWarm, TEvap, TCond, pEvap, pCond, dTSuperheating, dTSubcooling, T1, T3, h1, h2p, h3, h4, s1 }) => {
 			return <>
 				<Par>We vinden eerst de temperaturen in de verdamper en de condensor als
 					<BMList>
@@ -58,8 +57,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { h1, h2p, h2, wt, wtp, etai } = useSolution()
+		Solution: ({ h1, h2p, h2, wt, wtp, etai }) => {
 			return <>
 				<Par>De specifieke technische arbeid in het isentrope geval is <BM>w_(t') = h_(2') - h_1 = {h2p.float} - {h1.float} = {wtp}.</BM> In werkelijkheid is dit getal groter: vanwege frictie moet de compressor meer arbeid verrichten. De werkelijke arbeid volgt dus als <BM>w_t = \frac(w_(t'))(\eta_i) = \frac{wtp.float}{etai.float} = {wt}.</BM> De specifieke enthalpie in punt <M>2</M> volgt als <BM>h_2 = h_1 + w_t = {h1.float} + {wt.float} = {h2}.</BM> Eventueel had dit ook direct gevonden kunnen worden via <BM>h_2 = h_1 + \frac(h_(2') - h_1)(\eta_i) = {h1.float} + \frac({h2p.float} - {h1.float}){etai.float} = {h2}.</BM></Par>
 			</>
@@ -76,8 +74,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { h1, h2, h3, h4, wt, qin, qout, epsilon, COP, mdot, P } = useSolution()
+		Solution: ({ h1, h2, h3, h4, wt, qin, qout, epsilon, COP, mdot, P }) => {
 			return <Par>De toegevoerde en afgevoerde warmte zijn
 				<BMList>
 					<BMPart>q_(toe) = h_1 - h_4 = {h1.float} - {h4.float} = {qin},</BMPart>

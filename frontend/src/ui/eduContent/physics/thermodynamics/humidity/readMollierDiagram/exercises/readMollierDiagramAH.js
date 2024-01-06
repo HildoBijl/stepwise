@@ -7,12 +7,12 @@ import { Par, M, BM } from 'ui/components'
 import { Line, Circle } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { SimpleExercise, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { SimpleExercise } from 'ui/eduTools'
 
 import { MollierDiagram } from 'ui/eduContent/physics/thermodynamics/humidity'
 
 export default function Exercise() {
-	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getAllInputFieldsFeedback} />
+	return <SimpleExercise Problem={Problem} Solution={Solution} />
 }
 
 function Problem({ T, RH }) {

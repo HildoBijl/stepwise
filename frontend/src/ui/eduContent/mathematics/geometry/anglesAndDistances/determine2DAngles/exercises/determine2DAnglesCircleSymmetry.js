@@ -35,8 +35,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { variables, alpha } = useSolution()
+		Solution: ({ variables, alpha }) => {
 			return <Par>Een raaklijn op een cirkel staat altijd loodrecht ten opzichte van de straal. Deze hoek moet dus <M>{variables.alpha} = {alpha}^\circ</M> zijn.</Par>
 		},
 	},
@@ -53,8 +52,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { variables, a, beta } = useSolution()
+		Solution: ({ variables, a, beta }) => {
 			return <Par>De som van de hoeken van een driehoek is <M>180^\circ.</M> Dit geeft de vergelijking <M>{a}^\circ + 90^\circ + {variables.beta} = 180^\circ.</M> Dit oplossen voor <M>{variables.beta}</M> resulteert in <BM>{variables.beta} = 180^\circ - {a}^\circ - 90^\circ = {beta}^\circ.</BM></Par>
 		},
 	},
@@ -71,8 +69,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { variables, gamma } = useSolution()
+		Solution: ({ variables, gamma }) => {
 			return <Par>Dit kunnen we bepalen vanuit symmetrie. Vanaf het middelpunt van de cirkel gezien zijn de twee raaklijnen identiek (slechts gespiegeld) en dus is de hoek tussen de betreffende lijnen ook hetzelfde. Er geldt dus dat <BM>{variables.gamma} = {variables.beta} = {gamma}^\circ.</BM></Par>
 		},
 	},
@@ -89,8 +86,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { variables, beta, gamma, delta } = useSolution()
+		Solution: ({ variables, beta, gamma, delta }) => {
 			return <Par>De som van de hoeken van een driehoek is <M>180^\circ.</M> Voor de grote driehoek met hoek <M>{variables.delta}</M> geeft dit de vergelijking <BM>{variables.delta} + 90^\circ + {beta}^\circ + {gamma}^\circ = 180^\circ.</BM> Dit oplossen voor <M>{variables.delta}</M> resulteert in <BM>{variables.delta} = 180^\circ - 90^\circ - {beta}^\circ - {gamma}^\circ = {delta}^\circ.</BM></Par>
 		},
 	},

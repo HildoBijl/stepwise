@@ -39,8 +39,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { variables, expression, gcdValue, factor } = useSolution()
+		Solution: ({ variables, expression, gcdValue, factor }) => {
 			return <>
 				<Par>Als eerste kijken we naar de getallen. De grootste gemeenschappelijke factor van de getallen <M>{Math.abs(expression.terms[0].terms[0].number)}</M>, <M>{Math.abs(expression.terms[1].terms[0].number)}</M> en <M>{Math.abs(expression.terms[2].terms[0].number)}</M> is <M>{gcdValue}.</M> Deze factor moeten we dus zeker buiten haakjes gaan halen.</Par>
 				<Par>Vervolgens moeten we ook naar de variabelen kijken. We zien dat alleen <M>{variables.x}</M> in alle termen voorkomt. Dit is dus ook een gemeenschappelijke factor die we buiten haakjes kunnen halen. Samengevat is de grootste gemeenschappelijke factor <M>{factor}.</M></Par>
@@ -59,8 +58,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { setup } = useSolution()
+		Solution: ({ setup }) => {
 			return <Par>We schrijven letterlijk op, <BM>{setup}.</BM></Par>
 		},
 	},
@@ -76,8 +74,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { variables, gcdValue, fractionSplit, fractionSimplified } = useSolution()
+		Solution: ({ variables, gcdValue, fractionSplit, fractionSimplified }) => {
 			return <Par>Als eerste splitsen we de breuk op. Zo krijgen we <BM>{fractionSplit}.</BM> Vervolgens strepen we bij alle breuken boven en onder de factoren <M>{gcdValue}</M> en <M>{variables.x}</M> weg. We blijven over met <BM>{fractionSimplified}.</BM></Par>
 		},
 	},
@@ -93,8 +90,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { ans } = useSolution()
+		Solution: ({ ans }) => {
 			return <>
 				<Par>Als we letterlijk het resultaat van de vorige stap op de puntjes invullen, dan krijgen we <BM>{ans}.</BM></Par>
 			</>
@@ -112,8 +108,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { expression, ans } = useSolution()
+		Solution: ({ expression, ans }) => {
 			return <>
 				<Par>Als we de haakjes uitwerken, dan krijgen we <BM>{ans} = {expression}.</BM> Dit is hetzelfde als waar we mee begonnen, en dus klopt het wat we gedaan hebben.</Par>
 			</>
