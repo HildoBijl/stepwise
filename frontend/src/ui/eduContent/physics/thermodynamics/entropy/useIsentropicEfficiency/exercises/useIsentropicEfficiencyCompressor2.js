@@ -3,14 +3,14 @@ import React from 'react'
 import { Par, SubHead, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution } from 'ui/eduTools'
+import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} />
 }
 
-const Problem = ({ p1, p2, T1, etai }) => <>
-	<Par>Een compressor in een gasturbine comprimeert lucht van <M>{p1}</M> en <M>{T1}</M> tot <M>{p2}.</M> Deze compressie verloopt niet isentroop: het isentropisch rendement is <M>{etai}.</M> Bereken de temperatuur van de lucht aan de uitgang van de compressor.</Par>
+const Problem = ({ p1, p2, T1, etaio }) => <>
+	<Par>Een compressor in een gasturbine comprimeert lucht van <M>{p1}</M> en <M>{T1}</M> tot <M>{p2}.</M> Deze compressie verloopt niet isentroop: het isentropisch rendement is <M>{etaio}.</M> Bereken de temperatuur van de lucht aan de uitgang van de compressor.</Par>
 	<InputSpace>
 		<Par>
 			<FloatUnitInput id="T2" prelabel={<M>T_2 =</M>} label="Temperatuur na compressor" size="s" />

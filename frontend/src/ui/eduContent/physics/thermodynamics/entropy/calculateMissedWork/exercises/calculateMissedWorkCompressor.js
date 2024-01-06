@@ -3,14 +3,14 @@ import React from 'react'
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution } from 'ui/eduTools'
+import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} />
 }
 
-const Problem = ({ p1, T1, p2, n }) => <>
-	<Par>In de compressor van een gasturbine wordt continu lucht gecomprimeerd van <M>{p1}</M> tot <M>{p2}.</M> De temperatuur van de lucht bij de ingang is gelijk aan de omgevingstemperatuur van <M>{T1}.</M> De compressor werkt niet isentroop: er stroomt een beetje warmte weg naar de omgeving. Ga uit van een procescoëfficiënt van <M>n={n}.</M> Bereken de theoretisch gemiste specifieke arbeid als gevolg van deze niet-isentropische compressie.</Par>
+const Problem = ({ p1o, T1o, p2o, n }) => <>
+	<Par>In de compressor van een gasturbine wordt continu lucht gecomprimeerd van <M>{p1o}</M> tot <M>{p2o}.</M> De temperatuur van de lucht bij de ingang is gelijk aan de omgevingstemperatuur van <M>{T1o}.</M> De compressor werkt niet isentroop: er stroomt een beetje warmte weg naar de omgeving. Ga uit van een procescoëfficiënt van <M>n={n}.</M> Bereken de theoretisch gemiste specifieke arbeid als gevolg van deze niet-isentropische compressie.</Par>
 	<InputSpace>
 		<Par>
 			<FloatUnitInput id="wm" prelabel={<M>w_m=</M>} label="Gemiste specifieke arbeid" size="s" />

@@ -3,14 +3,14 @@ import React from 'react'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution } from 'ui/eduTools'
+import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} />
 }
 
-const Problem = ({ h1, h2p, etai }) => <>
-	<Par>Een turbine in een stoominstallatie gebruikt stoom om arbeid te genereren. Dit gebeurt niet isentroop. Bij een isentroop proces zou de specifieke enthalpie van de stoom dalen van <M>{h1}</M> naar <M>{h2p}.</M> Nu is er echter een isentropisch rendement van <M>{etai}</M> van toepassing. Bereken in dit geval de specifieke enthalpie die de stoom werkelijk heeft bij het verlaten van de turbine.</Par>
+const Problem = ({ h1, h2p, etaio }) => <>
+	<Par>Een turbine in een stoominstallatie gebruikt stoom om arbeid te genereren. Dit gebeurt niet isentroop. Bij een isentroop proces zou de specifieke enthalpie van de stoom dalen van <M>{h1}</M> naar <M>{h2p}.</M> Nu is er echter een isentropisch rendement van <M>{etaio}</M> van toepassing. Bereken in dit geval de specifieke enthalpie die de stoom werkelijk heeft bij het verlaten van de turbine.</Par>
 	<InputSpace>
 		<Par>
 			<FloatUnitInput id="h2" prelabel={<M>h_2 =</M>} label="Specifieke enthalpie na turbine" size="s" />

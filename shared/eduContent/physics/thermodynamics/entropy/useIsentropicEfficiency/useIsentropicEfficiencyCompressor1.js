@@ -3,10 +3,9 @@ const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = requi
 
 const { getCycle } = require('../../gasTurbines')
 
-const data = {
+const metaData = {
 	skill: 'useIsentropicEfficiency',
 	steps: ['poissonsLaw', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation'],
-
 	comparison: {
 		default: {
 			relativeMargin: 0.01,
@@ -14,7 +13,7 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	let { p1, T1, p2, etai } = getCycle()
@@ -32,25 +31,22 @@ function getSolution({ p1, p2, T1, T2 }) {
 	const wt = cp.multiply(T2.subtract(T1)).setUnit('J/kg')
 	const wti = cp.multiply(T2p.subtract(T1)).setUnit('J/kg')
 	const etai = wti.divide(wt).setUnit('')
-	return { k, cp, p1, p2, T1, T2, T2p, wt, wti, etai }
+	return { k, cp, T2p, wt, wti, etai }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison('T2p', input, solution, data.comparison)
+			return performComparison(exerciseData, 'T2p')
 		case 2:
-			return performComparison(['wt', 'wti'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['wt', 'wti'])
 		default:
-			return performComparison('etai', input, solution, data.comparison)
+			return performComparison(exerciseData, 'etai')
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

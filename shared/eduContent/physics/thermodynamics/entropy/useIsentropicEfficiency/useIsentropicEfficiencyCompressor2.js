@@ -3,10 +3,9 @@ const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = requi
 
 const { getCycle } = require('../../gasTurbines')
 
-const data = {
+const metaData = {
 	skill: 'useIsentropicEfficiency',
 	steps: ['poissonsLaw', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation', 'calculateSpecificHeatAndMechanicalWork'],
-
 	comparison: {
 		default: {
 			relativeMargin: 0.01,
@@ -14,44 +13,41 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
-	let { p1, T1, p2, etai } = getCycle()
+	let { p1, T1, p2, etai: etaio } = getCycle()
 	p1 = p1.setDecimals(0).roundToPrecision().setMinimumSignificantDigits(2)
 	p2 = p2.setDecimals(0).roundToPrecision().setMinimumSignificantDigits(2)
 	T1 = T1.setDecimals(0).roundToPrecision()
-	etai = etai.setUnit('%').setDecimals(0).roundToPrecision()
-	return { p1, p2, T1, etai }
+	etaio = etaio.setUnit('%').setDecimals(0).roundToPrecision()
+	return { p1, p2, T1, etaio }
 }
 
-function getSolution({ p1, p2, T1, etai }) {
-	etai = etai.simplify()
+function getSolution({ p1, p2, T1, etaio }) {
+	const etai = etaio.simplify()
 	const T2p = T1.multiply(p2.divide(p1).float.toPower(1 - 1 / k.number)).setDecimals(0)
 	const wti = cp.multiply(T2p.subtract(T1)).setUnit('J/kg')
 	const wt = wti.divide(etai).setUnit('J/kg')
 	const T2 = T1.add(wt.divide(cp)).setUnit('K').setDecimals(0)
-	return { k, cp, p1, p2, T1, T2, T2p, wt, wti, etai }
+	return { k, cp, etai, T2p, wti, wt, T2 }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison('T2p', input, solution, data.comparison)
+			return performComparison(exerciseData, 'T2p')
 		case 2:
-			return performComparison('wti', input, solution, data.comparison)
+			return performComparison(exerciseData, 'wti')
 		case 3:
-			return performComparison('wt', input, solution, data.comparison)
+			return performComparison(exerciseData, 'wt')
 		default:
-			return performComparison('T2', input, solution, data.comparison)
+			return performComparison(exerciseData, 'T2')
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

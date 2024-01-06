@@ -3,10 +3,9 @@ const { FloatUnit, getRandomFloatUnit } = require('../../../../../inputTypes')
 const { air: { k, Rs, cv } } = require('../../../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'calculateMissedWork',
 	steps: ['calculateEntropyChange', 'calculateEntropyChange', null, 'solveLinearEquation'],
-
 	comparison: {
 		default: {
 			relativeMargin: 0.01,
@@ -15,7 +14,7 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	// State before compression.
@@ -63,27 +62,24 @@ function getSolution({ m, TAtm, T1, T2, T2p }) {
 	const dS2p2 = m.multiply(cv).multiply(Math.log(T2.number / T2p.number)).setUnit('J/K')
 	const dS = dS12p.add(dS2p2)
 	const Wm = TAtm.multiply(dS).setUnit('J')
-	return { m, cv, TAtm, T1, T2, T2p, dS12p, dS2p2, dS, Wm }
+	return { cv, dS12p, dS2p2, dS, Wm }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison('dS12p', input, solution, data.comparison)
+			return performComparison(exerciseData, 'dS12p')
 		case 2:
-			return performComparison('dS2p2', input, solution, data.comparison)
+			return performComparison(exerciseData, 'dS2p2')
 		case 3:
-			return performComparison('dS', input, solution, data.comparison)
+			return performComparison(exerciseData, 'dS')
 		default:
-			return performComparison('Wm', input, solution, data.comparison)
+			return performComparison(exerciseData, 'Wm')
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

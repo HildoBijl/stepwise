@@ -6,14 +6,14 @@ import { Dutch } from 'ui/lang/gases'
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution } from 'ui/eduTools'
+import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} />
 }
 
-const Problem = ({ type, medium, T1, T2, m }) => <>
-	<Par>We voeren een {type === 0 ? 'isobaar' : type === 1 ? 'isochoor' : 'isentroop'} proces uit met <M>{m}</M> {Dutch[medium]}. De temperatuur daalt bij dit proces van <M>{T1}</M> naar <M>{T2}.</M> Wat is de entropieverandering tijdens dit proces?</Par>
+const Problem = ({ type, medium, T1o, T2o, mo }) => <>
+	<Par>We voeren een {type === 0 ? 'isobaar' : type === 1 ? 'isochoor' : 'isentroop'} proces uit met <M>{mo}</M> {Dutch[medium]}. De temperatuur daalt bij dit proces van <M>{T1o}</M> naar <M>{T2o}.</M> Wat is de entropieverandering tijdens dit proces?</Par>
 	<InputSpace>
 		<Par>
 			<FloatUnitInput id="dS" prelabel={<M>\Delta S=</M>} label="Entropieverandering" size="s" />

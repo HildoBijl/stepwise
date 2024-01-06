@@ -5,14 +5,14 @@ import { FloatUnit } from 'step-wise/inputTypes'
 import { Par, SubHead, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution } from 'ui/eduTools'
+import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} />
 }
 
-const Problem = ({ Q, Tw, Tc }) => <>
-	<Par>In een fabriekshal staan twee grote drukvaten. Het warme vat heeft een temperatuur van <M>{Tw}</M> en het koude vat zit op <M>{Tc}.</M> Vanwege dit temperatuursverschil stroomt er <M>{Q}</M> aan warmte van het warme vat naar het koude. Deze warmtestroom wordt nu niet gebruikt om arbeid te genereren. Bereken hoeveel arbeid hiermee in theorie gemist wordt. Je mag ervan uitgaan dat de vaten groot genoeg zijn dat de temperatuur ervan niet verandert.</Par>
+const Problem = ({ Qo, Two, Tco }) => <>
+	<Par>In een fabriekshal staan twee grote drukvaten. Het warme vat heeft een temperatuur van <M>{Two}</M> en het koude vat zit op <M>{Tco}.</M> Vanwege dit temperatuursverschil stroomt er <M>{Qo}</M> aan warmte van het warme vat naar het koude. Deze warmtestroom wordt nu niet gebruikt om arbeid te genereren. Bereken hoeveel arbeid hiermee in theorie gemist wordt. Je mag ervan uitgaan dat de vaten groot genoeg zijn dat de temperatuur ervan niet verandert.</Par>
 	<InputSpace>
 		<Par>
 			<FloatUnitInput id="Wm" prelabel={<M>W_m=</M>} label="Gemiste arbeid" size="s" />

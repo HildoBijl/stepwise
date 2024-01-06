@@ -3,14 +3,14 @@ import React from 'react'
 import { Par, SubHead, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, Substep, useSolution } from 'ui/eduTools'
+import { StepExercise, Substep } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} />
 }
 
-const Problem = ({ p1, T1, p2, n }) => <>
-	<Par>In de compressor van een gasturbine wordt continu lucht gecomprimeerd van <M>{p1}</M> tot <M>{p2}.</M> De temperatuur van de lucht bij de ingang is <M>{T1}.</M> De compressor werkt niet isentroop: ga uit van een procescoëfficiënt van <M>n={n}.</M> Bereken de specifieke entropieverandering die de lucht in de compressor ondergaat.</Par>
+const Problem = ({ p1o, T1o, p2o, n }) => <>
+	<Par>In de compressor van een gasturbine wordt continu lucht gecomprimeerd van <M>{p1o}</M> tot <M>{p2o}.</M> De temperatuur van de lucht bij de ingang is <M>{T1o}.</M> De compressor werkt niet isentroop: ga uit van een procescoëfficiënt van <M>n={n}.</M> Bereken de specifieke entropieverandering die de lucht in de compressor ondergaat.</Par>
 	<InputSpace>
 		<Par>
 			<FloatUnitInput id="ds" prelabel={<M>\Delta s=</M>} label="Specifieke entropieverandering" size="s" />

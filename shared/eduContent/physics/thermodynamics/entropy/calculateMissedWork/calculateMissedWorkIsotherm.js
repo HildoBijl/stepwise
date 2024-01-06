@@ -2,10 +2,9 @@ const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = requi
 
 const { generateState, getSolution: getSolutionPrevious } = require('../calculateEntropyChange/calculateEntropyChangeIsotherm')
 
-const data = {
+const metaData = {
 	skill: 'calculateMissedWork',
 	steps: ['calculateEntropyChange', 'solveLinearEquation'],
-
 	comparison: {
 		default: {
 			relativeMargin: 0.01,
@@ -14,7 +13,7 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function getSolution(state) {
 	const solution = getSolutionPrevious(state)
@@ -22,20 +21,17 @@ function getSolution(state) {
 	return { ...solution, Wm }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison('dS', input, solution, data.comparison)
+			return performComparison(exerciseData, 'dS')
 		default:
-			return performComparison('Wm', input, solution, data.comparison)
+			return performComparison(exerciseData, 'Wm')
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

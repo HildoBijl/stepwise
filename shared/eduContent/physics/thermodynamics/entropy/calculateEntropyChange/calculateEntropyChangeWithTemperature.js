@@ -3,11 +3,10 @@ const { Unit, FloatUnit, getRandomFloatUnit } = require('../../../../../inputTyp
 const gasProperties = require('../../../../../data/gasProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'calculateEntropyChange',
 	steps: ['calculateWithTemperature', 'specificHeats', 'solveLinearEquation'],
 	weight: 2,
-
 	comparison: {
 		default: {
 			relativeMargin: 0.015,
@@ -30,58 +29,55 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const type = getRandomInteger(0, 2) // 0 isobaric, 1 isochoric, 2 isentropic
 	const medium = selectRandomly(['air', 'carbonMonoxide', 'hydrogen', 'methane', 'nitrogen', 'oxygen'])
-	const T1 = getRandomFloatUnit({
+	const T1o = getRandomFloatUnit({
 		min: 200,
 		max: 400,
 		decimals: -1,
 		unit: 'dC',
 	}).setDecimals(0)
-	const T2 = getRandomFloatUnit({
+	const T2o = getRandomFloatUnit({
 		min: 5,
 		max: 30,
 		decimals: 0,
 		unit: 'dC',
 	})
-	const m = getRandomFloatUnit({
+	const mo = getRandomFloatUnit({
 		min: 100,
 		max: 800,
 		decimals: -1,
 		unit: 'g',
 	}).setDecimals(0)
 
-	return { type, medium, T1, T2, m }
+	return { type, medium, T1o, T2o, mo }
 }
 
-function getSolution({ type, medium, T1, T2, m }) {
-	T1 = T1.simplify()
-	T2 = T2.simplify()
-	m = m.simplify()
+function getSolution({ type, medium, T1o, T2o, mo }) {
+	const T1 = T1o.simplify()
+	const T2 = T2o.simplify()
+	const m = mo.simplify()
 	const c = type === 0 ? gasProperties[medium].cp : type === 1 ? gasProperties[medium].cv : new FloatUnit('0 J/kg*K')
 	const dS = m.multiply(c).multiply(Math.log(T2.number / T1.number)).setUnit('J/K')
-	return { type, medium, T1, T2, m, c, dS }
+	return { T1, T2, m, c, dS }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison(['T1', 'T2'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['T1', 'T2'])
 		case 2:
-			return performComparison('c', input, solution, data.comparison)
+			return performComparison(exerciseData, 'c')
 		default:
-			return performComparison('dS', input, solution, data.comparison)
+			return performComparison(exerciseData, 'dS')
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

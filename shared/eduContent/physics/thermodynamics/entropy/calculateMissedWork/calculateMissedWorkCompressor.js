@@ -2,10 +2,9 @@ const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = requi
 
 const { generateState, getSolution: getSolutionPrevious } = require('../calculateEntropyChange/calculateEntropyChangeWithProperties')
 
-const data = {
+const metaData = {
 	skill: 'calculateMissedWork',
 	steps: ['poissonsLaw', 'calculateEntropyChange', 'calculateSpecificHeatAndMechanicalWork', 'calculateEntropyChange', null, 'solveLinearEquation'],
-
 	comparison: {
 		default: {
 			relativeMargin: 0.01,
@@ -14,7 +13,7 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function getSolution(state) {
 	const solution = getSolutionPrevious(state)
@@ -27,28 +26,25 @@ function getSolution(state) {
 	return { ...solution, q, dsIn, dsOut, ds, wm }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison('T2', input, solution, data.comparison)
+			return performComparison(exerciseData, 'T2')
 		case 2:
-			return performComparison('dsIn', input, solution, data.comparison)
+			return performComparison(exerciseData, 'dsIn')
 		case 3:
-			return performComparison('q', input, solution, data.comparison)
+			return performComparison(exerciseData, 'q')
 		case 4:
-			return performComparison('dsOut', input, solution, data.comparison)
+			return performComparison(exerciseData, 'dsOut')
 		case 5:
-			return performComparison('ds', input, solution, data.comparison)
+			return performComparison(exerciseData, 'ds')
 		default:
-			return performComparison('wm', input, solution, data.comparison)
+			return performComparison(exerciseData, 'wm')
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }
