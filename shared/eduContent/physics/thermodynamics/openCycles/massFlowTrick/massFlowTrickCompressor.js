@@ -1,7 +1,7 @@
 const { getRandomFloatUnit } = require('../../../../../inputTypes')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'massFlowTrick',
 	comparison: {
 		default: {
@@ -30,21 +30,18 @@ function generateState() {
 }
 
 function getSolution({ mdot, P }) {
-	mdot = mdot.simplify()
-	P = P.simplify()
+	const mdots = mdot.simplify()
+	const Ps = P.simplify()
 	const wt = P.divide(mdot).setUnit('J/kg')
-	return { mdot, P, wt }
+	return { mdots, Ps, wt }
 }
 
-function checkInput(state, input) {
-	const solution = getSolution(state)
-	return performComparison('wt', input, solution, data.comparison)
+function checkInput(exerciseData) {
+	return performComparison(exerciseData, 'wt')
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getSimpleExerciseProcessor(exercise),
 }

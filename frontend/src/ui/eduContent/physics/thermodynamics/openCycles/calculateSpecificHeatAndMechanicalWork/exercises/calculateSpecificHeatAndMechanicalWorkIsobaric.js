@@ -3,15 +3,15 @@ import React from 'react'
 import { Par, M, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
+import { StepExercise, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = ({ T1, T2 }) => {
+const Problem = ({ T1o, T2o }) => {
 	return <>
-		<Par>In de verbrandingskamer van een vliegtuigmotor wordt continu lucht verwarmd van <M>{T1}</M> tot <M>{T2}.</M> Dit gebeurt bij gelijkblijvende druk. Bereken hoeveel specifieke warmte <M>q</M> er in de lucht wordt gestopt en hoeveel specifieke technische arbeid <M>w_t</M> de lucht verricht tijdens dit proces.</Par>
+		<Par>In de verbrandingskamer van een vliegtuigmotor wordt continu lucht verwarmd van <M>{T1o}</M> tot <M>{T2o}.</M> Dit gebeurt bij gelijkblijvende druk. Bereken hoeveel specifieke warmte <M>q</M> er in de lucht wordt gestopt en hoeveel specifieke technische arbeid <M>w_t</M> de lucht verricht tijdens dit proces.</Par>
 		<InputSpace>
 			<Par>
 				<FloatUnitInput id="q" prelabel={<M>q =</M>} label="Specifieke warmte" size="s" />
@@ -62,7 +62,7 @@ const steps = [
 		},
 	},
 	{
-		Problem: ({ gas }) => {
+		Problem: () => {
 			return <>
 				<Par>Zoek voor lucht de waarde van <M>c_p</M> op.</Par>
 				<InputSpace>
@@ -72,9 +72,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { cp } = useSolution()
-
+		Solution: ({ cp }) => {
 			return <Par>Voor lucht geldt <M>c_p = {cp}.</M></Par>
 		},
 	},
@@ -102,10 +100,8 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { cp, T1, T2, q, wt } = useSolution()
+		Solution: ({ cp, T1, T2, q, wt }) => {
 			const qUnit = q.setUnit('kJ/kg')
-
 			return <Par>We hoeven alleen maar de formules in te vullen. Zo vinden we
 				<BMList>
 					<BMPart>q = c_p\left(T_2-T_1\right) = {cp.float} \cdot \left({T2.float} - {T1.float}\right) = {q},</BMPart>
@@ -118,31 +114,33 @@ const steps = [
 
 const getFeedback = (exerciseData) => {
 	return {
-		...getInputFieldFeedback(['T1', 'T2', 'cp', 'q', 'wt'], exerciseData),
-		...getMCFeedback('process', exerciseData, {
-			step: 1,
-			text: [
-				'Ja, dit is inderdaad een isobaar proces, want de druk blijft constant.',
-				'Nee, dan zou het volume constant moeten blijven.',
-				'Nee, dan zou de temperatuur constant moeten blijven.',
-				'Nee, dan zou er geen warmte toegevoerd mogen worden.',
-				'Nee, dat is bij een algemeen proces waarbij niets constant blijft.',
-			],
-		}),
-		...getMCFeedback('eq', exerciseData, {
-			step: 2,
-			text: [
-				'Net niet! Dit zijn wel de formules voor een isobaar proces, maar we weten de druk en het volume niet. Dus zijn deze niet handig om te gebruiken.',
-				'Ja! Dit zijn de formules voor een isobaar proces, en ze gebruiken de temperatuur, die in de vraag gegeven is.',
-				'Nee, dit zijn de formules voor een isochoor proces. Daarnaast weten we de druk en het volume helemaal niet.',
-				'Nee, dit zijn de formules voor een isochoor proces.',
-				'Nee, dit zijn de formules voor een isotherm proces. Daarnaast weten we de druk en het volume helemaal niet.',
-				'Nee, dit zijn de formules voor een isotherm proces.',
-				'Nee, dit zijn de formules voor een isentroop proces. Daarnaast weten we de druk en het volume helemaal niet.',
-				'Nee, dit zijn de formules voor een isentroop proces.',
-				'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze opgave. Daarnaast weten we de druk en het volume helemaal niet.',
-				'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze opgave.',
-			],
+		...getFieldInputFeedback(exerciseData, ['T1', 'T2', 'cp', 'q', 'wt']),
+		...getMCFeedback(exerciseData, {
+			process: {
+				step: 1,
+				text: [
+					'Ja, dit is inderdaad een isobaar proces, want de druk blijft constant.',
+					'Nee, dan zou het volume constant moeten blijven.',
+					'Nee, dan zou de temperatuur constant moeten blijven.',
+					'Nee, dan zou er geen warmte toegevoerd mogen worden.',
+					'Nee, dat is bij een algemeen proces waarbij niets constant blijft.',
+				],
+			},
+			eq: {
+				step: 2,
+				text: [
+					'Net niet! Dit zijn wel de formules voor een isobaar proces, maar we weten de druk en het volume niet. Dus zijn deze niet handig om te gebruiken.',
+					'Ja! Dit zijn de formules voor een isobaar proces, en ze gebruiken de temperatuur, die in de vraag gegeven is.',
+					'Nee, dit zijn de formules voor een isochoor proces. Daarnaast weten we de druk en het volume helemaal niet.',
+					'Nee, dit zijn de formules voor een isochoor proces.',
+					'Nee, dit zijn de formules voor een isotherm proces. Daarnaast weten we de druk en het volume helemaal niet.',
+					'Nee, dit zijn de formules voor een isotherm proces.',
+					'Nee, dit zijn de formules voor een isentroop proces. Daarnaast weten we de druk en het volume helemaal niet.',
+					'Nee, dit zijn de formules voor een isentroop proces.',
+					'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze opgave. Daarnaast weten we de druk en het volume helemaal niet.',
+					'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze opgave.',
+				],
+			}
 		})
 	}
 }

@@ -3,7 +3,7 @@ import React from 'react'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { SimpleExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { SimpleExercise, getAllInputFieldsFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getAllInputFieldsFeedback} />
@@ -18,7 +18,6 @@ function Problem({ rho }) {
 	</>
 }
 
-function Solution() {
-	const { rho, v } = useSolution()
+function Solution({ rho, v }) {
 	return <Par>De dichtheid is het aantal kilogram lucht per kubieke meter. Het specifiek volume is het aantal kubieke meters lucht per kilogram. Dat is precies het omgekeerde! We vinden het specifiek volume dus via <BM>v = \frac(1)(\rho) = \frac(1){rho.float} = {v}.</BM></Par>
 }

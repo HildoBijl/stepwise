@@ -3,7 +3,7 @@ import React from 'react'
 import { Par, M, BM, BMList, BMPart, InputTable } from 'ui/components'
 import { useInput, InputSpace, AntiInputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getAllInputFieldsFeedbackExcluding } from 'ui/eduTools'
+import { StepExercise, getAllInputFieldsFeedbackExcluding } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedbackExcluding('choice')} />
@@ -21,8 +21,8 @@ const fields = [[
 	<FloatUnitInput id="T2" label={<M>T_2</M>} size="l" />,
 ]]
 
-const Problem = ({ p1, p2, T1, n }) => <>
-	<Par>In een centrifugaalcompressor wordt lucht continue gecomprimeerd. Bij de ingang van de compressor heeft de lucht een druk van <M>{p1}</M> en een temperatuur van <M>{T1}.</M> De compressor levert lucht op een druk van <M>{p2}.</M> De compressie gebeurt niet isentropisch: ga uit van een procescoëfficiënt van <M>n = {n}.</M></Par>
+const Problem = ({ p1o, p2o, T1o, n }) => <>
+	<Par>In een centrifugaalcompressor wordt lucht continue gecomprimeerd. Bij de ingang van de compressor heeft de lucht een druk van <M>{p1o}</M> en een temperatuur van <M>{T1o}.</M> De compressor levert lucht op een druk van <M>{p2o}.</M> De compressie gebeurt niet isentropisch: ga uit van een procescoëfficiënt van <M>n = {n}.</M></Par>
 	<Par>Bereken het specifieke volume van de geleverde druk. Bereken ook andere relevante parameters.</Par>
 	<InputSpace>
 		<InputTable {...{ colHeads, rowHeads, fields }} />
@@ -37,15 +37,13 @@ const steps = [
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[0]]} fields={[fields[0]]} />
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { Rs, p1, v1, T1 } = useSolution()
+		Solution: ({ Rs, p1, v1, T1 }) => {
 			return <Par>De gaswet voor open systemen zegt <BM>p_1v_1 = R_sT_1.</BM> De enige onbekende is <M>v_1.</M> Deze vinden we via <BM>v_1 = \frac(R_sT_1)(p_1) = \frac({Rs.float} \cdot {T1.float})({p1.float}) = {v1}.</BM> Dit komt overeen met een dichtheid van <M>{v1.invert()}.</M> Dat is op zich een logisch getal: het is iets hoger dan de normale dichtheid van lucht, omdat de druk ook iets hoger is.</Par>
 		},
 	},
 	{
 		Problem: () => {
-			let choice = useInput('choice')
-
+			const choice = useInput('choice')
 			return <>
 				<InputSpace>
 					<Par>We kunnen nu via de wetten van Poisson ofwel <M>v_2</M> ofwel <M>T_2</M> berekenen. Welke wil jij berekenen? (Beide opties zijn prima.)</Par>
@@ -71,10 +69,8 @@ const steps = [
 				</AntiInputSpace>
 			</>
 		},
-		Solution: () => {
-			const { n, p1, p2, v1, v2, T1, T2 } = useSolution()
+		Solution: ({ n, p1, p2, v1, v2, T1, T2 }) => {
 			const choice = useInput('choice')
-
 			if (choice === undefined || choice === 0)
 				return <Par>We gaan via Poisson's wet het specifieke volume berekenen. We weten al de druk in de begin- en eindsituatie, waardoor we de wet moeten pakken met zowel <M>p</M> als <M>v.</M> Poisson's wet zegt dat <BM>p_1v_1^n = p_2v_2^n.</BM> Hierbij is de procescoëfficiënt gegeven als <M>n = {n}.</M> De oplossing voor <M>v_2</M> volgt via
 					<BMList>
@@ -98,8 +94,7 @@ const steps = [
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[1]]} fields={[fields[1]]} />
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { Rs, p2, v2, T2 } = useSolution()
+		Solution: ({ Rs, p2, v2, T2 }) => {
 			const choice = useInput('choice')
 
 			if (choice === undefined || choice === 0)

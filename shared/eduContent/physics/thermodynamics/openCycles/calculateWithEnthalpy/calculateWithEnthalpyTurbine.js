@@ -1,10 +1,9 @@
 const { FloatUnit, getRandomFloatUnit } = require('../../../../../inputTypes')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'calculateWithEnthalpy',
 	steps: ['massFlowTrick', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation'],
-
 	comparison: {
 		default: {
 			relativeMargin: 0.01,
@@ -12,7 +11,7 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const mdot = getRandomFloatUnit({
@@ -32,29 +31,26 @@ function generateState() {
 }
 
 function getSolution({ P, mdot }) {
-	P = P.simplify()
+	const Ps = P.simplify()
 	const wt = P.divide(mdot).setUnit('kJ/kg')
 	const q = new FloatUnit('0 kJ/kg')
 	const dh = q.subtract(wt)
-	return { P, mdot, q, wt, dh }
+	return { Ps, q, wt, dh }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison('wt', input, solution, data.comparison)
+			return performComparison(exerciseData, 'wt')
 		case 2:
-			return performComparison('q', input, solution, data.comparison)
+			return performComparison(exerciseData, 'q')
 		default:
-			return performComparison('dh', input, solution, data.comparison)
+			return performComparison(exerciseData, 'dh')
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

@@ -3,7 +3,7 @@ import React from 'react'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getAllInputFieldsFeedback } from 'ui/eduTools'
+import { StepExercise, getAllInputFieldsFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedback} />
@@ -28,9 +28,8 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { P, mdot, wt } = useSolution()
-			return <Par>Het vermogen is <M>P = {P}.</M> Om van vermogen (arbeid per seconde) naar specifieke arbeid (arbeid per kilogram) te gaan gebruiken we <M>P = \dot(m) w_t.</M> Dit oplossen voor <M>w_t</M> geeft <BM>w_t = \frac(P)(\dot(m)) = \frac{P.float}{mdot.float} = {wt}.</BM> Dit is de specifieke arbeid die de stoom in de turbine levert.</Par>
+		Solution: ({ Ps, mdot, wt }) => {
+			return <Par>Het vermogen is <M>P = {Ps}.</M> Om van vermogen (arbeid per seconde) naar specifieke arbeid (arbeid per kilogram) te gaan gebruiken we <M>P = \dot(m) w_t.</M> Dit oplossen voor <M>w_t</M> geeft <BM>w_t = \frac(P)(\dot(m)) = \frac{Ps.float}{mdot.float} = {wt}.</BM> Dit is de specifieke arbeid die de stoom in de turbine levert.</Par>
 		},
 	},
 	{
@@ -42,8 +41,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { q } = useSolution()
+		Solution: ({ q }) => {
 			return <>
 				<Par>Bij een isentroop proces wordt per definitie geen warmte toegevoerd. Oftewel, <M>q = {q}.</M></Par>
 			</>
@@ -58,8 +56,7 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { q, wt, dh } = useSolution()
+		Solution: ({ q, wt, dh }) => {
 			return <>
 				<Par>De eerste hoofdwet voor open systemen zegt direct dat <BM>\Delta h = q - w_t = {q.float} - {wt.float} = {dh}.</BM> Het minteken is belangrijk: die geeft aan dat de enthalpie afneemt. Dit is logisch: de stoom verricht arbeid en verliest daarmee dus energie. Dit resulteert in een afname van de enthalpie.</Par>
 			</>

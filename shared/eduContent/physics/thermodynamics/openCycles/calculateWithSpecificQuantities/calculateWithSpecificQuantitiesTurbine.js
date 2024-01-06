@@ -1,7 +1,7 @@
 const { getRandomFloatUnit } = require('../../../../../inputTypes')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'calculateWithSpecificQuantities',
 	comparison: {
 		default: {
@@ -29,21 +29,18 @@ function generateState() {
 }
 
 function getSolution({ wt, m }) {
-	wt = wt.simplify()
-	m = m.simplify()
-	const Wt = wt.multiply(m).setUnit('J')
-	return { wt, m, Wt }
+	const wts = wt.simplify()
+	const ms = m.simplify()
+	const Wt = wts.multiply(ms).setUnit('J')
+	return { wts, ms, Wt }
 }
 
-function checkInput(state, input) {
-	const solution = getSolution(state)
-	return performComparison('Wt', input, solution, data.comparison)
+function checkInput(exerciseData) {
+	return performComparison(exerciseData, 'Wt')
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getSimpleExerciseProcessor(exercise),
 }

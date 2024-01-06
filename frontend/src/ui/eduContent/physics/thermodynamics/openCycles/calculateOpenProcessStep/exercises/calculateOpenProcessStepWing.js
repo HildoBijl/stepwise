@@ -3,7 +3,7 @@ import React from 'react'
 import { Par, M, BM, BMList, BMPart, InputTable } from 'ui/components'
 import { useInput, InputSpace, AntiInputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
+import { StepExercise, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -21,8 +21,8 @@ const fields = [[
 	<FloatUnitInput id="T2" label={<M>T_2</M>} size="l" />,
 ]]
 
-const Problem = ({ p1, p2, rho }) => <>
-	<Par>We bekijken een vliegtuig dat op grote hoogte vliegt. Op deze vlieghoogte is de luchtdruk <M>{p1}</M> en de luchtdichtheid <M>{rho}.</M> Door de vorm van de vleugel van het vliegtuig, en de stroming van de lucht daarover, is de luchtdruk bovenop de vleugel lager. Een pitot-buis meet dat de luchtdruk op een bepaald punt bovenop de vleugel <M>{p2}</M> is.</Par>
+const Problem = ({ p1o, p2o, rho }) => <>
+	<Par>We bekijken een vliegtuig dat op grote hoogte vliegt. Op deze vlieghoogte is de luchtdruk <M>{p1o}</M> en de luchtdichtheid <M>{rho}.</M> Door de vorm van de vleugel van het vliegtuig, en de stroming van de lucht daarover, is de luchtdruk bovenop de vleugel lager. Een pitot-buis meet dat de luchtdruk op een bepaald punt bovenop de vleugel <M>{p2o}</M> is.</Par>
 	<Par>Bereken de temperatuur van de lucht op dit punt bovenop de vleugel. Vind hierbij ook de andere relevante parameters. Je mag er hierbij vanuit gaan dat de vleugel geen warmte overdraagt aan de lucht en dat er geen frictie (viscositeit) in de luchtstroom is.</Par>
 	<InputSpace>
 		<InputTable {...{ colHeads, rowHeads, fields }} />
@@ -37,8 +37,7 @@ const steps = [
 				<FloatUnitInput id="v1" prelabel={<M>v_1 =</M>} label="Specifiek volume" size="s" />
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { rho, v1 } = useSolution()
+		Solution: ({ rho, v1 }) => {
 			return <Par>Het specifiek volume volgt vanuit de dichtheid als <BM>v_1 = \frac(1)(\rho) = \frac(1){rho.float} = {v1}.</BM></Par>
 		},
 	},
@@ -49,8 +48,7 @@ const steps = [
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[0]]} fields={[fields[0]]} />
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { Rs, p1, v1, T1 } = useSolution()
+		Solution: ({ Rs, p1, v1, T1 }) => {
 			return <Par>De gaswet voor open systemen zegt <BM>p_1v_1 = R_sT_1.</BM> De enige onbekende is <M>T_1.</M> Deze vinden we via <BM>T_1 = \frac(p_1v_1)(R_s) = \frac({p1.float} \cdot {v1.float})({Rs.float}) = {T1}.</BM> Dit is een erg koude temperatuur, maar dat is te verwachten als je op grote hoogte vliegt.</Par>
 		},
 	},
@@ -70,8 +68,7 @@ const steps = [
 	},
 	{
 		Problem: () => {
-			let choice = useInput('choice')
-
+			const choice = useInput('choice')
 			return <>
 				<InputSpace>
 					<Par>We kunnen nu via de wetten van Poisson ofwel <M>v_2</M> ofwel <M>T_2</M> berekenen. Welke wil jij berekenen? (Beide opties zijn prima.)</Par>
@@ -97,8 +94,7 @@ const steps = [
 				</AntiInputSpace>
 			</>
 		},
-		Solution: () => {
-			const { k, p1, p2, v1, v2, T1, T2 } = useSolution()
+		Solution: ({ k, p1, p2, v1, v2, T1, T2 }) => {
 			const choice = useInput('choice')
 
 			if (choice === undefined || choice === 0)
@@ -124,8 +120,7 @@ const steps = [
 				<InputTable colHeads={colHeads} rowHeads={[rowHeads[1]]} fields={[fields[1]]} />
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { Rs, p2, v2, T2 } = useSolution()
+		Solution: ({ Rs, p2, v2, T2 }) => {
 			const choice = useInput('choice')
 
 			if (choice === undefined || choice === 0)
@@ -138,17 +133,17 @@ const steps = [
 
 const getFeedback = (exerciseData) => {
 	return {
-		...getInputFieldFeedback(['p1', 'v1', 'T1', 'p2', 'v2', 'T2'], exerciseData),
-		...getMCFeedback('process', exerciseData, {
-			step: 3,
-			correct: 3,
-			text: [
-				'Nee, de druk bovenop de vleugel is juist lager. Dat is gegeven.',
-				'Nee, omdat de lucht uitgerekt wordt (de druk daalt) kan je verwachten dat het specifieke volume toeneemt.',
-				'Nee, omdat de lucht uitgerekt wordt (de druk daalt) kan je verwachten dat de temperatuur ook daalt bij deze expansie.',
-				'Ja! Er is immers geen warmte-uitwisseling.',
-			],
+		...getFieldInputFeedback(exerciseData, ['p1', 'v1', 'T1', 'p2', 'v2', 'T2']),
+		...getMCFeedback(exerciseData, {
+			process: {
+				step: 3,
+				text: [
+					'Nee, de druk bovenop de vleugel is juist lager. Dat is gegeven.',
+					'Nee, omdat de lucht uitgerekt wordt (de druk daalt) kan je verwachten dat het specifieke volume toeneemt.',
+					'Nee, omdat de lucht uitgerekt wordt (de druk daalt) kan je verwachten dat de temperatuur ook daalt bij deze expansie.',
+					'Ja! Er is immers geen warmte-uitwisseling.',
+				],
+			}
 		}),
 	}
 }
-

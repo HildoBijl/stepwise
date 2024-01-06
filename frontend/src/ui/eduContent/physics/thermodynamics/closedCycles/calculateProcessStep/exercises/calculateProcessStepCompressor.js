@@ -73,8 +73,7 @@ const steps = [
 	},
 	{
 		Problem: () => {
-			let choice = useInput('choice')
-
+			const choice = useInput('choice')
 			return <>
 				<InputSpace>
 					<Par>We kunnen nu via de wetten van Poisson ofwel <M>p_2</M> ofwel <M>T_2</M> berekenen. Welke wil jij berekenen? (Beide opties zijn prima.)</Par>
@@ -102,7 +101,6 @@ const steps = [
 		},
 		Solution: ({ gas, V1, V2, k, p1, p2, T1s, T2 }) => {
 			const choice = useInput('choice')
-
 			if (choice === undefined || choice === 0)
 				return <Par>We gaan via Poisson's wet de druk berekenen. We weten al het volume in de begin- en eindsituatie, waardoor we de wet moeten pakken met zowel <M>p</M> als <M>V.</M> Zo vinden we dat <BM>p_1V_1^n = p_2V_2^n.</BM> De waarde van <M>n</M> is hier gelijk aan de <M>k</M>-waarde van {Dutch[gas]}, en die kunnen we opzoeken als <BM>n = k = {k}.</BM> Als we de bovenstaande wet van Poisson oplossen voor <M>p_2</M> vinden we <BM>p_2 = p_1 \frac(V_1^n)(V_2^n) = p_1 \left(\frac(V_1)(V_2)\right)^n = {p1.float} \cdot \left(\frac{V1.float}{V2.float}\right)^({k.float}) = {p2}.</BM> Dit is een sterk hogere druk dan voorheen, wat logisch is: we zijn het gas immers aan het comprimeren.</Par>
 

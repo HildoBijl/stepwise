@@ -3,15 +3,15 @@ import React from 'react'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
+import { StepExercise, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = ({ p1, v1, p2, v2 }) => {
+const Problem = ({ p1o, v1o, p2o, v2o }) => {
 	return <>
-		<Par>We bekijken een grote gasturbine. De instromende lucht heeft een specifiek volume van <M>{v1}</M> op <M>{p1}.</M> De uitgaande lucht heeft een specifiek volume van <M>{v2}</M> op <M>{p2}.</M> De turbine is goed geïsoleerd en heeft een verwaarloosbare interne frictie. Bereken hoeveel specifieke warmte <M>q</M> er in het gas is gestopt en hoeveel specifieke technische arbeid <M>w_t</M> het gas heeft verricht tijdens dit proces.</Par>
+		<Par>We bekijken een grote gasturbine. De instromende lucht heeft een specifiek volume van <M>{v1o}</M> op <M>{p1o}.</M> De uitgaande lucht heeft een specifiek volume van <M>{v2o}</M> op <M>{p2o}.</M> De turbine is goed geïsoleerd en heeft een verwaarloosbare interne frictie. Bereken hoeveel specifieke warmte <M>q</M> er in het gas is gestopt en hoeveel specifieke technische arbeid <M>w_t</M> het gas heeft verricht tijdens dit proces.</Par>
 		<InputSpace>
 			<Par>
 				<FloatUnitInput id="q" prelabel={<M>q =</M>} label="Specifieke warmte" size="s" />
@@ -72,9 +72,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { k } = useSolution()
-
+		Solution: ({ k }) => {
 			return <Par>Voor lucht geldt <M>k = {k}.</M></Par>
 		},
 	},
@@ -91,7 +89,7 @@ const steps = [
 			</InputSpace>
 		</>,
 		Solution: ({ p1, v1, p2, v2 }) => {
-			return <Par>De specifieke volumes staan al in standaard eenheden: <M>v_1 = {v1}</M> en <M>v_2 = {v2}.</M> De druk moet nog in Pascal gezet worden. Zo vinden we <M>p_1 = {p1.setUnit('Pa')}</M> en <M>p_2 = {p2.setUnit('Pa')}.</M></Par>
+			return <Par>De specifieke volumes staan al in standaard eenheden: <M>v_1 = {v1}</M> en <M>v_2 = {v2}.</M> De druk moet nog in Pascal gezet worden. Zo vinden we <M>p_1 = {p1}</M> en <M>p_2 = {p2}.</M></Par>
 		},
 	},
 	{
@@ -99,15 +97,13 @@ const steps = [
 			<Par>Bereken met de gegeven formules en bekende waarden de specifieke warmte <M>q</M> en de specifieke technische arbeid <M>w_t.</M></Par>
 			<InputSpace>
 				<Par>
-				<FloatUnitInput id="q" prelabel={<M>q =</M>} label="Specifieke warmte" size="s" />
-				<FloatUnitInput id="wt" prelabel={<M>w_t =</M>} label="Specifieke technische arbeid" size="s" />
+					<FloatUnitInput id="q" prelabel={<M>q =</M>} label="Specifieke warmte" size="s" />
+					<FloatUnitInput id="wt" prelabel={<M>w_t =</M>} label="Specifieke technische arbeid" size="s" />
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: () => {
-			const { k, p1, p2, v1, v2, q, wt } = useSolution()
+		Solution: ({ k, p1, p2, v1, v2, q, wt }) => {
 			const wtUnit = wt.setUnit('kJ/kg').setDecimals(0)
-
 			return <Par>We hoeven alleen maar de formules in te vullen. Er geldt <M>q = {q}</M> omdat dat per definitie zo is bij een isentropisch proces. Verder vinden we <BM>w_t = -\frac(k)(k-1)\left(p_2v_2 - p_1v_1\right) = -\frac({k})({k}-1)\left({p2.float} \cdot {v2.float} - {p1.float} \cdot {v1.float}\right) = {wt}.</BM> Het is de gewoonte om specifieke technische arbeid te schrijven als <M>w_t = {wtUnit}</M> omdat de grootte vaak enkele honderden <M>{wtUnit.unit}</M> is. Dat is hier ook zo, wat ons vertelt dat het antwoord qua orde van grootte in ieder geval correct is.</Par>
 		},
 	},
@@ -115,31 +111,33 @@ const steps = [
 
 const getFeedback = (exerciseData) => {
 	return {
-		...getInputFieldFeedback(['k', 'v1', 'v2', 'p1', 'p2', 'q', 'wt'], exerciseData),
-		...getMCFeedback('process', exerciseData, {
-			step: 1,
-			text: [
-				'Nee, dan zou de druk constant moeten blijven.',
-				'Nee, dan zou het volume constant moeten blijven.',
-				'Nee, dan zou de temperatuur constant moeten blijven, maar bij expansie koelt lucht over het algemeen af.',
-				'Ja! Er is immers geen warmtetoevoer (want er is goede isolatie) en ook geen interne warmte-ontwikkeling.',
-				'Nee, dat is bij een algemeen proces waarbij niets constant blijft.',
-			],
-		}),
-		...getMCFeedback('eq', exerciseData, {
-			step: 2,
-			text: [
-				'Nee, dit zijn de formules voor een isobaar proces.',
-				'Nee, dit zijn de formules voor een isobaar proces. Daarnaast weten we de temperatuur helemaal niet.',
-				'Nee, dit zijn de formules voor een isochoor proces.',
-				'Nee, dit zijn de formules voor een isochoor proces. Daarnaast weten we de temperatuur helemaal niet.',
-				'Nee, dit zijn de formules voor een isotherm proces.',
-				'Nee, dit zijn de formules voor een isotherm proces. Daarnaast weten we de temperatuur helemaal niet.',
-				'Ja! Dit zijn de formules voor een isentroop proces die we kunnen gebruiken.',
-				'Net niet! Dit zijn wel de formules voor een isentroop proces. We weten alleen de temperatuur niet, waardoor deze formules niet handig zijn.',
-				'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze vraag.',
-				'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze vraag. Daarnaast weten we de temperatuur helemaal niet.',
-			],
+		...getFieldInputFeedback(exerciseData, ['k', 'v1', 'v2', 'p1', 'p2', 'q', 'wt']),
+		...getMCFeedback(exerciseData, {
+			process: {
+				step: 1,
+				text: [
+					'Nee, dan zou de druk constant moeten blijven.',
+					'Nee, dan zou het volume constant moeten blijven.',
+					'Nee, dan zou de temperatuur constant moeten blijven, maar bij expansie koelt lucht over het algemeen af.',
+					'Ja! Er is immers geen warmtetoevoer (want er is goede isolatie) en ook geen interne warmte-ontwikkeling.',
+					'Nee, dat is bij een algemeen proces waarbij niets constant blijft.',
+				],
+			},
+			eq: {
+				step: 2,
+				text: [
+					'Nee, dit zijn de formules voor een isobaar proces.',
+					'Nee, dit zijn de formules voor een isobaar proces. Daarnaast weten we de temperatuur helemaal niet.',
+					'Nee, dit zijn de formules voor een isochoor proces.',
+					'Nee, dit zijn de formules voor een isochoor proces. Daarnaast weten we de temperatuur helemaal niet.',
+					'Nee, dit zijn de formules voor een isotherm proces.',
+					'Nee, dit zijn de formules voor een isotherm proces. Daarnaast weten we de temperatuur helemaal niet.',
+					'Ja! Dit zijn de formules voor een isentroop proces die we kunnen gebruiken.',
+					'Net niet! Dit zijn wel de formules voor een isentroop proces. We weten alleen de temperatuur niet, waardoor deze formules niet handig zijn.',
+					'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze vraag.',
+					'Nee, dit zijn de formules voor een polytroop proces, wat een te algemeen antwoord is voor deze vraag. Daarnaast weten we de temperatuur helemaal niet.',
+				],
+			}
 		})
 	}
 }

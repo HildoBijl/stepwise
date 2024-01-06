@@ -313,7 +313,8 @@ class Float {
 		const result = { result: true } // Assume equality.
 		const n1 = this.number
 		const n2 = x.number
-		const absoluteMargin = (options.absoluteMargin === 'auto' ? Math.pow(10, -this.decimals) / 2 : options.absoluteMargin * options.accuracyFactor)
+		const minAbsoluteMargin = Math.pow(10, -this.decimals) / 2 // The accuracy that is obtained through the significant digits.
+		const absoluteMargin = (options.absoluteMargin === 'auto' ? minAbsoluteMargin : Math.max(options.absoluteMargin * options.accuracyFactor, minAbsoluteMargin))
 		const relativeMargin = options.relativeMargin * options.accuracyFactor
 		if (n1 >= n2 - absoluteMargin && n1 <= n2 + absoluteMargin) {
 			result.absoluteMarginOK = true

@@ -3,10 +3,9 @@ const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = requi
 
 const { generateState } = require('../calculateWithSpecificQuantities/calculateWithSpecificQuantitiesBoiler')
 
-const data = {
+const metaData = {
 	skill: 'calculateWithEnthalpy',
 	steps: ['calculateWithSpecificQuantities', 'calculateSpecificHeatAndMechanicalWork', 'solveLinearEquation'],
-
 	comparison: {
 		default: {
 			relativeMargin: 0.01,
@@ -14,32 +13,31 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function getSolution({ Q, m }) {
-	Q = Q.simplify()
-	const q = Q.divide(m).setUnit('kJ/kg')
+	const Qs = Q.simplify()
+	const q = Qs.divide(m).setUnit('kJ/kg')
+	const c = new FloatUnit('4186 J/kg * dC')
+	const dT = q.divide(c).simplify()
 	const wt = new FloatUnit('0 kJ/kg')
 	const dh = q.subtract(wt)
-	return { Q, m, q, wt, dh }
+	return { Qs, q, c, dT, wt, dh }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison('q', input, solution, data.comparison)
+			return performComparison(exerciseData, 'q')
 		case 2:
-			return performComparison('wt', input, solution, data.comparison)
+			return performComparison(exerciseData, 'wt')
 		default:
-			return performComparison('dh', input, solution, data.comparison)
+			return performComparison(exerciseData, 'dh')
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }
