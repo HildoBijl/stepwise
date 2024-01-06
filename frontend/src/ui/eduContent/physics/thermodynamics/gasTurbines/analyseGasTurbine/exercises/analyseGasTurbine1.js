@@ -3,16 +3,16 @@ import React from 'react'
 import { Par, M, BM, BMList, BMPart, InputTable } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, Substep, useSolution } from 'ui/eduTools'
+import { StepExercise, Substep } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} />
 }
 
-const Problem = ({ p1, p2, T1, T3, etai, P }) => {
+const Problem = ({ p1, p2, T1, T3, etaio, Po }) => {
 	return <>
 		<Par>In een gasturbine doorloopt lucht een kringproces van Brayton. Aan het begin is de druk <M>{p1}</M> en de temperatuur <M>{T1}.</M> Een compressor comprimeert de lucht naar <M>{p2}.</M> Hierna wordt de lucht isobaar verwarmd tot <M>{T3}.</M> Na een turbine, waarin arbeid door de lucht geleverd wordt, wordt de lucht weer isobaar gekoeld tot het beginpunt. (In de praktijk wordt de lucht uitgestoten en wordt nieuwe lucht aangezogen.)</Par>
-		<Par>Voor deze gasturbine geldt verder dat de compressor en de turbine <em>niet</em> isentroop werken: ze hebben elk een isentropisch rendement van <M>{etai}.</M> Bereken het thermodynamisch rendement van deze gasturbine. Bereken ook de massastroom lucht <M>\dot(m)</M>, gegeven dat het geleverde (netto) asvermogen <M>{P}</M> is.</Par>
+		<Par>Voor deze gasturbine geldt verder dat de compressor en de turbine <em>niet</em> isentroop werken: ze hebben elk een isentropisch rendement van <M>{etaio}.</M> Bereken het thermodynamisch rendement van deze gasturbine. Bereken ook de massastroom lucht <M>\dot(m)</M>, gegeven dat het geleverde (netto) asvermogen <M>{Po}</M> is.</Par>
 		<InputSpace>
 			<Par>
 				<FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={FloatUnitInput.validation.any} />
@@ -129,12 +129,12 @@ const steps = [
 				</Par>
 			</InputSpace>
 		</>,
-		Solution: ({ P, wn, qin, eta, mdot }) => {
+		Solution: ({ Po, P, wn, qin, eta, mdot }) => {
 			return <Par>Er wordt alleen bij stap 2-3 warmte toegevoerd. De toegevoerde warmte is dus <M>q_(toe) = q_(2-3) = {qin}.</M> De netto arbeid is al bekend als <M>w_(netto) = {wn}.</M> Hiermee volgt het rendement als
 				<BM>\eta = \frac(\rm nuttig)(\rm invoer) = \frac(w_(netto))(q_(toe)) = \frac{wn.float}{qin.float} = {eta}.</BM>
 				Dit komt neer op <M>{eta.setUnit('%')}</M> wat redelijk normaal is voor een gasturbine. We vinden de massastroom via de vergelijking <M>P = \dot(m) w_(netto).</M> Het resultaat is
 				<BM>\dot(m) = \frac(P)(w_(netto)) = \frac{P.float}{wn.float} = {mdot}.</BM>
-				Dit is een best grote hoeveelheid, maar een gasturbine van <M>{state.P}</M> is dan ook een flinke installatie.</Par>
+				Dit is een best grote hoeveelheid, maar een gasturbine van <M>{Po}</M> is dan ook een flinke installatie.</Par>
 		},
 	},
 ]

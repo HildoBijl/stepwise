@@ -4,10 +4,9 @@ const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = requi
 
 const { getCycle } = require('..')
 
-const data = {
+const metaData = {
 	skill: 'analyseGasTurbine',
 	steps: ['calculateOpenCycle', 'useIsentropicEfficiency', 'useIsentropicEfficiency', 'createOpenCycleEnergyOverview', ['calculateWithEfficiency', 'massFlowTrick']],
-
 	comparison: {
 		default: {
 			relativeMargin: 0.01,
@@ -21,7 +20,7 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	let { p1, T1, p2, T2, T3, mdot } = getCycle()
@@ -67,33 +66,30 @@ function getSolution({ p1, T1, p2, T2, T3, mdot }) {
 	return { k, cp, p1, T1, p2, T2, T2p, p3, T3, p4, T4, T4p, etai, q12, wt12, q23, wt23, q34, wt34, q41, wt41, wn, qin, eta, mdot, P }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step, substep) {
 	switch (step) {
 		case 1:
-			return performComparison(['p1', 'T1', 'p2', 'T2p', 'p3', 'T3', 'p4', 'T4p'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['p1', 'T1', 'p2', 'T2p', 'p3', 'T3', 'p4', 'T4p'])
 		case 2:
-			return performComparison(['etai'], input, solution, data.comparison)
+			return performComparison(exerciseData, 'etai')
 		case 3:
-			return performComparison(['T4'], input, solution, data.comparison)
+			return performComparison(exerciseData, 'T4')
 		case 4:
-			return performComparison(['q12', 'wt12', 'q23', 'wt23', 'q34', 'wt34', 'q41', 'wt41'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['q12', 'wt12', 'q23', 'wt23', 'q34', 'wt34', 'q41', 'wt41'])
 		case 5:
 			switch (substep) {
 				case 1:
-					return performComparison(['eta'], input, solution, data.comparison)
+					return performComparison(exerciseData, 'eta')
 				case 2:
-					return performComparison(['P'], input, solution, data.comparison)
+					return performComparison(exerciseData, 'P')
 			}
 		default:
-			return performComparison(['eta', 'P'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['eta', 'P'])
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

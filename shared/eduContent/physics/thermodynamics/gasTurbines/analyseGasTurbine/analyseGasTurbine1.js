@@ -4,10 +4,9 @@ const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = requi
 
 const { getCycle } = require('..')
 
-const data = {
+const metaData = {
 	skill: 'analyseGasTurbine',
 	steps: ['calculateOpenCycle', 'useIsentropicEfficiency', 'createOpenCycleEnergyOverview', ['calculateWithEfficiency', 'massFlowTrick']],
-
 	comparison: {
 		default: {
 			relativeMargin: 0.01,
@@ -21,22 +20,22 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
-	let { p1, T1, p2, T3, etai, P } = getCycle()
+	let { p1, T1, p2, T3, etai: etaio, P: Po } = getCycle()
 	p1 = p1.setDecimals(0).roundToPrecision().setMinimumSignificantDigits(2)
 	p2 = p2.setDecimals(0).roundToPrecision().setMinimumSignificantDigits(2)
 	T1 = T1.setDecimals(0).roundToPrecision()
 	T3 = T3.setDecimals(-1).roundToPrecision().setDecimals(0)
-	etai = etai.setUnit('%').setDecimals(0).roundToPrecision()
-	P = P.setSignificantDigits(2).roundToPrecision()
-	return { p1, p2, T1, T3, etai, P }
+	etaio = etaio.setUnit('%').setDecimals(0).roundToPrecision()
+	Po = Po.setSignificantDigits(2).roundToPrecision()
+	return { p1, p2, T1, T3, etaio, Po }
 }
 
-function getSolution({ p1, T1, p2, T3, etai, P }) {
-	etai = etai.simplify()
-	P = P.simplify()
+function getSolution({ p1, T1, p2, T3, etaio, Po }) {
+	etai = etaio.simplify()
+	P = Po.simplify()
 
 	// Pressure.
 	const p3 = p2
@@ -68,31 +67,28 @@ function getSolution({ p1, T1, p2, T3, etai, P }) {
 	return { k, cp, p1, T1, p2, T2, T2p, p3, T3, p4, T4, T4p, etai, q12, wt12, q23, wt23, q34, wt34, q41, wt41, wn, qin, eta, mdot, P }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step, substep) {
 	switch (step) {
 		case 1:
-			return performComparison(['p1', 'T1', 'p2', 'T2p', 'p3', 'T3', 'p4', 'T4p'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['p1', 'T1', 'p2', 'T2p', 'p3', 'T3', 'p4', 'T4p'])
 		case 2:
-			return performComparison(['T2', 'T4'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['T2', 'T4'])
 		case 3:
-			return performComparison(['q12', 'wt12', 'q23', 'wt23', 'q34', 'wt34', 'q41', 'wt41'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['q12', 'wt12', 'q23', 'wt23', 'q34', 'wt34', 'q41', 'wt41'])
 		case 4:
 			switch (substep) {
 				case 1:
-					return performComparison(['eta'], input, solution, data.comparison)
+					return performComparison(exerciseData, 'eta')
 				case 2:
-					return performComparison(['mdot'], input, solution, data.comparison)
+					return performComparison(exerciseData, 'mdot')
 			}
 		default:
-			return performComparison(['eta', 'mdot'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['eta', 'mdot'])
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

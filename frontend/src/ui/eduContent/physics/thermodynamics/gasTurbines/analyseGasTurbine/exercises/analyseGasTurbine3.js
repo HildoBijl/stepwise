@@ -3,16 +3,16 @@ import React from 'react'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, Substep, useSolution } from 'ui/eduTools'
+import { StepExercise, Substep } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} />
 }
 
-const Problem = ({ p1, T1, p2, q23, etai, mdot }) => {
+const Problem = ({ p1, T1, p2, q23, etaio, mdot }) => {
 	return <>
 		<Par>In een gasturbine doorloopt lucht een kringproces van Brayton. Aan het begin is de druk <M>{p1}</M> en de temperatuur <M>{T1}.</M> Een compressor comprimeert de lucht naar <M>{p2}.</M> Hierna wordt de lucht isobaar verwarmd, waarbij er <M>{q23}</M> aan warmte wordt toegevoerd. Na een turbine, waarin arbeid door de lucht geleverd wordt, wordt de lucht weer isobaar gekoeld tot het beginpunt. (In de praktijk wordt de lucht uitgestoten en wordt nieuwe lucht aangezogen.)</Par>
-		<Par>Voor deze gasturbine geldt verder dat de compressor en de turbine <em>niet</em> isentroop werken: ze hebben elk een isentropisch rendement van <M>{etai}.</M> Bereken het thermodynamisch rendement van de gasturbine. Bereken ook het geleverde (netto) asvermogen, gegeven dat de massastroom lucht <M>{mdot}</M> is.</Par>
+		<Par>Voor deze gasturbine geldt verder dat de compressor en de turbine <em>niet</em> isentroop werken: ze hebben elk een isentropisch rendement van <M>{etaio}.</M> Bereken het thermodynamisch rendement van de gasturbine. Bereken ook het geleverde (netto) asvermogen, gegeven dat de massastroom lucht <M>{mdot}</M> is.</Par>
 		<InputSpace>
 			<Par>
 				<FloatUnitInput id="eta" prelabel={<M>\eta =</M>} label="Rendement" size="s" validate={FloatUnitInput.validation.any} />
