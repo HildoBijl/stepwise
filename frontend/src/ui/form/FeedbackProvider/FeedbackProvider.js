@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useTheme } from '@material-ui/core/styles'
 
-import { isBasicObject, applyMapping, filterProperties } from 'step-wise/util'
+import { isBasicObject, applyMapping, filterProperties, deepEquals } from 'step-wise/util'
 import { toFO } from 'step-wise/inputTypes'
 
 import { useLatest, useStableCallback } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
@@ -26,15 +26,17 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 	// Set up a state to store the feedback and corresponding input to which that feedback was given.
 	const [feedback, setFeedback] = useState({ result: {}, input: {} })
 	const feedbackRef = useLatest(feedback)
+	const progressRef = useRef()
 
 	// Set up an updateFeedback handler.
 	const { isAllInputEqual } = useFormData()
 	const exerciseDataRef = useLatest(exerciseData)
-	const updateFeedback = useStableCallback((input = {}) => {
-		// Compare the new input with the previous input. When they are equal, do not evaluate.
+	const updateFeedback = useStableCallback((input = {}, progress = {}) => {
+		// Compare the new input with the previous input. When they are equal, and the progress is equal too, do not evaluate.
 		const { result: previousResult, input: previousInput } = feedbackRef.current
-		if (isAllInputEqual(input, previousInput))
+		if (isAllInputEqual(input, previousInput) && deepEquals(progress, progressRef.currect))
 			return
+		progressRef.current = progress
 
 		// If there is no input, then make sure there is no feedback either.
 		if (!input || Object.keys(input).length === 0)
@@ -58,11 +60,12 @@ export function FeedbackProvider({ children, getFeedback, input, exerciseData = 
 		}
 	})
 
-	// When the input to be given feedback on changes, update the feedback.
+	// When the input to be given feedback on changes, update the feedback. Also update on progress changes, since some fields (like MultipleChoice) base their feedback on whether an exercise done to show the right answer.
+	const { progress } = exerciseData
 	useEffect(() => {
 		if (input)
-			updateFeedback(input)
-	}, [input, updateFeedback])
+			updateFeedback(input, progress)
+	}, [input, progress, updateFeedback])
 
 	// Wrap a provider around the contents. Also export the updateFeedback, so instances may manually call for a change here, for instance when viewing submissions made by other students in the coop mode.
 	return <FeedbackContext.Provider value={{ ...feedback, updateFeedback }}>{children}</FeedbackContext.Provider>

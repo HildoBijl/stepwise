@@ -48,7 +48,7 @@ function getIndividualMCFeedback(exerciseData, currParameter, currOptions) {
 	const feedback = {}
 	currSolution = Array.isArray(currSolution) ? currSolution : [currSolution]
 	if (done && currSolution !== undefined)
-		currSolution.forEach(index => { feedback[index] = true })
+		currSolution.forEach(index => { feedback[index] = { correct: true, text: '' } })
 
 	// If there is an input, show the feedback on this input.
 	const processFeedbackText = (text, subfield, subfieldCorrect) => {

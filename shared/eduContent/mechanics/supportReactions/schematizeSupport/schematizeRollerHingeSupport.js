@@ -2,11 +2,11 @@ const { deg2rad, getRandomInteger } = require('../../../../util')
 const { Vector } = require('../../../../geometry/Vector')
 const { getStepExerciseProcessor, performComparison } = require('../../../../eduTools')
 
-const { loadSources, getDefaultForce, areLoadsMatching, FBDComparison } = require('../..')
+const { loadSources, getDefaultForce, areLoadsMatching, FBDComparison } = require('../../tools')
 
 const { reaction } = loadSources
 
-const data = {
+const metaData = {
 	skill: 'schematizeSupport',
 	steps: [null, null, null, null],
 	comparison: {
@@ -37,24 +37,21 @@ function getSolution(state) {
 	}
 }
 
-function checkInput(state, input, step) {
-	const solution = getSolution(state)
-	if (step === 0)
-		return performComparison('loads', input, solution, data.comparison)
-	if (step === 1)
-		return performComparison('forcePerpendicular', input, solution, data.comparison)
-	if (step === 2)
-		return performComparison('forceParallel', input, solution, data.comparison)
-	if (step === 3)
-		return performComparison('moment', input, solution, data.comparison)
-	if (step === 4)
-		return performComparison('loads', input, solution, data.comparison)
+function checkInput(exerciseData, step) {
+	switch (step) {
+		case 1:
+			return performComparison(exerciseData, 'forcePerpendicular')
+		case 2:
+			return performComparison(exerciseData, 'forceParallel')
+		case 3:
+			return performComparison(exerciseData, 'moment')
+		default:
+			return performComparison(exerciseData, 'loads')
+	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	getSolution,
-	checkInput,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

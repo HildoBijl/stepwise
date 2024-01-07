@@ -7,7 +7,7 @@ import { Par } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
 import { InputSpace, selectRandomCorrect } from 'ui/form'
 import { MultipleChoice } from 'ui/inputs'
-import { StepExercise, useSolution, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
+import { StepExercise, useSolution, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 import { FBDInput, Group, Beam, HingeSupport, render, loadTypes } from 'ui/eduContent/mechanics'
 
@@ -15,7 +15,7 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
+const Problem = () => {
 	return <>
 		<Par>Een balk is met een scharnierverbinding aan een muur bevestigd, zoals hieronder weergegeven.</Par>
 		<Diagram isInputField={false} />
@@ -136,10 +136,12 @@ function getFeedback(exerciseData) {
 	const loadsChecks = [wrongNumberOfForces, forcesAlongSameLine, wrongNumberOfMoments, nonPerpendicular]
 
 	return {
-		...getMCFeedback('forcePerpendicular', exerciseData, { text: forcePerpendicularText }),
-		...getMCFeedback('forceParallel', exerciseData, { text: forceParallelText }),
-		...getMCFeedback('moment', exerciseData, { text: momentText }),
-		...getInputFieldFeedback('loads', exerciseData, { feedbackChecks: loadsChecks }),
+		...getMCFeedback(exerciseData, {
+			forcePerpendicular: { step: 1, text: forcePerpendicularText },
+			forceParallel: { step: 2, text: forceParallelText },
+			moment: { step: 3, text: momentText },
+		}),
+		...getFieldInputFeedback(exerciseData, { loads: loadsChecks }),
 	}
 }
 

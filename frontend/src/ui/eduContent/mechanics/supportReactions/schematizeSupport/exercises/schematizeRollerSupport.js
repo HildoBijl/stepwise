@@ -7,7 +7,7 @@ import { Par } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
 import { InputSpace, selectRandomCorrect } from 'ui/form'
 import { MultipleChoice } from 'ui/inputs'
-import { StepExercise, useSolution, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
+import { StepExercise, useSolution, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 import { FBDInput, Group, Beam, RollerSupport, render, loadTypes, areLoadsEqual, getFBDFeedbackFunction, FBDComparison } from 'ui/eduContent/mechanics'
 
@@ -137,10 +137,12 @@ function getFeedback(exerciseData) {
 	const loadsChecks = [wrongNumberOfForces, forcesAlongSameLine, wrongNumberOfMoments]
 
 	return {
-		...getMCFeedback('forcePerpendicular', exerciseData, { text: forcePerpendicularText }),
-		...getMCFeedback('forceParallel', exerciseData, { text: forceParallelText }),
-		...getMCFeedback('moment', exerciseData, { text: momentText }),
-		...getInputFieldFeedback('loads', exerciseData, { feedbackChecks: loadsChecks, feedbackFunction: getFBDFeedbackFunction(FBDComparison) }),
+		...getMCFeedback(exerciseData, {
+			forcePerpendicular: { step: 1, text: forcePerpendicularText },
+			forceParallel: { step: 2, text: forceParallelText },
+			moment: { step: 3, text: momentText },
+		}),
+		...getFieldInputFeedback(exerciseData, { loads: { feedbackChecks: loadsChecks, feedbackFunction: getFBDFeedbackFunction(FBDComparison) } }),
 	}
 }
 
