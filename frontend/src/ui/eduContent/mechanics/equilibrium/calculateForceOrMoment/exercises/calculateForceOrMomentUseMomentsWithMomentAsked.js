@@ -8,7 +8,7 @@ import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { Drawing, CornerLabel, Circle, Rectangle as SvgRectangle, Line, useScaleBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
+import { StepExercise, useSolution, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 import { Distance, Element, Label, LoadLabel, render, sumOfMoments } from 'ui/eduContent/mechanics'
 
@@ -19,9 +19,7 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const { angle, FD } = useSolution()
-
+const Problem = ({ angle, FD }) => {
 	return <>
 		<Par>Een voorwerp wordt volgens onderstaande wijze met drie krachten en een moment belast. Het voorwerp staat stil. De diagonale kracht <M>F_D</M> (rood) heeft een hoek van <M>{angle}^\circ</M> ten opzichte van de verticaal, en de grootte is <M>F_D = {FD}.</M> Bereken het moment <M>M_A</M> (geel).</Par>
 		<Diagram />
@@ -135,9 +133,10 @@ function getFeedback(exerciseData) {
 		<>Nee. Als we dit punt pakken, dan vallen <M>F_B</M> en <M>F_C</M> niet beiden weg uit de momentenvergelijking.</>,
 		<>Ja! Als we momenten nemen om dit punt, dan hebben <M>F_B</M> en <M>F_C</M> allebei een arm van nul, en vallen zo weg uit de evenwichtsvergelijking.</>,
 	]
+
 	// Give full feedback.
 	return {
-		...getMCFeedback('method', exerciseData, { text: methodText }),
-		...getInputFieldFeedback(['FDx', 'FDy', 'MA'], exerciseData),
+		...getMCFeedback(exerciseData, { method: { step: 1, text: methodText } }),
+		...getFieldInputFeedback(exerciseData, ['FDx', 'FDy', 'MA']),
 	}
 }

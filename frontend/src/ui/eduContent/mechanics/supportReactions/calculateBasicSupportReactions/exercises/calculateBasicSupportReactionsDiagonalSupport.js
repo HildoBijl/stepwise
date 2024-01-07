@@ -7,7 +7,7 @@ import { Par, M, BM } from 'ui/components'
 import { Drawing, CornerLabel, Line as SvgLine, useScaleBasedTransformationSettings } from 'ui/figures'
 import { useInput, InputSpace } from 'ui/form'
 import { useCurrentBackgroundColor, FloatUnitInput } from 'ui/inputs'
-import { StepExercise, getStep, useSolution, getInputFieldFeedback } from 'ui/eduTools'
+import { StepExercise, getStep, useSolution, getFieldInputFeedback } from 'ui/eduTools'
 
 import { FBDInput, Group, Beam, HingeSupport, RollerHingeSupport, Distance, Element, Label, LoadLabel, render, getFBDFeedback, loadSources, performLoadsComparison, sumOfForces, sumOfMoments } from 'ui/eduContent/mechanics'
 
@@ -18,11 +18,10 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
+const Problem = () => {
 	const { P, getLoadNames } = useSolution()
 	const inputLoads = useInput('loads')
 	const loadNames = getLoadNames(inputLoads).filter(load => !load.prenamed)
-
 	return <>
 		<Translation>
 			<Par>A beam is connected through a hinge on the left and a hinging slider on the right. It is subjected to a load of <M>P = {P}</M>.</Par>
@@ -73,7 +72,6 @@ const steps = [
 			</>
 		},
 		Solution: ({ directionIndices, l1, l2, angle, P, FCy, FC }) => {
-
 			return <Translation>
 				<Par>
 					To find <M>F_C</M> we examine the sum of the moments around point <M>A</M>. In this case <M>F_(Ax)</M> and <M>F_(Ay)</M> have no effect. If we decompose <M>F_C</M> into components <M>F_(Cx)</M> and <M>F_(Cy)</M> too, then this gives the equilibrium equation
@@ -100,7 +98,6 @@ const steps = [
 			</>
 		},
 		Solution: ({ directionIndices, P, FCy, FAy }) => {
-
 			return <Translation>
 				<Par>
 					To find <M>F_(Ay)</M> we look at the sum of the forces in the vertical direction. (This can also be done by examining moments around point <M>C,</M> but this is a bit more work.) This gives the equilibrium equation
@@ -125,7 +122,6 @@ const steps = [
 			</>
 		},
 		Solution: ({ directionIndices, angle, FAx, FC, FCx }) => {
-
 			return <Translation>
 				<Par>
 					To find <M>F_(Ax)</M> we look at the sum of the forces in the horizontal direction. In this case <M>F_(Ay)</M> and <M>F_(Cy)</M> have no effect. This gives us the equilibrium equation
@@ -195,18 +191,16 @@ function Schematics({ l1, l2, angle, angleRad, anglePoints, points, loads, getLo
 }
 
 function getFeedback(exerciseData) {
-	const { input, progress, solution, shared } = exerciseData
-	const { loads, points, loadsToCheck } = solution
+	const { input, progress, solution } = exerciseData
 
 	// On an incorrect FBD on the main problem, only give feedback on the FBD.
-	const step = getStep(progress)
-	const loadsFeedback = input.loads && getFBDFeedback(input.loads, loads, shared.data.comparison.loads, points)
-	if (step === 0 && !performLoadsComparison('loads', input, solution, shared.data.comparison))
-		return { loads: loadsFeedback }
+	const loadsFeedback = input.loads && getFBDFeedback(exerciseData, 'loads')
+	if (getStep(progress) === 0 && !performLoadsComparison(exerciseData, 'loads'))
+		return loadsFeedback
 
 	// Give full feedback.
 	return {
-		loads: loadsFeedback,
-		...getInputFieldFeedback(loadsToCheck, exerciseData)
+		...loadsFeedback,
+		...getFieldInputFeedback(exerciseData, solution.loadsToCheck)
 	}
 }

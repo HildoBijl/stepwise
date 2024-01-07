@@ -8,7 +8,7 @@ import { Par, M, BM } from 'ui/components'
 import { Drawing, Circle, Rectangle as SvgRectangle, useScaleBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
+import { StepExercise, useSolution, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 import { Distance, Element, LoadLabel, render, sumOfForces } from 'ui/eduContent/mechanics'
 
@@ -19,9 +19,7 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const { horizontal, FD } = useSolution()
-
+const Problem = ({ horizontal, FD }) => {
 	return <>
 		<Par>Een voorwerp wordt volgens onderstaande wijze met vier krachten belast. Het voorwerp staat stil. Alle schuine krachten hebben een hoek van <M>45^\circ</M> ten opzichte van de verticaal. De {horizontal ? 'horizontale' : 'verticale'} kracht (rood) heeft een grootte van <M>F_D = {FD}.</M> Bereken de kracht <M>F_A</M> (geel).</Par>
 		<Diagram />
@@ -116,9 +114,10 @@ function getFeedback(exerciseData) {
 		<>Nee. Als we momenten nemen om een punt op de werklijn van <M>F_A,</M> dan valt <M>F_A</M> weg uit de evenwichtsvergelijking. Dat is niet handig: we willen deze kracht juist berekenen!</>,
 		<>Nee. De krachten <M>F_B</M> en <M>F_C</M> zijn parallel: hun werklijnen hebben dus geen snijpunt.</>,
 	]
+
 	// Give full feedback.
 	return {
-		...getMCFeedback('method', exerciseData, { text: methodText }),
-		...getInputFieldFeedback(['FDl', 'FA'], exerciseData),
+		...getFieldInputFeedback(exerciseData, ['FDl', 'FA']),
+		...getMCFeedback(exerciseData, { method: { step: 1, text: methodText } }),
 	}
 }

@@ -8,7 +8,7 @@ import { Par, M, BM } from 'ui/components'
 import { Drawing, CornerLabel, Circle, Rectangle as SvgRectangle, Line, useScaleBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
+import { StepExercise, useSolution, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 import { Distance, Element, LoadLabel, render, sumOfForces } from 'ui/eduContent/mechanics'
 
@@ -19,9 +19,7 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const { angle, FD } = useSolution()
-
+const Problem = ({ angle, FD }) => {
 	return <>
 		<Par>Een voorwerp wordt volgens onderstaande wijze met drie krachten en een moment belast. Het voorwerp staat stil. De diagonale kracht <M>F_D</M> (rood) heeft een hoek van <M>{angle}^\circ</M> ten opzichte van de verticaal, en de grootte is <M>F_D = {FD}.</M> Bereken de horizontale kracht <M>F_A</M> (geel).</Par>
 		<Diagram />
@@ -123,9 +121,10 @@ function getFeedback(exerciseData) {
 		<>Nee. Bij een momentenevenwicht heeft <M>M_C</M> een effect, en valt hij dus niet uit de vergelijking. Ook veroorzaakt kracht <M>F_B</M> dan ook nog een moment.</>,
 		<>Nee. Als we dit doen, dan valt de kracht <M>F_A</M> weg uit onze vergelijking, terwijl we die juist willen berekenen! Ook valt <M>M_C</M> niet weg, terwijl we die niet hoeven te weten.</>,
 	]
+	
 	// Give full feedback.
 	return {
-		...getMCFeedback('method', exerciseData, { text: methodText }),
-		...getInputFieldFeedback(['FDx', 'FA'], exerciseData),
+		...getMCFeedback(exerciseData, { method: { step: 1, text: methodText } }),
+		...getFieldInputFeedback(exerciseData, ['FDx', 'FA']),
 	}
 }

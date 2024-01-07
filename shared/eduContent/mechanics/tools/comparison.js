@@ -1,4 +1,4 @@
-const { compareNumbers, mod, processOptions, resolveFunctions, areArraysEqualShallow, count } = require('../../../util')
+const { compareNumbers, mod, isBasicObject, processOptions, keysToObject, resolveFunctions, areArraysEqualShallow, count } = require('../../../util')
 const { getCurrentInputSolutionAndComparison } = require('../../../eduTools')
 
 const { defaultMomentRadius, defaultMomentOpening, loadTypes, loadSources } = require('./definitions')
@@ -194,18 +194,23 @@ function getDirectionIndicators(solution, matching) {
 module.exports.getDirectionIndicators = getDirectionIndicators
 
 // performLoadsComparison is very similar to the performComparison function, but then for loads.
-function performLoadsComparison(parameters, input, solution, comparison) { // ToDo: change to format performLoadsComparison(exerciseData, parameterComparison) just like performComparison.
-	// Check if there is a single-parameter case or a multi-parameter case. Adjust accordingly.
-	let singleParameterCase = false
-	if (!Array.isArray(parameters)) {
-		singleParameterCase = true
-		parameters = [parameters]
-	}
+function performLoadsComparison(exerciseData, parameterComparison) {
+	// Get the parameters out of the given objects.
+	const { input, solution, metaData } = exerciseData
+	const { comparison } = metaData
+
+	// Ensure the parameterComparison is an object.
+	if (typeof parameterComparison === 'string')
+		parameterComparison = [parameterComparison]
+	if (Array.isArray(parameterComparison))
+		parameterComparison = keysToObject(parameterComparison, () => undefined, false)
+	if (!isBasicObject(parameterComparison))
+		throw new Error(`Invalid parameterComparison provided: expected a basic object, but received something of type ${typeof parameterComparison}.`)
 
 	// Walk through the parameters and perform a comparison.
-	return parameters.every(currParameter => {
-		// Extract the current input, solution and comparison method.
-		const { currInput, currSolution, currComparison } = getCurrentInputSolutionAndComparison(currParameter, input, solution, comparison, singleParameterCase) // ToDo: change to format getCurrentInputSolutionAndComparison(currParameter, input, solution, comparison, parameterComparison)
+	return Object.keys(parameterComparison).every(currParameter => {
+		// Extract the current input, solution and parameter settings method.
+		const { currInput, currSolution, currComparison } = getCurrentInputSolutionAndComparison(currParameter, input, solution, comparison, parameterComparison)
 
 		// Perform the comparison for this individual parameter.
 		return areLoadsMatching(currInput, currSolution, currComparison)

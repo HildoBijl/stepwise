@@ -23,6 +23,11 @@ export function getMCFeedback(exerciseData, parameterOptions = {}) {
 
 // getIndividualMCFeedback returns the feedback for a single multiple choice field.
 function getIndividualMCFeedback(exerciseData, currParameter, currOptions) {
+	// If the options is an array, it's probably the text array.
+	if (Array.isArray(currOptions))
+		currOptions = { text: currOptions }
+
+	// Extract given parameters.
 	const { input, progress, solution } = exerciseData
 	let { correct, done, step, substep, text, correctText, incorrectText } = currOptions
 

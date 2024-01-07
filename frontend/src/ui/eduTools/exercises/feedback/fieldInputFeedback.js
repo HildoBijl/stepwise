@@ -198,7 +198,7 @@ function getIndividualFieldInputFeedback(exerciseData, currParameter, currInput,
  * The feedback checks must be an array of the form [(currInput, currSolution, solution, correct, exerciseData) => <>This is the feedback if the check matches.</>, ...]. Note that the solution is the full solution object given by the getSolution function. Correct is just a boolean: is this field correct or not.
  * The first feedback checks that returns something truthy will be used. The value given will be return. If no feedback check returns anything truthy, nothing (undefined) will be returned.
  */
-function getFeedbackCheckResult(exerciseData, feedbackChecks, currInput, currSolution, correct) {
+export function getFeedbackCheckResult(exerciseData, feedbackChecks, currInput, currSolution, correct) {
 	// Check the input.
 	if (feedbackChecks === undefined)
 		return undefined

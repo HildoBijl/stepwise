@@ -6,7 +6,7 @@ import { Par, M, BM } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
 import { useInput, InputSpace } from 'ui/form'
 import { useCurrentBackgroundColor, FloatUnitInput } from 'ui/inputs'
-import { StepExercise, getStep, useSolution, getInputFieldFeedback } from 'ui/eduTools'
+import { StepExercise, getStep, useSolution, getFieldInputFeedback } from 'ui/eduTools'
 
 import { FBDInput, Group, Beam, HingeSupport, RollerHingeSupport, Distance, Element, Label, LoadLabel, render, getFBDFeedback, loadSources, performLoadsComparison, sumOfForces, sumOfMoments } from 'ui/eduContent/mechanics'
 
@@ -16,11 +16,10 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
+const Problem = () => {
 	const { M: Moment, getLoadNames } = useSolution()
 	const inputLoads = useInput('loads')
 	const loadNames = getLoadNames(inputLoads).filter(load => !load.prenamed)
-
 	return <>
 		<Par>Een balk is links met een scharnier en rechts met een scharnierende schuifverbinding bevestigd. Hij wordt belast met een moment van <M>M = {Moment}.</M></Par>
 		<Diagram isInputField={false} />
@@ -67,7 +66,6 @@ const steps = [
 		Solution: ({ loadVariables, loadValues, directionIndices }) => {
 			const [, vFAx, vFAy, vFC] = loadVariables
 			const [, FAx, ,] = loadValues
-
 			return <>
 				<Par>
 					Om <M>{vFAx}</M> te vinden bekijken we de som van de krachten in de horizontale richting. In dit geval hebben <M>{vFAy}</M> en <M>{vFC}</M> geen invloed. Dit geeft ons de evenwichtsvergelijking
@@ -91,7 +89,6 @@ const steps = [
 		Solution: ({ loadVariables, loadValues, directionIndices, l1, l2, clockwise }) => {
 			const [vMoment, vFAx, vFAy, vFC] = loadVariables
 			const [Moment, , , FC] = loadValues
-
 			return <>
 				<Par>
 					Om <M>{vFC}</M> te vinden bekijken we de som van de momenten om punt <M>A.</M> In dit geval hebben <M>{vFAx}</M> en <M>{vFAy}</M> geen invloed. Dit geeft ons de evenwichtsvergelijking
@@ -116,7 +113,6 @@ const steps = [
 		Solution: ({ loadVariables, loadValues, clockwise, directionIndices }) => {
 			const [, , vFAy, vFC] = loadVariables
 			const [, , FAy,] = loadValues
-
 			return <>
 				<Par>
 					Om <M>{vFAy}</M> te vinden bekijken we de som van de krachten in de verticale richting. (Het kan eventueel ook via momenten om punt <M>C</M> of om een punt verticaal onder <M>C,</M> maar dit is iets meer werk.) De evenwichtsvergelijking wordt hiermee
@@ -180,18 +176,16 @@ function Schematics({ l1, l2, l3, clockwise, angle, points, Bx, Cx, loads, getLo
 }
 
 function getFeedback(exerciseData) {
-	const { input, progress, solution, shared } = exerciseData
-	const { loads, points, loadsToCheck } = solution
+	const { input, progress, solution } = exerciseData
 
 	// On an incorrect FBD on the main problem, only give feedback on the FBD.
-	const step = getStep(progress)
-	const loadsFeedback = input.loads && getFBDFeedback(input.loads, loads, shared.data.comparison.loads, points)
-	if (step === 0 && !performLoadsComparison('loads', input, solution, shared.data.comparison))
-		return { loads: loadsFeedback }
+	const loadsFeedback = input.loads && getFBDFeedback(exerciseData, 'loads')
+	if (getStep(progress) === 0 && !performLoadsComparison(exerciseData, 'loads'))
+		return loadsFeedback
 
 	// Give full feedback.
 	return {
-		loads: loadsFeedback,
-		...getInputFieldFeedback(loadsToCheck, exerciseData)
+		...loadsFeedback,
+		...getFieldInputFeedback(exerciseData, solution.loadsToCheck)
 	}
 }

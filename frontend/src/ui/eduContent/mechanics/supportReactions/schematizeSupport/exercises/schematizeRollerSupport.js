@@ -5,7 +5,7 @@ import { Vector, Line } from 'step-wise/geometry'
 
 import { Par } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
-import { InputSpace, selectRandomCorrect } from 'ui/form'
+import { InputSpace } from 'ui/form'
 import { MultipleChoice } from 'ui/inputs'
 import { StepExercise, useSolution, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
@@ -15,7 +15,7 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
+const Problem = () => {
 	return <>
 		<Par>Een balk is met een schuifverbinding aan een muur bevestigd, zoals hieronder weergegeven.</Par>
 		<Diagram isInputField={false} />
@@ -103,7 +103,7 @@ const steps = [
 function getFeedback(exerciseData) {
 	// Determine MC feedback text in various cases.
 	const forcePerpendicularText = [
-		<>{selectRandomCorrect()}</>,
+		<></>,
 		<>Nee. Hoezo zou de balk loodrecht op de muur kunnen bewegen?</>,
 		<>Nee. Hoe zou een reactiekracht een beweging kunnen veroorzaken?</>,
 		<>Nee. Hoezo zou de balk loodrecht op de muur kunnen bewegen?</>,
@@ -112,10 +112,10 @@ function getFeedback(exerciseData) {
 		<>Nee. Hoe is een schuifverbinding in staat om beweging parallel aan de muur te voorkomen?</>,
 		<>Nee. Hoe zou een reactiekracht een beweging kunnen veroorzaken?</>,
 		<>Nee. Hoe is een schuifverbinding in staat om beweging parallel aan de muur te voorkomen?</>,
-		<>{selectRandomCorrect()}</>,
+		<></>,
 	]
 	const momentText = [
-		<>{selectRandomCorrect()}</>,
+		<></>,
 		<>Nee. Hoezo zou de balk kunnen draaien?</>,
 		<>Nee. Hoe zou een reactiemoment een draaiing kunnen veroorzaken?</>,
 		<>Nee. Hoezo zou de balk kunnen draaien?</>,
@@ -138,9 +138,9 @@ function getFeedback(exerciseData) {
 
 	return {
 		...getMCFeedback(exerciseData, {
-			forcePerpendicular: { step: 1, text: forcePerpendicularText },
-			forceParallel: { step: 2, text: forceParallelText },
-			moment: { step: 3, text: momentText },
+			forcePerpendicular: { step: 1, incorrectText: forcePerpendicularText },
+			forceParallel: { step: 2, incorrectText: forceParallelText },
+			moment: { step: 3, incorrectText: momentText },
 		}),
 		...getFieldInputFeedback(exerciseData, { loads: { feedbackChecks: loadsChecks, feedbackFunction: getFBDFeedbackFunction(FBDComparison) } }),
 	}

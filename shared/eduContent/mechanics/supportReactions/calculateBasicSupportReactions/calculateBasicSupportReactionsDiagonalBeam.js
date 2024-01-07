@@ -2,13 +2,13 @@ const { arraysToObject, getRandomBoolean } = require('../../../../util')
 const { FloatUnit, getRandomFloatUnit } = require('../../../../inputTypes')
 const { Variable } = require('../../../../CAS')
 const { Vector } = require('../../../../geometry')
-const { getStepExerciseProcessor, assembleSolution, addSetupFromSteps, performComparison } = require('../../../../eduTools')
+const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../eduTools')
 
 const { loadSources, getDefaultForce, getDefaultMoment, FBDComparison, getLoadNames, getLoadMatching, isMatchingComplete, getDirectionIndicators, performLoadsComparison, reverseLoad } = require('../..')
 
 const { reaction, external } = loadSources
 
-const data = {
+const metaData = {
 	skill: 'calculateBasicSupportReactions',
 	steps: ['drawFreeBodyDiagram', null, 'calculateForceOrMoment', 'calculateForceOrMoment'],
 	comparison: {
@@ -20,7 +20,7 @@ const data = {
 		loads: FBDComparison,
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	return {
@@ -67,7 +67,7 @@ function getStaticSolution(state) {
 
 	return {
 		...state, points, l, Bx, Cx, angle, loads, loadNames, loadVariables, prenamedLoads, loadsToCheck, loadValues,
-		getLoadNames: loads => getLoadNames(loads, points, prenamedLoads, data.comparison.loads),
+		getLoadNames: loads => getLoadNames(loads, points, prenamedLoads, metaData.comparison.loads),
 	}
 }
 
@@ -76,7 +76,7 @@ function getInputDependency(input, solution) {
 	const defaultDependency = new Array(solution.loads.length).fill(true)
 	if (!input.loads)
 		return defaultDependency
-	const matching = getLoadMatching(input.loads, solution.loads, data.comparison.loads)
+	const matching = getLoadMatching(input.loads, solution.loads, metaData.comparison.loads)
 	if (!isMatchingComplete(matching))
 		return defaultDependency
 	return getDirectionIndicators(solution.loads, matching)
@@ -92,24 +92,23 @@ function getDynamicSolution(directionIndices, solution, state) {
 
 const getSolution = { dependentFields: ['loads'], getStaticSolution, getInputDependency, getDynamicSolution }
 
-function checkInput(state, input, step) {
-	const solution = assembleSolution(getSolution, state, input)
-	if (step === 0)
-		return performLoadsComparison('loads', input, solution, data.comparison) && performComparison(solution.loadsToCheck, input, solution, data.comparison)
-	if (step === 1)
-		return performLoadsComparison('loads', input, solution, data.comparison)
-	if (step === 2)
-		return performComparison('FAx', input, solution, data.comparison)
-	if (step === 3)
-		return performComparison('FC', input, solution, data.comparison)
-	if (step === 4)
-		return performComparison('FAy', input, solution, data.comparison)
+function checkInput(exerciseData, step) {
+	switch (step) {
+		case 1:
+			return performLoadsComparison(exerciseData, 'loads')
+		case 2:
+			return performComparison(exerciseData, 'FAx')
+		case 3:
+			return performComparison(exerciseData, 'FC')
+		case 4:
+			return performComparison(exerciseData, 'FAy')
+		default:
+			return performLoadsComparison(exerciseData, 'loads') && performComparison(exerciseData, console.log(exerciseData.solution.loadsToCheck) || exerciseData.solution.loadsToCheck)
+	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

@@ -6,14 +6,14 @@ const { loadSources, areLoadsMatching, FBDComparison, getDefaultForce, getDefaul
 
 const { reaction, external } = loadSources
 
-const data = {
+const metaData = {
 	skill: 'drawFreeBodyDiagram',
 	steps: ['schematizeSupport', 'schematizeSupport', null],
 	comparison: {
 		default: (input, correct) => areLoadsMatching(input, correct, FBDComparison)
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	// Determine the beam size.
@@ -76,7 +76,7 @@ function getSolution(state) {
 	return { ...state, left, A, B, right, points, isAEnd, isBEnd, loadPositionIndex, loadPoint, externalLoad, loadsLeft, loadsRight, loads }
 }
 
-function getReactionLoads(supportType, point = Vector.zero, rotated = false, toRight = true, clockwise = true) {
+function getReactionLoads(supportType, point = Vector.zero, rotated = false, toRight = true) {
 	// Define the possible loads.
 	const horizontal = getDefaultForce(point, toRight ? 0 : Math.PI, reaction)
 	const vertical = getDefaultForce(point, -Math.PI / 2, reaction)
@@ -97,22 +97,19 @@ function getReactionLoads(supportType, point = Vector.zero, rotated = false, toR
 	}
 }
 
-function checkInput(state, input, step) {
-	const solution = getSolution(state)
-	if (step === 0)
-		return performComparison('loads', input, solution, data.comparison)
-	if (step === 1)
-		return performComparison('loadsLeft', input, solution, data.comparison)
-	if (step === 2)
-		return performComparison('loadsRight', input, solution, data.comparison)
-	if (step === 3)
-		return performComparison('loads', input, solution, data.comparison)
+function checkInput(exerciseData, step) {
+	switch (step) {
+		case 1:
+			return performComparison(exerciseData, 'loadsLeft')
+		case 2:
+			return performComparison(exerciseData, 'loadsRight')
+		default:
+			return performComparison(exerciseData, 'loads')
+	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	getSolution,
-	checkInput,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

@@ -8,7 +8,7 @@ import { Par, M } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
 import { InputSpace, selectRandomCorrect } from 'ui/form'
 import { useCurrentBackgroundColor } from 'ui/inputs'
-import { StepExercise, useSolution, getInputFieldFeedback } from 'ui/eduTools'
+import { StepExercise, useSolution, getFieldInputFeedback } from 'ui/eduTools'
 
 import { FBDInput, Group, Element, Distance, Beam, FixedSupport, AdjacentFixedSupport, HingeSupport, HalfHingeSupport, RollerSupport, AdjacentRollerSupport, RollerHingeSupport, RollerHalfHingeSupport, render, loadSources, getFBDFeedback, FBDComparison, getLoadMatching, isLoadAtPoint } from 'ui/eduContent/mechanics'
 
@@ -27,7 +27,7 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
+const Problem = () => {
 	const { supportTypes, loadProperties } = useSolution()
 	return <>
 		<Par>Een balk is op twee punten bevestigd: links met een {supportNames[supportTypes[0]]} en rechts met een {supportNames[supportTypes[1]]}. Deze balk wordt van buitenaf belast met een {loadProperties.isForce ? 'kracht' : 'moment'}.</Par>
@@ -42,35 +42,33 @@ const Problem = (state) => {
 const steps = [
 	{
 		Problem: () => {
-			const { A } = useSolution()
 			return <>
 				<Par>Schematiseer de bevestiging links: teken de bijbehorende reactiekrachten/momenten.</Par>
 				<InputSpace>
-					<Diagram id="loadsLeft" isInputField={true} showSupports={false} zoom={A} />
+					<Diagram id="loadsLeft" isInputField={true} showSupports={false} zoom="A" />
 				</InputSpace>
 			</>
 		},
-		Solution: ({ A, supportTypes }) => {
+		Solution: ({ supportTypes }) => {
 			return <>
 				<Par>{supportExplanation[supportTypes[0]]} Hiermee vinden we de onderstaande schematisering.</Par>
-				<Diagram showSolution={true} showSupports={false} zoom={A} />
+				<Diagram showSolution={true} showSupports={false} zoom="A" />
 			</>
 		},
 	},
 	{
 		Problem: () => {
-			const { B } = useSolution()
 			return <>
 				<Par>Schematiseer de bevestiging rechts: teken de bijbehorende reactiekrachten/momenten.</Par>
 				<InputSpace>
-					<Diagram id="loadsRight" isInputField={true} showSupports={false} zoom={B} />
+					<Diagram id="loadsRight" isInputField={true} showSupports={false} zoom="B" />
 				</InputSpace>
 			</>
 		},
 		Solution: ({ B, supportTypes }) => {
 			return <>
 				<Par>{supportExplanation[supportTypes[1]]} Hiermee vinden we de onderstaande schematisering.</Par>
-				<Diagram showSolution={true} showSupports={false} zoom={B} />
+				<Diagram showSolution={true} showSupports={false} zoom="B" />
 			</>
 		},
 	},
@@ -96,9 +94,10 @@ const steps = [
 function getFeedback(exerciseData) {
 	const { input, solution } = exerciseData
 
+	const feedbackFunction = (input, solution) => getFBDFeedback(input, solution, FBDComparison)
 	return {
 		loads: input.loads && getCustomFBDFeedback(input.loads, solution.loads, FBDComparison, solution.A, solution.B),
-		...getInputFieldFeedback(['loadsLeft', 'loadsRight'], exerciseData, { feedbackFunction: (input, solution) => getFBDFeedback(input, solution, FBDComparison) }),
+		...getFieldInputFeedback(exerciseData, { loadsLeft: { feedbackFunction: feedbackFunction }, loadsRight: { feedbackFunction: feedbackFunction } }),
 	}
 }
 
@@ -145,6 +144,8 @@ function getCustomFBDFeedback(input, solution, comparison, A, B) {
 function Diagram({ isInputField = false, id, showSupports = true, showSolution = false, zoom = undefined }) {
 	const solution = useSolution()
 	const { points, loads } = solution
+	if (zoom && typeof zoom === 'string')
+		zoom = solution[zoom]
 
 	// Define the transformation.
 	const transformationSettings = useScaleBasedTransformationSettings(zoom || points, { scale: 70, margin: [80, [80, 100]] })
