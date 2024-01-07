@@ -3,7 +3,7 @@ import React from 'react'
 import { Par, M } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { StepExercise, useSolution } from 'ui/eduTools'
+import { StepExercise } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} />
@@ -57,7 +57,7 @@ const steps = [
 		},
 	},
 	{
-		Problem: ({ pCond }) => <>
+		Problem: () => <>
 			<Par>Ga door naar punt 2. Hier wordt het koudemiddel isentropisch gecomprimeerd tot de condensordruk. Bepaal de specifieke enthalpie.</Par>
 			<InputSpace>
 				<Par>
@@ -85,7 +85,7 @@ const steps = [
 		},
 	},
 	{
-		Problem: ({ pEvap }) => <>
+		Problem: () => <>
 			<Par>Bepaal ten slotte de specifieke enthalpie in punt 4, na expansie tot de verdamperdruk.</Par>
 			<InputSpace>
 				<Par>

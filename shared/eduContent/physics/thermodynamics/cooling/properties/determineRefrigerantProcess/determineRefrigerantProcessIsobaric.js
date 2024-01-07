@@ -3,7 +3,7 @@ const { getRandomFloatUnit, getRandomExponentialFloatUnit } = require('../../../
 const refrigerantProperties = require('../../../../../../data/refrigerantProperties')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../../eduTools')
 
-const data = {
+const metaData = {
 	skill: 'determineRefrigerantProcess',
 	comparison: {
 		default: {
@@ -87,15 +87,12 @@ function getSolution({ refrigerant, phase1, T1, x1, p1, phase2, x2, T2 }) {
 	}
 }
 
-function checkInput(state, input) {
-	const solution = getSolution(state)
-	return performComparison(['h1', 'h2'], input, solution, data.comparison)
+function checkInput(exerciseData) {
+	return performComparison(exerciseData, ['h1', 'h2'])
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getSimpleExerciseProcessor(exercise),
 }

@@ -1,12 +1,11 @@
 const refrigerantProperties = require('../../../../../../data/refrigerantProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../../eduTools')
 
-const { getBasicCycle } = require('..')
+const { getBasicCycle } = require('../tools')
 
-const data = {
+const metaData = {
 	skill: 'createCoolingCycleOverview',
 	steps: ['determineRefrigerantProcess', 'determineRefrigerantProcess', 'determineRefrigerantProcess', null],
-
 	comparison: {
 		default: {
 			absoluteMargin: 4000, // J/kg*K.
@@ -14,7 +13,7 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	let { refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling } = getBasicCycle()
@@ -50,26 +49,23 @@ function getSolution({ refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling }
 	return { refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling, TEvap, TCond, T1, T3, h1, h2, h3, h4, s1 }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison('h1', input, solution, data.comparison)
+			return performComparison(exerciseData, 'h1')
 		case 2:
-			return performComparison('h2', input, solution, data.comparison)
+			return performComparison(exerciseData, 'h2')
 		case 3:
-			return performComparison('h3', input, solution, data.comparison)
+			return performComparison(exerciseData, 'h3')
 		case 4:
-			return performComparison('h4', input, solution, data.comparison)
+			return performComparison(exerciseData, 'h4')
 		default:
-			return performComparison(['h1', 'h2', 'h3', 'h4'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['h1', 'h2', 'h3', 'h4'])
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

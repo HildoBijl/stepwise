@@ -1,7 +1,7 @@
 const refrigerantProperties = require('../../../../../../data/refrigerantProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../../eduTools')
 
-const { getCycle } = require('..')
+const { getCycle } = require('../tools')
 
 const hComparison = {
 	absoluteMargin: 4000, // J/kg*K.
@@ -12,10 +12,9 @@ const factorComparison = {
 	relativeMargin: 0.05,
 	significantDigitMargin: 2,
 }
-const data = {
+const metaData = {
 	skill: 'analyseCoolingCycle',
 	steps: ['createCoolingCycleOverview', ['calculateWithCOP', 'useIsentropicEfficiency', 'massFlowTrick']],
-
 	comparison: {
 		h1: hComparison,
 		h2p: hComparison,
@@ -34,7 +33,7 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	let { refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling, mdot, point2 } = getCycle()
@@ -88,29 +87,26 @@ function getSolution({ refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling, 
 	return { refrigerant, pEvap, pCond, dTSuperheating, dTSubcooling, TEvap, TCond, T1, T2, T3, h1, h2, h2p, h3, h4, s1, wtp, wt, etai, qin, qout, epsilon, COP, mdot, P }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step, substep) {
 	switch (step) {
 		case 1:
-			return performComparison(['h1', 'h2p', 'h2', 'h3', 'h4'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['h1', 'h2p', 'h2', 'h3', 'h4'])
 		case 2:
 			switch (substep) {
 				case 1:
-					return performComparison(['epsilon', 'COP'], input, solution, data.comparison)
+					return performComparison(exerciseData, ['epsilon', 'COP'])
 				case 2:
-					return performComparison('etai', input, solution, data.comparison)
+					return performComparison(exerciseData, 'etai')
 				case 3:
-					return performComparison('P', input, solution, data.comparison)
+					return performComparison(exerciseData, 'P')
 			}
 		default:
-			return performComparison(['epsilon', 'COP', 'etai', 'P'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['epsilon', 'COP', 'etai', 'P'])
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

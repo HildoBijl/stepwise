@@ -1,12 +1,11 @@
 const refrigerantProperties = require('../../../../../../data/refrigerantProperties')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../../eduTools')
 
-const { getBasicCycle } = require('..')
+const { getBasicCycle } = require('../tools')
 
-const data = {
+const metaData = {
 	skill: 'createCoolingCycleOverview',
 	steps: ['findFridgeTemperatures', 'determineRefrigerantProcess', 'determineRefrigerantProcess', 'determineRefrigerantProcess', null],
-
 	comparison: {
 		TEvap: {
 			absoluteMargin: 1, // K
@@ -22,7 +21,7 @@ const data = {
 		},
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	let { refrigerant, TCold, TWarm, dTCold, dTWarm, dTSuperheating, dTSubcooling } = getBasicCycle()
@@ -64,28 +63,25 @@ function getSolution({ refrigerant, TCold, TWarm, dTCold, dTWarm, dTSuperheating
 	return { refrigerant, TCold, TWarm, dTCold, dTWarm, dTSuperheating, dTSubcooling, TEvap, TCond, pEvap, pCond, T1, T3, h1, h2, h3, h4, s1 }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return performComparison(['TEvap', 'TCond'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['TEvap', 'TCond'])
 		case 2:
-			return performComparison('h1', input, solution, data.comparison)
+			return performComparison(exerciseData, 'h1')
 		case 3:
-			return performComparison('h2', input, solution, data.comparison)
+			return performComparison(exerciseData, 'h2')
 		case 4:
-			return performComparison('h3', input, solution, data.comparison)
+			return performComparison(exerciseData, 'h3')
 		case 5:
-			return performComparison('h4', input, solution, data.comparison)
+			return performComparison(exerciseData, 'h4')
 		default:
-			return performComparison(['h1', 'h2', 'h3', 'h4'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['h1', 'h2', 'h3', 'h4'])
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

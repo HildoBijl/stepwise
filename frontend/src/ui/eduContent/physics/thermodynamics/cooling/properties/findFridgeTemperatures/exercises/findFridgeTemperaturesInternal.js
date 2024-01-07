@@ -1,9 +1,9 @@
 import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
-import { InputSpace, selectRandomCorrect } from 'ui/form'
+import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { SimpleExercise, useSolution } from 'ui/eduTools'
+import { SimpleExercise } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -40,8 +40,10 @@ function Solution({ type, TCold, TWarm, dTCold, dTWarm, TEvap, TCond }) {
 }
 
 function getFeedback(exerciseData) {
-	const { input, state, shared: { getSolution, data: { comparison } } } = exerciseData
-	const { type, TCold, TWarm, dTCold, dTWarm, TEvap, TCond } = getSolution(state)
+	const { input, state, solution, metaData: { comparison } } = exerciseData
+	const { type, TCold, TWarm, dTCold, dTWarm } = state
+	const { TEvap, TCond } = solution
+
 	const wrong = {
 		TCond: TWarm.subtract(dTWarm),
 		TEvap: TCold.add(dTCold),
@@ -57,7 +59,7 @@ function getFeedback(exerciseData) {
 
 	// Has at the condensor the temperature been subtracted?
 	if (TCond.equals(input.TCond, comparison.default))
-		feedback.TCond = { correct: true, text: selectRandomCorrect() }
+		feedback.TCond = true
 	else if (wrong.TCond.equals(input.TCond, comparison.default))
 		feedback.TCond = { correct: false, text: `Moet het koudemiddel in de condensor warmer of juist kouder zijn, om warmte aan de ${type === 'heatPump' ? 'woonkamer' : 'keuken'} af te geven?` }
 	else if (TEvap.equals(input.TCond, comparison.default))
@@ -69,7 +71,7 @@ function getFeedback(exerciseData) {
 
 	// Has at the evaporator the temperature been added?
 	if (TEvap.equals(input.TEvap, comparison.default))
-		feedback.TEvap = { correct: true, text: selectRandomCorrect() }
+		feedback.TEvap = true
 	else if (wrong.TEvap.equals(input.TEvap))
 		feedback.TEvap = { correct: false, text: `Moet het koudemiddel in de verdamper warmer of juist kouder zijn, om warmte aan de ${type === 'heatPump' ? 'buitenlucht' : 'koelruimte'} te onttrekken?` }
 	else if (TCond.equals(input.TEvap, comparison.default))

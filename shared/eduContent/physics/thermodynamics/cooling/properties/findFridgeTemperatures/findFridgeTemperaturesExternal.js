@@ -2,7 +2,7 @@ const { selectRandomly } = require('../../../../../../util')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../../eduTools')
 const { getTemperatures } = require('../../coolingCycles')
 
-const data = {
+const metaData = {
 	skill: 'findFridgeTemperatures',
 	comparison: {
 		default: {
@@ -17,21 +17,18 @@ function generateState() {
 	return { type, TCond, TEvap, dTCold, dTWarm }
 }
 
-function checkInput(state, input) {
-	const solution = getSolution(state)
-	return performComparison(['TCold', 'TWarm'], input, solution, data.comparison)
-}
-
-function getSolution({ type, TCond, TEvap, dTCold, dTWarm }) {
+function getSolution({ TCond, TEvap, dTCold, dTWarm }) {
 	const TWarm = TCond.subtract(dTWarm)
 	const TCold = TEvap.add(dTCold)
-	return { type, TCold, TWarm, dTCold, dTWarm, TEvap, TCond }
+	return { TCold, TWarm }
 }
 
+function checkInput(exerciseData) {
+	return performComparison(exerciseData, ['TCold', 'TWarm'])
+}
+
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	checkInput,
-	getSolution,
+	...exercise,
+	processAction: getSimpleExerciseProcessor(exercise),
 }

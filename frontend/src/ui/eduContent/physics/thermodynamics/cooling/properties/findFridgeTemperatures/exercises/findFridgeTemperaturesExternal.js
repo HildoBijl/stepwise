@@ -1,9 +1,9 @@
 import React from 'react'
 
 import { Par, M, BM } from 'ui/components'
-import { InputSpace, selectRandomCorrect } from 'ui/form'
+import { InputSpace } from 'ui/form'
 import { FloatUnitInput } from 'ui/inputs'
-import { SimpleExercise, useSolution } from 'ui/eduTools'
+import { SimpleExercise } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -31,8 +31,10 @@ function Solution({ type, TCold, TWarm, dTCold, dTWarm, TEvap, TCond }) {
 }
 
 function getFeedback(exerciseData) {
-	const { input, state, shared: { getSolution, data: { comparison } } } = exerciseData
-	const { type, TCold, TWarm, dTCold, dTWarm, TEvap, TCond } = getSolution(state)
+	const { input, state, solution, metaData: { comparison } } = exerciseData
+	const { type, dTCold, dTWarm, TEvap, TCond } = state
+	const { TCold, TWarm } = solution
+
 	const wrong = {
 		TWarm: TCond.add(dTWarm),
 		TCold: TEvap.subtract(dTCold),
@@ -48,7 +50,7 @@ function getFeedback(exerciseData) {
 
 	// Has at the evaporator the temperature been subtracted?
 	if (TCold.equals(input.TCold, comparison.default))
-		feedback.TCold = { correct: true, text: selectRandomCorrect() }
+		feedback.TCold = true
 	else if (wrong.TCold.equals(input.TCold))
 		feedback.TCold = { correct: false, text: `Moet het koudemiddel in de verdamper warmer of juist kouder zijn, om warmte aan de ${type === 'heatPump' ? 'buitenlucht' : 'koelruimte'} te onttrekken?` }
 	else if (TWarm.equals(input.TCold, comparison.default))
@@ -60,7 +62,7 @@ function getFeedback(exerciseData) {
 
 	// Has at the condensor the temperature been added?
 	if (TWarm.equals(input.TWarm, comparison.default))
-		feedback.TWarm = { correct: true, text: selectRandomCorrect() }
+		feedback.TWarm = true
 	else if (wrong.TWarm.equals(input.TWarm, comparison.default))
 		feedback.TWarm = { correct: false, text: `Moet het koudemiddel in de condensor warmer of juist kouder zijn, om warmte aan de ${type === 'heatPump' ? 'woonkamer' : 'keuken'} af te geven?` }
 	else if (TCold.equals(input.TWarm, comparison.default))
