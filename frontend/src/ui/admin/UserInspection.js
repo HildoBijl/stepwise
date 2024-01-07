@@ -12,7 +12,7 @@ import { Par, HorizontalSlider } from 'ui/components'
 import { TitleItem } from 'ui/layout/Title'
 import { SkillFlask } from 'ui/eduTools'
 
-export default function UserInspection() {
+export function UserInspection() {
 	const params = useParams()
 	const res = useUserQuery(params && params.userId)
 

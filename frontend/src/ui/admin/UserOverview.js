@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function UserOverview() {
+export function UserOverview() {
 	const res = useAllUsersQuery()
 
 	// Check if data has loaded properly.

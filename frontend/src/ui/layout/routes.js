@@ -1,8 +1,7 @@
 import { isAdmin } from 'api/admin'
 
 import { Feedback, About, SkillTrackerExplainer, Test, Home, SkillOverview, Settings, LogOut, Groups, NewGroup } from 'ui/pages'
-import UserInspection, { UserInspectionTitle } from 'ui/admin/UserInspection'
-import UserOverview from 'ui/admin/UserOverview'
+import { UserInspection, UserInspectionTitle, UserOverview, TestProvider } from 'ui/admin'
 
 import { CoursesPage, CoursePage, CourseProvider, CourseName, SkillAdvice, FreePracticePage, SkillPage, SkillName, SkillIndicator, BlankExercise, ExerciseName } from 'ui/eduTools'
 
@@ -87,6 +86,7 @@ export function getRoutes(user = undefined) {
 							id: 'exerciseInspection',
 							page: BlankExercise,
 							name: ExerciseName,
+							provider: TestProvider,
 						},
 					},
 				},

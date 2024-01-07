@@ -13,6 +13,7 @@ import { useActiveGroup } from 'api/group'
 import { getIcon } from 'ui/theme'
 import { Button, useModal, PictureConfirmation, QuickPractice } from 'ui/components'
 import { useFormData, useFieldRegistration, useFeedbackContext } from 'ui/form'
+import { useTestContext } from 'ui/admin'
 import { useSelfAndOtherMembers } from 'ui/pages/Groups/util'
 import MemberList from 'ui/pages/Groups/MemberList'
 
@@ -152,6 +153,7 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 	const { isAllInputEqual, getAllInputSI, setAllInputSI, getFieldIds } = useFormData()
 	const { progress, history, submitting, startNewExercise } = useExerciseData()
 	const solution = useSolution(false)
+	const inTestContext = useTestContext()
 
 	// Set up button handlers.
 	const submit = useSubmitAction()
@@ -196,7 +198,7 @@ function SingleUserExerciseButtons({ stepwise = false }) {
 	// On giving up, check if a warning needs to be shown.
 	const checkGiveUp = () => {
 		// Should we warn the user that his rating will go down upon a step-wise solution?
-		const showWarning = stepwise && step === 0 && history.length === 0
+		const showWarning = stepwise && step === 0 && history.length === 0 && !inTestContext
 		if (showWarning) {
 			setModalOpen(true)
 		} else {
