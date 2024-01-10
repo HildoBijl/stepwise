@@ -89,13 +89,9 @@ function getFeedback(exerciseData) {
 	]
 
 	// Determine feedback.
-	return getFieldInputFeedback([
-		'ans',
-		'simplified',
-		'multiplied',
-	], exerciseData, [
-		[hasX, incorrectFraction, incorrectExpression],
-		simplifiedChecks,
-		[originalEquation, hasFraction, incorrectEquation, correctEquation],
-	].map(feedbackChecks => ({ feedbackChecks })))
+	return getFieldInputFeedback(exerciseData, {
+		ans: [hasX, incorrectFraction, incorrectExpression],
+		simplified: simplifiedChecks,
+		multiplied: [originalEquation, hasFraction, incorrectEquation, correctEquation],
+	})
 }

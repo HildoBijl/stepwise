@@ -10,7 +10,7 @@ const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']
 const usedVariables = ['x', 'y', 'z']
 const constants = ['a', 'b', 'c', 'd']
 
-const data = {
+const metaData = {
 	skill: 'multiplyDivideAllTerms',
 	steps: [null, 'expandBrackets', 'addRemoveFractionFactors'],
 	comparison: {
@@ -59,20 +59,19 @@ function getSolution(state) {
 	return { ...state, variables, terms, equation, intermediateWithBrackets, intermediateWithoutBrackets, ans }
 }
 
-function checkInput(state, input, step) {
-	const solution = getSolution(state)
-	if (step === 0 || step === 3)
-		return performComparison('ans', input, solution, data.comparison)
-	if (step === 1)
-		return performComparison('intermediateWithBrackets', input, solution, data.comparison)
-	if (step === 2)
-		return performComparison('intermediateWithoutBrackets', input, solution, data.comparison)
+function checkInput(exerciseData, step) {
+	switch (step) {
+		case 1:
+			return performComparison(exerciseData, 'intermediateWithBrackets')
+		case 2:
+			return performComparison(exerciseData, 'intermediateWithoutBrackets')
+		default:
+			return performComparison(exerciseData, 'ans')
+	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	getSolution,
-	checkInput,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

@@ -9,7 +9,7 @@ const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']
 const usedVariables = ['x', 'y', 'z']
 const constants = ['a', 'b', 'c']
 
-const data = {
+const metaData = {
 	skill: 'moveATerm',
 	steps: [null, null],
 	comparison: {
@@ -62,18 +62,17 @@ function getSolution(state) {
 	return { ...state, variables, variableToMove, equation, termToMove, isPositive, isLeft, termToMoveAbs, intermediate, ans }
 }
 
-function checkInput(state, input, step) {
-	const solution = getSolution(state)
-	if (step === 0 || step === 2)
-		return performComparison('ans', input, solution, data.comparison)
-	if (step === 1)
-		return performComparison('intermediate', input, solution, data.comparison)
+function checkInput(exerciseData, step) {
+	switch (step) {
+		case 1:
+			return performComparison(exerciseData, 'intermediate')
+		default:
+			return performComparison(exerciseData, 'ans')
+	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	getSolution,
-	checkInput,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

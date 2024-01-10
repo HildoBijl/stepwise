@@ -114,13 +114,9 @@ function getFeedback(exerciseData) {
 	}
 
 	// Determine feedback.
-	return getFieldInputFeedback([
-		'ans',
-		'termsMoved',
-		'pulledOut',
-	], exerciseData, [
-		[hasX, incorrectFraction, incorrectExpression],
-		[originalEquation, variableOnBothSides, termsWithoutVariableInWrongPlace, sumWithWrongTermsAndFlip, incorrectEquation, correctEquation],
-		[sideWithoutVariableEqual, sideWithVariableEqual, incorrectEquation, correctEquation],
-	].map(feedbackChecks => ({ feedbackChecks })))
+	return getFieldInputFeedback(exerciseData, {
+		ans: [hasX, incorrectFraction, incorrectExpression],
+		termsMoved: [originalEquation, variableOnBothSides, termsWithoutVariableInWrongPlace, sumWithWrongTermsAndFlip, incorrectEquation, correctEquation],
+		pulledOut: [sideWithoutVariableEqual, sideWithVariableEqual, incorrectEquation, correctEquation],
+	})
 }

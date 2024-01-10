@@ -88,13 +88,9 @@ function getFeedback(exerciseData) {
 	const insideBracketCheck = (input, correct, { equation }) => input.someSide((side, part) => equation[part].isSubtype(Sum) && !(side.isSubtype(Product) && side.terms.some(term => expressionOnlyElementaryClean(term, correct[part].terms[0])))) && <>Je hebt tussen de haakjes niet letterlijk de delen uit de vorige vergelijking opgenomen.</>
 
 	// Determine feedback.
-	return getFieldInputFeedback([
-		'ans',
-		'intermediateWithBrackets',
-		'intermediateWithoutBrackets',
-	], exerciseData, [
-		[originalEquation, sumWithUnsimplifiedTerms, incorrectEquation, ansCorrectEquation],
-		[formCheck, insideBracketCheck, incorrectEquation, correctEquation],
-		[hasSumWithinProduct, sumWithWrongTerms, incorrectEquation, correctEquation],
-	].map(feedbackChecks => ({ feedbackChecks })))
+	return getFieldInputFeedback(exerciseData, {
+		ans: [originalEquation, sumWithUnsimplifiedTerms, incorrectEquation, ansCorrectEquation],
+		intermediateWithBrackets: [formCheck, insideBracketCheck, incorrectEquation, correctEquation],
+		intermediateWithoutBrackets: [hasSumWithinProduct, sumWithWrongTerms, incorrectEquation, correctEquation],
+	})
 }

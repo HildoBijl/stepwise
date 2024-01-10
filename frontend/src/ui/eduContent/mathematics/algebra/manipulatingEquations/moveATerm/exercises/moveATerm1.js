@@ -75,11 +75,8 @@ function getFeedback(exerciseData) {
 	}
 
 	// Determine feedback.
-	return getFieldInputFeedback([
-		'ans',
-		'intermediate',
-	], exerciseData, [
-		[originalEquation, atIntermediateStep, wrongSignUsed, incorrectEquation, correctEquation],
-		[incorrectEquation, correctEquation],
-	].map(feedbackChecks => ({ feedbackChecks })))
+	return getFieldInputFeedback(exerciseData, {
+		ans: [originalEquation, atIntermediateStep, wrongSignUsed, incorrectEquation, correctEquation],
+		intermediate: [incorrectEquation, correctEquation],
+	})
 }

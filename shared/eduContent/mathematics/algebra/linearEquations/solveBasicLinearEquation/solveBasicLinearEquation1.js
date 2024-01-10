@@ -8,7 +8,7 @@ const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']
 const usedVariables = ['x', 'y', 'z']
 const constants = ['a', 'b', 'c', 'd']
 
-const data = {
+const metaData = {
 	skill: 'solveBasicLinearEquation',
 	steps: [repeat('moveATerm', 2), 'pullOutOfBrackets', 'multiplyDivideAllTerms'],
 	comparison: {
@@ -17,7 +17,7 @@ const data = {
 		pulledOut: (input, correct) => equationComparisons.onlyOrderChangesAndSwitch(input, correct) || equationComparisons.onlyOrderChangesAndSwitch(input, correct.applyToRight(side => side.applyMinus()).applyToLeft(side => side.applyToTerm(1, factor => factor.applyMinus()))), // Allow switches and minus signs inside the brackets.
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const variableSet = selectRandomly(availableVariableSets)
@@ -44,20 +44,19 @@ function getSolution(state) {
 	return { ...state, variables, equation, termsMoved, pulledOut, bracketTerm, ans }
 }
 
-function checkInput(state, input, step) {
-	const solution = getSolution(state)
-	if (step === 0 || step === 3)
-		return performComparison(['ans'], input, solution, data.comparison)
-	if (step === 1)
-		return performComparison(['termsMoved'], input, solution, data.comparison)
-	if (step === 2)
-		return performComparison(['pulledOut'], input, solution, data.comparison)
+function checkInput(exerciseData, step) {
+	switch (step) {
+		case 1:
+			return performComparison(exerciseData, 'termsMoved')
+		case 2:
+			return performComparison(exerciseData, 'pulledOut')
+		default:
+			return performComparison(exerciseData, 'ans')
+	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	getSolution,
-	checkInput,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

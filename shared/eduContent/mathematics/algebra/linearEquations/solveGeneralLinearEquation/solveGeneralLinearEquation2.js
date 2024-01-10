@@ -7,7 +7,7 @@ const availableVariableSets = [['a', 'b', 'c', 'd'], ['w', 'x', 'y', 'z'], ['p',
 const usedVariables = ['w', 'x', 'y', 'z']
 const constants = ['a', 'b']
 
-const data = {
+const metaData = {
 	skill: 'solveGeneralLinearEquation',
 	steps: ['simplifyFraction', 'multiplyDivideAllTerms', 'expandBrackets', 'solveBasicLinearEquation'],
 	comparison: {
@@ -17,7 +17,7 @@ const data = {
 		expanded: (input, correct) => equationComparisons.equivalentSides(input, correct) && !equationChecks.hasFraction(input) && !equationChecks.hasSumWithinProduct(input), // No fractions and no unexpanded brackets left.
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const variableSet = selectRandomly(availableVariableSets)
@@ -46,22 +46,21 @@ function getSolution(state) {
 	return { ...state, variables, equation, simplified, multiplied, expanded, termToMove, shifted, pulledOut, bracketFactor, ans }
 }
 
-function checkInput(state, input, step) {
-	const solution = getSolution(state)
-	if (step === 0 || step === 4)
-		return performComparison(['ans'], input, solution, data.comparison)
-	if (step === 1)
-		return performComparison(['simplified'], input, solution, data.comparison)
-	if (step === 2)
-		return performComparison(['multiplied'], input, solution, data.comparison)
-	if (step === 3)
-		return performComparison(['expanded'], input, solution, data.comparison)
+function checkInput(exerciseData, step) {
+	switch (step) {
+		case 1:
+			return performComparison(exerciseData, 'simplified')
+		case 2:
+			return performComparison(exerciseData, 'multiplied')
+		case 3:
+			return performComparison(exerciseData, 'expanded')
+		default:
+			return performComparison(exerciseData, 'ans')
+	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	getSolution,
-	checkInput,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

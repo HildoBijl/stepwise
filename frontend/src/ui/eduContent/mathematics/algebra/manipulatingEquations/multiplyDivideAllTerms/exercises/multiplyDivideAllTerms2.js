@@ -88,13 +88,9 @@ function getFeedback(exerciseData) {
 	const insideBracketCheck = (input, correct, { equation }) => input.someSide((side, part) => !Integer.zero.equals(equation[part]) && (!side.isSubtype(Fraction) || !expressionOnlyElementaryClean(side.numerator, equation[part]))) && <>Je hebt in de tellers van de breuken niet letterlijk de delen uit de vorige vergelijking opgenomen.</>
 
 	// Determine feedback.
-	return getFieldInputFeedback([
-		'ans',
-		'intermediateWithBrackets',
-		'intermediateWithoutBrackets',
-	], exerciseData, [
-		[originalEquation, sumWithUnsimplifiedTerms, incorrectEquation, ansCorrectEquation],
-		[formCheck, insideBracketCheck, incorrectEquation, correctEquation],
-		[hasSumWithinFraction, sumWithWrongTerms, incorrectEquation, correctEquation],
-	].map(feedbackChecks => ({ feedbackChecks })))
+	return getFieldInputFeedback(exerciseData, {
+		ans: [originalEquation, sumWithUnsimplifiedTerms, incorrectEquation, ansCorrectEquation],
+		intermediateWithBrackets: [formCheck, insideBracketCheck, incorrectEquation, correctEquation],
+		intermediateWithoutBrackets: [hasSumWithinFraction, sumWithWrongTerms, incorrectEquation, correctEquation],
+	})
 }

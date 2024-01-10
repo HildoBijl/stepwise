@@ -77,13 +77,9 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Determine feedback.
-	return getFieldInputFeedback([
-		'ans',
-		'multiplied',
-		'expanded',
-	], exerciseData, [
-		[hasX, incorrectFraction, incorrectExpression],
-		[originalEquation, hasFraction, incorrectEquation, correctEquation],
-		[hasSumWithinProduct, hasFraction, incorrectEquation, correctEquation],
-	].map(feedbackChecks => ({ feedbackChecks })))
+	return getFieldInputFeedback(exerciseData, {
+		ans: [hasX, incorrectFraction, incorrectExpression],
+		multiplied: [originalEquation, hasFraction, incorrectEquation, correctEquation],
+		expanded: [hasSumWithinProduct, hasFraction, incorrectEquation, correctEquation],
+	})
 }
