@@ -6,7 +6,7 @@ import { Par, M, BM } from 'ui/components'
 import { Drawing, Polygon, RightAngle, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput, EquationInput } from 'ui/inputs'
-import { StepExercise, useExerciseData, useSolution, getInputFieldFeedback } from 'ui/eduTools'
+import { StepExercise, useExerciseData, useSolution, getFieldInputFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -90,7 +90,7 @@ const steps = [
 ]
 
 function getFeedback(exerciseData) {
-	return getInputFieldFeedback(['equation1', 'ans1', 'equation2', 'ans2'], exerciseData)
+	return getFieldInputFeedback(['equation1', 'ans1', 'equation2', 'ans2'], exerciseData)
 }
 
 function ExerciseFigure() {

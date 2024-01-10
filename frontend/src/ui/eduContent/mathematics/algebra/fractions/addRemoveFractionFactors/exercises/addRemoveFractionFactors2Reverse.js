@@ -5,7 +5,7 @@ import { expressionComparisons } from 'step-wise/CAS'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
-import { useSolution, SimpleExercise, getInputFieldFeedback, expressionChecks } from 'ui/eduTools'
+import { useSolution, SimpleExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
 const { onlyOrderChanges } = expressionComparisons
 const { originalExpression, noFraction, incorrectExpression } = expressionChecks
@@ -26,8 +26,7 @@ const Problem = () => {
 	</>
 }
 
-const Solution = () => {
-	const { variables, square, expression, ans } = useSolution()
+const Solution = ({ variables, square, expression, ans }) => {
 	return <Par>We vermenigvuldigen de gegeven breuk boven en onder met de factor <M>{variables.x}.</M> Bovenin de breuk staat al een factor <M>{variables.x}</M>, dus we kunnen daar <M>{variables.x} \cdot {variables.x}</M> simpeler schrijven als <M>{square}.</M> Onderin komt er simpelweg een factor <M>{variables.x}</M> bij. Zo krijgen we <BM>{expression} = {ans}.</BM></Par>
 }
 
@@ -40,5 +39,5 @@ function getFeedback(exerciseData) {
 	const wrongNumerator = (input, correct, { variables, ans }) => !onlyOrderChanges(ans.numerator, input.numerator) && <>Er is iets mis met je teller. Hier is geen factor <M>{variables.x}</M> bijgekomen zoals beoogd.</>
 
 	// Determine feedback.
-	return getInputFieldFeedback('ans', exerciseData, { feedbackChecks: [originalExpression, noFraction, wrongDenominator, noSquare, wrongNumerator, incorrectExpression] })
+	return getFieldInputFeedback(exerciseData, { ans: [originalExpression, noFraction, wrongDenominator, noSquare, wrongNumerator, incorrectExpression] })
 }

@@ -2002,7 +2002,7 @@ class Fraction extends Function {
 		// Get the numerator.
 		const useMinus = !this.requiresPlusInSum()
 		let numStr = (useMinus ? this.numerator.applyMinus(!this.numerator.isSubtype(Sum)) : this.numerator).toString()
-		if (this.numerator.requiresBracketsFor(bracketLevels.multiplication))
+		if (this.numerator.requiresBracketsFor(bracketLevels.division))
 			numStr = `(${numStr})`
 
 		// Add the denominator.

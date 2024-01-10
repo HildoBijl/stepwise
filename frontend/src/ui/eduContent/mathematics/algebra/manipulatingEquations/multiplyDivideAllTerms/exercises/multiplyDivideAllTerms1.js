@@ -5,7 +5,7 @@ import { Sum, Product, expressionComparisons } from 'step-wise/CAS'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { EquationInput } from 'ui/inputs'
-import { useSolution, StepExercise, getInputFieldFeedback, equationChecks } from 'ui/eduTools'
+import { useSolution, StepExercise, getFieldInputFeedback, equationChecks } from 'ui/eduTools'
 
 const { onlyElementaryClean: expressionOnlyElementaryClean } = expressionComparisons
 const { originalEquation, incorrectEquation, correctEquation, correctEquationWithMessage, sumWithWrongTerms, sumWithUnsimplifiedTerms, hasSumWithinProduct } = equationChecks
@@ -88,7 +88,7 @@ function getFeedback(exerciseData) {
 	const insideBracketCheck = (input, correct, { equation }) => input.someSide((side, part) => equation[part].isSubtype(Sum) && !(side.isSubtype(Product) && side.terms.some(term => expressionOnlyElementaryClean(term, correct[part].terms[0])))) && <>Je hebt tussen de haakjes niet letterlijk de delen uit de vorige vergelijking opgenomen.</>
 
 	// Determine feedback.
-	return getInputFieldFeedback([
+	return getFieldInputFeedback([
 		'ans',
 		'intermediateWithBrackets',
 		'intermediateWithoutBrackets',

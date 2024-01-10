@@ -7,9 +7,9 @@ const availableVariableSets = [['a', 'b', 'c', 'd'], ['w', 'x', 'y', 'z'], ['p',
 const usedVariables = ['w', 'x', 'y', 'z']
 const constants = ['a', 'b']
 
-const data = {
+const metaData = {
 	skill: 'addRemoveFractionFactors',
-	comparison: expressionComparisons.onlyOrderChanges,
+	comparison: { default: expressionComparisons.onlyOrderChanges },
 }
 
 function generateState() {
@@ -28,17 +28,15 @@ function getSolution(state) {
 	const variables = filterVariables(state, usedVariables, constants)
 	const expression = asExpression('(axyz)/(bzwy)').substituteVariables(variables)
 	const ans = expression.regularClean()
-	return { ...state, variables, expression, ans }
+	return { variables, expression, ans }
 }
 
-function checkInput(state, input) {
-	return performComparison('ans', input, getSolution(state), data.comparison)
+function checkInput(exerciseData) {
+	return performComparison(exerciseData, 'ans')
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	getSolution,
-	checkInput,
+	...exercise,
+	processAction: getSimpleExerciseProcessor(exercise),
 }

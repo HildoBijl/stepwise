@@ -5,7 +5,7 @@ import { Integer, expressionComparisons } from 'step-wise/CAS'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
-import { useSolution, SimpleExercise, getInputFieldFeedback, expressionChecks } from 'ui/eduTools'
+import { useSolution, SimpleExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
 const { onlyOrderChanges } = expressionComparisons
 const { originalExpression, correctExpression, incorrectExpression } = expressionChecks
@@ -26,8 +26,7 @@ const Problem = () => {
 	</>
 }
 
-const Solution = () => {
-	const { upper, sum, expression, ans } = useSolution()
+const Solution = ({ upper, sum, expression, ans }) => {
 	if (upper)
 		return <Par>Zowel de teller als de noemer bevat een factor <M>{sum}.</M> Deze kan dus boven en onder weggelaten worden. Als we de noemer door <M>{sum}</M> delen, dan blijft er <M>1</M> over. Zo vinden we <BM>{expression} = \frac({ans})(1).</BM> Delen door <M>1</M> heeft geen effect, waardoor dit simpeler geschreven kan worden als <BM>{expression} = {ans}.</BM></Par>
 	return <Par>Zowel de teller als de noemer bevat een factor <M>{sum}.</M> Deze kan dus boven en onder weggelaten worden. Als we de teller door <M>{sum}</M> delen, dan blijft er <M>1</M> over. Zo vinden we <BM>{expression} = {ans}.</BM> Dit kan niet simpeler geschreven worden.</Par>
@@ -38,5 +37,5 @@ function getFeedback(exerciseData) {
 	const asFraction = (input, correct, { upper, ans }) => upper && onlyOrderChanges(ans.divide(Integer.one), input) && <>Je hebt goed de termen weggestreept, maar het resultaat kan nog verder gesimplificeerd worden.</>
 
 	// Determine feedback.
-	return getInputFieldFeedback('ans', exerciseData, { feedbackChecks: [originalExpression, asFraction, correctExpression, incorrectExpression] })
+	return getFieldInputFeedback(exerciseData, { ans: [originalExpression, asFraction, correctExpression, incorrectExpression] })
 }

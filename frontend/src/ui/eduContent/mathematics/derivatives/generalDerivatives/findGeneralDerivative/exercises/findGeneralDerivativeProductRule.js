@@ -5,7 +5,7 @@ import { expressionComparisons } from 'step-wise/CAS'
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput } from 'ui/inputs'
-import { useSolution, StepExercise, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
+import { useSolution, StepExercise, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 
@@ -139,7 +139,7 @@ function getFeedback(exerciseData) {
 				<>Nee. Er is hier geen sprake van een functie van "iets met <M>{x}</M>". Er is wel een functie van <M>{x}</M> zelf, maar daar is de kettingregel niet voor nodig.</>,
 			],
 		}),
-		...getInputFieldFeedback(['derivative'], exerciseData, [{ feedbackChecks: derivativeChecks }]),
+		...getFieldInputFeedback(['derivative'], exerciseData, [{ feedbackChecks: derivativeChecks }]),
 		...funcFeedback,
 	}
 }

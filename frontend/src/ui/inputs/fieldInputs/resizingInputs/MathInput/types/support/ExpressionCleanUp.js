@@ -39,7 +39,7 @@ export function cleanUp(FI, settings) {
 // cleanUpElements will take an expression FI object and walk through all children, calling the cleanUp function for them. It adjusts the cursor along when needed.
 function cleanUpElements(FI, settings) {
 	const { value, cursor } = FI
-	let newCursor = null
+	let newCursor = undefined
 	const newValue = value.map((_, part) => {
 		const newElementUncleaned = zoomInAt(FI, part)
 		const cleanUp = getFIFuncs(newElementUncleaned).cleanUp
@@ -123,7 +123,7 @@ function alternateExpressionParts(FI, settings) {
 
 	// Set up result parameters.
 	const newValue = []
-	let newCursor = null // Will be assigned once we get to the element the cursor points to.
+	let newCursor = undefined // Will be assigned once we get to the element the cursor points to.
 
 	// Ensure an expression part at the start.
 	newValue.push({ type: 'ExpressionPart', value: expressionPartFunctions.getEmpty() })
@@ -133,7 +133,7 @@ function alternateExpressionParts(FI, settings) {
 		const lastAddedElement = lastOf(newValue)
 		if (element.type === 'ExpressionPart' && lastAddedElement.type === 'ExpressionPart') {
 			// Two ExpressionParts in a row. Merge them. And if the cursor is in this merged ExpressionPart, position it appropriately. Also run a clean-up, in case this merging creates auto-replace options.
-			let jointCursor = null
+			let jointCursor = undefined
 			if (cursor?.part === index)
 				jointCursor = lastAddedElement.value.length + cursor.cursor
 			if (newCursor && newCursor.part === newValue.length - 1)
@@ -143,7 +143,7 @@ function alternateExpressionParts(FI, settings) {
 				value: lastAddedElement.value + element.value,
 				cursor: jointCursor,
 			}, settings)
-			if (jointCursor !== null)
+			if (jointCursor !== undefined)
 				newCursor = { part: newValue.length - 1, cursor: newExpressionPart.cursor }
 			newValue[newValue.length - 1] = removeCursor(newExpressionPart)
 		} else {

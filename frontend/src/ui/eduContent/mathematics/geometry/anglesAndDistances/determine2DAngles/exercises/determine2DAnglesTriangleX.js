@@ -6,7 +6,7 @@ import { Par, M, BM } from 'ui/components'
 import { Drawing, BoundedLine, Polygon, RightAngle, CornerLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
-import { useSolution, StepExercise, getInputFieldFeedback } from 'ui/eduTools'
+import { useSolution, StepExercise, getFieldInputFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -76,7 +76,7 @@ const steps = [
 ]
 
 function getFeedback(exerciseData) {
-	return getInputFieldFeedback(['alpha', 'beta', 'gamma'], exerciseData)
+	return getFieldInputFeedback(['alpha', 'beta', 'gamma'], exerciseData)
 }
 
 function ExerciseFigure({ showAlpha = 0, showBeta = 0, showGamma = 0 }) {

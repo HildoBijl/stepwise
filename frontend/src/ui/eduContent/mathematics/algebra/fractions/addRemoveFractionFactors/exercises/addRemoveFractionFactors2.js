@@ -5,7 +5,7 @@ import { expressionComparisons } from 'step-wise/CAS'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
-import { useSolution, SimpleExercise, getInputFieldFeedback, expressionChecks } from 'ui/eduTools'
+import { useSolution, SimpleExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
 const { onlyOrderChanges } = expressionComparisons
 const { originalExpression, correctExpression, incorrectExpression } = expressionChecks
@@ -26,8 +26,7 @@ const Problem = () => {
 	</>
 }
 
-const Solution = () => {
-	const { variables, square, expression, ans } = useSolution()
+const Solution = ({ variables, square, expression, ans }) => {
 	return <Par>Zowel de teller als de noemer bevatten een factor <M>{variables.x}.</M> De teller bevat er zelfs twee: onthoud dat <M>{square} = {variables.x} \cdot {variables.x}.</M> Als we de factor <M>{variables.x}</M> onderin wegstrepen tegen één van de factoren <M>{variables.x}</M> bovenin, dan blijven we over met <BM>{expression} = {ans}.</BM></Par>
 }
 
@@ -36,5 +35,5 @@ function getFeedback(exerciseData) {
 	const squareDisappeared = (input, correct, { square, variables, ans }) => onlyOrderChanges(input, ans.divide(variables.x).regularClean()) && <>Je hebt <M>{square}</M> in z'n geheel weggestreept tegen <M>{variables.x}.</M> Dat mag niet! Onthoud dat <M>{square} = {variables.x} \cdot {variables.x}.</M></>
 
 	// Determine feedback.
-	return getInputFieldFeedback('ans', exerciseData, { feedbackChecks: [originalExpression, squareDisappeared, correctExpression, incorrectExpression] })
+	return getFieldInputFeedback(exerciseData, { ans: [originalExpression, squareDisappeared, correctExpression, incorrectExpression] })
 }

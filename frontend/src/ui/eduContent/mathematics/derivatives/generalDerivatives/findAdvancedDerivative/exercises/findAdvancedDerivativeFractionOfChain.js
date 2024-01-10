@@ -5,7 +5,7 @@ import { expressionComparisons } from 'step-wise/CAS'
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput } from 'ui/inputs'
-import { useSolution, StepExercise, Substep, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
+import { useSolution, StepExercise, Substep, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 const { onlyOrderChanges, equivalent, constantMultiple } = expressionComparisons
 
@@ -139,6 +139,6 @@ function getFeedback(exerciseData) {
 				<>Bijna! Er is hier wel sprake van een functie van "iets met <M>{x}</M>". Dit is echter niet de <em>laatste</em> operatie die je uitvoert.</>,
 			],
 		}),
-		...getInputFieldFeedback(['derivative', 'f', 'g', 'fDerivative', 'gDerivative'], exerciseData, feedbackChecks.map(feedbackChecks => ({ feedbackChecks }))),
+		...getFieldInputFeedback(['derivative', 'f', 'g', 'fDerivative', 'gDerivative'], exerciseData, feedbackChecks.map(feedbackChecks => ({ feedbackChecks }))),
 	}
 }

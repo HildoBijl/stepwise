@@ -1,6 +1,6 @@
 // This file has all functionalities to turn Expressions, Equations and such from String format to Input Object format. (You can turn String to SI, SI to FO, and FO to String.)
 
-const { getNextSymbol, removeWhitespace, isLetter, processOptions } = require('../../../util')
+const { getNextSymbol, removeWhitespace, isLetter, processOptions, firstOf, lastOf } = require('../../../util')
 
 const { defaultFieldSettings } = require('../../options')
 
@@ -269,8 +269,8 @@ function applyFraction(value, cursor, settings) {
 	const numerator = processExpression(getSubExpression(value, leftSide, beforeSymbol), settings)
 	const denominator = processExpression(getSubExpression(value, afterSymbol, rightSide), settings)
 	const fractionValue = [
-		addExpressionType(numerator),
-		addExpressionType(denominator),
+		addExpressionType(removeSurroundingBrackets(numerator)),
+		addExpressionType(removeSurroundingBrackets(denominator)),
 	]
 
 	// Set up the fraction element.
@@ -309,4 +309,26 @@ function getBracketEnd(str, from) {
 	}
 
 	throw new Error(`Invalid bracket set-up: could not find a closing bracket to match with the given opening bracket.`)
+}
+
+// removeSurroundingBrackets receives an expression value (so an array) and, if it starts and ends with brackets, removes says brackets.
+function removeSurroundingBrackets(value) {
+	// Check if there are indeed brackets at the start and at the end.
+	const first = firstOf(value)
+	if (first.type !== 'ExpressionPart' || first.value.slice(0, 1) !== '(')
+		return value
+	const last = lastOf(value)
+	if (last.type !== 'ExpressionPart' || last.value.slice(-1) !== ')')
+		return value
+
+	// On a single-element array, adjust said element.
+	if (first === last)
+		return [{ ...first, value: first.value.slice(1, -1) }]
+
+	// On multiple elements, adjust first and last element.
+	return [
+		{ ...first, value: first.value.slice(1) },
+		...value.slice(1, -1),
+		{ ...last, value: last.value.slice(0, -1) },
+	]
 }

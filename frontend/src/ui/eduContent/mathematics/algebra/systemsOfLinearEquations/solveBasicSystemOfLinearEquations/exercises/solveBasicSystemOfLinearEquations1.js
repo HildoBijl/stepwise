@@ -3,7 +3,7 @@ import React from 'react'
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace, selectRandomCorrect, selectRandomIncorrect } from 'ui/form'
 import { ExpressionInput, EquationInput } from 'ui/inputs'
-import { useSolution, StepExercise, getInputFieldFeedback } from 'ui/eduTools'
+import { useSolution, StepExercise, getFieldInputFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -155,5 +155,5 @@ function getFeedback(exerciseData) {
 	}
 
 	// Determine feedback.
-	return getInputFieldFeedback(['eq1Solution', 'eq2Substituted', 'x', 'y'], exerciseData)
+	return getFieldInputFeedback(['eq1Solution', 'eq2Substituted', 'x', 'y'], exerciseData)
 }

@@ -3,7 +3,7 @@ import React from 'react'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
-import { useSolution, SimpleExercise, getInputFieldFeedback, expressionChecks } from 'ui/eduTools'
+import { useSolution, SimpleExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
 const { originalExpression, noFraction, hasFractionWithinFraction, correctExpression, incorrectExpression } = expressionChecks
 
@@ -23,8 +23,7 @@ const Problem = () => {
 	</>
 }
 
-const Solution = () => {
-	const { variables, expression, ans } = useSolution()
+const Solution = ({ variables, expression, ans }) => {
 	return <Par>Als je een breuk met een factor als <M>{variables.y}</M> vermenigvuldigt, dan komt die factor er bij de teller (bovenin) bij. Net zo geldt: als je een breuk met een breuk vermenigvuldigt, dan vermenigvuldig je los de tellers (bovenkanten) met elkaar en de noemers (onderkanten) met elkaar. Volgens deze regels vinden we <BM>{expression} = {ans}.</BM> Dit is al een correct antwoord, maar het kan eventuaal nog iets netter/simpeler geschreven worden als <BM>{expression.regularClean()}.</BM></Par>
 }
 
@@ -37,5 +36,5 @@ function getFeedback(exerciseData) {
 		correctExpression,
 	]
 
-	return getInputFieldFeedback('ans', exerciseData, { feedbackChecks })
+	return getFieldInputFeedback('ans', exerciseData, { feedbackChecks })
 }

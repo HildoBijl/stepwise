@@ -134,7 +134,7 @@ function coordinatesToCursor(coordinates, boundsData, FI, charElements, contents
 	const part = getFIFuncs(FI).charPartToValuePart(charPart)
 	const element = FI.value[part]
 	const newCursor = getFIFuncs(element).coordinatesToCursor(coordinates, boundsData.parts[charPart], element, charElements[charPart], contentsElement)
-	return newCursor === null ? null : {
+	return newCursor === undefined ? undefined : {
 		part,
 		cursor: newCursor,
 	}

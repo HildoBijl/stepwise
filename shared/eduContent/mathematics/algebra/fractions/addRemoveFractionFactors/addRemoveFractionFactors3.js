@@ -7,9 +7,9 @@ const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']
 const usedVariables = ['x', 'y', 'z']
 const constants = ['a']
 
-const data = {
+const metaData = {
 	skill: 'addRemoveFractionFactors',
-	comparison: expressionComparisons.onlyOrderChanges,
+	comparison: { default: expressionComparisons.onlyOrderChanges },
 }
 
 function generateState() {
@@ -33,14 +33,12 @@ function getSolution(state) {
 	return { ...state, variables, sum, term, product, expression, ans }
 }
 
-function checkInput(state, input) {
-	return performComparison('ans', input, getSolution(state), data.comparison)
+function checkInput(exerciseData) {
+	return performComparison(exerciseData, 'ans')
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	getSolution,
-	checkInput,
+	...exercise,
+	processAction: getSimpleExerciseProcessor(exercise),
 }

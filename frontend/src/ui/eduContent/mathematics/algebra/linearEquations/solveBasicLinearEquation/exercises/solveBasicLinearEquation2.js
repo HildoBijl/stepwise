@@ -5,7 +5,7 @@ import { Sum, Product, expressionComparisons } from 'step-wise/CAS'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput, EquationInput } from 'ui/inputs'
-import { useSolution, StepExercise, getInputFieldFeedback, expressionChecks, equationChecks } from 'ui/eduTools'
+import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks, equationChecks } from 'ui/eduTools'
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 const { hasX, incorrectFraction, incorrectExpression } = expressionChecks
@@ -114,7 +114,7 @@ function getFeedback(exerciseData) {
 	}
 
 	// Determine feedback.
-	return getInputFieldFeedback([
+	return getFieldInputFeedback([
 		'ans',
 		'termsMoved',
 		'pulledOut',

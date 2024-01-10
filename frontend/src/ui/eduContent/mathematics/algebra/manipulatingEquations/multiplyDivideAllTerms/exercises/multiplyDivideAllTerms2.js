@@ -5,7 +5,7 @@ import { Integer, Fraction, expressionComparisons } from 'step-wise/CAS'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { EquationInput } from 'ui/inputs'
-import { useSolution, StepExercise, getInputFieldFeedback, equationChecks } from 'ui/eduTools'
+import { useSolution, StepExercise, getFieldInputFeedback, equationChecks } from 'ui/eduTools'
 
 const { onlyElementaryClean: expressionOnlyElementaryClean } = expressionComparisons
 const { originalEquation, incorrectEquation, correctEquation, correctEquationWithMessage, sumWithWrongTerms, sumWithUnsimplifiedTerms, hasSumWithinFraction } = equationChecks
@@ -88,7 +88,7 @@ function getFeedback(exerciseData) {
 	const insideBracketCheck = (input, correct, { equation }) => input.someSide((side, part) => !Integer.zero.equals(equation[part]) && (!side.isSubtype(Fraction) || !expressionOnlyElementaryClean(side.numerator, equation[part]))) && <>Je hebt in de tellers van de breuken niet letterlijk de delen uit de vorige vergelijking opgenomen.</>
 
 	// Determine feedback.
-	return getInputFieldFeedback([
+	return getFieldInputFeedback([
 		'ans',
 		'intermediateWithBrackets',
 		'intermediateWithoutBrackets',

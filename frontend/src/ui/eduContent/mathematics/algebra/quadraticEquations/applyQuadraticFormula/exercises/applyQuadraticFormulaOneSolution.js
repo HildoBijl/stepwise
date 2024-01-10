@@ -5,7 +5,7 @@ import { numberArray } from 'step-wise/util'
 import { Par, M, BM } from 'ui/components'
 import { useInput, InputSpace, selectRandomIncorrect } from 'ui/form'
 import { MultipleChoice, ExpressionInput } from 'ui/inputs'
-import { useSolution, StepExercise, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
+import { useSolution, StepExercise, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -118,7 +118,7 @@ function getFeedback(exerciseData) {
 				<>Nee, dit kan niet. Een kwadratische vergelijking heeft nooit meer dan twee oplossingen.</>,
 			],
 		}),
-		...getInputFieldFeedback(['a', 'b', 'c', 'D', 'x1'], exerciseData),
+		...getFieldInputFeedback(['a', 'b', 'c', 'D', 'x1'], exerciseData),
 		x2: selectRandomIncorrect(true),
 	}
 }

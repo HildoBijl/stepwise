@@ -9,7 +9,7 @@ import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { Drawing, Polygon, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
 import { useInput, InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput, EquationInput } from 'ui/inputs'
-import { useExerciseData, StepExercise, useSolution, equationChecks, getInputFieldFeedback, getInputFieldListFeedback, getMCFeedback } from 'ui/eduTools'
+import { useExerciseData, StepExercise, useSolution, equationChecks, getFieldInputFeedback, getInputFieldListFeedback, getMCFeedback } from 'ui/eduTools'
 
 const { hasIncorrectSide } = equationChecks
 
@@ -139,7 +139,7 @@ function getFeedback(exerciseData) {
 	return {
 		...getMCFeedback('rule', exerciseData, { text: ruleText }),
 		...getMCFeedback('numSolutions', exerciseData, { text: numSolutionsText }),
-		...getInputFieldFeedback('equation', exerciseData, { feedbackChecks: equationChecks }),
+		...getFieldInputFeedback('equation', exerciseData, { feedbackChecks: equationChecks }),
 		...getInputFieldListFeedback(['b1', 'b2'], exerciseData),
 	}
 }

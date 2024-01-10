@@ -5,7 +5,7 @@ import { Integer, Sum, Product, Fraction, expressionComparisons } from 'step-wis
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
-import { useSolution, StepExercise, getInputFieldFeedback, expressionChecks } from 'ui/eduTools'
+import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
 const { onlyOrderChanges, equivalent } = expressionComparisons
 const { originalExpression, sumWithUnsimplifiedTerms, correctExpression, incorrectExpression } = expressionChecks
@@ -187,5 +187,5 @@ function getFeedback(exerciseData) {
 		correctExpression,
 	]
 
-	return getInputFieldFeedback(['ans', 'factor', 'setup', 'fractionSimplified', 'expression'], exerciseData, [ansChecks, factorChecks, setupChecks, fractionSimplifiedChecks, expressionComparisons].map(feedbackChecks => ({ feedbackChecks })))
+	return getFieldInputFeedback(['ans', 'factor', 'setup', 'fractionSimplified', 'expression'], exerciseData, [ansChecks, factorChecks, setupChecks, fractionSimplifiedChecks, expressionComparisons].map(feedbackChecks => ({ feedbackChecks })))
 }

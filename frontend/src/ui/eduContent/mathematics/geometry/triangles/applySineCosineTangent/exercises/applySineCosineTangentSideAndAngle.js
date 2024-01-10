@@ -7,7 +7,7 @@ import { Par, M, BM } from 'ui/components'
 import { Drawing, Polygon, RightAngle, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput, EquationInput } from 'ui/inputs'
-import { StepExercise, useExerciseData, useSolution, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
+import { StepExercise, useExerciseData, useSolution, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 const ruleNames = ['SOS', 'CAS', 'TOA']
 const funcNames = ['sinus', 'cosinus', 'tangens']
@@ -102,7 +102,7 @@ function getFeedback(exerciseData) {
 
 	return {
 		...getMCFeedback('rule', exerciseData, { text }),
-		...getInputFieldFeedback(['ans', 'equation'], exerciseData, [ansChecks, equationChecks].map(feedbackChecks => ({ feedbackChecks }))),
+		...getFieldInputFeedback(['ans', 'equation'], exerciseData, [ansChecks, equationChecks].map(feedbackChecks => ({ feedbackChecks }))),
 	}
 }
 

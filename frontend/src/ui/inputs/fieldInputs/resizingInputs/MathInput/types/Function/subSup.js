@@ -86,7 +86,7 @@ function moveCursorToSubSup(expressionFI, part, toSubscript, atStart) {
 	// First check if the respective part (subscript or superscript) still needs to be added.
 	let element = value[part]
 	const elementPart = toSubscript ? 0 : 1
-	if (element.value[elementPart] === null) {
+	if (element.value[elementPart] === undefined) {
 		element = {
 			...element,
 			value: toSubscript ? [getEmptySub(), element.value[1]] : [element.value[0], getEmptySup()]
@@ -128,11 +128,11 @@ function getInitial(alias) {
 	if (alias === '_') {
 		return [
 			getEmptySub(),
-			null,
+			undefined,
 		]
 	} else {
 		return [
-			null,
+			undefined,
 			getEmptySup(),
 		]
 	}
@@ -183,12 +183,12 @@ function cleanUp(FI, settings) {
 	const { cursor, value } = FI
 	return {
 		...FI,
-		value: value.map((element, part) => element && (!isFIEmpty(element) || (cursor?.part === part)) ? element : null),
+		value: value.map((element, part) => element && (!isFIEmpty(element) || (cursor?.part === part)) ? element : undefined),
 	}
 }
 
 function canMerge(FI, mergeWithNext, fromOutside) {
-	return FI.value[1] !== null && mergeWithNext // Only merge the superscript with what comes after.
+	return FI.value[1] !== undefined && mergeWithNext // Only merge the superscript with what comes after.
 }
 
 function merge(FI, partIndex, mergeWithNext, fromOutside) {

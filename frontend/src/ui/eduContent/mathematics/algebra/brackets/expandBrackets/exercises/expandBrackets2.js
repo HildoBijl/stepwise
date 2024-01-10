@@ -5,7 +5,7 @@ import { simplifyOptions } from 'step-wise/CAS'
 import { Par, SubHead, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
-import { useSolution, StepExercise, getInputFieldFeedback, expressionChecks } from 'ui/eduTools'
+import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
 const { originalExpression, hasSumWithinProduct, sumWithWrongTerms, correctExpression, incorrectExpression } = expressionChecks
 
@@ -79,5 +79,5 @@ function getFeedback(exerciseData) {
 		incorrectExpression,
 		correctExpression,
 	]
-	return getInputFieldFeedback(['ans', 'intermediate'], exerciseData, [ansChecks, intermediateChecks].map(feedbackChecks => ({ feedbackChecks })))
+	return getFieldInputFeedback(['ans', 'intermediate'], exerciseData, [ansChecks, intermediateChecks].map(feedbackChecks => ({ feedbackChecks })))
 }

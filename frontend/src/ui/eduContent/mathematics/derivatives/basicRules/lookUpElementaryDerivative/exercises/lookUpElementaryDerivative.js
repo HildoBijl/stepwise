@@ -5,7 +5,7 @@ import { Variable } from 'step-wise/CAS'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
-import { useSolution, SimpleExercise, getInputFieldFeedback } from 'ui/eduTools'
+import { useSolution, SimpleExercise, getFieldInputFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />
@@ -23,8 +23,7 @@ const Problem = () => {
 	</>
 }
 
-const Solution = () => {
-	const { f, x, func, derivative } = useSolution()
+const Solution = ({ f, x, func, derivative }) => {
 
 	// Check the various cases that we may have.
 	if (func.isSubtype('Power') && func.exponent.isNumeric()) { // x^n
@@ -131,5 +130,5 @@ function getFeedback(exerciseData) {
 
 	// Extract the feedback.
 	const feedbackChecks = [check]
-	return getInputFieldFeedback('derivative', exerciseData, { feedbackChecks })
+	return getFieldInputFeedback('derivative', exerciseData, { feedbackChecks })
 }

@@ -5,7 +5,7 @@ import { expressionComparisons } from 'step-wise/CAS'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
-import { SimpleExercise, useSolution, getInputFieldFeedback, expressionChecks } from 'ui/eduTools'
+import { SimpleExercise, useSolution, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
 const { onlyOrderChanges } = expressionComparisons
 const { originalExpression, correctExpression, incorrectExpression } = expressionChecks
@@ -26,8 +26,7 @@ const Problem = () => {
 	</>
 }
 
-const Solution = () => {
-	const { variables, expression, ans } = useSolution()
+const Solution = ({ variables, expression, ans }) => {
 	return <Par>Zowel de teller als de noemer bevat een factor <M>{variables.y}.</M> Deze kan dus boven en onder weggelaten worden. Hetzelfde geldt voor de factor <M>{variables.z}</M>: die kan ook weggestreept worden. Er geldt dus <BM>{expression} = {ans}.</BM></Par>
 }
 
@@ -36,5 +35,5 @@ function getFeedback(exerciseData) {
 	const oneVariableCancelled = (input, correct, { variables, ans }) => (onlyOrderChanges(input, ans.multiplyNumDen(variables.y)) || onlyOrderChanges(input, ans.multiplyNumDen(variables.z))) && <>Goed op weg, maar er is nòg een variabele die je weg kunt strepen.</>
 
 	// Determine feedback.
-	return getInputFieldFeedback('ans', exerciseData, { feedbackChecks: [originalExpression, oneVariableCancelled, correctExpression, incorrectExpression] })
+	return getFieldInputFeedback(exerciseData, { ans: [originalExpression, oneVariableCancelled, correctExpression, incorrectExpression] })
 }

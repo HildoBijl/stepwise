@@ -5,7 +5,7 @@ import { expressionComparisons } from 'step-wise/CAS'
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
-import { useSolution, StepExercise, Substep, getInputFieldFeedback, expressionChecks } from 'ui/eduTools'
+import { useSolution, StepExercise, Substep, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
 const { onlyOrderChanges, equivalent, constantMultiple } = expressionComparisons
 const { sumWithWrongTerms } = expressionChecks
@@ -83,5 +83,5 @@ function getFeedback(exerciseData) {
 	const feedbackChecks = [derivativeChecks, fDerivativeChecks, fDerivativeChecks]
 
 	// Determine feedback.
-	return getInputFieldFeedback(['derivative', 'fDerivative', 'gDerivative'], exerciseData, feedbackChecks.map(feedbackChecks => ({ feedbackChecks })))
+	return getFieldInputFeedback(['derivative', 'fDerivative', 'gDerivative'], exerciseData, feedbackChecks.map(feedbackChecks => ({ feedbackChecks })))
 }

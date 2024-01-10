@@ -5,7 +5,7 @@ import { expressionComparisons } from 'step-wise/CAS'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput } from 'ui/inputs'
-import { useSolution, SimpleExercise, getInputFieldFeedback, expressionChecks } from 'ui/eduTools'
+import { useSolution, SimpleExercise, getFieldInputFeedback, expressionChecks } from 'ui/eduTools'
 
 const { equivalent } = expressionComparisons
 const { originalExpression, noSum, sumWithWrongTerms, noFraction, hasFractionWithinFraction, correctExpression, incorrectExpression } = expressionChecks
@@ -26,8 +26,7 @@ const Problem = () => {
 	</>
 }
 
-const Solution = () => {
-	const { toSplit, plus, expression, ans } = useSolution()
+const Solution = ({ toSplit, plus, expression, ans }) => {
 	if (toSplit) {
 		return <Par>Bij een breuk mag je elke term in de teller ook los door de noemer delen. Een eventueel plus/min teken blijft hierbij behouden. Zo vinden we <BM>{expression} = {ans}.</BM></Par>
 	}
@@ -60,5 +59,5 @@ function getFeedback(exerciseData) {
 	]
 
 	// Determine feedback.
-	return getInputFieldFeedback('ans', exerciseData, { feedbackChecks })
+	return getFieldInputFeedback('ans', exerciseData, { feedbackChecks })
 }

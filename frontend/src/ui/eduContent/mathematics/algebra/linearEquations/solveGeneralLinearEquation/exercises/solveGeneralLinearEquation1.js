@@ -3,7 +3,7 @@ import React from 'react'
 import { Par, M, BM } from 'ui/components'
 import { InputSpace } from 'ui/form'
 import { ExpressionInput, EquationInput } from 'ui/inputs'
-import { useSolution, StepExercise, getInputFieldFeedback, expressionChecks, equationChecks } from 'ui/eduTools'
+import { useSolution, StepExercise, getFieldInputFeedback, expressionChecks, equationChecks } from 'ui/eduTools'
 
 const { hasX, incorrectFraction, incorrectExpression } = expressionChecks
 const { originalEquation, correctEquation, incorrectEquation, hasFraction, hasSumWithinProduct } = equationChecks
@@ -77,7 +77,7 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	// Determine feedback.
-	return getInputFieldFeedback([
+	return getFieldInputFeedback([
 		'ans',
 		'multiplied',
 		'expanded',

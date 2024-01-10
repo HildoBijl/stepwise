@@ -277,7 +277,7 @@ export function charElementClickToCursor(evt, FI, trace, charElements, equationE
 	const { value } = FI
 	const part = firstOf(trace)
 	const newCursor = getFIFuncs(value[part]).charElementClickToCursor(evt, value[part], trace.slice(1), charElements[part], equationElement)
-	return newCursor === null ? null : {
+	return newCursor === undefined ? undefined : {
 		part,
 		cursor: newCursor,
 	}

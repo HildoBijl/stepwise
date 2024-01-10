@@ -8,7 +8,7 @@ import { Par, M, BM } from 'ui/components'
 import { Drawing, Polygon, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
 import { useInput, InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput } from 'ui/inputs'
-import { useExerciseData, StepExercise, useSolution, getInputFieldFeedback, getMCFeedback } from 'ui/eduTools'
+import { useExerciseData, StepExercise, useSolution, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -110,7 +110,7 @@ function getFeedback(exerciseData) {
 
 	return {
 		...getMCFeedback('numSolutions', exerciseData, { text: numSolutionsText }),
-		...getInputFieldFeedback(['a', 'βRaw', 'β'], exerciseData, [[], [], []].map(feedbackChecks => ({ feedbackChecks }))),
+		...getFieldInputFeedback(['a', 'βRaw', 'β'], exerciseData, [[], [], []].map(feedbackChecks => ({ feedbackChecks }))),
 	}
 }
 

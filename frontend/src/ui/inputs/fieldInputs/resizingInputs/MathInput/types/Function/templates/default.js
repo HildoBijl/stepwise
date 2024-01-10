@@ -140,13 +140,13 @@ export function charElementClickToCursor(evt, FI, trace, charElements, equationE
 	const part = getFIFuncs(FI).charPartToValuePart(charPart)
 	const element = FI.value[part]
 
-	// If no element can be traced, then most likely the user clicked on the function name. Return null to indicate we cannot use the element to trace the cursor position.
+	// If no element can be traced, then most likely the user clicked on the function name. Return undefined to indicate we cannot use the element to trace the cursor position.
 	if (!element)
-		return null
+		return undefined
 
 	// All good. Pass on to the respective element.
 	const newCursor = getFIFuncs(element).charElementClickToCursor(evt, element, trace.slice(1), charElements[charPart], equationElement)
-	return newCursor === null ? null : {
+	return newCursor === undefined ? undefined : {
 		part,
 		cursor: newCursor,
 	}
@@ -157,7 +157,7 @@ export function coordinatesToCursor(coordinates, boundsData, FI, charElements, c
 	const part = getFIFuncs(FI).charPartToValuePart(charPart)
 	const element = FI.value[part]
 	const newCursor = getFIFuncs(element).coordinatesToCursor(coordinates, boundsData.parts[charPart], element, charElements[charPart], contentsElement)
-	return newCursor === null ? null : {
+	return newCursor === undefined ? undefined : {
 		part,
 		cursor: newCursor,
 	}
@@ -203,11 +203,11 @@ export function cleanUp(FI, settings) {
 	const { value, cursor } = FI
 
 	// Clean up the parts individually, keeping track of the cursor.
-	let newCursor = null
+	let newCursor = undefined
 	const newValue = value.map((_, part) => {
 		// Extract the element.
 		const element = zoomInAt(FI, part)
-		if (element === null)
+		if (element === undefined)
 			return element
 
 		// Clean up the element if we can.
