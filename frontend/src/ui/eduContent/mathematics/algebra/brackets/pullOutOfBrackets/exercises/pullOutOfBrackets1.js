@@ -141,5 +141,5 @@ function getFeedback(exerciseData) {
 		correctExpression,
 	]
 
-	return getFieldInputFeedback(['ans', 'setup', 'fractionSimplified', 'expression'], exerciseData, [ansChecks, setupChecks, fractionSimplifiedChecks, expressionComparisons].map(feedbackChecks => ({ feedbackChecks })))
+	return getFieldInputFeedback(exerciseData, { ans: ansChecks, setup: setupChecks, fractionSimplified: fractionSimplifiedChecks, expression: expressionComparisons })
 }

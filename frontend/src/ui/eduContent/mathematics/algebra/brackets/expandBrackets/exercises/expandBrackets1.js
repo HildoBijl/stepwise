@@ -36,5 +36,5 @@ function getFeedback(exerciseData) {
 		incorrectExpression,
 		correctExpression,
 	]
-	return getFieldInputFeedback('ans', exerciseData, { feedbackChecks })
+	return getFieldInputFeedback(exerciseData, { ans: feedbackChecks })
 }

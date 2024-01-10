@@ -6,7 +6,7 @@ function getCurrentInputSolutionAndComparison(currParameter, input, solution, co
 	if (currInput === undefined)
 		throw new Error(`Field check error: could not find an input for field "${currParameter}". Make sure that there is an input field named "${currParameter}".`)
 
-	// Extract the current solution
+	// Extract the current solution.
 	if (!solution)
 		throw new Error(`Field check error: no solution present. Make sure that the exercise has a getSolution function or object.`)
 	const currSolution = solution[currParameter]
@@ -14,6 +14,8 @@ function getCurrentInputSolutionAndComparison(currParameter, input, solution, co
 		throw new Error(`Field check error: could not find a solution answer for field "${currParameter}". Make sure it is exported from the getSolution function inside an object. The getSolution function should return something of the form { param1: ..., param2: ... }.`)
 
 	// Extract the comparison method. First try the specified parameter comparisons, and then the general ones from the metaData.
+	if (typeof comparison === 'function')
+		comparison = { default: comparison } // On only a comparison function, use it for everything.
 	const currComparison = parameterComparison[currParameter] || (comparison && comparison[currParameter]) || comparison?.default
 
 	// Gather and return the results.
