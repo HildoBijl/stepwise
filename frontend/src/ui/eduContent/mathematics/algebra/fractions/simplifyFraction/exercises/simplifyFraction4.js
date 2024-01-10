@@ -120,5 +120,5 @@ function getFeedback(exerciseData) {
 		...numeratorChecks.slice(1),
 	]
 
-	return getFieldInputFeedback(['ans', 'numeratorIntermediate', 'denominatorIntermediate'], exerciseData, [ansChecks, numeratorChecks, denominatorChecks].map(feedbackChecks => ({ feedbackChecks })))
+	return getFieldInputFeedback(exerciseData, { ans: ansChecks, numeratorIntermediate: numeratorChecks, denominatorIntermadiate: denominatorChecks })
 }

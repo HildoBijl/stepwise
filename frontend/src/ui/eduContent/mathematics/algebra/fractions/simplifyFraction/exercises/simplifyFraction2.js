@@ -98,5 +98,5 @@ function getFeedback(exerciseData) {
 		correctExpression,
 	]
 
-	return getFieldInputFeedback(['ans', 'intermediate'], exerciseData, [ansChecks, intermediateChecks].map(feedbackChecks => ({ feedbackChecks })))
+	return getFieldInputFeedback(exerciseData, { ans: ansChecks, intermediate: intermediateChecks})
 }

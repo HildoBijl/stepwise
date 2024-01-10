@@ -9,7 +9,7 @@ const constants = ['a']
 
 const metaData = {
 	skill: 'addRemoveFractionFactors',
-	comparison: { ans: (input, correct, { upper, sum }) => input.isSubtype(Fraction) && expressionComparisons.onlyOrderChanges(sum, input[upper ? 'denominator' : 'numerator']) && expressionComparisons.equivalent(input, correct) },
+	comparison: (input, correct, { upper, sum }) => input.isSubtype(Fraction) && expressionComparisons.onlyOrderChanges(sum, input[upper ? 'denominator' : 'numerator']) && expressionComparisons.equivalent(input, correct),
 }
 
 function generateState() {

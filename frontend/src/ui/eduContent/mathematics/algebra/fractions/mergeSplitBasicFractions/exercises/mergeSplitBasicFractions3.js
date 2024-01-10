@@ -59,5 +59,5 @@ function getFeedback(exerciseData) {
 	]
 
 	// Determine feedback.
-	return getFieldInputFeedback('ans', exerciseData, { feedbackChecks })
+	return getFieldInputFeedback(exerciseData, { ans: feedbackChecks })
 }

@@ -130,5 +130,5 @@ function getFeedback(exerciseData) {
 	]
 
 	// Determine feedback.
-	return getFieldInputFeedback(['ans', 'denominator', 'leftAns', 'rightAns'], exerciseData, [ansChecks, denominatorChecks, fractionChecks, fractionChecks].map(feedbackChecks => ({ feedbackChecks })))
+	return getFieldInputFeedback(exerciseData, { ans: ansChecks, denominator: denominatorChecks, leftAns: fractionChecks, rightAns: fractionChecks })
 }

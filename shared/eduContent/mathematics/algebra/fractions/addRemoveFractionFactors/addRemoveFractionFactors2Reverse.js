@@ -9,7 +9,7 @@ const constants = ['a']
 
 const metaData = {
 	skill: 'addRemoveFractionFactors',
-	comparison: { default: expressionComparisons.onlyOrderChanges },
+	comparison: expressionComparisons.onlyOrderChanges,
 }
 
 function generateState() {

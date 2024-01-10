@@ -38,6 +38,5 @@ function getFeedback(exerciseData) {
 		hasFractionWithinFraction,
 		correctExpression,
 	]
-
-	return getFieldInputFeedback('ans', exerciseData, { feedbackChecks })
+	return getFieldInputFeedback(exerciseData, { ans: feedbackChecks })
 }

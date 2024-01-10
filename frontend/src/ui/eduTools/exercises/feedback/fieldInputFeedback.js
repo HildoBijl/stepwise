@@ -53,9 +53,15 @@ export function getFieldInputFeedback(exerciseData, parameterOptions) {
 	if (!isBasicObject(parameterOptions))
 		throw new Error(`Invalid getFieldInputFeedback parameters: expected either a string, an array of strings or an object with options, but received something of type ${typeof parameterOptions}.`)
 
-	// Walk through the parameters and incorporate feedback.
+	// Check out which comparison has been provided.
 	const { input, solution, metaData, previousInput, previousFeedback } = exerciseData
-	const { comparison } = metaData
+	let { comparison } = metaData
+	if (typeof comparison === 'function')
+		comparison = { default: comparison }
+	if (!isBasicObject(comparison))
+		throw new Error(`Invalid comparison parameter: expected a basic object with comparison options/functions for each parameter. Received something of type ${typeof comparison}.`)
+
+	// Walk through the parameters and incorporate feedback.
 	return applyMapping(parameterOptions, (currOptions, currParameter) => {
 		// Extract input and solution. Ignore parameters with no input.
 		const currInput = input[currParameter]

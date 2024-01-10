@@ -9,14 +9,12 @@ const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']
 const usedVariables = ['x', 'y', 'z']
 const constants = ['a', 'b']
 
-const data = {
+const metaData = {
 	skill: 'mergeSplitFractions',
 	steps: ['mergeSplitBasicFractions', ['addRemoveFractionFactors', 'addRemoveFractionFactors'], null],
-	comparison: {
-		default: onlyOrderChanges,
-	},
+	comparison: onlyOrderChanges,
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const variableSet = selectRandomly(availableVariableSets)
@@ -48,20 +46,19 @@ function getSolution(state) {
 	return { ...state, variables, expression, leftExpression, rightExpression, split, leftAns, rightAns, ans }
 }
 
-function checkInput(state, input, step) {
-	const solution = getSolution(state)
-	if (step === 0 || step === 3)
-		return performComparison('ans', input, solution, data.comparison)
-	if (step === 1)
-		return performComparison('split', input, solution, data.comparison)
-	if (step === 2)
-		return performComparison(['leftAns', 'rightAns'], input, solution, data.comparison)
+function checkInput(exerciseData, step) {
+	switch (step) {
+		case 1:
+			return performComparison(exerciseData, 'split')
+		case 2:
+			return performComparison(exerciseData, ['leftAns', 'rightAns'])
+		default:
+			return performComparison(exerciseData, 'ans')
+	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	getSolution,
-	checkInput,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }
