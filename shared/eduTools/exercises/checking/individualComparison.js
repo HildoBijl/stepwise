@@ -3,31 +3,27 @@ const { Expression } = require('../../../CAS')
 
 const { areNumbersEqual } = require('../../../inputTypes')
 
-const { getCurrentInputSolutionAndComparison } = require('./util')
+const { getCurrentInputSolutionAndComparison, processParameterComparison } = require('./util')
 
 /*
  * performComparison is a general call to perform an "equals" comparison for an input parameter or set of parameters with the corresponding solution. It attempts to find the correct way of performing said comparison. It requires the following input.
  * - exerciseData: an object of the form { input: { ... }, solution: { ... }, metaData: { comparison: { ... } } }. It has the general data of the exercise and what happened with it.
  * - parameterComparison: the parameters that need to be compared. This can be an array of names ['x1', 'x2', ...] or an object with comparisons { x1: { ... options ... }, x2: (currInput, currSolution, solution) => true/false, ... }.
+ * - generalComparison: (optional) a comparison function/object that is used when a parameter has no comparison/function given in the parameterComparison parameter. If this is not given, the exercise metaData comparison parameter is used instead.
  * It only returns true when all parameters give a positive response on equality.
  */
-function performComparison(exerciseData, parameterComparison) {
+function performComparison(exerciseData, parameterComparison, generalComparison) {
 	// Get the parameters out of the given objects.
 	const { input, solution, metaData } = exerciseData
 	const { comparison } = metaData
 
 	// Ensure the parameterComparison is an object.
-	if (typeof parameterComparison === 'string')
-		parameterComparison = [parameterComparison]
-	if (Array.isArray(parameterComparison))
-		parameterComparison = keysToObject(parameterComparison, () => undefined, false)
-	if (!isBasicObject(parameterComparison))
-		throw new Error(`Invalid parameterComparison provided: expected a basic object, but received something of type ${typeof parameterComparison}.`)
+	parameterComparison = processParameterComparison(parameterComparison)
 
 	// Walk through the parameters and perform a comparison.
 	return Object.keys(parameterComparison).every(currParameter => {
 		// Extract the current input, solution and parameter settings method.
-		const { currInput, currSolution, currComparison } = getCurrentInputSolutionAndComparison(currParameter, input, solution, comparison, parameterComparison)
+		const { currInput, currSolution, currComparison } = getCurrentInputSolutionAndComparison(currParameter, input, solution, comparison, parameterComparison, generalComparison)
 
 		// Perform the comparison for this individual parameter.
 		return performIndividualComparison(currInput, currSolution, currComparison, solution)

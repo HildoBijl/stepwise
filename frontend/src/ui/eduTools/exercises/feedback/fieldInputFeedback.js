@@ -1,11 +1,13 @@
 import { isValidElement } from 'react'
 
-import { arrayFind, isBasicObject, keysToObject, processOptions, deepEquals, applyMapping } from 'step-wise/util'
+import { arrayFind, isBasicObject, processOptions, deepEquals, applyMapping } from 'step-wise/util'
 import { checkNumberEquality, areNumbersEqual, Float, Unit, FloatUnit, Expression } from 'step-wise/inputTypes'
 import { performIndividualComparison, performIndividualListComparison, getCurrentInputSolutionAndComparison } from 'step-wise/eduTools'
 
 import { Translation } from 'i18n'
 import { selectRandomCorrect, selectRandomIncorrect, selectRandomIncorrectUnit, selectRandomDuplicate, selectRandomNonNumeric } from 'ui/inputs'
+
+import { processParameterOptions } from './util'
 
 const defaultOptions = {
 	// These are options that can be manually added.
@@ -46,12 +48,7 @@ export function getAllInputFieldsFeedbackExcluding(excludedFields) {
 // getFieldInputFeedback takes an exercise data object and an array of parameters ['p1', 'p2'] and tries to get feedback for these parameters in a default way. It is also possible to pass the parameters as an object of the form { p1: { feedbackChecks: [...], comparison: {...}, p2: { ... } } } to pass extra options per parameter. In the special case that only an array is passed { p1: [...], p2: ... } then this array is assumed to be the feedbackChecks.
 export function getFieldInputFeedback(exerciseData, parameterOptions) {
 	// Process the parameters.
-	if (typeof parameterOptions === 'string')
-		parameterOptions = [parameterOptions]
-	if (Array.isArray(parameterOptions))
-		parameterOptions = keysToObject(parameterOptions, () => ({}))
-	if (!isBasicObject(parameterOptions))
-		throw new Error(`Invalid getFieldInputFeedback parameters: expected either a string, an array of strings or an object with options, but received something of type ${typeof parameterOptions}.`)
+	parameterOptions = processParameterOptions(parameterOptions)
 
 	// Check out which comparison has been provided.
 	const { input, solution, metaData, previousInput, previousFeedback } = exerciseData
@@ -301,34 +298,36 @@ export function getUnitComparisonFeedback(currInput, currSolution, currCompariso
 	return selectRandomIncorrectUnit()
 }
 
-// ToDo: turn this into getFieldInputListFeedback and convert to the new format.
-/* getInputFieldListFeedback gets an array of parameters and attempts to give feedback for the respective input fields. The main difference is that the fields may not have to be in the same order as the fields in the solution field.
+// ToDo: remove this.
+export function getInputFieldListFeedback() { }
+
+/* getFieldInputListFeedback gets an array of parameters and attempts to give feedback for the respective input fields. The main difference is that the fields may not have to be in the same order as the fields in the solution field.
 The extra options given can be an array with options for each parameter, or it can be single object that holds for every parameter. It may contain specific text to give on a "correct", a "wrongValue" case or a "usedValue" case. */
-export function getInputFieldListFeedback(parameters, exerciseData, extraOptions = []) {
-	// Extract parameters and check that they are suitable.	
-	const { input, solution, comparison } = extractComparisonFromExerciseData(exerciseData)
+export function getFieldInputListFeedback(exerciseData, parameterOptions, generalOptions = {}) {
+	parameterOptions = processParameterOptions(parameterOptions)
 
 	// Define the way in which the answers are compared.
-	const doValuesMatch = (inputParameter, solutionParameter) => performIndividualListComparison(inputParameter, solutionParameter, input, solution, comparison)
+	const doValuesMatch = (inputParameter, solutionParameter) => performIndividualListComparison(inputParameter, solutionParameter, exerciseData, applyMapping(parameterOptions, options => options?.comparison), generalOptions?.comparison)
 
 	// Walk through the parameters and try to find each one a matching partner. Incorporate feedback based on what is found.
 	const feedback = {}
-	const matched = parameters.map(() => false)
+	const matched = Object.keys(parameterOptions).map(() => false)
+	const parameters = Object.keys(parameterOptions)
 	parameters.forEach((inputParameter, inputIndex) => {
-		const currExtraOptions = Array.isArray(extraOptions) ? (extraOptions[inputIndex] || {}) : extraOptions
+		const currParameterOptions = parameterOptions[inputParameter]
 
 		// Is there an unmatched corresponding partner?
 		const solutionIndex = parameters.findIndex((solutionParameter, index) => (!matched[index] && doValuesMatch(inputParameter, solutionParameter)))
 		if (solutionIndex !== -1) {
 			// There is a corresponding partner. Register match and give correct feedback.
 			matched[solutionIndex] = true
-			feedback[inputParameter] = { correct: true, text: currExtraOptions.correct || selectRandomCorrect() }
+			feedback[inputParameter] = { correct: true, text: currParameterOptions.correct || generalOptions.correct || selectRandomCorrect() }
 		} else {
 			// If there is no unmatched corresponding partner, check if there potentially is an earlier matched corresponding partner. If so, note the duplicate. Otherwise it's just plain wrong.
 			if (parameters.find((solutionParameter, solutionIndex) => (matched[solutionIndex] && doValuesMatch(inputParameter, solutionParameter))))
-				feedback[inputParameter] = { correct: false, text: currExtraOptions.usedValue || selectRandomDuplicate() }
+				feedback[inputParameter] = { correct: false, text: currParameterOptions.usedValue || generalOptions.usedValue || selectRandomDuplicate() }
 			else
-				feedback[inputParameter] = { correct: false, text: currExtraOptions.wrongValue || selectRandomIncorrect() }
+				feedback[inputParameter] = { correct: false, text: currParameterOptions.wrongValue || generalOptions.wrongValue || selectRandomIncorrect() }
 		}
 	})
 	return feedback

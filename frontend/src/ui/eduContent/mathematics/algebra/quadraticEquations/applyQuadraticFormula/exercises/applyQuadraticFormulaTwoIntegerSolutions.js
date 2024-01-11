@@ -5,7 +5,7 @@ import { numberArray } from 'step-wise/util'
 import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { useInput, InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput } from 'ui/inputs'
-import { useSolution, StepExercise, getFieldInputFeedback, getMCFeedback, getInputFieldListFeedback } from 'ui/eduTools'
+import { useSolution, StepExercise, getFieldInputFeedback, getMCFeedback, getFieldInputListFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -117,15 +117,15 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	return {
-		...getMCFeedback('numSolutions', exerciseData, {
-			text: [
+		...getMCFeedback(exerciseData, {
+			numSolutions: [
 				<>Dit klopt niet. Dit is het geval als de discriminant <M>D = b^2 - 4ac</M> kleiner dan nul is.</>,
 				<>Dit klopt niet. Dit is het geval als de discriminant <M>D = b^2 - 4ac</M> gelijk aan nul is.</>,
 				<>Klopt helemaal! De discriminant <M>D = b^2 - 4ac</M> is immers groter dan nul.</>,
 				<>Nee, dit kan niet. Een kwadratische vergelijking heeft nooit meer dan twee oplossingen.</>,
-			],
+			]
 		}),
-		...getFieldInputFeedback(['a', 'b', 'c', 'D'], exerciseData),
-		...getInputFieldListFeedback(['x1', 'x2'], exerciseData),
+		...getFieldInputFeedback(exerciseData, ['a', 'b', 'c', 'D']),
+		...getFieldInputListFeedback(exerciseData, ['x1', 'x2']),
 	}
 }

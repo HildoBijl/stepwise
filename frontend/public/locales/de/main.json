@@ -3,8 +3,11 @@
   "websiteNameAddendum": "Maßgeschneiderte Praxisübungen",
   "notifications": {
     "notLoggedIn": "Du bist nicht angemeldet. Dein Lernfortschritt wird nicht verfolgt. Übungsvorschläge und personalisierte Aufgaben sind nicht möglich.",
-		"notOnline": "Du scheinst derzeit nicht mit dem Internet verbunden zu sein. Einige Funktionen werden nicht verfügbar sein, bis du wieder online bist."
+    "notOnline": "Du scheinst derzeit nicht mit dem Internet verbunden zu sein. Einige Funktionen werden nicht verfügbar sein, bis du wieder online bist."
   },
   "loading": "Laden ... {text}",
-	"errorNote": "<par>Ups ... da ist etwas schief gelaufen. {reason}</par><par>Möglicherweise hast du eine veraltete Version der Webanwendung. Versuche einen harten Refresh (Shift+F5), um zu sehen, ob das Problem dadurch gelöst wird.</par><par>Ist der Fehler immer noch vorhanden? Wenn ja, sende bitte eine E-Mail an <link>{infoEmail}</link> (Hildo). Dann werde ich den Fehler beheben, damit du und andere nicht mehr auf ihn stoßen. Füge hinzu, wo es möglich ist:</par><list><item>Wo der Fehler auftritt: welche Kompetenz/Übung.</item><item>Was du kurz vor dem Auftreten des Fehlers getan hast.</item><item>Möglicherweise ein Bildschirmfoto der roten Fehlermeldung in der Konsole der Entwicklertools (F12).</item></list>"
+  "errorNote": "<par>Ups ... da ist etwas schief gelaufen. {reason}</par><par>Möglicherweise hast du eine veraltete Version der Webanwendung. Versuche einen harten Refresh (Shift+F5), um zu sehen, ob das Problem dadurch gelöst wird.</par><par>Ist der Fehler immer noch vorhanden? Wenn ja, sende bitte eine E-Mail an <link>{infoEmail}</link> (Hildo). Dann werde ich den Fehler beheben, damit du und andere nicht mehr auf ihn stoßen. Füge hinzu, wo es möglich ist:</par><list><item>Wo der Fehler auftritt: welche Kompetenz/Übung.</item><item>Was du kurz vor dem Auftreten des Fehlers getan hast.</item><item>Möglicherweise ein Bildschirmfoto der roten Fehlermeldung in der Konsole der Entwicklertools (F12).</item></list>",
+  "login": {
+    "loggingOut": "<p>Du wurdest ausgeloggt...</p>"
+  }
 }

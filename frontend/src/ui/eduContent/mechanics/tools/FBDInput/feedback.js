@@ -1,11 +1,11 @@
 import { isValidElement } from 'react'
 
-import { keysToObject, isBasicObject, applyMapping } from 'step-wise/util'
+import { isBasicObject, applyMapping } from 'step-wise/util'
 import { loadTypes, areLoadsMatching, getLoadMatching } from 'step-wise/eduContent/mechanics'
 
 import { Translation, Check, Plurals, CountingWord } from 'i18n'
 import { selectRandomCorrect, selectRandomIncorrect } from 'ui/form'
-import { getFeedbackCheckResult } from 'ui/eduTools'
+import { getFeedbackCheckResult, processParameterOptions } from 'ui/eduTools'
 
 import { translationPath } from './validation'
 
@@ -17,12 +17,7 @@ export function getFBDFeedbackFunction(comparison, points = {}) {
 // getFBDFeedback takes an input FBD and a solution FBD and compares them to extract feedback. It requires the comparison options too, as well as an object { A: new Vector(...), ... } whose names the feedback may refer to.
 export function getFBDFeedback(exerciseData, parameterOptions) {
 	// Process the parameters.
-	if (typeof parameterOptions === 'string')
-		parameterOptions = [parameterOptions]
-	if (Array.isArray(parameterOptions))
-		parameterOptions = keysToObject(parameterOptions, () => ({}))
-	if (!isBasicObject(parameterOptions))
-		throw new Error(`Invalid getFBDFeedback parameters: expected either a string, an array of strings or an object with options, but received something of type ${typeof parameterOptions}.`)
+	parameterOptions = processParameterOptions(parameterOptions)
 
 	// Walk through the parameters and incorporate feedback.
 	const { input, solution, metaData } = exerciseData

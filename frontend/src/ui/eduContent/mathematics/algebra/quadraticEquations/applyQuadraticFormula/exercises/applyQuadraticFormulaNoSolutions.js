@@ -88,15 +88,15 @@ const steps = [
 
 function getFeedback(exerciseData) {
 	return {
-		...getMCFeedback('numSolutions', exerciseData, {
-			text: [
+		...getMCFeedback(exerciseData, {
+			numSolutions: [
 				<>Klopt helemaal! De discriminant <M>D = b^2 - 4ac</M> is immers kleiner dan nul.</>,
 				<>Dit klopt niet. Dit is het geval als de discriminant <M>D = b^2 - 4ac</M> gelijk aan nul is.</>,
 				<>Dit klopt niet. Dit is het geval als de discriminant <M>D = b^2 - 4ac</M> groter dan nul is.</>,
 				<>Nee, dit kan niet. Een kwadratische vergelijking heeft nooit meer dan twee oplossingen.</>,
-			],
+			]
 		}),
-		...getFieldInputFeedback(['a', 'b', 'c', 'D'], exerciseData),
+		...getFieldInputFeedback(exerciseData, ['a', 'b', 'c', 'D']),
 		x1: selectRandomIncorrect(true),
 		x2: selectRandomIncorrect(true),
 	}

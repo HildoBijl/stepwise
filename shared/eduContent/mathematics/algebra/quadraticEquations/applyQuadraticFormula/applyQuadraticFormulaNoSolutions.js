@@ -6,12 +6,10 @@ const { getStepExerciseProcessor, filterVariables, performComparison } = require
 const variableSet = ['x', 'y', 'z']
 const constants = ['a', 'b', 'c']
 
-const data = {
+const metaData = {
 	skill: 'applyQuadraticFormula',
-	steps: [null, null, null, null],
-	comparison: {
-		default: expressionComparisons.equalNumber,
-	},
+	steps: [null, null, null],
+	comparison: expressionComparisons.equalNumber,
 }
 
 function generateState() {
@@ -50,15 +48,24 @@ function checkInput(state, input, step) {
 	if (step === 0 || step === 3)
 		return input.numSolutions === solution.numSolutions
 	if (step === 1)
-		return performComparison(['a', 'b', 'c'], input, solution, data.comparison)
+		return performComparison(['a', 'b', 'c'], input, solution, metaData.comparison)
 	if (step === 2)
-		return performComparison(['D'], input, solution, data.comparison)
+		return performComparison(['D'], input, solution, metaData.comparison)
 }
 
+function checkInput(exerciseData, step) {
+	switch (step) {
+		case 1:
+			return performComparison(exerciseData, ['a', 'b', 'c'])
+		case 2:
+			return performComparison(exerciseData, 'D')
+		default:
+			return performComparison(exerciseData, 'numSolutions')
+	}
+}
+
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	getSolution,
-	checkInput,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

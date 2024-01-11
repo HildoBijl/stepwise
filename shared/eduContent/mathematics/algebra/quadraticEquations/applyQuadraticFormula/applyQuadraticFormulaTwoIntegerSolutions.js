@@ -6,12 +6,10 @@ const { getStepExerciseProcessor, filterVariables, performComparison, performLis
 const variableSet = ['x', 'y', 'z']
 const constants = ['a', 'b', 'c']
 
-const data = {
+const metaData = {
 	skill: 'applyQuadraticFormula',
 	steps: [null, null, null, null],
-	comparison: {
-		default: expressionComparisons.equalNumber,
-	},
+	comparison: expressionComparisons.equalNumber,
 }
 
 function generateState() {
@@ -42,29 +40,28 @@ function getSolution(state) {
 
 	// Find values for the expressions and store those numbers.
 	const numSolutions = 2
-	const values = applyMapping(expressions, expression => expression.cleanForAnalysis())
+	const values = applyMapping(expressions, expression => expression.regularClean())
 	const equationInFactors = asEquation(`a(x-x_1)(x-x_2)=0`).substituteVariables({ ...variables, 'x_1': values.x1, 'x_2': values.x2 }).removeUseless()
 	return { ...state, equation, expressions, ...values, numSolutions, equationInFactors }
 }
 
-function checkInput(state, input, step) {
-	const solution = getSolution(state)
-	if (step === 0)
-		return input.numSolutions === solution.numSolutions && performListComparison(['x1', 'x2'], input, solution, data.comparison)
-	if (step === 1)
-		return performComparison(['a', 'b', 'c'], input, solution, data.comparison)
-	if (step === 2)
-		return performComparison(['D'], input, solution, data.comparison)
-	if (step === 3)
-		return input.numSolutions === solution.numSolutions
-	if (step === 4)
-		return performListComparison(['x1', 'x2'], input, solution, data.comparison)
+function checkInput(exerciseData, step) {
+	switch (step) {
+		case 1:
+			return performComparison(exerciseData, ['a', 'b', 'c'])
+		case 2:
+			return performComparison(exerciseData, ['D'])
+		case 3:
+			return performComparison(exerciseData, 'numSolutions')
+		case 4:
+			return performListComparison(exerciseData, ['x1', 'x2'])
+		default:
+			return performComparison(exerciseData, 'numSolutions') && performListComparison(exerciseData, ['x1', 'x2'])
+	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	getSolution,
-	checkInput,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

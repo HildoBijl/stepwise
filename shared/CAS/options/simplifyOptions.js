@@ -153,6 +153,7 @@ const regularClean = {
 	removeCanceledRoot: true,
 	turnBaseTwoRootIntoSqrt: true,
 	pullExponentsIntoRoots: true,
+	pullFactorsOutOfRoots: true,
 	mergeProductsOfRoots: true,
 	removeEqualBaseArgumentLogarithm: true,
 }
@@ -163,7 +164,6 @@ const advancedCleanMain = {
 	...regularClean,
 	sortSums: true,
 	expandPowersOfProducts: true,
-	pullFactorsOutOfRoots: true,
 	turnRootIntoFractionExponent: true,
 	remove01TrigFunctions: true,
 	removeRootTrigFunctions: true,
