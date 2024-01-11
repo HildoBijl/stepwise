@@ -8,7 +8,7 @@ const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']
 const usedVariables = ['x', 'y', 'z']
 const constants = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 
-const data = {
+const metaData = {
 	skill: 'solveGeneralSystemOfLinearEquations',
 	steps: ['solveBasicLinearEquation', null, 'solveGeneralLinearEquation', null],
 	comparison: {
@@ -18,7 +18,7 @@ const data = {
 		y: expressionComparisons.equivalent,
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const variableSet = selectRandomly(availableVariableSets)
@@ -62,24 +62,23 @@ function getSolution(state) {
 	return { ...state, variables, eq1, eq2, eq1Solution, eq2Substituted, eq2SubstitutedStep1, eq2SubstitutedStep2, eq2SubstitutedStep3, eq2SubstitutedStep4, x, xRaw, y }
 }
 
-function checkInput(state, input, step) {
-	const solution = getSolution(state)
-	if (step === 0)
-		return performComparison(['x', 'y'], input, solution, data.comparison)
-	if (step === 1)
-		return performComparison(['eq1Solution'], input, solution, data.comparison)
-	if (step === 2)
-		return performComparison(['eq2Substituted'], input, solution, data.comparison)
-	if (step === 3)
-		return performComparison(['y'], input, solution, data.comparison)
-	if (step === 4)
-		return performComparison(['x'], input, solution, data.comparison)
+function checkInput(exerciseData, step) {
+	switch (step) {
+		case 1:
+			return performComparison(exerciseData, 'eq1Solution')
+		case 2:
+			return performComparison(exerciseData, 'eq2Substituted')
+		case 3:
+			return performComparison(exerciseData, 'y')
+		case 4:
+			return performComparison(exerciseData, 'x')
+		default:
+			return performComparison(exerciseData, ['x', 'y'])
+	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	getSolution,
-	checkInput,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

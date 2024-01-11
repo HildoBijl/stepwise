@@ -313,7 +313,7 @@ export function getFieldInputListFeedback(exerciseData, parameterOptions, genera
 	const feedback = {}
 	const matched = Object.keys(parameterOptions).map(() => false)
 	const parameters = Object.keys(parameterOptions)
-	parameters.forEach((inputParameter, inputIndex) => {
+	parameters.forEach(inputParameter => {
 		const currParameterOptions = parameterOptions[inputParameter]
 
 		// Is there an unmatched corresponding partner?

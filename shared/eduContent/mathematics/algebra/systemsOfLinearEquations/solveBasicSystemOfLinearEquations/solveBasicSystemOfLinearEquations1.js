@@ -1,5 +1,5 @@
 const { selectRandomly, getRandomInteger } = require('../../../../../util')
-const { asExpression, asEquation, expressionComparisons, equationComparisons } = require('../../../../../CAS')
+const { Integer, asExpression, asEquation, expressionComparisons, equationComparisons } = require('../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, filterVariables, performComparison } = require('../../../../../eduTools')
 
 // ax + by = c.
@@ -8,7 +8,7 @@ const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']
 const usedVariables = ['x', 'y']
 const constants = ['a', 'b', 'c', 'd', 'e', 'f']
 
-const data = {
+const metaData = {
 	skill: 'solveBasicSystemOfLinearEquations',
 	steps: ['solveBasicLinearEquation', null, 'solveBasicLinearEquation', null],
 	comparison: {
@@ -17,7 +17,7 @@ const data = {
 		eq2Substituted: equationComparisons.equivalent,
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const variableSet = selectRandomly(availableVariableSets)
@@ -57,29 +57,28 @@ function getSolution(state) {
 
 	// Find the solution.
 	const { a, b, c, d, e, f } = variables
-	const x = (b * f - e * c) / (b * d - a * e)
-	const y = (a * f - d * c) / (a * e - b * d)
+	const x = new Integer((b * f - e * c) / (b * d - a * e))
+	const y = new Integer((a * f - d * c) / (a * e - b * d))
 	return { ...state, variables, eq1, eq2, eq1Solution, eq2Substituted, eq2SubstitutedStep1, eq2SubstitutedStep2, eq2SubstitutedStep3, eq2SubstitutedStep4, x, y }
 }
 
-function checkInput(state, input, step) {
-	const solution = getSolution(state)
-	if (step === 0)
-		return performComparison(['x', 'y'], input, solution, data.comparison)
-	if (step === 1)
-		return performComparison(['eq1Solution'], input, solution, data.comparison)
-	if (step === 2)
-		return performComparison(['eq2Substituted'], input, solution, data.comparison)
-	if (step === 3)
-		return performComparison(['y'], input, solution, data.comparison)
-	if (step === 4)
-		return performComparison(['x'], input, solution, data.comparison)
+function checkInput(exerciseData, step) {
+	switch (step) {
+		case 1:
+			return performComparison(exerciseData, 'eq1Solution')
+		case 2:
+			return performComparison(exerciseData, 'eq2Substituted')
+		case 3:
+			return performComparison(exerciseData, 'y')
+		case 4:
+			return performComparison(exerciseData, 'x')
+		default:
+			return performComparison(exerciseData, ['x', 'y'])
+	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	getSolution,
-	checkInput,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }
