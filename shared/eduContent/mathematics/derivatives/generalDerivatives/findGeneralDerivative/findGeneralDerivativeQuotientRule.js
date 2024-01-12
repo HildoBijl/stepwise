@@ -1,19 +1,19 @@
 const { filterProperties, selectRandomly, getRandomInteger } = require('../../../../../util')
 const { expressionComparisons } = require('../../../../../CAS')
-const { getStepExerciseProcessor, assembleSolution, performComparison } = require('../../../../../eduTools')
+const { getStepExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
-const { getRandomElementaryFunctions }  = require('../..')
+const { getRandomElementaryFunctions } = require('../../tools')
 
 const { equivalent, constantMultiple } = expressionComparisons
 
 const variableSet = ['x', 'y', 't']
 
-const data = {
+const metaData = {
 	skill: 'findGeneralDerivative',
 	setup: 'applyQuotientRule',
 	steps: [null, null, 'applyQuotientRule'],
 	weight: 2,
-	comparison: { default: equivalent },
+	comparison: { method: {}, default: equivalent },
 }
 
 function generateState() {
@@ -51,31 +51,28 @@ function getDynamicSolution(inputDependency, solution) {
 	const { f, g } = solutionMerged
 	const fDerivative = f.getDerivative().regularCleanDisplay()
 	const gDerivative = g.getDerivative().regularCleanDisplay()
-	const derivative = fDerivative.multiply(g).subtract(f.multiply(gDerivative)).divide(g.toPower(2))
-	const derivativeSimplified = derivative.advancedCleanDisplay()
-	return { ...solutionMerged, fDerivative, gDerivative, derivative, derivativeSimplified }
+	const derivativeRaw = fDerivative.multiply(g).subtract(f.multiply(gDerivative)).divide(g.toPower(2))
+	const derivative = derivativeRaw.advancedCleanDisplay()
+	return { ...solutionMerged, fDerivative, gDerivative, derivativeRaw, derivative }
 }
 
 const getSolution = { dependentFields: ['f', 'g'], getStaticSolution, getInputDependency, getDynamicSolution }
 
-function checkInput(state, input, step) {
-	const solution = assembleSolution(getSolution, state, input)
+function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:
-			return input.method === solution.method
+			return performComparison(exerciseData, 'method')
 		case 2:
-			return checkFAndG(input, solution)
+			return checkFAndG(exerciseData.input, exerciseData.solution)
 		default:
-			return performComparison('derivative', input, solution, data.comparison)
+			return performComparison(exerciseData, 'derivative')
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	checkInput,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 	checkF,
 	checkFAndG,
-	getSolution,
 }

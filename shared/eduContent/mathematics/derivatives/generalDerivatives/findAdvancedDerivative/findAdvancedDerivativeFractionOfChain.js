@@ -2,19 +2,17 @@ const { selectRandomly } = require('../../../../../util')
 const { expressionComparisons } = require('../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
-const { getRandomElementaryFunctions }  = require('../..')
-
-const { equivalent } = expressionComparisons
+const { getRandomElementaryFunctions } = require('../../tools')
 
 const variableSet = ['x', 'y', 't']
 
-const data = {
+const metaData = {
 	skill: 'findAdvancedDerivative',
 	steps: [null, null, ['applyChainRule', 'lookUpElementaryDerivative'], null],
 	weight: 2,
-	comparison: { default: equivalent },
+	comparison: { method: {}, default: expressionComparisons.equivalent },
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const x = selectRandomly(variableSet)
@@ -30,34 +28,31 @@ function getSolution(state) {
 	const h = f.divide(g).elementaryClean()
 	const fDerivative = f.getDerivative().regularCleanDisplay()
 	const gDerivative = g.getDerivative().regularCleanDisplay()
-	const derivative = fDerivative.multiply(g).subtract(f.multiply(gDerivative)).divide(g.toPower(2))
-	const derivativeSimplified = derivative.advancedCleanDisplay({ expandPowersOfSums: false })
-	return { ...state, method, x, f, h, fDerivative, gDerivative, derivative, derivativeSimplified }
+	const derivativeRaw = fDerivative.multiply(g).subtract(f.multiply(gDerivative)).divide(g.toPower(2))
+	const derivative = derivativeRaw.advancedCleanDisplay({ expandPowersOfSums: false })
+	return { ...state, method, x, f, h, fDerivative, gDerivative, derivativeRaw, derivative }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step, substep) {
 	switch (step) {
 		case 1:
-			return input.method === solution.method
+			return performComparison(exerciseData, 'method')
 		case 2:
-			return performComparison(['f', 'g'], input, solution, data.comparison)
+			return performComparison(exerciseData, ['f', 'g'])
 		case 3:
 			switch (substep) {
 				case 1:
-					return performComparison('fDerivative', input, solution, data.comparison)
+					return performComparison(exerciseData, 'fDerivative')
 				case 2:
-					return performComparison('gDerivative', input, solution, data.comparison)
+					return performComparison(exerciseData, 'gDerivative')
 			}
 		default:
-			return performComparison('derivative', input, solution, data.comparison)
+			return performComparison(exerciseData, 'derivative')
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	getSolution,
-	checkInput,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

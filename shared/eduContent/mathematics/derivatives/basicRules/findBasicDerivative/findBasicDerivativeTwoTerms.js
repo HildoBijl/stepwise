@@ -2,19 +2,17 @@ const { selectRandomly, getRandomInteger } = require('../../../../../util')
 const { expressionComparisons } = require('../../../../../CAS')
 const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = require('../../../../../eduTools')
 
-const { getRandomElementaryFunctions, getElementaryFunctionFromTerm }  = require('../..')
-
-const { equivalent } = expressionComparisons
+const { getRandomElementaryFunctions, getElementaryFunctionFromTerm } = require('../../tools')
 
 const variableSet = ['x', 'y', 't']
 const functionSet = ['f', 'g', 'h']
 
-const data = {
+const metaData = {
 	skill: 'findBasicDerivative',
 	steps: [[null, null], ['lookUpElementaryDerivative', 'lookUpElementaryDerivative'], null],
-	comparison: { default: equivalent },
+	comparison: expressionComparisons.equivalent,
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	const [f1, f2] = getRandomElementaryFunctions(2, true)
@@ -39,32 +37,29 @@ function getSolution(state) {
 	return { ...state, c1, c2, f1, f2, f1Derivative, f2Derivative, derivative }
 }
 
-function checkInput(state, input, step, substep) {
-	const solution = getSolution(state)
+function checkInput(exerciseData, step, substep) {
 	switch (step) {
 		case 1:
 			switch (substep) {
 				case 1:
-					return performComparison(['f1'], input, solution, data.comparison)
+					return performComparison(exerciseData, 'f1')
 				case 2:
-					return performComparison(['f2'], input, solution, data.comparison)
+					return performComparison(exerciseData, 'f2')
 			}
 		case 2:
 			switch (substep) {
 				case 1:
-					return performComparison(['f1Derivative'], input, solution, data.comparison)
+					return performComparison(exerciseData, 'f1Derivative')
 				case 2:
-					return performComparison(['f2Derivative'], input, solution, data.comparison)
+					return performComparison(exerciseData, 'f2Derivative')
 			}
 		default:
-			return performComparison('derivative', input, solution, data.comparison)
+			return performComparison(exerciseData, 'derivative')
 	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	getSolution,
-	checkInput,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

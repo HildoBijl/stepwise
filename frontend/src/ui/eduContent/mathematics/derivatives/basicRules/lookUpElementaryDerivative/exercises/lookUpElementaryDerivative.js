@@ -130,5 +130,5 @@ function getFeedback(exerciseData) {
 
 	// Extract the feedback.
 	const feedbackChecks = [check]
-	return getFieldInputFeedback('derivative', exerciseData, { feedbackChecks })
+	return getFieldInputFeedback(exerciseData, { derivative: feedbackChecks })
 }

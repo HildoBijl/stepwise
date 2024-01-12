@@ -2,16 +2,14 @@ const { selectRandomly } = require('../../../../../util')
 const { expressionComparisons } = require('../../../../../CAS')
 const { getSimpleExerciseProcessor, performComparison } = require('../../../../../eduTools')
 
-const { getRandomElementaryFunction }  = require('../..')
-
-const { equivalent } = expressionComparisons
+const { getRandomElementaryFunction } = require('../../tools')
 
 const variableSet = ['x', 'y', 't']
 const functionSet = ['f', 'g', 'h']
 
-const data = {
+const metaData = {
 	skill: 'lookUpElementaryDerivative',
-	comparison: equivalent,
+	comparison: expressionComparisons.equivalent,
 }
 
 function generateState() {
@@ -25,17 +23,15 @@ function generateState() {
 }
 
 function getSolution(state) {
-	return { ...state, derivative: state.func.getDerivative().advancedClean() }
+	return { ...state, derivative: state.func.getDerivative().regularClean() }
 }
 
-function checkInput(state, input) {
-	return performComparison('derivative', input, getSolution(state), data.comparison)
+function checkInput(exerciseData) {
+	return performComparison(exerciseData, 'derivative')
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getSimpleExerciseProcessor(checkInput, data),
-	getSolution,
-	checkInput,
+	...exercise,
+	processAction: getSimpleExerciseProcessor(exercise),
 }

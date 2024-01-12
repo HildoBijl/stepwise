@@ -61,8 +61,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: ({ x, derivative, derivativeSimplified }) => {
-			return <Par>De productregel zegt dat <BM>h'\left({x}\right) = f'\left({x}\right) g\left({x}\right) + f\left({x}\right) g'\left({x}\right).</BM> Als we dit letterlijk toepassen, dan krijgen we <BM>h'\left({x}\right) = {derivative}.</BM> Dit kan eventueel nog herschreven worden tot <BM>h'\left({x}\right) = {derivativeSimplified}.</BM></Par>
+		Solution: ({ x, derivativeRaw, derivative }) => {
+			return <Par>De productregel zegt dat <BM>h'\left({x}\right) = f'\left({x}\right) g\left({x}\right) + f\left({x}\right) g'\left({x}\right).</BM> Als we dit letterlijk toepassen, dan krijgen we <BM>h'\left({x}\right) = {derivativeRaw}.</BM> Dit kan eventueel nog herschreven worden tot <BM>h'\left({x}\right) = {derivative}.</BM></Par>
 		},
 	},
 ]
@@ -79,8 +79,11 @@ function getFeedback(exerciseData) {
 	// Assemble the checks for all input fields.
 	const derivativeChecks = [originalFunction, sumWithWrongTerms, incorrectFunction]
 	const fDerivativeChecks = [fDerivativeConstantMultipleCheck, fDerivativeIncorrectCheck]
-	const feedbackChecks = [derivativeChecks, fDerivativeChecks, fDerivativeChecks]
 
 	// Determine feedback.
-	return getFieldInputFeedback(['derivative', 'fDerivative', 'gDerivative'], exerciseData, feedbackChecks.map(feedbackChecks => ({ feedbackChecks })))
+	return getFieldInputFeedback(exerciseData, {
+		fDerivative: fDerivativeChecks,
+		gDerivative: fDerivativeChecks,
+		derivative: derivativeChecks,
+	})
 }

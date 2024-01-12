@@ -78,13 +78,13 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: ({ x, fDerivative, gDerivative, derivative, derivativeSimplified }) => {
+		Solution: ({ x, fDerivative, gDerivative, derivativeRaw, derivative }) => {
 			return <Par>We bepalen eerst los de afgeleiden van <M>f\left({x}\right)</M> en <M>g\left({x}\right).</M> Via de standaard regels vinden we
 				<BMList>
 					<BMPart>f'\left({x}\right) = {fDerivative},</BMPart>
 					<BMPart>g'\left({x}\right) = {gDerivative}.</BMPart>
 				</BMList>
-				Letterlijk toepassen van de productregel <M>h'\left({x}\right) = f'\left({x}\right) g\left({x}\right) + f\left({x}\right) g'\left({x}\right)</M> geeft als oplossing <BM>h'\left({x}\right) = {derivative} = {derivativeSimplified}.</BM></Par>
+				Letterlijk toepassen van de productregel <M>h'\left({x}\right) = f'\left({x}\right) g\left({x}\right) + f\left({x}\right) g'\left({x}\right)</M> geeft als oplossing <BM>h'\left({x}\right) = {derivativeRaw} = {derivative}.</BM></Par>
 		},
 	},
 ]
@@ -132,14 +132,14 @@ function getFeedback(exerciseData) {
 
 	// Determine feedback.
 	return {
-		...getMCFeedback('method', exerciseData, {
-			text: [
+		...getMCFeedback(exerciseData, {
+			method: [
 				<>Er is inderdaad sprake van een vermenigvuldiging.</>,
 				<>Dit klopt niet. Er staat geen deling in de functie <M>h\left({x}\right).</M> De quotiëntregel is dus niet van toepassing hier.</>,
 				<>Nee. Er is hier geen sprake van een functie van "iets met <M>{x}</M>". Er is wel een functie van <M>{x}</M> zelf, maar daar is de kettingregel niet voor nodig.</>,
 			],
 		}),
-		...getFieldInputFeedback(['derivative'], exerciseData, [{ feedbackChecks: derivativeChecks }]),
+		...getFieldInputFeedback(exerciseData, { derivative: derivativeChecks }),
 		...funcFeedback,
 	}
 }

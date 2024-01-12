@@ -100,8 +100,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: ({ x, derivative, derivativeSimplified }) => {
-			return <Par>Letterlijk toepassen van de quotiëntregel <M>h'\left({x}\right) = \frac(g\left({x}\right) f'\left({x}\right) - f\left({x}\right) g'\left({x}\right))(\left(g\left({x}\right)\right)^2)</M> geeft als oplossing <BM>h'\left({x}\right) = {derivative} = {derivativeSimplified}.</BM></Par>
+		Solution: ({ x, derivativeRaw, derivative }) => {
+			return <Par>Letterlijk toepassen van de quotiëntregel <M>h'\left({x}\right) = \frac(g\left({x}\right) f'\left({x}\right) - f\left({x}\right) g'\left({x}\right))(\left(g\left({x}\right)\right)^2)</M> geeft als oplossing <BM>h'\left({x}\right) = {derivativeRaw} = {derivative}.</BM></Par>
 		},
 	},
 ]
@@ -130,15 +130,20 @@ function getFeedback(exerciseData) {
 	const gDerivativeChecks = [fDerivativeConstantMultiple, gDerivativeIncorrect]
 
 	// Determine feedback.
-	const feedbackChecks = [derivativeChecks, fChecks, gChecks, fDerivativeChecks, gDerivativeChecks]
 	return {
-		...getMCFeedback('method', exerciseData, {
-			text: [
+		...getMCFeedback(exerciseData, {
+			method: [
 				<>Dit klopt niet. Er staat geen vermenigvuldiging van "iets met <M>{x}</M>" maal "iets met <M>{x}</M>" in de functie <M>h\left({x}\right).</M> De productregel is dus niet van toepassing hier.</>,
 				<>Er is inderdaad sprake van een deling als laatste operatie.</>,
 				<>Bijna! Er is hier wel sprake van een functie van "iets met <M>{x}</M>". Dit is echter niet de <em>laatste</em> operatie die je uitvoert.</>,
 			],
 		}),
-		...getFieldInputFeedback(['derivative', 'f', 'g', 'fDerivative', 'gDerivative'], exerciseData, feedbackChecks.map(feedbackChecks => ({ feedbackChecks }))),
+		...getFieldInputFeedback(exerciseData, {
+			f: fChecks,
+			g: gChecks,
+			fDerivative: fDerivativeChecks,
+			gDerivative: gDerivativeChecks,
+			derivative: derivativeChecks,
+		}),
 	}
 }

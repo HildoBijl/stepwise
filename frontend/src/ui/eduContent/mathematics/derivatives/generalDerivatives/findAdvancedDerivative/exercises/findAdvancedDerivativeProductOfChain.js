@@ -107,8 +107,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: ({ x, derivative, derivativeSimplified }) => {
-			return <Par>Letterlijk toepassen van de productregel <M>h'\left({x}\right) = f'\left({x}\right) g\left({x}\right) + f\left({x}\right) g'\left({x}\right)</M> geeft als oplossing <BM>h'\left({x}\right) = {derivative} = {derivativeSimplified}.</BM></Par>
+		Solution: ({ x, derivativeRaw, derivative }) => {
+			return <Par>Letterlijk toepassen van de productregel <M>h'\left({x}\right) = f'\left({x}\right) g\left({x}\right) + f\left({x}\right) g'\left({x}\right)</M> geeft als oplossing <BM>h'\left({x}\right) = {derivativeRaw} = {derivative}.</BM></Par>
 		},
 	},
 ]
@@ -139,15 +139,20 @@ function getFeedback(exerciseData) {
 	const gDerivativeChecks = [fDerivativeConstantMultiple, gDerivativeIncorrect]
 
 	// Determine feedback.
-	const feedbackChecks = [derivativeChecks, fChecks, gChecks, fDerivativeChecks, gDerivativeChecks]
 	return {
-		...getMCFeedback('method', exerciseData, {
-			text: [
+		...getMCFeedback(exerciseData, {
+			method: [
 				<>Er is inderdaad sprake van een vermenigvuldiging als laatste operatie.</>,
 				<>Dit klopt niet. Er staat geen deling in de functie <M>h\left({x}\right).</M> De quotiëntregel is dus niet van toepassing hier.</>,
 				<>Nee. Er is wel sprake van een functie van "iets met <M>{x}</M>", maar dit is niet de <em>laatste</em> operatie.</>,
 			],
 		}),
-		...getFieldInputFeedback(['derivative', 'f', 'g', 'fDerivative', 'gDerivative'], exerciseData, feedbackChecks.map(feedbackChecks => ({ feedbackChecks }))),
+		...getFieldInputFeedback(exerciseData, {
+			f: fChecks,
+			g: gChecks,
+			fDerivative: fDerivativeChecks,
+			gDerivative: gDerivativeChecks,
+			derivative: derivativeChecks,
+		}),
 	}
 }

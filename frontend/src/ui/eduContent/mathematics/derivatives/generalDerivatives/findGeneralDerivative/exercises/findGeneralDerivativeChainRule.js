@@ -78,13 +78,13 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: ({ x, fDerivative, gDerivative, derivative, derivativeSimplified }) => {
+		Solution: ({ x, fDerivative, gDerivative, derivativeRaw, derivative }) => {
 			return <Par>We bepalen eerst los de afgeleiden van <M>f\left({x}\right)</M> en <M>g\left({x}\right).</M> Via de standaard regels vinden we
 				<BMList>
 					<BMPart>f'\left({x}\right) = {fDerivative},</BMPart>
 					<BMPart>g'\left({x}\right) = {gDerivative}.</BMPart>
 				</BMList>
-				Letterlijk toepassen van de kettingregel <M>h'\left({x}\right) = f'\left(g\left({x}\right)\right) g'\left({x}\right)</M> geeft als oplossing <BM>h'\left({x}\right) = {derivative} = {derivativeSimplified}.</BM></Par>
+				Letterlijk toepassen van de kettingregel <M>h'\left({x}\right) = f'\left(g\left({x}\right)\right) g'\left({x}\right)</M> geeft als oplossing <BM>h'\left({x}\right) = {derivativeRaw} = {derivative}.</BM></Par>
 		},
 	},
 ]
@@ -106,15 +106,18 @@ function getFeedback(exerciseData) {
 	const gChecks = [missingConstant, incorrectG]
 
 	// Determine feedback.
-	const feedbackChecks = [derivativeChecks, fChecks, gChecks]
 	return {
-		...getMCFeedback('method', exerciseData, {
-			text: [
+		...getMCFeedback(exerciseData, {
+			method: [
 				<>Dit is niet correct. Er is geen vermenigvuldiging van "iets met <M>{x}</M>" maal "iets met <M>{x}</M>". Er is alleen een constante vermenigvuldiging.</>,
 				<>Dit klopt niet. Er staat geen deling in de functie <M>h\left({x}\right).</M> De quotiëntregel is dus niet van toepassing hier.</>,
 				<>Er is inderdaad sprake van een functie van "iets met <M>{x}</M>". Specifiek hebben we de functie <M>{fRaw}</M> waar we iets instoppen.</>,
 			],
 		}),
-		...getFieldInputFeedback(['derivative', 'f', 'g'], exerciseData, feedbackChecks.map(feedbackChecks => ({ feedbackChecks }))),
+		...getFieldInputFeedback(exerciseData, {
+			f: fChecks,
+			g: gChecks,
+			derivative: derivativeChecks,
+		}),
 	}
 }

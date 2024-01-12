@@ -60,8 +60,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: ({ x, g, gDerivative, derivative, derivativeSimplified }) => {
-			return <Par>De kettingregel zegt dat <BM>h'\left({x}\right) = f'\left(g\left({x}\right)\right) g'\left({x}\right).</BM> Als we dit letterlijk toepassen, dan vullen we <M>{g}</M> in de functie <M>f'\left({x}\right)</M> in, en vermenigvuldigen het resultaat met <M>{gDerivative}.</M> Zo vinden we <BM>h'\left({x}\right) = {derivative}.</BM> Dit kan eventueel nog herschreven worden tot <BM>h'\left({x}\right) = {derivativeSimplified}.</BM></Par>
+		Solution: ({ x, g, gDerivative, derivativeRaw, derivative }) => {
+			return <Par>De kettingregel zegt dat <BM>h'\left({x}\right) = f'\left(g\left({x}\right)\right) g'\left({x}\right).</BM> Als we dit letterlijk toepassen, dan vullen we <M>{g}</M> in de functie <M>f'\left({x}\right)</M> in, en vermenigvuldigen het resultaat met <M>{gDerivative}.</M> Zo vinden we <BM>h'\left({x}\right) = {derivativeRaw}.</BM> Dit kan eventueel nog herschreven worden tot <BM>h'\left({x}\right) = {derivative}.</BM></Par>
 		},
 	},
 ]
@@ -78,8 +78,11 @@ function getFeedback(exerciseData) {
 	// Assemble the checks for all input fields.
 	const derivativeChecks = [originalFunction, incorrectFunction]
 	const fDerivativeChecks = [fDerivativeConstantMultipleCheck, fDerivativeIncorrectCheck]
-	const feedbackChecks = [derivativeChecks, fDerivativeChecks, fDerivativeChecks]
 
 	// Determine feedback.
-	return getFieldInputFeedback(['derivative', 'fDerivative', 'gDerivative'], exerciseData, feedbackChecks.map(feedbackChecks => ({ feedbackChecks })))
+	return getFieldInputFeedback(exerciseData, {
+		fDerivative: fDerivativeChecks,
+		gDerivative: fDerivativeChecks,
+		derivative: derivativeChecks,
+	})
 }

@@ -105,8 +105,13 @@ function getFeedback(exerciseData) {
 	const f1Checks = [fIncorrectCheck(1)]
 	const f2Checks = [fIncorrectCheck(2)]
 	const fDerivativeChecks = [fDerivativeIncorrectCheck]
-	const feedbackChecks = [derivativeChecks, f1Checks, f2Checks, fDerivativeChecks, fDerivativeChecks]
 
 	// Determine feedback.
-	return getFieldInputFeedback(['derivative', 'f1', 'f2', 'f1Derivative', 'f2Derivative'], exerciseData, feedbackChecks.map(feedbackChecks => ({ feedbackChecks })))
+	return getFieldInputFeedback(exerciseData, {
+		f1: f1Checks,
+		f2: f2Checks,
+		f1Derivative: fDerivativeChecks,
+		f2Derivative: fDerivativeChecks,
+		derivative: derivativeChecks,
+	})
 }

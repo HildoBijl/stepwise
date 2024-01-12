@@ -2001,8 +2001,9 @@ class Fraction extends Function {
 	toString() {
 		// Get the numerator.
 		const useMinus = !this.requiresPlusInSum()
-		let numStr = (useMinus ? this.numerator.applyMinus(!this.numerator.isSubtype(Sum)) : this.numerator).toString()
-		if (this.numerator.requiresBracketsFor(bracketLevels.division))
+		const usedNumerator = useMinus ? this.numerator.applyMinus(!this.numerator.isSubtype(Sum)) : this.numerator
+		let numStr = usedNumerator.toString()
+		if (usedNumerator.requiresBracketsFor(bracketLevels.division))
 			numStr = `(${numStr})`
 
 		// Add the denominator.
@@ -2025,7 +2026,7 @@ class Fraction extends Function {
 	}
 
 	requiresBracketsFor(level) {
-		return level === bracketLevels.division || level === bracketLevels.powers
+		return level === bracketLevels.division || level === bracketLevels.powers || (bracketLevels.multiplication && !this.requiresPlusInSum()) // When divided, in powers, or in multiplication when there's a precursor minus sign, add brackets.
 	}
 
 	requiresPlusInSum() {
