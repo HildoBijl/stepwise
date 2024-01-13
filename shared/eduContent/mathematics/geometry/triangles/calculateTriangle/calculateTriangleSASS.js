@@ -4,7 +4,7 @@ const { getStepExerciseProcessor, performComparison } = require('../../../../../
 
 const variableSet = ['x', 'y', 'z']
 
-const data = {
+const metaData = {
 	skill: 'calculateTriangle',
 	setup: 'applyQuadraticFormula',
 	steps: [null, null, null, 'applyQuadraticFormula'],
@@ -42,24 +42,23 @@ function getSolution(state) {
 	return { ...state, variables, rule, equationRaw, equation, numSolutions, aRaw, a }
 }
 
-function checkInput(state, input, step) {
-	const solution = getSolution(state)
-	if (step === 0)
-		return input.numSolutions === solution.numSolutions && performComparison('a', input, solution, data.comparison)
-	if (step === 1)
-		return performComparison('rule', input, solution, data.comparison)
-	if (step === 2)
-		return performComparison('equation', input, solution, data.comparison)
-	if (step === 3)
-		return performComparison('numSolutions', input, solution, data.comparison)
-	if (step === 4)
-		return performComparison('a', input, solution, data.comparison)
+function checkInput(exerciseData, step) {
+	switch (step) {
+		case 1:
+			return performComparison(exerciseData, 'rule')
+		case 2:
+			return performComparison(exerciseData, 'equation')
+		case 3:
+			return performComparison(exerciseData, 'numSolutions')
+		case 4:
+			return performComparison(exerciseData, 'a')
+		default:
+			return performComparison(exerciseData, ['numSolutions', 'a'])
+	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	getSolution,
-	checkInput,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

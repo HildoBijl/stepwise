@@ -1,17 +1,17 @@
 const { epsilon, deg2rad, getRandom, getRandomBoolean, getRandomInteger } = require('../../../../../util')
 const { asExpression, asEquation, equationComparisons, Integer, Arcsin } = require('../../../../../CAS')
-const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, performListComparison } = require('../../../../../eduTools')
+const { getStepExerciseProcessor, addSetupFromSteps, selectRandomVariables, performComparison, performListComparison } = require('../../../../../eduTools')
 
 const variableSet = ['α', 'β', 'γ']
 
-const data = {
+const metaData = {
 	steps: ['calculateTriangle', 'determine2DAngles'],
 	comparison: {
 		default: {},
 		equation: (input, correct) => equationComparisons.equivalent(input, correct) || equationComparisons.equivalent(input.invert(), correct),
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	// Generate numbers and ensure that there are two solutions.
@@ -55,20 +55,19 @@ function getSolution(state) {
 	return { ...state, variables, rule, equation, intermediateEquation, γ1, γ2, β1, β2, b1, b2, numSolutions }
 }
 
-function checkInput(state, input, step) {
-	const solution = getSolution(state)
-	if (step === 0)
-		return input.numSolutions === solution.numSolutions && performListComparison(['β1', 'β2'], input, solution, data.comparison)
-	if (step === 1)
-		return input.numSolutions === solution.numSolutions && performListComparison(['γ1', 'γ2'], input, solution, data.comparison)
-	if (step === 2)
-		return performListComparison(['β1', 'β2'], input, solution, data.comparison)
+function checkInput(exerciseData, step) {
+	switch (step) {
+		case 1:
+			return performComparison(exerciseData, 'numSolutions') && performListComparison(exerciseData, ['γ1', 'γ2'])
+		case 2:
+			return performListComparison(exerciseData, ['β1', 'β2'])
+		default:
+			return performComparison(exerciseData, 'numSolutions') && performListComparison(exerciseData, ['β1', 'β2'])
+	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	getSolution,
-	checkInput,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

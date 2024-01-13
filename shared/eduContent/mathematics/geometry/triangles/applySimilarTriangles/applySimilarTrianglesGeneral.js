@@ -6,7 +6,7 @@ const sampleTriangles = [[1, 1, 'sqrt(2)'], [1, 'sqrt(3)', 2], [1, 2, 'sqrt(5)']
 const availableVariableSets = [['a', 'b', 'c'], ['x', 'y', 'z'], ['p', 'q', 'r']]
 const usedVariables = ['a', 'b', 'c']
 
-const data = {
+const metaData = {
 	skill: 'applySimilarTriangles',
 	steps: [null, null, null, null],
 	comparison: {
@@ -90,24 +90,23 @@ function getSolution(state) {
 	return { ...state, ...given, a, b, c, La, Lb, Lc, x, y, z, equation1, equation2, ans1Raw, ans2Raw, ans1, ans2 }
 }
 
-function checkInput(state, input, step) {
-	const solution = getSolution(state)
-	if (step === 0)
-		return performComparison(['ans1', 'ans2'], input, solution, data.comparison)
-	if (step === 1)
-		return performComparison('equation1', input, solution, data.comparison)
-	if (step === 2)
-		return performComparison('ans1', input, solution, data.comparison)
-	if (step === 3)
-		return performComparison('equation2', input, solution, data.comparison)
-	if (step === 4)
-		return performComparison('ans2', input, solution, data.comparison)
+function checkInput(exerciseData, step) {
+	switch (step) {
+		case 1:
+			return performComparison(exerciseData, 'equation1')
+		case 2:
+			return performComparison(exerciseData, 'ans1')
+		case 3:
+			return performComparison(exerciseData, 'equation2')
+		case 4:
+			return performComparison(exerciseData, 'ans2')
+		default:
+			return performComparison(exerciseData, ['ans1', 'ans2'])
+	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	getSolution,
-	checkInput,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

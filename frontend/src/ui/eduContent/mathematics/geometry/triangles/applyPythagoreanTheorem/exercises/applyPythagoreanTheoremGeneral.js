@@ -78,7 +78,7 @@ const steps = [
 ]
 
 function getFeedback(exerciseData) {
-	return getFieldInputFeedback(['equation', 'ansSquared', 'ans'], exerciseData)
+	return getFieldInputFeedback(exerciseData, ['equation', 'ansSquared', 'ans'])
 }
 
 function ExerciseFigure({ state, solution }) {

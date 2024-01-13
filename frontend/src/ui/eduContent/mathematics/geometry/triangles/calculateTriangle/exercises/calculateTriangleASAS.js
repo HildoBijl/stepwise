@@ -18,8 +18,7 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const { α, β, a, c } = state
+const Problem = ({ α, β, a, c }) => {
 	const numSolutions = useInput('numSolutions')
 	return <>
 		<Par>Gegeven is een driehoek met hoeken van <M>{α}^\circ</M> en <M>{β}^\circ.</M> De zijde tussen deze hoeken is <M>{c}</M>. Bereken de lengte van de zijde <M>{a}</M> tegenover de hoek van <M>{α}^\circ.</M> Vind alle mogelijke oplossingen en geef je antwoord in wiskundige notatie.</Par>
@@ -48,8 +47,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { α, β, γ } = useSolution()
+		Solution: ({ α, β, γ }) => {
 			return <Par>De som van de hoeken van een driehoek is altijd <M>180^\circ</M> waardoor <BM>{α}^\circ + {β}^\circ + γ = 180^\circ.</BM> De oplossing voor <M>γ</M> is <BM>γ = 180^\circ - {α}^\circ - {β}^\circ = {γ}^\circ.</BM></Par>
 		},
 	},
@@ -67,8 +65,7 @@ const steps = [
 		},
 	},
 	{
-		Problem: (state) => {
-			const { a, c } = state
+		Problem: ({ a, c }) => {
 			return <>
 				<Par>Pas de betreffende regel letterlijk toe, gebruik makend van de zijden <M>{a}</M> en <M>{c}.</M> Noteer de vergelijking.</Par>
 				<InputSpace>
@@ -76,15 +73,12 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { a, c } = state
-			const { α, γ, equation } = useSolution()
-			return <Par>We passen de sinusregel toe op zijden <M>{a}</M> en <M>{c}.</M> Tegenover zijde <M>{a}</M> is de hoek <M>{α}^\circ.</M> Tegenover zijde <M>{c}</M> is de hoek <M>{γ}^\circ.</M> De sinusregel zegt nu dat <BM>{equation}.</BM></Par>
+		Solution: ({ c, α, γ, equation, variables }) => {
+			return <Par>We passen de sinusregel toe op zijden <M>{variables.a}</M> en <M>{c}.</M> Tegenover zijde <M>{variables.a}</M> is de hoek <M>{α}^\circ.</M> Tegenover zijde <M>{c}</M> is de hoek <M>{γ}^\circ.</M> De sinusregel zegt nu dat <BM>{equation}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { a } = state
+		Problem: ({ a }) => {
 			return <>
 				<Par>Bepaal hoeveel geldige oplossingen deze vergelijking heeft.</Par>
 				<InputSpace>
@@ -96,17 +90,15 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { a } = state
+		Solution: ({ variables }) => {
 			return <>
 				<Par>Meetkundig kunnen we zien dat er maar één mogelijke driehoek is die aan de gegevens voldoet. Immers, als we vanaf de bekende zijde de gegeven hoeken tekenen, en de lijnen doortrekken, dan krijgen we exact één snijpunt. Er is dus maar één driehoek die aan de gegeven waarden voldoet.</Par>
-				<Par>Rekenkundig kunnen we ook zien dat er maar één oplossing is. Om <M>{a}</M> te vinden hoeven we geen sinus om te keren of een kwadratische vergelijking op te lossen. We hebben slechts een lineaire vergelijking in <M>{a}.</M> Er is dus exact één oplossing voor <M>{a}.</M></Par>
+				<Par>Rekenkundig kunnen we ook zien dat er maar één oplossing is. Om <M>{variables.a}</M> te vinden hoeven we geen sinus om te keren of een kwadratische vergelijking op te lossen. We hebben slechts een lineaire vergelijking in <M>{variables.a}.</M> Er is dus exact één oplossing voor <M>{variables.a}.</M></Par>
 			</>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { a } = state
+		Problem: ({ a }) => {
 			return <>
 				<Par>Los de vergelijking op voor <M>{a}.</M> Gebruik wiskundige notatie: je mag eventuele functies als sin/cos/tan in je antwoord laten staan.</Par>
 				<InputSpace>
@@ -116,9 +108,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { aRaw, equation } = useSolution()
-			return <Par>Om <M>{state.a}</M> te vinden vermenigvuldigen we beide kanten van de vergelijking met <M>{equation.left.denominator}.</M> Zo vinden we <BM>{state.a} = {aRaw}.</BM> Hiermee is de gevraagde zijde berekend. Het zou overeen komen met een waarde van <M>{state.a} \approx {new Float(roundToDigits(aRaw.number, 3))}</M> wat lijkt te kloppen met de afbeelding.</Par>
+		Solution: ({ aRaw, equation, variables }) => {
+			return <Par>Om <M>{variables.a}</M> te vinden vermenigvuldigen we beide kanten van de vergelijking met <M>{equation.left.denominator}.</M> Zo vinden we <BM>{variables.a} = {aRaw}.</BM> Hiermee is de gevraagde zijde berekend. Het zou overeen komen met een waarde van <M>{variables.a} \approx {new Float(roundToDigits(aRaw.number, 3))}</M> wat lijkt te kloppen met de afbeelding.</Par>
 		},
 	},
 ]
@@ -140,9 +131,8 @@ function getFeedback(exerciseData) {
 	const equationChecks = [someSideNoFraction, hasIncorrectSide]
 
 	return {
-		...getMCFeedback('rule', exerciseData, { text: ruleText }),
-		...getMCFeedback('numSolutions', exerciseData, { text: numSolutionsText }),
-		...getFieldInputFeedback(['γ', 'equation', 'a'], exerciseData, [[], equationChecks, []].map(feedbackChecks => ({ feedbackChecks }))),
+		...getMCFeedback(exerciseData, { rule: ruleText, numSolutions: numSolutionsText }),
+		...getFieldInputFeedback(exerciseData, { γ: {}, equation: equationChecks, a: {} }),
 	}
 }
 

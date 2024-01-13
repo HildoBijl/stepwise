@@ -9,7 +9,7 @@ import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { Drawing, Polygon, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
 import { useInput, InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput, EquationInput } from 'ui/inputs'
-import { useExerciseData, StepExercise, useSolution, equationChecks, getFieldInputFeedback, getInputFieldListFeedback, getMCFeedback } from 'ui/eduTools'
+import { useExerciseData, StepExercise, useSolution, equationChecks, getFieldInputFeedback, getFieldInputListFeedback, getMCFeedback } from 'ui/eduTools'
 
 const { hasIncorrectSide } = equationChecks
 
@@ -19,8 +19,7 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const { α, a, b, c } = state
+const Problem = ({ α, a, b, c }) => {
 	const numSolutions = useInput('numSolutions')
 	return <>
 		<Par>Gegeven is een driehoek met zijden van <M>{a}</M> en <M>{c}.</M> De hoek tegenover de zijde van <M>{a}</M> is <M>{α}^\circ.</M> Bereken de lengte <M>{b}</M> van de resterende zijde. Vind alle mogelijke oplossingen en geef je antwoord in wiskundige notatie.</Par>
@@ -53,8 +52,7 @@ const steps = [
 		},
 	},
 	{
-		Problem: (state) => {
-			const { α, b } = state
+		Problem: ({ α, b }) => {
 			return <>
 				<Par>Pas de betreffende regel letterlijk toe, gebruik makend van de hoek van <M>{α}^\circ.</M> Noteer de vergelijking.</Par>
 				<InputSpace>
@@ -62,15 +60,12 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { α, a, b, c } = state
-			const { equationRaw, equation } = useSolution()
+		Solution: ({ α, a, b, c, equationRaw, equation }) => {
 			return <Par>We passen de cosinusregel toe, gezien vanuit de hoek van <M>{α}^\circ.</M> Tegenover deze hoek staat zijde <M>{a}.</M> De andere zijden zijn <M>{b}</M> en <M>{c}.</M> De cosinusregel zegt nu dat <BM>{equationRaw}.</BM> Eventueel kunnen we dit nog eenvoudiger schrijven als <BM>{equation}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { b } = state
+		Problem: ({ b }) => {
 			return <>
 				<Par>Bepaal hoeveel geldige oplossingen deze vergelijking heeft.</Par>
 				<InputSpace>
@@ -82,8 +77,7 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { α, a, b, c } = state
+		Solution: ({ α, a, b, c }) => {
 			return <>
 				<Par>Meetkundig kunnen we zien dat er twee mogelijke driehoeken zijn die aan de gegevens voldoen. Gegeven zijn de zijden van <M>{a}</M> en <M>{c}</M> en daaropvolgend de hoek van <M>{α}^\circ.</M> Als we in de figuur de zijde van <M>{a}</M> draaien, zodat <M>{b}</M> kleiner wordt, dan zien we dat er nog een tweede driehoek mogelijk is, ook met een hoek van <M>{α}^\circ.</M> Er zijn dus twee driehoeken mogelijk.</Par>
 				<Par>Rekenkundig kunnen we ook zien dat er twee oplossingen zijn. De gegeven vergelijking is namelijk een kwadratische vergelijking in <M>{b}.</M> De discriminant van deze vergelijking is positief, en dus heeft de vergelijking twee oplossingen. Deze oplossingen uitrekenen zal aantonen dat beide oplossingen positief zijn, en dus bruikbaar.</Par>
@@ -91,8 +85,7 @@ const steps = [
 		},
 	},
 	{
-		Problem: (state) => {
-			const { b } = state
+		Problem: ({ b }) => {
 			return <>
 				<Par>Los de vergelijking op voor <M>{b}.</M> Gebruik wiskundige notatie: je mag eventuele functies als sin/cos/tan in je antwoord laten staan.</Par>
 				<InputSpace>
@@ -103,15 +96,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { equationInStandardForm, b1, b2 } = useSolution()
+		Solution: ({ equationInStandardForm, variables, b1, b2 }) => {
 			return <>
-				<Par>Om <M>{state.b}</M> te vinden zetten we eerst de vergelijking in standaard vorm. Zo krijgen we <BM>{equationInStandardForm}.</BM> Via de wortelformule (ABC-formule) vinden we nu direct de twee oplossingen als <BMList>
-					<BMPart>{state.b}_1 = {b1},</BMPart>
-					<BMPart>{state.b}_2 = {b2}.</BMPart>
+				<Par>Om <M>{variables.b}</M> te vinden zetten we eerst de vergelijking in standaard vorm. Zo krijgen we <BM>{equationInStandardForm}.</BM> Via de wortelformule (ABC-formule) vinden we nu direct de twee oplossingen als <BMList>
+					<BMPart>{variables.b}_1 = {b1},</BMPart>
+					<BMPart>{variables.b}_2 = {b2}.</BMPart>
 				</BMList>
-					Eventueel kunnen we deze oplossingen nog als getal uitrekenen. Zo krijgen we <M>{state.b}_1 \approx {new Float(roundToDigits(b1.number, 3))}</M> en <M>{state.b}_2 \approx {new Float(roundToDigits(b2.number, 3))}.</M> Beide getallen zijn positief, en dus geldige afstanden.</Par>
-				<Par>Overigens is de bij de vraag getekende figuur gebaseerd op <M>{state.b}_2.</M> We kunnen met <M>{state.b}_1</M> ook nog een driehoek tekenen. We krijgen dan de onderstaande afbeelding.</Par>
+					Eventueel kunnen we deze oplossingen nog als getal uitrekenen. Zo krijgen we <M>{variables.b}_1 \approx {new Float(roundToDigits(b1.number, 3))}</M> en <M>{variables.b}_2 \approx {new Float(roundToDigits(b2.number, 3))}.</M> Beide getallen zijn positief, en dus geldige afstanden.</Par>
+				<Par>Overigens is de bij de vraag getekende figuur gebaseerd op <M>{variables.b}_2.</M> We kunnen met <M>{variables.b}_1</M> ook nog een driehoek tekenen. We krijgen dan de onderstaande afbeelding.</Par>
 				<ExerciseFigure useAlternative={true} />
 			</>
 		},
@@ -137,10 +129,9 @@ function getFeedback(exerciseData) {
 	const equationChecks = [leftSideNoSquare, hasIncorrectSide]
 
 	return {
-		...getMCFeedback('rule', exerciseData, { text: ruleText }),
-		...getMCFeedback('numSolutions', exerciseData, { text: numSolutionsText }),
-		...getFieldInputFeedback('equation', exerciseData, { feedbackChecks: equationChecks }),
-		...getInputFieldListFeedback(['b1', 'b2'], exerciseData),
+		...getMCFeedback(exerciseData, { rule: ruleText, numSolutions: numSolutionsText }),
+		...getFieldInputFeedback(exerciseData, { equation: equationChecks }),
+		...getFieldInputListFeedback(exerciseData, ['b1', 'b2']),
 	}
 }
 

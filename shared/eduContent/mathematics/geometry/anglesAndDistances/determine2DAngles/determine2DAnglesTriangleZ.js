@@ -5,12 +5,10 @@ const variableSet = ['α', 'β', 'γ']
 const usedVariables = ['alpha', 'beta', 'gamma']
 const constants = ['a', 'b', 'c']
 
-const data = {
+const metaData = {
 	skill: 'determine2DAngles',
 	steps: [null, null, null],
-	comparison: {
-		default: {},
-	},
+	comparison: { default: {} },
 }
 
 function generateState() {
@@ -36,20 +34,19 @@ function getSolution(state) {
 	return { ...state, variables, alpha, beta, gamma }
 }
 
-function checkInput(state, input, step) {
-	const solution = getSolution(state)
-	if (step === 0 || step === 3)
-		return performComparison('gamma', input, solution, data.comparison)
-	if (step === 1)
-		return performComparison('alpha', input, solution, data.comparison)
-	if (step === 2)
-		return performComparison('beta', input, solution, data.comparison)
+function checkInput(exerciseData, step) {
+	switch (step) {
+		case 1:
+			return performComparison(exerciseData, 'alpha')
+		case 2:
+			return performComparison(exerciseData, 'beta')
+		default:
+			return performComparison(exerciseData, 'gamma')
+	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	getSolution,
-	checkInput,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

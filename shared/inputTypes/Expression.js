@@ -5,4 +5,4 @@ const { Expression, expressionStrToSI, expressionSItoFO, expressionSOtoFO } = re
 module.exports.Expression = Expression
 module.exports.SOtoFO = (SO) => expressionSOtoFO(SO)
 module.exports.SItoFO = (value, settings) => expressionSItoFO(value, settings)
-module.exports.FOtoSI = (expression) => expressionStrToSI(expression.str)
+module.exports.FOtoSI = (expression) => expressionStrToSI((expression instanceof Expression ? expression.str : expression))

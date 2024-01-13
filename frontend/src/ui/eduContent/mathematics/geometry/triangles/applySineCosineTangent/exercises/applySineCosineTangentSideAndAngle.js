@@ -101,8 +101,8 @@ function getFeedback(exerciseData) {
 	const equationChecks = [hasNoFunction, hasWrongFunction, hasWrongLeft, equationRemaining]
 
 	return {
-		...getMCFeedback('rule', exerciseData, { text }),
-		...getFieldInputFeedback(['ans', 'equation'], exerciseData, [ansChecks, equationChecks].map(feedbackChecks => ({ feedbackChecks }))),
+		...getMCFeedback(exerciseData, { rule: text }),
+		...getFieldInputFeedback(exerciseData, { ans: ansChecks, equation: equationChecks }),
 	}
 }
 

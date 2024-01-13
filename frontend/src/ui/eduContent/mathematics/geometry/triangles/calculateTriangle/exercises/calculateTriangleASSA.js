@@ -9,14 +9,13 @@ import { Par, M, BM, BMList, BMPart } from 'ui/components'
 import { Drawing, Polygon, CornerLabel, LineLabel, useRotationReflectionTransformation, useBoundsBasedTransformationSettings } from 'ui/figures'
 import { useInput, InputSpace } from 'ui/form'
 import { MultipleChoice, ExpressionInput } from 'ui/inputs'
-import { useExerciseData, StepExercise, useSolution, getInputFieldListFeedback, getMCFeedback } from 'ui/eduTools'
+import { useExerciseData, StepExercise, useSolution, getFieldInputListFeedback, getMCFeedback } from 'ui/eduTools'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const { α, β, a, c } = state
+const Problem = ({ α, β, a, c }) => {
 	const numSolutions = useInput('numSolutions')
 	return <>
 		<Par>Gegeven is een driehoek met zijden van <M>{a}</M> en <M>{c}.</M> De hoek tegenover de zijde van <M>{a}</M> is <M>{α}^\circ.</M> Bereken de hoek <M>{β}</M> tussen de twee gegeven zijden. Vind alle mogelijke oplossingen en geef je antwoord in wiskundige notatie.</Par>
@@ -36,8 +35,7 @@ const Problem = (state) => {
 
 const steps = [
 	{
-		Problem: (state) => {
-			const { γ } = state
+		Problem: ({ γ }) => {
 			const numSolutions = useInput('numSolutions')
 			return <>
 				<Par>Bepaal alle mogelijke oplossingen voor de overige hoek <M>{γ}</M> van de driehoek.</Par>
@@ -54,14 +52,12 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: () => {
-			const { α, γ, a, c, equation, intermediateEquation, γ1 } = useSolution()
+		Solution: ({ α, γ, a, c, equation, intermediateEquation, γ1 }) => {
 			return <Par>We kunnen de hoek <M>{γ}</M> direct vinden via de sinuswet, toegepast op zijden <M>{a}</M> en <M>{c}.</M> Tegenover zijde <M>{a}</M> is de hoek <M>{α}^\circ.</M> Tegenover zijde <M>{c}</M> staat hoek <M>{γ}.</M> De sinusregel zegt nu dat <BM>{equation}.</BM> Om deze vergelijking op te lossen isoleren we eerst <M>{intermediateEquation.left}.</M> Zo vinden we <BM>{intermediateEquation}.</BM> Als we de omgekeerde sinus op beide kanten toepassen, dan vinden we de eerste oplossing <BM>{γ}_1 = {γ1}.</BM> Dit is echter niet de enige oplossing. Bij het omkeren van een sinus moeten we ook altijd nog de tweede oplossing meenemen, zijnde <BM>{γ}_2 = 180 - {γ}_1 = 180 - {γ1}.</BM> Hiermee zijn de twee oplossingen voor <M>{γ}</M> bekend.</Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { β, γ } = state
+		Problem: ({ β, γ }) => {
 			return <>
 				<Par>Bepaal voor elke mogelijke waarde van <M>{γ}</M> de bijbehorende waarde van <M>{β}.</M></Par>
 				<InputSpace>
@@ -72,15 +68,14 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { α, β, γ, γ1, γ2, β1, β2 } = useSolution()
+		Solution: ({ α, β, γ, γ1, γ2, β1, β2 }) => {
 			return <>
 				<Par>De som van de hoeken van een driehoek is altijd <M>180^\circ.</M> Hiermee kunnen we direct <M>{β}_1</M> en <M>{β}_2</M> vinden als
 					<BMList>
 						<BMPart>{β}_1 = 180 - {α} - {γ}_1 = 180 - {α} - {γ1} = {new Integer(180).subtract(α).regularClean()} - {γ1},</BMPart>
 						<BMPart>{β}_2 = 180 - {α} - {γ}_2 = 180 - {α} - \left({γ2}\right) = {γ1} - {α}.</BMPart>
 					</BMList>
-					Eventueel kunnen we deze twee oplossingen nog als getal uitrekenen. Zo krijgen we <M>{β}_1 \approx {new Float(roundToDigits(β1.number, 3))}^\circ</M> en <M>{state.β}_2 \approx {new Float(roundToDigits(β2.number, 3))}^\circ.</M> De bij de vraag getekende figuur is gebaseerd op <M>{β}_1.</M> We kunnen met <M>{β}_2</M> ook nog een driehoek tekenen. We krijgen dan de onderstaande afbeelding.</Par>
+					Eventueel kunnen we deze twee oplossingen nog als getal uitrekenen. Zo krijgen we <M>{β}_1 \approx {new Float(roundToDigits(β1.number, 3))}^\circ</M> en <M>{β}_2 \approx {new Float(roundToDigits(β2.number, 3))}^\circ.</M> De bij de vraag getekende figuur is gebaseerd op <M>{β}_1.</M> We kunnen met <M>{β}_2</M> ook nog een driehoek tekenen. We krijgen dan de onderstaande afbeelding.</Par>
 				<ExerciseFigure useAlternative={true} />
 			</>
 		},
@@ -100,9 +95,9 @@ function getFeedback(exerciseData) {
 	// No feedback checks are defined.
 
 	return {
-		...getMCFeedback('numSolutions', exerciseData, { text: numSolutionsText }),
-		...getInputFieldListFeedback(['γ1', 'γ2'], exerciseData),
-		...getInputFieldListFeedback(['β1', 'β2'], exerciseData),
+		...getMCFeedback(exerciseData, { numSolutions: numSolutionsText }),
+		...getFieldInputListFeedback(exerciseData, ['γ1', 'γ2']),
+		...getFieldInputListFeedback(exerciseData, ['β1', 'β2']),
 	}
 }
 

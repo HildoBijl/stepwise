@@ -4,7 +4,7 @@ const { getStepExerciseProcessor, performComparison } = require('../../../../../
 
 const variableSet = ['x', 'y', 'z']
 
-const data = {
+const metaData = {
 	skill: 'applySineCosineTangent',
 	steps: [null, null, null],
 	comparison: {
@@ -41,7 +41,7 @@ function getSolution(state) {
 
 	// Determine the rule to apply.
 	const rule = 3 - (known + requested) // 0 for sine, 1 for cosine, 2 for tangent.
-	const equation = asEquation(['sin(β)=b/c', 'cos(β)=a/c', 'tan(β)=b/a'][rule]).substituteVariables(variables)
+	const equation = asEquation(['sin(β)=b/c', 'cos(β)=a/c', 'tan(β)=b/a'][rule], { useDegrees: true }).substituteVariables(variables)
 
 	// Depending on what is known, determine a, b and c.
 	let a, b, c
@@ -67,20 +67,19 @@ function getSolution(state) {
 	return { ...state, a, b, c, variables, rule, equation, ansRaw, ans, canSimplifyAns }
 }
 
-function checkInput(state, input, step) {
-	const solution = getSolution(state)
-	if (step === 0 || step === 3)
-		return performComparison('ans', input, solution, data.comparison)
-	if (step === 1)
-		return performComparison('rule', input, solution, data.comparison)
-	if (step === 2)
-		return performComparison('equation', input, solution, data.comparison)
+function checkInput(exerciseData, step) {
+	switch (step) {
+		case 1:
+			return performComparison(exerciseData, 'rule')
+		case 2:
+			return performComparison(exerciseData, 'equation')
+		default:
+			return performComparison(exerciseData, 'ans')
+	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	getSolution,
-	checkInput,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

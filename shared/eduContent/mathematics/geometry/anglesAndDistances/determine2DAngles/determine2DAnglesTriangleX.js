@@ -5,17 +5,15 @@ const variableSet = ['α', 'β', 'γ']
 const usedVariables = ['alpha', 'beta', 'gamma']
 const constants = ['a', 'b']
 
-const data = {
+const metaData = {
 	skill: 'determine2DAngles',
 	steps: [null, null, null],
-	comparison: {
-		default: {},
-	},
+	comparison: { default: {} },
 }
 
 function generateState() {
 	const limit = 30
-	const alpha = getRandomInteger(limit/5, (90-limit)/5) * 5 // This is the angle in the X.
+	const alpha = getRandomInteger(limit / 5, (90 - limit) / 5) * 5 // This is the angle in the X.
 	return {
 		...selectRandomVariables(variableSet, usedVariables),
 		a: 90 - alpha,
@@ -34,20 +32,19 @@ function getSolution(state) {
 	return { ...state, variables, alpha, beta, gamma }
 }
 
-function checkInput(state, input, step) {
-	const solution = getSolution(state)
-	if (step === 0 || step === 3)
-		return performComparison('gamma', input, solution, data.comparison)
-	if (step === 1)
-		return performComparison('alpha', input, solution, data.comparison)
-	if (step === 2)
-		return performComparison('beta', input, solution, data.comparison)
+function checkInput(exerciseData, step) {
+	switch (step) {
+		case 1:
+			return performComparison(exerciseData, 'alpha')
+		case 2:
+			return performComparison(exerciseData, 'beta')
+		default:
+			return performComparison(exerciseData, 'gamma')
+	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	getSolution,
-	checkInput,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

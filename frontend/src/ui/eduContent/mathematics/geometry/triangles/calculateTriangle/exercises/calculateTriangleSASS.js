@@ -19,8 +19,7 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const { α, a, b, c } = state
+const Problem = ({ α, a, b, c }) => {
 	const numSolutions = useInput('numSolutions')
 	return <>
 		<Par>Gegeven is een driehoek met zijden van <M>{b}</M> en <M>{c}.</M> De hoek tussen deze zijden is <M>{α}^\circ.</M> Bereken de lengte <M>{a}</M> van de resterende zijde. Vind alle mogelijke oplossingen en geef je antwoord in wiskundige notatie.</Par>
@@ -53,8 +52,7 @@ const steps = [
 		},
 	},
 	{
-		Problem: (state) => {
-			const { α, a } = state
+		Problem: ({ α, a }) => {
 			return <>
 				<Par>Pas de betreffende regel letterlijk toe, gebruik makend van de hoek van <M>{α}^\circ.</M> Noteer de vergelijking.</Par>
 				<InputSpace>
@@ -62,15 +60,12 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { α, a, b, c } = state
-			const { equationRaw, equation } = useSolution()
+		Solution: ({ α, a, b, c, equationRaw, equation }) => {
 			return <Par>We passen de cosinusregel toe, gezien vanuit de hoek van <M>{α}^\circ.</M> Tegenover deze hoek staat zijde <M>{a}.</M> De andere zijden zijn <M>{b}</M> en <M>{c}.</M> De cosinusregel zegt nu dat <BM>{equationRaw}.</BM> Eventueel kunnen we dit nog eenvoudiger schrijven als <BM>{equation}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { a } = state
+		Problem: ({ a }) => {
 			return <>
 				<Par>Bepaal hoeveel geldige oplossingen deze vergelijking heeft.</Par>
 				<InputSpace>
@@ -82,17 +77,15 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { a } = state
+		Solution: ({ variables }) => {
 			return <>
 				<Par>Meetkundig kunnen we zien dat er maar één mogelijke driehoek is die aan de gegevens voldoet. Immers, als we vanaf de bekende zijde de gegeven hoeken tekenen, en de lijnen doortrekken, dan krijgen we exact één snijpunt. Er is dus maar één driehoek die aan de gegeven waarden voldoet.</Par>
-				<Par>Rekenkundig kunnen we ook zien dat er maar één oplossing is. Om <M>{a}</M> te vinden moeten we een kwadraat omkeren. Dit geeft normaliter ook een tweede (negatieve) oplossing, maar een negatieve afstand is hier niet van toepassing, en dus is er maar één passende oplossing voor <M>{a}.</M></Par>
+				<Par>Rekenkundig kunnen we ook zien dat er maar één oplossing is. Om <M>{variables.a}</M> te vinden moeten we een kwadraat omkeren. Dit geeft normaliter ook een tweede (negatieve) oplossing, maar een negatieve afstand is hier niet van toepassing, en dus is er maar één passende oplossing voor <M>{variables.a}.</M></Par>
 			</>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { a } = state
+		Problem: ({ a }) => {
 			return <>
 				<Par>Los de vergelijking op voor <M>{a}.</M> Gebruik wiskundige notatie: je mag eventuele functies als sin/cos/tan in je antwoord laten staan.</Par>
 				<InputSpace>
@@ -102,9 +95,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { α, aRaw } = useSolution()
-			return <Par>Om <M>{state.a}</M> te vinden nemen we van beide kanten van de vergelijking de wortel. Een plus/minus is hier niet nodig, omdat een negatieve afstand niet correct kan zijn. (Dit zou de afstand zijn als we de driehoek bij de hoek van <M>{α}^\circ</M> spiegelen.) Het resultaat is <BM>{state.a} = {aRaw}.</BM> Hiermee is de gevraagde zijde berekend. Het zou overeen komen met een afstand van <M>{state.a} \approx {new Float(roundToDigits(aRaw.number, 3))}</M> wat lijkt te kloppen met de afbeelding.</Par>
+		Solution: ({ variables, α, aRaw }) => {
+			return <Par>Om <M>{variables.a}</M> te vinden nemen we van beide kanten van de vergelijking de wortel. Een plus/minus is hier niet nodig, omdat een negatieve afstand niet correct kan zijn. (Dit zou de afstand zijn als we de driehoek bij de hoek van <M>{α}^\circ</M> spiegelen.) Het resultaat is <BM>{variables.a} = {aRaw}.</BM> Hiermee is de gevraagde zijde berekend. Het zou overeen komen met een afstand van <M>{variables.a} \approx {new Float(roundToDigits(aRaw.number, 3))}</M> wat lijkt te kloppen met de afbeelding.</Par>
 		},
 	},
 ]
@@ -126,9 +118,8 @@ function getFeedback(exerciseData) {
 	const equationChecks = [leftSideNoSquare, hasIncorrectSide]
 
 	return {
-		...getMCFeedback('rule', exerciseData, { text: ruleText }),
-		...getMCFeedback('numSolutions', exerciseData, { text: numSolutionsText }),
-		...getFieldInputFeedback(['equation', 'a'], exerciseData, [equationChecks, []].map(feedbackChecks => ({ feedbackChecks }))),
+		...getMCFeedback(exerciseData, { rule: ruleText, numSolutions: numSolutionsText }),
+		...getFieldInputFeedback(exerciseData, { equation: equationChecks, a: {} }),
 	}
 }
 

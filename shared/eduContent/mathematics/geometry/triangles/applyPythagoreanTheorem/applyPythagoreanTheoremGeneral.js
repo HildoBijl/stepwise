@@ -5,7 +5,7 @@ const { getStepExerciseProcessor, performComparison } = require('../../../../../
 const pythagoreanTriplets = [[3, 4, 5], [5, 12, 13], [6, 8, 10], [7, 24, 25], [8, 15, 17], [9, 12, 15], [10, 24, 26]]
 const variableSet = ['x', 'y', 'z']
 
-const data = {
+const metaData = {
 	skill: 'applyPythagoreanTheorem',
 	steps: [null, null, null],
 	comparison: {
@@ -76,20 +76,19 @@ function getSolution(state) {
 	return { ...state, toFind, a, b, c, x, equation, ansSquared, ansSquaredSimplified, ansRaw, ans, ansCanBeSimplified }
 }
 
-function checkInput(state, input, step) {
-	const solution = getSolution(state)
-	if (step === 0 || step === 3)
-		return performComparison('ans', input, solution, data.comparison)
-	if (step === 1)
-		return performComparison('equation', input, solution, data.comparison)
-	if (step === 2)
-		return performComparison('ansSquared', input, solution, data.comparison)
+function checkInput(exerciseData, step) {
+	switch (step) {
+		case 1:
+			return performComparison(exerciseData, 'equation')
+		case 2:
+			return performComparison(exerciseData, 'ansSquared')
+		default:
+			return performComparison(exerciseData, 'ans')
+	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	getSolution,
-	checkInput,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

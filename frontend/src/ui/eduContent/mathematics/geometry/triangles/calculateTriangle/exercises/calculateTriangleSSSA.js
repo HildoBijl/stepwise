@@ -19,8 +19,7 @@ export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
 }
 
-const Problem = (state) => {
-	const { α, a, b, c } = state
+const Problem = ({ α, a, b, c }) => {
 	const numSolutions = useInput('numSolutions')
 	return <>
 		<Par>Gegeven is een driehoek met zijden van <M>{a},</M> <M>{b}</M> en <M>{c}.</M> Bereken de hoek <M>{α}</M> (in graden) die ligt tussen de zijden van <M>{b}</M> en <M>{c}.</M> Vind alle mogelijke oplossingen en geef je antwoord in wiskundige notatie.</Par>
@@ -53,8 +52,7 @@ const steps = [
 		},
 	},
 	{
-		Problem: (state) => {
-			const { α } = state
+		Problem: ({ α }) => {
 			return <>
 				<Par>Pas de betreffende regel letterlijk toe, gebruik makend van hoek <M>{α}.</M> Noteer de vergelijking.</Par>
 				<InputSpace>
@@ -62,15 +60,12 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { α, a, b, c } = state
-			const { equationRaw, equation } = useSolution()
-			return <Par>We passen de cosinusregel toe, gezien vanuit hoek <M>{α}.</M> Tegenover deze hoek staat zijde <M>{a}.</M> De andere zijden zijn <M>{b}</M> en <M>{c}.</M> De cosinusregel zegt nu dat <BM>{equationRaw}.</BM> Eventueel kunnen we dit nog eenvoudiger schrijven als <BM>{equation}.</BM></Par>
+		Solution: ({ variables, a, b, c, equationRaw, equation }) => {
+			return <Par>We passen de cosinusregel toe, gezien vanuit hoek <M>{variables.α}.</M> Tegenover deze hoek staat zijde <M>{a}.</M> De andere zijden zijn <M>{b}</M> en <M>{c}.</M> De cosinusregel zegt nu dat <BM>{equationRaw}.</BM> Eventueel kunnen we dit nog eenvoudiger schrijven als <BM>{equation}.</BM></Par>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { α } = state
+		Problem: ({ α }) => {
 			return <>
 				<Par>Bepaal hoeveel geldige oplossingen deze vergelijking heeft.</Par>
 				<InputSpace>
@@ -82,17 +77,15 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { α } = state
+		Solution: ({ variables }) => {
 			return <>
 				<Par>Meetkundig kunnen we zien dat er maar één mogelijke driehoek is die aan de gegevens voldoet. Immers, als je van drie bekende zijden een driehoek maakt, dan is er altijd maar één driehoek mogelijk. (Tenzij één zijde groter is dan de andere twee samen: dan is het niet mogelijk om een driehoek te maken. Maar dat is hier niet het geval.)</Par>
-				<Par>Rekenkundig kunnen we ook zien dat er maar één oplossing is. Om <M>{α}</M> te vinden moeten we een cosinus omkeren, en voor driehoeken (dus in het bereik van <M>0^\circ</M> tot <M>180^\circ</M>) geeft dit altijd maar één oplossing.</Par>
+				<Par>Rekenkundig kunnen we ook zien dat er maar één oplossing is. Om <M>{variables.α}</M> te vinden moeten we een cosinus omkeren, en voor driehoeken (dus in het bereik van <M>0^\circ</M> tot <M>180^\circ</M>) geeft dit altijd maar één oplossing.</Par>
 			</>
 		},
 	},
 	{
-		Problem: (state) => {
-			const { α } = state
+		Problem: ({ α }) => {
 			return <>
 				<Par>Los de vergelijking op voor <M>{α}.</M> Gebruik wiskundige notatie: je mag eventuele functies als sin/cos/tan in je antwoord laten staan.</Par>
 				<InputSpace>
@@ -102,9 +95,8 @@ const steps = [
 				</InputSpace>
 			</>
 		},
-		Solution: (state) => {
-			const { intermediateEquation, α } = useSolution()
-			return <Par>Om <M>{state.α}</M> te vinden isoleren we eerst <M>{intermediateEquation.left}.</M> Zo vinden we <BM>{intermediateEquation}.</BM> Vervolgens nemen we van beide kanten de omgekeerde cosinus. Het resultaat is <BM>{state.α} = {α}.</BM> Hiermee is de gevraagde hoek berekend. Het zou overeen komen met een waarde van <M>{state.α} \approx {new Float(roundToDigits(α.number, 3))}^\circ</M> wat lijkt te kloppen met de afbeelding.</Par>
+		Solution: ({ variables, intermediateEquation, α }) => {
+			return <Par>Om <M>{variables.α}</M> te vinden isoleren we eerst <M>{intermediateEquation.left}.</M> Zo vinden we <BM>{intermediateEquation}.</BM> Vervolgens nemen we van beide kanten de omgekeerde cosinus. Het resultaat is <BM>{variables.α} = {α}.</BM> Hiermee is de gevraagde hoek berekend. Het zou overeen komen met een waarde van <M>{variables.α} \approx {new Float(roundToDigits(α.number, 3))}^\circ</M> wat lijkt te kloppen met de afbeelding.</Par>
 		},
 	},
 ]
@@ -126,9 +118,8 @@ function getFeedback(exerciseData) {
 	const equationChecks = [leftSideNoSquare, hasIncorrectSide]
 
 	return {
-		...getMCFeedback('rule', exerciseData, { text: ruleText }),
-		...getMCFeedback('numSolutions', exerciseData, { text: numSolutionsText }),
-		...getFieldInputFeedback(['equation', 'α'], exerciseData, [equationChecks, []].map(feedbackChecks => ({ feedbackChecks }))),
+		...getMCFeedback(exerciseData, { rule: ruleText, numSolutions: numSolutionsText }),
+		...getFieldInputFeedback(exerciseData, { α: {}, equation: equationChecks }),
 	}
 }
 

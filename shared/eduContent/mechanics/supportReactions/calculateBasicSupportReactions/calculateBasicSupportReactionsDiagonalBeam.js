@@ -103,7 +103,7 @@ function checkInput(exerciseData, step) {
 		case 4:
 			return performComparison(exerciseData, 'FAy')
 		default:
-			return performLoadsComparison(exerciseData, 'loads') && performComparison(exerciseData, console.log(exerciseData.solution.loadsToCheck) || exerciseData.solution.loadsToCheck)
+			return performLoadsComparison(exerciseData, 'loads') && performComparison(exerciseData, exerciseData.solution.loadsToCheck)
 	}
 }
 

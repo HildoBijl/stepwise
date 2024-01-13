@@ -4,7 +4,7 @@ const { getStepExerciseProcessor, performComparison, performListComparison } = r
 
 const variableSet = ['x', 'y', 'z']
 
-const data = {
+const metaData = {
 	skill: 'calculateTriangle',
 	setup: 'solveBasicQuadraticEquation',
 	steps: [null, null, null, 'solveBasicQuadraticEquation'],
@@ -53,24 +53,23 @@ function getSolution(state) {
 	return { ...state, variables, rule, equationRaw, equation, equationInStandardForm, numSolutions, b1Raw, b1, b2Raw, b2 }
 }
 
-function checkInput(state, input, step) {
-	const solution = getSolution(state)
-	if (step === 0)
-		return input.numSolutions === solution.numSolutions && performListComparison(['b1', 'b2'], input, solution, data.comparison)
-	if (step === 1)
-		return performComparison('rule', input, solution, data.comparison)
-	if (step === 2)
-		return performComparison('equation', input, solution, data.comparison)
-	if (step === 3)
-		return performComparison('numSolutions', input, solution, data.comparison)
-	if (step === 4)
-		return performListComparison(['b1', 'b2'], input, solution, data.comparison)
+function checkInput(exerciseData, step) {
+	switch (step) {
+		case 1:
+			return performComparison(exerciseData, 'rule')
+		case 2:
+			return performComparison(exerciseData, 'equation')
+		case 3:
+			return performComparison(exerciseData, 'numSolutions')
+		case 4:
+			return performListComparison(exerciseData, ['b1', 'b2'])
+		default:
+			return performComparison(exerciseData, 'numSolutions') && performListComparison(exerciseData, ['b1', 'b2'])
+	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	getSolution,
-	checkInput,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

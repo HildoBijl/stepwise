@@ -5,7 +5,7 @@ const { getStepExerciseProcessor, addSetupFromSteps, performComparison, performL
 
 const variableSet = ['α', 'β', 'γ']
 
-const data = {
+const metaData = {
 	skill: 'calculateTriangle',
 	steps: [null, null, null, and('solveBasicLinearEquation', 'applySineCosineTangent')],
 	comparison: {
@@ -13,7 +13,7 @@ const data = {
 		equation: (input, correct) => equationComparisons.equivalent(input, correct) || equationComparisons.equivalent(input.invert(), correct),
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	// Generate numbers and ensure that there are two solutions.
@@ -53,24 +53,23 @@ function getSolution(state) {
 	return { ...state, variables, rule, equation, intermediateEquation, γ1, γ2, b1, b2, numSolutions }
 }
 
-function checkInput(state, input, step) {
-	const solution = getSolution(state)
-	if (step === 0)
-		return input.numSolutions === solution.numSolutions && performListComparison(['γ1', 'γ2'], input, solution, data.comparison)
-	if (step === 1)
-		return performComparison('rule', input, solution, data.comparison)
-	if (step === 2)
-		return performComparison('equation', input, solution, data.comparison)
-	if (step === 3)
-		return performComparison('numSolutions', input, solution, data.comparison)
-	if (step === 4)
-		return performListComparison(['γ1', 'γ2'], input, solution, data.comparison)
+function checkInput(exerciseData, step) {
+	switch (step) {
+		case 1:
+			return performComparison(exerciseData, 'rule')
+		case 2:
+			return performComparison(exerciseData, 'equation')
+		case 3:
+			return performComparison(exerciseData, 'numSolutions')
+		case 4:
+			return performListComparison(exerciseData, ['γ1', 'γ2'])
+		default:
+			return performComparison(exerciseData, 'numSolutions') && performListComparison(exerciseData, ['γ1', 'γ2'])
+	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	getSolution,
-	checkInput,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

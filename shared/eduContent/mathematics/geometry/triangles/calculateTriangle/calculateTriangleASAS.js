@@ -4,7 +4,7 @@ const { getStepExerciseProcessor, addSetupFromSteps, performComparison } = requi
 
 const variableSet = ['x', 'y', 'z']
 
-const data = {
+const metaData = {
 	skill: 'calculateTriangle',
 	steps: ['determine2DAngles', null, null, null, 'solveBasicLinearEquation'],
 	comparison: {
@@ -12,7 +12,7 @@ const data = {
 		equation: (input, correct) => equationComparisons.equivalent(input, correct) || equationComparisons.equivalent(input.invert(), correct),
 	},
 }
-addSetupFromSteps(data)
+addSetupFromSteps(metaData)
 
 function generateState() {
 	// Determine the angles and check if they match the conditions.
@@ -52,29 +52,28 @@ function getSolution(state) {
 	const bRaw = asExpression('c*sin(β)/sin(γ)', { useDegrees: true }).substituteVariables(variables)
 	const b = bRaw.regularClean()
 
-	return { ...state, γRaw, γ, rule, numSolutions, equation, aRaw, a, bRaw, b }
+	return { ...state, variables, γRaw, γ, rule, numSolutions, equation, aRaw, a, bRaw, b }
 }
 
-function checkInput(state, input, step) {
-	const solution = getSolution(state)
-	if (step === 0)
-		return input.numSolutions === solution.numSolutions && performComparison('a', input, solution, data.comparison)
-	if (step === 1)
-		return performComparison('γ', input, solution, data.comparison)
-	if (step === 2)
-		return performComparison('rule', input, solution, data.comparison)
-	if (step === 3)
-		return performComparison('equation', input, solution, data.comparison)
-	if (step === 4)
-		return performComparison('numSolutions', input, solution, data.comparison)
-	if (step === 5)
-		return performComparison('a', input, solution, data.comparison)
+function checkInput(exerciseData, step) {
+	switch (step) {
+		case 1:
+			return performComparison(exerciseData, 'γ')
+		case 2:
+			return performComparison(exerciseData, 'rule')
+		case 3:
+			return performComparison(exerciseData, 'equation')
+		case 4:
+			return performComparison(exerciseData, 'numSolutions')
+		case 5:
+			return performComparison(exerciseData, 'a')
+		default:
+			return performComparison(exerciseData, ['numSolutions', 'a'])
+	}
 }
 
+const exercise = { metaData, generateState, checkInput, getSolution }
 module.exports = {
-	data,
-	generateState,
-	processAction: getStepExerciseProcessor(checkInput, data),
-	getSolution,
-	checkInput,
+	...exercise,
+	processAction: getStepExerciseProcessor(exercise),
 }

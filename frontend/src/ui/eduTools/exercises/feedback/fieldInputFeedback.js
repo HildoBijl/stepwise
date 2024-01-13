@@ -314,7 +314,11 @@ export function getFieldInputListFeedback(exerciseData, parameterOptions, genera
 	const matched = Object.keys(parameterOptions).map(() => false)
 	const parameters = Object.keys(parameterOptions)
 	parameters.forEach(inputParameter => {
+		// Extract input and options. Ignore parameters with no input.
 		const currParameterOptions = parameterOptions[inputParameter]
+		const currInput = exerciseData.input[inputParameter]
+		if (currInput === undefined)
+			return
 
 		// Is there an unmatched corresponding partner?
 		const solutionIndex = parameters.findIndex((solutionParameter, index) => (!matched[index] && doValuesMatch(inputParameter, solutionParameter)))

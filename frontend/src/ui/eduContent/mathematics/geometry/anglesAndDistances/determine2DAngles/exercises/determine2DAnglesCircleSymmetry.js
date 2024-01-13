@@ -93,7 +93,7 @@ const steps = [
 ]
 
 function getFeedback(exerciseData) {
-	return getFieldInputFeedback(['alpha', 'beta', 'gamma', 'delta'], exerciseData)
+	return getFieldInputFeedback(exerciseData, ['alpha', 'beta', 'gamma', 'delta'])
 }
 
 function ExerciseFigure({ showAlpha = 0, showBeta = 0, showGamma = 0, showDelta = 0 }) {
