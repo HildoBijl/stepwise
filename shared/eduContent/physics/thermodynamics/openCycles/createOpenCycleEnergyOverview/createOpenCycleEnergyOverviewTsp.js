@@ -45,7 +45,7 @@ function getSolution(state) {
 	const wt31 = new FloatUnit('0 J/kg')
 	const qn = q12.add(q23).add(q31).setMinimumSignificantDigits(2)
 	const wn = wt12.add(wt23).add(wt31).setMinimumSignificantDigits(2)
-	return { cycleParameters, cv, cp, q12, wt12, q23, wt23, q31, wt31, qn, wn }
+	return { ...cycleParameters, cv, cp, q12, wt12, q23, wt23, q31, wt31, qn, wn }
 }
 
 function checkInput(exerciseData, step) {

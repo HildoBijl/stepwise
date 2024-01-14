@@ -1,7 +1,7 @@
 const { filterProperties, isBasicObject } = require('../../../../util')
 
 // assembleSolution takes a getSolution function or object and assembles a solution object from it.
-function assembleSolution(getSolution, state, input) {
+function assembleSolution(getSolution, state, input = {}) {
 	// If getSolution is a function, just run it.
 	if (typeof getSolution === 'function')
 		return getSolution(state)

@@ -43,16 +43,6 @@ function getSolution(state) {
 	return { ...state, equation, expressionD, D, sqrtD, numSolutions }
 }
 
-function checkInput(state, input, step) {
-	const solution = getSolution(state)
-	if (step === 0 || step === 3)
-		return input.numSolutions === solution.numSolutions
-	if (step === 1)
-		return performComparison(['a', 'b', 'c'], input, solution, metaData.comparison)
-	if (step === 2)
-		return performComparison(['D'], input, solution, metaData.comparison)
-}
-
 function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:

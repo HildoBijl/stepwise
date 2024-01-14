@@ -31,7 +31,7 @@ function generateState() {
 }
 
 function getSolution(state) {
-	p = state.p.simplify()
+	const p = state.p.simplify()
 	return { ...state, ans: (state.type === 0 ? p.setUnit('bar') : p) }
 }
 

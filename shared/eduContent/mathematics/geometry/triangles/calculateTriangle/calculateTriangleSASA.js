@@ -48,18 +48,6 @@ function getSolution(state) {
 	return { ...state, variables, numSolutions, equation1Raw, equation1, aRaw, a, equation2Raw, equation2, intermediateEquation, βRaw, β }
 }
 
-function checkInput(state, input, step) {
-	const solution = getSolution(state)
-	if (step === 0)
-		return input.numSolutions === solution.numSolutions && performComparison('β', input, solution, metaData.comparison)
-	if (step === 1)
-		return input.numSolutions === solution.numSolutions && performComparison('a', input, solution, metaData.comparison)
-	if (step === 2)
-		return performComparison('βRaw', input, solution, metaData.comparison)
-	if (step === 3)
-		return performComparison('β', input, solution, metaData.comparison)
-}
-
 function checkInput(exerciseData, step) {
 	switch (step) {
 		case 1:

@@ -2,6 +2,10 @@ const { isBasicObject, keysToObject } = require('../../../util')
 
 // processParameterComparison takes a parameterComparison parameter and processes it to ensure it's in a standard format.
 function processParameterComparison(parameterComparison) {
+	// If it's undefined, go for defaults.
+	if (parameterComparison === undefined)
+		parameterComparison = { default: undefined }
+
 	// In case of a single string, turn it into an array of strings.
 	if (typeof parameterComparison === 'string')
 		parameterComparison = [parameterComparison]
@@ -55,9 +59,7 @@ function getComparison(currParameter, comparison, parameterComparison, generalCo
 		comparison = { default: comparison }
 
 	// Get a comparison function/object according to the specified preference order.
-	const currComparison = parameterComparison[currParameter] || generalComparison || (comparison && comparison[currParameter]) || comparison?.default
-	if (!currComparison)
-		throw new Error(`Field check error: no comparison method defined. A comparison function or options-object should be defined either in the exercise metaData, or in the calling compare function.`)
+	const currComparison = parameterComparison[currParameter] || generalComparison || (comparison && comparison[currParameter]) || comparison?.default || undefined
 
 	// All done!
 	return currComparison

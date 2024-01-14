@@ -10,7 +10,7 @@ import { selectRandomCorrect, selectRandomIncorrect, selectRandomIncorrectUnit, 
 import { processParameterOptions } from './util'
 
 const defaultOptions = {
-	comparison: undefined, // A comparison function or object that will be used to check for correctness. If not given, it will be looked for in the exercise metaData.
+	comparison: {}, // A comparison function or object that will be used to check for correctness. If not given, it will be looked for in the exercise metaData.
 	feedbackChecks: [], // Checks to be run on the given input. Feedback checks are of the form (currInput, currSolution, solution, correct, exerciseData) => <>SomeMessage</>. Here "currSolution" refers to the solution for this parameter, while "solution" is the full solution object returned from the getSolution function. The value of correct is true/false, indicating whether it was graded to be equal. The first check that returns something truthy will be used.
 	feedbackFunction: undefined, // The function to be called after the feedbackChecks have failed to give any result. This is a function of the type (currInput, currSolution, currOptions, exerciseData) => { correct: false, <>SomeMessage</> } or similar. When not given, default feedback is determined based on the input and solution types.
 	dependency: undefined, // The names of parameters which the feedback of this parameter may depend on. The feedback of a parameter is only updated when it changes, or any of its dependencies changes.
@@ -46,6 +46,8 @@ export function getFieldInputFeedback(exerciseData, parameterOptions) {
 	// Check out which comparison has been provided.
 	const { input, solution, metaData, previousInput, previousFeedback } = exerciseData
 	let { comparison } = metaData
+	if (comparison === undefined)
+		comparison = {}
 	if (typeof comparison === 'function')
 		comparison = { default: comparison }
 	if (!isBasicObject(comparison))
@@ -149,7 +151,7 @@ export function getFeedbackCheckResult(exerciseData, feedbackChecks, currInput, 
 
 // getNumberComparisonFeedback takes two numbers: an input answer and a solution answer. It then compares these and returns a feedback object in the form { correct: true/false, text: 'Some feedback text' }.
 export function getNumberComparisonFeedback(currInput, currSolution, currOptions, objectBased, getNumber = (x => x)) {
-	const { comparison, previousFeedback } = processOptions(currOptions, defaultOptions)
+	let { comparison, previousFeedback } = processOptions(currOptions, defaultOptions)
 
 	// How to get equality data and equality depends on whether this is object-based (like with a Float) or number-based (like with regular numbers).
 	const equalityData = objectBased ?

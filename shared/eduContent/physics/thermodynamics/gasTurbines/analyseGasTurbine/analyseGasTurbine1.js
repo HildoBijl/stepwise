@@ -34,8 +34,8 @@ function generateState() {
 }
 
 function getSolution({ p1, T1, p2, T3, etaio, Po }) {
-	etai = etaio.simplify()
-	P = Po.simplify()
+	const etai = etaio.simplify()
+	const P = Po.simplify()
 
 	// Pressure.
 	const p3 = p2

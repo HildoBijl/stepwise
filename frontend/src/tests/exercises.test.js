@@ -4,7 +4,7 @@ import { ThemeProvider } from '@material-ui/core/styles'
 import ResizeObserver from 'resize-observer-polyfill'
 
 import { noop } from 'step-wise/util'
-import { exercises } from 'step-wise/eduTools'
+import { exercises, assembleSolution } from 'step-wise/eduTools'
 
 import { I18nProvider, TranslationFile, TranslationSection } from 'i18n'
 import { ModalManager } from 'ui/components'
@@ -38,7 +38,7 @@ describe('Check all exercises:', () => {
 					submitAction: noop, // (action) => submitAction(action, shared.processAction),
 					startNewExercise: noop,
 					shared: shared,
-					solution: shared.getSolution && shared.getSolution(state),
+					solution: shared.getSolution && assembleSolution(shared.getSolution, state),
 				}
 				expect(() => render(
 					<I18nProvider>
