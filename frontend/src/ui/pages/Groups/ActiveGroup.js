@@ -5,13 +5,10 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import Button from '@material-ui/core/Button'
 import { ExitToApp } from '@material-ui/icons'
 
-import { useDeactivateGroupMutation } from 'api/group'
+import { useDeactivateGroupMutation, useSelfAndOtherMembers } from 'api/group'
 import { TranslationSection, Translation } from 'i18n'
 import { usePaths } from 'ui/routingTools'
-import { Head } from 'ui/components'
-
-import { useSelfAndOtherMembers } from './util'
-import MemberList from './MemberList'
+import { Head, MemberList } from 'ui/components'
 
 const useStyles = makeStyles((theme) => ({
 	memberListContainer: {

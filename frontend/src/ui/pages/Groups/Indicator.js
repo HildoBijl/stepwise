@@ -5,11 +5,11 @@ import { makeStyles } from '@material-ui/core/styles'
 import Tooltip from '@material-ui/core/Tooltip'
 
 import { usePrevious } from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
-import { useActiveGroup } from 'api/group/Provider'
+import { useActiveGroup, useOtherMembers } from 'api/group'
 import { TranslationFile, TranslationSection, Translation, WordList } from 'i18n'
 import { usePaths } from 'ui/routingTools'
 
-import { translationPath, useOtherMembers } from './util'
+import { translationPath } from './util'
 
 const useStyles = makeStyles((theme) => ({
 	groupIndicator: {
@@ -44,7 +44,6 @@ export default function GroupIndicator() {
 
 function GroupIndicatorInternal({ group }) {
 	const paths = usePaths()
-	const activeGroup = useActiveGroup()
 	const navigate = useNavigate()
 
 	// Determine the names of active members.
@@ -69,8 +68,8 @@ function GroupIndicatorInternal({ group }) {
 	const classes = useStyles({ lastEvent })
 	return <TranslationFile path={translationPath} extend={false}>
 		<TranslationSection entry="indicator">
-			<Tooltip title={<span>{numActiveMembers <= 1 ? <Translation entry="noOthers">No other group members are present yet.</Translation> : <Translation entry="others">You are working together with <WordList words={names}/>.</Translation>}</span>} arrow>
-				<div className={clsx(classes.groupIndicator, 'groupIndicator')} onClick={() => navigate(paths.groups({ code: activeGroup.code }))}>
+			<Tooltip title={<span>{numActiveMembers <= 1 ? <Translation entry="noOthers">No other group members are present yet.</Translation> : <Translation entry="others">You are working together with <WordList words={names} />.</Translation>}</span>} arrow>
+				<div className={clsx(classes.groupIndicator, 'groupIndicator')} onClick={() => navigate(paths.groups({ code: group.code }))}>
 					<div className="contents">{activeMembers.length}</div>
 				</div>
 			</Tooltip>
