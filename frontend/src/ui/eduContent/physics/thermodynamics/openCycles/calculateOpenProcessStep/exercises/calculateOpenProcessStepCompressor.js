@@ -3,10 +3,10 @@ import React from 'react'
 import { Par, M, BM, BMList, BMPart, InputTable } from 'ui/components'
 import { useInput, InputSpace, AntiInputSpace } from 'ui/form'
 import { MultipleChoice, FloatUnitInput } from 'ui/inputs'
-import { StepExercise, getAllInputFieldsFeedbackExcluding } from 'ui/eduTools'
+import { StepExercise, getAllFieldInputsFeedbackExcluding } from 'ui/eduTools'
 
 export default function Exercise() {
-	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllInputFieldsFeedbackExcluding('choice')} />
+	return <StepExercise Problem={Problem} steps={steps} getFeedback={getAllFieldInputsFeedbackExcluding('choice')} />
 }
 
 const colHeads = ['Druk', 'Specifiek volume', 'Temperatuur']

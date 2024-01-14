@@ -12,7 +12,7 @@ import { useFormData, useFeedbackInput, FormPart, useFieldControllerContext } fr
 import { useExerciseData } from '../../containers'
 import { ExerciseWrapper } from '../../wrappers'
 import { ProblemContainer, SolutionContainer, ExerciseButtons, MainFeedback } from '../../parts'
-import { getAllInputFieldsFeedback } from '../../feedback'
+import { getAllFieldInputsFeedback } from '../../feedback'
 
 import { Steps } from './Steps'
 
@@ -66,7 +66,7 @@ function stepExerciseGetFeedback(exerciseData) {
 
 	// If a getSolution parameter is present (which is for most exercises) then give input on each individual field.
 	if (shared.getSolution)
-		return getAllInputFieldsFeedback(exerciseData)
+		return getAllFieldInputsFeedback(exerciseData)
 
 	// If there's only a checkInput (which is in the remaining cases) then use it for a main feedback display.
 	if (shared.checkInput) {

@@ -2,37 +2,30 @@ import { isValidElement } from 'react'
 
 import { arrayFind, isBasicObject, processOptions, deepEquals, applyMapping } from 'step-wise/util'
 import { checkNumberEquality, areNumbersEqual, Float, Unit, FloatUnit, Expression } from 'step-wise/inputTypes'
-import { performIndividualComparison, performIndividualListComparison, getCurrentInputSolutionAndComparison } from 'step-wise/eduTools'
+import { performIndividualComparison } from 'step-wise/eduTools'
 
 import { Translation } from 'i18n'
-import { selectRandomCorrect, selectRandomIncorrect, selectRandomIncorrectUnit, selectRandomDuplicate, selectRandomNonNumeric } from 'ui/inputs'
+import { selectRandomCorrect, selectRandomIncorrect, selectRandomIncorrectUnit, selectRandomNonNumeric } from 'ui/inputs'
 
 import { processParameterOptions } from './util'
 
 const defaultOptions = {
-	// These are options that can be manually added.
+	comparison: undefined, // A comparison function or object that will be used to check for correctness. If not given, it will be looked for in the exercise metaData.
 	feedbackChecks: [], // Checks to be run on the given input. Feedback checks are of the form (currInput, currSolution, solution, correct, exerciseData) => <>SomeMessage</>. Here "currSolution" refers to the solution for this parameter, while "solution" is the full solution object returned from the getSolution function. The value of correct is true/false, indicating whether it was graded to be equal. The first check that returns something truthy will be used.
 	feedbackFunction: undefined, // The function to be called after the feedbackChecks have failed to give any result. This is a function of the type (currInput, currSolution, currOptions, exerciseData) => { correct: false, <>SomeMessage</> } or similar. When not given, default feedback is determined based on the input and solution types.
 	dependency: undefined, // The names of parameters which the feedback of this parameter may depend on. The feedback of a parameter is only updated when it changes, or any of its dependencies changes.
-
-	// These are options automatically added, based on exerciseData.
-	comparison: {}, // A comparison function or object that will be used to check for correctness.
-	previousInput: undefined,
-	previousFeedback: undefined,
 }
 
 const accuracyFactorForNearHits = 4
 const accuracyFactorForMarginWarnings = 1 / 3
 
-// ToDo: adjust/rename.
-// getAllInputFieldsFeedback is a getFeedback function that tries to give feedback about the provided input in as intelligent a manner as possible. It figures out for itself which fields to give input on.
-export function getAllInputFieldsFeedback(exerciseData) {
-	return getAllInputFieldsFeedbackExcluding([])(exerciseData)
+// getAllFieldInputsFeedback is a getFeedback function that tries to give feedback about the provided input in as intelligent a manner as possible. It figures out for itself which fields to give input on.
+export function getAllFieldInputsFeedback(exerciseData) {
+	return getAllFieldInputsFeedbackExcluding([])(exerciseData)
 }
 
-// ToDo: adjust/rename.
-// getAllInputFieldsFeedbackExcluding is a function that takes a list of fields not to give feedback on and returns a getFeedback function giving feedback on all other input fields. This is useful if certain input fields do not require feedback, for instance because it's a multiple choice field determining the solution approach.
-export function getAllInputFieldsFeedbackExcluding(excludedFields) {
+// getAllFieldInputsFeedbackExcluding is a function that takes a list of fields not to give feedback on and returns a getFeedback function giving feedback on all other input fields. This is useful if certain input fields do not require feedback, for instance because it's a multiple choice field determining the solution approach.
+export function getAllFieldInputsFeedbackExcluding(excludedFields) {
 	// Ensure the excluded fields are an array.
 	if (!Array.isArray(excludedFields))
 		excludedFields = [excludedFields]
@@ -86,68 +79,6 @@ export function getFieldInputFeedback(exerciseData, parameterOptions) {
 		// Determine the feedback and save it.
 		return getIndividualFieldInputFeedback(exerciseData, currParameter, currInput, currSolution, currOptions)
 	})
-}
-
-// ToDo: remove this function once the rest is pulled over to the new format.
-/* getInputFieldFeedback takes an array of parameter names (like ['p1', 'p2', 'V1', 'V2']) and provides feedback on these parameters. It is also possible to give a single parameter 'p1'. The function has three input arguments.
- * - parameters: an array of IDs.
- * - exerciseData: the full exerciseData object. This contains:
- *   x state: the state of the exercise.
- *   x input: what the user provided.
- *   x progress: the progress made so far.
- *   x shared: the data from the shared file of the exercise.
- *   x solution: if the shared file has a getSolution function, this is called on the state and the corresponding solution is added.
- *   x more ... run a console log to see what else is available.
- * - extraOptions: an array of extra options per parameter. This is on top of what the feedback function already adds by default. See the defaultOptions object above.
- * If the parameters array is a single string, the options may also be a single object. That is, this function also works for single parameters.
- * 
- * The outcome of this function is a feedback object for each respective parameter. So { x1: { correct: false, text: 'Nope!' }, x2: { ... } }.
- */
-export function getInputFieldFeedback(parameters, exerciseData, extraOptions) {
-	// Check if we have one or multiple parameters.
-	let singleParameterCase = false
-	if (!Array.isArray(parameters)) {
-		singleParameterCase = true
-		parameters = [parameters]
-		extraOptions = [extraOptions]
-	}
-
-	// Extract parameters and check that they are suitable.
-	const { input, previousInput, previousFeedback, solution, comparison } = extractComparisonFromExerciseData(exerciseData)
-
-	// Walk through the parameters and incorporate feedback.
-	const feedback = {}
-	parameters.forEach((currParameter, index) => {
-		// Ignore null parameters and undefined input values.
-		if (currParameter === null)
-			return
-		if (input[currParameter] === undefined)
-			return
-
-		// Get the input, solution and comparison method.
-		const { currInput, currSolution, currComparison } = getCurrentInputSolutionAndComparison(currParameter, input, solution, comparison, singleParameterCase)
-		const currExtraOptions = (Array.isArray(extraOptions) ? extraOptions[index] : extraOptions) || {}
-
-		// On no input, do not give feedback.
-		if (currInput === undefined)
-			return // No input has been given yet.
-
-		// If we have exactly the same input before, and there already was feedback earlier, use that.
-		const previousInputAnswer = previousInput[currParameter]
-		if (previousInputAnswer !== undefined && (currInput === previousInputAnswer || (currInput.SO !== undefined && deepEquals(currInput.SO, previousInputAnswer.SO))) && previousFeedback[currParameter] !== undefined) {
-			feedback[currParameter] = previousFeedback[currParameter]
-			return
-		}
-
-		// Assemble the options for the comparison.
-		const currOptions = { comparison: currComparison, previousInput: previousInput[currParameter], previousFeedback: previousFeedback[currParameter], solution, ...currExtraOptions }
-
-		// Extract the feedback and save it.
-		feedback[currParameter] = getIndividualFieldInputFeedback(currParameter, currInput, currSolution, currOptions, exerciseData)
-	})
-
-	// All done! Return feedback.
-	return feedback
 }
 
 // getIndividualFieldInputFeedback extracts feedback for a single input parameter. It checks which type it is and calls the appropriate function.
@@ -296,65 +227,4 @@ export function getUnitComparisonFeedback(currInput, currSolution, currCompariso
 	if (currSolution.equals(currInput, currComparison))
 		return selectRandomCorrect()
 	return selectRandomIncorrectUnit()
-}
-
-// ToDo: remove this.
-export function getInputFieldListFeedback() { }
-
-/* getFieldInputListFeedback gets an array of parameters and attempts to give feedback for the respective input fields. The main difference is that the fields may not have to be in the same order as the fields in the solution field.
-The extra options given can be an array with options for each parameter, or it can be single object that holds for every parameter. It may contain specific text to give on a "correct", a "wrongValue" case or a "usedValue" case. */
-export function getFieldInputListFeedback(exerciseData, parameterOptions, generalOptions = {}) {
-	parameterOptions = processParameterOptions(parameterOptions)
-
-	// Define the way in which the answers are compared.
-	const doValuesMatch = (inputParameter, solutionParameter) => performIndividualListComparison(inputParameter, solutionParameter, exerciseData, applyMapping(parameterOptions, options => options?.comparison), generalOptions?.comparison)
-
-	// Walk through the parameters and try to find each one a matching partner. Incorporate feedback based on what is found.
-	const feedback = {}
-	const matched = Object.keys(parameterOptions).map(() => false)
-	const parameters = Object.keys(parameterOptions)
-	parameters.forEach(inputParameter => {
-		// Extract input and options. Ignore parameters with no input.
-		const currParameterOptions = parameterOptions[inputParameter]
-		const currInput = exerciseData.input[inputParameter]
-		if (currInput === undefined)
-			return
-
-		// Is there an unmatched corresponding partner?
-		const solutionIndex = parameters.findIndex((solutionParameter, index) => (!matched[index] && doValuesMatch(inputParameter, solutionParameter)))
-		if (solutionIndex !== -1) {
-			// There is a corresponding partner. Register match and give correct feedback.
-			matched[solutionIndex] = true
-			feedback[inputParameter] = { correct: true, text: currParameterOptions.correct || generalOptions.correct || selectRandomCorrect() }
-		} else {
-			// If there is no unmatched corresponding partner, check if there potentially is an earlier matched corresponding partner. If so, note the duplicate. Otherwise it's just plain wrong.
-			if (parameters.find((solutionParameter, solutionIndex) => (matched[solutionIndex] && doValuesMatch(inputParameter, solutionParameter))))
-				feedback[inputParameter] = { correct: false, text: currParameterOptions.usedValue || generalOptions.usedValue || selectRandomDuplicate() }
-			else
-				feedback[inputParameter] = { correct: false, text: currParameterOptions.wrongValue || generalOptions.wrongValue || selectRandomIncorrect() }
-		}
-	})
-	return feedback
-}
-
-// ToDo: check if we still need this function.
-// extractComparisonFromExerciseData extracts shared data and the comparison method from the exercise data, assuring it's present. It also returns all other properties from the exerciseData, to allow easy variable definitions.
-function extractComparisonFromExerciseData(exerciseData) {
-	// Ensure there is a solution.
-	const { shared, solution } = exerciseData
-	if (!solution)
-		throw new Error(`Default feedback error: could not find a "getSolution" function exported from the shared file.`)
-
-	// Get the data out of the shared file.
-	const { data } = shared
-	if (!data)
-		throw new Error(`Default feedback error: could not find a "data" parameter in the shared file.`)
-
-	// Get the comparison method out of the data.
-	const { comparison } = data
-	if (!comparison)
-		throw new Error(`Default feedback error: could not find a "comparison" parameter in the shared data that can be used to compare fields with.`)
-
-	// All checks are done. Return the result.
-	return { ...exerciseData, data, comparison }
 }

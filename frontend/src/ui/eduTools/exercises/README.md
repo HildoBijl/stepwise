@@ -9,7 +9,7 @@ Every exercise has a shared file and a front-end file. The front-end file must e
 
 So how does an exercise access its data? This is done through React Contexts. After all, every exercise is placed in an `ExerciseContainer`, which gives you access to `ExerciseData`. Just follow the following steps.
 
-- At the top of the file put `import { useExerciseData } from '../ExerciseContainer'`.
+- At the top of the file put `import { useExerciseData } from 'ui/eduTools'`.
 - Within the React component put `const { state, progress, ... } = useExerciseData()`, where you important all the parameters that you need.
 
 There are various parameters in the `ExerciseData`. These are:
@@ -20,7 +20,8 @@ There are various parameters in the `ExerciseData`. These are:
 - `submitting`: a boolean that is set to true when an action has been submitted to the server and we're still waiting for a response.
 - `submitAction`: the function used to submit an action to the server. Just call `submitAction(action)` to send an action to the `progressAction` handler.
 - `startNewExercise`: the function used to start up a new exercise. This can only be called when the exercise is done. Then call `startNewExercise()`. (No input is required.)
-- `shared`: all the objects exported from the `shared` file for this exercise, including `data`, `generateState` and `processAction` but also anything else that's exported, like potentially `getSolution` and `checkInput`.
+- `shared`: all the objects exported from the `shared` file for this exercise, including `metaData`, `generateState` and `processAction` but also anything else that's exported, like potentially `getSolution` and `checkInput`.
+- `metaData`: for easy reference the `metaData` is also pulled out of the `shared` parameter.
 
 Using this data, your React component should render the exercise appropriately. It is your responsibility to:
 
@@ -47,19 +48,11 @@ Setting up a `SimpleExercise` yourself is relatively easy. After all, the `Simpl
 - Import the `SimpleExercise` component using `import SimpleExercise from '../types/SimpleExercise'`. (Hint: copy an existing exercise, so everything is in place already.)
 - Use as default export a function `() => <SimpleExercise Problem={Problem} Solution={Solution} />`. The given `Problem` and `Solution` should be React components that you define yourself.
 - Define a `Problem` React component of the form `(state) => <div>Put the problem here</div>`. So an example is `Problem = ({ a, b }) => <div>Calculate {a} + {b}. [Add an input field]</div>`. How to add input fields is explained below, when discussing forms.
-- Define a `Solution` React component of the form `(state) => <div>Put the solution here</div>`. So an example is `Solution = ({ a, b }) => <div>The solution of {a} + {b} is {a + b}.</div>`.
+- Define a `Solution` React component of the form `(solution) => <div>Put the solution here</div>`. So an example is `Solution = ({ a, b, ans }) => <div>The solution of {a} + {b} is {ans}.</div>`.
 
-Quite often the `Problem` only depends on the `state`, so the above set-up works. For the `Solution` it is often useful to have access to more data. In this case, you can import all `ExerciseData` too. For instance, if it is difficult to calculate the solution, and you've already programmed this in a `getSolution` function in the `shared` file, you can just import it!
+Generally the `Problem` only depends on the `state`, so the above set-up works. The `Solution` also depends on other calculated parameters. If a `getSolution` function has been defined, then the `Solution` element receives not just all `state` parameters, but also all `solution` parameters as input, allowing for easy access to the solution.
 
-```javascript
-function Solution(state) {
-	const { shared: { getSolution } } = useExerciseData()
-	const { a, b, answer } = getSolution(state)
-	return <div>The solution of {a} + {b} is {answer}.</div>
-}
-```
-
-This allows you to keep a very simple `Solution` component, keeping all the code to calculate exercise solutions in the `shared` file.
+For safety reasons (you don't want to accidentally give away the outcome) the `Problem` does not get the `solution` right away, but only the `state`. If this is still needed, you can import the `useSolution` hook from the `ui/eduTools` package and through `const solution = useSolution()` still access the solution inside the `Problem` element.
 
 
 ### The StepExercise type
@@ -123,25 +116,26 @@ Very simply put, a validation function could be `newValidateFunction = (num) => 
 
 The `ExerciseWrapper` also wraps your exercise in a `FeedbackProvider`. Let's take a look at what this does.
 
-After a submission is sent to the server and a result comes back, the exercise updates its `history`. When this happens, the `FeedbackProvider` checks the last input and aims to provide feedback on this. It calls the provided `getFeedback` function like `getFeedback({ state, input, progress, shared })`. The given parameters are as follows.
+After a submission is sent to the server and a result comes back, the exercise updates its `history`. When this happens, the `FeedbackProvider` checks the last input and aims to provide feedback on this. It calls the provided `getFeedback` function like `getFeedback(exerciseData)`. The given parameters are as follows. The `exerciseData` contains a lot of information, including:
 
 - `state`: the exercise `state`.
 - `input`: the last `input` that was submitted.
+- `solution`: the solution calculated by the `getSolution` function, if present.
 - `progress`: the most recent `progress` object that was returned from the server, after the given input.
-- `shared`: everything defined in the shared file. (Like the `checkInput` function and `getSolution` function, if exported.)
+- `shared`: everything defined in the shared file.
 
 The `getFeedback` function can be manually defined! If you want to set up your own `getFeedback` function, then you have to let it return an object. This object can be something like `{ main: false, field1: true, field2: false, field3: { correct: false, text: "Check your unit." } }`. There are a few rules.
 
-- If you give a field the `false` property, the field gets a red border, noting it's incorrect. It will add a default incorrect message like "Sorry, wrong answer."
-- If you give a field the `true` property, the field gets a green border, noting it's correct. It will add a default correct message like "Yes! Well done!"
+- If you give a field the `false` property, the field gets a red border, noting it's incorrect. It will add a default incorrect message like "Sorry, wrong answer." This message is randomly selected from a list to increase the human-like coaching feeling.
+- If you give a field the `true` property, the field gets a green border, noting it's correct. It will add a default correct message like "Yes! Well done!" Again, this message is randomly selected.
 - If you insert an object, note both whether the exercise was correct (`true` or `false`) and provided a text giving feedback.
 - The `main` field is special: if you put feedback under this ID, then it will appear under the entire exercise as an extra feedback bar!
 
 After you defined your `getFeedback` function, make sure to include it into the exercise, for instance through `Exercise = () => <SimpleExercise Problem={Problem} Solution={Solution} getFeedback={getFeedback} />`.
 
-If you do not specify a `getFeedback` function yourself, the `SimpleExercise` and `StepExercise` components will try to make a feedback function themselves from the `checkInput` function. 
+If you do not specify a `getFeedback` function yourself, the `SimpleExercise` and `StepExercise` components will try to make a feedback function themselves, where they attempt to give individual feedback to each input field based on the comparison options provided in the `metaData`. 
 
-Very often, you'll want to provide feedback to parameters in a default way. For instance, for `FloatUnit` parameters, you want to first check the unit, if that matches check the number, and so forth. In this case the `getInputFieldFeedback` function comes in very handy! You might see it at various example exercises.
+Very often, you'll want to provide feedback to parameters in a default way. For instance, for `FloatUnit` parameters, you want to first check the unit, if that matches check the number, and so forth. In this case the `getFieldInputFeedback(exerciseData, ['param1', 'param2'])` function comes in very handy! You might see it at various example exercises. Read more about how this works in the [feedback folder](./feedback/).
 
 
 ### InputSpace and AntiInputSpace
