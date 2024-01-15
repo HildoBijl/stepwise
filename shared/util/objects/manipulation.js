@@ -24,10 +24,10 @@ function setDeepParameter(obj, path, value) {
 }
 module.exports.setDeepParameter = setDeepParameter
 
-// applyMapping takes an object with multiple parameters, like { a: 2, b: 3 }, and applies a function like (x, key) => 2*x to each parameter. It returns a new object (the old one is unchanged) with the result, like { a: 4, b: 6 }. It can also receive an array, in which case it returns an array (just like array map). In both cases undefined values are always filtered out.
+// applyMapping takes an object with multiple parameters, like { a: 2, b: 3 }, and applies a function like (x, key) => 2*x to each parameter. It returns a new object (the old one is unchanged) with the result, like { a: 4, b: 6 }. It can also receive an array, in which case it returns an array (just like array map). For objects it filters out undefined. For arrays it does not.
 function applyMapping(obj, func) {
 	if (Array.isArray(obj))
-		return obj.map(func).filter(value => value !== undefined)
+		return obj.map(func)
 	if (isObject(obj))
 		return keysToObject(Object.keys(obj), (key, index, resultObject) => func(obj[key], key, resultObject))
 	throw new Error(`Invalid applyMapping call: received a call with as input something of type "${typeof obj}". Could not process this. Only objects and arrays are allowed.`)
