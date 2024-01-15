@@ -7,15 +7,15 @@ const metaData = {
 	skill: 'poissonsLaw',
 	steps: [[null, 'calculateWithPressure', null], 'specificHeatRatio', null, 'solveExponentEquation'],
 	comparison: {
-		V2: {
+		V2s: {
 			absoluteMargin: 0.001, // Standard units, in m^3.
 			significantDigitMargin: 1,
 		},
-		p1: {
+		p1s: {
 			relativeMargin: 0.001,
 			significantDigitMargin: 1,
 		},
-		p2: {
+		p2s: {
 			relativeMargin: 0.001,
 			significantDigitMargin: 1,
 		},

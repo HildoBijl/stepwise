@@ -1,4 +1,4 @@
-const { isBasicObject, keysToObject } = require('../../../util')
+const { isBasicObject } = require('../../../util')
 const { Expression } = require('../../../CAS')
 
 const { areNumbersEqual } = require('../../../inputTypes')

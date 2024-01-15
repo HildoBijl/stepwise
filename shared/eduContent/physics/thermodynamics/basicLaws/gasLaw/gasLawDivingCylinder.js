@@ -6,17 +6,17 @@ const metaData = {
 	skill: 'gasLaw',
 	steps: [['calculateWithVolume', 'calculateWithMass', 'calculateWithTemperature'], 'specificGasConstant', 'solveLinearEquation'],
 	comparison: {
-		V: {
+		Vs: {
 			relativeMargin: 0.001,
 			significantDigitMargin: 1,
 			unitCheck: Unit.equalityTypes.exact,
 		},
-		m: {
+		ms: {
 			relativeMargin: 0.001,
 			significantDigitMargin: 1,
 			unitCheck: Unit.equalityTypes.exact,
 		},
-		T: {
+		Ts: {
 			absoluteMargin: 0.7,
 			significantDigitMargin: 1,
 			unitCheck: Unit.equalityTypes.exact,
