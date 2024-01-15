@@ -7,9 +7,9 @@ import { Par } from 'ui/components'
 import { Drawing, useScaleBasedTransformationSettings } from 'ui/figures'
 import { InputSpace } from 'ui/form'
 import { MultipleChoice } from 'ui/inputs'
-import { StepExercise, useSolution, getFieldInputFeedback, getMCFeedback } from 'ui/eduTools'
+import { StepExercise, useSolution, getMCFeedback } from 'ui/eduTools'
 
-import { FBDInput, Group, Beam, RollerHingeSupport, render, loadTypes, areLoadsEqual, getFBDFeedbackFunction, FBDComparison } from 'ui/eduContent/mechanics'
+import { FBDInput, Group, Beam, RollerHingeSupport, render, loadTypes, areLoadsEqual, FBDComparison, getFBDFeedback } from 'ui/eduContent/mechanics'
 
 export default function Exercise() {
 	return <StepExercise Problem={Problem} steps={steps} getFeedback={getFeedback} />
@@ -142,7 +142,7 @@ function getFeedback(exerciseData) {
 			forceParallel: { step: 2, incorrectText: forceParallelText },
 			moment: { step: 3, incorrectText: momentText },
 		}),
-		...getFieldInputFeedback(exerciseData, { loads: { feedbackChecks: loadsChecks, feedbackFunction: getFBDFeedbackFunction(FBDComparison) } }),
+		...getFBDFeedback(exerciseData, { loads: { comparison: FBDComparison, feedbackChecks: loadsChecks } }),
 	}
 }
 
