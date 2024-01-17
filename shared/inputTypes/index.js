@@ -13,10 +13,6 @@ function requireAndProcess(name) {
 module.exports = {
 	...require('./main'),
 
-	// Basic types. Must be removed after input object legacy data is deleted.
-	...requireAndProcess('Boolean'),
-	...requireAndProcess('String'),
-
 	// Number- and physics-based types.
 	...requireAndProcess('Integer'),
 	...requireAndProcess('Float'),

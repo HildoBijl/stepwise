@@ -25,10 +25,6 @@ class UnitElement {
 		if (typeof input === 'string')
 			input = interpretStr(input)
 
-		// Input object legacy: remove any 'invalid' property that may still remain.
-		input = { ...input }
-		delete input.invalid
-
 		// Include default values.
 		const { prefix, unit, power } = processOptions(input, defaultUnitElement)
 

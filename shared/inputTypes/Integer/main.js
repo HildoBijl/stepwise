@@ -12,6 +12,3 @@ module.exports.SItoFO = (value) => {
 module.exports.FOtoSI = (integer) => {
 	return integer.toString()
 }
-
-// Input object legacy: the integer used to be stored inside an object, even for the state. The function below unpacks it. It can be removed once the old exercise data is deleted.
-module.exports.SOtoFO = module.exports.SItoFO

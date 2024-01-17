@@ -15,10 +15,4 @@ module.exports.FOtoSI = FO => ({
 	unit: FO.unit.SI,
 })
 
-module.exports.SOtoFO = SO => {
-	// Input object legacy: use the individual SOtoFO functions. If the old data types are removed, a simple "return new FloatUnit(SO)" would suffice.
-	return new FloatUnit({
-		float: floatSOtoFO(SO.float),
-		unit: unitSOtoFO(SO.unit),
-	})
-}
+module.exports.SOtoFO = SO => FloatUnit(SO)

@@ -1,8 +1,6 @@
 const { isInteger, isObject, isBasicObject, applyMapping } = require('../util')
 
-// Input object legacy: the types Boolean, String and MultipleChoice can be removed after the corresponding old exercise data is removed.
 const types = [
-	'Boolean', 'String', 'MultipleChoice', // Basic types. Must be removed after input object legacy data is deleted.
 	'Integer', 'Float', 'Unit', 'FloatUnit', // Number- and physics-based types.
 	'Expression', 'Equation', // Expression-based types.
 	'Vector', 'Span', // Object-based types.
