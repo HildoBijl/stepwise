@@ -16,7 +16,7 @@ import { toHex, toCSS, useFontFaceObserver} from 'util/index' // Unit test impor
 // const backgroundColor = [0.96, 0.96, 0.96, 1] // #f6f6f6
 // const inputBackgroundColor = [1, 1, 1, 1] // #ffffff
 
-const themeColor = [0.04, 0.44, 0.24, 1] // #0a6f3c
+const themeColor = [0.05, 0.5, 0.26, 1] // #0d8042
 const secondaryColor = [0.26, 0.16, 0.08, 1] // #422814
 const feedbackColors = {
 	success: themeColor,

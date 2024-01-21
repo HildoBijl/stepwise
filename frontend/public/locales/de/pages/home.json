@@ -10,5 +10,6 @@
 		"invalidAuthentication": "Wir konnten nicht feststellen, wer du bist. Bitte versuche ein anderes Konto, wenn möglich.",
 		"internalError": "Beim Anmelden ist auf unserem Server ein Fehler aufgetreten. Bitte versuche es später noch einmal.",
 		"unspecifiedError": "Beim Anmelden ist ein Fehler aufgetreten. Bitte versuche es später noch einmal."
-	}
+	},
+  "description": "Step-Wise ist eine kostenlose Nachhilfe-Web-App, mit der du deine Mathematik-, Physik- und/oder Mechanikfähigkeiten auf (Vor-)Universitätsniveau auffrischen kannst."
 }

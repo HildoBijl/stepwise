@@ -11,17 +11,28 @@ const useStyles = makeStyles((theme) => ({
 		flexFlow: 'row nowrap',
 		flexDirection: 'row-reverse',
 	},
-	languageBarFlag: {
-		borderRadius: '1rem',
+	flagContainer: {
+		background: 'black',
 		cursor: ({ active }) => active ? 'default' : 'pointer',
-		margin: '0.4rem 0.1rem',
-		opacity: ({ active }) => active ? 1 : 0.3,
+		opacity: ({ active }) => active ? 1 : 0.5,
 		transition: `opacity ${theme.transitions.duration.standard}ms`,
-		width: '2rem',
+		
+		borderRadius: '0.75rem',
+		margin: '0.4rem 0.1rem',
+		width: '1.5rem',
+		'@media (min-width: 768px)': {
+			borderRadius: '1rem',
+			margin: '0.4rem 0.1rem',
+			width: '2rem',
+		},
 
 		'&:hover': {
-			opacity: ({ active }) => active ? 1 : 0.6,
+			opacity: ({ active }) => active ? 1 : 0.8,
 		},
+	},
+	languageBarFlag: {
+		borderRadius: '1rem',
+		display: 'block',
 	},
 }))
 
@@ -40,5 +51,7 @@ function LanguageBarFlag({ Flag, language }) {
 	const active = language === currentLanguage
 
 	const classes = useStyles({ active })
-	return <Flag className={classes.languageBarFlag} onClick={() => setLanguage(language)} />
+	return <div className={classes.flagContainer}>
+		<Flag className={classes.languageBarFlag} onClick={() => setLanguage(language)} />
+	</div>
 }

@@ -1,5 +1,5 @@
 export * from './PageTranslationFile'
-export * from './Home'
+export * from './Home/index.js' // ToDo: put back to Home.
 export * from './Feedback.js'
 export { default as About } from './About.js'
 export { default as SkillTrackerExplainer } from './SkillTrackerExplainer.js'

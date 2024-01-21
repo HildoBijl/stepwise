@@ -10,5 +10,6 @@
 		"invalidAuthentication": "We konden niet bepalen wie je bent. Probeer indien mogelijk een andere account.",
 		"internalError": "Er ging bij het inloggen iets mis op onze server. Probeer het later nog eens.",
 		"unspecifiedError": "Er ging iets mis bij het inloggen. Probeer het later nog eens."
-	}
+	},
+  "description": "Step-Wise is een gratis bijles-web-app waarmee je je wiskunde-, natuurkunde- en mechanicavaardigheden kan bijspijkeren tot (pre-)universiteitsniveau."
 }

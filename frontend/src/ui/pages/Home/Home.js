@@ -13,15 +13,19 @@ import cookies from 'ui/cookies'
 import { notSelectable } from 'ui/theme'
 import { useModal, PictureConfirmation } from 'ui/components/Modal'
 import LinkBar from 'ui/layout/LinkBar'
-import logo from 'ui/images/logo.svg'
+import logo from 'ui/images/logoAlternate.svg'
 import HUlogo from 'ui/images/HU.png'
 import Cookies from 'ui/images/Cookies.jpg'
 
 import { PageTranslationFile } from '../PageTranslationFile'
 
-import { LanguageBar } from './LanguageBar'
+import { LanguageBar, TitleBar, Description } from './parts'
 
 const useStyles = makeStyles((theme) => ({
+	topBar: {
+		background: theme.palette.primary.main,
+		borderRadius: '0% 0% 200% 200%/0% 0% 30% 30%',
+	},
 	home: {
 		alignItems: 'stretch',
 		display: 'flex',
@@ -231,7 +235,11 @@ export function Home() {
 	// Render the page.
 	return (
 		<PageTranslationFile page="home">
-			<LanguageBar />
+			<div className={classes.topBar}>
+				<LanguageBar />
+				<TitleBar />
+			</div>
+			<Description />
 			<Container maxWidth='lg' className={classes.home}>
 				<div className="nameContainer">
 					<Typography variant="h1" className="name">{websiteNameTranslation}</Typography>
