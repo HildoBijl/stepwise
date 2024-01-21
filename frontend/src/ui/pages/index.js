@@ -1,5 +1,5 @@
 export * from './PageTranslationFile'
-export { default as Home } from './Home'
+export * from './Home'
 export * from './Feedback.js'
 export { default as About } from './About.js'
 export { default as SkillTrackerExplainer } from './SkillTrackerExplainer.js'

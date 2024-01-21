@@ -17,7 +17,9 @@ import logo from 'ui/images/logo.svg'
 import HUlogo from 'ui/images/HU.png'
 import Cookies from 'ui/images/Cookies.jpg'
 
-import { PageTranslationFile } from './PageTranslationFile'
+import { PageTranslationFile } from '../PageTranslationFile'
+
+import { LanguageBar } from './LanguageBar'
 
 const useStyles = makeStyles((theme) => ({
 	home: {
@@ -190,7 +192,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function Home() {
+export function Home() {
 	const classes = useStyles()
 	const isUserDataLoaded = useIsUserDataLoaded()
 
@@ -229,6 +231,7 @@ export default function Home() {
 	// Render the page.
 	return (
 		<PageTranslationFile page="home">
+			<LanguageBar />
 			<Container maxWidth='lg' className={classes.home}>
 				<div className="nameContainer">
 					<Typography variant="h1" className="name">{websiteNameTranslation}</Typography>
