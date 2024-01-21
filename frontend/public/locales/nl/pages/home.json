@@ -4,12 +4,24 @@
 	"step2": "Elke opgave geeft je gedetailleerde feedback.",
 	"step3": "De app houdt bij waar je moeite mee hebt.",
 	"step4": "Je krijgt op jouw niveau nieuwe opgaven.",
-	"logInHU": "Inloggen met Hogeschool Utrecht",
-	"logInError": {
-		"title": "Niet gelukt om in te loggen",
-		"invalidAuthentication": "We konden niet bepalen wie je bent. Probeer indien mogelijk een andere account.",
-		"internalError": "Er ging bij het inloggen iets mis op onze server. Probeer het later nog eens.",
-		"unspecifiedError": "Er ging iets mis bij het inloggen. Probeer het later nog eens."
-	},
-  "description": "Step-Wise is een gratis bijles-web-app waarmee je je wiskunde-, natuurkunde- en mechanicavaardigheden kan bijspijkeren tot (pre-)universiteitsniveau."
+  "description": "Step-Wise is een gratis bijles-web-app waarmee je je wiskunde-, natuurkunde- en mechanicavaardigheden kan bijspijkeren tot (pre-)universiteitsniveau.",
+  "getStarted": {
+    "title": "Direct aan de slag",
+    "description": "Log in om gelijk te beginnen met oefenen.",
+		"logInHU": "Inloggen met Hogeschool Utrecht",
+		"logInError": {
+			"title": "Niet gelukt om in te loggen",
+			"invalidAuthentication": "We konden niet bepalen wie je bent. Probeer indien mogelijk een andere account.",
+			"internalError": "Er ging bij het inloggen iets mis op onze server. Probeer het later nog eens.",
+			"unspecifiedError": "Er ging iets mis bij het inloggen. Probeer het later nog eens."
+		}
+  },
+  "explainers": {
+    "title": "Korte uitleg",
+    "description": "Lees meer over wat Step-Wise is."
+  },
+  "exampleSkills": {
+    "title": "Voorbeeldvaardigheden",
+    "description": "Probeer zelf hoe intuïtief het werkt."
+  }
 }

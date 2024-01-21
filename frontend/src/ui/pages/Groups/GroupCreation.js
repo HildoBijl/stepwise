@@ -13,28 +13,28 @@ import { usePaths } from 'ui/routingTools'
 const useStyles = makeStyles((theme) => ({
 	groupCreation: {
 		display: 'flex',
-		flexFlow: 'row nowrap',
+		flexFlow: 'column nowrap',
 		justifyContent: 'space-between',
 		alignItems: 'stretch',
 		margin: '1.8rem 0',
 
-		'@media (max-width: 768px)': {
-			flexFlow: 'column nowrap',
+		[theme.breakpoints.up('md')]: {
+			flexFlow: 'row nowrap',
 		},
 
 		'& > div': {
 			borderRadius: '0.6rem',
-			margin: '0 0.6rem',
 			padding: '1rem 0.6rem',
 			textAlign: 'center',
-			width: '50%',
 
 			'&:first-child': { marginLeft: '0' },
 			'&:last-child': { marginRight: '0' },
 
-			'@media (max-width: 768px)': {
-				margin: '0.6rem 0',
-				width: '100%',
+			margin: '0.6rem 0',
+			width: '100%',
+			[theme.breakpoints.up('md')]: {
+				margin: '0 0.6rem',
+				width: '50%',
 			},
 
 			'& h1': {

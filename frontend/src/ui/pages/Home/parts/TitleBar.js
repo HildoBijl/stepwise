@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		flexFlow: 'row nowrap',
 		flexDirection: 'row-reverse',
-		paddingBottom: 'min(4vw,51px)',
+		paddingBottom: 'min(2vw,25px)',
 	},
 	logoContainer: {
 		padding: 'min(3vw,38px)',
@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 	titleContainer: {
 		color: theme.palette.primary.contrastText,
 		fontSize: 'min(9vw,116px)',
+		fontWeight: '300',
 		marginTop: 'min(3vw,38px)',
 		position: 'relative',
 		verticalAlign: 'bottom',
@@ -34,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 	subtitleContainer: {
 		color: theme.palette.secondary.main,
 		fontSize: 'min(3.5vw,45px)',
+		fontWeight: '300',
 	},
 }))
 

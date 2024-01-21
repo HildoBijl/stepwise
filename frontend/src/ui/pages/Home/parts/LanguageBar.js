@@ -18,11 +18,11 @@ const useStyles = makeStyles((theme) => ({
 		transition: `opacity ${theme.transitions.duration.standard}ms`,
 		
 		borderRadius: '0.75rem',
-		margin: '0.4rem 0.1rem',
+		margin: '0.4rem 0.15rem',
 		width: '1.5rem',
-		'@media (min-width: 768px)': {
+		[theme.breakpoints.up('md')]: {
 			borderRadius: '1rem',
-			margin: '0.4rem 0.1rem',
+			margin: '0.5rem 0.2rem',
 			width: '2rem',
 		},
 

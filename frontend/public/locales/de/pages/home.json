@@ -4,12 +4,24 @@
 	"step2": "Zu jeder Übung erhältst du ein ausführliches Feedback.",
 	"step3": "Die App merkt sich, womit du Probleme hast.",
 	"step4": "Du bekommst neue Aufgaben auf deinem Niveau.",
-	"logInHU": "Anmeldung mit Hogeschool Utrecht",
-	"logInError": {
-		"title": "Anmelden fehlgeschlagen",
-		"invalidAuthentication": "Wir konnten nicht feststellen, wer du bist. Bitte versuche ein anderes Konto, wenn möglich.",
-		"internalError": "Beim Anmelden ist auf unserem Server ein Fehler aufgetreten. Bitte versuche es später noch einmal.",
-		"unspecifiedError": "Beim Anmelden ist ein Fehler aufgetreten. Bitte versuche es später noch einmal."
+	"description": "Step-Wise ist eine kostenlose Nachhilfe-Web-App, mit der du deine Mathematik-, Physik- und/oder Mechanikfähigkeiten auf (Vor-)Universitätsniveau auffrischen kannst.",
+	"getStarted": {
+		"title": "Sofort anfangen",
+		"description": "Melde dich an, um sofort zu üben.",
+		"logInHU": "Anmeldung mit Hogeschool Utrecht",
+		"logInError": {
+			"title": "Anmelden fehlgeschlagen",
+			"invalidAuthentication": "Wir konnten nicht feststellen, wer du bist. Bitte versuche ein anderes Konto, wenn möglich.",
+			"internalError": "Beim Anmelden ist auf unserem Server ein Fehler aufgetreten. Bitte versuche es später noch einmal.",
+			"unspecifiedError": "Beim Anmelden ist ein Fehler aufgetreten. Bitte versuche es später noch einmal."
+		}
 	},
-  "description": "Step-Wise ist eine kostenlose Nachhilfe-Web-App, mit der du deine Mathematik-, Physik- und/oder Mechanikfähigkeiten auf (Vor-)Universitätsniveau auffrischen kannst."
+	"explainers": {
+		"title": "Kurzerläuterung",
+		"description": "Lies mehr darüber, was Step-Wise ist."
+	},
+	"exampleSkills": {
+		"title": "Beispielkompetenzen",
+		"description": "Probiere selbst aus, wie intuitiv es funktioniert."
+	}
 }

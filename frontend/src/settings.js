@@ -12,7 +12,7 @@ const graphqlWebsocketAddress = `${process.env.REACT_APP_API_ADDRESS}/${websocke
 const logOutAddress = `${apiAddress}/auth/logout`
 export { apiAddress, logOutAddress, graphqlAddress, graphqlWebsocketAddress }
 
-// Google Login settings.
+// Google Log-in settings.
 const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID
 const googleRedirectAddress = process.env.REACT_APP_GOOGLE_REDIRECT_ADDRESS
 export { googleClientId, googleRedirectAddress }
