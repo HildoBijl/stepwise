@@ -18,10 +18,16 @@
 	},
 	"explainers": {
 		"title": "Kurzerläuterung",
-		"description": "Lies mehr darüber, was Step-Wise ist."
+		"description": "Lies mehr darüber, was Step-Wise ist.",
+		"buttons": {
+			"forStudents": "Step-Wise für Studierende",
+			"forTeachers": "Step-Wise für Lehrende",
+			"about": "Über Step-Wise"
+		}
 	},
 	"exampleSkills": {
 		"title": "Beispielkompetenzen",
 		"description": "Probiere selbst aus, wie intuitiv es funktioniert."
-	}
+	},
+	"logInHU": "Anmelden über Hochschule Utrecht"
 }

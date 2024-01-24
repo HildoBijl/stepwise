@@ -1,6 +1,6 @@
 import { isAdmin } from 'api/admin'
 
-import { Feedback, About, SkillTrackerExplainer, Test, Home, SkillOverview, Settings, LogOut, Groups, NewGroup } from 'ui/pages'
+import { Feedback, ForStudents, ForTeachers, About, SkillTrackerExplainer, Test, Home, SkillOverview, Settings, LogOut, Groups, NewGroup } from 'ui/pages'
 import { UserInspection, UserInspectionTitle, UserOverview, TestProvider } from 'ui/admin'
 
 import { CoursesPage, CoursePage, CourseProvider, CourseName, SkillAdvice, FreePracticePage, SkillPage, SkillName, SkillIndicator, BlankExercise, ExerciseName } from 'ui/eduTools'
@@ -14,8 +14,18 @@ export function getRoutes(user = undefined) {
 			page: Feedback,
 			name: 'Feedback',
 		},
-		'info': {
-			id: 'info',
+		'forStudents': {
+			id: 'forStudents',
+			page: ForStudents,
+			name: 'Step-Wise for students',
+		},
+		'forTeachers': {
+			id: 'forTeachers',
+			page: ForTeachers,
+			name: 'Step-Wise for teachers',
+		},
+		'about': {
+			id: 'about',
 			page: About,
 			name: 'About Step-Wise',
 			children: {

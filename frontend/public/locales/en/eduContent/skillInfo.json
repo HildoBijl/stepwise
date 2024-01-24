@@ -262,10 +262,5 @@
   },
   "analyseAirco": {
     "name": "Analyse an air conditioner"
-  },
-  "pageTitles": {
-    "fillInInteger": {
-      "name": "Fill in an integer"
-    }
   }
 }

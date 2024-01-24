@@ -1,8 +1,10 @@
 {
   "pageTitles": {
-    "logOut": "Uitloggen...",
-    "info": "Over Step-Wise",
+    "forStudents": "Step-Wise voor studenten",
+    "forTeachers": "Step-Wise voor docenten",
+    "about": "Over Step-Wise",
     "settings": "Instellingen",
+    "logOut": "Uitloggen...",
     "feedback": "Feedback",
     "courses": "Cursussen",
     "groups": "Samen oefenen",
@@ -20,7 +22,7 @@
     "home": "Home",
     "courses": "Cursussen",
     "groups": "Samen oefenen",
-    "info": "Over Step-Wise",
+    "about": "Over Step-Wise",
     "feedback": "Feedback",
     "settings": "Instellingen",
     "logOut": "Uitloggen",

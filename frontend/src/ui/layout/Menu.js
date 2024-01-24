@@ -56,7 +56,7 @@ export default function Menu({ className, titleCollapsed }) {
 
 		// Define buttons common to logged-in and non-logged-in users.
 		const commonButtons = <>
-			<MenuLink id="info" icon={Info} />
+			<MenuLink id="about" icon={Info} />
 			<MenuLink id="feedback" icon={Feedback} />
 		</>
 

@@ -18,7 +18,12 @@
   },
   "explainers": {
     "title": "Explainers",
-    "description": "Briefly read up on what Step-Wise is."
+    "description": "Briefly read up on what Step-Wise is.",
+    "buttons": {
+      "forStudents": "Step-Wise for students",
+      "forTeachers": "Step-Wise for teachers",
+      "about": "About Step-Wise"
+    }
   },
   "exampleSkills": {
     "title": "Example skills",

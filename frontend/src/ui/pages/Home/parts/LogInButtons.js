@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	huLogIn: {
 		height: '44px',
-		margin: '0.5rem',
+		margin: '4px',
 		padding: '2px 10px',
 		width: '340px',
 

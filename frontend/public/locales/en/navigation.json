@@ -1,6 +1,8 @@
 {
   "pageTitles": {
-    "info": "About Step-Wise",
+    "forStudents": "Step-Wise for students",
+    "forTeachers": "Step-Wise for teachers",
+    "about": "About Step-Wise",
     "settings": "Settings",
     "logOut": "Logging out...",
     "feedback": "Feedback",
@@ -20,7 +22,7 @@
     "home": "Home",
     "courses": "Courses",
     "groups": "Practice together",
-    "info": "About Step-Wise",
+    "about": "About Step-Wise",
     "feedback": "Feedback",
     "settings": "Settings",
     "logOut": "Log out",

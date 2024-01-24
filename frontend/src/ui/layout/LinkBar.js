@@ -49,7 +49,7 @@ export default function LinkBar({ className }) {
 
 	return (
 		<div className={clsx(className, classes.list)}>
-			<Typography variant="h5"><Link to={paths.info()}>{getTranslation('pageTitles.info')}</Link></Typography>
+			<Typography variant="h5"><Link to={paths.about()}>{getTranslation('pageTitles.about')}</Link></Typography>
 			<Typography variant="h5"><Link to={paths.feedback()}>{getTranslation('pageTitles.feedback')}</Link></Typography>
 		</div>
 	)

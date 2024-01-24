@@ -18,7 +18,12 @@
   },
   "explainers": {
     "title": "Korte uitleg",
-    "description": "Lees meer over wat Step-Wise is."
+    "description": "Lees meer over wat Step-Wise is.",
+    "buttons": {
+      "forStudents": "Step-Wise voor studenten",
+      "forTeachers": "Step-Wise voor docenten",
+      "about": "Over Step-Wise"
+    }
   },
   "exampleSkills": {
     "title": "Voorbeeldvaardigheden",
