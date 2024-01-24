@@ -43,7 +43,7 @@ The result is a feedback object of the following form.
 		type: 'success',
 		text: 'That is completely correct!',
 		Icon: SuccessIcon,
-		color: '#0a6f3c',
+		color: '#0d8042',
 	},
 	field2: ...,
 	...

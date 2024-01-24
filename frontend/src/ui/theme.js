@@ -5,17 +5,6 @@ import { alpha } from '@material-ui/core/styles/colorManipulator'
 
 import { toHex, toCSS, useFontFaceObserver} from 'util/index' // Unit test import issue: should be 'util' but this fails unit tests.
 
-// const themeColor = [0.01, 0.27, 0.54, 1] // #043870
-// const secondaryColor = [0.26, 0.16, 0.08, 1] // #422814
-// const feedbackColors = {
-// 	success: [0.04, 0.44, 0.24, 1], // #0a6f3c
-// 	error: [0.74, 0.06, 0.06, 1], // #bd0f0f
-// 	warning: [0.84, 0.42, 0, 1], // #d66c00
-// 	info: [0.02, 0.42, 0.84, 1], // #045ebd
-// }
-// const backgroundColor = [0.96, 0.96, 0.96, 1] // #f6f6f6
-// const inputBackgroundColor = [1, 1, 1, 1] // #ffffff
-
 const themeColor = [0.05, 0.5, 0.26, 1] // #0d8042
 const secondaryColor = [0.26, 0.16, 0.08, 1] // #422814
 const feedbackColors = {

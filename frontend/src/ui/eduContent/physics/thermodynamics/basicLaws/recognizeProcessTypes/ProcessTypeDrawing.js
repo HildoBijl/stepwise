@@ -6,7 +6,6 @@ import { Transformation } from 'step-wise/geometry'
 import { M } from 'ui/components'
 import { Drawing, Line as SvgLine, Curve as SvgCurve, useBoundsBasedTransformationSettings, Element } from 'ui/figures'
 
-
 // Define settings for the drawing.
 const displacement = 0.2
 const maxX = 6, maxY = 4
@@ -20,7 +19,7 @@ const processes = [
 		n: '0',
 		nAnchor: [0, 0],
 		nShift: [0, 1],
-		color: '#0a6f3c',
+		color: '#0d8042',
 	},
 	{
 		points: [[intersection[0], 0.2], [intersection[0], maxY]],

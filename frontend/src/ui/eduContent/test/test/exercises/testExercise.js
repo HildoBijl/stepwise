@@ -92,7 +92,7 @@ function Circles() {
 	const { selectionRectangle, mouseData } = useDrawingInputData()
 	if (selectionRectangle)
 		input = applySelectionRectangle(input, selectionRectangle, mouseData?.keys)
-	return input.map((circle, index) => <Circle key={index} center={circle.center} radius={circle.radius} style={{ fill: circle.selected ? '#0a6f3c' : 'blue' }} />)
+	return input.map((circle, index) => <Circle key={index} center={circle.center} radius={circle.radius} style={{ fill: circle.selected ? '#0d8042' : 'blue' }} />)
 }
 
 function ActiveDrag() {
