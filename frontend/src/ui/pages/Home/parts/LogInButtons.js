@@ -144,6 +144,8 @@ function LogInError() {
 }
 
 function HULogInButton() {
+	const classes = useStyles()
+
 	// How do we send the user to SURFConext?
 	const goToSurfConext = () => window.location.href = `${apiAddress}/auth/surfconext/initiate`
 
@@ -171,15 +173,19 @@ function HULogInButton() {
 			setModalOpen(true)
 	}
 
-	const classes = useStyles()
+	// Only show this button on Dutch or English language settings.
+	const language = useLanguage()
+	if (!['nl', 'en'].includes(language))
+		return null
+
 	return <div className={classes.huLogIn} onClick={verifyCookies}>
-			<div className="inner">
-				<div className="img">
-					<img src={HUlogo} className="logo" alt="HU logo" width="606" height="525" />
-				</div>
-				<div className="text">
-					<Translation entry="logInHU">Log in through Hogeschool Utrecht</Translation>
-				</div>
+		<div className="inner">
+			<div className="img">
+				<img src={HUlogo} className="logo" alt="HU logo" width="606" height="525" />
+			</div>
+			<div className="text">
+				<Translation entry="logInHU">Log in through Hogeschool Utrecht</Translation>
 			</div>
 		</div>
+	</div>
 }
