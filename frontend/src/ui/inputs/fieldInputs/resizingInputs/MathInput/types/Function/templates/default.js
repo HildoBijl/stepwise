@@ -207,7 +207,7 @@ export function cleanUp(FI, settings) {
 	const newValue = value.map((_, part) => {
 		// Extract the element.
 		const element = zoomInAt(FI, part)
-		if (element === undefined)
+		if (!element)
 			return element
 
 		// Clean up the element if we can.

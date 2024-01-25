@@ -15,7 +15,6 @@ export function useSubmitCall() {
 
 	// Give a submit call function.
 	return useStableCallback(() => {
-
 		// If the input is not valid, do not submit.
 		if (!isInputValid())
 			return
