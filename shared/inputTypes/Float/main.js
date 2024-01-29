@@ -17,7 +17,7 @@ module.exports.SItoFO = (value) => {
 		throw new InterpretationError(`DecimalSeparator`, undefined, 'Could not interpret a number consisting of only a decimal separator.')
 
 	// Set up a float with the given properties.
-	power = (power === '' ? 0 : parseInt(power))
+	power = (power === undefined || power === '' ? 0 : parseInt(power))
 	return new Float({
 		number: parseFloat(number) * Math.pow(10, power),
 		significantDigits: getSignificantDigits(number),
