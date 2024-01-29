@@ -40,6 +40,12 @@ class FloatUnit {
 			unit: this.unit.SO,
 		}
 	}
+	get SI() {
+		return {
+			float: this.float.SI,
+			unit: this.unit.SI,
+		}
+	}
 
 	get type() {
 		return 'FloatUnit'

@@ -1,5 +1,5 @@
-const { SItoFO: floatSItoFO, FOtoSI: floatFOtoSI, SOtoFO: floatSOtoFO } = require('../Float')
-const { SItoFO: unitSItoFO, FOtoSI: unitFOtoSI, SOtoFO: unitSOtoFO } = require('../Unit')
+const { SItoFO: floatSItoFO } = require('../Float')
+const { SItoFO: unitSItoFO } = require('../Unit')
 
 const { FloatUnit } = require('./FloatUnit')
 
@@ -10,9 +10,6 @@ module.exports.SItoFO = ({ float, unit }) => {
 	})
 }
 
-module.exports.FOtoSI = FO => ({
-	float: FO.float.SI,
-	unit: FO.unit.SI,
-})
+module.exports.FOtoSI = FO => FO.SI
 
-module.exports.SOtoFO = SO => FloatUnit(SO)
+module.exports.SOtoFO = SO => new FloatUnit(SO)

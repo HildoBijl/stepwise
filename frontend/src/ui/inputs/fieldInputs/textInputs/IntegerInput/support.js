@@ -1,5 +1,7 @@
 import { passOn, isNumber, removeAtIndex, insertAtIndex } from 'step-wise/util'
 
+import { Translation } from 'i18n'
+
 import { selectRandomEmpty } from '../../../util'
 
 import { getClickPosition } from '../TextInput'
@@ -91,7 +93,7 @@ export function keyPressToFI(keyInfo, FI, contentsElement, positive) {
 export function errorToMessage(error) {
 	switch (error.code) {
 		case 'Empty': return selectRandomEmpty()
-		case 'MinusSign': return <>Alleen een min-teken is geen getal.</>
-		default: return
+		case 'MinusSign': return <Translation path="inputs" entry="integerInput.validation.onlyMinusSign">A minus sign on its own is not a number.</Translation>
+		default: return <Translation path="inputs" entry="integerInput.validation.generalValidationError">Oops ... something went wrong interpreting this input.</Translation>
 	}
 }
