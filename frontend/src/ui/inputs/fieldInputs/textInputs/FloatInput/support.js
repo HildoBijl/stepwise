@@ -1,5 +1,7 @@
 import { isNumber, removeAtIndex, insertAtIndex, applyMapping, keysToObject } from 'step-wise/util'
 
+import { Translation } from 'i18n'
+
 import { getClickPosition } from '../TextInput'
 import { errorToMessage as integerErrorToMessage } from '../IntegerInput'
 
@@ -165,7 +167,7 @@ export function mouseClickToCursor(event, FI, contentsElement) {
 // errorToMessage turns an error during interpretation into a message to be displayed.
 export function errorToMessage(error) {
 	switch (error.code) {
-		case 'DecimalSeparator': return <>Alleen een komma is geen getal.</>
+		case 'DecimalSeparator': return <Translation path="inputs" entry="floatInput.validation.onlyDecimalSeparator">A decimal separator on its own is not a number.</Translation>
 		default: return integerErrorToMessage(error)
 	}
 }

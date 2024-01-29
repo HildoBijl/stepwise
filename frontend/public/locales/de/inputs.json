@@ -1,9 +1,16 @@
 {
   "integerInput": {
-    "placeHolder": "Ganzzahl"
+    "placeHolder": "Ganzzahl",
+    "validation": {
+      "generalValidationError": "Ups ... irgendetwas läuft bei der Eingabeverarbeitung schief.",
+      "onlyMinusSign": "Nur ein Minuszeichen ist keine Zahl."
+    }
   },
   "floatInput": {
-    "placeHolder": "Kommazahl"
+    "placeHolder": "Kommazahl",
+    "validation": {
+      "onlyDecimalSeparator": "Nur ein Komma ist keine Zahl."
+    }
   },
   "unitInput": {
     "placeHolder": "Einheit"

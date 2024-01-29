@@ -1,9 +1,16 @@
 {
   "integerInput": {
-    "placeHolder": "Geheel getal"
+    "placeHolder": "Geheel getal",
+    "validation": {
+      "generalValidationError": "Oops ... er gaat iets mis met het verwerken van de invoer.",
+      "onlyMinusSign": "Alleen een min-teken is geen getal."
+    }
   },
   "floatInput": {
-    "placeHolder": "Kommagetal"
+    "placeHolder": "Kommagetal",
+    "validation": {
+      "onlyDecimalSeparator": "Alleen een komma is geen getal."
+    }
   },
   "unitInput": {
     "placeHolder": "Eenheid"

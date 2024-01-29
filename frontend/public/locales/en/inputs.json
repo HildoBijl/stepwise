@@ -1,9 +1,16 @@
 {
   "integerInput": {
-    "placeHolder": "Integer number"
+    "placeHolder": "Integer number",
+    "validation": {
+      "generalValidationError": "Oops ... something went wrong interpreting this input.",
+      "onlyMinusSign": "A minus sign on its own is not a number."
+    }
   },
   "floatInput": {
-    "placeHolder": "Floating point number"
+    "placeHolder": "Floating point number",
+    "validation": {
+      "onlyDecimalSeparator": "A decimal separator on its own is not a number."
+    }
   },
   "unitInput": {
     "placeHolder": "Unit"
