@@ -14,6 +14,7 @@ export function useI18nHandlers({ setLanguage: setLanguageState, setLanguageFile
 		if (!languages.includes(language))
 			throw new Error(`Invalid language setting: tried to set the language to "${language}" but this is not among the supported languages.`)
 		setLanguageState(language)
+		setStoredLanguage(language)
 	})
 
 	// requestLanguageFile will start loading a translation file, assuming this hasn't already been requested.

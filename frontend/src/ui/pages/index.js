@@ -1,10 +1,7 @@
 export * from './PageTranslationFile'
 export * from './Home/index.js' // ToDo: put back to Home.
 export * from './Feedback.js'
-export * from './ForStudents'
-export * from './ForTeachers'
-export * from './About.js'
-export { default as SkillTrackerExplainer } from './SkillTrackerExplainer.js'
+export * from './explainers'
 export * from './Settings'
 export { default as Groups } from './Groups'
 export { default as NewGroup } from './Groups/NewGroup'

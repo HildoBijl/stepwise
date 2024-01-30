@@ -8,12 +8,12 @@
   "getStarted": {
     "title": "Get started",
     "description": "Sign in to directly start practicing.",
-    "logInHU": "Log in through Hogeschool Utrecht",
+    "logInHU": "Sign in through Hogeschool Utrecht",
     "logInError": {
-      "title": "Log-in unsuccessful",
+      "title": "Sign-in unsuccessful",
       "invalidAuthentication": "We could not determine your identity. If possible try another account.",
-      "internalError": "A server error occurred while logging in. Please try again later.",
-      "unspecifiedError": "Something went wrong while logging in. Please try again later."
+      "internalError": "A server error occurred while signing in. Please try again later.",
+      "unspecifiedError": "Something went wrong while signing in. Please try again later."
     }
   },
   "explainers": {
@@ -28,6 +28,5 @@
   "exampleSkills": {
     "title": "Example skills",
     "description": "Try out for yourself how intuitive it works."
-  },
-  "logInHU": "Log in through Hogeschool Utrecht"
+  }
 }

@@ -7,6 +7,7 @@ import { startEndMarginFix } from 'ui/theme'
 
 const useStyles = makeStyles((theme) => ({
 	subhead: {
+		fontSize: '1.125rem',
 		margin: '1rem 0',
 		padding: '0.05px 0',
 		...startEndMarginFix('', 0),

@@ -14,6 +14,11 @@ export function useUserId() {
 	return user?.id
 }
 
+// Check if the user is signed in.
+export function useIsSignedIn() {
+	return !!useUser()
+}
+
 // Only get the role.
 export function useUserRole() {
 	const user = useUser()

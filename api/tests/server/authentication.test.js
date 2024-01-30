@@ -172,7 +172,7 @@ describe('Authentication: SurfConext', () => {
 })
 
 describe('Authentication: Google', () => {
-	it('creates a new user when they log in via Google and their email is unknown', async () => {
+	it('creates a new user when they sign in via Google and their email is unknown', async () => {
 		const client = await createClient(seed)
 
 		await expect(

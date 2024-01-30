@@ -57,7 +57,7 @@ describe('resolve group exercise:', () => {
 	it('works when everyone submitted', async () => {
 		const client = await createClient(seed)
 
-		// Log in as Alex, activate the group, start an exercise, make a wrong submission and log out.
+		// Sign in as Alex, activate the group, start an exercise, make a wrong submission and log out.
 		await client.loginSurfConext(ALEX_SURFSUB)
 		await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code}}` })
 		const { data: { startGroupExercise: exercise } } = await client.graphql({ query: `mutation{startGroupExercise(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}") {state}}` })
@@ -66,7 +66,7 @@ describe('resolve group exercise:', () => {
 		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(2)
 		await client.logout()
 
-		// Log in as Bob, activate the group and make a wrong submission.
+		// Sign in as Bob, activate the group and make a wrong submission.
 		await client.loginSurfConext(BOB_SURFSUB)
 		await client.graphql({ query: `mutation {activateGroup(code: "${GROUP_CODE}"){code}}` })
 		await client.graphql({ query: `mutation{submitGroupAction(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}", action: ${JSONstringifyWithoutPropertyQuotes(inputAction(state.x - 1))}){skillId}}` })
@@ -83,7 +83,7 @@ describe('resolve group exercise:', () => {
 		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(5)
 		await client.logout()
 
-		// Log in as Alex and make a correct submission.
+		// Sign in as Alex and make a correct submission.
 		await client.loginSurfConext(ALEX_SURFSUB)
 		await client.graphql({ query: `mutation{submitGroupAction(code: "${GROUP_CODE}", skillId: "${SAMPLE_SKILL}", action: ${JSONstringifyWithoutPropertyQuotes(inputAction(state.x))}){skillId}}` })
 		expect(client.countEvents('GROUP_EXERCISE_UPDATED')).toStrictEqual(6)

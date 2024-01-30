@@ -7,7 +7,7 @@ This documentation is for developers. It explains the components Step-Wise consi
 
 The Step-Wise code-base is split up into four main directories.
 
-- **[The back-end API](api/).** This GraphQL API is responsible for tracking all user data. Whenever a user attempts a log-in or submits an exercise, a call is made to the server, which then deals with it appropriately.
+- **[The back-end API](api/).** This GraphQL API is responsible for tracking all user data. Whenever a user attempts a sign-in or submits an exercise, a call is made to the server, which then deals with it appropriately.
 - **[The front-end app](frontend/).** This is the largest folder: everything you see on the screen while using the app is in this folder.
 - **[The shared directory](shared/).** Whenever both the API and the front-end require a certain piece of code, it's placed in the shared directory. Think of utility Javascript functions, [educational functions](shared/eduTools/) (like whether an exercise submission is correct), various [input data types](shared/inputTypes/), our [skill tracking algorithm](shared/skillTracking) and physical constants.
 - **[The ops folder](ops/).** This is used for all operational tasks, like releasing new versions of the app through continuous deployment, checking server logs and more.

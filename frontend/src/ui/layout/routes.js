@@ -59,7 +59,7 @@ export function getRoutes(user = undefined) {
 
 	// Determine the type of users.
 	if (!user) {
-		// For non-logged-in users add log-in options.
+		// For non-signed-in users add sign-in options.
 		routes = {
 			...routes,
 			'': {
@@ -126,7 +126,7 @@ export function getRoutes(user = undefined) {
 			'logout': {
 				id: 'logOut',
 				page: LogOut,
-				name: 'Logging out...'
+				name: 'Signing out...'
 			},
 			'groups': {
 				id: 'groups',

@@ -129,7 +129,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-export default function SkillTrackerExplainer() {
+export function SkillTrackerExplainer() {
 	return <>
 		<Par>Step-Wise is achter de schermen opgebouwd uit talloze <em>vaardigheden</em>. Bijvoorbeeld: kun je twee getallen optellen? Of kun je een kwadratische vergelijking oplossen? Als je met de app bezig gaat, dan krijg je oefenopgaven die met deze vaardigheden te maken hebben. Bijvoorbeeld "Bereken <M>37 + 42</M>" of "Los <M>x^2 - 5x + 6 = 0</M> op". We houden hierbij in detail je voortgang bij. Maar hoe werkt dat?</Par>
 

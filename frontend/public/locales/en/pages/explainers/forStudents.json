@@ -1,0 +1,79 @@
+{
+  "intro": "People learn best by doing. That's why Step-Wise is focused around (1) you <strong>practicing</strong>, and (2) on <strong>coaching</strong> you to practice on your level.",
+  "practice": {
+    "head": "Practice",
+    "intro": "When starting to practice, it helps to know the <strong>structure</strong> behind Step-Wise.",
+    "skills": {
+      "head": "Focused around skills",
+      "par1": "In Step-Wise, all educational content is split up into small <strong>skills</strong>: something that you can actually do. Every skill has roughly 2-10 minutes worth of information. We'll tell you exactly how it works, from an intuitive point of view, and which steps you need to take to apply said skill.",
+      "theoryImage": {
+        "theory": "Theory",
+        "practice": "Practice",
+        "background": "Background",
+        "head1": "How it works",
+        "head2": "The steps to take"
+      }
+    },
+    "feedback": {
+      "head": "Exercises give specific feedback",
+      "par1": "Everyone makes small mistakes every now and then. When you do, we have you covered. You'll get <strong>specific feedback</strong> on where the error might be. This teaches you to find your own mistakes, so that you won't make them anymore in the future.",
+      "practiceImage": {
+        "theory": "Theory",
+        "practice": "Practice",
+        "background": "Background",
+        "exercise": "Calculate <inline-math/>.",
+        "hint": "Check the carry.",
+        "stepWiseButton": "Solve this Step-Wise",
+        "submitButton": "Submit and check"
+      }
+    },
+    "steps": {
+      "head": "Split up exercises into steps",
+      "par1": "If you've got no idea on how to solve an exercise, then you can always <strong>split it up into steps</strong>. Each step is a skill that you've practiced before, ensuring that you'll reach the final result. On top of that, each step always has clear and intuitive solutions.",
+      "practiceImage": {
+        "theory": "Theory",
+        "practice": "Practice",
+        "background": "Background",
+        "exercise": "Calculate <inline-math/>.",
+        "step1": "Step 1",
+        "giveUpButton": "I give up this step",
+        "submitButton": "Submit and check"
+      }
+    }
+  },
+  "coaching": {
+    "head": "Coaching",
+    "intro": "The hardest part of studying is knowing <strong>where to start</strong>, and <strong>what to practice next</strong>. This is exactly where Step-Wise shines.",
+    "tracking": {
+      "head": "Live progress tracking",
+      "par1": "For every skill, we constantly <strong>estimate the chance</strong> that you're going to apply it correctly on the next attempt. Obviously we share these estimates with you too, so you know where you stand. Curious how it works? Try it out for yourself!",
+      "applet": {
+        "buttons": {
+          "correct": "Correct",
+          "incorrect": "Incorrect",
+          "reset": "Reset"
+        },
+        "estimate": "The chance of a correct result is estimated to be {a}%.",
+        "estimateAddendum1": "But honestly we don't have a clue yet.",
+        "estimateAddendum2": "But it's still fairly uncertain.",
+        "estimateAddendum3": "This estimate has a bit of accuracy.",
+        "estimateAddendum4": "This is a fairly accurate estimate.",
+        "estimateAddendum5": "We're quite certain of this.",
+        "estimateAddendum6": "This is based on a large number of exercises, and is hence an accurate estimation."
+      },
+      "par2": "The above is only for a single skill. In practice we also take into account lots of other factors, like links between skills, time decay, and more."
+    },
+    "recommendations": {
+      "head": "Skill-tree-based practice recommendations",
+      "par1": "Behind the scenes, Step-Wise makes heavy use of <strong>skill trees</strong>. You start with the basic skills at the top, and these skills then combine (form the steps of) the more advanced skills below them. Through this tree structure, we can always tell you exactly what the right skill is for you to practice next. It also gives you a good overview of how far along you are in the course."
+    },
+    "deficiencies": {
+      "head": "Deficiency detection and tackling",
+      "par1": "When you're struggling with the exercises of a skill, we're also there for you. Keep in mind: every exercise can be split up into steps. This doesn't only help you, but it also allows us to figure out exactly what you're struggling with. So when we notice something is up, we can recommend you to <strong>separately practice a specific subskill</strong> a bit more. Doing so allows you to tackle your deficiency and come back stronger."
+    }
+  },
+  "getStarted": {
+    "head": "Get started",
+    "intro": "Want to try it out? <check><on-true>Head to the <a>Courses page</a> and start practicing.</on-true><on-false>Head back to the <b>home page</b>, sign in (it's free!) and start practicing.</on-false></check>"
+  }
+}

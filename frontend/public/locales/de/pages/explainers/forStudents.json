@@ -1,0 +1,79 @@
+{
+	"intro": "Der beste Weg, etwas zu lernen, ist, es zu tun. Deshalb konzentriert sich Step-Wise darauf, (1) dir beim <strong>Üben</strong> zu helfen und (2) dich dabei zu <strong>coachen</strong>, auf deinem Niveau zu üben.",
+	"practice": {
+		"head": "Üben",
+		"intro": "Wenn du anfängst zu üben, ist es hilfreich, die <strong>Struktur</strong> hinter Step-Wise zu kennen.",
+		"skills": {
+			"head": "Um Kompetenzen herum aufgebaut",
+			"par1": "In Step-Wise ist das gesamte Lehrmaterial in kleine <strong>Kompetenzen</strong> unterteilt: etwas, das man tatsächlich tun kann. Jede Kompetenz umfasst etwa 2-10 Minuten an Informationen. Wir erklären dir genau, wie es funktioniert, von einem intuitiven Standpunkt aus, und welche Schritte du ausführen musst, um die Kompetenz anzuwenden.",
+			"theoryImage": {
+				"theory": "Theorie",
+				"practice": "Üben",
+				"background": "Hintergrund",
+				"head1": "Wie es funktioniert",
+				"head2": "Die Schritte"
+			}
+		},
+		"feedback": {
+			"head": "Übungsaufgaben geben gezieltes Feedback",
+			"par1": "Jeder macht von Zeit zu Zeit einen Fehler. Wenn das passiert, wirst du unterstützt. Du bekommst <strong>gezieltes Feedback</strong>, wo der Fehler liegen könnte. So lernst du, deine eigenen Fehler zu finden, damit du sie in Zukunft nicht mehr machst.",
+			"practiceImage": {
+				"theory": "Theorie",
+				"practice": "Üben",
+				"background": "Hintergrund",
+				"exercise": "Berechne <inline-math/>.",
+				"hint": "Überprüfe den Übertrag.",
+				"stepWiseButton": "Schrittweise lösen",
+				"submitButton": "Überprüfen"
+			}
+		},
+		"steps": {
+			"head": "Übungen in Schritte aufteilen",
+			"par1": "Wenn du keine Ahnung hast, wie du eine Übungsaufgabe angehen sollst, kannst du sie immer <strong>in Schritte aufteilen</strong>. Jeder Schritt ist eine Kompetenz, die du schon einmal geübt hast. Das garantiert dir, dass du immer das Ziel erreichst. Darüber hinaus gibt es für jeden Schritt klare und intuitiv verständliche Lösungen.",
+			"practiceImage": {
+				"theory": "Theorie",
+				"practice": "Üben",
+				"background": "Hintergrund",
+				"exercise": "Berechne <inline-math/>.",
+				"step1": "Schritt 1",
+				"giveUpButton": "Diesen Schritt aufgeben",
+				"submitButton": "Überprüfen"
+			}
+		}
+	},
+	"coaching": {
+		"head": "Coaching",
+		"intro": "Das Schwierigste am Lernen ist zu wissen, <strong>wo man anfangen soll</strong>, und <strong>was man danach üben soll</strong>. Genau hier leistet Step-Wise hervorragende Arbeit.",
+		"tracking": {
+			"head": "Fortschritte live verfolgen",
+			"par1": "Für jede Kompetenz schätzen wir laufend die <strong>Wahrscheinlichkeit</strong>, dass du sie beim nächsten Versuch richtig anwenden wirst. Natürlich geben wir diese Schätzungen auch an dich weiter, damit du immer genau weißt, wie weit du bist. Neugierig, wie es funktioniert? Probiere es selbst aus!",
+			"applet": {
+				"buttons": {
+					"correct": "Richtig",
+					"incorrect": "Falsch",
+					"reset": "Zurücksetzen"
+				},
+				"estimate": "Die Wahrscheinlichkeit eines richtigen Ergebnisses wird auf etwa {a}% geschätzt.",
+				"estimateAddendum1": "Aber eigentlich haben wir noch keine Ahnung.",
+				"estimateAddendum2": "Aber es ist noch ziemlich unsicher.",
+				"estimateAddendum3": "Diese Schätzung hat eine gewisse Genauigkeit.",
+				"estimateAddendum4": "Dies ist eine einigermaßen zuverlässige Schätzung.",
+				"estimateAddendum5": "Dessen sind wir uns weitgehend sicher.",
+				"estimateAddendum6": "Auf der Grundlage einer großen Anzahl von Übungen ist dies eine genaue Schätzung."
+			},
+			"par2": "Die obigen Angaben beziehen sich nur auf eine einzige Kompetenz. In der Praxis beziehen wir auch viele andere Faktoren mit ein, z. B. Verbindungen zwischen Kompetenzen, Zeitverfall und mehr."
+		},
+		"recommendations": {
+			"head": "Skill-Tree-basierte Übungsvorschläge",
+			"par1": "Hinter den Kulissen macht Step-Wise großen Gebrauch von <strong>Skill Trees</strong>. Sie beginnen mit den grundlegenden Kompetenzen an der Spitze, und diese Kompetenzen kommen dann (als Schritte) in den fortgeschritteneren Kompetenzen darunter zusammen. Durch diese Baumstruktur können wir dir immer genau sagen, welche Kompetenz du als nächstes üben solltest. Sie gibt dir auch einen guten Überblick darüber, wie weit du mit dem gesamten Kurs bist."
+		},
+		"deficiencies": {
+			"head": "Erkennen und Beheben von Verständnisfehlern",
+			"par1": "Wenn du mit den Übungen einer Kompetenz nicht zurechtkommst, werden wir dir ebenfalls helfen. Vergiss nicht: Jede Übung kann in Schritte unterteilt werden. Dies hilft nicht nur dir, sondern ermöglicht es uns auch, genau zu sehen, wo du strauchelst. Wenn wir also feststellen, dass deine Übungen nicht sehr gut laufen, können wir dir raten, eine bestimmte <strong>Teilkompetenz separat zu üben</strong>. Dadurch werden deine Verständnisfehler behoben, so dass du danach mit voller Kraft weitermachen kannst."
+		}
+	},
+	"getStarted": {
+		"head": "Los geht's",
+		"intro": "Möchtest du es ausprobieren? <check><on-true>Gehe dann auf die <a>Kursseite</a> und fange an zu üben.</on-true><on-false>Dann gehe zurück zur <a>Startseite</a>, melde dich an (es ist kostenlos!) und fange an zu üben.</on-false></check> "
+	}
+}

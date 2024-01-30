@@ -38,6 +38,6 @@ A similar approach is taken to database usage. When we add new features, like co
 We have two fundamental principles revolving around privacy.
 
 - **Need to know:** you only get access to the specific data you need to accomplish your goals. In this way no one ever gets access to data they should not have access to.
-- **Ask when required:** only when you perform an action that will give others access to your data (like logging in or enrolling in a course) do we ask you for approval. Not before, and not after. This ensures that you always know what you give approval to and why.
+- **Ask when required:** only when you perform an action that will give others access to your data (like signing in or enrolling in a course) do we ask you for approval. Not before, and not after. This ensures that you always know what you give approval to and why.
 
 These principles ensure that the privacy of our users is properly taken care of. They form the basis of our [privacy policy](frontend/public/PrivacyPolicy.pdf) and we keep them in mind whenever we deal with user data.

@@ -1,0 +1,79 @@
+{
+	"intro": "De beste manier om iets te leren is door het te doen. Daarom richt Step-Wise zich op (1) jou helpen met <strong>oefenen</strong>, en (2) jou <strong>coachen</strong> om te oefenen op jouw niveau.",
+	"practice": {
+		"head": "Oefenen",
+		"intro": "Als je begint met oefenen, helpt het om de <strong>structuur</strong> achter Step-Wise te kennen.",
+		"skills": {
+			"head": "Opgebouwd rond vaardigheden",
+			"par1": "In Step-Wise is al het lesmateriaal opgesplitst in kleine <strong>vaardigheden</strong>: iets dat je daadwerkelijk kan doen. Elke vaardigheid heeft grofweg 2-10 minuten aan informatie. We vertellen je precies hoe het werkt, vanuit een intuïtief oogpunt, en welke stappen je moet uitvoeren om de vaardigheid toe te passen.",
+			"theoryImage": {
+				"theory": "Theorie",
+				"practice": "Oefenen",
+				"background": "Achtergrondinfo",
+				"head1": "Hoe het werkt",
+				"head2": "De stappen"
+			}
+		},
+		"feedback": {
+			"head": "Oefenopgaven geven gerichte feedback",
+			"par1": "Iedereen maakt wel eens een foutje. Als dat gebeurt, dan heb je ondersteuning. Je krijgt <strong>gerichte feedback</strong> op waar de fout kan liggen. Dit leert je om je eigen fouten te vinden, zodat je ze in de toekomst niet nogmaals maakt.",
+			"practiceImage": {
+				"theory": "Theorie",
+				"practice": "Oefenen",
+				"background": "Achtergrondinfo",
+				"exercise": "Bereken <inline-math/>.",
+				"hint": "Controleer het overdragen.",
+				"stepWiseButton": "Los stapsgewijs op",
+				"submitButton": "Controleer"
+			}
+		},
+		"steps": {
+			"head": "Opgaven in stappen opsplitsen",
+			"par1": "Als je geen idee hebt hoe je een oefenopgave aan moet pakken, dan kun je hem altijd <strong>in stappen opsplitsen</strong>. Elke stap is een vaardigheid die je eerder al geoefend hebt, waardoor je gegarandeerd tot het eindresultaat weet te komen. Daarnaast heeft elke stap altijd duidelijke en intuïtief uitgelegde oplossingen.",
+			"practiceImage": {
+				"theory": "Theorie",
+				"practice": "Oefenen",
+				"background": "Achtergrondinfo",
+				"exercise": "Bereken <inline-math/>.",
+				"step1": "Stap 1",
+				"giveUpButton": "Ik geef deze stap op",
+				"submitButton": "Controleer"
+			}
+		}
+	},
+	"coaching": {
+		"head": "Coaching",
+		"intro": "Het moeilijkste van studeren is weten <strong>waar je moet beginnen</strong>, en <strong>wat je vervolgens moet oefenen</strong>. Dit is precies waar Step-Wise uitblinkt.",
+		"tracking": {
+			"head": "Live voortgang volgen",
+			"par1": "Bij elke vaardigheid schatten we continu de <strong>kans</strong> dat je hem bij de volgende poging correct toe gaat passen. Natuurlijk delen we deze schattingen ook met jou, waardoor je altijd precies weet hoe ver je bent. Nieuwsgierig hoe het werkt? Probeer het zelf uit!",
+			"applet": {
+				"buttons": {
+					"correct": "Correct",
+					"incorrect": "Incorrect",
+					"reset": "Reset"
+				},
+				"estimate": "De kans op een correcte uitkomst wordt geschat op zo'n {a}%.",
+				"estimateAddendum1": "Maar eigenlijk hebben we nog geen idee.",
+				"estimateAddendum2": "Maar het is nog redelijk onzeker.",
+				"estimateAddendum3": "Deze schatting heeft een beetje nauwkeurigheid.",
+				"estimateAddendum4": "Dit is een redelijk zekere schatting.",
+				"estimateAddendum5": "We zijn hier grotendeels zeker van.",
+				"estimateAddendum6": "Dit is gebaseerd op een groot aantal oefeningen, en is dus een nauwkeurige schatting."
+			},
+			"par2": "Het bovenstaande is voor slechts een enkele vaardigheid. In de praktijk rekenen we ook tal van andere factoren mee, zoals links tussen vaardigheden, tijdsverval en meer."
+		},
+		"recommendations": {
+			"head": "Skill-Tree-gebaseerde oefensuggesties",
+			"par1": "Achter de schermen maakt Step-Wise veel gebruik van <strong>Skill Trees</strong>. Je begint bij de basisvaardigheden bovenin, en deze vaardigheden komen dan samen (als stappen) in de meer geavanceerde vaardigheden eronder. Via deze boomstructuur kunnen we je altijd precies vertellen welke vaardigheid je nu het beste kunt oefenen. Het geeft je ook een goed overzicht van hoe ver je met de gehele cursus bent."
+		},
+		"deficiencies": {
+			"head": "Opmerken en aanpakken van begripsfouten",
+			"par1": "Als je moeite hebt met de opgaven van een vaardigheid, dan helpen we je ook. Onthoud: elke opgave kan in stappen opgesplitst worden. Dit helpt niet alleen jou, maar het stelt ons ook in staat om precies te zien waar je struikelt. Dus als we merken dat het oefenen even wat minder gaat, dan kunnen we je aanraden om een bepaalde <strong>subvaardigheid nog eens los te oefenen</strong>. Hiermee pak je je begripsfouten aan, zodat je erna met volle kracht weer verder kan."
+		}
+	},
+	"getStarted": {
+		"head": "Aan de slag",
+		"intro": "Wil je het uitproberen? <check><on-true>Ga dan naar de <a>Cursussenpagina</a> en begin met oefenen.</on-true><on-false>Ga dan terug naar de <a>home-pagina</a>, log in (het is gratis!) en begin met oefenen.</on-false></check>"
+	}
+}

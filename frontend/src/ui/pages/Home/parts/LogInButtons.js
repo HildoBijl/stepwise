@@ -117,7 +117,7 @@ function GoogleLogInButton() {
 
 const errorCode2Message = {
 	INVALID_AUTHENTICATION: <Translation entry="logInError.invalidAuthentication">We could not determine your identity. If possible try another account.</Translation>,
-	INTERNAL_ERROR: <Translation entry="logInError.internalError">A server error occurred while logging in. Please try again later.</Translation>,
+	INTERNAL_ERROR: <Translation entry="logInError.internalError">A server error occurred while signing in. Please try again later.</Translation>,
 }
 
 function LogInError() {
@@ -129,7 +129,7 @@ function LogInError() {
 		const queryParams = new URLSearchParams(location.search)
 		if (queryParams.has('error')) {
 			const code = queryParams.get('error')
-			setErrorMessage(errorCode2Message[code] || <Translation entry="logInError.unspecifiedError">Something went wrong while logging in. Please try again later.</Translation>)
+			setErrorMessage(errorCode2Message[code] || <Translation entry="logInError.unspecifiedError">Something went wrong while signing in. Please try again later.</Translation>)
 			queryParams.delete('error')
 			navigate({ search: queryParams.toString() }, { replace: true })
 		}
@@ -137,7 +137,7 @@ function LogInError() {
 
 	return errorMessage && (
 		<Alert severity="error">
-			<AlertTitle><Translation entry="logInError.title">Log-in unsuccessful</Translation></AlertTitle>
+			<AlertTitle><Translation entry="logInError.title">Sign-in unsuccessful</Translation></AlertTitle>
 			{errorMessage}
 		</Alert>
 	)
@@ -149,7 +149,7 @@ function HULogInButton() {
 	// How do we send the user to SURFConext?
 	const goToSurfConext = () => window.location.href = `${apiAddress}/auth/surfconext/initiate`
 
-	// When the user clicks to accept cookies, store this and go to SURFconext to log in.
+	// When the user clicks to accept cookies, store this and go to SURFconext to sign in.
 	const onCookieConfirm = () => {
 		cookies.set(cookieApprovalName, '1', { path: '/', maxAge: 90 * 24 * 60 * 60 })
 		goToSurfConext()
@@ -184,7 +184,7 @@ function HULogInButton() {
 				<img src={HUlogo} className="logo" alt="HU logo" width="606" height="525" />
 			</div>
 			<div className="text">
-				<Translation entry="logInHU">Log in through Hogeschool Utrecht</Translation>
+				<Translation entry="logInHU">Sign in through Hogeschool Utrecht</Translation>
 			</div>
 		</div>
 	</div>
